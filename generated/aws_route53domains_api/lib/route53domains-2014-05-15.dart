@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -84,10 +83,10 @@ class Route53Domains {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DomainName': domainName,
-        if (idnLangCode != null) 'IdnLangCode': idnLangCode,
-      },
+      payload: CheckDomainAvailabilityRequest(
+        domainName: domainName,
+        idnLangCode: idnLangCode,
+      ),
     );
 
     return CheckDomainAvailabilityResponse.fromJson(jsonResponse.body);
@@ -137,10 +136,10 @@ class Route53Domains {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DomainName': domainName,
-        if (authCode != null) 'AuthCode': authCode,
-      },
+      payload: CheckDomainTransferabilityRequest(
+        domainName: domainName,
+        authCode: authCode,
+      ),
     );
 
     return CheckDomainTransferabilityResponse.fromJson(jsonResponse.body);
@@ -183,10 +182,10 @@ class Route53Domains {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DomainName': domainName,
-        'TagsToDelete': tagsToDelete,
-      },
+      payload: DeleteTagsForDomainRequest(
+        domainName: domainName,
+        tagsToDelete: tagsToDelete,
+      ),
     );
 
     return DeleteTagsForDomainResponse.fromJson(jsonResponse.body);
@@ -221,9 +220,9 @@ class Route53Domains {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DomainName': domainName,
-      },
+      payload: DisableDomainAutoRenewRequest(
+        domainName: domainName,
+      ),
     );
 
     return DisableDomainAutoRenewResponse.fromJson(jsonResponse.body);
@@ -266,9 +265,9 @@ class Route53Domains {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DomainName': domainName,
-      },
+      payload: DisableDomainTransferLockRequest(
+        domainName: domainName,
+      ),
     );
 
     return DisableDomainTransferLockResponse.fromJson(jsonResponse.body);
@@ -313,9 +312,9 @@ class Route53Domains {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DomainName': domainName,
-      },
+      payload: EnableDomainAutoRenewRequest(
+        domainName: domainName,
+      ),
     );
 
     return EnableDomainAutoRenewResponse.fromJson(jsonResponse.body);
@@ -356,9 +355,9 @@ class Route53Domains {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DomainName': domainName,
-      },
+      payload: EnableDomainTransferLockRequest(
+        domainName: domainName,
+      ),
     );
 
     return EnableDomainTransferLockResponse.fromJson(jsonResponse.body);
@@ -398,9 +397,9 @@ class Route53Domains {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (domainName != null) 'domainName': domainName,
-      },
+      payload: GetContactReachabilityStatusRequest(
+        domainName: domainName,
+      ),
     );
 
     return GetContactReachabilityStatusResponse.fromJson(jsonResponse.body);
@@ -436,9 +435,9 @@ class Route53Domains {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DomainName': domainName,
-      },
+      payload: GetDomainDetailRequest(
+        domainName: domainName,
+      ),
     );
 
     return GetDomainDetailResponse.fromJson(jsonResponse.body);
@@ -495,11 +494,11 @@ class Route53Domains {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DomainName': domainName,
-        'OnlyAvailable': onlyAvailable,
-        'SuggestionCount': suggestionCount,
-      },
+      payload: GetDomainSuggestionsRequest(
+        domainName: domainName,
+        onlyAvailable: onlyAvailable,
+        suggestionCount: suggestionCount,
+      ),
     );
 
     return GetDomainSuggestionsResponse.fromJson(jsonResponse.body);
@@ -535,9 +534,9 @@ class Route53Domains {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'OperationId': operationId,
-      },
+      payload: GetOperationDetailRequest(
+        operationId: operationId,
+      ),
     );
 
     return GetOperationDetailResponse.fromJson(jsonResponse.body);
@@ -590,10 +589,10 @@ class Route53Domains {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (marker != null) 'Marker': marker,
-        if (maxItems != null) 'MaxItems': maxItems,
-      },
+      payload: ListDomainsRequest(
+        marker: marker,
+        maxItems: maxItems,
+      ),
     );
 
     return ListDomainsResponse.fromJson(jsonResponse.body);
@@ -649,11 +648,11 @@ class Route53Domains {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (marker != null) 'Marker': marker,
-        if (maxItems != null) 'MaxItems': maxItems,
-        if (submittedSince != null) 'SubmittedSince': submittedSince,
-      },
+      payload: ListOperationsRequest(
+        marker: marker,
+        maxItems: maxItems,
+        submittedSince: submittedSince,
+      ),
     );
 
     return ListOperationsResponse.fromJson(jsonResponse.body);
@@ -692,9 +691,9 @@ class Route53Domains {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DomainName': domainName,
-      },
+      payload: ListTagsForDomainRequest(
+        domainName: domainName,
+      ),
     );
 
     return ListTagsForDomainResponse.fromJson(jsonResponse.body);
@@ -857,21 +856,18 @@ class Route53Domains {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AdminContact': adminContact,
-        'DomainName': domainName,
-        'DurationInYears': durationInYears,
-        'RegistrantContact': registrantContact,
-        'TechContact': techContact,
-        if (autoRenew != null) 'AutoRenew': autoRenew,
-        if (idnLangCode != null) 'IdnLangCode': idnLangCode,
-        if (privacyProtectAdminContact != null)
-          'PrivacyProtectAdminContact': privacyProtectAdminContact,
-        if (privacyProtectRegistrantContact != null)
-          'PrivacyProtectRegistrantContact': privacyProtectRegistrantContact,
-        if (privacyProtectTechContact != null)
-          'PrivacyProtectTechContact': privacyProtectTechContact,
-      },
+      payload: RegisterDomainRequest(
+        adminContact: adminContact,
+        domainName: domainName,
+        durationInYears: durationInYears,
+        registrantContact: registrantContact,
+        techContact: techContact,
+        autoRenew: autoRenew,
+        idnLangCode: idnLangCode,
+        privacyProtectAdminContact: privacyProtectAdminContact,
+        privacyProtectRegistrantContact: privacyProtectRegistrantContact,
+        privacyProtectTechContact: privacyProtectTechContact,
+      ),
     );
 
     return RegisterDomainResponse.fromJson(jsonResponse.body);
@@ -939,11 +935,11 @@ class Route53Domains {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CurrentExpiryYear': currentExpiryYear,
-        'DomainName': domainName,
-        if (durationInYears != null) 'DurationInYears': durationInYears,
-      },
+      payload: RenewDomainRequest(
+        currentExpiryYear: currentExpiryYear,
+        domainName: domainName,
+        durationInYears: durationInYears,
+      ),
     );
 
     return RenewDomainResponse.fromJson(jsonResponse.body);
@@ -981,9 +977,9 @@ class Route53Domains {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (domainName != null) 'domainName': domainName,
-      },
+      payload: ResendContactReachabilityEmailRequest(
+        domainName: domainName,
+      ),
     );
 
     return ResendContactReachabilityEmailResponse.fromJson(jsonResponse.body);
@@ -1018,9 +1014,9 @@ class Route53Domains {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DomainName': domainName,
-      },
+      payload: RetrieveDomainAuthCodeRequest(
+        domainName: domainName,
+      ),
     );
 
     return RetrieveDomainAuthCodeResponse.fromJson(jsonResponse.body);
@@ -1185,23 +1181,20 @@ class Route53Domains {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AdminContact': adminContact,
-        'DomainName': domainName,
-        'DurationInYears': durationInYears,
-        'RegistrantContact': registrantContact,
-        'TechContact': techContact,
-        if (authCode != null) 'AuthCode': authCode,
-        if (autoRenew != null) 'AutoRenew': autoRenew,
-        if (idnLangCode != null) 'IdnLangCode': idnLangCode,
-        if (nameservers != null) 'Nameservers': nameservers,
-        if (privacyProtectAdminContact != null)
-          'PrivacyProtectAdminContact': privacyProtectAdminContact,
-        if (privacyProtectRegistrantContact != null)
-          'PrivacyProtectRegistrantContact': privacyProtectRegistrantContact,
-        if (privacyProtectTechContact != null)
-          'PrivacyProtectTechContact': privacyProtectTechContact,
-      },
+      payload: TransferDomainRequest(
+        adminContact: adminContact,
+        domainName: domainName,
+        durationInYears: durationInYears,
+        registrantContact: registrantContact,
+        techContact: techContact,
+        authCode: authCode,
+        autoRenew: autoRenew,
+        idnLangCode: idnLangCode,
+        nameservers: nameservers,
+        privacyProtectAdminContact: privacyProtectAdminContact,
+        privacyProtectRegistrantContact: privacyProtectRegistrantContact,
+        privacyProtectTechContact: privacyProtectTechContact,
+      ),
     );
 
     return TransferDomainResponse.fromJson(jsonResponse.body);
@@ -1257,12 +1250,12 @@ class Route53Domains {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DomainName': domainName,
-        if (adminContact != null) 'AdminContact': adminContact,
-        if (registrantContact != null) 'RegistrantContact': registrantContact,
-        if (techContact != null) 'TechContact': techContact,
-      },
+      payload: UpdateDomainContactRequest(
+        domainName: domainName,
+        adminContact: adminContact,
+        registrantContact: registrantContact,
+        techContact: techContact,
+      ),
     );
 
     return UpdateDomainContactResponse.fromJson(jsonResponse.body);
@@ -1337,12 +1330,12 @@ class Route53Domains {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DomainName': domainName,
-        if (adminPrivacy != null) 'AdminPrivacy': adminPrivacy,
-        if (registrantPrivacy != null) 'RegistrantPrivacy': registrantPrivacy,
-        if (techPrivacy != null) 'TechPrivacy': techPrivacy,
-      },
+      payload: UpdateDomainContactPrivacyRequest(
+        domainName: domainName,
+        adminPrivacy: adminPrivacy,
+        registrantPrivacy: registrantPrivacy,
+        techPrivacy: techPrivacy,
+      ),
     );
 
     return UpdateDomainContactPrivacyResponse.fromJson(jsonResponse.body);
@@ -1395,11 +1388,11 @@ class Route53Domains {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DomainName': domainName,
-        'Nameservers': nameservers,
-        if (fIAuthKey != null) 'FIAuthKey': fIAuthKey,
-      },
+      payload: UpdateDomainNameserversRequest(
+        domainName: domainName,
+        nameservers: nameservers,
+        fIAuthKey: fIAuthKey,
+      ),
     );
 
     return UpdateDomainNameserversResponse.fromJson(jsonResponse.body);
@@ -1443,10 +1436,10 @@ class Route53Domains {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DomainName': domainName,
-        if (tagsToUpdate != null) 'TagsToUpdate': tagsToUpdate,
-      },
+      payload: UpdateTagsForDomainRequest(
+        domainName: domainName,
+        tagsToUpdate: tagsToUpdate,
+      ),
     );
 
     return UpdateTagsForDomainResponse.fromJson(jsonResponse.body);
@@ -1512,12 +1505,12 @@ class Route53Domains {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (end != null) 'End': end,
-        if (marker != null) 'Marker': marker,
-        if (maxItems != null) 'MaxItems': maxItems,
-        if (start != null) 'Start': start,
-      },
+      payload: ViewBillingRequest(
+        end: end,
+        marker: marker,
+        maxItems: maxItems,
+        start: start,
+      ),
     );
 
     return ViewBillingResponse.fromJson(jsonResponse.body);
@@ -1572,6 +1565,32 @@ class BillingRecord {
       _$BillingRecordFromJson(json);
 }
 
+/// The CheckDomainAvailability request contains the following elements.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CheckDomainAvailabilityRequest {
+  /// The name of the domain that you want to get availability for.
+  ///
+  /// Constraints: The domain name can contain only the letters a through z, the
+  /// numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not
+  /// supported.
+  @_s.JsonKey(name: 'DomainName')
+  final String domainName;
+
+  /// Reserved for future use.
+  @_s.JsonKey(name: 'IdnLangCode')
+  final String idnLangCode;
+
+  CheckDomainAvailabilityRequest({
+    @_s.required this.domainName,
+    this.idnLangCode,
+  });
+  Map<String, dynamic> toJson() => _$CheckDomainAvailabilityRequestToJson(this);
+}
+
 /// The CheckDomainAvailability response includes the following elements.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1616,6 +1635,35 @@ class CheckDomainAvailabilityResponse {
   });
   factory CheckDomainAvailabilityResponse.fromJson(Map<String, dynamic> json) =>
       _$CheckDomainAvailabilityResponseFromJson(json);
+}
+
+/// The CheckDomainTransferability request contains the following elements.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CheckDomainTransferabilityRequest {
+  /// The name of the domain that you want to transfer to Amazon Route 53.
+  ///
+  /// Constraints: The domain name can contain only the letters a through z, the
+  /// numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not
+  /// supported.
+  @_s.JsonKey(name: 'DomainName')
+  final String domainName;
+
+  /// If the registrar for the top-level domain (TLD) requires an authorization
+  /// code to transfer the domain, the code that you got from the current
+  /// registrar for the domain.
+  @_s.JsonKey(name: 'AuthCode')
+  final String authCode;
+
+  CheckDomainTransferabilityRequest({
+    @_s.required this.domainName,
+    this.authCode,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CheckDomainTransferabilityRequestToJson(this);
 }
 
 /// The CheckDomainTransferability response includes the following elements.
@@ -2209,6 +2257,28 @@ enum CountryCode {
   zw,
 }
 
+/// The DeleteTagsForDomainRequest includes the following elements.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteTagsForDomainRequest {
+  /// The domain for which you want to delete one or more tags.
+  @_s.JsonKey(name: 'DomainName')
+  final String domainName;
+
+  /// A list of tag keys to delete.
+  @_s.JsonKey(name: 'TagsToDelete')
+  final List<String> tagsToDelete;
+
+  DeleteTagsForDomainRequest({
+    @_s.required this.domainName,
+    @_s.required this.tagsToDelete,
+  });
+  Map<String, dynamic> toJson() => _$DeleteTagsForDomainRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2223,12 +2293,46 @@ class DeleteTagsForDomainResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisableDomainAutoRenewRequest {
+  /// The name of the domain that you want to disable automatic renewal for.
+  @_s.JsonKey(name: 'DomainName')
+  final String domainName;
+
+  DisableDomainAutoRenewRequest({
+    @_s.required this.domainName,
+  });
+  Map<String, dynamic> toJson() => _$DisableDomainAutoRenewRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DisableDomainAutoRenewResponse {
   DisableDomainAutoRenewResponse();
   factory DisableDomainAutoRenewResponse.fromJson(Map<String, dynamic> json) =>
       _$DisableDomainAutoRenewResponseFromJson(json);
+}
+
+/// The DisableDomainTransferLock request includes the following element.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisableDomainTransferLockRequest {
+  /// The name of the domain that you want to remove the transfer lock for.
+  @_s.JsonKey(name: 'DomainName')
+  final String domainName;
+
+  DisableDomainTransferLockRequest({
+    @_s.required this.domainName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DisableDomainTransferLockRequestToJson(this);
 }
 
 /// The DisableDomainTransferLock response includes the following element.
@@ -2416,12 +2520,46 @@ class DuplicateRequest implements _s.AwsException {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class EnableDomainAutoRenewRequest {
+  /// The name of the domain that you want to enable automatic renewal for.
+  @_s.JsonKey(name: 'DomainName')
+  final String domainName;
+
+  EnableDomainAutoRenewRequest({
+    @_s.required this.domainName,
+  });
+  Map<String, dynamic> toJson() => _$EnableDomainAutoRenewRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class EnableDomainAutoRenewResponse {
   EnableDomainAutoRenewResponse();
   factory EnableDomainAutoRenewResponse.fromJson(Map<String, dynamic> json) =>
       _$EnableDomainAutoRenewResponseFromJson(json);
+}
+
+/// A request to set the transfer lock for the specified domain.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class EnableDomainTransferLockRequest {
+  /// The name of the domain that you want to set the transfer lock for.
+  @_s.JsonKey(name: 'DomainName')
+  final String domainName;
+
+  EnableDomainTransferLockRequest({
+    @_s.required this.domainName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$EnableDomainTransferLockRequestToJson(this);
 }
 
 /// The EnableDomainTransferLock response includes the following elements.
@@ -2574,6 +2712,24 @@ enum ExtraParamName {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetContactReachabilityStatusRequest {
+  /// The name of the domain for which you want to know whether the registrant
+  /// contact has confirmed that the email address is valid.
+  @_s.JsonKey(name: 'domainName')
+  final String domainName;
+
+  GetContactReachabilityStatusRequest({
+    this.domainName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetContactReachabilityStatusRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetContactReachabilityStatusResponse {
@@ -2599,6 +2755,23 @@ class GetContactReachabilityStatusResponse {
   factory GetContactReachabilityStatusResponse.fromJson(
           Map<String, dynamic> json) =>
       _$GetContactReachabilityStatusResponseFromJson(json);
+}
+
+/// The GetDomainDetail request includes the following element.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetDomainDetailRequest {
+  /// The name of the domain that you want to get detailed information about.
+  @_s.JsonKey(name: 'DomainName')
+  final String domainName;
+
+  GetDomainDetailRequest({
+    @_s.required this.domainName,
+  });
+  Map<String, dynamic> toJson() => _$GetDomainDetailRequestToJson(this);
 }
 
 /// The GetDomainDetail response includes the following elements.
@@ -2771,6 +2944,43 @@ class GetDomainDetailResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetDomainSuggestionsRequest {
+  /// A domain name that you want to use as the basis for a list of possible
+  /// domain names. The domain name must contain a top-level domain (TLD), such as
+  /// .com, that Amazon Route 53 supports. For a list of TLDs, see <a
+  /// href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html">Domains
+  /// that You Can Register with Amazon Route 53</a> in the <i>Amazon Route 53
+  /// Developer Guide</i>.
+  @_s.JsonKey(name: 'DomainName')
+  final String domainName;
+
+  /// If <code>OnlyAvailable</code> is <code>true</code>, Amazon Route 53 returns
+  /// only domain names that are available. If <code>OnlyAvailable</code> is
+  /// <code>false</code>, Amazon Route 53 returns domain names without checking
+  /// whether they're available to be registered. To determine whether the domain
+  /// is available, you can call <code>checkDomainAvailability</code> for each
+  /// suggestion.
+  @_s.JsonKey(name: 'OnlyAvailable')
+  final bool onlyAvailable;
+
+  /// The number of suggested domain names that you want Amazon Route 53 to
+  /// return.
+  @_s.JsonKey(name: 'SuggestionCount')
+  final int suggestionCount;
+
+  GetDomainSuggestionsRequest({
+    @_s.required this.domainName,
+    @_s.required this.onlyAvailable,
+    @_s.required this.suggestionCount,
+  });
+  Map<String, dynamic> toJson() => _$GetDomainSuggestionsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetDomainSuggestionsResponse {
@@ -2785,6 +2995,25 @@ class GetDomainSuggestionsResponse {
   });
   factory GetDomainSuggestionsResponse.fromJson(Map<String, dynamic> json) =>
       _$GetDomainSuggestionsResponseFromJson(json);
+}
+
+/// The <a>GetOperationDetail</a> request includes the following element.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetOperationDetailRequest {
+  /// The identifier for the operation for which you want to get the status.
+  /// Amazon Route 53 returned the identifier in the response to the original
+  /// request.
+  @_s.JsonKey(name: 'OperationId')
+  final String operationId;
+
+  GetOperationDetailRequest({
+    @_s.required this.operationId,
+  });
+  Map<String, dynamic> toJson() => _$GetOperationDetailRequestToJson(this);
 }
 
 /// The GetOperationDetail response includes the following elements.
@@ -2857,6 +3086,39 @@ class InvalidInput implements _s.AwsException {
       _$InvalidInputFromJson(json);
 }
 
+/// The ListDomains request includes the following elements.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListDomainsRequest {
+  /// For an initial request for a list of domains, omit this element. If the
+  /// number of domains that are associated with the current AWS account is
+  /// greater than the value that you specified for <code>MaxItems</code>, you can
+  /// use <code>Marker</code> to return additional domains. Get the value of
+  /// <code>NextPageMarker</code> from the previous response, and submit another
+  /// request that includes the value of <code>NextPageMarker</code> in the
+  /// <code>Marker</code> element.
+  ///
+  /// Constraints: The marker must match the value specified in the previous
+  /// request.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  /// Number of domains to be returned.
+  ///
+  /// Default: 20
+  @_s.JsonKey(name: 'MaxItems')
+  final int maxItems;
+
+  ListDomainsRequest({
+    this.marker,
+    this.maxItems,
+  });
+  Map<String, dynamic> toJson() => _$ListDomainsRequestToJson(this);
+}
+
 /// The ListDomains response includes the following elements.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2882,6 +3144,46 @@ class ListDomainsResponse {
       _$ListDomainsResponseFromJson(json);
 }
 
+/// The ListOperations request includes the following elements.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListOperationsRequest {
+  /// For an initial request for a list of operations, omit this element. If the
+  /// number of operations that are not yet complete is greater than the value
+  /// that you specified for <code>MaxItems</code>, you can use
+  /// <code>Marker</code> to return additional operations. Get the value of
+  /// <code>NextPageMarker</code> from the previous response, and submit another
+  /// request that includes the value of <code>NextPageMarker</code> in the
+  /// <code>Marker</code> element.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  /// Number of domains to be returned.
+  ///
+  /// Default: 20
+  @_s.JsonKey(name: 'MaxItems')
+  final int maxItems;
+
+  /// An optional parameter that lets you get information about all the operations
+  /// that you submitted after a specified date and time. Specify the date and
+  /// time in Coordinated Universal time (UTC).
+  @_s.JsonKey(
+      name: 'SubmittedSince',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime submittedSince;
+
+  ListOperationsRequest({
+    this.marker,
+    this.maxItems,
+    this.submittedSince,
+  });
+  Map<String, dynamic> toJson() => _$ListOperationsRequestToJson(this);
+}
+
 /// The ListOperations response includes the following elements.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2905,6 +3207,23 @@ class ListOperationsResponse {
   });
   factory ListOperationsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListOperationsResponseFromJson(json);
+}
+
+/// The ListTagsForDomainRequest includes the following elements.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForDomainRequest {
+  /// The domain for which you want to get a list of tags.
+  @_s.JsonKey(name: 'DomainName')
+  final String domainName;
+
+  ListTagsForDomainRequest({
+    @_s.required this.domainName,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForDomainRequestToJson(this);
 }
 
 /// The ListTagsForDomain response includes the following elements.
@@ -3070,6 +3389,104 @@ enum ReachabilityStatus {
   expired,
 }
 
+/// The RegisterDomain request includes the following elements.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RegisterDomainRequest {
+  /// Provides detailed contact information.
+  @_s.JsonKey(name: 'AdminContact')
+  final ContactDetail adminContact;
+
+  /// The domain name that you want to register.
+  ///
+  /// Constraints: The domain name can contain only the letters a through z, the
+  /// numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not
+  /// supported.
+  @_s.JsonKey(name: 'DomainName')
+  final String domainName;
+
+  /// The number of years that you want to register the domain for. Domains are
+  /// registered for a minimum of one year. The maximum period depends on the
+  /// top-level domain. For the range of valid values for your domain, see <a
+  /// href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html">Domains
+  /// that You Can Register with Amazon Route 53</a> in the <i>Amazon Route 53
+  /// Developer Guide</i>.
+  ///
+  /// Default: 1
+  @_s.JsonKey(name: 'DurationInYears')
+  final int durationInYears;
+
+  /// Provides detailed contact information.
+  @_s.JsonKey(name: 'RegistrantContact')
+  final ContactDetail registrantContact;
+
+  /// Provides detailed contact information.
+  @_s.JsonKey(name: 'TechContact')
+  final ContactDetail techContact;
+
+  /// Indicates whether the domain will be automatically renewed
+  /// (<code>true</code>) or not (<code>false</code>). Autorenewal only takes
+  /// effect after the account is charged.
+  ///
+  /// Default: <code>true</code>
+  @_s.JsonKey(name: 'AutoRenew')
+  final bool autoRenew;
+
+  /// Reserved for future use.
+  @_s.JsonKey(name: 'IdnLangCode')
+  final String idnLangCode;
+
+  /// Whether you want to conceal contact information from WHOIS queries. If you
+  /// specify <code>true</code>, WHOIS ("who is") queries return contact
+  /// information either for Amazon Registrar (for .com, .net, and .org domains)
+  /// or for our registrar associate, Gandi (for all other TLDs). If you specify
+  /// <code>false</code>, WHOIS queries return the information that you entered
+  /// for the admin contact.
+  ///
+  /// Default: <code>true</code>
+  @_s.JsonKey(name: 'PrivacyProtectAdminContact')
+  final bool privacyProtectAdminContact;
+
+  /// Whether you want to conceal contact information from WHOIS queries. If you
+  /// specify <code>true</code>, WHOIS ("who is") queries return contact
+  /// information either for Amazon Registrar (for .com, .net, and .org domains)
+  /// or for our registrar associate, Gandi (for all other TLDs). If you specify
+  /// <code>false</code>, WHOIS queries return the information that you entered
+  /// for the registrant contact (the domain owner).
+  ///
+  /// Default: <code>true</code>
+  @_s.JsonKey(name: 'PrivacyProtectRegistrantContact')
+  final bool privacyProtectRegistrantContact;
+
+  /// Whether you want to conceal contact information from WHOIS queries. If you
+  /// specify <code>true</code>, WHOIS ("who is") queries return contact
+  /// information either for Amazon Registrar (for .com, .net, and .org domains)
+  /// or for our registrar associate, Gandi (for all other TLDs). If you specify
+  /// <code>false</code>, WHOIS queries return the information that you entered
+  /// for the technical contact.
+  ///
+  /// Default: <code>true</code>
+  @_s.JsonKey(name: 'PrivacyProtectTechContact')
+  final bool privacyProtectTechContact;
+
+  RegisterDomainRequest({
+    @_s.required this.adminContact,
+    @_s.required this.domainName,
+    @_s.required this.durationInYears,
+    @_s.required this.registrantContact,
+    @_s.required this.techContact,
+    this.autoRenew,
+    this.idnLangCode,
+    this.privacyProtectAdminContact,
+    this.privacyProtectRegistrantContact,
+    this.privacyProtectTechContact,
+  });
+  Map<String, dynamic> toJson() => _$RegisterDomainRequestToJson(this);
+}
+
 /// The RegisterDomain response includes the following element.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3089,6 +3506,42 @@ class RegisterDomainResponse {
       _$RegisterDomainResponseFromJson(json);
 }
 
+/// A <code>RenewDomain</code> request includes the number of years that you
+/// want to renew for and the current expiration year.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RenewDomainRequest {
+  /// The year when the registration for the domain is set to expire. This value
+  /// must match the current expiration date for the domain.
+  @_s.JsonKey(name: 'CurrentExpiryYear')
+  final int currentExpiryYear;
+
+  /// The name of the domain that you want to renew.
+  @_s.JsonKey(name: 'DomainName')
+  final String domainName;
+
+  /// The number of years that you want to renew the domain for. The maximum
+  /// number of years depends on the top-level domain. For the range of valid
+  /// values for your domain, see <a
+  /// href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html">Domains
+  /// that You Can Register with Amazon Route 53</a> in the <i>Amazon Route 53
+  /// Developer Guide</i>.
+  ///
+  /// Default: 1
+  @_s.JsonKey(name: 'DurationInYears')
+  final int durationInYears;
+
+  RenewDomainRequest({
+    @_s.required this.currentExpiryYear,
+    @_s.required this.domainName,
+    this.durationInYears,
+  });
+  Map<String, dynamic> toJson() => _$RenewDomainRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3105,6 +3558,24 @@ class RenewDomainResponse {
   });
   factory RenewDomainResponse.fromJson(Map<String, dynamic> json) =>
       _$RenewDomainResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ResendContactReachabilityEmailRequest {
+  /// The name of the domain for which you want Amazon Route 53 to resend a
+  /// confirmation email to the registrant contact.
+  @_s.JsonKey(name: 'domainName')
+  final String domainName;
+
+  ResendContactReachabilityEmailRequest({
+    this.domainName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ResendContactReachabilityEmailRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3136,6 +3607,24 @@ class ResendContactReachabilityEmailResponse {
   factory ResendContactReachabilityEmailResponse.fromJson(
           Map<String, dynamic> json) =>
       _$ResendContactReachabilityEmailResponseFromJson(json);
+}
+
+/// A request for the authorization code for the specified domain. To transfer a
+/// domain to another registrar, you provide this value to the new registrar.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RetrieveDomainAuthCodeRequest {
+  /// The name of the domain that you want to get an authorization code for.
+  @_s.JsonKey(name: 'DomainName')
+  final String domainName;
+
+  RetrieveDomainAuthCodeRequest({
+    @_s.required this.domainName,
+  });
+  Map<String, dynamic> toJson() => _$RetrieveDomainAuthCodeRequestToJson(this);
 }
 
 /// The RetrieveDomainAuthCode response includes the following element.
@@ -3206,6 +3695,111 @@ class Tag {
   Map<String, dynamic> toJson() => _$TagToJson(this);
 }
 
+/// The TransferDomain request includes the following elements.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TransferDomainRequest {
+  /// Provides detailed contact information.
+  @_s.JsonKey(name: 'AdminContact')
+  final ContactDetail adminContact;
+
+  /// The name of the domain that you want to transfer to Amazon Route 53.
+  ///
+  /// Constraints: The domain name can contain only the letters a through z, the
+  /// numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not
+  /// supported.
+  @_s.JsonKey(name: 'DomainName')
+  final String domainName;
+
+  /// The number of years that you want to register the domain for. Domains are
+  /// registered for a minimum of one year. The maximum period depends on the
+  /// top-level domain.
+  ///
+  /// Default: 1
+  @_s.JsonKey(name: 'DurationInYears')
+  final int durationInYears;
+
+  /// Provides detailed contact information.
+  @_s.JsonKey(name: 'RegistrantContact')
+  final ContactDetail registrantContact;
+
+  /// Provides detailed contact information.
+  @_s.JsonKey(name: 'TechContact')
+  final ContactDetail techContact;
+
+  /// The authorization code for the domain. You get this value from the current
+  /// registrar.
+  @_s.JsonKey(name: 'AuthCode')
+  final String authCode;
+
+  /// Indicates whether the domain will be automatically renewed (true) or not
+  /// (false). Autorenewal only takes effect after the account is charged.
+  ///
+  /// Default: true
+  @_s.JsonKey(name: 'AutoRenew')
+  final bool autoRenew;
+
+  /// Reserved for future use.
+  @_s.JsonKey(name: 'IdnLangCode')
+  final String idnLangCode;
+
+  /// Contains details for the host and glue IP addresses.
+  @_s.JsonKey(name: 'Nameservers')
+  final List<Nameserver> nameservers;
+
+  /// Whether you want to conceal contact information from WHOIS queries. If you
+  /// specify <code>true</code>, WHOIS ("who is") queries return contact
+  /// information either for Amazon Registrar (for .com, .net, and .org domains)
+  /// or for our registrar associate, Gandi (for all other TLDs). If you specify
+  /// <code>false</code>, WHOIS queries return the information that you entered
+  /// for the admin contact.
+  ///
+  /// Default: <code>true</code>
+  @_s.JsonKey(name: 'PrivacyProtectAdminContact')
+  final bool privacyProtectAdminContact;
+
+  /// Whether you want to conceal contact information from WHOIS queries. If you
+  /// specify <code>true</code>, WHOIS ("who is") queries return contact
+  /// information either for Amazon Registrar (for .com, .net, and .org domains)
+  /// or for our registrar associate, Gandi (for all other TLDs). If you specify
+  /// <code>false</code>, WHOIS queries return the information that you entered
+  /// for the registrant contact (domain owner).
+  ///
+  /// Default: <code>true</code>
+  @_s.JsonKey(name: 'PrivacyProtectRegistrantContact')
+  final bool privacyProtectRegistrantContact;
+
+  /// Whether you want to conceal contact information from WHOIS queries. If you
+  /// specify <code>true</code>, WHOIS ("who is") queries return contact
+  /// information either for Amazon Registrar (for .com, .net, and .org domains)
+  /// or for our registrar associate, Gandi (for all other TLDs). If you specify
+  /// <code>false</code>, WHOIS queries return the information that you entered
+  /// for the technical contact.
+  ///
+  /// Default: <code>true</code>
+  @_s.JsonKey(name: 'PrivacyProtectTechContact')
+  final bool privacyProtectTechContact;
+
+  TransferDomainRequest({
+    @_s.required this.adminContact,
+    @_s.required this.domainName,
+    @_s.required this.durationInYears,
+    @_s.required this.registrantContact,
+    @_s.required this.techContact,
+    this.authCode,
+    this.autoRenew,
+    this.idnLangCode,
+    this.nameservers,
+    this.privacyProtectAdminContact,
+    this.privacyProtectRegistrantContact,
+    this.privacyProtectTechContact,
+  });
+  Map<String, dynamic> toJson() => _$TransferDomainRequestToJson(this);
+}
+
 /// The TranserDomain response includes the following element.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3265,6 +3859,54 @@ class UnsupportedTLD implements _s.AwsException {
       _$UnsupportedTLDFromJson(json);
 }
 
+/// The UpdateDomainContactPrivacy request includes the following elements.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDomainContactPrivacyRequest {
+  /// The name of the domain that you want to update the privacy setting for.
+  @_s.JsonKey(name: 'DomainName')
+  final String domainName;
+
+  /// Whether you want to conceal contact information from WHOIS queries. If you
+  /// specify <code>true</code>, WHOIS ("who is") queries return contact
+  /// information either for Amazon Registrar (for .com, .net, and .org domains)
+  /// or for our registrar associate, Gandi (for all other TLDs). If you specify
+  /// <code>false</code>, WHOIS queries return the information that you entered
+  /// for the admin contact.
+  @_s.JsonKey(name: 'AdminPrivacy')
+  final bool adminPrivacy;
+
+  /// Whether you want to conceal contact information from WHOIS queries. If you
+  /// specify <code>true</code>, WHOIS ("who is") queries return contact
+  /// information either for Amazon Registrar (for .com, .net, and .org domains)
+  /// or for our registrar associate, Gandi (for all other TLDs). If you specify
+  /// <code>false</code>, WHOIS queries return the information that you entered
+  /// for the registrant contact (domain owner).
+  @_s.JsonKey(name: 'RegistrantPrivacy')
+  final bool registrantPrivacy;
+
+  /// Whether you want to conceal contact information from WHOIS queries. If you
+  /// specify <code>true</code>, WHOIS ("who is") queries return contact
+  /// information either for Amazon Registrar (for .com, .net, and .org domains)
+  /// or for our registrar associate, Gandi (for all other TLDs). If you specify
+  /// <code>false</code>, WHOIS queries return the information that you entered
+  /// for the technical contact.
+  @_s.JsonKey(name: 'TechPrivacy')
+  final bool techPrivacy;
+
+  UpdateDomainContactPrivacyRequest({
+    @_s.required this.domainName,
+    this.adminPrivacy,
+    this.registrantPrivacy,
+    this.techPrivacy,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateDomainContactPrivacyRequestToJson(this);
+}
+
 /// The UpdateDomainContactPrivacy response includes the following element.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3283,6 +3925,38 @@ class UpdateDomainContactPrivacyResponse {
   factory UpdateDomainContactPrivacyResponse.fromJson(
           Map<String, dynamic> json) =>
       _$UpdateDomainContactPrivacyResponseFromJson(json);
+}
+
+/// The UpdateDomainContact request includes the following elements.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDomainContactRequest {
+  /// The name of the domain that you want to update contact information for.
+  @_s.JsonKey(name: 'DomainName')
+  final String domainName;
+
+  /// Provides detailed contact information.
+  @_s.JsonKey(name: 'AdminContact')
+  final ContactDetail adminContact;
+
+  /// Provides detailed contact information.
+  @_s.JsonKey(name: 'RegistrantContact')
+  final ContactDetail registrantContact;
+
+  /// Provides detailed contact information.
+  @_s.JsonKey(name: 'TechContact')
+  final ContactDetail techContact;
+
+  UpdateDomainContactRequest({
+    @_s.required this.domainName,
+    this.adminContact,
+    this.registrantContact,
+    this.techContact,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDomainContactRequestToJson(this);
 }
 
 /// The UpdateDomainContact response includes the following element.
@@ -3304,6 +3978,40 @@ class UpdateDomainContactResponse {
       _$UpdateDomainContactResponseFromJson(json);
 }
 
+/// Replaces the current set of name servers for the domain with the specified
+/// set of name servers. If you use Amazon Route 53 as your DNS service, specify
+/// the four name servers in the delegation set for the hosted zone for the
+/// domain.
+///
+/// If successful, this operation returns an operation ID that you can use to
+/// track the progress and completion of the action. If the request is not
+/// completed successfully, the domain registrant will be notified by email.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDomainNameserversRequest {
+  /// The name of the domain that you want to change name servers for.
+  @_s.JsonKey(name: 'DomainName')
+  final String domainName;
+
+  /// A list of new name servers for the domain.
+  @_s.JsonKey(name: 'Nameservers')
+  final List<Nameserver> nameservers;
+
+  /// The authorization key for .fi domains
+  @_s.JsonKey(name: 'FIAuthKey')
+  final String fIAuthKey;
+
+  UpdateDomainNameserversRequest({
+    @_s.required this.domainName,
+    @_s.required this.nameservers,
+    this.fIAuthKey,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDomainNameserversRequestToJson(this);
+}
+
 /// The UpdateDomainNameservers response includes the following element.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3323,6 +4031,29 @@ class UpdateDomainNameserversResponse {
       _$UpdateDomainNameserversResponseFromJson(json);
 }
 
+/// The UpdateTagsForDomainRequest includes the following elements.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateTagsForDomainRequest {
+  /// The domain for which you want to add or update tags.
+  @_s.JsonKey(name: 'DomainName')
+  final String domainName;
+
+  /// A list of the tag keys and values that you want to add or update. If you
+  /// specify a key that already exists, the corresponding value will be replaced.
+  @_s.JsonKey(name: 'TagsToUpdate')
+  final List<Tag> tagsToUpdate;
+
+  UpdateTagsForDomainRequest({
+    @_s.required this.domainName,
+    this.tagsToUpdate,
+  });
+  Map<String, dynamic> toJson() => _$UpdateTagsForDomainRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3332,6 +4063,58 @@ class UpdateTagsForDomainResponse {
   UpdateTagsForDomainResponse();
   factory UpdateTagsForDomainResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateTagsForDomainResponseFromJson(json);
+}
+
+/// The ViewBilling request includes the following elements.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ViewBillingRequest {
+  /// The end date and time for the time period for which you want a list of
+  /// billing records. Specify the date and time in Coordinated Universal time
+  /// (UTC).
+  @_s.JsonKey(
+      name: 'End', fromJson: unixTimestampFromJson, toJson: unixTimestampToJson)
+  final DateTime end;
+
+  /// For an initial request for a list of billing records, omit this element. If
+  /// the number of billing records that are associated with the current AWS
+  /// account during the specified period is greater than the value that you
+  /// specified for <code>MaxItems</code>, you can use <code>Marker</code> to
+  /// return additional billing records. Get the value of
+  /// <code>NextPageMarker</code> from the previous response, and submit another
+  /// request that includes the value of <code>NextPageMarker</code> in the
+  /// <code>Marker</code> element.
+  ///
+  /// Constraints: The marker must match the value of <code>NextPageMarker</code>
+  /// that was returned in the previous response.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  /// The number of billing records to be returned.
+  ///
+  /// Default: 20
+  @_s.JsonKey(name: 'MaxItems')
+  final int maxItems;
+
+  /// The beginning date and time for the time period for which you want a list of
+  /// billing records. Specify the date and time in Coordinated Universal time
+  /// (UTC).
+  @_s.JsonKey(
+      name: 'Start',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime start;
+
+  ViewBillingRequest({
+    this.end,
+    this.marker,
+    this.maxItems,
+    this.start,
+  });
+  Map<String, dynamic> toJson() => _$ViewBillingRequestToJson(this);
 }
 
 /// The ViewBilling response includes the following elements.

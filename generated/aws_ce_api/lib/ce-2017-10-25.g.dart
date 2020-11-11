@@ -170,6 +170,23 @@ CoverageNormalizedUnits _$CoverageNormalizedUnitsFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateCostCategoryDefinitionRequestToJson(
+    CreateCostCategoryDefinitionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull(
+      'RuleVersion', _$CostCategoryRuleVersionEnumMap[instance.ruleVersion]);
+  writeNotNull('Rules', instance.rules?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateCostCategoryDefinitionResponse
     _$CreateCostCategoryDefinitionResponseFromJson(Map<String, dynamic> json) {
   return CreateCostCategoryDefinitionResponse(
@@ -227,12 +244,41 @@ Map<String, dynamic> _$DateIntervalToJson(DateInterval instance) {
   return val;
 }
 
+Map<String, dynamic> _$DeleteCostCategoryDefinitionRequestToJson(
+    DeleteCostCategoryDefinitionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CostCategoryArn', instance.costCategoryArn);
+  return val;
+}
+
 DeleteCostCategoryDefinitionResponse
     _$DeleteCostCategoryDefinitionResponseFromJson(Map<String, dynamic> json) {
   return DeleteCostCategoryDefinitionResponse(
     costCategoryArn: json['CostCategoryArn'] as String,
     effectiveEnd: json['EffectiveEnd'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeCostCategoryDefinitionRequestToJson(
+    DescribeCostCategoryDefinitionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CostCategoryArn', instance.costCategoryArn);
+  writeNotNull('EffectiveOn', instance.effectiveOn);
+  return val;
 }
 
 DescribeCostCategoryDefinitionResponse
@@ -453,6 +499,31 @@ ForecastResult _$ForecastResultFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetCostAndUsageRequestToJson(
+    GetCostAndUsageRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TimePeriod', instance.timePeriod?.toJson());
+  writeNotNull('Filter', instance.filter?.toJson());
+  writeNotNull('Granularity', _$GranularityEnumMap[instance.granularity]);
+  writeNotNull('GroupBy', instance.groupBy?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Metrics', instance.metrics);
+  writeNotNull('NextPageToken', instance.nextPageToken);
+  return val;
+}
+
+const _$GranularityEnumMap = {
+  Granularity.daily: 'DAILY',
+  Granularity.monthly: 'MONTHLY',
+  Granularity.hourly: 'HOURLY',
+};
+
 GetCostAndUsageResponse _$GetCostAndUsageResponseFromJson(
     Map<String, dynamic> json) {
   return GetCostAndUsageResponse(
@@ -467,6 +538,25 @@ GetCostAndUsageResponse _$GetCostAndUsageResponseFromJson(
             e == null ? null : ResultByTime.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$GetCostAndUsageWithResourcesRequestToJson(
+    GetCostAndUsageWithResourcesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TimePeriod', instance.timePeriod?.toJson());
+  writeNotNull('Filter', instance.filter?.toJson());
+  writeNotNull('Granularity', _$GranularityEnumMap[instance.granularity]);
+  writeNotNull('GroupBy', instance.groupBy?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Metrics', instance.metrics);
+  writeNotNull('NextPageToken', instance.nextPageToken);
+  return val;
 }
 
 GetCostAndUsageWithResourcesResponse
@@ -485,6 +575,34 @@ GetCostAndUsageWithResourcesResponse
   );
 }
 
+Map<String, dynamic> _$GetCostForecastRequestToJson(
+    GetCostForecastRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Granularity', _$GranularityEnumMap[instance.granularity]);
+  writeNotNull('Metric', _$MetricEnumMap[instance.metric]);
+  writeNotNull('TimePeriod', instance.timePeriod?.toJson());
+  writeNotNull('Filter', instance.filter?.toJson());
+  writeNotNull('PredictionIntervalLevel', instance.predictionIntervalLevel);
+  return val;
+}
+
+const _$MetricEnumMap = {
+  Metric.blendedCost: 'BLENDED_COST',
+  Metric.unblendedCost: 'UNBLENDED_COST',
+  Metric.amortizedCost: 'AMORTIZED_COST',
+  Metric.netUnblendedCost: 'NET_UNBLENDED_COST',
+  Metric.netAmortizedCost: 'NET_AMORTIZED_COST',
+  Metric.usageQuantity: 'USAGE_QUANTITY',
+  Metric.normalizedUsageAmount: 'NORMALIZED_USAGE_AMOUNT',
+};
+
 GetCostForecastResponse _$GetCostForecastResponseFromJson(
     Map<String, dynamic> json) {
   return GetCostForecastResponse(
@@ -499,6 +617,30 @@ GetCostForecastResponse _$GetCostForecastResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$GetDimensionValuesRequestToJson(
+    GetDimensionValuesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Dimension', _$DimensionEnumMap[instance.dimension]);
+  writeNotNull('TimePeriod', instance.timePeriod?.toJson());
+  writeNotNull('Context', _$ContextEnumMap[instance.context]);
+  writeNotNull('NextPageToken', instance.nextPageToken);
+  writeNotNull('SearchString', instance.searchString);
+  return val;
+}
+
+const _$ContextEnumMap = {
+  Context.costAndUsage: 'COST_AND_USAGE',
+  Context.reservations: 'RESERVATIONS',
+  Context.savingsPlans: 'SAVINGS_PLANS',
+};
+
 GetDimensionValuesResponse _$GetDimensionValuesResponseFromJson(
     Map<String, dynamic> json) {
   return GetDimensionValuesResponse(
@@ -511,6 +653,25 @@ GetDimensionValuesResponse _$GetDimensionValuesResponseFromJson(
     totalSize: json['TotalSize'] as int,
     nextPageToken: json['NextPageToken'] as String,
   );
+}
+
+Map<String, dynamic> _$GetReservationCoverageRequestToJson(
+    GetReservationCoverageRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TimePeriod', instance.timePeriod?.toJson());
+  writeNotNull('Filter', instance.filter?.toJson());
+  writeNotNull('Granularity', _$GranularityEnumMap[instance.granularity]);
+  writeNotNull('GroupBy', instance.groupBy?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Metrics', instance.metrics);
+  writeNotNull('NextPageToken', instance.nextPageToken);
+  return val;
 }
 
 GetReservationCoverageResponse _$GetReservationCoverageResponseFromJson(
@@ -527,6 +688,54 @@ GetReservationCoverageResponse _$GetReservationCoverageResponseFromJson(
         : Coverage.fromJson(json['Total'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$GetReservationPurchaseRecommendationRequestToJson(
+    GetReservationPurchaseRecommendationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Service', instance.service);
+  writeNotNull('AccountId', instance.accountId);
+  writeNotNull('AccountScope', _$AccountScopeEnumMap[instance.accountScope]);
+  writeNotNull('LookbackPeriodInDays',
+      _$LookbackPeriodInDaysEnumMap[instance.lookbackPeriodInDays]);
+  writeNotNull('NextPageToken', instance.nextPageToken);
+  writeNotNull('PageSize', instance.pageSize);
+  writeNotNull('PaymentOption', _$PaymentOptionEnumMap[instance.paymentOption]);
+  writeNotNull('ServiceSpecification', instance.serviceSpecification?.toJson());
+  writeNotNull('TermInYears', _$TermInYearsEnumMap[instance.termInYears]);
+  return val;
+}
+
+const _$AccountScopeEnumMap = {
+  AccountScope.payer: 'PAYER',
+  AccountScope.linked: 'LINKED',
+};
+
+const _$LookbackPeriodInDaysEnumMap = {
+  LookbackPeriodInDays.sevenDays: 'SEVEN_DAYS',
+  LookbackPeriodInDays.thirtyDays: 'THIRTY_DAYS',
+  LookbackPeriodInDays.sixtyDays: 'SIXTY_DAYS',
+};
+
+const _$PaymentOptionEnumMap = {
+  PaymentOption.noUpfront: 'NO_UPFRONT',
+  PaymentOption.partialUpfront: 'PARTIAL_UPFRONT',
+  PaymentOption.allUpfront: 'ALL_UPFRONT',
+  PaymentOption.lightUtilization: 'LIGHT_UTILIZATION',
+  PaymentOption.mediumUtilization: 'MEDIUM_UTILIZATION',
+  PaymentOption.heavyUtilization: 'HEAVY_UTILIZATION',
+};
+
+const _$TermInYearsEnumMap = {
+  TermInYears.oneYear: 'ONE_YEAR',
+  TermInYears.threeYears: 'THREE_YEARS',
+};
 
 GetReservationPurchaseRecommendationResponse
     _$GetReservationPurchaseRecommendationResponseFromJson(
@@ -546,6 +755,24 @@ GetReservationPurchaseRecommendationResponse
   );
 }
 
+Map<String, dynamic> _$GetReservationUtilizationRequestToJson(
+    GetReservationUtilizationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TimePeriod', instance.timePeriod?.toJson());
+  writeNotNull('Filter', instance.filter?.toJson());
+  writeNotNull('Granularity', _$GranularityEnumMap[instance.granularity]);
+  writeNotNull('GroupBy', instance.groupBy?.map((e) => e?.toJson())?.toList());
+  writeNotNull('NextPageToken', instance.nextPageToken);
+  return val;
+}
+
 GetReservationUtilizationResponse _$GetReservationUtilizationResponseFromJson(
     Map<String, dynamic> json) {
   return GetReservationUtilizationResponse(
@@ -559,6 +786,23 @@ GetReservationUtilizationResponse _$GetReservationUtilizationResponseFromJson(
         ? null
         : ReservationAggregates.fromJson(json['Total'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetRightsizingRecommendationRequestToJson(
+    GetRightsizingRecommendationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Service', instance.service);
+  writeNotNull('Filter', instance.filter?.toJson());
+  writeNotNull('NextPageToken', instance.nextPageToken);
+  writeNotNull('PageSize', instance.pageSize);
+  return val;
 }
 
 GetRightsizingRecommendationResponse
@@ -581,6 +825,26 @@ GetRightsizingRecommendationResponse
   );
 }
 
+Map<String, dynamic> _$GetSavingsPlansCoverageRequestToJson(
+    GetSavingsPlansCoverageRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TimePeriod', instance.timePeriod?.toJson());
+  writeNotNull('Filter', instance.filter?.toJson());
+  writeNotNull('Granularity', _$GranularityEnumMap[instance.granularity]);
+  writeNotNull('GroupBy', instance.groupBy?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('Metrics', instance.metrics);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 GetSavingsPlansCoverageResponse _$GetSavingsPlansCoverageResponseFromJson(
     Map<String, dynamic> json) {
   return GetSavingsPlansCoverageResponse(
@@ -592,6 +856,34 @@ GetSavingsPlansCoverageResponse _$GetSavingsPlansCoverageResponseFromJson(
     nextToken: json['NextToken'] as String,
   );
 }
+
+Map<String, dynamic> _$GetSavingsPlansPurchaseRecommendationRequestToJson(
+    GetSavingsPlansPurchaseRecommendationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LookbackPeriodInDays',
+      _$LookbackPeriodInDaysEnumMap[instance.lookbackPeriodInDays]);
+  writeNotNull('PaymentOption', _$PaymentOptionEnumMap[instance.paymentOption]);
+  writeNotNull('SavingsPlansType',
+      _$SupportedSavingsPlansTypeEnumMap[instance.savingsPlansType]);
+  writeNotNull('TermInYears', _$TermInYearsEnumMap[instance.termInYears]);
+  writeNotNull('AccountScope', _$AccountScopeEnumMap[instance.accountScope]);
+  writeNotNull('Filter', instance.filter?.toJson());
+  writeNotNull('NextPageToken', instance.nextPageToken);
+  writeNotNull('PageSize', instance.pageSize);
+  return val;
+}
+
+const _$SupportedSavingsPlansTypeEnumMap = {
+  SupportedSavingsPlansType.computeSp: 'COMPUTE_SP',
+  SupportedSavingsPlansType.ec2InstanceSp: 'EC2_INSTANCE_SP',
+};
 
 GetSavingsPlansPurchaseRecommendationResponse
     _$GetSavingsPlansPurchaseRecommendationResponseFromJson(
@@ -609,6 +901,23 @@ GetSavingsPlansPurchaseRecommendationResponse
                 json['SavingsPlansPurchaseRecommendation']
                     as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetSavingsPlansUtilizationDetailsRequestToJson(
+    GetSavingsPlansUtilizationDetailsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TimePeriod', instance.timePeriod?.toJson());
+  writeNotNull('Filter', instance.filter?.toJson());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 GetSavingsPlansUtilizationDetailsResponse
@@ -632,6 +941,22 @@ GetSavingsPlansUtilizationDetailsResponse
   );
 }
 
+Map<String, dynamic> _$GetSavingsPlansUtilizationRequestToJson(
+    GetSavingsPlansUtilizationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TimePeriod', instance.timePeriod?.toJson());
+  writeNotNull('Filter', instance.filter?.toJson());
+  writeNotNull('Granularity', _$GranularityEnumMap[instance.granularity]);
+  return val;
+}
+
 GetSavingsPlansUtilizationResponse _$GetSavingsPlansUtilizationResponseFromJson(
     Map<String, dynamic> json) {
   return GetSavingsPlansUtilizationResponse(
@@ -648,6 +973,22 @@ GetSavingsPlansUtilizationResponse _$GetSavingsPlansUtilizationResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$GetTagsRequestToJson(GetTagsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TimePeriod', instance.timePeriod?.toJson());
+  writeNotNull('NextPageToken', instance.nextPageToken);
+  writeNotNull('SearchString', instance.searchString);
+  writeNotNull('TagKey', instance.tagKey);
+  return val;
+}
+
 GetTagsResponse _$GetTagsResponseFromJson(Map<String, dynamic> json) {
   return GetTagsResponse(
     returnSize: json['ReturnSize'] as int,
@@ -655,6 +996,24 @@ GetTagsResponse _$GetTagsResponseFromJson(Map<String, dynamic> json) {
     totalSize: json['TotalSize'] as int,
     nextPageToken: json['NextPageToken'] as String,
   );
+}
+
+Map<String, dynamic> _$GetUsageForecastRequestToJson(
+    GetUsageForecastRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Granularity', _$GranularityEnumMap[instance.granularity]);
+  writeNotNull('Metric', _$MetricEnumMap[instance.metric]);
+  writeNotNull('TimePeriod', instance.timePeriod?.toJson());
+  writeNotNull('Filter', instance.filter?.toJson());
+  writeNotNull('PredictionIntervalLevel', instance.predictionIntervalLevel);
+  return val;
 }
 
 GetUsageForecastResponse _$GetUsageForecastResponseFromJson(
@@ -731,6 +1090,22 @@ InstanceDetails _$InstanceDetailsFromJson(Map<String, dynamic> json) {
         : RedshiftInstanceDetails.fromJson(
             json['RedshiftInstanceDetails'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$ListCostCategoryDefinitionsRequestToJson(
+    ListCostCategoryDefinitionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EffectiveOn', instance.effectiveOn);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListCostCategoryDefinitionsResponse
@@ -848,31 +1223,6 @@ ReservationPurchaseRecommendation _$ReservationPurchaseRecommendationFromJson(
         _$enumDecodeNullable(_$TermInYearsEnumMap, json['TermInYears']),
   );
 }
-
-const _$AccountScopeEnumMap = {
-  AccountScope.payer: 'PAYER',
-  AccountScope.linked: 'LINKED',
-};
-
-const _$LookbackPeriodInDaysEnumMap = {
-  LookbackPeriodInDays.sevenDays: 'SEVEN_DAYS',
-  LookbackPeriodInDays.thirtyDays: 'THIRTY_DAYS',
-  LookbackPeriodInDays.sixtyDays: 'SIXTY_DAYS',
-};
-
-const _$PaymentOptionEnumMap = {
-  PaymentOption.noUpfront: 'NO_UPFRONT',
-  PaymentOption.partialUpfront: 'PARTIAL_UPFRONT',
-  PaymentOption.allUpfront: 'ALL_UPFRONT',
-  PaymentOption.lightUtilization: 'LIGHT_UTILIZATION',
-  PaymentOption.mediumUtilization: 'MEDIUM_UTILIZATION',
-  PaymentOption.heavyUtilization: 'HEAVY_UTILIZATION',
-};
-
-const _$TermInYearsEnumMap = {
-  TermInYears.oneYear: 'ONE_YEAR',
-  TermInYears.threeYears: 'THREE_YEARS',
-};
 
 ReservationPurchaseRecommendationDetail
     _$ReservationPurchaseRecommendationDetailFromJson(
@@ -1106,11 +1456,6 @@ SavingsPlansPurchaseRecommendation _$SavingsPlansPurchaseRecommendationFromJson(
   );
 }
 
-const _$SupportedSavingsPlansTypeEnumMap = {
-  SupportedSavingsPlansType.computeSp: 'COMPUTE_SP',
-  SupportedSavingsPlansType.ec2InstanceSp: 'EC2_INSTANCE_SP',
-};
-
 SavingsPlansPurchaseRecommendationDetail
     _$SavingsPlansPurchaseRecommendationDetailFromJson(
         Map<String, dynamic> json) {
@@ -1316,6 +1661,23 @@ TerminateRecommendationDetail _$TerminateRecommendationDetailFromJson(
     currencyCode: json['CurrencyCode'] as String,
     estimatedMonthlySavings: json['EstimatedMonthlySavings'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateCostCategoryDefinitionRequestToJson(
+    UpdateCostCategoryDefinitionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CostCategoryArn', instance.costCategoryArn);
+  writeNotNull(
+      'RuleVersion', _$CostCategoryRuleVersionEnumMap[instance.ruleVersion]);
+  writeNotNull('Rules', instance.rules?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 UpdateCostCategoryDefinitionResponse

@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -88,10 +87,10 @@ class CodePipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'jobId': jobId,
-        'nonce': nonce,
-      },
+      payload: AcknowledgeJobInput(
+        jobId: jobId,
+        nonce: nonce,
+      ),
     );
 
     return AcknowledgeJobOutput.fromJson(jsonResponse.body);
@@ -156,11 +155,11 @@ class CodePipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'clientToken': clientToken,
-        'jobId': jobId,
-        'nonce': nonce,
-      },
+      payload: AcknowledgeThirdPartyJobInput(
+        clientToken: clientToken,
+        jobId: jobId,
+        nonce: nonce,
+      ),
     );
 
     return AcknowledgeThirdPartyJobOutput.fromJson(jsonResponse.body);
@@ -264,17 +263,16 @@ class CodePipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'category': category?.toValue(),
-        'inputArtifactDetails': inputArtifactDetails,
-        'outputArtifactDetails': outputArtifactDetails,
-        'provider': provider,
-        'version': version,
-        if (configurationProperties != null)
-          'configurationProperties': configurationProperties,
-        if (settings != null) 'settings': settings,
-        if (tags != null) 'tags': tags,
-      },
+      payload: CreateCustomActionTypeInput(
+        category: category,
+        inputArtifactDetails: inputArtifactDetails,
+        outputArtifactDetails: outputArtifactDetails,
+        provider: provider,
+        version: version,
+        configurationProperties: configurationProperties,
+        settings: settings,
+        tags: tags,
+      ),
     );
 
     return CreateCustomActionTypeOutput.fromJson(jsonResponse.body);
@@ -320,10 +318,10 @@ class CodePipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'pipeline': pipeline,
-        if (tags != null) 'tags': tags,
-      },
+      payload: CreatePipelineInput(
+        pipeline: pipeline,
+        tags: tags,
+      ),
     );
 
     return CreatePipelineOutput.fromJson(jsonResponse.body);
@@ -397,11 +395,11 @@ class CodePipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'category': category?.toValue(),
-        'provider': provider,
-        'version': version,
-      },
+      payload: DeleteCustomActionTypeInput(
+        category: category,
+        provider: provider,
+        version: version,
+      ),
     );
   }
 
@@ -439,9 +437,9 @@ class CodePipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'name': name,
-      },
+      payload: DeletePipelineInput(
+        name: name,
+      ),
     );
   }
 
@@ -483,9 +481,9 @@ class CodePipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'name': name,
-      },
+      payload: DeleteWebhookInput(
+        name: name,
+      ),
     );
 
     return DeleteWebhookOutput.fromJson(jsonResponse.body);
@@ -524,9 +522,9 @@ class CodePipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (webhookName != null) 'webhookName': webhookName,
-      },
+      payload: DeregisterWebhookWithThirdPartyInput(
+        webhookName: webhookName,
+      ),
     );
 
     return DeregisterWebhookWithThirdPartyOutput.fromJson(jsonResponse.body);
@@ -616,12 +614,12 @@ class CodePipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'pipelineName': pipelineName,
-        'reason': reason,
-        'stageName': stageName,
-        'transitionType': transitionType?.toValue(),
-      },
+      payload: DisableStageTransitionInput(
+        pipelineName: pipelineName,
+        reason: reason,
+        stageName: stageName,
+        transitionType: transitionType,
+      ),
     );
   }
 
@@ -689,11 +687,11 @@ class CodePipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'pipelineName': pipelineName,
-        'stageName': stageName,
-        'transitionType': transitionType?.toValue(),
-      },
+      payload: EnableStageTransitionInput(
+        pipelineName: pipelineName,
+        stageName: stageName,
+        transitionType: transitionType,
+      ),
     );
   }
 
@@ -730,9 +728,9 @@ class CodePipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'jobId': jobId,
-      },
+      payload: GetJobDetailsInput(
+        jobId: jobId,
+      ),
     );
 
     return GetJobDetailsOutput.fromJson(jsonResponse.body);
@@ -788,10 +786,10 @@ class CodePipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'name': name,
-        if (version != null) 'version': version,
-      },
+      payload: GetPipelineInput(
+        name: name,
+        version: version,
+      ),
     );
 
     return GetPipelineOutput.fromJson(jsonResponse.body);
@@ -846,10 +844,10 @@ class CodePipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'pipelineExecutionId': pipelineExecutionId,
-        'pipelineName': pipelineName,
-      },
+      payload: GetPipelineExecutionInput(
+        pipelineExecutionId: pipelineExecutionId,
+        pipelineName: pipelineName,
+      ),
     );
 
     return GetPipelineExecutionOutput.fromJson(jsonResponse.body);
@@ -895,9 +893,9 @@ class CodePipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'name': name,
-      },
+      payload: GetPipelineStateInput(
+        name: name,
+      ),
     );
 
     return GetPipelineStateOutput.fromJson(jsonResponse.body);
@@ -954,10 +952,10 @@ class CodePipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'clientToken': clientToken,
-        'jobId': jobId,
-      },
+      payload: GetThirdPartyJobDetailsInput(
+        clientToken: clientToken,
+        jobId: jobId,
+      ),
     );
 
     return GetThirdPartyJobDetailsOutput.fromJson(jsonResponse.body);
@@ -1033,12 +1031,12 @@ class CodePipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'pipelineName': pipelineName,
-        if (filter != null) 'filter': filter,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListActionExecutionsInput(
+        pipelineName: pipelineName,
+        filter: filter,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListActionExecutionsOutput.fromJson(jsonResponse.body);
@@ -1076,11 +1074,10 @@ class CodePipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (actionOwnerFilter != null)
-          'actionOwnerFilter': actionOwnerFilter?.toValue(),
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListActionTypesInput(
+        actionOwnerFilter: actionOwnerFilter,
+        nextToken: nextToken,
+      ),
     );
 
     return ListActionTypesOutput.fromJson(jsonResponse.body);
@@ -1147,11 +1144,11 @@ class CodePipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'pipelineName': pipelineName,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListPipelineExecutionsInput(
+        pipelineName: pipelineName,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListPipelineExecutionsOutput.fromJson(jsonResponse.body);
@@ -1184,9 +1181,9 @@ class CodePipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListPipelinesInput(
+        nextToken: nextToken,
+      ),
     );
 
     return ListPipelinesOutput.fromJson(jsonResponse.body);
@@ -1244,11 +1241,11 @@ class CodePipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'resourceArn': resourceArn,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListTagsForResourceInput(
+        resourceArn: resourceArn,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListTagsForResourceOutput.fromJson(jsonResponse.body);
@@ -1294,10 +1291,10 @@ class CodePipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListWebhooksInput(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListWebhooksOutput.fromJson(jsonResponse.body);
@@ -1351,11 +1348,11 @@ class CodePipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'actionTypeId': actionTypeId,
-        if (maxBatchSize != null) 'maxBatchSize': maxBatchSize,
-        if (queryParam != null) 'queryParam': queryParam,
-      },
+      payload: PollForJobsInput(
+        actionTypeId: actionTypeId,
+        maxBatchSize: maxBatchSize,
+        queryParam: queryParam,
+      ),
     );
 
     return PollForJobsOutput.fromJson(jsonResponse.body);
@@ -1398,10 +1395,10 @@ class CodePipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'actionTypeId': actionTypeId,
-        if (maxBatchSize != null) 'maxBatchSize': maxBatchSize,
-      },
+      payload: PollForThirdPartyJobsInput(
+        actionTypeId: actionTypeId,
+        maxBatchSize: maxBatchSize,
+      ),
     );
 
     return PollForThirdPartyJobsOutput.fromJson(jsonResponse.body);
@@ -1485,12 +1482,12 @@ class CodePipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'actionName': actionName,
-        'actionRevision': actionRevision,
-        'pipelineName': pipelineName,
-        'stageName': stageName,
-      },
+      payload: PutActionRevisionInput(
+        actionName: actionName,
+        actionRevision: actionRevision,
+        pipelineName: pipelineName,
+        stageName: stageName,
+      ),
     );
 
     return PutActionRevisionOutput.fromJson(jsonResponse.body);
@@ -1590,13 +1587,13 @@ class CodePipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'actionName': actionName,
-        'pipelineName': pipelineName,
-        'result': result,
-        'stageName': stageName,
-        'token': token,
-      },
+      payload: PutApprovalResultInput(
+        actionName: actionName,
+        pipelineName: pipelineName,
+        result: result,
+        stageName: stageName,
+        token: token,
+      ),
     );
 
     return PutApprovalResultOutput.fromJson(jsonResponse.body);
@@ -1637,10 +1634,10 @@ class CodePipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'failureDetails': failureDetails,
-        'jobId': jobId,
-      },
+      payload: PutJobFailureResultInput(
+        failureDetails: failureDetails,
+        jobId: jobId,
+      ),
     );
   }
 
@@ -1707,13 +1704,13 @@ class CodePipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'jobId': jobId,
-        if (continuationToken != null) 'continuationToken': continuationToken,
-        if (currentRevision != null) 'currentRevision': currentRevision,
-        if (executionDetails != null) 'executionDetails': executionDetails,
-        if (outputVariables != null) 'outputVariables': outputVariables,
-      },
+      payload: PutJobSuccessResultInput(
+        jobId: jobId,
+        continuationToken: continuationToken,
+        currentRevision: currentRevision,
+        executionDetails: executionDetails,
+        outputVariables: outputVariables,
+      ),
     );
   }
 
@@ -1768,11 +1765,11 @@ class CodePipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'clientToken': clientToken,
-        'failureDetails': failureDetails,
-        'jobId': jobId,
-      },
+      payload: PutThirdPartyJobFailureResultInput(
+        clientToken: clientToken,
+        failureDetails: failureDetails,
+        jobId: jobId,
+      ),
     );
   }
 
@@ -1846,13 +1843,13 @@ class CodePipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'clientToken': clientToken,
-        'jobId': jobId,
-        if (continuationToken != null) 'continuationToken': continuationToken,
-        if (currentRevision != null) 'currentRevision': currentRevision,
-        if (executionDetails != null) 'executionDetails': executionDetails,
-      },
+      payload: PutThirdPartyJobSuccessResultInput(
+        clientToken: clientToken,
+        jobId: jobId,
+        continuationToken: continuationToken,
+        currentRevision: currentRevision,
+        executionDetails: executionDetails,
+      ),
     );
   }
 
@@ -1899,10 +1896,10 @@ class CodePipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'webhook': webhook,
-        if (tags != null) 'tags': tags,
-      },
+      payload: PutWebhookInput(
+        webhook: webhook,
+        tags: tags,
+      ),
     );
 
     return PutWebhookOutput.fromJson(jsonResponse.body);
@@ -1941,9 +1938,9 @@ class CodePipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (webhookName != null) 'webhookName': webhookName,
-      },
+      payload: RegisterWebhookWithThirdPartyInput(
+        webhookName: webhookName,
+      ),
     );
 
     return RegisterWebhookWithThirdPartyOutput.fromJson(jsonResponse.body);
@@ -2026,12 +2023,12 @@ class CodePipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'pipelineExecutionId': pipelineExecutionId,
-        'pipelineName': pipelineName,
-        'retryMode': retryMode?.toValue(),
-        'stageName': stageName,
-      },
+      payload: RetryStageExecutionInput(
+        pipelineExecutionId: pipelineExecutionId,
+        pipelineName: pipelineName,
+        retryMode: retryMode,
+        stageName: stageName,
+      ),
     );
 
     return RetryStageExecutionOutput.fromJson(jsonResponse.body);
@@ -2088,11 +2085,10 @@ class CodePipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'name': name,
-        if (clientRequestToken != null)
-          'clientRequestToken': clientRequestToken,
-      },
+      payload: StartPipelineExecutionInput(
+        name: name,
+        clientRequestToken: clientRequestToken,
+      ),
     );
 
     return StartPipelineExecutionOutput.fromJson(jsonResponse.body);
@@ -2171,12 +2167,12 @@ class CodePipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'pipelineExecutionId': pipelineExecutionId,
-        'pipelineName': pipelineName,
-        if (abandon != null) 'abandon': abandon,
-        if (reason != null) 'reason': reason,
-      },
+      payload: StopPipelineExecutionInput(
+        pipelineExecutionId: pipelineExecutionId,
+        pipelineName: pipelineName,
+        abandon: abandon,
+        reason: reason,
+      ),
     );
 
     return StopPipelineExecutionOutput.fromJson(jsonResponse.body);
@@ -2219,10 +2215,10 @@ class CodePipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'resourceArn': resourceArn,
-        'tags': tags,
-      },
+      payload: TagResourceInput(
+        resourceArn: resourceArn,
+        tags: tags,
+      ),
     );
 
     return TagResourceOutput.fromJson(jsonResponse.body);
@@ -2263,10 +2259,10 @@ class CodePipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'resourceArn': resourceArn,
-        'tagKeys': tagKeys,
-      },
+      payload: UntagResourceInput(
+        resourceArn: resourceArn,
+        tagKeys: tagKeys,
+      ),
     );
 
     return UntagResourceOutput.fromJson(jsonResponse.body);
@@ -2300,9 +2296,9 @@ class CodePipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'pipeline': pipeline,
-      },
+      payload: UpdatePipelineInput(
+        pipeline: pipeline,
+      ),
     );
 
     return UpdatePipelineOutput.fromJson(jsonResponse.body);
@@ -2340,6 +2336,31 @@ class AWSSessionCredentials {
       _$AWSSessionCredentialsFromJson(json);
 }
 
+/// Represents the input of an AcknowledgeJob action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AcknowledgeJobInput {
+  /// The unique system-generated ID of the job for which you want to confirm
+  /// receipt.
+  @_s.JsonKey(name: 'jobId')
+  final String jobId;
+
+  /// A system-generated random number that AWS CodePipeline uses to ensure that
+  /// the job is being worked on by only one job worker. Get this number from the
+  /// response of the <a>PollForJobs</a> request that returned this job.
+  @_s.JsonKey(name: 'nonce')
+  final String nonce;
+
+  AcknowledgeJobInput({
+    @_s.required this.jobId,
+    @_s.required this.nonce,
+  });
+  Map<String, dynamic> toJson() => _$AcknowledgeJobInputToJson(this);
+}
+
 /// Represents the output of an AcknowledgeJob action.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2356,6 +2377,36 @@ class AcknowledgeJobOutput {
   });
   factory AcknowledgeJobOutput.fromJson(Map<String, dynamic> json) =>
       _$AcknowledgeJobOutputFromJson(json);
+}
+
+/// Represents the input of an AcknowledgeThirdPartyJob action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AcknowledgeThirdPartyJobInput {
+  /// The clientToken portion of the clientId and clientToken pair used to verify
+  /// that the calling entity is allowed access to the job and its details.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// The unique system-generated ID of the job.
+  @_s.JsonKey(name: 'jobId')
+  final String jobId;
+
+  /// A system-generated random number that AWS CodePipeline uses to ensure that
+  /// the job is being worked on by only one job worker. Get this number from the
+  /// response to a <a>GetThirdPartyJobDetails</a> request.
+  @_s.JsonKey(name: 'nonce')
+  final String nonce;
+
+  AcknowledgeThirdPartyJobInput({
+    @_s.required this.clientToken,
+    @_s.required this.jobId,
+    @_s.required this.nonce,
+  });
+  Map<String, dynamic> toJson() => _$AcknowledgeThirdPartyJobInputToJson(this);
 }
 
 /// Represents the output of an AcknowledgeThirdPartyJob action.
@@ -2389,26 +2440,6 @@ enum ActionCategory {
   invoke,
   @_s.JsonValue('Approval')
   approval,
-}
-
-extension on ActionCategory {
-  String toValue() {
-    switch (this) {
-      case ActionCategory.source:
-        return 'Source';
-      case ActionCategory.build:
-        return 'Build';
-      case ActionCategory.deploy:
-        return 'Deploy';
-      case ActionCategory.test:
-        return 'Test';
-      case ActionCategory.invoke:
-        return 'Invoke';
-      case ActionCategory.approval:
-        return 'Approval';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Represents information about an action configuration.
@@ -2896,20 +2927,6 @@ enum ActionOwner {
   custom,
 }
 
-extension on ActionOwner {
-  String toValue() {
-    switch (this) {
-      case ActionOwner.aws:
-        return 'AWS';
-      case ActionOwner.thirdParty:
-        return 'ThirdParty';
-      case ActionOwner.custom:
-        return 'Custom';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Represents information about the version (or revision) of an action.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3378,6 +3395,72 @@ enum BlockerType {
   schedule,
 }
 
+/// Represents the input of a CreateCustomActionType operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateCustomActionTypeInput {
+  /// The category of the custom action, such as a build action or a test action.
+  /// <note>
+  /// Although <code>Source</code> and <code>Approval</code> are listed as valid
+  /// values, they are not currently functional. These values are reserved for
+  /// future use.
+  /// </note>
+  @_s.JsonKey(name: 'category')
+  final ActionCategory category;
+
+  /// The details of the input artifact for the action, such as its commit ID.
+  @_s.JsonKey(name: 'inputArtifactDetails')
+  final ArtifactDetails inputArtifactDetails;
+
+  /// The details of the output artifact of the action, such as its commit ID.
+  @_s.JsonKey(name: 'outputArtifactDetails')
+  final ArtifactDetails outputArtifactDetails;
+
+  /// The provider of the service used in the custom action, such as AWS
+  /// CodeDeploy.
+  @_s.JsonKey(name: 'provider')
+  final String provider;
+
+  /// The version identifier of the custom action.
+  @_s.JsonKey(name: 'version')
+  final String version;
+
+  /// The configuration properties for the custom action.
+  /// <note>
+  /// You can refer to a name in the configuration properties of the custom action
+  /// within the URL templates by following the format of {Config:name}, as long
+  /// as the configuration property is both required and not secret. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/codepipeline/latest/userguide/how-to-create-custom-action.html">Create
+  /// a Custom Action for a Pipeline</a>.
+  /// </note>
+  @_s.JsonKey(name: 'configurationProperties')
+  final List<ActionConfigurationProperty> configurationProperties;
+
+  /// URLs that provide users information about this custom action.
+  @_s.JsonKey(name: 'settings')
+  final ActionTypeSettings settings;
+
+  /// The tags for the custom action.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  CreateCustomActionTypeInput({
+    @_s.required this.category,
+    @_s.required this.inputArtifactDetails,
+    @_s.required this.outputArtifactDetails,
+    @_s.required this.provider,
+    @_s.required this.version,
+    this.configurationProperties,
+    this.settings,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateCustomActionTypeInputToJson(this);
+}
+
 /// Represents the output of a <code>CreateCustomActionType</code> operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3399,6 +3482,29 @@ class CreateCustomActionTypeOutput {
   });
   factory CreateCustomActionTypeOutput.fromJson(Map<String, dynamic> json) =>
       _$CreateCustomActionTypeOutputFromJson(json);
+}
+
+/// Represents the input of a <code>CreatePipeline</code> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreatePipelineInput {
+  /// Represents the structure of actions and stages to be performed in the
+  /// pipeline.
+  @_s.JsonKey(name: 'pipeline')
+  final PipelineDeclaration pipeline;
+
+  /// The tags for the pipeline.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  CreatePipelineInput({
+    @_s.required this.pipeline,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreatePipelineInputToJson(this);
 }
 
 /// Represents the output of a <code>CreatePipeline</code> action.
@@ -3461,6 +3567,69 @@ class CurrentRevision {
   Map<String, dynamic> toJson() => _$CurrentRevisionToJson(this);
 }
 
+/// Represents the input of a <code>DeleteCustomActionType</code> operation. The
+/// custom action will be marked as deleted.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteCustomActionTypeInput {
+  /// The category of the custom action that you want to delete, such as source or
+  /// deploy.
+  @_s.JsonKey(name: 'category')
+  final ActionCategory category;
+
+  /// The provider of the service used in the custom action, such as AWS
+  /// CodeDeploy.
+  @_s.JsonKey(name: 'provider')
+  final String provider;
+
+  /// The version of the custom action to delete.
+  @_s.JsonKey(name: 'version')
+  final String version;
+
+  DeleteCustomActionTypeInput({
+    @_s.required this.category,
+    @_s.required this.provider,
+    @_s.required this.version,
+  });
+  Map<String, dynamic> toJson() => _$DeleteCustomActionTypeInputToJson(this);
+}
+
+/// Represents the input of a <code>DeletePipeline</code> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeletePipelineInput {
+  /// The name of the pipeline to be deleted.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  DeletePipelineInput({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$DeletePipelineInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteWebhookInput {
+  /// The name of the webhook you want to delete.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  DeleteWebhookInput({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$DeleteWebhookInputToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3475,6 +3644,23 @@ class DeleteWebhookOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeregisterWebhookWithThirdPartyInput {
+  /// The name of the webhook you want to deregister.
+  @_s.JsonKey(name: 'webhookName')
+  final String webhookName;
+
+  DeregisterWebhookWithThirdPartyInput({
+    this.webhookName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeregisterWebhookWithThirdPartyInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeregisterWebhookWithThirdPartyOutput {
@@ -3482,6 +3668,77 @@ class DeregisterWebhookWithThirdPartyOutput {
   factory DeregisterWebhookWithThirdPartyOutput.fromJson(
           Map<String, dynamic> json) =>
       _$DeregisterWebhookWithThirdPartyOutputFromJson(json);
+}
+
+/// Represents the input of a <code>DisableStageTransition</code> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisableStageTransitionInput {
+  /// The name of the pipeline in which you want to disable the flow of artifacts
+  /// from one stage to another.
+  @_s.JsonKey(name: 'pipelineName')
+  final String pipelineName;
+
+  /// The reason given to the user that a stage is disabled, such as waiting for
+  /// manual approval or manual tests. This message is displayed in the pipeline
+  /// console UI.
+  @_s.JsonKey(name: 'reason')
+  final String reason;
+
+  /// The name of the stage where you want to disable the inbound or outbound
+  /// transition of artifacts.
+  @_s.JsonKey(name: 'stageName')
+  final String stageName;
+
+  /// Specifies whether artifacts are prevented from transitioning into the stage
+  /// and being processed by the actions in that stage (inbound), or prevented
+  /// from transitioning from the stage after they have been processed by the
+  /// actions in that stage (outbound).
+  @_s.JsonKey(name: 'transitionType')
+  final StageTransitionType transitionType;
+
+  DisableStageTransitionInput({
+    @_s.required this.pipelineName,
+    @_s.required this.reason,
+    @_s.required this.stageName,
+    @_s.required this.transitionType,
+  });
+  Map<String, dynamic> toJson() => _$DisableStageTransitionInputToJson(this);
+}
+
+/// Represents the input of an <code>EnableStageTransition</code> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class EnableStageTransitionInput {
+  /// The name of the pipeline in which you want to enable the flow of artifacts
+  /// from one stage to another.
+  @_s.JsonKey(name: 'pipelineName')
+  final String pipelineName;
+
+  /// The name of the stage where you want to enable the transition of artifacts,
+  /// either into the stage (inbound) or from that stage to the next stage
+  /// (outbound).
+  @_s.JsonKey(name: 'stageName')
+  final String stageName;
+
+  /// Specifies whether artifacts are allowed to enter the stage and be processed
+  /// by the actions in that stage (inbound) or whether already processed
+  /// artifacts are allowed to transition to the next stage (outbound).
+  @_s.JsonKey(name: 'transitionType')
+  final StageTransitionType transitionType;
+
+  EnableStageTransitionInput({
+    @_s.required this.pipelineName,
+    @_s.required this.stageName,
+    @_s.required this.transitionType,
+  });
+  Map<String, dynamic> toJson() => _$EnableStageTransitionInputToJson(this);
 }
 
 /// Represents information about the key used to encrypt data in the artifact
@@ -3643,6 +3900,23 @@ enum FailureType {
   systemUnavailable,
 }
 
+/// Represents the input of a <code>GetJobDetails</code> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetJobDetailsInput {
+  /// The unique system-generated ID for the job.
+  @_s.JsonKey(name: 'jobId')
+  final String jobId;
+
+  GetJobDetailsInput({
+    @_s.required this.jobId,
+  });
+  Map<String, dynamic> toJson() => _$GetJobDetailsInputToJson(this);
+}
+
 /// Represents the output of a <code>GetJobDetails</code> action.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3665,6 +3939,29 @@ class GetJobDetailsOutput {
       _$GetJobDetailsOutputFromJson(json);
 }
 
+/// Represents the input of a <code>GetPipelineExecution</code> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetPipelineExecutionInput {
+  /// The ID of the pipeline execution about which you want to get execution
+  /// details.
+  @_s.JsonKey(name: 'pipelineExecutionId')
+  final String pipelineExecutionId;
+
+  /// The name of the pipeline about which you want to get execution details.
+  @_s.JsonKey(name: 'pipelineName')
+  final String pipelineName;
+
+  GetPipelineExecutionInput({
+    @_s.required this.pipelineExecutionId,
+    @_s.required this.pipelineName,
+  });
+  Map<String, dynamic> toJson() => _$GetPipelineExecutionInputToJson(this);
+}
+
 /// Represents the output of a <code>GetPipelineExecution</code> action.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3681,6 +3978,30 @@ class GetPipelineExecutionOutput {
   });
   factory GetPipelineExecutionOutput.fromJson(Map<String, dynamic> json) =>
       _$GetPipelineExecutionOutputFromJson(json);
+}
+
+/// Represents the input of a <code>GetPipeline</code> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetPipelineInput {
+  /// The name of the pipeline for which you want to get information. Pipeline
+  /// names must be unique under an AWS user account.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The version number of the pipeline. If you do not specify a version,
+  /// defaults to the current version.
+  @_s.JsonKey(name: 'version')
+  final int version;
+
+  GetPipelineInput({
+    @_s.required this.name,
+    this.version,
+  });
+  Map<String, dynamic> toJson() => _$GetPipelineInputToJson(this);
 }
 
 /// Represents the output of a <code>GetPipeline</code> action.
@@ -3706,6 +4027,23 @@ class GetPipelineOutput {
   });
   factory GetPipelineOutput.fromJson(Map<String, dynamic> json) =>
       _$GetPipelineOutputFromJson(json);
+}
+
+/// Represents the input of a <code>GetPipelineState</code> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetPipelineStateInput {
+  /// The name of the pipeline about which you want to get information.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  GetPipelineStateInput({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$GetPipelineStateInputToJson(this);
 }
 
 /// Represents the output of a <code>GetPipelineState</code> action.
@@ -3756,6 +4094,29 @@ class GetPipelineStateOutput {
   });
   factory GetPipelineStateOutput.fromJson(Map<String, dynamic> json) =>
       _$GetPipelineStateOutputFromJson(json);
+}
+
+/// Represents the input of a <code>GetThirdPartyJobDetails</code> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetThirdPartyJobDetailsInput {
+  /// The clientToken portion of the clientId and clientToken pair used to verify
+  /// that the calling entity is allowed access to the job and its details.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// The unique system-generated ID used for identifying the job.
+  @_s.JsonKey(name: 'jobId')
+  final String jobId;
+
+  GetThirdPartyJobDetailsInput({
+    @_s.required this.clientToken,
+    @_s.required this.jobId,
+  });
+  Map<String, dynamic> toJson() => _$GetThirdPartyJobDetailsInputToJson(this);
 }
 
 /// Represents the output of a <code>GetThirdPartyJobDetails</code> action.
@@ -3949,6 +4310,47 @@ enum JobStatus {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListActionExecutionsInput {
+  /// The name of the pipeline for which you want to list action execution
+  /// history.
+  @_s.JsonKey(name: 'pipelineName')
+  final String pipelineName;
+
+  /// Input information used to filter action execution history.
+  @_s.JsonKey(name: 'filter')
+  final ActionExecutionFilter filter;
+
+  /// The maximum number of results to return in a single call. To retrieve the
+  /// remaining results, make another call with the returned nextToken value.
+  /// Action execution history is retained for up to 12 months, based on action
+  /// execution start times. Default value is 100.
+  /// <note>
+  /// Detailed execution history is available for executions run on or after
+  /// February 21, 2019.
+  /// </note>
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The token that was returned from the previous
+  /// <code>ListActionExecutions</code> call, which can be used to return the next
+  /// set of action executions in the list.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListActionExecutionsInput({
+    @_s.required this.pipelineName,
+    this.filter,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListActionExecutionsInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListActionExecutionsOutput {
@@ -3969,6 +4371,29 @@ class ListActionExecutionsOutput {
   });
   factory ListActionExecutionsOutput.fromJson(Map<String, dynamic> json) =>
       _$ListActionExecutionsOutputFromJson(json);
+}
+
+/// Represents the input of a <code>ListActionTypes</code> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListActionTypesInput {
+  /// Filters the list of action types to those created by a specified entity.
+  @_s.JsonKey(name: 'actionOwnerFilter')
+  final ActionOwner actionOwnerFilter;
+
+  /// An identifier that was returned from the previous list action types call,
+  /// which can be used to return the next set of action types in the list.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListActionTypesInput({
+    this.actionOwnerFilter,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListActionTypesInputToJson(this);
 }
 
 /// Represents the output of a <code>ListActionTypes</code> action.
@@ -3996,6 +4421,39 @@ class ListActionTypesOutput {
       _$ListActionTypesOutputFromJson(json);
 }
 
+/// Represents the input of a <code>ListPipelineExecutions</code> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListPipelineExecutionsInput {
+  /// The name of the pipeline for which you want to get execution summary
+  /// information.
+  @_s.JsonKey(name: 'pipelineName')
+  final String pipelineName;
+
+  /// The maximum number of results to return in a single call. To retrieve the
+  /// remaining results, make another call with the returned nextToken value.
+  /// Pipeline history is limited to the most recent 12 months, based on pipeline
+  /// execution start times. Default value is 100.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The token that was returned from the previous
+  /// <code>ListPipelineExecutions</code> call, which can be used to return the
+  /// next set of pipeline executions in the list.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListPipelineExecutionsInput({
+    @_s.required this.pipelineName,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListPipelineExecutionsInputToJson(this);
+}
+
 /// Represents the output of a <code>ListPipelineExecutions</code> action.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -4021,6 +4479,24 @@ class ListPipelineExecutionsOutput {
       _$ListPipelineExecutionsOutputFromJson(json);
 }
 
+/// Represents the input of a <code>ListPipelines</code> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListPipelinesInput {
+  /// An identifier that was returned from the previous list pipelines call. It
+  /// can be used to return the next set of pipelines in the list.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListPipelinesInput({
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListPipelinesInputToJson(this);
+}
+
 /// Represents the output of a <code>ListPipelines</code> action.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -4044,6 +4520,34 @@ class ListPipelinesOutput {
   });
   factory ListPipelinesOutput.fromJson(Map<String, dynamic> json) =>
       _$ListPipelinesOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceInput {
+  /// The Amazon Resource Name (ARN) of the resource to get tags for.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  /// The maximum number of results to return in a single call.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The token that was returned from the previous API call, which would be used
+  /// to return the next page of the list. The ListTagsforResource call lists all
+  /// available tags in one call and does not use pagination.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListTagsForResourceInput({
+    @_s.required this.resourceArn,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4126,6 +4630,29 @@ class ListWebhookItem {
   });
   factory ListWebhookItem.fromJson(Map<String, dynamic> json) =>
       _$ListWebhookItemFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListWebhooksInput {
+  /// The maximum number of results to return in a single call. To retrieve the
+  /// remaining results, make another call with the returned nextToken value.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token that was returned from the previous ListWebhooks call, which can
+  /// be used to return the next set of webhooks in the list.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListWebhooksInput({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListWebhooksInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4539,6 +5066,36 @@ class PipelineSummary {
       _$PipelineSummaryFromJson(json);
 }
 
+/// Represents the input of a <code>PollForJobs</code> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PollForJobsInput {
+  /// Represents information about an action type.
+  @_s.JsonKey(name: 'actionTypeId')
+  final ActionTypeId actionTypeId;
+
+  /// The maximum number of jobs to return in a poll for jobs call.
+  @_s.JsonKey(name: 'maxBatchSize')
+  final int maxBatchSize;
+
+  /// A map of property names and values. For an action type with no queryable
+  /// properties, this value must be null or an empty map. For an action type with
+  /// a queryable property, you must supply that property as a key in the map.
+  /// Only jobs whose action configuration matches the mapped value are returned.
+  @_s.JsonKey(name: 'queryParam')
+  final Map<String, String> queryParam;
+
+  PollForJobsInput({
+    @_s.required this.actionTypeId,
+    this.maxBatchSize,
+    this.queryParam,
+  });
+  Map<String, dynamic> toJson() => _$PollForJobsInputToJson(this);
+}
+
 /// Represents the output of a <code>PollForJobs</code> action.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -4557,6 +5114,28 @@ class PollForJobsOutput {
       _$PollForJobsOutputFromJson(json);
 }
 
+/// Represents the input of a <code>PollForThirdPartyJobs</code> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PollForThirdPartyJobsInput {
+  /// Represents information about an action type.
+  @_s.JsonKey(name: 'actionTypeId')
+  final ActionTypeId actionTypeId;
+
+  /// The maximum number of jobs to return in a poll for jobs call.
+  @_s.JsonKey(name: 'maxBatchSize')
+  final int maxBatchSize;
+
+  PollForThirdPartyJobsInput({
+    @_s.required this.actionTypeId,
+    this.maxBatchSize,
+  });
+  Map<String, dynamic> toJson() => _$PollForThirdPartyJobsInputToJson(this);
+}
+
 /// Represents the output of a <code>PollForThirdPartyJobs</code> action.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -4573,6 +5152,38 @@ class PollForThirdPartyJobsOutput {
   });
   factory PollForThirdPartyJobsOutput.fromJson(Map<String, dynamic> json) =>
       _$PollForThirdPartyJobsOutputFromJson(json);
+}
+
+/// Represents the input of a <code>PutActionRevision</code> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutActionRevisionInput {
+  /// The name of the action that processes the revision.
+  @_s.JsonKey(name: 'actionName')
+  final String actionName;
+
+  /// Represents information about the version (or revision) of an action.
+  @_s.JsonKey(name: 'actionRevision')
+  final ActionRevision actionRevision;
+
+  /// The name of the pipeline that starts processing the revision to the source.
+  @_s.JsonKey(name: 'pipelineName')
+  final String pipelineName;
+
+  /// The name of the stage that contains the action that acts on the revision.
+  @_s.JsonKey(name: 'stageName')
+  final String stageName;
+
+  PutActionRevisionInput({
+    @_s.required this.actionName,
+    @_s.required this.actionRevision,
+    @_s.required this.pipelineName,
+    @_s.required this.stageName,
+  });
+  Map<String, dynamic> toJson() => _$PutActionRevisionInputToJson(this);
 }
 
 /// Represents the output of a <code>PutActionRevision</code> action.
@@ -4599,6 +5210,46 @@ class PutActionRevisionOutput {
       _$PutActionRevisionOutputFromJson(json);
 }
 
+/// Represents the input of a <code>PutApprovalResult</code> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutApprovalResultInput {
+  /// The name of the action for which approval is requested.
+  @_s.JsonKey(name: 'actionName')
+  final String actionName;
+
+  /// The name of the pipeline that contains the action.
+  @_s.JsonKey(name: 'pipelineName')
+  final String pipelineName;
+
+  /// Represents information about the result of the approval request.
+  @_s.JsonKey(name: 'result')
+  final ApprovalResult result;
+
+  /// The name of the stage that contains the action.
+  @_s.JsonKey(name: 'stageName')
+  final String stageName;
+
+  /// The system-generated token used to identify a unique approval request. The
+  /// token for each open approval request can be obtained using the
+  /// <a>GetPipelineState</a> action. It is used to validate that the approval
+  /// request corresponding to this token is still valid.
+  @_s.JsonKey(name: 'token')
+  final String token;
+
+  PutApprovalResultInput({
+    @_s.required this.actionName,
+    @_s.required this.pipelineName,
+    @_s.required this.result,
+    @_s.required this.stageName,
+    @_s.required this.token,
+  });
+  Map<String, dynamic> toJson() => _$PutApprovalResultInputToJson(this);
+}
+
 /// Represents the output of a <code>PutApprovalResult</code> action.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -4618,6 +5269,177 @@ class PutApprovalResultOutput {
   });
   factory PutApprovalResultOutput.fromJson(Map<String, dynamic> json) =>
       _$PutApprovalResultOutputFromJson(json);
+}
+
+/// Represents the input of a <code>PutJobFailureResult</code> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutJobFailureResultInput {
+  /// The details about the failure of a job.
+  @_s.JsonKey(name: 'failureDetails')
+  final FailureDetails failureDetails;
+
+  /// The unique system-generated ID of the job that failed. This is the same ID
+  /// returned from <code>PollForJobs</code>.
+  @_s.JsonKey(name: 'jobId')
+  final String jobId;
+
+  PutJobFailureResultInput({
+    @_s.required this.failureDetails,
+    @_s.required this.jobId,
+  });
+  Map<String, dynamic> toJson() => _$PutJobFailureResultInputToJson(this);
+}
+
+/// Represents the input of a <code>PutJobSuccessResult</code> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutJobSuccessResultInput {
+  /// The unique system-generated ID of the job that succeeded. This is the same
+  /// ID returned from <code>PollForJobs</code>.
+  @_s.JsonKey(name: 'jobId')
+  final String jobId;
+
+  /// A token generated by a job worker, such as an AWS CodeDeploy deployment ID,
+  /// that a successful job provides to identify a custom action in progress.
+  /// Future jobs use this token to identify the running instance of the action.
+  /// It can be reused to return more information about the progress of the custom
+  /// action. When the action is complete, no continuation token should be
+  /// supplied.
+  @_s.JsonKey(name: 'continuationToken')
+  final String continuationToken;
+
+  /// The ID of the current revision of the artifact successfully worked on by the
+  /// job.
+  @_s.JsonKey(name: 'currentRevision')
+  final CurrentRevision currentRevision;
+
+  /// The execution details of the successful job, such as the actions taken by
+  /// the job worker.
+  @_s.JsonKey(name: 'executionDetails')
+  final ExecutionDetails executionDetails;
+
+  /// Key-value pairs produced as output by a job worker that can be made
+  /// available to a downstream action configuration. <code>outputVariables</code>
+  /// can be included only when there is no continuation token on the request.
+  @_s.JsonKey(name: 'outputVariables')
+  final Map<String, String> outputVariables;
+
+  PutJobSuccessResultInput({
+    @_s.required this.jobId,
+    this.continuationToken,
+    this.currentRevision,
+    this.executionDetails,
+    this.outputVariables,
+  });
+  Map<String, dynamic> toJson() => _$PutJobSuccessResultInputToJson(this);
+}
+
+/// Represents the input of a <code>PutThirdPartyJobFailureResult</code> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutThirdPartyJobFailureResultInput {
+  /// The clientToken portion of the clientId and clientToken pair used to verify
+  /// that the calling entity is allowed access to the job and its details.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// Represents information about failure details.
+  @_s.JsonKey(name: 'failureDetails')
+  final FailureDetails failureDetails;
+
+  /// The ID of the job that failed. This is the same ID returned from
+  /// <code>PollForThirdPartyJobs</code>.
+  @_s.JsonKey(name: 'jobId')
+  final String jobId;
+
+  PutThirdPartyJobFailureResultInput({
+    @_s.required this.clientToken,
+    @_s.required this.failureDetails,
+    @_s.required this.jobId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutThirdPartyJobFailureResultInputToJson(this);
+}
+
+/// Represents the input of a <code>PutThirdPartyJobSuccessResult</code> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutThirdPartyJobSuccessResultInput {
+  /// The clientToken portion of the clientId and clientToken pair used to verify
+  /// that the calling entity is allowed access to the job and its details.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// The ID of the job that successfully completed. This is the same ID returned
+  /// from <code>PollForThirdPartyJobs</code>.
+  @_s.JsonKey(name: 'jobId')
+  final String jobId;
+
+  /// A token generated by a job worker, such as an AWS CodeDeploy deployment ID,
+  /// that a successful job provides to identify a partner action in progress.
+  /// Future jobs use this token to identify the running instance of the action.
+  /// It can be reused to return more information about the progress of the
+  /// partner action. When the action is complete, no continuation token should be
+  /// supplied.
+  @_s.JsonKey(name: 'continuationToken')
+  final String continuationToken;
+
+  /// Represents information about a current revision.
+  @_s.JsonKey(name: 'currentRevision')
+  final CurrentRevision currentRevision;
+
+  /// The details of the actions taken and results produced on an artifact as it
+  /// passes through stages in the pipeline.
+  @_s.JsonKey(name: 'executionDetails')
+  final ExecutionDetails executionDetails;
+
+  PutThirdPartyJobSuccessResultInput({
+    @_s.required this.clientToken,
+    @_s.required this.jobId,
+    this.continuationToken,
+    this.currentRevision,
+    this.executionDetails,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutThirdPartyJobSuccessResultInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutWebhookInput {
+  /// The detail provided in an input file to create the webhook, such as the
+  /// webhook name, the pipeline name, and the action name. Give the webhook a
+  /// unique name that helps you identify it. You might name the webhook after the
+  /// pipeline and action it targets so that you can easily recognize what it's
+  /// used for later.
+  @_s.JsonKey(name: 'webhook')
+  final WebhookDefinition webhook;
+
+  /// The tags for the webhook.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  PutWebhookInput({
+    @_s.required this.webhook,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$PutWebhookInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4641,6 +5463,24 @@ class PutWebhookOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RegisterWebhookWithThirdPartyInput {
+  /// The name of an existing webhook created with PutWebhook to register with a
+  /// supported third party.
+  @_s.JsonKey(name: 'webhookName')
+  final String webhookName;
+
+  RegisterWebhookWithThirdPartyInput({
+    this.webhookName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$RegisterWebhookWithThirdPartyInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class RegisterWebhookWithThirdPartyOutput {
@@ -4648,6 +5488,41 @@ class RegisterWebhookWithThirdPartyOutput {
   factory RegisterWebhookWithThirdPartyOutput.fromJson(
           Map<String, dynamic> json) =>
       _$RegisterWebhookWithThirdPartyOutputFromJson(json);
+}
+
+/// Represents the input of a <code>RetryStageExecution</code> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RetryStageExecutionInput {
+  /// The ID of the pipeline execution in the failed stage to be retried. Use the
+  /// <a>GetPipelineState</a> action to retrieve the current pipelineExecutionId
+  /// of the failed stage
+  @_s.JsonKey(name: 'pipelineExecutionId')
+  final String pipelineExecutionId;
+
+  /// The name of the pipeline that contains the failed stage.
+  @_s.JsonKey(name: 'pipelineName')
+  final String pipelineName;
+
+  /// The scope of the retry attempt. Currently, the only supported value is
+  /// FAILED_ACTIONS.
+  @_s.JsonKey(name: 'retryMode')
+  final StageRetryMode retryMode;
+
+  /// The name of the failed stage to be retried.
+  @_s.JsonKey(name: 'stageName')
+  final String stageName;
+
+  RetryStageExecutionInput({
+    @_s.required this.pipelineExecutionId,
+    @_s.required this.pipelineName,
+    @_s.required this.retryMode,
+    @_s.required this.stageName,
+  });
+  Map<String, dynamic> toJson() => _$RetryStageExecutionInputToJson(this);
 }
 
 /// Represents the output of a <code>RetryStageExecution</code> action.
@@ -4846,16 +5721,6 @@ enum StageRetryMode {
   failedActions,
 }
 
-extension on StageRetryMode {
-  String toValue() {
-    switch (this) {
-      case StageRetryMode.failedActions:
-        return 'FAILED_ACTIONS';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Represents information about the state of the stage.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -4897,16 +5762,26 @@ enum StageTransitionType {
   outbound,
 }
 
-extension on StageTransitionType {
-  String toValue() {
-    switch (this) {
-      case StageTransitionType.inbound:
-        return 'Inbound';
-      case StageTransitionType.outbound:
-        return 'Outbound';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+/// Represents the input of a <code>StartPipelineExecution</code> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartPipelineExecutionInput {
+  /// The name of the pipeline to start.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The system-generated unique ID used to identify a unique execution request.
+  @_s.JsonKey(name: 'clientRequestToken')
+  final String clientRequestToken;
+
+  StartPipelineExecutionInput({
+    @_s.required this.name,
+    this.clientRequestToken,
+  });
+  Map<String, dynamic> toJson() => _$StartPipelineExecutionInputToJson(this);
 }
 
 /// Represents the output of a <code>StartPipelineExecution</code> action.
@@ -4948,6 +5823,44 @@ class StopExecutionTrigger {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopPipelineExecutionInput {
+  /// The ID of the pipeline execution to be stopped in the current stage. Use the
+  /// <code>GetPipelineState</code> action to retrieve the current
+  /// pipelineExecutionId.
+  @_s.JsonKey(name: 'pipelineExecutionId')
+  final String pipelineExecutionId;
+
+  /// The name of the pipeline to stop.
+  @_s.JsonKey(name: 'pipelineName')
+  final String pipelineName;
+
+  /// Use this option to stop the pipeline execution by abandoning, rather than
+  /// finishing, in-progress actions.
+  /// <note>
+  /// This option can lead to failed or out-of-sequence tasks.
+  /// </note>
+  @_s.JsonKey(name: 'abandon')
+  final bool abandon;
+
+  /// Use this option to enter comments, such as the reason the pipeline was
+  /// stopped.
+  @_s.JsonKey(name: 'reason')
+  final String reason;
+
+  StopPipelineExecutionInput({
+    @_s.required this.pipelineExecutionId,
+    @_s.required this.pipelineName,
+    this.abandon,
+    this.reason,
+  });
+  Map<String, dynamic> toJson() => _$StopPipelineExecutionInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StopPipelineExecutionOutput {
@@ -4984,6 +5897,27 @@ class Tag {
   factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
   Map<String, dynamic> toJson() => _$TagToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceInput {
+  /// The Amazon Resource Name (ARN) of the resource you want to add tags to.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  /// The tags you want to modify or add to the resource.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  TagResourceInput({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5179,12 +6113,50 @@ enum TriggerType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceInput {
+  /// The Amazon Resource Name (ARN) of the resource to remove tags from.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  /// The list of keys for the tags to be removed from the resource.
+  @_s.JsonKey(name: 'tagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceInput({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagResourceOutput {
   UntagResourceOutput();
   factory UntagResourceOutput.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceOutputFromJson(json);
+}
+
+/// Represents the input of an <code>UpdatePipeline</code> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdatePipelineInput {
+  /// The name of the pipeline to be updated.
+  @_s.JsonKey(name: 'pipeline')
+  final PipelineDeclaration pipeline;
+
+  UpdatePipelineInput({
+    @_s.required this.pipeline,
+  });
+  Map<String, dynamic> toJson() => _$UpdatePipelineInputToJson(this);
 }
 
 /// Represents the output of an <code>UpdatePipeline</code> action.

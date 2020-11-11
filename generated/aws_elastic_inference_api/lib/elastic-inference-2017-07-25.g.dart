@@ -15,9 +15,26 @@ ListTagsForResourceResult _$ListTagsForResourceResultFromJson(
   );
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
 TagResourceResult _$TagResourceResultFromJson(Map<String, dynamic> json) {
   return TagResourceResult();
 }
+
+Map<String, dynamic> _$UntagResourceRequestToJson(
+        UntagResourceRequest instance) =>
+    <String, dynamic>{};
 
 UntagResourceResult _$UntagResourceResultFromJson(Map<String, dynamic> json) {
   return UntagResourceResult();

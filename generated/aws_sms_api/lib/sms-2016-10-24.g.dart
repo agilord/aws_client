@@ -136,6 +136,25 @@ const _$VmManagerTypeEnumMap = {
   VmManagerType.hypervManager: 'HYPERV-MANAGER',
 };
 
+Map<String, dynamic> _$CreateAppRequestToJson(CreateAppRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('clientToken', instance.clientToken);
+  writeNotNull('description', instance.description);
+  writeNotNull('name', instance.name);
+  writeNotNull('roleName', instance.roleName);
+  writeNotNull(
+      'serverGroups', instance.serverGroups?.map((e) => e?.toJson())?.toList());
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateAppResponse _$CreateAppResponseFromJson(Map<String, dynamic> json) {
   return CreateAppResponse(
     appSummary: json['appSummary'] == null
@@ -151,6 +170,35 @@ CreateAppResponse _$CreateAppResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateReplicationJobRequestToJson(
+    CreateReplicationJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'seedReplicationTime', unixTimestampToJson(instance.seedReplicationTime));
+  writeNotNull('serverId', instance.serverId);
+  writeNotNull('description', instance.description);
+  writeNotNull('encrypted', instance.encrypted);
+  writeNotNull('frequency', instance.frequency);
+  writeNotNull('kmsKeyId', instance.kmsKeyId);
+  writeNotNull('licenseType', _$LicenseTypeEnumMap[instance.licenseType]);
+  writeNotNull('numberOfRecentAmisToKeep', instance.numberOfRecentAmisToKeep);
+  writeNotNull('roleName', instance.roleName);
+  writeNotNull('runOnce', instance.runOnce);
+  return val;
+}
+
+const _$LicenseTypeEnumMap = {
+  LicenseType.aws: 'AWS',
+  LicenseType.byol: 'BYOL',
+};
+
 CreateReplicationJobResponse _$CreateReplicationJobResponseFromJson(
     Map<String, dynamic> json) {
   return CreateReplicationJobResponse(
@@ -158,9 +206,37 @@ CreateReplicationJobResponse _$CreateReplicationJobResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteAppLaunchConfigurationRequestToJson(
+    DeleteAppLaunchConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('appId', instance.appId);
+  return val;
+}
+
 DeleteAppLaunchConfigurationResponse
     _$DeleteAppLaunchConfigurationResponseFromJson(Map<String, dynamic> json) {
   return DeleteAppLaunchConfigurationResponse();
+}
+
+Map<String, dynamic> _$DeleteAppReplicationConfigurationRequestToJson(
+    DeleteAppReplicationConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('appId', instance.appId);
+  return val;
 }
 
 DeleteAppReplicationConfigurationResponse
@@ -169,8 +245,37 @@ DeleteAppReplicationConfigurationResponse
   return DeleteAppReplicationConfigurationResponse();
 }
 
+Map<String, dynamic> _$DeleteAppRequestToJson(DeleteAppRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('appId', instance.appId);
+  writeNotNull('forceStopAppReplication', instance.forceStopAppReplication);
+  writeNotNull('forceTerminateApp', instance.forceTerminateApp);
+  return val;
+}
+
 DeleteAppResponse _$DeleteAppResponseFromJson(Map<String, dynamic> json) {
   return DeleteAppResponse();
+}
+
+Map<String, dynamic> _$DeleteReplicationJobRequestToJson(
+    DeleteReplicationJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('replicationJobId', instance.replicationJobId);
+  return val;
 }
 
 DeleteReplicationJobResponse _$DeleteReplicationJobResponseFromJson(
@@ -183,10 +288,45 @@ DeleteServerCatalogResponse _$DeleteServerCatalogResponseFromJson(
   return DeleteServerCatalogResponse();
 }
 
+Map<String, dynamic> _$DisassociateConnectorRequestToJson(
+    DisassociateConnectorRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('connectorId', instance.connectorId);
+  return val;
+}
+
 DisassociateConnectorResponse _$DisassociateConnectorResponseFromJson(
     Map<String, dynamic> json) {
   return DisassociateConnectorResponse();
 }
+
+Map<String, dynamic> _$GenerateChangeSetRequestToJson(
+    GenerateChangeSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('appId', instance.appId);
+  writeNotNull(
+      'changesetFormat', _$OutputFormatEnumMap[instance.changesetFormat]);
+  return val;
+}
+
+const _$OutputFormatEnumMap = {
+  OutputFormat.json: 'JSON',
+  OutputFormat.yaml: 'YAML',
+};
 
 GenerateChangeSetResponse _$GenerateChangeSetResponseFromJson(
     Map<String, dynamic> json) {
@@ -197,6 +337,22 @@ GenerateChangeSetResponse _$GenerateChangeSetResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$GenerateTemplateRequestToJson(
+    GenerateTemplateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('appId', instance.appId);
+  writeNotNull(
+      'templateFormat', _$OutputFormatEnumMap[instance.templateFormat]);
+  return val;
+}
+
 GenerateTemplateResponse _$GenerateTemplateResponseFromJson(
     Map<String, dynamic> json) {
   return GenerateTemplateResponse(
@@ -204,6 +360,20 @@ GenerateTemplateResponse _$GenerateTemplateResponseFromJson(
         ? null
         : S3Location.fromJson(json['s3Location'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetAppLaunchConfigurationRequestToJson(
+    GetAppLaunchConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('appId', instance.appId);
+  return val;
 }
 
 GetAppLaunchConfigurationResponse _$GetAppLaunchConfigurationResponseFromJson(
@@ -221,6 +391,20 @@ GetAppLaunchConfigurationResponse _$GetAppLaunchConfigurationResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$GetAppReplicationConfigurationRequestToJson(
+    GetAppReplicationConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('appId', instance.appId);
+  return val;
+}
+
 GetAppReplicationConfigurationResponse
     _$GetAppReplicationConfigurationResponseFromJson(
         Map<String, dynamic> json) {
@@ -233,6 +417,19 @@ GetAppReplicationConfigurationResponse
                     e as Map<String, dynamic>))
             ?.toList(),
   );
+}
+
+Map<String, dynamic> _$GetAppRequestToJson(GetAppRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('appId', instance.appId);
+  return val;
 }
 
 GetAppResponse _$GetAppResponseFromJson(Map<String, dynamic> json) {
@@ -250,6 +447,21 @@ GetAppResponse _$GetAppResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetConnectorsRequestToJson(
+    GetConnectorsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 GetConnectorsResponse _$GetConnectorsResponseFromJson(
     Map<String, dynamic> json) {
   return GetConnectorsResponse(
@@ -259,6 +471,22 @@ GetConnectorsResponse _$GetConnectorsResponseFromJson(
         ?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$GetReplicationJobsRequestToJson(
+    GetReplicationJobsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('replicationJobId', instance.replicationJobId);
+  return val;
 }
 
 GetReplicationJobsResponse _$GetReplicationJobsResponseFromJson(
@@ -271,6 +499,22 @@ GetReplicationJobsResponse _$GetReplicationJobsResponseFromJson(
             : ReplicationJob.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$GetReplicationRunsRequestToJson(
+    GetReplicationRunsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('replicationJobId', instance.replicationJobId);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 GetReplicationRunsResponse _$GetReplicationRunsResponseFromJson(
@@ -287,6 +531,22 @@ GetReplicationRunsResponse _$GetReplicationRunsResponseFromJson(
             : ReplicationRun.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$GetServersRequestToJson(GetServersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('vmServerAddressList',
+      instance.vmServerAddressList?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 GetServersResponse _$GetServersResponseFromJson(Map<String, dynamic> json) {
@@ -315,6 +575,19 @@ ImportServerCatalogResponse _$ImportServerCatalogResponseFromJson(
   return ImportServerCatalogResponse();
 }
 
+Map<String, dynamic> _$LaunchAppRequestToJson(LaunchAppRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('appId', instance.appId);
+  return val;
+}
+
 LaunchAppResponse _$LaunchAppResponseFromJson(Map<String, dynamic> json) {
   return LaunchAppResponse();
 }
@@ -327,6 +600,21 @@ LaunchDetails _$LaunchDetailsFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ListAppsRequestToJson(ListAppsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('appIds', instance.appIds);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 ListAppsResponse _$ListAppsResponseFromJson(Map<String, dynamic> json) {
   return ListAppsResponse(
     apps: (json['apps'] as List)
@@ -337,9 +625,48 @@ ListAppsResponse _$ListAppsResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$PutAppLaunchConfigurationRequestToJson(
+    PutAppLaunchConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('appId', instance.appId);
+  writeNotNull('roleName', instance.roleName);
+  writeNotNull(
+      'serverGroupLaunchConfigurations',
+      instance.serverGroupLaunchConfigurations
+          ?.map((e) => e?.toJson())
+          ?.toList());
+  return val;
+}
+
 PutAppLaunchConfigurationResponse _$PutAppLaunchConfigurationResponseFromJson(
     Map<String, dynamic> json) {
   return PutAppLaunchConfigurationResponse();
+}
+
+Map<String, dynamic> _$PutAppReplicationConfigurationRequestToJson(
+    PutAppReplicationConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('appId', instance.appId);
+  writeNotNull(
+      'serverGroupReplicationConfigurations',
+      instance.serverGroupReplicationConfigurations
+          ?.map((e) => e?.toJson())
+          ?.toList());
+  return val;
 }
 
 PutAppReplicationConfigurationResponse
@@ -378,11 +705,6 @@ ReplicationJob _$ReplicationJobFromJson(Map<String, dynamic> json) {
         : VmServer.fromJson(json['vmServer'] as Map<String, dynamic>),
   );
 }
-
-const _$LicenseTypeEnumMap = {
-  LicenseType.aws: 'AWS',
-  LicenseType.byol: 'BYOL',
-};
 
 const _$ServerTypeEnumMap = {
   ServerType.virtualMachine: 'VIRTUAL_MACHINE',
@@ -685,9 +1007,38 @@ Map<String, dynamic> _$ServerReplicationParametersToJson(
   return val;
 }
 
+Map<String, dynamic> _$StartAppReplicationRequestToJson(
+    StartAppReplicationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('appId', instance.appId);
+  return val;
+}
+
 StartAppReplicationResponse _$StartAppReplicationResponseFromJson(
     Map<String, dynamic> json) {
   return StartAppReplicationResponse();
+}
+
+Map<String, dynamic> _$StartOnDemandReplicationRunRequestToJson(
+    StartOnDemandReplicationRunRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('replicationJobId', instance.replicationJobId);
+  writeNotNull('description', instance.description);
+  return val;
 }
 
 StartOnDemandReplicationRunResponse
@@ -695,6 +1046,20 @@ StartOnDemandReplicationRunResponse
   return StartOnDemandReplicationRunResponse(
     replicationRunId: json['replicationRunId'] as String,
   );
+}
+
+Map<String, dynamic> _$StopAppReplicationRequestToJson(
+    StopAppReplicationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('appId', instance.appId);
+  return val;
 }
 
 StopAppReplicationResponse _$StopAppReplicationResponseFromJson(
@@ -723,8 +1088,40 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
   return val;
 }
 
+Map<String, dynamic> _$TerminateAppRequestToJson(TerminateAppRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('appId', instance.appId);
+  return val;
+}
+
 TerminateAppResponse _$TerminateAppResponseFromJson(Map<String, dynamic> json) {
   return TerminateAppResponse();
+}
+
+Map<String, dynamic> _$UpdateAppRequestToJson(UpdateAppRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('appId', instance.appId);
+  writeNotNull('description', instance.description);
+  writeNotNull('name', instance.name);
+  writeNotNull('roleName', instance.roleName);
+  writeNotNull(
+      'serverGroups', instance.serverGroups?.map((e) => e?.toJson())?.toList());
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 UpdateAppResponse _$UpdateAppResponseFromJson(Map<String, dynamic> json) {
@@ -740,6 +1137,29 @@ UpdateAppResponse _$UpdateAppResponseFromJson(Map<String, dynamic> json) {
         ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$UpdateReplicationJobRequestToJson(
+    UpdateReplicationJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('replicationJobId', instance.replicationJobId);
+  writeNotNull('description', instance.description);
+  writeNotNull('encrypted', instance.encrypted);
+  writeNotNull('frequency', instance.frequency);
+  writeNotNull('kmsKeyId', instance.kmsKeyId);
+  writeNotNull('licenseType', _$LicenseTypeEnumMap[instance.licenseType]);
+  writeNotNull('nextReplicationRunStartTime',
+      unixTimestampToJson(instance.nextReplicationRunStartTime));
+  writeNotNull('numberOfRecentAmisToKeep', instance.numberOfRecentAmisToKeep);
+  writeNotNull('roleName', instance.roleName);
+  return val;
 }
 
 UpdateReplicationJobResponse _$UpdateReplicationJobResponseFromJson(

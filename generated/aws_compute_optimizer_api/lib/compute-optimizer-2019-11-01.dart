@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -115,14 +114,13 @@ class ComputeOptimizer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (accountIds != null) 'accountIds': accountIds,
-        if (autoScalingGroupArns != null)
-          'autoScalingGroupArns': autoScalingGroupArns,
-        if (filters != null) 'filters': filters,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: GetAutoScalingGroupRecommendationsRequest(
+        accountIds: accountIds,
+        autoScalingGroupArns: autoScalingGroupArns,
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return GetAutoScalingGroupRecommendationsResponse.fromJson(
@@ -186,13 +184,13 @@ class ComputeOptimizer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (accountIds != null) 'accountIds': accountIds,
-        if (filters != null) 'filters': filters,
-        if (instanceArns != null) 'instanceArns': instanceArns,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: GetEC2InstanceRecommendationsRequest(
+        accountIds: accountIds,
+        filters: filters,
+        instanceArns: instanceArns,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return GetEC2InstanceRecommendationsResponse.fromJson(jsonResponse.body);
@@ -249,13 +247,13 @@ class ComputeOptimizer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'endTime': endTime,
-        'instanceArn': instanceArn,
-        'period': period,
-        'startTime': startTime,
-        'stat': stat?.toValue(),
-      },
+      payload: GetEC2RecommendationProjectedMetricsRequest(
+        endTime: endTime,
+        instanceArn: instanceArn,
+        period: period,
+        startTime: startTime,
+        stat: stat,
+      ),
     );
 
     return GetEC2RecommendationProjectedMetricsResponse.fromJson(
@@ -334,11 +332,11 @@ class ComputeOptimizer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (accountIds != null) 'accountIds': accountIds,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: GetRecommendationSummariesRequest(
+        accountIds: accountIds,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return GetRecommendationSummariesResponse.fromJson(jsonResponse.body);
@@ -382,11 +380,10 @@ class ComputeOptimizer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'status': status?.toValue(),
-        if (includeMemberAccounts != null)
-          'includeMemberAccounts': includeMemberAccounts,
-      },
+      payload: UpdateEnrollmentStatusRequest(
+        status: status,
+        includeMemberAccounts: includeMemberAccounts,
+      ),
     );
 
     return UpdateEnrollmentStatusResponse.fromJson(jsonResponse.body);
@@ -619,6 +616,51 @@ enum Finding {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetAutoScalingGroupRecommendationsRequest {
+  /// The AWS account IDs for which to return Auto Scaling group recommendations.
+  ///
+  /// Only one account ID can be specified per request.
+  @_s.JsonKey(name: 'accountIds')
+  final List<String> accountIds;
+
+  /// The Amazon Resource Name (ARN) of the Auto Scaling groups for which to
+  /// return recommendations.
+  @_s.JsonKey(name: 'autoScalingGroupArns')
+  final List<String> autoScalingGroupArns;
+
+  /// An array of objects that describe a filter that returns a more specific list
+  /// of Auto Scaling group recommendations.
+  @_s.JsonKey(name: 'filters')
+  final List<Filter> filters;
+
+  /// The maximum number of Auto Scaling group recommendations to return with a
+  /// single call.
+  ///
+  /// To retrieve the remaining results, make another call with the returned
+  /// <code>NextToken</code> value.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The token to advance to the next page of Auto Scaling group recommendations.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  GetAutoScalingGroupRecommendationsRequest({
+    this.accountIds,
+    this.autoScalingGroupArns,
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetAutoScalingGroupRecommendationsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetAutoScalingGroupRecommendationsResponse {
@@ -654,6 +696,50 @@ class GetAutoScalingGroupRecommendationsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetEC2InstanceRecommendationsRequest {
+  /// The AWS account IDs for which to return instance recommendations.
+  ///
+  /// Only one account ID can be specified per request.
+  @_s.JsonKey(name: 'accountIds')
+  final List<String> accountIds;
+
+  /// An array of objects that describe a filter that returns a more specific list
+  /// of instance recommendations.
+  @_s.JsonKey(name: 'filters')
+  final List<Filter> filters;
+
+  /// The Amazon Resource Name (ARN) of the instances for which to return
+  /// recommendations.
+  @_s.JsonKey(name: 'instanceArns')
+  final List<String> instanceArns;
+
+  /// The maximum number of instance recommendations to return with a single call.
+  ///
+  /// To retrieve the remaining results, make another call with the returned
+  /// <code>NextToken</code> value.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The token to advance to the next page of instance recommendations.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  GetEC2InstanceRecommendationsRequest({
+    this.accountIds,
+    this.filters,
+    this.instanceArns,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetEC2InstanceRecommendationsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetEC2InstanceRecommendationsResponse {
@@ -683,6 +769,50 @@ class GetEC2InstanceRecommendationsResponse {
   factory GetEC2InstanceRecommendationsResponse.fromJson(
           Map<String, dynamic> json) =>
       _$GetEC2InstanceRecommendationsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetEC2RecommendationProjectedMetricsRequest {
+  /// The time stamp of the last projected metrics data point to return.
+  @_s.JsonKey(
+      name: 'endTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime endTime;
+
+  /// The Amazon Resource Name (ARN) of the instances for which to return
+  /// recommendation projected metrics.
+  @_s.JsonKey(name: 'instanceArn')
+  final String instanceArn;
+
+  /// The granularity, in seconds, of the projected metrics data points.
+  @_s.JsonKey(name: 'period')
+  final int period;
+
+  /// The time stamp of the first projected metrics data point to return.
+  @_s.JsonKey(
+      name: 'startTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime startTime;
+
+  /// The statistic of the projected metrics.
+  @_s.JsonKey(name: 'stat')
+  final MetricStatistic stat;
+
+  GetEC2RecommendationProjectedMetricsRequest({
+    @_s.required this.endTime,
+    @_s.required this.instanceArn,
+    @_s.required this.period,
+    @_s.required this.startTime,
+    @_s.required this.stat,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetEC2RecommendationProjectedMetricsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -766,6 +896,38 @@ class GetRecommendationError {
   });
   factory GetRecommendationError.fromJson(Map<String, dynamic> json) =>
       _$GetRecommendationErrorFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetRecommendationSummariesRequest {
+  /// The AWS account IDs for which to return recommendation summaries.
+  ///
+  /// Only one account ID can be specified per request.
+  @_s.JsonKey(name: 'accountIds')
+  final List<String> accountIds;
+
+  /// The maximum number of recommendation summaries to return with a single call.
+  ///
+  /// To retrieve the remaining results, make another call with the returned
+  /// <code>NextToken</code> value.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The token to advance to the next page of recommendation summaries.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  GetRecommendationSummariesRequest({
+    this.accountIds,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetRecommendationSummariesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -949,18 +1111,6 @@ enum MetricStatistic {
   average,
 }
 
-extension on MetricStatistic {
-  String toValue() {
-    switch (this) {
-      case MetricStatistic.maximum:
-        return 'Maximum';
-      case MetricStatistic.average:
-        return 'Average';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Describes a projected utilization metric of a recommendation option, such as
 /// an Amazon EC2 instance.
 @_s.JsonSerializable(
@@ -1102,22 +1252,6 @@ enum Status {
   failed,
 }
 
-extension on Status {
-  String toValue() {
-    switch (this) {
-      case Status.active:
-        return 'Active';
-      case Status.inactive:
-        return 'Inactive';
-      case Status.pending:
-        return 'Pending';
-      case Status.failed:
-        return 'Failed';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// The summary of a recommendation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1139,6 +1273,31 @@ class Summary {
   });
   factory Summary.fromJson(Map<String, dynamic> json) =>
       _$SummaryFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateEnrollmentStatusRequest {
+  /// The new enrollment status of the account.
+  ///
+  /// Accepted options are <code>Active</code> or <code>Inactive</code>. You will
+  /// get an error if <code>Pending</code> or <code>Failed</code> are specified.
+  @_s.JsonKey(name: 'status')
+  final Status status;
+
+  /// Indicates whether to enroll member accounts within the organization, if the
+  /// account is a master account of an organization.
+  @_s.JsonKey(name: 'includeMemberAccounts')
+  final bool includeMemberAccounts;
+
+  UpdateEnrollmentStatusRequest({
+    @_s.required this.status,
+    this.includeMemberAccounts,
+  });
+  Map<String, dynamic> toJson() => _$UpdateEnrollmentStatusRequestToJson(this);
 }
 
 @_s.JsonSerializable(

@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -101,13 +100,13 @@ class DLM {
     );
     ArgumentError.checkNotNull(policyDetails, 'policyDetails');
     ArgumentError.checkNotNull(state, 'state');
-    final $payload = <String, dynamic>{
-      'Description': description,
-      'ExecutionRoleArn': executionRoleArn,
-      'PolicyDetails': policyDetails,
-      'State': state?.toValue(),
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = CreateLifecyclePolicyRequest(
+      description: description,
+      executionRoleArn: executionRoleArn,
+      policyDetails: policyDetails,
+      state: state,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -143,7 +142,9 @@ class DLM {
       r'''policy-[A-Za-z0-9]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteLifecyclePolicyRequest(
+      policyId: policyId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -307,9 +308,10 @@ class DLM {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'Tags': tags,
-    };
+    final $payload = TagResourceRequest(
+      resourceArn: resourceArn,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -353,7 +355,10 @@ class DLM {
     _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = UntagResourceRequest(
+      resourceArn: resourceArn,
+      tagKeys: tagKeys,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -429,12 +434,13 @@ class DLM {
       executionRoleArn,
       r'''arn:aws(-[a-z]{1,3}){0,2}:iam::\d+:role/.*''',
     );
-    final $payload = <String, dynamic>{
-      if (description != null) 'Description': description,
-      if (executionRoleArn != null) 'ExecutionRoleArn': executionRoleArn,
-      if (policyDetails != null) 'PolicyDetails': policyDetails,
-      if (state != null) 'State': state?.toValue(),
-    };
+    final $payload = UpdateLifecyclePolicyRequest(
+      policyId: policyId,
+      description: description,
+      executionRoleArn: executionRoleArn,
+      policyDetails: policyDetails,
+      state: state,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -443,6 +449,44 @@ class DLM {
     );
     return UpdateLifecyclePolicyResponse.fromJson(response);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateLifecyclePolicyRequest {
+  /// A description of the lifecycle policy. The characters ^[0-9A-Za-z _-]+$ are
+  /// supported.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The Amazon Resource Name (ARN) of the IAM role used to run the operations
+  /// specified by the lifecycle policy.
+  @_s.JsonKey(name: 'ExecutionRoleArn')
+  final String executionRoleArn;
+
+  /// The configuration details of the lifecycle policy.
+  @_s.JsonKey(name: 'PolicyDetails')
+  final PolicyDetails policyDetails;
+
+  /// The desired activation state of the lifecycle policy after creation.
+  @_s.JsonKey(name: 'State')
+  final SettablePolicyStateValues state;
+
+  /// The tags to apply to the lifecycle policy during creation.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  CreateLifecyclePolicyRequest({
+    @_s.required this.description,
+    @_s.required this.executionRoleArn,
+    @_s.required this.policyDetails,
+    @_s.required this.state,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateLifecyclePolicyRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -564,6 +608,22 @@ class CrossRegionCopyRule {
       _$CrossRegionCopyRuleFromJson(json);
 
   Map<String, dynamic> toJson() => _$CrossRegionCopyRuleToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteLifecyclePolicyRequest {
+  /// The identifier of the lifecycle policy.
+  @_s.JsonKey(name: 'policyId', ignore: true)
+  final String policyId;
+
+  DeleteLifecyclePolicyRequest({
+    @_s.required this.policyId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteLifecyclePolicyRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -966,18 +1026,6 @@ enum SettablePolicyStateValues {
   disabled,
 }
 
-extension on SettablePolicyStateValues {
-  String toValue() {
-    switch (this) {
-      case SettablePolicyStateValues.enabled:
-        return 'ENABLED';
-      case SettablePolicyStateValues.disabled:
-        return 'DISABLED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Specifies a tag for a resource.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1005,6 +1053,27 @@ class Tag {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource.
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  /// One or more tags.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagResourceResponse {
@@ -1016,12 +1085,71 @@ class TagResourceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource.
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  /// The tag keys.
+  @_s.JsonKey(name: 'tagKeys', ignore: true)
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
   factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateLifecyclePolicyRequest {
+  /// The identifier of the lifecycle policy.
+  @_s.JsonKey(name: 'policyId', ignore: true)
+  final String policyId;
+
+  /// A description of the lifecycle policy.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The Amazon Resource Name (ARN) of the IAM role used to run the operations
+  /// specified by the lifecycle policy.
+  @_s.JsonKey(name: 'ExecutionRoleArn')
+  final String executionRoleArn;
+
+  /// The configuration of the lifecycle policy. You cannot update the policy type
+  /// or the resource type.
+  @_s.JsonKey(name: 'PolicyDetails')
+  final PolicyDetails policyDetails;
+
+  /// The desired activation state of the lifecycle policy after creation.
+  @_s.JsonKey(name: 'State')
+  final SettablePolicyStateValues state;
+
+  UpdateLifecyclePolicyRequest({
+    @_s.required this.policyId,
+    this.description,
+    this.executionRoleArn,
+    this.policyDetails,
+    this.state,
+  });
+  Map<String, dynamic> toJson() => _$UpdateLifecyclePolicyRequestToJson(this);
 }
 
 @_s.JsonSerializable(

@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -20,6 +19,8 @@ import 'package:shared_aws_api/shared.dart'
         unixTimestampToJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
+
+part 'nested_blobs.g.dart';
 
 /// Nested blobs
 class NestedBlobs {
@@ -50,11 +51,27 @@ class NestedBlobs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (listParam != null) 'ListParam': listParam,
-      },
+      payload: InputShape(
+        listParam: listParam,
+      ),
     );
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class InputShape {
+  @Uint8ListConverter()
+  @_s.JsonKey(name: 'ListParam')
+  final List<Uint8List> listParam;
+
+  InputShape({
+    this.listParam,
+  });
+  Map<String, dynamic> toJson() => _$InputShapeToJson(this);
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

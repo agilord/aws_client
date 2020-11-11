@@ -69,6 +69,87 @@ const _$LifeCycleStateEnumMap = {
   LifeCycleState.deleted: 'deleted',
 };
 
+Map<String, dynamic> _$CreateAccessPointRequestToJson(
+    CreateAccessPointRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClientToken', instance.clientToken);
+  writeNotNull('FileSystemId', instance.fileSystemId);
+  writeNotNull('PosixUser', instance.posixUser?.toJson());
+  writeNotNull('RootDirectory', instance.rootDirectory?.toJson());
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+Map<String, dynamic> _$CreateFileSystemRequestToJson(
+    CreateFileSystemRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CreationToken', instance.creationToken);
+  writeNotNull('Encrypted', instance.encrypted);
+  writeNotNull('KmsKeyId', instance.kmsKeyId);
+  writeNotNull(
+      'PerformanceMode', _$PerformanceModeEnumMap[instance.performanceMode]);
+  writeNotNull(
+      'ProvisionedThroughputInMibps', instance.provisionedThroughputInMibps);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'ThroughputMode', _$ThroughputModeEnumMap[instance.throughputMode]);
+  return val;
+}
+
+const _$PerformanceModeEnumMap = {
+  PerformanceMode.generalPurpose: 'generalPurpose',
+  PerformanceMode.maxIO: 'maxIO',
+};
+
+const _$ThroughputModeEnumMap = {
+  ThroughputMode.bursting: 'bursting',
+  ThroughputMode.provisioned: 'provisioned',
+};
+
+Map<String, dynamic> _$CreateMountTargetRequestToJson(
+    CreateMountTargetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FileSystemId', instance.fileSystemId);
+  writeNotNull('SubnetId', instance.subnetId);
+  writeNotNull('IpAddress', instance.ipAddress);
+  writeNotNull('SecurityGroups', instance.securityGroups);
+  return val;
+}
+
+Map<String, dynamic> _$CreateTagsRequestToJson(CreateTagsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreationInfo _$CreationInfoFromJson(Map<String, dynamic> json) {
   return CreationInfo(
     ownerGid: json['OwnerGid'] as int,
@@ -89,6 +170,35 @@ Map<String, dynamic> _$CreationInfoToJson(CreationInfo instance) {
   writeNotNull('OwnerGid', instance.ownerGid);
   writeNotNull('OwnerUid', instance.ownerUid);
   writeNotNull('Permissions', instance.permissions);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteAccessPointRequestToJson(
+        DeleteAccessPointRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteFileSystemPolicyRequestToJson(
+        DeleteFileSystemPolicyRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteFileSystemRequestToJson(
+        DeleteFileSystemRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteMountTargetRequestToJson(
+        DeleteMountTargetRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteTagsRequestToJson(DeleteTagsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TagKeys', instance.tagKeys);
   return val;
 }
 
@@ -177,16 +287,6 @@ FileSystemDescription _$FileSystemDescriptionFromJson(
   );
 }
 
-const _$PerformanceModeEnumMap = {
-  PerformanceMode.generalPurpose: 'generalPurpose',
-  PerformanceMode.maxIO: 'maxIO',
-};
-
-const _$ThroughputModeEnumMap = {
-  ThroughputMode.bursting: 'bursting',
-  ThroughputMode.provisioned: 'provisioned',
-};
-
 FileSystemPolicyDescription _$FileSystemPolicyDescriptionFromJson(
     Map<String, dynamic> json) {
   return FileSystemPolicyDescription(
@@ -254,6 +354,20 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ModifyMountTargetSecurityGroupsRequestToJson(
+    ModifyMountTargetSecurityGroupsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SecurityGroups', instance.securityGroups);
+  return val;
+}
+
 MountTargetDescription _$MountTargetDescriptionFromJson(
     Map<String, dynamic> json) {
   return MountTargetDescription(
@@ -291,6 +405,37 @@ Map<String, dynamic> _$PosixUserToJson(PosixUser instance) {
   writeNotNull('Gid', instance.gid);
   writeNotNull('Uid', instance.uid);
   writeNotNull('SecondaryGids', instance.secondaryGids);
+  return val;
+}
+
+Map<String, dynamic> _$PutFileSystemPolicyRequestToJson(
+    PutFileSystemPolicyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Policy', instance.policy);
+  writeNotNull('BypassPolicyLockoutSafetyCheck',
+      instance.bypassPolicyLockoutSafetyCheck);
+  return val;
+}
+
+Map<String, dynamic> _$PutLifecycleConfigurationRequestToJson(
+    PutLifecycleConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LifecyclePolicies',
+      instance.lifecyclePolicies?.map((e) => e?.toJson())?.toList());
   return val;
 }
 
@@ -335,5 +480,49 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
 
   writeNotNull('Key', instance.key);
   writeNotNull('Value', instance.value);
+  return val;
+}
+
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+Map<String, dynamic> _$UntagResourceRequestToJson(
+    UntagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
+}
+
+Map<String, dynamic> _$UpdateFileSystemRequestToJson(
+    UpdateFileSystemRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'ProvisionedThroughputInMibps', instance.provisionedThroughputInMibps);
+  writeNotNull(
+      'ThroughputMode', _$ThroughputModeEnumMap[instance.throughputMode]);
   return val;
 }

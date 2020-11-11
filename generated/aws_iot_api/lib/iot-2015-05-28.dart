@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -87,7 +86,10 @@ class IoT {
     _query = '?${[
       if (setAsActive != null) _s.toQueryParam('setAsActive', setAsActive),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = AcceptCertificateTransferRequest(
+      certificateId: certificateId,
+      setAsActive: setAsActive,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -143,12 +145,12 @@ class IoT {
       thingName,
       r'''[a-zA-Z0-9:_-]+''',
     );
-    final $payload = <String, dynamic>{
-      if (billingGroupArn != null) 'billingGroupArn': billingGroupArn,
-      if (billingGroupName != null) 'billingGroupName': billingGroupName,
-      if (thingArn != null) 'thingArn': thingArn,
-      if (thingName != null) 'thingName': thingName,
-    };
+    final $payload = AddThingToBillingGroupRequest(
+      billingGroupArn: billingGroupArn,
+      billingGroupName: billingGroupName,
+      thingArn: thingArn,
+      thingName: thingName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -211,14 +213,13 @@ class IoT {
       thingName,
       r'''[a-zA-Z0-9:_-]+''',
     );
-    final $payload = <String, dynamic>{
-      if (overrideDynamicGroups != null)
-        'overrideDynamicGroups': overrideDynamicGroups,
-      if (thingArn != null) 'thingArn': thingArn,
-      if (thingGroupArn != null) 'thingGroupArn': thingGroupArn,
-      if (thingGroupName != null) 'thingGroupName': thingGroupName,
-      if (thingName != null) 'thingName': thingName,
-    };
+    final $payload = AddThingToThingGroupRequest(
+      overrideDynamicGroups: overrideDynamicGroups,
+      thingArn: thingArn,
+      thingGroupArn: thingGroupArn,
+      thingGroupName: thingGroupName,
+      thingName: thingName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -290,10 +291,11 @@ class IoT {
       comment,
       r'''[^\p{C}]+''',
     );
-    final $payload = <String, dynamic>{
-      'targets': targets,
-      if (comment != null) 'comment': comment,
-    };
+    final $payload = AssociateTargetsWithJobRequest(
+      jobId: jobId,
+      targets: targets,
+      comment: comment,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -339,9 +341,10 @@ class IoT {
       isRequired: true,
     );
     ArgumentError.checkNotNull(target, 'target');
-    final $payload = <String, dynamic>{
-      'target': target,
-    };
+    final $payload = AttachPolicyRequest(
+      policyName: policyName,
+      target: target,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -393,7 +396,10 @@ class IoT {
     ArgumentError.checkNotNull(principal, 'principal');
     final headers = <String, String>{};
     principal?.let((v) => headers['x-amzn-iot-principal'] = v.toString());
-    final $payload = <String, dynamic>{};
+    final $payload = AttachPrincipalPolicyRequest(
+      policyName: policyName,
+      principal: principal,
+    );
     await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -446,7 +452,10 @@ class IoT {
       if (securityProfileTargetArn != null)
         _s.toQueryParam('securityProfileTargetArn', securityProfileTargetArn),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = AttachSecurityProfileRequest(
+      securityProfileName: securityProfileName,
+      securityProfileTargetArn: securityProfileTargetArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -495,7 +504,10 @@ class IoT {
     );
     final headers = <String, String>{};
     principal?.let((v) => headers['x-amzn-principal'] = v.toString());
-    final $payload = <String, dynamic>{};
+    final $payload = AttachThingPrincipalRequest(
+      principal: principal,
+      thingName: thingName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -534,7 +546,9 @@ class IoT {
       r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = CancelAuditMitigationActionsTaskRequest(
+      taskId: taskId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -574,7 +588,9 @@ class IoT {
       r'''[a-zA-Z0-9\-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = CancelAuditTaskRequest(
+      taskId: taskId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -625,7 +641,9 @@ class IoT {
       r'''(0x)?[a-fA-F0-9]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = CancelCertificateTransferRequest(
+      certificateId: certificateId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -706,10 +724,12 @@ class IoT {
     _query = '?${[
       if (force != null) _s.toQueryParam('force', force),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{
-      if (comment != null) 'comment': comment,
-      if (reasonCode != null) 'reasonCode': reasonCode,
-    };
+    final $payload = CancelJobRequest(
+      jobId: jobId,
+      comment: comment,
+      force: force,
+      reasonCode: reasonCode,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -799,10 +819,13 @@ class IoT {
     _query = '?${[
       if (force != null) _s.toQueryParam('force', force),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{
-      if (expectedVersion != null) 'expectedVersion': expectedVersion,
-      if (statusDetails != null) 'statusDetails': statusDetails,
-    };
+    final $payload = CancelJobExecutionRequest(
+      jobId: jobId,
+      thingName: thingName,
+      expectedVersion: expectedVersion,
+      force: force,
+      statusDetails: statusDetails,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -930,14 +953,14 @@ class IoT {
       tokenKeyName,
       r'''[a-zA-Z0-9_-]+''',
     );
-    final $payload = <String, dynamic>{
-      'authorizerFunctionArn': authorizerFunctionArn,
-      if (signingDisabled != null) 'signingDisabled': signingDisabled,
-      if (status != null) 'status': status?.toValue(),
-      if (tokenKeyName != null) 'tokenKeyName': tokenKeyName,
-      if (tokenSigningPublicKeys != null)
-        'tokenSigningPublicKeys': tokenSigningPublicKeys,
-    };
+    final $payload = CreateAuthorizerRequest(
+      authorizerFunctionArn: authorizerFunctionArn,
+      authorizerName: authorizerName,
+      signingDisabled: signingDisabled,
+      status: status,
+      tokenKeyName: tokenKeyName,
+      tokenSigningPublicKeys: tokenSigningPublicKeys,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -982,11 +1005,11 @@ class IoT {
       r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (billingGroupProperties != null)
-        'billingGroupProperties': billingGroupProperties,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateBillingGroupRequest(
+      billingGroupName: billingGroupName,
+      billingGroupProperties: billingGroupProperties,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1071,9 +1094,10 @@ class IoT {
     _query = '?${[
       if (setAsActive != null) _s.toQueryParam('setAsActive', setAsActive),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{
-      'certificateSigningRequest': certificateSigningRequest,
-    };
+    final $payload = CreateCertificateFromCsrRequest(
+      certificateSigningRequest: certificateSigningRequest,
+      setAsActive: setAsActive,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1153,12 +1177,13 @@ class IoT {
     );
     ArgumentError.checkNotNull(stringValues, 'stringValues');
     ArgumentError.checkNotNull(type, 'type');
-    final $payload = <String, dynamic>{
-      'clientRequestToken': clientRequestToken,
-      'stringValues': stringValues,
-      'type': type?.toValue(),
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateDimensionRequest(
+      clientRequestToken: clientRequestToken,
+      name: name,
+      stringValues: stringValues,
+      type: type,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1245,15 +1270,14 @@ class IoT {
       validationCertificateArn,
       r'''arn:aws:acm:[a-z]{2}-(gov-)?[a-z]{4,9}-\d{1}:\d{12}:certificate/?[a-zA-Z0-9/-]+''',
     );
-    final $payload = <String, dynamic>{
-      if (authorizerConfig != null) 'authorizerConfig': authorizerConfig,
-      if (domainName != null) 'domainName': domainName,
-      if (serverCertificateArns != null)
-        'serverCertificateArns': serverCertificateArns,
-      if (serviceType != null) 'serviceType': serviceType?.toValue(),
-      if (validationCertificateArn != null)
-        'validationCertificateArn': validationCertificateArn,
-    };
+    final $payload = CreateDomainConfigurationRequest(
+      domainConfigurationName: domainConfigurationName,
+      authorizerConfig: authorizerConfig,
+      domainName: domainName,
+      serverCertificateArns: serverCertificateArns,
+      serviceType: serviceType,
+      validationCertificateArn: validationCertificateArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1343,14 +1367,14 @@ class IoT {
       indexName,
       r'''[a-zA-Z0-9:_-]+''',
     );
-    final $payload = <String, dynamic>{
-      'queryString': queryString,
-      if (indexName != null) 'indexName': indexName,
-      if (queryVersion != null) 'queryVersion': queryVersion,
-      if (tags != null) 'tags': tags,
-      if (thingGroupProperties != null)
-        'thingGroupProperties': thingGroupProperties,
-    };
+    final $payload = CreateDynamicThingGroupRequest(
+      queryString: queryString,
+      thingGroupName: thingGroupName,
+      indexName: indexName,
+      queryVersion: queryVersion,
+      tags: tags,
+      thingGroupProperties: thingGroupProperties,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1475,20 +1499,19 @@ class IoT {
       1,
       1350,
     );
-    final $payload = <String, dynamic>{
-      'targets': targets,
-      if (abortConfig != null) 'abortConfig': abortConfig,
-      if (description != null) 'description': description,
-      if (document != null) 'document': document,
-      if (documentSource != null) 'documentSource': documentSource,
-      if (jobExecutionsRolloutConfig != null)
-        'jobExecutionsRolloutConfig': jobExecutionsRolloutConfig,
-      if (presignedUrlConfig != null) 'presignedUrlConfig': presignedUrlConfig,
-      if (tags != null) 'tags': tags,
-      if (targetSelection != null)
-        'targetSelection': targetSelection?.toValue(),
-      if (timeoutConfig != null) 'timeoutConfig': timeoutConfig,
-    };
+    final $payload = CreateJobRequest(
+      jobId: jobId,
+      targets: targets,
+      abortConfig: abortConfig,
+      description: description,
+      document: document,
+      documentSource: documentSource,
+      jobExecutionsRolloutConfig: jobExecutionsRolloutConfig,
+      presignedUrlConfig: presignedUrlConfig,
+      tags: tags,
+      targetSelection: targetSelection,
+      timeoutConfig: timeoutConfig,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1522,7 +1545,9 @@ class IoT {
     _query = '?${[
       if (setAsActive != null) _s.toQueryParam('setAsActive', setAsActive),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = CreateKeysAndCertificateRequest(
+      setAsActive: setAsActive,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1583,11 +1608,12 @@ class IoT {
       2048,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'actionParams': actionParams,
-      'roleArn': roleArn,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateMitigationActionRequest(
+      actionName: actionName,
+      actionParams: actionParams,
+      roleArn: roleArn,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1697,22 +1723,19 @@ class IoT {
       description,
       r'''[^\p{C}]+''',
     );
-    final $payload = <String, dynamic>{
-      'files': files,
-      'roleArn': roleArn,
-      'targets': targets,
-      if (additionalParameters != null)
-        'additionalParameters': additionalParameters,
-      if (awsJobExecutionsRolloutConfig != null)
-        'awsJobExecutionsRolloutConfig': awsJobExecutionsRolloutConfig,
-      if (awsJobPresignedUrlConfig != null)
-        'awsJobPresignedUrlConfig': awsJobPresignedUrlConfig,
-      if (description != null) 'description': description,
-      if (protocols != null) 'protocols': protocols,
-      if (tags != null) 'tags': tags,
-      if (targetSelection != null)
-        'targetSelection': targetSelection?.toValue(),
-    };
+    final $payload = CreateOTAUpdateRequest(
+      files: files,
+      otaUpdateId: otaUpdateId,
+      roleArn: roleArn,
+      targets: targets,
+      additionalParameters: additionalParameters,
+      awsJobExecutionsRolloutConfig: awsJobExecutionsRolloutConfig,
+      awsJobPresignedUrlConfig: awsJobPresignedUrlConfig,
+      description: description,
+      protocols: protocols,
+      tags: tags,
+      targetSelection: targetSelection,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1762,9 +1785,10 @@ class IoT {
       r'''[\w+=,.@-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'policyDocument': policyDocument,
-    };
+    final $payload = CreatePolicyRequest(
+      policyDocument: policyDocument,
+      policyName: policyName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1829,9 +1853,11 @@ class IoT {
     _query = '?${[
       if (setAsDefault != null) _s.toQueryParam('setAsDefault', setAsDefault),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{
-      'policyDocument': policyDocument,
-    };
+    final $payload = CreatePolicyVersionRequest(
+      policyDocument: policyDocument,
+      policyName: policyName,
+      setAsDefault: setAsDefault,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1870,7 +1896,9 @@ class IoT {
       r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = CreateProvisioningClaimRequest(
+      templateName: templateName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1959,14 +1987,14 @@ class IoT {
       description,
       r'''[^\p{C}]*''',
     );
-    final $payload = <String, dynamic>{
-      'provisioningRoleArn': provisioningRoleArn,
-      'templateBody': templateBody,
-      'templateName': templateName,
-      if (description != null) 'description': description,
-      if (enabled != null) 'enabled': enabled,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateProvisioningTemplateRequest(
+      provisioningRoleArn: provisioningRoleArn,
+      templateBody: templateBody,
+      templateName: templateName,
+      description: description,
+      enabled: enabled,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2019,9 +2047,11 @@ class IoT {
     _query = '?${[
       if (setAsDefault != null) _s.toQueryParam('setAsDefault', setAsDefault),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{
-      'templateBody': templateBody,
-    };
+    final $payload = CreateProvisioningTemplateVersionRequest(
+      templateBody: templateBody,
+      templateName: templateName,
+      setAsDefault: setAsDefault,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2084,11 +2114,11 @@ class IoT {
       900,
       3600,
     );
-    final $payload = <String, dynamic>{
-      'roleArn': roleArn,
-      if (credentialDurationSeconds != null)
-        'credentialDurationSeconds': credentialDurationSeconds,
-    };
+    final $payload = CreateRoleAliasRequest(
+      roleAlias: roleAlias,
+      roleArn: roleArn,
+      credentialDurationSeconds: credentialDurationSeconds,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2165,13 +2195,14 @@ class IoT {
       dayOfMonth,
       r'''^([1-9]|[12][0-9]|3[01])$|^LAST$''',
     );
-    final $payload = <String, dynamic>{
-      'frequency': frequency?.toValue(),
-      'targetCheckNames': targetCheckNames,
-      if (dayOfMonth != null) 'dayOfMonth': dayOfMonth,
-      if (dayOfWeek != null) 'dayOfWeek': dayOfWeek?.toValue(),
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateScheduledAuditRequest(
+      frequency: frequency,
+      scheduledAuditName: scheduledAuditName,
+      targetCheckNames: targetCheckNames,
+      dayOfMonth: dayOfMonth,
+      dayOfWeek: dayOfWeek,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2253,17 +2284,15 @@ class IoT {
       securityProfileDescription,
       r'''[\p{Graph}\x20]*''',
     );
-    final $payload = <String, dynamic>{
-      if (additionalMetricsToRetain != null)
-        'additionalMetricsToRetain': additionalMetricsToRetain,
-      if (additionalMetricsToRetainV2 != null)
-        'additionalMetricsToRetainV2': additionalMetricsToRetainV2,
-      if (alertTargets != null) 'alertTargets': alertTargets,
-      if (behaviors != null) 'behaviors': behaviors,
-      if (securityProfileDescription != null)
-        'securityProfileDescription': securityProfileDescription,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateSecurityProfileRequest(
+      securityProfileName: securityProfileName,
+      additionalMetricsToRetain: additionalMetricsToRetain,
+      additionalMetricsToRetainV2: additionalMetricsToRetainV2,
+      alertTargets: alertTargets,
+      behaviors: behaviors,
+      securityProfileDescription: securityProfileDescription,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2344,12 +2373,13 @@ class IoT {
       description,
       r'''[^\p{C}]+''',
     );
-    final $payload = <String, dynamic>{
-      'files': files,
-      'roleArn': roleArn,
-      if (description != null) 'description': description,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateStreamRequest(
+      files: files,
+      roleArn: roleArn,
+      streamId: streamId,
+      description: description,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2433,11 +2463,12 @@ class IoT {
       thingTypeName,
       r'''[a-zA-Z0-9:_-]+''',
     );
-    final $payload = <String, dynamic>{
-      if (attributePayload != null) 'attributePayload': attributePayload,
-      if (billingGroupName != null) 'billingGroupName': billingGroupName,
-      if (thingTypeName != null) 'thingTypeName': thingTypeName,
-    };
+    final $payload = CreateThingRequest(
+      thingName: thingName,
+      attributePayload: attributePayload,
+      billingGroupName: billingGroupName,
+      thingTypeName: thingTypeName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2501,12 +2532,12 @@ class IoT {
       parentGroupName,
       r'''[a-zA-Z0-9:_-]+''',
     );
-    final $payload = <String, dynamic>{
-      if (parentGroupName != null) 'parentGroupName': parentGroupName,
-      if (tags != null) 'tags': tags,
-      if (thingGroupProperties != null)
-        'thingGroupProperties': thingGroupProperties,
-    };
+    final $payload = CreateThingGroupRequest(
+      thingGroupName: thingGroupName,
+      parentGroupName: parentGroupName,
+      tags: tags,
+      thingGroupProperties: thingGroupProperties,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2555,11 +2586,11 @@ class IoT {
       r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (tags != null) 'tags': tags,
-      if (thingTypeProperties != null)
-        'thingTypeProperties': thingTypeProperties,
-    };
+    final $payload = CreateThingTypeRequest(
+      thingTypeName: thingTypeName,
+      tags: tags,
+      thingTypeProperties: thingTypeProperties,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2645,9 +2676,9 @@ class IoT {
   }) async {
     ArgumentError.checkNotNull(
         destinationConfiguration, 'destinationConfiguration');
-    final $payload = <String, dynamic>{
-      'destinationConfiguration': destinationConfiguration,
-    };
+    final $payload = CreateTopicRuleDestinationRequest(
+      destinationConfiguration: destinationConfiguration,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2676,7 +2707,9 @@ class IoT {
       if (deleteScheduledAudits != null)
         _s.toQueryParam('deleteScheduledAudits', deleteScheduledAudits),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteAccountAuditConfigurationRequest(
+      deleteScheduledAudits: deleteScheduledAudits,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -2715,7 +2748,9 @@ class IoT {
       r'''[\w=,@-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteAuthorizerRequest(
+      authorizerName: authorizerName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -2764,7 +2799,10 @@ class IoT {
       if (expectedVersion != null)
         _s.toQueryParam('expectedVersion', expectedVersion),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteBillingGroupRequest(
+      billingGroupName: billingGroupName,
+      expectedVersion: expectedVersion,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -2805,7 +2843,9 @@ class IoT {
       r'''(0x)?[a-fA-F0-9]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteCACertificateRequest(
+      certificateId: certificateId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -2862,7 +2902,10 @@ class IoT {
     _query = '?${[
       if (forceDelete != null) _s.toQueryParam('forceDelete', forceDelete),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteCertificateRequest(
+      certificateId: certificateId,
+      forceDelete: forceDelete,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -2897,7 +2940,9 @@ class IoT {
       r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteDimensionRequest(
+      name: name,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -2940,7 +2985,9 @@ class IoT {
       r'''[\w.-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteDomainConfigurationRequest(
+      domainConfigurationName: domainConfigurationName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -2986,7 +3033,10 @@ class IoT {
       if (expectedVersion != null)
         _s.toQueryParam('expectedVersion', expectedVersion),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteDynamicThingGroupRequest(
+      thingGroupName: thingGroupName,
+      expectedVersion: expectedVersion,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -3055,7 +3105,10 @@ class IoT {
     _query = '?${[
       if (force != null) _s.toQueryParam('force', force),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteJobRequest(
+      jobId: jobId,
+      force: force,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -3137,7 +3190,12 @@ class IoT {
     _query = '?${[
       if (force != null) _s.toQueryParam('force', force),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteJobExecutionRequest(
+      executionNumber: executionNumber,
+      jobId: jobId,
+      thingName: thingName,
+      force: force,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -3172,7 +3230,9 @@ class IoT {
       r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteMitigationActionRequest(
+      actionName: actionName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -3228,7 +3288,11 @@ class IoT {
       if (forceDeleteAWSJob != null)
         _s.toQueryParam('forceDeleteAWSJob', forceDeleteAWSJob),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteOTAUpdateRequest(
+      otaUpdateId: otaUpdateId,
+      deleteStream: deleteStream,
+      forceDeleteAWSJob: forceDeleteAWSJob,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -3279,7 +3343,9 @@ class IoT {
       r'''[\w+=,.@-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeletePolicyRequest(
+      policyName: policyName,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -3331,7 +3397,10 @@ class IoT {
       r'''[0-9]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeletePolicyVersionRequest(
+      policyName: policyName,
+      policyVersionId: policyVersionId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -3369,7 +3438,9 @@ class IoT {
       r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteProvisioningTemplateRequest(
+      templateName: templateName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -3413,7 +3484,10 @@ class IoT {
       isRequired: true,
     );
     ArgumentError.checkNotNull(versionId, 'versionId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteProvisioningTemplateVersionRequest(
+      templateName: templateName,
+      versionId: versionId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -3471,7 +3545,9 @@ class IoT {
       r'''[\w=,@-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteRoleAliasRequest(
+      roleAlias: roleAlias,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -3507,7 +3583,9 @@ class IoT {
       r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteScheduledAuditRequest(
+      scheduledAuditName: scheduledAuditName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -3556,7 +3634,10 @@ class IoT {
       if (expectedVersion != null)
         _s.toQueryParam('expectedVersion', expectedVersion),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteSecurityProfileRequest(
+      securityProfileName: securityProfileName,
+      expectedVersion: expectedVersion,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -3596,7 +3677,9 @@ class IoT {
       r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteStreamRequest(
+      streamId: streamId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -3648,7 +3731,10 @@ class IoT {
       if (expectedVersion != null)
         _s.toQueryParam('expectedVersion', expectedVersion),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteThingRequest(
+      thingName: thingName,
+      expectedVersion: expectedVersion,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -3693,7 +3779,10 @@ class IoT {
       if (expectedVersion != null)
         _s.toQueryParam('expectedVersion', expectedVersion),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteThingGroupRequest(
+      thingGroupName: thingGroupName,
+      expectedVersion: expectedVersion,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -3737,7 +3826,9 @@ class IoT {
       r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteThingTypeRequest(
+      thingTypeName: thingTypeName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -3775,7 +3866,9 @@ class IoT {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteTopicRuleRequest(
+      ruleName: ruleName,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -3798,7 +3891,9 @@ class IoT {
     @_s.required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteTopicRuleDestinationRequest(
+      arn: arn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -3831,7 +3926,10 @@ class IoT {
       if (targetName != null) _s.toQueryParam('targetName', targetName),
       if (targetType != null) _s.toQueryParam('targetType', targetType),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteV2LoggingLevelRequest(
+      targetName: targetName,
+      targetType: targetType,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -3874,9 +3972,10 @@ class IoT {
       r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (undoDeprecate != null) 'undoDeprecate': undoDeprecate,
-    };
+    final $payload = DeprecateThingTypeRequest(
+      thingTypeName: thingTypeName,
+      undoDeprecate: undoDeprecate,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -4909,9 +5008,10 @@ class IoT {
       isRequired: true,
     );
     ArgumentError.checkNotNull(target, 'target');
-    final $payload = <String, dynamic>{
-      'target': target,
-    };
+    final $payload = DetachPolicyRequest(
+      policyName: policyName,
+      target: target,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -4963,7 +5063,10 @@ class IoT {
     ArgumentError.checkNotNull(principal, 'principal');
     final headers = <String, String>{};
     principal?.let((v) => headers['x-amzn-iot-principal'] = v.toString());
-    final $payload = <String, dynamic>{};
+    final $payload = DetachPrincipalPolicyRequest(
+      policyName: policyName,
+      principal: principal,
+    );
     await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -5012,7 +5115,10 @@ class IoT {
       if (securityProfileTargetArn != null)
         _s.toQueryParam('securityProfileTargetArn', securityProfileTargetArn),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = DetachSecurityProfileRequest(
+      securityProfileName: securityProfileName,
+      securityProfileTargetArn: securityProfileTargetArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -5066,7 +5172,10 @@ class IoT {
     );
     final headers = <String, String>{};
     principal?.let((v) => headers['x-amzn-principal'] = v.toString());
-    final $payload = <String, dynamic>{};
+    final $payload = DetachThingPrincipalRequest(
+      principal: principal,
+      thingName: thingName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -5105,7 +5214,9 @@ class IoT {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DisableTopicRuleRequest(
+      ruleName: ruleName,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -5141,7 +5252,9 @@ class IoT {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = EnableTopicRuleRequest(
+      ruleName: ruleName,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -5204,12 +5317,12 @@ class IoT {
       indexName,
       r'''[a-zA-Z0-9:_-]+''',
     );
-    final $payload = <String, dynamic>{
-      'queryString': queryString,
-      if (aggregationField != null) 'aggregationField': aggregationField,
-      if (indexName != null) 'indexName': indexName,
-      if (queryVersion != null) 'queryVersion': queryVersion,
-    };
+    final $payload = GetCardinalityRequest(
+      queryString: queryString,
+      aggregationField: aggregationField,
+      indexName: indexName,
+      queryVersion: queryVersion,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -5259,11 +5372,11 @@ class IoT {
     _query = '?${[
       if (thingName != null) _s.toQueryParam('thingName', thingName),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{
-      if (cognitoIdentityPoolId != null)
-        'cognitoIdentityPoolId': cognitoIdentityPoolId,
-      if (principal != null) 'principal': principal,
-    };
+    final $payload = GetEffectivePoliciesRequest(
+      cognitoIdentityPoolId: cognitoIdentityPoolId,
+      principal: principal,
+      thingName: thingName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -5448,13 +5561,13 @@ class IoT {
       indexName,
       r'''[a-zA-Z0-9:_-]+''',
     );
-    final $payload = <String, dynamic>{
-      'queryString': queryString,
-      if (aggregationField != null) 'aggregationField': aggregationField,
-      if (indexName != null) 'indexName': indexName,
-      if (percents != null) 'percents': percents,
-      if (queryVersion != null) 'queryVersion': queryVersion,
-    };
+    final $payload = GetPercentilesRequest(
+      queryString: queryString,
+      aggregationField: aggregationField,
+      indexName: indexName,
+      percents: percents,
+      queryVersion: queryVersion,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -5627,12 +5740,12 @@ class IoT {
       indexName,
       r'''[a-zA-Z0-9:_-]+''',
     );
-    final $payload = <String, dynamic>{
-      'queryString': queryString,
-      if (aggregationField != null) 'aggregationField': aggregationField,
-      if (indexName != null) 'indexName': indexName,
-      if (queryVersion != null) 'queryVersion': queryVersion,
-    };
+    final $payload = GetStatisticsRequest(
+      queryString: queryString,
+      aggregationField: aggregationField,
+      indexName: indexName,
+      queryVersion: queryVersion,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -5824,7 +5937,12 @@ class IoT {
       if (pageSize != null) _s.toQueryParam('pageSize', pageSize),
       if (recursive != null) _s.toQueryParam('recursive', recursive),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = ListAttachedPoliciesRequest(
+      target: target,
+      marker: marker,
+      pageSize: pageSize,
+      recursive: recursive,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -5892,15 +6010,15 @@ class IoT {
       taskId,
       r'''[a-zA-Z0-9\-]+''',
     );
-    final $payload = <String, dynamic>{
-      if (checkName != null) 'checkName': checkName,
-      if (endTime != null) 'endTime': endTime,
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-      if (resourceIdentifier != null) 'resourceIdentifier': resourceIdentifier,
-      if (startTime != null) 'startTime': startTime,
-      if (taskId != null) 'taskId': taskId,
-    };
+    final $payload = ListAuditFindingsRequest(
+      checkName: checkName,
+      endTime: endTime,
+      maxResults: maxResults,
+      nextToken: nextToken,
+      resourceIdentifier: resourceIdentifier,
+      startTime: startTime,
+      taskId: taskId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -7574,7 +7692,11 @@ class IoT {
       if (marker != null) _s.toQueryParam('marker', marker),
       if (pageSize != null) _s.toQueryParam('pageSize', pageSize),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = ListTargetsForPolicyRequest(
+      policyName: policyName,
+      marker: marker,
+      pageSize: pageSize,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -8432,11 +8554,13 @@ class IoT {
         _s.toQueryParam('allowAutoRegistration', allowAutoRegistration),
       if (setAsActive != null) _s.toQueryParam('setAsActive', setAsActive),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{
-      'caCertificate': caCertificate,
-      'verificationCertificate': verificationCertificate,
-      if (registrationConfig != null) 'registrationConfig': registrationConfig,
-    };
+    final $payload = RegisterCACertificateRequest(
+      caCertificate: caCertificate,
+      verificationCertificate: verificationCertificate,
+      allowAutoRegistration: allowAutoRegistration,
+      registrationConfig: registrationConfig,
+      setAsActive: setAsActive,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -8495,11 +8619,12 @@ class IoT {
     _query = '?${[
       if (setAsActive != null) _s.toQueryParam('setAsActive', setAsActive),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{
-      'certificatePem': certificatePem,
-      if (caCertificatePem != null) 'caCertificatePem': caCertificatePem,
-      if (status != null) 'status': status?.toValue(),
-    };
+    final $payload = RegisterCertificateRequest(
+      certificatePem: certificatePem,
+      caCertificatePem: caCertificatePem,
+      setAsActive: setAsActive,
+      status: status,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -8538,10 +8663,10 @@ class IoT {
     Map<String, String> parameters,
   }) async {
     ArgumentError.checkNotNull(templateBody, 'templateBody');
-    final $payload = <String, dynamic>{
-      'templateBody': templateBody,
-      if (parameters != null) 'parameters': parameters,
-    };
+    final $payload = RegisterThingRequest(
+      templateBody: templateBody,
+      parameters: parameters,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -8600,9 +8725,10 @@ class IoT {
       0,
       128,
     );
-    final $payload = <String, dynamic>{
-      if (rejectReason != null) 'rejectReason': rejectReason,
-    };
+    final $payload = RejectCertificateTransferRequest(
+      certificateId: certificateId,
+      rejectReason: rejectReason,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -8658,12 +8784,12 @@ class IoT {
       thingName,
       r'''[a-zA-Z0-9:_-]+''',
     );
-    final $payload = <String, dynamic>{
-      if (billingGroupArn != null) 'billingGroupArn': billingGroupArn,
-      if (billingGroupName != null) 'billingGroupName': billingGroupName,
-      if (thingArn != null) 'thingArn': thingArn,
-      if (thingName != null) 'thingName': thingName,
-    };
+    final $payload = RemoveThingFromBillingGroupRequest(
+      billingGroupArn: billingGroupArn,
+      billingGroupName: billingGroupName,
+      thingArn: thingArn,
+      thingName: thingName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -8719,12 +8845,12 @@ class IoT {
       thingName,
       r'''[a-zA-Z0-9:_-]+''',
     );
-    final $payload = <String, dynamic>{
-      if (thingArn != null) 'thingArn': thingArn,
-      if (thingGroupArn != null) 'thingGroupArn': thingGroupArn,
-      if (thingGroupName != null) 'thingGroupName': thingGroupName,
-      if (thingName != null) 'thingName': thingName,
-    };
+    final $payload = RemoveThingFromThingGroupRequest(
+      thingArn: thingArn,
+      thingGroupArn: thingGroupArn,
+      thingGroupName: thingGroupName,
+      thingName: thingName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -8836,13 +8962,13 @@ class IoT {
       1,
       500,
     );
-    final $payload = <String, dynamic>{
-      'queryString': queryString,
-      if (indexName != null) 'indexName': indexName,
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-      if (queryVersion != null) 'queryVersion': queryVersion,
-    };
+    final $payload = SearchIndexRequest(
+      queryString: queryString,
+      indexName: indexName,
+      maxResults: maxResults,
+      nextToken: nextToken,
+      queryVersion: queryVersion,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -8882,9 +9008,9 @@ class IoT {
       r'''[\w=,@-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'authorizerName': authorizerName,
-    };
+    final $payload = SetDefaultAuthorizerRequest(
+      authorizerName: authorizerName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -8936,7 +9062,10 @@ class IoT {
       r'''[0-9]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = SetDefaultPolicyVersionRequest(
+      policyName: policyName,
+      policyVersionId: policyVersionId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -8987,10 +9116,10 @@ class IoT {
   }) async {
     ArgumentError.checkNotNull(logLevel, 'logLevel');
     ArgumentError.checkNotNull(logTarget, 'logTarget');
-    final $payload = <String, dynamic>{
-      'logLevel': logLevel?.toValue(),
-      'logTarget': logTarget,
-    };
+    final $payload = SetV2LoggingLevelRequest(
+      logLevel: logLevel,
+      logTarget: logTarget,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -9018,12 +9147,11 @@ class IoT {
     bool disableAllLogs,
     String roleArn,
   }) async {
-    final $payload = <String, dynamic>{
-      if (defaultLogLevel != null)
-        'defaultLogLevel': defaultLogLevel?.toValue(),
-      if (disableAllLogs != null) 'disableAllLogs': disableAllLogs,
-      if (roleArn != null) 'roleArn': roleArn,
-    };
+    final $payload = SetV2LoggingOptionsRequest(
+      defaultLogLevel: defaultLogLevel,
+      disableAllLogs: disableAllLogs,
+      roleArn: roleArn,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -9097,11 +9225,12 @@ class IoT {
       r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'auditCheckToActionsMapping': auditCheckToActionsMapping,
-      'clientRequestToken': clientRequestToken,
-      'target': target,
-    };
+    final $payload = StartAuditMitigationActionsTaskRequest(
+      auditCheckToActionsMapping: auditCheckToActionsMapping,
+      clientRequestToken: clientRequestToken,
+      target: target,
+      taskId: taskId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -9130,9 +9259,9 @@ class IoT {
     @_s.required List<String> targetCheckNames,
   }) async {
     ArgumentError.checkNotNull(targetCheckNames, 'targetCheckNames');
-    final $payload = <String, dynamic>{
-      'targetCheckNames': targetCheckNames,
-    };
+    final $payload = StartOnDemandAuditTaskRequest(
+      targetCheckNames: targetCheckNames,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -9205,12 +9334,12 @@ class IoT {
       isRequired: true,
     );
     ArgumentError.checkNotNull(templateBody, 'templateBody');
-    final $payload = <String, dynamic>{
-      'inputFileBucket': inputFileBucket,
-      'inputFileKey': inputFileKey,
-      'roleArn': roleArn,
-      'templateBody': templateBody,
-    };
+    final $payload = StartThingRegistrationTaskRequest(
+      inputFileBucket: inputFileBucket,
+      inputFileKey: inputFileKey,
+      roleArn: roleArn,
+      templateBody: templateBody,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -9241,7 +9370,9 @@ class IoT {
       40,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = StopThingRegistrationTaskRequest(
+      taskId: taskId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -9272,10 +9403,10 @@ class IoT {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'resourceArn': resourceArn,
-      'tags': tags,
-    };
+    final $payload = TagResourceRequest(
+      resourceArn: resourceArn,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -9330,14 +9461,14 @@ class IoT {
     _query = '?${[
       if (clientId != null) _s.toQueryParam('clientId', clientId),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{
-      'authInfos': authInfos,
-      if (cognitoIdentityPoolId != null)
-        'cognitoIdentityPoolId': cognitoIdentityPoolId,
-      if (policyNamesToAdd != null) 'policyNamesToAdd': policyNamesToAdd,
-      if (policyNamesToSkip != null) 'policyNamesToSkip': policyNamesToSkip,
-      if (principal != null) 'principal': principal,
-    };
+    final $payload = TestAuthorizationRequest(
+      authInfos: authInfos,
+      clientId: clientId,
+      cognitoIdentityPoolId: cognitoIdentityPoolId,
+      policyNamesToAdd: policyNamesToAdd,
+      policyNamesToSkip: policyNamesToSkip,
+      principal: principal,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -9416,13 +9547,14 @@ class IoT {
       tokenSignature,
       r'''[A-Za-z0-9+/]+={0,2}''',
     );
-    final $payload = <String, dynamic>{
-      if (httpContext != null) 'httpContext': httpContext,
-      if (mqttContext != null) 'mqttContext': mqttContext,
-      if (tlsContext != null) 'tlsContext': tlsContext,
-      if (token != null) 'token': token,
-      if (tokenSignature != null) 'tokenSignature': tokenSignature,
-    };
+    final $payload = TestInvokeAuthorizerRequest(
+      authorizerName: authorizerName,
+      httpContext: httpContext,
+      mqttContext: mqttContext,
+      tlsContext: tlsContext,
+      token: token,
+      tokenSignature: tokenSignature,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -9508,9 +9640,11 @@ class IoT {
       if (targetAwsAccount != null)
         _s.toQueryParam('targetAwsAccount', targetAwsAccount),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{
-      if (transferMessage != null) 'transferMessage': transferMessage,
-    };
+    final $payload = TransferCertificateRequest(
+      certificateId: certificateId,
+      targetAwsAccount: targetAwsAccount,
+      transferMessage: transferMessage,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -9539,10 +9673,10 @@ class IoT {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    final $payload = <String, dynamic>{
-      'resourceArn': resourceArn,
-      'tagKeys': tagKeys,
-    };
+    final $payload = UntagResourceRequest(
+      resourceArn: resourceArn,
+      tagKeys: tagKeys,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -9594,14 +9728,12 @@ class IoT {
       20,
       2048,
     );
-    final $payload = <String, dynamic>{
-      if (auditCheckConfigurations != null)
-        'auditCheckConfigurations': auditCheckConfigurations,
-      if (auditNotificationTargetConfigurations != null)
-        'auditNotificationTargetConfigurations':
-            auditNotificationTargetConfigurations,
-      if (roleArn != null) 'roleArn': roleArn,
-    };
+    final $payload = UpdateAccountAuditConfigurationRequest(
+      auditCheckConfigurations: auditCheckConfigurations,
+      auditNotificationTargetConfigurations:
+          auditNotificationTargetConfigurations,
+      roleArn: roleArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -9667,14 +9799,13 @@ class IoT {
       tokenKeyName,
       r'''[a-zA-Z0-9_-]+''',
     );
-    final $payload = <String, dynamic>{
-      if (authorizerFunctionArn != null)
-        'authorizerFunctionArn': authorizerFunctionArn,
-      if (status != null) 'status': status?.toValue(),
-      if (tokenKeyName != null) 'tokenKeyName': tokenKeyName,
-      if (tokenSigningPublicKeys != null)
-        'tokenSigningPublicKeys': tokenSigningPublicKeys,
-    };
+    final $payload = UpdateAuthorizerRequest(
+      authorizerName: authorizerName,
+      authorizerFunctionArn: authorizerFunctionArn,
+      status: status,
+      tokenKeyName: tokenKeyName,
+      tokenSigningPublicKeys: tokenSigningPublicKeys,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -9725,10 +9856,11 @@ class IoT {
     );
     ArgumentError.checkNotNull(
         billingGroupProperties, 'billingGroupProperties');
-    final $payload = <String, dynamic>{
-      'billingGroupProperties': billingGroupProperties,
-      if (expectedVersion != null) 'expectedVersion': expectedVersion,
-    };
+    final $payload = UpdateBillingGroupRequest(
+      billingGroupName: billingGroupName,
+      billingGroupProperties: billingGroupProperties,
+      expectedVersion: expectedVersion,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -9793,11 +9925,13 @@ class IoT {
         _s.toQueryParam('newAutoRegistrationStatus', newAutoRegistrationStatus),
       if (newStatus != null) _s.toQueryParam('newStatus', newStatus),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{
-      if (registrationConfig != null) 'registrationConfig': registrationConfig,
-      if (removeAutoRegistration != null)
-        'removeAutoRegistration': removeAutoRegistration,
-    };
+    final $payload = UpdateCACertificateRequest(
+      certificateId: certificateId,
+      newAutoRegistrationStatus: newAutoRegistrationStatus,
+      newStatus: newStatus,
+      registrationConfig: registrationConfig,
+      removeAutoRegistration: removeAutoRegistration,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -9862,7 +9996,10 @@ class IoT {
     _query = '?${[
       if (newStatus != null) _s.toQueryParam('newStatus', newStatus),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = UpdateCertificateRequest(
+      certificateId: certificateId,
+      newStatus: newStatus,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -9907,9 +10044,10 @@ class IoT {
       isRequired: true,
     );
     ArgumentError.checkNotNull(stringValues, 'stringValues');
-    final $payload = <String, dynamic>{
-      'stringValues': stringValues,
-    };
+    final $payload = UpdateDimensionRequest(
+      name: name,
+      stringValues: stringValues,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -9966,13 +10104,12 @@ class IoT {
       r'''[\w.:-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (authorizerConfig != null) 'authorizerConfig': authorizerConfig,
-      if (domainConfigurationStatus != null)
-        'domainConfigurationStatus': domainConfigurationStatus?.toValue(),
-      if (removeAuthorizerConfig != null)
-        'removeAuthorizerConfig': removeAuthorizerConfig,
-    };
+    final $payload = UpdateDomainConfigurationRequest(
+      domainConfigurationName: domainConfigurationName,
+      authorizerConfig: authorizerConfig,
+      domainConfigurationStatus: domainConfigurationStatus,
+      removeAuthorizerConfig: removeAuthorizerConfig,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -10056,13 +10193,14 @@ class IoT {
       1,
       1152921504606846976,
     );
-    final $payload = <String, dynamic>{
-      'thingGroupProperties': thingGroupProperties,
-      if (expectedVersion != null) 'expectedVersion': expectedVersion,
-      if (indexName != null) 'indexName': indexName,
-      if (queryString != null) 'queryString': queryString,
-      if (queryVersion != null) 'queryVersion': queryVersion,
-    };
+    final $payload = UpdateDynamicThingGroupRequest(
+      thingGroupName: thingGroupName,
+      thingGroupProperties: thingGroupProperties,
+      expectedVersion: expectedVersion,
+      indexName: indexName,
+      queryString: queryString,
+      queryVersion: queryVersion,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -10084,10 +10222,9 @@ class IoT {
   Future<void> updateEventConfigurations({
     Map<String, Configuration> eventConfigurations,
   }) async {
-    final $payload = <String, dynamic>{
-      if (eventConfigurations != null)
-        'eventConfigurations': eventConfigurations,
-    };
+    final $payload = UpdateEventConfigurationsRequest(
+      eventConfigurations: eventConfigurations,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -10114,12 +10251,10 @@ class IoT {
     ThingGroupIndexingConfiguration thingGroupIndexingConfiguration,
     ThingIndexingConfiguration thingIndexingConfiguration,
   }) async {
-    final $payload = <String, dynamic>{
-      if (thingGroupIndexingConfiguration != null)
-        'thingGroupIndexingConfiguration': thingGroupIndexingConfiguration,
-      if (thingIndexingConfiguration != null)
-        'thingIndexingConfiguration': thingIndexingConfiguration,
-    };
+    final $payload = UpdateIndexingConfigurationRequest(
+      thingGroupIndexingConfiguration: thingGroupIndexingConfiguration,
+      thingIndexingConfiguration: thingIndexingConfiguration,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -10190,14 +10325,14 @@ class IoT {
       description,
       r'''[^\p{C}]+''',
     );
-    final $payload = <String, dynamic>{
-      if (abortConfig != null) 'abortConfig': abortConfig,
-      if (description != null) 'description': description,
-      if (jobExecutionsRolloutConfig != null)
-        'jobExecutionsRolloutConfig': jobExecutionsRolloutConfig,
-      if (presignedUrlConfig != null) 'presignedUrlConfig': presignedUrlConfig,
-      if (timeoutConfig != null) 'timeoutConfig': timeoutConfig,
-    };
+    final $payload = UpdateJobRequest(
+      jobId: jobId,
+      abortConfig: abortConfig,
+      description: description,
+      jobExecutionsRolloutConfig: jobExecutionsRolloutConfig,
+      presignedUrlConfig: presignedUrlConfig,
+      timeoutConfig: timeoutConfig,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -10248,10 +10383,11 @@ class IoT {
       20,
       2048,
     );
-    final $payload = <String, dynamic>{
-      if (actionParams != null) 'actionParams': actionParams,
-      if (roleArn != null) 'roleArn': roleArn,
-    };
+    final $payload = UpdateMitigationActionRequest(
+      actionName: actionName,
+      actionParams: actionParams,
+      roleArn: roleArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -10323,13 +10459,13 @@ class IoT {
       20,
       2048,
     );
-    final $payload = <String, dynamic>{
-      if (defaultVersionId != null) 'defaultVersionId': defaultVersionId,
-      if (description != null) 'description': description,
-      if (enabled != null) 'enabled': enabled,
-      if (provisioningRoleArn != null)
-        'provisioningRoleArn': provisioningRoleArn,
-    };
+    final $payload = UpdateProvisioningTemplateRequest(
+      templateName: templateName,
+      defaultVersionId: defaultVersionId,
+      description: description,
+      enabled: enabled,
+      provisioningRoleArn: provisioningRoleArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -10388,11 +10524,11 @@ class IoT {
       20,
       2048,
     );
-    final $payload = <String, dynamic>{
-      if (credentialDurationSeconds != null)
-        'credentialDurationSeconds': credentialDurationSeconds,
-      if (roleArn != null) 'roleArn': roleArn,
-    };
+    final $payload = UpdateRoleAliasRequest(
+      roleAlias: roleAlias,
+      credentialDurationSeconds: credentialDurationSeconds,
+      roleArn: roleArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -10463,12 +10599,13 @@ class IoT {
       dayOfMonth,
       r'''^([1-9]|[12][0-9]|3[01])$|^LAST$''',
     );
-    final $payload = <String, dynamic>{
-      if (dayOfMonth != null) 'dayOfMonth': dayOfMonth,
-      if (dayOfWeek != null) 'dayOfWeek': dayOfWeek?.toValue(),
-      if (frequency != null) 'frequency': frequency?.toValue(),
-      if (targetCheckNames != null) 'targetCheckNames': targetCheckNames,
-    };
+    final $payload = UpdateScheduledAuditRequest(
+      scheduledAuditName: scheduledAuditName,
+      dayOfMonth: dayOfMonth,
+      dayOfWeek: dayOfWeek,
+      frequency: frequency,
+      targetCheckNames: targetCheckNames,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -10575,20 +10712,18 @@ class IoT {
       if (expectedVersion != null)
         _s.toQueryParam('expectedVersion', expectedVersion),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{
-      if (additionalMetricsToRetain != null)
-        'additionalMetricsToRetain': additionalMetricsToRetain,
-      if (additionalMetricsToRetainV2 != null)
-        'additionalMetricsToRetainV2': additionalMetricsToRetainV2,
-      if (alertTargets != null) 'alertTargets': alertTargets,
-      if (behaviors != null) 'behaviors': behaviors,
-      if (deleteAdditionalMetricsToRetain != null)
-        'deleteAdditionalMetricsToRetain': deleteAdditionalMetricsToRetain,
-      if (deleteAlertTargets != null) 'deleteAlertTargets': deleteAlertTargets,
-      if (deleteBehaviors != null) 'deleteBehaviors': deleteBehaviors,
-      if (securityProfileDescription != null)
-        'securityProfileDescription': securityProfileDescription,
-    };
+    final $payload = UpdateSecurityProfileRequest(
+      securityProfileName: securityProfileName,
+      additionalMetricsToRetain: additionalMetricsToRetain,
+      additionalMetricsToRetainV2: additionalMetricsToRetainV2,
+      alertTargets: alertTargets,
+      behaviors: behaviors,
+      deleteAdditionalMetricsToRetain: deleteAdditionalMetricsToRetain,
+      deleteAlertTargets: deleteAlertTargets,
+      deleteBehaviors: deleteBehaviors,
+      expectedVersion: expectedVersion,
+      securityProfileDescription: securityProfileDescription,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -10657,11 +10792,12 @@ class IoT {
       20,
       2048,
     );
-    final $payload = <String, dynamic>{
-      if (description != null) 'description': description,
-      if (files != null) 'files': files,
-      if (roleArn != null) 'roleArn': roleArn,
-    };
+    final $payload = UpdateStreamRequest(
+      streamId: streamId,
+      description: description,
+      files: files,
+      roleArn: roleArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -10736,12 +10872,13 @@ class IoT {
       thingTypeName,
       r'''[a-zA-Z0-9:_-]+''',
     );
-    final $payload = <String, dynamic>{
-      if (attributePayload != null) 'attributePayload': attributePayload,
-      if (expectedVersion != null) 'expectedVersion': expectedVersion,
-      if (removeThingType != null) 'removeThingType': removeThingType,
-      if (thingTypeName != null) 'thingTypeName': thingTypeName,
-    };
+    final $payload = UpdateThingRequest(
+      thingName: thingName,
+      attributePayload: attributePayload,
+      expectedVersion: expectedVersion,
+      removeThingType: removeThingType,
+      thingTypeName: thingTypeName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -10788,10 +10925,11 @@ class IoT {
       isRequired: true,
     );
     ArgumentError.checkNotNull(thingGroupProperties, 'thingGroupProperties');
-    final $payload = <String, dynamic>{
-      'thingGroupProperties': thingGroupProperties,
-      if (expectedVersion != null) 'expectedVersion': expectedVersion,
-    };
+    final $payload = UpdateThingGroupRequest(
+      thingGroupName: thingGroupName,
+      thingGroupProperties: thingGroupProperties,
+      expectedVersion: expectedVersion,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -10840,14 +10978,12 @@ class IoT {
       thingName,
       r'''[a-zA-Z0-9:_-]+''',
     );
-    final $payload = <String, dynamic>{
-      if (overrideDynamicGroups != null)
-        'overrideDynamicGroups': overrideDynamicGroups,
-      if (thingGroupsToAdd != null) 'thingGroupsToAdd': thingGroupsToAdd,
-      if (thingGroupsToRemove != null)
-        'thingGroupsToRemove': thingGroupsToRemove,
-      if (thingName != null) 'thingName': thingName,
-    };
+    final $payload = UpdateThingGroupsForThingRequest(
+      overrideDynamicGroups: overrideDynamicGroups,
+      thingGroupsToAdd: thingGroupsToAdd,
+      thingGroupsToRemove: thingGroupsToRemove,
+      thingName: thingName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -10899,10 +11035,10 @@ class IoT {
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     ArgumentError.checkNotNull(status, 'status');
-    final $payload = <String, dynamic>{
-      'arn': arn,
-      'status': status?.toValue(),
-    };
+    final $payload = UpdateTopicRuleDestinationRequest(
+      arn: arn,
+      status: status,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -10926,9 +11062,9 @@ class IoT {
     @_s.required List<Behavior> behaviors,
   }) async {
     ArgumentError.checkNotNull(behaviors, 'behaviors');
-    final $payload = <String, dynamic>{
-      'behaviors': behaviors,
-    };
+    final $payload = ValidateSecurityProfileBehaviorsRequest(
+      behaviors: behaviors,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -11001,6 +11137,30 @@ class AbortCriteria {
       _$AbortCriteriaFromJson(json);
 
   Map<String, dynamic> toJson() => _$AbortCriteriaToJson(this);
+}
+
+/// The input for the AcceptCertificateTransfer operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AcceptCertificateTransferRequest {
+  /// The ID of the certificate. (The last part of the certificate ARN contains
+  /// the certificate ID.)
+  @_s.JsonKey(name: 'certificateId', ignore: true)
+  final String certificateId;
+
+  /// Specifies whether the certificate is active.
+  @_s.JsonKey(name: 'setAsActive', ignore: true)
+  final bool setAsActive;
+
+  AcceptCertificateTransferRequest({
+    @_s.required this.certificateId,
+    this.setAsActive,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AcceptCertificateTransferRequestToJson(this);
 }
 
 /// Describes the actions associated with a rule.
@@ -11185,12 +11345,82 @@ class ActiveViolation {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AddThingToBillingGroupRequest {
+  /// The ARN of the billing group.
+  @_s.JsonKey(name: 'billingGroupArn')
+  final String billingGroupArn;
+
+  /// The name of the billing group.
+  @_s.JsonKey(name: 'billingGroupName')
+  final String billingGroupName;
+
+  /// The ARN of the thing to be added to the billing group.
+  @_s.JsonKey(name: 'thingArn')
+  final String thingArn;
+
+  /// The name of the thing to be added to the billing group.
+  @_s.JsonKey(name: 'thingName')
+  final String thingName;
+
+  AddThingToBillingGroupRequest({
+    this.billingGroupArn,
+    this.billingGroupName,
+    this.thingArn,
+    this.thingName,
+  });
+  Map<String, dynamic> toJson() => _$AddThingToBillingGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AddThingToBillingGroupResponse {
   AddThingToBillingGroupResponse();
   factory AddThingToBillingGroupResponse.fromJson(Map<String, dynamic> json) =>
       _$AddThingToBillingGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AddThingToThingGroupRequest {
+  /// Override dynamic thing groups with static thing groups when 10-group limit
+  /// is reached. If a thing belongs to 10 thing groups, and one or more of those
+  /// groups are dynamic thing groups, adding a thing to a static group removes
+  /// the thing from the last dynamic group.
+  @_s.JsonKey(name: 'overrideDynamicGroups')
+  final bool overrideDynamicGroups;
+
+  /// The ARN of the thing to add to a group.
+  @_s.JsonKey(name: 'thingArn')
+  final String thingArn;
+
+  /// The ARN of the group to which you are adding a thing.
+  @_s.JsonKey(name: 'thingGroupArn')
+  final String thingGroupArn;
+
+  /// The name of the group to which you are adding a thing.
+  @_s.JsonKey(name: 'thingGroupName')
+  final String thingGroupName;
+
+  /// The name of the thing to add to a group.
+  @_s.JsonKey(name: 'thingName')
+  final String thingName;
+
+  AddThingToThingGroupRequest({
+    this.overrideDynamicGroups,
+    this.thingArn,
+    this.thingGroupArn,
+    this.thingGroupName,
+    this.thingName,
+  });
+  Map<String, dynamic> toJson() => _$AddThingToThingGroupRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -11385,6 +11615,33 @@ class AssetPropertyVariant {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateTargetsWithJobRequest {
+  /// The unique identifier you assigned to this job when it was created.
+  @_s.JsonKey(name: 'jobId', ignore: true)
+  final String jobId;
+
+  /// A list of thing group ARNs that define the targets of the job.
+  @_s.JsonKey(name: 'targets')
+  final List<String> targets;
+
+  /// An optional comment string describing why the job was associated with the
+  /// targets.
+  @_s.JsonKey(name: 'comment')
+  final String comment;
+
+  AssociateTargetsWithJobRequest({
+    @_s.required this.jobId,
+    @_s.required this.targets,
+    this.comment,
+  });
+  Map<String, dynamic> toJson() => _$AssociateTargetsWithJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AssociateTargetsWithJobResponse {
@@ -11412,12 +11669,103 @@ class AssociateTargetsWithJobResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AttachPolicyRequest {
+  /// The name of the policy to attach.
+  @_s.JsonKey(name: 'policyName', ignore: true)
+  final String policyName;
+
+  /// The <a
+  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/iot-security-identity.html">identity</a>
+  /// to which the policy is attached.
+  @_s.JsonKey(name: 'target')
+  final String target;
+
+  AttachPolicyRequest({
+    @_s.required this.policyName,
+    @_s.required this.target,
+  });
+  Map<String, dynamic> toJson() => _$AttachPolicyRequestToJson(this);
+}
+
+/// The input for the AttachPrincipalPolicy operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AttachPrincipalPolicyRequest {
+  /// The policy name.
+  @_s.JsonKey(name: 'policyName', ignore: true)
+  final String policyName;
+
+  /// The principal, which can be a certificate ARN (as returned from the
+  /// CreateCertificate operation) or an Amazon Cognito ID.
+  @_s.JsonKey(name: 'x-amzn-iot-principal', ignore: true)
+  final String principal;
+
+  AttachPrincipalPolicyRequest({
+    @_s.required this.policyName,
+    @_s.required this.principal,
+  });
+  Map<String, dynamic> toJson() => _$AttachPrincipalPolicyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AttachSecurityProfileRequest {
+  /// The security profile that is attached.
+  @_s.JsonKey(name: 'securityProfileName', ignore: true)
+  final String securityProfileName;
+
+  /// The ARN of the target (thing group) to which the security profile is
+  /// attached.
+  @_s.JsonKey(name: 'securityProfileTargetArn', ignore: true)
+  final String securityProfileTargetArn;
+
+  AttachSecurityProfileRequest({
+    @_s.required this.securityProfileName,
+    @_s.required this.securityProfileTargetArn,
+  });
+  Map<String, dynamic> toJson() => _$AttachSecurityProfileRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AttachSecurityProfileResponse {
   AttachSecurityProfileResponse();
   factory AttachSecurityProfileResponse.fromJson(Map<String, dynamic> json) =>
       _$AttachSecurityProfileResponseFromJson(json);
+}
+
+/// The input for the AttachThingPrincipal operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AttachThingPrincipalRequest {
+  /// The principal, which can be a certificate ARN (as returned from the
+  /// CreateCertificate operation) or an Amazon Cognito ID.
+  @_s.JsonKey(name: 'x-amzn-principal', ignore: true)
+  final String principal;
+
+  /// The name of the thing.
+  @_s.JsonKey(name: 'thingName', ignore: true)
+  final String thingName;
+
+  AttachThingPrincipalRequest({
+    @_s.required this.principal,
+    @_s.required this.thingName,
+  });
+  Map<String, dynamic> toJson() => _$AttachThingPrincipalRequestToJson(this);
 }
 
 /// The output from the AttachThingPrincipal operation.
@@ -11641,22 +11989,6 @@ enum AuditFrequency {
   biweekly,
   @_s.JsonValue('MONTHLY')
   monthly,
-}
-
-extension on AuditFrequency {
-  String toValue() {
-    switch (this) {
-      case AuditFrequency.daily:
-        return 'DAILY';
-      case AuditFrequency.weekly:
-        return 'WEEKLY';
-      case AuditFrequency.biweekly:
-        return 'BIWEEKLY';
-      case AuditFrequency.monthly:
-        return 'MONTHLY';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Returned by ListAuditMitigationActionsTask, this object contains information
@@ -12082,18 +12414,6 @@ enum AuthorizerStatus {
   inactive,
 }
 
-extension on AuthorizerStatus {
-  String toValue() {
-    switch (this) {
-      case AuthorizerStatus.active:
-        return 'ACTIVE';
-      case AuthorizerStatus.inactive:
-        return 'INACTIVE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// The authorizer summary.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -12433,6 +12753,23 @@ enum CACertificateUpdateAction {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CancelAuditMitigationActionsTaskRequest {
+  /// The unique identifier for the task that you want to cancel.
+  @_s.JsonKey(name: 'taskId', ignore: true)
+  final String taskId;
+
+  CancelAuditMitigationActionsTaskRequest({
+    @_s.required this.taskId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CancelAuditMitigationActionsTaskRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CancelAuditMitigationActionsTaskResponse {
@@ -12445,12 +12782,139 @@ class CancelAuditMitigationActionsTaskResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CancelAuditTaskRequest {
+  /// The ID of the audit you want to cancel. You can only cancel an audit that is
+  /// "IN_PROGRESS".
+  @_s.JsonKey(name: 'taskId', ignore: true)
+  final String taskId;
+
+  CancelAuditTaskRequest({
+    @_s.required this.taskId,
+  });
+  Map<String, dynamic> toJson() => _$CancelAuditTaskRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CancelAuditTaskResponse {
   CancelAuditTaskResponse();
   factory CancelAuditTaskResponse.fromJson(Map<String, dynamic> json) =>
       _$CancelAuditTaskResponseFromJson(json);
+}
+
+/// The input for the CancelCertificateTransfer operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CancelCertificateTransferRequest {
+  /// The ID of the certificate. (The last part of the certificate ARN contains
+  /// the certificate ID.)
+  @_s.JsonKey(name: 'certificateId', ignore: true)
+  final String certificateId;
+
+  CancelCertificateTransferRequest({
+    @_s.required this.certificateId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CancelCertificateTransferRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CancelJobExecutionRequest {
+  /// The ID of the job to be canceled.
+  @_s.JsonKey(name: 'jobId', ignore: true)
+  final String jobId;
+
+  /// The name of the thing whose execution of the job will be canceled.
+  @_s.JsonKey(name: 'thingName', ignore: true)
+  final String thingName;
+
+  /// (Optional) The expected current version of the job execution. Each time you
+  /// update the job execution, its version is incremented. If the version of the
+  /// job execution stored in Jobs does not match, the update is rejected with a
+  /// VersionMismatch error, and an ErrorResponse that contains the current job
+  /// execution status data is returned. (This makes it unnecessary to perform a
+  /// separate DescribeJobExecution request in order to obtain the job execution
+  /// status data.)
+  @_s.JsonKey(name: 'expectedVersion')
+  final int expectedVersion;
+
+  /// (Optional) If <code>true</code> the job execution will be canceled if it has
+  /// status IN_PROGRESS or QUEUED, otherwise the job execution will be canceled
+  /// only if it has status QUEUED. If you attempt to cancel a job execution that
+  /// is IN_PROGRESS, and you do not set <code>force</code> to <code>true</code>,
+  /// then an <code>InvalidStateTransitionException</code> will be thrown. The
+  /// default is <code>false</code>.
+  ///
+  /// Canceling a job execution which is "IN_PROGRESS", will cause the device to
+  /// be unable to update the job execution status. Use caution and ensure that
+  /// the device is able to recover to a valid state.
+  @_s.JsonKey(name: 'force', ignore: true)
+  final bool force;
+
+  /// A collection of name/value pairs that describe the status of the job
+  /// execution. If not specified, the statusDetails are unchanged. You can
+  /// specify at most 10 name/value pairs.
+  @_s.JsonKey(name: 'statusDetails')
+  final Map<String, String> statusDetails;
+
+  CancelJobExecutionRequest({
+    @_s.required this.jobId,
+    @_s.required this.thingName,
+    this.expectedVersion,
+    this.force,
+    this.statusDetails,
+  });
+  Map<String, dynamic> toJson() => _$CancelJobExecutionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CancelJobRequest {
+  /// The unique identifier you assigned to this job when it was created.
+  @_s.JsonKey(name: 'jobId', ignore: true)
+  final String jobId;
+
+  /// An optional comment string describing why the job was canceled.
+  @_s.JsonKey(name: 'comment')
+  final String comment;
+
+  /// (Optional) If <code>true</code> job executions with status "IN_PROGRESS" and
+  /// "QUEUED" are canceled, otherwise only job executions with status "QUEUED"
+  /// are canceled. The default is <code>false</code>.
+  ///
+  /// Canceling a job which is "IN_PROGRESS", will cause a device which is
+  /// executing the job to be unable to update the job execution status. Use
+  /// caution and ensure that each device executing a job which is canceled is
+  /// able to recover to a valid state.
+  @_s.JsonKey(name: 'force', ignore: true)
+  final bool force;
+
+  /// (Optional)A reason code string that explains why the job was canceled.
+  @_s.JsonKey(name: 'reasonCode')
+  final String reasonCode;
+
+  CancelJobRequest({
+    @_s.required this.jobId,
+    this.comment,
+    this.force,
+    this.reasonCode,
+  });
+  Map<String, dynamic> toJson() => _$CancelJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -12635,26 +13099,6 @@ enum CertificateStatus {
   registerInactive,
   @_s.JsonValue('PENDING_ACTIVATION')
   pendingActivation,
-}
-
-extension on CertificateStatus {
-  String toValue() {
-    switch (this) {
-      case CertificateStatus.active:
-        return 'ACTIVE';
-      case CertificateStatus.inactive:
-        return 'INACTIVE';
-      case CertificateStatus.revoked:
-        return 'REVOKED';
-      case CertificateStatus.pendingTransfer:
-        return 'PENDING_TRANSFER';
-      case CertificateStatus.registerInactive:
-        return 'REGISTER_INACTIVE';
-      case CertificateStatus.pendingActivation:
-        return 'PENDING_ACTIVATION';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// When the certificate is valid.
@@ -12938,6 +13382,49 @@ class ConfirmTopicRuleDestinationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateAuthorizerRequest {
+  /// The ARN of the authorizer's Lambda function.
+  @_s.JsonKey(name: 'authorizerFunctionArn')
+  final String authorizerFunctionArn;
+
+  /// The authorizer name.
+  @_s.JsonKey(name: 'authorizerName', ignore: true)
+  final String authorizerName;
+
+  /// Specifies whether AWS IoT validates the token signature in an authorization
+  /// request.
+  @_s.JsonKey(name: 'signingDisabled')
+  final bool signingDisabled;
+
+  /// The status of the create authorizer request.
+  @_s.JsonKey(name: 'status')
+  final AuthorizerStatus status;
+
+  /// The name of the token key used to extract the token from the HTTP headers.
+  @_s.JsonKey(name: 'tokenKeyName')
+  final String tokenKeyName;
+
+  /// The public keys used to verify the digital signature returned by your custom
+  /// authentication service.
+  @_s.JsonKey(name: 'tokenSigningPublicKeys')
+  final Map<String, String> tokenSigningPublicKeys;
+
+  CreateAuthorizerRequest({
+    @_s.required this.authorizerFunctionArn,
+    @_s.required this.authorizerName,
+    this.signingDisabled,
+    this.status,
+    this.tokenKeyName,
+    this.tokenSigningPublicKeys,
+  });
+  Map<String, dynamic> toJson() => _$CreateAuthorizerRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateAuthorizerResponse {
@@ -12955,6 +13442,32 @@ class CreateAuthorizerResponse {
   });
   factory CreateAuthorizerResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateAuthorizerResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateBillingGroupRequest {
+  /// The name you wish to give to the billing group.
+  @_s.JsonKey(name: 'billingGroupName', ignore: true)
+  final String billingGroupName;
+
+  /// The properties of the billing group.
+  @_s.JsonKey(name: 'billingGroupProperties')
+  final BillingGroupProperties billingGroupProperties;
+
+  /// Metadata which can be used to manage the billing group.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  CreateBillingGroupRequest({
+    @_s.required this.billingGroupName,
+    this.billingGroupProperties,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateBillingGroupRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -12982,6 +13495,29 @@ class CreateBillingGroupResponse {
   });
   factory CreateBillingGroupResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateBillingGroupResponseFromJson(json);
+}
+
+/// The input for the CreateCertificateFromCsr operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateCertificateFromCsrRequest {
+  /// The certificate signing request (CSR).
+  @_s.JsonKey(name: 'certificateSigningRequest')
+  final String certificateSigningRequest;
+
+  /// Specifies whether the certificate is active.
+  @_s.JsonKey(name: 'setAsActive', ignore: true)
+  final bool setAsActive;
+
+  CreateCertificateFromCsrRequest({
+    @_s.required this.certificateSigningRequest,
+    this.setAsActive,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateCertificateFromCsrRequestToJson(this);
 }
 
 /// The output from the CreateCertificateFromCsr operation.
@@ -13018,6 +13554,48 @@ class CreateCertificateFromCsrResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDimensionRequest {
+  /// Each dimension must have a unique client request token. If you try to create
+  /// a new dimension with the same token as a dimension that already exists, an
+  /// exception occurs. If you omit this value, AWS SDKs will automatically
+  /// generate a unique client request.
+  @_s.JsonKey(name: 'clientRequestToken')
+  final String clientRequestToken;
+
+  /// A unique identifier for the dimension. Choose something that describes the
+  /// type and value to make it easy to remember what it does.
+  @_s.JsonKey(name: 'name', ignore: true)
+  final String name;
+
+  /// Specifies the value or list of values for the dimension. For
+  /// <code>TOPIC_FILTER</code> dimensions, this is a pattern used to match the
+  /// MQTT topic (for example, "admin/#").
+  @_s.JsonKey(name: 'stringValues')
+  final List<String> stringValues;
+
+  /// Specifies the type of dimension. Supported types: <code>TOPIC_FILTER.</code>
+  @_s.JsonKey(name: 'type')
+  final DimensionType type;
+
+  /// Metadata that can be used to manage the dimension.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  CreateDimensionRequest({
+    @_s.required this.clientRequestToken,
+    @_s.required this.name,
+    @_s.required this.stringValues,
+    @_s.required this.type,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateDimensionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateDimensionResponse {
@@ -13035,6 +13613,52 @@ class CreateDimensionResponse {
   });
   factory CreateDimensionResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateDimensionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDomainConfigurationRequest {
+  /// The name of the domain configuration. This value must be unique to a region.
+  @_s.JsonKey(name: 'domainConfigurationName', ignore: true)
+  final String domainConfigurationName;
+
+  /// An object that specifies the authorization service for a domain.
+  @_s.JsonKey(name: 'authorizerConfig')
+  final AuthorizerConfig authorizerConfig;
+
+  /// The name of the domain.
+  @_s.JsonKey(name: 'domainName')
+  final String domainName;
+
+  /// The ARNs of the certificates that AWS IoT passes to the device during the
+  /// TLS handshake. Currently you can specify only one certificate ARN. This
+  /// value is not required for AWS-managed domains.
+  @_s.JsonKey(name: 'serverCertificateArns')
+  final List<String> serverCertificateArns;
+
+  /// The type of service delivered by the endpoint.
+  @_s.JsonKey(name: 'serviceType')
+  final ServiceType serviceType;
+
+  /// The certificate used to validate the server certificate and prove domain
+  /// name ownership. This certificate must be signed by a public certificate
+  /// authority. This value is not required for AWS-managed domains.
+  @_s.JsonKey(name: 'validationCertificateArn')
+  final String validationCertificateArn;
+
+  CreateDomainConfigurationRequest({
+    @_s.required this.domainConfigurationName,
+    this.authorizerConfig,
+    this.domainName,
+    this.serverCertificateArns,
+    this.serviceType,
+    this.validationCertificateArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateDomainConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13058,6 +13682,58 @@ class CreateDomainConfigurationResponse {
   factory CreateDomainConfigurationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$CreateDomainConfigurationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDynamicThingGroupRequest {
+  /// The dynamic thing group search query string.
+  ///
+  /// See <a
+  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/query-syntax.html">Query
+  /// Syntax</a> for information about query string syntax.
+  @_s.JsonKey(name: 'queryString')
+  final String queryString;
+
+  /// The dynamic thing group name to create.
+  @_s.JsonKey(name: 'thingGroupName', ignore: true)
+  final String thingGroupName;
+
+  /// The dynamic thing group index name.
+  /// <note>
+  /// Currently one index is supported: "AWS_Things".
+  /// </note>
+  @_s.JsonKey(name: 'indexName')
+  final String indexName;
+
+  /// The dynamic thing group query version.
+  /// <note>
+  /// Currently one query version is supported: "2017-09-30". If not specified,
+  /// the query version defaults to this value.
+  /// </note>
+  @_s.JsonKey(name: 'queryVersion')
+  final String queryVersion;
+
+  /// Metadata which can be used to manage the dynamic thing group.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  /// The dynamic thing group properties.
+  @_s.JsonKey(name: 'thingGroupProperties')
+  final ThingGroupProperties thingGroupProperties;
+
+  CreateDynamicThingGroupRequest({
+    @_s.required this.queryString,
+    @_s.required this.thingGroupName,
+    this.indexName,
+    this.queryVersion,
+    this.tags,
+    this.thingGroupProperties,
+  });
+  Map<String, dynamic> toJson() => _$CreateDynamicThingGroupRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13105,6 +13781,93 @@ class CreateDynamicThingGroupResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateJobRequest {
+  /// A job identifier which must be unique for your AWS account. We recommend
+  /// using a UUID. Alpha-numeric characters, "-" and "_" are valid for use here.
+  @_s.JsonKey(name: 'jobId', ignore: true)
+  final String jobId;
+
+  /// A list of things and thing groups to which the job should be sent.
+  @_s.JsonKey(name: 'targets')
+  final List<String> targets;
+
+  /// Allows you to create criteria to abort a job.
+  @_s.JsonKey(name: 'abortConfig')
+  final AbortConfig abortConfig;
+
+  /// A short text description of the job.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The job document.
+  /// <note>
+  /// If the job document resides in an S3 bucket, you must use a placeholder link
+  /// when specifying the document.
+  ///
+  /// The placeholder link is of the following form:
+  ///
+  /// <code>${aws:iot:s3-presigned-url:https://s3.amazonaws.com/<i>bucket</i>/<i>key</i>}</code>
+  ///
+  /// where <i>bucket</i> is your bucket name and <i>key</i> is the object in the
+  /// bucket to which you are linking.
+  /// </note>
+  @_s.JsonKey(name: 'document')
+  final String document;
+
+  /// An S3 link to the job document.
+  @_s.JsonKey(name: 'documentSource')
+  final String documentSource;
+
+  /// Allows you to create a staged rollout of the job.
+  @_s.JsonKey(name: 'jobExecutionsRolloutConfig')
+  final JobExecutionsRolloutConfig jobExecutionsRolloutConfig;
+
+  /// Configuration information for pre-signed S3 URLs.
+  @_s.JsonKey(name: 'presignedUrlConfig')
+  final PresignedUrlConfig presignedUrlConfig;
+
+  /// Metadata which can be used to manage the job.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  /// Specifies whether the job will continue to run (CONTINUOUS), or will be
+  /// complete after all those things specified as targets have completed the job
+  /// (SNAPSHOT). If continuous, the job may also be run on a thing when a change
+  /// is detected in a target. For example, a job will run on a thing when the
+  /// thing is added to a target group, even after the job was completed by all
+  /// things originally in the group.
+  @_s.JsonKey(name: 'targetSelection')
+  final TargetSelection targetSelection;
+
+  /// Specifies the amount of time each device has to finish its execution of the
+  /// job. The timer is started when the job execution status is set to
+  /// <code>IN_PROGRESS</code>. If the job execution status is not set to another
+  /// terminal state before the time expires, it will be automatically set to
+  /// <code>TIMED_OUT</code>.
+  @_s.JsonKey(name: 'timeoutConfig')
+  final TimeoutConfig timeoutConfig;
+
+  CreateJobRequest({
+    @_s.required this.jobId,
+    @_s.required this.targets,
+    this.abortConfig,
+    this.description,
+    this.document,
+    this.documentSource,
+    this.jobExecutionsRolloutConfig,
+    this.presignedUrlConfig,
+    this.tags,
+    this.targetSelection,
+    this.timeoutConfig,
+  });
+  Map<String, dynamic> toJson() => _$CreateJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateJobResponse {
@@ -13127,6 +13890,24 @@ class CreateJobResponse {
   });
   factory CreateJobResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateJobResponseFromJson(json);
+}
+
+/// The input for the CreateKeysAndCertificate operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateKeysAndCertificateRequest {
+  /// Specifies whether the certificate is active.
+  @_s.JsonKey(name: 'setAsActive', ignore: true)
+  final bool setAsActive;
+
+  CreateKeysAndCertificateRequest({
+    this.setAsActive,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateKeysAndCertificateRequestToJson(this);
 }
 
 /// The output of the CreateKeysAndCertificate operation.
@@ -13167,6 +13948,38 @@ class CreateKeysAndCertificateResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateMitigationActionRequest {
+  /// A friendly name for the action. Choose a friendly name that accurately
+  /// describes the action (for example, <code>EnableLoggingAction</code>).
+  @_s.JsonKey(name: 'actionName', ignore: true)
+  final String actionName;
+
+  /// Defines the type of action and the parameters for that action.
+  @_s.JsonKey(name: 'actionParams')
+  final MitigationActionParams actionParams;
+
+  /// The ARN of the IAM role that is used to apply the mitigation action.
+  @_s.JsonKey(name: 'roleArn')
+  final String roleArn;
+
+  /// Metadata that can be used to manage the mitigation action.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  CreateMitigationActionRequest({
+    @_s.required this.actionName,
+    @_s.required this.actionParams,
+    @_s.required this.roleArn,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateMitigationActionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateMitigationActionResponse {
@@ -13184,6 +13997,80 @@ class CreateMitigationActionResponse {
   });
   factory CreateMitigationActionResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateMitigationActionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateOTAUpdateRequest {
+  /// The files to be streamed by the OTA update.
+  @_s.JsonKey(name: 'files')
+  final List<OTAUpdateFile> files;
+
+  /// The ID of the OTA update to be created.
+  @_s.JsonKey(name: 'otaUpdateId', ignore: true)
+  final String otaUpdateId;
+
+  /// The IAM role that allows access to the AWS IoT Jobs service.
+  @_s.JsonKey(name: 'roleArn')
+  final String roleArn;
+
+  /// The targeted devices to receive OTA updates.
+  @_s.JsonKey(name: 'targets')
+  final List<String> targets;
+
+  /// A list of additional OTA update parameters which are name-value pairs.
+  @_s.JsonKey(name: 'additionalParameters')
+  final Map<String, String> additionalParameters;
+
+  /// Configuration for the rollout of OTA updates.
+  @_s.JsonKey(name: 'awsJobExecutionsRolloutConfig')
+  final AwsJobExecutionsRolloutConfig awsJobExecutionsRolloutConfig;
+
+  /// Configuration information for pre-signed URLs.
+  @_s.JsonKey(name: 'awsJobPresignedUrlConfig')
+  final AwsJobPresignedUrlConfig awsJobPresignedUrlConfig;
+
+  /// The description of the OTA update.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The protocol used to transfer the OTA update image. Valid values are [HTTP],
+  /// [MQTT], [HTTP, MQTT]. When both HTTP and MQTT are specified, the target
+  /// device can choose the protocol.
+  @_s.JsonKey(name: 'protocols')
+  final List<String> protocols;
+
+  /// Metadata which can be used to manage updates.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  /// Specifies whether the update will continue to run (CONTINUOUS), or will be
+  /// complete after all the things specified as targets have completed the update
+  /// (SNAPSHOT). If continuous, the update may also be run on a thing when a
+  /// change is detected in a target. For example, an update will run on a thing
+  /// when the thing is added to a target group, even after the update was
+  /// completed by all things originally in the group. Valid values: CONTINUOUS |
+  /// SNAPSHOT.
+  @_s.JsonKey(name: 'targetSelection')
+  final TargetSelection targetSelection;
+
+  CreateOTAUpdateRequest({
+    @_s.required this.files,
+    @_s.required this.otaUpdateId,
+    @_s.required this.roleArn,
+    @_s.required this.targets,
+    this.additionalParameters,
+    this.awsJobExecutionsRolloutConfig,
+    this.awsJobPresignedUrlConfig,
+    this.description,
+    this.protocols,
+    this.tags,
+    this.targetSelection,
+  });
+  Map<String, dynamic> toJson() => _$CreateOTAUpdateRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13223,6 +14110,29 @@ class CreateOTAUpdateResponse {
       _$CreateOTAUpdateResponseFromJson(json);
 }
 
+/// The input for the CreatePolicy operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreatePolicyRequest {
+  /// The JSON document that describes the policy. <b>policyDocument</b> must have
+  /// a minimum length of 1, with a maximum length of 2048, excluding whitespace.
+  @_s.JsonKey(name: 'policyDocument')
+  final String policyDocument;
+
+  /// The policy name.
+  @_s.JsonKey(name: 'policyName', ignore: true)
+  final String policyName;
+
+  CreatePolicyRequest({
+    @_s.required this.policyDocument,
+    @_s.required this.policyName,
+  });
+  Map<String, dynamic> toJson() => _$CreatePolicyRequestToJson(this);
+}
+
 /// The output from the CreatePolicy operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -13256,6 +14166,37 @@ class CreatePolicyResponse {
       _$CreatePolicyResponseFromJson(json);
 }
 
+/// The input for the CreatePolicyVersion operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreatePolicyVersionRequest {
+  /// The JSON document that describes the policy. Minimum length of 1. Maximum
+  /// length of 2048, excluding whitespace.
+  @_s.JsonKey(name: 'policyDocument')
+  final String policyDocument;
+
+  /// The policy name.
+  @_s.JsonKey(name: 'policyName', ignore: true)
+  final String policyName;
+
+  /// Specifies whether the policy version is set as the default. When this
+  /// parameter is true, the new policy version becomes the operative version
+  /// (that is, the version that is in effect for the certificates to which the
+  /// policy is attached).
+  @_s.JsonKey(name: 'setAsDefault', ignore: true)
+  final bool setAsDefault;
+
+  CreatePolicyVersionRequest({
+    @_s.required this.policyDocument,
+    @_s.required this.policyName,
+    this.setAsDefault,
+  });
+  Map<String, dynamic> toJson() => _$CreatePolicyVersionRequestToJson(this);
+}
+
 /// The output of the CreatePolicyVersion operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -13287,6 +14228,22 @@ class CreatePolicyVersionResponse {
   });
   factory CreatePolicyVersionResponse.fromJson(Map<String, dynamic> json) =>
       _$CreatePolicyVersionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateProvisioningClaimRequest {
+  /// The name of the provisioning template to use.
+  @_s.JsonKey(name: 'templateName', ignore: true)
+  final String templateName;
+
+  CreateProvisioningClaimRequest({
+    @_s.required this.templateName,
+  });
+  Map<String, dynamic> toJson() => _$CreateProvisioningClaimRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13327,6 +14284,58 @@ class CreateProvisioningClaimResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateProvisioningTemplateRequest {
+  /// The role ARN for the role associated with the fleet provisioning template.
+  /// This IoT role grants permission to provision a device.
+  @_s.JsonKey(name: 'provisioningRoleArn')
+  final String provisioningRoleArn;
+
+  /// The JSON formatted contents of the fleet provisioning template.
+  @_s.JsonKey(name: 'templateBody')
+  final String templateBody;
+
+  /// The name of the fleet provisioning template.
+  @_s.JsonKey(name: 'templateName')
+  final String templateName;
+
+  /// The description of the fleet provisioning template.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// True to enable the fleet provisioning template, otherwise false.
+  @_s.JsonKey(name: 'enabled')
+  final bool enabled;
+
+  /// Metadata which can be used to manage the fleet provisioning template.
+  /// <note>
+  /// For URI Request parameters use format: ...key1=value1&amp;key2=value2...
+  ///
+  /// For the CLI command-line parameter use format: &amp;&amp;tags
+  /// "key1=value1&amp;key2=value2..."
+  ///
+  /// For the cli-input-json file use format: "tags":
+  /// "key1=value1&amp;key2=value2..."
+  /// </note>
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  CreateProvisioningTemplateRequest({
+    @_s.required this.provisioningRoleArn,
+    @_s.required this.templateBody,
+    @_s.required this.templateName,
+    this.description,
+    this.enabled,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateProvisioningTemplateRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateProvisioningTemplateResponse {
@@ -13350,6 +14359,33 @@ class CreateProvisioningTemplateResponse {
   factory CreateProvisioningTemplateResponse.fromJson(
           Map<String, dynamic> json) =>
       _$CreateProvisioningTemplateResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateProvisioningTemplateVersionRequest {
+  /// The JSON formatted contents of the fleet provisioning template.
+  @_s.JsonKey(name: 'templateBody')
+  final String templateBody;
+
+  /// The name of the fleet provisioning template.
+  @_s.JsonKey(name: 'templateName', ignore: true)
+  final String templateName;
+
+  /// Sets a fleet provision template version as the default version.
+  @_s.JsonKey(name: 'setAsDefault', ignore: true)
+  final bool setAsDefault;
+
+  CreateProvisioningTemplateVersionRequest({
+    @_s.required this.templateBody,
+    @_s.required this.templateName,
+    this.setAsDefault,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateProvisioningTemplateVersionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13389,6 +14425,33 @@ class CreateProvisioningTemplateVersionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateRoleAliasRequest {
+  /// The role alias that points to a role ARN. This allows you to change the role
+  /// without having to update the device.
+  @_s.JsonKey(name: 'roleAlias', ignore: true)
+  final String roleAlias;
+
+  /// The role ARN.
+  @_s.JsonKey(name: 'roleArn')
+  final String roleArn;
+
+  /// How long (in seconds) the credentials will be valid.
+  @_s.JsonKey(name: 'credentialDurationSeconds')
+  final int credentialDurationSeconds;
+
+  CreateRoleAliasRequest({
+    @_s.required this.roleAlias,
+    @_s.required this.roleArn,
+    this.credentialDurationSeconds,
+  });
+  Map<String, dynamic> toJson() => _$CreateRoleAliasRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateRoleAliasResponse {
@@ -13411,6 +14474,59 @@ class CreateRoleAliasResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateScheduledAuditRequest {
+  /// How often the scheduled audit takes place. Can be one of "DAILY", "WEEKLY",
+  /// "BIWEEKLY" or "MONTHLY". The start time of each audit is determined by the
+  /// system.
+  @_s.JsonKey(name: 'frequency')
+  final AuditFrequency frequency;
+
+  /// The name you want to give to the scheduled audit. (Max. 128 chars)
+  @_s.JsonKey(name: 'scheduledAuditName', ignore: true)
+  final String scheduledAuditName;
+
+  /// Which checks are performed during the scheduled audit. Checks must be
+  /// enabled for your account. (Use
+  /// <code>DescribeAccountAuditConfiguration</code> to see the list of all
+  /// checks, including those that are enabled or use
+  /// <code>UpdateAccountAuditConfiguration</code> to select which checks are
+  /// enabled.)
+  @_s.JsonKey(name: 'targetCheckNames')
+  final List<String> targetCheckNames;
+
+  /// The day of the month on which the scheduled audit takes place. Can be "1"
+  /// through "31" or "LAST". This field is required if the "frequency" parameter
+  /// is set to "MONTHLY". If days 29-31 are specified, and the month does not
+  /// have that many days, the audit takes place on the "LAST" day of the month.
+  @_s.JsonKey(name: 'dayOfMonth')
+  final String dayOfMonth;
+
+  /// The day of the week on which the scheduled audit takes place. Can be one of
+  /// "SUN", "MON", "TUE", "WED", "THU", "FRI", or "SAT". This field is required
+  /// if the "frequency" parameter is set to "WEEKLY" or "BIWEEKLY".
+  @_s.JsonKey(name: 'dayOfWeek')
+  final DayOfWeek dayOfWeek;
+
+  /// Metadata that can be used to manage the scheduled audit.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  CreateScheduledAuditRequest({
+    @_s.required this.frequency,
+    @_s.required this.scheduledAuditName,
+    @_s.required this.targetCheckNames,
+    this.dayOfMonth,
+    this.dayOfWeek,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateScheduledAuditRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateScheduledAuditResponse {
@@ -13423,6 +14539,62 @@ class CreateScheduledAuditResponse {
   });
   factory CreateScheduledAuditResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateScheduledAuditResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateSecurityProfileRequest {
+  /// The name you are giving to the security profile.
+  @_s.JsonKey(name: 'securityProfileName', ignore: true)
+  final String securityProfileName;
+
+  /// A list of metrics whose data is retained (stored). By default, data is
+  /// retained for any metric used in the profile's <code>behaviors</code>, but it
+  /// is also retained for any metric specified here.
+  ///
+  /// <b>Note:</b> This API field is deprecated. Please use
+  /// <a>CreateSecurityProfileRequest$additionalMetricsToRetainV2</a> instead.
+  @_s.JsonKey(name: 'additionalMetricsToRetain')
+  final List<String> additionalMetricsToRetain;
+
+  /// A list of metrics whose data is retained (stored). By default, data is
+  /// retained for any metric used in the profile's <code>behaviors</code>, but it
+  /// is also retained for any metric specified here.
+  @_s.JsonKey(name: 'additionalMetricsToRetainV2')
+  final List<MetricToRetain> additionalMetricsToRetainV2;
+
+  /// Specifies the destinations to which alerts are sent. (Alerts are always sent
+  /// to the console.) Alerts are generated when a device (thing) violates a
+  /// behavior.
+  @_s.JsonKey(name: 'alertTargets')
+  final Map<String, AlertTarget> alertTargets;
+
+  /// Specifies the behaviors that, when violated by a device (thing), cause an
+  /// alert.
+  @_s.JsonKey(name: 'behaviors')
+  final List<Behavior> behaviors;
+
+  /// A description of the security profile.
+  @_s.JsonKey(name: 'securityProfileDescription')
+  final String securityProfileDescription;
+
+  /// Metadata that can be used to manage the security profile.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  CreateSecurityProfileRequest({
+    @_s.required this.securityProfileName,
+    this.additionalMetricsToRetain,
+    this.additionalMetricsToRetainV2,
+    this.alertTargets,
+    this.behaviors,
+    this.securityProfileDescription,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateSecurityProfileRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13445,6 +14617,43 @@ class CreateSecurityProfileResponse {
   });
   factory CreateSecurityProfileResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateSecurityProfileResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateStreamRequest {
+  /// The files to stream.
+  @_s.JsonKey(name: 'files')
+  final List<StreamFile> files;
+
+  /// An IAM role that allows the IoT service principal assumes to access your S3
+  /// files.
+  @_s.JsonKey(name: 'roleArn')
+  final String roleArn;
+
+  /// The stream ID.
+  @_s.JsonKey(name: 'streamId', ignore: true)
+  final String streamId;
+
+  /// A description of the stream.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// Metadata which can be used to manage streams.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  CreateStreamRequest({
+    @_s.required this.files,
+    @_s.required this.roleArn,
+    @_s.required this.streamId,
+    this.description,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateStreamRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13482,6 +14691,37 @@ class CreateStreamResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateThingGroupRequest {
+  /// The thing group name to create.
+  @_s.JsonKey(name: 'thingGroupName', ignore: true)
+  final String thingGroupName;
+
+  /// The name of the parent thing group.
+  @_s.JsonKey(name: 'parentGroupName')
+  final String parentGroupName;
+
+  /// Metadata which can be used to manage the thing group.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  /// The thing group properties.
+  @_s.JsonKey(name: 'thingGroupProperties')
+  final ThingGroupProperties thingGroupProperties;
+
+  CreateThingGroupRequest({
+    @_s.required this.thingGroupName,
+    this.parentGroupName,
+    this.tags,
+    this.thingGroupProperties,
+  });
+  Map<String, dynamic> toJson() => _$CreateThingGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateThingGroupResponse {
@@ -13504,6 +14744,41 @@ class CreateThingGroupResponse {
   });
   factory CreateThingGroupResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateThingGroupResponseFromJson(json);
+}
+
+/// The input for the CreateThing operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateThingRequest {
+  /// The name of the thing to create.
+  @_s.JsonKey(name: 'thingName', ignore: true)
+  final String thingName;
+
+  /// The attribute payload, which consists of up to three name/value pairs in a
+  /// JSON document. For example:
+  ///
+  /// <code>{\"attributes\":{\"string1\":\"string2\"}}</code>
+  @_s.JsonKey(name: 'attributePayload')
+  final AttributePayload attributePayload;
+
+  /// The name of the billing group the thing will be added to.
+  @_s.JsonKey(name: 'billingGroupName')
+  final String billingGroupName;
+
+  /// The name of the thing type associated with the new thing.
+  @_s.JsonKey(name: 'thingTypeName')
+  final String thingTypeName;
+
+  CreateThingRequest({
+    @_s.required this.thingName,
+    this.attributePayload,
+    this.billingGroupName,
+    this.thingTypeName,
+  });
+  Map<String, dynamic> toJson() => _$CreateThingRequestToJson(this);
 }
 
 /// The output of the CreateThing operation.
@@ -13534,6 +14809,35 @@ class CreateThingResponse {
       _$CreateThingResponseFromJson(json);
 }
 
+/// The input for the CreateThingType operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateThingTypeRequest {
+  /// The name of the thing type.
+  @_s.JsonKey(name: 'thingTypeName', ignore: true)
+  final String thingTypeName;
+
+  /// Metadata which can be used to manage the thing type.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  /// The ThingTypeProperties for the thing type to create. It contains
+  /// information about the new thing type including a description, and a list of
+  /// searchable thing attribute names.
+  @_s.JsonKey(name: 'thingTypeProperties')
+  final ThingTypeProperties thingTypeProperties;
+
+  CreateThingTypeRequest({
+    @_s.required this.thingTypeName,
+    this.tags,
+    this.thingTypeProperties,
+  });
+  Map<String, dynamic> toJson() => _$CreateThingTypeRequestToJson(this);
+}
+
 /// The output of the CreateThingType operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -13560,6 +14864,23 @@ class CreateThingTypeResponse {
   });
   factory CreateThingTypeResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateThingTypeResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateTopicRuleDestinationRequest {
+  /// The topic rule destination configuration.
+  @_s.JsonKey(name: 'destinationConfiguration')
+  final TopicRuleDestinationConfiguration destinationConfiguration;
+
+  CreateTopicRuleDestinationRequest({
+    @_s.required this.destinationConfiguration,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateTopicRuleDestinationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13632,26 +14953,21 @@ enum DayOfWeek {
   sat,
 }
 
-extension on DayOfWeek {
-  String toValue() {
-    switch (this) {
-      case DayOfWeek.sun:
-        return 'SUN';
-      case DayOfWeek.mon:
-        return 'MON';
-      case DayOfWeek.tue:
-        return 'TUE';
-      case DayOfWeek.wed:
-        return 'WED';
-      case DayOfWeek.thu:
-        return 'THU';
-      case DayOfWeek.fri:
-        return 'FRI';
-      case DayOfWeek.sat:
-        return 'SAT';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteAccountAuditConfigurationRequest {
+  /// If true, all scheduled audits are deleted.
+  @_s.JsonKey(name: 'deleteScheduledAudits', ignore: true)
+  final bool deleteScheduledAudits;
+
+  DeleteAccountAuditConfigurationRequest({
+    this.deleteScheduledAudits,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteAccountAuditConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13669,6 +14985,22 @@ class DeleteAccountAuditConfigurationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteAuthorizerRequest {
+  /// The name of the authorizer to delete.
+  @_s.JsonKey(name: 'authorizerName', ignore: true)
+  final String authorizerName;
+
+  DeleteAuthorizerRequest({
+    @_s.required this.authorizerName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteAuthorizerRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteAuthorizerResponse {
@@ -13680,12 +15012,54 @@ class DeleteAuthorizerResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteBillingGroupRequest {
+  /// The name of the billing group.
+  @_s.JsonKey(name: 'billingGroupName', ignore: true)
+  final String billingGroupName;
+
+  /// The expected version of the billing group. If the version of the billing
+  /// group does not match the expected version specified in the request, the
+  /// <code>DeleteBillingGroup</code> request is rejected with a
+  /// <code>VersionConflictException</code>.
+  @_s.JsonKey(name: 'expectedVersion', ignore: true)
+  final int expectedVersion;
+
+  DeleteBillingGroupRequest({
+    @_s.required this.billingGroupName,
+    this.expectedVersion,
+  });
+  Map<String, dynamic> toJson() => _$DeleteBillingGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteBillingGroupResponse {
   DeleteBillingGroupResponse();
   factory DeleteBillingGroupResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteBillingGroupResponseFromJson(json);
+}
+
+/// Input for the DeleteCACertificate operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteCACertificateRequest {
+  /// The ID of the certificate to delete. (The last part of the certificate ARN
+  /// contains the certificate ID.)
+  @_s.JsonKey(name: 'caCertificateId', ignore: true)
+  final String certificateId;
+
+  DeleteCACertificateRequest({
+    @_s.required this.certificateId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteCACertificateRequestToJson(this);
 }
 
 /// The output for the DeleteCACertificate operation.
@@ -13700,6 +15074,46 @@ class DeleteCACertificateResponse {
       _$DeleteCACertificateResponseFromJson(json);
 }
 
+/// The input for the DeleteCertificate operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteCertificateRequest {
+  /// The ID of the certificate. (The last part of the certificate ARN contains
+  /// the certificate ID.)
+  @_s.JsonKey(name: 'certificateId', ignore: true)
+  final String certificateId;
+
+  /// Forces the deletion of a certificate if it is inactive and is not attached
+  /// to an IoT thing.
+  @_s.JsonKey(name: 'forceDelete', ignore: true)
+  final bool forceDelete;
+
+  DeleteCertificateRequest({
+    @_s.required this.certificateId,
+    this.forceDelete,
+  });
+  Map<String, dynamic> toJson() => _$DeleteCertificateRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDimensionRequest {
+  /// The unique identifier for the dimension that you want to delete.
+  @_s.JsonKey(name: 'name', ignore: true)
+  final String name;
+
+  DeleteDimensionRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDimensionRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -13709,6 +15123,23 @@ class DeleteDimensionResponse {
   DeleteDimensionResponse();
   factory DeleteDimensionResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteDimensionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDomainConfigurationRequest {
+  /// The name of the domain configuration to be deleted.
+  @_s.JsonKey(name: 'domainConfigurationName', ignore: true)
+  final String domainConfigurationName;
+
+  DeleteDomainConfigurationRequest({
+    @_s.required this.domainConfigurationName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteDomainConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13726,12 +15157,126 @@ class DeleteDomainConfigurationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDynamicThingGroupRequest {
+  /// The name of the dynamic thing group to delete.
+  @_s.JsonKey(name: 'thingGroupName', ignore: true)
+  final String thingGroupName;
+
+  /// The expected version of the dynamic thing group to delete.
+  @_s.JsonKey(name: 'expectedVersion', ignore: true)
+  final int expectedVersion;
+
+  DeleteDynamicThingGroupRequest({
+    @_s.required this.thingGroupName,
+    this.expectedVersion,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDynamicThingGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteDynamicThingGroupResponse {
   DeleteDynamicThingGroupResponse();
   factory DeleteDynamicThingGroupResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteDynamicThingGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteJobExecutionRequest {
+  /// The ID of the job execution to be deleted. The <code>executionNumber</code>
+  /// refers to the execution of a particular job on a particular device.
+  ///
+  /// Note that once a job execution is deleted, the <code>executionNumber</code>
+  /// may be reused by IoT, so be sure you get and use the correct value here.
+  @_s.JsonKey(name: 'executionNumber', ignore: true)
+  final int executionNumber;
+
+  /// The ID of the job whose execution on a particular device will be deleted.
+  @_s.JsonKey(name: 'jobId', ignore: true)
+  final String jobId;
+
+  /// The name of the thing whose job execution will be deleted.
+  @_s.JsonKey(name: 'thingName', ignore: true)
+  final String thingName;
+
+  /// (Optional) When true, you can delete a job execution which is "IN_PROGRESS".
+  /// Otherwise, you can only delete a job execution which is in a terminal state
+  /// ("SUCCEEDED", "FAILED", "REJECTED", "REMOVED" or "CANCELED") or an exception
+  /// will occur. The default is false.
+  /// <note>
+  /// Deleting a job execution which is "IN_PROGRESS", will cause the device to be
+  /// unable to access job information or update the job execution status. Use
+  /// caution and ensure that the device is able to recover to a valid state.
+  /// </note>
+  @_s.JsonKey(name: 'force', ignore: true)
+  final bool force;
+
+  DeleteJobExecutionRequest({
+    @_s.required this.executionNumber,
+    @_s.required this.jobId,
+    @_s.required this.thingName,
+    this.force,
+  });
+  Map<String, dynamic> toJson() => _$DeleteJobExecutionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteJobRequest {
+  /// The ID of the job to be deleted.
+  ///
+  /// After a job deletion is completed, you may reuse this jobId when you create
+  /// a new job. However, this is not recommended, and you must ensure that your
+  /// devices are not using the jobId to refer to the deleted job.
+  @_s.JsonKey(name: 'jobId', ignore: true)
+  final String jobId;
+
+  /// (Optional) When true, you can delete a job which is "IN_PROGRESS".
+  /// Otherwise, you can only delete a job which is in a terminal state
+  /// ("COMPLETED" or "CANCELED") or an exception will occur. The default is
+  /// false.
+  /// <note>
+  /// Deleting a job which is "IN_PROGRESS", will cause a device which is
+  /// executing the job to be unable to access job information or update the job
+  /// execution status. Use caution and ensure that each device executing a job
+  /// which is deleted is able to recover to a valid state.
+  /// </note>
+  @_s.JsonKey(name: 'force', ignore: true)
+  final bool force;
+
+  DeleteJobRequest({
+    @_s.required this.jobId,
+    this.force,
+  });
+  Map<String, dynamic> toJson() => _$DeleteJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteMitigationActionRequest {
+  /// The name of the mitigation action that you want to delete.
+  @_s.JsonKey(name: 'actionName', ignore: true)
+  final String actionName;
+
+  DeleteMitigationActionRequest({
+    @_s.required this.actionName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteMitigationActionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13748,12 +15293,96 @@ class DeleteMitigationActionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteOTAUpdateRequest {
+  /// The OTA update ID to delete.
+  @_s.JsonKey(name: 'otaUpdateId', ignore: true)
+  final String otaUpdateId;
+
+  /// Specifies if the stream associated with an OTA update should be deleted when
+  /// the OTA update is deleted.
+  @_s.JsonKey(name: 'deleteStream', ignore: true)
+  final bool deleteStream;
+
+  /// Specifies if the AWS Job associated with the OTA update should be deleted
+  /// with the OTA update is deleted.
+  @_s.JsonKey(name: 'forceDeleteAWSJob', ignore: true)
+  final bool forceDeleteAWSJob;
+
+  DeleteOTAUpdateRequest({
+    @_s.required this.otaUpdateId,
+    this.deleteStream,
+    this.forceDeleteAWSJob,
+  });
+  Map<String, dynamic> toJson() => _$DeleteOTAUpdateRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteOTAUpdateResponse {
   DeleteOTAUpdateResponse();
   factory DeleteOTAUpdateResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteOTAUpdateResponseFromJson(json);
+}
+
+/// The input for the DeletePolicy operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeletePolicyRequest {
+  /// The name of the policy to delete.
+  @_s.JsonKey(name: 'policyName', ignore: true)
+  final String policyName;
+
+  DeletePolicyRequest({
+    @_s.required this.policyName,
+  });
+  Map<String, dynamic> toJson() => _$DeletePolicyRequestToJson(this);
+}
+
+/// The input for the DeletePolicyVersion operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeletePolicyVersionRequest {
+  /// The name of the policy.
+  @_s.JsonKey(name: 'policyName', ignore: true)
+  final String policyName;
+
+  /// The policy version ID.
+  @_s.JsonKey(name: 'policyVersionId', ignore: true)
+  final String policyVersionId;
+
+  DeletePolicyVersionRequest({
+    @_s.required this.policyName,
+    @_s.required this.policyVersionId,
+  });
+  Map<String, dynamic> toJson() => _$DeletePolicyVersionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteProvisioningTemplateRequest {
+  /// The name of the fleet provision template to delete.
+  @_s.JsonKey(name: 'templateName', ignore: true)
+  final String templateName;
+
+  DeleteProvisioningTemplateRequest({
+    @_s.required this.templateName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteProvisioningTemplateRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13766,6 +15395,28 @@ class DeleteProvisioningTemplateResponse {
   factory DeleteProvisioningTemplateResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DeleteProvisioningTemplateResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteProvisioningTemplateVersionRequest {
+  /// The name of the fleet provisioning template version to delete.
+  @_s.JsonKey(name: 'templateName', ignore: true)
+  final String templateName;
+
+  /// The fleet provisioning template version ID to delete.
+  @_s.JsonKey(name: 'versionId', ignore: true)
+  final int versionId;
+
+  DeleteProvisioningTemplateVersionRequest({
+    @_s.required this.templateName,
+    @_s.required this.versionId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteProvisioningTemplateVersionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13795,12 +15446,44 @@ class DeleteRegistrationCodeResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteRoleAliasRequest {
+  /// The role alias to delete.
+  @_s.JsonKey(name: 'roleAlias', ignore: true)
+  final String roleAlias;
+
+  DeleteRoleAliasRequest({
+    @_s.required this.roleAlias,
+  });
+  Map<String, dynamic> toJson() => _$DeleteRoleAliasRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteRoleAliasResponse {
   DeleteRoleAliasResponse();
   factory DeleteRoleAliasResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteRoleAliasResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteScheduledAuditRequest {
+  /// The name of the scheduled audit you want to delete.
+  @_s.JsonKey(name: 'scheduledAuditName', ignore: true)
+  final String scheduledAuditName;
+
+  DeleteScheduledAuditRequest({
+    @_s.required this.scheduledAuditName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteScheduledAuditRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13817,12 +15500,52 @@ class DeleteScheduledAuditResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteSecurityProfileRequest {
+  /// The name of the security profile to be deleted.
+  @_s.JsonKey(name: 'securityProfileName', ignore: true)
+  final String securityProfileName;
+
+  /// The expected version of the security profile. A new version is generated
+  /// whenever the security profile is updated. If you specify a value that is
+  /// different from the actual version, a <code>VersionConflictException</code>
+  /// is thrown.
+  @_s.JsonKey(name: 'expectedVersion', ignore: true)
+  final int expectedVersion;
+
+  DeleteSecurityProfileRequest({
+    @_s.required this.securityProfileName,
+    this.expectedVersion,
+  });
+  Map<String, dynamic> toJson() => _$DeleteSecurityProfileRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteSecurityProfileResponse {
   DeleteSecurityProfileResponse();
   factory DeleteSecurityProfileResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteSecurityProfileResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteStreamRequest {
+  /// The stream ID.
+  @_s.JsonKey(name: 'streamId', ignore: true)
+  final String streamId;
+
+  DeleteStreamRequest({
+    @_s.required this.streamId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteStreamRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13839,12 +15562,58 @@ class DeleteStreamResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteThingGroupRequest {
+  /// The name of the thing group to delete.
+  @_s.JsonKey(name: 'thingGroupName', ignore: true)
+  final String thingGroupName;
+
+  /// The expected version of the thing group to delete.
+  @_s.JsonKey(name: 'expectedVersion', ignore: true)
+  final int expectedVersion;
+
+  DeleteThingGroupRequest({
+    @_s.required this.thingGroupName,
+    this.expectedVersion,
+  });
+  Map<String, dynamic> toJson() => _$DeleteThingGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteThingGroupResponse {
   DeleteThingGroupResponse();
   factory DeleteThingGroupResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteThingGroupResponseFromJson(json);
+}
+
+/// The input for the DeleteThing operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteThingRequest {
+  /// The name of the thing to delete.
+  @_s.JsonKey(name: 'thingName', ignore: true)
+  final String thingName;
+
+  /// The expected version of the thing record in the registry. If the version of
+  /// the record in the registry does not match the expected version specified in
+  /// the request, the <code>DeleteThing</code> request is rejected with a
+  /// <code>VersionConflictException</code>.
+  @_s.JsonKey(name: 'expectedVersion', ignore: true)
+  final int expectedVersion;
+
+  DeleteThingRequest({
+    @_s.required this.thingName,
+    this.expectedVersion,
+  });
+  Map<String, dynamic> toJson() => _$DeleteThingRequestToJson(this);
 }
 
 /// The output of the DeleteThing operation.
@@ -13857,6 +15626,23 @@ class DeleteThingResponse {
   DeleteThingResponse();
   factory DeleteThingResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteThingResponseFromJson(json);
+}
+
+/// The input for the DeleteThingType operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteThingTypeRequest {
+  /// The name of the thing type.
+  @_s.JsonKey(name: 'thingTypeName', ignore: true)
+  final String thingTypeName;
+
+  DeleteThingTypeRequest({
+    @_s.required this.thingTypeName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteThingTypeRequestToJson(this);
 }
 
 /// The output for the DeleteThingType operation.
@@ -13874,6 +15660,23 @@ class DeleteThingTypeResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteTopicRuleDestinationRequest {
+  /// The ARN of the topic rule destination to delete.
+  @_s.JsonKey(name: 'arn', ignore: true)
+  final String arn;
+
+  DeleteTopicRuleDestinationRequest({
+    @_s.required this.arn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteTopicRuleDestinationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteTopicRuleDestinationResponse {
@@ -13881,6 +15684,45 @@ class DeleteTopicRuleDestinationResponse {
   factory DeleteTopicRuleDestinationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DeleteTopicRuleDestinationResponseFromJson(json);
+}
+
+/// The input for the DeleteTopicRule operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteTopicRuleRequest {
+  /// The name of the rule.
+  @_s.JsonKey(name: 'ruleName', ignore: true)
+  final String ruleName;
+
+  DeleteTopicRuleRequest({
+    @_s.required this.ruleName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteTopicRuleRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteV2LoggingLevelRequest {
+  /// The name of the resource for which you are configuring logging.
+  @_s.JsonKey(name: 'targetName', ignore: true)
+  final String targetName;
+
+  /// The type of resource for which you are configuring logging. Must be
+  /// <code>THING_Group</code>.
+  @_s.JsonKey(name: 'targetType', ignore: true)
+  final LogTargetType targetType;
+
+  DeleteV2LoggingLevelRequest({
+    @_s.required this.targetName,
+    @_s.required this.targetType,
+  });
+  Map<String, dynamic> toJson() => _$DeleteV2LoggingLevelRequestToJson(this);
 }
 
 /// Contains information that denied the authorization.
@@ -13905,6 +15747,29 @@ class Denied {
     this.implicitDeny,
   });
   factory Denied.fromJson(Map<String, dynamic> json) => _$DeniedFromJson(json);
+}
+
+/// The input for the DeprecateThingType operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeprecateThingTypeRequest {
+  /// The name of the thing type to deprecate.
+  @_s.JsonKey(name: 'thingTypeName', ignore: true)
+  final String thingTypeName;
+
+  /// Whether to undeprecate a deprecated thing type. If <b>true</b>, the thing
+  /// type will not be deprecated anymore and you can associate it with things.
+  @_s.JsonKey(name: 'undoDeprecate')
+  final bool undoDeprecate;
+
+  DeprecateThingTypeRequest({
+    @_s.required this.thingTypeName,
+    this.undoDeprecate,
+  });
+  Map<String, dynamic> toJson() => _$DeprecateThingTypeRequestToJson(this);
 }
 
 /// The output for the DeprecateThingType operation.
@@ -15022,12 +16887,103 @@ class Destination {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DetachPolicyRequest {
+  /// The policy to detach.
+  @_s.JsonKey(name: 'policyName', ignore: true)
+  final String policyName;
+
+  /// The target from which the policy will be detached.
+  @_s.JsonKey(name: 'target')
+  final String target;
+
+  DetachPolicyRequest({
+    @_s.required this.policyName,
+    @_s.required this.target,
+  });
+  Map<String, dynamic> toJson() => _$DetachPolicyRequestToJson(this);
+}
+
+/// The input for the DetachPrincipalPolicy operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DetachPrincipalPolicyRequest {
+  /// The name of the policy to detach.
+  @_s.JsonKey(name: 'policyName', ignore: true)
+  final String policyName;
+
+  /// The principal.
+  ///
+  /// If the principal is a certificate, specify the certificate ARN. If the
+  /// principal is an Amazon Cognito identity, specify the identity ID.
+  @_s.JsonKey(name: 'x-amzn-iot-principal', ignore: true)
+  final String principal;
+
+  DetachPrincipalPolicyRequest({
+    @_s.required this.policyName,
+    @_s.required this.principal,
+  });
+  Map<String, dynamic> toJson() => _$DetachPrincipalPolicyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DetachSecurityProfileRequest {
+  /// The security profile that is detached.
+  @_s.JsonKey(name: 'securityProfileName', ignore: true)
+  final String securityProfileName;
+
+  /// The ARN of the thing group from which the security profile is detached.
+  @_s.JsonKey(name: 'securityProfileTargetArn', ignore: true)
+  final String securityProfileTargetArn;
+
+  DetachSecurityProfileRequest({
+    @_s.required this.securityProfileName,
+    @_s.required this.securityProfileTargetArn,
+  });
+  Map<String, dynamic> toJson() => _$DetachSecurityProfileRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DetachSecurityProfileResponse {
   DetachSecurityProfileResponse();
   factory DetachSecurityProfileResponse.fromJson(Map<String, dynamic> json) =>
       _$DetachSecurityProfileResponseFromJson(json);
+}
+
+/// The input for the DetachThingPrincipal operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DetachThingPrincipalRequest {
+  /// If the principal is a certificate, this value must be ARN of the
+  /// certificate. If the principal is an Amazon Cognito identity, this value must
+  /// be the ID of the Amazon Cognito identity.
+  @_s.JsonKey(name: 'x-amzn-principal', ignore: true)
+  final String principal;
+
+  /// The name of the thing.
+  @_s.JsonKey(name: 'thingName', ignore: true)
+  final String thingName;
+
+  DetachThingPrincipalRequest({
+    @_s.required this.principal,
+    @_s.required this.thingName,
+  });
+  Map<String, dynamic> toJson() => _$DetachThingPrincipalRequestToJson(this);
 }
 
 /// The output from the DetachThingPrincipal operation.
@@ -15052,16 +17008,6 @@ enum DimensionType {
   topicFilter,
 }
 
-extension on DimensionType {
-  String toValue() {
-    switch (this) {
-      case DimensionType.topicFilter:
-        return 'TOPIC_FILTER';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum DimensionValueOperator {
   @_s.JsonValue('IN')
   $in,
@@ -15069,23 +17015,28 @@ enum DimensionValueOperator {
   notIn,
 }
 
+/// The input for the DisableTopicRuleRequest operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisableTopicRuleRequest {
+  /// The name of the rule to disable.
+  @_s.JsonKey(name: 'ruleName', ignore: true)
+  final String ruleName;
+
+  DisableTopicRuleRequest({
+    @_s.required this.ruleName,
+  });
+  Map<String, dynamic> toJson() => _$DisableTopicRuleRequestToJson(this);
+}
+
 enum DomainConfigurationStatus {
   @_s.JsonValue('ENABLED')
   enabled,
   @_s.JsonValue('DISABLED')
   disabled,
-}
-
-extension on DomainConfigurationStatus {
-  String toValue() {
-    switch (this) {
-      case DomainConfigurationStatus.enabled:
-        return 'ENABLED';
-      case DomainConfigurationStatus.disabled:
-        return 'DISABLED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// The summary of a domain configuration. A domain configuration specifies
@@ -15376,6 +17327,23 @@ class EnableIoTLoggingParams {
   Map<String, dynamic> toJson() => _$EnableIoTLoggingParamsToJson(this);
 }
 
+/// The input for the EnableTopicRuleRequest operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class EnableTopicRuleRequest {
+  /// The name of the topic rule to enable.
+  @_s.JsonKey(name: 'ruleName', ignore: true)
+  final String ruleName;
+
+  EnableTopicRuleRequest({
+    @_s.required this.ruleName,
+  });
+  Map<String, dynamic> toJson() => _$EnableTopicRuleRequestToJson(this);
+}
+
 /// Error information.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -15570,6 +17538,37 @@ class FirehoseAction {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetCardinalityRequest {
+  /// The search query.
+  @_s.JsonKey(name: 'queryString')
+  final String queryString;
+
+  /// The field to aggregate.
+  @_s.JsonKey(name: 'aggregationField')
+  final String aggregationField;
+
+  /// The name of the index to search.
+  @_s.JsonKey(name: 'indexName')
+  final String indexName;
+
+  /// The query version.
+  @_s.JsonKey(name: 'queryVersion')
+  final String queryVersion;
+
+  GetCardinalityRequest({
+    @_s.required this.queryString,
+    this.aggregationField,
+    this.indexName,
+    this.queryVersion,
+  });
+  Map<String, dynamic> toJson() => _$GetCardinalityRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetCardinalityResponse {
@@ -15582,6 +17581,32 @@ class GetCardinalityResponse {
   });
   factory GetCardinalityResponse.fromJson(Map<String, dynamic> json) =>
       _$GetCardinalityResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetEffectivePoliciesRequest {
+  /// The Cognito identity pool ID.
+  @_s.JsonKey(name: 'cognitoIdentityPoolId')
+  final String cognitoIdentityPoolId;
+
+  /// The principal.
+  @_s.JsonKey(name: 'principal')
+  final String principal;
+
+  /// The thing name.
+  @_s.JsonKey(name: 'thingName', ignore: true)
+  final String thingName;
+
+  GetEffectivePoliciesRequest({
+    this.cognitoIdentityPoolId,
+    this.principal,
+    this.thingName,
+  });
+  Map<String, dynamic> toJson() => _$GetEffectivePoliciesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -15679,6 +17704,42 @@ class GetOTAUpdateResponse {
   });
   factory GetOTAUpdateResponse.fromJson(Map<String, dynamic> json) =>
       _$GetOTAUpdateResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetPercentilesRequest {
+  /// The query string.
+  @_s.JsonKey(name: 'queryString')
+  final String queryString;
+
+  /// The field to aggregate.
+  @_s.JsonKey(name: 'aggregationField')
+  final String aggregationField;
+
+  /// The name of the index to search.
+  @_s.JsonKey(name: 'indexName')
+  final String indexName;
+
+  /// The percentile groups returned.
+  @_s.JsonKey(name: 'percents')
+  final List<double> percents;
+
+  /// The query version.
+  @_s.JsonKey(name: 'queryVersion')
+  final String queryVersion;
+
+  GetPercentilesRequest({
+    @_s.required this.queryString,
+    this.aggregationField,
+    this.indexName,
+    this.percents,
+    this.queryVersion,
+  });
+  Map<String, dynamic> toJson() => _$GetPercentilesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -15827,6 +17888,39 @@ class GetRegistrationCodeResponse {
   });
   factory GetRegistrationCodeResponse.fromJson(Map<String, dynamic> json) =>
       _$GetRegistrationCodeResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetStatisticsRequest {
+  /// The query used to search. You can specify "*" for the query string to get
+  /// the count of all indexed things in your AWS account.
+  @_s.JsonKey(name: 'queryString')
+  final String queryString;
+
+  /// The aggregation field name.
+  @_s.JsonKey(name: 'aggregationField')
+  final String aggregationField;
+
+  /// The name of the index to search. The default value is
+  /// <code>AWS_Things</code>.
+  @_s.JsonKey(name: 'indexName')
+  final String indexName;
+
+  /// The version of the query used to search.
+  @_s.JsonKey(name: 'queryVersion')
+  final String queryVersion;
+
+  GetStatisticsRequest({
+    @_s.required this.queryString,
+    this.aggregationField,
+    this.indexName,
+    this.queryVersion,
+  });
+  Map<String, dynamic> toJson() => _$GetStatisticsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -16846,6 +18940,37 @@ class ListActiveViolationsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListAttachedPoliciesRequest {
+  /// The group or principal for which the policies will be listed.
+  @_s.JsonKey(name: 'target', ignore: true)
+  final String target;
+
+  /// The token to retrieve the next set of results.
+  @_s.JsonKey(name: 'marker', ignore: true)
+  final String marker;
+
+  /// The maximum number of results to be returned per request.
+  @_s.JsonKey(name: 'pageSize', ignore: true)
+  final int pageSize;
+
+  /// When true, recursively list attached policies.
+  @_s.JsonKey(name: 'recursive', ignore: true)
+  final bool recursive;
+
+  ListAttachedPoliciesRequest({
+    @_s.required this.target,
+    this.marker,
+    this.pageSize,
+    this.recursive,
+  });
+  Map<String, dynamic> toJson() => _$ListAttachedPoliciesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListAttachedPoliciesResponse {
@@ -16864,6 +18989,61 @@ class ListAttachedPoliciesResponse {
   });
   factory ListAttachedPoliciesResponse.fromJson(Map<String, dynamic> json) =>
       _$ListAttachedPoliciesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListAuditFindingsRequest {
+  /// A filter to limit results to the findings for the specified audit check.
+  @_s.JsonKey(name: 'checkName')
+  final String checkName;
+
+  /// A filter to limit results to those found before the specified time. You must
+  /// specify either the startTime and endTime or the taskId, but not both.
+  @_s.JsonKey(
+      name: 'endTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime endTime;
+
+  /// The maximum number of results to return at one time. The default is 25.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The token for the next set of results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// Information identifying the noncompliant resource.
+  @_s.JsonKey(name: 'resourceIdentifier')
+  final ResourceIdentifier resourceIdentifier;
+
+  /// A filter to limit results to those found after the specified time. You must
+  /// specify either the startTime and endTime or the taskId, but not both.
+  @_s.JsonKey(
+      name: 'startTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime startTime;
+
+  /// A filter to limit results to the audit with the specified ID. You must
+  /// specify either the taskId or the startTime and endTime, but not both.
+  @_s.JsonKey(name: 'taskId')
+  final String taskId;
+
+  ListAuditFindingsRequest({
+    this.checkName,
+    this.endTime,
+    this.maxResults,
+    this.nextToken,
+    this.resourceIdentifier,
+    this.startTime,
+    this.taskId,
+  });
+  Map<String, dynamic> toJson() => _$ListAuditFindingsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -17584,6 +19764,32 @@ class ListTagsForResourceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTargetsForPolicyRequest {
+  /// The policy name.
+  @_s.JsonKey(name: 'policyName', ignore: true)
+  final String policyName;
+
+  /// A marker used to get the next set of results.
+  @_s.JsonKey(name: 'marker', ignore: true)
+  final String marker;
+
+  /// The maximum number of results to return at one time.
+  @_s.JsonKey(name: 'pageSize', ignore: true)
+  final int pageSize;
+
+  ListTargetsForPolicyRequest({
+    @_s.required this.policyName,
+    this.marker,
+    this.pageSize,
+  });
+  Map<String, dynamic> toJson() => _$ListTargetsForPolicyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListTargetsForPolicyResponse {
@@ -17944,24 +20150,6 @@ enum LogLevel {
   warn,
   @_s.JsonValue('DISABLED')
   disabled,
-}
-
-extension on LogLevel {
-  String toValue() {
-    switch (this) {
-      case LogLevel.debug:
-        return 'DEBUG';
-      case LogLevel.info:
-        return 'INFO';
-      case LogLevel.error:
-        return 'ERROR';
-      case LogLevel.warn:
-        return 'WARN';
-      case LogLevel.disabled:
-        return 'DISABLED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// A log target.
@@ -18911,6 +21099,44 @@ class RateIncreaseCriteria {
   Map<String, dynamic> toJson() => _$RateIncreaseCriteriaToJson(this);
 }
 
+/// The input to the RegisterCACertificate operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RegisterCACertificateRequest {
+  /// The CA certificate.
+  @_s.JsonKey(name: 'caCertificate')
+  final String caCertificate;
+
+  /// The private key verification certificate.
+  @_s.JsonKey(name: 'verificationCertificate')
+  final String verificationCertificate;
+
+  /// Allows this CA certificate to be used for auto registration of device
+  /// certificates.
+  @_s.JsonKey(name: 'allowAutoRegistration', ignore: true)
+  final bool allowAutoRegistration;
+
+  /// Information about the registration configuration.
+  @_s.JsonKey(name: 'registrationConfig')
+  final RegistrationConfig registrationConfig;
+
+  /// A boolean value that specifies if the CA certificate is set to active.
+  @_s.JsonKey(name: 'setAsActive', ignore: true)
+  final bool setAsActive;
+
+  RegisterCACertificateRequest({
+    @_s.required this.caCertificate,
+    @_s.required this.verificationCertificate,
+    this.allowAutoRegistration,
+    this.registrationConfig,
+    this.setAsActive,
+  });
+  Map<String, dynamic> toJson() => _$RegisterCACertificateRequestToJson(this);
+}
+
 /// The output from the RegisterCACertificateResponse operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -18934,6 +21160,38 @@ class RegisterCACertificateResponse {
       _$RegisterCACertificateResponseFromJson(json);
 }
 
+/// The input to the RegisterCertificate operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RegisterCertificateRequest {
+  /// The certificate data, in PEM format.
+  @_s.JsonKey(name: 'certificatePem')
+  final String certificatePem;
+
+  /// The CA certificate used to sign the device certificate being registered.
+  @_s.JsonKey(name: 'caCertificatePem')
+  final String caCertificatePem;
+
+  /// A boolean value that specifies if the certificate is set to active.
+  @_s.JsonKey(name: 'setAsActive', ignore: true)
+  final bool setAsActive;
+
+  /// The status of the register certificate request.
+  @_s.JsonKey(name: 'status')
+  final CertificateStatus status;
+
+  RegisterCertificateRequest({
+    @_s.required this.certificatePem,
+    this.caCertificatePem,
+    this.setAsActive,
+    this.status,
+  });
+  Map<String, dynamic> toJson() => _$RegisterCertificateRequestToJson(this);
+}
+
 /// The output from the RegisterCertificate operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -18955,6 +21213,31 @@ class RegisterCertificateResponse {
   });
   factory RegisterCertificateResponse.fromJson(Map<String, dynamic> json) =>
       _$RegisterCertificateResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RegisterThingRequest {
+  /// The provisioning template. See <a
+  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/provision-w-cert.html">Provisioning
+  /// Devices That Have Device Certificates</a> for more information.
+  @_s.JsonKey(name: 'templateBody')
+  final String templateBody;
+
+  /// The parameters for provisioning a thing. See <a
+  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/programmatic-provisioning.html">Programmatic
+  /// Provisioning</a> for more information.
+  @_s.JsonKey(name: 'parameters')
+  final Map<String, String> parameters;
+
+  RegisterThingRequest({
+    @_s.required this.templateBody,
+    this.parameters,
+  });
+  Map<String, dynamic> toJson() => _$RegisterThingRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -19004,6 +21287,30 @@ class RegistrationConfig {
   Map<String, dynamic> toJson() => _$RegistrationConfigToJson(this);
 }
 
+/// The input for the RejectCertificateTransfer operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RejectCertificateTransferRequest {
+  /// The ID of the certificate. (The last part of the certificate ARN contains
+  /// the certificate ID.)
+  @_s.JsonKey(name: 'certificateId', ignore: true)
+  final String certificateId;
+
+  /// The reason the certificate transfer was rejected.
+  @_s.JsonKey(name: 'rejectReason')
+  final String rejectReason;
+
+  RejectCertificateTransferRequest({
+    @_s.required this.certificateId,
+    this.rejectReason,
+  });
+  Map<String, dynamic> toJson() =>
+      _$RejectCertificateTransferRequestToJson(this);
+}
+
 /// Information about a related resource.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -19035,6 +21342,38 @@ class RelatedResource {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RemoveThingFromBillingGroupRequest {
+  /// The ARN of the billing group.
+  @_s.JsonKey(name: 'billingGroupArn')
+  final String billingGroupArn;
+
+  /// The name of the billing group.
+  @_s.JsonKey(name: 'billingGroupName')
+  final String billingGroupName;
+
+  /// The ARN of the thing to be removed from the billing group.
+  @_s.JsonKey(name: 'thingArn')
+  final String thingArn;
+
+  /// The name of the thing to be removed from the billing group.
+  @_s.JsonKey(name: 'thingName')
+  final String thingName;
+
+  RemoveThingFromBillingGroupRequest({
+    this.billingGroupArn,
+    this.billingGroupName,
+    this.thingArn,
+    this.thingName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$RemoveThingFromBillingGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class RemoveThingFromBillingGroupResponse {
@@ -19042,6 +21381,38 @@ class RemoveThingFromBillingGroupResponse {
   factory RemoveThingFromBillingGroupResponse.fromJson(
           Map<String, dynamic> json) =>
       _$RemoveThingFromBillingGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RemoveThingFromThingGroupRequest {
+  /// The ARN of the thing to remove from the group.
+  @_s.JsonKey(name: 'thingArn')
+  final String thingArn;
+
+  /// The group ARN.
+  @_s.JsonKey(name: 'thingGroupArn')
+  final String thingGroupArn;
+
+  /// The group name.
+  @_s.JsonKey(name: 'thingGroupName')
+  final String thingGroupName;
+
+  /// The name of the thing to remove from the group.
+  @_s.JsonKey(name: 'thingName')
+  final String thingName;
+
+  RemoveThingFromThingGroupRequest({
+    this.thingArn,
+    this.thingGroupArn,
+    this.thingGroupName,
+    this.thingName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$RemoveThingFromThingGroupRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -19414,6 +21785,43 @@ class ScheduledAuditMetadata {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SearchIndexRequest {
+  /// The search query string.
+  @_s.JsonKey(name: 'queryString')
+  final String queryString;
+
+  /// The search index name.
+  @_s.JsonKey(name: 'indexName')
+  final String indexName;
+
+  /// The maximum number of results to return at one time.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The token used to get the next set of results, or <code>null</code> if there
+  /// are no additional results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The query version.
+  @_s.JsonKey(name: 'queryVersion')
+  final String queryVersion;
+
+  SearchIndexRequest({
+    @_s.required this.queryString,
+    this.indexName,
+    this.maxResults,
+    this.nextToken,
+    this.queryVersion,
+  });
+  Map<String, dynamic> toJson() => _$SearchIndexRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class SearchIndexResponse {
@@ -19549,18 +21957,20 @@ enum ServiceType {
   jobs,
 }
 
-extension on ServiceType {
-  String toValue() {
-    switch (this) {
-      case ServiceType.data:
-        return 'DATA';
-      case ServiceType.credentialProvider:
-        return 'CREDENTIAL_PROVIDER';
-      case ServiceType.jobs:
-        return 'JOBS';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SetDefaultAuthorizerRequest {
+  /// The authorizer name.
+  @_s.JsonKey(name: 'authorizerName')
+  final String authorizerName;
+
+  SetDefaultAuthorizerRequest({
+    @_s.required this.authorizerName,
+  });
+  Map<String, dynamic> toJson() => _$SetDefaultAuthorizerRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -19583,6 +21993,75 @@ class SetDefaultAuthorizerResponse {
   });
   factory SetDefaultAuthorizerResponse.fromJson(Map<String, dynamic> json) =>
       _$SetDefaultAuthorizerResponseFromJson(json);
+}
+
+/// The input for the SetDefaultPolicyVersion operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SetDefaultPolicyVersionRequest {
+  /// The policy name.
+  @_s.JsonKey(name: 'policyName', ignore: true)
+  final String policyName;
+
+  /// The policy version ID.
+  @_s.JsonKey(name: 'policyVersionId', ignore: true)
+  final String policyVersionId;
+
+  SetDefaultPolicyVersionRequest({
+    @_s.required this.policyName,
+    @_s.required this.policyVersionId,
+  });
+  Map<String, dynamic> toJson() => _$SetDefaultPolicyVersionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SetV2LoggingLevelRequest {
+  /// The log level.
+  @_s.JsonKey(name: 'logLevel')
+  final LogLevel logLevel;
+
+  /// The log target.
+  @_s.JsonKey(name: 'logTarget')
+  final LogTarget logTarget;
+
+  SetV2LoggingLevelRequest({
+    @_s.required this.logLevel,
+    @_s.required this.logTarget,
+  });
+  Map<String, dynamic> toJson() => _$SetV2LoggingLevelRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SetV2LoggingOptionsRequest {
+  /// The default logging level.
+  @_s.JsonKey(name: 'defaultLogLevel')
+  final LogLevel defaultLogLevel;
+
+  /// If true all logs are disabled. The default is false.
+  @_s.JsonKey(name: 'disableAllLogs')
+  final bool disableAllLogs;
+
+  /// The ARN of the role that allows IoT to write to Cloudwatch logs.
+  @_s.JsonKey(name: 'roleArn')
+  final String roleArn;
+
+  SetV2LoggingOptionsRequest({
+    this.defaultLogLevel,
+    this.disableAllLogs,
+    this.roleArn,
+  });
+  Map<String, dynamic> toJson() => _$SetV2LoggingOptionsRequestToJson(this);
 }
 
 /// Use Sig V4 authorization.
@@ -19714,6 +22193,45 @@ class SqsAction {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartAuditMitigationActionsTaskRequest {
+  /// For an audit check, specifies which mitigation actions to apply. Those
+  /// actions must be defined in your AWS account.
+  @_s.JsonKey(name: 'auditCheckToActionsMapping')
+  final Map<String, List<String>> auditCheckToActionsMapping;
+
+  /// Each audit mitigation task must have a unique client request token. If you
+  /// try to start a new task with the same token as a task that already exists,
+  /// an exception occurs. If you omit this value, a unique client request token
+  /// is generated automatically.
+  @_s.JsonKey(name: 'clientRequestToken')
+  final String clientRequestToken;
+
+  /// Specifies the audit findings to which the mitigation actions are applied.
+  /// You can apply them to a type of audit check, to all findings from an audit,
+  /// or to a speecific set of findings.
+  @_s.JsonKey(name: 'target')
+  final AuditMitigationActionsTaskTarget target;
+
+  /// A unique identifier for the task. You can use this identifier to check the
+  /// status of the task or to cancel it.
+  @_s.JsonKey(name: 'taskId', ignore: true)
+  final String taskId;
+
+  StartAuditMitigationActionsTaskRequest({
+    @_s.required this.auditCheckToActionsMapping,
+    @_s.required this.clientRequestToken,
+    @_s.required this.target,
+    @_s.required this.taskId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StartAuditMitigationActionsTaskRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartAuditMitigationActionsTaskResponse {
@@ -19728,6 +22246,27 @@ class StartAuditMitigationActionsTaskResponse {
   factory StartAuditMitigationActionsTaskResponse.fromJson(
           Map<String, dynamic> json) =>
       _$StartAuditMitigationActionsTaskResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartOnDemandAuditTaskRequest {
+  /// Which checks are performed during the audit. The checks you specify must be
+  /// enabled for your account or an exception occurs. Use
+  /// <code>DescribeAccountAuditConfiguration</code> to see the list of all
+  /// checks, including those that are enabled or
+  /// <code>UpdateAccountAuditConfiguration</code> to select which checks are
+  /// enabled.
+  @_s.JsonKey(name: 'targetCheckNames')
+  final List<String> targetCheckNames;
+
+  StartOnDemandAuditTaskRequest({
+    @_s.required this.targetCheckNames,
+  });
+  Map<String, dynamic> toJson() => _$StartOnDemandAuditTaskRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -19775,6 +22314,40 @@ class StartSigningJobParameter {
       _$StartSigningJobParameterFromJson(json);
 
   Map<String, dynamic> toJson() => _$StartSigningJobParameterToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartThingRegistrationTaskRequest {
+  /// The S3 bucket that contains the input file.
+  @_s.JsonKey(name: 'inputFileBucket')
+  final String inputFileBucket;
+
+  /// The name of input file within the S3 bucket. This file contains a newline
+  /// delimited JSON file. Each line contains the parameter values to provision
+  /// one device (thing).
+  @_s.JsonKey(name: 'inputFileKey')
+  final String inputFileKey;
+
+  /// The IAM role ARN that grants permission the input file.
+  @_s.JsonKey(name: 'roleArn')
+  final String roleArn;
+
+  /// The provisioning template.
+  @_s.JsonKey(name: 'templateBody')
+  final String templateBody;
+
+  StartThingRegistrationTaskRequest({
+    @_s.required this.inputFileBucket,
+    @_s.required this.inputFileKey,
+    @_s.required this.roleArn,
+    @_s.required this.templateBody,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StartThingRegistrationTaskRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -19923,6 +22496,23 @@ class StepFunctionsAction {
       _$StepFunctionsActionFromJson(json);
 
   Map<String, dynamic> toJson() => _$StepFunctionsActionToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopThingRegistrationTaskRequest {
+  /// The bulk thing provisioning task ID.
+  @_s.JsonKey(name: 'taskId', ignore: true)
+  final String taskId;
+
+  StopThingRegistrationTaskRequest({
+    @_s.required this.taskId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StopThingRegistrationTaskRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -20105,6 +22695,27 @@ class Tag {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The ARN of the resource.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  /// The new or modified tags for the resource.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagResourceResponse {
@@ -20118,18 +22729,6 @@ enum TargetSelection {
   continuous,
   @_s.JsonValue('SNAPSHOT')
   snapshot,
-}
-
-extension on TargetSelection {
-  String toValue() {
-    switch (this) {
-      case TargetSelection.continuous:
-        return 'CONTINUOUS';
-      case TargetSelection.snapshot:
-        return 'SNAPSHOT';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Statistics for the checks performed during the audit.
@@ -20227,6 +22826,50 @@ class TaskStatisticsForAuditCheck {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TestAuthorizationRequest {
+  /// A list of authorization info objects. Simulating authorization will create a
+  /// response for each <code>authInfo</code> object in the list.
+  @_s.JsonKey(name: 'authInfos')
+  final List<AuthInfo> authInfos;
+
+  /// The MQTT client ID.
+  @_s.JsonKey(name: 'clientId', ignore: true)
+  final String clientId;
+
+  /// The Cognito identity pool ID.
+  @_s.JsonKey(name: 'cognitoIdentityPoolId')
+  final String cognitoIdentityPoolId;
+
+  /// When testing custom authorization, the policies specified here are treated
+  /// as if they are attached to the principal being authorized.
+  @_s.JsonKey(name: 'policyNamesToAdd')
+  final List<String> policyNamesToAdd;
+
+  /// When testing custom authorization, the policies specified here are treated
+  /// as if they are not attached to the principal being authorized.
+  @_s.JsonKey(name: 'policyNamesToSkip')
+  final List<String> policyNamesToSkip;
+
+  /// The principal.
+  @_s.JsonKey(name: 'principal')
+  final String principal;
+
+  TestAuthorizationRequest({
+    @_s.required this.authInfos,
+    this.clientId,
+    this.cognitoIdentityPoolId,
+    this.policyNamesToAdd,
+    this.policyNamesToSkip,
+    this.principal,
+  });
+  Map<String, dynamic> toJson() => _$TestAuthorizationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TestAuthorizationResponse {
@@ -20239,6 +22882,48 @@ class TestAuthorizationResponse {
   });
   factory TestAuthorizationResponse.fromJson(Map<String, dynamic> json) =>
       _$TestAuthorizationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TestInvokeAuthorizerRequest {
+  /// The custom authorizer name.
+  @_s.JsonKey(name: 'authorizerName', ignore: true)
+  final String authorizerName;
+
+  /// Specifies a test HTTP authorization request.
+  @_s.JsonKey(name: 'httpContext')
+  final HttpContext httpContext;
+
+  /// Specifies a test MQTT authorization request.
+  @_s.JsonKey(name: 'mqttContext')
+  final MqttContext mqttContext;
+
+  /// Specifies a test TLS authorization request.
+  @_s.JsonKey(name: 'tlsContext')
+  final TlsContext tlsContext;
+
+  /// The token returned by your custom authentication service.
+  @_s.JsonKey(name: 'token')
+  final String token;
+
+  /// The signature made with the token and your custom authentication service's
+  /// private key.
+  @_s.JsonKey(name: 'tokenSignature')
+  final String tokenSignature;
+
+  TestInvokeAuthorizerRequest({
+    @_s.required this.authorizerName,
+    this.httpContext,
+    this.mqttContext,
+    this.tlsContext,
+    this.token,
+    this.tokenSignature,
+  });
+  Map<String, dynamic> toJson() => _$TestInvokeAuthorizerRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -20891,22 +23576,6 @@ enum TopicRuleDestinationStatus {
   error,
 }
 
-extension on TopicRuleDestinationStatus {
-  String toValue() {
-    switch (this) {
-      case TopicRuleDestinationStatus.enabled:
-        return 'ENABLED';
-      case TopicRuleDestinationStatus.inProgress:
-        return 'IN_PROGRESS';
-      case TopicRuleDestinationStatus.disabled:
-        return 'DISABLED';
-      case TopicRuleDestinationStatus.error:
-        return 'ERROR';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Information about the topic rule destination.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -21047,6 +23716,34 @@ class TopicRulePayload {
   Map<String, dynamic> toJson() => _$TopicRulePayloadToJson(this);
 }
 
+/// The input for the TransferCertificate operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TransferCertificateRequest {
+  /// The ID of the certificate. (The last part of the certificate ARN contains
+  /// the certificate ID.)
+  @_s.JsonKey(name: 'certificateId', ignore: true)
+  final String certificateId;
+
+  /// The AWS account.
+  @_s.JsonKey(name: 'targetAwsAccount', ignore: true)
+  final String targetAwsAccount;
+
+  /// The transfer message.
+  @_s.JsonKey(name: 'transferMessage')
+  final String transferMessage;
+
+  TransferCertificateRequest({
+    @_s.required this.certificateId,
+    @_s.required this.targetAwsAccount,
+    this.transferMessage,
+  });
+  Map<String, dynamic> toJson() => _$TransferCertificateRequestToJson(this);
+}
+
 /// The output from the TransferCertificate operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -21115,12 +23812,76 @@ class TransferData {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The ARN of the resource.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  /// A list of the keys of the tags to be removed from the resource.
+  @_s.JsonKey(name: 'tagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
   factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateAccountAuditConfigurationRequest {
+  /// Specifies which audit checks are enabled and disabled for this account. Use
+  /// <code>DescribeAccountAuditConfiguration</code> to see the list of all
+  /// checks, including those that are currently enabled.
+  ///
+  /// Some data collection might start immediately when certain checks are
+  /// enabled. When a check is disabled, any data collected so far in relation to
+  /// the check is deleted.
+  ///
+  /// You cannot disable a check if it is used by any scheduled audit. You must
+  /// first delete the check from the scheduled audit or delete the scheduled
+  /// audit itself.
+  ///
+  /// On the first call to <code>UpdateAccountAuditConfiguration</code>, this
+  /// parameter is required and must specify at least one enabled check.
+  @_s.JsonKey(name: 'auditCheckConfigurations')
+  final Map<String, AuditCheckConfiguration> auditCheckConfigurations;
+
+  /// Information about the targets to which audit notifications are sent.
+  @_s.JsonKey(name: 'auditNotificationTargetConfigurations')
+  final Map<String, AuditNotificationTarget>
+      auditNotificationTargetConfigurations;
+
+  /// The ARN of the role that grants permission to AWS IoT to access information
+  /// about your devices, policies, certificates and other items as required when
+  /// performing an audit.
+  @_s.JsonKey(name: 'roleArn')
+  final String roleArn;
+
+  UpdateAccountAuditConfigurationRequest({
+    this.auditCheckConfigurations,
+    this.auditNotificationTargetConfigurations,
+    this.roleArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateAccountAuditConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -21133,6 +23894,42 @@ class UpdateAccountAuditConfigurationResponse {
   factory UpdateAccountAuditConfigurationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$UpdateAccountAuditConfigurationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateAuthorizerRequest {
+  /// The authorizer name.
+  @_s.JsonKey(name: 'authorizerName', ignore: true)
+  final String authorizerName;
+
+  /// The ARN of the authorizer's Lambda function.
+  @_s.JsonKey(name: 'authorizerFunctionArn')
+  final String authorizerFunctionArn;
+
+  /// The status of the update authorizer request.
+  @_s.JsonKey(name: 'status')
+  final AuthorizerStatus status;
+
+  /// The key used to extract the token from the HTTP headers.
+  @_s.JsonKey(name: 'tokenKeyName')
+  final String tokenKeyName;
+
+  /// The public keys used to verify the token signature.
+  @_s.JsonKey(name: 'tokenSigningPublicKeys')
+  final Map<String, String> tokenSigningPublicKeys;
+
+  UpdateAuthorizerRequest({
+    @_s.required this.authorizerName,
+    this.authorizerFunctionArn,
+    this.status,
+    this.tokenKeyName,
+    this.tokenSigningPublicKeys,
+  });
+  Map<String, dynamic> toJson() => _$UpdateAuthorizerRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -21155,6 +23952,35 @@ class UpdateAuthorizerResponse {
   });
   factory UpdateAuthorizerResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateAuthorizerResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateBillingGroupRequest {
+  /// The name of the billing group.
+  @_s.JsonKey(name: 'billingGroupName', ignore: true)
+  final String billingGroupName;
+
+  /// The properties of the billing group.
+  @_s.JsonKey(name: 'billingGroupProperties')
+  final BillingGroupProperties billingGroupProperties;
+
+  /// The expected version of the billing group. If the version of the billing
+  /// group does not match the expected version specified in the request, the
+  /// <code>UpdateBillingGroup</code> request is rejected with a
+  /// <code>VersionConflictException</code>.
+  @_s.JsonKey(name: 'expectedVersion')
+  final int expectedVersion;
+
+  UpdateBillingGroupRequest({
+    @_s.required this.billingGroupName,
+    @_s.required this.billingGroupProperties,
+    this.expectedVersion,
+  });
+  Map<String, dynamic> toJson() => _$UpdateBillingGroupRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -21196,6 +24022,78 @@ class UpdateCACertificateParams {
   Map<String, dynamic> toJson() => _$UpdateCACertificateParamsToJson(this);
 }
 
+/// The input to the UpdateCACertificate operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateCACertificateRequest {
+  /// The CA certificate identifier.
+  @_s.JsonKey(name: 'caCertificateId', ignore: true)
+  final String certificateId;
+
+  /// The new value for the auto registration status. Valid values are: "ENABLE"
+  /// or "DISABLE".
+  @_s.JsonKey(name: 'newAutoRegistrationStatus', ignore: true)
+  final AutoRegistrationStatus newAutoRegistrationStatus;
+
+  /// The updated status of the CA certificate.
+  ///
+  /// <b>Note:</b> The status value REGISTER_INACTIVE is deprecated and should not
+  /// be used.
+  @_s.JsonKey(name: 'newStatus', ignore: true)
+  final CACertificateStatus newStatus;
+
+  /// Information about the registration configuration.
+  @_s.JsonKey(name: 'registrationConfig')
+  final RegistrationConfig registrationConfig;
+
+  /// If true, removes auto registration.
+  @_s.JsonKey(name: 'removeAutoRegistration')
+  final bool removeAutoRegistration;
+
+  UpdateCACertificateRequest({
+    @_s.required this.certificateId,
+    this.newAutoRegistrationStatus,
+    this.newStatus,
+    this.registrationConfig,
+    this.removeAutoRegistration,
+  });
+  Map<String, dynamic> toJson() => _$UpdateCACertificateRequestToJson(this);
+}
+
+/// The input for the UpdateCertificate operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateCertificateRequest {
+  /// The ID of the certificate. (The last part of the certificate ARN contains
+  /// the certificate ID.)
+  @_s.JsonKey(name: 'certificateId', ignore: true)
+  final String certificateId;
+
+  /// The new status.
+  ///
+  /// <b>Note:</b> Setting the status to PENDING_TRANSFER or PENDING_ACTIVATION
+  /// will result in an exception being thrown. PENDING_TRANSFER and
+  /// PENDING_ACTIVATION are statuses used internally by AWS IoT. They are not
+  /// intended for developer use.
+  ///
+  /// <b>Note:</b> The status value REGISTER_INACTIVE is deprecated and should not
+  /// be used.
+  @_s.JsonKey(name: 'newStatus', ignore: true)
+  final CertificateStatus newStatus;
+
+  UpdateCertificateRequest({
+    @_s.required this.certificateId,
+    @_s.required this.newStatus,
+  });
+  Map<String, dynamic> toJson() => _$UpdateCertificateRequestToJson(this);
+}
+
 /// Parameters to define a mitigation action that changes the state of the
 /// device certificate to inactive.
 @_s.JsonSerializable(
@@ -21216,6 +24114,30 @@ class UpdateDeviceCertificateParams {
       _$UpdateDeviceCertificateParamsFromJson(json);
 
   Map<String, dynamic> toJson() => _$UpdateDeviceCertificateParamsToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDimensionRequest {
+  /// A unique identifier for the dimension. Choose something that describes the
+  /// type and value to make it easy to remember what it does.
+  @_s.JsonKey(name: 'name', ignore: true)
+  final String name;
+
+  /// Specifies the value or list of values for the dimension. For
+  /// <code>TOPIC_FILTER</code> dimensions, this is a pattern used to match the
+  /// MQTT topic (for example, "admin/#").
+  @_s.JsonKey(name: 'stringValues')
+  final List<String> stringValues;
+
+  UpdateDimensionRequest({
+    @_s.required this.name,
+    @_s.required this.stringValues,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDimensionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -21272,6 +24194,38 @@ class UpdateDimensionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDomainConfigurationRequest {
+  /// The name of the domain configuration to be updated.
+  @_s.JsonKey(name: 'domainConfigurationName', ignore: true)
+  final String domainConfigurationName;
+
+  /// An object that specifies the authorization service for a domain.
+  @_s.JsonKey(name: 'authorizerConfig')
+  final AuthorizerConfig authorizerConfig;
+
+  /// The status to which the domain configuration should be updated.
+  @_s.JsonKey(name: 'domainConfigurationStatus')
+  final DomainConfigurationStatus domainConfigurationStatus;
+
+  /// Removes the authorization configuration from a domain.
+  @_s.JsonKey(name: 'removeAuthorizerConfig')
+  final bool removeAuthorizerConfig;
+
+  UpdateDomainConfigurationRequest({
+    @_s.required this.domainConfigurationName,
+    this.authorizerConfig,
+    this.domainConfigurationStatus,
+    this.removeAuthorizerConfig,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateDomainConfigurationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateDomainConfigurationResponse {
@@ -21295,6 +24249,54 @@ class UpdateDomainConfigurationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDynamicThingGroupRequest {
+  /// The name of the dynamic thing group to update.
+  @_s.JsonKey(name: 'thingGroupName', ignore: true)
+  final String thingGroupName;
+
+  /// The dynamic thing group properties to update.
+  @_s.JsonKey(name: 'thingGroupProperties')
+  final ThingGroupProperties thingGroupProperties;
+
+  /// The expected version of the dynamic thing group to update.
+  @_s.JsonKey(name: 'expectedVersion')
+  final int expectedVersion;
+
+  /// The dynamic thing group index to update.
+  /// <note>
+  /// Currently one index is supported: 'AWS_Things'.
+  /// </note>
+  @_s.JsonKey(name: 'indexName')
+  final String indexName;
+
+  /// The dynamic thing group search query string to update.
+  @_s.JsonKey(name: 'queryString')
+  final String queryString;
+
+  /// The dynamic thing group query version to update.
+  /// <note>
+  /// Currently one query version is supported: "2017-09-30". If not specified,
+  /// the query version defaults to this value.
+  /// </note>
+  @_s.JsonKey(name: 'queryVersion')
+  final String queryVersion;
+
+  UpdateDynamicThingGroupRequest({
+    @_s.required this.thingGroupName,
+    @_s.required this.thingGroupProperties,
+    this.expectedVersion,
+    this.indexName,
+    this.queryString,
+    this.queryVersion,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDynamicThingGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateDynamicThingGroupResponse {
@@ -21312,6 +24314,23 @@ class UpdateDynamicThingGroupResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateEventConfigurationsRequest {
+  /// The new event configuration values.
+  @_s.JsonKey(name: 'eventConfigurations')
+  final Map<String, Configuration> eventConfigurations;
+
+  UpdateEventConfigurationsRequest({
+    this.eventConfigurations,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateEventConfigurationsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateEventConfigurationsResponse {
@@ -21324,6 +24343,28 @@ class UpdateEventConfigurationsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateIndexingConfigurationRequest {
+  /// Thing group indexing configuration.
+  @_s.JsonKey(name: 'thingGroupIndexingConfiguration')
+  final ThingGroupIndexingConfiguration thingGroupIndexingConfiguration;
+
+  /// Thing indexing configuration.
+  @_s.JsonKey(name: 'thingIndexingConfiguration')
+  final ThingIndexingConfiguration thingIndexingConfiguration;
+
+  UpdateIndexingConfigurationRequest({
+    this.thingGroupIndexingConfiguration,
+    this.thingIndexingConfiguration,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateIndexingConfigurationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateIndexingConfigurationResponse {
@@ -21331,6 +24372,79 @@ class UpdateIndexingConfigurationResponse {
   factory UpdateIndexingConfigurationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$UpdateIndexingConfigurationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateJobRequest {
+  /// The ID of the job to be updated.
+  @_s.JsonKey(name: 'jobId', ignore: true)
+  final String jobId;
+
+  /// Allows you to create criteria to abort a job.
+  @_s.JsonKey(name: 'abortConfig')
+  final AbortConfig abortConfig;
+
+  /// A short text description of the job.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// Allows you to create a staged rollout of the job.
+  @_s.JsonKey(name: 'jobExecutionsRolloutConfig')
+  final JobExecutionsRolloutConfig jobExecutionsRolloutConfig;
+
+  /// Configuration information for pre-signed S3 URLs.
+  @_s.JsonKey(name: 'presignedUrlConfig')
+  final PresignedUrlConfig presignedUrlConfig;
+
+  /// Specifies the amount of time each device has to finish its execution of the
+  /// job. The timer is started when the job execution status is set to
+  /// <code>IN_PROGRESS</code>. If the job execution status is not set to another
+  /// terminal state before the time expires, it will be automatically set to
+  /// <code>TIMED_OUT</code>.
+  @_s.JsonKey(name: 'timeoutConfig')
+  final TimeoutConfig timeoutConfig;
+
+  UpdateJobRequest({
+    @_s.required this.jobId,
+    this.abortConfig,
+    this.description,
+    this.jobExecutionsRolloutConfig,
+    this.presignedUrlConfig,
+    this.timeoutConfig,
+  });
+  Map<String, dynamic> toJson() => _$UpdateJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateMitigationActionRequest {
+  /// The friendly name for the mitigation action. You can't change the name by
+  /// using <code>UpdateMitigationAction</code>. Instead, you must delete and
+  /// re-create the mitigation action with the new name.
+  @_s.JsonKey(name: 'actionName', ignore: true)
+  final String actionName;
+
+  /// Defines the type of action and the parameters for that action.
+  @_s.JsonKey(name: 'actionParams')
+  final MitigationActionParams actionParams;
+
+  /// The ARN of the IAM role that is used to apply the mitigation action.
+  @_s.JsonKey(name: 'roleArn')
+  final String roleArn;
+
+  UpdateMitigationActionRequest({
+    @_s.required this.actionName,
+    this.actionParams,
+    this.roleArn,
+  });
+  Map<String, dynamic> toJson() => _$UpdateMitigationActionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -21358,6 +24472,44 @@ class UpdateMitigationActionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateProvisioningTemplateRequest {
+  /// The name of the fleet provisioning template.
+  @_s.JsonKey(name: 'templateName', ignore: true)
+  final String templateName;
+
+  /// The ID of the default provisioning template version.
+  @_s.JsonKey(name: 'defaultVersionId')
+  final int defaultVersionId;
+
+  /// The description of the fleet provisioning template.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// True to enable the fleet provisioning template, otherwise false.
+  @_s.JsonKey(name: 'enabled')
+  final bool enabled;
+
+  /// The ARN of the role associated with the provisioning template. This IoT role
+  /// grants permission to provision a device.
+  @_s.JsonKey(name: 'provisioningRoleArn')
+  final String provisioningRoleArn;
+
+  UpdateProvisioningTemplateRequest({
+    @_s.required this.templateName,
+    this.defaultVersionId,
+    this.description,
+    this.enabled,
+    this.provisioningRoleArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateProvisioningTemplateRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateProvisioningTemplateResponse {
@@ -21365,6 +24517,32 @@ class UpdateProvisioningTemplateResponse {
   factory UpdateProvisioningTemplateResponse.fromJson(
           Map<String, dynamic> json) =>
       _$UpdateProvisioningTemplateResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateRoleAliasRequest {
+  /// The role alias to update.
+  @_s.JsonKey(name: 'roleAlias', ignore: true)
+  final String roleAlias;
+
+  /// The number of seconds the credential will be valid.
+  @_s.JsonKey(name: 'credentialDurationSeconds')
+  final int credentialDurationSeconds;
+
+  /// The role ARN.
+  @_s.JsonKey(name: 'roleArn')
+  final String roleArn;
+
+  UpdateRoleAliasRequest({
+    @_s.required this.roleAlias,
+    this.credentialDurationSeconds,
+    this.roleArn,
+  });
+  Map<String, dynamic> toJson() => _$UpdateRoleAliasRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -21392,6 +24570,54 @@ class UpdateRoleAliasResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateScheduledAuditRequest {
+  /// The name of the scheduled audit. (Max. 128 chars)
+  @_s.JsonKey(name: 'scheduledAuditName', ignore: true)
+  final String scheduledAuditName;
+
+  /// The day of the month on which the scheduled audit takes place. Can be "1"
+  /// through "31" or "LAST". This field is required if the "frequency" parameter
+  /// is set to "MONTHLY". If days 29-31 are specified, and the month does not
+  /// have that many days, the audit takes place on the "LAST" day of the month.
+  @_s.JsonKey(name: 'dayOfMonth')
+  final String dayOfMonth;
+
+  /// The day of the week on which the scheduled audit takes place. Can be one of
+  /// "SUN", "MON", "TUE", "WED", "THU", "FRI", or "SAT". This field is required
+  /// if the "frequency" parameter is set to "WEEKLY" or "BIWEEKLY".
+  @_s.JsonKey(name: 'dayOfWeek')
+  final DayOfWeek dayOfWeek;
+
+  /// How often the scheduled audit takes place. Can be one of "DAILY", "WEEKLY",
+  /// "BIWEEKLY", or "MONTHLY". The start time of each audit is determined by the
+  /// system.
+  @_s.JsonKey(name: 'frequency')
+  final AuditFrequency frequency;
+
+  /// Which checks are performed during the scheduled audit. Checks must be
+  /// enabled for your account. (Use
+  /// <code>DescribeAccountAuditConfiguration</code> to see the list of all
+  /// checks, including those that are enabled or use
+  /// <code>UpdateAccountAuditConfiguration</code> to select which checks are
+  /// enabled.)
+  @_s.JsonKey(name: 'targetCheckNames')
+  final List<String> targetCheckNames;
+
+  UpdateScheduledAuditRequest({
+    @_s.required this.scheduledAuditName,
+    this.dayOfMonth,
+    this.dayOfWeek,
+    this.frequency,
+    this.targetCheckNames,
+  });
+  Map<String, dynamic> toJson() => _$UpdateScheduledAuditRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateScheduledAuditResponse {
@@ -21404,6 +24630,84 @@ class UpdateScheduledAuditResponse {
   });
   factory UpdateScheduledAuditResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateScheduledAuditResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateSecurityProfileRequest {
+  /// The name of the security profile you want to update.
+  @_s.JsonKey(name: 'securityProfileName', ignore: true)
+  final String securityProfileName;
+
+  /// A list of metrics whose data is retained (stored). By default, data is
+  /// retained for any metric used in the profile's <code>behaviors</code>, but it
+  /// is also retained for any metric specified here.
+  ///
+  /// <b>Note:</b> This API field is deprecated. Please use
+  /// <a>UpdateSecurityProfileRequest$additionalMetricsToRetainV2</a> instead.
+  @_s.JsonKey(name: 'additionalMetricsToRetain')
+  final List<String> additionalMetricsToRetain;
+
+  /// A list of metrics whose data is retained (stored). By default, data is
+  /// retained for any metric used in the profile's behaviors, but it is also
+  /// retained for any metric specified here.
+  @_s.JsonKey(name: 'additionalMetricsToRetainV2')
+  final List<MetricToRetain> additionalMetricsToRetainV2;
+
+  /// Where the alerts are sent. (Alerts are always sent to the console.)
+  @_s.JsonKey(name: 'alertTargets')
+  final Map<String, AlertTarget> alertTargets;
+
+  /// Specifies the behaviors that, when violated by a device (thing), cause an
+  /// alert.
+  @_s.JsonKey(name: 'behaviors')
+  final List<Behavior> behaviors;
+
+  /// If true, delete all <code>additionalMetricsToRetain</code> defined for this
+  /// security profile. If any <code>additionalMetricsToRetain</code> are defined
+  /// in the current invocation, an exception occurs.
+  @_s.JsonKey(name: 'deleteAdditionalMetricsToRetain')
+  final bool deleteAdditionalMetricsToRetain;
+
+  /// If true, delete all <code>alertTargets</code> defined for this security
+  /// profile. If any <code>alertTargets</code> are defined in the current
+  /// invocation, an exception occurs.
+  @_s.JsonKey(name: 'deleteAlertTargets')
+  final bool deleteAlertTargets;
+
+  /// If true, delete all <code>behaviors</code> defined for this security
+  /// profile. If any <code>behaviors</code> are defined in the current
+  /// invocation, an exception occurs.
+  @_s.JsonKey(name: 'deleteBehaviors')
+  final bool deleteBehaviors;
+
+  /// The expected version of the security profile. A new version is generated
+  /// whenever the security profile is updated. If you specify a value that is
+  /// different from the actual version, a <code>VersionConflictException</code>
+  /// is thrown.
+  @_s.JsonKey(name: 'expectedVersion', ignore: true)
+  final int expectedVersion;
+
+  /// A description of the security profile.
+  @_s.JsonKey(name: 'securityProfileDescription')
+  final String securityProfileDescription;
+
+  UpdateSecurityProfileRequest({
+    @_s.required this.securityProfileName,
+    this.additionalMetricsToRetain,
+    this.additionalMetricsToRetainV2,
+    this.alertTargets,
+    this.behaviors,
+    this.deleteAdditionalMetricsToRetain,
+    this.deleteAlertTargets,
+    this.deleteBehaviors,
+    this.expectedVersion,
+    this.securityProfileDescription,
+  });
+  Map<String, dynamic> toJson() => _$UpdateSecurityProfileRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -21486,6 +24790,38 @@ class UpdateSecurityProfileResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateStreamRequest {
+  /// The stream ID.
+  @_s.JsonKey(name: 'streamId', ignore: true)
+  final String streamId;
+
+  /// The description of the stream.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The files associated with the stream.
+  @_s.JsonKey(name: 'files')
+  final List<StreamFile> files;
+
+  /// An IAM role that allows the IoT service principal assumes to access your S3
+  /// files.
+  @_s.JsonKey(name: 'roleArn')
+  final String roleArn;
+
+  UpdateStreamRequest({
+    @_s.required this.streamId,
+    this.description,
+    this.files,
+    this.roleArn,
+  });
+  Map<String, dynamic> toJson() => _$UpdateStreamRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateStreamResponse {
@@ -21518,6 +24854,33 @@ class UpdateStreamResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateThingGroupRequest {
+  /// The thing group to update.
+  @_s.JsonKey(name: 'thingGroupName', ignore: true)
+  final String thingGroupName;
+
+  /// The thing group properties.
+  @_s.JsonKey(name: 'thingGroupProperties')
+  final ThingGroupProperties thingGroupProperties;
+
+  /// The expected version of the thing group. If this does not match the version
+  /// of the thing group being updated, the update will fail.
+  @_s.JsonKey(name: 'expectedVersion')
+  final int expectedVersion;
+
+  UpdateThingGroupRequest({
+    @_s.required this.thingGroupName,
+    @_s.required this.thingGroupProperties,
+    this.expectedVersion,
+  });
+  Map<String, dynamic> toJson() => _$UpdateThingGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateThingGroupResponse {
@@ -21535,6 +24898,41 @@ class UpdateThingGroupResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateThingGroupsForThingRequest {
+  /// Override dynamic thing groups with static thing groups when 10-group limit
+  /// is reached. If a thing belongs to 10 thing groups, and one or more of those
+  /// groups are dynamic thing groups, adding a thing to a static group removes
+  /// the thing from the last dynamic group.
+  @_s.JsonKey(name: 'overrideDynamicGroups')
+  final bool overrideDynamicGroups;
+
+  /// The groups to which the thing will be added.
+  @_s.JsonKey(name: 'thingGroupsToAdd')
+  final List<String> thingGroupsToAdd;
+
+  /// The groups from which the thing will be removed.
+  @_s.JsonKey(name: 'thingGroupsToRemove')
+  final List<String> thingGroupsToRemove;
+
+  /// The thing whose group memberships will be updated.
+  @_s.JsonKey(name: 'thingName')
+  final String thingName;
+
+  UpdateThingGroupsForThingRequest({
+    this.overrideDynamicGroups,
+    this.thingGroupsToAdd,
+    this.thingGroupsToRemove,
+    this.thingName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateThingGroupsForThingRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateThingGroupsForThingResponse {
@@ -21542,6 +24940,51 @@ class UpdateThingGroupsForThingResponse {
   factory UpdateThingGroupsForThingResponse.fromJson(
           Map<String, dynamic> json) =>
       _$UpdateThingGroupsForThingResponseFromJson(json);
+}
+
+/// The input for the UpdateThing operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateThingRequest {
+  /// The name of the thing to update.
+  @_s.JsonKey(name: 'thingName', ignore: true)
+  final String thingName;
+
+  /// A list of thing attributes, a JSON string containing name-value pairs. For
+  /// example:
+  ///
+  /// <code>{\"attributes\":{\"name1\":\"value2\"}}</code>
+  ///
+  /// This data is used to add new attributes or update existing attributes.
+  @_s.JsonKey(name: 'attributePayload')
+  final AttributePayload attributePayload;
+
+  /// The expected version of the thing record in the registry. If the version of
+  /// the record in the registry does not match the expected version specified in
+  /// the request, the <code>UpdateThing</code> request is rejected with a
+  /// <code>VersionConflictException</code>.
+  @_s.JsonKey(name: 'expectedVersion')
+  final int expectedVersion;
+
+  /// Remove a thing type association. If <b>true</b>, the association is removed.
+  @_s.JsonKey(name: 'removeThingType')
+  final bool removeThingType;
+
+  /// The name of the thing type.
+  @_s.JsonKey(name: 'thingTypeName')
+  final String thingTypeName;
+
+  UpdateThingRequest({
+    @_s.required this.thingName,
+    this.attributePayload,
+    this.expectedVersion,
+    this.removeThingType,
+    this.thingTypeName,
+  });
+  Map<String, dynamic> toJson() => _$UpdateThingRequestToJson(this);
 }
 
 /// The output from the UpdateThing operation.
@@ -21559,6 +25002,50 @@ class UpdateThingResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateTopicRuleDestinationRequest {
+  /// The ARN of the topic rule destination.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// The status of the topic rule destination. Valid values are:
+  /// <dl> <dt>IN_PROGRESS</dt> <dd>
+  /// A topic rule destination was created but has not been confirmed. You can set
+  /// <code>status</code> to <code>IN_PROGRESS</code> by calling
+  /// <code>UpdateTopicRuleDestination</code>. Calling
+  /// <code>UpdateTopicRuleDestination</code> causes a new confirmation challenge
+  /// to be sent to your confirmation endpoint.
+  /// </dd> <dt>ENABLED</dt> <dd>
+  /// Confirmation was completed, and traffic to this destination is allowed. You
+  /// can set <code>status</code> to <code>DISABLED</code> by calling
+  /// <code>UpdateTopicRuleDestination</code>.
+  /// </dd> <dt>DISABLED</dt> <dd>
+  /// Confirmation was completed, and traffic to this destination is not allowed.
+  /// You can set <code>status</code> to <code>ENABLED</code> by calling
+  /// <code>UpdateTopicRuleDestination</code>.
+  /// </dd> <dt>ERROR</dt> <dd>
+  /// Confirmation could not be completed, for example if the confirmation timed
+  /// out. You can call <code>GetTopicRuleDestination</code> for details about the
+  /// error. You can set <code>status</code> to <code>IN_PROGRESS</code> by
+  /// calling <code>UpdateTopicRuleDestination</code>. Calling
+  /// <code>UpdateTopicRuleDestination</code> causes a new confirmation challenge
+  /// to be sent to your confirmation endpoint.
+  /// </dd> </dl>
+  @_s.JsonKey(name: 'status')
+  final TopicRuleDestinationStatus status;
+
+  UpdateTopicRuleDestinationRequest({
+    @_s.required this.arn,
+    @_s.required this.status,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateTopicRuleDestinationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateTopicRuleDestinationResponse {
@@ -21566,6 +25053,24 @@ class UpdateTopicRuleDestinationResponse {
   factory UpdateTopicRuleDestinationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$UpdateTopicRuleDestinationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ValidateSecurityProfileBehaviorsRequest {
+  /// Specifies the behaviors that, when violated by a device (thing), cause an
+  /// alert.
+  @_s.JsonKey(name: 'behaviors')
+  final List<Behavior> behaviors;
+
+  ValidateSecurityProfileBehaviorsRequest({
+    @_s.required this.behaviors,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ValidateSecurityProfileBehaviorsRequestToJson(this);
 }
 
 @_s.JsonSerializable(

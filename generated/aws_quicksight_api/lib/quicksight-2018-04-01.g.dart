@@ -166,6 +166,10 @@ Map<String, dynamic> _$CalculatedColumnToJson(CalculatedColumn instance) {
   return val;
 }
 
+Map<String, dynamic> _$CancelIngestionRequestToJson(
+        CancelIngestionRequest instance) =>
+    <String, dynamic>{};
+
 CancelIngestionResponse _$CancelIngestionResponseFromJson(
     Map<String, dynamic> json) {
   return CancelIngestionResponse(
@@ -347,6 +351,28 @@ Map<String, dynamic> _$CreateColumnsOperationToJson(
   return val;
 }
 
+Map<String, dynamic> _$CreateDashboardRequestToJson(
+    CreateDashboardRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('SourceEntity', instance.sourceEntity?.toJson());
+  writeNotNull(
+      'DashboardPublishOptions', instance.dashboardPublishOptions?.toJson());
+  writeNotNull('Parameters', instance.parameters?.toJson());
+  writeNotNull(
+      'Permissions', instance.permissions?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('VersionDescription', instance.versionDescription);
+  return val;
+}
+
 CreateDashboardResponse _$CreateDashboardResponseFromJson(
     Map<String, dynamic> json) {
   return CreateDashboardResponse(
@@ -369,6 +395,38 @@ const _$ResourceStatusEnumMap = {
   ResourceStatus.updateFailed: 'UPDATE_FAILED',
 };
 
+Map<String, dynamic> _$CreateDataSetRequestToJson(
+    CreateDataSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DataSetId', instance.dataSetId);
+  writeNotNull('ImportMode', _$DataSetImportModeEnumMap[instance.importMode]);
+  writeNotNull('Name', instance.name);
+  writeNotNull('PhysicalTableMap',
+      instance.physicalTableMap?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull(
+      'ColumnGroups', instance.columnGroups?.map((e) => e?.toJson())?.toList());
+  writeNotNull('LogicalTableMap',
+      instance.logicalTableMap?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull(
+      'Permissions', instance.permissions?.map((e) => e?.toJson())?.toList());
+  writeNotNull('RowLevelPermissionDataSet',
+      instance.rowLevelPermissionDataSet?.toJson());
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+const _$DataSetImportModeEnumMap = {
+  DataSetImportMode.spice: 'SPICE',
+  DataSetImportMode.directQuery: 'DIRECT_QUERY',
+};
+
 CreateDataSetResponse _$CreateDataSetResponseFromJson(
     Map<String, dynamic> json) {
   return CreateDataSetResponse(
@@ -380,6 +438,54 @@ CreateDataSetResponse _$CreateDataSetResponseFromJson(
     status: json['Status'] as int,
   );
 }
+
+Map<String, dynamic> _$CreateDataSourceRequestToJson(
+    CreateDataSourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DataSourceId', instance.dataSourceId);
+  writeNotNull('Name', instance.name);
+  writeNotNull('Type', _$DataSourceTypeEnumMap[instance.type]);
+  writeNotNull('Credentials', instance.credentials?.toJson());
+  writeNotNull('DataSourceParameters', instance.dataSourceParameters?.toJson());
+  writeNotNull(
+      'Permissions', instance.permissions?.map((e) => e?.toJson())?.toList());
+  writeNotNull('SslProperties', instance.sslProperties?.toJson());
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'VpcConnectionProperties', instance.vpcConnectionProperties?.toJson());
+  return val;
+}
+
+const _$DataSourceTypeEnumMap = {
+  DataSourceType.adobeAnalytics: 'ADOBE_ANALYTICS',
+  DataSourceType.amazonElasticsearch: 'AMAZON_ELASTICSEARCH',
+  DataSourceType.athena: 'ATHENA',
+  DataSourceType.aurora: 'AURORA',
+  DataSourceType.auroraPostgresql: 'AURORA_POSTGRESQL',
+  DataSourceType.awsIotAnalytics: 'AWS_IOT_ANALYTICS',
+  DataSourceType.github: 'GITHUB',
+  DataSourceType.jira: 'JIRA',
+  DataSourceType.mariadb: 'MARIADB',
+  DataSourceType.mysql: 'MYSQL',
+  DataSourceType.postgresql: 'POSTGRESQL',
+  DataSourceType.presto: 'PRESTO',
+  DataSourceType.redshift: 'REDSHIFT',
+  DataSourceType.s3: 'S3',
+  DataSourceType.salesforce: 'SALESFORCE',
+  DataSourceType.servicenow: 'SERVICENOW',
+  DataSourceType.snowflake: 'SNOWFLAKE',
+  DataSourceType.spark: 'SPARK',
+  DataSourceType.sqlserver: 'SQLSERVER',
+  DataSourceType.teradata: 'TERADATA',
+  DataSourceType.twitter: 'TWITTER',
+};
 
 CreateDataSourceResponse _$CreateDataSourceResponseFromJson(
     Map<String, dynamic> json) {
@@ -393,6 +499,10 @@ CreateDataSourceResponse _$CreateDataSourceResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateGroupMembershipRequestToJson(
+        CreateGroupMembershipRequest instance) =>
+    <String, dynamic>{};
+
 CreateGroupMembershipResponse _$CreateGroupMembershipResponseFromJson(
     Map<String, dynamic> json) {
   return CreateGroupMembershipResponse(
@@ -404,6 +514,20 @@ CreateGroupMembershipResponse _$CreateGroupMembershipResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateGroupRequestToJson(CreateGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GroupName', instance.groupName);
+  writeNotNull('Description', instance.description);
+  return val;
+}
+
 CreateGroupResponse _$CreateGroupResponseFromJson(Map<String, dynamic> json) {
   return CreateGroupResponse(
     group: json['Group'] == null
@@ -413,6 +537,30 @@ CreateGroupResponse _$CreateGroupResponseFromJson(Map<String, dynamic> json) {
     status: json['Status'] as int,
   );
 }
+
+Map<String, dynamic> _$CreateIAMPolicyAssignmentRequestToJson(
+    CreateIAMPolicyAssignmentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AssignmentName', instance.assignmentName);
+  writeNotNull(
+      'AssignmentStatus', _$AssignmentStatusEnumMap[instance.assignmentStatus]);
+  writeNotNull('Identities', instance.identities);
+  writeNotNull('PolicyArn', instance.policyArn);
+  return val;
+}
+
+const _$AssignmentStatusEnumMap = {
+  AssignmentStatus.enabled: 'ENABLED',
+  AssignmentStatus.draft: 'DRAFT',
+  AssignmentStatus.disabled: 'DISABLED',
+};
 
 CreateIAMPolicyAssignmentResponse _$CreateIAMPolicyAssignmentResponseFromJson(
     Map<String, dynamic> json) {
@@ -430,11 +578,9 @@ CreateIAMPolicyAssignmentResponse _$CreateIAMPolicyAssignmentResponseFromJson(
   );
 }
 
-const _$AssignmentStatusEnumMap = {
-  AssignmentStatus.enabled: 'ENABLED',
-  AssignmentStatus.draft: 'DRAFT',
-  AssignmentStatus.disabled: 'DISABLED',
-};
+Map<String, dynamic> _$CreateIngestionRequestToJson(
+        CreateIngestionRequest instance) =>
+    <String, dynamic>{};
 
 CreateIngestionResponse _$CreateIngestionResponseFromJson(
     Map<String, dynamic> json) {
@@ -457,6 +603,20 @@ const _$IngestionStatusEnumMap = {
   IngestionStatus.cancelled: 'CANCELLED',
 };
 
+Map<String, dynamic> _$CreateTemplateAliasRequestToJson(
+    CreateTemplateAliasRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TemplateVersionNumber', instance.templateVersionNumber);
+  return val;
+}
+
 CreateTemplateAliasResponse _$CreateTemplateAliasResponseFromJson(
     Map<String, dynamic> json) {
   return CreateTemplateAliasResponse(
@@ -466,6 +626,25 @@ CreateTemplateAliasResponse _$CreateTemplateAliasResponseFromJson(
         ? null
         : TemplateAlias.fromJson(json['TemplateAlias'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateTemplateRequestToJson(
+    CreateTemplateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SourceEntity', instance.sourceEntity?.toJson());
+  writeNotNull('Name', instance.name);
+  writeNotNull(
+      'Permissions', instance.permissions?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('VersionDescription', instance.versionDescription);
+  return val;
 }
 
 CreateTemplateResponse _$CreateTemplateResponseFromJson(
@@ -699,11 +878,6 @@ DataSet _$DataSetFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$DataSetImportModeEnumMap = {
-  DataSetImportMode.spice: 'SPICE',
-  DataSetImportMode.directQuery: 'DIRECT_QUERY',
-};
-
 DataSetConfiguration _$DataSetConfigurationFromJson(Map<String, dynamic> json) {
   return DataSetConfiguration(
     columnGroupSchemaList: (json['ColumnGroupSchemaList'] as List)
@@ -783,30 +957,6 @@ DataSource _$DataSourceFromJson(Map<String, dynamic> json) {
             json['VpcConnectionProperties'] as Map<String, dynamic>),
   );
 }
-
-const _$DataSourceTypeEnumMap = {
-  DataSourceType.adobeAnalytics: 'ADOBE_ANALYTICS',
-  DataSourceType.amazonElasticsearch: 'AMAZON_ELASTICSEARCH',
-  DataSourceType.athena: 'ATHENA',
-  DataSourceType.aurora: 'AURORA',
-  DataSourceType.auroraPostgresql: 'AURORA_POSTGRESQL',
-  DataSourceType.awsIotAnalytics: 'AWS_IOT_ANALYTICS',
-  DataSourceType.github: 'GITHUB',
-  DataSourceType.jira: 'JIRA',
-  DataSourceType.mariadb: 'MARIADB',
-  DataSourceType.mysql: 'MYSQL',
-  DataSourceType.postgresql: 'POSTGRESQL',
-  DataSourceType.presto: 'PRESTO',
-  DataSourceType.redshift: 'REDSHIFT',
-  DataSourceType.s3: 'S3',
-  DataSourceType.salesforce: 'SALESFORCE',
-  DataSourceType.servicenow: 'SERVICENOW',
-  DataSourceType.snowflake: 'SNOWFLAKE',
-  DataSourceType.spark: 'SPARK',
-  DataSourceType.sqlserver: 'SQLSERVER',
-  DataSourceType.teradata: 'TERADATA',
-  DataSourceType.twitter: 'TWITTER',
-};
 
 Map<String, dynamic> _$DataSourceCredentialsToJson(
     DataSourceCredentials instance) {
@@ -982,6 +1132,10 @@ Map<String, dynamic> _$DecimalParameterToJson(DecimalParameter instance) {
   return val;
 }
 
+Map<String, dynamic> _$DeleteDashboardRequestToJson(
+        DeleteDashboardRequest instance) =>
+    <String, dynamic>{};
+
 DeleteDashboardResponse _$DeleteDashboardResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteDashboardResponse(
@@ -991,6 +1145,10 @@ DeleteDashboardResponse _$DeleteDashboardResponseFromJson(
     status: json['Status'] as int,
   );
 }
+
+Map<String, dynamic> _$DeleteDataSetRequestToJson(
+        DeleteDataSetRequest instance) =>
+    <String, dynamic>{};
 
 DeleteDataSetResponse _$DeleteDataSetResponseFromJson(
     Map<String, dynamic> json) {
@@ -1002,6 +1160,10 @@ DeleteDataSetResponse _$DeleteDataSetResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteDataSourceRequestToJson(
+        DeleteDataSourceRequest instance) =>
+    <String, dynamic>{};
+
 DeleteDataSourceResponse _$DeleteDataSourceResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteDataSourceResponse(
@@ -1012,6 +1174,10 @@ DeleteDataSourceResponse _$DeleteDataSourceResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteGroupMembershipRequestToJson(
+        DeleteGroupMembershipRequest instance) =>
+    <String, dynamic>{};
+
 DeleteGroupMembershipResponse _$DeleteGroupMembershipResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteGroupMembershipResponse(
@@ -1020,12 +1186,19 @@ DeleteGroupMembershipResponse _$DeleteGroupMembershipResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteGroupRequestToJson(DeleteGroupRequest instance) =>
+    <String, dynamic>{};
+
 DeleteGroupResponse _$DeleteGroupResponseFromJson(Map<String, dynamic> json) {
   return DeleteGroupResponse(
     requestId: json['RequestId'] as String,
     status: json['Status'] as int,
   );
 }
+
+Map<String, dynamic> _$DeleteIAMPolicyAssignmentRequestToJson(
+        DeleteIAMPolicyAssignmentRequest instance) =>
+    <String, dynamic>{};
 
 DeleteIAMPolicyAssignmentResponse _$DeleteIAMPolicyAssignmentResponseFromJson(
     Map<String, dynamic> json) {
@@ -1035,6 +1208,10 @@ DeleteIAMPolicyAssignmentResponse _$DeleteIAMPolicyAssignmentResponseFromJson(
     status: json['Status'] as int,
   );
 }
+
+Map<String, dynamic> _$DeleteTemplateAliasRequestToJson(
+        DeleteTemplateAliasRequest instance) =>
+    <String, dynamic>{};
 
 DeleteTemplateAliasResponse _$DeleteTemplateAliasResponseFromJson(
     Map<String, dynamic> json) {
@@ -1047,6 +1224,10 @@ DeleteTemplateAliasResponse _$DeleteTemplateAliasResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteTemplateRequestToJson(
+        DeleteTemplateRequest instance) =>
+    <String, dynamic>{};
+
 DeleteTemplateResponse _$DeleteTemplateResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteTemplateResponse(
@@ -1057,6 +1238,10 @@ DeleteTemplateResponse _$DeleteTemplateResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteUserByPrincipalIdRequestToJson(
+        DeleteUserByPrincipalIdRequest instance) =>
+    <String, dynamic>{};
+
 DeleteUserByPrincipalIdResponse _$DeleteUserByPrincipalIdResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteUserByPrincipalIdResponse(
@@ -1064,6 +1249,9 @@ DeleteUserByPrincipalIdResponse _$DeleteUserByPrincipalIdResponseFromJson(
     status: json['Status'] as int,
   );
 }
+
+Map<String, dynamic> _$DeleteUserRequestToJson(DeleteUserRequest instance) =>
+    <String, dynamic>{};
 
 DeleteUserResponse _$DeleteUserResponseFromJson(Map<String, dynamic> json) {
   return DeleteUserResponse(
@@ -2029,6 +2217,37 @@ Map<String, dynamic> _$RedshiftParametersToJson(RedshiftParameters instance) {
   return val;
 }
 
+Map<String, dynamic> _$RegisterUserRequestToJson(RegisterUserRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Email', instance.email);
+  writeNotNull('IdentityType', _$IdentityTypeEnumMap[instance.identityType]);
+  writeNotNull('UserRole', _$UserRoleEnumMap[instance.userRole]);
+  writeNotNull('IamArn', instance.iamArn);
+  writeNotNull('SessionName', instance.sessionName);
+  writeNotNull('UserName', instance.userName);
+  return val;
+}
+
+const _$IdentityTypeEnumMap = {
+  IdentityType.iam: 'IAM',
+  IdentityType.quicksight: 'QUICKSIGHT',
+};
+
+const _$UserRoleEnumMap = {
+  UserRole.admin: 'ADMIN',
+  UserRole.author: 'AUTHOR',
+  UserRole.reader: 'READER',
+  UserRole.restrictedAuthor: 'RESTRICTED_AUTHOR',
+  UserRole.restrictedReader: 'RESTRICTED_READER',
+};
+
 RegisterUserResponse _$RegisterUserResponseFromJson(Map<String, dynamic> json) {
   return RegisterUserResponse(
     requestId: json['RequestId'] as String,
@@ -2199,6 +2418,22 @@ Map<String, dynamic> _$S3SourceToJson(S3Source instance) {
   writeNotNull(
       'InputColumns', instance.inputColumns?.map((e) => e?.toJson())?.toList());
   writeNotNull('UploadSettings', instance.uploadSettings?.toJson());
+  return val;
+}
+
+Map<String, dynamic> _$SearchDashboardsRequestToJson(
+    SearchDashboardsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
   return val;
 }
 
@@ -2396,6 +2631,19 @@ Map<String, dynamic> _$TagColumnOperationToJson(TagColumnOperation instance) {
   }
 
   writeNotNull('ColumnName', instance.columnName);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
   writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
   return val;
 }
@@ -2621,12 +2869,33 @@ Map<String, dynamic> _$TwitterParametersToJson(TwitterParameters instance) {
   return val;
 }
 
+Map<String, dynamic> _$UntagResourceRequestToJson(
+        UntagResourceRequest instance) =>
+    <String, dynamic>{};
+
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse(
     requestId: json['RequestId'] as String,
     status: json['Status'] as int,
   );
+}
+
+Map<String, dynamic> _$UpdateDashboardPermissionsRequestToJson(
+    UpdateDashboardPermissionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GrantPermissions',
+      instance.grantPermissions?.map((e) => e?.toJson())?.toList());
+  writeNotNull('RevokePermissions',
+      instance.revokePermissions?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 UpdateDashboardPermissionsResponse _$UpdateDashboardPermissionsResponseFromJson(
@@ -2644,6 +2913,10 @@ UpdateDashboardPermissionsResponse _$UpdateDashboardPermissionsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateDashboardPublishedVersionRequestToJson(
+        UpdateDashboardPublishedVersionRequest instance) =>
+    <String, dynamic>{};
+
 UpdateDashboardPublishedVersionResponse
     _$UpdateDashboardPublishedVersionResponseFromJson(
         Map<String, dynamic> json) {
@@ -2653,6 +2926,25 @@ UpdateDashboardPublishedVersionResponse
     requestId: json['RequestId'] as String,
     status: json['Status'] as int,
   );
+}
+
+Map<String, dynamic> _$UpdateDashboardRequestToJson(
+    UpdateDashboardRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('SourceEntity', instance.sourceEntity?.toJson());
+  writeNotNull(
+      'DashboardPublishOptions', instance.dashboardPublishOptions?.toJson());
+  writeNotNull('Parameters', instance.parameters?.toJson());
+  writeNotNull('VersionDescription', instance.versionDescription);
+  return val;
 }
 
 UpdateDashboardResponse _$UpdateDashboardResponseFromJson(
@@ -2668,6 +2960,23 @@ UpdateDashboardResponse _$UpdateDashboardResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateDataSetPermissionsRequestToJson(
+    UpdateDataSetPermissionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GrantPermissions',
+      instance.grantPermissions?.map((e) => e?.toJson())?.toList());
+  writeNotNull('RevokePermissions',
+      instance.revokePermissions?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 UpdateDataSetPermissionsResponse _$UpdateDataSetPermissionsResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateDataSetPermissionsResponse(
@@ -2676,6 +2985,29 @@ UpdateDataSetPermissionsResponse _$UpdateDataSetPermissionsResponseFromJson(
     requestId: json['RequestId'] as String,
     status: json['Status'] as int,
   );
+}
+
+Map<String, dynamic> _$UpdateDataSetRequestToJson(
+    UpdateDataSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ImportMode', _$DataSetImportModeEnumMap[instance.importMode]);
+  writeNotNull('Name', instance.name);
+  writeNotNull('PhysicalTableMap',
+      instance.physicalTableMap?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull(
+      'ColumnGroups', instance.columnGroups?.map((e) => e?.toJson())?.toList());
+  writeNotNull('LogicalTableMap',
+      instance.logicalTableMap?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('RowLevelPermissionDataSet',
+      instance.rowLevelPermissionDataSet?.toJson());
+  return val;
 }
 
 UpdateDataSetResponse _$UpdateDataSetResponseFromJson(
@@ -2690,6 +3022,23 @@ UpdateDataSetResponse _$UpdateDataSetResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateDataSourcePermissionsRequestToJson(
+    UpdateDataSourcePermissionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GrantPermissions',
+      instance.grantPermissions?.map((e) => e?.toJson())?.toList());
+  writeNotNull('RevokePermissions',
+      instance.revokePermissions?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 UpdateDataSourcePermissionsResponse
     _$UpdateDataSourcePermissionsResponseFromJson(Map<String, dynamic> json) {
   return UpdateDataSourcePermissionsResponse(
@@ -2698,6 +3047,25 @@ UpdateDataSourcePermissionsResponse
     requestId: json['RequestId'] as String,
     status: json['Status'] as int,
   );
+}
+
+Map<String, dynamic> _$UpdateDataSourceRequestToJson(
+    UpdateDataSourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('Credentials', instance.credentials?.toJson());
+  writeNotNull('DataSourceParameters', instance.dataSourceParameters?.toJson());
+  writeNotNull('SslProperties', instance.sslProperties?.toJson());
+  writeNotNull(
+      'VpcConnectionProperties', instance.vpcConnectionProperties?.toJson());
+  return val;
 }
 
 UpdateDataSourceResponse _$UpdateDataSourceResponseFromJson(
@@ -2712,6 +3080,19 @@ UpdateDataSourceResponse _$UpdateDataSourceResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateGroupRequestToJson(UpdateGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Description', instance.description);
+  return val;
+}
+
 UpdateGroupResponse _$UpdateGroupResponseFromJson(Map<String, dynamic> json) {
   return UpdateGroupResponse(
     group: json['Group'] == null
@@ -2720,6 +3101,23 @@ UpdateGroupResponse _$UpdateGroupResponseFromJson(Map<String, dynamic> json) {
     requestId: json['RequestId'] as String,
     status: json['Status'] as int,
   );
+}
+
+Map<String, dynamic> _$UpdateIAMPolicyAssignmentRequestToJson(
+    UpdateIAMPolicyAssignmentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'AssignmentStatus', _$AssignmentStatusEnumMap[instance.assignmentStatus]);
+  writeNotNull('Identities', instance.identities);
+  writeNotNull('PolicyArn', instance.policyArn);
+  return val;
 }
 
 UpdateIAMPolicyAssignmentResponse _$UpdateIAMPolicyAssignmentResponseFromJson(
@@ -2738,6 +3136,20 @@ UpdateIAMPolicyAssignmentResponse _$UpdateIAMPolicyAssignmentResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateTemplateAliasRequestToJson(
+    UpdateTemplateAliasRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TemplateVersionNumber', instance.templateVersionNumber);
+  return val;
+}
+
 UpdateTemplateAliasResponse _$UpdateTemplateAliasResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateTemplateAliasResponse(
@@ -2747,6 +3159,23 @@ UpdateTemplateAliasResponse _$UpdateTemplateAliasResponseFromJson(
         ? null
         : TemplateAlias.fromJson(json['TemplateAlias'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateTemplatePermissionsRequestToJson(
+    UpdateTemplatePermissionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GrantPermissions',
+      instance.grantPermissions?.map((e) => e?.toJson())?.toList());
+  writeNotNull('RevokePermissions',
+      instance.revokePermissions?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 UpdateTemplatePermissionsResponse _$UpdateTemplatePermissionsResponseFromJson(
@@ -2764,6 +3193,22 @@ UpdateTemplatePermissionsResponse _$UpdateTemplatePermissionsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateTemplateRequestToJson(
+    UpdateTemplateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SourceEntity', instance.sourceEntity?.toJson());
+  writeNotNull('Name', instance.name);
+  writeNotNull('VersionDescription', instance.versionDescription);
+  return val;
+}
+
 UpdateTemplateResponse _$UpdateTemplateResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateTemplateResponse(
@@ -2775,6 +3220,20 @@ UpdateTemplateResponse _$UpdateTemplateResponseFromJson(
     templateId: json['TemplateId'] as String,
     versionArn: json['VersionArn'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateUserRequestToJson(UpdateUserRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Email', instance.email);
+  writeNotNull('Role', _$UserRoleEnumMap[instance.role]);
+  return val;
 }
 
 UpdateUserResponse _$UpdateUserResponseFromJson(Map<String, dynamic> json) {
@@ -2841,19 +3300,6 @@ User _$UserFromJson(Map<String, dynamic> json) {
     userName: json['UserName'] as String,
   );
 }
-
-const _$IdentityTypeEnumMap = {
-  IdentityType.iam: 'IAM',
-  IdentityType.quicksight: 'QUICKSIGHT',
-};
-
-const _$UserRoleEnumMap = {
-  UserRole.admin: 'ADMIN',
-  UserRole.author: 'AUTHOR',
-  UserRole.reader: 'READER',
-  UserRole.restrictedAuthor: 'RESTRICTED_AUTHOR',
-  UserRole.restrictedReader: 'RESTRICTED_READER',
-};
 
 VpcConnectionProperties _$VpcConnectionPropertiesFromJson(
     Map<String, dynamic> json) {

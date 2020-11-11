@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -126,7 +125,11 @@ class Glacier {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(uploadId, 'uploadId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    final $payload = <String, dynamic>{};
+    final $payload = AbortMultipartUploadInput(
+      accountId: accountId,
+      uploadId: uploadId,
+      vaultName: vaultName,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -178,7 +181,10 @@ class Glacier {
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    final $payload = <String, dynamic>{};
+    final $payload = AbortVaultLockInput(
+      accountId: accountId,
+      vaultName: vaultName,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -223,9 +229,11 @@ class Glacier {
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    final $payload = <String, dynamic>{
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = AddTagsToVaultInput(
+      accountId: accountId,
+      vaultName: vaultName,
+      tags: tags,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -325,7 +333,13 @@ class Glacier {
     final headers = <String, String>{};
     archiveSize?.let((v) => headers['x-amz-archive-size'] = v.toString());
     checksum?.let((v) => headers['x-amz-sha256-tree-hash'] = v.toString());
-    final $payload = <String, dynamic>{};
+    final $payload = CompleteMultipartUploadInput(
+      accountId: accountId,
+      uploadId: uploadId,
+      vaultName: vaultName,
+      archiveSize: archiveSize,
+      checksum: checksum,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -384,7 +398,11 @@ class Glacier {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(lockId, 'lockId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    final $payload = <String, dynamic>{};
+    final $payload = CompleteVaultLockInput(
+      accountId: accountId,
+      lockId: lockId,
+      vaultName: vaultName,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -446,7 +464,10 @@ class Glacier {
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    final $payload = <String, dynamic>{};
+    final $payload = CreateVaultInput(
+      accountId: accountId,
+      vaultName: vaultName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -515,7 +536,11 @@ class Glacier {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(archiveId, 'archiveId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteArchiveInput(
+      accountId: accountId,
+      archiveId: archiveId,
+      vaultName: vaultName,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -573,7 +598,10 @@ class Glacier {
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteVaultInput(
+      accountId: accountId,
+      vaultName: vaultName,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -615,7 +643,10 @@ class Glacier {
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteVaultAccessPolicyInput(
+      accountId: accountId,
+      vaultName: vaultName,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -665,7 +696,10 @@ class Glacier {
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteVaultNotificationsInput(
+      accountId: accountId,
+      vaultName: vaultName,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1228,7 +1262,12 @@ class Glacier {
     archiveDescription
         ?.let((v) => headers['x-amz-archive-description'] = v.toString());
     partSize?.let((v) => headers['x-amz-part-size'] = v.toString());
-    final $payload = <String, dynamic>{};
+    final $payload = InitiateMultipartUploadInput(
+      accountId: accountId,
+      vaultName: vaultName,
+      archiveDescription: archiveDescription,
+      partSize: partSize,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -1734,7 +1773,9 @@ class Glacier {
     @_s.required String accountId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    final $payload = <String, dynamic>{};
+    final $payload = PurchaseProvisionedCapacityInput(
+      accountId: accountId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1776,9 +1817,11 @@ class Glacier {
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    final $payload = <String, dynamic>{
-      if (tagKeys != null) 'TagKeys': tagKeys,
-    };
+    final $payload = RemoveTagsFromVaultInput(
+      accountId: accountId,
+      vaultName: vaultName,
+      tagKeys: tagKeys,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1818,9 +1861,10 @@ class Glacier {
     DataRetrievalPolicy policy,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    final $payload = <String, dynamic>{
-      if (policy != null) 'Policy': policy,
-    };
+    final $payload = SetDataRetrievalPolicyInput(
+      accountId: accountId,
+      policy: policy,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -2150,6 +2194,70 @@ class Glacier {
   }
 }
 
+/// Provides options to abort a multipart upload identified by the upload ID.
+///
+/// For information about the underlying REST API, see <a
+/// href="https://docs.aws.amazon.com/amazonglacier/latest/dev/api-multipart-abort-upload.html">Abort
+/// Multipart Upload</a>. For conceptual information, see <a
+/// href="https://docs.aws.amazon.com/amazonglacier/latest/dev/working-with-archives.html">Working
+/// with Archives in Amazon S3 Glacier</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AbortMultipartUploadInput {
+  /// The <code>AccountId</code> value is the AWS account ID of the account that
+  /// owns the vault. You can either specify an AWS account ID or optionally a
+  /// single '<code>-</code>' (hyphen), in which case Amazon S3 Glacier uses the
+  /// AWS account ID associated with the credentials used to sign the request. If
+  /// you use an account ID, do not include any hyphens ('-') in the ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  /// The upload ID of the multipart upload to delete.
+  @_s.JsonKey(name: 'uploadId', ignore: true)
+  final String uploadId;
+
+  /// The name of the vault.
+  @_s.JsonKey(name: 'vaultName', ignore: true)
+  final String vaultName;
+
+  AbortMultipartUploadInput({
+    @_s.required this.accountId,
+    @_s.required this.uploadId,
+    @_s.required this.vaultName,
+  });
+  Map<String, dynamic> toJson() => _$AbortMultipartUploadInputToJson(this);
+}
+
+/// The input values for <code>AbortVaultLock</code>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AbortVaultLockInput {
+  /// The <code>AccountId</code> value is the AWS account ID. This value must
+  /// match the AWS account ID associated with the credentials used to sign the
+  /// request. You can either specify an AWS account ID or optionally a single
+  /// '<code>-</code>' (hyphen), in which case Amazon Glacier uses the AWS account
+  /// ID associated with the credentials used to sign the request. If you specify
+  /// your account ID, do not include any hyphens ('-') in the ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  /// The name of the vault.
+  @_s.JsonKey(name: 'vaultName', ignore: true)
+  final String vaultName;
+
+  AbortVaultLockInput({
+    @_s.required this.accountId,
+    @_s.required this.vaultName,
+  });
+  Map<String, dynamic> toJson() => _$AbortVaultLockInputToJson(this);
+}
+
 enum ActionCode {
   @_s.JsonValue('ArchiveRetrieval')
   archiveRetrieval,
@@ -2157,6 +2265,38 @@ enum ActionCode {
   inventoryRetrieval,
   @_s.JsonValue('Select')
   select,
+}
+
+/// The input values for <code>AddTagsToVault</code>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AddTagsToVaultInput {
+  /// The <code>AccountId</code> value is the AWS account ID of the account that
+  /// owns the vault. You can either specify an AWS account ID or optionally a
+  /// single '<code>-</code>' (hyphen), in which case Amazon S3 Glacier uses the
+  /// AWS account ID associated with the credentials used to sign the request. If
+  /// you use an account ID, do not include any hyphens ('-') in the ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  /// The name of the vault.
+  @_s.JsonKey(name: 'vaultName', ignore: true)
+  final String vaultName;
+
+  /// The tags to add to the vault. Each tag is composed of a key and a value. The
+  /// value can be an empty string.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  AddTagsToVaultInput({
+    @_s.required this.accountId,
+    @_s.required this.vaultName,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$AddTagsToVaultInputToJson(this);
 }
 
 /// Contains the Amazon S3 Glacier response to your request.
@@ -2304,6 +2444,116 @@ enum CannedACL {
   bucketOwnerFullControl,
 }
 
+/// Provides options to complete a multipart upload operation. This informs
+/// Amazon Glacier that all the archive parts have been uploaded and Amazon S3
+/// Glacier (Glacier) can now assemble the archive from the uploaded parts.
+/// After assembling and saving the archive to the vault, Glacier returns the
+/// URI path of the newly created archive resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CompleteMultipartUploadInput {
+  /// The <code>AccountId</code> value is the AWS account ID of the account that
+  /// owns the vault. You can either specify an AWS account ID or optionally a
+  /// single '<code>-</code>' (hyphen), in which case Amazon S3 Glacier uses the
+  /// AWS account ID associated with the credentials used to sign the request. If
+  /// you use an account ID, do not include any hyphens ('-') in the ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  /// The upload ID of the multipart upload.
+  @_s.JsonKey(name: 'uploadId', ignore: true)
+  final String uploadId;
+
+  /// The name of the vault.
+  @_s.JsonKey(name: 'vaultName', ignore: true)
+  final String vaultName;
+
+  /// The total size, in bytes, of the entire archive. This value should be the
+  /// sum of all the sizes of the individual parts that you uploaded.
+  @_s.JsonKey(name: 'x-amz-archive-size', ignore: true)
+  final String archiveSize;
+
+  /// The SHA256 tree hash of the entire archive. It is the tree hash of SHA256
+  /// tree hash of the individual parts. If the value you specify in the request
+  /// does not match the SHA256 tree hash of the final assembled archive as
+  /// computed by Amazon S3 Glacier (Glacier), Glacier returns an error and the
+  /// request fails.
+  @_s.JsonKey(name: 'x-amz-sha256-tree-hash', ignore: true)
+  final String checksum;
+
+  CompleteMultipartUploadInput({
+    @_s.required this.accountId,
+    @_s.required this.uploadId,
+    @_s.required this.vaultName,
+    this.archiveSize,
+    this.checksum,
+  });
+  Map<String, dynamic> toJson() => _$CompleteMultipartUploadInputToJson(this);
+}
+
+/// The input values for <code>CompleteVaultLock</code>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CompleteVaultLockInput {
+  /// The <code>AccountId</code> value is the AWS account ID. This value must
+  /// match the AWS account ID associated with the credentials used to sign the
+  /// request. You can either specify an AWS account ID or optionally a single
+  /// '<code>-</code>' (hyphen), in which case Amazon Glacier uses the AWS account
+  /// ID associated with the credentials used to sign the request. If you specify
+  /// your account ID, do not include any hyphens ('-') in the ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  /// The <code>lockId</code> value is the lock ID obtained from a
+  /// <a>InitiateVaultLock</a> request.
+  @_s.JsonKey(name: 'lockId', ignore: true)
+  final String lockId;
+
+  /// The name of the vault.
+  @_s.JsonKey(name: 'vaultName', ignore: true)
+  final String vaultName;
+
+  CompleteVaultLockInput({
+    @_s.required this.accountId,
+    @_s.required this.lockId,
+    @_s.required this.vaultName,
+  });
+  Map<String, dynamic> toJson() => _$CompleteVaultLockInputToJson(this);
+}
+
+/// Provides options to create a vault.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateVaultInput {
+  /// The <code>AccountId</code> value is the AWS account ID. This value must
+  /// match the AWS account ID associated with the credentials used to sign the
+  /// request. You can either specify an AWS account ID or optionally a single
+  /// '<code>-</code>' (hyphen), in which case Amazon S3 Glacier uses the AWS
+  /// account ID associated with the credentials used to sign the request. If you
+  /// specify your account ID, do not include any hyphens ('-') in the ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  /// The name of the vault.
+  @_s.JsonKey(name: 'vaultName', ignore: true)
+  final String vaultName;
+
+  CreateVaultInput({
+    @_s.required this.accountId,
+    @_s.required this.vaultName,
+  });
+  Map<String, dynamic> toJson() => _$CreateVaultInputToJson(this);
+}
+
 /// Contains the Amazon S3 Glacier response to your request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2374,6 +2624,116 @@ class DataRetrievalRule {
       _$DataRetrievalRuleFromJson(json);
 
   Map<String, dynamic> toJson() => _$DataRetrievalRuleToJson(this);
+}
+
+/// Provides options for deleting an archive from an Amazon S3 Glacier vault.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteArchiveInput {
+  /// The <code>AccountId</code> value is the AWS account ID of the account that
+  /// owns the vault. You can either specify an AWS account ID or optionally a
+  /// single '<code>-</code>' (hyphen), in which case Amazon S3 Glacier uses the
+  /// AWS account ID associated with the credentials used to sign the request. If
+  /// you use an account ID, do not include any hyphens ('-') in the ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  /// The ID of the archive to delete.
+  @_s.JsonKey(name: 'archiveId', ignore: true)
+  final String archiveId;
+
+  /// The name of the vault.
+  @_s.JsonKey(name: 'vaultName', ignore: true)
+  final String vaultName;
+
+  DeleteArchiveInput({
+    @_s.required this.accountId,
+    @_s.required this.archiveId,
+    @_s.required this.vaultName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteArchiveInputToJson(this);
+}
+
+/// DeleteVaultAccessPolicy input.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteVaultAccessPolicyInput {
+  /// The <code>AccountId</code> value is the AWS account ID of the account that
+  /// owns the vault. You can either specify an AWS account ID or optionally a
+  /// single '<code>-</code>' (hyphen), in which case Amazon S3 Glacier uses the
+  /// AWS account ID associated with the credentials used to sign the request. If
+  /// you use an account ID, do not include any hyphens ('-') in the ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  /// The name of the vault.
+  @_s.JsonKey(name: 'vaultName', ignore: true)
+  final String vaultName;
+
+  DeleteVaultAccessPolicyInput({
+    @_s.required this.accountId,
+    @_s.required this.vaultName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteVaultAccessPolicyInputToJson(this);
+}
+
+/// Provides options for deleting a vault from Amazon S3 Glacier.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteVaultInput {
+  /// The <code>AccountId</code> value is the AWS account ID of the account that
+  /// owns the vault. You can either specify an AWS account ID or optionally a
+  /// single '<code>-</code>' (hyphen), in which case Amazon S3 Glacier uses the
+  /// AWS account ID associated with the credentials used to sign the request. If
+  /// you use an account ID, do not include any hyphens ('-') in the ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  /// The name of the vault.
+  @_s.JsonKey(name: 'vaultName', ignore: true)
+  final String vaultName;
+
+  DeleteVaultInput({
+    @_s.required this.accountId,
+    @_s.required this.vaultName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteVaultInputToJson(this);
+}
+
+/// Provides options for deleting a vault notification configuration from an
+/// Amazon Glacier vault.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteVaultNotificationsInput {
+  /// The <code>AccountId</code> value is the AWS account ID of the account that
+  /// owns the vault. You can either specify an AWS account ID or optionally a
+  /// single '<code>-</code>' (hyphen), in which case Amazon S3 Glacier uses the
+  /// AWS account ID associated with the credentials used to sign the request. If
+  /// you use an account ID, do not include any hyphens ('-') in the ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  /// The name of the vault.
+  @_s.JsonKey(name: 'vaultName', ignore: true)
+  final String vaultName;
+
+  DeleteVaultNotificationsInput({
+    @_s.required this.accountId,
+    @_s.required this.vaultName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteVaultNotificationsInputToJson(this);
 }
 
 /// Contains the Amazon S3 Glacier response to your request.
@@ -2913,6 +3273,49 @@ class InitiateJobOutput {
       _$InitiateJobOutputFromJson(json);
 }
 
+/// Provides options for initiating a multipart upload to an Amazon S3 Glacier
+/// vault.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class InitiateMultipartUploadInput {
+  /// The <code>AccountId</code> value is the AWS account ID of the account that
+  /// owns the vault. You can either specify an AWS account ID or optionally a
+  /// single '<code>-</code>' (hyphen), in which case Amazon S3 Glacier uses the
+  /// AWS account ID associated with the credentials used to sign the request. If
+  /// you use an account ID, do not include any hyphens ('-') in the ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  /// The name of the vault.
+  @_s.JsonKey(name: 'vaultName', ignore: true)
+  final String vaultName;
+
+  /// The archive description that you are uploading in parts.
+  ///
+  /// The part size must be a megabyte (1024 KB) multiplied by a power of 2, for
+  /// example 1048576 (1 MB), 2097152 (2 MB), 4194304 (4 MB), 8388608 (8 MB), and
+  /// so on. The minimum allowable part size is 1 MB, and the maximum is 4 GB
+  /// (4096 MB).
+  @_s.JsonKey(name: 'x-amz-archive-description', ignore: true)
+  final String archiveDescription;
+
+  /// The size of each part except the last, in bytes. The last part can be
+  /// smaller than this part size.
+  @_s.JsonKey(name: 'x-amz-part-size', ignore: true)
+  final String partSize;
+
+  InitiateMultipartUploadInput({
+    @_s.required this.accountId,
+    @_s.required this.vaultName,
+    this.archiveDescription,
+    this.partSize,
+  });
+  Map<String, dynamic> toJson() => _$InitiateMultipartUploadInputToJson(this);
+}
+
 /// The Amazon S3 Glacier response to your request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3436,6 +3839,27 @@ class ProvisionedCapacityDescription {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PurchaseProvisionedCapacityInput {
+  /// The AWS account ID of the account that owns the vault. You can either
+  /// specify an AWS account ID or optionally a single '-' (hyphen), in which case
+  /// Amazon S3 Glacier uses the AWS account ID associated with the credentials
+  /// used to sign the request. If you use an account ID, don't include any
+  /// hyphens ('-') in the ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  PurchaseProvisionedCapacityInput({
+    @_s.required this.accountId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PurchaseProvisionedCapacityInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PurchaseProvisionedCapacityOutput {
@@ -3456,6 +3880,37 @@ enum QuoteFields {
   always,
   @_s.JsonValue('ASNEEDED')
   asneeded,
+}
+
+/// The input value for <code>RemoveTagsFromVaultInput</code>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RemoveTagsFromVaultInput {
+  /// The <code>AccountId</code> value is the AWS account ID of the account that
+  /// owns the vault. You can either specify an AWS account ID or optionally a
+  /// single '<code>-</code>' (hyphen), in which case Amazon S3 Glacier uses the
+  /// AWS account ID associated with the credentials used to sign the request. If
+  /// you use an account ID, do not include any hyphens ('-') in the ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  /// The name of the vault.
+  @_s.JsonKey(name: 'vaultName', ignore: true)
+  final String vaultName;
+
+  /// A list of tag keys. Each corresponding tag is removed from the vault.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  RemoveTagsFromVaultInput({
+    @_s.required this.accountId,
+    @_s.required this.vaultName,
+    this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$RemoveTagsFromVaultInputToJson(this);
 }
 
 /// Contains information about the location in Amazon S3 where the select job
@@ -3548,6 +4003,33 @@ class SelectParameters {
       _$SelectParametersFromJson(json);
 
   Map<String, dynamic> toJson() => _$SelectParametersToJson(this);
+}
+
+/// SetDataRetrievalPolicy input.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SetDataRetrievalPolicyInput {
+  /// The <code>AccountId</code> value is the AWS account ID. This value must
+  /// match the AWS account ID associated with the credentials used to sign the
+  /// request. You can either specify an AWS account ID or optionally a single
+  /// '<code>-</code>' (hyphen), in which case Amazon Glacier uses the AWS account
+  /// ID associated with the credentials used to sign the request. If you specify
+  /// your account ID, do not include any hyphens ('-') in the ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  /// The data retrieval policy in JSON format.
+  @_s.JsonKey(name: 'Policy')
+  final DataRetrievalPolicy policy;
+
+  SetDataRetrievalPolicyInput({
+    @_s.required this.accountId,
+    this.policy,
+  });
+  Map<String, dynamic> toJson() => _$SetDataRetrievalPolicyInputToJson(this);
 }
 
 enum StatusCode {

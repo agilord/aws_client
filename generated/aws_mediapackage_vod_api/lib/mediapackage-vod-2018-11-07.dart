@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -73,13 +72,13 @@ class MediaPackageVod {
     ArgumentError.checkNotNull(packagingGroupId, 'packagingGroupId');
     ArgumentError.checkNotNull(sourceArn, 'sourceArn');
     ArgumentError.checkNotNull(sourceRoleArn, 'sourceRoleArn');
-    final $payload = <String, dynamic>{
-      'Id': id,
-      'PackagingGroupId': packagingGroupId,
-      'SourceArn': sourceArn,
-      'SourceRoleArn': sourceRoleArn,
-      if (resourceId != null) 'ResourceId': resourceId,
-    };
+    final $payload = CreateAssetRequest(
+      id: id,
+      packagingGroupId: packagingGroupId,
+      sourceArn: sourceArn,
+      sourceRoleArn: sourceRoleArn,
+      resourceId: resourceId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -113,14 +112,14 @@ class MediaPackageVod {
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     ArgumentError.checkNotNull(packagingGroupId, 'packagingGroupId');
-    final $payload = <String, dynamic>{
-      'Id': id,
-      'PackagingGroupId': packagingGroupId,
-      if (cmafPackage != null) 'CmafPackage': cmafPackage,
-      if (dashPackage != null) 'DashPackage': dashPackage,
-      if (hlsPackage != null) 'HlsPackage': hlsPackage,
-      if (mssPackage != null) 'MssPackage': mssPackage,
-    };
+    final $payload = CreatePackagingConfigurationRequest(
+      id: id,
+      packagingGroupId: packagingGroupId,
+      cmafPackage: cmafPackage,
+      dashPackage: dashPackage,
+      hlsPackage: hlsPackage,
+      mssPackage: mssPackage,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -145,9 +144,9 @@ class MediaPackageVod {
     @_s.required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    final $payload = <String, dynamic>{
-      'Id': id,
-    };
+    final $payload = CreatePackagingGroupRequest(
+      id: id,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -172,7 +171,9 @@ class MediaPackageVod {
     @_s.required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteAssetRequest(
+      id: id,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -197,7 +198,9 @@ class MediaPackageVod {
     @_s.required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    final $payload = <String, dynamic>{};
+    final $payload = DeletePackagingConfigurationRequest(
+      id: id,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -223,7 +226,9 @@ class MediaPackageVod {
     @_s.required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    final $payload = <String, dynamic>{};
+    final $payload = DeletePackagingGroupRequest(
+      id: id,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -541,6 +546,43 @@ class CmafPackage {
   Map<String, dynamic> toJson() => _$CmafPackageToJson(this);
 }
 
+/// A new MediaPackage VOD Asset configuration.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateAssetRequest {
+  /// The unique identifier for the Asset.
+  @_s.JsonKey(name: 'id')
+  final String id;
+
+  /// The ID of the PackagingGroup for the Asset.
+  @_s.JsonKey(name: 'packagingGroupId')
+  final String packagingGroupId;
+
+  /// ARN of the source object in S3.
+  @_s.JsonKey(name: 'sourceArn')
+  final String sourceArn;
+
+  /// The IAM role ARN used to access the source S3 bucket.
+  @_s.JsonKey(name: 'sourceRoleArn')
+  final String sourceRoleArn;
+
+  /// The resource ID to include in SPEKE key requests.
+  @_s.JsonKey(name: 'resourceId')
+  final String resourceId;
+
+  CreateAssetRequest({
+    @_s.required this.id,
+    @_s.required this.packagingGroupId,
+    @_s.required this.sourceArn,
+    @_s.required this.sourceRoleArn,
+    this.resourceId,
+  });
+  Map<String, dynamic> toJson() => _$CreateAssetRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -593,6 +635,41 @@ class CreateAssetResponse {
       _$CreateAssetResponseFromJson(json);
 }
 
+/// A new MediaPackage VOD PackagingConfiguration resource configuration.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreatePackagingConfigurationRequest {
+  /// The ID of the PackagingConfiguration.
+  @_s.JsonKey(name: 'id')
+  final String id;
+
+  /// The ID of a PackagingGroup.
+  @_s.JsonKey(name: 'packagingGroupId')
+  final String packagingGroupId;
+  @_s.JsonKey(name: 'cmafPackage')
+  final CmafPackage cmafPackage;
+  @_s.JsonKey(name: 'dashPackage')
+  final DashPackage dashPackage;
+  @_s.JsonKey(name: 'hlsPackage')
+  final HlsPackage hlsPackage;
+  @_s.JsonKey(name: 'mssPackage')
+  final MssPackage mssPackage;
+
+  CreatePackagingConfigurationRequest({
+    @_s.required this.id,
+    @_s.required this.packagingGroupId,
+    this.cmafPackage,
+    this.dashPackage,
+    this.hlsPackage,
+    this.mssPackage,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreatePackagingConfigurationRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -631,6 +708,23 @@ class CreatePackagingConfigurationResponse {
   factory CreatePackagingConfigurationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$CreatePackagingConfigurationResponseFromJson(json);
+}
+
+/// A new MediaPackage VOD PackagingGroup resource configuration.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreatePackagingGroupRequest {
+  /// The ID of the PackagingGroup.
+  @_s.JsonKey(name: 'id')
+  final String id;
+
+  CreatePackagingGroupRequest({
+    @_s.required this.id,
+  });
+  Map<String, dynamic> toJson() => _$CreatePackagingGroupRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -775,12 +869,45 @@ class DashPackage {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteAssetRequest {
+  /// The ID of the MediaPackage VOD Asset resource to delete.
+  @_s.JsonKey(name: 'id', ignore: true)
+  final String id;
+
+  DeleteAssetRequest({
+    @_s.required this.id,
+  });
+  Map<String, dynamic> toJson() => _$DeleteAssetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteAssetResponse {
   DeleteAssetResponse();
   factory DeleteAssetResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteAssetResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeletePackagingConfigurationRequest {
+  /// The ID of the MediaPackage VOD PackagingConfiguration resource to delete.
+  @_s.JsonKey(name: 'id', ignore: true)
+  final String id;
+
+  DeletePackagingConfigurationRequest({
+    @_s.required this.id,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeletePackagingConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -793,6 +920,22 @@ class DeletePackagingConfigurationResponse {
   factory DeletePackagingConfigurationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DeletePackagingConfigurationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeletePackagingGroupRequest {
+  /// The ID of the MediaPackage VOD PackagingGroup resource to delete.
+  @_s.JsonKey(name: 'id', ignore: true)
+  final String id;
+
+  DeletePackagingGroupRequest({
+    @_s.required this.id,
+  });
+  Map<String, dynamic> toJson() => _$DeletePackagingGroupRequestToJson(this);
 }
 
 @_s.JsonSerializable(

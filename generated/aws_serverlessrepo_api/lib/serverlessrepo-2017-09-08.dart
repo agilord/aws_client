@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -218,24 +217,23 @@ class ServerlessApplicationRepository {
     ArgumentError.checkNotNull(author, 'author');
     ArgumentError.checkNotNull(description, 'description');
     ArgumentError.checkNotNull(name, 'name');
-    final $payload = <String, dynamic>{
-      'Author': author,
-      'Description': description,
-      'Name': name,
-      if (homePageUrl != null) 'HomePageUrl': homePageUrl,
-      if (labels != null) 'Labels': labels,
-      if (licenseBody != null) 'LicenseBody': licenseBody,
-      if (licenseUrl != null) 'LicenseUrl': licenseUrl,
-      if (readmeBody != null) 'ReadmeBody': readmeBody,
-      if (readmeUrl != null) 'ReadmeUrl': readmeUrl,
-      if (semanticVersion != null) 'SemanticVersion': semanticVersion,
-      if (sourceCodeArchiveUrl != null)
-        'SourceCodeArchiveUrl': sourceCodeArchiveUrl,
-      if (sourceCodeUrl != null) 'SourceCodeUrl': sourceCodeUrl,
-      if (spdxLicenseId != null) 'SpdxLicenseId': spdxLicenseId,
-      if (templateBody != null) 'TemplateBody': templateBody,
-      if (templateUrl != null) 'TemplateUrl': templateUrl,
-    };
+    final $payload = CreateApplicationRequest(
+      author: author,
+      description: description,
+      name: name,
+      homePageUrl: homePageUrl,
+      labels: labels,
+      licenseBody: licenseBody,
+      licenseUrl: licenseUrl,
+      readmeBody: readmeBody,
+      readmeUrl: readmeUrl,
+      semanticVersion: semanticVersion,
+      sourceCodeArchiveUrl: sourceCodeArchiveUrl,
+      sourceCodeUrl: sourceCodeUrl,
+      spdxLicenseId: spdxLicenseId,
+      templateBody: templateBody,
+      templateUrl: templateUrl,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -284,13 +282,14 @@ class ServerlessApplicationRepository {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(semanticVersion, 'semanticVersion');
-    final $payload = <String, dynamic>{
-      if (sourceCodeArchiveUrl != null)
-        'SourceCodeArchiveUrl': sourceCodeArchiveUrl,
-      if (sourceCodeUrl != null) 'SourceCodeUrl': sourceCodeUrl,
-      if (templateBody != null) 'TemplateBody': templateBody,
-      if (templateUrl != null) 'TemplateUrl': templateUrl,
-    };
+    final $payload = CreateApplicationVersionRequest(
+      applicationId: applicationId,
+      semanticVersion: semanticVersion,
+      sourceCodeArchiveUrl: sourceCodeArchiveUrl,
+      sourceCodeUrl: sourceCodeUrl,
+      templateBody: templateBody,
+      templateUrl: templateUrl,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -447,21 +446,21 @@ class ServerlessApplicationRepository {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(stackName, 'stackName');
-    final $payload = <String, dynamic>{
-      'StackName': stackName,
-      if (capabilities != null) 'Capabilities': capabilities,
-      if (changeSetName != null) 'ChangeSetName': changeSetName,
-      if (clientToken != null) 'ClientToken': clientToken,
-      if (description != null) 'Description': description,
-      if (notificationArns != null) 'NotificationArns': notificationArns,
-      if (parameterOverrides != null) 'ParameterOverrides': parameterOverrides,
-      if (resourceTypes != null) 'ResourceTypes': resourceTypes,
-      if (rollbackConfiguration != null)
-        'RollbackConfiguration': rollbackConfiguration,
-      if (semanticVersion != null) 'SemanticVersion': semanticVersion,
-      if (tags != null) 'Tags': tags,
-      if (templateId != null) 'TemplateId': templateId,
-    };
+    final $payload = CreateCloudFormationChangeSetRequest(
+      applicationId: applicationId,
+      stackName: stackName,
+      capabilities: capabilities,
+      changeSetName: changeSetName,
+      clientToken: clientToken,
+      description: description,
+      notificationArns: notificationArns,
+      parameterOverrides: parameterOverrides,
+      resourceTypes: resourceTypes,
+      rollbackConfiguration: rollbackConfiguration,
+      semanticVersion: semanticVersion,
+      tags: tags,
+      templateId: templateId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -494,9 +493,10 @@ class ServerlessApplicationRepository {
     String semanticVersion,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final $payload = <String, dynamic>{
-      if (semanticVersion != null) 'SemanticVersion': semanticVersion,
-    };
+    final $payload = CreateCloudFormationTemplateRequest(
+      applicationId: applicationId,
+      semanticVersion: semanticVersion,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -522,7 +522,9 @@ class ServerlessApplicationRepository {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteApplicationRequest(
+      applicationId: applicationId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -773,9 +775,10 @@ class ServerlessApplicationRepository {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(statements, 'statements');
-    final $payload = <String, dynamic>{
-      'Statements': statements,
-    };
+    final $payload = PutApplicationPolicyRequest(
+      applicationId: applicationId,
+      statements: statements,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -807,9 +810,10 @@ class ServerlessApplicationRepository {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(organizationId, 'organizationId');
-    final $payload = <String, dynamic>{
-      'OrganizationId': organizationId,
-    };
+    final $payload = UnshareApplicationRequest(
+      applicationId: applicationId,
+      organizationId: organizationId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -875,14 +879,15 @@ class ServerlessApplicationRepository {
     String readmeUrl,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final $payload = <String, dynamic>{
-      if (author != null) 'Author': author,
-      if (description != null) 'Description': description,
-      if (homePageUrl != null) 'HomePageUrl': homePageUrl,
-      if (labels != null) 'Labels': labels,
-      if (readmeBody != null) 'ReadmeBody': readmeBody,
-      if (readmeUrl != null) 'ReadmeUrl': readmeUrl,
-    };
+    final $payload = UpdateApplicationRequest(
+      applicationId: applicationId,
+      author: author,
+      description: description,
+      homePageUrl: homePageUrl,
+      labels: labels,
+      readmeBody: readmeBody,
+      readmeUrl: readmeUrl,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -1040,6 +1045,150 @@ enum Capability {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateApplicationRequest {
+  /// The name of the author publishing the app.
+  ///
+  /// Minimum length=1. Maximum length=127.
+  ///
+  /// Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$";
+  @_s.JsonKey(name: 'author')
+  final String author;
+
+  /// The description of the application.
+  ///
+  /// Minimum length=1. Maximum length=256
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The name of the application that you want to publish.
+  ///
+  /// Minimum length=1. Maximum length=140
+  ///
+  /// Pattern: "[a-zA-Z0-9\\-]+";
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// A URL with more information about the application, for example the location
+  /// of your GitHub repository for the application.
+  @_s.JsonKey(name: 'homePageUrl')
+  final String homePageUrl;
+
+  /// Labels to improve discovery of apps in search results.
+  ///
+  /// Minimum length=1. Maximum length=127. Maximum number of labels: 10
+  ///
+  /// Pattern: "^[a-zA-Z0-9+\\-_:\\/@]+$";
+  @_s.JsonKey(name: 'labels')
+  final List<String> labels;
+
+  /// A local text file that contains the license of the app that matches the
+  /// spdxLicenseID value of your application.
+  /// The file has the format file://&lt;path>/&lt;filename>.
+  ///
+  /// Maximum size 5 MB
+  ///
+  /// You can specify only one of licenseBody and licenseUrl; otherwise, an error
+  /// results.
+  @_s.JsonKey(name: 'licenseBody')
+  final String licenseBody;
+
+  /// A link to the S3 object that contains the license of the app that matches
+  /// the spdxLicenseID value of your application.
+  ///
+  /// Maximum size 5 MB
+  ///
+  /// You can specify only one of licenseBody and licenseUrl; otherwise, an error
+  /// results.
+  @_s.JsonKey(name: 'licenseUrl')
+  final String licenseUrl;
+
+  /// A local text readme file in Markdown language that contains a more detailed
+  /// description of the application and how it works.
+  /// The file has the format file://&lt;path>/&lt;filename>.
+  ///
+  /// Maximum size 5 MB
+  ///
+  /// You can specify only one of readmeBody and readmeUrl; otherwise, an error
+  /// results.
+  @_s.JsonKey(name: 'readmeBody')
+  final String readmeBody;
+
+  /// A link to the S3 object in Markdown language that contains a more detailed
+  /// description of the application and how it works.
+  ///
+  /// Maximum size 5 MB
+  ///
+  /// You can specify only one of readmeBody and readmeUrl; otherwise, an error
+  /// results.
+  @_s.JsonKey(name: 'readmeUrl')
+  final String readmeUrl;
+
+  /// The semantic version of the application:
+  ///
+  ///
+  /// <a href="https://semver.org/">https://semver.org/</a>
+  ///
+  @_s.JsonKey(name: 'semanticVersion')
+  final String semanticVersion;
+
+  /// A link to the S3 object that contains the ZIP archive of the source code for
+  /// this version of your application.
+  ///
+  /// Maximum size 50 MB
+  @_s.JsonKey(name: 'sourceCodeArchiveUrl')
+  final String sourceCodeArchiveUrl;
+
+  /// A link to a public repository for the source code of your application, for
+  /// example the URL of a specific GitHub commit.
+  @_s.JsonKey(name: 'sourceCodeUrl')
+  final String sourceCodeUrl;
+
+  /// A valid identifier from <a
+  /// href="https://spdx.org/licenses/">https://spdx.org/licenses/</a>.
+  @_s.JsonKey(name: 'spdxLicenseId')
+  final String spdxLicenseId;
+
+  /// The local raw packaged AWS SAM template file of your application.
+  /// The file has the format file://&lt;path>/&lt;filename>.
+  ///
+  /// You can specify only one of templateBody and templateUrl; otherwise an error
+  /// results.
+  @_s.JsonKey(name: 'templateBody')
+  final String templateBody;
+
+  /// A link to the S3 object containing the packaged AWS SAM template of your
+  /// application.
+  ///
+  /// You can specify only one of templateBody and templateUrl; otherwise an error
+  /// results.
+  @_s.JsonKey(name: 'templateUrl')
+  final String templateUrl;
+
+  CreateApplicationRequest({
+    @_s.required this.author,
+    @_s.required this.description,
+    @_s.required this.name,
+    this.homePageUrl,
+    this.labels,
+    this.licenseBody,
+    this.licenseUrl,
+    this.readmeBody,
+    this.readmeUrl,
+    this.semanticVersion,
+    this.sourceCodeArchiveUrl,
+    this.sourceCodeUrl,
+    this.spdxLicenseId,
+    this.templateBody,
+    this.templateUrl,
+  });
+  Map<String, dynamic> toJson() => _$CreateApplicationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateApplicationResponse {
@@ -1137,6 +1286,52 @@ class CreateApplicationResponse {
   });
   factory CreateApplicationResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateApplicationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateApplicationVersionRequest {
+  /// The Amazon Resource Name (ARN) of the application.
+  @_s.JsonKey(name: 'applicationId', ignore: true)
+  final String applicationId;
+
+  /// The semantic version of the new version.
+  @_s.JsonKey(name: 'semanticVersion', ignore: true)
+  final String semanticVersion;
+
+  /// A link to the S3 object that contains the ZIP archive of the source code for
+  /// this version of your application.
+  ///
+  /// Maximum size 50 MB
+  @_s.JsonKey(name: 'sourceCodeArchiveUrl')
+  final String sourceCodeArchiveUrl;
+
+  /// A link to a public repository for the source code of your application, for
+  /// example the URL of a specific GitHub commit.
+  @_s.JsonKey(name: 'sourceCodeUrl')
+  final String sourceCodeUrl;
+
+  /// The raw packaged AWS SAM template of your application.
+  @_s.JsonKey(name: 'templateBody')
+  final String templateBody;
+
+  /// A link to the packaged AWS SAM template of your application.
+  @_s.JsonKey(name: 'templateUrl')
+  final String templateUrl;
+
+  CreateApplicationVersionRequest({
+    @_s.required this.applicationId,
+    @_s.required this.semanticVersion,
+    this.sourceCodeArchiveUrl,
+    this.sourceCodeUrl,
+    this.templateBody,
+    this.templateUrl,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateApplicationVersionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1263,6 +1458,167 @@ class CreateApplicationVersionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateCloudFormationChangeSetRequest {
+  /// The Amazon Resource Name (ARN) of the application.
+  @_s.JsonKey(name: 'applicationId', ignore: true)
+  final String applicationId;
+
+  /// This property corresponds to the parameter of the same name for the <i>AWS
+  /// CloudFormation <a
+  /// href="https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/CreateChangeSet">CreateChangeSet</a>
+  /// </i> API.
+  @_s.JsonKey(name: 'stackName')
+  final String stackName;
+
+  /// A list of values that you must specify before you can deploy certain
+  /// applications.
+  /// Some applications might include resources that can affect permissions in
+  /// your AWS
+  /// account, for example, by creating new AWS Identity and Access Management
+  /// (IAM) users.
+  /// For those applications, you must explicitly acknowledge their capabilities
+  /// by
+  /// specifying this parameter.
+  ///
+  /// The only valid values are CAPABILITY_IAM, CAPABILITY_NAMED_IAM,
+  /// CAPABILITY_RESOURCE_POLICY, and CAPABILITY_AUTO_EXPAND.
+  ///
+  /// The following resources require you to specify CAPABILITY_IAM or
+  /// CAPABILITY_NAMED_IAM:
+  /// <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html">AWS::IAM::Group</a>,
+  /// <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html">AWS::IAM::InstanceProfile</a>,
+  /// <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html">AWS::IAM::Policy</a>,
+  /// and
+  /// <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html">AWS::IAM::Role</a>.
+  /// If the application contains IAM resources, you can specify either
+  /// CAPABILITY_IAM
+  /// or CAPABILITY_NAMED_IAM. If the application contains IAM resources
+  /// with custom names, you must specify CAPABILITY_NAMED_IAM.
+  ///
+  /// The following resources require you to specify CAPABILITY_RESOURCE_POLICY:
+  /// <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-permission.html">AWS::Lambda::Permission</a>,
+  /// <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html">AWS::IAM:Policy</a>,
+  /// <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-applicationautoscaling-scalingpolicy.html">AWS::ApplicationAutoScaling::ScalingPolicy</a>,
+  /// <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-policy.html">AWS::S3::BucketPolicy</a>,
+  /// <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-policy.html">AWS::SQS::QueuePolicy</a>,
+  /// and
+  /// <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-policy.html">AWS::SNS:TopicPolicy</a>.
+  ///
+  /// Applications that contain one or more nested applications require you to
+  /// specify
+  /// CAPABILITY_AUTO_EXPAND.
+  ///
+  /// If your application template contains any of the above resources, we
+  /// recommend that you review
+  /// all permissions associated with the application before deploying. If you
+  /// don't specify
+  /// this parameter for an application that requires capabilities, the call will
+  /// fail.
+  @_s.JsonKey(name: 'capabilities')
+  final List<String> capabilities;
+
+  /// This property corresponds to the parameter of the same name for the <i>AWS
+  /// CloudFormation <a
+  /// href="https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/CreateChangeSet">CreateChangeSet</a>
+  /// </i> API.
+  @_s.JsonKey(name: 'changeSetName')
+  final String changeSetName;
+
+  /// This property corresponds to the parameter of the same name for the <i>AWS
+  /// CloudFormation <a
+  /// href="https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/CreateChangeSet">CreateChangeSet</a>
+  /// </i> API.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// This property corresponds to the parameter of the same name for the <i>AWS
+  /// CloudFormation <a
+  /// href="https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/CreateChangeSet">CreateChangeSet</a>
+  /// </i> API.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// This property corresponds to the parameter of the same name for the <i>AWS
+  /// CloudFormation <a
+  /// href="https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/CreateChangeSet">CreateChangeSet</a>
+  /// </i> API.
+  @_s.JsonKey(name: 'notificationArns')
+  final List<String> notificationArns;
+
+  /// A list of parameter values for the parameters of the application.
+  @_s.JsonKey(name: 'parameterOverrides')
+  final List<ParameterValue> parameterOverrides;
+
+  /// This property corresponds to the parameter of the same name for the <i>AWS
+  /// CloudFormation <a
+  /// href="https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/CreateChangeSet">CreateChangeSet</a>
+  /// </i> API.
+  @_s.JsonKey(name: 'resourceTypes')
+  final List<String> resourceTypes;
+
+  /// This property corresponds to the parameter of the same name for the <i>AWS
+  /// CloudFormation <a
+  /// href="https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/CreateChangeSet">CreateChangeSet</a>
+  /// </i> API.
+  @_s.JsonKey(name: 'rollbackConfiguration')
+  final RollbackConfiguration rollbackConfiguration;
+
+  /// The semantic version of the application:
+  ///
+  ///
+  /// <a href="https://semver.org/">https://semver.org/</a>
+  ///
+  @_s.JsonKey(name: 'semanticVersion')
+  final String semanticVersion;
+
+  /// This property corresponds to the parameter of the same name for the <i>AWS
+  /// CloudFormation <a
+  /// href="https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/CreateChangeSet">CreateChangeSet</a>
+  /// </i> API.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  /// The UUID returned by CreateCloudFormationTemplate.
+  ///
+  /// Pattern:
+  /// [0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}
+  @_s.JsonKey(name: 'templateId')
+  final String templateId;
+
+  CreateCloudFormationChangeSetRequest({
+    @_s.required this.applicationId,
+    @_s.required this.stackName,
+    this.capabilities,
+    this.changeSetName,
+    this.clientToken,
+    this.description,
+    this.notificationArns,
+    this.parameterOverrides,
+    this.resourceTypes,
+    this.rollbackConfiguration,
+    this.semanticVersion,
+    this.tags,
+    this.templateId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateCloudFormationChangeSetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateCloudFormationChangeSetResponse {
@@ -1299,6 +1655,32 @@ class CreateCloudFormationChangeSetResponse {
   factory CreateCloudFormationChangeSetResponse.fromJson(
           Map<String, dynamic> json) =>
       _$CreateCloudFormationChangeSetResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateCloudFormationTemplateRequest {
+  /// The Amazon Resource Name (ARN) of the application.
+  @_s.JsonKey(name: 'applicationId', ignore: true)
+  final String applicationId;
+
+  /// The semantic version of the application:
+  ///
+  ///
+  /// <a href="https://semver.org/">https://semver.org/</a>
+  ///
+  @_s.JsonKey(name: 'semanticVersion')
+  final String semanticVersion;
+
+  CreateCloudFormationTemplateRequest({
+    @_s.required this.applicationId,
+    this.semanticVersion,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateCloudFormationTemplateRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1359,6 +1741,22 @@ class CreateCloudFormationTemplateResponse {
   factory CreateCloudFormationTemplateResponse.fromJson(
           Map<String, dynamic> json) =>
       _$CreateCloudFormationTemplateResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteApplicationRequest {
+  /// The Amazon Resource Name (ARN) of the application.
+  @_s.JsonKey(name: 'applicationId', ignore: true)
+  final String applicationId;
+
+  DeleteApplicationRequest({
+    @_s.required this.applicationId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteApplicationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1773,6 +2171,27 @@ class ParameterValue {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutApplicationPolicyRequest {
+  /// The Amazon Resource Name (ARN) of the application.
+  @_s.JsonKey(name: 'applicationId', ignore: true)
+  final String applicationId;
+
+  /// An array of policy statements applied to the application.
+  @_s.JsonKey(name: 'statements')
+  final List<ApplicationPolicyStatement> statements;
+
+  PutApplicationPolicyRequest({
+    @_s.required this.applicationId,
+    @_s.required this.statements,
+  });
+  Map<String, dynamic> toJson() => _$PutApplicationPolicyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutApplicationPolicyResponse {
@@ -1886,6 +2305,90 @@ class Tag {
     @_s.required this.value,
   });
   Map<String, dynamic> toJson() => _$TagToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UnshareApplicationRequest {
+  /// The Amazon Resource Name (ARN) of the application.
+  @_s.JsonKey(name: 'applicationId', ignore: true)
+  final String applicationId;
+
+  /// The AWS Organization ID to unshare the application from.
+  @_s.JsonKey(name: 'organizationId')
+  final String organizationId;
+
+  UnshareApplicationRequest({
+    @_s.required this.applicationId,
+    @_s.required this.organizationId,
+  });
+  Map<String, dynamic> toJson() => _$UnshareApplicationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateApplicationRequest {
+  /// The Amazon Resource Name (ARN) of the application.
+  @_s.JsonKey(name: 'applicationId', ignore: true)
+  final String applicationId;
+
+  /// The name of the author publishing the app.
+  ///
+  /// Minimum length=1. Maximum length=127.
+  ///
+  /// Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$";
+  @_s.JsonKey(name: 'author')
+  final String author;
+
+  /// The description of the application.
+  ///
+  /// Minimum length=1. Maximum length=256
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// A URL with more information about the application, for example the location
+  /// of your GitHub repository for the application.
+  @_s.JsonKey(name: 'homePageUrl')
+  final String homePageUrl;
+
+  /// Labels to improve discovery of apps in search results.
+  ///
+  /// Minimum length=1. Maximum length=127. Maximum number of labels: 10
+  ///
+  /// Pattern: "^[a-zA-Z0-9+\\-_:\\/@]+$";
+  @_s.JsonKey(name: 'labels')
+  final List<String> labels;
+
+  /// A text readme file in Markdown language that contains a more detailed
+  /// description of the application and how it works.
+  ///
+  /// Maximum size 5 MB
+  @_s.JsonKey(name: 'readmeBody')
+  final String readmeBody;
+
+  /// A link to the readme file in Markdown language that contains a more detailed
+  /// description of the application and how it works.
+  ///
+  /// Maximum size 5 MB
+  @_s.JsonKey(name: 'readmeUrl')
+  final String readmeUrl;
+
+  UpdateApplicationRequest({
+    @_s.required this.applicationId,
+    this.author,
+    this.description,
+    this.homePageUrl,
+    this.labels,
+    this.readmeBody,
+    this.readmeUrl,
+  });
+  Map<String, dynamic> toJson() => _$UpdateApplicationRequestToJson(this);
 }
 
 @_s.JsonSerializable(

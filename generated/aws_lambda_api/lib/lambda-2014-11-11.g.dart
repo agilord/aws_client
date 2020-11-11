@@ -6,6 +6,28 @@ part of 'lambda-2014-11-11.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$AddEventSourceRequestToJson(
+    AddEventSourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EventSource', instance.eventSource);
+  writeNotNull('FunctionName', instance.functionName);
+  writeNotNull('Role', instance.role);
+  writeNotNull('BatchSize', instance.batchSize);
+  writeNotNull('Parameters', instance.parameters);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteFunctionRequestToJson(
+        DeleteFunctionRequest instance) =>
+    <String, dynamic>{};
+
 EventSourceConfiguration _$EventSourceConfigurationFromJson(
     Map<String, dynamic> json) {
   return EventSourceConfiguration(
@@ -146,6 +168,10 @@ ListFunctionsResponse _$ListFunctionsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$RemoveEventSourceRequestToJson(
+        RemoveEventSourceRequest instance) =>
+    <String, dynamic>{};
+
 ResourceNotFoundException _$ResourceNotFoundExceptionFromJson(
     Map<String, dynamic> json) {
   return ResourceNotFoundException(
@@ -160,3 +186,7 @@ ServiceException _$ServiceExceptionFromJson(Map<String, dynamic> json) {
     type: json['Type'] as String,
   );
 }
+
+Map<String, dynamic> _$UpdateFunctionConfigurationRequestToJson(
+        UpdateFunctionConfigurationRequest instance) =>
+    <String, dynamic>{};

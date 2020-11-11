@@ -6,11 +6,44 @@ part of 'servicediscovery-2017-03-14.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$CreateHttpNamespaceRequestToJson(
+    CreateHttpNamespaceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('CreatorRequestId', instance.creatorRequestId);
+  writeNotNull('Description', instance.description);
+  return val;
+}
+
 CreateHttpNamespaceResponse _$CreateHttpNamespaceResponseFromJson(
     Map<String, dynamic> json) {
   return CreateHttpNamespaceResponse(
     operationId: json['OperationId'] as String,
   );
+}
+
+Map<String, dynamic> _$CreatePrivateDnsNamespaceRequestToJson(
+    CreatePrivateDnsNamespaceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('Vpc', instance.vpc);
+  writeNotNull('CreatorRequestId', instance.creatorRequestId);
+  writeNotNull('Description', instance.description);
+  return val;
 }
 
 CreatePrivateDnsNamespaceResponse _$CreatePrivateDnsNamespaceResponseFromJson(
@@ -20,11 +53,48 @@ CreatePrivateDnsNamespaceResponse _$CreatePrivateDnsNamespaceResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreatePublicDnsNamespaceRequestToJson(
+    CreatePublicDnsNamespaceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('CreatorRequestId', instance.creatorRequestId);
+  writeNotNull('Description', instance.description);
+  return val;
+}
+
 CreatePublicDnsNamespaceResponse _$CreatePublicDnsNamespaceResponseFromJson(
     Map<String, dynamic> json) {
   return CreatePublicDnsNamespaceResponse(
     operationId: json['OperationId'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateServiceRequestToJson(
+    CreateServiceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('CreatorRequestId', instance.creatorRequestId);
+  writeNotNull('Description', instance.description);
+  writeNotNull('DnsConfig', instance.dnsConfig?.toJson());
+  writeNotNull('HealthCheckConfig', instance.healthCheckConfig?.toJson());
+  writeNotNull(
+      'HealthCheckCustomConfig', instance.healthCheckCustomConfig?.toJson());
+  writeNotNull('NamespaceId', instance.namespaceId);
+  return val;
 }
 
 CreateServiceResponse _$CreateServiceResponseFromJson(
@@ -36,6 +106,20 @@ CreateServiceResponse _$CreateServiceResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteNamespaceRequestToJson(
+    DeleteNamespaceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  return val;
+}
+
 DeleteNamespaceResponse _$DeleteNamespaceResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteNamespaceResponse(
@@ -43,9 +127,38 @@ DeleteNamespaceResponse _$DeleteNamespaceResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteServiceRequestToJson(
+    DeleteServiceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  return val;
+}
+
 DeleteServiceResponse _$DeleteServiceResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteServiceResponse();
+}
+
+Map<String, dynamic> _$DeregisterInstanceRequestToJson(
+    DeregisterInstanceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InstanceId', instance.instanceId);
+  writeNotNull('ServiceId', instance.serviceId);
+  return val;
 }
 
 DeregisterInstanceResponse _$DeregisterInstanceResponseFromJson(
@@ -54,6 +167,31 @@ DeregisterInstanceResponse _$DeregisterInstanceResponseFromJson(
     operationId: json['OperationId'] as String,
   );
 }
+
+Map<String, dynamic> _$DiscoverInstancesRequestToJson(
+    DiscoverInstancesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('NamespaceName', instance.namespaceName);
+  writeNotNull('ServiceName', instance.serviceName);
+  writeNotNull(
+      'HealthStatus', _$HealthStatusFilterEnumMap[instance.healthStatus]);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('QueryParameters', instance.queryParameters);
+  return val;
+}
+
+const _$HealthStatusFilterEnumMap = {
+  HealthStatusFilter.healthy: 'HEALTHY',
+  HealthStatusFilter.unhealthy: 'UNHEALTHY',
+  HealthStatusFilter.all: 'ALL',
+};
 
 DiscoverInstancesResponse _$DiscoverInstancesResponseFromJson(
     Map<String, dynamic> json) {
@@ -179,12 +317,43 @@ const _$RecordTypeEnumMap = {
   RecordType.cname: 'CNAME',
 };
 
+Map<String, dynamic> _$GetInstanceRequestToJson(GetInstanceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InstanceId', instance.instanceId);
+  writeNotNull('ServiceId', instance.serviceId);
+  return val;
+}
+
 GetInstanceResponse _$GetInstanceResponseFromJson(Map<String, dynamic> json) {
   return GetInstanceResponse(
     instance: json['Instance'] == null
         ? null
         : Instance.fromJson(json['Instance'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetInstancesHealthStatusRequestToJson(
+    GetInstancesHealthStatusRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ServiceId', instance.serviceId);
+  writeNotNull('Instances', instance.instances);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 GetInstancesHealthStatusResponse _$GetInstancesHealthStatusResponseFromJson(
@@ -197,6 +366,19 @@ GetInstancesHealthStatusResponse _$GetInstancesHealthStatusResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$GetNamespaceRequestToJson(GetNamespaceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  return val;
+}
+
 GetNamespaceResponse _$GetNamespaceResponseFromJson(Map<String, dynamic> json) {
   return GetNamespaceResponse(
     namespace: json['Namespace'] == null
@@ -205,12 +387,38 @@ GetNamespaceResponse _$GetNamespaceResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetOperationRequestToJson(GetOperationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('OperationId', instance.operationId);
+  return val;
+}
+
 GetOperationResponse _$GetOperationResponseFromJson(Map<String, dynamic> json) {
   return GetOperationResponse(
     operation: json['Operation'] == null
         ? null
         : Operation.fromJson(json['Operation'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetServiceRequestToJson(GetServiceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  return val;
 }
 
 GetServiceResponse _$GetServiceResponseFromJson(Map<String, dynamic> json) {
@@ -315,6 +523,22 @@ InstanceSummary _$InstanceSummaryFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ListInstancesRequestToJson(
+    ListInstancesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ServiceId', instance.serviceId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListInstancesResponse _$ListInstancesResponseFromJson(
     Map<String, dynamic> json) {
   return ListInstancesResponse(
@@ -325,6 +549,22 @@ ListInstancesResponse _$ListInstancesResponseFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListNamespacesRequestToJson(
+    ListNamespacesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListNamespacesResponse _$ListNamespacesResponseFromJson(
@@ -339,6 +579,22 @@ ListNamespacesResponse _$ListNamespacesResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListOperationsRequestToJson(
+    ListOperationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListOperationsResponse _$ListOperationsResponseFromJson(
     Map<String, dynamic> json) {
   return ListOperationsResponse(
@@ -349,6 +605,21 @@ ListOperationsResponse _$ListOperationsResponseFromJson(
             : OperationSummary.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListServicesRequestToJson(ListServicesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListServicesResponse _$ListServicesResponseFromJson(Map<String, dynamic> json) {
@@ -498,6 +769,23 @@ OperationSummary _$OperationSummaryFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$RegisterInstanceRequestToJson(
+    RegisterInstanceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Attributes', instance.attributes);
+  writeNotNull('InstanceId', instance.instanceId);
+  writeNotNull('ServiceId', instance.serviceId);
+  writeNotNull('CreatorRequestId', instance.creatorRequestId);
+  return val;
+}
+
 RegisterInstanceResponse _$RegisterInstanceResponseFromJson(
     Map<String, dynamic> json) {
   return RegisterInstanceResponse(
@@ -583,6 +871,42 @@ ServiceSummary _$ServiceSummaryFromJson(Map<String, dynamic> json) {
     instanceCount: json['InstanceCount'] as int,
     name: json['Name'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateInstanceCustomHealthStatusRequestToJson(
+    UpdateInstanceCustomHealthStatusRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InstanceId', instance.instanceId);
+  writeNotNull('ServiceId', instance.serviceId);
+  writeNotNull('Status', _$CustomHealthStatusEnumMap[instance.status]);
+  return val;
+}
+
+const _$CustomHealthStatusEnumMap = {
+  CustomHealthStatus.healthy: 'HEALTHY',
+  CustomHealthStatus.unhealthy: 'UNHEALTHY',
+};
+
+Map<String, dynamic> _$UpdateServiceRequestToJson(
+    UpdateServiceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  writeNotNull('Service', instance.service?.toJson());
+  return val;
 }
 
 UpdateServiceResponse _$UpdateServiceResponseFromJson(

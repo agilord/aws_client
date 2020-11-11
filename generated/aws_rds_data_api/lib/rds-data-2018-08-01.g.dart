@@ -41,6 +41,30 @@ Map<String, dynamic> _$ArrayValueToJson(ArrayValue instance) {
   return val;
 }
 
+Map<String, dynamic> _$BatchExecuteStatementRequestToJson(
+    BatchExecuteStatementRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceArn', instance.resourceArn);
+  writeNotNull('secretArn', instance.secretArn);
+  writeNotNull('sql', instance.sql);
+  writeNotNull('database', instance.database);
+  writeNotNull(
+      'parameterSets',
+      instance.parameterSets
+          ?.map((e) => e?.map((e) => e?.toJson())?.toList())
+          ?.toList());
+  writeNotNull('schema', instance.schema);
+  writeNotNull('transactionId', instance.transactionId);
+  return val;
+}
+
 BatchExecuteStatementResponse _$BatchExecuteStatementResponseFromJson(
     Map<String, dynamic> json) {
   return BatchExecuteStatementResponse(
@@ -49,6 +73,23 @@ BatchExecuteStatementResponse _$BatchExecuteStatementResponseFromJson(
             e == null ? null : UpdateResult.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$BeginTransactionRequestToJson(
+    BeginTransactionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceArn', instance.resourceArn);
+  writeNotNull('secretArn', instance.secretArn);
+  writeNotNull('database', instance.database);
+  writeNotNull('schema', instance.schema);
+  return val;
 }
 
 BeginTransactionResponse _$BeginTransactionResponseFromJson(
@@ -77,11 +118,44 @@ ColumnMetadata _$ColumnMetadataFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CommitTransactionRequestToJson(
+    CommitTransactionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceArn', instance.resourceArn);
+  writeNotNull('secretArn', instance.secretArn);
+  writeNotNull('transactionId', instance.transactionId);
+  return val;
+}
+
 CommitTransactionResponse _$CommitTransactionResponseFromJson(
     Map<String, dynamic> json) {
   return CommitTransactionResponse(
     transactionStatus: json['transactionStatus'] as String,
   );
+}
+
+Map<String, dynamic> _$ExecuteSqlRequestToJson(ExecuteSqlRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('awsSecretStoreArn', instance.awsSecretStoreArn);
+  writeNotNull('dbClusterOrInstanceArn', instance.dbClusterOrInstanceArn);
+  writeNotNull('sqlStatements', instance.sqlStatements);
+  writeNotNull('database', instance.database);
+  writeNotNull('schema', instance.schema);
+  return val;
 }
 
 ExecuteSqlResponse _$ExecuteSqlResponseFromJson(Map<String, dynamic> json) {
@@ -92,6 +166,30 @@ ExecuteSqlResponse _$ExecuteSqlResponseFromJson(Map<String, dynamic> json) {
             : SqlStatementResult.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ExecuteStatementRequestToJson(
+    ExecuteStatementRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceArn', instance.resourceArn);
+  writeNotNull('secretArn', instance.secretArn);
+  writeNotNull('sql', instance.sql);
+  writeNotNull('continueAfterTimeout', instance.continueAfterTimeout);
+  writeNotNull('database', instance.database);
+  writeNotNull('includeResultMetadata', instance.includeResultMetadata);
+  writeNotNull(
+      'parameters', instance.parameters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('resultSetOptions', instance.resultSetOptions?.toJson());
+  writeNotNull('schema', instance.schema);
+  writeNotNull('transactionId', instance.transactionId);
+  return val;
 }
 
 ExecuteStatementResponse _$ExecuteStatementResponseFromJson(
@@ -201,6 +299,22 @@ const _$DecimalReturnTypeEnumMap = {
   DecimalReturnType.doubleOrLong: 'DOUBLE_OR_LONG',
   DecimalReturnType.string: 'STRING',
 };
+
+Map<String, dynamic> _$RollbackTransactionRequestToJson(
+    RollbackTransactionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceArn', instance.resourceArn);
+  writeNotNull('secretArn', instance.secretArn);
+  writeNotNull('transactionId', instance.transactionId);
+  return val;
+}
 
 RollbackTransactionResponse _$RollbackTransactionResponseFromJson(
     Map<String, dynamic> json) {

@@ -63,11 +63,55 @@ const _$ResourceTypeEnumMap = {
       'SYSTEMS_MANAGER_MANAGED_INSTANCE',
 };
 
+Map<String, dynamic> _$CreateLicenseConfigurationRequestToJson(
+    CreateLicenseConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LicenseCountingType',
+      _$LicenseCountingTypeEnumMap[instance.licenseCountingType]);
+  writeNotNull('Name', instance.name);
+  writeNotNull('Description', instance.description);
+  writeNotNull('LicenseCount', instance.licenseCount);
+  writeNotNull('LicenseCountHardLimit', instance.licenseCountHardLimit);
+  writeNotNull('LicenseRules', instance.licenseRules);
+  writeNotNull('ProductInformationList',
+      instance.productInformationList?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+const _$LicenseCountingTypeEnumMap = {
+  LicenseCountingType.vcpu: 'vCPU',
+  LicenseCountingType.instance: 'Instance',
+  LicenseCountingType.core: 'Core',
+  LicenseCountingType.socket: 'Socket',
+};
+
 CreateLicenseConfigurationResponse _$CreateLicenseConfigurationResponseFromJson(
     Map<String, dynamic> json) {
   return CreateLicenseConfigurationResponse(
     licenseConfigurationArn: json['LicenseConfigurationArn'] as String,
   );
+}
+
+Map<String, dynamic> _$DeleteLicenseConfigurationRequestToJson(
+    DeleteLicenseConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LicenseConfigurationArn', instance.licenseConfigurationArn);
+  return val;
 }
 
 DeleteLicenseConfigurationResponse _$DeleteLicenseConfigurationResponseFromJson(
@@ -86,6 +130,20 @@ Map<String, dynamic> _$FilterToJson(Filter instance) {
 
   writeNotNull('Name', instance.name);
   writeNotNull('Values', instance.values);
+  return val;
+}
+
+Map<String, dynamic> _$GetLicenseConfigurationRequestToJson(
+    GetLicenseConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LicenseConfigurationArn', instance.licenseConfigurationArn);
   return val;
 }
 
@@ -129,13 +187,6 @@ GetLicenseConfigurationResponse _$GetLicenseConfigurationResponseFromJson(
         ?.toList(),
   );
 }
-
-const _$LicenseCountingTypeEnumMap = {
-  LicenseCountingType.vcpu: 'vCPU',
-  LicenseCountingType.instance: 'Instance',
-  LicenseCountingType.core: 'Core',
-  LicenseCountingType.socket: 'Socket',
-};
 
 GetServiceSettingsResponse _$GetServiceSettingsResponseFromJson(
     Map<String, dynamic> json) {
@@ -274,6 +325,22 @@ Map<String, dynamic> _$LicenseSpecificationToJson(
   return val;
 }
 
+Map<String, dynamic> _$ListAssociationsForLicenseConfigurationRequestToJson(
+    ListAssociationsForLicenseConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LicenseConfigurationArn', instance.licenseConfigurationArn);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListAssociationsForLicenseConfigurationResponse
     _$ListAssociationsForLicenseConfigurationResponseFromJson(
         Map<String, dynamic> json) {
@@ -289,6 +356,23 @@ ListAssociationsForLicenseConfigurationResponse
   );
 }
 
+Map<String, dynamic>
+    _$ListFailuresForLicenseConfigurationOperationsRequestToJson(
+        ListFailuresForLicenseConfigurationOperationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LicenseConfigurationArn', instance.licenseConfigurationArn);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListFailuresForLicenseConfigurationOperationsResponse
     _$ListFailuresForLicenseConfigurationOperationsResponseFromJson(
         Map<String, dynamic> json) {
@@ -302,6 +386,23 @@ ListFailuresForLicenseConfigurationOperationsResponse
   );
 }
 
+Map<String, dynamic> _$ListLicenseConfigurationsRequestToJson(
+    ListLicenseConfigurationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('LicenseConfigurationArns', instance.licenseConfigurationArns);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListLicenseConfigurationsResponse _$ListLicenseConfigurationsResponseFromJson(
     Map<String, dynamic> json) {
   return ListLicenseConfigurationsResponse(
@@ -312,6 +413,22 @@ ListLicenseConfigurationsResponse _$ListLicenseConfigurationsResponseFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListLicenseSpecificationsForResourceRequestToJson(
+    ListLicenseSpecificationsForResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListLicenseSpecificationsForResourceResponse
@@ -327,6 +444,22 @@ ListLicenseSpecificationsForResourceResponse
   );
 }
 
+Map<String, dynamic> _$ListResourceInventoryRequestToJson(
+    ListResourceInventoryRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListResourceInventoryResponse _$ListResourceInventoryResponseFromJson(
     Map<String, dynamic> json) {
   return ListResourceInventoryResponse(
@@ -339,6 +472,20 @@ ListResourceInventoryResponse _$ListResourceInventoryResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListTagsForResourceRequestToJson(
+    ListTagsForResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  return val;
+}
+
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
@@ -346,6 +493,23 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
         ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListUsageForLicenseConfigurationRequestToJson(
+    ListUsageForLicenseConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LicenseConfigurationArn', instance.licenseConfigurationArn);
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListUsageForLicenseConfigurationResponse
@@ -491,8 +655,37 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
   return val;
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
+}
+
+Map<String, dynamic> _$UntagResourceRequestToJson(
+    UntagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
 }
 
 UntagResourceResponse _$UntagResourceResponseFromJson(
@@ -500,15 +693,80 @@ UntagResourceResponse _$UntagResourceResponseFromJson(
   return UntagResourceResponse();
 }
 
+Map<String, dynamic> _$UpdateLicenseConfigurationRequestToJson(
+    UpdateLicenseConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LicenseConfigurationArn', instance.licenseConfigurationArn);
+  writeNotNull('Description', instance.description);
+  writeNotNull('LicenseConfigurationStatus',
+      _$LicenseConfigurationStatusEnumMap[instance.licenseConfigurationStatus]);
+  writeNotNull('LicenseCount', instance.licenseCount);
+  writeNotNull('LicenseCountHardLimit', instance.licenseCountHardLimit);
+  writeNotNull('LicenseRules', instance.licenseRules);
+  writeNotNull('Name', instance.name);
+  writeNotNull('ProductInformationList',
+      instance.productInformationList?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+const _$LicenseConfigurationStatusEnumMap = {
+  LicenseConfigurationStatus.available: 'AVAILABLE',
+  LicenseConfigurationStatus.disabled: 'DISABLED',
+};
+
 UpdateLicenseConfigurationResponse _$UpdateLicenseConfigurationResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateLicenseConfigurationResponse();
+}
+
+Map<String, dynamic> _$UpdateLicenseSpecificationsForResourceRequestToJson(
+    UpdateLicenseSpecificationsForResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('AddLicenseSpecifications',
+      instance.addLicenseSpecifications?.map((e) => e?.toJson())?.toList());
+  writeNotNull('RemoveLicenseSpecifications',
+      instance.removeLicenseSpecifications?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 UpdateLicenseSpecificationsForResourceResponse
     _$UpdateLicenseSpecificationsForResourceResponseFromJson(
         Map<String, dynamic> json) {
   return UpdateLicenseSpecificationsForResourceResponse();
+}
+
+Map<String, dynamic> _$UpdateServiceSettingsRequestToJson(
+    UpdateServiceSettingsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'EnableCrossAccountsDiscovery', instance.enableCrossAccountsDiscovery);
+  writeNotNull('OrganizationConfiguration',
+      instance.organizationConfiguration?.toJson());
+  writeNotNull('S3BucketArn', instance.s3BucketArn);
+  writeNotNull('SnsTopicArn', instance.snsTopicArn);
+  return val;
 }
 
 UpdateServiceSettingsResponse _$UpdateServiceSettingsResponseFromJson(

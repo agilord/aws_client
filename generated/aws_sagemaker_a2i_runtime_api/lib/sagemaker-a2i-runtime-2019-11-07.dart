@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -109,7 +108,9 @@ class AugmentedAIRuntime {
       r'''^[a-z0-9](-*[a-z0-9])*$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteHumanLoopRequest(
+      humanLoopName: humanLoopName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -305,12 +306,12 @@ class AugmentedAIRuntime {
       r'''^[a-z0-9](-*[a-z0-9])*$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'FlowDefinitionArn': flowDefinitionArn,
-      'HumanLoopInput': humanLoopInput,
-      'HumanLoopName': humanLoopName,
-      if (dataAttributes != null) 'DataAttributes': dataAttributes,
-    };
+    final $payload = StartHumanLoopRequest(
+      flowDefinitionArn: flowDefinitionArn,
+      humanLoopInput: humanLoopInput,
+      humanLoopName: humanLoopName,
+      dataAttributes: dataAttributes,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -346,9 +347,9 @@ class AugmentedAIRuntime {
       r'''^[a-z0-9](-*[a-z0-9])*$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'HumanLoopName': humanLoopName,
-    };
+    final $payload = StopHumanLoopRequest(
+      humanLoopName: humanLoopName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -364,6 +365,22 @@ enum ContentClassifier {
   freeOfPersonallyIdentifiableInformation,
   @_s.JsonValue('FreeOfAdultContent')
   freeOfAdultContent,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteHumanLoopRequest {
+  /// The name of the human loop that you want to delete.
+  @_s.JsonKey(name: 'HumanLoopName', ignore: true)
+  final String humanLoopName;
+
+  DeleteHumanLoopRequest({
+    @_s.required this.humanLoopName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteHumanLoopRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -582,6 +599,40 @@ enum SortOrder {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartHumanLoopRequest {
+  /// The Amazon Resource Name (ARN) of the flow definition associated with this
+  /// human loop.
+  @_s.JsonKey(name: 'FlowDefinitionArn')
+  final String flowDefinitionArn;
+
+  /// An object that contains information about the human loop.
+  @_s.JsonKey(name: 'HumanLoopInput')
+  final HumanLoopInput humanLoopInput;
+
+  /// The name of the human loop.
+  @_s.JsonKey(name: 'HumanLoopName')
+  final String humanLoopName;
+
+  /// Attributes of the specified data. Use <code>DataAttributes</code> to specify
+  /// if your data is free of personally identifiable information and/or free of
+  /// adult content.
+  @_s.JsonKey(name: 'DataAttributes')
+  final HumanLoopDataAttributes dataAttributes;
+
+  StartHumanLoopRequest({
+    @_s.required this.flowDefinitionArn,
+    @_s.required this.humanLoopInput,
+    @_s.required this.humanLoopName,
+    this.dataAttributes,
+  });
+  Map<String, dynamic> toJson() => _$StartHumanLoopRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartHumanLoopResponse {
@@ -594,6 +645,22 @@ class StartHumanLoopResponse {
   });
   factory StartHumanLoopResponse.fromJson(Map<String, dynamic> json) =>
       _$StartHumanLoopResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopHumanLoopRequest {
+  /// The name of the human loop that you want to stop.
+  @_s.JsonKey(name: 'HumanLoopName')
+  final String humanLoopName;
+
+  StopHumanLoopRequest({
+    @_s.required this.humanLoopName,
+  });
+  Map<String, dynamic> toJson() => _$StopHumanLoopRequestToJson(this);
 }
 
 @_s.JsonSerializable(

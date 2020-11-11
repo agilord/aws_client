@@ -102,8 +102,38 @@ ApplicationSettingsResponse _$ApplicationSettingsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$AssociateFleetRequestToJson(
+    AssociateFleetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FleetName', instance.fleetName);
+  writeNotNull('StackName', instance.stackName);
+  return val;
+}
+
 AssociateFleetResult _$AssociateFleetResultFromJson(Map<String, dynamic> json) {
   return AssociateFleetResult();
+}
+
+Map<String, dynamic> _$BatchAssociateUserStackRequestToJson(
+    BatchAssociateUserStackRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UserStackAssociations',
+      instance.userStackAssociations?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 BatchAssociateUserStackResult _$BatchAssociateUserStackResultFromJson(
@@ -115,6 +145,21 @@ BatchAssociateUserStackResult _$BatchAssociateUserStackResultFromJson(
             : UserStackAssociationError.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$BatchDisassociateUserStackRequestToJson(
+    BatchDisassociateUserStackRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UserStackAssociations',
+      instance.userStackAssociations?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 BatchDisassociateUserStackResult _$BatchDisassociateUserStackResultFromJson(
@@ -151,10 +196,45 @@ ComputeCapacityStatus _$ComputeCapacityStatusFromJson(
   );
 }
 
+Map<String, dynamic> _$CopyImageRequestToJson(CopyImageRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DestinationImageName', instance.destinationImageName);
+  writeNotNull('DestinationRegion', instance.destinationRegion);
+  writeNotNull('SourceImageName', instance.sourceImageName);
+  writeNotNull(
+      'DestinationImageDescription', instance.destinationImageDescription);
+  return val;
+}
+
 CopyImageResponse _$CopyImageResponseFromJson(Map<String, dynamic> json) {
   return CopyImageResponse(
     destinationImageName: json['DestinationImageName'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateDirectoryConfigRequestToJson(
+    CreateDirectoryConfigRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryName', instance.directoryName);
+  writeNotNull('OrganizationalUnitDistinguishedNames',
+      instance.organizationalUnitDistinguishedNames);
+  writeNotNull('ServiceAccountCredentials',
+      instance.serviceAccountCredentials?.toJson());
+  return val;
 }
 
 CreateDirectoryConfigResult _$CreateDirectoryConfigResultFromJson(
@@ -167,12 +247,76 @@ CreateDirectoryConfigResult _$CreateDirectoryConfigResultFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateFleetRequestToJson(CreateFleetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ComputeCapacity', instance.computeCapacity?.toJson());
+  writeNotNull('InstanceType', instance.instanceType);
+  writeNotNull('Name', instance.name);
+  writeNotNull('Description', instance.description);
+  writeNotNull(
+      'DisconnectTimeoutInSeconds', instance.disconnectTimeoutInSeconds);
+  writeNotNull('DisplayName', instance.displayName);
+  writeNotNull('DomainJoinInfo', instance.domainJoinInfo?.toJson());
+  writeNotNull(
+      'EnableDefaultInternetAccess', instance.enableDefaultInternetAccess);
+  writeNotNull('FleetType', _$FleetTypeEnumMap[instance.fleetType]);
+  writeNotNull('IamRoleArn', instance.iamRoleArn);
+  writeNotNull('IdleDisconnectTimeoutInSeconds',
+      instance.idleDisconnectTimeoutInSeconds);
+  writeNotNull('ImageArn', instance.imageArn);
+  writeNotNull('ImageName', instance.imageName);
+  writeNotNull('MaxUserDurationInSeconds', instance.maxUserDurationInSeconds);
+  writeNotNull('Tags', instance.tags);
+  writeNotNull('VpcConfig', instance.vpcConfig?.toJson());
+  return val;
+}
+
+const _$FleetTypeEnumMap = {
+  FleetType.alwaysOn: 'ALWAYS_ON',
+  FleetType.onDemand: 'ON_DEMAND',
+};
+
 CreateFleetResult _$CreateFleetResultFromJson(Map<String, dynamic> json) {
   return CreateFleetResult(
     fleet: json['Fleet'] == null
         ? null
         : Fleet.fromJson(json['Fleet'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateImageBuilderRequestToJson(
+    CreateImageBuilderRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InstanceType', instance.instanceType);
+  writeNotNull('Name', instance.name);
+  writeNotNull('AccessEndpoints',
+      instance.accessEndpoints?.map((e) => e?.toJson())?.toList());
+  writeNotNull('AppstreamAgentVersion', instance.appstreamAgentVersion);
+  writeNotNull('Description', instance.description);
+  writeNotNull('DisplayName', instance.displayName);
+  writeNotNull('DomainJoinInfo', instance.domainJoinInfo?.toJson());
+  writeNotNull(
+      'EnableDefaultInternetAccess', instance.enableDefaultInternetAccess);
+  writeNotNull('IamRoleArn', instance.iamRoleArn);
+  writeNotNull('ImageArn', instance.imageArn);
+  writeNotNull('ImageName', instance.imageName);
+  writeNotNull('Tags', instance.tags);
+  writeNotNull('VpcConfig', instance.vpcConfig?.toJson());
+  return val;
 }
 
 CreateImageBuilderResult _$CreateImageBuilderResultFromJson(
@@ -184,6 +328,21 @@ CreateImageBuilderResult _$CreateImageBuilderResultFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateImageBuilderStreamingURLRequestToJson(
+    CreateImageBuilderStreamingURLRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('Validity', instance.validity);
+  return val;
+}
+
 CreateImageBuilderStreamingURLResult
     _$CreateImageBuilderStreamingURLResultFromJson(Map<String, dynamic> json) {
   return CreateImageBuilderStreamingURLResult(
@@ -192,12 +351,57 @@ CreateImageBuilderStreamingURLResult
   );
 }
 
+Map<String, dynamic> _$CreateStackRequestToJson(CreateStackRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('AccessEndpoints',
+      instance.accessEndpoints?.map((e) => e?.toJson())?.toList());
+  writeNotNull('ApplicationSettings', instance.applicationSettings?.toJson());
+  writeNotNull('Description', instance.description);
+  writeNotNull('DisplayName', instance.displayName);
+  writeNotNull('EmbedHostDomains', instance.embedHostDomains);
+  writeNotNull('FeedbackURL', instance.feedbackURL);
+  writeNotNull('RedirectURL', instance.redirectURL);
+  writeNotNull('StorageConnectors',
+      instance.storageConnectors?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Tags', instance.tags);
+  writeNotNull(
+      'UserSettings', instance.userSettings?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateStackResult _$CreateStackResultFromJson(Map<String, dynamic> json) {
   return CreateStackResult(
     stack: json['Stack'] == null
         ? null
         : Stack.fromJson(json['Stack'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateStreamingURLRequestToJson(
+    CreateStreamingURLRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FleetName', instance.fleetName);
+  writeNotNull('StackName', instance.stackName);
+  writeNotNull('UserId', instance.userId);
+  writeNotNull('ApplicationId', instance.applicationId);
+  writeNotNull('SessionContext', instance.sessionContext);
+  writeNotNull('Validity', instance.validity);
+  return val;
 }
 
 CreateStreamingURLResult _$CreateStreamingURLResultFromJson(
@@ -221,8 +425,51 @@ const _$UsageReportScheduleEnumMap = {
   UsageReportSchedule.daily: 'DAILY',
 };
 
+Map<String, dynamic> _$CreateUserRequestToJson(CreateUserRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AuthenticationType',
+      _$AuthenticationTypeEnumMap[instance.authenticationType]);
+  writeNotNull('UserName', instance.userName);
+  writeNotNull('FirstName', instance.firstName);
+  writeNotNull('LastName', instance.lastName);
+  writeNotNull('MessageAction', _$MessageActionEnumMap[instance.messageAction]);
+  return val;
+}
+
+const _$AuthenticationTypeEnumMap = {
+  AuthenticationType.api: 'API',
+  AuthenticationType.saml: 'SAML',
+  AuthenticationType.userpool: 'USERPOOL',
+};
+
+const _$MessageActionEnumMap = {
+  MessageAction.suppress: 'SUPPRESS',
+  MessageAction.resend: 'RESEND',
+};
+
 CreateUserResult _$CreateUserResultFromJson(Map<String, dynamic> json) {
   return CreateUserResult();
+}
+
+Map<String, dynamic> _$DeleteDirectoryConfigRequestToJson(
+    DeleteDirectoryConfigRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryName', instance.directoryName);
+  return val;
 }
 
 DeleteDirectoryConfigResult _$DeleteDirectoryConfigResultFromJson(
@@ -230,8 +477,35 @@ DeleteDirectoryConfigResult _$DeleteDirectoryConfigResultFromJson(
   return DeleteDirectoryConfigResult();
 }
 
+Map<String, dynamic> _$DeleteFleetRequestToJson(DeleteFleetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
 DeleteFleetResult _$DeleteFleetResultFromJson(Map<String, dynamic> json) {
   return DeleteFleetResult();
+}
+
+Map<String, dynamic> _$DeleteImageBuilderRequestToJson(
+    DeleteImageBuilderRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
 }
 
 DeleteImageBuilderResult _$DeleteImageBuilderResultFromJson(
@@ -243,9 +517,37 @@ DeleteImageBuilderResult _$DeleteImageBuilderResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteImagePermissionsRequestToJson(
+    DeleteImagePermissionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('SharedAccountId', instance.sharedAccountId);
+  return val;
+}
+
 DeleteImagePermissionsResult _$DeleteImagePermissionsResultFromJson(
     Map<String, dynamic> json) {
   return DeleteImagePermissionsResult();
+}
+
+Map<String, dynamic> _$DeleteImageRequestToJson(DeleteImageRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
 }
 
 DeleteImageResult _$DeleteImageResultFromJson(Map<String, dynamic> json) {
@@ -254,6 +556,19 @@ DeleteImageResult _$DeleteImageResultFromJson(Map<String, dynamic> json) {
         ? null
         : Image.fromJson(json['Image'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DeleteStackRequestToJson(DeleteStackRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
 }
 
 DeleteStackResult _$DeleteStackResultFromJson(Map<String, dynamic> json) {
@@ -265,8 +580,39 @@ DeleteUsageReportSubscriptionResult
   return DeleteUsageReportSubscriptionResult();
 }
 
+Map<String, dynamic> _$DeleteUserRequestToJson(DeleteUserRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AuthenticationType',
+      _$AuthenticationTypeEnumMap[instance.authenticationType]);
+  writeNotNull('UserName', instance.userName);
+  return val;
+}
+
 DeleteUserResult _$DeleteUserResultFromJson(Map<String, dynamic> json) {
   return DeleteUserResult();
+}
+
+Map<String, dynamic> _$DescribeDirectoryConfigsRequestToJson(
+    DescribeDirectoryConfigsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryNames', instance.directoryNames);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 DescribeDirectoryConfigsResult _$DescribeDirectoryConfigsResultFromJson(
@@ -281,6 +627,21 @@ DescribeDirectoryConfigsResult _$DescribeDirectoryConfigsResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeFleetsRequestToJson(
+    DescribeFleetsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Names', instance.names);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 DescribeFleetsResult _$DescribeFleetsResultFromJson(Map<String, dynamic> json) {
   return DescribeFleetsResult(
     fleets: (json['Fleets'] as List)
@@ -289,6 +650,22 @@ DescribeFleetsResult _$DescribeFleetsResultFromJson(Map<String, dynamic> json) {
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeImageBuildersRequestToJson(
+    DescribeImageBuildersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('Names', instance.names);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 DescribeImageBuildersResult _$DescribeImageBuildersResultFromJson(
@@ -300,6 +677,23 @@ DescribeImageBuildersResult _$DescribeImageBuildersResultFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeImagePermissionsRequestToJson(
+    DescribeImagePermissionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SharedAwsAccountIds', instance.sharedAwsAccountIds);
+  return val;
 }
 
 DescribeImagePermissionsResult _$DescribeImagePermissionsResultFromJson(
@@ -315,6 +709,30 @@ DescribeImagePermissionsResult _$DescribeImagePermissionsResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeImagesRequestToJson(
+    DescribeImagesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Arns', instance.arns);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('Names', instance.names);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('Type', _$VisibilityTypeEnumMap[instance.type]);
+  return val;
+}
+
+const _$VisibilityTypeEnumMap = {
+  VisibilityType.public: 'PUBLIC',
+  VisibilityType.private: 'PRIVATE',
+  VisibilityType.shared: 'SHARED',
+};
+
 DescribeImagesResult _$DescribeImagesResultFromJson(Map<String, dynamic> json) {
   return DescribeImagesResult(
     images: (json['Images'] as List)
@@ -323,6 +741,26 @@ DescribeImagesResult _$DescribeImagesResultFromJson(Map<String, dynamic> json) {
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeSessionsRequestToJson(
+    DescribeSessionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FleetName', instance.fleetName);
+  writeNotNull('StackName', instance.stackName);
+  writeNotNull('AuthenticationType',
+      _$AuthenticationTypeEnumMap[instance.authenticationType]);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('UserId', instance.userId);
+  return val;
 }
 
 DescribeSessionsResult _$DescribeSessionsResultFromJson(
@@ -336,6 +774,21 @@ DescribeSessionsResult _$DescribeSessionsResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeStacksRequestToJson(
+    DescribeStacksRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Names', instance.names);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 DescribeStacksResult _$DescribeStacksResultFromJson(Map<String, dynamic> json) {
   return DescribeStacksResult(
     nextToken: json['NextToken'] as String,
@@ -344,6 +797,21 @@ DescribeStacksResult _$DescribeStacksResultFromJson(Map<String, dynamic> json) {
             (e) => e == null ? null : Stack.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeUsageReportSubscriptionsRequestToJson(
+    DescribeUsageReportSubscriptionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 DescribeUsageReportSubscriptionsResult
@@ -359,6 +827,25 @@ DescribeUsageReportSubscriptionsResult
   );
 }
 
+Map<String, dynamic> _$DescribeUserStackAssociationsRequestToJson(
+    DescribeUserStackAssociationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AuthenticationType',
+      _$AuthenticationTypeEnumMap[instance.authenticationType]);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('StackName', instance.stackName);
+  writeNotNull('UserName', instance.userName);
+  return val;
+}
+
 DescribeUserStackAssociationsResult
     _$DescribeUserStackAssociationsResultFromJson(Map<String, dynamic> json) {
   return DescribeUserStackAssociationsResult(
@@ -369,6 +856,23 @@ DescribeUserStackAssociationsResult
             : UserStackAssociation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeUsersRequestToJson(
+    DescribeUsersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AuthenticationType',
+      _$AuthenticationTypeEnumMap[instance.authenticationType]);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 DescribeUsersResult _$DescribeUsersResultFromJson(Map<String, dynamic> json) {
@@ -396,8 +900,38 @@ DirectoryConfig _$DirectoryConfigFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DisableUserRequestToJson(DisableUserRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AuthenticationType',
+      _$AuthenticationTypeEnumMap[instance.authenticationType]);
+  writeNotNull('UserName', instance.userName);
+  return val;
+}
+
 DisableUserResult _$DisableUserResultFromJson(Map<String, dynamic> json) {
   return DisableUserResult();
+}
+
+Map<String, dynamic> _$DisassociateFleetRequestToJson(
+    DisassociateFleetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FleetName', instance.fleetName);
+  writeNotNull('StackName', instance.stackName);
+  return val;
 }
 
 DisassociateFleetResult _$DisassociateFleetResultFromJson(
@@ -428,8 +962,37 @@ Map<String, dynamic> _$DomainJoinInfoToJson(DomainJoinInfo instance) {
   return val;
 }
 
+Map<String, dynamic> _$EnableUserRequestToJson(EnableUserRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AuthenticationType',
+      _$AuthenticationTypeEnumMap[instance.authenticationType]);
+  writeNotNull('UserName', instance.userName);
+  return val;
+}
+
 EnableUserResult _$EnableUserResultFromJson(Map<String, dynamic> json) {
   return EnableUserResult();
+}
+
+Map<String, dynamic> _$ExpireSessionRequestToJson(
+    ExpireSessionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SessionId', instance.sessionId);
+  return val;
 }
 
 ExpireSessionResult _$ExpireSessionResultFromJson(Map<String, dynamic> json) {
@@ -477,11 +1040,6 @@ const _$FleetStateEnumMap = {
   FleetState.running: 'RUNNING',
   FleetState.stopping: 'STOPPING',
   FleetState.stopped: 'STOPPED',
-};
-
-const _$FleetTypeEnumMap = {
-  FleetType.alwaysOn: 'ALWAYS_ON',
-  FleetType.onDemand: 'ON_DEMAND',
 };
 
 FleetError _$FleetErrorFromJson(Map<String, dynamic> json) {
@@ -581,12 +1139,6 @@ const _$ImageStateEnumMap = {
   ImageState.failed: 'FAILED',
   ImageState.copying: 'COPYING',
   ImageState.deleting: 'DELETING',
-};
-
-const _$VisibilityTypeEnumMap = {
-  VisibilityType.public: 'PUBLIC',
-  VisibilityType.private: 'PRIVATE',
-  VisibilityType.shared: 'SHARED',
 };
 
 ImageBuilder _$ImageBuilderFromJson(Map<String, dynamic> json) {
@@ -709,6 +1261,21 @@ const _$UsageReportExecutionErrorCodeEnumMap = {
   UsageReportExecutionErrorCode.internalServiceError: 'INTERNAL_SERVICE_ERROR',
 };
 
+Map<String, dynamic> _$ListAssociatedFleetsRequestToJson(
+    ListAssociatedFleetsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('StackName', instance.stackName);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListAssociatedFleetsResult _$ListAssociatedFleetsResultFromJson(
     Map<String, dynamic> json) {
   return ListAssociatedFleetsResult(
@@ -717,12 +1284,41 @@ ListAssociatedFleetsResult _$ListAssociatedFleetsResultFromJson(
   );
 }
 
+Map<String, dynamic> _$ListAssociatedStacksRequestToJson(
+    ListAssociatedStacksRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FleetName', instance.fleetName);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListAssociatedStacksResult _$ListAssociatedStacksResultFromJson(
     Map<String, dynamic> json) {
   return ListAssociatedStacksResult(
     names: (json['Names'] as List)?.map((e) => e as String)?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListTagsForResourceRequestToJson(
+    ListTagsForResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  return val;
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
@@ -799,12 +1395,6 @@ const _$SessionStateEnumMap = {
   SessionState.expired: 'EXPIRED',
 };
 
-const _$AuthenticationTypeEnumMap = {
-  AuthenticationType.api: 'API',
-  AuthenticationType.saml: 'SAML',
-  AuthenticationType.userpool: 'USERPOOL',
-};
-
 const _$SessionConnectionStateEnumMap = {
   SessionConnectionState.connected: 'CONNECTED',
   SessionConnectionState.notConnected: 'NOT_CONNECTED',
@@ -869,8 +1459,36 @@ const _$StackErrorCodeEnumMap = {
   StackErrorCode.internalServiceError: 'INTERNAL_SERVICE_ERROR',
 };
 
+Map<String, dynamic> _$StartFleetRequestToJson(StartFleetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
 StartFleetResult _$StartFleetResultFromJson(Map<String, dynamic> json) {
   return StartFleetResult();
+}
+
+Map<String, dynamic> _$StartImageBuilderRequestToJson(
+    StartImageBuilderRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('AppstreamAgentVersion', instance.appstreamAgentVersion);
+  return val;
 }
 
 StartImageBuilderResult _$StartImageBuilderResultFromJson(
@@ -882,8 +1500,35 @@ StartImageBuilderResult _$StartImageBuilderResultFromJson(
   );
 }
 
+Map<String, dynamic> _$StopFleetRequestToJson(StopFleetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
 StopFleetResult _$StopFleetResultFromJson(Map<String, dynamic> json) {
   return StopFleetResult();
+}
+
+Map<String, dynamic> _$StopImageBuilderRequestToJson(
+    StopImageBuilderRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
 }
 
 StopImageBuilderResult _$StopImageBuilderResultFromJson(
@@ -926,13 +1571,60 @@ const _$StorageConnectorTypeEnumMap = {
   StorageConnectorType.oneDrive: 'ONE_DRIVE',
 };
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('Tags', instance.tags);
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
+}
+
+Map<String, dynamic> _$UntagResourceRequestToJson(
+    UntagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
 }
 
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse();
+}
+
+Map<String, dynamic> _$UpdateDirectoryConfigRequestToJson(
+    UpdateDirectoryConfigRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryName', instance.directoryName);
+  writeNotNull('OrganizationalUnitDistinguishedNames',
+      instance.organizationalUnitDistinguishedNames);
+  writeNotNull('ServiceAccountCredentials',
+      instance.serviceAccountCredentials?.toJson());
+  return val;
 }
 
 UpdateDirectoryConfigResult _$UpdateDirectoryConfigResultFromJson(
@@ -945,6 +1637,37 @@ UpdateDirectoryConfigResult _$UpdateDirectoryConfigResultFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateFleetRequestToJson(UpdateFleetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AttributesToDelete', instance.attributesToDelete);
+  writeNotNull('ComputeCapacity', instance.computeCapacity?.toJson());
+  writeNotNull('DeleteVpcConfig', instance.deleteVpcConfig);
+  writeNotNull('Description', instance.description);
+  writeNotNull(
+      'DisconnectTimeoutInSeconds', instance.disconnectTimeoutInSeconds);
+  writeNotNull('DisplayName', instance.displayName);
+  writeNotNull('DomainJoinInfo', instance.domainJoinInfo?.toJson());
+  writeNotNull(
+      'EnableDefaultInternetAccess', instance.enableDefaultInternetAccess);
+  writeNotNull('IamRoleArn', instance.iamRoleArn);
+  writeNotNull('IdleDisconnectTimeoutInSeconds',
+      instance.idleDisconnectTimeoutInSeconds);
+  writeNotNull('ImageArn', instance.imageArn);
+  writeNotNull('ImageName', instance.imageName);
+  writeNotNull('InstanceType', instance.instanceType);
+  writeNotNull('MaxUserDurationInSeconds', instance.maxUserDurationInSeconds);
+  writeNotNull('Name', instance.name);
+  writeNotNull('VpcConfig', instance.vpcConfig?.toJson());
+  return val;
+}
+
 UpdateFleetResult _$UpdateFleetResultFromJson(Map<String, dynamic> json) {
   return UpdateFleetResult(
     fleet: json['Fleet'] == null
@@ -953,9 +1676,52 @@ UpdateFleetResult _$UpdateFleetResultFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$UpdateImagePermissionsRequestToJson(
+    UpdateImagePermissionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ImagePermissions', instance.imagePermissions?.toJson());
+  writeNotNull('Name', instance.name);
+  writeNotNull('SharedAccountId', instance.sharedAccountId);
+  return val;
+}
+
 UpdateImagePermissionsResult _$UpdateImagePermissionsResultFromJson(
     Map<String, dynamic> json) {
   return UpdateImagePermissionsResult();
+}
+
+Map<String, dynamic> _$UpdateStackRequestToJson(UpdateStackRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('AccessEndpoints',
+      instance.accessEndpoints?.map((e) => e?.toJson())?.toList());
+  writeNotNull('ApplicationSettings', instance.applicationSettings?.toJson());
+  writeNotNull('AttributesToDelete', instance.attributesToDelete);
+  writeNotNull('DeleteStorageConnectors', instance.deleteStorageConnectors);
+  writeNotNull('Description', instance.description);
+  writeNotNull('DisplayName', instance.displayName);
+  writeNotNull('EmbedHostDomains', instance.embedHostDomains);
+  writeNotNull('FeedbackURL', instance.feedbackURL);
+  writeNotNull('RedirectURL', instance.redirectURL);
+  writeNotNull('StorageConnectors',
+      instance.storageConnectors?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'UserSettings', instance.userSettings?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 UpdateStackResult _$UpdateStackResultFromJson(Map<String, dynamic> json) {

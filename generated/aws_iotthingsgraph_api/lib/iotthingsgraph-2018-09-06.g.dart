@@ -6,9 +6,41 @@ part of 'iotthingsgraph-2018-09-06.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$AssociateEntityToThingRequestToJson(
+    AssociateEntityToThingRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('entityId', instance.entityId);
+  writeNotNull('thingName', instance.thingName);
+  writeNotNull('namespaceVersion', instance.namespaceVersion);
+  return val;
+}
+
 AssociateEntityToThingResponse _$AssociateEntityToThingResponseFromJson(
     Map<String, dynamic> json) {
   return AssociateEntityToThingResponse();
+}
+
+Map<String, dynamic> _$CreateFlowTemplateRequestToJson(
+    CreateFlowTemplateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('definition', instance.definition?.toJson());
+  writeNotNull(
+      'compatibleNamespaceVersion', instance.compatibleNamespaceVersion);
+  return val;
 }
 
 CreateFlowTemplateResponse _$CreateFlowTemplateResponseFromJson(
@@ -20,6 +52,31 @@ CreateFlowTemplateResponse _$CreateFlowTemplateResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateSystemInstanceRequestToJson(
+    CreateSystemInstanceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('definition', instance.definition?.toJson());
+  writeNotNull('target', _$DeploymentTargetEnumMap[instance.target]);
+  writeNotNull('flowActionsRoleArn', instance.flowActionsRoleArn);
+  writeNotNull('greengrassGroupName', instance.greengrassGroupName);
+  writeNotNull('metricsConfiguration', instance.metricsConfiguration?.toJson());
+  writeNotNull('s3BucketName', instance.s3BucketName);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+const _$DeploymentTargetEnumMap = {
+  DeploymentTarget.greengrass: 'GREENGRASS',
+  DeploymentTarget.cloud: 'CLOUD',
+};
+
 CreateSystemInstanceResponse _$CreateSystemInstanceResponseFromJson(
     Map<String, dynamic> json) {
   return CreateSystemInstanceResponse(
@@ -28,6 +85,22 @@ CreateSystemInstanceResponse _$CreateSystemInstanceResponseFromJson(
         : SystemInstanceSummary.fromJson(
             json['summary'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateSystemTemplateRequestToJson(
+    CreateSystemTemplateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('definition', instance.definition?.toJson());
+  writeNotNull(
+      'compatibleNamespaceVersion', instance.compatibleNamespaceVersion);
+  return val;
 }
 
 CreateSystemTemplateResponse _$CreateSystemTemplateResponseFromJson(
@@ -98,6 +171,20 @@ const _$DefinitionLanguageEnumMap = {
   DefinitionLanguage.graphql: 'GRAPHQL',
 };
 
+Map<String, dynamic> _$DeleteFlowTemplateRequestToJson(
+    DeleteFlowTemplateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  return val;
+}
+
 DeleteFlowTemplateResponse _$DeleteFlowTemplateResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteFlowTemplateResponse();
@@ -111,9 +198,37 @@ DeleteNamespaceResponse _$DeleteNamespaceResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteSystemInstanceRequestToJson(
+    DeleteSystemInstanceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  return val;
+}
+
 DeleteSystemInstanceResponse _$DeleteSystemInstanceResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteSystemInstanceResponse();
+}
+
+Map<String, dynamic> _$DeleteSystemTemplateRequestToJson(
+    DeleteSystemTemplateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  return val;
 }
 
 DeleteSystemTemplateResponse _$DeleteSystemTemplateResponseFromJson(
@@ -128,6 +243,20 @@ DependencyRevision _$DependencyRevisionFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DeploySystemInstanceRequestToJson(
+    DeploySystemInstanceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  return val;
+}
+
 DeploySystemInstanceResponse _$DeploySystemInstanceResponseFromJson(
     Map<String, dynamic> json) {
   return DeploySystemInstanceResponse(
@@ -139,14 +268,56 @@ DeploySystemInstanceResponse _$DeploySystemInstanceResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeprecateFlowTemplateRequestToJson(
+    DeprecateFlowTemplateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  return val;
+}
+
 DeprecateFlowTemplateResponse _$DeprecateFlowTemplateResponseFromJson(
     Map<String, dynamic> json) {
   return DeprecateFlowTemplateResponse();
 }
 
+Map<String, dynamic> _$DeprecateSystemTemplateRequestToJson(
+    DeprecateSystemTemplateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  return val;
+}
+
 DeprecateSystemTemplateResponse _$DeprecateSystemTemplateResponseFromJson(
     Map<String, dynamic> json) {
   return DeprecateSystemTemplateResponse();
+}
+
+Map<String, dynamic> _$DescribeNamespaceRequestToJson(
+    DescribeNamespaceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('namespaceName', instance.namespaceName);
+  return val;
 }
 
 DescribeNamespaceResponse _$DescribeNamespaceResponseFromJson(
@@ -159,6 +330,34 @@ DescribeNamespaceResponse _$DescribeNamespaceResponseFromJson(
     trackingNamespaceVersion: json['trackingNamespaceVersion'] as int,
   );
 }
+
+Map<String, dynamic> _$DissociateEntityFromThingRequestToJson(
+    DissociateEntityFromThingRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('entityType', _$EntityTypeEnumMap[instance.entityType]);
+  writeNotNull('thingName', instance.thingName);
+  return val;
+}
+
+const _$EntityTypeEnumMap = {
+  EntityType.device: 'DEVICE',
+  EntityType.service: 'SERVICE',
+  EntityType.deviceModel: 'DEVICE_MODEL',
+  EntityType.capability: 'CAPABILITY',
+  EntityType.state: 'STATE',
+  EntityType.action: 'ACTION',
+  EntityType.event: 'EVENT',
+  EntityType.property: 'PROPERTY',
+  EntityType.mapping: 'MAPPING',
+  EntityType.$enum: 'ENUM',
+};
 
 DissociateEntityFromThingResponse _$DissociateEntityFromThingResponseFromJson(
     Map<String, dynamic> json) {
@@ -177,19 +376,6 @@ EntityDescription _$EntityDescriptionFromJson(Map<String, dynamic> json) {
     type: _$enumDecodeNullable(_$EntityTypeEnumMap, json['type']),
   );
 }
-
-const _$EntityTypeEnumMap = {
-  EntityType.device: 'DEVICE',
-  EntityType.service: 'SERVICE',
-  EntityType.deviceModel: 'DEVICE_MODEL',
-  EntityType.capability: 'CAPABILITY',
-  EntityType.state: 'STATE',
-  EntityType.action: 'ACTION',
-  EntityType.event: 'EVENT',
-  EntityType.property: 'PROPERTY',
-  EntityType.mapping: 'MAPPING',
-  EntityType.$enum: 'ENUM',
-};
 
 Map<String, dynamic> _$EntityFilterToJson(EntityFilter instance) {
   final val = <String, dynamic>{};
@@ -303,6 +489,20 @@ FlowTemplateSummary _$FlowTemplateSummaryFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetEntitiesRequestToJson(GetEntitiesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ids', instance.ids);
+  writeNotNull('namespaceVersion', instance.namespaceVersion);
+  return val;
+}
+
 GetEntitiesResponse _$GetEntitiesResponseFromJson(Map<String, dynamic> json) {
   return GetEntitiesResponse(
     descriptions: (json['descriptions'] as List)
@@ -313,6 +513,21 @@ GetEntitiesResponse _$GetEntitiesResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetFlowTemplateRequestToJson(
+    GetFlowTemplateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  writeNotNull('revisionNumber', instance.revisionNumber);
+  return val;
+}
+
 GetFlowTemplateResponse _$GetFlowTemplateResponseFromJson(
     Map<String, dynamic> json) {
   return GetFlowTemplateResponse(
@@ -321,6 +536,22 @@ GetFlowTemplateResponse _$GetFlowTemplateResponseFromJson(
         : FlowTemplateDescription.fromJson(
             json['description'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetFlowTemplateRevisionsRequestToJson(
+    GetFlowTemplateRevisionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 GetFlowTemplateRevisionsResponse _$GetFlowTemplateRevisionsResponseFromJson(
@@ -358,6 +589,20 @@ const _$NamespaceDeletionStatusEnumMap = {
   NamespaceDeletionStatus.failed: 'FAILED',
 };
 
+Map<String, dynamic> _$GetSystemInstanceRequestToJson(
+    GetSystemInstanceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  return val;
+}
+
 GetSystemInstanceResponse _$GetSystemInstanceResponseFromJson(
     Map<String, dynamic> json) {
   return GetSystemInstanceResponse(
@@ -366,6 +611,21 @@ GetSystemInstanceResponse _$GetSystemInstanceResponseFromJson(
         : SystemInstanceDescription.fromJson(
             json['description'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetSystemTemplateRequestToJson(
+    GetSystemTemplateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  writeNotNull('revisionNumber', instance.revisionNumber);
+  return val;
 }
 
 GetSystemTemplateResponse _$GetSystemTemplateResponseFromJson(
@@ -378,6 +638,22 @@ GetSystemTemplateResponse _$GetSystemTemplateResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$GetSystemTemplateRevisionsRequestToJson(
+    GetSystemTemplateRevisionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 GetSystemTemplateRevisionsResponse _$GetSystemTemplateRevisionsResponseFromJson(
     Map<String, dynamic> json) {
   return GetSystemTemplateRevisionsResponse(
@@ -388,6 +664,20 @@ GetSystemTemplateRevisionsResponse _$GetSystemTemplateRevisionsResponseFromJson(
             : SystemTemplateSummary.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$GetUploadStatusRequestToJson(
+    GetUploadStatusRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('uploadId', instance.uploadId);
+  return val;
 }
 
 GetUploadStatusResponse _$GetUploadStatusResponseFromJson(
@@ -411,6 +701,22 @@ const _$UploadStatusEnumMap = {
   UploadStatus.failed: 'FAILED',
 };
 
+Map<String, dynamic> _$ListFlowExecutionMessagesRequestToJson(
+    ListFlowExecutionMessagesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('flowExecutionId', instance.flowExecutionId);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 ListFlowExecutionMessagesResponse _$ListFlowExecutionMessagesResponseFromJson(
     Map<String, dynamic> json) {
   return ListFlowExecutionMessagesResponse(
@@ -421,6 +727,22 @@ ListFlowExecutionMessagesResponse _$ListFlowExecutionMessagesResponseFromJson(
         ?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListTagsForResourceRequestToJson(
+    ListTagsForResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceArn', instance.resourceArn);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
@@ -455,6 +777,24 @@ Map<String, dynamic> _$MetricsConfigurationToJson(
   return val;
 }
 
+Map<String, dynamic> _$SearchEntitiesRequestToJson(
+    SearchEntitiesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('entityTypes', instance.entityTypes);
+  writeNotNull('filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('namespaceVersion', instance.namespaceVersion);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 SearchEntitiesResponse _$SearchEntitiesResponseFromJson(
     Map<String, dynamic> json) {
   return SearchEntitiesResponse(
@@ -465,6 +805,25 @@ SearchEntitiesResponse _$SearchEntitiesResponseFromJson(
         ?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$SearchFlowExecutionsRequestToJson(
+    SearchFlowExecutionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('systemInstanceId', instance.systemInstanceId);
+  writeNotNull('endTime', unixTimestampToJson(instance.endTime));
+  writeNotNull('flowExecutionId', instance.flowExecutionId);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('startTime', unixTimestampToJson(instance.startTime));
+  return val;
 }
 
 SearchFlowExecutionsResponse _$SearchFlowExecutionsResponseFromJson(
@@ -479,6 +838,22 @@ SearchFlowExecutionsResponse _$SearchFlowExecutionsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$SearchFlowTemplatesRequestToJson(
+    SearchFlowTemplatesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 SearchFlowTemplatesResponse _$SearchFlowTemplatesResponseFromJson(
     Map<String, dynamic> json) {
   return SearchFlowTemplatesResponse(
@@ -489,6 +864,22 @@ SearchFlowTemplatesResponse _$SearchFlowTemplatesResponseFromJson(
             : FlowTemplateSummary.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$SearchSystemInstancesRequestToJson(
+    SearchSystemInstancesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 SearchSystemInstancesResponse _$SearchSystemInstancesResponseFromJson(
@@ -503,6 +894,22 @@ SearchSystemInstancesResponse _$SearchSystemInstancesResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$SearchSystemTemplatesRequestToJson(
+    SearchSystemTemplatesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 SearchSystemTemplatesResponse _$SearchSystemTemplatesResponseFromJson(
     Map<String, dynamic> json) {
   return SearchSystemTemplatesResponse(
@@ -513,6 +920,22 @@ SearchSystemTemplatesResponse _$SearchSystemTemplatesResponseFromJson(
             : SystemTemplateSummary.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$SearchThingsRequestToJson(SearchThingsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('entityId', instance.entityId);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('namespaceVersion', instance.namespaceVersion);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 SearchThingsResponse _$SearchThingsResponseFromJson(Map<String, dynamic> json) {
@@ -599,11 +1022,6 @@ const _$SystemInstanceDeploymentStatusEnumMap = {
   SystemInstanceDeploymentStatus.deletedInTarget: 'DELETED_IN_TARGET',
 };
 
-const _$DeploymentTargetEnumMap = {
-  DeploymentTarget.greengrass: 'GREENGRASS',
-  DeploymentTarget.cloud: 'CLOUD',
-};
-
 SystemTemplateDescription _$SystemTemplateDescriptionFromJson(
     Map<String, dynamic> json) {
   return SystemTemplateDescription(
@@ -669,6 +1087,20 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
   return val;
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceArn', instance.resourceArn);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
 }
@@ -678,6 +1110,20 @@ Thing _$ThingFromJson(Map<String, dynamic> json) {
     thingArn: json['thingArn'] as String,
     thingName: json['thingName'] as String,
   );
+}
+
+Map<String, dynamic> _$UndeploySystemInstanceRequestToJson(
+    UndeploySystemInstanceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  return val;
 }
 
 UndeploySystemInstanceResponse _$UndeploySystemInstanceResponseFromJson(
@@ -690,9 +1136,41 @@ UndeploySystemInstanceResponse _$UndeploySystemInstanceResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UntagResourceRequestToJson(
+    UntagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceArn', instance.resourceArn);
+  writeNotNull('tagKeys', instance.tagKeys);
+  return val;
+}
+
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse();
+}
+
+Map<String, dynamic> _$UpdateFlowTemplateRequestToJson(
+    UpdateFlowTemplateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('definition', instance.definition?.toJson());
+  writeNotNull('id', instance.id);
+  writeNotNull(
+      'compatibleNamespaceVersion', instance.compatibleNamespaceVersion);
+  return val;
 }
 
 UpdateFlowTemplateResponse _$UpdateFlowTemplateResponseFromJson(
@@ -704,6 +1182,23 @@ UpdateFlowTemplateResponse _$UpdateFlowTemplateResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateSystemTemplateRequestToJson(
+    UpdateSystemTemplateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('definition', instance.definition?.toJson());
+  writeNotNull('id', instance.id);
+  writeNotNull(
+      'compatibleNamespaceVersion', instance.compatibleNamespaceVersion);
+  return val;
+}
+
 UpdateSystemTemplateResponse _$UpdateSystemTemplateResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateSystemTemplateResponse(
@@ -712,6 +1207,22 @@ UpdateSystemTemplateResponse _$UpdateSystemTemplateResponseFromJson(
         : SystemTemplateSummary.fromJson(
             json['summary'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UploadEntityDefinitionsRequestToJson(
+    UploadEntityDefinitionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('deprecateExistingEntities', instance.deprecateExistingEntities);
+  writeNotNull('document', instance.document?.toJson());
+  writeNotNull('syncWithPublicNamespace', instance.syncWithPublicNamespace);
+  return val;
 }
 
 UploadEntityDefinitionsResponse _$UploadEntityDefinitionsResponseFromJson(

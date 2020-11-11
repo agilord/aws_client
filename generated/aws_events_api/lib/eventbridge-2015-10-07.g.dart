@@ -6,6 +6,20 @@ part of 'eventbridge-2015-10-07.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$ActivateEventSourceRequestToJson(
+    ActivateEventSourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
 AwsVpcConfiguration _$AwsVpcConfigurationFromJson(Map<String, dynamic> json) {
   return AwsVpcConfiguration(
     subnets: (json['Subnets'] as List)?.map((e) => e as String)?.toList(),
@@ -154,11 +168,42 @@ Map<String, dynamic> _$ConditionToJson(Condition instance) {
   return val;
 }
 
+Map<String, dynamic> _$CreateEventBusRequestToJson(
+    CreateEventBusRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('EventSourceName', instance.eventSourceName);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateEventBusResponse _$CreateEventBusResponseFromJson(
     Map<String, dynamic> json) {
   return CreateEventBusResponse(
     eventBusArn: json['EventBusArn'] as String,
   );
+}
+
+Map<String, dynamic> _$CreatePartnerEventSourceRequestToJson(
+    CreatePartnerEventSourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Account', instance.account);
+  writeNotNull('Name', instance.name);
+  return val;
 }
 
 CreatePartnerEventSourceResponse _$CreatePartnerEventSourceResponseFromJson(
@@ -168,6 +213,78 @@ CreatePartnerEventSourceResponse _$CreatePartnerEventSourceResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeactivateEventSourceRequestToJson(
+    DeactivateEventSourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteEventBusRequestToJson(
+    DeleteEventBusRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
+Map<String, dynamic> _$DeletePartnerEventSourceRequestToJson(
+    DeletePartnerEventSourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Account', instance.account);
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteRuleRequestToJson(DeleteRuleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('EventBusName', instance.eventBusName);
+  writeNotNull('Force', instance.force);
+  return val;
+}
+
+Map<String, dynamic> _$DescribeEventBusRequestToJson(
+    DescribeEventBusRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
 DescribeEventBusResponse _$DescribeEventBusResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeEventBusResponse(
@@ -175,6 +292,20 @@ DescribeEventBusResponse _$DescribeEventBusResponseFromJson(
     name: json['Name'] as String,
     policy: json['Policy'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeEventSourceRequestToJson(
+    DescribeEventSourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
 }
 
 DescribeEventSourceResponse _$DescribeEventSourceResponseFromJson(
@@ -195,12 +326,40 @@ const _$EventSourceStateEnumMap = {
   EventSourceState.deleted: 'DELETED',
 };
 
+Map<String, dynamic> _$DescribePartnerEventSourceRequestToJson(
+    DescribePartnerEventSourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
 DescribePartnerEventSourceResponse _$DescribePartnerEventSourceResponseFromJson(
     Map<String, dynamic> json) {
   return DescribePartnerEventSourceResponse(
     arn: json['Arn'] as String,
     name: json['Name'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeRuleRequestToJson(DescribeRuleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('EventBusName', instance.eventBusName);
+  return val;
 }
 
 DescribeRuleResponse _$DescribeRuleResponseFromJson(Map<String, dynamic> json) {
@@ -221,6 +380,20 @@ const _$RuleStateEnumMap = {
   RuleState.enabled: 'ENABLED',
   RuleState.disabled: 'DISABLED',
 };
+
+Map<String, dynamic> _$DisableRuleRequestToJson(DisableRuleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('EventBusName', instance.eventBusName);
+  return val;
+}
 
 EcsParameters _$EcsParametersFromJson(Map<String, dynamic> json) {
   return EcsParameters(
@@ -258,6 +431,20 @@ const _$LaunchTypeEnumMap = {
   LaunchType.ec2: 'EC2',
   LaunchType.fargate: 'FARGATE',
 };
+
+Map<String, dynamic> _$EnableRuleRequestToJson(EnableRuleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('EventBusName', instance.eventBusName);
+  return val;
+}
 
 EventBus _$EventBusFromJson(Map<String, dynamic> json) {
   return EventBus(
@@ -320,6 +507,22 @@ Map<String, dynamic> _$KinesisParametersToJson(KinesisParameters instance) {
   return val;
 }
 
+Map<String, dynamic> _$ListEventBusesRequestToJson(
+    ListEventBusesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NamePrefix', instance.namePrefix);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListEventBusesResponse _$ListEventBusesResponseFromJson(
     Map<String, dynamic> json) {
   return ListEventBusesResponse(
@@ -331,6 +534,22 @@ ListEventBusesResponse _$ListEventBusesResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListEventSourcesRequestToJson(
+    ListEventSourcesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NamePrefix', instance.namePrefix);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListEventSourcesResponse _$ListEventSourcesResponseFromJson(
     Map<String, dynamic> json) {
   return ListEventSourcesResponse(
@@ -340,6 +559,22 @@ ListEventSourcesResponse _$ListEventSourcesResponseFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListPartnerEventSourceAccountsRequestToJson(
+    ListPartnerEventSourceAccountsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EventSourceName', instance.eventSourceName);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListPartnerEventSourceAccountsResponse
@@ -355,6 +590,22 @@ ListPartnerEventSourceAccountsResponse
   );
 }
 
+Map<String, dynamic> _$ListPartnerEventSourcesRequestToJson(
+    ListPartnerEventSourcesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('NamePrefix', instance.namePrefix);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListPartnerEventSourcesResponse _$ListPartnerEventSourcesResponseFromJson(
     Map<String, dynamic> json) {
   return ListPartnerEventSourcesResponse(
@@ -367,12 +618,45 @@ ListPartnerEventSourcesResponse _$ListPartnerEventSourcesResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListRuleNamesByTargetRequestToJson(
+    ListRuleNamesByTargetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TargetArn', instance.targetArn);
+  writeNotNull('EventBusName', instance.eventBusName);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListRuleNamesByTargetResponse _$ListRuleNamesByTargetResponseFromJson(
     Map<String, dynamic> json) {
   return ListRuleNamesByTargetResponse(
     nextToken: json['NextToken'] as String,
     ruleNames: (json['RuleNames'] as List)?.map((e) => e as String)?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListRulesRequestToJson(ListRulesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EventBusName', instance.eventBusName);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NamePrefix', instance.namePrefix);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListRulesResponse _$ListRulesResponseFromJson(Map<String, dynamic> json) {
@@ -385,6 +669,20 @@ ListRulesResponse _$ListRulesResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ListTagsForResourceRequestToJson(
+    ListTagsForResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARN', instance.resourceARN);
+  return val;
+}
+
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
@@ -392,6 +690,23 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
         ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListTargetsByRuleRequestToJson(
+    ListTargetsByRuleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Rule', instance.rule);
+  writeNotNull('EventBusName', instance.eventBusName);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListTargetsByRuleResponse _$ListTargetsByRuleResponseFromJson(
@@ -445,6 +760,19 @@ PartnerEventSourceAccount _$PartnerEventSourceAccountFromJson(
   );
 }
 
+Map<String, dynamic> _$PutEventsRequestToJson(PutEventsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Entries', instance.entries?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 Map<String, dynamic> _$PutEventsRequestEntryToJson(
     PutEventsRequestEntry instance) {
   final val = <String, dynamic>{};
@@ -481,6 +809,20 @@ PutEventsResultEntry _$PutEventsResultEntryFromJson(Map<String, dynamic> json) {
     errorMessage: json['ErrorMessage'] as String,
     eventId: json['EventId'] as String,
   );
+}
+
+Map<String, dynamic> _$PutPartnerEventsRequestToJson(
+    PutPartnerEventsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Entries', instance.entries?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 Map<String, dynamic> _$PutPartnerEventsRequestEntryToJson(
@@ -522,10 +864,63 @@ PutPartnerEventsResultEntry _$PutPartnerEventsResultEntryFromJson(
   );
 }
 
+Map<String, dynamic> _$PutPermissionRequestToJson(
+    PutPermissionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Action', instance.action);
+  writeNotNull('Principal', instance.principal);
+  writeNotNull('StatementId', instance.statementId);
+  writeNotNull('Condition', instance.condition?.toJson());
+  writeNotNull('EventBusName', instance.eventBusName);
+  return val;
+}
+
+Map<String, dynamic> _$PutRuleRequestToJson(PutRuleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('Description', instance.description);
+  writeNotNull('EventBusName', instance.eventBusName);
+  writeNotNull('EventPattern', instance.eventPattern);
+  writeNotNull('RoleArn', instance.roleArn);
+  writeNotNull('ScheduleExpression', instance.scheduleExpression);
+  writeNotNull('State', _$RuleStateEnumMap[instance.state]);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 PutRuleResponse _$PutRuleResponseFromJson(Map<String, dynamic> json) {
   return PutRuleResponse(
     ruleArn: json['RuleArn'] as String,
   );
+}
+
+Map<String, dynamic> _$PutTargetsRequestToJson(PutTargetsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Rule', instance.rule);
+  writeNotNull('Targets', instance.targets?.map((e) => e?.toJson())?.toList());
+  writeNotNull('EventBusName', instance.eventBusName);
+  return val;
 }
 
 PutTargetsResponse _$PutTargetsResponseFromJson(Map<String, dynamic> json) {
@@ -546,6 +941,38 @@ PutTargetsResultEntry _$PutTargetsResultEntryFromJson(
     errorMessage: json['ErrorMessage'] as String,
     targetId: json['TargetId'] as String,
   );
+}
+
+Map<String, dynamic> _$RemovePermissionRequestToJson(
+    RemovePermissionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('StatementId', instance.statementId);
+  writeNotNull('EventBusName', instance.eventBusName);
+  return val;
+}
+
+Map<String, dynamic> _$RemoveTargetsRequestToJson(
+    RemoveTargetsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Ids', instance.ids);
+  writeNotNull('Rule', instance.rule);
+  writeNotNull('EventBusName', instance.eventBusName);
+  writeNotNull('Force', instance.force);
+  return val;
 }
 
 RemoveTargetsResponse _$RemoveTargetsResponseFromJson(
@@ -669,6 +1096,20 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
   return val;
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARN', instance.resourceARN);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
 }
@@ -728,11 +1169,41 @@ Map<String, dynamic> _$TargetToJson(Target instance) {
   return val;
 }
 
+Map<String, dynamic> _$TestEventPatternRequestToJson(
+    TestEventPatternRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Event', instance.event);
+  writeNotNull('EventPattern', instance.eventPattern);
+  return val;
+}
+
 TestEventPatternResponse _$TestEventPatternResponseFromJson(
     Map<String, dynamic> json) {
   return TestEventPatternResponse(
     result: json['Result'] as bool,
   );
+}
+
+Map<String, dynamic> _$UntagResourceRequestToJson(
+    UntagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARN', instance.resourceARN);
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
 }
 
 UntagResourceResponse _$UntagResourceResponseFromJson(

@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -116,9 +115,12 @@ class IoT1ClickProjects {
       r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'deviceId': deviceId,
-    };
+    final $payload = AssociateDeviceWithPlacementRequest(
+      deviceId: deviceId,
+      deviceTemplateName: deviceTemplateName,
+      placementName: placementName,
+      projectName: projectName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -178,10 +180,11 @@ class IoT1ClickProjects {
       r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'placementName': placementName,
-      if (attributes != null) 'attributes': attributes,
-    };
+    final $payload = CreatePlacementRequest(
+      placementName: placementName,
+      projectName: projectName,
+      attributes: attributes,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -245,12 +248,12 @@ class IoT1ClickProjects {
       0,
       500,
     );
-    final $payload = <String, dynamic>{
-      'projectName': projectName,
-      if (description != null) 'description': description,
-      if (placementTemplate != null) 'placementTemplate': placementTemplate,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateProjectRequest(
+      projectName: projectName,
+      description: description,
+      placementTemplate: placementTemplate,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -308,7 +311,10 @@ class IoT1ClickProjects {
       r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeletePlacementRequest(
+      placementName: placementName,
+      projectName: projectName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -349,7 +355,9 @@ class IoT1ClickProjects {
       r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteProjectRequest(
+      projectName: projectName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -508,7 +516,11 @@ class IoT1ClickProjects {
       r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DisassociateDeviceFromPlacementRequest(
+      deviceTemplateName: deviceTemplateName,
+      placementName: placementName,
+      projectName: projectName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -733,9 +745,10 @@ class IoT1ClickProjects {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'tags': tags,
-    };
+    final $payload = TagResourceRequest(
+      resourceArn: resourceArn,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -772,7 +785,10 @@ class IoT1ClickProjects {
     _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = UntagResourceRequest(
+      resourceArn: resourceArn,
+      tagKeys: tagKeys,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -832,9 +848,11 @@ class IoT1ClickProjects {
       r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (attributes != null) 'attributes': attributes,
-    };
+    final $payload = UpdatePlacementRequest(
+      placementName: placementName,
+      projectName: projectName,
+      attributes: attributes,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -892,10 +910,11 @@ class IoT1ClickProjects {
       0,
       500,
     );
-    final $payload = <String, dynamic>{
-      if (description != null) 'description': description,
-      if (placementTemplate != null) 'placementTemplate': placementTemplate,
-    };
+    final $payload = UpdateProjectRequest(
+      projectName: projectName,
+      description: description,
+      placementTemplate: placementTemplate,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -904,6 +923,41 @@ class IoT1ClickProjects {
     );
     return UpdateProjectResponse.fromJson(response);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateDeviceWithPlacementRequest {
+  /// The ID of the physical device to be associated with the given placement in
+  /// the project. Note that a mandatory 4 character prefix is required for all
+  /// <code>deviceId</code> values.
+  @_s.JsonKey(name: 'deviceId')
+  final String deviceId;
+
+  /// The device template name to associate with the device ID.
+  @_s.JsonKey(name: 'deviceTemplateName', ignore: true)
+  final String deviceTemplateName;
+
+  /// The name of the placement in which to associate the device.
+  @_s.JsonKey(name: 'placementName', ignore: true)
+  final String placementName;
+
+  /// The name of the project containing the placement in which to associate the
+  /// device.
+  @_s.JsonKey(name: 'projectName', ignore: true)
+  final String projectName;
+
+  AssociateDeviceWithPlacementRequest({
+    @_s.required this.deviceId,
+    @_s.required this.deviceTemplateName,
+    @_s.required this.placementName,
+    @_s.required this.projectName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AssociateDeviceWithPlacementRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -921,12 +975,78 @@ class AssociateDeviceWithPlacementResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreatePlacementRequest {
+  /// The name of the placement to be created.
+  @_s.JsonKey(name: 'placementName')
+  final String placementName;
+
+  /// The name of the project in which to create the placement.
+  @_s.JsonKey(name: 'projectName', ignore: true)
+  final String projectName;
+
+  /// Optional user-defined key/value pairs providing contextual data (such as
+  /// location or function) for the placement.
+  @_s.JsonKey(name: 'attributes')
+  final Map<String, String> attributes;
+
+  CreatePlacementRequest({
+    @_s.required this.placementName,
+    @_s.required this.projectName,
+    this.attributes,
+  });
+  Map<String, dynamic> toJson() => _$CreatePlacementRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreatePlacementResponse {
   CreatePlacementResponse();
   factory CreatePlacementResponse.fromJson(Map<String, dynamic> json) =>
       _$CreatePlacementResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateProjectRequest {
+  /// The name of the project to create.
+  @_s.JsonKey(name: 'projectName')
+  final String projectName;
+
+  /// An optional description for the project.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The schema defining the placement to be created. A placement template
+  /// defines placement default attributes and device templates. You cannot add or
+  /// remove device templates after the project has been created. However, you can
+  /// update <code>callbackOverrides</code> for the device templates using the
+  /// <code>UpdateProject</code> API.
+  @_s.JsonKey(name: 'placementTemplate')
+  final PlacementTemplate placementTemplate;
+
+  /// Optional tags (metadata key/value pairs) to be associated with the project.
+  /// For example, <code>{ {"key1": "value1", "key2": "value2"} }</code>. For more
+  /// information, see <a
+  /// href="https://aws.amazon.com/answers/account-management/aws-tagging-strategies/">AWS
+  /// Tagging Strategies</a>.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateProjectRequest({
+    @_s.required this.projectName,
+    this.description,
+    this.placementTemplate,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateProjectRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -943,12 +1063,49 @@ class CreateProjectResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeletePlacementRequest {
+  /// The name of the empty placement to delete.
+  @_s.JsonKey(name: 'placementName', ignore: true)
+  final String placementName;
+
+  /// The project containing the empty placement to delete.
+  @_s.JsonKey(name: 'projectName', ignore: true)
+  final String projectName;
+
+  DeletePlacementRequest({
+    @_s.required this.placementName,
+    @_s.required this.projectName,
+  });
+  Map<String, dynamic> toJson() => _$DeletePlacementRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeletePlacementResponse {
   DeletePlacementResponse();
   factory DeletePlacementResponse.fromJson(Map<String, dynamic> json) =>
       _$DeletePlacementResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteProjectRequest {
+  /// The name of the empty project to delete.
+  @_s.JsonKey(name: 'projectName', ignore: true)
+  final String projectName;
+
+  DeleteProjectRequest({
+    @_s.required this.projectName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteProjectRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1021,6 +1178,33 @@ class DeviceTemplate {
       _$DeviceTemplateFromJson(json);
 
   Map<String, dynamic> toJson() => _$DeviceTemplateToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateDeviceFromPlacementRequest {
+  /// The device ID that should be removed from the placement.
+  @_s.JsonKey(name: 'deviceTemplateName', ignore: true)
+  final String deviceTemplateName;
+
+  /// The name of the placement that the device should be removed from.
+  @_s.JsonKey(name: 'placementName', ignore: true)
+  final String placementName;
+
+  /// The name of the project that contains the placement.
+  @_s.JsonKey(name: 'projectName', ignore: true)
+  final String projectName;
+
+  DisassociateDeviceFromPlacementRequest({
+    @_s.required this.deviceTemplateName,
+    @_s.required this.placementName,
+    @_s.required this.projectName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DisassociateDeviceFromPlacementRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1338,12 +1522,57 @@ class ProjectSummary {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The ARN of the resouce for which tag(s) should be added or modified.
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  /// The new or modifying tag(s) for the resource. See <a
+  /// href="https://docs.aws.amazon.com/iot-1-click/latest/developerguide/1click-appendix.html#1click-limits">AWS
+  /// IoT 1-Click Service Limits</a> for the maximum number of tags allowed per
+  /// resource.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
   factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$TagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The ARN of the resource whose tag you want to remove.
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  /// The keys of those tags which you want to remove.
+  @_s.JsonKey(name: 'tagKeys', ignore: true)
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1360,12 +1589,68 @@ class UntagResourceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdatePlacementRequest {
+  /// The name of the placement to update.
+  @_s.JsonKey(name: 'placementName', ignore: true)
+  final String placementName;
+
+  /// The name of the project containing the placement to be updated.
+  @_s.JsonKey(name: 'projectName', ignore: true)
+  final String projectName;
+
+  /// The user-defined object of attributes used to update the placement. The
+  /// maximum number of key/value pairs is 50.
+  @_s.JsonKey(name: 'attributes')
+  final Map<String, String> attributes;
+
+  UpdatePlacementRequest({
+    @_s.required this.placementName,
+    @_s.required this.projectName,
+    this.attributes,
+  });
+  Map<String, dynamic> toJson() => _$UpdatePlacementRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdatePlacementResponse {
   UpdatePlacementResponse();
   factory UpdatePlacementResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdatePlacementResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateProjectRequest {
+  /// The name of the project to be updated.
+  @_s.JsonKey(name: 'projectName', ignore: true)
+  final String projectName;
+
+  /// An optional user-defined description for the project.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// An object defining the project update. Once a project has been created, you
+  /// cannot add device template names to the project. However, for a given
+  /// <code>placementTemplate</code>, you can update the associated
+  /// <code>callbackOverrides</code> for the device definition using this API.
+  @_s.JsonKey(name: 'placementTemplate')
+  final PlacementTemplate placementTemplate;
+
+  UpdateProjectRequest({
+    @_s.required this.projectName,
+    this.description,
+    this.placementTemplate,
+  });
+  Map<String, dynamic> toJson() => _$UpdateProjectRequestToJson(this);
 }
 
 @_s.JsonSerializable(

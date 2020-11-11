@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -113,11 +112,11 @@ class DataPipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'pipelineId': pipelineId,
-        if (parameterValues != null) 'parameterValues': parameterValues,
-        if (startTimestamp != null) 'startTimestamp': startTimestamp,
-      },
+      payload: ActivatePipelineInput(
+        pipelineId: pipelineId,
+        parameterValues: parameterValues,
+        startTimestamp: startTimestamp,
+      ),
     );
 
     return ActivatePipelineOutput.fromJson(jsonResponse.body);
@@ -164,10 +163,10 @@ class DataPipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'pipelineId': pipelineId,
-        'tags': tags,
-      },
+      payload: AddTagsInput(
+        pipelineId: pipelineId,
+        tags: tags,
+      ),
     );
 
     return AddTagsOutput.fromJson(jsonResponse.body);
@@ -263,12 +262,12 @@ class DataPipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'name': name,
-        'uniqueId': uniqueId,
-        if (description != null) 'description': description,
-        if (tags != null) 'tags': tags,
-      },
+      payload: CreatePipelineInput(
+        name: name,
+        uniqueId: uniqueId,
+        description: description,
+        tags: tags,
+      ),
     );
 
     return CreatePipelineOutput.fromJson(jsonResponse.body);
@@ -322,10 +321,10 @@ class DataPipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'pipelineId': pipelineId,
-        if (cancelActive != null) 'cancelActive': cancelActive,
-      },
+      payload: DeactivatePipelineInput(
+        pipelineId: pipelineId,
+        cancelActive: cancelActive,
+      ),
     );
 
     return DeactivatePipelineOutput.fromJson(jsonResponse.body);
@@ -374,9 +373,9 @@ class DataPipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'pipelineId': pipelineId,
-      },
+      payload: DeletePipelineInput(
+        pipelineId: pipelineId,
+      ),
     );
   }
 
@@ -448,13 +447,12 @@ class DataPipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'objectIds': objectIds,
-        'pipelineId': pipelineId,
-        if (evaluateExpressions != null)
-          'evaluateExpressions': evaluateExpressions,
-        if (marker != null) 'marker': marker,
-      },
+      payload: DescribeObjectsInput(
+        objectIds: objectIds,
+        pipelineId: pipelineId,
+        evaluateExpressions: evaluateExpressions,
+        marker: marker,
+      ),
     );
 
     return DescribeObjectsOutput.fromJson(jsonResponse.body);
@@ -494,9 +492,9 @@ class DataPipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'pipelineIds': pipelineIds,
-      },
+      payload: DescribePipelinesInput(
+        pipelineIds: pipelineIds,
+      ),
     );
 
     return DescribePipelinesOutput.fromJson(jsonResponse.body);
@@ -577,11 +575,11 @@ class DataPipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'expression': expression,
-        'objectId': objectId,
-        'pipelineId': pipelineId,
-      },
+      payload: EvaluateExpressionInput(
+        expression: expression,
+        objectId: objectId,
+        pipelineId: pipelineId,
+      ),
     );
 
     return EvaluateExpressionOutput.fromJson(jsonResponse.body);
@@ -643,10 +641,10 @@ class DataPipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'pipelineId': pipelineId,
-        if (version != null) 'version': version,
-      },
+      payload: GetPipelineDefinitionInput(
+        pipelineId: pipelineId,
+        version: version,
+      ),
     );
 
     return GetPipelineDefinitionOutput.fromJson(jsonResponse.body);
@@ -687,9 +685,9 @@ class DataPipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (marker != null) 'marker': marker,
-      },
+      payload: ListPipelinesInput(
+        marker: marker,
+      ),
     );
 
     return ListPipelinesOutput.fromJson(jsonResponse.body);
@@ -777,11 +775,11 @@ class DataPipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'workerGroup': workerGroup,
-        if (hostname != null) 'hostname': hostname,
-        if (instanceIdentity != null) 'instanceIdentity': instanceIdentity,
-      },
+      payload: PollForTaskInput(
+        workerGroup: workerGroup,
+        hostname: hostname,
+        instanceIdentity: instanceIdentity,
+      ),
     );
 
     return PollForTaskOutput.fromJson(jsonResponse.body);
@@ -851,12 +849,12 @@ class DataPipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'pipelineId': pipelineId,
-        'pipelineObjects': pipelineObjects,
-        if (parameterObjects != null) 'parameterObjects': parameterObjects,
-        if (parameterValues != null) 'parameterValues': parameterValues,
-      },
+      payload: PutPipelineDefinitionInput(
+        pipelineId: pipelineId,
+        pipelineObjects: pipelineObjects,
+        parameterObjects: parameterObjects,
+        parameterValues: parameterValues,
+      ),
     );
 
     return PutPipelineDefinitionOutput.fromJson(jsonResponse.body);
@@ -949,13 +947,13 @@ class DataPipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'pipelineId': pipelineId,
-        'sphere': sphere,
-        if (limit != null) 'limit': limit,
-        if (marker != null) 'marker': marker,
-        if (query != null) 'query': query,
-      },
+      payload: QueryObjectsInput(
+        pipelineId: pipelineId,
+        sphere: sphere,
+        limit: limit,
+        marker: marker,
+        query: query,
+      ),
     );
 
     return QueryObjectsOutput.fromJson(jsonResponse.body);
@@ -1002,10 +1000,10 @@ class DataPipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'pipelineId': pipelineId,
-        'tagKeys': tagKeys,
-      },
+      payload: RemoveTagsInput(
+        pipelineId: pipelineId,
+        tagKeys: tagKeys,
+      ),
     );
 
     return RemoveTagsOutput.fromJson(jsonResponse.body);
@@ -1065,10 +1063,10 @@ class DataPipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'taskId': taskId,
-        if (fields != null) 'fields': fields,
-      },
+      payload: ReportTaskProgressInput(
+        taskId: taskId,
+        fields: fields,
+      ),
     );
 
     return ReportTaskProgressOutput.fromJson(jsonResponse.body);
@@ -1150,11 +1148,11 @@ class DataPipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'taskrunnerId': taskrunnerId,
-        if (hostname != null) 'hostname': hostname,
-        if (workerGroup != null) 'workerGroup': workerGroup,
-      },
+      payload: ReportTaskRunnerHeartbeatInput(
+        taskrunnerId: taskrunnerId,
+        hostname: hostname,
+        workerGroup: workerGroup,
+      ),
     );
 
     return ReportTaskRunnerHeartbeatOutput.fromJson(jsonResponse.body);
@@ -1228,11 +1226,11 @@ class DataPipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'objectIds': objectIds,
-        'pipelineId': pipelineId,
-        'status': status,
-      },
+      payload: SetStatusInput(
+        objectIds: objectIds,
+        pipelineId: pipelineId,
+        status: status,
+      ),
     );
   }
 
@@ -1329,13 +1327,13 @@ class DataPipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'taskId': taskId,
-        'taskStatus': taskStatus?.toValue(),
-        if (errorId != null) 'errorId': errorId,
-        if (errorMessage != null) 'errorMessage': errorMessage,
-        if (errorStackTrace != null) 'errorStackTrace': errorStackTrace,
-      },
+      payload: SetTaskStatusInput(
+        taskId: taskId,
+        taskStatus: taskStatus,
+        errorId: errorId,
+        errorMessage: errorMessage,
+        errorStackTrace: errorStackTrace,
+      ),
     );
 
     return SetTaskStatusOutput.fromJson(jsonResponse.body);
@@ -1392,16 +1390,47 @@ class DataPipeline {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'pipelineId': pipelineId,
-        'pipelineObjects': pipelineObjects,
-        if (parameterObjects != null) 'parameterObjects': parameterObjects,
-        if (parameterValues != null) 'parameterValues': parameterValues,
-      },
+      payload: ValidatePipelineDefinitionInput(
+        pipelineId: pipelineId,
+        pipelineObjects: pipelineObjects,
+        parameterObjects: parameterObjects,
+        parameterValues: parameterValues,
+      ),
     );
 
     return ValidatePipelineDefinitionOutput.fromJson(jsonResponse.body);
   }
+}
+
+/// Contains the parameters for ActivatePipeline.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ActivatePipelineInput {
+  /// The ID of the pipeline.
+  @_s.JsonKey(name: 'pipelineId')
+  final String pipelineId;
+
+  /// A list of parameter values to pass to the pipeline at activation.
+  @_s.JsonKey(name: 'parameterValues')
+  final List<ParameterValue> parameterValues;
+
+  /// The date and time to resume the pipeline. By default, the pipeline resumes
+  /// from the last completed execution.
+  @_s.JsonKey(
+      name: 'startTimestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime startTimestamp;
+
+  ActivatePipelineInput({
+    @_s.required this.pipelineId,
+    this.parameterValues,
+    this.startTimestamp,
+  });
+  Map<String, dynamic> toJson() => _$ActivatePipelineInputToJson(this);
 }
 
 /// Contains the output of ActivatePipeline.
@@ -1416,6 +1445,28 @@ class ActivatePipelineOutput {
       _$ActivatePipelineOutputFromJson(json);
 }
 
+/// Contains the parameters for AddTags.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AddTagsInput {
+  /// The ID of the pipeline.
+  @_s.JsonKey(name: 'pipelineId')
+  final String pipelineId;
+
+  /// The tags to add, as key/value pairs.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  AddTagsInput({
+    @_s.required this.pipelineId,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$AddTagsInputToJson(this);
+}
+
 /// Contains the output of AddTags.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1426,6 +1477,55 @@ class AddTagsOutput {
   AddTagsOutput();
   factory AddTagsOutput.fromJson(Map<String, dynamic> json) =>
       _$AddTagsOutputFromJson(json);
+}
+
+/// Contains the parameters for CreatePipeline.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreatePipelineInput {
+  /// The name for the pipeline. You can use the same name for multiple pipelines
+  /// associated with your AWS account, because AWS Data Pipeline assigns each
+  /// pipeline a unique pipeline identifier.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// A unique identifier. This identifier is not the same as the pipeline
+  /// identifier assigned by AWS Data Pipeline. You are responsible for defining
+  /// the format and ensuring the uniqueness of this identifier. You use this
+  /// parameter to ensure idempotency during repeated calls to
+  /// <code>CreatePipeline</code>. For example, if the first call to
+  /// <code>CreatePipeline</code> does not succeed, you can pass in the same
+  /// unique identifier and pipeline name combination on a subsequent call to
+  /// <code>CreatePipeline</code>. <code>CreatePipeline</code> ensures that if a
+  /// pipeline already exists with the same name and unique identifier, a new
+  /// pipeline is not created. Instead, you'll receive the pipeline identifier
+  /// from the previous attempt. The uniqueness of the name and unique identifier
+  /// combination is scoped to the AWS account or IAM user credentials.
+  @_s.JsonKey(name: 'uniqueId')
+  final String uniqueId;
+
+  /// The description for the pipeline.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// A list of tags to associate with the pipeline at creation. Tags let you
+  /// control access to pipelines. For more information, see <a
+  /// href="http://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-control-access.html">Controlling
+  /// User Access to Pipelines</a> in the <i>AWS Data Pipeline Developer
+  /// Guide</i>.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  CreatePipelineInput({
+    @_s.required this.name,
+    @_s.required this.uniqueId,
+    this.description,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreatePipelineInputToJson(this);
 }
 
 /// Contains the output of CreatePipeline.
@@ -1447,6 +1547,31 @@ class CreatePipelineOutput {
       _$CreatePipelineOutputFromJson(json);
 }
 
+/// Contains the parameters for DeactivatePipeline.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeactivatePipelineInput {
+  /// The ID of the pipeline.
+  @_s.JsonKey(name: 'pipelineId')
+  final String pipelineId;
+
+  /// Indicates whether to cancel any running objects. The default is true, which
+  /// sets the state of any running objects to <code>CANCELED</code>. If this
+  /// value is false, the pipeline is deactivated after all running objects
+  /// finish.
+  @_s.JsonKey(name: 'cancelActive')
+  final bool cancelActive;
+
+  DeactivatePipelineInput({
+    @_s.required this.pipelineId,
+    this.cancelActive,
+  });
+  Map<String, dynamic> toJson() => _$DeactivatePipelineInputToJson(this);
+}
+
 /// Contains the output of DeactivatePipeline.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1457,6 +1582,61 @@ class DeactivatePipelineOutput {
   DeactivatePipelineOutput();
   factory DeactivatePipelineOutput.fromJson(Map<String, dynamic> json) =>
       _$DeactivatePipelineOutputFromJson(json);
+}
+
+/// Contains the parameters for DeletePipeline.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeletePipelineInput {
+  /// The ID of the pipeline.
+  @_s.JsonKey(name: 'pipelineId')
+  final String pipelineId;
+
+  DeletePipelineInput({
+    @_s.required this.pipelineId,
+  });
+  Map<String, dynamic> toJson() => _$DeletePipelineInputToJson(this);
+}
+
+/// Contains the parameters for DescribeObjects.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeObjectsInput {
+  /// The IDs of the pipeline objects that contain the definitions to be
+  /// described. You can pass as many as 25 identifiers in a single call to
+  /// <code>DescribeObjects</code>.
+  @_s.JsonKey(name: 'objectIds')
+  final List<String> objectIds;
+
+  /// The ID of the pipeline that contains the object definitions.
+  @_s.JsonKey(name: 'pipelineId')
+  final String pipelineId;
+
+  /// Indicates whether any expressions in the object should be evaluated when the
+  /// object descriptions are returned.
+  @_s.JsonKey(name: 'evaluateExpressions')
+  final bool evaluateExpressions;
+
+  /// The starting point for the results to be returned. For the first call, this
+  /// value should be empty. As long as there are more results, continue to call
+  /// <code>DescribeObjects</code> with the marker value from the previous call to
+  /// retrieve the next set of results.
+  @_s.JsonKey(name: 'marker')
+  final String marker;
+
+  DescribeObjectsInput({
+    @_s.required this.objectIds,
+    @_s.required this.pipelineId,
+    this.evaluateExpressions,
+    this.marker,
+  });
+  Map<String, dynamic> toJson() => _$DescribeObjectsInputToJson(this);
 }
 
 /// Contains the output of DescribeObjects.
@@ -1489,6 +1669,24 @@ class DescribeObjectsOutput {
       _$DescribeObjectsOutputFromJson(json);
 }
 
+/// Contains the parameters for DescribePipelines.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribePipelinesInput {
+  /// The IDs of the pipelines to describe. You can pass as many as 25 identifiers
+  /// in a single call. To obtain pipeline IDs, call <a>ListPipelines</a>.
+  @_s.JsonKey(name: 'pipelineIds')
+  final List<String> pipelineIds;
+
+  DescribePipelinesInput({
+    @_s.required this.pipelineIds,
+  });
+  Map<String, dynamic> toJson() => _$DescribePipelinesInputToJson(this);
+}
+
 /// Contains the output of DescribePipelines.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1505,6 +1703,33 @@ class DescribePipelinesOutput {
   });
   factory DescribePipelinesOutput.fromJson(Map<String, dynamic> json) =>
       _$DescribePipelinesOutputFromJson(json);
+}
+
+/// Contains the parameters for EvaluateExpression.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class EvaluateExpressionInput {
+  /// The expression to evaluate.
+  @_s.JsonKey(name: 'expression')
+  final String expression;
+
+  /// The ID of the object.
+  @_s.JsonKey(name: 'objectId')
+  final String objectId;
+
+  /// The ID of the pipeline.
+  @_s.JsonKey(name: 'pipelineId')
+  final String pipelineId;
+
+  EvaluateExpressionInput({
+    @_s.required this.expression,
+    @_s.required this.objectId,
+    @_s.required this.pipelineId,
+  });
+  Map<String, dynamic> toJson() => _$EvaluateExpressionInputToJson(this);
 }
 
 /// Contains the output of EvaluateExpression.
@@ -1554,6 +1779,31 @@ class Field {
   factory Field.fromJson(Map<String, dynamic> json) => _$FieldFromJson(json);
 
   Map<String, dynamic> toJson() => _$FieldToJson(this);
+}
+
+/// Contains the parameters for GetPipelineDefinition.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetPipelineDefinitionInput {
+  /// The ID of the pipeline.
+  @_s.JsonKey(name: 'pipelineId')
+  final String pipelineId;
+
+  /// The version of the pipeline definition to retrieve. Set this parameter to
+  /// <code>latest</code> (default) to use the last definition saved to the
+  /// pipeline or <code>active</code> to use the last definition that was
+  /// activated.
+  @_s.JsonKey(name: 'version')
+  final String version;
+
+  GetPipelineDefinitionInput({
+    @_s.required this.pipelineId,
+    this.version,
+  });
+  Map<String, dynamic> toJson() => _$GetPipelineDefinitionInputToJson(this);
 }
 
 /// Contains the output of GetPipelineDefinition.
@@ -1654,6 +1904,26 @@ class InvalidRequestException implements _s.AwsException {
   });
   factory InvalidRequestException.fromJson(Map<String, dynamic> json) =>
       _$InvalidRequestExceptionFromJson(json);
+}
+
+/// Contains the parameters for ListPipelines.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListPipelinesInput {
+  /// The starting point for the results to be returned. For the first call, this
+  /// value should be empty. As long as there are more results, continue to call
+  /// <code>ListPipelines</code> with the marker value from the previous call to
+  /// retrieve the next set of results.
+  @_s.JsonKey(name: 'marker')
+  final String marker;
+
+  ListPipelinesInput({
+    this.marker,
+  });
+  Map<String, dynamic> toJson() => _$ListPipelinesInputToJson(this);
 }
 
 /// Contains the output of ListPipelines.
@@ -1972,6 +2242,46 @@ class PipelineObject {
   Map<String, dynamic> toJson() => _$PipelineObjectToJson(this);
 }
 
+/// Contains the parameters for PollForTask.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PollForTaskInput {
+  /// The type of task the task runner is configured to accept and process. The
+  /// worker group is set as a field on objects in the pipeline when they are
+  /// created. You can only specify a single value for <code>workerGroup</code> in
+  /// the call to <code>PollForTask</code>. There are no wildcard values permitted
+  /// in <code>workerGroup</code>; the string must be an exact, case-sensitive,
+  /// match.
+  @_s.JsonKey(name: 'workerGroup')
+  final String workerGroup;
+
+  /// The public DNS name of the calling task runner.
+  @_s.JsonKey(name: 'hostname')
+  final String hostname;
+
+  /// Identity information for the EC2 instance that is hosting the task runner.
+  /// You can get this value from the instance using
+  /// <code>http://169.254.169.254/latest/meta-data/instance-id</code>. For more
+  /// information, see <a
+  /// href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AESDG-chapter-instancedata.html">Instance
+  /// Metadata</a> in the <i>Amazon Elastic Compute Cloud User Guide.</i> Passing
+  /// in this value proves that your task runner is running on an EC2 instance,
+  /// and ensures the proper AWS Data Pipeline service charges are applied to your
+  /// pipeline.
+  @_s.JsonKey(name: 'instanceIdentity')
+  final InstanceIdentity instanceIdentity;
+
+  PollForTaskInput({
+    @_s.required this.workerGroup,
+    this.hostname,
+    this.instanceIdentity,
+  });
+  Map<String, dynamic> toJson() => _$PollForTaskInputToJson(this);
+}
+
 /// Contains the output of PollForTask.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1992,6 +2302,39 @@ class PollForTaskOutput {
   });
   factory PollForTaskOutput.fromJson(Map<String, dynamic> json) =>
       _$PollForTaskOutputFromJson(json);
+}
+
+/// Contains the parameters for PutPipelineDefinition.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutPipelineDefinitionInput {
+  /// The ID of the pipeline.
+  @_s.JsonKey(name: 'pipelineId')
+  final String pipelineId;
+
+  /// The objects that define the pipeline. These objects overwrite the existing
+  /// pipeline definition.
+  @_s.JsonKey(name: 'pipelineObjects')
+  final List<PipelineObject> pipelineObjects;
+
+  /// The parameter objects used with the pipeline.
+  @_s.JsonKey(name: 'parameterObjects')
+  final List<ParameterObject> parameterObjects;
+
+  /// The parameter values used with the pipeline.
+  @_s.JsonKey(name: 'parameterValues')
+  final List<ParameterValue> parameterValues;
+
+  PutPipelineDefinitionInput({
+    @_s.required this.pipelineId,
+    @_s.required this.pipelineObjects,
+    this.parameterObjects,
+    this.parameterValues,
+  });
+  Map<String, dynamic> toJson() => _$PutPipelineDefinitionInputToJson(this);
 }
 
 /// Contains the output of PutPipelineDefinition.
@@ -2044,6 +2387,52 @@ class Query {
   Map<String, dynamic> toJson() => _$QueryToJson(this);
 }
 
+/// Contains the parameters for QueryObjects.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class QueryObjectsInput {
+  /// The ID of the pipeline.
+  @_s.JsonKey(name: 'pipelineId')
+  final String pipelineId;
+
+  /// Indicates whether the query applies to components or instances. The possible
+  /// values are: <code>COMPONENT</code>, <code>INSTANCE</code>, and
+  /// <code>ATTEMPT</code>.
+  @_s.JsonKey(name: 'sphere')
+  final String sphere;
+
+  /// The maximum number of object names that <code>QueryObjects</code> will
+  /// return in a single call. The default value is 100.
+  @_s.JsonKey(name: 'limit')
+  final int limit;
+
+  /// The starting point for the results to be returned. For the first call, this
+  /// value should be empty. As long as there are more results, continue to call
+  /// <code>QueryObjects</code> with the marker value from the previous call to
+  /// retrieve the next set of results.
+  @_s.JsonKey(name: 'marker')
+  final String marker;
+
+  /// The query that defines the objects to be returned. The <code>Query</code>
+  /// object can contain a maximum of ten selectors. The conditions in the query
+  /// are limited to top-level String fields in the object. These filters can be
+  /// applied to components, instances, and attempts.
+  @_s.JsonKey(name: 'query')
+  final Query query;
+
+  QueryObjectsInput({
+    @_s.required this.pipelineId,
+    @_s.required this.sphere,
+    this.limit,
+    this.marker,
+    this.query,
+  });
+  Map<String, dynamic> toJson() => _$QueryObjectsInputToJson(this);
+}
+
 /// Contains the output of QueryObjects.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2075,6 +2464,28 @@ class QueryObjectsOutput {
       _$QueryObjectsOutputFromJson(json);
 }
 
+/// Contains the parameters for RemoveTags.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RemoveTagsInput {
+  /// The ID of the pipeline.
+  @_s.JsonKey(name: 'pipelineId')
+  final String pipelineId;
+
+  /// The keys of the tags to remove.
+  @_s.JsonKey(name: 'tagKeys')
+  final List<String> tagKeys;
+
+  RemoveTagsInput({
+    @_s.required this.pipelineId,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$RemoveTagsInputToJson(this);
+}
+
 /// Contains the output of RemoveTags.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2085,6 +2496,30 @@ class RemoveTagsOutput {
   RemoveTagsOutput();
   factory RemoveTagsOutput.fromJson(Map<String, dynamic> json) =>
       _$RemoveTagsOutputFromJson(json);
+}
+
+/// Contains the parameters for ReportTaskProgress.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ReportTaskProgressInput {
+  /// The ID of the task assigned to the task runner. This value is provided in
+  /// the response for <a>PollForTask</a>.
+  @_s.JsonKey(name: 'taskId')
+  final String taskId;
+
+  /// Key-value pairs that define the properties of the ReportTaskProgressInput
+  /// object.
+  @_s.JsonKey(name: 'fields')
+  final List<Field> fields;
+
+  ReportTaskProgressInput({
+    @_s.required this.taskId,
+    this.fields,
+  });
+  Map<String, dynamic> toJson() => _$ReportTaskProgressInputToJson(this);
 }
 
 /// Contains the output of ReportTaskProgress.
@@ -2104,6 +2539,41 @@ class ReportTaskProgressOutput {
   });
   factory ReportTaskProgressOutput.fromJson(Map<String, dynamic> json) =>
       _$ReportTaskProgressOutputFromJson(json);
+}
+
+/// Contains the parameters for ReportTaskRunnerHeartbeat.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ReportTaskRunnerHeartbeatInput {
+  /// The ID of the task runner. This value should be unique across your AWS
+  /// account. In the case of AWS Data Pipeline Task Runner launched on a resource
+  /// managed by AWS Data Pipeline, the web service provides a unique identifier
+  /// when it launches the application. If you have written a custom task runner,
+  /// you should assign a unique identifier for the task runner.
+  @_s.JsonKey(name: 'taskrunnerId')
+  final String taskrunnerId;
+
+  /// The public DNS name of the task runner.
+  @_s.JsonKey(name: 'hostname')
+  final String hostname;
+
+  /// The type of task the task runner is configured to accept and process. The
+  /// worker group is set as a field on objects in the pipeline when they are
+  /// created. You can only specify a single value for <code>workerGroup</code>.
+  /// There are no wildcard values permitted in <code>workerGroup</code>; the
+  /// string must be an exact, case-sensitive, match.
+  @_s.JsonKey(name: 'workerGroup')
+  final String workerGroup;
+
+  ReportTaskRunnerHeartbeatInput({
+    @_s.required this.taskrunnerId,
+    this.hostname,
+    this.workerGroup,
+  });
+  Map<String, dynamic> toJson() => _$ReportTaskRunnerHeartbeatInputToJson(this);
 }
 
 /// Contains the output of ReportTaskRunnerHeartbeat.
@@ -2146,6 +2616,85 @@ class Selector {
     this.operator,
   });
   Map<String, dynamic> toJson() => _$SelectorToJson(this);
+}
+
+/// Contains the parameters for SetStatus.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SetStatusInput {
+  /// The IDs of the objects. The corresponding objects can be either physical or
+  /// components, but not a mix of both types.
+  @_s.JsonKey(name: 'objectIds')
+  final List<String> objectIds;
+
+  /// The ID of the pipeline that contains the objects.
+  @_s.JsonKey(name: 'pipelineId')
+  final String pipelineId;
+
+  /// The status to be set on all the objects specified in <code>objectIds</code>.
+  /// For components, use <code>PAUSE</code> or <code>RESUME</code>. For
+  /// instances, use <code>TRY_CANCEL</code>, <code>RERUN</code>, or
+  /// <code>MARK_FINISHED</code>.
+  @_s.JsonKey(name: 'status')
+  final String status;
+
+  SetStatusInput({
+    @_s.required this.objectIds,
+    @_s.required this.pipelineId,
+    @_s.required this.status,
+  });
+  Map<String, dynamic> toJson() => _$SetStatusInputToJson(this);
+}
+
+/// Contains the parameters for SetTaskStatus.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SetTaskStatusInput {
+  /// The ID of the task assigned to the task runner. This value is provided in
+  /// the response for <a>PollForTask</a>.
+  @_s.JsonKey(name: 'taskId')
+  final String taskId;
+
+  /// If <code>FINISHED</code>, the task successfully completed. If
+  /// <code>FAILED</code>, the task ended unsuccessfully. Preconditions use false.
+  @_s.JsonKey(name: 'taskStatus')
+  final TaskStatus taskStatus;
+
+  /// If an error occurred during the task, this value specifies the error code.
+  /// This value is set on the physical attempt object. It is used to display
+  /// error information to the user. It should not start with string "Service_"
+  /// which is reserved by the system.
+  @_s.JsonKey(name: 'errorId')
+  final String errorId;
+
+  /// If an error occurred during the task, this value specifies a text
+  /// description of the error. This value is set on the physical attempt object.
+  /// It is used to display error information to the user. The web service does
+  /// not parse this value.
+  @_s.JsonKey(name: 'errorMessage')
+  final String errorMessage;
+
+  /// If an error occurred during the task, this value specifies the stack trace
+  /// associated with the error. This value is set on the physical attempt object.
+  /// It is used to display error information to the user. The web service does
+  /// not parse this value.
+  @_s.JsonKey(name: 'errorStackTrace')
+  final String errorStackTrace;
+
+  SetTaskStatusInput({
+    @_s.required this.taskId,
+    @_s.required this.taskStatus,
+    this.errorId,
+    this.errorMessage,
+    this.errorStackTrace,
+  });
+  Map<String, dynamic> toJson() => _$SetTaskStatusInputToJson(this);
 }
 
 /// Contains the output of SetTaskStatus.
@@ -2260,18 +2809,38 @@ enum TaskStatus {
   $false,
 }
 
-extension on TaskStatus {
-  String toValue() {
-    switch (this) {
-      case TaskStatus.finished:
-        return 'FINISHED';
-      case TaskStatus.failed:
-        return 'FAILED';
-      case TaskStatus.$false:
-        return 'FALSE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+/// Contains the parameters for ValidatePipelineDefinition.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ValidatePipelineDefinitionInput {
+  /// The ID of the pipeline.
+  @_s.JsonKey(name: 'pipelineId')
+  final String pipelineId;
+
+  /// The objects that define the pipeline changes to validate against the
+  /// pipeline.
+  @_s.JsonKey(name: 'pipelineObjects')
+  final List<PipelineObject> pipelineObjects;
+
+  /// The parameter objects used with the pipeline.
+  @_s.JsonKey(name: 'parameterObjects')
+  final List<ParameterObject> parameterObjects;
+
+  /// The parameter values used with the pipeline.
+  @_s.JsonKey(name: 'parameterValues')
+  final List<ParameterValue> parameterValues;
+
+  ValidatePipelineDefinitionInput({
+    @_s.required this.pipelineId,
+    @_s.required this.pipelineObjects,
+    this.parameterObjects,
+    this.parameterValues,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ValidatePipelineDefinitionInputToJson(this);
 }
 
 /// Contains the output of ValidatePipelineDefinition.

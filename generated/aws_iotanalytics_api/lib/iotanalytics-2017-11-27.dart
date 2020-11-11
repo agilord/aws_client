@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -125,10 +124,10 @@ class IoTAnalytics {
       isRequired: true,
     );
     ArgumentError.checkNotNull(messages, 'messages');
-    final $payload = <String, dynamic>{
-      'channelName': channelName,
-      'messages': messages,
-    };
+    final $payload = BatchPutMessageRequest(
+      channelName: channelName,
+      messages: messages,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -170,7 +169,10 @@ class IoTAnalytics {
       isRequired: true,
     );
     ArgumentError.checkNotNull(reprocessingId, 'reprocessingId');
-    final $payload = <String, dynamic>{};
+    final $payload = CancelPipelineReprocessingRequest(
+      pipelineName: pipelineName,
+      reprocessingId: reprocessingId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -225,12 +227,12 @@ class IoTAnalytics {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'channelName': channelName,
-      if (channelStorage != null) 'channelStorage': channelStorage,
-      if (retentionPeriod != null) 'retentionPeriod': retentionPeriod,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateChannelRequest(
+      channelName: channelName,
+      channelStorage: channelStorage,
+      retentionPeriod: retentionPeriod,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -311,17 +313,15 @@ class IoTAnalytics {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'actions': actions,
-      'datasetName': datasetName,
-      if (contentDeliveryRules != null)
-        'contentDeliveryRules': contentDeliveryRules,
-      if (retentionPeriod != null) 'retentionPeriod': retentionPeriod,
-      if (tags != null) 'tags': tags,
-      if (triggers != null) 'triggers': triggers,
-      if (versioningConfiguration != null)
-        'versioningConfiguration': versioningConfiguration,
-    };
+    final $payload = CreateDatasetRequest(
+      actions: actions,
+      datasetName: datasetName,
+      contentDeliveryRules: contentDeliveryRules,
+      retentionPeriod: retentionPeriod,
+      tags: tags,
+      triggers: triggers,
+      versioningConfiguration: versioningConfiguration,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -359,7 +359,9 @@ class IoTAnalytics {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = CreateDatasetContentRequest(
+      datasetName: datasetName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -414,12 +416,12 @@ class IoTAnalytics {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'datastoreName': datastoreName,
-      if (datastoreStorage != null) 'datastoreStorage': datastoreStorage,
-      if (retentionPeriod != null) 'retentionPeriod': retentionPeriod,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateDatastoreRequest(
+      datastoreName: datastoreName,
+      datastoreStorage: datastoreStorage,
+      retentionPeriod: retentionPeriod,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -481,11 +483,11 @@ class IoTAnalytics {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'pipelineActivities': pipelineActivities,
-      'pipelineName': pipelineName,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreatePipelineRequest(
+      pipelineActivities: pipelineActivities,
+      pipelineName: pipelineName,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -522,7 +524,9 @@ class IoTAnalytics {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteChannelRequest(
+      channelName: channelName,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -561,7 +565,9 @@ class IoTAnalytics {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteDatasetRequest(
+      datasetName: datasetName,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -614,7 +620,10 @@ class IoTAnalytics {
     _query = '?${[
       if (versionId != null) _s.toQueryParam('versionId', versionId),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteDatasetContentRequest(
+      datasetName: datasetName,
+      versionId: versionId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -651,7 +660,9 @@ class IoTAnalytics {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteDatastoreRequest(
+      datastoreName: datastoreName,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -688,7 +699,9 @@ class IoTAnalytics {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeletePipelineRequest(
+      pipelineName: pipelineName,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1214,9 +1227,9 @@ class IoTAnalytics {
     @_s.required LoggingOptions loggingOptions,
   }) async {
     ArgumentError.checkNotNull(loggingOptions, 'loggingOptions');
-    final $payload = <String, dynamic>{
-      'loggingOptions': loggingOptions,
-    };
+    final $payload = PutLoggingOptionsRequest(
+      loggingOptions: loggingOptions,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1248,10 +1261,10 @@ class IoTAnalytics {
   }) async {
     ArgumentError.checkNotNull(payloads, 'payloads');
     ArgumentError.checkNotNull(pipelineActivity, 'pipelineActivity');
-    final $payload = <String, dynamic>{
-      'payloads': payloads,
-      'pipelineActivity': pipelineActivity,
-    };
+    final $payload = RunPipelineActivityRequest(
+      payloads: payloads,
+      pipelineActivity: pipelineActivity,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1360,10 +1373,11 @@ class IoTAnalytics {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (endTime != null) 'endTime': endTime,
-      if (startTime != null) 'startTime': startTime,
-    };
+    final $payload = StartPipelineReprocessingRequest(
+      pipelineName: pipelineName,
+      endTime: endTime,
+      startTime: startTime,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1406,9 +1420,10 @@ class IoTAnalytics {
     _query = '?${[
       if (resourceArn != null) _s.toQueryParam('resourceArn', resourceArn),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{
-      'tags': tags,
-    };
+    final $payload = TagResourceRequest(
+      resourceArn: resourceArn,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1450,7 +1465,10 @@ class IoTAnalytics {
       if (resourceArn != null) _s.toQueryParam('resourceArn', resourceArn),
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = UntagResourceRequest(
+      resourceArn: resourceArn,
+      tagKeys: tagKeys,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1498,10 +1516,11 @@ class IoTAnalytics {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (channelStorage != null) 'channelStorage': channelStorage,
-      if (retentionPeriod != null) 'retentionPeriod': retentionPeriod,
-    };
+    final $payload = UpdateChannelRequest(
+      channelName: channelName,
+      channelStorage: channelStorage,
+      retentionPeriod: retentionPeriod,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1564,15 +1583,14 @@ class IoTAnalytics {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'actions': actions,
-      if (contentDeliveryRules != null)
-        'contentDeliveryRules': contentDeliveryRules,
-      if (retentionPeriod != null) 'retentionPeriod': retentionPeriod,
-      if (triggers != null) 'triggers': triggers,
-      if (versioningConfiguration != null)
-        'versioningConfiguration': versioningConfiguration,
-    };
+    final $payload = UpdateDatasetRequest(
+      actions: actions,
+      datasetName: datasetName,
+      contentDeliveryRules: contentDeliveryRules,
+      retentionPeriod: retentionPeriod,
+      triggers: triggers,
+      versioningConfiguration: versioningConfiguration,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1621,10 +1639,11 @@ class IoTAnalytics {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (datastoreStorage != null) 'datastoreStorage': datastoreStorage,
-      if (retentionPeriod != null) 'retentionPeriod': retentionPeriod,
-    };
+    final $payload = UpdateDatastoreRequest(
+      datastoreName: datastoreName,
+      datastoreStorage: datastoreStorage,
+      retentionPeriod: retentionPeriod,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1681,9 +1700,10 @@ class IoTAnalytics {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'pipelineActivities': pipelineActivities,
-    };
+    final $payload = UpdatePipelineRequest(
+      pipelineActivities: pipelineActivities,
+      pipelineName: pipelineName,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1761,6 +1781,57 @@ class BatchPutMessageErrorEntry {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchPutMessageRequest {
+  /// The name of the channel where the messages are sent.
+  @_s.JsonKey(name: 'channelName')
+  final String channelName;
+
+  /// The list of messages to be sent. Each message has format: '{ "messageId":
+  /// "string", "payload": "string"}'.
+  ///
+  /// Note that the field names of message payloads (data) that you send to AWS
+  /// IoT Analytics:
+  ///
+  /// <ul>
+  /// <li>
+  /// Must contain only alphanumeric characters and undescores (_); no other
+  /// special characters are allowed.
+  /// </li>
+  /// <li>
+  /// Must begin with an alphabetic character or single underscore (_).
+  /// </li>
+  /// <li>
+  /// Cannot contain hyphens (-).
+  /// </li>
+  /// <li>
+  /// In regular expression terms:
+  /// "^[A-Za-z_]([A-Za-z0-9]*|[A-Za-z0-9][A-Za-z0-9_]*)$".
+  /// </li>
+  /// <li>
+  /// Cannot be greater than 255 characters.
+  /// </li>
+  /// <li>
+  /// Are case-insensitive. (Fields named "foo" and "FOO" in the same payload are
+  /// considered duplicates.)
+  /// </li>
+  /// </ul>
+  /// For example, {"temp_01": 29} or {"_temp_01": 29} are valid, but {"temp-01":
+  /// 29}, {"01_temp": 29} or {"__temp_01": 29} are invalid in message payloads.
+  @_s.JsonKey(name: 'messages')
+  final List<Message> messages;
+
+  BatchPutMessageRequest({
+    @_s.required this.channelName,
+    @_s.required this.messages,
+  });
+  Map<String, dynamic> toJson() => _$BatchPutMessageRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class BatchPutMessageResponse {
@@ -1773,6 +1844,28 @@ class BatchPutMessageResponse {
   });
   factory BatchPutMessageResponse.fromJson(Map<String, dynamic> json) =>
       _$BatchPutMessageResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CancelPipelineReprocessingRequest {
+  /// The name of pipeline for which data reprocessing is canceled.
+  @_s.JsonKey(name: 'pipelineName', ignore: true)
+  final String pipelineName;
+
+  /// The ID of the reprocessing task (returned by "StartPipelineReprocessing").
+  @_s.JsonKey(name: 'reprocessingId', ignore: true)
+  final String reprocessingId;
+
+  CancelPipelineReprocessingRequest({
+    @_s.required this.pipelineName,
+    @_s.required this.reprocessingId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CancelPipelineReprocessingRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2055,6 +2148,40 @@ class ContainerDatasetAction {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateChannelRequest {
+  /// The name of the channel.
+  @_s.JsonKey(name: 'channelName')
+  final String channelName;
+
+  /// Where channel data is stored. You may choose one of "serviceManagedS3" or
+  /// "customerManagedS3" storage. If not specified, the default is
+  /// "serviceManagedS3". This cannot be changed after creation of the channel.
+  @_s.JsonKey(name: 'channelStorage')
+  final ChannelStorage channelStorage;
+
+  /// How long, in days, message data is kept for the channel. When
+  /// "customerManagedS3" storage is selected, this parameter is ignored.
+  @_s.JsonKey(name: 'retentionPeriod')
+  final RetentionPeriod retentionPeriod;
+
+  /// Metadata which can be used to manage the channel.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  CreateChannelRequest({
+    @_s.required this.channelName,
+    this.channelStorage,
+    this.retentionPeriod,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateChannelRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateChannelResponse {
@@ -2082,6 +2209,22 @@ class CreateChannelResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDatasetContentRequest {
+  /// The name of the data set.
+  @_s.JsonKey(name: 'datasetName', ignore: true)
+  final String datasetName;
+
+  CreateDatasetContentRequest({
+    @_s.required this.datasetName,
+  });
+  Map<String, dynamic> toJson() => _$CreateDatasetContentRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateDatasetContentResponse {
@@ -2094,6 +2237,65 @@ class CreateDatasetContentResponse {
   });
   factory CreateDatasetContentResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateDatasetContentResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDatasetRequest {
+  /// A list of actions that create the data set contents.
+  @_s.JsonKey(name: 'actions')
+  final List<DatasetAction> actions;
+
+  /// The name of the data set.
+  @_s.JsonKey(name: 'datasetName')
+  final String datasetName;
+
+  /// When data set contents are created they are delivered to destinations
+  /// specified here.
+  @_s.JsonKey(name: 'contentDeliveryRules')
+  final List<DatasetContentDeliveryRule> contentDeliveryRules;
+
+  /// [Optional] How long, in days, versions of data set contents are kept for the
+  /// data set. If not specified or set to null, versions of data set contents are
+  /// retained for at most 90 days. The number of versions of data set contents
+  /// retained is determined by the <code>versioningConfiguration</code>
+  /// parameter. (For more information, see
+  /// https://docs.aws.amazon.com/iotanalytics/latest/userguide/getting-started.html#aws-iot-analytics-dataset-versions)
+  @_s.JsonKey(name: 'retentionPeriod')
+  final RetentionPeriod retentionPeriod;
+
+  /// Metadata which can be used to manage the data set.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  /// A list of triggers. A trigger causes data set contents to be populated at a
+  /// specified time interval or when another data set's contents are created. The
+  /// list of triggers can be empty or contain up to five <b>DataSetTrigger</b>
+  /// objects.
+  @_s.JsonKey(name: 'triggers')
+  final List<DatasetTrigger> triggers;
+
+  /// [Optional] How many versions of data set contents are kept. If not specified
+  /// or set to null, only the latest version plus the latest succeeded version
+  /// (if they are different) are kept for the time period specified by the
+  /// "retentionPeriod" parameter. (For more information, see
+  /// https://docs.aws.amazon.com/iotanalytics/latest/userguide/getting-started.html#aws-iot-analytics-dataset-versions)
+  @_s.JsonKey(name: 'versioningConfiguration')
+  final VersioningConfiguration versioningConfiguration;
+
+  CreateDatasetRequest({
+    @_s.required this.actions,
+    @_s.required this.datasetName,
+    this.contentDeliveryRules,
+    this.retentionPeriod,
+    this.tags,
+    this.triggers,
+    this.versioningConfiguration,
+  });
+  Map<String, dynamic> toJson() => _$CreateDatasetRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2126,6 +2328,40 @@ class CreateDatasetResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDatastoreRequest {
+  /// The name of the data store.
+  @_s.JsonKey(name: 'datastoreName')
+  final String datastoreName;
+
+  /// Where data store data is stored. You may choose one of "serviceManagedS3" or
+  /// "customerManagedS3" storage. If not specified, the default is
+  /// "serviceManagedS3". This cannot be changed after the data store is created.
+  @_s.JsonKey(name: 'datastoreStorage')
+  final DatastoreStorage datastoreStorage;
+
+  /// How long, in days, message data is kept for the data store. When
+  /// "customerManagedS3" storage is selected, this parameter is ignored.
+  @_s.JsonKey(name: 'retentionPeriod')
+  final RetentionPeriod retentionPeriod;
+
+  /// Metadata which can be used to manage the data store.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  CreateDatastoreRequest({
+    @_s.required this.datastoreName,
+    this.datastoreStorage,
+    this.retentionPeriod,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateDatastoreRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateDatastoreResponse {
@@ -2148,6 +2384,43 @@ class CreateDatastoreResponse {
   });
   factory CreateDatastoreResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateDatastoreResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreatePipelineRequest {
+  /// A list of "PipelineActivity" objects. Activities perform transformations on
+  /// your messages, such as removing, renaming or adding message attributes;
+  /// filtering messages based on attribute values; invoking your Lambda functions
+  /// on messages for advanced processing; or performing mathematical
+  /// transformations to normalize device data.
+  ///
+  /// The list can be 2-25 <b>PipelineActivity</b> objects and must contain both a
+  /// <code>channel</code> and a <code>datastore</code> activity. Each entry in
+  /// the list must contain only one activity, for example:
+  ///
+  /// <code>pipelineActivities = [ { "channel": { ... } }, { "lambda": { ... } },
+  /// ... ]</code>
+  @_s.JsonKey(name: 'pipelineActivities')
+  final List<PipelineActivity> pipelineActivities;
+
+  /// The name of the pipeline.
+  @_s.JsonKey(name: 'pipelineName')
+  final String pipelineName;
+
+  /// Metadata which can be used to manage the pipeline.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  CreatePipelineRequest({
+    @_s.required this.pipelineActivities,
+    @_s.required this.pipelineName,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreatePipelineRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2937,6 +3210,94 @@ class DatastoreSummary {
   });
   factory DatastoreSummary.fromJson(Map<String, dynamic> json) =>
       _$DatastoreSummaryFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteChannelRequest {
+  /// The name of the channel to delete.
+  @_s.JsonKey(name: 'channelName', ignore: true)
+  final String channelName;
+
+  DeleteChannelRequest({
+    @_s.required this.channelName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteChannelRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDatasetContentRequest {
+  /// The name of the data set whose content is deleted.
+  @_s.JsonKey(name: 'datasetName', ignore: true)
+  final String datasetName;
+
+  /// The version of the data set whose content is deleted. You can also use the
+  /// strings "$LATEST" or "$LATEST_SUCCEEDED" to delete the latest or latest
+  /// successfully completed data set. If not specified, "$LATEST_SUCCEEDED" is
+  /// the default.
+  @_s.JsonKey(name: 'versionId', ignore: true)
+  final String versionId;
+
+  DeleteDatasetContentRequest({
+    @_s.required this.datasetName,
+    this.versionId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDatasetContentRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDatasetRequest {
+  /// The name of the data set to delete.
+  @_s.JsonKey(name: 'datasetName', ignore: true)
+  final String datasetName;
+
+  DeleteDatasetRequest({
+    @_s.required this.datasetName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDatasetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDatastoreRequest {
+  /// The name of the data store to delete.
+  @_s.JsonKey(name: 'datastoreName', ignore: true)
+  final String datastoreName;
+
+  DeleteDatastoreRequest({
+    @_s.required this.datastoreName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDatastoreRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeletePipelineRequest {
+  /// The name of the pipeline to delete.
+  @_s.JsonKey(name: 'pipelineName', ignore: true)
+  final String pipelineName;
+
+  DeletePipelineRequest({
+    @_s.required this.pipelineName,
+  });
+  Map<String, dynamic> toJson() => _$DeletePipelineRequestToJson(this);
 }
 
 /// Used to limit data to that which has arrived since the last execution of the
@@ -3746,6 +4107,22 @@ class PipelineSummary {
       _$PipelineSummaryFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutLoggingOptionsRequest {
+  /// The new values of the AWS IoT Analytics logging options.
+  @_s.JsonKey(name: 'loggingOptions')
+  final LoggingOptions loggingOptions;
+
+  PutLoggingOptionsRequest({
+    @_s.required this.loggingOptions,
+  });
+  Map<String, dynamic> toJson() => _$PutLoggingOptionsRequestToJson(this);
+}
+
 /// Information which is used to filter message data, to segregate it according
 /// to the time frame in which it arrives.
 @_s.JsonSerializable(
@@ -3897,6 +4274,33 @@ class RetentionPeriod {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RunPipelineActivityRequest {
+  /// The sample message payloads on which the pipeline activity is run.
+  @Uint8ListConverter()
+  @_s.JsonKey(name: 'payloads')
+  final List<Uint8List> payloads;
+
+  /// The pipeline activity that is run. This must not be a 'channel' activity or
+  /// a 'datastore' activity because these activities are used in a pipeline only
+  /// to load the original message and to store the (possibly) transformed
+  /// message. If a 'lambda' activity is specified, only short-running Lambda
+  /// functions (those with a timeout of less than 30 seconds or less) can be
+  /// used.
+  @_s.JsonKey(name: 'pipelineActivity')
+  final PipelineActivity pipelineActivity;
+
+  RunPipelineActivityRequest({
+    @_s.required this.payloads,
+    @_s.required this.pipelineActivity,
+  });
+  Map<String, dynamic> toJson() => _$RunPipelineActivityRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class RunPipelineActivityResponse {
@@ -3907,7 +4311,7 @@ class RunPipelineActivityResponse {
   /// The enriched or transformed sample message payloads as base64-encoded
   /// strings. (The results of running the pipeline activity on each input sample
   /// message payload, encoded in base64.)
-  @Uint8ListListConverter()
+  @Uint8ListConverter()
   @_s.JsonKey(name: 'payloads')
   final List<Uint8List> payloads;
 
@@ -3970,7 +4374,7 @@ class S3DestinationConfiguration {
 class SampleChannelDataResponse {
   /// The list of message samples. Each sample message is returned as a
   /// base64-encoded string.
-  @Uint8ListListConverter()
+  @Uint8ListConverter()
   @_s.JsonKey(name: 'payloads')
   final List<Uint8List> payloads;
 
@@ -4126,6 +4530,39 @@ class SqlQueryDatasetAction {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartPipelineReprocessingRequest {
+  /// The name of the pipeline on which to start reprocessing.
+  @_s.JsonKey(name: 'pipelineName', ignore: true)
+  final String pipelineName;
+
+  /// The end time (exclusive) of raw message data that is reprocessed.
+  @_s.JsonKey(
+      name: 'endTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime endTime;
+
+  /// The start time (inclusive) of raw message data that is reprocessed.
+  @_s.JsonKey(
+      name: 'startTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime startTime;
+
+  StartPipelineReprocessingRequest({
+    @_s.required this.pipelineName,
+    this.endTime,
+    this.startTime,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StartPipelineReprocessingRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartPipelineReprocessingResponse {
@@ -4168,6 +4605,27 @@ class Tag {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The ARN of the resource whose tags you want to modify.
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  /// The new or modified tags for the resource.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagResourceResponse {
@@ -4201,12 +4659,170 @@ class TriggeringDataset {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The ARN of the resource whose tags you want to remove.
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  /// The keys of those tags which you want to remove.
+  @_s.JsonKey(name: 'tagKeys', ignore: true)
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
   factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateChannelRequest {
+  /// The name of the channel to be updated.
+  @_s.JsonKey(name: 'channelName', ignore: true)
+  final String channelName;
+
+  /// Where channel data is stored. You may choose one of "serviceManagedS3" or
+  /// "customerManagedS3" storage. If not specified, the default is
+  /// "serviceManagedS3". This cannot be changed after creation of the channel.
+  @_s.JsonKey(name: 'channelStorage')
+  final ChannelStorage channelStorage;
+
+  /// How long, in days, message data is kept for the channel. The retention
+  /// period cannot be updated if the channel's S3 storage is customer-managed.
+  @_s.JsonKey(name: 'retentionPeriod')
+  final RetentionPeriod retentionPeriod;
+
+  UpdateChannelRequest({
+    @_s.required this.channelName,
+    this.channelStorage,
+    this.retentionPeriod,
+  });
+  Map<String, dynamic> toJson() => _$UpdateChannelRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDatasetRequest {
+  /// A list of "DatasetAction" objects.
+  @_s.JsonKey(name: 'actions')
+  final List<DatasetAction> actions;
+
+  /// The name of the data set to update.
+  @_s.JsonKey(name: 'datasetName', ignore: true)
+  final String datasetName;
+
+  /// When data set contents are created they are delivered to destinations
+  /// specified here.
+  @_s.JsonKey(name: 'contentDeliveryRules')
+  final List<DatasetContentDeliveryRule> contentDeliveryRules;
+
+  /// How long, in days, data set contents are kept for the data set.
+  @_s.JsonKey(name: 'retentionPeriod')
+  final RetentionPeriod retentionPeriod;
+
+  /// A list of "DatasetTrigger" objects. The list can be empty or can contain up
+  /// to five <b>DataSetTrigger</b> objects.
+  @_s.JsonKey(name: 'triggers')
+  final List<DatasetTrigger> triggers;
+
+  /// [Optional] How many versions of data set contents are kept. If not specified
+  /// or set to null, only the latest version plus the latest succeeded version
+  /// (if they are different) are kept for the time period specified by the
+  /// "retentionPeriod" parameter. (For more information, see
+  /// https://docs.aws.amazon.com/iotanalytics/latest/userguide/getting-started.html#aws-iot-analytics-dataset-versions)
+  @_s.JsonKey(name: 'versioningConfiguration')
+  final VersioningConfiguration versioningConfiguration;
+
+  UpdateDatasetRequest({
+    @_s.required this.actions,
+    @_s.required this.datasetName,
+    this.contentDeliveryRules,
+    this.retentionPeriod,
+    this.triggers,
+    this.versioningConfiguration,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDatasetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDatastoreRequest {
+  /// The name of the data store to be updated.
+  @_s.JsonKey(name: 'datastoreName', ignore: true)
+  final String datastoreName;
+
+  /// Where data store data is stored. You may choose one of "serviceManagedS3" or
+  /// "customerManagedS3" storage. If not specified, the default is
+  /// "serviceManagedS3". This cannot be changed after the data store is created.
+  @_s.JsonKey(name: 'datastoreStorage')
+  final DatastoreStorage datastoreStorage;
+
+  /// How long, in days, message data is kept for the data store. The retention
+  /// period cannot be updated if the data store's S3 storage is customer-managed.
+  @_s.JsonKey(name: 'retentionPeriod')
+  final RetentionPeriod retentionPeriod;
+
+  UpdateDatastoreRequest({
+    @_s.required this.datastoreName,
+    this.datastoreStorage,
+    this.retentionPeriod,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDatastoreRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdatePipelineRequest {
+  /// A list of "PipelineActivity" objects. Activities perform transformations on
+  /// your messages, such as removing, renaming or adding message attributes;
+  /// filtering messages based on attribute values; invoking your Lambda functions
+  /// on messages for advanced processing; or performing mathematical
+  /// transformations to normalize device data.
+  ///
+  /// The list can be 2-25 <b>PipelineActivity</b> objects and must contain both a
+  /// <code>channel</code> and a <code>datastore</code> activity. Each entry in
+  /// the list must contain only one activity, for example:
+  ///
+  /// <code>pipelineActivities = [ { "channel": { ... } }, { "lambda": { ... } },
+  /// ... ]</code>
+  @_s.JsonKey(name: 'pipelineActivities')
+  final List<PipelineActivity> pipelineActivities;
+
+  /// The name of the pipeline to update.
+  @_s.JsonKey(name: 'pipelineName', ignore: true)
+  final String pipelineName;
+
+  UpdatePipelineRequest({
+    @_s.required this.pipelineActivities,
+    @_s.required this.pipelineName,
+  });
+  Map<String, dynamic> toJson() => _$UpdatePipelineRequestToJson(this);
 }
 
 /// An instance of a variable to be passed to the "containerAction" execution.

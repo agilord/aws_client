@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -167,13 +166,12 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SourceImage': sourceImage,
-        'TargetImage': targetImage,
-        if (qualityFilter != null) 'QualityFilter': qualityFilter?.toValue(),
-        if (similarityThreshold != null)
-          'SimilarityThreshold': similarityThreshold,
-      },
+      payload: CompareFacesRequest(
+        sourceImage: sourceImage,
+        targetImage: targetImage,
+        qualityFilter: qualityFilter,
+        similarityThreshold: similarityThreshold,
+      ),
     );
 
     return CompareFacesResponse.fromJson(jsonResponse.body);
@@ -232,9 +230,9 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CollectionId': collectionId,
-      },
+      payload: CreateCollectionRequest(
+        collectionId: collectionId,
+      ),
     );
 
     return CreateCollectionResponse.fromJson(jsonResponse.body);
@@ -284,9 +282,9 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ProjectName': projectName,
-      },
+      payload: CreateProjectRequest(
+        projectName: projectName,
+      ),
     );
 
     return CreateProjectResponse.fromJson(jsonResponse.body);
@@ -383,13 +381,13 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'OutputConfig': outputConfig,
-        'ProjectArn': projectArn,
-        'TestingData': testingData,
-        'TrainingData': trainingData,
-        'VersionName': versionName,
-      },
+      payload: CreateProjectVersionRequest(
+        outputConfig: outputConfig,
+        projectArn: projectArn,
+        testingData: testingData,
+        trainingData: trainingData,
+        versionName: versionName,
+      ),
     );
 
     return CreateProjectVersionResponse.fromJson(jsonResponse.body);
@@ -487,13 +485,13 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Input': input,
-        'Name': name,
-        'Output': output,
-        'RoleArn': roleArn,
-        'Settings': settings,
-      },
+      payload: CreateStreamProcessorRequest(
+        input: input,
+        name: name,
+        output: output,
+        roleArn: roleArn,
+        settings: settings,
+      ),
     );
 
     return CreateStreamProcessorResponse.fromJson(jsonResponse.body);
@@ -542,9 +540,9 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CollectionId': collectionId,
-      },
+      payload: DeleteCollectionRequest(
+        collectionId: collectionId,
+      ),
     );
 
     return DeleteCollectionResponse.fromJson(jsonResponse.body);
@@ -597,10 +595,10 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CollectionId': collectionId,
-        'FaceIds': faceIds,
-      },
+      payload: DeleteFacesRequest(
+        collectionId: collectionId,
+        faceIds: faceIds,
+      ),
     );
 
     return DeleteFacesResponse.fromJson(jsonResponse.body);
@@ -650,9 +648,9 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ProjectArn': projectArn,
-      },
+      payload: DeleteProjectRequest(
+        projectArn: projectArn,
+      ),
     );
 
     return DeleteProjectResponse.fromJson(jsonResponse.body);
@@ -706,9 +704,9 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ProjectVersionArn': projectVersionArn,
-      },
+      payload: DeleteProjectVersionRequest(
+        projectVersionArn: projectVersionArn,
+      ),
     );
 
     return DeleteProjectVersionResponse.fromJson(jsonResponse.body);
@@ -757,9 +755,9 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: DeleteStreamProcessorRequest(
+        name: name,
+      ),
     );
 
     return DeleteStreamProcessorResponse.fromJson(jsonResponse.body);
@@ -809,9 +807,9 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CollectionId': collectionId,
-      },
+      payload: DescribeCollectionRequest(
+        collectionId: collectionId,
+      ),
     );
 
     return DescribeCollectionResponse.fromJson(jsonResponse.body);
@@ -894,12 +892,12 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ProjectArn': projectArn,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (versionNames != null) 'VersionNames': versionNames,
-      },
+      payload: DescribeProjectVersionsRequest(
+        projectArn: projectArn,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        versionNames: versionNames,
+      ),
     );
 
     return DescribeProjectVersionsResponse.fromJson(jsonResponse.body);
@@ -954,10 +952,10 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeProjectsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeProjectsResponse.fromJson(jsonResponse.body);
@@ -1004,9 +1002,9 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: DescribeStreamProcessorRequest(
+        name: name,
+      ),
     );
 
     return DescribeStreamProcessorResponse.fromJson(jsonResponse.body);
@@ -1118,12 +1116,12 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Image': image,
-        'ProjectVersionArn': projectVersionArn,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (minConfidence != null) 'MinConfidence': minConfidence,
-      },
+      payload: DetectCustomLabelsRequest(
+        image: image,
+        projectVersionArn: projectVersionArn,
+        maxResults: maxResults,
+        minConfidence: minConfidence,
+      ),
     );
 
     return DetectCustomLabelsResponse.fromJson(jsonResponse.body);
@@ -1200,10 +1198,10 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Image': image,
-        if (attributes != null) 'Attributes': attributes,
-      },
+      payload: DetectFacesRequest(
+        image: image,
+        attributes: attributes,
+      ),
     );
 
     return DetectFacesResponse.fromJson(jsonResponse.body);
@@ -1341,11 +1339,11 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Image': image,
-        if (maxLabels != null) 'MaxLabels': maxLabels,
-        if (minConfidence != null) 'MinConfidence': minConfidence,
-      },
+      payload: DetectLabelsRequest(
+        image: image,
+        maxLabels: maxLabels,
+        minConfidence: minConfidence,
+      ),
     );
 
     return DetectLabelsResponse.fromJson(jsonResponse.body);
@@ -1421,11 +1419,11 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Image': image,
-        if (humanLoopConfig != null) 'HumanLoopConfig': humanLoopConfig,
-        if (minConfidence != null) 'MinConfidence': minConfidence,
-      },
+      payload: DetectModerationLabelsRequest(
+        image: image,
+        humanLoopConfig: humanLoopConfig,
+        minConfidence: minConfidence,
+      ),
     );
 
     return DetectModerationLabelsResponse.fromJson(jsonResponse.body);
@@ -1506,10 +1504,10 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Image': image,
-        if (filters != null) 'Filters': filters,
-      },
+      payload: DetectTextRequest(
+        image: image,
+        filters: filters,
+      ),
     );
 
     return DetectTextResponse.fromJson(jsonResponse.body);
@@ -1557,9 +1555,9 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-      },
+      payload: GetCelebrityInfoRequest(
+        id: id,
+      ),
     );
 
     return GetCelebrityInfoResponse.fromJson(jsonResponse.body);
@@ -1687,12 +1685,12 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobId': jobId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-      },
+      payload: GetCelebrityRecognitionRequest(
+        jobId: jobId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        sortBy: sortBy,
+      ),
     );
 
     return GetCelebrityRecognitionResponse.fromJson(jsonResponse.body);
@@ -1813,12 +1811,12 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobId': jobId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-      },
+      payload: GetContentModerationRequest(
+        jobId: jobId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        sortBy: sortBy,
+      ),
     );
 
     return GetContentModerationResponse.fromJson(jsonResponse.body);
@@ -1912,11 +1910,11 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobId': jobId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: GetFaceDetectionRequest(
+        jobId: jobId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return GetFaceDetectionResponse.fromJson(jsonResponse.body);
@@ -2028,12 +2026,12 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobId': jobId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-      },
+      payload: GetFaceSearchRequest(
+        jobId: jobId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        sortBy: sortBy,
+      ),
     );
 
     return GetFaceSearchResponse.fromJson(jsonResponse.body);
@@ -2146,12 +2144,12 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobId': jobId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-      },
+      payload: GetLabelDetectionRequest(
+        jobId: jobId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        sortBy: sortBy,
+      ),
     );
 
     return GetLabelDetectionResponse.fromJson(jsonResponse.body);
@@ -2269,12 +2267,12 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobId': jobId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-      },
+      payload: GetPersonTrackingRequest(
+        jobId: jobId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        sortBy: sortBy,
+      ),
     );
 
     return GetPersonTrackingResponse.fromJson(jsonResponse.body);
@@ -2375,11 +2373,11 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobId': jobId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: GetTextDetectionRequest(
+        jobId: jobId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return GetTextDetectionResponse.fromJson(jsonResponse.body);
@@ -2629,15 +2627,14 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CollectionId': collectionId,
-        'Image': image,
-        if (detectionAttributes != null)
-          'DetectionAttributes': detectionAttributes,
-        if (externalImageId != null) 'ExternalImageId': externalImageId,
-        if (maxFaces != null) 'MaxFaces': maxFaces,
-        if (qualityFilter != null) 'QualityFilter': qualityFilter?.toValue(),
-      },
+      payload: IndexFacesRequest(
+        collectionId: collectionId,
+        image: image,
+        detectionAttributes: detectionAttributes,
+        externalImageId: externalImageId,
+        maxFaces: maxFaces,
+        qualityFilter: qualityFilter,
+      ),
     );
 
     return IndexFacesResponse.fromJson(jsonResponse.body);
@@ -2692,10 +2689,10 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListCollectionsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListCollectionsResponse.fromJson(jsonResponse.body);
@@ -2768,11 +2765,11 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CollectionId': collectionId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListFacesRequest(
+        collectionId: collectionId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListFacesResponse.fromJson(jsonResponse.body);
@@ -2823,10 +2820,10 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListStreamProcessorsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListStreamProcessorsResponse.fromJson(jsonResponse.body);
@@ -2900,9 +2897,9 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Image': image,
-      },
+      payload: RecognizeCelebritiesRequest(
+        image: image,
+      ),
     );
 
     return RecognizeCelebritiesResponse.fromJson(jsonResponse.body);
@@ -2999,13 +2996,12 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CollectionId': collectionId,
-        'FaceId': faceId,
-        if (faceMatchThreshold != null)
-          'FaceMatchThreshold': faceMatchThreshold,
-        if (maxFaces != null) 'MaxFaces': maxFaces,
-      },
+      payload: SearchFacesRequest(
+        collectionId: collectionId,
+        faceId: faceId,
+        faceMatchThreshold: faceMatchThreshold,
+        maxFaces: maxFaces,
+      ),
     );
 
     return SearchFacesResponse.fromJson(jsonResponse.body);
@@ -3146,14 +3142,13 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CollectionId': collectionId,
-        'Image': image,
-        if (faceMatchThreshold != null)
-          'FaceMatchThreshold': faceMatchThreshold,
-        if (maxFaces != null) 'MaxFaces': maxFaces,
-        if (qualityFilter != null) 'QualityFilter': qualityFilter?.toValue(),
-      },
+      payload: SearchFacesByImageRequest(
+        collectionId: collectionId,
+        image: image,
+        faceMatchThreshold: faceMatchThreshold,
+        maxFaces: maxFaces,
+        qualityFilter: qualityFilter,
+      ),
     );
 
     return SearchFacesByImageResponse.fromJson(jsonResponse.body);
@@ -3246,14 +3241,12 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Video': video,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-        if (jobTag != null) 'JobTag': jobTag,
-        if (notificationChannel != null)
-          'NotificationChannel': notificationChannel,
-      },
+      payload: StartCelebrityRecognitionRequest(
+        video: video,
+        clientRequestToken: clientRequestToken,
+        jobTag: jobTag,
+        notificationChannel: notificationChannel,
+      ),
     );
 
     return StartCelebrityRecognitionResponse.fromJson(jsonResponse.body);
@@ -3363,15 +3356,13 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Video': video,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-        if (jobTag != null) 'JobTag': jobTag,
-        if (minConfidence != null) 'MinConfidence': minConfidence,
-        if (notificationChannel != null)
-          'NotificationChannel': notificationChannel,
-      },
+      payload: StartContentModerationRequest(
+        video: video,
+        clientRequestToken: clientRequestToken,
+        jobTag: jobTag,
+        minConfidence: minConfidence,
+        notificationChannel: notificationChannel,
+      ),
     );
 
     return StartContentModerationResponse.fromJson(jsonResponse.body);
@@ -3471,15 +3462,13 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Video': video,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-        if (faceAttributes != null) 'FaceAttributes': faceAttributes?.toValue(),
-        if (jobTag != null) 'JobTag': jobTag,
-        if (notificationChannel != null)
-          'NotificationChannel': notificationChannel,
-      },
+      payload: StartFaceDetectionRequest(
+        video: video,
+        clientRequestToken: clientRequestToken,
+        faceAttributes: faceAttributes,
+        jobTag: jobTag,
+        notificationChannel: notificationChannel,
+      ),
     );
 
     return StartFaceDetectionResponse.fromJson(jsonResponse.body);
@@ -3600,17 +3589,14 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CollectionId': collectionId,
-        'Video': video,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-        if (faceMatchThreshold != null)
-          'FaceMatchThreshold': faceMatchThreshold,
-        if (jobTag != null) 'JobTag': jobTag,
-        if (notificationChannel != null)
-          'NotificationChannel': notificationChannel,
-      },
+      payload: StartFaceSearchRequest(
+        collectionId: collectionId,
+        video: video,
+        clientRequestToken: clientRequestToken,
+        faceMatchThreshold: faceMatchThreshold,
+        jobTag: jobTag,
+        notificationChannel: notificationChannel,
+      ),
     );
 
     return StartFaceSearchResponse.fromJson(jsonResponse.body);
@@ -3725,15 +3711,13 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Video': video,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-        if (jobTag != null) 'JobTag': jobTag,
-        if (minConfidence != null) 'MinConfidence': minConfidence,
-        if (notificationChannel != null)
-          'NotificationChannel': notificationChannel,
-      },
+      payload: StartLabelDetectionRequest(
+        video: video,
+        clientRequestToken: clientRequestToken,
+        jobTag: jobTag,
+        minConfidence: minConfidence,
+        notificationChannel: notificationChannel,
+      ),
     );
 
     return StartLabelDetectionResponse.fromJson(jsonResponse.body);
@@ -3823,14 +3807,12 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Video': video,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-        if (jobTag != null) 'JobTag': jobTag,
-        if (notificationChannel != null)
-          'NotificationChannel': notificationChannel,
-      },
+      payload: StartPersonTrackingRequest(
+        video: video,
+        clientRequestToken: clientRequestToken,
+        jobTag: jobTag,
+        notificationChannel: notificationChannel,
+      ),
     );
 
     return StartPersonTrackingResponse.fromJson(jsonResponse.body);
@@ -3902,10 +3884,10 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'MinInferenceUnits': minInferenceUnits,
-        'ProjectVersionArn': projectVersionArn,
-      },
+      payload: StartProjectVersionRequest(
+        minInferenceUnits: minInferenceUnits,
+        projectVersionArn: projectVersionArn,
+      ),
     );
 
     return StartProjectVersionResponse.fromJson(jsonResponse.body);
@@ -3954,9 +3936,9 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: StartStreamProcessorRequest(
+        name: name,
+      ),
     );
 
     return StartStreamProcessorResponse.fromJson(jsonResponse.body);
@@ -4043,15 +4025,13 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Video': video,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-        if (filters != null) 'Filters': filters,
-        if (jobTag != null) 'JobTag': jobTag,
-        if (notificationChannel != null)
-          'NotificationChannel': notificationChannel,
-      },
+      payload: StartTextDetectionRequest(
+        video: video,
+        clientRequestToken: clientRequestToken,
+        filters: filters,
+        jobTag: jobTag,
+        notificationChannel: notificationChannel,
+      ),
     );
 
     return StartTextDetectionResponse.fromJson(jsonResponse.body);
@@ -4101,9 +4081,9 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ProjectVersionArn': projectVersionArn,
-      },
+      payload: StopProjectVersionRequest(
+        projectVersionArn: projectVersionArn,
+      ),
     );
 
     return StopProjectVersionResponse.fromJson(jsonResponse.body);
@@ -4149,9 +4129,9 @@ class Rekognition {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: StopStreamProcessorRequest(
+        name: name,
+      ),
     );
 
     return StopStreamProcessorResponse.fromJson(jsonResponse.body);
@@ -4411,18 +4391,6 @@ enum CelebrityRecognitionSortBy {
   timestamp,
 }
 
-extension on CelebrityRecognitionSortBy {
-  String toValue() {
-    switch (this) {
-      case CelebrityRecognitionSortBy.id:
-        return 'ID';
-      case CelebrityRecognitionSortBy.timestamp:
-        return 'TIMESTAMP';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Provides information about a face in a target image that matches the source
 /// image face analyzed by <code>CompareFaces</code>. The <code>Face</code>
 /// property contains the bounding box of the face in the target image. The
@@ -4449,6 +4417,62 @@ class CompareFacesMatch {
   });
   factory CompareFacesMatch.fromJson(Map<String, dynamic> json) =>
       _$CompareFacesMatchFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CompareFacesRequest {
+  /// The input image as base64-encoded bytes or an S3 object. If you use the AWS
+  /// CLI to call Amazon Rekognition operations, passing base64-encoded image
+  /// bytes is not supported.
+  ///
+  /// If you are using an AWS SDK to call Amazon Rekognition, you might not need
+  /// to base64-encode image bytes passed using the <code>Bytes</code> field. For
+  /// more information, see Images in the Amazon Rekognition developer guide.
+  @_s.JsonKey(name: 'SourceImage')
+  final Image sourceImage;
+
+  /// The target image as base64-encoded bytes or an S3 object. If you use the AWS
+  /// CLI to call Amazon Rekognition operations, passing base64-encoded image
+  /// bytes is not supported.
+  ///
+  /// If you are using an AWS SDK to call Amazon Rekognition, you might not need
+  /// to base64-encode image bytes passed using the <code>Bytes</code> field. For
+  /// more information, see Images in the Amazon Rekognition developer guide.
+  @_s.JsonKey(name: 'TargetImage')
+  final Image targetImage;
+
+  /// A filter that specifies a quality bar for how much filtering is done to
+  /// identify faces. Filtered faces aren't compared. If you specify
+  /// <code>AUTO</code>, Amazon Rekognition chooses the quality bar. If you
+  /// specify <code>LOW</code>, <code>MEDIUM</code>, or <code>HIGH</code>,
+  /// filtering removes all faces that don’t meet the chosen quality bar. The
+  /// quality bar is based on a variety of common use cases. Low-quality
+  /// detections can occur for a number of reasons. Some examples are an object
+  /// that's misidentified as a face, a face that's too blurry, or a face with a
+  /// pose that's too extreme to use. If you specify <code>NONE</code>, no
+  /// filtering is performed. The default value is <code>NONE</code>.
+  ///
+  /// To use quality filtering, the collection you are using must be associated
+  /// with version 3 of the face model or higher.
+  @_s.JsonKey(name: 'QualityFilter')
+  final QualityFilter qualityFilter;
+
+  /// The minimum level of confidence in the face matches that a match must meet
+  /// to be included in the <code>FaceMatches</code> array.
+  @_s.JsonKey(name: 'SimilarityThreshold')
+  final double similarityThreshold;
+
+  CompareFacesRequest({
+    @_s.required this.sourceImage,
+    @_s.required this.targetImage,
+    this.qualityFilter,
+    this.similarityThreshold,
+  });
+  Map<String, dynamic> toJson() => _$CompareFacesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4620,16 +4644,20 @@ enum ContentModerationSortBy {
   timestamp,
 }
 
-extension on ContentModerationSortBy {
-  String toValue() {
-    switch (this) {
-      case ContentModerationSortBy.name:
-        return 'NAME';
-      case ContentModerationSortBy.timestamp:
-        return 'TIMESTAMP';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateCollectionRequest {
+  /// ID for the collection that you are creating.
+  @_s.JsonKey(name: 'CollectionId')
+  final String collectionId;
+
+  CreateCollectionRequest({
+    @_s.required this.collectionId,
+  });
+  Map<String, dynamic> toJson() => _$CreateCollectionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4664,6 +4692,22 @@ class CreateCollectionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateProjectRequest {
+  /// The name of the project to create.
+  @_s.JsonKey(name: 'ProjectName')
+  final String projectName;
+
+  CreateProjectRequest({
+    @_s.required this.projectName,
+  });
+  Map<String, dynamic> toJson() => _$CreateProjectRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateProjectResponse {
@@ -4677,6 +4721,43 @@ class CreateProjectResponse {
   });
   factory CreateProjectResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateProjectResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateProjectVersionRequest {
+  /// The Amazon S3 location to store the results of training.
+  @_s.JsonKey(name: 'OutputConfig')
+  final OutputConfig outputConfig;
+
+  /// The ARN of the Amazon Rekognition Custom Labels project that manages the
+  /// model that you want to train.
+  @_s.JsonKey(name: 'ProjectArn')
+  final String projectArn;
+
+  /// The dataset to use for testing.
+  @_s.JsonKey(name: 'TestingData')
+  final TestingData testingData;
+
+  /// The dataset to use for training.
+  @_s.JsonKey(name: 'TrainingData')
+  final TrainingData trainingData;
+
+  /// A name for the version of the model. This value must be unique.
+  @_s.JsonKey(name: 'VersionName')
+  final String versionName;
+
+  CreateProjectVersionRequest({
+    @_s.required this.outputConfig,
+    @_s.required this.projectArn,
+    @_s.required this.testingData,
+    @_s.required this.trainingData,
+    @_s.required this.versionName,
+  });
+  Map<String, dynamic> toJson() => _$CreateProjectVersionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4696,6 +4777,51 @@ class CreateProjectVersionResponse {
   });
   factory CreateProjectVersionResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateProjectVersionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateStreamProcessorRequest {
+  /// Kinesis video stream stream that provides the source streaming video. If you
+  /// are using the AWS CLI, the parameter name is
+  /// <code>StreamProcessorInput</code>.
+  @_s.JsonKey(name: 'Input')
+  final StreamProcessorInput input;
+
+  /// An identifier you assign to the stream processor. You can use
+  /// <code>Name</code> to manage the stream processor. For example, you can get
+  /// the current status of the stream processor by calling
+  /// <a>DescribeStreamProcessor</a>. <code>Name</code> is idempotent.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Kinesis data stream stream to which Amazon Rekognition Video puts the
+  /// analysis results. If you are using the AWS CLI, the parameter name is
+  /// <code>StreamProcessorOutput</code>.
+  @_s.JsonKey(name: 'Output')
+  final StreamProcessorOutput output;
+
+  /// ARN of the IAM role that allows access to the stream processor.
+  @_s.JsonKey(name: 'RoleArn')
+  final String roleArn;
+
+  /// Face recognition input parameters to be used by the stream processor.
+  /// Includes the collection to use for face recognition and the face attributes
+  /// to detect.
+  @_s.JsonKey(name: 'Settings')
+  final StreamProcessorSettings settings;
+
+  CreateStreamProcessorRequest({
+    @_s.required this.input,
+    @_s.required this.name,
+    @_s.required this.output,
+    @_s.required this.roleArn,
+    @_s.required this.settings,
+  });
+  Map<String, dynamic> toJson() => _$CreateStreamProcessorRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4749,6 +4875,22 @@ class CustomLabel {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteCollectionRequest {
+  /// ID of the collection to delete.
+  @_s.JsonKey(name: 'CollectionId')
+  final String collectionId;
+
+  DeleteCollectionRequest({
+    @_s.required this.collectionId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteCollectionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteCollectionResponse {
@@ -4761,6 +4903,27 @@ class DeleteCollectionResponse {
   });
   factory DeleteCollectionResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteCollectionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteFacesRequest {
+  /// Collection from which to remove the specific faces.
+  @_s.JsonKey(name: 'CollectionId')
+  final String collectionId;
+
+  /// An array of face IDs to delete.
+  @_s.JsonKey(name: 'FaceIds')
+  final List<String> faceIds;
+
+  DeleteFacesRequest({
+    @_s.required this.collectionId,
+    @_s.required this.faceIds,
+  });
+  Map<String, dynamic> toJson() => _$DeleteFacesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4783,6 +4946,22 @@ class DeleteFacesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteProjectRequest {
+  /// The Amazon Resource Name (ARN) of the project that you want to delete.
+  @_s.JsonKey(name: 'ProjectArn')
+  final String projectArn;
+
+  DeleteProjectRequest({
+    @_s.required this.projectArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteProjectRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteProjectResponse {
@@ -4795,6 +4974,22 @@ class DeleteProjectResponse {
   });
   factory DeleteProjectResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteProjectResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteProjectVersionRequest {
+  /// The Amazon Resource Name (ARN) of the model version that you want to delete.
+  @_s.JsonKey(name: 'ProjectVersionArn')
+  final String projectVersionArn;
+
+  DeleteProjectVersionRequest({
+    @_s.required this.projectVersionArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteProjectVersionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4817,12 +5012,44 @@ class DeleteProjectVersionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteStreamProcessorRequest {
+  /// The name of the stream processor you want to delete.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  DeleteStreamProcessorRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$DeleteStreamProcessorRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteStreamProcessorResponse {
   DeleteStreamProcessorResponse();
   factory DeleteStreamProcessorResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteStreamProcessorResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeCollectionRequest {
+  /// The ID of the collection to describe.
+  @_s.JsonKey(name: 'CollectionId')
+  final String collectionId;
+
+  DescribeCollectionRequest({
+    @_s.required this.collectionId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeCollectionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4870,6 +5097,45 @@ class DescribeCollectionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeProjectVersionsRequest {
+  /// The Amazon Resource Name (ARN) of the project that contains the models you
+  /// want to describe.
+  @_s.JsonKey(name: 'ProjectArn')
+  final String projectArn;
+
+  /// The maximum number of results to return per paginated call. The largest
+  /// value you can specify is 100. If you specify a value greater than 100, a
+  /// ValidationException error occurs. The default value is 100.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If the previous response was incomplete (because there is more results to
+  /// retrieve), Amazon Rekognition Custom Labels returns a pagination token in
+  /// the response. You can use this pagination token to retrieve the next set of
+  /// results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// A list of model version names that you want to describe. You can add up to
+  /// 10 model version names to the list. If you don't specify a value, all model
+  /// descriptions are returned.
+  @_s.JsonKey(name: 'VersionNames')
+  final List<String> versionNames;
+
+  DescribeProjectVersionsRequest({
+    @_s.required this.projectArn,
+    this.maxResults,
+    this.nextToken,
+    this.versionNames,
+  });
+  Map<String, dynamic> toJson() => _$DescribeProjectVersionsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeProjectVersionsResponse {
@@ -4896,6 +5162,32 @@ class DescribeProjectVersionsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeProjectsRequest {
+  /// The maximum number of results to return per paginated call. The largest
+  /// value you can specify is 100. If you specify a value greater than 100, a
+  /// ValidationException error occurs. The default value is 100.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If the previous response was incomplete (because there is more results to
+  /// retrieve), Amazon Rekognition Custom Labels returns a pagination token in
+  /// the response. You can use this pagination token to retrieve the next set of
+  /// results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeProjectsRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeProjectsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeProjectsResponse {
@@ -4917,6 +5209,22 @@ class DescribeProjectsResponse {
   });
   factory DescribeProjectsResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeProjectsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeStreamProcessorRequest {
+  /// Name of the stream processor for which you want information.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  DescribeStreamProcessorRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$DescribeStreamProcessorRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4995,6 +5303,41 @@ class DescribeStreamProcessorResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DetectCustomLabelsRequest {
+  @_s.JsonKey(name: 'Image')
+  final Image image;
+
+  /// The ARN of the model version that you want to use.
+  @_s.JsonKey(name: 'ProjectVersionArn')
+  final String projectVersionArn;
+
+  /// Maximum number of results you want the service to return in the response.
+  /// The service returns the specified number of highest confidence labels ranked
+  /// from highest confidence to lowest.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// Specifies the minimum confidence level for the labels to return. Amazon
+  /// Rekognition doesn't return any labels with a confidence lower than this
+  /// specified value. If you specify a value of 0, all labels are return,
+  /// regardless of the default thresholds that the model version applies.
+  @_s.JsonKey(name: 'MinConfidence')
+  final double minConfidence;
+
+  DetectCustomLabelsRequest({
+    @_s.required this.image,
+    @_s.required this.projectVersionArn,
+    this.maxResults,
+    this.minConfidence,
+  });
+  Map<String, dynamic> toJson() => _$DetectCustomLabelsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DetectCustomLabelsResponse {
@@ -5007,6 +5350,44 @@ class DetectCustomLabelsResponse {
   });
   factory DetectCustomLabelsResponse.fromJson(Map<String, dynamic> json) =>
       _$DetectCustomLabelsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DetectFacesRequest {
+  /// The input image as base64-encoded bytes or an S3 object. If you use the AWS
+  /// CLI to call Amazon Rekognition operations, passing base64-encoded image
+  /// bytes is not supported.
+  ///
+  /// If you are using an AWS SDK to call Amazon Rekognition, you might not need
+  /// to base64-encode image bytes passed using the <code>Bytes</code> field. For
+  /// more information, see Images in the Amazon Rekognition developer guide.
+  @_s.JsonKey(name: 'Image')
+  final Image image;
+
+  /// An array of facial attributes you want to be returned. This can be the
+  /// default list of attributes or all attributes. If you don't specify a value
+  /// for <code>Attributes</code> or if you specify <code>["DEFAULT"]</code>, the
+  /// API returns the following subset of facial attributes:
+  /// <code>BoundingBox</code>, <code>Confidence</code>, <code>Pose</code>,
+  /// <code>Quality</code>, and <code>Landmarks</code>. If you provide
+  /// <code>["ALL"]</code>, all facial attributes are returned, but the operation
+  /// takes longer to complete.
+  ///
+  /// If you provide both, <code>["ALL", "DEFAULT"]</code>, the service uses a
+  /// logical AND operator to determine which attributes to return (in this case,
+  /// all attributes).
+  @_s.JsonKey(name: 'Attributes')
+  final List<String> attributes;
+
+  DetectFacesRequest({
+    @_s.required this.image,
+    this.attributes,
+  });
+  Map<String, dynamic> toJson() => _$DetectFacesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5046,6 +5427,44 @@ class DetectFacesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DetectLabelsRequest {
+  /// The input image as base64-encoded bytes or an S3 object. If you use the AWS
+  /// CLI to call Amazon Rekognition operations, passing image bytes is not
+  /// supported. Images stored in an S3 Bucket do not need to be base64-encoded.
+  ///
+  /// If you are using an AWS SDK to call Amazon Rekognition, you might not need
+  /// to base64-encode image bytes passed using the <code>Bytes</code> field. For
+  /// more information, see Images in the Amazon Rekognition developer guide.
+  @_s.JsonKey(name: 'Image')
+  final Image image;
+
+  /// Maximum number of labels you want the service to return in the response. The
+  /// service returns the specified number of highest confidence labels.
+  @_s.JsonKey(name: 'MaxLabels')
+  final int maxLabels;
+
+  /// Specifies the minimum confidence level for the labels to return. Amazon
+  /// Rekognition doesn't return any labels with confidence lower than this
+  /// specified value.
+  ///
+  /// If <code>MinConfidence</code> is not specified, the operation returns labels
+  /// with a confidence values greater than or equal to 55 percent.
+  @_s.JsonKey(name: 'MinConfidence')
+  final double minConfidence;
+
+  DetectLabelsRequest({
+    @_s.required this.image,
+    this.maxLabels,
+    this.minConfidence,
+  });
+  Map<String, dynamic> toJson() => _$DetectLabelsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DetectLabelsResponse {
@@ -5080,6 +5499,44 @@ class DetectLabelsResponse {
   });
   factory DetectLabelsResponse.fromJson(Map<String, dynamic> json) =>
       _$DetectLabelsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DetectModerationLabelsRequest {
+  /// The input image as base64-encoded bytes or an S3 object. If you use the AWS
+  /// CLI to call Amazon Rekognition operations, passing base64-encoded image
+  /// bytes is not supported.
+  ///
+  /// If you are using an AWS SDK to call Amazon Rekognition, you might not need
+  /// to base64-encode image bytes passed using the <code>Bytes</code> field. For
+  /// more information, see Images in the Amazon Rekognition developer guide.
+  @_s.JsonKey(name: 'Image')
+  final Image image;
+
+  /// Sets up the configuration for human evaluation, including the FlowDefinition
+  /// the image will be sent to.
+  @_s.JsonKey(name: 'HumanLoopConfig')
+  final HumanLoopConfig humanLoopConfig;
+
+  /// Specifies the minimum confidence level for the labels to return. Amazon
+  /// Rekognition doesn't return any labels with a confidence level lower than
+  /// this specified value.
+  ///
+  /// If you don't specify <code>MinConfidence</code>, the operation returns
+  /// labels with confidence values greater than or equal to 50 percent.
+  @_s.JsonKey(name: 'MinConfidence')
+  final double minConfidence;
+
+  DetectModerationLabelsRequest({
+    @_s.required this.image,
+    this.humanLoopConfig,
+    this.minConfidence,
+  });
+  Map<String, dynamic> toJson() => _$DetectModerationLabelsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5134,6 +5591,34 @@ class DetectTextFilters {
     this.wordFilter,
   });
   Map<String, dynamic> toJson() => _$DetectTextFiltersToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DetectTextRequest {
+  /// The input image as base64-encoded bytes or an Amazon S3 object. If you use
+  /// the AWS CLI to call Amazon Rekognition operations, you can't pass image
+  /// bytes.
+  ///
+  /// If you are using an AWS SDK to call Amazon Rekognition, you might not need
+  /// to base64-encode image bytes passed using the <code>Bytes</code> field. For
+  /// more information, see Images in the Amazon Rekognition developer guide.
+  @_s.JsonKey(name: 'Image')
+  final Image image;
+
+  /// Optional parameters that let you set the criteria that the text must meet to
+  /// be included in your response.
+  @_s.JsonKey(name: 'Filters')
+  final DetectTextFilters filters;
+
+  DetectTextRequest({
+    @_s.required this.image,
+    this.filters,
+  });
+  Map<String, dynamic> toJson() => _$DetectTextRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5359,18 +5844,6 @@ enum FaceAttributes {
   $default,
   @_s.JsonValue('ALL')
   all,
-}
-
-extension on FaceAttributes {
-  String toValue() {
-    switch (this) {
-      case FaceAttributes.$default:
-        return 'DEFAULT';
-      case FaceAttributes.all:
-        return 'ALL';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Structure containing attributes of the face that the algorithm detected.
@@ -5617,18 +6090,6 @@ enum FaceSearchSortBy {
   timestamp,
 }
 
-extension on FaceSearchSortBy {
-  String toValue() {
-    switch (this) {
-      case FaceSearchSortBy.$index:
-        return 'INDEX';
-      case FaceSearchSortBy.timestamp:
-        return 'TIMESTAMP';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// The predicted gender of a detected face.
 ///
 /// Amazon Rekognition makes gender binary (male/female) predictions based on
@@ -5701,6 +6162,24 @@ class Geometry {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetCelebrityInfoRequest {
+  /// The ID for the celebrity. You get the celebrity ID from a call to the
+  /// <a>RecognizeCelebrities</a> operation, which recognizes celebrities in an
+  /// image.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  GetCelebrityInfoRequest({
+    @_s.required this.id,
+  });
+  Map<String, dynamic> toJson() => _$GetCelebrityInfoRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetCelebrityInfoResponse {
@@ -5718,6 +6197,45 @@ class GetCelebrityInfoResponse {
   });
   factory GetCelebrityInfoResponse.fromJson(Map<String, dynamic> json) =>
       _$GetCelebrityInfoResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetCelebrityRecognitionRequest {
+  /// Job identifier for the required celebrity recognition analysis. You can get
+  /// the job identifer from a call to <code>StartCelebrityRecognition</code>.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  /// Maximum number of results to return per paginated call. The largest value
+  /// you can specify is 1000. If you specify a value greater than 1000, a maximum
+  /// of 1000 results is returned. The default value is 1000.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If the previous response was incomplete (because there is more recognized
+  /// celebrities to retrieve), Amazon Rekognition Video returns a pagination
+  /// token in the response. You can use this pagination token to retrieve the
+  /// next set of celebrities.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Sort to use for celebrities returned in <code>Celebrities</code> field.
+  /// Specify <code>ID</code> to sort by the celebrity identifier, specify
+  /// <code>TIMESTAMP</code> to sort by the time the celebrity was recognized.
+  @_s.JsonKey(name: 'SortBy')
+  final CelebrityRecognitionSortBy sortBy;
+
+  GetCelebrityRecognitionRequest({
+    @_s.required this.jobId,
+    this.maxResults,
+    this.nextToken,
+    this.sortBy,
+  });
+  Map<String, dynamic> toJson() => _$GetCelebrityRecognitionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5760,6 +6278,47 @@ class GetCelebrityRecognitionResponse {
   });
   factory GetCelebrityRecognitionResponse.fromJson(Map<String, dynamic> json) =>
       _$GetCelebrityRecognitionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetContentModerationRequest {
+  /// The identifier for the unsafe content job. Use <code>JobId</code> to
+  /// identify the job in a subsequent call to <code>GetContentModeration</code>.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  /// Maximum number of results to return per paginated call. The largest value
+  /// you can specify is 1000. If you specify a value greater than 1000, a maximum
+  /// of 1000 results is returned. The default value is 1000.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If the previous response was incomplete (because there is more data to
+  /// retrieve), Amazon Rekognition returns a pagination token in the response.
+  /// You can use this pagination token to retrieve the next set of unsafe content
+  /// labels.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Sort to use for elements in the <code>ModerationLabelDetections</code>
+  /// array. Use <code>TIMESTAMP</code> to sort array elements by the time labels
+  /// are detected. Use <code>NAME</code> to alphabetically group elements for a
+  /// label together. Within each label group, the array element are sorted by
+  /// detection confidence. The default sort is by <code>TIMESTAMP</code>.
+  @_s.JsonKey(name: 'SortBy')
+  final ContentModerationSortBy sortBy;
+
+  GetContentModerationRequest({
+    @_s.required this.jobId,
+    this.maxResults,
+    this.nextToken,
+    this.sortBy,
+  });
+  Map<String, dynamic> toJson() => _$GetContentModerationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5813,6 +6372,38 @@ class GetContentModerationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetFaceDetectionRequest {
+  /// Unique identifier for the face detection job. The <code>JobId</code> is
+  /// returned from <code>StartFaceDetection</code>.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  /// Maximum number of results to return per paginated call. The largest value
+  /// you can specify is 1000. If you specify a value greater than 1000, a maximum
+  /// of 1000 results is returned. The default value is 1000.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If the previous response was incomplete (because there are more faces to
+  /// retrieve), Amazon Rekognition Video returns a pagination token in the
+  /// response. You can use this pagination token to retrieve the next set of
+  /// faces.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetFaceDetectionRequest({
+    @_s.required this.jobId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$GetFaceDetectionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetFaceDetectionResponse {
@@ -5851,6 +6442,45 @@ class GetFaceDetectionResponse {
   });
   factory GetFaceDetectionResponse.fromJson(Map<String, dynamic> json) =>
       _$GetFaceDetectionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetFaceSearchRequest {
+  /// The job identifer for the search request. You get the job identifier from an
+  /// initial call to <code>StartFaceSearch</code>.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  /// Maximum number of results to return per paginated call. The largest value
+  /// you can specify is 1000. If you specify a value greater than 1000, a maximum
+  /// of 1000 results is returned. The default value is 1000.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If the previous response was incomplete (because there is more search
+  /// results to retrieve), Amazon Rekognition Video returns a pagination token in
+  /// the response. You can use this pagination token to retrieve the next set of
+  /// search results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Sort to use for grouping faces in the response. Use <code>TIMESTAMP</code>
+  /// to group faces by the time that they are recognized. Use <code>INDEX</code>
+  /// to sort by recognized faces.
+  @_s.JsonKey(name: 'SortBy')
+  final FaceSearchSortBy sortBy;
+
+  GetFaceSearchRequest({
+    @_s.required this.jobId,
+    this.maxResults,
+    this.nextToken,
+    this.sortBy,
+  });
+  Map<String, dynamic> toJson() => _$GetFaceSearchRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5905,6 +6535,48 @@ class GetFaceSearchResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetLabelDetectionRequest {
+  /// Job identifier for the label detection operation for which you want results
+  /// returned. You get the job identifer from an initial call to
+  /// <code>StartlabelDetection</code>.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  /// Maximum number of results to return per paginated call. The largest value
+  /// you can specify is 1000. If you specify a value greater than 1000, a maximum
+  /// of 1000 results is returned. The default value is 1000.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If the previous response was incomplete (because there are more labels to
+  /// retrieve), Amazon Rekognition Video returns a pagination token in the
+  /// response. You can use this pagination token to retrieve the next set of
+  /// labels.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Sort to use for elements in the <code>Labels</code> array. Use
+  /// <code>TIMESTAMP</code> to sort array elements by the time labels are
+  /// detected. Use <code>NAME</code> to alphabetically group elements for a label
+  /// together. Within each label group, the array element are sorted by detection
+  /// confidence. The default sort is by <code>TIMESTAMP</code>.
+  @_s.JsonKey(name: 'SortBy')
+  final LabelDetectionSortBy sortBy;
+
+  GetLabelDetectionRequest({
+    @_s.required this.jobId,
+    this.maxResults,
+    this.nextToken,
+    this.sortBy,
+  });
+  Map<String, dynamic> toJson() => _$GetLabelDetectionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetLabelDetectionResponse {
@@ -5954,6 +6626,47 @@ class GetLabelDetectionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetPersonTrackingRequest {
+  /// The identifier for a job that tracks persons in a video. You get the
+  /// <code>JobId</code> from a call to <code>StartPersonTracking</code>.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  /// Maximum number of results to return per paginated call. The largest value
+  /// you can specify is 1000. If you specify a value greater than 1000, a maximum
+  /// of 1000 results is returned. The default value is 1000.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If the previous response was incomplete (because there are more persons to
+  /// retrieve), Amazon Rekognition Video returns a pagination token in the
+  /// response. You can use this pagination token to retrieve the next set of
+  /// persons.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Sort to use for elements in the <code>Persons</code> array. Use
+  /// <code>TIMESTAMP</code> to sort array elements by the time persons are
+  /// detected. Use <code>INDEX</code> to sort by the tracked persons. If you sort
+  /// by <code>INDEX</code>, the array elements for each person are sorted by
+  /// detection confidence. The default sort is by <code>TIMESTAMP</code>.
+  @_s.JsonKey(name: 'SortBy')
+  final PersonTrackingSortBy sortBy;
+
+  GetPersonTrackingRequest({
+    @_s.required this.jobId,
+    this.maxResults,
+    this.nextToken,
+    this.sortBy,
+  });
+  Map<String, dynamic> toJson() => _$GetPersonTrackingRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetPersonTrackingResponse {
@@ -5993,6 +6706,38 @@ class GetPersonTrackingResponse {
   });
   factory GetPersonTrackingResponse.fromJson(Map<String, dynamic> json) =>
       _$GetPersonTrackingResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetTextDetectionRequest {
+  /// Job identifier for the label detection operation for which you want results
+  /// returned. You get the job identifer from an initial call to
+  /// <code>StartTextDetection</code>.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  /// Maximum number of results to return per paginated call. The largest value
+  /// you can specify is 1000.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If the previous response was incomplete (because there are more labels to
+  /// retrieve), Amazon Rekognition Video returns a pagination token in the
+  /// response. You can use this pagination token to retrieve the next set of
+  /// text.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetTextDetectionRequest({
+    @_s.required this.jobId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$GetTextDetectionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6215,6 +6960,94 @@ class ImageQuality {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class IndexFacesRequest {
+  /// The ID of an existing collection to which you want to add the faces that are
+  /// detected in the input images.
+  @_s.JsonKey(name: 'CollectionId')
+  final String collectionId;
+
+  /// The input image as base64-encoded bytes or an S3 object. If you use the AWS
+  /// CLI to call Amazon Rekognition operations, passing base64-encoded image
+  /// bytes isn't supported.
+  ///
+  /// If you are using an AWS SDK to call Amazon Rekognition, you might not need
+  /// to base64-encode image bytes passed using the <code>Bytes</code> field. For
+  /// more information, see Images in the Amazon Rekognition developer guide.
+  @_s.JsonKey(name: 'Image')
+  final Image image;
+
+  /// An array of facial attributes that you want to be returned. This can be the
+  /// default list of attributes or all attributes. If you don't specify a value
+  /// for <code>Attributes</code> or if you specify <code>["DEFAULT"]</code>, the
+  /// API returns the following subset of facial attributes:
+  /// <code>BoundingBox</code>, <code>Confidence</code>, <code>Pose</code>,
+  /// <code>Quality</code>, and <code>Landmarks</code>. If you provide
+  /// <code>["ALL"]</code>, all facial attributes are returned, but the operation
+  /// takes longer to complete.
+  ///
+  /// If you provide both, <code>["ALL", "DEFAULT"]</code>, the service uses a
+  /// logical AND operator to determine which attributes to return (in this case,
+  /// all attributes).
+  @_s.JsonKey(name: 'DetectionAttributes')
+  final List<String> detectionAttributes;
+
+  /// The ID you want to assign to all the faces detected in the image.
+  @_s.JsonKey(name: 'ExternalImageId')
+  final String externalImageId;
+
+  /// The maximum number of faces to index. The value of <code>MaxFaces</code>
+  /// must be greater than or equal to 1. <code>IndexFaces</code> returns no more
+  /// than 100 detected faces in an image, even if you specify a larger value for
+  /// <code>MaxFaces</code>.
+  ///
+  /// If <code>IndexFaces</code> detects more faces than the value of
+  /// <code>MaxFaces</code>, the faces with the lowest quality are filtered out
+  /// first. If there are still more faces than the value of
+  /// <code>MaxFaces</code>, the faces with the smallest bounding boxes are
+  /// filtered out (up to the number that's needed to satisfy the value of
+  /// <code>MaxFaces</code>). Information about the unindexed faces is available
+  /// in the <code>UnindexedFaces</code> array.
+  ///
+  /// The faces that are returned by <code>IndexFaces</code> are sorted by the
+  /// largest face bounding box size to the smallest size, in descending order.
+  ///
+  /// <code>MaxFaces</code> can be used with a collection associated with any
+  /// version of the face model.
+  @_s.JsonKey(name: 'MaxFaces')
+  final int maxFaces;
+
+  /// A filter that specifies a quality bar for how much filtering is done to
+  /// identify faces. Filtered faces aren't indexed. If you specify
+  /// <code>AUTO</code>, Amazon Rekognition chooses the quality bar. If you
+  /// specify <code>LOW</code>, <code>MEDIUM</code>, or <code>HIGH</code>,
+  /// filtering removes all faces that don’t meet the chosen quality bar. The
+  /// default value is <code>AUTO</code>. The quality bar is based on a variety of
+  /// common use cases. Low-quality detections can occur for a number of reasons.
+  /// Some examples are an object that's misidentified as a face, a face that's
+  /// too blurry, or a face with a pose that's too extreme to use. If you specify
+  /// <code>NONE</code>, no filtering is performed.
+  ///
+  /// To use quality filtering, the collection you are using must be associated
+  /// with version 3 of the face model or higher.
+  @_s.JsonKey(name: 'QualityFilter')
+  final QualityFilter qualityFilter;
+
+  IndexFacesRequest({
+    @_s.required this.collectionId,
+    @_s.required this.image,
+    this.detectionAttributes,
+    this.externalImageId,
+    this.maxFaces,
+    this.qualityFilter,
+  });
+  Map<String, dynamic> toJson() => _$IndexFacesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class IndexFacesResponse {
@@ -6418,18 +7251,6 @@ enum LabelDetectionSortBy {
   timestamp,
 }
 
-extension on LabelDetectionSortBy {
-  String toValue() {
-    switch (this) {
-      case LabelDetectionSortBy.name:
-        return 'NAME';
-      case LabelDetectionSortBy.timestamp:
-        return 'TIMESTAMP';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Indicates the location of the landmark on the face.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6528,6 +7349,27 @@ enum LandmarkType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListCollectionsRequest {
+  /// Maximum number of collection IDs to return.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// Pagination token from the previous response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListCollectionsRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListCollectionsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListCollectionsResponse {
@@ -6560,6 +7402,34 @@ class ListCollectionsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListFacesRequest {
+  /// ID of the collection from which to list the faces.
+  @_s.JsonKey(name: 'CollectionId')
+  final String collectionId;
+
+  /// Maximum number of faces to return.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If the previous response was incomplete (because there is more data to
+  /// retrieve), Amazon Rekognition returns a pagination token in the response.
+  /// You can use this pagination token to retrieve the next set of faces.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListFacesRequest({
+    @_s.required this.collectionId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListFacesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListFacesResponse {
@@ -6584,6 +7454,31 @@ class ListFacesResponse {
   });
   factory ListFacesResponse.fromJson(Map<String, dynamic> json) =>
       _$ListFacesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListStreamProcessorsRequest {
+  /// Maximum number of stream processors you want Amazon Rekognition Video to
+  /// return in the response. The default is 1000.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If the previous response was incomplete (because there are more stream
+  /// processors to retrieve), Amazon Rekognition Video returns a pagination token
+  /// in the response. You can use this pagination token to retrieve the next set
+  /// of stream processors.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListStreamProcessorsRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListStreamProcessorsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6876,18 +7771,6 @@ enum PersonTrackingSortBy {
   timestamp,
 }
 
-extension on PersonTrackingSortBy {
-  String toValue() {
-    switch (this) {
-      case PersonTrackingSortBy.$index:
-        return 'INDEX';
-      case PersonTrackingSortBy.timestamp:
-        return 'TIMESTAMP';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// The X and Y coordinates of a point on an image. The X and Y values returned
 /// are ratios of the overall image size. For example, if the input image is
 /// 700x200 and the operation returns X=0.5 and Y=0.25, then the point is at the
@@ -7097,24 +7980,6 @@ enum QualityFilter {
   high,
 }
 
-extension on QualityFilter {
-  String toValue() {
-    switch (this) {
-      case QualityFilter.none:
-        return 'NONE';
-      case QualityFilter.auto:
-        return 'AUTO';
-      case QualityFilter.low:
-        return 'LOW';
-      case QualityFilter.medium:
-        return 'MEDIUM';
-      case QualityFilter.high:
-        return 'HIGH';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum Reason {
   @_s.JsonValue('EXCEEDS_MAX_FACES')
   exceedsMaxFaces,
@@ -7130,6 +7995,28 @@ enum Reason {
   smallBoundingBox,
   @_s.JsonValue('LOW_FACE_QUALITY')
   lowFaceQuality,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RecognizeCelebritiesRequest {
+  /// The input image as base64-encoded bytes or an S3 object. If you use the AWS
+  /// CLI to call Amazon Rekognition operations, passing base64-encoded image
+  /// bytes is not supported.
+  ///
+  /// If you are using an AWS SDK to call Amazon Rekognition, you might not need
+  /// to base64-encode image bytes passed using the <code>Bytes</code> field. For
+  /// more information, see Images in the Amazon Rekognition developer guide.
+  @_s.JsonKey(name: 'Image')
+  final Image image;
+
+  RecognizeCelebritiesRequest({
+    @_s.required this.image,
+  });
+  Map<String, dynamic> toJson() => _$RecognizeCelebritiesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7236,6 +8123,63 @@ class S3Object {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SearchFacesByImageRequest {
+  /// ID of the collection to search.
+  @_s.JsonKey(name: 'CollectionId')
+  final String collectionId;
+
+  /// The input image as base64-encoded bytes or an S3 object. If you use the AWS
+  /// CLI to call Amazon Rekognition operations, passing base64-encoded image
+  /// bytes is not supported.
+  ///
+  /// If you are using an AWS SDK to call Amazon Rekognition, you might not need
+  /// to base64-encode image bytes passed using the <code>Bytes</code> field. For
+  /// more information, see Images in the Amazon Rekognition developer guide.
+  @_s.JsonKey(name: 'Image')
+  final Image image;
+
+  /// (Optional) Specifies the minimum confidence in the face match to return. For
+  /// example, don't return any matches where confidence in matches is less than
+  /// 70%. The default value is 80%.
+  @_s.JsonKey(name: 'FaceMatchThreshold')
+  final double faceMatchThreshold;
+
+  /// Maximum number of faces to return. The operation returns the maximum number
+  /// of faces with the highest confidence in the match.
+  @_s.JsonKey(name: 'MaxFaces')
+  final int maxFaces;
+
+  /// A filter that specifies a quality bar for how much filtering is done to
+  /// identify faces. Filtered faces aren't searched for in the collection. If you
+  /// specify <code>AUTO</code>, Amazon Rekognition chooses the quality bar. If
+  /// you specify <code>LOW</code>, <code>MEDIUM</code>, or <code>HIGH</code>,
+  /// filtering removes all faces that don’t meet the chosen quality bar. The
+  /// quality bar is based on a variety of common use cases. Low-quality
+  /// detections can occur for a number of reasons. Some examples are an object
+  /// that's misidentified as a face, a face that's too blurry, or a face with a
+  /// pose that's too extreme to use. If you specify <code>NONE</code>, no
+  /// filtering is performed. The default value is <code>NONE</code>.
+  ///
+  /// To use quality filtering, the collection you are using must be associated
+  /// with version 3 of the face model or higher.
+  @_s.JsonKey(name: 'QualityFilter')
+  final QualityFilter qualityFilter;
+
+  SearchFacesByImageRequest({
+    @_s.required this.collectionId,
+    @_s.required this.image,
+    this.faceMatchThreshold,
+    this.maxFaces,
+    this.qualityFilter,
+  });
+  Map<String, dynamic> toJson() => _$SearchFacesByImageRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class SearchFacesByImageResponse {
@@ -7267,6 +8211,40 @@ class SearchFacesByImageResponse {
   });
   factory SearchFacesByImageResponse.fromJson(Map<String, dynamic> json) =>
       _$SearchFacesByImageResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SearchFacesRequest {
+  /// ID of the collection the face belongs to.
+  @_s.JsonKey(name: 'CollectionId')
+  final String collectionId;
+
+  /// ID of a face to find matches for in the collection.
+  @_s.JsonKey(name: 'FaceId')
+  final String faceId;
+
+  /// Optional value specifying the minimum confidence in the face match to
+  /// return. For example, don't return any matches where confidence in matches is
+  /// less than 70%. The default value is 80%.
+  @_s.JsonKey(name: 'FaceMatchThreshold')
+  final double faceMatchThreshold;
+
+  /// Maximum number of faces to return. The operation returns the maximum number
+  /// of faces with the highest confidence in the match.
+  @_s.JsonKey(name: 'MaxFaces')
+  final int maxFaces;
+
+  SearchFacesRequest({
+    @_s.required this.collectionId,
+    @_s.required this.faceId,
+    this.faceMatchThreshold,
+    this.maxFaces,
+  });
+  Map<String, dynamic> toJson() => _$SearchFacesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7324,6 +8302,46 @@ class Smile {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartCelebrityRecognitionRequest {
+  /// The video in which you want to recognize celebrities. The video must be
+  /// stored in an Amazon S3 bucket.
+  @_s.JsonKey(name: 'Video')
+  final Video video;
+
+  /// Idempotent token used to identify the start request. If you use the same
+  /// token with multiple <code>StartCelebrityRecognition</code> requests, the
+  /// same <code>JobId</code> is returned. Use <code>ClientRequestToken</code> to
+  /// prevent the same job from being accidently started more than once.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// An identifier you specify that's returned in the completion notification
+  /// that's published to your Amazon Simple Notification Service topic. For
+  /// example, you can use <code>JobTag</code> to group related jobs and identify
+  /// them in the completion notification.
+  @_s.JsonKey(name: 'JobTag')
+  final String jobTag;
+
+  /// The Amazon SNS topic ARN that you want Amazon Rekognition Video to publish
+  /// the completion status of the celebrity recognition analysis to.
+  @_s.JsonKey(name: 'NotificationChannel')
+  final NotificationChannel notificationChannel;
+
+  StartCelebrityRecognitionRequest({
+    @_s.required this.video,
+    this.clientRequestToken,
+    this.jobTag,
+    this.notificationChannel,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StartCelebrityRecognitionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartCelebrityRecognitionResponse {
@@ -7339,6 +8357,57 @@ class StartCelebrityRecognitionResponse {
   factory StartCelebrityRecognitionResponse.fromJson(
           Map<String, dynamic> json) =>
       _$StartCelebrityRecognitionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartContentModerationRequest {
+  /// The video in which you want to detect unsafe content. The video must be
+  /// stored in an Amazon S3 bucket.
+  @_s.JsonKey(name: 'Video')
+  final Video video;
+
+  /// Idempotent token used to identify the start request. If you use the same
+  /// token with multiple <code>StartContentModeration</code> requests, the same
+  /// <code>JobId</code> is returned. Use <code>ClientRequestToken</code> to
+  /// prevent the same job from being accidently started more than once.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// An identifier you specify that's returned in the completion notification
+  /// that's published to your Amazon Simple Notification Service topic. For
+  /// example, you can use <code>JobTag</code> to group related jobs and identify
+  /// them in the completion notification.
+  @_s.JsonKey(name: 'JobTag')
+  final String jobTag;
+
+  /// Specifies the minimum confidence that Amazon Rekognition must have in order
+  /// to return a moderated content label. Confidence represents how certain
+  /// Amazon Rekognition is that the moderated content is correctly identified. 0
+  /// is the lowest confidence. 100 is the highest confidence. Amazon Rekognition
+  /// doesn't return any moderated content labels with a confidence level lower
+  /// than this specified value. If you don't specify <code>MinConfidence</code>,
+  /// <code>GetContentModeration</code> returns labels with confidence values
+  /// greater than or equal to 50 percent.
+  @_s.JsonKey(name: 'MinConfidence')
+  final double minConfidence;
+
+  /// The Amazon SNS topic ARN that you want Amazon Rekognition Video to publish
+  /// the completion status of the unsafe content analysis to.
+  @_s.JsonKey(name: 'NotificationChannel')
+  final NotificationChannel notificationChannel;
+
+  StartContentModerationRequest({
+    @_s.required this.video,
+    this.clientRequestToken,
+    this.jobTag,
+    this.minConfidence,
+    this.notificationChannel,
+  });
+  Map<String, dynamic> toJson() => _$StartContentModerationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7363,6 +8432,55 @@ class StartContentModerationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartFaceDetectionRequest {
+  /// The video in which you want to detect faces. The video must be stored in an
+  /// Amazon S3 bucket.
+  @_s.JsonKey(name: 'Video')
+  final Video video;
+
+  /// Idempotent token used to identify the start request. If you use the same
+  /// token with multiple <code>StartFaceDetection</code> requests, the same
+  /// <code>JobId</code> is returned. Use <code>ClientRequestToken</code> to
+  /// prevent the same job from being accidently started more than once.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// The face attributes you want returned.
+  ///
+  /// <code>DEFAULT</code> - The following subset of facial attributes are
+  /// returned: BoundingBox, Confidence, Pose, Quality and Landmarks.
+  ///
+  /// <code>ALL</code> - All facial attributes are returned.
+  @_s.JsonKey(name: 'FaceAttributes')
+  final FaceAttributes faceAttributes;
+
+  /// An identifier you specify that's returned in the completion notification
+  /// that's published to your Amazon Simple Notification Service topic. For
+  /// example, you can use <code>JobTag</code> to group related jobs and identify
+  /// them in the completion notification.
+  @_s.JsonKey(name: 'JobTag')
+  final String jobTag;
+
+  /// The ARN of the Amazon SNS topic to which you want Amazon Rekognition Video
+  /// to publish the completion status of the face detection operation.
+  @_s.JsonKey(name: 'NotificationChannel')
+  final NotificationChannel notificationChannel;
+
+  StartFaceDetectionRequest({
+    @_s.required this.video,
+    this.clientRequestToken,
+    this.faceAttributes,
+    this.jobTag,
+    this.notificationChannel,
+  });
+  Map<String, dynamic> toJson() => _$StartFaceDetectionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartFaceDetectionResponse {
@@ -7376,6 +8494,57 @@ class StartFaceDetectionResponse {
   });
   factory StartFaceDetectionResponse.fromJson(Map<String, dynamic> json) =>
       _$StartFaceDetectionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartFaceSearchRequest {
+  /// ID of the collection that contains the faces you want to search for.
+  @_s.JsonKey(name: 'CollectionId')
+  final String collectionId;
+
+  /// The video you want to search. The video must be stored in an Amazon S3
+  /// bucket.
+  @_s.JsonKey(name: 'Video')
+  final Video video;
+
+  /// Idempotent token used to identify the start request. If you use the same
+  /// token with multiple <code>StartFaceSearch</code> requests, the same
+  /// <code>JobId</code> is returned. Use <code>ClientRequestToken</code> to
+  /// prevent the same job from being accidently started more than once.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// The minimum confidence in the person match to return. For example, don't
+  /// return any matches where confidence in matches is less than 70%. The default
+  /// value is 80%.
+  @_s.JsonKey(name: 'FaceMatchThreshold')
+  final double faceMatchThreshold;
+
+  /// An identifier you specify that's returned in the completion notification
+  /// that's published to your Amazon Simple Notification Service topic. For
+  /// example, you can use <code>JobTag</code> to group related jobs and identify
+  /// them in the completion notification.
+  @_s.JsonKey(name: 'JobTag')
+  final String jobTag;
+
+  /// The ARN of the Amazon SNS topic to which you want Amazon Rekognition Video
+  /// to publish the completion status of the search.
+  @_s.JsonKey(name: 'NotificationChannel')
+  final NotificationChannel notificationChannel;
+
+  StartFaceSearchRequest({
+    @_s.required this.collectionId,
+    @_s.required this.video,
+    this.clientRequestToken,
+    this.faceMatchThreshold,
+    this.jobTag,
+    this.notificationChannel,
+  });
+  Map<String, dynamic> toJson() => _$StartFaceSearchRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7399,6 +8568,57 @@ class StartFaceSearchResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartLabelDetectionRequest {
+  /// The video in which you want to detect labels. The video must be stored in an
+  /// Amazon S3 bucket.
+  @_s.JsonKey(name: 'Video')
+  final Video video;
+
+  /// Idempotent token used to identify the start request. If you use the same
+  /// token with multiple <code>StartLabelDetection</code> requests, the same
+  /// <code>JobId</code> is returned. Use <code>ClientRequestToken</code> to
+  /// prevent the same job from being accidently started more than once.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// An identifier you specify that's returned in the completion notification
+  /// that's published to your Amazon Simple Notification Service topic. For
+  /// example, you can use <code>JobTag</code> to group related jobs and identify
+  /// them in the completion notification.
+  @_s.JsonKey(name: 'JobTag')
+  final String jobTag;
+
+  /// Specifies the minimum confidence that Amazon Rekognition Video must have in
+  /// order to return a detected label. Confidence represents how certain Amazon
+  /// Rekognition is that a label is correctly identified.0 is the lowest
+  /// confidence. 100 is the highest confidence. Amazon Rekognition Video doesn't
+  /// return any labels with a confidence level lower than this specified value.
+  ///
+  /// If you don't specify <code>MinConfidence</code>, the operation returns
+  /// labels with confidence values greater than or equal to 50 percent.
+  @_s.JsonKey(name: 'MinConfidence')
+  final double minConfidence;
+
+  /// The Amazon SNS topic ARN you want Amazon Rekognition Video to publish the
+  /// completion status of the label detection operation to.
+  @_s.JsonKey(name: 'NotificationChannel')
+  final NotificationChannel notificationChannel;
+
+  StartLabelDetectionRequest({
+    @_s.required this.video,
+    this.clientRequestToken,
+    this.jobTag,
+    this.minConfidence,
+    this.notificationChannel,
+  });
+  Map<String, dynamic> toJson() => _$StartLabelDetectionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartLabelDetectionResponse {
@@ -7412,6 +8632,45 @@ class StartLabelDetectionResponse {
   });
   factory StartLabelDetectionResponse.fromJson(Map<String, dynamic> json) =>
       _$StartLabelDetectionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartPersonTrackingRequest {
+  /// The video in which you want to detect people. The video must be stored in an
+  /// Amazon S3 bucket.
+  @_s.JsonKey(name: 'Video')
+  final Video video;
+
+  /// Idempotent token used to identify the start request. If you use the same
+  /// token with multiple <code>StartPersonTracking</code> requests, the same
+  /// <code>JobId</code> is returned. Use <code>ClientRequestToken</code> to
+  /// prevent the same job from being accidently started more than once.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// An identifier you specify that's returned in the completion notification
+  /// that's published to your Amazon Simple Notification Service topic. For
+  /// example, you can use <code>JobTag</code> to group related jobs and identify
+  /// them in the completion notification.
+  @_s.JsonKey(name: 'JobTag')
+  final String jobTag;
+
+  /// The Amazon SNS topic ARN you want Amazon Rekognition Video to publish the
+  /// completion status of the people detection operation to.
+  @_s.JsonKey(name: 'NotificationChannel')
+  final NotificationChannel notificationChannel;
+
+  StartPersonTrackingRequest({
+    @_s.required this.video,
+    this.clientRequestToken,
+    this.jobTag,
+    this.notificationChannel,
+  });
+  Map<String, dynamic> toJson() => _$StartPersonTrackingRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7435,6 +8694,30 @@ class StartPersonTrackingResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartProjectVersionRequest {
+  /// The minimum number of inference units to use. A single inference unit
+  /// represents 1 hour of processing and can support up to 5 Transaction Pers
+  /// Second (TPS). Use a higher number to increase the TPS throughput of your
+  /// model. You are charged for the number of inference units that you use.
+  @_s.JsonKey(name: 'MinInferenceUnits')
+  final int minInferenceUnits;
+
+  /// The Amazon Resource Name(ARN) of the model version that you want to start.
+  @_s.JsonKey(name: 'ProjectVersionArn')
+  final String projectVersionArn;
+
+  StartProjectVersionRequest({
+    @_s.required this.minInferenceUnits,
+    @_s.required this.projectVersionArn,
+  });
+  Map<String, dynamic> toJson() => _$StartProjectVersionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartProjectVersionResponse {
@@ -7447,6 +8730,22 @@ class StartProjectVersionResponse {
   });
   factory StartProjectVersionResponse.fromJson(Map<String, dynamic> json) =>
       _$StartProjectVersionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartStreamProcessorRequest {
+  /// The name of the stream processor to start processing.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  StartStreamProcessorRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$StartStreamProcessorRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7489,6 +8788,46 @@ class StartTextDetectionFilters {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartTextDetectionRequest {
+  @_s.JsonKey(name: 'Video')
+  final Video video;
+
+  /// Idempotent token used to identify the start request. If you use the same
+  /// token with multiple <code>StartTextDetection</code> requests, the same
+  /// <code>JobId</code> is returned. Use <code>ClientRequestToken</code> to
+  /// prevent the same job from being accidentaly started more than once.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// Optional parameters that let you set criteria the text must meet to be
+  /// included in your response.
+  @_s.JsonKey(name: 'Filters')
+  final StartTextDetectionFilters filters;
+
+  /// An identifier returned in the completion status published by your Amazon
+  /// Simple Notification Service topic. For example, you can use
+  /// <code>JobTag</code> to group related jobs and identify them in the
+  /// completion notification.
+  @_s.JsonKey(name: 'JobTag')
+  final String jobTag;
+  @_s.JsonKey(name: 'NotificationChannel')
+  final NotificationChannel notificationChannel;
+
+  StartTextDetectionRequest({
+    @_s.required this.video,
+    this.clientRequestToken,
+    this.filters,
+    this.jobTag,
+    this.notificationChannel,
+  });
+  Map<String, dynamic> toJson() => _$StartTextDetectionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartTextDetectionResponse {
@@ -7507,6 +8846,25 @@ class StartTextDetectionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopProjectVersionRequest {
+  /// The Amazon Resource Name (ARN) of the model version that you want to delete.
+  ///
+  /// This operation requires permissions to perform the
+  /// <code>rekognition:StopProjectVersion</code> action.
+  @_s.JsonKey(name: 'ProjectVersionArn')
+  final String projectVersionArn;
+
+  StopProjectVersionRequest({
+    @_s.required this.projectVersionArn,
+  });
+  Map<String, dynamic> toJson() => _$StopProjectVersionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StopProjectVersionResponse {
@@ -7519,6 +8877,22 @@ class StopProjectVersionResponse {
   });
   factory StopProjectVersionResponse.fromJson(Map<String, dynamic> json) =>
       _$StopProjectVersionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopStreamProcessorRequest {
+  /// The name of a stream processor created by <a>CreateStreamProcessor</a>.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  StopStreamProcessorRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$StopStreamProcessorRequestToJson(this);
 }
 
 @_s.JsonSerializable(

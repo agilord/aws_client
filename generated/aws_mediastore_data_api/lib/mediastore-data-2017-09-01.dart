@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -68,7 +67,9 @@ class MediaStoreData {
       r'''(?:[A-Za-z0-9_\.\-\~]+/){0,10}[A-Za-z0-9_\.\-\~]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteObjectRequest(
+      path: path,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -371,6 +372,23 @@ class MediaStoreData {
     );
     return PutObjectResponse.fromJson(response);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteObjectRequest {
+  /// The path (including the file name) where the object is stored in the
+  /// container. Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt;
+  @_s.JsonKey(name: 'Path', ignore: true)
+  final String path;
+
+  DeleteObjectRequest({
+    @_s.required this.path,
+  });
+  Map<String, dynamic> toJson() => _$DeleteObjectRequestToJson(this);
 }
 
 @_s.JsonSerializable(

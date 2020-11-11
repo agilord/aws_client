@@ -184,11 +184,59 @@ Configurations _$ConfigurationsFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateBrokerRequestToJson(CreateBrokerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('autoMinorVersionUpgrade', instance.autoMinorVersionUpgrade);
+  writeNotNull('brokerName', instance.brokerName);
+  writeNotNull('configuration', instance.configuration?.toJson());
+  writeNotNull('creatorRequestId', instance.creatorRequestId);
+  writeNotNull(
+      'deploymentMode', _$DeploymentModeEnumMap[instance.deploymentMode]);
+  writeNotNull('encryptionOptions', instance.encryptionOptions?.toJson());
+  writeNotNull('engineType', _$EngineTypeEnumMap[instance.engineType]);
+  writeNotNull('engineVersion', instance.engineVersion);
+  writeNotNull('hostInstanceType', instance.hostInstanceType);
+  writeNotNull('logs', instance.logs?.toJson());
+  writeNotNull('maintenanceWindowStartTime',
+      instance.maintenanceWindowStartTime?.toJson());
+  writeNotNull('publiclyAccessible', instance.publiclyAccessible);
+  writeNotNull('securityGroups', instance.securityGroups);
+  writeNotNull('storageType', _$BrokerStorageTypeEnumMap[instance.storageType]);
+  writeNotNull('subnetIds', instance.subnetIds);
+  writeNotNull('tags', instance.tags);
+  writeNotNull('users', instance.users?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateBrokerResponse _$CreateBrokerResponseFromJson(Map<String, dynamic> json) {
   return CreateBrokerResponse(
     brokerArn: json['brokerArn'] as String,
     brokerId: json['brokerId'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateConfigurationRequestToJson(
+    CreateConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('engineType', _$EngineTypeEnumMap[instance.engineType]);
+  writeNotNull('engineVersion', instance.engineVersion);
+  writeNotNull('name', instance.name);
+  writeNotNull('tags', instance.tags);
+  return val;
 }
 
 CreateConfigurationResponse _$CreateConfigurationResponseFromJson(
@@ -205,15 +253,53 @@ CreateConfigurationResponse _$CreateConfigurationResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateTagsRequestToJson(CreateTagsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
+Map<String, dynamic> _$CreateUserRequestToJson(CreateUserRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('consoleAccess', instance.consoleAccess);
+  writeNotNull('groups', instance.groups);
+  writeNotNull('password', instance.password);
+  return val;
+}
+
 CreateUserResponse _$CreateUserResponseFromJson(Map<String, dynamic> json) {
   return CreateUserResponse();
 }
+
+Map<String, dynamic> _$DeleteBrokerRequestToJson(
+        DeleteBrokerRequest instance) =>
+    <String, dynamic>{};
 
 DeleteBrokerResponse _$DeleteBrokerResponseFromJson(Map<String, dynamic> json) {
   return DeleteBrokerResponse(
     brokerId: json['brokerId'] as String,
   );
 }
+
+Map<String, dynamic> _$DeleteTagsRequestToJson(DeleteTagsRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteUserRequestToJson(DeleteUserRequest instance) =>
+    <String, dynamic>{};
 
 DeleteUserResponse _$DeleteUserResponseFromJson(Map<String, dynamic> json) {
   return DeleteUserResponse();
@@ -468,6 +554,10 @@ PendingLogs _$PendingLogsFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$RebootBrokerRequestToJson(
+        RebootBrokerRequest instance) =>
+    <String, dynamic>{};
+
 RebootBrokerResponse _$RebootBrokerResponseFromJson(Map<String, dynamic> json) {
   return RebootBrokerResponse();
 }
@@ -490,6 +580,24 @@ const _$SanitizationWarningReasonEnumMap = {
       'INVALID_ATTRIBUTE_VALUE_REMOVED',
 };
 
+Map<String, dynamic> _$UpdateBrokerRequestToJson(UpdateBrokerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('autoMinorVersionUpgrade', instance.autoMinorVersionUpgrade);
+  writeNotNull('configuration', instance.configuration?.toJson());
+  writeNotNull('engineVersion', instance.engineVersion);
+  writeNotNull('hostInstanceType', instance.hostInstanceType);
+  writeNotNull('logs', instance.logs?.toJson());
+  writeNotNull('securityGroups', instance.securityGroups);
+  return val;
+}
+
 UpdateBrokerResponse _$UpdateBrokerResponseFromJson(Map<String, dynamic> json) {
   return UpdateBrokerResponse(
     autoMinorVersionUpgrade: json['autoMinorVersionUpgrade'] as bool,
@@ -506,6 +614,21 @@ UpdateBrokerResponse _$UpdateBrokerResponseFromJson(Map<String, dynamic> json) {
     securityGroups:
         (json['securityGroups'] as List)?.map((e) => e as String)?.toList(),
   );
+}
+
+Map<String, dynamic> _$UpdateConfigurationRequestToJson(
+    UpdateConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('data', instance.data);
+  writeNotNull('description', instance.description);
+  return val;
 }
 
 UpdateConfigurationResponse _$UpdateConfigurationResponseFromJson(
@@ -525,6 +648,21 @@ UpdateConfigurationResponse _$UpdateConfigurationResponseFromJson(
             : SanitizationWarning.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$UpdateUserRequestToJson(UpdateUserRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('consoleAccess', instance.consoleAccess);
+  writeNotNull('groups', instance.groups);
+  writeNotNull('password', instance.password);
+  return val;
 }
 
 UpdateUserResponse _$UpdateUserResponseFromJson(Map<String, dynamic> json) {

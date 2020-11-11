@@ -14,6 +14,20 @@ AliasListEntry _$AliasListEntryFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CancelKeyDeletionRequestToJson(
+    CancelKeyDeletionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('KeyId', instance.keyId);
+  return val;
+}
+
 CancelKeyDeletionResponse _$CancelKeyDeletionResponseFromJson(
     Map<String, dynamic> json) {
   return CancelKeyDeletionResponse(
@@ -21,9 +35,54 @@ CancelKeyDeletionResponse _$CancelKeyDeletionResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ConnectCustomKeyStoreRequestToJson(
+    ConnectCustomKeyStoreRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CustomKeyStoreId', instance.customKeyStoreId);
+  return val;
+}
+
 ConnectCustomKeyStoreResponse _$ConnectCustomKeyStoreResponseFromJson(
     Map<String, dynamic> json) {
   return ConnectCustomKeyStoreResponse();
+}
+
+Map<String, dynamic> _$CreateAliasRequestToJson(CreateAliasRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AliasName', instance.aliasName);
+  writeNotNull('TargetKeyId', instance.targetKeyId);
+  return val;
+}
+
+Map<String, dynamic> _$CreateCustomKeyStoreRequestToJson(
+    CreateCustomKeyStoreRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CloudHsmClusterId', instance.cloudHsmClusterId);
+  writeNotNull('CustomKeyStoreName', instance.customKeyStoreName);
+  writeNotNull('KeyStorePassword', instance.keyStorePassword);
+  writeNotNull('TrustAnchorCertificate', instance.trustAnchorCertificate);
+  return val;
 }
 
 CreateCustomKeyStoreResponse _$CreateCustomKeyStoreResponseFromJson(
@@ -33,12 +92,75 @@ CreateCustomKeyStoreResponse _$CreateCustomKeyStoreResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateGrantRequestToJson(CreateGrantRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GranteePrincipal', instance.granteePrincipal);
+  writeNotNull('KeyId', instance.keyId);
+  writeNotNull('Operations', instance.operations);
+  writeNotNull('Constraints', instance.constraints?.toJson());
+  writeNotNull('GrantTokens', instance.grantTokens);
+  writeNotNull('Name', instance.name);
+  writeNotNull('RetiringPrincipal', instance.retiringPrincipal);
+  return val;
+}
+
 CreateGrantResponse _$CreateGrantResponseFromJson(Map<String, dynamic> json) {
   return CreateGrantResponse(
     grantId: json['GrantId'] as String,
     grantToken: json['GrantToken'] as String,
   );
 }
+
+Map<String, dynamic> _$CreateKeyRequestToJson(CreateKeyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BypassPolicyLockoutSafetyCheck',
+      instance.bypassPolicyLockoutSafetyCheck);
+  writeNotNull('CustomKeyStoreId', instance.customKeyStoreId);
+  writeNotNull('CustomerMasterKeySpec',
+      _$CustomerMasterKeySpecEnumMap[instance.customerMasterKeySpec]);
+  writeNotNull('Description', instance.description);
+  writeNotNull('KeyUsage', _$KeyUsageTypeEnumMap[instance.keyUsage]);
+  writeNotNull('Origin', _$OriginTypeEnumMap[instance.origin]);
+  writeNotNull('Policy', instance.policy);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+const _$CustomerMasterKeySpecEnumMap = {
+  CustomerMasterKeySpec.rsa_2048: 'RSA_2048',
+  CustomerMasterKeySpec.rsa_3072: 'RSA_3072',
+  CustomerMasterKeySpec.rsa_4096: 'RSA_4096',
+  CustomerMasterKeySpec.eccNistP256: 'ECC_NIST_P256',
+  CustomerMasterKeySpec.eccNistP384: 'ECC_NIST_P384',
+  CustomerMasterKeySpec.eccNistP521: 'ECC_NIST_P521',
+  CustomerMasterKeySpec.eccSecgP256k1: 'ECC_SECG_P256K1',
+  CustomerMasterKeySpec.symmetricDefault: 'SYMMETRIC_DEFAULT',
+};
+
+const _$KeyUsageTypeEnumMap = {
+  KeyUsageType.signVerify: 'SIGN_VERIFY',
+  KeyUsageType.encryptDecrypt: 'ENCRYPT_DECRYPT',
+};
+
+const _$OriginTypeEnumMap = {
+  OriginType.awsKms: 'AWS_KMS',
+  OriginType.external: 'EXTERNAL',
+  OriginType.awsCloudhsm: 'AWS_CLOUDHSM',
+};
 
 CreateKeyResponse _$CreateKeyResponseFromJson(Map<String, dynamic> json) {
   return CreateKeyResponse(
@@ -116,6 +238,31 @@ const _$ConnectionStateTypeEnumMap = {
   ConnectionStateType.disconnecting: 'DISCONNECTING',
 };
 
+Map<String, dynamic> _$DecryptRequestToJson(DecryptRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CiphertextBlob',
+      const Uint8ListConverter().toJson(instance.ciphertextBlob));
+  writeNotNull('EncryptionAlgorithm',
+      _$EncryptionAlgorithmSpecEnumMap[instance.encryptionAlgorithm]);
+  writeNotNull('EncryptionContext', instance.encryptionContext);
+  writeNotNull('GrantTokens', instance.grantTokens);
+  writeNotNull('KeyId', instance.keyId);
+  return val;
+}
+
+const _$EncryptionAlgorithmSpecEnumMap = {
+  EncryptionAlgorithmSpec.symmetricDefault: 'SYMMETRIC_DEFAULT',
+  EncryptionAlgorithmSpec.rsaesOaepSha_1: 'RSAES_OAEP_SHA_1',
+  EncryptionAlgorithmSpec.rsaesOaepSha_256: 'RSAES_OAEP_SHA_256',
+};
+
 DecryptResponse _$DecryptResponseFromJson(Map<String, dynamic> json) {
   return DecryptResponse(
     encryptionAlgorithm: _$enumDecodeNullable(
@@ -125,15 +272,67 @@ DecryptResponse _$DecryptResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$EncryptionAlgorithmSpecEnumMap = {
-  EncryptionAlgorithmSpec.symmetricDefault: 'SYMMETRIC_DEFAULT',
-  EncryptionAlgorithmSpec.rsaesOaepSha_1: 'RSAES_OAEP_SHA_1',
-  EncryptionAlgorithmSpec.rsaesOaepSha_256: 'RSAES_OAEP_SHA_256',
-};
+Map<String, dynamic> _$DeleteAliasRequestToJson(DeleteAliasRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AliasName', instance.aliasName);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteCustomKeyStoreRequestToJson(
+    DeleteCustomKeyStoreRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CustomKeyStoreId', instance.customKeyStoreId);
+  return val;
+}
 
 DeleteCustomKeyStoreResponse _$DeleteCustomKeyStoreResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteCustomKeyStoreResponse();
+}
+
+Map<String, dynamic> _$DeleteImportedKeyMaterialRequestToJson(
+    DeleteImportedKeyMaterialRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('KeyId', instance.keyId);
+  return val;
+}
+
+Map<String, dynamic> _$DescribeCustomKeyStoresRequestToJson(
+    DescribeCustomKeyStoresRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CustomKeyStoreId', instance.customKeyStoreId);
+  writeNotNull('CustomKeyStoreName', instance.customKeyStoreName);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('Marker', instance.marker);
+  return val;
 }
 
 DescribeCustomKeyStoresResponse _$DescribeCustomKeyStoresResponseFromJson(
@@ -149,6 +348,20 @@ DescribeCustomKeyStoresResponse _$DescribeCustomKeyStoresResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeKeyRequestToJson(DescribeKeyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('KeyId', instance.keyId);
+  writeNotNull('GrantTokens', instance.grantTokens);
+  return val;
+}
+
 DescribeKeyResponse _$DescribeKeyResponseFromJson(Map<String, dynamic> json) {
   return DescribeKeyResponse(
     keyMetadata: json['KeyMetadata'] == null
@@ -157,9 +370,96 @@ DescribeKeyResponse _$DescribeKeyResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DisableKeyRequestToJson(DisableKeyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('KeyId', instance.keyId);
+  return val;
+}
+
+Map<String, dynamic> _$DisableKeyRotationRequestToJson(
+    DisableKeyRotationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('KeyId', instance.keyId);
+  return val;
+}
+
+Map<String, dynamic> _$DisconnectCustomKeyStoreRequestToJson(
+    DisconnectCustomKeyStoreRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CustomKeyStoreId', instance.customKeyStoreId);
+  return val;
+}
+
 DisconnectCustomKeyStoreResponse _$DisconnectCustomKeyStoreResponseFromJson(
     Map<String, dynamic> json) {
   return DisconnectCustomKeyStoreResponse();
+}
+
+Map<String, dynamic> _$EnableKeyRequestToJson(EnableKeyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('KeyId', instance.keyId);
+  return val;
+}
+
+Map<String, dynamic> _$EnableKeyRotationRequestToJson(
+    EnableKeyRotationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('KeyId', instance.keyId);
+  return val;
+}
+
+Map<String, dynamic> _$EncryptRequestToJson(EncryptRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('KeyId', instance.keyId);
+  writeNotNull(
+      'Plaintext', const Uint8ListConverter().toJson(instance.plaintext));
+  writeNotNull('EncryptionAlgorithm',
+      _$EncryptionAlgorithmSpecEnumMap[instance.encryptionAlgorithm]);
+  writeNotNull('EncryptionContext', instance.encryptionContext);
+  writeNotNull('GrantTokens', instance.grantTokens);
+  return val;
 }
 
 EncryptResponse _$EncryptResponseFromJson(Map<String, dynamic> json) {
@@ -171,6 +471,33 @@ EncryptResponse _$EncryptResponseFromJson(Map<String, dynamic> json) {
     keyId: json['KeyId'] as String,
   );
 }
+
+Map<String, dynamic> _$GenerateDataKeyPairRequestToJson(
+    GenerateDataKeyPairRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('KeyId', instance.keyId);
+  writeNotNull('KeyPairSpec', _$DataKeyPairSpecEnumMap[instance.keyPairSpec]);
+  writeNotNull('EncryptionContext', instance.encryptionContext);
+  writeNotNull('GrantTokens', instance.grantTokens);
+  return val;
+}
+
+const _$DataKeyPairSpecEnumMap = {
+  DataKeyPairSpec.rsa_2048: 'RSA_2048',
+  DataKeyPairSpec.rsa_3072: 'RSA_3072',
+  DataKeyPairSpec.rsa_4096: 'RSA_4096',
+  DataKeyPairSpec.eccNistP256: 'ECC_NIST_P256',
+  DataKeyPairSpec.eccNistP384: 'ECC_NIST_P384',
+  DataKeyPairSpec.eccNistP521: 'ECC_NIST_P521',
+  DataKeyPairSpec.eccSecgP256k1: 'ECC_SECG_P256K1',
+};
 
 GenerateDataKeyPairResponse _$GenerateDataKeyPairResponseFromJson(
     Map<String, dynamic> json) {
@@ -186,15 +513,22 @@ GenerateDataKeyPairResponse _$GenerateDataKeyPairResponseFromJson(
   );
 }
 
-const _$DataKeyPairSpecEnumMap = {
-  DataKeyPairSpec.rsa_2048: 'RSA_2048',
-  DataKeyPairSpec.rsa_3072: 'RSA_3072',
-  DataKeyPairSpec.rsa_4096: 'RSA_4096',
-  DataKeyPairSpec.eccNistP256: 'ECC_NIST_P256',
-  DataKeyPairSpec.eccNistP384: 'ECC_NIST_P384',
-  DataKeyPairSpec.eccNistP521: 'ECC_NIST_P521',
-  DataKeyPairSpec.eccSecgP256k1: 'ECC_SECG_P256K1',
-};
+Map<String, dynamic> _$GenerateDataKeyPairWithoutPlaintextRequestToJson(
+    GenerateDataKeyPairWithoutPlaintextRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('KeyId', instance.keyId);
+  writeNotNull('KeyPairSpec', _$DataKeyPairSpecEnumMap[instance.keyPairSpec]);
+  writeNotNull('EncryptionContext', instance.encryptionContext);
+  writeNotNull('GrantTokens', instance.grantTokens);
+  return val;
+}
 
 GenerateDataKeyPairWithoutPlaintextResponse
     _$GenerateDataKeyPairWithoutPlaintextResponseFromJson(
@@ -209,6 +543,29 @@ GenerateDataKeyPairWithoutPlaintextResponse
   );
 }
 
+Map<String, dynamic> _$GenerateDataKeyRequestToJson(
+    GenerateDataKeyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('KeyId', instance.keyId);
+  writeNotNull('EncryptionContext', instance.encryptionContext);
+  writeNotNull('GrantTokens', instance.grantTokens);
+  writeNotNull('KeySpec', _$DataKeySpecEnumMap[instance.keySpec]);
+  writeNotNull('NumberOfBytes', instance.numberOfBytes);
+  return val;
+}
+
+const _$DataKeySpecEnumMap = {
+  DataKeySpec.aes_256: 'AES_256',
+  DataKeySpec.aes_128: 'AES_128',
+};
+
 GenerateDataKeyResponse _$GenerateDataKeyResponseFromJson(
     Map<String, dynamic> json) {
   return GenerateDataKeyResponse(
@@ -217,6 +574,24 @@ GenerateDataKeyResponse _$GenerateDataKeyResponseFromJson(
     keyId: json['KeyId'] as String,
     plaintext: const Uint8ListConverter().fromJson(json['Plaintext'] as String),
   );
+}
+
+Map<String, dynamic> _$GenerateDataKeyWithoutPlaintextRequestToJson(
+    GenerateDataKeyWithoutPlaintextRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('KeyId', instance.keyId);
+  writeNotNull('EncryptionContext', instance.encryptionContext);
+  writeNotNull('GrantTokens', instance.grantTokens);
+  writeNotNull('KeySpec', _$DataKeySpecEnumMap[instance.keySpec]);
+  writeNotNull('NumberOfBytes', instance.numberOfBytes);
+  return val;
 }
 
 GenerateDataKeyWithoutPlaintextResponse
@@ -229,11 +604,40 @@ GenerateDataKeyWithoutPlaintextResponse
   );
 }
 
+Map<String, dynamic> _$GenerateRandomRequestToJson(
+    GenerateRandomRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CustomKeyStoreId', instance.customKeyStoreId);
+  writeNotNull('NumberOfBytes', instance.numberOfBytes);
+  return val;
+}
+
 GenerateRandomResponse _$GenerateRandomResponseFromJson(
     Map<String, dynamic> json) {
   return GenerateRandomResponse(
     plaintext: const Uint8ListConverter().fromJson(json['Plaintext'] as String),
   );
+}
+
+Map<String, dynamic> _$GetKeyPolicyRequestToJson(GetKeyPolicyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('KeyId', instance.keyId);
+  writeNotNull('PolicyName', instance.policyName);
+  return val;
 }
 
 GetKeyPolicyResponse _$GetKeyPolicyResponseFromJson(Map<String, dynamic> json) {
@@ -242,12 +646,54 @@ GetKeyPolicyResponse _$GetKeyPolicyResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetKeyRotationStatusRequestToJson(
+    GetKeyRotationStatusRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('KeyId', instance.keyId);
+  return val;
+}
+
 GetKeyRotationStatusResponse _$GetKeyRotationStatusResponseFromJson(
     Map<String, dynamic> json) {
   return GetKeyRotationStatusResponse(
     keyRotationEnabled: json['KeyRotationEnabled'] as bool,
   );
 }
+
+Map<String, dynamic> _$GetParametersForImportRequestToJson(
+    GetParametersForImportRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('KeyId', instance.keyId);
+  writeNotNull(
+      'WrappingAlgorithm', _$AlgorithmSpecEnumMap[instance.wrappingAlgorithm]);
+  writeNotNull(
+      'WrappingKeySpec', _$WrappingKeySpecEnumMap[instance.wrappingKeySpec]);
+  return val;
+}
+
+const _$AlgorithmSpecEnumMap = {
+  AlgorithmSpec.rsaesPkcs1V1_5: 'RSAES_PKCS1_V1_5',
+  AlgorithmSpec.rsaesOaepSha_1: 'RSAES_OAEP_SHA_1',
+  AlgorithmSpec.rsaesOaepSha_256: 'RSAES_OAEP_SHA_256',
+};
+
+const _$WrappingKeySpecEnumMap = {
+  WrappingKeySpec.rsa_2048: 'RSA_2048',
+};
 
 GetParametersForImportResponse _$GetParametersForImportResponseFromJson(
     Map<String, dynamic> json) {
@@ -258,6 +704,20 @@ GetParametersForImportResponse _$GetParametersForImportResponseFromJson(
     parametersValidTo: unixTimestampFromJson(json['ParametersValidTo']),
     publicKey: const Uint8ListConverter().fromJson(json['PublicKey'] as String),
   );
+}
+
+Map<String, dynamic> _$GetPublicKeyRequestToJson(GetPublicKeyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('KeyId', instance.keyId);
+  writeNotNull('GrantTokens', instance.grantTokens);
+  return val;
 }
 
 GetPublicKeyResponse _$GetPublicKeyResponseFromJson(Map<String, dynamic> json) {
@@ -274,22 +734,6 @@ GetPublicKeyResponse _$GetPublicKeyResponseFromJson(Map<String, dynamic> json) {
         (json['SigningAlgorithms'] as List)?.map((e) => e as String)?.toList(),
   );
 }
-
-const _$CustomerMasterKeySpecEnumMap = {
-  CustomerMasterKeySpec.rsa_2048: 'RSA_2048',
-  CustomerMasterKeySpec.rsa_3072: 'RSA_3072',
-  CustomerMasterKeySpec.rsa_4096: 'RSA_4096',
-  CustomerMasterKeySpec.eccNistP256: 'ECC_NIST_P256',
-  CustomerMasterKeySpec.eccNistP384: 'ECC_NIST_P384',
-  CustomerMasterKeySpec.eccNistP521: 'ECC_NIST_P521',
-  CustomerMasterKeySpec.eccSecgP256k1: 'ECC_SECG_P256K1',
-  CustomerMasterKeySpec.symmetricDefault: 'SYMMETRIC_DEFAULT',
-};
-
-const _$KeyUsageTypeEnumMap = {
-  KeyUsageType.signVerify: 'SIGN_VERIFY',
-  KeyUsageType.encryptDecrypt: 'ENCRYPT_DECRYPT',
-};
 
 GrantConstraints _$GrantConstraintsFromJson(Map<String, dynamic> json) {
   return GrantConstraints(
@@ -335,6 +779,32 @@ GrantListEntry _$GrantListEntryFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ImportKeyMaterialRequestToJson(
+    ImportKeyMaterialRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EncryptedKeyMaterial',
+      const Uint8ListConverter().toJson(instance.encryptedKeyMaterial));
+  writeNotNull(
+      'ImportToken', const Uint8ListConverter().toJson(instance.importToken));
+  writeNotNull('KeyId', instance.keyId);
+  writeNotNull('ExpirationModel',
+      _$ExpirationModelTypeEnumMap[instance.expirationModel]);
+  writeNotNull('ValidTo', unixTimestampToJson(instance.validTo));
+  return val;
+}
+
+const _$ExpirationModelTypeEnumMap = {
+  ExpirationModelType.keyMaterialExpires: 'KEY_MATERIAL_EXPIRES',
+  ExpirationModelType.keyMaterialDoesNotExpire: 'KEY_MATERIAL_DOES_NOT_EXPIRE',
+};
+
 ImportKeyMaterialResponse _$ImportKeyMaterialResponseFromJson(
     Map<String, dynamic> json) {
   return ImportKeyMaterialResponse();
@@ -376,11 +846,6 @@ KeyMetadata _$KeyMetadataFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$ExpirationModelTypeEnumMap = {
-  ExpirationModelType.keyMaterialExpires: 'KEY_MATERIAL_EXPIRES',
-  ExpirationModelType.keyMaterialDoesNotExpire: 'KEY_MATERIAL_DOES_NOT_EXPIRE',
-};
-
 const _$KeyManagerTypeEnumMap = {
   KeyManagerType.aws: 'AWS',
   KeyManagerType.customer: 'CUSTOMER',
@@ -394,11 +859,20 @@ const _$KeyStateEnumMap = {
   KeyState.unavailable: 'Unavailable',
 };
 
-const _$OriginTypeEnumMap = {
-  OriginType.awsKms: 'AWS_KMS',
-  OriginType.external: 'EXTERNAL',
-  OriginType.awsCloudhsm: 'AWS_CLOUDHSM',
-};
+Map<String, dynamic> _$ListAliasesRequestToJson(ListAliasesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('KeyId', instance.keyId);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('Marker', instance.marker);
+  return val;
+}
 
 ListAliasesResponse _$ListAliasesResponseFromJson(Map<String, dynamic> json) {
   return ListAliasesResponse(
@@ -410,6 +884,21 @@ ListAliasesResponse _$ListAliasesResponseFromJson(Map<String, dynamic> json) {
     nextMarker: json['NextMarker'] as String,
     truncated: json['Truncated'] as bool,
   );
+}
+
+Map<String, dynamic> _$ListGrantsRequestToJson(ListGrantsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('KeyId', instance.keyId);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('Marker', instance.marker);
+  return val;
 }
 
 ListGrantsResponse _$ListGrantsResponseFromJson(Map<String, dynamic> json) {
@@ -424,6 +913,22 @@ ListGrantsResponse _$ListGrantsResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ListKeyPoliciesRequestToJson(
+    ListKeyPoliciesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('KeyId', instance.keyId);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('Marker', instance.marker);
+  return val;
+}
+
 ListKeyPoliciesResponse _$ListKeyPoliciesResponseFromJson(
     Map<String, dynamic> json) {
   return ListKeyPoliciesResponse(
@@ -432,6 +937,20 @@ ListKeyPoliciesResponse _$ListKeyPoliciesResponseFromJson(
         (json['PolicyNames'] as List)?.map((e) => e as String)?.toList(),
     truncated: json['Truncated'] as bool,
   );
+}
+
+Map<String, dynamic> _$ListKeysRequestToJson(ListKeysRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('Marker', instance.marker);
+  return val;
 }
 
 ListKeysResponse _$ListKeysResponseFromJson(Map<String, dynamic> json) {
@@ -445,6 +964,22 @@ ListKeysResponse _$ListKeysResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ListResourceTagsRequestToJson(
+    ListResourceTagsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('KeyId', instance.keyId);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('Marker', instance.marker);
+  return val;
+}
+
 ListResourceTagsResponse _$ListResourceTagsResponseFromJson(
     Map<String, dynamic> json) {
   return ListResourceTagsResponse(
@@ -454,6 +989,65 @@ ListResourceTagsResponse _$ListResourceTagsResponseFromJson(
         ?.toList(),
     truncated: json['Truncated'] as bool,
   );
+}
+
+Map<String, dynamic> _$ListRetirableGrantsRequestToJson(
+    ListRetirableGrantsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RetiringPrincipal', instance.retiringPrincipal);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('Marker', instance.marker);
+  return val;
+}
+
+Map<String, dynamic> _$PutKeyPolicyRequestToJson(PutKeyPolicyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('KeyId', instance.keyId);
+  writeNotNull('Policy', instance.policy);
+  writeNotNull('PolicyName', instance.policyName);
+  writeNotNull('BypassPolicyLockoutSafetyCheck',
+      instance.bypassPolicyLockoutSafetyCheck);
+  return val;
+}
+
+Map<String, dynamic> _$ReEncryptRequestToJson(ReEncryptRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CiphertextBlob',
+      const Uint8ListConverter().toJson(instance.ciphertextBlob));
+  writeNotNull('DestinationKeyId', instance.destinationKeyId);
+  writeNotNull(
+      'DestinationEncryptionAlgorithm',
+      _$EncryptionAlgorithmSpecEnumMap[
+          instance.destinationEncryptionAlgorithm]);
+  writeNotNull(
+      'DestinationEncryptionContext', instance.destinationEncryptionContext);
+  writeNotNull('GrantTokens', instance.grantTokens);
+  writeNotNull('SourceEncryptionAlgorithm',
+      _$EncryptionAlgorithmSpecEnumMap[instance.sourceEncryptionAlgorithm]);
+  writeNotNull('SourceEncryptionContext', instance.sourceEncryptionContext);
+  writeNotNull('SourceKeyId', instance.sourceKeyId);
+  return val;
 }
 
 ReEncryptResponse _$ReEncryptResponseFromJson(Map<String, dynamic> json) {
@@ -470,6 +1064,50 @@ ReEncryptResponse _$ReEncryptResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$RetireGrantRequestToJson(RetireGrantRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GrantId', instance.grantId);
+  writeNotNull('GrantToken', instance.grantToken);
+  writeNotNull('KeyId', instance.keyId);
+  return val;
+}
+
+Map<String, dynamic> _$RevokeGrantRequestToJson(RevokeGrantRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GrantId', instance.grantId);
+  writeNotNull('KeyId', instance.keyId);
+  return val;
+}
+
+Map<String, dynamic> _$ScheduleKeyDeletionRequestToJson(
+    ScheduleKeyDeletionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('KeyId', instance.keyId);
+  writeNotNull('PendingWindowInDays', instance.pendingWindowInDays);
+  return val;
+}
+
 ScheduleKeyDeletionResponse _$ScheduleKeyDeletionResponseFromJson(
     Map<String, dynamic> json) {
   return ScheduleKeyDeletionResponse(
@@ -478,13 +1116,22 @@ ScheduleKeyDeletionResponse _$ScheduleKeyDeletionResponseFromJson(
   );
 }
 
-SignResponse _$SignResponseFromJson(Map<String, dynamic> json) {
-  return SignResponse(
-    keyId: json['KeyId'] as String,
-    signature: const Uint8ListConverter().fromJson(json['Signature'] as String),
-    signingAlgorithm: _$enumDecodeNullable(
-        _$SigningAlgorithmSpecEnumMap, json['SigningAlgorithm']),
-  );
+Map<String, dynamic> _$SignRequestToJson(SignRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('KeyId', instance.keyId);
+  writeNotNull('Message', const Uint8ListConverter().toJson(instance.message));
+  writeNotNull('SigningAlgorithm',
+      _$SigningAlgorithmSpecEnumMap[instance.signingAlgorithm]);
+  writeNotNull('GrantTokens', instance.grantTokens);
+  writeNotNull('MessageType', _$MessageTypeEnumMap[instance.messageType]);
+  return val;
 }
 
 const _$SigningAlgorithmSpecEnumMap = {
@@ -498,6 +1145,20 @@ const _$SigningAlgorithmSpecEnumMap = {
   SigningAlgorithmSpec.ecdsaSha_384: 'ECDSA_SHA_384',
   SigningAlgorithmSpec.ecdsaSha_512: 'ECDSA_SHA_512',
 };
+
+const _$MessageTypeEnumMap = {
+  MessageType.raw: 'RAW',
+  MessageType.digest: 'DIGEST',
+};
+
+SignResponse _$SignResponseFromJson(Map<String, dynamic> json) {
+  return SignResponse(
+    keyId: json['KeyId'] as String,
+    signature: const Uint8ListConverter().fromJson(json['Signature'] as String),
+    signingAlgorithm: _$enumDecodeNullable(
+        _$SigningAlgorithmSpecEnumMap, json['SigningAlgorithm']),
+  );
+}
 
 Tag _$TagFromJson(Map<String, dynamic> json) {
   return Tag(
@@ -520,9 +1181,104 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
   return val;
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('KeyId', instance.keyId);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+Map<String, dynamic> _$UntagResourceRequestToJson(
+    UntagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('KeyId', instance.keyId);
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
+}
+
+Map<String, dynamic> _$UpdateAliasRequestToJson(UpdateAliasRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AliasName', instance.aliasName);
+  writeNotNull('TargetKeyId', instance.targetKeyId);
+  return val;
+}
+
+Map<String, dynamic> _$UpdateCustomKeyStoreRequestToJson(
+    UpdateCustomKeyStoreRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CustomKeyStoreId', instance.customKeyStoreId);
+  writeNotNull('CloudHsmClusterId', instance.cloudHsmClusterId);
+  writeNotNull('KeyStorePassword', instance.keyStorePassword);
+  writeNotNull('NewCustomKeyStoreName', instance.newCustomKeyStoreName);
+  return val;
+}
+
 UpdateCustomKeyStoreResponse _$UpdateCustomKeyStoreResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateCustomKeyStoreResponse();
+}
+
+Map<String, dynamic> _$UpdateKeyDescriptionRequestToJson(
+    UpdateKeyDescriptionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Description', instance.description);
+  writeNotNull('KeyId', instance.keyId);
+  return val;
+}
+
+Map<String, dynamic> _$VerifyRequestToJson(VerifyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('KeyId', instance.keyId);
+  writeNotNull('Message', const Uint8ListConverter().toJson(instance.message));
+  writeNotNull(
+      'Signature', const Uint8ListConverter().toJson(instance.signature));
+  writeNotNull('SigningAlgorithm',
+      _$SigningAlgorithmSpecEnumMap[instance.signingAlgorithm]);
+  writeNotNull('GrantTokens', instance.grantTokens);
+  writeNotNull('MessageType', _$MessageTypeEnumMap[instance.messageType]);
+  return val;
 }
 
 VerifyResponse _$VerifyResponseFromJson(Map<String, dynamic> json) {

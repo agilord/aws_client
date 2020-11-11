@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -160,14 +159,14 @@ class ForecastService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DatasetName': datasetName,
-        'DatasetType': datasetType?.toValue(),
-        'Domain': domain?.toValue(),
-        'Schema': schema,
-        if (dataFrequency != null) 'DataFrequency': dataFrequency,
-        if (encryptionConfig != null) 'EncryptionConfig': encryptionConfig,
-      },
+      payload: CreateDatasetRequest(
+        datasetName: datasetName,
+        datasetType: datasetType,
+        domain: domain,
+        schema: schema,
+        dataFrequency: dataFrequency,
+        encryptionConfig: encryptionConfig,
+      ),
     );
 
     return CreateDatasetResponse.fromJson(jsonResponse.body);
@@ -245,11 +244,11 @@ class ForecastService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DatasetGroupName': datasetGroupName,
-        'Domain': domain?.toValue(),
-        if (datasetArns != null) 'DatasetArns': datasetArns,
-      },
+      payload: CreateDatasetGroupRequest(
+        datasetGroupName: datasetGroupName,
+        domain: domain,
+        datasetArns: datasetArns,
+      ),
     );
 
     return CreateDatasetGroupResponse.fromJson(jsonResponse.body);
@@ -377,12 +376,12 @@ class ForecastService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DataSource': dataSource,
-        'DatasetArn': datasetArn,
-        'DatasetImportJobName': datasetImportJobName,
-        if (timestampFormat != null) 'TimestampFormat': timestampFormat,
-      },
+      payload: CreateDatasetImportJobRequest(
+        dataSource: dataSource,
+        datasetArn: datasetArn,
+        datasetImportJobName: datasetImportJobName,
+        timestampFormat: timestampFormat,
+      ),
     );
 
     return CreateDatasetImportJobResponse.fromJson(jsonResponse.body);
@@ -478,11 +477,11 @@ class ForecastService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ForecastName': forecastName,
-        'PredictorArn': predictorArn,
-        if (forecastTypes != null) 'ForecastTypes': forecastTypes,
-      },
+      payload: CreateForecastRequest(
+        forecastName: forecastName,
+        predictorArn: predictorArn,
+        forecastTypes: forecastTypes,
+      ),
     );
 
     return CreateForecastResponse.fromJson(jsonResponse.body);
@@ -577,11 +576,11 @@ class ForecastService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Destination': destination,
-        'ForecastArn': forecastArn,
-        'ForecastExportJobName': forecastExportJobName,
-      },
+      payload: CreateForecastExportJobRequest(
+        destination: destination,
+        forecastArn: forecastArn,
+        forecastExportJobName: forecastExportJobName,
+      ),
     );
 
     return CreateForecastExportJobResponse.fromJson(jsonResponse.body);
@@ -814,21 +813,19 @@ class ForecastService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'FeaturizationConfig': featurizationConfig,
-        'ForecastHorizon': forecastHorizon,
-        'InputDataConfig': inputDataConfig,
-        'PredictorName': predictorName,
-        if (algorithmArn != null) 'AlgorithmArn': algorithmArn,
-        if (encryptionConfig != null) 'EncryptionConfig': encryptionConfig,
-        if (evaluationParameters != null)
-          'EvaluationParameters': evaluationParameters,
-        if (hPOConfig != null) 'HPOConfig': hPOConfig,
-        if (performAutoML != null) 'PerformAutoML': performAutoML,
-        if (performHPO != null) 'PerformHPO': performHPO,
-        if (trainingParameters != null)
-          'TrainingParameters': trainingParameters,
-      },
+      payload: CreatePredictorRequest(
+        featurizationConfig: featurizationConfig,
+        forecastHorizon: forecastHorizon,
+        inputDataConfig: inputDataConfig,
+        predictorName: predictorName,
+        algorithmArn: algorithmArn,
+        encryptionConfig: encryptionConfig,
+        evaluationParameters: evaluationParameters,
+        hPOConfig: hPOConfig,
+        performAutoML: performAutoML,
+        performHPO: performHPO,
+        trainingParameters: trainingParameters,
+      ),
     );
 
     return CreatePredictorResponse.fromJson(jsonResponse.body);
@@ -872,9 +869,9 @@ class ForecastService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DatasetArn': datasetArn,
-      },
+      payload: DeleteDatasetRequest(
+        datasetArn: datasetArn,
+      ),
     );
   }
 
@@ -920,9 +917,9 @@ class ForecastService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DatasetGroupArn': datasetGroupArn,
-      },
+      payload: DeleteDatasetGroupRequest(
+        datasetGroupArn: datasetGroupArn,
+      ),
     );
   }
 
@@ -965,9 +962,9 @@ class ForecastService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DatasetImportJobArn': datasetImportJobArn,
-      },
+      payload: DeleteDatasetImportJobRequest(
+        datasetImportJobArn: datasetImportJobArn,
+      ),
     );
   }
 
@@ -1012,9 +1009,9 @@ class ForecastService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ForecastArn': forecastArn,
-      },
+      payload: DeleteForecastRequest(
+        forecastArn: forecastArn,
+      ),
     );
   }
 
@@ -1056,9 +1053,9 @@ class ForecastService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ForecastExportJobArn': forecastExportJobArn,
-      },
+      payload: DeleteForecastExportJobRequest(
+        forecastExportJobArn: forecastExportJobArn,
+      ),
     );
   }
 
@@ -1100,9 +1097,9 @@ class ForecastService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PredictorArn': predictorArn,
-      },
+      payload: DeletePredictorRequest(
+        predictorArn: predictorArn,
+      ),
     );
   }
 
@@ -1157,9 +1154,9 @@ class ForecastService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DatasetArn': datasetArn,
-      },
+      payload: DescribeDatasetRequest(
+        datasetArn: datasetArn,
+      ),
     );
 
     return DescribeDatasetResponse.fromJson(jsonResponse.body);
@@ -1219,9 +1216,9 @@ class ForecastService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DatasetGroupArn': datasetGroupArn,
-      },
+      payload: DescribeDatasetGroupRequest(
+        datasetGroupArn: datasetGroupArn,
+      ),
     );
 
     return DescribeDatasetGroupResponse.fromJson(jsonResponse.body);
@@ -1287,9 +1284,9 @@ class ForecastService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DatasetImportJobArn': datasetImportJobArn,
-      },
+      payload: DescribeDatasetImportJobRequest(
+        datasetImportJobArn: datasetImportJobArn,
+      ),
     );
 
     return DescribeDatasetImportJobResponse.fromJson(jsonResponse.body);
@@ -1352,9 +1349,9 @@ class ForecastService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ForecastArn': forecastArn,
-      },
+      payload: DescribeForecastRequest(
+        forecastArn: forecastArn,
+      ),
     );
 
     return DescribeForecastResponse.fromJson(jsonResponse.body);
@@ -1414,9 +1411,9 @@ class ForecastService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ForecastExportJobArn': forecastExportJobArn,
-      },
+      payload: DescribeForecastExportJobRequest(
+        forecastExportJobArn: forecastExportJobArn,
+      ),
     );
 
     return DescribeForecastExportJobResponse.fromJson(jsonResponse.body);
@@ -1484,9 +1481,9 @@ class ForecastService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PredictorArn': predictorArn,
-      },
+      payload: DescribePredictorRequest(
+        predictorArn: predictorArn,
+      ),
     );
 
     return DescribePredictorResponse.fromJson(jsonResponse.body);
@@ -1549,9 +1546,9 @@ class ForecastService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PredictorArn': predictorArn,
-      },
+      payload: GetAccuracyMetricsRequest(
+        predictorArn: predictorArn,
+      ),
     );
 
     return GetAccuracyMetricsResponse.fromJson(jsonResponse.body);
@@ -1599,10 +1596,10 @@ class ForecastService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListDatasetGroupsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListDatasetGroupsResponse.fromJson(jsonResponse.body);
@@ -1682,11 +1679,11 @@ class ForecastService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListDatasetImportJobsRequest(
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListDatasetImportJobsResponse.fromJson(jsonResponse.body);
@@ -1732,10 +1729,10 @@ class ForecastService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListDatasetsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListDatasetsResponse.fromJson(jsonResponse.body);
@@ -1816,11 +1813,11 @@ class ForecastService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListForecastExportJobsRequest(
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListForecastExportJobsResponse.fromJson(jsonResponse.body);
@@ -1901,11 +1898,11 @@ class ForecastService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListForecastsRequest(
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListForecastsResponse.fromJson(jsonResponse.body);
@@ -1985,11 +1982,11 @@ class ForecastService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListPredictorsRequest(
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListPredictorsResponse.fromJson(jsonResponse.body);
@@ -2041,10 +2038,10 @@ class ForecastService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DatasetArns': datasetArns,
-        'DatasetGroupArn': datasetGroupArn,
-      },
+      payload: UpdateDatasetGroupRequest(
+        datasetArns: datasetArns,
+        datasetGroupArn: datasetGroupArn,
+      ),
     );
 
     return UpdateDatasetGroupResponse.fromJson(jsonResponse.body);
@@ -2149,6 +2146,44 @@ class ContinuousParameterRange {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDatasetGroupRequest {
+  /// A name for the dataset group.
+  @_s.JsonKey(name: 'DatasetGroupName')
+  final String datasetGroupName;
+
+  /// The domain associated with the dataset group. When you add a dataset to a
+  /// dataset group, this value and the value specified for the
+  /// <code>Domain</code> parameter of the <a>CreateDataset</a> operation must
+  /// match.
+  ///
+  /// The <code>Domain</code> and <code>DatasetType</code> that you choose
+  /// determine the fields that must be present in training data that you import
+  /// to a dataset. For example, if you choose the <code>RETAIL</code> domain and
+  /// <code>TARGET_TIME_SERIES</code> as the <code>DatasetType</code>, Amazon
+  /// Forecast requires that <code>item_id</code>, <code>timestamp</code>, and
+  /// <code>demand</code> fields are present in your data. For more information,
+  /// see <a>howitworks-datasets-groups</a>.
+  @_s.JsonKey(name: 'Domain')
+  final Domain domain;
+
+  /// An array of Amazon Resource Names (ARNs) of the datasets that you want to
+  /// include in the dataset group.
+  @_s.JsonKey(name: 'DatasetArns')
+  final List<String> datasetArns;
+
+  CreateDatasetGroupRequest({
+    @_s.required this.datasetGroupName,
+    @_s.required this.domain,
+    this.datasetArns,
+  });
+  Map<String, dynamic> toJson() => _$CreateDatasetGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateDatasetGroupResponse {
@@ -2161,6 +2196,67 @@ class CreateDatasetGroupResponse {
   });
   factory CreateDatasetGroupResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateDatasetGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDatasetImportJobRequest {
+  /// The location of the training data to import and an AWS Identity and Access
+  /// Management (IAM) role that Amazon Forecast can assume to access the data.
+  /// The training data must be stored in an Amazon S3 bucket.
+  ///
+  /// If encryption is used, <code>DataSource</code> must include an AWS Key
+  /// Management Service (KMS) key and the IAM role must allow Amazon Forecast
+  /// permission to access the key. The KMS key and IAM role must match those
+  /// specified in the <code>EncryptionConfig</code> parameter of the
+  /// <a>CreateDataset</a> operation.
+  @_s.JsonKey(name: 'DataSource')
+  final DataSource dataSource;
+
+  /// The Amazon Resource Name (ARN) of the Amazon Forecast dataset that you want
+  /// to import data to.
+  @_s.JsonKey(name: 'DatasetArn')
+  final String datasetArn;
+
+  /// The name for the dataset import job. We recommend including the current
+  /// timestamp in the name, for example, <code>20190721DatasetImport</code>. This
+  /// can help you avoid getting a <code>ResourceAlreadyExistsException</code>
+  /// exception.
+  @_s.JsonKey(name: 'DatasetImportJobName')
+  final String datasetImportJobName;
+
+  /// The format of timestamps in the dataset. The format that you specify depends
+  /// on the <code>DataFrequency</code> specified when the dataset was created.
+  /// The following formats are supported
+  ///
+  /// <ul>
+  /// <li>
+  /// "yyyy-MM-dd"
+  ///
+  /// For the following data frequencies: Y, M, W, and D
+  /// </li>
+  /// <li>
+  /// "yyyy-MM-dd HH:mm:ss"
+  ///
+  /// For the following data frequencies: H, 30min, 15min, and 1min; and
+  /// optionally, for: Y, M, W, and D
+  /// </li>
+  /// </ul>
+  /// If the format isn't specified, Amazon Forecast expects the format to be
+  /// "yyyy-MM-dd HH:mm:ss".
+  @_s.JsonKey(name: 'TimestampFormat')
+  final String timestampFormat;
+
+  CreateDatasetImportJobRequest({
+    @_s.required this.dataSource,
+    @_s.required this.datasetArn,
+    @_s.required this.datasetImportJobName,
+    this.timestampFormat,
+  });
+  Map<String, dynamic> toJson() => _$CreateDatasetImportJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2183,6 +2279,68 @@ class CreateDatasetImportJobResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDatasetRequest {
+  /// A name for the dataset.
+  @_s.JsonKey(name: 'DatasetName')
+  final String datasetName;
+
+  /// The dataset type. Valid values depend on the chosen <code>Domain</code>.
+  @_s.JsonKey(name: 'DatasetType')
+  final DatasetType datasetType;
+
+  /// The domain associated with the dataset. When you add a dataset to a dataset
+  /// group, this value and the value specified for the <code>Domain</code>
+  /// parameter of the <a>CreateDatasetGroup</a> operation must match.
+  ///
+  /// The <code>Domain</code> and <code>DatasetType</code> that you choose
+  /// determine the fields that must be present in the training data that you
+  /// import to the dataset. For example, if you choose the <code>RETAIL</code>
+  /// domain and <code>TARGET_TIME_SERIES</code> as the <code>DatasetType</code>,
+  /// Amazon Forecast requires <code>item_id</code>, <code>timestamp</code>, and
+  /// <code>demand</code> fields to be present in your data. For more information,
+  /// see <a>howitworks-datasets-groups</a>.
+  @_s.JsonKey(name: 'Domain')
+  final Domain domain;
+
+  /// The schema for the dataset. The schema attributes and their order must match
+  /// the fields in your data. The dataset <code>Domain</code> and
+  /// <code>DatasetType</code> that you choose determine the minimum required
+  /// fields in your training data. For information about the required fields for
+  /// a specific dataset domain and type, see <a>howitworks-domains-ds-types</a>.
+  @_s.JsonKey(name: 'Schema')
+  final Schema schema;
+
+  /// The frequency of data collection. This parameter is required for
+  /// RELATED_TIME_SERIES datasets.
+  ///
+  /// Valid intervals are Y (Year), M (Month), W (Week), D (Day), H (Hour), 30min
+  /// (30 minutes), 15min (15 minutes), 10min (10 minutes), 5min (5 minutes), and
+  /// 1min (1 minute). For example, "D" indicates every day and "15min" indicates
+  /// every 15 minutes.
+  @_s.JsonKey(name: 'DataFrequency')
+  final String dataFrequency;
+
+  /// An AWS Key Management Service (KMS) key and the AWS Identity and Access
+  /// Management (IAM) role that Amazon Forecast can assume to access the key.
+  @_s.JsonKey(name: 'EncryptionConfig')
+  final EncryptionConfig encryptionConfig;
+
+  CreateDatasetRequest({
+    @_s.required this.datasetName,
+    @_s.required this.datasetType,
+    @_s.required this.domain,
+    @_s.required this.schema,
+    this.dataFrequency,
+    this.encryptionConfig,
+  });
+  Map<String, dynamic> toJson() => _$CreateDatasetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateDatasetResponse {
@@ -2195,6 +2353,38 @@ class CreateDatasetResponse {
   });
   factory CreateDatasetResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateDatasetResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateForecastExportJobRequest {
+  /// The location where you want to save the forecast and an AWS Identity and
+  /// Access Management (IAM) role that Amazon Forecast can assume to access the
+  /// location. The forecast must be exported to an Amazon S3 bucket.
+  ///
+  /// If encryption is used, <code>Destination</code> must include an AWS Key
+  /// Management Service (KMS) key. The IAM role must allow Amazon Forecast
+  /// permission to access the key.
+  @_s.JsonKey(name: 'Destination')
+  final DataDestination destination;
+
+  /// The Amazon Resource Name (ARN) of the forecast that you want to export.
+  @_s.JsonKey(name: 'ForecastArn')
+  final String forecastArn;
+
+  /// The name for the forecast export job.
+  @_s.JsonKey(name: 'ForecastExportJobName')
+  final String forecastExportJobName;
+
+  CreateForecastExportJobRequest({
+    @_s.required this.destination,
+    @_s.required this.forecastArn,
+    @_s.required this.forecastExportJobName,
+  });
+  Map<String, dynamic> toJson() => _$CreateForecastExportJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2217,6 +2407,38 @@ class CreateForecastExportJobResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateForecastRequest {
+  /// A name for the forecast.
+  @_s.JsonKey(name: 'ForecastName')
+  final String forecastName;
+
+  /// The Amazon Resource Name (ARN) of the predictor to use to generate the
+  /// forecast.
+  @_s.JsonKey(name: 'PredictorArn')
+  final String predictorArn;
+
+  /// The quantiles at which probabilistic forecasts are generated. You can
+  /// specify up to 5 quantiles per forecast. Accepted values include <code>0.01
+  /// to 0.99</code> (increments of .01 only) and <code>mean</code>. The mean
+  /// forecast is different from the median (0.50) when the distribution is not
+  /// symmetric (e.g. Beta, Negative Binomial). The default value is <code>["0.1",
+  /// "0.5", "0.9"]</code>.
+  @_s.JsonKey(name: 'ForecastTypes')
+  final List<String> forecastTypes;
+
+  CreateForecastRequest({
+    @_s.required this.forecastName,
+    @_s.required this.predictorArn,
+    this.forecastTypes,
+  });
+  Map<String, dynamic> toJson() => _$CreateForecastRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateForecastResponse {
@@ -2229,6 +2451,146 @@ class CreateForecastResponse {
   });
   factory CreateForecastResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateForecastResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreatePredictorRequest {
+  /// The featurization configuration.
+  @_s.JsonKey(name: 'FeaturizationConfig')
+  final FeaturizationConfig featurizationConfig;
+
+  /// Specifies the number of time-steps that the model is trained to predict. The
+  /// forecast horizon is also called the prediction length.
+  ///
+  /// For example, if you configure a dataset for daily data collection (using the
+  /// <code>DataFrequency</code> parameter of the <a>CreateDataset</a> operation)
+  /// and set the forecast horizon to 10, the model returns predictions for 10
+  /// days.
+  ///
+  /// The maximum forecast horizon is the lesser of 500 time-steps or 1/3 of the
+  /// TARGET_TIME_SERIES dataset length.
+  @_s.JsonKey(name: 'ForecastHorizon')
+  final int forecastHorizon;
+
+  /// Describes the dataset group that contains the data to use to train the
+  /// predictor.
+  @_s.JsonKey(name: 'InputDataConfig')
+  final InputDataConfig inputDataConfig;
+
+  /// A name for the predictor.
+  @_s.JsonKey(name: 'PredictorName')
+  final String predictorName;
+
+  /// The Amazon Resource Name (ARN) of the algorithm to use for model training.
+  /// Required if <code>PerformAutoML</code> is not set to <code>true</code>.
+  /// <p class="title"> <b>Supported algorithms:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>arn:aws:forecast:::algorithm/ARIMA</code>
+  /// </li>
+  /// <li>
+  /// <code>arn:aws:forecast:::algorithm/Deep_AR_Plus</code>
+  ///
+  /// Supports hyperparameter optimization (HPO)
+  /// </li>
+  /// <li>
+  /// <code>arn:aws:forecast:::algorithm/ETS</code>
+  /// </li>
+  /// <li>
+  /// <code>arn:aws:forecast:::algorithm/NPTS</code>
+  /// </li>
+  /// <li>
+  /// <code>arn:aws:forecast:::algorithm/Prophet</code>
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AlgorithmArn')
+  final String algorithmArn;
+
+  /// An AWS Key Management Service (KMS) key and the AWS Identity and Access
+  /// Management (IAM) role that Amazon Forecast can assume to access the key.
+  @_s.JsonKey(name: 'EncryptionConfig')
+  final EncryptionConfig encryptionConfig;
+
+  /// Used to override the default evaluation parameters of the specified
+  /// algorithm. Amazon Forecast evaluates a predictor by splitting a dataset into
+  /// training data and testing data. The evaluation parameters define how to
+  /// perform the split and the number of iterations.
+  @_s.JsonKey(name: 'EvaluationParameters')
+  final EvaluationParameters evaluationParameters;
+
+  /// Provides hyperparameter override values for the algorithm. If you don't
+  /// provide this parameter, Amazon Forecast uses default values. The individual
+  /// algorithms specify which hyperparameters support hyperparameter optimization
+  /// (HPO). For more information, see <a>aws-forecast-choosing-recipes</a>.
+  ///
+  /// If you included the <code>HPOConfig</code> object, you must set
+  /// <code>PerformHPO</code> to true.
+  @_s.JsonKey(name: 'HPOConfig')
+  final HyperParameterTuningJobConfig hPOConfig;
+
+  /// Whether to perform AutoML. When Amazon Forecast performs AutoML, it
+  /// evaluates the algorithms it provides and chooses the best algorithm and
+  /// configuration for your training dataset.
+  ///
+  /// The default value is <code>false</code>. In this case, you are required to
+  /// specify an algorithm.
+  ///
+  /// Set <code>PerformAutoML</code> to <code>true</code> to have Amazon Forecast
+  /// perform AutoML. This is a good option if you aren't sure which algorithm is
+  /// suitable for your training data. In this case, <code>PerformHPO</code> must
+  /// be false.
+  @_s.JsonKey(name: 'PerformAutoML')
+  final bool performAutoML;
+
+  /// Whether to perform hyperparameter optimization (HPO). HPO finds optimal
+  /// hyperparameter values for your training data. The process of performing HPO
+  /// is known as running a hyperparameter tuning job.
+  ///
+  /// The default value is <code>false</code>. In this case, Amazon Forecast uses
+  /// default hyperparameter values from the chosen algorithm.
+  ///
+  /// To override the default values, set <code>PerformHPO</code> to
+  /// <code>true</code> and, optionally, supply the
+  /// <a>HyperParameterTuningJobConfig</a> object. The tuning job specifies a
+  /// metric to optimize, which hyperparameters participate in tuning, and the
+  /// valid range for each tunable hyperparameter. In this case, you are required
+  /// to specify an algorithm and <code>PerformAutoML</code> must be false.
+  ///
+  /// The following algorithm supports HPO:
+  ///
+  /// <ul>
+  /// <li>
+  /// DeepAR+
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'PerformHPO')
+  final bool performHPO;
+
+  /// The hyperparameters to override for model training. The hyperparameters that
+  /// you can override are listed in the individual algorithms. For the list of
+  /// supported algorithms, see <a>aws-forecast-choosing-recipes</a>.
+  @_s.JsonKey(name: 'TrainingParameters')
+  final Map<String, String> trainingParameters;
+
+  CreatePredictorRequest({
+    @_s.required this.featurizationConfig,
+    @_s.required this.forecastHorizon,
+    @_s.required this.inputDataConfig,
+    @_s.required this.predictorName,
+    this.algorithmArn,
+    this.encryptionConfig,
+    this.evaluationParameters,
+    this.hPOConfig,
+    this.performAutoML,
+    this.performHPO,
+    this.trainingParameters,
+  });
+  Map<String, dynamic> toJson() => _$CreatePredictorRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2499,18 +2861,116 @@ enum DatasetType {
   itemMetadata,
 }
 
-extension on DatasetType {
-  String toValue() {
-    switch (this) {
-      case DatasetType.targetTimeSeries:
-        return 'TARGET_TIME_SERIES';
-      case DatasetType.relatedTimeSeries:
-        return 'RELATED_TIME_SERIES';
-      case DatasetType.itemMetadata:
-        return 'ITEM_METADATA';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDatasetGroupRequest {
+  /// The Amazon Resource Name (ARN) of the dataset group to delete.
+  @_s.JsonKey(name: 'DatasetGroupArn')
+  final String datasetGroupArn;
+
+  DeleteDatasetGroupRequest({
+    @_s.required this.datasetGroupArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDatasetGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDatasetImportJobRequest {
+  /// The Amazon Resource Name (ARN) of the dataset import job to delete.
+  @_s.JsonKey(name: 'DatasetImportJobArn')
+  final String datasetImportJobArn;
+
+  DeleteDatasetImportJobRequest({
+    @_s.required this.datasetImportJobArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDatasetImportJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDatasetRequest {
+  /// The Amazon Resource Name (ARN) of the dataset to delete.
+  @_s.JsonKey(name: 'DatasetArn')
+  final String datasetArn;
+
+  DeleteDatasetRequest({
+    @_s.required this.datasetArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDatasetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteForecastExportJobRequest {
+  /// The Amazon Resource Name (ARN) of the forecast export job to delete.
+  @_s.JsonKey(name: 'ForecastExportJobArn')
+  final String forecastExportJobArn;
+
+  DeleteForecastExportJobRequest({
+    @_s.required this.forecastExportJobArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteForecastExportJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteForecastRequest {
+  /// The Amazon Resource Name (ARN) of the forecast to delete.
+  @_s.JsonKey(name: 'ForecastArn')
+  final String forecastArn;
+
+  DeleteForecastRequest({
+    @_s.required this.forecastArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteForecastRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeletePredictorRequest {
+  /// The Amazon Resource Name (ARN) of the predictor to delete.
+  @_s.JsonKey(name: 'PredictorArn')
+  final String predictorArn;
+
+  DeletePredictorRequest({
+    @_s.required this.predictorArn,
+  });
+  Map<String, dynamic> toJson() => _$DeletePredictorRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeDatasetGroupRequest {
+  /// The Amazon Resource Name (ARN) of the dataset group.
+  @_s.JsonKey(name: 'DatasetGroupArn')
+  final String datasetGroupArn;
+
+  DescribeDatasetGroupRequest({
+    @_s.required this.datasetGroupArn,
+  });
+  Map<String, dynamic> toJson() => _$DescribeDatasetGroupRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2592,6 +3052,23 @@ class DescribeDatasetGroupResponse {
   });
   factory DescribeDatasetGroupResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeDatasetGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeDatasetImportJobRequest {
+  /// The Amazon Resource Name (ARN) of the dataset import job.
+  @_s.JsonKey(name: 'DatasetImportJobArn')
+  final String datasetImportJobArn;
+
+  DescribeDatasetImportJobRequest({
+    @_s.required this.datasetImportJobArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeDatasetImportJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2723,6 +3200,22 @@ class DescribeDatasetImportJobResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeDatasetRequest {
+  /// The Amazon Resource Name (ARN) of the dataset.
+  @_s.JsonKey(name: 'DatasetArn')
+  final String datasetArn;
+
+  DescribeDatasetRequest({
+    @_s.required this.datasetArn,
+  });
+  Map<String, dynamic> toJson() => _$DescribeDatasetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeDatasetResponse {
@@ -2831,6 +3324,23 @@ class DescribeDatasetResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeForecastExportJobRequest {
+  /// The Amazon Resource Name (ARN) of the forecast export job.
+  @_s.JsonKey(name: 'ForecastExportJobArn')
+  final String forecastExportJobArn;
+
+  DescribeForecastExportJobRequest({
+    @_s.required this.forecastExportJobArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeForecastExportJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeForecastExportJobResponse {
@@ -2903,6 +3413,22 @@ class DescribeForecastExportJobResponse {
   factory DescribeForecastExportJobResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeForecastExportJobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeForecastRequest {
+  /// The Amazon Resource Name (ARN) of the forecast.
+  @_s.JsonKey(name: 'ForecastArn')
+  final String forecastArn;
+
+  DescribeForecastRequest({
+    @_s.required this.forecastArn,
+  });
+  Map<String, dynamic> toJson() => _$DescribeForecastRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2988,6 +3514,23 @@ class DescribeForecastResponse {
   });
   factory DescribeForecastResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeForecastResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribePredictorRequest {
+  /// The Amazon Resource Name (ARN) of the predictor that you want information
+  /// about.
+  @_s.JsonKey(name: 'PredictorArn')
+  final String predictorArn;
+
+  DescribePredictorRequest({
+    @_s.required this.predictorArn,
+  });
+  Map<String, dynamic> toJson() => _$DescribePredictorRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3156,28 +3699,6 @@ enum Domain {
   webTraffic,
   @_s.JsonValue('METRICS')
   metrics,
-}
-
-extension on Domain {
-  String toValue() {
-    switch (this) {
-      case Domain.retail:
-        return 'RETAIL';
-      case Domain.custom:
-        return 'CUSTOM';
-      case Domain.inventoryPlanning:
-        return 'INVENTORY_PLANNING';
-      case Domain.ec2Capacity:
-        return 'EC2_CAPACITY';
-      case Domain.workForce:
-        return 'WORK_FORCE';
-      case Domain.webTraffic:
-        return 'WEB_TRAFFIC';
-      case Domain.metrics:
-        return 'METRICS';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// An AWS Key Management Service (KMS) key and an AWS Identity and Access
@@ -3665,6 +4186,22 @@ class ForecastSummary {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetAccuracyMetricsRequest {
+  /// The Amazon Resource Name (ARN) of the predictor to get metrics for.
+  @_s.JsonKey(name: 'PredictorArn')
+  final String predictorArn;
+
+  GetAccuracyMetricsRequest({
+    @_s.required this.predictorArn,
+  });
+  Map<String, dynamic> toJson() => _$GetAccuracyMetricsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetAccuracyMetricsResponse {
@@ -3799,6 +4336,29 @@ class IntegerParameterRange {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListDatasetGroupsRequest {
+  /// The number of items to return in the response.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If the result of the previous request was truncated, the response includes a
+  /// <code>NextToken</code>. To retrieve the next set of results, use the token
+  /// in the next request. Tokens expire after 24 hours.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListDatasetGroupsRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListDatasetGroupsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListDatasetGroupsResponse {
@@ -3817,6 +4377,61 @@ class ListDatasetGroupsResponse {
   });
   factory ListDatasetGroupsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListDatasetGroupsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListDatasetImportJobsRequest {
+  /// An array of filters. For each filter, you provide a condition and a match
+  /// statement. The condition is either <code>IS</code> or <code>IS_NOT</code>,
+  /// which specifies whether to include or exclude the datasets that match the
+  /// statement from the list, respectively. The match statement consists of a key
+  /// and a value.
+  ///
+  /// <b>Filter properties</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Condition</code> - The condition to apply. Valid values are
+  /// <code>IS</code> and <code>IS_NOT</code>. To include the datasets that match
+  /// the statement, specify <code>IS</code>. To exclude matching datasets,
+  /// specify <code>IS_NOT</code>.
+  /// </li>
+  /// <li>
+  /// <code>Key</code> - The name of the parameter to filter on. Valid values are
+  /// <code>DatasetArn</code> and <code>Status</code>.
+  /// </li>
+  /// <li>
+  /// <code>Value</code> - The value to match.
+  /// </li>
+  /// </ul>
+  /// For example, to list all dataset import jobs whose status is ACTIVE, you
+  /// specify the following filter:
+  ///
+  /// <code>"Filters": [ { "Condition": "IS", "Key": "Status", "Value": "ACTIVE" }
+  /// ]</code>
+  @_s.JsonKey(name: 'Filters')
+  final List<Filter> filters;
+
+  /// The number of items to return in the response.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If the result of the previous request was truncated, the response includes a
+  /// <code>NextToken</code>. To retrieve the next set of results, use the token
+  /// in the next request. Tokens expire after 24 hours.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListDatasetImportJobsRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListDatasetImportJobsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3845,6 +4460,29 @@ class ListDatasetImportJobsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListDatasetsRequest {
+  /// The number of items to return in the response.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If the result of the previous request was truncated, the response includes a
+  /// <code>NextToken</code>. To retrieve the next set of results, use the token
+  /// in the next request. Tokens expire after 24 hours.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListDatasetsRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListDatasetsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListDatasetsResponse {
@@ -3863,6 +4501,62 @@ class ListDatasetsResponse {
   });
   factory ListDatasetsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListDatasetsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListForecastExportJobsRequest {
+  /// An array of filters. For each filter, you provide a condition and a match
+  /// statement. The condition is either <code>IS</code> or <code>IS_NOT</code>,
+  /// which specifies whether to include or exclude the forecast export jobs that
+  /// match the statement from the list, respectively. The match statement
+  /// consists of a key and a value.
+  ///
+  /// <b>Filter properties</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Condition</code> - The condition to apply. Valid values are
+  /// <code>IS</code> and <code>IS_NOT</code>. To include the forecast export jobs
+  /// that match the statement, specify <code>IS</code>. To exclude matching
+  /// forecast export jobs, specify <code>IS_NOT</code>.
+  /// </li>
+  /// <li>
+  /// <code>Key</code> - The name of the parameter to filter on. Valid values are
+  /// <code>ForecastArn</code> and <code>Status</code>.
+  /// </li>
+  /// <li>
+  /// <code>Value</code> - The value to match.
+  /// </li>
+  /// </ul>
+  /// For example, to list all jobs that export a forecast named
+  /// <i>electricityforecast</i>, specify the following filter:
+  ///
+  /// <code>"Filters": [ { "Condition": "IS", "Key": "ForecastArn", "Value":
+  /// "arn:aws:forecast:us-west-2:&lt;acct-id&gt;:forecast/electricityforecast" }
+  /// ]</code>
+  @_s.JsonKey(name: 'Filters')
+  final List<Filter> filters;
+
+  /// The number of items to return in the response.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If the result of the previous request was truncated, the response includes a
+  /// <code>NextToken</code>. To retrieve the next set of results, use the token
+  /// in the next request. Tokens expire after 24 hours.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListForecastExportJobsRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListForecastExportJobsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3891,6 +4585,62 @@ class ListForecastExportJobsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListForecastsRequest {
+  /// An array of filters. For each filter, you provide a condition and a match
+  /// statement. The condition is either <code>IS</code> or <code>IS_NOT</code>,
+  /// which specifies whether to include or exclude the forecasts that match the
+  /// statement from the list, respectively. The match statement consists of a key
+  /// and a value.
+  ///
+  /// <b>Filter properties</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Condition</code> - The condition to apply. Valid values are
+  /// <code>IS</code> and <code>IS_NOT</code>. To include the forecasts that match
+  /// the statement, specify <code>IS</code>. To exclude matching forecasts,
+  /// specify <code>IS_NOT</code>.
+  /// </li>
+  /// <li>
+  /// <code>Key</code> - The name of the parameter to filter on. Valid values are
+  /// <code>DatasetGroupArn</code>, <code>PredictorArn</code>, and
+  /// <code>Status</code>.
+  /// </li>
+  /// <li>
+  /// <code>Value</code> - The value to match.
+  /// </li>
+  /// </ul>
+  /// For example, to list all forecasts whose status is not ACTIVE, you would
+  /// specify:
+  ///
+  /// <code>"Filters": [ { "Condition": "IS_NOT", "Key": "Status", "Value":
+  /// "ACTIVE" } ]</code>
+  @_s.JsonKey(name: 'Filters')
+  final List<Filter> filters;
+
+  /// The number of items to return in the response.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If the result of the previous request was truncated, the response includes a
+  /// <code>NextToken</code>. To retrieve the next set of results, use the token
+  /// in the next request. Tokens expire after 24 hours.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListForecastsRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListForecastsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListForecastsResponse {
@@ -3909,6 +4659,61 @@ class ListForecastsResponse {
   });
   factory ListForecastsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListForecastsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListPredictorsRequest {
+  /// An array of filters. For each filter, you provide a condition and a match
+  /// statement. The condition is either <code>IS</code> or <code>IS_NOT</code>,
+  /// which specifies whether to include or exclude the predictors that match the
+  /// statement from the list, respectively. The match statement consists of a key
+  /// and a value.
+  ///
+  /// <b>Filter properties</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Condition</code> - The condition to apply. Valid values are
+  /// <code>IS</code> and <code>IS_NOT</code>. To include the predictors that
+  /// match the statement, specify <code>IS</code>. To exclude matching
+  /// predictors, specify <code>IS_NOT</code>.
+  /// </li>
+  /// <li>
+  /// <code>Key</code> - The name of the parameter to filter on. Valid values are
+  /// <code>DatasetGroupArn</code> and <code>Status</code>.
+  /// </li>
+  /// <li>
+  /// <code>Value</code> - The value to match.
+  /// </li>
+  /// </ul>
+  /// For example, to list all predictors whose status is ACTIVE, you would
+  /// specify:
+  ///
+  /// <code>"Filters": [ { "Condition": "IS", "Key": "Status", "Value": "ACTIVE" }
+  /// ]</code>
+  @_s.JsonKey(name: 'Filters')
+  final List<Filter> filters;
+
+  /// The number of items to return in the response.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If the result of the previous request was truncated, the response includes a
+  /// <code>NextToken</code>. To retrieve the next set of results, use the token
+  /// in the next request. Tokens expire after 24 hours.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListPredictorsRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListPredictorsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4381,6 +5186,28 @@ class TestWindowSummary {
   });
   factory TestWindowSummary.fromJson(Map<String, dynamic> json) =>
       _$TestWindowSummaryFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDatasetGroupRequest {
+  /// An array of the Amazon Resource Names (ARNs) of the datasets to add to the
+  /// dataset group.
+  @_s.JsonKey(name: 'DatasetArns')
+  final List<String> datasetArns;
+
+  /// The ARN of the dataset group.
+  @_s.JsonKey(name: 'DatasetGroupArn')
+  final String datasetGroupArn;
+
+  UpdateDatasetGroupRequest({
+    @_s.required this.datasetArns,
+    @_s.required this.datasetGroupArn,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDatasetGroupRequestToJson(this);
 }
 
 @_s.JsonSerializable(

@@ -70,11 +70,51 @@ const _$ThresholdComparatorEnumMap = {
   ThresholdComparator.greaterThanOrEqualTo: 'GREATER_THAN_OR_EQUAL_TO',
 };
 
+Map<String, dynamic> _$CreateMemberInputToJson(CreateMemberInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('InvitationId', instance.invitationId);
+  writeNotNull('MemberConfiguration', instance.memberConfiguration?.toJson());
+  return val;
+}
+
 CreateMemberOutput _$CreateMemberOutputFromJson(Map<String, dynamic> json) {
   return CreateMemberOutput(
     memberId: json['MemberId'] as String,
   );
 }
+
+Map<String, dynamic> _$CreateNetworkInputToJson(CreateNetworkInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('Framework', _$FrameworkEnumMap[instance.framework]);
+  writeNotNull('FrameworkVersion', instance.frameworkVersion);
+  writeNotNull('MemberConfiguration', instance.memberConfiguration?.toJson());
+  writeNotNull('Name', instance.name);
+  writeNotNull('VotingPolicy', instance.votingPolicy?.toJson());
+  writeNotNull('Description', instance.description);
+  writeNotNull(
+      'FrameworkConfiguration', instance.frameworkConfiguration?.toJson());
+  return val;
+}
+
+const _$FrameworkEnumMap = {
+  Framework.hyperledgerFabric: 'HYPERLEDGER_FABRIC',
+};
 
 CreateNetworkOutput _$CreateNetworkOutputFromJson(Map<String, dynamic> json) {
   return CreateNetworkOutput(
@@ -83,10 +123,40 @@ CreateNetworkOutput _$CreateNetworkOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateNodeInputToJson(CreateNodeInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('NodeConfiguration', instance.nodeConfiguration?.toJson());
+  return val;
+}
+
 CreateNodeOutput _$CreateNodeOutputFromJson(Map<String, dynamic> json) {
   return CreateNodeOutput(
     nodeId: json['NodeId'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateProposalInputToJson(CreateProposalInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Actions', instance.actions?.toJson());
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('MemberId', instance.memberId);
+  writeNotNull('Description', instance.description);
+  return val;
 }
 
 CreateProposalOutput _$CreateProposalOutputFromJson(Map<String, dynamic> json) {
@@ -95,9 +165,15 @@ CreateProposalOutput _$CreateProposalOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DeleteMemberInputToJson(DeleteMemberInput instance) =>
+    <String, dynamic>{};
+
 DeleteMemberOutput _$DeleteMemberOutputFromJson(Map<String, dynamic> json) {
   return DeleteMemberOutput();
 }
+
+Map<String, dynamic> _$DeleteNodeInputToJson(DeleteNodeInput instance) =>
+    <String, dynamic>{};
 
 DeleteNodeOutput _$DeleteNodeOutputFromJson(Map<String, dynamic> json) {
   return DeleteNodeOutput();
@@ -452,10 +528,6 @@ Network _$NetworkFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$FrameworkEnumMap = {
-  Framework.hyperledgerFabric: 'HYPERLEDGER_FABRIC',
-};
-
 const _$NetworkStatusEnumMap = {
   NetworkStatus.creating: 'CREATING',
   NetworkStatus.available: 'AVAILABLE',
@@ -719,6 +791,10 @@ ProposalSummary _$ProposalSummaryFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$RejectInvitationInputToJson(
+        RejectInvitationInput instance) =>
+    <String, dynamic>{};
+
 RejectInvitationOutput _$RejectInvitationOutputFromJson(
     Map<String, dynamic> json) {
   return RejectInvitationOutput();
@@ -743,13 +819,60 @@ Map<String, dynamic> _$RemoveActionToJson(RemoveAction instance) {
   return val;
 }
 
+Map<String, dynamic> _$UpdateMemberInputToJson(UpdateMemberInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LogPublishingConfiguration',
+      instance.logPublishingConfiguration?.toJson());
+  return val;
+}
+
 UpdateMemberOutput _$UpdateMemberOutputFromJson(Map<String, dynamic> json) {
   return UpdateMemberOutput();
+}
+
+Map<String, dynamic> _$UpdateNodeInputToJson(UpdateNodeInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LogPublishingConfiguration',
+      instance.logPublishingConfiguration?.toJson());
+  return val;
 }
 
 UpdateNodeOutput _$UpdateNodeOutputFromJson(Map<String, dynamic> json) {
   return UpdateNodeOutput();
 }
+
+Map<String, dynamic> _$VoteOnProposalInputToJson(VoteOnProposalInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Vote', _$VoteValueEnumMap[instance.vote]);
+  writeNotNull('VoterMemberId', instance.voterMemberId);
+  return val;
+}
+
+const _$VoteValueEnumMap = {
+  VoteValue.yes: 'YES',
+  VoteValue.no: 'NO',
+};
 
 VoteOnProposalOutput _$VoteOnProposalOutputFromJson(Map<String, dynamic> json) {
   return VoteOnProposalOutput();
@@ -762,11 +885,6 @@ VoteSummary _$VoteSummaryFromJson(Map<String, dynamic> json) {
     vote: _$enumDecodeNullable(_$VoteValueEnumMap, json['Vote']),
   );
 }
-
-const _$VoteValueEnumMap = {
-  VoteValue.yes: 'YES',
-  VoteValue.no: 'NO',
-};
 
 VotingPolicy _$VotingPolicyFromJson(Map<String, dynamic> json) {
   return VotingPolicy(

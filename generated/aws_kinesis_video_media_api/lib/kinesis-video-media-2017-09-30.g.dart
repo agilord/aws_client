@@ -6,6 +6,21 @@ part of 'kinesis-video-media-2017-09-30.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$GetMediaInputToJson(GetMediaInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('StartSelector', instance.startSelector?.toJson());
+  writeNotNull('StreamARN', instance.streamARN);
+  writeNotNull('StreamName', instance.streamName);
+  return val;
+}
+
 GetMediaOutput _$GetMediaOutputFromJson(Map<String, dynamic> json) {
   return GetMediaOutput(
     contentType: json['Content-Type'] as String,

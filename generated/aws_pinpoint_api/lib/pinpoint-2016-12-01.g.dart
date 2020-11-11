@@ -1164,6 +1164,10 @@ Map<String, dynamic> _$DefaultPushNotificationTemplateToJson(
   return val;
 }
 
+Map<String, dynamic> _$DeleteAdmChannelRequestToJson(
+        DeleteAdmChannelRequest instance) =>
+    <String, dynamic>{};
+
 DeleteAdmChannelResponse _$DeleteAdmChannelResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteAdmChannelResponse(
@@ -1173,6 +1177,10 @@ DeleteAdmChannelResponse _$DeleteAdmChannelResponseFromJson(
             json['ADMChannelResponse'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$DeleteApnsChannelRequestToJson(
+        DeleteApnsChannelRequest instance) =>
+    <String, dynamic>{};
 
 DeleteApnsChannelResponse _$DeleteApnsChannelResponseFromJson(
     Map<String, dynamic> json) {
@@ -1184,6 +1192,10 @@ DeleteApnsChannelResponse _$DeleteApnsChannelResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteApnsSandboxChannelRequestToJson(
+        DeleteApnsSandboxChannelRequest instance) =>
+    <String, dynamic>{};
+
 DeleteApnsSandboxChannelResponse _$DeleteApnsSandboxChannelResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteApnsSandboxChannelResponse(
@@ -1194,6 +1206,10 @@ DeleteApnsSandboxChannelResponse _$DeleteApnsSandboxChannelResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteApnsVoipChannelRequestToJson(
+        DeleteApnsVoipChannelRequest instance) =>
+    <String, dynamic>{};
+
 DeleteApnsVoipChannelResponse _$DeleteApnsVoipChannelResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteApnsVoipChannelResponse(
@@ -1203,6 +1219,10 @@ DeleteApnsVoipChannelResponse _$DeleteApnsVoipChannelResponseFromJson(
             json['APNSVoipChannelResponse'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$DeleteApnsVoipSandboxChannelRequestToJson(
+        DeleteApnsVoipSandboxChannelRequest instance) =>
+    <String, dynamic>{};
 
 DeleteApnsVoipSandboxChannelResponse
     _$DeleteApnsVoipSandboxChannelResponseFromJson(Map<String, dynamic> json) {
@@ -1215,6 +1235,9 @@ DeleteApnsVoipSandboxChannelResponse
   );
 }
 
+Map<String, dynamic> _$DeleteAppRequestToJson(DeleteAppRequest instance) =>
+    <String, dynamic>{};
+
 DeleteAppResponse _$DeleteAppResponseFromJson(Map<String, dynamic> json) {
   return DeleteAppResponse(
     applicationResponse: json['ApplicationResponse'] == null
@@ -1223,6 +1246,10 @@ DeleteAppResponse _$DeleteAppResponseFromJson(Map<String, dynamic> json) {
             json['ApplicationResponse'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$DeleteBaiduChannelRequestToJson(
+        DeleteBaiduChannelRequest instance) =>
+    <String, dynamic>{};
 
 DeleteBaiduChannelResponse _$DeleteBaiduChannelResponseFromJson(
     Map<String, dynamic> json) {
@@ -1234,6 +1261,10 @@ DeleteBaiduChannelResponse _$DeleteBaiduChannelResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteCampaignRequestToJson(
+        DeleteCampaignRequest instance) =>
+    <String, dynamic>{};
+
 DeleteCampaignResponse _$DeleteCampaignResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteCampaignResponse(
@@ -1243,6 +1274,10 @@ DeleteCampaignResponse _$DeleteCampaignResponseFromJson(
             json['CampaignResponse'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$DeleteEmailChannelRequestToJson(
+        DeleteEmailChannelRequest instance) =>
+    <String, dynamic>{};
 
 DeleteEmailChannelResponse _$DeleteEmailChannelResponseFromJson(
     Map<String, dynamic> json) {
@@ -1254,6 +1289,10 @@ DeleteEmailChannelResponse _$DeleteEmailChannelResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteEmailTemplateRequestToJson(
+        DeleteEmailTemplateRequest instance) =>
+    <String, dynamic>{};
+
 DeleteEmailTemplateResponse _$DeleteEmailTemplateResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteEmailTemplateResponse(
@@ -1262,6 +1301,10 @@ DeleteEmailTemplateResponse _$DeleteEmailTemplateResponseFromJson(
         : MessageBody.fromJson(json['MessageBody'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$DeleteEndpointRequestToJson(
+        DeleteEndpointRequest instance) =>
+    <String, dynamic>{};
 
 DeleteEndpointResponse _$DeleteEndpointResponseFromJson(
     Map<String, dynamic> json) {
@@ -1273,6 +1316,10 @@ DeleteEndpointResponse _$DeleteEndpointResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteEventStreamRequestToJson(
+        DeleteEventStreamRequest instance) =>
+    <String, dynamic>{};
+
 DeleteEventStreamResponse _$DeleteEventStreamResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteEventStreamResponse(
@@ -1281,6 +1328,10 @@ DeleteEventStreamResponse _$DeleteEventStreamResponseFromJson(
         : EventStream.fromJson(json['EventStream'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$DeleteGcmChannelRequestToJson(
+        DeleteGcmChannelRequest instance) =>
+    <String, dynamic>{};
 
 DeleteGcmChannelResponse _$DeleteGcmChannelResponseFromJson(
     Map<String, dynamic> json) {
@@ -1292,6 +1343,10 @@ DeleteGcmChannelResponse _$DeleteGcmChannelResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteJourneyRequestToJson(
+        DeleteJourneyRequest instance) =>
+    <String, dynamic>{};
+
 DeleteJourneyResponse _$DeleteJourneyResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteJourneyResponse(
@@ -1302,6 +1357,10 @@ DeleteJourneyResponse _$DeleteJourneyResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeletePushTemplateRequestToJson(
+        DeletePushTemplateRequest instance) =>
+    <String, dynamic>{};
+
 DeletePushTemplateResponse _$DeletePushTemplateResponseFromJson(
     Map<String, dynamic> json) {
   return DeletePushTemplateResponse(
@@ -1310,6 +1369,10 @@ DeletePushTemplateResponse _$DeletePushTemplateResponseFromJson(
         : MessageBody.fromJson(json['MessageBody'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$DeleteRecommenderConfigurationRequestToJson(
+        DeleteRecommenderConfigurationRequest instance) =>
+    <String, dynamic>{};
 
 DeleteRecommenderConfigurationResponse
     _$DeleteRecommenderConfigurationResponseFromJson(
@@ -1324,6 +1387,10 @@ DeleteRecommenderConfigurationResponse
   );
 }
 
+Map<String, dynamic> _$DeleteSegmentRequestToJson(
+        DeleteSegmentRequest instance) =>
+    <String, dynamic>{};
+
 DeleteSegmentResponse _$DeleteSegmentResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteSegmentResponse(
@@ -1333,6 +1400,10 @@ DeleteSegmentResponse _$DeleteSegmentResponseFromJson(
             json['SegmentResponse'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$DeleteSmsChannelRequestToJson(
+        DeleteSmsChannelRequest instance) =>
+    <String, dynamic>{};
 
 DeleteSmsChannelResponse _$DeleteSmsChannelResponseFromJson(
     Map<String, dynamic> json) {
@@ -1344,6 +1415,10 @@ DeleteSmsChannelResponse _$DeleteSmsChannelResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteSmsTemplateRequestToJson(
+        DeleteSmsTemplateRequest instance) =>
+    <String, dynamic>{};
+
 DeleteSmsTemplateResponse _$DeleteSmsTemplateResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteSmsTemplateResponse(
@@ -1352,6 +1427,10 @@ DeleteSmsTemplateResponse _$DeleteSmsTemplateResponseFromJson(
         : MessageBody.fromJson(json['MessageBody'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$DeleteUserEndpointsRequestToJson(
+        DeleteUserEndpointsRequest instance) =>
+    <String, dynamic>{};
 
 DeleteUserEndpointsResponse _$DeleteUserEndpointsResponseFromJson(
     Map<String, dynamic> json) {
@@ -1363,6 +1442,10 @@ DeleteUserEndpointsResponse _$DeleteUserEndpointsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteVoiceChannelRequestToJson(
+        DeleteVoiceChannelRequest instance) =>
+    <String, dynamic>{};
+
 DeleteVoiceChannelResponse _$DeleteVoiceChannelResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteVoiceChannelResponse(
@@ -1372,6 +1455,10 @@ DeleteVoiceChannelResponse _$DeleteVoiceChannelResponseFromJson(
             json['VoiceChannelResponse'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$DeleteVoiceTemplateRequestToJson(
+        DeleteVoiceTemplateRequest instance) =>
+    <String, dynamic>{};
 
 DeleteVoiceTemplateResponse _$DeleteVoiceTemplateResponseFromJson(
     Map<String, dynamic> json) {
@@ -4210,6 +4297,10 @@ TreatmentResource _$TreatmentResourceFromJson(Map<String, dynamic> json) {
     treatmentName: json['TreatmentName'] as String,
   );
 }
+
+Map<String, dynamic> _$UntagResourceRequestToJson(
+        UntagResourceRequest instance) =>
+    <String, dynamic>{};
 
 UpdateAdmChannelResponse _$UpdateAdmChannelResponseFromJson(
     Map<String, dynamic> json) {

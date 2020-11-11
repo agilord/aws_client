@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -75,9 +74,9 @@ class Macie {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'memberAccountId': memberAccountId,
-      },
+      payload: AssociateMemberAccountRequest(
+        memberAccountId: memberAccountId,
+      ),
     );
   }
 
@@ -119,10 +118,10 @@ class Macie {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        's3Resources': s3Resources,
-        if (memberAccountId != null) 'memberAccountId': memberAccountId,
-      },
+      payload: AssociateS3ResourcesRequest(
+        s3Resources: s3Resources,
+        memberAccountId: memberAccountId,
+      ),
     );
 
     return AssociateS3ResourcesResult.fromJson(jsonResponse.body);
@@ -155,9 +154,9 @@ class Macie {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'memberAccountId': memberAccountId,
-      },
+      payload: DisassociateMemberAccountRequest(
+        memberAccountId: memberAccountId,
+      ),
     );
   }
 
@@ -198,10 +197,10 @@ class Macie {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'associatedS3Resources': associatedS3Resources,
-        if (memberAccountId != null) 'memberAccountId': memberAccountId,
-      },
+      payload: DisassociateS3ResourcesRequest(
+        associatedS3Resources: associatedS3Resources,
+        memberAccountId: memberAccountId,
+      ),
     );
 
     return DisassociateS3ResourcesResult.fromJson(jsonResponse.body);
@@ -248,10 +247,10 @@ class Macie {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListMemberAccountsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListMemberAccountsResult.fromJson(jsonResponse.body);
@@ -312,11 +311,11 @@ class Macie {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'maxResults': maxResults,
-        if (memberAccountId != null) 'memberAccountId': memberAccountId,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListS3ResourcesRequest(
+        maxResults: maxResults,
+        memberAccountId: memberAccountId,
+        nextToken: nextToken,
+      ),
     );
 
     return ListS3ResourcesResult.fromJson(jsonResponse.body);
@@ -359,10 +358,10 @@ class Macie {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        's3ResourcesUpdate': s3ResourcesUpdate,
-        if (memberAccountId != null) 'memberAccountId': memberAccountId,
-      },
+      payload: UpdateS3ResourcesRequest(
+        s3ResourcesUpdate: s3ResourcesUpdate,
+        memberAccountId: memberAccountId,
+      ),
     );
 
     return UpdateS3ResourcesResult.fromJson(jsonResponse.body);
@@ -387,6 +386,46 @@ class AccessDeniedException implements _s.AwsException {
   });
   factory AccessDeniedException.fromJson(Map<String, dynamic> json) =>
       _$AccessDeniedExceptionFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateMemberAccountRequest {
+  /// The ID of the AWS account that you want to associate with Amazon Macie as a
+  /// member account.
+  @_s.JsonKey(name: 'memberAccountId')
+  final String memberAccountId;
+
+  AssociateMemberAccountRequest({
+    @_s.required this.memberAccountId,
+  });
+  Map<String, dynamic> toJson() => _$AssociateMemberAccountRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateS3ResourcesRequest {
+  /// The S3 resources that you want to associate with Amazon Macie for monitoring
+  /// and data classification.
+  @_s.JsonKey(name: 's3Resources')
+  final List<S3ResourceClassification> s3Resources;
+
+  /// The ID of the Amazon Macie member account whose resources you want to
+  /// associate with Macie.
+  @_s.JsonKey(name: 'memberAccountId')
+  final String memberAccountId;
+
+  AssociateS3ResourcesRequest({
+    @_s.required this.s3Resources,
+    this.memberAccountId,
+  });
+  Map<String, dynamic> toJson() => _$AssociateS3ResourcesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -461,6 +500,46 @@ class ClassificationTypeUpdate {
     this.oneTime,
   });
   Map<String, dynamic> toJson() => _$ClassificationTypeUpdateToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateMemberAccountRequest {
+  /// The ID of the member account that you want to remove from Amazon Macie.
+  @_s.JsonKey(name: 'memberAccountId')
+  final String memberAccountId;
+
+  DisassociateMemberAccountRequest({
+    @_s.required this.memberAccountId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DisassociateMemberAccountRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateS3ResourcesRequest {
+  /// The S3 resources (buckets or prefixes) that you want to remove from being
+  /// monitored and classified by Amazon Macie.
+  @_s.JsonKey(name: 'associatedS3Resources')
+  final List<S3Resource> associatedS3Resources;
+
+  /// The ID of the Amazon Macie member account whose resources you want to remove
+  /// from being monitored by Amazon Macie.
+  @_s.JsonKey(name: 'memberAccountId')
+  final String memberAccountId;
+
+  DisassociateS3ResourcesRequest({
+    @_s.required this.associatedS3Resources,
+    this.memberAccountId,
+  });
+  Map<String, dynamic> toJson() => _$DisassociateS3ResourcesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -581,6 +660,31 @@ class LimitExceededException implements _s.AwsException {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListMemberAccountsRequest {
+  /// Use this parameter to indicate the maximum number of items that you want in
+  /// the response. The default value is 250.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// Use this parameter when paginating results. Set the value of this parameter
+  /// to null on your first call to the ListMemberAccounts action. Subsequent
+  /// calls to the action fill nextToken in the request with the value of
+  /// nextToken from the previous response to continue listing data.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListMemberAccountsRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListMemberAccountsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListMemberAccountsResult {
@@ -602,6 +706,37 @@ class ListMemberAccountsResult {
   });
   factory ListMemberAccountsResult.fromJson(Map<String, dynamic> json) =>
       _$ListMemberAccountsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListS3ResourcesRequest {
+  /// Use this parameter to indicate the maximum number of items that you want in
+  /// the response. The default value is 250.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The Amazon Macie member account ID whose associated S3 resources you want to
+  /// list.
+  @_s.JsonKey(name: 'memberAccountId')
+  final String memberAccountId;
+
+  /// Use this parameter when paginating results. Set its value to null on your
+  /// first call to the ListS3Resources action. Subsequent calls to the action
+  /// fill nextToken in the request with the value of nextToken from the previous
+  /// response to continue listing data.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListS3ResourcesRequest({
+    this.maxResults,
+    this.memberAccountId,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListS3ResourcesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -748,6 +883,28 @@ class S3ResourceClassificationUpdate {
     this.prefix,
   });
   Map<String, dynamic> toJson() => _$S3ResourceClassificationUpdateToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateS3ResourcesRequest {
+  /// The S3 resources whose classification types you want to update.
+  @_s.JsonKey(name: 's3ResourcesUpdate')
+  final List<S3ResourceClassificationUpdate> s3ResourcesUpdate;
+
+  /// The AWS ID of the Amazon Macie member account whose S3 resources'
+  /// classification types you want to update.
+  @_s.JsonKey(name: 'memberAccountId')
+  final String memberAccountId;
+
+  UpdateS3ResourcesRequest({
+    @_s.required this.s3ResourcesUpdate,
+    this.memberAccountId,
+  });
+  Map<String, dynamic> toJson() => _$UpdateS3ResourcesRequestToJson(this);
 }
 
 @_s.JsonSerializable(

@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -216,17 +215,15 @@ class MarketplaceCommerceAnalytics {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'dataSetPublicationDate': dataSetPublicationDate,
-        'dataSetType': dataSetType?.toValue(),
-        'destinationS3BucketName': destinationS3BucketName,
-        'roleNameArn': roleNameArn,
-        'snsTopicArn': snsTopicArn,
-        if (customerDefinedValues != null)
-          'customerDefinedValues': customerDefinedValues,
-        if (destinationS3Prefix != null)
-          'destinationS3Prefix': destinationS3Prefix,
-      },
+      payload: GenerateDataSetRequest(
+        dataSetPublicationDate: dataSetPublicationDate,
+        dataSetType: dataSetType,
+        destinationS3BucketName: destinationS3BucketName,
+        roleNameArn: roleNameArn,
+        snsTopicArn: snsTopicArn,
+        customerDefinedValues: customerDefinedValues,
+        destinationS3Prefix: destinationS3Prefix,
+      ),
     );
 
     return GenerateDataSetResult.fromJson(jsonResponse.body);
@@ -341,17 +338,15 @@ class MarketplaceCommerceAnalytics {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'dataSetType': dataSetType?.toValue(),
-        'destinationS3BucketName': destinationS3BucketName,
-        'fromDate': fromDate,
-        'roleNameArn': roleNameArn,
-        'snsTopicArn': snsTopicArn,
-        if (customerDefinedValues != null)
-          'customerDefinedValues': customerDefinedValues,
-        if (destinationS3Prefix != null)
-          'destinationS3Prefix': destinationS3Prefix,
-      },
+      payload: StartSupportDataExportRequest(
+        dataSetType: dataSetType,
+        destinationS3BucketName: destinationS3BucketName,
+        fromDate: fromDate,
+        roleNameArn: roleNameArn,
+        snsTopicArn: snsTopicArn,
+        customerDefinedValues: customerDefinedValues,
+        destinationS3Prefix: destinationS3Prefix,
+      ),
     );
 
     return StartSupportDataExportResult.fromJson(jsonResponse.body);
@@ -411,62 +406,148 @@ enum DataSetType {
   usSalesAndUseTaxRecords,
 }
 
-extension on DataSetType {
-  String toValue() {
-    switch (this) {
-      case DataSetType.customerSubscriberHourlyMonthlySubscriptions:
-        return 'customer_subscriber_hourly_monthly_subscriptions';
-      case DataSetType.customerSubscriberAnnualSubscriptions:
-        return 'customer_subscriber_annual_subscriptions';
-      case DataSetType.dailyBusinessUsageByInstanceType:
-        return 'daily_business_usage_by_instance_type';
-      case DataSetType.dailyBusinessFees:
-        return 'daily_business_fees';
-      case DataSetType.dailyBusinessFreeTrialConversions:
-        return 'daily_business_free_trial_conversions';
-      case DataSetType.dailyBusinessNewInstances:
-        return 'daily_business_new_instances';
-      case DataSetType.dailyBusinessNewProductSubscribers:
-        return 'daily_business_new_product_subscribers';
-      case DataSetType.dailyBusinessCanceledProductSubscribers:
-        return 'daily_business_canceled_product_subscribers';
-      case DataSetType.monthlyRevenueBillingAndRevenueData:
-        return 'monthly_revenue_billing_and_revenue_data';
-      case DataSetType.monthlyRevenueAnnualSubscriptions:
-        return 'monthly_revenue_annual_subscriptions';
-      case DataSetType.monthlyRevenueFieldDemonstrationUsage:
-        return 'monthly_revenue_field_demonstration_usage';
-      case DataSetType.monthlyRevenueFlexiblePaymentSchedule:
-        return 'monthly_revenue_flexible_payment_schedule';
-      case DataSetType.disbursedAmountByProduct:
-        return 'disbursed_amount_by_product';
-      case DataSetType.disbursedAmountByProductWithUncollectedFunds:
-        return 'disbursed_amount_by_product_with_uncollected_funds';
-      case DataSetType.disbursedAmountByInstanceHours:
-        return 'disbursed_amount_by_instance_hours';
-      case DataSetType.disbursedAmountByCustomerGeo:
-        return 'disbursed_amount_by_customer_geo';
-      case DataSetType.disbursedAmountByAgeOfUncollectedFunds:
-        return 'disbursed_amount_by_age_of_uncollected_funds';
-      case DataSetType.disbursedAmountByAgeOfDisbursedFunds:
-        return 'disbursed_amount_by_age_of_disbursed_funds';
-      case DataSetType.disbursedAmountByAgeOfPastDueFunds:
-        return 'disbursed_amount_by_age_of_past_due_funds';
-      case DataSetType.disbursedAmountByUncollectedFundsBreakdown:
-        return 'disbursed_amount_by_uncollected_funds_breakdown';
-      case DataSetType.customerProfileByIndustry:
-        return 'customer_profile_by_industry';
-      case DataSetType.customerProfileByRevenue:
-        return 'customer_profile_by_revenue';
-      case DataSetType.customerProfileByGeography:
-        return 'customer_profile_by_geography';
-      case DataSetType.salesCompensationBilledRevenue:
-        return 'sales_compensation_billed_revenue';
-      case DataSetType.usSalesAndUseTaxRecords:
-        return 'us_sales_and_use_tax_records';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+/// Container for the parameters to the GenerateDataSet operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GenerateDataSetRequest {
+  /// The date a data set was published. For daily data sets, provide a date with
+  /// day-level granularity for the desired day. For monthly data sets except
+  /// those with prefix disbursed_amount, provide a date with month-level
+  /// granularity for the desired month (the day value will be ignored). For data
+  /// sets with prefix disbursed_amount, provide a date with day-level granularity
+  /// for the desired day. For these data sets we will look backwards in time over
+  /// the range of 31 days until the first data set is found (the latest one).
+  @_s.JsonKey(
+      name: 'dataSetPublicationDate',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime dataSetPublicationDate;
+
+  /// The desired data set type.
+  ///
+  ///
+  /// <ul>
+  /// <li> <strong>customer_subscriber_hourly_monthly_subscriptions</strong>
+  /// From 2017-09-15 to present: Available daily by 24:00 UTC.
+  /// </li>
+  /// <li> <strong>customer_subscriber_annual_subscriptions</strong>
+  /// From 2017-09-15 to present: Available daily by 24:00 UTC.
+  /// </li>
+  /// <li> <strong>daily_business_usage_by_instance_type</strong>
+  /// From 2017-09-15 to present: Available daily by 24:00 UTC.
+  /// </li>
+  /// <li> <strong>daily_business_fees</strong>
+  /// From 2017-09-15 to present: Available daily by 24:00 UTC.
+  /// </li>
+  /// <li> <strong>daily_business_free_trial_conversions</strong>
+  /// From 2017-09-15 to present: Available daily by 24:00 UTC.
+  /// </li>
+  /// <li> <strong>daily_business_new_instances</strong>
+  /// From 2017-09-15 to present: Available daily by 24:00 UTC.
+  /// </li>
+  /// <li> <strong>daily_business_new_product_subscribers</strong>
+  /// From 2017-09-15 to present: Available daily by 24:00 UTC.
+  /// </li>
+  /// <li> <strong>daily_business_canceled_product_subscribers</strong>
+  /// From 2017-09-15 to present: Available daily by 24:00 UTC.
+  /// </li>
+  /// <li> <strong>monthly_revenue_billing_and_revenue_data</strong>
+  /// From 2017-09-15 to present: Available monthly on the 15th day of the month
+  /// by 24:00 UTC. Data includes metered transactions (e.g. hourly) from one
+  /// month prior.
+  /// </li>
+  /// <li> <strong>monthly_revenue_annual_subscriptions</strong>
+  /// From 2017-09-15 to present: Available monthly on the 15th day of the month
+  /// by 24:00 UTC. Data includes up-front software charges (e.g. annual) from one
+  /// month prior.
+  /// </li>
+  /// <li> <strong>monthly_revenue_field_demonstration_usage</strong>
+  /// From 2018-03-15 to present: Available monthly on the 15th day of the month
+  /// by 24:00 UTC.
+  /// </li>
+  /// <li> <strong>monthly_revenue_flexible_payment_schedule</strong>
+  /// From 2018-11-15 to present: Available monthly on the 15th day of the month
+  /// by 24:00 UTC.
+  /// </li>
+  /// <li> <strong>disbursed_amount_by_product</strong>
+  /// From 2017-09-15 to present: Available every 30 days by 24:00 UTC.
+  /// </li>
+  /// <li> <strong>disbursed_amount_by_instance_hours</strong>
+  /// From 2017-09-15 to present: Available every 30 days by 24:00 UTC.
+  /// </li>
+  /// <li> <strong>disbursed_amount_by_customer_geo</strong>
+  /// From 2017-09-15 to present: Available every 30 days by 24:00 UTC.
+  /// </li>
+  /// <li> <strong>disbursed_amount_by_age_of_uncollected_funds</strong>
+  /// From 2017-09-15 to present: Available every 30 days by 24:00 UTC.
+  /// </li>
+  /// <li> <strong>disbursed_amount_by_age_of_disbursed_funds</strong>
+  /// From 2017-09-15 to present: Available every 30 days by 24:00 UTC.
+  /// </li>
+  /// <li> <strong>disbursed_amount_by_age_of_past_due_funds</strong>
+  /// From 2018-04-07 to present: Available every 30 days by 24:00 UTC.
+  /// </li>
+  /// <li> <strong>disbursed_amount_by_uncollected_funds_breakdown</strong>
+  /// From 2019-10-04 to present: Available every 30 days by 24:00 UTC.
+  /// </li>
+  /// <li> <strong>sales_compensation_billed_revenue</strong>
+  /// From 2017-09-15 to present: Available monthly on the 15th day of the month
+  /// by 24:00 UTC. Data includes metered transactions (e.g. hourly) from one
+  /// month prior, and up-front software charges (e.g. annual) from one month
+  /// prior.
+  /// </li>
+  /// <li> <strong>us_sales_and_use_tax_records</strong>
+  /// From 2017-09-15 to present: Available monthly on the 15th day of the month
+  /// by 24:00 UTC.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'dataSetType')
+  final DataSetType dataSetType;
+
+  /// The name (friendly name, not ARN) of the destination S3 bucket.
+  @_s.JsonKey(name: 'destinationS3BucketName')
+  final String destinationS3BucketName;
+
+  /// The Amazon Resource Name (ARN) of the Role with an attached permissions
+  /// policy to interact with the provided AWS services.
+  @_s.JsonKey(name: 'roleNameArn')
+  final String roleNameArn;
+
+  /// Amazon Resource Name (ARN) for the SNS Topic that will be notified when the
+  /// data set has been published or if an error has occurred.
+  @_s.JsonKey(name: 'snsTopicArn')
+  final String snsTopicArn;
+
+  /// (Optional) Key-value pairs which will be returned, unmodified, in the Amazon
+  /// SNS notification message and the data set metadata file. These key-value
+  /// pairs can be used to correlated responses with tracking information from
+  /// other systems.
+  @_s.JsonKey(name: 'customerDefinedValues')
+  final Map<String, String> customerDefinedValues;
+
+  /// (Optional) The desired S3 prefix for the published data set, similar to a
+  /// directory path in standard file systems. For example, if given the bucket
+  /// name "mybucket" and the prefix "myprefix/mydatasets", the output file
+  /// "outputfile" would be published to
+  /// "s3://mybucket/myprefix/mydatasets/outputfile". If the prefix directory
+  /// structure does not exist, it will be created. If no prefix is provided, the
+  /// data set will be published to the S3 bucket root.
+  @_s.JsonKey(name: 'destinationS3Prefix')
+  final String destinationS3Prefix;
+
+  GenerateDataSetRequest({
+    @_s.required this.dataSetPublicationDate,
+    @_s.required this.dataSetType,
+    @_s.required this.destinationS3BucketName,
+    @_s.required this.roleNameArn,
+    @_s.required this.snsTopicArn,
+    this.customerDefinedValues,
+    this.destinationS3Prefix,
+  });
+  Map<String, dynamic> toJson() => _$GenerateDataSetRequestToJson(this);
 }
 
 /// Container for the result of the GenerateDataSet operation.
@@ -487,6 +568,83 @@ class GenerateDataSetResult {
   });
   factory GenerateDataSetResult.fromJson(Map<String, dynamic> json) =>
       _$GenerateDataSetResultFromJson(json);
+}
+
+/// Container for the parameters to the StartSupportDataExport operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartSupportDataExportRequest {
+  /// Specifies the data set type to be written to the output csv file. The data
+  /// set types customer_support_contacts_data and
+  /// test_customer_support_contacts_data both result in a csv file containing the
+  /// following fields: Product Id, Product Code, Customer Guid, Subscription
+  /// Guid, Subscription Start Date, Organization, AWS Account Id, Given Name,
+  /// Surname, Telephone Number, Email, Title, Country Code, ZIP Code, Operation
+  /// Type, and Operation Time.
+  ///
+  ///
+  /// <ul>
+  /// <li><i>customer_support_contacts_data</i> Customer support contact data. The
+  /// data set will contain all changes (Creates, Updates, and Deletes) to
+  /// customer support contact data from the date specified in the from_date
+  /// parameter.</li>
+  /// <li><i>test_customer_support_contacts_data</i> An example data set
+  /// containing static test data in the same format as
+  /// customer_support_contacts_data</li>
+  /// </ul>
+  @_s.JsonKey(name: 'dataSetType')
+  final SupportDataSetType dataSetType;
+
+  /// The name (friendly name, not ARN) of the destination S3 bucket.
+  @_s.JsonKey(name: 'destinationS3BucketName')
+  final String destinationS3BucketName;
+
+  /// The start date from which to retrieve the data set in UTC. This parameter
+  /// only affects the customer_support_contacts_data data set type.
+  @_s.JsonKey(
+      name: 'fromDate',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime fromDate;
+
+  /// The Amazon Resource Name (ARN) of the Role with an attached permissions
+  /// policy to interact with the provided AWS services.
+  @_s.JsonKey(name: 'roleNameArn')
+  final String roleNameArn;
+
+  /// Amazon Resource Name (ARN) for the SNS Topic that will be notified when the
+  /// data set has been published or if an error has occurred.
+  @_s.JsonKey(name: 'snsTopicArn')
+  final String snsTopicArn;
+
+  /// (Optional) Key-value pairs which will be returned, unmodified, in the Amazon
+  /// SNS notification message and the data set metadata file.
+  @_s.JsonKey(name: 'customerDefinedValues')
+  final Map<String, String> customerDefinedValues;
+
+  /// (Optional) The desired S3 prefix for the published data set, similar to a
+  /// directory path in standard file systems. For example, if given the bucket
+  /// name "mybucket" and the prefix "myprefix/mydatasets", the output file
+  /// "outputfile" would be published to
+  /// "s3://mybucket/myprefix/mydatasets/outputfile". If the prefix directory
+  /// structure does not exist, it will be created. If no prefix is provided, the
+  /// data set will be published to the S3 bucket root.
+  @_s.JsonKey(name: 'destinationS3Prefix')
+  final String destinationS3Prefix;
+
+  StartSupportDataExportRequest({
+    @_s.required this.dataSetType,
+    @_s.required this.destinationS3BucketName,
+    @_s.required this.fromDate,
+    @_s.required this.roleNameArn,
+    @_s.required this.snsTopicArn,
+    this.customerDefinedValues,
+    this.destinationS3Prefix,
+  });
+  Map<String, dynamic> toJson() => _$StartSupportDataExportRequestToJson(this);
 }
 
 /// Container for the result of the StartSupportDataExport operation.
@@ -514,18 +672,6 @@ enum SupportDataSetType {
   customerSupportContactsData,
   @_s.JsonValue('test_customer_support_contacts_data')
   testCustomerSupportContactsData,
-}
-
-extension on SupportDataSetType {
-  String toValue() {
-    switch (this) {
-      case SupportDataSetType.customerSupportContactsData:
-        return 'customer_support_contacts_data';
-      case SupportDataSetType.testCustomerSupportContactsData:
-        return 'test_customer_support_contacts_data';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 class MarketplaceCommerceAnalyticsException extends _s.GenericAwsException {

@@ -6,6 +6,20 @@ part of 'ds-2015-04-16.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$AcceptSharedDirectoryRequestToJson(
+    AcceptSharedDirectoryRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SharedDirectoryId', instance.sharedDirectoryId);
+  return val;
+}
+
 AcceptSharedDirectoryResult _$AcceptSharedDirectoryResultFromJson(
     Map<String, dynamic> json) {
   return AcceptSharedDirectoryResult(
@@ -16,8 +30,40 @@ AcceptSharedDirectoryResult _$AcceptSharedDirectoryResultFromJson(
   );
 }
 
+Map<String, dynamic> _$AddIpRoutesRequestToJson(AddIpRoutesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryId', instance.directoryId);
+  writeNotNull(
+      'IpRoutes', instance.ipRoutes?.map((e) => e?.toJson())?.toList());
+  writeNotNull('UpdateSecurityGroupForDirectoryControllers',
+      instance.updateSecurityGroupForDirectoryControllers);
+  return val;
+}
+
 AddIpRoutesResult _$AddIpRoutesResultFromJson(Map<String, dynamic> json) {
   return AddIpRoutesResult();
+}
+
+Map<String, dynamic> _$AddTagsToResourceRequestToJson(
+    AddTagsToResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceId', instance.resourceId);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 AddTagsToResourceResult _$AddTagsToResourceResultFromJson(
@@ -43,6 +89,21 @@ Map<String, dynamic> _$AttributeToJson(Attribute instance) {
 
   writeNotNull('Name', instance.name);
   writeNotNull('Value', instance.value);
+  return val;
+}
+
+Map<String, dynamic> _$CancelSchemaExtensionRequestToJson(
+    CancelSchemaExtensionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryId', instance.directoryId);
+  writeNotNull('SchemaExtensionId', instance.schemaExtensionId);
   return val;
 }
 
@@ -136,6 +197,31 @@ const _$ReplicationScopeEnumMap = {
   ReplicationScope.domain: 'Domain',
 };
 
+Map<String, dynamic> _$ConnectDirectoryRequestToJson(
+    ConnectDirectoryRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConnectSettings', instance.connectSettings?.toJson());
+  writeNotNull('Name', instance.name);
+  writeNotNull('Password', instance.password);
+  writeNotNull('Size', _$DirectorySizeEnumMap[instance.size]);
+  writeNotNull('Description', instance.description);
+  writeNotNull('ShortName', instance.shortName);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+const _$DirectorySizeEnumMap = {
+  DirectorySize.small: 'Small',
+  DirectorySize.large: 'Large',
+};
+
 ConnectDirectoryResult _$ConnectDirectoryResultFromJson(
     Map<String, dynamic> json) {
   return ConnectDirectoryResult(
@@ -143,11 +229,45 @@ ConnectDirectoryResult _$ConnectDirectoryResultFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateAliasRequestToJson(CreateAliasRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Alias', instance.alias);
+  writeNotNull('DirectoryId', instance.directoryId);
+  return val;
+}
+
 CreateAliasResult _$CreateAliasResultFromJson(Map<String, dynamic> json) {
   return CreateAliasResult(
     alias: json['Alias'] as String,
     directoryId: json['DirectoryId'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateComputerRequestToJson(
+    CreateComputerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ComputerName', instance.computerName);
+  writeNotNull('DirectoryId', instance.directoryId);
+  writeNotNull('Password', instance.password);
+  writeNotNull('ComputerAttributes',
+      instance.computerAttributes?.map((e) => e?.toJson())?.toList());
+  writeNotNull('OrganizationalUnitDistinguishedName',
+      instance.organizationalUnitDistinguishedName);
+  return val;
 }
 
 CreateComputerResult _$CreateComputerResultFromJson(Map<String, dynamic> json) {
@@ -158,9 +278,45 @@ CreateComputerResult _$CreateComputerResultFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateConditionalForwarderRequestToJson(
+    CreateConditionalForwarderRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryId', instance.directoryId);
+  writeNotNull('DnsIpAddrs', instance.dnsIpAddrs);
+  writeNotNull('RemoteDomainName', instance.remoteDomainName);
+  return val;
+}
+
 CreateConditionalForwarderResult _$CreateConditionalForwarderResultFromJson(
     Map<String, dynamic> json) {
   return CreateConditionalForwarderResult();
+}
+
+Map<String, dynamic> _$CreateDirectoryRequestToJson(
+    CreateDirectoryRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('Password', instance.password);
+  writeNotNull('Size', _$DirectorySizeEnumMap[instance.size]);
+  writeNotNull('Description', instance.description);
+  writeNotNull('ShortName', instance.shortName);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('VpcSettings', instance.vpcSettings?.toJson());
+  return val;
 }
 
 CreateDirectoryResult _$CreateDirectoryResultFromJson(
@@ -170,10 +326,50 @@ CreateDirectoryResult _$CreateDirectoryResultFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateLogSubscriptionRequestToJson(
+    CreateLogSubscriptionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryId', instance.directoryId);
+  writeNotNull('LogGroupName', instance.logGroupName);
+  return val;
+}
+
 CreateLogSubscriptionResult _$CreateLogSubscriptionResultFromJson(
     Map<String, dynamic> json) {
   return CreateLogSubscriptionResult();
 }
+
+Map<String, dynamic> _$CreateMicrosoftADRequestToJson(
+    CreateMicrosoftADRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('Password', instance.password);
+  writeNotNull('VpcSettings', instance.vpcSettings?.toJson());
+  writeNotNull('Description', instance.description);
+  writeNotNull('Edition', _$DirectoryEditionEnumMap[instance.edition]);
+  writeNotNull('ShortName', instance.shortName);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+const _$DirectoryEditionEnumMap = {
+  DirectoryEdition.enterprise: 'Enterprise',
+  DirectoryEdition.standard: 'Standard',
+};
 
 CreateMicrosoftADResult _$CreateMicrosoftADResultFromJson(
     Map<String, dynamic> json) {
@@ -182,11 +378,63 @@ CreateMicrosoftADResult _$CreateMicrosoftADResultFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateSnapshotRequestToJson(
+    CreateSnapshotRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryId', instance.directoryId);
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
 CreateSnapshotResult _$CreateSnapshotResultFromJson(Map<String, dynamic> json) {
   return CreateSnapshotResult(
     snapshotId: json['SnapshotId'] as String,
   );
 }
+
+Map<String, dynamic> _$CreateTrustRequestToJson(CreateTrustRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryId', instance.directoryId);
+  writeNotNull('RemoteDomainName', instance.remoteDomainName);
+  writeNotNull(
+      'TrustDirection', _$TrustDirectionEnumMap[instance.trustDirection]);
+  writeNotNull('TrustPassword', instance.trustPassword);
+  writeNotNull(
+      'ConditionalForwarderIpAddrs', instance.conditionalForwarderIpAddrs);
+  writeNotNull('SelectiveAuth', _$SelectiveAuthEnumMap[instance.selectiveAuth]);
+  writeNotNull('TrustType', _$TrustTypeEnumMap[instance.trustType]);
+  return val;
+}
+
+const _$TrustDirectionEnumMap = {
+  TrustDirection.oneWayOutgoing: 'One-Way: Outgoing',
+  TrustDirection.oneWayIncoming: 'One-Way: Incoming',
+  TrustDirection.twoWay: 'Two-Way',
+};
+
+const _$SelectiveAuthEnumMap = {
+  SelectiveAuth.enabled: 'Enabled',
+  SelectiveAuth.disabled: 'Disabled',
+};
+
+const _$TrustTypeEnumMap = {
+  TrustType.forest: 'Forest',
+  TrustType.external: 'External',
+};
 
 CreateTrustResult _$CreateTrustResultFromJson(Map<String, dynamic> json) {
   return CreateTrustResult(
@@ -194,9 +442,38 @@ CreateTrustResult _$CreateTrustResultFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DeleteConditionalForwarderRequestToJson(
+    DeleteConditionalForwarderRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryId', instance.directoryId);
+  writeNotNull('RemoteDomainName', instance.remoteDomainName);
+  return val;
+}
+
 DeleteConditionalForwarderResult _$DeleteConditionalForwarderResultFromJson(
     Map<String, dynamic> json) {
   return DeleteConditionalForwarderResult();
+}
+
+Map<String, dynamic> _$DeleteDirectoryRequestToJson(
+    DeleteDirectoryRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryId', instance.directoryId);
+  return val;
 }
 
 DeleteDirectoryResult _$DeleteDirectoryResultFromJson(
@@ -206,9 +483,37 @@ DeleteDirectoryResult _$DeleteDirectoryResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteLogSubscriptionRequestToJson(
+    DeleteLogSubscriptionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryId', instance.directoryId);
+  return val;
+}
+
 DeleteLogSubscriptionResult _$DeleteLogSubscriptionResultFromJson(
     Map<String, dynamic> json) {
   return DeleteLogSubscriptionResult();
+}
+
+Map<String, dynamic> _$DeleteSnapshotRequestToJson(
+    DeleteSnapshotRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SnapshotId', instance.snapshotId);
+  return val;
 }
 
 DeleteSnapshotResult _$DeleteSnapshotResultFromJson(Map<String, dynamic> json) {
@@ -217,10 +522,40 @@ DeleteSnapshotResult _$DeleteSnapshotResultFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DeleteTrustRequestToJson(DeleteTrustRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TrustId', instance.trustId);
+  writeNotNull('DeleteAssociatedConditionalForwarder',
+      instance.deleteAssociatedConditionalForwarder);
+  return val;
+}
+
 DeleteTrustResult _$DeleteTrustResultFromJson(Map<String, dynamic> json) {
   return DeleteTrustResult(
     trustId: json['TrustId'] as String,
   );
+}
+
+Map<String, dynamic> _$DeregisterCertificateRequestToJson(
+    DeregisterCertificateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CertificateId', instance.certificateId);
+  writeNotNull('DirectoryId', instance.directoryId);
+  return val;
 }
 
 DeregisterCertificateResult _$DeregisterCertificateResultFromJson(
@@ -228,9 +563,39 @@ DeregisterCertificateResult _$DeregisterCertificateResultFromJson(
   return DeregisterCertificateResult();
 }
 
+Map<String, dynamic> _$DeregisterEventTopicRequestToJson(
+    DeregisterEventTopicRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryId', instance.directoryId);
+  writeNotNull('TopicName', instance.topicName);
+  return val;
+}
+
 DeregisterEventTopicResult _$DeregisterEventTopicResultFromJson(
     Map<String, dynamic> json) {
   return DeregisterEventTopicResult();
+}
+
+Map<String, dynamic> _$DescribeCertificateRequestToJson(
+    DescribeCertificateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CertificateId', instance.certificateId);
+  writeNotNull('DirectoryId', instance.directoryId);
+  return val;
 }
 
 DescribeCertificateResult _$DescribeCertificateResultFromJson(
@@ -242,6 +607,21 @@ DescribeCertificateResult _$DescribeCertificateResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeConditionalForwardersRequestToJson(
+    DescribeConditionalForwardersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryId', instance.directoryId);
+  writeNotNull('RemoteDomainNames', instance.remoteDomainNames);
+  return val;
+}
+
 DescribeConditionalForwardersResult
     _$DescribeConditionalForwardersResultFromJson(Map<String, dynamic> json) {
   return DescribeConditionalForwardersResult(
@@ -251,6 +631,22 @@ DescribeConditionalForwardersResult
             : ConditionalForwarder.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeDirectoriesRequestToJson(
+    DescribeDirectoriesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryIds', instance.directoryIds);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 DescribeDirectoriesResult _$DescribeDirectoriesResultFromJson(
@@ -265,6 +661,23 @@ DescribeDirectoriesResult _$DescribeDirectoriesResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeDomainControllersRequestToJson(
+    DescribeDomainControllersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryId', instance.directoryId);
+  writeNotNull('DomainControllerIds', instance.domainControllerIds);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 DescribeDomainControllersResult _$DescribeDomainControllersResultFromJson(
     Map<String, dynamic> json) {
   return DescribeDomainControllersResult(
@@ -277,6 +690,21 @@ DescribeDomainControllersResult _$DescribeDomainControllersResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeEventTopicsRequestToJson(
+    DescribeEventTopicsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryId', instance.directoryId);
+  writeNotNull('TopicNames', instance.topicNames);
+  return val;
+}
+
 DescribeEventTopicsResult _$DescribeEventTopicsResultFromJson(
     Map<String, dynamic> json) {
   return DescribeEventTopicsResult(
@@ -286,6 +714,27 @@ DescribeEventTopicsResult _$DescribeEventTopicsResultFromJson(
         ?.toList(),
   );
 }
+
+Map<String, dynamic> _$DescribeLDAPSSettingsRequestToJson(
+    DescribeLDAPSSettingsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryId', instance.directoryId);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('Type', _$LDAPSTypeEnumMap[instance.type]);
+  return val;
+}
+
+const _$LDAPSTypeEnumMap = {
+  LDAPSType.client: 'Client',
+};
 
 DescribeLDAPSSettingsResult _$DescribeLDAPSSettingsResultFromJson(
     Map<String, dynamic> json) {
@@ -297,6 +746,23 @@ DescribeLDAPSSettingsResult _$DescribeLDAPSSettingsResultFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeSharedDirectoriesRequestToJson(
+    DescribeSharedDirectoriesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('OwnerDirectoryId', instance.ownerDirectoryId);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SharedDirectoryIds', instance.sharedDirectoryIds);
+  return val;
 }
 
 DescribeSharedDirectoriesResult _$DescribeSharedDirectoriesResultFromJson(
@@ -311,6 +777,23 @@ DescribeSharedDirectoriesResult _$DescribeSharedDirectoriesResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeSnapshotsRequestToJson(
+    DescribeSnapshotsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryId', instance.directoryId);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SnapshotIds', instance.snapshotIds);
+  return val;
+}
+
 DescribeSnapshotsResult _$DescribeSnapshotsResultFromJson(
     Map<String, dynamic> json) {
   return DescribeSnapshotsResult(
@@ -320,6 +803,23 @@ DescribeSnapshotsResult _$DescribeSnapshotsResultFromJson(
             e == null ? null : Snapshot.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeTrustsRequestToJson(
+    DescribeTrustsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryId', instance.directoryId);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('TrustIds', instance.trustIds);
+  return val;
 }
 
 DescribeTrustsResult _$DescribeTrustsResultFromJson(Map<String, dynamic> json) {
@@ -408,11 +908,6 @@ DirectoryDescription _$DirectoryDescriptionFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$DirectoryEditionEnumMap = {
-  DirectoryEdition.enterprise: 'Enterprise',
-  DirectoryEdition.standard: 'Standard',
-};
-
 const _$RadiusStatusEnumMap = {
   RadiusStatus.creating: 'Creating',
   RadiusStatus.completed: 'Completed',
@@ -434,11 +929,6 @@ const _$ShareStatusEnumMap = {
   ShareStatus.shareFailed: 'ShareFailed',
   ShareStatus.deleted: 'Deleted',
   ShareStatus.deleting: 'Deleting',
-};
-
-const _$DirectorySizeEnumMap = {
-  DirectorySize.small: 'Small',
-  DirectorySize.large: 'Large',
 };
 
 const _$DirectoryStageEnumMap = {
@@ -508,12 +998,55 @@ DirectoryVpcSettingsDescription _$DirectoryVpcSettingsDescriptionFromJson(
   );
 }
 
+Map<String, dynamic> _$DisableLDAPSRequestToJson(DisableLDAPSRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryId', instance.directoryId);
+  writeNotNull('Type', _$LDAPSTypeEnumMap[instance.type]);
+  return val;
+}
+
 DisableLDAPSResult _$DisableLDAPSResultFromJson(Map<String, dynamic> json) {
   return DisableLDAPSResult();
 }
 
+Map<String, dynamic> _$DisableRadiusRequestToJson(
+    DisableRadiusRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryId', instance.directoryId);
+  return val;
+}
+
 DisableRadiusResult _$DisableRadiusResultFromJson(Map<String, dynamic> json) {
   return DisableRadiusResult();
+}
+
+Map<String, dynamic> _$DisableSsoRequestToJson(DisableSsoRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryId', instance.directoryId);
+  writeNotNull('Password', instance.password);
+  writeNotNull('UserName', instance.userName);
+  return val;
 }
 
 DisableSsoResult _$DisableSsoResultFromJson(Map<String, dynamic> json) {
@@ -547,12 +1080,55 @@ const _$DomainControllerStatusEnumMap = {
   DomainControllerStatus.failed: 'Failed',
 };
 
+Map<String, dynamic> _$EnableLDAPSRequestToJson(EnableLDAPSRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryId', instance.directoryId);
+  writeNotNull('Type', _$LDAPSTypeEnumMap[instance.type]);
+  return val;
+}
+
 EnableLDAPSResult _$EnableLDAPSResultFromJson(Map<String, dynamic> json) {
   return EnableLDAPSResult();
 }
 
+Map<String, dynamic> _$EnableRadiusRequestToJson(EnableRadiusRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryId', instance.directoryId);
+  writeNotNull('RadiusSettings', instance.radiusSettings?.toJson());
+  return val;
+}
+
 EnableRadiusResult _$EnableRadiusResultFromJson(Map<String, dynamic> json) {
   return EnableRadiusResult();
+}
+
+Map<String, dynamic> _$EnableSsoRequestToJson(EnableSsoRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryId', instance.directoryId);
+  writeNotNull('Password', instance.password);
+  writeNotNull('UserName', instance.userName);
+  return val;
 }
 
 EnableSsoResult _$EnableSsoResultFromJson(Map<String, dynamic> json) {
@@ -584,6 +1160,20 @@ GetDirectoryLimitsResult _$GetDirectoryLimitsResultFromJson(
         : DirectoryLimits.fromJson(
             json['DirectoryLimits'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetSnapshotLimitsRequestToJson(
+    GetSnapshotLimitsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryId', instance.directoryId);
+  return val;
 }
 
 GetSnapshotLimitsResult _$GetSnapshotLimitsResultFromJson(
@@ -647,6 +1237,22 @@ const _$LDAPSStatusEnumMap = {
   LDAPSStatus.disabled: 'Disabled',
 };
 
+Map<String, dynamic> _$ListCertificatesRequestToJson(
+    ListCertificatesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryId', instance.directoryId);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListCertificatesResult _$ListCertificatesResultFromJson(
     Map<String, dynamic> json) {
   return ListCertificatesResult(
@@ -659,6 +1265,21 @@ ListCertificatesResult _$ListCertificatesResultFromJson(
   );
 }
 
+Map<String, dynamic> _$ListIpRoutesRequestToJson(ListIpRoutesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryId', instance.directoryId);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListIpRoutesResult _$ListIpRoutesResultFromJson(Map<String, dynamic> json) {
   return ListIpRoutesResult(
     ipRoutesInfo: (json['IpRoutesInfo'] as List)
@@ -667,6 +1288,22 @@ ListIpRoutesResult _$ListIpRoutesResultFromJson(Map<String, dynamic> json) {
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListLogSubscriptionsRequestToJson(
+    ListLogSubscriptionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryId', instance.directoryId);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListLogSubscriptionsResult _$ListLogSubscriptionsResultFromJson(
@@ -681,6 +1318,22 @@ ListLogSubscriptionsResult _$ListLogSubscriptionsResultFromJson(
   );
 }
 
+Map<String, dynamic> _$ListSchemaExtensionsRequestToJson(
+    ListSchemaExtensionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryId', instance.directoryId);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListSchemaExtensionsResult _$ListSchemaExtensionsResultFromJson(
     Map<String, dynamic> json) {
   return ListSchemaExtensionsResult(
@@ -691,6 +1344,22 @@ ListSchemaExtensionsResult _$ListSchemaExtensionsResultFromJson(
             : SchemaExtensionInfo.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListTagsForResourceRequestToJson(
+    ListTagsForResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceId', instance.resourceId);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListTagsForResourceResult _$ListTagsForResourceResultFromJson(
@@ -774,6 +1443,21 @@ const _$RadiusAuthenticationProtocolEnumMap = {
   RadiusAuthenticationProtocol.msCHAPv2: 'MS-CHAPv2',
 };
 
+Map<String, dynamic> _$RegisterCertificateRequestToJson(
+    RegisterCertificateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CertificateData', instance.certificateData);
+  writeNotNull('DirectoryId', instance.directoryId);
+  return val;
+}
+
 RegisterCertificateResult _$RegisterCertificateResultFromJson(
     Map<String, dynamic> json) {
   return RegisterCertificateResult(
@@ -781,9 +1465,38 @@ RegisterCertificateResult _$RegisterCertificateResultFromJson(
   );
 }
 
+Map<String, dynamic> _$RegisterEventTopicRequestToJson(
+    RegisterEventTopicRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryId', instance.directoryId);
+  writeNotNull('TopicName', instance.topicName);
+  return val;
+}
+
 RegisterEventTopicResult _$RegisterEventTopicResultFromJson(
     Map<String, dynamic> json) {
   return RegisterEventTopicResult();
+}
+
+Map<String, dynamic> _$RejectSharedDirectoryRequestToJson(
+    RejectSharedDirectoryRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SharedDirectoryId', instance.sharedDirectoryId);
+  return val;
 }
 
 RejectSharedDirectoryResult _$RejectSharedDirectoryResultFromJson(
@@ -793,8 +1506,38 @@ RejectSharedDirectoryResult _$RejectSharedDirectoryResultFromJson(
   );
 }
 
+Map<String, dynamic> _$RemoveIpRoutesRequestToJson(
+    RemoveIpRoutesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CidrIps', instance.cidrIps);
+  writeNotNull('DirectoryId', instance.directoryId);
+  return val;
+}
+
 RemoveIpRoutesResult _$RemoveIpRoutesResultFromJson(Map<String, dynamic> json) {
   return RemoveIpRoutesResult();
+}
+
+Map<String, dynamic> _$RemoveTagsFromResourceRequestToJson(
+    RemoveTagsFromResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceId', instance.resourceId);
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
 }
 
 RemoveTagsFromResourceResult _$RemoveTagsFromResourceResultFromJson(
@@ -802,9 +1545,39 @@ RemoveTagsFromResourceResult _$RemoveTagsFromResourceResultFromJson(
   return RemoveTagsFromResourceResult();
 }
 
+Map<String, dynamic> _$ResetUserPasswordRequestToJson(
+    ResetUserPasswordRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryId', instance.directoryId);
+  writeNotNull('NewPassword', instance.newPassword);
+  writeNotNull('UserName', instance.userName);
+  return val;
+}
+
 ResetUserPasswordResult _$ResetUserPasswordResultFromJson(
     Map<String, dynamic> json) {
   return ResetUserPasswordResult();
+}
+
+Map<String, dynamic> _$RestoreFromSnapshotRequestToJson(
+    RestoreFromSnapshotRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SnapshotId', instance.snapshotId);
+  return val;
 }
 
 RestoreFromSnapshotResult _$RestoreFromSnapshotResultFromJson(
@@ -836,6 +1609,23 @@ const _$SchemaExtensionStatusEnumMap = {
   SchemaExtensionStatus.failed: 'Failed',
   SchemaExtensionStatus.completed: 'Completed',
 };
+
+Map<String, dynamic> _$ShareDirectoryRequestToJson(
+    ShareDirectoryRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryId', instance.directoryId);
+  writeNotNull('ShareMethod', _$ShareMethodEnumMap[instance.shareMethod]);
+  writeNotNull('ShareTarget', instance.shareTarget?.toJson());
+  writeNotNull('ShareNotes', instance.shareNotes);
+  return val;
+}
 
 ShareDirectoryResult _$ShareDirectoryResultFromJson(Map<String, dynamic> json) {
   return ShareDirectoryResult(
@@ -907,6 +1697,24 @@ SnapshotLimits _$SnapshotLimitsFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$StartSchemaExtensionRequestToJson(
+    StartSchemaExtensionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CreateSnapshotBeforeSchemaExtension',
+      instance.createSnapshotBeforeSchemaExtension);
+  writeNotNull('Description', instance.description);
+  writeNotNull('DirectoryId', instance.directoryId);
+  writeNotNull('LdifContent', instance.ldifContent);
+  return val;
+}
+
 StartSchemaExtensionResult _$StartSchemaExtensionResultFromJson(
     Map<String, dynamic> json) {
   return StartSchemaExtensionResult(
@@ -954,17 +1762,6 @@ Trust _$TrustFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$SelectiveAuthEnumMap = {
-  SelectiveAuth.enabled: 'Enabled',
-  SelectiveAuth.disabled: 'Disabled',
-};
-
-const _$TrustDirectionEnumMap = {
-  TrustDirection.oneWayOutgoing: 'One-Way: Outgoing',
-  TrustDirection.oneWayIncoming: 'One-Way: Incoming',
-  TrustDirection.twoWay: 'Two-Way',
-};
-
 const _$TrustStateEnumMap = {
   TrustState.creating: 'Creating',
   TrustState.created: 'Created',
@@ -979,10 +1776,20 @@ const _$TrustStateEnumMap = {
   TrustState.failed: 'Failed',
 };
 
-const _$TrustTypeEnumMap = {
-  TrustType.forest: 'Forest',
-  TrustType.external: 'External',
-};
+Map<String, dynamic> _$UnshareDirectoryRequestToJson(
+    UnshareDirectoryRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryId', instance.directoryId);
+  writeNotNull('UnshareTarget', instance.unshareTarget?.toJson());
+  return val;
+}
 
 UnshareDirectoryResult _$UnshareDirectoryResultFromJson(
     Map<String, dynamic> json) {
@@ -1005,9 +1812,40 @@ Map<String, dynamic> _$UnshareTargetToJson(UnshareTarget instance) {
   return val;
 }
 
+Map<String, dynamic> _$UpdateConditionalForwarderRequestToJson(
+    UpdateConditionalForwarderRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryId', instance.directoryId);
+  writeNotNull('DnsIpAddrs', instance.dnsIpAddrs);
+  writeNotNull('RemoteDomainName', instance.remoteDomainName);
+  return val;
+}
+
 UpdateConditionalForwarderResult _$UpdateConditionalForwarderResultFromJson(
     Map<String, dynamic> json) {
   return UpdateConditionalForwarderResult();
+}
+
+Map<String, dynamic> _$UpdateNumberOfDomainControllersRequestToJson(
+    UpdateNumberOfDomainControllersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DesiredNumber', instance.desiredNumber);
+  writeNotNull('DirectoryId', instance.directoryId);
+  return val;
 }
 
 UpdateNumberOfDomainControllersResult
@@ -1015,8 +1853,36 @@ UpdateNumberOfDomainControllersResult
   return UpdateNumberOfDomainControllersResult();
 }
 
+Map<String, dynamic> _$UpdateRadiusRequestToJson(UpdateRadiusRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryId', instance.directoryId);
+  writeNotNull('RadiusSettings', instance.radiusSettings?.toJson());
+  return val;
+}
+
 UpdateRadiusResult _$UpdateRadiusResultFromJson(Map<String, dynamic> json) {
   return UpdateRadiusResult();
+}
+
+Map<String, dynamic> _$UpdateTrustRequestToJson(UpdateTrustRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TrustId', instance.trustId);
+  writeNotNull('SelectiveAuth', _$SelectiveAuthEnumMap[instance.selectiveAuth]);
+  return val;
 }
 
 UpdateTrustResult _$UpdateTrustResultFromJson(Map<String, dynamic> json) {
@@ -1024,6 +1890,19 @@ UpdateTrustResult _$UpdateTrustResultFromJson(Map<String, dynamic> json) {
     requestId: json['RequestId'] as String,
     trustId: json['TrustId'] as String,
   );
+}
+
+Map<String, dynamic> _$VerifyTrustRequestToJson(VerifyTrustRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TrustId', instance.trustId);
+  return val;
 }
 
 VerifyTrustResult _$VerifyTrustResultFromJson(Map<String, dynamic> json) {

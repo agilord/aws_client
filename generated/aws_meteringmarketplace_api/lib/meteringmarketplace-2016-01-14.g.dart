@@ -6,6 +6,22 @@ part of 'meteringmarketplace-2016-01-14.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$BatchMeterUsageRequestToJson(
+    BatchMeterUsageRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ProductCode', instance.productCode);
+  writeNotNull(
+      'UsageRecords', instance.usageRecords?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 BatchMeterUsageResult _$BatchMeterUsageResultFromJson(
     Map<String, dynamic> json) {
   return BatchMeterUsageResult(
@@ -21,10 +37,43 @@ BatchMeterUsageResult _$BatchMeterUsageResultFromJson(
   );
 }
 
+Map<String, dynamic> _$MeterUsageRequestToJson(MeterUsageRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ProductCode', instance.productCode);
+  writeNotNull('Timestamp', unixTimestampToJson(instance.timestamp));
+  writeNotNull('UsageDimension', instance.usageDimension);
+  writeNotNull('DryRun', instance.dryRun);
+  writeNotNull('UsageQuantity', instance.usageQuantity);
+  return val;
+}
+
 MeterUsageResult _$MeterUsageResultFromJson(Map<String, dynamic> json) {
   return MeterUsageResult(
     meteringRecordId: json['MeteringRecordId'] as String,
   );
+}
+
+Map<String, dynamic> _$RegisterUsageRequestToJson(
+    RegisterUsageRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ProductCode', instance.productCode);
+  writeNotNull('PublicKeyVersion', instance.publicKeyVersion);
+  writeNotNull('Nonce', instance.nonce);
+  return val;
 }
 
 RegisterUsageResult _$RegisterUsageResultFromJson(Map<String, dynamic> json) {
@@ -33,6 +82,20 @@ RegisterUsageResult _$RegisterUsageResultFromJson(Map<String, dynamic> json) {
         unixTimestampFromJson(json['PublicKeyRotationTimestamp']),
     signature: json['Signature'] as String,
   );
+}
+
+Map<String, dynamic> _$ResolveCustomerRequestToJson(
+    ResolveCustomerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RegistrationToken', instance.registrationToken);
+  return val;
 }
 
 ResolveCustomerResult _$ResolveCustomerResultFromJson(

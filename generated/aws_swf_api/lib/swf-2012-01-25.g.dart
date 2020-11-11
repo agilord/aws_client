@@ -501,6 +501,74 @@ const _$ContinueAsNewWorkflowExecutionFailedCauseEnumMap = {
       'OPERATION_NOT_PERMITTED',
 };
 
+Map<String, dynamic> _$CountClosedWorkflowExecutionsInputToJson(
+    CountClosedWorkflowExecutionsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('domain', instance.domain);
+  writeNotNull('closeStatusFilter', instance.closeStatusFilter?.toJson());
+  writeNotNull('closeTimeFilter', instance.closeTimeFilter?.toJson());
+  writeNotNull('executionFilter', instance.executionFilter?.toJson());
+  writeNotNull('startTimeFilter', instance.startTimeFilter?.toJson());
+  writeNotNull('tagFilter', instance.tagFilter?.toJson());
+  writeNotNull('typeFilter', instance.typeFilter?.toJson());
+  return val;
+}
+
+Map<String, dynamic> _$CountOpenWorkflowExecutionsInputToJson(
+    CountOpenWorkflowExecutionsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('domain', instance.domain);
+  writeNotNull('startTimeFilter', instance.startTimeFilter?.toJson());
+  writeNotNull('executionFilter', instance.executionFilter?.toJson());
+  writeNotNull('tagFilter', instance.tagFilter?.toJson());
+  writeNotNull('typeFilter', instance.typeFilter?.toJson());
+  return val;
+}
+
+Map<String, dynamic> _$CountPendingActivityTasksInputToJson(
+    CountPendingActivityTasksInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('domain', instance.domain);
+  writeNotNull('taskList', instance.taskList?.toJson());
+  return val;
+}
+
+Map<String, dynamic> _$CountPendingDecisionTasksInputToJson(
+    CountPendingDecisionTasksInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('domain', instance.domain);
+  writeNotNull('taskList', instance.taskList?.toJson());
+  return val;
+}
+
 Map<String, dynamic> _$DecisionToJson(Decision instance) {
   final val = <String, dynamic>{};
 
@@ -622,6 +690,108 @@ const _$DecisionTaskTimeoutTypeEnumMap = {
   DecisionTaskTimeoutType.startToClose: 'START_TO_CLOSE',
 };
 
+Map<String, dynamic> _$DeprecateActivityTypeInputToJson(
+    DeprecateActivityTypeInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('activityType', instance.activityType?.toJson());
+  writeNotNull('domain', instance.domain);
+  return val;
+}
+
+Map<String, dynamic> _$DeprecateDomainInputToJson(
+    DeprecateDomainInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  return val;
+}
+
+Map<String, dynamic> _$DeprecateWorkflowTypeInputToJson(
+    DeprecateWorkflowTypeInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('domain', instance.domain);
+  writeNotNull('workflowType', instance.workflowType?.toJson());
+  return val;
+}
+
+Map<String, dynamic> _$DescribeActivityTypeInputToJson(
+    DescribeActivityTypeInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('activityType', instance.activityType?.toJson());
+  writeNotNull('domain', instance.domain);
+  return val;
+}
+
+Map<String, dynamic> _$DescribeDomainInputToJson(DescribeDomainInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  return val;
+}
+
+Map<String, dynamic> _$DescribeWorkflowExecutionInputToJson(
+    DescribeWorkflowExecutionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('domain', instance.domain);
+  writeNotNull('execution', instance.execution?.toJson());
+  return val;
+}
+
+Map<String, dynamic> _$DescribeWorkflowTypeInputToJson(
+    DescribeWorkflowTypeInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('domain', instance.domain);
+  writeNotNull('workflowType', instance.workflowType?.toJson());
+  return val;
+}
+
 DomainConfiguration _$DomainConfigurationFromJson(Map<String, dynamic> json) {
   return DomainConfiguration(
     workflowExecutionRetentionPeriodInDays:
@@ -728,6 +898,24 @@ const _$FailWorkflowExecutionFailedCauseEnumMap = {
   FailWorkflowExecutionFailedCause.operationNotPermitted:
       'OPERATION_NOT_PERMITTED',
 };
+
+Map<String, dynamic> _$GetWorkflowExecutionHistoryInputToJson(
+    GetWorkflowExecutionHistoryInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('domain', instance.domain);
+  writeNotNull('execution', instance.execution?.toJson());
+  writeNotNull('maximumPageSize', instance.maximumPageSize);
+  writeNotNull('nextPageToken', instance.nextPageToken);
+  writeNotNull('reverseOrder', instance.reverseOrder);
+  return val;
+}
 
 History _$HistoryFromJson(Map<String, dynamic> json) {
   return History(
@@ -1186,6 +1374,101 @@ const _$LambdaFunctionTimeoutTypeEnumMap = {
   LambdaFunctionTimeoutType.startToClose: 'START_TO_CLOSE',
 };
 
+Map<String, dynamic> _$ListActivityTypesInputToJson(
+    ListActivityTypesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('domain', instance.domain);
+  writeNotNull('registrationStatus',
+      _$RegistrationStatusEnumMap[instance.registrationStatus]);
+  writeNotNull('maximumPageSize', instance.maximumPageSize);
+  writeNotNull('name', instance.name);
+  writeNotNull('nextPageToken', instance.nextPageToken);
+  writeNotNull('reverseOrder', instance.reverseOrder);
+  return val;
+}
+
+Map<String, dynamic> _$ListClosedWorkflowExecutionsInputToJson(
+    ListClosedWorkflowExecutionsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('domain', instance.domain);
+  writeNotNull('closeStatusFilter', instance.closeStatusFilter?.toJson());
+  writeNotNull('closeTimeFilter', instance.closeTimeFilter?.toJson());
+  writeNotNull('executionFilter', instance.executionFilter?.toJson());
+  writeNotNull('maximumPageSize', instance.maximumPageSize);
+  writeNotNull('nextPageToken', instance.nextPageToken);
+  writeNotNull('reverseOrder', instance.reverseOrder);
+  writeNotNull('startTimeFilter', instance.startTimeFilter?.toJson());
+  writeNotNull('tagFilter', instance.tagFilter?.toJson());
+  writeNotNull('typeFilter', instance.typeFilter?.toJson());
+  return val;
+}
+
+Map<String, dynamic> _$ListDomainsInputToJson(ListDomainsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('registrationStatus',
+      _$RegistrationStatusEnumMap[instance.registrationStatus]);
+  writeNotNull('maximumPageSize', instance.maximumPageSize);
+  writeNotNull('nextPageToken', instance.nextPageToken);
+  writeNotNull('reverseOrder', instance.reverseOrder);
+  return val;
+}
+
+Map<String, dynamic> _$ListOpenWorkflowExecutionsInputToJson(
+    ListOpenWorkflowExecutionsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('domain', instance.domain);
+  writeNotNull('startTimeFilter', instance.startTimeFilter?.toJson());
+  writeNotNull('executionFilter', instance.executionFilter?.toJson());
+  writeNotNull('maximumPageSize', instance.maximumPageSize);
+  writeNotNull('nextPageToken', instance.nextPageToken);
+  writeNotNull('reverseOrder', instance.reverseOrder);
+  writeNotNull('tagFilter', instance.tagFilter?.toJson());
+  writeNotNull('typeFilter', instance.typeFilter?.toJson());
+  return val;
+}
+
+Map<String, dynamic> _$ListTagsForResourceInputToJson(
+    ListTagsForResourceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceArn', instance.resourceArn);
+  return val;
+}
+
 ListTagsForResourceOutput _$ListTagsForResourceOutputFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceOutput(
@@ -1194,6 +1477,26 @@ ListTagsForResourceOutput _$ListTagsForResourceOutputFromJson(
             e == null ? null : ResourceTag.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListWorkflowTypesInputToJson(
+    ListWorkflowTypesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('domain', instance.domain);
+  writeNotNull('registrationStatus',
+      _$RegistrationStatusEnumMap[instance.registrationStatus]);
+  writeNotNull('maximumPageSize', instance.maximumPageSize);
+  writeNotNull('name', instance.name);
+  writeNotNull('nextPageToken', instance.nextPageToken);
+  writeNotNull('reverseOrder', instance.reverseOrder);
+  return val;
 }
 
 MarkerRecordedEventAttributes _$MarkerRecordedEventAttributesFromJson(
@@ -1210,6 +1513,56 @@ PendingTaskCount _$PendingTaskCountFromJson(Map<String, dynamic> json) {
     count: json['count'] as int,
     truncated: json['truncated'] as bool,
   );
+}
+
+Map<String, dynamic> _$PollForActivityTaskInputToJson(
+    PollForActivityTaskInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('domain', instance.domain);
+  writeNotNull('taskList', instance.taskList?.toJson());
+  writeNotNull('identity', instance.identity);
+  return val;
+}
+
+Map<String, dynamic> _$PollForDecisionTaskInputToJson(
+    PollForDecisionTaskInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('domain', instance.domain);
+  writeNotNull('taskList', instance.taskList?.toJson());
+  writeNotNull('identity', instance.identity);
+  writeNotNull('maximumPageSize', instance.maximumPageSize);
+  writeNotNull('nextPageToken', instance.nextPageToken);
+  writeNotNull('reverseOrder', instance.reverseOrder);
+  return val;
+}
+
+Map<String, dynamic> _$RecordActivityTaskHeartbeatInputToJson(
+    RecordActivityTaskHeartbeatInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('taskToken', instance.taskToken);
+  writeNotNull('details', instance.details);
+  return val;
 }
 
 Map<String, dynamic> _$RecordMarkerDecisionAttributesToJson(
@@ -1240,6 +1593,76 @@ RecordMarkerFailedEventAttributes _$RecordMarkerFailedEventAttributesFromJson(
 const _$RecordMarkerFailedCauseEnumMap = {
   RecordMarkerFailedCause.operationNotPermitted: 'OPERATION_NOT_PERMITTED',
 };
+
+Map<String, dynamic> _$RegisterActivityTypeInputToJson(
+    RegisterActivityTypeInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('domain', instance.domain);
+  writeNotNull('name', instance.name);
+  writeNotNull('version', instance.version);
+  writeNotNull(
+      'defaultTaskHeartbeatTimeout', instance.defaultTaskHeartbeatTimeout);
+  writeNotNull('defaultTaskList', instance.defaultTaskList?.toJson());
+  writeNotNull('defaultTaskPriority', instance.defaultTaskPriority);
+  writeNotNull('defaultTaskScheduleToCloseTimeout',
+      instance.defaultTaskScheduleToCloseTimeout);
+  writeNotNull('defaultTaskScheduleToStartTimeout',
+      instance.defaultTaskScheduleToStartTimeout);
+  writeNotNull('defaultTaskStartToCloseTimeout',
+      instance.defaultTaskStartToCloseTimeout);
+  writeNotNull('description', instance.description);
+  return val;
+}
+
+Map<String, dynamic> _$RegisterDomainInputToJson(RegisterDomainInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('workflowExecutionRetentionPeriodInDays',
+      instance.workflowExecutionRetentionPeriodInDays);
+  writeNotNull('description', instance.description);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+Map<String, dynamic> _$RegisterWorkflowTypeInputToJson(
+    RegisterWorkflowTypeInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('domain', instance.domain);
+  writeNotNull('name', instance.name);
+  writeNotNull('version', instance.version);
+  writeNotNull(
+      'defaultChildPolicy', _$ChildPolicyEnumMap[instance.defaultChildPolicy]);
+  writeNotNull('defaultExecutionStartToCloseTimeout',
+      instance.defaultExecutionStartToCloseTimeout);
+  writeNotNull('defaultLambdaRole', instance.defaultLambdaRole);
+  writeNotNull('defaultTaskList', instance.defaultTaskList?.toJson());
+  writeNotNull('defaultTaskPriority', instance.defaultTaskPriority);
+  writeNotNull('defaultTaskStartToCloseTimeout',
+      instance.defaultTaskStartToCloseTimeout);
+  writeNotNull('description', instance.description);
+  return val;
+}
 
 Map<String, dynamic> _$RequestCancelActivityTaskDecisionAttributesToJson(
     RequestCancelActivityTaskDecisionAttributes instance) {
@@ -1325,6 +1748,22 @@ RequestCancelExternalWorkflowExecutionInitiatedEventAttributes
   );
 }
 
+Map<String, dynamic> _$RequestCancelWorkflowExecutionInputToJson(
+    RequestCancelWorkflowExecutionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('domain', instance.domain);
+  writeNotNull('workflowId', instance.workflowId);
+  writeNotNull('runId', instance.runId);
+  return val;
+}
+
 ResourceTag _$ResourceTagFromJson(Map<String, dynamic> json) {
   return ResourceTag(
     key: json['key'] as String,
@@ -1343,6 +1782,69 @@ Map<String, dynamic> _$ResourceTagToJson(ResourceTag instance) {
 
   writeNotNull('key', instance.key);
   writeNotNull('value', instance.value);
+  return val;
+}
+
+Map<String, dynamic> _$RespondActivityTaskCanceledInputToJson(
+    RespondActivityTaskCanceledInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('taskToken', instance.taskToken);
+  writeNotNull('details', instance.details);
+  return val;
+}
+
+Map<String, dynamic> _$RespondActivityTaskCompletedInputToJson(
+    RespondActivityTaskCompletedInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('taskToken', instance.taskToken);
+  writeNotNull('result', instance.result);
+  return val;
+}
+
+Map<String, dynamic> _$RespondActivityTaskFailedInputToJson(
+    RespondActivityTaskFailedInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('taskToken', instance.taskToken);
+  writeNotNull('details', instance.details);
+  writeNotNull('reason', instance.reason);
+  return val;
+}
+
+Map<String, dynamic> _$RespondDecisionTaskCompletedInputToJson(
+    RespondDecisionTaskCompletedInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('taskToken', instance.taskToken);
+  writeNotNull(
+      'decisions', instance.decisions?.map((e) => e?.toJson())?.toList());
+  writeNotNull('executionContext', instance.executionContext);
   return val;
 }
 
@@ -1509,6 +2011,24 @@ SignalExternalWorkflowExecutionInitiatedEventAttributes
   );
 }
 
+Map<String, dynamic> _$SignalWorkflowExecutionInputToJson(
+    SignalWorkflowExecutionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('domain', instance.domain);
+  writeNotNull('signalName', instance.signalName);
+  writeNotNull('workflowId', instance.workflowId);
+  writeNotNull('input', instance.input);
+  writeNotNull('runId', instance.runId);
+  return val;
+}
+
 Map<String, dynamic> _$StartChildWorkflowExecutionDecisionAttributesToJson(
     StartChildWorkflowExecutionDecisionAttributes instance) {
   final val = <String, dynamic>{};
@@ -1650,6 +2170,31 @@ const _$StartTimerFailedCauseEnumMap = {
   StartTimerFailedCause.operationNotPermitted: 'OPERATION_NOT_PERMITTED',
 };
 
+Map<String, dynamic> _$StartWorkflowExecutionInputToJson(
+    StartWorkflowExecutionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('domain', instance.domain);
+  writeNotNull('workflowId', instance.workflowId);
+  writeNotNull('workflowType', instance.workflowType?.toJson());
+  writeNotNull('childPolicy', _$ChildPolicyEnumMap[instance.childPolicy]);
+  writeNotNull(
+      'executionStartToCloseTimeout', instance.executionStartToCloseTimeout);
+  writeNotNull('input', instance.input);
+  writeNotNull('lambdaRole', instance.lambdaRole);
+  writeNotNull('tagList', instance.tagList);
+  writeNotNull('taskList', instance.taskList?.toJson());
+  writeNotNull('taskPriority', instance.taskPriority);
+  writeNotNull('taskStartToCloseTimeout', instance.taskStartToCloseTimeout);
+  return val;
+}
+
 Map<String, dynamic> _$TagFilterToJson(TagFilter instance) {
   final val = <String, dynamic>{};
 
@@ -1660,6 +2205,20 @@ Map<String, dynamic> _$TagFilterToJson(TagFilter instance) {
   }
 
   writeNotNull('tag', instance.tag);
+  return val;
+}
+
+Map<String, dynamic> _$TagResourceInputToJson(TagResourceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceArn', instance.resourceArn);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
   return val;
 }
 
@@ -1679,6 +2238,25 @@ Map<String, dynamic> _$TaskListToJson(TaskList instance) {
   }
 
   writeNotNull('name', instance.name);
+  return val;
+}
+
+Map<String, dynamic> _$TerminateWorkflowExecutionInputToJson(
+    TerminateWorkflowExecutionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('domain', instance.domain);
+  writeNotNull('workflowId', instance.workflowId);
+  writeNotNull('childPolicy', _$ChildPolicyEnumMap[instance.childPolicy]);
+  writeNotNull('details', instance.details);
+  writeNotNull('reason', instance.reason);
+  writeNotNull('runId', instance.runId);
   return val;
 }
 
@@ -1707,6 +2285,64 @@ TimerStartedEventAttributes _$TimerStartedEventAttributesFromJson(
     timerId: json['timerId'] as String,
     control: json['control'] as String,
   );
+}
+
+Map<String, dynamic> _$UndeprecateActivityTypeInputToJson(
+    UndeprecateActivityTypeInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('activityType', instance.activityType?.toJson());
+  writeNotNull('domain', instance.domain);
+  return val;
+}
+
+Map<String, dynamic> _$UndeprecateDomainInputToJson(
+    UndeprecateDomainInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  return val;
+}
+
+Map<String, dynamic> _$UndeprecateWorkflowTypeInputToJson(
+    UndeprecateWorkflowTypeInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('domain', instance.domain);
+  writeNotNull('workflowType', instance.workflowType?.toJson());
+  return val;
+}
+
+Map<String, dynamic> _$UntagResourceInputToJson(UntagResourceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceArn', instance.resourceArn);
+  writeNotNull('tagKeys', instance.tagKeys);
+  return val;
 }
 
 WorkflowExecution _$WorkflowExecutionFromJson(Map<String, dynamic> json) {

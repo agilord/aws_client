@@ -155,6 +155,22 @@ Map<String, dynamic> _$CorsToJson(Cors instance) {
   return val;
 }
 
+Map<String, dynamic> _$CreateApiMappingRequestToJson(
+    CreateApiMappingRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('apiId', instance.apiId);
+  writeNotNull('stage', instance.stage);
+  writeNotNull('apiMappingKey', instance.apiMappingKey);
+  return val;
+}
+
 CreateApiMappingResponse _$CreateApiMappingResponseFromJson(
     Map<String, dynamic> json) {
   return CreateApiMappingResponse(
@@ -163,6 +179,30 @@ CreateApiMappingResponse _$CreateApiMappingResponseFromJson(
     apiMappingKey: json['apiMappingKey'] as String,
     stage: json['stage'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateApiRequestToJson(CreateApiRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('protocolType', _$ProtocolTypeEnumMap[instance.protocolType]);
+  writeNotNull('apiKeySelectionExpression', instance.apiKeySelectionExpression);
+  writeNotNull('corsConfiguration', instance.corsConfiguration?.toJson());
+  writeNotNull('credentialsArn', instance.credentialsArn);
+  writeNotNull('description', instance.description);
+  writeNotNull('disableSchemaValidation', instance.disableSchemaValidation);
+  writeNotNull('routeKey', instance.routeKey);
+  writeNotNull('routeSelectionExpression', instance.routeSelectionExpression);
+  writeNotNull('tags', instance.tags);
+  writeNotNull('target', instance.target);
+  writeNotNull('version', instance.version);
+  return val;
 }
 
 CreateApiResponse _$CreateApiResponseFromJson(Map<String, dynamic> json) {
@@ -189,6 +229,30 @@ CreateApiResponse _$CreateApiResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateAuthorizerRequestToJson(
+    CreateAuthorizerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'authorizerType', _$AuthorizerTypeEnumMap[instance.authorizerType]);
+  writeNotNull('identitySource', instance.identitySource);
+  writeNotNull('name', instance.name);
+  writeNotNull('authorizerCredentialsArn', instance.authorizerCredentialsArn);
+  writeNotNull(
+      'authorizerResultTtlInSeconds', instance.authorizerResultTtlInSeconds);
+  writeNotNull('authorizerUri', instance.authorizerUri);
+  writeNotNull(
+      'identityValidationExpression', instance.identityValidationExpression);
+  writeNotNull('jwtConfiguration', instance.jwtConfiguration?.toJson());
+  return val;
+}
+
 CreateAuthorizerResponse _$CreateAuthorizerResponseFromJson(
     Map<String, dynamic> json) {
   return CreateAuthorizerResponse(
@@ -210,6 +274,21 @@ CreateAuthorizerResponse _$CreateAuthorizerResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateDeploymentRequestToJson(
+    CreateDeploymentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('description', instance.description);
+  writeNotNull('stageName', instance.stageName);
+  return val;
+}
+
 CreateDeploymentResponse _$CreateDeploymentResponseFromJson(
     Map<String, dynamic> json) {
   return CreateDeploymentResponse(
@@ -229,6 +308,23 @@ const _$DeploymentStatusEnumMap = {
   DeploymentStatus.deployed: 'DEPLOYED',
 };
 
+Map<String, dynamic> _$CreateDomainNameRequestToJson(
+    CreateDomainNameRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('domainName', instance.domainName);
+  writeNotNull('domainNameConfigurations',
+      instance.domainNameConfigurations?.map((e) => e?.toJson())?.toList());
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
 CreateDomainNameResponse _$CreateDomainNameResponseFromJson(
     Map<String, dynamic> json) {
   return CreateDomainNameResponse(
@@ -245,6 +341,63 @@ CreateDomainNameResponse _$CreateDomainNameResponseFromJson(
     ),
   );
 }
+
+Map<String, dynamic> _$CreateIntegrationRequestToJson(
+    CreateIntegrationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'integrationType', _$IntegrationTypeEnumMap[instance.integrationType]);
+  writeNotNull('connectionId', instance.connectionId);
+  writeNotNull(
+      'connectionType', _$ConnectionTypeEnumMap[instance.connectionType]);
+  writeNotNull('contentHandlingStrategy',
+      _$ContentHandlingStrategyEnumMap[instance.contentHandlingStrategy]);
+  writeNotNull('credentialsArn', instance.credentialsArn);
+  writeNotNull('description', instance.description);
+  writeNotNull('integrationMethod', instance.integrationMethod);
+  writeNotNull('integrationUri', instance.integrationUri);
+  writeNotNull('passthroughBehavior',
+      _$PassthroughBehaviorEnumMap[instance.passthroughBehavior]);
+  writeNotNull('payloadFormatVersion', instance.payloadFormatVersion);
+  writeNotNull('requestParameters', instance.requestParameters);
+  writeNotNull('requestTemplates', instance.requestTemplates);
+  writeNotNull(
+      'templateSelectionExpression', instance.templateSelectionExpression);
+  writeNotNull('timeoutInMillis', instance.timeoutInMillis);
+  writeNotNull('tlsConfig', instance.tlsConfig?.toJson());
+  return val;
+}
+
+const _$IntegrationTypeEnumMap = {
+  IntegrationType.aws: 'AWS',
+  IntegrationType.http: 'HTTP',
+  IntegrationType.mock: 'MOCK',
+  IntegrationType.httpProxy: 'HTTP_PROXY',
+  IntegrationType.awsProxy: 'AWS_PROXY',
+};
+
+const _$ConnectionTypeEnumMap = {
+  ConnectionType.internet: 'INTERNET',
+  ConnectionType.vpcLink: 'VPC_LINK',
+};
+
+const _$ContentHandlingStrategyEnumMap = {
+  ContentHandlingStrategy.convertToBinary: 'CONVERT_TO_BINARY',
+  ContentHandlingStrategy.convertToText: 'CONVERT_TO_TEXT',
+};
+
+const _$PassthroughBehaviorEnumMap = {
+  PassthroughBehavior.whenNoMatch: 'WHEN_NO_MATCH',
+  PassthroughBehavior.never: 'NEVER',
+  PassthroughBehavior.whenNoTemplates: 'WHEN_NO_TEMPLATES',
+};
 
 CreateIntegrationResult _$CreateIntegrationResultFromJson(
     Map<String, dynamic> json) {
@@ -281,29 +434,25 @@ CreateIntegrationResult _$CreateIntegrationResultFromJson(
   );
 }
 
-const _$ConnectionTypeEnumMap = {
-  ConnectionType.internet: 'INTERNET',
-  ConnectionType.vpcLink: 'VPC_LINK',
-};
+Map<String, dynamic> _$CreateIntegrationResponseRequestToJson(
+    CreateIntegrationResponseRequest instance) {
+  final val = <String, dynamic>{};
 
-const _$ContentHandlingStrategyEnumMap = {
-  ContentHandlingStrategy.convertToBinary: 'CONVERT_TO_BINARY',
-  ContentHandlingStrategy.convertToText: 'CONVERT_TO_TEXT',
-};
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
 
-const _$IntegrationTypeEnumMap = {
-  IntegrationType.aws: 'AWS',
-  IntegrationType.http: 'HTTP',
-  IntegrationType.mock: 'MOCK',
-  IntegrationType.httpProxy: 'HTTP_PROXY',
-  IntegrationType.awsProxy: 'AWS_PROXY',
-};
-
-const _$PassthroughBehaviorEnumMap = {
-  PassthroughBehavior.whenNoMatch: 'WHEN_NO_MATCH',
-  PassthroughBehavior.never: 'NEVER',
-  PassthroughBehavior.whenNoTemplates: 'WHEN_NO_TEMPLATES',
-};
+  writeNotNull('integrationResponseKey', instance.integrationResponseKey);
+  writeNotNull('contentHandlingStrategy',
+      _$ContentHandlingStrategyEnumMap[instance.contentHandlingStrategy]);
+  writeNotNull('responseParameters', instance.responseParameters);
+  writeNotNull('responseTemplates', instance.responseTemplates);
+  writeNotNull(
+      'templateSelectionExpression', instance.templateSelectionExpression);
+  return val;
+}
 
 CreateIntegrationResponseResponse _$CreateIntegrationResponseResponseFromJson(
     Map<String, dynamic> json) {
@@ -323,6 +472,22 @@ CreateIntegrationResponseResponse _$CreateIntegrationResponseResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateModelRequestToJson(CreateModelRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('schema', instance.schema);
+  writeNotNull('contentType', instance.contentType);
+  writeNotNull('description', instance.description);
+  return val;
+}
+
 CreateModelResponse _$CreateModelResponseFromJson(Map<String, dynamic> json) {
   return CreateModelResponse(
     contentType: json['contentType'] as String,
@@ -332,6 +497,39 @@ CreateModelResponse _$CreateModelResponseFromJson(Map<String, dynamic> json) {
     schema: json['schema'] as String,
   );
 }
+
+Map<String, dynamic> _$CreateRouteRequestToJson(CreateRouteRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('routeKey', instance.routeKey);
+  writeNotNull('apiKeyRequired', instance.apiKeyRequired);
+  writeNotNull('authorizationScopes', instance.authorizationScopes);
+  writeNotNull('authorizationType',
+      _$AuthorizationTypeEnumMap[instance.authorizationType]);
+  writeNotNull('authorizerId', instance.authorizerId);
+  writeNotNull('modelSelectionExpression', instance.modelSelectionExpression);
+  writeNotNull('operationName', instance.operationName);
+  writeNotNull('requestModels', instance.requestModels);
+  writeNotNull('requestParameters',
+      instance.requestParameters?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('routeResponseSelectionExpression',
+      instance.routeResponseSelectionExpression);
+  writeNotNull('target', instance.target);
+  return val;
+}
+
+const _$AuthorizationTypeEnumMap = {
+  AuthorizationType.none: 'NONE',
+  AuthorizationType.awsIam: 'AWS_IAM',
+  AuthorizationType.custom: 'CUSTOM',
+  AuthorizationType.jwt: 'JWT',
+};
 
 CreateRouteResult _$CreateRouteResultFromJson(Map<String, dynamic> json) {
   return CreateRouteResult(
@@ -363,12 +561,23 @@ CreateRouteResult _$CreateRouteResultFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$AuthorizationTypeEnumMap = {
-  AuthorizationType.none: 'NONE',
-  AuthorizationType.awsIam: 'AWS_IAM',
-  AuthorizationType.custom: 'CUSTOM',
-  AuthorizationType.jwt: 'JWT',
-};
+Map<String, dynamic> _$CreateRouteResponseRequestToJson(
+    CreateRouteResponseRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('routeResponseKey', instance.routeResponseKey);
+  writeNotNull('modelSelectionExpression', instance.modelSelectionExpression);
+  writeNotNull('responseModels', instance.responseModels);
+  writeNotNull('responseParameters',
+      instance.responseParameters?.map((k, e) => MapEntry(k, e?.toJson())));
+  return val;
+}
 
 CreateRouteResponseResponse _$CreateRouteResponseResponseFromJson(
     Map<String, dynamic> json) {
@@ -388,6 +597,29 @@ CreateRouteResponseResponse _$CreateRouteResponseResponseFromJson(
     routeResponseId: json['routeResponseId'] as String,
     routeResponseKey: json['routeResponseKey'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateStageRequestToJson(CreateStageRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('stageName', instance.stageName);
+  writeNotNull('accessLogSettings', instance.accessLogSettings?.toJson());
+  writeNotNull('autoDeploy', instance.autoDeploy);
+  writeNotNull('clientCertificateId', instance.clientCertificateId);
+  writeNotNull('defaultRouteSettings', instance.defaultRouteSettings?.toJson());
+  writeNotNull('deploymentId', instance.deploymentId);
+  writeNotNull('description', instance.description);
+  writeNotNull('routeSettings',
+      instance.routeSettings?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('stageVariables', instance.stageVariables);
+  writeNotNull('tags', instance.tags);
+  return val;
 }
 
 CreateStageResponse _$CreateStageResponseFromJson(Map<String, dynamic> json) {
@@ -422,6 +654,23 @@ CreateStageResponse _$CreateStageResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateVpcLinkRequestToJson(
+    CreateVpcLinkRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('subnetIds', instance.subnetIds);
+  writeNotNull('securityGroupIds', instance.securityGroupIds);
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
 CreateVpcLinkResponse _$CreateVpcLinkResponseFromJson(
     Map<String, dynamic> json) {
   return CreateVpcLinkResponse(
@@ -453,6 +702,66 @@ const _$VpcLinkStatusEnumMap = {
 const _$VpcLinkVersionEnumMap = {
   VpcLinkVersion.v2: 'V2',
 };
+
+Map<String, dynamic> _$DeleteAccessLogSettingsRequestToJson(
+        DeleteAccessLogSettingsRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteApiMappingRequestToJson(
+        DeleteApiMappingRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteApiRequestToJson(DeleteApiRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteAuthorizerRequestToJson(
+        DeleteAuthorizerRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteCorsConfigurationRequestToJson(
+        DeleteCorsConfigurationRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteDeploymentRequestToJson(
+        DeleteDeploymentRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteDomainNameRequestToJson(
+        DeleteDomainNameRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteIntegrationRequestToJson(
+        DeleteIntegrationRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteIntegrationResponseRequestToJson(
+        DeleteIntegrationResponseRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteModelRequestToJson(DeleteModelRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteRouteRequestToJson(DeleteRouteRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteRouteRequestParameterRequestToJson(
+        DeleteRouteRequestParameterRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteRouteResponseRequestToJson(
+        DeleteRouteResponseRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteRouteSettingsRequestToJson(
+        DeleteRouteSettingsRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteStageRequestToJson(DeleteStageRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteVpcLinkRequestToJson(
+        DeleteVpcLinkRequest instance) =>
+    <String, dynamic>{};
 
 DeleteVpcLinkResponse _$DeleteVpcLinkResponseFromJson(
     Map<String, dynamic> json) {
@@ -943,6 +1252,19 @@ GetVpcLinksResponse _$GetVpcLinksResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ImportApiRequestToJson(ImportApiRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('body', instance.body);
+  return val;
+}
+
 ImportApiResponse _$ImportApiResponseFromJson(Map<String, dynamic> json) {
   return ImportApiResponse(
     apiEndpoint: json['apiEndpoint'] as String,
@@ -1066,6 +1388,19 @@ Map<String, dynamic> _$ParameterConstraintsToJson(
   }
 
   writeNotNull('required', instance.required);
+  return val;
+}
+
+Map<String, dynamic> _$ReimportApiRequestToJson(ReimportApiRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('body', instance.body);
   return val;
 }
 
@@ -1208,6 +1543,19 @@ Stage _$StageFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
 }
@@ -1231,6 +1579,26 @@ Map<String, dynamic> _$TlsConfigInputToJson(TlsConfigInput instance) {
   return val;
 }
 
+Map<String, dynamic> _$UntagResourceRequestToJson(
+        UntagResourceRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$UpdateApiMappingRequestToJson(
+    UpdateApiMappingRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('apiId', instance.apiId);
+  writeNotNull('apiMappingKey', instance.apiMappingKey);
+  writeNotNull('stage', instance.stage);
+  return val;
+}
+
 UpdateApiMappingResponse _$UpdateApiMappingResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateApiMappingResponse(
@@ -1239,6 +1607,28 @@ UpdateApiMappingResponse _$UpdateApiMappingResponseFromJson(
     apiMappingKey: json['apiMappingKey'] as String,
     stage: json['stage'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateApiRequestToJson(UpdateApiRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('apiKeySelectionExpression', instance.apiKeySelectionExpression);
+  writeNotNull('corsConfiguration', instance.corsConfiguration?.toJson());
+  writeNotNull('credentialsArn', instance.credentialsArn);
+  writeNotNull('description', instance.description);
+  writeNotNull('disableSchemaValidation', instance.disableSchemaValidation);
+  writeNotNull('name', instance.name);
+  writeNotNull('routeKey', instance.routeKey);
+  writeNotNull('routeSelectionExpression', instance.routeSelectionExpression);
+  writeNotNull('target', instance.target);
+  writeNotNull('version', instance.version);
+  return val;
 }
 
 UpdateApiResponse _$UpdateApiResponseFromJson(Map<String, dynamic> json) {
@@ -1265,6 +1655,30 @@ UpdateApiResponse _$UpdateApiResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$UpdateAuthorizerRequestToJson(
+    UpdateAuthorizerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('authorizerCredentialsArn', instance.authorizerCredentialsArn);
+  writeNotNull(
+      'authorizerResultTtlInSeconds', instance.authorizerResultTtlInSeconds);
+  writeNotNull(
+      'authorizerType', _$AuthorizerTypeEnumMap[instance.authorizerType]);
+  writeNotNull('authorizerUri', instance.authorizerUri);
+  writeNotNull('identitySource', instance.identitySource);
+  writeNotNull(
+      'identityValidationExpression', instance.identityValidationExpression);
+  writeNotNull('jwtConfiguration', instance.jwtConfiguration?.toJson());
+  writeNotNull('name', instance.name);
+  return val;
+}
+
 UpdateAuthorizerResponse _$UpdateAuthorizerResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateAuthorizerResponse(
@@ -1286,6 +1700,20 @@ UpdateAuthorizerResponse _$UpdateAuthorizerResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateDeploymentRequestToJson(
+    UpdateDeploymentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('description', instance.description);
+  return val;
+}
+
 UpdateDeploymentResponse _$UpdateDeploymentResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateDeploymentResponse(
@@ -1297,6 +1725,21 @@ UpdateDeploymentResponse _$UpdateDeploymentResponseFromJson(
     deploymentStatusMessage: json['deploymentStatusMessage'] as String,
     description: json['description'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateDomainNameRequestToJson(
+    UpdateDomainNameRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('domainNameConfigurations',
+      instance.domainNameConfigurations?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 UpdateDomainNameResponse _$UpdateDomainNameResponseFromJson(
@@ -1314,6 +1757,39 @@ UpdateDomainNameResponse _$UpdateDomainNameResponseFromJson(
       (k, e) => MapEntry(k, e as String),
     ),
   );
+}
+
+Map<String, dynamic> _$UpdateIntegrationRequestToJson(
+    UpdateIntegrationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('connectionId', instance.connectionId);
+  writeNotNull(
+      'connectionType', _$ConnectionTypeEnumMap[instance.connectionType]);
+  writeNotNull('contentHandlingStrategy',
+      _$ContentHandlingStrategyEnumMap[instance.contentHandlingStrategy]);
+  writeNotNull('credentialsArn', instance.credentialsArn);
+  writeNotNull('description', instance.description);
+  writeNotNull('integrationMethod', instance.integrationMethod);
+  writeNotNull(
+      'integrationType', _$IntegrationTypeEnumMap[instance.integrationType]);
+  writeNotNull('integrationUri', instance.integrationUri);
+  writeNotNull('passthroughBehavior',
+      _$PassthroughBehaviorEnumMap[instance.passthroughBehavior]);
+  writeNotNull('payloadFormatVersion', instance.payloadFormatVersion);
+  writeNotNull('requestParameters', instance.requestParameters);
+  writeNotNull('requestTemplates', instance.requestTemplates);
+  writeNotNull(
+      'templateSelectionExpression', instance.templateSelectionExpression);
+  writeNotNull('timeoutInMillis', instance.timeoutInMillis);
+  writeNotNull('tlsConfig', instance.tlsConfig?.toJson());
+  return val;
 }
 
 UpdateIntegrationResult _$UpdateIntegrationResultFromJson(
@@ -1351,6 +1827,26 @@ UpdateIntegrationResult _$UpdateIntegrationResultFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateIntegrationResponseRequestToJson(
+    UpdateIntegrationResponseRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('contentHandlingStrategy',
+      _$ContentHandlingStrategyEnumMap[instance.contentHandlingStrategy]);
+  writeNotNull('integrationResponseKey', instance.integrationResponseKey);
+  writeNotNull('responseParameters', instance.responseParameters);
+  writeNotNull('responseTemplates', instance.responseTemplates);
+  writeNotNull(
+      'templateSelectionExpression', instance.templateSelectionExpression);
+  return val;
+}
+
 UpdateIntegrationResponseResponse _$UpdateIntegrationResponseResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateIntegrationResponseResponse(
@@ -1369,6 +1865,22 @@ UpdateIntegrationResponseResponse _$UpdateIntegrationResponseResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateModelRequestToJson(UpdateModelRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('contentType', instance.contentType);
+  writeNotNull('description', instance.description);
+  writeNotNull('name', instance.name);
+  writeNotNull('schema', instance.schema);
+  return val;
+}
+
 UpdateModelResponse _$UpdateModelResponseFromJson(Map<String, dynamic> json) {
   return UpdateModelResponse(
     contentType: json['contentType'] as String,
@@ -1377,6 +1889,32 @@ UpdateModelResponse _$UpdateModelResponseFromJson(Map<String, dynamic> json) {
     name: json['name'] as String,
     schema: json['schema'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateRouteRequestToJson(UpdateRouteRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('apiKeyRequired', instance.apiKeyRequired);
+  writeNotNull('authorizationScopes', instance.authorizationScopes);
+  writeNotNull('authorizationType',
+      _$AuthorizationTypeEnumMap[instance.authorizationType]);
+  writeNotNull('authorizerId', instance.authorizerId);
+  writeNotNull('modelSelectionExpression', instance.modelSelectionExpression);
+  writeNotNull('operationName', instance.operationName);
+  writeNotNull('requestModels', instance.requestModels);
+  writeNotNull('requestParameters',
+      instance.requestParameters?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('routeKey', instance.routeKey);
+  writeNotNull('routeResponseSelectionExpression',
+      instance.routeResponseSelectionExpression);
+  writeNotNull('target', instance.target);
+  return val;
 }
 
 UpdateRouteResult _$UpdateRouteResultFromJson(Map<String, dynamic> json) {
@@ -1409,6 +1947,24 @@ UpdateRouteResult _$UpdateRouteResultFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$UpdateRouteResponseRequestToJson(
+    UpdateRouteResponseRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('modelSelectionExpression', instance.modelSelectionExpression);
+  writeNotNull('responseModels', instance.responseModels);
+  writeNotNull('responseParameters',
+      instance.responseParameters?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('routeResponseKey', instance.routeResponseKey);
+  return val;
+}
+
 UpdateRouteResponseResponse _$UpdateRouteResponseResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateRouteResponseResponse(
@@ -1427,6 +1983,27 @@ UpdateRouteResponseResponse _$UpdateRouteResponseResponseFromJson(
     routeResponseId: json['routeResponseId'] as String,
     routeResponseKey: json['routeResponseKey'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateStageRequestToJson(UpdateStageRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('accessLogSettings', instance.accessLogSettings?.toJson());
+  writeNotNull('autoDeploy', instance.autoDeploy);
+  writeNotNull('clientCertificateId', instance.clientCertificateId);
+  writeNotNull('defaultRouteSettings', instance.defaultRouteSettings?.toJson());
+  writeNotNull('deploymentId', instance.deploymentId);
+  writeNotNull('description', instance.description);
+  writeNotNull('routeSettings',
+      instance.routeSettings?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('stageVariables', instance.stageVariables);
+  return val;
 }
 
 UpdateStageResponse _$UpdateStageResponseFromJson(Map<String, dynamic> json) {
@@ -1459,6 +2036,20 @@ UpdateStageResponse _$UpdateStageResponseFromJson(Map<String, dynamic> json) {
       (k, e) => MapEntry(k, e as String),
     ),
   );
+}
+
+Map<String, dynamic> _$UpdateVpcLinkRequestToJson(
+    UpdateVpcLinkRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  return val;
 }
 
 UpdateVpcLinkResponse _$UpdateVpcLinkResponseFromJson(

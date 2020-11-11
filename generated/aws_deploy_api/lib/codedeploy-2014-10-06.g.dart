@@ -6,6 +6,21 @@ part of 'codedeploy-2014-10-06.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$AddTagsToOnPremisesInstancesInputToJson(
+    AddTagsToOnPremisesInstancesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('instanceNames', instance.instanceNames);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 Alarm _$AlarmFromJson(Map<String, dynamic> json) {
   return Alarm(
     name: json['name'] as String,
@@ -152,6 +167,22 @@ AutoScalingGroup _$AutoScalingGroupFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$BatchGetApplicationRevisionsInputToJson(
+    BatchGetApplicationRevisionsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('applicationName', instance.applicationName);
+  writeNotNull(
+      'revisions', instance.revisions?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 BatchGetApplicationRevisionsOutput _$BatchGetApplicationRevisionsOutputFromJson(
     Map<String, dynamic> json) {
   return BatchGetApplicationRevisionsOutput(
@@ -164,6 +195,20 @@ BatchGetApplicationRevisionsOutput _$BatchGetApplicationRevisionsOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$BatchGetApplicationsInputToJson(
+    BatchGetApplicationsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('applicationNames', instance.applicationNames);
+  return val;
+}
+
 BatchGetApplicationsOutput _$BatchGetApplicationsOutputFromJson(
     Map<String, dynamic> json) {
   return BatchGetApplicationsOutput(
@@ -173,6 +218,21 @@ BatchGetApplicationsOutput _$BatchGetApplicationsOutputFromJson(
             : ApplicationInfo.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$BatchGetDeploymentGroupsInputToJson(
+    BatchGetDeploymentGroupsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('applicationName', instance.applicationName);
+  writeNotNull('deploymentGroupNames', instance.deploymentGroupNames);
+  return val;
 }
 
 BatchGetDeploymentGroupsOutput _$BatchGetDeploymentGroupsOutputFromJson(
@@ -187,6 +247,21 @@ BatchGetDeploymentGroupsOutput _$BatchGetDeploymentGroupsOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$BatchGetDeploymentInstancesInputToJson(
+    BatchGetDeploymentInstancesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('deploymentId', instance.deploymentId);
+  writeNotNull('instanceIds', instance.instanceIds);
+  return val;
+}
+
 BatchGetDeploymentInstancesOutput _$BatchGetDeploymentInstancesOutputFromJson(
     Map<String, dynamic> json) {
   return BatchGetDeploymentInstancesOutput(
@@ -197,6 +272,21 @@ BatchGetDeploymentInstancesOutput _$BatchGetDeploymentInstancesOutputFromJson(
             : InstanceSummary.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$BatchGetDeploymentTargetsInputToJson(
+    BatchGetDeploymentTargetsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('deploymentId', instance.deploymentId);
+  writeNotNull('targetIds', instance.targetIds);
+  return val;
 }
 
 BatchGetDeploymentTargetsOutput _$BatchGetDeploymentTargetsOutputFromJson(
@@ -210,6 +300,20 @@ BatchGetDeploymentTargetsOutput _$BatchGetDeploymentTargetsOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$BatchGetDeploymentsInputToJson(
+    BatchGetDeploymentsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('deploymentIds', instance.deploymentIds);
+  return val;
+}
+
 BatchGetDeploymentsOutput _$BatchGetDeploymentsOutputFromJson(
     Map<String, dynamic> json) {
   return BatchGetDeploymentsOutput(
@@ -219,6 +323,20 @@ BatchGetDeploymentsOutput _$BatchGetDeploymentsOutputFromJson(
             : DeploymentInfo.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$BatchGetOnPremisesInstancesInputToJson(
+    BatchGetOnPremisesInstancesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('instanceNames', instance.instanceNames);
+  return val;
 }
 
 BatchGetOnPremisesInstancesOutput _$BatchGetOnPremisesInstancesOutputFromJson(
@@ -299,11 +417,67 @@ const _$InstanceActionEnumMap = {
   InstanceAction.keepAlive: 'KEEP_ALIVE',
 };
 
+Map<String, dynamic> _$ContinueDeploymentInputToJson(
+    ContinueDeploymentInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('deploymentId', instance.deploymentId);
+  writeNotNull('deploymentWaitType',
+      _$DeploymentWaitTypeEnumMap[instance.deploymentWaitType]);
+  return val;
+}
+
+const _$DeploymentWaitTypeEnumMap = {
+  DeploymentWaitType.readyWait: 'READY_WAIT',
+  DeploymentWaitType.terminationWait: 'TERMINATION_WAIT',
+};
+
+Map<String, dynamic> _$CreateApplicationInputToJson(
+    CreateApplicationInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('applicationName', instance.applicationName);
+  writeNotNull(
+      'computePlatform', _$ComputePlatformEnumMap[instance.computePlatform]);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateApplicationOutput _$CreateApplicationOutputFromJson(
     Map<String, dynamic> json) {
   return CreateApplicationOutput(
     applicationId: json['applicationId'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateDeploymentConfigInputToJson(
+    CreateDeploymentConfigInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('deploymentConfigName', instance.deploymentConfigName);
+  writeNotNull(
+      'computePlatform', _$ComputePlatformEnumMap[instance.computePlatform]);
+  writeNotNull('minimumHealthyHosts', instance.minimumHealthyHosts?.toJson());
+  writeNotNull('trafficRoutingConfig', instance.trafficRoutingConfig?.toJson());
+  return val;
 }
 
 CreateDeploymentConfigOutput _$CreateDeploymentConfigOutputFromJson(
@@ -313,6 +487,42 @@ CreateDeploymentConfigOutput _$CreateDeploymentConfigOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateDeploymentGroupInputToJson(
+    CreateDeploymentGroupInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('applicationName', instance.applicationName);
+  writeNotNull('deploymentGroupName', instance.deploymentGroupName);
+  writeNotNull('serviceRoleArn', instance.serviceRoleArn);
+  writeNotNull('alarmConfiguration', instance.alarmConfiguration?.toJson());
+  writeNotNull('autoRollbackConfiguration',
+      instance.autoRollbackConfiguration?.toJson());
+  writeNotNull('autoScalingGroups', instance.autoScalingGroups);
+  writeNotNull('blueGreenDeploymentConfiguration',
+      instance.blueGreenDeploymentConfiguration?.toJson());
+  writeNotNull('deploymentConfigName', instance.deploymentConfigName);
+  writeNotNull('deploymentStyle', instance.deploymentStyle?.toJson());
+  writeNotNull('ec2TagFilters',
+      instance.ec2TagFilters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('ec2TagSet', instance.ec2TagSet?.toJson());
+  writeNotNull(
+      'ecsServices', instance.ecsServices?.map((e) => e?.toJson())?.toList());
+  writeNotNull('loadBalancerInfo', instance.loadBalancerInfo?.toJson());
+  writeNotNull('onPremisesInstanceTagFilters',
+      instance.onPremisesInstanceTagFilters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('onPremisesTagSet', instance.onPremisesTagSet?.toJson());
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('triggerConfigurations',
+      instance.triggerConfigurations?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateDeploymentGroupOutput _$CreateDeploymentGroupOutputFromJson(
     Map<String, dynamic> json) {
   return CreateDeploymentGroupOutput(
@@ -320,11 +530,87 @@ CreateDeploymentGroupOutput _$CreateDeploymentGroupOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateDeploymentInputToJson(
+    CreateDeploymentInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('applicationName', instance.applicationName);
+  writeNotNull('autoRollbackConfiguration',
+      instance.autoRollbackConfiguration?.toJson());
+  writeNotNull('deploymentConfigName', instance.deploymentConfigName);
+  writeNotNull('deploymentGroupName', instance.deploymentGroupName);
+  writeNotNull('description', instance.description);
+  writeNotNull('fileExistsBehavior',
+      _$FileExistsBehaviorEnumMap[instance.fileExistsBehavior]);
+  writeNotNull(
+      'ignoreApplicationStopFailures', instance.ignoreApplicationStopFailures);
+  writeNotNull('revision', instance.revision?.toJson());
+  writeNotNull('targetInstances', instance.targetInstances?.toJson());
+  writeNotNull(
+      'updateOutdatedInstancesOnly', instance.updateOutdatedInstancesOnly);
+  return val;
+}
+
+const _$FileExistsBehaviorEnumMap = {
+  FileExistsBehavior.disallow: 'DISALLOW',
+  FileExistsBehavior.overwrite: 'OVERWRITE',
+  FileExistsBehavior.retain: 'RETAIN',
+};
+
 CreateDeploymentOutput _$CreateDeploymentOutputFromJson(
     Map<String, dynamic> json) {
   return CreateDeploymentOutput(
     deploymentId: json['deploymentId'] as String,
   );
+}
+
+Map<String, dynamic> _$DeleteApplicationInputToJson(
+    DeleteApplicationInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('applicationName', instance.applicationName);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteDeploymentConfigInputToJson(
+    DeleteDeploymentConfigInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('deploymentConfigName', instance.deploymentConfigName);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteDeploymentGroupInputToJson(
+    DeleteDeploymentGroupInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('applicationName', instance.applicationName);
+  writeNotNull('deploymentGroupName', instance.deploymentGroupName);
+  return val;
 }
 
 DeleteDeploymentGroupOutput _$DeleteDeploymentGroupOutputFromJson(
@@ -336,6 +622,20 @@ DeleteDeploymentGroupOutput _$DeleteDeploymentGroupOutputFromJson(
             : AutoScalingGroup.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DeleteGitHubAccountTokenInputToJson(
+    DeleteGitHubAccountTokenInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('tokenName', instance.tokenName);
+  return val;
 }
 
 DeleteGitHubAccountTokenOutput _$DeleteGitHubAccountTokenOutputFromJson(
@@ -513,12 +813,6 @@ const _$DeploymentCreatorEnumMap = {
   DeploymentCreator.codeDeployRollback: 'codeDeployRollback',
 };
 
-const _$FileExistsBehaviorEnumMap = {
-  FileExistsBehavior.disallow: 'DISALLOW',
-  FileExistsBehavior.overwrite: 'OVERWRITE',
-  FileExistsBehavior.retain: 'RETAIN',
-};
-
 const _$DeploymentStatusEnumMap = {
   DeploymentStatus.created: 'Created',
   DeploymentStatus.queued: 'Queued',
@@ -627,6 +921,20 @@ const _$DeploymentTargetTypeEnumMap = {
   DeploymentTargetType.lambdaTarget: 'LambdaTarget',
   DeploymentTargetType.eCSTarget: 'ECSTarget',
 };
+
+Map<String, dynamic> _$DeregisterOnPremisesInstanceInputToJson(
+    DeregisterOnPremisesInstanceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('instanceName', instance.instanceName);
+  return val;
+}
 
 Diagnostics _$DiagnosticsFromJson(Map<String, dynamic> json) {
   return Diagnostics(
@@ -851,12 +1159,40 @@ GenericRevisionInfo _$GenericRevisionInfoFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetApplicationInputToJson(GetApplicationInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('applicationName', instance.applicationName);
+  return val;
+}
+
 GetApplicationOutput _$GetApplicationOutputFromJson(Map<String, dynamic> json) {
   return GetApplicationOutput(
     application: json['application'] == null
         ? null
         : ApplicationInfo.fromJson(json['application'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetApplicationRevisionInputToJson(
+    GetApplicationRevisionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('applicationName', instance.applicationName);
+  writeNotNull('revision', instance.revision?.toJson());
+  return val;
 }
 
 GetApplicationRevisionOutput _$GetApplicationRevisionOutputFromJson(
@@ -873,6 +1209,20 @@ GetApplicationRevisionOutput _$GetApplicationRevisionOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$GetDeploymentConfigInputToJson(
+    GetDeploymentConfigInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('deploymentConfigName', instance.deploymentConfigName);
+  return val;
+}
+
 GetDeploymentConfigOutput _$GetDeploymentConfigOutputFromJson(
     Map<String, dynamic> json) {
   return GetDeploymentConfigOutput(
@@ -883,6 +1233,21 @@ GetDeploymentConfigOutput _$GetDeploymentConfigOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$GetDeploymentGroupInputToJson(
+    GetDeploymentGroupInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('applicationName', instance.applicationName);
+  writeNotNull('deploymentGroupName', instance.deploymentGroupName);
+  return val;
+}
+
 GetDeploymentGroupOutput _$GetDeploymentGroupOutputFromJson(
     Map<String, dynamic> json) {
   return GetDeploymentGroupOutput(
@@ -891,6 +1256,34 @@ GetDeploymentGroupOutput _$GetDeploymentGroupOutputFromJson(
         : DeploymentGroupInfo.fromJson(
             json['deploymentGroupInfo'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetDeploymentInputToJson(GetDeploymentInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('deploymentId', instance.deploymentId);
+  return val;
+}
+
+Map<String, dynamic> _$GetDeploymentInstanceInputToJson(
+    GetDeploymentInstanceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('deploymentId', instance.deploymentId);
+  writeNotNull('instanceId', instance.instanceId);
+  return val;
 }
 
 GetDeploymentInstanceOutput _$GetDeploymentInstanceOutputFromJson(
@@ -912,6 +1305,21 @@ GetDeploymentOutput _$GetDeploymentOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetDeploymentTargetInputToJson(
+    GetDeploymentTargetInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('deploymentId', instance.deploymentId);
+  writeNotNull('targetId', instance.targetId);
+  return val;
+}
+
 GetDeploymentTargetOutput _$GetDeploymentTargetOutputFromJson(
     Map<String, dynamic> json) {
   return GetDeploymentTargetOutput(
@@ -920,6 +1328,20 @@ GetDeploymentTargetOutput _$GetDeploymentTargetOutputFromJson(
         : DeploymentTarget.fromJson(
             json['deploymentTarget'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetOnPremisesInstanceInputToJson(
+    GetOnPremisesInstanceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('instanceName', instance.instanceName);
+  return val;
 }
 
 GetOnPremisesInstanceOutput _$GetOnPremisesInstanceOutputFromJson(
@@ -1101,6 +1523,43 @@ const _$LifecycleEventStatusEnumMap = {
   LifecycleEventStatus.unknown: 'Unknown',
 };
 
+Map<String, dynamic> _$ListApplicationRevisionsInputToJson(
+    ListApplicationRevisionsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('applicationName', instance.applicationName);
+  writeNotNull('deployed', _$ListStateFilterActionEnumMap[instance.deployed]);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('s3Bucket', instance.s3Bucket);
+  writeNotNull('s3KeyPrefix', instance.s3KeyPrefix);
+  writeNotNull('sortBy', _$ApplicationRevisionSortByEnumMap[instance.sortBy]);
+  writeNotNull('sortOrder', _$SortOrderEnumMap[instance.sortOrder]);
+  return val;
+}
+
+const _$ListStateFilterActionEnumMap = {
+  ListStateFilterAction.include: 'include',
+  ListStateFilterAction.exclude: 'exclude',
+  ListStateFilterAction.ignore: 'ignore',
+};
+
+const _$ApplicationRevisionSortByEnumMap = {
+  ApplicationRevisionSortBy.registerTime: 'registerTime',
+  ApplicationRevisionSortBy.firstUsedTime: 'firstUsedTime',
+  ApplicationRevisionSortBy.lastUsedTime: 'lastUsedTime',
+};
+
+const _$SortOrderEnumMap = {
+  SortOrder.ascending: 'ascending',
+  SortOrder.descending: 'descending',
+};
+
 ListApplicationRevisionsOutput _$ListApplicationRevisionsOutputFromJson(
     Map<String, dynamic> json) {
   return ListApplicationRevisionsOutput(
@@ -1113,6 +1572,20 @@ ListApplicationRevisionsOutput _$ListApplicationRevisionsOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$ListApplicationsInputToJson(
+    ListApplicationsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 ListApplicationsOutput _$ListApplicationsOutputFromJson(
     Map<String, dynamic> json) {
   return ListApplicationsOutput(
@@ -1120,6 +1593,20 @@ ListApplicationsOutput _$ListApplicationsOutputFromJson(
         (json['applications'] as List)?.map((e) => e as String)?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListDeploymentConfigsInputToJson(
+    ListDeploymentConfigsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 ListDeploymentConfigsOutput _$ListDeploymentConfigsOutputFromJson(
@@ -1132,6 +1619,21 @@ ListDeploymentConfigsOutput _$ListDeploymentConfigsOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$ListDeploymentGroupsInputToJson(
+    ListDeploymentGroupsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('applicationName', instance.applicationName);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 ListDeploymentGroupsOutput _$ListDeploymentGroupsOutputFromJson(
     Map<String, dynamic> json) {
   return ListDeploymentGroupsOutput(
@@ -1140,6 +1642,23 @@ ListDeploymentGroupsOutput _$ListDeploymentGroupsOutputFromJson(
         (json['deploymentGroups'] as List)?.map((e) => e as String)?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListDeploymentInstancesInputToJson(
+    ListDeploymentInstancesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('deploymentId', instance.deploymentId);
+  writeNotNull('instanceStatusFilter', instance.instanceStatusFilter);
+  writeNotNull('instanceTypeFilter', instance.instanceTypeFilter);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 ListDeploymentInstancesOutput _$ListDeploymentInstancesOutputFromJson(
@@ -1151,12 +1670,46 @@ ListDeploymentInstancesOutput _$ListDeploymentInstancesOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$ListDeploymentTargetsInputToJson(
+    ListDeploymentTargetsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('deploymentId', instance.deploymentId);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('targetFilters', instance.targetFilters);
+  return val;
+}
+
 ListDeploymentTargetsOutput _$ListDeploymentTargetsOutputFromJson(
     Map<String, dynamic> json) {
   return ListDeploymentTargetsOutput(
     nextToken: json['nextToken'] as String,
     targetIds: (json['targetIds'] as List)?.map((e) => e as String)?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListDeploymentsInputToJson(
+    ListDeploymentsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('applicationName', instance.applicationName);
+  writeNotNull('createTimeRange', instance.createTimeRange?.toJson());
+  writeNotNull('deploymentGroupName', instance.deploymentGroupName);
+  writeNotNull('includeOnlyStatuses', instance.includeOnlyStatuses);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 ListDeploymentsOutput _$ListDeploymentsOutputFromJson(
@@ -1168,6 +1721,20 @@ ListDeploymentsOutput _$ListDeploymentsOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$ListGitHubAccountTokenNamesInputToJson(
+    ListGitHubAccountTokenNamesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 ListGitHubAccountTokenNamesOutput _$ListGitHubAccountTokenNamesOutputFromJson(
     Map<String, dynamic> json) {
   return ListGitHubAccountTokenNamesOutput(
@@ -1177,6 +1744,29 @@ ListGitHubAccountTokenNamesOutput _$ListGitHubAccountTokenNamesOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$ListOnPremisesInstancesInputToJson(
+    ListOnPremisesInstancesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('registrationStatus',
+      _$RegistrationStatusEnumMap[instance.registrationStatus]);
+  writeNotNull(
+      'tagFilters', instance.tagFilters?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+const _$RegistrationStatusEnumMap = {
+  RegistrationStatus.registered: 'Registered',
+  RegistrationStatus.deregistered: 'Deregistered',
+};
+
 ListOnPremisesInstancesOutput _$ListOnPremisesInstancesOutputFromJson(
     Map<String, dynamic> json) {
   return ListOnPremisesInstancesOutput(
@@ -1184,6 +1774,21 @@ ListOnPremisesInstancesOutput _$ListOnPremisesInstancesOutputFromJson(
         (json['instanceNames'] as List)?.map((e) => e as String)?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListTagsForResourceInputToJson(
+    ListTagsForResourceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListTagsForResourceOutput _$ListTagsForResourceOutputFromJson(
@@ -1288,6 +1893,23 @@ Map<String, dynamic> _$OnPremisesTagSetToJson(OnPremisesTagSet instance) {
   return val;
 }
 
+Map<String, dynamic> _$PutLifecycleEventHookExecutionStatusInputToJson(
+    PutLifecycleEventHookExecutionStatusInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('deploymentId', instance.deploymentId);
+  writeNotNull(
+      'lifecycleEventHookExecutionId', instance.lifecycleEventHookExecutionId);
+  writeNotNull('status', _$LifecycleEventStatusEnumMap[instance.status]);
+  return val;
+}
+
 PutLifecycleEventHookExecutionStatusOutput
     _$PutLifecycleEventHookExecutionStatusOutputFromJson(
         Map<String, dynamic> json) {
@@ -1315,6 +1937,53 @@ Map<String, dynamic> _$RawStringToJson(RawString instance) {
 
   writeNotNull('content', instance.content);
   writeNotNull('sha256', instance.sha256);
+  return val;
+}
+
+Map<String, dynamic> _$RegisterApplicationRevisionInputToJson(
+    RegisterApplicationRevisionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('applicationName', instance.applicationName);
+  writeNotNull('revision', instance.revision?.toJson());
+  writeNotNull('description', instance.description);
+  return val;
+}
+
+Map<String, dynamic> _$RegisterOnPremisesInstanceInputToJson(
+    RegisterOnPremisesInstanceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('instanceName', instance.instanceName);
+  writeNotNull('iamSessionArn', instance.iamSessionArn);
+  writeNotNull('iamUserArn', instance.iamUserArn);
+  return val;
+}
+
+Map<String, dynamic> _$RemoveTagsFromOnPremisesInstancesInputToJson(
+    RemoveTagsFromOnPremisesInstancesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('instanceNames', instance.instanceNames);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
   return val;
 }
 
@@ -1421,6 +2090,34 @@ const _$BundleTypeEnumMap = {
   BundleType.json: 'JSON',
 };
 
+Map<String, dynamic> _$SkipWaitTimeForInstanceTerminationInputToJson(
+    SkipWaitTimeForInstanceTerminationInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('deploymentId', instance.deploymentId);
+  return val;
+}
+
+Map<String, dynamic> _$StopDeploymentInputToJson(StopDeploymentInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('deploymentId', instance.deploymentId);
+  writeNotNull('autoRollbackEnabled', instance.autoRollbackEnabled);
+  return val;
+}
+
 StopDeploymentOutput _$StopDeploymentOutputFromJson(Map<String, dynamic> json) {
   return StopDeploymentOutput(
     status: _$enumDecodeNullable(_$StopStatusEnumMap, json['status']),
@@ -1482,6 +2179,20 @@ const _$TagFilterTypeEnumMap = {
   TagFilterType.valueOnly: 'VALUE_ONLY',
   TagFilterType.keyAndValue: 'KEY_AND_VALUE',
 };
+
+Map<String, dynamic> _$TagResourceInputToJson(TagResourceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
 
 TagResourceOutput _$TagResourceOutputFromJson(Map<String, dynamic> json) {
   return TagResourceOutput();
@@ -1706,8 +2417,74 @@ Map<String, dynamic> _$TriggerConfigToJson(TriggerConfig instance) {
   return val;
 }
 
+Map<String, dynamic> _$UntagResourceInputToJson(UntagResourceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
+}
+
 UntagResourceOutput _$UntagResourceOutputFromJson(Map<String, dynamic> json) {
   return UntagResourceOutput();
+}
+
+Map<String, dynamic> _$UpdateApplicationInputToJson(
+    UpdateApplicationInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('applicationName', instance.applicationName);
+  writeNotNull('newApplicationName', instance.newApplicationName);
+  return val;
+}
+
+Map<String, dynamic> _$UpdateDeploymentGroupInputToJson(
+    UpdateDeploymentGroupInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('applicationName', instance.applicationName);
+  writeNotNull(
+      'currentDeploymentGroupName', instance.currentDeploymentGroupName);
+  writeNotNull('alarmConfiguration', instance.alarmConfiguration?.toJson());
+  writeNotNull('autoRollbackConfiguration',
+      instance.autoRollbackConfiguration?.toJson());
+  writeNotNull('autoScalingGroups', instance.autoScalingGroups);
+  writeNotNull('blueGreenDeploymentConfiguration',
+      instance.blueGreenDeploymentConfiguration?.toJson());
+  writeNotNull('deploymentConfigName', instance.deploymentConfigName);
+  writeNotNull('deploymentStyle', instance.deploymentStyle?.toJson());
+  writeNotNull('ec2TagFilters',
+      instance.ec2TagFilters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('ec2TagSet', instance.ec2TagSet?.toJson());
+  writeNotNull(
+      'ecsServices', instance.ecsServices?.map((e) => e?.toJson())?.toList());
+  writeNotNull('loadBalancerInfo', instance.loadBalancerInfo?.toJson());
+  writeNotNull('newDeploymentGroupName', instance.newDeploymentGroupName);
+  writeNotNull('onPremisesInstanceTagFilters',
+      instance.onPremisesInstanceTagFilters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('onPremisesTagSet', instance.onPremisesTagSet?.toJson());
+  writeNotNull('serviceRoleArn', instance.serviceRoleArn);
+  writeNotNull('triggerConfigurations',
+      instance.triggerConfigurations?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 UpdateDeploymentGroupOutput _$UpdateDeploymentGroupOutputFromJson(

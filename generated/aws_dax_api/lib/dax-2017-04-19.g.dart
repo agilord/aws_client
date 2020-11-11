@@ -48,6 +48,33 @@ Cluster _$ClusterFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateClusterRequestToJson(
+    CreateClusterRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClusterName', instance.clusterName);
+  writeNotNull('IamRoleArn', instance.iamRoleArn);
+  writeNotNull('NodeType', instance.nodeType);
+  writeNotNull('ReplicationFactor', instance.replicationFactor);
+  writeNotNull('AvailabilityZones', instance.availabilityZones);
+  writeNotNull('Description', instance.description);
+  writeNotNull('NotificationTopicArn', instance.notificationTopicArn);
+  writeNotNull('ParameterGroupName', instance.parameterGroupName);
+  writeNotNull(
+      'PreferredMaintenanceWindow', instance.preferredMaintenanceWindow);
+  writeNotNull('SSESpecification', instance.sSESpecification?.toJson());
+  writeNotNull('SecurityGroupIds', instance.securityGroupIds);
+  writeNotNull('SubnetGroupName', instance.subnetGroupName);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateClusterResponse _$CreateClusterResponseFromJson(
     Map<String, dynamic> json) {
   return CreateClusterResponse(
@@ -55,6 +82,21 @@ CreateClusterResponse _$CreateClusterResponseFromJson(
         ? null
         : Cluster.fromJson(json['Cluster'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateParameterGroupRequestToJson(
+    CreateParameterGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ParameterGroupName', instance.parameterGroupName);
+  writeNotNull('Description', instance.description);
+  return val;
 }
 
 CreateParameterGroupResponse _$CreateParameterGroupResponseFromJson(
@@ -67,6 +109,22 @@ CreateParameterGroupResponse _$CreateParameterGroupResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateSubnetGroupRequestToJson(
+    CreateSubnetGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SubnetGroupName', instance.subnetGroupName);
+  writeNotNull('SubnetIds', instance.subnetIds);
+  writeNotNull('Description', instance.description);
+  return val;
+}
+
 CreateSubnetGroupResponse _$CreateSubnetGroupResponseFromJson(
     Map<String, dynamic> json) {
   return CreateSubnetGroupResponse(
@@ -74,6 +132,23 @@ CreateSubnetGroupResponse _$CreateSubnetGroupResponseFromJson(
         ? null
         : SubnetGroup.fromJson(json['SubnetGroup'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DecreaseReplicationFactorRequestToJson(
+    DecreaseReplicationFactorRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClusterName', instance.clusterName);
+  writeNotNull('NewReplicationFactor', instance.newReplicationFactor);
+  writeNotNull('AvailabilityZones', instance.availabilityZones);
+  writeNotNull('NodeIdsToRemove', instance.nodeIdsToRemove);
+  return val;
 }
 
 DecreaseReplicationFactorResponse _$DecreaseReplicationFactorResponseFromJson(
@@ -85,6 +160,20 @@ DecreaseReplicationFactorResponse _$DecreaseReplicationFactorResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteClusterRequestToJson(
+    DeleteClusterRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClusterName', instance.clusterName);
+  return val;
+}
+
 DeleteClusterResponse _$DeleteClusterResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteClusterResponse(
@@ -94,6 +183,20 @@ DeleteClusterResponse _$DeleteClusterResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteParameterGroupRequestToJson(
+    DeleteParameterGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ParameterGroupName', instance.parameterGroupName);
+  return val;
+}
+
 DeleteParameterGroupResponse _$DeleteParameterGroupResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteParameterGroupResponse(
@@ -101,11 +204,41 @@ DeleteParameterGroupResponse _$DeleteParameterGroupResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteSubnetGroupRequestToJson(
+    DeleteSubnetGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SubnetGroupName', instance.subnetGroupName);
+  return val;
+}
+
 DeleteSubnetGroupResponse _$DeleteSubnetGroupResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteSubnetGroupResponse(
     deletionMessage: json['DeletionMessage'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeClustersRequestToJson(
+    DescribeClustersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClusterNames', instance.clusterNames);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 DescribeClustersResponse _$DescribeClustersResponseFromJson(
@@ -119,6 +252,21 @@ DescribeClustersResponse _$DescribeClustersResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeDefaultParametersRequestToJson(
+    DescribeDefaultParametersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 DescribeDefaultParametersResponse _$DescribeDefaultParametersResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeDefaultParametersResponse(
@@ -130,6 +278,32 @@ DescribeDefaultParametersResponse _$DescribeDefaultParametersResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeEventsRequestToJson(
+    DescribeEventsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Duration', instance.duration);
+  writeNotNull('EndTime', unixTimestampToJson(instance.endTime));
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SourceName', instance.sourceName);
+  writeNotNull('SourceType', _$SourceTypeEnumMap[instance.sourceType]);
+  writeNotNull('StartTime', unixTimestampToJson(instance.startTime));
+  return val;
+}
+
+const _$SourceTypeEnumMap = {
+  SourceType.cluster: 'CLUSTER',
+  SourceType.parameterGroup: 'PARAMETER_GROUP',
+  SourceType.subnetGroup: 'SUBNET_GROUP',
+};
+
 DescribeEventsResponse _$DescribeEventsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeEventsResponse(
@@ -139,6 +313,22 @@ DescribeEventsResponse _$DescribeEventsResponseFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeParameterGroupsRequestToJson(
+    DescribeParameterGroupsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('ParameterGroupNames', instance.parameterGroupNames);
+  return val;
 }
 
 DescribeParameterGroupsResponse _$DescribeParameterGroupsResponseFromJson(
@@ -153,6 +343,23 @@ DescribeParameterGroupsResponse _$DescribeParameterGroupsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeParametersRequestToJson(
+    DescribeParametersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ParameterGroupName', instance.parameterGroupName);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('Source', instance.source);
+  return val;
+}
+
 DescribeParametersResponse _$DescribeParametersResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeParametersResponse(
@@ -162,6 +369,22 @@ DescribeParametersResponse _$DescribeParametersResponseFromJson(
             e == null ? null : Parameter.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeSubnetGroupsRequestToJson(
+    DescribeSubnetGroupsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SubnetGroupNames', instance.subnetGroupNames);
+  return val;
 }
 
 DescribeSubnetGroupsResponse _$DescribeSubnetGroupsResponseFromJson(
@@ -223,11 +446,21 @@ T _$enumDecodeNullable<T>(
   return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
 }
 
-const _$SourceTypeEnumMap = {
-  SourceType.cluster: 'CLUSTER',
-  SourceType.parameterGroup: 'PARAMETER_GROUP',
-  SourceType.subnetGroup: 'SUBNET_GROUP',
-};
+Map<String, dynamic> _$IncreaseReplicationFactorRequestToJson(
+    IncreaseReplicationFactorRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClusterName', instance.clusterName);
+  writeNotNull('NewReplicationFactor', instance.newReplicationFactor);
+  writeNotNull('AvailabilityZones', instance.availabilityZones);
+  return val;
+}
 
 IncreaseReplicationFactorResponse _$IncreaseReplicationFactorResponseFromJson(
     Map<String, dynamic> json) {
@@ -236,6 +469,20 @@ IncreaseReplicationFactorResponse _$IncreaseReplicationFactorResponseFromJson(
         ? null
         : Cluster.fromJson(json['Cluster'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$ListTagsRequestToJson(ListTagsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceName', instance.resourceName);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListTagsResponse _$ListTagsResponseFromJson(Map<String, dynamic> json) {
@@ -343,6 +590,20 @@ Map<String, dynamic> _$ParameterNameValueToJson(ParameterNameValue instance) {
   return val;
 }
 
+Map<String, dynamic> _$RebootNodeRequestToJson(RebootNodeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClusterName', instance.clusterName);
+  writeNotNull('NodeId', instance.nodeId);
+  return val;
+}
+
 RebootNodeResponse _$RebootNodeResponseFromJson(Map<String, dynamic> json) {
   return RebootNodeResponse(
     cluster: json['Cluster'] == null
@@ -425,12 +686,41 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
   return val;
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceName', instance.resourceName);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse(
     tags: (json['Tags'] as List)
         ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$UntagResourceRequestToJson(
+    UntagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceName', instance.resourceName);
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
 }
 
 UntagResourceResponse _$UntagResourceResponseFromJson(
@@ -442,6 +732,27 @@ UntagResourceResponse _$UntagResourceResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateClusterRequestToJson(
+    UpdateClusterRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClusterName', instance.clusterName);
+  writeNotNull('Description', instance.description);
+  writeNotNull('NotificationTopicArn', instance.notificationTopicArn);
+  writeNotNull('NotificationTopicStatus', instance.notificationTopicStatus);
+  writeNotNull('ParameterGroupName', instance.parameterGroupName);
+  writeNotNull(
+      'PreferredMaintenanceWindow', instance.preferredMaintenanceWindow);
+  writeNotNull('SecurityGroupIds', instance.securityGroupIds);
+  return val;
+}
+
 UpdateClusterResponse _$UpdateClusterResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateClusterResponse(
@@ -449,6 +760,22 @@ UpdateClusterResponse _$UpdateClusterResponseFromJson(
         ? null
         : Cluster.fromJson(json['Cluster'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateParameterGroupRequestToJson(
+    UpdateParameterGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ParameterGroupName', instance.parameterGroupName);
+  writeNotNull('ParameterNameValues',
+      instance.parameterNameValues?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 UpdateParameterGroupResponse _$UpdateParameterGroupResponseFromJson(
@@ -459,6 +786,22 @@ UpdateParameterGroupResponse _$UpdateParameterGroupResponseFromJson(
         : ParameterGroup.fromJson(
             json['ParameterGroup'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateSubnetGroupRequestToJson(
+    UpdateSubnetGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SubnetGroupName', instance.subnetGroupName);
+  writeNotNull('Description', instance.description);
+  writeNotNull('SubnetIds', instance.subnetIds);
+  return val;
 }
 
 UpdateSubnetGroupResponse _$UpdateSubnetGroupResponseFromJson(

@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -87,9 +86,9 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SharedDirectoryId': sharedDirectoryId,
-      },
+      payload: AcceptSharedDirectoryRequest(
+        sharedDirectoryId: sharedDirectoryId,
+      ),
     );
 
     return AcceptSharedDirectoryResult.fromJson(jsonResponse.body);
@@ -218,13 +217,12 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DirectoryId': directoryId,
-        'IpRoutes': ipRoutes,
-        if (updateSecurityGroupForDirectoryControllers != null)
-          'UpdateSecurityGroupForDirectoryControllers':
-              updateSecurityGroupForDirectoryControllers,
-      },
+      payload: AddIpRoutesRequest(
+        directoryId: directoryId,
+        ipRoutes: ipRoutes,
+        updateSecurityGroupForDirectoryControllers:
+            updateSecurityGroupForDirectoryControllers,
+      ),
     );
 
     return AddIpRoutesResult.fromJson(jsonResponse.body);
@@ -267,10 +265,10 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceId': resourceId,
-        'Tags': tags,
-      },
+      payload: AddTagsToResourceRequest(
+        resourceId: resourceId,
+        tags: tags,
+      ),
     );
 
     return AddTagsToResourceResult.fromJson(jsonResponse.body);
@@ -319,10 +317,10 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DirectoryId': directoryId,
-        'SchemaExtensionId': schemaExtensionId,
-      },
+      payload: CancelSchemaExtensionRequest(
+        directoryId: directoryId,
+        schemaExtensionId: schemaExtensionId,
+      ),
     );
 
     return CancelSchemaExtensionResult.fromJson(jsonResponse.body);
@@ -417,15 +415,15 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConnectSettings': connectSettings,
-        'Name': name,
-        'Password': password,
-        'Size': size?.toValue(),
-        if (description != null) 'Description': description,
-        if (shortName != null) 'ShortName': shortName,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: ConnectDirectoryRequest(
+        connectSettings: connectSettings,
+        name: name,
+        password: password,
+        size: size,
+        description: description,
+        shortName: shortName,
+        tags: tags,
+      ),
     );
 
     return ConnectDirectoryResult.fromJson(jsonResponse.body);
@@ -489,10 +487,10 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Alias': alias,
-        'DirectoryId': directoryId,
-      },
+      payload: CreateAliasRequest(
+        alias: alias,
+        directoryId: directoryId,
+      ),
     );
 
     return CreateAliasResult.fromJson(jsonResponse.body);
@@ -579,16 +577,14 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ComputerName': computerName,
-        'DirectoryId': directoryId,
-        'Password': password,
-        if (computerAttributes != null)
-          'ComputerAttributes': computerAttributes,
-        if (organizationalUnitDistinguishedName != null)
-          'OrganizationalUnitDistinguishedName':
-              organizationalUnitDistinguishedName,
-      },
+      payload: CreateComputerRequest(
+        computerName: computerName,
+        directoryId: directoryId,
+        password: password,
+        computerAttributes: computerAttributes,
+        organizationalUnitDistinguishedName:
+            organizationalUnitDistinguishedName,
+      ),
     );
 
     return CreateComputerResult.fromJson(jsonResponse.body);
@@ -648,11 +644,11 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DirectoryId': directoryId,
-        'DnsIpAddrs': dnsIpAddrs,
-        'RemoteDomainName': remoteDomainName,
-      },
+      payload: CreateConditionalForwarderRequest(
+        directoryId: directoryId,
+        dnsIpAddrs: dnsIpAddrs,
+        remoteDomainName: remoteDomainName,
+      ),
     );
 
     return CreateConditionalForwarderResult.fromJson(jsonResponse.body);
@@ -752,15 +748,15 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        'Password': password,
-        'Size': size?.toValue(),
-        if (description != null) 'Description': description,
-        if (shortName != null) 'ShortName': shortName,
-        if (tags != null) 'Tags': tags,
-        if (vpcSettings != null) 'VpcSettings': vpcSettings,
-      },
+      payload: CreateDirectoryRequest(
+        name: name,
+        password: password,
+        size: size,
+        description: description,
+        shortName: shortName,
+        tags: tags,
+        vpcSettings: vpcSettings,
+      ),
     );
 
     return CreateDirectoryResult.fromJson(jsonResponse.body);
@@ -819,10 +815,10 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DirectoryId': directoryId,
-        'LogGroupName': logGroupName,
-      },
+      payload: CreateLogSubscriptionRequest(
+        directoryId: directoryId,
+        logGroupName: logGroupName,
+      ),
     );
 
     return CreateLogSubscriptionResult.fromJson(jsonResponse.body);
@@ -929,15 +925,15 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        'Password': password,
-        'VpcSettings': vpcSettings,
-        if (description != null) 'Description': description,
-        if (edition != null) 'Edition': edition?.toValue(),
-        if (shortName != null) 'ShortName': shortName,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateMicrosoftADRequest(
+        name: name,
+        password: password,
+        vpcSettings: vpcSettings,
+        description: description,
+        edition: edition,
+        shortName: shortName,
+        tags: tags,
+      ),
     );
 
     return CreateMicrosoftADResult.fromJson(jsonResponse.body);
@@ -992,10 +988,10 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DirectoryId': directoryId,
-        if (name != null) 'Name': name,
-      },
+      payload: CreateSnapshotRequest(
+        directoryId: directoryId,
+        name: name,
+      ),
     );
 
     return CreateSnapshotResult.fromJson(jsonResponse.body);
@@ -1091,16 +1087,15 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DirectoryId': directoryId,
-        'RemoteDomainName': remoteDomainName,
-        'TrustDirection': trustDirection?.toValue(),
-        'TrustPassword': trustPassword,
-        if (conditionalForwarderIpAddrs != null)
-          'ConditionalForwarderIpAddrs': conditionalForwarderIpAddrs,
-        if (selectiveAuth != null) 'SelectiveAuth': selectiveAuth?.toValue(),
-        if (trustType != null) 'TrustType': trustType?.toValue(),
-      },
+      payload: CreateTrustRequest(
+        directoryId: directoryId,
+        remoteDomainName: remoteDomainName,
+        trustDirection: trustDirection,
+        trustPassword: trustPassword,
+        conditionalForwarderIpAddrs: conditionalForwarderIpAddrs,
+        selectiveAuth: selectiveAuth,
+        trustType: trustType,
+      ),
     );
 
     return CreateTrustResult.fromJson(jsonResponse.body);
@@ -1150,10 +1145,10 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DirectoryId': directoryId,
-        'RemoteDomainName': remoteDomainName,
-      },
+      payload: DeleteConditionalForwarderRequest(
+        directoryId: directoryId,
+        remoteDomainName: remoteDomainName,
+      ),
     );
 
     return DeleteConditionalForwarderResult.fromJson(jsonResponse.body);
@@ -1195,9 +1190,9 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DirectoryId': directoryId,
-      },
+      payload: DeleteDirectoryRequest(
+        directoryId: directoryId,
+      ),
     );
 
     return DeleteDirectoryResult.fromJson(jsonResponse.body);
@@ -1232,9 +1227,9 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DirectoryId': directoryId,
-      },
+      payload: DeleteLogSubscriptionRequest(
+        directoryId: directoryId,
+      ),
     );
 
     return DeleteLogSubscriptionResult.fromJson(jsonResponse.body);
@@ -1269,9 +1264,9 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SnapshotId': snapshotId,
-      },
+      payload: DeleteSnapshotRequest(
+        snapshotId: snapshotId,
+      ),
     );
 
     return DeleteSnapshotResult.fromJson(jsonResponse.body);
@@ -1312,12 +1307,11 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TrustId': trustId,
-        if (deleteAssociatedConditionalForwarder != null)
-          'DeleteAssociatedConditionalForwarder':
-              deleteAssociatedConditionalForwarder,
-      },
+      payload: DeleteTrustRequest(
+        trustId: trustId,
+        deleteAssociatedConditionalForwarder:
+            deleteAssociatedConditionalForwarder,
+      ),
     );
 
     return DeleteTrustResult.fromJson(jsonResponse.body);
@@ -1368,10 +1362,10 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CertificateId': certificateId,
-        'DirectoryId': directoryId,
-      },
+      payload: DeregisterCertificateRequest(
+        certificateId: certificateId,
+        directoryId: directoryId,
+      ),
     );
 
     return DeregisterCertificateResult.fromJson(jsonResponse.body);
@@ -1426,10 +1420,10 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DirectoryId': directoryId,
-        'TopicName': topicName,
-      },
+      payload: DeregisterEventTopicRequest(
+        directoryId: directoryId,
+        topicName: topicName,
+      ),
     );
 
     return DeregisterEventTopicResult.fromJson(jsonResponse.body);
@@ -1478,10 +1472,10 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CertificateId': certificateId,
-        'DirectoryId': directoryId,
-      },
+      payload: DescribeCertificateRequest(
+        certificateId: certificateId,
+        directoryId: directoryId,
+      ),
     );
 
     return DescribeCertificateResult.fromJson(jsonResponse.body);
@@ -1528,10 +1522,10 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DirectoryId': directoryId,
-        if (remoteDomainNames != null) 'RemoteDomainNames': remoteDomainNames,
-      },
+      payload: DescribeConditionalForwardersRequest(
+        directoryId: directoryId,
+        remoteDomainNames: remoteDomainNames,
+      ),
     );
 
     return DescribeConditionalForwardersResult.fromJson(jsonResponse.body);
@@ -1595,11 +1589,11 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (directoryIds != null) 'DirectoryIds': directoryIds,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeDirectoriesRequest(
+        directoryIds: directoryIds,
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeDirectoriesResult.fromJson(jsonResponse.body);
@@ -1657,13 +1651,12 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DirectoryId': directoryId,
-        if (domainControllerIds != null)
-          'DomainControllerIds': domainControllerIds,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeDomainControllersRequest(
+        directoryId: directoryId,
+        domainControllerIds: domainControllerIds,
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeDomainControllersResult.fromJson(jsonResponse.body);
@@ -1710,10 +1703,10 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (directoryId != null) 'DirectoryId': directoryId,
-        if (topicNames != null) 'TopicNames': topicNames,
-      },
+      payload: DescribeEventTopicsRequest(
+        directoryId: directoryId,
+        topicNames: topicNames,
+      ),
     );
 
     return DescribeEventTopicsResult.fromJson(jsonResponse.body);
@@ -1769,12 +1762,12 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DirectoryId': directoryId,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (type != null) 'Type': type?.toValue(),
-      },
+      payload: DescribeLDAPSSettingsRequest(
+        directoryId: directoryId,
+        limit: limit,
+        nextToken: nextToken,
+        type: type,
+      ),
     );
 
     return DescribeLDAPSSettingsResult.fromJson(jsonResponse.body);
@@ -1831,13 +1824,12 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'OwnerDirectoryId': ownerDirectoryId,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sharedDirectoryIds != null)
-          'SharedDirectoryIds': sharedDirectoryIds,
-      },
+      payload: DescribeSharedDirectoriesRequest(
+        ownerDirectoryId: ownerDirectoryId,
+        limit: limit,
+        nextToken: nextToken,
+        sharedDirectoryIds: sharedDirectoryIds,
+      ),
     );
 
     return DescribeSharedDirectoriesResult.fromJson(jsonResponse.body);
@@ -1903,12 +1895,12 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (directoryId != null) 'DirectoryId': directoryId,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (snapshotIds != null) 'SnapshotIds': snapshotIds,
-      },
+      payload: DescribeSnapshotsRequest(
+        directoryId: directoryId,
+        limit: limit,
+        nextToken: nextToken,
+        snapshotIds: snapshotIds,
+      ),
     );
 
     return DescribeSnapshotsResult.fromJson(jsonResponse.body);
@@ -1971,12 +1963,12 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (directoryId != null) 'DirectoryId': directoryId,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (trustIds != null) 'TrustIds': trustIds,
-      },
+      payload: DescribeTrustsRequest(
+        directoryId: directoryId,
+        limit: limit,
+        nextToken: nextToken,
+        trustIds: trustIds,
+      ),
     );
 
     return DescribeTrustsResult.fromJson(jsonResponse.body);
@@ -2020,10 +2012,10 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DirectoryId': directoryId,
-        'Type': type?.toValue(),
-      },
+      payload: DisableLDAPSRequest(
+        directoryId: directoryId,
+        type: type,
+      ),
     );
 
     return DisableLDAPSResult.fromJson(jsonResponse.body);
@@ -2059,9 +2051,9 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DirectoryId': directoryId,
-      },
+      payload: DisableRadiusRequest(
+        directoryId: directoryId,
+      ),
     );
 
     return DisableRadiusResult.fromJson(jsonResponse.body);
@@ -2132,11 +2124,11 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DirectoryId': directoryId,
-        if (password != null) 'Password': password,
-        if (userName != null) 'UserName': userName,
-      },
+      payload: DisableSsoRequest(
+        directoryId: directoryId,
+        password: password,
+        userName: userName,
+      ),
     );
 
     return DisableSsoResult.fromJson(jsonResponse.body);
@@ -2182,10 +2174,10 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DirectoryId': directoryId,
-        'Type': type?.toValue(),
-      },
+      payload: EnableLDAPSRequest(
+        directoryId: directoryId,
+        type: type,
+      ),
     );
 
     return EnableLDAPSResult.fromJson(jsonResponse.body);
@@ -2229,10 +2221,10 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DirectoryId': directoryId,
-        'RadiusSettings': radiusSettings,
-      },
+      payload: EnableRadiusRequest(
+        directoryId: directoryId,
+        radiusSettings: radiusSettings,
+      ),
     );
 
     return EnableRadiusResult.fromJson(jsonResponse.body);
@@ -2305,11 +2297,11 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DirectoryId': directoryId,
-        if (password != null) 'Password': password,
-        if (userName != null) 'UserName': userName,
-      },
+      payload: EnableSsoRequest(
+        directoryId: directoryId,
+        password: password,
+        userName: userName,
+      ),
     );
 
     return EnableSsoResult.fromJson(jsonResponse.body);
@@ -2364,9 +2356,9 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DirectoryId': directoryId,
-      },
+      payload: GetSnapshotLimitsRequest(
+        directoryId: directoryId,
+      ),
     );
 
     return GetSnapshotLimitsResult.fromJson(jsonResponse.body);
@@ -2422,11 +2414,11 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DirectoryId': directoryId,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListCertificatesRequest(
+        directoryId: directoryId,
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return ListCertificatesResult.fromJson(jsonResponse.body);
@@ -2479,11 +2471,11 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DirectoryId': directoryId,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListIpRoutesRequest(
+        directoryId: directoryId,
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return ListIpRoutesResult.fromJson(jsonResponse.body);
@@ -2534,11 +2526,11 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (directoryId != null) 'DirectoryId': directoryId,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListLogSubscriptionsRequest(
+        directoryId: directoryId,
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return ListLogSubscriptionsResult.fromJson(jsonResponse.body);
@@ -2589,11 +2581,11 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DirectoryId': directoryId,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListSchemaExtensionsRequest(
+        directoryId: directoryId,
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return ListSchemaExtensionsResult.fromJson(jsonResponse.body);
@@ -2643,11 +2635,11 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceId': resourceId,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListTagsForResourceRequest(
+        resourceId: resourceId,
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return ListTagsForResourceResult.fromJson(jsonResponse.body);
@@ -2699,10 +2691,10 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CertificateData': certificateData,
-        'DirectoryId': directoryId,
-      },
+      payload: RegisterCertificateRequest(
+        certificateData: certificateData,
+        directoryId: directoryId,
+      ),
     );
 
     return RegisterCertificateResult.fromJson(jsonResponse.body);
@@ -2761,10 +2753,10 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DirectoryId': directoryId,
-        'TopicName': topicName,
-      },
+      payload: RegisterEventTopicRequest(
+        directoryId: directoryId,
+        topicName: topicName,
+      ),
     );
 
     return RegisterEventTopicResult.fromJson(jsonResponse.body);
@@ -2802,9 +2794,9 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SharedDirectoryId': sharedDirectoryId,
-      },
+      payload: RejectSharedDirectoryRequest(
+        sharedDirectoryId: sharedDirectoryId,
+      ),
     );
 
     return RejectSharedDirectoryResult.fromJson(jsonResponse.body);
@@ -2846,10 +2838,10 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CidrIps': cidrIps,
-        'DirectoryId': directoryId,
-      },
+      payload: RemoveIpRoutesRequest(
+        cidrIps: cidrIps,
+        directoryId: directoryId,
+      ),
     );
 
     return RemoveIpRoutesResult.fromJson(jsonResponse.body);
@@ -2889,10 +2881,10 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceId': resourceId,
-        'TagKeys': tagKeys,
-      },
+      payload: RemoveTagsFromResourceRequest(
+        resourceId: resourceId,
+        tagKeys: tagKeys,
+      ),
     );
 
     return RemoveTagsFromResourceResult.fromJson(jsonResponse.body);
@@ -2982,11 +2974,11 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DirectoryId': directoryId,
-        'NewPassword': newPassword,
-        'UserName': userName,
-      },
+      payload: ResetUserPasswordRequest(
+        directoryId: directoryId,
+        newPassword: newPassword,
+        userName: userName,
+      ),
     );
 
     return ResetUserPasswordResult.fromJson(jsonResponse.body);
@@ -3030,9 +3022,9 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SnapshotId': snapshotId,
-      },
+      payload: RestoreFromSnapshotRequest(
+        snapshotId: snapshotId,
+      ),
     );
 
     return RestoreFromSnapshotResult.fromJson(jsonResponse.body);
@@ -3120,12 +3112,12 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DirectoryId': directoryId,
-        'ShareMethod': shareMethod?.toValue(),
-        'ShareTarget': shareTarget,
-        if (shareNotes != null) 'ShareNotes': shareNotes,
-      },
+      payload: ShareDirectoryRequest(
+        directoryId: directoryId,
+        shareMethod: shareMethod,
+        shareTarget: shareTarget,
+        shareNotes: shareNotes,
+      ),
     );
 
     return ShareDirectoryResult.fromJson(jsonResponse.body);
@@ -3203,13 +3195,13 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CreateSnapshotBeforeSchemaExtension':
+      payload: StartSchemaExtensionRequest(
+        createSnapshotBeforeSchemaExtension:
             createSnapshotBeforeSchemaExtension,
-        'Description': description,
-        'DirectoryId': directoryId,
-        'LdifContent': ldifContent,
-      },
+        description: description,
+        directoryId: directoryId,
+        ldifContent: ldifContent,
+      ),
     );
 
     return StartSchemaExtensionResult.fromJson(jsonResponse.body);
@@ -3253,10 +3245,10 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DirectoryId': directoryId,
-        'UnshareTarget': unshareTarget,
-      },
+      payload: UnshareDirectoryRequest(
+        directoryId: directoryId,
+        unshareTarget: unshareTarget,
+      ),
     );
 
     return UnshareDirectoryResult.fromJson(jsonResponse.body);
@@ -3313,11 +3305,11 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DirectoryId': directoryId,
-        'DnsIpAddrs': dnsIpAddrs,
-        'RemoteDomainName': remoteDomainName,
-      },
+      payload: UpdateConditionalForwarderRequest(
+        directoryId: directoryId,
+        dnsIpAddrs: dnsIpAddrs,
+        remoteDomainName: remoteDomainName,
+      ),
     );
 
     return UpdateConditionalForwarderResult.fromJson(jsonResponse.body);
@@ -3374,10 +3366,10 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DesiredNumber': desiredNumber,
-        'DirectoryId': directoryId,
-      },
+      payload: UpdateNumberOfDomainControllersRequest(
+        desiredNumber: desiredNumber,
+        directoryId: directoryId,
+      ),
     );
 
     return UpdateNumberOfDomainControllersResult.fromJson(jsonResponse.body);
@@ -3420,10 +3412,10 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DirectoryId': directoryId,
-        'RadiusSettings': radiusSettings,
-      },
+      payload: UpdateRadiusRequest(
+        directoryId: directoryId,
+        radiusSettings: radiusSettings,
+      ),
     );
 
     return UpdateRadiusResult.fromJson(jsonResponse.body);
@@ -3463,10 +3455,10 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TrustId': trustId,
-        if (selectiveAuth != null) 'SelectiveAuth': selectiveAuth?.toValue(),
-      },
+      payload: UpdateTrustRequest(
+        trustId: trustId,
+        selectiveAuth: selectiveAuth,
+      ),
     );
 
     return UpdateTrustResult.fromJson(jsonResponse.body);
@@ -3506,13 +3498,30 @@ class DirectoryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TrustId': trustId,
-      },
+      payload: VerifyTrustRequest(
+        trustId: trustId,
+      ),
     );
 
     return VerifyTrustResult.fromJson(jsonResponse.body);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AcceptSharedDirectoryRequest {
+  /// Identifier of the shared directory in the directory consumer account. This
+  /// identifier is different for each directory owner account.
+  @_s.JsonKey(name: 'SharedDirectoryId')
+  final String sharedDirectoryId;
+
+  AcceptSharedDirectoryRequest({
+    @_s.required this.sharedDirectoryId,
+  });
+  Map<String, dynamic> toJson() => _$AcceptSharedDirectoryRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3535,12 +3544,127 @@ class AcceptSharedDirectoryResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AddIpRoutesRequest {
+  /// Identifier (ID) of the directory to which to add the address block.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  /// IP address blocks, using CIDR format, of the traffic to route. This is often
+  /// the IP address block of the DNS server used for your on-premises domain.
+  @_s.JsonKey(name: 'IpRoutes')
+  final List<IpRoute> ipRoutes;
+
+  /// If set to true, updates the inbound and outbound rules of the security group
+  /// that has the description: "AWS created security group for <i>directory
+  /// ID</i> directory controllers." Following are the new rules:
+  ///
+  /// Inbound:
+  ///
+  /// <ul>
+  /// <li>
+  /// Type: Custom UDP Rule, Protocol: UDP, Range: 88, Source: 0.0.0.0/0
+  /// </li>
+  /// <li>
+  /// Type: Custom UDP Rule, Protocol: UDP, Range: 123, Source: 0.0.0.0/0
+  /// </li>
+  /// <li>
+  /// Type: Custom UDP Rule, Protocol: UDP, Range: 138, Source: 0.0.0.0/0
+  /// </li>
+  /// <li>
+  /// Type: Custom UDP Rule, Protocol: UDP, Range: 389, Source: 0.0.0.0/0
+  /// </li>
+  /// <li>
+  /// Type: Custom UDP Rule, Protocol: UDP, Range: 464, Source: 0.0.0.0/0
+  /// </li>
+  /// <li>
+  /// Type: Custom UDP Rule, Protocol: UDP, Range: 445, Source: 0.0.0.0/0
+  /// </li>
+  /// <li>
+  /// Type: Custom TCP Rule, Protocol: TCP, Range: 88, Source: 0.0.0.0/0
+  /// </li>
+  /// <li>
+  /// Type: Custom TCP Rule, Protocol: TCP, Range: 135, Source: 0.0.0.0/0
+  /// </li>
+  /// <li>
+  /// Type: Custom TCP Rule, Protocol: TCP, Range: 445, Source: 0.0.0.0/0
+  /// </li>
+  /// <li>
+  /// Type: Custom TCP Rule, Protocol: TCP, Range: 464, Source: 0.0.0.0/0
+  /// </li>
+  /// <li>
+  /// Type: Custom TCP Rule, Protocol: TCP, Range: 636, Source: 0.0.0.0/0
+  /// </li>
+  /// <li>
+  /// Type: Custom TCP Rule, Protocol: TCP, Range: 1024-65535, Source: 0.0.0.0/0
+  /// </li>
+  /// <li>
+  /// Type: Custom TCP Rule, Protocol: TCP, Range: 3268-33269, Source: 0.0.0.0/0
+  /// </li>
+  /// <li>
+  /// Type: DNS (UDP), Protocol: UDP, Range: 53, Source: 0.0.0.0/0
+  /// </li>
+  /// <li>
+  /// Type: DNS (TCP), Protocol: TCP, Range: 53, Source: 0.0.0.0/0
+  /// </li>
+  /// <li>
+  /// Type: LDAP, Protocol: TCP, Range: 389, Source: 0.0.0.0/0
+  /// </li>
+  /// <li>
+  /// Type: All ICMP, Protocol: All, Range: N/A, Source: 0.0.0.0/0
+  /// </li>
+  /// </ul> <p/>
+  /// Outbound:
+  ///
+  /// <ul>
+  /// <li>
+  /// Type: All traffic, Protocol: All, Range: All, Destination: 0.0.0.0/0
+  /// </li>
+  /// </ul>
+  /// These security rules impact an internal network interface that is not
+  /// exposed publicly.
+  @_s.JsonKey(name: 'UpdateSecurityGroupForDirectoryControllers')
+  final bool updateSecurityGroupForDirectoryControllers;
+
+  AddIpRoutesRequest({
+    @_s.required this.directoryId,
+    @_s.required this.ipRoutes,
+    this.updateSecurityGroupForDirectoryControllers,
+  });
+  Map<String, dynamic> toJson() => _$AddIpRoutesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AddIpRoutesResult {
   AddIpRoutesResult();
   factory AddIpRoutesResult.fromJson(Map<String, dynamic> json) =>
       _$AddIpRoutesResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AddTagsToResourceRequest {
+  /// Identifier (ID) for the directory to which to add the tag.
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  /// The tags to be assigned to the directory.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  AddTagsToResourceRequest({
+    @_s.required this.resourceId,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$AddTagsToResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3577,6 +3701,27 @@ class Attribute {
       _$AttributeFromJson(json);
 
   Map<String, dynamic> toJson() => _$AttributeToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CancelSchemaExtensionRequest {
+  /// The identifier of the directory whose schema extension will be canceled.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  /// The identifier of the schema extension that will be canceled.
+  @_s.JsonKey(name: 'SchemaExtensionId')
+  final String schemaExtensionId;
+
+  CancelSchemaExtensionRequest({
+    @_s.required this.directoryId,
+    @_s.required this.schemaExtensionId,
+  });
+  Map<String, dynamic> toJson() => _$CancelSchemaExtensionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3754,6 +3899,55 @@ class ConditionalForwarder {
       _$ConditionalForwarderFromJson(json);
 }
 
+/// Contains the inputs for the <a>ConnectDirectory</a> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ConnectDirectoryRequest {
+  /// A <a>DirectoryConnectSettings</a> object that contains additional
+  /// information for the operation.
+  @_s.JsonKey(name: 'ConnectSettings')
+  final DirectoryConnectSettings connectSettings;
+
+  /// The fully qualified name of the on-premises directory, such as
+  /// <code>corp.example.com</code>.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The password for the on-premises user account.
+  @_s.JsonKey(name: 'Password')
+  final String password;
+
+  /// The size of the directory.
+  @_s.JsonKey(name: 'Size')
+  final DirectorySize size;
+
+  /// A description for the directory.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The NetBIOS name of the on-premises directory, such as <code>CORP</code>.
+  @_s.JsonKey(name: 'ShortName')
+  final String shortName;
+
+  /// The tags to be assigned to AD Connector.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  ConnectDirectoryRequest({
+    @_s.required this.connectSettings,
+    @_s.required this.name,
+    @_s.required this.password,
+    @_s.required this.size,
+    this.description,
+    this.shortName,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$ConnectDirectoryRequestToJson(this);
+}
+
 /// Contains the results of the <a>ConnectDirectory</a> operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3770,6 +3964,32 @@ class ConnectDirectoryResult {
   });
   factory ConnectDirectoryResult.fromJson(Map<String, dynamic> json) =>
       _$ConnectDirectoryResultFromJson(json);
+}
+
+/// Contains the inputs for the <a>CreateAlias</a> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateAliasRequest {
+  /// The requested alias.
+  ///
+  /// The alias must be unique amongst all aliases in AWS. This operation throws
+  /// an <code>EntityAlreadyExistsException</code> error if the alias already
+  /// exists.
+  @_s.JsonKey(name: 'Alias')
+  final String alias;
+
+  /// The identifier of the directory for which to create the alias.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  CreateAliasRequest({
+    @_s.required this.alias,
+    @_s.required this.directoryId,
+  });
+  Map<String, dynamic> toJson() => _$CreateAliasRequestToJson(this);
 }
 
 /// Contains the results of the <a>CreateAlias</a> operation.
@@ -3795,6 +4015,46 @@ class CreateAliasResult {
       _$CreateAliasResultFromJson(json);
 }
 
+/// Contains the inputs for the <a>CreateComputer</a> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateComputerRequest {
+  /// The name of the computer account.
+  @_s.JsonKey(name: 'ComputerName')
+  final String computerName;
+
+  /// The identifier of the directory in which to create the computer account.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  /// A one-time password that is used to join the computer to the directory. You
+  /// should generate a random, strong password to use for this parameter.
+  @_s.JsonKey(name: 'Password')
+  final String password;
+
+  /// An array of <a>Attribute</a> objects that contain any LDAP attributes to
+  /// apply to the computer account.
+  @_s.JsonKey(name: 'ComputerAttributes')
+  final List<Attribute> computerAttributes;
+
+  /// The fully-qualified distinguished name of the organizational unit to place
+  /// the computer account in.
+  @_s.JsonKey(name: 'OrganizationalUnitDistinguishedName')
+  final String organizationalUnitDistinguishedName;
+
+  CreateComputerRequest({
+    @_s.required this.computerName,
+    @_s.required this.directoryId,
+    @_s.required this.password,
+    this.computerAttributes,
+    this.organizationalUnitDistinguishedName,
+  });
+  Map<String, dynamic> toJson() => _$CreateComputerRequestToJson(this);
+}
+
 /// Contains the results for the <a>CreateComputer</a> operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3813,6 +4073,38 @@ class CreateComputerResult {
       _$CreateComputerResultFromJson(json);
 }
 
+/// Initiates the creation of a conditional forwarder for your AWS Directory
+/// Service for Microsoft Active Directory. Conditional forwarders are required
+/// in order to set up a trust relationship with another domain.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateConditionalForwarderRequest {
+  /// The directory ID of the AWS directory for which you are creating the
+  /// conditional forwarder.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  /// The IP addresses of the remote DNS server associated with RemoteDomainName.
+  @_s.JsonKey(name: 'DnsIpAddrs')
+  final List<String> dnsIpAddrs;
+
+  /// The fully qualified domain name (FQDN) of the remote domain with which you
+  /// will set up a trust relationship.
+  @_s.JsonKey(name: 'RemoteDomainName')
+  final String remoteDomainName;
+
+  CreateConditionalForwarderRequest({
+    @_s.required this.directoryId,
+    @_s.required this.dnsIpAddrs,
+    @_s.required this.remoteDomainName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateConditionalForwarderRequestToJson(this);
+}
+
 /// The result of a CreateConditinalForwarder request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3824,6 +4116,60 @@ class CreateConditionalForwarderResult {
   factory CreateConditionalForwarderResult.fromJson(
           Map<String, dynamic> json) =>
       _$CreateConditionalForwarderResultFromJson(json);
+}
+
+/// Contains the inputs for the <a>CreateDirectory</a> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDirectoryRequest {
+  /// The fully qualified name for the directory, such as
+  /// <code>corp.example.com</code>.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The password for the directory administrator. The directory creation process
+  /// creates a directory administrator account with the user name
+  /// <code>Administrator</code> and this password.
+  ///
+  /// If you need to change the password for the administrator account, you can
+  /// use the <a>ResetUserPassword</a> API call.
+  @_s.JsonKey(name: 'Password')
+  final String password;
+
+  /// The size of the directory.
+  @_s.JsonKey(name: 'Size')
+  final DirectorySize size;
+
+  /// A description for the directory.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The NetBIOS name of the directory, such as <code>CORP</code>.
+  @_s.JsonKey(name: 'ShortName')
+  final String shortName;
+
+  /// The tags to be assigned to the Simple AD directory.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  /// A <a>DirectoryVpcSettings</a> object that contains additional information
+  /// for the operation.
+  @_s.JsonKey(name: 'VpcSettings')
+  final DirectoryVpcSettings vpcSettings;
+
+  CreateDirectoryRequest({
+    @_s.required this.name,
+    @_s.required this.password,
+    @_s.required this.size,
+    this.description,
+    this.shortName,
+    this.tags,
+    this.vpcSettings,
+  });
+  Map<String, dynamic> toJson() => _$CreateDirectoryRequestToJson(this);
 }
 
 /// Contains the results of the <a>CreateDirectory</a> operation.
@@ -3847,12 +4193,93 @@ class CreateDirectoryResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateLogSubscriptionRequest {
+  /// Identifier of the directory to which you want to subscribe and receive
+  /// real-time logs to your specified CloudWatch log group.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  /// The name of the CloudWatch log group where the real-time domain controller
+  /// logs are forwarded.
+  @_s.JsonKey(name: 'LogGroupName')
+  final String logGroupName;
+
+  CreateLogSubscriptionRequest({
+    @_s.required this.directoryId,
+    @_s.required this.logGroupName,
+  });
+  Map<String, dynamic> toJson() => _$CreateLogSubscriptionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateLogSubscriptionResult {
   CreateLogSubscriptionResult();
   factory CreateLogSubscriptionResult.fromJson(Map<String, dynamic> json) =>
       _$CreateLogSubscriptionResultFromJson(json);
+}
+
+/// Creates an AWS Managed Microsoft AD directory.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateMicrosoftADRequest {
+  /// The fully qualified domain name for the AWS Managed Microsoft AD directory,
+  /// such as <code>corp.example.com</code>. This name will resolve inside your
+  /// VPC only. It does not need to be publicly resolvable.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The password for the default administrative user named <code>Admin</code>.
+  ///
+  /// If you need to change the password for the administrator account, you can
+  /// use the <a>ResetUserPassword</a> API call.
+  @_s.JsonKey(name: 'Password')
+  final String password;
+
+  /// Contains VPC information for the <a>CreateDirectory</a> or
+  /// <a>CreateMicrosoftAD</a> operation.
+  @_s.JsonKey(name: 'VpcSettings')
+  final DirectoryVpcSettings vpcSettings;
+
+  /// A description for the directory. This label will appear on the AWS console
+  /// <code>Directory Details</code> page after the directory is created.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// AWS Managed Microsoft AD is available in two editions: <code>Standard</code>
+  /// and <code>Enterprise</code>. <code>Enterprise</code> is the default.
+  @_s.JsonKey(name: 'Edition')
+  final DirectoryEdition edition;
+
+  /// The NetBIOS name for your domain, such as <code>CORP</code>. If you don't
+  /// specify a NetBIOS name, it will default to the first part of your directory
+  /// DNS. For example, <code>CORP</code> for the directory DNS
+  /// <code>corp.example.com</code>.
+  @_s.JsonKey(name: 'ShortName')
+  final String shortName;
+
+  /// The tags to be assigned to the AWS Managed Microsoft AD directory.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateMicrosoftADRequest({
+    @_s.required this.name,
+    @_s.required this.password,
+    @_s.required this.vpcSettings,
+    this.description,
+    this.edition,
+    this.shortName,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateMicrosoftADRequestToJson(this);
 }
 
 /// Result of a CreateMicrosoftAD request.
@@ -3873,6 +4300,28 @@ class CreateMicrosoftADResult {
       _$CreateMicrosoftADResultFromJson(json);
 }
 
+/// Contains the inputs for the <a>CreateSnapshot</a> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateSnapshotRequest {
+  /// The identifier of the directory of which to take a snapshot.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  /// The descriptive name to apply to the snapshot.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  CreateSnapshotRequest({
+    @_s.required this.directoryId,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$CreateSnapshotRequestToJson(this);
+}
+
 /// Contains the results of the <a>CreateSnapshot</a> operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3889,6 +4338,63 @@ class CreateSnapshotResult {
   });
   factory CreateSnapshotResult.fromJson(Map<String, dynamic> json) =>
       _$CreateSnapshotResultFromJson(json);
+}
+
+/// AWS Directory Service for Microsoft Active Directory allows you to configure
+/// trust relationships. For example, you can establish a trust between your AWS
+/// Managed Microsoft AD directory, and your existing on-premises Microsoft
+/// Active Directory. This would allow you to provide users and groups access to
+/// resources in either domain, with a single set of credentials.
+///
+/// This action initiates the creation of the AWS side of a trust relationship
+/// between an AWS Managed Microsoft AD directory and an external domain.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateTrustRequest {
+  /// The Directory ID of the AWS Managed Microsoft AD directory for which to
+  /// establish the trust relationship.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  /// The Fully Qualified Domain Name (FQDN) of the external domain for which to
+  /// create the trust relationship.
+  @_s.JsonKey(name: 'RemoteDomainName')
+  final String remoteDomainName;
+
+  /// The direction of the trust relationship.
+  @_s.JsonKey(name: 'TrustDirection')
+  final TrustDirection trustDirection;
+
+  /// The trust password. The must be the same password that was used when
+  /// creating the trust relationship on the external domain.
+  @_s.JsonKey(name: 'TrustPassword')
+  final String trustPassword;
+
+  /// The IP addresses of the remote DNS server associated with RemoteDomainName.
+  @_s.JsonKey(name: 'ConditionalForwarderIpAddrs')
+  final List<String> conditionalForwarderIpAddrs;
+
+  /// Optional parameter to enable selective authentication for the trust.
+  @_s.JsonKey(name: 'SelectiveAuth')
+  final SelectiveAuth selectiveAuth;
+
+  /// The trust relationship type. <code>Forest</code> is the default.
+  @_s.JsonKey(name: 'TrustType')
+  final TrustType trustType;
+
+  CreateTrustRequest({
+    @_s.required this.directoryId,
+    @_s.required this.remoteDomainName,
+    @_s.required this.trustDirection,
+    @_s.required this.trustPassword,
+    this.conditionalForwarderIpAddrs,
+    this.selectiveAuth,
+    this.trustType,
+  });
+  Map<String, dynamic> toJson() => _$CreateTrustRequestToJson(this);
 }
 
 /// The result of a CreateTrust request.
@@ -3909,6 +4415,30 @@ class CreateTrustResult {
       _$CreateTrustResultFromJson(json);
 }
 
+/// Deletes a conditional forwarder.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteConditionalForwarderRequest {
+  /// The directory ID for which you are deleting the conditional forwarder.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  /// The fully qualified domain name (FQDN) of the remote domain with which you
+  /// are deleting the conditional forwarder.
+  @_s.JsonKey(name: 'RemoteDomainName')
+  final String remoteDomainName;
+
+  DeleteConditionalForwarderRequest({
+    @_s.required this.directoryId,
+    @_s.required this.remoteDomainName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteConditionalForwarderRequestToJson(this);
+}
+
 /// The result of a DeleteConditionalForwarder request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3920,6 +4450,23 @@ class DeleteConditionalForwarderResult {
   factory DeleteConditionalForwarderResult.fromJson(
           Map<String, dynamic> json) =>
       _$DeleteConditionalForwarderResultFromJson(json);
+}
+
+/// Contains the inputs for the <a>DeleteDirectory</a> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDirectoryRequest {
+  /// The identifier of the directory to delete.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  DeleteDirectoryRequest({
+    @_s.required this.directoryId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDirectoryRequestToJson(this);
 }
 
 /// Contains the results of the <a>DeleteDirectory</a> operation.
@@ -3943,12 +4490,45 @@ class DeleteDirectoryResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteLogSubscriptionRequest {
+  /// Identifier of the directory whose log subscription you want to delete.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  DeleteLogSubscriptionRequest({
+    @_s.required this.directoryId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteLogSubscriptionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteLogSubscriptionResult {
   DeleteLogSubscriptionResult();
   factory DeleteLogSubscriptionResult.fromJson(Map<String, dynamic> json) =>
       _$DeleteLogSubscriptionResultFromJson(json);
+}
+
+/// Contains the inputs for the <a>DeleteSnapshot</a> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteSnapshotRequest {
+  /// The identifier of the directory snapshot to be deleted.
+  @_s.JsonKey(name: 'SnapshotId')
+  final String snapshotId;
+
+  DeleteSnapshotRequest({
+    @_s.required this.snapshotId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteSnapshotRequestToJson(this);
 }
 
 /// Contains the results of the <a>DeleteSnapshot</a> operation.
@@ -3967,6 +4547,29 @@ class DeleteSnapshotResult {
   });
   factory DeleteSnapshotResult.fromJson(Map<String, dynamic> json) =>
       _$DeleteSnapshotResultFromJson(json);
+}
+
+/// Deletes the local side of an existing trust relationship between the AWS
+/// Managed Microsoft AD directory and the external domain.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteTrustRequest {
+  /// The Trust ID of the trust relationship to be deleted.
+  @_s.JsonKey(name: 'TrustId')
+  final String trustId;
+
+  /// Delete a conditional forwarder as part of a DeleteTrustRequest.
+  @_s.JsonKey(name: 'DeleteAssociatedConditionalForwarder')
+  final bool deleteAssociatedConditionalForwarder;
+
+  DeleteTrustRequest({
+    @_s.required this.trustId,
+    this.deleteAssociatedConditionalForwarder,
+  });
+  Map<String, dynamic> toJson() => _$DeleteTrustRequestToJson(this);
 }
 
 /// The result of a DeleteTrust request.
@@ -3990,12 +4593,56 @@ class DeleteTrustResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeregisterCertificateRequest {
+  /// The identifier of the certificate.
+  @_s.JsonKey(name: 'CertificateId')
+  final String certificateId;
+
+  /// The identifier of the directory.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  DeregisterCertificateRequest({
+    @_s.required this.certificateId,
+    @_s.required this.directoryId,
+  });
+  Map<String, dynamic> toJson() => _$DeregisterCertificateRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeregisterCertificateResult {
   DeregisterCertificateResult();
   factory DeregisterCertificateResult.fromJson(Map<String, dynamic> json) =>
       _$DeregisterCertificateResultFromJson(json);
+}
+
+/// Removes the specified directory as a publisher to the specified SNS topic.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeregisterEventTopicRequest {
+  /// The Directory ID to remove as a publisher. This directory will no longer
+  /// send messages to the specified SNS topic.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  /// The name of the SNS topic from which to remove the directory as a publisher.
+  @_s.JsonKey(name: 'TopicName')
+  final String topicName;
+
+  DeregisterEventTopicRequest({
+    @_s.required this.directoryId,
+    @_s.required this.topicName,
+  });
+  Map<String, dynamic> toJson() => _$DeregisterEventTopicRequestToJson(this);
 }
 
 /// The result of a DeregisterEventTopic request.
@@ -4008,6 +4655,27 @@ class DeregisterEventTopicResult {
   DeregisterEventTopicResult();
   factory DeregisterEventTopicResult.fromJson(Map<String, dynamic> json) =>
       _$DeregisterEventTopicResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeCertificateRequest {
+  /// The identifier of the certificate.
+  @_s.JsonKey(name: 'CertificateId')
+  final String certificateId;
+
+  /// The identifier of the directory.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  DescribeCertificateRequest({
+    @_s.required this.certificateId,
+    @_s.required this.directoryId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeCertificateRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4029,6 +4697,32 @@ class DescribeCertificateResult {
       _$DescribeCertificateResultFromJson(json);
 }
 
+/// Describes a conditional forwarder.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeConditionalForwardersRequest {
+  /// The directory ID for which to get the list of associated conditional
+  /// forwarders.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  /// The fully qualified domain names (FQDN) of the remote domains for which to
+  /// get the list of associated conditional forwarders. If this member is null,
+  /// all conditional forwarders are returned.
+  @_s.JsonKey(name: 'RemoteDomainNames')
+  final List<String> remoteDomainNames;
+
+  DescribeConditionalForwardersRequest({
+    @_s.required this.directoryId,
+    this.remoteDomainNames,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeConditionalForwardersRequestToJson(this);
+}
+
 /// The result of a DescribeConditionalForwarder request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -4046,6 +4740,40 @@ class DescribeConditionalForwardersResult {
   factory DescribeConditionalForwardersResult.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeConditionalForwardersResultFromJson(json);
+}
+
+/// Contains the inputs for the <a>DescribeDirectories</a> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeDirectoriesRequest {
+  /// A list of identifiers of the directories for which to obtain the
+  /// information. If this member is null, all directories that belong to the
+  /// current account are returned.
+  ///
+  /// An empty list results in an <code>InvalidParameterException</code> being
+  /// thrown.
+  @_s.JsonKey(name: 'DirectoryIds')
+  final List<String> directoryIds;
+
+  /// The maximum number of items to return. If this value is zero, the maximum
+  /// number of items is specified by the limitations of the operation.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The <code>DescribeDirectoriesResult.NextToken</code> value from a previous
+  /// call to <a>DescribeDirectories</a>. Pass null if this is the first call.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeDirectoriesRequest({
+    this.directoryIds,
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeDirectoriesRequestToJson(this);
 }
 
 /// Contains the results of the <a>DescribeDirectories</a> operation.
@@ -4081,6 +4809,41 @@ class DescribeDirectoriesResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeDomainControllersRequest {
+  /// Identifier of the directory for which to retrieve the domain controller
+  /// information.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  /// A list of identifiers for the domain controllers whose information will be
+  /// provided.
+  @_s.JsonKey(name: 'DomainControllerIds')
+  final List<String> domainControllerIds;
+
+  /// The maximum number of items to return.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The <i>DescribeDomainControllers.NextToken</i> value from a previous call to
+  /// <a>DescribeDomainControllers</a>. Pass null if this is the first call.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeDomainControllersRequest({
+    @_s.required this.directoryId,
+    this.domainControllerIds,
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeDomainControllersRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeDomainControllersResult {
@@ -4102,6 +4865,34 @@ class DescribeDomainControllersResult {
       _$DescribeDomainControllersResultFromJson(json);
 }
 
+/// Describes event topics.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeEventTopicsRequest {
+  /// The Directory ID for which to get the list of associated SNS topics. If this
+  /// member is null, associations for all Directory IDs are returned.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  /// A list of SNS topic names for which to obtain the information. If this
+  /// member is null, all associations for the specified Directory ID are
+  /// returned.
+  ///
+  /// An empty list results in an <code>InvalidParameterException</code> being
+  /// thrown.
+  @_s.JsonKey(name: 'TopicNames')
+  final List<String> topicNames;
+
+  DescribeEventTopicsRequest({
+    this.directoryId,
+    this.topicNames,
+  });
+  Map<String, dynamic> toJson() => _$DescribeEventTopicsRequestToJson(this);
+}
+
 /// The result of a DescribeEventTopic request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -4119,6 +4910,38 @@ class DescribeEventTopicsResult {
   });
   factory DescribeEventTopicsResult.fromJson(Map<String, dynamic> json) =>
       _$DescribeEventTopicsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeLDAPSSettingsRequest {
+  /// The identifier of the directory.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  /// Specifies the number of items that should be displayed on one page.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The type of next token used for pagination.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The type of LDAP security to enable. Currently only the value
+  /// <code>Client</code> is supported.
+  @_s.JsonKey(name: 'Type')
+  final LDAPSType type;
+
+  DescribeLDAPSSettingsRequest({
+    @_s.required this.directoryId,
+    this.limit,
+    this.nextToken,
+    this.type,
+  });
+  Map<String, dynamic> toJson() => _$DescribeLDAPSSettingsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4149,6 +4972,40 @@ class DescribeLDAPSSettingsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeSharedDirectoriesRequest {
+  /// Returns the identifier of the directory in the directory owner account.
+  @_s.JsonKey(name: 'OwnerDirectoryId')
+  final String ownerDirectoryId;
+
+  /// The number of shared directories to return in the response object.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The <code>DescribeSharedDirectoriesResult.NextToken</code> value from a
+  /// previous call to <a>DescribeSharedDirectories</a>. Pass null if this is the
+  /// first call.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// A list of identifiers of all shared directories in your account.
+  @_s.JsonKey(name: 'SharedDirectoryIds')
+  final List<String> sharedDirectoryIds;
+
+  DescribeSharedDirectoriesRequest({
+    @_s.required this.ownerDirectoryId,
+    this.limit,
+    this.nextToken,
+    this.sharedDirectoryIds,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeSharedDirectoriesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeSharedDirectoriesResult {
@@ -4168,6 +5025,41 @@ class DescribeSharedDirectoriesResult {
   });
   factory DescribeSharedDirectoriesResult.fromJson(Map<String, dynamic> json) =>
       _$DescribeSharedDirectoriesResultFromJson(json);
+}
+
+/// Contains the inputs for the <a>DescribeSnapshots</a> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeSnapshotsRequest {
+  /// The identifier of the directory for which to retrieve snapshot information.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  /// The maximum number of objects to return.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The <i>DescribeSnapshotsResult.NextToken</i> value from a previous call to
+  /// <a>DescribeSnapshots</a>. Pass null if this is the first call.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// A list of identifiers of the snapshots to obtain the information for. If
+  /// this member is null or empty, all snapshots are returned using the
+  /// <i>Limit</i> and <i>NextToken</i> members.
+  @_s.JsonKey(name: 'SnapshotIds')
+  final List<String> snapshotIds;
+
+  DescribeSnapshotsRequest({
+    this.directoryId,
+    this.limit,
+    this.nextToken,
+    this.snapshotIds,
+  });
+  Map<String, dynamic> toJson() => _$DescribeSnapshotsRequestToJson(this);
 }
 
 /// Contains the results of the <a>DescribeSnapshots</a> operation.
@@ -4197,6 +5089,47 @@ class DescribeSnapshotsResult {
   });
   factory DescribeSnapshotsResult.fromJson(Map<String, dynamic> json) =>
       _$DescribeSnapshotsResultFromJson(json);
+}
+
+/// Describes the trust relationships for a particular AWS Managed Microsoft AD
+/// directory. If no input parameters are are provided, such as directory ID or
+/// trust ID, this request describes all the trust relationships.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeTrustsRequest {
+  /// The Directory ID of the AWS directory that is a part of the requested trust
+  /// relationship.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  /// The maximum number of objects to return.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The <i>DescribeTrustsResult.NextToken</i> value from a previous call to
+  /// <a>DescribeTrusts</a>. Pass null if this is the first call.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// A list of identifiers of the trust relationships for which to obtain the
+  /// information. If this member is null, all trust relationships that belong to
+  /// the current account are returned.
+  ///
+  /// An empty list results in an <code>InvalidParameterException</code> being
+  /// thrown.
+  @_s.JsonKey(name: 'TrustIds')
+  final List<String> trustIds;
+
+  DescribeTrustsRequest({
+    this.directoryId,
+    this.limit,
+    this.nextToken,
+    this.trustIds,
+  });
+  Map<String, dynamic> toJson() => _$DescribeTrustsRequestToJson(this);
 }
 
 /// The result of a DescribeTrust request.
@@ -4489,18 +5422,6 @@ enum DirectoryEdition {
   standard,
 }
 
-extension on DirectoryEdition {
-  String toValue() {
-    switch (this) {
-      case DirectoryEdition.enterprise:
-        return 'Enterprise';
-      case DirectoryEdition.standard:
-        return 'Standard';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Contains directory limit information for a Region.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -4565,18 +5486,6 @@ enum DirectorySize {
   small,
   @_s.JsonValue('Large')
   large,
-}
-
-extension on DirectorySize {
-  String toValue() {
-    switch (this) {
-      case DirectorySize.small:
-        return 'Small';
-      case DirectorySize.large:
-        return 'Large';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 enum DirectoryStage {
@@ -4676,12 +5585,51 @@ class DirectoryVpcSettingsDescription {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisableLDAPSRequest {
+  /// The identifier of the directory.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  /// The type of LDAP security to enable. Currently only the value
+  /// <code>Client</code> is supported.
+  @_s.JsonKey(name: 'Type')
+  final LDAPSType type;
+
+  DisableLDAPSRequest({
+    @_s.required this.directoryId,
+    @_s.required this.type,
+  });
+  Map<String, dynamic> toJson() => _$DisableLDAPSRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DisableLDAPSResult {
   DisableLDAPSResult();
   factory DisableLDAPSResult.fromJson(Map<String, dynamic> json) =>
       _$DisableLDAPSResultFromJson(json);
+}
+
+/// Contains the inputs for the <a>DisableRadius</a> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisableRadiusRequest {
+  /// The identifier of the directory for which to disable MFA.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  DisableRadiusRequest({
+    @_s.required this.directoryId,
+  });
+  Map<String, dynamic> toJson() => _$DisableRadiusRequestToJson(this);
 }
 
 /// Contains the results of the <a>DisableRadius</a> operation.
@@ -4694,6 +5642,43 @@ class DisableRadiusResult {
   DisableRadiusResult();
   factory DisableRadiusResult.fromJson(Map<String, dynamic> json) =>
       _$DisableRadiusResultFromJson(json);
+}
+
+/// Contains the inputs for the <a>DisableSso</a> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisableSsoRequest {
+  /// The identifier of the directory for which to disable single-sign on.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  /// The password of an alternate account to use to disable single-sign on. This
+  /// is only used for AD Connector directories. For more information, see the
+  /// <i>UserName</i> parameter.
+  @_s.JsonKey(name: 'Password')
+  final String password;
+
+  /// The username of an alternate account to use to disable single-sign on. This
+  /// is only used for AD Connector directories. This account must have privileges
+  /// to remove a service principal name.
+  ///
+  /// If the AD Connector service account does not have privileges to remove a
+  /// service principal name, you can specify an alternate account with the
+  /// <i>UserName</i> and <i>Password</i> parameters. These credentials are only
+  /// used to disable single sign-on and are not stored by the service. The AD
+  /// Connector service account is not changed.
+  @_s.JsonKey(name: 'UserName')
+  final String userName;
+
+  DisableSsoRequest({
+    @_s.required this.directoryId,
+    this.password,
+    this.userName,
+  });
+  Map<String, dynamic> toJson() => _$DisableSsoRequestToJson(this);
 }
 
 /// Contains the results of the <a>DisableSso</a> operation.
@@ -4797,12 +5782,57 @@ enum DomainControllerStatus {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class EnableLDAPSRequest {
+  /// The identifier of the directory.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  /// The type of LDAP security to enable. Currently only the value
+  /// <code>Client</code> is supported.
+  @_s.JsonKey(name: 'Type')
+  final LDAPSType type;
+
+  EnableLDAPSRequest({
+    @_s.required this.directoryId,
+    @_s.required this.type,
+  });
+  Map<String, dynamic> toJson() => _$EnableLDAPSRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class EnableLDAPSResult {
   EnableLDAPSResult();
   factory EnableLDAPSResult.fromJson(Map<String, dynamic> json) =>
       _$EnableLDAPSResultFromJson(json);
+}
+
+/// Contains the inputs for the <a>EnableRadius</a> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class EnableRadiusRequest {
+  /// The identifier of the directory for which to enable MFA.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  /// A <a>RadiusSettings</a> object that contains information about the RADIUS
+  /// server.
+  @_s.JsonKey(name: 'RadiusSettings')
+  final RadiusSettings radiusSettings;
+
+  EnableRadiusRequest({
+    @_s.required this.directoryId,
+    @_s.required this.radiusSettings,
+  });
+  Map<String, dynamic> toJson() => _$EnableRadiusRequestToJson(this);
 }
 
 /// Contains the results of the <a>EnableRadius</a> operation.
@@ -4815,6 +5845,43 @@ class EnableRadiusResult {
   EnableRadiusResult();
   factory EnableRadiusResult.fromJson(Map<String, dynamic> json) =>
       _$EnableRadiusResultFromJson(json);
+}
+
+/// Contains the inputs for the <a>EnableSso</a> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class EnableSsoRequest {
+  /// The identifier of the directory for which to enable single-sign on.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  /// The password of an alternate account to use to enable single-sign on. This
+  /// is only used for AD Connector directories. For more information, see the
+  /// <i>UserName</i> parameter.
+  @_s.JsonKey(name: 'Password')
+  final String password;
+
+  /// The username of an alternate account to use to enable single-sign on. This
+  /// is only used for AD Connector directories. This account must have privileges
+  /// to add a service principal name.
+  ///
+  /// If the AD Connector service account does not have privileges to add a
+  /// service principal name, you can specify an alternate account with the
+  /// <i>UserName</i> and <i>Password</i> parameters. These credentials are only
+  /// used to enable single sign-on and are not stored by the service. The AD
+  /// Connector service account is not changed.
+  @_s.JsonKey(name: 'UserName')
+  final String userName;
+
+  EnableSsoRequest({
+    @_s.required this.directoryId,
+    this.password,
+    this.userName,
+  });
+  Map<String, dynamic> toJson() => _$EnableSsoRequestToJson(this);
 }
 
 /// Contains the results of the <a>EnableSso</a> operation.
@@ -4890,6 +5957,23 @@ class GetDirectoryLimitsResult {
   });
   factory GetDirectoryLimitsResult.fromJson(Map<String, dynamic> json) =>
       _$GetDirectoryLimitsResultFromJson(json);
+}
+
+/// Contains the inputs for the <a>GetSnapshotLimits</a> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetSnapshotLimitsRequest {
+  /// Contains the identifier of the directory to obtain the limits for.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  GetSnapshotLimitsRequest({
+    @_s.required this.directoryId,
+  });
+  Map<String, dynamic> toJson() => _$GetSnapshotLimitsRequestToJson(this);
 }
 
 /// Contains the results of the <a>GetSnapshotLimits</a> operation.
@@ -5045,14 +6129,34 @@ enum LDAPSType {
   client,
 }
 
-extension on LDAPSType {
-  String toValue() {
-    switch (this) {
-      case LDAPSType.client:
-        return 'Client';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListCertificatesRequest {
+  /// The identifier of the directory.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  /// The number of items that should show up on one page
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// A token for requesting another page of certificates if the
+  /// <code>NextToken</code> response element indicates that more certificates are
+  /// available. Use the value of the returned <code>NextToken</code> element in
+  /// your request until the token comes back as <code>null</code>. Pass
+  /// <code>null</code> if this is the first call.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListCertificatesRequest({
+    @_s.required this.directoryId,
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListCertificatesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5082,6 +6186,35 @@ class ListCertificatesResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListIpRoutesRequest {
+  /// Identifier (ID) of the directory for which you want to retrieve the IP
+  /// addresses.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  /// Maximum number of items to return. If this value is zero, the maximum number
+  /// of items is specified by the limitations of the operation.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The <i>ListIpRoutes.NextToken</i> value from a previous call to
+  /// <a>ListIpRoutes</a>. Pass null if this is the first call.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListIpRoutesRequest({
+    @_s.required this.directoryId,
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListIpRoutesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListIpRoutesResult {
@@ -5101,6 +6234,36 @@ class ListIpRoutesResult {
   });
   factory ListIpRoutesResult.fromJson(Map<String, dynamic> json) =>
       _$ListIpRoutesResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListLogSubscriptionsRequest {
+  /// If a <i>DirectoryID</i> is provided, lists only the log subscription
+  /// associated with that directory. If no <i>DirectoryId</i> is provided, lists
+  /// all log subscriptions associated with your AWS account. If there are no log
+  /// subscriptions for the AWS account or the directory, an empty list will be
+  /// returned.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  /// The maximum number of items returned.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The token for the next set of items to return.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListLogSubscriptionsRequest({
+    this.directoryId,
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListLogSubscriptionsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5128,6 +6291,34 @@ class ListLogSubscriptionsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListSchemaExtensionsRequest {
+  /// The identifier of the directory from which to retrieve the schema extension
+  /// information.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  /// The maximum number of items to return.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The <code>ListSchemaExtensions.NextToken</code> value from a previous call
+  /// to <code>ListSchemaExtensions</code>. Pass null if this is the first call.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListSchemaExtensionsRequest({
+    @_s.required this.directoryId,
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListSchemaExtensionsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListSchemaExtensionsResult {
@@ -5147,6 +6338,32 @@ class ListSchemaExtensionsResult {
   });
   factory ListSchemaExtensionsResult.fromJson(Map<String, dynamic> json) =>
       _$ListSchemaExtensionsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceRequest {
+  /// Identifier (ID) of the directory for which you want to retrieve tags.
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  /// Reserved for future use.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// Reserved for future use.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListTagsForResourceRequest({
+    @_s.required this.resourceId,
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5333,6 +6550,27 @@ enum RadiusStatus {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RegisterCertificateRequest {
+  /// The certificate PEM string that needs to be registered.
+  @_s.JsonKey(name: 'CertificateData')
+  final String certificateData;
+
+  /// The identifier of the directory.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  RegisterCertificateRequest({
+    @_s.required this.certificateData,
+    @_s.required this.directoryId,
+  });
+  Map<String, dynamic> toJson() => _$RegisterCertificateRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class RegisterCertificateResult {
@@ -5347,6 +6585,29 @@ class RegisterCertificateResult {
       _$RegisterCertificateResultFromJson(json);
 }
 
+/// Registers a new event topic.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RegisterEventTopicRequest {
+  /// The Directory ID that will publish status messages to the SNS topic.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  /// The SNS topic name to which the directory will publish status messages. This
+  /// SNS topic must be in the same region as the specified Directory ID.
+  @_s.JsonKey(name: 'TopicName')
+  final String topicName;
+
+  RegisterEventTopicRequest({
+    @_s.required this.directoryId,
+    @_s.required this.topicName,
+  });
+  Map<String, dynamic> toJson() => _$RegisterEventTopicRequestToJson(this);
+}
+
 /// The result of a RegisterEventTopic request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -5357,6 +6618,23 @@ class RegisterEventTopicResult {
   RegisterEventTopicResult();
   factory RegisterEventTopicResult.fromJson(Map<String, dynamic> json) =>
       _$RegisterEventTopicResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RejectSharedDirectoryRequest {
+  /// Identifier of the shared directory in the directory consumer account. This
+  /// identifier is different for each directory owner account.
+  @_s.JsonKey(name: 'SharedDirectoryId')
+  final String sharedDirectoryId;
+
+  RejectSharedDirectoryRequest({
+    @_s.required this.sharedDirectoryId,
+  });
+  Map<String, dynamic> toJson() => _$RejectSharedDirectoryRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5379,12 +6657,55 @@ class RejectSharedDirectoryResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RemoveIpRoutesRequest {
+  /// IP address blocks that you want to remove.
+  @_s.JsonKey(name: 'CidrIps')
+  final List<String> cidrIps;
+
+  /// Identifier (ID) of the directory from which you want to remove the IP
+  /// addresses.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  RemoveIpRoutesRequest({
+    @_s.required this.cidrIps,
+    @_s.required this.directoryId,
+  });
+  Map<String, dynamic> toJson() => _$RemoveIpRoutesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class RemoveIpRoutesResult {
   RemoveIpRoutesResult();
   factory RemoveIpRoutesResult.fromJson(Map<String, dynamic> json) =>
       _$RemoveIpRoutesResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RemoveTagsFromResourceRequest {
+  /// Identifier (ID) of the directory from which to remove the tag.
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  /// The tag key (name) of the tag to be removed.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  RemoveTagsFromResourceRequest({
+    @_s.required this.resourceId,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$RemoveTagsFromResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5406,12 +6727,57 @@ enum ReplicationScope {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ResetUserPasswordRequest {
+  /// Identifier of the AWS Managed Microsoft AD or Simple AD directory in which
+  /// the user resides.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  /// The new password that will be reset.
+  @_s.JsonKey(name: 'NewPassword')
+  final String newPassword;
+
+  /// The user name of the user whose password will be reset.
+  @_s.JsonKey(name: 'UserName')
+  final String userName;
+
+  ResetUserPasswordRequest({
+    @_s.required this.directoryId,
+    @_s.required this.newPassword,
+    @_s.required this.userName,
+  });
+  Map<String, dynamic> toJson() => _$ResetUserPasswordRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ResetUserPasswordResult {
   ResetUserPasswordResult();
   factory ResetUserPasswordResult.fromJson(Map<String, dynamic> json) =>
       _$ResetUserPasswordResultFromJson(json);
+}
+
+/// An object representing the inputs for the <a>RestoreFromSnapshot</a>
+/// operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RestoreFromSnapshotRequest {
+  /// The identifier of the snapshot to restore from.
+  @_s.JsonKey(name: 'SnapshotId')
+  final String snapshotId;
+
+  RestoreFromSnapshotRequest({
+    @_s.required this.snapshotId,
+  });
+  Map<String, dynamic> toJson() => _$RestoreFromSnapshotRequestToJson(this);
 }
 
 /// Contains the results of the <a>RestoreFromSnapshot</a> operation.
@@ -5509,16 +6875,43 @@ enum SelectiveAuth {
   disabled,
 }
 
-extension on SelectiveAuth {
-  String toValue() {
-    switch (this) {
-      case SelectiveAuth.enabled:
-        return 'Enabled';
-      case SelectiveAuth.disabled:
-        return 'Disabled';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ShareDirectoryRequest {
+  /// Identifier of the AWS Managed Microsoft AD directory that you want to share
+  /// with other AWS accounts.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  /// The method used when sharing a directory to determine whether the directory
+  /// should be shared within your AWS organization (<code>ORGANIZATIONS</code>)
+  /// or with any AWS account by sending a directory sharing request
+  /// (<code>HANDSHAKE</code>).
+  @_s.JsonKey(name: 'ShareMethod')
+  final ShareMethod shareMethod;
+
+  /// Identifier for the directory consumer account with whom the directory is to
+  /// be shared.
+  @_s.JsonKey(name: 'ShareTarget')
+  final ShareTarget shareTarget;
+
+  /// A directory share request that is sent by the directory owner to the
+  /// directory consumer. The request includes a typed message to help the
+  /// directory consumer administrator determine whether to approve or reject the
+  /// share invitation.
+  @_s.JsonKey(name: 'ShareNotes')
+  final String shareNotes;
+
+  ShareDirectoryRequest({
+    @_s.required this.directoryId,
+    @_s.required this.shareMethod,
+    @_s.required this.shareTarget,
+    this.shareNotes,
+  });
+  Map<String, dynamic> toJson() => _$ShareDirectoryRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5544,18 +6937,6 @@ enum ShareMethod {
   organizations,
   @_s.JsonValue('HANDSHAKE')
   handshake,
-}
-
-extension on ShareMethod {
-  String toValue() {
-    switch (this) {
-      case ShareMethod.organizations:
-        return 'ORGANIZATIONS';
-      case ShareMethod.handshake:
-        return 'HANDSHAKE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 enum ShareStatus {
@@ -5768,6 +7149,42 @@ enum SnapshotType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartSchemaExtensionRequest {
+  /// If true, creates a snapshot of the directory before applying the schema
+  /// extension.
+  @_s.JsonKey(name: 'CreateSnapshotBeforeSchemaExtension')
+  final bool createSnapshotBeforeSchemaExtension;
+
+  /// A description of the schema extension.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The identifier of the directory for which the schema extension will be
+  /// applied to.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  /// The LDIF file represented as a string. To construct the LdifContent string,
+  /// precede each line as it would be formatted in an ldif file with \n. See the
+  /// example request below for more details. The file size can be no larger than
+  /// 1MB.
+  @_s.JsonKey(name: 'LdifContent')
+  final String ldifContent;
+
+  StartSchemaExtensionRequest({
+    @_s.required this.createSnapshotBeforeSchemaExtension,
+    @_s.required this.description,
+    @_s.required this.directoryId,
+    @_s.required this.ldifContent,
+  });
+  Map<String, dynamic> toJson() => _$StartSchemaExtensionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartSchemaExtensionResult {
@@ -5915,20 +7332,6 @@ enum TrustDirection {
   twoWay,
 }
 
-extension on TrustDirection {
-  String toValue() {
-    switch (this) {
-      case TrustDirection.oneWayOutgoing:
-        return 'One-Way: Outgoing';
-      case TrustDirection.oneWayIncoming:
-        return 'One-Way: Incoming';
-      case TrustDirection.twoWay:
-        return 'Two-Way';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum TrustState {
   @_s.JsonValue('Creating')
   creating,
@@ -5961,16 +7364,27 @@ enum TrustType {
   external,
 }
 
-extension on TrustType {
-  String toValue() {
-    switch (this) {
-      case TrustType.forest:
-        return 'Forest';
-      case TrustType.external:
-        return 'External';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UnshareDirectoryRequest {
+  /// The identifier of the AWS Managed Microsoft AD directory that you want to
+  /// stop sharing.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  /// Identifier for the directory consumer account with whom the directory has to
+  /// be unshared.
+  @_s.JsonKey(name: 'UnshareTarget')
+  final UnshareTarget unshareTarget;
+
+  UnshareDirectoryRequest({
+    @_s.required this.directoryId,
+    @_s.required this.unshareTarget,
+  });
+  Map<String, dynamic> toJson() => _$UnshareDirectoryRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6014,6 +7428,37 @@ class UnshareTarget {
   Map<String, dynamic> toJson() => _$UnshareTargetToJson(this);
 }
 
+/// Updates a conditional forwarder.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateConditionalForwarderRequest {
+  /// The directory ID of the AWS directory for which to update the conditional
+  /// forwarder.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  /// The updated IP addresses of the remote DNS server associated with the
+  /// conditional forwarder.
+  @_s.JsonKey(name: 'DnsIpAddrs')
+  final List<String> dnsIpAddrs;
+
+  /// The fully qualified domain name (FQDN) of the remote domain with which you
+  /// will set up a trust relationship.
+  @_s.JsonKey(name: 'RemoteDomainName')
+  final String remoteDomainName;
+
+  UpdateConditionalForwarderRequest({
+    @_s.required this.directoryId,
+    @_s.required this.dnsIpAddrs,
+    @_s.required this.remoteDomainName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateConditionalForwarderRequestToJson(this);
+}
+
 /// The result of an UpdateConditionalForwarder request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6030,6 +7475,29 @@ class UpdateConditionalForwarderResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateNumberOfDomainControllersRequest {
+  /// The number of domain controllers desired in the directory.
+  @_s.JsonKey(name: 'DesiredNumber')
+  final int desiredNumber;
+
+  /// Identifier of the directory to which the domain controllers will be added or
+  /// removed.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  UpdateNumberOfDomainControllersRequest({
+    @_s.required this.desiredNumber,
+    @_s.required this.directoryId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateNumberOfDomainControllersRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateNumberOfDomainControllersResult {
@@ -6037,6 +7505,30 @@ class UpdateNumberOfDomainControllersResult {
   factory UpdateNumberOfDomainControllersResult.fromJson(
           Map<String, dynamic> json) =>
       _$UpdateNumberOfDomainControllersResultFromJson(json);
+}
+
+/// Contains the inputs for the <a>UpdateRadius</a> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateRadiusRequest {
+  /// The identifier of the directory for which to update the RADIUS server
+  /// information.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  /// A <a>RadiusSettings</a> object that contains information about the RADIUS
+  /// server.
+  @_s.JsonKey(name: 'RadiusSettings')
+  final RadiusSettings radiusSettings;
+
+  UpdateRadiusRequest({
+    @_s.required this.directoryId,
+    @_s.required this.radiusSettings,
+  });
+  Map<String, dynamic> toJson() => _$UpdateRadiusRequestToJson(this);
 }
 
 /// Contains the results of the <a>UpdateRadius</a> operation.
@@ -6049,6 +7541,27 @@ class UpdateRadiusResult {
   UpdateRadiusResult();
   factory UpdateRadiusResult.fromJson(Map<String, dynamic> json) =>
       _$UpdateRadiusResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateTrustRequest {
+  /// Identifier of the trust relationship.
+  @_s.JsonKey(name: 'TrustId')
+  final String trustId;
+
+  /// Updates selective authentication for the trust.
+  @_s.JsonKey(name: 'SelectiveAuth')
+  final SelectiveAuth selectiveAuth;
+
+  UpdateTrustRequest({
+    @_s.required this.trustId,
+    this.selectiveAuth,
+  });
+  Map<String, dynamic> toJson() => _$UpdateTrustRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6070,6 +7583,24 @@ class UpdateTrustResult {
   });
   factory UpdateTrustResult.fromJson(Map<String, dynamic> json) =>
       _$UpdateTrustResultFromJson(json);
+}
+
+/// Initiates the verification of an existing trust relationship between an AWS
+/// Managed Microsoft AD directory and an external domain.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class VerifyTrustRequest {
+  /// The unique Trust ID of the trust relationship to verify.
+  @_s.JsonKey(name: 'TrustId')
+  final String trustId;
+
+  VerifyTrustRequest({
+    @_s.required this.trustId,
+  });
+  Map<String, dynamic> toJson() => _$VerifyTrustRequestToJson(this);
 }
 
 /// Result of a VerifyTrust request.

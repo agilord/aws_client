@@ -75,6 +75,42 @@ Map<String, dynamic> _$CopyCommandToJson(CopyCommand instance) {
   return val;
 }
 
+Map<String, dynamic> _$CreateDeliveryStreamInputToJson(
+    CreateDeliveryStreamInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DeliveryStreamName', instance.deliveryStreamName);
+  writeNotNull('DeliveryStreamEncryptionConfigurationInput',
+      instance.deliveryStreamEncryptionConfigurationInput?.toJson());
+  writeNotNull('DeliveryStreamType',
+      _$DeliveryStreamTypeEnumMap[instance.deliveryStreamType]);
+  writeNotNull('ElasticsearchDestinationConfiguration',
+      instance.elasticsearchDestinationConfiguration?.toJson());
+  writeNotNull('ExtendedS3DestinationConfiguration',
+      instance.extendedS3DestinationConfiguration?.toJson());
+  writeNotNull('KinesisStreamSourceConfiguration',
+      instance.kinesisStreamSourceConfiguration?.toJson());
+  writeNotNull('RedshiftDestinationConfiguration',
+      instance.redshiftDestinationConfiguration?.toJson());
+  writeNotNull('S3DestinationConfiguration',
+      instance.s3DestinationConfiguration?.toJson());
+  writeNotNull('SplunkDestinationConfiguration',
+      instance.splunkDestinationConfiguration?.toJson());
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+const _$DeliveryStreamTypeEnumMap = {
+  DeliveryStreamType.directPut: 'DirectPut',
+  DeliveryStreamType.kinesisStreamAsSource: 'KinesisStreamAsSource',
+};
+
 CreateDeliveryStreamOutput _$CreateDeliveryStreamOutputFromJson(
     Map<String, dynamic> json) {
   return CreateDeliveryStreamOutput(
@@ -117,6 +153,21 @@ Map<String, dynamic> _$DataFormatConversionConfigurationToJson(
   writeNotNull('OutputFormatConfiguration',
       instance.outputFormatConfiguration?.toJson());
   writeNotNull('SchemaConfiguration', instance.schemaConfiguration?.toJson());
+  return val;
+}
+
+Map<String, dynamic> _$DeleteDeliveryStreamInputToJson(
+    DeleteDeliveryStreamInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DeliveryStreamName', instance.deliveryStreamName);
+  writeNotNull('AllowForceDelete', instance.allowForceDelete);
   return val;
 }
 
@@ -199,11 +250,6 @@ const _$DeliveryStreamStatusEnumMap = {
   DeliveryStreamStatus.active: 'ACTIVE',
 };
 
-const _$DeliveryStreamTypeEnumMap = {
-  DeliveryStreamType.directPut: 'DirectPut',
-  DeliveryStreamType.kinesisStreamAsSource: 'KinesisStreamAsSource',
-};
-
 DeliveryStreamEncryptionConfiguration
     _$DeliveryStreamEncryptionConfigurationFromJson(Map<String, dynamic> json) {
   return DeliveryStreamEncryptionConfiguration(
@@ -244,6 +290,23 @@ Map<String, dynamic> _$DeliveryStreamEncryptionConfigurationInputToJson(
 
   writeNotNull('KeyType', _$KeyTypeEnumMap[instance.keyType]);
   writeNotNull('KeyARN', instance.keyARN);
+  return val;
+}
+
+Map<String, dynamic> _$DescribeDeliveryStreamInputToJson(
+    DescribeDeliveryStreamInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DeliveryStreamName', instance.deliveryStreamName);
+  writeNotNull(
+      'ExclusiveStartDestinationId', instance.exclusiveStartDestinationId);
+  writeNotNull('Limit', instance.limit);
   return val;
 }
 
@@ -714,6 +777,24 @@ KinesisStreamSourceDescription _$KinesisStreamSourceDescriptionFromJson(
   );
 }
 
+Map<String, dynamic> _$ListDeliveryStreamsInputToJson(
+    ListDeliveryStreamsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DeliveryStreamType',
+      _$DeliveryStreamTypeEnumMap[instance.deliveryStreamType]);
+  writeNotNull('ExclusiveStartDeliveryStreamName',
+      instance.exclusiveStartDeliveryStreamName);
+  writeNotNull('Limit', instance.limit);
+  return val;
+}
+
 ListDeliveryStreamsOutput _$ListDeliveryStreamsOutputFromJson(
     Map<String, dynamic> json) {
   return ListDeliveryStreamsOutput(
@@ -722,6 +803,22 @@ ListDeliveryStreamsOutput _$ListDeliveryStreamsOutputFromJson(
         ?.toList(),
     hasMoreDeliveryStreams: json['HasMoreDeliveryStreams'] as bool,
   );
+}
+
+Map<String, dynamic> _$ListTagsForDeliveryStreamInputToJson(
+    ListTagsForDeliveryStreamInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DeliveryStreamName', instance.deliveryStreamName);
+  writeNotNull('ExclusiveStartTagKey', instance.exclusiveStartTagKey);
+  writeNotNull('Limit', instance.limit);
+  return val;
 }
 
 ListTagsForDeliveryStreamOutput _$ListTagsForDeliveryStreamOutputFromJson(
@@ -972,6 +1069,20 @@ const _$ProcessorParameterNameEnumMap = {
   ProcessorParameterName.bufferIntervalInSeconds: 'BufferIntervalInSeconds',
 };
 
+Map<String, dynamic> _$PutRecordBatchInputToJson(PutRecordBatchInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DeliveryStreamName', instance.deliveryStreamName);
+  writeNotNull('Records', instance.records?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 PutRecordBatchOutput _$PutRecordBatchOutputFromJson(Map<String, dynamic> json) {
   return PutRecordBatchOutput(
     failedPutCount: json['FailedPutCount'] as int,
@@ -991,6 +1102,20 @@ PutRecordBatchResponseEntry _$PutRecordBatchResponseEntryFromJson(
     errorMessage: json['ErrorMessage'] as String,
     recordId: json['RecordId'] as String,
   );
+}
+
+Map<String, dynamic> _$PutRecordInputToJson(PutRecordInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DeliveryStreamName', instance.deliveryStreamName);
+  writeNotNull('Record', instance.record?.toJson());
+  return val;
 }
 
 PutRecordOutput _$PutRecordOutputFromJson(Map<String, dynamic> json) {
@@ -1375,9 +1500,39 @@ Map<String, dynamic> _$SplunkRetryOptionsToJson(SplunkRetryOptions instance) {
   return val;
 }
 
+Map<String, dynamic> _$StartDeliveryStreamEncryptionInputToJson(
+    StartDeliveryStreamEncryptionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DeliveryStreamName', instance.deliveryStreamName);
+  writeNotNull('DeliveryStreamEncryptionConfigurationInput',
+      instance.deliveryStreamEncryptionConfigurationInput?.toJson());
+  return val;
+}
+
 StartDeliveryStreamEncryptionOutput
     _$StartDeliveryStreamEncryptionOutputFromJson(Map<String, dynamic> json) {
   return StartDeliveryStreamEncryptionOutput();
+}
+
+Map<String, dynamic> _$StopDeliveryStreamEncryptionInputToJson(
+    StopDeliveryStreamEncryptionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DeliveryStreamName', instance.deliveryStreamName);
+  return val;
 }
 
 StopDeliveryStreamEncryptionOutput _$StopDeliveryStreamEncryptionOutputFromJson(
@@ -1406,14 +1561,70 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
   return val;
 }
 
+Map<String, dynamic> _$TagDeliveryStreamInputToJson(
+    TagDeliveryStreamInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DeliveryStreamName', instance.deliveryStreamName);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 TagDeliveryStreamOutput _$TagDeliveryStreamOutputFromJson(
     Map<String, dynamic> json) {
   return TagDeliveryStreamOutput();
 }
 
+Map<String, dynamic> _$UntagDeliveryStreamInputToJson(
+    UntagDeliveryStreamInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DeliveryStreamName', instance.deliveryStreamName);
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
+}
+
 UntagDeliveryStreamOutput _$UntagDeliveryStreamOutputFromJson(
     Map<String, dynamic> json) {
   return UntagDeliveryStreamOutput();
+}
+
+Map<String, dynamic> _$UpdateDestinationInputToJson(
+    UpdateDestinationInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CurrentDeliveryStreamVersionId',
+      instance.currentDeliveryStreamVersionId);
+  writeNotNull('DeliveryStreamName', instance.deliveryStreamName);
+  writeNotNull('DestinationId', instance.destinationId);
+  writeNotNull('ElasticsearchDestinationUpdate',
+      instance.elasticsearchDestinationUpdate?.toJson());
+  writeNotNull('ExtendedS3DestinationUpdate',
+      instance.extendedS3DestinationUpdate?.toJson());
+  writeNotNull('RedshiftDestinationUpdate',
+      instance.redshiftDestinationUpdate?.toJson());
+  writeNotNull('S3DestinationUpdate', instance.s3DestinationUpdate?.toJson());
+  writeNotNull(
+      'SplunkDestinationUpdate', instance.splunkDestinationUpdate?.toJson());
+  return val;
 }
 
 UpdateDestinationOutput _$UpdateDestinationOutputFromJson(

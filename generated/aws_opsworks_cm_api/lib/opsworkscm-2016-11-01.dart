@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -147,11 +146,11 @@ class OpsWorksCM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EngineAttributes': engineAttributes,
-        'NodeName': nodeName,
-        'ServerName': serverName,
-      },
+      payload: AssociateNodeRequest(
+        engineAttributes: engineAttributes,
+        nodeName: nodeName,
+        serverName: serverName,
+      ),
     );
 
     return AssociateNodeResponse.fromJson(jsonResponse.body);
@@ -251,11 +250,11 @@ class OpsWorksCM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ServerName': serverName,
-        if (description != null) 'Description': description,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateBackupRequest(
+        serverName: serverName,
+        description: description,
+        tags: tags,
+      ),
     );
 
     return CreateBackupResponse.fromJson(jsonResponse.body);
@@ -747,34 +746,29 @@ class OpsWorksCM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'InstanceProfileArn': instanceProfileArn,
-        'InstanceType': instanceType,
-        'ServerName': serverName,
-        'ServiceRoleArn': serviceRoleArn,
-        if (associatePublicIpAddress != null)
-          'AssociatePublicIpAddress': associatePublicIpAddress,
-        if (backupId != null) 'BackupId': backupId,
-        if (backupRetentionCount != null)
-          'BackupRetentionCount': backupRetentionCount,
-        if (customCertificate != null) 'CustomCertificate': customCertificate,
-        if (customDomain != null) 'CustomDomain': customDomain,
-        if (customPrivateKey != null) 'CustomPrivateKey': customPrivateKey,
-        if (disableAutomatedBackup != null)
-          'DisableAutomatedBackup': disableAutomatedBackup,
-        if (engine != null) 'Engine': engine,
-        if (engineAttributes != null) 'EngineAttributes': engineAttributes,
-        if (engineModel != null) 'EngineModel': engineModel,
-        if (engineVersion != null) 'EngineVersion': engineVersion,
-        if (keyPair != null) 'KeyPair': keyPair,
-        if (preferredBackupWindow != null)
-          'PreferredBackupWindow': preferredBackupWindow,
-        if (preferredMaintenanceWindow != null)
-          'PreferredMaintenanceWindow': preferredMaintenanceWindow,
-        if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
-        if (subnetIds != null) 'SubnetIds': subnetIds,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateServerRequest(
+        instanceProfileArn: instanceProfileArn,
+        instanceType: instanceType,
+        serverName: serverName,
+        serviceRoleArn: serviceRoleArn,
+        associatePublicIpAddress: associatePublicIpAddress,
+        backupId: backupId,
+        backupRetentionCount: backupRetentionCount,
+        customCertificate: customCertificate,
+        customDomain: customDomain,
+        customPrivateKey: customPrivateKey,
+        disableAutomatedBackup: disableAutomatedBackup,
+        engine: engine,
+        engineAttributes: engineAttributes,
+        engineModel: engineModel,
+        engineVersion: engineVersion,
+        keyPair: keyPair,
+        preferredBackupWindow: preferredBackupWindow,
+        preferredMaintenanceWindow: preferredMaintenanceWindow,
+        securityGroupIds: securityGroupIds,
+        subnetIds: subnetIds,
+        tags: tags,
+      ),
     );
 
     return CreateServerResponse.fromJson(jsonResponse.body);
@@ -823,9 +817,9 @@ class OpsWorksCM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'BackupId': backupId,
-      },
+      payload: DeleteBackupRequest(
+        backupId: backupId,
+      ),
     );
 
     return DeleteBackupResponse.fromJson(jsonResponse.body);
@@ -879,9 +873,9 @@ class OpsWorksCM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ServerName': serverName,
-      },
+      payload: DeleteServerRequest(
+        serverName: serverName,
+      ),
     );
 
     return DeleteServerResponse.fromJson(jsonResponse.body);
@@ -988,12 +982,12 @@ class OpsWorksCM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (backupId != null) 'BackupId': backupId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (serverName != null) 'ServerName': serverName,
-      },
+      payload: DescribeBackupsRequest(
+        backupId: backupId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        serverName: serverName,
+      ),
     );
 
     return DescribeBackupsResponse.fromJson(jsonResponse.body);
@@ -1078,11 +1072,11 @@ class OpsWorksCM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ServerName': serverName,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeEventsRequest(
+        serverName: serverName,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeEventsResponse.fromJson(jsonResponse.body);
@@ -1148,10 +1142,10 @@ class OpsWorksCM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'NodeAssociationStatusToken': nodeAssociationStatusToken,
-        'ServerName': serverName,
-      },
+      payload: DescribeNodeAssociationStatusRequest(
+        nodeAssociationStatusToken: nodeAssociationStatusToken,
+        serverName: serverName,
+      ),
     );
 
     return DescribeNodeAssociationStatusResponse.fromJson(jsonResponse.body);
@@ -1224,11 +1218,11 @@ class OpsWorksCM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (serverName != null) 'ServerName': serverName,
-      },
+      payload: DescribeServersRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+        serverName: serverName,
+      ),
     );
 
     return DescribeServersResponse.fromJson(jsonResponse.body);
@@ -1313,11 +1307,11 @@ class OpsWorksCM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'NodeName': nodeName,
-        'ServerName': serverName,
-        if (engineAttributes != null) 'EngineAttributes': engineAttributes,
-      },
+      payload: DisassociateNodeRequest(
+        nodeName: nodeName,
+        serverName: serverName,
+        engineAttributes: engineAttributes,
+      ),
     );
 
     return DisassociateNodeResponse.fromJson(jsonResponse.body);
@@ -1419,11 +1413,11 @@ class OpsWorksCM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ExportAttributeName': exportAttributeName,
-        'ServerName': serverName,
-        if (inputAttributes != null) 'InputAttributes': inputAttributes,
-      },
+      payload: ExportServerEngineAttributeRequest(
+        exportAttributeName: exportAttributeName,
+        serverName: serverName,
+        inputAttributes: inputAttributes,
+      ),
     );
 
     return ExportServerEngineAttributeResponse.fromJson(jsonResponse.body);
@@ -1497,11 +1491,11 @@ class OpsWorksCM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListTagsForResourceRequest(
+        resourceArn: resourceArn,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
@@ -1615,12 +1609,12 @@ class OpsWorksCM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'BackupId': backupId,
-        'ServerName': serverName,
-        if (instanceType != null) 'InstanceType': instanceType,
-        if (keyPair != null) 'KeyPair': keyPair,
-      },
+      payload: RestoreServerRequest(
+        backupId: backupId,
+        serverName: serverName,
+        instanceType: instanceType,
+        keyPair: keyPair,
+      ),
     );
 
     return RestoreServerResponse.fromJson(jsonResponse.body);
@@ -1690,10 +1684,10 @@ class OpsWorksCM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ServerName': serverName,
-        if (engineAttributes != null) 'EngineAttributes': engineAttributes,
-      },
+      payload: StartMaintenanceRequest(
+        serverName: serverName,
+        engineAttributes: engineAttributes,
+      ),
     );
 
     return StartMaintenanceResponse.fromJson(jsonResponse.body);
@@ -1759,10 +1753,10 @@ class OpsWorksCM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        'Tags': tags,
-      },
+      payload: TagResourceRequest(
+        resourceArn: resourceArn,
+        tags: tags,
+      ),
     );
 
     return TagResourceResponse.fromJson(jsonResponse.body);
@@ -1803,10 +1797,10 @@ class OpsWorksCM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        'TagKeys': tagKeys,
-      },
+      payload: UntagResourceRequest(
+        resourceArn: resourceArn,
+        tagKeys: tagKeys,
+      ),
     );
 
     return UntagResourceResponse.fromJson(jsonResponse.body);
@@ -1882,17 +1876,13 @@ class OpsWorksCM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ServerName': serverName,
-        if (backupRetentionCount != null)
-          'BackupRetentionCount': backupRetentionCount,
-        if (disableAutomatedBackup != null)
-          'DisableAutomatedBackup': disableAutomatedBackup,
-        if (preferredBackupWindow != null)
-          'PreferredBackupWindow': preferredBackupWindow,
-        if (preferredMaintenanceWindow != null)
-          'PreferredMaintenanceWindow': preferredMaintenanceWindow,
-      },
+      payload: UpdateServerRequest(
+        serverName: serverName,
+        backupRetentionCount: backupRetentionCount,
+        disableAutomatedBackup: disableAutomatedBackup,
+        preferredBackupWindow: preferredBackupWindow,
+        preferredMaintenanceWindow: preferredMaintenanceWindow,
+      ),
     );
 
     return UpdateServerResponse.fromJson(jsonResponse.body);
@@ -1979,11 +1969,11 @@ class OpsWorksCM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AttributeName': attributeName,
-        'ServerName': serverName,
-        if (attributeValue != null) 'AttributeValue': attributeValue,
-      },
+      payload: UpdateServerEngineAttributesRequest(
+        attributeName: attributeName,
+        serverName: serverName,
+        attributeValue: attributeValue,
+      ),
     );
 
     return UpdateServerEngineAttributesResponse.fromJson(jsonResponse.body);
@@ -2029,6 +2019,54 @@ class AccountAttribute {
   });
   factory AccountAttribute.fromJson(Map<String, dynamic> json) =>
       _$AccountAttributeFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateNodeRequest {
+  /// Engine attributes used for associating the node.
+  /// <p class="title"> <b>Attributes accepted in a AssociateNode request for
+  /// Chef</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CHEF_ORGANIZATION</code>: The Chef organization with which the node is
+  /// associated. By default only one organization named <code>default</code> can
+  /// exist.
+  /// </li>
+  /// <li>
+  /// <code>CHEF_NODE_PUBLIC_KEY</code>: A PEM-formatted public key. This key is
+  /// required for the <code>chef-client</code> agent to access the Chef API.
+  /// </li>
+  /// </ul> <p class="title"> <b>Attributes accepted in a AssociateNode request
+  /// for Puppet</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PUPPET_NODE_CSR</code>: A PEM-formatted certificate-signing request
+  /// (CSR) that is created by the node.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'EngineAttributes')
+  final List<EngineAttribute> engineAttributes;
+
+  /// The name of the node.
+  @_s.JsonKey(name: 'NodeName')
+  final String nodeName;
+
+  /// The name of the server with which to associate the node.
+  @_s.JsonKey(name: 'ServerName')
+  final String serverName;
+
+  AssociateNodeRequest({
+    @_s.required this.engineAttributes,
+    @_s.required this.nodeName,
+    @_s.required this.serverName,
+  });
+  Map<String, dynamic> toJson() => _$AssociateNodeRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2221,6 +2259,56 @@ enum BackupType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateBackupRequest {
+  /// The name of the server that you want to back up.
+  @_s.JsonKey(name: 'ServerName')
+  final String serverName;
+
+  /// A user-defined description of the backup.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// A map that contains tag keys and tag values to attach to an AWS OpsWorks-CM
+  /// server backup.
+  ///
+  /// <ul>
+  /// <li>
+  /// The key cannot be empty.
+  /// </li>
+  /// <li>
+  /// The key can be a maximum of 127 characters, and can contain only Unicode
+  /// letters, numbers, or separators, or the following special characters:
+  /// <code>+ - = . _ : /</code>
+  /// </li>
+  /// <li>
+  /// The value can be a maximum 255 characters, and contain only Unicode letters,
+  /// numbers, or separators, or the following special characters: <code>+ - = . _
+  /// : /</code>
+  /// </li>
+  /// <li>
+  /// Leading and trailing white spaces are trimmed from both the key and value.
+  /// </li>
+  /// <li>
+  /// A maximum of 50 user-applied tags is allowed for tag-supported AWS
+  /// OpsWorks-CM resources.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateBackupRequest({
+    @_s.required this.serverName,
+    this.description,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateBackupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateBackupResponse {
@@ -2233,6 +2321,291 @@ class CreateBackupResponse {
   });
   factory CreateBackupResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateBackupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateServerRequest {
+  /// The ARN of the instance profile that your Amazon EC2 instances use. Although
+  /// the AWS OpsWorks console typically creates the instance profile for you, if
+  /// you are using API commands instead, run the service-role-creation.yaml AWS
+  /// CloudFormation template, located at
+  /// https://s3.amazonaws.com/opsworks-cm-us-east-1-prod-default-assets/misc/opsworks-cm-roles.yaml.
+  /// This template creates a CloudFormation stack that includes the instance
+  /// profile you need.
+  @_s.JsonKey(name: 'InstanceProfileArn')
+  final String instanceProfileArn;
+
+  /// The Amazon EC2 instance type to use. For example, <code>m5.large</code>.
+  @_s.JsonKey(name: 'InstanceType')
+  final String instanceType;
+
+  /// The name of the server. The server name must be unique within your AWS
+  /// account, within each region. Server names must start with a letter; then
+  /// letters, numbers, or hyphens (-) are allowed, up to a maximum of 40
+  /// characters.
+  @_s.JsonKey(name: 'ServerName')
+  final String serverName;
+
+  /// The service role that the AWS OpsWorks CM service backend uses to work with
+  /// your account. Although the AWS OpsWorks management console typically creates
+  /// the service role for you, if you are using the AWS CLI or API commands, run
+  /// the service-role-creation.yaml AWS CloudFormation template, located at
+  /// https://s3.amazonaws.com/opsworks-cm-us-east-1-prod-default-assets/misc/opsworks-cm-roles.yaml.
+  /// This template creates a CloudFormation stack that includes the service role
+  /// and instance profile that you need.
+  @_s.JsonKey(name: 'ServiceRoleArn')
+  final String serviceRoleArn;
+
+  /// Associate a public IP address with a server that you are launching. Valid
+  /// values are <code>true</code> or <code>false</code>. The default value is
+  /// <code>true</code>.
+  @_s.JsonKey(name: 'AssociatePublicIpAddress')
+  final bool associatePublicIpAddress;
+
+  /// If you specify this field, AWS OpsWorks CM creates the server by using the
+  /// backup represented by BackupId.
+  @_s.JsonKey(name: 'BackupId')
+  final String backupId;
+
+  /// The number of automated backups that you want to keep. Whenever a new backup
+  /// is created, AWS OpsWorks CM deletes the oldest backups if this number is
+  /// exceeded. The default value is <code>1</code>.
+  @_s.JsonKey(name: 'BackupRetentionCount')
+  final int backupRetentionCount;
+
+  /// A PEM-formatted HTTPS certificate. The value can be be a single, self-signed
+  /// certificate, or a certificate chain. If you specify a custom certificate,
+  /// you must also specify values for <code>CustomDomain</code> and
+  /// <code>CustomPrivateKey</code>. The following are requirements for the
+  /// <code>CustomCertificate</code> value:
+  ///
+  /// <ul>
+  /// <li>
+  /// You can provide either a self-signed, custom certificate, or the full
+  /// certificate chain.
+  /// </li>
+  /// <li>
+  /// The certificate must be a valid X509 certificate, or a certificate chain in
+  /// PEM format.
+  /// </li>
+  /// <li>
+  /// The certificate must be valid at the time of upload. A certificate can't be
+  /// used before its validity period begins (the certificate's
+  /// <code>NotBefore</code> date), or after it expires (the certificate's
+  /// <code>NotAfter</code> date).
+  /// </li>
+  /// <li>
+  /// The certificate’s common name or subject alternative names (SANs), if
+  /// present, must match the value of <code>CustomDomain</code>.
+  /// </li>
+  /// <li>
+  /// The certificate must match the value of <code>CustomPrivateKey</code>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'CustomCertificate')
+  final String customCertificate;
+
+  /// An optional public endpoint of a server, such as
+  /// <code>https://aws.my-company.com</code>. To access the server, create a
+  /// CNAME DNS record in your preferred DNS service that points the custom domain
+  /// to the endpoint that is generated when the server is created (the value of
+  /// the CreateServer Endpoint attribute). You cannot access the server by using
+  /// the generated <code>Endpoint</code> value if the server is using a custom
+  /// domain. If you specify a custom domain, you must also specify values for
+  /// <code>CustomCertificate</code> and <code>CustomPrivateKey</code>.
+  @_s.JsonKey(name: 'CustomDomain')
+  final String customDomain;
+
+  /// A private key in PEM format for connecting to the server by using HTTPS. The
+  /// private key must not be encrypted; it cannot be protected by a password or
+  /// passphrase. If you specify a custom private key, you must also specify
+  /// values for <code>CustomDomain</code> and <code>CustomCertificate</code>.
+  @_s.JsonKey(name: 'CustomPrivateKey')
+  final String customPrivateKey;
+
+  /// Enable or disable scheduled backups. Valid values are <code>true</code> or
+  /// <code>false</code>. The default value is <code>true</code>.
+  @_s.JsonKey(name: 'DisableAutomatedBackup')
+  final bool disableAutomatedBackup;
+
+  /// The configuration management engine to use. Valid values include
+  /// <code>ChefAutomate</code> and <code>Puppet</code>.
+  @_s.JsonKey(name: 'Engine')
+  final String engine;
+
+  /// Optional engine attributes on a specified server.
+  /// <p class="title"> <b>Attributes accepted in a Chef createServer request:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CHEF_AUTOMATE_PIVOTAL_KEY</code>: A base64-encoded RSA public key. The
+  /// corresponding private key is required to access the Chef API. When no
+  /// CHEF_AUTOMATE_PIVOTAL_KEY is set, a private key is generated and returned in
+  /// the response.
+  /// </li>
+  /// <li>
+  /// <code>CHEF_AUTOMATE_ADMIN_PASSWORD</code>: The password for the
+  /// administrative user in the Chef Automate web-based dashboard. The password
+  /// length is a minimum of eight characters, and a maximum of 32. The password
+  /// can contain letters, numbers, and special characters (!/@#$%^&amp;+=_). The
+  /// password must contain at least one lower case letter, one upper case letter,
+  /// one number, and one special character. When no CHEF_AUTOMATE_ADMIN_PASSWORD
+  /// is set, one is generated and returned in the response.
+  /// </li>
+  /// </ul> <p class="title"> <b>Attributes accepted in a Puppet createServer
+  /// request:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PUPPET_ADMIN_PASSWORD</code>: To work with the Puppet Enterprise
+  /// console, a password must use ASCII characters.
+  /// </li>
+  /// <li>
+  /// <code>PUPPET_R10K_REMOTE</code>: The r10k remote is the URL of your control
+  /// repository (for example, ssh://git@your.git-repo.com:user/control-repo.git).
+  /// Specifying an r10k remote opens TCP port 8170.
+  /// </li>
+  /// <li>
+  /// <code>PUPPET_R10K_PRIVATE_KEY</code>: If you are using a private Git
+  /// repository, add PUPPET_R10K_PRIVATE_KEY to specify a PEM-encoded private SSH
+  /// key.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'EngineAttributes')
+  final List<EngineAttribute> engineAttributes;
+
+  /// The engine model of the server. Valid values in this release include
+  /// <code>Monolithic</code> for Puppet and <code>Single</code> for Chef.
+  @_s.JsonKey(name: 'EngineModel')
+  final String engineModel;
+
+  /// The major release version of the engine that you want to use. For a Chef
+  /// server, the valid value for EngineVersion is currently <code>12</code>. For
+  /// a Puppet server, the valid value is <code>2017</code>.
+  @_s.JsonKey(name: 'EngineVersion')
+  final String engineVersion;
+
+  /// The Amazon EC2 key pair to set for the instance. This parameter is optional;
+  /// if desired, you may specify this parameter to connect to your instances by
+  /// using SSH.
+  @_s.JsonKey(name: 'KeyPair')
+  final String keyPair;
+
+  /// The start time for a one-hour period during which AWS OpsWorks CM backs up
+  /// application-level data on your server if automated backups are enabled.
+  /// Valid values must be specified in one of the following formats:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>HH:MM</code> for daily backups
+  /// </li>
+  /// <li>
+  /// <code>DDD:HH:MM</code> for weekly backups
+  /// </li>
+  /// </ul>
+  /// The specified time is in coordinated universal time (UTC). The default value
+  /// is a random, daily start time.
+  ///
+  /// <b>Example:</b> <code>08:00</code>, which represents a daily start time of
+  /// 08:00 UTC.
+  ///
+  /// <b>Example:</b> <code>Mon:08:00</code>, which represents a start time of
+  /// every Monday at 08:00 UTC. (8:00 a.m.)
+  @_s.JsonKey(name: 'PreferredBackupWindow')
+  final String preferredBackupWindow;
+
+  /// The start time for a one-hour period each week during which AWS OpsWorks CM
+  /// performs maintenance on the instance. Valid values must be specified in the
+  /// following format: <code>DDD:HH:MM</code>. The specified time is in
+  /// coordinated universal time (UTC). The default value is a random one-hour
+  /// period on Tuesday, Wednesday, or Friday. See
+  /// <code>TimeWindowDefinition</code> for more information.
+  ///
+  /// <b>Example:</b> <code>Mon:08:00</code>, which represents a start time of
+  /// every Monday at 08:00 UTC. (8:00 a.m.)
+  @_s.JsonKey(name: 'PreferredMaintenanceWindow')
+  final String preferredMaintenanceWindow;
+
+  /// A list of security group IDs to attach to the Amazon EC2 instance. If you
+  /// add this parameter, the specified security groups must be within the VPC
+  /// that is specified by <code>SubnetIds</code>.
+  ///
+  /// If you do not specify this parameter, AWS OpsWorks CM creates one new
+  /// security group that uses TCP ports 22 and 443, open to 0.0.0.0/0 (everyone).
+  @_s.JsonKey(name: 'SecurityGroupIds')
+  final List<String> securityGroupIds;
+
+  /// The IDs of subnets in which to launch the server EC2 instance.
+  ///
+  /// Amazon EC2-Classic customers: This field is required. All servers must run
+  /// within a VPC. The VPC must have "Auto Assign Public IP" enabled.
+  ///
+  /// EC2-VPC customers: This field is optional. If you do not specify subnet IDs,
+  /// your EC2 instances are created in a default subnet that is selected by
+  /// Amazon EC2. If you specify subnet IDs, the VPC must have "Auto Assign Public
+  /// IP" enabled.
+  ///
+  /// For more information about supported Amazon EC2 platforms, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-supported-platforms.html">Supported
+  /// Platforms</a>.
+  @_s.JsonKey(name: 'SubnetIds')
+  final List<String> subnetIds;
+
+  /// A map that contains tag keys and tag values to attach to an AWS OpsWorks for
+  /// Chef Automate or AWS OpsWorks for Puppet Enterprise server.
+  ///
+  /// <ul>
+  /// <li>
+  /// The key cannot be empty.
+  /// </li>
+  /// <li>
+  /// The key can be a maximum of 127 characters, and can contain only Unicode
+  /// letters, numbers, or separators, or the following special characters:
+  /// <code>+ - = . _ : / @</code>
+  /// </li>
+  /// <li>
+  /// The value can be a maximum 255 characters, and contain only Unicode letters,
+  /// numbers, or separators, or the following special characters: <code>+ - = . _
+  /// : / @</code>
+  /// </li>
+  /// <li>
+  /// Leading and trailing white spaces are trimmed from both the key and value.
+  /// </li>
+  /// <li>
+  /// A maximum of 50 user-applied tags is allowed for any AWS OpsWorks-CM server.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateServerRequest({
+    @_s.required this.instanceProfileArn,
+    @_s.required this.instanceType,
+    @_s.required this.serverName,
+    @_s.required this.serviceRoleArn,
+    this.associatePublicIpAddress,
+    this.backupId,
+    this.backupRetentionCount,
+    this.customCertificate,
+    this.customDomain,
+    this.customPrivateKey,
+    this.disableAutomatedBackup,
+    this.engine,
+    this.engineAttributes,
+    this.engineModel,
+    this.engineVersion,
+    this.keyPair,
+    this.preferredBackupWindow,
+    this.preferredMaintenanceWindow,
+    this.securityGroupIds,
+    this.subnetIds,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateServerRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2255,12 +2628,46 @@ class CreateServerResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteBackupRequest {
+  /// The ID of the backup to delete. Run the DescribeBackups command to get a
+  /// list of backup IDs. Backup IDs are in the format
+  /// <code>ServerName-yyyyMMddHHmmssSSS</code>.
+  @_s.JsonKey(name: 'BackupId')
+  final String backupId;
+
+  DeleteBackupRequest({
+    @_s.required this.backupId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteBackupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteBackupResponse {
   DeleteBackupResponse();
   factory DeleteBackupResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteBackupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteServerRequest {
+  /// The ID of the server to delete.
+  @_s.JsonKey(name: 'ServerName')
+  final String serverName;
+
+  DeleteServerRequest({
+    @_s.required this.serverName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteServerRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2295,6 +2702,37 @@ class DescribeAccountAttributesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeBackupsRequest {
+  /// Describes a single backup.
+  @_s.JsonKey(name: 'BackupId')
+  final String backupId;
+
+  /// This is not currently implemented for <code>DescribeBackups</code> requests.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// This is not currently implemented for <code>DescribeBackups</code> requests.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Returns backups for the server with the specified ServerName.
+  @_s.JsonKey(name: 'ServerName')
+  final String serverName;
+
+  DescribeBackupsRequest({
+    this.backupId,
+    this.maxResults,
+    this.nextToken,
+    this.serverName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeBackupsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeBackupsResponse {
@@ -2312,6 +2750,44 @@ class DescribeBackupsResponse {
   });
   factory DescribeBackupsResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeBackupsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeEventsRequest {
+  /// The name of the server for which you want to view events.
+  @_s.JsonKey(name: 'ServerName')
+  final String serverName;
+
+  /// To receive a paginated response, use this parameter to specify the maximum
+  /// number of results to be returned with a single call. If the number of
+  /// available results exceeds this maximum, the response includes a
+  /// <code>NextToken</code> value that you can assign to the
+  /// <code>NextToken</code> request parameter to get the next set of results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// NextToken is a string that is returned in some command responses. It
+  /// indicates that not all entries have been returned, and that you must run at
+  /// least one more request to get remaining items. To get remaining results,
+  /// call <code>DescribeEvents</code> again, and assign the token from the
+  /// previous results as the value of the <code>nextToken</code> parameter. If
+  /// there are no more results, the response object's <code>nextToken</code>
+  /// parameter value is <code>null</code>. Setting a <code>nextToken</code> value
+  /// that was not returned in your previous results causes an
+  /// <code>InvalidNextTokenException</code> to occur.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeEventsRequest({
+    @_s.required this.serverName,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeEventsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2342,6 +2818,29 @@ class DescribeEventsResponse {
   });
   factory DescribeEventsResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeEventsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeNodeAssociationStatusRequest {
+  /// The token returned in either the AssociateNodeResponse or the
+  /// DisassociateNodeResponse.
+  @_s.JsonKey(name: 'NodeAssociationStatusToken')
+  final String nodeAssociationStatusToken;
+
+  /// The name of the server from which to disassociate the node.
+  @_s.JsonKey(name: 'ServerName')
+  final String serverName;
+
+  DescribeNodeAssociationStatusRequest({
+    @_s.required this.nodeAssociationStatusToken,
+    @_s.required this.serverName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeNodeAssociationStatusRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2385,6 +2884,32 @@ class DescribeNodeAssociationStatusResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeServersRequest {
+  /// This is not currently implemented for <code>DescribeServers</code> requests.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// This is not currently implemented for <code>DescribeServers</code> requests.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Describes the server with the specified ServerName.
+  @_s.JsonKey(name: 'ServerName')
+  final String serverName;
+
+  DescribeServersRequest({
+    this.maxResults,
+    this.nextToken,
+    this.serverName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeServersRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeServersResponse {
@@ -2415,6 +2940,43 @@ class DescribeServersResponse {
   });
   factory DescribeServersResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeServersResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateNodeRequest {
+  /// The name of the client node.
+  @_s.JsonKey(name: 'NodeName')
+  final String nodeName;
+
+  /// The name of the server from which to disassociate the node.
+  @_s.JsonKey(name: 'ServerName')
+  final String serverName;
+
+  /// Engine attributes that are used for disassociating the node. No attributes
+  /// are required for Puppet.
+  /// <p class="title"> <b>Attributes required in a DisassociateNode request for
+  /// Chef</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CHEF_ORGANIZATION</code>: The Chef organization with which the node
+  /// was associated. By default only one organization named <code>default</code>
+  /// can exist.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'EngineAttributes')
+  final List<EngineAttribute> engineAttributes;
+
+  DisassociateNodeRequest({
+    @_s.required this.nodeName,
+    @_s.required this.serverName,
+    this.engineAttributes,
+  });
+  Map<String, dynamic> toJson() => _$DisassociateNodeRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2464,6 +3026,61 @@ class EngineAttribute {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ExportServerEngineAttributeRequest {
+  /// The name of the export attribute. Currently, the supported export attribute
+  /// is <code>Userdata</code>. This exports a user data script that includes
+  /// parameters and values provided in the <code>InputAttributes</code> list.
+  @_s.JsonKey(name: 'ExportAttributeName')
+  final String exportAttributeName;
+
+  /// The name of the server from which you are exporting the attribute.
+  @_s.JsonKey(name: 'ServerName')
+  final String serverName;
+
+  /// The list of engine attributes. The list type is
+  /// <code>EngineAttribute</code>. An <code>EngineAttribute</code> list item is a
+  /// pair that includes an attribute name and its value. For the
+  /// <code>Userdata</code> ExportAttributeName, the following are supported
+  /// engine attribute names.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>RunList</b> In Chef, a list of roles or recipes that are run in the
+  /// specified order. In Puppet, this parameter is ignored.
+  /// </li>
+  /// <li>
+  /// <b>OrganizationName</b> In Chef, an organization name. AWS OpsWorks for Chef
+  /// Automate always creates the organization <code>default</code>. In Puppet,
+  /// this parameter is ignored.
+  /// </li>
+  /// <li>
+  /// <b>NodeEnvironment</b> In Chef, a node environment (for example,
+  /// development, staging, or one-box). In Puppet, this parameter is ignored.
+  /// </li>
+  /// <li>
+  /// <b>NodeClientVersion</b> In Chef, the version of the Chef engine (three
+  /// numbers separated by dots, such as 13.8.5). If this attribute is empty,
+  /// OpsWorks for Chef Automate uses the most current version. In Puppet, this
+  /// parameter is ignored.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'InputAttributes')
+  final List<EngineAttribute> inputAttributes;
+
+  ExportServerEngineAttributeRequest({
+    @_s.required this.exportAttributeName,
+    @_s.required this.serverName,
+    this.inputAttributes,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ExportServerEngineAttributeRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ExportServerEngineAttributeResponse {
@@ -2482,6 +3099,47 @@ class ExportServerEngineAttributeResponse {
   factory ExportServerEngineAttributeResponse.fromJson(
           Map<String, dynamic> json) =>
       _$ExportServerEngineAttributeResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceRequest {
+  /// The Amazon Resource Number (ARN) of an AWS OpsWorks for Chef Automate or AWS
+  /// OpsWorks for Puppet Enterprise server for which you want to show applied
+  /// tags. For example,
+  /// <code>arn:aws:opsworks-cm:us-west-2:123456789012:server/test-owcm-server/EXAMPLE-66b0-4196-8274-d1a2bEXAMPLE</code>.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// To receive a paginated response, use this parameter to specify the maximum
+  /// number of results to be returned with a single call. If the number of
+  /// available results exceeds this maximum, the response includes a
+  /// <code>NextToken</code> value that you can assign to the
+  /// <code>NextToken</code> request parameter to get the next set of results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// NextToken is a string that is returned in some command responses. It
+  /// indicates that not all entries have been returned, and that you must run at
+  /// least one more request to get remaining items. To get remaining results,
+  /// call <code>ListTagsForResource</code> again, and assign the token from the
+  /// previous results as the value of the <code>nextToken</code> parameter. If
+  /// there are no more results, the response object's <code>nextToken</code>
+  /// parameter value is <code>null</code>. Setting a <code>nextToken</code> value
+  /// that was not returned in your previous results causes an
+  /// <code>InvalidNextTokenException</code> to occur.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListTagsForResourceRequest({
+    @_s.required this.resourceArn,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2536,6 +3194,43 @@ enum NodeAssociationStatus {
   failed,
   @_s.JsonValue('IN_PROGRESS')
   inProgress,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RestoreServerRequest {
+  /// The ID of the backup that you want to use to restore a server.
+  @_s.JsonKey(name: 'BackupId')
+  final String backupId;
+
+  /// The name of the server that you want to restore.
+  @_s.JsonKey(name: 'ServerName')
+  final String serverName;
+
+  /// The type of instance to restore. Valid values must be specified in the
+  /// following format: <code>^([cm][34]|t2).*</code> For example,
+  /// <code>m5.large</code>. Valid values are <code>m5.large</code>,
+  /// <code>r5.xlarge</code>, and <code>r5.2xlarge</code>. If you do not specify
+  /// this parameter, RestoreServer uses the instance type from the specified
+  /// backup.
+  @_s.JsonKey(name: 'InstanceType')
+  final String instanceType;
+
+  /// The name of the key pair to set on the new EC2 instance. This can be helpful
+  /// if the administrator no longer has the SSH key.
+  @_s.JsonKey(name: 'KeyPair')
+  final String keyPair;
+
+  RestoreServerRequest({
+    @_s.required this.backupId,
+    @_s.required this.serverName,
+    this.instanceType,
+    this.keyPair,
+  });
+  Map<String, dynamic> toJson() => _$RestoreServerRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2806,6 +3501,41 @@ enum ServerStatus {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartMaintenanceRequest {
+  /// The name of the server on which to run maintenance.
+  @_s.JsonKey(name: 'ServerName')
+  final String serverName;
+
+  /// Engine attributes that are specific to the server on which you want to run
+  /// maintenance.
+  /// <p class="title"> <b>Attributes accepted in a StartMaintenance request for
+  /// Chef</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CHEF_MAJOR_UPGRADE</code>: If a Chef Automate server is eligible for
+  /// upgrade to Chef Automate 2, add this engine attribute to a
+  /// <code>StartMaintenance</code> request and set the value to <code>true</code>
+  /// to upgrade the server to Chef Automate 2. For more information, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/opscm-a2upgrade.html">Upgrade
+  /// an AWS OpsWorks for Chef Automate Server to Chef Automate 2</a>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'EngineAttributes')
+  final List<EngineAttribute> engineAttributes;
+
+  StartMaintenanceRequest({
+    @_s.required this.serverName,
+    this.engineAttributes,
+  });
+  Map<String, dynamic> toJson() => _$StartMaintenanceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartMaintenanceResponse {
@@ -2856,6 +3586,53 @@ class Tag {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The Amazon Resource Number (ARN) of a resource to which you want to apply
+  /// tags. For example,
+  /// <code>arn:aws:opsworks-cm:us-west-2:123456789012:server/test-owcm-server/EXAMPLE-66b0-4196-8274-d1a2bEXAMPLE</code>.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// A map that contains tag keys and tag values to attach to AWS OpsWorks-CM
+  /// servers or backups.
+  ///
+  /// <ul>
+  /// <li>
+  /// The key cannot be empty.
+  /// </li>
+  /// <li>
+  /// The key can be a maximum of 127 characters, and can contain only Unicode
+  /// letters, numbers, or separators, or the following special characters:
+  /// <code>+ - = . _ : /</code>
+  /// </li>
+  /// <li>
+  /// The value can be a maximum 255 characters, and contain only Unicode letters,
+  /// numbers, or separators, or the following special characters: <code>+ - = . _
+  /// : /</code>
+  /// </li>
+  /// <li>
+  /// Leading and trailing white spaces are trimmed from both the key and value.
+  /// </li>
+  /// <li>
+  /// A maximum of 50 user-applied tags is allowed for any AWS OpsWorks-CM server
+  /// or backup.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagResourceResponse {
@@ -2867,12 +3644,62 @@ class TagResourceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The Amazon Resource Number (ARN) of a resource from which you want to remove
+  /// tags. For example,
+  /// <code>arn:aws:opsworks-cm:us-west-2:123456789012:server/test-owcm-server/EXAMPLE-66b0-4196-8274-d1a2bEXAMPLE</code>.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// The keys of tags that you want to remove.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
   factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateServerEngineAttributesRequest {
+  /// The name of the engine attribute to update.
+  @_s.JsonKey(name: 'AttributeName')
+  final String attributeName;
+
+  /// The name of the server to update.
+  @_s.JsonKey(name: 'ServerName')
+  final String serverName;
+
+  /// The value to set for the attribute.
+  @_s.JsonKey(name: 'AttributeValue')
+  final String attributeValue;
+
+  UpdateServerEngineAttributesRequest({
+    @_s.required this.attributeName,
+    @_s.required this.serverName,
+    this.attributeValue,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateServerEngineAttributesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2892,6 +3719,39 @@ class UpdateServerEngineAttributesResponse {
   factory UpdateServerEngineAttributesResponse.fromJson(
           Map<String, dynamic> json) =>
       _$UpdateServerEngineAttributesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateServerRequest {
+  /// The name of the server to update.
+  @_s.JsonKey(name: 'ServerName')
+  final String serverName;
+
+  /// Sets the number of automated backups that you want to keep.
+  @_s.JsonKey(name: 'BackupRetentionCount')
+  final int backupRetentionCount;
+
+  /// Setting DisableAutomatedBackup to <code>true</code> disables automated or
+  /// scheduled backups. Automated backups are enabled by default.
+  @_s.JsonKey(name: 'DisableAutomatedBackup')
+  final bool disableAutomatedBackup;
+  @_s.JsonKey(name: 'PreferredBackupWindow')
+  final String preferredBackupWindow;
+  @_s.JsonKey(name: 'PreferredMaintenanceWindow')
+  final String preferredMaintenanceWindow;
+
+  UpdateServerRequest({
+    @_s.required this.serverName,
+    this.backupRetentionCount,
+    this.disableAutomatedBackup,
+    this.preferredBackupWindow,
+    this.preferredMaintenanceWindow,
+  });
+  Map<String, dynamic> toJson() => _$UpdateServerRequestToJson(this);
 }
 
 @_s.JsonSerializable(

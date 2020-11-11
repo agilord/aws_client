@@ -15,6 +15,21 @@ BatchCreateVariableError _$BatchCreateVariableErrorFromJson(
   );
 }
 
+Map<String, dynamic> _$BatchCreateVariableRequestToJson(
+    BatchCreateVariableRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('variableEntries',
+      instance.variableEntries?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 BatchCreateVariableResult _$BatchCreateVariableResultFromJson(
     Map<String, dynamic> json) {
   return BatchCreateVariableResult(
@@ -35,6 +50,20 @@ BatchGetVariableError _$BatchGetVariableErrorFromJson(
   );
 }
 
+Map<String, dynamic> _$BatchGetVariableRequestToJson(
+    BatchGetVariableRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('names', instance.names);
+  return val;
+}
+
 BatchGetVariableResult _$BatchGetVariableResultFromJson(
     Map<String, dynamic> json) {
   return BatchGetVariableResult(
@@ -49,6 +78,32 @@ BatchGetVariableResult _$BatchGetVariableResultFromJson(
         ?.toList(),
   );
 }
+
+Map<String, dynamic> _$CreateDetectorVersionRequestToJson(
+    CreateDetectorVersionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('detectorId', instance.detectorId);
+  writeNotNull('rules', instance.rules?.map((e) => e?.toJson())?.toList());
+  writeNotNull('description', instance.description);
+  writeNotNull('externalModelEndpoints', instance.externalModelEndpoints);
+  writeNotNull('modelVersions',
+      instance.modelVersions?.map((e) => e?.toJson())?.toList());
+  writeNotNull('ruleExecutionMode',
+      _$RuleExecutionModeEnumMap[instance.ruleExecutionMode]);
+  return val;
+}
+
+const _$RuleExecutionModeEnumMap = {
+  RuleExecutionMode.allMatched: 'ALL_MATCHED',
+  RuleExecutionMode.firstMatched: 'FIRST_MATCHED',
+};
 
 CreateDetectorVersionResult _$CreateDetectorVersionResultFromJson(
     Map<String, dynamic> json) {
@@ -98,6 +153,26 @@ const _$DetectorVersionStatusEnumMap = {
   DetectorVersionStatus.inactive: 'INACTIVE',
 };
 
+Map<String, dynamic> _$CreateModelVersionRequestToJson(
+    CreateModelVersionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('modelId', instance.modelId);
+  writeNotNull('modelType', _$ModelTypeEnumEnumMap[instance.modelType]);
+  writeNotNull('description', instance.description);
+  return val;
+}
+
+const _$ModelTypeEnumEnumMap = {
+  ModelTypeEnum.onlineFraudInsights: 'ONLINE_FRAUD_INSIGHTS',
+};
+
 CreateModelVersionResult _$CreateModelVersionResultFromJson(
     Map<String, dynamic> json) {
   return CreateModelVersionResult(
@@ -108,8 +183,26 @@ CreateModelVersionResult _$CreateModelVersionResultFromJson(
   );
 }
 
-const _$ModelTypeEnumEnumMap = {
-  ModelTypeEnum.onlineFraudInsights: 'ONLINE_FRAUD_INSIGHTS',
+Map<String, dynamic> _$CreateRuleRequestToJson(CreateRuleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('detectorId', instance.detectorId);
+  writeNotNull('expression', instance.expression);
+  writeNotNull('language', _$LanguageEnumMap[instance.language]);
+  writeNotNull('outcomes', instance.outcomes);
+  writeNotNull('ruleId', instance.ruleId);
+  writeNotNull('description', instance.description);
+  return val;
+}
+
+const _$LanguageEnumMap = {
+  Language.detectorpl: 'DETECTORPL',
 };
 
 CreateRuleResult _$CreateRuleResultFromJson(Map<String, dynamic> json) {
@@ -120,12 +213,73 @@ CreateRuleResult _$CreateRuleResultFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateVariableRequestToJson(
+    CreateVariableRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('dataSource', _$DataSourceEnumMap[instance.dataSource]);
+  writeNotNull('dataType', _$DataTypeEnumMap[instance.dataType]);
+  writeNotNull('defaultValue', instance.defaultValue);
+  writeNotNull('name', instance.name);
+  writeNotNull('description', instance.description);
+  writeNotNull('variableType', instance.variableType);
+  return val;
+}
+
+const _$DataSourceEnumMap = {
+  DataSource.event: 'EVENT',
+  DataSource.modelScore: 'MODEL_SCORE',
+  DataSource.externalModelScore: 'EXTERNAL_MODEL_SCORE',
+};
+
+const _$DataTypeEnumMap = {
+  DataType.string: 'STRING',
+  DataType.integer: 'INTEGER',
+  DataType.float: 'FLOAT',
+  DataType.boolean: 'BOOLEAN',
+};
+
 CreateVariableResult _$CreateVariableResultFromJson(Map<String, dynamic> json) {
   return CreateVariableResult();
 }
 
+Map<String, dynamic> _$DeleteDetectorRequestToJson(
+    DeleteDetectorRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('detectorId', instance.detectorId);
+  return val;
+}
+
 DeleteDetectorResult _$DeleteDetectorResultFromJson(Map<String, dynamic> json) {
   return DeleteDetectorResult();
+}
+
+Map<String, dynamic> _$DeleteDetectorVersionRequestToJson(
+    DeleteDetectorVersionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('detectorId', instance.detectorId);
+  writeNotNull('detectorVersionId', instance.detectorVersionId);
+  return val;
 }
 
 DeleteDetectorVersionResult _$DeleteDetectorVersionResultFromJson(
@@ -133,13 +287,58 @@ DeleteDetectorVersionResult _$DeleteDetectorVersionResultFromJson(
   return DeleteDetectorVersionResult();
 }
 
+Map<String, dynamic> _$DeleteEventRequestToJson(DeleteEventRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('eventId', instance.eventId);
+  return val;
+}
+
 DeleteEventResult _$DeleteEventResultFromJson(Map<String, dynamic> json) {
   return DeleteEventResult();
+}
+
+Map<String, dynamic> _$DeleteRuleVersionRequestToJson(
+    DeleteRuleVersionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('detectorId', instance.detectorId);
+  writeNotNull('ruleId', instance.ruleId);
+  writeNotNull('ruleVersion', instance.ruleVersion);
+  return val;
 }
 
 DeleteRuleVersionResult _$DeleteRuleVersionResultFromJson(
     Map<String, dynamic> json) {
   return DeleteRuleVersionResult();
+}
+
+Map<String, dynamic> _$DescribeDetectorRequestToJson(
+    DescribeDetectorRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('detectorId', instance.detectorId);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 DescribeDetectorResult _$DescribeDetectorResultFromJson(
@@ -153,6 +352,24 @@ DescribeDetectorResult _$DescribeDetectorResultFromJson(
         ?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeModelVersionsRequestToJson(
+    DescribeModelVersionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('modelId', instance.modelId);
+  writeNotNull('modelType', _$ModelTypeEnumEnumMap[instance.modelType]);
+  writeNotNull('modelVersionNumber', instance.modelVersionNumber);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 DescribeModelVersionsResult _$DescribeModelVersionsResultFromJson(
@@ -219,6 +436,21 @@ const _$ModelSourceEnumMap = {
   ModelSource.sagemaker: 'SAGEMAKER',
 };
 
+Map<String, dynamic> _$GetDetectorVersionRequestToJson(
+    GetDetectorVersionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('detectorId', instance.detectorId);
+  writeNotNull('detectorVersionId', instance.detectorVersionId);
+  return val;
+}
+
 GetDetectorVersionResult _$GetDetectorVersionResultFromJson(
     Map<String, dynamic> json) {
   return GetDetectorVersionResult(
@@ -245,10 +477,20 @@ GetDetectorVersionResult _$GetDetectorVersionResultFromJson(
   );
 }
 
-const _$RuleExecutionModeEnumMap = {
-  RuleExecutionMode.allMatched: 'ALL_MATCHED',
-  RuleExecutionMode.firstMatched: 'FIRST_MATCHED',
-};
+Map<String, dynamic> _$GetDetectorsRequestToJson(GetDetectorsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('detectorId', instance.detectorId);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
 
 GetDetectorsResult _$GetDetectorsResultFromJson(Map<String, dynamic> json) {
   return GetDetectorsResult(
@@ -258,6 +500,22 @@ GetDetectorsResult _$GetDetectorsResultFromJson(Map<String, dynamic> json) {
         ?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$GetExternalModelsRequestToJson(
+    GetExternalModelsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('modelEndpoint', instance.modelEndpoint);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 GetExternalModelsResult _$GetExternalModelsResultFromJson(
@@ -272,6 +530,22 @@ GetExternalModelsResult _$GetExternalModelsResultFromJson(
   );
 }
 
+Map<String, dynamic> _$GetModelVersionRequestToJson(
+    GetModelVersionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('modelId', instance.modelId);
+  writeNotNull('modelType', _$ModelTypeEnumEnumMap[instance.modelType]);
+  writeNotNull('modelVersionNumber', instance.modelVersionNumber);
+  return val;
+}
+
 GetModelVersionResult _$GetModelVersionResultFromJson(
     Map<String, dynamic> json) {
   return GetModelVersionResult(
@@ -281,6 +555,22 @@ GetModelVersionResult _$GetModelVersionResultFromJson(
     modelVersionNumber: json['modelVersionNumber'] as String,
     status: json['status'] as String,
   );
+}
+
+Map<String, dynamic> _$GetModelsRequestToJson(GetModelsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('modelId', instance.modelId);
+  writeNotNull('modelType', _$ModelTypeEnumEnumMap[instance.modelType]);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 GetModelsResult _$GetModelsResultFromJson(Map<String, dynamic> json) {
@@ -293,6 +583,21 @@ GetModelsResult _$GetModelsResultFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetOutcomesRequestToJson(GetOutcomesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('name', instance.name);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 GetOutcomesResult _$GetOutcomesResultFromJson(Map<String, dynamic> json) {
   return GetOutcomesResult(
     nextToken: json['nextToken'] as String,
@@ -301,6 +606,27 @@ GetOutcomesResult _$GetOutcomesResultFromJson(Map<String, dynamic> json) {
             e == null ? null : Outcome.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$GetPredictionRequestToJson(
+    GetPredictionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('detectorId', instance.detectorId);
+  writeNotNull('eventId', instance.eventId);
+  writeNotNull('detectorVersionId', instance.detectorVersionId);
+  writeNotNull('eventAttributes', instance.eventAttributes);
+  writeNotNull(
+      'externalModelEndpointDataBlobs',
+      instance.externalModelEndpointDataBlobs
+          ?.map((k, e) => MapEntry(k, e?.toJson())));
+  return val;
 }
 
 GetPredictionResult _$GetPredictionResultFromJson(Map<String, dynamic> json) {
@@ -317,6 +643,23 @@ GetPredictionResult _$GetPredictionResultFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetRulesRequestToJson(GetRulesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('detectorId', instance.detectorId);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('ruleId', instance.ruleId);
+  writeNotNull('ruleVersion', instance.ruleVersion);
+  return val;
+}
+
 GetRulesResult _$GetRulesResultFromJson(Map<String, dynamic> json) {
   return GetRulesResult(
     nextToken: json['nextToken'] as String,
@@ -325,6 +668,21 @@ GetRulesResult _$GetRulesResultFromJson(Map<String, dynamic> json) {
             e == null ? null : RuleDetail.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$GetVariablesRequestToJson(GetVariablesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('name', instance.name);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 GetVariablesResult _$GetVariablesResultFromJson(Map<String, dynamic> json) {
@@ -561,8 +919,42 @@ Outcome _$OutcomeFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$PutDetectorRequestToJson(PutDetectorRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('detectorId', instance.detectorId);
+  writeNotNull('description', instance.description);
+  return val;
+}
+
 PutDetectorResult _$PutDetectorResultFromJson(Map<String, dynamic> json) {
   return PutDetectorResult();
+}
+
+Map<String, dynamic> _$PutExternalModelRequestToJson(
+    PutExternalModelRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('inputConfiguration', instance.inputConfiguration?.toJson());
+  writeNotNull('modelEndpoint', instance.modelEndpoint);
+  writeNotNull('modelEndpointStatus',
+      _$ModelEndpointStatusEnumMap[instance.modelEndpointStatus]);
+  writeNotNull('modelSource', _$ModelSourceEnumMap[instance.modelSource]);
+  writeNotNull('outputConfiguration', instance.outputConfiguration?.toJson());
+  writeNotNull('role', instance.role?.toJson());
+  return val;
 }
 
 PutExternalModelResult _$PutExternalModelResultFromJson(
@@ -570,8 +962,41 @@ PutExternalModelResult _$PutExternalModelResultFromJson(
   return PutExternalModelResult();
 }
 
+Map<String, dynamic> _$PutModelRequestToJson(PutModelRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('labelSchema', instance.labelSchema?.toJson());
+  writeNotNull('modelId', instance.modelId);
+  writeNotNull('modelType', _$ModelTypeEnumEnumMap[instance.modelType]);
+  writeNotNull('modelVariables',
+      instance.modelVariables?.map((e) => e?.toJson())?.toList());
+  writeNotNull('trainingDataSource', instance.trainingDataSource?.toJson());
+  writeNotNull('description', instance.description);
+  return val;
+}
+
 PutModelResult _$PutModelResultFromJson(Map<String, dynamic> json) {
   return PutModelResult();
+}
+
+Map<String, dynamic> _$PutOutcomeRequestToJson(PutOutcomeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('description', instance.description);
+  return val;
 }
 
 PutOutcomeResult _$PutOutcomeResultFromJson(Map<String, dynamic> json) {
@@ -636,10 +1061,6 @@ RuleDetail _$RuleDetailFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$LanguageEnumMap = {
-  Language.detectorpl: 'DETECTORPL',
-};
-
 RuleResult _$RuleResultFromJson(Map<String, dynamic> json) {
   return RuleResult(
     outcomes: (json['outcomes'] as List)?.map((e) => e as String)?.toList(),
@@ -668,9 +1089,47 @@ Map<String, dynamic> _$TrainingDataSourceToJson(TrainingDataSource instance) {
   return val;
 }
 
+Map<String, dynamic> _$UpdateDetectorVersionMetadataRequestToJson(
+    UpdateDetectorVersionMetadataRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('description', instance.description);
+  writeNotNull('detectorId', instance.detectorId);
+  writeNotNull('detectorVersionId', instance.detectorVersionId);
+  return val;
+}
+
 UpdateDetectorVersionMetadataResult
     _$UpdateDetectorVersionMetadataResultFromJson(Map<String, dynamic> json) {
   return UpdateDetectorVersionMetadataResult();
+}
+
+Map<String, dynamic> _$UpdateDetectorVersionRequestToJson(
+    UpdateDetectorVersionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('detectorId', instance.detectorId);
+  writeNotNull('detectorVersionId', instance.detectorVersionId);
+  writeNotNull('externalModelEndpoints', instance.externalModelEndpoints);
+  writeNotNull('rules', instance.rules?.map((e) => e?.toJson())?.toList());
+  writeNotNull('description', instance.description);
+  writeNotNull('modelVersions',
+      instance.modelVersions?.map((e) => e?.toJson())?.toList());
+  writeNotNull('ruleExecutionMode',
+      _$RuleExecutionModeEnumMap[instance.ruleExecutionMode]);
+  return val;
 }
 
 UpdateDetectorVersionResult _$UpdateDetectorVersionResultFromJson(
@@ -678,19 +1137,97 @@ UpdateDetectorVersionResult _$UpdateDetectorVersionResultFromJson(
   return UpdateDetectorVersionResult();
 }
 
+Map<String, dynamic> _$UpdateDetectorVersionStatusRequestToJson(
+    UpdateDetectorVersionStatusRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('detectorId', instance.detectorId);
+  writeNotNull('detectorVersionId', instance.detectorVersionId);
+  writeNotNull('status', _$DetectorVersionStatusEnumMap[instance.status]);
+  return val;
+}
+
 UpdateDetectorVersionStatusResult _$UpdateDetectorVersionStatusResultFromJson(
     Map<String, dynamic> json) {
   return UpdateDetectorVersionStatusResult();
 }
+
+Map<String, dynamic> _$UpdateModelVersionRequestToJson(
+    UpdateModelVersionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('description', instance.description);
+  writeNotNull('modelId', instance.modelId);
+  writeNotNull('modelType', _$ModelTypeEnumEnumMap[instance.modelType]);
+  writeNotNull('modelVersionNumber', instance.modelVersionNumber);
+  writeNotNull('status', _$ModelVersionStatusEnumMap[instance.status]);
+  return val;
+}
+
+const _$ModelVersionStatusEnumMap = {
+  ModelVersionStatus.trainingInProgress: 'TRAINING_IN_PROGRESS',
+  ModelVersionStatus.trainingComplete: 'TRAINING_COMPLETE',
+  ModelVersionStatus.activateRequested: 'ACTIVATE_REQUESTED',
+  ModelVersionStatus.activateInProgress: 'ACTIVATE_IN_PROGRESS',
+  ModelVersionStatus.active: 'ACTIVE',
+  ModelVersionStatus.inactivateInProgress: 'INACTIVATE_IN_PROGRESS',
+  ModelVersionStatus.inactive: 'INACTIVE',
+  ModelVersionStatus.error: 'ERROR',
+};
 
 UpdateModelVersionResult _$UpdateModelVersionResultFromJson(
     Map<String, dynamic> json) {
   return UpdateModelVersionResult();
 }
 
+Map<String, dynamic> _$UpdateRuleMetadataRequestToJson(
+    UpdateRuleMetadataRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('description', instance.description);
+  writeNotNull('rule', instance.rule?.toJson());
+  return val;
+}
+
 UpdateRuleMetadataResult _$UpdateRuleMetadataResultFromJson(
     Map<String, dynamic> json) {
   return UpdateRuleMetadataResult();
+}
+
+Map<String, dynamic> _$UpdateRuleVersionRequestToJson(
+    UpdateRuleVersionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('expression', instance.expression);
+  writeNotNull('language', _$LanguageEnumMap[instance.language]);
+  writeNotNull('outcomes', instance.outcomes);
+  writeNotNull('rule', instance.rule?.toJson());
+  writeNotNull('description', instance.description);
+  return val;
 }
 
 UpdateRuleVersionResult _$UpdateRuleVersionResultFromJson(
@@ -700,6 +1237,23 @@ UpdateRuleVersionResult _$UpdateRuleVersionResultFromJson(
         ? null
         : Rule.fromJson(json['rule'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateVariableRequestToJson(
+    UpdateVariableRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('defaultValue', instance.defaultValue);
+  writeNotNull('description', instance.description);
+  writeNotNull('variableType', instance.variableType);
+  return val;
 }
 
 UpdateVariableResult _$UpdateVariableResultFromJson(Map<String, dynamic> json) {
@@ -718,19 +1272,6 @@ Variable _$VariableFromJson(Map<String, dynamic> json) {
     variableType: json['variableType'] as String,
   );
 }
-
-const _$DataSourceEnumMap = {
-  DataSource.event: 'EVENT',
-  DataSource.modelScore: 'MODEL_SCORE',
-  DataSource.externalModelScore: 'EXTERNAL_MODEL_SCORE',
-};
-
-const _$DataTypeEnumMap = {
-  DataType.string: 'STRING',
-  DataType.integer: 'INTEGER',
-  DataType.float: 'FLOAT',
-  DataType.boolean: 'BOOLEAN',
-};
 
 Map<String, dynamic> _$VariableEntryToJson(VariableEntry instance) {
   final val = <String, dynamic>{};

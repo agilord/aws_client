@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -147,10 +146,10 @@ class CloudWatchLogs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'kmsKeyId': kmsKeyId,
-        'logGroupName': logGroupName,
-      },
+      payload: AssociateKmsKeyRequest(
+        kmsKeyId: kmsKeyId,
+        logGroupName: logGroupName,
+      ),
     );
   }
 
@@ -187,9 +186,9 @@ class CloudWatchLogs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'taskId': taskId,
-      },
+      payload: CancelExportTaskRequest(
+        taskId: taskId,
+      ),
     );
   }
 
@@ -319,16 +318,15 @@ class CloudWatchLogs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'destination': destination,
-        'from': from,
-        'logGroupName': logGroupName,
-        'to': to,
-        if (destinationPrefix != null) 'destinationPrefix': destinationPrefix,
-        if (logStreamNamePrefix != null)
-          'logStreamNamePrefix': logStreamNamePrefix,
-        if (taskName != null) 'taskName': taskName,
-      },
+      payload: CreateExportTaskRequest(
+        destination: destination,
+        from: from,
+        logGroupName: logGroupName,
+        to: to,
+        destinationPrefix: destinationPrefix,
+        logStreamNamePrefix: logStreamNamePrefix,
+        taskName: taskName,
+      ),
     );
 
     return CreateExportTaskResponse.fromJson(jsonResponse.body);
@@ -422,11 +420,11 @@ class CloudWatchLogs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'logGroupName': logGroupName,
-        if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
-        if (tags != null) 'tags': tags,
-      },
+      payload: CreateLogGroupRequest(
+        logGroupName: logGroupName,
+        kmsKeyId: kmsKeyId,
+        tags: tags,
+      ),
     );
   }
 
@@ -502,10 +500,10 @@ class CloudWatchLogs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'logGroupName': logGroupName,
-        'logStreamName': logStreamName,
-      },
+      payload: CreateLogStreamRequest(
+        logGroupName: logGroupName,
+        logStreamName: logStreamName,
+      ),
     );
   }
 
@@ -547,9 +545,9 @@ class CloudWatchLogs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'destinationName': destinationName,
-      },
+      payload: DeleteDestinationRequest(
+        destinationName: destinationName,
+      ),
     );
   }
 
@@ -590,9 +588,9 @@ class CloudWatchLogs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'logGroupName': logGroupName,
-      },
+      payload: DeleteLogGroupRequest(
+        logGroupName: logGroupName,
+      ),
     );
   }
 
@@ -651,10 +649,10 @@ class CloudWatchLogs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'logGroupName': logGroupName,
-        'logStreamName': logStreamName,
-      },
+      payload: DeleteLogStreamRequest(
+        logGroupName: logGroupName,
+        logStreamName: logStreamName,
+      ),
     );
   }
 
@@ -712,10 +710,10 @@ class CloudWatchLogs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'filterName': filterName,
-        'logGroupName': logGroupName,
-      },
+      payload: DeleteMetricFilterRequest(
+        filterName: filterName,
+        logGroupName: logGroupName,
+      ),
     );
   }
 
@@ -741,9 +739,9 @@ class CloudWatchLogs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (policyName != null) 'policyName': policyName,
-      },
+      payload: DeleteResourcePolicyRequest(
+        policyName: policyName,
+      ),
     );
   }
 
@@ -786,9 +784,9 @@ class CloudWatchLogs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'logGroupName': logGroupName,
-      },
+      payload: DeleteRetentionPolicyRequest(
+        logGroupName: logGroupName,
+      ),
     );
   }
 
@@ -846,10 +844,10 @@ class CloudWatchLogs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'filterName': filterName,
-        'logGroupName': logGroupName,
-      },
+      payload: DeleteSubscriptionFilterRequest(
+        filterName: filterName,
+        logGroupName: logGroupName,
+      ),
     );
   }
 
@@ -908,12 +906,11 @@ class CloudWatchLogs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (destinationNamePrefix != null)
-          'DestinationNamePrefix': destinationNamePrefix,
-        if (limit != null) 'limit': limit,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: DescribeDestinationsRequest(
+        destinationNamePrefix: destinationNamePrefix,
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeDestinationsResponse.fromJson(jsonResponse.body);
@@ -974,12 +971,12 @@ class CloudWatchLogs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (limit != null) 'limit': limit,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (statusCode != null) 'statusCode': statusCode?.toValue(),
-        if (taskId != null) 'taskId': taskId,
-      },
+      payload: DescribeExportTasksRequest(
+        limit: limit,
+        nextToken: nextToken,
+        statusCode: statusCode,
+        taskId: taskId,
+      ),
     );
 
     return DescribeExportTasksResponse.fromJson(jsonResponse.body);
@@ -1039,12 +1036,11 @@ class CloudWatchLogs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (limit != null) 'limit': limit,
-        if (logGroupNamePrefix != null)
-          'logGroupNamePrefix': logGroupNamePrefix,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: DescribeLogGroupsRequest(
+        limit: limit,
+        logGroupNamePrefix: logGroupNamePrefix,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeLogGroupsResponse.fromJson(jsonResponse.body);
@@ -1152,15 +1148,14 @@ class CloudWatchLogs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'logGroupName': logGroupName,
-        if (descending != null) 'descending': descending,
-        if (limit != null) 'limit': limit,
-        if (logStreamNamePrefix != null)
-          'logStreamNamePrefix': logStreamNamePrefix,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (orderBy != null) 'orderBy': orderBy?.toValue(),
-      },
+      payload: DescribeLogStreamsRequest(
+        logGroupName: logGroupName,
+        descending: descending,
+        limit: limit,
+        logStreamNamePrefix: logStreamNamePrefix,
+        nextToken: nextToken,
+        orderBy: orderBy,
+      ),
     );
 
     return DescribeLogStreamsResponse.fromJson(jsonResponse.body);
@@ -1271,14 +1266,14 @@ class CloudWatchLogs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filterNamePrefix != null) 'filterNamePrefix': filterNamePrefix,
-        if (limit != null) 'limit': limit,
-        if (logGroupName != null) 'logGroupName': logGroupName,
-        if (metricName != null) 'metricName': metricName,
-        if (metricNamespace != null) 'metricNamespace': metricNamespace,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: DescribeMetricFiltersRequest(
+        filterNamePrefix: filterNamePrefix,
+        limit: limit,
+        logGroupName: logGroupName,
+        metricName: metricName,
+        metricNamespace: metricNamespace,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeMetricFiltersResponse.fromJson(jsonResponse.body);
@@ -1342,12 +1337,12 @@ class CloudWatchLogs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (logGroupName != null) 'logGroupName': logGroupName,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (status != null) 'status': status?.toValue(),
-      },
+      payload: DescribeQueriesRequest(
+        logGroupName: logGroupName,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        status: status,
+      ),
     );
 
     return DescribeQueriesResponse.fromJson(jsonResponse.body);
@@ -1387,10 +1382,10 @@ class CloudWatchLogs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (limit != null) 'limit': limit,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: DescribeResourcePoliciesRequest(
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeResourcePoliciesResponse.fromJson(jsonResponse.body);
@@ -1471,12 +1466,12 @@ class CloudWatchLogs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'logGroupName': logGroupName,
-        if (filterNamePrefix != null) 'filterNamePrefix': filterNamePrefix,
-        if (limit != null) 'limit': limit,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: DescribeSubscriptionFiltersRequest(
+        logGroupName: logGroupName,
+        filterNamePrefix: filterNamePrefix,
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeSubscriptionFiltersResponse.fromJson(jsonResponse.body);
@@ -1526,9 +1521,9 @@ class CloudWatchLogs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'logGroupName': logGroupName,
-      },
+      payload: DisassociateKmsKeyRequest(
+        logGroupName: logGroupName,
+      ),
     );
   }
 
@@ -1677,18 +1672,17 @@ class CloudWatchLogs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'logGroupName': logGroupName,
-        if (endTime != null) 'endTime': endTime,
-        if (filterPattern != null) 'filterPattern': filterPattern,
-        if (interleaved != null) 'interleaved': interleaved,
-        if (limit != null) 'limit': limit,
-        if (logStreamNamePrefix != null)
-          'logStreamNamePrefix': logStreamNamePrefix,
-        if (logStreamNames != null) 'logStreamNames': logStreamNames,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (startTime != null) 'startTime': startTime,
-      },
+      payload: FilterLogEventsRequest(
+        logGroupName: logGroupName,
+        endTime: endTime,
+        filterPattern: filterPattern,
+        interleaved: interleaved,
+        limit: limit,
+        logStreamNamePrefix: logStreamNamePrefix,
+        logStreamNames: logStreamNames,
+        nextToken: nextToken,
+        startTime: startTime,
+      ),
     );
 
     return FilterLogEventsResponse.fromJson(jsonResponse.body);
@@ -1812,15 +1806,15 @@ class CloudWatchLogs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'logGroupName': logGroupName,
-        'logStreamName': logStreamName,
-        if (endTime != null) 'endTime': endTime,
-        if (limit != null) 'limit': limit,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (startFromHead != null) 'startFromHead': startFromHead,
-        if (startTime != null) 'startTime': startTime,
-      },
+      payload: GetLogEventsRequest(
+        logGroupName: logGroupName,
+        logStreamName: logStreamName,
+        endTime: endTime,
+        limit: limit,
+        nextToken: nextToken,
+        startFromHead: startFromHead,
+        startTime: startTime,
+      ),
     );
 
     return GetLogEventsResponse.fromJson(jsonResponse.body);
@@ -1886,10 +1880,10 @@ class CloudWatchLogs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'logGroupName': logGroupName,
-        if (time != null) 'time': time,
-      },
+      payload: GetLogGroupFieldsRequest(
+        logGroupName: logGroupName,
+        time: time,
+      ),
     );
 
     return GetLogGroupFieldsResponse.fromJson(jsonResponse.body);
@@ -1928,9 +1922,9 @@ class CloudWatchLogs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'logRecordPointer': logRecordPointer,
-      },
+      payload: GetLogRecordRequest(
+        logRecordPointer: logRecordPointer,
+      ),
     );
 
     return GetLogRecordResponse.fromJson(jsonResponse.body);
@@ -1978,9 +1972,9 @@ class CloudWatchLogs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'queryId': queryId,
-      },
+      payload: GetQueryResultsRequest(
+        queryId: queryId,
+      ),
     );
 
     return GetQueryResultsResponse.fromJson(jsonResponse.body);
@@ -2020,9 +2014,9 @@ class CloudWatchLogs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'logGroupName': logGroupName,
-      },
+      payload: ListTagsLogGroupRequest(
+        logGroupName: logGroupName,
+      ),
     );
 
     return ListTagsLogGroupResponse.fromJson(jsonResponse.body);
@@ -2101,11 +2095,11 @@ class CloudWatchLogs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'destinationName': destinationName,
-        'roleArn': roleArn,
-        'targetArn': targetArn,
-      },
+      payload: PutDestinationRequest(
+        destinationName: destinationName,
+        roleArn: roleArn,
+        targetArn: targetArn,
+      ),
     );
 
     return PutDestinationResponse.fromJson(jsonResponse.body);
@@ -2163,10 +2157,10 @@ class CloudWatchLogs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'accessPolicy': accessPolicy,
-        'destinationName': destinationName,
-      },
+      payload: PutDestinationPolicyRequest(
+        accessPolicy: accessPolicy,
+        destinationName: destinationName,
+      ),
     );
   }
 
@@ -2293,12 +2287,12 @@ class CloudWatchLogs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'logEvents': logEvents,
-        'logGroupName': logGroupName,
-        'logStreamName': logStreamName,
-        if (sequenceToken != null) 'sequenceToken': sequenceToken,
-      },
+      payload: PutLogEventsRequest(
+        logEvents: logEvents,
+        logGroupName: logGroupName,
+        logStreamName: logStreamName,
+        sequenceToken: sequenceToken,
+      ),
     );
 
     return PutLogEventsResponse.fromJson(jsonResponse.body);
@@ -2381,12 +2375,12 @@ class CloudWatchLogs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'filterName': filterName,
-        'filterPattern': filterPattern,
-        'logGroupName': logGroupName,
-        'metricTransformations': metricTransformations,
-      },
+      payload: PutMetricFilterRequest(
+        filterName: filterName,
+        filterPattern: filterPattern,
+        logGroupName: logGroupName,
+        metricTransformations: metricTransformations,
+      ),
     );
   }
 
@@ -2435,10 +2429,10 @@ class CloudWatchLogs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (policyDocument != null) 'policyDocument': policyDocument,
-        if (policyName != null) 'policyName': policyName,
-      },
+      payload: PutResourcePolicyRequest(
+        policyDocument: policyDocument,
+        policyName: policyName,
+      ),
     );
 
     return PutResourcePolicyResponse.fromJson(jsonResponse.body);
@@ -2484,10 +2478,10 @@ class CloudWatchLogs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'logGroupName': logGroupName,
-        'retentionInDays': retentionInDays,
-      },
+      payload: PutRetentionPolicyRequest(
+        logGroupName: logGroupName,
+        retentionInDays: retentionInDays,
+      ),
     );
   }
 
@@ -2641,14 +2635,14 @@ class CloudWatchLogs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'destinationArn': destinationArn,
-        'filterName': filterName,
-        'filterPattern': filterPattern,
-        'logGroupName': logGroupName,
-        if (distribution != null) 'distribution': distribution?.toValue(),
-        if (roleArn != null) 'roleArn': roleArn,
-      },
+      payload: PutSubscriptionFilterRequest(
+        destinationArn: destinationArn,
+        filterName: filterName,
+        filterPattern: filterPattern,
+        logGroupName: logGroupName,
+        distribution: distribution,
+        roleArn: roleArn,
+      ),
     );
   }
 
@@ -2762,14 +2756,14 @@ class CloudWatchLogs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'endTime': endTime,
-        'queryString': queryString,
-        'startTime': startTime,
-        if (limit != null) 'limit': limit,
-        if (logGroupName != null) 'logGroupName': logGroupName,
-        if (logGroupNames != null) 'logGroupNames': logGroupNames,
-      },
+      payload: StartQueryRequest(
+        endTime: endTime,
+        queryString: queryString,
+        startTime: startTime,
+        limit: limit,
+        logGroupName: logGroupName,
+        logGroupNames: logGroupNames,
+      ),
     );
 
     return StartQueryResponse.fromJson(jsonResponse.body);
@@ -2807,9 +2801,9 @@ class CloudWatchLogs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'queryId': queryId,
-      },
+      payload: StopQueryRequest(
+        queryId: queryId,
+      ),
     );
 
     return StopQueryResponse.fromJson(jsonResponse.body);
@@ -2862,10 +2856,10 @@ class CloudWatchLogs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'logGroupName': logGroupName,
-        'tags': tags,
-      },
+      payload: TagLogGroupRequest(
+        logGroupName: logGroupName,
+        tags: tags,
+      ),
     );
   }
 
@@ -2901,10 +2895,10 @@ class CloudWatchLogs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'filterPattern': filterPattern,
-        'logEventMessages': logEventMessages,
-      },
+      payload: TestMetricFilterRequest(
+        filterPattern: filterPattern,
+        logEventMessages: logEventMessages,
+      ),
     );
 
     return TestMetricFilterResponse.fromJson(jsonResponse.body);
@@ -2951,12 +2945,107 @@ class CloudWatchLogs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'logGroupName': logGroupName,
-        'tags': tags,
-      },
+      payload: UntagLogGroupRequest(
+        logGroupName: logGroupName,
+        tags: tags,
+      ),
     );
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateKmsKeyRequest {
+  /// The Amazon Resource Name (ARN) of the CMK to use when encrypting log data.
+  /// This must be a symmetric CMK. For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kms">Amazon
+  /// Resource Names - AWS Key Management Service (AWS KMS)</a> and <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html">Using
+  /// Symmetric and Asymmetric Keys</a>.
+  @_s.JsonKey(name: 'kmsKeyId')
+  final String kmsKeyId;
+
+  /// The name of the log group.
+  @_s.JsonKey(name: 'logGroupName')
+  final String logGroupName;
+
+  AssociateKmsKeyRequest({
+    @_s.required this.kmsKeyId,
+    @_s.required this.logGroupName,
+  });
+  Map<String, dynamic> toJson() => _$AssociateKmsKeyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CancelExportTaskRequest {
+  /// The ID of the export task.
+  @_s.JsonKey(name: 'taskId')
+  final String taskId;
+
+  CancelExportTaskRequest({
+    @_s.required this.taskId,
+  });
+  Map<String, dynamic> toJson() => _$CancelExportTaskRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateExportTaskRequest {
+  /// The name of S3 bucket for the exported log data. The bucket must be in the
+  /// same AWS region.
+  @_s.JsonKey(name: 'destination')
+  final String destination;
+
+  /// The start time of the range for the request, expressed as the number of
+  /// milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp earlier
+  /// than this time are not exported.
+  @_s.JsonKey(name: 'from')
+  final int from;
+
+  /// The name of the log group.
+  @_s.JsonKey(name: 'logGroupName')
+  final String logGroupName;
+
+  /// The end time of the range for the request, expressed as the number of
+  /// milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp later
+  /// than this time are not exported.
+  @_s.JsonKey(name: 'to')
+  final int to;
+
+  /// The prefix used as the start of the key for every object exported. If you
+  /// don't specify a value, the default is <code>exportedlogs</code>.
+  @_s.JsonKey(name: 'destinationPrefix')
+  final String destinationPrefix;
+
+  /// Export only log streams that match the provided prefix. If you don't specify
+  /// a value, no prefix filter is applied.
+  @_s.JsonKey(name: 'logStreamNamePrefix')
+  final String logStreamNamePrefix;
+
+  /// The name of the export task.
+  @_s.JsonKey(name: 'taskName')
+  final String taskName;
+
+  CreateExportTaskRequest({
+    @_s.required this.destination,
+    @_s.required this.from,
+    @_s.required this.logGroupName,
+    @_s.required this.to,
+    this.destinationPrefix,
+    this.logStreamNamePrefix,
+    this.taskName,
+  });
+  Map<String, dynamic> toJson() => _$CreateExportTaskRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2974,6 +3063,213 @@ class CreateExportTaskResponse {
   });
   factory CreateExportTaskResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateExportTaskResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateLogGroupRequest {
+  /// The name of the log group.
+  @_s.JsonKey(name: 'logGroupName')
+  final String logGroupName;
+
+  /// The Amazon Resource Name (ARN) of the CMK to use when encrypting log data.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kms">Amazon
+  /// Resource Names - AWS Key Management Service (AWS KMS)</a>.
+  @_s.JsonKey(name: 'kmsKeyId')
+  final String kmsKeyId;
+
+  /// The key-value pairs to use for the tags.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateLogGroupRequest({
+    @_s.required this.logGroupName,
+    this.kmsKeyId,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateLogGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateLogStreamRequest {
+  /// The name of the log group.
+  @_s.JsonKey(name: 'logGroupName')
+  final String logGroupName;
+
+  /// The name of the log stream.
+  @_s.JsonKey(name: 'logStreamName')
+  final String logStreamName;
+
+  CreateLogStreamRequest({
+    @_s.required this.logGroupName,
+    @_s.required this.logStreamName,
+  });
+  Map<String, dynamic> toJson() => _$CreateLogStreamRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDestinationRequest {
+  /// The name of the destination.
+  @_s.JsonKey(name: 'destinationName')
+  final String destinationName;
+
+  DeleteDestinationRequest({
+    @_s.required this.destinationName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDestinationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteLogGroupRequest {
+  /// The name of the log group.
+  @_s.JsonKey(name: 'logGroupName')
+  final String logGroupName;
+
+  DeleteLogGroupRequest({
+    @_s.required this.logGroupName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteLogGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteLogStreamRequest {
+  /// The name of the log group.
+  @_s.JsonKey(name: 'logGroupName')
+  final String logGroupName;
+
+  /// The name of the log stream.
+  @_s.JsonKey(name: 'logStreamName')
+  final String logStreamName;
+
+  DeleteLogStreamRequest({
+    @_s.required this.logGroupName,
+    @_s.required this.logStreamName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteLogStreamRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteMetricFilterRequest {
+  /// The name of the metric filter.
+  @_s.JsonKey(name: 'filterName')
+  final String filterName;
+
+  /// The name of the log group.
+  @_s.JsonKey(name: 'logGroupName')
+  final String logGroupName;
+
+  DeleteMetricFilterRequest({
+    @_s.required this.filterName,
+    @_s.required this.logGroupName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteMetricFilterRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteResourcePolicyRequest {
+  /// The name of the policy to be revoked. This parameter is required.
+  @_s.JsonKey(name: 'policyName')
+  final String policyName;
+
+  DeleteResourcePolicyRequest({
+    this.policyName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteResourcePolicyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteRetentionPolicyRequest {
+  /// The name of the log group.
+  @_s.JsonKey(name: 'logGroupName')
+  final String logGroupName;
+
+  DeleteRetentionPolicyRequest({
+    @_s.required this.logGroupName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteRetentionPolicyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteSubscriptionFilterRequest {
+  /// The name of the subscription filter.
+  @_s.JsonKey(name: 'filterName')
+  final String filterName;
+
+  /// The name of the log group.
+  @_s.JsonKey(name: 'logGroupName')
+  final String logGroupName;
+
+  DeleteSubscriptionFilterRequest({
+    @_s.required this.filterName,
+    @_s.required this.logGroupName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteSubscriptionFilterRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeDestinationsRequest {
+  /// The prefix to match. If you don't specify a value, no prefix filter is
+  /// applied.
+  @_s.JsonKey(name: 'DestinationNamePrefix')
+  final String destinationNamePrefix;
+
+  /// The maximum number of items returned. If you don't specify a value, the
+  /// default is up to 50 items.
+  @_s.JsonKey(name: 'limit')
+  final int limit;
+
+  /// The token for the next set of items to return. (You received this token from
+  /// a previous call.)
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  DescribeDestinationsRequest({
+    this.destinationNamePrefix,
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeDestinationsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2999,6 +3295,41 @@ class DescribeDestinationsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeExportTasksRequest {
+  /// The maximum number of items returned. If you don't specify a value, the
+  /// default is up to 50 items.
+  @_s.JsonKey(name: 'limit')
+  final int limit;
+
+  /// The token for the next set of items to return. (You received this token from
+  /// a previous call.)
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The status code of the export task. Specifying a status code filters the
+  /// results to zero or more export tasks.
+  @_s.JsonKey(name: 'statusCode')
+  final ExportTaskStatusCode statusCode;
+
+  /// The ID of the export task. Specifying a task ID filters the results to zero
+  /// or one export tasks.
+  @_s.JsonKey(name: 'taskId')
+  final String taskId;
+
+  DescribeExportTasksRequest({
+    this.limit,
+    this.nextToken,
+    this.statusCode,
+    this.taskId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeExportTasksRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeExportTasksResponse {
@@ -3014,6 +3345,34 @@ class DescribeExportTasksResponse {
   });
   factory DescribeExportTasksResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeExportTasksResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeLogGroupsRequest {
+  /// The maximum number of items returned. If you don't specify a value, the
+  /// default is up to 50 items.
+  @_s.JsonKey(name: 'limit')
+  final int limit;
+
+  /// The prefix to match.
+  @_s.JsonKey(name: 'logGroupNamePrefix')
+  final String logGroupNamePrefix;
+
+  /// The token for the next set of items to return. (You received this token from
+  /// a previous call.)
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  DescribeLogGroupsRequest({
+    this.limit,
+    this.logGroupNamePrefix,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeLogGroupsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3039,6 +3398,65 @@ class DescribeLogGroupsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeLogStreamsRequest {
+  /// The name of the log group.
+  @_s.JsonKey(name: 'logGroupName')
+  final String logGroupName;
+
+  /// If the value is true, results are returned in descending order. If the value
+  /// is to false, results are returned in ascending order. The default value is
+  /// false.
+  @_s.JsonKey(name: 'descending')
+  final bool descending;
+
+  /// The maximum number of items returned. If you don't specify a value, the
+  /// default is up to 50 items.
+  @_s.JsonKey(name: 'limit')
+  final int limit;
+
+  /// The prefix to match.
+  ///
+  /// If <code>orderBy</code> is <code>LastEventTime</code>,you cannot specify
+  /// this parameter.
+  @_s.JsonKey(name: 'logStreamNamePrefix')
+  final String logStreamNamePrefix;
+
+  /// The token for the next set of items to return. (You received this token from
+  /// a previous call.)
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// If the value is <code>LogStreamName</code>, the results are ordered by log
+  /// stream name. If the value is <code>LastEventTime</code>, the results are
+  /// ordered by the event time. The default value is <code>LogStreamName</code>.
+  ///
+  /// If you order the results by event time, you cannot specify the
+  /// <code>logStreamNamePrefix</code> parameter.
+  ///
+  /// lastEventTimestamp represents the time of the most recent log event in the
+  /// log stream in CloudWatch Logs. This number is expressed as the number of
+  /// milliseconds after Jan 1, 1970 00:00:00 UTC. lastEventTimeStamp updates on
+  /// an eventual consistency basis. It typically updates in less than an hour
+  /// from ingestion, but may take longer in some rare situations.
+  @_s.JsonKey(name: 'orderBy')
+  final OrderBy orderBy;
+
+  DescribeLogStreamsRequest({
+    @_s.required this.logGroupName,
+    this.descending,
+    this.limit,
+    this.logStreamNamePrefix,
+    this.nextToken,
+    this.orderBy,
+  });
+  Map<String, dynamic> toJson() => _$DescribeLogStreamsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeLogStreamsResponse {
@@ -3059,6 +3477,53 @@ class DescribeLogStreamsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeMetricFiltersRequest {
+  /// The prefix to match.
+  @_s.JsonKey(name: 'filterNamePrefix')
+  final String filterNamePrefix;
+
+  /// The maximum number of items returned. If you don't specify a value, the
+  /// default is up to 50 items.
+  @_s.JsonKey(name: 'limit')
+  final int limit;
+
+  /// The name of the log group.
+  @_s.JsonKey(name: 'logGroupName')
+  final String logGroupName;
+
+  /// Filters results to include only those with the specified metric name. If you
+  /// include this parameter in your request, you must also include the
+  /// <code>metricNamespace</code> parameter.
+  @_s.JsonKey(name: 'metricName')
+  final String metricName;
+
+  /// Filters results to include only those in the specified namespace. If you
+  /// include this parameter in your request, you must also include the
+  /// <code>metricName</code> parameter.
+  @_s.JsonKey(name: 'metricNamespace')
+  final String metricNamespace;
+
+  /// The token for the next set of items to return. (You received this token from
+  /// a previous call.)
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  DescribeMetricFiltersRequest({
+    this.filterNamePrefix,
+    this.limit,
+    this.logGroupName,
+    this.metricName,
+    this.metricNamespace,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeMetricFiltersRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeMetricFiltersResponse {
@@ -3074,6 +3539,37 @@ class DescribeMetricFiltersResponse {
   });
   factory DescribeMetricFiltersResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeMetricFiltersResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeQueriesRequest {
+  /// Limits the returned queries to only those for the specified log group.
+  @_s.JsonKey(name: 'logGroupName')
+  final String logGroupName;
+
+  /// Limits the number of returned queries to the specified number.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// Limits the returned queries to only those that have the specified status.
+  /// Valid values are <code>Cancelled</code>, <code>Complete</code>,
+  /// <code>Failed</code>, <code>Running</code>, and <code>Scheduled</code>.
+  @_s.JsonKey(name: 'status')
+  final QueryStatus status;
+
+  DescribeQueriesRequest({
+    this.logGroupName,
+    this.maxResults,
+    this.nextToken,
+    this.status,
+  });
+  Map<String, dynamic> toJson() => _$DescribeQueriesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3100,6 +3596,27 @@ class DescribeQueriesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeResourcePoliciesRequest {
+  /// The maximum number of resource policies to be displayed with one call of
+  /// this API.
+  @_s.JsonKey(name: 'limit')
+  final int limit;
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  DescribeResourcePoliciesRequest({
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeResourcePoliciesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeResourcePoliciesResponse {
@@ -3117,6 +3634,41 @@ class DescribeResourcePoliciesResponse {
   factory DescribeResourcePoliciesResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeResourcePoliciesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeSubscriptionFiltersRequest {
+  /// The name of the log group.
+  @_s.JsonKey(name: 'logGroupName')
+  final String logGroupName;
+
+  /// The prefix to match. If you don't specify a value, no prefix filter is
+  /// applied.
+  @_s.JsonKey(name: 'filterNamePrefix')
+  final String filterNamePrefix;
+
+  /// The maximum number of items returned. If you don't specify a value, the
+  /// default is up to 50 items.
+  @_s.JsonKey(name: 'limit')
+  final int limit;
+
+  /// The token for the next set of items to return. (You received this token from
+  /// a previous call.)
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  DescribeSubscriptionFiltersRequest({
+    @_s.required this.logGroupName,
+    this.filterNamePrefix,
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeSubscriptionFiltersRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3188,6 +3740,22 @@ class Destination {
       _$DestinationFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateKmsKeyRequest {
+  /// The name of the log group.
+  @_s.JsonKey(name: 'logGroupName')
+  final String logGroupName;
+
+  DisassociateKmsKeyRequest({
+    @_s.required this.logGroupName,
+  });
+  Map<String, dynamic> toJson() => _$DisassociateKmsKeyRequestToJson(this);
+}
+
 /// The method used to distribute log data to the destination, which can be
 /// either random or grouped by log stream.
 enum Distribution {
@@ -3195,18 +3763,6 @@ enum Distribution {
   random,
   @_s.JsonValue('ByLogStream')
   byLogStream,
-}
-
-extension on Distribution {
-  String toValue() {
-    switch (this) {
-      case Distribution.random:
-        return 'Random';
-      case Distribution.byLogStream:
-        return 'ByLogStream';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Represents an export task.
@@ -3333,24 +3889,88 @@ enum ExportTaskStatusCode {
   running,
 }
 
-extension on ExportTaskStatusCode {
-  String toValue() {
-    switch (this) {
-      case ExportTaskStatusCode.cancelled:
-        return 'CANCELLED';
-      case ExportTaskStatusCode.completed:
-        return 'COMPLETED';
-      case ExportTaskStatusCode.failed:
-        return 'FAILED';
-      case ExportTaskStatusCode.pending:
-        return 'PENDING';
-      case ExportTaskStatusCode.pendingCancel:
-        return 'PENDING_CANCEL';
-      case ExportTaskStatusCode.running:
-        return 'RUNNING';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class FilterLogEventsRequest {
+  /// The name of the log group to search.
+  @_s.JsonKey(name: 'logGroupName')
+  final String logGroupName;
+
+  /// The end of the time range, expressed as the number of milliseconds after Jan
+  /// 1, 1970 00:00:00 UTC. Events with a timestamp later than this time are not
+  /// returned.
+  @_s.JsonKey(name: 'endTime')
+  final int endTime;
+
+  /// The filter pattern to use. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html">Filter
+  /// and Pattern Syntax</a>.
+  ///
+  /// If not provided, all the events are matched.
+  @_s.JsonKey(name: 'filterPattern')
+  final String filterPattern;
+
+  /// If the value is true, the operation makes a best effort to provide responses
+  /// that contain events from multiple log streams within the log group,
+  /// interleaved in a single response. If the value is false, all the matched log
+  /// events in the first log stream are searched first, then those in the next
+  /// log stream, and so on. The default is false.
+  ///
+  /// <b>IMPORTANT:</b> Starting on June 17, 2019, this parameter will be ignored
+  /// and the value will be assumed to be true. The response from this operation
+  /// will always interleave events from multiple log streams within a log group.
+  @_s.JsonKey(name: 'interleaved')
+  final bool interleaved;
+
+  /// The maximum number of events to return. The default is 10,000 events.
+  @_s.JsonKey(name: 'limit')
+  final int limit;
+
+  /// Filters the results to include only events from log streams that have names
+  /// starting with this prefix.
+  ///
+  /// If you specify a value for both <code>logStreamNamePrefix</code> and
+  /// <code>logStreamNames</code>, but the value for
+  /// <code>logStreamNamePrefix</code> does not match any log stream names
+  /// specified in <code>logStreamNames</code>, the action returns an
+  /// <code>InvalidParameterException</code> error.
+  @_s.JsonKey(name: 'logStreamNamePrefix')
+  final String logStreamNamePrefix;
+
+  /// Filters the results to only logs from the log streams in this list.
+  ///
+  /// If you specify a value for both <code>logStreamNamePrefix</code> and
+  /// <code>logStreamNames</code>, the action returns an
+  /// <code>InvalidParameterException</code> error.
+  @_s.JsonKey(name: 'logStreamNames')
+  final List<String> logStreamNames;
+
+  /// The token for the next set of events to return. (You received this token
+  /// from a previous call.)
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The start of the time range, expressed as the number of milliseconds after
+  /// Jan 1, 1970 00:00:00 UTC. Events with a timestamp before this time are not
+  /// returned.
+  @_s.JsonKey(name: 'startTime')
+  final int startTime;
+
+  FilterLogEventsRequest({
+    @_s.required this.logGroupName,
+    this.endTime,
+    this.filterPattern,
+    this.interleaved,
+    this.limit,
+    this.logStreamNamePrefix,
+    this.logStreamNames,
+    this.nextToken,
+    this.startTime,
+  });
+  Map<String, dynamic> toJson() => _$FilterLogEventsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3425,6 +4045,68 @@ class FilteredLogEvent {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetLogEventsRequest {
+  /// The name of the log group.
+  @_s.JsonKey(name: 'logGroupName')
+  final String logGroupName;
+
+  /// The name of the log stream.
+  @_s.JsonKey(name: 'logStreamName')
+  final String logStreamName;
+
+  /// The end of the time range, expressed as the number of milliseconds after Jan
+  /// 1, 1970 00:00:00 UTC. Events with a timestamp equal to or later than this
+  /// time are not included.
+  @_s.JsonKey(name: 'endTime')
+  final int endTime;
+
+  /// The maximum number of log events returned. If you don't specify a value, the
+  /// maximum is as many log events as can fit in a response size of 1 MB, up to
+  /// 10,000 log events.
+  @_s.JsonKey(name: 'limit')
+  final int limit;
+
+  /// The token for the next set of items to return. (You received this token from
+  /// a previous call.)
+  ///
+  /// Using this token works only when you specify <code>true</code> for
+  /// <code>startFromHead</code>.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// If the value is true, the earliest log events are returned first. If the
+  /// value is false, the latest log events are returned first. The default value
+  /// is false.
+  ///
+  /// If you are using <code>nextToken</code> in this operation, you must specify
+  /// <code>true</code> for <code>startFromHead</code>.
+  @_s.JsonKey(name: 'startFromHead')
+  final bool startFromHead;
+
+  /// The start of the time range, expressed as the number of milliseconds after
+  /// Jan 1, 1970 00:00:00 UTC. Events with a timestamp equal to this time or
+  /// later than this time are included. Events with a timestamp earlier than this
+  /// time are not included.
+  @_s.JsonKey(name: 'startTime')
+  final int startTime;
+
+  GetLogEventsRequest({
+    @_s.required this.logGroupName,
+    @_s.required this.logStreamName,
+    this.endTime,
+    this.limit,
+    this.nextToken,
+    this.startFromHead,
+    this.startTime,
+  });
+  Map<String, dynamic> toJson() => _$GetLogEventsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetLogEventsResponse {
@@ -3456,6 +4138,32 @@ class GetLogEventsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetLogGroupFieldsRequest {
+  /// The name of the log group to search.
+  @_s.JsonKey(name: 'logGroupName')
+  final String logGroupName;
+
+  /// The time to set as the center of the query. If you specify
+  /// <code>time</code>, the 8 minutes before and 8 minutes after this time are
+  /// searched. If you omit <code>time</code>, the past 15 minutes are queried.
+  ///
+  /// The <code>time</code> value is specified as epoch time, the number of
+  /// seconds since January 1, 1970, 00:00:00 UTC.
+  @_s.JsonKey(name: 'time')
+  final int time;
+
+  GetLogGroupFieldsRequest({
+    @_s.required this.logGroupName,
+    this.time,
+  });
+  Map<String, dynamic> toJson() => _$GetLogGroupFieldsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetLogGroupFieldsResponse {
@@ -3475,6 +4183,26 @@ class GetLogGroupFieldsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetLogRecordRequest {
+  /// The pointer corresponding to the log event record you want to retrieve. You
+  /// get this from the response of a <code>GetQueryResults</code> operation. In
+  /// that response, the value of the <code>@ptr</code> field for a log event is
+  /// the value to use as <code>logRecordPointer</code> to retrieve that complete
+  /// log event record.
+  @_s.JsonKey(name: 'logRecordPointer')
+  final String logRecordPointer;
+
+  GetLogRecordRequest({
+    @_s.required this.logRecordPointer,
+  });
+  Map<String, dynamic> toJson() => _$GetLogRecordRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetLogRecordResponse {
@@ -3487,6 +4215,22 @@ class GetLogRecordResponse {
   });
   factory GetLogRecordResponse.fromJson(Map<String, dynamic> json) =>
       _$GetLogRecordResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetQueryResultsRequest {
+  /// The ID number of the query.
+  @_s.JsonKey(name: 'queryId')
+  final String queryId;
+
+  GetQueryResultsRequest({
+    @_s.required this.queryId,
+  });
+  Map<String, dynamic> toJson() => _$GetQueryResultsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3552,6 +4296,22 @@ class InputLogEvent {
     @_s.required this.timestamp,
   });
   Map<String, dynamic> toJson() => _$InputLogEventToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsLogGroupRequest {
+  /// The name of the log group.
+  @_s.JsonKey(name: 'logGroupName')
+  final String logGroupName;
+
+  ListTagsLogGroupRequest({
+    @_s.required this.logGroupName,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsLogGroupRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3821,18 +4581,6 @@ enum OrderBy {
   lastEventTime,
 }
 
-extension on OrderBy {
-  String toValue() {
-    switch (this) {
-      case OrderBy.logStreamName:
-        return 'LogStreamName';
-      case OrderBy.lastEventTime:
-        return 'LastEventTime';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Represents a log event.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3866,6 +4614,55 @@ class OutputLogEvent {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutDestinationPolicyRequest {
+  /// An IAM policy document that authorizes cross-account users to deliver their
+  /// log events to the associated destination.
+  @_s.JsonKey(name: 'accessPolicy')
+  final String accessPolicy;
+
+  /// A name for an existing destination.
+  @_s.JsonKey(name: 'destinationName')
+  final String destinationName;
+
+  PutDestinationPolicyRequest({
+    @_s.required this.accessPolicy,
+    @_s.required this.destinationName,
+  });
+  Map<String, dynamic> toJson() => _$PutDestinationPolicyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutDestinationRequest {
+  /// A name for the destination.
+  @_s.JsonKey(name: 'destinationName')
+  final String destinationName;
+
+  /// The ARN of an IAM role that grants CloudWatch Logs permissions to call the
+  /// Amazon Kinesis PutRecord operation on the destination stream.
+  @_s.JsonKey(name: 'roleArn')
+  final String roleArn;
+
+  /// The ARN of an Amazon Kinesis stream to which to deliver matching log events.
+  @_s.JsonKey(name: 'targetArn')
+  final String targetArn;
+
+  PutDestinationRequest({
+    @_s.required this.destinationName,
+    @_s.required this.roleArn,
+    @_s.required this.targetArn,
+  });
+  Map<String, dynamic> toJson() => _$PutDestinationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutDestinationResponse {
@@ -3878,6 +4675,43 @@ class PutDestinationResponse {
   });
   factory PutDestinationResponse.fromJson(Map<String, dynamic> json) =>
       _$PutDestinationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutLogEventsRequest {
+  /// The log events.
+  @_s.JsonKey(name: 'logEvents')
+  final List<InputLogEvent> logEvents;
+
+  /// The name of the log group.
+  @_s.JsonKey(name: 'logGroupName')
+  final String logGroupName;
+
+  /// The name of the log stream.
+  @_s.JsonKey(name: 'logStreamName')
+  final String logStreamName;
+
+  /// The sequence token obtained from the response of the previous
+  /// <code>PutLogEvents</code> call. An upload in a newly created log stream does
+  /// not require a sequence token. You can also get the sequence token using
+  /// <a>DescribeLogStreams</a>. If you call <code>PutLogEvents</code> twice
+  /// within a narrow time period using the same value for
+  /// <code>sequenceToken</code>, both calls may be successful, or one may be
+  /// rejected.
+  @_s.JsonKey(name: 'sequenceToken')
+  final String sequenceToken;
+
+  PutLogEventsRequest({
+    @_s.required this.logEvents,
+    @_s.required this.logGroupName,
+    @_s.required this.logStreamName,
+    this.sequenceToken,
+  });
+  Map<String, dynamic> toJson() => _$PutLogEventsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3905,6 +4739,70 @@ class PutLogEventsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutMetricFilterRequest {
+  /// A name for the metric filter.
+  @_s.JsonKey(name: 'filterName')
+  final String filterName;
+
+  /// A filter pattern for extracting metric data out of ingested log events.
+  @_s.JsonKey(name: 'filterPattern')
+  final String filterPattern;
+
+  /// The name of the log group.
+  @_s.JsonKey(name: 'logGroupName')
+  final String logGroupName;
+
+  /// A collection of information that defines how metric data gets emitted.
+  @_s.JsonKey(name: 'metricTransformations')
+  final List<MetricTransformation> metricTransformations;
+
+  PutMetricFilterRequest({
+    @_s.required this.filterName,
+    @_s.required this.filterPattern,
+    @_s.required this.logGroupName,
+    @_s.required this.metricTransformations,
+  });
+  Map<String, dynamic> toJson() => _$PutMetricFilterRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutResourcePolicyRequest {
+  /// Details of the new policy, including the identity of the principal that is
+  /// enabled to put logs to this account. This is formatted as a JSON string.
+  /// This parameter is required.
+  ///
+  /// The following example creates a resource policy enabling the Route 53
+  /// service to put DNS query logs in to the specified log group. Replace
+  /// "logArn" with the ARN of your CloudWatch Logs resource, such as a log group
+  /// or log stream.
+  ///
+  /// <code>{ "Version": "2012-10-17", "Statement": [ { "Sid":
+  /// "Route53LogsToCloudWatchLogs", "Effect": "Allow", "Principal": { "Service":
+  /// [ "route53.amazonaws.com" ] }, "Action":"logs:PutLogEvents", "Resource":
+  /// "logArn" } ] } </code>
+  @_s.JsonKey(name: 'policyDocument')
+  final String policyDocument;
+
+  /// Name of the new policy. This parameter is required.
+  @_s.JsonKey(name: 'policyName')
+  final String policyName;
+
+  PutResourcePolicyRequest({
+    this.policyDocument,
+    this.policyName,
+  });
+  Map<String, dynamic> toJson() => _$PutResourcePolicyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutResourcePolicyResponse {
@@ -3917,6 +4815,96 @@ class PutResourcePolicyResponse {
   });
   factory PutResourcePolicyResponse.fromJson(Map<String, dynamic> json) =>
       _$PutResourcePolicyResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutRetentionPolicyRequest {
+  /// The name of the log group.
+  @_s.JsonKey(name: 'logGroupName')
+  final String logGroupName;
+  @_s.JsonKey(name: 'retentionInDays')
+  final int retentionInDays;
+
+  PutRetentionPolicyRequest({
+    @_s.required this.logGroupName,
+    @_s.required this.retentionInDays,
+  });
+  Map<String, dynamic> toJson() => _$PutRetentionPolicyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutSubscriptionFilterRequest {
+  /// The ARN of the destination to deliver matching log events to. Currently, the
+  /// supported destinations are:
+  ///
+  /// <ul>
+  /// <li>
+  /// An Amazon Kinesis stream belonging to the same account as the subscription
+  /// filter, for same-account delivery.
+  /// </li>
+  /// <li>
+  /// A logical destination (specified using an ARN) belonging to a different
+  /// account, for cross-account delivery.
+  /// </li>
+  /// <li>
+  /// An Amazon Kinesis Firehose delivery stream belonging to the same account as
+  /// the subscription filter, for same-account delivery.
+  /// </li>
+  /// <li>
+  /// An AWS Lambda function belonging to the same account as the subscription
+  /// filter, for same-account delivery.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'destinationArn')
+  final String destinationArn;
+
+  /// A name for the subscription filter. If you are updating an existing filter,
+  /// you must specify the correct name in <code>filterName</code>. Otherwise, the
+  /// call fails because you cannot associate a second filter with a log group. To
+  /// find the name of the filter currently associated with a log group, use
+  /// <a>DescribeSubscriptionFilters</a>.
+  @_s.JsonKey(name: 'filterName')
+  final String filterName;
+
+  /// A filter pattern for subscribing to a filtered stream of log events.
+  @_s.JsonKey(name: 'filterPattern')
+  final String filterPattern;
+
+  /// The name of the log group.
+  @_s.JsonKey(name: 'logGroupName')
+  final String logGroupName;
+
+  /// The method used to distribute log data to the destination. By default log
+  /// data is grouped by log stream, but the grouping can be set to random for a
+  /// more even distribution. This property is only applicable when the
+  /// destination is an Amazon Kinesis stream.
+  @_s.JsonKey(name: 'distribution')
+  final Distribution distribution;
+
+  /// The ARN of an IAM role that grants CloudWatch Logs permissions to deliver
+  /// ingested log events to the destination stream. You don't need to provide the
+  /// ARN when you are working with a logical destination for cross-account
+  /// delivery.
+  @_s.JsonKey(name: 'roleArn')
+  final String roleArn;
+
+  PutSubscriptionFilterRequest({
+    @_s.required this.destinationArn,
+    @_s.required this.filterName,
+    @_s.required this.filterPattern,
+    @_s.required this.logGroupName,
+    this.distribution,
+    this.roleArn,
+  });
+  Map<String, dynamic> toJson() => _$PutSubscriptionFilterRequestToJson(this);
 }
 
 /// Information about one CloudWatch Logs Insights query that matches the
@@ -4001,24 +4989,6 @@ enum QueryStatus {
   failed,
   @_s.JsonValue('Cancelled')
   cancelled,
-}
-
-extension on QueryStatus {
-  String toValue() {
-    switch (this) {
-      case QueryStatus.scheduled:
-        return 'Scheduled';
-      case QueryStatus.running:
-        return 'Running';
-      case QueryStatus.complete:
-        return 'Complete';
-      case QueryStatus.failed:
-        return 'Failed';
-      case QueryStatus.cancelled:
-        return 'Cancelled';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Represents the rejected events.
@@ -4129,6 +5099,63 @@ class SearchedLogStream {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartQueryRequest {
+  /// The end of the time range to query. The range is inclusive, so the specified
+  /// end time is included in the query. Specified as epoch time, the number of
+  /// seconds since January 1, 1970, 00:00:00 UTC.
+  @_s.JsonKey(name: 'endTime')
+  final int endTime;
+
+  /// The query string to use. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax.html">CloudWatch
+  /// Logs Insights Query Syntax</a>.
+  @_s.JsonKey(name: 'queryString')
+  final String queryString;
+
+  /// The beginning of the time range to query. The range is inclusive, so the
+  /// specified start time is included in the query. Specified as epoch time, the
+  /// number of seconds since January 1, 1970, 00:00:00 UTC.
+  @_s.JsonKey(name: 'startTime')
+  final int startTime;
+
+  /// The maximum number of log events to return in the query. If the query string
+  /// uses the <code>fields</code> command, only the specified fields and their
+  /// values are returned. The default is 1000.
+  @_s.JsonKey(name: 'limit')
+  final int limit;
+
+  /// The log group on which to perform the query.
+  ///
+  /// A <code>StartQuery</code> operation must include a
+  /// <code>logGroupNames</code> or a <code>logGroupName</code> parameter, but not
+  /// both.
+  @_s.JsonKey(name: 'logGroupName')
+  final String logGroupName;
+
+  /// The list of log groups to be queried. You can include up to 20 log groups.
+  ///
+  /// A <code>StartQuery</code> operation must include a
+  /// <code>logGroupNames</code> or a <code>logGroupName</code> parameter, but not
+  /// both.
+  @_s.JsonKey(name: 'logGroupNames')
+  final List<String> logGroupNames;
+
+  StartQueryRequest({
+    @_s.required this.endTime,
+    @_s.required this.queryString,
+    @_s.required this.startTime,
+    this.limit,
+    this.logGroupName,
+    this.logGroupNames,
+  });
+  Map<String, dynamic> toJson() => _$StartQueryRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartQueryResponse {
@@ -4141,6 +5168,23 @@ class StartQueryResponse {
   });
   factory StartQueryResponse.fromJson(Map<String, dynamic> json) =>
       _$StartQueryResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopQueryRequest {
+  /// The ID number of the query to stop. If necessary, you can use
+  /// <code>DescribeQueries</code> to find this ID number.
+  @_s.JsonKey(name: 'queryId')
+  final String queryId;
+
+  StopQueryRequest({
+    @_s.required this.queryId,
+  });
+  Map<String, dynamic> toJson() => _$StopQueryRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4209,6 +5253,47 @@ class SubscriptionFilter {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagLogGroupRequest {
+  /// The name of the log group.
+  @_s.JsonKey(name: 'logGroupName')
+  final String logGroupName;
+
+  /// The key-value pairs to use for the tags.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  TagLogGroupRequest({
+    @_s.required this.logGroupName,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagLogGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TestMetricFilterRequest {
+  @_s.JsonKey(name: 'filterPattern')
+  final String filterPattern;
+
+  /// The log event messages to test.
+  @_s.JsonKey(name: 'logEventMessages')
+  final List<String> logEventMessages;
+
+  TestMetricFilterRequest({
+    @_s.required this.filterPattern,
+    @_s.required this.logEventMessages,
+  });
+  Map<String, dynamic> toJson() => _$TestMetricFilterRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TestMetricFilterResponse {
@@ -4221,6 +5306,27 @@ class TestMetricFilterResponse {
   });
   factory TestMetricFilterResponse.fromJson(Map<String, dynamic> json) =>
       _$TestMetricFilterResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagLogGroupRequest {
+  /// The name of the log group.
+  @_s.JsonKey(name: 'logGroupName')
+  final String logGroupName;
+
+  /// The tag keys. The corresponding tags are removed from the log group.
+  @_s.JsonKey(name: 'tags')
+  final List<String> tags;
+
+  UntagLogGroupRequest({
+    @_s.required this.logGroupName,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$UntagLogGroupRequestToJson(this);
 }
 
 class DataAlreadyAcceptedException extends _s.GenericAwsException {

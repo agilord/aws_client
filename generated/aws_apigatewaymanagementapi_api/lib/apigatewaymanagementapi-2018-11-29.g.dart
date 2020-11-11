@@ -6,6 +6,10 @@ part of 'apigatewaymanagementapi-2018-11-29.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$DeleteConnectionRequestToJson(
+        DeleteConnectionRequest instance) =>
+    <String, dynamic>{};
+
 GetConnectionResponse _$GetConnectionResponseFromJson(
     Map<String, dynamic> json) {
   return GetConnectionResponse(

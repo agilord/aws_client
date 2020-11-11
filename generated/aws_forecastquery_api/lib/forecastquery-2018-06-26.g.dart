@@ -27,6 +27,24 @@ Forecast _$ForecastFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$QueryForecastRequestToJson(
+    QueryForecastRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters);
+  writeNotNull('ForecastArn', instance.forecastArn);
+  writeNotNull('EndDate', instance.endDate);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('StartDate', instance.startDate);
+  return val;
+}
+
 QueryForecastResponse _$QueryForecastResponseFromJson(
     Map<String, dynamic> json) {
   return QueryForecastResponse(

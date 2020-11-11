@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -84,10 +83,11 @@ class GuardDuty {
     );
     ArgumentError.checkNotNull(invitationId, 'invitationId');
     ArgumentError.checkNotNull(masterId, 'masterId');
-    final $payload = <String, dynamic>{
-      'InvitationId': invitationId,
-      'MasterId': masterId,
-    };
+    final $payload = AcceptInvitationRequest(
+      detectorId: detectorId,
+      invitationId: invitationId,
+      masterId: masterId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -126,9 +126,10 @@ class GuardDuty {
       isRequired: true,
     );
     ArgumentError.checkNotNull(findingIds, 'findingIds');
-    final $payload = <String, dynamic>{
-      'FindingIds': findingIds,
-    };
+    final $payload = ArchiveFindingsRequest(
+      detectorId: detectorId,
+      findingIds: findingIds,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -172,13 +173,12 @@ class GuardDuty {
       0,
       64,
     );
-    final $payload = <String, dynamic>{
-      'Enable': enable,
-      if (clientToken != null) 'ClientToken': clientToken,
-      if (findingPublishingFrequency != null)
-        'FindingPublishingFrequency': findingPublishingFrequency?.toValue(),
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = CreateDetectorRequest(
+      enable: enable,
+      clientToken: clientToken,
+      findingPublishingFrequency: findingPublishingFrequency,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -264,15 +264,16 @@ class GuardDuty {
       1,
       100,
     );
-    final $payload = <String, dynamic>{
-      'FindingCriteria': findingCriteria,
-      'Name': name,
-      if (action != null) 'Action': action?.toValue(),
-      if (clientToken != null) 'ClientToken': clientToken,
-      if (description != null) 'Description': description,
-      if (rank != null) 'Rank': rank,
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = CreateFilterRequest(
+      detectorId: detectorId,
+      findingCriteria: findingCriteria,
+      name: name,
+      action: action,
+      clientToken: clientToken,
+      description: description,
+      rank: rank,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -358,14 +359,15 @@ class GuardDuty {
       0,
       64,
     );
-    final $payload = <String, dynamic>{
-      'Activate': activate,
-      'Format': format?.toValue(),
-      'Location': location,
-      'Name': name,
-      if (clientToken != null) 'ClientToken': clientToken,
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = CreateIPSetRequest(
+      activate: activate,
+      detectorId: detectorId,
+      format: format,
+      location: location,
+      name: name,
+      clientToken: clientToken,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -403,9 +405,10 @@ class GuardDuty {
       300,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'AccountDetails': accountDetails,
-    };
+    final $payload = CreateMembersRequest(
+      accountDetails: accountDetails,
+      detectorId: detectorId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -458,11 +461,12 @@ class GuardDuty {
       0,
       64,
     );
-    final $payload = <String, dynamic>{
-      'DestinationProperties': destinationProperties,
-      'DestinationType': destinationType?.toValue(),
-      if (clientToken != null) 'ClientToken': clientToken,
-    };
+    final $payload = CreatePublishingDestinationRequest(
+      destinationProperties: destinationProperties,
+      destinationType: destinationType,
+      detectorId: detectorId,
+      clientToken: clientToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -497,9 +501,10 @@ class GuardDuty {
       300,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (findingTypes != null) 'FindingTypes': findingTypes,
-    };
+    final $payload = CreateSampleFindingsRequest(
+      detectorId: detectorId,
+      findingTypes: findingTypes,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -583,14 +588,15 @@ class GuardDuty {
       0,
       64,
     );
-    final $payload = <String, dynamic>{
-      'Activate': activate,
-      'Format': format?.toValue(),
-      'Location': location,
-      'Name': name,
-      if (clientToken != null) 'ClientToken': clientToken,
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = CreateThreatIntelSetRequest(
+      activate: activate,
+      detectorId: detectorId,
+      format: format,
+      location: location,
+      name: name,
+      clientToken: clientToken,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -614,9 +620,9 @@ class GuardDuty {
     @_s.required List<String> accountIds,
   }) async {
     ArgumentError.checkNotNull(accountIds, 'accountIds');
-    final $payload = <String, dynamic>{
-      'AccountIds': accountIds,
-    };
+    final $payload = DeclineInvitationsRequest(
+      accountIds: accountIds,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -644,7 +650,9 @@ class GuardDuty {
       300,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteDetectorRequest(
+      detectorId: detectorId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -677,7 +685,10 @@ class GuardDuty {
       isRequired: true,
     );
     ArgumentError.checkNotNull(filterName, 'filterName');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteFilterRequest(
+      detectorId: detectorId,
+      filterName: filterName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -712,7 +723,10 @@ class GuardDuty {
       isRequired: true,
     );
     ArgumentError.checkNotNull(ipSetId, 'ipSetId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteIPSetRequest(
+      detectorId: detectorId,
+      ipSetId: ipSetId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -736,9 +750,9 @@ class GuardDuty {
     @_s.required List<String> accountIds,
   }) async {
     ArgumentError.checkNotNull(accountIds, 'accountIds');
-    final $payload = <String, dynamic>{
-      'AccountIds': accountIds,
-    };
+    final $payload = DeleteInvitationsRequest(
+      accountIds: accountIds,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -774,9 +788,10 @@ class GuardDuty {
       300,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'AccountIds': accountIds,
-    };
+    final $payload = DeleteMembersRequest(
+      accountIds: accountIds,
+      detectorId: detectorId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -812,7 +827,10 @@ class GuardDuty {
       300,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeletePublishingDestinationRequest(
+      destinationId: destinationId,
+      detectorId: detectorId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -846,7 +864,10 @@ class GuardDuty {
       isRequired: true,
     );
     ArgumentError.checkNotNull(threatIntelSetId, 'threatIntelSetId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteThreatIntelSetRequest(
+      detectorId: detectorId,
+      threatIntelSetId: threatIntelSetId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -911,7 +932,9 @@ class GuardDuty {
       300,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DisassociateFromMasterAccountRequest(
+      detectorId: detectorId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -948,9 +971,10 @@ class GuardDuty {
       300,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'AccountIds': accountIds,
-    };
+    final $payload = DisassociateMembersRequest(
+      accountIds: accountIds,
+      detectorId: detectorId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1049,10 +1073,11 @@ class GuardDuty {
       isRequired: true,
     );
     ArgumentError.checkNotNull(findingIds, 'findingIds');
-    final $payload = <String, dynamic>{
-      'FindingIds': findingIds,
-      if (sortCriteria != null) 'SortCriteria': sortCriteria,
-    };
+    final $payload = GetFindingsRequest(
+      detectorId: detectorId,
+      findingIds: findingIds,
+      sortCriteria: sortCriteria,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1091,10 +1116,11 @@ class GuardDuty {
       isRequired: true,
     );
     ArgumentError.checkNotNull(findingStatisticTypes, 'findingStatisticTypes');
-    final $payload = <String, dynamic>{
-      'FindingStatisticTypes': findingStatisticTypes,
-      if (findingCriteria != null) 'FindingCriteria': findingCriteria,
-    };
+    final $payload = GetFindingsStatisticsRequest(
+      detectorId: detectorId,
+      findingStatisticTypes: findingStatisticTypes,
+      findingCriteria: findingCriteria,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1208,9 +1234,10 @@ class GuardDuty {
       300,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'AccountIds': accountIds,
-    };
+    final $payload = GetMembersRequest(
+      accountIds: accountIds,
+      detectorId: detectorId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1292,12 +1319,12 @@ class GuardDuty {
       300,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'AccountIds': accountIds,
-      if (disableEmailNotification != null)
-        'DisableEmailNotification': disableEmailNotification,
-      if (message != null) 'Message': message,
-    };
+    final $payload = InviteMembersRequest(
+      accountIds: accountIds,
+      detectorId: detectorId,
+      disableEmailNotification: disableEmailNotification,
+      message: message,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1604,12 +1631,13 @@ class GuardDuty {
       1,
       50,
     );
-    final $payload = <String, dynamic>{
-      if (findingCriteria != null) 'FindingCriteria': findingCriteria,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-      if (sortCriteria != null) 'SortCriteria': sortCriteria,
-    };
+    final $payload = ListFindingsRequest(
+      detectorId: detectorId,
+      findingCriteria: findingCriteria,
+      maxResults: maxResults,
+      nextToken: nextToken,
+      sortCriteria: sortCriteria,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1932,9 +1960,10 @@ class GuardDuty {
       300,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'AccountIds': accountIds,
-    };
+    final $payload = StartMonitoringMembersRequest(
+      accountIds: accountIds,
+      detectorId: detectorId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1972,9 +2001,10 @@ class GuardDuty {
       300,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'AccountIds': accountIds,
-    };
+    final $payload = StopMonitoringMembersRequest(
+      accountIds: accountIds,
+      detectorId: detectorId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2008,9 +2038,10 @@ class GuardDuty {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'Tags': tags,
-    };
+    final $payload = TagResourceRequest(
+      resourceArn: resourceArn,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2043,9 +2074,10 @@ class GuardDuty {
       isRequired: true,
     );
     ArgumentError.checkNotNull(findingIds, 'findingIds');
-    final $payload = <String, dynamic>{
-      'FindingIds': findingIds,
-    };
+    final $payload = UnarchiveFindingsRequest(
+      detectorId: detectorId,
+      findingIds: findingIds,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2082,7 +2114,10 @@ class GuardDuty {
     _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = UntagResourceRequest(
+      resourceArn: resourceArn,
+      tagKeys: tagKeys,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -2119,11 +2154,11 @@ class GuardDuty {
       300,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (enable != null) 'Enable': enable,
-      if (findingPublishingFrequency != null)
-        'FindingPublishingFrequency': findingPublishingFrequency?.toValue(),
-    };
+    final $payload = UpdateDetectorRequest(
+      detectorId: detectorId,
+      enable: enable,
+      findingPublishingFrequency: findingPublishingFrequency,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2187,12 +2222,14 @@ class GuardDuty {
       1,
       100,
     );
-    final $payload = <String, dynamic>{
-      if (action != null) 'Action': action?.toValue(),
-      if (description != null) 'Description': description,
-      if (findingCriteria != null) 'FindingCriteria': findingCriteria,
-      if (rank != null) 'Rank': rank,
-    };
+    final $payload = UpdateFilterRequest(
+      detectorId: detectorId,
+      filterName: filterName,
+      action: action,
+      description: description,
+      findingCriteria: findingCriteria,
+      rank: rank,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2236,11 +2273,12 @@ class GuardDuty {
     );
     ArgumentError.checkNotNull(feedback, 'feedback');
     ArgumentError.checkNotNull(findingIds, 'findingIds');
-    final $payload = <String, dynamic>{
-      'Feedback': feedback?.toValue(),
-      'FindingIds': findingIds,
-      if (comments != null) 'Comments': comments,
-    };
+    final $payload = UpdateFindingsFeedbackRequest(
+      detectorId: detectorId,
+      feedback: feedback,
+      findingIds: findingIds,
+      comments: comments,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2301,11 +2339,13 @@ class GuardDuty {
       1,
       300,
     );
-    final $payload = <String, dynamic>{
-      if (activate != null) 'Activate': activate,
-      if (location != null) 'Location': location,
-      if (name != null) 'Name': name,
-    };
+    final $payload = UpdateIPSetRequest(
+      detectorId: detectorId,
+      ipSetId: ipSetId,
+      activate: activate,
+      location: location,
+      name: name,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2347,10 +2387,11 @@ class GuardDuty {
       300,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (destinationProperties != null)
-        'DestinationProperties': destinationProperties,
-    };
+    final $payload = UpdatePublishingDestinationRequest(
+      destinationId: destinationId,
+      detectorId: detectorId,
+      destinationProperties: destinationProperties,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2411,11 +2452,13 @@ class GuardDuty {
       1,
       300,
     );
-    final $payload = <String, dynamic>{
-      if (activate != null) 'Activate': activate,
-      if (location != null) 'Location': location,
-      if (name != null) 'Name': name,
-    };
+    final $payload = UpdateThreatIntelSetRequest(
+      detectorId: detectorId,
+      threatIntelSetId: threatIntelSetId,
+      activate: activate,
+      location: location,
+      name: name,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2425,6 +2468,33 @@ class GuardDuty {
     );
     return UpdateThreatIntelSetResponse.fromJson(response);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AcceptInvitationRequest {
+  /// The unique ID of the detector of the GuardDuty member account.
+  @_s.JsonKey(name: 'detectorId', ignore: true)
+  final String detectorId;
+
+  /// This value is used to validate the master account to the member account.
+  @_s.JsonKey(name: 'invitationId')
+  final String invitationId;
+
+  /// The account ID of the master GuardDuty account whose invitation you're
+  /// accepting.
+  @_s.JsonKey(name: 'masterId')
+  final String masterId;
+
+  AcceptInvitationRequest({
+    @_s.required this.detectorId,
+    @_s.required this.invitationId,
+    @_s.required this.masterId,
+  });
+  Map<String, dynamic> toJson() => _$AcceptInvitationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2528,6 +2598,28 @@ class Action {
     this.portProbeAction,
   });
   factory Action.fromJson(Map<String, dynamic> json) => _$ActionFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ArchiveFindingsRequest {
+  /// The ID of the detector that specifies the GuardDuty service whose findings
+  /// you want to archive.
+  @_s.JsonKey(name: 'detectorId', ignore: true)
+  final String detectorId;
+
+  /// IDs of the findings that you want to archive.
+  @_s.JsonKey(name: 'findingIds')
+  final List<String> findingIds;
+
+  ArchiveFindingsRequest({
+    @_s.required this.detectorId,
+    @_s.required this.findingIds,
+  });
+  Map<String, dynamic> toJson() => _$ArchiveFindingsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2710,6 +2802,38 @@ class Country {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDetectorRequest {
+  /// A boolean value that specifies whether the detector is to be enabled.
+  @_s.JsonKey(name: 'enable')
+  final bool enable;
+
+  /// The idempotency token for the create request.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// A enum value that specifies how frequently customer got Finding updates
+  /// published.
+  @_s.JsonKey(name: 'findingPublishingFrequency')
+  final FindingPublishingFrequency findingPublishingFrequency;
+
+  /// The tags to be added to a new detector resource.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateDetectorRequest({
+    @_s.required this.enable,
+    this.clientToken,
+    this.findingPublishingFrequency,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateDetectorRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateDetectorResponse {
@@ -2722,6 +2846,60 @@ class CreateDetectorResponse {
   });
   factory CreateDetectorResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateDetectorResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateFilterRequest {
+  /// The unique ID of the detector of the GuardDuty account for which you want to
+  /// create a filter.
+  @_s.JsonKey(name: 'detectorId', ignore: true)
+  final String detectorId;
+
+  /// Represents the criteria to be used in the filter for querying findings.
+  @_s.JsonKey(name: 'findingCriteria')
+  final FindingCriteria findingCriteria;
+
+  /// The name of the filter.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// Specifies the action that is to be applied to the findings that match the
+  /// filter.
+  @_s.JsonKey(name: 'action')
+  final FilterAction action;
+
+  /// The idempotency token for the create request.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// The description of the filter.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// Specifies the position of the filter in the list of current filters. Also
+  /// specifies the order in which this filter is applied to the findings.
+  @_s.JsonKey(name: 'rank')
+  final int rank;
+
+  /// The tags to be added to a new filter resource.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateFilterRequest({
+    @_s.required this.detectorId,
+    @_s.required this.findingCriteria,
+    @_s.required this.name,
+    this.action,
+    this.clientToken,
+    this.description,
+    this.rank,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateFilterRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2744,6 +2922,57 @@ class CreateFilterResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateIPSetRequest {
+  /// A boolean value that indicates whether GuardDuty is to start using the
+  /// uploaded IPSet.
+  @_s.JsonKey(name: 'activate')
+  final bool activate;
+
+  /// The unique ID of the detector of the GuardDuty account for which you want to
+  /// create an IPSet.
+  @_s.JsonKey(name: 'detectorId', ignore: true)
+  final String detectorId;
+
+  /// The format of the file that contains the IPSet.
+  @_s.JsonKey(name: 'format')
+  final IpSetFormat format;
+
+  /// The URI of the file that contains the IPSet. For example
+  /// (https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key)
+  @_s.JsonKey(name: 'location')
+  final String location;
+
+  /// The user friendly name to identify the IPSet. This name is displayed in all
+  /// findings that are triggered by activity that involves IP addresses included
+  /// in this IPSet.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The idempotency token for the create request.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// The tags to be added to a new IP set resource.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateIPSetRequest({
+    @_s.required this.activate,
+    @_s.required this.detectorId,
+    @_s.required this.format,
+    @_s.required this.location,
+    @_s.required this.name,
+    this.clientToken,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateIPSetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateIPSetResponse {
@@ -2756,6 +2985,29 @@ class CreateIPSetResponse {
   });
   factory CreateIPSetResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateIPSetResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateMembersRequest {
+  /// A list of account ID and email address pairs of the accounts that you want
+  /// to associate with the master GuardDuty account.
+  @_s.JsonKey(name: 'accountDetails')
+  final List<AccountDetail> accountDetails;
+
+  /// The unique ID of the detector of the GuardDuty account with which you want
+  /// to associate member accounts.
+  @_s.JsonKey(name: 'detectorId', ignore: true)
+  final String detectorId;
+
+  CreateMembersRequest({
+    @_s.required this.accountDetails,
+    @_s.required this.detectorId,
+  });
+  Map<String, dynamic> toJson() => _$CreateMembersRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2779,6 +3031,40 @@ class CreateMembersResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreatePublishingDestinationRequest {
+  /// Properties of the publishing destination, including the ARNs for the
+  /// destination and the KMS key used for encryption.
+  @_s.JsonKey(name: 'destinationProperties')
+  final DestinationProperties destinationProperties;
+
+  /// The type of resource for the publishing destination. Currently only S3 is
+  /// supported.
+  @_s.JsonKey(name: 'destinationType')
+  final DestinationType destinationType;
+
+  /// The ID of the GuardDuty detector associated with the publishing destination.
+  @_s.JsonKey(name: 'detectorId', ignore: true)
+  final String detectorId;
+
+  /// The idempotency token for the request.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  CreatePublishingDestinationRequest({
+    @_s.required this.destinationProperties,
+    @_s.required this.destinationType,
+    @_s.required this.detectorId,
+    this.clientToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreatePublishingDestinationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreatePublishingDestinationResponse {
@@ -2797,12 +3083,84 @@ class CreatePublishingDestinationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateSampleFindingsRequest {
+  /// The ID of the detector to create sample findings for.
+  @_s.JsonKey(name: 'detectorId', ignore: true)
+  final String detectorId;
+
+  /// Types of sample findings to generate.
+  @_s.JsonKey(name: 'findingTypes')
+  final List<String> findingTypes;
+
+  CreateSampleFindingsRequest({
+    @_s.required this.detectorId,
+    this.findingTypes,
+  });
+  Map<String, dynamic> toJson() => _$CreateSampleFindingsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateSampleFindingsResponse {
   CreateSampleFindingsResponse();
   factory CreateSampleFindingsResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateSampleFindingsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateThreatIntelSetRequest {
+  /// A boolean value that indicates whether GuardDuty is to start using the
+  /// uploaded ThreatIntelSet.
+  @_s.JsonKey(name: 'activate')
+  final bool activate;
+
+  /// The unique ID of the detector of the GuardDuty account for which you want to
+  /// create a threatIntelSet.
+  @_s.JsonKey(name: 'detectorId', ignore: true)
+  final String detectorId;
+
+  /// The format of the file that contains the ThreatIntelSet.
+  @_s.JsonKey(name: 'format')
+  final ThreatIntelSetFormat format;
+
+  /// The URI of the file that contains the ThreatIntelSet. For example
+  /// (https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key).
+  @_s.JsonKey(name: 'location')
+  final String location;
+
+  /// A user-friendly ThreatIntelSet name that is displayed in all finding
+  /// generated by activity that involves IP addresses included in this
+  /// ThreatIntelSet.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The idempotency token for the create request.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// The tags to be added to a new Threat List resource.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateThreatIntelSetRequest({
+    @_s.required this.activate,
+    @_s.required this.detectorId,
+    @_s.required this.format,
+    @_s.required this.location,
+    @_s.required this.name,
+    this.clientToken,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateThreatIntelSetRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2820,6 +3178,23 @@ class CreateThreatIntelSetResponse {
   });
   factory CreateThreatIntelSetResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateThreatIntelSetResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeclineInvitationsRequest {
+  /// A list of account IDs of the AWS accounts that sent invitations to the
+  /// current member account that you want to decline invitations from.
+  @_s.JsonKey(name: 'accountIds')
+  final List<String> accountIds;
+
+  DeclineInvitationsRequest({
+    @_s.required this.accountIds,
+  });
+  Map<String, dynamic> toJson() => _$DeclineInvitationsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2843,12 +3218,49 @@ class DeclineInvitationsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDetectorRequest {
+  /// The unique ID of the detector that you want to delete.
+  @_s.JsonKey(name: 'detectorId', ignore: true)
+  final String detectorId;
+
+  DeleteDetectorRequest({
+    @_s.required this.detectorId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDetectorRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteDetectorResponse {
   DeleteDetectorResponse();
   factory DeleteDetectorResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteDetectorResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteFilterRequest {
+  /// The unique ID of the detector the filter is associated with.
+  @_s.JsonKey(name: 'detectorId', ignore: true)
+  final String detectorId;
+
+  /// The name of the filter you want to delete.
+  @_s.JsonKey(name: 'filterName', ignore: true)
+  final String filterName;
+
+  DeleteFilterRequest({
+    @_s.required this.detectorId,
+    @_s.required this.filterName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteFilterRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2865,12 +3277,50 @@ class DeleteFilterResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteIPSetRequest {
+  /// The unique ID of the detector associated with the IPSet.
+  @_s.JsonKey(name: 'detectorId', ignore: true)
+  final String detectorId;
+
+  /// The unique ID of the IPSet to delete.
+  @_s.JsonKey(name: 'ipSetId', ignore: true)
+  final String ipSetId;
+
+  DeleteIPSetRequest({
+    @_s.required this.detectorId,
+    @_s.required this.ipSetId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteIPSetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteIPSetResponse {
   DeleteIPSetResponse();
   factory DeleteIPSetResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteIPSetResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteInvitationsRequest {
+  /// A list of account IDs of the AWS accounts that sent invitations to the
+  /// current member account that you want to delete invitations from.
+  @_s.JsonKey(name: 'accountIds')
+  final List<String> accountIds;
+
+  DeleteInvitationsRequest({
+    @_s.required this.accountIds,
+  });
+  Map<String, dynamic> toJson() => _$DeleteInvitationsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2894,6 +3344,29 @@ class DeleteInvitationsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteMembersRequest {
+  /// A list of account IDs of the GuardDuty member accounts that you want to
+  /// delete.
+  @_s.JsonKey(name: 'accountIds')
+  final List<String> accountIds;
+
+  /// The unique ID of the detector of the GuardDuty account whose members you
+  /// want to delete.
+  @_s.JsonKey(name: 'detectorId', ignore: true)
+  final String detectorId;
+
+  DeleteMembersRequest({
+    @_s.required this.accountIds,
+    @_s.required this.detectorId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteMembersRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteMembersResponse {
@@ -2911,6 +3384,29 @@ class DeleteMembersResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeletePublishingDestinationRequest {
+  /// The ID of the publishing destination to delete.
+  @_s.JsonKey(name: 'destinationId', ignore: true)
+  final String destinationId;
+
+  /// The unique ID of the detector associated with the publishing destination to
+  /// delete.
+  @_s.JsonKey(name: 'detectorId', ignore: true)
+  final String detectorId;
+
+  DeletePublishingDestinationRequest({
+    @_s.required this.destinationId,
+    @_s.required this.detectorId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeletePublishingDestinationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeletePublishingDestinationResponse {
@@ -2918,6 +3414,27 @@ class DeletePublishingDestinationResponse {
   factory DeletePublishingDestinationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DeletePublishingDestinationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteThreatIntelSetRequest {
+  /// The unique ID of the detector the threatIntelSet is associated with.
+  @_s.JsonKey(name: 'detectorId', ignore: true)
+  final String detectorId;
+
+  /// The unique ID of the threatIntelSet you want to delete.
+  @_s.JsonKey(name: 'threatIntelSetId', ignore: true)
+  final String threatIntelSetId;
+
+  DeleteThreatIntelSetRequest({
+    @_s.required this.detectorId,
+    @_s.required this.threatIntelSetId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteThreatIntelSetRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3033,21 +3550,28 @@ enum DestinationType {
   s3,
 }
 
-extension on DestinationType {
-  String toValue() {
-    switch (this) {
-      case DestinationType.s3:
-        return 'S3';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum DetectorStatus {
   @_s.JsonValue('ENABLED')
   enabled,
   @_s.JsonValue('DISABLED')
   disabled,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateFromMasterAccountRequest {
+  /// The unique ID of the detector of the GuardDuty member account.
+  @_s.JsonKey(name: 'detectorId', ignore: true)
+  final String detectorId;
+
+  DisassociateFromMasterAccountRequest({
+    @_s.required this.detectorId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DisassociateFromMasterAccountRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3060,6 +3584,29 @@ class DisassociateFromMasterAccountResponse {
   factory DisassociateFromMasterAccountResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DisassociateFromMasterAccountResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateMembersRequest {
+  /// A list of account IDs of the GuardDuty member accounts that you want to
+  /// disassociate from master.
+  @_s.JsonKey(name: 'accountIds')
+  final List<String> accountIds;
+
+  /// The unique ID of the detector of the GuardDuty account whose members you
+  /// want to disassociate from master.
+  @_s.JsonKey(name: 'detectorId', ignore: true)
+  final String detectorId;
+
+  DisassociateMembersRequest({
+    @_s.required this.accountIds,
+    @_s.required this.detectorId,
+  });
+  Map<String, dynamic> toJson() => _$DisassociateMembersRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3141,35 +3688,11 @@ enum Feedback {
   notUseful,
 }
 
-extension on Feedback {
-  String toValue() {
-    switch (this) {
-      case Feedback.useful:
-        return 'USEFUL';
-      case Feedback.notUseful:
-        return 'NOT_USEFUL';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum FilterAction {
   @_s.JsonValue('NOOP')
   noop,
   @_s.JsonValue('ARCHIVE')
   archive,
-}
-
-extension on FilterAction {
-  String toValue() {
-    switch (this) {
-      case FilterAction.noop:
-        return 'NOOP';
-      case FilterAction.archive:
-        return 'ARCHIVE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Contains information about the finding, which is generated when abnormal or
@@ -3285,20 +3808,6 @@ enum FindingPublishingFrequency {
   oneHour,
   @_s.JsonValue('SIX_HOURS')
   sixHours,
-}
-
-extension on FindingPublishingFrequency {
-  String toValue() {
-    switch (this) {
-      case FindingPublishingFrequency.fifteenMinutes:
-        return 'FIFTEEN_MINUTES';
-      case FindingPublishingFrequency.oneHour:
-        return 'ONE_HOUR';
-      case FindingPublishingFrequency.sixHours:
-        return 'SIX_HOURS';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 enum FindingStatisticType {
@@ -3436,6 +3945,33 @@ class GetFilterResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetFindingsRequest {
+  /// The ID of the detector that specifies the GuardDuty service whose findings
+  /// you want to retrieve.
+  @_s.JsonKey(name: 'detectorId', ignore: true)
+  final String detectorId;
+
+  /// IDs of the findings that you want to retrieve.
+  @_s.JsonKey(name: 'findingIds')
+  final List<String> findingIds;
+
+  /// Represents the criteria used for sorting findings.
+  @_s.JsonKey(name: 'sortCriteria')
+  final SortCriteria sortCriteria;
+
+  GetFindingsRequest({
+    @_s.required this.detectorId,
+    @_s.required this.findingIds,
+    this.sortCriteria,
+  });
+  Map<String, dynamic> toJson() => _$GetFindingsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetFindingsResponse {
@@ -3448,6 +3984,33 @@ class GetFindingsResponse {
   });
   factory GetFindingsResponse.fromJson(Map<String, dynamic> json) =>
       _$GetFindingsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetFindingsStatisticsRequest {
+  /// The ID of the detector that specifies the GuardDuty service whose findings'
+  /// statistics you want to retrieve.
+  @_s.JsonKey(name: 'detectorId', ignore: true)
+  final String detectorId;
+
+  /// Types of finding statistics to retrieve.
+  @_s.JsonKey(name: 'findingStatisticTypes')
+  final List<String> findingStatisticTypes;
+
+  /// Represents the criteria used for querying findings.
+  @_s.JsonKey(name: 'findingCriteria')
+  final FindingCriteria findingCriteria;
+
+  GetFindingsStatisticsRequest({
+    @_s.required this.detectorId,
+    @_s.required this.findingStatisticTypes,
+    this.findingCriteria,
+  });
+  Map<String, dynamic> toJson() => _$GetFindingsStatisticsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3537,6 +4100,29 @@ class GetMasterAccountResponse {
   });
   factory GetMasterAccountResponse.fromJson(Map<String, dynamic> json) =>
       _$GetMasterAccountResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetMembersRequest {
+  /// A list of account IDs of the GuardDuty member accounts that you want to
+  /// describe.
+  @_s.JsonKey(name: 'accountIds')
+  final List<String> accountIds;
+
+  /// The unique ID of the detector of the GuardDuty account whose members you
+  /// want to retrieve.
+  @_s.JsonKey(name: 'detectorId', ignore: true)
+  final String detectorId;
+
+  GetMembersRequest({
+    @_s.required this.accountIds,
+    @_s.required this.detectorId,
+  });
+  Map<String, dynamic> toJson() => _$GetMembersRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3741,6 +4327,41 @@ class Invitation {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class InviteMembersRequest {
+  /// A list of account IDs of the accounts that you want to invite to GuardDuty
+  /// as members.
+  @_s.JsonKey(name: 'accountIds')
+  final List<String> accountIds;
+
+  /// The unique ID of the detector of the GuardDuty account with which you want
+  /// to invite members.
+  @_s.JsonKey(name: 'detectorId', ignore: true)
+  final String detectorId;
+
+  /// A boolean value that specifies whether you want to disable email
+  /// notification to the accounts that you’re inviting to GuardDuty as members.
+  @_s.JsonKey(name: 'disableEmailNotification')
+  final bool disableEmailNotification;
+
+  /// The invitation message that you want to send to the accounts that you’re
+  /// inviting to GuardDuty as members.
+  @_s.JsonKey(name: 'message')
+  final String message;
+
+  InviteMembersRequest({
+    @_s.required this.accountIds,
+    @_s.required this.detectorId,
+    this.disableEmailNotification,
+    this.message,
+  });
+  Map<String, dynamic> toJson() => _$InviteMembersRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class InviteMembersResponse {
@@ -3769,26 +4390,6 @@ enum IpSetFormat {
   proofPoint,
   @_s.JsonValue('FIRE_EYE')
   fireEye,
-}
-
-extension on IpSetFormat {
-  String toValue() {
-    switch (this) {
-      case IpSetFormat.txt:
-        return 'TXT';
-      case IpSetFormat.stix:
-        return 'STIX';
-      case IpSetFormat.otxCsv:
-        return 'OTX_CSV';
-      case IpSetFormat.alienVault:
-        return 'ALIEN_VAULT';
-      case IpSetFormat.proofPoint:
-        return 'PROOF_POINT';
-      case IpSetFormat.fireEye:
-        return 'FIRE_EYE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 enum IpSetStatus {
@@ -3852,6 +4453,209 @@ class ListFiltersResponse {
   });
   factory ListFiltersResponse.fromJson(Map<String, dynamic> json) =>
       _$ListFiltersResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListFindingsRequest {
+  /// The ID of the detector that specifies the GuardDuty service whose findings
+  /// you want to list.
+  @_s.JsonKey(name: 'detectorId', ignore: true)
+  final String detectorId;
+
+  /// Represents the criteria used for querying findings. Valid values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// JSON field name
+  /// </li>
+  /// <li>
+  /// accountId
+  /// </li>
+  /// <li>
+  /// region
+  /// </li>
+  /// <li>
+  /// confidence
+  /// </li>
+  /// <li>
+  /// id
+  /// </li>
+  /// <li>
+  /// resource.accessKeyDetails.accessKeyId
+  /// </li>
+  /// <li>
+  /// resource.accessKeyDetails.principalId
+  /// </li>
+  /// <li>
+  /// resource.accessKeyDetails.userName
+  /// </li>
+  /// <li>
+  /// resource.accessKeyDetails.userType
+  /// </li>
+  /// <li>
+  /// resource.instanceDetails.iamInstanceProfile.id
+  /// </li>
+  /// <li>
+  /// resource.instanceDetails.imageId
+  /// </li>
+  /// <li>
+  /// resource.instanceDetails.instanceId
+  /// </li>
+  /// <li>
+  /// resource.instanceDetails.outpostArn
+  /// </li>
+  /// <li>
+  /// resource.instanceDetails.networkInterfaces.ipv6Addresses
+  /// </li>
+  /// <li>
+  /// resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress
+  /// </li>
+  /// <li>
+  /// resource.instanceDetails.networkInterfaces.publicDnsName
+  /// </li>
+  /// <li>
+  /// resource.instanceDetails.networkInterfaces.publicIp
+  /// </li>
+  /// <li>
+  /// resource.instanceDetails.networkInterfaces.securityGroups.groupId
+  /// </li>
+  /// <li>
+  /// resource.instanceDetails.networkInterfaces.securityGroups.groupName
+  /// </li>
+  /// <li>
+  /// resource.instanceDetails.networkInterfaces.subnetId
+  /// </li>
+  /// <li>
+  /// resource.instanceDetails.networkInterfaces.vpcId
+  /// </li>
+  /// <li>
+  /// resource.instanceDetails.tags.key
+  /// </li>
+  /// <li>
+  /// resource.instanceDetails.tags.value
+  /// </li>
+  /// <li>
+  /// resource.resourceType
+  /// </li>
+  /// <li>
+  /// service.action.actionType
+  /// </li>
+  /// <li>
+  /// service.action.awsApiCallAction.api
+  /// </li>
+  /// <li>
+  /// service.action.awsApiCallAction.callerType
+  /// </li>
+  /// <li>
+  /// service.action.awsApiCallAction.remoteIpDetails.city.cityName
+  /// </li>
+  /// <li>
+  /// service.action.awsApiCallAction.remoteIpDetails.country.countryName
+  /// </li>
+  /// <li>
+  /// service.action.awsApiCallAction.remoteIpDetails.ipAddressV4
+  /// </li>
+  /// <li>
+  /// service.action.awsApiCallAction.remoteIpDetails.organization.asn
+  /// </li>
+  /// <li>
+  /// service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg
+  /// </li>
+  /// <li>
+  /// service.action.awsApiCallAction.serviceName
+  /// </li>
+  /// <li>
+  /// service.action.dnsRequestAction.domain
+  /// </li>
+  /// <li>
+  /// service.action.networkConnectionAction.blocked
+  /// </li>
+  /// <li>
+  /// service.action.networkConnectionAction.connectionDirection
+  /// </li>
+  /// <li>
+  /// service.action.networkConnectionAction.localPortDetails.port
+  /// </li>
+  /// <li>
+  /// service.action.networkConnectionAction.protocol
+  /// </li>
+  /// <li>
+  /// service.action.networkConnectionAction.localIpDetails.ipAddressV4
+  /// </li>
+  /// <li>
+  /// service.action.networkConnectionAction.remoteIpDetails.city.cityName
+  /// </li>
+  /// <li>
+  /// service.action.networkConnectionAction.remoteIpDetails.country.countryName
+  /// </li>
+  /// <li>
+  /// service.action.networkConnectionAction.remoteIpDetails.ipAddressV4
+  /// </li>
+  /// <li>
+  /// service.action.networkConnectionAction.remoteIpDetails.organization.asn
+  /// </li>
+  /// <li>
+  /// service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg
+  /// </li>
+  /// <li>
+  /// service.action.networkConnectionAction.remotePortDetails.port
+  /// </li>
+  /// <li>
+  /// service.additionalInfo.threatListName
+  /// </li>
+  /// <li>
+  /// service.archived
+  ///
+  /// When this attribute is set to 'true', only archived findings are listed.
+  /// When it's set to 'false', only unarchived findings are listed. When this
+  /// attribute is not set, all existing findings are listed.
+  /// </li>
+  /// <li>
+  /// service.resourceRole
+  /// </li>
+  /// <li>
+  /// severity
+  /// </li>
+  /// <li>
+  /// type
+  /// </li>
+  /// <li>
+  /// updatedAt
+  ///
+  /// Type: Timestamp in Unix Epoch millisecond format: 1486685375000
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'findingCriteria')
+  final FindingCriteria findingCriteria;
+
+  /// You can use this parameter to indicate the maximum number of items you want
+  /// in the response. The default value is 50. The maximum value is 50.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// You can use this parameter when paginating results. Set the value of this
+  /// parameter to null on your first call to the list action. For subsequent
+  /// calls to the action fill nextToken in the request with the value of
+  /// NextToken from the previous response to continue listing data.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// Represents the criteria used for sorting findings.
+  @_s.JsonKey(name: 'sortCriteria')
+  final SortCriteria sortCriteria;
+
+  ListFindingsRequest({
+    @_s.required this.detectorId,
+    this.findingCriteria,
+    this.maxResults,
+    this.nextToken,
+    this.sortCriteria,
+  });
+  Map<String, dynamic> toJson() => _$ListFindingsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4600,6 +5404,28 @@ class SortCriteria {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartMonitoringMembersRequest {
+  /// A list of account IDs of the GuardDuty member accounts to start monitoring.
+  @_s.JsonKey(name: 'accountIds')
+  final List<String> accountIds;
+
+  /// The unique ID of the detector of the GuardDuty master account associated
+  /// with the member accounts to monitor.
+  @_s.JsonKey(name: 'detectorId', ignore: true)
+  final String detectorId;
+
+  StartMonitoringMembersRequest({
+    @_s.required this.accountIds,
+    @_s.required this.detectorId,
+  });
+  Map<String, dynamic> toJson() => _$StartMonitoringMembersRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartMonitoringMembersResponse {
@@ -4613,6 +5439,29 @@ class StartMonitoringMembersResponse {
   });
   factory StartMonitoringMembersResponse.fromJson(Map<String, dynamic> json) =>
       _$StartMonitoringMembersResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopMonitoringMembersRequest {
+  /// A list of account IDs of the GuardDuty member accounts whose findings you
+  /// want the master account to stop monitoring.
+  @_s.JsonKey(name: 'accountIds')
+  final List<String> accountIds;
+
+  /// The unique ID of the detector of the GuardDuty account that you want to stop
+  /// from monitor members' findings.
+  @_s.JsonKey(name: 'detectorId', ignore: true)
+  final String detectorId;
+
+  StopMonitoringMembersRequest({
+    @_s.required this.accountIds,
+    @_s.required this.detectorId,
+  });
+  Map<String, dynamic> toJson() => _$StopMonitoringMembersRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4658,6 +5507,27 @@ class Tag {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The Amazon Resource Name (ARN) for the GuardDuty resource to apply a tag to.
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  /// The tags to be added to a resource.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagResourceResponse {
@@ -4679,26 +5549,6 @@ enum ThreatIntelSetFormat {
   proofPoint,
   @_s.JsonValue('FIRE_EYE')
   fireEye,
-}
-
-extension on ThreatIntelSetFormat {
-  String toValue() {
-    switch (this) {
-      case ThreatIntelSetFormat.txt:
-        return 'TXT';
-      case ThreatIntelSetFormat.stix:
-        return 'STIX';
-      case ThreatIntelSetFormat.otxCsv:
-        return 'OTX_CSV';
-      case ThreatIntelSetFormat.alienVault:
-        return 'ALIEN_VAULT';
-      case ThreatIntelSetFormat.proofPoint:
-        return 'PROOF_POINT';
-      case ThreatIntelSetFormat.fireEye:
-        return 'FIRE_EYE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 enum ThreatIntelSetStatus {
@@ -4746,6 +5596,27 @@ class ThreatIntelligenceDetail {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UnarchiveFindingsRequest {
+  /// The ID of the detector associated with the findings to unarchive.
+  @_s.JsonKey(name: 'detectorId', ignore: true)
+  final String detectorId;
+
+  /// IDs of the findings to unarchive.
+  @_s.JsonKey(name: 'findingIds')
+  final List<String> findingIds;
+
+  UnarchiveFindingsRequest({
+    @_s.required this.detectorId,
+    @_s.required this.findingIds,
+  });
+  Map<String, dynamic> toJson() => _$UnarchiveFindingsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UnarchiveFindingsResponse {
@@ -4780,6 +5651,27 @@ class UnprocessedAccount {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The Amazon Resource Name (ARN) for the resource to remove tags from.
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  /// The tag keys to remove from the resource.
+  @_s.JsonKey(name: 'tagKeys', ignore: true)
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagResourceResponse {
@@ -4791,12 +5683,83 @@ class UntagResourceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDetectorRequest {
+  /// The unique ID of the detector to update.
+  @_s.JsonKey(name: 'detectorId', ignore: true)
+  final String detectorId;
+
+  /// Specifies whether the detector is enabled or not enabled.
+  @_s.JsonKey(name: 'enable')
+  final bool enable;
+
+  /// A enum value that specifies how frequently findings are exported, such as to
+  /// CloudWatch Events.
+  @_s.JsonKey(name: 'findingPublishingFrequency')
+  final FindingPublishingFrequency findingPublishingFrequency;
+
+  UpdateDetectorRequest({
+    @_s.required this.detectorId,
+    this.enable,
+    this.findingPublishingFrequency,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDetectorRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateDetectorResponse {
   UpdateDetectorResponse();
   factory UpdateDetectorResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateDetectorResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateFilterRequest {
+  /// The unique ID of the detector that specifies the GuardDuty service where you
+  /// want to update a filter.
+  @_s.JsonKey(name: 'detectorId', ignore: true)
+  final String detectorId;
+
+  /// The name of the filter.
+  @_s.JsonKey(name: 'filterName', ignore: true)
+  final String filterName;
+
+  /// Specifies the action that is to be applied to the findings that match the
+  /// filter.
+  @_s.JsonKey(name: 'action')
+  final FilterAction action;
+
+  /// The description of the filter.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// Represents the criteria to be used in the filter for querying findings.
+  @_s.JsonKey(name: 'findingCriteria')
+  final FindingCriteria findingCriteria;
+
+  /// Specifies the position of the filter in the list of current filters. Also
+  /// specifies the order in which this filter is applied to the findings.
+  @_s.JsonKey(name: 'rank')
+  final int rank;
+
+  UpdateFilterRequest({
+    @_s.required this.detectorId,
+    @_s.required this.filterName,
+    this.action,
+    this.description,
+    this.findingCriteria,
+    this.rank,
+  });
+  Map<String, dynamic> toJson() => _$UpdateFilterRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4819,12 +5782,81 @@ class UpdateFilterResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateFindingsFeedbackRequest {
+  /// The ID of the detector associated with the findings to update feedback for.
+  @_s.JsonKey(name: 'detectorId', ignore: true)
+  final String detectorId;
+
+  /// The feedback for the finding.
+  @_s.JsonKey(name: 'feedback')
+  final Feedback feedback;
+
+  /// IDs of the findings that you want to mark as useful or not useful.
+  @_s.JsonKey(name: 'findingIds')
+  final List<String> findingIds;
+
+  /// Additional feedback about the GuardDuty findings.
+  @_s.JsonKey(name: 'comments')
+  final String comments;
+
+  UpdateFindingsFeedbackRequest({
+    @_s.required this.detectorId,
+    @_s.required this.feedback,
+    @_s.required this.findingIds,
+    this.comments,
+  });
+  Map<String, dynamic> toJson() => _$UpdateFindingsFeedbackRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateFindingsFeedbackResponse {
   UpdateFindingsFeedbackResponse();
   factory UpdateFindingsFeedbackResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateFindingsFeedbackResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateIPSetRequest {
+  /// The detectorID that specifies the GuardDuty service whose IPSet you want to
+  /// update.
+  @_s.JsonKey(name: 'detectorId', ignore: true)
+  final String detectorId;
+
+  /// The unique ID that specifies the IPSet that you want to update.
+  @_s.JsonKey(name: 'ipSetId', ignore: true)
+  final String ipSetId;
+
+  /// The updated boolean value that specifies whether the IPSet is active or not.
+  @_s.JsonKey(name: 'activate')
+  final bool activate;
+
+  /// The updated URI of the file that contains the IPSet. For example
+  /// (https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key).
+  @_s.JsonKey(name: 'location')
+  final String location;
+
+  /// The unique ID that specifies the IPSet that you want to update.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  UpdateIPSetRequest({
+    @_s.required this.detectorId,
+    @_s.required this.ipSetId,
+    this.activate,
+    this.location,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$UpdateIPSetRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4841,6 +5873,36 @@ class UpdateIPSetResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdatePublishingDestinationRequest {
+  /// The ID of the detector associated with the publishing destinations to
+  /// update.
+  @_s.JsonKey(name: 'destinationId', ignore: true)
+  final String destinationId;
+
+  /// The ID of the
+  @_s.JsonKey(name: 'detectorId', ignore: true)
+  final String detectorId;
+
+  /// A <code>DestinationProperties</code> object that includes the
+  /// <code>DestinationArn</code> and <code>KmsKeyArn</code> of the publishing
+  /// destination.
+  @_s.JsonKey(name: 'destinationProperties')
+  final DestinationProperties destinationProperties;
+
+  UpdatePublishingDestinationRequest({
+    @_s.required this.destinationId,
+    @_s.required this.detectorId,
+    this.destinationProperties,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdatePublishingDestinationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdatePublishingDestinationResponse {
@@ -4848,6 +5910,45 @@ class UpdatePublishingDestinationResponse {
   factory UpdatePublishingDestinationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$UpdatePublishingDestinationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateThreatIntelSetRequest {
+  /// The detectorID that specifies the GuardDuty service whose ThreatIntelSet you
+  /// want to update.
+  @_s.JsonKey(name: 'detectorId', ignore: true)
+  final String detectorId;
+
+  /// The unique ID that specifies the ThreatIntelSet that you want to update.
+  @_s.JsonKey(name: 'threatIntelSetId', ignore: true)
+  final String threatIntelSetId;
+
+  /// The updated boolean value that specifies whether the ThreateIntelSet is
+  /// active or not.
+  @_s.JsonKey(name: 'activate')
+  final bool activate;
+
+  /// The updated URI of the file that contains the ThreateIntelSet. For example
+  /// (https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key)
+  @_s.JsonKey(name: 'location')
+  final String location;
+
+  /// The unique ID that specifies the ThreatIntelSet that you want to update.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  UpdateThreatIntelSetRequest({
+    @_s.required this.detectorId,
+    @_s.required this.threatIntelSetId,
+    this.activate,
+    this.location,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$UpdateThreatIntelSetRequestToJson(this);
 }
 
 @_s.JsonSerializable(

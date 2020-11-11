@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -87,10 +86,10 @@ class Kendra {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DocumentIdList': documentIdList,
-        'IndexId': indexId,
-      },
+      payload: BatchDeleteDocumentRequest(
+        documentIdList: documentIdList,
+        indexId: indexId,
+      ),
     );
 
     return BatchDeleteDocumentResponse.fromJson(jsonResponse.body);
@@ -172,11 +171,11 @@ class Kendra {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Documents': documents,
-        'IndexId': indexId,
-        if (roleArn != null) 'RoleArn': roleArn,
-      },
+      payload: BatchPutDocumentRequest(
+        documents: documents,
+        indexId: indexId,
+        roleArn: roleArn,
+      ),
     );
 
     return BatchPutDocumentResponse.fromJson(jsonResponse.body);
@@ -307,15 +306,15 @@ class Kendra {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Configuration': configuration,
-        'IndexId': indexId,
-        'Name': name,
-        'RoleArn': roleArn,
-        'Type': type?.toValue(),
-        if (description != null) 'Description': description,
-        if (schedule != null) 'Schedule': schedule,
-      },
+      payload: CreateDataSourceRequest(
+        configuration: configuration,
+        indexId: indexId,
+        name: name,
+        roleArn: roleArn,
+        type: type,
+        description: description,
+        schedule: schedule,
+      ),
     );
 
     return CreateDataSourceResponse.fromJson(jsonResponse.body);
@@ -420,13 +419,13 @@ class Kendra {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'IndexId': indexId,
-        'Name': name,
-        'RoleArn': roleArn,
-        'S3Path': s3Path,
-        if (description != null) 'Description': description,
-      },
+      payload: CreateFaqRequest(
+        indexId: indexId,
+        name: name,
+        roleArn: roleArn,
+        s3Path: s3Path,
+        description: description,
+      ),
     );
 
     return CreateFaqResponse.fromJson(jsonResponse.body);
@@ -532,15 +531,13 @@ class Kendra {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        'RoleArn': roleArn,
-        if (clientToken != null) 'ClientToken': clientToken,
-        if (description != null) 'Description': description,
-        if (serverSideEncryptionConfiguration != null)
-          'ServerSideEncryptionConfiguration':
-              serverSideEncryptionConfiguration,
-      },
+      payload: CreateIndexRequest(
+        name: name,
+        roleArn: roleArn,
+        clientToken: clientToken,
+        description: description,
+        serverSideEncryptionConfiguration: serverSideEncryptionConfiguration,
+      ),
     );
 
     return CreateIndexResponse.fromJson(jsonResponse.body);
@@ -602,10 +599,10 @@ class Kendra {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-        'IndexId': indexId,
-      },
+      payload: DeleteFaqRequest(
+        id: id,
+        indexId: indexId,
+      ),
     );
   }
 
@@ -650,9 +647,9 @@ class Kendra {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-      },
+      payload: DeleteIndexRequest(
+        id: id,
+      ),
     );
   }
 
@@ -711,10 +708,10 @@ class Kendra {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-        'IndexId': indexId,
-      },
+      payload: DescribeDataSourceRequest(
+        id: id,
+        indexId: indexId,
+      ),
     );
 
     return DescribeDataSourceResponse.fromJson(jsonResponse.body);
@@ -775,10 +772,10 @@ class Kendra {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-        'IndexId': indexId,
-      },
+      payload: DescribeFaqRequest(
+        id: id,
+        indexId: indexId,
+      ),
     );
 
     return DescribeFaqResponse.fromJson(jsonResponse.body);
@@ -821,9 +818,9 @@ class Kendra {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-      },
+      payload: DescribeIndexRequest(
+        id: id,
+      ),
     );
 
     return DescribeIndexResponse.fromJson(jsonResponse.body);
@@ -919,14 +916,14 @@ class Kendra {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-        'IndexId': indexId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (startTimeFilter != null) 'StartTimeFilter': startTimeFilter,
-        if (statusFilter != null) 'StatusFilter': statusFilter?.toValue(),
-      },
+      payload: ListDataSourceSyncJobsRequest(
+        id: id,
+        indexId: indexId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        startTimeFilter: startTimeFilter,
+        statusFilter: statusFilter,
+      ),
     );
 
     return ListDataSourceSyncJobsResponse.fromJson(jsonResponse.body);
@@ -992,11 +989,11 @@ class Kendra {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'IndexId': indexId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListDataSourcesRequest(
+        indexId: indexId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListDataSourcesResponse.fromJson(jsonResponse.body);
@@ -1062,11 +1059,11 @@ class Kendra {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'IndexId': indexId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListFaqsRequest(
+        indexId: indexId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListFaqsResponse.fromJson(jsonResponse.body);
@@ -1113,10 +1110,10 @@ class Kendra {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListIndicesRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListIndicesResponse.fromJson(jsonResponse.body);
@@ -1240,18 +1237,16 @@ class Kendra {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'IndexId': indexId,
-        'QueryText': queryText,
-        if (attributeFilter != null) 'AttributeFilter': attributeFilter,
-        if (facets != null) 'Facets': facets,
-        if (pageNumber != null) 'PageNumber': pageNumber,
-        if (pageSize != null) 'PageSize': pageSize,
-        if (queryResultTypeFilter != null)
-          'QueryResultTypeFilter': queryResultTypeFilter?.toValue(),
-        if (requestedDocumentAttributes != null)
-          'RequestedDocumentAttributes': requestedDocumentAttributes,
-      },
+      payload: QueryRequest(
+        indexId: indexId,
+        queryText: queryText,
+        attributeFilter: attributeFilter,
+        facets: facets,
+        pageNumber: pageNumber,
+        pageSize: pageSize,
+        queryResultTypeFilter: queryResultTypeFilter,
+        requestedDocumentAttributes: requestedDocumentAttributes,
+      ),
     );
 
     return QueryResult.fromJson(jsonResponse.body);
@@ -1316,10 +1311,10 @@ class Kendra {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-        'IndexId': indexId,
-      },
+      payload: StartDataSourceSyncJobRequest(
+        id: id,
+        indexId: indexId,
+      ),
     );
 
     return StartDataSourceSyncJobResponse.fromJson(jsonResponse.body);
@@ -1382,10 +1377,10 @@ class Kendra {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-        'IndexId': indexId,
-      },
+      payload: StopDataSourceSyncJobRequest(
+        id: id,
+        indexId: indexId,
+      ),
     );
   }
 
@@ -1451,14 +1446,12 @@ class Kendra {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'IndexId': indexId,
-        'QueryId': queryId,
-        if (clickFeedbackItems != null)
-          'ClickFeedbackItems': clickFeedbackItems,
-        if (relevanceFeedbackItems != null)
-          'RelevanceFeedbackItems': relevanceFeedbackItems,
-      },
+      payload: SubmitFeedbackRequest(
+        indexId: indexId,
+        queryId: queryId,
+        clickFeedbackItems: clickFeedbackItems,
+        relevanceFeedbackItems: relevanceFeedbackItems,
+      ),
     );
   }
 
@@ -1571,15 +1564,15 @@ class Kendra {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-        'IndexId': indexId,
-        if (configuration != null) 'Configuration': configuration,
-        if (description != null) 'Description': description,
-        if (name != null) 'Name': name,
-        if (roleArn != null) 'RoleArn': roleArn,
-        if (schedule != null) 'Schedule': schedule,
-      },
+      payload: UpdateDataSourceRequest(
+        id: id,
+        indexId: indexId,
+        configuration: configuration,
+        description: description,
+        name: name,
+        roleArn: roleArn,
+        schedule: schedule,
+      ),
     );
   }
 
@@ -1671,15 +1664,14 @@ class Kendra {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-        if (description != null) 'Description': description,
-        if (documentMetadataConfigurationUpdates != null)
-          'DocumentMetadataConfigurationUpdates':
-              documentMetadataConfigurationUpdates,
-        if (name != null) 'Name': name,
-        if (roleArn != null) 'RoleArn': roleArn,
-      },
+      payload: UpdateIndexRequest(
+        id: id,
+        description: description,
+        documentMetadataConfigurationUpdates:
+            documentMetadataConfigurationUpdates,
+        name: name,
+        roleArn: roleArn,
+      ),
     );
   }
 }
@@ -1864,6 +1856,27 @@ class AttributeFilter {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchDeleteDocumentRequest {
+  /// One or more identifiers for documents to delete from the index.
+  @_s.JsonKey(name: 'DocumentIdList')
+  final List<String> documentIdList;
+
+  /// The identifier of the index that contains the documents to delete.
+  @_s.JsonKey(name: 'IndexId')
+  final String indexId;
+
+  BatchDeleteDocumentRequest({
+    @_s.required this.documentIdList,
+    @_s.required this.indexId,
+  });
+  Map<String, dynamic> toJson() => _$BatchDeleteDocumentRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class BatchDeleteDocumentResponse {
@@ -1908,6 +1921,39 @@ class BatchDeleteDocumentResponseFailedDocument {
   factory BatchDeleteDocumentResponseFailedDocument.fromJson(
           Map<String, dynamic> json) =>
       _$BatchDeleteDocumentResponseFailedDocumentFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchPutDocumentRequest {
+  /// One or more documents to add to the index.
+  ///
+  /// Each document is limited to 5 Mb, the total size of the list is limited to
+  /// 50 Mb.
+  @_s.JsonKey(name: 'Documents')
+  final List<Document> documents;
+
+  /// The identifier of the index to add the documents to. You need to create the
+  /// index first using the <a>CreateIndex</a> operation.
+  @_s.JsonKey(name: 'IndexId')
+  final String indexId;
+
+  /// The Amazon Resource Name (ARN) of a role that is allowed to run the
+  /// <code>BatchPutDocument</code> operation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html">IAM Roles
+  /// for Amazon Kendra</a>.
+  @_s.JsonKey(name: 'RoleArn')
+  final String roleArn;
+
+  BatchPutDocumentRequest({
+    @_s.required this.documents,
+    @_s.required this.indexId,
+    this.roleArn,
+  });
+  Map<String, dynamic> toJson() => _$BatchPutDocumentRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2096,6 +2142,60 @@ enum ContentType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDataSourceRequest {
+  /// The connector configuration information that is required to access the
+  /// repository.
+  @_s.JsonKey(name: 'Configuration')
+  final DataSourceConfiguration configuration;
+
+  /// The identifier of the index that should be associated with this data source.
+  @_s.JsonKey(name: 'IndexId')
+  final String indexId;
+
+  /// A unique name for the data source. A data source name can't be changed
+  /// without deleting and recreating the data source.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The Amazon Resource Name (ARN) of a role with permission to access the data
+  /// source. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html">IAM Roles
+  /// for Amazon Kendra</a>.
+  @_s.JsonKey(name: 'RoleArn')
+  final String roleArn;
+
+  /// The type of repository that contains the data source.
+  @_s.JsonKey(name: 'Type')
+  final DataSourceType type;
+
+  /// A description for the data source.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// Sets the frequency that Amazon Kendra will check the documents in your
+  /// repository and update the index. If you don't set a schedule Amazon Kendra
+  /// will not periodically update the index. You can call the
+  /// <code>StartDataSourceSyncJob</code> operation to update the index.
+  @_s.JsonKey(name: 'Schedule')
+  final String schedule;
+
+  CreateDataSourceRequest({
+    @_s.required this.configuration,
+    @_s.required this.indexId,
+    @_s.required this.name,
+    @_s.required this.roleArn,
+    @_s.required this.type,
+    this.description,
+    this.schedule,
+  });
+  Map<String, dynamic> toJson() => _$CreateDataSourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateDataSourceResponse {
@@ -2113,6 +2213,45 @@ class CreateDataSourceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateFaqRequest {
+  /// The identifier of the index that contains the FAQ.
+  @_s.JsonKey(name: 'IndexId')
+  final String indexId;
+
+  /// The name that should be associated with the FAQ.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The Amazon Resource Name (ARN) of a role with permission to access the S3
+  /// bucket that contains the FAQs. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html">IAM Roles
+  /// for Amazon Kendra</a>.
+  @_s.JsonKey(name: 'RoleArn')
+  final String roleArn;
+
+  /// The S3 location of the FAQ input data.
+  @_s.JsonKey(name: 'S3Path')
+  final S3Path s3Path;
+
+  /// A description of the FAQ.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  CreateFaqRequest({
+    @_s.required this.indexId,
+    @_s.required this.name,
+    @_s.required this.roleArn,
+    @_s.required this.s3Path,
+    this.description,
+  });
+  Map<String, dynamic> toJson() => _$CreateFaqRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateFaqResponse {
@@ -2125,6 +2264,49 @@ class CreateFaqResponse {
   });
   factory CreateFaqResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateFaqResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateIndexRequest {
+  /// The name for the new index.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// An IAM role that gives Amazon Kendra permissions to access your Amazon
+  /// CloudWatch logs and metrics. This is also the role used when you use the
+  /// <code>BatchPutDocument</code> operation to index documents from an Amazon S3
+  /// bucket.
+  @_s.JsonKey(name: 'RoleArn')
+  final String roleArn;
+
+  /// A token that you provide to identify the request to create an index.
+  /// Multiple calls to the <code>CreateIndex</code> operation with the same
+  /// client token will create only one index.”
+  @_s.JsonKey(name: 'ClientToken')
+  final String clientToken;
+
+  /// A description for the index.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The identifier of the AWS KMS customer managed key (CMK) to use to encrypt
+  /// data indexed by Amazon Kendra. Amazon Kendra doesn't support asymmetric
+  /// CMKs.
+  @_s.JsonKey(name: 'ServerSideEncryptionConfiguration')
+  final ServerSideEncryptionConfiguration serverSideEncryptionConfiguration;
+
+  CreateIndexRequest({
+    @_s.required this.name,
+    @_s.required this.roleArn,
+    this.clientToken,
+    this.description,
+    this.serverSideEncryptionConfiguration,
+  });
+  Map<String, dynamic> toJson() => _$CreateIndexRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2319,26 +2501,6 @@ enum DataSourceSyncJobStatus {
   aborted,
 }
 
-extension on DataSourceSyncJobStatus {
-  String toValue() {
-    switch (this) {
-      case DataSourceSyncJobStatus.failed:
-        return 'FAILED';
-      case DataSourceSyncJobStatus.succeeded:
-        return 'SUCCEEDED';
-      case DataSourceSyncJobStatus.syncing:
-        return 'SYNCING';
-      case DataSourceSyncJobStatus.incomplete:
-        return 'INCOMPLETE';
-      case DataSourceSyncJobStatus.stopping:
-        return 'STOPPING';
-      case DataSourceSyncJobStatus.aborted:
-        return 'ABORTED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Maps a column or attribute in the data source to an index field. You must
 /// first create the fields in the index using the <a>UpdateIndex</a> operation.
 @_s.JsonSerializable(
@@ -2377,20 +2539,6 @@ enum DataSourceType {
   sharepoint,
   @_s.JsonValue('DATABASE')
   database,
-}
-
-extension on DataSourceType {
-  String toValue() {
-    switch (this) {
-      case DataSourceType.s3:
-        return 'S3';
-      case DataSourceType.sharepoint:
-        return 'SHAREPOINT';
-      case DataSourceType.database:
-        return 'DATABASE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Provides information for connecting to an Amazon VPC.
@@ -2470,6 +2618,64 @@ enum DatabaseEngineType {
   rdsMysql,
   @_s.JsonValue('RDS_POSTGRESQL')
   rdsPostgresql,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteFaqRequest {
+  /// The identifier of the FAQ to remove.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// The index to remove the FAQ from.
+  @_s.JsonKey(name: 'IndexId')
+  final String indexId;
+
+  DeleteFaqRequest({
+    @_s.required this.id,
+    @_s.required this.indexId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteFaqRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteIndexRequest {
+  /// The identifier of the index to delete.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  DeleteIndexRequest({
+    @_s.required this.id,
+  });
+  Map<String, dynamic> toJson() => _$DeleteIndexRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeDataSourceRequest {
+  /// The unique identifier of the data source to describe.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// The identifier of the index that contains the data source.
+  @_s.JsonKey(name: 'IndexId')
+  final String indexId;
+
+  DescribeDataSourceRequest({
+    @_s.required this.id,
+    @_s.required this.indexId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeDataSourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2561,6 +2767,27 @@ class DescribeDataSourceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeFaqRequest {
+  /// The unique identifier of the FAQ.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// The identifier of the index that contains the FAQ.
+  @_s.JsonKey(name: 'IndexId')
+  final String indexId;
+
+  DescribeFaqRequest({
+    @_s.required this.id,
+    @_s.required this.indexId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeFaqRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeFaqResponse {
@@ -2625,6 +2852,22 @@ class DescribeFaqResponse {
   });
   factory DescribeFaqResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeFaqResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeIndexRequest {
+  /// The name of the index to describe.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  DescribeIndexRequest({
+    @_s.required this.id,
+  });
+  Map<String, dynamic> toJson() => _$DescribeIndexRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3167,6 +3410,53 @@ enum IndexStatus {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListDataSourceSyncJobsRequest {
+  /// The identifier of the data source.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// The identifier of the index that contains the data source.
+  @_s.JsonKey(name: 'IndexId')
+  final String indexId;
+
+  /// The maximum number of synchronization jobs to return in the response. If
+  /// there are fewer results in the list, this response contains only the actual
+  /// results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If the result of the previous request to
+  /// <code>GetDataSourceSyncJobHistory</code> was truncated, include the
+  /// <code>NextToken</code> to fetch the next set of jobs.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// When specified, the synchronization jobs returned in the list are limited to
+  /// jobs between the specified dates.
+  @_s.JsonKey(name: 'StartTimeFilter')
+  final TimeRange startTimeFilter;
+
+  /// When specified, only returns synchronization jobs with the
+  /// <code>Status</code> field equal to the specified status.
+  @_s.JsonKey(name: 'StatusFilter')
+  final DataSourceSyncJobStatus statusFilter;
+
+  ListDataSourceSyncJobsRequest({
+    @_s.required this.id,
+    @_s.required this.indexId,
+    this.maxResults,
+    this.nextToken,
+    this.startTimeFilter,
+    this.statusFilter,
+  });
+  Map<String, dynamic> toJson() => _$ListDataSourceSyncJobsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListDataSourceSyncJobsResponse {
@@ -3189,6 +3479,35 @@ class ListDataSourceSyncJobsResponse {
   });
   factory ListDataSourceSyncJobsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListDataSourceSyncJobsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListDataSourcesRequest {
+  /// The identifier of the index that contains the data source.
+  @_s.JsonKey(name: 'IndexId')
+  final String indexId;
+
+  /// The maximum number of data sources to return.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If the previous response was incomplete (because there is more data to
+  /// retrieve), Amazon Kendra returns a pagination token in the response. You can
+  /// use this pagination token to retrieve the next set of data sources
+  /// (<code>DataSourceSummaryItems</code>).
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListDataSourcesRequest({
+    @_s.required this.indexId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListDataSourcesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3217,6 +3536,34 @@ class ListDataSourcesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListFaqsRequest {
+  /// The index that contains the FAQ lists.
+  @_s.JsonKey(name: 'IndexId')
+  final String indexId;
+
+  /// The maximum number of FAQs to return in the response. If there are fewer
+  /// results in the list, this response contains only the actual results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If the result of the previous request to <code>ListFaqs</code> was
+  /// truncated, include the <code>NextToken</code> to fetch the next set of FAQs.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListFaqsRequest({
+    @_s.required this.indexId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListFaqsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListFaqsResponse {
@@ -3238,6 +3585,30 @@ class ListFaqsResponse {
   });
   factory ListFaqsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListFaqsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListIndicesRequest {
+  /// The maximum number of data sources to return.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If the previous response was incomplete (because there is more data to
+  /// retrieve), Amazon Kendra returns a pagination token in the response. You can
+  /// use this pagination token to retrieve the next set of indexes
+  /// (<code>DataSourceSummaryItems</code>).
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListIndicesRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListIndicesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3302,6 +3673,73 @@ enum PrincipalType {
   user,
   @_s.JsonValue('GROUP')
   group,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class QueryRequest {
+  /// The unique identifier of the index to search. The identifier is returned in
+  /// the response from the operation.
+  @_s.JsonKey(name: 'IndexId')
+  final String indexId;
+
+  /// The text to search for.
+  @_s.JsonKey(name: 'QueryText')
+  final String queryText;
+
+  /// Enables filtered searches based on document attributes. You can only provide
+  /// one attribute filter; however, the <code>AndAllFilters</code>,
+  /// <code>NotFilter</code>, and <code>OrAllFilters</code> parameters contain a
+  /// list of other filters.
+  ///
+  /// The <code>AttributeFilter</code> parameter enables you to create a set of
+  /// filtering rules that a document must satisfy to be included in the query
+  /// results.
+  @_s.JsonKey(name: 'AttributeFilter')
+  final AttributeFilter attributeFilter;
+
+  /// An array of documents attributes. Amazon Kendra returns a count for each
+  /// attribute key specified. You can use this information to help narrow the
+  /// search for your user.
+  @_s.JsonKey(name: 'Facets')
+  final List<Facet> facets;
+
+  /// Query results are returned in pages the size of the <code>PageSize</code>
+  /// parameter. By default, Amazon Kendra returns the first page of results. Use
+  /// this parameter to get result pages after the first one.
+  @_s.JsonKey(name: 'PageNumber')
+  final int pageNumber;
+
+  /// Sets the number of results that are returned in each page of results. The
+  /// default page size is 100.
+  @_s.JsonKey(name: 'PageSize')
+  final int pageSize;
+
+  /// Sets the type of query. Only results for the specified query type are
+  /// returned.
+  @_s.JsonKey(name: 'QueryResultTypeFilter')
+  final QueryResultType queryResultTypeFilter;
+
+  /// An array of document attributes to include in the response. No other
+  /// document attributes are included in the response. By default all document
+  /// attributes are included in the response.
+  @_s.JsonKey(name: 'RequestedDocumentAttributes')
+  final List<String> requestedDocumentAttributes;
+
+  QueryRequest({
+    @_s.required this.indexId,
+    @_s.required this.queryText,
+    this.attributeFilter,
+    this.facets,
+    this.pageNumber,
+    this.pageSize,
+    this.queryResultTypeFilter,
+    this.requestedDocumentAttributes,
+  });
+  Map<String, dynamic> toJson() => _$QueryRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3409,20 +3847,6 @@ enum QueryResultType {
   questionAnswer,
   @_s.JsonValue('ANSWER')
   answer,
-}
-
-extension on QueryResultType {
-  String toValue() {
-    switch (this) {
-      case QueryResultType.document:
-        return 'DOCUMENT';
-      case QueryResultType.questionAnswer:
-        return 'QUESTION_ANSWER';
-      case QueryResultType.answer:
-        return 'ANSWER';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 enum ReadAccessType {
@@ -3771,6 +4195,27 @@ enum SharePointVersion {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartDataSourceSyncJobRequest {
+  /// The identifier of the data source to synchronize.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// The identifier of the index that contains the data source.
+  @_s.JsonKey(name: 'IndexId')
+  final String indexId;
+
+  StartDataSourceSyncJobRequest({
+    @_s.required this.id,
+    @_s.required this.indexId,
+  });
+  Map<String, dynamic> toJson() => _$StartDataSourceSyncJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartDataSourceSyncJobResponse {
@@ -3783,6 +4228,62 @@ class StartDataSourceSyncJobResponse {
   });
   factory StartDataSourceSyncJobResponse.fromJson(Map<String, dynamic> json) =>
       _$StartDataSourceSyncJobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopDataSourceSyncJobRequest {
+  /// The identifier of the data source for which to stop the synchronization
+  /// jobs.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// The identifier of the index that contains the data source.
+  @_s.JsonKey(name: 'IndexId')
+  final String indexId;
+
+  StopDataSourceSyncJobRequest({
+    @_s.required this.id,
+    @_s.required this.indexId,
+  });
+  Map<String, dynamic> toJson() => _$StopDataSourceSyncJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SubmitFeedbackRequest {
+  /// The identifier of the index that was queried.
+  @_s.JsonKey(name: 'IndexId')
+  final String indexId;
+
+  /// The identifier of the specific query for which you are submitting feedback.
+  /// The query ID is returned in the response to the operation.
+  @_s.JsonKey(name: 'QueryId')
+  final String queryId;
+
+  /// Tells Amazon Kendra that a particular search result link was chosen by the
+  /// user.
+  @_s.JsonKey(name: 'ClickFeedbackItems')
+  final List<ClickFeedback> clickFeedbackItems;
+
+  /// Provides Amazon Kendra with relevant or not relevant feedback for whether a
+  /// particular item was relevant to the search.
+  @_s.JsonKey(name: 'RelevanceFeedbackItems')
+  final List<RelevanceFeedback> relevanceFeedbackItems;
+
+  SubmitFeedbackRequest({
+    @_s.required this.indexId,
+    @_s.required this.queryId,
+    this.clickFeedbackItems,
+    this.relevanceFeedbackItems,
+  });
+  Map<String, dynamic> toJson() => _$SubmitFeedbackRequestToJson(this);
 }
 
 /// Provides information about text documents indexed in an index.
@@ -3852,6 +4353,91 @@ class TimeRange {
     this.startTime,
   });
   Map<String, dynamic> toJson() => _$TimeRangeToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDataSourceRequest {
+  /// The unique identifier of the data source to update.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// The identifier of the index that contains the data source to update.
+  @_s.JsonKey(name: 'IndexId')
+  final String indexId;
+  @_s.JsonKey(name: 'Configuration')
+  final DataSourceConfiguration configuration;
+
+  /// The new description for the data source.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The name of the data source to update. The name of the data source can't be
+  /// updated. To rename a data source you must delete the data source and
+  /// re-create it.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The Amazon Resource Name (ARN) of the new role to use when the data source
+  /// is accessing resources on your behalf.
+  @_s.JsonKey(name: 'RoleArn')
+  final String roleArn;
+
+  /// The new update schedule for the data source.
+  @_s.JsonKey(name: 'Schedule')
+  final String schedule;
+
+  UpdateDataSourceRequest({
+    @_s.required this.id,
+    @_s.required this.indexId,
+    this.configuration,
+    this.description,
+    this.name,
+    this.roleArn,
+    this.schedule,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDataSourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateIndexRequest {
+  /// The identifier of the index to update.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// A new description for the index.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The document metadata to update.
+  @_s.JsonKey(name: 'DocumentMetadataConfigurationUpdates')
+  final List<DocumentMetadataConfiguration>
+      documentMetadataConfigurationUpdates;
+
+  /// The name of the index to update.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// A new IAM role that gives Amazon Kendra permission to access your Amazon
+  /// CloudWatch logs.
+  @_s.JsonKey(name: 'RoleArn')
+  final String roleArn;
+
+  UpdateIndexRequest({
+    @_s.required this.id,
+    this.description,
+    this.documentMetadataConfigurationUpdates,
+    this.name,
+    this.roleArn,
+  });
+  Map<String, dynamic> toJson() => _$UpdateIndexRequestToJson(this);
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

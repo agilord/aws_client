@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -77,10 +76,10 @@ class ApplicationDiscoveryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'applicationConfigurationId': applicationConfigurationId,
-        'configurationIds': configurationIds,
-      },
+      payload: AssociateConfigurationItemsToApplicationRequest(
+        applicationConfigurationId: applicationConfigurationId,
+        configurationIds: configurationIds,
+      ),
     );
 
     return AssociateConfigurationItemsToApplicationResponse.fromJson(
@@ -120,9 +119,9 @@ class ApplicationDiscoveryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'importTaskIds': importTaskIds,
-      },
+      payload: BatchDeleteImportDataRequest(
+        importTaskIds: importTaskIds,
+      ),
     );
 
     return BatchDeleteImportDataResponse.fromJson(jsonResponse.body);
@@ -156,10 +155,10 @@ class ApplicationDiscoveryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'name': name,
-        if (description != null) 'description': description,
-      },
+      payload: CreateApplicationRequest(
+        name: name,
+        description: description,
+      ),
     );
 
     return CreateApplicationResponse.fromJson(jsonResponse.body);
@@ -201,10 +200,10 @@ class ApplicationDiscoveryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'configurationIds': configurationIds,
-        'tags': tags,
-      },
+      payload: CreateTagsRequest(
+        configurationIds: configurationIds,
+        tags: tags,
+      ),
     );
 
     return CreateTagsResponse.fromJson(jsonResponse.body);
@@ -235,9 +234,9 @@ class ApplicationDiscoveryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'configurationIds': configurationIds,
-      },
+      payload: DeleteApplicationsRequest(
+        configurationIds: configurationIds,
+      ),
     );
 
     return DeleteApplicationsResponse.fromJson(jsonResponse.body);
@@ -277,10 +276,10 @@ class ApplicationDiscoveryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'configurationIds': configurationIds,
-        if (tags != null) 'tags': tags,
-      },
+      payload: DeleteTagsRequest(
+        configurationIds: configurationIds,
+        tags: tags,
+      ),
     );
 
     return DeleteTagsResponse.fromJson(jsonResponse.body);
@@ -333,12 +332,12 @@ class ApplicationDiscoveryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (agentIds != null) 'agentIds': agentIds,
-        if (filters != null) 'filters': filters,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: DescribeAgentsRequest(
+        agentIds: agentIds,
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeAgentsResponse.fromJson(jsonResponse.body);
@@ -396,9 +395,9 @@ class ApplicationDiscoveryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'configurationIds': configurationIds,
-      },
+      payload: DescribeConfigurationsRequest(
+        configurationIds: configurationIds,
+      ),
     );
 
     return DescribeConfigurationsResponse.fromJson(jsonResponse.body);
@@ -447,11 +446,11 @@ class ApplicationDiscoveryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (exportIds != null) 'exportIds': exportIds,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: DescribeContinuousExportsRequest(
+        exportIds: exportIds,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeContinuousExportsResponse.fromJson(jsonResponse.body);
@@ -494,11 +493,11 @@ class ApplicationDiscoveryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (exportIds != null) 'exportIds': exportIds,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: DescribeExportConfigurationsRequest(
+        exportIds: exportIds,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeExportConfigurationsResponse.fromJson(jsonResponse.body);
@@ -557,12 +556,12 @@ class ApplicationDiscoveryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (exportIds != null) 'exportIds': exportIds,
-        if (filters != null) 'filters': filters,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: DescribeExportTasksRequest(
+        exportIds: exportIds,
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeExportTasksResponse.fromJson(jsonResponse.body);
@@ -610,11 +609,11 @@ class ApplicationDiscoveryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'filters': filters,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: DescribeImportTasksRequest(
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeImportTasksResponse.fromJson(jsonResponse.body);
@@ -675,11 +674,11 @@ class ApplicationDiscoveryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'filters': filters,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: DescribeTagsRequest(
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeTagsResponse.fromJson(jsonResponse.body);
@@ -716,10 +715,10 @@ class ApplicationDiscoveryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'applicationConfigurationId': applicationConfigurationId,
-        'configurationIds': configurationIds,
-      },
+      payload: DisassociateConfigurationItemsFromApplicationRequest(
+        applicationConfigurationId: applicationConfigurationId,
+        configurationIds: configurationIds,
+      ),
     );
 
     return DisassociateConfigurationItemsFromApplicationResponse.fromJson(
@@ -845,13 +844,13 @@ class ApplicationDiscoveryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'configurationType': configurationType?.toValue(),
-        if (filters != null) 'filters': filters,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (orderBy != null) 'orderBy': orderBy,
-      },
+      payload: ListConfigurationsRequest(
+        configurationType: configurationType,
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        orderBy: orderBy,
+      ),
     );
 
     return ListConfigurationsResponse.fromJson(jsonResponse.body);
@@ -904,15 +903,13 @@ class ApplicationDiscoveryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'configurationId': configurationId,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (neighborConfigurationIds != null)
-          'neighborConfigurationIds': neighborConfigurationIds,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (portInformationNeeded != null)
-          'portInformationNeeded': portInformationNeeded,
-      },
+      payload: ListServerNeighborsRequest(
+        configurationId: configurationId,
+        maxResults: maxResults,
+        neighborConfigurationIds: neighborConfigurationIds,
+        nextToken: nextToken,
+        portInformationNeeded: portInformationNeeded,
+      ),
     );
 
     return ListServerNeighborsResponse.fromJson(jsonResponse.body);
@@ -976,9 +973,9 @@ class ApplicationDiscoveryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'agentIds': agentIds,
-      },
+      payload: StartDataCollectionByAgentIdsRequest(
+        agentIds: agentIds,
+      ),
     );
 
     return StartDataCollectionByAgentIdsResponse.fromJson(jsonResponse.body);
@@ -1044,12 +1041,12 @@ class ApplicationDiscoveryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (endTime != null) 'endTime': endTime,
-        if (exportDataFormat != null) 'exportDataFormat': exportDataFormat,
-        if (filters != null) 'filters': filters,
-        if (startTime != null) 'startTime': startTime,
-      },
+      payload: StartExportTaskRequest(
+        endTime: endTime,
+        exportDataFormat: exportDataFormat,
+        filters: filters,
+        startTime: startTime,
+      ),
     );
 
     return StartExportTaskResponse.fromJson(jsonResponse.body);
@@ -1157,12 +1154,11 @@ class ApplicationDiscoveryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'importUrl': importUrl,
-        'name': name,
-        if (clientRequestToken != null)
-          'clientRequestToken': clientRequestToken,
-      },
+      payload: StartImportTaskRequest(
+        importUrl: importUrl,
+        name: name,
+        clientRequestToken: clientRequestToken,
+      ),
     );
 
     return StartImportTaskResponse.fromJson(jsonResponse.body);
@@ -1195,9 +1191,9 @@ class ApplicationDiscoveryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'exportId': exportId,
-      },
+      payload: StopContinuousExportRequest(
+        exportId: exportId,
+      ),
     );
 
     return StopContinuousExportResponse.fromJson(jsonResponse.body);
@@ -1228,9 +1224,9 @@ class ApplicationDiscoveryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'agentIds': agentIds,
-      },
+      payload: StopDataCollectionByAgentIdsRequest(
+        agentIds: agentIds,
+      ),
     );
 
     return StopDataCollectionByAgentIdsResponse.fromJson(jsonResponse.body);
@@ -1268,11 +1264,11 @@ class ApplicationDiscoveryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'configurationId': configurationId,
-        if (description != null) 'description': description,
-        if (name != null) 'name': name,
-      },
+      payload: UpdateApplicationRequest(
+        configurationId: configurationId,
+        description: description,
+        name: name,
+      ),
     );
 
     return UpdateApplicationResponse.fromJson(jsonResponse.body);
@@ -1420,6 +1416,29 @@ enum AgentStatus {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateConfigurationItemsToApplicationRequest {
+  /// The configuration ID of an application with which items are to be
+  /// associated.
+  @_s.JsonKey(name: 'applicationConfigurationId')
+  final String applicationConfigurationId;
+
+  /// The ID of each configuration item to be associated with an application.
+  @_s.JsonKey(name: 'configurationIds')
+  final List<String> configurationIds;
+
+  AssociateConfigurationItemsToApplicationRequest({
+    @_s.required this.applicationConfigurationId,
+    @_s.required this.configurationIds,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AssociateConfigurationItemsToApplicationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AssociateConfigurationItemsToApplicationResponse {
@@ -1470,6 +1489,22 @@ enum BatchDeleteImportDataErrorCode {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchDeleteImportDataRequest {
+  /// The IDs for the import tasks that you want to delete.
+  @_s.JsonKey(name: 'importTaskIds')
+  final List<String> importTaskIds;
+
+  BatchDeleteImportDataRequest({
+    @_s.required this.importTaskIds,
+  });
+  Map<String, dynamic> toJson() => _$BatchDeleteImportDataRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class BatchDeleteImportDataResponse {
@@ -1494,22 +1529,6 @@ enum ConfigurationItemType {
   connection,
   @_s.JsonValue('APPLICATION')
   application,
-}
-
-extension on ConfigurationItemType {
-  String toValue() {
-    switch (this) {
-      case ConfigurationItemType.server:
-        return 'SERVER';
-      case ConfigurationItemType.process:
-        return 'PROCESS';
-      case ConfigurationItemType.connection:
-        return 'CONNECTION';
-      case ConfigurationItemType.application:
-        return 'APPLICATION';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Tags for a configuration item. Tags are metadata that help you categorize IT
@@ -1724,6 +1743,27 @@ enum ContinuousExportStatus {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateApplicationRequest {
+  /// Name of the application to be created.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// Description of the application to be created.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  CreateApplicationRequest({
+    @_s.required this.name,
+    this.description,
+  });
+  Map<String, dynamic> toJson() => _$CreateApplicationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateApplicationResponse {
@@ -1736,6 +1776,31 @@ class CreateApplicationResponse {
   });
   factory CreateApplicationResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateApplicationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateTagsRequest {
+  /// A list of configuration items that you want to tag.
+  @_s.JsonKey(name: 'configurationIds')
+  final List<String> configurationIds;
+
+  /// Tags that you want to associate with one or more configuration items.
+  /// Specify the tags that you want to create in a <i>key</i>-<i>value</i>
+  /// format. For example:
+  ///
+  /// <code>{"key": "serverType", "value": "webServer"}</code>
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  CreateTagsRequest({
+    @_s.required this.configurationIds,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateTagsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1853,6 +1918,22 @@ enum DataSource {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteApplicationsRequest {
+  /// Configuration ID of an application to be deleted.
+  @_s.JsonKey(name: 'configurationIds')
+  final List<String> configurationIds;
+
+  DeleteApplicationsRequest({
+    @_s.required this.configurationIds,
+  });
+  Map<String, dynamic> toJson() => _$DeleteApplicationsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteApplicationsResponse {
@@ -1864,12 +1945,78 @@ class DeleteApplicationsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteTagsRequest {
+  /// A list of configuration items with tags that you want to delete.
+  @_s.JsonKey(name: 'configurationIds')
+  final List<String> configurationIds;
+
+  /// Tags that you want to delete from one or more configuration items. Specify
+  /// the tags that you want to delete in a <i>key</i>-<i>value</i> format. For
+  /// example:
+  ///
+  /// <code>{"key": "serverType", "value": "webServer"}</code>
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  DeleteTagsRequest({
+    @_s.required this.configurationIds,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$DeleteTagsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteTagsResponse {
   DeleteTagsResponse();
   factory DeleteTagsResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteTagsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeAgentsRequest {
+  /// The agent or the Connector IDs for which you want information. If you
+  /// specify no IDs, the system returns information about all agents/Connectors
+  /// associated with your AWS user account.
+  @_s.JsonKey(name: 'agentIds')
+  final List<String> agentIds;
+
+  /// You can filter the request using various logical operators and a
+  /// <i>key</i>-<i>value</i> format. For example:
+  ///
+  /// <code>{"key": "collectionStatus", "value": "STARTED"}</code>
+  @_s.JsonKey(name: 'filters')
+  final List<Filter> filters;
+
+  /// The total number of agents/Connectors to return in a single page of output.
+  /// The maximum value is 100.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// Token to retrieve the next set of results. For example, if you previously
+  /// specified 100 IDs for <code>DescribeAgentsRequest$agentIds</code> but set
+  /// <code>DescribeAgentsRequest$maxResults</code> to 10, you received a set of
+  /// 10 results along with a token. Use that token in this query to get the next
+  /// set of 10.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  DescribeAgentsRequest({
+    this.agentIds,
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeAgentsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1905,6 +2052,22 @@ class DescribeAgentsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeConfigurationsRequest {
+  /// One or more configuration IDs.
+  @_s.JsonKey(name: 'configurationIds')
+  final List<String> configurationIds;
+
+  DescribeConfigurationsRequest({
+    @_s.required this.configurationIds,
+  });
+  Map<String, dynamic> toJson() => _$DescribeConfigurationsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeConfigurationsResponse {
@@ -1917,6 +2080,34 @@ class DescribeConfigurationsResponse {
   });
   factory DescribeConfigurationsResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeConfigurationsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeContinuousExportsRequest {
+  /// The unique IDs assigned to the exports.
+  @_s.JsonKey(name: 'exportIds')
+  final List<String> exportIds;
+
+  /// A number between 1 and 100 specifying the maximum number of continuous
+  /// export descriptions returned.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The token from the previous call to <code>DescribeExportTasks</code>.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  DescribeContinuousExportsRequest({
+    this.exportIds,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeContinuousExportsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1945,6 +2136,34 @@ class DescribeContinuousExportsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeExportConfigurationsRequest {
+  /// A list of continuous export IDs to search for.
+  @_s.JsonKey(name: 'exportIds')
+  final List<String> exportIds;
+
+  /// A number between 1 and 100 specifying the maximum number of continuous
+  /// export descriptions returned.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The token from the previous call to describe-export-tasks.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  DescribeExportConfigurationsRequest({
+    this.exportIds,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeExportConfigurationsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeExportConfigurationsResponse {
@@ -1963,6 +2182,53 @@ class DescribeExportConfigurationsResponse {
   factory DescribeExportConfigurationsResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeExportConfigurationsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeExportTasksRequest {
+  /// One or more unique identifiers used to query the status of an export
+  /// request.
+  @_s.JsonKey(name: 'exportIds')
+  final List<String> exportIds;
+
+  /// One or more filters.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AgentId</code> - ID of the agent whose collected data will be exported
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'filters')
+  final List<ExportFilter> filters;
+
+  /// The maximum number of volume results returned by
+  /// <code>DescribeExportTasks</code> in paginated output. When this parameter is
+  /// used, <code>DescribeExportTasks</code> only returns <code>maxResults</code>
+  /// results in a single page along with a <code>nextToken</code> response
+  /// element.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The <code>nextToken</code> value returned from a previous paginated
+  /// <code>DescribeExportTasks</code> request where <code>maxResults</code> was
+  /// used and the results exceeded the value of that parameter. Pagination
+  /// continues from the end of the previous results that returned the
+  /// <code>nextToken</code> value. This value is null when there are no more
+  /// results to return.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  DescribeExportTasksRequest({
+    this.exportIds,
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeExportTasksRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1996,6 +2262,35 @@ class DescribeExportTasksResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeImportTasksRequest {
+  /// An array of name-value pairs that you provide to filter the results for the
+  /// <code>DescribeImportTask</code> request to a specific subset of results.
+  /// Currently, wildcard values aren't supported for filters.
+  @_s.JsonKey(name: 'filters')
+  final List<ImportTaskFilter> filters;
+
+  /// The maximum number of results that you want this request to return, up to
+  /// 100.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The token to request a specific page of results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  DescribeImportTasksRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeImportTasksRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeImportTasksResponse {
@@ -2019,6 +2314,36 @@ class DescribeImportTasksResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeTagsRequest {
+  /// You can filter the list using a <i>key</i>-<i>value</i> format. You can
+  /// separate these items by using logical operators. Allowed filters include
+  /// <code>tagKey</code>, <code>tagValue</code>, and
+  /// <code>configurationId</code>.
+  @_s.JsonKey(name: 'filters')
+  final List<TagFilter> filters;
+
+  /// The total number of items to return in a single page of output. The maximum
+  /// value is 100.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// A token to start the list. Use this token to get the next set of results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  DescribeTagsRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeTagsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeTagsResponse {
@@ -2037,6 +2362,28 @@ class DescribeTagsResponse {
   });
   factory DescribeTagsResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeTagsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateConfigurationItemsFromApplicationRequest {
+  /// Configuration ID of an application from which each item is disassociated.
+  @_s.JsonKey(name: 'applicationConfigurationId')
+  final String applicationConfigurationId;
+
+  /// Configuration ID of each item to be disassociated from an application.
+  @_s.JsonKey(name: 'configurationIds')
+  final List<String> configurationIds;
+
+  DisassociateConfigurationItemsFromApplicationRequest({
+    @_s.required this.applicationConfigurationId,
+    @_s.required this.configurationIds,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DisassociateConfigurationItemsFromApplicationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2456,6 +2803,60 @@ enum ImportTaskFilterName {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListConfigurationsRequest {
+  /// A valid configuration identified by Application Discovery Service.
+  @_s.JsonKey(name: 'configurationType')
+  final ConfigurationItemType configurationType;
+
+  /// You can filter the request using various logical operators and a
+  /// <i>key</i>-<i>value</i> format. For example:
+  ///
+  /// <code>{"key": "serverType", "value": "webServer"}</code>
+  ///
+  /// For a complete list of filter options and guidance about using them with
+  /// this action, see <a
+  /// href="https://docs.aws.amazon.com/application-discovery/latest/userguide/discovery-api-queries.html#ListConfigurations">Using
+  /// the ListConfigurations Action</a> in the <i>AWS Application Discovery
+  /// Service User Guide</i>.
+  @_s.JsonKey(name: 'filters')
+  final List<Filter> filters;
+
+  /// The total number of items to return. The maximum value is 100.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// Token to retrieve the next set of results. For example, if a previous call
+  /// to ListConfigurations returned 100 items, but you set
+  /// <code>ListConfigurationsRequest$maxResults</code> to 10, you received a set
+  /// of 10 results along with a token. Use that token in this query to get the
+  /// next set of 10.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// Certain filter criteria return output that can be sorted in ascending or
+  /// descending order. For a list of output characteristics for each filter, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/application-discovery/latest/userguide/discovery-api-queries.html#ListConfigurations">Using
+  /// the ListConfigurations Action</a> in the <i>AWS Application Discovery
+  /// Service User Guide</i>.
+  @_s.JsonKey(name: 'orderBy')
+  final List<OrderByElement> orderBy;
+
+  ListConfigurationsRequest({
+    @_s.required this.configurationType,
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+    this.orderBy,
+  });
+  Map<String, dynamic> toJson() => _$ListConfigurationsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListConfigurationsResponse {
@@ -2478,6 +2879,48 @@ class ListConfigurationsResponse {
   });
   factory ListConfigurationsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListConfigurationsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListServerNeighborsRequest {
+  /// Configuration ID of the server for which neighbors are being listed.
+  @_s.JsonKey(name: 'configurationId')
+  final String configurationId;
+
+  /// Maximum number of results to return in a single page of output.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// List of configuration IDs to test for one-hop-away.
+  @_s.JsonKey(name: 'neighborConfigurationIds')
+  final List<String> neighborConfigurationIds;
+
+  /// Token to retrieve the next set of results. For example, if you previously
+  /// specified 100 IDs for
+  /// <code>ListServerNeighborsRequest$neighborConfigurationIds</code> but set
+  /// <code>ListServerNeighborsRequest$maxResults</code> to 10, you received a set
+  /// of 10 results along with a token. Use that token in this query to get the
+  /// next set of 10.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// Flag to indicate if port and protocol information is needed as part of the
+  /// response.
+  @_s.JsonKey(name: 'portInformationNeeded')
+  final bool portInformationNeeded;
+
+  ListServerNeighborsRequest({
+    @_s.required this.configurationId,
+    this.maxResults,
+    this.neighborConfigurationIds,
+    this.nextToken,
+    this.portInformationNeeded,
+  });
+  Map<String, dynamic> toJson() => _$ListServerNeighborsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2622,6 +3065,30 @@ class StartContinuousExportResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartDataCollectionByAgentIdsRequest {
+  /// The IDs of the agents or connectors from which to start collecting data. If
+  /// you send a request to an agent/connector ID that you do not have permission
+  /// to contact, according to your AWS account, the service does not throw an
+  /// exception. Instead, it returns the error in the <i>Description</i> field. If
+  /// you send a request to multiple agents/connectors and you do not have
+  /// permission to contact some of those agents/connectors, the system does not
+  /// throw an exception. Instead, the system shows <code>Failed</code> in the
+  /// <i>Description</i> field.
+  @_s.JsonKey(name: 'agentIds')
+  final List<String> agentIds;
+
+  StartDataCollectionByAgentIdsRequest({
+    @_s.required this.agentIds,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StartDataCollectionByAgentIdsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartDataCollectionByAgentIdsResponse {
@@ -2638,6 +3105,55 @@ class StartDataCollectionByAgentIdsResponse {
   factory StartDataCollectionByAgentIdsResponse.fromJson(
           Map<String, dynamic> json) =>
       _$StartDataCollectionByAgentIdsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartExportTaskRequest {
+  /// The end timestamp for exported data from the single Application Discovery
+  /// Agent selected in the filters. If no value is specified, exported data
+  /// includes the most recent data collected by the agent.
+  @_s.JsonKey(
+      name: 'endTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime endTime;
+
+  /// The file format for the returned export data. Default value is
+  /// <code>CSV</code>. <b>Note:</b> <i>The</i> <code>GRAPHML</code> <i>option has
+  /// been deprecated.</i>
+  @_s.JsonKey(name: 'exportDataFormat')
+  final List<String> exportDataFormat;
+
+  /// If a filter is present, it selects the single <code>agentId</code> of the
+  /// Application Discovery Agent for which data is exported. The
+  /// <code>agentId</code> can be found in the results of the
+  /// <code>DescribeAgents</code> API or CLI. If no filter is present,
+  /// <code>startTime</code> and <code>endTime</code> are ignored and exported
+  /// data includes both Agentless Discovery Connector data and summary data from
+  /// Application Discovery agents.
+  @_s.JsonKey(name: 'filters')
+  final List<ExportFilter> filters;
+
+  /// The start timestamp for exported data from the single Application Discovery
+  /// Agent selected in the filters. If no value is specified, data is exported
+  /// starting from the first data collected by the agent.
+  @_s.JsonKey(
+      name: 'startTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime startTime;
+
+  StartExportTaskRequest({
+    this.endTime,
+    this.exportDataFormat,
+    this.filters,
+    this.startTime,
+  });
+  Map<String, dynamic> toJson() => _$StartExportTaskRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2660,6 +3176,45 @@ class StartExportTaskResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartImportTaskRequest {
+  /// The URL for your import file that you've uploaded to Amazon S3.
+  /// <note>
+  /// If you're using the AWS CLI, this URL is structured as follows:
+  /// <code>s3://BucketName/ImportFileName.CSV</code>
+  /// </note>
+  @_s.JsonKey(name: 'importUrl')
+  final String importUrl;
+
+  /// A descriptive name for this request. You can use this name to filter future
+  /// requests related to this import task, such as identifying applications and
+  /// servers that were included in this import task. We recommend that you use a
+  /// meaningful name for each import task.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// Optional. A unique token that you can provide to prevent the same import
+  /// request from occurring more than once. If you don't provide a token, a token
+  /// is automatically generated.
+  ///
+  /// Sending more than one <code>StartImportTask</code> request with the same
+  /// client request token will return information about the original import task
+  /// with that client request token.
+  @_s.JsonKey(name: 'clientRequestToken')
+  final String clientRequestToken;
+
+  StartImportTaskRequest({
+    @_s.required this.importUrl,
+    @_s.required this.name,
+    this.clientRequestToken,
+  });
+  Map<String, dynamic> toJson() => _$StartImportTaskRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartImportTaskResponse {
@@ -2674,6 +3229,22 @@ class StartImportTaskResponse {
   });
   factory StartImportTaskResponse.fromJson(Map<String, dynamic> json) =>
       _$StartImportTaskResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopContinuousExportRequest {
+  /// The unique ID assigned to this export.
+  @_s.JsonKey(name: 'exportId')
+  final String exportId;
+
+  StopContinuousExportRequest({
+    @_s.required this.exportId,
+  });
+  Map<String, dynamic> toJson() => _$StopContinuousExportRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2703,6 +3274,23 @@ class StopContinuousExportResponse {
   });
   factory StopContinuousExportResponse.fromJson(Map<String, dynamic> json) =>
       _$StopContinuousExportResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopDataCollectionByAgentIdsRequest {
+  /// The IDs of the agents or connectors from which to stop collecting data.
+  @_s.JsonKey(name: 'agentIds')
+  final List<String> agentIds;
+
+  StopDataCollectionByAgentIdsRequest({
+    @_s.required this.agentIds,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StopDataCollectionByAgentIdsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2769,6 +3357,32 @@ class TagFilter {
     @_s.required this.values,
   });
   Map<String, dynamic> toJson() => _$TagFilterToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateApplicationRequest {
+  /// Configuration ID of the application to be updated.
+  @_s.JsonKey(name: 'configurationId')
+  final String configurationId;
+
+  /// New description of the application to be updated.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// New name of the application to be updated.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  UpdateApplicationRequest({
+    @_s.required this.configurationId,
+    this.description,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$UpdateApplicationRequestToJson(this);
 }
 
 @_s.JsonSerializable(

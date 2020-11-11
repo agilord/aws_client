@@ -14,6 +14,20 @@ ConnectionCredentials _$ConnectionCredentialsFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateParticipantConnectionRequestToJson(
+    CreateParticipantConnectionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Type', instance.type);
+  return val;
+}
+
 CreateParticipantConnectionResponse
     _$CreateParticipantConnectionResponseFromJson(Map<String, dynamic> json) {
   return CreateParticipantConnectionResponse(
@@ -27,10 +41,53 @@ CreateParticipantConnectionResponse
   );
 }
 
+Map<String, dynamic> _$DisconnectParticipantRequestToJson(
+    DisconnectParticipantRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClientToken', instance.clientToken);
+  return val;
+}
+
 DisconnectParticipantResponse _$DisconnectParticipantResponseFromJson(
     Map<String, dynamic> json) {
   return DisconnectParticipantResponse();
 }
+
+Map<String, dynamic> _$GetTranscriptRequestToJson(
+    GetTranscriptRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ContactId', instance.contactId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('ScanDirection', _$ScanDirectionEnumMap[instance.scanDirection]);
+  writeNotNull('SortOrder', _$SortKeyEnumMap[instance.sortOrder]);
+  writeNotNull('StartPosition', instance.startPosition?.toJson());
+  return val;
+}
+
+const _$ScanDirectionEnumMap = {
+  ScanDirection.forward: 'FORWARD',
+  ScanDirection.backward: 'BACKWARD',
+};
+
+const _$SortKeyEnumMap = {
+  SortKey.descending: 'DESCENDING',
+  SortKey.ascending: 'ASCENDING',
+};
 
 GetTranscriptResponse _$GetTranscriptResponseFromJson(
     Map<String, dynamic> json) {
@@ -102,11 +159,41 @@ const _$ChatItemTypeEnumMap = {
   ChatItemType.connectionAck: 'CONNECTION_ACK',
 };
 
+Map<String, dynamic> _$SendEventRequestToJson(SendEventRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ContentType', instance.contentType);
+  writeNotNull('ClientToken', instance.clientToken);
+  writeNotNull('Content', instance.content);
+  return val;
+}
+
 SendEventResponse _$SendEventResponseFromJson(Map<String, dynamic> json) {
   return SendEventResponse(
     absoluteTime: json['AbsoluteTime'] as String,
     id: json['Id'] as String,
   );
+}
+
+Map<String, dynamic> _$SendMessageRequestToJson(SendMessageRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Content', instance.content);
+  writeNotNull('ContentType', instance.contentType);
+  writeNotNull('ClientToken', instance.clientToken);
+  return val;
 }
 
 SendMessageResponse _$SendMessageResponseFromJson(Map<String, dynamic> json) {

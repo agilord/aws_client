@@ -42,6 +42,22 @@ BatchPutMessageErrorEntry _$BatchPutMessageErrorEntryFromJson(
   );
 }
 
+Map<String, dynamic> _$BatchPutMessageRequestToJson(
+    BatchPutMessageRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('channelName', instance.channelName);
+  writeNotNull(
+      'messages', instance.messages?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 BatchPutMessageResponse _$BatchPutMessageResponseFromJson(
     Map<String, dynamic> json) {
   return BatchPutMessageResponse(
@@ -52,6 +68,10 @@ BatchPutMessageResponse _$BatchPutMessageResponseFromJson(
         ?.toList(),
   );
 }
+
+Map<String, dynamic> _$CancelPipelineReprocessingRequestToJson(
+        CancelPipelineReprocessingRequest instance) =>
+    <String, dynamic>{};
 
 CancelPipelineReprocessingResponse _$CancelPipelineReprocessingResponseFromJson(
     Map<String, dynamic> json) {
@@ -233,6 +253,23 @@ Map<String, dynamic> _$ContainerDatasetActionToJson(
   return val;
 }
 
+Map<String, dynamic> _$CreateChannelRequestToJson(
+    CreateChannelRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('channelName', instance.channelName);
+  writeNotNull('channelStorage', instance.channelStorage?.toJson());
+  writeNotNull('retentionPeriod', instance.retentionPeriod?.toJson());
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateChannelResponse _$CreateChannelResponseFromJson(
     Map<String, dynamic> json) {
   return CreateChannelResponse(
@@ -245,11 +282,38 @@ CreateChannelResponse _$CreateChannelResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateDatasetContentRequestToJson(
+        CreateDatasetContentRequest instance) =>
+    <String, dynamic>{};
+
 CreateDatasetContentResponse _$CreateDatasetContentResponseFromJson(
     Map<String, dynamic> json) {
   return CreateDatasetContentResponse(
     versionId: json['versionId'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateDatasetRequestToJson(
+    CreateDatasetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('actions', instance.actions?.map((e) => e?.toJson())?.toList());
+  writeNotNull('datasetName', instance.datasetName);
+  writeNotNull('contentDeliveryRules',
+      instance.contentDeliveryRules?.map((e) => e?.toJson())?.toList());
+  writeNotNull('retentionPeriod', instance.retentionPeriod?.toJson());
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'triggers', instance.triggers?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'versioningConfiguration', instance.versioningConfiguration?.toJson());
+  return val;
 }
 
 CreateDatasetResponse _$CreateDatasetResponseFromJson(
@@ -264,6 +328,23 @@ CreateDatasetResponse _$CreateDatasetResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateDatastoreRequestToJson(
+    CreateDatastoreRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('datastoreName', instance.datastoreName);
+  writeNotNull('datastoreStorage', instance.datastoreStorage?.toJson());
+  writeNotNull('retentionPeriod', instance.retentionPeriod?.toJson());
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateDatastoreResponse _$CreateDatastoreResponseFromJson(
     Map<String, dynamic> json) {
   return CreateDatastoreResponse(
@@ -274,6 +355,23 @@ CreateDatastoreResponse _$CreateDatastoreResponseFromJson(
         : RetentionPeriod.fromJson(
             json['retentionPeriod'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreatePipelineRequestToJson(
+    CreatePipelineRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pipelineActivities',
+      instance.pipelineActivities?.map((e) => e?.toJson())?.toList());
+  writeNotNull('pipelineName', instance.pipelineName);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreatePipelineResponse _$CreatePipelineResponseFromJson(
@@ -697,6 +795,26 @@ DatastoreSummary _$DatastoreSummaryFromJson(Map<String, dynamic> json) {
     status: _$enumDecodeNullable(_$DatastoreStatusEnumMap, json['status']),
   );
 }
+
+Map<String, dynamic> _$DeleteChannelRequestToJson(
+        DeleteChannelRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteDatasetContentRequestToJson(
+        DeleteDatasetContentRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteDatasetRequestToJson(
+        DeleteDatasetRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteDatastoreRequestToJson(
+        DeleteDatastoreRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeletePipelineRequestToJson(
+        DeletePipelineRequest instance) =>
+    <String, dynamic>{};
 
 DeltaTime _$DeltaTimeFromJson(Map<String, dynamic> json) {
   return DeltaTime(
@@ -1191,6 +1309,20 @@ PipelineSummary _$PipelineSummaryFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$PutLoggingOptionsRequestToJson(
+    PutLoggingOptionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('loggingOptions', instance.loggingOptions?.toJson());
+  return val;
+}
+
 QueryFilter _$QueryFilterFromJson(Map<String, dynamic> json) {
   return QueryFilter(
     deltaTime: json['deltaTime'] == null
@@ -1302,11 +1434,29 @@ Map<String, dynamic> _$RetentionPeriodToJson(RetentionPeriod instance) {
   return val;
 }
 
+Map<String, dynamic> _$RunPipelineActivityRequestToJson(
+    RunPipelineActivityRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('payloads',
+      instance.payloads?.map(const Uint8ListConverter().toJson)?.toList());
+  writeNotNull('pipelineActivity', instance.pipelineActivity?.toJson());
+  return val;
+}
+
 RunPipelineActivityResponse _$RunPipelineActivityResponseFromJson(
     Map<String, dynamic> json) {
   return RunPipelineActivityResponse(
     logResult: json['logResult'] as String,
-    payloads: const Uint8ListListConverter().fromJson(json['payloads'] as List),
+    payloads: (json['payloads'] as List)
+        ?.map((e) => const Uint8ListConverter().fromJson(e as String))
+        ?.toList(),
   );
 }
 
@@ -1343,7 +1493,9 @@ Map<String, dynamic> _$S3DestinationConfigurationToJson(
 SampleChannelDataResponse _$SampleChannelDataResponseFromJson(
     Map<String, dynamic> json) {
   return SampleChannelDataResponse(
-    payloads: const Uint8ListListConverter().fromJson(json['payloads'] as List),
+    payloads: (json['payloads'] as List)
+        ?.map((e) => const Uint8ListConverter().fromJson(e as String))
+        ?.toList(),
   );
 }
 
@@ -1446,6 +1598,21 @@ Map<String, dynamic> _$SqlQueryDatasetActionToJson(
   return val;
 }
 
+Map<String, dynamic> _$StartPipelineReprocessingRequestToJson(
+    StartPipelineReprocessingRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('endTime', unixTimestampToJson(instance.endTime));
+  writeNotNull('startTime', unixTimestampToJson(instance.startTime));
+  return val;
+}
+
 StartPipelineReprocessingResponse _$StartPipelineReprocessingResponseFromJson(
     Map<String, dynamic> json) {
   return StartPipelineReprocessingResponse(
@@ -1474,6 +1641,19 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
   return val;
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
 }
@@ -1497,9 +1677,79 @@ Map<String, dynamic> _$TriggeringDatasetToJson(TriggeringDataset instance) {
   return val;
 }
 
+Map<String, dynamic> _$UntagResourceRequestToJson(
+        UntagResourceRequest instance) =>
+    <String, dynamic>{};
+
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse();
+}
+
+Map<String, dynamic> _$UpdateChannelRequestToJson(
+    UpdateChannelRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('channelStorage', instance.channelStorage?.toJson());
+  writeNotNull('retentionPeriod', instance.retentionPeriod?.toJson());
+  return val;
+}
+
+Map<String, dynamic> _$UpdateDatasetRequestToJson(
+    UpdateDatasetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('actions', instance.actions?.map((e) => e?.toJson())?.toList());
+  writeNotNull('contentDeliveryRules',
+      instance.contentDeliveryRules?.map((e) => e?.toJson())?.toList());
+  writeNotNull('retentionPeriod', instance.retentionPeriod?.toJson());
+  writeNotNull(
+      'triggers', instance.triggers?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'versioningConfiguration', instance.versioningConfiguration?.toJson());
+  return val;
+}
+
+Map<String, dynamic> _$UpdateDatastoreRequestToJson(
+    UpdateDatastoreRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('datastoreStorage', instance.datastoreStorage?.toJson());
+  writeNotNull('retentionPeriod', instance.retentionPeriod?.toJson());
+  return val;
+}
+
+Map<String, dynamic> _$UpdatePipelineRequestToJson(
+    UpdatePipelineRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pipelineActivities',
+      instance.pipelineActivities?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 Variable _$VariableFromJson(Map<String, dynamic> json) {

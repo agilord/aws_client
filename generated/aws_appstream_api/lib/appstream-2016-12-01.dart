@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -97,10 +96,10 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'FleetName': fleetName,
-        'StackName': stackName,
-      },
+      payload: AssociateFleetRequest(
+        fleetName: fleetName,
+        stackName: stackName,
+      ),
     );
 
     return AssociateFleetResult.fromJson(jsonResponse.body);
@@ -128,9 +127,9 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'UserStackAssociations': userStackAssociations,
-      },
+      payload: BatchAssociateUserStackRequest(
+        userStackAssociations: userStackAssociations,
+      ),
     );
 
     return BatchAssociateUserStackResult.fromJson(jsonResponse.body);
@@ -154,9 +153,9 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'UserStackAssociations': userStackAssociations,
-      },
+      payload: BatchDisassociateUserStackRequest(
+        userStackAssociations: userStackAssociations,
+      ),
     );
 
     return BatchDisassociateUserStackResult.fromJson(jsonResponse.body);
@@ -229,13 +228,12 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DestinationImageName': destinationImageName,
-        'DestinationRegion': destinationRegion,
-        'SourceImageName': sourceImageName,
-        if (destinationImageDescription != null)
-          'DestinationImageDescription': destinationImageDescription,
-      },
+      payload: CopyImageRequest(
+        destinationImageName: destinationImageName,
+        destinationRegion: destinationRegion,
+        sourceImageName: sourceImageName,
+        destinationImageDescription: destinationImageDescription,
+      ),
     );
 
     return CopyImageResponse.fromJson(jsonResponse.body);
@@ -278,12 +276,12 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DirectoryName': directoryName,
-        'OrganizationalUnitDistinguishedNames':
+      payload: CreateDirectoryConfigRequest(
+        directoryName: directoryName,
+        organizationalUnitDistinguishedNames:
             organizationalUnitDistinguishedNames,
-        'ServiceAccountCredentials': serviceAccountCredentials,
-      },
+        serviceAccountCredentials: serviceAccountCredentials,
+      ),
     );
 
     return CreateDirectoryConfigResult.fromJson(jsonResponse.body);
@@ -558,28 +556,24 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ComputeCapacity': computeCapacity,
-        'InstanceType': instanceType,
-        'Name': name,
-        if (description != null) 'Description': description,
-        if (disconnectTimeoutInSeconds != null)
-          'DisconnectTimeoutInSeconds': disconnectTimeoutInSeconds,
-        if (displayName != null) 'DisplayName': displayName,
-        if (domainJoinInfo != null) 'DomainJoinInfo': domainJoinInfo,
-        if (enableDefaultInternetAccess != null)
-          'EnableDefaultInternetAccess': enableDefaultInternetAccess,
-        if (fleetType != null) 'FleetType': fleetType?.toValue(),
-        if (iamRoleArn != null) 'IamRoleArn': iamRoleArn,
-        if (idleDisconnectTimeoutInSeconds != null)
-          'IdleDisconnectTimeoutInSeconds': idleDisconnectTimeoutInSeconds,
-        if (imageArn != null) 'ImageArn': imageArn,
-        if (imageName != null) 'ImageName': imageName,
-        if (maxUserDurationInSeconds != null)
-          'MaxUserDurationInSeconds': maxUserDurationInSeconds,
-        if (tags != null) 'Tags': tags,
-        if (vpcConfig != null) 'VpcConfig': vpcConfig,
-      },
+      payload: CreateFleetRequest(
+        computeCapacity: computeCapacity,
+        instanceType: instanceType,
+        name: name,
+        description: description,
+        disconnectTimeoutInSeconds: disconnectTimeoutInSeconds,
+        displayName: displayName,
+        domainJoinInfo: domainJoinInfo,
+        enableDefaultInternetAccess: enableDefaultInternetAccess,
+        fleetType: fleetType,
+        iamRoleArn: iamRoleArn,
+        idleDisconnectTimeoutInSeconds: idleDisconnectTimeoutInSeconds,
+        imageArn: imageArn,
+        imageName: imageName,
+        maxUserDurationInSeconds: maxUserDurationInSeconds,
+        tags: tags,
+        vpcConfig: vpcConfig,
+      ),
     );
 
     return CreateFleetResult.fromJson(jsonResponse.body);
@@ -808,23 +802,21 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'InstanceType': instanceType,
-        'Name': name,
-        if (accessEndpoints != null) 'AccessEndpoints': accessEndpoints,
-        if (appstreamAgentVersion != null)
-          'AppstreamAgentVersion': appstreamAgentVersion,
-        if (description != null) 'Description': description,
-        if (displayName != null) 'DisplayName': displayName,
-        if (domainJoinInfo != null) 'DomainJoinInfo': domainJoinInfo,
-        if (enableDefaultInternetAccess != null)
-          'EnableDefaultInternetAccess': enableDefaultInternetAccess,
-        if (iamRoleArn != null) 'IamRoleArn': iamRoleArn,
-        if (imageArn != null) 'ImageArn': imageArn,
-        if (imageName != null) 'ImageName': imageName,
-        if (tags != null) 'Tags': tags,
-        if (vpcConfig != null) 'VpcConfig': vpcConfig,
-      },
+      payload: CreateImageBuilderRequest(
+        instanceType: instanceType,
+        name: name,
+        accessEndpoints: accessEndpoints,
+        appstreamAgentVersion: appstreamAgentVersion,
+        description: description,
+        displayName: displayName,
+        domainJoinInfo: domainJoinInfo,
+        enableDefaultInternetAccess: enableDefaultInternetAccess,
+        iamRoleArn: iamRoleArn,
+        imageArn: imageArn,
+        imageName: imageName,
+        tags: tags,
+        vpcConfig: vpcConfig,
+      ),
     );
 
     return CreateImageBuilderResult.fromJson(jsonResponse.body);
@@ -863,10 +855,10 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        if (validity != null) 'Validity': validity,
-      },
+      payload: CreateImageBuilderStreamingURLRequest(
+        name: name,
+        validity: validity,
+      ),
     );
 
     return CreateImageBuilderStreamingURLResult.fromJson(jsonResponse.body);
@@ -992,20 +984,19 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        if (accessEndpoints != null) 'AccessEndpoints': accessEndpoints,
-        if (applicationSettings != null)
-          'ApplicationSettings': applicationSettings,
-        if (description != null) 'Description': description,
-        if (displayName != null) 'DisplayName': displayName,
-        if (embedHostDomains != null) 'EmbedHostDomains': embedHostDomains,
-        if (feedbackURL != null) 'FeedbackURL': feedbackURL,
-        if (redirectURL != null) 'RedirectURL': redirectURL,
-        if (storageConnectors != null) 'StorageConnectors': storageConnectors,
-        if (tags != null) 'Tags': tags,
-        if (userSettings != null) 'UserSettings': userSettings,
-      },
+      payload: CreateStackRequest(
+        name: name,
+        accessEndpoints: accessEndpoints,
+        applicationSettings: applicationSettings,
+        description: description,
+        displayName: displayName,
+        embedHostDomains: embedHostDomains,
+        feedbackURL: feedbackURL,
+        redirectURL: redirectURL,
+        storageConnectors: storageConnectors,
+        tags: tags,
+        userSettings: userSettings,
+      ),
     );
 
     return CreateStackResult.fromJson(jsonResponse.body);
@@ -1101,14 +1092,14 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'FleetName': fleetName,
-        'StackName': stackName,
-        'UserId': userId,
-        if (applicationId != null) 'ApplicationId': applicationId,
-        if (sessionContext != null) 'SessionContext': sessionContext,
-        if (validity != null) 'Validity': validity,
-      },
+      payload: CreateStreamingURLRequest(
+        fleetName: fleetName,
+        stackName: stackName,
+        userId: userId,
+        applicationId: applicationId,
+        sessionContext: sessionContext,
+        validity: validity,
+      ),
     );
 
     return CreateStreamingURLResult.fromJson(jsonResponse.body);
@@ -1226,13 +1217,13 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AuthenticationType': authenticationType?.toValue(),
-        'UserName': userName,
-        if (firstName != null) 'FirstName': firstName,
-        if (lastName != null) 'LastName': lastName,
-        if (messageAction != null) 'MessageAction': messageAction?.toValue(),
-      },
+      payload: CreateUserRequest(
+        authenticationType: authenticationType,
+        userName: userName,
+        firstName: firstName,
+        lastName: lastName,
+        messageAction: messageAction,
+      ),
     );
 
     return CreateUserResult.fromJson(jsonResponse.body);
@@ -1261,9 +1252,9 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DirectoryName': directoryName,
-      },
+      payload: DeleteDirectoryConfigRequest(
+        directoryName: directoryName,
+      ),
     );
 
     return DeleteDirectoryConfigResult.fromJson(jsonResponse.body);
@@ -1298,9 +1289,9 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: DeleteFleetRequest(
+        name: name,
+      ),
     );
 
     return DeleteFleetResult.fromJson(jsonResponse.body);
@@ -1337,9 +1328,9 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: DeleteImageRequest(
+        name: name,
+      ),
     );
 
     return DeleteImageResult.fromJson(jsonResponse.body);
@@ -1373,9 +1364,9 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: DeleteImageBuilderRequest(
+        name: name,
+      ),
     );
 
     return DeleteImageBuilderResult.fromJson(jsonResponse.body);
@@ -1422,10 +1413,10 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        'SharedAccountId': sharedAccountId,
-      },
+      payload: DeleteImagePermissionsRequest(
+        name: name,
+        sharedAccountId: sharedAccountId,
+      ),
     );
 
     return DeleteImagePermissionsResult.fromJson(jsonResponse.body);
@@ -1463,9 +1454,9 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: DeleteStackRequest(
+        name: name,
+      ),
     );
 
     return DeleteStackResult.fromJson(jsonResponse.body);
@@ -1532,10 +1523,10 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AuthenticationType': authenticationType?.toValue(),
-        'UserName': userName,
-      },
+      payload: DeleteUserRequest(
+        authenticationType: authenticationType,
+        userName: userName,
+      ),
     );
 
     return DeleteUserResult.fromJson(jsonResponse.body);
@@ -1582,11 +1573,11 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (directoryNames != null) 'DirectoryNames': directoryNames,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeDirectoryConfigsRequest(
+        directoryNames: directoryNames,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeDirectoryConfigsResult.fromJson(jsonResponse.body);
@@ -1623,10 +1614,10 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (names != null) 'Names': names,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeFleetsRequest(
+        names: names,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeFleetsResult.fromJson(jsonResponse.body);
@@ -1668,11 +1659,11 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (names != null) 'Names': names,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeImageBuildersRequest(
+        maxResults: maxResults,
+        names: names,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeImageBuildersResult.fromJson(jsonResponse.body);
@@ -1732,13 +1723,12 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sharedAwsAccountIds != null)
-          'SharedAwsAccountIds': sharedAwsAccountIds,
-      },
+      payload: DescribeImagePermissionsRequest(
+        name: name,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        sharedAwsAccountIds: sharedAwsAccountIds,
+      ),
     );
 
     return DescribeImagePermissionsResult.fromJson(jsonResponse.body);
@@ -1795,13 +1785,13 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (arns != null) 'Arns': arns,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (names != null) 'Names': names,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (type != null) 'Type': type?.toValue(),
-      },
+      payload: DescribeImagesRequest(
+        arns: arns,
+        maxResults: maxResults,
+        names: names,
+        nextToken: nextToken,
+        type: type,
+      ),
     );
 
     return DescribeImagesResult.fromJson(jsonResponse.body);
@@ -1883,15 +1873,14 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'FleetName': fleetName,
-        'StackName': stackName,
-        if (authenticationType != null)
-          'AuthenticationType': authenticationType?.toValue(),
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (userId != null) 'UserId': userId,
-      },
+      payload: DescribeSessionsRequest(
+        fleetName: fleetName,
+        stackName: stackName,
+        authenticationType: authenticationType,
+        limit: limit,
+        nextToken: nextToken,
+        userId: userId,
+      ),
     );
 
     return DescribeSessionsResult.fromJson(jsonResponse.body);
@@ -1928,10 +1917,10 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (names != null) 'Names': names,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeStacksRequest(
+        names: names,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeStacksResult.fromJson(jsonResponse.body);
@@ -1969,10 +1958,10 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeUsageReportSubscriptionsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeUsageReportSubscriptionsResult.fromJson(jsonResponse.body);
@@ -2058,14 +2047,13 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (authenticationType != null)
-          'AuthenticationType': authenticationType?.toValue(),
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (stackName != null) 'StackName': stackName,
-        if (userName != null) 'UserName': userName,
-      },
+      payload: DescribeUserStackAssociationsRequest(
+        authenticationType: authenticationType,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        stackName: stackName,
+        userName: userName,
+      ),
     );
 
     return DescribeUserStackAssociationsResult.fromJson(jsonResponse.body);
@@ -2109,11 +2097,11 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AuthenticationType': authenticationType?.toValue(),
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeUsersRequest(
+        authenticationType: authenticationType,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeUsersResult.fromJson(jsonResponse.body);
@@ -2162,10 +2150,10 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AuthenticationType': authenticationType?.toValue(),
-        'UserName': userName,
-      },
+      payload: DisableUserRequest(
+        authenticationType: authenticationType,
+        userName: userName,
+      ),
     );
 
     return DisableUserResult.fromJson(jsonResponse.body);
@@ -2212,10 +2200,10 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'FleetName': fleetName,
-        'StackName': stackName,
-      },
+      payload: DisassociateFleetRequest(
+        fleetName: fleetName,
+        stackName: stackName,
+      ),
     );
 
     return DisassociateFleetResult.fromJson(jsonResponse.body);
@@ -2268,10 +2256,10 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AuthenticationType': authenticationType?.toValue(),
-        'UserName': userName,
-      },
+      payload: EnableUserRequest(
+        authenticationType: authenticationType,
+        userName: userName,
+      ),
     );
 
     return EnableUserResult.fromJson(jsonResponse.body);
@@ -2302,9 +2290,9 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SessionId': sessionId,
-      },
+      payload: ExpireSessionRequest(
+        sessionId: sessionId,
+      ),
     );
 
     return ExpireSessionResult.fromJson(jsonResponse.body);
@@ -2347,10 +2335,10 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'StackName': stackName,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListAssociatedFleetsRequest(
+        stackName: stackName,
+        nextToken: nextToken,
+      ),
     );
 
     return ListAssociatedFleetsResult.fromJson(jsonResponse.body);
@@ -2393,10 +2381,10 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'FleetName': fleetName,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListAssociatedStacksRequest(
+        fleetName: fleetName,
+        nextToken: nextToken,
+      ),
     );
 
     return ListAssociatedStacksResult.fromJson(jsonResponse.body);
@@ -2434,9 +2422,9 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-      },
+      payload: ListTagsForResourceRequest(
+        resourceArn: resourceArn,
+      ),
     );
 
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
@@ -2475,9 +2463,9 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: StartFleetRequest(
+        name: name,
+      ),
     );
 
     return StartFleetResult.fromJson(jsonResponse.body);
@@ -2525,11 +2513,10 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        if (appstreamAgentVersion != null)
-          'AppstreamAgentVersion': appstreamAgentVersion,
-      },
+      payload: StartImageBuilderRequest(
+        name: name,
+        appstreamAgentVersion: appstreamAgentVersion,
+      ),
     );
 
     return StartImageBuilderResult.fromJson(jsonResponse.body);
@@ -2563,9 +2550,9 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: StopFleetRequest(
+        name: name,
+      ),
     );
 
     return StopFleetResult.fromJson(jsonResponse.body);
@@ -2600,9 +2587,9 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: StopImageBuilderRequest(
+        name: name,
+      ),
     );
 
     return StopImageBuilderResult.fromJson(jsonResponse.body);
@@ -2664,10 +2651,10 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        'Tags': tags,
-      },
+      payload: TagResourceRequest(
+        resourceArn: resourceArn,
+        tags: tags,
+      ),
     );
 
     return TagResourceResponse.fromJson(jsonResponse.body);
@@ -2713,10 +2700,10 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        'TagKeys': tagKeys,
-      },
+      payload: UntagResourceRequest(
+        resourceArn: resourceArn,
+        tagKeys: tagKeys,
+      ),
     );
 
     return UntagResourceResponse.fromJson(jsonResponse.body);
@@ -2755,14 +2742,12 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DirectoryName': directoryName,
-        if (organizationalUnitDistinguishedNames != null)
-          'OrganizationalUnitDistinguishedNames':
-              organizationalUnitDistinguishedNames,
-        if (serviceAccountCredentials != null)
-          'ServiceAccountCredentials': serviceAccountCredentials,
-      },
+      payload: UpdateDirectoryConfigRequest(
+        directoryName: directoryName,
+        organizationalUnitDistinguishedNames:
+            organizationalUnitDistinguishedNames,
+        serviceAccountCredentials: serviceAccountCredentials,
+      ),
     );
 
     return UpdateDirectoryConfigResult.fromJson(jsonResponse.body);
@@ -3017,29 +3002,24 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (attributesToDelete != null)
-          'AttributesToDelete': attributesToDelete,
-        if (computeCapacity != null) 'ComputeCapacity': computeCapacity,
-        if (deleteVpcConfig != null) 'DeleteVpcConfig': deleteVpcConfig,
-        if (description != null) 'Description': description,
-        if (disconnectTimeoutInSeconds != null)
-          'DisconnectTimeoutInSeconds': disconnectTimeoutInSeconds,
-        if (displayName != null) 'DisplayName': displayName,
-        if (domainJoinInfo != null) 'DomainJoinInfo': domainJoinInfo,
-        if (enableDefaultInternetAccess != null)
-          'EnableDefaultInternetAccess': enableDefaultInternetAccess,
-        if (iamRoleArn != null) 'IamRoleArn': iamRoleArn,
-        if (idleDisconnectTimeoutInSeconds != null)
-          'IdleDisconnectTimeoutInSeconds': idleDisconnectTimeoutInSeconds,
-        if (imageArn != null) 'ImageArn': imageArn,
-        if (imageName != null) 'ImageName': imageName,
-        if (instanceType != null) 'InstanceType': instanceType,
-        if (maxUserDurationInSeconds != null)
-          'MaxUserDurationInSeconds': maxUserDurationInSeconds,
-        if (name != null) 'Name': name,
-        if (vpcConfig != null) 'VpcConfig': vpcConfig,
-      },
+      payload: UpdateFleetRequest(
+        attributesToDelete: attributesToDelete,
+        computeCapacity: computeCapacity,
+        deleteVpcConfig: deleteVpcConfig,
+        description: description,
+        disconnectTimeoutInSeconds: disconnectTimeoutInSeconds,
+        displayName: displayName,
+        domainJoinInfo: domainJoinInfo,
+        enableDefaultInternetAccess: enableDefaultInternetAccess,
+        iamRoleArn: iamRoleArn,
+        idleDisconnectTimeoutInSeconds: idleDisconnectTimeoutInSeconds,
+        imageArn: imageArn,
+        imageName: imageName,
+        instanceType: instanceType,
+        maxUserDurationInSeconds: maxUserDurationInSeconds,
+        name: name,
+        vpcConfig: vpcConfig,
+      ),
     );
 
     return UpdateFleetResult.fromJson(jsonResponse.body);
@@ -3090,11 +3070,11 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ImagePermissions': imagePermissions,
-        'Name': name,
-        'SharedAccountId': sharedAccountId,
-      },
+      payload: UpdateImagePermissionsRequest(
+        imagePermissions: imagePermissions,
+        name: name,
+        sharedAccountId: sharedAccountId,
+      ),
     );
 
     return UpdateImagePermissionsResult.fromJson(jsonResponse.body);
@@ -3212,23 +3192,20 @@ class AppStream {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        if (accessEndpoints != null) 'AccessEndpoints': accessEndpoints,
-        if (applicationSettings != null)
-          'ApplicationSettings': applicationSettings,
-        if (attributesToDelete != null)
-          'AttributesToDelete': attributesToDelete,
-        if (deleteStorageConnectors != null)
-          'DeleteStorageConnectors': deleteStorageConnectors,
-        if (description != null) 'Description': description,
-        if (displayName != null) 'DisplayName': displayName,
-        if (embedHostDomains != null) 'EmbedHostDomains': embedHostDomains,
-        if (feedbackURL != null) 'FeedbackURL': feedbackURL,
-        if (redirectURL != null) 'RedirectURL': redirectURL,
-        if (storageConnectors != null) 'StorageConnectors': storageConnectors,
-        if (userSettings != null) 'UserSettings': userSettings,
-      },
+      payload: UpdateStackRequest(
+        name: name,
+        accessEndpoints: accessEndpoints,
+        applicationSettings: applicationSettings,
+        attributesToDelete: attributesToDelete,
+        deleteStorageConnectors: deleteStorageConnectors,
+        description: description,
+        displayName: displayName,
+        embedHostDomains: embedHostDomains,
+        feedbackURL: feedbackURL,
+        redirectURL: redirectURL,
+        storageConnectors: storageConnectors,
+        userSettings: userSettings,
+      ),
     );
 
     return UpdateStackResult.fromJson(jsonResponse.body);
@@ -3393,6 +3370,27 @@ class ApplicationSettingsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateFleetRequest {
+  /// The name of the fleet.
+  @_s.JsonKey(name: 'FleetName')
+  final String fleetName;
+
+  /// The name of the stack.
+  @_s.JsonKey(name: 'StackName')
+  final String stackName;
+
+  AssociateFleetRequest({
+    @_s.required this.fleetName,
+    @_s.required this.stackName,
+  });
+  Map<String, dynamic> toJson() => _$AssociateFleetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AssociateFleetResult {
@@ -3410,18 +3408,20 @@ enum AuthenticationType {
   userpool,
 }
 
-extension on AuthenticationType {
-  String toValue() {
-    switch (this) {
-      case AuthenticationType.api:
-        return 'API';
-      case AuthenticationType.saml:
-        return 'SAML';
-      case AuthenticationType.userpool:
-        return 'USERPOOL';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchAssociateUserStackRequest {
+  /// The list of UserStackAssociation objects.
+  @_s.JsonKey(name: 'UserStackAssociations')
+  final List<UserStackAssociation> userStackAssociations;
+
+  BatchAssociateUserStackRequest({
+    @_s.required this.userStackAssociations,
+  });
+  Map<String, dynamic> toJson() => _$BatchAssociateUserStackRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3439,6 +3439,23 @@ class BatchAssociateUserStackResult {
   });
   factory BatchAssociateUserStackResult.fromJson(Map<String, dynamic> json) =>
       _$BatchAssociateUserStackResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchDisassociateUserStackRequest {
+  /// The list of UserStackAssociation objects.
+  @_s.JsonKey(name: 'UserStackAssociations')
+  final List<UserStackAssociation> userStackAssociations;
+
+  BatchDisassociateUserStackRequest({
+    @_s.required this.userStackAssociations,
+  });
+  Map<String, dynamic> toJson() =>
+      _$BatchDisassociateUserStackRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3513,6 +3530,39 @@ class ComputeCapacityStatus {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CopyImageRequest {
+  /// The name that the image will have when it is copied to the destination.
+  @_s.JsonKey(name: 'DestinationImageName')
+  final String destinationImageName;
+
+  /// The destination region to which the image will be copied. This parameter is
+  /// required, even if you are copying an image within the same region.
+  @_s.JsonKey(name: 'DestinationRegion')
+  final String destinationRegion;
+
+  /// The name of the image to copy.
+  @_s.JsonKey(name: 'SourceImageName')
+  final String sourceImageName;
+
+  /// The description that the image will have when it is copied to the
+  /// destination.
+  @_s.JsonKey(name: 'DestinationImageDescription')
+  final String destinationImageDescription;
+
+  CopyImageRequest({
+    @_s.required this.destinationImageName,
+    @_s.required this.destinationRegion,
+    @_s.required this.sourceImageName,
+    this.destinationImageDescription,
+  });
+  Map<String, dynamic> toJson() => _$CopyImageRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CopyImageResponse {
@@ -3525,6 +3575,33 @@ class CopyImageResponse {
   });
   factory CopyImageResponse.fromJson(Map<String, dynamic> json) =>
       _$CopyImageResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDirectoryConfigRequest {
+  /// The fully qualified name of the directory (for example, corp.example.com).
+  @_s.JsonKey(name: 'DirectoryName')
+  final String directoryName;
+
+  /// The distinguished names of the organizational units for computer accounts.
+  @_s.JsonKey(name: 'OrganizationalUnitDistinguishedNames')
+  final List<String> organizationalUnitDistinguishedNames;
+
+  /// The credentials for the service account used by the fleet or image builder
+  /// to connect to the directory.
+  @_s.JsonKey(name: 'ServiceAccountCredentials')
+  final ServiceAccountCredentials serviceAccountCredentials;
+
+  CreateDirectoryConfigRequest({
+    @_s.required this.directoryName,
+    @_s.required this.organizationalUnitDistinguishedNames,
+    @_s.required this.serviceAccountCredentials,
+  });
+  Map<String, dynamic> toJson() => _$CreateDirectoryConfigRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3547,6 +3624,229 @@ class CreateDirectoryConfigResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateFleetRequest {
+  /// The desired capacity for the fleet.
+  @_s.JsonKey(name: 'ComputeCapacity')
+  final ComputeCapacity computeCapacity;
+
+  /// The instance type to use when launching fleet instances. The following
+  /// instance types are available:
+  ///
+  /// <ul>
+  /// <li>
+  /// stream.standard.medium
+  /// </li>
+  /// <li>
+  /// stream.standard.large
+  /// </li>
+  /// <li>
+  /// stream.compute.large
+  /// </li>
+  /// <li>
+  /// stream.compute.xlarge
+  /// </li>
+  /// <li>
+  /// stream.compute.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.compute.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.compute.8xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.large
+  /// </li>
+  /// <li>
+  /// stream.memory.xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.8xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics-design.large
+  /// </li>
+  /// <li>
+  /// stream.graphics-design.xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics-design.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics-design.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics-desktop.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics-pro.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics-pro.8xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics-pro.16xlarge
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'InstanceType')
+  final String instanceType;
+
+  /// A unique name for the fleet.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The description to display.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The amount of time that a streaming session remains active after users
+  /// disconnect. If users try to reconnect to the streaming session after a
+  /// disconnection or network interruption within this time interval, they are
+  /// connected to their previous session. Otherwise, they are connected to a new
+  /// session with a new streaming instance.
+  ///
+  /// Specify a value between 60 and 360000.
+  @_s.JsonKey(name: 'DisconnectTimeoutInSeconds')
+  final int disconnectTimeoutInSeconds;
+
+  /// The fleet name to display.
+  @_s.JsonKey(name: 'DisplayName')
+  final String displayName;
+
+  /// The name of the directory and organizational unit (OU) to use to join the
+  /// fleet to a Microsoft Active Directory domain.
+  @_s.JsonKey(name: 'DomainJoinInfo')
+  final DomainJoinInfo domainJoinInfo;
+
+  /// Enables or disables default internet access for the fleet.
+  @_s.JsonKey(name: 'EnableDefaultInternetAccess')
+  final bool enableDefaultInternetAccess;
+
+  /// The fleet type.
+  /// <dl> <dt>ALWAYS_ON</dt> <dd>
+  /// Provides users with instant-on access to their apps. You are charged for all
+  /// running instances in your fleet, even if no users are streaming apps.
+  /// </dd> <dt>ON_DEMAND</dt> <dd>
+  /// Provide users with access to applications after they connect, which takes
+  /// one to two minutes. You are charged for instance streaming when users are
+  /// connected and a small hourly fee for instances that are not streaming apps.
+  /// </dd> </dl>
+  @_s.JsonKey(name: 'FleetType')
+  final FleetType fleetType;
+
+  /// The Amazon Resource Name (ARN) of the IAM role to apply to the fleet. To
+  /// assume a role, a fleet instance calls the AWS Security Token Service (STS)
+  /// <code>AssumeRole</code> API operation and passes the ARN of the role to use.
+  /// The operation creates a new session with temporary credentials. AppStream
+  /// 2.0 retrieves the temporary credentials and creates the
+  /// <b>AppStream_Machine_Role</b> credential profile on the instance.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html">Using
+  /// an IAM Role to Grant Permissions to Applications and Scripts Running on
+  /// AppStream 2.0 Streaming Instances</a> in the <i>Amazon AppStream 2.0
+  /// Administration Guide</i>.
+  @_s.JsonKey(name: 'IamRoleArn')
+  final String iamRoleArn;
+
+  /// The amount of time that users can be idle (inactive) before they are
+  /// disconnected from their streaming session and the
+  /// <code>DisconnectTimeoutInSeconds</code> time interval begins. Users are
+  /// notified before they are disconnected due to inactivity. If they try to
+  /// reconnect to the streaming session before the time interval specified in
+  /// <code>DisconnectTimeoutInSeconds</code> elapses, they are connected to their
+  /// previous session. Users are considered idle when they stop providing
+  /// keyboard or mouse input during their streaming session. File uploads and
+  /// downloads, audio in, audio out, and pixels changing do not qualify as user
+  /// activity. If users continue to be idle after the time interval in
+  /// <code>IdleDisconnectTimeoutInSeconds</code> elapses, they are disconnected.
+  ///
+  /// To prevent users from being disconnected due to inactivity, specify a value
+  /// of 0. Otherwise, specify a value between 60 and 3600. The default value is
+  /// 0.
+  /// <note>
+  /// If you enable this feature, we recommend that you specify a value that
+  /// corresponds exactly to a whole number of minutes (for example, 60, 120, and
+  /// 180). If you don't do this, the value is rounded to the nearest minute. For
+  /// example, if you specify a value of 70, users are disconnected after 1 minute
+  /// of inactivity. If you specify a value that is at the midpoint between two
+  /// different minutes, the value is rounded up. For example, if you specify a
+  /// value of 90, users are disconnected after 2 minutes of inactivity.
+  /// </note>
+  @_s.JsonKey(name: 'IdleDisconnectTimeoutInSeconds')
+  final int idleDisconnectTimeoutInSeconds;
+
+  /// The ARN of the public, private, or shared image to use.
+  @_s.JsonKey(name: 'ImageArn')
+  final String imageArn;
+
+  /// The name of the image used to create the fleet.
+  @_s.JsonKey(name: 'ImageName')
+  final String imageName;
+
+  /// The maximum amount of time that a streaming session can remain active, in
+  /// seconds. If users are still connected to a streaming instance five minutes
+  /// before this limit is reached, they are prompted to save any open documents
+  /// before being disconnected. After this time elapses, the instance is
+  /// terminated and replaced by a new instance.
+  ///
+  /// Specify a value between 600 and 360000.
+  @_s.JsonKey(name: 'MaxUserDurationInSeconds')
+  final int maxUserDurationInSeconds;
+
+  /// The tags to associate with the fleet. A tag is a key-value pair, and the
+  /// value is optional. For example, Environment=Test. If you do not specify a
+  /// value, Environment=.
+  ///
+  /// If you do not specify a value, the value is set to an empty string.
+  ///
+  /// Generally allowed characters are: letters, numbers, and spaces representable
+  /// in UTF-8, and the following special characters:
+  ///
+  /// _ . : / = + \ - @
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html">Tagging
+  /// Your Resources</a> in the <i>Amazon AppStream 2.0 Administration Guide</i>.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  /// The VPC configuration for the fleet.
+  @_s.JsonKey(name: 'VpcConfig')
+  final VpcConfig vpcConfig;
+
+  CreateFleetRequest({
+    @_s.required this.computeCapacity,
+    @_s.required this.instanceType,
+    @_s.required this.name,
+    this.description,
+    this.disconnectTimeoutInSeconds,
+    this.displayName,
+    this.domainJoinInfo,
+    this.enableDefaultInternetAccess,
+    this.fleetType,
+    this.iamRoleArn,
+    this.idleDisconnectTimeoutInSeconds,
+    this.imageArn,
+    this.imageName,
+    this.maxUserDurationInSeconds,
+    this.tags,
+    this.vpcConfig,
+  });
+  Map<String, dynamic> toJson() => _$CreateFleetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateFleetResult {
@@ -3564,6 +3864,175 @@ class CreateFleetResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateImageBuilderRequest {
+  /// The instance type to use when launching the image builder. The following
+  /// instance types are available:
+  ///
+  /// <ul>
+  /// <li>
+  /// stream.standard.medium
+  /// </li>
+  /// <li>
+  /// stream.standard.large
+  /// </li>
+  /// <li>
+  /// stream.compute.large
+  /// </li>
+  /// <li>
+  /// stream.compute.xlarge
+  /// </li>
+  /// <li>
+  /// stream.compute.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.compute.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.compute.8xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.large
+  /// </li>
+  /// <li>
+  /// stream.memory.xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.8xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics-design.large
+  /// </li>
+  /// <li>
+  /// stream.graphics-design.xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics-design.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics-design.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics-desktop.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics-pro.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics-pro.8xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics-pro.16xlarge
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'InstanceType')
+  final String instanceType;
+
+  /// A unique name for the image builder.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The list of interface VPC endpoint (interface endpoint) objects.
+  /// Administrators can connect to the image builder only through the specified
+  /// endpoints.
+  @_s.JsonKey(name: 'AccessEndpoints')
+  final List<AccessEndpoint> accessEndpoints;
+
+  /// The version of the AppStream 2.0 agent to use for this image builder. To use
+  /// the latest version of the AppStream 2.0 agent, specify [LATEST].
+  @_s.JsonKey(name: 'AppstreamAgentVersion')
+  final String appstreamAgentVersion;
+
+  /// The description to display.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The image builder name to display.
+  @_s.JsonKey(name: 'DisplayName')
+  final String displayName;
+
+  /// The name of the directory and organizational unit (OU) to use to join the
+  /// image builder to a Microsoft Active Directory domain.
+  @_s.JsonKey(name: 'DomainJoinInfo')
+  final DomainJoinInfo domainJoinInfo;
+
+  /// Enables or disables default internet access for the image builder.
+  @_s.JsonKey(name: 'EnableDefaultInternetAccess')
+  final bool enableDefaultInternetAccess;
+
+  /// The Amazon Resource Name (ARN) of the IAM role to apply to the image
+  /// builder. To assume a role, the image builder calls the AWS Security Token
+  /// Service (STS) <code>AssumeRole</code> API operation and passes the ARN of
+  /// the role to use. The operation creates a new session with temporary
+  /// credentials. AppStream 2.0 retrieves the temporary credentials and creates
+  /// the <b>AppStream_Machine_Role</b> credential profile on the instance.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html">Using
+  /// an IAM Role to Grant Permissions to Applications and Scripts Running on
+  /// AppStream 2.0 Streaming Instances</a> in the <i>Amazon AppStream 2.0
+  /// Administration Guide</i>.
+  @_s.JsonKey(name: 'IamRoleArn')
+  final String iamRoleArn;
+
+  /// The ARN of the public, private, or shared image to use.
+  @_s.JsonKey(name: 'ImageArn')
+  final String imageArn;
+
+  /// The name of the image used to create the image builder.
+  @_s.JsonKey(name: 'ImageName')
+  final String imageName;
+
+  /// The tags to associate with the image builder. A tag is a key-value pair, and
+  /// the value is optional. For example, Environment=Test. If you do not specify
+  /// a value, Environment=.
+  ///
+  /// Generally allowed characters are: letters, numbers, and spaces representable
+  /// in UTF-8, and the following special characters:
+  ///
+  /// _ . : / = + \ - @
+  ///
+  /// If you do not specify a value, the value is set to an empty string.
+  ///
+  /// For more information about tags, see <a
+  /// href="https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html">Tagging
+  /// Your Resources</a> in the <i>Amazon AppStream 2.0 Administration Guide</i>.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  /// The VPC configuration for the image builder. You can specify only one
+  /// subnet.
+  @_s.JsonKey(name: 'VpcConfig')
+  final VpcConfig vpcConfig;
+
+  CreateImageBuilderRequest({
+    @_s.required this.instanceType,
+    @_s.required this.name,
+    this.accessEndpoints,
+    this.appstreamAgentVersion,
+    this.description,
+    this.displayName,
+    this.domainJoinInfo,
+    this.enableDefaultInternetAccess,
+    this.iamRoleArn,
+    this.imageArn,
+    this.imageName,
+    this.tags,
+    this.vpcConfig,
+  });
+  Map<String, dynamic> toJson() => _$CreateImageBuilderRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateImageBuilderResult {
@@ -3576,6 +4045,29 @@ class CreateImageBuilderResult {
   });
   factory CreateImageBuilderResult.fromJson(Map<String, dynamic> json) =>
       _$CreateImageBuilderResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateImageBuilderStreamingURLRequest {
+  /// The name of the image builder.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The time that the streaming URL will be valid, in seconds. Specify a value
+  /// between 1 and 604800 seconds. The default is 3600 seconds.
+  @_s.JsonKey(name: 'Validity')
+  final int validity;
+
+  CreateImageBuilderStreamingURLRequest({
+    @_s.required this.name,
+    this.validity,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateImageBuilderStreamingURLRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3607,6 +4099,93 @@ class CreateImageBuilderStreamingURLResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateStackRequest {
+  /// The name of the stack.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The list of interface VPC endpoint (interface endpoint) objects. Users of
+  /// the stack can connect to AppStream 2.0 only through the specified endpoints.
+  @_s.JsonKey(name: 'AccessEndpoints')
+  final List<AccessEndpoint> accessEndpoints;
+
+  /// The persistent application settings for users of a stack. When these
+  /// settings are enabled, changes that users make to applications and Windows
+  /// settings are automatically saved after each session and applied to the next
+  /// session.
+  @_s.JsonKey(name: 'ApplicationSettings')
+  final ApplicationSettings applicationSettings;
+
+  /// The description to display.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The stack name to display.
+  @_s.JsonKey(name: 'DisplayName')
+  final String displayName;
+
+  /// The domains where AppStream 2.0 streaming sessions can be embedded in an
+  /// iframe. You must approve the domains that you want to host embedded
+  /// AppStream 2.0 streaming sessions.
+  @_s.JsonKey(name: 'EmbedHostDomains')
+  final List<String> embedHostDomains;
+
+  /// The URL that users are redirected to after they click the Send Feedback
+  /// link. If no URL is specified, no Send Feedback link is displayed.
+  @_s.JsonKey(name: 'FeedbackURL')
+  final String feedbackURL;
+
+  /// The URL that users are redirected to after their streaming session ends.
+  @_s.JsonKey(name: 'RedirectURL')
+  final String redirectURL;
+
+  /// The storage connectors to enable.
+  @_s.JsonKey(name: 'StorageConnectors')
+  final List<StorageConnector> storageConnectors;
+
+  /// The tags to associate with the stack. A tag is a key-value pair, and the
+  /// value is optional. For example, Environment=Test. If you do not specify a
+  /// value, Environment=.
+  ///
+  /// If you do not specify a value, the value is set to an empty string.
+  ///
+  /// Generally allowed characters are: letters, numbers, and spaces representable
+  /// in UTF-8, and the following special characters:
+  ///
+  /// _ . : / = + \ - @
+  ///
+  /// For more information about tags, see <a
+  /// href="https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html">Tagging
+  /// Your Resources</a> in the <i>Amazon AppStream 2.0 Administration Guide</i>.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  /// The actions that are enabled or disabled for users during their streaming
+  /// sessions. By default, these actions are enabled.
+  @_s.JsonKey(name: 'UserSettings')
+  final List<UserSetting> userSettings;
+
+  CreateStackRequest({
+    @_s.required this.name,
+    this.accessEndpoints,
+    this.applicationSettings,
+    this.description,
+    this.displayName,
+    this.embedHostDomains,
+    this.feedbackURL,
+    this.redirectURL,
+    this.storageConnectors,
+    this.tags,
+    this.userSettings,
+  });
+  Map<String, dynamic> toJson() => _$CreateStackRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateStackResult {
@@ -3619,6 +4198,51 @@ class CreateStackResult {
   });
   factory CreateStackResult.fromJson(Map<String, dynamic> json) =>
       _$CreateStackResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateStreamingURLRequest {
+  /// The name of the fleet.
+  @_s.JsonKey(name: 'FleetName')
+  final String fleetName;
+
+  /// The name of the stack.
+  @_s.JsonKey(name: 'StackName')
+  final String stackName;
+
+  /// The identifier of the user.
+  @_s.JsonKey(name: 'UserId')
+  final String userId;
+
+  /// The name of the application to launch after the session starts. This is the
+  /// name that you specified as <b>Name</b> in the Image Assistant.
+  @_s.JsonKey(name: 'ApplicationId')
+  final String applicationId;
+
+  /// The session context. For more information, see <a
+  /// href="https://docs.aws.amazon.com/appstream2/latest/developerguide/managing-stacks-fleets.html#managing-stacks-fleets-parameters">Session
+  /// Context</a> in the <i>Amazon AppStream 2.0 Administration Guide</i>.
+  @_s.JsonKey(name: 'SessionContext')
+  final String sessionContext;
+
+  /// The time that the streaming URL will be valid, in seconds. Specify a value
+  /// between 1 and 604800 seconds. The default is 60 seconds.
+  @_s.JsonKey(name: 'Validity')
+  final int validity;
+
+  CreateStreamingURLRequest({
+    @_s.required this.fleetName,
+    @_s.required this.stackName,
+    @_s.required this.userId,
+    this.applicationId,
+    this.sessionContext,
+    this.validity,
+  });
+  Map<String, dynamic> toJson() => _$CreateStreamingURLRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3680,12 +4304,78 @@ class CreateUsageReportSubscriptionResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateUserRequest {
+  /// The authentication type for the user. You must specify USERPOOL.
+  @_s.JsonKey(name: 'AuthenticationType')
+  final AuthenticationType authenticationType;
+
+  /// The email address of the user.
+  /// <note>
+  /// Users' email addresses are case-sensitive. During login, if they specify an
+  /// email address that doesn't use the same capitalization as the email address
+  /// specified when their user pool account was created, a "user does not exist"
+  /// error message displays.
+  /// </note>
+  @_s.JsonKey(name: 'UserName')
+  final String userName;
+
+  /// The first name, or given name, of the user.
+  @_s.JsonKey(name: 'FirstName')
+  final String firstName;
+
+  /// The last name, or surname, of the user.
+  @_s.JsonKey(name: 'LastName')
+  final String lastName;
+
+  /// The action to take for the welcome email that is sent to a user after the
+  /// user is created in the user pool. If you specify SUPPRESS, no email is sent.
+  /// If you specify RESEND, do not specify the first name or last name of the
+  /// user. If the value is null, the email is sent.
+  /// <note>
+  /// The temporary password in the welcome email is valid for only 7 days. If
+  /// users don’t set their passwords within 7 days, you must send them a new
+  /// welcome email.
+  /// </note>
+  @_s.JsonKey(name: 'MessageAction')
+  final MessageAction messageAction;
+
+  CreateUserRequest({
+    @_s.required this.authenticationType,
+    @_s.required this.userName,
+    this.firstName,
+    this.lastName,
+    this.messageAction,
+  });
+  Map<String, dynamic> toJson() => _$CreateUserRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateUserResult {
   CreateUserResult();
   factory CreateUserResult.fromJson(Map<String, dynamic> json) =>
       _$CreateUserResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDirectoryConfigRequest {
+  /// The name of the directory configuration.
+  @_s.JsonKey(name: 'DirectoryName')
+  final String directoryName;
+
+  DeleteDirectoryConfigRequest({
+    @_s.required this.directoryName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDirectoryConfigRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3702,12 +4392,44 @@ class DeleteDirectoryConfigResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteFleetRequest {
+  /// The name of the fleet.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  DeleteFleetRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$DeleteFleetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteFleetResult {
   DeleteFleetResult();
   factory DeleteFleetResult.fromJson(Map<String, dynamic> json) =>
       _$DeleteFleetResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteImageBuilderRequest {
+  /// The name of the image builder.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  DeleteImageBuilderRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$DeleteImageBuilderRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3730,12 +4452,50 @@ class DeleteImageBuilderResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteImagePermissionsRequest {
+  /// The name of the private image.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The 12-digit identifier of the AWS account for which to delete image
+  /// permissions.
+  @_s.JsonKey(name: 'SharedAccountId')
+  final String sharedAccountId;
+
+  DeleteImagePermissionsRequest({
+    @_s.required this.name,
+    @_s.required this.sharedAccountId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteImagePermissionsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteImagePermissionsResult {
   DeleteImagePermissionsResult();
   factory DeleteImagePermissionsResult.fromJson(Map<String, dynamic> json) =>
       _$DeleteImagePermissionsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteImageRequest {
+  /// The name of the image.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  DeleteImageRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$DeleteImageRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3753,6 +4513,22 @@ class DeleteImageResult {
   });
   factory DeleteImageResult.fromJson(Map<String, dynamic> json) =>
       _$DeleteImageResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteStackRequest {
+  /// The name of the stack.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  DeleteStackRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$DeleteStackRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3781,12 +4557,64 @@ class DeleteUsageReportSubscriptionResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteUserRequest {
+  /// The authentication type for the user. You must specify USERPOOL.
+  @_s.JsonKey(name: 'AuthenticationType')
+  final AuthenticationType authenticationType;
+
+  /// The email address of the user.
+  /// <note>
+  /// Users' email addresses are case-sensitive.
+  /// </note>
+  @_s.JsonKey(name: 'UserName')
+  final String userName;
+
+  DeleteUserRequest({
+    @_s.required this.authenticationType,
+    @_s.required this.userName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteUserRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteUserResult {
   DeleteUserResult();
   factory DeleteUserResult.fromJson(Map<String, dynamic> json) =>
       _$DeleteUserResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeDirectoryConfigsRequest {
+  /// The directory names.
+  @_s.JsonKey(name: 'DirectoryNames')
+  final List<String> directoryNames;
+
+  /// The maximum size of each page of results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The pagination token to use to retrieve the next page of results for this
+  /// operation. If this value is null, it retrieves the first page.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeDirectoryConfigsRequest({
+    this.directoryNames,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeDirectoryConfigsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3817,6 +4645,28 @@ class DescribeDirectoryConfigsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeFleetsRequest {
+  /// The names of the fleets to describe.
+  @_s.JsonKey(name: 'Names')
+  final List<String> names;
+
+  /// The pagination token to use to retrieve the next page of results for this
+  /// operation. If this value is null, it retrieves the first page.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeFleetsRequest({
+    this.names,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeFleetsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeFleetsResult {
@@ -3840,6 +4690,33 @@ class DescribeFleetsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeImageBuildersRequest {
+  /// The maximum size of each page of results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The names of the image builders to describe.
+  @_s.JsonKey(name: 'Names')
+  final List<String> names;
+
+  /// The pagination token to use to retrieve the next page of results for this
+  /// operation. If this value is null, it retrieves the first page.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeImageBuildersRequest({
+    this.maxResults,
+    this.names,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeImageBuildersRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeImageBuildersResult {
@@ -3858,6 +4735,41 @@ class DescribeImageBuildersResult {
   });
   factory DescribeImageBuildersResult.fromJson(Map<String, dynamic> json) =>
       _$DescribeImageBuildersResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeImagePermissionsRequest {
+  /// The name of the private image for which to describe permissions. The image
+  /// must be one that you own.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The maximum size of each page of results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The pagination token to use to retrieve the next page of results for this
+  /// operation. If this value is null, it retrieves the first page.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The 12-digit identifier of one or more AWS accounts with which the image is
+  /// shared.
+  @_s.JsonKey(name: 'SharedAwsAccountIds')
+  final List<String> sharedAwsAccountIds;
+
+  DescribeImagePermissionsRequest({
+    @_s.required this.name,
+    this.maxResults,
+    this.nextToken,
+    this.sharedAwsAccountIds,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeImagePermissionsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3891,6 +4803,43 @@ class DescribeImagePermissionsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeImagesRequest {
+  /// The ARNs of the public, private, and shared images to describe.
+  @_s.JsonKey(name: 'Arns')
+  final List<String> arns;
+
+  /// The maximum size of each page of results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The names of the public or private images to describe.
+  @_s.JsonKey(name: 'Names')
+  final List<String> names;
+
+  /// The pagination token to use to retrieve the next page of results for this
+  /// operation. If this value is null, it retrieves the first page.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The type of image (public, private, or shared) to describe.
+  @_s.JsonKey(name: 'Type')
+  final VisibilityType type;
+
+  DescribeImagesRequest({
+    this.arns,
+    this.maxResults,
+    this.names,
+    this.nextToken,
+    this.type,
+  });
+  Map<String, dynamic> toJson() => _$DescribeImagesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeImagesResult {
@@ -3909,6 +4858,51 @@ class DescribeImagesResult {
   });
   factory DescribeImagesResult.fromJson(Map<String, dynamic> json) =>
       _$DescribeImagesResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeSessionsRequest {
+  /// The name of the fleet. This value is case-sensitive.
+  @_s.JsonKey(name: 'FleetName')
+  final String fleetName;
+
+  /// The name of the stack. This value is case-sensitive.
+  @_s.JsonKey(name: 'StackName')
+  final String stackName;
+
+  /// The authentication method. Specify <code>API</code> for a user authenticated
+  /// using a streaming URL or <code>SAML</code> for a SAML federated user. The
+  /// default is to authenticate users using a streaming URL.
+  @_s.JsonKey(name: 'AuthenticationType')
+  final AuthenticationType authenticationType;
+
+  /// The size of each page of results. The default value is 20 and the maximum
+  /// value is 50.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The pagination token to use to retrieve the next page of results for this
+  /// operation. If this value is null, it retrieves the first page.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The user identifier.
+  @_s.JsonKey(name: 'UserId')
+  final String userId;
+
+  DescribeSessionsRequest({
+    @_s.required this.fleetName,
+    @_s.required this.stackName,
+    this.authenticationType,
+    this.limit,
+    this.nextToken,
+    this.userId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeSessionsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3937,6 +4931,28 @@ class DescribeSessionsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeStacksRequest {
+  /// The names of the stacks to describe.
+  @_s.JsonKey(name: 'Names')
+  final List<String> names;
+
+  /// The pagination token to use to retrieve the next page of results for this
+  /// operation. If this value is null, it retrieves the first page.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeStacksRequest({
+    this.names,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeStacksRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeStacksResult {
@@ -3955,6 +4971,29 @@ class DescribeStacksResult {
   });
   factory DescribeStacksResult.fromJson(Map<String, dynamic> json) =>
       _$DescribeStacksResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeUsageReportSubscriptionsRequest {
+  /// The maximum size of each page of results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The pagination token to use to retrieve the next page of results for this
+  /// operation. If this value is null, it retrieves the first page.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeUsageReportSubscriptionsRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeUsageReportSubscriptionsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3984,6 +5023,48 @@ class DescribeUsageReportSubscriptionsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeUserStackAssociationsRequest {
+  /// The authentication type for the user who is associated with the stack. You
+  /// must specify USERPOOL.
+  @_s.JsonKey(name: 'AuthenticationType')
+  final AuthenticationType authenticationType;
+
+  /// The maximum size of each page of results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The pagination token to use to retrieve the next page of results for this
+  /// operation. If this value is null, it retrieves the first page.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The name of the stack that is associated with the user.
+  @_s.JsonKey(name: 'StackName')
+  final String stackName;
+
+  /// The email address of the user who is associated with the stack.
+  /// <note>
+  /// Users' email addresses are case-sensitive.
+  /// </note>
+  @_s.JsonKey(name: 'UserName')
+  final String userName;
+
+  DescribeUserStackAssociationsRequest({
+    this.authenticationType,
+    this.maxResults,
+    this.nextToken,
+    this.stackName,
+    this.userName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeUserStackAssociationsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeUserStackAssociationsResult {
@@ -4003,6 +5084,34 @@ class DescribeUserStackAssociationsResult {
   factory DescribeUserStackAssociationsResult.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeUserStackAssociationsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeUsersRequest {
+  /// The authentication type for the users in the user pool to describe. You must
+  /// specify USERPOOL.
+  @_s.JsonKey(name: 'AuthenticationType')
+  final AuthenticationType authenticationType;
+
+  /// The maximum size of each page of results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The pagination token to use to retrieve the next page of results for this
+  /// operation. If this value is null, it retrieves the first page.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeUsersRequest({
+    @_s.required this.authenticationType,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeUsersRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4069,12 +5178,57 @@ class DirectoryConfig {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisableUserRequest {
+  /// The authentication type for the user. You must specify USERPOOL.
+  @_s.JsonKey(name: 'AuthenticationType')
+  final AuthenticationType authenticationType;
+
+  /// The email address of the user.
+  /// <note>
+  /// Users' email addresses are case-sensitive.
+  /// </note>
+  @_s.JsonKey(name: 'UserName')
+  final String userName;
+
+  DisableUserRequest({
+    @_s.required this.authenticationType,
+    @_s.required this.userName,
+  });
+  Map<String, dynamic> toJson() => _$DisableUserRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DisableUserResult {
   DisableUserResult();
   factory DisableUserResult.fromJson(Map<String, dynamic> json) =>
       _$DisableUserResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateFleetRequest {
+  /// The name of the fleet.
+  @_s.JsonKey(name: 'FleetName')
+  final String fleetName;
+
+  /// The name of the stack.
+  @_s.JsonKey(name: 'StackName')
+  final String stackName;
+
+  DisassociateFleetRequest({
+    @_s.required this.fleetName,
+    @_s.required this.stackName,
+  });
+  Map<String, dynamic> toJson() => _$DisassociateFleetRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4117,12 +5271,55 @@ class DomainJoinInfo {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class EnableUserRequest {
+  /// The authentication type for the user. You must specify USERPOOL.
+  @_s.JsonKey(name: 'AuthenticationType')
+  final AuthenticationType authenticationType;
+
+  /// The email address of the user.
+  /// <note>
+  /// Users' email addresses are case-sensitive. During login, if they specify an
+  /// email address that doesn't use the same capitalization as the email address
+  /// specified when their user pool account was created, a "user does not exist"
+  /// error message displays.
+  /// </note>
+  @_s.JsonKey(name: 'UserName')
+  final String userName;
+
+  EnableUserRequest({
+    @_s.required this.authenticationType,
+    @_s.required this.userName,
+  });
+  Map<String, dynamic> toJson() => _$EnableUserRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class EnableUserResult {
   EnableUserResult();
   factory EnableUserResult.fromJson(Map<String, dynamic> json) =>
       _$EnableUserResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ExpireSessionRequest {
+  /// The identifier of the streaming session.
+  @_s.JsonKey(name: 'SessionId')
+  final String sessionId;
+
+  ExpireSessionRequest({
+    @_s.required this.sessionId,
+  });
+  Map<String, dynamic> toJson() => _$ExpireSessionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4475,18 +5672,6 @@ enum FleetType {
   alwaysOn,
   @_s.JsonValue('ON_DEMAND')
   onDemand,
-}
-
-extension on FleetType {
-  String toValue() {
-    switch (this) {
-      case FleetType.alwaysOn:
-        return 'ALWAYS_ON';
-      case FleetType.onDemand:
-        return 'ON_DEMAND';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Describes an image.
@@ -4926,6 +6111,28 @@ class LastReportGenerationExecutionError {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListAssociatedFleetsRequest {
+  /// The name of the stack.
+  @_s.JsonKey(name: 'StackName')
+  final String stackName;
+
+  /// The pagination token to use to retrieve the next page of results for this
+  /// operation. If this value is null, it retrieves the first page.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListAssociatedFleetsRequest({
+    @_s.required this.stackName,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListAssociatedFleetsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListAssociatedFleetsResult {
@@ -4944,6 +6151,28 @@ class ListAssociatedFleetsResult {
   });
   factory ListAssociatedFleetsResult.fromJson(Map<String, dynamic> json) =>
       _$ListAssociatedFleetsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListAssociatedStacksRequest {
+  /// The name of the fleet.
+  @_s.JsonKey(name: 'FleetName')
+  final String fleetName;
+
+  /// The pagination token to use to retrieve the next page of results for this
+  /// operation. If this value is null, it retrieves the first page.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListAssociatedStacksRequest({
+    @_s.required this.fleetName,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListAssociatedStacksRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4972,6 +6201,22 @@ class ListAssociatedStacksResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  ListTagsForResourceRequest({
+    @_s.required this.resourceArn,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListTagsForResourceResponse {
@@ -4991,18 +6236,6 @@ enum MessageAction {
   suppress,
   @_s.JsonValue('RESEND')
   resend,
-}
-
-extension on MessageAction {
-  String toValue() {
-    switch (this) {
-      case MessageAction.suppress:
-        return 'SUPPRESS';
-      case MessageAction.resend:
-        return 'RESEND';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Describes the network details of the fleet or image builder instance.
@@ -5369,12 +6602,50 @@ enum StackErrorCode {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartFleetRequest {
+  /// The name of the fleet.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  StartFleetRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$StartFleetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartFleetResult {
   StartFleetResult();
   factory StartFleetResult.fromJson(Map<String, dynamic> json) =>
       _$StartFleetResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartImageBuilderRequest {
+  /// The name of the image builder.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The version of the AppStream 2.0 agent to use for this image builder. To use
+  /// the latest version of the AppStream 2.0 agent, specify [LATEST].
+  @_s.JsonKey(name: 'AppstreamAgentVersion')
+  final String appstreamAgentVersion;
+
+  StartImageBuilderRequest({
+    @_s.required this.name,
+    this.appstreamAgentVersion,
+  });
+  Map<String, dynamic> toJson() => _$StartImageBuilderRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5397,12 +6668,44 @@ class StartImageBuilderResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopFleetRequest {
+  /// The name of the fleet.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  StopFleetRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$StopFleetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StopFleetResult {
   StopFleetResult();
   factory StopFleetResult.fromJson(Map<String, dynamic> json) =>
       _$StopFleetResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopImageBuilderRequest {
+  /// The name of the image builder.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  StopImageBuilderRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$StopImageBuilderRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5465,6 +6768,35 @@ enum StorageConnectorType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// The tags to associate. A tag is a key-value pair, and the value is optional.
+  /// For example, Environment=Test. If you do not specify a value, Environment=.
+  ///
+  /// If you do not specify a value, the value is set to an empty string.
+  ///
+  /// Generally allowed characters are: letters, numbers, and spaces representable
+  /// in UTF-8, and the following special characters:
+  ///
+  /// _ . : / = + \ - @
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagResourceResponse {
@@ -5476,12 +6808,60 @@ class TagResourceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// The tag keys for the tags to disassociate.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
   factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDirectoryConfigRequest {
+  /// The name of the Directory Config object.
+  @_s.JsonKey(name: 'DirectoryName')
+  final String directoryName;
+
+  /// The distinguished names of the organizational units for computer accounts.
+  @_s.JsonKey(name: 'OrganizationalUnitDistinguishedNames')
+  final List<String> organizationalUnitDistinguishedNames;
+
+  /// The credentials for the service account used by the fleet or image builder
+  /// to connect to the directory.
+  @_s.JsonKey(name: 'ServiceAccountCredentials')
+  final ServiceAccountCredentials serviceAccountCredentials;
+
+  UpdateDirectoryConfigRequest({
+    @_s.required this.directoryName,
+    this.organizationalUnitDistinguishedNames,
+    this.serviceAccountCredentials,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDirectoryConfigRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5504,6 +6884,208 @@ class UpdateDirectoryConfigResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateFleetRequest {
+  /// The fleet attributes to delete.
+  @_s.JsonKey(name: 'AttributesToDelete')
+  final List<String> attributesToDelete;
+
+  /// The desired capacity for the fleet.
+  @_s.JsonKey(name: 'ComputeCapacity')
+  final ComputeCapacity computeCapacity;
+
+  /// Deletes the VPC association for the specified fleet.
+  @_s.JsonKey(name: 'DeleteVpcConfig')
+  final bool deleteVpcConfig;
+
+  /// The description to display.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The amount of time that a streaming session remains active after users
+  /// disconnect. If users try to reconnect to the streaming session after a
+  /// disconnection or network interruption within this time interval, they are
+  /// connected to their previous session. Otherwise, they are connected to a new
+  /// session with a new streaming instance.
+  ///
+  /// Specify a value between 60 and 360000.
+  @_s.JsonKey(name: 'DisconnectTimeoutInSeconds')
+  final int disconnectTimeoutInSeconds;
+
+  /// The fleet name to display.
+  @_s.JsonKey(name: 'DisplayName')
+  final String displayName;
+
+  /// The name of the directory and organizational unit (OU) to use to join the
+  /// fleet to a Microsoft Active Directory domain.
+  @_s.JsonKey(name: 'DomainJoinInfo')
+  final DomainJoinInfo domainJoinInfo;
+
+  /// Enables or disables default internet access for the fleet.
+  @_s.JsonKey(name: 'EnableDefaultInternetAccess')
+  final bool enableDefaultInternetAccess;
+
+  /// The Amazon Resource Name (ARN) of the IAM role to apply to the fleet. To
+  /// assume a role, a fleet instance calls the AWS Security Token Service (STS)
+  /// <code>AssumeRole</code> API operation and passes the ARN of the role to use.
+  /// The operation creates a new session with temporary credentials. AppStream
+  /// 2.0 retrieves the temporary credentials and creates the
+  /// <b>AppStream_Machine_Role</b> credential profile on the instance.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html">Using
+  /// an IAM Role to Grant Permissions to Applications and Scripts Running on
+  /// AppStream 2.0 Streaming Instances</a> in the <i>Amazon AppStream 2.0
+  /// Administration Guide</i>.
+  @_s.JsonKey(name: 'IamRoleArn')
+  final String iamRoleArn;
+
+  /// The amount of time that users can be idle (inactive) before they are
+  /// disconnected from their streaming session and the
+  /// <code>DisconnectTimeoutInSeconds</code> time interval begins. Users are
+  /// notified before they are disconnected due to inactivity. If users try to
+  /// reconnect to the streaming session before the time interval specified in
+  /// <code>DisconnectTimeoutInSeconds</code> elapses, they are connected to their
+  /// previous session. Users are considered idle when they stop providing
+  /// keyboard or mouse input during their streaming session. File uploads and
+  /// downloads, audio in, audio out, and pixels changing do not qualify as user
+  /// activity. If users continue to be idle after the time interval in
+  /// <code>IdleDisconnectTimeoutInSeconds</code> elapses, they are disconnected.
+  ///
+  /// To prevent users from being disconnected due to inactivity, specify a value
+  /// of 0. Otherwise, specify a value between 60 and 3600. The default value is
+  /// 0.
+  /// <note>
+  /// If you enable this feature, we recommend that you specify a value that
+  /// corresponds exactly to a whole number of minutes (for example, 60, 120, and
+  /// 180). If you don't do this, the value is rounded to the nearest minute. For
+  /// example, if you specify a value of 70, users are disconnected after 1 minute
+  /// of inactivity. If you specify a value that is at the midpoint between two
+  /// different minutes, the value is rounded up. For example, if you specify a
+  /// value of 90, users are disconnected after 2 minutes of inactivity.
+  /// </note>
+  @_s.JsonKey(name: 'IdleDisconnectTimeoutInSeconds')
+  final int idleDisconnectTimeoutInSeconds;
+
+  /// The ARN of the public, private, or shared image to use.
+  @_s.JsonKey(name: 'ImageArn')
+  final String imageArn;
+
+  /// The name of the image used to create the fleet.
+  @_s.JsonKey(name: 'ImageName')
+  final String imageName;
+
+  /// The instance type to use when launching fleet instances. The following
+  /// instance types are available:
+  ///
+  /// <ul>
+  /// <li>
+  /// stream.standard.medium
+  /// </li>
+  /// <li>
+  /// stream.standard.large
+  /// </li>
+  /// <li>
+  /// stream.compute.large
+  /// </li>
+  /// <li>
+  /// stream.compute.xlarge
+  /// </li>
+  /// <li>
+  /// stream.compute.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.compute.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.compute.8xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.large
+  /// </li>
+  /// <li>
+  /// stream.memory.xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.8xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics-design.large
+  /// </li>
+  /// <li>
+  /// stream.graphics-design.xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics-design.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics-design.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics-desktop.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics-pro.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics-pro.8xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics-pro.16xlarge
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'InstanceType')
+  final String instanceType;
+
+  /// The maximum amount of time that a streaming session can remain active, in
+  /// seconds. If users are still connected to a streaming instance five minutes
+  /// before this limit is reached, they are prompted to save any open documents
+  /// before being disconnected. After this time elapses, the instance is
+  /// terminated and replaced by a new instance.
+  ///
+  /// Specify a value between 600 and 360000.
+  @_s.JsonKey(name: 'MaxUserDurationInSeconds')
+  final int maxUserDurationInSeconds;
+
+  /// A unique name for the fleet.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The VPC configuration for the fleet.
+  @_s.JsonKey(name: 'VpcConfig')
+  final VpcConfig vpcConfig;
+
+  UpdateFleetRequest({
+    this.attributesToDelete,
+    this.computeCapacity,
+    this.deleteVpcConfig,
+    this.description,
+    this.disconnectTimeoutInSeconds,
+    this.displayName,
+    this.domainJoinInfo,
+    this.enableDefaultInternetAccess,
+    this.iamRoleArn,
+    this.idleDisconnectTimeoutInSeconds,
+    this.imageArn,
+    this.imageName,
+    this.instanceType,
+    this.maxUserDurationInSeconds,
+    this.name,
+    this.vpcConfig,
+  });
+  Map<String, dynamic> toJson() => _$UpdateFleetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateFleetResult {
@@ -5521,12 +7103,118 @@ class UpdateFleetResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateImagePermissionsRequest {
+  /// The permissions for the image.
+  @_s.JsonKey(name: 'ImagePermissions')
+  final ImagePermissions imagePermissions;
+
+  /// The name of the private image.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The 12-digit identifier of the AWS account for which you want add or update
+  /// image permissions.
+  @_s.JsonKey(name: 'SharedAccountId')
+  final String sharedAccountId;
+
+  UpdateImagePermissionsRequest({
+    @_s.required this.imagePermissions,
+    @_s.required this.name,
+    @_s.required this.sharedAccountId,
+  });
+  Map<String, dynamic> toJson() => _$UpdateImagePermissionsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateImagePermissionsResult {
   UpdateImagePermissionsResult();
   factory UpdateImagePermissionsResult.fromJson(Map<String, dynamic> json) =>
       _$UpdateImagePermissionsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateStackRequest {
+  /// The name of the stack.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The list of interface VPC endpoint (interface endpoint) objects. Users of
+  /// the stack can connect to AppStream 2.0 only through the specified endpoints.
+  @_s.JsonKey(name: 'AccessEndpoints')
+  final List<AccessEndpoint> accessEndpoints;
+
+  /// The persistent application settings for users of a stack. When these
+  /// settings are enabled, changes that users make to applications and Windows
+  /// settings are automatically saved after each session and applied to the next
+  /// session.
+  @_s.JsonKey(name: 'ApplicationSettings')
+  final ApplicationSettings applicationSettings;
+
+  /// The stack attributes to delete.
+  @_s.JsonKey(name: 'AttributesToDelete')
+  final List<String> attributesToDelete;
+
+  /// Deletes the storage connectors currently enabled for the stack.
+  @_s.JsonKey(name: 'DeleteStorageConnectors')
+  final bool deleteStorageConnectors;
+
+  /// The description to display.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The stack name to display.
+  @_s.JsonKey(name: 'DisplayName')
+  final String displayName;
+
+  /// The domains where AppStream 2.0 streaming sessions can be embedded in an
+  /// iframe. You must approve the domains that you want to host embedded
+  /// AppStream 2.0 streaming sessions.
+  @_s.JsonKey(name: 'EmbedHostDomains')
+  final List<String> embedHostDomains;
+
+  /// The URL that users are redirected to after they choose the Send Feedback
+  /// link. If no URL is specified, no Send Feedback link is displayed.
+  @_s.JsonKey(name: 'FeedbackURL')
+  final String feedbackURL;
+
+  /// The URL that users are redirected to after their streaming session ends.
+  @_s.JsonKey(name: 'RedirectURL')
+  final String redirectURL;
+
+  /// The storage connectors to enable.
+  @_s.JsonKey(name: 'StorageConnectors')
+  final List<StorageConnector> storageConnectors;
+
+  /// The actions that are enabled or disabled for users during their streaming
+  /// sessions. By default, these actions are enabled.
+  @_s.JsonKey(name: 'UserSettings')
+  final List<UserSetting> userSettings;
+
+  UpdateStackRequest({
+    @_s.required this.name,
+    this.accessEndpoints,
+    this.applicationSettings,
+    this.attributesToDelete,
+    this.deleteStorageConnectors,
+    this.description,
+    this.displayName,
+    this.embedHostDomains,
+    this.feedbackURL,
+    this.redirectURL,
+    this.storageConnectors,
+    this.userSettings,
+  });
+  Map<String, dynamic> toJson() => _$UpdateStackRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5793,20 +7481,6 @@ enum VisibilityType {
   private,
   @_s.JsonValue('SHARED')
   shared,
-}
-
-extension on VisibilityType {
-  String toValue() {
-    switch (this) {
-      case VisibilityType.public:
-        return 'PUBLIC';
-      case VisibilityType.private:
-        return 'PRIVATE';
-      case VisibilityType.shared:
-        return 'SHARED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Describes VPC configuration information for fleets and image builders.

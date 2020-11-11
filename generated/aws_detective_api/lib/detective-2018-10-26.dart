@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -118,9 +117,9 @@ class Detective {
       r'''^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'GraphArn': graphArn,
-    };
+    final $payload = AcceptInvitationRequest(
+      graphArn: graphArn,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -226,11 +225,11 @@ class Detective {
       1,
       1000,
     );
-    final $payload = <String, dynamic>{
-      'Accounts': accounts,
-      'GraphArn': graphArn,
-      if (message != null) 'Message': message,
-    };
+    final $payload = CreateMembersRequest(
+      accounts: accounts,
+      graphArn: graphArn,
+      message: message,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -263,9 +262,9 @@ class Detective {
       r'''^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'GraphArn': graphArn,
-    };
+    final $payload = DeleteGraphRequest(
+      graphArn: graphArn,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -303,10 +302,10 @@ class Detective {
       r'''^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'AccountIds': accountIds,
-      'GraphArn': graphArn,
-    };
+    final $payload = DeleteMembersRequest(
+      accountIds: accountIds,
+      graphArn: graphArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -340,9 +339,9 @@ class Detective {
       r'''^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'GraphArn': graphArn,
-    };
+    final $payload = DisassociateMembershipRequest(
+      graphArn: graphArn,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -379,10 +378,10 @@ class Detective {
       r'''^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'AccountIds': accountIds,
-      'GraphArn': graphArn,
-    };
+    final $payload = GetMembersRequest(
+      accountIds: accountIds,
+      graphArn: graphArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -426,10 +425,10 @@ class Detective {
       1,
       1024,
     );
-    final $payload = <String, dynamic>{
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = ListGraphsRequest(
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -477,10 +476,10 @@ class Detective {
       1,
       1024,
     );
-    final $payload = <String, dynamic>{
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = ListInvitationsRequest(
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -534,11 +533,11 @@ class Detective {
       1,
       1024,
     );
-    final $payload = <String, dynamic>{
-      'GraphArn': graphArn,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = ListMembersRequest(
+      graphArn: graphArn,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -572,9 +571,9 @@ class Detective {
       r'''^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'GraphArn': graphArn,
-    };
+    final $payload = RejectInvitationRequest(
+      graphArn: graphArn,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -638,10 +637,10 @@ class Detective {
       r'''^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'AccountId': accountId,
-      'GraphArn': graphArn,
-    };
+    final $payload = StartMonitoringMemberRequest(
+      accountId: accountId,
+      graphArn: graphArn,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -649,6 +648,26 @@ class Detective {
       exceptionFnMap: _exceptionFns,
     );
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AcceptInvitationRequest {
+  /// The ARN of the behavior graph that the member account is accepting the
+  /// invitation for.
+  ///
+  /// The member account status in the behavior graph must be
+  /// <code>INVITED</code>.
+  @_s.JsonKey(name: 'GraphArn')
+  final String graphArn;
+
+  AcceptInvitationRequest({
+    @_s.required this.graphArn,
+  });
+  Map<String, dynamic> toJson() => _$AcceptInvitationRequestToJson(this);
 }
 
 /// An AWS account that is the master of or a member of a behavior graph.
@@ -693,6 +712,36 @@ class CreateGraphResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateMembersRequest {
+  /// The list of AWS accounts to invite to become member accounts in the behavior
+  /// graph. For each invited account, the account list contains the account
+  /// identifier and the AWS account root user email address.
+  @_s.JsonKey(name: 'Accounts')
+  final List<Account> accounts;
+
+  /// The ARN of the behavior graph to invite the member accounts to contribute
+  /// their data to.
+  @_s.JsonKey(name: 'GraphArn')
+  final String graphArn;
+
+  /// Customized message text to include in the invitation email message to the
+  /// invited member accounts.
+  @_s.JsonKey(name: 'Message')
+  final String message;
+
+  CreateMembersRequest({
+    @_s.required this.accounts,
+    @_s.required this.graphArn,
+    this.message,
+  });
+  Map<String, dynamic> toJson() => _$CreateMembersRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateMembersResponse {
@@ -720,6 +769,44 @@ class CreateMembersResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteGraphRequest {
+  /// The ARN of the behavior graph to disable.
+  @_s.JsonKey(name: 'GraphArn')
+  final String graphArn;
+
+  DeleteGraphRequest({
+    @_s.required this.graphArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteGraphRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteMembersRequest {
+  /// The list of AWS account identifiers for the member accounts to delete from
+  /// the behavior graph.
+  @_s.JsonKey(name: 'AccountIds')
+  final List<String> accountIds;
+
+  /// The ARN of the behavior graph to delete members from.
+  @_s.JsonKey(name: 'GraphArn')
+  final String graphArn;
+
+  DeleteMembersRequest({
+    @_s.required this.accountIds,
+    @_s.required this.graphArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteMembersRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteMembersResponse {
@@ -740,6 +827,50 @@ class DeleteMembersResponse {
   });
   factory DeleteMembersResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteMembersResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateMembershipRequest {
+  /// The ARN of the behavior graph to remove the member account from.
+  ///
+  /// The member account's member status in the behavior graph must be
+  /// <code>ENABLED</code>.
+  @_s.JsonKey(name: 'GraphArn')
+  final String graphArn;
+
+  DisassociateMembershipRequest({
+    @_s.required this.graphArn,
+  });
+  Map<String, dynamic> toJson() => _$DisassociateMembershipRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetMembersRequest {
+  /// The list of AWS account identifiers for the member account for which to
+  /// return member details.
+  ///
+  /// You cannot use <code>GetMembers</code> to retrieve information about member
+  /// accounts that were removed from the behavior graph.
+  @_s.JsonKey(name: 'AccountIds')
+  final List<String> accountIds;
+
+  /// The ARN of the behavior graph for which to request the member details.
+  @_s.JsonKey(name: 'GraphArn')
+  final String graphArn;
+
+  GetMembersRequest({
+    @_s.required this.accountIds,
+    @_s.required this.graphArn,
+  });
+  Map<String, dynamic> toJson() => _$GetMembersRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -798,6 +929,31 @@ class Graph {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListGraphsRequest {
+  /// The maximum number of graphs to return at a time. The total must be less
+  /// than the overall limit on the number of results to return, which is
+  /// currently 200.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// For requests to get the next page of results, the pagination token that was
+  /// returned with the previous set of results. The initial request does not
+  /// include a pagination token.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListGraphsRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListGraphsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListGraphsResponse {
@@ -816,6 +972,31 @@ class ListGraphsResponse {
   });
   factory ListGraphsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListGraphsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListInvitationsRequest {
+  /// The maximum number of behavior graph invitations to return in the response.
+  /// The total must be less than the overall limit on the number of results to
+  /// return, which is currently 200.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// For requests to retrieve the next page of results, the pagination token that
+  /// was returned with the previous page of results. The initial request does not
+  /// include a pagination token.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListInvitationsRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListInvitationsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -840,6 +1021,37 @@ class ListInvitationsResponse {
   });
   factory ListInvitationsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListInvitationsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListMembersRequest {
+  /// The ARN of the behavior graph for which to retrieve the list of member
+  /// accounts.
+  @_s.JsonKey(name: 'GraphArn')
+  final String graphArn;
+
+  /// The maximum number of member accounts to include in the response. The total
+  /// must be less than the overall limit on the number of results to return,
+  /// which is currently 200.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// For requests to retrieve the next page of member account results, the
+  /// pagination token that was returned with the previous page of results. The
+  /// initial request does not include a pagination token.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListMembersRequest({
+    @_s.required this.graphArn,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListMembersRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1018,6 +1230,49 @@ enum MemberStatus {
   enabled,
   @_s.JsonValue('ACCEPTED_BUT_DISABLED')
   acceptedButDisabled,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RejectInvitationRequest {
+  /// The ARN of the behavior graph to reject the invitation to.
+  ///
+  /// The member account's current member status in the behavior graph must be
+  /// <code>INVITED</code>.
+  @_s.JsonKey(name: 'GraphArn')
+  final String graphArn;
+
+  RejectInvitationRequest({
+    @_s.required this.graphArn,
+  });
+  Map<String, dynamic> toJson() => _$RejectInvitationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartMonitoringMemberRequest {
+  /// The account ID of the member account to try to enable.
+  ///
+  /// The account must be an invited member account with a status of
+  /// <code>ACCEPTED_BUT_DISABLED</code>.
+  @_s.JsonKey(name: 'AccountId')
+  final String accountId;
+
+  /// The ARN of the behavior graph.
+  @_s.JsonKey(name: 'GraphArn')
+  final String graphArn;
+
+  StartMonitoringMemberRequest({
+    @_s.required this.accountId,
+    @_s.required this.graphArn,
+  });
+  Map<String, dynamic> toJson() => _$StartMonitoringMemberRequestToJson(this);
 }
 
 /// A member account that was included in a request but for which the request

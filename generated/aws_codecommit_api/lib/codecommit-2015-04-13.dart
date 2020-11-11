@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -106,10 +105,10 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'approvalRuleTemplateName': approvalRuleTemplateName,
-        'repositoryName': repositoryName,
-      },
+      payload: AssociateApprovalRuleTemplateWithRepositoryInput(
+        approvalRuleTemplateName: approvalRuleTemplateName,
+        repositoryName: repositoryName,
+      ),
     );
   }
 
@@ -163,10 +162,10 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'approvalRuleTemplateName': approvalRuleTemplateName,
-        'repositoryNames': repositoryNames,
-      },
+      payload: BatchAssociateApprovalRuleTemplateWithRepositoriesInput(
+        approvalRuleTemplateName: approvalRuleTemplateName,
+        repositoryNames: repositoryNames,
+      ),
     );
 
     return BatchAssociateApprovalRuleTemplateWithRepositoriesOutput.fromJson(
@@ -280,20 +279,18 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'destinationCommitSpecifier': destinationCommitSpecifier,
-        'mergeOption': mergeOption?.toValue(),
-        'repositoryName': repositoryName,
-        'sourceCommitSpecifier': sourceCommitSpecifier,
-        if (conflictDetailLevel != null)
-          'conflictDetailLevel': conflictDetailLevel?.toValue(),
-        if (conflictResolutionStrategy != null)
-          'conflictResolutionStrategy': conflictResolutionStrategy?.toValue(),
-        if (filePaths != null) 'filePaths': filePaths,
-        if (maxConflictFiles != null) 'maxConflictFiles': maxConflictFiles,
-        if (maxMergeHunks != null) 'maxMergeHunks': maxMergeHunks,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: BatchDescribeMergeConflictsInput(
+        destinationCommitSpecifier: destinationCommitSpecifier,
+        mergeOption: mergeOption,
+        repositoryName: repositoryName,
+        sourceCommitSpecifier: sourceCommitSpecifier,
+        conflictDetailLevel: conflictDetailLevel,
+        conflictResolutionStrategy: conflictResolutionStrategy,
+        filePaths: filePaths,
+        maxConflictFiles: maxConflictFiles,
+        maxMergeHunks: maxMergeHunks,
+        nextToken: nextToken,
+      ),
     );
 
     return BatchDescribeMergeConflictsOutput.fromJson(jsonResponse.body);
@@ -350,10 +347,10 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'approvalRuleTemplateName': approvalRuleTemplateName,
-        'repositoryNames': repositoryNames,
-      },
+      payload: BatchDisassociateApprovalRuleTemplateFromRepositoriesInput(
+        approvalRuleTemplateName: approvalRuleTemplateName,
+        repositoryNames: repositoryNames,
+      ),
     );
 
     return BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput.fromJson(
@@ -412,10 +409,10 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'commitIds': commitIds,
-        'repositoryName': repositoryName,
-      },
+      payload: BatchGetCommitsInput(
+        commitIds: commitIds,
+        repositoryName: repositoryName,
+      ),
     );
 
     return BatchGetCommitsOutput.fromJson(jsonResponse.body);
@@ -460,9 +457,9 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'repositoryNames': repositoryNames,
-      },
+      payload: BatchGetRepositoriesInput(
+        repositoryNames: repositoryNames,
+      ),
     );
 
     return BatchGetRepositoriesOutput.fromJson(jsonResponse.body);
@@ -575,12 +572,11 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'approvalRuleTemplateContent': approvalRuleTemplateContent,
-        'approvalRuleTemplateName': approvalRuleTemplateName,
-        if (approvalRuleTemplateDescription != null)
-          'approvalRuleTemplateDescription': approvalRuleTemplateDescription,
-      },
+      payload: CreateApprovalRuleTemplateInput(
+        approvalRuleTemplateContent: approvalRuleTemplateContent,
+        approvalRuleTemplateName: approvalRuleTemplateName,
+        approvalRuleTemplateDescription: approvalRuleTemplateDescription,
+      ),
     );
 
     return CreateApprovalRuleTemplateOutput.fromJson(jsonResponse.body);
@@ -653,11 +649,11 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'branchName': branchName,
-        'commitId': commitId,
-        'repositoryName': repositoryName,
-      },
+      payload: CreateBranchInput(
+        branchName: branchName,
+        commitId: commitId,
+        repositoryName: repositoryName,
+      ),
     );
   }
 
@@ -781,18 +777,18 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'branchName': branchName,
-        'repositoryName': repositoryName,
-        if (authorName != null) 'authorName': authorName,
-        if (commitMessage != null) 'commitMessage': commitMessage,
-        if (deleteFiles != null) 'deleteFiles': deleteFiles,
-        if (email != null) 'email': email,
-        if (keepEmptyFolders != null) 'keepEmptyFolders': keepEmptyFolders,
-        if (parentCommitId != null) 'parentCommitId': parentCommitId,
-        if (putFiles != null) 'putFiles': putFiles,
-        if (setFileModes != null) 'setFileModes': setFileModes,
-      },
+      payload: CreateCommitInput(
+        branchName: branchName,
+        repositoryName: repositoryName,
+        authorName: authorName,
+        commitMessage: commitMessage,
+        deleteFiles: deleteFiles,
+        email: email,
+        keepEmptyFolders: keepEmptyFolders,
+        parentCommitId: parentCommitId,
+        putFiles: putFiles,
+        setFileModes: setFileModes,
+      ),
     );
 
     return CreateCommitOutput.fromJson(jsonResponse.body);
@@ -880,13 +876,12 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'targets': targets,
-        'title': title,
-        if (clientRequestToken != null)
-          'clientRequestToken': clientRequestToken,
-        if (description != null) 'description': description,
-      },
+      payload: CreatePullRequestInput(
+        targets: targets,
+        title: title,
+        clientRequestToken: clientRequestToken,
+        description: description,
+      ),
     );
 
     return CreatePullRequestOutput.fromJson(jsonResponse.body);
@@ -990,11 +985,11 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'approvalRuleContent': approvalRuleContent,
-        'approvalRuleName': approvalRuleName,
-        'pullRequestId': pullRequestId,
-      },
+      payload: CreatePullRequestApprovalRuleInput(
+        approvalRuleContent: approvalRuleContent,
+        approvalRuleName: approvalRuleName,
+        pullRequestId: pullRequestId,
+      ),
     );
 
     return CreatePullRequestApprovalRuleOutput.fromJson(jsonResponse.body);
@@ -1076,12 +1071,11 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'repositoryName': repositoryName,
-        if (repositoryDescription != null)
-          'repositoryDescription': repositoryDescription,
-        if (tags != null) 'tags': tags,
-      },
+      payload: CreateRepositoryInput(
+        repositoryName: repositoryName,
+        repositoryDescription: repositoryDescription,
+        tags: tags,
+      ),
     );
 
     return CreateRepositoryOutput.fromJson(jsonResponse.body);
@@ -1222,22 +1216,19 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'destinationCommitSpecifier': destinationCommitSpecifier,
-        'mergeOption': mergeOption?.toValue(),
-        'repositoryName': repositoryName,
-        'sourceCommitSpecifier': sourceCommitSpecifier,
-        if (authorName != null) 'authorName': authorName,
-        if (commitMessage != null) 'commitMessage': commitMessage,
-        if (conflictDetailLevel != null)
-          'conflictDetailLevel': conflictDetailLevel?.toValue(),
-        if (conflictResolution != null)
-          'conflictResolution': conflictResolution,
-        if (conflictResolutionStrategy != null)
-          'conflictResolutionStrategy': conflictResolutionStrategy?.toValue(),
-        if (email != null) 'email': email,
-        if (keepEmptyFolders != null) 'keepEmptyFolders': keepEmptyFolders,
-      },
+      payload: CreateUnreferencedMergeCommitInput(
+        destinationCommitSpecifier: destinationCommitSpecifier,
+        mergeOption: mergeOption,
+        repositoryName: repositoryName,
+        sourceCommitSpecifier: sourceCommitSpecifier,
+        authorName: authorName,
+        commitMessage: commitMessage,
+        conflictDetailLevel: conflictDetailLevel,
+        conflictResolution: conflictResolution,
+        conflictResolutionStrategy: conflictResolutionStrategy,
+        email: email,
+        keepEmptyFolders: keepEmptyFolders,
+      ),
     );
 
     return CreateUnreferencedMergeCommitOutput.fromJson(jsonResponse.body);
@@ -1274,9 +1265,9 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'approvalRuleTemplateName': approvalRuleTemplateName,
-      },
+      payload: DeleteApprovalRuleTemplateInput(
+        approvalRuleTemplateName: approvalRuleTemplateName,
+      ),
     );
 
     return DeleteApprovalRuleTemplateOutput.fromJson(jsonResponse.body);
@@ -1338,10 +1329,10 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'branchName': branchName,
-        'repositoryName': repositoryName,
-      },
+      payload: DeleteBranchInput(
+        branchName: branchName,
+        repositoryName: repositoryName,
+      ),
     );
 
     return DeleteBranchOutput.fromJson(jsonResponse.body);
@@ -1372,9 +1363,9 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'commentId': commentId,
-      },
+      payload: DeleteCommentContentInput(
+        commentId: commentId,
+      ),
     );
 
     return DeleteCommentContentOutput.fromJson(jsonResponse.body);
@@ -1488,16 +1479,16 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'branchName': branchName,
-        'filePath': filePath,
-        'parentCommitId': parentCommitId,
-        'repositoryName': repositoryName,
-        if (commitMessage != null) 'commitMessage': commitMessage,
-        if (email != null) 'email': email,
-        if (keepEmptyFolders != null) 'keepEmptyFolders': keepEmptyFolders,
-        if (name != null) 'name': name,
-      },
+      payload: DeleteFileInput(
+        branchName: branchName,
+        filePath: filePath,
+        parentCommitId: parentCommitId,
+        repositoryName: repositoryName,
+        commitMessage: commitMessage,
+        email: email,
+        keepEmptyFolders: keepEmptyFolders,
+        name: name,
+      ),
     );
 
     return DeleteFileOutput.fromJson(jsonResponse.body);
@@ -1552,10 +1543,10 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'approvalRuleName': approvalRuleName,
-        'pullRequestId': pullRequestId,
-      },
+      payload: DeletePullRequestApprovalRuleInput(
+        approvalRuleName: approvalRuleName,
+        pullRequestId: pullRequestId,
+      ),
     );
 
     return DeletePullRequestApprovalRuleOutput.fromJson(jsonResponse.body);
@@ -1606,9 +1597,9 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'repositoryName': repositoryName,
-      },
+      payload: DeleteRepositoryInput(
+        repositoryName: repositoryName,
+      ),
     );
 
     return DeleteRepositoryOutput.fromJson(jsonResponse.body);
@@ -1720,19 +1711,17 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'destinationCommitSpecifier': destinationCommitSpecifier,
-        'filePath': filePath,
-        'mergeOption': mergeOption?.toValue(),
-        'repositoryName': repositoryName,
-        'sourceCommitSpecifier': sourceCommitSpecifier,
-        if (conflictDetailLevel != null)
-          'conflictDetailLevel': conflictDetailLevel?.toValue(),
-        if (conflictResolutionStrategy != null)
-          'conflictResolutionStrategy': conflictResolutionStrategy?.toValue(),
-        if (maxMergeHunks != null) 'maxMergeHunks': maxMergeHunks,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: DescribeMergeConflictsInput(
+        destinationCommitSpecifier: destinationCommitSpecifier,
+        filePath: filePath,
+        mergeOption: mergeOption,
+        repositoryName: repositoryName,
+        sourceCommitSpecifier: sourceCommitSpecifier,
+        conflictDetailLevel: conflictDetailLevel,
+        conflictResolutionStrategy: conflictResolutionStrategy,
+        maxMergeHunks: maxMergeHunks,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeMergeConflictsOutput.fromJson(jsonResponse.body);
@@ -1793,14 +1782,13 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'pullRequestId': pullRequestId,
-        if (actorArn != null) 'actorArn': actorArn,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (pullRequestEventType != null)
-          'pullRequestEventType': pullRequestEventType?.toValue(),
-      },
+      payload: DescribePullRequestEventsInput(
+        pullRequestId: pullRequestId,
+        actorArn: actorArn,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        pullRequestEventType: pullRequestEventType,
+      ),
     );
 
     return DescribePullRequestEventsOutput.fromJson(jsonResponse.body);
@@ -1868,10 +1856,10 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'approvalRuleTemplateName': approvalRuleTemplateName,
-        'repositoryName': repositoryName,
-      },
+      payload: DisassociateApprovalRuleTemplateFromRepositoryInput(
+        approvalRuleTemplateName: approvalRuleTemplateName,
+        repositoryName: repositoryName,
+      ),
     );
   }
 
@@ -1913,10 +1901,10 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'pullRequestId': pullRequestId,
-        'revisionId': revisionId,
-      },
+      payload: EvaluatePullRequestApprovalRulesInput(
+        pullRequestId: pullRequestId,
+        revisionId: revisionId,
+      ),
     );
 
     return EvaluatePullRequestApprovalRulesOutput.fromJson(jsonResponse.body);
@@ -1953,9 +1941,9 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'approvalRuleTemplateName': approvalRuleTemplateName,
-      },
+      payload: GetApprovalRuleTemplateInput(
+        approvalRuleTemplateName: approvalRuleTemplateName,
+      ),
     );
 
     return GetApprovalRuleTemplateOutput.fromJson(jsonResponse.body);
@@ -2010,10 +1998,10 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'blobId': blobId,
-        'repositoryName': repositoryName,
-      },
+      payload: GetBlobInput(
+        blobId: blobId,
+        repositoryName: repositoryName,
+      ),
     );
 
     return GetBlobOutput.fromJson(jsonResponse.body);
@@ -2071,10 +2059,10 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (branchName != null) 'branchName': branchName,
-        if (repositoryName != null) 'repositoryName': repositoryName,
-      },
+      payload: GetBranchInput(
+        branchName: branchName,
+        repositoryName: repositoryName,
+      ),
     );
 
     return GetBranchOutput.fromJson(jsonResponse.body);
@@ -2105,9 +2093,9 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'commentId': commentId,
-      },
+      payload: GetCommentInput(
+        commentId: commentId,
+      ),
     );
 
     return GetCommentOutput.fromJson(jsonResponse.body);
@@ -2180,13 +2168,13 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'afterCommitId': afterCommitId,
-        'repositoryName': repositoryName,
-        if (beforeCommitId != null) 'beforeCommitId': beforeCommitId,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: GetCommentsForComparedCommitInput(
+        afterCommitId: afterCommitId,
+        repositoryName: repositoryName,
+        beforeCommitId: beforeCommitId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return GetCommentsForComparedCommitOutput.fromJson(jsonResponse.body);
@@ -2265,14 +2253,14 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'pullRequestId': pullRequestId,
-        if (afterCommitId != null) 'afterCommitId': afterCommitId,
-        if (beforeCommitId != null) 'beforeCommitId': beforeCommitId,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (repositoryName != null) 'repositoryName': repositoryName,
-      },
+      payload: GetCommentsForPullRequestInput(
+        pullRequestId: pullRequestId,
+        afterCommitId: afterCommitId,
+        beforeCommitId: beforeCommitId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        repositoryName: repositoryName,
+      ),
     );
 
     return GetCommentsForPullRequestOutput.fromJson(jsonResponse.body);
@@ -2327,10 +2315,10 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'commitId': commitId,
-        'repositoryName': repositoryName,
-      },
+      payload: GetCommitInput(
+        commitId: commitId,
+        repositoryName: repositoryName,
+      ),
     );
 
     return GetCommitOutput.fromJson(jsonResponse.body);
@@ -2424,16 +2412,15 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'afterCommitSpecifier': afterCommitSpecifier,
-        'repositoryName': repositoryName,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (afterPath != null) 'afterPath': afterPath,
-        if (beforeCommitSpecifier != null)
-          'beforeCommitSpecifier': beforeCommitSpecifier,
-        if (beforePath != null) 'beforePath': beforePath,
-      },
+      payload: GetDifferencesInput(
+        afterCommitSpecifier: afterCommitSpecifier,
+        repositoryName: repositoryName,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        afterPath: afterPath,
+        beforeCommitSpecifier: beforeCommitSpecifier,
+        beforePath: beforePath,
+      ),
     );
 
     return GetDifferencesOutput.fromJson(jsonResponse.body);
@@ -2499,11 +2486,11 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'filePath': filePath,
-        'repositoryName': repositoryName,
-        if (commitSpecifier != null) 'commitSpecifier': commitSpecifier,
-      },
+      payload: GetFileInput(
+        filePath: filePath,
+        repositoryName: repositoryName,
+        commitSpecifier: commitSpecifier,
+      ),
     );
 
     return GetFileOutput.fromJson(jsonResponse.body);
@@ -2570,11 +2557,11 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'folderPath': folderPath,
-        'repositoryName': repositoryName,
-        if (commitSpecifier != null) 'commitSpecifier': commitSpecifier,
-      },
+      payload: GetFolderInput(
+        folderPath: folderPath,
+        repositoryName: repositoryName,
+        commitSpecifier: commitSpecifier,
+      ),
     );
 
     return GetFolderOutput.fromJson(jsonResponse.body);
@@ -2654,15 +2641,13 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'destinationCommitSpecifier': destinationCommitSpecifier,
-        'repositoryName': repositoryName,
-        'sourceCommitSpecifier': sourceCommitSpecifier,
-        if (conflictDetailLevel != null)
-          'conflictDetailLevel': conflictDetailLevel?.toValue(),
-        if (conflictResolutionStrategy != null)
-          'conflictResolutionStrategy': conflictResolutionStrategy?.toValue(),
-      },
+      payload: GetMergeCommitInput(
+        destinationCommitSpecifier: destinationCommitSpecifier,
+        repositoryName: repositoryName,
+        sourceCommitSpecifier: sourceCommitSpecifier,
+        conflictDetailLevel: conflictDetailLevel,
+        conflictResolutionStrategy: conflictResolutionStrategy,
+      ),
     );
 
     return GetMergeCommitOutput.fromJson(jsonResponse.body);
@@ -2765,18 +2750,16 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'destinationCommitSpecifier': destinationCommitSpecifier,
-        'mergeOption': mergeOption?.toValue(),
-        'repositoryName': repositoryName,
-        'sourceCommitSpecifier': sourceCommitSpecifier,
-        if (conflictDetailLevel != null)
-          'conflictDetailLevel': conflictDetailLevel?.toValue(),
-        if (conflictResolutionStrategy != null)
-          'conflictResolutionStrategy': conflictResolutionStrategy?.toValue(),
-        if (maxConflictFiles != null) 'maxConflictFiles': maxConflictFiles,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: GetMergeConflictsInput(
+        destinationCommitSpecifier: destinationCommitSpecifier,
+        mergeOption: mergeOption,
+        repositoryName: repositoryName,
+        sourceCommitSpecifier: sourceCommitSpecifier,
+        conflictDetailLevel: conflictDetailLevel,
+        conflictResolutionStrategy: conflictResolutionStrategy,
+        maxConflictFiles: maxConflictFiles,
+        nextToken: nextToken,
+      ),
     );
 
     return GetMergeConflictsOutput.fromJson(jsonResponse.body);
@@ -2861,15 +2844,13 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'destinationCommitSpecifier': destinationCommitSpecifier,
-        'repositoryName': repositoryName,
-        'sourceCommitSpecifier': sourceCommitSpecifier,
-        if (conflictDetailLevel != null)
-          'conflictDetailLevel': conflictDetailLevel?.toValue(),
-        if (conflictResolutionStrategy != null)
-          'conflictResolutionStrategy': conflictResolutionStrategy?.toValue(),
-      },
+      payload: GetMergeOptionsInput(
+        destinationCommitSpecifier: destinationCommitSpecifier,
+        repositoryName: repositoryName,
+        sourceCommitSpecifier: sourceCommitSpecifier,
+        conflictDetailLevel: conflictDetailLevel,
+        conflictResolutionStrategy: conflictResolutionStrategy,
+      ),
     );
 
     return GetMergeOptionsOutput.fromJson(jsonResponse.body);
@@ -2903,9 +2884,9 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'pullRequestId': pullRequestId,
-      },
+      payload: GetPullRequestInput(
+        pullRequestId: pullRequestId,
+      ),
     );
 
     return GetPullRequestOutput.fromJson(jsonResponse.body);
@@ -2947,10 +2928,10 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'pullRequestId': pullRequestId,
-        'revisionId': revisionId,
-      },
+      payload: GetPullRequestApprovalStatesInput(
+        pullRequestId: pullRequestId,
+        revisionId: revisionId,
+      ),
     );
 
     return GetPullRequestApprovalStatesOutput.fromJson(jsonResponse.body);
@@ -2995,10 +2976,10 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'pullRequestId': pullRequestId,
-        'revisionId': revisionId,
-      },
+      payload: GetPullRequestOverrideStateInput(
+        pullRequestId: pullRequestId,
+        revisionId: revisionId,
+      ),
     );
 
     return GetPullRequestOverrideStateOutput.fromJson(jsonResponse.body);
@@ -3052,9 +3033,9 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'repositoryName': repositoryName,
-      },
+      payload: GetRepositoryInput(
+        repositoryName: repositoryName,
+      ),
     );
 
     return GetRepositoryOutput.fromJson(jsonResponse.body);
@@ -3100,9 +3081,9 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'repositoryName': repositoryName,
-      },
+      payload: GetRepositoryTriggersInput(
+        repositoryName: repositoryName,
+      ),
     );
 
     return GetRepositoryTriggersOutput.fromJson(jsonResponse.body);
@@ -3136,10 +3117,10 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListApprovalRuleTemplatesInput(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListApprovalRuleTemplatesOutput.fromJson(jsonResponse.body);
@@ -3201,11 +3182,11 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'repositoryName': repositoryName,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListAssociatedApprovalRuleTemplatesForRepositoryInput(
+        repositoryName: repositoryName,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListAssociatedApprovalRuleTemplatesForRepositoryOutput.fromJson(
@@ -3257,10 +3238,10 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'repositoryName': repositoryName,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListBranchesInput(
+        repositoryName: repositoryName,
+        nextToken: nextToken,
+      ),
     );
 
     return ListBranchesOutput.fromJson(jsonResponse.body);
@@ -3333,14 +3314,13 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'repositoryName': repositoryName,
-        if (authorArn != null) 'authorArn': authorArn,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (pullRequestStatus != null)
-          'pullRequestStatus': pullRequestStatus?.toValue(),
-      },
+      payload: ListPullRequestsInput(
+        repositoryName: repositoryName,
+        authorArn: authorArn,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        pullRequestStatus: pullRequestStatus,
+      ),
     );
 
     return ListPullRequestsOutput.fromJson(jsonResponse.body);
@@ -3378,11 +3358,11 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (nextToken != null) 'nextToken': nextToken,
-        if (order != null) 'order': order?.toValue(),
-        if (sortBy != null) 'sortBy': sortBy?.toValue(),
-      },
+      payload: ListRepositoriesInput(
+        nextToken: nextToken,
+        order: order,
+        sortBy: sortBy,
+      ),
     );
 
     return ListRepositoriesOutput.fromJson(jsonResponse.body);
@@ -3439,11 +3419,11 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'approvalRuleTemplateName': approvalRuleTemplateName,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListRepositoriesForApprovalRuleTemplateInput(
+        approvalRuleTemplateName: approvalRuleTemplateName,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListRepositoriesForApprovalRuleTemplateOutput.fromJson(
@@ -3482,10 +3462,10 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'resourceArn': resourceArn,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListTagsForResourceInput(
+        resourceArn: resourceArn,
+        nextToken: nextToken,
+      ),
     );
 
     return ListTagsForResourceOutput.fromJson(jsonResponse.body);
@@ -3565,12 +3545,12 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'destinationCommitSpecifier': destinationCommitSpecifier,
-        'repositoryName': repositoryName,
-        'sourceCommitSpecifier': sourceCommitSpecifier,
-        if (targetBranch != null) 'targetBranch': targetBranch,
-      },
+      payload: MergeBranchesByFastForwardInput(
+        destinationCommitSpecifier: destinationCommitSpecifier,
+        repositoryName: repositoryName,
+        sourceCommitSpecifier: sourceCommitSpecifier,
+        targetBranch: targetBranch,
+      ),
     );
 
     return MergeBranchesByFastForwardOutput.fromJson(jsonResponse.body);
@@ -3710,22 +3690,19 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'destinationCommitSpecifier': destinationCommitSpecifier,
-        'repositoryName': repositoryName,
-        'sourceCommitSpecifier': sourceCommitSpecifier,
-        if (authorName != null) 'authorName': authorName,
-        if (commitMessage != null) 'commitMessage': commitMessage,
-        if (conflictDetailLevel != null)
-          'conflictDetailLevel': conflictDetailLevel?.toValue(),
-        if (conflictResolution != null)
-          'conflictResolution': conflictResolution,
-        if (conflictResolutionStrategy != null)
-          'conflictResolutionStrategy': conflictResolutionStrategy?.toValue(),
-        if (email != null) 'email': email,
-        if (keepEmptyFolders != null) 'keepEmptyFolders': keepEmptyFolders,
-        if (targetBranch != null) 'targetBranch': targetBranch,
-      },
+      payload: MergeBranchesBySquashInput(
+        destinationCommitSpecifier: destinationCommitSpecifier,
+        repositoryName: repositoryName,
+        sourceCommitSpecifier: sourceCommitSpecifier,
+        authorName: authorName,
+        commitMessage: commitMessage,
+        conflictDetailLevel: conflictDetailLevel,
+        conflictResolution: conflictResolution,
+        conflictResolutionStrategy: conflictResolutionStrategy,
+        email: email,
+        keepEmptyFolders: keepEmptyFolders,
+        targetBranch: targetBranch,
+      ),
     );
 
     return MergeBranchesBySquashOutput.fromJson(jsonResponse.body);
@@ -3865,22 +3842,19 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'destinationCommitSpecifier': destinationCommitSpecifier,
-        'repositoryName': repositoryName,
-        'sourceCommitSpecifier': sourceCommitSpecifier,
-        if (authorName != null) 'authorName': authorName,
-        if (commitMessage != null) 'commitMessage': commitMessage,
-        if (conflictDetailLevel != null)
-          'conflictDetailLevel': conflictDetailLevel?.toValue(),
-        if (conflictResolution != null)
-          'conflictResolution': conflictResolution,
-        if (conflictResolutionStrategy != null)
-          'conflictResolutionStrategy': conflictResolutionStrategy?.toValue(),
-        if (email != null) 'email': email,
-        if (keepEmptyFolders != null) 'keepEmptyFolders': keepEmptyFolders,
-        if (targetBranch != null) 'targetBranch': targetBranch,
-      },
+      payload: MergeBranchesByThreeWayInput(
+        destinationCommitSpecifier: destinationCommitSpecifier,
+        repositoryName: repositoryName,
+        sourceCommitSpecifier: sourceCommitSpecifier,
+        authorName: authorName,
+        commitMessage: commitMessage,
+        conflictDetailLevel: conflictDetailLevel,
+        conflictResolution: conflictResolution,
+        conflictResolutionStrategy: conflictResolutionStrategy,
+        email: email,
+        keepEmptyFolders: keepEmptyFolders,
+        targetBranch: targetBranch,
+      ),
     );
 
     return MergeBranchesByThreeWayOutput.fromJson(jsonResponse.body);
@@ -3953,11 +3927,11 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'pullRequestId': pullRequestId,
-        'repositoryName': repositoryName,
-        if (sourceCommitId != null) 'sourceCommitId': sourceCommitId,
-      },
+      payload: MergePullRequestByFastForwardInput(
+        pullRequestId: pullRequestId,
+        repositoryName: repositoryName,
+        sourceCommitId: sourceCommitId,
+      ),
     );
 
     return MergePullRequestByFastForwardOutput.fromJson(jsonResponse.body);
@@ -4089,21 +4063,18 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'pullRequestId': pullRequestId,
-        'repositoryName': repositoryName,
-        if (authorName != null) 'authorName': authorName,
-        if (commitMessage != null) 'commitMessage': commitMessage,
-        if (conflictDetailLevel != null)
-          'conflictDetailLevel': conflictDetailLevel?.toValue(),
-        if (conflictResolution != null)
-          'conflictResolution': conflictResolution,
-        if (conflictResolutionStrategy != null)
-          'conflictResolutionStrategy': conflictResolutionStrategy?.toValue(),
-        if (email != null) 'email': email,
-        if (keepEmptyFolders != null) 'keepEmptyFolders': keepEmptyFolders,
-        if (sourceCommitId != null) 'sourceCommitId': sourceCommitId,
-      },
+      payload: MergePullRequestBySquashInput(
+        pullRequestId: pullRequestId,
+        repositoryName: repositoryName,
+        authorName: authorName,
+        commitMessage: commitMessage,
+        conflictDetailLevel: conflictDetailLevel,
+        conflictResolution: conflictResolution,
+        conflictResolutionStrategy: conflictResolutionStrategy,
+        email: email,
+        keepEmptyFolders: keepEmptyFolders,
+        sourceCommitId: sourceCommitId,
+      ),
     );
 
     return MergePullRequestBySquashOutput.fromJson(jsonResponse.body);
@@ -4235,21 +4206,18 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'pullRequestId': pullRequestId,
-        'repositoryName': repositoryName,
-        if (authorName != null) 'authorName': authorName,
-        if (commitMessage != null) 'commitMessage': commitMessage,
-        if (conflictDetailLevel != null)
-          'conflictDetailLevel': conflictDetailLevel?.toValue(),
-        if (conflictResolution != null)
-          'conflictResolution': conflictResolution,
-        if (conflictResolutionStrategy != null)
-          'conflictResolutionStrategy': conflictResolutionStrategy?.toValue(),
-        if (email != null) 'email': email,
-        if (keepEmptyFolders != null) 'keepEmptyFolders': keepEmptyFolders,
-        if (sourceCommitId != null) 'sourceCommitId': sourceCommitId,
-      },
+      payload: MergePullRequestByThreeWayInput(
+        pullRequestId: pullRequestId,
+        repositoryName: repositoryName,
+        authorName: authorName,
+        commitMessage: commitMessage,
+        conflictDetailLevel: conflictDetailLevel,
+        conflictResolution: conflictResolution,
+        conflictResolutionStrategy: conflictResolutionStrategy,
+        email: email,
+        keepEmptyFolders: keepEmptyFolders,
+        sourceCommitId: sourceCommitId,
+      ),
     );
 
     return MergePullRequestByThreeWayOutput.fromJson(jsonResponse.body);
@@ -4306,11 +4274,11 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'overrideStatus': overrideStatus?.toValue(),
-        'pullRequestId': pullRequestId,
-        'revisionId': revisionId,
-      },
+      payload: OverridePullRequestApprovalRulesInput(
+        overrideStatus: overrideStatus,
+        pullRequestId: pullRequestId,
+        revisionId: revisionId,
+      ),
     );
   }
 
@@ -4399,15 +4367,14 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'afterCommitId': afterCommitId,
-        'content': content,
-        'repositoryName': repositoryName,
-        if (beforeCommitId != null) 'beforeCommitId': beforeCommitId,
-        if (clientRequestToken != null)
-          'clientRequestToken': clientRequestToken,
-        if (location != null) 'location': location,
-      },
+      payload: PostCommentForComparedCommitInput(
+        afterCommitId: afterCommitId,
+        content: content,
+        repositoryName: repositoryName,
+        beforeCommitId: beforeCommitId,
+        clientRequestToken: clientRequestToken,
+        location: location,
+      ),
     );
 
     return PostCommentForComparedCommitOutput.fromJson(jsonResponse.body);
@@ -4512,16 +4479,15 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'afterCommitId': afterCommitId,
-        'beforeCommitId': beforeCommitId,
-        'content': content,
-        'pullRequestId': pullRequestId,
-        'repositoryName': repositoryName,
-        if (clientRequestToken != null)
-          'clientRequestToken': clientRequestToken,
-        if (location != null) 'location': location,
-      },
+      payload: PostCommentForPullRequestInput(
+        afterCommitId: afterCommitId,
+        beforeCommitId: beforeCommitId,
+        content: content,
+        pullRequestId: pullRequestId,
+        repositoryName: repositoryName,
+        clientRequestToken: clientRequestToken,
+        location: location,
+      ),
     );
 
     return PostCommentForPullRequestOutput.fromJson(jsonResponse.body);
@@ -4570,12 +4536,11 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'content': content,
-        'inReplyTo': inReplyTo,
-        if (clientRequestToken != null)
-          'clientRequestToken': clientRequestToken,
-      },
+      payload: PostCommentReplyInput(
+        content: content,
+        inReplyTo: inReplyTo,
+        clientRequestToken: clientRequestToken,
+      ),
     );
 
     return PostCommentReplyOutput.fromJson(jsonResponse.body);
@@ -4702,17 +4667,17 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'branchName': branchName,
-        'fileContent': fileContent?.let(base64Encode),
-        'filePath': filePath,
-        'repositoryName': repositoryName,
-        if (commitMessage != null) 'commitMessage': commitMessage,
-        if (email != null) 'email': email,
-        if (fileMode != null) 'fileMode': fileMode?.toValue(),
-        if (name != null) 'name': name,
-        if (parentCommitId != null) 'parentCommitId': parentCommitId,
-      },
+      payload: PutFileInput(
+        branchName: branchName,
+        fileContent: fileContent,
+        filePath: filePath,
+        repositoryName: repositoryName,
+        commitMessage: commitMessage,
+        email: email,
+        fileMode: fileMode,
+        name: name,
+        parentCommitId: parentCommitId,
+      ),
     );
 
     return PutFileOutput.fromJson(jsonResponse.body);
@@ -4776,10 +4741,10 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'repositoryName': repositoryName,
-        'triggers': triggers,
-      },
+      payload: PutRepositoryTriggersInput(
+        repositoryName: repositoryName,
+        triggers: triggers,
+      ),
     );
 
     return PutRepositoryTriggersOutput.fromJson(jsonResponse.body);
@@ -4822,10 +4787,10 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'resourceArn': resourceArn,
-        'tags': tags,
-      },
+      payload: TagResourceInput(
+        resourceArn: resourceArn,
+        tags: tags,
+      ),
     );
   }
 
@@ -4890,10 +4855,10 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'repositoryName': repositoryName,
-        'triggers': triggers,
-      },
+      payload: TestRepositoryTriggersInput(
+        repositoryName: repositoryName,
+        triggers: triggers,
+      ),
     );
 
     return TestRepositoryTriggersOutput.fromJson(jsonResponse.body);
@@ -4936,10 +4901,10 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'resourceArn': resourceArn,
-        'tagKeys': tagKeys,
-      },
+      payload: UntagResourceInput(
+        resourceArn: resourceArn,
+        tagKeys: tagKeys,
+      ),
     );
   }
 
@@ -4998,12 +4963,11 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'approvalRuleTemplateName': approvalRuleTemplateName,
-        'newRuleContent': newRuleContent,
-        if (existingRuleContentSha256 != null)
-          'existingRuleContentSha256': existingRuleContentSha256,
-      },
+      payload: UpdateApprovalRuleTemplateContentInput(
+        approvalRuleTemplateName: approvalRuleTemplateName,
+        newRuleContent: newRuleContent,
+        existingRuleContentSha256: existingRuleContentSha256,
+      ),
     );
 
     return UpdateApprovalRuleTemplateContentOutput.fromJson(jsonResponse.body);
@@ -5055,10 +5019,10 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'approvalRuleTemplateDescription': approvalRuleTemplateDescription,
-        'approvalRuleTemplateName': approvalRuleTemplateName,
-      },
+      payload: UpdateApprovalRuleTemplateDescriptionInput(
+        approvalRuleTemplateDescription: approvalRuleTemplateDescription,
+        approvalRuleTemplateName: approvalRuleTemplateName,
+      ),
     );
 
     return UpdateApprovalRuleTemplateDescriptionOutput.fromJson(
@@ -5109,10 +5073,10 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'newApprovalRuleTemplateName': newApprovalRuleTemplateName,
-        'oldApprovalRuleTemplateName': oldApprovalRuleTemplateName,
-      },
+      payload: UpdateApprovalRuleTemplateNameInput(
+        newApprovalRuleTemplateName: newApprovalRuleTemplateName,
+        oldApprovalRuleTemplateName: oldApprovalRuleTemplateName,
+      ),
     );
 
     return UpdateApprovalRuleTemplateNameOutput.fromJson(jsonResponse.body);
@@ -5151,10 +5115,10 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'commentId': commentId,
-        'content': content,
-      },
+      payload: UpdateCommentInput(
+        commentId: commentId,
+        content: content,
+      ),
     );
 
     return UpdateCommentOutput.fromJson(jsonResponse.body);
@@ -5220,10 +5184,10 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'defaultBranchName': defaultBranchName,
-        'repositoryName': repositoryName,
-      },
+      payload: UpdateDefaultBranchInput(
+        defaultBranchName: defaultBranchName,
+        repositoryName: repositoryName,
+      ),
     );
   }
 
@@ -5331,13 +5295,12 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'approvalRuleName': approvalRuleName,
-        'newRuleContent': newRuleContent,
-        'pullRequestId': pullRequestId,
-        if (existingRuleContentSha256 != null)
-          'existingRuleContentSha256': existingRuleContentSha256,
-      },
+      payload: UpdatePullRequestApprovalRuleContentInput(
+        approvalRuleName: approvalRuleName,
+        newRuleContent: newRuleContent,
+        pullRequestId: pullRequestId,
+        existingRuleContentSha256: existingRuleContentSha256,
+      ),
     );
 
     return UpdatePullRequestApprovalRuleContentOutput.fromJson(
@@ -5390,11 +5353,11 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'approvalState': approvalState?.toValue(),
-        'pullRequestId': pullRequestId,
-        'revisionId': revisionId,
-      },
+      payload: UpdatePullRequestApprovalStateInput(
+        approvalState: approvalState,
+        pullRequestId: pullRequestId,
+        revisionId: revisionId,
+      ),
     );
   }
 
@@ -5436,10 +5399,10 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'description': description,
-        'pullRequestId': pullRequestId,
-      },
+      payload: UpdatePullRequestDescriptionInput(
+        description: description,
+        pullRequestId: pullRequestId,
+      ),
     );
 
     return UpdatePullRequestDescriptionOutput.fromJson(jsonResponse.body);
@@ -5483,10 +5446,10 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'pullRequestId': pullRequestId,
-        'pullRequestStatus': pullRequestStatus?.toValue(),
-      },
+      payload: UpdatePullRequestStatusInput(
+        pullRequestId: pullRequestId,
+        pullRequestStatus: pullRequestStatus,
+      ),
     );
 
     return UpdatePullRequestStatusOutput.fromJson(jsonResponse.body);
@@ -5530,10 +5493,10 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'pullRequestId': pullRequestId,
-        'title': title,
-      },
+      payload: UpdatePullRequestTitleInput(
+        pullRequestId: pullRequestId,
+        title: title,
+      ),
     );
 
     return UpdatePullRequestTitleOutput.fromJson(jsonResponse.body);
@@ -5600,11 +5563,10 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'repositoryName': repositoryName,
-        if (repositoryDescription != null)
-          'repositoryDescription': repositoryDescription,
-      },
+      payload: UpdateRepositoryDescriptionInput(
+        repositoryName: repositoryName,
+        repositoryDescription: repositoryDescription,
+      ),
     );
   }
 
@@ -5668,10 +5630,10 @@ class CodeCommit {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'newName': newName,
-        'oldName': oldName,
-      },
+      payload: UpdateRepositoryNameInput(
+        newName: newName,
+        oldName: oldName,
+      ),
     );
   }
 }
@@ -5880,18 +5842,6 @@ enum ApprovalState {
   revoke,
 }
 
-extension on ApprovalState {
-  String toValue() {
-    switch (this) {
-      case ApprovalState.approve:
-        return 'APPROVE';
-      case ApprovalState.revoke:
-        return 'REVOKE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Returns information about a change in the approval state for a pull request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -5914,6 +5864,28 @@ class ApprovalStateChangedEventMetadata {
   factory ApprovalStateChangedEventMetadata.fromJson(
           Map<String, dynamic> json) =>
       _$ApprovalStateChangedEventMetadataFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateApprovalRuleTemplateWithRepositoryInput {
+  /// The name for the approval rule template.
+  @_s.JsonKey(name: 'approvalRuleTemplateName')
+  final String approvalRuleTemplateName;
+
+  /// The name of the repository that you want to associate with the template.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  AssociateApprovalRuleTemplateWithRepositoryInput({
+    @_s.required this.approvalRuleTemplateName,
+    @_s.required this.repositoryName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AssociateApprovalRuleTemplateWithRepositoryInputToJson(this);
 }
 
 /// Returns information about errors in a
@@ -5946,6 +5918,33 @@ class BatchAssociateApprovalRuleTemplateWithRepositoriesError {
   factory BatchAssociateApprovalRuleTemplateWithRepositoriesError.fromJson(
           Map<String, dynamic> json) =>
       _$BatchAssociateApprovalRuleTemplateWithRepositoriesErrorFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchAssociateApprovalRuleTemplateWithRepositoriesInput {
+  /// The name of the template you want to associate with one or more
+  /// repositories.
+  @_s.JsonKey(name: 'approvalRuleTemplateName')
+  final String approvalRuleTemplateName;
+
+  /// The names of the repositories you want to associate with the template.
+  /// <note>
+  /// The length constraint limit is for each string in the array. The array
+  /// itself can be empty.
+  /// </note>
+  @_s.JsonKey(name: 'repositoryNames')
+  final List<String> repositoryNames;
+
+  BatchAssociateApprovalRuleTemplateWithRepositoriesInput({
+    @_s.required this.approvalRuleTemplateName,
+    @_s.required this.repositoryNames,
+  });
+  Map<String, dynamic> toJson() =>
+      _$BatchAssociateApprovalRuleTemplateWithRepositoriesInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6000,6 +5999,80 @@ class BatchDescribeMergeConflictsError {
   factory BatchDescribeMergeConflictsError.fromJson(
           Map<String, dynamic> json) =>
       _$BatchDescribeMergeConflictsErrorFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchDescribeMergeConflictsInput {
+  /// The branch, tag, HEAD, or other fully qualified reference used to identify a
+  /// commit (for example, a branch name or a full commit ID).
+  @_s.JsonKey(name: 'destinationCommitSpecifier')
+  final String destinationCommitSpecifier;
+
+  /// The merge option or strategy you want to use to merge the code.
+  @_s.JsonKey(name: 'mergeOption')
+  final MergeOptionTypeEnum mergeOption;
+
+  /// The name of the repository that contains the merge conflicts you want to
+  /// review.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// The branch, tag, HEAD, or other fully qualified reference used to identify a
+  /// commit (for example, a branch name or a full commit ID).
+  @_s.JsonKey(name: 'sourceCommitSpecifier')
+  final String sourceCommitSpecifier;
+
+  /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL
+  /// is used, which returns a not-mergeable result if the same file has
+  /// differences in both branches. If LINE_LEVEL is specified, a conflict is
+  /// considered not mergeable if the same file in both branches has differences
+  /// on the same line.
+  @_s.JsonKey(name: 'conflictDetailLevel')
+  final ConflictDetailLevelTypeEnum conflictDetailLevel;
+
+  /// Specifies which branch to use when resolving conflicts, or whether to
+  /// attempt automatically merging two versions of a file. The default is NONE,
+  /// which requires any conflicts to be resolved manually before the merge
+  /// operation is successful.
+  @_s.JsonKey(name: 'conflictResolutionStrategy')
+  final ConflictResolutionStrategyTypeEnum conflictResolutionStrategy;
+
+  /// The path of the target files used to describe the conflicts. If not
+  /// specified, the default is all conflict files.
+  @_s.JsonKey(name: 'filePaths')
+  final List<String> filePaths;
+
+  /// The maximum number of files to include in the output.
+  @_s.JsonKey(name: 'maxConflictFiles')
+  final int maxConflictFiles;
+
+  /// The maximum number of merge hunks to include in the output.
+  @_s.JsonKey(name: 'maxMergeHunks')
+  final int maxMergeHunks;
+
+  /// An enumeration token that, when provided in a request, returns the next
+  /// batch of the results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  BatchDescribeMergeConflictsInput({
+    @_s.required this.destinationCommitSpecifier,
+    @_s.required this.mergeOption,
+    @_s.required this.repositoryName,
+    @_s.required this.sourceCommitSpecifier,
+    this.conflictDetailLevel,
+    this.conflictResolutionStrategy,
+    this.filePaths,
+    this.maxConflictFiles,
+    this.maxMergeHunks,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$BatchDescribeMergeConflictsInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6087,6 +6160,34 @@ class BatchDisassociateApprovalRuleTemplateFromRepositoriesError {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchDisassociateApprovalRuleTemplateFromRepositoriesInput {
+  /// The name of the template that you want to disassociate from one or more
+  /// repositories.
+  @_s.JsonKey(name: 'approvalRuleTemplateName')
+  final String approvalRuleTemplateName;
+
+  /// The repository names that you want to disassociate from the approval rule
+  /// template.
+  /// <note>
+  /// The length constraint limit is for each string in the array. The array
+  /// itself can be empty.
+  /// </note>
+  @_s.JsonKey(name: 'repositoryNames')
+  final List<String> repositoryNames;
+
+  BatchDisassociateApprovalRuleTemplateFromRepositoriesInput({
+    @_s.required this.approvalRuleTemplateName,
+    @_s.required this.repositoryNames,
+  });
+  Map<String, dynamic> toJson() =>
+      _$BatchDisassociateApprovalRuleTemplateFromRepositoriesInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput {
@@ -6143,6 +6244,31 @@ class BatchGetCommitsError {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchGetCommitsInput {
+  /// The full commit IDs of the commits to get information about.
+  /// <note>
+  /// You must supply the full SHA IDs of each commit. You cannot use shortened
+  /// SHA IDs.
+  /// </note>
+  @_s.JsonKey(name: 'commitIds')
+  final List<String> commitIds;
+
+  /// The name of the repository that contains the commits.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  BatchGetCommitsInput({
+    @_s.required this.commitIds,
+    @_s.required this.repositoryName,
+  });
+  Map<String, dynamic> toJson() => _$BatchGetCommitsInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class BatchGetCommitsOutput {
@@ -6164,6 +6290,27 @@ class BatchGetCommitsOutput {
   });
   factory BatchGetCommitsOutput.fromJson(Map<String, dynamic> json) =>
       _$BatchGetCommitsOutputFromJson(json);
+}
+
+/// Represents the input of a batch get repositories operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchGetRepositoriesInput {
+  /// The names of the repositories to get information about.
+  /// <note>
+  /// The length constraint limit is for each string in the array. The array
+  /// itself can be empty.
+  /// </note>
+  @_s.JsonKey(name: 'repositoryNames')
+  final List<String> repositoryNames;
+
+  BatchGetRepositoriesInput({
+    @_s.required this.repositoryNames,
+  });
+  Map<String, dynamic> toJson() => _$BatchGetRepositoriesInputToJson(this);
 }
 
 /// Represents the output of a batch get repositories operation.
@@ -6532,18 +6679,6 @@ enum ConflictDetailLevelTypeEnum {
   lineLevel,
 }
 
-extension on ConflictDetailLevelTypeEnum {
-  String toValue() {
-    switch (this) {
-      case ConflictDetailLevelTypeEnum.fileLevel:
-        return 'FILE_LEVEL';
-      case ConflictDetailLevelTypeEnum.lineLevel:
-        return 'LINE_LEVEL';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Information about the metadata for a conflict in a merge operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6654,20 +6789,76 @@ enum ConflictResolutionStrategyTypeEnum {
   automerge,
 }
 
-extension on ConflictResolutionStrategyTypeEnum {
-  String toValue() {
-    switch (this) {
-      case ConflictResolutionStrategyTypeEnum.none:
-        return 'NONE';
-      case ConflictResolutionStrategyTypeEnum.acceptSource:
-        return 'ACCEPT_SOURCE';
-      case ConflictResolutionStrategyTypeEnum.acceptDestination:
-        return 'ACCEPT_DESTINATION';
-      case ConflictResolutionStrategyTypeEnum.automerge:
-        return 'AUTOMERGE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateApprovalRuleTemplateInput {
+  /// The content of the approval rule that is created on pull requests in
+  /// associated repositories. If you specify one or more destination references
+  /// (branches), approval rules are created in an associated repository only if
+  /// their destination references (branches) match those specified in the
+  /// template.
+  /// <note>
+  /// When you create the content of the approval rule template, you can specify
+  /// approvers in an approval pool in one of two ways:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>CodeCommitApprovers</b>: This option only requires an AWS account and a
+  /// resource. It can be used for both IAM users and federated access users whose
+  /// name matches the provided resource name. This is a very powerful option that
+  /// offers a great deal of flexibility. For example, if you specify the AWS
+  /// account <i>123456789012</i> and <i>Mary_Major</i>, all of the following are
+  /// counted as approvals coming from that user:
+  ///
+  /// <ul>
+  /// <li>
+  /// An IAM user in the account
+  /// (arn:aws:iam::<i>123456789012</i>:user/<i>Mary_Major</i>)
+  /// </li>
+  /// <li>
+  /// A federated user identified in IAM as Mary_Major
+  /// (arn:aws:sts::<i>123456789012</i>:federated-user/<i>Mary_Major</i>)
+  /// </li>
+  /// </ul>
+  /// This option does not recognize an active session of someone assuming the
+  /// role of CodeCommitReview with a role session name of <i>Mary_Major</i>
+  /// (arn:aws:sts::<i>123456789012</i>:assumed-role/CodeCommitReview/<i>Mary_Major</i>)
+  /// unless you include a wildcard (*Mary_Major).
+  /// </li>
+  /// <li>
+  /// <b>Fully qualified ARN</b>: This option allows you to specify the fully
+  /// qualified Amazon Resource Name (ARN) of the IAM user or role.
+  /// </li>
+  /// </ul>
+  /// For more information about IAM ARNs, wildcards, and formats, see <a
+  /// href="https://docs.aws.amazon.com/iam/latest/UserGuide/reference_identifiers.html">IAM
+  /// Identifiers</a> in the <i>IAM User Guide</i>.
+  /// </note>
+  @_s.JsonKey(name: 'approvalRuleTemplateContent')
+  final String approvalRuleTemplateContent;
+
+  /// The name of the approval rule template. Provide descriptive names, because
+  /// this name is applied to the approval rules created automatically in
+  /// associated repositories.
+  @_s.JsonKey(name: 'approvalRuleTemplateName')
+  final String approvalRuleTemplateName;
+
+  /// The description of the approval rule template. Consider providing a
+  /// description that explains what this template does and when it might be
+  /// appropriate to associate it with repositories.
+  @_s.JsonKey(name: 'approvalRuleTemplateDescription')
+  final String approvalRuleTemplateDescription;
+
+  CreateApprovalRuleTemplateInput({
+    @_s.required this.approvalRuleTemplateContent,
+    @_s.required this.approvalRuleTemplateName,
+    this.approvalRuleTemplateDescription,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateApprovalRuleTemplateInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6686,6 +6877,100 @@ class CreateApprovalRuleTemplateOutput {
   factory CreateApprovalRuleTemplateOutput.fromJson(
           Map<String, dynamic> json) =>
       _$CreateApprovalRuleTemplateOutputFromJson(json);
+}
+
+/// Represents the input of a create branch operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateBranchInput {
+  /// The name of the new branch to create.
+  @_s.JsonKey(name: 'branchName')
+  final String branchName;
+
+  /// The ID of the commit to point the new branch to.
+  @_s.JsonKey(name: 'commitId')
+  final String commitId;
+
+  /// The name of the repository in which you want to create the new branch.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  CreateBranchInput({
+    @_s.required this.branchName,
+    @_s.required this.commitId,
+    @_s.required this.repositoryName,
+  });
+  Map<String, dynamic> toJson() => _$CreateBranchInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateCommitInput {
+  /// The name of the branch where you create the commit.
+  @_s.JsonKey(name: 'branchName')
+  final String branchName;
+
+  /// The name of the repository where you create the commit.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// The name of the author who created the commit. This information is used as
+  /// both the author and committer for the commit.
+  @_s.JsonKey(name: 'authorName')
+  final String authorName;
+
+  /// The commit message you want to include in the commit. Commit messages are
+  /// limited to 256 KB. If no message is specified, a default message is used.
+  @_s.JsonKey(name: 'commitMessage')
+  final String commitMessage;
+
+  /// The files to delete in this commit. These files still exist in earlier
+  /// commits.
+  @_s.JsonKey(name: 'deleteFiles')
+  final List<DeleteFileEntry> deleteFiles;
+
+  /// The email address of the person who created the commit.
+  @_s.JsonKey(name: 'email')
+  final String email;
+
+  /// If the commit contains deletions, whether to keep a folder or folder
+  /// structure if the changes leave the folders empty. If true, a ..gitkeep file
+  /// is created for empty folders. The default is false.
+  @_s.JsonKey(name: 'keepEmptyFolders')
+  final bool keepEmptyFolders;
+
+  /// The ID of the commit that is the parent of the commit you create. Not
+  /// required if this is an empty repository.
+  @_s.JsonKey(name: 'parentCommitId')
+  final String parentCommitId;
+
+  /// The files to add or update in this commit.
+  @_s.JsonKey(name: 'putFiles')
+  final List<PutFileEntry> putFiles;
+
+  /// The file modes to update for files in this commit.
+  @_s.JsonKey(name: 'setFileModes')
+  final List<SetFileModeEntry> setFileModes;
+
+  CreateCommitInput({
+    @_s.required this.branchName,
+    @_s.required this.repositoryName,
+    this.authorName,
+    this.commitMessage,
+    this.deleteFiles,
+    this.email,
+    this.keepEmptyFolders,
+    this.parentCommitId,
+    this.putFiles,
+    this.setFileModes,
+  });
+  Map<String, dynamic> toJson() => _$CreateCommitInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6729,6 +7014,73 @@ class CreateCommitOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreatePullRequestApprovalRuleInput {
+  /// The content of the approval rule, including the number of approvals needed
+  /// and the structure of an approval pool defined for approvals, if any. For
+  /// more information about approval pools, see the AWS CodeCommit User Guide.
+  /// <note>
+  /// When you create the content of the approval rule, you can specify approvers
+  /// in an approval pool in one of two ways:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>CodeCommitApprovers</b>: This option only requires an AWS account and a
+  /// resource. It can be used for both IAM users and federated access users whose
+  /// name matches the provided resource name. This is a very powerful option that
+  /// offers a great deal of flexibility. For example, if you specify the AWS
+  /// account <i>123456789012</i> and <i>Mary_Major</i>, all of the following
+  /// would be counted as approvals coming from that user:
+  ///
+  /// <ul>
+  /// <li>
+  /// An IAM user in the account
+  /// (arn:aws:iam::<i>123456789012</i>:user/<i>Mary_Major</i>)
+  /// </li>
+  /// <li>
+  /// A federated user identified in IAM as Mary_Major
+  /// (arn:aws:sts::<i>123456789012</i>:federated-user/<i>Mary_Major</i>)
+  /// </li>
+  /// </ul>
+  /// This option does not recognize an active session of someone assuming the
+  /// role of CodeCommitReview with a role session name of <i>Mary_Major</i>
+  /// (arn:aws:sts::<i>123456789012</i>:assumed-role/CodeCommitReview/<i>Mary_Major</i>)
+  /// unless you include a wildcard (*Mary_Major).
+  /// </li>
+  /// <li>
+  /// <b>Fully qualified ARN</b>: This option allows you to specify the fully
+  /// qualified Amazon Resource Name (ARN) of the IAM user or role.
+  /// </li>
+  /// </ul>
+  /// For more information about IAM ARNs, wildcards, and formats, see <a
+  /// href="https://docs.aws.amazon.com/iam/latest/UserGuide/reference_identifiers.html">IAM
+  /// Identifiers</a> in the <i>IAM User Guide</i>.
+  /// </note>
+  @_s.JsonKey(name: 'approvalRuleContent')
+  final String approvalRuleContent;
+
+  /// The name for the approval rule.
+  @_s.JsonKey(name: 'approvalRuleName')
+  final String approvalRuleName;
+
+  /// The system-generated ID of the pull request for which you want to create the
+  /// approval rule.
+  @_s.JsonKey(name: 'pullRequestId')
+  final String pullRequestId;
+
+  CreatePullRequestApprovalRuleInput({
+    @_s.required this.approvalRuleContent,
+    @_s.required this.approvalRuleName,
+    @_s.required this.pullRequestId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreatePullRequestApprovalRuleInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreatePullRequestApprovalRuleOutput {
@@ -6742,6 +7094,48 @@ class CreatePullRequestApprovalRuleOutput {
   factory CreatePullRequestApprovalRuleOutput.fromJson(
           Map<String, dynamic> json) =>
       _$CreatePullRequestApprovalRuleOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreatePullRequestInput {
+  /// The targets for the pull request, including the source of the code to be
+  /// reviewed (the source branch) and the destination where the creator of the
+  /// pull request intends the code to be merged after the pull request is closed
+  /// (the destination branch).
+  @_s.JsonKey(name: 'targets')
+  final List<Target> targets;
+
+  /// The title of the pull request. This title is used to identify the pull
+  /// request to other users in the repository.
+  @_s.JsonKey(name: 'title')
+  final String title;
+
+  /// A unique, client-generated idempotency token that, when provided in a
+  /// request, ensures the request cannot be repeated with a changed parameter. If
+  /// a request is received with the same parameters and a token is included, the
+  /// request returns information about the initial request that used that token.
+  /// <note>
+  /// The AWS SDKs prepopulate client request tokens. If you are using an AWS SDK,
+  /// an idempotency token is created for you.
+  /// </note>
+  @_s.JsonKey(name: 'clientRequestToken')
+  final String clientRequestToken;
+
+  /// A description of the pull request.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  CreatePullRequestInput({
+    @_s.required this.targets,
+    @_s.required this.title,
+    this.clientRequestToken,
+    this.description,
+  });
+  Map<String, dynamic> toJson() => _$CreatePullRequestInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6761,6 +7155,49 @@ class CreatePullRequestOutput {
       _$CreatePullRequestOutputFromJson(json);
 }
 
+/// Represents the input of a create repository operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateRepositoryInput {
+  /// The name of the new repository to be created.
+  /// <note>
+  /// The repository name must be unique across the calling AWS account.
+  /// Repository names are limited to 100 alphanumeric, dash, and underscore
+  /// characters, and cannot include certain characters. For more information
+  /// about the limits on repository names, see <a
+  /// href="https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html">Limits</a>
+  /// in the <i>AWS CodeCommit User Guide</i>. The suffix .git is prohibited.
+  /// </note>
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// A comment or description about the new repository.
+  /// <note>
+  /// The description field for a repository accepts all HTML characters and all
+  /// valid Unicode characters. Applications that do not HTML-encode the
+  /// description and display it in a webpage can expose users to potentially
+  /// malicious code. Make sure that you HTML-encode the description field in any
+  /// application that uses this API to display the repository description on a
+  /// webpage.
+  /// </note>
+  @_s.JsonKey(name: 'repositoryDescription')
+  final String repositoryDescription;
+
+  /// One or more tag key-value pairs to use when tagging this repository.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateRepositoryInput({
+    @_s.required this.repositoryName,
+    this.repositoryDescription,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateRepositoryInputToJson(this);
+}
+
 /// Represents the output of a create repository operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6777,6 +7214,87 @@ class CreateRepositoryOutput {
   });
   factory CreateRepositoryOutput.fromJson(Map<String, dynamic> json) =>
       _$CreateRepositoryOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateUnreferencedMergeCommitInput {
+  /// The branch, tag, HEAD, or other fully qualified reference used to identify a
+  /// commit (for example, a branch name or a full commit ID).
+  @_s.JsonKey(name: 'destinationCommitSpecifier')
+  final String destinationCommitSpecifier;
+
+  /// The merge option or strategy you want to use to merge the code.
+  @_s.JsonKey(name: 'mergeOption')
+  final MergeOptionTypeEnum mergeOption;
+
+  /// The name of the repository where you want to create the unreferenced merge
+  /// commit.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// The branch, tag, HEAD, or other fully qualified reference used to identify a
+  /// commit (for example, a branch name or a full commit ID).
+  @_s.JsonKey(name: 'sourceCommitSpecifier')
+  final String sourceCommitSpecifier;
+
+  /// The name of the author who created the unreferenced commit. This information
+  /// is used as both the author and committer for the commit.
+  @_s.JsonKey(name: 'authorName')
+  final String authorName;
+
+  /// The commit message for the unreferenced commit.
+  @_s.JsonKey(name: 'commitMessage')
+  final String commitMessage;
+
+  /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL
+  /// is used, which returns a not-mergeable result if the same file has
+  /// differences in both branches. If LINE_LEVEL is specified, a conflict is
+  /// considered not mergeable if the same file in both branches has differences
+  /// on the same line.
+  @_s.JsonKey(name: 'conflictDetailLevel')
+  final ConflictDetailLevelTypeEnum conflictDetailLevel;
+
+  /// If AUTOMERGE is the conflict resolution strategy, a list of inputs to use
+  /// when resolving conflicts during a merge.
+  @_s.JsonKey(name: 'conflictResolution')
+  final ConflictResolution conflictResolution;
+
+  /// Specifies which branch to use when resolving conflicts, or whether to
+  /// attempt automatically merging two versions of a file. The default is NONE,
+  /// which requires any conflicts to be resolved manually before the merge
+  /// operation is successful.
+  @_s.JsonKey(name: 'conflictResolutionStrategy')
+  final ConflictResolutionStrategyTypeEnum conflictResolutionStrategy;
+
+  /// The email address for the person who created the unreferenced commit.
+  @_s.JsonKey(name: 'email')
+  final String email;
+
+  /// If the commit contains deletions, whether to keep a folder or folder
+  /// structure if the changes leave the folders empty. If this is specified as
+  /// true, a .gitkeep file is created for empty folders. The default is false.
+  @_s.JsonKey(name: 'keepEmptyFolders')
+  final bool keepEmptyFolders;
+
+  CreateUnreferencedMergeCommitInput({
+    @_s.required this.destinationCommitSpecifier,
+    @_s.required this.mergeOption,
+    @_s.required this.repositoryName,
+    @_s.required this.sourceCommitSpecifier,
+    this.authorName,
+    this.commitMessage,
+    this.conflictDetailLevel,
+    this.conflictResolution,
+    this.conflictResolutionStrategy,
+    this.email,
+    this.keepEmptyFolders,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateUnreferencedMergeCommitInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6806,6 +7324,23 @@ class CreateUnreferencedMergeCommitOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteApprovalRuleTemplateInput {
+  /// The name of the approval rule template to delete.
+  @_s.JsonKey(name: 'approvalRuleTemplateName')
+  final String approvalRuleTemplateName;
+
+  DeleteApprovalRuleTemplateInput({
+    @_s.required this.approvalRuleTemplateName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteApprovalRuleTemplateInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteApprovalRuleTemplateOutput {
@@ -6820,6 +7355,28 @@ class DeleteApprovalRuleTemplateOutput {
   factory DeleteApprovalRuleTemplateOutput.fromJson(
           Map<String, dynamic> json) =>
       _$DeleteApprovalRuleTemplateOutputFromJson(json);
+}
+
+/// Represents the input of a delete branch operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteBranchInput {
+  /// The name of the branch to delete.
+  @_s.JsonKey(name: 'branchName')
+  final String branchName;
+
+  /// The name of the repository that contains the branch to be deleted.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  DeleteBranchInput({
+    @_s.required this.branchName,
+    @_s.required this.repositoryName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteBranchInputToJson(this);
 }
 
 /// Represents the output of a delete branch operation.
@@ -6839,6 +7396,23 @@ class DeleteBranchOutput {
   });
   factory DeleteBranchOutput.fromJson(Map<String, dynamic> json) =>
       _$DeleteBranchOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteCommentContentInput {
+  /// The unique, system-generated ID of the comment. To get this ID, use
+  /// <a>GetCommentsForComparedCommit</a> or <a>GetCommentsForPullRequest</a>.
+  @_s.JsonKey(name: 'commentId')
+  final String commentId;
+
+  DeleteCommentContentInput({
+    @_s.required this.commentId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteCommentContentInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6873,6 +7447,70 @@ class DeleteFileEntry {
     @_s.required this.filePath,
   });
   Map<String, dynamic> toJson() => _$DeleteFileEntryToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteFileInput {
+  /// The name of the branch where the commit that deletes the file is made.
+  @_s.JsonKey(name: 'branchName')
+  final String branchName;
+
+  /// The fully qualified path to the file that to be deleted, including the full
+  /// name and extension of that file. For example, /examples/file.md is a fully
+  /// qualified path to a file named file.md in a folder named examples.
+  @_s.JsonKey(name: 'filePath')
+  final String filePath;
+
+  /// The ID of the commit that is the tip of the branch where you want to create
+  /// the commit that deletes the file. This must be the HEAD commit for the
+  /// branch. The commit that deletes the file is created from this commit ID.
+  @_s.JsonKey(name: 'parentCommitId')
+  final String parentCommitId;
+
+  /// The name of the repository that contains the file to delete.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// The commit message you want to include as part of deleting the file. Commit
+  /// messages are limited to 256 KB. If no message is specified, a default
+  /// message is used.
+  @_s.JsonKey(name: 'commitMessage')
+  final String commitMessage;
+
+  /// The email address for the commit that deletes the file. If no email address
+  /// is specified, the email address is left blank.
+  @_s.JsonKey(name: 'email')
+  final String email;
+
+  /// If a file is the only object in the folder or directory, specifies whether
+  /// to delete the folder or directory that contains the file. By default, empty
+  /// folders are deleted. This includes empty folders that are part of the
+  /// directory structure. For example, if the path to a file is
+  /// dir1/dir2/dir3/dir4, and dir2 and dir3 are empty, deleting the last file in
+  /// dir4 also deletes the empty folders dir4, dir3, and dir2.
+  @_s.JsonKey(name: 'keepEmptyFolders')
+  final bool keepEmptyFolders;
+
+  /// The name of the author of the commit that deletes the file. If no name is
+  /// specified, the user's ARN is used as the author name and committer name.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  DeleteFileInput({
+    @_s.required this.branchName,
+    @_s.required this.filePath,
+    @_s.required this.parentCommitId,
+    @_s.required this.repositoryName,
+    this.commitMessage,
+    this.email,
+    this.keepEmptyFolders,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$DeleteFileInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6913,6 +7551,29 @@ class DeleteFileOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeletePullRequestApprovalRuleInput {
+  /// The name of the approval rule you want to delete.
+  @_s.JsonKey(name: 'approvalRuleName')
+  final String approvalRuleName;
+
+  /// The system-generated ID of the pull request that contains the approval rule
+  /// you want to delete.
+  @_s.JsonKey(name: 'pullRequestId')
+  final String pullRequestId;
+
+  DeletePullRequestApprovalRuleInput({
+    @_s.required this.approvalRuleName,
+    @_s.required this.pullRequestId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeletePullRequestApprovalRuleInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeletePullRequestApprovalRuleOutput {
@@ -6932,6 +7593,23 @@ class DeletePullRequestApprovalRuleOutput {
       _$DeletePullRequestApprovalRuleOutputFromJson(json);
 }
 
+/// Represents the input of a delete repository operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteRepositoryInput {
+  /// The name of the repository to delete.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  DeleteRepositoryInput({
+    @_s.required this.repositoryName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteRepositoryInputToJson(this);
+}
+
 /// Represents the output of a delete repository operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6948,6 +7626,73 @@ class DeleteRepositoryOutput {
   });
   factory DeleteRepositoryOutput.fromJson(Map<String, dynamic> json) =>
       _$DeleteRepositoryOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeMergeConflictsInput {
+  /// The branch, tag, HEAD, or other fully qualified reference used to identify a
+  /// commit (for example, a branch name or a full commit ID).
+  @_s.JsonKey(name: 'destinationCommitSpecifier')
+  final String destinationCommitSpecifier;
+
+  /// The path of the target files used to describe the conflicts.
+  @_s.JsonKey(name: 'filePath')
+  final String filePath;
+
+  /// The merge option or strategy you want to use to merge the code.
+  @_s.JsonKey(name: 'mergeOption')
+  final MergeOptionTypeEnum mergeOption;
+
+  /// The name of the repository where you want to get information about a merge
+  /// conflict.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// The branch, tag, HEAD, or other fully qualified reference used to identify a
+  /// commit (for example, a branch name or a full commit ID).
+  @_s.JsonKey(name: 'sourceCommitSpecifier')
+  final String sourceCommitSpecifier;
+
+  /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL
+  /// is used, which returns a not-mergeable result if the same file has
+  /// differences in both branches. If LINE_LEVEL is specified, a conflict is
+  /// considered not mergeable if the same file in both branches has differences
+  /// on the same line.
+  @_s.JsonKey(name: 'conflictDetailLevel')
+  final ConflictDetailLevelTypeEnum conflictDetailLevel;
+
+  /// Specifies which branch to use when resolving conflicts, or whether to
+  /// attempt automatically merging two versions of a file. The default is NONE,
+  /// which requires any conflicts to be resolved manually before the merge
+  /// operation is successful.
+  @_s.JsonKey(name: 'conflictResolutionStrategy')
+  final ConflictResolutionStrategyTypeEnum conflictResolutionStrategy;
+
+  /// The maximum number of merge hunks to include in the output.
+  @_s.JsonKey(name: 'maxMergeHunks')
+  final int maxMergeHunks;
+
+  /// An enumeration token that, when provided in a request, returns the next
+  /// batch of the results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  DescribeMergeConflictsInput({
+    @_s.required this.destinationCommitSpecifier,
+    @_s.required this.filePath,
+    @_s.required this.mergeOption,
+    @_s.required this.repositoryName,
+    @_s.required this.sourceCommitSpecifier,
+    this.conflictDetailLevel,
+    this.conflictResolutionStrategy,
+    this.maxMergeHunks,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeMergeConflictsInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6993,6 +7738,49 @@ class DescribeMergeConflictsOutput {
   });
   factory DescribeMergeConflictsOutput.fromJson(Map<String, dynamic> json) =>
       _$DescribeMergeConflictsOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribePullRequestEventsInput {
+  /// The system-generated ID of the pull request. To get this ID, use
+  /// <a>ListPullRequests</a>.
+  @_s.JsonKey(name: 'pullRequestId')
+  final String pullRequestId;
+
+  /// The Amazon Resource Name (ARN) of the user whose actions resulted in the
+  /// event. Examples include updating the pull request with more commits or
+  /// changing the status of a pull request.
+  @_s.JsonKey(name: 'actorArn')
+  final String actorArn;
+
+  /// A non-zero, non-negative integer used to limit the number of returned
+  /// results. The default is 100 events, which is also the maximum number of
+  /// events that can be returned in a result.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// An enumeration token that, when provided in a request, returns the next
+  /// batch of the results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// Optional. The pull request event type about which you want to return
+  /// information.
+  @_s.JsonKey(name: 'pullRequestEventType')
+  final PullRequestEventType pullRequestEventType;
+
+  DescribePullRequestEventsInput({
+    @_s.required this.pullRequestId,
+    this.actorArn,
+    this.maxResults,
+    this.nextToken,
+    this.pullRequestEventType,
+  });
+  Map<String, dynamic> toJson() => _$DescribePullRequestEventsInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7047,6 +7835,52 @@ class Difference {
   });
   factory Difference.fromJson(Map<String, dynamic> json) =>
       _$DifferenceFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateApprovalRuleTemplateFromRepositoryInput {
+  /// The name of the approval rule template to disassociate from a specified
+  /// repository.
+  @_s.JsonKey(name: 'approvalRuleTemplateName')
+  final String approvalRuleTemplateName;
+
+  /// The name of the repository you want to disassociate from the template.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  DisassociateApprovalRuleTemplateFromRepositoryInput({
+    @_s.required this.approvalRuleTemplateName,
+    @_s.required this.repositoryName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DisassociateApprovalRuleTemplateFromRepositoryInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class EvaluatePullRequestApprovalRulesInput {
+  /// The system-generated ID of the pull request you want to evaluate.
+  @_s.JsonKey(name: 'pullRequestId')
+  final String pullRequestId;
+
+  /// The system-generated ID for the pull request revision. To retrieve the most
+  /// recent revision ID for a pull request, use <a>GetPullRequest</a>.
+  @_s.JsonKey(name: 'revisionId')
+  final String revisionId;
+
+  EvaluatePullRequestApprovalRulesInput({
+    @_s.required this.pullRequestId,
+    @_s.required this.revisionId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$EvaluatePullRequestApprovalRulesInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7178,20 +8012,6 @@ enum FileModeTypeEnum {
   symlink,
 }
 
-extension on FileModeTypeEnum {
-  String toValue() {
-    switch (this) {
-      case FileModeTypeEnum.executable:
-        return 'EXECUTABLE';
-      case FileModeTypeEnum.normal:
-        return 'NORMAL';
-      case FileModeTypeEnum.symlink:
-        return 'SYMLINK';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Information about file modes in a merge or pull request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -7280,6 +8100,23 @@ class Folder {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetApprovalRuleTemplateInput {
+  /// The name of the approval rule template for which you want to get
+  /// information.
+  @_s.JsonKey(name: 'approvalRuleTemplateName')
+  final String approvalRuleTemplateName;
+
+  GetApprovalRuleTemplateInput({
+    @_s.required this.approvalRuleTemplateName,
+  });
+  Map<String, dynamic> toJson() => _$GetApprovalRuleTemplateInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetApprovalRuleTemplateOutput {
@@ -7292,6 +8129,28 @@ class GetApprovalRuleTemplateOutput {
   });
   factory GetApprovalRuleTemplateOutput.fromJson(Map<String, dynamic> json) =>
       _$GetApprovalRuleTemplateOutputFromJson(json);
+}
+
+/// Represents the input of a get blob operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetBlobInput {
+  /// The ID of the blob, which is its SHA-1 pointer.
+  @_s.JsonKey(name: 'blobId')
+  final String blobId;
+
+  /// The name of the repository that contains the blob.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  GetBlobInput({
+    @_s.required this.blobId,
+    @_s.required this.repositoryName,
+  });
+  Map<String, dynamic> toJson() => _$GetBlobInputToJson(this);
 }
 
 /// Represents the output of a get blob operation.
@@ -7311,6 +8170,29 @@ class GetBlobOutput {
   });
   factory GetBlobOutput.fromJson(Map<String, dynamic> json) =>
       _$GetBlobOutputFromJson(json);
+}
+
+/// Represents the input of a get branch operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetBranchInput {
+  /// The name of the branch for which you want to retrieve information.
+  @_s.JsonKey(name: 'branchName')
+  final String branchName;
+
+  /// The name of the repository that contains the branch for which you want to
+  /// retrieve information.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  GetBranchInput({
+    this.branchName,
+    this.repositoryName,
+  });
+  Map<String, dynamic> toJson() => _$GetBranchInputToJson(this);
 }
 
 /// Represents the output of a get branch operation.
@@ -7334,6 +8216,23 @@ class GetBranchOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetCommentInput {
+  /// The unique, system-generated ID of the comment. To get this ID, use
+  /// <a>GetCommentsForComparedCommit</a> or <a>GetCommentsForPullRequest</a>.
+  @_s.JsonKey(name: 'commentId')
+  final String commentId;
+
+  GetCommentInput({
+    @_s.required this.commentId,
+  });
+  Map<String, dynamic> toJson() => _$GetCommentInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetCommentOutput {
@@ -7346,6 +8245,47 @@ class GetCommentOutput {
   });
   factory GetCommentOutput.fromJson(Map<String, dynamic> json) =>
       _$GetCommentOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetCommentsForComparedCommitInput {
+  /// To establish the directionality of the comparison, the full commit ID of the
+  /// after commit.
+  @_s.JsonKey(name: 'afterCommitId')
+  final String afterCommitId;
+
+  /// The name of the repository where you want to compare commits.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// To establish the directionality of the comparison, the full commit ID of the
+  /// before commit.
+  @_s.JsonKey(name: 'beforeCommitId')
+  final String beforeCommitId;
+
+  /// A non-zero, non-negative integer used to limit the number of returned
+  /// results. The default is 100 comments, but you can configure up to 500.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// An enumeration token that when provided in a request, returns the next batch
+  /// of the results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  GetCommentsForComparedCommitInput({
+    @_s.required this.afterCommitId,
+    @_s.required this.repositoryName,
+    this.beforeCommitId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetCommentsForComparedCommitInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7375,6 +8315,53 @@ class GetCommentsForComparedCommitOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetCommentsForPullRequestInput {
+  /// The system-generated ID of the pull request. To get this ID, use
+  /// <a>ListPullRequests</a>.
+  @_s.JsonKey(name: 'pullRequestId')
+  final String pullRequestId;
+
+  /// The full commit ID of the commit in the source branch that was the tip of
+  /// the branch at the time the comment was made.
+  @_s.JsonKey(name: 'afterCommitId')
+  final String afterCommitId;
+
+  /// The full commit ID of the commit in the destination branch that was the tip
+  /// of the branch at the time the pull request was created.
+  @_s.JsonKey(name: 'beforeCommitId')
+  final String beforeCommitId;
+
+  /// A non-zero, non-negative integer used to limit the number of returned
+  /// results. The default is 100 comments. You can return up to 500 comments with
+  /// a single request.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// An enumeration token that, when provided in a request, returns the next
+  /// batch of the results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The name of the repository that contains the pull request.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  GetCommentsForPullRequestInput({
+    @_s.required this.pullRequestId,
+    this.afterCommitId,
+    this.beforeCommitId,
+    this.maxResults,
+    this.nextToken,
+    this.repositoryName,
+  });
+  Map<String, dynamic> toJson() => _$GetCommentsForPullRequestInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetCommentsForPullRequestOutput {
@@ -7393,6 +8380,28 @@ class GetCommentsForPullRequestOutput {
   });
   factory GetCommentsForPullRequestOutput.fromJson(Map<String, dynamic> json) =>
       _$GetCommentsForPullRequestOutputFromJson(json);
+}
+
+/// Represents the input of a get commit operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetCommitInput {
+  /// The commit ID. Commit IDs are the full SHA ID of the commit.
+  @_s.JsonKey(name: 'commitId')
+  final String commitId;
+
+  /// The name of the repository to which the commit was made.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  GetCommitInput({
+    @_s.required this.commitId,
+    @_s.required this.repositoryName,
+  });
+  Map<String, dynamic> toJson() => _$GetCommitInputToJson(this);
 }
 
 /// Represents the output of a get commit operation.
@@ -7417,6 +8426,64 @@ class GetCommitOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetDifferencesInput {
+  /// The branch, tag, HEAD, or other fully qualified reference used to identify a
+  /// commit.
+  @_s.JsonKey(name: 'afterCommitSpecifier')
+  final String afterCommitSpecifier;
+
+  /// The name of the repository where you want to get differences.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// A non-zero, non-negative integer used to limit the number of returned
+  /// results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// An enumeration token that, when provided in a request, returns the next
+  /// batch of the results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The file path in which to check differences. Limits the results to this
+  /// path. Can also be used to specify the changed name of a directory or folder,
+  /// if it has changed. If not specified, differences are shown for all paths.
+  @_s.JsonKey(name: 'afterPath')
+  final String afterPath;
+
+  /// The branch, tag, HEAD, or other fully qualified reference used to identify a
+  /// commit (for example, the full commit ID). Optional. If not specified, all
+  /// changes before the <code>afterCommitSpecifier</code> value are shown. If you
+  /// do not use <code>beforeCommitSpecifier</code> in your request, consider
+  /// limiting the results with <code>maxResults</code>.
+  @_s.JsonKey(name: 'beforeCommitSpecifier')
+  final String beforeCommitSpecifier;
+
+  /// The file path in which to check for differences. Limits the results to this
+  /// path. Can also be used to specify the previous name of a directory or
+  /// folder. If <code>beforePath</code> and <code>afterPath</code> are not
+  /// specified, differences are shown for all paths.
+  @_s.JsonKey(name: 'beforePath')
+  final String beforePath;
+
+  GetDifferencesInput({
+    @_s.required this.afterCommitSpecifier,
+    @_s.required this.repositoryName,
+    this.maxResults,
+    this.nextToken,
+    this.afterPath,
+    this.beforeCommitSpecifier,
+    this.beforePath,
+  });
+  Map<String, dynamic> toJson() => _$GetDifferencesInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetDifferencesOutput {
@@ -7436,6 +8503,37 @@ class GetDifferencesOutput {
   });
   factory GetDifferencesOutput.fromJson(Map<String, dynamic> json) =>
       _$GetDifferencesOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetFileInput {
+  /// The fully qualified path to the file, including the full name and extension
+  /// of the file. For example, /examples/file.md is the fully qualified path to a
+  /// file named file.md in a folder named examples.
+  @_s.JsonKey(name: 'filePath')
+  final String filePath;
+
+  /// The name of the repository that contains the file.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// The fully quaified reference that identifies the commit that contains the
+  /// file. For example, you can specify a full commit ID, a tag, a branch name,
+  /// or a reference such as refs/heads/master. If none is provided, the head
+  /// commit is used.
+  @_s.JsonKey(name: 'commitSpecifier')
+  final String commitSpecifier;
+
+  GetFileInput({
+    @_s.required this.filePath,
+    @_s.required this.repositoryName,
+    this.commitSpecifier,
+  });
+  Map<String, dynamic> toJson() => _$GetFileInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7493,6 +8591,38 @@ class GetFileOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetFolderInput {
+  /// The fully qualified path to the folder whose contents are returned,
+  /// including the folder name. For example, /examples is a fully-qualified path
+  /// to a folder named examples that was created off of the root directory (/) of
+  /// a repository.
+  @_s.JsonKey(name: 'folderPath')
+  final String folderPath;
+
+  /// The name of the repository.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// A fully qualified reference used to identify a commit that contains the
+  /// version of the folder's content to return. A fully qualified reference can
+  /// be a commit ID, branch name, tag, or reference such as HEAD. If no specifier
+  /// is provided, the folder content is returned as it exists in the HEAD commit.
+  @_s.JsonKey(name: 'commitSpecifier')
+  final String commitSpecifier;
+
+  GetFolderInput({
+    @_s.required this.folderPath,
+    @_s.required this.repositoryName,
+    this.commitSpecifier,
+  });
+  Map<String, dynamic> toJson() => _$GetFolderInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetFolderOutput {
@@ -7543,6 +8673,52 @@ class GetFolderOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetMergeCommitInput {
+  /// The branch, tag, HEAD, or other fully qualified reference used to identify a
+  /// commit (for example, a branch name or a full commit ID).
+  @_s.JsonKey(name: 'destinationCommitSpecifier')
+  final String destinationCommitSpecifier;
+
+  /// The name of the repository that contains the merge commit about which you
+  /// want to get information.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// The branch, tag, HEAD, or other fully qualified reference used to identify a
+  /// commit (for example, a branch name or a full commit ID).
+  @_s.JsonKey(name: 'sourceCommitSpecifier')
+  final String sourceCommitSpecifier;
+
+  /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL
+  /// is used, which returns a not-mergeable result if the same file has
+  /// differences in both branches. If LINE_LEVEL is specified, a conflict is
+  /// considered not mergeable if the same file in both branches has differences
+  /// on the same line.
+  @_s.JsonKey(name: 'conflictDetailLevel')
+  final ConflictDetailLevelTypeEnum conflictDetailLevel;
+
+  /// Specifies which branch to use when resolving conflicts, or whether to
+  /// attempt automatically merging two versions of a file. The default is NONE,
+  /// which requires any conflicts to be resolved manually before the merge
+  /// operation is successful.
+  @_s.JsonKey(name: 'conflictResolutionStrategy')
+  final ConflictResolutionStrategyTypeEnum conflictResolutionStrategy;
+
+  GetMergeCommitInput({
+    @_s.required this.destinationCommitSpecifier,
+    @_s.required this.repositoryName,
+    @_s.required this.sourceCommitSpecifier,
+    this.conflictDetailLevel,
+    this.conflictResolutionStrategy,
+  });
+  Map<String, dynamic> toJson() => _$GetMergeCommitInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetMergeCommitOutput {
@@ -7574,6 +8750,67 @@ class GetMergeCommitOutput {
   });
   factory GetMergeCommitOutput.fromJson(Map<String, dynamic> json) =>
       _$GetMergeCommitOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetMergeConflictsInput {
+  /// The branch, tag, HEAD, or other fully qualified reference used to identify a
+  /// commit (for example, a branch name or a full commit ID).
+  @_s.JsonKey(name: 'destinationCommitSpecifier')
+  final String destinationCommitSpecifier;
+
+  /// The merge option or strategy you want to use to merge the code.
+  @_s.JsonKey(name: 'mergeOption')
+  final MergeOptionTypeEnum mergeOption;
+
+  /// The name of the repository where the pull request was created.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// The branch, tag, HEAD, or other fully qualified reference used to identify a
+  /// commit (for example, a branch name or a full commit ID).
+  @_s.JsonKey(name: 'sourceCommitSpecifier')
+  final String sourceCommitSpecifier;
+
+  /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL
+  /// is used, which returns a not-mergeable result if the same file has
+  /// differences in both branches. If LINE_LEVEL is specified, a conflict is
+  /// considered not mergeable if the same file in both branches has differences
+  /// on the same line.
+  @_s.JsonKey(name: 'conflictDetailLevel')
+  final ConflictDetailLevelTypeEnum conflictDetailLevel;
+
+  /// Specifies which branch to use when resolving conflicts, or whether to
+  /// attempt automatically merging two versions of a file. The default is NONE,
+  /// which requires any conflicts to be resolved manually before the merge
+  /// operation is successful.
+  @_s.JsonKey(name: 'conflictResolutionStrategy')
+  final ConflictResolutionStrategyTypeEnum conflictResolutionStrategy;
+
+  /// The maximum number of files to include in the output.
+  @_s.JsonKey(name: 'maxConflictFiles')
+  final int maxConflictFiles;
+
+  /// An enumeration token that, when provided in a request, returns the next
+  /// batch of the results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  GetMergeConflictsInput({
+    @_s.required this.destinationCommitSpecifier,
+    @_s.required this.mergeOption,
+    @_s.required this.repositoryName,
+    @_s.required this.sourceCommitSpecifier,
+    this.conflictDetailLevel,
+    this.conflictResolutionStrategy,
+    this.maxConflictFiles,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$GetMergeConflictsInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7626,6 +8863,52 @@ class GetMergeConflictsOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetMergeOptionsInput {
+  /// The branch, tag, HEAD, or other fully qualified reference used to identify a
+  /// commit (for example, a branch name or a full commit ID).
+  @_s.JsonKey(name: 'destinationCommitSpecifier')
+  final String destinationCommitSpecifier;
+
+  /// The name of the repository that contains the commits about which you want to
+  /// get merge options.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// The branch, tag, HEAD, or other fully qualified reference used to identify a
+  /// commit (for example, a branch name or a full commit ID).
+  @_s.JsonKey(name: 'sourceCommitSpecifier')
+  final String sourceCommitSpecifier;
+
+  /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL
+  /// is used, which returns a not-mergeable result if the same file has
+  /// differences in both branches. If LINE_LEVEL is specified, a conflict is
+  /// considered not mergeable if the same file in both branches has differences
+  /// on the same line.
+  @_s.JsonKey(name: 'conflictDetailLevel')
+  final ConflictDetailLevelTypeEnum conflictDetailLevel;
+
+  /// Specifies which branch to use when resolving conflicts, or whether to
+  /// attempt automatically merging two versions of a file. The default is NONE,
+  /// which requires any conflicts to be resolved manually before the merge
+  /// operation is successful.
+  @_s.JsonKey(name: 'conflictResolutionStrategy')
+  final ConflictResolutionStrategyTypeEnum conflictResolutionStrategy;
+
+  GetMergeOptionsInput({
+    @_s.required this.destinationCommitSpecifier,
+    @_s.required this.repositoryName,
+    @_s.required this.sourceCommitSpecifier,
+    this.conflictDetailLevel,
+    this.conflictResolutionStrategy,
+  });
+  Map<String, dynamic> toJson() => _$GetMergeOptionsInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetMergeOptionsOutput {
@@ -7660,6 +8943,28 @@ class GetMergeOptionsOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetPullRequestApprovalStatesInput {
+  /// The system-generated ID for the pull request.
+  @_s.JsonKey(name: 'pullRequestId')
+  final String pullRequestId;
+
+  /// The system-generated ID for the pull request revision.
+  @_s.JsonKey(name: 'revisionId')
+  final String revisionId;
+
+  GetPullRequestApprovalStatesInput({
+    @_s.required this.pullRequestId,
+    @_s.required this.revisionId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetPullRequestApprovalStatesInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetPullRequestApprovalStatesOutput {
@@ -7678,6 +8983,23 @@ class GetPullRequestApprovalStatesOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetPullRequestInput {
+  /// The system-generated ID of the pull request. To get this ID, use
+  /// <a>ListPullRequests</a>.
+  @_s.JsonKey(name: 'pullRequestId')
+  final String pullRequestId;
+
+  GetPullRequestInput({
+    @_s.required this.pullRequestId,
+  });
+  Map<String, dynamic> toJson() => _$GetPullRequestInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetPullRequestOutput {
@@ -7690,6 +9012,30 @@ class GetPullRequestOutput {
   });
   factory GetPullRequestOutput.fromJson(Map<String, dynamic> json) =>
       _$GetPullRequestOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetPullRequestOverrideStateInput {
+  /// The ID of the pull request for which you want to get information about
+  /// whether approval rules have been set aside (overridden).
+  @_s.JsonKey(name: 'pullRequestId')
+  final String pullRequestId;
+
+  /// The system-generated ID of the revision for the pull request. To retrieve
+  /// the most recent revision ID, use <a>GetPullRequest</a>.
+  @_s.JsonKey(name: 'revisionId')
+  final String revisionId;
+
+  GetPullRequestOverrideStateInput({
+    @_s.required this.pullRequestId,
+    @_s.required this.revisionId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetPullRequestOverrideStateInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7717,6 +9063,23 @@ class GetPullRequestOverrideStateOutput {
       _$GetPullRequestOverrideStateOutputFromJson(json);
 }
 
+/// Represents the input of a get repository operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetRepositoryInput {
+  /// The name of the repository to get information about.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  GetRepositoryInput({
+    @_s.required this.repositoryName,
+  });
+  Map<String, dynamic> toJson() => _$GetRepositoryInputToJson(this);
+}
+
 /// Represents the output of a get repository operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -7733,6 +9096,23 @@ class GetRepositoryOutput {
   });
   factory GetRepositoryOutput.fromJson(Map<String, dynamic> json) =>
       _$GetRepositoryOutputFromJson(json);
+}
+
+/// Represents the input of a get repository triggers operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetRepositoryTriggersInput {
+  /// The name of the repository for which the trigger is configured.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  GetRepositoryTriggersInput({
+    @_s.required this.repositoryName,
+  });
+  Map<String, dynamic> toJson() => _$GetRepositoryTriggersInputToJson(this);
 }
 
 /// Represents the output of a get repository triggers operation.
@@ -7793,6 +9173,29 @@ class IsBinaryFile {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListApprovalRuleTemplatesInput {
+  /// A non-zero, non-negative integer used to limit the number of returned
+  /// results.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// An enumeration token that, when provided in a request, returns the next
+  /// batch of the results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListApprovalRuleTemplatesInput({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListApprovalRuleTemplatesInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListApprovalRuleTemplatesOutput {
@@ -7817,6 +9220,36 @@ class ListApprovalRuleTemplatesOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListAssociatedApprovalRuleTemplatesForRepositoryInput {
+  /// The name of the repository for which you want to list all associated
+  /// approval rule templates.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// A non-zero, non-negative integer used to limit the number of returned
+  /// results.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// An enumeration token that, when provided in a request, returns the next
+  /// batch of the results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListAssociatedApprovalRuleTemplatesForRepositoryInput({
+    @_s.required this.repositoryName,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListAssociatedApprovalRuleTemplatesForRepositoryInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListAssociatedApprovalRuleTemplatesForRepositoryOutput {
@@ -7836,6 +9269,28 @@ class ListAssociatedApprovalRuleTemplatesForRepositoryOutput {
   factory ListAssociatedApprovalRuleTemplatesForRepositoryOutput.fromJson(
           Map<String, dynamic> json) =>
       _$ListAssociatedApprovalRuleTemplatesForRepositoryOutputFromJson(json);
+}
+
+/// Represents the input of a list branches operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListBranchesInput {
+  /// The name of the repository that contains the branches.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// An enumeration token that allows the operation to batch the results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListBranchesInput({
+    @_s.required this.repositoryName,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListBranchesInputToJson(this);
 }
 
 /// Represents the output of a list branches operation.
@@ -7864,6 +9319,47 @@ class ListBranchesOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListPullRequestsInput {
+  /// The name of the repository for which you want to list pull requests.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// Optional. The Amazon Resource Name (ARN) of the user who created the pull
+  /// request. If used, this filters the results to pull requests created by that
+  /// user.
+  @_s.JsonKey(name: 'authorArn')
+  final String authorArn;
+
+  /// A non-zero, non-negative integer used to limit the number of returned
+  /// results.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// An enumeration token that, when provided in a request, returns the next
+  /// batch of the results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// Optional. The status of the pull request. If used, this refines the results
+  /// to the pull requests that match the specified status.
+  @_s.JsonKey(name: 'pullRequestStatus')
+  final PullRequestStatusEnum pullRequestStatus;
+
+  ListPullRequestsInput({
+    @_s.required this.repositoryName,
+    this.authorArn,
+    this.maxResults,
+    this.nextToken,
+    this.pullRequestStatus,
+  });
+  Map<String, dynamic> toJson() => _$ListPullRequestsInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListPullRequestsOutput {
@@ -7882,6 +9378,36 @@ class ListPullRequestsOutput {
   });
   factory ListPullRequestsOutput.fromJson(Map<String, dynamic> json) =>
       _$ListPullRequestsOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListRepositoriesForApprovalRuleTemplateInput {
+  /// The name of the approval rule template for which you want to list
+  /// repositories that are associated with that template.
+  @_s.JsonKey(name: 'approvalRuleTemplateName')
+  final String approvalRuleTemplateName;
+
+  /// A non-zero, non-negative integer used to limit the number of returned
+  /// results.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// An enumeration token that, when provided in a request, returns the next
+  /// batch of the results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListRepositoriesForApprovalRuleTemplateInput({
+    @_s.required this.approvalRuleTemplateName,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListRepositoriesForApprovalRuleTemplateInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7909,6 +9435,36 @@ class ListRepositoriesForApprovalRuleTemplateOutput {
       _$ListRepositoriesForApprovalRuleTemplateOutputFromJson(json);
 }
 
+/// Represents the input of a list repositories operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListRepositoriesInput {
+  /// An enumeration token that allows the operation to batch the results of the
+  /// operation. Batch sizes are 1,000 for list repository operations. When the
+  /// client sends the token back to AWS CodeCommit, another page of 1,000 records
+  /// is retrieved.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The order in which to sort the results of a list repositories operation.
+  @_s.JsonKey(name: 'order')
+  final OrderEnum order;
+
+  /// The criteria used to sort the results of a list repositories operation.
+  @_s.JsonKey(name: 'sortBy')
+  final SortByEnum sortBy;
+
+  ListRepositoriesInput({
+    this.nextToken,
+    this.order,
+    this.sortBy,
+  });
+  Map<String, dynamic> toJson() => _$ListRepositoriesInputToJson(this);
+}
+
 /// Represents the output of a list repositories operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -7933,6 +9489,29 @@ class ListRepositoriesOutput {
   });
   factory ListRepositoriesOutput.fromJson(Map<String, dynamic> json) =>
       _$ListRepositoriesOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceInput {
+  /// The Amazon Resource Name (ARN) of the resource for which you want to get
+  /// information about tags, if any.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  /// An enumeration token that, when provided in a request, returns the next
+  /// batch of the results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListTagsForResourceInput({
+    @_s.required this.resourceArn,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7994,6 +9573,40 @@ class Location {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class MergeBranchesByFastForwardInput {
+  /// The branch, tag, HEAD, or other fully qualified reference used to identify a
+  /// commit (for example, a branch name or a full commit ID).
+  @_s.JsonKey(name: 'destinationCommitSpecifier')
+  final String destinationCommitSpecifier;
+
+  /// The name of the repository where you want to merge two branches.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// The branch, tag, HEAD, or other fully qualified reference used to identify a
+  /// commit (for example, a branch name or a full commit ID).
+  @_s.JsonKey(name: 'sourceCommitSpecifier')
+  final String sourceCommitSpecifier;
+
+  /// The branch where the merge is applied.
+  @_s.JsonKey(name: 'targetBranch')
+  final String targetBranch;
+
+  MergeBranchesByFastForwardInput({
+    @_s.required this.destinationCommitSpecifier,
+    @_s.required this.repositoryName,
+    @_s.required this.sourceCommitSpecifier,
+    this.targetBranch,
+  });
+  Map<String, dynamic> toJson() =>
+      _$MergeBranchesByFastForwardInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class MergeBranchesByFastForwardOutput {
@@ -8017,6 +9630,86 @@ class MergeBranchesByFastForwardOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class MergeBranchesBySquashInput {
+  /// The branch, tag, HEAD, or other fully qualified reference used to identify a
+  /// commit (for example, a branch name or a full commit ID).
+  @_s.JsonKey(name: 'destinationCommitSpecifier')
+  final String destinationCommitSpecifier;
+
+  /// The name of the repository where you want to merge two branches.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// The branch, tag, HEAD, or other fully qualified reference used to identify a
+  /// commit (for example, a branch name or a full commit ID).
+  @_s.JsonKey(name: 'sourceCommitSpecifier')
+  final String sourceCommitSpecifier;
+
+  /// The name of the author who created the commit. This information is used as
+  /// both the author and committer for the commit.
+  @_s.JsonKey(name: 'authorName')
+  final String authorName;
+
+  /// The commit message for the merge.
+  @_s.JsonKey(name: 'commitMessage')
+  final String commitMessage;
+
+  /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL
+  /// is used, which returns a not-mergeable result if the same file has
+  /// differences in both branches. If LINE_LEVEL is specified, a conflict is
+  /// considered not mergeable if the same file in both branches has differences
+  /// on the same line.
+  @_s.JsonKey(name: 'conflictDetailLevel')
+  final ConflictDetailLevelTypeEnum conflictDetailLevel;
+
+  /// If AUTOMERGE is the conflict resolution strategy, a list of inputs to use
+  /// when resolving conflicts during a merge.
+  @_s.JsonKey(name: 'conflictResolution')
+  final ConflictResolution conflictResolution;
+
+  /// Specifies which branch to use when resolving conflicts, or whether to
+  /// attempt automatically merging two versions of a file. The default is NONE,
+  /// which requires any conflicts to be resolved manually before the merge
+  /// operation is successful.
+  @_s.JsonKey(name: 'conflictResolutionStrategy')
+  final ConflictResolutionStrategyTypeEnum conflictResolutionStrategy;
+
+  /// The email address of the person merging the branches. This information is
+  /// used in the commit information for the merge.
+  @_s.JsonKey(name: 'email')
+  final String email;
+
+  /// If the commit contains deletions, whether to keep a folder or folder
+  /// structure if the changes leave the folders empty. If this is specified as
+  /// true, a .gitkeep file is created for empty folders. The default is false.
+  @_s.JsonKey(name: 'keepEmptyFolders')
+  final bool keepEmptyFolders;
+
+  /// The branch where the merge is applied.
+  @_s.JsonKey(name: 'targetBranch')
+  final String targetBranch;
+
+  MergeBranchesBySquashInput({
+    @_s.required this.destinationCommitSpecifier,
+    @_s.required this.repositoryName,
+    @_s.required this.sourceCommitSpecifier,
+    this.authorName,
+    this.commitMessage,
+    this.conflictDetailLevel,
+    this.conflictResolution,
+    this.conflictResolutionStrategy,
+    this.email,
+    this.keepEmptyFolders,
+    this.targetBranch,
+  });
+  Map<String, dynamic> toJson() => _$MergeBranchesBySquashInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class MergeBranchesBySquashOutput {
@@ -8034,6 +9727,86 @@ class MergeBranchesBySquashOutput {
   });
   factory MergeBranchesBySquashOutput.fromJson(Map<String, dynamic> json) =>
       _$MergeBranchesBySquashOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class MergeBranchesByThreeWayInput {
+  /// The branch, tag, HEAD, or other fully qualified reference used to identify a
+  /// commit (for example, a branch name or a full commit ID).
+  @_s.JsonKey(name: 'destinationCommitSpecifier')
+  final String destinationCommitSpecifier;
+
+  /// The name of the repository where you want to merge two branches.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// The branch, tag, HEAD, or other fully qualified reference used to identify a
+  /// commit (for example, a branch name or a full commit ID).
+  @_s.JsonKey(name: 'sourceCommitSpecifier')
+  final String sourceCommitSpecifier;
+
+  /// The name of the author who created the commit. This information is used as
+  /// both the author and committer for the commit.
+  @_s.JsonKey(name: 'authorName')
+  final String authorName;
+
+  /// The commit message to include in the commit information for the merge.
+  @_s.JsonKey(name: 'commitMessage')
+  final String commitMessage;
+
+  /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL
+  /// is used, which returns a not-mergeable result if the same file has
+  /// differences in both branches. If LINE_LEVEL is specified, a conflict is
+  /// considered not mergeable if the same file in both branches has differences
+  /// on the same line.
+  @_s.JsonKey(name: 'conflictDetailLevel')
+  final ConflictDetailLevelTypeEnum conflictDetailLevel;
+
+  /// If AUTOMERGE is the conflict resolution strategy, a list of inputs to use
+  /// when resolving conflicts during a merge.
+  @_s.JsonKey(name: 'conflictResolution')
+  final ConflictResolution conflictResolution;
+
+  /// Specifies which branch to use when resolving conflicts, or whether to
+  /// attempt automatically merging two versions of a file. The default is NONE,
+  /// which requires any conflicts to be resolved manually before the merge
+  /// operation is successful.
+  @_s.JsonKey(name: 'conflictResolutionStrategy')
+  final ConflictResolutionStrategyTypeEnum conflictResolutionStrategy;
+
+  /// The email address of the person merging the branches. This information is
+  /// used in the commit information for the merge.
+  @_s.JsonKey(name: 'email')
+  final String email;
+
+  /// If the commit contains deletions, whether to keep a folder or folder
+  /// structure if the changes leave the folders empty. If true, a .gitkeep file
+  /// is created for empty folders. The default is false.
+  @_s.JsonKey(name: 'keepEmptyFolders')
+  final bool keepEmptyFolders;
+
+  /// The branch where the merge is applied.
+  @_s.JsonKey(name: 'targetBranch')
+  final String targetBranch;
+
+  MergeBranchesByThreeWayInput({
+    @_s.required this.destinationCommitSpecifier,
+    @_s.required this.repositoryName,
+    @_s.required this.sourceCommitSpecifier,
+    this.authorName,
+    this.commitMessage,
+    this.conflictDetailLevel,
+    this.conflictResolution,
+    this.conflictResolutionStrategy,
+    this.email,
+    this.keepEmptyFolders,
+    this.targetBranch,
+  });
+  Map<String, dynamic> toJson() => _$MergeBranchesByThreeWayInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8194,18 +9967,35 @@ enum MergeOptionTypeEnum {
   threeWayMerge,
 }
 
-extension on MergeOptionTypeEnum {
-  String toValue() {
-    switch (this) {
-      case MergeOptionTypeEnum.fastForwardMerge:
-        return 'FAST_FORWARD_MERGE';
-      case MergeOptionTypeEnum.squashMerge:
-        return 'SQUASH_MERGE';
-      case MergeOptionTypeEnum.threeWayMerge:
-        return 'THREE_WAY_MERGE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class MergePullRequestByFastForwardInput {
+  /// The system-generated ID of the pull request. To get this ID, use
+  /// <a>ListPullRequests</a>.
+  @_s.JsonKey(name: 'pullRequestId')
+  final String pullRequestId;
+
+  /// The name of the repository where the pull request was created.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// The full commit ID of the original or updated commit in the pull request
+  /// source branch. Pass this value if you want an exception thrown if the
+  /// current commit ID of the tip of the source branch does not match this commit
+  /// ID.
+  @_s.JsonKey(name: 'sourceCommitId')
+  final String sourceCommitId;
+
+  MergePullRequestByFastForwardInput({
+    @_s.required this.pullRequestId,
+    @_s.required this.repositoryName,
+    this.sourceCommitId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$MergePullRequestByFastForwardInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8229,6 +10019,83 @@ class MergePullRequestByFastForwardOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class MergePullRequestBySquashInput {
+  /// The system-generated ID of the pull request. To get this ID, use
+  /// <a>ListPullRequests</a>.
+  @_s.JsonKey(name: 'pullRequestId')
+  final String pullRequestId;
+
+  /// The name of the repository where the pull request was created.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// The name of the author who created the commit. This information is used as
+  /// both the author and committer for the commit.
+  @_s.JsonKey(name: 'authorName')
+  final String authorName;
+
+  /// The commit message to include in the commit information for the merge.
+  @_s.JsonKey(name: 'commitMessage')
+  final String commitMessage;
+
+  /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL
+  /// is used, which returns a not-mergeable result if the same file has
+  /// differences in both branches. If LINE_LEVEL is specified, a conflict is
+  /// considered not mergeable if the same file in both branches has differences
+  /// on the same line.
+  @_s.JsonKey(name: 'conflictDetailLevel')
+  final ConflictDetailLevelTypeEnum conflictDetailLevel;
+
+  /// If AUTOMERGE is the conflict resolution strategy, a list of inputs to use
+  /// when resolving conflicts during a merge.
+  @_s.JsonKey(name: 'conflictResolution')
+  final ConflictResolution conflictResolution;
+
+  /// Specifies which branch to use when resolving conflicts, or whether to
+  /// attempt automatically merging two versions of a file. The default is NONE,
+  /// which requires any conflicts to be resolved manually before the merge
+  /// operation is successful.
+  @_s.JsonKey(name: 'conflictResolutionStrategy')
+  final ConflictResolutionStrategyTypeEnum conflictResolutionStrategy;
+
+  /// The email address of the person merging the branches. This information is
+  /// used in the commit information for the merge.
+  @_s.JsonKey(name: 'email')
+  final String email;
+
+  /// If the commit contains deletions, whether to keep a folder or folder
+  /// structure if the changes leave the folders empty. If true, a .gitkeep file
+  /// is created for empty folders. The default is false.
+  @_s.JsonKey(name: 'keepEmptyFolders')
+  final bool keepEmptyFolders;
+
+  /// The full commit ID of the original or updated commit in the pull request
+  /// source branch. Pass this value if you want an exception thrown if the
+  /// current commit ID of the tip of the source branch does not match this commit
+  /// ID.
+  @_s.JsonKey(name: 'sourceCommitId')
+  final String sourceCommitId;
+
+  MergePullRequestBySquashInput({
+    @_s.required this.pullRequestId,
+    @_s.required this.repositoryName,
+    this.authorName,
+    this.commitMessage,
+    this.conflictDetailLevel,
+    this.conflictResolution,
+    this.conflictResolutionStrategy,
+    this.email,
+    this.keepEmptyFolders,
+    this.sourceCommitId,
+  });
+  Map<String, dynamic> toJson() => _$MergePullRequestBySquashInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class MergePullRequestBySquashOutput {
@@ -8240,6 +10107,84 @@ class MergePullRequestBySquashOutput {
   });
   factory MergePullRequestBySquashOutput.fromJson(Map<String, dynamic> json) =>
       _$MergePullRequestBySquashOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class MergePullRequestByThreeWayInput {
+  /// The system-generated ID of the pull request. To get this ID, use
+  /// <a>ListPullRequests</a>.
+  @_s.JsonKey(name: 'pullRequestId')
+  final String pullRequestId;
+
+  /// The name of the repository where the pull request was created.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// The name of the author who created the commit. This information is used as
+  /// both the author and committer for the commit.
+  @_s.JsonKey(name: 'authorName')
+  final String authorName;
+
+  /// The commit message to include in the commit information for the merge.
+  @_s.JsonKey(name: 'commitMessage')
+  final String commitMessage;
+
+  /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL
+  /// is used, which returns a not-mergeable result if the same file has
+  /// differences in both branches. If LINE_LEVEL is specified, a conflict is
+  /// considered not mergeable if the same file in both branches has differences
+  /// on the same line.
+  @_s.JsonKey(name: 'conflictDetailLevel')
+  final ConflictDetailLevelTypeEnum conflictDetailLevel;
+
+  /// If AUTOMERGE is the conflict resolution strategy, a list of inputs to use
+  /// when resolving conflicts during a merge.
+  @_s.JsonKey(name: 'conflictResolution')
+  final ConflictResolution conflictResolution;
+
+  /// Specifies which branch to use when resolving conflicts, or whether to
+  /// attempt automatically merging two versions of a file. The default is NONE,
+  /// which requires any conflicts to be resolved manually before the merge
+  /// operation is successful.
+  @_s.JsonKey(name: 'conflictResolutionStrategy')
+  final ConflictResolutionStrategyTypeEnum conflictResolutionStrategy;
+
+  /// The email address of the person merging the branches. This information is
+  /// used in the commit information for the merge.
+  @_s.JsonKey(name: 'email')
+  final String email;
+
+  /// If the commit contains deletions, whether to keep a folder or folder
+  /// structure if the changes leave the folders empty. If true, a .gitkeep file
+  /// is created for empty folders. The default is false.
+  @_s.JsonKey(name: 'keepEmptyFolders')
+  final bool keepEmptyFolders;
+
+  /// The full commit ID of the original or updated commit in the pull request
+  /// source branch. Pass this value if you want an exception thrown if the
+  /// current commit ID of the tip of the source branch does not match this commit
+  /// ID.
+  @_s.JsonKey(name: 'sourceCommitId')
+  final String sourceCommitId;
+
+  MergePullRequestByThreeWayInput({
+    @_s.required this.pullRequestId,
+    @_s.required this.repositoryName,
+    this.authorName,
+    this.commitMessage,
+    this.conflictDetailLevel,
+    this.conflictResolution,
+    this.conflictResolutionStrategy,
+    this.email,
+    this.keepEmptyFolders,
+    this.sourceCommitId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$MergePullRequestByThreeWayInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8305,18 +10250,6 @@ enum OrderEnum {
   descending,
 }
 
-extension on OrderEnum {
-  String toValue() {
-    switch (this) {
-      case OrderEnum.ascending:
-        return 'ascending';
-      case OrderEnum.descending:
-        return 'descending';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Returns information about the template that created the approval rule for a
 /// pull request.
 @_s.JsonSerializable(
@@ -8341,6 +10274,39 @@ class OriginApprovalRuleTemplate {
       _$OriginApprovalRuleTemplateFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class OverridePullRequestApprovalRulesInput {
+  /// Whether you want to set aside approval rule requirements for the pull
+  /// request (OVERRIDE) or revoke a previous override and apply approval rule
+  /// requirements (REVOKE). REVOKE status is not stored.
+  @_s.JsonKey(name: 'overrideStatus')
+  final OverrideStatus overrideStatus;
+
+  /// The system-generated ID of the pull request for which you want to override
+  /// all approval rule requirements. To get this information, use
+  /// <a>GetPullRequest</a>.
+  @_s.JsonKey(name: 'pullRequestId')
+  final String pullRequestId;
+
+  /// The system-generated ID of the most recent revision of the pull request. You
+  /// cannot override approval rules for anything but the most recent revision of
+  /// a pull request. To get the revision ID, use GetPullRequest.
+  @_s.JsonKey(name: 'revisionId')
+  final String revisionId;
+
+  OverridePullRequestApprovalRulesInput({
+    @_s.required this.overrideStatus,
+    @_s.required this.pullRequestId,
+    @_s.required this.revisionId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$OverridePullRequestApprovalRulesInputToJson(this);
+}
+
 enum OverrideStatus {
   @_s.JsonValue('OVERRIDE')
   override,
@@ -8348,16 +10314,53 @@ enum OverrideStatus {
   revoke,
 }
 
-extension on OverrideStatus {
-  String toValue() {
-    switch (this) {
-      case OverrideStatus.override:
-        return 'OVERRIDE';
-      case OverrideStatus.revoke:
-        return 'REVOKE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PostCommentForComparedCommitInput {
+  /// To establish the directionality of the comparison, the full commit ID of the
+  /// after commit.
+  @_s.JsonKey(name: 'afterCommitId')
+  final String afterCommitId;
+
+  /// The content of the comment you want to make.
+  @_s.JsonKey(name: 'content')
+  final String content;
+
+  /// The name of the repository where you want to post a comment on the
+  /// comparison between commits.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// To establish the directionality of the comparison, the full commit ID of the
+  /// before commit. Required for commenting on any commit unless that commit is
+  /// the initial commit.
+  @_s.JsonKey(name: 'beforeCommitId')
+  final String beforeCommitId;
+
+  /// A unique, client-generated idempotency token that, when provided in a
+  /// request, ensures the request cannot be repeated with a changed parameter. If
+  /// a request is received with the same parameters and a token is included, the
+  /// request returns information about the initial request that used that token.
+  @_s.JsonKey(name: 'clientRequestToken')
+  final String clientRequestToken;
+
+  /// The location of the comparison where you want to comment.
+  @_s.JsonKey(name: 'location')
+  final Location location;
+
+  PostCommentForComparedCommitInput({
+    @_s.required this.afterCommitId,
+    @_s.required this.content,
+    @_s.required this.repositoryName,
+    this.beforeCommitId,
+    this.clientRequestToken,
+    this.location,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PostCommentForComparedCommitInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8414,6 +10417,61 @@ class PostCommentForComparedCommitOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PostCommentForPullRequestInput {
+  /// The full commit ID of the commit in the source branch that is the current
+  /// tip of the branch for the pull request when you post the comment.
+  @_s.JsonKey(name: 'afterCommitId')
+  final String afterCommitId;
+
+  /// The full commit ID of the commit in the destination branch that was the tip
+  /// of the branch at the time the pull request was created.
+  @_s.JsonKey(name: 'beforeCommitId')
+  final String beforeCommitId;
+
+  /// The content of your comment on the change.
+  @_s.JsonKey(name: 'content')
+  final String content;
+
+  /// The system-generated ID of the pull request. To get this ID, use
+  /// <a>ListPullRequests</a>.
+  @_s.JsonKey(name: 'pullRequestId')
+  final String pullRequestId;
+
+  /// The name of the repository where you want to post a comment on a pull
+  /// request.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// A unique, client-generated idempotency token that, when provided in a
+  /// request, ensures the request cannot be repeated with a changed parameter. If
+  /// a request is received with the same parameters and a token is included, the
+  /// request returns information about the initial request that used that token.
+  @_s.JsonKey(name: 'clientRequestToken')
+  final String clientRequestToken;
+
+  /// The location of the change where you want to post your comment. If no
+  /// location is provided, the comment is posted as a general comment on the pull
+  /// request difference between the before commit ID and the after commit ID.
+  @_s.JsonKey(name: 'location')
+  final Location location;
+
+  PostCommentForPullRequestInput({
+    @_s.required this.afterCommitId,
+    @_s.required this.beforeCommitId,
+    @_s.required this.content,
+    @_s.required this.pullRequestId,
+    @_s.required this.repositoryName,
+    this.clientRequestToken,
+    this.location,
+  });
+  Map<String, dynamic> toJson() => _$PostCommentForPullRequestInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PostCommentForPullRequestOutput {
@@ -8464,6 +10522,37 @@ class PostCommentForPullRequestOutput {
   });
   factory PostCommentForPullRequestOutput.fromJson(Map<String, dynamic> json) =>
       _$PostCommentForPullRequestOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PostCommentReplyInput {
+  /// The contents of your reply to a comment.
+  @_s.JsonKey(name: 'content')
+  final String content;
+
+  /// The system-generated ID of the comment to which you want to reply. To get
+  /// this ID, use <a>GetCommentsForComparedCommit</a> or
+  /// <a>GetCommentsForPullRequest</a>.
+  @_s.JsonKey(name: 'inReplyTo')
+  final String inReplyTo;
+
+  /// A unique, client-generated idempotency token that, when provided in a
+  /// request, ensures the request cannot be repeated with a changed parameter. If
+  /// a request is received with the same parameters and a token is included, the
+  /// request returns information about the initial request that used that token.
+  @_s.JsonKey(name: 'clientRequestToken')
+  final String clientRequestToken;
+
+  PostCommentReplyInput({
+    @_s.required this.content,
+    @_s.required this.inReplyTo,
+    this.clientRequestToken,
+  });
+  Map<String, dynamic> toJson() => _$PostCommentReplyInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8702,32 +10791,6 @@ enum PullRequestEventType {
   pullRequestApprovalStateChanged,
 }
 
-extension on PullRequestEventType {
-  String toValue() {
-    switch (this) {
-      case PullRequestEventType.pullRequestCreated:
-        return 'PULL_REQUEST_CREATED';
-      case PullRequestEventType.pullRequestStatusChanged:
-        return 'PULL_REQUEST_STATUS_CHANGED';
-      case PullRequestEventType.pullRequestSourceReferenceUpdated:
-        return 'PULL_REQUEST_SOURCE_REFERENCE_UPDATED';
-      case PullRequestEventType.pullRequestMergeStateChanged:
-        return 'PULL_REQUEST_MERGE_STATE_CHANGED';
-      case PullRequestEventType.pullRequestApprovalRuleCreated:
-        return 'PULL_REQUEST_APPROVAL_RULE_CREATED';
-      case PullRequestEventType.pullRequestApprovalRuleUpdated:
-        return 'PULL_REQUEST_APPROVAL_RULE_UPDATED';
-      case PullRequestEventType.pullRequestApprovalRuleDeleted:
-        return 'PULL_REQUEST_APPROVAL_RULE_DELETED';
-      case PullRequestEventType.pullRequestApprovalRuleOverridden:
-        return 'PULL_REQUEST_APPROVAL_RULE_OVERRIDDEN';
-      case PullRequestEventType.pullRequestApprovalStateChanged:
-        return 'PULL_REQUEST_APPROVAL_STATE_CHANGED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Returns information about the change in the merge state for a pull request
 /// event.
 @_s.JsonSerializable(
@@ -8819,18 +10882,6 @@ enum PullRequestStatusEnum {
   open,
   @_s.JsonValue('CLOSED')
   closed,
-}
-
-extension on PullRequestStatusEnum {
-  String toValue() {
-    switch (this) {
-      case PullRequestStatusEnum.open:
-        return 'OPEN';
-      case PullRequestStatusEnum.closed:
-        return 'CLOSED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Returns information about a pull request target.
@@ -8928,6 +10979,77 @@ class PutFileEntry {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutFileInput {
+  /// The name of the branch where you want to add or update the file. If this is
+  /// an empty repository, this branch is created.
+  @_s.JsonKey(name: 'branchName')
+  final String branchName;
+
+  /// The content of the file, in binary object format.
+  @Uint8ListConverter()
+  @_s.JsonKey(name: 'fileContent')
+  final Uint8List fileContent;
+
+  /// The name of the file you want to add or update, including the relative path
+  /// to the file in the repository.
+  /// <note>
+  /// If the path does not currently exist in the repository, the path is created
+  /// as part of adding the file.
+  /// </note>
+  @_s.JsonKey(name: 'filePath')
+  final String filePath;
+
+  /// The name of the repository where you want to add or update the file.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// A message about why this file was added or updated. Although it is optional,
+  /// a message makes the commit history for your repository more useful.
+  @_s.JsonKey(name: 'commitMessage')
+  final String commitMessage;
+
+  /// An email address for the person adding or updating the file.
+  @_s.JsonKey(name: 'email')
+  final String email;
+
+  /// The file mode permissions of the blob. Valid file mode permissions are
+  /// listed here.
+  @_s.JsonKey(name: 'fileMode')
+  final FileModeTypeEnum fileMode;
+
+  /// The name of the person adding or updating the file. Although it is optional,
+  /// a name makes the commit history for your repository more useful.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The full commit ID of the head commit in the branch where you want to add or
+  /// update the file. If this is an empty repository, no commit ID is required.
+  /// If this is not an empty repository, a commit ID is required.
+  ///
+  /// The commit ID must match the ID of the head commit at the time of the
+  /// operation. Otherwise, an error occurs, and the file is not added or updated.
+  @_s.JsonKey(name: 'parentCommitId')
+  final String parentCommitId;
+
+  PutFileInput({
+    @_s.required this.branchName,
+    @_s.required this.fileContent,
+    @_s.required this.filePath,
+    @_s.required this.repositoryName,
+    this.commitMessage,
+    this.email,
+    this.fileMode,
+    this.name,
+    this.parentCommitId,
+  });
+  Map<String, dynamic> toJson() => _$PutFileInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutFileOutput {
@@ -8951,6 +11073,28 @@ class PutFileOutput {
   });
   factory PutFileOutput.fromJson(Map<String, dynamic> json) =>
       _$PutFileOutputFromJson(json);
+}
+
+/// Represents the input of a put repository triggers operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutRepositoryTriggersInput {
+  /// The name of the repository where you want to create or update the trigger.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// The JSON block of configuration information for each trigger.
+  @_s.JsonKey(name: 'triggers')
+  final List<RepositoryTrigger> triggers;
+
+  PutRepositoryTriggersInput({
+    @_s.required this.repositoryName,
+    @_s.required this.triggers,
+  });
+  Map<String, dynamic> toJson() => _$PutRepositoryTriggersInputToJson(this);
 }
 
 /// Represents the output of a put repository triggers operation.
@@ -9231,18 +11375,6 @@ enum SortByEnum {
   lastModifiedDate,
 }
 
-extension on SortByEnum {
-  String toValue() {
-    switch (this) {
-      case SortByEnum.repositoryName:
-        return 'repositoryName';
-      case SortByEnum.lastModifiedDate:
-        return 'lastModifiedDate';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Information about a source file that is part of changes made in a commit.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -9330,6 +11462,28 @@ class SymbolicLink {
       _$SymbolicLinkFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceInput {
+  /// The Amazon Resource Name (ARN) of the resource to which you want to add or
+  /// update tags.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  /// The key-value pair to use when tagging this repository.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  TagResourceInput({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceInputToJson(this);
+}
+
 /// Returns information about a target for a pull request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -9357,6 +11511,28 @@ class Target {
     this.destinationReference,
   });
   Map<String, dynamic> toJson() => _$TargetToJson(this);
+}
+
+/// Represents the input of a test repository triggers operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TestRepositoryTriggersInput {
+  /// The name of the repository in which to test the triggers.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// The list of triggers to test.
+  @_s.JsonKey(name: 'triggers')
+  final List<RepositoryTrigger> triggers;
+
+  TestRepositoryTriggersInput({
+    @_s.required this.repositoryName,
+    @_s.required this.triggers,
+  });
+  Map<String, dynamic> toJson() => _$TestRepositoryTriggersInputToJson(this);
 }
 
 /// Represents the output of a test repository triggers operation.
@@ -9387,6 +11563,58 @@ class TestRepositoryTriggersOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceInput {
+  /// The Amazon Resource Name (ARN) of the resource to which you want to remove
+  /// tags.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  /// The tag key for each tag that you want to remove from the resource.
+  @_s.JsonKey(name: 'tagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceInput({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateApprovalRuleTemplateContentInput {
+  /// The name of the approval rule template where you want to update the content
+  /// of the rule.
+  @_s.JsonKey(name: 'approvalRuleTemplateName')
+  final String approvalRuleTemplateName;
+
+  /// The content that replaces the existing content of the rule. Content
+  /// statements must be complete. You cannot provide only the changes.
+  @_s.JsonKey(name: 'newRuleContent')
+  final String newRuleContent;
+
+  /// The SHA-256 hash signature for the content of the approval rule. You can
+  /// retrieve this information by using <a>GetPullRequest</a>.
+  @_s.JsonKey(name: 'existingRuleContentSha256')
+  final String existingRuleContentSha256;
+
+  UpdateApprovalRuleTemplateContentInput({
+    @_s.required this.approvalRuleTemplateName,
+    @_s.required this.newRuleContent,
+    this.existingRuleContentSha256,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateApprovalRuleTemplateContentInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateApprovalRuleTemplateContentOutput {
@@ -9399,6 +11627,28 @@ class UpdateApprovalRuleTemplateContentOutput {
   factory UpdateApprovalRuleTemplateContentOutput.fromJson(
           Map<String, dynamic> json) =>
       _$UpdateApprovalRuleTemplateContentOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateApprovalRuleTemplateDescriptionInput {
+  /// The updated description of the approval rule template.
+  @_s.JsonKey(name: 'approvalRuleTemplateDescription')
+  final String approvalRuleTemplateDescription;
+
+  /// The name of the template for which you want to update the description.
+  @_s.JsonKey(name: 'approvalRuleTemplateName')
+  final String approvalRuleTemplateName;
+
+  UpdateApprovalRuleTemplateDescriptionInput({
+    @_s.required this.approvalRuleTemplateDescription,
+    @_s.required this.approvalRuleTemplateName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateApprovalRuleTemplateDescriptionInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -9422,6 +11672,28 @@ class UpdateApprovalRuleTemplateDescriptionOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateApprovalRuleTemplateNameInput {
+  /// The new name you want to apply to the approval rule template.
+  @_s.JsonKey(name: 'newApprovalRuleTemplateName')
+  final String newApprovalRuleTemplateName;
+
+  /// The current name of the approval rule template.
+  @_s.JsonKey(name: 'oldApprovalRuleTemplateName')
+  final String oldApprovalRuleTemplateName;
+
+  UpdateApprovalRuleTemplateNameInput({
+    @_s.required this.newApprovalRuleTemplateName,
+    @_s.required this.oldApprovalRuleTemplateName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateApprovalRuleTemplateNameInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateApprovalRuleTemplateNameOutput {
@@ -9440,6 +11712,28 @@ class UpdateApprovalRuleTemplateNameOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateCommentInput {
+  /// The system-generated ID of the comment you want to update. To get this ID,
+  /// use <a>GetCommentsForComparedCommit</a> or <a>GetCommentsForPullRequest</a>.
+  @_s.JsonKey(name: 'commentId')
+  final String commentId;
+
+  /// The updated content to replace the existing content of the comment.
+  @_s.JsonKey(name: 'content')
+  final String content;
+
+  UpdateCommentInput({
+    @_s.required this.commentId,
+    @_s.required this.content,
+  });
+  Map<String, dynamic> toJson() => _$UpdateCommentInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateCommentOutput {
@@ -9452,6 +11746,98 @@ class UpdateCommentOutput {
   });
   factory UpdateCommentOutput.fromJson(Map<String, dynamic> json) =>
       _$UpdateCommentOutputFromJson(json);
+}
+
+/// Represents the input of an update default branch operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDefaultBranchInput {
+  /// The name of the branch to set as the default.
+  @_s.JsonKey(name: 'defaultBranchName')
+  final String defaultBranchName;
+
+  /// The name of the repository to set or change the default branch for.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  UpdateDefaultBranchInput({
+    @_s.required this.defaultBranchName,
+    @_s.required this.repositoryName,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDefaultBranchInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdatePullRequestApprovalRuleContentInput {
+  /// The name of the approval rule you want to update.
+  @_s.JsonKey(name: 'approvalRuleName')
+  final String approvalRuleName;
+
+  /// The updated content for the approval rule.
+  /// <note>
+  /// When you update the content of the approval rule, you can specify approvers
+  /// in an approval pool in one of two ways:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>CodeCommitApprovers</b>: This option only requires an AWS account and a
+  /// resource. It can be used for both IAM users and federated access users whose
+  /// name matches the provided resource name. This is a very powerful option that
+  /// offers a great deal of flexibility. For example, if you specify the AWS
+  /// account <i>123456789012</i> and <i>Mary_Major</i>, all of the following are
+  /// counted as approvals coming from that user:
+  ///
+  /// <ul>
+  /// <li>
+  /// An IAM user in the account
+  /// (arn:aws:iam::<i>123456789012</i>:user/<i>Mary_Major</i>)
+  /// </li>
+  /// <li>
+  /// A federated user identified in IAM as Mary_Major
+  /// (arn:aws:sts::<i>123456789012</i>:federated-user/<i>Mary_Major</i>)
+  /// </li>
+  /// </ul>
+  /// This option does not recognize an active session of someone assuming the
+  /// role of CodeCommitReview with a role session name of <i>Mary_Major</i>
+  /// (arn:aws:sts::<i>123456789012</i>:assumed-role/CodeCommitReview/<i>Mary_Major</i>)
+  /// unless you include a wildcard (*Mary_Major).
+  /// </li>
+  /// <li>
+  /// <b>Fully qualified ARN</b>: This option allows you to specify the fully
+  /// qualified Amazon Resource Name (ARN) of the IAM user or role.
+  /// </li>
+  /// </ul>
+  /// For more information about IAM ARNs, wildcards, and formats, see <a
+  /// href="https://docs.aws.amazon.com/iam/latest/UserGuide/reference_identifiers.html">IAM
+  /// Identifiers</a> in the <i>IAM User Guide</i>.
+  /// </note>
+  @_s.JsonKey(name: 'newRuleContent')
+  final String newRuleContent;
+
+  /// The system-generated ID of the pull request.
+  @_s.JsonKey(name: 'pullRequestId')
+  final String pullRequestId;
+
+  /// The SHA-256 hash signature for the content of the approval rule. You can
+  /// retrieve this information by using <a>GetPullRequest</a>.
+  @_s.JsonKey(name: 'existingRuleContentSha256')
+  final String existingRuleContentSha256;
+
+  UpdatePullRequestApprovalRuleContentInput({
+    @_s.required this.approvalRuleName,
+    @_s.required this.newRuleContent,
+    @_s.required this.pullRequestId,
+    this.existingRuleContentSha256,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdatePullRequestApprovalRuleContentInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -9475,6 +11861,57 @@ class UpdatePullRequestApprovalRuleContentOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdatePullRequestApprovalStateInput {
+  /// The approval state to associate with the user on the pull request.
+  @_s.JsonKey(name: 'approvalState')
+  final ApprovalState approvalState;
+
+  /// The system-generated ID of the pull request.
+  @_s.JsonKey(name: 'pullRequestId')
+  final String pullRequestId;
+
+  /// The system-generated ID of the revision.
+  @_s.JsonKey(name: 'revisionId')
+  final String revisionId;
+
+  UpdatePullRequestApprovalStateInput({
+    @_s.required this.approvalState,
+    @_s.required this.pullRequestId,
+    @_s.required this.revisionId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdatePullRequestApprovalStateInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdatePullRequestDescriptionInput {
+  /// The updated content of the description for the pull request. This content
+  /// replaces the existing description.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The system-generated ID of the pull request. To get this ID, use
+  /// <a>ListPullRequests</a>.
+  @_s.JsonKey(name: 'pullRequestId')
+  final String pullRequestId;
+
+  UpdatePullRequestDescriptionInput({
+    @_s.required this.description,
+    @_s.required this.pullRequestId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdatePullRequestDescriptionInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdatePullRequestDescriptionOutput {
@@ -9488,6 +11925,30 @@ class UpdatePullRequestDescriptionOutput {
   factory UpdatePullRequestDescriptionOutput.fromJson(
           Map<String, dynamic> json) =>
       _$UpdatePullRequestDescriptionOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdatePullRequestStatusInput {
+  /// The system-generated ID of the pull request. To get this ID, use
+  /// <a>ListPullRequests</a>.
+  @_s.JsonKey(name: 'pullRequestId')
+  final String pullRequestId;
+
+  /// The status of the pull request. The only valid operations are to update the
+  /// status from <code>OPEN</code> to <code>OPEN</code>, <code>OPEN</code> to
+  /// <code>CLOSED</code> or from <code>CLOSED</code> to <code>CLOSED</code>.
+  @_s.JsonKey(name: 'pullRequestStatus')
+  final PullRequestStatusEnum pullRequestStatus;
+
+  UpdatePullRequestStatusInput({
+    @_s.required this.pullRequestId,
+    @_s.required this.pullRequestStatus,
+  });
+  Map<String, dynamic> toJson() => _$UpdatePullRequestStatusInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -9510,6 +11971,28 @@ class UpdatePullRequestStatusOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdatePullRequestTitleInput {
+  /// The system-generated ID of the pull request. To get this ID, use
+  /// <a>ListPullRequests</a>.
+  @_s.JsonKey(name: 'pullRequestId')
+  final String pullRequestId;
+
+  /// The updated title of the pull request. This replaces the existing title.
+  @_s.JsonKey(name: 'title')
+  final String title;
+
+  UpdatePullRequestTitleInput({
+    @_s.required this.pullRequestId,
+    @_s.required this.title,
+  });
+  Map<String, dynamic> toJson() => _$UpdatePullRequestTitleInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdatePullRequestTitleOutput {
@@ -9522,6 +12005,52 @@ class UpdatePullRequestTitleOutput {
   });
   factory UpdatePullRequestTitleOutput.fromJson(Map<String, dynamic> json) =>
       _$UpdatePullRequestTitleOutputFromJson(json);
+}
+
+/// Represents the input of an update repository description operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateRepositoryDescriptionInput {
+  /// The name of the repository to set or change the comment or description for.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// The new comment or description for the specified repository. Repository
+  /// descriptions are limited to 1,000 characters.
+  @_s.JsonKey(name: 'repositoryDescription')
+  final String repositoryDescription;
+
+  UpdateRepositoryDescriptionInput({
+    @_s.required this.repositoryName,
+    this.repositoryDescription,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateRepositoryDescriptionInputToJson(this);
+}
+
+/// Represents the input of an update repository description operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateRepositoryNameInput {
+  /// The new name for the repository.
+  @_s.JsonKey(name: 'newName')
+  final String newName;
+
+  /// The current name of the repository.
+  @_s.JsonKey(name: 'oldName')
+  final String oldName;
+
+  UpdateRepositoryNameInput({
+    @_s.required this.newName,
+    @_s.required this.oldName,
+  });
+  Map<String, dynamic> toJson() => _$UpdateRepositoryNameInputToJson(this);
 }
 
 /// Information about the user who made a specified commit.

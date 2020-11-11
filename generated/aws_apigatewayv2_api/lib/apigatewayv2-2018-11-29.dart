@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -123,23 +122,20 @@ class ApiGatewayV2 {
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     ArgumentError.checkNotNull(protocolType, 'protocolType');
-    final $payload = <String, dynamic>{
-      'Name': name,
-      'ProtocolType': protocolType?.toValue(),
-      if (apiKeySelectionExpression != null)
-        'ApiKeySelectionExpression': apiKeySelectionExpression,
-      if (corsConfiguration != null) 'CorsConfiguration': corsConfiguration,
-      if (credentialsArn != null) 'CredentialsArn': credentialsArn,
-      if (description != null) 'Description': description,
-      if (disableSchemaValidation != null)
-        'DisableSchemaValidation': disableSchemaValidation,
-      if (routeKey != null) 'RouteKey': routeKey,
-      if (routeSelectionExpression != null)
-        'RouteSelectionExpression': routeSelectionExpression,
-      if (tags != null) 'Tags': tags,
-      if (target != null) 'Target': target,
-      if (version != null) 'Version': version,
-    };
+    final $payload = CreateApiRequest(
+      name: name,
+      protocolType: protocolType,
+      apiKeySelectionExpression: apiKeySelectionExpression,
+      corsConfiguration: corsConfiguration,
+      credentialsArn: credentialsArn,
+      description: description,
+      disableSchemaValidation: disableSchemaValidation,
+      routeKey: routeKey,
+      routeSelectionExpression: routeSelectionExpression,
+      tags: tags,
+      target: target,
+      version: version,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -176,11 +172,12 @@ class ApiGatewayV2 {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(domainName, 'domainName');
     ArgumentError.checkNotNull(stage, 'stage');
-    final $payload = <String, dynamic>{
-      'ApiId': apiId,
-      'Stage': stage,
-      if (apiMappingKey != null) 'ApiMappingKey': apiMappingKey,
-    };
+    final $payload = CreateApiMappingRequest(
+      apiId: apiId,
+      domainName: domainName,
+      stage: stage,
+      apiMappingKey: apiMappingKey,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -281,19 +278,17 @@ class ApiGatewayV2 {
       0,
       3600,
     );
-    final $payload = <String, dynamic>{
-      'AuthorizerType': authorizerType?.toValue(),
-      'IdentitySource': identitySource,
-      'Name': name,
-      if (authorizerCredentialsArn != null)
-        'AuthorizerCredentialsArn': authorizerCredentialsArn,
-      if (authorizerResultTtlInSeconds != null)
-        'AuthorizerResultTtlInSeconds': authorizerResultTtlInSeconds,
-      if (authorizerUri != null) 'AuthorizerUri': authorizerUri,
-      if (identityValidationExpression != null)
-        'IdentityValidationExpression': identityValidationExpression,
-      if (jwtConfiguration != null) 'JwtConfiguration': jwtConfiguration,
-    };
+    final $payload = CreateAuthorizerRequest(
+      apiId: apiId,
+      authorizerType: authorizerType,
+      identitySource: identitySource,
+      name: name,
+      authorizerCredentialsArn: authorizerCredentialsArn,
+      authorizerResultTtlInSeconds: authorizerResultTtlInSeconds,
+      authorizerUri: authorizerUri,
+      identityValidationExpression: identityValidationExpression,
+      jwtConfiguration: jwtConfiguration,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -325,10 +320,11 @@ class ApiGatewayV2 {
     String stageName,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
-    final $payload = <String, dynamic>{
-      if (description != null) 'Description': description,
-      if (stageName != null) 'StageName': stageName,
-    };
+    final $payload = CreateDeploymentRequest(
+      apiId: apiId,
+      description: description,
+      stageName: stageName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -361,12 +357,11 @@ class ApiGatewayV2 {
     Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    final $payload = <String, dynamic>{
-      'DomainName': domainName,
-      if (domainNameConfigurations != null)
-        'DomainNameConfigurations': domainNameConfigurations,
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = CreateDomainNameRequest(
+      domainName: domainName,
+      domainNameConfigurations: domainNameConfigurations,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -546,27 +541,24 @@ class ApiGatewayV2 {
       50,
       30000,
     );
-    final $payload = <String, dynamic>{
-      'IntegrationType': integrationType?.toValue(),
-      if (connectionId != null) 'ConnectionId': connectionId,
-      if (connectionType != null) 'ConnectionType': connectionType?.toValue(),
-      if (contentHandlingStrategy != null)
-        'ContentHandlingStrategy': contentHandlingStrategy?.toValue(),
-      if (credentialsArn != null) 'CredentialsArn': credentialsArn,
-      if (description != null) 'Description': description,
-      if (integrationMethod != null) 'IntegrationMethod': integrationMethod,
-      if (integrationUri != null) 'IntegrationUri': integrationUri,
-      if (passthroughBehavior != null)
-        'PassthroughBehavior': passthroughBehavior?.toValue(),
-      if (payloadFormatVersion != null)
-        'PayloadFormatVersion': payloadFormatVersion,
-      if (requestParameters != null) 'RequestParameters': requestParameters,
-      if (requestTemplates != null) 'RequestTemplates': requestTemplates,
-      if (templateSelectionExpression != null)
-        'TemplateSelectionExpression': templateSelectionExpression,
-      if (timeoutInMillis != null) 'TimeoutInMillis': timeoutInMillis,
-      if (tlsConfig != null) 'TlsConfig': tlsConfig,
-    };
+    final $payload = CreateIntegrationRequest(
+      apiId: apiId,
+      integrationType: integrationType,
+      connectionId: connectionId,
+      connectionType: connectionType,
+      contentHandlingStrategy: contentHandlingStrategy,
+      credentialsArn: credentialsArn,
+      description: description,
+      integrationMethod: integrationMethod,
+      integrationUri: integrationUri,
+      passthroughBehavior: passthroughBehavior,
+      payloadFormatVersion: payloadFormatVersion,
+      requestParameters: requestParameters,
+      requestTemplates: requestTemplates,
+      templateSelectionExpression: templateSelectionExpression,
+      timeoutInMillis: timeoutInMillis,
+      tlsConfig: tlsConfig,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -643,15 +635,15 @@ class ApiGatewayV2 {
     ArgumentError.checkNotNull(integrationId, 'integrationId');
     ArgumentError.checkNotNull(
         integrationResponseKey, 'integrationResponseKey');
-    final $payload = <String, dynamic>{
-      'IntegrationResponseKey': integrationResponseKey,
-      if (contentHandlingStrategy != null)
-        'ContentHandlingStrategy': contentHandlingStrategy?.toValue(),
-      if (responseParameters != null) 'ResponseParameters': responseParameters,
-      if (responseTemplates != null) 'ResponseTemplates': responseTemplates,
-      if (templateSelectionExpression != null)
-        'TemplateSelectionExpression': templateSelectionExpression,
-    };
+    final $payload = CreateIntegrationResponseRequest(
+      apiId: apiId,
+      integrationId: integrationId,
+      integrationResponseKey: integrationResponseKey,
+      contentHandlingStrategy: contentHandlingStrategy,
+      responseParameters: responseParameters,
+      responseTemplates: responseTemplates,
+      templateSelectionExpression: templateSelectionExpression,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -694,12 +686,13 @@ class ApiGatewayV2 {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(name, 'name');
     ArgumentError.checkNotNull(schema, 'schema');
-    final $payload = <String, dynamic>{
-      'Name': name,
-      'Schema': schema,
-      if (contentType != null) 'ContentType': contentType,
-      if (description != null) 'Description': description,
-    };
+    final $payload = CreateModelRequest(
+      apiId: apiId,
+      name: name,
+      schema: schema,
+      contentType: contentType,
+      description: description,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -775,23 +768,20 @@ class ApiGatewayV2 {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(routeKey, 'routeKey');
-    final $payload = <String, dynamic>{
-      'RouteKey': routeKey,
-      if (apiKeyRequired != null) 'ApiKeyRequired': apiKeyRequired,
-      if (authorizationScopes != null)
-        'AuthorizationScopes': authorizationScopes,
-      if (authorizationType != null)
-        'AuthorizationType': authorizationType?.toValue(),
-      if (authorizerId != null) 'AuthorizerId': authorizerId,
-      if (modelSelectionExpression != null)
-        'ModelSelectionExpression': modelSelectionExpression,
-      if (operationName != null) 'OperationName': operationName,
-      if (requestModels != null) 'RequestModels': requestModels,
-      if (requestParameters != null) 'RequestParameters': requestParameters,
-      if (routeResponseSelectionExpression != null)
-        'RouteResponseSelectionExpression': routeResponseSelectionExpression,
-      if (target != null) 'Target': target,
-    };
+    final $payload = CreateRouteRequest(
+      apiId: apiId,
+      routeKey: routeKey,
+      apiKeyRequired: apiKeyRequired,
+      authorizationScopes: authorizationScopes,
+      authorizationType: authorizationType,
+      authorizerId: authorizerId,
+      modelSelectionExpression: modelSelectionExpression,
+      operationName: operationName,
+      requestModels: requestModels,
+      requestParameters: requestParameters,
+      routeResponseSelectionExpression: routeResponseSelectionExpression,
+      target: target,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -837,13 +827,14 @@ class ApiGatewayV2 {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(routeId, 'routeId');
     ArgumentError.checkNotNull(routeResponseKey, 'routeResponseKey');
-    final $payload = <String, dynamic>{
-      'RouteResponseKey': routeResponseKey,
-      if (modelSelectionExpression != null)
-        'ModelSelectionExpression': modelSelectionExpression,
-      if (responseModels != null) 'ResponseModels': responseModels,
-      if (responseParameters != null) 'ResponseParameters': responseParameters,
-    };
+    final $payload = CreateRouteResponseRequest(
+      apiId: apiId,
+      routeId: routeId,
+      routeResponseKey: routeResponseKey,
+      modelSelectionExpression: modelSelectionExpression,
+      responseModels: responseModels,
+      responseParameters: responseParameters,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -913,20 +904,19 @@ class ApiGatewayV2 {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(stageName, 'stageName');
-    final $payload = <String, dynamic>{
-      'StageName': stageName,
-      if (accessLogSettings != null) 'AccessLogSettings': accessLogSettings,
-      if (autoDeploy != null) 'AutoDeploy': autoDeploy,
-      if (clientCertificateId != null)
-        'ClientCertificateId': clientCertificateId,
-      if (defaultRouteSettings != null)
-        'DefaultRouteSettings': defaultRouteSettings,
-      if (deploymentId != null) 'DeploymentId': deploymentId,
-      if (description != null) 'Description': description,
-      if (routeSettings != null) 'RouteSettings': routeSettings,
-      if (stageVariables != null) 'StageVariables': stageVariables,
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = CreateStageRequest(
+      apiId: apiId,
+      stageName: stageName,
+      accessLogSettings: accessLogSettings,
+      autoDeploy: autoDeploy,
+      clientCertificateId: clientCertificateId,
+      defaultRouteSettings: defaultRouteSettings,
+      deploymentId: deploymentId,
+      description: description,
+      routeSettings: routeSettings,
+      stageVariables: stageVariables,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -960,12 +950,12 @@ class ApiGatewayV2 {
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     ArgumentError.checkNotNull(subnetIds, 'subnetIds');
-    final $payload = <String, dynamic>{
-      'Name': name,
-      'SubnetIds': subnetIds,
-      if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = CreateVpcLinkRequest(
+      name: name,
+      subnetIds: subnetIds,
+      securityGroupIds: securityGroupIds,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -993,7 +983,10 @@ class ApiGatewayV2 {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(stageName, 'stageName');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteAccessLogSettingsRequest(
+      apiId: apiId,
+      stageName: stageName,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1014,7 +1007,9 @@ class ApiGatewayV2 {
     @_s.required String apiId,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteApiRequest(
+      apiId: apiId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1040,7 +1035,10 @@ class ApiGatewayV2 {
   }) async {
     ArgumentError.checkNotNull(apiMappingId, 'apiMappingId');
     ArgumentError.checkNotNull(domainName, 'domainName');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteApiMappingRequest(
+      apiMappingId: apiMappingId,
+      domainName: domainName,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1066,7 +1064,10 @@ class ApiGatewayV2 {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(authorizerId, 'authorizerId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteAuthorizerRequest(
+      apiId: apiId,
+      authorizerId: authorizerId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1087,7 +1088,9 @@ class ApiGatewayV2 {
     @_s.required String apiId,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteCorsConfigurationRequest(
+      apiId: apiId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1112,7 +1115,10 @@ class ApiGatewayV2 {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(deploymentId, 'deploymentId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteDeploymentRequest(
+      apiId: apiId,
+      deploymentId: deploymentId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1133,7 +1139,9 @@ class ApiGatewayV2 {
     @_s.required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteDomainNameRequest(
+      domainName: domainName,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1159,7 +1167,10 @@ class ApiGatewayV2 {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(integrationId, 'integrationId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteIntegrationRequest(
+      apiId: apiId,
+      integrationId: integrationId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1190,7 +1201,11 @@ class ApiGatewayV2 {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(integrationId, 'integrationId');
     ArgumentError.checkNotNull(integrationResponseId, 'integrationResponseId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteIntegrationResponseRequest(
+      apiId: apiId,
+      integrationId: integrationId,
+      integrationResponseId: integrationResponseId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1216,7 +1231,10 @@ class ApiGatewayV2 {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(modelId, 'modelId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteModelRequest(
+      apiId: apiId,
+      modelId: modelId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1242,7 +1260,10 @@ class ApiGatewayV2 {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(routeId, 'routeId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteRouteRequest(
+      apiId: apiId,
+      routeId: routeId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1273,7 +1294,11 @@ class ApiGatewayV2 {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(requestParameterKey, 'requestParameterKey');
     ArgumentError.checkNotNull(routeId, 'routeId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteRouteRequestParameterRequest(
+      apiId: apiId,
+      requestParameterKey: requestParameterKey,
+      routeId: routeId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1304,7 +1329,11 @@ class ApiGatewayV2 {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(routeId, 'routeId');
     ArgumentError.checkNotNull(routeResponseId, 'routeResponseId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteRouteResponseRequest(
+      apiId: apiId,
+      routeId: routeId,
+      routeResponseId: routeResponseId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1336,7 +1365,11 @@ class ApiGatewayV2 {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(routeKey, 'routeKey');
     ArgumentError.checkNotNull(stageName, 'stageName');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteRouteSettingsRequest(
+      apiId: apiId,
+      routeKey: routeKey,
+      stageName: stageName,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1363,7 +1396,10 @@ class ApiGatewayV2 {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(stageName, 'stageName');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteStageRequest(
+      apiId: apiId,
+      stageName: stageName,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1384,7 +1420,9 @@ class ApiGatewayV2 {
     @_s.required String vpcLinkId,
   }) async {
     ArgumentError.checkNotNull(vpcLinkId, 'vpcLinkId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteVpcLinkRequest(
+      vpcLinkId: vpcLinkId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -2264,9 +2302,11 @@ class ApiGatewayV2 {
       if (failOnWarnings != null)
         _s.toQueryParam('failOnWarnings', failOnWarnings),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{
-      'Body': body,
-    };
+    final $payload = ImportApiRequest(
+      body: body,
+      basepath: basepath,
+      failOnWarnings: failOnWarnings,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -2314,9 +2354,12 @@ class ApiGatewayV2 {
       if (failOnWarnings != null)
         _s.toQueryParam('failOnWarnings', failOnWarnings),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{
-      'Body': body,
-    };
+    final $payload = ReimportApiRequest(
+      apiId: apiId,
+      body: body,
+      basepath: basepath,
+      failOnWarnings: failOnWarnings,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -2344,9 +2387,10 @@ class ApiGatewayV2 {
     Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    final $payload = <String, dynamic>{
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = TagResourceRequest(
+      resourceArn: resourceArn,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2378,7 +2422,10 @@ class ApiGatewayV2 {
     _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = UntagResourceRequest(
+      resourceArn: resourceArn,
+      tagKeys: tagKeys,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -2463,21 +2510,19 @@ class ApiGatewayV2 {
     String version,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
-    final $payload = <String, dynamic>{
-      if (apiKeySelectionExpression != null)
-        'ApiKeySelectionExpression': apiKeySelectionExpression,
-      if (corsConfiguration != null) 'CorsConfiguration': corsConfiguration,
-      if (credentialsArn != null) 'CredentialsArn': credentialsArn,
-      if (description != null) 'Description': description,
-      if (disableSchemaValidation != null)
-        'DisableSchemaValidation': disableSchemaValidation,
-      if (name != null) 'Name': name,
-      if (routeKey != null) 'RouteKey': routeKey,
-      if (routeSelectionExpression != null)
-        'RouteSelectionExpression': routeSelectionExpression,
-      if (target != null) 'Target': target,
-      if (version != null) 'Version': version,
-    };
+    final $payload = UpdateApiRequest(
+      apiId: apiId,
+      apiKeySelectionExpression: apiKeySelectionExpression,
+      corsConfiguration: corsConfiguration,
+      credentialsArn: credentialsArn,
+      description: description,
+      disableSchemaValidation: disableSchemaValidation,
+      name: name,
+      routeKey: routeKey,
+      routeSelectionExpression: routeSelectionExpression,
+      target: target,
+      version: version,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -2518,11 +2563,13 @@ class ApiGatewayV2 {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(apiMappingId, 'apiMappingId');
     ArgumentError.checkNotNull(domainName, 'domainName');
-    final $payload = <String, dynamic>{
-      'ApiId': apiId,
-      if (apiMappingKey != null) 'ApiMappingKey': apiMappingKey,
-      if (stage != null) 'Stage': stage,
-    };
+    final $payload = UpdateApiMappingRequest(
+      apiId: apiId,
+      apiMappingId: apiMappingId,
+      domainName: domainName,
+      apiMappingKey: apiMappingKey,
+      stage: stage,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -2624,19 +2671,18 @@ class ApiGatewayV2 {
       0,
       3600,
     );
-    final $payload = <String, dynamic>{
-      if (authorizerCredentialsArn != null)
-        'AuthorizerCredentialsArn': authorizerCredentialsArn,
-      if (authorizerResultTtlInSeconds != null)
-        'AuthorizerResultTtlInSeconds': authorizerResultTtlInSeconds,
-      if (authorizerType != null) 'AuthorizerType': authorizerType?.toValue(),
-      if (authorizerUri != null) 'AuthorizerUri': authorizerUri,
-      if (identitySource != null) 'IdentitySource': identitySource,
-      if (identityValidationExpression != null)
-        'IdentityValidationExpression': identityValidationExpression,
-      if (jwtConfiguration != null) 'JwtConfiguration': jwtConfiguration,
-      if (name != null) 'Name': name,
-    };
+    final $payload = UpdateAuthorizerRequest(
+      apiId: apiId,
+      authorizerId: authorizerId,
+      authorizerCredentialsArn: authorizerCredentialsArn,
+      authorizerResultTtlInSeconds: authorizerResultTtlInSeconds,
+      authorizerType: authorizerType,
+      authorizerUri: authorizerUri,
+      identitySource: identitySource,
+      identityValidationExpression: identityValidationExpression,
+      jwtConfiguration: jwtConfiguration,
+      name: name,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -2669,9 +2715,11 @@ class ApiGatewayV2 {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(deploymentId, 'deploymentId');
-    final $payload = <String, dynamic>{
-      if (description != null) 'Description': description,
-    };
+    final $payload = UpdateDeploymentRequest(
+      apiId: apiId,
+      deploymentId: deploymentId,
+      description: description,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -2699,10 +2747,10 @@ class ApiGatewayV2 {
     List<DomainNameConfiguration> domainNameConfigurations,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    final $payload = <String, dynamic>{
-      if (domainNameConfigurations != null)
-        'DomainNameConfigurations': domainNameConfigurations,
-    };
+    final $payload = UpdateDomainNameRequest(
+      domainName: domainName,
+      domainNameConfigurations: domainNameConfigurations,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -2887,28 +2935,25 @@ class ApiGatewayV2 {
       50,
       30000,
     );
-    final $payload = <String, dynamic>{
-      if (connectionId != null) 'ConnectionId': connectionId,
-      if (connectionType != null) 'ConnectionType': connectionType?.toValue(),
-      if (contentHandlingStrategy != null)
-        'ContentHandlingStrategy': contentHandlingStrategy?.toValue(),
-      if (credentialsArn != null) 'CredentialsArn': credentialsArn,
-      if (description != null) 'Description': description,
-      if (integrationMethod != null) 'IntegrationMethod': integrationMethod,
-      if (integrationType != null)
-        'IntegrationType': integrationType?.toValue(),
-      if (integrationUri != null) 'IntegrationUri': integrationUri,
-      if (passthroughBehavior != null)
-        'PassthroughBehavior': passthroughBehavior?.toValue(),
-      if (payloadFormatVersion != null)
-        'PayloadFormatVersion': payloadFormatVersion,
-      if (requestParameters != null) 'RequestParameters': requestParameters,
-      if (requestTemplates != null) 'RequestTemplates': requestTemplates,
-      if (templateSelectionExpression != null)
-        'TemplateSelectionExpression': templateSelectionExpression,
-      if (timeoutInMillis != null) 'TimeoutInMillis': timeoutInMillis,
-      if (tlsConfig != null) 'TlsConfig': tlsConfig,
-    };
+    final $payload = UpdateIntegrationRequest(
+      apiId: apiId,
+      integrationId: integrationId,
+      connectionId: connectionId,
+      connectionType: connectionType,
+      contentHandlingStrategy: contentHandlingStrategy,
+      credentialsArn: credentialsArn,
+      description: description,
+      integrationMethod: integrationMethod,
+      integrationType: integrationType,
+      integrationUri: integrationUri,
+      passthroughBehavior: passthroughBehavior,
+      payloadFormatVersion: payloadFormatVersion,
+      requestParameters: requestParameters,
+      requestTemplates: requestTemplates,
+      templateSelectionExpression: templateSelectionExpression,
+      timeoutInMillis: timeoutInMillis,
+      tlsConfig: tlsConfig,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -2992,16 +3037,16 @@ class ApiGatewayV2 {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(integrationId, 'integrationId');
     ArgumentError.checkNotNull(integrationResponseId, 'integrationResponseId');
-    final $payload = <String, dynamic>{
-      if (contentHandlingStrategy != null)
-        'ContentHandlingStrategy': contentHandlingStrategy?.toValue(),
-      if (integrationResponseKey != null)
-        'IntegrationResponseKey': integrationResponseKey,
-      if (responseParameters != null) 'ResponseParameters': responseParameters,
-      if (responseTemplates != null) 'ResponseTemplates': responseTemplates,
-      if (templateSelectionExpression != null)
-        'TemplateSelectionExpression': templateSelectionExpression,
-    };
+    final $payload = UpdateIntegrationResponseRequest(
+      apiId: apiId,
+      integrationId: integrationId,
+      integrationResponseId: integrationResponseId,
+      contentHandlingStrategy: contentHandlingStrategy,
+      integrationResponseKey: integrationResponseKey,
+      responseParameters: responseParameters,
+      responseTemplates: responseTemplates,
+      templateSelectionExpression: templateSelectionExpression,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -3047,12 +3092,14 @@ class ApiGatewayV2 {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(modelId, 'modelId');
-    final $payload = <String, dynamic>{
-      if (contentType != null) 'ContentType': contentType,
-      if (description != null) 'Description': description,
-      if (name != null) 'Name': name,
-      if (schema != null) 'Schema': schema,
-    };
+    final $payload = UpdateModelRequest(
+      apiId: apiId,
+      modelId: modelId,
+      contentType: contentType,
+      description: description,
+      name: name,
+      schema: schema,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -3133,23 +3180,21 @@ class ApiGatewayV2 {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(routeId, 'routeId');
-    final $payload = <String, dynamic>{
-      if (apiKeyRequired != null) 'ApiKeyRequired': apiKeyRequired,
-      if (authorizationScopes != null)
-        'AuthorizationScopes': authorizationScopes,
-      if (authorizationType != null)
-        'AuthorizationType': authorizationType?.toValue(),
-      if (authorizerId != null) 'AuthorizerId': authorizerId,
-      if (modelSelectionExpression != null)
-        'ModelSelectionExpression': modelSelectionExpression,
-      if (operationName != null) 'OperationName': operationName,
-      if (requestModels != null) 'RequestModels': requestModels,
-      if (requestParameters != null) 'RequestParameters': requestParameters,
-      if (routeKey != null) 'RouteKey': routeKey,
-      if (routeResponseSelectionExpression != null)
-        'RouteResponseSelectionExpression': routeResponseSelectionExpression,
-      if (target != null) 'Target': target,
-    };
+    final $payload = UpdateRouteRequest(
+      apiId: apiId,
+      routeId: routeId,
+      apiKeyRequired: apiKeyRequired,
+      authorizationScopes: authorizationScopes,
+      authorizationType: authorizationType,
+      authorizerId: authorizerId,
+      modelSelectionExpression: modelSelectionExpression,
+      operationName: operationName,
+      requestModels: requestModels,
+      requestParameters: requestParameters,
+      routeKey: routeKey,
+      routeResponseSelectionExpression: routeResponseSelectionExpression,
+      target: target,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -3200,13 +3245,15 @@ class ApiGatewayV2 {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(routeId, 'routeId');
     ArgumentError.checkNotNull(routeResponseId, 'routeResponseId');
-    final $payload = <String, dynamic>{
-      if (modelSelectionExpression != null)
-        'ModelSelectionExpression': modelSelectionExpression,
-      if (responseModels != null) 'ResponseModels': responseModels,
-      if (responseParameters != null) 'ResponseParameters': responseParameters,
-      if (routeResponseKey != null) 'RouteResponseKey': routeResponseKey,
-    };
+    final $payload = UpdateRouteResponseRequest(
+      apiId: apiId,
+      routeId: routeId,
+      routeResponseId: routeResponseId,
+      modelSelectionExpression: modelSelectionExpression,
+      responseModels: responseModels,
+      responseParameters: responseParameters,
+      routeResponseKey: routeResponseKey,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -3272,18 +3319,18 @@ class ApiGatewayV2 {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(stageName, 'stageName');
-    final $payload = <String, dynamic>{
-      if (accessLogSettings != null) 'AccessLogSettings': accessLogSettings,
-      if (autoDeploy != null) 'AutoDeploy': autoDeploy,
-      if (clientCertificateId != null)
-        'ClientCertificateId': clientCertificateId,
-      if (defaultRouteSettings != null)
-        'DefaultRouteSettings': defaultRouteSettings,
-      if (deploymentId != null) 'DeploymentId': deploymentId,
-      if (description != null) 'Description': description,
-      if (routeSettings != null) 'RouteSettings': routeSettings,
-      if (stageVariables != null) 'StageVariables': stageVariables,
-    };
+    final $payload = UpdateStageRequest(
+      apiId: apiId,
+      stageName: stageName,
+      accessLogSettings: accessLogSettings,
+      autoDeploy: autoDeploy,
+      clientCertificateId: clientCertificateId,
+      defaultRouteSettings: defaultRouteSettings,
+      deploymentId: deploymentId,
+      description: description,
+      routeSettings: routeSettings,
+      stageVariables: stageVariables,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -3310,9 +3357,10 @@ class ApiGatewayV2 {
     String name,
   }) async {
     ArgumentError.checkNotNull(vpcLinkId, 'vpcLinkId');
-    final $payload = <String, dynamic>{
-      if (name != null) 'Name': name,
-    };
+    final $payload = UpdateVpcLinkRequest(
+      vpcLinkId: vpcLinkId,
+      name: name,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -3491,22 +3539,6 @@ enum AuthorizationType {
   jwt,
 }
 
-extension on AuthorizationType {
-  String toValue() {
-    switch (this) {
-      case AuthorizationType.none:
-        return 'NONE';
-      case AuthorizationType.awsIam:
-        return 'AWS_IAM';
-      case AuthorizationType.custom:
-        return 'CUSTOM';
-      case AuthorizationType.jwt:
-        return 'JWT';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Represents an authorizer.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3609,36 +3641,12 @@ enum AuthorizerType {
   jwt,
 }
 
-extension on AuthorizerType {
-  String toValue() {
-    switch (this) {
-      case AuthorizerType.request:
-        return 'REQUEST';
-      case AuthorizerType.jwt:
-        return 'JWT';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Represents a connection type.
 enum ConnectionType {
   @_s.JsonValue('INTERNET')
   internet,
   @_s.JsonValue('VPC_LINK')
   vpcLink,
-}
-
-extension on ConnectionType {
-  String toValue() {
-    switch (this) {
-      case ConnectionType.internet:
-        return 'INTERNET';
-      case ConnectionType.vpcLink:
-        return 'VPC_LINK';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Specifies how to handle response payload content type conversions. Supported
@@ -3648,18 +3656,6 @@ enum ContentHandlingStrategy {
   convertToBinary,
   @_s.JsonValue('CONVERT_TO_TEXT')
   convertToText,
-}
-
-extension on ContentHandlingStrategy {
-  String toValue() {
-    switch (this) {
-      case ContentHandlingStrategy.convertToBinary:
-        return 'CONVERT_TO_BINARY';
-      case ContentHandlingStrategy.convertToText:
-        return 'CONVERT_TO_TEXT';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Represents a CORS configuration. Supported only for HTTP APIs. See <a
@@ -3711,6 +3707,38 @@ class Cors {
   Map<String, dynamic> toJson() => _$CorsToJson(this);
 }
 
+/// Creates a new ApiMapping resource to represent an API mapping.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateApiMappingRequest {
+  /// The API identifier.
+  @_s.JsonKey(name: 'apiId')
+  final String apiId;
+
+  /// The domain name.
+  @_s.JsonKey(name: 'domainName', ignore: true)
+  final String domainName;
+
+  /// The API stage.
+  @_s.JsonKey(name: 'stage')
+  final String stage;
+
+  /// The API mapping key.
+  @_s.JsonKey(name: 'apiMappingKey')
+  final String apiMappingKey;
+
+  CreateApiMappingRequest({
+    @_s.required this.apiId,
+    @_s.required this.domainName,
+    @_s.required this.stage,
+    this.apiMappingKey,
+  });
+  Map<String, dynamic> toJson() => _$CreateApiMappingRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3741,6 +3769,104 @@ class CreateApiMappingResponse {
   });
   factory CreateApiMappingResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateApiMappingResponseFromJson(json);
+}
+
+/// Creates a new Api resource to represent an API.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateApiRequest {
+  /// The name of the API.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The API protocol.
+  @_s.JsonKey(name: 'protocolType')
+  final ProtocolType protocolType;
+
+  /// An API key selection expression. Supported only for WebSocket APIs. See <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api-selection-expressions.html#apigateway-websocket-api-apikey-selection-expressions">API
+  /// Key Selection Expressions</a>.
+  @_s.JsonKey(name: 'apiKeySelectionExpression')
+  final String apiKeySelectionExpression;
+
+  /// A CORS configuration. Supported only for HTTP APIs. See <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-cors.html">Configuring
+  /// CORS</a> for more information.
+  @_s.JsonKey(name: 'corsConfiguration')
+  final Cors corsConfiguration;
+
+  /// This property is part of quick create. It specifies the credentials required
+  /// for the integration, if any. For a Lambda integration, three options are
+  /// available. To specify an IAM Role for API Gateway to assume, use the role's
+  /// Amazon Resource Name (ARN). To require that the caller's identity be passed
+  /// through from the request, specify arn:aws:iam::*:user/*. To use
+  /// resource-based permissions on supported AWS services, specify null.
+  /// Currently, this property is not used for HTTP integrations. Supported only
+  /// for HTTP APIs.
+  @_s.JsonKey(name: 'credentialsArn')
+  final String credentialsArn;
+
+  /// The description of the API.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// Avoid validating models when creating a deployment. Supported only for
+  /// WebSocket APIs.
+  @_s.JsonKey(name: 'disableSchemaValidation')
+  final bool disableSchemaValidation;
+
+  /// This property is part of quick create. If you don't specify a routeKey, a
+  /// default route of $default is created. The $default route acts as a catch-all
+  /// for any request made to your API, for a particular stage. The $default route
+  /// key can't be modified. You can add routes after creating the API, and you
+  /// can update the route keys of additional routes. Supported only for HTTP
+  /// APIs.
+  @_s.JsonKey(name: 'routeKey')
+  final String routeKey;
+
+  /// The route selection expression for the API. For HTTP APIs, the
+  /// routeSelectionExpression must be ${request.method} ${request.path}. If not
+  /// provided, this will be the default for HTTP APIs. This property is required
+  /// for WebSocket APIs.
+  @_s.JsonKey(name: 'routeSelectionExpression')
+  final String routeSelectionExpression;
+
+  /// The collection of tags. Each tag element is associated with a given
+  /// resource.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  /// This property is part of quick create. Quick create produces an API with an
+  /// integration, a default catch-all route, and a default stage which is
+  /// configured to automatically deploy changes. For HTTP integrations, specify a
+  /// fully qualified URL. For Lambda integrations, specify a function ARN. The
+  /// type of the integration will be HTTP_PROXY or AWS_PROXY, respectively.
+  /// Supported only for HTTP APIs.
+  @_s.JsonKey(name: 'target')
+  final String target;
+
+  /// A version identifier for the API.
+  @_s.JsonKey(name: 'version')
+  final String version;
+
+  CreateApiRequest({
+    @_s.required this.name,
+    @_s.required this.protocolType,
+    this.apiKeySelectionExpression,
+    this.corsConfiguration,
+    this.credentialsArn,
+    this.description,
+    this.disableSchemaValidation,
+    this.routeKey,
+    this.routeSelectionExpression,
+    this.tags,
+    this.target,
+    this.version,
+  });
+  Map<String, dynamic> toJson() => _$CreateApiRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3837,6 +3963,97 @@ class CreateApiResponse {
       _$CreateApiResponseFromJson(json);
 }
 
+/// Creates a new Authorizer resource to represent an authorizer.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateAuthorizerRequest {
+  /// The API identifier.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The authorizer type. For WebSocket APIs, specify REQUEST for a Lambda
+  /// function using incoming request parameters. For HTTP APIs, specify JWT to
+  /// use JSON Web Tokens.
+  @_s.JsonKey(name: 'authorizerType')
+  final AuthorizerType authorizerType;
+
+  /// The identity source for which authorization is requested.
+  ///
+  /// For a REQUEST authorizer, this is optional. The value is a set of one or
+  /// more mapping expressions of the specified request parameters. Currently, the
+  /// identity source can be headers, query string parameters, stage variables,
+  /// and context parameters. For example, if an Auth header and a Name query
+  /// string parameter are defined as identity sources, this value is
+  /// route.request.header.Auth, route.request.querystring.Name. These parameters
+  /// will be used to perform runtime validation for Lambda-based authorizers by
+  /// verifying all of the identity-related request parameters are present in the
+  /// request, not null, and non-empty. Only when this is true does the authorizer
+  /// invoke the authorizer Lambda function. Otherwise, it returns a 401
+  /// Unauthorized response without calling the Lambda function.
+  ///
+  /// For JWT, a single entry that specifies where to extract the JSON Web Token
+  /// (JWT )from inbound requests. Currently only header-based and query
+  /// parameter-based selections are supported, for example
+  /// "$request.header.Authorization".
+  @_s.JsonKey(name: 'identitySource')
+  final List<String> identitySource;
+
+  /// The name of the authorizer.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// Specifies the required credentials as an IAM role for API Gateway to invoke
+  /// the authorizer. To specify an IAM role for API Gateway to assume, use the
+  /// role's Amazon Resource Name (ARN). To use resource-based permissions on the
+  /// Lambda function, specify null. Supported only for REQUEST authorizers.
+  @_s.JsonKey(name: 'authorizerCredentialsArn')
+  final String authorizerCredentialsArn;
+
+  /// Authorizer caching is not currently supported. Don't specify this value for
+  /// authorizers.
+  @_s.JsonKey(name: 'authorizerResultTtlInSeconds')
+  final int authorizerResultTtlInSeconds;
+
+  /// The authorizer's Uniform Resource Identifier (URI). For REQUEST authorizers,
+  /// this must be a well-formed Lambda function URI, for example,
+  /// arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:<replaceable>{account_id}</replaceable>:function:<replaceable>{lambda_function_name}</replaceable>/invocations.
+  /// In general, the URI has this form:
+  /// arn:aws:apigateway:<replaceable>{region}</replaceable>:lambda:path/<replaceable>{service_api}</replaceable>
+  /// , where <replaceable></replaceable>{region} is the same as the region
+  /// hosting the Lambda function, path indicates that the remaining substring in
+  /// the URI should be treated as the path to the resource, including the initial
+  /// /. For Lambda functions, this is usually of the form
+  /// /2015-03-31/functions/[FunctionARN]/invocations. Supported only for REQUEST
+  /// authorizers.
+  @_s.JsonKey(name: 'authorizerUri')
+  final String authorizerUri;
+
+  /// This parameter is not used.
+  @_s.JsonKey(name: 'identityValidationExpression')
+  final String identityValidationExpression;
+
+  /// Represents the configuration of a JWT authorizer. Required for the JWT
+  /// authorizer type. Supported only for HTTP APIs.
+  @_s.JsonKey(name: 'jwtConfiguration')
+  final JWTConfiguration jwtConfiguration;
+
+  CreateAuthorizerRequest({
+    @_s.required this.apiId,
+    @_s.required this.authorizerType,
+    @_s.required this.identitySource,
+    @_s.required this.name,
+    this.authorizerCredentialsArn,
+    this.authorizerResultTtlInSeconds,
+    this.authorizerUri,
+    this.identityValidationExpression,
+    this.jwtConfiguration,
+  });
+  Map<String, dynamic> toJson() => _$CreateAuthorizerRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3928,6 +4145,33 @@ class CreateAuthorizerResponse {
       _$CreateAuthorizerResponseFromJson(json);
 }
 
+/// Creates a new Deployment resource to represent a deployment.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDeploymentRequest {
+  /// The API identifier.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The description for the deployment resource.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The name of the Stage resource for the Deployment resource to create.
+  @_s.JsonKey(name: 'stageName')
+  final String stageName;
+
+  CreateDeploymentRequest({
+    @_s.required this.apiId,
+    this.description,
+    this.stageName,
+  });
+  Map<String, dynamic> toJson() => _$CreateDeploymentRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3971,6 +4215,33 @@ class CreateDeploymentResponse {
       _$CreateDeploymentResponseFromJson(json);
 }
 
+/// Creates a new DomainName resource to represent a domain name.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDomainNameRequest {
+  /// The domain name.
+  @_s.JsonKey(name: 'domainName')
+  final String domainName;
+
+  /// The domain name configurations.
+  @_s.JsonKey(name: 'domainNameConfigurations')
+  final List<DomainNameConfiguration> domainNameConfigurations;
+
+  /// The collection of tags associated with a domain name.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateDomainNameRequest({
+    @_s.required this.domainName,
+    this.domainNameConfigurations,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateDomainNameRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -4001,6 +4272,187 @@ class CreateDomainNameResponse {
   });
   factory CreateDomainNameResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateDomainNameResponseFromJson(json);
+}
+
+/// Creates a new Integration resource to represent an integration.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateIntegrationRequest {
+  /// The API identifier.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The integration type of an integration. One of the following:
+  ///
+  /// AWS: for integrating the route or method request with an AWS service action,
+  /// including the Lambda function-invoking action. With the Lambda
+  /// function-invoking action, this is referred to as the Lambda custom
+  /// integration. With any other AWS service action, this is known as AWS
+  /// integration. Supported only for WebSocket APIs.
+  ///
+  /// AWS_PROXY: for integrating the route or method request with the Lambda
+  /// function-invoking action with the client request passed through as-is. This
+  /// integration is also referred to as Lambda proxy integration.
+  ///
+  /// HTTP: for integrating the route or method request with an HTTP endpoint.
+  /// This integration is also referred to as the HTTP custom integration.
+  /// Supported only for WebSocket APIs.
+  ///
+  /// HTTP_PROXY: for integrating the route or method request with an HTTP
+  /// endpoint, with the client request passed through as-is. This is also
+  /// referred to as HTTP proxy integration. For HTTP API private integrations,
+  /// use an HTTP_PROXY integration.
+  ///
+  /// MOCK: for integrating the route or method request with API Gateway as a
+  /// "loopback" endpoint without invoking any backend. Supported only for
+  /// WebSocket APIs.
+  @_s.JsonKey(name: 'integrationType')
+  final IntegrationType integrationType;
+
+  /// The ID of the VPC link for a private integration. Supported only for HTTP
+  /// APIs.
+  @_s.JsonKey(name: 'connectionId')
+  final String connectionId;
+
+  /// The type of the network connection to the integration endpoint. Specify
+  /// INTERNET for connections through the public routable internet or VPC_LINK
+  /// for private connections between API Gateway and resources in a VPC. The
+  /// default value is INTERNET.
+  @_s.JsonKey(name: 'connectionType')
+  final ConnectionType connectionType;
+
+  /// Supported only for WebSocket APIs. Specifies how to handle response payload
+  /// content type conversions. Supported values are CONVERT_TO_BINARY and
+  /// CONVERT_TO_TEXT, with the following behaviors:
+  ///
+  /// CONVERT_TO_BINARY: Converts a response payload from a Base64-encoded string
+  /// to the corresponding binary blob.
+  ///
+  /// CONVERT_TO_TEXT: Converts a response payload from a binary blob to a
+  /// Base64-encoded string.
+  ///
+  /// If this property is not defined, the response payload will be passed through
+  /// from the integration response to the route response or method response
+  /// without modification.
+  @_s.JsonKey(name: 'contentHandlingStrategy')
+  final ContentHandlingStrategy contentHandlingStrategy;
+
+  /// Specifies the credentials required for the integration, if any. For AWS
+  /// integrations, three options are available. To specify an IAM Role for API
+  /// Gateway to assume, use the role's Amazon Resource Name (ARN). To require
+  /// that the caller's identity be passed through from the request, specify the
+  /// string arn:aws:iam::*:user/*. To use resource-based permissions on supported
+  /// AWS services, specify null.
+  @_s.JsonKey(name: 'credentialsArn')
+  final String credentialsArn;
+
+  /// The description of the integration.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// Specifies the integration's HTTP method type.
+  @_s.JsonKey(name: 'integrationMethod')
+  final String integrationMethod;
+
+  /// For a Lambda integration, specify the URI of a Lambda function.
+  ///
+  /// For an HTTP integration, specify a fully-qualified URL.
+  ///
+  /// For an HTTP API private integration, specify the ARN of an Application Load
+  /// Balancer listener, Network Load Balancer listener, or AWS Cloud Map service.
+  /// If you specify the ARN of an AWS Cloud Map service, API Gateway uses
+  /// DiscoverInstances to identify resources. You can use query parameters to
+  /// target specific resources. To learn more, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_DiscoverInstances.html">DiscoverInstances</a>.
+  /// For private integrations, all resources must be owned by the same AWS
+  /// account.
+  @_s.JsonKey(name: 'integrationUri')
+  final String integrationUri;
+
+  /// Specifies the pass-through behavior for incoming requests based on the
+  /// Content-Type header in the request, and the available mapping templates
+  /// specified as the requestTemplates property on the Integration resource.
+  /// There are three valid values: WHEN_NO_MATCH, WHEN_NO_TEMPLATES, and NEVER.
+  /// Supported only for WebSocket APIs.
+  ///
+  /// WHEN_NO_MATCH passes the request body for unmapped content types through to
+  /// the integration backend without transformation.
+  ///
+  /// NEVER rejects unmapped content types with an HTTP 415 Unsupported Media Type
+  /// response.
+  ///
+  /// WHEN_NO_TEMPLATES allows pass-through when the integration has no content
+  /// types mapped to templates. However, if there is at least one content type
+  /// defined, unmapped content types will be rejected with the same HTTP 415
+  /// Unsupported Media Type response.
+  @_s.JsonKey(name: 'passthroughBehavior')
+  final PassthroughBehavior passthroughBehavior;
+
+  /// Specifies the format of the payload sent to an integration. Required for
+  /// HTTP APIs.
+  @_s.JsonKey(name: 'payloadFormatVersion')
+  final String payloadFormatVersion;
+
+  /// A key-value map specifying request parameters that are passed from the
+  /// method request to the backend. The key is an integration request parameter
+  /// name and the associated value is a method request parameter value or static
+  /// value that must be enclosed within single quotes and pre-encoded as required
+  /// by the backend. The method request parameter value must match the pattern of
+  /// method.request.<replaceable>{location}</replaceable>.<replaceable>{name}</replaceable>
+  /// , where
+  /// <replaceable>{location}</replaceable>
+  /// is querystring, path, or header; and
+  /// <replaceable>{name}</replaceable>
+  /// must be a valid and unique method request parameter name. Supported only for
+  /// WebSocket APIs.
+  @_s.JsonKey(name: 'requestParameters')
+  final Map<String, String> requestParameters;
+
+  /// Represents a map of Velocity templates that are applied on the request
+  /// payload based on the value of the Content-Type header sent by the client.
+  /// The content type value is the key in this map, and the template (as a
+  /// String) is the value. Supported only for WebSocket APIs.
+  @_s.JsonKey(name: 'requestTemplates')
+  final Map<String, String> requestTemplates;
+
+  /// The template selection expression for the integration.
+  @_s.JsonKey(name: 'templateSelectionExpression')
+  final String templateSelectionExpression;
+
+  /// Custom timeout between 50 and 29,000 milliseconds for WebSocket APIs and
+  /// between 50 and 30,000 milliseconds for HTTP APIs. The default timeout is 29
+  /// seconds for WebSocket APIs and 30 seconds for HTTP APIs.
+  @_s.JsonKey(name: 'timeoutInMillis')
+  final int timeoutInMillis;
+
+  /// The TLS configuration for a private integration. If you specify a TLS
+  /// configuration, private integration traffic uses the HTTPS protocol.
+  /// Supported only for HTTP APIs.
+  @_s.JsonKey(name: 'tlsConfig')
+  final TlsConfigInput tlsConfig;
+
+  CreateIntegrationRequest({
+    @_s.required this.apiId,
+    @_s.required this.integrationType,
+    this.connectionId,
+    this.connectionType,
+    this.contentHandlingStrategy,
+    this.credentialsArn,
+    this.description,
+    this.integrationMethod,
+    this.integrationUri,
+    this.passthroughBehavior,
+    this.payloadFormatVersion,
+    this.requestParameters,
+    this.requestTemplates,
+    this.templateSelectionExpression,
+    this.timeoutInMillis,
+    this.tlsConfig,
+  });
+  Map<String, dynamic> toJson() => _$CreateIntegrationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4199,6 +4651,81 @@ class CreateIntegrationResult {
       _$CreateIntegrationResultFromJson(json);
 }
 
+/// Creates a new IntegrationResponse resource to represent an integration
+/// response.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateIntegrationResponseRequest {
+  /// The API identifier.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The integration ID.
+  @_s.JsonKey(name: 'integrationId', ignore: true)
+  final String integrationId;
+
+  /// The integration response key.
+  @_s.JsonKey(name: 'integrationResponseKey')
+  final String integrationResponseKey;
+
+  /// Specifies how to handle response payload content type conversions. Supported
+  /// values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following
+  /// behaviors:
+  ///
+  /// CONVERT_TO_BINARY: Converts a response payload from a Base64-encoded string
+  /// to the corresponding binary blob.
+  ///
+  /// CONVERT_TO_TEXT: Converts a response payload from a binary blob to a
+  /// Base64-encoded string.
+  ///
+  /// If this property is not defined, the response payload will be passed through
+  /// from the integration response to the route response or method response
+  /// without modification.
+  @_s.JsonKey(name: 'contentHandlingStrategy')
+  final ContentHandlingStrategy contentHandlingStrategy;
+
+  /// A key-value map specifying response parameters that are passed to the method
+  /// response from the backend. The key is a method response header parameter
+  /// name and the mapped value is an integration response header value, a static
+  /// value enclosed within a pair of single quotes, or a JSON expression from the
+  /// integration response body. The mapping key must match the pattern of
+  /// method.response.header.{name}, where {name} is a valid and unique header
+  /// name. The mapped non-static value must match the pattern of
+  /// integration.response.header.{name} or
+  /// integration.response.body.{JSON-expression}, where {name} is a valid and
+  /// unique response header name and {JSON-expression} is a valid JSON expression
+  /// without the $ prefix.
+  @_s.JsonKey(name: 'responseParameters')
+  final Map<String, String> responseParameters;
+
+  /// The collection of response templates for the integration response as a
+  /// string-to-string map of key-value pairs. Response templates are represented
+  /// as a key/value map, with a content-type as the key and a template as the
+  /// value.
+  @_s.JsonKey(name: 'responseTemplates')
+  final Map<String, String> responseTemplates;
+
+  /// The template selection expression for the integration response. Supported
+  /// only for WebSocket APIs.
+  @_s.JsonKey(name: 'templateSelectionExpression')
+  final String templateSelectionExpression;
+
+  CreateIntegrationResponseRequest({
+    @_s.required this.apiId,
+    @_s.required this.integrationId,
+    @_s.required this.integrationResponseKey,
+    this.contentHandlingStrategy,
+    this.responseParameters,
+    this.responseTemplates,
+    this.templateSelectionExpression,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateIntegrationResponseRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -4267,6 +4794,44 @@ class CreateIntegrationResponseResponse {
       _$CreateIntegrationResponseResponseFromJson(json);
 }
 
+/// Creates a new Model.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateModelRequest {
+  /// The API identifier.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The name of the model. Must be alphanumeric.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The schema for the model. For application/json models, this should be JSON
+  /// schema draft 4 model.
+  @_s.JsonKey(name: 'schema')
+  final String schema;
+
+  /// The content-type for the model, for example, "application/json".
+  @_s.JsonKey(name: 'contentType')
+  final String contentType;
+
+  /// The description of the model.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  CreateModelRequest({
+    @_s.required this.apiId,
+    @_s.required this.name,
+    @_s.required this.schema,
+    this.contentType,
+    this.description,
+  });
+  Map<String, dynamic> toJson() => _$CreateModelRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -4303,6 +4868,86 @@ class CreateModelResponse {
   });
   factory CreateModelResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateModelResponseFromJson(json);
+}
+
+/// Creates a new Route resource to represent a route.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateRouteRequest {
+  /// The API identifier.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The route key for the route.
+  @_s.JsonKey(name: 'routeKey')
+  final String routeKey;
+
+  /// Specifies whether an API key is required for the route. Supported only for
+  /// WebSocket APIs.
+  @_s.JsonKey(name: 'apiKeyRequired')
+  final bool apiKeyRequired;
+
+  /// The authorization scopes supported by this route.
+  @_s.JsonKey(name: 'authorizationScopes')
+  final List<String> authorizationScopes;
+
+  /// The authorization type for the route. For WebSocket APIs, valid values are
+  /// NONE for open access, AWS_IAM for using AWS IAM permissions, and CUSTOM for
+  /// using a Lambda authorizer For HTTP APIs, valid values are NONE for open
+  /// access, or JWT for using JSON Web Tokens.
+  @_s.JsonKey(name: 'authorizationType')
+  final AuthorizationType authorizationType;
+
+  /// The identifier of the Authorizer resource to be associated with this route.
+  /// The authorizer identifier is generated by API Gateway when you created the
+  /// authorizer.
+  @_s.JsonKey(name: 'authorizerId')
+  final String authorizerId;
+
+  /// The model selection expression for the route. Supported only for WebSocket
+  /// APIs.
+  @_s.JsonKey(name: 'modelSelectionExpression')
+  final String modelSelectionExpression;
+
+  /// The operation name for the route.
+  @_s.JsonKey(name: 'operationName')
+  final String operationName;
+
+  /// The request models for the route. Supported only for WebSocket APIs.
+  @_s.JsonKey(name: 'requestModels')
+  final Map<String, String> requestModels;
+
+  /// The request parameters for the route. Supported only for WebSocket APIs.
+  @_s.JsonKey(name: 'requestParameters')
+  final Map<String, ParameterConstraints> requestParameters;
+
+  /// The route response selection expression for the route. Supported only for
+  /// WebSocket APIs.
+  @_s.JsonKey(name: 'routeResponseSelectionExpression')
+  final String routeResponseSelectionExpression;
+
+  /// The target for the route.
+  @_s.JsonKey(name: 'target')
+  final String target;
+
+  CreateRouteRequest({
+    @_s.required this.apiId,
+    @_s.required this.routeKey,
+    this.apiKeyRequired,
+    this.authorizationScopes,
+    this.authorizationType,
+    this.authorizerId,
+    this.modelSelectionExpression,
+    this.operationName,
+    this.requestModels,
+    this.requestParameters,
+    this.routeResponseSelectionExpression,
+    this.target,
+  });
+  Map<String, dynamic> toJson() => _$CreateRouteRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4399,6 +5044,49 @@ class CreateRouteResult {
       _$CreateRouteResultFromJson(json);
 }
 
+/// Creates a new RouteResponse resource to represent a route response.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateRouteResponseRequest {
+  /// The API identifier.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The route ID.
+  @_s.JsonKey(name: 'routeId', ignore: true)
+  final String routeId;
+
+  /// The route response key.
+  @_s.JsonKey(name: 'routeResponseKey')
+  final String routeResponseKey;
+
+  /// The model selection expression for the route response. Supported only for
+  /// WebSocket APIs.
+  @_s.JsonKey(name: 'modelSelectionExpression')
+  final String modelSelectionExpression;
+
+  /// The response models for the route response.
+  @_s.JsonKey(name: 'responseModels')
+  final Map<String, String> responseModels;
+
+  /// The route response parameters.
+  @_s.JsonKey(name: 'responseParameters')
+  final Map<String, ParameterConstraints> responseParameters;
+
+  CreateRouteResponseRequest({
+    @_s.required this.apiId,
+    @_s.required this.routeId,
+    @_s.required this.routeResponseKey,
+    this.modelSelectionExpression,
+    this.responseModels,
+    this.responseParameters,
+  });
+  Map<String, dynamic> toJson() => _$CreateRouteResponseRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -4435,6 +5123,78 @@ class CreateRouteResponseResponse {
   });
   factory CreateRouteResponseResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateRouteResponseResponseFromJson(json);
+}
+
+/// Creates a new Stage resource to represent a stage.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateStageRequest {
+  /// The API identifier.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The name of the stage.
+  @_s.JsonKey(name: 'stageName')
+  final String stageName;
+
+  /// Settings for logging access in this stage.
+  @_s.JsonKey(name: 'accessLogSettings')
+  final AccessLogSettings accessLogSettings;
+
+  /// Specifies whether updates to an API automatically trigger a new deployment.
+  /// The default value is false.
+  @_s.JsonKey(name: 'autoDeploy')
+  final bool autoDeploy;
+
+  /// The identifier of a client certificate for a Stage. Supported only for
+  /// WebSocket APIs.
+  @_s.JsonKey(name: 'clientCertificateId')
+  final String clientCertificateId;
+
+  /// The default route settings for the stage.
+  @_s.JsonKey(name: 'defaultRouteSettings')
+  final RouteSettings defaultRouteSettings;
+
+  /// The deployment identifier of the API stage.
+  @_s.JsonKey(name: 'deploymentId')
+  final String deploymentId;
+
+  /// The description for the API stage.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// Route settings for the stage, by routeKey.
+  @_s.JsonKey(name: 'routeSettings')
+  final Map<String, RouteSettings> routeSettings;
+
+  /// A map that defines the stage variables for a Stage. Variable names can have
+  /// alphanumeric and underscore characters, and the values must match
+  /// [A-Za-z0-9-._~:/?#&amp;=,]+.
+  @_s.JsonKey(name: 'stageVariables')
+  final Map<String, String> stageVariables;
+
+  /// The collection of tags. Each tag element is associated with a given
+  /// resource.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateStageRequest({
+    @_s.required this.apiId,
+    @_s.required this.stageName,
+    this.accessLogSettings,
+    this.autoDeploy,
+    this.clientCertificateId,
+    this.defaultRouteSettings,
+    this.deploymentId,
+    this.description,
+    this.routeSettings,
+    this.stageVariables,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateStageRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4530,6 +5290,38 @@ class CreateStageResponse {
       _$CreateStageResponseFromJson(json);
 }
 
+/// Creates a VPC link
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateVpcLinkRequest {
+  /// The name of the VPC link.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// A list of subnet IDs to include in the VPC link.
+  @_s.JsonKey(name: 'subnetIds')
+  final List<String> subnetIds;
+
+  /// A list of security group IDs for the VPC link.
+  @_s.JsonKey(name: 'securityGroupIds')
+  final List<String> securityGroupIds;
+
+  /// A list of tags.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateVpcLinkRequest({
+    @_s.required this.name,
+    @_s.required this.subnetIds,
+    this.securityGroupIds,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateVpcLinkRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -4586,6 +5378,347 @@ class CreateVpcLinkResponse {
   });
   factory CreateVpcLinkResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateVpcLinkResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteAccessLogSettingsRequest {
+  /// The API identifier.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The stage name. Stage names can only contain alphanumeric characters,
+  /// hyphens, and underscores. Maximum length is 128 characters.
+  @_s.JsonKey(name: 'stageName', ignore: true)
+  final String stageName;
+
+  DeleteAccessLogSettingsRequest({
+    @_s.required this.apiId,
+    @_s.required this.stageName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteAccessLogSettingsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteApiMappingRequest {
+  /// The API mapping identifier.
+  @_s.JsonKey(name: 'apiMappingId', ignore: true)
+  final String apiMappingId;
+
+  /// The domain name.
+  @_s.JsonKey(name: 'domainName', ignore: true)
+  final String domainName;
+
+  DeleteApiMappingRequest({
+    @_s.required this.apiMappingId,
+    @_s.required this.domainName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteApiMappingRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteApiRequest {
+  /// The API identifier.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  DeleteApiRequest({
+    @_s.required this.apiId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteApiRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteAuthorizerRequest {
+  /// The API identifier.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The authorizer identifier.
+  @_s.JsonKey(name: 'authorizerId', ignore: true)
+  final String authorizerId;
+
+  DeleteAuthorizerRequest({
+    @_s.required this.apiId,
+    @_s.required this.authorizerId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteAuthorizerRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteCorsConfigurationRequest {
+  /// The API identifier.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  DeleteCorsConfigurationRequest({
+    @_s.required this.apiId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteCorsConfigurationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDeploymentRequest {
+  /// The API identifier.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The deployment ID.
+  @_s.JsonKey(name: 'deploymentId', ignore: true)
+  final String deploymentId;
+
+  DeleteDeploymentRequest({
+    @_s.required this.apiId,
+    @_s.required this.deploymentId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDeploymentRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDomainNameRequest {
+  /// The domain name.
+  @_s.JsonKey(name: 'domainName', ignore: true)
+  final String domainName;
+
+  DeleteDomainNameRequest({
+    @_s.required this.domainName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDomainNameRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteIntegrationRequest {
+  /// The API identifier.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The integration ID.
+  @_s.JsonKey(name: 'integrationId', ignore: true)
+  final String integrationId;
+
+  DeleteIntegrationRequest({
+    @_s.required this.apiId,
+    @_s.required this.integrationId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteIntegrationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteIntegrationResponseRequest {
+  /// The API identifier.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The integration ID.
+  @_s.JsonKey(name: 'integrationId', ignore: true)
+  final String integrationId;
+
+  /// The integration response ID.
+  @_s.JsonKey(name: 'integrationResponseId', ignore: true)
+  final String integrationResponseId;
+
+  DeleteIntegrationResponseRequest({
+    @_s.required this.apiId,
+    @_s.required this.integrationId,
+    @_s.required this.integrationResponseId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteIntegrationResponseRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteModelRequest {
+  /// The API identifier.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The model ID.
+  @_s.JsonKey(name: 'modelId', ignore: true)
+  final String modelId;
+
+  DeleteModelRequest({
+    @_s.required this.apiId,
+    @_s.required this.modelId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteModelRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteRouteRequest {
+  /// The API identifier.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The route ID.
+  @_s.JsonKey(name: 'routeId', ignore: true)
+  final String routeId;
+
+  DeleteRouteRequest({
+    @_s.required this.apiId,
+    @_s.required this.routeId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteRouteRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteRouteRequestParameterRequest {
+  /// The API identifier.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The route request parameter key.
+  @_s.JsonKey(name: 'requestParameterKey', ignore: true)
+  final String requestParameterKey;
+
+  /// The route ID.
+  @_s.JsonKey(name: 'routeId', ignore: true)
+  final String routeId;
+
+  DeleteRouteRequestParameterRequest({
+    @_s.required this.apiId,
+    @_s.required this.requestParameterKey,
+    @_s.required this.routeId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteRouteRequestParameterRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteRouteResponseRequest {
+  /// The API identifier.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The route ID.
+  @_s.JsonKey(name: 'routeId', ignore: true)
+  final String routeId;
+
+  /// The route response ID.
+  @_s.JsonKey(name: 'routeResponseId', ignore: true)
+  final String routeResponseId;
+
+  DeleteRouteResponseRequest({
+    @_s.required this.apiId,
+    @_s.required this.routeId,
+    @_s.required this.routeResponseId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteRouteResponseRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteRouteSettingsRequest {
+  /// The API identifier.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The route key.
+  @_s.JsonKey(name: 'routeKey', ignore: true)
+  final String routeKey;
+
+  /// The stage name. Stage names can only contain alphanumeric characters,
+  /// hyphens, and underscores. Maximum length is 128 characters.
+  @_s.JsonKey(name: 'stageName', ignore: true)
+  final String stageName;
+
+  DeleteRouteSettingsRequest({
+    @_s.required this.apiId,
+    @_s.required this.routeKey,
+    @_s.required this.stageName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteRouteSettingsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteStageRequest {
+  /// The API identifier.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The stage name. Stage names can only contain alphanumeric characters,
+  /// hyphens, and underscores. Maximum length is 128 characters.
+  @_s.JsonKey(name: 'stageName', ignore: true)
+  final String stageName;
+
+  DeleteStageRequest({
+    @_s.required this.apiId,
+    @_s.required this.stageName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteStageRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteVpcLinkRequest {
+  /// The ID of the VPC link.
+  @_s.JsonKey(name: 'vpcLinkId', ignore: true)
+  final String vpcLinkId;
+
+  DeleteVpcLinkRequest({
+    @_s.required this.vpcLinkId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteVpcLinkRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5980,6 +7113,38 @@ class GetVpcLinksResponse {
       _$GetVpcLinksResponseFromJson(json);
 }
 
+///
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ImportApiRequest {
+  /// The OpenAPI definition. Supported only for HTTP APIs.
+  @_s.JsonKey(name: 'body')
+  final String body;
+
+  /// Specifies how to interpret the base path of the API during import. Valid
+  /// values are ignore, prepend, and split. The default value is ignore. To learn
+  /// more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-import-api-basePath.html">Set
+  /// the OpenAPI basePath Property</a>. Supported only for HTTP APIs.
+  @_s.JsonKey(name: 'basepath', ignore: true)
+  final String basepath;
+
+  /// Specifies whether to rollback the API creation when a warning is
+  /// encountered. By default, API creation continues if a warning is encountered.
+  @_s.JsonKey(name: 'failOnWarnings', ignore: true)
+  final bool failOnWarnings;
+
+  ImportApiRequest({
+    @_s.required this.body,
+    this.basepath,
+    this.failOnWarnings,
+  });
+  Map<String, dynamic> toJson() => _$ImportApiRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -6353,24 +7518,6 @@ enum IntegrationType {
   awsProxy,
 }
 
-extension on IntegrationType {
-  String toValue() {
-    switch (this) {
-      case IntegrationType.aws:
-        return 'AWS';
-      case IntegrationType.http:
-        return 'HTTP';
-      case IntegrationType.mock:
-        return 'MOCK';
-      case IntegrationType.httpProxy:
-        return 'HTTP_PROXY';
-      case IntegrationType.awsProxy:
-        return 'AWS_PROXY';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Represents the configuration of a JWT authorizer. Required for the JWT
 /// authorizer type. Supported only for HTTP APIs.
 @_s.JsonSerializable(
@@ -6486,20 +7633,6 @@ enum PassthroughBehavior {
   whenNoTemplates,
 }
 
-extension on PassthroughBehavior {
-  String toValue() {
-    switch (this) {
-      case PassthroughBehavior.whenNoMatch:
-        return 'WHEN_NO_MATCH';
-      case PassthroughBehavior.never:
-        return 'NEVER';
-      case PassthroughBehavior.whenNoTemplates:
-        return 'WHEN_NO_TEMPLATES';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Represents a protocol type.
 enum ProtocolType {
   @_s.JsonValue('WEBSOCKET')
@@ -6508,16 +7641,41 @@ enum ProtocolType {
   http,
 }
 
-extension on ProtocolType {
-  String toValue() {
-    switch (this) {
-      case ProtocolType.websocket:
-        return 'WEBSOCKET';
-      case ProtocolType.http:
-        return 'HTTP';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+///
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ReimportApiRequest {
+  /// The API identifier.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The OpenAPI definition. Supported only for HTTP APIs.
+  @_s.JsonKey(name: 'body')
+  final String body;
+
+  /// Specifies how to interpret the base path of the API during import. Valid
+  /// values are ignore, prepend, and split. The default value is ignore. To learn
+  /// more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-import-api-basePath.html">Set
+  /// the OpenAPI basePath Property</a>. Supported only for HTTP APIs.
+  @_s.JsonKey(name: 'basepath', ignore: true)
+  final String basepath;
+
+  /// Specifies whether to rollback the API creation when a warning is
+  /// encountered. By default, API creation continues if a warning is encountered.
+  @_s.JsonKey(name: 'failOnWarnings', ignore: true)
+  final bool failOnWarnings;
+
+  ReimportApiRequest({
+    @_s.required this.apiId,
+    @_s.required this.body,
+    this.basepath,
+    this.failOnWarnings,
+  });
+  Map<String, dynamic> toJson() => _$ReimportApiRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6893,6 +8051,29 @@ class Stage {
   factory Stage.fromJson(Map<String, dynamic> json) => _$StageFromJson(json);
 }
 
+/// Creates a new Tag resource to represent a tag.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The resource ARN for the tag.
+  @_s.JsonKey(name: 'resource-arn', ignore: true)
+  final String resourceArn;
+
+  /// The collection of tags. Each tag element is associated with a given
+  /// resource.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -6950,6 +8131,64 @@ class TlsConfigInput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The resource ARN for the tag.
+  @_s.JsonKey(name: 'resource-arn', ignore: true)
+  final String resourceArn;
+
+  /// The Tag keys to delete
+  @_s.JsonKey(name: 'tagKeys', ignore: true)
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+/// Updates an ApiMapping.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateApiMappingRequest {
+  /// The API identifier.
+  @_s.JsonKey(name: 'apiId')
+  final String apiId;
+
+  /// The API mapping identifier.
+  @_s.JsonKey(name: 'apiMappingId', ignore: true)
+  final String apiMappingId;
+
+  /// The domain name.
+  @_s.JsonKey(name: 'domainName', ignore: true)
+  final String domainName;
+
+  /// The API mapping key.
+  @_s.JsonKey(name: 'apiMappingKey')
+  final String apiMappingKey;
+
+  /// The API stage.
+  @_s.JsonKey(name: 'stage')
+  final String stage;
+
+  UpdateApiMappingRequest({
+    @_s.required this.apiId,
+    @_s.required this.apiMappingId,
+    @_s.required this.domainName,
+    this.apiMappingKey,
+    this.stage,
+  });
+  Map<String, dynamic> toJson() => _$UpdateApiMappingRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateApiMappingResponse {
@@ -6977,6 +8216,95 @@ class UpdateApiMappingResponse {
   });
   factory UpdateApiMappingResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateApiMappingResponseFromJson(json);
+}
+
+/// Updates an Api.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateApiRequest {
+  /// The API identifier.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// An API key selection expression. Supported only for WebSocket APIs. See <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api-selection-expressions.html#apigateway-websocket-api-apikey-selection-expressions">API
+  /// Key Selection Expressions</a>.
+  @_s.JsonKey(name: 'apiKeySelectionExpression')
+  final String apiKeySelectionExpression;
+
+  /// A CORS configuration. Supported only for HTTP APIs.
+  @_s.JsonKey(name: 'corsConfiguration')
+  final Cors corsConfiguration;
+
+  /// This property is part of quick create. It specifies the credentials required
+  /// for the integration, if any. For a Lambda integration, three options are
+  /// available. To specify an IAM Role for API Gateway to assume, use the role's
+  /// Amazon Resource Name (ARN). To require that the caller's identity be passed
+  /// through from the request, specify arn:aws:iam::*:user/*. To use
+  /// resource-based permissions on supported AWS services, specify null.
+  /// Currently, this property is not used for HTTP integrations. If provided,
+  /// this value replaces the credentials associated with the quick create
+  /// integration. Supported only for HTTP APIs.
+  @_s.JsonKey(name: 'credentialsArn')
+  final String credentialsArn;
+
+  /// The description of the API.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// Avoid validating models when creating a deployment. Supported only for
+  /// WebSocket APIs.
+  @_s.JsonKey(name: 'disableSchemaValidation')
+  final bool disableSchemaValidation;
+
+  /// The name of the API.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// This property is part of quick create. If not specified, the route created
+  /// using quick create is kept. Otherwise, this value replaces the route key of
+  /// the quick create route. Additional routes may still be added after the API
+  /// is updated. Supported only for HTTP APIs.
+  @_s.JsonKey(name: 'routeKey')
+  final String routeKey;
+
+  /// The route selection expression for the API. For HTTP APIs, the
+  /// routeSelectionExpression must be ${request.method} ${request.path}. If not
+  /// provided, this will be the default for HTTP APIs. This property is required
+  /// for WebSocket APIs.
+  @_s.JsonKey(name: 'routeSelectionExpression')
+  final String routeSelectionExpression;
+
+  /// This property is part of quick create. For HTTP integrations, specify a
+  /// fully qualified URL. For Lambda integrations, specify a function ARN. The
+  /// type of the integration will be HTTP_PROXY or AWS_PROXY, respectively. The
+  /// value provided updates the integration URI and integration type. You can
+  /// update a quick-created target, but you can't remove it from an API.
+  /// Supported only for HTTP APIs.
+  @_s.JsonKey(name: 'target')
+  final String target;
+
+  /// A version identifier for the API.
+  @_s.JsonKey(name: 'version')
+  final String version;
+
+  UpdateApiRequest({
+    @_s.required this.apiId,
+    this.apiKeySelectionExpression,
+    this.corsConfiguration,
+    this.credentialsArn,
+    this.description,
+    this.disableSchemaValidation,
+    this.name,
+    this.routeKey,
+    this.routeSelectionExpression,
+    this.target,
+    this.version,
+  });
+  Map<String, dynamic> toJson() => _$UpdateApiRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7073,6 +8401,102 @@ class UpdateApiResponse {
       _$UpdateApiResponseFromJson(json);
 }
 
+/// Updates an Authorizer.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateAuthorizerRequest {
+  /// The API identifier.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The authorizer identifier.
+  @_s.JsonKey(name: 'authorizerId', ignore: true)
+  final String authorizerId;
+
+  /// Specifies the required credentials as an IAM role for API Gateway to invoke
+  /// the authorizer. To specify an IAM role for API Gateway to assume, use the
+  /// role's Amazon Resource Name (ARN). To use resource-based permissions on the
+  /// Lambda function, specify null.
+  @_s.JsonKey(name: 'authorizerCredentialsArn')
+  final String authorizerCredentialsArn;
+
+  /// Authorizer caching is not currently supported. Don't specify this value for
+  /// authorizers.
+  @_s.JsonKey(name: 'authorizerResultTtlInSeconds')
+  final int authorizerResultTtlInSeconds;
+
+  /// The authorizer type. For WebSocket APIs, specify REQUEST for a Lambda
+  /// function using incoming request parameters. For HTTP APIs, specify JWT to
+  /// use JSON Web Tokens.
+  @_s.JsonKey(name: 'authorizerType')
+  final AuthorizerType authorizerType;
+
+  /// The authorizer's Uniform Resource Identifier (URI). For REQUEST authorizers,
+  /// this must be a well-formed Lambda function URI, for example,
+  /// arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:<replaceable>{account_id}</replaceable>:function:<replaceable>{lambda_function_name}</replaceable>/invocations.
+  /// In general, the URI has this form:
+  /// arn:aws:apigateway:<replaceable>{region}</replaceable>:lambda:path/<replaceable>{service_api}</replaceable>
+  /// , where <replaceable></replaceable>{region} is the same as the region
+  /// hosting the Lambda function, path indicates that the remaining substring in
+  /// the URI should be treated as the path to the resource, including the initial
+  /// /. For Lambda functions, this is usually of the form
+  /// /2015-03-31/functions/[FunctionARN]/invocations. Supported only for REQUEST
+  /// authorizers.
+  @_s.JsonKey(name: 'authorizerUri')
+  final String authorizerUri;
+
+  /// The identity source for which authorization is requested.
+  ///
+  /// For a REQUEST authorizer, this is optional. The value is a set of one or
+  /// more mapping expressions of the specified request parameters. Currently, the
+  /// identity source can be headers, query string parameters, stage variables,
+  /// and context parameters. For example, if an Auth header and a Name query
+  /// string parameter are defined as identity sources, this value is
+  /// route.request.header.Auth, route.request.querystring.Name. These parameters
+  /// will be used to perform runtime validation for Lambda-based authorizers by
+  /// verifying all of the identity-related request parameters are present in the
+  /// request, not null, and non-empty. Only when this is true does the authorizer
+  /// invoke the authorizer Lambda function. Otherwise, it returns a 401
+  /// Unauthorized response without calling the Lambda function.
+  ///
+  /// For JWT, a single entry that specifies where to extract the JSON Web Token
+  /// (JWT) from inbound requests. Currently only header-based and query
+  /// parameter-based selections are supported, for example
+  /// "$request.header.Authorization".
+  @_s.JsonKey(name: 'identitySource')
+  final List<String> identitySource;
+
+  /// This parameter is not used.
+  @_s.JsonKey(name: 'identityValidationExpression')
+  final String identityValidationExpression;
+
+  /// Represents the configuration of a JWT authorizer. Required for the JWT
+  /// authorizer type. Supported only for HTTP APIs.
+  @_s.JsonKey(name: 'jwtConfiguration')
+  final JWTConfiguration jwtConfiguration;
+
+  /// The name of the authorizer.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  UpdateAuthorizerRequest({
+    @_s.required this.apiId,
+    @_s.required this.authorizerId,
+    this.authorizerCredentialsArn,
+    this.authorizerResultTtlInSeconds,
+    this.authorizerType,
+    this.authorizerUri,
+    this.identitySource,
+    this.identityValidationExpression,
+    this.jwtConfiguration,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$UpdateAuthorizerRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -7164,6 +8588,33 @@ class UpdateAuthorizerResponse {
       _$UpdateAuthorizerResponseFromJson(json);
 }
 
+/// Updates a Deployment.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDeploymentRequest {
+  /// The API identifier.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The deployment ID.
+  @_s.JsonKey(name: 'deploymentId', ignore: true)
+  final String deploymentId;
+
+  /// The description for the deployment resource.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  UpdateDeploymentRequest({
+    @_s.required this.apiId,
+    @_s.required this.deploymentId,
+    this.description,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDeploymentRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -7207,6 +8658,28 @@ class UpdateDeploymentResponse {
       _$UpdateDeploymentResponseFromJson(json);
 }
 
+/// Updates a DomainName.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDomainNameRequest {
+  /// The domain name.
+  @_s.JsonKey(name: 'domainName', ignore: true)
+  final String domainName;
+
+  /// The domain name configurations.
+  @_s.JsonKey(name: 'domainNameConfigurations')
+  final List<DomainNameConfiguration> domainNameConfigurations;
+
+  UpdateDomainNameRequest({
+    @_s.required this.domainName,
+    this.domainNameConfigurations,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDomainNameRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -7237,6 +8710,192 @@ class UpdateDomainNameResponse {
   });
   factory UpdateDomainNameResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateDomainNameResponseFromJson(json);
+}
+
+/// Updates an Integration.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateIntegrationRequest {
+  /// The API identifier.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The integration ID.
+  @_s.JsonKey(name: 'integrationId', ignore: true)
+  final String integrationId;
+
+  /// The ID of the VPC link for a private integration. Supported only for HTTP
+  /// APIs.
+  @_s.JsonKey(name: 'connectionId')
+  final String connectionId;
+
+  /// The type of the network connection to the integration endpoint. Specify
+  /// INTERNET for connections through the public routable internet or VPC_LINK
+  /// for private connections between API Gateway and resources in a VPC. The
+  /// default value is INTERNET.
+  @_s.JsonKey(name: 'connectionType')
+  final ConnectionType connectionType;
+
+  /// Supported only for WebSocket APIs. Specifies how to handle response payload
+  /// content type conversions. Supported values are CONVERT_TO_BINARY and
+  /// CONVERT_TO_TEXT, with the following behaviors:
+  ///
+  /// CONVERT_TO_BINARY: Converts a response payload from a Base64-encoded string
+  /// to the corresponding binary blob.
+  ///
+  /// CONVERT_TO_TEXT: Converts a response payload from a binary blob to a
+  /// Base64-encoded string.
+  ///
+  /// If this property is not defined, the response payload will be passed through
+  /// from the integration response to the route response or method response
+  /// without modification.
+  @_s.JsonKey(name: 'contentHandlingStrategy')
+  final ContentHandlingStrategy contentHandlingStrategy;
+
+  /// Specifies the credentials required for the integration, if any. For AWS
+  /// integrations, three options are available. To specify an IAM Role for API
+  /// Gateway to assume, use the role's Amazon Resource Name (ARN). To require
+  /// that the caller's identity be passed through from the request, specify the
+  /// string arn:aws:iam::*:user/*. To use resource-based permissions on supported
+  /// AWS services, specify null.
+  @_s.JsonKey(name: 'credentialsArn')
+  final String credentialsArn;
+
+  /// The description of the integration
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// Specifies the integration's HTTP method type.
+  @_s.JsonKey(name: 'integrationMethod')
+  final String integrationMethod;
+
+  /// The integration type of an integration. One of the following:
+  ///
+  /// AWS: for integrating the route or method request with an AWS service action,
+  /// including the Lambda function-invoking action. With the Lambda
+  /// function-invoking action, this is referred to as the Lambda custom
+  /// integration. With any other AWS service action, this is known as AWS
+  /// integration. Supported only for WebSocket APIs.
+  ///
+  /// AWS_PROXY: for integrating the route or method request with the Lambda
+  /// function-invoking action with the client request passed through as-is. This
+  /// integration is also referred to as Lambda proxy integration.
+  ///
+  /// HTTP: for integrating the route or method request with an HTTP endpoint.
+  /// This integration is also referred to as the HTTP custom integration.
+  /// Supported only for WebSocket APIs.
+  ///
+  /// HTTP_PROXY: for integrating the route or method request with an HTTP
+  /// endpoint, with the client request passed through as-is. This is also
+  /// referred to as HTTP proxy integration. For HTTP API private integrations,
+  /// use an HTTP_PROXY integration.
+  ///
+  /// MOCK: for integrating the route or method request with API Gateway as a
+  /// "loopback" endpoint without invoking any backend. Supported only for
+  /// WebSocket APIs.
+  @_s.JsonKey(name: 'integrationType')
+  final IntegrationType integrationType;
+
+  /// For a Lambda integration, specify the URI of a Lambda function.
+  ///
+  /// For an HTTP integration, specify a fully-qualified URL.
+  ///
+  /// For an HTTP API private integration, specify the ARN of an Application Load
+  /// Balancer listener, Network Load Balancer listener, or AWS Cloud Map service.
+  /// If you specify the ARN of an AWS Cloud Map service, API Gateway uses
+  /// DiscoverInstances to identify resources. You can use query parameters to
+  /// target specific resources. To learn more, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_DiscoverInstances.html">DiscoverInstances</a>.
+  /// For private integrations, all resources must be owned by the same AWS
+  /// account.
+  @_s.JsonKey(name: 'integrationUri')
+  final String integrationUri;
+
+  /// Specifies the pass-through behavior for incoming requests based on the
+  /// Content-Type header in the request, and the available mapping templates
+  /// specified as the requestTemplates property on the Integration resource.
+  /// There are three valid values: WHEN_NO_MATCH, WHEN_NO_TEMPLATES, and NEVER.
+  /// Supported only for WebSocket APIs.
+  ///
+  /// WHEN_NO_MATCH passes the request body for unmapped content types through to
+  /// the integration backend without transformation.
+  ///
+  /// NEVER rejects unmapped content types with an HTTP 415 Unsupported Media Type
+  /// response.
+  ///
+  /// WHEN_NO_TEMPLATES allows pass-through when the integration has no content
+  /// types mapped to templates. However, if there is at least one content type
+  /// defined, unmapped content types will be rejected with the same HTTP 415
+  /// Unsupported Media Type response.
+  @_s.JsonKey(name: 'passthroughBehavior')
+  final PassthroughBehavior passthroughBehavior;
+
+  /// Specifies the format of the payload sent to an integration. Required for
+  /// HTTP APIs.
+  @_s.JsonKey(name: 'payloadFormatVersion')
+  final String payloadFormatVersion;
+
+  /// A key-value map specifying request parameters that are passed from the
+  /// method request to the backend. The key is an integration request parameter
+  /// name and the associated value is a method request parameter value or static
+  /// value that must be enclosed within single quotes and pre-encoded as required
+  /// by the backend. The method request parameter value must match the pattern of
+  /// method.request.<replaceable>{location}</replaceable>.<replaceable>{name}</replaceable>
+  /// , where
+  /// <replaceable>{location}</replaceable>
+  /// is querystring, path, or header; and
+  /// <replaceable>{name}</replaceable>
+  /// must be a valid and unique method request parameter name. Supported only for
+  /// WebSocket APIs.
+  @_s.JsonKey(name: 'requestParameters')
+  final Map<String, String> requestParameters;
+
+  /// Represents a map of Velocity templates that are applied on the request
+  /// payload based on the value of the Content-Type header sent by the client.
+  /// The content type value is the key in this map, and the template (as a
+  /// String) is the value. Supported only for WebSocket APIs.
+  @_s.JsonKey(name: 'requestTemplates')
+  final Map<String, String> requestTemplates;
+
+  /// The template selection expression for the integration.
+  @_s.JsonKey(name: 'templateSelectionExpression')
+  final String templateSelectionExpression;
+
+  /// Custom timeout between 50 and 29,000 milliseconds for WebSocket APIs and
+  /// between 50 and 30,000 milliseconds for HTTP APIs. The default timeout is 29
+  /// seconds for WebSocket APIs and 30 seconds for HTTP APIs.
+  @_s.JsonKey(name: 'timeoutInMillis')
+  final int timeoutInMillis;
+
+  /// The TLS configuration for a private integration. If you specify a TLS
+  /// configuration, private integration traffic uses the HTTPS protocol.
+  /// Supported only for HTTP APIs.
+  @_s.JsonKey(name: 'tlsConfig')
+  final TlsConfigInput tlsConfig;
+
+  UpdateIntegrationRequest({
+    @_s.required this.apiId,
+    @_s.required this.integrationId,
+    this.connectionId,
+    this.connectionType,
+    this.contentHandlingStrategy,
+    this.credentialsArn,
+    this.description,
+    this.integrationMethod,
+    this.integrationType,
+    this.integrationUri,
+    this.passthroughBehavior,
+    this.payloadFormatVersion,
+    this.requestParameters,
+    this.requestTemplates,
+    this.templateSelectionExpression,
+    this.timeoutInMillis,
+    this.tlsConfig,
+  });
+  Map<String, dynamic> toJson() => _$UpdateIntegrationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7435,6 +9094,89 @@ class UpdateIntegrationResult {
       _$UpdateIntegrationResultFromJson(json);
 }
 
+/// Updates an IntegrationResponses.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateIntegrationResponseRequest {
+  /// The API identifier.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The integration ID.
+  @_s.JsonKey(name: 'integrationId', ignore: true)
+  final String integrationId;
+
+  /// The integration response ID.
+  @_s.JsonKey(name: 'integrationResponseId', ignore: true)
+  final String integrationResponseId;
+
+  /// Supported only for WebSocket APIs. Specifies how to handle response payload
+  /// content type conversions. Supported values are CONVERT_TO_BINARY and
+  /// CONVERT_TO_TEXT, with the following behaviors:
+  ///
+  /// CONVERT_TO_BINARY: Converts a response payload from a Base64-encoded string
+  /// to the corresponding binary blob.
+  ///
+  /// CONVERT_TO_TEXT: Converts a response payload from a binary blob to a
+  /// Base64-encoded string.
+  ///
+  /// If this property is not defined, the response payload will be passed through
+  /// from the integration response to the route response or method response
+  /// without modification.
+  @_s.JsonKey(name: 'contentHandlingStrategy')
+  final ContentHandlingStrategy contentHandlingStrategy;
+
+  /// The integration response key.
+  @_s.JsonKey(name: 'integrationResponseKey')
+  final String integrationResponseKey;
+
+  /// A key-value map specifying response parameters that are passed to the method
+  /// response from the backend. The key is a method response header parameter
+  /// name and the mapped value is an integration response header value, a static
+  /// value enclosed within a pair of single quotes, or a JSON expression from the
+  /// integration response body. The mapping key must match the pattern of
+  /// method.response.header.<replaceable>{name}</replaceable>
+  /// , where name is a valid and unique header name. The mapped non-static value
+  /// must match the pattern of
+  /// integration.response.header.<replaceable>{name}</replaceable>
+  /// or integration.response.body.<replaceable>{JSON-expression}</replaceable>
+  /// , where
+  /// <replaceable>{name}</replaceable>
+  /// is a valid and unique response header name and
+  /// <replaceable>{JSON-expression}</replaceable>
+  /// is a valid JSON expression without the $ prefix.
+  @_s.JsonKey(name: 'responseParameters')
+  final Map<String, String> responseParameters;
+
+  /// The collection of response templates for the integration response as a
+  /// string-to-string map of key-value pairs. Response templates are represented
+  /// as a key/value map, with a content-type as the key and a template as the
+  /// value.
+  @_s.JsonKey(name: 'responseTemplates')
+  final Map<String, String> responseTemplates;
+
+  /// The template selection expression for the integration response. Supported
+  /// only for WebSocket APIs.
+  @_s.JsonKey(name: 'templateSelectionExpression')
+  final String templateSelectionExpression;
+
+  UpdateIntegrationResponseRequest({
+    @_s.required this.apiId,
+    @_s.required this.integrationId,
+    @_s.required this.integrationResponseId,
+    this.contentHandlingStrategy,
+    this.integrationResponseKey,
+    this.responseParameters,
+    this.responseTemplates,
+    this.templateSelectionExpression,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateIntegrationResponseRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -7503,6 +9245,49 @@ class UpdateIntegrationResponseResponse {
       _$UpdateIntegrationResponseResponseFromJson(json);
 }
 
+/// Updates a Model.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateModelRequest {
+  /// The API identifier.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The model ID.
+  @_s.JsonKey(name: 'modelId', ignore: true)
+  final String modelId;
+
+  /// The content-type for the model, for example, "application/json".
+  @_s.JsonKey(name: 'contentType')
+  final String contentType;
+
+  /// The description of the model.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The name of the model.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The schema for the model. For application/json models, this should be JSON
+  /// schema draft 4 model.
+  @_s.JsonKey(name: 'schema')
+  final String schema;
+
+  UpdateModelRequest({
+    @_s.required this.apiId,
+    @_s.required this.modelId,
+    this.contentType,
+    this.description,
+    this.name,
+    this.schema,
+  });
+  Map<String, dynamic> toJson() => _$UpdateModelRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -7539,6 +9324,91 @@ class UpdateModelResponse {
   });
   factory UpdateModelResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateModelResponseFromJson(json);
+}
+
+/// Updates a Route.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateRouteRequest {
+  /// The API identifier.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The route ID.
+  @_s.JsonKey(name: 'routeId', ignore: true)
+  final String routeId;
+
+  /// Specifies whether an API key is required for the route. Supported only for
+  /// WebSocket APIs.
+  @_s.JsonKey(name: 'apiKeyRequired')
+  final bool apiKeyRequired;
+
+  /// The authorization scopes supported by this route.
+  @_s.JsonKey(name: 'authorizationScopes')
+  final List<String> authorizationScopes;
+
+  /// The authorization type for the route. For WebSocket APIs, valid values are
+  /// NONE for open access, AWS_IAM for using AWS IAM permissions, and CUSTOM for
+  /// using a Lambda authorizer For HTTP APIs, valid values are NONE for open
+  /// access, or JWT for using JSON Web Tokens.
+  @_s.JsonKey(name: 'authorizationType')
+  final AuthorizationType authorizationType;
+
+  /// The identifier of the Authorizer resource to be associated with this route.
+  /// The authorizer identifier is generated by API Gateway when you created the
+  /// authorizer.
+  @_s.JsonKey(name: 'authorizerId')
+  final String authorizerId;
+
+  /// The model selection expression for the route. Supported only for WebSocket
+  /// APIs.
+  @_s.JsonKey(name: 'modelSelectionExpression')
+  final String modelSelectionExpression;
+
+  /// The operation name for the route.
+  @_s.JsonKey(name: 'operationName')
+  final String operationName;
+
+  /// The request models for the route. Supported only for WebSocket APIs.
+  @_s.JsonKey(name: 'requestModels')
+  final Map<String, String> requestModels;
+
+  /// The request parameters for the route. Supported only for WebSocket APIs.
+  @_s.JsonKey(name: 'requestParameters')
+  final Map<String, ParameterConstraints> requestParameters;
+
+  /// The route key for the route.
+  @_s.JsonKey(name: 'routeKey')
+  final String routeKey;
+
+  /// The route response selection expression for the route. Supported only for
+  /// WebSocket APIs.
+  @_s.JsonKey(name: 'routeResponseSelectionExpression')
+  final String routeResponseSelectionExpression;
+
+  /// The target for the route.
+  @_s.JsonKey(name: 'target')
+  final String target;
+
+  UpdateRouteRequest({
+    @_s.required this.apiId,
+    @_s.required this.routeId,
+    this.apiKeyRequired,
+    this.authorizationScopes,
+    this.authorizationType,
+    this.authorizerId,
+    this.modelSelectionExpression,
+    this.operationName,
+    this.requestModels,
+    this.requestParameters,
+    this.routeKey,
+    this.routeResponseSelectionExpression,
+    this.target,
+  });
+  Map<String, dynamic> toJson() => _$UpdateRouteRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7635,6 +9505,54 @@ class UpdateRouteResult {
       _$UpdateRouteResultFromJson(json);
 }
 
+/// Updates a RouteResponse.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateRouteResponseRequest {
+  /// The API identifier.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The route ID.
+  @_s.JsonKey(name: 'routeId', ignore: true)
+  final String routeId;
+
+  /// The route response ID.
+  @_s.JsonKey(name: 'routeResponseId', ignore: true)
+  final String routeResponseId;
+
+  /// The model selection expression for the route response. Supported only for
+  /// WebSocket APIs.
+  @_s.JsonKey(name: 'modelSelectionExpression')
+  final String modelSelectionExpression;
+
+  /// The response models for the route response.
+  @_s.JsonKey(name: 'responseModels')
+  final Map<String, String> responseModels;
+
+  /// The route response parameters.
+  @_s.JsonKey(name: 'responseParameters')
+  final Map<String, ParameterConstraints> responseParameters;
+
+  /// The route response key.
+  @_s.JsonKey(name: 'routeResponseKey')
+  final String routeResponseKey;
+
+  UpdateRouteResponseRequest({
+    @_s.required this.apiId,
+    @_s.required this.routeId,
+    @_s.required this.routeResponseId,
+    this.modelSelectionExpression,
+    this.responseModels,
+    this.responseParameters,
+    this.routeResponseKey,
+  });
+  Map<String, dynamic> toJson() => _$UpdateRouteResponseRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -7671,6 +9589,73 @@ class UpdateRouteResponseResponse {
   });
   factory UpdateRouteResponseResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateRouteResponseResponseFromJson(json);
+}
+
+/// Updates a Stage.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateStageRequest {
+  /// The API identifier.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The stage name. Stage names can only contain alphanumeric characters,
+  /// hyphens, and underscores. Maximum length is 128 characters.
+  @_s.JsonKey(name: 'stageName', ignore: true)
+  final String stageName;
+
+  /// Settings for logging access in this stage.
+  @_s.JsonKey(name: 'accessLogSettings')
+  final AccessLogSettings accessLogSettings;
+
+  /// Specifies whether updates to an API automatically trigger a new deployment.
+  /// The default value is false.
+  @_s.JsonKey(name: 'autoDeploy')
+  final bool autoDeploy;
+
+  /// The identifier of a client certificate for a Stage.
+  @_s.JsonKey(name: 'clientCertificateId')
+  final String clientCertificateId;
+
+  /// The default route settings for the stage.
+  @_s.JsonKey(name: 'defaultRouteSettings')
+  final RouteSettings defaultRouteSettings;
+
+  /// The deployment identifier for the API stage. Can't be updated if autoDeploy
+  /// is enabled.
+  @_s.JsonKey(name: 'deploymentId')
+  final String deploymentId;
+
+  /// The description for the API stage.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// Route settings for the stage.
+  @_s.JsonKey(name: 'routeSettings')
+  final Map<String, RouteSettings> routeSettings;
+
+  /// A map that defines the stage variables for a Stage. Variable names can have
+  /// alphanumeric and underscore characters, and the values must match
+  /// [A-Za-z0-9-._~:/?#&amp;=,]+.
+  @_s.JsonKey(name: 'stageVariables')
+  final Map<String, String> stageVariables;
+
+  UpdateStageRequest({
+    @_s.required this.apiId,
+    @_s.required this.stageName,
+    this.accessLogSettings,
+    this.autoDeploy,
+    this.clientCertificateId,
+    this.defaultRouteSettings,
+    this.deploymentId,
+    this.description,
+    this.routeSettings,
+    this.stageVariables,
+  });
+  Map<String, dynamic> toJson() => _$UpdateStageRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7764,6 +9749,28 @@ class UpdateStageResponse {
   });
   factory UpdateStageResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateStageResponseFromJson(json);
+}
+
+/// Updates a VPC link.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateVpcLinkRequest {
+  /// The ID of the VPC link.
+  @_s.JsonKey(name: 'vpcLinkId', ignore: true)
+  final String vpcLinkId;
+
+  /// The name of the VPC link.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  UpdateVpcLinkRequest({
+    @_s.required this.vpcLinkId,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$UpdateVpcLinkRequestToJson(this);
 }
 
 @_s.JsonSerializable(

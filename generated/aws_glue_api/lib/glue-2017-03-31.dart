@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -118,12 +117,12 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DatabaseName': databaseName,
-        'PartitionInputList': partitionInputList,
-        'TableName': tableName,
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
+      payload: BatchCreatePartitionRequest(
+        databaseName: databaseName,
+        partitionInputList: partitionInputList,
+        tableName: tableName,
+        catalogId: catalogId,
+      ),
     );
 
     return BatchCreatePartitionResponse.fromJson(jsonResponse.body);
@@ -166,10 +165,10 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConnectionNameList': connectionNameList,
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
+      payload: BatchDeleteConnectionRequest(
+        connectionNameList: connectionNameList,
+        catalogId: catalogId,
+      ),
     );
 
     return BatchDeleteConnectionResponse.fromJson(jsonResponse.body);
@@ -251,12 +250,12 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DatabaseName': databaseName,
-        'PartitionsToDelete': partitionsToDelete,
-        'TableName': tableName,
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
+      payload: BatchDeletePartitionRequest(
+        databaseName: databaseName,
+        partitionsToDelete: partitionsToDelete,
+        tableName: tableName,
+        catalogId: catalogId,
+      ),
     );
 
     return BatchDeletePartitionResponse.fromJson(jsonResponse.body);
@@ -332,11 +331,11 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DatabaseName': databaseName,
-        'TablesToDelete': tablesToDelete,
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
+      payload: BatchDeleteTableRequest(
+        databaseName: databaseName,
+        tablesToDelete: tablesToDelete,
+        catalogId: catalogId,
+      ),
     );
 
     return BatchDeleteTableResponse.fromJson(jsonResponse.body);
@@ -420,12 +419,12 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DatabaseName': databaseName,
-        'TableName': tableName,
-        'VersionIds': versionIds,
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
+      payload: BatchDeleteTableVersionRequest(
+        databaseName: databaseName,
+        tableName: tableName,
+        versionIds: versionIds,
+        catalogId: catalogId,
+      ),
     );
 
     return BatchDeleteTableVersionResponse.fromJson(jsonResponse.body);
@@ -457,9 +456,9 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CrawlerNames': crawlerNames,
-      },
+      payload: BatchGetCrawlersRequest(
+        crawlerNames: crawlerNames,
+      ),
     );
 
     return BatchGetCrawlersResponse.fromJson(jsonResponse.body);
@@ -493,9 +492,9 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DevEndpointNames': devEndpointNames,
-      },
+      payload: BatchGetDevEndpointsRequest(
+        devEndpointNames: devEndpointNames,
+      ),
     );
 
     return BatchGetDevEndpointsResponse.fromJson(jsonResponse.body);
@@ -528,9 +527,9 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobNames': jobNames,
-      },
+      payload: BatchGetJobsRequest(
+        jobNames: jobNames,
+      ),
     );
 
     return BatchGetJobsResponse.fromJson(jsonResponse.body);
@@ -612,12 +611,12 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DatabaseName': databaseName,
-        'PartitionsToGet': partitionsToGet,
-        'TableName': tableName,
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
+      payload: BatchGetPartitionRequest(
+        databaseName: databaseName,
+        partitionsToGet: partitionsToGet,
+        tableName: tableName,
+        catalogId: catalogId,
+      ),
     );
 
     return BatchGetPartitionResponse.fromJson(jsonResponse.body);
@@ -650,9 +649,9 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TriggerNames': triggerNames,
-      },
+      payload: BatchGetTriggersRequest(
+        triggerNames: triggerNames,
+      ),
     );
 
     return BatchGetTriggersResponse.fromJson(jsonResponse.body);
@@ -690,10 +689,10 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Names': names,
-        if (includeGraph != null) 'IncludeGraph': includeGraph,
-      },
+      payload: BatchGetWorkflowsRequest(
+        names: names,
+        includeGraph: includeGraph,
+      ),
     );
 
     return BatchGetWorkflowsResponse.fromJson(jsonResponse.body);
@@ -740,10 +739,10 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobName': jobName,
-        'JobRunIds': jobRunIds,
-      },
+      payload: BatchStopJobRunRequest(
+        jobName: jobName,
+        jobRunIds: jobRunIds,
+      ),
     );
 
     return BatchStopJobRunResponse.fromJson(jsonResponse.body);
@@ -808,10 +807,10 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TaskRunId': taskRunId,
-        'TransformId': transformId,
-      },
+      payload: CancelMLTaskRunRequest(
+        taskRunId: taskRunId,
+        transformId: transformId,
+      ),
     );
 
     return CancelMLTaskRunResponse.fromJson(jsonResponse.body);
@@ -853,12 +852,12 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (csvClassifier != null) 'CsvClassifier': csvClassifier,
-        if (grokClassifier != null) 'GrokClassifier': grokClassifier,
-        if (jsonClassifier != null) 'JsonClassifier': jsonClassifier,
-        if (xMLClassifier != null) 'XMLClassifier': xMLClassifier,
-      },
+      payload: CreateClassifierRequest(
+        csvClassifier: csvClassifier,
+        grokClassifier: grokClassifier,
+        jsonClassifier: jsonClassifier,
+        xMLClassifier: xMLClassifier,
+      ),
     );
 
     return CreateClassifierResponse.fromJson(jsonResponse.body);
@@ -904,10 +903,10 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConnectionInput': connectionInput,
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
+      payload: CreateConnectionRequest(
+        connectionInput: connectionInput,
+        catalogId: catalogId,
+      ),
     );
 
     return CreateConnectionResponse.fromJson(jsonResponse.body);
@@ -1037,22 +1036,20 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        'Role': role,
-        'Targets': targets,
-        if (classifiers != null) 'Classifiers': classifiers,
-        if (configuration != null) 'Configuration': configuration,
-        if (crawlerSecurityConfiguration != null)
-          'CrawlerSecurityConfiguration': crawlerSecurityConfiguration,
-        if (databaseName != null) 'DatabaseName': databaseName,
-        if (description != null) 'Description': description,
-        if (schedule != null) 'Schedule': schedule,
-        if (schemaChangePolicy != null)
-          'SchemaChangePolicy': schemaChangePolicy,
-        if (tablePrefix != null) 'TablePrefix': tablePrefix,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateCrawlerRequest(
+        name: name,
+        role: role,
+        targets: targets,
+        classifiers: classifiers,
+        configuration: configuration,
+        crawlerSecurityConfiguration: crawlerSecurityConfiguration,
+        databaseName: databaseName,
+        description: description,
+        schedule: schedule,
+        schemaChangePolicy: schemaChangePolicy,
+        tablePrefix: tablePrefix,
+        tags: tags,
+      ),
     );
 
     return CreateCrawlerResponse.fromJson(jsonResponse.body);
@@ -1099,10 +1096,10 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DatabaseInput': databaseInput,
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
+      payload: CreateDatabaseRequest(
+        databaseInput: databaseInput,
+        catalogId: catalogId,
+      ),
     );
 
     return CreateDatabaseResponse.fromJson(jsonResponse.body);
@@ -1288,25 +1285,23 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EndpointName': endpointName,
-        'RoleArn': roleArn,
-        if (arguments != null) 'Arguments': arguments,
-        if (extraJarsS3Path != null) 'ExtraJarsS3Path': extraJarsS3Path,
-        if (extraPythonLibsS3Path != null)
-          'ExtraPythonLibsS3Path': extraPythonLibsS3Path,
-        if (glueVersion != null) 'GlueVersion': glueVersion,
-        if (numberOfNodes != null) 'NumberOfNodes': numberOfNodes,
-        if (numberOfWorkers != null) 'NumberOfWorkers': numberOfWorkers,
-        if (publicKey != null) 'PublicKey': publicKey,
-        if (publicKeys != null) 'PublicKeys': publicKeys,
-        if (securityConfiguration != null)
-          'SecurityConfiguration': securityConfiguration,
-        if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
-        if (subnetId != null) 'SubnetId': subnetId,
-        if (tags != null) 'Tags': tags,
-        if (workerType != null) 'WorkerType': workerType?.toValue(),
-      },
+      payload: CreateDevEndpointRequest(
+        endpointName: endpointName,
+        roleArn: roleArn,
+        arguments: arguments,
+        extraJarsS3Path: extraJarsS3Path,
+        extraPythonLibsS3Path: extraPythonLibsS3Path,
+        glueVersion: glueVersion,
+        numberOfNodes: numberOfNodes,
+        numberOfWorkers: numberOfWorkers,
+        publicKey: publicKey,
+        publicKeys: publicKeys,
+        securityConfiguration: securityConfiguration,
+        securityGroupIds: securityGroupIds,
+        subnetId: subnetId,
+        tags: tags,
+        workerType: workerType,
+      ),
     );
 
     return CreateDevEndpointResponse.fromJson(jsonResponse.body);
@@ -1548,30 +1543,27 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Command': command,
-        'Name': name,
-        'Role': role,
-        if (allocatedCapacity != null) 'AllocatedCapacity': allocatedCapacity,
-        if (connections != null) 'Connections': connections,
-        if (defaultArguments != null) 'DefaultArguments': defaultArguments,
-        if (description != null) 'Description': description,
-        if (executionProperty != null) 'ExecutionProperty': executionProperty,
-        if (glueVersion != null) 'GlueVersion': glueVersion,
-        if (logUri != null) 'LogUri': logUri,
-        if (maxCapacity != null) 'MaxCapacity': maxCapacity,
-        if (maxRetries != null) 'MaxRetries': maxRetries,
-        if (nonOverridableArguments != null)
-          'NonOverridableArguments': nonOverridableArguments,
-        if (notificationProperty != null)
-          'NotificationProperty': notificationProperty,
-        if (numberOfWorkers != null) 'NumberOfWorkers': numberOfWorkers,
-        if (securityConfiguration != null)
-          'SecurityConfiguration': securityConfiguration,
-        if (tags != null) 'Tags': tags,
-        if (timeout != null) 'Timeout': timeout,
-        if (workerType != null) 'WorkerType': workerType?.toValue(),
-      },
+      payload: CreateJobRequest(
+        command: command,
+        name: name,
+        role: role,
+        allocatedCapacity: allocatedCapacity,
+        connections: connections,
+        defaultArguments: defaultArguments,
+        description: description,
+        executionProperty: executionProperty,
+        glueVersion: glueVersion,
+        logUri: logUri,
+        maxCapacity: maxCapacity,
+        maxRetries: maxRetries,
+        nonOverridableArguments: nonOverridableArguments,
+        notificationProperty: notificationProperty,
+        numberOfWorkers: numberOfWorkers,
+        securityConfiguration: securityConfiguration,
+        tags: tags,
+        timeout: timeout,
+        workerType: workerType,
+      ),
     );
 
     return CreateJobResponse.fromJson(jsonResponse.body);
@@ -1812,20 +1804,20 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'InputRecordTables': inputRecordTables,
-        'Name': name,
-        'Parameters': parameters,
-        'Role': role,
-        if (description != null) 'Description': description,
-        if (glueVersion != null) 'GlueVersion': glueVersion,
-        if (maxCapacity != null) 'MaxCapacity': maxCapacity,
-        if (maxRetries != null) 'MaxRetries': maxRetries,
-        if (numberOfWorkers != null) 'NumberOfWorkers': numberOfWorkers,
-        if (tags != null) 'Tags': tags,
-        if (timeout != null) 'Timeout': timeout,
-        if (workerType != null) 'WorkerType': workerType?.toValue(),
-      },
+      payload: CreateMLTransformRequest(
+        inputRecordTables: inputRecordTables,
+        name: name,
+        parameters: parameters,
+        role: role,
+        description: description,
+        glueVersion: glueVersion,
+        maxCapacity: maxCapacity,
+        maxRetries: maxRetries,
+        numberOfWorkers: numberOfWorkers,
+        tags: tags,
+        timeout: timeout,
+        workerType: workerType,
+      ),
     );
 
     return CreateMLTransformResponse.fromJson(jsonResponse.body);
@@ -1909,12 +1901,12 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DatabaseName': databaseName,
-        'PartitionInput': partitionInput,
-        'TableName': tableName,
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
+      payload: CreatePartitionRequest(
+        databaseName: databaseName,
+        partitionInput: partitionInput,
+        tableName: tableName,
+        catalogId: catalogId,
+      ),
     );
 
     return CreatePartitionResponse.fromJson(jsonResponse.body);
@@ -1949,11 +1941,11 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (dagEdges != null) 'DagEdges': dagEdges,
-        if (dagNodes != null) 'DagNodes': dagNodes,
-        if (language != null) 'Language': language?.toValue(),
-      },
+      payload: CreateScriptRequest(
+        dagEdges: dagEdges,
+        dagNodes: dagNodes,
+        language: language,
+      ),
     );
 
     return CreateScriptResponse.fromJson(jsonResponse.body);
@@ -2007,10 +1999,10 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EncryptionConfiguration': encryptionConfiguration,
-        'Name': name,
-      },
+      payload: CreateSecurityConfigurationRequest(
+        encryptionConfiguration: encryptionConfiguration,
+        name: name,
+      ),
     );
 
     return CreateSecurityConfigurationResponse.fromJson(jsonResponse.body);
@@ -2078,11 +2070,11 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DatabaseName': databaseName,
-        'TableInput': tableInput,
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
+      payload: CreateTableRequest(
+        databaseName: databaseName,
+        tableInput: tableInput,
+        catalogId: catalogId,
+      ),
     );
 
     return CreateTableResponse.fromJson(jsonResponse.body);
@@ -2196,17 +2188,17 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Actions': actions,
-        'Name': name,
-        'Type': type?.toValue(),
-        if (description != null) 'Description': description,
-        if (predicate != null) 'Predicate': predicate,
-        if (schedule != null) 'Schedule': schedule,
-        if (startOnCreation != null) 'StartOnCreation': startOnCreation,
-        if (tags != null) 'Tags': tags,
-        if (workflowName != null) 'WorkflowName': workflowName,
-      },
+      payload: CreateTriggerRequest(
+        actions: actions,
+        name: name,
+        type: type,
+        description: description,
+        predicate: predicate,
+        schedule: schedule,
+        startOnCreation: startOnCreation,
+        tags: tags,
+        workflowName: workflowName,
+      ),
     );
 
     return CreateTriggerResponse.fromJson(jsonResponse.body);
@@ -2273,11 +2265,11 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DatabaseName': databaseName,
-        'FunctionInput': functionInput,
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
+      payload: CreateUserDefinedFunctionRequest(
+        databaseName: databaseName,
+        functionInput: functionInput,
+        catalogId: catalogId,
+      ),
     );
 
     return CreateUserDefinedFunctionResponse.fromJson(jsonResponse.body);
@@ -2335,13 +2327,12 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        if (defaultRunProperties != null)
-          'DefaultRunProperties': defaultRunProperties,
-        if (description != null) 'Description': description,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateWorkflowRequest(
+        name: name,
+        defaultRunProperties: defaultRunProperties,
+        description: description,
+        tags: tags,
+      ),
     );
 
     return CreateWorkflowResponse.fromJson(jsonResponse.body);
@@ -2381,9 +2372,9 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: DeleteClassifierRequest(
+        name: name,
+      ),
     );
 
     return DeleteClassifierResponse.fromJson(jsonResponse.body);
@@ -2439,10 +2430,10 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConnectionName': connectionName,
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
+      payload: DeleteConnectionRequest(
+        connectionName: connectionName,
+        catalogId: catalogId,
+      ),
     );
 
     return DeleteConnectionResponse.fromJson(jsonResponse.body);
@@ -2485,9 +2476,9 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: DeleteCrawlerRequest(
+        name: name,
+      ),
     );
 
     return DeleteCrawlerResponse.fromJson(jsonResponse.body);
@@ -2560,10 +2551,10 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
+      payload: DeleteDatabaseRequest(
+        name: name,
+        catalogId: catalogId,
+      ),
     );
 
     return DeleteDatabaseResponse.fromJson(jsonResponse.body);
@@ -2592,9 +2583,9 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EndpointName': endpointName,
-      },
+      payload: DeleteDevEndpointRequest(
+        endpointName: endpointName,
+      ),
     );
 
     return DeleteDevEndpointResponse.fromJson(jsonResponse.body);
@@ -2636,9 +2627,9 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobName': jobName,
-      },
+      payload: DeleteJobRequest(
+        jobName: jobName,
+      ),
     );
 
     return DeleteJobResponse.fromJson(jsonResponse.body);
@@ -2686,9 +2677,9 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TransformId': transformId,
-      },
+      payload: DeleteMLTransformRequest(
+        transformId: transformId,
+      ),
     );
 
     return DeleteMLTransformResponse.fromJson(jsonResponse.body);
@@ -2769,12 +2760,12 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DatabaseName': databaseName,
-        'PartitionValues': partitionValues,
-        'TableName': tableName,
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
+      payload: DeletePartitionRequest(
+        databaseName: databaseName,
+        partitionValues: partitionValues,
+        tableName: tableName,
+        catalogId: catalogId,
+      ),
     );
 
     return DeletePartitionResponse.fromJson(jsonResponse.body);
@@ -2814,10 +2805,9 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (policyHashCondition != null)
-          'PolicyHashCondition': policyHashCondition,
-      },
+      payload: DeleteResourcePolicyRequest(
+        policyHashCondition: policyHashCondition,
+      ),
     );
 
     return DeleteResourcePolicyResponse.fromJson(jsonResponse.body);
@@ -2859,9 +2849,9 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: DeleteSecurityConfigurationRequest(
+        name: name,
+      ),
     );
 
     return DeleteSecurityConfigurationResponse.fromJson(jsonResponse.body);
@@ -2951,11 +2941,11 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DatabaseName': databaseName,
-        'Name': name,
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
+      payload: DeleteTableRequest(
+        databaseName: databaseName,
+        name: name,
+        catalogId: catalogId,
+      ),
     );
 
     return DeleteTableResponse.fromJson(jsonResponse.body);
@@ -3052,12 +3042,12 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DatabaseName': databaseName,
-        'TableName': tableName,
-        'VersionId': versionId,
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
+      payload: DeleteTableVersionRequest(
+        databaseName: databaseName,
+        tableName: tableName,
+        versionId: versionId,
+        catalogId: catalogId,
+      ),
     );
 
     return DeleteTableVersionResponse.fromJson(jsonResponse.body);
@@ -3100,9 +3090,9 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: DeleteTriggerRequest(
+        name: name,
+      ),
     );
 
     return DeleteTriggerResponse.fromJson(jsonResponse.body);
@@ -3178,11 +3168,11 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DatabaseName': databaseName,
-        'FunctionName': functionName,
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
+      payload: DeleteUserDefinedFunctionRequest(
+        databaseName: databaseName,
+        functionName: functionName,
+        catalogId: catalogId,
+      ),
     );
 
     return DeleteUserDefinedFunctionResponse.fromJson(jsonResponse.body);
@@ -3224,9 +3214,9 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: DeleteWorkflowRequest(
+        name: name,
+      ),
     );
 
     return DeleteWorkflowResponse.fromJson(jsonResponse.body);
@@ -3264,9 +3254,9 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
+      payload: GetCatalogImportStatusRequest(
+        catalogId: catalogId,
+      ),
     );
 
     return GetCatalogImportStatusResponse.fromJson(jsonResponse.body);
@@ -3306,9 +3296,9 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: GetClassifierRequest(
+        name: name,
+      ),
     );
 
     return GetClassifierResponse.fromJson(jsonResponse.body);
@@ -3343,10 +3333,10 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: GetClassifiersRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return GetClassifiersResponse.fromJson(jsonResponse.body);
@@ -3413,11 +3403,11 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        if (catalogId != null) 'CatalogId': catalogId,
-        if (hidePassword != null) 'HidePassword': hidePassword,
-      },
+      payload: GetConnectionRequest(
+        name: name,
+        catalogId: catalogId,
+        hidePassword: hidePassword,
+      ),
     );
 
     return GetConnectionResponse.fromJson(jsonResponse.body);
@@ -3484,13 +3474,13 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (catalogId != null) 'CatalogId': catalogId,
-        if (filter != null) 'Filter': filter,
-        if (hidePassword != null) 'HidePassword': hidePassword,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: GetConnectionsRequest(
+        catalogId: catalogId,
+        filter: filter,
+        hidePassword: hidePassword,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return GetConnectionsResponse.fromJson(jsonResponse.body);
@@ -3530,9 +3520,9 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: GetCrawlerRequest(
+        name: name,
+      ),
     );
 
     return GetCrawlerResponse.fromJson(jsonResponse.body);
@@ -3571,11 +3561,11 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (crawlerNameList != null) 'CrawlerNameList': crawlerNameList,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: GetCrawlerMetricsRequest(
+        crawlerNameList: crawlerNameList,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return GetCrawlerMetricsResponse.fromJson(jsonResponse.body);
@@ -3610,10 +3600,10 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: GetCrawlersRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return GetCrawlersResponse.fromJson(jsonResponse.body);
@@ -3653,9 +3643,9 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
+      payload: GetDataCatalogEncryptionSettingsRequest(
+        catalogId: catalogId,
+      ),
     );
 
     return GetDataCatalogEncryptionSettingsResponse.fromJson(jsonResponse.body);
@@ -3715,10 +3705,10 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
+      payload: GetDatabaseRequest(
+        name: name,
+        catalogId: catalogId,
+      ),
     );
 
     return GetDatabaseResponse.fromJson(jsonResponse.body);
@@ -3772,11 +3762,11 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (catalogId != null) 'CatalogId': catalogId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: GetDatabasesRequest(
+        catalogId: catalogId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return GetDatabasesResponse.fromJson(jsonResponse.body);
@@ -3803,9 +3793,9 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (pythonScript != null) 'PythonScript': pythonScript,
-      },
+      payload: GetDataflowGraphRequest(
+        pythonScript: pythonScript,
+      ),
     );
 
     return GetDataflowGraphResponse.fromJson(jsonResponse.body);
@@ -3840,9 +3830,9 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EndpointName': endpointName,
-      },
+      payload: GetDevEndpointRequest(
+        endpointName: endpointName,
+      ),
     );
 
     return GetDevEndpointResponse.fromJson(jsonResponse.body);
@@ -3886,10 +3876,10 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: GetDevEndpointsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return GetDevEndpointsResponse.fromJson(jsonResponse.body);
@@ -3931,9 +3921,9 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobName': jobName,
-      },
+      payload: GetJobRequest(
+        jobName: jobName,
+      ),
     );
 
     return GetJobResponse.fromJson(jsonResponse.body);
@@ -3967,10 +3957,10 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobName': jobName,
-        if (runId != null) 'RunId': runId,
-      },
+      payload: GetJobBookmarkRequest(
+        jobName: jobName,
+        runId: runId,
+      ),
     );
 
     return GetJobBookmarkResponse.fromJson(jsonResponse.body);
@@ -4034,12 +4024,11 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobName': jobName,
-        'RunId': runId,
-        if (predecessorsIncluded != null)
-          'PredecessorsIncluded': predecessorsIncluded,
-      },
+      payload: GetJobRunRequest(
+        jobName: jobName,
+        runId: runId,
+        predecessorsIncluded: predecessorsIncluded,
+      ),
     );
 
     return GetJobRunResponse.fromJson(jsonResponse.body);
@@ -4095,11 +4084,11 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobName': jobName,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: GetJobRunsRequest(
+        jobName: jobName,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return GetJobRunsResponse.fromJson(jsonResponse.body);
@@ -4137,10 +4126,10 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: GetJobsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return GetJobsResponse.fromJson(jsonResponse.body);
@@ -4205,10 +4194,10 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TaskRunId': taskRunId,
-        'TransformId': transformId,
-      },
+      payload: GetMLTaskRunRequest(
+        taskRunId: taskRunId,
+        transformId: transformId,
+      ),
     );
 
     return GetMLTaskRunResponse.fromJson(jsonResponse.body);
@@ -4281,13 +4270,13 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TransformId': transformId,
-        if (filter != null) 'Filter': filter,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sort != null) 'Sort': sort,
-      },
+      payload: GetMLTaskRunsRequest(
+        transformId: transformId,
+        filter: filter,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        sort: sort,
+      ),
     );
 
     return GetMLTaskRunsResponse.fromJson(jsonResponse.body);
@@ -4335,9 +4324,9 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TransformId': transformId,
-      },
+      payload: GetMLTransformRequest(
+        transformId: transformId,
+      ),
     );
 
     return GetMLTransformResponse.fromJson(jsonResponse.body);
@@ -4388,12 +4377,12 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filter != null) 'Filter': filter,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sort != null) 'Sort': sort,
-      },
+      payload: GetMLTransformsRequest(
+        filter: filter,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        sort: sort,
+      ),
     );
 
     return GetMLTransformsResponse.fromJson(jsonResponse.body);
@@ -4430,11 +4419,11 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Source': source,
-        if (location != null) 'Location': location,
-        if (sinks != null) 'Sinks': sinks,
-      },
+      payload: GetMappingRequest(
+        source: source,
+        location: location,
+        sinks: sinks,
+      ),
     );
 
     return GetMappingResponse.fromJson(jsonResponse.body);
@@ -4516,12 +4505,12 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DatabaseName': databaseName,
-        'PartitionValues': partitionValues,
-        'TableName': tableName,
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
+      payload: GetPartitionRequest(
+        databaseName: databaseName,
+        partitionValues: partitionValues,
+        tableName: tableName,
+        catalogId: catalogId,
+      ),
     );
 
     return GetPartitionResponse.fromJson(jsonResponse.body);
@@ -4714,15 +4703,15 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DatabaseName': databaseName,
-        'TableName': tableName,
-        if (catalogId != null) 'CatalogId': catalogId,
-        if (expression != null) 'Expression': expression,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (segment != null) 'Segment': segment,
-      },
+      payload: GetPartitionsRequest(
+        databaseName: databaseName,
+        tableName: tableName,
+        catalogId: catalogId,
+        expression: expression,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        segment: segment,
+      ),
     );
 
     return GetPartitionsResponse.fromJson(jsonResponse.body);
@@ -4767,13 +4756,13 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Mapping': mapping,
-        'Source': source,
-        if (language != null) 'Language': language?.toValue(),
-        if (location != null) 'Location': location,
-        if (sinks != null) 'Sinks': sinks,
-      },
+      payload: GetPlanRequest(
+        mapping: mapping,
+        source: source,
+        language: language,
+        location: location,
+        sinks: sinks,
+      ),
     );
 
     return GetPlanResponse.fromJson(jsonResponse.body);
@@ -4837,9 +4826,9 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: GetSecurityConfigurationRequest(
+        name: name,
+      ),
     );
 
     return GetSecurityConfigurationResponse.fromJson(jsonResponse.body);
@@ -4877,10 +4866,10 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: GetSecurityConfigurationsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return GetSecurityConfigurationsResponse.fromJson(jsonResponse.body);
@@ -4960,11 +4949,11 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DatabaseName': databaseName,
-        'Name': name,
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
+      payload: GetTableRequest(
+        databaseName: databaseName,
+        name: name,
+        catalogId: catalogId,
+      ),
     );
 
     return GetTableResponse.fromJson(jsonResponse.body);
@@ -5060,12 +5049,12 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DatabaseName': databaseName,
-        'TableName': tableName,
-        if (catalogId != null) 'CatalogId': catalogId,
-        if (versionId != null) 'VersionId': versionId,
-      },
+      payload: GetTableVersionRequest(
+        databaseName: databaseName,
+        tableName: tableName,
+        catalogId: catalogId,
+        versionId: versionId,
+      ),
     );
 
     return GetTableVersionResponse.fromJson(jsonResponse.body);
@@ -5159,13 +5148,13 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DatabaseName': databaseName,
-        'TableName': tableName,
-        if (catalogId != null) 'CatalogId': catalogId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: GetTableVersionsRequest(
+        databaseName: databaseName,
+        tableName: tableName,
+        catalogId: catalogId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return GetTableVersionsResponse.fromJson(jsonResponse.body);
@@ -5256,13 +5245,13 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DatabaseName': databaseName,
-        if (catalogId != null) 'CatalogId': catalogId,
-        if (expression != null) 'Expression': expression,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: GetTablesRequest(
+        databaseName: databaseName,
+        catalogId: catalogId,
+        expression: expression,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return GetTablesResponse.fromJson(jsonResponse.body);
@@ -5304,9 +5293,9 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-      },
+      payload: GetTagsRequest(
+        resourceArn: resourceArn,
+      ),
     );
 
     return GetTagsResponse.fromJson(jsonResponse.body);
@@ -5348,9 +5337,9 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: GetTriggerRequest(
+        name: name,
+      ),
     );
 
     return GetTriggerResponse.fromJson(jsonResponse.body);
@@ -5405,11 +5394,11 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (dependentJobName != null) 'DependentJobName': dependentJobName,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: GetTriggersRequest(
+        dependentJobName: dependentJobName,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return GetTriggersResponse.fromJson(jsonResponse.body);
@@ -5486,11 +5475,11 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DatabaseName': databaseName,
-        'FunctionName': functionName,
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
+      payload: GetUserDefinedFunctionRequest(
+        databaseName: databaseName,
+        functionName: functionName,
+        catalogId: catalogId,
+      ),
     );
 
     return GetUserDefinedFunctionResponse.fromJson(jsonResponse.body);
@@ -5579,13 +5568,13 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Pattern': pattern,
-        if (catalogId != null) 'CatalogId': catalogId,
-        if (databaseName != null) 'DatabaseName': databaseName,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: GetUserDefinedFunctionsRequest(
+        pattern: pattern,
+        catalogId: catalogId,
+        databaseName: databaseName,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return GetUserDefinedFunctionsResponse.fromJson(jsonResponse.body);
@@ -5632,10 +5621,10 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        if (includeGraph != null) 'IncludeGraph': includeGraph,
-      },
+      payload: GetWorkflowRequest(
+        name: name,
+        includeGraph: includeGraph,
+      ),
     );
 
     return GetWorkflowResponse.fromJson(jsonResponse.body);
@@ -5699,11 +5688,11 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        'RunId': runId,
-        if (includeGraph != null) 'IncludeGraph': includeGraph,
-      },
+      payload: GetWorkflowRunRequest(
+        name: name,
+        runId: runId,
+        includeGraph: includeGraph,
+      ),
     );
 
     return GetWorkflowRunResponse.fromJson(jsonResponse.body);
@@ -5763,10 +5752,10 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        'RunId': runId,
-      },
+      payload: GetWorkflowRunPropertiesRequest(
+        name: name,
+        runId: runId,
+      ),
     );
 
     return GetWorkflowRunPropertiesResponse.fromJson(jsonResponse.body);
@@ -5826,12 +5815,12 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        if (includeGraph != null) 'IncludeGraph': includeGraph,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: GetWorkflowRunsRequest(
+        name: name,
+        includeGraph: includeGraph,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return GetWorkflowRunsResponse.fromJson(jsonResponse.body);
@@ -5869,9 +5858,9 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
+      payload: ImportCatalogToGlueRequest(
+        catalogId: catalogId,
+      ),
     );
 
     return ImportCatalogToGlueResponse.fromJson(jsonResponse.body);
@@ -5917,11 +5906,11 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: ListCrawlersRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+        tags: tags,
+      ),
     );
 
     return ListCrawlersResponse.fromJson(jsonResponse.body);
@@ -5970,11 +5959,11 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: ListDevEndpointsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+        tags: tags,
+      ),
     );
 
     return ListDevEndpointsResponse.fromJson(jsonResponse.body);
@@ -6023,11 +6012,11 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: ListJobsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+        tags: tags,
+      ),
     );
 
     return ListJobsResponse.fromJson(jsonResponse.body);
@@ -6084,13 +6073,13 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filter != null) 'Filter': filter,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sort != null) 'Sort': sort,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: ListMLTransformsRequest(
+        filter: filter,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        sort: sort,
+        tags: tags,
+      ),
     );
 
     return ListMLTransformsResponse.fromJson(jsonResponse.body);
@@ -6156,12 +6145,12 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (dependentJobName != null) 'DependentJobName': dependentJobName,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: ListTriggersRequest(
+        dependentJobName: dependentJobName,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        tags: tags,
+      ),
     );
 
     return ListTriggersResponse.fromJson(jsonResponse.body);
@@ -6198,10 +6187,10 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListWorkflowsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListWorkflowsResponse.fromJson(jsonResponse.body);
@@ -6248,10 +6237,10 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DataCatalogEncryptionSettings': dataCatalogEncryptionSettings,
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
+      payload: PutDataCatalogEncryptionSettingsRequest(
+        dataCatalogEncryptionSettings: dataCatalogEncryptionSettings,
+        catalogId: catalogId,
+      ),
     );
 
     return PutDataCatalogEncryptionSettingsResponse.fromJson(jsonResponse.body);
@@ -6313,13 +6302,11 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PolicyInJson': policyInJson,
-        if (policyExistsCondition != null)
-          'PolicyExistsCondition': policyExistsCondition?.toValue(),
-        if (policyHashCondition != null)
-          'PolicyHashCondition': policyHashCondition,
-      },
+      payload: PutResourcePolicyRequest(
+        policyInJson: policyInJson,
+        policyExistsCondition: policyExistsCondition,
+        policyHashCondition: policyHashCondition,
+      ),
     );
 
     return PutResourcePolicyResponse.fromJson(jsonResponse.body);
@@ -6389,11 +6376,11 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        'RunId': runId,
-        'RunProperties': runProperties,
-      },
+      payload: PutWorkflowRunPropertiesRequest(
+        name: name,
+        runId: runId,
+        runProperties: runProperties,
+      ),
     );
 
     return PutWorkflowRunPropertiesResponse.fromJson(jsonResponse.body);
@@ -6426,10 +6413,10 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobName': jobName,
-        if (runId != null) 'RunId': runId,
-      },
+      payload: ResetJobBookmarkRequest(
+        jobName: jobName,
+        runId: runId,
+      ),
     );
 
     return ResetJobBookmarkResponse.fromJson(jsonResponse.body);
@@ -6514,14 +6501,14 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (catalogId != null) 'CatalogId': catalogId,
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (searchText != null) 'SearchText': searchText,
-        if (sortCriteria != null) 'SortCriteria': sortCriteria,
-      },
+      payload: SearchTablesRequest(
+        catalogId: catalogId,
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        searchText: searchText,
+        sortCriteria: sortCriteria,
+      ),
     );
 
     return SearchTablesResponse.fromJson(jsonResponse.body);
@@ -6564,9 +6551,9 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: StartCrawlerRequest(
+        name: name,
+      ),
     );
 
     return StartCrawlerResponse.fromJson(jsonResponse.body);
@@ -6611,9 +6598,9 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CrawlerName': crawlerName,
-      },
+      payload: StartCrawlerScheduleRequest(
+        crawlerName: crawlerName,
+      ),
     );
 
     return StartCrawlerScheduleResponse.fromJson(jsonResponse.body);
@@ -6669,10 +6656,10 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'OutputS3Path': outputS3Path,
-        'TransformId': transformId,
-      },
+      payload: StartExportLabelsTaskRunRequest(
+        outputS3Path: outputS3Path,
+        transformId: transformId,
+      ),
     );
 
     return StartExportLabelsTaskRunResponse.fromJson(jsonResponse.body);
@@ -6754,11 +6741,11 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'InputS3Path': inputS3Path,
-        'TransformId': transformId,
-        if (replaceAllLabels != null) 'ReplaceAllLabels': replaceAllLabels,
-      },
+      payload: StartImportLabelsTaskRunRequest(
+        inputS3Path: inputS3Path,
+        transformId: transformId,
+        replaceAllLabels: replaceAllLabels,
+      ),
     );
 
     return StartImportLabelsTaskRunResponse.fromJson(jsonResponse.body);
@@ -6936,20 +6923,18 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobName': jobName,
-        if (allocatedCapacity != null) 'AllocatedCapacity': allocatedCapacity,
-        if (arguments != null) 'Arguments': arguments,
-        if (jobRunId != null) 'JobRunId': jobRunId,
-        if (maxCapacity != null) 'MaxCapacity': maxCapacity,
-        if (notificationProperty != null)
-          'NotificationProperty': notificationProperty,
-        if (numberOfWorkers != null) 'NumberOfWorkers': numberOfWorkers,
-        if (securityConfiguration != null)
-          'SecurityConfiguration': securityConfiguration,
-        if (timeout != null) 'Timeout': timeout,
-        if (workerType != null) 'WorkerType': workerType?.toValue(),
-      },
+      payload: StartJobRunRequest(
+        jobName: jobName,
+        allocatedCapacity: allocatedCapacity,
+        arguments: arguments,
+        jobRunId: jobRunId,
+        maxCapacity: maxCapacity,
+        notificationProperty: notificationProperty,
+        numberOfWorkers: numberOfWorkers,
+        securityConfiguration: securityConfiguration,
+        timeout: timeout,
+        workerType: workerType,
+      ),
     );
 
     return StartJobRunResponse.fromJson(jsonResponse.body);
@@ -7001,9 +6986,9 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TransformId': transformId,
-      },
+      payload: StartMLEvaluationTaskRunRequest(
+        transformId: transformId,
+      ),
     );
 
     return StartMLEvaluationTaskRunResponse.fromJson(jsonResponse.body);
@@ -7069,10 +7054,10 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'OutputS3Path': outputS3Path,
-        'TransformId': transformId,
-      },
+      payload: StartMLLabelingSetGenerationTaskRunRequest(
+        outputS3Path: outputS3Path,
+        transformId: transformId,
+      ),
     );
 
     return StartMLLabelingSetGenerationTaskRunResponse.fromJson(
@@ -7119,9 +7104,9 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: StartTriggerRequest(
+        name: name,
+      ),
     );
 
     return StartTriggerResponse.fromJson(jsonResponse.body);
@@ -7165,9 +7150,9 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: StartWorkflowRunRequest(
+        name: name,
+      ),
     );
 
     return StartWorkflowRunResponse.fromJson(jsonResponse.body);
@@ -7209,9 +7194,9 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: StopCrawlerRequest(
+        name: name,
+      ),
     );
 
     return StopCrawlerResponse.fromJson(jsonResponse.body);
@@ -7255,9 +7240,9 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CrawlerName': crawlerName,
-      },
+      payload: StopCrawlerScheduleRequest(
+        crawlerName: crawlerName,
+      ),
     );
 
     return StopCrawlerScheduleResponse.fromJson(jsonResponse.body);
@@ -7300,9 +7285,9 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: StopTriggerRequest(
+        name: name,
+      ),
     );
 
     return StopTriggerResponse.fromJson(jsonResponse.body);
@@ -7356,10 +7341,10 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        'TagsToAdd': tagsToAdd,
-      },
+      payload: TagResourceRequest(
+        resourceArn: resourceArn,
+        tagsToAdd: tagsToAdd,
+      ),
     );
 
     return TagResourceResponse.fromJson(jsonResponse.body);
@@ -7407,10 +7392,10 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        'TagsToRemove': tagsToRemove,
-      },
+      payload: UntagResourceRequest(
+        resourceArn: resourceArn,
+        tagsToRemove: tagsToRemove,
+      ),
     );
 
     return UntagResourceResponse.fromJson(jsonResponse.body);
@@ -7452,12 +7437,12 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (csvClassifier != null) 'CsvClassifier': csvClassifier,
-        if (grokClassifier != null) 'GrokClassifier': grokClassifier,
-        if (jsonClassifier != null) 'JsonClassifier': jsonClassifier,
-        if (xMLClassifier != null) 'XMLClassifier': xMLClassifier,
-      },
+      payload: UpdateClassifierRequest(
+        csvClassifier: csvClassifier,
+        grokClassifier: grokClassifier,
+        jsonClassifier: jsonClassifier,
+        xMLClassifier: xMLClassifier,
+      ),
     );
 
     return UpdateClassifierResponse.fromJson(jsonResponse.body);
@@ -7522,11 +7507,11 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConnectionInput': connectionInput,
-        'Name': name,
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
+      payload: UpdateConnectionRequest(
+        connectionInput: connectionInput,
+        name: name,
+        catalogId: catalogId,
+      ),
     );
 
     return UpdateConnectionResponse.fromJson(jsonResponse.body);
@@ -7646,21 +7631,19 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        if (classifiers != null) 'Classifiers': classifiers,
-        if (configuration != null) 'Configuration': configuration,
-        if (crawlerSecurityConfiguration != null)
-          'CrawlerSecurityConfiguration': crawlerSecurityConfiguration,
-        if (databaseName != null) 'DatabaseName': databaseName,
-        if (description != null) 'Description': description,
-        if (role != null) 'Role': role,
-        if (schedule != null) 'Schedule': schedule,
-        if (schemaChangePolicy != null)
-          'SchemaChangePolicy': schemaChangePolicy,
-        if (tablePrefix != null) 'TablePrefix': tablePrefix,
-        if (targets != null) 'Targets': targets,
-      },
+      payload: UpdateCrawlerRequest(
+        name: name,
+        classifiers: classifiers,
+        configuration: configuration,
+        crawlerSecurityConfiguration: crawlerSecurityConfiguration,
+        databaseName: databaseName,
+        description: description,
+        role: role,
+        schedule: schedule,
+        schemaChangePolicy: schemaChangePolicy,
+        tablePrefix: tablePrefix,
+        targets: targets,
+      ),
     );
 
     return UpdateCrawlerResponse.fromJson(jsonResponse.body);
@@ -7711,10 +7694,10 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CrawlerName': crawlerName,
-        if (schedule != null) 'Schedule': schedule,
-      },
+      payload: UpdateCrawlerScheduleRequest(
+        crawlerName: crawlerName,
+        schedule: schedule,
+      ),
     );
 
     return UpdateCrawlerScheduleResponse.fromJson(jsonResponse.body);
@@ -7780,11 +7763,11 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DatabaseInput': databaseInput,
-        'Name': name,
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
+      payload: UpdateDatabaseRequest(
+        databaseInput: databaseInput,
+        name: name,
+        catalogId: catalogId,
+      ),
     );
 
     return UpdateDatabaseResponse.fromJson(jsonResponse.body);
@@ -7865,17 +7848,16 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EndpointName': endpointName,
-        if (addArguments != null) 'AddArguments': addArguments,
-        if (addPublicKeys != null) 'AddPublicKeys': addPublicKeys,
-        if (customLibraries != null) 'CustomLibraries': customLibraries,
-        if (deleteArguments != null) 'DeleteArguments': deleteArguments,
-        if (deletePublicKeys != null) 'DeletePublicKeys': deletePublicKeys,
-        if (publicKey != null) 'PublicKey': publicKey,
-        if (updateEtlLibraries != null)
-          'UpdateEtlLibraries': updateEtlLibraries,
-      },
+      payload: UpdateDevEndpointRequest(
+        endpointName: endpointName,
+        addArguments: addArguments,
+        addPublicKeys: addPublicKeys,
+        customLibraries: customLibraries,
+        deleteArguments: deleteArguments,
+        deletePublicKeys: deletePublicKeys,
+        publicKey: publicKey,
+        updateEtlLibraries: updateEtlLibraries,
+      ),
     );
 
     return UpdateDevEndpointResponse.fromJson(jsonResponse.body);
@@ -7923,10 +7905,10 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobName': jobName,
-        'JobUpdate': jobUpdate,
-      },
+      payload: UpdateJobRequest(
+        jobName: jobName,
+        jobUpdate: jobUpdate,
+      ),
     );
 
     return UpdateJobResponse.fromJson(jsonResponse.body);
@@ -8091,19 +8073,19 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TransformId': transformId,
-        if (description != null) 'Description': description,
-        if (glueVersion != null) 'GlueVersion': glueVersion,
-        if (maxCapacity != null) 'MaxCapacity': maxCapacity,
-        if (maxRetries != null) 'MaxRetries': maxRetries,
-        if (name != null) 'Name': name,
-        if (numberOfWorkers != null) 'NumberOfWorkers': numberOfWorkers,
-        if (parameters != null) 'Parameters': parameters,
-        if (role != null) 'Role': role,
-        if (timeout != null) 'Timeout': timeout,
-        if (workerType != null) 'WorkerType': workerType?.toValue(),
-      },
+      payload: UpdateMLTransformRequest(
+        transformId: transformId,
+        description: description,
+        glueVersion: glueVersion,
+        maxCapacity: maxCapacity,
+        maxRetries: maxRetries,
+        name: name,
+        numberOfWorkers: numberOfWorkers,
+        parameters: parameters,
+        role: role,
+        timeout: timeout,
+        workerType: workerType,
+      ),
     );
 
     return UpdateMLTransformResponse.fromJson(jsonResponse.body);
@@ -8190,13 +8172,13 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DatabaseName': databaseName,
-        'PartitionInput': partitionInput,
-        'PartitionValueList': partitionValueList,
-        'TableName': tableName,
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
+      payload: UpdatePartitionRequest(
+        databaseName: databaseName,
+        partitionInput: partitionInput,
+        partitionValueList: partitionValueList,
+        tableName: tableName,
+        catalogId: catalogId,
+      ),
     );
 
     return UpdatePartitionResponse.fromJson(jsonResponse.body);
@@ -8270,12 +8252,12 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DatabaseName': databaseName,
-        'TableInput': tableInput,
-        if (catalogId != null) 'CatalogId': catalogId,
-        if (skipArchive != null) 'SkipArchive': skipArchive,
-      },
+      payload: UpdateTableRequest(
+        databaseName: databaseName,
+        tableInput: tableInput,
+        catalogId: catalogId,
+        skipArchive: skipArchive,
+      ),
     );
 
     return UpdateTableResponse.fromJson(jsonResponse.body);
@@ -8323,10 +8305,10 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        'TriggerUpdate': triggerUpdate,
-      },
+      payload: UpdateTriggerRequest(
+        name: name,
+        triggerUpdate: triggerUpdate,
+      ),
     );
 
     return UpdateTriggerResponse.fromJson(jsonResponse.body);
@@ -8410,12 +8392,12 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DatabaseName': databaseName,
-        'FunctionInput': functionInput,
-        'FunctionName': functionName,
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
+      payload: UpdateUserDefinedFunctionRequest(
+        databaseName: databaseName,
+        functionInput: functionInput,
+        functionName: functionName,
+        catalogId: catalogId,
+      ),
     );
 
     return UpdateUserDefinedFunctionResponse.fromJson(jsonResponse.body);
@@ -8467,12 +8449,11 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        if (defaultRunProperties != null)
-          'DefaultRunProperties': defaultRunProperties,
-        if (description != null) 'Description': description,
-      },
+      payload: UpdateWorkflowRequest(
+        name: name,
+        defaultRunProperties: defaultRunProperties,
+        description: description,
+      ),
     );
 
     return UpdateWorkflowResponse.fromJson(jsonResponse.body);
@@ -8544,6 +8525,39 @@ class Action {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchCreatePartitionRequest {
+  /// The name of the metadata database in which the partition is to be created.
+  @_s.JsonKey(name: 'DatabaseName')
+  final String databaseName;
+
+  /// A list of <code>PartitionInput</code> structures that define the partitions
+  /// to be created.
+  @_s.JsonKey(name: 'PartitionInputList')
+  final List<PartitionInput> partitionInputList;
+
+  /// The name of the metadata table in which the partition is to be created.
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  /// The ID of the catalog in which the partition is to be created. Currently,
+  /// this should be the AWS account ID.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  BatchCreatePartitionRequest({
+    @_s.required this.databaseName,
+    @_s.required this.partitionInputList,
+    @_s.required this.tableName,
+    this.catalogId,
+  });
+  Map<String, dynamic> toJson() => _$BatchCreatePartitionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class BatchCreatePartitionResponse {
@@ -8556,6 +8570,28 @@ class BatchCreatePartitionResponse {
   });
   factory BatchCreatePartitionResponse.fromJson(Map<String, dynamic> json) =>
       _$BatchCreatePartitionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchDeleteConnectionRequest {
+  /// A list of names of the connections to delete.
+  @_s.JsonKey(name: 'ConnectionNameList')
+  final List<String> connectionNameList;
+
+  /// The ID of the Data Catalog in which the connections reside. If none is
+  /// provided, the AWS account ID is used by default.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  BatchDeleteConnectionRequest({
+    @_s.required this.connectionNameList,
+    this.catalogId,
+  });
+  Map<String, dynamic> toJson() => _$BatchDeleteConnectionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8585,6 +8621,39 @@ class BatchDeleteConnectionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchDeletePartitionRequest {
+  /// The name of the catalog database in which the table in question resides.
+  @_s.JsonKey(name: 'DatabaseName')
+  final String databaseName;
+
+  /// A list of <code>PartitionInput</code> structures that define the partitions
+  /// to be deleted.
+  @_s.JsonKey(name: 'PartitionsToDelete')
+  final List<PartitionValueList> partitionsToDelete;
+
+  /// The name of the table that contains the partitions to be deleted.
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  /// The ID of the Data Catalog where the partition to be deleted resides. If
+  /// none is provided, the AWS account ID is used by default.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  BatchDeletePartitionRequest({
+    @_s.required this.databaseName,
+    @_s.required this.partitionsToDelete,
+    @_s.required this.tableName,
+    this.catalogId,
+  });
+  Map<String, dynamic> toJson() => _$BatchDeletePartitionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class BatchDeletePartitionResponse {
@@ -8597,6 +8666,34 @@ class BatchDeletePartitionResponse {
   });
   factory BatchDeletePartitionResponse.fromJson(Map<String, dynamic> json) =>
       _$BatchDeletePartitionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchDeleteTableRequest {
+  /// The name of the catalog database in which the tables to delete reside. For
+  /// Hive compatibility, this name is entirely lowercase.
+  @_s.JsonKey(name: 'DatabaseName')
+  final String databaseName;
+
+  /// A list of the table to delete.
+  @_s.JsonKey(name: 'TablesToDelete')
+  final List<String> tablesToDelete;
+
+  /// The ID of the Data Catalog where the table resides. If none is provided, the
+  /// AWS account ID is used by default.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  BatchDeleteTableRequest({
+    @_s.required this.databaseName,
+    @_s.required this.tablesToDelete,
+    this.catalogId,
+  });
+  Map<String, dynamic> toJson() => _$BatchDeleteTableRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8619,6 +8716,41 @@ class BatchDeleteTableResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchDeleteTableVersionRequest {
+  /// The database in the catalog in which the table resides. For Hive
+  /// compatibility, this name is entirely lowercase.
+  @_s.JsonKey(name: 'DatabaseName')
+  final String databaseName;
+
+  /// The name of the table. For Hive compatibility, this name is entirely
+  /// lowercase.
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  /// A list of the IDs of versions to be deleted. A <code>VersionId</code> is a
+  /// string representation of an integer. Each version is incremented by 1.
+  @_s.JsonKey(name: 'VersionIds')
+  final List<String> versionIds;
+
+  /// The ID of the Data Catalog where the tables reside. If none is provided, the
+  /// AWS account ID is used by default.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  BatchDeleteTableVersionRequest({
+    @_s.required this.databaseName,
+    @_s.required this.tableName,
+    @_s.required this.versionIds,
+    this.catalogId,
+  });
+  Map<String, dynamic> toJson() => _$BatchDeleteTableVersionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class BatchDeleteTableVersionResponse {
@@ -8632,6 +8764,23 @@ class BatchDeleteTableVersionResponse {
   });
   factory BatchDeleteTableVersionResponse.fromJson(Map<String, dynamic> json) =>
       _$BatchDeleteTableVersionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchGetCrawlersRequest {
+  /// A list of crawler names, which might be the names returned from the
+  /// <code>ListCrawlers</code> operation.
+  @_s.JsonKey(name: 'CrawlerNames')
+  final List<String> crawlerNames;
+
+  BatchGetCrawlersRequest({
+    @_s.required this.crawlerNames,
+  });
+  Map<String, dynamic> toJson() => _$BatchGetCrawlersRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8659,6 +8808,23 @@ class BatchGetCrawlersResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchGetDevEndpointsRequest {
+  /// The list of <code>DevEndpoint</code> names, which might be the names
+  /// returned from the <code>ListDevEndpoint</code> operation.
+  @_s.JsonKey(name: 'DevEndpointNames')
+  final List<String> devEndpointNames;
+
+  BatchGetDevEndpointsRequest({
+    @_s.required this.devEndpointNames,
+  });
+  Map<String, dynamic> toJson() => _$BatchGetDevEndpointsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class BatchGetDevEndpointsResponse {
@@ -8681,6 +8847,23 @@ class BatchGetDevEndpointsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchGetJobsRequest {
+  /// A list of job names, which might be the names returned from the
+  /// <code>ListJobs</code> operation.
+  @_s.JsonKey(name: 'JobNames')
+  final List<String> jobNames;
+
+  BatchGetJobsRequest({
+    @_s.required this.jobNames,
+  });
+  Map<String, dynamic> toJson() => _$BatchGetJobsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class BatchGetJobsResponse {
@@ -8698,6 +8881,38 @@ class BatchGetJobsResponse {
   });
   factory BatchGetJobsResponse.fromJson(Map<String, dynamic> json) =>
       _$BatchGetJobsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchGetPartitionRequest {
+  /// The name of the catalog database where the partitions reside.
+  @_s.JsonKey(name: 'DatabaseName')
+  final String databaseName;
+
+  /// A list of partition values identifying the partitions to retrieve.
+  @_s.JsonKey(name: 'PartitionsToGet')
+  final List<PartitionValueList> partitionsToGet;
+
+  /// The name of the partitions' table.
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  /// The ID of the Data Catalog where the partitions in question reside. If none
+  /// is supplied, the AWS account ID is used by default.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  BatchGetPartitionRequest({
+    @_s.required this.databaseName,
+    @_s.required this.partitionsToGet,
+    @_s.required this.tableName,
+    this.catalogId,
+  });
+  Map<String, dynamic> toJson() => _$BatchGetPartitionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8726,6 +8941,23 @@ class BatchGetPartitionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchGetTriggersRequest {
+  /// A list of trigger names, which may be the names returned from the
+  /// <code>ListTriggers</code> operation.
+  @_s.JsonKey(name: 'TriggerNames')
+  final List<String> triggerNames;
+
+  BatchGetTriggersRequest({
+    @_s.required this.triggerNames,
+  });
+  Map<String, dynamic> toJson() => _$BatchGetTriggersRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class BatchGetTriggersResponse {
@@ -8743,6 +8975,29 @@ class BatchGetTriggersResponse {
   });
   factory BatchGetTriggersResponse.fromJson(Map<String, dynamic> json) =>
       _$BatchGetTriggersResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchGetWorkflowsRequest {
+  /// A list of workflow names, which may be the names returned from the
+  /// <code>ListWorkflows</code> operation.
+  @_s.JsonKey(name: 'Names')
+  final List<String> names;
+
+  /// Specifies whether to include a graph when returning the workflow resource
+  /// metadata.
+  @_s.JsonKey(name: 'IncludeGraph')
+  final bool includeGraph;
+
+  BatchGetWorkflowsRequest({
+    @_s.required this.names,
+    this.includeGraph,
+  });
+  Map<String, dynamic> toJson() => _$BatchGetWorkflowsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8798,6 +9053,28 @@ class BatchStopJobRunError {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchStopJobRunRequest {
+  /// The name of the job definition for which to stop job runs.
+  @_s.JsonKey(name: 'JobName')
+  final String jobName;
+
+  /// A list of the <code>JobRunIds</code> that should be stopped for that job
+  /// definition.
+  @_s.JsonKey(name: 'JobRunIds')
+  final List<String> jobRunIds;
+
+  BatchStopJobRunRequest({
+    @_s.required this.jobName,
+    @_s.required this.jobRunIds,
+  });
+  Map<String, dynamic> toJson() => _$BatchStopJobRunRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class BatchStopJobRunResponse {
@@ -8841,6 +9118,27 @@ class BatchStopJobRunSuccessfulSubmission {
   factory BatchStopJobRunSuccessfulSubmission.fromJson(
           Map<String, dynamic> json) =>
       _$BatchStopJobRunSuccessfulSubmissionFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CancelMLTaskRunRequest {
+  /// A unique identifier for the task run.
+  @_s.JsonKey(name: 'TaskRunId')
+  final String taskRunId;
+
+  /// The unique identifier of the machine learning transform.
+  @_s.JsonKey(name: 'TransformId')
+  final String transformId;
+
+  CancelMLTaskRunRequest({
+    @_s.required this.taskRunId,
+    @_s.required this.transformId,
+  });
+  Map<String, dynamic> toJson() => _$CancelMLTaskRunRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -9881,6 +10179,37 @@ class CrawlerTargets {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateClassifierRequest {
+  /// A <code>CsvClassifier</code> object specifying the classifier to create.
+  @_s.JsonKey(name: 'CsvClassifier')
+  final CreateCsvClassifierRequest csvClassifier;
+
+  /// A <code>GrokClassifier</code> object specifying the classifier to create.
+  @_s.JsonKey(name: 'GrokClassifier')
+  final CreateGrokClassifierRequest grokClassifier;
+
+  /// A <code>JsonClassifier</code> object specifying the classifier to create.
+  @_s.JsonKey(name: 'JsonClassifier')
+  final CreateJsonClassifierRequest jsonClassifier;
+
+  /// An <code>XMLClassifier</code> object specifying the classifier to create.
+  @_s.JsonKey(name: 'XMLClassifier')
+  final CreateXMLClassifierRequest xMLClassifier;
+
+  CreateClassifierRequest({
+    this.csvClassifier,
+    this.grokClassifier,
+    this.jsonClassifier,
+    this.xMLClassifier,
+  });
+  Map<String, dynamic> toJson() => _$CreateClassifierRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateClassifierResponse {
@@ -9892,12 +10221,121 @@ class CreateClassifierResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateConnectionRequest {
+  /// A <code>ConnectionInput</code> object defining the connection to create.
+  @_s.JsonKey(name: 'ConnectionInput')
+  final ConnectionInput connectionInput;
+
+  /// The ID of the Data Catalog in which to create the connection. If none is
+  /// provided, the AWS account ID is used by default.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  CreateConnectionRequest({
+    @_s.required this.connectionInput,
+    this.catalogId,
+  });
+  Map<String, dynamic> toJson() => _$CreateConnectionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateConnectionResponse {
   CreateConnectionResponse();
   factory CreateConnectionResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateConnectionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateCrawlerRequest {
+  /// Name of the new crawler.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The IAM role or Amazon Resource Name (ARN) of an IAM role used by the new
+  /// crawler to access customer resources.
+  @_s.JsonKey(name: 'Role')
+  final String role;
+
+  /// A list of collection of targets to crawl.
+  @_s.JsonKey(name: 'Targets')
+  final CrawlerTargets targets;
+
+  /// A list of custom classifiers that the user has registered. By default, all
+  /// built-in classifiers are included in a crawl, but these custom classifiers
+  /// always override the default classifiers for a given classification.
+  @_s.JsonKey(name: 'Classifiers')
+  final List<String> classifiers;
+
+  /// The crawler configuration information. This versioned JSON string allows
+  /// users to specify aspects of a crawler's behavior. For more information, see
+  /// <a
+  /// href="http://docs.aws.amazon.com/glue/latest/dg/crawler-configuration.html">Configuring
+  /// a Crawler</a>.
+  @_s.JsonKey(name: 'Configuration')
+  final String configuration;
+
+  /// The name of the <code>SecurityConfiguration</code> structure to be used by
+  /// this crawler.
+  @_s.JsonKey(name: 'CrawlerSecurityConfiguration')
+  final String crawlerSecurityConfiguration;
+
+  /// The AWS Glue database where results are written, such as:
+  /// <code>arn:aws:daylight:us-east-1::database/sometable/*</code>.
+  @_s.JsonKey(name: 'DatabaseName')
+  final String databaseName;
+
+  /// A description of the new crawler.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// A <code>cron</code> expression used to specify the schedule. For more
+  /// information, see <a
+  /// href="http://docs.aws.amazon.com/glue/latest/dg/monitor-data-warehouse-schedule.html">Time-Based
+  /// Schedules for Jobs and Crawlers</a>. For example, to run something every day
+  /// at 12:15 UTC, specify <code>cron(15 12 * * ? *)</code>.
+  @_s.JsonKey(name: 'Schedule')
+  final String schedule;
+
+  /// The policy for the crawler's update and deletion behavior.
+  @_s.JsonKey(name: 'SchemaChangePolicy')
+  final SchemaChangePolicy schemaChangePolicy;
+
+  /// The table prefix used for catalog tables that are created.
+  @_s.JsonKey(name: 'TablePrefix')
+  final String tablePrefix;
+
+  /// The tags to use with this crawler request. You can use tags to limit access
+  /// to the crawler. For more information, see <a
+  /// href="http://docs.aws.amazon.com/glue/latest/dg/monitor-tags.html">AWS Tags
+  /// in AWS Glue</a>.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  CreateCrawlerRequest({
+    @_s.required this.name,
+    @_s.required this.role,
+    @_s.required this.targets,
+    this.classifiers,
+    this.configuration,
+    this.crawlerSecurityConfiguration,
+    this.databaseName,
+    this.description,
+    this.schedule,
+    this.schemaChangePolicy,
+    this.tablePrefix,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateCrawlerRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -9964,12 +10402,188 @@ class CreateCsvClassifierRequest {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDatabaseRequest {
+  /// The metadata for the database.
+  @_s.JsonKey(name: 'DatabaseInput')
+  final DatabaseInput databaseInput;
+
+  /// The ID of the Data Catalog in which to create the database. If none is
+  /// provided, the AWS account ID is used by default.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  CreateDatabaseRequest({
+    @_s.required this.databaseInput,
+    this.catalogId,
+  });
+  Map<String, dynamic> toJson() => _$CreateDatabaseRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateDatabaseResponse {
   CreateDatabaseResponse();
   factory CreateDatabaseResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateDatabaseResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDevEndpointRequest {
+  /// The name to be assigned to the new <code>DevEndpoint</code>.
+  @_s.JsonKey(name: 'EndpointName')
+  final String endpointName;
+
+  /// The IAM role for the <code>DevEndpoint</code>.
+  @_s.JsonKey(name: 'RoleArn')
+  final String roleArn;
+
+  /// A map of arguments used to configure the <code>DevEndpoint</code>.
+  @_s.JsonKey(name: 'Arguments')
+  final Map<String, String> arguments;
+
+  /// The path to one or more Java <code>.jar</code> files in an S3 bucket that
+  /// should be loaded in your <code>DevEndpoint</code>.
+  @_s.JsonKey(name: 'ExtraJarsS3Path')
+  final String extraJarsS3Path;
+
+  /// The paths to one or more Python libraries in an Amazon S3 bucket that should
+  /// be loaded in your <code>DevEndpoint</code>. Multiple values must be complete
+  /// paths separated by a comma.
+  /// <note>
+  /// You can only use pure Python libraries with a <code>DevEndpoint</code>.
+  /// Libraries that rely on C extensions, such as the <a
+  /// href="http://pandas.pydata.org/">pandas</a> Python data analysis library,
+  /// are not yet supported.
+  /// </note>
+  @_s.JsonKey(name: 'ExtraPythonLibsS3Path')
+  final String extraPythonLibsS3Path;
+
+  /// Glue version determines the versions of Apache Spark and Python that AWS
+  /// Glue supports. The Python version indicates the version supported for
+  /// running your ETL scripts on development endpoints.
+  ///
+  /// For more information about the available AWS Glue versions and corresponding
+  /// Spark and Python versions, see <a
+  /// href="https://docs.aws.amazon.com/glue/latest/dg/add-job.html">Glue
+  /// version</a> in the developer guide.
+  ///
+  /// Development endpoints that are created without specifying a Glue version
+  /// default to Glue 0.9.
+  ///
+  /// You can specify a version of Python support for development endpoints by
+  /// using the <code>Arguments</code> parameter in the
+  /// <code>CreateDevEndpoint</code> or <code>UpdateDevEndpoint</code> APIs. If no
+  /// arguments are provided, the version defaults to Python 2.
+  @_s.JsonKey(name: 'GlueVersion')
+  final String glueVersion;
+
+  /// The number of AWS Glue Data Processing Units (DPUs) to allocate to this
+  /// <code>DevEndpoint</code>.
+  @_s.JsonKey(name: 'NumberOfNodes')
+  final int numberOfNodes;
+
+  /// The number of workers of a defined <code>workerType</code> that are
+  /// allocated to the development endpoint.
+  ///
+  /// The maximum number of workers you can define are 299 for <code>G.1X</code>,
+  /// and 149 for <code>G.2X</code>.
+  @_s.JsonKey(name: 'NumberOfWorkers')
+  final int numberOfWorkers;
+
+  /// The public key to be used by this <code>DevEndpoint</code> for
+  /// authentication. This attribute is provided for backward compatibility
+  /// because the recommended attribute to use is public keys.
+  @_s.JsonKey(name: 'PublicKey')
+  final String publicKey;
+
+  /// A list of public keys to be used by the development endpoints for
+  /// authentication. The use of this attribute is preferred over a single public
+  /// key because the public keys allow you to have a different private key per
+  /// client.
+  /// <note>
+  /// If you previously created an endpoint with a public key, you must remove
+  /// that key to be able to set a list of public keys. Call the
+  /// <code>UpdateDevEndpoint</code> API with the public key content in the
+  /// <code>deletePublicKeys</code> attribute, and the list of new keys in the
+  /// <code>addPublicKeys</code> attribute.
+  /// </note>
+  @_s.JsonKey(name: 'PublicKeys')
+  final List<String> publicKeys;
+
+  /// The name of the <code>SecurityConfiguration</code> structure to be used with
+  /// this <code>DevEndpoint</code>.
+  @_s.JsonKey(name: 'SecurityConfiguration')
+  final String securityConfiguration;
+
+  /// Security group IDs for the security groups to be used by the new
+  /// <code>DevEndpoint</code>.
+  @_s.JsonKey(name: 'SecurityGroupIds')
+  final List<String> securityGroupIds;
+
+  /// The subnet ID for the new <code>DevEndpoint</code> to use.
+  @_s.JsonKey(name: 'SubnetId')
+  final String subnetId;
+
+  /// The tags to use with this DevEndpoint. You may use tags to limit access to
+  /// the DevEndpoint. For more information about tags in AWS Glue, see <a
+  /// href="https://docs.aws.amazon.com/glue/latest/dg/monitor-tags.html">AWS Tags
+  /// in AWS Glue</a> in the developer guide.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  /// The type of predefined worker that is allocated to the development endpoint.
+  /// Accepts a value of Standard, G.1X, or G.2X.
+  ///
+  /// <ul>
+  /// <li>
+  /// For the <code>Standard</code> worker type, each worker provides 4 vCPU, 16
+  /// GB of memory and a 50GB disk, and 2 executors per worker.
+  /// </li>
+  /// <li>
+  /// For the <code>G.1X</code> worker type, each worker maps to 1 DPU (4 vCPU, 16
+  /// GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend
+  /// this worker type for memory-intensive jobs.
+  /// </li>
+  /// <li>
+  /// For the <code>G.2X</code> worker type, each worker maps to 2 DPU (8 vCPU, 32
+  /// GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend
+  /// this worker type for memory-intensive jobs.
+  /// </li>
+  /// </ul>
+  /// Known issue: when a development endpoint is created with the
+  /// <code>G.2X</code> <code>WorkerType</code> configuration, the Spark drivers
+  /// for the development endpoint will run on 4 vCPU, 16 GB of memory, and a 64
+  /// GB disk.
+  @_s.JsonKey(name: 'WorkerType')
+  final WorkerType workerType;
+
+  CreateDevEndpointRequest({
+    @_s.required this.endpointName,
+    @_s.required this.roleArn,
+    this.arguments,
+    this.extraJarsS3Path,
+    this.extraPythonLibsS3Path,
+    this.glueVersion,
+    this.numberOfNodes,
+    this.numberOfWorkers,
+    this.publicKey,
+    this.publicKeys,
+    this.securityConfiguration,
+    this.securityGroupIds,
+    this.subnetId,
+    this.tags,
+    this.workerType,
+  });
+  Map<String, dynamic> toJson() => _$CreateDevEndpointRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10147,6 +10761,195 @@ class CreateGrokClassifierRequest {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateJobRequest {
+  /// The <code>JobCommand</code> that executes this job.
+  @_s.JsonKey(name: 'Command')
+  final JobCommand command;
+
+  /// The name you assign to this job definition. It must be unique in your
+  /// account.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The name or Amazon Resource Name (ARN) of the IAM role associated with this
+  /// job.
+  @_s.JsonKey(name: 'Role')
+  final String role;
+
+  /// This parameter is deprecated. Use <code>MaxCapacity</code> instead.
+  ///
+  /// The number of AWS Glue data processing units (DPUs) to allocate to this Job.
+  /// You can allocate from 2 to 100 DPUs; the default is 10. A DPU is a relative
+  /// measure of processing power that consists of 4 vCPUs of compute capacity and
+  /// 16 GB of memory. For more information, see the <a
+  /// href="https://aws.amazon.com/glue/pricing/">AWS Glue pricing page</a>.
+  @_s.JsonKey(name: 'AllocatedCapacity')
+  final int allocatedCapacity;
+
+  /// The connections used for this job.
+  @_s.JsonKey(name: 'Connections')
+  final ConnectionsList connections;
+
+  /// The default arguments for this job.
+  ///
+  /// You can specify arguments here that your own job-execution script consumes,
+  /// as well as arguments that AWS Glue itself consumes.
+  ///
+  /// For information about how to specify and consume your own Job arguments, see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-calling.html">Calling
+  /// AWS Glue APIs in Python</a> topic in the developer guide.
+  ///
+  /// For information about the key-value pairs that AWS Glue consumes to set up
+  /// your job, see the <a
+  /// href="https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html">Special
+  /// Parameters Used by AWS Glue</a> topic in the developer guide.
+  @_s.JsonKey(name: 'DefaultArguments')
+  final Map<String, String> defaultArguments;
+
+  /// Description of the job being defined.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// An <code>ExecutionProperty</code> specifying the maximum number of
+  /// concurrent runs allowed for this job.
+  @_s.JsonKey(name: 'ExecutionProperty')
+  final ExecutionProperty executionProperty;
+
+  /// Glue version determines the versions of Apache Spark and Python that AWS
+  /// Glue supports. The Python version indicates the version supported for jobs
+  /// of type Spark.
+  ///
+  /// For more information about the available AWS Glue versions and corresponding
+  /// Spark and Python versions, see <a
+  /// href="https://docs.aws.amazon.com/glue/latest/dg/add-job.html">Glue
+  /// version</a> in the developer guide.
+  ///
+  /// Jobs that are created without specifying a Glue version default to Glue 0.9.
+  @_s.JsonKey(name: 'GlueVersion')
+  final String glueVersion;
+
+  /// This field is reserved for future use.
+  @_s.JsonKey(name: 'LogUri')
+  final String logUri;
+
+  /// The number of AWS Glue data processing units (DPUs) that can be allocated
+  /// when this job runs. A DPU is a relative measure of processing power that
+  /// consists of 4 vCPUs of compute capacity and 16 GB of memory. For more
+  /// information, see the <a href="https://aws.amazon.com/glue/pricing/">AWS Glue
+  /// pricing page</a>.
+  ///
+  /// Do not set <code>Max Capacity</code> if using <code>WorkerType</code> and
+  /// <code>NumberOfWorkers</code>.
+  ///
+  /// The value that can be allocated for <code>MaxCapacity</code> depends on
+  /// whether you are running a Python shell job or an Apache Spark ETL job:
+  ///
+  /// <ul>
+  /// <li>
+  /// When you specify a Python shell job
+  /// (<code>JobCommand.Name</code>="pythonshell"), you can allocate either 0.0625
+  /// or 1 DPU. The default is 0.0625 DPU.
+  /// </li>
+  /// <li>
+  /// When you specify an Apache Spark ETL job
+  /// (<code>JobCommand.Name</code>="glueetl"), you can allocate from 2 to 100
+  /// DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU
+  /// allocation.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'MaxCapacity')
+  final double maxCapacity;
+
+  /// The maximum number of times to retry this job if it fails.
+  @_s.JsonKey(name: 'MaxRetries')
+  final int maxRetries;
+
+  /// Non-overridable arguments for this job, specified as name-value pairs.
+  @_s.JsonKey(name: 'NonOverridableArguments')
+  final Map<String, String> nonOverridableArguments;
+
+  /// Specifies configuration properties of a job notification.
+  @_s.JsonKey(name: 'NotificationProperty')
+  final NotificationProperty notificationProperty;
+
+  /// The number of workers of a defined <code>workerType</code> that are
+  /// allocated when a job runs.
+  ///
+  /// The maximum number of workers you can define are 299 for <code>G.1X</code>,
+  /// and 149 for <code>G.2X</code>.
+  @_s.JsonKey(name: 'NumberOfWorkers')
+  final int numberOfWorkers;
+
+  /// The name of the <code>SecurityConfiguration</code> structure to be used with
+  /// this job.
+  @_s.JsonKey(name: 'SecurityConfiguration')
+  final String securityConfiguration;
+
+  /// The tags to use with this job. You may use tags to limit access to the job.
+  /// For more information about tags in AWS Glue, see <a
+  /// href="https://docs.aws.amazon.com/glue/latest/dg/monitor-tags.html">AWS Tags
+  /// in AWS Glue</a> in the developer guide.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  /// The job timeout in minutes. This is the maximum time that a job run can
+  /// consume resources before it is terminated and enters <code>TIMEOUT</code>
+  /// status. The default is 2,880 minutes (48 hours).
+  @_s.JsonKey(name: 'Timeout')
+  final int timeout;
+
+  /// The type of predefined worker that is allocated when a job runs. Accepts a
+  /// value of Standard, G.1X, or G.2X.
+  ///
+  /// <ul>
+  /// <li>
+  /// For the <code>Standard</code> worker type, each worker provides 4 vCPU, 16
+  /// GB of memory and a 50GB disk, and 2 executors per worker.
+  /// </li>
+  /// <li>
+  /// For the <code>G.1X</code> worker type, each worker maps to 1 DPU (4 vCPU, 16
+  /// GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend
+  /// this worker type for memory-intensive jobs.
+  /// </li>
+  /// <li>
+  /// For the <code>G.2X</code> worker type, each worker maps to 2 DPU (8 vCPU, 32
+  /// GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend
+  /// this worker type for memory-intensive jobs.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'WorkerType')
+  final WorkerType workerType;
+
+  CreateJobRequest({
+    @_s.required this.command,
+    @_s.required this.name,
+    @_s.required this.role,
+    this.allocatedCapacity,
+    this.connections,
+    this.defaultArguments,
+    this.description,
+    this.executionProperty,
+    this.glueVersion,
+    this.logUri,
+    this.maxCapacity,
+    this.maxRetries,
+    this.nonOverridableArguments,
+    this.notificationProperty,
+    this.numberOfWorkers,
+    this.securityConfiguration,
+    this.tags,
+    this.timeout,
+    this.workerType,
+  });
+  Map<String, dynamic> toJson() => _$CreateJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateJobResponse {
@@ -10190,6 +10993,184 @@ class CreateJsonClassifierRequest {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateMLTransformRequest {
+  /// A list of AWS Glue table definitions used by the transform.
+  @_s.JsonKey(name: 'InputRecordTables')
+  final List<GlueTable> inputRecordTables;
+
+  /// The unique name that you give the transform when you create it.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The algorithmic parameters that are specific to the transform type used.
+  /// Conditionally dependent on the transform type.
+  @_s.JsonKey(name: 'Parameters')
+  final TransformParameters parameters;
+
+  /// The name or Amazon Resource Name (ARN) of the IAM role with the required
+  /// permissions. The required permissions include both AWS Glue service role
+  /// permissions to AWS Glue resources, and Amazon S3 permissions required by the
+  /// transform.
+  ///
+  /// <ul>
+  /// <li>
+  /// This role needs AWS Glue service role permissions to allow access to
+  /// resources in AWS Glue. See <a
+  /// href="https://docs.aws.amazon.com/glue/latest/dg/attach-policy-iam-user.html">Attach
+  /// a Policy to IAM Users That Access AWS Glue</a>.
+  /// </li>
+  /// <li>
+  /// This role needs permission to your Amazon Simple Storage Service (Amazon S3)
+  /// sources, targets, temporary directory, scripts, and any libraries used by
+  /// the task run for this transform.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Role')
+  final String role;
+
+  /// A description of the machine learning transform that is being defined. The
+  /// default is an empty string.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// This value determines which version of AWS Glue this machine learning
+  /// transform is compatible with. Glue 1.0 is recommended for most customers. If
+  /// the value is not set, the Glue compatibility defaults to Glue 0.9. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/glue/latest/dg/release-notes.html#release-notes-versions">AWS
+  /// Glue Versions</a> in the developer guide.
+  @_s.JsonKey(name: 'GlueVersion')
+  final String glueVersion;
+
+  /// The number of AWS Glue data processing units (DPUs) that are allocated to
+  /// task runs for this transform. You can allocate from 2 to 100 DPUs; the
+  /// default is 10. A DPU is a relative measure of processing power that consists
+  /// of 4 vCPUs of compute capacity and 16 GB of memory. For more information,
+  /// see the <a href="https://aws.amazon.com/glue/pricing/">AWS Glue pricing
+  /// page</a>.
+  ///
+  /// <code>MaxCapacity</code> is a mutually exclusive option with
+  /// <code>NumberOfWorkers</code> and <code>WorkerType</code>.
+  ///
+  /// <ul>
+  /// <li>
+  /// If either <code>NumberOfWorkers</code> or <code>WorkerType</code> is set,
+  /// then <code>MaxCapacity</code> cannot be set.
+  /// </li>
+  /// <li>
+  /// If <code>MaxCapacity</code> is set then neither <code>NumberOfWorkers</code>
+  /// or <code>WorkerType</code> can be set.
+  /// </li>
+  /// <li>
+  /// If <code>WorkerType</code> is set, then <code>NumberOfWorkers</code> is
+  /// required (and vice versa).
+  /// </li>
+  /// <li>
+  /// <code>MaxCapacity</code> and <code>NumberOfWorkers</code> must both be at
+  /// least 1.
+  /// </li>
+  /// </ul>
+  /// When the <code>WorkerType</code> field is set to a value other than
+  /// <code>Standard</code>, the <code>MaxCapacity</code> field is set
+  /// automatically and becomes read-only.
+  ///
+  /// When the <code>WorkerType</code> field is set to a value other than
+  /// <code>Standard</code>, the <code>MaxCapacity</code> field is set
+  /// automatically and becomes read-only.
+  @_s.JsonKey(name: 'MaxCapacity')
+  final double maxCapacity;
+
+  /// The maximum number of times to retry a task for this transform after a task
+  /// run fails.
+  @_s.JsonKey(name: 'MaxRetries')
+  final int maxRetries;
+
+  /// The number of workers of a defined <code>workerType</code> that are
+  /// allocated when this task runs.
+  ///
+  /// If <code>WorkerType</code> is set, then <code>NumberOfWorkers</code> is
+  /// required (and vice versa).
+  @_s.JsonKey(name: 'NumberOfWorkers')
+  final int numberOfWorkers;
+
+  /// The tags to use with this machine learning transform. You may use tags to
+  /// limit access to the machine learning transform. For more information about
+  /// tags in AWS Glue, see <a
+  /// href="https://docs.aws.amazon.com/glue/latest/dg/monitor-tags.html">AWS Tags
+  /// in AWS Glue</a> in the developer guide.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  /// The timeout of the task run for this transform in minutes. This is the
+  /// maximum time that a task run for this transform can consume resources before
+  /// it is terminated and enters <code>TIMEOUT</code> status. The default is
+  /// 2,880 minutes (48 hours).
+  @_s.JsonKey(name: 'Timeout')
+  final int timeout;
+
+  /// The type of predefined worker that is allocated when this task runs. Accepts
+  /// a value of Standard, G.1X, or G.2X.
+  ///
+  /// <ul>
+  /// <li>
+  /// For the <code>Standard</code> worker type, each worker provides 4 vCPU, 16
+  /// GB of memory and a 50GB disk, and 2 executors per worker.
+  /// </li>
+  /// <li>
+  /// For the <code>G.1X</code> worker type, each worker provides 4 vCPU, 16 GB of
+  /// memory and a 64GB disk, and 1 executor per worker.
+  /// </li>
+  /// <li>
+  /// For the <code>G.2X</code> worker type, each worker provides 8 vCPU, 32 GB of
+  /// memory and a 128GB disk, and 1 executor per worker.
+  /// </li>
+  /// </ul>
+  /// <code>MaxCapacity</code> is a mutually exclusive option with
+  /// <code>NumberOfWorkers</code> and <code>WorkerType</code>.
+  ///
+  /// <ul>
+  /// <li>
+  /// If either <code>NumberOfWorkers</code> or <code>WorkerType</code> is set,
+  /// then <code>MaxCapacity</code> cannot be set.
+  /// </li>
+  /// <li>
+  /// If <code>MaxCapacity</code> is set then neither <code>NumberOfWorkers</code>
+  /// or <code>WorkerType</code> can be set.
+  /// </li>
+  /// <li>
+  /// If <code>WorkerType</code> is set, then <code>NumberOfWorkers</code> is
+  /// required (and vice versa).
+  /// </li>
+  /// <li>
+  /// <code>MaxCapacity</code> and <code>NumberOfWorkers</code> must both be at
+  /// least 1.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'WorkerType')
+  final WorkerType workerType;
+
+  CreateMLTransformRequest({
+    @_s.required this.inputRecordTables,
+    @_s.required this.name,
+    @_s.required this.parameters,
+    @_s.required this.role,
+    this.description,
+    this.glueVersion,
+    this.maxCapacity,
+    this.maxRetries,
+    this.numberOfWorkers,
+    this.tags,
+    this.timeout,
+    this.workerType,
+  });
+  Map<String, dynamic> toJson() => _$CreateMLTransformRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateMLTransformResponse {
@@ -10207,12 +11188,70 @@ class CreateMLTransformResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreatePartitionRequest {
+  /// The name of the metadata database in which the partition is to be created.
+  @_s.JsonKey(name: 'DatabaseName')
+  final String databaseName;
+
+  /// A <code>PartitionInput</code> structure defining the partition to be
+  /// created.
+  @_s.JsonKey(name: 'PartitionInput')
+  final PartitionInput partitionInput;
+
+  /// The name of the metadata table in which the partition is to be created.
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  /// The AWS account ID of the catalog in which the partition is to be created.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  CreatePartitionRequest({
+    @_s.required this.databaseName,
+    @_s.required this.partitionInput,
+    @_s.required this.tableName,
+    this.catalogId,
+  });
+  Map<String, dynamic> toJson() => _$CreatePartitionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreatePartitionResponse {
   CreatePartitionResponse();
   factory CreatePartitionResponse.fromJson(Map<String, dynamic> json) =>
       _$CreatePartitionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateScriptRequest {
+  /// A list of the edges in the DAG.
+  @_s.JsonKey(name: 'DagEdges')
+  final List<CodeGenEdge> dagEdges;
+
+  /// A list of the nodes in the DAG.
+  @_s.JsonKey(name: 'DagNodes')
+  final List<CodeGenNode> dagNodes;
+
+  /// The programming language of the resulting code from the DAG.
+  @_s.JsonKey(name: 'Language')
+  final Language language;
+
+  CreateScriptRequest({
+    this.dagEdges,
+    this.dagNodes,
+    this.language,
+  });
+  Map<String, dynamic> toJson() => _$CreateScriptRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10235,6 +11274,28 @@ class CreateScriptResponse {
   });
   factory CreateScriptResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateScriptResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateSecurityConfigurationRequest {
+  /// The encryption configuration for the new security configuration.
+  @_s.JsonKey(name: 'EncryptionConfiguration')
+  final EncryptionConfiguration encryptionConfiguration;
+
+  /// The name for the new security configuration.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  CreateSecurityConfigurationRequest({
+    @_s.required this.encryptionConfiguration,
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateSecurityConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10266,12 +11327,109 @@ class CreateSecurityConfigurationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateTableRequest {
+  /// The catalog database in which to create the new table. For Hive
+  /// compatibility, this name is entirely lowercase.
+  @_s.JsonKey(name: 'DatabaseName')
+  final String databaseName;
+
+  /// The <code>TableInput</code> object that defines the metadata table to create
+  /// in the catalog.
+  @_s.JsonKey(name: 'TableInput')
+  final TableInput tableInput;
+
+  /// The ID of the Data Catalog in which to create the <code>Table</code>. If
+  /// none is supplied, the AWS account ID is used by default.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  CreateTableRequest({
+    @_s.required this.databaseName,
+    @_s.required this.tableInput,
+    this.catalogId,
+  });
+  Map<String, dynamic> toJson() => _$CreateTableRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateTableResponse {
   CreateTableResponse();
   factory CreateTableResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateTableResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateTriggerRequest {
+  /// The actions initiated by this trigger when it fires.
+  @_s.JsonKey(name: 'Actions')
+  final List<Action> actions;
+
+  /// The name of the trigger.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The type of the new trigger.
+  @_s.JsonKey(name: 'Type')
+  final TriggerType type;
+
+  /// A description of the new trigger.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// A predicate to specify when the new trigger should fire.
+  ///
+  /// This field is required when the trigger type is <code>CONDITIONAL</code>.
+  @_s.JsonKey(name: 'Predicate')
+  final Predicate predicate;
+
+  /// A <code>cron</code> expression used to specify the schedule (see <a
+  /// href="https://docs.aws.amazon.com/glue/latest/dg/monitor-data-warehouse-schedule.html">Time-Based
+  /// Schedules for Jobs and Crawlers</a>. For example, to run something every day
+  /// at 12:15 UTC, you would specify: <code>cron(15 12 * * ? *)</code>.
+  ///
+  /// This field is required when the trigger type is SCHEDULED.
+  @_s.JsonKey(name: 'Schedule')
+  final String schedule;
+
+  /// Set to <code>true</code> to start <code>SCHEDULED</code> and
+  /// <code>CONDITIONAL</code> triggers when created. True is not supported for
+  /// <code>ON_DEMAND</code> triggers.
+  @_s.JsonKey(name: 'StartOnCreation')
+  final bool startOnCreation;
+
+  /// The tags to use with this trigger. You may use tags to limit access to the
+  /// trigger. For more information about tags in AWS Glue, see <a
+  /// href="https://docs.aws.amazon.com/glue/latest/dg/monitor-tags.html">AWS Tags
+  /// in AWS Glue</a> in the developer guide.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  /// The name of the workflow associated with the trigger.
+  @_s.JsonKey(name: 'WorkflowName')
+  final String workflowName;
+
+  CreateTriggerRequest({
+    @_s.required this.actions,
+    @_s.required this.name,
+    @_s.required this.type,
+    this.description,
+    this.predicate,
+    this.schedule,
+    this.startOnCreation,
+    this.tags,
+    this.workflowName,
+  });
+  Map<String, dynamic> toJson() => _$CreateTriggerRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10294,6 +11452,35 @@ class CreateTriggerResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateUserDefinedFunctionRequest {
+  /// The name of the catalog database in which to create the function.
+  @_s.JsonKey(name: 'DatabaseName')
+  final String databaseName;
+
+  /// A <code>FunctionInput</code> object that defines the function to create in
+  /// the Data Catalog.
+  @_s.JsonKey(name: 'FunctionInput')
+  final UserDefinedFunctionInput functionInput;
+
+  /// The ID of the Data Catalog in which to create the function. If none is
+  /// provided, the AWS account ID is used by default.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  CreateUserDefinedFunctionRequest({
+    @_s.required this.databaseName,
+    @_s.required this.functionInput,
+    this.catalogId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateUserDefinedFunctionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateUserDefinedFunctionResponse {
@@ -10301,6 +11488,39 @@ class CreateUserDefinedFunctionResponse {
   factory CreateUserDefinedFunctionResponse.fromJson(
           Map<String, dynamic> json) =>
       _$CreateUserDefinedFunctionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateWorkflowRequest {
+  /// The name to be assigned to the workflow. It should be unique within your
+  /// account.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// A collection of properties to be used as part of each execution of the
+  /// workflow.
+  @_s.JsonKey(name: 'DefaultRunProperties')
+  final Map<String, String> defaultRunProperties;
+
+  /// A description of the workflow.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The tags to be used with this workflow.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  CreateWorkflowRequest({
+    @_s.required this.name,
+    this.defaultRunProperties,
+    this.description,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateWorkflowRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10581,12 +11801,50 @@ enum DeleteBehavior {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteClassifierRequest {
+  /// Name of the classifier to remove.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  DeleteClassifierRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$DeleteClassifierRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteClassifierResponse {
   DeleteClassifierResponse();
   factory DeleteClassifierResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteClassifierResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteConnectionRequest {
+  /// The name of the connection to delete.
+  @_s.JsonKey(name: 'ConnectionName')
+  final String connectionName;
+
+  /// The ID of the Data Catalog in which the connection resides. If none is
+  /// provided, the AWS account ID is used by default.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  DeleteConnectionRequest({
+    @_s.required this.connectionName,
+    this.catalogId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteConnectionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10603,12 +11861,51 @@ class DeleteConnectionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteCrawlerRequest {
+  /// The name of the crawler to remove.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  DeleteCrawlerRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$DeleteCrawlerRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteCrawlerResponse {
   DeleteCrawlerResponse();
   factory DeleteCrawlerResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteCrawlerResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDatabaseRequest {
+  /// The name of the database to delete. For Hive compatibility, this must be all
+  /// lowercase.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The ID of the Data Catalog in which the database resides. If none is
+  /// provided, the AWS account ID is used by default.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  DeleteDatabaseRequest({
+    @_s.required this.name,
+    this.catalogId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDatabaseRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10625,12 +11922,44 @@ class DeleteDatabaseResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDevEndpointRequest {
+  /// The name of the <code>DevEndpoint</code>.
+  @_s.JsonKey(name: 'EndpointName')
+  final String endpointName;
+
+  DeleteDevEndpointRequest({
+    @_s.required this.endpointName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDevEndpointRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteDevEndpointResponse {
   DeleteDevEndpointResponse();
   factory DeleteDevEndpointResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteDevEndpointResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteJobRequest {
+  /// The name of the job definition to delete.
+  @_s.JsonKey(name: 'JobName')
+  final String jobName;
+
+  DeleteJobRequest({
+    @_s.required this.jobName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10653,6 +11982,22 @@ class DeleteJobResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteMLTransformRequest {
+  /// The unique identifier of the transform to delete.
+  @_s.JsonKey(name: 'TransformId')
+  final String transformId;
+
+  DeleteMLTransformRequest({
+    @_s.required this.transformId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteMLTransformRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteMLTransformResponse {
@@ -10670,6 +12015,38 @@ class DeleteMLTransformResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeletePartitionRequest {
+  /// The name of the catalog database in which the table in question resides.
+  @_s.JsonKey(name: 'DatabaseName')
+  final String databaseName;
+
+  /// The values that define the partition.
+  @_s.JsonKey(name: 'PartitionValues')
+  final List<String> partitionValues;
+
+  /// The name of the table that contains the partition to be deleted.
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  /// The ID of the Data Catalog where the partition to be deleted resides. If
+  /// none is provided, the AWS account ID is used by default.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  DeletePartitionRequest({
+    @_s.required this.databaseName,
+    @_s.required this.partitionValues,
+    @_s.required this.tableName,
+    this.catalogId,
+  });
+  Map<String, dynamic> toJson() => _$DeletePartitionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeletePartitionResponse {
@@ -10681,12 +12058,45 @@ class DeletePartitionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteResourcePolicyRequest {
+  /// The hash value returned when this policy was set.
+  @_s.JsonKey(name: 'PolicyHashCondition')
+  final String policyHashCondition;
+
+  DeleteResourcePolicyRequest({
+    this.policyHashCondition,
+  });
+  Map<String, dynamic> toJson() => _$DeleteResourcePolicyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteResourcePolicyResponse {
   DeleteResourcePolicyResponse();
   factory DeleteResourcePolicyResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteResourcePolicyResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteSecurityConfigurationRequest {
+  /// The name of the security configuration to delete.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  DeleteSecurityConfigurationRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteSecurityConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10704,6 +12114,35 @@ class DeleteSecurityConfigurationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteTableRequest {
+  /// The name of the catalog database in which the table resides. For Hive
+  /// compatibility, this name is entirely lowercase.
+  @_s.JsonKey(name: 'DatabaseName')
+  final String databaseName;
+
+  /// The name of the table to be deleted. For Hive compatibility, this name is
+  /// entirely lowercase.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The ID of the Data Catalog where the table resides. If none is provided, the
+  /// AWS account ID is used by default.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  DeleteTableRequest({
+    @_s.required this.databaseName,
+    @_s.required this.name,
+    this.catalogId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteTableRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteTableResponse {
@@ -10715,12 +12154,63 @@ class DeleteTableResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteTableVersionRequest {
+  /// The database in the catalog in which the table resides. For Hive
+  /// compatibility, this name is entirely lowercase.
+  @_s.JsonKey(name: 'DatabaseName')
+  final String databaseName;
+
+  /// The name of the table. For Hive compatibility, this name is entirely
+  /// lowercase.
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  /// The ID of the table version to be deleted. A <code>VersionID</code> is a
+  /// string representation of an integer. Each version is incremented by 1.
+  @_s.JsonKey(name: 'VersionId')
+  final String versionId;
+
+  /// The ID of the Data Catalog where the tables reside. If none is provided, the
+  /// AWS account ID is used by default.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  DeleteTableVersionRequest({
+    @_s.required this.databaseName,
+    @_s.required this.tableName,
+    @_s.required this.versionId,
+    this.catalogId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteTableVersionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteTableVersionResponse {
   DeleteTableVersionResponse();
   factory DeleteTableVersionResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteTableVersionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteTriggerRequest {
+  /// The name of the trigger to delete.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  DeleteTriggerRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$DeleteTriggerRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10743,6 +12233,34 @@ class DeleteTriggerResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteUserDefinedFunctionRequest {
+  /// The name of the catalog database where the function is located.
+  @_s.JsonKey(name: 'DatabaseName')
+  final String databaseName;
+
+  /// The name of the function definition to be deleted.
+  @_s.JsonKey(name: 'FunctionName')
+  final String functionName;
+
+  /// The ID of the Data Catalog where the function to be deleted is located. If
+  /// none is supplied, the AWS account ID is used by default.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  DeleteUserDefinedFunctionRequest({
+    @_s.required this.databaseName,
+    @_s.required this.functionName,
+    this.catalogId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteUserDefinedFunctionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteUserDefinedFunctionResponse {
@@ -10750,6 +12268,22 @@ class DeleteUserDefinedFunctionResponse {
   factory DeleteUserDefinedFunctionResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DeleteUserDefinedFunctionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteWorkflowRequest {
+  /// Name of the workflow to be deleted.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  DeleteWorkflowRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$DeleteWorkflowRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -11218,20 +12752,6 @@ enum ExistCondition {
   none,
 }
 
-extension on ExistCondition {
-  String toValue() {
-    switch (this) {
-      case ExistCondition.mustExist:
-        return 'MUST_EXIST';
-      case ExistCondition.notExist:
-        return 'NOT_EXIST';
-      case ExistCondition.none:
-        return 'NONE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Specifies configuration properties for an exporting labels task run.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -11419,6 +12939,23 @@ class FindMatchesTaskRunProperties {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetCatalogImportStatusRequest {
+  /// The ID of the catalog to migrate. Currently, this should be the AWS account
+  /// ID.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  GetCatalogImportStatusRequest({
+    this.catalogId,
+  });
+  Map<String, dynamic> toJson() => _$GetCatalogImportStatusRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetCatalogImportStatusResponse {
@@ -11431,6 +12968,22 @@ class GetCatalogImportStatusResponse {
   });
   factory GetCatalogImportStatusResponse.fromJson(Map<String, dynamic> json) =>
       _$GetCatalogImportStatusResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetClassifierRequest {
+  /// Name of the classifier to retrieve.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  GetClassifierRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$GetClassifierRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -11453,6 +13006,27 @@ class GetClassifierResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetClassifiersRequest {
+  /// The size of the list to return (optional).
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// An optional continuation token.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetClassifiersRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$GetClassifiersRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetClassifiersResponse {
@@ -11470,6 +13044,38 @@ class GetClassifiersResponse {
   });
   factory GetClassifiersResponse.fromJson(Map<String, dynamic> json) =>
       _$GetClassifiersResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetConnectionRequest {
+  /// The name of the connection definition to retrieve.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The ID of the Data Catalog in which the connection resides. If none is
+  /// provided, the AWS account ID is used by default.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  /// Allows you to retrieve the connection metadata without returning the
+  /// password. For instance, the AWS Glue console uses this flag to retrieve the
+  /// connection, and does not display the password. Set this parameter when the
+  /// caller might not have permission to use the AWS KMS key to decrypt the
+  /// password, but it does have permission to access the rest of the connection
+  /// properties.
+  @_s.JsonKey(name: 'HidePassword')
+  final bool hidePassword;
+
+  GetConnectionRequest({
+    @_s.required this.name,
+    this.catalogId,
+    this.hidePassword,
+  });
+  Map<String, dynamic> toJson() => _$GetConnectionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -11517,6 +13123,48 @@ class GetConnectionsFilter {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetConnectionsRequest {
+  /// The ID of the Data Catalog in which the connections reside. If none is
+  /// provided, the AWS account ID is used by default.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  /// A filter that controls which connections are returned.
+  @_s.JsonKey(name: 'Filter')
+  final GetConnectionsFilter filter;
+
+  /// Allows you to retrieve the connection metadata without returning the
+  /// password. For instance, the AWS Glue console uses this flag to retrieve the
+  /// connection, and does not display the password. Set this parameter when the
+  /// caller might not have permission to use the AWS KMS key to decrypt the
+  /// password, but it does have permission to access the rest of the connection
+  /// properties.
+  @_s.JsonKey(name: 'HidePassword')
+  final bool hidePassword;
+
+  /// The maximum number of connections to return in one response.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A continuation token, if this is a continuation call.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetConnectionsRequest({
+    this.catalogId,
+    this.filter,
+    this.hidePassword,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$GetConnectionsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetConnectionsResponse {
@@ -11535,6 +13183,32 @@ class GetConnectionsResponse {
   });
   factory GetConnectionsResponse.fromJson(Map<String, dynamic> json) =>
       _$GetConnectionsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetCrawlerMetricsRequest {
+  /// A list of the names of crawlers about which to retrieve metrics.
+  @_s.JsonKey(name: 'CrawlerNameList')
+  final List<String> crawlerNameList;
+
+  /// The maximum size of a list to return.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A continuation token, if this is a continuation call.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetCrawlerMetricsRequest({
+    this.crawlerNameList,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$GetCrawlerMetricsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -11563,6 +13237,22 @@ class GetCrawlerMetricsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetCrawlerRequest {
+  /// The name of the crawler to retrieve metadata for.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  GetCrawlerRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$GetCrawlerRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetCrawlerResponse {
@@ -11575,6 +13265,27 @@ class GetCrawlerResponse {
   });
   factory GetCrawlerResponse.fromJson(Map<String, dynamic> json) =>
       _$GetCrawlerResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetCrawlersRequest {
+  /// The number of crawlers to return on each call.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A continuation token, if this is a continuation request.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetCrawlersRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$GetCrawlersRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -11603,6 +13314,24 @@ class GetCrawlersResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetDataCatalogEncryptionSettingsRequest {
+  /// The ID of the Data Catalog to retrieve the security configuration for. If
+  /// none is provided, the AWS account ID is used by default.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  GetDataCatalogEncryptionSettingsRequest({
+    this.catalogId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetDataCatalogEncryptionSettingsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetDataCatalogEncryptionSettingsResponse {
@@ -11621,6 +13350,29 @@ class GetDataCatalogEncryptionSettingsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetDatabaseRequest {
+  /// The name of the database to retrieve. For Hive compatibility, this should be
+  /// all lowercase.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The ID of the Data Catalog in which the database resides. If none is
+  /// provided, the AWS account ID is used by default.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  GetDatabaseRequest({
+    @_s.required this.name,
+    this.catalogId,
+  });
+  Map<String, dynamic> toJson() => _$GetDatabaseRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetDatabaseResponse {
@@ -11633,6 +13385,33 @@ class GetDatabaseResponse {
   });
   factory GetDatabaseResponse.fromJson(Map<String, dynamic> json) =>
       _$GetDatabaseResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetDatabasesRequest {
+  /// The ID of the Data Catalog from which to retrieve <code>Databases</code>. If
+  /// none is provided, the AWS account ID is used by default.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  /// The maximum number of databases to return in one response.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A continuation token, if this is a continuation call.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetDatabasesRequest({
+    this.catalogId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$GetDatabasesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -11661,6 +13440,22 @@ class GetDatabasesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetDataflowGraphRequest {
+  /// The Python script to transform.
+  @_s.JsonKey(name: 'PythonScript')
+  final String pythonScript;
+
+  GetDataflowGraphRequest({
+    this.pythonScript,
+  });
+  Map<String, dynamic> toJson() => _$GetDataflowGraphRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetDataflowGraphResponse {
@@ -11683,6 +13478,22 @@ class GetDataflowGraphResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetDevEndpointRequest {
+  /// Name of the <code>DevEndpoint</code> to retrieve information for.
+  @_s.JsonKey(name: 'EndpointName')
+  final String endpointName;
+
+  GetDevEndpointRequest({
+    @_s.required this.endpointName,
+  });
+  Map<String, dynamic> toJson() => _$GetDevEndpointRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetDevEndpointResponse {
@@ -11695,6 +13506,27 @@ class GetDevEndpointResponse {
   });
   factory GetDevEndpointResponse.fromJson(Map<String, dynamic> json) =>
       _$GetDevEndpointResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetDevEndpointsRequest {
+  /// The maximum size of information to return.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A continuation token, if this is a continuation call.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetDevEndpointsRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$GetDevEndpointsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -11723,6 +13555,27 @@ class GetDevEndpointsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetJobBookmarkRequest {
+  /// The name of the job in question.
+  @_s.JsonKey(name: 'JobName')
+  final String jobName;
+
+  /// The unique run identifier associated with this job run.
+  @_s.JsonKey(name: 'RunId')
+  final String runId;
+
+  GetJobBookmarkRequest({
+    @_s.required this.jobName,
+    this.runId,
+  });
+  Map<String, dynamic> toJson() => _$GetJobBookmarkRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetJobBookmarkResponse {
@@ -11735,6 +13588,22 @@ class GetJobBookmarkResponse {
   });
   factory GetJobBookmarkResponse.fromJson(Map<String, dynamic> json) =>
       _$GetJobBookmarkResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetJobRequest {
+  /// The name of the job definition to retrieve.
+  @_s.JsonKey(name: 'JobName')
+  final String jobName;
+
+  GetJobRequest({
+    @_s.required this.jobName,
+  });
+  Map<String, dynamic> toJson() => _$GetJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -11757,6 +13626,32 @@ class GetJobResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetJobRunRequest {
+  /// Name of the job definition being run.
+  @_s.JsonKey(name: 'JobName')
+  final String jobName;
+
+  /// The ID of the job run.
+  @_s.JsonKey(name: 'RunId')
+  final String runId;
+
+  /// True if a list of predecessor runs should be returned.
+  @_s.JsonKey(name: 'PredecessorsIncluded')
+  final bool predecessorsIncluded;
+
+  GetJobRunRequest({
+    @_s.required this.jobName,
+    @_s.required this.runId,
+    this.predecessorsIncluded,
+  });
+  Map<String, dynamic> toJson() => _$GetJobRunRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetJobRunResponse {
@@ -11769,6 +13664,32 @@ class GetJobRunResponse {
   });
   factory GetJobRunResponse.fromJson(Map<String, dynamic> json) =>
       _$GetJobRunResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetJobRunsRequest {
+  /// The name of the job definition for which to retrieve all job runs.
+  @_s.JsonKey(name: 'JobName')
+  final String jobName;
+
+  /// The maximum size of the response.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A continuation token, if this is a continuation call.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetJobRunsRequest({
+    @_s.required this.jobName,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$GetJobRunsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -11796,6 +13717,27 @@ class GetJobRunsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetJobsRequest {
+  /// The maximum size of the response.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A continuation token, if this is a continuation call.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetJobsRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$GetJobsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetJobsResponse {
@@ -11813,6 +13755,27 @@ class GetJobsResponse {
   });
   factory GetJobsResponse.fromJson(Map<String, dynamic> json) =>
       _$GetJobsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetMLTaskRunRequest {
+  /// The unique identifier of the task run.
+  @_s.JsonKey(name: 'TaskRunId')
+  final String taskRunId;
+
+  /// The unique identifier of the machine learning transform.
+  @_s.JsonKey(name: 'TransformId')
+  final String transformId;
+
+  GetMLTaskRunRequest({
+    @_s.required this.taskRunId,
+    @_s.required this.transformId,
+  });
+  Map<String, dynamic> toJson() => _$GetMLTaskRunRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -11889,6 +13852,44 @@ class GetMLTaskRunResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetMLTaskRunsRequest {
+  /// The unique identifier of the machine learning transform.
+  @_s.JsonKey(name: 'TransformId')
+  final String transformId;
+
+  /// The filter criteria, in the <code>TaskRunFilterCriteria</code> structure,
+  /// for the task run.
+  @_s.JsonKey(name: 'Filter')
+  final TaskRunFilterCriteria filter;
+
+  /// The maximum number of results to return.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A token for pagination of the results. The default is empty.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The sorting criteria, in the <code>TaskRunSortCriteria</code> structure, for
+  /// the task run.
+  @_s.JsonKey(name: 'Sort')
+  final TaskRunSortCriteria sort;
+
+  GetMLTaskRunsRequest({
+    @_s.required this.transformId,
+    this.filter,
+    this.maxResults,
+    this.nextToken,
+    this.sort,
+  });
+  Map<String, dynamic> toJson() => _$GetMLTaskRunsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetMLTaskRunsResponse {
@@ -11906,6 +13907,23 @@ class GetMLTaskRunsResponse {
   });
   factory GetMLTaskRunsResponse.fromJson(Map<String, dynamic> json) =>
       _$GetMLTaskRunsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetMLTransformRequest {
+  /// The unique identifier of the transform, generated at the time that the
+  /// transform was created.
+  @_s.JsonKey(name: 'TransformId')
+  final String transformId;
+
+  GetMLTransformRequest({
+    @_s.required this.transformId,
+  });
+  Map<String, dynamic> toJson() => _$GetMLTransformRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -12058,6 +14076,37 @@ class GetMLTransformResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetMLTransformsRequest {
+  /// The filter transformation criteria.
+  @_s.JsonKey(name: 'Filter')
+  final TransformFilterCriteria filter;
+
+  /// The maximum number of results to return.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A paginated token to offset the results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The sorting criteria.
+  @_s.JsonKey(name: 'Sort')
+  final TransformSortCriteria sort;
+
+  GetMLTransformsRequest({
+    this.filter,
+    this.maxResults,
+    this.nextToken,
+    this.sort,
+  });
+  Map<String, dynamic> toJson() => _$GetMLTransformsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetMLTransformsResponse {
@@ -12080,6 +14129,32 @@ class GetMLTransformsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetMappingRequest {
+  /// Specifies the source table.
+  @_s.JsonKey(name: 'Source')
+  final CatalogEntry source;
+
+  /// Parameters for the mapping.
+  @_s.JsonKey(name: 'Location')
+  final Location location;
+
+  /// A list of target tables.
+  @_s.JsonKey(name: 'Sinks')
+  final List<CatalogEntry> sinks;
+
+  GetMappingRequest({
+    @_s.required this.source,
+    this.location,
+    this.sinks,
+  });
+  Map<String, dynamic> toJson() => _$GetMappingRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetMappingResponse {
@@ -12097,6 +14172,38 @@ class GetMappingResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetPartitionRequest {
+  /// The name of the catalog database where the partition resides.
+  @_s.JsonKey(name: 'DatabaseName')
+  final String databaseName;
+
+  /// The values that define the partition.
+  @_s.JsonKey(name: 'PartitionValues')
+  final List<String> partitionValues;
+
+  /// The name of the partition's table.
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  /// The ID of the Data Catalog where the partition in question resides. If none
+  /// is provided, the AWS account ID is used by default.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  GetPartitionRequest({
+    @_s.required this.databaseName,
+    @_s.required this.partitionValues,
+    @_s.required this.tableName,
+    this.catalogId,
+  });
+  Map<String, dynamic> toJson() => _$GetPartitionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetPartitionResponse {
@@ -12109,6 +14216,136 @@ class GetPartitionResponse {
   });
   factory GetPartitionResponse.fromJson(Map<String, dynamic> json) =>
       _$GetPartitionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetPartitionsRequest {
+  /// The name of the catalog database where the partitions reside.
+  @_s.JsonKey(name: 'DatabaseName')
+  final String databaseName;
+
+  /// The name of the partitions' table.
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  /// The ID of the Data Catalog where the partitions in question reside. If none
+  /// is provided, the AWS account ID is used by default.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  /// An expression that filters the partitions to be returned.
+  ///
+  /// The expression uses SQL syntax similar to the SQL <code>WHERE</code> filter
+  /// clause. The SQL statement parser <a
+  /// href="http://jsqlparser.sourceforge.net/home.php">JSQLParser</a> parses the
+  /// expression.
+  ///
+  /// <i>Operators</i>: The following are the operators that you can use in the
+  /// <code>Expression</code> API call:
+  /// <dl> <dt>=</dt> <dd>
+  /// Checks whether the values of the two operands are equal; if yes, then the
+  /// condition becomes true.
+  ///
+  /// Example: Assume 'variable a' holds 10 and 'variable b' holds 20.
+  ///
+  /// (a = b) is not true.
+  /// </dd> <dt>&lt; &gt;</dt> <dd>
+  /// Checks whether the values of two operands are equal; if the values are not
+  /// equal, then the condition becomes true.
+  ///
+  /// Example: (a &lt; &gt; b) is true.
+  /// </dd> <dt>&gt;</dt> <dd>
+  /// Checks whether the value of the left operand is greater than the value of
+  /// the right operand; if yes, then the condition becomes true.
+  ///
+  /// Example: (a &gt; b) is not true.
+  /// </dd> <dt>&lt;</dt> <dd>
+  /// Checks whether the value of the left operand is less than the value of the
+  /// right operand; if yes, then the condition becomes true.
+  ///
+  /// Example: (a &lt; b) is true.
+  /// </dd> <dt>&gt;=</dt> <dd>
+  /// Checks whether the value of the left operand is greater than or equal to the
+  /// value of the right operand; if yes, then the condition becomes true.
+  ///
+  /// Example: (a &gt;= b) is not true.
+  /// </dd> <dt>&lt;=</dt> <dd>
+  /// Checks whether the value of the left operand is less than or equal to the
+  /// value of the right operand; if yes, then the condition becomes true.
+  ///
+  /// Example: (a &lt;= b) is true.
+  /// </dd> <dt>AND, OR, IN, BETWEEN, LIKE, NOT, IS NULL</dt> <dd>
+  /// Logical operators.
+  /// </dd> </dl>
+  /// <i>Supported Partition Key Types</i>: The following are the supported
+  /// partition keys.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>string</code>
+  /// </li>
+  /// <li>
+  /// <code>date</code>
+  /// </li>
+  /// <li>
+  /// <code>timestamp</code>
+  /// </li>
+  /// <li>
+  /// <code>int</code>
+  /// </li>
+  /// <li>
+  /// <code>bigint</code>
+  /// </li>
+  /// <li>
+  /// <code>long</code>
+  /// </li>
+  /// <li>
+  /// <code>tinyint</code>
+  /// </li>
+  /// <li>
+  /// <code>smallint</code>
+  /// </li>
+  /// <li>
+  /// <code>decimal</code>
+  /// </li>
+  /// </ul>
+  /// If an invalid type is encountered, an exception is thrown.
+  ///
+  /// The following list shows the valid operators on each type. When you define a
+  /// crawler, the <code>partitionKey</code> type is created as a
+  /// <code>STRING</code>, to be compatible with the catalog partitions.
+  ///
+  /// <i>Sample API Call</i>:
+  @_s.JsonKey(name: 'Expression')
+  final String expression;
+
+  /// The maximum number of partitions to return in a single response.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A continuation token, if this is not the first call to retrieve these
+  /// partitions.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The segment of the table's partitions to scan in this request.
+  @_s.JsonKey(name: 'Segment')
+  final Segment segment;
+
+  GetPartitionsRequest({
+    @_s.required this.databaseName,
+    @_s.required this.tableName,
+    this.catalogId,
+    this.expression,
+    this.maxResults,
+    this.nextToken,
+    this.segment,
+  });
+  Map<String, dynamic> toJson() => _$GetPartitionsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -12132,6 +14369,42 @@ class GetPartitionsResponse {
   });
   factory GetPartitionsResponse.fromJson(Map<String, dynamic> json) =>
       _$GetPartitionsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetPlanRequest {
+  /// The list of mappings from a source table to target tables.
+  @_s.JsonKey(name: 'Mapping')
+  final List<MappingEntry> mapping;
+
+  /// The source table.
+  @_s.JsonKey(name: 'Source')
+  final CatalogEntry source;
+
+  /// The programming language of the code to perform the mapping.
+  @_s.JsonKey(name: 'Language')
+  final Language language;
+
+  /// The parameters for the mapping.
+  @_s.JsonKey(name: 'Location')
+  final Location location;
+
+  /// The target tables.
+  @_s.JsonKey(name: 'Sinks')
+  final List<CatalogEntry> sinks;
+
+  GetPlanRequest({
+    @_s.required this.mapping,
+    @_s.required this.source,
+    this.language,
+    this.location,
+    this.sinks,
+  });
+  Map<String, dynamic> toJson() => _$GetPlanRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -12197,6 +14470,23 @@ class GetResourcePolicyResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetSecurityConfigurationRequest {
+  /// The name of the security configuration to retrieve.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  GetSecurityConfigurationRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetSecurityConfigurationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetSecurityConfigurationResponse {
@@ -12210,6 +14500,28 @@ class GetSecurityConfigurationResponse {
   factory GetSecurityConfigurationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$GetSecurityConfigurationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetSecurityConfigurationsRequest {
+  /// The maximum number of results to return.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A continuation token, if this is a continuation call.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetSecurityConfigurationsRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetSecurityConfigurationsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -12238,6 +14550,35 @@ class GetSecurityConfigurationsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetTableRequest {
+  /// The name of the database in the catalog in which the table resides. For Hive
+  /// compatibility, this name is entirely lowercase.
+  @_s.JsonKey(name: 'DatabaseName')
+  final String databaseName;
+
+  /// The name of the table for which to retrieve the definition. For Hive
+  /// compatibility, this name is entirely lowercase.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The ID of the Data Catalog where the table resides. If none is provided, the
+  /// AWS account ID is used by default.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  GetTableRequest({
+    @_s.required this.databaseName,
+    @_s.required this.name,
+    this.catalogId,
+  });
+  Map<String, dynamic> toJson() => _$GetTableRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetTableResponse {
@@ -12255,6 +14596,41 @@ class GetTableResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetTableVersionRequest {
+  /// The database in the catalog in which the table resides. For Hive
+  /// compatibility, this name is entirely lowercase.
+  @_s.JsonKey(name: 'DatabaseName')
+  final String databaseName;
+
+  /// The name of the table. For Hive compatibility, this name is entirely
+  /// lowercase.
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  /// The ID of the Data Catalog where the tables reside. If none is provided, the
+  /// AWS account ID is used by default.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  /// The ID value of the table version to be retrieved. A <code>VersionID</code>
+  /// is a string representation of an integer. Each version is incremented by 1.
+  @_s.JsonKey(name: 'VersionId')
+  final String versionId;
+
+  GetTableVersionRequest({
+    @_s.required this.databaseName,
+    @_s.required this.tableName,
+    this.catalogId,
+    this.versionId,
+  });
+  Map<String, dynamic> toJson() => _$GetTableVersionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetTableVersionResponse {
@@ -12267,6 +14643,45 @@ class GetTableVersionResponse {
   });
   factory GetTableVersionResponse.fromJson(Map<String, dynamic> json) =>
       _$GetTableVersionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetTableVersionsRequest {
+  /// The database in the catalog in which the table resides. For Hive
+  /// compatibility, this name is entirely lowercase.
+  @_s.JsonKey(name: 'DatabaseName')
+  final String databaseName;
+
+  /// The name of the table. For Hive compatibility, this name is entirely
+  /// lowercase.
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  /// The ID of the Data Catalog where the tables reside. If none is provided, the
+  /// AWS account ID is used by default.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  /// The maximum number of table versions to return in one response.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A continuation token, if this is not the first call.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetTableVersionsRequest({
+    @_s.required this.databaseName,
+    @_s.required this.tableName,
+    this.catalogId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$GetTableVersionsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -12295,6 +14710,45 @@ class GetTableVersionsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetTablesRequest {
+  /// The database in the catalog whose tables to list. For Hive compatibility,
+  /// this name is entirely lowercase.
+  @_s.JsonKey(name: 'DatabaseName')
+  final String databaseName;
+
+  /// The ID of the Data Catalog where the tables reside. If none is provided, the
+  /// AWS account ID is used by default.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  /// A regular expression pattern. If present, only those tables whose names
+  /// match the pattern are returned.
+  @_s.JsonKey(name: 'Expression')
+  final String expression;
+
+  /// The maximum number of tables to return in a single response.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A continuation token, included if this is a continuation call.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetTablesRequest({
+    @_s.required this.databaseName,
+    this.catalogId,
+    this.expression,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$GetTablesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetTablesResponse {
@@ -12317,6 +14771,22 @@ class GetTablesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetTagsRequest {
+  /// The Amazon Resource Name (ARN) of the resource for which to retrieve tags.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  GetTagsRequest({
+    @_s.required this.resourceArn,
+  });
+  Map<String, dynamic> toJson() => _$GetTagsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetTagsResponse {
@@ -12334,6 +14804,22 @@ class GetTagsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetTriggerRequest {
+  /// The name of the trigger to retrieve.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  GetTriggerRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$GetTriggerRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetTriggerResponse {
@@ -12346,6 +14832,34 @@ class GetTriggerResponse {
   });
   factory GetTriggerResponse.fromJson(Map<String, dynamic> json) =>
       _$GetTriggerResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetTriggersRequest {
+  /// The name of the job to retrieve triggers for. The trigger that can start
+  /// this job is returned, and if there is no such trigger, all triggers are
+  /// returned.
+  @_s.JsonKey(name: 'DependentJobName')
+  final String dependentJobName;
+
+  /// The maximum size of the response.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A continuation token, if this is a continuation call.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetTriggersRequest({
+    this.dependentJobName,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$GetTriggersRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -12374,6 +14888,33 @@ class GetTriggersResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetUserDefinedFunctionRequest {
+  /// The name of the catalog database where the function is located.
+  @_s.JsonKey(name: 'DatabaseName')
+  final String databaseName;
+
+  /// The name of the function.
+  @_s.JsonKey(name: 'FunctionName')
+  final String functionName;
+
+  /// The ID of the Data Catalog where the function to be retrieved is located. If
+  /// none is provided, the AWS account ID is used by default.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  GetUserDefinedFunctionRequest({
+    @_s.required this.databaseName,
+    @_s.required this.functionName,
+    this.catalogId,
+  });
+  Map<String, dynamic> toJson() => _$GetUserDefinedFunctionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetUserDefinedFunctionResponse {
@@ -12386,6 +14927,44 @@ class GetUserDefinedFunctionResponse {
   });
   factory GetUserDefinedFunctionResponse.fromJson(Map<String, dynamic> json) =>
       _$GetUserDefinedFunctionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetUserDefinedFunctionsRequest {
+  /// An optional function-name pattern string that filters the function
+  /// definitions returned.
+  @_s.JsonKey(name: 'Pattern')
+  final String pattern;
+
+  /// The ID of the Data Catalog where the functions to be retrieved are located.
+  /// If none is provided, the AWS account ID is used by default.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  /// The name of the catalog database where the functions are located.
+  @_s.JsonKey(name: 'DatabaseName')
+  final String databaseName;
+
+  /// The maximum number of functions to return in one response.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A continuation token, if this is a continuation call.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetUserDefinedFunctionsRequest({
+    @_s.required this.pattern,
+    this.catalogId,
+    this.databaseName,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$GetUserDefinedFunctionsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -12414,6 +14993,28 @@ class GetUserDefinedFunctionsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetWorkflowRequest {
+  /// The name of the workflow to retrieve.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Specifies whether to include a graph when returning the workflow resource
+  /// metadata.
+  @_s.JsonKey(name: 'IncludeGraph')
+  final bool includeGraph;
+
+  GetWorkflowRequest({
+    @_s.required this.name,
+    this.includeGraph,
+  });
+  Map<String, dynamic> toJson() => _$GetWorkflowRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetWorkflowResponse {
@@ -12426,6 +15027,28 @@ class GetWorkflowResponse {
   });
   factory GetWorkflowResponse.fromJson(Map<String, dynamic> json) =>
       _$GetWorkflowResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetWorkflowRunPropertiesRequest {
+  /// Name of the workflow which was run.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The ID of the workflow run whose run properties should be returned.
+  @_s.JsonKey(name: 'RunId')
+  final String runId;
+
+  GetWorkflowRunPropertiesRequest({
+    @_s.required this.name,
+    @_s.required this.runId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetWorkflowRunPropertiesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -12449,6 +15072,32 @@ class GetWorkflowRunPropertiesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetWorkflowRunRequest {
+  /// Name of the workflow being run.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The ID of the workflow run.
+  @_s.JsonKey(name: 'RunId')
+  final String runId;
+
+  /// Specifies whether to include the workflow graph in response or not.
+  @_s.JsonKey(name: 'IncludeGraph')
+  final bool includeGraph;
+
+  GetWorkflowRunRequest({
+    @_s.required this.name,
+    @_s.required this.runId,
+    this.includeGraph,
+  });
+  Map<String, dynamic> toJson() => _$GetWorkflowRunRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetWorkflowRunResponse {
@@ -12461,6 +15110,37 @@ class GetWorkflowRunResponse {
   });
   factory GetWorkflowRunResponse.fromJson(Map<String, dynamic> json) =>
       _$GetWorkflowRunResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetWorkflowRunsRequest {
+  /// Name of the workflow whose metadata of runs should be returned.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Specifies whether to include the workflow graph in response or not.
+  @_s.JsonKey(name: 'IncludeGraph')
+  final bool includeGraph;
+
+  /// The maximum number of workflow runs to be included in the response.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The maximum size of the response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetWorkflowRunsRequest({
+    @_s.required this.name,
+    this.includeGraph,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$GetWorkflowRunsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -12580,6 +15260,23 @@ class GrokClassifier {
   });
   factory GrokClassifier.fromJson(Map<String, dynamic> json) =>
       _$GrokClassifierFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ImportCatalogToGlueRequest {
+  /// The ID of the catalog to import. Currently, this should be the AWS account
+  /// ID.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  ImportCatalogToGlueRequest({
+    this.catalogId,
+  });
+  Map<String, dynamic> toJson() => _$ImportCatalogToGlueRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13464,18 +16161,6 @@ enum Language {
   scala,
 }
 
-extension on Language {
-  String toValue() {
-    switch (this) {
-      case Language.python:
-        return 'PYTHON';
-      case Language.scala:
-        return 'SCALA';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Status and error information about the most recent crawl.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -13534,6 +16219,32 @@ enum LastCrawlStatus {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListCrawlersRequest {
+  /// The maximum size of a list to return.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A continuation token, if this is a continuation request.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Specifies to return only these tagged resources.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  ListCrawlersRequest({
+    this.maxResults,
+    this.nextToken,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$ListCrawlersRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListCrawlersResponse {
@@ -13553,6 +16264,32 @@ class ListCrawlersResponse {
   });
   factory ListCrawlersResponse.fromJson(Map<String, dynamic> json) =>
       _$ListCrawlersResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListDevEndpointsRequest {
+  /// The maximum size of a list to return.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A continuation token, if this is a continuation request.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Specifies to return only these tagged resources.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  ListDevEndpointsRequest({
+    this.maxResults,
+    this.nextToken,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$ListDevEndpointsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13582,6 +16319,32 @@ class ListDevEndpointsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListJobsRequest {
+  /// The maximum size of a list to return.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A continuation token, if this is a continuation request.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Specifies to return only these tagged resources.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  ListJobsRequest({
+    this.maxResults,
+    this.nextToken,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$ListJobsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListJobsResponse {
@@ -13600,6 +16363,44 @@ class ListJobsResponse {
   });
   factory ListJobsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListJobsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListMLTransformsRequest {
+  /// A <code>TransformFilterCriteria</code> used to filter the machine learning
+  /// transforms.
+  @_s.JsonKey(name: 'Filter')
+  final TransformFilterCriteria filter;
+
+  /// The maximum size of a list to return.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A continuation token, if this is a continuation request.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// A <code>TransformSortCriteria</code> used to sort the machine learning
+  /// transforms.
+  @_s.JsonKey(name: 'Sort')
+  final TransformSortCriteria sort;
+
+  /// Specifies to return only these tagged resources.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  ListMLTransformsRequest({
+    this.filter,
+    this.maxResults,
+    this.nextToken,
+    this.sort,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$ListMLTransformsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13629,6 +16430,39 @@ class ListMLTransformsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTriggersRequest {
+  /// The name of the job for which to retrieve triggers. The trigger that can
+  /// start this job is returned. If there is no such trigger, all triggers are
+  /// returned.
+  @_s.JsonKey(name: 'DependentJobName')
+  final String dependentJobName;
+
+  /// The maximum size of a list to return.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A continuation token, if this is a continuation request.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Specifies to return only these tagged resources.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  ListTriggersRequest({
+    this.dependentJobName,
+    this.maxResults,
+    this.nextToken,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$ListTriggersRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListTriggersResponse {
@@ -13648,6 +16482,27 @@ class ListTriggersResponse {
   });
   factory ListTriggersResponse.fromJson(Map<String, dynamic> json) =>
       _$ListTriggersResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListWorkflowsRequest {
+  /// The maximum size of a list to return.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A continuation token, if this is a continuation request.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListWorkflowsRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListWorkflowsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -14393,6 +17248,29 @@ class PropertyPredicate {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutDataCatalogEncryptionSettingsRequest {
+  /// The security configuration to set.
+  @_s.JsonKey(name: 'DataCatalogEncryptionSettings')
+  final DataCatalogEncryptionSettings dataCatalogEncryptionSettings;
+
+  /// The ID of the Data Catalog to set the security configuration for. If none is
+  /// provided, the AWS account ID is used by default.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  PutDataCatalogEncryptionSettingsRequest({
+    @_s.required this.dataCatalogEncryptionSettings,
+    this.catalogId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutDataCatalogEncryptionSettingsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutDataCatalogEncryptionSettingsResponse {
@@ -14400,6 +17278,38 @@ class PutDataCatalogEncryptionSettingsResponse {
   factory PutDataCatalogEncryptionSettingsResponse.fromJson(
           Map<String, dynamic> json) =>
       _$PutDataCatalogEncryptionSettingsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutResourcePolicyRequest {
+  /// Contains the policy document to set, in JSON format.
+  @_s.JsonKey(name: 'PolicyInJson')
+  final String policyInJson;
+
+  /// A value of <code>MUST_EXIST</code> is used to update a policy. A value of
+  /// <code>NOT_EXIST</code> is used to create a new policy. If a value of
+  /// <code>NONE</code> or a null value is used, the call will not depend on the
+  /// existence of a policy.
+  @_s.JsonKey(name: 'PolicyExistsCondition')
+  final ExistCondition policyExistsCondition;
+
+  /// The hash value returned when the previous policy was set using
+  /// <code>PutResourcePolicy</code>. Its purpose is to prevent concurrent
+  /// modifications of a policy. Do not use this parameter if no previous policy
+  /// has been set.
+  @_s.JsonKey(name: 'PolicyHashCondition')
+  final String policyHashCondition;
+
+  PutResourcePolicyRequest({
+    @_s.required this.policyInJson,
+    this.policyExistsCondition,
+    this.policyHashCondition,
+  });
+  Map<String, dynamic> toJson() => _$PutResourcePolicyRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -14423,6 +17333,33 @@ class PutResourcePolicyResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutWorkflowRunPropertiesRequest {
+  /// Name of the workflow which was run.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The ID of the workflow run for which the run properties should be updated.
+  @_s.JsonKey(name: 'RunId')
+  final String runId;
+
+  /// The properties to put for the specified run.
+  @_s.JsonKey(name: 'RunProperties')
+  final Map<String, String> runProperties;
+
+  PutWorkflowRunPropertiesRequest({
+    @_s.required this.name,
+    @_s.required this.runId,
+    @_s.required this.runProperties,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutWorkflowRunPropertiesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutWorkflowRunPropertiesResponse {
@@ -14430,6 +17367,27 @@ class PutWorkflowRunPropertiesResponse {
   factory PutWorkflowRunPropertiesResponse.fromJson(
           Map<String, dynamic> json) =>
       _$PutWorkflowRunPropertiesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ResetJobBookmarkRequest {
+  /// The name of the job in question.
+  @_s.JsonKey(name: 'JobName')
+  final String jobName;
+
+  /// The unique run identifier associated with this job run.
+  @_s.JsonKey(name: 'RunId')
+  final String runId;
+
+  ResetJobBookmarkRequest({
+    @_s.required this.jobName,
+    this.runId,
+  });
+  Map<String, dynamic> toJson() => _$ResetJobBookmarkRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -14639,6 +17597,51 @@ class SchemaColumn {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SearchTablesRequest {
+  /// A unique identifier, consisting of <code> <i>account_id</i>/datalake</code>.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  /// A list of key-value pairs, and a comparator used to filter the search
+  /// results. Returns all entities matching the predicate.
+  @_s.JsonKey(name: 'Filters')
+  final List<PropertyPredicate> filters;
+
+  /// The maximum number of tables to return in a single response.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A continuation token, included if this is a continuation call.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// A string used for a text search.
+  ///
+  /// Specifying a value in quotes filters based on an exact match to the value.
+  @_s.JsonKey(name: 'SearchText')
+  final String searchText;
+
+  /// A list of criteria for sorting the results by a field name, in an ascending
+  /// or descending order.
+  @_s.JsonKey(name: 'SortCriteria')
+  final List<SortCriterion> sortCriteria;
+
+  SearchTablesRequest({
+    this.catalogId,
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+    this.searchText,
+    this.sortCriteria,
+  });
+  Map<String, dynamic> toJson() => _$SearchTablesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class SearchTablesResponse {
@@ -14817,6 +17820,22 @@ enum SortDirectionType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartCrawlerRequest {
+  /// Name of the crawler to start.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  StartCrawlerRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$StartCrawlerRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartCrawlerResponse {
@@ -14828,12 +17847,50 @@ class StartCrawlerResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartCrawlerScheduleRequest {
+  /// Name of the crawler to schedule.
+  @_s.JsonKey(name: 'CrawlerName')
+  final String crawlerName;
+
+  StartCrawlerScheduleRequest({
+    @_s.required this.crawlerName,
+  });
+  Map<String, dynamic> toJson() => _$StartCrawlerScheduleRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartCrawlerScheduleResponse {
   StartCrawlerScheduleResponse();
   factory StartCrawlerScheduleResponse.fromJson(Map<String, dynamic> json) =>
       _$StartCrawlerScheduleResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartExportLabelsTaskRunRequest {
+  /// The Amazon S3 path where you export the labels.
+  @_s.JsonKey(name: 'OutputS3Path')
+  final String outputS3Path;
+
+  /// The unique identifier of the machine learning transform.
+  @_s.JsonKey(name: 'TransformId')
+  final String transformId;
+
+  StartExportLabelsTaskRunRequest({
+    @_s.required this.outputS3Path,
+    @_s.required this.transformId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StartExportLabelsTaskRunRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -14857,6 +17914,34 @@ class StartExportLabelsTaskRunResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartImportLabelsTaskRunRequest {
+  /// The Amazon Simple Storage Service (Amazon S3) path from where you import the
+  /// labels.
+  @_s.JsonKey(name: 'InputS3Path')
+  final String inputS3Path;
+
+  /// The unique identifier of the machine learning transform.
+  @_s.JsonKey(name: 'TransformId')
+  final String transformId;
+
+  /// Indicates whether to overwrite your existing labels.
+  @_s.JsonKey(name: 'ReplaceAllLabels')
+  final bool replaceAllLabels;
+
+  StartImportLabelsTaskRunRequest({
+    @_s.required this.inputS3Path,
+    @_s.required this.transformId,
+    this.replaceAllLabels,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StartImportLabelsTaskRunRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartImportLabelsTaskRunResponse {
@@ -14875,6 +17960,137 @@ class StartImportLabelsTaskRunResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartJobRunRequest {
+  /// The name of the job definition to use.
+  @_s.JsonKey(name: 'JobName')
+  final String jobName;
+
+  /// This field is deprecated. Use <code>MaxCapacity</code> instead.
+  ///
+  /// The number of AWS Glue data processing units (DPUs) to allocate to this
+  /// JobRun. From 2 to 100 DPUs can be allocated; the default is 10. A DPU is a
+  /// relative measure of processing power that consists of 4 vCPUs of compute
+  /// capacity and 16 GB of memory. For more information, see the <a
+  /// href="https://docs.aws.amazon.com/https:/aws.amazon.com/glue/pricing/">AWS
+  /// Glue pricing page</a>.
+  @_s.JsonKey(name: 'AllocatedCapacity')
+  final int allocatedCapacity;
+
+  /// The job arguments specifically for this run. For this job run, they replace
+  /// the default arguments set in the job definition itself.
+  ///
+  /// You can specify arguments here that your own job-execution script consumes,
+  /// as well as arguments that AWS Glue itself consumes.
+  ///
+  /// For information about how to specify and consume your own Job arguments, see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-calling.html">Calling
+  /// AWS Glue APIs in Python</a> topic in the developer guide.
+  ///
+  /// For information about the key-value pairs that AWS Glue consumes to set up
+  /// your job, see the <a
+  /// href="https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html">Special
+  /// Parameters Used by AWS Glue</a> topic in the developer guide.
+  @_s.JsonKey(name: 'Arguments')
+  final Map<String, String> arguments;
+
+  /// The ID of a previous <code>JobRun</code> to retry.
+  @_s.JsonKey(name: 'JobRunId')
+  final String jobRunId;
+
+  /// The number of AWS Glue data processing units (DPUs) that can be allocated
+  /// when this job runs. A DPU is a relative measure of processing power that
+  /// consists of 4 vCPUs of compute capacity and 16 GB of memory. For more
+  /// information, see the <a
+  /// href="https://docs.aws.amazon.com/https:/aws.amazon.com/glue/pricing/">AWS
+  /// Glue pricing page</a>.
+  ///
+  /// Do not set <code>Max Capacity</code> if using <code>WorkerType</code> and
+  /// <code>NumberOfWorkers</code>.
+  ///
+  /// The value that can be allocated for <code>MaxCapacity</code> depends on
+  /// whether you are running a Python shell job, or an Apache Spark ETL job:
+  ///
+  /// <ul>
+  /// <li>
+  /// When you specify a Python shell job
+  /// (<code>JobCommand.Name</code>="pythonshell"), you can allocate either 0.0625
+  /// or 1 DPU. The default is 0.0625 DPU.
+  /// </li>
+  /// <li>
+  /// When you specify an Apache Spark ETL job
+  /// (<code>JobCommand.Name</code>="glueetl"), you can allocate from 2 to 100
+  /// DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU
+  /// allocation.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'MaxCapacity')
+  final double maxCapacity;
+
+  /// Specifies configuration properties of a job run notification.
+  @_s.JsonKey(name: 'NotificationProperty')
+  final NotificationProperty notificationProperty;
+
+  /// The number of workers of a defined <code>workerType</code> that are
+  /// allocated when a job runs.
+  ///
+  /// The maximum number of workers you can define are 299 for <code>G.1X</code>,
+  /// and 149 for <code>G.2X</code>.
+  @_s.JsonKey(name: 'NumberOfWorkers')
+  final int numberOfWorkers;
+
+  /// The name of the <code>SecurityConfiguration</code> structure to be used with
+  /// this job run.
+  @_s.JsonKey(name: 'SecurityConfiguration')
+  final String securityConfiguration;
+
+  /// The <code>JobRun</code> timeout in minutes. This is the maximum time that a
+  /// job run can consume resources before it is terminated and enters
+  /// <code>TIMEOUT</code> status. The default is 2,880 minutes (48 hours). This
+  /// overrides the timeout value set in the parent job.
+  @_s.JsonKey(name: 'Timeout')
+  final int timeout;
+
+  /// The type of predefined worker that is allocated when a job runs. Accepts a
+  /// value of Standard, G.1X, or G.2X.
+  ///
+  /// <ul>
+  /// <li>
+  /// For the <code>Standard</code> worker type, each worker provides 4 vCPU, 16
+  /// GB of memory and a 50GB disk, and 2 executors per worker.
+  /// </li>
+  /// <li>
+  /// For the <code>G.1X</code> worker type, each worker provides 4 vCPU, 16 GB of
+  /// memory and a 64GB disk, and 1 executor per worker.
+  /// </li>
+  /// <li>
+  /// For the <code>G.2X</code> worker type, each worker provides 8 vCPU, 32 GB of
+  /// memory and a 128GB disk, and 1 executor per worker.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'WorkerType')
+  final WorkerType workerType;
+
+  StartJobRunRequest({
+    @_s.required this.jobName,
+    this.allocatedCapacity,
+    this.arguments,
+    this.jobRunId,
+    this.maxCapacity,
+    this.notificationProperty,
+    this.numberOfWorkers,
+    this.securityConfiguration,
+    this.timeout,
+    this.workerType,
+  });
+  Map<String, dynamic> toJson() => _$StartJobRunRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartJobRunResponse {
@@ -14887,6 +18103,23 @@ class StartJobRunResponse {
   });
   factory StartJobRunResponse.fromJson(Map<String, dynamic> json) =>
       _$StartJobRunResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartMLEvaluationTaskRunRequest {
+  /// The unique identifier of the machine learning transform.
+  @_s.JsonKey(name: 'TransformId')
+  final String transformId;
+
+  StartMLEvaluationTaskRunRequest({
+    @_s.required this.transformId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StartMLEvaluationTaskRunRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -14910,6 +18143,29 @@ class StartMLEvaluationTaskRunResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartMLLabelingSetGenerationTaskRunRequest {
+  /// The Amazon Simple Storage Service (Amazon S3) path where you generate the
+  /// labeling set.
+  @_s.JsonKey(name: 'OutputS3Path')
+  final String outputS3Path;
+
+  /// The unique identifier of the machine learning transform.
+  @_s.JsonKey(name: 'TransformId')
+  final String transformId;
+
+  StartMLLabelingSetGenerationTaskRunRequest({
+    @_s.required this.outputS3Path,
+    @_s.required this.transformId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StartMLLabelingSetGenerationTaskRunRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartMLLabelingSetGenerationTaskRunResponse {
@@ -14923,6 +18179,22 @@ class StartMLLabelingSetGenerationTaskRunResponse {
   factory StartMLLabelingSetGenerationTaskRunResponse.fromJson(
           Map<String, dynamic> json) =>
       _$StartMLLabelingSetGenerationTaskRunResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartTriggerRequest {
+  /// The name of the trigger to start.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  StartTriggerRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$StartTriggerRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -14945,6 +18217,22 @@ class StartTriggerResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartWorkflowRunRequest {
+  /// The name of the workflow to start.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  StartWorkflowRunRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$StartWorkflowRunRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartWorkflowRunResponse {
@@ -14962,6 +18250,22 @@ class StartWorkflowRunResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopCrawlerRequest {
+  /// Name of the crawler to stop.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  StopCrawlerRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$StopCrawlerRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StopCrawlerResponse {
@@ -14973,12 +18277,44 @@ class StopCrawlerResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopCrawlerScheduleRequest {
+  /// Name of the crawler whose schedule state to set.
+  @_s.JsonKey(name: 'CrawlerName')
+  final String crawlerName;
+
+  StopCrawlerScheduleRequest({
+    @_s.required this.crawlerName,
+  });
+  Map<String, dynamic> toJson() => _$StopCrawlerScheduleRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StopCrawlerScheduleResponse {
   StopCrawlerScheduleResponse();
   factory StopCrawlerScheduleResponse.fromJson(Map<String, dynamic> json) =>
       _$StopCrawlerScheduleResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopTriggerRequest {
+  /// The name of the trigger to stop.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  StopTriggerRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$StopTriggerRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -15368,6 +18704,30 @@ class TableVersionError {
   });
   factory TableVersionError.fromJson(Map<String, dynamic> json) =>
       _$TableVersionErrorFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The ARN of the AWS Glue resource to which to add the tags. For more
+  /// information about AWS Glue resource ARNs, see the <a
+  /// href="https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-common.html#aws-glue-api-regex-aws-glue-arn-id">AWS
+  /// Glue ARN string pattern</a>.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// Tags to add to this resource.
+  @_s.JsonKey(name: 'TagsToAdd')
+  final Map<String, String> tagsToAdd;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagsToAdd,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -15868,20 +19228,6 @@ enum TriggerType {
   onDemand,
 }
 
-extension on TriggerType {
-  String toValue() {
-    switch (this) {
-      case TriggerType.scheduled:
-        return 'SCHEDULED';
-      case TriggerType.conditional:
-        return 'CONDITIONAL';
-      case TriggerType.onDemand:
-        return 'ON_DEMAND';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// A structure used to provide information used to update a trigger. This
 /// object updates the previous trigger definition by overwriting it completely.
 @_s.JsonSerializable(
@@ -15926,6 +19272,28 @@ class TriggerUpdate {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource from which to remove the
+  /// tags.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// Tags to remove from this resource.
+  @_s.JsonKey(name: 'TagsToRemove')
+  final List<String> tagsToRemove;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagsToRemove,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagResourceResponse {
@@ -15944,12 +19312,71 @@ enum UpdateBehavior {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateClassifierRequest {
+  /// A <code>CsvClassifier</code> object with updated fields.
+  @_s.JsonKey(name: 'CsvClassifier')
+  final UpdateCsvClassifierRequest csvClassifier;
+
+  /// A <code>GrokClassifier</code> object with updated fields.
+  @_s.JsonKey(name: 'GrokClassifier')
+  final UpdateGrokClassifierRequest grokClassifier;
+
+  /// A <code>JsonClassifier</code> object with updated fields.
+  @_s.JsonKey(name: 'JsonClassifier')
+  final UpdateJsonClassifierRequest jsonClassifier;
+
+  /// An <code>XMLClassifier</code> object with updated fields.
+  @_s.JsonKey(name: 'XMLClassifier')
+  final UpdateXMLClassifierRequest xMLClassifier;
+
+  UpdateClassifierRequest({
+    this.csvClassifier,
+    this.grokClassifier,
+    this.jsonClassifier,
+    this.xMLClassifier,
+  });
+  Map<String, dynamic> toJson() => _$UpdateClassifierRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateClassifierResponse {
   UpdateClassifierResponse();
   factory UpdateClassifierResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateClassifierResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateConnectionRequest {
+  /// A <code>ConnectionInput</code> object that redefines the connection in
+  /// question.
+  @_s.JsonKey(name: 'ConnectionInput')
+  final ConnectionInput connectionInput;
+
+  /// The name of the connection definition to update.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The ID of the Data Catalog in which the connection resides. If none is
+  /// provided, the AWS account ID is used by default.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  UpdateConnectionRequest({
+    @_s.required this.connectionInput,
+    @_s.required this.name,
+    this.catalogId,
+  });
+  Map<String, dynamic> toJson() => _$UpdateConnectionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -15966,12 +19393,116 @@ class UpdateConnectionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateCrawlerRequest {
+  /// Name of the new crawler.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// A list of custom classifiers that the user has registered. By default, all
+  /// built-in classifiers are included in a crawl, but these custom classifiers
+  /// always override the default classifiers for a given classification.
+  @_s.JsonKey(name: 'Classifiers')
+  final List<String> classifiers;
+
+  /// The crawler configuration information. This versioned JSON string allows
+  /// users to specify aspects of a crawler's behavior. For more information, see
+  /// <a
+  /// href="http://docs.aws.amazon.com/glue/latest/dg/crawler-configuration.html">Configuring
+  /// a Crawler</a>.
+  @_s.JsonKey(name: 'Configuration')
+  final String configuration;
+
+  /// The name of the <code>SecurityConfiguration</code> structure to be used by
+  /// this crawler.
+  @_s.JsonKey(name: 'CrawlerSecurityConfiguration')
+  final String crawlerSecurityConfiguration;
+
+  /// The AWS Glue database where results are stored, such as:
+  /// <code>arn:aws:daylight:us-east-1::database/sometable/*</code>.
+  @_s.JsonKey(name: 'DatabaseName')
+  final String databaseName;
+
+  /// A description of the new crawler.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The IAM role or Amazon Resource Name (ARN) of an IAM role that is used by
+  /// the new crawler to access customer resources.
+  @_s.JsonKey(name: 'Role')
+  final String role;
+
+  /// A <code>cron</code> expression used to specify the schedule. For more
+  /// information, see <a
+  /// href="http://docs.aws.amazon.com/glue/latest/dg/monitor-data-warehouse-schedule.html">Time-Based
+  /// Schedules for Jobs and Crawlers</a>. For example, to run something every day
+  /// at 12:15 UTC, specify <code>cron(15 12 * * ? *)</code>.
+  @_s.JsonKey(name: 'Schedule')
+  final String schedule;
+
+  /// The policy for the crawler's update and deletion behavior.
+  @_s.JsonKey(name: 'SchemaChangePolicy')
+  final SchemaChangePolicy schemaChangePolicy;
+
+  /// The table prefix used for catalog tables that are created.
+  @_s.JsonKey(name: 'TablePrefix')
+  final String tablePrefix;
+
+  /// A list of targets to crawl.
+  @_s.JsonKey(name: 'Targets')
+  final CrawlerTargets targets;
+
+  UpdateCrawlerRequest({
+    @_s.required this.name,
+    this.classifiers,
+    this.configuration,
+    this.crawlerSecurityConfiguration,
+    this.databaseName,
+    this.description,
+    this.role,
+    this.schedule,
+    this.schemaChangePolicy,
+    this.tablePrefix,
+    this.targets,
+  });
+  Map<String, dynamic> toJson() => _$UpdateCrawlerRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateCrawlerResponse {
   UpdateCrawlerResponse();
   factory UpdateCrawlerResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateCrawlerResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateCrawlerScheduleRequest {
+  /// The name of the crawler whose schedule to update.
+  @_s.JsonKey(name: 'CrawlerName')
+  final String crawlerName;
+
+  /// The updated <code>cron</code> expression used to specify the schedule. For
+  /// more information, see <a
+  /// href="http://docs.aws.amazon.com/glue/latest/dg/monitor-data-warehouse-schedule.html">Time-Based
+  /// Schedules for Jobs and Crawlers</a>. For example, to run something every day
+  /// at 12:15 UTC, specify <code>cron(15 12 * * ? *)</code>.
+  @_s.JsonKey(name: 'Schedule')
+  final String schedule;
+
+  UpdateCrawlerScheduleRequest({
+    @_s.required this.crawlerName,
+    this.schedule,
+  });
+  Map<String, dynamic> toJson() => _$UpdateCrawlerScheduleRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -16037,12 +19568,115 @@ class UpdateCsvClassifierRequest {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDatabaseRequest {
+  /// A <code>DatabaseInput</code> object specifying the new definition of the
+  /// metadata database in the catalog.
+  @_s.JsonKey(name: 'DatabaseInput')
+  final DatabaseInput databaseInput;
+
+  /// The name of the database to update in the catalog. For Hive compatibility,
+  /// this is folded to lowercase.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The ID of the Data Catalog in which the metadata database resides. If none
+  /// is provided, the AWS account ID is used by default.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  UpdateDatabaseRequest({
+    @_s.required this.databaseInput,
+    @_s.required this.name,
+    this.catalogId,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDatabaseRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateDatabaseResponse {
   UpdateDatabaseResponse();
   factory UpdateDatabaseResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateDatabaseResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDevEndpointRequest {
+  /// The name of the <code>DevEndpoint</code> to be updated.
+  @_s.JsonKey(name: 'EndpointName')
+  final String endpointName;
+
+  /// The map of arguments to add the map of arguments used to configure the
+  /// <code>DevEndpoint</code>.
+  ///
+  /// Valid arguments are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>"--enable-glue-datacatalog": ""</code>
+  /// </li>
+  /// <li>
+  /// <code>"GLUE_PYTHON_VERSION": "3"</code>
+  /// </li>
+  /// <li>
+  /// <code>"GLUE_PYTHON_VERSION": "2"</code>
+  /// </li>
+  /// </ul>
+  /// You can specify a version of Python support for development endpoints by
+  /// using the <code>Arguments</code> parameter in the
+  /// <code>CreateDevEndpoint</code> or <code>UpdateDevEndpoint</code> APIs. If no
+  /// arguments are provided, the version defaults to Python 2.
+  @_s.JsonKey(name: 'AddArguments')
+  final Map<String, String> addArguments;
+
+  /// The list of public keys for the <code>DevEndpoint</code> to use.
+  @_s.JsonKey(name: 'AddPublicKeys')
+  final List<String> addPublicKeys;
+
+  /// Custom Python or Java libraries to be loaded in the
+  /// <code>DevEndpoint</code>.
+  @_s.JsonKey(name: 'CustomLibraries')
+  final DevEndpointCustomLibraries customLibraries;
+
+  /// The list of argument keys to be deleted from the map of arguments used to
+  /// configure the <code>DevEndpoint</code>.
+  @_s.JsonKey(name: 'DeleteArguments')
+  final List<String> deleteArguments;
+
+  /// The list of public keys to be deleted from the <code>DevEndpoint</code>.
+  @_s.JsonKey(name: 'DeletePublicKeys')
+  final List<String> deletePublicKeys;
+
+  /// The public key for the <code>DevEndpoint</code> to use.
+  @_s.JsonKey(name: 'PublicKey')
+  final String publicKey;
+
+  /// <code>True</code> if the list of custom libraries to be loaded in the
+  /// development endpoint needs to be updated, or <code>False</code> if
+  /// otherwise.
+  @_s.JsonKey(name: 'UpdateEtlLibraries')
+  final bool updateEtlLibraries;
+
+  UpdateDevEndpointRequest({
+    @_s.required this.endpointName,
+    this.addArguments,
+    this.addPublicKeys,
+    this.customLibraries,
+    this.deleteArguments,
+    this.deletePublicKeys,
+    this.publicKey,
+    this.updateEtlLibraries,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDevEndpointRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -16093,6 +19727,27 @@ class UpdateGrokClassifierRequest {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateJobRequest {
+  /// The name of the job definition to update.
+  @_s.JsonKey(name: 'JobName')
+  final String jobName;
+
+  /// Specifies the values with which to update the job definition.
+  @_s.JsonKey(name: 'JobUpdate')
+  final JobUpdate jobUpdate;
+
+  UpdateJobRequest({
+    @_s.required this.jobName,
+    @_s.required this.jobUpdate,
+  });
+  Map<String, dynamic> toJson() => _$UpdateJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateJobResponse {
@@ -16136,6 +19791,109 @@ class UpdateJsonClassifierRequest {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateMLTransformRequest {
+  /// A unique identifier that was generated when the transform was created.
+  @_s.JsonKey(name: 'TransformId')
+  final String transformId;
+
+  /// A description of the transform. The default is an empty string.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// This value determines which version of AWS Glue this machine learning
+  /// transform is compatible with. Glue 1.0 is recommended for most customers. If
+  /// the value is not set, the Glue compatibility defaults to Glue 0.9. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/glue/latest/dg/release-notes.html#release-notes-versions">AWS
+  /// Glue Versions</a> in the developer guide.
+  @_s.JsonKey(name: 'GlueVersion')
+  final String glueVersion;
+
+  /// The number of AWS Glue data processing units (DPUs) that are allocated to
+  /// task runs for this transform. You can allocate from 2 to 100 DPUs; the
+  /// default is 10. A DPU is a relative measure of processing power that consists
+  /// of 4 vCPUs of compute capacity and 16 GB of memory. For more information,
+  /// see the <a href="https://aws.amazon.com/glue/pricing/">AWS Glue pricing
+  /// page</a>.
+  ///
+  /// When the <code>WorkerType</code> field is set to a value other than
+  /// <code>Standard</code>, the <code>MaxCapacity</code> field is set
+  /// automatically and becomes read-only.
+  @_s.JsonKey(name: 'MaxCapacity')
+  final double maxCapacity;
+
+  /// The maximum number of times to retry a task for this transform after a task
+  /// run fails.
+  @_s.JsonKey(name: 'MaxRetries')
+  final int maxRetries;
+
+  /// The unique name that you gave the transform when you created it.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The number of workers of a defined <code>workerType</code> that are
+  /// allocated when this task runs.
+  @_s.JsonKey(name: 'NumberOfWorkers')
+  final int numberOfWorkers;
+
+  /// The configuration parameters that are specific to the transform type
+  /// (algorithm) used. Conditionally dependent on the transform type.
+  @_s.JsonKey(name: 'Parameters')
+  final TransformParameters parameters;
+
+  /// The name or Amazon Resource Name (ARN) of the IAM role with the required
+  /// permissions.
+  @_s.JsonKey(name: 'Role')
+  final String role;
+
+  /// The timeout for a task run for this transform in minutes. This is the
+  /// maximum time that a task run for this transform can consume resources before
+  /// it is terminated and enters <code>TIMEOUT</code> status. The default is
+  /// 2,880 minutes (48 hours).
+  @_s.JsonKey(name: 'Timeout')
+  final int timeout;
+
+  /// The type of predefined worker that is allocated when this task runs. Accepts
+  /// a value of Standard, G.1X, or G.2X.
+  ///
+  /// <ul>
+  /// <li>
+  /// For the <code>Standard</code> worker type, each worker provides 4 vCPU, 16
+  /// GB of memory and a 50GB disk, and 2 executors per worker.
+  /// </li>
+  /// <li>
+  /// For the <code>G.1X</code> worker type, each worker provides 4 vCPU, 16 GB of
+  /// memory and a 64GB disk, and 1 executor per worker.
+  /// </li>
+  /// <li>
+  /// For the <code>G.2X</code> worker type, each worker provides 8 vCPU, 32 GB of
+  /// memory and a 128GB disk, and 1 executor per worker.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'WorkerType')
+  final WorkerType workerType;
+
+  UpdateMLTransformRequest({
+    @_s.required this.transformId,
+    this.description,
+    this.glueVersion,
+    this.maxCapacity,
+    this.maxRetries,
+    this.name,
+    this.numberOfWorkers,
+    this.parameters,
+    this.role,
+    this.timeout,
+    this.workerType,
+  });
+  Map<String, dynamic> toJson() => _$UpdateMLTransformRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateMLTransformResponse {
@@ -16153,6 +19911,43 @@ class UpdateMLTransformResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdatePartitionRequest {
+  /// The name of the catalog database in which the table in question resides.
+  @_s.JsonKey(name: 'DatabaseName')
+  final String databaseName;
+
+  /// The new partition object to update the partition to.
+  @_s.JsonKey(name: 'PartitionInput')
+  final PartitionInput partitionInput;
+
+  /// A list of the values defining the partition.
+  @_s.JsonKey(name: 'PartitionValueList')
+  final List<String> partitionValueList;
+
+  /// The name of the table in which the partition to be updated is located.
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  /// The ID of the Data Catalog where the partition to be updated resides. If
+  /// none is provided, the AWS account ID is used by default.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  UpdatePartitionRequest({
+    @_s.required this.databaseName,
+    @_s.required this.partitionInput,
+    @_s.required this.partitionValueList,
+    @_s.required this.tableName,
+    this.catalogId,
+  });
+  Map<String, dynamic> toJson() => _$UpdatePartitionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdatePartitionResponse {
@@ -16164,12 +19959,69 @@ class UpdatePartitionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateTableRequest {
+  /// The name of the catalog database in which the table resides. For Hive
+  /// compatibility, this name is entirely lowercase.
+  @_s.JsonKey(name: 'DatabaseName')
+  final String databaseName;
+
+  /// An updated <code>TableInput</code> object to define the metadata table in
+  /// the catalog.
+  @_s.JsonKey(name: 'TableInput')
+  final TableInput tableInput;
+
+  /// The ID of the Data Catalog where the table resides. If none is provided, the
+  /// AWS account ID is used by default.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  /// By default, <code>UpdateTable</code> always creates an archived version of
+  /// the table before updating it. However, if <code>skipArchive</code> is set to
+  /// true, <code>UpdateTable</code> does not create the archived version.
+  @_s.JsonKey(name: 'SkipArchive')
+  final bool skipArchive;
+
+  UpdateTableRequest({
+    @_s.required this.databaseName,
+    @_s.required this.tableInput,
+    this.catalogId,
+    this.skipArchive,
+  });
+  Map<String, dynamic> toJson() => _$UpdateTableRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateTableResponse {
   UpdateTableResponse();
   factory UpdateTableResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateTableResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateTriggerRequest {
+  /// The name of the trigger to update.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The new values with which to update the trigger.
+  @_s.JsonKey(name: 'TriggerUpdate')
+  final TriggerUpdate triggerUpdate;
+
+  UpdateTriggerRequest({
+    @_s.required this.name,
+    @_s.required this.triggerUpdate,
+  });
+  Map<String, dynamic> toJson() => _$UpdateTriggerRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -16192,6 +20044,41 @@ class UpdateTriggerResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateUserDefinedFunctionRequest {
+  /// The name of the catalog database where the function to be updated is
+  /// located.
+  @_s.JsonKey(name: 'DatabaseName')
+  final String databaseName;
+
+  /// A <code>FunctionInput</code> object that redefines the function in the Data
+  /// Catalog.
+  @_s.JsonKey(name: 'FunctionInput')
+  final UserDefinedFunctionInput functionInput;
+
+  /// The name of the function.
+  @_s.JsonKey(name: 'FunctionName')
+  final String functionName;
+
+  /// The ID of the Data Catalog where the function to be updated is located. If
+  /// none is provided, the AWS account ID is used by default.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  UpdateUserDefinedFunctionRequest({
+    @_s.required this.databaseName,
+    @_s.required this.functionInput,
+    @_s.required this.functionName,
+    this.catalogId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateUserDefinedFunctionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateUserDefinedFunctionResponse {
@@ -16199,6 +20086,33 @@ class UpdateUserDefinedFunctionResponse {
   factory UpdateUserDefinedFunctionResponse.fromJson(
           Map<String, dynamic> json) =>
       _$UpdateUserDefinedFunctionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateWorkflowRequest {
+  /// Name of the workflow to be updated.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// A collection of properties to be used as part of each execution of the
+  /// workflow.
+  @_s.JsonKey(name: 'DefaultRunProperties')
+  final Map<String, String> defaultRunProperties;
+
+  /// The description of the workflow.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  UpdateWorkflowRequest({
+    @_s.required this.name,
+    this.defaultRunProperties,
+    this.description,
+  });
+  Map<String, dynamic> toJson() => _$UpdateWorkflowRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -16341,20 +20255,6 @@ enum WorkerType {
   g_1x,
   @_s.JsonValue('G.2X')
   g_2x,
-}
-
-extension on WorkerType {
-  String toValue() {
-    switch (this) {
-      case WorkerType.standard:
-        return 'Standard';
-      case WorkerType.g_1x:
-        return 'G.1X';
-      case WorkerType.g_2x:
-        return 'G.2X';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// A workflow represents a flow in which AWS Glue components should be executed

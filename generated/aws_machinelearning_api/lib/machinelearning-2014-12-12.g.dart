@@ -6,6 +6,29 @@ part of 'machinelearning-2014-12-12.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$AddTagsInputToJson(AddTagsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceId', instance.resourceId);
+  writeNotNull(
+      'ResourceType', _$TaggableResourceTypeEnumMap[instance.resourceType]);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+const _$TaggableResourceTypeEnumMap = {
+  TaggableResourceType.batchPrediction: 'BatchPrediction',
+  TaggableResourceType.dataSource: 'DataSource',
+  TaggableResourceType.evaluation: 'Evaluation',
+  TaggableResourceType.mLModel: 'MLModel',
+};
+
 AddTagsOutput _$AddTagsOutputFromJson(Map<String, dynamic> json) {
   return AddTagsOutput(
     resourceId: json['ResourceId'] as String,
@@ -46,13 +69,6 @@ T _$enumDecodeNullable<T>(
   return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
 }
 
-const _$TaggableResourceTypeEnumMap = {
-  TaggableResourceType.batchPrediction: 'BatchPrediction',
-  TaggableResourceType.dataSource: 'DataSource',
-  TaggableResourceType.evaluation: 'Evaluation',
-  TaggableResourceType.mLModel: 'MLModel',
-};
-
 BatchPrediction _$BatchPredictionFromJson(Map<String, dynamic> json) {
   return BatchPrediction(
     batchPredictionDataSourceId: json['BatchPredictionDataSourceId'] as String,
@@ -82,11 +98,48 @@ const _$EntityStatusEnumMap = {
   EntityStatus.deleted: 'DELETED',
 };
 
+Map<String, dynamic> _$CreateBatchPredictionInputToJson(
+    CreateBatchPredictionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'BatchPredictionDataSourceId', instance.batchPredictionDataSourceId);
+  writeNotNull('BatchPredictionId', instance.batchPredictionId);
+  writeNotNull('MLModelId', instance.mLModelId);
+  writeNotNull('OutputUri', instance.outputUri);
+  writeNotNull('BatchPredictionName', instance.batchPredictionName);
+  return val;
+}
+
 CreateBatchPredictionOutput _$CreateBatchPredictionOutputFromJson(
     Map<String, dynamic> json) {
   return CreateBatchPredictionOutput(
     batchPredictionId: json['BatchPredictionId'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateDataSourceFromRDSInputToJson(
+    CreateDataSourceFromRDSInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DataSourceId', instance.dataSourceId);
+  writeNotNull('RDSData', instance.rDSData?.toJson());
+  writeNotNull('RoleARN', instance.roleARN);
+  writeNotNull('ComputeStatistics', instance.computeStatistics);
+  writeNotNull('DataSourceName', instance.dataSourceName);
+  return val;
 }
 
 CreateDataSourceFromRDSOutput _$CreateDataSourceFromRDSOutputFromJson(
@@ -96,11 +149,46 @@ CreateDataSourceFromRDSOutput _$CreateDataSourceFromRDSOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateDataSourceFromRedshiftInputToJson(
+    CreateDataSourceFromRedshiftInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DataSourceId', instance.dataSourceId);
+  writeNotNull('DataSpec', instance.dataSpec?.toJson());
+  writeNotNull('RoleARN', instance.roleARN);
+  writeNotNull('ComputeStatistics', instance.computeStatistics);
+  writeNotNull('DataSourceName', instance.dataSourceName);
+  return val;
+}
+
 CreateDataSourceFromRedshiftOutput _$CreateDataSourceFromRedshiftOutputFromJson(
     Map<String, dynamic> json) {
   return CreateDataSourceFromRedshiftOutput(
     dataSourceId: json['DataSourceId'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateDataSourceFromS3InputToJson(
+    CreateDataSourceFromS3Input instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DataSourceId', instance.dataSourceId);
+  writeNotNull('DataSpec', instance.dataSpec?.toJson());
+  writeNotNull('ComputeStatistics', instance.computeStatistics);
+  writeNotNull('DataSourceName', instance.dataSourceName);
+  return val;
 }
 
 CreateDataSourceFromS3Output _$CreateDataSourceFromS3OutputFromJson(
@@ -110,6 +198,23 @@ CreateDataSourceFromS3Output _$CreateDataSourceFromS3OutputFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateEvaluationInputToJson(
+    CreateEvaluationInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EvaluationDataSourceId', instance.evaluationDataSourceId);
+  writeNotNull('EvaluationId', instance.evaluationId);
+  writeNotNull('MLModelId', instance.mLModelId);
+  writeNotNull('EvaluationName', instance.evaluationName);
+  return val;
+}
+
 CreateEvaluationOutput _$CreateEvaluationOutputFromJson(
     Map<String, dynamic> json) {
   return CreateEvaluationOutput(
@@ -117,10 +222,49 @@ CreateEvaluationOutput _$CreateEvaluationOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateMLModelInputToJson(CreateMLModelInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MLModelId', instance.mLModelId);
+  writeNotNull('MLModelType', _$MLModelTypeEnumMap[instance.mLModelType]);
+  writeNotNull('TrainingDataSourceId', instance.trainingDataSourceId);
+  writeNotNull('MLModelName', instance.mLModelName);
+  writeNotNull('Parameters', instance.parameters);
+  writeNotNull('Recipe', instance.recipe);
+  writeNotNull('RecipeUri', instance.recipeUri);
+  return val;
+}
+
+const _$MLModelTypeEnumMap = {
+  MLModelType.regression: 'REGRESSION',
+  MLModelType.binary: 'BINARY',
+  MLModelType.multiclass: 'MULTICLASS',
+};
+
 CreateMLModelOutput _$CreateMLModelOutputFromJson(Map<String, dynamic> json) {
   return CreateMLModelOutput(
     mLModelId: json['MLModelId'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateRealtimeEndpointInputToJson(
+    CreateRealtimeEndpointInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MLModelId', instance.mLModelId);
+  return val;
 }
 
 CreateRealtimeEndpointOutput _$CreateRealtimeEndpointOutputFromJson(
@@ -162,11 +306,39 @@ DataSource _$DataSourceFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DeleteBatchPredictionInputToJson(
+    DeleteBatchPredictionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BatchPredictionId', instance.batchPredictionId);
+  return val;
+}
+
 DeleteBatchPredictionOutput _$DeleteBatchPredictionOutputFromJson(
     Map<String, dynamic> json) {
   return DeleteBatchPredictionOutput(
     batchPredictionId: json['BatchPredictionId'] as String,
   );
+}
+
+Map<String, dynamic> _$DeleteDataSourceInputToJson(
+    DeleteDataSourceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DataSourceId', instance.dataSourceId);
+  return val;
 }
 
 DeleteDataSourceOutput _$DeleteDataSourceOutputFromJson(
@@ -176,6 +348,20 @@ DeleteDataSourceOutput _$DeleteDataSourceOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteEvaluationInputToJson(
+    DeleteEvaluationInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EvaluationId', instance.evaluationId);
+  return val;
+}
+
 DeleteEvaluationOutput _$DeleteEvaluationOutputFromJson(
     Map<String, dynamic> json) {
   return DeleteEvaluationOutput(
@@ -183,10 +369,37 @@ DeleteEvaluationOutput _$DeleteEvaluationOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteMLModelInputToJson(DeleteMLModelInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MLModelId', instance.mLModelId);
+  return val;
+}
+
 DeleteMLModelOutput _$DeleteMLModelOutputFromJson(Map<String, dynamic> json) {
   return DeleteMLModelOutput(
     mLModelId: json['MLModelId'] as String,
   );
+}
+
+Map<String, dynamic> _$DeleteRealtimeEndpointInputToJson(
+    DeleteRealtimeEndpointInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MLModelId', instance.mLModelId);
+  return val;
 }
 
 DeleteRealtimeEndpointOutput _$DeleteRealtimeEndpointOutputFromJson(
@@ -200,6 +413,22 @@ DeleteRealtimeEndpointOutput _$DeleteRealtimeEndpointOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteTagsInputToJson(DeleteTagsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceId', instance.resourceId);
+  writeNotNull(
+      'ResourceType', _$TaggableResourceTypeEnumMap[instance.resourceType]);
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
+}
+
 DeleteTagsOutput _$DeleteTagsOutputFromJson(Map<String, dynamic> json) {
   return DeleteTagsOutput(
     resourceId: json['ResourceId'] as String,
@@ -207,6 +436,47 @@ DeleteTagsOutput _$DeleteTagsOutputFromJson(Map<String, dynamic> json) {
         _$TaggableResourceTypeEnumMap, json['ResourceType']),
   );
 }
+
+Map<String, dynamic> _$DescribeBatchPredictionsInputToJson(
+    DescribeBatchPredictionsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EQ', instance.eq);
+  writeNotNull('FilterVariable',
+      _$BatchPredictionFilterVariableEnumMap[instance.filterVariable]);
+  writeNotNull('GE', instance.ge);
+  writeNotNull('GT', instance.gt);
+  writeNotNull('LE', instance.le);
+  writeNotNull('LT', instance.lt);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NE', instance.ne);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('Prefix', instance.prefix);
+  writeNotNull('SortOrder', _$SortOrderEnumMap[instance.sortOrder]);
+  return val;
+}
+
+const _$BatchPredictionFilterVariableEnumMap = {
+  BatchPredictionFilterVariable.createdAt: 'CreatedAt',
+  BatchPredictionFilterVariable.lastUpdatedAt: 'LastUpdatedAt',
+  BatchPredictionFilterVariable.status: 'Status',
+  BatchPredictionFilterVariable.name: 'Name',
+  BatchPredictionFilterVariable.iAMUser: 'IAMUser',
+  BatchPredictionFilterVariable.mLModelId: 'MLModelId',
+  BatchPredictionFilterVariable.dataSourceId: 'DataSourceId',
+  BatchPredictionFilterVariable.dataURI: 'DataURI',
+};
+
+const _$SortOrderEnumMap = {
+  SortOrder.asc: 'asc',
+  SortOrder.dsc: 'dsc',
+};
 
 DescribeBatchPredictionsOutput _$DescribeBatchPredictionsOutputFromJson(
     Map<String, dynamic> json) {
@@ -220,6 +490,40 @@ DescribeBatchPredictionsOutput _$DescribeBatchPredictionsOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeDataSourcesInputToJson(
+    DescribeDataSourcesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EQ', instance.eq);
+  writeNotNull('FilterVariable',
+      _$DataSourceFilterVariableEnumMap[instance.filterVariable]);
+  writeNotNull('GE', instance.ge);
+  writeNotNull('GT', instance.gt);
+  writeNotNull('LE', instance.le);
+  writeNotNull('LT', instance.lt);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NE', instance.ne);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('Prefix', instance.prefix);
+  writeNotNull('SortOrder', _$SortOrderEnumMap[instance.sortOrder]);
+  return val;
+}
+
+const _$DataSourceFilterVariableEnumMap = {
+  DataSourceFilterVariable.createdAt: 'CreatedAt',
+  DataSourceFilterVariable.lastUpdatedAt: 'LastUpdatedAt',
+  DataSourceFilterVariable.status: 'Status',
+  DataSourceFilterVariable.name: 'Name',
+  DataSourceFilterVariable.dataLocationS3: 'DataLocationS3',
+  DataSourceFilterVariable.iAMUser: 'IAMUser',
+};
+
 DescribeDataSourcesOutput _$DescribeDataSourcesOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeDataSourcesOutput(
@@ -230,6 +534,42 @@ DescribeDataSourcesOutput _$DescribeDataSourcesOutputFromJson(
         ?.toList(),
   );
 }
+
+Map<String, dynamic> _$DescribeEvaluationsInputToJson(
+    DescribeEvaluationsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EQ', instance.eq);
+  writeNotNull('FilterVariable',
+      _$EvaluationFilterVariableEnumMap[instance.filterVariable]);
+  writeNotNull('GE', instance.ge);
+  writeNotNull('GT', instance.gt);
+  writeNotNull('LE', instance.le);
+  writeNotNull('LT', instance.lt);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NE', instance.ne);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('Prefix', instance.prefix);
+  writeNotNull('SortOrder', _$SortOrderEnumMap[instance.sortOrder]);
+  return val;
+}
+
+const _$EvaluationFilterVariableEnumMap = {
+  EvaluationFilterVariable.createdAt: 'CreatedAt',
+  EvaluationFilterVariable.lastUpdatedAt: 'LastUpdatedAt',
+  EvaluationFilterVariable.status: 'Status',
+  EvaluationFilterVariable.name: 'Name',
+  EvaluationFilterVariable.iAMUser: 'IAMUser',
+  EvaluationFilterVariable.mLModelId: 'MLModelId',
+  EvaluationFilterVariable.dataSourceId: 'DataSourceId',
+  EvaluationFilterVariable.dataURI: 'DataURI',
+};
 
 DescribeEvaluationsOutput _$DescribeEvaluationsOutputFromJson(
     Map<String, dynamic> json) {
@@ -242,6 +582,44 @@ DescribeEvaluationsOutput _$DescribeEvaluationsOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeMLModelsInputToJson(
+    DescribeMLModelsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EQ', instance.eq);
+  writeNotNull('FilterVariable',
+      _$MLModelFilterVariableEnumMap[instance.filterVariable]);
+  writeNotNull('GE', instance.ge);
+  writeNotNull('GT', instance.gt);
+  writeNotNull('LE', instance.le);
+  writeNotNull('LT', instance.lt);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NE', instance.ne);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('Prefix', instance.prefix);
+  writeNotNull('SortOrder', _$SortOrderEnumMap[instance.sortOrder]);
+  return val;
+}
+
+const _$MLModelFilterVariableEnumMap = {
+  MLModelFilterVariable.createdAt: 'CreatedAt',
+  MLModelFilterVariable.lastUpdatedAt: 'LastUpdatedAt',
+  MLModelFilterVariable.status: 'Status',
+  MLModelFilterVariable.name: 'Name',
+  MLModelFilterVariable.iAMUser: 'IAMUser',
+  MLModelFilterVariable.trainingDataSourceId: 'TrainingDataSourceId',
+  MLModelFilterVariable.realtimeEndpointStatus: 'RealtimeEndpointStatus',
+  MLModelFilterVariable.mLModelType: 'MLModelType',
+  MLModelFilterVariable.algorithm: 'Algorithm',
+  MLModelFilterVariable.trainingDataURI: 'TrainingDataURI',
+};
+
 DescribeMLModelsOutput _$DescribeMLModelsOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeMLModelsOutput(
@@ -251,6 +629,21 @@ DescribeMLModelsOutput _$DescribeMLModelsOutputFromJson(
             e == null ? null : MLModel.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeTagsInputToJson(DescribeTagsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceId', instance.resourceId);
+  writeNotNull(
+      'ResourceType', _$TaggableResourceTypeEnumMap[instance.resourceType]);
+  return val;
 }
 
 DescribeTagsOutput _$DescribeTagsOutputFromJson(Map<String, dynamic> json) {
@@ -286,6 +679,20 @@ Evaluation _$EvaluationFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetBatchPredictionInputToJson(
+    GetBatchPredictionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BatchPredictionId', instance.batchPredictionId);
+  return val;
+}
+
 GetBatchPredictionOutput _$GetBatchPredictionOutputFromJson(
     Map<String, dynamic> json) {
   return GetBatchPredictionOutput(
@@ -307,6 +714,20 @@ GetBatchPredictionOutput _$GetBatchPredictionOutputFromJson(
     status: _$enumDecodeNullable(_$EntityStatusEnumMap, json['Status']),
     totalRecordCount: json['TotalRecordCount'] as int,
   );
+}
+
+Map<String, dynamic> _$GetDataSourceInputToJson(GetDataSourceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DataSourceId', instance.dataSourceId);
+  writeNotNull('Verbose', instance.verbose);
+  return val;
 }
 
 GetDataSourceOutput _$GetDataSourceOutputFromJson(Map<String, dynamic> json) {
@@ -339,6 +760,19 @@ GetDataSourceOutput _$GetDataSourceOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetEvaluationInputToJson(GetEvaluationInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EvaluationId', instance.evaluationId);
+  return val;
+}
+
 GetEvaluationOutput _$GetEvaluationOutputFromJson(Map<String, dynamic> json) {
   return GetEvaluationOutput(
     computeTime: json['ComputeTime'] as int,
@@ -360,6 +794,20 @@ GetEvaluationOutput _$GetEvaluationOutputFromJson(Map<String, dynamic> json) {
     startedAt: unixTimestampFromJson(json['StartedAt']),
     status: _$enumDecodeNullable(_$EntityStatusEnumMap, json['Status']),
   );
+}
+
+Map<String, dynamic> _$GetMLModelInputToJson(GetMLModelInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MLModelId', instance.mLModelId);
+  writeNotNull('Verbose', instance.verbose);
+  return val;
 }
 
 GetMLModelOutput _$GetMLModelOutputFromJson(Map<String, dynamic> json) {
@@ -395,12 +843,6 @@ GetMLModelOutput _$GetMLModelOutputFromJson(Map<String, dynamic> json) {
     ),
   );
 }
-
-const _$MLModelTypeEnumMap = {
-  MLModelType.regression: 'REGRESSION',
-  MLModelType.binary: 'BINARY',
-  MLModelType.multiclass: 'MULTICLASS',
-};
 
 IdempotentParameterMismatchException
     _$IdempotentParameterMismatchExceptionFromJson(Map<String, dynamic> json) {
@@ -482,6 +924,21 @@ PerformanceMetrics _$PerformanceMetricsFromJson(Map<String, dynamic> json) {
       (k, e) => MapEntry(k, e as String),
     ),
   );
+}
+
+Map<String, dynamic> _$PredictInputToJson(PredictInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MLModelId', instance.mLModelId);
+  writeNotNull('PredictEndpoint', instance.predictEndpoint);
+  writeNotNull('Record', instance.record);
+  return val;
 }
 
 PredictOutput _$PredictOutputFromJson(Map<String, dynamic> json) {
@@ -719,11 +1176,41 @@ TagLimitExceededException _$TagLimitExceededExceptionFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateBatchPredictionInputToJson(
+    UpdateBatchPredictionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BatchPredictionId', instance.batchPredictionId);
+  writeNotNull('BatchPredictionName', instance.batchPredictionName);
+  return val;
+}
+
 UpdateBatchPredictionOutput _$UpdateBatchPredictionOutputFromJson(
     Map<String, dynamic> json) {
   return UpdateBatchPredictionOutput(
     batchPredictionId: json['BatchPredictionId'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateDataSourceInputToJson(
+    UpdateDataSourceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DataSourceId', instance.dataSourceId);
+  writeNotNull('DataSourceName', instance.dataSourceName);
+  return val;
 }
 
 UpdateDataSourceOutput _$UpdateDataSourceOutputFromJson(
@@ -733,11 +1220,41 @@ UpdateDataSourceOutput _$UpdateDataSourceOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateEvaluationInputToJson(
+    UpdateEvaluationInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EvaluationId', instance.evaluationId);
+  writeNotNull('EvaluationName', instance.evaluationName);
+  return val;
+}
+
 UpdateEvaluationOutput _$UpdateEvaluationOutputFromJson(
     Map<String, dynamic> json) {
   return UpdateEvaluationOutput(
     evaluationId: json['EvaluationId'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateMLModelInputToJson(UpdateMLModelInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MLModelId', instance.mLModelId);
+  writeNotNull('MLModelName', instance.mLModelName);
+  writeNotNull('ScoreThreshold', instance.scoreThreshold);
+  return val;
 }
 
 UpdateMLModelOutput _$UpdateMLModelOutputFromJson(Map<String, dynamic> json) {

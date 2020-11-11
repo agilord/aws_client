@@ -45,6 +45,9 @@ ListAccountsResponse _$ListAccountsResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$LogoutRequestToJson(LogoutRequest instance) =>
+    <String, dynamic>{};
+
 RoleCredentials _$RoleCredentialsFromJson(Map<String, dynamic> json) {
   return RoleCredentials(
     accessKeyId: json['accessKeyId'] as String,

@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -202,19 +201,19 @@ class PI {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EndTime': endTime,
-        'GroupBy': groupBy,
-        'Identifier': identifier,
-        'Metric': metric,
-        'ServiceType': serviceType?.toValue(),
-        'StartTime': startTime,
-        if (filter != null) 'Filter': filter,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (partitionBy != null) 'PartitionBy': partitionBy,
-        if (periodInSeconds != null) 'PeriodInSeconds': periodInSeconds,
-      },
+      payload: DescribeDimensionKeysRequest(
+        endTime: endTime,
+        groupBy: groupBy,
+        identifier: identifier,
+        metric: metric,
+        serviceType: serviceType,
+        startTime: startTime,
+        filter: filter,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        partitionBy: partitionBy,
+        periodInSeconds: periodInSeconds,
+      ),
     );
 
     return DescribeDimensionKeysResponse.fromJson(jsonResponse.body);
@@ -328,16 +327,16 @@ class PI {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EndTime': endTime,
-        'Identifier': identifier,
-        'MetricQueries': metricQueries,
-        'ServiceType': serviceType?.toValue(),
-        'StartTime': startTime,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (periodInSeconds != null) 'PeriodInSeconds': periodInSeconds,
-      },
+      payload: GetResourceMetricsRequest(
+        endTime: endTime,
+        identifier: identifier,
+        metricQueries: metricQueries,
+        serviceType: serviceType,
+        startTime: startTime,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        periodInSeconds: periodInSeconds,
+      ),
     );
 
     return GetResourceMetricsResponse.fromJson(jsonResponse.body);
@@ -369,6 +368,150 @@ class DataPoint {
   });
   factory DataPoint.fromJson(Map<String, dynamic> json) =>
       _$DataPointFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeDimensionKeysRequest {
+  /// The date and time specifying the end of the requested time series data. The
+  /// value specified is <i>exclusive</i> - data points less than (but not equal
+  /// to) <code>EndTime</code> will be returned.
+  ///
+  /// The value for <code>EndTime</code> must be later than the value for
+  /// <code>StartTime</code>.
+  @_s.JsonKey(
+      name: 'EndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime endTime;
+
+  /// A specification for how to aggregate the data points from a query result.
+  /// You must specify a valid dimension group. Performance Insights will return
+  /// all of the dimensions within that group, unless you provide the names of
+  /// specific dimensions within that group. You can also request that Performance
+  /// Insights return a limited number of values for a dimension.
+  @_s.JsonKey(name: 'GroupBy')
+  final DimensionGroup groupBy;
+
+  /// An immutable, AWS Region-unique identifier for a data source. Performance
+  /// Insights gathers metrics from this data source.
+  ///
+  /// To use an Amazon RDS instance as a data source, you specify its
+  /// <code>DbiResourceId</code> value - for example:
+  /// <code>db-FAIHNTYBKTGAUSUZQYPDS2GW4A</code>
+  @_s.JsonKey(name: 'Identifier')
+  final String identifier;
+
+  /// The name of a Performance Insights metric to be measured.
+  ///
+  /// Valid values for <code>Metric</code> are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>db.load.avg</code> - a scaled representation of the number of active
+  /// sessions for the database engine.
+  /// </li>
+  /// <li>
+  /// <code>db.sampledload.avg</code> - the raw number of active sessions for the
+  /// database engine.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Metric')
+  final String metric;
+
+  /// The AWS service for which Performance Insights will return metrics. The only
+  /// valid value for <i>ServiceType</i> is: <code>RDS</code>
+  @_s.JsonKey(name: 'ServiceType')
+  final ServiceType serviceType;
+
+  /// The date and time specifying the beginning of the requested time series
+  /// data. You can't specify a <code>StartTime</code> that's earlier than 7 days
+  /// ago. The value specified is <i>inclusive</i> - data points equal to or
+  /// greater than <code>StartTime</code> will be returned.
+  ///
+  /// The value for <code>StartTime</code> must be earlier than the value for
+  /// <code>EndTime</code>.
+  @_s.JsonKey(
+      name: 'StartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime startTime;
+
+  /// One or more filters to apply in the request. Restrictions:
+  ///
+  /// <ul>
+  /// <li>
+  /// Any number of filters by the same dimension, as specified in the
+  /// <code>GroupBy</code> or <code>Partition</code> parameters.
+  /// </li>
+  /// <li>
+  /// A single filter for any other dimension in this dimension group.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Filter')
+  final Map<String, String> filter;
+
+  /// The maximum number of items to return in the response. If more items exist
+  /// than the specified <code>MaxRecords</code> value, a pagination token is
+  /// included in the response so that the remaining results can be retrieved.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the token,
+  /// up to the value specified by <code>MaxRecords</code>.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// For each dimension specified in <code>GroupBy</code>, specify a secondary
+  /// dimension to further subdivide the partition keys in the response.
+  @_s.JsonKey(name: 'PartitionBy')
+  final DimensionGroup partitionBy;
+
+  /// The granularity, in seconds, of the data points returned from Performance
+  /// Insights. A period can be as short as one second, or as long as one day
+  /// (86400 seconds). Valid values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>1</code> (one second)
+  /// </li>
+  /// <li>
+  /// <code>60</code> (one minute)
+  /// </li>
+  /// <li>
+  /// <code>300</code> (five minutes)
+  /// </li>
+  /// <li>
+  /// <code>3600</code> (one hour)
+  /// </li>
+  /// <li>
+  /// <code>86400</code> (twenty-four hours)
+  /// </li>
+  /// </ul>
+  /// If you don't specify <code>PeriodInSeconds</code>, then Performance Insights
+  /// will choose a value for you, with a goal of returning roughly 100-200 data
+  /// points in the response.
+  @_s.JsonKey(name: 'PeriodInSeconds')
+  final int periodInSeconds;
+
+  DescribeDimensionKeysRequest({
+    @_s.required this.endTime,
+    @_s.required this.groupBy,
+    @_s.required this.identifier,
+    @_s.required this.metric,
+    @_s.required this.serviceType,
+    @_s.required this.startTime,
+    this.filter,
+    this.maxResults,
+    this.nextToken,
+    this.partitionBy,
+    this.periodInSeconds,
+  });
+  Map<String, dynamic> toJson() => _$DescribeDimensionKeysRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -553,6 +696,109 @@ class DimensionKeyDescription {
   });
   factory DimensionKeyDescription.fromJson(Map<String, dynamic> json) =>
       _$DimensionKeyDescriptionFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetResourceMetricsRequest {
+  /// The date and time specifiying the end of the requested time series data. The
+  /// value specified is <i>exclusive</i> - data points less than (but not equal
+  /// to) <code>EndTime</code> will be returned.
+  ///
+  /// The value for <code>EndTime</code> must be later than the value for
+  /// <code>StartTime</code>.
+  @_s.JsonKey(
+      name: 'EndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime endTime;
+
+  /// An immutable, AWS Region-unique identifier for a data source. Performance
+  /// Insights gathers metrics from this data source.
+  ///
+  /// To use an Amazon RDS instance as a data source, you specify its
+  /// <code>DbiResourceId</code> value - for example:
+  /// <code>db-FAIHNTYBKTGAUSUZQYPDS2GW4A</code>
+  @_s.JsonKey(name: 'Identifier')
+  final String identifier;
+
+  /// An array of one or more queries to perform. Each query must specify a
+  /// Performance Insights metric, and can optionally specify aggregation and
+  /// filtering criteria.
+  @_s.JsonKey(name: 'MetricQueries')
+  final List<MetricQuery> metricQueries;
+
+  /// The AWS service for which Performance Insights will return metrics. The only
+  /// valid value for <i>ServiceType</i> is: <code>RDS</code>
+  @_s.JsonKey(name: 'ServiceType')
+  final ServiceType serviceType;
+
+  /// The date and time specifying the beginning of the requested time series
+  /// data. You can't specify a <code>StartTime</code> that's earlier than 7 days
+  /// ago. The value specified is <i>inclusive</i> - data points equal to or
+  /// greater than <code>StartTime</code> will be returned.
+  ///
+  /// The value for <code>StartTime</code> must be earlier than the value for
+  /// <code>EndTime</code>.
+  @_s.JsonKey(
+      name: 'StartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime startTime;
+
+  /// The maximum number of items to return in the response. If more items exist
+  /// than the specified <code>MaxRecords</code> value, a pagination token is
+  /// included in the response so that the remaining results can be retrieved.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the token,
+  /// up to the value specified by <code>MaxRecords</code>.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The granularity, in seconds, of the data points returned from Performance
+  /// Insights. A period can be as short as one second, or as long as one day
+  /// (86400 seconds). Valid values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>1</code> (one second)
+  /// </li>
+  /// <li>
+  /// <code>60</code> (one minute)
+  /// </li>
+  /// <li>
+  /// <code>300</code> (five minutes)
+  /// </li>
+  /// <li>
+  /// <code>3600</code> (one hour)
+  /// </li>
+  /// <li>
+  /// <code>86400</code> (twenty-four hours)
+  /// </li>
+  /// </ul>
+  /// If you don't specify <code>PeriodInSeconds</code>, then Performance Insights
+  /// will choose a value for you, with a goal of returning roughly 100-200 data
+  /// points in the response.
+  @_s.JsonKey(name: 'PeriodInSeconds')
+  final int periodInSeconds;
+
+  GetResourceMetricsRequest({
+    @_s.required this.endTime,
+    @_s.required this.identifier,
+    @_s.required this.metricQueries,
+    @_s.required this.serviceType,
+    @_s.required this.startTime,
+    this.maxResults,
+    this.nextToken,
+    this.periodInSeconds,
+  });
+  Map<String, dynamic> toJson() => _$GetResourceMetricsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -806,16 +1052,6 @@ class ResponseResourceMetricKey {
 enum ServiceType {
   @_s.JsonValue('RDS')
   rds,
-}
-
-extension on ServiceType {
-  String toValue() {
-    switch (this) {
-      case ServiceType.rds:
-        return 'RDS';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{

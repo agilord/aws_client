@@ -6,6 +6,21 @@ part of 'acm-2015-12-08.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$AddTagsToCertificateRequestToJson(
+    AddTagsToCertificateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CertificateArn', instance.certificateArn);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CertificateDetail _$CertificateDetailFromJson(Map<String, dynamic> json) {
   return CertificateDetail(
     certificateArn: json['CertificateArn'] as String,
@@ -190,6 +205,34 @@ CertificateSummary _$CertificateSummaryFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DeleteCertificateRequestToJson(
+    DeleteCertificateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CertificateArn', instance.certificateArn);
+  return val;
+}
+
+Map<String, dynamic> _$DescribeCertificateRequestToJson(
+    DescribeCertificateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CertificateArn', instance.certificateArn);
+  return val;
+}
+
 DescribeCertificateResponse _$DescribeCertificateResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeCertificateResponse(
@@ -243,6 +286,22 @@ Map<String, dynamic> _$DomainValidationOptionToJson(
   return val;
 }
 
+Map<String, dynamic> _$ExportCertificateRequestToJson(
+    ExportCertificateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CertificateArn', instance.certificateArn);
+  writeNotNull(
+      'Passphrase', const Uint8ListConverter().toJson(instance.passphrase));
+  return val;
+}
+
 ExportCertificateResponse _$ExportCertificateResponseFromJson(
     Map<String, dynamic> json) {
   return ExportCertificateResponse(
@@ -291,12 +350,47 @@ Map<String, dynamic> _$FiltersToJson(Filters instance) {
   return val;
 }
 
+Map<String, dynamic> _$GetCertificateRequestToJson(
+    GetCertificateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CertificateArn', instance.certificateArn);
+  return val;
+}
+
 GetCertificateResponse _$GetCertificateResponseFromJson(
     Map<String, dynamic> json) {
   return GetCertificateResponse(
     certificate: json['Certificate'] as String,
     certificateChain: json['CertificateChain'] as String,
   );
+}
+
+Map<String, dynamic> _$ImportCertificateRequestToJson(
+    ImportCertificateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'Certificate', const Uint8ListConverter().toJson(instance.certificate));
+  writeNotNull(
+      'PrivateKey', const Uint8ListConverter().toJson(instance.privateKey));
+  writeNotNull('CertificateArn', instance.certificateArn);
+  writeNotNull('CertificateChain',
+      const Uint8ListConverter().toJson(instance.certificateChain));
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 ImportCertificateResponse _$ImportCertificateResponseFromJson(
@@ -326,6 +420,23 @@ const _$KeyUsageNameEnumMap = {
   KeyUsageName.custom: 'CUSTOM',
 };
 
+Map<String, dynamic> _$ListCertificatesRequestToJson(
+    ListCertificatesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CertificateStatuses', instance.certificateStatuses);
+  writeNotNull('Includes', instance.includes?.toJson());
+  writeNotNull('MaxItems', instance.maxItems);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListCertificatesResponse _$ListCertificatesResponseFromJson(
     Map<String, dynamic> json) {
   return ListCertificatesResponse(
@@ -338,6 +449,20 @@ ListCertificatesResponse _$ListCertificatesResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListTagsForCertificateRequestToJson(
+    ListTagsForCertificateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CertificateArn', instance.certificateArn);
+  return val;
+}
+
 ListTagsForCertificateResponse _$ListTagsForCertificateResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForCertificateResponse(
@@ -345,6 +470,35 @@ ListTagsForCertificateResponse _$ListTagsForCertificateResponseFromJson(
         ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$RemoveTagsFromCertificateRequestToJson(
+    RemoveTagsFromCertificateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CertificateArn', instance.certificateArn);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+Map<String, dynamic> _$RenewCertificateRequestToJson(
+    RenewCertificateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CertificateArn', instance.certificateArn);
+  return val;
 }
 
 RenewalSummary _$RenewalSummaryFromJson(Map<String, dynamic> json) {
@@ -369,11 +523,50 @@ const _$RenewalStatusEnumMap = {
   RenewalStatus.failed: 'FAILED',
 };
 
+Map<String, dynamic> _$RequestCertificateRequestToJson(
+    RequestCertificateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DomainName', instance.domainName);
+  writeNotNull('CertificateAuthorityArn', instance.certificateAuthorityArn);
+  writeNotNull('DomainValidationOptions',
+      instance.domainValidationOptions?.map((e) => e?.toJson())?.toList());
+  writeNotNull('IdempotencyToken', instance.idempotencyToken);
+  writeNotNull('Options', instance.options?.toJson());
+  writeNotNull('SubjectAlternativeNames', instance.subjectAlternativeNames);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'ValidationMethod', _$ValidationMethodEnumMap[instance.validationMethod]);
+  return val;
+}
+
 RequestCertificateResponse _$RequestCertificateResponseFromJson(
     Map<String, dynamic> json) {
   return RequestCertificateResponse(
     certificateArn: json['CertificateArn'] as String,
   );
+}
+
+Map<String, dynamic> _$ResendValidationEmailRequestToJson(
+    ResendValidationEmailRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CertificateArn', instance.certificateArn);
+  writeNotNull('Domain', instance.domain);
+  writeNotNull('ValidationDomain', instance.validationDomain);
+  return val;
 }
 
 ResourceRecord _$ResourceRecordFromJson(Map<String, dynamic> json) {
@@ -406,5 +599,20 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
 
   writeNotNull('Key', instance.key);
   writeNotNull('Value', instance.value);
+  return val;
+}
+
+Map<String, dynamic> _$UpdateCertificateOptionsRequestToJson(
+    UpdateCertificateOptionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CertificateArn', instance.certificateArn);
+  writeNotNull('Options', instance.options?.toJson());
   return val;
 }

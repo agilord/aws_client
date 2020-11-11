@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -107,16 +106,16 @@ class QLDBSession {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (abortTransaction != null) 'AbortTransaction': abortTransaction,
-        if (commitTransaction != null) 'CommitTransaction': commitTransaction,
-        if (endSession != null) 'EndSession': endSession,
-        if (executeStatement != null) 'ExecuteStatement': executeStatement,
-        if (fetchPage != null) 'FetchPage': fetchPage,
-        if (sessionToken != null) 'SessionToken': sessionToken,
-        if (startSession != null) 'StartSession': startSession,
-        if (startTransaction != null) 'StartTransaction': startTransaction,
-      },
+      payload: SendCommandRequest(
+        abortTransaction: abortTransaction,
+        commitTransaction: commitTransaction,
+        endSession: endSession,
+        executeStatement: executeStatement,
+        fetchPage: fetchPage,
+        sessionToken: sessionToken,
+        startSession: startSession,
+        startTransaction: startTransaction,
+      ),
     );
 
     return SendCommandResult.fromJson(jsonResponse.body);
@@ -324,6 +323,63 @@ class Page {
     this.values,
   });
   factory Page.fromJson(Map<String, dynamic> json) => _$PageFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SendCommandRequest {
+  /// Command to abort the current transaction.
+  @_s.JsonKey(name: 'AbortTransaction')
+  final AbortTransactionRequest abortTransaction;
+
+  /// Command to commit the specified transaction.
+  @_s.JsonKey(name: 'CommitTransaction')
+  final CommitTransactionRequest commitTransaction;
+
+  /// Command to end the current session.
+  @_s.JsonKey(name: 'EndSession')
+  final EndSessionRequest endSession;
+
+  /// Command to execute a statement in the specified transaction.
+  @_s.JsonKey(name: 'ExecuteStatement')
+  final ExecuteStatementRequest executeStatement;
+
+  /// Command to fetch a page.
+  @_s.JsonKey(name: 'FetchPage')
+  final FetchPageRequest fetchPage;
+
+  /// Specifies the session token for the current command. A session token is
+  /// constant throughout the life of the session.
+  ///
+  /// To obtain a session token, run the <code>StartSession</code> command. This
+  /// <code>SessionToken</code> is required for every subsequent command that is
+  /// issued during the current session.
+  @_s.JsonKey(name: 'SessionToken')
+  final String sessionToken;
+
+  /// Command to start a new session. A session token is obtained as part of the
+  /// response.
+  @_s.JsonKey(name: 'StartSession')
+  final StartSessionRequest startSession;
+
+  /// Command to start a new transaction.
+  @_s.JsonKey(name: 'StartTransaction')
+  final StartTransactionRequest startTransaction;
+
+  SendCommandRequest({
+    this.abortTransaction,
+    this.commitTransaction,
+    this.endSession,
+    this.executeStatement,
+    this.fetchPage,
+    this.sessionToken,
+    this.startSession,
+    this.startTransaction,
+  });
+  Map<String, dynamic> toJson() => _$SendCommandRequestToJson(this);
 }
 
 @_s.JsonSerializable(

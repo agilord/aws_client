@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -210,16 +209,16 @@ class CodeStarNotifications {
       clientRequestToken,
       r'''^[\w:/-]+$''',
     );
-    final $payload = <String, dynamic>{
-      'DetailType': detailType?.toValue(),
-      'EventTypeIds': eventTypeIds,
-      'Name': name,
-      'Resource': resource,
-      'Targets': targets,
-      if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
-      if (status != null) 'Status': status?.toValue(),
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = CreateNotificationRuleRequest(
+      detailType: detailType,
+      eventTypeIds: eventTypeIds,
+      name: name,
+      resource: resource,
+      targets: targets,
+      clientRequestToken: clientRequestToken,
+      status: status,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -248,9 +247,9 @@ class CodeStarNotifications {
       r'''^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:notificationrule\/(.*\S)?$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'Arn': arn,
-    };
+    final $payload = DeleteNotificationRuleRequest(
+      arn: arn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -284,11 +283,10 @@ class CodeStarNotifications {
       320,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'TargetAddress': targetAddress,
-      if (forceUnsubscribeAll != null)
-        'ForceUnsubscribeAll': forceUnsubscribeAll,
-    };
+    final $payload = DeleteTargetRequest(
+      targetAddress: targetAddress,
+      forceUnsubscribeAll: forceUnsubscribeAll,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -315,9 +313,9 @@ class CodeStarNotifications {
       r'''^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:notificationrule\/(.*\S)?$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'Arn': arn,
-    };
+    final $payload = DescribeNotificationRuleRequest(
+      arn: arn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -360,11 +358,11 @@ class CodeStarNotifications {
       nextToken,
       r'''^[\w/+=]+$''',
     );
-    final $payload = <String, dynamic>{
-      if (filters != null) 'Filters': filters,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = ListEventTypesRequest(
+      filters: filters,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -411,11 +409,11 @@ class CodeStarNotifications {
       nextToken,
       r'''^[\w/+=]+$''',
     );
-    final $payload = <String, dynamic>{
-      if (filters != null) 'Filters': filters,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = ListNotificationRulesRequest(
+      filters: filters,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -442,9 +440,9 @@ class CodeStarNotifications {
       r'''^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:notificationrule\/(.*\S)?$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'Arn': arn,
-    };
+    final $payload = ListTagsForResourceRequest(
+      arn: arn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -491,11 +489,11 @@ class CodeStarNotifications {
       nextToken,
       r'''^[\w/+=]+$''',
     );
-    final $payload = <String, dynamic>{
-      if (filters != null) 'Filters': filters,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = ListTargetsRequest(
+      filters: filters,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -543,11 +541,11 @@ class CodeStarNotifications {
       clientRequestToken,
       r'''^[\w:/-]+$''',
     );
-    final $payload = <String, dynamic>{
-      'Arn': arn,
-      'Target': target,
-      if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
-    };
+    final $payload = SubscribeRequest(
+      arn: arn,
+      target: target,
+      clientRequestToken: clientRequestToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -581,10 +579,10 @@ class CodeStarNotifications {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'Arn': arn,
-      'Tags': tags,
-    };
+    final $payload = TagResourceRequest(
+      arn: arn,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -624,10 +622,10 @@ class CodeStarNotifications {
       320,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'Arn': arn,
-      'TargetAddress': targetAddress,
-    };
+    final $payload = UnsubscribeRequest(
+      arn: arn,
+      targetAddress: targetAddress,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -662,10 +660,10 @@ class CodeStarNotifications {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    final $payload = <String, dynamic>{
-      'Arn': arn,
-      'TagKeys': tagKeys,
-    };
+    final $payload = UntagResourceRequest(
+      arn: arn,
+      tagKeys: tagKeys,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -735,14 +733,14 @@ class CodeStarNotifications {
       name,
       r'''[A-Za-z0-9\-_ ]+$''',
     );
-    final $payload = <String, dynamic>{
-      'Arn': arn,
-      if (detailType != null) 'DetailType': detailType?.toValue(),
-      if (eventTypeIds != null) 'EventTypeIds': eventTypeIds,
-      if (name != null) 'Name': name,
-      if (status != null) 'Status': status?.toValue(),
-      if (targets != null) 'Targets': targets,
-    };
+    final $payload = UpdateNotificationRuleRequest(
+      arn: arn,
+      detailType: detailType,
+      eventTypeIds: eventTypeIds,
+      name: name,
+      status: status,
+      targets: targets,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -751,6 +749,77 @@ class CodeStarNotifications {
     );
     return UpdateNotificationRuleResult.fromJson(response);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateNotificationRuleRequest {
+  /// The level of detail to include in the notifications for this resource. BASIC
+  /// will include only the contents of the event as it would appear in AWS
+  /// CloudWatch. FULL will include any supplemental information provided by AWS
+  /// CodeStar Notifications and/or the service for the resource for which the
+  /// notification is created.
+  @_s.JsonKey(name: 'DetailType')
+  final DetailType detailType;
+
+  /// A list of event types associated with this notification rule. For a list of
+  /// allowed events, see <a>EventTypeSummary</a>.
+  @_s.JsonKey(name: 'EventTypeIds')
+  final List<String> eventTypeIds;
+
+  /// The name for the notification rule. Notifictaion rule names must be unique
+  /// in your AWS account.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The Amazon Resource Name (ARN) of the resource to associate with the
+  /// notification rule. Supported resources include pipelines in AWS
+  /// CodePipeline, repositories in AWS CodeCommit, and build projects in AWS
+  /// CodeBuild.
+  @_s.JsonKey(name: 'Resource')
+  final String resource;
+
+  /// A list of Amazon Resource Names (ARNs) of SNS topics to associate with the
+  /// notification rule.
+  @_s.JsonKey(name: 'Targets')
+  final List<Target> targets;
+
+  /// A unique, client-generated idempotency token that, when provided in a
+  /// request, ensures the request cannot be repeated with a changed parameter. If
+  /// a request with the same parameters is received and a token is included, the
+  /// request returns information about the initial request that used that token.
+  /// <note>
+  /// The AWS SDKs prepopulate client request tokens. If you are using an AWS SDK,
+  /// an idempotency token is created for you.
+  /// </note>
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// The status of the notification rule. The default value is ENABLED. If the
+  /// status is set to DISABLED, notifications aren't sent for the notification
+  /// rule.
+  @_s.JsonKey(name: 'Status')
+  final NotificationRuleStatus status;
+
+  /// A list of tags to apply to this notification rule. Key names cannot start
+  /// with "aws".
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  CreateNotificationRuleRequest({
+    @_s.required this.detailType,
+    @_s.required this.eventTypeIds,
+    @_s.required this.name,
+    @_s.required this.resource,
+    @_s.required this.targets,
+    this.clientRequestToken,
+    this.status,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateNotificationRuleRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -773,6 +842,22 @@ class CreateNotificationRuleResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteNotificationRuleRequest {
+  /// The Amazon Resource Name (ARN) of the notification rule you want to delete.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  DeleteNotificationRuleRequest({
+    @_s.required this.arn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteNotificationRuleRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteNotificationRuleResult {
@@ -790,12 +875,52 @@ class DeleteNotificationRuleResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteTargetRequest {
+  /// The Amazon Resource Name (ARN) of the SNS topic to delete.
+  @_s.JsonKey(name: 'TargetAddress')
+  final String targetAddress;
+
+  /// A Boolean value that can be used to delete all associations with this SNS
+  /// topic. The default value is FALSE. If set to TRUE, all associations between
+  /// that target and every notification rule in your AWS account are deleted.
+  @_s.JsonKey(name: 'ForceUnsubscribeAll')
+  final bool forceUnsubscribeAll;
+
+  DeleteTargetRequest({
+    @_s.required this.targetAddress,
+    this.forceUnsubscribeAll,
+  });
+  Map<String, dynamic> toJson() => _$DeleteTargetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteTargetResult {
   DeleteTargetResult();
   factory DeleteTargetResult.fromJson(Map<String, dynamic> json) =>
       _$DeleteTargetResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeNotificationRuleRequest {
+  /// The Amazon Resource Name (ARN) of the notification rule.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  DescribeNotificationRuleRequest({
+    @_s.required this.arn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeNotificationRuleRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -885,18 +1010,6 @@ enum DetailType {
   full,
 }
 
-extension on DetailType {
-  String toValue() {
-    switch (this) {
-      case DetailType.basic:
-        return 'BASIC';
-      case DetailType.full:
-        return 'FULL';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Returns information about an event that has triggered a notification rule.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -964,6 +1077,35 @@ enum ListEventTypesFilterName {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListEventTypesRequest {
+  /// The filters to use to return information by service or resource type.
+  @_s.JsonKey(name: 'Filters')
+  final List<ListEventTypesFilter> filters;
+
+  /// A non-negative integer used to limit the number of returned results. The
+  /// default number is 50. The maximum number of results that can be returned is
+  /// 100.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// An enumeration token that, when provided in a request, returns the next
+  /// batch of the results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListEventTypesRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListEventTypesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListEventTypesResult {
@@ -1026,6 +1168,40 @@ enum ListNotificationRulesFilterName {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListNotificationRulesRequest {
+  /// The filters to use to return information by service or resource type. For
+  /// valid values, see <a>ListNotificationRulesFilter</a>.
+  /// <note>
+  /// A filter with the same name can appear more than once when used with OR
+  /// statements. Filters with different names should be applied with AND
+  /// statements.
+  /// </note>
+  @_s.JsonKey(name: 'Filters')
+  final List<ListNotificationRulesFilter> filters;
+
+  /// A non-negative integer used to limit the number of returned results. The
+  /// maximum number of results that can be returned is 100.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// An enumeration token that, when provided in a request, returns the next
+  /// batch of the results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListNotificationRulesRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListNotificationRulesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListNotificationRulesResult {
@@ -1045,6 +1221,22 @@ class ListNotificationRulesResult {
   });
   factory ListNotificationRulesResult.fromJson(Map<String, dynamic> json) =>
       _$ListNotificationRulesResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceRequest {
+  /// The Amazon Resource Name (ARN) for the notification rule.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  ListTagsForResourceRequest({
+    @_s.required this.arn,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1104,6 +1296,40 @@ enum ListTargetsFilterName {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTargetsRequest {
+  /// The filters to use to return information by service or resource type. Valid
+  /// filters include target type, target address, and target status.
+  /// <note>
+  /// A filter with the same name can appear more than once when used with OR
+  /// statements. Filters with different names should be applied with AND
+  /// statements.
+  /// </note>
+  @_s.JsonKey(name: 'Filters')
+  final List<ListTargetsFilter> filters;
+
+  /// A non-negative integer used to limit the number of returned results. The
+  /// maximum number of results that can be returned is 100.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// An enumeration token that, when provided in a request, returns the next
+  /// batch of the results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListTargetsRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListTargetsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListTargetsResult {
@@ -1129,18 +1355,6 @@ enum NotificationRuleStatus {
   enabled,
   @_s.JsonValue('DISABLED')
   disabled,
-}
-
-extension on NotificationRuleStatus {
-  String toValue() {
-    switch (this) {
-      case NotificationRuleStatus.enabled:
-        return 'ENABLED';
-      case NotificationRuleStatus.disabled:
-        return 'DISABLED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Information about a specified notification rule.
@@ -1169,6 +1383,32 @@ class NotificationRuleSummary {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SubscribeRequest {
+  /// The Amazon Resource Name (ARN) of the notification rule for which you want
+  /// to create the association.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+  @_s.JsonKey(name: 'Target')
+  final Target target;
+
+  /// An enumeration token that, when provided in a request, returns the next
+  /// batch of the results.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  SubscribeRequest({
+    @_s.required this.arn,
+    @_s.required this.target,
+    this.clientRequestToken,
+  });
+  Map<String, dynamic> toJson() => _$SubscribeRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class SubscribeResult {
@@ -1182,6 +1422,28 @@ class SubscribeResult {
   });
   factory SubscribeResult.fromJson(Map<String, dynamic> json) =>
       _$SubscribeResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the notification rule to tag.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// The list of tags to associate with the resource. Tag key names cannot start
+  /// with "aws".
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  TagResourceRequest({
+    @_s.required this.arn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1267,6 +1529,27 @@ class TargetSummary {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UnsubscribeRequest {
+  /// The Amazon Resource Name (ARN) of the notification rule.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// The ARN of the SNS topic to unsubscribe from the notification rule.
+  @_s.JsonKey(name: 'TargetAddress')
+  final String targetAddress;
+
+  UnsubscribeRequest({
+    @_s.required this.arn,
+    @_s.required this.targetAddress,
+  });
+  Map<String, dynamic> toJson() => _$UnsubscribeRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UnsubscribeResult {
@@ -1285,12 +1568,81 @@ class UnsubscribeResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the notification rule from which to remove
+  /// the tags.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// The key names of the tags to remove.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.arn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagResourceResult {
   UntagResourceResult();
   factory UntagResourceResult.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateNotificationRuleRequest {
+  /// The Amazon Resource Name (ARN) of the notification rule.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// The level of detail to include in the notifications for this resource. BASIC
+  /// will include only the contents of the event as it would appear in AWS
+  /// CloudWatch. FULL will include any supplemental information provided by AWS
+  /// CodeStar Notifications and/or the service for the resource for which the
+  /// notification is created.
+  @_s.JsonKey(name: 'DetailType')
+  final DetailType detailType;
+
+  /// A list of event types associated with this notification rule.
+  @_s.JsonKey(name: 'EventTypeIds')
+  final List<String> eventTypeIds;
+
+  /// The name of the notification rule.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The status of the notification rule. Valid statuses include enabled (sending
+  /// notifications) or disabled (not sending notifications).
+  @_s.JsonKey(name: 'Status')
+  final NotificationRuleStatus status;
+
+  /// The address and type of the targets to receive notifications from this
+  /// notification rule.
+  @_s.JsonKey(name: 'Targets')
+  final List<Target> targets;
+
+  UpdateNotificationRuleRequest({
+    @_s.required this.arn,
+    this.detailType,
+    this.eventTypeIds,
+    this.name,
+    this.status,
+    this.targets,
+  });
+  Map<String, dynamic> toJson() => _$UpdateNotificationRuleRequestToJson(this);
 }
 
 @_s.JsonSerializable(

@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -53,7 +52,9 @@ class ApiGatewayManagementApi {
     @_s.required String connectionId,
   }) async {
     ArgumentError.checkNotNull(connectionId, 'connectionId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteConnectionRequest(
+      connectionId: connectionId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -108,6 +109,21 @@ class ApiGatewayManagementApi {
       exceptionFnMap: _exceptionFns,
     );
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteConnectionRequest {
+  @_s.JsonKey(name: 'connectionId', ignore: true)
+  final String connectionId;
+
+  DeleteConnectionRequest({
+    @_s.required this.connectionId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteConnectionRequestToJson(this);
 }
 
 @_s.JsonSerializable(

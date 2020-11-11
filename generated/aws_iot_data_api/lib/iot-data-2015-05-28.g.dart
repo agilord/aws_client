@@ -12,6 +12,10 @@ ConflictException _$ConflictExceptionFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DeleteThingShadowRequestToJson(
+        DeleteThingShadowRequest instance) =>
+    <String, dynamic>{};
+
 DeleteThingShadowResponse _$DeleteThingShadowResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteThingShadowResponse(

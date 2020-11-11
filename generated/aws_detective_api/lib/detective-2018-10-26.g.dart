@@ -6,6 +6,20 @@ part of 'detective-2018-10-26.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$AcceptInvitationRequestToJson(
+    AcceptInvitationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GraphArn', instance.graphArn);
+  return val;
+}
+
 Map<String, dynamic> _$AccountToJson(Account instance) {
   final val = <String, dynamic>{};
 
@@ -26,6 +40,23 @@ CreateGraphResponse _$CreateGraphResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateMembersRequestToJson(
+    CreateMembersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'Accounts', instance.accounts?.map((e) => e?.toJson())?.toList());
+  writeNotNull('GraphArn', instance.graphArn);
+  writeNotNull('Message', instance.message);
+  return val;
+}
+
 CreateMembersResponse _$CreateMembersResponseFromJson(
     Map<String, dynamic> json) {
   return CreateMembersResponse(
@@ -41,6 +72,34 @@ CreateMembersResponse _$CreateMembersResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteGraphRequestToJson(DeleteGraphRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GraphArn', instance.graphArn);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteMembersRequestToJson(
+    DeleteMembersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccountIds', instance.accountIds);
+  writeNotNull('GraphArn', instance.graphArn);
+  return val;
+}
+
 DeleteMembersResponse _$DeleteMembersResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteMembersResponse(
@@ -51,6 +110,34 @@ DeleteMembersResponse _$DeleteMembersResponseFromJson(
             : UnprocessedAccount.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DisassociateMembershipRequestToJson(
+    DisassociateMembershipRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GraphArn', instance.graphArn);
+  return val;
+}
+
+Map<String, dynamic> _$GetMembersRequestToJson(GetMembersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccountIds', instance.accountIds);
+  writeNotNull('GraphArn', instance.graphArn);
+  return val;
 }
 
 GetMembersResponse _$GetMembersResponseFromJson(Map<String, dynamic> json) {
@@ -74,6 +161,20 @@ Graph _$GraphFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ListGraphsRequestToJson(ListGraphsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListGraphsResponse _$ListGraphsResponseFromJson(Map<String, dynamic> json) {
   return ListGraphsResponse(
     graphList: (json['GraphList'] as List)
@@ -82,6 +183,21 @@ ListGraphsResponse _$ListGraphsResponseFromJson(Map<String, dynamic> json) {
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListInvitationsRequestToJson(
+    ListInvitationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListInvitationsResponse _$ListInvitationsResponseFromJson(
@@ -93,6 +209,21 @@ ListInvitationsResponse _$ListInvitationsResponseFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListMembersRequestToJson(ListMembersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GraphArn', instance.graphArn);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListMembersResponse _$ListMembersResponseFromJson(Map<String, dynamic> json) {
@@ -167,6 +298,35 @@ const _$MemberStatusEnumMap = {
   MemberStatus.enabled: 'ENABLED',
   MemberStatus.acceptedButDisabled: 'ACCEPTED_BUT_DISABLED',
 };
+
+Map<String, dynamic> _$RejectInvitationRequestToJson(
+    RejectInvitationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GraphArn', instance.graphArn);
+  return val;
+}
+
+Map<String, dynamic> _$StartMonitoringMemberRequestToJson(
+    StartMonitoringMemberRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccountId', instance.accountId);
+  writeNotNull('GraphArn', instance.graphArn);
+  return val;
+}
 
 UnprocessedAccount _$UnprocessedAccountFromJson(Map<String, dynamic> json) {
   return UnprocessedAccount(

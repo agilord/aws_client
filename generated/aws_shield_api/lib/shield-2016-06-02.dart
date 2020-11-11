@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -94,9 +93,9 @@ class Shield {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'LogBucket': logBucket,
-      },
+      payload: AssociateDRTLogBucketRequest(
+        logBucket: logBucket,
+      ),
     );
 
     return AssociateDRTLogBucketResponse.fromJson(jsonResponse.body);
@@ -186,9 +185,9 @@ class Shield {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'RoleArn': roleArn,
-      },
+      payload: AssociateDRTRoleRequest(
+        roleArn: roleArn,
+      ),
     );
 
     return AssociateDRTRoleResponse.fromJson(jsonResponse.body);
@@ -261,10 +260,10 @@ class Shield {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'HealthCheckArn': healthCheckArn,
-        'ProtectionId': protectionId,
-      },
+      payload: AssociateHealthCheckRequest(
+        healthCheckArn: healthCheckArn,
+        protectionId: protectionId,
+      ),
     );
 
     return AssociateHealthCheckResponse.fromJson(jsonResponse.body);
@@ -374,10 +373,10 @@ class Shield {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        'ResourceArn': resourceArn,
-      },
+      payload: CreateProtectionRequest(
+        name: name,
+        resourceArn: resourceArn,
+      ),
     );
 
     return CreateProtectionResponse.fromJson(jsonResponse.body);
@@ -454,9 +453,9 @@ class Shield {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ProtectionId': protectionId,
-      },
+      payload: DeleteProtectionRequest(
+        protectionId: protectionId,
+      ),
     );
 
     return DeleteProtectionResponse.fromJson(jsonResponse.body);
@@ -520,9 +519,9 @@ class Shield {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AttackId': attackId,
-      },
+      payload: DescribeAttackRequest(
+        attackId: attackId,
+      ),
     );
 
     return DescribeAttackResponse.fromJson(jsonResponse.body);
@@ -625,10 +624,10 @@ class Shield {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (protectionId != null) 'ProtectionId': protectionId,
-        if (resourceArn != null) 'ResourceArn': resourceArn,
-      },
+      payload: DescribeProtectionRequest(
+        protectionId: protectionId,
+        resourceArn: resourceArn,
+      ),
     );
 
     return DescribeProtectionResponse.fromJson(jsonResponse.body);
@@ -704,9 +703,9 @@ class Shield {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'LogBucket': logBucket,
-      },
+      payload: DisassociateDRTLogBucketRequest(
+        logBucket: logBucket,
+      ),
     );
 
     return DisassociateDRTLogBucketResponse.fromJson(jsonResponse.body);
@@ -810,10 +809,10 @@ class Shield {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'HealthCheckArn': healthCheckArn,
-        'ProtectionId': protectionId,
-      },
+      payload: DisassociateHealthCheckRequest(
+        healthCheckArn: healthCheckArn,
+        protectionId: protectionId,
+      ),
     );
 
     return DisassociateHealthCheckResponse.fromJson(jsonResponse.body);
@@ -914,13 +913,13 @@ class Shield {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (endTime != null) 'EndTime': endTime,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (resourceArns != null) 'ResourceArns': resourceArns,
-        if (startTime != null) 'StartTime': startTime,
-      },
+      payload: ListAttacksRequest(
+        endTime: endTime,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        resourceArns: resourceArns,
+        startTime: startTime,
+      ),
     );
 
     return ListAttacksResponse.fromJson(jsonResponse.body);
@@ -977,10 +976,10 @@ class Shield {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListProtectionsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListProtectionsResponse.fromJson(jsonResponse.body);
@@ -1010,10 +1009,9 @@ class Shield {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (emergencyContactList != null)
-          'EmergencyContactList': emergencyContactList,
-      },
+      payload: UpdateEmergencyContactSettingsRequest(
+        emergencyContactList: emergencyContactList,
+      ),
     );
 
     return UpdateEmergencyContactSettingsResponse.fromJson(jsonResponse.body);
@@ -1049,13 +1047,29 @@ class Shield {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (autoRenew != null) 'AutoRenew': autoRenew?.toValue(),
-      },
+      payload: UpdateSubscriptionRequest(
+        autoRenew: autoRenew,
+      ),
     );
 
     return UpdateSubscriptionResponse.fromJson(jsonResponse.body);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateDRTLogBucketRequest {
+  /// The Amazon S3 bucket that contains your AWS WAF logs.
+  @_s.JsonKey(name: 'LogBucket')
+  final String logBucket;
+
+  AssociateDRTLogBucketRequest({
+    @_s.required this.logBucket,
+  });
+  Map<String, dynamic> toJson() => _$AssociateDRTLogBucketRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1072,12 +1086,59 @@ class AssociateDRTLogBucketResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateDRTRoleRequest {
+  /// The Amazon Resource Name (ARN) of the role the DRT will use to access your
+  /// AWS account.
+  ///
+  /// Prior to making the <code>AssociateDRTRole</code> request, you must attach
+  /// the <a
+  /// href="https://console.aws.amazon.com/iam/home?#/policies/arn:aws:iam::aws:policy/service-role/AWSShieldDRTAccessPolicy">AWSShieldDRTAccessPolicy</a>
+  /// managed policy to this role. For more information see <a href="
+  /// https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_manage-attach-detach.html">Attaching
+  /// and Detaching IAM Policies</a>.
+  @_s.JsonKey(name: 'RoleArn')
+  final String roleArn;
+
+  AssociateDRTRoleRequest({
+    @_s.required this.roleArn,
+  });
+  Map<String, dynamic> toJson() => _$AssociateDRTRoleRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AssociateDRTRoleResponse {
   AssociateDRTRoleResponse();
   factory AssociateDRTRoleResponse.fromJson(Map<String, dynamic> json) =>
       _$AssociateDRTRoleResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateHealthCheckRequest {
+  /// The Amazon Resource Name (ARN) of the health check to associate with the
+  /// protection.
+  @_s.JsonKey(name: 'HealthCheckArn')
+  final String healthCheckArn;
+
+  /// The unique identifier (ID) for the <a>Protection</a> object to add the
+  /// health check association to.
+  @_s.JsonKey(name: 'ProtectionId')
+  final String protectionId;
+
+  AssociateHealthCheckRequest({
+    @_s.required this.healthCheckArn,
+    @_s.required this.protectionId,
+  });
+  Map<String, dynamic> toJson() => _$AssociateHealthCheckRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1356,18 +1417,6 @@ enum AutoRenew {
   disabled,
 }
 
-extension on AutoRenew {
-  String toValue() {
-    switch (this) {
-      case AutoRenew.enabled:
-        return 'ENABLED';
-      case AutoRenew.disabled:
-        return 'DISABLED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// A contributor to the attack and their contribution.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1393,6 +1442,61 @@ class Contributor {
   });
   factory Contributor.fromJson(Map<String, dynamic> json) =>
       _$ContributorFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateProtectionRequest {
+  /// Friendly name for the <code>Protection</code> you are creating.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The ARN (Amazon Resource Name) of the resource to be protected.
+  ///
+  /// The ARN should be in one of the following formats:
+  ///
+  /// <ul>
+  /// <li>
+  /// For an Application Load Balancer:
+  /// <code>arn:aws:elasticloadbalancing:<i>region</i>:<i>account-id</i>:loadbalancer/app/<i>load-balancer-name</i>/<i>load-balancer-id</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// For an Elastic Load Balancer (Classic Load Balancer):
+  /// <code>arn:aws:elasticloadbalancing:<i>region</i>:<i>account-id</i>:loadbalancer/<i>load-balancer-name</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// For an AWS CloudFront distribution:
+  /// <code>arn:aws:cloudfront::<i>account-id</i>:distribution/<i>distribution-id</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// For an AWS Global Accelerator accelerator:
+  /// <code>arn:aws:globalaccelerator::<i>account-id</i>:accelerator/<i>accelerator-id</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// For Amazon Route 53:
+  /// <code>arn:aws:route53:::hostedzone/<i>hosted-zone-id</i> </code>
+  /// </li>
+  /// <li>
+  /// For an Elastic IP address:
+  /// <code>arn:aws:ec2:<i>region</i>:<i>account-id</i>:eip-allocation/<i>allocation-id</i>
+  /// </code>
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  CreateProtectionRequest({
+    @_s.required this.name,
+    @_s.required this.resourceArn,
+  });
+  Map<String, dynamic> toJson() => _$CreateProtectionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1426,6 +1530,22 @@ class CreateSubscriptionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteProtectionRequest {
+  /// The unique identifier (ID) for the <a>Protection</a> object to be deleted.
+  @_s.JsonKey(name: 'ProtectionId')
+  final String protectionId;
+
+  DeleteProtectionRequest({
+    @_s.required this.protectionId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteProtectionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteProtectionResponse {
@@ -1444,6 +1564,22 @@ class DeleteSubscriptionResponse {
   DeleteSubscriptionResponse();
   factory DeleteSubscriptionResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteSubscriptionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeAttackRequest {
+  /// The unique identifier (ID) for the attack that to be described.
+  @_s.JsonKey(name: 'AttackId')
+  final String attackId;
+
+  DescribeAttackRequest({
+    @_s.required this.attackId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeAttackRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1508,6 +1644,33 @@ class DescribeEmergencyContactSettingsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeProtectionRequest {
+  /// The unique identifier (ID) for the <a>Protection</a> object that is
+  /// described. When submitting the <code>DescribeProtection</code> request you
+  /// must provide either the <code>ResourceArn</code> or the
+  /// <code>ProtectionID</code>, but not both.
+  @_s.JsonKey(name: 'ProtectionId')
+  final String protectionId;
+
+  /// The ARN (Amazon Resource Name) of the AWS resource for the <a>Protection</a>
+  /// object that is described. When submitting the
+  /// <code>DescribeProtection</code> request you must provide either the
+  /// <code>ResourceArn</code> or the <code>ProtectionID</code>, but not both.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  DescribeProtectionRequest({
+    this.protectionId,
+    this.resourceArn,
+  });
+  Map<String, dynamic> toJson() => _$DescribeProtectionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeProtectionResponse {
@@ -1542,6 +1705,23 @@ class DescribeSubscriptionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateDRTLogBucketRequest {
+  /// The Amazon S3 bucket that contains your AWS WAF logs.
+  @_s.JsonKey(name: 'LogBucket')
+  final String logBucket;
+
+  DisassociateDRTLogBucketRequest({
+    @_s.required this.logBucket,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DisassociateDRTLogBucketRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DisassociateDRTLogBucketResponse {
@@ -1560,6 +1740,29 @@ class DisassociateDRTRoleResponse {
   DisassociateDRTRoleResponse();
   factory DisassociateDRTRoleResponse.fromJson(Map<String, dynamic> json) =>
       _$DisassociateDRTRoleResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateHealthCheckRequest {
+  /// The Amazon Resource Name (ARN) of the health check that is associated with
+  /// the protection.
+  @_s.JsonKey(name: 'HealthCheckArn')
+  final String healthCheckArn;
+
+  /// The unique identifier (ID) for the <a>Protection</a> object to remove the
+  /// health check association from.
+  @_s.JsonKey(name: 'ProtectionId')
+  final String protectionId;
+
+  DisassociateHealthCheckRequest({
+    @_s.required this.healthCheckArn,
+    @_s.required this.protectionId,
+  });
+  Map<String, dynamic> toJson() => _$DisassociateHealthCheckRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1638,6 +1841,61 @@ class Limit {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListAttacksRequest {
+  /// The end of the time period for the attacks. This is a <code>timestamp</code>
+  /// type. The sample request above indicates a <code>number</code> type because
+  /// the default used by WAF is Unix time in seconds. However any valid <a
+  /// href="http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types">timestamp
+  /// format</a> is allowed.
+  @_s.JsonKey(name: 'EndTime')
+  final TimeRange endTime;
+
+  /// The maximum number of <a>AttackSummary</a> objects to be returned. If this
+  /// is left blank, the first 20 results will be returned.
+  ///
+  /// This is a maximum value; it is possible that AWS WAF will return the results
+  /// in smaller batches. That is, the number of <a>AttackSummary</a> objects
+  /// returned could be less than <code>MaxResults</code>, even if there are still
+  /// more <a>AttackSummary</a> objects yet to return. If there are more
+  /// <a>AttackSummary</a> objects to return, AWS WAF will always also return a
+  /// <code>NextToken</code>.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The <code>ListAttacksRequest.NextMarker</code> value from a previous call to
+  /// <code>ListAttacksRequest</code>. Pass null if this is the first call.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The ARN (Amazon Resource Name) of the resource that was attacked. If this is
+  /// left blank, all applicable resources for this account will be included.
+  @_s.JsonKey(name: 'ResourceArns')
+  final List<String> resourceArns;
+
+  /// The start of the time period for the attacks. This is a
+  /// <code>timestamp</code> type. The sample request above indicates a
+  /// <code>number</code> type because the default used by WAF is Unix time in
+  /// seconds. However any valid <a
+  /// href="http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types">timestamp
+  /// format</a> is allowed.
+  @_s.JsonKey(name: 'StartTime')
+  final TimeRange startTime;
+
+  ListAttacksRequest({
+    this.endTime,
+    this.maxResults,
+    this.nextToken,
+    this.resourceArns,
+    this.startTime,
+  });
+  Map<String, dynamic> toJson() => _$ListAttacksRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListAttacksResponse {
@@ -1663,6 +1921,36 @@ class ListAttacksResponse {
   });
   factory ListAttacksResponse.fromJson(Map<String, dynamic> json) =>
       _$ListAttacksResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListProtectionsRequest {
+  /// The maximum number of <a>Protection</a> objects to be returned. If this is
+  /// left blank the first 20 results will be returned.
+  ///
+  /// This is a maximum value; it is possible that AWS WAF will return the results
+  /// in smaller batches. That is, the number of <a>Protection</a> objects
+  /// returned could be less than <code>MaxResults</code>, even if there are still
+  /// more <a>Protection</a> objects yet to return. If there are more
+  /// <a>Protection</a> objects to return, AWS WAF will always also return a
+  /// <code>NextToken</code>.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The <code>ListProtectionsRequest.NextToken</code> value from a previous call
+  /// to <code>ListProtections</code>. Pass null if this is the first call.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListProtectionsRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListProtectionsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1962,6 +2250,24 @@ enum Unit {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateEmergencyContactSettingsRequest {
+  /// A list of email addresses that the DRT can use to contact you during a
+  /// suspected attack.
+  @_s.JsonKey(name: 'EmergencyContactList')
+  final List<EmergencyContact> emergencyContactList;
+
+  UpdateEmergencyContactSettingsRequest({
+    this.emergencyContactList,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateEmergencyContactSettingsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateEmergencyContactSettingsResponse {
@@ -1969,6 +2275,28 @@ class UpdateEmergencyContactSettingsResponse {
   factory UpdateEmergencyContactSettingsResponse.fromJson(
           Map<String, dynamic> json) =>
       _$UpdateEmergencyContactSettingsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateSubscriptionRequest {
+  /// When you initally create a subscription, <code>AutoRenew</code> is set to
+  /// <code>ENABLED</code>. If <code>ENABLED</code>, the subscription will be
+  /// automatically renewed at the end of the existing subscription period. You
+  /// can change this by submitting an <code>UpdateSubscription</code> request. If
+  /// the <code>UpdateSubscription</code> request does not included a value for
+  /// <code>AutoRenew</code>, the existing value for <code>AutoRenew</code>
+  /// remains unchanged.
+  @_s.JsonKey(name: 'AutoRenew')
+  final AutoRenew autoRenew;
+
+  UpdateSubscriptionRequest({
+    this.autoRenew,
+  });
+  Map<String, dynamic> toJson() => _$UpdateSubscriptionRequestToJson(this);
 }
 
 @_s.JsonSerializable(

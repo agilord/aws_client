@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -70,7 +69,9 @@ class Polly {
       r'''[0-9A-Za-z]{1,20}''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteLexiconInput(
+      name: name,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -334,9 +335,10 @@ class Polly {
       r'''[0-9A-Za-z]{1,20}''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'Content': content,
-    };
+    final $payload = PutLexiconInput(
+      content: content,
+      name: name,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -462,20 +464,20 @@ class Polly {
       snsTopicArn,
       r'''^arn:aws(-(cn|iso(-b)?|us-gov))?:sns:[a-z0-9_-]{1,50}:\d{12}:[a-zA-Z0-9_-]{1,256}$''',
     );
-    final $payload = <String, dynamic>{
-      'OutputFormat': outputFormat?.toValue(),
-      'OutputS3BucketName': outputS3BucketName,
-      'Text': text,
-      'VoiceId': voiceId?.toValue(),
-      if (engine != null) 'Engine': engine?.toValue(),
-      if (languageCode != null) 'LanguageCode': languageCode?.toValue(),
-      if (lexiconNames != null) 'LexiconNames': lexiconNames,
-      if (outputS3KeyPrefix != null) 'OutputS3KeyPrefix': outputS3KeyPrefix,
-      if (sampleRate != null) 'SampleRate': sampleRate,
-      if (snsTopicArn != null) 'SnsTopicArn': snsTopicArn,
-      if (speechMarkTypes != null) 'SpeechMarkTypes': speechMarkTypes,
-      if (textType != null) 'TextType': textType?.toValue(),
-    };
+    final $payload = StartSpeechSynthesisTaskInput(
+      outputFormat: outputFormat,
+      outputS3BucketName: outputS3BucketName,
+      text: text,
+      voiceId: voiceId,
+      engine: engine,
+      languageCode: languageCode,
+      lexiconNames: lexiconNames,
+      outputS3KeyPrefix: outputS3KeyPrefix,
+      sampleRate: sampleRate,
+      snsTopicArn: snsTopicArn,
+      speechMarkTypes: speechMarkTypes,
+      textType: textType,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -577,17 +579,17 @@ class Polly {
     ArgumentError.checkNotNull(outputFormat, 'outputFormat');
     ArgumentError.checkNotNull(text, 'text');
     ArgumentError.checkNotNull(voiceId, 'voiceId');
-    final $payload = <String, dynamic>{
-      'OutputFormat': outputFormat?.toValue(),
-      'Text': text,
-      'VoiceId': voiceId?.toValue(),
-      if (engine != null) 'Engine': engine?.toValue(),
-      if (languageCode != null) 'LanguageCode': languageCode?.toValue(),
-      if (lexiconNames != null) 'LexiconNames': lexiconNames,
-      if (sampleRate != null) 'SampleRate': sampleRate,
-      if (speechMarkTypes != null) 'SpeechMarkTypes': speechMarkTypes,
-      if (textType != null) 'TextType': textType?.toValue(),
-    };
+    final $payload = SynthesizeSpeechInput(
+      outputFormat: outputFormat,
+      text: text,
+      voiceId: voiceId,
+      engine: engine,
+      languageCode: languageCode,
+      lexiconNames: lexiconNames,
+      sampleRate: sampleRate,
+      speechMarkTypes: speechMarkTypes,
+      textType: textType,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -597,6 +599,23 @@ class Polly {
     return SynthesizeSpeechOutput.fromJson(
         {...response, 'AudioStream': response});
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteLexiconInput {
+  /// The name of the lexicon to delete. Must be an existing lexicon in the
+  /// region.
+  @_s.JsonKey(name: 'LexiconName', ignore: true)
+  final String name;
+
+  DeleteLexiconInput({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$DeleteLexiconInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -639,18 +658,6 @@ enum Engine {
   standard,
   @_s.JsonValue('neural')
   neural,
-}
-
-extension on Engine {
-  String toValue() {
-    switch (this) {
-      case Engine.standard:
-        return 'standard';
-      case Engine.neural:
-        return 'neural';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 enum Gender {
@@ -761,72 +768,6 @@ enum LanguageCode {
   svSe,
   @_s.JsonValue('tr-TR')
   trTr,
-}
-
-extension on LanguageCode {
-  String toValue() {
-    switch (this) {
-      case LanguageCode.arb:
-        return 'arb';
-      case LanguageCode.cmnCn:
-        return 'cmn-CN';
-      case LanguageCode.cyGb:
-        return 'cy-GB';
-      case LanguageCode.daDk:
-        return 'da-DK';
-      case LanguageCode.deDe:
-        return 'de-DE';
-      case LanguageCode.enAu:
-        return 'en-AU';
-      case LanguageCode.enGb:
-        return 'en-GB';
-      case LanguageCode.enGbWls:
-        return 'en-GB-WLS';
-      case LanguageCode.enIn:
-        return 'en-IN';
-      case LanguageCode.enUs:
-        return 'en-US';
-      case LanguageCode.esEs:
-        return 'es-ES';
-      case LanguageCode.esMx:
-        return 'es-MX';
-      case LanguageCode.esUs:
-        return 'es-US';
-      case LanguageCode.frCa:
-        return 'fr-CA';
-      case LanguageCode.frFr:
-        return 'fr-FR';
-      case LanguageCode.isIs:
-        return 'is-IS';
-      case LanguageCode.itIt:
-        return 'it-IT';
-      case LanguageCode.jaJp:
-        return 'ja-JP';
-      case LanguageCode.hiIn:
-        return 'hi-IN';
-      case LanguageCode.koKr:
-        return 'ko-KR';
-      case LanguageCode.nbNo:
-        return 'nb-NO';
-      case LanguageCode.nlNl:
-        return 'nl-NL';
-      case LanguageCode.plPl:
-        return 'pl-PL';
-      case LanguageCode.ptBr:
-        return 'pt-BR';
-      case LanguageCode.ptPt:
-        return 'pt-PT';
-      case LanguageCode.roRo:
-        return 'ro-RO';
-      case LanguageCode.ruRu:
-        return 'ru-RU';
-      case LanguageCode.svSe:
-        return 'sv-SE';
-      case LanguageCode.trTr:
-        return 'tr-TR';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Provides lexicon name and lexicon content in string format. For more
@@ -991,20 +932,27 @@ enum OutputFormat {
   pcm,
 }
 
-extension on OutputFormat {
-  String toValue() {
-    switch (this) {
-      case OutputFormat.json:
-        return 'json';
-      case OutputFormat.mp3:
-        return 'mp3';
-      case OutputFormat.oggVorbis:
-        return 'ogg_vorbis';
-      case OutputFormat.pcm:
-        return 'pcm';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutLexiconInput {
+  /// Content of the PLS lexicon as string data.
+  @_s.JsonKey(name: 'Content')
+  final String content;
+
+  /// Name of the lexicon. The name must follow the regular express format
+  /// [0-9A-Za-z]{1,20}. That is, the name is a case-sensitive alphanumeric string
+  /// up to 20 characters long.
+  @_s.JsonKey(name: 'LexiconName', ignore: true)
+  final String name;
+
+  PutLexiconInput({
+    @_s.required this.content,
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$PutLexiconInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1027,6 +975,100 @@ enum SpeechMarkType {
   viseme,
   @_s.JsonValue('word')
   word,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartSpeechSynthesisTaskInput {
+  /// The format in which the returned output will be encoded. For audio stream,
+  /// this will be mp3, ogg_vorbis, or pcm. For speech marks, this will be json.
+  @_s.JsonKey(name: 'OutputFormat')
+  final OutputFormat outputFormat;
+
+  /// Amazon S3 bucket name to which the output file will be saved.
+  @_s.JsonKey(name: 'OutputS3BucketName')
+  final String outputS3BucketName;
+
+  /// The input text to synthesize. If you specify ssml as the TextType, follow
+  /// the SSML format for the input text.
+  @_s.JsonKey(name: 'Text')
+  final String text;
+
+  /// Voice ID to use for the synthesis.
+  @_s.JsonKey(name: 'VoiceId')
+  final VoiceId voiceId;
+
+  /// Specifies the engine (<code>standard</code> or <code>neural</code>) for
+  /// Amazon Polly to use when processing input text for speech synthesis. Using a
+  /// voice that is not supported for the engine selected will result in an error.
+  @_s.JsonKey(name: 'Engine')
+  final Engine engine;
+
+  /// Optional language code for the Speech Synthesis request. This is only
+  /// necessary if using a bilingual voice, such as Aditi, which can be used for
+  /// either Indian English (en-IN) or Hindi (hi-IN).
+  ///
+  /// If a bilingual voice is used and no language code is specified, Amazon Polly
+  /// will use the default language of the bilingual voice. The default language
+  /// for any voice is the one returned by the <a
+  /// href="https://docs.aws.amazon.com/polly/latest/dg/API_DescribeVoices.html">DescribeVoices</a>
+  /// operation for the <code>LanguageCode</code> parameter. For example, if no
+  /// language code is specified, Aditi will use Indian English rather than Hindi.
+  @_s.JsonKey(name: 'LanguageCode')
+  final LanguageCode languageCode;
+
+  /// List of one or more pronunciation lexicon names you want the service to
+  /// apply during synthesis. Lexicons are applied only if the language of the
+  /// lexicon is the same as the language of the voice.
+  @_s.JsonKey(name: 'LexiconNames')
+  final List<String> lexiconNames;
+
+  /// The Amazon S3 key prefix for the output speech file.
+  @_s.JsonKey(name: 'OutputS3KeyPrefix')
+  final String outputS3KeyPrefix;
+
+  /// The audio frequency specified in Hz.
+  ///
+  /// The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and
+  /// "24000". The default value for standard voices is "22050". The default value
+  /// for neural voices is "24000".
+  ///
+  /// Valid values for pcm are "8000" and "16000" The default value is "16000".
+  @_s.JsonKey(name: 'SampleRate')
+  final String sampleRate;
+
+  /// ARN for the SNS topic optionally used for providing status notification for
+  /// a speech synthesis task.
+  @_s.JsonKey(name: 'SnsTopicArn')
+  final String snsTopicArn;
+
+  /// The type of speech marks returned for the input text.
+  @_s.JsonKey(name: 'SpeechMarkTypes')
+  final List<String> speechMarkTypes;
+
+  /// Specifies whether the input text is plain text or SSML. The default value is
+  /// plain text.
+  @_s.JsonKey(name: 'TextType')
+  final TextType textType;
+
+  StartSpeechSynthesisTaskInput({
+    @_s.required this.outputFormat,
+    @_s.required this.outputS3BucketName,
+    @_s.required this.text,
+    @_s.required this.voiceId,
+    this.engine,
+    this.languageCode,
+    this.lexiconNames,
+    this.outputS3KeyPrefix,
+    this.sampleRate,
+    this.snsTopicArn,
+    this.speechMarkTypes,
+    this.textType,
+  });
+  Map<String, dynamic> toJson() => _$StartSpeechSynthesisTaskInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1165,6 +1207,93 @@ class SynthesisTask {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SynthesizeSpeechInput {
+  /// The format in which the returned output will be encoded. For audio stream,
+  /// this will be mp3, ogg_vorbis, or pcm. For speech marks, this will be json.
+  ///
+  /// When pcm is used, the content returned is audio/pcm in a signed 16-bit, 1
+  /// channel (mono), little-endian format.
+  @_s.JsonKey(name: 'OutputFormat')
+  final OutputFormat outputFormat;
+
+  /// Input text to synthesize. If you specify <code>ssml</code> as the
+  /// <code>TextType</code>, follow the SSML format for the input text.
+  @_s.JsonKey(name: 'Text')
+  final String text;
+
+  /// Voice ID to use for the synthesis. You can get a list of available voice IDs
+  /// by calling the <a
+  /// href="https://docs.aws.amazon.com/polly/latest/dg/API_DescribeVoices.html">DescribeVoices</a>
+  /// operation.
+  @_s.JsonKey(name: 'VoiceId')
+  final VoiceId voiceId;
+
+  /// Specifies the engine (<code>standard</code> or <code>neural</code>) for
+  /// Amazon Polly to use when processing input text for speech synthesis. Using a
+  /// voice that is not supported for the engine selected will result in an error.
+  @_s.JsonKey(name: 'Engine')
+  final Engine engine;
+
+  /// Optional language code for the Synthesize Speech request. This is only
+  /// necessary if using a bilingual voice, such as Aditi, which can be used for
+  /// either Indian English (en-IN) or Hindi (hi-IN).
+  ///
+  /// If a bilingual voice is used and no language code is specified, Amazon Polly
+  /// will use the default language of the bilingual voice. The default language
+  /// for any voice is the one returned by the <a
+  /// href="https://docs.aws.amazon.com/polly/latest/dg/API_DescribeVoices.html">DescribeVoices</a>
+  /// operation for the <code>LanguageCode</code> parameter. For example, if no
+  /// language code is specified, Aditi will use Indian English rather than Hindi.
+  @_s.JsonKey(name: 'LanguageCode')
+  final LanguageCode languageCode;
+
+  /// List of one or more pronunciation lexicon names you want the service to
+  /// apply during synthesis. Lexicons are applied only if the language of the
+  /// lexicon is the same as the language of the voice. For information about
+  /// storing lexicons, see <a
+  /// href="https://docs.aws.amazon.com/polly/latest/dg/API_PutLexicon.html">PutLexicon</a>.
+  @_s.JsonKey(name: 'LexiconNames')
+  final List<String> lexiconNames;
+
+  /// The audio frequency specified in Hz.
+  ///
+  /// The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and
+  /// "24000". The default value for standard voices is "22050". The default value
+  /// for neural voices is "24000".
+  ///
+  /// Valid values for pcm are "8000" and "16000" The default value is "16000".
+  @_s.JsonKey(name: 'SampleRate')
+  final String sampleRate;
+
+  /// The type of speech marks returned for the input text.
+  @_s.JsonKey(name: 'SpeechMarkTypes')
+  final List<String> speechMarkTypes;
+
+  /// Specifies whether the input text is plain text or SSML. The default value is
+  /// plain text. For more information, see <a
+  /// href="https://docs.aws.amazon.com/polly/latest/dg/ssml.html">Using SSML</a>.
+  @_s.JsonKey(name: 'TextType')
+  final TextType textType;
+
+  SynthesizeSpeechInput({
+    @_s.required this.outputFormat,
+    @_s.required this.text,
+    @_s.required this.voiceId,
+    this.engine,
+    this.languageCode,
+    this.lexiconNames,
+    this.sampleRate,
+    this.speechMarkTypes,
+    this.textType,
+  });
+  Map<String, dynamic> toJson() => _$SynthesizeSpeechInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class SynthesizeSpeechOutput {
@@ -1228,18 +1357,6 @@ enum TextType {
   ssml,
   @_s.JsonValue('text')
   text,
-}
-
-extension on TextType {
-  String toValue() {
-    switch (this) {
-      case TextType.ssml:
-        return 'ssml';
-      case TextType.text:
-        return 'text';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Description of the voice.
@@ -1419,134 +1536,6 @@ enum VoiceId {
   zeina,
   @_s.JsonValue('Zhiyu')
   zhiyu,
-}
-
-extension on VoiceId {
-  String toValue() {
-    switch (this) {
-      case VoiceId.aditi:
-        return 'Aditi';
-      case VoiceId.amy:
-        return 'Amy';
-      case VoiceId.astrid:
-        return 'Astrid';
-      case VoiceId.bianca:
-        return 'Bianca';
-      case VoiceId.brian:
-        return 'Brian';
-      case VoiceId.camila:
-        return 'Camila';
-      case VoiceId.carla:
-        return 'Carla';
-      case VoiceId.carmen:
-        return 'Carmen';
-      case VoiceId.celine:
-        return 'Celine';
-      case VoiceId.chantal:
-        return 'Chantal';
-      case VoiceId.conchita:
-        return 'Conchita';
-      case VoiceId.cristiano:
-        return 'Cristiano';
-      case VoiceId.dora:
-        return 'Dora';
-      case VoiceId.emma:
-        return 'Emma';
-      case VoiceId.enrique:
-        return 'Enrique';
-      case VoiceId.ewa:
-        return 'Ewa';
-      case VoiceId.filiz:
-        return 'Filiz';
-      case VoiceId.geraint:
-        return 'Geraint';
-      case VoiceId.giorgio:
-        return 'Giorgio';
-      case VoiceId.gwyneth:
-        return 'Gwyneth';
-      case VoiceId.hans:
-        return 'Hans';
-      case VoiceId.ines:
-        return 'Ines';
-      case VoiceId.ivy:
-        return 'Ivy';
-      case VoiceId.jacek:
-        return 'Jacek';
-      case VoiceId.jan:
-        return 'Jan';
-      case VoiceId.joanna:
-        return 'Joanna';
-      case VoiceId.joey:
-        return 'Joey';
-      case VoiceId.justin:
-        return 'Justin';
-      case VoiceId.karl:
-        return 'Karl';
-      case VoiceId.kendra:
-        return 'Kendra';
-      case VoiceId.kimberly:
-        return 'Kimberly';
-      case VoiceId.lea:
-        return 'Lea';
-      case VoiceId.liv:
-        return 'Liv';
-      case VoiceId.lotte:
-        return 'Lotte';
-      case VoiceId.lucia:
-        return 'Lucia';
-      case VoiceId.lupe:
-        return 'Lupe';
-      case VoiceId.mads:
-        return 'Mads';
-      case VoiceId.maja:
-        return 'Maja';
-      case VoiceId.marlene:
-        return 'Marlene';
-      case VoiceId.mathieu:
-        return 'Mathieu';
-      case VoiceId.matthew:
-        return 'Matthew';
-      case VoiceId.maxim:
-        return 'Maxim';
-      case VoiceId.mia:
-        return 'Mia';
-      case VoiceId.miguel:
-        return 'Miguel';
-      case VoiceId.mizuki:
-        return 'Mizuki';
-      case VoiceId.naja:
-        return 'Naja';
-      case VoiceId.nicole:
-        return 'Nicole';
-      case VoiceId.penelope:
-        return 'Penelope';
-      case VoiceId.raveena:
-        return 'Raveena';
-      case VoiceId.ricardo:
-        return 'Ricardo';
-      case VoiceId.ruben:
-        return 'Ruben';
-      case VoiceId.russell:
-        return 'Russell';
-      case VoiceId.salli:
-        return 'Salli';
-      case VoiceId.seoyeon:
-        return 'Seoyeon';
-      case VoiceId.takumi:
-        return 'Takumi';
-      case VoiceId.tatyana:
-        return 'Tatyana';
-      case VoiceId.vicki:
-        return 'Vicki';
-      case VoiceId.vitoria:
-        return 'Vitoria';
-      case VoiceId.zeina:
-        return 'Zeina';
-      case VoiceId.zhiyu:
-        return 'Zhiyu';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 class EngineNotSupportedException extends _s.GenericAwsException {

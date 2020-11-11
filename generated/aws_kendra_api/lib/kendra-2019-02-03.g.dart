@@ -130,6 +130,21 @@ Map<String, dynamic> _$AttributeFilterToJson(AttributeFilter instance) {
   return val;
 }
 
+Map<String, dynamic> _$BatchDeleteDocumentRequestToJson(
+    BatchDeleteDocumentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DocumentIdList', instance.documentIdList);
+  writeNotNull('IndexId', instance.indexId);
+  return val;
+}
+
 BatchDeleteDocumentResponse _$BatchDeleteDocumentResponseFromJson(
     Map<String, dynamic> json) {
   return BatchDeleteDocumentResponse(
@@ -156,6 +171,23 @@ const _$ErrorCodeEnumMap = {
   ErrorCode.internalError: 'InternalError',
   ErrorCode.invalidRequest: 'InvalidRequest',
 };
+
+Map<String, dynamic> _$BatchPutDocumentRequestToJson(
+    BatchPutDocumentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'Documents', instance.documents?.map((e) => e?.toJson())?.toList());
+  writeNotNull('IndexId', instance.indexId);
+  writeNotNull('RoleArn', instance.roleArn);
+  return val;
+}
 
 BatchPutDocumentResponse _$BatchPutDocumentResponseFromJson(
     Map<String, dynamic> json) {
@@ -256,6 +288,32 @@ Map<String, dynamic> _$ConnectionConfigurationToJson(
   return val;
 }
 
+Map<String, dynamic> _$CreateDataSourceRequestToJson(
+    CreateDataSourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Configuration', instance.configuration?.toJson());
+  writeNotNull('IndexId', instance.indexId);
+  writeNotNull('Name', instance.name);
+  writeNotNull('RoleArn', instance.roleArn);
+  writeNotNull('Type', _$DataSourceTypeEnumMap[instance.type]);
+  writeNotNull('Description', instance.description);
+  writeNotNull('Schedule', instance.schedule);
+  return val;
+}
+
+const _$DataSourceTypeEnumMap = {
+  DataSourceType.s3: 'S3',
+  DataSourceType.sharepoint: 'SHAREPOINT',
+  DataSourceType.database: 'DATABASE',
+};
+
 CreateDataSourceResponse _$CreateDataSourceResponseFromJson(
     Map<String, dynamic> json) {
   return CreateDataSourceResponse(
@@ -263,10 +321,45 @@ CreateDataSourceResponse _$CreateDataSourceResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateFaqRequestToJson(CreateFaqRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('IndexId', instance.indexId);
+  writeNotNull('Name', instance.name);
+  writeNotNull('RoleArn', instance.roleArn);
+  writeNotNull('S3Path', instance.s3Path?.toJson());
+  writeNotNull('Description', instance.description);
+  return val;
+}
+
 CreateFaqResponse _$CreateFaqResponseFromJson(Map<String, dynamic> json) {
   return CreateFaqResponse(
     id: json['Id'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateIndexRequestToJson(CreateIndexRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('RoleArn', instance.roleArn);
+  writeNotNull('ClientToken', instance.clientToken);
+  writeNotNull('Description', instance.description);
+  writeNotNull('ServerSideEncryptionConfiguration',
+      instance.serverSideEncryptionConfiguration?.toJson());
+  return val;
 }
 
 CreateIndexResponse _$CreateIndexResponseFromJson(Map<String, dynamic> json) {
@@ -328,12 +421,6 @@ const _$DataSourceStatusEnumMap = {
   DataSourceStatus.failed: 'FAILED',
   DataSourceStatus.updating: 'UPDATING',
   DataSourceStatus.active: 'ACTIVE',
-};
-
-const _$DataSourceTypeEnumMap = {
-  DataSourceType.s3: 'S3',
-  DataSourceType.sharepoint: 'SHAREPOINT',
-  DataSourceType.database: 'DATABASE',
 };
 
 DataSourceSyncJob _$DataSourceSyncJobFromJson(Map<String, dynamic> json) {
@@ -458,6 +545,48 @@ const _$DatabaseEngineTypeEnumMap = {
   DatabaseEngineType.rdsPostgresql: 'RDS_POSTGRESQL',
 };
 
+Map<String, dynamic> _$DeleteFaqRequestToJson(DeleteFaqRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  writeNotNull('IndexId', instance.indexId);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteIndexRequestToJson(DeleteIndexRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  return val;
+}
+
+Map<String, dynamic> _$DescribeDataSourceRequestToJson(
+    DescribeDataSourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  writeNotNull('IndexId', instance.indexId);
+  return val;
+}
+
 DescribeDataSourceResponse _$DescribeDataSourceResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeDataSourceResponse(
@@ -477,6 +606,20 @@ DescribeDataSourceResponse _$DescribeDataSourceResponseFromJson(
     type: _$enumDecodeNullable(_$DataSourceTypeEnumMap, json['Type']),
     updatedAt: unixTimestampFromJson(json['UpdatedAt']),
   );
+}
+
+Map<String, dynamic> _$DescribeFaqRequestToJson(DescribeFaqRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  writeNotNull('IndexId', instance.indexId);
+  return val;
 }
 
 DescribeFaqResponse _$DescribeFaqResponseFromJson(Map<String, dynamic> json) {
@@ -503,6 +646,20 @@ const _$FaqStatusEnumMap = {
   FaqStatus.deleting: 'DELETING',
   FaqStatus.failed: 'FAILED',
 };
+
+Map<String, dynamic> _$DescribeIndexRequestToJson(
+    DescribeIndexRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  return val;
+}
 
 DescribeIndexResponse _$DescribeIndexResponseFromJson(
     Map<String, dynamic> json) {
@@ -767,6 +924,26 @@ IndexStatistics _$IndexStatisticsFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ListDataSourceSyncJobsRequestToJson(
+    ListDataSourceSyncJobsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  writeNotNull('IndexId', instance.indexId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('StartTimeFilter', instance.startTimeFilter?.toJson());
+  writeNotNull(
+      'StatusFilter', _$DataSourceSyncJobStatusEnumMap[instance.statusFilter]);
+  return val;
+}
+
 ListDataSourceSyncJobsResponse _$ListDataSourceSyncJobsResponseFromJson(
     Map<String, dynamic> json) {
   return ListDataSourceSyncJobsResponse(
@@ -777,6 +954,22 @@ ListDataSourceSyncJobsResponse _$ListDataSourceSyncJobsResponseFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListDataSourcesRequestToJson(
+    ListDataSourcesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('IndexId', instance.indexId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListDataSourcesResponse _$ListDataSourcesResponseFromJson(
@@ -791,6 +984,21 @@ ListDataSourcesResponse _$ListDataSourcesResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListFaqsRequestToJson(ListFaqsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('IndexId', instance.indexId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListFaqsResponse _$ListFaqsResponseFromJson(Map<String, dynamic> json) {
   return ListFaqsResponse(
     faqSummaryItems: (json['FaqSummaryItems'] as List)
@@ -799,6 +1007,20 @@ ListFaqsResponse _$ListFaqsResponseFromJson(Map<String, dynamic> json) {
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListIndicesRequestToJson(ListIndicesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListIndicesResponse _$ListIndicesResponseFromJson(Map<String, dynamic> json) {
@@ -836,6 +1058,34 @@ const _$ReadAccessTypeEnumMap = {
 const _$PrincipalTypeEnumMap = {
   PrincipalType.user: 'USER',
   PrincipalType.group: 'GROUP',
+};
+
+Map<String, dynamic> _$QueryRequestToJson(QueryRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('IndexId', instance.indexId);
+  writeNotNull('QueryText', instance.queryText);
+  writeNotNull('AttributeFilter', instance.attributeFilter?.toJson());
+  writeNotNull('Facets', instance.facets?.map((e) => e?.toJson())?.toList());
+  writeNotNull('PageNumber', instance.pageNumber);
+  writeNotNull('PageSize', instance.pageSize);
+  writeNotNull('QueryResultTypeFilter',
+      _$QueryResultTypeEnumMap[instance.queryResultTypeFilter]);
+  writeNotNull(
+      'RequestedDocumentAttributes', instance.requestedDocumentAttributes);
+  return val;
+}
+
+const _$QueryResultTypeEnumMap = {
+  QueryResultType.document: 'DOCUMENT',
+  QueryResultType.questionAnswer: 'QUESTION_ANSWER',
+  QueryResultType.answer: 'ANSWER',
 };
 
 QueryResult _$QueryResultFromJson(Map<String, dynamic> json) {
@@ -880,12 +1130,6 @@ QueryResultItem _$QueryResultItemFromJson(Map<String, dynamic> json) {
     type: _$enumDecodeNullable(_$QueryResultTypeEnumMap, json['Type']),
   );
 }
-
-const _$QueryResultTypeEnumMap = {
-  QueryResultType.document: 'DOCUMENT',
-  QueryResultType.questionAnswer: 'QUESTION_ANSWER',
-  QueryResultType.answer: 'ANSWER',
-};
 
 Relevance _$RelevanceFromJson(Map<String, dynamic> json) {
   return Relevance(
@@ -1103,11 +1347,60 @@ const _$SharePointVersionEnumMap = {
   SharePointVersion.sharepointOnline: 'SHAREPOINT_ONLINE',
 };
 
+Map<String, dynamic> _$StartDataSourceSyncJobRequestToJson(
+    StartDataSourceSyncJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  writeNotNull('IndexId', instance.indexId);
+  return val;
+}
+
 StartDataSourceSyncJobResponse _$StartDataSourceSyncJobResponseFromJson(
     Map<String, dynamic> json) {
   return StartDataSourceSyncJobResponse(
     executionId: json['ExecutionId'] as String,
   );
+}
+
+Map<String, dynamic> _$StopDataSourceSyncJobRequestToJson(
+    StopDataSourceSyncJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  writeNotNull('IndexId', instance.indexId);
+  return val;
+}
+
+Map<String, dynamic> _$SubmitFeedbackRequestToJson(
+    SubmitFeedbackRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('IndexId', instance.indexId);
+  writeNotNull('QueryId', instance.queryId);
+  writeNotNull('ClickFeedbackItems',
+      instance.clickFeedbackItems?.map((e) => e?.toJson())?.toList());
+  writeNotNull('RelevanceFeedbackItems',
+      instance.relevanceFeedbackItems?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 TextDocumentStatistics _$TextDocumentStatisticsFromJson(
@@ -1138,5 +1431,46 @@ Map<String, dynamic> _$TimeRangeToJson(TimeRange instance) {
 
   writeNotNull('EndTime', unixTimestampToJson(instance.endTime));
   writeNotNull('StartTime', unixTimestampToJson(instance.startTime));
+  return val;
+}
+
+Map<String, dynamic> _$UpdateDataSourceRequestToJson(
+    UpdateDataSourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  writeNotNull('IndexId', instance.indexId);
+  writeNotNull('Configuration', instance.configuration?.toJson());
+  writeNotNull('Description', instance.description);
+  writeNotNull('Name', instance.name);
+  writeNotNull('RoleArn', instance.roleArn);
+  writeNotNull('Schedule', instance.schedule);
+  return val;
+}
+
+Map<String, dynamic> _$UpdateIndexRequestToJson(UpdateIndexRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  writeNotNull('Description', instance.description);
+  writeNotNull(
+      'DocumentMetadataConfigurationUpdates',
+      instance.documentMetadataConfigurationUpdates
+          ?.map((e) => e?.toJson())
+          ?.toList());
+  writeNotNull('Name', instance.name);
+  writeNotNull('RoleArn', instance.roleArn);
   return val;
 }

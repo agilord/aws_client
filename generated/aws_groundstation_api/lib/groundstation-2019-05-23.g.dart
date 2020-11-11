@@ -89,6 +89,10 @@ Map<String, dynamic> _$AntennaUplinkConfigToJson(AntennaUplinkConfig instance) {
   return val;
 }
 
+Map<String, dynamic> _$CancelContactRequestToJson(
+        CancelContactRequest instance) =>
+    <String, dynamic>{};
+
 ConfigIdResponse _$ConfigIdResponseFromJson(Map<String, dynamic> json) {
   return ConfigIdResponse(
     configArn: json['configArn'] as String,
@@ -246,6 +250,60 @@ ContactIdResponse _$ContactIdResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateConfigRequestToJson(CreateConfigRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('configData', instance.configData?.toJson());
+  writeNotNull('name', instance.name);
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
+Map<String, dynamic> _$CreateDataflowEndpointGroupRequestToJson(
+    CreateDataflowEndpointGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('endpointDetails',
+      instance.endpointDetails?.map((e) => e?.toJson())?.toList());
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
+Map<String, dynamic> _$CreateMissionProfileRequestToJson(
+    CreateMissionProfileRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('dataflowEdges', instance.dataflowEdges);
+  writeNotNull('minimumViableContactDurationSeconds',
+      instance.minimumViableContactDurationSeconds);
+  writeNotNull('name', instance.name);
+  writeNotNull('trackingConfigArn', instance.trackingConfigArn);
+  writeNotNull('contactPostPassDurationSeconds',
+      instance.contactPostPassDurationSeconds);
+  writeNotNull(
+      'contactPrePassDurationSeconds', instance.contactPrePassDurationSeconds);
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
 DataflowEndpoint _$DataflowEndpointFromJson(Map<String, dynamic> json) {
   return DataflowEndpoint(
     address: json['address'] == null
@@ -335,6 +393,18 @@ Map<String, dynamic> _$DecodeConfigToJson(DecodeConfig instance) {
   writeNotNull('unvalidatedJSON', instance.unvalidatedJSON);
   return val;
 }
+
+Map<String, dynamic> _$DeleteConfigRequestToJson(
+        DeleteConfigRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteDataflowEndpointGroupRequestToJson(
+        DeleteDataflowEndpointGroupRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteMissionProfileRequestToJson(
+        DeleteMissionProfileRequest instance) =>
+    <String, dynamic>{};
 
 DemodulationConfig _$DemodulationConfigFromJson(Map<String, dynamic> json) {
   return DemodulationConfig(
@@ -528,6 +598,21 @@ GetDataflowEndpointGroupResponse _$GetDataflowEndpointGroupResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$GetMinuteUsageRequestToJson(
+    GetMinuteUsageRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('month', instance.month);
+  writeNotNull('year', instance.year);
+  return val;
+}
+
 GetMinuteUsageResponse _$GetMinuteUsageResponseFromJson(
     Map<String, dynamic> json) {
   return GetMinuteUsageResponse(
@@ -588,6 +673,26 @@ ListConfigsResponse _$ListConfigsResponseFromJson(Map<String, dynamic> json) {
         ?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListContactsRequestToJson(ListContactsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('endTime', unixTimestampToJson(instance.endTime));
+  writeNotNull('startTime', unixTimestampToJson(instance.startTime));
+  writeNotNull('statusList', instance.statusList);
+  writeNotNull('groundStation', instance.groundStation);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('missionProfileArn', instance.missionProfileArn);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('satelliteArn', instance.satelliteArn);
+  return val;
 }
 
 ListContactsResponse _$ListContactsResponseFromJson(Map<String, dynamic> json) {
@@ -672,6 +777,25 @@ MissionProfileListItem _$MissionProfileListItemFromJson(
     name: json['name'] as String,
     region: json['region'] as String,
   );
+}
+
+Map<String, dynamic> _$ReserveContactRequestToJson(
+    ReserveContactRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('endTime', unixTimestampToJson(instance.endTime));
+  writeNotNull('groundStation', instance.groundStation);
+  writeNotNull('missionProfileArn', instance.missionProfileArn);
+  writeNotNull('satelliteArn', instance.satelliteArn);
+  writeNotNull('startTime', unixTimestampToJson(instance.startTime));
+  writeNotNull('tags', instance.tags);
+  return val;
 }
 
 SatelliteListItem _$SatelliteListItemFromJson(Map<String, dynamic> json) {
@@ -764,6 +888,19 @@ const _$PolarizationEnumMap = {
   Polarization.rightHand: 'RIGHT_HAND',
 };
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
 }
@@ -793,9 +930,49 @@ const _$CriticalityEnumMap = {
   Criticality.required: 'REQUIRED',
 };
 
+Map<String, dynamic> _$UntagResourceRequestToJson(
+        UntagResourceRequest instance) =>
+    <String, dynamic>{};
+
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse();
+}
+
+Map<String, dynamic> _$UpdateConfigRequestToJson(UpdateConfigRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('configData', instance.configData?.toJson());
+  writeNotNull('name', instance.name);
+  return val;
+}
+
+Map<String, dynamic> _$UpdateMissionProfileRequestToJson(
+    UpdateMissionProfileRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('contactPostPassDurationSeconds',
+      instance.contactPostPassDurationSeconds);
+  writeNotNull(
+      'contactPrePassDurationSeconds', instance.contactPrePassDurationSeconds);
+  writeNotNull('dataflowEdges', instance.dataflowEdges);
+  writeNotNull('minimumViableContactDurationSeconds',
+      instance.minimumViableContactDurationSeconds);
+  writeNotNull('name', instance.name);
+  writeNotNull('trackingConfigArn', instance.trackingConfigArn);
+  return val;
 }
 
 UplinkEchoConfig _$UplinkEchoConfigFromJson(Map<String, dynamic> json) {

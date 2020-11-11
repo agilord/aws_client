@@ -6,6 +6,27 @@ part of 'qldb-2019-01-02.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$CreateLedgerRequestToJson(CreateLedgerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull(
+      'PermissionsMode', _$PermissionsModeEnumMap[instance.permissionsMode]);
+  writeNotNull('DeletionProtection', instance.deletionProtection);
+  writeNotNull('Tags', instance.tags);
+  return val;
+}
+
+const _$PermissionsModeEnumMap = {
+  PermissionsMode.allowAll: 'ALLOW_ALL',
+};
+
 CreateLedgerResponse _$CreateLedgerResponseFromJson(Map<String, dynamic> json) {
   return CreateLedgerResponse(
     arn: json['Arn'] as String,
@@ -55,6 +76,10 @@ const _$LedgerStateEnumMap = {
   LedgerState.deleted: 'DELETED',
 };
 
+Map<String, dynamic> _$DeleteLedgerRequestToJson(
+        DeleteLedgerRequest instance) =>
+    <String, dynamic>{};
+
 DescribeJournalS3ExportResponse _$DescribeJournalS3ExportResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeJournalS3ExportResponse(
@@ -76,11 +101,45 @@ DescribeLedgerResponse _$DescribeLedgerResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ExportJournalToS3RequestToJson(
+    ExportJournalToS3Request instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'ExclusiveEndTime', unixTimestampToJson(instance.exclusiveEndTime));
+  writeNotNull(
+      'InclusiveStartTime', unixTimestampToJson(instance.inclusiveStartTime));
+  writeNotNull('RoleArn', instance.roleArn);
+  writeNotNull(
+      'S3ExportConfiguration', instance.s3ExportConfiguration?.toJson());
+  return val;
+}
+
 ExportJournalToS3Response _$ExportJournalToS3ResponseFromJson(
     Map<String, dynamic> json) {
   return ExportJournalToS3Response(
     exportId: json['ExportId'] as String,
   );
+}
+
+Map<String, dynamic> _$GetBlockRequestToJson(GetBlockRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BlockAddress', instance.blockAddress?.toJson());
+  writeNotNull('DigestTipAddress', instance.digestTipAddress?.toJson());
+  return val;
 }
 
 GetBlockResponse _$GetBlockResponseFromJson(Map<String, dynamic> json) {
@@ -94,6 +153,9 @@ GetBlockResponse _$GetBlockResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetDigestRequestToJson(GetDigestRequest instance) =>
+    <String, dynamic>{};
+
 GetDigestResponse _$GetDigestResponseFromJson(Map<String, dynamic> json) {
   return GetDigestResponse(
     digest: const Uint8ListConverter().fromJson(json['Digest'] as String),
@@ -102,6 +164,21 @@ GetDigestResponse _$GetDigestResponseFromJson(Map<String, dynamic> json) {
         : ValueHolder.fromJson(
             json['DigestTipAddress'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetRevisionRequestToJson(GetRevisionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BlockAddress', instance.blockAddress?.toJson());
+  writeNotNull('DocumentId', instance.documentId);
+  writeNotNull('DigestTipAddress', instance.digestTipAddress?.toJson());
+  return val;
 }
 
 GetRevisionResponse _$GetRevisionResponseFromJson(Map<String, dynamic> json) {
@@ -250,13 +327,43 @@ Map<String, dynamic> _$S3ExportConfigurationToJson(
   return val;
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Tags', instance.tags);
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
 }
 
+Map<String, dynamic> _$UntagResourceRequestToJson(
+        UntagResourceRequest instance) =>
+    <String, dynamic>{};
+
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse();
+}
+
+Map<String, dynamic> _$UpdateLedgerRequestToJson(UpdateLedgerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DeletionProtection', instance.deletionProtection);
+  return val;
 }
 
 UpdateLedgerResponse _$UpdateLedgerResponseFromJson(Map<String, dynamic> json) {

@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -98,10 +97,10 @@ class CloudHSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        'TagList': tagList,
-      },
+      payload: AddTagsToResourceRequest(
+        resourceArn: resourceArn,
+        tagList: tagList,
+      ),
     );
 
     return AddTagsToResourceResponse.fromJson(jsonResponse.body);
@@ -152,9 +151,9 @@ class CloudHSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Label': label,
-      },
+      payload: CreateHapgRequest(
+        label: label,
+      ),
     );
 
     return CreateHapgResponse.fromJson(jsonResponse.body);
@@ -283,16 +282,16 @@ class CloudHSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'IamRoleArn': iamRoleArn,
-        'SshKey': sshKey,
-        'SubnetId': subnetId,
-        'SubscriptionType': subscriptionType?.toValue(),
-        if (clientToken != null) 'ClientToken': clientToken,
-        if (eniIp != null) 'EniIp': eniIp,
-        if (externalId != null) 'ExternalId': externalId,
-        if (syslogIp != null) 'SyslogIp': syslogIp,
-      },
+      payload: CreateHsmRequest(
+        iamRoleArn: iamRoleArn,
+        sshKey: sshKey,
+        subnetId: subnetId,
+        subscriptionType: subscriptionType,
+        clientToken: clientToken,
+        eniIp: eniIp,
+        externalId: externalId,
+        syslogIp: syslogIp,
+      ),
     );
 
     return CreateHsmResponse.fromJson(jsonResponse.body);
@@ -359,10 +358,10 @@ class CloudHSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Certificate': certificate,
-        if (label != null) 'Label': label,
-      },
+      payload: CreateLunaClientRequest(
+        certificate: certificate,
+        label: label,
+      ),
     );
 
     return CreateLunaClientResponse.fromJson(jsonResponse.body);
@@ -412,9 +411,9 @@ class CloudHSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'HapgArn': hapgArn,
-      },
+      payload: DeleteHapgRequest(
+        hapgArn: hapgArn,
+      ),
     );
 
     return DeleteHapgResponse.fromJson(jsonResponse.body);
@@ -465,9 +464,9 @@ class CloudHSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'HsmArn': hsmArn,
-      },
+      payload: DeleteHsmRequest(
+        hsmArn: hsmArn,
+      ),
     );
 
     return DeleteHsmResponse.fromJson(jsonResponse.body);
@@ -517,9 +516,9 @@ class CloudHSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClientArn': clientArn,
-      },
+      payload: DeleteLunaClientRequest(
+        clientArn: clientArn,
+      ),
     );
 
     return DeleteLunaClientResponse.fromJson(jsonResponse.body);
@@ -569,9 +568,9 @@ class CloudHSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'HapgArn': hapgArn,
-      },
+      payload: DescribeHapgRequest(
+        hapgArn: hapgArn,
+      ),
     );
 
     return DescribeHapgResponse.fromJson(jsonResponse.body);
@@ -631,10 +630,10 @@ class CloudHSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (hsmArn != null) 'HsmArn': hsmArn,
-        if (hsmSerialNumber != null) 'HsmSerialNumber': hsmSerialNumber,
-      },
+      payload: DescribeHsmRequest(
+        hsmArn: hsmArn,
+        hsmSerialNumber: hsmSerialNumber,
+      ),
     );
 
     return DescribeHsmResponse.fromJson(jsonResponse.body);
@@ -691,11 +690,10 @@ class CloudHSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (certificateFingerprint != null)
-          'CertificateFingerprint': certificateFingerprint,
-        if (clientArn != null) 'ClientArn': clientArn,
-      },
+      payload: DescribeLunaClientRequest(
+        certificateFingerprint: certificateFingerprint,
+        clientArn: clientArn,
+      ),
     );
 
     return DescribeLunaClientResponse.fromJson(jsonResponse.body);
@@ -757,11 +755,11 @@ class CloudHSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClientArn': clientArn,
-        'ClientVersion': clientVersion?.toValue(),
-        'HapgList': hapgList,
-      },
+      payload: GetConfigRequest(
+        clientArn: clientArn,
+        clientVersion: clientVersion,
+        hapgList: hapgList,
+      ),
     );
 
     return GetConfigResponse.fromJson(jsonResponse.body);
@@ -853,9 +851,9 @@ class CloudHSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListHapgsRequest(
+        nextToken: nextToken,
+      ),
     );
 
     return ListHapgsResponse.fromJson(jsonResponse.body);
@@ -911,9 +909,9 @@ class CloudHSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListHsmsRequest(
+        nextToken: nextToken,
+      ),
     );
 
     return ListHsmsResponse.fromJson(jsonResponse.body);
@@ -968,9 +966,9 @@ class CloudHSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListLunaClientsRequest(
+        nextToken: nextToken,
+      ),
     );
 
     return ListLunaClientsResponse.fromJson(jsonResponse.body);
@@ -1020,9 +1018,9 @@ class CloudHSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-      },
+      payload: ListTagsForResourceRequest(
+        resourceArn: resourceArn,
+      ),
     );
 
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
@@ -1086,12 +1084,11 @@ class CloudHSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'HapgArn': hapgArn,
-        if (label != null) 'Label': label,
-        if (partitionSerialList != null)
-          'PartitionSerialList': partitionSerialList,
-      },
+      payload: ModifyHapgRequest(
+        hapgArn: hapgArn,
+        label: label,
+        partitionSerialList: partitionSerialList,
+      ),
     );
 
     return ModifyHapgResponse.fromJson(jsonResponse.body);
@@ -1200,14 +1197,14 @@ class CloudHSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'HsmArn': hsmArn,
-        if (eniIp != null) 'EniIp': eniIp,
-        if (externalId != null) 'ExternalId': externalId,
-        if (iamRoleArn != null) 'IamRoleArn': iamRoleArn,
-        if (subnetId != null) 'SubnetId': subnetId,
-        if (syslogIp != null) 'SyslogIp': syslogIp,
-      },
+      payload: ModifyHsmRequest(
+        hsmArn: hsmArn,
+        eniIp: eniIp,
+        externalId: externalId,
+        iamRoleArn: iamRoleArn,
+        subnetId: subnetId,
+        syslogIp: syslogIp,
+      ),
     );
 
     return ModifyHsmResponse.fromJson(jsonResponse.body);
@@ -1276,10 +1273,10 @@ class CloudHSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Certificate': certificate,
-        'ClientArn': clientArn,
-      },
+      payload: ModifyLunaClientRequest(
+        certificate: certificate,
+        clientArn: clientArn,
+      ),
     );
 
     return ModifyLunaClientResponse.fromJson(jsonResponse.body);
@@ -1340,14 +1337,35 @@ class CloudHSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        'TagKeyList': tagKeyList,
-      },
+      payload: RemoveTagsFromResourceRequest(
+        resourceArn: resourceArn,
+        tagKeyList: tagKeyList,
+      ),
     );
 
     return RemoveTagsFromResourceResponse.fromJson(jsonResponse.body);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AddTagsToResourceRequest {
+  /// The Amazon Resource Name (ARN) of the AWS CloudHSM resource to tag.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// One or more tags.
+  @_s.JsonKey(name: 'TagList')
+  final List<Tag> tagList;
+
+  AddTagsToResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagList,
+  });
+  Map<String, dynamic> toJson() => _$AddTagsToResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1372,18 +1390,6 @@ enum ClientVersion {
   $5_1,
   @_s.JsonValue('5.3')
   $5_3,
-}
-
-extension on ClientVersion {
-  String toValue() {
-    switch (this) {
-      case ClientVersion.$5_1:
-        return '5.1';
-      case ClientVersion.$5_3:
-        return '5.3';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Indicates that an internal error occurred.
@@ -1430,6 +1436,23 @@ class CloudHsmServiceException implements _s.AwsException {
       _$CloudHsmServiceExceptionFromJson(json);
 }
 
+/// Contains the inputs for the <a>CreateHapgRequest</a> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateHapgRequest {
+  /// The label of the new high-availability partition group.
+  @_s.JsonKey(name: 'Label')
+  final String label;
+
+  CreateHapgRequest({
+    @_s.required this.label,
+  });
+  Map<String, dynamic> toJson() => _$CreateHapgRequestToJson(this);
+}
+
 /// Contains the output of the <a>CreateHAPartitionGroup</a> action.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1446,6 +1469,62 @@ class CreateHapgResponse {
   });
   factory CreateHapgResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateHapgResponseFromJson(json);
+}
+
+/// Contains the inputs for the <code>CreateHsm</code> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateHsmRequest {
+  /// The ARN of an IAM role to enable the AWS CloudHSM service to allocate an ENI
+  /// on your behalf.
+  @_s.JsonKey(name: 'IamRoleArn')
+  final String iamRoleArn;
+
+  /// The SSH public key to install on the HSM.
+  @_s.JsonKey(name: 'SshKey')
+  final String sshKey;
+
+  /// The identifier of the subnet in your VPC in which to place the HSM.
+  @_s.JsonKey(name: 'SubnetId')
+  final String subnetId;
+  @_s.JsonKey(name: 'SubscriptionType')
+  final SubscriptionType subscriptionType;
+
+  /// A user-defined token to ensure idempotence. Subsequent calls to this
+  /// operation with the same token will be ignored.
+  @_s.JsonKey(name: 'ClientToken')
+  final String clientToken;
+
+  /// The IP address to assign to the HSM's ENI.
+  ///
+  /// If an IP address is not specified, an IP address will be randomly chosen
+  /// from the CIDR range of the subnet.
+  @_s.JsonKey(name: 'EniIp')
+  final String eniIp;
+
+  /// The external ID from <code>IamRoleArn</code>, if present.
+  @_s.JsonKey(name: 'ExternalId')
+  final String externalId;
+
+  /// The IP address for the syslog monitoring server. The AWS CloudHSM service
+  /// only supports one syslog monitoring server.
+  @_s.JsonKey(name: 'SyslogIp')
+  final String syslogIp;
+
+  CreateHsmRequest({
+    @_s.required this.iamRoleArn,
+    @_s.required this.sshKey,
+    @_s.required this.subnetId,
+    @_s.required this.subscriptionType,
+    this.clientToken,
+    this.eniIp,
+    this.externalId,
+    this.syslogIp,
+  });
+  Map<String, dynamic> toJson() => _$CreateHsmRequestToJson(this);
 }
 
 /// Contains the output of the <code>CreateHsm</code> operation.
@@ -1466,6 +1545,29 @@ class CreateHsmResponse {
       _$CreateHsmResponseFromJson(json);
 }
 
+/// Contains the inputs for the <a>CreateLunaClient</a> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateLunaClientRequest {
+  /// The contents of a Base64-Encoded X.509 v3 certificate to be installed on the
+  /// HSMs used by this client.
+  @_s.JsonKey(name: 'Certificate')
+  final String certificate;
+
+  /// The label for the client.
+  @_s.JsonKey(name: 'Label')
+  final String label;
+
+  CreateLunaClientRequest({
+    @_s.required this.certificate,
+    this.label,
+  });
+  Map<String, dynamic> toJson() => _$CreateLunaClientRequestToJson(this);
+}
+
 /// Contains the output of the <a>CreateLunaClient</a> action.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1484,6 +1586,23 @@ class CreateLunaClientResponse {
       _$CreateLunaClientResponseFromJson(json);
 }
 
+/// Contains the inputs for the <a>DeleteHapg</a> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteHapgRequest {
+  /// The ARN of the high-availability partition group to delete.
+  @_s.JsonKey(name: 'HapgArn')
+  final String hapgArn;
+
+  DeleteHapgRequest({
+    @_s.required this.hapgArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteHapgRequestToJson(this);
+}
+
 /// Contains the output of the <a>DeleteHapg</a> action.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1500,6 +1619,23 @@ class DeleteHapgResponse {
   });
   factory DeleteHapgResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteHapgResponseFromJson(json);
+}
+
+/// Contains the inputs for the <a>DeleteHsm</a> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteHsmRequest {
+  /// The ARN of the HSM to delete.
+  @_s.JsonKey(name: 'HsmArn')
+  final String hsmArn;
+
+  DeleteHsmRequest({
+    @_s.required this.hsmArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteHsmRequestToJson(this);
 }
 
 /// Contains the output of the <a>DeleteHsm</a> operation.
@@ -1523,6 +1659,22 @@ class DeleteHsmResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteLunaClientRequest {
+  /// The ARN of the client to delete.
+  @_s.JsonKey(name: 'ClientArn')
+  final String clientArn;
+
+  DeleteLunaClientRequest({
+    @_s.required this.clientArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteLunaClientRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteLunaClientResponse {
@@ -1535,6 +1687,23 @@ class DeleteLunaClientResponse {
   });
   factory DeleteLunaClientResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteLunaClientResponseFromJson(json);
+}
+
+/// Contains the inputs for the <a>DescribeHapg</a> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeHapgRequest {
+  /// The ARN of the high-availability partition group to describe.
+  @_s.JsonKey(name: 'HapgArn')
+  final String hapgArn;
+
+  DescribeHapgRequest({
+    @_s.required this.hapgArn,
+  });
+  Map<String, dynamic> toJson() => _$DescribeHapgRequestToJson(this);
 }
 
 /// Contains the output of the <a>DescribeHapg</a> action.
@@ -1594,6 +1763,30 @@ class DescribeHapgResponse {
   });
   factory DescribeHapgResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeHapgResponseFromJson(json);
+}
+
+/// Contains the inputs for the <a>DescribeHsm</a> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeHsmRequest {
+  /// The ARN of the HSM. Either the <code>HsmArn</code> or the
+  /// <code>SerialNumber</code> parameter must be specified.
+  @_s.JsonKey(name: 'HsmArn')
+  final String hsmArn;
+
+  /// The serial number of the HSM. Either the <code>HsmArn</code> or the
+  /// <code>HsmSerialNumber</code> parameter must be specified.
+  @_s.JsonKey(name: 'HsmSerialNumber')
+  final String hsmSerialNumber;
+
+  DescribeHsmRequest({
+    this.hsmArn,
+    this.hsmSerialNumber,
+  });
+  Map<String, dynamic> toJson() => _$DescribeHsmRequestToJson(this);
 }
 
 /// Contains the output of the <a>DescribeHsm</a> operation.
@@ -1715,6 +1908,27 @@ class DescribeHsmResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeLunaClientRequest {
+  /// The certificate fingerprint.
+  @_s.JsonKey(name: 'CertificateFingerprint')
+  final String certificateFingerprint;
+
+  /// The ARN of the client.
+  @_s.JsonKey(name: 'ClientArn')
+  final String clientArn;
+
+  DescribeLunaClientRequest({
+    this.certificateFingerprint,
+    this.clientArn,
+  });
+  Map<String, dynamic> toJson() => _$DescribeLunaClientRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeLunaClientResponse {
@@ -1747,6 +1961,33 @@ class DescribeLunaClientResponse {
   });
   factory DescribeLunaClientResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeLunaClientResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetConfigRequest {
+  /// The ARN of the client.
+  @_s.JsonKey(name: 'ClientArn')
+  final String clientArn;
+
+  /// The client version.
+  @_s.JsonKey(name: 'ClientVersion')
+  final ClientVersion clientVersion;
+
+  /// A list of ARNs that identify the high-availability partition groups that are
+  /// associated with the client.
+  @_s.JsonKey(name: 'HapgList')
+  final List<String> hapgList;
+
+  GetConfigRequest({
+    @_s.required this.clientArn,
+    @_s.required this.clientVersion,
+    @_s.required this.hapgList,
+  });
+  Map<String, dynamic> toJson() => _$GetConfigRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1825,6 +2066,23 @@ class ListAvailableZonesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListHapgsRequest {
+  /// The <code>NextToken</code> value from a previous call to
+  /// <code>ListHapgs</code>. Pass null if this is the first call.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListHapgsRequest({
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListHapgsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListHapgsResponse {
@@ -1843,6 +2101,23 @@ class ListHapgsResponse {
   });
   factory ListHapgsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListHapgsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListHsmsRequest {
+  /// The <code>NextToken</code> value from a previous call to
+  /// <code>ListHsms</code>. Pass null if this is the first call.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListHsmsRequest({
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListHsmsRequestToJson(this);
 }
 
 /// Contains the output of the <code>ListHsms</code> operation.
@@ -1872,6 +2147,23 @@ class ListHsmsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListLunaClientsRequest {
+  /// The <code>NextToken</code> value from a previous call to
+  /// <code>ListLunaClients</code>. Pass null if this is the first call.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListLunaClientsRequest({
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListLunaClientsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListLunaClientsResponse {
@@ -1895,6 +2187,22 @@ class ListLunaClientsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceRequest {
+  /// The Amazon Resource Name (ARN) of the AWS CloudHSM resource.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  ListTagsForResourceRequest({
+    @_s.required this.resourceArn,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListTagsForResourceResponse {
@@ -1912,6 +2220,33 @@ class ListTagsForResourceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ModifyHapgRequest {
+  /// The ARN of the high-availability partition group to modify.
+  @_s.JsonKey(name: 'HapgArn')
+  final String hapgArn;
+
+  /// The new label for the high-availability partition group.
+  @_s.JsonKey(name: 'Label')
+  final String label;
+
+  /// The list of partition serial numbers to make members of the
+  /// high-availability partition group.
+  @_s.JsonKey(name: 'PartitionSerialList')
+  final List<String> partitionSerialList;
+
+  ModifyHapgRequest({
+    @_s.required this.hapgArn,
+    this.label,
+    this.partitionSerialList,
+  });
+  Map<String, dynamic> toJson() => _$ModifyHapgRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ModifyHapgResponse {
@@ -1924,6 +2259,55 @@ class ModifyHapgResponse {
   });
   factory ModifyHapgResponse.fromJson(Map<String, dynamic> json) =>
       _$ModifyHapgResponseFromJson(json);
+}
+
+/// Contains the inputs for the <a>ModifyHsm</a> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ModifyHsmRequest {
+  /// The ARN of the HSM to modify.
+  @_s.JsonKey(name: 'HsmArn')
+  final String hsmArn;
+
+  /// The new IP address for the elastic network interface (ENI) attached to the
+  /// HSM.
+  ///
+  /// If the HSM is moved to a different subnet, and an IP address is not
+  /// specified, an IP address will be randomly chosen from the CIDR range of the
+  /// new subnet.
+  @_s.JsonKey(name: 'EniIp')
+  final String eniIp;
+
+  /// The new external ID.
+  @_s.JsonKey(name: 'ExternalId')
+  final String externalId;
+
+  /// The new IAM role ARN.
+  @_s.JsonKey(name: 'IamRoleArn')
+  final String iamRoleArn;
+
+  /// The new identifier of the subnet that the HSM is in. The new subnet must be
+  /// in the same Availability Zone as the current subnet.
+  @_s.JsonKey(name: 'SubnetId')
+  final String subnetId;
+
+  /// The new IP address for the syslog monitoring server. The AWS CloudHSM
+  /// service only supports one syslog monitoring server.
+  @_s.JsonKey(name: 'SyslogIp')
+  final String syslogIp;
+
+  ModifyHsmRequest({
+    @_s.required this.hsmArn,
+    this.eniIp,
+    this.externalId,
+    this.iamRoleArn,
+    this.subnetId,
+    this.syslogIp,
+  });
+  Map<String, dynamic> toJson() => _$ModifyHsmRequestToJson(this);
 }
 
 /// Contains the output of the <a>ModifyHsm</a> operation.
@@ -1947,6 +2331,27 @@ class ModifyHsmResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ModifyLunaClientRequest {
+  /// The new certificate for the client.
+  @_s.JsonKey(name: 'Certificate')
+  final String certificate;
+
+  /// The ARN of the client.
+  @_s.JsonKey(name: 'ClientArn')
+  final String clientArn;
+
+  ModifyLunaClientRequest({
+    @_s.required this.certificate,
+    @_s.required this.clientArn,
+  });
+  Map<String, dynamic> toJson() => _$ModifyLunaClientRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ModifyLunaClientResponse {
@@ -1959,6 +2364,30 @@ class ModifyLunaClientResponse {
   });
   factory ModifyLunaClientResponse.fromJson(Map<String, dynamic> json) =>
       _$ModifyLunaClientResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RemoveTagsFromResourceRequest {
+  /// The Amazon Resource Name (ARN) of the AWS CloudHSM resource.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// The tag key or keys to remove.
+  ///
+  /// Specify only the tag key to remove (not the value). To overwrite the value
+  /// for an existing tag, use <a>AddTagsToResource</a>.
+  @_s.JsonKey(name: 'TagKeyList')
+  final List<String> tagKeyList;
+
+  RemoveTagsFromResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeyList,
+  });
+  Map<String, dynamic> toJson() => _$RemoveTagsFromResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1991,16 +2420,6 @@ class RemoveTagsFromResourceResponse {
 enum SubscriptionType {
   @_s.JsonValue('PRODUCTION')
   production,
-}
-
-extension on SubscriptionType {
-  String toValue() {
-    switch (this) {
-      case SubscriptionType.production:
-        return 'PRODUCTION';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// A key-value pair that identifies or specifies metadata about an AWS CloudHSM

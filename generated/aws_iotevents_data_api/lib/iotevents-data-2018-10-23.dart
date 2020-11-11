@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -62,9 +61,9 @@ class IoTEventsData {
     @_s.required List<Message> messages,
   }) async {
     ArgumentError.checkNotNull(messages, 'messages');
-    final $payload = <String, dynamic>{
-      'messages': messages,
-    };
+    final $payload = BatchPutMessageRequest(
+      messages: messages,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -89,9 +88,9 @@ class IoTEventsData {
     @_s.required List<UpdateDetectorRequest> detectors,
   }) async {
     ArgumentError.checkNotNull(detectors, 'detectors');
-    final $payload = <String, dynamic>{
-      'detectors': detectors,
-    };
+    final $payload = BatchUpdateDetectorRequest(
+      detectors: detectors,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -260,6 +259,24 @@ class BatchPutMessageErrorEntry {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchPutMessageRequest {
+  /// The list of messages to send. Each message has the following format:
+  /// <code>'{ "messageId": "string", "inputName": "string", "payload":
+  /// "string"}'</code>
+  @_s.JsonKey(name: 'messages')
+  final List<Message> messages;
+
+  BatchPutMessageRequest({
+    @_s.required this.messages,
+  });
+  Map<String, dynamic> toJson() => _$BatchPutMessageRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class BatchPutMessageResponse {
@@ -303,6 +320,23 @@ class BatchUpdateDetectorErrorEntry {
   });
   factory BatchUpdateDetectorErrorEntry.fromJson(Map<String, dynamic> json) =>
       _$BatchUpdateDetectorErrorEntryFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchUpdateDetectorRequest {
+  /// The list of detectors (instances) to update, along with the values to
+  /// update.
+  @_s.JsonKey(name: 'detectors')
+  final List<UpdateDetectorRequest> detectors;
+
+  BatchUpdateDetectorRequest({
+    @_s.required this.detectors,
+  });
+  Map<String, dynamic> toJson() => _$BatchUpdateDetectorRequestToJson(this);
 }
 
 @_s.JsonSerializable(

@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -87,10 +86,10 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'InstanceId': instanceId,
-        'LayerIds': layerIds,
-      },
+      payload: AssignInstanceRequest(
+        instanceId: instanceId,
+        layerIds: layerIds,
+      ),
     );
   }
 
@@ -132,10 +131,10 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'VolumeId': volumeId,
-        if (instanceId != null) 'InstanceId': instanceId,
-      },
+      payload: AssignVolumeRequest(
+        volumeId: volumeId,
+        instanceId: instanceId,
+      ),
     );
   }
 
@@ -175,10 +174,10 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ElasticIp': elasticIp,
-        if (instanceId != null) 'InstanceId': instanceId,
-      },
+      payload: AssociateElasticIpRequest(
+        elasticIp: elasticIp,
+        instanceId: instanceId,
+      ),
     );
   }
 
@@ -228,10 +227,10 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ElasticLoadBalancerName': elasticLoadBalancerName,
-        'LayerId': layerId,
-      },
+      payload: AttachElasticLoadBalancerRequest(
+        elasticLoadBalancerName: elasticLoadBalancerName,
+        layerId: layerId,
+      ),
     );
   }
 
@@ -587,37 +586,30 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ServiceRoleArn': serviceRoleArn,
-        'SourceStackId': sourceStackId,
-        if (agentVersion != null) 'AgentVersion': agentVersion,
-        if (attributes != null) 'Attributes': attributes,
-        if (chefConfiguration != null) 'ChefConfiguration': chefConfiguration,
-        if (cloneAppIds != null) 'CloneAppIds': cloneAppIds,
-        if (clonePermissions != null) 'ClonePermissions': clonePermissions,
-        if (configurationManager != null)
-          'ConfigurationManager': configurationManager,
-        if (customCookbooksSource != null)
-          'CustomCookbooksSource': customCookbooksSource,
-        if (customJson != null) 'CustomJson': customJson,
-        if (defaultAvailabilityZone != null)
-          'DefaultAvailabilityZone': defaultAvailabilityZone,
-        if (defaultInstanceProfileArn != null)
-          'DefaultInstanceProfileArn': defaultInstanceProfileArn,
-        if (defaultOs != null) 'DefaultOs': defaultOs,
-        if (defaultRootDeviceType != null)
-          'DefaultRootDeviceType': defaultRootDeviceType?.toValue(),
-        if (defaultSshKeyName != null) 'DefaultSshKeyName': defaultSshKeyName,
-        if (defaultSubnetId != null) 'DefaultSubnetId': defaultSubnetId,
-        if (hostnameTheme != null) 'HostnameTheme': hostnameTheme,
-        if (name != null) 'Name': name,
-        if (region != null) 'Region': region,
-        if (useCustomCookbooks != null)
-          'UseCustomCookbooks': useCustomCookbooks,
-        if (useOpsworksSecurityGroups != null)
-          'UseOpsworksSecurityGroups': useOpsworksSecurityGroups,
-        if (vpcId != null) 'VpcId': vpcId,
-      },
+      payload: CloneStackRequest(
+        serviceRoleArn: serviceRoleArn,
+        sourceStackId: sourceStackId,
+        agentVersion: agentVersion,
+        attributes: attributes,
+        chefConfiguration: chefConfiguration,
+        cloneAppIds: cloneAppIds,
+        clonePermissions: clonePermissions,
+        configurationManager: configurationManager,
+        customCookbooksSource: customCookbooksSource,
+        customJson: customJson,
+        defaultAvailabilityZone: defaultAvailabilityZone,
+        defaultInstanceProfileArn: defaultInstanceProfileArn,
+        defaultOs: defaultOs,
+        defaultRootDeviceType: defaultRootDeviceType,
+        defaultSshKeyName: defaultSshKeyName,
+        defaultSubnetId: defaultSubnetId,
+        hostnameTheme: hostnameTheme,
+        name: name,
+        region: region,
+        useCustomCookbooks: useCustomCookbooks,
+        useOpsworksSecurityGroups: useOpsworksSecurityGroups,
+        vpcId: vpcId,
+      ),
     );
 
     return CloneStackResult.fromJson(jsonResponse.body);
@@ -722,20 +714,20 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        'StackId': stackId,
-        'Type': type?.toValue(),
-        if (appSource != null) 'AppSource': appSource,
-        if (attributes != null) 'Attributes': attributes,
-        if (dataSources != null) 'DataSources': dataSources,
-        if (description != null) 'Description': description,
-        if (domains != null) 'Domains': domains,
-        if (enableSsl != null) 'EnableSsl': enableSsl,
-        if (environment != null) 'Environment': environment,
-        if (shortname != null) 'Shortname': shortname,
-        if (sslConfiguration != null) 'SslConfiguration': sslConfiguration,
-      },
+      payload: CreateAppRequest(
+        name: name,
+        stackId: stackId,
+        type: type,
+        appSource: appSource,
+        attributes: attributes,
+        dataSources: dataSources,
+        description: description,
+        domains: domains,
+        enableSsl: enableSsl,
+        environment: environment,
+        shortname: shortname,
+        sslConfiguration: sslConfiguration,
+      ),
     );
 
     return CreateAppResult.fromJson(jsonResponse.body);
@@ -810,15 +802,15 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Command': command,
-        'StackId': stackId,
-        if (appId != null) 'AppId': appId,
-        if (comment != null) 'Comment': comment,
-        if (customJson != null) 'CustomJson': customJson,
-        if (instanceIds != null) 'InstanceIds': instanceIds,
-        if (layerIds != null) 'LayerIds': layerIds,
-      },
+      payload: CreateDeploymentRequest(
+        command: command,
+        stackId: stackId,
+        appId: appId,
+        comment: comment,
+        customJson: customJson,
+        instanceIds: instanceIds,
+        layerIds: layerIds,
+      ),
     );
 
     return CreateDeploymentResult.fromJson(jsonResponse.body);
@@ -1043,30 +1035,26 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'InstanceType': instanceType,
-        'LayerIds': layerIds,
-        'StackId': stackId,
-        if (agentVersion != null) 'AgentVersion': agentVersion,
-        if (amiId != null) 'AmiId': amiId,
-        if (architecture != null) 'Architecture': architecture?.toValue(),
-        if (autoScalingType != null)
-          'AutoScalingType': autoScalingType?.toValue(),
-        if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
-        if (blockDeviceMappings != null)
-          'BlockDeviceMappings': blockDeviceMappings,
-        if (ebsOptimized != null) 'EbsOptimized': ebsOptimized,
-        if (hostname != null) 'Hostname': hostname,
-        if (installUpdatesOnBoot != null)
-          'InstallUpdatesOnBoot': installUpdatesOnBoot,
-        if (os != null) 'Os': os,
-        if (rootDeviceType != null) 'RootDeviceType': rootDeviceType?.toValue(),
-        if (sshKeyName != null) 'SshKeyName': sshKeyName,
-        if (subnetId != null) 'SubnetId': subnetId,
-        if (tenancy != null) 'Tenancy': tenancy,
-        if (virtualizationType != null)
-          'VirtualizationType': virtualizationType,
-      },
+      payload: CreateInstanceRequest(
+        instanceType: instanceType,
+        layerIds: layerIds,
+        stackId: stackId,
+        agentVersion: agentVersion,
+        amiId: amiId,
+        architecture: architecture,
+        autoScalingType: autoScalingType,
+        availabilityZone: availabilityZone,
+        blockDeviceMappings: blockDeviceMappings,
+        ebsOptimized: ebsOptimized,
+        hostname: hostname,
+        installUpdatesOnBoot: installUpdatesOnBoot,
+        os: os,
+        rootDeviceType: rootDeviceType,
+        sshKeyName: sshKeyName,
+        subnetId: subnetId,
+        tenancy: tenancy,
+        virtualizationType: virtualizationType,
+      ),
     );
 
     return CreateInstanceResult.fromJson(jsonResponse.body);
@@ -1226,35 +1214,26 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        'Shortname': shortname,
-        'StackId': stackId,
-        'Type': type?.toValue(),
-        if (attributes != null) 'Attributes': attributes,
-        if (autoAssignElasticIps != null)
-          'AutoAssignElasticIps': autoAssignElasticIps,
-        if (autoAssignPublicIps != null)
-          'AutoAssignPublicIps': autoAssignPublicIps,
-        if (cloudWatchLogsConfiguration != null)
-          'CloudWatchLogsConfiguration': cloudWatchLogsConfiguration,
-        if (customInstanceProfileArn != null)
-          'CustomInstanceProfileArn': customInstanceProfileArn,
-        if (customJson != null) 'CustomJson': customJson,
-        if (customRecipes != null) 'CustomRecipes': customRecipes,
-        if (customSecurityGroupIds != null)
-          'CustomSecurityGroupIds': customSecurityGroupIds,
-        if (enableAutoHealing != null) 'EnableAutoHealing': enableAutoHealing,
-        if (installUpdatesOnBoot != null)
-          'InstallUpdatesOnBoot': installUpdatesOnBoot,
-        if (lifecycleEventConfiguration != null)
-          'LifecycleEventConfiguration': lifecycleEventConfiguration,
-        if (packages != null) 'Packages': packages,
-        if (useEbsOptimizedInstances != null)
-          'UseEbsOptimizedInstances': useEbsOptimizedInstances,
-        if (volumeConfigurations != null)
-          'VolumeConfigurations': volumeConfigurations,
-      },
+      payload: CreateLayerRequest(
+        name: name,
+        shortname: shortname,
+        stackId: stackId,
+        type: type,
+        attributes: attributes,
+        autoAssignElasticIps: autoAssignElasticIps,
+        autoAssignPublicIps: autoAssignPublicIps,
+        cloudWatchLogsConfiguration: cloudWatchLogsConfiguration,
+        customInstanceProfileArn: customInstanceProfileArn,
+        customJson: customJson,
+        customRecipes: customRecipes,
+        customSecurityGroupIds: customSecurityGroupIds,
+        enableAutoHealing: enableAutoHealing,
+        installUpdatesOnBoot: installUpdatesOnBoot,
+        lifecycleEventConfiguration: lifecycleEventConfiguration,
+        packages: packages,
+        useEbsOptimizedInstances: useEbsOptimizedInstances,
+        volumeConfigurations: volumeConfigurations,
+      ),
     );
 
     return CreateLayerResult.fromJson(jsonResponse.body);
@@ -1614,33 +1593,27 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DefaultInstanceProfileArn': defaultInstanceProfileArn,
-        'Name': name,
-        'Region': region,
-        'ServiceRoleArn': serviceRoleArn,
-        if (agentVersion != null) 'AgentVersion': agentVersion,
-        if (attributes != null) 'Attributes': attributes,
-        if (chefConfiguration != null) 'ChefConfiguration': chefConfiguration,
-        if (configurationManager != null)
-          'ConfigurationManager': configurationManager,
-        if (customCookbooksSource != null)
-          'CustomCookbooksSource': customCookbooksSource,
-        if (customJson != null) 'CustomJson': customJson,
-        if (defaultAvailabilityZone != null)
-          'DefaultAvailabilityZone': defaultAvailabilityZone,
-        if (defaultOs != null) 'DefaultOs': defaultOs,
-        if (defaultRootDeviceType != null)
-          'DefaultRootDeviceType': defaultRootDeviceType?.toValue(),
-        if (defaultSshKeyName != null) 'DefaultSshKeyName': defaultSshKeyName,
-        if (defaultSubnetId != null) 'DefaultSubnetId': defaultSubnetId,
-        if (hostnameTheme != null) 'HostnameTheme': hostnameTheme,
-        if (useCustomCookbooks != null)
-          'UseCustomCookbooks': useCustomCookbooks,
-        if (useOpsworksSecurityGroups != null)
-          'UseOpsworksSecurityGroups': useOpsworksSecurityGroups,
-        if (vpcId != null) 'VpcId': vpcId,
-      },
+      payload: CreateStackRequest(
+        defaultInstanceProfileArn: defaultInstanceProfileArn,
+        name: name,
+        region: region,
+        serviceRoleArn: serviceRoleArn,
+        agentVersion: agentVersion,
+        attributes: attributes,
+        chefConfiguration: chefConfiguration,
+        configurationManager: configurationManager,
+        customCookbooksSource: customCookbooksSource,
+        customJson: customJson,
+        defaultAvailabilityZone: defaultAvailabilityZone,
+        defaultOs: defaultOs,
+        defaultRootDeviceType: defaultRootDeviceType,
+        defaultSshKeyName: defaultSshKeyName,
+        defaultSubnetId: defaultSubnetId,
+        hostnameTheme: hostnameTheme,
+        useCustomCookbooks: useCustomCookbooks,
+        useOpsworksSecurityGroups: useOpsworksSecurityGroups,
+        vpcId: vpcId,
+      ),
     );
 
     return CreateStackResult.fromJson(jsonResponse.body);
@@ -1691,13 +1664,12 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'IamUserArn': iamUserArn,
-        if (allowSelfManagement != null)
-          'AllowSelfManagement': allowSelfManagement,
-        if (sshPublicKey != null) 'SshPublicKey': sshPublicKey,
-        if (sshUsername != null) 'SshUsername': sshUsername,
-      },
+      payload: CreateUserProfileRequest(
+        iamUserArn: iamUserArn,
+        allowSelfManagement: allowSelfManagement,
+        sshPublicKey: sshPublicKey,
+        sshUsername: sshUsername,
+      ),
     );
 
     return CreateUserProfileResult.fromJson(jsonResponse.body);
@@ -1731,9 +1703,9 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AppId': appId,
-      },
+      payload: DeleteAppRequest(
+        appId: appId,
+      ),
     );
   }
 
@@ -1778,11 +1750,11 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'InstanceId': instanceId,
-        if (deleteElasticIp != null) 'DeleteElasticIp': deleteElasticIp,
-        if (deleteVolumes != null) 'DeleteVolumes': deleteVolumes,
-      },
+      payload: DeleteInstanceRequest(
+        instanceId: instanceId,
+        deleteElasticIp: deleteElasticIp,
+        deleteVolumes: deleteVolumes,
+      ),
     );
   }
 
@@ -1818,9 +1790,9 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'LayerId': layerId,
-      },
+      payload: DeleteLayerRequest(
+        layerId: layerId,
+      ),
     );
   }
 
@@ -1855,9 +1827,9 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'StackId': stackId,
-      },
+      payload: DeleteStackRequest(
+        stackId: stackId,
+      ),
     );
   }
 
@@ -1888,9 +1860,9 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'IamUserArn': iamUserArn,
-      },
+      payload: DeleteUserProfileRequest(
+        iamUserArn: iamUserArn,
+      ),
     );
   }
 
@@ -1924,9 +1896,9 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EcsClusterArn': ecsClusterArn,
-      },
+      payload: DeregisterEcsClusterRequest(
+        ecsClusterArn: ecsClusterArn,
+      ),
     );
   }
 
@@ -1961,9 +1933,9 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ElasticIp': elasticIp,
-      },
+      payload: DeregisterElasticIpRequest(
+        elasticIp: elasticIp,
+      ),
     );
   }
 
@@ -1998,9 +1970,9 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'InstanceId': instanceId,
-      },
+      payload: DeregisterInstanceRequest(
+        instanceId: instanceId,
+      ),
     );
   }
 
@@ -2032,9 +2004,9 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'RdsDbInstanceArn': rdsDbInstanceArn,
-      },
+      payload: DeregisterRdsDbInstanceRequest(
+        rdsDbInstanceArn: rdsDbInstanceArn,
+      ),
     );
   }
 
@@ -2071,9 +2043,9 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'VolumeId': volumeId,
-      },
+      payload: DeregisterVolumeRequest(
+        volumeId: volumeId,
+      ),
     );
   }
 
@@ -2104,11 +2076,10 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (configurationManager != null)
-          'ConfigurationManager': configurationManager,
-        if (stackId != null) 'StackId': stackId,
-      },
+      payload: DescribeAgentVersionsRequest(
+        configurationManager: configurationManager,
+        stackId: stackId,
+      ),
     );
 
     return DescribeAgentVersionsResult.fromJson(jsonResponse.body);
@@ -2150,10 +2121,10 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (appIds != null) 'AppIds': appIds,
-        if (stackId != null) 'StackId': stackId,
-      },
+      payload: DescribeAppsRequest(
+        appIds: appIds,
+        stackId: stackId,
+      ),
     );
 
     return DescribeAppsResult.fromJson(jsonResponse.body);
@@ -2202,11 +2173,11 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (commandIds != null) 'CommandIds': commandIds,
-        if (deploymentId != null) 'DeploymentId': deploymentId,
-        if (instanceId != null) 'InstanceId': instanceId,
-      },
+      payload: DescribeCommandsRequest(
+        commandIds: commandIds,
+        deploymentId: deploymentId,
+        instanceId: instanceId,
+      ),
     );
 
     return DescribeCommandsResult.fromJson(jsonResponse.body);
@@ -2253,11 +2224,11 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (appId != null) 'AppId': appId,
-        if (deploymentIds != null) 'DeploymentIds': deploymentIds,
-        if (stackId != null) 'StackId': stackId,
-      },
+      payload: DescribeDeploymentsRequest(
+        appId: appId,
+        deploymentIds: deploymentIds,
+        stackId: stackId,
+      ),
     );
 
     return DescribeDeploymentsResult.fromJson(jsonResponse.body);
@@ -2319,12 +2290,12 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (ecsClusterArns != null) 'EcsClusterArns': ecsClusterArns,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (stackId != null) 'StackId': stackId,
-      },
+      payload: DescribeEcsClustersRequest(
+        ecsClusterArns: ecsClusterArns,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        stackId: stackId,
+      ),
     );
 
     return DescribeEcsClustersResult.fromJson(jsonResponse.body);
@@ -2376,11 +2347,11 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (instanceId != null) 'InstanceId': instanceId,
-        if (ips != null) 'Ips': ips,
-        if (stackId != null) 'StackId': stackId,
-      },
+      payload: DescribeElasticIpsRequest(
+        instanceId: instanceId,
+        ips: ips,
+        stackId: stackId,
+      ),
     );
 
     return DescribeElasticIpsResult.fromJson(jsonResponse.body);
@@ -2421,10 +2392,10 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (layerIds != null) 'LayerIds': layerIds,
-        if (stackId != null) 'StackId': stackId,
-      },
+      payload: DescribeElasticLoadBalancersRequest(
+        layerIds: layerIds,
+        stackId: stackId,
+      ),
     );
 
     return DescribeElasticLoadBalancersResult.fromJson(jsonResponse.body);
@@ -2471,11 +2442,11 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (instanceIds != null) 'InstanceIds': instanceIds,
-        if (layerId != null) 'LayerId': layerId,
-        if (stackId != null) 'StackId': stackId,
-      },
+      payload: DescribeInstancesRequest(
+        instanceIds: instanceIds,
+        layerId: layerId,
+        stackId: stackId,
+      ),
     );
 
     return DescribeInstancesResult.fromJson(jsonResponse.body);
@@ -2516,10 +2487,10 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (layerIds != null) 'LayerIds': layerIds,
-        if (stackId != null) 'StackId': stackId,
-      },
+      payload: DescribeLayersRequest(
+        layerIds: layerIds,
+        stackId: stackId,
+      ),
     );
 
     return DescribeLayersResult.fromJson(jsonResponse.body);
@@ -2555,9 +2526,9 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'LayerIds': layerIds,
-      },
+      payload: DescribeLoadBasedAutoScalingRequest(
+        layerIds: layerIds,
+      ),
     );
 
     return DescribeLoadBasedAutoScalingResult.fromJson(jsonResponse.body);
@@ -2637,10 +2608,10 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (iamUserArn != null) 'IamUserArn': iamUserArn,
-        if (stackId != null) 'StackId': stackId,
-      },
+      payload: DescribePermissionsRequest(
+        iamUserArn: iamUserArn,
+        stackId: stackId,
+      ),
     );
 
     return DescribePermissionsResult.fromJson(jsonResponse.body);
@@ -2687,11 +2658,11 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (instanceId != null) 'InstanceId': instanceId,
-        if (raidArrayIds != null) 'RaidArrayIds': raidArrayIds,
-        if (stackId != null) 'StackId': stackId,
-      },
+      payload: DescribeRaidArraysRequest(
+        instanceId: instanceId,
+        raidArrayIds: raidArrayIds,
+        stackId: stackId,
+      ),
     );
 
     return DescribeRaidArraysResult.fromJson(jsonResponse.body);
@@ -2732,10 +2703,10 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'StackId': stackId,
-        if (rdsDbInstanceArns != null) 'RdsDbInstanceArns': rdsDbInstanceArns,
-      },
+      payload: DescribeRdsDbInstancesRequest(
+        stackId: stackId,
+        rdsDbInstanceArns: rdsDbInstanceArns,
+      ),
     );
 
     return DescribeRdsDbInstancesResult.fromJson(jsonResponse.body);
@@ -2784,11 +2755,11 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (instanceId != null) 'InstanceId': instanceId,
-        if (serviceErrorIds != null) 'ServiceErrorIds': serviceErrorIds,
-        if (stackId != null) 'StackId': stackId,
-      },
+      payload: DescribeServiceErrorsRequest(
+        instanceId: instanceId,
+        serviceErrorIds: serviceErrorIds,
+        stackId: stackId,
+      ),
     );
 
     return DescribeServiceErrorsResult.fromJson(jsonResponse.body);
@@ -2823,9 +2794,9 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'StackId': stackId,
-      },
+      payload: DescribeStackProvisioningParametersRequest(
+        stackId: stackId,
+      ),
     );
 
     return DescribeStackProvisioningParametersResult.fromJson(
@@ -2862,9 +2833,9 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'StackId': stackId,
-      },
+      payload: DescribeStackSummaryRequest(
+        stackId: stackId,
+      ),
     );
 
     return DescribeStackSummaryResult.fromJson(jsonResponse.body);
@@ -2899,9 +2870,9 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (stackIds != null) 'StackIds': stackIds,
-      },
+      payload: DescribeStacksRequest(
+        stackIds: stackIds,
+      ),
     );
 
     return DescribeStacksResult.fromJson(jsonResponse.body);
@@ -2937,9 +2908,9 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'InstanceIds': instanceIds,
-      },
+      payload: DescribeTimeBasedAutoScalingRequest(
+        instanceIds: instanceIds,
+      ),
     );
 
     return DescribeTimeBasedAutoScalingResult.fromJson(jsonResponse.body);
@@ -2972,9 +2943,9 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (iamUserArns != null) 'IamUserArns': iamUserArns,
-      },
+      payload: DescribeUserProfilesRequest(
+        iamUserArns: iamUserArns,
+      ),
     );
 
     return DescribeUserProfilesResult.fromJson(jsonResponse.body);
@@ -3028,12 +2999,12 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (instanceId != null) 'InstanceId': instanceId,
-        if (raidArrayId != null) 'RaidArrayId': raidArrayId,
-        if (stackId != null) 'StackId': stackId,
-        if (volumeIds != null) 'VolumeIds': volumeIds,
-      },
+      payload: DescribeVolumesRequest(
+        instanceId: instanceId,
+        raidArrayId: raidArrayId,
+        stackId: stackId,
+        volumeIds: volumeIds,
+      ),
     );
 
     return DescribeVolumesResult.fromJson(jsonResponse.body);
@@ -3073,10 +3044,10 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ElasticLoadBalancerName': elasticLoadBalancerName,
-        'LayerId': layerId,
-      },
+      payload: DetachElasticLoadBalancerRequest(
+        elasticLoadBalancerName: elasticLoadBalancerName,
+        layerId: layerId,
+      ),
     );
   }
 
@@ -3111,9 +3082,9 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ElasticIp': elasticIp,
-      },
+      payload: DisassociateElasticIpRequest(
+        elasticIp: elasticIp,
+      ),
     );
   }
 
@@ -3146,9 +3117,9 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'LayerId': layerId,
-      },
+      payload: GetHostnameSuggestionRequest(
+        layerId: layerId,
+      ),
     );
 
     return GetHostnameSuggestionResult.fromJson(jsonResponse.body);
@@ -3191,10 +3162,10 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'InstanceId': instanceId,
-        if (validForInMinutes != null) 'ValidForInMinutes': validForInMinutes,
-      },
+      payload: GrantAccessRequest(
+        instanceId: instanceId,
+        validForInMinutes: validForInMinutes,
+      ),
     );
 
     return GrantAccessResult.fromJson(jsonResponse.body);
@@ -3231,11 +3202,11 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListTagsRequest(
+        resourceArn: resourceArn,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListTagsResult.fromJson(jsonResponse.body);
@@ -3271,9 +3242,9 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'InstanceId': instanceId,
-      },
+      payload: RebootInstanceRequest(
+        instanceId: instanceId,
+      ),
     );
   }
 
@@ -3314,10 +3285,10 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EcsClusterArn': ecsClusterArn,
-        'StackId': stackId,
-      },
+      payload: RegisterEcsClusterRequest(
+        ecsClusterArn: ecsClusterArn,
+        stackId: stackId,
+      ),
     );
 
     return RegisterEcsClusterResult.fromJson(jsonResponse.body);
@@ -3361,10 +3332,10 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ElasticIp': elasticIp,
-        'StackId': stackId,
-      },
+      payload: RegisterElasticIpRequest(
+        elasticIp: elasticIp,
+        stackId: stackId,
+      ),
     );
 
     return RegisterElasticIpResult.fromJson(jsonResponse.body);
@@ -3441,16 +3412,15 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'StackId': stackId,
-        if (hostname != null) 'Hostname': hostname,
-        if (instanceIdentity != null) 'InstanceIdentity': instanceIdentity,
-        if (privateIp != null) 'PrivateIp': privateIp,
-        if (publicIp != null) 'PublicIp': publicIp,
-        if (rsaPublicKey != null) 'RsaPublicKey': rsaPublicKey,
-        if (rsaPublicKeyFingerprint != null)
-          'RsaPublicKeyFingerprint': rsaPublicKeyFingerprint,
-      },
+      payload: RegisterInstanceRequest(
+        stackId: stackId,
+        hostname: hostname,
+        instanceIdentity: instanceIdentity,
+        privateIp: privateIp,
+        publicIp: publicIp,
+        rsaPublicKey: rsaPublicKey,
+        rsaPublicKeyFingerprint: rsaPublicKeyFingerprint,
+      ),
     );
 
     return RegisterInstanceResult.fromJson(jsonResponse.body);
@@ -3499,12 +3469,12 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DbPassword': dbPassword,
-        'DbUser': dbUser,
-        'RdsDbInstanceArn': rdsDbInstanceArn,
-        'StackId': stackId,
-      },
+      payload: RegisterRdsDbInstanceRequest(
+        dbPassword: dbPassword,
+        dbUser: dbUser,
+        rdsDbInstanceArn: rdsDbInstanceArn,
+        stackId: stackId,
+      ),
     );
   }
 
@@ -3545,10 +3515,10 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'StackId': stackId,
-        if (ec2VolumeId != null) 'Ec2VolumeId': ec2VolumeId,
-      },
+      payload: RegisterVolumeRequest(
+        stackId: stackId,
+        ec2VolumeId: ec2VolumeId,
+      ),
     );
 
     return RegisterVolumeResult.fromJson(jsonResponse.body);
@@ -3607,12 +3577,12 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'LayerId': layerId,
-        if (downScaling != null) 'DownScaling': downScaling,
-        if (enable != null) 'Enable': enable,
-        if (upScaling != null) 'UpScaling': upScaling,
-      },
+      payload: SetLoadBasedAutoScalingRequest(
+        layerId: layerId,
+        downScaling: downScaling,
+        enable: enable,
+        upScaling: upScaling,
+      ),
     );
   }
 
@@ -3686,13 +3656,13 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'IamUserArn': iamUserArn,
-        'StackId': stackId,
-        if (allowSsh != null) 'AllowSsh': allowSsh,
-        if (allowSudo != null) 'AllowSudo': allowSudo,
-        if (level != null) 'Level': level,
-      },
+      payload: SetPermissionRequest(
+        iamUserArn: iamUserArn,
+        stackId: stackId,
+        allowSsh: allowSsh,
+        allowSudo: allowSudo,
+        level: level,
+      ),
     );
   }
 
@@ -3731,11 +3701,10 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'InstanceId': instanceId,
-        if (autoScalingSchedule != null)
-          'AutoScalingSchedule': autoScalingSchedule,
-      },
+      payload: SetTimeBasedAutoScalingRequest(
+        instanceId: instanceId,
+        autoScalingSchedule: autoScalingSchedule,
+      ),
     );
   }
 
@@ -3769,9 +3738,9 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'InstanceId': instanceId,
-      },
+      payload: StartInstanceRequest(
+        instanceId: instanceId,
+      ),
     );
   }
 
@@ -3803,9 +3772,9 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'StackId': stackId,
-      },
+      payload: StartStackRequest(
+        stackId: stackId,
+      ),
     );
   }
 
@@ -3852,10 +3821,10 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'InstanceId': instanceId,
-        if (force != null) 'Force': force,
-      },
+      payload: StopInstanceRequest(
+        instanceId: instanceId,
+        force: force,
+      ),
     );
   }
 
@@ -3887,9 +3856,9 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'StackId': stackId,
-      },
+      payload: StopStackRequest(
+        stackId: stackId,
+      ),
     );
   }
 
@@ -3945,10 +3914,10 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        'Tags': tags,
-      },
+      payload: TagResourceRequest(
+        resourceArn: resourceArn,
+        tags: tags,
+      ),
     );
   }
 
@@ -3983,9 +3952,9 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'InstanceId': instanceId,
-      },
+      payload: UnassignInstanceRequest(
+        instanceId: instanceId,
+      ),
     );
   }
 
@@ -4020,9 +3989,9 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'VolumeId': volumeId,
-      },
+      payload: UnassignVolumeRequest(
+        volumeId: volumeId,
+      ),
     );
   }
 
@@ -4052,10 +4021,10 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        'TagKeys': tagKeys,
-      },
+      payload: UntagResourceRequest(
+        resourceArn: resourceArn,
+        tagKeys: tagKeys,
+      ),
     );
   }
 
@@ -4145,19 +4114,19 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AppId': appId,
-        if (appSource != null) 'AppSource': appSource,
-        if (attributes != null) 'Attributes': attributes,
-        if (dataSources != null) 'DataSources': dataSources,
-        if (description != null) 'Description': description,
-        if (domains != null) 'Domains': domains,
-        if (enableSsl != null) 'EnableSsl': enableSsl,
-        if (environment != null) 'Environment': environment,
-        if (name != null) 'Name': name,
-        if (sslConfiguration != null) 'SslConfiguration': sslConfiguration,
-        if (type != null) 'Type': type?.toValue(),
-      },
+      payload: UpdateAppRequest(
+        appId: appId,
+        appSource: appSource,
+        attributes: attributes,
+        dataSources: dataSources,
+        description: description,
+        domains: domains,
+        enableSsl: enableSsl,
+        environment: environment,
+        name: name,
+        sslConfiguration: sslConfiguration,
+        type: type,
+      ),
     );
   }
 
@@ -4196,10 +4165,10 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ElasticIp': elasticIp,
-        if (name != null) 'Name': name,
-      },
+      payload: UpdateElasticIpRequest(
+        elasticIp: elasticIp,
+        name: name,
+      ),
     );
   }
 
@@ -4365,22 +4334,20 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'InstanceId': instanceId,
-        if (agentVersion != null) 'AgentVersion': agentVersion,
-        if (amiId != null) 'AmiId': amiId,
-        if (architecture != null) 'Architecture': architecture?.toValue(),
-        if (autoScalingType != null)
-          'AutoScalingType': autoScalingType?.toValue(),
-        if (ebsOptimized != null) 'EbsOptimized': ebsOptimized,
-        if (hostname != null) 'Hostname': hostname,
-        if (installUpdatesOnBoot != null)
-          'InstallUpdatesOnBoot': installUpdatesOnBoot,
-        if (instanceType != null) 'InstanceType': instanceType,
-        if (layerIds != null) 'LayerIds': layerIds,
-        if (os != null) 'Os': os,
-        if (sshKeyName != null) 'SshKeyName': sshKeyName,
-      },
+      payload: UpdateInstanceRequest(
+        instanceId: instanceId,
+        agentVersion: agentVersion,
+        amiId: amiId,
+        architecture: architecture,
+        autoScalingType: autoScalingType,
+        ebsOptimized: ebsOptimized,
+        hostname: hostname,
+        installUpdatesOnBoot: installUpdatesOnBoot,
+        instanceType: instanceType,
+        layerIds: layerIds,
+        os: os,
+        sshKeyName: sshKeyName,
+      ),
     );
   }
 
@@ -4514,34 +4481,25 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'LayerId': layerId,
-        if (attributes != null) 'Attributes': attributes,
-        if (autoAssignElasticIps != null)
-          'AutoAssignElasticIps': autoAssignElasticIps,
-        if (autoAssignPublicIps != null)
-          'AutoAssignPublicIps': autoAssignPublicIps,
-        if (cloudWatchLogsConfiguration != null)
-          'CloudWatchLogsConfiguration': cloudWatchLogsConfiguration,
-        if (customInstanceProfileArn != null)
-          'CustomInstanceProfileArn': customInstanceProfileArn,
-        if (customJson != null) 'CustomJson': customJson,
-        if (customRecipes != null) 'CustomRecipes': customRecipes,
-        if (customSecurityGroupIds != null)
-          'CustomSecurityGroupIds': customSecurityGroupIds,
-        if (enableAutoHealing != null) 'EnableAutoHealing': enableAutoHealing,
-        if (installUpdatesOnBoot != null)
-          'InstallUpdatesOnBoot': installUpdatesOnBoot,
-        if (lifecycleEventConfiguration != null)
-          'LifecycleEventConfiguration': lifecycleEventConfiguration,
-        if (name != null) 'Name': name,
-        if (packages != null) 'Packages': packages,
-        if (shortname != null) 'Shortname': shortname,
-        if (useEbsOptimizedInstances != null)
-          'UseEbsOptimizedInstances': useEbsOptimizedInstances,
-        if (volumeConfigurations != null)
-          'VolumeConfigurations': volumeConfigurations,
-      },
+      payload: UpdateLayerRequest(
+        layerId: layerId,
+        attributes: attributes,
+        autoAssignElasticIps: autoAssignElasticIps,
+        autoAssignPublicIps: autoAssignPublicIps,
+        cloudWatchLogsConfiguration: cloudWatchLogsConfiguration,
+        customInstanceProfileArn: customInstanceProfileArn,
+        customJson: customJson,
+        customRecipes: customRecipes,
+        customSecurityGroupIds: customSecurityGroupIds,
+        enableAutoHealing: enableAutoHealing,
+        installUpdatesOnBoot: installUpdatesOnBoot,
+        lifecycleEventConfiguration: lifecycleEventConfiguration,
+        name: name,
+        packages: packages,
+        shortname: shortname,
+        useEbsOptimizedInstances: useEbsOptimizedInstances,
+        volumeConfigurations: volumeConfigurations,
+      ),
     );
   }
 
@@ -4570,9 +4528,9 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (sshPublicKey != null) 'SshPublicKey': sshPublicKey,
-      },
+      payload: UpdateMyUserProfileRequest(
+        sshPublicKey: sshPublicKey,
+      ),
     );
   }
 
@@ -4612,11 +4570,11 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'RdsDbInstanceArn': rdsDbInstanceArn,
-        if (dbPassword != null) 'DbPassword': dbPassword,
-        if (dbUser != null) 'DbUser': dbUser,
-      },
+      payload: UpdateRdsDbInstanceRequest(
+        rdsDbInstanceArn: rdsDbInstanceArn,
+        dbPassword: dbPassword,
+        dbUser: dbUser,
+      ),
     );
   }
 
@@ -4896,33 +4854,26 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'StackId': stackId,
-        if (agentVersion != null) 'AgentVersion': agentVersion,
-        if (attributes != null) 'Attributes': attributes,
-        if (chefConfiguration != null) 'ChefConfiguration': chefConfiguration,
-        if (configurationManager != null)
-          'ConfigurationManager': configurationManager,
-        if (customCookbooksSource != null)
-          'CustomCookbooksSource': customCookbooksSource,
-        if (customJson != null) 'CustomJson': customJson,
-        if (defaultAvailabilityZone != null)
-          'DefaultAvailabilityZone': defaultAvailabilityZone,
-        if (defaultInstanceProfileArn != null)
-          'DefaultInstanceProfileArn': defaultInstanceProfileArn,
-        if (defaultOs != null) 'DefaultOs': defaultOs,
-        if (defaultRootDeviceType != null)
-          'DefaultRootDeviceType': defaultRootDeviceType?.toValue(),
-        if (defaultSshKeyName != null) 'DefaultSshKeyName': defaultSshKeyName,
-        if (defaultSubnetId != null) 'DefaultSubnetId': defaultSubnetId,
-        if (hostnameTheme != null) 'HostnameTheme': hostnameTheme,
-        if (name != null) 'Name': name,
-        if (serviceRoleArn != null) 'ServiceRoleArn': serviceRoleArn,
-        if (useCustomCookbooks != null)
-          'UseCustomCookbooks': useCustomCookbooks,
-        if (useOpsworksSecurityGroups != null)
-          'UseOpsworksSecurityGroups': useOpsworksSecurityGroups,
-      },
+      payload: UpdateStackRequest(
+        stackId: stackId,
+        agentVersion: agentVersion,
+        attributes: attributes,
+        chefConfiguration: chefConfiguration,
+        configurationManager: configurationManager,
+        customCookbooksSource: customCookbooksSource,
+        customJson: customJson,
+        defaultAvailabilityZone: defaultAvailabilityZone,
+        defaultInstanceProfileArn: defaultInstanceProfileArn,
+        defaultOs: defaultOs,
+        defaultRootDeviceType: defaultRootDeviceType,
+        defaultSshKeyName: defaultSshKeyName,
+        defaultSubnetId: defaultSubnetId,
+        hostnameTheme: hostnameTheme,
+        name: name,
+        serviceRoleArn: serviceRoleArn,
+        useCustomCookbooks: useCustomCookbooks,
+        useOpsworksSecurityGroups: useOpsworksSecurityGroups,
+      ),
     );
   }
 
@@ -4972,13 +4923,12 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'IamUserArn': iamUserArn,
-        if (allowSelfManagement != null)
-          'AllowSelfManagement': allowSelfManagement,
-        if (sshPublicKey != null) 'SshPublicKey': sshPublicKey,
-        if (sshUsername != null) 'SshUsername': sshUsername,
-      },
+      payload: UpdateUserProfileRequest(
+        iamUserArn: iamUserArn,
+        allowSelfManagement: allowSelfManagement,
+        sshPublicKey: sshPublicKey,
+        sshUsername: sshUsername,
+      ),
     );
   }
 
@@ -5021,11 +4971,11 @@ class OpsWorks {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'VolumeId': volumeId,
-        if (mountPoint != null) 'MountPoint': mountPoint,
-        if (name != null) 'Name': name,
-      },
+      payload: UpdateVolumeRequest(
+        volumeId: volumeId,
+        mountPoint: mountPoint,
+        name: name,
+      ),
     );
   }
 }
@@ -5177,28 +5127,6 @@ enum AppType {
   other,
 }
 
-extension on AppType {
-  String toValue() {
-    switch (this) {
-      case AppType.awsFlowRuby:
-        return 'aws-flow-ruby';
-      case AppType.java:
-        return 'java';
-      case AppType.rails:
-        return 'rails';
-      case AppType.php:
-        return 'php';
-      case AppType.nodejs:
-        return 'nodejs';
-      case AppType.static:
-        return 'static';
-      case AppType.other:
-        return 'other';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum Architecture {
   @_s.JsonValue('x86_64')
   x86_64,
@@ -5206,16 +5134,91 @@ enum Architecture {
   i386,
 }
 
-extension on Architecture {
-  String toValue() {
-    switch (this) {
-      case Architecture.x86_64:
-        return 'x86_64';
-      case Architecture.i386:
-        return 'i386';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssignInstanceRequest {
+  /// The instance ID.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  /// The layer ID, which must correspond to a custom layer. You cannot assign a
+  /// registered instance to a built-in layer.
+  @_s.JsonKey(name: 'LayerIds')
+  final List<String> layerIds;
+
+  AssignInstanceRequest({
+    @_s.required this.instanceId,
+    @_s.required this.layerIds,
+  });
+  Map<String, dynamic> toJson() => _$AssignInstanceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssignVolumeRequest {
+  /// The volume ID.
+  @_s.JsonKey(name: 'VolumeId')
+  final String volumeId;
+
+  /// The instance ID.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  AssignVolumeRequest({
+    @_s.required this.volumeId,
+    this.instanceId,
+  });
+  Map<String, dynamic> toJson() => _$AssignVolumeRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateElasticIpRequest {
+  /// The Elastic IP address.
+  @_s.JsonKey(name: 'ElasticIp')
+  final String elasticIp;
+
+  /// The instance ID.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  AssociateElasticIpRequest({
+    @_s.required this.elasticIp,
+    this.instanceId,
+  });
+  Map<String, dynamic> toJson() => _$AssociateElasticIpRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AttachElasticLoadBalancerRequest {
+  /// The Elastic Load Balancing instance's name.
+  @_s.JsonKey(name: 'ElasticLoadBalancerName')
+  final String elasticLoadBalancerName;
+
+  /// The ID of the layer to which the Elastic Load Balancing instance is to be
+  /// attached.
+  @_s.JsonKey(name: 'LayerId')
+  final String layerId;
+
+  AttachElasticLoadBalancerRequest({
+    @_s.required this.elasticLoadBalancerName,
+    @_s.required this.layerId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AttachElasticLoadBalancerRequestToJson(this);
 }
 
 /// Describes a load-based auto scaling upscaling or downscaling threshold
@@ -5300,18 +5303,6 @@ enum AutoScalingType {
   timer,
 }
 
-extension on AutoScalingType {
-  String toValue() {
-    switch (this) {
-      case AutoScalingType.load:
-        return 'load';
-      case AutoScalingType.timer:
-        return 'timer';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Describes a block device mapping. This data type maps directly to the Amazon
 /// EC2 <a
 /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_BlockDeviceMapping.html">BlockDeviceMapping</a>
@@ -5378,6 +5369,360 @@ class ChefConfiguration {
       _$ChefConfigurationFromJson(json);
 
   Map<String, dynamic> toJson() => _$ChefConfigurationToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CloneStackRequest {
+  /// The stack AWS Identity and Access Management (IAM) role, which allows AWS
+  /// OpsWorks Stacks to work with AWS resources on your behalf. You must set this
+  /// parameter to the Amazon Resource Name (ARN) for an existing IAM role. If you
+  /// create a stack by using the AWS OpsWorks Stacks console, it creates the role
+  /// for you. You can obtain an existing stack's IAM ARN programmatically by
+  /// calling <a>DescribePermissions</a>. For more information about IAM ARNs, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">Using
+  /// Identifiers</a>.
+  /// <note>
+  /// You must set this parameter to a valid service role ARN or the action will
+  /// fail; there is no default value. You can specify the source stack's service
+  /// role ARN, if you prefer, but you must do so explicitly.
+  /// </note>
+  @_s.JsonKey(name: 'ServiceRoleArn')
+  final String serviceRoleArn;
+
+  /// The source stack ID.
+  @_s.JsonKey(name: 'SourceStackId')
+  final String sourceStackId;
+
+  /// The default AWS OpsWorks Stacks agent version. You have the following
+  /// options:
+  ///
+  /// <ul>
+  /// <li>
+  /// Auto-update - Set this parameter to <code>LATEST</code>. AWS OpsWorks Stacks
+  /// automatically installs new agent versions on the stack's instances as soon
+  /// as they are available.
+  /// </li>
+  /// <li>
+  /// Fixed version - Set this parameter to your preferred agent version. To
+  /// update the agent version, you must edit the stack configuration and specify
+  /// a new version. AWS OpsWorks Stacks then automatically installs that version
+  /// on the stack's instances.
+  /// </li>
+  /// </ul>
+  /// The default setting is <code>LATEST</code>. To specify an agent version, you
+  /// must use the complete version number, not the abbreviated number shown on
+  /// the console. For a list of available agent version numbers, call
+  /// <a>DescribeAgentVersions</a>. AgentVersion cannot be set to Chef 12.2.
+  /// <note>
+  /// You can also specify an agent version when you create or update an instance,
+  /// which overrides the stack's default setting.
+  /// </note>
+  @_s.JsonKey(name: 'AgentVersion')
+  final String agentVersion;
+
+  /// A list of stack attributes and values as key/value pairs to be added to the
+  /// cloned stack.
+  @_s.JsonKey(name: 'Attributes')
+  final Map<String, String> attributes;
+
+  /// A <code>ChefConfiguration</code> object that specifies whether to enable
+  /// Berkshelf and the Berkshelf version on Chef 11.10 stacks. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workingstacks-creating.html">Create
+  /// a New Stack</a>.
+  @_s.JsonKey(name: 'ChefConfiguration')
+  final ChefConfiguration chefConfiguration;
+
+  /// A list of source stack app IDs to be included in the cloned stack.
+  @_s.JsonKey(name: 'CloneAppIds')
+  final List<String> cloneAppIds;
+
+  /// Whether to clone the source stack's permissions.
+  @_s.JsonKey(name: 'ClonePermissions')
+  final bool clonePermissions;
+
+  /// The configuration manager. When you clone a stack we recommend that you use
+  /// the configuration manager to specify the Chef version: 12, 11.10, or 11.4
+  /// for Linux stacks, or 12.2 for Windows stacks. The default value for Linux
+  /// stacks is currently 12.
+  @_s.JsonKey(name: 'ConfigurationManager')
+  final StackConfigurationManager configurationManager;
+
+  /// Contains the information required to retrieve an app or cookbook from a
+  /// repository. For more information, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workingapps-creating.html">Adding
+  /// Apps</a> or <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workingcookbook.html">Cookbooks
+  /// and Recipes</a>.
+  @_s.JsonKey(name: 'CustomCookbooksSource')
+  final Source customCookbooksSource;
+
+  /// A string that contains user-defined, custom JSON. It is used to override the
+  /// corresponding default stack configuration JSON values. The string should be
+  /// in the following format:
+  ///
+  /// <code>"{\"key1\": \"value1\", \"key2\": \"value2\",...}"</code>
+  ///
+  /// For more information about custom JSON, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workingstacks-json.html">Use
+  /// Custom JSON to Modify the Stack Configuration Attributes</a>
+  @_s.JsonKey(name: 'CustomJson')
+  final String customJson;
+
+  /// The cloned stack's default Availability Zone, which must be in the specified
+  /// region. For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html">Regions and
+  /// Endpoints</a>. If you also specify a value for <code>DefaultSubnetId</code>,
+  /// the subnet must be in the same zone. For more information, see the
+  /// <code>VpcId</code> parameter description.
+  @_s.JsonKey(name: 'DefaultAvailabilityZone')
+  final String defaultAvailabilityZone;
+
+  /// The Amazon Resource Name (ARN) of an IAM profile that is the default profile
+  /// for all of the stack's EC2 instances. For more information about IAM ARNs,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">Using
+  /// Identifiers</a>.
+  @_s.JsonKey(name: 'DefaultInstanceProfileArn')
+  final String defaultInstanceProfileArn;
+
+  /// The stack's operating system, which must be set to one of the following.
+  ///
+  /// <ul>
+  /// <li>
+  /// A supported Linux operating system: An Amazon Linux version, such as
+  /// <code>Amazon Linux 2018.03</code>, <code>Amazon Linux 2017.09</code>,
+  /// <code>Amazon Linux 2017.03</code>, <code>Amazon Linux 2016.09</code>,
+  /// <code>Amazon Linux 2016.03</code>, <code>Amazon Linux 2015.09</code>, or
+  /// <code>Amazon Linux 2015.03</code>.
+  /// </li>
+  /// <li>
+  /// A supported Ubuntu operating system, such as <code>Ubuntu 16.04 LTS</code>,
+  /// <code>Ubuntu 14.04 LTS</code>, or <code>Ubuntu 12.04 LTS</code>.
+  /// </li>
+  /// <li>
+  /// <code>CentOS Linux 7</code>
+  /// </li>
+  /// <li>
+  /// <code>Red Hat Enterprise Linux 7</code>
+  /// </li>
+  /// <li>
+  /// <code>Microsoft Windows Server 2012 R2 Base</code>, <code>Microsoft Windows
+  /// Server 2012 R2 with SQL Server Express</code>, <code>Microsoft Windows
+  /// Server 2012 R2 with SQL Server Standard</code>, or <code>Microsoft Windows
+  /// Server 2012 R2 with SQL Server Web</code>.
+  /// </li>
+  /// <li>
+  /// A custom AMI: <code>Custom</code>. You specify the custom AMI you want to
+  /// use when you create instances. For more information about how to use custom
+  /// AMIs with OpsWorks, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-custom-ami.html">Using
+  /// Custom AMIs</a>.
+  /// </li>
+  /// </ul>
+  /// The default option is the parent stack's operating system. For more
+  /// information about supported operating systems, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-os.html">AWS
+  /// OpsWorks Stacks Operating Systems</a>.
+  /// <note>
+  /// You can specify a different Linux operating system for the cloned stack, but
+  /// you cannot change from Linux to Windows or Windows to Linux.
+  /// </note>
+  @_s.JsonKey(name: 'DefaultOs')
+  final String defaultOs;
+
+  /// The default root device type. This value is used by default for all
+  /// instances in the cloned stack, but you can override it when you create an
+  /// instance. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ComponentsAMIs.html#storage-for-the-root-device">Storage
+  /// for the Root Device</a>.
+  @_s.JsonKey(name: 'DefaultRootDeviceType')
+  final RootDeviceType defaultRootDeviceType;
+
+  /// A default Amazon EC2 key pair name. The default value is none. If you
+  /// specify a key pair name, AWS OpsWorks installs the public key on the
+  /// instance and you can use the private key with an SSH client to log in to the
+  /// instance. For more information, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-ssh.html">
+  /// Using SSH to Communicate with an Instance</a> and <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/security-ssh-access.html">
+  /// Managing SSH Access</a>. You can override this setting by specifying a
+  /// different key pair, or no key pair, when you <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-add.html">
+  /// create an instance</a>.
+  @_s.JsonKey(name: 'DefaultSshKeyName')
+  final String defaultSshKeyName;
+
+  /// The stack's default VPC subnet ID. This parameter is required if you specify
+  /// a value for the <code>VpcId</code> parameter. All instances are launched
+  /// into this subnet unless you specify otherwise when you create the instance.
+  /// If you also specify a value for <code>DefaultAvailabilityZone</code>, the
+  /// subnet must be in that zone. For information on default values and when this
+  /// parameter is required, see the <code>VpcId</code> parameter description.
+  @_s.JsonKey(name: 'DefaultSubnetId')
+  final String defaultSubnetId;
+
+  /// The stack's host name theme, with spaces are replaced by underscores. The
+  /// theme is used to generate host names for the stack's instances. By default,
+  /// <code>HostnameTheme</code> is set to <code>Layer_Dependent</code>, which
+  /// creates host names by appending integers to the layer's short name. The
+  /// other themes are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Baked_Goods</code>
+  /// </li>
+  /// <li>
+  /// <code>Clouds</code>
+  /// </li>
+  /// <li>
+  /// <code>Europe_Cities</code>
+  /// </li>
+  /// <li>
+  /// <code>Fruits</code>
+  /// </li>
+  /// <li>
+  /// <code>Greek_Deities_and_Titans</code>
+  /// </li>
+  /// <li>
+  /// <code>Legendary_creatures_from_Japan</code>
+  /// </li>
+  /// <li>
+  /// <code>Planets_and_Moons</code>
+  /// </li>
+  /// <li>
+  /// <code>Roman_Deities</code>
+  /// </li>
+  /// <li>
+  /// <code>Scottish_Islands</code>
+  /// </li>
+  /// <li>
+  /// <code>US_Cities</code>
+  /// </li>
+  /// <li>
+  /// <code>Wild_Cats</code>
+  /// </li>
+  /// </ul>
+  /// To obtain a generated host name, call <code>GetHostNameSuggestion</code>,
+  /// which returns a host name based on the current theme.
+  @_s.JsonKey(name: 'HostnameTheme')
+  final String hostnameTheme;
+
+  /// The cloned stack name.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The cloned stack AWS region, such as "ap-northeast-2". For more information
+  /// about AWS regions, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html">Regions and
+  /// Endpoints</a>.
+  @_s.JsonKey(name: 'Region')
+  final String region;
+
+  /// Whether to use custom cookbooks.
+  @_s.JsonKey(name: 'UseCustomCookbooks')
+  final bool useCustomCookbooks;
+
+  /// Whether to associate the AWS OpsWorks Stacks built-in security groups with
+  /// the stack's layers.
+  ///
+  /// AWS OpsWorks Stacks provides a standard set of built-in security groups, one
+  /// for each layer, which are associated with layers by default. With
+  /// <code>UseOpsworksSecurityGroups</code> you can instead provide your own
+  /// custom security groups. <code>UseOpsworksSecurityGroups</code> has the
+  /// following settings:
+  ///
+  /// <ul>
+  /// <li>
+  /// True - AWS OpsWorks Stacks automatically associates the appropriate built-in
+  /// security group with each layer (default setting). You can associate
+  /// additional security groups with a layer after you create it but you cannot
+  /// delete the built-in security group.
+  /// </li>
+  /// <li>
+  /// False - AWS OpsWorks Stacks does not associate built-in security groups with
+  /// layers. You must create appropriate Amazon Elastic Compute Cloud (Amazon
+  /// EC2) security groups and associate a security group with each layer that you
+  /// create. However, you can still manually associate a built-in security group
+  /// with a layer on creation; custom security groups are required only for those
+  /// layers that need custom settings.
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workingstacks-creating.html">Create
+  /// a New Stack</a>.
+  @_s.JsonKey(name: 'UseOpsworksSecurityGroups')
+  final bool useOpsworksSecurityGroups;
+
+  /// The ID of the VPC that the cloned stack is to be launched into. It must be
+  /// in the specified region. All instances are launched into this VPC, and you
+  /// cannot change the ID later.
+  ///
+  /// <ul>
+  /// <li>
+  /// If your account supports EC2 Classic, the default value is no VPC.
+  /// </li>
+  /// <li>
+  /// If your account does not support EC2 Classic, the default value is the
+  /// default VPC for the specified region.
+  /// </li>
+  /// </ul>
+  /// If the VPC ID corresponds to a default VPC and you have specified either the
+  /// <code>DefaultAvailabilityZone</code> or the <code>DefaultSubnetId</code>
+  /// parameter only, AWS OpsWorks Stacks infers the value of the other parameter.
+  /// If you specify neither parameter, AWS OpsWorks Stacks sets these parameters
+  /// to the first valid Availability Zone for the specified region and the
+  /// corresponding default VPC subnet ID, respectively.
+  ///
+  /// If you specify a nondefault VPC ID, note the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// It must belong to a VPC in your account that is in the specified region.
+  /// </li>
+  /// <li>
+  /// You must specify a value for <code>DefaultSubnetId</code>.
+  /// </li>
+  /// </ul>
+  /// For more information about how to use AWS OpsWorks Stacks with a VPC, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workingstacks-vpc.html">Running
+  /// a Stack in a VPC</a>. For more information about default VPC and EC2
+  /// Classic, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-supported-platforms.html">Supported
+  /// Platforms</a>.
+  @_s.JsonKey(name: 'VpcId')
+  final String vpcId;
+
+  CloneStackRequest({
+    @_s.required this.serviceRoleArn,
+    @_s.required this.sourceStackId,
+    this.agentVersion,
+    this.attributes,
+    this.chefConfiguration,
+    this.cloneAppIds,
+    this.clonePermissions,
+    this.configurationManager,
+    this.customCookbooksSource,
+    this.customJson,
+    this.defaultAvailabilityZone,
+    this.defaultInstanceProfileArn,
+    this.defaultOs,
+    this.defaultRootDeviceType,
+    this.defaultSshKeyName,
+    this.defaultSubnetId,
+    this.hostnameTheme,
+    this.name,
+    this.region,
+    this.useCustomCookbooks,
+    this.useOpsworksSecurityGroups,
+    this.vpcId,
+  });
+  Map<String, dynamic> toJson() => _$CloneStackRequestToJson(this);
 }
 
 /// Contains the response to a <code>CloneStack</code> request.
@@ -5854,6 +6199,98 @@ class Command {
       _$CommandFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateAppRequest {
+  /// The app name.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The stack ID.
+  @_s.JsonKey(name: 'StackId')
+  final String stackId;
+
+  /// The app type. Each supported type is associated with a particular layer. For
+  /// example, PHP applications are associated with a PHP layer. AWS OpsWorks
+  /// Stacks deploys an application to those instances that are members of the
+  /// corresponding layer. If your app isn't one of the standard types, or you
+  /// prefer to implement your own Deploy recipes, specify <code>other</code>.
+  @_s.JsonKey(name: 'Type')
+  final AppType type;
+
+  /// A <code>Source</code> object that specifies the app repository.
+  @_s.JsonKey(name: 'AppSource')
+  final Source appSource;
+
+  /// One or more user-defined key/value pairs to be added to the stack
+  /// attributes.
+  @_s.JsonKey(name: 'Attributes')
+  final Map<String, String> attributes;
+
+  /// The app's data source.
+  @_s.JsonKey(name: 'DataSources')
+  final List<DataSource> dataSources;
+
+  /// A description of the app.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The app virtual host settings, with multiple domains separated by commas.
+  /// For example: <code>'www.example.com, example.com'</code>
+  @_s.JsonKey(name: 'Domains')
+  final List<String> domains;
+
+  /// Whether to enable SSL for the app.
+  @_s.JsonKey(name: 'EnableSsl')
+  final bool enableSsl;
+
+  /// An array of <code>EnvironmentVariable</code> objects that specify
+  /// environment variables to be associated with the app. After you deploy the
+  /// app, these variables are defined on the associated app server instance. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workingapps-creating.html#workingapps-creating-environment">
+  /// Environment Variables</a>.
+  ///
+  /// There is no specific limit on the number of environment variables. However,
+  /// the size of the associated data structure - which includes the variables'
+  /// names, values, and protected flag values - cannot exceed 20 KB. This limit
+  /// should accommodate most if not all use cases. Exceeding it will cause an
+  /// exception with the message, "Environment: is too large (maximum is 20KB)."
+  /// <note>
+  /// If you have specified one or more environment variables, you cannot modify
+  /// the stack's Chef version.
+  /// </note>
+  @_s.JsonKey(name: 'Environment')
+  final List<EnvironmentVariable> environment;
+
+  /// The app's short name.
+  @_s.JsonKey(name: 'Shortname')
+  final String shortname;
+
+  /// An <code>SslConfiguration</code> object with the SSL configuration.
+  @_s.JsonKey(name: 'SslConfiguration')
+  final SslConfiguration sslConfiguration;
+
+  CreateAppRequest({
+    @_s.required this.name,
+    @_s.required this.stackId,
+    @_s.required this.type,
+    this.appSource,
+    this.attributes,
+    this.dataSources,
+    this.description,
+    this.domains,
+    this.enableSsl,
+    this.environment,
+    this.shortname,
+    this.sslConfiguration,
+  });
+  Map<String, dynamic> toJson() => _$CreateAppRequestToJson(this);
+}
+
 /// Contains the response to a <code>CreateApp</code> request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -5870,6 +6307,64 @@ class CreateAppResult {
   });
   factory CreateAppResult.fromJson(Map<String, dynamic> json) =>
       _$CreateAppResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDeploymentRequest {
+  /// A <code>DeploymentCommand</code> object that specifies the deployment
+  /// command and any associated arguments.
+  @_s.JsonKey(name: 'Command')
+  final DeploymentCommand command;
+
+  /// The stack ID.
+  @_s.JsonKey(name: 'StackId')
+  final String stackId;
+
+  /// The app ID. This parameter is required for app deployments, but not for
+  /// other deployment commands.
+  @_s.JsonKey(name: 'AppId')
+  final String appId;
+
+  /// A user-defined comment.
+  @_s.JsonKey(name: 'Comment')
+  final String comment;
+
+  /// A string that contains user-defined, custom JSON. You can use this parameter
+  /// to override some corresponding default stack configuration JSON values. The
+  /// string should be in the following format:
+  ///
+  /// <code>"{\"key1\": \"value1\", \"key2\": \"value2\",...}"</code>
+  ///
+  /// For more information about custom JSON, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workingstacks-json.html">Use
+  /// Custom JSON to Modify the Stack Configuration Attributes</a> and <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workingcookbook-json-override.html">Overriding
+  /// Attributes With Custom JSON</a>.
+  @_s.JsonKey(name: 'CustomJson')
+  final String customJson;
+
+  /// The instance IDs for the deployment targets.
+  @_s.JsonKey(name: 'InstanceIds')
+  final List<String> instanceIds;
+
+  /// The layer IDs for the deployment targets.
+  @_s.JsonKey(name: 'LayerIds')
+  final List<String> layerIds;
+
+  CreateDeploymentRequest({
+    @_s.required this.command,
+    @_s.required this.stackId,
+    this.appId,
+    this.comment,
+    this.customJson,
+    this.instanceIds,
+    this.layerIds,
+  });
+  Map<String, dynamic> toJson() => _$CreateDeploymentRequestToJson(this);
 }
 
 /// Contains the response to a <code>CreateDeployment</code> request.
@@ -5891,6 +6386,222 @@ class CreateDeploymentResult {
       _$CreateDeploymentResultFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateInstanceRequest {
+  /// The instance type, such as <code>t2.micro</code>. For a list of supported
+  /// instance types, open the stack in the console, choose <b>Instances</b>, and
+  /// choose <b>+ Instance</b>. The <b>Size</b> list contains the currently
+  /// supported types. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html">Instance
+  /// Families and Types</a>. The parameter values that you use to specify the
+  /// various types are in the <b>API Name</b> column of the <b>Available Instance
+  /// Types</b> table.
+  @_s.JsonKey(name: 'InstanceType')
+  final String instanceType;
+
+  /// An array that contains the instance's layer IDs.
+  @_s.JsonKey(name: 'LayerIds')
+  final List<String> layerIds;
+
+  /// The stack ID.
+  @_s.JsonKey(name: 'StackId')
+  final String stackId;
+
+  /// The default AWS OpsWorks Stacks agent version. You have the following
+  /// options:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>INHERIT</code> - Use the stack's default agent version setting.
+  /// </li>
+  /// <li>
+  /// <i>version_number</i> - Use the specified agent version. This value
+  /// overrides the stack's default setting. To update the agent version, edit the
+  /// instance configuration and specify a new version. AWS OpsWorks Stacks then
+  /// automatically installs that version on the instance.
+  /// </li>
+  /// </ul>
+  /// The default setting is <code>INHERIT</code>. To specify an agent version,
+  /// you must use the complete version number, not the abbreviated number shown
+  /// on the console. For a list of available agent version numbers, call
+  /// <a>DescribeAgentVersions</a>. AgentVersion cannot be set to Chef 12.2.
+  @_s.JsonKey(name: 'AgentVersion')
+  final String agentVersion;
+
+  /// A custom AMI ID to be used to create the instance. The AMI should be based
+  /// on one of the supported operating systems. For more information, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-custom-ami.html">Using
+  /// Custom AMIs</a>.
+  /// <note>
+  /// If you specify a custom AMI, you must set <code>Os</code> to
+  /// <code>Custom</code>.
+  /// </note>
+  @_s.JsonKey(name: 'AmiId')
+  final String amiId;
+
+  /// The instance architecture. The default option is <code>x86_64</code>.
+  /// Instance types do not necessarily support both architectures. For a list of
+  /// the architectures that are supported by the different instance types, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html">Instance
+  /// Families and Types</a>.
+  @_s.JsonKey(name: 'Architecture')
+  final Architecture architecture;
+
+  /// For load-based or time-based instances, the type. Windows stacks can use
+  /// only time-based instances.
+  @_s.JsonKey(name: 'AutoScalingType')
+  final AutoScalingType autoScalingType;
+
+  /// The instance Availability Zone. For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html">Regions and
+  /// Endpoints</a>.
+  @_s.JsonKey(name: 'AvailabilityZone')
+  final String availabilityZone;
+
+  /// An array of <code>BlockDeviceMapping</code> objects that specify the
+  /// instance's block devices. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/block-device-mapping-concepts.html">Block
+  /// Device Mapping</a>. Note that block device mappings are not supported for
+  /// custom AMIs.
+  @_s.JsonKey(name: 'BlockDeviceMappings')
+  final List<BlockDeviceMapping> blockDeviceMappings;
+
+  /// Whether to create an Amazon EBS-optimized instance.
+  @_s.JsonKey(name: 'EbsOptimized')
+  final bool ebsOptimized;
+
+  /// The instance host name.
+  @_s.JsonKey(name: 'Hostname')
+  final String hostname;
+
+  /// Whether to install operating system and package updates when the instance
+  /// boots. The default value is <code>true</code>. To control when updates are
+  /// installed, set this value to <code>false</code>. You must then update your
+  /// instances manually by using <a>CreateDeployment</a> to run the
+  /// <code>update_dependencies</code> stack command or by manually running
+  /// <code>yum</code> (Amazon Linux) or <code>apt-get</code> (Ubuntu) on the
+  /// instances.
+  /// <note>
+  /// We strongly recommend using the default value of <code>true</code> to ensure
+  /// that your instances have the latest security updates.
+  /// </note>
+  @_s.JsonKey(name: 'InstallUpdatesOnBoot')
+  final bool installUpdatesOnBoot;
+
+  /// The instance's operating system, which must be set to one of the following.
+  ///
+  /// <ul>
+  /// <li>
+  /// A supported Linux operating system: An Amazon Linux version, such as
+  /// <code>Amazon Linux 2018.03</code>, <code>Amazon Linux 2017.09</code>,
+  /// <code>Amazon Linux 2017.03</code>, <code>Amazon Linux 2016.09</code>,
+  /// <code>Amazon Linux 2016.03</code>, <code>Amazon Linux 2015.09</code>, or
+  /// <code>Amazon Linux 2015.03</code>.
+  /// </li>
+  /// <li>
+  /// A supported Ubuntu operating system, such as <code>Ubuntu 16.04 LTS</code>,
+  /// <code>Ubuntu 14.04 LTS</code>, or <code>Ubuntu 12.04 LTS</code>.
+  /// </li>
+  /// <li>
+  /// <code>CentOS Linux 7</code>
+  /// </li>
+  /// <li>
+  /// <code>Red Hat Enterprise Linux 7</code>
+  /// </li>
+  /// <li>
+  /// A supported Windows operating system, such as <code>Microsoft Windows Server
+  /// 2012 R2 Base</code>, <code>Microsoft Windows Server 2012 R2 with SQL Server
+  /// Express</code>, <code>Microsoft Windows Server 2012 R2 with SQL Server
+  /// Standard</code>, or <code>Microsoft Windows Server 2012 R2 with SQL Server
+  /// Web</code>.
+  /// </li>
+  /// <li>
+  /// A custom AMI: <code>Custom</code>.
+  /// </li>
+  /// </ul>
+  /// For more information about the supported operating systems, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-os.html">AWS
+  /// OpsWorks Stacks Operating Systems</a>.
+  ///
+  /// The default option is the current Amazon Linux version. If you set this
+  /// parameter to <code>Custom</code>, you must use the <a>CreateInstance</a>
+  /// action's AmiId parameter to specify the custom AMI that you want to use.
+  /// Block device mappings are not supported if the value is <code>Custom</code>.
+  /// For more information about supported operating systems, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-os.html">Operating
+  /// Systems</a>For more information about how to use custom AMIs with AWS
+  /// OpsWorks Stacks, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-custom-ami.html">Using
+  /// Custom AMIs</a>.
+  @_s.JsonKey(name: 'Os')
+  final String os;
+
+  /// The instance root device type. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ComponentsAMIs.html#storage-for-the-root-device">Storage
+  /// for the Root Device</a>.
+  @_s.JsonKey(name: 'RootDeviceType')
+  final RootDeviceType rootDeviceType;
+
+  /// The instance's Amazon EC2 key-pair name.
+  @_s.JsonKey(name: 'SshKeyName')
+  final String sshKeyName;
+
+  /// The ID of the instance's subnet. If the stack is running in a VPC, you can
+  /// use this parameter to override the stack's default subnet ID value and
+  /// direct AWS OpsWorks Stacks to launch the instance in a different subnet.
+  @_s.JsonKey(name: 'SubnetId')
+  final String subnetId;
+
+  /// The instance's tenancy option. The default option is no tenancy, or if the
+  /// instance is running in a VPC, inherit tenancy settings from the VPC. The
+  /// following are valid values for this parameter: <code>dedicated</code>,
+  /// <code>default</code>, or <code>host</code>. Because there are costs
+  /// associated with changes in tenancy options, we recommend that you research
+  /// tenancy options before choosing them for your instances. For more
+  /// information about dedicated hosts, see <a
+  /// href="http://aws.amazon.com/ec2/dedicated-hosts/">Dedicated Hosts
+  /// Overview</a> and <a href="http://aws.amazon.com/ec2/dedicated-hosts/">Amazon
+  /// EC2 Dedicated Hosts</a>. For more information about dedicated instances, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/dedicated-instance.html">Dedicated
+  /// Instances</a> and <a
+  /// href="http://aws.amazon.com/ec2/purchasing-options/dedicated-instances/">Amazon
+  /// EC2 Dedicated Instances</a>.
+  @_s.JsonKey(name: 'Tenancy')
+  final String tenancy;
+
+  /// The instance's virtualization type, <code>paravirtual</code> or
+  /// <code>hvm</code>.
+  @_s.JsonKey(name: 'VirtualizationType')
+  final String virtualizationType;
+
+  CreateInstanceRequest({
+    @_s.required this.instanceType,
+    @_s.required this.layerIds,
+    @_s.required this.stackId,
+    this.agentVersion,
+    this.amiId,
+    this.architecture,
+    this.autoScalingType,
+    this.availabilityZone,
+    this.blockDeviceMappings,
+    this.ebsOptimized,
+    this.hostname,
+    this.installUpdatesOnBoot,
+    this.os,
+    this.rootDeviceType,
+    this.sshKeyName,
+    this.subnetId,
+    this.tenancy,
+    this.virtualizationType,
+  });
+  Map<String, dynamic> toJson() => _$CreateInstanceRequestToJson(this);
+}
+
 /// Contains the response to a <code>CreateInstance</code> request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -5907,6 +6618,152 @@ class CreateInstanceResult {
   });
   factory CreateInstanceResult.fromJson(Map<String, dynamic> json) =>
       _$CreateInstanceResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateLayerRequest {
+  /// The layer name, which is used by the console.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// For custom layers only, use this parameter to specify the layer's short
+  /// name, which is used internally by AWS OpsWorks Stacks and by Chef recipes.
+  /// The short name is also used as the name for the directory where your app
+  /// files are installed. It can have a maximum of 200 characters, which are
+  /// limited to the alphanumeric characters, '-', '_', and '.'.
+  ///
+  /// The built-in layers' short names are defined by AWS OpsWorks Stacks. For
+  /// more information, see the <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/layers.html">Layer
+  /// Reference</a>.
+  @_s.JsonKey(name: 'Shortname')
+  final String shortname;
+
+  /// The layer stack ID.
+  @_s.JsonKey(name: 'StackId')
+  final String stackId;
+
+  /// The layer type. A stack cannot have more than one built-in layer of the same
+  /// type. It can have any number of custom layers. Built-in layers are not
+  /// available in Chef 12 stacks.
+  @_s.JsonKey(name: 'Type')
+  final LayerType type;
+
+  /// One or more user-defined key-value pairs to be added to the stack
+  /// attributes.
+  ///
+  /// To create a cluster layer, set the <code>EcsClusterArn</code> attribute to
+  /// the cluster's ARN.
+  @_s.JsonKey(name: 'Attributes')
+  final Map<String, String> attributes;
+
+  /// Whether to automatically assign an <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html">Elastic
+  /// IP address</a> to the layer's instances. For more information, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinglayers-basics-edit.html">How
+  /// to Edit a Layer</a>.
+  @_s.JsonKey(name: 'AutoAssignElasticIps')
+  final bool autoAssignElasticIps;
+
+  /// For stacks that are running in a VPC, whether to automatically assign a
+  /// public IP address to the layer's instances. For more information, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinglayers-basics-edit.html">How
+  /// to Edit a Layer</a>.
+  @_s.JsonKey(name: 'AutoAssignPublicIps')
+  final bool autoAssignPublicIps;
+
+  /// Specifies CloudWatch Logs configuration options for the layer. For more
+  /// information, see <a>CloudWatchLogsLogStream</a>.
+  @_s.JsonKey(name: 'CloudWatchLogsConfiguration')
+  final CloudWatchLogsConfiguration cloudWatchLogsConfiguration;
+
+  /// The ARN of an IAM profile to be used for the layer's EC2 instances. For more
+  /// information about IAM ARNs, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">Using
+  /// Identifiers</a>.
+  @_s.JsonKey(name: 'CustomInstanceProfileArn')
+  final String customInstanceProfileArn;
+
+  /// A JSON-formatted string containing custom stack configuration and deployment
+  /// attributes to be installed on the layer's instances. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workingcookbook-json-override.html">
+  /// Using Custom JSON</a>. This feature is supported as of version 1.7.42 of the
+  /// AWS CLI.
+  @_s.JsonKey(name: 'CustomJson')
+  final String customJson;
+
+  /// A <code>LayerCustomRecipes</code> object that specifies the layer custom
+  /// recipes.
+  @_s.JsonKey(name: 'CustomRecipes')
+  final Recipes customRecipes;
+
+  /// An array containing the layer custom security group IDs.
+  @_s.JsonKey(name: 'CustomSecurityGroupIds')
+  final List<String> customSecurityGroupIds;
+
+  /// Whether to disable auto healing for the layer.
+  @_s.JsonKey(name: 'EnableAutoHealing')
+  final bool enableAutoHealing;
+
+  /// Whether to install operating system and package updates when the instance
+  /// boots. The default value is <code>true</code>. To control when updates are
+  /// installed, set this value to <code>false</code>. You must then update your
+  /// instances manually by using <a>CreateDeployment</a> to run the
+  /// <code>update_dependencies</code> stack command or by manually running
+  /// <code>yum</code> (Amazon Linux) or <code>apt-get</code> (Ubuntu) on the
+  /// instances.
+  /// <note>
+  /// To ensure that your instances have the latest security updates, we strongly
+  /// recommend using the default value of <code>true</code>.
+  /// </note>
+  @_s.JsonKey(name: 'InstallUpdatesOnBoot')
+  final bool installUpdatesOnBoot;
+
+  /// A <code>LifeCycleEventConfiguration</code> object that you can use to
+  /// configure the Shutdown event to specify an execution timeout and enable or
+  /// disable Elastic Load Balancer connection draining.
+  @_s.JsonKey(name: 'LifecycleEventConfiguration')
+  final LifecycleEventConfiguration lifecycleEventConfiguration;
+
+  /// An array of <code>Package</code> objects that describes the layer packages.
+  @_s.JsonKey(name: 'Packages')
+  final List<String> packages;
+
+  /// Whether to use Amazon EBS-optimized instances.
+  @_s.JsonKey(name: 'UseEbsOptimizedInstances')
+  final bool useEbsOptimizedInstances;
+
+  /// A <code>VolumeConfigurations</code> object that describes the layer's Amazon
+  /// EBS volumes.
+  @_s.JsonKey(name: 'VolumeConfigurations')
+  final List<VolumeConfiguration> volumeConfigurations;
+
+  CreateLayerRequest({
+    @_s.required this.name,
+    @_s.required this.shortname,
+    @_s.required this.stackId,
+    @_s.required this.type,
+    this.attributes,
+    this.autoAssignElasticIps,
+    this.autoAssignPublicIps,
+    this.cloudWatchLogsConfiguration,
+    this.customInstanceProfileArn,
+    this.customJson,
+    this.customRecipes,
+    this.customSecurityGroupIds,
+    this.enableAutoHealing,
+    this.installUpdatesOnBoot,
+    this.lifecycleEventConfiguration,
+    this.packages,
+    this.useEbsOptimizedInstances,
+    this.volumeConfigurations,
+  });
+  Map<String, dynamic> toJson() => _$CreateLayerRequestToJson(this);
 }
 
 /// Contains the response to a <code>CreateLayer</code> request.
@@ -5927,6 +6784,356 @@ class CreateLayerResult {
       _$CreateLayerResultFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateStackRequest {
+  /// The Amazon Resource Name (ARN) of an IAM profile that is the default profile
+  /// for all of the stack's EC2 instances. For more information about IAM ARNs,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">Using
+  /// Identifiers</a>.
+  @_s.JsonKey(name: 'DefaultInstanceProfileArn')
+  final String defaultInstanceProfileArn;
+
+  /// The stack name.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The stack's AWS region, such as <code>ap-south-1</code>. For more
+  /// information about Amazon regions, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html">Regions and
+  /// Endpoints</a>.
+  /// <note>
+  /// In the AWS CLI, this API maps to the <code>--stack-region</code> parameter.
+  /// If the <code>--stack-region</code> parameter and the AWS CLI common
+  /// parameter <code>--region</code> are set to the same value, the stack uses a
+  /// <i>regional</i> endpoint. If the <code>--stack-region</code> parameter is
+  /// not set, but the AWS CLI <code>--region</code> parameter is, this also
+  /// results in a stack with a <i>regional</i> endpoint. However, if the
+  /// <code>--region</code> parameter is set to <code>us-east-1</code>, and the
+  /// <code>--stack-region</code> parameter is set to one of the following, then
+  /// the stack uses a legacy or <i>classic</i> region: <code>us-west-1,
+  /// us-west-2, sa-east-1, eu-central-1, eu-west-1, ap-northeast-1,
+  /// ap-southeast-1, ap-southeast-2</code>. In this case, the actual API endpoint
+  /// of the stack is in <code>us-east-1</code>. Only the preceding regions are
+  /// supported as classic regions in the <code>us-east-1</code> API endpoint.
+  /// Because it is a best practice to choose the regional endpoint that is
+  /// closest to where you manage AWS, we recommend that you use regional
+  /// endpoints for new stacks. The AWS CLI common <code>--region</code> parameter
+  /// always specifies a regional API endpoint; it cannot be used to specify a
+  /// classic AWS OpsWorks Stacks region.
+  /// </note>
+  @_s.JsonKey(name: 'Region')
+  final String region;
+
+  /// The stack's AWS Identity and Access Management (IAM) role, which allows AWS
+  /// OpsWorks Stacks to work with AWS resources on your behalf. You must set this
+  /// parameter to the Amazon Resource Name (ARN) for an existing IAM role. For
+  /// more information about IAM ARNs, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">Using
+  /// Identifiers</a>.
+  @_s.JsonKey(name: 'ServiceRoleArn')
+  final String serviceRoleArn;
+
+  /// The default AWS OpsWorks Stacks agent version. You have the following
+  /// options:
+  ///
+  /// <ul>
+  /// <li>
+  /// Auto-update - Set this parameter to <code>LATEST</code>. AWS OpsWorks Stacks
+  /// automatically installs new agent versions on the stack's instances as soon
+  /// as they are available.
+  /// </li>
+  /// <li>
+  /// Fixed version - Set this parameter to your preferred agent version. To
+  /// update the agent version, you must edit the stack configuration and specify
+  /// a new version. AWS OpsWorks Stacks then automatically installs that version
+  /// on the stack's instances.
+  /// </li>
+  /// </ul>
+  /// The default setting is the most recent release of the agent. To specify an
+  /// agent version, you must use the complete version number, not the abbreviated
+  /// number shown on the console. For a list of available agent version numbers,
+  /// call <a>DescribeAgentVersions</a>. AgentVersion cannot be set to Chef 12.2.
+  /// <note>
+  /// You can also specify an agent version when you create or update an instance,
+  /// which overrides the stack's default setting.
+  /// </note>
+  @_s.JsonKey(name: 'AgentVersion')
+  final String agentVersion;
+
+  /// One or more user-defined key-value pairs to be added to the stack
+  /// attributes.
+  @_s.JsonKey(name: 'Attributes')
+  final Map<String, String> attributes;
+
+  /// A <code>ChefConfiguration</code> object that specifies whether to enable
+  /// Berkshelf and the Berkshelf version on Chef 11.10 stacks. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workingstacks-creating.html">Create
+  /// a New Stack</a>.
+  @_s.JsonKey(name: 'ChefConfiguration')
+  final ChefConfiguration chefConfiguration;
+
+  /// The configuration manager. When you create a stack we recommend that you use
+  /// the configuration manager to specify the Chef version: 12, 11.10, or 11.4
+  /// for Linux stacks, or 12.2 for Windows stacks. The default value for Linux
+  /// stacks is currently 12.
+  @_s.JsonKey(name: 'ConfigurationManager')
+  final StackConfigurationManager configurationManager;
+
+  /// Contains the information required to retrieve an app or cookbook from a
+  /// repository. For more information, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workingapps-creating.html">Adding
+  /// Apps</a> or <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workingcookbook.html">Cookbooks
+  /// and Recipes</a>.
+  @_s.JsonKey(name: 'CustomCookbooksSource')
+  final Source customCookbooksSource;
+
+  /// A string that contains user-defined, custom JSON. It can be used to override
+  /// the corresponding default stack configuration attribute values or to pass
+  /// data to recipes. The string should be in the following format:
+  ///
+  /// <code>"{\"key1\": \"value1\", \"key2\": \"value2\",...}"</code>
+  ///
+  /// For more information about custom JSON, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workingstacks-json.html">Use
+  /// Custom JSON to Modify the Stack Configuration Attributes</a>.
+  @_s.JsonKey(name: 'CustomJson')
+  final String customJson;
+
+  /// The stack's default Availability Zone, which must be in the specified
+  /// region. For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html">Regions and
+  /// Endpoints</a>. If you also specify a value for <code>DefaultSubnetId</code>,
+  /// the subnet must be in the same zone. For more information, see the
+  /// <code>VpcId</code> parameter description.
+  @_s.JsonKey(name: 'DefaultAvailabilityZone')
+  final String defaultAvailabilityZone;
+
+  /// The stack's default operating system, which is installed on every instance
+  /// unless you specify a different operating system when you create the
+  /// instance. You can specify one of the following.
+  ///
+  /// <ul>
+  /// <li>
+  /// A supported Linux operating system: An Amazon Linux version, such as
+  /// <code>Amazon Linux 2018.03</code>, <code>Amazon Linux 2017.09</code>,
+  /// <code>Amazon Linux 2017.03</code>, <code>Amazon Linux 2016.09</code>,
+  /// <code>Amazon Linux 2016.03</code>, <code>Amazon Linux 2015.09</code>, or
+  /// <code>Amazon Linux 2015.03</code>.
+  /// </li>
+  /// <li>
+  /// A supported Ubuntu operating system, such as <code>Ubuntu 16.04 LTS</code>,
+  /// <code>Ubuntu 14.04 LTS</code>, or <code>Ubuntu 12.04 LTS</code>.
+  /// </li>
+  /// <li>
+  /// <code>CentOS Linux 7</code>
+  /// </li>
+  /// <li>
+  /// <code>Red Hat Enterprise Linux 7</code>
+  /// </li>
+  /// <li>
+  /// A supported Windows operating system, such as <code>Microsoft Windows Server
+  /// 2012 R2 Base</code>, <code>Microsoft Windows Server 2012 R2 with SQL Server
+  /// Express</code>, <code>Microsoft Windows Server 2012 R2 with SQL Server
+  /// Standard</code>, or <code>Microsoft Windows Server 2012 R2 with SQL Server
+  /// Web</code>.
+  /// </li>
+  /// <li>
+  /// A custom AMI: <code>Custom</code>. You specify the custom AMI you want to
+  /// use when you create instances. For more information, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-custom-ami.html">
+  /// Using Custom AMIs</a>.
+  /// </li>
+  /// </ul>
+  /// The default option is the current Amazon Linux version. For more information
+  /// about supported operating systems, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-os.html">AWS
+  /// OpsWorks Stacks Operating Systems</a>.
+  @_s.JsonKey(name: 'DefaultOs')
+  final String defaultOs;
+
+  /// The default root device type. This value is the default for all instances in
+  /// the stack, but you can override it when you create an instance. The default
+  /// option is <code>instance-store</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ComponentsAMIs.html#storage-for-the-root-device">Storage
+  /// for the Root Device</a>.
+  @_s.JsonKey(name: 'DefaultRootDeviceType')
+  final RootDeviceType defaultRootDeviceType;
+
+  /// A default Amazon EC2 key pair name. The default value is none. If you
+  /// specify a key pair name, AWS OpsWorks installs the public key on the
+  /// instance and you can use the private key with an SSH client to log in to the
+  /// instance. For more information, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-ssh.html">
+  /// Using SSH to Communicate with an Instance</a> and <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/security-ssh-access.html">
+  /// Managing SSH Access</a>. You can override this setting by specifying a
+  /// different key pair, or no key pair, when you <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-add.html">
+  /// create an instance</a>.
+  @_s.JsonKey(name: 'DefaultSshKeyName')
+  final String defaultSshKeyName;
+
+  /// The stack's default VPC subnet ID. This parameter is required if you specify
+  /// a value for the <code>VpcId</code> parameter. All instances are launched
+  /// into this subnet unless you specify otherwise when you create the instance.
+  /// If you also specify a value for <code>DefaultAvailabilityZone</code>, the
+  /// subnet must be in that zone. For information on default values and when this
+  /// parameter is required, see the <code>VpcId</code> parameter description.
+  @_s.JsonKey(name: 'DefaultSubnetId')
+  final String defaultSubnetId;
+
+  /// The stack's host name theme, with spaces replaced by underscores. The theme
+  /// is used to generate host names for the stack's instances. By default,
+  /// <code>HostnameTheme</code> is set to <code>Layer_Dependent</code>, which
+  /// creates host names by appending integers to the layer's short name. The
+  /// other themes are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Baked_Goods</code>
+  /// </li>
+  /// <li>
+  /// <code>Clouds</code>
+  /// </li>
+  /// <li>
+  /// <code>Europe_Cities</code>
+  /// </li>
+  /// <li>
+  /// <code>Fruits</code>
+  /// </li>
+  /// <li>
+  /// <code>Greek_Deities_and_Titans</code>
+  /// </li>
+  /// <li>
+  /// <code>Legendary_creatures_from_Japan</code>
+  /// </li>
+  /// <li>
+  /// <code>Planets_and_Moons</code>
+  /// </li>
+  /// <li>
+  /// <code>Roman_Deities</code>
+  /// </li>
+  /// <li>
+  /// <code>Scottish_Islands</code>
+  /// </li>
+  /// <li>
+  /// <code>US_Cities</code>
+  /// </li>
+  /// <li>
+  /// <code>Wild_Cats</code>
+  /// </li>
+  /// </ul>
+  /// To obtain a generated host name, call <code>GetHostNameSuggestion</code>,
+  /// which returns a host name based on the current theme.
+  @_s.JsonKey(name: 'HostnameTheme')
+  final String hostnameTheme;
+
+  /// Whether the stack uses custom cookbooks.
+  @_s.JsonKey(name: 'UseCustomCookbooks')
+  final bool useCustomCookbooks;
+
+  /// Whether to associate the AWS OpsWorks Stacks built-in security groups with
+  /// the stack's layers.
+  ///
+  /// AWS OpsWorks Stacks provides a standard set of built-in security groups, one
+  /// for each layer, which are associated with layers by default. With
+  /// <code>UseOpsworksSecurityGroups</code> you can instead provide your own
+  /// custom security groups. <code>UseOpsworksSecurityGroups</code> has the
+  /// following settings:
+  ///
+  /// <ul>
+  /// <li>
+  /// True - AWS OpsWorks Stacks automatically associates the appropriate built-in
+  /// security group with each layer (default setting). You can associate
+  /// additional security groups with a layer after you create it, but you cannot
+  /// delete the built-in security group.
+  /// </li>
+  /// <li>
+  /// False - AWS OpsWorks Stacks does not associate built-in security groups with
+  /// layers. You must create appropriate EC2 security groups and associate a
+  /// security group with each layer that you create. However, you can still
+  /// manually associate a built-in security group with a layer on creation;
+  /// custom security groups are required only for those layers that need custom
+  /// settings.
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workingstacks-creating.html">Create
+  /// a New Stack</a>.
+  @_s.JsonKey(name: 'UseOpsworksSecurityGroups')
+  final bool useOpsworksSecurityGroups;
+
+  /// The ID of the VPC that the stack is to be launched into. The VPC must be in
+  /// the stack's region. All instances are launched into this VPC. You cannot
+  /// change the ID later.
+  ///
+  /// <ul>
+  /// <li>
+  /// If your account supports EC2-Classic, the default value is <code>no
+  /// VPC</code>.
+  /// </li>
+  /// <li>
+  /// If your account does not support EC2-Classic, the default value is the
+  /// default VPC for the specified region.
+  /// </li>
+  /// </ul>
+  /// If the VPC ID corresponds to a default VPC and you have specified either the
+  /// <code>DefaultAvailabilityZone</code> or the <code>DefaultSubnetId</code>
+  /// parameter only, AWS OpsWorks Stacks infers the value of the other parameter.
+  /// If you specify neither parameter, AWS OpsWorks Stacks sets these parameters
+  /// to the first valid Availability Zone for the specified region and the
+  /// corresponding default VPC subnet ID, respectively.
+  ///
+  /// If you specify a nondefault VPC ID, note the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// It must belong to a VPC in your account that is in the specified region.
+  /// </li>
+  /// <li>
+  /// You must specify a value for <code>DefaultSubnetId</code>.
+  /// </li>
+  /// </ul>
+  /// For more information about how to use AWS OpsWorks Stacks with a VPC, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workingstacks-vpc.html">Running
+  /// a Stack in a VPC</a>. For more information about default VPC and
+  /// EC2-Classic, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-supported-platforms.html">Supported
+  /// Platforms</a>.
+  @_s.JsonKey(name: 'VpcId')
+  final String vpcId;
+
+  CreateStackRequest({
+    @_s.required this.defaultInstanceProfileArn,
+    @_s.required this.name,
+    @_s.required this.region,
+    @_s.required this.serviceRoleArn,
+    this.agentVersion,
+    this.attributes,
+    this.chefConfiguration,
+    this.configurationManager,
+    this.customCookbooksSource,
+    this.customJson,
+    this.defaultAvailabilityZone,
+    this.defaultOs,
+    this.defaultRootDeviceType,
+    this.defaultSshKeyName,
+    this.defaultSubnetId,
+    this.hostnameTheme,
+    this.useCustomCookbooks,
+    this.useOpsworksSecurityGroups,
+    this.vpcId,
+  });
+  Map<String, dynamic> toJson() => _$CreateStackRequestToJson(this);
+}
+
 /// Contains the response to a <code>CreateStack</code> request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -5944,6 +7151,44 @@ class CreateStackResult {
   });
   factory CreateStackResult.fromJson(Map<String, dynamic> json) =>
       _$CreateStackResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateUserProfileRequest {
+  /// The user's IAM ARN; this can also be a federated user's ARN.
+  @_s.JsonKey(name: 'IamUserArn')
+  final String iamUserArn;
+
+  /// Whether users can specify their own SSH public key through the My Settings
+  /// page. For more information, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/security-settingsshkey.html">Setting
+  /// an IAM User's Public SSH Key</a>.
+  @_s.JsonKey(name: 'AllowSelfManagement')
+  final bool allowSelfManagement;
+
+  /// The user's public SSH key.
+  @_s.JsonKey(name: 'SshPublicKey')
+  final String sshPublicKey;
+
+  /// The user's SSH user name. The allowable characters are [a-z], [A-Z], [0-9],
+  /// '-', and '_'. If the specified name includes other punctuation marks, AWS
+  /// OpsWorks Stacks removes them. For example, <code>my.name</code> will be
+  /// changed to <code>myname</code>. If you do not specify an SSH user name, AWS
+  /// OpsWorks Stacks generates one from the IAM user name.
+  @_s.JsonKey(name: 'SshUsername')
+  final String sshUsername;
+
+  CreateUserProfileRequest({
+    @_s.required this.iamUserArn,
+    this.allowSelfManagement,
+    this.sshPublicKey,
+    this.sshUsername,
+  });
+  Map<String, dynamic> toJson() => _$CreateUserProfileRequestToJson(this);
 }
 
 /// Contains the response to a <code>CreateUserProfile</code> request.
@@ -5994,6 +7239,96 @@ class DataSource {
       _$DataSourceFromJson(json);
 
   Map<String, dynamic> toJson() => _$DataSourceToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteAppRequest {
+  /// The app ID.
+  @_s.JsonKey(name: 'AppId')
+  final String appId;
+
+  DeleteAppRequest({
+    @_s.required this.appId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteAppRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteInstanceRequest {
+  /// The instance ID.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  /// Whether to delete the instance Elastic IP address.
+  @_s.JsonKey(name: 'DeleteElasticIp')
+  final bool deleteElasticIp;
+
+  /// Whether to delete the instance's Amazon EBS volumes.
+  @_s.JsonKey(name: 'DeleteVolumes')
+  final bool deleteVolumes;
+
+  DeleteInstanceRequest({
+    @_s.required this.instanceId,
+    this.deleteElasticIp,
+    this.deleteVolumes,
+  });
+  Map<String, dynamic> toJson() => _$DeleteInstanceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteLayerRequest {
+  /// The layer ID.
+  @_s.JsonKey(name: 'LayerId')
+  final String layerId;
+
+  DeleteLayerRequest({
+    @_s.required this.layerId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteLayerRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteStackRequest {
+  /// The stack ID.
+  @_s.JsonKey(name: 'StackId')
+  final String stackId;
+
+  DeleteStackRequest({
+    @_s.required this.stackId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteStackRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteUserProfileRequest {
+  /// The user's IAM ARN. This can also be a federated user's ARN.
+  @_s.JsonKey(name: 'IamUserArn')
+  final String iamUserArn;
+
+  DeleteUserProfileRequest({
+    @_s.required this.iamUserArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteUserProfileRequestToJson(this);
 }
 
 /// Describes a deployment of a stack or app.
@@ -6220,6 +7555,109 @@ enum DeploymentCommandName {
   undeploy,
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeregisterEcsClusterRequest {
+  /// The cluster's Amazon Resource Number (ARN).
+  @_s.JsonKey(name: 'EcsClusterArn')
+  final String ecsClusterArn;
+
+  DeregisterEcsClusterRequest({
+    @_s.required this.ecsClusterArn,
+  });
+  Map<String, dynamic> toJson() => _$DeregisterEcsClusterRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeregisterElasticIpRequest {
+  /// The Elastic IP address.
+  @_s.JsonKey(name: 'ElasticIp')
+  final String elasticIp;
+
+  DeregisterElasticIpRequest({
+    @_s.required this.elasticIp,
+  });
+  Map<String, dynamic> toJson() => _$DeregisterElasticIpRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeregisterInstanceRequest {
+  /// The instance ID.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  DeregisterInstanceRequest({
+    @_s.required this.instanceId,
+  });
+  Map<String, dynamic> toJson() => _$DeregisterInstanceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeregisterRdsDbInstanceRequest {
+  /// The Amazon RDS instance's ARN.
+  @_s.JsonKey(name: 'RdsDbInstanceArn')
+  final String rdsDbInstanceArn;
+
+  DeregisterRdsDbInstanceRequest({
+    @_s.required this.rdsDbInstanceArn,
+  });
+  Map<String, dynamic> toJson() => _$DeregisterRdsDbInstanceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeregisterVolumeRequest {
+  /// The AWS OpsWorks Stacks volume ID, which is the GUID that AWS OpsWorks
+  /// Stacks assigned to the instance when you registered the volume with the
+  /// stack, not the Amazon EC2 volume ID.
+  @_s.JsonKey(name: 'VolumeId')
+  final String volumeId;
+
+  DeregisterVolumeRequest({
+    @_s.required this.volumeId,
+  });
+  Map<String, dynamic> toJson() => _$DeregisterVolumeRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeAgentVersionsRequest {
+  /// The configuration manager.
+  @_s.JsonKey(name: 'ConfigurationManager')
+  final StackConfigurationManager configurationManager;
+
+  /// The stack ID.
+  @_s.JsonKey(name: 'StackId')
+  final String stackId;
+
+  DescribeAgentVersionsRequest({
+    this.configurationManager,
+    this.stackId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeAgentVersionsRequestToJson(this);
+}
+
 /// Contains the response to a <code>DescribeAgentVersions</code> request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6240,6 +7678,30 @@ class DescribeAgentVersionsResult {
       _$DescribeAgentVersionsResultFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeAppsRequest {
+  /// An array of app IDs for the apps to be described. If you use this parameter,
+  /// <code>DescribeApps</code> returns a description of the specified apps.
+  /// Otherwise, it returns a description of every app.
+  @_s.JsonKey(name: 'AppIds')
+  final List<String> appIds;
+
+  /// The app stack ID. If you use this parameter, <code>DescribeApps</code>
+  /// returns a description of the apps in the specified stack.
+  @_s.JsonKey(name: 'StackId')
+  final String stackId;
+
+  DescribeAppsRequest({
+    this.appIds,
+    this.stackId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeAppsRequestToJson(this);
+}
+
 /// Contains the response to a <code>DescribeApps</code> request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6256,6 +7718,38 @@ class DescribeAppsResult {
   });
   factory DescribeAppsResult.fromJson(Map<String, dynamic> json) =>
       _$DescribeAppsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeCommandsRequest {
+  /// An array of command IDs. If you include this parameter,
+  /// <code>DescribeCommands</code> returns a description of the specified
+  /// commands. Otherwise, it returns a description of every command.
+  @_s.JsonKey(name: 'CommandIds')
+  final List<String> commandIds;
+
+  /// The deployment ID. If you include this parameter,
+  /// <code>DescribeCommands</code> returns a description of the commands
+  /// associated with the specified deployment.
+  @_s.JsonKey(name: 'DeploymentId')
+  final String deploymentId;
+
+  /// The instance ID. If you include this parameter,
+  /// <code>DescribeCommands</code> returns a description of the commands
+  /// associated with the specified instance.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  DescribeCommandsRequest({
+    this.commandIds,
+    this.deploymentId,
+    this.instanceId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeCommandsRequestToJson(this);
 }
 
 /// Contains the response to a <code>DescribeCommands</code> request.
@@ -6277,6 +7771,36 @@ class DescribeCommandsResult {
       _$DescribeCommandsResultFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeDeploymentsRequest {
+  /// The app ID. If you include this parameter, the command returns a description
+  /// of the commands associated with the specified app.
+  @_s.JsonKey(name: 'AppId')
+  final String appId;
+
+  /// An array of deployment IDs to be described. If you include this parameter,
+  /// the command returns a description of the specified deployments. Otherwise,
+  /// it returns a description of every deployment.
+  @_s.JsonKey(name: 'DeploymentIds')
+  final List<String> deploymentIds;
+
+  /// The stack ID. If you include this parameter, the command returns a
+  /// description of the commands associated with the specified stack.
+  @_s.JsonKey(name: 'StackId')
+  final String stackId;
+
+  DescribeDeploymentsRequest({
+    this.appId,
+    this.deploymentIds,
+    this.stackId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeDeploymentsRequestToJson(this);
+}
+
 /// Contains the response to a <code>DescribeDeployments</code> request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6293,6 +7817,48 @@ class DescribeDeploymentsResult {
   });
   factory DescribeDeploymentsResult.fromJson(Map<String, dynamic> json) =>
       _$DescribeDeploymentsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeEcsClustersRequest {
+  /// A list of ARNs, one for each cluster to be described.
+  @_s.JsonKey(name: 'EcsClusterArns')
+  final List<String> ecsClusterArns;
+
+  /// To receive a paginated response, use this parameter to specify the maximum
+  /// number of results to be returned with a single call. If the number of
+  /// available results exceeds this maximum, the response includes a
+  /// <code>NextToken</code> value that you can assign to the
+  /// <code>NextToken</code> request parameter to get the next set of results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If the previous paginated request did not return all of the remaining
+  /// results, the response object's<code>NextToken</code> parameter value is set
+  /// to a token. To retrieve the next set of results, call
+  /// <code>DescribeEcsClusters</code> again and assign that token to the request
+  /// object's <code>NextToken</code> parameter. If there are no remaining
+  /// results, the previous response object's <code>NextToken</code> parameter is
+  /// set to <code>null</code>.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// A stack ID. <code>DescribeEcsClusters</code> returns a description of the
+  /// cluster that is registered with the stack.
+  @_s.JsonKey(name: 'StackId')
+  final String stackId;
+
+  DescribeEcsClustersRequest({
+    this.ecsClusterArns,
+    this.maxResults,
+    this.nextToken,
+    this.stackId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeEcsClustersRequestToJson(this);
 }
 
 /// Contains the response to a <code>DescribeEcsClusters</code> request.
@@ -6323,6 +7889,39 @@ class DescribeEcsClustersResult {
       _$DescribeEcsClustersResultFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeElasticIpsRequest {
+  /// The instance ID. If you include this parameter,
+  /// <code>DescribeElasticIps</code> returns a description of the Elastic IP
+  /// addresses associated with the specified instance.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  /// An array of Elastic IP addresses to be described. If you include this
+  /// parameter, <code>DescribeElasticIps</code> returns a description of the
+  /// specified Elastic IP addresses. Otherwise, it returns a description of every
+  /// Elastic IP address.
+  @_s.JsonKey(name: 'Ips')
+  final List<String> ips;
+
+  /// A stack ID. If you include this parameter, <code>DescribeElasticIps</code>
+  /// returns a description of the Elastic IP addresses that are registered with
+  /// the specified stack.
+  @_s.JsonKey(name: 'StackId')
+  final String stackId;
+
+  DescribeElasticIpsRequest({
+    this.instanceId,
+    this.ips,
+    this.stackId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeElasticIpsRequestToJson(this);
+}
+
 /// Contains the response to a <code>DescribeElasticIps</code> request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6340,6 +7939,30 @@ class DescribeElasticIpsResult {
   });
   factory DescribeElasticIpsResult.fromJson(Map<String, dynamic> json) =>
       _$DescribeElasticIpsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeElasticLoadBalancersRequest {
+  /// A list of layer IDs. The action describes the Elastic Load Balancing
+  /// instances for the specified layers.
+  @_s.JsonKey(name: 'LayerIds')
+  final List<String> layerIds;
+
+  /// A stack ID. The action describes the stack's Elastic Load Balancing
+  /// instances.
+  @_s.JsonKey(name: 'StackId')
+  final String stackId;
+
+  DescribeElasticLoadBalancersRequest({
+    this.layerIds,
+    this.stackId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeElasticLoadBalancersRequestToJson(this);
 }
 
 /// Contains the response to a <code>DescribeElasticLoadBalancers</code>
@@ -6363,6 +7986,36 @@ class DescribeElasticLoadBalancersResult {
       _$DescribeElasticLoadBalancersResultFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeInstancesRequest {
+  /// An array of instance IDs to be described. If you use this parameter,
+  /// <code>DescribeInstances</code> returns a description of the specified
+  /// instances. Otherwise, it returns a description of every instance.
+  @_s.JsonKey(name: 'InstanceIds')
+  final List<String> instanceIds;
+
+  /// A layer ID. If you use this parameter, <code>DescribeInstances</code>
+  /// returns descriptions of the instances associated with the specified layer.
+  @_s.JsonKey(name: 'LayerId')
+  final String layerId;
+
+  /// A stack ID. If you use this parameter, <code>DescribeInstances</code>
+  /// returns descriptions of the instances associated with the specified stack.
+  @_s.JsonKey(name: 'StackId')
+  final String stackId;
+
+  DescribeInstancesRequest({
+    this.instanceIds,
+    this.layerId,
+    this.stackId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeInstancesRequestToJson(this);
+}
+
 /// Contains the response to a <code>DescribeInstances</code> request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6381,6 +8034,29 @@ class DescribeInstancesResult {
       _$DescribeInstancesResultFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeLayersRequest {
+  /// An array of layer IDs that specify the layers to be described. If you omit
+  /// this parameter, <code>DescribeLayers</code> returns a description of every
+  /// layer in the specified stack.
+  @_s.JsonKey(name: 'LayerIds')
+  final List<String> layerIds;
+
+  /// The stack ID.
+  @_s.JsonKey(name: 'StackId')
+  final String stackId;
+
+  DescribeLayersRequest({
+    this.layerIds,
+    this.stackId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeLayersRequestToJson(this);
+}
+
 /// Contains the response to a <code>DescribeLayers</code> request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6397,6 +8073,23 @@ class DescribeLayersResult {
   });
   factory DescribeLayersResult.fromJson(Map<String, dynamic> json) =>
       _$DescribeLayersResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeLoadBasedAutoScalingRequest {
+  /// An array of layer IDs.
+  @_s.JsonKey(name: 'LayerIds')
+  final List<String> layerIds;
+
+  DescribeLoadBasedAutoScalingRequest({
+    @_s.required this.layerIds,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeLoadBasedAutoScalingRequestToJson(this);
 }
 
 /// Contains the response to a <code>DescribeLoadBasedAutoScaling</code>
@@ -6459,6 +8152,30 @@ class DescribeOperatingSystemsResponse {
       _$DescribeOperatingSystemsResponseFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribePermissionsRequest {
+  /// The user's IAM ARN. This can also be a federated user's ARN. For more
+  /// information about IAM ARNs, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">Using
+  /// Identifiers</a>.
+  @_s.JsonKey(name: 'IamUserArn')
+  final String iamUserArn;
+
+  /// The stack ID.
+  @_s.JsonKey(name: 'StackId')
+  final String stackId;
+
+  DescribePermissionsRequest({
+    this.iamUserArn,
+    this.stackId,
+  });
+  Map<String, dynamic> toJson() => _$DescribePermissionsRequestToJson(this);
+}
+
 /// Contains the response to a <code>DescribePermissions</code> request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6496,6 +8213,36 @@ class DescribePermissionsResult {
       _$DescribePermissionsResultFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeRaidArraysRequest {
+  /// The instance ID. If you use this parameter, <code>DescribeRaidArrays</code>
+  /// returns descriptions of the RAID arrays associated with the specified
+  /// instance.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  /// An array of RAID array IDs. If you use this parameter,
+  /// <code>DescribeRaidArrays</code> returns descriptions of the specified
+  /// arrays. Otherwise, it returns a description of every array.
+  @_s.JsonKey(name: 'RaidArrayIds')
+  final List<String> raidArrayIds;
+
+  /// The stack ID.
+  @_s.JsonKey(name: 'StackId')
+  final String stackId;
+
+  DescribeRaidArraysRequest({
+    this.instanceId,
+    this.raidArrayIds,
+    this.stackId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeRaidArraysRequestToJson(this);
+}
+
 /// Contains the response to a <code>DescribeRaidArrays</code> request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6512,6 +8259,28 @@ class DescribeRaidArraysResult {
   });
   factory DescribeRaidArraysResult.fromJson(Map<String, dynamic> json) =>
       _$DescribeRaidArraysResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeRdsDbInstancesRequest {
+  /// The ID of the stack with which the instances are registered. The operation
+  /// returns descriptions of all registered Amazon RDS instances.
+  @_s.JsonKey(name: 'StackId')
+  final String stackId;
+
+  /// An array containing the ARNs of the instances to be described.
+  @_s.JsonKey(name: 'RdsDbInstanceArns')
+  final List<String> rdsDbInstanceArns;
+
+  DescribeRdsDbInstancesRequest({
+    @_s.required this.stackId,
+    this.rdsDbInstanceArns,
+  });
+  Map<String, dynamic> toJson() => _$DescribeRdsDbInstancesRequestToJson(this);
 }
 
 /// Contains the response to a <code>DescribeRdsDbInstances</code> request.
@@ -6533,6 +8302,37 @@ class DescribeRdsDbInstancesResult {
       _$DescribeRdsDbInstancesResultFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeServiceErrorsRequest {
+  /// The instance ID. If you use this parameter,
+  /// <code>DescribeServiceErrors</code> returns descriptions of the errors
+  /// associated with the specified instance.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  /// An array of service error IDs. If you use this parameter,
+  /// <code>DescribeServiceErrors</code> returns descriptions of the specified
+  /// errors. Otherwise, it returns a description of every error.
+  @_s.JsonKey(name: 'ServiceErrorIds')
+  final List<String> serviceErrorIds;
+
+  /// The stack ID. If you use this parameter, <code>DescribeServiceErrors</code>
+  /// returns descriptions of the errors associated with the specified stack.
+  @_s.JsonKey(name: 'StackId')
+  final String stackId;
+
+  DescribeServiceErrorsRequest({
+    this.instanceId,
+    this.serviceErrorIds,
+    this.stackId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeServiceErrorsRequestToJson(this);
+}
+
 /// Contains the response to a <code>DescribeServiceErrors</code> request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6550,6 +8350,23 @@ class DescribeServiceErrorsResult {
   });
   factory DescribeServiceErrorsResult.fromJson(Map<String, dynamic> json) =>
       _$DescribeServiceErrorsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeStackProvisioningParametersRequest {
+  /// The stack ID.
+  @_s.JsonKey(name: 'StackId')
+  final String stackId;
+
+  DescribeStackProvisioningParametersRequest({
+    @_s.required this.stackId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeStackProvisioningParametersRequestToJson(this);
 }
 
 /// Contains the response to a <code>DescribeStackProvisioningParameters</code>
@@ -6577,6 +8394,22 @@ class DescribeStackProvisioningParametersResult {
       _$DescribeStackProvisioningParametersResultFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeStackSummaryRequest {
+  /// The stack ID.
+  @_s.JsonKey(name: 'StackId')
+  final String stackId;
+
+  DescribeStackSummaryRequest({
+    @_s.required this.stackId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeStackSummaryRequestToJson(this);
+}
+
 /// Contains the response to a <code>DescribeStackSummary</code> request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6595,6 +8428,24 @@ class DescribeStackSummaryResult {
       _$DescribeStackSummaryResultFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeStacksRequest {
+  /// An array of stack IDs that specify the stacks to be described. If you omit
+  /// this parameter, <code>DescribeStacks</code> returns a description of every
+  /// stack.
+  @_s.JsonKey(name: 'StackIds')
+  final List<String> stackIds;
+
+  DescribeStacksRequest({
+    this.stackIds,
+  });
+  Map<String, dynamic> toJson() => _$DescribeStacksRequestToJson(this);
+}
+
 /// Contains the response to a <code>DescribeStacks</code> request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6611,6 +8462,23 @@ class DescribeStacksResult {
   });
   factory DescribeStacksResult.fromJson(Map<String, dynamic> json) =>
       _$DescribeStacksResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeTimeBasedAutoScalingRequest {
+  /// An array of instance IDs.
+  @_s.JsonKey(name: 'InstanceIds')
+  final List<String> instanceIds;
+
+  DescribeTimeBasedAutoScalingRequest({
+    @_s.required this.instanceIds,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeTimeBasedAutoScalingRequestToJson(this);
 }
 
 /// Contains the response to a <code>DescribeTimeBasedAutoScaling</code>
@@ -6635,6 +8503,23 @@ class DescribeTimeBasedAutoScalingResult {
       _$DescribeTimeBasedAutoScalingResultFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeUserProfilesRequest {
+  /// An array of IAM or federated user ARNs that identify the users to be
+  /// described.
+  @_s.JsonKey(name: 'IamUserArns')
+  final List<String> iamUserArns;
+
+  DescribeUserProfilesRequest({
+    this.iamUserArns,
+  });
+  Map<String, dynamic> toJson() => _$DescribeUserProfilesRequestToJson(this);
+}
+
 /// Contains the response to a <code>DescribeUserProfiles</code> request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6653,6 +8538,42 @@ class DescribeUserProfilesResult {
       _$DescribeUserProfilesResultFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeVolumesRequest {
+  /// The instance ID. If you use this parameter, <code>DescribeVolumes</code>
+  /// returns descriptions of the volumes associated with the specified instance.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  /// The RAID array ID. If you use this parameter, <code>DescribeVolumes</code>
+  /// returns descriptions of the volumes associated with the specified RAID
+  /// array.
+  @_s.JsonKey(name: 'RaidArrayId')
+  final String raidArrayId;
+
+  /// A stack ID. The action describes the stack's registered Amazon EBS volumes.
+  @_s.JsonKey(name: 'StackId')
+  final String stackId;
+
+  /// Am array of volume IDs. If you use this parameter,
+  /// <code>DescribeVolumes</code> returns descriptions of the specified volumes.
+  /// Otherwise, it returns a description of every volume.
+  @_s.JsonKey(name: 'VolumeIds')
+  final List<String> volumeIds;
+
+  DescribeVolumesRequest({
+    this.instanceId,
+    this.raidArrayId,
+    this.stackId,
+    this.volumeIds,
+  });
+  Map<String, dynamic> toJson() => _$DescribeVolumesRequestToJson(this);
+}
+
 /// Contains the response to a <code>DescribeVolumes</code> request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6669,6 +8590,44 @@ class DescribeVolumesResult {
   });
   factory DescribeVolumesResult.fromJson(Map<String, dynamic> json) =>
       _$DescribeVolumesResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DetachElasticLoadBalancerRequest {
+  /// The Elastic Load Balancing instance's name.
+  @_s.JsonKey(name: 'ElasticLoadBalancerName')
+  final String elasticLoadBalancerName;
+
+  /// The ID of the layer that the Elastic Load Balancing instance is attached to.
+  @_s.JsonKey(name: 'LayerId')
+  final String layerId;
+
+  DetachElasticLoadBalancerRequest({
+    @_s.required this.elasticLoadBalancerName,
+    @_s.required this.layerId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DetachElasticLoadBalancerRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateElasticIpRequest {
+  /// The Elastic IP address.
+  @_s.JsonKey(name: 'ElasticIp')
+  final String elasticIp;
+
+  DisassociateElasticIpRequest({
+    @_s.required this.elasticIp,
+  });
+  Map<String, dynamic> toJson() => _$DisassociateElasticIpRequestToJson(this);
 }
 
 /// Describes an Amazon EBS volume. This data type maps directly to the Amazon
@@ -6897,6 +8856,22 @@ class EnvironmentVariable {
   Map<String, dynamic> toJson() => _$EnvironmentVariableToJson(this);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetHostnameSuggestionRequest {
+  /// The layer ID.
+  @_s.JsonKey(name: 'LayerId')
+  final String layerId;
+
+  GetHostnameSuggestionRequest({
+    @_s.required this.layerId,
+  });
+  Map<String, dynamic> toJson() => _$GetHostnameSuggestionRequestToJson(this);
+}
+
 /// Contains the response to a <code>GetHostnameSuggestion</code> request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6918,6 +8893,30 @@ class GetHostnameSuggestionResult {
   });
   factory GetHostnameSuggestionResult.fromJson(Map<String, dynamic> json) =>
       _$GetHostnameSuggestionResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GrantAccessRequest {
+  /// The instance's AWS OpsWorks Stacks ID.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  /// The length of time (in minutes) that the grant is valid. When the grant
+  /// expires at the end of this period, the user will no longer be able to use
+  /// the credentials to log in. If the user is logged in at the time, he or she
+  /// automatically will be logged out.
+  @_s.JsonKey(name: 'ValidForInMinutes')
+  final int validForInMinutes;
+
+  GrantAccessRequest({
+    @_s.required this.instanceId,
+    this.validForInMinutes,
+  });
+  Map<String, dynamic> toJson() => _$GrantAccessRequestToJson(this);
 }
 
 /// Contains the response to a <code>GrantAccess</code> request.
@@ -7621,38 +9620,6 @@ enum LayerType {
   custom,
 }
 
-extension on LayerType {
-  String toValue() {
-    switch (this) {
-      case LayerType.awsFlowRuby:
-        return 'aws-flow-ruby';
-      case LayerType.ecsCluster:
-        return 'ecs-cluster';
-      case LayerType.javaApp:
-        return 'java-app';
-      case LayerType.lb:
-        return 'lb';
-      case LayerType.web:
-        return 'web';
-      case LayerType.phpApp:
-        return 'php-app';
-      case LayerType.railsApp:
-        return 'rails-app';
-      case LayerType.nodejsApp:
-        return 'nodejs-app';
-      case LayerType.memcached:
-        return 'memcached';
-      case LayerType.dbMaster:
-        return 'db-master';
-      case LayerType.monitoringMaster:
-        return 'monitoring-master';
-      case LayerType.custom:
-        return 'custom';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Specifies the lifecycle event configuration
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -7672,6 +9639,34 @@ class LifecycleEventConfiguration {
       _$LifecycleEventConfigurationFromJson(json);
 
   Map<String, dynamic> toJson() => _$LifecycleEventConfigurationToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsRequest {
+  /// The stack or layer's Amazon Resource Number (ARN).
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// Do not use. A validation exception occurs if you add a
+  /// <code>MaxResults</code> parameter to a <code>ListTagsRequest</code> call.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// Do not use. A validation exception occurs if you add a
+  /// <code>NextToken</code> parameter to a <code>ListTagsRequest</code> call.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListTagsRequest({
+    @_s.required this.resourceArn,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsRequestToJson(this);
 }
 
 /// Contains the response to a <code>ListTags</code> request.
@@ -8024,6 +10019,22 @@ class RdsDbInstance {
       _$RdsDbInstanceFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RebootInstanceRequest {
+  /// The instance ID.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  RebootInstanceRequest({
+    @_s.required this.instanceId,
+  });
+  Map<String, dynamic> toJson() => _$RebootInstanceRequestToJson(this);
+}
+
 /// AWS OpsWorks Stacks supports five lifecycle events: <b>setup</b>,
 /// <b>configuration</b>, <b>deploy</b>, <b>undeploy</b>, and <b>shutdown</b>.
 /// For each layer, AWS OpsWorks Stacks runs a set of standard recipes for each
@@ -8080,6 +10091,27 @@ class Recipes {
   Map<String, dynamic> toJson() => _$RecipesToJson(this);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RegisterEcsClusterRequest {
+  /// The cluster's ARN.
+  @_s.JsonKey(name: 'EcsClusterArn')
+  final String ecsClusterArn;
+
+  /// The stack ID.
+  @_s.JsonKey(name: 'StackId')
+  final String stackId;
+
+  RegisterEcsClusterRequest({
+    @_s.required this.ecsClusterArn,
+    @_s.required this.stackId,
+  });
+  Map<String, dynamic> toJson() => _$RegisterEcsClusterRequestToJson(this);
+}
+
 /// Contains the response to a <code>RegisterEcsCluster</code> request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -8096,6 +10128,27 @@ class RegisterEcsClusterResult {
   });
   factory RegisterEcsClusterResult.fromJson(Map<String, dynamic> json) =>
       _$RegisterEcsClusterResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RegisterElasticIpRequest {
+  /// The Elastic IP address.
+  @_s.JsonKey(name: 'ElasticIp')
+  final String elasticIp;
+
+  /// The stack ID.
+  @_s.JsonKey(name: 'StackId')
+  final String stackId;
+
+  RegisterElasticIpRequest({
+    @_s.required this.elasticIp,
+    @_s.required this.stackId,
+  });
+  Map<String, dynamic> toJson() => _$RegisterElasticIpRequestToJson(this);
 }
 
 /// Contains the response to a <code>RegisterElasticIp</code> request.
@@ -8116,6 +10169,53 @@ class RegisterElasticIpResult {
       _$RegisterElasticIpResultFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RegisterInstanceRequest {
+  /// The ID of the stack that the instance is to be registered with.
+  @_s.JsonKey(name: 'StackId')
+  final String stackId;
+
+  /// The instance's hostname.
+  @_s.JsonKey(name: 'Hostname')
+  final String hostname;
+
+  /// An InstanceIdentity object that contains the instance's identity.
+  @_s.JsonKey(name: 'InstanceIdentity')
+  final InstanceIdentity instanceIdentity;
+
+  /// The instance's private IP address.
+  @_s.JsonKey(name: 'PrivateIp')
+  final String privateIp;
+
+  /// The instance's public IP address.
+  @_s.JsonKey(name: 'PublicIp')
+  final String publicIp;
+
+  /// The instances public RSA key. This key is used to encrypt communication
+  /// between the instance and the service.
+  @_s.JsonKey(name: 'RsaPublicKey')
+  final String rsaPublicKey;
+
+  /// The instances public RSA key fingerprint.
+  @_s.JsonKey(name: 'RsaPublicKeyFingerprint')
+  final String rsaPublicKeyFingerprint;
+
+  RegisterInstanceRequest({
+    @_s.required this.stackId,
+    this.hostname,
+    this.instanceIdentity,
+    this.privateIp,
+    this.publicIp,
+    this.rsaPublicKey,
+    this.rsaPublicKeyFingerprint,
+  });
+  Map<String, dynamic> toJson() => _$RegisterInstanceRequestToJson(this);
+}
+
 /// Contains the response to a <code>RegisterInstanceResult</code> request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -8132,6 +10232,58 @@ class RegisterInstanceResult {
   });
   factory RegisterInstanceResult.fromJson(Map<String, dynamic> json) =>
       _$RegisterInstanceResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RegisterRdsDbInstanceRequest {
+  /// The database password.
+  @_s.JsonKey(name: 'DbPassword')
+  final String dbPassword;
+
+  /// The database's master user name.
+  @_s.JsonKey(name: 'DbUser')
+  final String dbUser;
+
+  /// The Amazon RDS instance's ARN.
+  @_s.JsonKey(name: 'RdsDbInstanceArn')
+  final String rdsDbInstanceArn;
+
+  /// The stack ID.
+  @_s.JsonKey(name: 'StackId')
+  final String stackId;
+
+  RegisterRdsDbInstanceRequest({
+    @_s.required this.dbPassword,
+    @_s.required this.dbUser,
+    @_s.required this.rdsDbInstanceArn,
+    @_s.required this.stackId,
+  });
+  Map<String, dynamic> toJson() => _$RegisterRdsDbInstanceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RegisterVolumeRequest {
+  /// The stack ID.
+  @_s.JsonKey(name: 'StackId')
+  final String stackId;
+
+  /// The Amazon EBS volume ID.
+  @_s.JsonKey(name: 'Ec2VolumeId')
+  final String ec2VolumeId;
+
+  RegisterVolumeRequest({
+    @_s.required this.stackId,
+    this.ec2VolumeId,
+  });
+  Map<String, dynamic> toJson() => _$RegisterVolumeRequestToJson(this);
 }
 
 /// Contains the response to a <code>RegisterVolume</code> request.
@@ -8185,18 +10337,6 @@ enum RootDeviceType {
   ebs,
   @_s.JsonValue('instance-store')
   instanceStore,
-}
-
-extension on RootDeviceType {
-  String toValue() {
-    switch (this) {
-      case RootDeviceType.ebs:
-        return 'ebs';
-      case RootDeviceType.instanceStore:
-        return 'instance-store';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Describes a user's SSH information.
@@ -8273,6 +10413,121 @@ class ServiceError {
   });
   factory ServiceError.fromJson(Map<String, dynamic> json) =>
       _$ServiceErrorFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SetLoadBasedAutoScalingRequest {
+  /// The layer ID.
+  @_s.JsonKey(name: 'LayerId')
+  final String layerId;
+
+  /// An <code>AutoScalingThresholds</code> object with the downscaling threshold
+  /// configuration. If the load falls below these thresholds for a specified
+  /// amount of time, AWS OpsWorks Stacks stops a specified number of instances.
+  @_s.JsonKey(name: 'DownScaling')
+  final AutoScalingThresholds downScaling;
+
+  /// Enables load-based auto scaling for the layer.
+  @_s.JsonKey(name: 'Enable')
+  final bool enable;
+
+  /// An <code>AutoScalingThresholds</code> object with the upscaling threshold
+  /// configuration. If the load exceeds these thresholds for a specified amount
+  /// of time, AWS OpsWorks Stacks starts a specified number of instances.
+  @_s.JsonKey(name: 'UpScaling')
+  final AutoScalingThresholds upScaling;
+
+  SetLoadBasedAutoScalingRequest({
+    @_s.required this.layerId,
+    this.downScaling,
+    this.enable,
+    this.upScaling,
+  });
+  Map<String, dynamic> toJson() => _$SetLoadBasedAutoScalingRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SetPermissionRequest {
+  /// The user's IAM ARN. This can also be a federated user's ARN.
+  @_s.JsonKey(name: 'IamUserArn')
+  final String iamUserArn;
+
+  /// The stack ID.
+  @_s.JsonKey(name: 'StackId')
+  final String stackId;
+
+  /// The user is allowed to use SSH to communicate with the instance.
+  @_s.JsonKey(name: 'AllowSsh')
+  final bool allowSsh;
+
+  /// The user is allowed to use <b>sudo</b> to elevate privileges.
+  @_s.JsonKey(name: 'AllowSudo')
+  final bool allowSudo;
+
+  /// The user's permission level, which must be set to one of the following
+  /// strings. You cannot set your own permissions level.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>deny</code>
+  /// </li>
+  /// <li>
+  /// <code>show</code>
+  /// </li>
+  /// <li>
+  /// <code>deploy</code>
+  /// </li>
+  /// <li>
+  /// <code>manage</code>
+  /// </li>
+  /// <li>
+  /// <code>iam_only</code>
+  /// </li>
+  /// </ul>
+  /// For more information about the permissions associated with these levels, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html">Managing
+  /// User Permissions</a>.
+  @_s.JsonKey(name: 'Level')
+  final String level;
+
+  SetPermissionRequest({
+    @_s.required this.iamUserArn,
+    @_s.required this.stackId,
+    this.allowSsh,
+    this.allowSudo,
+    this.level,
+  });
+  Map<String, dynamic> toJson() => _$SetPermissionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SetTimeBasedAutoScalingRequest {
+  /// The instance ID.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  /// An <code>AutoScalingSchedule</code> with the instance schedule.
+  @_s.JsonKey(name: 'AutoScalingSchedule')
+  final WeeklyAutoScalingSchedule autoScalingSchedule;
+
+  SetTimeBasedAutoScalingRequest({
+    @_s.required this.instanceId,
+    this.autoScalingSchedule,
+  });
+  Map<String, dynamic> toJson() => _$SetTimeBasedAutoScalingRequestToJson(this);
 }
 
 /// The Shutdown event configuration.
@@ -8659,6 +10914,125 @@ class StackSummary {
       _$StackSummaryFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartInstanceRequest {
+  /// The instance ID.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  StartInstanceRequest({
+    @_s.required this.instanceId,
+  });
+  Map<String, dynamic> toJson() => _$StartInstanceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartStackRequest {
+  /// The stack ID.
+  @_s.JsonKey(name: 'StackId')
+  final String stackId;
+
+  StartStackRequest({
+    @_s.required this.stackId,
+  });
+  Map<String, dynamic> toJson() => _$StartStackRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopInstanceRequest {
+  /// The instance ID.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  /// Specifies whether to force an instance to stop. If the instance's root
+  /// device type is <code>ebs</code>, or EBS-backed, adding the
+  /// <code>Force</code> parameter to the <code>StopInstances</code> API call
+  /// disassociates the AWS OpsWorks Stacks instance from EC2, and forces deletion
+  /// of <i>only</i> the OpsWorks Stacks instance. You must also delete the
+  /// formerly-associated instance in EC2 after troubleshooting and replacing the
+  /// AWS OpsWorks Stacks instance with a new one.
+  @_s.JsonKey(name: 'Force')
+  final bool force;
+
+  StopInstanceRequest({
+    @_s.required this.instanceId,
+    this.force,
+  });
+  Map<String, dynamic> toJson() => _$StopInstanceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopStackRequest {
+  /// The stack ID.
+  @_s.JsonKey(name: 'StackId')
+  final String stackId;
+
+  StopStackRequest({
+    @_s.required this.stackId,
+  });
+  Map<String, dynamic> toJson() => _$StopStackRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The stack or layer's Amazon Resource Number (ARN).
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// A map that contains tag keys and tag values that are attached to a stack or
+  /// layer.
+  ///
+  /// <ul>
+  /// <li>
+  /// The key cannot be empty.
+  /// </li>
+  /// <li>
+  /// The key can be a maximum of 127 characters, and can contain only Unicode
+  /// letters, numbers, or separators, or the following special characters:
+  /// <code>+ - = . _ : /</code>
+  /// </li>
+  /// <li>
+  /// The value can be a maximum 255 characters, and contain only Unicode letters,
+  /// numbers, or separators, or the following special characters: <code>+ - = . _
+  /// : /</code>
+  /// </li>
+  /// <li>
+  /// Leading and trailing white spaces are trimmed from both the key and value.
+  /// </li>
+  /// <li>
+  /// A maximum of 40 tags is allowed for any resource.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
 /// Contains the data needed by RDP clients such as the Microsoft Remote Desktop
 /// Connection to log in to the instance.
 @_s.JsonSerializable(
@@ -8718,6 +11092,841 @@ class TimeBasedAutoScalingConfiguration {
   factory TimeBasedAutoScalingConfiguration.fromJson(
           Map<String, dynamic> json) =>
       _$TimeBasedAutoScalingConfigurationFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UnassignInstanceRequest {
+  /// The instance ID.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  UnassignInstanceRequest({
+    @_s.required this.instanceId,
+  });
+  Map<String, dynamic> toJson() => _$UnassignInstanceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UnassignVolumeRequest {
+  /// The volume ID.
+  @_s.JsonKey(name: 'VolumeId')
+  final String volumeId;
+
+  UnassignVolumeRequest({
+    @_s.required this.volumeId,
+  });
+  Map<String, dynamic> toJson() => _$UnassignVolumeRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The stack or layer's Amazon Resource Number (ARN).
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// A list of the keys of tags to be removed from a stack or layer.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateAppRequest {
+  /// The app ID.
+  @_s.JsonKey(name: 'AppId')
+  final String appId;
+
+  /// A <code>Source</code> object that specifies the app repository.
+  @_s.JsonKey(name: 'AppSource')
+  final Source appSource;
+
+  /// One or more user-defined key/value pairs to be added to the stack
+  /// attributes.
+  @_s.JsonKey(name: 'Attributes')
+  final Map<String, String> attributes;
+
+  /// The app's data sources.
+  @_s.JsonKey(name: 'DataSources')
+  final List<DataSource> dataSources;
+
+  /// A description of the app.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The app's virtual host settings, with multiple domains separated by commas.
+  /// For example: <code>'www.example.com, example.com'</code>
+  @_s.JsonKey(name: 'Domains')
+  final List<String> domains;
+
+  /// Whether SSL is enabled for the app.
+  @_s.JsonKey(name: 'EnableSsl')
+  final bool enableSsl;
+
+  /// An array of <code>EnvironmentVariable</code> objects that specify
+  /// environment variables to be associated with the app. After you deploy the
+  /// app, these variables are defined on the associated app server instances.For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workingapps-creating.html#workingapps-creating-environment">
+  /// Environment Variables</a>.
+  ///
+  /// There is no specific limit on the number of environment variables. However,
+  /// the size of the associated data structure - which includes the variables'
+  /// names, values, and protected flag values - cannot exceed 20 KB. This limit
+  /// should accommodate most if not all use cases. Exceeding it will cause an
+  /// exception with the message, "Environment: is too large (maximum is 20 KB)."
+  /// <note>
+  /// If you have specified one or more environment variables, you cannot modify
+  /// the stack's Chef version.
+  /// </note>
+  @_s.JsonKey(name: 'Environment')
+  final List<EnvironmentVariable> environment;
+
+  /// The app name.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// An <code>SslConfiguration</code> object with the SSL configuration.
+  @_s.JsonKey(name: 'SslConfiguration')
+  final SslConfiguration sslConfiguration;
+
+  /// The app type.
+  @_s.JsonKey(name: 'Type')
+  final AppType type;
+
+  UpdateAppRequest({
+    @_s.required this.appId,
+    this.appSource,
+    this.attributes,
+    this.dataSources,
+    this.description,
+    this.domains,
+    this.enableSsl,
+    this.environment,
+    this.name,
+    this.sslConfiguration,
+    this.type,
+  });
+  Map<String, dynamic> toJson() => _$UpdateAppRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateElasticIpRequest {
+  /// The IP address for which you want to update the name.
+  @_s.JsonKey(name: 'ElasticIp')
+  final String elasticIp;
+
+  /// The new name.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  UpdateElasticIpRequest({
+    @_s.required this.elasticIp,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$UpdateElasticIpRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateInstanceRequest {
+  /// The instance ID.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  /// The default AWS OpsWorks Stacks agent version. You have the following
+  /// options:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>INHERIT</code> - Use the stack's default agent version setting.
+  /// </li>
+  /// <li>
+  /// <i>version_number</i> - Use the specified agent version. This value
+  /// overrides the stack's default setting. To update the agent version, you must
+  /// edit the instance configuration and specify a new version. AWS OpsWorks
+  /// Stacks then automatically installs that version on the instance.
+  /// </li>
+  /// </ul>
+  /// The default setting is <code>INHERIT</code>. To specify an agent version,
+  /// you must use the complete version number, not the abbreviated number shown
+  /// on the console. For a list of available agent version numbers, call
+  /// <a>DescribeAgentVersions</a>.
+  ///
+  /// AgentVersion cannot be set to Chef 12.2.
+  @_s.JsonKey(name: 'AgentVersion')
+  final String agentVersion;
+
+  /// The ID of the AMI that was used to create the instance. The value of this
+  /// parameter must be the same AMI ID that the instance is already using. You
+  /// cannot apply a new AMI to an instance by running UpdateInstance.
+  /// UpdateInstance does not work on instances that are using custom AMIs.
+  @_s.JsonKey(name: 'AmiId')
+  final String amiId;
+
+  /// The instance architecture. Instance types do not necessarily support both
+  /// architectures. For a list of the architectures that are supported by the
+  /// different instance types, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html">Instance
+  /// Families and Types</a>.
+  @_s.JsonKey(name: 'Architecture')
+  final Architecture architecture;
+
+  /// For load-based or time-based instances, the type. Windows stacks can use
+  /// only time-based instances.
+  @_s.JsonKey(name: 'AutoScalingType')
+  final AutoScalingType autoScalingType;
+
+  /// This property cannot be updated.
+  @_s.JsonKey(name: 'EbsOptimized')
+  final bool ebsOptimized;
+
+  /// The instance host name.
+  @_s.JsonKey(name: 'Hostname')
+  final String hostname;
+
+  /// Whether to install operating system and package updates when the instance
+  /// boots. The default value is <code>true</code>. To control when updates are
+  /// installed, set this value to <code>false</code>. You must then update your
+  /// instances manually by using <a>CreateDeployment</a> to run the
+  /// <code>update_dependencies</code> stack command or by manually running
+  /// <code>yum</code> (Amazon Linux) or <code>apt-get</code> (Ubuntu) on the
+  /// instances.
+  /// <note>
+  /// We strongly recommend using the default value of <code>true</code>, to
+  /// ensure that your instances have the latest security updates.
+  /// </note>
+  @_s.JsonKey(name: 'InstallUpdatesOnBoot')
+  final bool installUpdatesOnBoot;
+
+  /// The instance type, such as <code>t2.micro</code>. For a list of supported
+  /// instance types, open the stack in the console, choose <b>Instances</b>, and
+  /// choose <b>+ Instance</b>. The <b>Size</b> list contains the currently
+  /// supported types. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html">Instance
+  /// Families and Types</a>. The parameter values that you use to specify the
+  /// various types are in the <b>API Name</b> column of the <b>Available Instance
+  /// Types</b> table.
+  @_s.JsonKey(name: 'InstanceType')
+  final String instanceType;
+
+  /// The instance's layer IDs.
+  @_s.JsonKey(name: 'LayerIds')
+  final List<String> layerIds;
+
+  /// The instance's operating system, which must be set to one of the following.
+  /// You cannot update an instance that is using a custom AMI.
+  ///
+  /// <ul>
+  /// <li>
+  /// A supported Linux operating system: An Amazon Linux version, such as
+  /// <code>Amazon Linux 2018.03</code>, <code>Amazon Linux 2017.09</code>,
+  /// <code>Amazon Linux 2017.03</code>, <code>Amazon Linux 2016.09</code>,
+  /// <code>Amazon Linux 2016.03</code>, <code>Amazon Linux 2015.09</code>, or
+  /// <code>Amazon Linux 2015.03</code>.
+  /// </li>
+  /// <li>
+  /// A supported Ubuntu operating system, such as <code>Ubuntu 16.04 LTS</code>,
+  /// <code>Ubuntu 14.04 LTS</code>, or <code>Ubuntu 12.04 LTS</code>.
+  /// </li>
+  /// <li>
+  /// <code>CentOS Linux 7</code>
+  /// </li>
+  /// <li>
+  /// <code>Red Hat Enterprise Linux 7</code>
+  /// </li>
+  /// <li>
+  /// A supported Windows operating system, such as <code>Microsoft Windows Server
+  /// 2012 R2 Base</code>, <code>Microsoft Windows Server 2012 R2 with SQL Server
+  /// Express</code>, <code>Microsoft Windows Server 2012 R2 with SQL Server
+  /// Standard</code>, or <code>Microsoft Windows Server 2012 R2 with SQL Server
+  /// Web</code>.
+  /// </li>
+  /// </ul>
+  /// For more information about supported operating systems, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-os.html">AWS
+  /// OpsWorks Stacks Operating Systems</a>.
+  ///
+  /// The default option is the current Amazon Linux version. If you set this
+  /// parameter to <code>Custom</code>, you must use the AmiId parameter to
+  /// specify the custom AMI that you want to use. For more information about
+  /// supported operating systems, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-os.html">Operating
+  /// Systems</a>. For more information about how to use custom AMIs with
+  /// OpsWorks, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-custom-ami.html">Using
+  /// Custom AMIs</a>.
+  /// <note>
+  /// You can specify a different Linux operating system for the updated stack,
+  /// but you cannot change from Linux to Windows or Windows to Linux.
+  /// </note>
+  @_s.JsonKey(name: 'Os')
+  final String os;
+
+  /// The instance's Amazon EC2 key name.
+  @_s.JsonKey(name: 'SshKeyName')
+  final String sshKeyName;
+
+  UpdateInstanceRequest({
+    @_s.required this.instanceId,
+    this.agentVersion,
+    this.amiId,
+    this.architecture,
+    this.autoScalingType,
+    this.ebsOptimized,
+    this.hostname,
+    this.installUpdatesOnBoot,
+    this.instanceType,
+    this.layerIds,
+    this.os,
+    this.sshKeyName,
+  });
+  Map<String, dynamic> toJson() => _$UpdateInstanceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateLayerRequest {
+  /// The layer ID.
+  @_s.JsonKey(name: 'LayerId')
+  final String layerId;
+
+  /// One or more user-defined key/value pairs to be added to the stack
+  /// attributes.
+  @_s.JsonKey(name: 'Attributes')
+  final Map<String, String> attributes;
+
+  /// Whether to automatically assign an <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html">Elastic
+  /// IP address</a> to the layer's instances. For more information, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinglayers-basics-edit.html">How
+  /// to Edit a Layer</a>.
+  @_s.JsonKey(name: 'AutoAssignElasticIps')
+  final bool autoAssignElasticIps;
+
+  /// For stacks that are running in a VPC, whether to automatically assign a
+  /// public IP address to the layer's instances. For more information, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinglayers-basics-edit.html">How
+  /// to Edit a Layer</a>.
+  @_s.JsonKey(name: 'AutoAssignPublicIps')
+  final bool autoAssignPublicIps;
+
+  /// Specifies CloudWatch Logs configuration options for the layer. For more
+  /// information, see <a>CloudWatchLogsLogStream</a>.
+  @_s.JsonKey(name: 'CloudWatchLogsConfiguration')
+  final CloudWatchLogsConfiguration cloudWatchLogsConfiguration;
+
+  /// The ARN of an IAM profile to be used for all of the layer's EC2 instances.
+  /// For more information about IAM ARNs, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">Using
+  /// Identifiers</a>.
+  @_s.JsonKey(name: 'CustomInstanceProfileArn')
+  final String customInstanceProfileArn;
+
+  /// A JSON-formatted string containing custom stack configuration and deployment
+  /// attributes to be installed on the layer's instances. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workingcookbook-json-override.html">
+  /// Using Custom JSON</a>.
+  @_s.JsonKey(name: 'CustomJson')
+  final String customJson;
+
+  /// A <code>LayerCustomRecipes</code> object that specifies the layer's custom
+  /// recipes.
+  @_s.JsonKey(name: 'CustomRecipes')
+  final Recipes customRecipes;
+
+  /// An array containing the layer's custom security group IDs.
+  @_s.JsonKey(name: 'CustomSecurityGroupIds')
+  final List<String> customSecurityGroupIds;
+
+  /// Whether to disable auto healing for the layer.
+  @_s.JsonKey(name: 'EnableAutoHealing')
+  final bool enableAutoHealing;
+
+  /// Whether to install operating system and package updates when the instance
+  /// boots. The default value is <code>true</code>. To control when updates are
+  /// installed, set this value to <code>false</code>. You must then update your
+  /// instances manually by using <a>CreateDeployment</a> to run the
+  /// <code>update_dependencies</code> stack command or manually running
+  /// <code>yum</code> (Amazon Linux) or <code>apt-get</code> (Ubuntu) on the
+  /// instances.
+  /// <note>
+  /// We strongly recommend using the default value of <code>true</code>, to
+  /// ensure that your instances have the latest security updates.
+  /// </note>
+  @_s.JsonKey(name: 'InstallUpdatesOnBoot')
+  final bool installUpdatesOnBoot;
+
+  /// <p/>
+  @_s.JsonKey(name: 'LifecycleEventConfiguration')
+  final LifecycleEventConfiguration lifecycleEventConfiguration;
+
+  /// The layer name, which is used by the console.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// An array of <code>Package</code> objects that describe the layer's packages.
+  @_s.JsonKey(name: 'Packages')
+  final List<String> packages;
+
+  /// For custom layers only, use this parameter to specify the layer's short
+  /// name, which is used internally by AWS OpsWorks Stacks and by Chef. The short
+  /// name is also used as the name for the directory where your app files are
+  /// installed. It can have a maximum of 200 characters and must be in the
+  /// following format: /\A[a-z0-9\-\_\.]+\Z/.
+  ///
+  /// The built-in layers' short names are defined by AWS OpsWorks Stacks. For
+  /// more information, see the <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/layers.html">Layer
+  /// Reference</a>
+  @_s.JsonKey(name: 'Shortname')
+  final String shortname;
+
+  /// Whether to use Amazon EBS-optimized instances.
+  @_s.JsonKey(name: 'UseEbsOptimizedInstances')
+  final bool useEbsOptimizedInstances;
+
+  /// A <code>VolumeConfigurations</code> object that describes the layer's Amazon
+  /// EBS volumes.
+  @_s.JsonKey(name: 'VolumeConfigurations')
+  final List<VolumeConfiguration> volumeConfigurations;
+
+  UpdateLayerRequest({
+    @_s.required this.layerId,
+    this.attributes,
+    this.autoAssignElasticIps,
+    this.autoAssignPublicIps,
+    this.cloudWatchLogsConfiguration,
+    this.customInstanceProfileArn,
+    this.customJson,
+    this.customRecipes,
+    this.customSecurityGroupIds,
+    this.enableAutoHealing,
+    this.installUpdatesOnBoot,
+    this.lifecycleEventConfiguration,
+    this.name,
+    this.packages,
+    this.shortname,
+    this.useEbsOptimizedInstances,
+    this.volumeConfigurations,
+  });
+  Map<String, dynamic> toJson() => _$UpdateLayerRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateMyUserProfileRequest {
+  /// The user's SSH public key.
+  @_s.JsonKey(name: 'SshPublicKey')
+  final String sshPublicKey;
+
+  UpdateMyUserProfileRequest({
+    this.sshPublicKey,
+  });
+  Map<String, dynamic> toJson() => _$UpdateMyUserProfileRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateRdsDbInstanceRequest {
+  /// The Amazon RDS instance's ARN.
+  @_s.JsonKey(name: 'RdsDbInstanceArn')
+  final String rdsDbInstanceArn;
+
+  /// The database password.
+  @_s.JsonKey(name: 'DbPassword')
+  final String dbPassword;
+
+  /// The master user name.
+  @_s.JsonKey(name: 'DbUser')
+  final String dbUser;
+
+  UpdateRdsDbInstanceRequest({
+    @_s.required this.rdsDbInstanceArn,
+    this.dbPassword,
+    this.dbUser,
+  });
+  Map<String, dynamic> toJson() => _$UpdateRdsDbInstanceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateStackRequest {
+  /// The stack ID.
+  @_s.JsonKey(name: 'StackId')
+  final String stackId;
+
+  /// The default AWS OpsWorks Stacks agent version. You have the following
+  /// options:
+  ///
+  /// <ul>
+  /// <li>
+  /// Auto-update - Set this parameter to <code>LATEST</code>. AWS OpsWorks Stacks
+  /// automatically installs new agent versions on the stack's instances as soon
+  /// as they are available.
+  /// </li>
+  /// <li>
+  /// Fixed version - Set this parameter to your preferred agent version. To
+  /// update the agent version, you must edit the stack configuration and specify
+  /// a new version. AWS OpsWorks Stacks then automatically installs that version
+  /// on the stack's instances.
+  /// </li>
+  /// </ul>
+  /// The default setting is <code>LATEST</code>. To specify an agent version, you
+  /// must use the complete version number, not the abbreviated number shown on
+  /// the console. For a list of available agent version numbers, call
+  /// <a>DescribeAgentVersions</a>. AgentVersion cannot be set to Chef 12.2.
+  /// <note>
+  /// You can also specify an agent version when you create or update an instance,
+  /// which overrides the stack's default setting.
+  /// </note>
+  @_s.JsonKey(name: 'AgentVersion')
+  final String agentVersion;
+
+  /// One or more user-defined key-value pairs to be added to the stack
+  /// attributes.
+  @_s.JsonKey(name: 'Attributes')
+  final Map<String, String> attributes;
+
+  /// A <code>ChefConfiguration</code> object that specifies whether to enable
+  /// Berkshelf and the Berkshelf version on Chef 11.10 stacks. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workingstacks-creating.html">Create
+  /// a New Stack</a>.
+  @_s.JsonKey(name: 'ChefConfiguration')
+  final ChefConfiguration chefConfiguration;
+
+  /// The configuration manager. When you update a stack, we recommend that you
+  /// use the configuration manager to specify the Chef version: 12, 11.10, or
+  /// 11.4 for Linux stacks, or 12.2 for Windows stacks. The default value for
+  /// Linux stacks is currently 12.
+  @_s.JsonKey(name: 'ConfigurationManager')
+  final StackConfigurationManager configurationManager;
+
+  /// Contains the information required to retrieve an app or cookbook from a
+  /// repository. For more information, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workingapps-creating.html">Adding
+  /// Apps</a> or <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workingcookbook.html">Cookbooks
+  /// and Recipes</a>.
+  @_s.JsonKey(name: 'CustomCookbooksSource')
+  final Source customCookbooksSource;
+
+  /// A string that contains user-defined, custom JSON. It can be used to override
+  /// the corresponding default stack configuration JSON values or to pass data to
+  /// recipes. The string should be in the following format:
+  ///
+  /// <code>"{\"key1\": \"value1\", \"key2\": \"value2\",...}"</code>
+  ///
+  /// For more information about custom JSON, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workingstacks-json.html">Use
+  /// Custom JSON to Modify the Stack Configuration Attributes</a>.
+  @_s.JsonKey(name: 'CustomJson')
+  final String customJson;
+
+  /// The stack's default Availability Zone, which must be in the stack's region.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html">Regions and
+  /// Endpoints</a>. If you also specify a value for <code>DefaultSubnetId</code>,
+  /// the subnet must be in the same zone. For more information, see
+  /// <a>CreateStack</a>.
+  @_s.JsonKey(name: 'DefaultAvailabilityZone')
+  final String defaultAvailabilityZone;
+
+  /// The ARN of an IAM profile that is the default profile for all of the stack's
+  /// EC2 instances. For more information about IAM ARNs, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">Using
+  /// Identifiers</a>.
+  @_s.JsonKey(name: 'DefaultInstanceProfileArn')
+  final String defaultInstanceProfileArn;
+
+  /// The stack's operating system, which must be set to one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// A supported Linux operating system: An Amazon Linux version, such as
+  /// <code>Amazon Linux 2018.03</code>, <code>Amazon Linux 2017.09</code>,
+  /// <code>Amazon Linux 2017.03</code>, <code>Amazon Linux 2016.09</code>,
+  /// <code>Amazon Linux 2016.03</code>, <code>Amazon Linux 2015.09</code>, or
+  /// <code>Amazon Linux 2015.03</code>.
+  /// </li>
+  /// <li>
+  /// A supported Ubuntu operating system, such as <code>Ubuntu 16.04 LTS</code>,
+  /// <code>Ubuntu 14.04 LTS</code>, or <code>Ubuntu 12.04 LTS</code>.
+  /// </li>
+  /// <li>
+  /// <code>CentOS Linux 7</code>
+  /// </li>
+  /// <li>
+  /// <code>Red Hat Enterprise Linux 7</code>
+  /// </li>
+  /// <li>
+  /// A supported Windows operating system, such as <code>Microsoft Windows Server
+  /// 2012 R2 Base</code>, <code>Microsoft Windows Server 2012 R2 with SQL Server
+  /// Express</code>, <code>Microsoft Windows Server 2012 R2 with SQL Server
+  /// Standard</code>, or <code>Microsoft Windows Server 2012 R2 with SQL Server
+  /// Web</code>.
+  /// </li>
+  /// <li>
+  /// A custom AMI: <code>Custom</code>. You specify the custom AMI you want to
+  /// use when you create instances. For more information about how to use custom
+  /// AMIs with OpsWorks, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-custom-ami.html">Using
+  /// Custom AMIs</a>.
+  /// </li>
+  /// </ul>
+  /// The default option is the stack's current operating system. For more
+  /// information about supported operating systems, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-os.html">AWS
+  /// OpsWorks Stacks Operating Systems</a>.
+  @_s.JsonKey(name: 'DefaultOs')
+  final String defaultOs;
+
+  /// The default root device type. This value is used by default for all
+  /// instances in the stack, but you can override it when you create an instance.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ComponentsAMIs.html#storage-for-the-root-device">Storage
+  /// for the Root Device</a>.
+  @_s.JsonKey(name: 'DefaultRootDeviceType')
+  final RootDeviceType defaultRootDeviceType;
+
+  /// A default Amazon EC2 key-pair name. The default value is <code>none</code>.
+  /// If you specify a key-pair name, AWS OpsWorks Stacks installs the public key
+  /// on the instance and you can use the private key with an SSH client to log in
+  /// to the instance. For more information, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-ssh.html">
+  /// Using SSH to Communicate with an Instance</a> and <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/security-ssh-access.html">
+  /// Managing SSH Access</a>. You can override this setting by specifying a
+  /// different key pair, or no key pair, when you <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-add.html">
+  /// create an instance</a>.
+  @_s.JsonKey(name: 'DefaultSshKeyName')
+  final String defaultSshKeyName;
+
+  /// The stack's default VPC subnet ID. This parameter is required if you specify
+  /// a value for the <code>VpcId</code> parameter. All instances are launched
+  /// into this subnet unless you specify otherwise when you create the instance.
+  /// If you also specify a value for <code>DefaultAvailabilityZone</code>, the
+  /// subnet must be in that zone. For information on default values and when this
+  /// parameter is required, see the <code>VpcId</code> parameter description.
+  @_s.JsonKey(name: 'DefaultSubnetId')
+  final String defaultSubnetId;
+
+  /// The stack's new host name theme, with spaces replaced by underscores. The
+  /// theme is used to generate host names for the stack's instances. By default,
+  /// <code>HostnameTheme</code> is set to <code>Layer_Dependent</code>, which
+  /// creates host names by appending integers to the layer's short name. The
+  /// other themes are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Baked_Goods</code>
+  /// </li>
+  /// <li>
+  /// <code>Clouds</code>
+  /// </li>
+  /// <li>
+  /// <code>Europe_Cities</code>
+  /// </li>
+  /// <li>
+  /// <code>Fruits</code>
+  /// </li>
+  /// <li>
+  /// <code>Greek_Deities_and_Titans</code>
+  /// </li>
+  /// <li>
+  /// <code>Legendary_creatures_from_Japan</code>
+  /// </li>
+  /// <li>
+  /// <code>Planets_and_Moons</code>
+  /// </li>
+  /// <li>
+  /// <code>Roman_Deities</code>
+  /// </li>
+  /// <li>
+  /// <code>Scottish_Islands</code>
+  /// </li>
+  /// <li>
+  /// <code>US_Cities</code>
+  /// </li>
+  /// <li>
+  /// <code>Wild_Cats</code>
+  /// </li>
+  /// </ul>
+  /// To obtain a generated host name, call <code>GetHostNameSuggestion</code>,
+  /// which returns a host name based on the current theme.
+  @_s.JsonKey(name: 'HostnameTheme')
+  final String hostnameTheme;
+
+  /// The stack's new name.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Do not use this parameter. You cannot update a stack's service role.
+  @_s.JsonKey(name: 'ServiceRoleArn')
+  final String serviceRoleArn;
+
+  /// Whether the stack uses custom cookbooks.
+  @_s.JsonKey(name: 'UseCustomCookbooks')
+  final bool useCustomCookbooks;
+
+  /// Whether to associate the AWS OpsWorks Stacks built-in security groups with
+  /// the stack's layers.
+  ///
+  /// AWS OpsWorks Stacks provides a standard set of built-in security groups, one
+  /// for each layer, which are associated with layers by default.
+  /// <code>UseOpsworksSecurityGroups</code> allows you to provide your own custom
+  /// security groups instead of using the built-in groups.
+  /// <code>UseOpsworksSecurityGroups</code> has the following settings:
+  ///
+  /// <ul>
+  /// <li>
+  /// True - AWS OpsWorks Stacks automatically associates the appropriate built-in
+  /// security group with each layer (default setting). You can associate
+  /// additional security groups with a layer after you create it, but you cannot
+  /// delete the built-in security group.
+  /// </li>
+  /// <li>
+  /// False - AWS OpsWorks Stacks does not associate built-in security groups with
+  /// layers. You must create appropriate EC2 security groups and associate a
+  /// security group with each layer that you create. However, you can still
+  /// manually associate a built-in security group with a layer on. Custom
+  /// security groups are required only for those layers that need custom
+  /// settings.
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/workingstacks-creating.html">Create
+  /// a New Stack</a>.
+  @_s.JsonKey(name: 'UseOpsworksSecurityGroups')
+  final bool useOpsworksSecurityGroups;
+
+  UpdateStackRequest({
+    @_s.required this.stackId,
+    this.agentVersion,
+    this.attributes,
+    this.chefConfiguration,
+    this.configurationManager,
+    this.customCookbooksSource,
+    this.customJson,
+    this.defaultAvailabilityZone,
+    this.defaultInstanceProfileArn,
+    this.defaultOs,
+    this.defaultRootDeviceType,
+    this.defaultSshKeyName,
+    this.defaultSubnetId,
+    this.hostnameTheme,
+    this.name,
+    this.serviceRoleArn,
+    this.useCustomCookbooks,
+    this.useOpsworksSecurityGroups,
+  });
+  Map<String, dynamic> toJson() => _$UpdateStackRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateUserProfileRequest {
+  /// The user IAM ARN. This can also be a federated user's ARN.
+  @_s.JsonKey(name: 'IamUserArn')
+  final String iamUserArn;
+
+  /// Whether users can specify their own SSH public key through the My Settings
+  /// page. For more information, see <a
+  /// href="https://docs.aws.amazon.com/opsworks/latest/userguide/security-settingsshkey.html">Managing
+  /// User Permissions</a>.
+  @_s.JsonKey(name: 'AllowSelfManagement')
+  final bool allowSelfManagement;
+
+  /// The user's new SSH public key.
+  @_s.JsonKey(name: 'SshPublicKey')
+  final String sshPublicKey;
+
+  /// The user's SSH user name. The allowable characters are [a-z], [A-Z], [0-9],
+  /// '-', and '_'. If the specified name includes other punctuation marks, AWS
+  /// OpsWorks Stacks removes them. For example, <code>my.name</code> will be
+  /// changed to <code>myname</code>. If you do not specify an SSH user name, AWS
+  /// OpsWorks Stacks generates one from the IAM user name.
+  @_s.JsonKey(name: 'SshUsername')
+  final String sshUsername;
+
+  UpdateUserProfileRequest({
+    @_s.required this.iamUserArn,
+    this.allowSelfManagement,
+    this.sshPublicKey,
+    this.sshUsername,
+  });
+  Map<String, dynamic> toJson() => _$UpdateUserProfileRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateVolumeRequest {
+  /// The volume ID.
+  @_s.JsonKey(name: 'VolumeId')
+  final String volumeId;
+
+  /// The new mount point.
+  @_s.JsonKey(name: 'MountPoint')
+  final String mountPoint;
+
+  /// The new name.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  UpdateVolumeRequest({
+    @_s.required this.volumeId,
+    this.mountPoint,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$UpdateVolumeRequestToJson(this);
 }
 
 /// Describes a user's SSH information.

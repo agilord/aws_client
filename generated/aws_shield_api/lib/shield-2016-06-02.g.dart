@@ -6,14 +6,57 @@ part of 'shield-2016-06-02.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$AssociateDRTLogBucketRequestToJson(
+    AssociateDRTLogBucketRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LogBucket', instance.logBucket);
+  return val;
+}
+
 AssociateDRTLogBucketResponse _$AssociateDRTLogBucketResponseFromJson(
     Map<String, dynamic> json) {
   return AssociateDRTLogBucketResponse();
 }
 
+Map<String, dynamic> _$AssociateDRTRoleRequestToJson(
+    AssociateDRTRoleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RoleArn', instance.roleArn);
+  return val;
+}
+
 AssociateDRTRoleResponse _$AssociateDRTRoleResponseFromJson(
     Map<String, dynamic> json) {
   return AssociateDRTRoleResponse();
+}
+
+Map<String, dynamic> _$AssociateHealthCheckRequestToJson(
+    AssociateHealthCheckRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('HealthCheckArn', instance.healthCheckArn);
+  writeNotNull('ProtectionId', instance.protectionId);
+  return val;
 }
 
 AssociateHealthCheckResponse _$AssociateHealthCheckResponseFromJson(
@@ -148,6 +191,21 @@ Contributor _$ContributorFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateProtectionRequestToJson(
+    CreateProtectionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('ResourceArn', instance.resourceArn);
+  return val;
+}
+
 CreateProtectionResponse _$CreateProtectionResponseFromJson(
     Map<String, dynamic> json) {
   return CreateProtectionResponse(
@@ -160,6 +218,20 @@ CreateSubscriptionResponse _$CreateSubscriptionResponseFromJson(
   return CreateSubscriptionResponse();
 }
 
+Map<String, dynamic> _$DeleteProtectionRequestToJson(
+    DeleteProtectionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ProtectionId', instance.protectionId);
+  return val;
+}
+
 DeleteProtectionResponse _$DeleteProtectionResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteProtectionResponse();
@@ -168,6 +240,20 @@ DeleteProtectionResponse _$DeleteProtectionResponseFromJson(
 DeleteSubscriptionResponse _$DeleteSubscriptionResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteSubscriptionResponse();
+}
+
+Map<String, dynamic> _$DescribeAttackRequestToJson(
+    DescribeAttackRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AttackId', instance.attackId);
+  return val;
 }
 
 DescribeAttackResponse _$DescribeAttackResponseFromJson(
@@ -200,6 +286,21 @@ DescribeEmergencyContactSettingsResponse
   );
 }
 
+Map<String, dynamic> _$DescribeProtectionRequestToJson(
+    DescribeProtectionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ProtectionId', instance.protectionId);
+  writeNotNull('ResourceArn', instance.resourceArn);
+  return val;
+}
+
 DescribeProtectionResponse _$DescribeProtectionResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeProtectionResponse(
@@ -218,6 +319,20 @@ DescribeSubscriptionResponse _$DescribeSubscriptionResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DisassociateDRTLogBucketRequestToJson(
+    DisassociateDRTLogBucketRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LogBucket', instance.logBucket);
+  return val;
+}
+
 DisassociateDRTLogBucketResponse _$DisassociateDRTLogBucketResponseFromJson(
     Map<String, dynamic> json) {
   return DisassociateDRTLogBucketResponse();
@@ -226,6 +341,21 @@ DisassociateDRTLogBucketResponse _$DisassociateDRTLogBucketResponseFromJson(
 DisassociateDRTRoleResponse _$DisassociateDRTRoleResponseFromJson(
     Map<String, dynamic> json) {
   return DisassociateDRTRoleResponse();
+}
+
+Map<String, dynamic> _$DisassociateHealthCheckRequestToJson(
+    DisassociateHealthCheckRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('HealthCheckArn', instance.healthCheckArn);
+  writeNotNull('ProtectionId', instance.protectionId);
+  return val;
 }
 
 DisassociateHealthCheckResponse _$DisassociateHealthCheckResponseFromJson(
@@ -272,6 +402,23 @@ Limit _$LimitFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ListAttacksRequestToJson(ListAttacksRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EndTime', instance.endTime?.toJson());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('ResourceArns', instance.resourceArns);
+  writeNotNull('StartTime', instance.startTime?.toJson());
+  return val;
+}
+
 ListAttacksResponse _$ListAttacksResponseFromJson(Map<String, dynamic> json) {
   return ListAttacksResponse(
     attackSummaries: (json['AttackSummaries'] as List)
@@ -281,6 +428,21 @@ ListAttacksResponse _$ListAttacksResponseFromJson(Map<String, dynamic> json) {
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListProtectionsRequestToJson(
+    ListProtectionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListProtectionsResponse _$ListProtectionsResponseFromJson(
@@ -387,10 +549,39 @@ Map<String, dynamic> _$TimeRangeToJson(TimeRange instance) {
   return val;
 }
 
+Map<String, dynamic> _$UpdateEmergencyContactSettingsRequestToJson(
+    UpdateEmergencyContactSettingsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EmergencyContactList',
+      instance.emergencyContactList?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 UpdateEmergencyContactSettingsResponse
     _$UpdateEmergencyContactSettingsResponseFromJson(
         Map<String, dynamic> json) {
   return UpdateEmergencyContactSettingsResponse();
+}
+
+Map<String, dynamic> _$UpdateSubscriptionRequestToJson(
+    UpdateSubscriptionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AutoRenew', _$AutoRenewEnumMap[instance.autoRenew]);
+  return val;
 }
 
 UpdateSubscriptionResponse _$UpdateSubscriptionResponseFromJson(

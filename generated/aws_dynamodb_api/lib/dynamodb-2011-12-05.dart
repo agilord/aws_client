@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -78,9 +77,9 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'RequestItems': requestItems,
-      },
+      payload: BatchGetItemInput(
+        requestItems: requestItems,
+      ),
     );
 
     return BatchGetItemOutput.fromJson(jsonResponse.body);
@@ -115,9 +114,9 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'RequestItems': requestItems,
-      },
+      payload: BatchWriteItemInput(
+        requestItems: requestItems,
+      ),
     );
 
     return BatchWriteItemOutput.fromJson(jsonResponse.body);
@@ -174,11 +173,11 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'KeySchema': keySchema,
-        'ProvisionedThroughput': provisionedThroughput,
-        'TableName': tableName,
-      },
+      payload: CreateTableInput(
+        keySchema: keySchema,
+        provisionedThroughput: provisionedThroughput,
+        tableName: tableName,
+      ),
     );
 
     return CreateTableOutput.fromJson(jsonResponse.body);
@@ -232,12 +231,12 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Key': key,
-        'TableName': tableName,
-        if (expected != null) 'Expected': expected,
-        if (returnValues != null) 'ReturnValues': returnValues?.toValue(),
-      },
+      payload: DeleteItemInput(
+        key: key,
+        tableName: tableName,
+        expected: expected,
+        returnValues: returnValues,
+      ),
     );
 
     return DeleteItemOutput.fromJson(jsonResponse.body);
@@ -287,9 +286,9 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TableName': tableName,
-      },
+      payload: DeleteTableInput(
+        tableName: tableName,
+      ),
     );
 
     return DeleteTableOutput.fromJson(jsonResponse.body);
@@ -335,9 +334,9 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TableName': tableName,
-      },
+      payload: DescribeTableInput(
+        tableName: tableName,
+      ),
     );
 
     return DescribeTableOutput.fromJson(jsonResponse.body);
@@ -391,12 +390,12 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Key': key,
-        'TableName': tableName,
-        if (attributesToGet != null) 'AttributesToGet': attributesToGet,
-        if (consistentRead != null) 'ConsistentRead': consistentRead,
-      },
+      payload: GetItemInput(
+        key: key,
+        tableName: tableName,
+        attributesToGet: attributesToGet,
+        consistentRead: consistentRead,
+      ),
     );
 
     return GetItemOutput.fromJson(jsonResponse.body);
@@ -443,11 +442,10 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (exclusiveStartTableName != null)
-          'ExclusiveStartTableName': exclusiveStartTableName,
-        if (limit != null) 'Limit': limit,
-      },
+      payload: ListTablesInput(
+        exclusiveStartTableName: exclusiveStartTableName,
+        limit: limit,
+      ),
     );
 
     return ListTablesOutput.fromJson(jsonResponse.body);
@@ -504,12 +502,12 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Item': item,
-        'TableName': tableName,
-        if (expected != null) 'Expected': expected,
-        if (returnValues != null) 'ReturnValues': returnValues?.toValue(),
-      },
+      payload: PutItemInput(
+        item: item,
+        tableName: tableName,
+        expected: expected,
+        returnValues: returnValues,
+      ),
     );
 
     return PutItemOutput.fromJson(jsonResponse.body);
@@ -611,17 +609,17 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'HashKeyValue': hashKeyValue,
-        'TableName': tableName,
-        if (attributesToGet != null) 'AttributesToGet': attributesToGet,
-        if (consistentRead != null) 'ConsistentRead': consistentRead,
-        if (count != null) 'Count': count,
-        if (exclusiveStartKey != null) 'ExclusiveStartKey': exclusiveStartKey,
-        if (limit != null) 'Limit': limit,
-        if (rangeKeyCondition != null) 'RangeKeyCondition': rangeKeyCondition,
-        if (scanIndexForward != null) 'ScanIndexForward': scanIndexForward,
-      },
+      payload: QueryInput(
+        hashKeyValue: hashKeyValue,
+        tableName: tableName,
+        attributesToGet: attributesToGet,
+        consistentRead: consistentRead,
+        count: count,
+        exclusiveStartKey: exclusiveStartKey,
+        limit: limit,
+        rangeKeyCondition: rangeKeyCondition,
+        scanIndexForward: scanIndexForward,
+      ),
     );
 
     return QueryOutput.fromJson(jsonResponse.body);
@@ -707,14 +705,14 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TableName': tableName,
-        if (attributesToGet != null) 'AttributesToGet': attributesToGet,
-        if (count != null) 'Count': count,
-        if (exclusiveStartKey != null) 'ExclusiveStartKey': exclusiveStartKey,
-        if (limit != null) 'Limit': limit,
-        if (scanFilter != null) 'ScanFilter': scanFilter,
-      },
+      payload: ScanInput(
+        tableName: tableName,
+        attributesToGet: attributesToGet,
+        count: count,
+        exclusiveStartKey: exclusiveStartKey,
+        limit: limit,
+        scanFilter: scanFilter,
+      ),
     );
 
     return ScanOutput.fromJson(jsonResponse.body);
@@ -771,13 +769,13 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AttributeUpdates': attributeUpdates,
-        'Key': key,
-        'TableName': tableName,
-        if (expected != null) 'Expected': expected,
-        if (returnValues != null) 'ReturnValues': returnValues?.toValue(),
-      },
+      payload: UpdateItemInput(
+        attributeUpdates: attributeUpdates,
+        key: key,
+        tableName: tableName,
+        expected: expected,
+        returnValues: returnValues,
+      ),
     );
 
     return UpdateItemOutput.fromJson(jsonResponse.body);
@@ -826,10 +824,10 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ProvisionedThroughput': provisionedThroughput,
-        'TableName': tableName,
-      },
+      payload: UpdateTableInput(
+        provisionedThroughput: provisionedThroughput,
+        tableName: tableName,
+      ),
     );
 
     return UpdateTableOutput.fromJson(jsonResponse.body);
@@ -867,7 +865,7 @@ class AttributeValue {
   final Uint8List b;
 
   /// A set of binary attributes.
-  @Uint8ListListConverter()
+  @Uint8ListConverter()
   @_s.JsonKey(name: 'BS')
   final List<Uint8List> bs;
 
@@ -927,6 +925,21 @@ class AttributeValueUpdate {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchGetItemInput {
+  @_s.JsonKey(name: 'RequestItems')
+  final Map<String, KeysAndAttributes> requestItems;
+
+  BatchGetItemInput({
+    @_s.required this.requestItems,
+  });
+  Map<String, dynamic> toJson() => _$BatchGetItemInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class BatchGetItemOutput {
@@ -969,6 +982,23 @@ class BatchResponse {
   });
   factory BatchResponse.fromJson(Map<String, dynamic> json) =>
       _$BatchResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchWriteItemInput {
+  /// A map of table name to list-of-write-requests. Used as input to the
+  /// <code>BatchWriteItem</code> API call
+  @_s.JsonKey(name: 'RequestItems')
+  final Map<String, List<WriteRequest>> requestItems;
+
+  BatchWriteItemInput({
+    @_s.required this.requestItems,
+  });
+  Map<String, dynamic> toJson() => _$BatchWriteItemInputToJson(this);
 }
 
 /// A container for <code>BatchWriteItem</code> response
@@ -1085,6 +1115,31 @@ class Condition {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateTableInput {
+  @_s.JsonKey(name: 'KeySchema')
+  final KeySchema keySchema;
+  @_s.JsonKey(name: 'ProvisionedThroughput')
+  final ProvisionedThroughput provisionedThroughput;
+
+  /// The name of the table you want to create. Allowed characters are
+  /// <code>a-z</code>, <code>A-Z</code>, <code>0-9</code>, <code>_</code>
+  /// (underscore), <code>-</code> (hyphen) and <code>.</code> (period).
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  CreateTableInput({
+    @_s.required this.keySchema,
+    @_s.required this.provisionedThroughput,
+    @_s.required this.tableName,
+  });
+  Map<String, dynamic> toJson() => _$CreateTableInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateTableOutput {
@@ -1096,6 +1151,35 @@ class CreateTableOutput {
   });
   factory CreateTableOutput.fromJson(Map<String, dynamic> json) =>
       _$CreateTableOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteItemInput {
+  @_s.JsonKey(name: 'Key')
+  final Key key;
+
+  /// The name of the table in which you want to delete an item. Allowed
+  /// characters are <code>a-z</code>, <code>A-Z</code>, <code>0-9</code>,
+  /// <code>_</code> (underscore), <code>-</code> (hyphen) and <code>.</code>
+  /// (period).
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+  @_s.JsonKey(name: 'Expected')
+  final Map<String, ExpectedAttributeValue> expected;
+  @_s.JsonKey(name: 'ReturnValues')
+  final ReturnValue returnValues;
+
+  DeleteItemInput({
+    @_s.required this.key,
+    @_s.required this.tableName,
+    this.expected,
+    this.returnValues,
+  });
+  Map<String, dynamic> toJson() => _$DeleteItemInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1144,6 +1228,24 @@ class DeleteRequest {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteTableInput {
+  /// The name of the table you want to delete. Allowed characters are
+  /// <code>a-z</code>, <code>A-Z</code>, <code>0-9</code>, <code>_</code>
+  /// (underscore), <code>-</code> (hyphen) and <code>.</code> (period).
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  DeleteTableInput({
+    @_s.required this.tableName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteTableInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteTableOutput {
@@ -1155,6 +1257,24 @@ class DeleteTableOutput {
   });
   factory DeleteTableOutput.fromJson(Map<String, dynamic> json) =>
       _$DeleteTableOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeTableInput {
+  /// The name of the table you want to describe. Allowed characters are
+  /// <code>a-z</code>, <code>A-Z</code>, <code>0-9</code>, <code>_</code>
+  /// (underscore), <code>-</code> (hyphen) and <code>.</code> (period).
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  DescribeTableInput({
+    @_s.required this.tableName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeTableInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1197,6 +1317,34 @@ class ExpectedAttributeValue {
     this.value,
   });
   Map<String, dynamic> toJson() => _$ExpectedAttributeValueToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetItemInput {
+  @_s.JsonKey(name: 'Key')
+  final Key key;
+
+  /// The name of the table in which you want to get an item. Allowed characters
+  /// are <code>a-z</code>, <code>A-Z</code>, <code>0-9</code>, <code>_</code>
+  /// (underscore), <code>-</code> (hyphen) and <code>.</code> (period).
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+  @_s.JsonKey(name: 'AttributesToGet')
+  final List<String> attributesToGet;
+  @_s.JsonKey(name: 'ConsistentRead')
+  final bool consistentRead;
+
+  GetItemInput({
+    @_s.required this.key,
+    @_s.required this.tableName,
+    this.attributesToGet,
+    this.consistentRead,
+  });
+  Map<String, dynamic> toJson() => _$GetItemInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1341,6 +1489,28 @@ class KeysAndAttributes {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTablesInput {
+  /// The name of the table that starts the list. If you already ran a
+  /// <code>ListTables</code> operation and received a
+  /// <code>LastEvaluatedTableName</code> value in the response, use that value
+  /// here to continue the list.
+  @_s.JsonKey(name: 'ExclusiveStartTableName')
+  final String exclusiveStartTableName;
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  ListTablesInput({
+    this.exclusiveStartTableName,
+    this.limit,
+  });
+  Map<String, dynamic> toJson() => _$ListTablesInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListTablesOutput {
@@ -1433,6 +1603,34 @@ class ProvisionedThroughputDescription {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutItemInput {
+  @_s.JsonKey(name: 'Item')
+  final Map<String, AttributeValue> item;
+
+  /// The name of the table in which you want to put an item. Allowed characters
+  /// are <code>a-z</code>, <code>A-Z</code>, <code>0-9</code>, <code>_</code>
+  /// (underscore), <code>-</code> (hyphen) and <code>.</code> (period).
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+  @_s.JsonKey(name: 'Expected')
+  final Map<String, ExpectedAttributeValue> expected;
+  @_s.JsonKey(name: 'ReturnValues')
+  final ReturnValue returnValues;
+
+  PutItemInput({
+    @_s.required this.item,
+    @_s.required this.tableName,
+    this.expected,
+    this.returnValues,
+  });
+  Map<String, dynamic> toJson() => _$PutItemInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutItemOutput {
@@ -1470,6 +1668,78 @@ class PutRequest {
       _$PutRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$PutRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class QueryInput {
+  /// Attribute value of the hash component of the composite primary key.
+  @_s.JsonKey(name: 'HashKeyValue')
+  final AttributeValue hashKeyValue;
+
+  /// The name of the table in which you want to query. Allowed characters are
+  /// <code>a-z</code>, <code>A-Z</code>, <code>0-9</code>, <code>_</code>
+  /// (underscore), <code>-</code> (hyphen) and <code>.</code> (period).
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+  @_s.JsonKey(name: 'AttributesToGet')
+  final List<String> attributesToGet;
+  @_s.JsonKey(name: 'ConsistentRead')
+  final bool consistentRead;
+
+  /// If set to <code>true</code>, Amazon DynamoDB returns a total number of items
+  /// that match the query parameters, instead of a list of the matching items and
+  /// their attributes. Do not set <code>Count</code> to <code>true</code> while
+  /// providing a list of <code>AttributesToGet</code>, otherwise Amazon DynamoDB
+  /// returns a validation error.
+  @_s.JsonKey(name: 'Count')
+  final bool count;
+
+  /// Primary key of the item from which to continue an earlier query. An earlier
+  /// query might provide this value as the <code>LastEvaluatedKey</code> if that
+  /// query operation was interrupted before completing the query; either because
+  /// of the result set size or the <code>Limit</code> parameter. The
+  /// <code>LastEvaluatedKey</code> can be passed back in a new query request to
+  /// continue the operation from that point.
+  @_s.JsonKey(name: 'ExclusiveStartKey')
+  final Key exclusiveStartKey;
+
+  /// The maximum number of items to return. If Amazon DynamoDB hits this limit
+  /// while querying the table, it stops the query and returns the matching values
+  /// up to the limit, and a <code>LastEvaluatedKey</code> to apply in a
+  /// subsequent operation to continue the query. Also, if the result set size
+  /// exceeds 1MB before Amazon DynamoDB hits this limit, it stops the query and
+  /// returns the matching values, and a <code>LastEvaluatedKey</code> to apply in
+  /// a subsequent operation to continue the query.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// A container for the attribute values and comparison operators to use for the
+  /// query.
+  @_s.JsonKey(name: 'RangeKeyCondition')
+  final Condition rangeKeyCondition;
+
+  /// Specifies forward or backward traversal of the index. Amazon DynamoDB
+  /// returns results reflecting the requested order, determined by the range key.
+  /// The default value is <code>true</code> (forward).
+  @_s.JsonKey(name: 'ScanIndexForward')
+  final bool scanIndexForward;
+
+  QueryInput({
+    @_s.required this.hashKeyValue,
+    @_s.required this.tableName,
+    this.attributesToGet,
+    this.consistentRead,
+    this.count,
+    this.exclusiveStartKey,
+    this.limit,
+    this.rangeKeyCondition,
+    this.scanIndexForward,
+  });
+  Map<String, dynamic> toJson() => _$QueryInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1536,24 +1806,6 @@ enum ReturnValue {
   updatedNew,
 }
 
-extension on ReturnValue {
-  String toValue() {
-    switch (this) {
-      case ReturnValue.none:
-        return 'NONE';
-      case ReturnValue.allOld:
-        return 'ALL_OLD';
-      case ReturnValue.updatedOld:
-        return 'UPDATED_OLD';
-      case ReturnValue.allNew:
-        return 'ALL_NEW';
-      case ReturnValue.updatedNew:
-        return 'UPDATED_NEW';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum ScalarAttributeType {
   @_s.JsonValue('S')
   s,
@@ -1561,6 +1813,62 @@ enum ScalarAttributeType {
   n,
   @_s.JsonValue('B')
   b,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ScanInput {
+  /// The name of the table in which you want to scan. Allowed characters are
+  /// <code>a-z</code>, <code>A-Z</code>, <code>0-9</code>, <code>_</code>
+  /// (underscore), <code>-</code> (hyphen) and <code>.</code> (period).
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+  @_s.JsonKey(name: 'AttributesToGet')
+  final List<String> attributesToGet;
+
+  /// If set to <code>true</code>, Amazon DynamoDB returns a total number of items
+  /// for the <code>Scan</code> operation, even if the operation has no matching
+  /// items for the assigned filter. Do not set <code>Count</code> to
+  /// <code>true</code> while providing a list of <code>AttributesToGet</code>,
+  /// otherwise Amazon DynamoDB returns a validation error.
+  @_s.JsonKey(name: 'Count')
+  final bool count;
+
+  /// Primary key of the item from which to continue an earlier scan. An earlier
+  /// scan might provide this value if that scan operation was interrupted before
+  /// scanning the entire table; either because of the result set size or the
+  /// <code>Limit</code> parameter. The <code>LastEvaluatedKey</code> can be
+  /// passed back in a new scan request to continue the operation from that point.
+  @_s.JsonKey(name: 'ExclusiveStartKey')
+  final Key exclusiveStartKey;
+
+  /// The maximum number of items to return. If Amazon DynamoDB hits this limit
+  /// while scanning the table, it stops the scan and returns the matching values
+  /// up to the limit, and a <code>LastEvaluatedKey</code> to apply in a
+  /// subsequent operation to continue the scan. Also, if the scanned data set
+  /// size exceeds 1 MB before Amazon DynamoDB hits this limit, it stops the scan
+  /// and returns the matching values up to the limit, and a
+  /// <code>LastEvaluatedKey</code> to apply in a subsequent operation to continue
+  /// the scan.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// Evaluates the scan results and returns only the desired values.
+  @_s.JsonKey(name: 'ScanFilter')
+  final Map<String, Condition> scanFilter;
+
+  ScanInput({
+    @_s.required this.tableName,
+    this.attributesToGet,
+    this.count,
+    this.exclusiveStartKey,
+    this.limit,
+    this.scanFilter,
+  });
+  Map<String, dynamic> toJson() => _$ScanInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1655,6 +1963,38 @@ enum TableStatus {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateItemInput {
+  @_s.JsonKey(name: 'AttributeUpdates')
+  final Map<String, AttributeValueUpdate> attributeUpdates;
+  @_s.JsonKey(name: 'Key')
+  final Key key;
+
+  /// The name of the table in which you want to update an item. Allowed
+  /// characters are <code>a-z</code>, <code>A-Z</code>, <code>0-9</code>,
+  /// <code>_</code> (underscore), <code>-</code> (hyphen) and <code>.</code>
+  /// (period).
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+  @_s.JsonKey(name: 'Expected')
+  final Map<String, ExpectedAttributeValue> expected;
+  @_s.JsonKey(name: 'ReturnValues')
+  final ReturnValue returnValues;
+
+  UpdateItemInput({
+    @_s.required this.attributeUpdates,
+    @_s.required this.key,
+    @_s.required this.tableName,
+    this.expected,
+    this.returnValues,
+  });
+  Map<String, dynamic> toJson() => _$UpdateItemInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateItemOutput {
@@ -1672,6 +2012,28 @@ class UpdateItemOutput {
   });
   factory UpdateItemOutput.fromJson(Map<String, dynamic> json) =>
       _$UpdateItemOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateTableInput {
+  @_s.JsonKey(name: 'ProvisionedThroughput')
+  final ProvisionedThroughput provisionedThroughput;
+
+  /// The name of the table you want to update. Allowed characters are
+  /// <code>a-z</code>, <code>A-Z</code>, <code>0-9</code>, <code>_</code>
+  /// (underscore), <code>-</code> (hyphen) and <code>.</code> (period).
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  UpdateTableInput({
+    @_s.required this.provisionedThroughput,
+    @_s.required this.tableName,
+  });
+  Map<String, dynamic> toJson() => _$UpdateTableInputToJson(this);
 }
 
 @_s.JsonSerializable(

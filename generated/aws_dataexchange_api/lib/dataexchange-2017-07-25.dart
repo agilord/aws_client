@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -74,7 +73,9 @@ class DataExchange {
     @_s.required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
-    final $payload = <String, dynamic>{};
+    final $payload = CancelJobRequest(
+      jobId: jobId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -117,12 +118,12 @@ class DataExchange {
     ArgumentError.checkNotNull(assetType, 'assetType');
     ArgumentError.checkNotNull(description, 'description');
     ArgumentError.checkNotNull(name, 'name');
-    final $payload = <String, dynamic>{
-      'AssetType': assetType?.toValue(),
-      'Description': description,
-      'Name': name,
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = CreateDataSetRequest(
+      assetType: assetType,
+      description: description,
+      name: name,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -151,10 +152,10 @@ class DataExchange {
   }) async {
     ArgumentError.checkNotNull(details, 'details');
     ArgumentError.checkNotNull(type, 'type');
-    final $payload = <String, dynamic>{
-      'Details': details,
-      'Type': type?.toValue(),
-    };
+    final $payload = CreateJobRequest(
+      details: details,
+      type: type,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -196,10 +197,11 @@ class DataExchange {
       0,
       16384,
     );
-    final $payload = <String, dynamic>{
-      if (comment != null) 'Comment': comment,
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = CreateRevisionRequest(
+      dataSetId: dataSetId,
+      comment: comment,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -235,7 +237,11 @@ class DataExchange {
     ArgumentError.checkNotNull(assetId, 'assetId');
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     ArgumentError.checkNotNull(revisionId, 'revisionId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteAssetRequest(
+      assetId: assetId,
+      dataSetId: dataSetId,
+      revisionId: revisionId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -260,7 +266,9 @@ class DataExchange {
     @_s.required String dataSetId,
   }) async {
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteDataSetRequest(
+      dataSetId: dataSetId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -289,7 +297,10 @@ class DataExchange {
   }) async {
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     ArgumentError.checkNotNull(revisionId, 'revisionId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteRevisionRequest(
+      dataSetId: dataSetId,
+      revisionId: revisionId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -621,7 +632,9 @@ class DataExchange {
     @_s.required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
-    final $payload = <String, dynamic>{};
+    final $payload = StartJobRequest(
+      jobId: jobId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -644,9 +657,10 @@ class DataExchange {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'Tags': tags,
-    };
+    final $payload = TagResourceRequest(
+      resourceArn: resourceArn,
+      tags: tags,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -672,7 +686,10 @@ class DataExchange {
     _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = UntagResourceRequest(
+      resourceArn: resourceArn,
+      tagKeys: tagKeys,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -713,9 +730,12 @@ class DataExchange {
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     ArgumentError.checkNotNull(name, 'name');
     ArgumentError.checkNotNull(revisionId, 'revisionId');
-    final $payload = <String, dynamic>{
-      'Name': name,
-    };
+    final $payload = UpdateAssetRequest(
+      assetId: assetId,
+      dataSetId: dataSetId,
+      name: name,
+      revisionId: revisionId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -748,10 +768,11 @@ class DataExchange {
     String name,
   }) async {
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
-    final $payload = <String, dynamic>{
-      if (description != null) 'Description': description,
-      if (name != null) 'Name': name,
-    };
+    final $payload = UpdateDataSetRequest(
+      dataSetId: dataSetId,
+      description: description,
+      name: name,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -797,10 +818,12 @@ class DataExchange {
       0,
       16384,
     );
-    final $payload = <String, dynamic>{
-      if (comment != null) 'Comment': comment,
-      if (finalized != null) 'Finalized': finalized,
-    };
+    final $payload = UpdateRevisionRequest(
+      dataSetId: dataSetId,
+      revisionId: revisionId,
+      comment: comment,
+      finalized: finalized,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -963,14 +986,20 @@ enum AssetType {
   s3Snapshot,
 }
 
-extension on AssetType {
-  String toValue() {
-    switch (this) {
-      case AssetType.s3Snapshot:
-        return 'S3_SNAPSHOT';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CancelJobRequest {
+  /// The unique identifier for a job.
+  @_s.JsonKey(name: 'JobId', ignore: true)
+  final String jobId;
+
+  CancelJobRequest({
+    @_s.required this.jobId,
+  });
+  Map<String, dynamic> toJson() => _$CancelJobRequestToJson(this);
 }
 
 enum Code {
@@ -988,6 +1017,43 @@ enum Code {
   validationException,
   @_s.JsonValue('MALWARE_SCAN_ENCRYPTED_FILE')
   malwareScanEncryptedFile,
+}
+
+/// The request body for CreateDataSet.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDataSetRequest {
+  /// The type of file your data is stored in. Currently, the supported asset type
+  /// is S3_SNAPSHOT.
+  @_s.JsonKey(name: 'AssetType')
+  final AssetType assetType;
+
+  /// A description for the data set. This value can be up to 16,348 characters
+  /// long.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The name of the data set.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// A data set tag is an optional label that you can assign to a data set when
+  /// you create it. Each tag consists of a key and an optional value, both of
+  /// which you define. When you use tagging, you can also use tag-based access
+  /// control in IAM policies to control access to these data sets and revisions.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  CreateDataSetRequest({
+    @_s.required this.assetType,
+    @_s.required this.description,
+    @_s.required this.name,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateDataSetRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1064,6 +1130,28 @@ class CreateDataSetResponse {
       _$CreateDataSetResponseFromJson(json);
 }
 
+/// The request body for CreateJob.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateJobRequest {
+  /// The details for the CreateJob request.
+  @_s.JsonKey(name: 'Details')
+  final RequestDetails details;
+
+  /// The type of job to be created.
+  @_s.JsonKey(name: 'Type')
+  final Type type;
+
+  CreateJobRequest({
+    @_s.required this.details,
+    @_s.required this.type,
+  });
+  Map<String, dynamic> toJson() => _$CreateJobRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -1116,6 +1204,36 @@ class CreateJobResponse {
   });
   factory CreateJobResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateJobResponseFromJson(json);
+}
+
+/// The request body for CreateRevision.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateRevisionRequest {
+  /// The unique identifier for a data set.
+  @_s.JsonKey(name: 'DataSetId', ignore: true)
+  final String dataSetId;
+
+  /// An optional comment about the revision.
+  @_s.JsonKey(name: 'Comment')
+  final String comment;
+
+  /// A revision tag is an optional label that you can assign to a revision when
+  /// you create it. Each tag consists of a key and an optional value, both of
+  /// which you define. When you use tagging, you can also use tag-based access
+  /// control in IAM policies to control access to these data sets and revisions.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  CreateRevisionRequest({
+    @_s.required this.dataSetId,
+    this.comment,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateRevisionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1255,6 +1373,69 @@ class DataSetEntry {
   });
   factory DataSetEntry.fromJson(Map<String, dynamic> json) =>
       _$DataSetEntryFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteAssetRequest {
+  /// The unique identifier for an asset.
+  @_s.JsonKey(name: 'AssetId', ignore: true)
+  final String assetId;
+
+  /// The unique identifier for a data set.
+  @_s.JsonKey(name: 'DataSetId', ignore: true)
+  final String dataSetId;
+
+  /// The unique identifier for a revision.
+  @_s.JsonKey(name: 'RevisionId', ignore: true)
+  final String revisionId;
+
+  DeleteAssetRequest({
+    @_s.required this.assetId,
+    @_s.required this.dataSetId,
+    @_s.required this.revisionId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteAssetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDataSetRequest {
+  /// The unique identifier for a data set.
+  @_s.JsonKey(name: 'DataSetId', ignore: true)
+  final String dataSetId;
+
+  DeleteDataSetRequest({
+    @_s.required this.dataSetId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDataSetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteRevisionRequest {
+  /// The unique identifier for a data set.
+  @_s.JsonKey(name: 'DataSetId', ignore: true)
+  final String dataSetId;
+
+  /// The unique identifier for a revision.
+  @_s.JsonKey(name: 'RevisionId', ignore: true)
+  final String revisionId;
+
+  DeleteRevisionRequest({
+    @_s.required this.dataSetId,
+    @_s.required this.revisionId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteRevisionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2234,6 +2415,22 @@ class S3SnapshotAsset {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartJobRequest {
+  /// The unique identifier for a job.
+  @_s.JsonKey(name: 'JobId', ignore: true)
+  final String jobId;
+
+  StartJobRequest({
+    @_s.required this.jobId,
+  });
+  Map<String, dynamic> toJson() => _$StartJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartJobResponse {
@@ -2257,6 +2454,28 @@ enum State {
   timedOut,
 }
 
+/// The request body for TagResource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// An Amazon Resource Name (ARN) that uniquely identifies an AWS resource.
+  @_s.JsonKey(name: 'resource-arn', ignore: true)
+  final String resourceArn;
+
+  /// A label that consists of a customer-defined key and an optional value.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
 enum Type {
   @_s.JsonValue('IMPORT_ASSETS_FROM_S3')
   importAssetsFromS3,
@@ -2268,20 +2487,59 @@ enum Type {
   exportAssetToSignedUrl,
 }
 
-extension on Type {
-  String toValue() {
-    switch (this) {
-      case Type.importAssetsFromS3:
-        return 'IMPORT_ASSETS_FROM_S3';
-      case Type.importAssetFromSignedUrl:
-        return 'IMPORT_ASSET_FROM_SIGNED_URL';
-      case Type.exportAssetsToS3:
-        return 'EXPORT_ASSETS_TO_S3';
-      case Type.exportAssetToSignedUrl:
-        return 'EXPORT_ASSET_TO_SIGNED_URL';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// An Amazon Resource Name (ARN) that uniquely identifies an AWS resource.
+  @_s.JsonKey(name: 'resource-arn', ignore: true)
+  final String resourceArn;
+
+  /// The key tags.
+  @_s.JsonKey(name: 'tagKeys', ignore: true)
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+/// The request body for UpdateAsset.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateAssetRequest {
+  /// The unique identifier for an asset.
+  @_s.JsonKey(name: 'AssetId', ignore: true)
+  final String assetId;
+
+  /// The unique identifier for a data set.
+  @_s.JsonKey(name: 'DataSetId', ignore: true)
+  final String dataSetId;
+
+  /// The name of the asset. When importing from Amazon S3, the S3 object key is
+  /// used as the asset name. When exporting to Amazon S3, the asset name is used
+  /// as default target S3 object key.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The unique identifier for a revision.
+  @_s.JsonKey(name: 'RevisionId', ignore: true)
+  final String revisionId;
+
+  UpdateAssetRequest({
+    @_s.required this.assetId,
+    @_s.required this.dataSetId,
+    @_s.required this.name,
+    @_s.required this.revisionId,
+  });
+  Map<String, dynamic> toJson() => _$UpdateAssetRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2353,6 +2611,33 @@ class UpdateAssetResponse {
       _$UpdateAssetResponseFromJson(json);
 }
 
+/// The request body for UpdateDataSet.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDataSetRequest {
+  /// The unique identifier for a data set.
+  @_s.JsonKey(name: 'DataSetId', ignore: true)
+  final String dataSetId;
+
+  /// The description for the data set.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The name of the data set.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  UpdateDataSetRequest({
+    @_s.required this.dataSetId,
+    this.description,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDataSetRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2420,6 +2705,40 @@ class UpdateDataSetResponse {
   });
   factory UpdateDataSetResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateDataSetResponseFromJson(json);
+}
+
+/// The request body for UpdateRevision.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateRevisionRequest {
+  /// The unique identifier for a data set.
+  @_s.JsonKey(name: 'DataSetId', ignore: true)
+  final String dataSetId;
+
+  /// The unique identifier for a revision.
+  @_s.JsonKey(name: 'RevisionId', ignore: true)
+  final String revisionId;
+
+  /// An optional comment about the revision.
+  @_s.JsonKey(name: 'Comment')
+  final String comment;
+
+  /// Finalizing a revision tells AWS Data Exchange that your changes to the
+  /// assets in the revision are complete. After it's in this read-only state, you
+  /// can publish the revision to your products.
+  @_s.JsonKey(name: 'Finalized')
+  final bool finalized;
+
+  UpdateRevisionRequest({
+    @_s.required this.dataSetId,
+    @_s.required this.revisionId,
+    this.comment,
+    this.finalized,
+  });
+  Map<String, dynamic> toJson() => _$UpdateRevisionRequestToJson(this);
 }
 
 @_s.JsonSerializable(

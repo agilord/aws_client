@@ -66,6 +66,20 @@ AttemptDetail _$AttemptDetailFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CancelJobRequestToJson(CancelJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('jobId', instance.jobId);
+  writeNotNull('reason', instance.reason);
+  return val;
+}
+
 CancelJobResponse _$CancelJobResponseFromJson(Map<String, dynamic> json) {
   return CancelJobResponse();
 }
@@ -392,6 +406,24 @@ ContainerSummary _$ContainerSummaryFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateComputeEnvironmentRequestToJson(
+    CreateComputeEnvironmentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('computeEnvironmentName', instance.computeEnvironmentName);
+  writeNotNull('serviceRole', instance.serviceRole);
+  writeNotNull('type', _$CETypeEnumMap[instance.type]);
+  writeNotNull('computeResources', instance.computeResources?.toJson());
+  writeNotNull('state', _$CEStateEnumMap[instance.state]);
+  return val;
+}
+
 CreateComputeEnvironmentResponse _$CreateComputeEnvironmentResponseFromJson(
     Map<String, dynamic> json) {
   return CreateComputeEnvironmentResponse(
@@ -399,6 +431,29 @@ CreateComputeEnvironmentResponse _$CreateComputeEnvironmentResponseFromJson(
     computeEnvironmentName: json['computeEnvironmentName'] as String,
   );
 }
+
+Map<String, dynamic> _$CreateJobQueueRequestToJson(
+    CreateJobQueueRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('computeEnvironmentOrder',
+      instance.computeEnvironmentOrder?.map((e) => e?.toJson())?.toList());
+  writeNotNull('jobQueueName', instance.jobQueueName);
+  writeNotNull('priority', instance.priority);
+  writeNotNull('state', _$JQStateEnumMap[instance.state]);
+  return val;
+}
+
+const _$JQStateEnumMap = {
+  JQState.enabled: 'ENABLED',
+  JQState.disabled: 'DISABLED',
+};
 
 CreateJobQueueResponse _$CreateJobQueueResponseFromJson(
     Map<String, dynamic> json) {
@@ -408,9 +463,37 @@ CreateJobQueueResponse _$CreateJobQueueResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteComputeEnvironmentRequestToJson(
+    DeleteComputeEnvironmentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('computeEnvironment', instance.computeEnvironment);
+  return val;
+}
+
 DeleteComputeEnvironmentResponse _$DeleteComputeEnvironmentResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteComputeEnvironmentResponse();
+}
+
+Map<String, dynamic> _$DeleteJobQueueRequestToJson(
+    DeleteJobQueueRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('jobQueue', instance.jobQueue);
+  return val;
 }
 
 DeleteJobQueueResponse _$DeleteJobQueueResponseFromJson(
@@ -418,9 +501,39 @@ DeleteJobQueueResponse _$DeleteJobQueueResponseFromJson(
   return DeleteJobQueueResponse();
 }
 
+Map<String, dynamic> _$DeregisterJobDefinitionRequestToJson(
+    DeregisterJobDefinitionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('jobDefinition', instance.jobDefinition);
+  return val;
+}
+
 DeregisterJobDefinitionResponse _$DeregisterJobDefinitionResponseFromJson(
     Map<String, dynamic> json) {
   return DeregisterJobDefinitionResponse();
+}
+
+Map<String, dynamic> _$DescribeComputeEnvironmentsRequestToJson(
+    DescribeComputeEnvironmentsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('computeEnvironments', instance.computeEnvironments);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 DescribeComputeEnvironmentsResponse
@@ -435,6 +548,24 @@ DescribeComputeEnvironmentsResponse
   );
 }
 
+Map<String, dynamic> _$DescribeJobDefinitionsRequestToJson(
+    DescribeJobDefinitionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('jobDefinitionName', instance.jobDefinitionName);
+  writeNotNull('jobDefinitions', instance.jobDefinitions);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('status', instance.status);
+  return val;
+}
+
 DescribeJobDefinitionsResponse _$DescribeJobDefinitionsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeJobDefinitionsResponse(
@@ -447,6 +578,22 @@ DescribeJobDefinitionsResponse _$DescribeJobDefinitionsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeJobQueuesRequestToJson(
+    DescribeJobQueuesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('jobQueues', instance.jobQueues);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 DescribeJobQueuesResponse _$DescribeJobQueuesResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeJobQueuesResponse(
@@ -457,6 +604,19 @@ DescribeJobQueuesResponse _$DescribeJobQueuesResponseFromJson(
         ?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeJobsRequestToJson(DescribeJobsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('jobs', instance.jobs);
+  return val;
 }
 
 DescribeJobsResponse _$DescribeJobsResponseFromJson(Map<String, dynamic> json) {
@@ -637,11 +797,6 @@ JobQueueDetail _$JobQueueDetailFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$JQStateEnumMap = {
-  JQState.enabled: 'ENABLED',
-  JQState.disabled: 'DISABLED',
-};
-
 const _$JQStatusEnumMap = {
   JQStatus.creating: 'CREATING',
   JQStatus.updating: 'UPDATING',
@@ -758,6 +913,24 @@ Map<String, dynamic> _$LinuxParametersToJson(LinuxParameters instance) {
   }
 
   writeNotNull('devices', instance.devices?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+Map<String, dynamic> _$ListJobsRequestToJson(ListJobsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arrayJobId', instance.arrayJobId);
+  writeNotNull('jobQueue', instance.jobQueue);
+  writeNotNull('jobStatus', _$JobStatusEnumMap[instance.jobStatus]);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('multiNodeJobId', instance.multiNodeJobId);
+  writeNotNull('nextToken', instance.nextToken);
   return val;
 }
 
@@ -900,6 +1073,31 @@ Map<String, dynamic> _$NodeRangePropertyToJson(NodeRangeProperty instance) {
   return val;
 }
 
+Map<String, dynamic> _$RegisterJobDefinitionRequestToJson(
+    RegisterJobDefinitionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('jobDefinitionName', instance.jobDefinitionName);
+  writeNotNull('type', _$JobDefinitionTypeEnumMap[instance.type]);
+  writeNotNull('containerProperties', instance.containerProperties?.toJson());
+  writeNotNull('nodeProperties', instance.nodeProperties?.toJson());
+  writeNotNull('parameters', instance.parameters);
+  writeNotNull('retryStrategy', instance.retryStrategy?.toJson());
+  writeNotNull('timeout', instance.timeout?.toJson());
+  return val;
+}
+
+const _$JobDefinitionTypeEnumMap = {
+  JobDefinitionType.container: 'container',
+  JobDefinitionType.multinode: 'multinode',
+};
+
 RegisterJobDefinitionResponse _$RegisterJobDefinitionResponseFromJson(
     Map<String, dynamic> json) {
   return RegisterJobDefinitionResponse(
@@ -953,11 +1151,48 @@ Map<String, dynamic> _$RetryStrategyToJson(RetryStrategy instance) {
   return val;
 }
 
+Map<String, dynamic> _$SubmitJobRequestToJson(SubmitJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('jobDefinition', instance.jobDefinition);
+  writeNotNull('jobName', instance.jobName);
+  writeNotNull('jobQueue', instance.jobQueue);
+  writeNotNull('arrayProperties', instance.arrayProperties?.toJson());
+  writeNotNull('containerOverrides', instance.containerOverrides?.toJson());
+  writeNotNull(
+      'dependsOn', instance.dependsOn?.map((e) => e?.toJson())?.toList());
+  writeNotNull('nodeOverrides', instance.nodeOverrides?.toJson());
+  writeNotNull('parameters', instance.parameters);
+  writeNotNull('retryStrategy', instance.retryStrategy?.toJson());
+  writeNotNull('timeout', instance.timeout?.toJson());
+  return val;
+}
+
 SubmitJobResponse _$SubmitJobResponseFromJson(Map<String, dynamic> json) {
   return SubmitJobResponse(
     jobId: json['jobId'] as String,
     jobName: json['jobName'] as String,
   );
+}
+
+Map<String, dynamic> _$TerminateJobRequestToJson(TerminateJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('jobId', instance.jobId);
+  writeNotNull('reason', instance.reason);
+  return val;
 }
 
 TerminateJobResponse _$TerminateJobResponseFromJson(Map<String, dynamic> json) {
@@ -987,12 +1222,47 @@ Map<String, dynamic> _$UlimitToJson(Ulimit instance) {
   return val;
 }
 
+Map<String, dynamic> _$UpdateComputeEnvironmentRequestToJson(
+    UpdateComputeEnvironmentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('computeEnvironment', instance.computeEnvironment);
+  writeNotNull('computeResources', instance.computeResources?.toJson());
+  writeNotNull('serviceRole', instance.serviceRole);
+  writeNotNull('state', _$CEStateEnumMap[instance.state]);
+  return val;
+}
+
 UpdateComputeEnvironmentResponse _$UpdateComputeEnvironmentResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateComputeEnvironmentResponse(
     computeEnvironmentArn: json['computeEnvironmentArn'] as String,
     computeEnvironmentName: json['computeEnvironmentName'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateJobQueueRequestToJson(
+    UpdateJobQueueRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('jobQueue', instance.jobQueue);
+  writeNotNull('computeEnvironmentOrder',
+      instance.computeEnvironmentOrder?.map((e) => e?.toJson())?.toList());
+  writeNotNull('priority', instance.priority);
+  writeNotNull('state', _$JQStateEnumMap[instance.state]);
+  return val;
 }
 
 UpdateJobQueueResponse _$UpdateJobQueueResponseFromJson(

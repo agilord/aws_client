@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -20,6 +19,8 @@ import 'package:shared_aws_api/shared.dart'
         unixTimestampToJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
+
+part 'enum.g.dart';
 
 /// Enum
 class Enum {
@@ -51,10 +52,13 @@ class Enum {
       if (queryFooEnum != null) _s.toQueryParam('Enum', queryFooEnum),
       if (queryListEnums != null) _s.toQueryParam('List', queryListEnums),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{
-      if (fooEnum != null) 'FooEnum': fooEnum?.toValue(),
-      if (listEnums != null) 'ListEnums': listEnums,
-    };
+    final $payload = InputShape(
+      fooEnum: fooEnum,
+      headerEnum: headerEnum,
+      listEnums: listEnums,
+      queryFooEnum: queryFooEnum,
+      queryListEnums: queryListEnums,
+    );
     await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -78,10 +82,13 @@ class Enum {
       if (queryFooEnum != null) _s.toQueryParam('Enum', queryFooEnum),
       if (queryListEnums != null) _s.toQueryParam('List', queryListEnums),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{
-      if (fooEnum != null) 'FooEnum': fooEnum?.toValue(),
-      if (listEnums != null) 'ListEnums': listEnums,
-    };
+    final $payload = InputShape(
+      fooEnum: fooEnum,
+      headerEnum: headerEnum,
+      listEnums: listEnums,
+      queryFooEnum: queryFooEnum,
+      queryListEnums: queryListEnums,
+    );
     await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -90,6 +97,33 @@ class Enum {
       exceptionFnMap: _exceptionFns,
     );
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class InputShape {
+  @_s.JsonKey(name: 'FooEnum')
+  final EnumType fooEnum;
+  @_s.JsonKey(name: 'x-amz-enum', ignore: true)
+  final EnumType headerEnum;
+  @_s.JsonKey(name: 'ListEnums')
+  final List<String> listEnums;
+  @_s.JsonKey(name: 'Enum', ignore: true)
+  final EnumType queryFooEnum;
+  @_s.JsonKey(name: 'List', ignore: true)
+  final List<String> queryListEnums;
+
+  InputShape({
+    this.fooEnum,
+    this.headerEnum,
+    this.listEnums,
+    this.queryFooEnum,
+    this.queryListEnums,
+  });
+  Map<String, dynamic> toJson() => _$InputShapeToJson(this);
 }
 
 enum EnumType {

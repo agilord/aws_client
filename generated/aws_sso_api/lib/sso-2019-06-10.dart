@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -226,7 +225,9 @@ class SSO {
     ArgumentError.checkNotNull(accessToken, 'accessToken');
     final headers = <String, String>{};
     accessToken?.let((v) => headers['x-amz-sso_bearer_token'] = v.toString());
-    final $payload = <String, dynamic>{};
+    final $payload = LogoutRequest(
+      accessToken: accessToken,
+    );
     await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -326,6 +327,25 @@ class ListAccountsResponse {
   });
   factory ListAccountsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListAccountsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class LogoutRequest {
+  /// The token issued by the <code>CreateToken</code> API call. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/OIDCAPIReference/API_CreateToken.html">CreateToken</a>
+  /// in the <i>AWS SSO OIDC API Reference Guide</i>.
+  @_s.JsonKey(name: 'x-amz-sso_bearer_token', ignore: true)
+  final String accessToken;
+
+  LogoutRequest({
+    @_s.required this.accessToken,
+  });
+  Map<String, dynamic> toJson() => _$LogoutRequestToJson(this);
 }
 
 /// Provides information about the role credentials that are assigned to the

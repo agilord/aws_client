@@ -6,6 +6,14 @@ part of 'workdocs-2016-05-01.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$AbortDocumentVersionUploadRequestToJson(
+        AbortDocumentVersionUploadRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$ActivateUserRequestToJson(
+        ActivateUserRequest instance) =>
+    <String, dynamic>{};
+
 ActivateUserResponse _$ActivateUserResponseFromJson(Map<String, dynamic> json) {
   return ActivateUserResponse(
     user: json['User'] == null
@@ -112,6 +120,22 @@ const _$ActivityTypeEnumMap = {
   ActivityType.folderMoved: 'FOLDER_MOVED',
 };
 
+Map<String, dynamic> _$AddResourcePermissionsRequestToJson(
+    AddResourcePermissionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'Principals', instance.principals?.map((e) => e?.toJson())?.toList());
+  writeNotNull('NotificationOptions', instance.notificationOptions?.toJson());
+  return val;
+}
+
 AddResourcePermissionsResponse _$AddResourcePermissionsResponseFromJson(
     Map<String, dynamic> json) {
   return AddResourcePermissionsResponse(
@@ -163,6 +187,25 @@ CommentMetadata _$CommentMetadataFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateCommentRequestToJson(
+    CreateCommentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Text', instance.text);
+  writeNotNull('NotifyCollaborators', instance.notifyCollaborators);
+  writeNotNull('ParentId', instance.parentId);
+  writeNotNull('ThreadId', instance.threadId);
+  writeNotNull(
+      'Visibility', _$CommentVisibilityTypeEnumMap[instance.visibility]);
+  return val;
+}
+
 CreateCommentResponse _$CreateCommentResponseFromJson(
     Map<String, dynamic> json) {
   return CreateCommentResponse(
@@ -172,9 +215,37 @@ CreateCommentResponse _$CreateCommentResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateCustomMetadataRequestToJson(
+    CreateCustomMetadataRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CustomMetadata', instance.customMetadata);
+  return val;
+}
+
 CreateCustomMetadataResponse _$CreateCustomMetadataResponseFromJson(
     Map<String, dynamic> json) {
   return CreateCustomMetadataResponse();
+}
+
+Map<String, dynamic> _$CreateFolderRequestToJson(CreateFolderRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ParentFolderId', instance.parentFolderId);
+  writeNotNull('Name', instance.name);
+  return val;
 }
 
 CreateFolderResponse _$CreateFolderResponseFromJson(Map<String, dynamic> json) {
@@ -185,9 +256,48 @@ CreateFolderResponse _$CreateFolderResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateLabelsRequestToJson(CreateLabelsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Labels', instance.labels);
+  return val;
+}
+
 CreateLabelsResponse _$CreateLabelsResponseFromJson(Map<String, dynamic> json) {
   return CreateLabelsResponse();
 }
+
+Map<String, dynamic> _$CreateNotificationSubscriptionRequestToJson(
+    CreateNotificationSubscriptionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Endpoint', instance.endpoint);
+  writeNotNull(
+      'Protocol', _$SubscriptionProtocolTypeEnumMap[instance.protocol]);
+  writeNotNull(
+      'SubscriptionType', _$SubscriptionTypeEnumMap[instance.subscriptionType]);
+  return val;
+}
+
+const _$SubscriptionProtocolTypeEnumMap = {
+  SubscriptionProtocolType.https: 'HTTPS',
+};
+
+const _$SubscriptionTypeEnumMap = {
+  SubscriptionType.all: 'ALL',
+};
 
 CreateNotificationSubscriptionResponse
     _$CreateNotificationSubscriptionResponseFromJson(
@@ -199,6 +309,26 @@ CreateNotificationSubscriptionResponse
   );
 }
 
+Map<String, dynamic> _$CreateUserRequestToJson(CreateUserRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GivenName', instance.givenName);
+  writeNotNull('Password', instance.password);
+  writeNotNull('Surname', instance.surname);
+  writeNotNull('Username', instance.username);
+  writeNotNull('EmailAddress', instance.emailAddress);
+  writeNotNull('OrganizationId', instance.organizationId);
+  writeNotNull('StorageRule', instance.storageRule?.toJson());
+  writeNotNull('TimeZoneId', instance.timeZoneId);
+  return val;
+}
+
 CreateUserResponse _$CreateUserResponseFromJson(Map<String, dynamic> json) {
   return CreateUserResponse(
     user: json['User'] == null
@@ -207,14 +337,49 @@ CreateUserResponse _$CreateUserResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DeactivateUserRequestToJson(
+        DeactivateUserRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteCommentRequestToJson(
+        DeleteCommentRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteCustomMetadataRequestToJson(
+        DeleteCustomMetadataRequest instance) =>
+    <String, dynamic>{};
+
 DeleteCustomMetadataResponse _$DeleteCustomMetadataResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteCustomMetadataResponse();
 }
 
+Map<String, dynamic> _$DeleteDocumentRequestToJson(
+        DeleteDocumentRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteFolderContentsRequestToJson(
+        DeleteFolderContentsRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteFolderRequestToJson(
+        DeleteFolderRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteLabelsRequestToJson(
+        DeleteLabelsRequest instance) =>
+    <String, dynamic>{};
+
 DeleteLabelsResponse _$DeleteLabelsResponseFromJson(Map<String, dynamic> json) {
   return DeleteLabelsResponse();
 }
+
+Map<String, dynamic> _$DeleteNotificationSubscriptionRequestToJson(
+        DeleteNotificationSubscriptionRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteUserRequestToJson(DeleteUserRequest instance) =>
+    <String, dynamic>{};
 
 DescribeActivitiesResponse _$DescribeActivitiesResponseFromJson(
     Map<String, dynamic> json) {
@@ -482,6 +647,28 @@ GroupMetadata _$GroupMetadataFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$InitiateDocumentVersionUploadRequestToJson(
+    InitiateDocumentVersionUploadRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ParentFolderId', instance.parentFolderId);
+  writeNotNull('ContentCreatedTimestamp',
+      unixTimestampToJson(instance.contentCreatedTimestamp));
+  writeNotNull('ContentModifiedTimestamp',
+      unixTimestampToJson(instance.contentModifiedTimestamp));
+  writeNotNull('ContentType', instance.contentType);
+  writeNotNull('DocumentSizeInBytes', instance.documentSizeInBytes);
+  writeNotNull('Id', instance.id);
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
 InitiateDocumentVersionUploadResponse
     _$InitiateDocumentVersionUploadResponseFromJson(Map<String, dynamic> json) {
   return InitiateDocumentVersionUploadResponse(
@@ -561,6 +748,14 @@ const _$PrincipalTypeEnumMap = {
   PrincipalType.anonymous: 'ANONYMOUS',
   PrincipalType.organization: 'ORGANIZATION',
 };
+
+Map<String, dynamic> _$RemoveAllResourcePermissionsRequestToJson(
+        RemoveAllResourcePermissionsRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$RemoveResourcePermissionRequestToJson(
+        RemoveResourcePermissionRequest instance) =>
+    <String, dynamic>{};
 
 ResourceMetadata _$ResourceMetadataFromJson(Map<String, dynamic> json) {
   return ResourceMetadata(
@@ -666,8 +861,103 @@ Subscription _$SubscriptionFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$SubscriptionProtocolTypeEnumMap = {
-  SubscriptionProtocolType.https: 'HTTPS',
+Map<String, dynamic> _$UpdateDocumentRequestToJson(
+    UpdateDocumentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('ParentFolderId', instance.parentFolderId);
+  writeNotNull(
+      'ResourceState', _$ResourceStateTypeEnumMap[instance.resourceState]);
+  return val;
+}
+
+Map<String, dynamic> _$UpdateDocumentVersionRequestToJson(
+    UpdateDocumentVersionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'VersionStatus', _$DocumentVersionStatusEnumMap[instance.versionStatus]);
+  return val;
+}
+
+const _$DocumentVersionStatusEnumMap = {
+  DocumentVersionStatus.active: 'ACTIVE',
+};
+
+Map<String, dynamic> _$UpdateFolderRequestToJson(UpdateFolderRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('ParentFolderId', instance.parentFolderId);
+  writeNotNull(
+      'ResourceState', _$ResourceStateTypeEnumMap[instance.resourceState]);
+  return val;
+}
+
+Map<String, dynamic> _$UpdateUserRequestToJson(UpdateUserRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GivenName', instance.givenName);
+  writeNotNull('GrantPoweruserPrivileges',
+      _$BooleanEnumTypeEnumMap[instance.grantPoweruserPrivileges]);
+  writeNotNull('Locale', _$LocaleTypeEnumMap[instance.locale]);
+  writeNotNull('StorageRule', instance.storageRule?.toJson());
+  writeNotNull('Surname', instance.surname);
+  writeNotNull('TimeZoneId', instance.timeZoneId);
+  writeNotNull('Type', _$UserTypeEnumMap[instance.type]);
+  return val;
+}
+
+const _$BooleanEnumTypeEnumMap = {
+  BooleanEnumType.$true: 'TRUE',
+  BooleanEnumType.$false: 'FALSE',
+};
+
+const _$LocaleTypeEnumMap = {
+  LocaleType.en: 'en',
+  LocaleType.fr: 'fr',
+  LocaleType.ko: 'ko',
+  LocaleType.de: 'de',
+  LocaleType.es: 'es',
+  LocaleType.ja: 'ja',
+  LocaleType.ru: 'ru',
+  LocaleType.zhCn: 'zh_CN',
+  LocaleType.zhTw: 'zh_TW',
+  LocaleType.ptBr: 'pt_BR',
+  LocaleType.$default: 'default',
+};
+
+const _$UserTypeEnumMap = {
+  UserType.user: 'USER',
+  UserType.admin: 'ADMIN',
+  UserType.poweruser: 'POWERUSER',
+  UserType.minimaluser: 'MINIMALUSER',
+  UserType.workspacesuser: 'WORKSPACESUSER',
 };
 
 UpdateUserResponse _$UpdateUserResponseFromJson(Map<String, dynamic> json) {
@@ -709,32 +999,10 @@ User _$UserFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$LocaleTypeEnumMap = {
-  LocaleType.en: 'en',
-  LocaleType.fr: 'fr',
-  LocaleType.ko: 'ko',
-  LocaleType.de: 'de',
-  LocaleType.es: 'es',
-  LocaleType.ja: 'ja',
-  LocaleType.ru: 'ru',
-  LocaleType.zhCn: 'zh_CN',
-  LocaleType.zhTw: 'zh_TW',
-  LocaleType.ptBr: 'pt_BR',
-  LocaleType.$default: 'default',
-};
-
 const _$UserStatusTypeEnumMap = {
   UserStatusType.active: 'ACTIVE',
   UserStatusType.inactive: 'INACTIVE',
   UserStatusType.pending: 'PENDING',
-};
-
-const _$UserTypeEnumMap = {
-  UserType.user: 'USER',
-  UserType.admin: 'ADMIN',
-  UserType.poweruser: 'POWERUSER',
-  UserType.minimaluser: 'MINIMALUSER',
-  UserType.workspacesuser: 'WORKSPACESUSER',
 };
 
 UserMetadata _$UserMetadataFromJson(Map<String, dynamic> json) {

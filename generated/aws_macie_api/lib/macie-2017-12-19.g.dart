@@ -14,6 +14,36 @@ AccessDeniedException _$AccessDeniedExceptionFromJson(
   );
 }
 
+Map<String, dynamic> _$AssociateMemberAccountRequestToJson(
+    AssociateMemberAccountRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('memberAccountId', instance.memberAccountId);
+  return val;
+}
+
+Map<String, dynamic> _$AssociateS3ResourcesRequestToJson(
+    AssociateS3ResourcesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      's3Resources', instance.s3Resources?.map((e) => e?.toJson())?.toList());
+  writeNotNull('memberAccountId', instance.memberAccountId);
+  return val;
+}
+
 AssociateS3ResourcesResult _$AssociateS3ResourcesResultFromJson(
     Map<String, dynamic> json) {
   return AssociateS3ResourcesResult(
@@ -108,6 +138,36 @@ Map<String, dynamic> _$ClassificationTypeUpdateToJson(
   return val;
 }
 
+Map<String, dynamic> _$DisassociateMemberAccountRequestToJson(
+    DisassociateMemberAccountRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('memberAccountId', instance.memberAccountId);
+  return val;
+}
+
+Map<String, dynamic> _$DisassociateS3ResourcesRequestToJson(
+    DisassociateS3ResourcesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('associatedS3Resources',
+      instance.associatedS3Resources?.map((e) => e?.toJson())?.toList());
+  writeNotNull('memberAccountId', instance.memberAccountId);
+  return val;
+}
+
 DisassociateS3ResourcesResult _$DisassociateS3ResourcesResultFromJson(
     Map<String, dynamic> json) {
   return DisassociateS3ResourcesResult(
@@ -154,6 +214,21 @@ LimitExceededException _$LimitExceededExceptionFromJson(
   );
 }
 
+Map<String, dynamic> _$ListMemberAccountsRequestToJson(
+    ListMemberAccountsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 ListMemberAccountsResult _$ListMemberAccountsResultFromJson(
     Map<String, dynamic> json) {
   return ListMemberAccountsResult(
@@ -164,6 +239,22 @@ ListMemberAccountsResult _$ListMemberAccountsResultFromJson(
         ?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListS3ResourcesRequestToJson(
+    ListS3ResourcesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('memberAccountId', instance.memberAccountId);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 ListS3ResourcesResult _$ListS3ResourcesResultFromJson(
@@ -247,6 +338,22 @@ Map<String, dynamic> _$S3ResourceClassificationUpdateToJson(
   writeNotNull(
       'classificationTypeUpdate', instance.classificationTypeUpdate?.toJson());
   writeNotNull('prefix', instance.prefix);
+  return val;
+}
+
+Map<String, dynamic> _$UpdateS3ResourcesRequestToJson(
+    UpdateS3ResourcesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('s3ResourcesUpdate',
+      instance.s3ResourcesUpdate?.map((e) => e?.toJson())?.toList());
+  writeNotNull('memberAccountId', instance.memberAccountId);
   return val;
 }
 

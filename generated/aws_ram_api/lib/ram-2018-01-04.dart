@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -73,10 +72,10 @@ class RAM {
   }) async {
     ArgumentError.checkNotNull(
         resourceShareInvitationArn, 'resourceShareInvitationArn');
-    final $payload = <String, dynamic>{
-      'resourceShareInvitationArn': resourceShareInvitationArn,
-      if (clientToken != null) 'clientToken': clientToken,
-    };
+    final $payload = AcceptResourceShareInvitationRequest(
+      resourceShareInvitationArn: resourceShareInvitationArn,
+      clientToken: clientToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -121,12 +120,12 @@ class RAM {
     List<String> resourceArns,
   }) async {
     ArgumentError.checkNotNull(resourceShareArn, 'resourceShareArn');
-    final $payload = <String, dynamic>{
-      'resourceShareArn': resourceShareArn,
-      if (clientToken != null) 'clientToken': clientToken,
-      if (principals != null) 'principals': principals,
-      if (resourceArns != null) 'resourceArns': resourceArns,
-    };
+    final $payload = AssociateResourceShareRequest(
+      resourceShareArn: resourceShareArn,
+      clientToken: clientToken,
+      principals: principals,
+      resourceArns: resourceArns,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -170,12 +169,12 @@ class RAM {
   }) async {
     ArgumentError.checkNotNull(permissionArn, 'permissionArn');
     ArgumentError.checkNotNull(resourceShareArn, 'resourceShareArn');
-    final $payload = <String, dynamic>{
-      'permissionArn': permissionArn,
-      'resourceShareArn': resourceShareArn,
-      if (clientToken != null) 'clientToken': clientToken,
-      if (replace != null) 'replace': replace,
-    };
+    final $payload = AssociateResourceSharePermissionRequest(
+      permissionArn: permissionArn,
+      resourceShareArn: resourceShareArn,
+      clientToken: clientToken,
+      replace: replace,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -236,16 +235,15 @@ class RAM {
     List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    final $payload = <String, dynamic>{
-      'name': name,
-      if (allowExternalPrincipals != null)
-        'allowExternalPrincipals': allowExternalPrincipals,
-      if (clientToken != null) 'clientToken': clientToken,
-      if (permissionArns != null) 'permissionArns': permissionArns,
-      if (principals != null) 'principals': principals,
-      if (resourceArns != null) 'resourceArns': resourceArns,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateResourceShareRequest(
+      name: name,
+      allowExternalPrincipals: allowExternalPrincipals,
+      clientToken: clientToken,
+      permissionArns: permissionArns,
+      principals: principals,
+      resourceArns: resourceArns,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -284,7 +282,10 @@ class RAM {
         _s.toQueryParam('resourceShareArn', resourceShareArn),
       if (clientToken != null) _s.toQueryParam('clientToken', clientToken),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteResourceShareRequest(
+      resourceShareArn: resourceShareArn,
+      clientToken: clientToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -327,12 +328,12 @@ class RAM {
     List<String> resourceArns,
   }) async {
     ArgumentError.checkNotNull(resourceShareArn, 'resourceShareArn');
-    final $payload = <String, dynamic>{
-      'resourceShareArn': resourceShareArn,
-      if (clientToken != null) 'clientToken': clientToken,
-      if (principals != null) 'principals': principals,
-      if (resourceArns != null) 'resourceArns': resourceArns,
-    };
+    final $payload = DisassociateResourceShareRequest(
+      resourceShareArn: resourceShareArn,
+      clientToken: clientToken,
+      principals: principals,
+      resourceArns: resourceArns,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -369,11 +370,11 @@ class RAM {
   }) async {
     ArgumentError.checkNotNull(permissionArn, 'permissionArn');
     ArgumentError.checkNotNull(resourceShareArn, 'resourceShareArn');
-    final $payload = <String, dynamic>{
-      'permissionArn': permissionArn,
-      'resourceShareArn': resourceShareArn,
-      if (clientToken != null) 'clientToken': clientToken,
-    };
+    final $payload = DisassociateResourceSharePermissionRequest(
+      permissionArn: permissionArn,
+      resourceShareArn: resourceShareArn,
+      clientToken: clientToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -421,10 +422,10 @@ class RAM {
     int permissionVersion,
   }) async {
     ArgumentError.checkNotNull(permissionArn, 'permissionArn');
-    final $payload = <String, dynamic>{
-      'permissionArn': permissionArn,
-      if (permissionVersion != null) 'permissionVersion': permissionVersion,
-    };
+    final $payload = GetPermissionRequest(
+      permissionArn: permissionArn,
+      permissionVersion: permissionVersion,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -469,12 +470,12 @@ class RAM {
       1,
       500,
     );
-    final $payload = <String, dynamic>{
-      'resourceArns': resourceArns,
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-      if (principal != null) 'principal': principal,
-    };
+    final $payload = GetResourcePoliciesRequest(
+      resourceArns: resourceArns,
+      maxResults: maxResults,
+      nextToken: nextToken,
+      principal: principal,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -537,16 +538,15 @@ class RAM {
       1,
       500,
     );
-    final $payload = <String, dynamic>{
-      'associationType': associationType?.toValue(),
-      if (associationStatus != null)
-        'associationStatus': associationStatus?.toValue(),
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-      if (principal != null) 'principal': principal,
-      if (resourceArn != null) 'resourceArn': resourceArn,
-      if (resourceShareArns != null) 'resourceShareArns': resourceShareArns,
-    };
+    final $payload = GetResourceShareAssociationsRequest(
+      associationType: associationType,
+      associationStatus: associationStatus,
+      maxResults: maxResults,
+      nextToken: nextToken,
+      principal: principal,
+      resourceArn: resourceArn,
+      resourceShareArns: resourceShareArns,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -591,13 +591,12 @@ class RAM {
       1,
       500,
     );
-    final $payload = <String, dynamic>{
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-      if (resourceShareArns != null) 'resourceShareArns': resourceShareArns,
-      if (resourceShareInvitationArns != null)
-        'resourceShareInvitationArns': resourceShareInvitationArns,
-    };
+    final $payload = GetResourceShareInvitationsRequest(
+      maxResults: maxResults,
+      nextToken: nextToken,
+      resourceShareArns: resourceShareArns,
+      resourceShareInvitationArns: resourceShareInvitationArns,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -655,16 +654,15 @@ class RAM {
       1,
       500,
     );
-    final $payload = <String, dynamic>{
-      'resourceOwner': resourceOwner?.toValue(),
-      if (maxResults != null) 'maxResults': maxResults,
-      if (name != null) 'name': name,
-      if (nextToken != null) 'nextToken': nextToken,
-      if (resourceShareArns != null) 'resourceShareArns': resourceShareArns,
-      if (resourceShareStatus != null)
-        'resourceShareStatus': resourceShareStatus?.toValue(),
-      if (tagFilters != null) 'tagFilters': tagFilters,
-    };
+    final $payload = GetResourceSharesRequest(
+      resourceOwner: resourceOwner,
+      maxResults: maxResults,
+      name: name,
+      nextToken: nextToken,
+      resourceShareArns: resourceShareArns,
+      resourceShareStatus: resourceShareStatus,
+      tagFilters: tagFilters,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -711,11 +709,11 @@ class RAM {
       1,
       500,
     );
-    final $payload = <String, dynamic>{
-      'resourceShareInvitationArn': resourceShareInvitationArn,
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
+    final $payload = ListPendingInvitationResourcesRequest(
+      resourceShareInvitationArn: resourceShareInvitationArn,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -756,11 +754,11 @@ class RAM {
       1,
       500,
     );
-    final $payload = <String, dynamic>{
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-      if (resourceType != null) 'resourceType': resourceType,
-    };
+    final $payload = ListPermissionsRequest(
+      maxResults: maxResults,
+      nextToken: nextToken,
+      resourceType: resourceType,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -825,15 +823,15 @@ class RAM {
       1,
       500,
     );
-    final $payload = <String, dynamic>{
-      'resourceOwner': resourceOwner?.toValue(),
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-      if (principals != null) 'principals': principals,
-      if (resourceArn != null) 'resourceArn': resourceArn,
-      if (resourceShareArns != null) 'resourceShareArns': resourceShareArns,
-      if (resourceType != null) 'resourceType': resourceType,
-    };
+    final $payload = ListPrincipalsRequest(
+      resourceOwner: resourceOwner,
+      maxResults: maxResults,
+      nextToken: nextToken,
+      principals: principals,
+      resourceArn: resourceArn,
+      resourceShareArns: resourceShareArns,
+      resourceType: resourceType,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -875,11 +873,11 @@ class RAM {
       1,
       500,
     );
-    final $payload = <String, dynamic>{
-      'resourceShareArn': resourceShareArn,
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
+    final $payload = ListResourceSharePermissionsRequest(
+      resourceShareArn: resourceShareArn,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -945,15 +943,15 @@ class RAM {
       1,
       500,
     );
-    final $payload = <String, dynamic>{
-      'resourceOwner': resourceOwner?.toValue(),
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-      if (principal != null) 'principal': principal,
-      if (resourceArns != null) 'resourceArns': resourceArns,
-      if (resourceShareArns != null) 'resourceShareArns': resourceShareArns,
-      if (resourceType != null) 'resourceType': resourceType,
-    };
+    final $payload = ListResourcesRequest(
+      resourceOwner: resourceOwner,
+      maxResults: maxResults,
+      nextToken: nextToken,
+      principal: principal,
+      resourceArns: resourceArns,
+      resourceShareArns: resourceShareArns,
+      resourceType: resourceType,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -998,7 +996,9 @@ class RAM {
       if (resourceShareArn != null)
         _s.toQueryParam('resourceShareArn', resourceShareArn),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = PromoteResourceShareCreatedFromPolicyRequest(
+      resourceShareArn: resourceShareArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1033,10 +1033,10 @@ class RAM {
   }) async {
     ArgumentError.checkNotNull(
         resourceShareInvitationArn, 'resourceShareInvitationArn');
-    final $payload = <String, dynamic>{
-      'resourceShareInvitationArn': resourceShareInvitationArn,
-      if (clientToken != null) 'clientToken': clientToken,
-    };
+    final $payload = RejectResourceShareInvitationRequest(
+      resourceShareInvitationArn: resourceShareInvitationArn,
+      clientToken: clientToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1067,10 +1067,10 @@ class RAM {
   }) async {
     ArgumentError.checkNotNull(resourceShareArn, 'resourceShareArn');
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'resourceShareArn': resourceShareArn,
-      'tags': tags,
-    };
+    final $payload = TagResourceRequest(
+      resourceShareArn: resourceShareArn,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1097,10 +1097,10 @@ class RAM {
   }) async {
     ArgumentError.checkNotNull(resourceShareArn, 'resourceShareArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    final $payload = <String, dynamic>{
-      'resourceShareArn': resourceShareArn,
-      'tagKeys': tagKeys,
-    };
+    final $payload = UntagResourceRequest(
+      resourceShareArn: resourceShareArn,
+      tagKeys: tagKeys,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1142,13 +1142,12 @@ class RAM {
     String name,
   }) async {
     ArgumentError.checkNotNull(resourceShareArn, 'resourceShareArn');
-    final $payload = <String, dynamic>{
-      'resourceShareArn': resourceShareArn,
-      if (allowExternalPrincipals != null)
-        'allowExternalPrincipals': allowExternalPrincipals,
-      if (clientToken != null) 'clientToken': clientToken,
-      if (name != null) 'name': name,
-    };
+    final $payload = UpdateResourceShareRequest(
+      resourceShareArn: resourceShareArn,
+      allowExternalPrincipals: allowExternalPrincipals,
+      clientToken: clientToken,
+      name: name,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1157,6 +1156,29 @@ class RAM {
     );
     return UpdateResourceShareResponse.fromJson(response);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AcceptResourceShareInvitationRequest {
+  /// The Amazon Resource Name (ARN) of the invitation.
+  @_s.JsonKey(name: 'resourceShareInvitationArn')
+  final String resourceShareInvitationArn;
+
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  AcceptResourceShareInvitationRequest({
+    @_s.required this.resourceShareInvitationArn,
+    this.clientToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AcceptResourceShareInvitationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1186,6 +1208,42 @@ class AcceptResourceShareInvitationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateResourceSharePermissionRequest {
+  /// The ARN of the AWS RAM permission to associate with the resource share.
+  @_s.JsonKey(name: 'permissionArn')
+  final String permissionArn;
+
+  /// The Amazon Resource Name (ARN) of the resource share.
+  @_s.JsonKey(name: 'resourceShareArn')
+  final String resourceShareArn;
+
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// Indicates whether the permission should replace the permissions that are
+  /// currently associated with the resource share. Use <code>true</code> to
+  /// replace the current permissions. Use <code>false</code> to add the
+  /// permission to the current permission.
+  @_s.JsonKey(name: 'replace')
+  final bool replace;
+
+  AssociateResourceSharePermissionRequest({
+    @_s.required this.permissionArn,
+    @_s.required this.resourceShareArn,
+    this.clientToken,
+    this.replace,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AssociateResourceSharePermissionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AssociateResourceSharePermissionResponse {
@@ -1205,6 +1263,38 @@ class AssociateResourceSharePermissionResponse {
   factory AssociateResourceSharePermissionResponse.fromJson(
           Map<String, dynamic> json) =>
       _$AssociateResourceSharePermissionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateResourceShareRequest {
+  /// The Amazon Resource Name (ARN) of the resource share.
+  @_s.JsonKey(name: 'resourceShareArn')
+  final String resourceShareArn;
+
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// The principals.
+  @_s.JsonKey(name: 'principals')
+  final List<String> principals;
+
+  /// The Amazon Resource Names (ARN) of the resources.
+  @_s.JsonKey(name: 'resourceArns')
+  final List<String> resourceArns;
+
+  AssociateResourceShareRequest({
+    @_s.required this.resourceShareArn,
+    this.clientToken,
+    this.principals,
+    this.resourceArns,
+  });
+  Map<String, dynamic> toJson() => _$AssociateResourceShareRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1233,6 +1323,59 @@ class AssociateResourceShareResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateResourceShareRequest {
+  /// The name of the resource share.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// Indicates whether principals outside your AWS organization can be associated
+  /// with a resource share.
+  @_s.JsonKey(name: 'allowExternalPrincipals')
+  final bool allowExternalPrincipals;
+
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// The ARNs of the permissions to associate with the resource share. If you do
+  /// not specify an ARN for the permission, AWS RAM automatically attaches the
+  /// default version of the permission for each resource type.
+  @_s.JsonKey(name: 'permissionArns')
+  final List<String> permissionArns;
+
+  /// The principals to associate with the resource share. The possible values are
+  /// IDs of AWS accounts, the ARN of an OU or organization from AWS
+  /// Organizations.
+  @_s.JsonKey(name: 'principals')
+  final List<String> principals;
+
+  /// The Amazon Resource Names (ARN) of the resources to associate with the
+  /// resource share.
+  @_s.JsonKey(name: 'resourceArns')
+  final List<String> resourceArns;
+
+  /// One or more tags.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  CreateResourceShareRequest({
+    @_s.required this.name,
+    this.allowExternalPrincipals,
+    this.clientToken,
+    this.permissionArns,
+    this.principals,
+    this.resourceArns,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateResourceShareRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateResourceShareResponse {
@@ -1251,6 +1394,28 @@ class CreateResourceShareResponse {
   });
   factory CreateResourceShareResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateResourceShareResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteResourceShareRequest {
+  /// The Amazon Resource Name (ARN) of the resource share.
+  @_s.JsonKey(name: 'resourceShareArn', ignore: true)
+  final String resourceShareArn;
+
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  @_s.JsonKey(name: 'clientToken', ignore: true)
+  final String clientToken;
+
+  DeleteResourceShareRequest({
+    @_s.required this.resourceShareArn,
+    this.clientToken,
+  });
+  Map<String, dynamic> toJson() => _$DeleteResourceShareRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1279,6 +1444,34 @@ class DeleteResourceShareResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateResourceSharePermissionRequest {
+  /// The ARN of the permission to disassociate from the resource share.
+  @_s.JsonKey(name: 'permissionArn')
+  final String permissionArn;
+
+  /// The Amazon Resource Name (ARN) of the resource share.
+  @_s.JsonKey(name: 'resourceShareArn')
+  final String resourceShareArn;
+
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  DisassociateResourceSharePermissionRequest({
+    @_s.required this.permissionArn,
+    @_s.required this.resourceShareArn,
+    this.clientToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DisassociateResourceSharePermissionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DisassociateResourceSharePermissionResponse {
@@ -1298,6 +1491,39 @@ class DisassociateResourceSharePermissionResponse {
   factory DisassociateResourceSharePermissionResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DisassociateResourceSharePermissionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateResourceShareRequest {
+  /// The Amazon Resource Name (ARN) of the resource share.
+  @_s.JsonKey(name: 'resourceShareArn')
+  final String resourceShareArn;
+
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// The principals.
+  @_s.JsonKey(name: 'principals')
+  final List<String> principals;
+
+  /// The Amazon Resource Names (ARNs) of the resources.
+  @_s.JsonKey(name: 'resourceArns')
+  final List<String> resourceArns;
+
+  DisassociateResourceShareRequest({
+    @_s.required this.resourceShareArn,
+    this.clientToken,
+    this.principals,
+    this.resourceArns,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DisassociateResourceShareRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1345,6 +1571,27 @@ class EnableSharingWithAwsOrganizationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetPermissionRequest {
+  /// The ARN of the permission.
+  @_s.JsonKey(name: 'permissionArn')
+  final String permissionArn;
+
+  /// The identifier for the version of the permission.
+  @_s.JsonKey(name: 'permissionVersion')
+  final int permissionVersion;
+
+  GetPermissionRequest({
+    @_s.required this.permissionArn,
+    this.permissionVersion,
+  });
+  Map<String, dynamic> toJson() => _$GetPermissionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetPermissionResponse {
@@ -1357,6 +1604,39 @@ class GetPermissionResponse {
   });
   factory GetPermissionResponse.fromJson(Map<String, dynamic> json) =>
       _$GetPermissionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetResourcePoliciesRequest {
+  /// The Amazon Resource Names (ARN) of the resources.
+  @_s.JsonKey(name: 'resourceArns')
+  final List<String> resourceArns;
+
+  /// The maximum number of results to return with a single call. To retrieve the
+  /// remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The token for the next page of results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The principal.
+  @_s.JsonKey(name: 'principal')
+  final String principal;
+
+  GetResourcePoliciesRequest({
+    @_s.required this.resourceArns,
+    this.maxResults,
+    this.nextToken,
+    this.principal,
+  });
+  Map<String, dynamic> toJson() => _$GetResourcePoliciesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1380,6 +1660,60 @@ class GetResourcePoliciesResponse {
   });
   factory GetResourcePoliciesResponse.fromJson(Map<String, dynamic> json) =>
       _$GetResourcePoliciesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetResourceShareAssociationsRequest {
+  /// The association type. Specify <code>PRINCIPAL</code> to list the principals
+  /// that are associated with the specified resource share. Specify
+  /// <code>RESOURCE</code> to list the resources that are associated with the
+  /// specified resource share.
+  @_s.JsonKey(name: 'associationType')
+  final ResourceShareAssociationType associationType;
+
+  /// The association status.
+  @_s.JsonKey(name: 'associationStatus')
+  final ResourceShareAssociationStatus associationStatus;
+
+  /// The maximum number of results to return with a single call. To retrieve the
+  /// remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The token for the next page of results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The principal. You cannot specify this parameter if the association type is
+  /// <code>RESOURCE</code>.
+  @_s.JsonKey(name: 'principal')
+  final String principal;
+
+  /// The Amazon Resource Name (ARN) of the resource. You cannot specify this
+  /// parameter if the association type is <code>PRINCIPAL</code>.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  /// The Amazon Resource Names (ARN) of the resource shares.
+  @_s.JsonKey(name: 'resourceShareArns')
+  final List<String> resourceShareArns;
+
+  GetResourceShareAssociationsRequest({
+    @_s.required this.associationType,
+    this.associationStatus,
+    this.maxResults,
+    this.nextToken,
+    this.principal,
+    this.resourceArn,
+    this.resourceShareArns,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetResourceShareAssociationsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1409,6 +1743,40 @@ class GetResourceShareAssociationsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetResourceShareInvitationsRequest {
+  /// The maximum number of results to return with a single call. To retrieve the
+  /// remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The token for the next page of results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The Amazon Resource Names (ARN) of the resource shares.
+  @_s.JsonKey(name: 'resourceShareArns')
+  final List<String> resourceShareArns;
+
+  /// The Amazon Resource Names (ARN) of the invitations.
+  @_s.JsonKey(name: 'resourceShareInvitationArns')
+  final List<String> resourceShareInvitationArns;
+
+  GetResourceShareInvitationsRequest({
+    this.maxResults,
+    this.nextToken,
+    this.resourceShareArns,
+    this.resourceShareInvitationArns,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetResourceShareInvitationsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetResourceShareInvitationsResponse {
@@ -1433,6 +1801,54 @@ class GetResourceShareInvitationsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetResourceSharesRequest {
+  /// The type of owner.
+  @_s.JsonKey(name: 'resourceOwner')
+  final ResourceOwner resourceOwner;
+
+  /// The maximum number of results to return with a single call. To retrieve the
+  /// remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The name of the resource share.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The token for the next page of results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The Amazon Resource Names (ARN) of the resource shares.
+  @_s.JsonKey(name: 'resourceShareArns')
+  final List<String> resourceShareArns;
+
+  /// The status of the resource share.
+  @_s.JsonKey(name: 'resourceShareStatus')
+  final ResourceShareStatus resourceShareStatus;
+
+  /// One or more tag filters.
+  @_s.JsonKey(name: 'tagFilters')
+  final List<TagFilter> tagFilters;
+
+  GetResourceSharesRequest({
+    @_s.required this.resourceOwner,
+    this.maxResults,
+    this.name,
+    this.nextToken,
+    this.resourceShareArns,
+    this.resourceShareStatus,
+    this.tagFilters,
+  });
+  Map<String, dynamic> toJson() => _$GetResourceSharesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetResourceSharesResponse {
@@ -1451,6 +1867,35 @@ class GetResourceSharesResponse {
   });
   factory GetResourceSharesResponse.fromJson(Map<String, dynamic> json) =>
       _$GetResourceSharesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListPendingInvitationResourcesRequest {
+  /// The Amazon Resource Name (ARN) of the invitation.
+  @_s.JsonKey(name: 'resourceShareInvitationArn')
+  final String resourceShareInvitationArn;
+
+  /// The maximum number of results to return with a single call. To retrieve the
+  /// remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The token for the next page of results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListPendingInvitationResourcesRequest({
+    @_s.required this.resourceShareInvitationArn,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListPendingInvitationResourcesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1480,6 +1925,36 @@ class ListPendingInvitationResourcesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListPermissionsRequest {
+  /// The maximum number of results to return with a single call. To retrieve the
+  /// remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The token for the next page of results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// Specifies the resource type for which to list permissions. For example, to
+  /// list only permissions that apply to EC2 subnets, specify
+  /// <code>ec2:Subnet</code>.
+  @_s.JsonKey(name: 'resourceType')
+  final String resourceType;
+
+  ListPermissionsRequest({
+    this.maxResults,
+    this.nextToken,
+    this.resourceType,
+  });
+  Map<String, dynamic> toJson() => _$ListPermissionsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListPermissionsResponse {
@@ -1498,6 +1973,60 @@ class ListPermissionsResponse {
   });
   factory ListPermissionsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListPermissionsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListPrincipalsRequest {
+  /// The type of owner.
+  @_s.JsonKey(name: 'resourceOwner')
+  final ResourceOwner resourceOwner;
+
+  /// The maximum number of results to return with a single call. To retrieve the
+  /// remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The token for the next page of results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The principals.
+  @_s.JsonKey(name: 'principals')
+  final List<String> principals;
+
+  /// The Amazon Resource Name (ARN) of the resource.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  /// The Amazon Resource Names (ARN) of the resource shares.
+  @_s.JsonKey(name: 'resourceShareArns')
+  final List<String> resourceShareArns;
+
+  /// The resource type.
+  ///
+  /// Valid values: <code>ec2:CapacityReservation</code> | <code>ec2:Subnet</code>
+  /// | <code>ec2:TrafficMirrorTarget</code> | <code>ec2:TransitGateway</code> |
+  /// <code>license-manager:LicenseConfiguration</code> | <code>rds:Cluster</code>
+  /// | <code>route53resolver:ResolverRule</code> I
+  /// <code>resource-groups:Group</code>
+  @_s.JsonKey(name: 'resourceType')
+  final String resourceType;
+
+  ListPrincipalsRequest({
+    @_s.required this.resourceOwner,
+    this.maxResults,
+    this.nextToken,
+    this.principals,
+    this.resourceArn,
+    this.resourceShareArns,
+    this.resourceType,
+  });
+  Map<String, dynamic> toJson() => _$ListPrincipalsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1526,6 +2055,35 @@ class ListPrincipalsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListResourceSharePermissionsRequest {
+  /// The Amazon Resource Name (ARN) of the resource share.
+  @_s.JsonKey(name: 'resourceShareArn')
+  final String resourceShareArn;
+
+  /// The maximum number of results to return with a single call. To retrieve the
+  /// remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The token for the next page of results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListResourceSharePermissionsRequest({
+    @_s.required this.resourceShareArn,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListResourceSharePermissionsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListResourceSharePermissionsResponse {
@@ -1545,6 +2103,60 @@ class ListResourceSharePermissionsResponse {
   factory ListResourceSharePermissionsResponse.fromJson(
           Map<String, dynamic> json) =>
       _$ListResourceSharePermissionsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListResourcesRequest {
+  /// The type of owner.
+  @_s.JsonKey(name: 'resourceOwner')
+  final ResourceOwner resourceOwner;
+
+  /// The maximum number of results to return with a single call. To retrieve the
+  /// remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The token for the next page of results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The principal.
+  @_s.JsonKey(name: 'principal')
+  final String principal;
+
+  /// The Amazon Resource Names (ARN) of the resources.
+  @_s.JsonKey(name: 'resourceArns')
+  final List<String> resourceArns;
+
+  /// The Amazon Resource Names (ARN) of the resource shares.
+  @_s.JsonKey(name: 'resourceShareArns')
+  final List<String> resourceShareArns;
+
+  /// The resource type.
+  ///
+  /// Valid values: <code>ec2:CapacityReservation</code> | <code>ec2:Subnet</code>
+  /// | <code>ec2:TrafficMirrorTarget</code> | <code>ec2:TransitGateway</code> |
+  /// <code>license-manager:LicenseConfiguration</code> | <code>rds:Cluster</code>
+  /// | <code>route53resolver:ResolverRule</code> |
+  /// <code>resource-groups:Group</code>
+  @_s.JsonKey(name: 'resourceType')
+  final String resourceType;
+
+  ListResourcesRequest({
+    @_s.required this.resourceOwner,
+    this.maxResults,
+    this.nextToken,
+    this.principal,
+    this.resourceArns,
+    this.resourceShareArns,
+    this.resourceType,
+  });
+  Map<String, dynamic> toJson() => _$ListResourcesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1618,6 +2230,23 @@ class Principal {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PromoteResourceShareCreatedFromPolicyRequest {
+  /// The ARN of the resource share to promote.
+  @_s.JsonKey(name: 'resourceShareArn', ignore: true)
+  final String resourceShareArn;
+
+  PromoteResourceShareCreatedFromPolicyRequest({
+    @_s.required this.resourceShareArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PromoteResourceShareCreatedFromPolicyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PromoteResourceShareCreatedFromPolicyResponse {
@@ -1631,6 +2260,29 @@ class PromoteResourceShareCreatedFromPolicyResponse {
   factory PromoteResourceShareCreatedFromPolicyResponse.fromJson(
           Map<String, dynamic> json) =>
       _$PromoteResourceShareCreatedFromPolicyResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RejectResourceShareInvitationRequest {
+  /// The Amazon Resource Name (ARN) of the invitation.
+  @_s.JsonKey(name: 'resourceShareInvitationArn')
+  final String resourceShareInvitationArn;
+
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  RejectResourceShareInvitationRequest({
+    @_s.required this.resourceShareInvitationArn,
+    this.clientToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$RejectResourceShareInvitationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1722,18 +2374,6 @@ enum ResourceOwner {
   self,
   @_s.JsonValue('OTHER-ACCOUNTS')
   otherAccounts,
-}
-
-extension on ResourceOwner {
-  String toValue() {
-    switch (this) {
-      case ResourceOwner.self:
-        return 'SELF';
-      case ResourceOwner.otherAccounts:
-        return 'OTHER-ACCOUNTS';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Describes a resource share.
@@ -1905,41 +2545,11 @@ enum ResourceShareAssociationStatus {
   disassociated,
 }
 
-extension on ResourceShareAssociationStatus {
-  String toValue() {
-    switch (this) {
-      case ResourceShareAssociationStatus.associating:
-        return 'ASSOCIATING';
-      case ResourceShareAssociationStatus.associated:
-        return 'ASSOCIATED';
-      case ResourceShareAssociationStatus.failed:
-        return 'FAILED';
-      case ResourceShareAssociationStatus.disassociating:
-        return 'DISASSOCIATING';
-      case ResourceShareAssociationStatus.disassociated:
-        return 'DISASSOCIATED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum ResourceShareAssociationType {
   @_s.JsonValue('PRINCIPAL')
   principal,
   @_s.JsonValue('RESOURCE')
   resource,
-}
-
-extension on ResourceShareAssociationType {
-  String toValue() {
-    switch (this) {
-      case ResourceShareAssociationType.principal:
-        return 'PRINCIPAL';
-      case ResourceShareAssociationType.resource:
-        return 'RESOURCE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 enum ResourceShareFeatureSet {
@@ -2157,24 +2767,6 @@ enum ResourceShareStatus {
   deleted,
 }
 
-extension on ResourceShareStatus {
-  String toValue() {
-    switch (this) {
-      case ResourceShareStatus.pending:
-        return 'PENDING';
-      case ResourceShareStatus.active:
-        return 'ACTIVE';
-      case ResourceShareStatus.failed:
-        return 'FAILED';
-      case ResourceShareStatus.deleting:
-        return 'DELETING';
-      case ResourceShareStatus.deleted:
-        return 'DELETED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum ResourceStatus {
   @_s.JsonValue('AVAILABLE')
   available,
@@ -2237,6 +2829,27 @@ class TagFilter {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource share.
+  @_s.JsonKey(name: 'resourceShareArn')
+  final String resourceShareArn;
+
+  /// One or more tags.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceShareArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagResourceResponse {
@@ -2248,12 +2861,66 @@ class TagResourceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource share.
+  @_s.JsonKey(name: 'resourceShareArn')
+  final String resourceShareArn;
+
+  /// The tag keys of the tags to remove.
+  @_s.JsonKey(name: 'tagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceShareArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
   factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateResourceShareRequest {
+  /// The Amazon Resource Name (ARN) of the resource share.
+  @_s.JsonKey(name: 'resourceShareArn')
+  final String resourceShareArn;
+
+  /// Indicates whether principals outside your AWS organization can be associated
+  /// with a resource share.
+  @_s.JsonKey(name: 'allowExternalPrincipals')
+  final bool allowExternalPrincipals;
+
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// The name of the resource share.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  UpdateResourceShareRequest({
+    @_s.required this.resourceShareArn,
+    this.allowExternalPrincipals,
+    this.clientToken,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$UpdateResourceShareRequestToJson(this);
 }
 
 @_s.JsonSerializable(

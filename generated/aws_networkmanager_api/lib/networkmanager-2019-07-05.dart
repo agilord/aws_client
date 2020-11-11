@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -87,11 +86,12 @@ class NetworkManager {
     ArgumentError.checkNotNull(customerGatewayArn, 'customerGatewayArn');
     ArgumentError.checkNotNull(deviceId, 'deviceId');
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
-    final $payload = <String, dynamic>{
-      'CustomerGatewayArn': customerGatewayArn,
-      'DeviceId': deviceId,
-      if (linkId != null) 'LinkId': linkId,
-    };
+    final $payload = AssociateCustomerGatewayRequest(
+      customerGatewayArn: customerGatewayArn,
+      deviceId: deviceId,
+      globalNetworkId: globalNetworkId,
+      linkId: linkId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -130,10 +130,11 @@ class NetworkManager {
     ArgumentError.checkNotNull(deviceId, 'deviceId');
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     ArgumentError.checkNotNull(linkId, 'linkId');
-    final $payload = <String, dynamic>{
-      'DeviceId': deviceId,
-      'LinkId': linkId,
-    };
+    final $payload = AssociateLinkRequest(
+      deviceId: deviceId,
+      globalNetworkId: globalNetworkId,
+      linkId: linkId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -202,16 +203,17 @@ class NetworkManager {
     String vendor,
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
-    final $payload = <String, dynamic>{
-      if (description != null) 'Description': description,
-      if (location != null) 'Location': location,
-      if (model != null) 'Model': model,
-      if (serialNumber != null) 'SerialNumber': serialNumber,
-      if (siteId != null) 'SiteId': siteId,
-      if (tags != null) 'Tags': tags,
-      if (type != null) 'Type': type,
-      if (vendor != null) 'Vendor': vendor,
-    };
+    final $payload = CreateDeviceRequest(
+      globalNetworkId: globalNetworkId,
+      description: description,
+      location: location,
+      model: model,
+      serialNumber: serialNumber,
+      siteId: siteId,
+      tags: tags,
+      type: type,
+      vendor: vendor,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -242,10 +244,10 @@ class NetworkManager {
     String description,
     List<Tag> tags,
   }) async {
-    final $payload = <String, dynamic>{
-      if (description != null) 'Description': description,
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = CreateGlobalNetworkRequest(
+      description: description,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -307,14 +309,15 @@ class NetworkManager {
     ArgumentError.checkNotNull(bandwidth, 'bandwidth');
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     ArgumentError.checkNotNull(siteId, 'siteId');
-    final $payload = <String, dynamic>{
-      'Bandwidth': bandwidth,
-      'SiteId': siteId,
-      if (description != null) 'Description': description,
-      if (provider != null) 'Provider': provider,
-      if (tags != null) 'Tags': tags,
-      if (type != null) 'Type': type,
-    };
+    final $payload = CreateLinkRequest(
+      bandwidth: bandwidth,
+      globalNetworkId: globalNetworkId,
+      siteId: siteId,
+      description: description,
+      provider: provider,
+      tags: tags,
+      type: type,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -369,11 +372,12 @@ class NetworkManager {
     List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
-    final $payload = <String, dynamic>{
-      if (description != null) 'Description': description,
-      if (location != null) 'Location': location,
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = CreateSiteRequest(
+      globalNetworkId: globalNetworkId,
+      description: description,
+      location: location,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -405,7 +409,10 @@ class NetworkManager {
   }) async {
     ArgumentError.checkNotNull(deviceId, 'deviceId');
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteDeviceRequest(
+      deviceId: deviceId,
+      globalNetworkId: globalNetworkId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -433,7 +440,9 @@ class NetworkManager {
     @_s.required String globalNetworkId,
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteGlobalNetworkRequest(
+      globalNetworkId: globalNetworkId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -465,7 +474,10 @@ class NetworkManager {
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     ArgumentError.checkNotNull(linkId, 'linkId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteLinkRequest(
+      globalNetworkId: globalNetworkId,
+      linkId: linkId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -497,7 +509,10 @@ class NetworkManager {
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     ArgumentError.checkNotNull(siteId, 'siteId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteSiteRequest(
+      globalNetworkId: globalNetworkId,
+      siteId: siteId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -530,7 +545,10 @@ class NetworkManager {
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     ArgumentError.checkNotNull(transitGatewayArn, 'transitGatewayArn');
-    final $payload = <String, dynamic>{};
+    final $payload = DeregisterTransitGatewayRequest(
+      globalNetworkId: globalNetworkId,
+      transitGatewayArn: transitGatewayArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -611,7 +629,10 @@ class NetworkManager {
   }) async {
     ArgumentError.checkNotNull(customerGatewayArn, 'customerGatewayArn');
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
-    final $payload = <String, dynamic>{};
+    final $payload = DisassociateCustomerGatewayRequest(
+      customerGatewayArn: customerGatewayArn,
+      globalNetworkId: globalNetworkId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -653,7 +674,11 @@ class NetworkManager {
       if (deviceId != null) _s.toQueryParam('deviceId', deviceId),
       if (linkId != null) _s.toQueryParam('linkId', linkId),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = DisassociateLinkRequest(
+      deviceId: deviceId,
+      globalNetworkId: globalNetworkId,
+      linkId: linkId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1041,9 +1066,10 @@ class NetworkManager {
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     ArgumentError.checkNotNull(transitGatewayArn, 'transitGatewayArn');
-    final $payload = <String, dynamic>{
-      'TransitGatewayArn': transitGatewayArn,
-    };
+    final $payload = RegisterTransitGatewayRequest(
+      globalNetworkId: globalNetworkId,
+      transitGatewayArn: transitGatewayArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1075,9 +1101,10 @@ class NetworkManager {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'Tags': tags,
-    };
+    final $payload = TagResourceRequest(
+      resourceArn: resourceArn,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1111,7 +1138,10 @@ class NetworkManager {
     _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = UntagResourceRequest(
+      resourceArn: resourceArn,
+      tagKeys: tagKeys,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1175,15 +1205,17 @@ class NetworkManager {
   }) async {
     ArgumentError.checkNotNull(deviceId, 'deviceId');
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
-    final $payload = <String, dynamic>{
-      if (description != null) 'Description': description,
-      if (location != null) 'Location': location,
-      if (model != null) 'Model': model,
-      if (serialNumber != null) 'SerialNumber': serialNumber,
-      if (siteId != null) 'SiteId': siteId,
-      if (type != null) 'Type': type,
-      if (vendor != null) 'Vendor': vendor,
-    };
+    final $payload = UpdateDeviceRequest(
+      deviceId: deviceId,
+      globalNetworkId: globalNetworkId,
+      description: description,
+      location: location,
+      model: model,
+      serialNumber: serialNumber,
+      siteId: siteId,
+      type: type,
+      vendor: vendor,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -1216,9 +1248,10 @@ class NetworkManager {
     String description,
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
-    final $payload = <String, dynamic>{
-      if (description != null) 'Description': description,
-    };
+    final $payload = UpdateGlobalNetworkRequest(
+      globalNetworkId: globalNetworkId,
+      description: description,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -1273,12 +1306,14 @@ class NetworkManager {
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     ArgumentError.checkNotNull(linkId, 'linkId');
-    final $payload = <String, dynamic>{
-      if (bandwidth != null) 'Bandwidth': bandwidth,
-      if (description != null) 'Description': description,
-      if (provider != null) 'Provider': provider,
-      if (type != null) 'Type': type,
-    };
+    final $payload = UpdateLinkRequest(
+      globalNetworkId: globalNetworkId,
+      linkId: linkId,
+      bandwidth: bandwidth,
+      description: description,
+      provider: provider,
+      type: type,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -1332,10 +1367,12 @@ class NetworkManager {
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     ArgumentError.checkNotNull(siteId, 'siteId');
-    final $payload = <String, dynamic>{
-      if (description != null) 'Description': description,
-      if (location != null) 'Location': location,
-    };
+    final $payload = UpdateSiteRequest(
+      globalNetworkId: globalNetworkId,
+      siteId: siteId,
+      description: description,
+      location: location,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -1345,6 +1382,41 @@ class NetworkManager {
     );
     return UpdateSiteResponse.fromJson(response);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateCustomerGatewayRequest {
+  /// The Amazon Resource Name (ARN) of the customer gateway. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazonec2.html#amazonec2-resources-for-iam-policies">Resources
+  /// Defined by Amazon EC2</a>.
+  @_s.JsonKey(name: 'CustomerGatewayArn')
+  final String customerGatewayArn;
+
+  /// The ID of the device.
+  @_s.JsonKey(name: 'DeviceId')
+  final String deviceId;
+
+  /// The ID of the global network.
+  @_s.JsonKey(name: 'globalNetworkId', ignore: true)
+  final String globalNetworkId;
+
+  /// The ID of the link.
+  @_s.JsonKey(name: 'LinkId')
+  final String linkId;
+
+  AssociateCustomerGatewayRequest({
+    @_s.required this.customerGatewayArn,
+    @_s.required this.deviceId,
+    @_s.required this.globalNetworkId,
+    this.linkId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AssociateCustomerGatewayRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1363,6 +1435,32 @@ class AssociateCustomerGatewayResponse {
   factory AssociateCustomerGatewayResponse.fromJson(
           Map<String, dynamic> json) =>
       _$AssociateCustomerGatewayResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateLinkRequest {
+  /// The ID of the device.
+  @_s.JsonKey(name: 'DeviceId')
+  final String deviceId;
+
+  /// The ID of the global network.
+  @_s.JsonKey(name: 'globalNetworkId', ignore: true)
+  final String globalNetworkId;
+
+  /// The ID of the link.
+  @_s.JsonKey(name: 'LinkId')
+  final String linkId;
+
+  AssociateLinkRequest({
+    @_s.required this.deviceId,
+    @_s.required this.globalNetworkId,
+    @_s.required this.linkId,
+  });
+  Map<String, dynamic> toJson() => _$AssociateLinkRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1410,6 +1508,70 @@ class Bandwidth {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDeviceRequest {
+  /// The ID of the global network.
+  @_s.JsonKey(name: 'globalNetworkId', ignore: true)
+  final String globalNetworkId;
+
+  /// A description of the device.
+  ///
+  /// Length Constraints: Maximum length of 256 characters.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The location of the device.
+  @_s.JsonKey(name: 'Location')
+  final Location location;
+
+  /// The model of the device.
+  ///
+  /// Length Constraints: Maximum length of 128 characters.
+  @_s.JsonKey(name: 'Model')
+  final String model;
+
+  /// The serial number of the device.
+  ///
+  /// Length Constraints: Maximum length of 128 characters.
+  @_s.JsonKey(name: 'SerialNumber')
+  final String serialNumber;
+
+  /// The ID of the site.
+  @_s.JsonKey(name: 'SiteId')
+  final String siteId;
+
+  /// The tags to apply to the resource during creation.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  /// The type of the device.
+  @_s.JsonKey(name: 'Type')
+  final String type;
+
+  /// The vendor of the device.
+  ///
+  /// Length Constraints: Maximum length of 128 characters.
+  @_s.JsonKey(name: 'Vendor')
+  final String vendor;
+
+  CreateDeviceRequest({
+    @_s.required this.globalNetworkId,
+    this.description,
+    this.location,
+    this.model,
+    this.serialNumber,
+    this.siteId,
+    this.tags,
+    this.type,
+    this.vendor,
+  });
+  Map<String, dynamic> toJson() => _$CreateDeviceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateDeviceResponse {
@@ -1422,6 +1584,29 @@ class CreateDeviceResponse {
   });
   factory CreateDeviceResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateDeviceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateGlobalNetworkRequest {
+  /// A description of the global network.
+  ///
+  /// Length Constraints: Maximum length of 256 characters.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The tags to apply to the resource during creation.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateGlobalNetworkRequest({
+    this.description,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateGlobalNetworkRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1444,6 +1629,62 @@ class CreateGlobalNetworkResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateLinkRequest {
+  /// The upload speed and download speed in Mbps.
+  @_s.JsonKey(name: 'Bandwidth')
+  final Bandwidth bandwidth;
+
+  /// The ID of the global network.
+  @_s.JsonKey(name: 'globalNetworkId', ignore: true)
+  final String globalNetworkId;
+
+  /// The ID of the site.
+  @_s.JsonKey(name: 'SiteId')
+  final String siteId;
+
+  /// A description of the link.
+  ///
+  /// Length Constraints: Maximum length of 256 characters.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The provider of the link.
+  ///
+  /// Constraints: Cannot include the following characters: | \ ^
+  ///
+  /// Length Constraints: Maximum length of 128 characters.
+  @_s.JsonKey(name: 'Provider')
+  final String provider;
+
+  /// The tags to apply to the resource during creation.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  /// The type of the link.
+  ///
+  /// Constraints: Cannot include the following characters: | \ ^
+  ///
+  /// Length Constraints: Maximum length of 128 characters.
+  @_s.JsonKey(name: 'Type')
+  final String type;
+
+  CreateLinkRequest({
+    @_s.required this.bandwidth,
+    @_s.required this.globalNetworkId,
+    @_s.required this.siteId,
+    this.description,
+    this.provider,
+    this.tags,
+    this.type,
+  });
+  Map<String, dynamic> toJson() => _$CreateLinkRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateLinkResponse {
@@ -1456,6 +1697,53 @@ class CreateLinkResponse {
   });
   factory CreateLinkResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateLinkResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateSiteRequest {
+  /// The ID of the global network.
+  @_s.JsonKey(name: 'globalNetworkId', ignore: true)
+  final String globalNetworkId;
+
+  /// A description of your site.
+  ///
+  /// Length Constraints: Maximum length of 256 characters.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The site location. This information is used for visualization in the Network
+  /// Manager console. If you specify the address, the latitude and longitude are
+  /// automatically calculated.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Address</code>: The physical address of the site.
+  /// </li>
+  /// <li>
+  /// <code>Latitude</code>: The latitude of the site.
+  /// </li>
+  /// <li>
+  /// <code>Longitude</code>: The longitude of the site.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Location')
+  final Location location;
+
+  /// The tags to apply to the resource during creation.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateSiteRequest({
+    @_s.required this.globalNetworkId,
+    this.description,
+    this.location,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateSiteRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1527,6 +1815,27 @@ enum CustomerGatewayAssociationState {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDeviceRequest {
+  /// The ID of the device.
+  @_s.JsonKey(name: 'deviceId', ignore: true)
+  final String deviceId;
+
+  /// The ID of the global network.
+  @_s.JsonKey(name: 'globalNetworkId', ignore: true)
+  final String globalNetworkId;
+
+  DeleteDeviceRequest({
+    @_s.required this.deviceId,
+    @_s.required this.globalNetworkId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDeviceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteDeviceResponse {
@@ -1539,6 +1848,22 @@ class DeleteDeviceResponse {
   });
   factory DeleteDeviceResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteDeviceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteGlobalNetworkRequest {
+  /// The ID of the global network.
+  @_s.JsonKey(name: 'globalNetworkId', ignore: true)
+  final String globalNetworkId;
+
+  DeleteGlobalNetworkRequest({
+    @_s.required this.globalNetworkId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteGlobalNetworkRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1561,6 +1886,27 @@ class DeleteGlobalNetworkResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteLinkRequest {
+  /// The ID of the global network.
+  @_s.JsonKey(name: 'globalNetworkId', ignore: true)
+  final String globalNetworkId;
+
+  /// The ID of the link.
+  @_s.JsonKey(name: 'linkId', ignore: true)
+  final String linkId;
+
+  DeleteLinkRequest({
+    @_s.required this.globalNetworkId,
+    @_s.required this.linkId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteLinkRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteLinkResponse {
@@ -1578,6 +1924,27 @@ class DeleteLinkResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteSiteRequest {
+  /// The ID of the global network.
+  @_s.JsonKey(name: 'globalNetworkId', ignore: true)
+  final String globalNetworkId;
+
+  /// The ID of the site.
+  @_s.JsonKey(name: 'siteId', ignore: true)
+  final String siteId;
+
+  DeleteSiteRequest({
+    @_s.required this.globalNetworkId,
+    @_s.required this.siteId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteSiteRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteSiteResponse {
@@ -1590,6 +1957,28 @@ class DeleteSiteResponse {
   });
   factory DeleteSiteResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteSiteResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeregisterTransitGatewayRequest {
+  /// The ID of the global network.
+  @_s.JsonKey(name: 'globalNetworkId', ignore: true)
+  final String globalNetworkId;
+
+  /// The Amazon Resource Name (ARN) of the transit gateway.
+  @_s.JsonKey(name: 'transitGatewayArn', ignore: true)
+  final String transitGatewayArn;
+
+  DeregisterTransitGatewayRequest({
+    @_s.required this.globalNetworkId,
+    @_s.required this.transitGatewayArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeregisterTransitGatewayRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1726,6 +2115,31 @@ enum DeviceState {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateCustomerGatewayRequest {
+  /// The Amazon Resource Name (ARN) of the customer gateway. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazonec2.html#amazonec2-resources-for-iam-policies">Resources
+  /// Defined by Amazon EC2</a>.
+  @_s.JsonKey(name: 'customerGatewayArn', ignore: true)
+  final String customerGatewayArn;
+
+  /// The ID of the global network.
+  @_s.JsonKey(name: 'globalNetworkId', ignore: true)
+  final String globalNetworkId;
+
+  DisassociateCustomerGatewayRequest({
+    @_s.required this.customerGatewayArn,
+    @_s.required this.globalNetworkId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DisassociateCustomerGatewayRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DisassociateCustomerGatewayResponse {
@@ -1739,6 +2153,32 @@ class DisassociateCustomerGatewayResponse {
   factory DisassociateCustomerGatewayResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DisassociateCustomerGatewayResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateLinkRequest {
+  /// The ID of the device.
+  @_s.JsonKey(name: 'deviceId', ignore: true)
+  final String deviceId;
+
+  /// The ID of the global network.
+  @_s.JsonKey(name: 'globalNetworkId', ignore: true)
+  final String globalNetworkId;
+
+  /// The ID of the link.
+  @_s.JsonKey(name: 'linkId', ignore: true)
+  final String linkId;
+
+  DisassociateLinkRequest({
+    @_s.required this.deviceId,
+    @_s.required this.globalNetworkId,
+    @_s.required this.linkId,
+  });
+  Map<String, dynamic> toJson() => _$DisassociateLinkRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2124,6 +2564,30 @@ class Location {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RegisterTransitGatewayRequest {
+  /// The ID of the global network.
+  @_s.JsonKey(name: 'globalNetworkId', ignore: true)
+  final String globalNetworkId;
+
+  /// The Amazon Resource Name (ARN) of the transit gateway. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazonec2.html#amazonec2-resources-for-iam-policies">Resources
+  /// Defined by Amazon EC2</a>.
+  @_s.JsonKey(name: 'TransitGatewayArn')
+  final String transitGatewayArn;
+
+  RegisterTransitGatewayRequest({
+    @_s.required this.globalNetworkId,
+    @_s.required this.transitGatewayArn,
+  });
+  Map<String, dynamic> toJson() => _$RegisterTransitGatewayRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class RegisterTransitGatewayResponse {
@@ -2235,6 +2699,27 @@ class Tag {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource.
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  /// The tags to apply to the specified resource.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagResourceResponse {
@@ -2311,12 +2796,95 @@ class TransitGatewayRegistrationStateReason {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource.
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  /// The tag keys to remove from the specified resource.
+  @_s.JsonKey(name: 'tagKeys', ignore: true)
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
   factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDeviceRequest {
+  /// The ID of the device.
+  @_s.JsonKey(name: 'deviceId', ignore: true)
+  final String deviceId;
+
+  /// The ID of the global network.
+  @_s.JsonKey(name: 'globalNetworkId', ignore: true)
+  final String globalNetworkId;
+
+  /// A description of the device.
+  ///
+  /// Length Constraints: Maximum length of 256 characters.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+  @_s.JsonKey(name: 'Location')
+  final Location location;
+
+  /// The model of the device.
+  ///
+  /// Length Constraints: Maximum length of 128 characters.
+  @_s.JsonKey(name: 'Model')
+  final String model;
+
+  /// The serial number of the device.
+  ///
+  /// Length Constraints: Maximum length of 128 characters.
+  @_s.JsonKey(name: 'SerialNumber')
+  final String serialNumber;
+
+  /// The ID of the site.
+  @_s.JsonKey(name: 'SiteId')
+  final String siteId;
+
+  /// The type of the device.
+  @_s.JsonKey(name: 'Type')
+  final String type;
+
+  /// The vendor of the device.
+  ///
+  /// Length Constraints: Maximum length of 128 characters.
+  @_s.JsonKey(name: 'Vendor')
+  final String vendor;
+
+  UpdateDeviceRequest({
+    @_s.required this.deviceId,
+    @_s.required this.globalNetworkId,
+    this.description,
+    this.location,
+    this.model,
+    this.serialNumber,
+    this.siteId,
+    this.type,
+    this.vendor,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDeviceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2339,6 +2907,29 @@ class UpdateDeviceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateGlobalNetworkRequest {
+  /// The ID of your global network.
+  @_s.JsonKey(name: 'globalNetworkId', ignore: true)
+  final String globalNetworkId;
+
+  /// A description of the global network.
+  ///
+  /// Length Constraints: Maximum length of 256 characters.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  UpdateGlobalNetworkRequest({
+    @_s.required this.globalNetworkId,
+    this.description,
+  });
+  Map<String, dynamic> toJson() => _$UpdateGlobalNetworkRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateGlobalNetworkResponse {
@@ -2356,6 +2947,53 @@ class UpdateGlobalNetworkResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateLinkRequest {
+  /// The ID of the global network.
+  @_s.JsonKey(name: 'globalNetworkId', ignore: true)
+  final String globalNetworkId;
+
+  /// The ID of the link.
+  @_s.JsonKey(name: 'linkId', ignore: true)
+  final String linkId;
+
+  /// The upload and download speed in Mbps.
+  @_s.JsonKey(name: 'Bandwidth')
+  final Bandwidth bandwidth;
+
+  /// A description of the link.
+  ///
+  /// Length Constraints: Maximum length of 256 characters.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The provider of the link.
+  ///
+  /// Length Constraints: Maximum length of 128 characters.
+  @_s.JsonKey(name: 'Provider')
+  final String provider;
+
+  /// The type of the link.
+  ///
+  /// Length Constraints: Maximum length of 128 characters.
+  @_s.JsonKey(name: 'Type')
+  final String type;
+
+  UpdateLinkRequest({
+    @_s.required this.globalNetworkId,
+    @_s.required this.linkId,
+    this.bandwidth,
+    this.description,
+    this.provider,
+    this.type,
+  });
+  Map<String, dynamic> toJson() => _$UpdateLinkRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateLinkResponse {
@@ -2368,6 +3006,51 @@ class UpdateLinkResponse {
   });
   factory UpdateLinkResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateLinkResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateSiteRequest {
+  /// The ID of the global network.
+  @_s.JsonKey(name: 'globalNetworkId', ignore: true)
+  final String globalNetworkId;
+
+  /// The ID of your site.
+  @_s.JsonKey(name: 'siteId', ignore: true)
+  final String siteId;
+
+  /// A description of your site.
+  ///
+  /// Length Constraints: Maximum length of 256 characters.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The site location:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Address</code>: The physical address of the site.
+  /// </li>
+  /// <li>
+  /// <code>Latitude</code>: The latitude of the site.
+  /// </li>
+  /// <li>
+  /// <code>Longitude</code>: The longitude of the site.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Location')
+  final Location location;
+
+  UpdateSiteRequest({
+    @_s.required this.globalNetworkId,
+    @_s.required this.siteId,
+    this.description,
+    this.location,
+  });
+  Map<String, dynamic> toJson() => _$UpdateSiteRequestToJson(this);
 }
 
 @_s.JsonSerializable(

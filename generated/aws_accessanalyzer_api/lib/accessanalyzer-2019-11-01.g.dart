@@ -123,11 +123,47 @@ ArchiveRuleSummary _$ArchiveRuleSummaryFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateAnalyzerRequestToJson(
+    CreateAnalyzerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('analyzerName', instance.analyzerName);
+  writeNotNull('type', _$TypeEnumMap[instance.type]);
+  writeNotNull(
+      'archiveRules', instance.archiveRules?.map((e) => e?.toJson())?.toList());
+  writeNotNull('clientToken', instance.clientToken);
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
 CreateAnalyzerResponse _$CreateAnalyzerResponseFromJson(
     Map<String, dynamic> json) {
   return CreateAnalyzerResponse(
     arn: json['arn'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateArchiveRuleRequestToJson(
+    CreateArchiveRuleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'filter', instance.filter?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('ruleName', instance.ruleName);
+  writeNotNull('clientToken', instance.clientToken);
+  return val;
 }
 
 Criterion _$CriterionFromJson(Map<String, dynamic> json) {
@@ -154,6 +190,14 @@ Map<String, dynamic> _$CriterionToJson(Criterion instance) {
   writeNotNull('neq', instance.neq);
   return val;
 }
+
+Map<String, dynamic> _$DeleteAnalyzerRequestToJson(
+        DeleteAnalyzerRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteArchiveRuleRequestToJson(
+        DeleteArchiveRuleRequest instance) =>
+    <String, dynamic>{};
 
 Finding _$FindingFromJson(Map<String, dynamic> json) {
   return Finding(
@@ -251,6 +295,23 @@ Map<String, dynamic> _$InlineArchiveRuleToJson(InlineArchiveRule instance) {
   return val;
 }
 
+Map<String, dynamic> _$ListAnalyzedResourcesRequestToJson(
+    ListAnalyzedResourcesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('analyzerArn', instance.analyzerArn);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('resourceType', _$ResourceTypeEnumMap[instance.resourceType]);
+  return val;
+}
+
 ListAnalyzedResourcesResponse _$ListAnalyzedResourcesResponseFromJson(
     Map<String, dynamic> json) {
   return ListAnalyzedResourcesResponse(
@@ -285,6 +346,24 @@ ListArchiveRulesResponse _$ListArchiveRulesResponseFromJson(
         ?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListFindingsRequestToJson(ListFindingsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('analyzerArn', instance.analyzerArn);
+  writeNotNull(
+      'filter', instance.filter?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('sort', instance.sort?.toJson());
+  return val;
 }
 
 ListFindingsResponse _$ListFindingsResponseFromJson(Map<String, dynamic> json) {
@@ -326,6 +405,21 @@ const _$OrderByEnumMap = {
   OrderBy.desc: 'DESC',
 };
 
+Map<String, dynamic> _$StartResourceScanRequestToJson(
+    StartResourceScanRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('analyzerArn', instance.analyzerArn);
+  writeNotNull('resourceArn', instance.resourceArn);
+  return val;
+}
+
 StatusReason _$StatusReasonFromJson(Map<String, dynamic> json) {
   return StatusReason(
     code: _$enumDecodeNullable(_$ReasonCodeEnumMap, json['code']),
@@ -341,11 +435,67 @@ const _$ReasonCodeEnumMap = {
       'SERVICE_LINKED_ROLE_CREATION_FAILED',
 };
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
 }
+
+Map<String, dynamic> _$UntagResourceRequestToJson(
+        UntagResourceRequest instance) =>
+    <String, dynamic>{};
 
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse();
 }
+
+Map<String, dynamic> _$UpdateArchiveRuleRequestToJson(
+    UpdateArchiveRuleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'filter', instance.filter?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('clientToken', instance.clientToken);
+  return val;
+}
+
+Map<String, dynamic> _$UpdateFindingsRequestToJson(
+    UpdateFindingsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('analyzerArn', instance.analyzerArn);
+  writeNotNull('status', _$FindingStatusUpdateEnumMap[instance.status]);
+  writeNotNull('clientToken', instance.clientToken);
+  writeNotNull('ids', instance.ids);
+  writeNotNull('resourceArn', instance.resourceArn);
+  return val;
+}
+
+const _$FindingStatusUpdateEnumMap = {
+  FindingStatusUpdate.active: 'ACTIVE',
+  FindingStatusUpdate.archived: 'ARCHIVED',
+};

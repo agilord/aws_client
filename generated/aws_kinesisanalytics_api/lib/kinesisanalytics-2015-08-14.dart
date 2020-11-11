@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -118,11 +117,11 @@ class KinesisAnalytics {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ApplicationName': applicationName,
-        'CloudWatchLoggingOption': cloudWatchLoggingOption,
-        'CurrentApplicationVersionId': currentApplicationVersionId,
-      },
+      payload: AddApplicationCloudWatchLoggingOptionRequest(
+        applicationName: applicationName,
+        cloudWatchLoggingOption: cloudWatchLoggingOption,
+        currentApplicationVersionId: currentApplicationVersionId,
+      ),
     );
 
     return AddApplicationCloudWatchLoggingOptionResponse.fromJson(
@@ -214,11 +213,11 @@ class KinesisAnalytics {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ApplicationName': applicationName,
-        'CurrentApplicationVersionId': currentApplicationVersionId,
-        'Input': input,
-      },
+      payload: AddApplicationInputRequest(
+        applicationName: applicationName,
+        currentApplicationVersionId: currentApplicationVersionId,
+        input: input,
+      ),
     );
 
     return AddApplicationInputResponse.fromJson(jsonResponse.body);
@@ -323,12 +322,12 @@ class KinesisAnalytics {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ApplicationName': applicationName,
-        'CurrentApplicationVersionId': currentApplicationVersionId,
-        'InputId': inputId,
-        'InputProcessingConfiguration': inputProcessingConfiguration,
-      },
+      payload: AddApplicationInputProcessingConfigurationRequest(
+        applicationName: applicationName,
+        currentApplicationVersionId: currentApplicationVersionId,
+        inputId: inputId,
+        inputProcessingConfiguration: inputProcessingConfiguration,
+      ),
     );
 
     return AddApplicationInputProcessingConfigurationResponse.fromJson(
@@ -432,11 +431,11 @@ class KinesisAnalytics {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ApplicationName': applicationName,
-        'CurrentApplicationVersionId': currentApplicationVersionId,
-        'Output': output,
-      },
+      payload: AddApplicationOutputRequest(
+        applicationName: applicationName,
+        currentApplicationVersionId: currentApplicationVersionId,
+        output: output,
+      ),
     );
 
     return AddApplicationOutputResponse.fromJson(jsonResponse.body);
@@ -532,11 +531,11 @@ class KinesisAnalytics {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ApplicationName': applicationName,
-        'CurrentApplicationVersionId': currentApplicationVersionId,
-        'ReferenceDataSource': referenceDataSource,
-      },
+      payload: AddApplicationReferenceDataSourceRequest(
+        applicationName: applicationName,
+        currentApplicationVersionId: currentApplicationVersionId,
+        referenceDataSource: referenceDataSource,
+      ),
     );
 
     return AddApplicationReferenceDataSourceResponse.fromJson(
@@ -713,17 +712,15 @@ class KinesisAnalytics {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ApplicationName': applicationName,
-        if (applicationCode != null) 'ApplicationCode': applicationCode,
-        if (applicationDescription != null)
-          'ApplicationDescription': applicationDescription,
-        if (cloudWatchLoggingOptions != null)
-          'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
-        if (inputs != null) 'Inputs': inputs,
-        if (outputs != null) 'Outputs': outputs,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateApplicationRequest(
+        applicationName: applicationName,
+        applicationCode: applicationCode,
+        applicationDescription: applicationDescription,
+        cloudWatchLoggingOptions: cloudWatchLoggingOptions,
+        inputs: inputs,
+        outputs: outputs,
+        tags: tags,
+      ),
     );
 
     return CreateApplicationResponse.fromJson(jsonResponse.body);
@@ -784,10 +781,10 @@ class KinesisAnalytics {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ApplicationName': applicationName,
-        'CreateTimestamp': createTimestamp,
-      },
+      payload: DeleteApplicationRequest(
+        applicationName: applicationName,
+        createTimestamp: createTimestamp,
+      ),
     );
 
     return DeleteApplicationResponse.fromJson(jsonResponse.body);
@@ -878,11 +875,11 @@ class KinesisAnalytics {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ApplicationName': applicationName,
-        'CloudWatchLoggingOptionId': cloudWatchLoggingOptionId,
-        'CurrentApplicationVersionId': currentApplicationVersionId,
-      },
+      payload: DeleteApplicationCloudWatchLoggingOptionRequest(
+        applicationName: applicationName,
+        cloudWatchLoggingOptionId: cloudWatchLoggingOptionId,
+        currentApplicationVersionId: currentApplicationVersionId,
+      ),
     );
 
     return DeleteApplicationCloudWatchLoggingOptionResponse.fromJson(
@@ -971,11 +968,11 @@ class KinesisAnalytics {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ApplicationName': applicationName,
-        'CurrentApplicationVersionId': currentApplicationVersionId,
-        'InputId': inputId,
-      },
+      payload: DeleteApplicationInputProcessingConfigurationRequest(
+        applicationName: applicationName,
+        currentApplicationVersionId: currentApplicationVersionId,
+        inputId: inputId,
+      ),
     );
 
     return DeleteApplicationInputProcessingConfigurationResponse.fromJson(
@@ -1074,11 +1071,11 @@ class KinesisAnalytics {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ApplicationName': applicationName,
-        'CurrentApplicationVersionId': currentApplicationVersionId,
-        'OutputId': outputId,
-      },
+      payload: DeleteApplicationOutputRequest(
+        applicationName: applicationName,
+        currentApplicationVersionId: currentApplicationVersionId,
+        outputId: outputId,
+      ),
     );
 
     return DeleteApplicationOutputResponse.fromJson(jsonResponse.body);
@@ -1178,11 +1175,11 @@ class KinesisAnalytics {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ApplicationName': applicationName,
-        'CurrentApplicationVersionId': currentApplicationVersionId,
-        'ReferenceId': referenceId,
-      },
+      payload: DeleteApplicationReferenceDataSourceRequest(
+        applicationName: applicationName,
+        currentApplicationVersionId: currentApplicationVersionId,
+        referenceId: referenceId,
+      ),
     );
 
     return DeleteApplicationReferenceDataSourceResponse.fromJson(
@@ -1240,9 +1237,9 @@ class KinesisAnalytics {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ApplicationName': applicationName,
-      },
+      payload: DescribeApplicationRequest(
+        applicationName: applicationName,
+      ),
     );
 
     return DescribeApplicationResponse.fromJson(jsonResponse.body);
@@ -1334,16 +1331,13 @@ class KinesisAnalytics {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (inputProcessingConfiguration != null)
-          'InputProcessingConfiguration': inputProcessingConfiguration,
-        if (inputStartingPositionConfiguration != null)
-          'InputStartingPositionConfiguration':
-              inputStartingPositionConfiguration,
-        if (resourceARN != null) 'ResourceARN': resourceARN,
-        if (roleARN != null) 'RoleARN': roleARN,
-        if (s3Configuration != null) 'S3Configuration': s3Configuration,
-      },
+      payload: DiscoverInputSchemaRequest(
+        inputProcessingConfiguration: inputProcessingConfiguration,
+        inputStartingPositionConfiguration: inputStartingPositionConfiguration,
+        resourceARN: resourceARN,
+        roleARN: roleARN,
+        s3Configuration: s3Configuration,
+      ),
     );
 
     return DiscoverInputSchemaResponse.fromJson(jsonResponse.body);
@@ -1409,11 +1403,10 @@ class KinesisAnalytics {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (exclusiveStartApplicationName != null)
-          'ExclusiveStartApplicationName': exclusiveStartApplicationName,
-        if (limit != null) 'Limit': limit,
-      },
+      payload: ListApplicationsRequest(
+        exclusiveStartApplicationName: exclusiveStartApplicationName,
+        limit: limit,
+      ),
     );
 
     return ListApplicationsResponse.fromJson(jsonResponse.body);
@@ -1457,9 +1450,9 @@ class KinesisAnalytics {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceARN': resourceARN,
-      },
+      payload: ListTagsForResourceRequest(
+        resourceARN: resourceARN,
+      ),
     );
 
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
@@ -1536,10 +1529,10 @@ class KinesisAnalytics {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ApplicationName': applicationName,
-        'InputConfigurations': inputConfigurations,
-      },
+      payload: StartApplicationRequest(
+        applicationName: applicationName,
+        inputConfigurations: inputConfigurations,
+      ),
     );
 
     return StartApplicationResponse.fromJson(jsonResponse.body);
@@ -1596,9 +1589,9 @@ class KinesisAnalytics {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ApplicationName': applicationName,
-      },
+      payload: StopApplicationRequest(
+        applicationName: applicationName,
+      ),
     );
 
     return StopApplicationResponse.fromJson(jsonResponse.body);
@@ -1651,10 +1644,10 @@ class KinesisAnalytics {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceARN': resourceARN,
-        'Tags': tags,
-      },
+      payload: TagResourceRequest(
+        resourceARN: resourceARN,
+        tags: tags,
+      ),
     );
 
     return TagResourceResponse.fromJson(jsonResponse.body);
@@ -1706,10 +1699,10 @@ class KinesisAnalytics {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceARN': resourceARN,
-        'TagKeys': tagKeys,
-      },
+      payload: UntagResourceRequest(
+        resourceARN: resourceARN,
+        tagKeys: tagKeys,
+      ),
     );
 
     return UntagResourceResponse.fromJson(jsonResponse.body);
@@ -1789,15 +1782,44 @@ class KinesisAnalytics {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ApplicationName': applicationName,
-        'ApplicationUpdate': applicationUpdate,
-        'CurrentApplicationVersionId': currentApplicationVersionId,
-      },
+      payload: UpdateApplicationRequest(
+        applicationName: applicationName,
+        applicationUpdate: applicationUpdate,
+        currentApplicationVersionId: currentApplicationVersionId,
+      ),
     );
 
     return UpdateApplicationResponse.fromJson(jsonResponse.body);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AddApplicationCloudWatchLoggingOptionRequest {
+  /// The Kinesis Analytics application name.
+  @_s.JsonKey(name: 'ApplicationName')
+  final String applicationName;
+
+  /// Provides the CloudWatch log stream Amazon Resource Name (ARN) and the IAM
+  /// role ARN. Note: To write application messages to CloudWatch, the IAM role
+  /// that is used must have the <code>PutLogEvents</code> policy action enabled.
+  @_s.JsonKey(name: 'CloudWatchLoggingOption')
+  final CloudWatchLoggingOption cloudWatchLoggingOption;
+
+  /// The version ID of the Kinesis Analytics application.
+  @_s.JsonKey(name: 'CurrentApplicationVersionId')
+  final int currentApplicationVersionId;
+
+  AddApplicationCloudWatchLoggingOptionRequest({
+    @_s.required this.applicationName,
+    @_s.required this.cloudWatchLoggingOption,
+    @_s.required this.currentApplicationVersionId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AddApplicationCloudWatchLoggingOptionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1810,6 +1832,49 @@ class AddApplicationCloudWatchLoggingOptionResponse {
   factory AddApplicationCloudWatchLoggingOptionResponse.fromJson(
           Map<String, dynamic> json) =>
       _$AddApplicationCloudWatchLoggingOptionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AddApplicationInputProcessingConfigurationRequest {
+  /// Name of the application to which you want to add the input processing
+  /// configuration.
+  @_s.JsonKey(name: 'ApplicationName')
+  final String applicationName;
+
+  /// Version of the application to which you want to add the input processing
+  /// configuration. You can use the <a
+  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_DescribeApplication.html">DescribeApplication</a>
+  /// operation to get the current application version. If the version specified
+  /// is not the current version, the <code>ConcurrentModificationException</code>
+  /// is returned.
+  @_s.JsonKey(name: 'CurrentApplicationVersionId')
+  final int currentApplicationVersionId;
+
+  /// The ID of the input configuration to add the input processing configuration
+  /// to. You can get a list of the input IDs for an application using the <a
+  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_DescribeApplication.html">DescribeApplication</a>
+  /// operation.
+  @_s.JsonKey(name: 'InputId')
+  final String inputId;
+
+  /// The <a
+  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_InputProcessingConfiguration.html">InputProcessingConfiguration</a>
+  /// to add to the application.
+  @_s.JsonKey(name: 'InputProcessingConfiguration')
+  final InputProcessingConfiguration inputProcessingConfiguration;
+
+  AddApplicationInputProcessingConfigurationRequest({
+    @_s.required this.applicationName,
+    @_s.required this.currentApplicationVersionId,
+    @_s.required this.inputId,
+    @_s.required this.inputProcessingConfiguration,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AddApplicationInputProcessingConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1828,6 +1893,39 @@ class AddApplicationInputProcessingConfigurationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AddApplicationInputRequest {
+  /// Name of your existing Amazon Kinesis Analytics application to which you want
+  /// to add the streaming source.
+  @_s.JsonKey(name: 'ApplicationName')
+  final String applicationName;
+
+  /// Current version of your Amazon Kinesis Analytics application. You can use
+  /// the <a
+  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_DescribeApplication.html">DescribeApplication</a>
+  /// operation to find the current application version.
+  @_s.JsonKey(name: 'CurrentApplicationVersionId')
+  final int currentApplicationVersionId;
+
+  /// The <a
+  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_Input.html">Input</a>
+  /// to add.
+  @_s.JsonKey(name: 'Input')
+  final Input input;
+
+  AddApplicationInputRequest({
+    @_s.required this.applicationName,
+    @_s.required this.currentApplicationVersionId,
+    @_s.required this.input,
+  });
+  Map<String, dynamic> toJson() => _$AddApplicationInputRequestToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AddApplicationInputResponse {
@@ -1840,12 +1938,86 @@ class AddApplicationInputResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AddApplicationOutputRequest {
+  /// Name of the application to which you want to add the output configuration.
+  @_s.JsonKey(name: 'ApplicationName')
+  final String applicationName;
+
+  /// Version of the application to which you want to add the output
+  /// configuration. You can use the <a
+  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_DescribeApplication.html">DescribeApplication</a>
+  /// operation to get the current application version. If the version specified
+  /// is not the current version, the <code>ConcurrentModificationException</code>
+  /// is returned.
+  @_s.JsonKey(name: 'CurrentApplicationVersionId')
+  final int currentApplicationVersionId;
+
+  /// An array of objects, each describing one output configuration. In the output
+  /// configuration, you specify the name of an in-application stream, a
+  /// destination (that is, an Amazon Kinesis stream, an Amazon Kinesis Firehose
+  /// delivery stream, or an AWS Lambda function), and record the formation to use
+  /// when writing to the destination.
+  @_s.JsonKey(name: 'Output')
+  final Output output;
+
+  AddApplicationOutputRequest({
+    @_s.required this.applicationName,
+    @_s.required this.currentApplicationVersionId,
+    @_s.required this.output,
+  });
+  Map<String, dynamic> toJson() => _$AddApplicationOutputRequestToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AddApplicationOutputResponse {
   AddApplicationOutputResponse();
   factory AddApplicationOutputResponse.fromJson(Map<String, dynamic> json) =>
       _$AddApplicationOutputResponseFromJson(json);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AddApplicationReferenceDataSourceRequest {
+  /// Name of an existing application.
+  @_s.JsonKey(name: 'ApplicationName')
+  final String applicationName;
+
+  /// Version of the application for which you are adding the reference data
+  /// source. You can use the <a
+  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_DescribeApplication.html">DescribeApplication</a>
+  /// operation to get the current application version. If the version specified
+  /// is not the current version, the <code>ConcurrentModificationException</code>
+  /// is returned.
+  @_s.JsonKey(name: 'CurrentApplicationVersionId')
+  final int currentApplicationVersionId;
+
+  /// The reference data source can be an object in your Amazon S3 bucket. Amazon
+  /// Kinesis Analytics reads the object and copies the data into the
+  /// in-application table that is created. You provide an S3 bucket, object key
+  /// name, and the resulting in-application table that is created. You must also
+  /// provide an IAM role with the necessary permissions that Amazon Kinesis
+  /// Analytics can assume to read the object from your S3 bucket on your behalf.
+  @_s.JsonKey(name: 'ReferenceDataSource')
+  final ReferenceDataSource referenceDataSource;
+
+  AddApplicationReferenceDataSourceRequest({
+    @_s.required this.applicationName,
+    @_s.required this.currentApplicationVersionId,
+    @_s.required this.referenceDataSource,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AddApplicationReferenceDataSourceRequestToJson(this);
 }
 
 /// <p/>
@@ -2174,6 +2346,111 @@ class CloudWatchLoggingOptionUpdate {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateApplicationRequest {
+  /// Name of your Amazon Kinesis Analytics application (for example,
+  /// <code>sample-app</code>).
+  @_s.JsonKey(name: 'ApplicationName')
+  final String applicationName;
+
+  /// One or more SQL statements that read input data, transform it, and generate
+  /// output. For example, you can write a SQL statement that reads data from one
+  /// in-application stream, generates a running average of the number of
+  /// advertisement clicks by vendor, and insert resulting rows in another
+  /// in-application stream using pumps. For more information about the typical
+  /// pattern, see <a
+  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-it-works-app-code.html">Application
+  /// Code</a>.
+  ///
+  /// You can provide such series of SQL statements, where output of one statement
+  /// can be used as the input for the next statement. You store intermediate
+  /// results by creating in-application streams and pumps.
+  ///
+  /// Note that the application code must create the streams with names specified
+  /// in the <code>Outputs</code>. For example, if your <code>Outputs</code>
+  /// defines output streams named <code>ExampleOutputStream1</code> and
+  /// <code>ExampleOutputStream2</code>, then your application code must create
+  /// these streams.
+  @_s.JsonKey(name: 'ApplicationCode')
+  final String applicationCode;
+
+  /// Summary description of the application.
+  @_s.JsonKey(name: 'ApplicationDescription')
+  final String applicationDescription;
+
+  /// Use this parameter to configure a CloudWatch log stream to monitor
+  /// application configuration errors. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/cloudwatch-logs.html">Working
+  /// with Amazon CloudWatch Logs</a>.
+  @_s.JsonKey(name: 'CloudWatchLoggingOptions')
+  final List<CloudWatchLoggingOption> cloudWatchLoggingOptions;
+
+  /// Use this parameter to configure the application input.
+  ///
+  /// You can configure your application to receive input from a single streaming
+  /// source. In this configuration, you map this streaming source to an
+  /// in-application stream that is created. Your application code can then query
+  /// the in-application stream like a table (you can think of it as a constantly
+  /// updating table).
+  ///
+  /// For the streaming source, you provide its Amazon Resource Name (ARN) and
+  /// format of data on the stream (for example, JSON, CSV, etc.). You also must
+  /// provide an IAM role that Amazon Kinesis Analytics can assume to read this
+  /// stream on your behalf.
+  ///
+  /// To create the in-application stream, you need to specify a schema to
+  /// transform your data into a schematized version used in SQL. In the schema,
+  /// you provide the necessary mapping of the data elements in the streaming
+  /// source to record columns in the in-app stream.
+  @_s.JsonKey(name: 'Inputs')
+  final List<Input> inputs;
+
+  /// You can configure application output to write data from any of the
+  /// in-application streams to up to three destinations.
+  ///
+  /// These destinations can be Amazon Kinesis streams, Amazon Kinesis Firehose
+  /// delivery streams, AWS Lambda destinations, or any combination of the three.
+  ///
+  /// In the configuration, you specify the in-application stream name, the
+  /// destination stream or Lambda function Amazon Resource Name (ARN), and the
+  /// format to use when writing data. You must also provide an IAM role that
+  /// Amazon Kinesis Analytics can assume to write to the destination stream or
+  /// Lambda function on your behalf.
+  ///
+  /// In the output configuration, you also provide the output stream or Lambda
+  /// function ARN. For stream destinations, you provide the format of data in the
+  /// stream (for example, JSON, CSV). You also must provide an IAM role that
+  /// Amazon Kinesis Analytics can assume to write to the stream or Lambda
+  /// function on your behalf.
+  @_s.JsonKey(name: 'Outputs')
+  final List<Output> outputs;
+
+  /// A list of one or more tags to assign to the application. A tag is a
+  /// key-value pair that identifies an application. Note that the maximum number
+  /// of application tags includes system tags. The maximum number of user-defined
+  /// application tags is 50. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-tagging.html">Using
+  /// Tagging</a>.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateApplicationRequest({
+    @_s.required this.applicationName,
+    this.applicationCode,
+    this.applicationDescription,
+    this.cloudWatchLoggingOptions,
+    this.inputs,
+    this.outputs,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateApplicationRequestToJson(this);
+}
+
+/// TBD
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateApplicationResponse {
@@ -2193,6 +2470,37 @@ class CreateApplicationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteApplicationCloudWatchLoggingOptionRequest {
+  /// The Kinesis Analytics application name.
+  @_s.JsonKey(name: 'ApplicationName')
+  final String applicationName;
+
+  /// The <code>CloudWatchLoggingOptionId</code> of the CloudWatch logging option
+  /// to delete. You can get the <code>CloudWatchLoggingOptionId</code> by using
+  /// the <a
+  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_DescribeApplication.html">DescribeApplication</a>
+  /// operation.
+  @_s.JsonKey(name: 'CloudWatchLoggingOptionId')
+  final String cloudWatchLoggingOptionId;
+
+  /// The version ID of the Kinesis Analytics application.
+  @_s.JsonKey(name: 'CurrentApplicationVersionId')
+  final int currentApplicationVersionId;
+
+  DeleteApplicationCloudWatchLoggingOptionRequest({
+    @_s.required this.applicationName,
+    @_s.required this.cloudWatchLoggingOptionId,
+    @_s.required this.currentApplicationVersionId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteApplicationCloudWatchLoggingOptionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteApplicationCloudWatchLoggingOptionResponse {
@@ -2200,6 +2508,37 @@ class DeleteApplicationCloudWatchLoggingOptionResponse {
   factory DeleteApplicationCloudWatchLoggingOptionResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DeleteApplicationCloudWatchLoggingOptionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteApplicationInputProcessingConfigurationRequest {
+  /// The Kinesis Analytics application name.
+  @_s.JsonKey(name: 'ApplicationName')
+  final String applicationName;
+
+  /// The version ID of the Kinesis Analytics application.
+  @_s.JsonKey(name: 'CurrentApplicationVersionId')
+  final int currentApplicationVersionId;
+
+  /// The ID of the input configuration from which to delete the input processing
+  /// configuration. You can get a list of the input IDs for an application by
+  /// using the <a
+  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_DescribeApplication.html">DescribeApplication</a>
+  /// operation.
+  @_s.JsonKey(name: 'InputId')
+  final String inputId;
+
+  DeleteApplicationInputProcessingConfigurationRequest({
+    @_s.required this.applicationName,
+    @_s.required this.currentApplicationVersionId,
+    @_s.required this.inputId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteApplicationInputProcessingConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2218,12 +2557,87 @@ class DeleteApplicationInputProcessingConfigurationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteApplicationOutputRequest {
+  /// Amazon Kinesis Analytics application name.
+  @_s.JsonKey(name: 'ApplicationName')
+  final String applicationName;
+
+  /// Amazon Kinesis Analytics application version. You can use the <a
+  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_DescribeApplication.html">DescribeApplication</a>
+  /// operation to get the current application version. If the version specified
+  /// is not the current version, the <code>ConcurrentModificationException</code>
+  /// is returned.
+  @_s.JsonKey(name: 'CurrentApplicationVersionId')
+  final int currentApplicationVersionId;
+
+  /// The ID of the configuration to delete. Each output configuration that is
+  /// added to the application, either when the application is created or later
+  /// using the <a
+  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_AddApplicationOutput.html">AddApplicationOutput</a>
+  /// operation, has a unique ID. You need to provide the ID to uniquely identify
+  /// the output configuration that you want to delete from the application
+  /// configuration. You can use the <a
+  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_DescribeApplication.html">DescribeApplication</a>
+  /// operation to get the specific <code>OutputId</code>.
+  @_s.JsonKey(name: 'OutputId')
+  final String outputId;
+
+  DeleteApplicationOutputRequest({
+    @_s.required this.applicationName,
+    @_s.required this.currentApplicationVersionId,
+    @_s.required this.outputId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteApplicationOutputRequestToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteApplicationOutputResponse {
   DeleteApplicationOutputResponse();
   factory DeleteApplicationOutputResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteApplicationOutputResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteApplicationReferenceDataSourceRequest {
+  /// Name of an existing application.
+  @_s.JsonKey(name: 'ApplicationName')
+  final String applicationName;
+
+  /// Version of the application. You can use the <a
+  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_DescribeApplication.html">DescribeApplication</a>
+  /// operation to get the current application version. If the version specified
+  /// is not the current version, the <code>ConcurrentModificationException</code>
+  /// is returned.
+  @_s.JsonKey(name: 'CurrentApplicationVersionId')
+  final int currentApplicationVersionId;
+
+  /// ID of the reference data source. When you add a reference data source to
+  /// your application using the <a
+  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_AddApplicationReferenceDataSource.html">AddApplicationReferenceDataSource</a>,
+  /// Amazon Kinesis Analytics assigns an ID. You can use the <a
+  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_DescribeApplication.html">DescribeApplication</a>
+  /// operation to get the reference ID.
+  @_s.JsonKey(name: 'ReferenceId')
+  final String referenceId;
+
+  DeleteApplicationReferenceDataSourceRequest({
+    @_s.required this.applicationName,
+    @_s.required this.currentApplicationVersionId,
+    @_s.required this.referenceId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteApplicationReferenceDataSourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2242,12 +2656,55 @@ class DeleteApplicationReferenceDataSourceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteApplicationRequest {
+  /// Name of the Amazon Kinesis Analytics application to delete.
+  @_s.JsonKey(name: 'ApplicationName')
+  final String applicationName;
+
+  /// You can use the <code>DescribeApplication</code> operation to get this
+  /// value.
+  @_s.JsonKey(
+      name: 'CreateTimestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime createTimestamp;
+
+  DeleteApplicationRequest({
+    @_s.required this.applicationName,
+    @_s.required this.createTimestamp,
+  });
+  Map<String, dynamic> toJson() => _$DeleteApplicationRequestToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteApplicationResponse {
   DeleteApplicationResponse();
   factory DeleteApplicationResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteApplicationResponseFromJson(json);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeApplicationRequest {
+  /// Name of the application.
+  @_s.JsonKey(name: 'ApplicationName')
+  final String applicationName;
+
+  DescribeApplicationRequest({
+    @_s.required this.applicationName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeApplicationRequestToJson(this);
 }
 
 /// <p/>
@@ -2291,6 +2748,48 @@ class DestinationSchema {
       _$DestinationSchemaFromJson(json);
 
   Map<String, dynamic> toJson() => _$DestinationSchemaToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DiscoverInputSchemaRequest {
+  /// The <a
+  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_InputProcessingConfiguration.html">InputProcessingConfiguration</a>
+  /// to use to preprocess the records before discovering the schema of the
+  /// records.
+  @_s.JsonKey(name: 'InputProcessingConfiguration')
+  final InputProcessingConfiguration inputProcessingConfiguration;
+
+  /// Point at which you want Amazon Kinesis Analytics to start reading records
+  /// from the specified streaming source discovery purposes.
+  @_s.JsonKey(name: 'InputStartingPositionConfiguration')
+  final InputStartingPositionConfiguration inputStartingPositionConfiguration;
+
+  /// Amazon Resource Name (ARN) of the streaming source.
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+
+  /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the
+  /// stream on your behalf.
+  @_s.JsonKey(name: 'RoleARN')
+  final String roleARN;
+
+  /// Specify this parameter to discover a schema from data in an Amazon S3
+  /// object.
+  @_s.JsonKey(name: 'S3Configuration')
+  final S3Configuration s3Configuration;
+
+  DiscoverInputSchemaRequest({
+    this.inputProcessingConfiguration,
+    this.inputStartingPositionConfiguration,
+    this.resourceARN,
+    this.roleARN,
+    this.s3Configuration,
+  });
+  Map<String, dynamic> toJson() => _$DiscoverInputSchemaRequestToJson(this);
 }
 
 /// <p/>
@@ -3269,6 +3768,31 @@ class LambdaOutputUpdate {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListApplicationsRequest {
+  /// Name of the application to start the list with. When using pagination to
+  /// retrieve the list, you don't need to specify this parameter in the first
+  /// request. However, in subsequent requests, you add the last application name
+  /// from the previous response to get the next page of applications.
+  @_s.JsonKey(name: 'ExclusiveStartApplicationName')
+  final String exclusiveStartApplicationName;
+
+  /// Maximum number of applications to list.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  ListApplicationsRequest({
+    this.exclusiveStartApplicationName,
+    this.limit,
+  });
+  Map<String, dynamic> toJson() => _$ListApplicationsRequestToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListApplicationsResponse {
@@ -3286,6 +3810,22 @@ class ListApplicationsResponse {
   });
   factory ListApplicationsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListApplicationsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceRequest {
+  /// The ARN of the application for which to retrieve tags.
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+
+  ListTagsForResourceRequest({
+    @_s.required this.resourceARN,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3836,12 +4376,54 @@ class SourceSchema {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartApplicationRequest {
+  /// Name of the application.
+  @_s.JsonKey(name: 'ApplicationName')
+  final String applicationName;
+
+  /// Identifies the specific input, by ID, that the application starts consuming.
+  /// Amazon Kinesis Analytics starts reading the streaming source associated with
+  /// the input. You can also specify where in the streaming source you want
+  /// Amazon Kinesis Analytics to start reading.
+  @_s.JsonKey(name: 'InputConfigurations')
+  final List<InputConfiguration> inputConfigurations;
+
+  StartApplicationRequest({
+    @_s.required this.applicationName,
+    @_s.required this.inputConfigurations,
+  });
+  Map<String, dynamic> toJson() => _$StartApplicationRequestToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartApplicationResponse {
   StartApplicationResponse();
   factory StartApplicationResponse.fromJson(Map<String, dynamic> json) =>
       _$StartApplicationResponseFromJson(json);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopApplicationRequest {
+  /// Name of the running application to stop.
+  @_s.JsonKey(name: 'ApplicationName')
+  final String applicationName;
+
+  StopApplicationRequest({
+    @_s.required this.applicationName,
+  });
+  Map<String, dynamic> toJson() => _$StopApplicationRequestToJson(this);
 }
 
 /// <p/>
@@ -3889,6 +4471,27 @@ class Tag {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The ARN of the application to assign the tags.
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+
+  /// The key-value tags to assign to the application.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceARN,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagResourceResponse {
@@ -3900,12 +4503,61 @@ class TagResourceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The ARN of the Kinesis Analytics application from which to remove the tags.
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+
+  /// A list of keys of tags to remove from the specified application.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceARN,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
   factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateApplicationRequest {
+  /// Name of the Amazon Kinesis Analytics application to update.
+  @_s.JsonKey(name: 'ApplicationName')
+  final String applicationName;
+
+  /// Describes application updates.
+  @_s.JsonKey(name: 'ApplicationUpdate')
+  final ApplicationUpdate applicationUpdate;
+
+  /// The current application version ID. You can use the <a
+  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_DescribeApplication.html">DescribeApplication</a>
+  /// operation to get this value.
+  @_s.JsonKey(name: 'CurrentApplicationVersionId')
+  final int currentApplicationVersionId;
+
+  UpdateApplicationRequest({
+    @_s.required this.applicationName,
+    @_s.required this.applicationUpdate,
+    @_s.required this.currentApplicationVersionId,
+  });
+  Map<String, dynamic> toJson() => _$UpdateApplicationRequestToJson(this);
 }
 
 @_s.JsonSerializable(

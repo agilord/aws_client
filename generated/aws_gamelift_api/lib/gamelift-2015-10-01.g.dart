@@ -6,6 +6,27 @@ part of 'gamelift-2015-10-01.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$AcceptMatchInputToJson(AcceptMatchInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'AcceptanceType', _$AcceptanceTypeEnumMap[instance.acceptanceType]);
+  writeNotNull('PlayerIds', instance.playerIds);
+  writeNotNull('TicketId', instance.ticketId);
+  return val;
+}
+
+const _$AcceptanceTypeEnumMap = {
+  AcceptanceType.accept: 'ACCEPT',
+  AcceptanceType.reject: 'REJECT',
+};
+
 AcceptMatchOutput _$AcceptMatchOutputFromJson(Map<String, dynamic> json) {
   return AcceptMatchOutput();
 }
@@ -146,6 +167,22 @@ const _$CertificateTypeEnumMap = {
   CertificateType.generated: 'GENERATED',
 };
 
+Map<String, dynamic> _$ClaimGameServerInputToJson(
+    ClaimGameServerInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GameServerGroupName', instance.gameServerGroupName);
+  writeNotNull('GameServerData', instance.gameServerData);
+  writeNotNull('GameServerId', instance.gameServerId);
+  return val;
+}
+
 ClaimGameServerOutput _$ClaimGameServerOutputFromJson(
     Map<String, dynamic> json) {
   return ClaimGameServerOutput(
@@ -155,12 +192,46 @@ ClaimGameServerOutput _$ClaimGameServerOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateAliasInputToJson(CreateAliasInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('RoutingStrategy', instance.routingStrategy?.toJson());
+  writeNotNull('Description', instance.description);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateAliasOutput _$CreateAliasOutputFromJson(Map<String, dynamic> json) {
   return CreateAliasOutput(
     alias: json['Alias'] == null
         ? null
         : Alias.fromJson(json['Alias'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateBuildInputToJson(CreateBuildInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull(
+      'OperatingSystem', _$OperatingSystemEnumMap[instance.operatingSystem]);
+  writeNotNull('StorageLocation', instance.storageLocation?.toJson());
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Version', instance.version);
+  return val;
 }
 
 CreateBuildOutput _$CreateBuildOutputFromJson(Map<String, dynamic> json) {
@@ -178,403 +249,7 @@ CreateBuildOutput _$CreateBuildOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
-CreateFleetOutput _$CreateFleetOutputFromJson(Map<String, dynamic> json) {
-  return CreateFleetOutput(
-    fleetAttributes: json['FleetAttributes'] == null
-        ? null
-        : FleetAttributes.fromJson(
-            json['FleetAttributes'] as Map<String, dynamic>),
-  );
-}
-
-CreateGameServerGroupOutput _$CreateGameServerGroupOutputFromJson(
-    Map<String, dynamic> json) {
-  return CreateGameServerGroupOutput(
-    gameServerGroup: json['GameServerGroup'] == null
-        ? null
-        : GameServerGroup.fromJson(
-            json['GameServerGroup'] as Map<String, dynamic>),
-  );
-}
-
-CreateGameSessionOutput _$CreateGameSessionOutputFromJson(
-    Map<String, dynamic> json) {
-  return CreateGameSessionOutput(
-    gameSession: json['GameSession'] == null
-        ? null
-        : GameSession.fromJson(json['GameSession'] as Map<String, dynamic>),
-  );
-}
-
-CreateGameSessionQueueOutput _$CreateGameSessionQueueOutputFromJson(
-    Map<String, dynamic> json) {
-  return CreateGameSessionQueueOutput(
-    gameSessionQueue: json['GameSessionQueue'] == null
-        ? null
-        : GameSessionQueue.fromJson(
-            json['GameSessionQueue'] as Map<String, dynamic>),
-  );
-}
-
-CreateMatchmakingConfigurationOutput
-    _$CreateMatchmakingConfigurationOutputFromJson(Map<String, dynamic> json) {
-  return CreateMatchmakingConfigurationOutput(
-    configuration: json['Configuration'] == null
-        ? null
-        : MatchmakingConfiguration.fromJson(
-            json['Configuration'] as Map<String, dynamic>),
-  );
-}
-
-CreateMatchmakingRuleSetOutput _$CreateMatchmakingRuleSetOutputFromJson(
-    Map<String, dynamic> json) {
-  return CreateMatchmakingRuleSetOutput(
-    ruleSet: json['RuleSet'] == null
-        ? null
-        : MatchmakingRuleSet.fromJson(json['RuleSet'] as Map<String, dynamic>),
-  );
-}
-
-CreatePlayerSessionOutput _$CreatePlayerSessionOutputFromJson(
-    Map<String, dynamic> json) {
-  return CreatePlayerSessionOutput(
-    playerSession: json['PlayerSession'] == null
-        ? null
-        : PlayerSession.fromJson(json['PlayerSession'] as Map<String, dynamic>),
-  );
-}
-
-CreatePlayerSessionsOutput _$CreatePlayerSessionsOutputFromJson(
-    Map<String, dynamic> json) {
-  return CreatePlayerSessionsOutput(
-    playerSessions: (json['PlayerSessions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PlayerSession.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-  );
-}
-
-CreateScriptOutput _$CreateScriptOutputFromJson(Map<String, dynamic> json) {
-  return CreateScriptOutput(
-    script: json['Script'] == null
-        ? null
-        : Script.fromJson(json['Script'] as Map<String, dynamic>),
-  );
-}
-
-CreateVpcPeeringAuthorizationOutput
-    _$CreateVpcPeeringAuthorizationOutputFromJson(Map<String, dynamic> json) {
-  return CreateVpcPeeringAuthorizationOutput(
-    vpcPeeringAuthorization: json['VpcPeeringAuthorization'] == null
-        ? null
-        : VpcPeeringAuthorization.fromJson(
-            json['VpcPeeringAuthorization'] as Map<String, dynamic>),
-  );
-}
-
-CreateVpcPeeringConnectionOutput _$CreateVpcPeeringConnectionOutputFromJson(
-    Map<String, dynamic> json) {
-  return CreateVpcPeeringConnectionOutput();
-}
-
-DeleteGameServerGroupOutput _$DeleteGameServerGroupOutputFromJson(
-    Map<String, dynamic> json) {
-  return DeleteGameServerGroupOutput(
-    gameServerGroup: json['GameServerGroup'] == null
-        ? null
-        : GameServerGroup.fromJson(
-            json['GameServerGroup'] as Map<String, dynamic>),
-  );
-}
-
-DeleteGameSessionQueueOutput _$DeleteGameSessionQueueOutputFromJson(
-    Map<String, dynamic> json) {
-  return DeleteGameSessionQueueOutput();
-}
-
-DeleteMatchmakingConfigurationOutput
-    _$DeleteMatchmakingConfigurationOutputFromJson(Map<String, dynamic> json) {
-  return DeleteMatchmakingConfigurationOutput();
-}
-
-DeleteMatchmakingRuleSetOutput _$DeleteMatchmakingRuleSetOutputFromJson(
-    Map<String, dynamic> json) {
-  return DeleteMatchmakingRuleSetOutput();
-}
-
-DeleteVpcPeeringAuthorizationOutput
-    _$DeleteVpcPeeringAuthorizationOutputFromJson(Map<String, dynamic> json) {
-  return DeleteVpcPeeringAuthorizationOutput();
-}
-
-DeleteVpcPeeringConnectionOutput _$DeleteVpcPeeringConnectionOutputFromJson(
-    Map<String, dynamic> json) {
-  return DeleteVpcPeeringConnectionOutput();
-}
-
-DescribeAliasOutput _$DescribeAliasOutputFromJson(Map<String, dynamic> json) {
-  return DescribeAliasOutput(
-    alias: json['Alias'] == null
-        ? null
-        : Alias.fromJson(json['Alias'] as Map<String, dynamic>),
-  );
-}
-
-DescribeBuildOutput _$DescribeBuildOutputFromJson(Map<String, dynamic> json) {
-  return DescribeBuildOutput(
-    build: json['Build'] == null
-        ? null
-        : Build.fromJson(json['Build'] as Map<String, dynamic>),
-  );
-}
-
-DescribeEC2InstanceLimitsOutput _$DescribeEC2InstanceLimitsOutputFromJson(
-    Map<String, dynamic> json) {
-  return DescribeEC2InstanceLimitsOutput(
-    eC2InstanceLimits: (json['EC2InstanceLimits'] as List)
-        ?.map((e) => e == null
-            ? null
-            : EC2InstanceLimit.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-  );
-}
-
-DescribeFleetAttributesOutput _$DescribeFleetAttributesOutputFromJson(
-    Map<String, dynamic> json) {
-  return DescribeFleetAttributesOutput(
-    fleetAttributes: (json['FleetAttributes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : FleetAttributes.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
-  );
-}
-
-DescribeFleetCapacityOutput _$DescribeFleetCapacityOutputFromJson(
-    Map<String, dynamic> json) {
-  return DescribeFleetCapacityOutput(
-    fleetCapacity: (json['FleetCapacity'] as List)
-        ?.map((e) => e == null
-            ? null
-            : FleetCapacity.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
-  );
-}
-
-DescribeFleetEventsOutput _$DescribeFleetEventsOutputFromJson(
-    Map<String, dynamic> json) {
-  return DescribeFleetEventsOutput(
-    events: (json['Events'] as List)
-        ?.map(
-            (e) => e == null ? null : Event.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
-  );
-}
-
-DescribeFleetPortSettingsOutput _$DescribeFleetPortSettingsOutputFromJson(
-    Map<String, dynamic> json) {
-  return DescribeFleetPortSettingsOutput(
-    inboundPermissions: (json['InboundPermissions'] as List)
-        ?.map((e) =>
-            e == null ? null : IpPermission.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-  );
-}
-
-DescribeFleetUtilizationOutput _$DescribeFleetUtilizationOutputFromJson(
-    Map<String, dynamic> json) {
-  return DescribeFleetUtilizationOutput(
-    fleetUtilization: (json['FleetUtilization'] as List)
-        ?.map((e) => e == null
-            ? null
-            : FleetUtilization.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
-  );
-}
-
-DescribeGameServerGroupOutput _$DescribeGameServerGroupOutputFromJson(
-    Map<String, dynamic> json) {
-  return DescribeGameServerGroupOutput(
-    gameServerGroup: json['GameServerGroup'] == null
-        ? null
-        : GameServerGroup.fromJson(
-            json['GameServerGroup'] as Map<String, dynamic>),
-  );
-}
-
-DescribeGameServerOutput _$DescribeGameServerOutputFromJson(
-    Map<String, dynamic> json) {
-  return DescribeGameServerOutput(
-    gameServer: json['GameServer'] == null
-        ? null
-        : GameServer.fromJson(json['GameServer'] as Map<String, dynamic>),
-  );
-}
-
-DescribeGameSessionDetailsOutput _$DescribeGameSessionDetailsOutputFromJson(
-    Map<String, dynamic> json) {
-  return DescribeGameSessionDetailsOutput(
-    gameSessionDetails: (json['GameSessionDetails'] as List)
-        ?.map((e) => e == null
-            ? null
-            : GameSessionDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
-  );
-}
-
-DescribeGameSessionPlacementOutput _$DescribeGameSessionPlacementOutputFromJson(
-    Map<String, dynamic> json) {
-  return DescribeGameSessionPlacementOutput(
-    gameSessionPlacement: json['GameSessionPlacement'] == null
-        ? null
-        : GameSessionPlacement.fromJson(
-            json['GameSessionPlacement'] as Map<String, dynamic>),
-  );
-}
-
-DescribeGameSessionQueuesOutput _$DescribeGameSessionQueuesOutputFromJson(
-    Map<String, dynamic> json) {
-  return DescribeGameSessionQueuesOutput(
-    gameSessionQueues: (json['GameSessionQueues'] as List)
-        ?.map((e) => e == null
-            ? null
-            : GameSessionQueue.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
-  );
-}
-
-DescribeGameSessionsOutput _$DescribeGameSessionsOutputFromJson(
-    Map<String, dynamic> json) {
-  return DescribeGameSessionsOutput(
-    gameSessions: (json['GameSessions'] as List)
-        ?.map((e) =>
-            e == null ? null : GameSession.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
-  );
-}
-
-DescribeInstancesOutput _$DescribeInstancesOutputFromJson(
-    Map<String, dynamic> json) {
-  return DescribeInstancesOutput(
-    instances: (json['Instances'] as List)
-        ?.map((e) =>
-            e == null ? null : Instance.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
-  );
-}
-
-DescribeMatchmakingConfigurationsOutput
-    _$DescribeMatchmakingConfigurationsOutputFromJson(
-        Map<String, dynamic> json) {
-  return DescribeMatchmakingConfigurationsOutput(
-    configurations: (json['Configurations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : MatchmakingConfiguration.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
-  );
-}
-
-DescribeMatchmakingOutput _$DescribeMatchmakingOutputFromJson(
-    Map<String, dynamic> json) {
-  return DescribeMatchmakingOutput(
-    ticketList: (json['TicketList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : MatchmakingTicket.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-  );
-}
-
-DescribeMatchmakingRuleSetsOutput _$DescribeMatchmakingRuleSetsOutputFromJson(
-    Map<String, dynamic> json) {
-  return DescribeMatchmakingRuleSetsOutput(
-    ruleSets: (json['RuleSets'] as List)
-        ?.map((e) => e == null
-            ? null
-            : MatchmakingRuleSet.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
-  );
-}
-
-DescribePlayerSessionsOutput _$DescribePlayerSessionsOutputFromJson(
-    Map<String, dynamic> json) {
-  return DescribePlayerSessionsOutput(
-    nextToken: json['NextToken'] as String,
-    playerSessions: (json['PlayerSessions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PlayerSession.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-  );
-}
-
-DescribeRuntimeConfigurationOutput _$DescribeRuntimeConfigurationOutputFromJson(
-    Map<String, dynamic> json) {
-  return DescribeRuntimeConfigurationOutput(
-    runtimeConfiguration: json['RuntimeConfiguration'] == null
-        ? null
-        : RuntimeConfiguration.fromJson(
-            json['RuntimeConfiguration'] as Map<String, dynamic>),
-  );
-}
-
-DescribeScalingPoliciesOutput _$DescribeScalingPoliciesOutputFromJson(
-    Map<String, dynamic> json) {
-  return DescribeScalingPoliciesOutput(
-    nextToken: json['NextToken'] as String,
-    scalingPolicies: (json['ScalingPolicies'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ScalingPolicy.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-  );
-}
-
-DescribeScriptOutput _$DescribeScriptOutputFromJson(Map<String, dynamic> json) {
-  return DescribeScriptOutput(
-    script: json['Script'] == null
-        ? null
-        : Script.fromJson(json['Script'] as Map<String, dynamic>),
-  );
-}
-
-DescribeVpcPeeringAuthorizationsOutput
-    _$DescribeVpcPeeringAuthorizationsOutputFromJson(
-        Map<String, dynamic> json) {
-  return DescribeVpcPeeringAuthorizationsOutput(
-    vpcPeeringAuthorizations: (json['VpcPeeringAuthorizations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : VpcPeeringAuthorization.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-  );
-}
-
-DescribeVpcPeeringConnectionsOutput
-    _$DescribeVpcPeeringConnectionsOutputFromJson(Map<String, dynamic> json) {
-  return DescribeVpcPeeringConnectionsOutput(
-    vpcPeeringConnections: (json['VpcPeeringConnections'] as List)
-        ?.map((e) => e == null
-            ? null
-            : VpcPeeringConnection.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-  );
-}
-
-Map<String, dynamic> _$DesiredPlayerSessionToJson(
-    DesiredPlayerSession instance) {
+Map<String, dynamic> _$CreateFleetInputToJson(CreateFleetInput instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -583,30 +258,31 @@ Map<String, dynamic> _$DesiredPlayerSessionToJson(
     }
   }
 
-  writeNotNull('PlayerData', instance.playerData);
-  writeNotNull('PlayerId', instance.playerId);
+  writeNotNull(
+      'EC2InstanceType', _$EC2InstanceTypeEnumMap[instance.eC2InstanceType]);
+  writeNotNull('Name', instance.name);
+  writeNotNull('BuildId', instance.buildId);
+  writeNotNull(
+      'CertificateConfiguration', instance.certificateConfiguration?.toJson());
+  writeNotNull('Description', instance.description);
+  writeNotNull('EC2InboundPermissions',
+      instance.eC2InboundPermissions?.map((e) => e?.toJson())?.toList());
+  writeNotNull('FleetType', _$FleetTypeEnumMap[instance.fleetType]);
+  writeNotNull('InstanceRoleArn', instance.instanceRoleArn);
+  writeNotNull('LogPaths', instance.logPaths);
+  writeNotNull('MetricGroups', instance.metricGroups);
+  writeNotNull('NewGameSessionProtectionPolicy',
+      _$ProtectionPolicyEnumMap[instance.newGameSessionProtectionPolicy]);
+  writeNotNull('PeerVpcAwsAccountId', instance.peerVpcAwsAccountId);
+  writeNotNull('PeerVpcId', instance.peerVpcId);
+  writeNotNull('ResourceCreationLimitPolicy',
+      instance.resourceCreationLimitPolicy?.toJson());
+  writeNotNull('RuntimeConfiguration', instance.runtimeConfiguration?.toJson());
+  writeNotNull('ScriptId', instance.scriptId);
+  writeNotNull('ServerLaunchParameters', instance.serverLaunchParameters);
+  writeNotNull('ServerLaunchPath', instance.serverLaunchPath);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
   return val;
-}
-
-EC2InstanceCounts _$EC2InstanceCountsFromJson(Map<String, dynamic> json) {
-  return EC2InstanceCounts(
-    active: json['ACTIVE'] as int,
-    desired: json['DESIRED'] as int,
-    idle: json['IDLE'] as int,
-    maximum: json['MAXIMUM'] as int,
-    minimum: json['MINIMUM'] as int,
-    pending: json['PENDING'] as int,
-    terminating: json['TERMINATING'] as int,
-  );
-}
-
-EC2InstanceLimit _$EC2InstanceLimitFromJson(Map<String, dynamic> json) {
-  return EC2InstanceLimit(
-    currentInstances: json['CurrentInstances'] as int,
-    eC2InstanceType:
-        _$enumDecodeNullable(_$EC2InstanceTypeEnumMap, json['EC2InstanceType']),
-    instanceLimit: json['InstanceLimit'] as int,
-  );
 }
 
 const _$EC2InstanceTypeEnumMap = {
@@ -669,6 +345,1202 @@ const _$EC2InstanceTypeEnumMap = {
   EC2InstanceType.m5_16xlarge: 'm5.16xlarge',
   EC2InstanceType.m5_24xlarge: 'm5.24xlarge',
 };
+
+const _$FleetTypeEnumMap = {
+  FleetType.onDemand: 'ON_DEMAND',
+  FleetType.spot: 'SPOT',
+};
+
+const _$ProtectionPolicyEnumMap = {
+  ProtectionPolicy.noProtection: 'NoProtection',
+  ProtectionPolicy.fullProtection: 'FullProtection',
+};
+
+CreateFleetOutput _$CreateFleetOutputFromJson(Map<String, dynamic> json) {
+  return CreateFleetOutput(
+    fleetAttributes: json['FleetAttributes'] == null
+        ? null
+        : FleetAttributes.fromJson(
+            json['FleetAttributes'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$CreateGameServerGroupInputToJson(
+    CreateGameServerGroupInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GameServerGroupName', instance.gameServerGroupName);
+  writeNotNull('InstanceDefinitions',
+      instance.instanceDefinitions?.map((e) => e?.toJson())?.toList());
+  writeNotNull('LaunchTemplate', instance.launchTemplate?.toJson());
+  writeNotNull('MaxSize', instance.maxSize);
+  writeNotNull('MinSize', instance.minSize);
+  writeNotNull('RoleArn', instance.roleArn);
+  writeNotNull('AutoScalingPolicy', instance.autoScalingPolicy?.toJson());
+  writeNotNull('BalancingStrategy',
+      _$BalancingStrategyEnumMap[instance.balancingStrategy]);
+  writeNotNull('GameServerProtectionPolicy',
+      _$GameServerProtectionPolicyEnumMap[instance.gameServerProtectionPolicy]);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('VpcSubnets', instance.vpcSubnets);
+  return val;
+}
+
+const _$BalancingStrategyEnumMap = {
+  BalancingStrategy.spotOnly: 'SPOT_ONLY',
+  BalancingStrategy.spotPreferred: 'SPOT_PREFERRED',
+};
+
+const _$GameServerProtectionPolicyEnumMap = {
+  GameServerProtectionPolicy.noProtection: 'NO_PROTECTION',
+  GameServerProtectionPolicy.fullProtection: 'FULL_PROTECTION',
+};
+
+CreateGameServerGroupOutput _$CreateGameServerGroupOutputFromJson(
+    Map<String, dynamic> json) {
+  return CreateGameServerGroupOutput(
+    gameServerGroup: json['GameServerGroup'] == null
+        ? null
+        : GameServerGroup.fromJson(
+            json['GameServerGroup'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$CreateGameSessionInputToJson(
+    CreateGameSessionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaximumPlayerSessionCount', instance.maximumPlayerSessionCount);
+  writeNotNull('AliasId', instance.aliasId);
+  writeNotNull('CreatorId', instance.creatorId);
+  writeNotNull('FleetId', instance.fleetId);
+  writeNotNull('GameProperties',
+      instance.gameProperties?.map((e) => e?.toJson())?.toList());
+  writeNotNull('GameSessionData', instance.gameSessionData);
+  writeNotNull('GameSessionId', instance.gameSessionId);
+  writeNotNull('IdempotencyToken', instance.idempotencyToken);
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
+CreateGameSessionOutput _$CreateGameSessionOutputFromJson(
+    Map<String, dynamic> json) {
+  return CreateGameSessionOutput(
+    gameSession: json['GameSession'] == null
+        ? null
+        : GameSession.fromJson(json['GameSession'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$CreateGameSessionQueueInputToJson(
+    CreateGameSessionQueueInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull(
+      'Destinations', instance.destinations?.map((e) => e?.toJson())?.toList());
+  writeNotNull('PlayerLatencyPolicies',
+      instance.playerLatencyPolicies?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('TimeoutInSeconds', instance.timeoutInSeconds);
+  return val;
+}
+
+CreateGameSessionQueueOutput _$CreateGameSessionQueueOutputFromJson(
+    Map<String, dynamic> json) {
+  return CreateGameSessionQueueOutput(
+    gameSessionQueue: json['GameSessionQueue'] == null
+        ? null
+        : GameSessionQueue.fromJson(
+            json['GameSessionQueue'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$CreateMatchmakingConfigurationInputToJson(
+    CreateMatchmakingConfigurationInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AcceptanceRequired', instance.acceptanceRequired);
+  writeNotNull('GameSessionQueueArns', instance.gameSessionQueueArns);
+  writeNotNull('Name', instance.name);
+  writeNotNull('RequestTimeoutSeconds', instance.requestTimeoutSeconds);
+  writeNotNull('RuleSetName', instance.ruleSetName);
+  writeNotNull('AcceptanceTimeoutSeconds', instance.acceptanceTimeoutSeconds);
+  writeNotNull('AdditionalPlayerCount', instance.additionalPlayerCount);
+  writeNotNull('BackfillMode', _$BackfillModeEnumMap[instance.backfillMode]);
+  writeNotNull('CustomEventData', instance.customEventData);
+  writeNotNull('Description', instance.description);
+  writeNotNull('GameProperties',
+      instance.gameProperties?.map((e) => e?.toJson())?.toList());
+  writeNotNull('GameSessionData', instance.gameSessionData);
+  writeNotNull('NotificationTarget', instance.notificationTarget);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+const _$BackfillModeEnumMap = {
+  BackfillMode.automatic: 'AUTOMATIC',
+  BackfillMode.manual: 'MANUAL',
+};
+
+CreateMatchmakingConfigurationOutput
+    _$CreateMatchmakingConfigurationOutputFromJson(Map<String, dynamic> json) {
+  return CreateMatchmakingConfigurationOutput(
+    configuration: json['Configuration'] == null
+        ? null
+        : MatchmakingConfiguration.fromJson(
+            json['Configuration'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$CreateMatchmakingRuleSetInputToJson(
+    CreateMatchmakingRuleSetInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('RuleSetBody', instance.ruleSetBody);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+CreateMatchmakingRuleSetOutput _$CreateMatchmakingRuleSetOutputFromJson(
+    Map<String, dynamic> json) {
+  return CreateMatchmakingRuleSetOutput(
+    ruleSet: json['RuleSet'] == null
+        ? null
+        : MatchmakingRuleSet.fromJson(json['RuleSet'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$CreatePlayerSessionInputToJson(
+    CreatePlayerSessionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GameSessionId', instance.gameSessionId);
+  writeNotNull('PlayerId', instance.playerId);
+  writeNotNull('PlayerData', instance.playerData);
+  return val;
+}
+
+CreatePlayerSessionOutput _$CreatePlayerSessionOutputFromJson(
+    Map<String, dynamic> json) {
+  return CreatePlayerSessionOutput(
+    playerSession: json['PlayerSession'] == null
+        ? null
+        : PlayerSession.fromJson(json['PlayerSession'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$CreatePlayerSessionsInputToJson(
+    CreatePlayerSessionsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GameSessionId', instance.gameSessionId);
+  writeNotNull('PlayerIds', instance.playerIds);
+  writeNotNull('PlayerDataMap', instance.playerDataMap);
+  return val;
+}
+
+CreatePlayerSessionsOutput _$CreatePlayerSessionsOutputFromJson(
+    Map<String, dynamic> json) {
+  return CreatePlayerSessionsOutput(
+    playerSessions: (json['PlayerSessions'] as List)
+        ?.map((e) => e == null
+            ? null
+            : PlayerSession.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+Map<String, dynamic> _$CreateScriptInputToJson(CreateScriptInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('StorageLocation', instance.storageLocation?.toJson());
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Version', instance.version);
+  writeNotNull('ZipFile', const Uint8ListConverter().toJson(instance.zipFile));
+  return val;
+}
+
+CreateScriptOutput _$CreateScriptOutputFromJson(Map<String, dynamic> json) {
+  return CreateScriptOutput(
+    script: json['Script'] == null
+        ? null
+        : Script.fromJson(json['Script'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$CreateVpcPeeringAuthorizationInputToJson(
+    CreateVpcPeeringAuthorizationInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GameLiftAwsAccountId', instance.gameLiftAwsAccountId);
+  writeNotNull('PeerVpcId', instance.peerVpcId);
+  return val;
+}
+
+CreateVpcPeeringAuthorizationOutput
+    _$CreateVpcPeeringAuthorizationOutputFromJson(Map<String, dynamic> json) {
+  return CreateVpcPeeringAuthorizationOutput(
+    vpcPeeringAuthorization: json['VpcPeeringAuthorization'] == null
+        ? null
+        : VpcPeeringAuthorization.fromJson(
+            json['VpcPeeringAuthorization'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$CreateVpcPeeringConnectionInputToJson(
+    CreateVpcPeeringConnectionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FleetId', instance.fleetId);
+  writeNotNull('PeerVpcAwsAccountId', instance.peerVpcAwsAccountId);
+  writeNotNull('PeerVpcId', instance.peerVpcId);
+  return val;
+}
+
+CreateVpcPeeringConnectionOutput _$CreateVpcPeeringConnectionOutputFromJson(
+    Map<String, dynamic> json) {
+  return CreateVpcPeeringConnectionOutput();
+}
+
+Map<String, dynamic> _$DeleteAliasInputToJson(DeleteAliasInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AliasId', instance.aliasId);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteBuildInputToJson(DeleteBuildInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BuildId', instance.buildId);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteFleetInputToJson(DeleteFleetInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FleetId', instance.fleetId);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteGameServerGroupInputToJson(
+    DeleteGameServerGroupInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GameServerGroupName', instance.gameServerGroupName);
+  writeNotNull('DeleteOption',
+      _$GameServerGroupDeleteOptionEnumMap[instance.deleteOption]);
+  return val;
+}
+
+const _$GameServerGroupDeleteOptionEnumMap = {
+  GameServerGroupDeleteOption.safeDelete: 'SAFE_DELETE',
+  GameServerGroupDeleteOption.forceDelete: 'FORCE_DELETE',
+  GameServerGroupDeleteOption.retain: 'RETAIN',
+};
+
+DeleteGameServerGroupOutput _$DeleteGameServerGroupOutputFromJson(
+    Map<String, dynamic> json) {
+  return DeleteGameServerGroupOutput(
+    gameServerGroup: json['GameServerGroup'] == null
+        ? null
+        : GameServerGroup.fromJson(
+            json['GameServerGroup'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$DeleteGameSessionQueueInputToJson(
+    DeleteGameSessionQueueInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
+DeleteGameSessionQueueOutput _$DeleteGameSessionQueueOutputFromJson(
+    Map<String, dynamic> json) {
+  return DeleteGameSessionQueueOutput();
+}
+
+Map<String, dynamic> _$DeleteMatchmakingConfigurationInputToJson(
+    DeleteMatchmakingConfigurationInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
+DeleteMatchmakingConfigurationOutput
+    _$DeleteMatchmakingConfigurationOutputFromJson(Map<String, dynamic> json) {
+  return DeleteMatchmakingConfigurationOutput();
+}
+
+Map<String, dynamic> _$DeleteMatchmakingRuleSetInputToJson(
+    DeleteMatchmakingRuleSetInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
+DeleteMatchmakingRuleSetOutput _$DeleteMatchmakingRuleSetOutputFromJson(
+    Map<String, dynamic> json) {
+  return DeleteMatchmakingRuleSetOutput();
+}
+
+Map<String, dynamic> _$DeleteScalingPolicyInputToJson(
+    DeleteScalingPolicyInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FleetId', instance.fleetId);
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteScriptInputToJson(DeleteScriptInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ScriptId', instance.scriptId);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteVpcPeeringAuthorizationInputToJson(
+    DeleteVpcPeeringAuthorizationInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GameLiftAwsAccountId', instance.gameLiftAwsAccountId);
+  writeNotNull('PeerVpcId', instance.peerVpcId);
+  return val;
+}
+
+DeleteVpcPeeringAuthorizationOutput
+    _$DeleteVpcPeeringAuthorizationOutputFromJson(Map<String, dynamic> json) {
+  return DeleteVpcPeeringAuthorizationOutput();
+}
+
+Map<String, dynamic> _$DeleteVpcPeeringConnectionInputToJson(
+    DeleteVpcPeeringConnectionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FleetId', instance.fleetId);
+  writeNotNull('VpcPeeringConnectionId', instance.vpcPeeringConnectionId);
+  return val;
+}
+
+DeleteVpcPeeringConnectionOutput _$DeleteVpcPeeringConnectionOutputFromJson(
+    Map<String, dynamic> json) {
+  return DeleteVpcPeeringConnectionOutput();
+}
+
+Map<String, dynamic> _$DeregisterGameServerInputToJson(
+    DeregisterGameServerInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GameServerGroupName', instance.gameServerGroupName);
+  writeNotNull('GameServerId', instance.gameServerId);
+  return val;
+}
+
+Map<String, dynamic> _$DescribeAliasInputToJson(DescribeAliasInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AliasId', instance.aliasId);
+  return val;
+}
+
+DescribeAliasOutput _$DescribeAliasOutputFromJson(Map<String, dynamic> json) {
+  return DescribeAliasOutput(
+    alias: json['Alias'] == null
+        ? null
+        : Alias.fromJson(json['Alias'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$DescribeBuildInputToJson(DescribeBuildInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BuildId', instance.buildId);
+  return val;
+}
+
+DescribeBuildOutput _$DescribeBuildOutputFromJson(Map<String, dynamic> json) {
+  return DescribeBuildOutput(
+    build: json['Build'] == null
+        ? null
+        : Build.fromJson(json['Build'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$DescribeEC2InstanceLimitsInputToJson(
+    DescribeEC2InstanceLimitsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'EC2InstanceType', _$EC2InstanceTypeEnumMap[instance.eC2InstanceType]);
+  return val;
+}
+
+DescribeEC2InstanceLimitsOutput _$DescribeEC2InstanceLimitsOutputFromJson(
+    Map<String, dynamic> json) {
+  return DescribeEC2InstanceLimitsOutput(
+    eC2InstanceLimits: (json['EC2InstanceLimits'] as List)
+        ?.map((e) => e == null
+            ? null
+            : EC2InstanceLimit.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+Map<String, dynamic> _$DescribeFleetAttributesInputToJson(
+    DescribeFleetAttributesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FleetIds', instance.fleetIds);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
+DescribeFleetAttributesOutput _$DescribeFleetAttributesOutputFromJson(
+    Map<String, dynamic> json) {
+  return DescribeFleetAttributesOutput(
+    fleetAttributes: (json['FleetAttributes'] as List)
+        ?.map((e) => e == null
+            ? null
+            : FleetAttributes.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
+Map<String, dynamic> _$DescribeFleetCapacityInputToJson(
+    DescribeFleetCapacityInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FleetIds', instance.fleetIds);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
+DescribeFleetCapacityOutput _$DescribeFleetCapacityOutputFromJson(
+    Map<String, dynamic> json) {
+  return DescribeFleetCapacityOutput(
+    fleetCapacity: (json['FleetCapacity'] as List)
+        ?.map((e) => e == null
+            ? null
+            : FleetCapacity.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
+Map<String, dynamic> _$DescribeFleetEventsInputToJson(
+    DescribeFleetEventsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FleetId', instance.fleetId);
+  writeNotNull('EndTime', unixTimestampToJson(instance.endTime));
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('StartTime', unixTimestampToJson(instance.startTime));
+  return val;
+}
+
+DescribeFleetEventsOutput _$DescribeFleetEventsOutputFromJson(
+    Map<String, dynamic> json) {
+  return DescribeFleetEventsOutput(
+    events: (json['Events'] as List)
+        ?.map(
+            (e) => e == null ? null : Event.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
+Map<String, dynamic> _$DescribeFleetPortSettingsInputToJson(
+    DescribeFleetPortSettingsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FleetId', instance.fleetId);
+  return val;
+}
+
+DescribeFleetPortSettingsOutput _$DescribeFleetPortSettingsOutputFromJson(
+    Map<String, dynamic> json) {
+  return DescribeFleetPortSettingsOutput(
+    inboundPermissions: (json['InboundPermissions'] as List)
+        ?.map((e) =>
+            e == null ? null : IpPermission.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+Map<String, dynamic> _$DescribeFleetUtilizationInputToJson(
+    DescribeFleetUtilizationInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FleetIds', instance.fleetIds);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
+DescribeFleetUtilizationOutput _$DescribeFleetUtilizationOutputFromJson(
+    Map<String, dynamic> json) {
+  return DescribeFleetUtilizationOutput(
+    fleetUtilization: (json['FleetUtilization'] as List)
+        ?.map((e) => e == null
+            ? null
+            : FleetUtilization.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
+Map<String, dynamic> _$DescribeGameServerGroupInputToJson(
+    DescribeGameServerGroupInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GameServerGroupName', instance.gameServerGroupName);
+  return val;
+}
+
+DescribeGameServerGroupOutput _$DescribeGameServerGroupOutputFromJson(
+    Map<String, dynamic> json) {
+  return DescribeGameServerGroupOutput(
+    gameServerGroup: json['GameServerGroup'] == null
+        ? null
+        : GameServerGroup.fromJson(
+            json['GameServerGroup'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$DescribeGameServerInputToJson(
+    DescribeGameServerInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GameServerGroupName', instance.gameServerGroupName);
+  writeNotNull('GameServerId', instance.gameServerId);
+  return val;
+}
+
+DescribeGameServerOutput _$DescribeGameServerOutputFromJson(
+    Map<String, dynamic> json) {
+  return DescribeGameServerOutput(
+    gameServer: json['GameServer'] == null
+        ? null
+        : GameServer.fromJson(json['GameServer'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$DescribeGameSessionDetailsInputToJson(
+    DescribeGameSessionDetailsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AliasId', instance.aliasId);
+  writeNotNull('FleetId', instance.fleetId);
+  writeNotNull('GameSessionId', instance.gameSessionId);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('StatusFilter', instance.statusFilter);
+  return val;
+}
+
+DescribeGameSessionDetailsOutput _$DescribeGameSessionDetailsOutputFromJson(
+    Map<String, dynamic> json) {
+  return DescribeGameSessionDetailsOutput(
+    gameSessionDetails: (json['GameSessionDetails'] as List)
+        ?.map((e) => e == null
+            ? null
+            : GameSessionDetail.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
+Map<String, dynamic> _$DescribeGameSessionPlacementInputToJson(
+    DescribeGameSessionPlacementInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('PlacementId', instance.placementId);
+  return val;
+}
+
+DescribeGameSessionPlacementOutput _$DescribeGameSessionPlacementOutputFromJson(
+    Map<String, dynamic> json) {
+  return DescribeGameSessionPlacementOutput(
+    gameSessionPlacement: json['GameSessionPlacement'] == null
+        ? null
+        : GameSessionPlacement.fromJson(
+            json['GameSessionPlacement'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$DescribeGameSessionQueuesInputToJson(
+    DescribeGameSessionQueuesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('Names', instance.names);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
+DescribeGameSessionQueuesOutput _$DescribeGameSessionQueuesOutputFromJson(
+    Map<String, dynamic> json) {
+  return DescribeGameSessionQueuesOutput(
+    gameSessionQueues: (json['GameSessionQueues'] as List)
+        ?.map((e) => e == null
+            ? null
+            : GameSessionQueue.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
+Map<String, dynamic> _$DescribeGameSessionsInputToJson(
+    DescribeGameSessionsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AliasId', instance.aliasId);
+  writeNotNull('FleetId', instance.fleetId);
+  writeNotNull('GameSessionId', instance.gameSessionId);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('StatusFilter', instance.statusFilter);
+  return val;
+}
+
+DescribeGameSessionsOutput _$DescribeGameSessionsOutputFromJson(
+    Map<String, dynamic> json) {
+  return DescribeGameSessionsOutput(
+    gameSessions: (json['GameSessions'] as List)
+        ?.map((e) =>
+            e == null ? null : GameSession.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
+Map<String, dynamic> _$DescribeInstancesInputToJson(
+    DescribeInstancesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FleetId', instance.fleetId);
+  writeNotNull('InstanceId', instance.instanceId);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
+DescribeInstancesOutput _$DescribeInstancesOutputFromJson(
+    Map<String, dynamic> json) {
+  return DescribeInstancesOutput(
+    instances: (json['Instances'] as List)
+        ?.map((e) =>
+            e == null ? null : Instance.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
+Map<String, dynamic> _$DescribeMatchmakingConfigurationsInputToJson(
+    DescribeMatchmakingConfigurationsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('Names', instance.names);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('RuleSetName', instance.ruleSetName);
+  return val;
+}
+
+DescribeMatchmakingConfigurationsOutput
+    _$DescribeMatchmakingConfigurationsOutputFromJson(
+        Map<String, dynamic> json) {
+  return DescribeMatchmakingConfigurationsOutput(
+    configurations: (json['Configurations'] as List)
+        ?.map((e) => e == null
+            ? null
+            : MatchmakingConfiguration.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
+Map<String, dynamic> _$DescribeMatchmakingInputToJson(
+    DescribeMatchmakingInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TicketIds', instance.ticketIds);
+  return val;
+}
+
+DescribeMatchmakingOutput _$DescribeMatchmakingOutputFromJson(
+    Map<String, dynamic> json) {
+  return DescribeMatchmakingOutput(
+    ticketList: (json['TicketList'] as List)
+        ?.map((e) => e == null
+            ? null
+            : MatchmakingTicket.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+Map<String, dynamic> _$DescribeMatchmakingRuleSetsInputToJson(
+    DescribeMatchmakingRuleSetsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('Names', instance.names);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
+DescribeMatchmakingRuleSetsOutput _$DescribeMatchmakingRuleSetsOutputFromJson(
+    Map<String, dynamic> json) {
+  return DescribeMatchmakingRuleSetsOutput(
+    ruleSets: (json['RuleSets'] as List)
+        ?.map((e) => e == null
+            ? null
+            : MatchmakingRuleSet.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
+Map<String, dynamic> _$DescribePlayerSessionsInputToJson(
+    DescribePlayerSessionsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GameSessionId', instance.gameSessionId);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('PlayerId', instance.playerId);
+  writeNotNull('PlayerSessionId', instance.playerSessionId);
+  writeNotNull('PlayerSessionStatusFilter', instance.playerSessionStatusFilter);
+  return val;
+}
+
+DescribePlayerSessionsOutput _$DescribePlayerSessionsOutputFromJson(
+    Map<String, dynamic> json) {
+  return DescribePlayerSessionsOutput(
+    nextToken: json['NextToken'] as String,
+    playerSessions: (json['PlayerSessions'] as List)
+        ?.map((e) => e == null
+            ? null
+            : PlayerSession.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+Map<String, dynamic> _$DescribeRuntimeConfigurationInputToJson(
+    DescribeRuntimeConfigurationInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FleetId', instance.fleetId);
+  return val;
+}
+
+DescribeRuntimeConfigurationOutput _$DescribeRuntimeConfigurationOutputFromJson(
+    Map<String, dynamic> json) {
+  return DescribeRuntimeConfigurationOutput(
+    runtimeConfiguration: json['RuntimeConfiguration'] == null
+        ? null
+        : RuntimeConfiguration.fromJson(
+            json['RuntimeConfiguration'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$DescribeScalingPoliciesInputToJson(
+    DescribeScalingPoliciesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FleetId', instance.fleetId);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull(
+      'StatusFilter', _$ScalingStatusTypeEnumMap[instance.statusFilter]);
+  return val;
+}
+
+const _$ScalingStatusTypeEnumMap = {
+  ScalingStatusType.active: 'ACTIVE',
+  ScalingStatusType.updateRequested: 'UPDATE_REQUESTED',
+  ScalingStatusType.updating: 'UPDATING',
+  ScalingStatusType.deleteRequested: 'DELETE_REQUESTED',
+  ScalingStatusType.deleting: 'DELETING',
+  ScalingStatusType.deleted: 'DELETED',
+  ScalingStatusType.error: 'ERROR',
+};
+
+DescribeScalingPoliciesOutput _$DescribeScalingPoliciesOutputFromJson(
+    Map<String, dynamic> json) {
+  return DescribeScalingPoliciesOutput(
+    nextToken: json['NextToken'] as String,
+    scalingPolicies: (json['ScalingPolicies'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ScalingPolicy.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+Map<String, dynamic> _$DescribeScriptInputToJson(DescribeScriptInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ScriptId', instance.scriptId);
+  return val;
+}
+
+DescribeScriptOutput _$DescribeScriptOutputFromJson(Map<String, dynamic> json) {
+  return DescribeScriptOutput(
+    script: json['Script'] == null
+        ? null
+        : Script.fromJson(json['Script'] as Map<String, dynamic>),
+  );
+}
+
+DescribeVpcPeeringAuthorizationsOutput
+    _$DescribeVpcPeeringAuthorizationsOutputFromJson(
+        Map<String, dynamic> json) {
+  return DescribeVpcPeeringAuthorizationsOutput(
+    vpcPeeringAuthorizations: (json['VpcPeeringAuthorizations'] as List)
+        ?.map((e) => e == null
+            ? null
+            : VpcPeeringAuthorization.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+Map<String, dynamic> _$DescribeVpcPeeringConnectionsInputToJson(
+    DescribeVpcPeeringConnectionsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FleetId', instance.fleetId);
+  return val;
+}
+
+DescribeVpcPeeringConnectionsOutput
+    _$DescribeVpcPeeringConnectionsOutputFromJson(Map<String, dynamic> json) {
+  return DescribeVpcPeeringConnectionsOutput(
+    vpcPeeringConnections: (json['VpcPeeringConnections'] as List)
+        ?.map((e) => e == null
+            ? null
+            : VpcPeeringConnection.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+Map<String, dynamic> _$DesiredPlayerSessionToJson(
+    DesiredPlayerSession instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('PlayerData', instance.playerData);
+  writeNotNull('PlayerId', instance.playerId);
+  return val;
+}
+
+EC2InstanceCounts _$EC2InstanceCountsFromJson(Map<String, dynamic> json) {
+  return EC2InstanceCounts(
+    active: json['ACTIVE'] as int,
+    desired: json['DESIRED'] as int,
+    idle: json['IDLE'] as int,
+    maximum: json['MAXIMUM'] as int,
+    minimum: json['MINIMUM'] as int,
+    pending: json['PENDING'] as int,
+    terminating: json['TERMINATING'] as int,
+  );
+}
+
+EC2InstanceLimit _$EC2InstanceLimitFromJson(Map<String, dynamic> json) {
+  return EC2InstanceLimit(
+    currentInstances: json['CurrentInstances'] as int,
+    eC2InstanceType:
+        _$enumDecodeNullable(_$EC2InstanceTypeEnumMap, json['EC2InstanceType']),
+    instanceLimit: json['InstanceLimit'] as int,
+  );
+}
 
 Event _$EventFromJson(Map<String, dynamic> json) {
   return Event(
@@ -764,16 +1636,6 @@ FleetAttributes _$FleetAttributesFromJson(Map<String, dynamic> json) {
     terminationTime: unixTimestampFromJson(json['TerminationTime']),
   );
 }
-
-const _$FleetTypeEnumMap = {
-  FleetType.onDemand: 'ON_DEMAND',
-  FleetType.spot: 'SPOT',
-};
-
-const _$ProtectionPolicyEnumMap = {
-  ProtectionPolicy.noProtection: 'NoProtection',
-  ProtectionPolicy.fullProtection: 'FullProtection',
-};
 
 const _$FleetStatusEnumMap = {
   FleetStatus.$new: 'NEW',
@@ -883,16 +1745,6 @@ GameServerGroup _$GameServerGroupFromJson(Map<String, dynamic> json) {
         (json['SuspendedActions'] as List)?.map((e) => e as String)?.toList(),
   );
 }
-
-const _$BalancingStrategyEnumMap = {
-  BalancingStrategy.spotOnly: 'SPOT_ONLY',
-  BalancingStrategy.spotPreferred: 'SPOT_PREFERRED',
-};
-
-const _$GameServerProtectionPolicyEnumMap = {
-  GameServerProtectionPolicy.noProtection: 'NO_PROTECTION',
-  GameServerProtectionPolicy.fullProtection: 'FULL_PROTECTION',
-};
 
 const _$GameServerGroupStatusEnumMap = {
   GameServerGroupStatus.$new: 'NEW',
@@ -1073,11 +1925,40 @@ Map<String, dynamic> _$GameSessionQueueDestinationToJson(
   return val;
 }
 
+Map<String, dynamic> _$GetGameSessionLogUrlInputToJson(
+    GetGameSessionLogUrlInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GameSessionId', instance.gameSessionId);
+  return val;
+}
+
 GetGameSessionLogUrlOutput _$GetGameSessionLogUrlOutputFromJson(
     Map<String, dynamic> json) {
   return GetGameSessionLogUrlOutput(
     preSignedUrl: json['PreSignedUrl'] as String,
   );
+}
+
+Map<String, dynamic> _$GetInstanceAccessInputToJson(
+    GetInstanceAccessInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FleetId', instance.fleetId);
+  writeNotNull('InstanceId', instance.instanceId);
+  return val;
 }
 
 GetInstanceAccessOutput _$GetInstanceAccessOutputFromJson(
@@ -1243,6 +2124,28 @@ Map<String, dynamic> _$LaunchTemplateSpecificationToJson(
   return val;
 }
 
+Map<String, dynamic> _$ListAliasesInputToJson(ListAliasesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('Name', instance.name);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('RoutingStrategyType',
+      _$RoutingStrategyTypeEnumMap[instance.routingStrategyType]);
+  return val;
+}
+
+const _$RoutingStrategyTypeEnumMap = {
+  RoutingStrategyType.simple: 'SIMPLE',
+  RoutingStrategyType.terminal: 'TERMINAL',
+};
+
 ListAliasesOutput _$ListAliasesOutputFromJson(Map<String, dynamic> json) {
   return ListAliasesOutput(
     aliases: (json['Aliases'] as List)
@@ -1251,6 +2154,21 @@ ListAliasesOutput _$ListAliasesOutputFromJson(Map<String, dynamic> json) {
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListBuildsInputToJson(ListBuildsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('Status', _$BuildStatusEnumMap[instance.status]);
+  return val;
 }
 
 ListBuildsOutput _$ListBuildsOutputFromJson(Map<String, dynamic> json) {
@@ -1263,11 +2181,42 @@ ListBuildsOutput _$ListBuildsOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ListFleetsInputToJson(ListFleetsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BuildId', instance.buildId);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('ScriptId', instance.scriptId);
+  return val;
+}
+
 ListFleetsOutput _$ListFleetsOutputFromJson(Map<String, dynamic> json) {
   return ListFleetsOutput(
     fleetIds: (json['FleetIds'] as List)?.map((e) => e as String)?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListGameServerGroupsInputToJson(
+    ListGameServerGroupsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListGameServerGroupsOutput _$ListGameServerGroupsOutputFromJson(
@@ -1282,6 +2231,28 @@ ListGameServerGroupsOutput _$ListGameServerGroupsOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$ListGameServersInputToJson(
+    ListGameServersInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GameServerGroupName', instance.gameServerGroupName);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SortOrder', _$SortOrderEnumMap[instance.sortOrder]);
+  return val;
+}
+
+const _$SortOrderEnumMap = {
+  SortOrder.ascending: 'ASCENDING',
+  SortOrder.descending: 'DESCENDING',
+};
+
 ListGameServersOutput _$ListGameServersOutputFromJson(
     Map<String, dynamic> json) {
   return ListGameServersOutput(
@@ -1293,6 +2264,20 @@ ListGameServersOutput _$ListGameServersOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$ListScriptsInputToJson(ListScriptsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListScriptsOutput _$ListScriptsOutputFromJson(Map<String, dynamic> json) {
   return ListScriptsOutput(
     nextToken: json['NextToken'] as String,
@@ -1301,6 +2286,20 @@ ListScriptsOutput _$ListScriptsOutputFromJson(Map<String, dynamic> json) {
             e == null ? null : Script.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListTagsForResourceRequestToJson(
+    ListTagsForResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARN', instance.resourceARN);
+  return val;
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
@@ -1346,11 +2345,6 @@ MatchmakingConfiguration _$MatchmakingConfigurationFromJson(
     ruleSetName: json['RuleSetName'] as String,
   );
 }
-
-const _$BackfillModeEnumMap = {
-  BackfillMode.automatic: 'AUTOMATIC',
-  BackfillMode.manual: 'MANUAL',
-};
 
 MatchmakingRuleSet _$MatchmakingRuleSetFromJson(Map<String, dynamic> json) {
   return MatchmakingRuleSet(
@@ -1506,11 +2500,90 @@ const _$PlayerSessionStatusEnumMap = {
   PlayerSessionStatus.timedout: 'TIMEDOUT',
 };
 
+Map<String, dynamic> _$PutScalingPolicyInputToJson(
+    PutScalingPolicyInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FleetId', instance.fleetId);
+  writeNotNull('MetricName', _$MetricNameEnumMap[instance.metricName]);
+  writeNotNull('Name', instance.name);
+  writeNotNull('ComparisonOperator',
+      _$ComparisonOperatorTypeEnumMap[instance.comparisonOperator]);
+  writeNotNull('EvaluationPeriods', instance.evaluationPeriods);
+  writeNotNull('PolicyType', _$PolicyTypeEnumMap[instance.policyType]);
+  writeNotNull('ScalingAdjustment', instance.scalingAdjustment);
+  writeNotNull('ScalingAdjustmentType',
+      _$ScalingAdjustmentTypeEnumMap[instance.scalingAdjustmentType]);
+  writeNotNull('TargetConfiguration', instance.targetConfiguration?.toJson());
+  writeNotNull('Threshold', instance.threshold);
+  return val;
+}
+
+const _$MetricNameEnumMap = {
+  MetricName.activatingGameSessions: 'ActivatingGameSessions',
+  MetricName.activeGameSessions: 'ActiveGameSessions',
+  MetricName.activeInstances: 'ActiveInstances',
+  MetricName.availableGameSessions: 'AvailableGameSessions',
+  MetricName.availablePlayerSessions: 'AvailablePlayerSessions',
+  MetricName.currentPlayerSessions: 'CurrentPlayerSessions',
+  MetricName.idleInstances: 'IdleInstances',
+  MetricName.percentAvailableGameSessions: 'PercentAvailableGameSessions',
+  MetricName.percentIdleInstances: 'PercentIdleInstances',
+  MetricName.queueDepth: 'QueueDepth',
+  MetricName.waitTime: 'WaitTime',
+};
+
+const _$ComparisonOperatorTypeEnumMap = {
+  ComparisonOperatorType.greaterThanOrEqualToThreshold:
+      'GreaterThanOrEqualToThreshold',
+  ComparisonOperatorType.greaterThanThreshold: 'GreaterThanThreshold',
+  ComparisonOperatorType.lessThanThreshold: 'LessThanThreshold',
+  ComparisonOperatorType.lessThanOrEqualToThreshold:
+      'LessThanOrEqualToThreshold',
+};
+
+const _$PolicyTypeEnumMap = {
+  PolicyType.ruleBased: 'RuleBased',
+  PolicyType.targetBased: 'TargetBased',
+};
+
+const _$ScalingAdjustmentTypeEnumMap = {
+  ScalingAdjustmentType.changeInCapacity: 'ChangeInCapacity',
+  ScalingAdjustmentType.exactCapacity: 'ExactCapacity',
+  ScalingAdjustmentType.percentChangeInCapacity: 'PercentChangeInCapacity',
+};
+
 PutScalingPolicyOutput _$PutScalingPolicyOutputFromJson(
     Map<String, dynamic> json) {
   return PutScalingPolicyOutput(
     name: json['Name'] as String,
   );
+}
+
+Map<String, dynamic> _$RegisterGameServerInputToJson(
+    RegisterGameServerInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GameServerGroupName', instance.gameServerGroupName);
+  writeNotNull('GameServerId', instance.gameServerId);
+  writeNotNull('InstanceId', instance.instanceId);
+  writeNotNull('ConnectionInfo', instance.connectionInfo);
+  writeNotNull('CustomSortKey', instance.customSortKey);
+  writeNotNull('GameServerData', instance.gameServerData);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 RegisterGameServerOutput _$RegisterGameServerOutputFromJson(
@@ -1520,6 +2593,20 @@ RegisterGameServerOutput _$RegisterGameServerOutputFromJson(
         ? null
         : GameServer.fromJson(json['GameServer'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$RequestUploadCredentialsInputToJson(
+    RequestUploadCredentialsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BuildId', instance.buildId);
+  return val;
 }
 
 RequestUploadCredentialsOutput _$RequestUploadCredentialsOutputFromJson(
@@ -1533,6 +2620,19 @@ RequestUploadCredentialsOutput _$RequestUploadCredentialsOutputFromJson(
         : AwsCredentials.fromJson(
             json['UploadCredentials'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$ResolveAliasInputToJson(ResolveAliasInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AliasId', instance.aliasId);
+  return val;
 }
 
 ResolveAliasOutput _$ResolveAliasOutputFromJson(Map<String, dynamic> json) {
@@ -1562,6 +2662,21 @@ Map<String, dynamic> _$ResourceCreationLimitPolicyToJson(
 
   writeNotNull('NewGameSessionsPerCreator', instance.newGameSessionsPerCreator);
   writeNotNull('PolicyPeriodInMinutes', instance.policyPeriodInMinutes);
+  return val;
+}
+
+Map<String, dynamic> _$ResumeGameServerGroupInputToJson(
+    ResumeGameServerGroupInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GameServerGroupName', instance.gameServerGroupName);
+  writeNotNull('ResumeActions', instance.resumeActions);
   return val;
 }
 
@@ -1597,11 +2712,6 @@ Map<String, dynamic> _$RoutingStrategyToJson(RoutingStrategy instance) {
   writeNotNull('Type', _$RoutingStrategyTypeEnumMap[instance.type]);
   return val;
 }
-
-const _$RoutingStrategyTypeEnumMap = {
-  RoutingStrategyType.simple: 'SIMPLE',
-  RoutingStrategyType.terminal: 'TERMINAL',
-};
 
 RuntimeConfiguration _$RuntimeConfigurationFromJson(Map<String, dynamic> json) {
   return RuntimeConfiguration(
@@ -1682,50 +2792,6 @@ ScalingPolicy _$ScalingPolicyFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$ComparisonOperatorTypeEnumMap = {
-  ComparisonOperatorType.greaterThanOrEqualToThreshold:
-      'GreaterThanOrEqualToThreshold',
-  ComparisonOperatorType.greaterThanThreshold: 'GreaterThanThreshold',
-  ComparisonOperatorType.lessThanThreshold: 'LessThanThreshold',
-  ComparisonOperatorType.lessThanOrEqualToThreshold:
-      'LessThanOrEqualToThreshold',
-};
-
-const _$MetricNameEnumMap = {
-  MetricName.activatingGameSessions: 'ActivatingGameSessions',
-  MetricName.activeGameSessions: 'ActiveGameSessions',
-  MetricName.activeInstances: 'ActiveInstances',
-  MetricName.availableGameSessions: 'AvailableGameSessions',
-  MetricName.availablePlayerSessions: 'AvailablePlayerSessions',
-  MetricName.currentPlayerSessions: 'CurrentPlayerSessions',
-  MetricName.idleInstances: 'IdleInstances',
-  MetricName.percentAvailableGameSessions: 'PercentAvailableGameSessions',
-  MetricName.percentIdleInstances: 'PercentIdleInstances',
-  MetricName.queueDepth: 'QueueDepth',
-  MetricName.waitTime: 'WaitTime',
-};
-
-const _$PolicyTypeEnumMap = {
-  PolicyType.ruleBased: 'RuleBased',
-  PolicyType.targetBased: 'TargetBased',
-};
-
-const _$ScalingAdjustmentTypeEnumMap = {
-  ScalingAdjustmentType.changeInCapacity: 'ChangeInCapacity',
-  ScalingAdjustmentType.exactCapacity: 'ExactCapacity',
-  ScalingAdjustmentType.percentChangeInCapacity: 'PercentChangeInCapacity',
-};
-
-const _$ScalingStatusTypeEnumMap = {
-  ScalingStatusType.active: 'ACTIVE',
-  ScalingStatusType.updateRequested: 'UPDATE_REQUESTED',
-  ScalingStatusType.updating: 'UPDATING',
-  ScalingStatusType.deleteRequested: 'DELETE_REQUESTED',
-  ScalingStatusType.deleting: 'DELETING',
-  ScalingStatusType.deleted: 'DELETED',
-  ScalingStatusType.error: 'ERROR',
-};
-
 Script _$ScriptFromJson(Map<String, dynamic> json) {
   return Script(
     creationTime: unixTimestampFromJson(json['CreationTime']),
@@ -1738,6 +2804,25 @@ Script _$ScriptFromJson(Map<String, dynamic> json) {
         : S3Location.fromJson(json['StorageLocation'] as Map<String, dynamic>),
     version: json['Version'] as String,
   );
+}
+
+Map<String, dynamic> _$SearchGameSessionsInputToJson(
+    SearchGameSessionsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AliasId', instance.aliasId);
+  writeNotNull('FilterExpression', instance.filterExpression);
+  writeNotNull('FleetId', instance.fleetId);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SortExpression', instance.sortExpression);
+  return val;
 }
 
 SearchGameSessionsOutput _$SearchGameSessionsOutputFromJson(
@@ -1774,9 +2859,48 @@ Map<String, dynamic> _$ServerProcessToJson(ServerProcess instance) {
   return val;
 }
 
+Map<String, dynamic> _$StartFleetActionsInputToJson(
+    StartFleetActionsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Actions', instance.actions);
+  writeNotNull('FleetId', instance.fleetId);
+  return val;
+}
+
 StartFleetActionsOutput _$StartFleetActionsOutputFromJson(
     Map<String, dynamic> json) {
   return StartFleetActionsOutput();
+}
+
+Map<String, dynamic> _$StartGameSessionPlacementInputToJson(
+    StartGameSessionPlacementInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GameSessionQueueName', instance.gameSessionQueueName);
+  writeNotNull('MaximumPlayerSessionCount', instance.maximumPlayerSessionCount);
+  writeNotNull('PlacementId', instance.placementId);
+  writeNotNull('DesiredPlayerSessions',
+      instance.desiredPlayerSessions?.map((e) => e?.toJson())?.toList());
+  writeNotNull('GameProperties',
+      instance.gameProperties?.map((e) => e?.toJson())?.toList());
+  writeNotNull('GameSessionData', instance.gameSessionData);
+  writeNotNull('GameSessionName', instance.gameSessionName);
+  writeNotNull('PlayerLatencies',
+      instance.playerLatencies?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 StartGameSessionPlacementOutput _$StartGameSessionPlacementOutputFromJson(
@@ -1789,6 +2913,23 @@ StartGameSessionPlacementOutput _$StartGameSessionPlacementOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$StartMatchBackfillInputToJson(
+    StartMatchBackfillInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConfigurationName', instance.configurationName);
+  writeNotNull('GameSessionArn', instance.gameSessionArn);
+  writeNotNull('Players', instance.players?.map((e) => e?.toJson())?.toList());
+  writeNotNull('TicketId', instance.ticketId);
+  return val;
+}
+
 StartMatchBackfillOutput _$StartMatchBackfillOutputFromJson(
     Map<String, dynamic> json) {
   return StartMatchBackfillOutput(
@@ -1797,6 +2938,22 @@ StartMatchBackfillOutput _$StartMatchBackfillOutputFromJson(
         : MatchmakingTicket.fromJson(
             json['MatchmakingTicket'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$StartMatchmakingInputToJson(
+    StartMatchmakingInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConfigurationName', instance.configurationName);
+  writeNotNull('Players', instance.players?.map((e) => e?.toJson())?.toList());
+  writeNotNull('TicketId', instance.ticketId);
+  return val;
 }
 
 StartMatchmakingOutput _$StartMatchmakingOutputFromJson(
@@ -1809,9 +2966,38 @@ StartMatchmakingOutput _$StartMatchmakingOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$StopFleetActionsInputToJson(
+    StopFleetActionsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Actions', instance.actions);
+  writeNotNull('FleetId', instance.fleetId);
+  return val;
+}
+
 StopFleetActionsOutput _$StopFleetActionsOutputFromJson(
     Map<String, dynamic> json) {
   return StopFleetActionsOutput();
+}
+
+Map<String, dynamic> _$StopGameSessionPlacementInputToJson(
+    StopGameSessionPlacementInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('PlacementId', instance.placementId);
+  return val;
 }
 
 StopGameSessionPlacementOutput _$StopGameSessionPlacementOutputFromJson(
@@ -1824,9 +3010,38 @@ StopGameSessionPlacementOutput _$StopGameSessionPlacementOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$StopMatchmakingInputToJson(
+    StopMatchmakingInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TicketId', instance.ticketId);
+  return val;
+}
+
 StopMatchmakingOutput _$StopMatchmakingOutputFromJson(
     Map<String, dynamic> json) {
   return StopMatchmakingOutput();
+}
+
+Map<String, dynamic> _$SuspendGameServerGroupInputToJson(
+    SuspendGameServerGroupInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GameServerGroupName', instance.gameServerGroupName);
+  writeNotNull('SuspendActions', instance.suspendActions);
+  return val;
 }
 
 SuspendGameServerGroupOutput _$SuspendGameServerGroupOutputFromJson(
@@ -1857,6 +3072,20 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
 
   writeNotNull('Key', instance.key);
   writeNotNull('Value', instance.value);
+  return val;
+}
+
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARN', instance.resourceARN);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
   return val;
 }
 
@@ -1897,9 +3126,40 @@ Map<String, dynamic> _$TargetTrackingConfigurationToJson(
   return val;
 }
 
+Map<String, dynamic> _$UntagResourceRequestToJson(
+    UntagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARN', instance.resourceARN);
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
+}
+
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse();
+}
+
+Map<String, dynamic> _$UpdateAliasInputToJson(UpdateAliasInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AliasId', instance.aliasId);
+  writeNotNull('Description', instance.description);
+  writeNotNull('Name', instance.name);
+  writeNotNull('RoutingStrategy', instance.routingStrategy?.toJson());
+  return val;
 }
 
 UpdateAliasOutput _$UpdateAliasOutputFromJson(Map<String, dynamic> json) {
@@ -1910,12 +3170,48 @@ UpdateAliasOutput _$UpdateAliasOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$UpdateBuildInputToJson(UpdateBuildInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BuildId', instance.buildId);
+  writeNotNull('Name', instance.name);
+  writeNotNull('Version', instance.version);
+  return val;
+}
+
 UpdateBuildOutput _$UpdateBuildOutputFromJson(Map<String, dynamic> json) {
   return UpdateBuildOutput(
     build: json['Build'] == null
         ? null
         : Build.fromJson(json['Build'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateFleetAttributesInputToJson(
+    UpdateFleetAttributesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FleetId', instance.fleetId);
+  writeNotNull('Description', instance.description);
+  writeNotNull('MetricGroups', instance.metricGroups);
+  writeNotNull('Name', instance.name);
+  writeNotNull('NewGameSessionProtectionPolicy',
+      _$ProtectionPolicyEnumMap[instance.newGameSessionProtectionPolicy]);
+  writeNotNull('ResourceCreationLimitPolicy',
+      instance.resourceCreationLimitPolicy?.toJson());
+  return val;
 }
 
 UpdateFleetAttributesOutput _$UpdateFleetAttributesOutputFromJson(
@@ -1925,6 +3221,23 @@ UpdateFleetAttributesOutput _$UpdateFleetAttributesOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateFleetCapacityInputToJson(
+    UpdateFleetCapacityInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FleetId', instance.fleetId);
+  writeNotNull('DesiredInstances', instance.desiredInstances);
+  writeNotNull('MaxSize', instance.maxSize);
+  writeNotNull('MinSize', instance.minSize);
+  return val;
+}
+
 UpdateFleetCapacityOutput _$UpdateFleetCapacityOutputFromJson(
     Map<String, dynamic> json) {
   return UpdateFleetCapacityOutput(
@@ -1932,11 +3245,53 @@ UpdateFleetCapacityOutput _$UpdateFleetCapacityOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateFleetPortSettingsInputToJson(
+    UpdateFleetPortSettingsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FleetId', instance.fleetId);
+  writeNotNull(
+      'InboundPermissionAuthorizations',
+      instance.inboundPermissionAuthorizations
+          ?.map((e) => e?.toJson())
+          ?.toList());
+  writeNotNull('InboundPermissionRevocations',
+      instance.inboundPermissionRevocations?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 UpdateFleetPortSettingsOutput _$UpdateFleetPortSettingsOutputFromJson(
     Map<String, dynamic> json) {
   return UpdateFleetPortSettingsOutput(
     fleetId: json['FleetId'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateGameServerGroupInputToJson(
+    UpdateGameServerGroupInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GameServerGroupName', instance.gameServerGroupName);
+  writeNotNull('BalancingStrategy',
+      _$BalancingStrategyEnumMap[instance.balancingStrategy]);
+  writeNotNull('GameServerProtectionPolicy',
+      _$GameServerProtectionPolicyEnumMap[instance.gameServerProtectionPolicy]);
+  writeNotNull('InstanceDefinitions',
+      instance.instanceDefinitions?.map((e) => e?.toJson())?.toList());
+  writeNotNull('RoleArn', instance.roleArn);
+  return val;
 }
 
 UpdateGameServerGroupOutput _$UpdateGameServerGroupOutputFromJson(
@@ -1949,6 +3304,31 @@ UpdateGameServerGroupOutput _$UpdateGameServerGroupOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateGameServerInputToJson(
+    UpdateGameServerInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GameServerGroupName', instance.gameServerGroupName);
+  writeNotNull('GameServerId', instance.gameServerId);
+  writeNotNull('CustomSortKey', instance.customSortKey);
+  writeNotNull('GameServerData', instance.gameServerData);
+  writeNotNull(
+      'HealthCheck', _$GameServerHealthCheckEnumMap[instance.healthCheck]);
+  writeNotNull('UtilizationStatus',
+      _$GameServerUtilizationStatusEnumMap[instance.utilizationStatus]);
+  return val;
+}
+
+const _$GameServerHealthCheckEnumMap = {
+  GameServerHealthCheck.healthy: 'HEALTHY',
+};
+
 UpdateGameServerOutput _$UpdateGameServerOutputFromJson(
     Map<String, dynamic> json) {
   return UpdateGameServerOutput(
@@ -1958,6 +3338,28 @@ UpdateGameServerOutput _$UpdateGameServerOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateGameSessionInputToJson(
+    UpdateGameSessionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GameSessionId', instance.gameSessionId);
+  writeNotNull('MaximumPlayerSessionCount', instance.maximumPlayerSessionCount);
+  writeNotNull('Name', instance.name);
+  writeNotNull(
+      'PlayerSessionCreationPolicy',
+      _$PlayerSessionCreationPolicyEnumMap[
+          instance.playerSessionCreationPolicy]);
+  writeNotNull(
+      'ProtectionPolicy', _$ProtectionPolicyEnumMap[instance.protectionPolicy]);
+  return val;
+}
+
 UpdateGameSessionOutput _$UpdateGameSessionOutputFromJson(
     Map<String, dynamic> json) {
   return UpdateGameSessionOutput(
@@ -1965,6 +3367,25 @@ UpdateGameSessionOutput _$UpdateGameSessionOutputFromJson(
         ? null
         : GameSession.fromJson(json['GameSession'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateGameSessionQueueInputToJson(
+    UpdateGameSessionQueueInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull(
+      'Destinations', instance.destinations?.map((e) => e?.toJson())?.toList());
+  writeNotNull('PlayerLatencyPolicies',
+      instance.playerLatencyPolicies?.map((e) => e?.toJson())?.toList());
+  writeNotNull('TimeoutInSeconds', instance.timeoutInSeconds);
+  return val;
 }
 
 UpdateGameSessionQueueOutput _$UpdateGameSessionQueueOutputFromJson(
@@ -1977,6 +3398,33 @@ UpdateGameSessionQueueOutput _$UpdateGameSessionQueueOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateMatchmakingConfigurationInputToJson(
+    UpdateMatchmakingConfigurationInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('AcceptanceRequired', instance.acceptanceRequired);
+  writeNotNull('AcceptanceTimeoutSeconds', instance.acceptanceTimeoutSeconds);
+  writeNotNull('AdditionalPlayerCount', instance.additionalPlayerCount);
+  writeNotNull('BackfillMode', _$BackfillModeEnumMap[instance.backfillMode]);
+  writeNotNull('CustomEventData', instance.customEventData);
+  writeNotNull('Description', instance.description);
+  writeNotNull('GameProperties',
+      instance.gameProperties?.map((e) => e?.toJson())?.toList());
+  writeNotNull('GameSessionData', instance.gameSessionData);
+  writeNotNull('GameSessionQueueArns', instance.gameSessionQueueArns);
+  writeNotNull('NotificationTarget', instance.notificationTarget);
+  writeNotNull('RequestTimeoutSeconds', instance.requestTimeoutSeconds);
+  writeNotNull('RuleSetName', instance.ruleSetName);
+  return val;
+}
+
 UpdateMatchmakingConfigurationOutput
     _$UpdateMatchmakingConfigurationOutputFromJson(Map<String, dynamic> json) {
   return UpdateMatchmakingConfigurationOutput(
@@ -1985,6 +3433,21 @@ UpdateMatchmakingConfigurationOutput
         : MatchmakingConfiguration.fromJson(
             json['Configuration'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateRuntimeConfigurationInputToJson(
+    UpdateRuntimeConfigurationInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FleetId', instance.fleetId);
+  writeNotNull('RuntimeConfiguration', instance.runtimeConfiguration?.toJson());
+  return val;
 }
 
 UpdateRuntimeConfigurationOutput _$UpdateRuntimeConfigurationOutputFromJson(
@@ -1997,12 +3460,43 @@ UpdateRuntimeConfigurationOutput _$UpdateRuntimeConfigurationOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateScriptInputToJson(UpdateScriptInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ScriptId', instance.scriptId);
+  writeNotNull('Name', instance.name);
+  writeNotNull('StorageLocation', instance.storageLocation?.toJson());
+  writeNotNull('Version', instance.version);
+  writeNotNull('ZipFile', const Uint8ListConverter().toJson(instance.zipFile));
+  return val;
+}
+
 UpdateScriptOutput _$UpdateScriptOutputFromJson(Map<String, dynamic> json) {
   return UpdateScriptOutput(
     script: json['Script'] == null
         ? null
         : Script.fromJson(json['Script'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$ValidateMatchmakingRuleSetInputToJson(
+    ValidateMatchmakingRuleSetInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RuleSetBody', instance.ruleSetBody);
+  return val;
 }
 
 ValidateMatchmakingRuleSetOutput _$ValidateMatchmakingRuleSetOutputFromJson(

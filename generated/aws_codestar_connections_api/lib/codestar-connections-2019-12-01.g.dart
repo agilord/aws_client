@@ -60,6 +60,21 @@ const _$ProviderTypeEnumMap = {
   ProviderType.bitbucket: 'Bitbucket',
 };
 
+Map<String, dynamic> _$CreateConnectionInputToJson(
+    CreateConnectionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConnectionName', instance.connectionName);
+  writeNotNull('ProviderType', _$ProviderTypeEnumMap[instance.providerType]);
+  return val;
+}
+
 CreateConnectionOutput _$CreateConnectionOutputFromJson(
     Map<String, dynamic> json) {
   return CreateConnectionOutput(
@@ -67,9 +82,36 @@ CreateConnectionOutput _$CreateConnectionOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteConnectionInputToJson(
+    DeleteConnectionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConnectionArn', instance.connectionArn);
+  return val;
+}
+
 DeleteConnectionOutput _$DeleteConnectionOutputFromJson(
     Map<String, dynamic> json) {
   return DeleteConnectionOutput();
+}
+
+Map<String, dynamic> _$GetConnectionInputToJson(GetConnectionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConnectionArn', instance.connectionArn);
+  return val;
 }
 
 GetConnectionOutput _$GetConnectionOutputFromJson(Map<String, dynamic> json) {
@@ -78,6 +120,23 @@ GetConnectionOutput _$GetConnectionOutputFromJson(Map<String, dynamic> json) {
         ? null
         : Connection.fromJson(json['Connection'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$ListConnectionsInputToJson(
+    ListConnectionsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull(
+      'ProviderTypeFilter', _$ProviderTypeEnumMap[instance.providerTypeFilter]);
+  return val;
 }
 
 ListConnectionsOutput _$ListConnectionsOutputFromJson(

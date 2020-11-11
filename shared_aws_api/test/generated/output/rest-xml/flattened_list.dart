@@ -8,8 +8,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:shared_aws_api/shared.dart' as _s;
-import 'package:shared_aws_api/shared.dart'
-    show Uint8ListConverter, Uint8ListListConverter;
+import 'package:shared_aws_api/shared.dart' show Uint8ListConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 

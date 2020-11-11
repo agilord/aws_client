@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -137,14 +136,13 @@ class ACMPCA {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CertificateAuthorityConfiguration': certificateAuthorityConfiguration,
-        'CertificateAuthorityType': certificateAuthorityType?.toValue(),
-        if (idempotencyToken != null) 'IdempotencyToken': idempotencyToken,
-        if (revocationConfiguration != null)
-          'RevocationConfiguration': revocationConfiguration,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateCertificateAuthorityRequest(
+        certificateAuthorityConfiguration: certificateAuthorityConfiguration,
+        certificateAuthorityType: certificateAuthorityType,
+        idempotencyToken: idempotencyToken,
+        revocationConfiguration: revocationConfiguration,
+        tags: tags,
+      ),
     );
 
     return CreateCertificateAuthorityResponse.fromJson(jsonResponse.body);
@@ -209,11 +207,11 @@ class ACMPCA {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AuditReportResponseFormat': auditReportResponseFormat?.toValue(),
-        'CertificateAuthorityArn': certificateAuthorityArn,
-        'S3BucketName': s3BucketName,
-      },
+      payload: CreateCertificateAuthorityAuditReportRequest(
+        auditReportResponseFormat: auditReportResponseFormat,
+        certificateAuthorityArn: certificateAuthorityArn,
+        s3BucketName: s3BucketName,
+      ),
     );
 
     return CreateCertificateAuthorityAuditReportResponse.fromJson(
@@ -316,12 +314,12 @@ class ACMPCA {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Actions': actions,
-        'CertificateAuthorityArn': certificateAuthorityArn,
-        'Principal': principal,
-        if (sourceAccount != null) 'SourceAccount': sourceAccount,
-      },
+      payload: CreatePermissionRequest(
+        actions: actions,
+        certificateAuthorityArn: certificateAuthorityArn,
+        principal: principal,
+        sourceAccount: sourceAccount,
+      ),
     );
   }
 
@@ -403,11 +401,10 @@ class ACMPCA {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CertificateAuthorityArn': certificateAuthorityArn,
-        if (permanentDeletionTimeInDays != null)
-          'PermanentDeletionTimeInDays': permanentDeletionTimeInDays,
-      },
+      payload: DeleteCertificateAuthorityRequest(
+        certificateAuthorityArn: certificateAuthorityArn,
+        permanentDeletionTimeInDays: permanentDeletionTimeInDays,
+      ),
     );
   }
 
@@ -491,11 +488,11 @@ class ACMPCA {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CertificateAuthorityArn': certificateAuthorityArn,
-        'Principal': principal,
-        if (sourceAccount != null) 'SourceAccount': sourceAccount,
-      },
+      payload: DeletePermissionRequest(
+        certificateAuthorityArn: certificateAuthorityArn,
+        principal: principal,
+        sourceAccount: sourceAccount,
+      ),
     );
   }
 
@@ -572,9 +569,9 @@ class ACMPCA {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CertificateAuthorityArn': certificateAuthorityArn,
-      },
+      payload: DescribeCertificateAuthorityRequest(
+        certificateAuthorityArn: certificateAuthorityArn,
+      ),
     );
 
     return DescribeCertificateAuthorityResponse.fromJson(jsonResponse.body);
@@ -644,10 +641,10 @@ class ACMPCA {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AuditReportId': auditReportId,
-        'CertificateAuthorityArn': certificateAuthorityArn,
-      },
+      payload: DescribeCertificateAuthorityAuditReportRequest(
+        auditReportId: auditReportId,
+        certificateAuthorityArn: certificateAuthorityArn,
+      ),
     );
 
     return DescribeCertificateAuthorityAuditReportResponse.fromJson(
@@ -725,10 +722,10 @@ class ACMPCA {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CertificateArn': certificateArn,
-        'CertificateAuthorityArn': certificateAuthorityArn,
-      },
+      payload: GetCertificateRequest(
+        certificateArn: certificateArn,
+        certificateAuthorityArn: certificateAuthorityArn,
+      ),
     );
 
     return GetCertificateResponse.fromJson(jsonResponse.body);
@@ -777,9 +774,9 @@ class ACMPCA {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CertificateAuthorityArn': certificateAuthorityArn,
-      },
+      payload: GetCertificateAuthorityCertificateRequest(
+        certificateAuthorityArn: certificateAuthorityArn,
+      ),
     );
 
     return GetCertificateAuthorityCertificateResponse.fromJson(
@@ -834,9 +831,9 @@ class ACMPCA {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CertificateAuthorityArn': certificateAuthorityArn,
-      },
+      payload: GetCertificateAuthorityCsrRequest(
+        certificateAuthorityArn: certificateAuthorityArn,
+      ),
     );
 
     return GetCertificateAuthorityCsrResponse.fromJson(jsonResponse.body);
@@ -950,12 +947,11 @@ class ACMPCA {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Certificate': certificate?.let(base64Encode),
-        'CertificateAuthorityArn': certificateAuthorityArn,
-        if (certificateChain != null)
-          'CertificateChain': certificateChain.let(base64Encode),
-      },
+      payload: ImportCertificateAuthorityCertificateRequest(
+        certificate: certificate,
+        certificateAuthorityArn: certificateAuthorityArn,
+        certificateChain: certificateChain,
+      ),
     );
   }
 
@@ -1104,14 +1100,14 @@ class ACMPCA {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CertificateAuthorityArn': certificateAuthorityArn,
-        'Csr': csr?.let(base64Encode),
-        'SigningAlgorithm': signingAlgorithm?.toValue(),
-        'Validity': validity,
-        if (idempotencyToken != null) 'IdempotencyToken': idempotencyToken,
-        if (templateArn != null) 'TemplateArn': templateArn,
-      },
+      payload: IssueCertificateRequest(
+        certificateAuthorityArn: certificateAuthorityArn,
+        csr: csr,
+        signingAlgorithm: signingAlgorithm,
+        validity: validity,
+        idempotencyToken: idempotencyToken,
+        templateArn: templateArn,
+      ),
     );
 
     return IssueCertificateResponse.fromJson(jsonResponse.body);
@@ -1159,10 +1155,10 @@ class ACMPCA {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListCertificateAuthoritiesRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListCertificateAuthoritiesResponse.fromJson(jsonResponse.body);
@@ -1239,11 +1235,11 @@ class ACMPCA {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CertificateAuthorityArn': certificateAuthorityArn,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListPermissionsRequest(
+        certificateAuthorityArn: certificateAuthorityArn,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListPermissionsResponse.fromJson(jsonResponse.body);
@@ -1319,11 +1315,11 @@ class ACMPCA {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CertificateAuthorityArn': certificateAuthorityArn,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListTagsRequest(
+        certificateAuthorityArn: certificateAuthorityArn,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListTagsResponse.fromJson(jsonResponse.body);
@@ -1385,9 +1381,9 @@ class ACMPCA {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CertificateAuthorityArn': certificateAuthorityArn,
-      },
+      payload: RestoreCertificateAuthorityRequest(
+        certificateAuthorityArn: certificateAuthorityArn,
+      ),
     );
   }
 
@@ -1476,11 +1472,11 @@ class ACMPCA {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CertificateAuthorityArn': certificateAuthorityArn,
-        'CertificateSerial': certificateSerial,
-        'RevocationReason': revocationReason?.toValue(),
-      },
+      payload: RevokeCertificateRequest(
+        certificateAuthorityArn: certificateAuthorityArn,
+        certificateSerial: certificateSerial,
+        revocationReason: revocationReason,
+      ),
     );
   }
 
@@ -1540,10 +1536,10 @@ class ACMPCA {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CertificateAuthorityArn': certificateAuthorityArn,
-        'Tags': tags,
-      },
+      payload: TagCertificateAuthorityRequest(
+        certificateAuthorityArn: certificateAuthorityArn,
+        tags: tags,
+      ),
     );
   }
 
@@ -1599,10 +1595,10 @@ class ACMPCA {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CertificateAuthorityArn': certificateAuthorityArn,
-        'Tags': tags,
-      },
+      payload: UntagCertificateAuthorityRequest(
+        certificateAuthorityArn: certificateAuthorityArn,
+        tags: tags,
+      ),
     );
   }
 
@@ -1661,12 +1657,11 @@ class ACMPCA {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CertificateAuthorityArn': certificateAuthorityArn,
-        if (revocationConfiguration != null)
-          'RevocationConfiguration': revocationConfiguration,
-        if (status != null) 'Status': status?.toValue(),
-      },
+      payload: UpdateCertificateAuthorityRequest(
+        certificateAuthorityArn: certificateAuthorityArn,
+        revocationConfiguration: revocationConfiguration,
+        status: status,
+      ),
     );
   }
 }
@@ -1790,18 +1785,6 @@ enum AuditReportResponseFormat {
   json,
   @_s.JsonValue('CSV')
   csv,
-}
-
-extension on AuditReportResponseFormat {
-  String toValue() {
-    switch (this) {
-      case AuditReportResponseFormat.json:
-        return 'JSON';
-      case AuditReportResponseFormat.csv:
-        return 'CSV';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 enum AuditReportStatus {
@@ -1972,28 +1955,6 @@ enum CertificateAuthorityStatus {
   failed,
 }
 
-extension on CertificateAuthorityStatus {
-  String toValue() {
-    switch (this) {
-      case CertificateAuthorityStatus.creating:
-        return 'CREATING';
-      case CertificateAuthorityStatus.pendingCertificate:
-        return 'PENDING_CERTIFICATE';
-      case CertificateAuthorityStatus.active:
-        return 'ACTIVE';
-      case CertificateAuthorityStatus.deleted:
-        return 'DELETED';
-      case CertificateAuthorityStatus.disabled:
-        return 'DISABLED';
-      case CertificateAuthorityStatus.expired:
-        return 'EXPIRED';
-      case CertificateAuthorityStatus.failed:
-        return 'FAILED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum CertificateAuthorityType {
   @_s.JsonValue('ROOT')
   root,
@@ -2001,16 +1962,35 @@ enum CertificateAuthorityType {
   subordinate,
 }
 
-extension on CertificateAuthorityType {
-  String toValue() {
-    switch (this) {
-      case CertificateAuthorityType.root:
-        return 'ROOT';
-      case CertificateAuthorityType.subordinate:
-        return 'SUBORDINATE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateCertificateAuthorityAuditReportRequest {
+  /// The format in which to create the report. This can be either <b>JSON</b> or
+  /// <b>CSV</b>.
+  @_s.JsonKey(name: 'AuditReportResponseFormat')
+  final AuditReportResponseFormat auditReportResponseFormat;
+
+  /// The Amazon Resource Name (ARN) of the CA to be audited. This is of the form:
+  ///
+  /// <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
+  /// </code>.
+  @_s.JsonKey(name: 'CertificateAuthorityArn')
+  final String certificateAuthorityArn;
+
+  /// The name of the S3 bucket that will contain the audit report.
+  @_s.JsonKey(name: 'S3BucketName')
+  final String s3BucketName;
+
+  CreateCertificateAuthorityAuditReportRequest({
+    @_s.required this.auditReportResponseFormat,
+    @_s.required this.certificateAuthorityArn,
+    @_s.required this.s3BucketName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateCertificateAuthorityAuditReportRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2039,6 +2019,61 @@ class CreateCertificateAuthorityAuditReportResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateCertificateAuthorityRequest {
+  /// Name and bit size of the private key algorithm, the name of the signing
+  /// algorithm, and X.500 certificate subject information.
+  @_s.JsonKey(name: 'CertificateAuthorityConfiguration')
+  final CertificateAuthorityConfiguration certificateAuthorityConfiguration;
+
+  /// The type of the certificate authority.
+  @_s.JsonKey(name: 'CertificateAuthorityType')
+  final CertificateAuthorityType certificateAuthorityType;
+
+  /// Alphanumeric string that can be used to distinguish between calls to
+  /// <b>CreateCertificateAuthority</b>. Idempotency tokens time out after five
+  /// minutes. Therefore, if you call <b>CreateCertificateAuthority</b> multiple
+  /// times with the same idempotency token within a five minute period, ACM
+  /// Private CA recognizes that you are requesting only one certificate. As a
+  /// result, ACM Private CA issues only one. If you change the idempotency token
+  /// for each call, however, ACM Private CA recognizes that you are requesting
+  /// multiple certificates.
+  @_s.JsonKey(name: 'IdempotencyToken')
+  final String idempotencyToken;
+
+  /// Contains a Boolean value that you can use to enable a certification
+  /// revocation list (CRL) for the CA, the name of the S3 bucket to which ACM
+  /// Private CA will write the CRL, and an optional CNAME alias that you can use
+  /// to hide the name of your bucket in the <b>CRL Distribution Points</b>
+  /// extension of your CA certificate. For more information, see the
+  /// <a>CrlConfiguration</a> structure.
+  @_s.JsonKey(name: 'RevocationConfiguration')
+  final RevocationConfiguration revocationConfiguration;
+
+  /// Key-value pairs that will be attached to the new private CA. You can
+  /// associate up to 50 tags with a private CA. For information using tags with
+  ///
+  /// IAM to manage permissions, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_iam-tags.html">Controlling
+  /// Access Using IAM Tags</a>.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateCertificateAuthorityRequest({
+    @_s.required this.certificateAuthorityConfiguration,
+    @_s.required this.certificateAuthorityType,
+    this.idempotencyToken,
+    this.revocationConfiguration,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateCertificateAuthorityRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateCertificateAuthorityResponse {
@@ -2056,6 +2091,45 @@ class CreateCertificateAuthorityResponse {
   factory CreateCertificateAuthorityResponse.fromJson(
           Map<String, dynamic> json) =>
       _$CreateCertificateAuthorityResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreatePermissionRequest {
+  /// The actions that the specified AWS service principal can use. These include
+  /// <code>IssueCertificate</code>, <code>GetCertificate</code>, and
+  /// <code>ListPermissions</code>.
+  @_s.JsonKey(name: 'Actions')
+  final List<String> actions;
+
+  /// The Amazon Resource Name (ARN) of the CA that grants the permissions. You
+  /// can find the ARN by calling the <a>ListCertificateAuthorities</a> action.
+  /// This must have the following form:
+  ///
+  /// <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
+  /// </code>.
+  @_s.JsonKey(name: 'CertificateAuthorityArn')
+  final String certificateAuthorityArn;
+
+  /// The AWS service or identity that receives the permission. At this time, the
+  /// only valid principal is <code>acm.amazonaws.com</code>.
+  @_s.JsonKey(name: 'Principal')
+  final String principal;
+
+  /// The ID of the calling account.
+  @_s.JsonKey(name: 'SourceAccount')
+  final String sourceAccount;
+
+  CreatePermissionRequest({
+    @_s.required this.actions,
+    @_s.required this.certificateAuthorityArn,
+    @_s.required this.principal,
+    this.sourceAccount,
+  });
+  Map<String, dynamic> toJson() => _$CreatePermissionRequestToJson(this);
 }
 
 /// Contains configuration information for a certificate revocation list (CRL).
@@ -2188,6 +2262,92 @@ class CrlConfiguration {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteCertificateAuthorityRequest {
+  /// The Amazon Resource Name (ARN) that was returned when you called
+  /// <a>CreateCertificateAuthority</a>. This must have the following form:
+  ///
+  /// <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
+  /// </code>.
+  @_s.JsonKey(name: 'CertificateAuthorityArn')
+  final String certificateAuthorityArn;
+
+  /// The number of days to make a CA restorable after it has been deleted. This
+  /// can be anywhere from 7 to 30 days, with 30 being the default.
+  @_s.JsonKey(name: 'PermanentDeletionTimeInDays')
+  final int permanentDeletionTimeInDays;
+
+  DeleteCertificateAuthorityRequest({
+    @_s.required this.certificateAuthorityArn,
+    this.permanentDeletionTimeInDays,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteCertificateAuthorityRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeletePermissionRequest {
+  /// The Amazon Resource Number (ARN) of the private CA that issued the
+  /// permissions. You can find the CA's ARN by calling the
+  /// <a>ListCertificateAuthorities</a> action. This must have the following form:
+  ///
+  /// <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
+  /// </code>.
+  @_s.JsonKey(name: 'CertificateAuthorityArn')
+  final String certificateAuthorityArn;
+
+  /// The AWS service or identity that will have its CA permissions revoked. At
+  /// this time, the only valid service principal is
+  /// <code>acm.amazonaws.com</code>
+  @_s.JsonKey(name: 'Principal')
+  final String principal;
+
+  /// The AWS account that calls this action.
+  @_s.JsonKey(name: 'SourceAccount')
+  final String sourceAccount;
+
+  DeletePermissionRequest({
+    @_s.required this.certificateAuthorityArn,
+    @_s.required this.principal,
+    this.sourceAccount,
+  });
+  Map<String, dynamic> toJson() => _$DeletePermissionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeCertificateAuthorityAuditReportRequest {
+  /// The report ID returned by calling the
+  /// <a>CreateCertificateAuthorityAuditReport</a> action.
+  @_s.JsonKey(name: 'AuditReportId')
+  final String auditReportId;
+
+  /// The Amazon Resource Name (ARN) of the private CA. This must be of the form:
+  ///
+  /// <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
+  /// </code>.
+  @_s.JsonKey(name: 'CertificateAuthorityArn')
+  final String certificateAuthorityArn;
+
+  DescribeCertificateAuthorityAuditReportRequest({
+    @_s.required this.auditReportId,
+    @_s.required this.certificateAuthorityArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeCertificateAuthorityAuditReportRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeCertificateAuthorityAuditReportResponse {
@@ -2225,6 +2385,27 @@ class DescribeCertificateAuthorityAuditReportResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeCertificateAuthorityRequest {
+  /// The Amazon Resource Name (ARN) that was returned when you called
+  /// <a>CreateCertificateAuthority</a>. This must be of the form:
+  ///
+  /// <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
+  /// </code>.
+  @_s.JsonKey(name: 'CertificateAuthorityArn')
+  final String certificateAuthorityArn;
+
+  DescribeCertificateAuthorityRequest({
+    @_s.required this.certificateAuthorityArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeCertificateAuthorityRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeCertificateAuthorityResponse {
@@ -2248,6 +2429,26 @@ enum FailureReason {
   unsupportedAlgorithm,
   @_s.JsonValue('OTHER')
   other,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetCertificateAuthorityCertificateRequest {
+  /// The Amazon Resource Name (ARN) of your private CA. This is of the form:
+  ///
+  /// <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
+  /// </code>.
+  @_s.JsonKey(name: 'CertificateAuthorityArn')
+  final String certificateAuthorityArn;
+
+  GetCertificateAuthorityCertificateRequest({
+    @_s.required this.certificateAuthorityArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetCertificateAuthorityCertificateRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2279,6 +2480,27 @@ class GetCertificateAuthorityCertificateResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetCertificateAuthorityCsrRequest {
+  /// The Amazon Resource Name (ARN) that was returned when you called the
+  /// <a>CreateCertificateAuthority</a> action. This must be of the form:
+  ///
+  /// <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
+  /// </code>
+  @_s.JsonKey(name: 'CertificateAuthorityArn')
+  final String certificateAuthorityArn;
+
+  GetCertificateAuthorityCsrRequest({
+    @_s.required this.certificateAuthorityArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetCertificateAuthorityCsrRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetCertificateAuthorityCsrResponse {
@@ -2293,6 +2515,35 @@ class GetCertificateAuthorityCsrResponse {
   factory GetCertificateAuthorityCsrResponse.fromJson(
           Map<String, dynamic> json) =>
       _$GetCertificateAuthorityCsrResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetCertificateRequest {
+  /// The ARN of the issued certificate. The ARN contains the certificate serial
+  /// number and must be in the following form:
+  ///
+  /// <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>/certificate/<i>286535153982981100925020015808220737245</i>
+  /// </code>
+  @_s.JsonKey(name: 'CertificateArn')
+  final String certificateArn;
+
+  /// The Amazon Resource Name (ARN) that was returned when you called
+  /// <a>CreateCertificateAuthority</a>. This must be of the form:
+  ///
+  /// <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
+  /// </code>.
+  @_s.JsonKey(name: 'CertificateAuthorityArn')
+  final String certificateAuthorityArn;
+
+  GetCertificateRequest({
+    @_s.required this.certificateArn,
+    @_s.required this.certificateAuthorityArn,
+  });
+  Map<String, dynamic> toJson() => _$GetCertificateRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2317,6 +2568,142 @@ class GetCertificateResponse {
   });
   factory GetCertificateResponse.fromJson(Map<String, dynamic> json) =>
       _$GetCertificateResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ImportCertificateAuthorityCertificateRequest {
+  /// The PEM-encoded certificate for a private CA. This may be a self-signed
+  /// certificate in the case of a root CA, or it may be signed by another CA that
+  /// you control.
+  @Uint8ListConverter()
+  @_s.JsonKey(name: 'Certificate')
+  final Uint8List certificate;
+
+  /// The Amazon Resource Name (ARN) that was returned when you called
+  /// <a>CreateCertificateAuthority</a>. This must be of the form:
+  ///
+  /// <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
+  /// </code>
+  @_s.JsonKey(name: 'CertificateAuthorityArn')
+  final String certificateAuthorityArn;
+
+  /// A PEM-encoded file that contains all of your certificates, other than the
+  /// certificate you're importing, chaining up to your root CA. Your ACM Private
+  /// CA-hosted or on-premises root certificate is the last in the chain, and each
+  /// certificate in the chain signs the one preceding.
+  ///
+  /// This parameter must be supplied when you import a subordinate CA. When you
+  /// import a root CA, there is no chain.
+  @Uint8ListConverter()
+  @_s.JsonKey(name: 'CertificateChain')
+  final Uint8List certificateChain;
+
+  ImportCertificateAuthorityCertificateRequest({
+    @_s.required this.certificate,
+    @_s.required this.certificateAuthorityArn,
+    this.certificateChain,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ImportCertificateAuthorityCertificateRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class IssueCertificateRequest {
+  /// The Amazon Resource Name (ARN) that was returned when you called
+  /// <a>CreateCertificateAuthority</a>. This must be of the form:
+  ///
+  /// <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
+  /// </code>
+  @_s.JsonKey(name: 'CertificateAuthorityArn')
+  final String certificateAuthorityArn;
+
+  /// The certificate signing request (CSR) for the certificate you want to issue.
+  /// You can use the following OpenSSL command to create the CSR and a 2048 bit
+  /// RSA private key.
+  ///
+  /// <code>openssl req -new -newkey rsa:2048 -days 365 -keyout
+  /// private/test_cert_priv_key.pem -out csr/test_cert_.csr</code>
+  ///
+  /// If you have a configuration file, you can use the following OpenSSL command.
+  /// The <code>usr_cert</code> block in the configuration file contains your X509
+  /// version 3 extensions.
+  ///
+  /// <code>openssl req -new -config openssl_rsa.cnf -extensions usr_cert -newkey
+  /// rsa:2048 -days -365 -keyout private/test_cert_priv_key.pem -out
+  /// csr/test_cert_.csr</code>
+  @Uint8ListConverter()
+  @_s.JsonKey(name: 'Csr')
+  final Uint8List csr;
+
+  /// The name of the algorithm that will be used to sign the certificate to be
+  /// issued.
+  @_s.JsonKey(name: 'SigningAlgorithm')
+  final SigningAlgorithm signingAlgorithm;
+
+  /// The type of the validity period.
+  @_s.JsonKey(name: 'Validity')
+  final Validity validity;
+
+  /// Custom string that can be used to distinguish between calls to the
+  /// <b>IssueCertificate</b> action. Idempotency tokens time out after one hour.
+  /// Therefore, if you call <b>IssueCertificate</b> multiple times with the same
+  /// idempotency token within 5 minutes, ACM Private CA recognizes that you are
+  /// requesting only one certificate and will issue only one. If you change the
+  /// idempotency token for each call, PCA recognizes that you are requesting
+  /// multiple certificates.
+  @_s.JsonKey(name: 'IdempotencyToken')
+  final String idempotencyToken;
+
+  /// Specifies a custom configuration template to use when issuing a certificate.
+  /// If this parameter is not provided, ACM Private CA defaults to the
+  /// <code>EndEntityCertificate/V1</code> template.
+  ///
+  /// The following service-owned <code>TemplateArn</code> values are supported by
+  /// ACM Private CA:
+  ///
+  /// <ul>
+  /// <li>
+  /// arn:aws:acm-pca:::template/EndEntityCertificate/V1
+  /// </li>
+  /// <li>
+  /// arn:aws:acm-pca:::template/SubordinateCACertificate_PathLen0/V1
+  /// </li>
+  /// <li>
+  /// arn:aws:acm-pca:::template/SubordinateCACertificate_PathLen1/V1
+  /// </li>
+  /// <li>
+  /// arn:aws:acm-pca:::template/SubordinateCACertificate_PathLen2/V1
+  /// </li>
+  /// <li>
+  /// arn:aws:acm-pca:::template/SubordinateCACertificate_PathLen3/V1
+  /// </li>
+  /// <li>
+  /// arn:aws:acm-pca:::template/RootCACertificate/V1
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/acm-pca/latest/userguide/UsingTemplates.html">Using
+  /// Templates</a>.
+  @_s.JsonKey(name: 'TemplateArn')
+  final String templateArn;
+
+  IssueCertificateRequest({
+    @_s.required this.certificateAuthorityArn,
+    @_s.required this.csr,
+    @_s.required this.signingAlgorithm,
+    @_s.required this.validity,
+    this.idempotencyToken,
+    this.templateArn,
+  });
+  Map<String, dynamic> toJson() => _$IssueCertificateRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2354,6 +2741,34 @@ enum KeyAlgorithm {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListCertificateAuthoritiesRequest {
+  /// Use this parameter when paginating results to specify the maximum number of
+  /// items to return in the response on each page. If additional items exist
+  /// beyond the number you specify, the <code>NextToken</code> element is sent in
+  /// the response. Use this <code>NextToken</code> value in a subsequent request
+  /// to retrieve additional items.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// Use this parameter when paginating results in a subsequent request after you
+  /// receive a response with truncated results. Set it to the value of the
+  /// <code>NextToken</code> parameter from the response you just received.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListCertificateAuthoritiesRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListCertificateAuthoritiesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListCertificateAuthoritiesResponse {
@@ -2373,6 +2788,42 @@ class ListCertificateAuthoritiesResponse {
   factory ListCertificateAuthoritiesResponse.fromJson(
           Map<String, dynamic> json) =>
       _$ListCertificateAuthoritiesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListPermissionsRequest {
+  /// The Amazon Resource Number (ARN) of the private CA to inspect. You can find
+  /// the ARN by calling the <a>ListCertificateAuthorities</a> action. This must
+  /// be of the form:
+  /// <code>arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012</code>
+  /// You can get a private CA's ARN by running the
+  /// <a>ListCertificateAuthorities</a> action.
+  @_s.JsonKey(name: 'CertificateAuthorityArn')
+  final String certificateAuthorityArn;
+
+  /// When paginating results, use this parameter to specify the maximum number of
+  /// items to return in the response. If additional items exist beyond the number
+  /// you specify, the <b>NextToken</b> element is sent in the response. Use this
+  /// <b>NextToken</b> value in a subsequent request to retrieve additional items.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// When paginating results, use this parameter in a subsequent request after
+  /// you receive a response with truncated results. Set it to the value of
+  /// <b>NextToken</b> from the response you just received.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListPermissionsRequest({
+    @_s.required this.certificateAuthorityArn,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListPermissionsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2398,6 +2849,41 @@ class ListPermissionsResponse {
   });
   factory ListPermissionsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListPermissionsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsRequest {
+  /// The Amazon Resource Name (ARN) that was returned when you called the
+  /// <a>CreateCertificateAuthority</a> action. This must be of the form:
+  ///
+  /// <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
+  /// </code>
+  @_s.JsonKey(name: 'CertificateAuthorityArn')
+  final String certificateAuthorityArn;
+
+  /// Use this parameter when paginating results to specify the maximum number of
+  /// items to return in the response. If additional items exist beyond the number
+  /// you specify, the <b>NextToken</b> element is sent in the response. Use this
+  /// <b>NextToken</b> value in a subsequent request to retrieve additional items.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// Use this parameter when paginating results in a subsequent request after you
+  /// receive a response with truncated results. Set it to the value of
+  /// <b>NextToken</b> from the response you just received.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListTagsRequest({
+    @_s.required this.certificateAuthorityArn,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2477,6 +2963,27 @@ class Permission {
       _$PermissionFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RestoreCertificateAuthorityRequest {
+  /// The Amazon Resource Name (ARN) that was returned when you called the
+  /// <a>CreateCertificateAuthority</a> action. This must be of the form:
+  ///
+  /// <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
+  /// </code>
+  @_s.JsonKey(name: 'CertificateAuthorityArn')
+  final String certificateAuthorityArn;
+
+  RestoreCertificateAuthorityRequest({
+    @_s.required this.certificateAuthorityArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$RestoreCertificateAuthorityRequestToJson(this);
+}
+
 /// Certificate revocation information used by the
 /// <a>CreateCertificateAuthority</a> and <a>UpdateCertificateAuthority</a>
 /// actions. Your private certificate authority (CA) can create and maintain a
@@ -2522,28 +3029,45 @@ enum RevocationReason {
   aACompromise,
 }
 
-extension on RevocationReason {
-  String toValue() {
-    switch (this) {
-      case RevocationReason.unspecified:
-        return 'UNSPECIFIED';
-      case RevocationReason.keyCompromise:
-        return 'KEY_COMPROMISE';
-      case RevocationReason.certificateAuthorityCompromise:
-        return 'CERTIFICATE_AUTHORITY_COMPROMISE';
-      case RevocationReason.affiliationChanged:
-        return 'AFFILIATION_CHANGED';
-      case RevocationReason.superseded:
-        return 'SUPERSEDED';
-      case RevocationReason.cessationOfOperation:
-        return 'CESSATION_OF_OPERATION';
-      case RevocationReason.privilegeWithdrawn:
-        return 'PRIVILEGE_WITHDRAWN';
-      case RevocationReason.aACompromise:
-        return 'A_A_COMPROMISE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RevokeCertificateRequest {
+  /// Amazon Resource Name (ARN) of the private CA that issued the certificate to
+  /// be revoked. This must be of the form:
+  ///
+  /// <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
+  /// </code>
+  @_s.JsonKey(name: 'CertificateAuthorityArn')
+  final String certificateAuthorityArn;
+
+  /// Serial number of the certificate to be revoked. This must be in hexadecimal
+  /// format. You can retrieve the serial number by calling <a>GetCertificate</a>
+  /// with the Amazon Resource Name (ARN) of the certificate you want and the ARN
+  /// of your private CA. The <b>GetCertificate</b> action retrieves the
+  /// certificate in the PEM format. You can use the following OpenSSL command to
+  /// list the certificate in text format and copy the hexadecimal serial number.
+  ///
+  /// <code>openssl x509 -in <i>file_path</i> -text -noout</code>
+  ///
+  /// You can also copy the serial number from the console or use the <a
+  /// href="https://docs.aws.amazon.com/acm/latest/APIReference/API_DescribeCertificate.html">DescribeCertificate</a>
+  /// action in the <i>AWS Certificate Manager API Reference</i>.
+  @_s.JsonKey(name: 'CertificateSerial')
+  final String certificateSerial;
+
+  /// Specifies why you revoked the certificate.
+  @_s.JsonKey(name: 'RevocationReason')
+  final RevocationReason revocationReason;
+
+  RevokeCertificateRequest({
+    @_s.required this.certificateAuthorityArn,
+    @_s.required this.certificateSerial,
+    @_s.required this.revocationReason,
+  });
+  Map<String, dynamic> toJson() => _$RevokeCertificateRequestToJson(this);
 }
 
 enum SigningAlgorithm {
@@ -2559,26 +3083,6 @@ enum SigningAlgorithm {
   sha384withrsa,
   @_s.JsonValue('SHA512WITHRSA')
   sha512withrsa,
-}
-
-extension on SigningAlgorithm {
-  String toValue() {
-    switch (this) {
-      case SigningAlgorithm.sha256withecdsa:
-        return 'SHA256WITHECDSA';
-      case SigningAlgorithm.sha384withecdsa:
-        return 'SHA384WITHECDSA';
-      case SigningAlgorithm.sha512withecdsa:
-        return 'SHA512WITHECDSA';
-      case SigningAlgorithm.sha256withrsa:
-        return 'SHA256WITHRSA';
-      case SigningAlgorithm.sha384withrsa:
-        return 'SHA384WITHRSA';
-      case SigningAlgorithm.sha512withrsa:
-        return 'SHA512WITHRSA';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Tags are labels that you can use to identify and organize your private CAs.
@@ -2607,6 +3111,88 @@ class Tag {
   factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
   Map<String, dynamic> toJson() => _$TagToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagCertificateAuthorityRequest {
+  /// The Amazon Resource Name (ARN) that was returned when you called
+  /// <a>CreateCertificateAuthority</a>. This must be of the form:
+  ///
+  /// <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
+  /// </code>
+  @_s.JsonKey(name: 'CertificateAuthorityArn')
+  final String certificateAuthorityArn;
+
+  /// List of tags to be associated with the CA.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  TagCertificateAuthorityRequest({
+    @_s.required this.certificateAuthorityArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagCertificateAuthorityRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagCertificateAuthorityRequest {
+  /// The Amazon Resource Name (ARN) that was returned when you called
+  /// <a>CreateCertificateAuthority</a>. This must be of the form:
+  ///
+  /// <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
+  /// </code>
+  @_s.JsonKey(name: 'CertificateAuthorityArn')
+  final String certificateAuthorityArn;
+
+  /// List of tags to be removed from the CA.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  UntagCertificateAuthorityRequest({
+    @_s.required this.certificateAuthorityArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UntagCertificateAuthorityRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateCertificateAuthorityRequest {
+  /// Amazon Resource Name (ARN) of the private CA that issued the certificate to
+  /// be revoked. This must be of the form:
+  ///
+  /// <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
+  /// </code>
+  @_s.JsonKey(name: 'CertificateAuthorityArn')
+  final String certificateAuthorityArn;
+
+  /// Revocation information for your private CA.
+  @_s.JsonKey(name: 'RevocationConfiguration')
+  final RevocationConfiguration revocationConfiguration;
+
+  /// Status of your private CA.
+  @_s.JsonKey(name: 'Status')
+  final CertificateAuthorityStatus status;
+
+  UpdateCertificateAuthorityRequest({
+    @_s.required this.certificateAuthorityArn,
+    this.revocationConfiguration,
+    this.status,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateCertificateAuthorityRequestToJson(this);
 }
 
 /// Length of time for which the certificate issued by your private certificate

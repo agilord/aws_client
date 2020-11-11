@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -20,6 +19,8 @@ import 'package:shared_aws_api/shared.dart'
         unixTimestampToJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
+
+part 'timestamp_values.g.dart';
 
 /// Timestamp values
 class TimestampValues {
@@ -52,13 +53,39 @@ class TimestampValues {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (timeArg != null) 'TimeArg': timeArg,
-        if (timeCustom != null) 'TimeCustom': timeCustom,
-        if (timeFormat != null) 'TimeFormat': timeFormat,
-      },
+      payload: InputShape(
+        timeArg: timeArg,
+        timeCustom: timeCustom,
+        timeFormat: timeFormat,
+      ),
     );
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class InputShape {
+  @_s.JsonKey(
+      name: 'TimeArg',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime timeArg;
+  @_s.JsonKey(
+      name: 'TimeCustom', fromJson: rfc822FromJson, toJson: rfc822ToJson)
+  final DateTime timeCustom;
+  @_s.JsonKey(
+      name: 'TimeFormat', fromJson: rfc822FromJson, toJson: rfc822ToJson)
+  final DateTime timeFormat;
+
+  InputShape({
+    this.timeArg,
+    this.timeCustom,
+    this.timeFormat,
+  });
+  Map<String, dynamic> toJson() => _$InputShapeToJson(this);
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

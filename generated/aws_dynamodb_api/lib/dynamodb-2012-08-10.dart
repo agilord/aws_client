@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -220,11 +219,10 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'RequestItems': requestItems,
-        if (returnConsumedCapacity != null)
-          'ReturnConsumedCapacity': returnConsumedCapacity?.toValue(),
-      },
+      payload: BatchGetItemInput(
+        requestItems: requestItems,
+        returnConsumedCapacity: returnConsumedCapacity,
+      ),
     );
 
     return BatchGetItemOutput.fromJson(jsonResponse.body);
@@ -392,13 +390,11 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'RequestItems': requestItems,
-        if (returnConsumedCapacity != null)
-          'ReturnConsumedCapacity': returnConsumedCapacity?.toValue(),
-        if (returnItemCollectionMetrics != null)
-          'ReturnItemCollectionMetrics': returnItemCollectionMetrics?.toValue(),
-      },
+      payload: BatchWriteItemInput(
+        requestItems: requestItems,
+        returnConsumedCapacity: returnConsumedCapacity,
+        returnItemCollectionMetrics: returnItemCollectionMetrics,
+      ),
     );
 
     return BatchWriteItemOutput.fromJson(jsonResponse.body);
@@ -499,10 +495,10 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'BackupName': backupName,
-        'TableName': tableName,
-      },
+      payload: CreateBackupInput(
+        backupName: backupName,
+        tableName: tableName,
+      ),
     );
 
     return CreateBackupOutput.fromJson(jsonResponse.body);
@@ -596,10 +592,10 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GlobalTableName': globalTableName,
-        'ReplicationGroup': replicationGroup,
-      },
+      payload: CreateGlobalTableInput(
+        globalTableName: globalTableName,
+        replicationGroup: replicationGroup,
+      ),
     );
 
     return CreateGlobalTableOutput.fromJson(jsonResponse.body);
@@ -904,22 +900,18 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AttributeDefinitions': attributeDefinitions,
-        'KeySchema': keySchema,
-        'TableName': tableName,
-        if (billingMode != null) 'BillingMode': billingMode?.toValue(),
-        if (globalSecondaryIndexes != null)
-          'GlobalSecondaryIndexes': globalSecondaryIndexes,
-        if (localSecondaryIndexes != null)
-          'LocalSecondaryIndexes': localSecondaryIndexes,
-        if (provisionedThroughput != null)
-          'ProvisionedThroughput': provisionedThroughput,
-        if (sSESpecification != null) 'SSESpecification': sSESpecification,
-        if (streamSpecification != null)
-          'StreamSpecification': streamSpecification,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateTableInput(
+        attributeDefinitions: attributeDefinitions,
+        keySchema: keySchema,
+        tableName: tableName,
+        billingMode: billingMode,
+        globalSecondaryIndexes: globalSecondaryIndexes,
+        localSecondaryIndexes: localSecondaryIndexes,
+        provisionedThroughput: provisionedThroughput,
+        sSESpecification: sSESpecification,
+        streamSpecification: streamSpecification,
+        tags: tags,
+      ),
     );
 
     return CreateTableOutput.fromJson(jsonResponse.body);
@@ -958,9 +950,9 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'BackupArn': backupArn,
-      },
+      payload: DeleteBackupInput(
+        backupArn: backupArn,
+      ),
     );
 
     return DeleteBackupOutput.fromJson(jsonResponse.body);
@@ -1178,24 +1170,18 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Key': key,
-        'TableName': tableName,
-        if (conditionExpression != null)
-          'ConditionExpression': conditionExpression,
-        if (conditionalOperator != null)
-          'ConditionalOperator': conditionalOperator?.toValue(),
-        if (expected != null) 'Expected': expected,
-        if (expressionAttributeNames != null)
-          'ExpressionAttributeNames': expressionAttributeNames,
-        if (expressionAttributeValues != null)
-          'ExpressionAttributeValues': expressionAttributeValues,
-        if (returnConsumedCapacity != null)
-          'ReturnConsumedCapacity': returnConsumedCapacity?.toValue(),
-        if (returnItemCollectionMetrics != null)
-          'ReturnItemCollectionMetrics': returnItemCollectionMetrics?.toValue(),
-        if (returnValues != null) 'ReturnValues': returnValues?.toValue(),
-      },
+      payload: DeleteItemInput(
+        key: key,
+        tableName: tableName,
+        conditionExpression: conditionExpression,
+        conditionalOperator: conditionalOperator,
+        expected: expected,
+        expressionAttributeNames: expressionAttributeNames,
+        expressionAttributeValues: expressionAttributeValues,
+        returnConsumedCapacity: returnConsumedCapacity,
+        returnItemCollectionMetrics: returnItemCollectionMetrics,
+        returnValues: returnValues,
+      ),
     );
 
     return DeleteItemOutput.fromJson(jsonResponse.body);
@@ -1258,9 +1244,9 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TableName': tableName,
-      },
+      payload: DeleteTableInput(
+        tableName: tableName,
+      ),
     );
 
     return DeleteTableOutput.fromJson(jsonResponse.body);
@@ -1297,9 +1283,9 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'BackupArn': backupArn,
-      },
+      payload: DescribeBackupInput(
+        backupArn: backupArn,
+      ),
     );
 
     return DescribeBackupOutput.fromJson(jsonResponse.body);
@@ -1355,9 +1341,9 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TableName': tableName,
-      },
+      payload: DescribeContinuousBackupsInput(
+        tableName: tableName,
+      ),
     );
 
     return DescribeContinuousBackupsOutput.fromJson(jsonResponse.body);
@@ -1413,10 +1399,10 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TableName': tableName,
-        if (indexName != null) 'IndexName': indexName,
-      },
+      payload: DescribeContributorInsightsInput(
+        tableName: tableName,
+        indexName: indexName,
+      ),
     );
 
     return DescribeContributorInsightsOutput.fromJson(jsonResponse.body);
@@ -1478,9 +1464,9 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GlobalTableName': globalTableName,
-      },
+      payload: DescribeGlobalTableInput(
+        globalTableName: globalTableName,
+      ),
     );
 
     return DescribeGlobalTableOutput.fromJson(jsonResponse.body);
@@ -1525,9 +1511,9 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GlobalTableName': globalTableName,
-      },
+      payload: DescribeGlobalTableSettingsInput(
+        globalTableName: globalTableName,
+      ),
     );
 
     return DescribeGlobalTableSettingsOutput.fromJson(jsonResponse.body);
@@ -1668,9 +1654,9 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TableName': tableName,
-      },
+      payload: DescribeTableInput(
+        tableName: tableName,
+      ),
     );
 
     return DescribeTableOutput.fromJson(jsonResponse.body);
@@ -1717,9 +1703,9 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TableName': tableName,
-      },
+      payload: DescribeTableReplicaAutoScalingInput(
+        tableName: tableName,
+      ),
     );
 
     return DescribeTableReplicaAutoScalingOutput.fromJson(jsonResponse.body);
@@ -1760,9 +1746,9 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TableName': tableName,
-      },
+      payload: DescribeTimeToLiveInput(
+        tableName: tableName,
+      ),
     );
 
     return DescribeTimeToLiveOutput.fromJson(jsonResponse.body);
@@ -1906,18 +1892,15 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Key': key,
-        'TableName': tableName,
-        if (attributesToGet != null) 'AttributesToGet': attributesToGet,
-        if (consistentRead != null) 'ConsistentRead': consistentRead,
-        if (expressionAttributeNames != null)
-          'ExpressionAttributeNames': expressionAttributeNames,
-        if (projectionExpression != null)
-          'ProjectionExpression': projectionExpression,
-        if (returnConsumedCapacity != null)
-          'ReturnConsumedCapacity': returnConsumedCapacity?.toValue(),
-      },
+      payload: GetItemInput(
+        key: key,
+        tableName: tableName,
+        attributesToGet: attributesToGet,
+        consistentRead: consistentRead,
+        expressionAttributeNames: expressionAttributeNames,
+        projectionExpression: projectionExpression,
+        returnConsumedCapacity: returnConsumedCapacity,
+      ),
     );
 
     return GetItemOutput.fromJson(jsonResponse.body);
@@ -2016,17 +1999,14 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (backupType != null) 'BackupType': backupType?.toValue(),
-        if (exclusiveStartBackupArn != null)
-          'ExclusiveStartBackupArn': exclusiveStartBackupArn,
-        if (limit != null) 'Limit': limit,
-        if (tableName != null) 'TableName': tableName,
-        if (timeRangeLowerBound != null)
-          'TimeRangeLowerBound': timeRangeLowerBound,
-        if (timeRangeUpperBound != null)
-          'TimeRangeUpperBound': timeRangeUpperBound,
-      },
+      payload: ListBackupsInput(
+        backupType: backupType,
+        exclusiveStartBackupArn: exclusiveStartBackupArn,
+        limit: limit,
+        tableName: tableName,
+        timeRangeLowerBound: timeRangeLowerBound,
+        timeRangeUpperBound: timeRangeUpperBound,
+      ),
     );
 
     return ListBackupsOutput.fromJson(jsonResponse.body);
@@ -2078,11 +2058,11 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (tableName != null) 'TableName': tableName,
-      },
+      payload: ListContributorInsightsInput(
+        maxResults: maxResults,
+        nextToken: nextToken,
+        tableName: tableName,
+      ),
     );
 
     return ListContributorInsightsOutput.fromJson(jsonResponse.body);
@@ -2144,12 +2124,11 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (exclusiveStartGlobalTableName != null)
-          'ExclusiveStartGlobalTableName': exclusiveStartGlobalTableName,
-        if (limit != null) 'Limit': limit,
-        if (regionName != null) 'RegionName': regionName,
-      },
+      payload: ListGlobalTablesInput(
+        exclusiveStartGlobalTableName: exclusiveStartGlobalTableName,
+        limit: limit,
+        regionName: regionName,
+      ),
     );
 
     return ListGlobalTablesOutput.fromJson(jsonResponse.body);
@@ -2200,11 +2179,10 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (exclusiveStartTableName != null)
-          'ExclusiveStartTableName': exclusiveStartTableName,
-        if (limit != null) 'Limit': limit,
-      },
+      payload: ListTablesInput(
+        exclusiveStartTableName: exclusiveStartTableName,
+        limit: limit,
+      ),
     );
 
     return ListTablesOutput.fromJson(jsonResponse.body);
@@ -2250,10 +2228,10 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListTagsOfResourceInput(
+        resourceArn: resourceArn,
+        nextToken: nextToken,
+      ),
     );
 
     return ListTagsOfResourceOutput.fromJson(jsonResponse.body);
@@ -2546,24 +2524,18 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Item': item,
-        'TableName': tableName,
-        if (conditionExpression != null)
-          'ConditionExpression': conditionExpression,
-        if (conditionalOperator != null)
-          'ConditionalOperator': conditionalOperator?.toValue(),
-        if (expected != null) 'Expected': expected,
-        if (expressionAttributeNames != null)
-          'ExpressionAttributeNames': expressionAttributeNames,
-        if (expressionAttributeValues != null)
-          'ExpressionAttributeValues': expressionAttributeValues,
-        if (returnConsumedCapacity != null)
-          'ReturnConsumedCapacity': returnConsumedCapacity?.toValue(),
-        if (returnItemCollectionMetrics != null)
-          'ReturnItemCollectionMetrics': returnItemCollectionMetrics?.toValue(),
-        if (returnValues != null) 'ReturnValues': returnValues?.toValue(),
-      },
+      payload: PutItemInput(
+        item: item,
+        tableName: tableName,
+        conditionExpression: conditionExpression,
+        conditionalOperator: conditionalOperator,
+        expected: expected,
+        expressionAttributeNames: expressionAttributeNames,
+        expressionAttributeValues: expressionAttributeValues,
+        returnConsumedCapacity: returnConsumedCapacity,
+        returnItemCollectionMetrics: returnItemCollectionMetrics,
+        returnValues: returnValues,
+      ),
     );
 
     return PutItemOutput.fromJson(jsonResponse.body);
@@ -3036,31 +3008,25 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TableName': tableName,
-        if (attributesToGet != null) 'AttributesToGet': attributesToGet,
-        if (conditionalOperator != null)
-          'ConditionalOperator': conditionalOperator?.toValue(),
-        if (consistentRead != null) 'ConsistentRead': consistentRead,
-        if (exclusiveStartKey != null) 'ExclusiveStartKey': exclusiveStartKey,
-        if (expressionAttributeNames != null)
-          'ExpressionAttributeNames': expressionAttributeNames,
-        if (expressionAttributeValues != null)
-          'ExpressionAttributeValues': expressionAttributeValues,
-        if (filterExpression != null) 'FilterExpression': filterExpression,
-        if (indexName != null) 'IndexName': indexName,
-        if (keyConditionExpression != null)
-          'KeyConditionExpression': keyConditionExpression,
-        if (keyConditions != null) 'KeyConditions': keyConditions,
-        if (limit != null) 'Limit': limit,
-        if (projectionExpression != null)
-          'ProjectionExpression': projectionExpression,
-        if (queryFilter != null) 'QueryFilter': queryFilter,
-        if (returnConsumedCapacity != null)
-          'ReturnConsumedCapacity': returnConsumedCapacity?.toValue(),
-        if (scanIndexForward != null) 'ScanIndexForward': scanIndexForward,
-        if (select != null) 'Select': select?.toValue(),
-      },
+      payload: QueryInput(
+        tableName: tableName,
+        attributesToGet: attributesToGet,
+        conditionalOperator: conditionalOperator,
+        consistentRead: consistentRead,
+        exclusiveStartKey: exclusiveStartKey,
+        expressionAttributeNames: expressionAttributeNames,
+        expressionAttributeValues: expressionAttributeValues,
+        filterExpression: filterExpression,
+        indexName: indexName,
+        keyConditionExpression: keyConditionExpression,
+        keyConditions: keyConditions,
+        limit: limit,
+        projectionExpression: projectionExpression,
+        queryFilter: queryFilter,
+        returnConsumedCapacity: returnConsumedCapacity,
+        scanIndexForward: scanIndexForward,
+        select: select,
+      ),
     );
 
     return QueryOutput.fromJson(jsonResponse.body);
@@ -3168,20 +3134,15 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'BackupArn': backupArn,
-        'TargetTableName': targetTableName,
-        if (billingModeOverride != null)
-          'BillingModeOverride': billingModeOverride?.toValue(),
-        if (globalSecondaryIndexOverride != null)
-          'GlobalSecondaryIndexOverride': globalSecondaryIndexOverride,
-        if (localSecondaryIndexOverride != null)
-          'LocalSecondaryIndexOverride': localSecondaryIndexOverride,
-        if (provisionedThroughputOverride != null)
-          'ProvisionedThroughputOverride': provisionedThroughputOverride,
-        if (sSESpecificationOverride != null)
-          'SSESpecificationOverride': sSESpecificationOverride,
-      },
+      payload: RestoreTableFromBackupInput(
+        backupArn: backupArn,
+        targetTableName: targetTableName,
+        billingModeOverride: billingModeOverride,
+        globalSecondaryIndexOverride: globalSecondaryIndexOverride,
+        localSecondaryIndexOverride: localSecondaryIndexOverride,
+        provisionedThroughputOverride: provisionedThroughputOverride,
+        sSESpecificationOverride: sSESpecificationOverride,
+      ),
     );
 
     return RestoreTableFromBackupOutput.fromJson(jsonResponse.body);
@@ -3334,24 +3295,18 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TargetTableName': targetTableName,
-        if (billingModeOverride != null)
-          'BillingModeOverride': billingModeOverride?.toValue(),
-        if (globalSecondaryIndexOverride != null)
-          'GlobalSecondaryIndexOverride': globalSecondaryIndexOverride,
-        if (localSecondaryIndexOverride != null)
-          'LocalSecondaryIndexOverride': localSecondaryIndexOverride,
-        if (provisionedThroughputOverride != null)
-          'ProvisionedThroughputOverride': provisionedThroughputOverride,
-        if (restoreDateTime != null) 'RestoreDateTime': restoreDateTime,
-        if (sSESpecificationOverride != null)
-          'SSESpecificationOverride': sSESpecificationOverride,
-        if (sourceTableArn != null) 'SourceTableArn': sourceTableArn,
-        if (sourceTableName != null) 'SourceTableName': sourceTableName,
-        if (useLatestRestorableTime != null)
-          'UseLatestRestorableTime': useLatestRestorableTime,
-      },
+      payload: RestoreTableToPointInTimeInput(
+        targetTableName: targetTableName,
+        billingModeOverride: billingModeOverride,
+        globalSecondaryIndexOverride: globalSecondaryIndexOverride,
+        localSecondaryIndexOverride: localSecondaryIndexOverride,
+        provisionedThroughputOverride: provisionedThroughputOverride,
+        restoreDateTime: restoreDateTime,
+        sSESpecificationOverride: sSESpecificationOverride,
+        sourceTableArn: sourceTableArn,
+        sourceTableName: sourceTableName,
+        useLatestRestorableTime: useLatestRestorableTime,
+      ),
     );
 
     return RestoreTableToPointInTimeOutput.fromJson(jsonResponse.body);
@@ -3743,29 +3698,24 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TableName': tableName,
-        if (attributesToGet != null) 'AttributesToGet': attributesToGet,
-        if (conditionalOperator != null)
-          'ConditionalOperator': conditionalOperator?.toValue(),
-        if (consistentRead != null) 'ConsistentRead': consistentRead,
-        if (exclusiveStartKey != null) 'ExclusiveStartKey': exclusiveStartKey,
-        if (expressionAttributeNames != null)
-          'ExpressionAttributeNames': expressionAttributeNames,
-        if (expressionAttributeValues != null)
-          'ExpressionAttributeValues': expressionAttributeValues,
-        if (filterExpression != null) 'FilterExpression': filterExpression,
-        if (indexName != null) 'IndexName': indexName,
-        if (limit != null) 'Limit': limit,
-        if (projectionExpression != null)
-          'ProjectionExpression': projectionExpression,
-        if (returnConsumedCapacity != null)
-          'ReturnConsumedCapacity': returnConsumedCapacity?.toValue(),
-        if (scanFilter != null) 'ScanFilter': scanFilter,
-        if (segment != null) 'Segment': segment,
-        if (select != null) 'Select': select?.toValue(),
-        if (totalSegments != null) 'TotalSegments': totalSegments,
-      },
+      payload: ScanInput(
+        tableName: tableName,
+        attributesToGet: attributesToGet,
+        conditionalOperator: conditionalOperator,
+        consistentRead: consistentRead,
+        exclusiveStartKey: exclusiveStartKey,
+        expressionAttributeNames: expressionAttributeNames,
+        expressionAttributeValues: expressionAttributeValues,
+        filterExpression: filterExpression,
+        indexName: indexName,
+        limit: limit,
+        projectionExpression: projectionExpression,
+        returnConsumedCapacity: returnConsumedCapacity,
+        scanFilter: scanFilter,
+        segment: segment,
+        select: select,
+        totalSegments: totalSegments,
+      ),
     );
 
     return ScanOutput.fromJson(jsonResponse.body);
@@ -3814,10 +3764,10 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        'Tags': tags,
-      },
+      payload: TagResourceInput(
+        resourceArn: resourceArn,
+        tags: tags,
+      ),
     );
   }
 
@@ -3879,11 +3829,10 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TransactItems': transactItems,
-        if (returnConsumedCapacity != null)
-          'ReturnConsumedCapacity': returnConsumedCapacity?.toValue(),
-      },
+      payload: TransactGetItemsInput(
+        transactItems: transactItems,
+        returnConsumedCapacity: returnConsumedCapacity,
+      ),
     );
 
     return TransactGetItemsOutput.fromJson(jsonResponse.body);
@@ -4029,15 +3978,12 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TransactItems': transactItems,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-        if (returnConsumedCapacity != null)
-          'ReturnConsumedCapacity': returnConsumedCapacity?.toValue(),
-        if (returnItemCollectionMetrics != null)
-          'ReturnItemCollectionMetrics': returnItemCollectionMetrics?.toValue(),
-      },
+      payload: TransactWriteItemsInput(
+        transactItems: transactItems,
+        clientRequestToken: clientRequestToken,
+        returnConsumedCapacity: returnConsumedCapacity,
+        returnItemCollectionMetrics: returnItemCollectionMetrics,
+      ),
     );
 
     return TransactWriteItemsOutput.fromJson(jsonResponse.body);
@@ -4085,10 +4031,10 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        'TagKeys': tagKeys,
-      },
+      payload: UntagResourceInput(
+        resourceArn: resourceArn,
+        tagKeys: tagKeys,
+      ),
     );
   }
 
@@ -4149,10 +4095,10 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PointInTimeRecoverySpecification': pointInTimeRecoverySpecification,
-        'TableName': tableName,
-      },
+      payload: UpdateContinuousBackupsInput(
+        pointInTimeRecoverySpecification: pointInTimeRecoverySpecification,
+        tableName: tableName,
+      ),
     );
 
     return UpdateContinuousBackupsOutput.fromJson(jsonResponse.body);
@@ -4213,11 +4159,11 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ContributorInsightsAction': contributorInsightsAction?.toValue(),
-        'TableName': tableName,
-        if (indexName != null) 'IndexName': indexName,
-      },
+      payload: UpdateContributorInsightsInput(
+        contributorInsightsAction: contributorInsightsAction,
+        tableName: tableName,
+        indexName: indexName,
+      ),
     );
 
     return UpdateContributorInsightsOutput.fromJson(jsonResponse.body);
@@ -4290,10 +4236,10 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GlobalTableName': globalTableName,
-        'ReplicaUpdates': replicaUpdates,
-      },
+      payload: UpdateGlobalTableInput(
+        globalTableName: globalTableName,
+        replicaUpdates: replicaUpdates,
+      ),
     );
 
     return UpdateGlobalTableOutput.fromJson(jsonResponse.body);
@@ -4388,23 +4334,17 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GlobalTableName': globalTableName,
-        if (globalTableBillingMode != null)
-          'GlobalTableBillingMode': globalTableBillingMode?.toValue(),
-        if (globalTableGlobalSecondaryIndexSettingsUpdate != null)
-          'GlobalTableGlobalSecondaryIndexSettingsUpdate':
-              globalTableGlobalSecondaryIndexSettingsUpdate,
-        if (globalTableProvisionedWriteCapacityAutoScalingSettingsUpdate !=
-            null)
-          'GlobalTableProvisionedWriteCapacityAutoScalingSettingsUpdate':
-              globalTableProvisionedWriteCapacityAutoScalingSettingsUpdate,
-        if (globalTableProvisionedWriteCapacityUnits != null)
-          'GlobalTableProvisionedWriteCapacityUnits':
-              globalTableProvisionedWriteCapacityUnits,
-        if (replicaSettingsUpdate != null)
-          'ReplicaSettingsUpdate': replicaSettingsUpdate,
-      },
+      payload: UpdateGlobalTableSettingsInput(
+        globalTableName: globalTableName,
+        globalTableBillingMode: globalTableBillingMode,
+        globalTableGlobalSecondaryIndexSettingsUpdate:
+            globalTableGlobalSecondaryIndexSettingsUpdate,
+        globalTableProvisionedWriteCapacityAutoScalingSettingsUpdate:
+            globalTableProvisionedWriteCapacityAutoScalingSettingsUpdate,
+        globalTableProvisionedWriteCapacityUnits:
+            globalTableProvisionedWriteCapacityUnits,
+        replicaSettingsUpdate: replicaSettingsUpdate,
+      ),
     );
 
     return UpdateGlobalTableSettingsOutput.fromJson(jsonResponse.body);
@@ -4741,26 +4681,20 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Key': key,
-        'TableName': tableName,
-        if (attributeUpdates != null) 'AttributeUpdates': attributeUpdates,
-        if (conditionExpression != null)
-          'ConditionExpression': conditionExpression,
-        if (conditionalOperator != null)
-          'ConditionalOperator': conditionalOperator?.toValue(),
-        if (expected != null) 'Expected': expected,
-        if (expressionAttributeNames != null)
-          'ExpressionAttributeNames': expressionAttributeNames,
-        if (expressionAttributeValues != null)
-          'ExpressionAttributeValues': expressionAttributeValues,
-        if (returnConsumedCapacity != null)
-          'ReturnConsumedCapacity': returnConsumedCapacity?.toValue(),
-        if (returnItemCollectionMetrics != null)
-          'ReturnItemCollectionMetrics': returnItemCollectionMetrics?.toValue(),
-        if (returnValues != null) 'ReturnValues': returnValues?.toValue(),
-        if (updateExpression != null) 'UpdateExpression': updateExpression,
-      },
+      payload: UpdateItemInput(
+        key: key,
+        tableName: tableName,
+        attributeUpdates: attributeUpdates,
+        conditionExpression: conditionExpression,
+        conditionalOperator: conditionalOperator,
+        expected: expected,
+        expressionAttributeNames: expressionAttributeNames,
+        expressionAttributeValues: expressionAttributeValues,
+        returnConsumedCapacity: returnConsumedCapacity,
+        returnItemCollectionMetrics: returnItemCollectionMetrics,
+        returnValues: returnValues,
+        updateExpression: updateExpression,
+      ),
     );
 
     return UpdateItemOutput.fromJson(jsonResponse.body);
@@ -4913,20 +4847,16 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TableName': tableName,
-        if (attributeDefinitions != null)
-          'AttributeDefinitions': attributeDefinitions,
-        if (billingMode != null) 'BillingMode': billingMode?.toValue(),
-        if (globalSecondaryIndexUpdates != null)
-          'GlobalSecondaryIndexUpdates': globalSecondaryIndexUpdates,
-        if (provisionedThroughput != null)
-          'ProvisionedThroughput': provisionedThroughput,
-        if (replicaUpdates != null) 'ReplicaUpdates': replicaUpdates,
-        if (sSESpecification != null) 'SSESpecification': sSESpecification,
-        if (streamSpecification != null)
-          'StreamSpecification': streamSpecification,
-      },
+      payload: UpdateTableInput(
+        tableName: tableName,
+        attributeDefinitions: attributeDefinitions,
+        billingMode: billingMode,
+        globalSecondaryIndexUpdates: globalSecondaryIndexUpdates,
+        provisionedThroughput: provisionedThroughput,
+        replicaUpdates: replicaUpdates,
+        sSESpecification: sSESpecification,
+        streamSpecification: streamSpecification,
+      ),
     );
 
     return UpdateTableOutput.fromJson(jsonResponse.body);
@@ -4984,15 +4914,13 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TableName': tableName,
-        if (globalSecondaryIndexUpdates != null)
-          'GlobalSecondaryIndexUpdates': globalSecondaryIndexUpdates,
-        if (provisionedWriteCapacityAutoScalingUpdate != null)
-          'ProvisionedWriteCapacityAutoScalingUpdate':
-              provisionedWriteCapacityAutoScalingUpdate,
-        if (replicaUpdates != null) 'ReplicaUpdates': replicaUpdates,
-      },
+      payload: UpdateTableReplicaAutoScalingInput(
+        tableName: tableName,
+        globalSecondaryIndexUpdates: globalSecondaryIndexUpdates,
+        provisionedWriteCapacityAutoScalingUpdate:
+            provisionedWriteCapacityAutoScalingUpdate,
+        replicaUpdates: replicaUpdates,
+      ),
     );
 
     return UpdateTableReplicaAutoScalingOutput.fromJson(jsonResponse.body);
@@ -5070,10 +4998,10 @@ class DynamoDB {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TableName': tableName,
-        'TimeToLiveSpecification': timeToLiveSpecification,
-      },
+      payload: UpdateTimeToLiveInput(
+        tableName: tableName,
+        timeToLiveSpecification: timeToLiveSpecification,
+      ),
     );
 
     return UpdateTimeToLiveOutput.fromJson(jsonResponse.body);
@@ -5200,7 +5128,7 @@ class AttributeValue {
   /// An attribute of type Binary Set. For example:
   ///
   /// <code>"BS": ["U3Vubnk=", "UmFpbnk=", "U25vd3k="]</code>
-  @Uint8ListListConverter()
+  @Uint8ListConverter()
   @_s.JsonKey(name: 'BS')
   final List<Uint8List> bs;
 
@@ -5847,20 +5775,117 @@ enum BackupTypeFilter {
   all,
 }
 
-extension on BackupTypeFilter {
-  String toValue() {
-    switch (this) {
-      case BackupTypeFilter.user:
-        return 'USER';
-      case BackupTypeFilter.system:
-        return 'SYSTEM';
-      case BackupTypeFilter.awsBackup:
-        return 'AWS_BACKUP';
-      case BackupTypeFilter.all:
-        return 'ALL';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+/// Represents the input of a <code>BatchGetItem</code> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchGetItemInput {
+  /// A map of one or more table names and, for each table, a map that describes
+  /// one or more items to retrieve from that table. Each table name can be used
+  /// only once per <code>BatchGetItem</code> request.
+  ///
+  /// Each element in the map of items to retrieve consists of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ConsistentRead</code> - If <code>true</code>, a strongly consistent
+  /// read is used; if <code>false</code> (the default), an eventually consistent
+  /// read is used.
+  /// </li>
+  /// <li>
+  /// <code>ExpressionAttributeNames</code> - One or more substitution tokens for
+  /// attribute names in the <code>ProjectionExpression</code> parameter. The
+  /// following are some use cases for using
+  /// <code>ExpressionAttributeNames</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// To access an attribute whose name conflicts with a DynamoDB reserved word.
+  /// </li>
+  /// <li>
+  /// To create a placeholder for repeating occurrences of an attribute name in an
+  /// expression.
+  /// </li>
+  /// <li>
+  /// To prevent special characters in an attribute name from being misinterpreted
+  /// in an expression.
+  /// </li>
+  /// </ul>
+  /// Use the <b>#</b> character in an expression to dereference an attribute
+  /// name. For example, consider the following attribute name:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Percentile</code>
+  /// </li>
+  /// </ul>
+  /// The name of this attribute conflicts with a reserved word, so it cannot be
+  /// used directly in an expression. (For the complete list of reserved words,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html">Reserved
+  /// Words</a> in the <i>Amazon DynamoDB Developer Guide</i>). To work around
+  /// this, you could specify the following for
+  /// <code>ExpressionAttributeNames</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>{"#P":"Percentile"}</code>
+  /// </li>
+  /// </ul>
+  /// You could then use this substitution in an expression, as in this example:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>#P = :val</code>
+  /// </li>
+  /// </ul> <note>
+  /// Tokens that begin with the <b>:</b> character are <i>expression attribute
+  /// values</i>, which are placeholders for the actual value at runtime.
+  /// </note>
+  /// For more information about expression attribute names, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Accessing
+  /// Item Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  /// </li>
+  /// <li>
+  /// <code>Keys</code> - An array of primary key attribute values that define
+  /// specific items in the table. For each primary key, you must provide
+  /// <i>all</i> of the key attributes. For example, with a simple primary key,
+  /// you only need to provide the partition key value. For a composite key, you
+  /// must provide <i>both</i> the partition key value and the sort key value.
+  /// </li>
+  /// <li>
+  /// <code>ProjectionExpression</code> - A string that identifies one or more
+  /// attributes to retrieve from the table. These attributes can include scalars,
+  /// sets, or elements of a JSON document. The attributes in the expression must
+  /// be separated by commas.
+  ///
+  /// If no attribute names are specified, then all attributes are returned. If
+  /// any of the requested attributes are not found, they do not appear in the
+  /// result.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Accessing
+  /// Item Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  /// </li>
+  /// <li>
+  /// <code>AttributesToGet</code> - This is a legacy parameter. Use
+  /// <code>ProjectionExpression</code> instead. For more information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.AttributesToGet.html">AttributesToGet</a>
+  /// in the <i>Amazon DynamoDB Developer Guide</i>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'RequestItems')
+  final Map<String, KeysAndAttributes> requestItems;
+  @_s.JsonKey(name: 'ReturnConsumedCapacity')
+  final ReturnConsumedCapacity returnConsumedCapacity;
+
+  BatchGetItemInput({
+    @_s.required this.requestItems,
+    this.returnConsumedCapacity,
+  });
+  Map<String, dynamic> toJson() => _$BatchGetItemInputToJson(this);
 }
 
 /// Represents the output of a <code>BatchGetItem</code> operation.
@@ -5928,6 +5953,74 @@ class BatchGetItemOutput {
   });
   factory BatchGetItemOutput.fromJson(Map<String, dynamic> json) =>
       _$BatchGetItemOutputFromJson(json);
+}
+
+/// Represents the input of a <code>BatchWriteItem</code> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchWriteItemInput {
+  /// A map of one or more table names and, for each table, a list of operations
+  /// to be performed (<code>DeleteRequest</code> or <code>PutRequest</code>).
+  /// Each element in the map consists of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>DeleteRequest</code> - Perform a <code>DeleteItem</code> operation on
+  /// the specified item. The item to be deleted is identified by a
+  /// <code>Key</code> subelement:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Key</code> - A map of primary key attribute values that uniquely
+  /// identify the item. Each entry in this map consists of an attribute name and
+  /// an attribute value. For each primary key, you must provide <i>all</i> of the
+  /// key attributes. For example, with a simple primary key, you only need to
+  /// provide a value for the partition key. For a composite primary key, you must
+  /// provide values for <i>both</i> the partition key and the sort key.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <code>PutRequest</code> - Perform a <code>PutItem</code> operation on the
+  /// specified item. The item to be put is identified by an <code>Item</code>
+  /// subelement:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Item</code> - A map of attributes and their values. Each entry in this
+  /// map consists of an attribute name and an attribute value. Attribute values
+  /// must not be null; string and binary type attributes must have lengths
+  /// greater than zero; and set type attributes must not be empty. Requests that
+  /// contain empty values are rejected with a <code>ValidationException</code>
+  /// exception.
+  ///
+  /// If you specify any attributes that are part of an index key, then the data
+  /// types for those attributes must match those of the schema in the table's
+  /// attribute definition.
+  /// </li>
+  /// </ul> </li>
+  /// </ul>
+  @_s.JsonKey(name: 'RequestItems')
+  final Map<String, List<WriteRequest>> requestItems;
+  @_s.JsonKey(name: 'ReturnConsumedCapacity')
+  final ReturnConsumedCapacity returnConsumedCapacity;
+
+  /// Determines whether item collection metrics are returned. If set to
+  /// <code>SIZE</code>, the response includes statistics about item collections,
+  /// if any, that were modified during the operation are returned in the
+  /// response. If set to <code>NONE</code> (the default), no statistics are
+  /// returned.
+  @_s.JsonKey(name: 'ReturnItemCollectionMetrics')
+  final ReturnItemCollectionMetrics returnItemCollectionMetrics;
+
+  BatchWriteItemInput({
+    @_s.required this.requestItems,
+    this.returnConsumedCapacity,
+    this.returnItemCollectionMetrics,
+  });
+  Map<String, dynamic> toJson() => _$BatchWriteItemInputToJson(this);
 }
 
 /// Represents the output of a <code>BatchWriteItem</code> operation.
@@ -6041,18 +6134,6 @@ enum BillingMode {
   provisioned,
   @_s.JsonValue('PAY_PER_REQUEST')
   payPerRequest,
-}
-
-extension on BillingMode {
-  String toValue() {
-    switch (this) {
-      case BillingMode.provisioned:
-        return 'PROVISIONED';
-      case BillingMode.payPerRequest:
-        return 'PAY_PER_REQUEST';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Contains the details for the read/write capacity mode.
@@ -6433,18 +6514,6 @@ enum ConditionalOperator {
   or,
 }
 
-extension on ConditionalOperator {
-  String toValue() {
-    switch (this) {
-      case ConditionalOperator.and:
-        return 'AND';
-      case ConditionalOperator.or:
-        return 'OR';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// The capacity units consumed by an operation. The data returned includes the
 /// total provisioned throughput consumed, along with statistics for the table
 /// and any indexes involved in the operation. <code>ConsumedCapacity</code> is
@@ -6539,18 +6608,6 @@ enum ContributorInsightsAction {
   disable,
 }
 
-extension on ContributorInsightsAction {
-  String toValue() {
-    switch (this) {
-      case ContributorInsightsAction.enable:
-        return 'ENABLE';
-      case ContributorInsightsAction.disable:
-        return 'DISABLE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum ContributorInsightsStatus {
   @_s.JsonValue('ENABLING')
   enabling,
@@ -6591,6 +6648,27 @@ class ContributorInsightsSummary {
   });
   factory ContributorInsightsSummary.fromJson(Map<String, dynamic> json) =>
       _$ContributorInsightsSummaryFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateBackupInput {
+  /// Specified name for the backup.
+  @_s.JsonKey(name: 'BackupName')
+  final String backupName;
+
+  /// The name of the table.
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  CreateBackupInput({
+    @_s.required this.backupName,
+    @_s.required this.tableName,
+  });
+  Map<String, dynamic> toJson() => _$CreateBackupInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6648,6 +6726,27 @@ class CreateGlobalSecondaryIndexAction {
   });
   Map<String, dynamic> toJson() =>
       _$CreateGlobalSecondaryIndexActionToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateGlobalTableInput {
+  /// The global table name.
+  @_s.JsonKey(name: 'GlobalTableName')
+  final String globalTableName;
+
+  /// The Regions where the global table needs to be created.
+  @_s.JsonKey(name: 'ReplicationGroup')
+  final List<Replica> replicationGroup;
+
+  CreateGlobalTableInput({
+    @_s.required this.globalTableName,
+    @_s.required this.replicationGroup,
+  });
+  Map<String, dynamic> toJson() => _$CreateGlobalTableInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6722,6 +6821,270 @@ class CreateReplicationGroupMemberAction {
       _$CreateReplicationGroupMemberActionToJson(this);
 }
 
+/// Represents the input of a <code>CreateTable</code> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateTableInput {
+  /// An array of attributes that describe the key schema for the table and
+  /// indexes.
+  @_s.JsonKey(name: 'AttributeDefinitions')
+  final List<AttributeDefinition> attributeDefinitions;
+
+  /// Specifies the attributes that make up the primary key for a table or an
+  /// index. The attributes in <code>KeySchema</code> must also be defined in the
+  /// <code>AttributeDefinitions</code> array. For more information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DataModel.html">Data
+  /// Model</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  ///
+  /// Each <code>KeySchemaElement</code> in the array is composed of:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AttributeName</code> - The name of this key attribute.
+  /// </li>
+  /// <li>
+  /// <code>KeyType</code> - The role that the key attribute will assume:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>HASH</code> - partition key
+  /// </li>
+  /// <li>
+  /// <code>RANGE</code> - sort key
+  /// </li>
+  /// </ul> </li>
+  /// </ul> <note>
+  /// The partition key of an item is also known as its <i>hash attribute</i>. The
+  /// term "hash attribute" derives from the DynamoDB usage of an internal hash
+  /// function to evenly distribute data items across partitions, based on their
+  /// partition key values.
+  ///
+  /// The sort key of an item is also known as its <i>range attribute</i>. The
+  /// term "range attribute" derives from the way DynamoDB stores items with the
+  /// same partition key physically close together, in sorted order by the sort
+  /// key value.
+  /// </note>
+  /// For a simple primary key (partition key), you must provide exactly one
+  /// element with a <code>KeyType</code> of <code>HASH</code>.
+  ///
+  /// For a composite primary key (partition key and sort key), you must provide
+  /// exactly two elements, in this order: The first element must have a
+  /// <code>KeyType</code> of <code>HASH</code>, and the second element must have
+  /// a <code>KeyType</code> of <code>RANGE</code>.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithTables.html#WorkingWithTables.primary.key">Working
+  /// with Tables</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  @_s.JsonKey(name: 'KeySchema')
+  final List<KeySchemaElement> keySchema;
+
+  /// The name of the table to create.
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  /// Controls how you are charged for read and write throughput and how you
+  /// manage capacity. This setting can be changed later.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PROVISIONED</code> - We recommend using <code>PROVISIONED</code> for
+  /// predictable workloads. <code>PROVISIONED</code> sets the billing mode to <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html#HowItWorks.ProvisionedThroughput.Manual">Provisioned
+  /// Mode</a>.
+  /// </li>
+  /// <li>
+  /// <code>PAY_PER_REQUEST</code> - We recommend using
+  /// <code>PAY_PER_REQUEST</code> for unpredictable workloads.
+  /// <code>PAY_PER_REQUEST</code> sets the billing mode to <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html#HowItWorks.OnDemand">On-Demand
+  /// Mode</a>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'BillingMode')
+  final BillingMode billingMode;
+
+  /// One or more global secondary indexes (the maximum is 20) to be created on
+  /// the table. Each global secondary index in the array includes the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>IndexName</code> - The name of the global secondary index. Must be
+  /// unique only for this table.
+  /// <p/> </li>
+  /// <li>
+  /// <code>KeySchema</code> - Specifies the key schema for the global secondary
+  /// index.
+  /// </li>
+  /// <li>
+  /// <code>Projection</code> - Specifies attributes that are copied (projected)
+  /// from the table into the index. These are in addition to the primary key
+  /// attributes and index key attributes, which are automatically projected. Each
+  /// attribute specification is composed of:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ProjectionType</code> - One of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>KEYS_ONLY</code> - Only the index and primary keys are projected into
+  /// the index.
+  /// </li>
+  /// <li>
+  /// <code>INCLUDE</code> - Only the specified table attributes are projected
+  /// into the index. The list of projected attributes is in
+  /// <code>NonKeyAttributes</code>.
+  /// </li>
+  /// <li>
+  /// <code>ALL</code> - All of the table attributes are projected into the index.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <code>NonKeyAttributes</code> - A list of one or more non-key attribute
+  /// names that are projected into the secondary index. The total count of
+  /// attributes provided in <code>NonKeyAttributes</code>, summed across all of
+  /// the secondary indexes, must not exceed 100. If you project the same
+  /// attribute into two different indexes, this counts as two distinct attributes
+  /// when determining the total.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <code>ProvisionedThroughput</code> - The provisioned throughput settings for
+  /// the global secondary index, consisting of read and write capacity units.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'GlobalSecondaryIndexes')
+  final List<GlobalSecondaryIndex> globalSecondaryIndexes;
+
+  /// One or more local secondary indexes (the maximum is 5) to be created on the
+  /// table. Each index is scoped to a given partition key value. There is a 10 GB
+  /// size limit per partition key value; otherwise, the size of a local secondary
+  /// index is unconstrained.
+  ///
+  /// Each local secondary index in the array includes the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>IndexName</code> - The name of the local secondary index. Must be
+  /// unique only for this table.
+  /// <p/> </li>
+  /// <li>
+  /// <code>KeySchema</code> - Specifies the key schema for the local secondary
+  /// index. The key schema must begin with the same partition key as the table.
+  /// </li>
+  /// <li>
+  /// <code>Projection</code> - Specifies attributes that are copied (projected)
+  /// from the table into the index. These are in addition to the primary key
+  /// attributes and index key attributes, which are automatically projected. Each
+  /// attribute specification is composed of:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ProjectionType</code> - One of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>KEYS_ONLY</code> - Only the index and primary keys are projected into
+  /// the index.
+  /// </li>
+  /// <li>
+  /// <code>INCLUDE</code> - Only the specified table attributes are projected
+  /// into the index. The list of projected attributes is in
+  /// <code>NonKeyAttributes</code>.
+  /// </li>
+  /// <li>
+  /// <code>ALL</code> - All of the table attributes are projected into the index.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <code>NonKeyAttributes</code> - A list of one or more non-key attribute
+  /// names that are projected into the secondary index. The total count of
+  /// attributes provided in <code>NonKeyAttributes</code>, summed across all of
+  /// the secondary indexes, must not exceed 100. If you project the same
+  /// attribute into two different indexes, this counts as two distinct attributes
+  /// when determining the total.
+  /// </li>
+  /// </ul> </li>
+  /// </ul>
+  @_s.JsonKey(name: 'LocalSecondaryIndexes')
+  final List<LocalSecondaryIndex> localSecondaryIndexes;
+
+  /// Represents the provisioned throughput settings for a specified table or
+  /// index. The settings can be modified using the <code>UpdateTable</code>
+  /// operation.
+  ///
+  /// If you set BillingMode as <code>PROVISIONED</code>, you must specify this
+  /// property. If you set BillingMode as <code>PAY_PER_REQUEST</code>, you cannot
+  /// specify this property.
+  ///
+  /// For current minimum and maximum provisioned throughput values, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Limits</a>
+  /// in the <i>Amazon DynamoDB Developer Guide</i>.
+  @_s.JsonKey(name: 'ProvisionedThroughput')
+  final ProvisionedThroughput provisionedThroughput;
+
+  /// Represents the settings used to enable server-side encryption.
+  @_s.JsonKey(name: 'SSESpecification')
+  final SSESpecification sSESpecification;
+
+  /// The settings for DynamoDB Streams on the table. These settings consist of:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>StreamEnabled</code> - Indicates whether DynamoDB Streams is to be
+  /// enabled (true) or disabled (false).
+  /// </li>
+  /// <li>
+  /// <code>StreamViewType</code> - When an item in the table is modified,
+  /// <code>StreamViewType</code> determines what information is written to the
+  /// table's stream. Valid values for <code>StreamViewType</code> are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>KEYS_ONLY</code> - Only the key attributes of the modified item are
+  /// written to the stream.
+  /// </li>
+  /// <li>
+  /// <code>NEW_IMAGE</code> - The entire item, as it appears after it was
+  /// modified, is written to the stream.
+  /// </li>
+  /// <li>
+  /// <code>OLD_IMAGE</code> - The entire item, as it appeared before it was
+  /// modified, is written to the stream.
+  /// </li>
+  /// <li>
+  /// <code>NEW_AND_OLD_IMAGES</code> - Both the new and the old item images of
+  /// the item are written to the stream.
+  /// </li>
+  /// </ul> </li>
+  /// </ul>
+  @_s.JsonKey(name: 'StreamSpecification')
+  final StreamSpecification streamSpecification;
+
+  /// A list of key-value pairs to label the table. For more information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html">Tagging
+  /// for DynamoDB</a>.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateTableInput({
+    @_s.required this.attributeDefinitions,
+    @_s.required this.keySchema,
+    @_s.required this.tableName,
+    this.billingMode,
+    this.globalSecondaryIndexes,
+    this.localSecondaryIndexes,
+    this.provisionedThroughput,
+    this.sSESpecification,
+    this.streamSpecification,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateTableInputToJson(this);
+}
+
 /// Represents the output of a <code>CreateTable</code> operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6790,6 +7153,22 @@ class Delete {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteBackupInput {
+  /// The ARN associated with the backup.
+  @_s.JsonKey(name: 'BackupArn')
+  final String backupArn;
+
+  DeleteBackupInput({
+    @_s.required this.backupArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteBackupInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteBackupOutput {
@@ -6820,6 +7199,191 @@ class DeleteGlobalSecondaryIndexAction {
   });
   Map<String, dynamic> toJson() =>
       _$DeleteGlobalSecondaryIndexActionToJson(this);
+}
+
+/// Represents the input of a <code>DeleteItem</code> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteItemInput {
+  /// A map of attribute names to <code>AttributeValue</code> objects,
+  /// representing the primary key of the item to delete.
+  ///
+  /// For the primary key, you must provide all of the attributes. For example,
+  /// with a simple primary key, you only need to provide a value for the
+  /// partition key. For a composite primary key, you must provide values for both
+  /// the partition key and the sort key.
+  @_s.JsonKey(name: 'Key')
+  final Map<String, AttributeValue> key;
+
+  /// The name of the table from which to delete the item.
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  /// A condition that must be satisfied in order for a conditional
+  /// <code>DeleteItem</code> to succeed.
+  ///
+  /// An expression can contain any of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// Functions: <code>attribute_exists | attribute_not_exists | attribute_type |
+  /// contains | begins_with | size</code>
+  ///
+  /// These function names are case-sensitive.
+  /// </li>
+  /// <li>
+  /// Comparison operators: <code>= | &lt;&gt; | &lt; | &gt; | &lt;= | &gt;= |
+  /// BETWEEN | IN </code>
+  /// </li>
+  /// <li>
+  /// Logical operators: <code>AND | OR | NOT</code>
+  /// </li>
+  /// </ul>
+  /// For more information about condition expressions, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.SpecifyingConditions.html">Condition
+  /// Expressions</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  @_s.JsonKey(name: 'ConditionExpression')
+  final String conditionExpression;
+
+  /// This is a legacy parameter. Use <code>ConditionExpression</code> instead.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.ConditionalOperator.html">ConditionalOperator</a>
+  /// in the <i>Amazon DynamoDB Developer Guide</i>.
+  @_s.JsonKey(name: 'ConditionalOperator')
+  final ConditionalOperator conditionalOperator;
+
+  /// This is a legacy parameter. Use <code>ConditionExpression</code> instead.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.Expected.html">Expected</a>
+  /// in the <i>Amazon DynamoDB Developer Guide</i>.
+  @_s.JsonKey(name: 'Expected')
+  final Map<String, ExpectedAttributeValue> expected;
+
+  /// One or more substitution tokens for attribute names in an expression. The
+  /// following are some use cases for using
+  /// <code>ExpressionAttributeNames</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// To access an attribute whose name conflicts with a DynamoDB reserved word.
+  /// </li>
+  /// <li>
+  /// To create a placeholder for repeating occurrences of an attribute name in an
+  /// expression.
+  /// </li>
+  /// <li>
+  /// To prevent special characters in an attribute name from being misinterpreted
+  /// in an expression.
+  /// </li>
+  /// </ul>
+  /// Use the <b>#</b> character in an expression to dereference an attribute
+  /// name. For example, consider the following attribute name:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Percentile</code>
+  /// </li>
+  /// </ul>
+  /// The name of this attribute conflicts with a reserved word, so it cannot be
+  /// used directly in an expression. (For the complete list of reserved words,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html">Reserved
+  /// Words</a> in the <i>Amazon DynamoDB Developer Guide</i>). To work around
+  /// this, you could specify the following for
+  /// <code>ExpressionAttributeNames</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>{"#P":"Percentile"}</code>
+  /// </li>
+  /// </ul>
+  /// You could then use this substitution in an expression, as in this example:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>#P = :val</code>
+  /// </li>
+  /// </ul> <note>
+  /// Tokens that begin with the <b>:</b> character are <i>expression attribute
+  /// values</i>, which are placeholders for the actual value at runtime.
+  /// </note>
+  /// For more information on expression attribute names, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Specifying
+  /// Item Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  @_s.JsonKey(name: 'ExpressionAttributeNames')
+  final Map<String, String> expressionAttributeNames;
+
+  /// One or more values that can be substituted in an expression.
+  ///
+  /// Use the <b>:</b> (colon) character in an expression to dereference an
+  /// attribute value. For example, suppose that you wanted to check whether the
+  /// value of the <i>ProductStatus</i> attribute was one of the following:
+  ///
+  /// <code>Available | Backordered | Discontinued</code>
+  ///
+  /// You would first need to specify <code>ExpressionAttributeValues</code> as
+  /// follows:
+  ///
+  /// <code>{ ":avail":{"S":"Available"}, ":back":{"S":"Backordered"},
+  /// ":disc":{"S":"Discontinued"} }</code>
+  ///
+  /// You could then use these values in an expression, such as this:
+  ///
+  /// <code>ProductStatus IN (:avail, :back, :disc)</code>
+  ///
+  /// For more information on expression attribute values, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.SpecifyingConditions.html">Condition
+  /// Expressions</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  @_s.JsonKey(name: 'ExpressionAttributeValues')
+  final Map<String, AttributeValue> expressionAttributeValues;
+  @_s.JsonKey(name: 'ReturnConsumedCapacity')
+  final ReturnConsumedCapacity returnConsumedCapacity;
+
+  /// Determines whether item collection metrics are returned. If set to
+  /// <code>SIZE</code>, the response includes statistics about item collections,
+  /// if any, that were modified during the operation are returned in the
+  /// response. If set to <code>NONE</code> (the default), no statistics are
+  /// returned.
+  @_s.JsonKey(name: 'ReturnItemCollectionMetrics')
+  final ReturnItemCollectionMetrics returnItemCollectionMetrics;
+
+  /// Use <code>ReturnValues</code> if you want to get the item attributes as they
+  /// appeared before they were deleted. For <code>DeleteItem</code>, the valid
+  /// values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>NONE</code> - If <code>ReturnValues</code> is not specified, or if its
+  /// value is <code>NONE</code>, then nothing is returned. (This setting is the
+  /// default for <code>ReturnValues</code>.)
+  /// </li>
+  /// <li>
+  /// <code>ALL_OLD</code> - The content of the old item is returned.
+  /// </li>
+  /// </ul> <note>
+  /// The <code>ReturnValues</code> parameter is used by several DynamoDB
+  /// operations; however, <code>DeleteItem</code> does not recognize any values
+  /// other than <code>NONE</code> or <code>ALL_OLD</code>.
+  /// </note>
+  @_s.JsonKey(name: 'ReturnValues')
+  final ReturnValue returnValues;
+
+  DeleteItemInput({
+    @_s.required this.key,
+    @_s.required this.tableName,
+    this.conditionExpression,
+    this.conditionalOperator,
+    this.expected,
+    this.expressionAttributeNames,
+    this.expressionAttributeValues,
+    this.returnConsumedCapacity,
+    this.returnItemCollectionMetrics,
+    this.returnValues,
+  });
+  Map<String, dynamic> toJson() => _$DeleteItemInputToJson(this);
 }
 
 /// Represents the output of a <code>DeleteItem</code> operation.
@@ -6943,6 +7507,23 @@ class DeleteRequest {
   Map<String, dynamic> toJson() => _$DeleteRequestToJson(this);
 }
 
+/// Represents the input of a <code>DeleteTable</code> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteTableInput {
+  /// The name of the table to delete.
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  DeleteTableInput({
+    @_s.required this.tableName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteTableInputToJson(this);
+}
+
 /// Represents the output of a <code>DeleteTable</code> operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6959,6 +7540,22 @@ class DeleteTableOutput {
   });
   factory DeleteTableOutput.fromJson(Map<String, dynamic> json) =>
       _$DeleteTableOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeBackupInput {
+  /// The Amazon Resource Name (ARN) associated with the backup.
+  @_s.JsonKey(name: 'BackupArn')
+  final String backupArn;
+
+  DescribeBackupInput({
+    @_s.required this.backupArn,
+  });
+  Map<String, dynamic> toJson() => _$DescribeBackupInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6981,6 +7578,23 @@ class DescribeBackupOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeContinuousBackupsInput {
+  /// Name of the table for which the customer wants to check the continuous
+  /// backups and point in time recovery settings.
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  DescribeContinuousBackupsInput({
+    @_s.required this.tableName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeContinuousBackupsInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeContinuousBackupsOutput {
@@ -6994,6 +7608,28 @@ class DescribeContinuousBackupsOutput {
   });
   factory DescribeContinuousBackupsOutput.fromJson(Map<String, dynamic> json) =>
       _$DescribeContinuousBackupsOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeContributorInsightsInput {
+  /// The name of the table to describe.
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  /// The name of the global secondary index to describe, if applicable.
+  @_s.JsonKey(name: 'IndexName')
+  final String indexName;
+
+  DescribeContributorInsightsInput({
+    @_s.required this.tableName,
+    this.indexName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeContributorInsightsInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7084,6 +7720,22 @@ class DescribeEndpointsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeGlobalTableInput {
+  /// The name of the global table.
+  @_s.JsonKey(name: 'GlobalTableName')
+  final String globalTableName;
+
+  DescribeGlobalTableInput({
+    @_s.required this.globalTableName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeGlobalTableInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeGlobalTableOutput {
@@ -7096,6 +7748,23 @@ class DescribeGlobalTableOutput {
   });
   factory DescribeGlobalTableOutput.fromJson(Map<String, dynamic> json) =>
       _$DescribeGlobalTableOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeGlobalTableSettingsInput {
+  /// The name of the global table to describe.
+  @_s.JsonKey(name: 'GlobalTableName')
+  final String globalTableName;
+
+  DescribeGlobalTableSettingsInput({
+    @_s.required this.globalTableName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeGlobalTableSettingsInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7160,6 +7829,23 @@ class DescribeLimitsOutput {
       _$DescribeLimitsOutputFromJson(json);
 }
 
+/// Represents the input of a <code>DescribeTable</code> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeTableInput {
+  /// The name of the table to describe.
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  DescribeTableInput({
+    @_s.required this.tableName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeTableInputToJson(this);
+}
+
 /// Represents the output of a <code>DescribeTable</code> operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -7181,6 +7867,23 @@ class DescribeTableOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeTableReplicaAutoScalingInput {
+  /// The name of the table.
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  DescribeTableReplicaAutoScalingInput({
+    @_s.required this.tableName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeTableReplicaAutoScalingInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeTableReplicaAutoScalingOutput {
@@ -7194,6 +7897,22 @@ class DescribeTableReplicaAutoScalingOutput {
   factory DescribeTableReplicaAutoScalingOutput.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeTableReplicaAutoScalingOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeTimeToLiveInput {
+  /// The name of the table to be described.
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  DescribeTimeToLiveInput({
+    @_s.required this.tableName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeTimeToLiveInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7579,6 +8298,122 @@ class Get {
     this.projectionExpression,
   });
   Map<String, dynamic> toJson() => _$GetToJson(this);
+}
+
+/// Represents the input of a <code>GetItem</code> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetItemInput {
+  /// A map of attribute names to <code>AttributeValue</code> objects,
+  /// representing the primary key of the item to retrieve.
+  ///
+  /// For the primary key, you must provide all of the attributes. For example,
+  /// with a simple primary key, you only need to provide a value for the
+  /// partition key. For a composite primary key, you must provide values for both
+  /// the partition key and the sort key.
+  @_s.JsonKey(name: 'Key')
+  final Map<String, AttributeValue> key;
+
+  /// The name of the table containing the requested item.
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  /// This is a legacy parameter. Use <code>ProjectionExpression</code> instead.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.AttributesToGet.html">AttributesToGet</a>
+  /// in the <i>Amazon DynamoDB Developer Guide</i>.
+  @_s.JsonKey(name: 'AttributesToGet')
+  final List<String> attributesToGet;
+
+  /// Determines the read consistency model: If set to <code>true</code>, then the
+  /// operation uses strongly consistent reads; otherwise, the operation uses
+  /// eventually consistent reads.
+  @_s.JsonKey(name: 'ConsistentRead')
+  final bool consistentRead;
+
+  /// One or more substitution tokens for attribute names in an expression. The
+  /// following are some use cases for using
+  /// <code>ExpressionAttributeNames</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// To access an attribute whose name conflicts with a DynamoDB reserved word.
+  /// </li>
+  /// <li>
+  /// To create a placeholder for repeating occurrences of an attribute name in an
+  /// expression.
+  /// </li>
+  /// <li>
+  /// To prevent special characters in an attribute name from being misinterpreted
+  /// in an expression.
+  /// </li>
+  /// </ul>
+  /// Use the <b>#</b> character in an expression to dereference an attribute
+  /// name. For example, consider the following attribute name:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Percentile</code>
+  /// </li>
+  /// </ul>
+  /// The name of this attribute conflicts with a reserved word, so it cannot be
+  /// used directly in an expression. (For the complete list of reserved words,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html">Reserved
+  /// Words</a> in the <i>Amazon DynamoDB Developer Guide</i>). To work around
+  /// this, you could specify the following for
+  /// <code>ExpressionAttributeNames</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>{"#P":"Percentile"}</code>
+  /// </li>
+  /// </ul>
+  /// You could then use this substitution in an expression, as in this example:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>#P = :val</code>
+  /// </li>
+  /// </ul> <note>
+  /// Tokens that begin with the <b>:</b> character are <i>expression attribute
+  /// values</i>, which are placeholders for the actual value at runtime.
+  /// </note>
+  /// For more information on expression attribute names, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Specifying
+  /// Item Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  @_s.JsonKey(name: 'ExpressionAttributeNames')
+  final Map<String, String> expressionAttributeNames;
+
+  /// A string that identifies one or more attributes to retrieve from the table.
+  /// These attributes can include scalars, sets, or elements of a JSON document.
+  /// The attributes in the expression must be separated by commas.
+  ///
+  /// If no attribute names are specified, then all attributes are returned. If
+  /// any of the requested attributes are not found, they do not appear in the
+  /// result.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Specifying
+  /// Item Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  @_s.JsonKey(name: 'ProjectionExpression')
+  final String projectionExpression;
+  @_s.JsonKey(name: 'ReturnConsumedCapacity')
+  final ReturnConsumedCapacity returnConsumedCapacity;
+
+  GetItemInput({
+    @_s.required this.key,
+    @_s.required this.tableName,
+    this.attributesToGet,
+    this.consistentRead,
+    this.expressionAttributeNames,
+    this.projectionExpression,
+    this.returnConsumedCapacity,
+  });
+  Map<String, dynamic> toJson() => _$GetItemInputToJson(this);
 }
 
 /// Represents the output of a <code>GetItem</code> operation.
@@ -8297,6 +9132,73 @@ class KeysAndAttributes {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListBackupsInput {
+  /// The backups from the table specified by <code>BackupType</code> are listed.
+  ///
+  /// Where <code>BackupType</code> can be:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>USER</code> - On-demand backup created by you.
+  /// </li>
+  /// <li>
+  /// <code>SYSTEM</code> - On-demand backup automatically created by DynamoDB.
+  /// </li>
+  /// <li>
+  /// <code>ALL</code> - All types of on-demand backups (USER and SYSTEM).
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'BackupType')
+  final BackupTypeFilter backupType;
+
+  /// <code>LastEvaluatedBackupArn</code> is the Amazon Resource Name (ARN) of the
+  /// backup last evaluated when the current page of results was returned,
+  /// inclusive of the current page of results. This value may be specified as the
+  /// <code>ExclusiveStartBackupArn</code> of a new <code>ListBackups</code>
+  /// operation in order to fetch the next page of results.
+  @_s.JsonKey(name: 'ExclusiveStartBackupArn')
+  final String exclusiveStartBackupArn;
+
+  /// Maximum number of backups to return at once.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The backups from the table specified by <code>TableName</code> are listed.
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  /// Only backups created after this time are listed.
+  /// <code>TimeRangeLowerBound</code> is inclusive.
+  @_s.JsonKey(
+      name: 'TimeRangeLowerBound',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime timeRangeLowerBound;
+
+  /// Only backups created before this time are listed.
+  /// <code>TimeRangeUpperBound</code> is exclusive.
+  @_s.JsonKey(
+      name: 'TimeRangeUpperBound',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime timeRangeUpperBound;
+
+  ListBackupsInput({
+    this.backupType,
+    this.exclusiveStartBackupArn,
+    this.limit,
+    this.tableName,
+    this.timeRangeLowerBound,
+    this.timeRangeUpperBound,
+  });
+  Map<String, dynamic> toJson() => _$ListBackupsInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListBackupsOutput {
@@ -8331,6 +9233,32 @@ class ListBackupsOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListContributorInsightsInput {
+  /// Maximum number of results to return per page.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A token to for the desired page, if there is one.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The name of the table.
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  ListContributorInsightsInput({
+    this.maxResults,
+    this.nextToken,
+    this.tableName,
+  });
+  Map<String, dynamic> toJson() => _$ListContributorInsightsInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListContributorInsightsOutput {
@@ -8353,6 +9281,39 @@ class ListContributorInsightsOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListGlobalTablesInput {
+  /// The first global table name that this operation will evaluate.
+  @_s.JsonKey(name: 'ExclusiveStartGlobalTableName')
+  final String exclusiveStartGlobalTableName;
+
+  /// The maximum number of table names to return, if the parameter is not
+  /// specified DynamoDB defaults to 100.
+  ///
+  /// If the number of global tables DynamoDB finds reaches this limit, it stops
+  /// the operation and returns the table names collected up to that point, with a
+  /// table name in the <code>LastEvaluatedGlobalTableName</code> to apply in a
+  /// subsequent operation to the <code>ExclusiveStartGlobalTableName</code>
+  /// parameter.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// Lists the global tables in a specific Region.
+  @_s.JsonKey(name: 'RegionName')
+  final String regionName;
+
+  ListGlobalTablesInput({
+    this.exclusiveStartGlobalTableName,
+    this.limit,
+    this.regionName,
+  });
+  Map<String, dynamic> toJson() => _$ListGlobalTablesInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListGlobalTablesOutput {
@@ -8370,6 +9331,31 @@ class ListGlobalTablesOutput {
   });
   factory ListGlobalTablesOutput.fromJson(Map<String, dynamic> json) =>
       _$ListGlobalTablesOutputFromJson(json);
+}
+
+/// Represents the input of a <code>ListTables</code> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTablesInput {
+  /// The first table name that this operation will evaluate. Use the value that
+  /// was returned for <code>LastEvaluatedTableName</code> in a previous
+  /// operation, so that you can obtain the next page of results.
+  @_s.JsonKey(name: 'ExclusiveStartTableName')
+  final String exclusiveStartTableName;
+
+  /// A maximum number of table names to return. If this parameter is not
+  /// specified, the limit is 100.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  ListTablesInput({
+    this.exclusiveStartTableName,
+    this.limit,
+  });
+  Map<String, dynamic> toJson() => _$ListTablesInputToJson(this);
 }
 
 /// Represents the output of a <code>ListTables</code> operation.
@@ -8404,6 +9390,30 @@ class ListTablesOutput {
   });
   factory ListTablesOutput.fromJson(Map<String, dynamic> json) =>
       _$ListTablesOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsOfResourceInput {
+  /// The Amazon DynamoDB resource with tags to be listed. This value is an Amazon
+  /// Resource Name (ARN).
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// An optional string that, if supplied, must be copied from the output of a
+  /// previous call to ListTagOfResource. When provided in this manner, this API
+  /// fetches the next page of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListTagsOfResourceInput({
+    @_s.required this.resourceArn,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsOfResourceInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8909,6 +9919,204 @@ class Put {
   Map<String, dynamic> toJson() => _$PutToJson(this);
 }
 
+/// Represents the input of a <code>PutItem</code> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutItemInput {
+  /// A map of attribute name/value pairs, one for each attribute. Only the
+  /// primary key attributes are required; you can optionally provide other
+  /// attribute name-value pairs for the item.
+  ///
+  /// You must provide all of the attributes for the primary key. For example,
+  /// with a simple primary key, you only need to provide a value for the
+  /// partition key. For a composite primary key, you must provide both values for
+  /// both the partition key and the sort key.
+  ///
+  /// If you specify any attributes that are part of an index key, then the data
+  /// types for those attributes must match those of the schema in the table's
+  /// attribute definition.
+  ///
+  /// For more information about primary keys, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.CoreComponents.html#HowItWorks.CoreComponents.PrimaryKey">Primary
+  /// Key</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  ///
+  /// Each element in the <code>Item</code> map is an <code>AttributeValue</code>
+  /// object.
+  @_s.JsonKey(name: 'Item')
+  final Map<String, AttributeValue> item;
+
+  /// The name of the table to contain the item.
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  /// A condition that must be satisfied in order for a conditional
+  /// <code>PutItem</code> operation to succeed.
+  ///
+  /// An expression can contain any of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// Functions: <code>attribute_exists | attribute_not_exists | attribute_type |
+  /// contains | begins_with | size</code>
+  ///
+  /// These function names are case-sensitive.
+  /// </li>
+  /// <li>
+  /// Comparison operators: <code>= | &lt;&gt; | &lt; | &gt; | &lt;= | &gt;= |
+  /// BETWEEN | IN </code>
+  /// </li>
+  /// <li>
+  /// Logical operators: <code>AND | OR | NOT</code>
+  /// </li>
+  /// </ul>
+  /// For more information on condition expressions, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.SpecifyingConditions.html">Condition
+  /// Expressions</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  @_s.JsonKey(name: 'ConditionExpression')
+  final String conditionExpression;
+
+  /// This is a legacy parameter. Use <code>ConditionExpression</code> instead.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.ConditionalOperator.html">ConditionalOperator</a>
+  /// in the <i>Amazon DynamoDB Developer Guide</i>.
+  @_s.JsonKey(name: 'ConditionalOperator')
+  final ConditionalOperator conditionalOperator;
+
+  /// This is a legacy parameter. Use <code>ConditionExpression</code> instead.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.Expected.html">Expected</a>
+  /// in the <i>Amazon DynamoDB Developer Guide</i>.
+  @_s.JsonKey(name: 'Expected')
+  final Map<String, ExpectedAttributeValue> expected;
+
+  /// One or more substitution tokens for attribute names in an expression. The
+  /// following are some use cases for using
+  /// <code>ExpressionAttributeNames</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// To access an attribute whose name conflicts with a DynamoDB reserved word.
+  /// </li>
+  /// <li>
+  /// To create a placeholder for repeating occurrences of an attribute name in an
+  /// expression.
+  /// </li>
+  /// <li>
+  /// To prevent special characters in an attribute name from being misinterpreted
+  /// in an expression.
+  /// </li>
+  /// </ul>
+  /// Use the <b>#</b> character in an expression to dereference an attribute
+  /// name. For example, consider the following attribute name:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Percentile</code>
+  /// </li>
+  /// </ul>
+  /// The name of this attribute conflicts with a reserved word, so it cannot be
+  /// used directly in an expression. (For the complete list of reserved words,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html">Reserved
+  /// Words</a> in the <i>Amazon DynamoDB Developer Guide</i>). To work around
+  /// this, you could specify the following for
+  /// <code>ExpressionAttributeNames</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>{"#P":"Percentile"}</code>
+  /// </li>
+  /// </ul>
+  /// You could then use this substitution in an expression, as in this example:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>#P = :val</code>
+  /// </li>
+  /// </ul> <note>
+  /// Tokens that begin with the <b>:</b> character are <i>expression attribute
+  /// values</i>, which are placeholders for the actual value at runtime.
+  /// </note>
+  /// For more information on expression attribute names, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Specifying
+  /// Item Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  @_s.JsonKey(name: 'ExpressionAttributeNames')
+  final Map<String, String> expressionAttributeNames;
+
+  /// One or more values that can be substituted in an expression.
+  ///
+  /// Use the <b>:</b> (colon) character in an expression to dereference an
+  /// attribute value. For example, suppose that you wanted to check whether the
+  /// value of the <i>ProductStatus</i> attribute was one of the following:
+  ///
+  /// <code>Available | Backordered | Discontinued</code>
+  ///
+  /// You would first need to specify <code>ExpressionAttributeValues</code> as
+  /// follows:
+  ///
+  /// <code>{ ":avail":{"S":"Available"}, ":back":{"S":"Backordered"},
+  /// ":disc":{"S":"Discontinued"} }</code>
+  ///
+  /// You could then use these values in an expression, such as this:
+  ///
+  /// <code>ProductStatus IN (:avail, :back, :disc)</code>
+  ///
+  /// For more information on expression attribute values, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.SpecifyingConditions.html">Condition
+  /// Expressions</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  @_s.JsonKey(name: 'ExpressionAttributeValues')
+  final Map<String, AttributeValue> expressionAttributeValues;
+  @_s.JsonKey(name: 'ReturnConsumedCapacity')
+  final ReturnConsumedCapacity returnConsumedCapacity;
+
+  /// Determines whether item collection metrics are returned. If set to
+  /// <code>SIZE</code>, the response includes statistics about item collections,
+  /// if any, that were modified during the operation are returned in the
+  /// response. If set to <code>NONE</code> (the default), no statistics are
+  /// returned.
+  @_s.JsonKey(name: 'ReturnItemCollectionMetrics')
+  final ReturnItemCollectionMetrics returnItemCollectionMetrics;
+
+  /// Use <code>ReturnValues</code> if you want to get the item attributes as they
+  /// appeared before they were updated with the <code>PutItem</code> request. For
+  /// <code>PutItem</code>, the valid values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>NONE</code> - If <code>ReturnValues</code> is not specified, or if its
+  /// value is <code>NONE</code>, then nothing is returned. (This setting is the
+  /// default for <code>ReturnValues</code>.)
+  /// </li>
+  /// <li>
+  /// <code>ALL_OLD</code> - If <code>PutItem</code> overwrote an attribute
+  /// name-value pair, then the content of the old item is returned.
+  /// </li>
+  /// </ul> <note>
+  /// The <code>ReturnValues</code> parameter is used by several DynamoDB
+  /// operations; however, <code>PutItem</code> does not recognize any values
+  /// other than <code>NONE</code> or <code>ALL_OLD</code>.
+  /// </note>
+  @_s.JsonKey(name: 'ReturnValues')
+  final ReturnValue returnValues;
+
+  PutItemInput({
+    @_s.required this.item,
+    @_s.required this.tableName,
+    this.conditionExpression,
+    this.conditionalOperator,
+    this.expected,
+    this.expressionAttributeNames,
+    this.expressionAttributeValues,
+    this.returnConsumedCapacity,
+    this.returnItemCollectionMetrics,
+    this.returnValues,
+  });
+  Map<String, dynamic> toJson() => _$PutItemInputToJson(this);
+}
+
 /// Represents the output of a <code>PutItem</code> operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -8994,6 +10202,390 @@ class PutRequest {
       _$PutRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$PutRequestToJson(this);
+}
+
+/// Represents the input of a <code>Query</code> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class QueryInput {
+  /// The name of the table containing the requested items.
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  /// This is a legacy parameter. Use <code>ProjectionExpression</code> instead.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.AttributesToGet.html">AttributesToGet</a>
+  /// in the <i>Amazon DynamoDB Developer Guide</i>.
+  @_s.JsonKey(name: 'AttributesToGet')
+  final List<String> attributesToGet;
+
+  /// This is a legacy parameter. Use <code>FilterExpression</code> instead. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.ConditionalOperator.html">ConditionalOperator</a>
+  /// in the <i>Amazon DynamoDB Developer Guide</i>.
+  @_s.JsonKey(name: 'ConditionalOperator')
+  final ConditionalOperator conditionalOperator;
+
+  /// Determines the read consistency model: If set to <code>true</code>, then the
+  /// operation uses strongly consistent reads; otherwise, the operation uses
+  /// eventually consistent reads.
+  ///
+  /// Strongly consistent reads are not supported on global secondary indexes. If
+  /// you query a global secondary index with <code>ConsistentRead</code> set to
+  /// <code>true</code>, you will receive a <code>ValidationException</code>.
+  @_s.JsonKey(name: 'ConsistentRead')
+  final bool consistentRead;
+
+  /// The primary key of the first item that this operation will evaluate. Use the
+  /// value that was returned for <code>LastEvaluatedKey</code> in the previous
+  /// operation.
+  ///
+  /// The data type for <code>ExclusiveStartKey</code> must be String, Number, or
+  /// Binary. No set data types are allowed.
+  @_s.JsonKey(name: 'ExclusiveStartKey')
+  final Map<String, AttributeValue> exclusiveStartKey;
+
+  /// One or more substitution tokens for attribute names in an expression. The
+  /// following are some use cases for using
+  /// <code>ExpressionAttributeNames</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// To access an attribute whose name conflicts with a DynamoDB reserved word.
+  /// </li>
+  /// <li>
+  /// To create a placeholder for repeating occurrences of an attribute name in an
+  /// expression.
+  /// </li>
+  /// <li>
+  /// To prevent special characters in an attribute name from being misinterpreted
+  /// in an expression.
+  /// </li>
+  /// </ul>
+  /// Use the <b>#</b> character in an expression to dereference an attribute
+  /// name. For example, consider the following attribute name:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Percentile</code>
+  /// </li>
+  /// </ul>
+  /// The name of this attribute conflicts with a reserved word, so it cannot be
+  /// used directly in an expression. (For the complete list of reserved words,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html">Reserved
+  /// Words</a> in the <i>Amazon DynamoDB Developer Guide</i>). To work around
+  /// this, you could specify the following for
+  /// <code>ExpressionAttributeNames</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>{"#P":"Percentile"}</code>
+  /// </li>
+  /// </ul>
+  /// You could then use this substitution in an expression, as in this example:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>#P = :val</code>
+  /// </li>
+  /// </ul> <note>
+  /// Tokens that begin with the <b>:</b> character are <i>expression attribute
+  /// values</i>, which are placeholders for the actual value at runtime.
+  /// </note>
+  /// For more information on expression attribute names, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Specifying
+  /// Item Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  @_s.JsonKey(name: 'ExpressionAttributeNames')
+  final Map<String, String> expressionAttributeNames;
+
+  /// One or more values that can be substituted in an expression.
+  ///
+  /// Use the <b>:</b> (colon) character in an expression to dereference an
+  /// attribute value. For example, suppose that you wanted to check whether the
+  /// value of the <i>ProductStatus</i> attribute was one of the following:
+  ///
+  /// <code>Available | Backordered | Discontinued</code>
+  ///
+  /// You would first need to specify <code>ExpressionAttributeValues</code> as
+  /// follows:
+  ///
+  /// <code>{ ":avail":{"S":"Available"}, ":back":{"S":"Backordered"},
+  /// ":disc":{"S":"Discontinued"} }</code>
+  ///
+  /// You could then use these values in an expression, such as this:
+  ///
+  /// <code>ProductStatus IN (:avail, :back, :disc)</code>
+  ///
+  /// For more information on expression attribute values, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.SpecifyingConditions.html">Specifying
+  /// Conditions</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  @_s.JsonKey(name: 'ExpressionAttributeValues')
+  final Map<String, AttributeValue> expressionAttributeValues;
+
+  /// A string that contains conditions that DynamoDB applies after the
+  /// <code>Query</code> operation, but before the data is returned to you. Items
+  /// that do not satisfy the <code>FilterExpression</code> criteria are not
+  /// returned.
+  ///
+  /// A <code>FilterExpression</code> does not allow key attributes. You cannot
+  /// define a filter expression based on a partition key or a sort key.
+  /// <note>
+  /// A <code>FilterExpression</code> is applied after the items have already been
+  /// read; the process of filtering does not consume any additional read capacity
+  /// units.
+  /// </note>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/QueryAndScan.html#FilteringResults">Filter
+  /// Expressions</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  @_s.JsonKey(name: 'FilterExpression')
+  final String filterExpression;
+
+  /// The name of an index to query. This index can be any local secondary index
+  /// or global secondary index on the table. Note that if you use the
+  /// <code>IndexName</code> parameter, you must also provide
+  /// <code>TableName.</code>
+  @_s.JsonKey(name: 'IndexName')
+  final String indexName;
+
+  /// The condition that specifies the key values for items to be retrieved by the
+  /// <code>Query</code> action.
+  ///
+  /// The condition must perform an equality test on a single partition key value.
+  ///
+  /// The condition can optionally perform one of several comparison tests on a
+  /// single sort key value. This allows <code>Query</code> to retrieve one item
+  /// with a given partition key value and sort key value, or several items that
+  /// have the same partition key value but different sort key values.
+  ///
+  /// The partition key equality test is required, and must be specified in the
+  /// following format:
+  ///
+  /// <code>partitionKeyName</code> <i>=</i> <code>:partitionkeyval</code>
+  ///
+  /// If you also want to provide a condition for the sort key, it must be
+  /// combined using <code>AND</code> with the condition for the sort key.
+  /// Following is an example, using the <b>=</b> comparison operator for the sort
+  /// key:
+  ///
+  /// <code>partitionKeyName</code> <code>=</code> <code>:partitionkeyval</code>
+  /// <code>AND</code> <code>sortKeyName</code> <code>=</code>
+  /// <code>:sortkeyval</code>
+  ///
+  /// Valid comparisons for the sort key condition are as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>sortKeyName</code> <code>=</code> <code>:sortkeyval</code> - true if
+  /// the sort key value is equal to <code>:sortkeyval</code>.
+  /// </li>
+  /// <li>
+  /// <code>sortKeyName</code> <code>&lt;</code> <code>:sortkeyval</code> - true
+  /// if the sort key value is less than <code>:sortkeyval</code>.
+  /// </li>
+  /// <li>
+  /// <code>sortKeyName</code> <code>&lt;=</code> <code>:sortkeyval</code> - true
+  /// if the sort key value is less than or equal to <code>:sortkeyval</code>.
+  /// </li>
+  /// <li>
+  /// <code>sortKeyName</code> <code>&gt;</code> <code>:sortkeyval</code> - true
+  /// if the sort key value is greater than <code>:sortkeyval</code>.
+  /// </li>
+  /// <li>
+  /// <code>sortKeyName</code> <code>&gt;= </code> <code>:sortkeyval</code> - true
+  /// if the sort key value is greater than or equal to <code>:sortkeyval</code>.
+  /// </li>
+  /// <li>
+  /// <code>sortKeyName</code> <code>BETWEEN</code> <code>:sortkeyval1</code>
+  /// <code>AND</code> <code>:sortkeyval2</code> - true if the sort key value is
+  /// greater than or equal to <code>:sortkeyval1</code>, and less than or equal
+  /// to <code>:sortkeyval2</code>.
+  /// </li>
+  /// <li>
+  /// <code>begins_with (</code> <code>sortKeyName</code>,
+  /// <code>:sortkeyval</code> <code>)</code> - true if the sort key value begins
+  /// with a particular operand. (You cannot use this function with a sort key
+  /// that is of type Number.) Note that the function name
+  /// <code>begins_with</code> is case-sensitive.
+  /// </li>
+  /// </ul>
+  /// Use the <code>ExpressionAttributeValues</code> parameter to replace tokens
+  /// such as <code>:partitionval</code> and <code>:sortval</code> with actual
+  /// values at runtime.
+  ///
+  /// You can optionally use the <code>ExpressionAttributeNames</code> parameter
+  /// to replace the names of the partition key and sort key with placeholder
+  /// tokens. This option might be necessary if an attribute name conflicts with a
+  /// DynamoDB reserved word. For example, the following
+  /// <code>KeyConditionExpression</code> parameter causes an error because
+  /// <i>Size</i> is a reserved word:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Size = :myval</code>
+  /// </li>
+  /// </ul>
+  /// To work around this, define a placeholder (such a <code>#S</code>) to
+  /// represent the attribute name <i>Size</i>.
+  /// <code>KeyConditionExpression</code> then is as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>#S = :myval</code>
+  /// </li>
+  /// </ul>
+  /// For a list of reserved words, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html">Reserved
+  /// Words</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  ///
+  /// For more information on <code>ExpressionAttributeNames</code> and
+  /// <code>ExpressionAttributeValues</code>, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ExpressionPlaceholders.html">Using
+  /// Placeholders for Attribute Names and Values</a> in the <i>Amazon DynamoDB
+  /// Developer Guide</i>.
+  @_s.JsonKey(name: 'KeyConditionExpression')
+  final String keyConditionExpression;
+
+  /// This is a legacy parameter. Use <code>KeyConditionExpression</code> instead.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.KeyConditions.html">KeyConditions</a>
+  /// in the <i>Amazon DynamoDB Developer Guide</i>.
+  @_s.JsonKey(name: 'KeyConditions')
+  final Map<String, Condition> keyConditions;
+
+  /// The maximum number of items to evaluate (not necessarily the number of
+  /// matching items). If DynamoDB processes the number of items up to the limit
+  /// while processing the results, it stops the operation and returns the
+  /// matching values up to that point, and a key in <code>LastEvaluatedKey</code>
+  /// to apply in a subsequent operation, so that you can pick up where you left
+  /// off. Also, if the processed dataset size exceeds 1 MB before DynamoDB
+  /// reaches this limit, it stops the operation and returns the matching values
+  /// up to the limit, and a key in <code>LastEvaluatedKey</code> to apply in a
+  /// subsequent operation to continue the operation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/QueryAndScan.html">Query
+  /// and Scan</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// A string that identifies one or more attributes to retrieve from the table.
+  /// These attributes can include scalars, sets, or elements of a JSON document.
+  /// The attributes in the expression must be separated by commas.
+  ///
+  /// If no attribute names are specified, then all attributes will be returned.
+  /// If any of the requested attributes are not found, they will not appear in
+  /// the result.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Accessing
+  /// Item Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  @_s.JsonKey(name: 'ProjectionExpression')
+  final String projectionExpression;
+
+  /// This is a legacy parameter. Use <code>FilterExpression</code> instead. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.QueryFilter.html">QueryFilter</a>
+  /// in the <i>Amazon DynamoDB Developer Guide</i>.
+  @_s.JsonKey(name: 'QueryFilter')
+  final Map<String, Condition> queryFilter;
+  @_s.JsonKey(name: 'ReturnConsumedCapacity')
+  final ReturnConsumedCapacity returnConsumedCapacity;
+
+  /// Specifies the order for index traversal: If <code>true</code> (default), the
+  /// traversal is performed in ascending order; if <code>false</code>, the
+  /// traversal is performed in descending order.
+  ///
+  /// Items with the same partition key value are stored in sorted order by sort
+  /// key. If the sort key data type is Number, the results are stored in numeric
+  /// order. For type String, the results are stored in order of UTF-8 bytes. For
+  /// type Binary, DynamoDB treats each byte of the binary data as unsigned.
+  ///
+  /// If <code>ScanIndexForward</code> is <code>true</code>, DynamoDB returns the
+  /// results in the order in which they are stored (by sort key value). This is
+  /// the default behavior. If <code>ScanIndexForward</code> is
+  /// <code>false</code>, DynamoDB reads the results in reverse order by sort key
+  /// value, and then returns the results to the client.
+  @_s.JsonKey(name: 'ScanIndexForward')
+  final bool scanIndexForward;
+
+  /// The attributes to be returned in the result. You can retrieve all item
+  /// attributes, specific item attributes, the count of matching items, or in the
+  /// case of an index, some or all of the attributes projected into the index.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ALL_ATTRIBUTES</code> - Returns all of the item attributes from the
+  /// specified table or index. If you query a local secondary index, then for
+  /// each matching item in the index, DynamoDB fetches the entire item from the
+  /// parent table. If the index is configured to project all item attributes,
+  /// then all of the data can be obtained from the local secondary index, and no
+  /// fetching is required.
+  /// </li>
+  /// <li>
+  /// <code>ALL_PROJECTED_ATTRIBUTES</code> - Allowed only when querying an index.
+  /// Retrieves all attributes that have been projected into the index. If the
+  /// index is configured to project all attributes, this return value is
+  /// equivalent to specifying <code>ALL_ATTRIBUTES</code>.
+  /// </li>
+  /// <li>
+  /// <code>COUNT</code> - Returns the number of matching items, rather than the
+  /// matching items themselves.
+  /// </li>
+  /// <li>
+  /// <code>SPECIFIC_ATTRIBUTES</code> - Returns only the attributes listed in
+  /// <code>AttributesToGet</code>. This return value is equivalent to specifying
+  /// <code>AttributesToGet</code> without specifying any value for
+  /// <code>Select</code>.
+  ///
+  /// If you query or scan a local secondary index and request only attributes
+  /// that are projected into that index, the operation will read only the index
+  /// and not the table. If any of the requested attributes are not projected into
+  /// the local secondary index, DynamoDB fetches each of these attributes from
+  /// the parent table. This extra fetching incurs additional throughput cost and
+  /// latency.
+  ///
+  /// If you query or scan a global secondary index, you can only request
+  /// attributes that are projected into the index. Global secondary index queries
+  /// cannot fetch attributes from the parent table.
+  /// </li>
+  /// </ul>
+  /// If neither <code>Select</code> nor <code>AttributesToGet</code> are
+  /// specified, DynamoDB defaults to <code>ALL_ATTRIBUTES</code> when accessing a
+  /// table, and <code>ALL_PROJECTED_ATTRIBUTES</code> when accessing an index.
+  /// You cannot use both <code>Select</code> and <code>AttributesToGet</code>
+  /// together in a single request, unless the value for <code>Select</code> is
+  /// <code>SPECIFIC_ATTRIBUTES</code>. (This usage is equivalent to specifying
+  /// <code>AttributesToGet</code> without any value for <code>Select</code>.)
+  /// <note>
+  /// If you use the <code>ProjectionExpression</code> parameter, then the value
+  /// for <code>Select</code> can only be <code>SPECIFIC_ATTRIBUTES</code>. Any
+  /// other value for <code>Select</code> will return an error.
+  /// </note>
+  @_s.JsonKey(name: 'Select')
+  final Select select;
+
+  QueryInput({
+    @_s.required this.tableName,
+    this.attributesToGet,
+    this.conditionalOperator,
+    this.consistentRead,
+    this.exclusiveStartKey,
+    this.expressionAttributeNames,
+    this.expressionAttributeValues,
+    this.filterExpression,
+    this.indexName,
+    this.keyConditionExpression,
+    this.keyConditions,
+    this.limit,
+    this.projectionExpression,
+    this.queryFilter,
+    this.returnConsumedCapacity,
+    this.scanIndexForward,
+    this.select,
+  });
+  Map<String, dynamic> toJson() => _$QueryInputToJson(this);
 }
 
 /// Represents the output of a <code>Query</code> operation.
@@ -9703,6 +11295,56 @@ class RestoreSummary {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RestoreTableFromBackupInput {
+  /// The Amazon Resource Name (ARN) associated with the backup.
+  @_s.JsonKey(name: 'BackupArn')
+  final String backupArn;
+
+  /// The name of the new table to which the backup must be restored.
+  @_s.JsonKey(name: 'TargetTableName')
+  final String targetTableName;
+
+  /// The billing mode of the restored table.
+  @_s.JsonKey(name: 'BillingModeOverride')
+  final BillingMode billingModeOverride;
+
+  /// List of global secondary indexes for the restored table. The indexes
+  /// provided should match existing secondary indexes. You can choose to exclude
+  /// some or all of the indexes at the time of restore.
+  @_s.JsonKey(name: 'GlobalSecondaryIndexOverride')
+  final List<GlobalSecondaryIndex> globalSecondaryIndexOverride;
+
+  /// List of local secondary indexes for the restored table. The indexes provided
+  /// should match existing secondary indexes. You can choose to exclude some or
+  /// all of the indexes at the time of restore.
+  @_s.JsonKey(name: 'LocalSecondaryIndexOverride')
+  final List<LocalSecondaryIndex> localSecondaryIndexOverride;
+
+  /// Provisioned throughput settings for the restored table.
+  @_s.JsonKey(name: 'ProvisionedThroughputOverride')
+  final ProvisionedThroughput provisionedThroughputOverride;
+
+  /// The new server-side encryption settings for the restored table.
+  @_s.JsonKey(name: 'SSESpecificationOverride')
+  final SSESpecification sSESpecificationOverride;
+
+  RestoreTableFromBackupInput({
+    @_s.required this.backupArn,
+    @_s.required this.targetTableName,
+    this.billingModeOverride,
+    this.globalSecondaryIndexOverride,
+    this.localSecondaryIndexOverride,
+    this.provisionedThroughputOverride,
+    this.sSESpecificationOverride,
+  });
+  Map<String, dynamic> toJson() => _$RestoreTableFromBackupInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class RestoreTableFromBackupOutput {
@@ -9715,6 +11357,77 @@ class RestoreTableFromBackupOutput {
   });
   factory RestoreTableFromBackupOutput.fromJson(Map<String, dynamic> json) =>
       _$RestoreTableFromBackupOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RestoreTableToPointInTimeInput {
+  /// The name of the new table to which it must be restored to.
+  @_s.JsonKey(name: 'TargetTableName')
+  final String targetTableName;
+
+  /// The billing mode of the restored table.
+  @_s.JsonKey(name: 'BillingModeOverride')
+  final BillingMode billingModeOverride;
+
+  /// List of global secondary indexes for the restored table. The indexes
+  /// provided should match existing secondary indexes. You can choose to exclude
+  /// some or all of the indexes at the time of restore.
+  @_s.JsonKey(name: 'GlobalSecondaryIndexOverride')
+  final List<GlobalSecondaryIndex> globalSecondaryIndexOverride;
+
+  /// List of local secondary indexes for the restored table. The indexes provided
+  /// should match existing secondary indexes. You can choose to exclude some or
+  /// all of the indexes at the time of restore.
+  @_s.JsonKey(name: 'LocalSecondaryIndexOverride')
+  final List<LocalSecondaryIndex> localSecondaryIndexOverride;
+
+  /// Provisioned throughput settings for the restored table.
+  @_s.JsonKey(name: 'ProvisionedThroughputOverride')
+  final ProvisionedThroughput provisionedThroughputOverride;
+
+  /// Time in the past to restore the table to.
+  @_s.JsonKey(
+      name: 'RestoreDateTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime restoreDateTime;
+
+  /// The new server-side encryption settings for the restored table.
+  @_s.JsonKey(name: 'SSESpecificationOverride')
+  final SSESpecification sSESpecificationOverride;
+
+  /// The DynamoDB table that will be restored. This value is an Amazon Resource
+  /// Name (ARN).
+  @_s.JsonKey(name: 'SourceTableArn')
+  final String sourceTableArn;
+
+  /// Name of the source table that is being restored.
+  @_s.JsonKey(name: 'SourceTableName')
+  final String sourceTableName;
+
+  /// Restore the table to the latest possible time.
+  /// <code>LatestRestorableDateTime</code> is typically 5 minutes before the
+  /// current time.
+  @_s.JsonKey(name: 'UseLatestRestorableTime')
+  final bool useLatestRestorableTime;
+
+  RestoreTableToPointInTimeInput({
+    @_s.required this.targetTableName,
+    this.billingModeOverride,
+    this.globalSecondaryIndexOverride,
+    this.localSecondaryIndexOverride,
+    this.provisionedThroughputOverride,
+    this.restoreDateTime,
+    this.sSESpecificationOverride,
+    this.sourceTableArn,
+    this.sourceTableName,
+    this.useLatestRestorableTime,
+  });
+  Map<String, dynamic> toJson() => _$RestoreTableToPointInTimeInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -9767,37 +11480,11 @@ enum ReturnConsumedCapacity {
   none,
 }
 
-extension on ReturnConsumedCapacity {
-  String toValue() {
-    switch (this) {
-      case ReturnConsumedCapacity.indexes:
-        return 'INDEXES';
-      case ReturnConsumedCapacity.total:
-        return 'TOTAL';
-      case ReturnConsumedCapacity.none:
-        return 'NONE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum ReturnItemCollectionMetrics {
   @_s.JsonValue('SIZE')
   size,
   @_s.JsonValue('NONE')
   none,
-}
-
-extension on ReturnItemCollectionMetrics {
-  String toValue() {
-    switch (this) {
-      case ReturnItemCollectionMetrics.size:
-        return 'SIZE';
-      case ReturnItemCollectionMetrics.none:
-        return 'NONE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 enum ReturnValue {
@@ -9811,24 +11498,6 @@ enum ReturnValue {
   allNew,
   @_s.JsonValue('UPDATED_NEW')
   updatedNew,
-}
-
-extension on ReturnValue {
-  String toValue() {
-    switch (this) {
-      case ReturnValue.none:
-        return 'NONE';
-      case ReturnValue.allOld:
-        return 'ALL_OLD';
-      case ReturnValue.updatedOld:
-        return 'UPDATED_OLD';
-      case ReturnValue.allNew:
-        return 'ALL_NEW';
-      case ReturnValue.updatedNew:
-        return 'UPDATED_NEW';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 enum ReturnValuesOnConditionCheckFailure {
@@ -9968,6 +11637,322 @@ enum ScalarAttributeType {
   b,
 }
 
+/// Represents the input of a <code>Scan</code> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ScanInput {
+  /// The name of the table containing the requested items; or, if you provide
+  /// <code>IndexName</code>, the name of the table to which that index belongs.
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  /// This is a legacy parameter. Use <code>ProjectionExpression</code> instead.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.AttributesToGet.html">AttributesToGet</a>
+  /// in the <i>Amazon DynamoDB Developer Guide</i>.
+  @_s.JsonKey(name: 'AttributesToGet')
+  final List<String> attributesToGet;
+
+  /// This is a legacy parameter. Use <code>FilterExpression</code> instead. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.ConditionalOperator.html">ConditionalOperator</a>
+  /// in the <i>Amazon DynamoDB Developer Guide</i>.
+  @_s.JsonKey(name: 'ConditionalOperator')
+  final ConditionalOperator conditionalOperator;
+
+  /// A Boolean value that determines the read consistency model during the scan:
+  ///
+  /// <ul>
+  /// <li>
+  /// If <code>ConsistentRead</code> is <code>false</code>, then the data returned
+  /// from <code>Scan</code> might not contain the results from other recently
+  /// completed write operations (<code>PutItem</code>, <code>UpdateItem</code>,
+  /// or <code>DeleteItem</code>).
+  /// </li>
+  /// <li>
+  /// If <code>ConsistentRead</code> is <code>true</code>, then all of the write
+  /// operations that completed before the <code>Scan</code> began are guaranteed
+  /// to be contained in the <code>Scan</code> response.
+  /// </li>
+  /// </ul>
+  /// The default setting for <code>ConsistentRead</code> is <code>false</code>.
+  ///
+  /// The <code>ConsistentRead</code> parameter is not supported on global
+  /// secondary indexes. If you scan a global secondary index with
+  /// <code>ConsistentRead</code> set to true, you will receive a
+  /// <code>ValidationException</code>.
+  @_s.JsonKey(name: 'ConsistentRead')
+  final bool consistentRead;
+
+  /// The primary key of the first item that this operation will evaluate. Use the
+  /// value that was returned for <code>LastEvaluatedKey</code> in the previous
+  /// operation.
+  ///
+  /// The data type for <code>ExclusiveStartKey</code> must be String, Number or
+  /// Binary. No set data types are allowed.
+  ///
+  /// In a parallel scan, a <code>Scan</code> request that includes
+  /// <code>ExclusiveStartKey</code> must specify the same segment whose previous
+  /// <code>Scan</code> returned the corresponding value of
+  /// <code>LastEvaluatedKey</code>.
+  @_s.JsonKey(name: 'ExclusiveStartKey')
+  final Map<String, AttributeValue> exclusiveStartKey;
+
+  /// One or more substitution tokens for attribute names in an expression. The
+  /// following are some use cases for using
+  /// <code>ExpressionAttributeNames</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// To access an attribute whose name conflicts with a DynamoDB reserved word.
+  /// </li>
+  /// <li>
+  /// To create a placeholder for repeating occurrences of an attribute name in an
+  /// expression.
+  /// </li>
+  /// <li>
+  /// To prevent special characters in an attribute name from being misinterpreted
+  /// in an expression.
+  /// </li>
+  /// </ul>
+  /// Use the <b>#</b> character in an expression to dereference an attribute
+  /// name. For example, consider the following attribute name:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Percentile</code>
+  /// </li>
+  /// </ul>
+  /// The name of this attribute conflicts with a reserved word, so it cannot be
+  /// used directly in an expression. (For the complete list of reserved words,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html">Reserved
+  /// Words</a> in the <i>Amazon DynamoDB Developer Guide</i>). To work around
+  /// this, you could specify the following for
+  /// <code>ExpressionAttributeNames</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>{"#P":"Percentile"}</code>
+  /// </li>
+  /// </ul>
+  /// You could then use this substitution in an expression, as in this example:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>#P = :val</code>
+  /// </li>
+  /// </ul> <note>
+  /// Tokens that begin with the <b>:</b> character are <i>expression attribute
+  /// values</i>, which are placeholders for the actual value at runtime.
+  /// </note>
+  /// For more information on expression attribute names, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Specifying
+  /// Item Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  @_s.JsonKey(name: 'ExpressionAttributeNames')
+  final Map<String, String> expressionAttributeNames;
+
+  /// One or more values that can be substituted in an expression.
+  ///
+  /// Use the <b>:</b> (colon) character in an expression to dereference an
+  /// attribute value. For example, suppose that you wanted to check whether the
+  /// value of the <code>ProductStatus</code> attribute was one of the following:
+  ///
+  /// <code>Available | Backordered | Discontinued</code>
+  ///
+  /// You would first need to specify <code>ExpressionAttributeValues</code> as
+  /// follows:
+  ///
+  /// <code>{ ":avail":{"S":"Available"}, ":back":{"S":"Backordered"},
+  /// ":disc":{"S":"Discontinued"} }</code>
+  ///
+  /// You could then use these values in an expression, such as this:
+  ///
+  /// <code>ProductStatus IN (:avail, :back, :disc)</code>
+  ///
+  /// For more information on expression attribute values, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.SpecifyingConditions.html">Condition
+  /// Expressions</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  @_s.JsonKey(name: 'ExpressionAttributeValues')
+  final Map<String, AttributeValue> expressionAttributeValues;
+
+  /// A string that contains conditions that DynamoDB applies after the
+  /// <code>Scan</code> operation, but before the data is returned to you. Items
+  /// that do not satisfy the <code>FilterExpression</code> criteria are not
+  /// returned.
+  /// <note>
+  /// A <code>FilterExpression</code> is applied after the items have already been
+  /// read; the process of filtering does not consume any additional read capacity
+  /// units.
+  /// </note>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/QueryAndScan.html#FilteringResults">Filter
+  /// Expressions</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  @_s.JsonKey(name: 'FilterExpression')
+  final String filterExpression;
+
+  /// The name of a secondary index to scan. This index can be any local secondary
+  /// index or global secondary index. Note that if you use the
+  /// <code>IndexName</code> parameter, you must also provide
+  /// <code>TableName</code>.
+  @_s.JsonKey(name: 'IndexName')
+  final String indexName;
+
+  /// The maximum number of items to evaluate (not necessarily the number of
+  /// matching items). If DynamoDB processes the number of items up to the limit
+  /// while processing the results, it stops the operation and returns the
+  /// matching values up to that point, and a key in <code>LastEvaluatedKey</code>
+  /// to apply in a subsequent operation, so that you can pick up where you left
+  /// off. Also, if the processed dataset size exceeds 1 MB before DynamoDB
+  /// reaches this limit, it stops the operation and returns the matching values
+  /// up to the limit, and a key in <code>LastEvaluatedKey</code> to apply in a
+  /// subsequent operation to continue the operation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/QueryAndScan.html">Working
+  /// with Queries</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// A string that identifies one or more attributes to retrieve from the
+  /// specified table or index. These attributes can include scalars, sets, or
+  /// elements of a JSON document. The attributes in the expression must be
+  /// separated by commas.
+  ///
+  /// If no attribute names are specified, then all attributes will be returned.
+  /// If any of the requested attributes are not found, they will not appear in
+  /// the result.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Specifying
+  /// Item Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  @_s.JsonKey(name: 'ProjectionExpression')
+  final String projectionExpression;
+  @_s.JsonKey(name: 'ReturnConsumedCapacity')
+  final ReturnConsumedCapacity returnConsumedCapacity;
+
+  /// This is a legacy parameter. Use <code>FilterExpression</code> instead. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.ScanFilter.html">ScanFilter</a>
+  /// in the <i>Amazon DynamoDB Developer Guide</i>.
+  @_s.JsonKey(name: 'ScanFilter')
+  final Map<String, Condition> scanFilter;
+
+  /// For a parallel <code>Scan</code> request, <code>Segment</code> identifies an
+  /// individual segment to be scanned by an application worker.
+  ///
+  /// Segment IDs are zero-based, so the first segment is always 0. For example,
+  /// if you want to use four application threads to scan a table or an index,
+  /// then the first thread specifies a <code>Segment</code> value of 0, the
+  /// second thread specifies 1, and so on.
+  ///
+  /// The value of <code>LastEvaluatedKey</code> returned from a parallel
+  /// <code>Scan</code> request must be used as <code>ExclusiveStartKey</code>
+  /// with the same segment ID in a subsequent <code>Scan</code> operation.
+  ///
+  /// The value for <code>Segment</code> must be greater than or equal to 0, and
+  /// less than the value provided for <code>TotalSegments</code>.
+  ///
+  /// If you provide <code>Segment</code>, you must also provide
+  /// <code>TotalSegments</code>.
+  @_s.JsonKey(name: 'Segment')
+  final int segment;
+
+  /// The attributes to be returned in the result. You can retrieve all item
+  /// attributes, specific item attributes, the count of matching items, or in the
+  /// case of an index, some or all of the attributes projected into the index.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ALL_ATTRIBUTES</code> - Returns all of the item attributes from the
+  /// specified table or index. If you query a local secondary index, then for
+  /// each matching item in the index, DynamoDB fetches the entire item from the
+  /// parent table. If the index is configured to project all item attributes,
+  /// then all of the data can be obtained from the local secondary index, and no
+  /// fetching is required.
+  /// </li>
+  /// <li>
+  /// <code>ALL_PROJECTED_ATTRIBUTES</code> - Allowed only when querying an index.
+  /// Retrieves all attributes that have been projected into the index. If the
+  /// index is configured to project all attributes, this return value is
+  /// equivalent to specifying <code>ALL_ATTRIBUTES</code>.
+  /// </li>
+  /// <li>
+  /// <code>COUNT</code> - Returns the number of matching items, rather than the
+  /// matching items themselves.
+  /// </li>
+  /// <li>
+  /// <code>SPECIFIC_ATTRIBUTES</code> - Returns only the attributes listed in
+  /// <code>AttributesToGet</code>. This return value is equivalent to specifying
+  /// <code>AttributesToGet</code> without specifying any value for
+  /// <code>Select</code>.
+  ///
+  /// If you query or scan a local secondary index and request only attributes
+  /// that are projected into that index, the operation reads only the index and
+  /// not the table. If any of the requested attributes are not projected into the
+  /// local secondary index, DynamoDB fetches each of these attributes from the
+  /// parent table. This extra fetching incurs additional throughput cost and
+  /// latency.
+  ///
+  /// If you query or scan a global secondary index, you can only request
+  /// attributes that are projected into the index. Global secondary index queries
+  /// cannot fetch attributes from the parent table.
+  /// </li>
+  /// </ul>
+  /// If neither <code>Select</code> nor <code>AttributesToGet</code> are
+  /// specified, DynamoDB defaults to <code>ALL_ATTRIBUTES</code> when accessing a
+  /// table, and <code>ALL_PROJECTED_ATTRIBUTES</code> when accessing an index.
+  /// You cannot use both <code>Select</code> and <code>AttributesToGet</code>
+  /// together in a single request, unless the value for <code>Select</code> is
+  /// <code>SPECIFIC_ATTRIBUTES</code>. (This usage is equivalent to specifying
+  /// <code>AttributesToGet</code> without any value for <code>Select</code>.)
+  /// <note>
+  /// If you use the <code>ProjectionExpression</code> parameter, then the value
+  /// for <code>Select</code> can only be <code>SPECIFIC_ATTRIBUTES</code>. Any
+  /// other value for <code>Select</code> will return an error.
+  /// </note>
+  @_s.JsonKey(name: 'Select')
+  final Select select;
+
+  /// For a parallel <code>Scan</code> request, <code>TotalSegments</code>
+  /// represents the total number of segments into which the <code>Scan</code>
+  /// operation will be divided. The value of <code>TotalSegments</code>
+  /// corresponds to the number of application workers that will perform the
+  /// parallel scan. For example, if you want to use four application threads to
+  /// scan a table or an index, specify a <code>TotalSegments</code> value of 4.
+  ///
+  /// The value for <code>TotalSegments</code> must be greater than or equal to 1,
+  /// and less than or equal to 1000000. If you specify a
+  /// <code>TotalSegments</code> value of 1, the <code>Scan</code> operation will
+  /// be sequential rather than parallel.
+  ///
+  /// If you specify <code>TotalSegments</code>, you must also specify
+  /// <code>Segment</code>.
+  @_s.JsonKey(name: 'TotalSegments')
+  final int totalSegments;
+
+  ScanInput({
+    @_s.required this.tableName,
+    this.attributesToGet,
+    this.conditionalOperator,
+    this.consistentRead,
+    this.exclusiveStartKey,
+    this.expressionAttributeNames,
+    this.expressionAttributeValues,
+    this.filterExpression,
+    this.indexName,
+    this.limit,
+    this.projectionExpression,
+    this.returnConsumedCapacity,
+    this.scanFilter,
+    this.segment,
+    this.select,
+    this.totalSegments,
+  });
+  Map<String, dynamic> toJson() => _$ScanInputToJson(this);
+}
+
 /// Represents the output of a <code>Scan</code> operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -10049,22 +12034,6 @@ enum Select {
   specificAttributes,
   @_s.JsonValue('COUNT')
   count,
-}
-
-extension on Select {
-  String toValue() {
-    switch (this) {
-      case Select.allAttributes:
-        return 'ALL_ATTRIBUTES';
-      case Select.allProjectedAttributes:
-        return 'ALL_PROJECTED_ATTRIBUTES';
-      case Select.specificAttributes:
-        return 'SPECIFIC_ATTRIBUTES';
-      case Select.count:
-        return 'COUNT';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Contains the details of the table when the backup was created.
@@ -10715,6 +12684,28 @@ class Tag {
   Map<String, dynamic> toJson() => _$TagToJson(this);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceInput {
+  /// Identifies the Amazon DynamoDB resource to which tags should be added. This
+  /// value is an Amazon Resource Name (ARN).
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// The tags to be assigned to the Amazon DynamoDB resource.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  TagResourceInput({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceInputToJson(this);
+}
+
 /// The description of the Time to Live (TTL) status on the specified table.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -10799,6 +12790,30 @@ class TransactGetItem {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TransactGetItemsInput {
+  /// An ordered array of up to 25 <code>TransactGetItem</code> objects, each of
+  /// which contains a <code>Get</code> structure.
+  @_s.JsonKey(name: 'TransactItems')
+  final List<TransactGetItem> transactItems;
+
+  /// A value of <code>TOTAL</code> causes consumed capacity information to be
+  /// returned, and a value of <code>NONE</code> prevents that information from
+  /// being returned. No other value is valid.
+  @_s.JsonKey(name: 'ReturnConsumedCapacity')
+  final ReturnConsumedCapacity returnConsumedCapacity;
+
+  TransactGetItemsInput({
+    @_s.required this.transactItems,
+    this.returnConsumedCapacity,
+  });
+  Map<String, dynamic> toJson() => _$TransactGetItemsInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TransactGetItemsOutput {
@@ -10868,6 +12883,64 @@ class TransactWriteItem {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TransactWriteItemsInput {
+  /// An ordered array of up to 25 <code>TransactWriteItem</code> objects, each of
+  /// which contains a <code>ConditionCheck</code>, <code>Put</code>,
+  /// <code>Update</code>, or <code>Delete</code> object. These can operate on
+  /// items in different tables, but the tables must reside in the same AWS
+  /// account and Region, and no two of them can operate on the same item.
+  @_s.JsonKey(name: 'TransactItems')
+  final List<TransactWriteItem> transactItems;
+
+  /// Providing a <code>ClientRequestToken</code> makes the call to
+  /// <code>TransactWriteItems</code> idempotent, meaning that multiple identical
+  /// calls have the same effect as one single call.
+  ///
+  /// Although multiple identical calls using the same client request token
+  /// produce the same result on the server (no side effects), the responses to
+  /// the calls might not be the same. If the
+  /// <code>ReturnConsumedCapacity&gt;</code> parameter is set, then the initial
+  /// <code>TransactWriteItems</code> call returns the amount of write capacity
+  /// units consumed in making the changes. Subsequent
+  /// <code>TransactWriteItems</code> calls with the same client token return the
+  /// number of read capacity units consumed in reading the item.
+  ///
+  /// A client request token is valid for 10 minutes after the first request that
+  /// uses it is completed. After 10 minutes, any request with the same client
+  /// token is treated as a new request. Do not resubmit the same request with the
+  /// same client token for more than 10 minutes, or the result might not be
+  /// idempotent.
+  ///
+  /// If you submit a request with the same client token but a change in other
+  /// parameters within the 10-minute idempotency window, DynamoDB returns an
+  /// <code>IdempotentParameterMismatch</code> exception.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+  @_s.JsonKey(name: 'ReturnConsumedCapacity')
+  final ReturnConsumedCapacity returnConsumedCapacity;
+
+  /// Determines whether item collection metrics are returned. If set to
+  /// <code>SIZE</code>, the response includes statistics about item collections
+  /// (if any), that were modified during the operation and are returned in the
+  /// response. If set to <code>NONE</code> (the default), no statistics are
+  /// returned.
+  @_s.JsonKey(name: 'ReturnItemCollectionMetrics')
+  final ReturnItemCollectionMetrics returnItemCollectionMetrics;
+
+  TransactWriteItemsInput({
+    @_s.required this.transactItems,
+    this.clientRequestToken,
+    this.returnConsumedCapacity,
+    this.returnItemCollectionMetrics,
+  });
+  Map<String, dynamic> toJson() => _$TransactWriteItemsInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TransactWriteItemsOutput {
@@ -10890,6 +12963,29 @@ class TransactWriteItemsOutput {
   });
   factory TransactWriteItemsOutput.fromJson(Map<String, dynamic> json) =>
       _$TransactWriteItemsOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceInput {
+  /// The DynamoDB resource that the tags will be removed from. This value is an
+  /// Amazon Resource Name (ARN).
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// A list of tag keys. Existing tags of the resource whose keys are members of
+  /// this list will be removed from the DynamoDB resource.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceInput({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceInputToJson(this);
 }
 
 /// Represents a request to perform an <code>UpdateItem</code> operation.
@@ -10948,6 +13044,27 @@ class Update {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateContinuousBackupsInput {
+  /// Represents the settings used to enable point in time recovery.
+  @_s.JsonKey(name: 'PointInTimeRecoverySpecification')
+  final PointInTimeRecoverySpecification pointInTimeRecoverySpecification;
+
+  /// The name of the table.
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  UpdateContinuousBackupsInput({
+    @_s.required this.pointInTimeRecoverySpecification,
+    @_s.required this.tableName,
+  });
+  Map<String, dynamic> toJson() => _$UpdateContinuousBackupsInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateContinuousBackupsOutput {
@@ -10961,6 +13078,32 @@ class UpdateContinuousBackupsOutput {
   });
   factory UpdateContinuousBackupsOutput.fromJson(Map<String, dynamic> json) =>
       _$UpdateContinuousBackupsOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateContributorInsightsInput {
+  /// Represents the contributor insights action.
+  @_s.JsonKey(name: 'ContributorInsightsAction')
+  final ContributorInsightsAction contributorInsightsAction;
+
+  /// The name of the table.
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  /// The global secondary index name, if applicable.
+  @_s.JsonKey(name: 'IndexName')
+  final String indexName;
+
+  UpdateContributorInsightsInput({
+    @_s.required this.contributorInsightsAction,
+    @_s.required this.tableName,
+    this.indexName,
+  });
+  Map<String, dynamic> toJson() => _$UpdateContributorInsightsInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -11022,6 +13165,27 @@ class UpdateGlobalSecondaryIndexAction {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateGlobalTableInput {
+  /// The global table name.
+  @_s.JsonKey(name: 'GlobalTableName')
+  final String globalTableName;
+
+  /// A list of Regions that should be added or removed from the global table.
+  @_s.JsonKey(name: 'ReplicaUpdates')
+  final List<ReplicaUpdate> replicaUpdates;
+
+  UpdateGlobalTableInput({
+    @_s.required this.globalTableName,
+    @_s.required this.replicaUpdates,
+  });
+  Map<String, dynamic> toJson() => _$UpdateGlobalTableInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateGlobalTableOutput {
@@ -11034,6 +13198,72 @@ class UpdateGlobalTableOutput {
   });
   factory UpdateGlobalTableOutput.fromJson(Map<String, dynamic> json) =>
       _$UpdateGlobalTableOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateGlobalTableSettingsInput {
+  /// The name of the global table
+  @_s.JsonKey(name: 'GlobalTableName')
+  final String globalTableName;
+
+  /// The billing mode of the global table. If <code>GlobalTableBillingMode</code>
+  /// is not specified, the global table defaults to <code>PROVISIONED</code>
+  /// capacity billing mode.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PROVISIONED</code> - We recommend using <code>PROVISIONED</code> for
+  /// predictable workloads. <code>PROVISIONED</code> sets the billing mode to <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html#HowItWorks.ProvisionedThroughput.Manual">Provisioned
+  /// Mode</a>.
+  /// </li>
+  /// <li>
+  /// <code>PAY_PER_REQUEST</code> - We recommend using
+  /// <code>PAY_PER_REQUEST</code> for unpredictable workloads.
+  /// <code>PAY_PER_REQUEST</code> sets the billing mode to <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html#HowItWorks.OnDemand">On-Demand
+  /// Mode</a>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'GlobalTableBillingMode')
+  final BillingMode globalTableBillingMode;
+
+  /// Represents the settings of a global secondary index for a global table that
+  /// will be modified.
+  @_s.JsonKey(name: 'GlobalTableGlobalSecondaryIndexSettingsUpdate')
+  final List<GlobalTableGlobalSecondaryIndexSettingsUpdate>
+      globalTableGlobalSecondaryIndexSettingsUpdate;
+
+  /// Auto scaling settings for managing provisioned write capacity for the global
+  /// table.
+  @_s.JsonKey(
+      name: 'GlobalTableProvisionedWriteCapacityAutoScalingSettingsUpdate')
+  final AutoScalingSettingsUpdate
+      globalTableProvisionedWriteCapacityAutoScalingSettingsUpdate;
+
+  /// The maximum number of writes consumed per second before DynamoDB returns a
+  /// <code>ThrottlingException.</code>
+  @_s.JsonKey(name: 'GlobalTableProvisionedWriteCapacityUnits')
+  final int globalTableProvisionedWriteCapacityUnits;
+
+  /// Represents the settings for a global table in a Region that will be
+  /// modified.
+  @_s.JsonKey(name: 'ReplicaSettingsUpdate')
+  final List<ReplicaSettingsUpdate> replicaSettingsUpdate;
+
+  UpdateGlobalTableSettingsInput({
+    @_s.required this.globalTableName,
+    this.globalTableBillingMode,
+    this.globalTableGlobalSecondaryIndexSettingsUpdate,
+    this.globalTableProvisionedWriteCapacityAutoScalingSettingsUpdate,
+    this.globalTableProvisionedWriteCapacityUnits,
+    this.replicaSettingsUpdate,
+  });
+  Map<String, dynamic> toJson() => _$UpdateGlobalTableSettingsInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -11056,6 +13286,313 @@ class UpdateGlobalTableSettingsOutput {
   });
   factory UpdateGlobalTableSettingsOutput.fromJson(Map<String, dynamic> json) =>
       _$UpdateGlobalTableSettingsOutputFromJson(json);
+}
+
+/// Represents the input of an <code>UpdateItem</code> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateItemInput {
+  /// The primary key of the item to be updated. Each element consists of an
+  /// attribute name and a value for that attribute.
+  ///
+  /// For the primary key, you must provide all of the attributes. For example,
+  /// with a simple primary key, you only need to provide a value for the
+  /// partition key. For a composite primary key, you must provide values for both
+  /// the partition key and the sort key.
+  @_s.JsonKey(name: 'Key')
+  final Map<String, AttributeValue> key;
+
+  /// The name of the table containing the item to update.
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  /// This is a legacy parameter. Use <code>UpdateExpression</code> instead. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.AttributeUpdates.html">AttributeUpdates</a>
+  /// in the <i>Amazon DynamoDB Developer Guide</i>.
+  @_s.JsonKey(name: 'AttributeUpdates')
+  final Map<String, AttributeValueUpdate> attributeUpdates;
+
+  /// A condition that must be satisfied in order for a conditional update to
+  /// succeed.
+  ///
+  /// An expression can contain any of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// Functions: <code>attribute_exists | attribute_not_exists | attribute_type |
+  /// contains | begins_with | size</code>
+  ///
+  /// These function names are case-sensitive.
+  /// </li>
+  /// <li>
+  /// Comparison operators: <code>= | &lt;&gt; | &lt; | &gt; | &lt;= | &gt;= |
+  /// BETWEEN | IN </code>
+  /// </li>
+  /// <li>
+  /// Logical operators: <code>AND | OR | NOT</code>
+  /// </li>
+  /// </ul>
+  /// For more information about condition expressions, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.SpecifyingConditions.html">Specifying
+  /// Conditions</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  @_s.JsonKey(name: 'ConditionExpression')
+  final String conditionExpression;
+
+  /// This is a legacy parameter. Use <code>ConditionExpression</code> instead.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.ConditionalOperator.html">ConditionalOperator</a>
+  /// in the <i>Amazon DynamoDB Developer Guide</i>.
+  @_s.JsonKey(name: 'ConditionalOperator')
+  final ConditionalOperator conditionalOperator;
+
+  /// This is a legacy parameter. Use <code>ConditionExpression</code> instead.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.Expected.html">Expected</a>
+  /// in the <i>Amazon DynamoDB Developer Guide</i>.
+  @_s.JsonKey(name: 'Expected')
+  final Map<String, ExpectedAttributeValue> expected;
+
+  /// One or more substitution tokens for attribute names in an expression. The
+  /// following are some use cases for using
+  /// <code>ExpressionAttributeNames</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// To access an attribute whose name conflicts with a DynamoDB reserved word.
+  /// </li>
+  /// <li>
+  /// To create a placeholder for repeating occurrences of an attribute name in an
+  /// expression.
+  /// </li>
+  /// <li>
+  /// To prevent special characters in an attribute name from being misinterpreted
+  /// in an expression.
+  /// </li>
+  /// </ul>
+  /// Use the <b>#</b> character in an expression to dereference an attribute
+  /// name. For example, consider the following attribute name:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Percentile</code>
+  /// </li>
+  /// </ul>
+  /// The name of this attribute conflicts with a reserved word, so it cannot be
+  /// used directly in an expression. (For the complete list of reserved words,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html">Reserved
+  /// Words</a> in the <i>Amazon DynamoDB Developer Guide</i>.) To work around
+  /// this, you could specify the following for
+  /// <code>ExpressionAttributeNames</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>{"#P":"Percentile"}</code>
+  /// </li>
+  /// </ul>
+  /// You could then use this substitution in an expression, as in this example:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>#P = :val</code>
+  /// </li>
+  /// </ul> <note>
+  /// Tokens that begin with the <b>:</b> character are <i>expression attribute
+  /// values</i>, which are placeholders for the actual value at runtime.
+  /// </note>
+  /// For more information about expression attribute names, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Specifying
+  /// Item Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  @_s.JsonKey(name: 'ExpressionAttributeNames')
+  final Map<String, String> expressionAttributeNames;
+
+  /// One or more values that can be substituted in an expression.
+  ///
+  /// Use the <b>:</b> (colon) character in an expression to dereference an
+  /// attribute value. For example, suppose that you wanted to check whether the
+  /// value of the <code>ProductStatus</code> attribute was one of the following:
+  ///
+  /// <code>Available | Backordered | Discontinued</code>
+  ///
+  /// You would first need to specify <code>ExpressionAttributeValues</code> as
+  /// follows:
+  ///
+  /// <code>{ ":avail":{"S":"Available"}, ":back":{"S":"Backordered"},
+  /// ":disc":{"S":"Discontinued"} }</code>
+  ///
+  /// You could then use these values in an expression, such as this:
+  ///
+  /// <code>ProductStatus IN (:avail, :back, :disc)</code>
+  ///
+  /// For more information on expression attribute values, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.SpecifyingConditions.html">Condition
+  /// Expressions</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  @_s.JsonKey(name: 'ExpressionAttributeValues')
+  final Map<String, AttributeValue> expressionAttributeValues;
+  @_s.JsonKey(name: 'ReturnConsumedCapacity')
+  final ReturnConsumedCapacity returnConsumedCapacity;
+
+  /// Determines whether item collection metrics are returned. If set to
+  /// <code>SIZE</code>, the response includes statistics about item collections,
+  /// if any, that were modified during the operation are returned in the
+  /// response. If set to <code>NONE</code> (the default), no statistics are
+  /// returned.
+  @_s.JsonKey(name: 'ReturnItemCollectionMetrics')
+  final ReturnItemCollectionMetrics returnItemCollectionMetrics;
+
+  /// Use <code>ReturnValues</code> if you want to get the item attributes as they
+  /// appear before or after they are updated. For <code>UpdateItem</code>, the
+  /// valid values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>NONE</code> - If <code>ReturnValues</code> is not specified, or if its
+  /// value is <code>NONE</code>, then nothing is returned. (This setting is the
+  /// default for <code>ReturnValues</code>.)
+  /// </li>
+  /// <li>
+  /// <code>ALL_OLD</code> - Returns all of the attributes of the item, as they
+  /// appeared before the UpdateItem operation.
+  /// </li>
+  /// <li>
+  /// <code>UPDATED_OLD</code> - Returns only the updated attributes, as they
+  /// appeared before the UpdateItem operation.
+  /// </li>
+  /// <li>
+  /// <code>ALL_NEW</code> - Returns all of the attributes of the item, as they
+  /// appear after the UpdateItem operation.
+  /// </li>
+  /// <li>
+  /// <code>UPDATED_NEW</code> - Returns only the updated attributes, as they
+  /// appear after the UpdateItem operation.
+  /// </li>
+  /// </ul>
+  /// There is no additional cost associated with requesting a return value aside
+  /// from the small network and processing overhead of receiving a larger
+  /// response. No read capacity units are consumed.
+  ///
+  /// The values returned are strongly consistent.
+  @_s.JsonKey(name: 'ReturnValues')
+  final ReturnValue returnValues;
+
+  /// An expression that defines one or more attributes to be updated, the action
+  /// to be performed on them, and new values for them.
+  ///
+  /// The following action values are available for <code>UpdateExpression</code>.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>SET</code> - Adds one or more attributes and values to an item. If any
+  /// of these attributes already exist, they are replaced by the new values. You
+  /// can also use <code>SET</code> to add or subtract from an attribute that is
+  /// of type Number. For example: <code>SET myNum = myNum + :val</code>
+  ///
+  /// <code>SET</code> supports the following functions:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>if_not_exists (path, operand)</code> - if the item does not contain an
+  /// attribute at the specified path, then <code>if_not_exists</code> evaluates
+  /// to operand; otherwise, it evaluates to path. You can use this function to
+  /// avoid overwriting an attribute that may already be present in the item.
+  /// </li>
+  /// <li>
+  /// <code>list_append (operand, operand)</code> - evaluates to a list with a new
+  /// element added to it. You can append the new element to the start or the end
+  /// of the list by reversing the order of the operands.
+  /// </li>
+  /// </ul>
+  /// These function names are case-sensitive.
+  /// </li>
+  /// <li>
+  /// <code>REMOVE</code> - Removes one or more attributes from an item.
+  /// </li>
+  /// <li>
+  /// <code>ADD</code> - Adds the specified value to the item, if the attribute
+  /// does not already exist. If the attribute does exist, then the behavior of
+  /// <code>ADD</code> depends on the data type of the attribute:
+  ///
+  /// <ul>
+  /// <li>
+  /// If the existing attribute is a number, and if <code>Value</code> is also a
+  /// number, then <code>Value</code> is mathematically added to the existing
+  /// attribute. If <code>Value</code> is a negative number, then it is subtracted
+  /// from the existing attribute.
+  /// <note>
+  /// If you use <code>ADD</code> to increment or decrement a number value for an
+  /// item that doesn't exist before the update, DynamoDB uses <code>0</code> as
+  /// the initial value.
+  ///
+  /// Similarly, if you use <code>ADD</code> for an existing item to increment or
+  /// decrement an attribute value that doesn't exist before the update, DynamoDB
+  /// uses <code>0</code> as the initial value. For example, suppose that the item
+  /// you want to update doesn't have an attribute named <code>itemcount</code>,
+  /// but you decide to <code>ADD</code> the number <code>3</code> to this
+  /// attribute anyway. DynamoDB will create the <code>itemcount</code> attribute,
+  /// set its initial value to <code>0</code>, and finally add <code>3</code> to
+  /// it. The result will be a new <code>itemcount</code> attribute in the item,
+  /// with a value of <code>3</code>.
+  /// </note> </li>
+  /// <li>
+  /// If the existing data type is a set and if <code>Value</code> is also a set,
+  /// then <code>Value</code> is added to the existing set. For example, if the
+  /// attribute value is the set <code>[1,2]</code>, and the <code>ADD</code>
+  /// action specified <code>[3]</code>, then the final attribute value is
+  /// <code>[1,2,3]</code>. An error occurs if an <code>ADD</code> action is
+  /// specified for a set attribute and the attribute type specified does not
+  /// match the existing set type.
+  ///
+  /// Both sets must have the same primitive data type. For example, if the
+  /// existing data type is a set of strings, the <code>Value</code> must also be
+  /// a set of strings.
+  /// </li>
+  /// </ul> <important>
+  /// The <code>ADD</code> action only supports Number and set data types. In
+  /// addition, <code>ADD</code> can only be used on top-level attributes, not
+  /// nested attributes.
+  /// </important> </li>
+  /// <li>
+  /// <code>DELETE</code> - Deletes an element from a set.
+  ///
+  /// If a set of values is specified, then those values are subtracted from the
+  /// old set. For example, if the attribute value was the set
+  /// <code>[a,b,c]</code> and the <code>DELETE</code> action specifies
+  /// <code>[a,c]</code>, then the final attribute value is <code>[b]</code>.
+  /// Specifying an empty set is an error.
+  /// <important>
+  /// The <code>DELETE</code> action only supports set data types. In addition,
+  /// <code>DELETE</code> can only be used on top-level attributes, not nested
+  /// attributes.
+  /// </important> </li>
+  /// </ul>
+  /// You can have many actions in a single expression, such as the following:
+  /// <code>SET a=:value1, b=:value2 DELETE :value3, :value4, :value5</code>
+  ///
+  /// For more information on update expressions, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.Modifying.html">Modifying
+  /// Items and Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  @_s.JsonKey(name: 'UpdateExpression')
+  final String updateExpression;
+
+  UpdateItemInput({
+    @_s.required this.key,
+    @_s.required this.tableName,
+    this.attributeUpdates,
+    this.conditionExpression,
+    this.conditionalOperator,
+    this.expected,
+    this.expressionAttributeNames,
+    this.expressionAttributeValues,
+    this.returnConsumedCapacity,
+    this.returnItemCollectionMetrics,
+    this.returnValues,
+    this.updateExpression,
+  });
+  Map<String, dynamic> toJson() => _$UpdateItemInputToJson(this);
 }
 
 /// Represents the output of an <code>UpdateItem</code> operation.
@@ -11161,6 +13698,112 @@ class UpdateReplicationGroupMemberAction {
       _$UpdateReplicationGroupMemberActionToJson(this);
 }
 
+/// Represents the input of an <code>UpdateTable</code> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateTableInput {
+  /// The name of the table to be updated.
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  /// An array of attributes that describe the key schema for the table and
+  /// indexes. If you are adding a new global secondary index to the table,
+  /// <code>AttributeDefinitions</code> must include the key element(s) of the new
+  /// index.
+  @_s.JsonKey(name: 'AttributeDefinitions')
+  final List<AttributeDefinition> attributeDefinitions;
+
+  /// Controls how you are charged for read and write throughput and how you
+  /// manage capacity. When switching from pay-per-request to provisioned
+  /// capacity, initial provisioned capacity values must be set. The initial
+  /// provisioned capacity values are estimated based on the consumed read and
+  /// write capacity of your table and global secondary indexes over the past 30
+  /// minutes.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PROVISIONED</code> - We recommend using <code>PROVISIONED</code> for
+  /// predictable workloads. <code>PROVISIONED</code> sets the billing mode to <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html#HowItWorks.ProvisionedThroughput.Manual">Provisioned
+  /// Mode</a>.
+  /// </li>
+  /// <li>
+  /// <code>PAY_PER_REQUEST</code> - We recommend using
+  /// <code>PAY_PER_REQUEST</code> for unpredictable workloads.
+  /// <code>PAY_PER_REQUEST</code> sets the billing mode to <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html#HowItWorks.OnDemand">On-Demand
+  /// Mode</a>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'BillingMode')
+  final BillingMode billingMode;
+
+  /// An array of one or more global secondary indexes for the table. For each
+  /// index in the array, you can request one action:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Create</code> - add a new global secondary index to the table.
+  /// </li>
+  /// <li>
+  /// <code>Update</code> - modify the provisioned throughput settings of an
+  /// existing global secondary index.
+  /// </li>
+  /// <li>
+  /// <code>Delete</code> - remove a global secondary index from the table.
+  /// </li>
+  /// </ul>
+  /// You can create or delete only one global secondary index per
+  /// <code>UpdateTable</code> operation.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.OnlineOps.html">Managing
+  /// Global Secondary Indexes</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  @_s.JsonKey(name: 'GlobalSecondaryIndexUpdates')
+  final List<GlobalSecondaryIndexUpdate> globalSecondaryIndexUpdates;
+
+  /// The new provisioned throughput settings for the specified table or index.
+  @_s.JsonKey(name: 'ProvisionedThroughput')
+  final ProvisionedThroughput provisionedThroughput;
+
+  /// A list of replica update actions (create, delete, or update) for the table.
+  /// <note>
+  /// This property only applies to <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V2.html">Version
+  /// 2019.11.21</a> of global tables.
+  /// </note>
+  @_s.JsonKey(name: 'ReplicaUpdates')
+  final List<ReplicationGroupUpdate> replicaUpdates;
+
+  /// The new server-side encryption settings for the specified table.
+  @_s.JsonKey(name: 'SSESpecification')
+  final SSESpecification sSESpecification;
+
+  /// Represents the DynamoDB Streams configuration for the table.
+  /// <note>
+  /// You receive a <code>ResourceInUseException</code> if you try to enable a
+  /// stream on a table that already has a stream, or if you try to disable a
+  /// stream on a table that doesn't have a stream.
+  /// </note>
+  @_s.JsonKey(name: 'StreamSpecification')
+  final StreamSpecification streamSpecification;
+
+  UpdateTableInput({
+    @_s.required this.tableName,
+    this.attributeDefinitions,
+    this.billingMode,
+    this.globalSecondaryIndexUpdates,
+    this.provisionedThroughput,
+    this.replicaUpdates,
+    this.sSESpecification,
+    this.streamSpecification,
+  });
+  Map<String, dynamic> toJson() => _$UpdateTableInputToJson(this);
+}
+
 /// Represents the output of an <code>UpdateTable</code> operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -11182,6 +13825,38 @@ class UpdateTableOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateTableReplicaAutoScalingInput {
+  /// The name of the global table to be updated.
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  /// Represents the auto scaling settings of the global secondary indexes of the
+  /// replica to be updated.
+  @_s.JsonKey(name: 'GlobalSecondaryIndexUpdates')
+  final List<GlobalSecondaryIndexAutoScalingUpdate> globalSecondaryIndexUpdates;
+  @_s.JsonKey(name: 'ProvisionedWriteCapacityAutoScalingUpdate')
+  final AutoScalingSettingsUpdate provisionedWriteCapacityAutoScalingUpdate;
+
+  /// Represents the auto scaling settings of replicas of the table that will be
+  /// modified.
+  @_s.JsonKey(name: 'ReplicaUpdates')
+  final List<ReplicaAutoScalingUpdate> replicaUpdates;
+
+  UpdateTableReplicaAutoScalingInput({
+    @_s.required this.tableName,
+    this.globalSecondaryIndexUpdates,
+    this.provisionedWriteCapacityAutoScalingUpdate,
+    this.replicaUpdates,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateTableReplicaAutoScalingInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateTableReplicaAutoScalingOutput {
@@ -11196,6 +13871,29 @@ class UpdateTableReplicaAutoScalingOutput {
   factory UpdateTableReplicaAutoScalingOutput.fromJson(
           Map<String, dynamic> json) =>
       _$UpdateTableReplicaAutoScalingOutputFromJson(json);
+}
+
+/// Represents the input of an <code>UpdateTimeToLive</code> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateTimeToLiveInput {
+  /// The name of the table to be configured.
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  /// Represents the settings used to enable or disable Time to Live for the
+  /// specified table.
+  @_s.JsonKey(name: 'TimeToLiveSpecification')
+  final TimeToLiveSpecification timeToLiveSpecification;
+
+  UpdateTimeToLiveInput({
+    @_s.required this.tableName,
+    @_s.required this.timeToLiveSpecification,
+  });
+  Map<String, dynamic> toJson() => _$UpdateTimeToLiveInputToJson(this);
 }
 
 @_s.JsonSerializable(

@@ -113,6 +113,21 @@ ApprovalStateChangedEventMetadata _$ApprovalStateChangedEventMetadataFromJson(
   );
 }
 
+Map<String, dynamic> _$AssociateApprovalRuleTemplateWithRepositoryInputToJson(
+    AssociateApprovalRuleTemplateWithRepositoryInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('approvalRuleTemplateName', instance.approvalRuleTemplateName);
+  writeNotNull('repositoryName', instance.repositoryName);
+  return val;
+}
+
 BatchAssociateApprovalRuleTemplateWithRepositoriesError
     _$BatchAssociateApprovalRuleTemplateWithRepositoriesErrorFromJson(
         Map<String, dynamic> json) {
@@ -121,6 +136,22 @@ BatchAssociateApprovalRuleTemplateWithRepositoriesError
     errorMessage: json['errorMessage'] as String,
     repositoryName: json['repositoryName'] as String,
   );
+}
+
+Map<String, dynamic>
+    _$BatchAssociateApprovalRuleTemplateWithRepositoriesInputToJson(
+        BatchAssociateApprovalRuleTemplateWithRepositoriesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('approvalRuleTemplateName', instance.approvalRuleTemplateName);
+  writeNotNull('repositoryNames', instance.repositoryNames);
+  return val;
 }
 
 BatchAssociateApprovalRuleTemplateWithRepositoriesOutput
@@ -147,6 +178,53 @@ BatchDescribeMergeConflictsError _$BatchDescribeMergeConflictsErrorFromJson(
     message: json['message'] as String,
   );
 }
+
+Map<String, dynamic> _$BatchDescribeMergeConflictsInputToJson(
+    BatchDescribeMergeConflictsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'destinationCommitSpecifier', instance.destinationCommitSpecifier);
+  writeNotNull(
+      'mergeOption', _$MergeOptionTypeEnumEnumMap[instance.mergeOption]);
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('sourceCommitSpecifier', instance.sourceCommitSpecifier);
+  writeNotNull('conflictDetailLevel',
+      _$ConflictDetailLevelTypeEnumEnumMap[instance.conflictDetailLevel]);
+  writeNotNull(
+      'conflictResolutionStrategy',
+      _$ConflictResolutionStrategyTypeEnumEnumMap[
+          instance.conflictResolutionStrategy]);
+  writeNotNull('filePaths', instance.filePaths);
+  writeNotNull('maxConflictFiles', instance.maxConflictFiles);
+  writeNotNull('maxMergeHunks', instance.maxMergeHunks);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
+const _$MergeOptionTypeEnumEnumMap = {
+  MergeOptionTypeEnum.fastForwardMerge: 'FAST_FORWARD_MERGE',
+  MergeOptionTypeEnum.squashMerge: 'SQUASH_MERGE',
+  MergeOptionTypeEnum.threeWayMerge: 'THREE_WAY_MERGE',
+};
+
+const _$ConflictDetailLevelTypeEnumEnumMap = {
+  ConflictDetailLevelTypeEnum.fileLevel: 'FILE_LEVEL',
+  ConflictDetailLevelTypeEnum.lineLevel: 'LINE_LEVEL',
+};
+
+const _$ConflictResolutionStrategyTypeEnumEnumMap = {
+  ConflictResolutionStrategyTypeEnum.none: 'NONE',
+  ConflictResolutionStrategyTypeEnum.acceptSource: 'ACCEPT_SOURCE',
+  ConflictResolutionStrategyTypeEnum.acceptDestination: 'ACCEPT_DESTINATION',
+  ConflictResolutionStrategyTypeEnum.automerge: 'AUTOMERGE',
+};
 
 BatchDescribeMergeConflictsOutput _$BatchDescribeMergeConflictsOutputFromJson(
     Map<String, dynamic> json) {
@@ -178,6 +256,22 @@ BatchDisassociateApprovalRuleTemplateFromRepositoriesError
   );
 }
 
+Map<String, dynamic>
+    _$BatchDisassociateApprovalRuleTemplateFromRepositoriesInputToJson(
+        BatchDisassociateApprovalRuleTemplateFromRepositoriesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('approvalRuleTemplateName', instance.approvalRuleTemplateName);
+  writeNotNull('repositoryNames', instance.repositoryNames);
+  return val;
+}
+
 BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput
     _$BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputFromJson(
         Map<String, dynamic> json) {
@@ -202,6 +296,21 @@ BatchGetCommitsError _$BatchGetCommitsErrorFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$BatchGetCommitsInputToJson(
+    BatchGetCommitsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('commitIds', instance.commitIds);
+  writeNotNull('repositoryName', instance.repositoryName);
+  return val;
+}
+
 BatchGetCommitsOutput _$BatchGetCommitsOutputFromJson(
     Map<String, dynamic> json) {
   return BatchGetCommitsOutput(
@@ -215,6 +324,20 @@ BatchGetCommitsOutput _$BatchGetCommitsOutputFromJson(
             : BatchGetCommitsError.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$BatchGetRepositoriesInputToJson(
+    BatchGetRepositoriesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('repositoryNames', instance.repositoryNames);
+  return val;
 }
 
 BatchGetRepositoriesOutput _$BatchGetRepositoriesOutputFromJson(
@@ -369,6 +492,24 @@ Map<String, dynamic> _$ConflictResolutionToJson(ConflictResolution instance) {
   return val;
 }
 
+Map<String, dynamic> _$CreateApprovalRuleTemplateInputToJson(
+    CreateApprovalRuleTemplateInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'approvalRuleTemplateContent', instance.approvalRuleTemplateContent);
+  writeNotNull('approvalRuleTemplateName', instance.approvalRuleTemplateName);
+  writeNotNull('approvalRuleTemplateDescription',
+      instance.approvalRuleTemplateDescription);
+  return val;
+}
+
 CreateApprovalRuleTemplateOutput _$CreateApprovalRuleTemplateOutputFromJson(
     Map<String, dynamic> json) {
   return CreateApprovalRuleTemplateOutput(
@@ -377,6 +518,46 @@ CreateApprovalRuleTemplateOutput _$CreateApprovalRuleTemplateOutputFromJson(
         : ApprovalRuleTemplate.fromJson(
             json['approvalRuleTemplate'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateBranchInputToJson(CreateBranchInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('branchName', instance.branchName);
+  writeNotNull('commitId', instance.commitId);
+  writeNotNull('repositoryName', instance.repositoryName);
+  return val;
+}
+
+Map<String, dynamic> _$CreateCommitInputToJson(CreateCommitInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('branchName', instance.branchName);
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('authorName', instance.authorName);
+  writeNotNull('commitMessage', instance.commitMessage);
+  writeNotNull(
+      'deleteFiles', instance.deleteFiles?.map((e) => e?.toJson())?.toList());
+  writeNotNull('email', instance.email);
+  writeNotNull('keepEmptyFolders', instance.keepEmptyFolders);
+  writeNotNull('parentCommitId', instance.parentCommitId);
+  writeNotNull(
+      'putFiles', instance.putFiles?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'setFileModes', instance.setFileModes?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateCommitOutput _$CreateCommitOutputFromJson(Map<String, dynamic> json) {
@@ -398,6 +579,22 @@ CreateCommitOutput _$CreateCommitOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreatePullRequestApprovalRuleInputToJson(
+    CreatePullRequestApprovalRuleInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('approvalRuleContent', instance.approvalRuleContent);
+  writeNotNull('approvalRuleName', instance.approvalRuleName);
+  writeNotNull('pullRequestId', instance.pullRequestId);
+  return val;
+}
+
 CreatePullRequestApprovalRuleOutput
     _$CreatePullRequestApprovalRuleOutputFromJson(Map<String, dynamic> json) {
   return CreatePullRequestApprovalRuleOutput(
@@ -407,6 +604,23 @@ CreatePullRequestApprovalRuleOutput
   );
 }
 
+Map<String, dynamic> _$CreatePullRequestInputToJson(
+    CreatePullRequestInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('targets', instance.targets?.map((e) => e?.toJson())?.toList());
+  writeNotNull('title', instance.title);
+  writeNotNull('clientRequestToken', instance.clientRequestToken);
+  writeNotNull('description', instance.description);
+  return val;
+}
+
 CreatePullRequestOutput _$CreatePullRequestOutputFromJson(
     Map<String, dynamic> json) {
   return CreatePullRequestOutput(
@@ -414,6 +628,22 @@ CreatePullRequestOutput _$CreatePullRequestOutputFromJson(
         ? null
         : PullRequest.fromJson(json['pullRequest'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateRepositoryInputToJson(
+    CreateRepositoryInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('repositoryDescription', instance.repositoryDescription);
+  writeNotNull('tags', instance.tags);
+  return val;
 }
 
 CreateRepositoryOutput _$CreateRepositoryOutputFromJson(
@@ -426,12 +656,56 @@ CreateRepositoryOutput _$CreateRepositoryOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateUnreferencedMergeCommitInputToJson(
+    CreateUnreferencedMergeCommitInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'destinationCommitSpecifier', instance.destinationCommitSpecifier);
+  writeNotNull(
+      'mergeOption', _$MergeOptionTypeEnumEnumMap[instance.mergeOption]);
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('sourceCommitSpecifier', instance.sourceCommitSpecifier);
+  writeNotNull('authorName', instance.authorName);
+  writeNotNull('commitMessage', instance.commitMessage);
+  writeNotNull('conflictDetailLevel',
+      _$ConflictDetailLevelTypeEnumEnumMap[instance.conflictDetailLevel]);
+  writeNotNull('conflictResolution', instance.conflictResolution?.toJson());
+  writeNotNull(
+      'conflictResolutionStrategy',
+      _$ConflictResolutionStrategyTypeEnumEnumMap[
+          instance.conflictResolutionStrategy]);
+  writeNotNull('email', instance.email);
+  writeNotNull('keepEmptyFolders', instance.keepEmptyFolders);
+  return val;
+}
+
 CreateUnreferencedMergeCommitOutput
     _$CreateUnreferencedMergeCommitOutputFromJson(Map<String, dynamic> json) {
   return CreateUnreferencedMergeCommitOutput(
     commitId: json['commitId'] as String,
     treeId: json['treeId'] as String,
   );
+}
+
+Map<String, dynamic> _$DeleteApprovalRuleTemplateInputToJson(
+    DeleteApprovalRuleTemplateInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('approvalRuleTemplateName', instance.approvalRuleTemplateName);
+  return val;
 }
 
 DeleteApprovalRuleTemplateOutput _$DeleteApprovalRuleTemplateOutputFromJson(
@@ -441,12 +715,40 @@ DeleteApprovalRuleTemplateOutput _$DeleteApprovalRuleTemplateOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteBranchInputToJson(DeleteBranchInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('branchName', instance.branchName);
+  writeNotNull('repositoryName', instance.repositoryName);
+  return val;
+}
+
 DeleteBranchOutput _$DeleteBranchOutputFromJson(Map<String, dynamic> json) {
   return DeleteBranchOutput(
     deletedBranch: json['deletedBranch'] == null
         ? null
         : BranchInfo.fromJson(json['deletedBranch'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DeleteCommentContentInputToJson(
+    DeleteCommentContentInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('commentId', instance.commentId);
+  return val;
 }
 
 DeleteCommentContentOutput _$DeleteCommentContentOutputFromJson(
@@ -471,6 +773,26 @@ Map<String, dynamic> _$DeleteFileEntryToJson(DeleteFileEntry instance) {
   return val;
 }
 
+Map<String, dynamic> _$DeleteFileInputToJson(DeleteFileInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('branchName', instance.branchName);
+  writeNotNull('filePath', instance.filePath);
+  writeNotNull('parentCommitId', instance.parentCommitId);
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('commitMessage', instance.commitMessage);
+  writeNotNull('email', instance.email);
+  writeNotNull('keepEmptyFolders', instance.keepEmptyFolders);
+  writeNotNull('name', instance.name);
+  return val;
+}
+
 DeleteFileOutput _$DeleteFileOutputFromJson(Map<String, dynamic> json) {
   return DeleteFileOutput(
     blobId: json['blobId'] as String,
@@ -480,6 +802,21 @@ DeleteFileOutput _$DeleteFileOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DeletePullRequestApprovalRuleInputToJson(
+    DeletePullRequestApprovalRuleInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('approvalRuleName', instance.approvalRuleName);
+  writeNotNull('pullRequestId', instance.pullRequestId);
+  return val;
+}
+
 DeletePullRequestApprovalRuleOutput
     _$DeletePullRequestApprovalRuleOutputFromJson(Map<String, dynamic> json) {
   return DeletePullRequestApprovalRuleOutput(
@@ -487,11 +824,53 @@ DeletePullRequestApprovalRuleOutput
   );
 }
 
+Map<String, dynamic> _$DeleteRepositoryInputToJson(
+    DeleteRepositoryInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('repositoryName', instance.repositoryName);
+  return val;
+}
+
 DeleteRepositoryOutput _$DeleteRepositoryOutputFromJson(
     Map<String, dynamic> json) {
   return DeleteRepositoryOutput(
     repositoryId: json['repositoryId'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeMergeConflictsInputToJson(
+    DescribeMergeConflictsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'destinationCommitSpecifier', instance.destinationCommitSpecifier);
+  writeNotNull('filePath', instance.filePath);
+  writeNotNull(
+      'mergeOption', _$MergeOptionTypeEnumEnumMap[instance.mergeOption]);
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('sourceCommitSpecifier', instance.sourceCommitSpecifier);
+  writeNotNull('conflictDetailLevel',
+      _$ConflictDetailLevelTypeEnumEnumMap[instance.conflictDetailLevel]);
+  writeNotNull(
+      'conflictResolutionStrategy',
+      _$ConflictResolutionStrategyTypeEnumEnumMap[
+          instance.conflictResolutionStrategy]);
+  writeNotNull('maxMergeHunks', instance.maxMergeHunks);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 DescribeMergeConflictsOutput _$DescribeMergeConflictsOutputFromJson(
@@ -511,6 +890,44 @@ DescribeMergeConflictsOutput _$DescribeMergeConflictsOutputFromJson(
     nextToken: json['nextToken'] as String,
   );
 }
+
+Map<String, dynamic> _$DescribePullRequestEventsInputToJson(
+    DescribePullRequestEventsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pullRequestId', instance.pullRequestId);
+  writeNotNull('actorArn', instance.actorArn);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('pullRequestEventType',
+      _$PullRequestEventTypeEnumMap[instance.pullRequestEventType]);
+  return val;
+}
+
+const _$PullRequestEventTypeEnumMap = {
+  PullRequestEventType.pullRequestCreated: 'PULL_REQUEST_CREATED',
+  PullRequestEventType.pullRequestStatusChanged: 'PULL_REQUEST_STATUS_CHANGED',
+  PullRequestEventType.pullRequestSourceReferenceUpdated:
+      'PULL_REQUEST_SOURCE_REFERENCE_UPDATED',
+  PullRequestEventType.pullRequestMergeStateChanged:
+      'PULL_REQUEST_MERGE_STATE_CHANGED',
+  PullRequestEventType.pullRequestApprovalRuleCreated:
+      'PULL_REQUEST_APPROVAL_RULE_CREATED',
+  PullRequestEventType.pullRequestApprovalRuleUpdated:
+      'PULL_REQUEST_APPROVAL_RULE_UPDATED',
+  PullRequestEventType.pullRequestApprovalRuleDeleted:
+      'PULL_REQUEST_APPROVAL_RULE_DELETED',
+  PullRequestEventType.pullRequestApprovalRuleOverridden:
+      'PULL_REQUEST_APPROVAL_RULE_OVERRIDDEN',
+  PullRequestEventType.pullRequestApprovalStateChanged:
+      'PULL_REQUEST_APPROVAL_STATE_CHANGED',
+};
 
 DescribePullRequestEventsOutput _$DescribePullRequestEventsOutputFromJson(
     Map<String, dynamic> json) {
@@ -542,6 +959,37 @@ const _$ChangeTypeEnumEnumMap = {
   ChangeTypeEnum.m: 'M',
   ChangeTypeEnum.d: 'D',
 };
+
+Map<String, dynamic>
+    _$DisassociateApprovalRuleTemplateFromRepositoryInputToJson(
+        DisassociateApprovalRuleTemplateFromRepositoryInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('approvalRuleTemplateName', instance.approvalRuleTemplateName);
+  writeNotNull('repositoryName', instance.repositoryName);
+  return val;
+}
+
+Map<String, dynamic> _$EvaluatePullRequestApprovalRulesInputToJson(
+    EvaluatePullRequestApprovalRulesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pullRequestId', instance.pullRequestId);
+  writeNotNull('revisionId', instance.revisionId);
+  return val;
+}
 
 EvaluatePullRequestApprovalRulesOutput
     _$EvaluatePullRequestApprovalRulesOutputFromJson(
@@ -614,6 +1062,20 @@ Folder _$FolderFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetApprovalRuleTemplateInputToJson(
+    GetApprovalRuleTemplateInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('approvalRuleTemplateName', instance.approvalRuleTemplateName);
+  return val;
+}
+
 GetApprovalRuleTemplateOutput _$GetApprovalRuleTemplateOutputFromJson(
     Map<String, dynamic> json) {
   return GetApprovalRuleTemplateOutput(
@@ -624,10 +1086,38 @@ GetApprovalRuleTemplateOutput _$GetApprovalRuleTemplateOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$GetBlobInputToJson(GetBlobInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('blobId', instance.blobId);
+  writeNotNull('repositoryName', instance.repositoryName);
+  return val;
+}
+
 GetBlobOutput _$GetBlobOutputFromJson(Map<String, dynamic> json) {
   return GetBlobOutput(
     content: const Uint8ListConverter().fromJson(json['content'] as String),
   );
+}
+
+Map<String, dynamic> _$GetBranchInputToJson(GetBranchInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('branchName', instance.branchName);
+  writeNotNull('repositoryName', instance.repositoryName);
+  return val;
 }
 
 GetBranchOutput _$GetBranchOutputFromJson(Map<String, dynamic> json) {
@@ -638,12 +1128,43 @@ GetBranchOutput _$GetBranchOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetCommentInputToJson(GetCommentInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('commentId', instance.commentId);
+  return val;
+}
+
 GetCommentOutput _$GetCommentOutputFromJson(Map<String, dynamic> json) {
   return GetCommentOutput(
     comment: json['comment'] == null
         ? null
         : Comment.fromJson(json['comment'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetCommentsForComparedCommitInputToJson(
+    GetCommentsForComparedCommitInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('afterCommitId', instance.afterCommitId);
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('beforeCommitId', instance.beforeCommitId);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 GetCommentsForComparedCommitOutput _$GetCommentsForComparedCommitOutputFromJson(
@@ -659,6 +1180,25 @@ GetCommentsForComparedCommitOutput _$GetCommentsForComparedCommitOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$GetCommentsForPullRequestInputToJson(
+    GetCommentsForPullRequestInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pullRequestId', instance.pullRequestId);
+  writeNotNull('afterCommitId', instance.afterCommitId);
+  writeNotNull('beforeCommitId', instance.beforeCommitId);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('repositoryName', instance.repositoryName);
+  return val;
+}
+
 GetCommentsForPullRequestOutput _$GetCommentsForPullRequestOutputFromJson(
     Map<String, dynamic> json) {
   return GetCommentsForPullRequestOutput(
@@ -671,12 +1211,45 @@ GetCommentsForPullRequestOutput _$GetCommentsForPullRequestOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$GetCommitInputToJson(GetCommitInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('commitId', instance.commitId);
+  writeNotNull('repositoryName', instance.repositoryName);
+  return val;
+}
+
 GetCommitOutput _$GetCommitOutputFromJson(Map<String, dynamic> json) {
   return GetCommitOutput(
     commit: json['commit'] == null
         ? null
         : Commit.fromJson(json['commit'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetDifferencesInputToJson(GetDifferencesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('afterCommitSpecifier', instance.afterCommitSpecifier);
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('afterPath', instance.afterPath);
+  writeNotNull('beforeCommitSpecifier', instance.beforeCommitSpecifier);
+  writeNotNull('beforePath', instance.beforePath);
+  return val;
 }
 
 GetDifferencesOutput _$GetDifferencesOutputFromJson(Map<String, dynamic> json) {
@@ -689,6 +1262,21 @@ GetDifferencesOutput _$GetDifferencesOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetFileInputToJson(GetFileInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('filePath', instance.filePath);
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('commitSpecifier', instance.commitSpecifier);
+  return val;
+}
+
 GetFileOutput _$GetFileOutputFromJson(Map<String, dynamic> json) {
   return GetFileOutput(
     blobId: json['blobId'] as String,
@@ -699,6 +1287,21 @@ GetFileOutput _$GetFileOutputFromJson(Map<String, dynamic> json) {
     filePath: json['filePath'] as String,
     fileSize: json['fileSize'] as int,
   );
+}
+
+Map<String, dynamic> _$GetFolderInputToJson(GetFolderInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('folderPath', instance.folderPath);
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('commitSpecifier', instance.commitSpecifier);
+  return val;
 }
 
 GetFolderOutput _$GetFolderOutputFromJson(Map<String, dynamic> json) {
@@ -725,6 +1328,28 @@ GetFolderOutput _$GetFolderOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetMergeCommitInputToJson(GetMergeCommitInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'destinationCommitSpecifier', instance.destinationCommitSpecifier);
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('sourceCommitSpecifier', instance.sourceCommitSpecifier);
+  writeNotNull('conflictDetailLevel',
+      _$ConflictDetailLevelTypeEnumEnumMap[instance.conflictDetailLevel]);
+  writeNotNull(
+      'conflictResolutionStrategy',
+      _$ConflictResolutionStrategyTypeEnumEnumMap[
+          instance.conflictResolutionStrategy]);
+  return val;
+}
+
 GetMergeCommitOutput _$GetMergeCommitOutputFromJson(Map<String, dynamic> json) {
   return GetMergeCommitOutput(
     baseCommitId: json['baseCommitId'] as String,
@@ -732,6 +1357,33 @@ GetMergeCommitOutput _$GetMergeCommitOutputFromJson(Map<String, dynamic> json) {
     mergedCommitId: json['mergedCommitId'] as String,
     sourceCommitId: json['sourceCommitId'] as String,
   );
+}
+
+Map<String, dynamic> _$GetMergeConflictsInputToJson(
+    GetMergeConflictsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'destinationCommitSpecifier', instance.destinationCommitSpecifier);
+  writeNotNull(
+      'mergeOption', _$MergeOptionTypeEnumEnumMap[instance.mergeOption]);
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('sourceCommitSpecifier', instance.sourceCommitSpecifier);
+  writeNotNull('conflictDetailLevel',
+      _$ConflictDetailLevelTypeEnumEnumMap[instance.conflictDetailLevel]);
+  writeNotNull(
+      'conflictResolutionStrategy',
+      _$ConflictResolutionStrategyTypeEnumEnumMap[
+          instance.conflictResolutionStrategy]);
+  writeNotNull('maxConflictFiles', instance.maxConflictFiles);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 GetMergeConflictsOutput _$GetMergeConflictsOutputFromJson(
@@ -750,6 +1402,29 @@ GetMergeConflictsOutput _$GetMergeConflictsOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$GetMergeOptionsInputToJson(
+    GetMergeOptionsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'destinationCommitSpecifier', instance.destinationCommitSpecifier);
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('sourceCommitSpecifier', instance.sourceCommitSpecifier);
+  writeNotNull('conflictDetailLevel',
+      _$ConflictDetailLevelTypeEnumEnumMap[instance.conflictDetailLevel]);
+  writeNotNull(
+      'conflictResolutionStrategy',
+      _$ConflictResolutionStrategyTypeEnumEnumMap[
+          instance.conflictResolutionStrategy]);
+  return val;
+}
+
 GetMergeOptionsOutput _$GetMergeOptionsOutputFromJson(
     Map<String, dynamic> json) {
   return GetMergeOptionsOutput(
@@ -759,6 +1434,21 @@ GetMergeOptionsOutput _$GetMergeOptionsOutputFromJson(
         (json['mergeOptions'] as List)?.map((e) => e as String)?.toList(),
     sourceCommitId: json['sourceCommitId'] as String,
   );
+}
+
+Map<String, dynamic> _$GetPullRequestApprovalStatesInputToJson(
+    GetPullRequestApprovalStatesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pullRequestId', instance.pullRequestId);
+  writeNotNull('revisionId', instance.revisionId);
+  return val;
 }
 
 GetPullRequestApprovalStatesOutput _$GetPullRequestApprovalStatesOutputFromJson(
@@ -771,12 +1461,40 @@ GetPullRequestApprovalStatesOutput _$GetPullRequestApprovalStatesOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$GetPullRequestInputToJson(GetPullRequestInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pullRequestId', instance.pullRequestId);
+  return val;
+}
+
 GetPullRequestOutput _$GetPullRequestOutputFromJson(Map<String, dynamic> json) {
   return GetPullRequestOutput(
     pullRequest: json['pullRequest'] == null
         ? null
         : PullRequest.fromJson(json['pullRequest'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetPullRequestOverrideStateInputToJson(
+    GetPullRequestOverrideStateInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pullRequestId', instance.pullRequestId);
+  writeNotNull('revisionId', instance.revisionId);
+  return val;
 }
 
 GetPullRequestOverrideStateOutput _$GetPullRequestOverrideStateOutputFromJson(
@@ -787,6 +1505,19 @@ GetPullRequestOverrideStateOutput _$GetPullRequestOverrideStateOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$GetRepositoryInputToJson(GetRepositoryInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('repositoryName', instance.repositoryName);
+  return val;
+}
+
 GetRepositoryOutput _$GetRepositoryOutputFromJson(Map<String, dynamic> json) {
   return GetRepositoryOutput(
     repositoryMetadata: json['repositoryMetadata'] == null
@@ -794,6 +1525,20 @@ GetRepositoryOutput _$GetRepositoryOutputFromJson(Map<String, dynamic> json) {
         : RepositoryMetadata.fromJson(
             json['repositoryMetadata'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetRepositoryTriggersInputToJson(
+    GetRepositoryTriggersInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('repositoryName', instance.repositoryName);
+  return val;
 }
 
 GetRepositoryTriggersOutput _$GetRepositoryTriggersOutputFromJson(
@@ -816,6 +1561,21 @@ IsBinaryFile _$IsBinaryFileFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ListApprovalRuleTemplatesInputToJson(
+    ListApprovalRuleTemplatesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 ListApprovalRuleTemplatesOutput _$ListApprovalRuleTemplatesOutputFromJson(
     Map<String, dynamic> json) {
   return ListApprovalRuleTemplatesOutput(
@@ -824,6 +1584,23 @@ ListApprovalRuleTemplatesOutput _$ListApprovalRuleTemplatesOutputFromJson(
         ?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic>
+    _$ListAssociatedApprovalRuleTemplatesForRepositoryInputToJson(
+        ListAssociatedApprovalRuleTemplatesForRepositoryInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 ListAssociatedApprovalRuleTemplatesForRepositoryOutput
@@ -837,12 +1614,50 @@ ListAssociatedApprovalRuleTemplatesForRepositoryOutput
   );
 }
 
+Map<String, dynamic> _$ListBranchesInputToJson(ListBranchesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 ListBranchesOutput _$ListBranchesOutputFromJson(Map<String, dynamic> json) {
   return ListBranchesOutput(
     branches: (json['branches'] as List)?.map((e) => e as String)?.toList(),
     nextToken: json['nextToken'] as String,
   );
 }
+
+Map<String, dynamic> _$ListPullRequestsInputToJson(
+    ListPullRequestsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('authorArn', instance.authorArn);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('pullRequestStatus',
+      _$PullRequestStatusEnumEnumMap[instance.pullRequestStatus]);
+  return val;
+}
+
+const _$PullRequestStatusEnumEnumMap = {
+  PullRequestStatusEnum.open: 'OPEN',
+  PullRequestStatusEnum.closed: 'CLOSED',
+};
 
 ListPullRequestsOutput _$ListPullRequestsOutputFromJson(
     Map<String, dynamic> json) {
@@ -851,6 +1666,22 @@ ListPullRequestsOutput _$ListPullRequestsOutputFromJson(
         (json['pullRequestIds'] as List)?.map((e) => e as String)?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListRepositoriesForApprovalRuleTemplateInputToJson(
+    ListRepositoriesForApprovalRuleTemplateInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('approvalRuleTemplateName', instance.approvalRuleTemplateName);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 ListRepositoriesForApprovalRuleTemplateOutput
@@ -863,6 +1694,32 @@ ListRepositoriesForApprovalRuleTemplateOutput
   );
 }
 
+Map<String, dynamic> _$ListRepositoriesInputToJson(
+    ListRepositoriesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('order', _$OrderEnumEnumMap[instance.order]);
+  writeNotNull('sortBy', _$SortByEnumEnumMap[instance.sortBy]);
+  return val;
+}
+
+const _$OrderEnumEnumMap = {
+  OrderEnum.ascending: 'ascending',
+  OrderEnum.descending: 'descending',
+};
+
+const _$SortByEnumEnumMap = {
+  SortByEnum.repositoryName: 'repositoryName',
+  SortByEnum.lastModifiedDate: 'lastModifiedDate',
+};
+
 ListRepositoriesOutput _$ListRepositoriesOutputFromJson(
     Map<String, dynamic> json) {
   return ListRepositoriesOutput(
@@ -873,6 +1730,21 @@ ListRepositoriesOutput _$ListRepositoriesOutputFromJson(
             : RepositoryNameIdPair.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListTagsForResourceInputToJson(
+    ListTagsForResourceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceArn', instance.resourceArn);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 ListTagsForResourceOutput _$ListTagsForResourceOutputFromJson(
@@ -915,6 +1787,24 @@ const _$RelativeFileVersionEnumEnumMap = {
   RelativeFileVersionEnum.after: 'AFTER',
 };
 
+Map<String, dynamic> _$MergeBranchesByFastForwardInputToJson(
+    MergeBranchesByFastForwardInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'destinationCommitSpecifier', instance.destinationCommitSpecifier);
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('sourceCommitSpecifier', instance.sourceCommitSpecifier);
+  writeNotNull('targetBranch', instance.targetBranch);
+  return val;
+}
+
 MergeBranchesByFastForwardOutput _$MergeBranchesByFastForwardOutputFromJson(
     Map<String, dynamic> json) {
   return MergeBranchesByFastForwardOutput(
@@ -923,12 +1813,70 @@ MergeBranchesByFastForwardOutput _$MergeBranchesByFastForwardOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$MergeBranchesBySquashInputToJson(
+    MergeBranchesBySquashInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'destinationCommitSpecifier', instance.destinationCommitSpecifier);
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('sourceCommitSpecifier', instance.sourceCommitSpecifier);
+  writeNotNull('authorName', instance.authorName);
+  writeNotNull('commitMessage', instance.commitMessage);
+  writeNotNull('conflictDetailLevel',
+      _$ConflictDetailLevelTypeEnumEnumMap[instance.conflictDetailLevel]);
+  writeNotNull('conflictResolution', instance.conflictResolution?.toJson());
+  writeNotNull(
+      'conflictResolutionStrategy',
+      _$ConflictResolutionStrategyTypeEnumEnumMap[
+          instance.conflictResolutionStrategy]);
+  writeNotNull('email', instance.email);
+  writeNotNull('keepEmptyFolders', instance.keepEmptyFolders);
+  writeNotNull('targetBranch', instance.targetBranch);
+  return val;
+}
+
 MergeBranchesBySquashOutput _$MergeBranchesBySquashOutputFromJson(
     Map<String, dynamic> json) {
   return MergeBranchesBySquashOutput(
     commitId: json['commitId'] as String,
     treeId: json['treeId'] as String,
   );
+}
+
+Map<String, dynamic> _$MergeBranchesByThreeWayInputToJson(
+    MergeBranchesByThreeWayInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'destinationCommitSpecifier', instance.destinationCommitSpecifier);
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('sourceCommitSpecifier', instance.sourceCommitSpecifier);
+  writeNotNull('authorName', instance.authorName);
+  writeNotNull('commitMessage', instance.commitMessage);
+  writeNotNull('conflictDetailLevel',
+      _$ConflictDetailLevelTypeEnumEnumMap[instance.conflictDetailLevel]);
+  writeNotNull('conflictResolution', instance.conflictResolution?.toJson());
+  writeNotNull(
+      'conflictResolutionStrategy',
+      _$ConflictResolutionStrategyTypeEnumEnumMap[
+          instance.conflictResolutionStrategy]);
+  writeNotNull('email', instance.email);
+  writeNotNull('keepEmptyFolders', instance.keepEmptyFolders);
+  writeNotNull('targetBranch', instance.targetBranch);
+  return val;
 }
 
 MergeBranchesByThreeWayOutput _$MergeBranchesByThreeWayOutputFromJson(
@@ -972,18 +1920,28 @@ MergeMetadata _$MergeMetadataFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$MergeOptionTypeEnumEnumMap = {
-  MergeOptionTypeEnum.fastForwardMerge: 'FAST_FORWARD_MERGE',
-  MergeOptionTypeEnum.squashMerge: 'SQUASH_MERGE',
-  MergeOptionTypeEnum.threeWayMerge: 'THREE_WAY_MERGE',
-};
-
 MergeOperations _$MergeOperationsFromJson(Map<String, dynamic> json) {
   return MergeOperations(
     destination:
         _$enumDecodeNullable(_$ChangeTypeEnumEnumMap, json['destination']),
     source: _$enumDecodeNullable(_$ChangeTypeEnumEnumMap, json['source']),
   );
+}
+
+Map<String, dynamic> _$MergePullRequestByFastForwardInputToJson(
+    MergePullRequestByFastForwardInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pullRequestId', instance.pullRequestId);
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('sourceCommitId', instance.sourceCommitId);
+  return val;
 }
 
 MergePullRequestByFastForwardOutput
@@ -995,6 +1953,33 @@ MergePullRequestByFastForwardOutput
   );
 }
 
+Map<String, dynamic> _$MergePullRequestBySquashInputToJson(
+    MergePullRequestBySquashInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pullRequestId', instance.pullRequestId);
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('authorName', instance.authorName);
+  writeNotNull('commitMessage', instance.commitMessage);
+  writeNotNull('conflictDetailLevel',
+      _$ConflictDetailLevelTypeEnumEnumMap[instance.conflictDetailLevel]);
+  writeNotNull('conflictResolution', instance.conflictResolution?.toJson());
+  writeNotNull(
+      'conflictResolutionStrategy',
+      _$ConflictResolutionStrategyTypeEnumEnumMap[
+          instance.conflictResolutionStrategy]);
+  writeNotNull('email', instance.email);
+  writeNotNull('keepEmptyFolders', instance.keepEmptyFolders);
+  writeNotNull('sourceCommitId', instance.sourceCommitId);
+  return val;
+}
+
 MergePullRequestBySquashOutput _$MergePullRequestBySquashOutputFromJson(
     Map<String, dynamic> json) {
   return MergePullRequestBySquashOutput(
@@ -1002,6 +1987,33 @@ MergePullRequestBySquashOutput _$MergePullRequestBySquashOutputFromJson(
         ? null
         : PullRequest.fromJson(json['pullRequest'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$MergePullRequestByThreeWayInputToJson(
+    MergePullRequestByThreeWayInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pullRequestId', instance.pullRequestId);
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('authorName', instance.authorName);
+  writeNotNull('commitMessage', instance.commitMessage);
+  writeNotNull('conflictDetailLevel',
+      _$ConflictDetailLevelTypeEnumEnumMap[instance.conflictDetailLevel]);
+  writeNotNull('conflictResolution', instance.conflictResolution?.toJson());
+  writeNotNull(
+      'conflictResolutionStrategy',
+      _$ConflictResolutionStrategyTypeEnumEnumMap[
+          instance.conflictResolutionStrategy]);
+  writeNotNull('email', instance.email);
+  writeNotNull('keepEmptyFolders', instance.keepEmptyFolders);
+  writeNotNull('sourceCommitId', instance.sourceCommitId);
+  return val;
 }
 
 MergePullRequestByThreeWayOutput _$MergePullRequestByThreeWayOutputFromJson(
@@ -1037,6 +2049,42 @@ OriginApprovalRuleTemplate _$OriginApprovalRuleTemplateFromJson(
   );
 }
 
+Map<String, dynamic> _$OverridePullRequestApprovalRulesInputToJson(
+    OverridePullRequestApprovalRulesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'overrideStatus', _$OverrideStatusEnumMap[instance.overrideStatus]);
+  writeNotNull('pullRequestId', instance.pullRequestId);
+  writeNotNull('revisionId', instance.revisionId);
+  return val;
+}
+
+Map<String, dynamic> _$PostCommentForComparedCommitInputToJson(
+    PostCommentForComparedCommitInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('afterCommitId', instance.afterCommitId);
+  writeNotNull('content', instance.content);
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('beforeCommitId', instance.beforeCommitId);
+  writeNotNull('clientRequestToken', instance.clientRequestToken);
+  writeNotNull('location', instance.location?.toJson());
+  return val;
+}
+
 PostCommentForComparedCommitOutput _$PostCommentForComparedCommitOutputFromJson(
     Map<String, dynamic> json) {
   return PostCommentForComparedCommitOutput(
@@ -1052,6 +2100,26 @@ PostCommentForComparedCommitOutput _$PostCommentForComparedCommitOutputFromJson(
         : Location.fromJson(json['location'] as Map<String, dynamic>),
     repositoryName: json['repositoryName'] as String,
   );
+}
+
+Map<String, dynamic> _$PostCommentForPullRequestInputToJson(
+    PostCommentForPullRequestInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('afterCommitId', instance.afterCommitId);
+  writeNotNull('beforeCommitId', instance.beforeCommitId);
+  writeNotNull('content', instance.content);
+  writeNotNull('pullRequestId', instance.pullRequestId);
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('clientRequestToken', instance.clientRequestToken);
+  writeNotNull('location', instance.location?.toJson());
+  return val;
 }
 
 PostCommentForPullRequestOutput _$PostCommentForPullRequestOutputFromJson(
@@ -1070,6 +2138,22 @@ PostCommentForPullRequestOutput _$PostCommentForPullRequestOutputFromJson(
     pullRequestId: json['pullRequestId'] as String,
     repositoryName: json['repositoryName'] as String,
   );
+}
+
+Map<String, dynamic> _$PostCommentReplyInputToJson(
+    PostCommentReplyInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('content', instance.content);
+  writeNotNull('inReplyTo', instance.inReplyTo);
+  writeNotNull('clientRequestToken', instance.clientRequestToken);
+  return val;
 }
 
 PostCommentReplyOutput _$PostCommentReplyOutputFromJson(
@@ -1104,11 +2188,6 @@ PullRequest _$PullRequestFromJson(Map<String, dynamic> json) {
     title: json['title'] as String,
   );
 }
-
-const _$PullRequestStatusEnumEnumMap = {
-  PullRequestStatusEnum.open: 'OPEN',
-  PullRequestStatusEnum.closed: 'CLOSED',
-};
 
 PullRequestCreatedEventMetadata _$PullRequestCreatedEventMetadataFromJson(
     Map<String, dynamic> json) {
@@ -1168,25 +2247,6 @@ PullRequestEvent _$PullRequestEventFromJson(Map<String, dynamic> json) {
                     as Map<String, dynamic>),
   );
 }
-
-const _$PullRequestEventTypeEnumMap = {
-  PullRequestEventType.pullRequestCreated: 'PULL_REQUEST_CREATED',
-  PullRequestEventType.pullRequestStatusChanged: 'PULL_REQUEST_STATUS_CHANGED',
-  PullRequestEventType.pullRequestSourceReferenceUpdated:
-      'PULL_REQUEST_SOURCE_REFERENCE_UPDATED',
-  PullRequestEventType.pullRequestMergeStateChanged:
-      'PULL_REQUEST_MERGE_STATE_CHANGED',
-  PullRequestEventType.pullRequestApprovalRuleCreated:
-      'PULL_REQUEST_APPROVAL_RULE_CREATED',
-  PullRequestEventType.pullRequestApprovalRuleUpdated:
-      'PULL_REQUEST_APPROVAL_RULE_UPDATED',
-  PullRequestEventType.pullRequestApprovalRuleDeleted:
-      'PULL_REQUEST_APPROVAL_RULE_DELETED',
-  PullRequestEventType.pullRequestApprovalRuleOverridden:
-      'PULL_REQUEST_APPROVAL_RULE_OVERRIDDEN',
-  PullRequestEventType.pullRequestApprovalStateChanged:
-      'PULL_REQUEST_APPROVAL_STATE_CHANGED',
-};
 
 PullRequestMergedStateChangedEventMetadata
     _$PullRequestMergedStateChangedEventMetadataFromJson(
@@ -1250,12 +2310,50 @@ Map<String, dynamic> _$PutFileEntryToJson(PutFileEntry instance) {
   return val;
 }
 
+Map<String, dynamic> _$PutFileInputToJson(PutFileInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('branchName', instance.branchName);
+  writeNotNull(
+      'fileContent', const Uint8ListConverter().toJson(instance.fileContent));
+  writeNotNull('filePath', instance.filePath);
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('commitMessage', instance.commitMessage);
+  writeNotNull('email', instance.email);
+  writeNotNull('fileMode', _$FileModeTypeEnumEnumMap[instance.fileMode]);
+  writeNotNull('name', instance.name);
+  writeNotNull('parentCommitId', instance.parentCommitId);
+  return val;
+}
+
 PutFileOutput _$PutFileOutputFromJson(Map<String, dynamic> json) {
   return PutFileOutput(
     blobId: json['blobId'] as String,
     commitId: json['commitId'] as String,
     treeId: json['treeId'] as String,
   );
+}
+
+Map<String, dynamic> _$PutRepositoryTriggersInputToJson(
+    PutRepositoryTriggersInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull(
+      'triggers', instance.triggers?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 PutRepositoryTriggersOutput _$PutRepositoryTriggersOutputFromJson(
@@ -1391,6 +2489,20 @@ SymbolicLink _$SymbolicLinkFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$TagResourceInputToJson(TagResourceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceArn', instance.resourceArn);
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
 Map<String, dynamic> _$TargetToJson(Target instance) {
   final val = <String, dynamic>{};
 
@@ -1403,6 +2515,22 @@ Map<String, dynamic> _$TargetToJson(Target instance) {
   writeNotNull('repositoryName', instance.repositoryName);
   writeNotNull('sourceReference', instance.sourceReference);
   writeNotNull('destinationReference', instance.destinationReference);
+  return val;
+}
+
+Map<String, dynamic> _$TestRepositoryTriggersInputToJson(
+    TestRepositoryTriggersInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull(
+      'triggers', instance.triggers?.map((e) => e?.toJson())?.toList());
   return val;
 }
 
@@ -1421,6 +2549,36 @@ TestRepositoryTriggersOutput _$TestRepositoryTriggersOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$UntagResourceInputToJson(UntagResourceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceArn', instance.resourceArn);
+  writeNotNull('tagKeys', instance.tagKeys);
+  return val;
+}
+
+Map<String, dynamic> _$UpdateApprovalRuleTemplateContentInputToJson(
+    UpdateApprovalRuleTemplateContentInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('approvalRuleTemplateName', instance.approvalRuleTemplateName);
+  writeNotNull('newRuleContent', instance.newRuleContent);
+  writeNotNull('existingRuleContentSha256', instance.existingRuleContentSha256);
+  return val;
+}
+
 UpdateApprovalRuleTemplateContentOutput
     _$UpdateApprovalRuleTemplateContentOutputFromJson(
         Map<String, dynamic> json) {
@@ -1430,6 +2588,22 @@ UpdateApprovalRuleTemplateContentOutput
         : ApprovalRuleTemplate.fromJson(
             json['approvalRuleTemplate'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateApprovalRuleTemplateDescriptionInputToJson(
+    UpdateApprovalRuleTemplateDescriptionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('approvalRuleTemplateDescription',
+      instance.approvalRuleTemplateDescription);
+  writeNotNull('approvalRuleTemplateName', instance.approvalRuleTemplateName);
+  return val;
 }
 
 UpdateApprovalRuleTemplateDescriptionOutput
@@ -1443,6 +2617,23 @@ UpdateApprovalRuleTemplateDescriptionOutput
   );
 }
 
+Map<String, dynamic> _$UpdateApprovalRuleTemplateNameInputToJson(
+    UpdateApprovalRuleTemplateNameInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'newApprovalRuleTemplateName', instance.newApprovalRuleTemplateName);
+  writeNotNull(
+      'oldApprovalRuleTemplateName', instance.oldApprovalRuleTemplateName);
+  return val;
+}
+
 UpdateApprovalRuleTemplateNameOutput
     _$UpdateApprovalRuleTemplateNameOutputFromJson(Map<String, dynamic> json) {
   return UpdateApprovalRuleTemplateNameOutput(
@@ -1453,12 +2644,58 @@ UpdateApprovalRuleTemplateNameOutput
   );
 }
 
+Map<String, dynamic> _$UpdateCommentInputToJson(UpdateCommentInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('commentId', instance.commentId);
+  writeNotNull('content', instance.content);
+  return val;
+}
+
 UpdateCommentOutput _$UpdateCommentOutputFromJson(Map<String, dynamic> json) {
   return UpdateCommentOutput(
     comment: json['comment'] == null
         ? null
         : Comment.fromJson(json['comment'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateDefaultBranchInputToJson(
+    UpdateDefaultBranchInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('defaultBranchName', instance.defaultBranchName);
+  writeNotNull('repositoryName', instance.repositoryName);
+  return val;
+}
+
+Map<String, dynamic> _$UpdatePullRequestApprovalRuleContentInputToJson(
+    UpdatePullRequestApprovalRuleContentInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('approvalRuleName', instance.approvalRuleName);
+  writeNotNull('newRuleContent', instance.newRuleContent);
+  writeNotNull('pullRequestId', instance.pullRequestId);
+  writeNotNull('existingRuleContentSha256', instance.existingRuleContentSha256);
+  return val;
 }
 
 UpdatePullRequestApprovalRuleContentOutput
@@ -1471,6 +2708,37 @@ UpdatePullRequestApprovalRuleContentOutput
   );
 }
 
+Map<String, dynamic> _$UpdatePullRequestApprovalStateInputToJson(
+    UpdatePullRequestApprovalStateInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('approvalState', _$ApprovalStateEnumMap[instance.approvalState]);
+  writeNotNull('pullRequestId', instance.pullRequestId);
+  writeNotNull('revisionId', instance.revisionId);
+  return val;
+}
+
+Map<String, dynamic> _$UpdatePullRequestDescriptionInputToJson(
+    UpdatePullRequestDescriptionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('description', instance.description);
+  writeNotNull('pullRequestId', instance.pullRequestId);
+  return val;
+}
+
 UpdatePullRequestDescriptionOutput _$UpdatePullRequestDescriptionOutputFromJson(
     Map<String, dynamic> json) {
   return UpdatePullRequestDescriptionOutput(
@@ -1478,6 +2746,22 @@ UpdatePullRequestDescriptionOutput _$UpdatePullRequestDescriptionOutputFromJson(
         ? null
         : PullRequest.fromJson(json['pullRequest'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdatePullRequestStatusInputToJson(
+    UpdatePullRequestStatusInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pullRequestId', instance.pullRequestId);
+  writeNotNull('pullRequestStatus',
+      _$PullRequestStatusEnumEnumMap[instance.pullRequestStatus]);
+  return val;
 }
 
 UpdatePullRequestStatusOutput _$UpdatePullRequestStatusOutputFromJson(
@@ -1489,6 +2773,21 @@ UpdatePullRequestStatusOutput _$UpdatePullRequestStatusOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdatePullRequestTitleInputToJson(
+    UpdatePullRequestTitleInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pullRequestId', instance.pullRequestId);
+  writeNotNull('title', instance.title);
+  return val;
+}
+
 UpdatePullRequestTitleOutput _$UpdatePullRequestTitleOutputFromJson(
     Map<String, dynamic> json) {
   return UpdatePullRequestTitleOutput(
@@ -1496,6 +2795,36 @@ UpdatePullRequestTitleOutput _$UpdatePullRequestTitleOutputFromJson(
         ? null
         : PullRequest.fromJson(json['pullRequest'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateRepositoryDescriptionInputToJson(
+    UpdateRepositoryDescriptionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('repositoryDescription', instance.repositoryDescription);
+  return val;
+}
+
+Map<String, dynamic> _$UpdateRepositoryNameInputToJson(
+    UpdateRepositoryNameInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('newName', instance.newName);
+  writeNotNull('oldName', instance.oldName);
+  return val;
 }
 
 UserInfo _$UserInfoFromJson(Map<String, dynamic> json) {

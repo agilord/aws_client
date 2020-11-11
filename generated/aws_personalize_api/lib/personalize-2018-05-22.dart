@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -133,14 +132,14 @@ class Personalize {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'jobInput': jobInput,
-        'jobName': jobName,
-        'jobOutput': jobOutput,
-        'roleArn': roleArn,
-        'solutionVersionArn': solutionVersionArn,
-        if (numResults != null) 'numResults': numResults,
-      },
+      payload: CreateBatchInferenceJobRequest(
+        jobInput: jobInput,
+        jobName: jobName,
+        jobOutput: jobOutput,
+        roleArn: roleArn,
+        solutionVersionArn: solutionVersionArn,
+        numResults: numResults,
+      ),
     );
 
     return CreateBatchInferenceJobResponse.fromJson(jsonResponse.body);
@@ -270,11 +269,11 @@ class Personalize {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'minProvisionedTPS': minProvisionedTPS,
-        'name': name,
-        'solutionVersionArn': solutionVersionArn,
-      },
+      payload: CreateCampaignRequest(
+        minProvisionedTPS: minProvisionedTPS,
+        name: name,
+        solutionVersionArn: solutionVersionArn,
+      ),
     );
 
     return CreateCampaignResponse.fromJson(jsonResponse.body);
@@ -426,12 +425,12 @@ class Personalize {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'datasetGroupArn': datasetGroupArn,
-        'datasetType': datasetType,
-        'name': name,
-        'schemaArn': schemaArn,
-      },
+      payload: CreateDatasetRequest(
+        datasetGroupArn: datasetGroupArn,
+        datasetType: datasetType,
+        name: name,
+        schemaArn: schemaArn,
+      ),
     );
 
     return CreateDatasetResponse.fromJson(jsonResponse.body);
@@ -557,11 +556,11 @@ class Personalize {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'name': name,
-        if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
-        if (roleArn != null) 'roleArn': roleArn,
-      },
+      payload: CreateDatasetGroupRequest(
+        name: name,
+        kmsKeyArn: kmsKeyArn,
+        roleArn: roleArn,
+      ),
     );
 
     return CreateDatasetGroupResponse.fromJson(jsonResponse.body);
@@ -679,12 +678,12 @@ class Personalize {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'dataSource': dataSource,
-        'datasetArn': datasetArn,
-        'jobName': jobName,
-        'roleArn': roleArn,
-      },
+      payload: CreateDatasetImportJobRequest(
+        dataSource: dataSource,
+        datasetArn: datasetArn,
+        jobName: jobName,
+        roleArn: roleArn,
+      ),
     );
 
     return CreateDatasetImportJobResponse.fromJson(jsonResponse.body);
@@ -790,10 +789,10 @@ class Personalize {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'datasetGroupArn': datasetGroupArn,
-        'name': name,
-      },
+      payload: CreateEventTrackerRequest(
+        datasetGroupArn: datasetGroupArn,
+        name: name,
+      ),
     );
 
     return CreateEventTrackerResponse.fromJson(jsonResponse.body);
@@ -864,10 +863,10 @@ class Personalize {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'name': name,
-        'schema': schema,
-      },
+      payload: CreateSchemaRequest(
+        name: name,
+        schema: schema,
+      ),
     );
 
     return CreateSchemaResponse.fromJson(jsonResponse.body);
@@ -1044,15 +1043,15 @@ class Personalize {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'datasetGroupArn': datasetGroupArn,
-        'name': name,
-        if (eventType != null) 'eventType': eventType,
-        if (performAutoML != null) 'performAutoML': performAutoML,
-        if (performHPO != null) 'performHPO': performHPO,
-        if (recipeArn != null) 'recipeArn': recipeArn,
-        if (solutionConfig != null) 'solutionConfig': solutionConfig,
-      },
+      payload: CreateSolutionRequest(
+        datasetGroupArn: datasetGroupArn,
+        name: name,
+        eventType: eventType,
+        performAutoML: performAutoML,
+        performHPO: performHPO,
+        recipeArn: recipeArn,
+        solutionConfig: solutionConfig,
+      ),
     );
 
     return CreateSolutionResponse.fromJson(jsonResponse.body);
@@ -1153,10 +1152,10 @@ class Personalize {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'solutionArn': solutionArn,
-        if (trainingMode != null) 'trainingMode': trainingMode?.toValue(),
-      },
+      payload: CreateSolutionVersionRequest(
+        solutionArn: solutionArn,
+        trainingMode: trainingMode,
+      ),
     );
 
     return CreateSolutionVersionResponse.fromJson(jsonResponse.body);
@@ -1201,9 +1200,9 @@ class Personalize {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'campaignArn': campaignArn,
-      },
+      payload: DeleteCampaignRequest(
+        campaignArn: campaignArn,
+      ),
     );
   }
 
@@ -1245,9 +1244,9 @@ class Personalize {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'datasetArn': datasetArn,
-      },
+      payload: DeleteDatasetRequest(
+        datasetArn: datasetArn,
+      ),
     );
   }
 
@@ -1299,9 +1298,9 @@ class Personalize {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'datasetGroupArn': datasetGroupArn,
-      },
+      payload: DeleteDatasetGroupRequest(
+        datasetGroupArn: datasetGroupArn,
+      ),
     );
   }
 
@@ -1342,9 +1341,9 @@ class Personalize {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'eventTrackerArn': eventTrackerArn,
-      },
+      payload: DeleteEventTrackerRequest(
+        eventTrackerArn: eventTrackerArn,
+      ),
     );
   }
 
@@ -1385,9 +1384,9 @@ class Personalize {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'schemaArn': schemaArn,
-      },
+      payload: DeleteSchemaRequest(
+        schemaArn: schemaArn,
+      ),
     );
   }
 
@@ -1432,9 +1431,9 @@ class Personalize {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'solutionArn': solutionArn,
-      },
+      payload: DeleteSolutionRequest(
+        solutionArn: solutionArn,
+      ),
     );
   }
 
@@ -1472,9 +1471,9 @@ class Personalize {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'algorithmArn': algorithmArn,
-      },
+      payload: DescribeAlgorithmRequest(
+        algorithmArn: algorithmArn,
+      ),
     );
 
     return DescribeAlgorithmResponse.fromJson(jsonResponse.body);
@@ -1516,9 +1515,9 @@ class Personalize {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'batchInferenceJobArn': batchInferenceJobArn,
-      },
+      payload: DescribeBatchInferenceJobRequest(
+        batchInferenceJobArn: batchInferenceJobArn,
+      ),
     );
 
     return DescribeBatchInferenceJobResponse.fromJson(jsonResponse.body);
@@ -1573,9 +1572,9 @@ class Personalize {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'campaignArn': campaignArn,
-      },
+      payload: DescribeCampaignRequest(
+        campaignArn: campaignArn,
+      ),
     );
 
     return DescribeCampaignResponse.fromJson(jsonResponse.body);
@@ -1616,9 +1615,9 @@ class Personalize {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'datasetArn': datasetArn,
-      },
+      payload: DescribeDatasetRequest(
+        datasetArn: datasetArn,
+      ),
     );
 
     return DescribeDatasetResponse.fromJson(jsonResponse.body);
@@ -1659,9 +1658,9 @@ class Personalize {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'datasetGroupArn': datasetGroupArn,
-      },
+      payload: DescribeDatasetGroupRequest(
+        datasetGroupArn: datasetGroupArn,
+      ),
     );
 
     return DescribeDatasetGroupResponse.fromJson(jsonResponse.body);
@@ -1702,9 +1701,9 @@ class Personalize {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'datasetImportJobArn': datasetImportJobArn,
-      },
+      payload: DescribeDatasetImportJobRequest(
+        datasetImportJobArn: datasetImportJobArn,
+      ),
     );
 
     return DescribeDatasetImportJobResponse.fromJson(jsonResponse.body);
@@ -1746,9 +1745,9 @@ class Personalize {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'eventTrackerArn': eventTrackerArn,
-      },
+      payload: DescribeEventTrackerRequest(
+        eventTrackerArn: eventTrackerArn,
+      ),
     );
 
     return DescribeEventTrackerResponse.fromJson(jsonResponse.body);
@@ -1789,9 +1788,9 @@ class Personalize {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'featureTransformationArn': featureTransformationArn,
-      },
+      payload: DescribeFeatureTransformationRequest(
+        featureTransformationArn: featureTransformationArn,
+      ),
     );
 
     return DescribeFeatureTransformationResponse.fromJson(jsonResponse.body);
@@ -1853,9 +1852,9 @@ class Personalize {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'recipeArn': recipeArn,
-      },
+      payload: DescribeRecipeRequest(
+        recipeArn: recipeArn,
+      ),
     );
 
     return DescribeRecipeResponse.fromJson(jsonResponse.body);
@@ -1896,9 +1895,9 @@ class Personalize {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'schemaArn': schemaArn,
-      },
+      payload: DescribeSchemaRequest(
+        schemaArn: schemaArn,
+      ),
     );
 
     return DescribeSchemaResponse.fromJson(jsonResponse.body);
@@ -1939,9 +1938,9 @@ class Personalize {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'solutionArn': solutionArn,
-      },
+      payload: DescribeSolutionRequest(
+        solutionArn: solutionArn,
+      ),
     );
 
     return DescribeSolutionResponse.fromJson(jsonResponse.body);
@@ -1982,9 +1981,9 @@ class Personalize {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'solutionVersionArn': solutionVersionArn,
-      },
+      payload: DescribeSolutionVersionRequest(
+        solutionVersionArn: solutionVersionArn,
+      ),
     );
 
     return DescribeSolutionVersionResponse.fromJson(jsonResponse.body);
@@ -2026,9 +2025,9 @@ class Personalize {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'solutionVersionArn': solutionVersionArn,
-      },
+      payload: GetSolutionMetricsRequest(
+        solutionVersionArn: solutionVersionArn,
+      ),
     );
 
     return GetSolutionMetricsResponse.fromJson(jsonResponse.body);
@@ -2088,12 +2087,11 @@ class Personalize {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (solutionVersionArn != null)
-          'solutionVersionArn': solutionVersionArn,
-      },
+      payload: ListBatchInferenceJobsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+        solutionVersionArn: solutionVersionArn,
+      ),
     );
 
     return ListBatchInferenceJobsResponse.fromJson(jsonResponse.body);
@@ -2157,11 +2155,11 @@ class Personalize {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (solutionArn != null) 'solutionArn': solutionArn,
-      },
+      payload: ListCampaignsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+        solutionArn: solutionArn,
+      ),
     );
 
     return ListCampaignsResponse.fromJson(jsonResponse.body);
@@ -2205,10 +2203,10 @@ class Personalize {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListDatasetGroupsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListDatasetGroupsResponse.fromJson(jsonResponse.body);
@@ -2273,11 +2271,11 @@ class Personalize {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (datasetArn != null) 'datasetArn': datasetArn,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListDatasetImportJobsRequest(
+        datasetArn: datasetArn,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListDatasetImportJobsResponse.fromJson(jsonResponse.body);
@@ -2340,11 +2338,11 @@ class Personalize {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (datasetGroupArn != null) 'datasetGroupArn': datasetGroupArn,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListDatasetsRequest(
+        datasetGroupArn: datasetGroupArn,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListDatasetsResponse.fromJson(jsonResponse.body);
@@ -2405,11 +2403,11 @@ class Personalize {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (datasetGroupArn != null) 'datasetGroupArn': datasetGroupArn,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListEventTrackersRequest(
+        datasetGroupArn: datasetGroupArn,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListEventTrackersResponse.fromJson(jsonResponse.body);
@@ -2456,11 +2454,11 @@ class Personalize {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (recipeProvider != null) 'recipeProvider': recipeProvider?.toValue(),
-      },
+      payload: ListRecipesRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+        recipeProvider: recipeProvider,
+      ),
     );
 
     return ListRecipesResponse.fromJson(jsonResponse.body);
@@ -2504,10 +2502,10 @@ class Personalize {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListSchemasRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListSchemasResponse.fromJson(jsonResponse.body);
@@ -2571,11 +2569,11 @@ class Personalize {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (solutionArn != null) 'solutionArn': solutionArn,
-      },
+      payload: ListSolutionVersionsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+        solutionArn: solutionArn,
+      ),
     );
 
     return ListSolutionVersionsResponse.fromJson(jsonResponse.body);
@@ -2637,11 +2635,11 @@ class Personalize {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (datasetGroupArn != null) 'datasetGroupArn': datasetGroupArn,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListSolutionsRequest(
+        datasetGroupArn: datasetGroupArn,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListSolutionsResponse.fromJson(jsonResponse.body);
@@ -2717,12 +2715,11 @@ class Personalize {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'campaignArn': campaignArn,
-        if (minProvisionedTPS != null) 'minProvisionedTPS': minProvisionedTPS,
-        if (solutionVersionArn != null)
-          'solutionVersionArn': solutionVersionArn,
-      },
+      payload: UpdateCampaignRequest(
+        campaignArn: campaignArn,
+        minProvisionedTPS: minProvisionedTPS,
+        solutionVersionArn: solutionVersionArn,
+      ),
     );
 
     return UpdateCampaignResponse.fromJson(jsonResponse.body);
@@ -3337,6 +3334,51 @@ class ContinuousHyperParameterRange {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateBatchInferenceJobRequest {
+  /// The Amazon S3 path that leads to the input file to base your recommendations
+  /// on. The input material must be in JSON format.
+  @_s.JsonKey(name: 'jobInput')
+  final BatchInferenceJobInput jobInput;
+
+  /// The name of the batch inference job to create.
+  @_s.JsonKey(name: 'jobName')
+  final String jobName;
+
+  /// The path to the Amazon S3 bucket where the job's output will be stored.
+  @_s.JsonKey(name: 'jobOutput')
+  final BatchInferenceJobOutput jobOutput;
+
+  /// The ARN of the Amazon Identity and Access Management role that has
+  /// permissions to read and write to your input and out Amazon S3 buckets
+  /// respectively.
+  @_s.JsonKey(name: 'roleArn')
+  final String roleArn;
+
+  /// The Amazon Resource Name (ARN) of the solution version that will be used to
+  /// generate the batch inference recommendations.
+  @_s.JsonKey(name: 'solutionVersionArn')
+  final String solutionVersionArn;
+
+  /// The number of recommendations to retreive.
+  @_s.JsonKey(name: 'numResults')
+  final int numResults;
+
+  CreateBatchInferenceJobRequest({
+    @_s.required this.jobInput,
+    @_s.required this.jobName,
+    @_s.required this.jobOutput,
+    @_s.required this.roleArn,
+    @_s.required this.solutionVersionArn,
+    this.numResults,
+  });
+  Map<String, dynamic> toJson() => _$CreateBatchInferenceJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateBatchInferenceJobResponse {
@@ -3349,6 +3391,34 @@ class CreateBatchInferenceJobResponse {
   });
   factory CreateBatchInferenceJobResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateBatchInferenceJobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateCampaignRequest {
+  /// Specifies the requested minimum provisioned transactions (recommendations)
+  /// per second that Amazon Personalize will support.
+  @_s.JsonKey(name: 'minProvisionedTPS')
+  final int minProvisionedTPS;
+
+  /// A name for the new campaign. The campaign name must be unique within your
+  /// account.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The Amazon Resource Name (ARN) of the solution version to deploy.
+  @_s.JsonKey(name: 'solutionVersionArn')
+  final String solutionVersionArn;
+
+  CreateCampaignRequest({
+    @_s.required this.minProvisionedTPS,
+    @_s.required this.name,
+    @_s.required this.solutionVersionArn,
+  });
+  Map<String, dynamic> toJson() => _$CreateCampaignRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3371,6 +3441,33 @@ class CreateCampaignResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDatasetGroupRequest {
+  /// The name for the new dataset group.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The Amazon Resource Name (ARN) of a KMS key used to encrypt the datasets.
+  @_s.JsonKey(name: 'kmsKeyArn')
+  final String kmsKeyArn;
+
+  /// The ARN of the IAM role that has permissions to access the KMS key.
+  /// Supplying an IAM role is only valid when also specifying a KMS key.
+  @_s.JsonKey(name: 'roleArn')
+  final String roleArn;
+
+  CreateDatasetGroupRequest({
+    @_s.required this.name,
+    this.kmsKeyArn,
+    this.roleArn,
+  });
+  Map<String, dynamic> toJson() => _$CreateDatasetGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateDatasetGroupResponse {
@@ -3383,6 +3480,38 @@ class CreateDatasetGroupResponse {
   });
   factory CreateDatasetGroupResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateDatasetGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDatasetImportJobRequest {
+  /// The Amazon S3 bucket that contains the training data to import.
+  @_s.JsonKey(name: 'dataSource')
+  final DataSource dataSource;
+
+  /// The ARN of the dataset that receives the imported data.
+  @_s.JsonKey(name: 'datasetArn')
+  final String datasetArn;
+
+  /// The name for the dataset import job.
+  @_s.JsonKey(name: 'jobName')
+  final String jobName;
+
+  /// The ARN of the IAM role that has permissions to read from the Amazon S3 data
+  /// source.
+  @_s.JsonKey(name: 'roleArn')
+  final String roleArn;
+
+  CreateDatasetImportJobRequest({
+    @_s.required this.dataSource,
+    @_s.required this.datasetArn,
+    @_s.required this.jobName,
+    @_s.required this.roleArn,
+  });
+  Map<String, dynamic> toJson() => _$CreateDatasetImportJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3405,6 +3534,52 @@ class CreateDatasetImportJobResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDatasetRequest {
+  /// The Amazon Resource Name (ARN) of the dataset group to add the dataset to.
+  @_s.JsonKey(name: 'datasetGroupArn')
+  final String datasetGroupArn;
+
+  /// The type of dataset.
+  ///
+  /// One of the following (case insensitive) values:
+  ///
+  /// <ul>
+  /// <li>
+  /// Interactions
+  /// </li>
+  /// <li>
+  /// Items
+  /// </li>
+  /// <li>
+  /// Users
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'datasetType')
+  final String datasetType;
+
+  /// The name for the dataset.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The ARN of the schema to associate with the dataset. The schema defines the
+  /// dataset fields.
+  @_s.JsonKey(name: 'schemaArn')
+  final String schemaArn;
+
+  CreateDatasetRequest({
+    @_s.required this.datasetGroupArn,
+    @_s.required this.datasetType,
+    @_s.required this.name,
+    @_s.required this.schemaArn,
+  });
+  Map<String, dynamic> toJson() => _$CreateDatasetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateDatasetResponse {
@@ -3417,6 +3592,28 @@ class CreateDatasetResponse {
   });
   factory CreateDatasetResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateDatasetResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateEventTrackerRequest {
+  /// The Amazon Resource Name (ARN) of the dataset group that receives the event
+  /// data.
+  @_s.JsonKey(name: 'datasetGroupArn')
+  final String datasetGroupArn;
+
+  /// The name for the event tracker.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  CreateEventTrackerRequest({
+    @_s.required this.datasetGroupArn,
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$CreateEventTrackerRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3446,6 +3643,27 @@ class CreateEventTrackerResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateSchemaRequest {
+  /// The name for the schema.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// A schema in Avro JSON format.
+  @_s.JsonKey(name: 'schema')
+  final String schema;
+
+  CreateSchemaRequest({
+    @_s.required this.name,
+    @_s.required this.schema,
+  });
+  Map<String, dynamic> toJson() => _$CreateSchemaRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateSchemaResponse {
@@ -3463,6 +3681,70 @@ class CreateSchemaResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateSolutionRequest {
+  /// The Amazon Resource Name (ARN) of the dataset group that provides the
+  /// training data.
+  @_s.JsonKey(name: 'datasetGroupArn')
+  final String datasetGroupArn;
+
+  /// The name for the solution.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// When your have multiple event types (using an <code>EVENT_TYPE</code> schema
+  /// field), this parameter specifies which event type (for example, 'click' or
+  /// 'like') is used for training the model.
+  @_s.JsonKey(name: 'eventType')
+  final String eventType;
+
+  /// Whether to perform automated machine learning (AutoML). The default is
+  /// <code>false</code>. For this case, you must specify <code>recipeArn</code>.
+  ///
+  /// When set to <code>true</code>, Amazon Personalize analyzes your training
+  /// data and selects the optimal USER_PERSONALIZATION recipe and
+  /// hyperparameters. In this case, you must omit <code>recipeArn</code>. Amazon
+  /// Personalize determines the optimal recipe by running tests with different
+  /// values for the hyperparameters. AutoML lengthens the training process as
+  /// compared to selecting a specific recipe.
+  @_s.JsonKey(name: 'performAutoML')
+  final bool performAutoML;
+
+  /// Whether to perform hyperparameter optimization (HPO) on the specified or
+  /// selected recipe. The default is <code>false</code>.
+  ///
+  /// When performing AutoML, this parameter is always <code>true</code> and you
+  /// should not set it to <code>false</code>.
+  @_s.JsonKey(name: 'performHPO')
+  final bool performHPO;
+
+  /// The ARN of the recipe to use for model training. Only specified when
+  /// <code>performAutoML</code> is false.
+  @_s.JsonKey(name: 'recipeArn')
+  final String recipeArn;
+
+  /// The configuration to use with the solution. When <code>performAutoML</code>
+  /// is set to true, Amazon Personalize only evaluates the
+  /// <code>autoMLConfig</code> section of the solution configuration.
+  @_s.JsonKey(name: 'solutionConfig')
+  final SolutionConfig solutionConfig;
+
+  CreateSolutionRequest({
+    @_s.required this.datasetGroupArn,
+    @_s.required this.name,
+    this.eventType,
+    this.performAutoML,
+    this.performHPO,
+    this.recipeArn,
+    this.solutionConfig,
+  });
+  Map<String, dynamic> toJson() => _$CreateSolutionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateSolutionResponse {
@@ -3475,6 +3757,40 @@ class CreateSolutionResponse {
   });
   factory CreateSolutionResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateSolutionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateSolutionVersionRequest {
+  /// The Amazon Resource Name (ARN) of the solution containing the training
+  /// configuration information.
+  @_s.JsonKey(name: 'solutionArn')
+  final String solutionArn;
+
+  /// The scope of training to be performed when creating the solution version.
+  /// The <code>FULL</code> option trains the solution version based on the
+  /// entirety of the input solution's training data, while the
+  /// <code>UPDATE</code> option processes only the data that has changed in
+  /// comparison to the input solution. Choose <code>UPDATE</code> when you want
+  /// to incrementally update your solution version instead of creating an
+  /// entirely new one.
+  /// <important>
+  /// The <code>UPDATE</code> option can only be used when you already have an
+  /// active solution version created from the input solution using the
+  /// <code>FULL</code> option and the input solution was trained with the
+  /// <a>native-recipe-hrnn-coldstart</a> recipe.
+  /// </important>
+  @_s.JsonKey(name: 'trainingMode')
+  final TrainingMode trainingMode;
+
+  CreateSolutionVersionRequest({
+    @_s.required this.solutionArn,
+    this.trainingMode,
+  });
+  Map<String, dynamic> toJson() => _$CreateSolutionVersionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4178,6 +4494,118 @@ class DefaultIntegerHyperParameterRange {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteCampaignRequest {
+  /// The Amazon Resource Name (ARN) of the campaign to delete.
+  @_s.JsonKey(name: 'campaignArn')
+  final String campaignArn;
+
+  DeleteCampaignRequest({
+    @_s.required this.campaignArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteCampaignRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDatasetGroupRequest {
+  /// The ARN of the dataset group to delete.
+  @_s.JsonKey(name: 'datasetGroupArn')
+  final String datasetGroupArn;
+
+  DeleteDatasetGroupRequest({
+    @_s.required this.datasetGroupArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDatasetGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDatasetRequest {
+  /// The Amazon Resource Name (ARN) of the dataset to delete.
+  @_s.JsonKey(name: 'datasetArn')
+  final String datasetArn;
+
+  DeleteDatasetRequest({
+    @_s.required this.datasetArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDatasetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteEventTrackerRequest {
+  /// The Amazon Resource Name (ARN) of the event tracker to delete.
+  @_s.JsonKey(name: 'eventTrackerArn')
+  final String eventTrackerArn;
+
+  DeleteEventTrackerRequest({
+    @_s.required this.eventTrackerArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteEventTrackerRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteSchemaRequest {
+  /// The Amazon Resource Name (ARN) of the schema to delete.
+  @_s.JsonKey(name: 'schemaArn')
+  final String schemaArn;
+
+  DeleteSchemaRequest({
+    @_s.required this.schemaArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteSchemaRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteSolutionRequest {
+  /// The ARN of the solution to delete.
+  @_s.JsonKey(name: 'solutionArn')
+  final String solutionArn;
+
+  DeleteSolutionRequest({
+    @_s.required this.solutionArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteSolutionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeAlgorithmRequest {
+  /// The Amazon Resource Name (ARN) of the algorithm to describe.
+  @_s.JsonKey(name: 'algorithmArn')
+  final String algorithmArn;
+
+  DescribeAlgorithmRequest({
+    @_s.required this.algorithmArn,
+  });
+  Map<String, dynamic> toJson() => _$DescribeAlgorithmRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeAlgorithmResponse {
@@ -4190,6 +4618,23 @@ class DescribeAlgorithmResponse {
   });
   factory DescribeAlgorithmResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeAlgorithmResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeBatchInferenceJobRequest {
+  /// The ARN of the batch inference job to describe.
+  @_s.JsonKey(name: 'batchInferenceJobArn')
+  final String batchInferenceJobArn;
+
+  DescribeBatchInferenceJobRequest({
+    @_s.required this.batchInferenceJobArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeBatchInferenceJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4213,6 +4658,22 @@ class DescribeBatchInferenceJobResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeCampaignRequest {
+  /// The Amazon Resource Name (ARN) of the campaign.
+  @_s.JsonKey(name: 'campaignArn')
+  final String campaignArn;
+
+  DescribeCampaignRequest({
+    @_s.required this.campaignArn,
+  });
+  Map<String, dynamic> toJson() => _$DescribeCampaignRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeCampaignResponse {
@@ -4230,6 +4691,22 @@ class DescribeCampaignResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeDatasetGroupRequest {
+  /// The Amazon Resource Name (ARN) of the dataset group to describe.
+  @_s.JsonKey(name: 'datasetGroupArn')
+  final String datasetGroupArn;
+
+  DescribeDatasetGroupRequest({
+    @_s.required this.datasetGroupArn,
+  });
+  Map<String, dynamic> toJson() => _$DescribeDatasetGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeDatasetGroupResponse {
@@ -4242,6 +4719,23 @@ class DescribeDatasetGroupResponse {
   });
   factory DescribeDatasetGroupResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeDatasetGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeDatasetImportJobRequest {
+  /// The Amazon Resource Name (ARN) of the dataset import job to describe.
+  @_s.JsonKey(name: 'datasetImportJobArn')
+  final String datasetImportJobArn;
+
+  DescribeDatasetImportJobRequest({
+    @_s.required this.datasetImportJobArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeDatasetImportJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4282,6 +4776,22 @@ class DescribeDatasetImportJobResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeDatasetRequest {
+  /// The Amazon Resource Name (ARN) of the dataset to describe.
+  @_s.JsonKey(name: 'datasetArn')
+  final String datasetArn;
+
+  DescribeDatasetRequest({
+    @_s.required this.datasetArn,
+  });
+  Map<String, dynamic> toJson() => _$DescribeDatasetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeDatasetResponse {
@@ -4299,6 +4809,22 @@ class DescribeDatasetResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeEventTrackerRequest {
+  /// The Amazon Resource Name (ARN) of the event tracker to describe.
+  @_s.JsonKey(name: 'eventTrackerArn')
+  final String eventTrackerArn;
+
+  DescribeEventTrackerRequest({
+    @_s.required this.eventTrackerArn,
+  });
+  Map<String, dynamic> toJson() => _$DescribeEventTrackerRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeEventTrackerResponse {
@@ -4311,6 +4837,23 @@ class DescribeEventTrackerResponse {
   });
   factory DescribeEventTrackerResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeEventTrackerResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeFeatureTransformationRequest {
+  /// The Amazon Resource Name (ARN) of the feature transformation to describe.
+  @_s.JsonKey(name: 'featureTransformationArn')
+  final String featureTransformationArn;
+
+  DescribeFeatureTransformationRequest({
+    @_s.required this.featureTransformationArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeFeatureTransformationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4334,6 +4877,22 @@ class DescribeFeatureTransformationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeRecipeRequest {
+  /// The Amazon Resource Name (ARN) of the recipe to describe.
+  @_s.JsonKey(name: 'recipeArn')
+  final String recipeArn;
+
+  DescribeRecipeRequest({
+    @_s.required this.recipeArn,
+  });
+  Map<String, dynamic> toJson() => _$DescribeRecipeRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeRecipeResponse {
@@ -4346,6 +4905,22 @@ class DescribeRecipeResponse {
   });
   factory DescribeRecipeResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeRecipeResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeSchemaRequest {
+  /// The Amazon Resource Name (ARN) of the schema to retrieve.
+  @_s.JsonKey(name: 'schemaArn')
+  final String schemaArn;
+
+  DescribeSchemaRequest({
+    @_s.required this.schemaArn,
+  });
+  Map<String, dynamic> toJson() => _$DescribeSchemaRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4368,6 +4943,22 @@ class DescribeSchemaResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeSolutionRequest {
+  /// The Amazon Resource Name (ARN) of the solution to describe.
+  @_s.JsonKey(name: 'solutionArn')
+  final String solutionArn;
+
+  DescribeSolutionRequest({
+    @_s.required this.solutionArn,
+  });
+  Map<String, dynamic> toJson() => _$DescribeSolutionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeSolutionResponse {
@@ -4380,6 +4971,22 @@ class DescribeSolutionResponse {
   });
   factory DescribeSolutionResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeSolutionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeSolutionVersionRequest {
+  /// The Amazon Resource Name (ARN) of the solution version.
+  @_s.JsonKey(name: 'solutionVersionArn')
+  final String solutionVersionArn;
+
+  DescribeSolutionVersionRequest({
+    @_s.required this.solutionVersionArn,
+  });
+  Map<String, dynamic> toJson() => _$DescribeSolutionVersionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4590,6 +5197,23 @@ class FeatureTransformation {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetSolutionMetricsRequest {
+  /// The Amazon Resource Name (ARN) of the solution version for which to get
+  /// metrics.
+  @_s.JsonKey(name: 'solutionVersionArn')
+  final String solutionVersionArn;
+
+  GetSolutionMetricsRequest({
+    @_s.required this.solutionVersionArn,
+  });
+  Map<String, dynamic> toJson() => _$GetSolutionMetricsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetSolutionMetricsResponse {
@@ -4764,6 +5388,34 @@ class IntegerHyperParameterRange {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListBatchInferenceJobsRequest {
+  /// The maximum number of batch inference job results to return in each page.
+  /// The default value is 100.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The token to request the next page of results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The Amazon Resource Name (ARN) of the solution version from which the batch
+  /// inference jobs were created.
+  @_s.JsonKey(name: 'solutionVersionArn')
+  final String solutionVersionArn;
+
+  ListBatchInferenceJobsRequest({
+    this.maxResults,
+    this.nextToken,
+    this.solutionVersionArn,
+  });
+  Map<String, dynamic> toJson() => _$ListBatchInferenceJobsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListBatchInferenceJobsResponse {
@@ -4782,6 +5434,35 @@ class ListBatchInferenceJobsResponse {
   });
   factory ListBatchInferenceJobsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListBatchInferenceJobsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListCampaignsRequest {
+  /// The maximum number of campaigns to return.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// A token returned from the previous call to <code>ListCampaigns</code> for
+  /// getting the next set of campaigns (if they exist).
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The Amazon Resource Name (ARN) of the solution to list the campaigns for.
+  /// When a solution is not specified, all the campaigns associated with the
+  /// account are listed.
+  @_s.JsonKey(name: 'solutionArn')
+  final String solutionArn;
+
+  ListCampaignsRequest({
+    this.maxResults,
+    this.nextToken,
+    this.solutionArn,
+  });
+  Map<String, dynamic> toJson() => _$ListCampaignsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4809,6 +5490,28 @@ class ListCampaignsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListDatasetGroupsRequest {
+  /// The maximum number of dataset groups to return.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// A token returned from the previous call to <code>ListDatasetGroups</code>
+  /// for getting the next set of dataset groups (if they exist).
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListDatasetGroupsRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListDatasetGroupsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListDatasetGroupsResponse {
@@ -4831,6 +5534,35 @@ class ListDatasetGroupsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListDatasetImportJobsRequest {
+  /// The Amazon Resource Name (ARN) of the dataset to list the dataset import
+  /// jobs for.
+  @_s.JsonKey(name: 'datasetArn')
+  final String datasetArn;
+
+  /// The maximum number of dataset import jobs to return.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// A token returned from the previous call to
+  /// <code>ListDatasetImportJobs</code> for getting the next set of dataset
+  /// import jobs (if they exist).
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListDatasetImportJobsRequest({
+    this.datasetArn,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListDatasetImportJobsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListDatasetImportJobsResponse {
@@ -4848,6 +5580,35 @@ class ListDatasetImportJobsResponse {
   });
   factory ListDatasetImportJobsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListDatasetImportJobsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListDatasetsRequest {
+  /// The Amazon Resource Name (ARN) of the dataset group that contains the
+  /// datasets to list.
+  @_s.JsonKey(name: 'datasetGroupArn')
+  final String datasetGroupArn;
+
+  /// The maximum number of datasets to return.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// A token returned from the previous call to
+  /// <code>ListDatasetImportJobs</code> for getting the next set of dataset
+  /// import jobs (if they exist).
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListDatasetsRequest({
+    this.datasetGroupArn,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListDatasetsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4876,6 +5637,33 @@ class ListDatasetsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListEventTrackersRequest {
+  /// The ARN of a dataset group used to filter the response.
+  @_s.JsonKey(name: 'datasetGroupArn')
+  final String datasetGroupArn;
+
+  /// The maximum number of event trackers to return.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// A token returned from the previous call to <code>ListEventTrackers</code>
+  /// for getting the next set of event trackers (if they exist).
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListEventTrackersRequest({
+    this.datasetGroupArn,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListEventTrackersRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListEventTrackersResponse {
@@ -4893,6 +5681,33 @@ class ListEventTrackersResponse {
   });
   factory ListEventTrackersResponse.fromJson(Map<String, dynamic> json) =>
       _$ListEventTrackersResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListRecipesRequest {
+  /// The maximum number of recipes to return.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// A token returned from the previous call to <code>ListRecipes</code> for
+  /// getting the next set of recipes (if they exist).
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The default is <code>SERVICE</code>.
+  @_s.JsonKey(name: 'recipeProvider')
+  final RecipeProvider recipeProvider;
+
+  ListRecipesRequest({
+    this.maxResults,
+    this.nextToken,
+    this.recipeProvider,
+  });
+  Map<String, dynamic> toJson() => _$ListRecipesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4920,6 +5735,28 @@ class ListRecipesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListSchemasRequest {
+  /// The maximum number of schemas to return.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// A token returned from the previous call to <code>ListSchemas</code> for
+  /// getting the next set of schemas (if they exist).
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListSchemasRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListSchemasRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListSchemasResponse {
@@ -4942,6 +5779,33 @@ class ListSchemasResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListSolutionVersionsRequest {
+  /// The maximum number of solution versions to return.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// A token returned from the previous call to <code>ListSolutionVersions</code>
+  /// for getting the next set of solution versions (if they exist).
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The Amazon Resource Name (ARN) of the solution.
+  @_s.JsonKey(name: 'solutionArn')
+  final String solutionArn;
+
+  ListSolutionVersionsRequest({
+    this.maxResults,
+    this.nextToken,
+    this.solutionArn,
+  });
+  Map<String, dynamic> toJson() => _$ListSolutionVersionsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListSolutionVersionsResponse {
@@ -4959,6 +5823,33 @@ class ListSolutionVersionsResponse {
   });
   factory ListSolutionVersionsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListSolutionVersionsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListSolutionsRequest {
+  /// The Amazon Resource Name (ARN) of the dataset group.
+  @_s.JsonKey(name: 'datasetGroupArn')
+  final String datasetGroupArn;
+
+  /// The maximum number of solutions to return.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// A token returned from the previous call to <code>ListSolutions</code> for
+  /// getting the next set of solutions (if they exist).
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListSolutionsRequest({
+    this.datasetGroupArn,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListSolutionsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5064,16 +5955,6 @@ class Recipe {
 enum RecipeProvider {
   @_s.JsonValue('SERVICE')
   service,
-}
-
-extension on RecipeProvider {
-  String toValue() {
-    switch (this) {
-      case RecipeProvider.service:
-        return 'SERVICE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Provides a summary of the properties of a recipe. For a complete listing,
@@ -5541,18 +6422,6 @@ enum TrainingMode {
   update,
 }
 
-extension on TrainingMode {
-  String toValue() {
-    switch (this) {
-      case TrainingMode.full:
-        return 'FULL';
-      case TrainingMode.update:
-        return 'UPDATE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// If hyperparameter optimization (HPO) was performed, contains the
 /// hyperparameter values of the best performing model.
 @_s.JsonSerializable(
@@ -5570,6 +6439,33 @@ class TunedHPOParams {
   });
   factory TunedHPOParams.fromJson(Map<String, dynamic> json) =>
       _$TunedHPOParamsFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateCampaignRequest {
+  /// The Amazon Resource Name (ARN) of the campaign.
+  @_s.JsonKey(name: 'campaignArn')
+  final String campaignArn;
+
+  /// Specifies the requested minimum provisioned transactions (recommendations)
+  /// per second that Amazon Personalize will support.
+  @_s.JsonKey(name: 'minProvisionedTPS')
+  final int minProvisionedTPS;
+
+  /// The ARN of a new solution version to deploy.
+  @_s.JsonKey(name: 'solutionVersionArn')
+  final String solutionVersionArn;
+
+  UpdateCampaignRequest({
+    @_s.required this.campaignArn,
+    this.minProvisionedTPS,
+    this.solutionVersionArn,
+  });
+  Map<String, dynamic> toJson() => _$UpdateCampaignRequestToJson(this);
 }
 
 @_s.JsonSerializable(

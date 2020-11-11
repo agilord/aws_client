@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -133,15 +132,13 @@ class CodeStar {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'projectId': projectId,
-        'projectRole': projectRole,
-        'userArn': userArn,
-        if (clientRequestToken != null)
-          'clientRequestToken': clientRequestToken,
-        if (remoteAccessAllowed != null)
-          'remoteAccessAllowed': remoteAccessAllowed,
-      },
+      payload: AssociateTeamMemberRequest(
+        projectId: projectId,
+        projectRole: projectRole,
+        userArn: userArn,
+        clientRequestToken: clientRequestToken,
+        remoteAccessAllowed: remoteAccessAllowed,
+      ),
     );
 
     return AssociateTeamMemberResult.fromJson(jsonResponse.body);
@@ -254,16 +251,15 @@ class CodeStar {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'id': id,
-        'name': name,
-        if (clientRequestToken != null)
-          'clientRequestToken': clientRequestToken,
-        if (description != null) 'description': description,
-        if (sourceCode != null) 'sourceCode': sourceCode,
-        if (tags != null) 'tags': tags,
-        if (toolchain != null) 'toolchain': toolchain,
-      },
+      payload: CreateProjectRequest(
+        id: id,
+        name: name,
+        clientRequestToken: clientRequestToken,
+        description: description,
+        sourceCode: sourceCode,
+        tags: tags,
+        toolchain: toolchain,
+      ),
     );
 
     return CreateProjectResult.fromJson(jsonResponse.body);
@@ -362,12 +358,12 @@ class CodeStar {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'displayName': displayName,
-        'emailAddress': emailAddress,
-        'userArn': userArn,
-        if (sshPublicKey != null) 'sshPublicKey': sshPublicKey,
-      },
+      payload: CreateUserProfileRequest(
+        displayName: displayName,
+        emailAddress: emailAddress,
+        userArn: userArn,
+        sshPublicKey: sshPublicKey,
+      ),
     );
 
     return CreateUserProfileResult.fromJson(jsonResponse.body);
@@ -434,12 +430,11 @@ class CodeStar {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'id': id,
-        if (clientRequestToken != null)
-          'clientRequestToken': clientRequestToken,
-        if (deleteStack != null) 'deleteStack': deleteStack,
-      },
+      payload: DeleteProjectRequest(
+        id: id,
+        clientRequestToken: clientRequestToken,
+        deleteStack: deleteStack,
+      ),
     );
 
     return DeleteProjectResult.fromJson(jsonResponse.body);
@@ -481,9 +476,9 @@ class CodeStar {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'userArn': userArn,
-      },
+      payload: DeleteUserProfileRequest(
+        userArn: userArn,
+      ),
     );
 
     return DeleteUserProfileResult.fromJson(jsonResponse.body);
@@ -526,9 +521,9 @@ class CodeStar {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'id': id,
-      },
+      payload: DescribeProjectRequest(
+        id: id,
+      ),
     );
 
     return DescribeProjectResult.fromJson(jsonResponse.body);
@@ -569,9 +564,9 @@ class CodeStar {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'userArn': userArn,
-      },
+      payload: DescribeUserProfileRequest(
+        userArn: userArn,
+      ),
     );
 
     return DescribeUserProfileResult.fromJson(jsonResponse.body);
@@ -636,10 +631,10 @@ class CodeStar {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'projectId': projectId,
-        'userArn': userArn,
-      },
+      payload: DisassociateTeamMemberRequest(
+        projectId: projectId,
+        userArn: userArn,
+      ),
     );
 
     return DisassociateTeamMemberResult.fromJson(jsonResponse.body);
@@ -688,10 +683,10 @@ class CodeStar {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListProjectsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListProjectsResult.fromJson(jsonResponse.body);
@@ -759,11 +754,11 @@ class CodeStar {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'projectId': projectId,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListResourcesRequest(
+        projectId: projectId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListResourcesResult.fromJson(jsonResponse.body);
@@ -829,11 +824,11 @@ class CodeStar {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'id': id,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListTagsForProjectRequest(
+        id: id,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListTagsForProjectResult.fromJson(jsonResponse.body);
@@ -900,11 +895,11 @@ class CodeStar {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'projectId': projectId,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListTeamMembersRequest(
+        projectId: projectId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListTeamMembersResult.fromJson(jsonResponse.body);
@@ -953,10 +948,10 @@ class CodeStar {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListUserProfilesRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListUserProfilesResult.fromJson(jsonResponse.body);
@@ -1003,10 +998,10 @@ class CodeStar {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'id': id,
-        'tags': tags,
-      },
+      payload: TagProjectRequest(
+        id: id,
+        tags: tags,
+      ),
     );
 
     return TagProjectResult.fromJson(jsonResponse.body);
@@ -1053,10 +1048,10 @@ class CodeStar {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'id': id,
-        'tags': tags,
-      },
+      payload: UntagProjectRequest(
+        id: id,
+        tags: tags,
+      ),
     );
 
     return UntagProjectResult.fromJson(jsonResponse.body);
@@ -1126,11 +1121,11 @@ class CodeStar {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'id': id,
-        if (description != null) 'description': description,
-        if (name != null) 'name': name,
-      },
+      payload: UpdateProjectRequest(
+        id: id,
+        description: description,
+        name: name,
+      ),
     );
 
     return UpdateProjectResult.fromJson(jsonResponse.body);
@@ -1215,13 +1210,12 @@ class CodeStar {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'projectId': projectId,
-        'userArn': userArn,
-        if (projectRole != null) 'projectRole': projectRole,
-        if (remoteAccessAllowed != null)
-          'remoteAccessAllowed': remoteAccessAllowed,
-      },
+      payload: UpdateTeamMemberRequest(
+        projectId: projectId,
+        userArn: userArn,
+        projectRole: projectRole,
+        remoteAccessAllowed: remoteAccessAllowed,
+      ),
     );
 
     return UpdateTeamMemberResult.fromJson(jsonResponse.body);
@@ -1313,16 +1307,57 @@ class CodeStar {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'userArn': userArn,
-        if (displayName != null) 'displayName': displayName,
-        if (emailAddress != null) 'emailAddress': emailAddress,
-        if (sshPublicKey != null) 'sshPublicKey': sshPublicKey,
-      },
+      payload: UpdateUserProfileRequest(
+        userArn: userArn,
+        displayName: displayName,
+        emailAddress: emailAddress,
+        sshPublicKey: sshPublicKey,
+      ),
     );
 
     return UpdateUserProfileResult.fromJson(jsonResponse.body);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateTeamMemberRequest {
+  /// The ID of the project to which you will add the IAM user.
+  @_s.JsonKey(name: 'projectId')
+  final String projectId;
+
+  /// The AWS CodeStar project role that will apply to this user. This role
+  /// determines what actions a user can take in an AWS CodeStar project.
+  @_s.JsonKey(name: 'projectRole')
+  final String projectRole;
+
+  /// The Amazon Resource Name (ARN) for the IAM user you want to add to the AWS
+  /// CodeStar project.
+  @_s.JsonKey(name: 'userArn')
+  final String userArn;
+
+  /// A user- or system-generated token that identifies the entity that requested
+  /// the team member association to the project. This token can be used to repeat
+  /// the request.
+  @_s.JsonKey(name: 'clientRequestToken')
+  final String clientRequestToken;
+
+  /// Whether the team member is allowed to use an SSH public/private key pair to
+  /// remotely access project resources, for example Amazon EC2 instances.
+  @_s.JsonKey(name: 'remoteAccessAllowed')
+  final bool remoteAccessAllowed;
+
+  AssociateTeamMemberRequest({
+    @_s.required this.projectId,
+    @_s.required this.projectRole,
+    @_s.required this.userArn,
+    this.clientRequestToken,
+    this.remoteAccessAllowed,
+  });
+  Map<String, dynamic> toJson() => _$AssociateTeamMemberRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1441,6 +1476,57 @@ class CodeSource {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateProjectRequest {
+  /// The ID of the project to be created in AWS CodeStar.
+  @_s.JsonKey(name: 'id')
+  final String id;
+
+  /// The display name for the project to be created in AWS CodeStar.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// A user- or system-generated token that identifies the entity that requested
+  /// project creation. This token can be used to repeat the request.
+  @_s.JsonKey(name: 'clientRequestToken')
+  final String clientRequestToken;
+
+  /// The description of the project, if any.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// A list of the Code objects submitted with the project request. If this
+  /// parameter is specified, the request must also include the toolchain
+  /// parameter.
+  @_s.JsonKey(name: 'sourceCode')
+  final List<Code> sourceCode;
+
+  /// The tags created for the project.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  /// The name of the toolchain template file submitted with the project request.
+  /// If this parameter is specified, the request must also include the sourceCode
+  /// parameter.
+  @_s.JsonKey(name: 'toolchain')
+  final Toolchain toolchain;
+
+  CreateProjectRequest({
+    @_s.required this.id,
+    @_s.required this.name,
+    this.clientRequestToken,
+    this.description,
+    this.sourceCode,
+    this.tags,
+    this.toolchain,
+  });
+  Map<String, dynamic> toJson() => _$CreateProjectRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateProjectResult {
@@ -1469,6 +1555,41 @@ class CreateProjectResult {
   });
   factory CreateProjectResult.fromJson(Map<String, dynamic> json) =>
       _$CreateProjectResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateUserProfileRequest {
+  /// The name that will be displayed as the friendly name for the user in AWS
+  /// CodeStar.
+  @_s.JsonKey(name: 'displayName')
+  final String displayName;
+
+  /// The email address that will be displayed as part of the user's profile in
+  /// AWS CodeStar.
+  @_s.JsonKey(name: 'emailAddress')
+  final String emailAddress;
+
+  /// The Amazon Resource Name (ARN) of the user in IAM.
+  @_s.JsonKey(name: 'userArn')
+  final String userArn;
+
+  /// The SSH public key associated with the user in AWS CodeStar. If a project
+  /// owner allows the user remote access to project resources, this public key
+  /// will be used along with the user's private key for SSH access.
+  @_s.JsonKey(name: 'sshPublicKey')
+  final String sshPublicKey;
+
+  CreateUserProfileRequest({
+    @_s.required this.displayName,
+    @_s.required this.emailAddress,
+    @_s.required this.userArn,
+    this.sshPublicKey,
+  });
+  Map<String, dynamic> toJson() => _$CreateUserProfileRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1527,6 +1648,36 @@ class CreateUserProfileResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteProjectRequest {
+  /// The ID of the project to be deleted in AWS CodeStar.
+  @_s.JsonKey(name: 'id')
+  final String id;
+
+  /// A user- or system-generated token that identifies the entity that requested
+  /// project deletion. This token can be used to repeat the request.
+  @_s.JsonKey(name: 'clientRequestToken')
+  final String clientRequestToken;
+
+  /// Whether to send a delete request for the primary stack in AWS CloudFormation
+  /// originally used to generate the project and its resources. This option will
+  /// delete all AWS resources for the project (except for any buckets in Amazon
+  /// S3) as well as deleting the project itself. Recommended for most use cases.
+  @_s.JsonKey(name: 'deleteStack')
+  final bool deleteStack;
+
+  DeleteProjectRequest({
+    @_s.required this.id,
+    this.clientRequestToken,
+    this.deleteStack,
+  });
+  Map<String, dynamic> toJson() => _$DeleteProjectRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteProjectResult {
@@ -1550,6 +1701,22 @@ class DeleteProjectResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteUserProfileRequest {
+  /// The Amazon Resource Name (ARN) of the user to delete from AWS CodeStar.
+  @_s.JsonKey(name: 'userArn')
+  final String userArn;
+
+  DeleteUserProfileRequest({
+    @_s.required this.userArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteUserProfileRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteUserProfileResult {
@@ -1562,6 +1729,22 @@ class DeleteUserProfileResult {
   });
   factory DeleteUserProfileResult.fromJson(Map<String, dynamic> json) =>
       _$DeleteUserProfileResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeProjectRequest {
+  /// The ID of the project.
+  @_s.JsonKey(name: 'id')
+  final String id;
+
+  DescribeProjectRequest({
+    @_s.required this.id,
+  });
+  Map<String, dynamic> toJson() => _$DescribeProjectRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1629,6 +1812,22 @@ class DescribeProjectResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeUserProfileRequest {
+  /// The Amazon Resource Name (ARN) of the user.
+  @_s.JsonKey(name: 'userArn')
+  final String userArn;
+
+  DescribeUserProfileRequest({
+    @_s.required this.userArn,
+  });
+  Map<String, dynamic> toJson() => _$DescribeUserProfileRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeUserProfileResult {
@@ -1686,6 +1885,29 @@ class DescribeUserProfileResult {
   });
   factory DescribeUserProfileResult.fromJson(Map<String, dynamic> json) =>
       _$DescribeUserProfileResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateTeamMemberRequest {
+  /// The ID of the AWS CodeStar project from which you want to remove a team
+  /// member.
+  @_s.JsonKey(name: 'projectId')
+  final String projectId;
+
+  /// The Amazon Resource Name (ARN) of the IAM user or group whom you want to
+  /// remove from the project.
+  @_s.JsonKey(name: 'userArn')
+  final String userArn;
+
+  DisassociateTeamMemberRequest({
+    @_s.required this.projectId,
+    @_s.required this.userArn,
+  });
+  Map<String, dynamic> toJson() => _$DisassociateTeamMemberRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1755,6 +1977,28 @@ class GitHubCodeDestination {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListProjectsRequest {
+  /// The maximum amount of data that can be contained in a single set of results.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The continuation token to be used to return the next set of results, if the
+  /// results cannot be returned in one response.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListProjectsRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListProjectsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListProjectsResult {
@@ -1773,6 +2017,33 @@ class ListProjectsResult {
   });
   factory ListProjectsResult.fromJson(Map<String, dynamic> json) =>
       _$ListProjectsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListResourcesRequest {
+  /// The ID of the project.
+  @_s.JsonKey(name: 'projectId')
+  final String projectId;
+
+  /// The maximum amount of data that can be contained in a single set of results.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The continuation token for the next set of results, if the results cannot be
+  /// returned in one response.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListResourcesRequest({
+    @_s.required this.projectId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListResourcesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1801,6 +2072,32 @@ class ListResourcesResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForProjectRequest {
+  /// The ID of the project to get tags for.
+  @_s.JsonKey(name: 'id')
+  final String id;
+
+  /// Reserved for future use.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// Reserved for future use.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListTagsForProjectRequest({
+    @_s.required this.id,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForProjectRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListTagsForProjectResult {
@@ -1818,6 +2115,33 @@ class ListTagsForProjectResult {
   });
   factory ListTagsForProjectResult.fromJson(Map<String, dynamic> json) =>
       _$ListTagsForProjectResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTeamMembersRequest {
+  /// The ID of the project for which you want to list team members.
+  @_s.JsonKey(name: 'projectId')
+  final String projectId;
+
+  /// The maximum number of team members you want returned in a response.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The continuation token for the next set of results, if the results cannot be
+  /// returned in one response.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListTeamMembersRequest({
+    @_s.required this.projectId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListTeamMembersRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1841,6 +2165,28 @@ class ListTeamMembersResult {
   });
   factory ListTeamMembersResult.fromJson(Map<String, dynamic> json) =>
       _$ListTeamMembersResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListUserProfilesRequest {
+  /// The maximum number of results to return in a response.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The continuation token for the next set of results, if the results cannot be
+  /// returned in one response.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListUserProfilesRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListUserProfilesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1960,6 +2306,27 @@ class S3Location {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagProjectRequest {
+  /// The ID of the project you want to add a tag to.
+  @_s.JsonKey(name: 'id')
+  final String id;
+
+  /// The tags you want to add to the project.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  TagProjectRequest({
+    @_s.required this.id,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagProjectRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagProjectResult {
@@ -2061,6 +2428,27 @@ class ToolchainSource {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagProjectRequest {
+  /// The ID of the project to remove tags from.
+  @_s.JsonKey(name: 'id')
+  final String id;
+
+  /// The tags to remove from the project.
+  @_s.JsonKey(name: 'tags')
+  final List<String> tags;
+
+  UntagProjectRequest({
+    @_s.required this.id,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$UntagProjectRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagProjectResult {
@@ -2072,12 +2460,76 @@ class UntagProjectResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateProjectRequest {
+  /// The ID of the project you want to update.
+  @_s.JsonKey(name: 'id')
+  final String id;
+
+  /// The description of the project, if any.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The name of the project you want to update.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  UpdateProjectRequest({
+    @_s.required this.id,
+    this.description,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$UpdateProjectRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateProjectResult {
   UpdateProjectResult();
   factory UpdateProjectResult.fromJson(Map<String, dynamic> json) =>
       _$UpdateProjectResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateTeamMemberRequest {
+  /// The ID of the project.
+  @_s.JsonKey(name: 'projectId')
+  final String projectId;
+
+  /// The Amazon Resource Name (ARN) of the user for whom you want to change team
+  /// membership attributes.
+  @_s.JsonKey(name: 'userArn')
+  final String userArn;
+
+  /// The role assigned to the user in the project. Project roles have different
+  /// levels of access. For more information, see <a
+  /// href="http://docs.aws.amazon.com/codestar/latest/userguide/working-with-teams.html">Working
+  /// with Teams</a> in the <i>AWS CodeStar User Guide</i>.
+  @_s.JsonKey(name: 'projectRole')
+  final String projectRole;
+
+  /// Whether a team member is allowed to remotely access project resources using
+  /// the SSH public key associated with the user's profile. Even if this is set
+  /// to True, the user must associate a public key with their profile before the
+  /// user can access resources.
+  @_s.JsonKey(name: 'remoteAccessAllowed')
+  final bool remoteAccessAllowed;
+
+  UpdateTeamMemberRequest({
+    @_s.required this.projectId,
+    @_s.required this.userArn,
+    this.projectRole,
+    this.remoteAccessAllowed,
+  });
+  Map<String, dynamic> toJson() => _$UpdateTeamMemberRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2107,6 +2559,42 @@ class UpdateTeamMemberResult {
   });
   factory UpdateTeamMemberResult.fromJson(Map<String, dynamic> json) =>
       _$UpdateTeamMemberResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateUserProfileRequest {
+  /// The name that will be displayed as the friendly name for the user in AWS
+  /// CodeStar.
+  @_s.JsonKey(name: 'userArn')
+  final String userArn;
+
+  /// The name that is displayed as the friendly name for the user in AWS
+  /// CodeStar.
+  @_s.JsonKey(name: 'displayName')
+  final String displayName;
+
+  /// The email address that is displayed as part of the user's profile in AWS
+  /// CodeStar.
+  @_s.JsonKey(name: 'emailAddress')
+  final String emailAddress;
+
+  /// The SSH public key associated with the user in AWS CodeStar. If a project
+  /// owner allows the user remote access to project resources, this public key
+  /// will be used along with the user's private key for SSH access.
+  @_s.JsonKey(name: 'sshPublicKey')
+  final String sshPublicKey;
+
+  UpdateUserProfileRequest({
+    @_s.required this.userArn,
+    this.displayName,
+    this.emailAddress,
+    this.sshPublicKey,
+  });
+  Map<String, dynamic> toJson() => _$UpdateUserProfileRequestToJson(this);
 }
 
 @_s.JsonSerializable(

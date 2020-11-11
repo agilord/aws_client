@@ -13,6 +13,9 @@ AlreadyStreamedException _$AlreadyStreamedExceptionFromJson(
   );
 }
 
+Map<String, dynamic> _$BulkPublishRequestToJson(BulkPublishRequest instance) =>
+    <String, dynamic>{};
+
 BulkPublishResponse _$BulkPublishResponseFromJson(Map<String, dynamic> json) {
   return BulkPublishResponse(
     identityPoolId: json['IdentityPoolId'] as String,
@@ -100,6 +103,10 @@ Dataset _$DatasetFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DeleteDatasetRequestToJson(
+        DeleteDatasetRequest instance) =>
+    <String, dynamic>{};
+
 DeleteDatasetResponse _$DeleteDatasetResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteDatasetResponse(
@@ -143,6 +150,10 @@ DuplicateRequestException _$DuplicateRequestExceptionFromJson(
     message: json['message'] as String,
   );
 }
+
+Map<String, dynamic> _$GetBulkPublishDetailsRequestToJson(
+        GetBulkPublishDetailsRequest instance) =>
+    <String, dynamic>{};
 
 GetBulkPublishDetailsResponse _$GetBulkPublishDetailsResponseFromJson(
     Map<String, dynamic> json) {
@@ -356,6 +367,28 @@ const _$OperationEnumMap = {
   Operation.remove: 'remove',
 };
 
+Map<String, dynamic> _$RegisterDeviceRequestToJson(
+    RegisterDeviceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Platform', _$PlatformEnumMap[instance.platform]);
+  writeNotNull('Token', instance.token);
+  return val;
+}
+
+const _$PlatformEnumMap = {
+  Platform.apns: 'APNS',
+  Platform.apnsSandbox: 'APNS_SANDBOX',
+  Platform.gcm: 'GCM',
+  Platform.adm: 'ADM',
+};
+
 RegisterDeviceResponse _$RegisterDeviceResponseFromJson(
     Map<String, dynamic> json) {
   return RegisterDeviceResponse(
@@ -377,6 +410,35 @@ ResourceNotFoundException _$ResourceNotFoundExceptionFromJson(
   );
 }
 
+Map<String, dynamic> _$SetCognitoEventsRequestToJson(
+    SetCognitoEventsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Events', instance.events);
+  return val;
+}
+
+Map<String, dynamic> _$SetIdentityPoolConfigurationRequestToJson(
+    SetIdentityPoolConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CognitoStreams', instance.cognitoStreams?.toJson());
+  writeNotNull('PushSync', instance.pushSync?.toJson());
+  return val;
+}
+
 SetIdentityPoolConfigurationResponse
     _$SetIdentityPoolConfigurationResponseFromJson(Map<String, dynamic> json) {
   return SetIdentityPoolConfigurationResponse(
@@ -391,6 +453,10 @@ SetIdentityPoolConfigurationResponse
   );
 }
 
+Map<String, dynamic> _$SubscribeToDatasetRequestToJson(
+        SubscribeToDatasetRequest instance) =>
+    <String, dynamic>{};
+
 SubscribeToDatasetResponse _$SubscribeToDatasetResponseFromJson(
     Map<String, dynamic> json) {
   return SubscribeToDatasetResponse();
@@ -403,9 +469,30 @@ TooManyRequestsException _$TooManyRequestsExceptionFromJson(
   );
 }
 
+Map<String, dynamic> _$UnsubscribeFromDatasetRequestToJson(
+        UnsubscribeFromDatasetRequest instance) =>
+    <String, dynamic>{};
+
 UnsubscribeFromDatasetResponse _$UnsubscribeFromDatasetResponseFromJson(
     Map<String, dynamic> json) {
   return UnsubscribeFromDatasetResponse();
+}
+
+Map<String, dynamic> _$UpdateRecordsRequestToJson(
+    UpdateRecordsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SyncSessionToken', instance.syncSessionToken);
+  writeNotNull('DeviceId', instance.deviceId);
+  writeNotNull('RecordPatches',
+      instance.recordPatches?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 UpdateRecordsResponse _$UpdateRecordsResponseFromJson(

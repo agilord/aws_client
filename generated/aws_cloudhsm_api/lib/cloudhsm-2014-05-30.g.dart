@@ -6,6 +6,21 @@ part of 'cloudhsm-2014-05-30.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$AddTagsToResourceRequestToJson(
+    AddTagsToResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('TagList', instance.tagList?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 AddTagsToResourceResponse _$AddTagsToResourceResponseFromJson(
     Map<String, dynamic> json) {
   return AddTagsToResourceResponse(
@@ -26,16 +41,69 @@ CloudHsmServiceException _$CloudHsmServiceExceptionFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateHapgRequestToJson(CreateHapgRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Label', instance.label);
+  return val;
+}
+
 CreateHapgResponse _$CreateHapgResponseFromJson(Map<String, dynamic> json) {
   return CreateHapgResponse(
     hapgArn: json['HapgArn'] as String,
   );
 }
 
+Map<String, dynamic> _$CreateHsmRequestToJson(CreateHsmRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('IamRoleArn', instance.iamRoleArn);
+  writeNotNull('SshKey', instance.sshKey);
+  writeNotNull('SubnetId', instance.subnetId);
+  writeNotNull(
+      'SubscriptionType', _$SubscriptionTypeEnumMap[instance.subscriptionType]);
+  writeNotNull('ClientToken', instance.clientToken);
+  writeNotNull('EniIp', instance.eniIp);
+  writeNotNull('ExternalId', instance.externalId);
+  writeNotNull('SyslogIp', instance.syslogIp);
+  return val;
+}
+
+const _$SubscriptionTypeEnumMap = {
+  SubscriptionType.production: 'PRODUCTION',
+};
+
 CreateHsmResponse _$CreateHsmResponseFromJson(Map<String, dynamic> json) {
   return CreateHsmResponse(
     hsmArn: json['HsmArn'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateLunaClientRequestToJson(
+    CreateLunaClientRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Certificate', instance.certificate);
+  writeNotNull('Label', instance.label);
+  return val;
 }
 
 CreateLunaClientResponse _$CreateLunaClientResponseFromJson(
@@ -45,10 +113,36 @@ CreateLunaClientResponse _$CreateLunaClientResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteHapgRequestToJson(DeleteHapgRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('HapgArn', instance.hapgArn);
+  return val;
+}
+
 DeleteHapgResponse _$DeleteHapgResponseFromJson(Map<String, dynamic> json) {
   return DeleteHapgResponse(
     status: json['Status'] as String,
   );
+}
+
+Map<String, dynamic> _$DeleteHsmRequestToJson(DeleteHsmRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('HsmArn', instance.hsmArn);
+  return val;
 }
 
 DeleteHsmResponse _$DeleteHsmResponseFromJson(Map<String, dynamic> json) {
@@ -57,11 +151,38 @@ DeleteHsmResponse _$DeleteHsmResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DeleteLunaClientRequestToJson(
+    DeleteLunaClientRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClientArn', instance.clientArn);
+  return val;
+}
+
 DeleteLunaClientResponse _$DeleteLunaClientResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteLunaClientResponse(
     status: json['Status'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeHapgRequestToJson(DescribeHapgRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('HapgArn', instance.hapgArn);
+  return val;
 }
 
 DescribeHapgResponse _$DescribeHapgResponseFromJson(Map<String, dynamic> json) {
@@ -124,6 +245,20 @@ const _$CloudHsmObjectStateEnumMap = {
   CloudHsmObjectState.degraded: 'DEGRADED',
 };
 
+Map<String, dynamic> _$DescribeHsmRequestToJson(DescribeHsmRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('HsmArn', instance.hsmArn);
+  writeNotNull('HsmSerialNumber', instance.hsmSerialNumber);
+  return val;
+}
+
 DescribeHsmResponse _$DescribeHsmResponseFromJson(Map<String, dynamic> json) {
   return DescribeHsmResponse(
     availabilityZone: json['AvailabilityZone'] as String,
@@ -161,9 +296,20 @@ const _$HsmStatusEnumMap = {
   HsmStatus.degraded: 'DEGRADED',
 };
 
-const _$SubscriptionTypeEnumMap = {
-  SubscriptionType.production: 'PRODUCTION',
-};
+Map<String, dynamic> _$DescribeLunaClientRequestToJson(
+    DescribeLunaClientRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CertificateFingerprint', instance.certificateFingerprint);
+  writeNotNull('ClientArn', instance.clientArn);
+  return val;
+}
 
 DescribeLunaClientResponse _$DescribeLunaClientResponseFromJson(
     Map<String, dynamic> json) {
@@ -175,6 +321,26 @@ DescribeLunaClientResponse _$DescribeLunaClientResponseFromJson(
     lastModifiedTimestamp: json['LastModifiedTimestamp'] as String,
   );
 }
+
+Map<String, dynamic> _$GetConfigRequestToJson(GetConfigRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClientArn', instance.clientArn);
+  writeNotNull('ClientVersion', _$ClientVersionEnumMap[instance.clientVersion]);
+  writeNotNull('HapgList', instance.hapgList);
+  return val;
+}
+
+const _$ClientVersionEnumMap = {
+  ClientVersion.$5_1: '5.1',
+  ClientVersion.$5_3: '5.3',
+};
 
 GetConfigResponse _$GetConfigResponseFromJson(Map<String, dynamic> json) {
   return GetConfigResponse(
@@ -196,11 +362,37 @@ ListAvailableZonesResponse _$ListAvailableZonesResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListHapgsRequestToJson(ListHapgsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListHapgsResponse _$ListHapgsResponseFromJson(Map<String, dynamic> json) {
   return ListHapgsResponse(
     hapgList: (json['HapgList'] as List)?.map((e) => e as String)?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListHsmsRequestToJson(ListHsmsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListHsmsResponse _$ListHsmsResponseFromJson(Map<String, dynamic> json) {
@@ -210,12 +402,40 @@ ListHsmsResponse _$ListHsmsResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ListLunaClientsRequestToJson(
+    ListLunaClientsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListLunaClientsResponse _$ListLunaClientsResponseFromJson(
     Map<String, dynamic> json) {
   return ListLunaClientsResponse(
     clientList: (json['ClientList'] as List)?.map((e) => e as String)?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListTagsForResourceRequestToJson(
+    ListTagsForResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  return val;
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
@@ -227,10 +447,43 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ModifyHapgRequestToJson(ModifyHapgRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('HapgArn', instance.hapgArn);
+  writeNotNull('Label', instance.label);
+  writeNotNull('PartitionSerialList', instance.partitionSerialList);
+  return val;
+}
+
 ModifyHapgResponse _$ModifyHapgResponseFromJson(Map<String, dynamic> json) {
   return ModifyHapgResponse(
     hapgArn: json['HapgArn'] as String,
   );
+}
+
+Map<String, dynamic> _$ModifyHsmRequestToJson(ModifyHsmRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('HsmArn', instance.hsmArn);
+  writeNotNull('EniIp', instance.eniIp);
+  writeNotNull('ExternalId', instance.externalId);
+  writeNotNull('IamRoleArn', instance.iamRoleArn);
+  writeNotNull('SubnetId', instance.subnetId);
+  writeNotNull('SyslogIp', instance.syslogIp);
+  return val;
 }
 
 ModifyHsmResponse _$ModifyHsmResponseFromJson(Map<String, dynamic> json) {
@@ -239,11 +492,41 @@ ModifyHsmResponse _$ModifyHsmResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ModifyLunaClientRequestToJson(
+    ModifyLunaClientRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Certificate', instance.certificate);
+  writeNotNull('ClientArn', instance.clientArn);
+  return val;
+}
+
 ModifyLunaClientResponse _$ModifyLunaClientResponseFromJson(
     Map<String, dynamic> json) {
   return ModifyLunaClientResponse(
     clientArn: json['ClientArn'] as String,
   );
+}
+
+Map<String, dynamic> _$RemoveTagsFromResourceRequestToJson(
+    RemoveTagsFromResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('TagKeyList', instance.tagKeyList);
+  return val;
 }
 
 RemoveTagsFromResourceResponse _$RemoveTagsFromResourceResponseFromJson(

@@ -6,13 +6,60 @@ part of 'datapipeline-2012-10-29.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$ActivatePipelineInputToJson(
+    ActivatePipelineInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pipelineId', instance.pipelineId);
+  writeNotNull('parameterValues',
+      instance.parameterValues?.map((e) => e?.toJson())?.toList());
+  writeNotNull('startTimestamp', unixTimestampToJson(instance.startTimestamp));
+  return val;
+}
+
 ActivatePipelineOutput _$ActivatePipelineOutputFromJson(
     Map<String, dynamic> json) {
   return ActivatePipelineOutput();
 }
 
+Map<String, dynamic> _$AddTagsInputToJson(AddTagsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pipelineId', instance.pipelineId);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 AddTagsOutput _$AddTagsOutputFromJson(Map<String, dynamic> json) {
   return AddTagsOutput();
+}
+
+Map<String, dynamic> _$CreatePipelineInputToJson(CreatePipelineInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('uniqueId', instance.uniqueId);
+  writeNotNull('description', instance.description);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreatePipelineOutput _$CreatePipelineOutputFromJson(Map<String, dynamic> json) {
@@ -21,9 +68,54 @@ CreatePipelineOutput _$CreatePipelineOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DeactivatePipelineInputToJson(
+    DeactivatePipelineInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pipelineId', instance.pipelineId);
+  writeNotNull('cancelActive', instance.cancelActive);
+  return val;
+}
+
 DeactivatePipelineOutput _$DeactivatePipelineOutputFromJson(
     Map<String, dynamic> json) {
   return DeactivatePipelineOutput();
+}
+
+Map<String, dynamic> _$DeletePipelineInputToJson(DeletePipelineInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pipelineId', instance.pipelineId);
+  return val;
+}
+
+Map<String, dynamic> _$DescribeObjectsInputToJson(
+    DescribeObjectsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('objectIds', instance.objectIds);
+  writeNotNull('pipelineId', instance.pipelineId);
+  writeNotNull('evaluateExpressions', instance.evaluateExpressions);
+  writeNotNull('marker', instance.marker);
+  return val;
 }
 
 DescribeObjectsOutput _$DescribeObjectsOutputFromJson(
@@ -39,6 +131,20 @@ DescribeObjectsOutput _$DescribeObjectsOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribePipelinesInputToJson(
+    DescribePipelinesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pipelineIds', instance.pipelineIds);
+  return val;
+}
+
 DescribePipelinesOutput _$DescribePipelinesOutputFromJson(
     Map<String, dynamic> json) {
   return DescribePipelinesOutput(
@@ -48,6 +154,22 @@ DescribePipelinesOutput _$DescribePipelinesOutputFromJson(
             : PipelineDescription.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$EvaluateExpressionInputToJson(
+    EvaluateExpressionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('expression', instance.expression);
+  writeNotNull('objectId', instance.objectId);
+  writeNotNull('pipelineId', instance.pipelineId);
+  return val;
 }
 
 EvaluateExpressionOutput _$EvaluateExpressionOutputFromJson(
@@ -77,6 +199,21 @@ Map<String, dynamic> _$FieldToJson(Field instance) {
   writeNotNull('key', instance.key);
   writeNotNull('refValue', instance.refValue);
   writeNotNull('stringValue', instance.stringValue);
+  return val;
+}
+
+Map<String, dynamic> _$GetPipelineDefinitionInputToJson(
+    GetPipelineDefinitionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pipelineId', instance.pipelineId);
+  writeNotNull('version', instance.version);
   return val;
 }
 
@@ -126,6 +263,19 @@ InvalidRequestException _$InvalidRequestExceptionFromJson(
   return InvalidRequestException(
     message: json['message'] as String,
   );
+}
+
+Map<String, dynamic> _$ListPipelinesInputToJson(ListPipelinesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('marker', instance.marker);
+  return val;
 }
 
 ListPipelinesOutput _$ListPipelinesOutputFromJson(Map<String, dynamic> json) {
@@ -292,12 +442,47 @@ Map<String, dynamic> _$PipelineObjectToJson(PipelineObject instance) {
   return val;
 }
 
+Map<String, dynamic> _$PollForTaskInputToJson(PollForTaskInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('workerGroup', instance.workerGroup);
+  writeNotNull('hostname', instance.hostname);
+  writeNotNull('instanceIdentity', instance.instanceIdentity?.toJson());
+  return val;
+}
+
 PollForTaskOutput _$PollForTaskOutputFromJson(Map<String, dynamic> json) {
   return PollForTaskOutput(
     taskObject: json['taskObject'] == null
         ? null
         : TaskObject.fromJson(json['taskObject'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$PutPipelineDefinitionInputToJson(
+    PutPipelineDefinitionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pipelineId', instance.pipelineId);
+  writeNotNull('pipelineObjects',
+      instance.pipelineObjects?.map((e) => e?.toJson())?.toList());
+  writeNotNull('parameterObjects',
+      instance.parameterObjects?.map((e) => e?.toJson())?.toList());
+  writeNotNull('parameterValues',
+      instance.parameterValues?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 PutPipelineDefinitionOutput _$PutPipelineDefinitionOutputFromJson(
@@ -331,6 +516,23 @@ Map<String, dynamic> _$QueryToJson(Query instance) {
   return val;
 }
 
+Map<String, dynamic> _$QueryObjectsInputToJson(QueryObjectsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pipelineId', instance.pipelineId);
+  writeNotNull('sphere', instance.sphere);
+  writeNotNull('limit', instance.limit);
+  writeNotNull('marker', instance.marker);
+  writeNotNull('query', instance.query?.toJson());
+  return val;
+}
+
 QueryObjectsOutput _$QueryObjectsOutputFromJson(Map<String, dynamic> json) {
   return QueryObjectsOutput(
     hasMoreResults: json['hasMoreResults'] as bool,
@@ -339,8 +541,37 @@ QueryObjectsOutput _$QueryObjectsOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$RemoveTagsInputToJson(RemoveTagsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pipelineId', instance.pipelineId);
+  writeNotNull('tagKeys', instance.tagKeys);
+  return val;
+}
+
 RemoveTagsOutput _$RemoveTagsOutputFromJson(Map<String, dynamic> json) {
   return RemoveTagsOutput();
+}
+
+Map<String, dynamic> _$ReportTaskProgressInputToJson(
+    ReportTaskProgressInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('taskId', instance.taskId);
+  writeNotNull('fields', instance.fields?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 ReportTaskProgressOutput _$ReportTaskProgressOutputFromJson(
@@ -348,6 +579,22 @@ ReportTaskProgressOutput _$ReportTaskProgressOutputFromJson(
   return ReportTaskProgressOutput(
     canceled: json['canceled'] as bool,
   );
+}
+
+Map<String, dynamic> _$ReportTaskRunnerHeartbeatInputToJson(
+    ReportTaskRunnerHeartbeatInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('taskrunnerId', instance.taskrunnerId);
+  writeNotNull('hostname', instance.hostname);
+  writeNotNull('workerGroup', instance.workerGroup);
+  return val;
 }
 
 ReportTaskRunnerHeartbeatOutput _$ReportTaskRunnerHeartbeatOutputFromJson(
@@ -370,6 +617,44 @@ Map<String, dynamic> _$SelectorToJson(Selector instance) {
   writeNotNull('operator', instance.operator?.toJson());
   return val;
 }
+
+Map<String, dynamic> _$SetStatusInputToJson(SetStatusInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('objectIds', instance.objectIds);
+  writeNotNull('pipelineId', instance.pipelineId);
+  writeNotNull('status', instance.status);
+  return val;
+}
+
+Map<String, dynamic> _$SetTaskStatusInputToJson(SetTaskStatusInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('taskId', instance.taskId);
+  writeNotNull('taskStatus', _$TaskStatusEnumMap[instance.taskStatus]);
+  writeNotNull('errorId', instance.errorId);
+  writeNotNull('errorMessage', instance.errorMessage);
+  writeNotNull('errorStackTrace', instance.errorStackTrace);
+  return val;
+}
+
+const _$TaskStatusEnumMap = {
+  TaskStatus.finished: 'FINISHED',
+  TaskStatus.failed: 'FAILED',
+  TaskStatus.$false: 'FALSE',
+};
 
 SetTaskStatusOutput _$SetTaskStatusOutputFromJson(Map<String, dynamic> json) {
   return SetTaskStatusOutput();
@@ -416,6 +701,26 @@ TaskObject _$TaskObjectFromJson(Map<String, dynamic> json) {
     pipelineId: json['pipelineId'] as String,
     taskId: json['taskId'] as String,
   );
+}
+
+Map<String, dynamic> _$ValidatePipelineDefinitionInputToJson(
+    ValidatePipelineDefinitionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pipelineId', instance.pipelineId);
+  writeNotNull('pipelineObjects',
+      instance.pipelineObjects?.map((e) => e?.toJson())?.toList());
+  writeNotNull('parameterObjects',
+      instance.parameterObjects?.map((e) => e?.toJson())?.toList());
+  writeNotNull('parameterValues',
+      instance.parameterValues?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 ValidatePipelineDefinitionOutput _$ValidatePipelineDefinitionOutputFromJson(

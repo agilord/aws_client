@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -118,9 +117,9 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'KeyId': keyId,
-      },
+      payload: CancelKeyDeletionRequest(
+        keyId: keyId,
+      ),
     );
 
     return CancelKeyDeletionResponse.fromJson(jsonResponse.body);
@@ -206,9 +205,9 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CustomKeyStoreId': customKeyStoreId,
-      },
+      payload: ConnectCustomKeyStoreRequest(
+        customKeyStoreId: customKeyStoreId,
+      ),
     );
 
     return ConnectCustomKeyStoreResponse.fromJson(jsonResponse.body);
@@ -356,10 +355,10 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AliasName': aliasName,
-        'TargetKeyId': targetKeyId,
-      },
+      payload: CreateAliasRequest(
+        aliasName: aliasName,
+        targetKeyId: targetKeyId,
+      ),
     );
   }
 
@@ -482,12 +481,12 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CloudHsmClusterId': cloudHsmClusterId,
-        'CustomKeyStoreName': customKeyStoreName,
-        'KeyStorePassword': keyStorePassword,
-        'TrustAnchorCertificate': trustAnchorCertificate,
-      },
+      payload: CreateCustomKeyStoreRequest(
+        cloudHsmClusterId: cloudHsmClusterId,
+        customKeyStoreName: customKeyStoreName,
+        keyStorePassword: keyStorePassword,
+        trustAnchorCertificate: trustAnchorCertificate,
+      ),
     );
 
     return CreateCustomKeyStoreResponse.fromJson(jsonResponse.body);
@@ -713,15 +712,15 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GranteePrincipal': granteePrincipal,
-        'KeyId': keyId,
-        'Operations': operations,
-        if (constraints != null) 'Constraints': constraints,
-        if (grantTokens != null) 'GrantTokens': grantTokens,
-        if (name != null) 'Name': name,
-        if (retiringPrincipal != null) 'RetiringPrincipal': retiringPrincipal,
-      },
+      payload: CreateGrantRequest(
+        granteePrincipal: granteePrincipal,
+        keyId: keyId,
+        operations: operations,
+        constraints: constraints,
+        grantTokens: grantTokens,
+        name: name,
+        retiringPrincipal: retiringPrincipal,
+      ),
     );
 
     return CreateGrantResponse.fromJson(jsonResponse.body);
@@ -1082,18 +1081,16 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (bypassPolicyLockoutSafetyCheck != null)
-          'BypassPolicyLockoutSafetyCheck': bypassPolicyLockoutSafetyCheck,
-        if (customKeyStoreId != null) 'CustomKeyStoreId': customKeyStoreId,
-        if (customerMasterKeySpec != null)
-          'CustomerMasterKeySpec': customerMasterKeySpec?.toValue(),
-        if (description != null) 'Description': description,
-        if (keyUsage != null) 'KeyUsage': keyUsage?.toValue(),
-        if (origin != null) 'Origin': origin?.toValue(),
-        if (policy != null) 'Policy': policy,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateKeyRequest(
+        bypassPolicyLockoutSafetyCheck: bypassPolicyLockoutSafetyCheck,
+        customKeyStoreId: customKeyStoreId,
+        customerMasterKeySpec: customerMasterKeySpec,
+        description: description,
+        keyUsage: keyUsage,
+        origin: origin,
+        policy: policy,
+        tags: tags,
+      ),
     );
 
     return CreateKeyResponse.fromJson(jsonResponse.body);
@@ -1271,14 +1268,13 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CiphertextBlob': ciphertextBlob?.let(base64Encode),
-        if (encryptionAlgorithm != null)
-          'EncryptionAlgorithm': encryptionAlgorithm?.toValue(),
-        if (encryptionContext != null) 'EncryptionContext': encryptionContext,
-        if (grantTokens != null) 'GrantTokens': grantTokens,
-        if (keyId != null) 'KeyId': keyId,
-      },
+      payload: DecryptRequest(
+        ciphertextBlob: ciphertextBlob,
+        encryptionAlgorithm: encryptionAlgorithm,
+        encryptionContext: encryptionContext,
+        grantTokens: grantTokens,
+        keyId: keyId,
+      ),
     );
 
     return DecryptResponse.fromJson(jsonResponse.body);
@@ -1333,9 +1329,9 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AliasName': aliasName,
-      },
+      payload: DeleteAliasRequest(
+        aliasName: aliasName,
+      ),
     );
   }
 
@@ -1405,9 +1401,9 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CustomKeyStoreId': customKeyStoreId,
-      },
+      payload: DeleteCustomKeyStoreRequest(
+        customKeyStoreId: customKeyStoreId,
+      ),
     );
 
     return DeleteCustomKeyStoreResponse.fromJson(jsonResponse.body);
@@ -1480,9 +1476,9 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'KeyId': keyId,
-      },
+      payload: DeleteImportedKeyMaterialRequest(
+        keyId: keyId,
+      ),
     );
   }
 
@@ -1596,13 +1592,12 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (customKeyStoreId != null) 'CustomKeyStoreId': customKeyStoreId,
-        if (customKeyStoreName != null)
-          'CustomKeyStoreName': customKeyStoreName,
-        if (limit != null) 'Limit': limit,
-        if (marker != null) 'Marker': marker,
-      },
+      payload: DescribeCustomKeyStoresRequest(
+        customKeyStoreId: customKeyStoreId,
+        customKeyStoreName: customKeyStoreName,
+        limit: limit,
+        marker: marker,
+      ),
     );
 
     return DescribeCustomKeyStoresResponse.fromJson(jsonResponse.body);
@@ -1727,10 +1722,10 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'KeyId': keyId,
-        if (grantTokens != null) 'GrantTokens': grantTokens,
-      },
+      payload: DescribeKeyRequest(
+        keyId: keyId,
+        grantTokens: grantTokens,
+      ),
     );
 
     return DescribeKeyResponse.fromJson(jsonResponse.body);
@@ -1796,9 +1791,9 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'KeyId': keyId,
-      },
+      payload: DisableKeyRequest(
+        keyId: keyId,
+      ),
     );
   }
 
@@ -1873,9 +1868,9 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'KeyId': keyId,
-      },
+      payload: DisableKeyRotationRequest(
+        keyId: keyId,
+      ),
     );
   }
 
@@ -1932,9 +1927,9 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CustomKeyStoreId': customKeyStoreId,
-      },
+      payload: DisconnectCustomKeyStoreRequest(
+        customKeyStoreId: customKeyStoreId,
+      ),
     );
 
     return DisconnectCustomKeyStoreResponse.fromJson(jsonResponse.body);
@@ -1996,9 +1991,9 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'KeyId': keyId,
-      },
+      payload: EnableKeyRequest(
+        keyId: keyId,
+      ),
     );
   }
 
@@ -2070,9 +2065,9 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'KeyId': keyId,
-      },
+      payload: EnableKeyRotationRequest(
+        keyId: keyId,
+      ),
     );
   }
 
@@ -2281,14 +2276,13 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'KeyId': keyId,
-        'Plaintext': plaintext?.let(base64Encode),
-        if (encryptionAlgorithm != null)
-          'EncryptionAlgorithm': encryptionAlgorithm?.toValue(),
-        if (encryptionContext != null) 'EncryptionContext': encryptionContext,
-        if (grantTokens != null) 'GrantTokens': grantTokens,
-      },
+      payload: EncryptRequest(
+        keyId: keyId,
+        plaintext: plaintext,
+        encryptionAlgorithm: encryptionAlgorithm,
+        encryptionContext: encryptionContext,
+        grantTokens: grantTokens,
+      ),
     );
 
     return EncryptResponse.fromJson(jsonResponse.body);
@@ -2475,13 +2469,13 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'KeyId': keyId,
-        if (encryptionContext != null) 'EncryptionContext': encryptionContext,
-        if (grantTokens != null) 'GrantTokens': grantTokens,
-        if (keySpec != null) 'KeySpec': keySpec?.toValue(),
-        if (numberOfBytes != null) 'NumberOfBytes': numberOfBytes,
-      },
+      payload: GenerateDataKeyRequest(
+        keyId: keyId,
+        encryptionContext: encryptionContext,
+        grantTokens: grantTokens,
+        keySpec: keySpec,
+        numberOfBytes: numberOfBytes,
+      ),
     );
 
     return GenerateDataKeyResponse.fromJson(jsonResponse.body);
@@ -2627,12 +2621,12 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'KeyId': keyId,
-        'KeyPairSpec': keyPairSpec?.toValue(),
-        if (encryptionContext != null) 'EncryptionContext': encryptionContext,
-        if (grantTokens != null) 'GrantTokens': grantTokens,
-      },
+      payload: GenerateDataKeyPairRequest(
+        keyId: keyId,
+        keyPairSpec: keyPairSpec,
+        encryptionContext: encryptionContext,
+        grantTokens: grantTokens,
+      ),
     );
 
     return GenerateDataKeyPairResponse.fromJson(jsonResponse.body);
@@ -2770,12 +2764,12 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'KeyId': keyId,
-        'KeyPairSpec': keyPairSpec?.toValue(),
-        if (encryptionContext != null) 'EncryptionContext': encryptionContext,
-        if (grantTokens != null) 'GrantTokens': grantTokens,
-      },
+      payload: GenerateDataKeyPairWithoutPlaintextRequest(
+        keyId: keyId,
+        keyPairSpec: keyPairSpec,
+        encryptionContext: encryptionContext,
+        grantTokens: grantTokens,
+      ),
     );
 
     return GenerateDataKeyPairWithoutPlaintextResponse.fromJson(
@@ -2934,13 +2928,13 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'KeyId': keyId,
-        if (encryptionContext != null) 'EncryptionContext': encryptionContext,
-        if (grantTokens != null) 'GrantTokens': grantTokens,
-        if (keySpec != null) 'KeySpec': keySpec?.toValue(),
-        if (numberOfBytes != null) 'NumberOfBytes': numberOfBytes,
-      },
+      payload: GenerateDataKeyWithoutPlaintextRequest(
+        keyId: keyId,
+        encryptionContext: encryptionContext,
+        grantTokens: grantTokens,
+        keySpec: keySpec,
+        numberOfBytes: numberOfBytes,
+      ),
     );
 
     return GenerateDataKeyWithoutPlaintextResponse.fromJson(jsonResponse.body);
@@ -2998,10 +2992,10 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (customKeyStoreId != null) 'CustomKeyStoreId': customKeyStoreId,
-        if (numberOfBytes != null) 'NumberOfBytes': numberOfBytes,
-      },
+      payload: GenerateRandomRequest(
+        customKeyStoreId: customKeyStoreId,
+        numberOfBytes: numberOfBytes,
+      ),
     );
 
     return GenerateRandomResponse.fromJson(jsonResponse.body);
@@ -3075,10 +3069,10 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'KeyId': keyId,
-        'PolicyName': policyName,
-      },
+      payload: GetKeyPolicyRequest(
+        keyId: keyId,
+        policyName: policyName,
+      ),
     );
 
     return GetKeyPolicyResponse.fromJson(jsonResponse.body);
@@ -3163,9 +3157,9 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'KeyId': keyId,
-      },
+      payload: GetKeyRotationStatusRequest(
+        keyId: keyId,
+      ),
     );
 
     return GetKeyRotationStatusResponse.fromJson(jsonResponse.body);
@@ -3264,11 +3258,11 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'KeyId': keyId,
-        'WrappingAlgorithm': wrappingAlgorithm?.toValue(),
-        'WrappingKeySpec': wrappingKeySpec?.toValue(),
-      },
+      payload: GetParametersForImportRequest(
+        keyId: keyId,
+        wrappingAlgorithm: wrappingAlgorithm,
+        wrappingKeySpec: wrappingKeySpec,
+      ),
     );
 
     return GetParametersForImportResponse.fromJson(jsonResponse.body);
@@ -3402,10 +3396,10 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'KeyId': keyId,
-        if (grantTokens != null) 'GrantTokens': grantTokens,
-      },
+      payload: GetPublicKeyRequest(
+        keyId: keyId,
+        grantTokens: grantTokens,
+      ),
     );
 
     return GetPublicKeyResponse.fromJson(jsonResponse.body);
@@ -3559,14 +3553,13 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EncryptedKeyMaterial': encryptedKeyMaterial?.let(base64Encode),
-        'ImportToken': importToken?.let(base64Encode),
-        'KeyId': keyId,
-        if (expirationModel != null)
-          'ExpirationModel': expirationModel?.toValue(),
-        if (validTo != null) 'ValidTo': validTo,
-      },
+      payload: ImportKeyMaterialRequest(
+        encryptedKeyMaterial: encryptedKeyMaterial,
+        importToken: importToken,
+        keyId: keyId,
+        expirationModel: expirationModel,
+        validTo: validTo,
+      ),
     );
 
     return ImportKeyMaterialResponse.fromJson(jsonResponse.body);
@@ -3658,11 +3651,11 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (keyId != null) 'KeyId': keyId,
-        if (limit != null) 'Limit': limit,
-        if (marker != null) 'Marker': marker,
-      },
+      payload: ListAliasesRequest(
+        keyId: keyId,
+        limit: limit,
+        marker: marker,
+      ),
     );
 
     return ListAliasesResponse.fromJson(jsonResponse.body);
@@ -3752,11 +3745,11 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'KeyId': keyId,
-        if (limit != null) 'Limit': limit,
-        if (marker != null) 'Marker': marker,
-      },
+      payload: ListGrantsRequest(
+        keyId: keyId,
+        limit: limit,
+        marker: marker,
+      ),
     );
 
     return ListGrantsResponse.fromJson(jsonResponse.body);
@@ -3847,11 +3840,11 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'KeyId': keyId,
-        if (limit != null) 'Limit': limit,
-        if (marker != null) 'Marker': marker,
-      },
+      payload: ListKeyPoliciesRequest(
+        keyId: keyId,
+        limit: limit,
+        marker: marker,
+      ),
     );
 
     return ListKeyPoliciesResponse.fromJson(jsonResponse.body);
@@ -3907,10 +3900,10 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (limit != null) 'Limit': limit,
-        if (marker != null) 'Marker': marker,
-      },
+      payload: ListKeysRequest(
+        limit: limit,
+        marker: marker,
+      ),
     );
 
     return ListKeysResponse.fromJson(jsonResponse.body);
@@ -3999,11 +3992,11 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'KeyId': keyId,
-        if (limit != null) 'Limit': limit,
-        if (marker != null) 'Marker': marker,
-      },
+      payload: ListResourceTagsRequest(
+        keyId: keyId,
+        limit: limit,
+        marker: marker,
+      ),
     );
 
     return ListResourceTagsResponse.fromJson(jsonResponse.body);
@@ -4091,11 +4084,11 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'RetiringPrincipal': retiringPrincipal,
-        if (limit != null) 'Limit': limit,
-        if (marker != null) 'Marker': marker,
-      },
+      payload: ListRetirableGrantsRequest(
+        retiringPrincipal: retiringPrincipal,
+        limit: limit,
+        marker: marker,
+      ),
     );
 
     return ListGrantsResponse.fromJson(jsonResponse.body);
@@ -4241,13 +4234,12 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'KeyId': keyId,
-        'Policy': policy,
-        'PolicyName': policyName,
-        if (bypassPolicyLockoutSafetyCheck != null)
-          'BypassPolicyLockoutSafetyCheck': bypassPolicyLockoutSafetyCheck,
-      },
+      payload: PutKeyPolicyRequest(
+        keyId: keyId,
+        policy: policy,
+        policyName: policyName,
+        bypassPolicyLockoutSafetyCheck: bypassPolicyLockoutSafetyCheck,
+      ),
     );
   }
 
@@ -4517,21 +4509,16 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CiphertextBlob': ciphertextBlob?.let(base64Encode),
-        'DestinationKeyId': destinationKeyId,
-        if (destinationEncryptionAlgorithm != null)
-          'DestinationEncryptionAlgorithm':
-              destinationEncryptionAlgorithm?.toValue(),
-        if (destinationEncryptionContext != null)
-          'DestinationEncryptionContext': destinationEncryptionContext,
-        if (grantTokens != null) 'GrantTokens': grantTokens,
-        if (sourceEncryptionAlgorithm != null)
-          'SourceEncryptionAlgorithm': sourceEncryptionAlgorithm?.toValue(),
-        if (sourceEncryptionContext != null)
-          'SourceEncryptionContext': sourceEncryptionContext,
-        if (sourceKeyId != null) 'SourceKeyId': sourceKeyId,
-      },
+      payload: ReEncryptRequest(
+        ciphertextBlob: ciphertextBlob,
+        destinationKeyId: destinationKeyId,
+        destinationEncryptionAlgorithm: destinationEncryptionAlgorithm,
+        destinationEncryptionContext: destinationEncryptionContext,
+        grantTokens: grantTokens,
+        sourceEncryptionAlgorithm: sourceEncryptionAlgorithm,
+        sourceEncryptionContext: sourceEncryptionContext,
+        sourceKeyId: sourceKeyId,
+      ),
     );
 
     return ReEncryptResponse.fromJson(jsonResponse.body);
@@ -4620,11 +4607,11 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (grantId != null) 'GrantId': grantId,
-        if (grantToken != null) 'GrantToken': grantToken,
-        if (keyId != null) 'KeyId': keyId,
-      },
+      payload: RetireGrantRequest(
+        grantId: grantId,
+        grantToken: grantToken,
+        keyId: keyId,
+      ),
     );
   }
 
@@ -4693,10 +4680,10 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GrantId': grantId,
-        'KeyId': keyId,
-      },
+      payload: RevokeGrantRequest(
+        grantId: grantId,
+        keyId: keyId,
+      ),
     );
   }
 
@@ -4795,11 +4782,10 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'KeyId': keyId,
-        if (pendingWindowInDays != null)
-          'PendingWindowInDays': pendingWindowInDays,
-      },
+      payload: ScheduleKeyDeletionRequest(
+        keyId: keyId,
+        pendingWindowInDays: pendingWindowInDays,
+      ),
     );
 
     return ScheduleKeyDeletionResponse.fromJson(jsonResponse.body);
@@ -4951,13 +4937,13 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'KeyId': keyId,
-        'Message': message?.let(base64Encode),
-        'SigningAlgorithm': signingAlgorithm?.toValue(),
-        if (grantTokens != null) 'GrantTokens': grantTokens,
-        if (messageType != null) 'MessageType': messageType?.toValue(),
-      },
+      payload: SignRequest(
+        keyId: keyId,
+        message: message,
+        signingAlgorithm: signingAlgorithm,
+        grantTokens: grantTokens,
+        messageType: messageType,
+      ),
     );
 
     return SignResponse.fromJson(jsonResponse.body);
@@ -5035,10 +5021,10 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'KeyId': keyId,
-        'Tags': tags,
-      },
+      payload: TagResourceRequest(
+        keyId: keyId,
+        tags: tags,
+      ),
     );
   }
 
@@ -5104,10 +5090,10 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'KeyId': keyId,
-        'TagKeys': tagKeys,
-      },
+      payload: UntagResourceRequest(
+        keyId: keyId,
+        tagKeys: tagKeys,
+      ),
     );
   }
 
@@ -5213,10 +5199,10 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AliasName': aliasName,
-        'TargetKeyId': targetKeyId,
-      },
+      payload: UpdateAliasRequest(
+        aliasName: aliasName,
+        targetKeyId: targetKeyId,
+      ),
     );
   }
 
@@ -5351,13 +5337,12 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CustomKeyStoreId': customKeyStoreId,
-        if (cloudHsmClusterId != null) 'CloudHsmClusterId': cloudHsmClusterId,
-        if (keyStorePassword != null) 'KeyStorePassword': keyStorePassword,
-        if (newCustomKeyStoreName != null)
-          'NewCustomKeyStoreName': newCustomKeyStoreName,
-      },
+      payload: UpdateCustomKeyStoreRequest(
+        customKeyStoreId: customKeyStoreId,
+        cloudHsmClusterId: cloudHsmClusterId,
+        keyStorePassword: keyStorePassword,
+        newCustomKeyStoreName: newCustomKeyStoreName,
+      ),
     );
 
     return UpdateCustomKeyStoreResponse.fromJson(jsonResponse.body);
@@ -5431,10 +5416,10 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Description': description,
-        'KeyId': keyId,
-      },
+      payload: UpdateKeyDescriptionRequest(
+        description: description,
+        keyId: keyId,
+      ),
     );
   }
 
@@ -5581,14 +5566,14 @@ class KMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'KeyId': keyId,
-        'Message': message?.let(base64Encode),
-        'Signature': signature?.let(base64Encode),
-        'SigningAlgorithm': signingAlgorithm?.toValue(),
-        if (grantTokens != null) 'GrantTokens': grantTokens,
-        if (messageType != null) 'MessageType': messageType?.toValue(),
-      },
+      payload: VerifyRequest(
+        keyId: keyId,
+        message: message,
+        signature: signature,
+        signingAlgorithm: signingAlgorithm,
+        grantTokens: grantTokens,
+        messageType: messageType,
+      ),
     );
 
     return VerifyResponse.fromJson(jsonResponse.body);
@@ -5602,20 +5587,6 @@ enum AlgorithmSpec {
   rsaesOaepSha_1,
   @_s.JsonValue('RSAES_OAEP_SHA_256')
   rsaesOaepSha_256,
-}
-
-extension on AlgorithmSpec {
-  String toValue() {
-    switch (this) {
-      case AlgorithmSpec.rsaesPkcs1V1_5:
-        return 'RSAES_PKCS1_V1_5';
-      case AlgorithmSpec.rsaesOaepSha_1:
-        return 'RSAES_OAEP_SHA_1';
-      case AlgorithmSpec.rsaesOaepSha_256:
-        return 'RSAES_OAEP_SHA_256';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Contains information about an alias.
@@ -5649,6 +5620,39 @@ class AliasListEntry {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CancelKeyDeletionRequest {
+  /// The unique identifier for the customer master key (CMK) for which to cancel
+  /// deletion.
+  ///
+  /// Specify the key ID or the Amazon Resource Name (ARN) of the CMK.
+  ///
+  /// For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// </ul>
+  /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
+  /// <a>DescribeKey</a>.
+  @_s.JsonKey(name: 'KeyId')
+  final String keyId;
+
+  CancelKeyDeletionRequest({
+    @_s.required this.keyId,
+  });
+  Map<String, dynamic> toJson() => _$CancelKeyDeletionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CancelKeyDeletionResponse {
@@ -5661,6 +5665,24 @@ class CancelKeyDeletionResponse {
   });
   factory CancelKeyDeletionResponse.fromJson(Map<String, dynamic> json) =>
       _$CancelKeyDeletionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ConnectCustomKeyStoreRequest {
+  /// Enter the key store ID of the custom key store that you want to connect. To
+  /// find the ID of a custom key store, use the <a>DescribeCustomKeyStores</a>
+  /// operation.
+  @_s.JsonKey(name: 'CustomKeyStoreId')
+  final String customKeyStoreId;
+
+  ConnectCustomKeyStoreRequest({
+    @_s.required this.customKeyStoreId,
+  });
+  Map<String, dynamic> toJson() => _$ConnectCustomKeyStoreRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5711,6 +5733,85 @@ enum ConnectionStateType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateAliasRequest {
+  /// Specifies the alias name. This value must begin with <code>alias/</code>
+  /// followed by a name, such as <code>alias/ExampleAlias</code>. The alias name
+  /// cannot begin with <code>alias/aws/</code>. The <code>alias/aws/</code>
+  /// prefix is reserved for AWS managed CMKs.
+  @_s.JsonKey(name: 'AliasName')
+  final String aliasName;
+
+  /// Identifies the CMK to which the alias refers. Specify the key ID or the
+  /// Amazon Resource Name (ARN) of the CMK. You cannot specify another alias. For
+  /// help finding the key ID and ARN, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/viewing-keys.html#find-cmk-id-arn">Finding
+  /// the Key ID and ARN</a> in the <i>AWS Key Management Service Developer
+  /// Guide</i>.
+  @_s.JsonKey(name: 'TargetKeyId')
+  final String targetKeyId;
+
+  CreateAliasRequest({
+    @_s.required this.aliasName,
+    @_s.required this.targetKeyId,
+  });
+  Map<String, dynamic> toJson() => _$CreateAliasRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateCustomKeyStoreRequest {
+  /// Identifies the AWS CloudHSM cluster for the custom key store. Enter the
+  /// cluster ID of any active AWS CloudHSM cluster that is not already associated
+  /// with a custom key store. To find the cluster ID, use the <a
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/APIReference/API_DescribeClusters.html">DescribeClusters</a>
+  /// operation.
+  @_s.JsonKey(name: 'CloudHsmClusterId')
+  final String cloudHsmClusterId;
+
+  /// Specifies a friendly name for the custom key store. The name must be unique
+  /// in your AWS account.
+  @_s.JsonKey(name: 'CustomKeyStoreName')
+  final String customKeyStoreName;
+
+  /// Enter the password of the <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/key-store-concepts.html#concept-kmsuser">
+  /// <code>kmsuser</code> crypto user (CU) account</a> in the specified AWS
+  /// CloudHSM cluster. AWS KMS logs into the cluster as this user to manage key
+  /// material on your behalf.
+  ///
+  /// The password must be a string of 7 to 32 characters. Its value is case
+  /// sensitive.
+  ///
+  /// This parameter tells AWS KMS the <code>kmsuser</code> account password; it
+  /// does not change the password in the AWS CloudHSM cluster.
+  @_s.JsonKey(name: 'KeyStorePassword')
+  final String keyStorePassword;
+
+  /// Enter the content of the trust anchor certificate for the cluster. This is
+  /// the content of the <code>customerCA.crt</code> file that you created when
+  /// you <a
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/userguide/initialize-cluster.html">initialized
+  /// the cluster</a>.
+  @_s.JsonKey(name: 'TrustAnchorCertificate')
+  final String trustAnchorCertificate;
+
+  CreateCustomKeyStoreRequest({
+    @_s.required this.cloudHsmClusterId,
+    @_s.required this.customKeyStoreName,
+    @_s.required this.keyStorePassword,
+    @_s.required this.trustAnchorCertificate,
+  });
+  Map<String, dynamic> toJson() => _$CreateCustomKeyStoreRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateCustomKeyStoreResponse {
@@ -5723,6 +5824,113 @@ class CreateCustomKeyStoreResponse {
   });
   factory CreateCustomKeyStoreResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateCustomKeyStoreResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateGrantRequest {
+  /// The principal that is given permission to perform the operations that the
+  /// grant permits.
+  ///
+  /// To specify the principal, use the <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Name (ARN)</a> of an AWS principal. Valid AWS principals include
+  /// AWS accounts (root), IAM users, IAM roles, federated users, and assumed role
+  /// users. For examples of the ARN syntax to use for specifying a principal, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-iam">AWS
+  /// Identity and Access Management (IAM)</a> in the Example ARNs section of the
+  /// <i>AWS General Reference</i>.
+  @_s.JsonKey(name: 'GranteePrincipal')
+  final String granteePrincipal;
+
+  /// The unique identifier for the customer master key (CMK) that the grant
+  /// applies to.
+  ///
+  /// Specify the key ID or the Amazon Resource Name (ARN) of the CMK. To specify
+  /// a CMK in a different AWS account, you must use the key ARN.
+  ///
+  /// For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// </ul>
+  /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
+  /// <a>DescribeKey</a>.
+  @_s.JsonKey(name: 'KeyId')
+  final String keyId;
+
+  /// A list of operations that the grant permits.
+  @_s.JsonKey(name: 'Operations')
+  final List<String> operations;
+
+  /// Allows a cryptographic operation only when the encryption context matches or
+  /// includes the encryption context specified in this structure. For more
+  /// information about encryption context, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context">Encryption
+  /// Context</a> in the <i> <i>AWS Key Management Service Developer Guide</i>
+  /// </i>.
+  @_s.JsonKey(name: 'Constraints')
+  final GrantConstraints constraints;
+
+  /// A list of grant tokens.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token">Grant
+  /// Tokens</a> in the <i>AWS Key Management Service Developer Guide</i>.
+  @_s.JsonKey(name: 'GrantTokens')
+  final List<String> grantTokens;
+
+  /// A friendly name for identifying the grant. Use this value to prevent the
+  /// unintended creation of duplicate grants when retrying this request.
+  ///
+  /// When this value is absent, all <code>CreateGrant</code> requests result in a
+  /// new grant with a unique <code>GrantId</code> even if all the supplied
+  /// parameters are identical. This can result in unintended duplicates when you
+  /// retry the <code>CreateGrant</code> request.
+  ///
+  /// When this value is present, you can retry a <code>CreateGrant</code> request
+  /// with identical parameters; if the grant already exists, the original
+  /// <code>GrantId</code> is returned without creating a new grant. Note that the
+  /// returned grant token is unique with every <code>CreateGrant</code> request,
+  /// even when a duplicate <code>GrantId</code> is returned. All grant tokens
+  /// obtained in this way can be used interchangeably.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The principal that is given permission to retire the grant by using
+  /// <a>RetireGrant</a> operation.
+  ///
+  /// To specify the principal, use the <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Name (ARN)</a> of an AWS principal. Valid AWS principals include
+  /// AWS accounts (root), IAM users, federated users, and assumed role users. For
+  /// examples of the ARN syntax to use for specifying a principal, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-iam">AWS
+  /// Identity and Access Management (IAM)</a> in the Example ARNs section of the
+  /// <i>AWS General Reference</i>.
+  @_s.JsonKey(name: 'RetiringPrincipal')
+  final String retiringPrincipal;
+
+  CreateGrantRequest({
+    @_s.required this.granteePrincipal,
+    @_s.required this.keyId,
+    @_s.required this.operations,
+    this.constraints,
+    this.grantTokens,
+    this.name,
+    this.retiringPrincipal,
+  });
+  Map<String, dynamic> toJson() => _$CreateGrantRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5752,6 +5960,250 @@ class CreateGrantResponse {
   });
   factory CreateGrantResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateGrantResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateKeyRequest {
+  /// A flag to indicate whether to bypass the key policy lockout safety check.
+  /// <important>
+  /// Setting this value to true increases the risk that the CMK becomes
+  /// unmanageable. Do not set this value to true indiscriminately.
+  ///
+  /// For more information, refer to the scenario in the <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html#key-policy-default-allow-root-enable-iam">Default
+  /// Key Policy</a> section in the <i> <i>AWS Key Management Service Developer
+  /// Guide</i> </i>.
+  /// </important>
+  /// Use this parameter only when you include a policy in the request and you
+  /// intend to prevent the principal that is making the request from making a
+  /// subsequent <a>PutKeyPolicy</a> request on the CMK.
+  ///
+  /// The default value is false.
+  @_s.JsonKey(name: 'BypassPolicyLockoutSafetyCheck')
+  final bool bypassPolicyLockoutSafetyCheck;
+
+  /// Creates the CMK in the specified <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html">custom
+  /// key store</a> and the key material in its associated AWS CloudHSM cluster.
+  /// To create a CMK in a custom key store, you must also specify the
+  /// <code>Origin</code> parameter with a value of <code>AWS_CLOUDHSM</code>. The
+  /// AWS CloudHSM cluster that is associated with the custom key store must have
+  /// at least two active HSMs, each in a different Availability Zone in the
+  /// Region.
+  ///
+  /// This parameter is valid only for symmetric CMKs. You cannot create an
+  /// asymmetric CMK in a custom key store.
+  ///
+  /// To find the ID of a custom key store, use the <a>DescribeCustomKeyStores</a>
+  /// operation.
+  ///
+  /// The response includes the custom key store ID and the ID of the AWS CloudHSM
+  /// cluster.
+  ///
+  /// This operation is part of the <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html">Custom
+  /// Key Store feature</a> feature in AWS KMS, which combines the convenience and
+  /// extensive integration of AWS KMS with the isolation and control of a
+  /// single-tenant key store.
+  @_s.JsonKey(name: 'CustomKeyStoreId')
+  final String customKeyStoreId;
+
+  /// Specifies the type of CMK to create. The default value,
+  /// <code>SYMMETRIC_DEFAULT</code>, creates a CMK with a 256-bit symmetric key
+  /// for encryption and decryption. For help choosing a key spec for your CMK,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/symm-asymm-choose.html">How
+  /// to Choose Your CMK Configuration</a> in the <i>AWS Key Management Service
+  /// Developer Guide</i>.
+  ///
+  /// The <code>CustomerMasterKeySpec</code> determines whether the CMK contains a
+  /// symmetric key or an asymmetric key pair. It also determines the encryption
+  /// algorithms or signing algorithms that the CMK supports. You can't change the
+  /// <code>CustomerMasterKeySpec</code> after the CMK is created. To further
+  /// restrict the algorithms that can be used with the CMK, use a condition key
+  /// in its key policy or IAM policy. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/policy-conditions.html#conditions-kms-encryption-algorithm">kms:EncryptionAlgorithm</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/policy-conditions.html#conditions-kms-signing-algorithm">kms:Signing
+  /// Algorithm</a> in the <i>AWS Key Management Service Developer Guide</i>.
+  /// <important>
+  /// <a href="http://aws.amazon.com/kms/features/#AWS_Service_Integration">AWS
+  /// services that are integrated with AWS KMS</a> use symmetric CMKs to protect
+  /// your data. These services do not support asymmetric CMKs. For help
+  /// determining whether a CMK is symmetric or asymmetric, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/find-symm-asymm.html">Identifying
+  /// Symmetric and Asymmetric CMKs</a> in the <i>AWS Key Management Service
+  /// Developer Guide</i>.
+  /// </important>
+  /// AWS KMS supports the following key specs for CMKs:
+  ///
+  /// <ul>
+  /// <li>
+  /// Symmetric key (default)
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>SYMMETRIC_DEFAULT</code> (AES-256-GCM)
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// Asymmetric RSA key pairs
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>RSA_2048</code>
+  /// </li>
+  /// <li>
+  /// <code>RSA_3072</code>
+  /// </li>
+  /// <li>
+  /// <code>RSA_4096</code>
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// Asymmetric NIST-recommended elliptic curve key pairs
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ECC_NIST_P256</code> (secp256r1)
+  /// </li>
+  /// <li>
+  /// <code>ECC_NIST_P384</code> (secp384r1)
+  /// </li>
+  /// <li>
+  /// <code>ECC_NIST_P521</code> (secp521r1)
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// Other asymmetric elliptic curve key pairs
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ECC_SECG_P256K1</code> (secp256k1), commonly used for
+  /// cryptocurrencies.
+  /// </li>
+  /// </ul> </li>
+  /// </ul>
+  @_s.JsonKey(name: 'CustomerMasterKeySpec')
+  final CustomerMasterKeySpec customerMasterKeySpec;
+
+  /// A description of the CMK.
+  ///
+  /// Use a description that helps you decide whether the CMK is appropriate for a
+  /// task.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// Determines the cryptographic operations for which you can use the CMK. The
+  /// default value is <code>ENCRYPT_DECRYPT</code>. This parameter is required
+  /// only for asymmetric CMKs. You can't change the <code>KeyUsage</code> value
+  /// after the CMK is created.
+  ///
+  /// Select only one valid value.
+  ///
+  /// <ul>
+  /// <li>
+  /// For symmetric CMKs, omit the parameter or specify
+  /// <code>ENCRYPT_DECRYPT</code>.
+  /// </li>
+  /// <li>
+  /// For asymmetric CMKs with RSA key material, specify
+  /// <code>ENCRYPT_DECRYPT</code> or <code>SIGN_VERIFY</code>.
+  /// </li>
+  /// <li>
+  /// For asymmetric CMKs with ECC key material, specify <code>SIGN_VERIFY</code>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'KeyUsage')
+  final KeyUsageType keyUsage;
+
+  /// The source of the key material for the CMK. You cannot change the origin
+  /// after you create the CMK. The default is <code>AWS_KMS</code>, which means
+  /// AWS KMS creates the key material.
+  ///
+  /// When the parameter value is <code>EXTERNAL</code>, AWS KMS creates a CMK
+  /// without key material so that you can import key material from your existing
+  /// key management infrastructure. For more information about importing key
+  /// material into AWS KMS, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys.html">Importing
+  /// Key Material</a> in the <i>AWS Key Management Service Developer Guide</i>.
+  /// This value is valid only for symmetric CMKs.
+  ///
+  /// When the parameter value is <code>AWS_CLOUDHSM</code>, AWS KMS creates the
+  /// CMK in an AWS KMS <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html">custom
+  /// key store</a> and creates its key material in the associated AWS CloudHSM
+  /// cluster. You must also use the <code>CustomKeyStoreId</code> parameter to
+  /// identify the custom key store. This value is valid only for symmetric CMKs.
+  @_s.JsonKey(name: 'Origin')
+  final OriginType origin;
+
+  /// The key policy to attach to the CMK.
+  ///
+  /// If you provide a key policy, it must meet the following criteria:
+  ///
+  /// <ul>
+  /// <li>
+  /// If you don't set <code>BypassPolicyLockoutSafetyCheck</code> to true, the
+  /// key policy must allow the principal that is making the
+  /// <code>CreateKey</code> request to make a subsequent <a>PutKeyPolicy</a>
+  /// request on the CMK. This reduces the risk that the CMK becomes unmanageable.
+  /// For more information, refer to the scenario in the <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html#key-policy-default-allow-root-enable-iam">Default
+  /// Key Policy</a> section of the <i> <i>AWS Key Management Service Developer
+  /// Guide</i> </i>.
+  /// </li>
+  /// <li>
+  /// Each statement in the key policy must contain one or more principals. The
+  /// principals in the key policy must exist and be visible to AWS KMS. When you
+  /// create a new AWS principal (for example, an IAM user or role), you might
+  /// need to enforce a delay before including the new principal in a key policy
+  /// because the new principal might not be immediately visible to AWS KMS. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/troubleshoot_general.html#troubleshoot_general_eventual-consistency">Changes
+  /// that I make are not always immediately visible</a> in the <i>AWS Identity
+  /// and Access Management User Guide</i>.
+  /// </li>
+  /// </ul>
+  /// If you do not provide a key policy, AWS KMS attaches a default key policy to
+  /// the CMK. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html#key-policy-default">Default
+  /// Key Policy</a> in the <i>AWS Key Management Service Developer Guide</i>.
+  ///
+  /// The key policy size quota is 32 kilobytes (32768 bytes).
+  @_s.JsonKey(name: 'Policy')
+  final String policy;
+
+  /// One or more tags. Each tag consists of a tag key and a tag value. Both the
+  /// tag key and the tag value are required, but the tag value can be an empty
+  /// (null) string.
+  ///
+  /// When you add tags to an AWS resource, AWS generates a cost allocation report
+  /// with usage and costs aggregated by tags. For information about adding,
+  /// changing, deleting and listing tags for CMKs, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/tagging-keys.html">Tagging
+  /// Keys</a>.
+  ///
+  /// Use this parameter to tag the CMK when it is created. To add tags to an
+  /// existing CMK, use the <a>TagResource</a> operation.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateKeyRequest({
+    this.bypassPolicyLockoutSafetyCheck,
+    this.customKeyStoreId,
+    this.customerMasterKeySpec,
+    this.description,
+    this.keyUsage,
+    this.origin,
+    this.policy,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateKeyRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5938,30 +6390,6 @@ enum CustomerMasterKeySpec {
   symmetricDefault,
 }
 
-extension on CustomerMasterKeySpec {
-  String toValue() {
-    switch (this) {
-      case CustomerMasterKeySpec.rsa_2048:
-        return 'RSA_2048';
-      case CustomerMasterKeySpec.rsa_3072:
-        return 'RSA_3072';
-      case CustomerMasterKeySpec.rsa_4096:
-        return 'RSA_4096';
-      case CustomerMasterKeySpec.eccNistP256:
-        return 'ECC_NIST_P256';
-      case CustomerMasterKeySpec.eccNistP384:
-        return 'ECC_NIST_P384';
-      case CustomerMasterKeySpec.eccNistP521:
-        return 'ECC_NIST_P521';
-      case CustomerMasterKeySpec.eccSecgP256k1:
-        return 'ECC_SECG_P256K1';
-      case CustomerMasterKeySpec.symmetricDefault:
-        return 'SYMMETRIC_DEFAULT';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum DataKeyPairSpec {
   @_s.JsonValue('RSA_2048')
   rsa_2048,
@@ -5979,28 +6407,6 @@ enum DataKeyPairSpec {
   eccSecgP256k1,
 }
 
-extension on DataKeyPairSpec {
-  String toValue() {
-    switch (this) {
-      case DataKeyPairSpec.rsa_2048:
-        return 'RSA_2048';
-      case DataKeyPairSpec.rsa_3072:
-        return 'RSA_3072';
-      case DataKeyPairSpec.rsa_4096:
-        return 'RSA_4096';
-      case DataKeyPairSpec.eccNistP256:
-        return 'ECC_NIST_P256';
-      case DataKeyPairSpec.eccNistP384:
-        return 'ECC_NIST_P384';
-      case DataKeyPairSpec.eccNistP521:
-        return 'ECC_NIST_P521';
-      case DataKeyPairSpec.eccSecgP256k1:
-        return 'ECC_SECG_P256K1';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum DataKeySpec {
   @_s.JsonValue('AES_256')
   aes_256,
@@ -6008,16 +6414,101 @@ enum DataKeySpec {
   aes_128,
 }
 
-extension on DataKeySpec {
-  String toValue() {
-    switch (this) {
-      case DataKeySpec.aes_256:
-        return 'AES_256';
-      case DataKeySpec.aes_128:
-        return 'AES_128';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DecryptRequest {
+  /// Ciphertext to be decrypted. The blob includes metadata.
+  @Uint8ListConverter()
+  @_s.JsonKey(name: 'CiphertextBlob')
+  final Uint8List ciphertextBlob;
+
+  /// Specifies the encryption algorithm that will be used to decrypt the
+  /// ciphertext. Specify the same algorithm that was used to encrypt the data. If
+  /// you specify a different algorithm, the <code>Decrypt</code> operation fails.
+  ///
+  /// This parameter is required only when the ciphertext was encrypted under an
+  /// asymmetric CMK. The default value, <code>SYMMETRIC_DEFAULT</code>,
+  /// represents the only supported algorithm that is valid for symmetric CMKs.
+  @_s.JsonKey(name: 'EncryptionAlgorithm')
+  final EncryptionAlgorithmSpec encryptionAlgorithm;
+
+  /// Specifies the encryption context to use when decrypting the data. An
+  /// encryption context is valid only for cryptographic operations with a
+  /// symmetric CMK. The standard asymmetric encryption algorithms that AWS KMS
+  /// uses do not support an encryption context.
+  ///
+  /// An <i>encryption context</i> is a collection of non-secret key-value pairs
+  /// that represents additional authenticated data. When you use an encryption
+  /// context to encrypt data, you must specify the same (an exact case-sensitive
+  /// match) encryption context to decrypt the data. An encryption context is
+  /// optional when encrypting with a symmetric CMK, but it is highly recommended.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context">Encryption
+  /// Context</a> in the <i>AWS Key Management Service Developer Guide</i>.
+  @_s.JsonKey(name: 'EncryptionContext')
+  final Map<String, String> encryptionContext;
+
+  /// A list of grant tokens.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token">Grant
+  /// Tokens</a> in the <i>AWS Key Management Service Developer Guide</i>.
+  @_s.JsonKey(name: 'GrantTokens')
+  final List<String> grantTokens;
+
+  /// Specifies the customer master key (CMK) that AWS KMS will use to decrypt the
+  /// ciphertext. Enter a key ID of the CMK that was used to encrypt the
+  /// ciphertext.
+  ///
+  /// If you specify a <code>KeyId</code> value, the <code>Decrypt</code>
+  /// operation succeeds only if the specified CMK was used to encrypt the
+  /// ciphertext.
+  ///
+  /// This parameter is required only when the ciphertext was encrypted under an
+  /// asymmetric CMK. Otherwise, AWS KMS uses the metadata that it adds to the
+  /// ciphertext blob to determine which CMK was used to encrypt the ciphertext.
+  /// However, you can use this parameter to ensure that a particular CMK (of any
+  /// kind) is used to decrypt the ciphertext.
+  ///
+  /// To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or
+  /// alias ARN. When using an alias name, prefix it with <code>"alias/"</code>.
+  ///
+  /// For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Alias name: <code>alias/ExampleAlias</code>
+  /// </li>
+  /// <li>
+  /// Alias ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias</code>
+  /// </li>
+  /// </ul>
+  /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
+  /// <a>DescribeKey</a>. To get the alias name and alias ARN, use
+  /// <a>ListAliases</a>.
+  @_s.JsonKey(name: 'KeyId')
+  final String keyId;
+
+  DecryptRequest({
+    @_s.required this.ciphertextBlob,
+    this.encryptionAlgorithm,
+    this.encryptionContext,
+    this.grantTokens,
+    this.keyId,
+  });
+  Map<String, dynamic> toJson() => _$DecryptRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6052,12 +6543,127 @@ class DecryptResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteAliasRequest {
+  /// The alias to be deleted. The alias name must begin with <code>alias/</code>
+  /// followed by the alias name, such as <code>alias/ExampleAlias</code>.
+  @_s.JsonKey(name: 'AliasName')
+  final String aliasName;
+
+  DeleteAliasRequest({
+    @_s.required this.aliasName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteAliasRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteCustomKeyStoreRequest {
+  /// Enter the ID of the custom key store you want to delete. To find the ID of a
+  /// custom key store, use the <a>DescribeCustomKeyStores</a> operation.
+  @_s.JsonKey(name: 'CustomKeyStoreId')
+  final String customKeyStoreId;
+
+  DeleteCustomKeyStoreRequest({
+    @_s.required this.customKeyStoreId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteCustomKeyStoreRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteCustomKeyStoreResponse {
   DeleteCustomKeyStoreResponse();
   factory DeleteCustomKeyStoreResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteCustomKeyStoreResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteImportedKeyMaterialRequest {
+  /// Identifies the CMK from which you are deleting imported key material. The
+  /// <code>Origin</code> of the CMK must be <code>EXTERNAL</code>.
+  ///
+  /// Specify the key ID or the Amazon Resource Name (ARN) of the CMK.
+  ///
+  /// For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// </ul>
+  /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
+  /// <a>DescribeKey</a>.
+  @_s.JsonKey(name: 'KeyId')
+  final String keyId;
+
+  DeleteImportedKeyMaterialRequest({
+    @_s.required this.keyId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteImportedKeyMaterialRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeCustomKeyStoresRequest {
+  /// Gets only information about the specified custom key store. Enter the key
+  /// store ID.
+  ///
+  /// By default, this operation gets information about all custom key stores in
+  /// the account and region. To limit the output to a particular custom key
+  /// store, you can use either the <code>CustomKeyStoreId</code> or
+  /// <code>CustomKeyStoreName</code> parameter, but not both.
+  @_s.JsonKey(name: 'CustomKeyStoreId')
+  final String customKeyStoreId;
+
+  /// Gets only information about the specified custom key store. Enter the
+  /// friendly name of the custom key store.
+  ///
+  /// By default, this operation gets information about all custom key stores in
+  /// the account and region. To limit the output to a particular custom key
+  /// store, you can use either the <code>CustomKeyStoreId</code> or
+  /// <code>CustomKeyStoreName</code> parameter, but not both.
+  @_s.JsonKey(name: 'CustomKeyStoreName')
+  final String customKeyStoreName;
+
+  /// Use this parameter to specify the maximum number of items to return. When
+  /// this value is present, AWS KMS does not return more than the specified
+  /// number of items, but it might return fewer.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// Use this parameter in a subsequent request after you receive a response with
+  /// truncated results. Set it to the value of <code>NextMarker</code> from the
+  /// truncated response you just received.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  DescribeCustomKeyStoresRequest({
+    this.customKeyStoreId,
+    this.customKeyStoreName,
+    this.limit,
+    this.marker,
+  });
+  Map<String, dynamic> toJson() => _$DescribeCustomKeyStoresRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6095,6 +6701,64 @@ class DescribeCustomKeyStoresResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeKeyRequest {
+  /// Describes the specified customer master key (CMK).
+  ///
+  /// If you specify a predefined AWS alias (an AWS alias with no key ID), KMS
+  /// associates the alias with an <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#master_keys">AWS
+  /// managed CMK</a> and returns its <code>KeyId</code> and <code>Arn</code> in
+  /// the response.
+  ///
+  /// To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or
+  /// alias ARN. When using an alias name, prefix it with <code>"alias/"</code>.
+  /// To specify a CMK in a different AWS account, you must use the key ARN or
+  /// alias ARN.
+  ///
+  /// For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Alias name: <code>alias/ExampleAlias</code>
+  /// </li>
+  /// <li>
+  /// Alias ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias</code>
+  /// </li>
+  /// </ul>
+  /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
+  /// <a>DescribeKey</a>. To get the alias name and alias ARN, use
+  /// <a>ListAliases</a>.
+  @_s.JsonKey(name: 'KeyId')
+  final String keyId;
+
+  /// A list of grant tokens.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token">Grant
+  /// Tokens</a> in the <i>AWS Key Management Service Developer Guide</i>.
+  @_s.JsonKey(name: 'GrantTokens')
+  final List<String> grantTokens;
+
+  DescribeKeyRequest({
+    @_s.required this.keyId,
+    this.grantTokens,
+  });
+  Map<String, dynamic> toJson() => _$DescribeKeyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeKeyResponse {
@@ -6112,6 +6776,95 @@ class DescribeKeyResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisableKeyRequest {
+  /// A unique identifier for the customer master key (CMK).
+  ///
+  /// Specify the key ID or the Amazon Resource Name (ARN) of the CMK.
+  ///
+  /// For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// </ul>
+  /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
+  /// <a>DescribeKey</a>.
+  @_s.JsonKey(name: 'KeyId')
+  final String keyId;
+
+  DisableKeyRequest({
+    @_s.required this.keyId,
+  });
+  Map<String, dynamic> toJson() => _$DisableKeyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisableKeyRotationRequest {
+  /// Identifies a symmetric customer master key (CMK). You cannot enable
+  /// automatic rotation of <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html#asymmetric-cmks">asymmetric
+  /// CMKs</a>, CMKs with <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys.html">imported
+  /// key material</a>, or CMKs in a <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html">custom
+  /// key store</a>.
+  ///
+  /// Specify the key ID or the Amazon Resource Name (ARN) of the CMK.
+  ///
+  /// For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// </ul>
+  /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
+  /// <a>DescribeKey</a>.
+  @_s.JsonKey(name: 'KeyId')
+  final String keyId;
+
+  DisableKeyRotationRequest({
+    @_s.required this.keyId,
+  });
+  Map<String, dynamic> toJson() => _$DisableKeyRotationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisconnectCustomKeyStoreRequest {
+  /// Enter the ID of the custom key store you want to disconnect. To find the ID
+  /// of a custom key store, use the <a>DescribeCustomKeyStores</a> operation.
+  @_s.JsonKey(name: 'CustomKeyStoreId')
+  final String customKeyStoreId;
+
+  DisconnectCustomKeyStoreRequest({
+    @_s.required this.customKeyStoreId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DisconnectCustomKeyStoreRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DisconnectCustomKeyStoreResponse {
@@ -6119,6 +6872,161 @@ class DisconnectCustomKeyStoreResponse {
   factory DisconnectCustomKeyStoreResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DisconnectCustomKeyStoreResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class EnableKeyRequest {
+  /// A unique identifier for the customer master key (CMK).
+  ///
+  /// Specify the key ID or the Amazon Resource Name (ARN) of the CMK.
+  ///
+  /// For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// </ul>
+  /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
+  /// <a>DescribeKey</a>.
+  @_s.JsonKey(name: 'KeyId')
+  final String keyId;
+
+  EnableKeyRequest({
+    @_s.required this.keyId,
+  });
+  Map<String, dynamic> toJson() => _$EnableKeyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class EnableKeyRotationRequest {
+  /// Identifies a symmetric customer master key (CMK). You cannot enable
+  /// automatic rotation of asymmetric CMKs, CMKs with imported key material, or
+  /// CMKs in a <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html">custom
+  /// key store</a>.
+  ///
+  /// Specify the key ID or the Amazon Resource Name (ARN) of the CMK.
+  ///
+  /// For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// </ul>
+  /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
+  /// <a>DescribeKey</a>.
+  @_s.JsonKey(name: 'KeyId')
+  final String keyId;
+
+  EnableKeyRotationRequest({
+    @_s.required this.keyId,
+  });
+  Map<String, dynamic> toJson() => _$EnableKeyRotationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class EncryptRequest {
+  /// A unique identifier for the customer master key (CMK).
+  ///
+  /// To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or
+  /// alias ARN. When using an alias name, prefix it with <code>"alias/"</code>.
+  /// To specify a CMK in a different AWS account, you must use the key ARN or
+  /// alias ARN.
+  ///
+  /// For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Alias name: <code>alias/ExampleAlias</code>
+  /// </li>
+  /// <li>
+  /// Alias ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias</code>
+  /// </li>
+  /// </ul>
+  /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
+  /// <a>DescribeKey</a>. To get the alias name and alias ARN, use
+  /// <a>ListAliases</a>.
+  @_s.JsonKey(name: 'KeyId')
+  final String keyId;
+
+  /// Data to be encrypted.
+  @Uint8ListConverter()
+  @_s.JsonKey(name: 'Plaintext')
+  final Uint8List plaintext;
+
+  /// Specifies the encryption algorithm that AWS KMS will use to encrypt the
+  /// plaintext message. The algorithm must be compatible with the CMK that you
+  /// specify.
+  ///
+  /// This parameter is required only for asymmetric CMKs. The default value,
+  /// <code>SYMMETRIC_DEFAULT</code>, is the algorithm used for symmetric CMKs. If
+  /// you are using an asymmetric CMK, we recommend RSAES_OAEP_SHA_256.
+  @_s.JsonKey(name: 'EncryptionAlgorithm')
+  final EncryptionAlgorithmSpec encryptionAlgorithm;
+
+  /// Specifies the encryption context that will be used to encrypt the data. An
+  /// encryption context is valid only for cryptographic operations with a
+  /// symmetric CMK. The standard asymmetric encryption algorithms that AWS KMS
+  /// uses do not support an encryption context.
+  ///
+  /// An <i>encryption context</i> is a collection of non-secret key-value pairs
+  /// that represents additional authenticated data. When you use an encryption
+  /// context to encrypt data, you must specify the same (an exact case-sensitive
+  /// match) encryption context to decrypt the data. An encryption context is
+  /// optional when encrypting with a symmetric CMK, but it is highly recommended.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context">Encryption
+  /// Context</a> in the <i>AWS Key Management Service Developer Guide</i>.
+  @_s.JsonKey(name: 'EncryptionContext')
+  final Map<String, String> encryptionContext;
+
+  /// A list of grant tokens.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token">Grant
+  /// Tokens</a> in the <i>AWS Key Management Service Developer Guide</i>.
+  @_s.JsonKey(name: 'GrantTokens')
+  final List<String> grantTokens;
+
+  EncryptRequest({
+    @_s.required this.keyId,
+    @_s.required this.plaintext,
+    this.encryptionAlgorithm,
+    this.encryptionContext,
+    this.grantTokens,
+  });
+  Map<String, dynamic> toJson() => _$EncryptRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6159,20 +7067,6 @@ enum EncryptionAlgorithmSpec {
   rsaesOaepSha_256,
 }
 
-extension on EncryptionAlgorithmSpec {
-  String toValue() {
-    switch (this) {
-      case EncryptionAlgorithmSpec.symmetricDefault:
-        return 'SYMMETRIC_DEFAULT';
-      case EncryptionAlgorithmSpec.rsaesOaepSha_1:
-        return 'RSAES_OAEP_SHA_1';
-      case EncryptionAlgorithmSpec.rsaesOaepSha_256:
-        return 'RSAES_OAEP_SHA_256';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum ExpirationModelType {
   @_s.JsonValue('KEY_MATERIAL_EXPIRES')
   keyMaterialExpires,
@@ -6180,16 +7074,83 @@ enum ExpirationModelType {
   keyMaterialDoesNotExpire,
 }
 
-extension on ExpirationModelType {
-  String toValue() {
-    switch (this) {
-      case ExpirationModelType.keyMaterialExpires:
-        return 'KEY_MATERIAL_EXPIRES';
-      case ExpirationModelType.keyMaterialDoesNotExpire:
-        return 'KEY_MATERIAL_DOES_NOT_EXPIRE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GenerateDataKeyPairRequest {
+  /// Specifies the symmetric CMK that encrypts the private key in the data key
+  /// pair. You cannot specify an asymmetric CMKs.
+  ///
+  /// To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or
+  /// alias ARN. When using an alias name, prefix it with <code>"alias/"</code>.
+  /// To specify a CMK in a different AWS account, you must use the key ARN or
+  /// alias ARN.
+  ///
+  /// For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Alias name: <code>alias/ExampleAlias</code>
+  /// </li>
+  /// <li>
+  /// Alias ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias</code>
+  /// </li>
+  /// </ul>
+  /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
+  /// <a>DescribeKey</a>. To get the alias name and alias ARN, use
+  /// <a>ListAliases</a>.
+  @_s.JsonKey(name: 'KeyId')
+  final String keyId;
+
+  /// Determines the type of data key pair that is generated.
+  ///
+  /// The AWS KMS rule that restricts the use of asymmetric RSA CMKs to encrypt
+  /// and decrypt or to sign and verify (but not both), and the rule that permits
+  /// you to use ECC CMKs only to sign and verify, are not effective outside of
+  /// AWS KMS.
+  @_s.JsonKey(name: 'KeyPairSpec')
+  final DataKeyPairSpec keyPairSpec;
+
+  /// Specifies the encryption context that will be used when encrypting the
+  /// private key in the data key pair.
+  ///
+  /// An <i>encryption context</i> is a collection of non-secret key-value pairs
+  /// that represents additional authenticated data. When you use an encryption
+  /// context to encrypt data, you must specify the same (an exact case-sensitive
+  /// match) encryption context to decrypt the data. An encryption context is
+  /// optional when encrypting with a symmetric CMK, but it is highly recommended.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context">Encryption
+  /// Context</a> in the <i>AWS Key Management Service Developer Guide</i>.
+  @_s.JsonKey(name: 'EncryptionContext')
+  final Map<String, String> encryptionContext;
+
+  /// A list of grant tokens.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token">Grant
+  /// Tokens</a> in the <i>AWS Key Management Service Developer Guide</i>.
+  @_s.JsonKey(name: 'GrantTokens')
+  final List<String> grantTokens;
+
+  GenerateDataKeyPairRequest({
+    @_s.required this.keyId,
+    @_s.required this.keyPairSpec,
+    this.encryptionContext,
+    this.grantTokens,
+  });
+  Map<String, dynamic> toJson() => _$GenerateDataKeyPairRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6232,6 +7193,85 @@ class GenerateDataKeyPairResponse {
   });
   factory GenerateDataKeyPairResponse.fromJson(Map<String, dynamic> json) =>
       _$GenerateDataKeyPairResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GenerateDataKeyPairWithoutPlaintextRequest {
+  /// Specifies the CMK that encrypts the private key in the data key pair. You
+  /// must specify a symmetric CMK. You cannot use an asymmetric CMK. To get the
+  /// type of your CMK, use the <a>DescribeKey</a> operation.
+  ///
+  /// To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or
+  /// alias ARN. When using an alias name, prefix it with <code>"alias/"</code>.
+  ///
+  /// For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Alias name: <code>alias/ExampleAlias</code>
+  /// </li>
+  /// <li>
+  /// Alias ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias</code>
+  /// </li>
+  /// </ul>
+  /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
+  /// <a>DescribeKey</a>. To get the alias name and alias ARN, use
+  /// <a>ListAliases</a>.
+  @_s.JsonKey(name: 'KeyId')
+  final String keyId;
+
+  /// Determines the type of data key pair that is generated.
+  ///
+  /// The AWS KMS rule that restricts the use of asymmetric RSA CMKs to encrypt
+  /// and decrypt or to sign and verify (but not both), and the rule that permits
+  /// you to use ECC CMKs only to sign and verify, are not effective outside of
+  /// AWS KMS.
+  @_s.JsonKey(name: 'KeyPairSpec')
+  final DataKeyPairSpec keyPairSpec;
+
+  /// Specifies the encryption context that will be used when encrypting the
+  /// private key in the data key pair.
+  ///
+  /// An <i>encryption context</i> is a collection of non-secret key-value pairs
+  /// that represents additional authenticated data. When you use an encryption
+  /// context to encrypt data, you must specify the same (an exact case-sensitive
+  /// match) encryption context to decrypt the data. An encryption context is
+  /// optional when encrypting with a symmetric CMK, but it is highly recommended.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context">Encryption
+  /// Context</a> in the <i>AWS Key Management Service Developer Guide</i>.
+  @_s.JsonKey(name: 'EncryptionContext')
+  final Map<String, String> encryptionContext;
+
+  /// A list of grant tokens.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token">Grant
+  /// Tokens</a> in the <i>AWS Key Management Service Developer Guide</i>.
+  @_s.JsonKey(name: 'GrantTokens')
+  final List<String> grantTokens;
+
+  GenerateDataKeyPairWithoutPlaintextRequest({
+    @_s.required this.keyId,
+    @_s.required this.keyPairSpec,
+    this.encryptionContext,
+    this.grantTokens,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GenerateDataKeyPairWithoutPlaintextRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6300,6 +7340,96 @@ class GenerateDataKeyPairWithoutPlaintextResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GenerateDataKeyRequest {
+  /// Identifies the symmetric CMK that encrypts the data key.
+  ///
+  /// To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or
+  /// alias ARN. When using an alias name, prefix it with <code>"alias/"</code>.
+  /// To specify a CMK in a different AWS account, you must use the key ARN or
+  /// alias ARN.
+  ///
+  /// For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Alias name: <code>alias/ExampleAlias</code>
+  /// </li>
+  /// <li>
+  /// Alias ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias</code>
+  /// </li>
+  /// </ul>
+  /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
+  /// <a>DescribeKey</a>. To get the alias name and alias ARN, use
+  /// <a>ListAliases</a>.
+  @_s.JsonKey(name: 'KeyId')
+  final String keyId;
+
+  /// Specifies the encryption context that will be used when encrypting the data
+  /// key.
+  ///
+  /// An <i>encryption context</i> is a collection of non-secret key-value pairs
+  /// that represents additional authenticated data. When you use an encryption
+  /// context to encrypt data, you must specify the same (an exact case-sensitive
+  /// match) encryption context to decrypt the data. An encryption context is
+  /// optional when encrypting with a symmetric CMK, but it is highly recommended.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context">Encryption
+  /// Context</a> in the <i>AWS Key Management Service Developer Guide</i>.
+  @_s.JsonKey(name: 'EncryptionContext')
+  final Map<String, String> encryptionContext;
+
+  /// A list of grant tokens.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token">Grant
+  /// Tokens</a> in the <i>AWS Key Management Service Developer Guide</i>.
+  @_s.JsonKey(name: 'GrantTokens')
+  final List<String> grantTokens;
+
+  /// Specifies the length of the data key. Use <code>AES_128</code> to generate a
+  /// 128-bit symmetric key, or <code>AES_256</code> to generate a 256-bit
+  /// symmetric key.
+  ///
+  /// You must specify either the <code>KeySpec</code> or the
+  /// <code>NumberOfBytes</code> parameter (but not both) in every
+  /// <code>GenerateDataKey</code> request.
+  @_s.JsonKey(name: 'KeySpec')
+  final DataKeySpec keySpec;
+
+  /// Specifies the length of the data key in bytes. For example, use the value 64
+  /// to generate a 512-bit data key (64 bytes is 512 bits). For 128-bit (16-byte)
+  /// and 256-bit (32-byte) data keys, use the <code>KeySpec</code> parameter.
+  ///
+  /// You must specify either the <code>KeySpec</code> or the
+  /// <code>NumberOfBytes</code> parameter (but not both) in every
+  /// <code>GenerateDataKey</code> request.
+  @_s.JsonKey(name: 'NumberOfBytes')
+  final int numberOfBytes;
+
+  GenerateDataKeyRequest({
+    @_s.required this.keyId,
+    this.encryptionContext,
+    this.grantTokens,
+    this.keySpec,
+    this.numberOfBytes,
+  });
+  Map<String, dynamic> toJson() => _$GenerateDataKeyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GenerateDataKeyResponse {
@@ -6333,6 +7463,90 @@ class GenerateDataKeyResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GenerateDataKeyWithoutPlaintextRequest {
+  /// The identifier of the symmetric customer master key (CMK) that encrypts the
+  /// data key.
+  ///
+  /// To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or
+  /// alias ARN. When using an alias name, prefix it with <code>"alias/"</code>.
+  /// To specify a CMK in a different AWS account, you must use the key ARN or
+  /// alias ARN.
+  ///
+  /// For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Alias name: <code>alias/ExampleAlias</code>
+  /// </li>
+  /// <li>
+  /// Alias ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias</code>
+  /// </li>
+  /// </ul>
+  /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
+  /// <a>DescribeKey</a>. To get the alias name and alias ARN, use
+  /// <a>ListAliases</a>.
+  @_s.JsonKey(name: 'KeyId')
+  final String keyId;
+
+  /// Specifies the encryption context that will be used when encrypting the data
+  /// key.
+  ///
+  /// An <i>encryption context</i> is a collection of non-secret key-value pairs
+  /// that represents additional authenticated data. When you use an encryption
+  /// context to encrypt data, you must specify the same (an exact case-sensitive
+  /// match) encryption context to decrypt the data. An encryption context is
+  /// optional when encrypting with a symmetric CMK, but it is highly recommended.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context">Encryption
+  /// Context</a> in the <i>AWS Key Management Service Developer Guide</i>.
+  @_s.JsonKey(name: 'EncryptionContext')
+  final Map<String, String> encryptionContext;
+
+  /// A list of grant tokens.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token">Grant
+  /// Tokens</a> in the <i>AWS Key Management Service Developer Guide</i>.
+  @_s.JsonKey(name: 'GrantTokens')
+  final List<String> grantTokens;
+
+  /// The length of the data key. Use <code>AES_128</code> to generate a 128-bit
+  /// symmetric key, or <code>AES_256</code> to generate a 256-bit symmetric key.
+  @_s.JsonKey(name: 'KeySpec')
+  final DataKeySpec keySpec;
+
+  /// The length of the data key in bytes. For example, use the value 64 to
+  /// generate a 512-bit data key (64 bytes is 512 bits). For common key lengths
+  /// (128-bit and 256-bit symmetric keys), we recommend that you use the
+  /// <code>KeySpec</code> field instead of this one.
+  @_s.JsonKey(name: 'NumberOfBytes')
+  final int numberOfBytes;
+
+  GenerateDataKeyWithoutPlaintextRequest({
+    @_s.required this.keyId,
+    this.encryptionContext,
+    this.grantTokens,
+    this.keySpec,
+    this.numberOfBytes,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GenerateDataKeyWithoutPlaintextRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GenerateDataKeyWithoutPlaintextResponse {
@@ -6358,6 +7572,31 @@ class GenerateDataKeyWithoutPlaintextResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GenerateRandomRequest {
+  /// Generates the random byte string in the AWS CloudHSM cluster that is
+  /// associated with the specified <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html">custom
+  /// key store</a>. To find the ID of a custom key store, use the
+  /// <a>DescribeCustomKeyStores</a> operation.
+  @_s.JsonKey(name: 'CustomKeyStoreId')
+  final String customKeyStoreId;
+
+  /// The length of the byte string.
+  @_s.JsonKey(name: 'NumberOfBytes')
+  final int numberOfBytes;
+
+  GenerateRandomRequest({
+    this.customKeyStoreId,
+    this.numberOfBytes,
+  });
+  Map<String, dynamic> toJson() => _$GenerateRandomRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GenerateRandomResponse {
@@ -6372,6 +7611,45 @@ class GenerateRandomResponse {
   });
   factory GenerateRandomResponse.fromJson(Map<String, dynamic> json) =>
       _$GenerateRandomResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetKeyPolicyRequest {
+  /// A unique identifier for the customer master key (CMK).
+  ///
+  /// Specify the key ID or the Amazon Resource Name (ARN) of the CMK.
+  ///
+  /// For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// </ul>
+  /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
+  /// <a>DescribeKey</a>.
+  @_s.JsonKey(name: 'KeyId')
+  final String keyId;
+
+  /// Specifies the name of the key policy. The only valid name is
+  /// <code>default</code>. To get the names of key policies, use
+  /// <a>ListKeyPolicies</a>.
+  @_s.JsonKey(name: 'PolicyName')
+  final String policyName;
+
+  GetKeyPolicyRequest({
+    @_s.required this.keyId,
+    @_s.required this.policyName,
+  });
+  Map<String, dynamic> toJson() => _$GetKeyPolicyRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6394,6 +7672,39 @@ class GetKeyPolicyResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetKeyRotationStatusRequest {
+  /// A unique identifier for the customer master key (CMK).
+  ///
+  /// Specify the key ID or the Amazon Resource Name (ARN) of the CMK. To specify
+  /// a CMK in a different AWS account, you must use the key ARN.
+  ///
+  /// For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// </ul>
+  /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
+  /// <a>DescribeKey</a>.
+  @_s.JsonKey(name: 'KeyId')
+  final String keyId;
+
+  GetKeyRotationStatusRequest({
+    @_s.required this.keyId,
+  });
+  Map<String, dynamic> toJson() => _$GetKeyRotationStatusRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetKeyRotationStatusResponse {
@@ -6406,6 +7717,54 @@ class GetKeyRotationStatusResponse {
   });
   factory GetKeyRotationStatusResponse.fromJson(Map<String, dynamic> json) =>
       _$GetKeyRotationStatusResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetParametersForImportRequest {
+  /// The identifier of the symmetric CMK into which you will import key material.
+  /// The <code>Origin</code> of the CMK must be <code>EXTERNAL</code>.
+  ///
+  /// Specify the key ID or the Amazon Resource Name (ARN) of the CMK.
+  ///
+  /// For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// </ul>
+  /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
+  /// <a>DescribeKey</a>.
+  @_s.JsonKey(name: 'KeyId')
+  final String keyId;
+
+  /// The algorithm you will use to encrypt the key material before importing it
+  /// with <a>ImportKeyMaterial</a>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys-encrypt-key-material.html">Encrypt
+  /// the Key Material</a> in the <i>AWS Key Management Service Developer
+  /// Guide</i>.
+  @_s.JsonKey(name: 'WrappingAlgorithm')
+  final AlgorithmSpec wrappingAlgorithm;
+
+  /// The type of wrapping key (public key) to return in the response. Only
+  /// 2048-bit RSA public keys are supported.
+  @_s.JsonKey(name: 'WrappingKeySpec')
+  final WrappingKeySpec wrappingKeySpec;
+
+  GetParametersForImportRequest({
+    @_s.required this.keyId,
+    @_s.required this.wrappingAlgorithm,
+    @_s.required this.wrappingKeySpec,
+  });
+  Map<String, dynamic> toJson() => _$GetParametersForImportRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6449,6 +7808,58 @@ class GetParametersForImportResponse {
   });
   factory GetParametersForImportResponse.fromJson(Map<String, dynamic> json) =>
       _$GetParametersForImportResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetPublicKeyRequest {
+  /// Identifies the asymmetric CMK that includes the public key.
+  ///
+  /// To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or
+  /// alias ARN. When using an alias name, prefix it with <code>"alias/"</code>.
+  /// To specify a CMK in a different AWS account, you must use the key ARN or
+  /// alias ARN.
+  ///
+  /// For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Alias name: <code>alias/ExampleAlias</code>
+  /// </li>
+  /// <li>
+  /// Alias ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias</code>
+  /// </li>
+  /// </ul>
+  /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
+  /// <a>DescribeKey</a>. To get the alias name and alias ARN, use
+  /// <a>ListAliases</a>.
+  @_s.JsonKey(name: 'KeyId')
+  final String keyId;
+
+  /// A list of grant tokens.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token">Grant
+  /// Tokens</a> in the <i>AWS Key Management Service Developer Guide</i>.
+  @_s.JsonKey(name: 'GrantTokens')
+  final List<String> grantTokens;
+
+  GetPublicKeyRequest({
+    @_s.required this.keyId,
+    this.grantTokens,
+  });
+  Map<String, dynamic> toJson() => _$GetPublicKeyRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6692,6 +8103,78 @@ enum GrantOperation {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ImportKeyMaterialRequest {
+  /// The encrypted key material to import. The key material must be encrypted
+  /// with the public wrapping key that <a>GetParametersForImport</a> returned,
+  /// using the wrapping algorithm that you specified in the same
+  /// <code>GetParametersForImport</code> request.
+  @Uint8ListConverter()
+  @_s.JsonKey(name: 'EncryptedKeyMaterial')
+  final Uint8List encryptedKeyMaterial;
+
+  /// The import token that you received in the response to a previous
+  /// <a>GetParametersForImport</a> request. It must be from the same response
+  /// that contained the public key that you used to encrypt the key material.
+  @Uint8ListConverter()
+  @_s.JsonKey(name: 'ImportToken')
+  final Uint8List importToken;
+
+  /// The identifier of the symmetric CMK that receives the imported key material.
+  /// The CMK's <code>Origin</code> must be <code>EXTERNAL</code>. This must be
+  /// the same CMK specified in the <code>KeyID</code> parameter of the
+  /// corresponding <a>GetParametersForImport</a> request.
+  ///
+  /// Specify the key ID or the Amazon Resource Name (ARN) of the CMK.
+  ///
+  /// For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// </ul>
+  /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
+  /// <a>DescribeKey</a>.
+  @_s.JsonKey(name: 'KeyId')
+  final String keyId;
+
+  /// Specifies whether the key material expires. The default is
+  /// <code>KEY_MATERIAL_EXPIRES</code>, in which case you must include the
+  /// <code>ValidTo</code> parameter. When this parameter is set to
+  /// <code>KEY_MATERIAL_DOES_NOT_EXPIRE</code>, you must omit the
+  /// <code>ValidTo</code> parameter.
+  @_s.JsonKey(name: 'ExpirationModel')
+  final ExpirationModelType expirationModel;
+
+  /// The time at which the imported key material expires. When the key material
+  /// expires, AWS KMS deletes the key material and the CMK becomes unusable. You
+  /// must omit this parameter when the <code>ExpirationModel</code> parameter is
+  /// set to <code>KEY_MATERIAL_DOES_NOT_EXPIRE</code>. Otherwise it is required.
+  @_s.JsonKey(
+      name: 'ValidTo',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime validTo;
+
+  ImportKeyMaterialRequest({
+    @_s.required this.encryptedKeyMaterial,
+    @_s.required this.importToken,
+    @_s.required this.keyId,
+    this.expirationModel,
+    this.validTo,
+  });
+  Map<String, dynamic> toJson() => _$ImportKeyMaterialRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ImportKeyMaterialResponse {
@@ -6905,16 +8388,43 @@ enum KeyUsageType {
   encryptDecrypt,
 }
 
-extension on KeyUsageType {
-  String toValue() {
-    switch (this) {
-      case KeyUsageType.signVerify:
-        return 'SIGN_VERIFY';
-      case KeyUsageType.encryptDecrypt:
-        return 'ENCRYPT_DECRYPT';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListAliasesRequest {
+  /// Lists only aliases that refer to the specified CMK. The value of this
+  /// parameter can be the ID or Amazon Resource Name (ARN) of a CMK in the
+  /// caller's account and region. You cannot use an alias name or alias ARN in
+  /// this value.
+  ///
+  /// This parameter is optional. If you omit it, <code>ListAliases</code> returns
+  /// all aliases in the account and region.
+  @_s.JsonKey(name: 'KeyId')
+  final String keyId;
+
+  /// Use this parameter to specify the maximum number of items to return. When
+  /// this value is present, AWS KMS does not return more than the specified
+  /// number of items, but it might return fewer.
+  ///
+  /// This value is optional. If you include a value, it must be between 1 and
+  /// 100, inclusive. If you do not include a value, it defaults to 50.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// Use this parameter in a subsequent request after you receive a response with
+  /// truncated results. Set it to the value of <code>NextMarker</code> from the
+  /// truncated response you just received.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  ListAliasesRequest({
+    this.keyId,
+    this.limit,
+    this.marker,
+  });
+  Map<String, dynamic> toJson() => _$ListAliasesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6952,6 +8462,56 @@ class ListAliasesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListGrantsRequest {
+  /// A unique identifier for the customer master key (CMK).
+  ///
+  /// Specify the key ID or the Amazon Resource Name (ARN) of the CMK. To specify
+  /// a CMK in a different AWS account, you must use the key ARN.
+  ///
+  /// For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// </ul>
+  /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
+  /// <a>DescribeKey</a>.
+  @_s.JsonKey(name: 'KeyId')
+  final String keyId;
+
+  /// Use this parameter to specify the maximum number of items to return. When
+  /// this value is present, AWS KMS does not return more than the specified
+  /// number of items, but it might return fewer.
+  ///
+  /// This value is optional. If you include a value, it must be between 1 and
+  /// 100, inclusive. If you do not include a value, it defaults to 50.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// Use this parameter in a subsequent request after you receive a response with
+  /// truncated results. Set it to the value of <code>NextMarker</code> from the
+  /// truncated response you just received.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  ListGrantsRequest({
+    @_s.required this.keyId,
+    this.limit,
+    this.marker,
+  });
+  Map<String, dynamic> toJson() => _$ListGrantsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListGrantsResponse {
@@ -6979,6 +8539,57 @@ class ListGrantsResponse {
   });
   factory ListGrantsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListGrantsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListKeyPoliciesRequest {
+  /// A unique identifier for the customer master key (CMK).
+  ///
+  /// Specify the key ID or the Amazon Resource Name (ARN) of the CMK.
+  ///
+  /// For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// </ul>
+  /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
+  /// <a>DescribeKey</a>.
+  @_s.JsonKey(name: 'KeyId')
+  final String keyId;
+
+  /// Use this parameter to specify the maximum number of items to return. When
+  /// this value is present, AWS KMS does not return more than the specified
+  /// number of items, but it might return fewer.
+  ///
+  /// This value is optional. If you include a value, it must be between 1 and
+  /// 1000, inclusive. If you do not include a value, it defaults to 100.
+  ///
+  /// Only one policy can be attached to a key.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// Use this parameter in a subsequent request after you receive a response with
+  /// truncated results. Set it to the value of <code>NextMarker</code> from the
+  /// truncated response you just received.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  ListKeyPoliciesRequest({
+    @_s.required this.keyId,
+    this.limit,
+    this.marker,
+  });
+  Map<String, dynamic> toJson() => _$ListKeyPoliciesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7016,6 +8627,34 @@ class ListKeyPoliciesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListKeysRequest {
+  /// Use this parameter to specify the maximum number of items to return. When
+  /// this value is present, AWS KMS does not return more than the specified
+  /// number of items, but it might return fewer.
+  ///
+  /// This value is optional. If you include a value, it must be between 1 and
+  /// 1000, inclusive. If you do not include a value, it defaults to 100.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// Use this parameter in a subsequent request after you receive a response with
+  /// truncated results. Set it to the value of <code>NextMarker</code> from the
+  /// truncated response you just received.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  ListKeysRequest({
+    this.limit,
+    this.marker,
+  });
+  Map<String, dynamic> toJson() => _$ListKeysRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListKeysResponse {
@@ -7043,6 +8682,58 @@ class ListKeysResponse {
   });
   factory ListKeysResponse.fromJson(Map<String, dynamic> json) =>
       _$ListKeysResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListResourceTagsRequest {
+  /// A unique identifier for the customer master key (CMK).
+  ///
+  /// Specify the key ID or the Amazon Resource Name (ARN) of the CMK.
+  ///
+  /// For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// </ul>
+  /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
+  /// <a>DescribeKey</a>.
+  @_s.JsonKey(name: 'KeyId')
+  final String keyId;
+
+  /// Use this parameter to specify the maximum number of items to return. When
+  /// this value is present, AWS KMS does not return more than the specified
+  /// number of items, but it might return fewer.
+  ///
+  /// This value is optional. If you include a value, it must be between 1 and 50,
+  /// inclusive. If you do not include a value, it defaults to 50.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// Use this parameter in a subsequent request after you receive a response with
+  /// truncated results. Set it to the value of <code>NextMarker</code> from the
+  /// truncated response you just received.
+  ///
+  /// Do not attempt to construct this value. Use only the value of
+  /// <code>NextMarker</code> from the truncated response you just received.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  ListResourceTagsRequest({
+    @_s.required this.keyId,
+    this.limit,
+    this.marker,
+  });
+  Map<String, dynamic> toJson() => _$ListResourceTagsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7079,23 +8770,53 @@ class ListResourceTagsResponse {
       _$ListResourceTagsResponseFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListRetirableGrantsRequest {
+  /// The retiring principal for which to list grants.
+  ///
+  /// To specify the retiring principal, use the <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Name (ARN)</a> of an AWS principal. Valid AWS principals include
+  /// AWS accounts (root), IAM users, federated users, and assumed role users. For
+  /// examples of the ARN syntax for specifying a principal, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-iam">AWS
+  /// Identity and Access Management (IAM)</a> in the Example ARNs section of the
+  /// <i>Amazon Web Services General Reference</i>.
+  @_s.JsonKey(name: 'RetiringPrincipal')
+  final String retiringPrincipal;
+
+  /// Use this parameter to specify the maximum number of items to return. When
+  /// this value is present, AWS KMS does not return more than the specified
+  /// number of items, but it might return fewer.
+  ///
+  /// This value is optional. If you include a value, it must be between 1 and
+  /// 100, inclusive. If you do not include a value, it defaults to 50.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// Use this parameter in a subsequent request after you receive a response with
+  /// truncated results. Set it to the value of <code>NextMarker</code> from the
+  /// truncated response you just received.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  ListRetirableGrantsRequest({
+    @_s.required this.retiringPrincipal,
+    this.limit,
+    this.marker,
+  });
+  Map<String, dynamic> toJson() => _$ListRetirableGrantsRequestToJson(this);
+}
+
 enum MessageType {
   @_s.JsonValue('RAW')
   raw,
   @_s.JsonValue('DIGEST')
   digest,
-}
-
-extension on MessageType {
-  String toValue() {
-    switch (this) {
-      case MessageType.raw:
-        return 'RAW';
-      case MessageType.digest:
-        return 'DIGEST';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 enum OriginType {
@@ -7107,18 +8828,258 @@ enum OriginType {
   awsCloudhsm,
 }
 
-extension on OriginType {
-  String toValue() {
-    switch (this) {
-      case OriginType.awsKms:
-        return 'AWS_KMS';
-      case OriginType.external:
-        return 'EXTERNAL';
-      case OriginType.awsCloudhsm:
-        return 'AWS_CLOUDHSM';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutKeyPolicyRequest {
+  /// A unique identifier for the customer master key (CMK).
+  ///
+  /// Specify the key ID or the Amazon Resource Name (ARN) of the CMK.
+  ///
+  /// For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// </ul>
+  /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
+  /// <a>DescribeKey</a>.
+  @_s.JsonKey(name: 'KeyId')
+  final String keyId;
+
+  /// The key policy to attach to the CMK.
+  ///
+  /// The key policy must meet the following criteria:
+  ///
+  /// <ul>
+  /// <li>
+  /// If you don't set <code>BypassPolicyLockoutSafetyCheck</code> to true, the
+  /// key policy must allow the principal that is making the
+  /// <code>PutKeyPolicy</code> request to make a subsequent
+  /// <code>PutKeyPolicy</code> request on the CMK. This reduces the risk that the
+  /// CMK becomes unmanageable. For more information, refer to the scenario in the
+  /// <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html#key-policy-default-allow-root-enable-iam">Default
+  /// Key Policy</a> section of the <i>AWS Key Management Service Developer
+  /// Guide</i>.
+  /// </li>
+  /// <li>
+  /// Each statement in the key policy must contain one or more principals. The
+  /// principals in the key policy must exist and be visible to AWS KMS. When you
+  /// create a new AWS principal (for example, an IAM user or role), you might
+  /// need to enforce a delay before including the new principal in a key policy
+  /// because the new principal might not be immediately visible to AWS KMS. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/troubleshoot_general.html#troubleshoot_general_eventual-consistency">Changes
+  /// that I make are not always immediately visible</a> in the <i>AWS Identity
+  /// and Access Management User Guide</i>.
+  /// </li>
+  /// </ul>
+  /// The key policy cannot exceed 32 kilobytes (32768 bytes). For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/resource-limits.html">Resource
+  /// Quotas</a> in the <i>AWS Key Management Service Developer Guide</i>.
+  @_s.JsonKey(name: 'Policy')
+  final String policy;
+
+  /// The name of the key policy. The only valid value is <code>default</code>.
+  @_s.JsonKey(name: 'PolicyName')
+  final String policyName;
+
+  /// A flag to indicate whether to bypass the key policy lockout safety check.
+  /// <important>
+  /// Setting this value to true increases the risk that the CMK becomes
+  /// unmanageable. Do not set this value to true indiscriminately.
+  ///
+  /// For more information, refer to the scenario in the <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html#key-policy-default-allow-root-enable-iam">Default
+  /// Key Policy</a> section in the <i>AWS Key Management Service Developer
+  /// Guide</i>.
+  /// </important>
+  /// Use this parameter only when you intend to prevent the principal that is
+  /// making the request from making a subsequent <code>PutKeyPolicy</code>
+  /// request on the CMK.
+  ///
+  /// The default value is false.
+  @_s.JsonKey(name: 'BypassPolicyLockoutSafetyCheck')
+  final bool bypassPolicyLockoutSafetyCheck;
+
+  PutKeyPolicyRequest({
+    @_s.required this.keyId,
+    @_s.required this.policy,
+    @_s.required this.policyName,
+    this.bypassPolicyLockoutSafetyCheck,
+  });
+  Map<String, dynamic> toJson() => _$PutKeyPolicyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ReEncryptRequest {
+  /// Ciphertext of the data to reencrypt.
+  @Uint8ListConverter()
+  @_s.JsonKey(name: 'CiphertextBlob')
+  final Uint8List ciphertextBlob;
+
+  /// A unique identifier for the CMK that is used to reencrypt the data. Specify
+  /// a symmetric or asymmetric CMK with a <code>KeyUsage</code> value of
+  /// <code>ENCRYPT_DECRYPT</code>. To find the <code>KeyUsage</code> value of a
+  /// CMK, use the <a>DescribeKey</a> operation.
+  ///
+  /// To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or
+  /// alias ARN. When using an alias name, prefix it with <code>"alias/"</code>.
+  /// To specify a CMK in a different AWS account, you must use the key ARN or
+  /// alias ARN.
+  ///
+  /// For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Alias name: <code>alias/ExampleAlias</code>
+  /// </li>
+  /// <li>
+  /// Alias ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias</code>
+  /// </li>
+  /// </ul>
+  /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
+  /// <a>DescribeKey</a>. To get the alias name and alias ARN, use
+  /// <a>ListAliases</a>.
+  @_s.JsonKey(name: 'DestinationKeyId')
+  final String destinationKeyId;
+
+  /// Specifies the encryption algorithm that AWS KMS will use to reecrypt the
+  /// data after it has decrypted it. The default value,
+  /// <code>SYMMETRIC_DEFAULT</code>, represents the encryption algorithm used for
+  /// symmetric CMKs.
+  ///
+  /// This parameter is required only when the destination CMK is an asymmetric
+  /// CMK.
+  @_s.JsonKey(name: 'DestinationEncryptionAlgorithm')
+  final EncryptionAlgorithmSpec destinationEncryptionAlgorithm;
+
+  /// Specifies that encryption context to use when the reencrypting the data.
+  ///
+  /// A destination encryption context is valid only when the destination CMK is a
+  /// symmetric CMK. The standard ciphertext format for asymmetric CMKs does not
+  /// include fields for metadata.
+  ///
+  /// An <i>encryption context</i> is a collection of non-secret key-value pairs
+  /// that represents additional authenticated data. When you use an encryption
+  /// context to encrypt data, you must specify the same (an exact case-sensitive
+  /// match) encryption context to decrypt the data. An encryption context is
+  /// optional when encrypting with a symmetric CMK, but it is highly recommended.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context">Encryption
+  /// Context</a> in the <i>AWS Key Management Service Developer Guide</i>.
+  @_s.JsonKey(name: 'DestinationEncryptionContext')
+  final Map<String, String> destinationEncryptionContext;
+
+  /// A list of grant tokens.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token">Grant
+  /// Tokens</a> in the <i>AWS Key Management Service Developer Guide</i>.
+  @_s.JsonKey(name: 'GrantTokens')
+  final List<String> grantTokens;
+
+  /// Specifies the encryption algorithm that AWS KMS will use to decrypt the
+  /// ciphertext before it is reencrypted. The default value,
+  /// <code>SYMMETRIC_DEFAULT</code>, represents the algorithm used for symmetric
+  /// CMKs.
+  ///
+  /// Specify the same algorithm that was used to encrypt the ciphertext. If you
+  /// specify a different algorithm, the decrypt attempt fails.
+  ///
+  /// This parameter is required only when the ciphertext was encrypted under an
+  /// asymmetric CMK.
+  @_s.JsonKey(name: 'SourceEncryptionAlgorithm')
+  final EncryptionAlgorithmSpec sourceEncryptionAlgorithm;
+
+  /// Specifies the encryption context to use to decrypt the ciphertext. Enter the
+  /// same encryption context that was used to encrypt the ciphertext.
+  ///
+  /// An <i>encryption context</i> is a collection of non-secret key-value pairs
+  /// that represents additional authenticated data. When you use an encryption
+  /// context to encrypt data, you must specify the same (an exact case-sensitive
+  /// match) encryption context to decrypt the data. An encryption context is
+  /// optional when encrypting with a symmetric CMK, but it is highly recommended.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context">Encryption
+  /// Context</a> in the <i>AWS Key Management Service Developer Guide</i>.
+  @_s.JsonKey(name: 'SourceEncryptionContext')
+  final Map<String, String> sourceEncryptionContext;
+
+  /// A unique identifier for the CMK that is used to decrypt the ciphertext
+  /// before it reencrypts it using the destination CMK.
+  ///
+  /// This parameter is required only when the ciphertext was encrypted under an
+  /// asymmetric CMK. Otherwise, AWS KMS uses the metadata that it adds to the
+  /// ciphertext blob to determine which CMK was used to encrypt the ciphertext.
+  /// However, you can use this parameter to ensure that a particular CMK (of any
+  /// kind) is used to decrypt the ciphertext before it is reencrypted.
+  ///
+  /// If you specify a <code>KeyId</code> value, the decrypt part of the
+  /// <code>ReEncrypt</code> operation succeeds only if the specified CMK was used
+  /// to encrypt the ciphertext.
+  ///
+  /// To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or
+  /// alias ARN. When using an alias name, prefix it with <code>"alias/"</code>.
+  ///
+  /// For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Alias name: <code>alias/ExampleAlias</code>
+  /// </li>
+  /// <li>
+  /// Alias ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias</code>
+  /// </li>
+  /// </ul>
+  /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
+  /// <a>DescribeKey</a>. To get the alias name and alias ARN, use
+  /// <a>ListAliases</a>.
+  @_s.JsonKey(name: 'SourceKeyId')
+  final String sourceKeyId;
+
+  ReEncryptRequest({
+    @_s.required this.ciphertextBlob,
+    @_s.required this.destinationKeyId,
+    this.destinationEncryptionAlgorithm,
+    this.destinationEncryptionContext,
+    this.grantTokens,
+    this.sourceEncryptionAlgorithm,
+    this.sourceEncryptionContext,
+    this.sourceKeyId,
+  });
+  Map<String, dynamic> toJson() => _$ReEncryptRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7164,6 +9125,122 @@ class ReEncryptResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RetireGrantRequest {
+  /// Unique identifier of the grant to retire. The grant ID is returned in the
+  /// response to a <code>CreateGrant</code> operation.
+  ///
+  /// <ul>
+  /// <li>
+  /// Grant ID Example -
+  /// 0123456789012345678901234567890123456789012345678901234567890123
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'GrantId')
+  final String grantId;
+
+  /// Token that identifies the grant to be retired.
+  @_s.JsonKey(name: 'GrantToken')
+  final String grantToken;
+
+  /// The Amazon Resource Name (ARN) of the CMK associated with the grant.
+  ///
+  /// For example:
+  /// <code>arn:aws:kms:us-east-2:444455556666:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  @_s.JsonKey(name: 'KeyId')
+  final String keyId;
+
+  RetireGrantRequest({
+    this.grantId,
+    this.grantToken,
+    this.keyId,
+  });
+  Map<String, dynamic> toJson() => _$RetireGrantRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RevokeGrantRequest {
+  /// Identifier of the grant to be revoked.
+  @_s.JsonKey(name: 'GrantId')
+  final String grantId;
+
+  /// A unique identifier for the customer master key associated with the grant.
+  ///
+  /// Specify the key ID or the Amazon Resource Name (ARN) of the CMK. To specify
+  /// a CMK in a different AWS account, you must use the key ARN.
+  ///
+  /// For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// </ul>
+  /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
+  /// <a>DescribeKey</a>.
+  @_s.JsonKey(name: 'KeyId')
+  final String keyId;
+
+  RevokeGrantRequest({
+    @_s.required this.grantId,
+    @_s.required this.keyId,
+  });
+  Map<String, dynamic> toJson() => _$RevokeGrantRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ScheduleKeyDeletionRequest {
+  /// The unique identifier of the customer master key (CMK) to delete.
+  ///
+  /// Specify the key ID or the Amazon Resource Name (ARN) of the CMK.
+  ///
+  /// For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// </ul>
+  /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
+  /// <a>DescribeKey</a>.
+  @_s.JsonKey(name: 'KeyId')
+  final String keyId;
+
+  /// The waiting period, specified in number of days. After the waiting period
+  /// ends, AWS KMS deletes the customer master key (CMK).
+  ///
+  /// This value is optional. If you include a value, it must be between 7 and 30,
+  /// inclusive. If you do not include a value, it defaults to 30.
+  @_s.JsonKey(name: 'PendingWindowInDays')
+  final int pendingWindowInDays;
+
+  ScheduleKeyDeletionRequest({
+    @_s.required this.keyId,
+    this.pendingWindowInDays,
+  });
+  Map<String, dynamic> toJson() => _$ScheduleKeyDeletionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ScheduleKeyDeletionResponse {
@@ -7185,6 +9262,86 @@ class ScheduleKeyDeletionResponse {
   });
   factory ScheduleKeyDeletionResponse.fromJson(Map<String, dynamic> json) =>
       _$ScheduleKeyDeletionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SignRequest {
+  /// Identifies an asymmetric CMK. AWS KMS uses the private key in the asymmetric
+  /// CMK to sign the message. The <code>KeyUsage</code> type of the CMK must be
+  /// <code>SIGN_VERIFY</code>. To find the <code>KeyUsage</code> of a CMK, use
+  /// the <a>DescribeKey</a> operation.
+  ///
+  /// To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or
+  /// alias ARN. When using an alias name, prefix it with <code>"alias/"</code>.
+  /// To specify a CMK in a different AWS account, you must use the key ARN or
+  /// alias ARN.
+  ///
+  /// For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Alias name: <code>alias/ExampleAlias</code>
+  /// </li>
+  /// <li>
+  /// Alias ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias</code>
+  /// </li>
+  /// </ul>
+  /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
+  /// <a>DescribeKey</a>. To get the alias name and alias ARN, use
+  /// <a>ListAliases</a>.
+  @_s.JsonKey(name: 'KeyId')
+  final String keyId;
+
+  /// Specifies the message or message digest to sign. Messages can be 0-4096
+  /// bytes. To sign a larger message, provide the message digest.
+  ///
+  /// If you provide a message, AWS KMS generates a hash digest of the message and
+  /// then signs it.
+  @Uint8ListConverter()
+  @_s.JsonKey(name: 'Message')
+  final Uint8List message;
+
+  /// Specifies the signing algorithm to use when signing the message.
+  ///
+  /// Choose an algorithm that is compatible with the type and size of the
+  /// specified asymmetric CMK.
+  @_s.JsonKey(name: 'SigningAlgorithm')
+  final SigningAlgorithmSpec signingAlgorithm;
+
+  /// A list of grant tokens.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token">Grant
+  /// Tokens</a> in the <i>AWS Key Management Service Developer Guide</i>.
+  @_s.JsonKey(name: 'GrantTokens')
+  final List<String> grantTokens;
+
+  /// Tells AWS KMS whether the value of the <code>Message</code> parameter is a
+  /// message or message digest. The default value, RAW, indicates a message. To
+  /// indicate a message digest, enter <code>DIGEST</code>.
+  @_s.JsonKey(name: 'MessageType')
+  final MessageType messageType;
+
+  SignRequest({
+    @_s.required this.keyId,
+    @_s.required this.message,
+    @_s.required this.signingAlgorithm,
+    this.grantTokens,
+    this.messageType,
+  });
+  Map<String, dynamic> toJson() => _$SignRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7255,32 +9412,6 @@ enum SigningAlgorithmSpec {
   ecdsaSha_512,
 }
 
-extension on SigningAlgorithmSpec {
-  String toValue() {
-    switch (this) {
-      case SigningAlgorithmSpec.rsassaPssSha_256:
-        return 'RSASSA_PSS_SHA_256';
-      case SigningAlgorithmSpec.rsassaPssSha_384:
-        return 'RSASSA_PSS_SHA_384';
-      case SigningAlgorithmSpec.rsassaPssSha_512:
-        return 'RSASSA_PSS_SHA_512';
-      case SigningAlgorithmSpec.rsassaPkcs1V1_5Sha_256:
-        return 'RSASSA_PKCS1_V1_5_SHA_256';
-      case SigningAlgorithmSpec.rsassaPkcs1V1_5Sha_384:
-        return 'RSASSA_PKCS1_V1_5_SHA_384';
-      case SigningAlgorithmSpec.rsassaPkcs1V1_5Sha_512:
-        return 'RSASSA_PKCS1_V1_5_SHA_512';
-      case SigningAlgorithmSpec.ecdsaSha_256:
-        return 'ECDSA_SHA_256';
-      case SigningAlgorithmSpec.ecdsaSha_384:
-        return 'ECDSA_SHA_384';
-      case SigningAlgorithmSpec.ecdsaSha_512:
-        return 'ECDSA_SHA_512';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// A key-value pair. A tag consists of a tag key and a tag value. Tag keys and
 /// tag values are both required, but tag values can be empty (null) strings.
 ///
@@ -7315,12 +9446,312 @@ class Tag {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// A unique identifier for the CMK you are tagging.
+  ///
+  /// Specify the key ID or the Amazon Resource Name (ARN) of the CMK.
+  ///
+  /// For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// </ul>
+  /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
+  /// <a>DescribeKey</a>.
+  @_s.JsonKey(name: 'KeyId')
+  final String keyId;
+
+  /// One or more tags. Each tag consists of a tag key and a tag value.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  TagResourceRequest({
+    @_s.required this.keyId,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// A unique identifier for the CMK from which you are removing tags.
+  ///
+  /// Specify the key ID or the Amazon Resource Name (ARN) of the CMK.
+  ///
+  /// For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// </ul>
+  /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
+  /// <a>DescribeKey</a>.
+  @_s.JsonKey(name: 'KeyId')
+  final String keyId;
+
+  /// One or more tag keys. Specify only the tag keys, not the tag values.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.keyId,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateAliasRequest {
+  /// Identifies the alias that is changing its CMK. This value must begin with
+  /// <code>alias/</code> followed by the alias name, such as
+  /// <code>alias/ExampleAlias</code>. You cannot use UpdateAlias to change the
+  /// alias name.
+  @_s.JsonKey(name: 'AliasName')
+  final String aliasName;
+
+  /// Identifies the CMK to associate with the alias. When the update operation
+  /// completes, the alias will point to this CMK.
+  ///
+  /// The CMK must be in the same AWS account and Region as the alias. Also, the
+  /// new target CMK must be the same type as the current target CMK (both
+  /// symmetric or both asymmetric) and they must have the same key usage.
+  ///
+  /// Specify the key ID or the Amazon Resource Name (ARN) of the CMK.
+  ///
+  /// For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// </ul>
+  /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
+  /// <a>DescribeKey</a>.
+  ///
+  /// To verify that the alias is mapped to the correct CMK, use
+  /// <a>ListAliases</a>.
+  @_s.JsonKey(name: 'TargetKeyId')
+  final String targetKeyId;
+
+  UpdateAliasRequest({
+    @_s.required this.aliasName,
+    @_s.required this.targetKeyId,
+  });
+  Map<String, dynamic> toJson() => _$UpdateAliasRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateCustomKeyStoreRequest {
+  /// Identifies the custom key store that you want to update. Enter the ID of the
+  /// custom key store. To find the ID of a custom key store, use the
+  /// <a>DescribeCustomKeyStores</a> operation.
+  @_s.JsonKey(name: 'CustomKeyStoreId')
+  final String customKeyStoreId;
+
+  /// Associates the custom key store with a related AWS CloudHSM cluster.
+  ///
+  /// Enter the cluster ID of the cluster that you used to create the custom key
+  /// store or a cluster that shares a backup history and has the same cluster
+  /// certificate as the original cluster. You cannot use this parameter to
+  /// associate a custom key store with an unrelated cluster. In addition, the
+  /// replacement cluster must <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/create-keystore.html#before-keystore">fulfill
+  /// the requirements</a> for a cluster associated with a custom key store. To
+  /// view the cluster certificate of a cluster, use the <a
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/APIReference/API_DescribeClusters.html">DescribeClusters</a>
+  /// operation.
+  @_s.JsonKey(name: 'CloudHsmClusterId')
+  final String cloudHsmClusterId;
+
+  /// Enter the current password of the <code>kmsuser</code> crypto user (CU) in
+  /// the AWS CloudHSM cluster that is associated with the custom key store.
+  ///
+  /// This parameter tells AWS KMS the current password of the
+  /// <code>kmsuser</code> crypto user (CU). It does not set or change the
+  /// password of any users in the AWS CloudHSM cluster.
+  @_s.JsonKey(name: 'KeyStorePassword')
+  final String keyStorePassword;
+
+  /// Changes the friendly name of the custom key store to the value that you
+  /// specify. The custom key store name must be unique in the AWS account.
+  @_s.JsonKey(name: 'NewCustomKeyStoreName')
+  final String newCustomKeyStoreName;
+
+  UpdateCustomKeyStoreRequest({
+    @_s.required this.customKeyStoreId,
+    this.cloudHsmClusterId,
+    this.keyStorePassword,
+    this.newCustomKeyStoreName,
+  });
+  Map<String, dynamic> toJson() => _$UpdateCustomKeyStoreRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateCustomKeyStoreResponse {
   UpdateCustomKeyStoreResponse();
   factory UpdateCustomKeyStoreResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateCustomKeyStoreResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateKeyDescriptionRequest {
+  /// New description for the CMK.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// A unique identifier for the customer master key (CMK).
+  ///
+  /// Specify the key ID or the Amazon Resource Name (ARN) of the CMK.
+  ///
+  /// For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// </ul>
+  /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
+  /// <a>DescribeKey</a>.
+  @_s.JsonKey(name: 'KeyId')
+  final String keyId;
+
+  UpdateKeyDescriptionRequest({
+    @_s.required this.description,
+    @_s.required this.keyId,
+  });
+  Map<String, dynamic> toJson() => _$UpdateKeyDescriptionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class VerifyRequest {
+  /// Identifies the asymmetric CMK that will be used to verify the signature.
+  /// This must be the same CMK that was used to generate the signature. If you
+  /// specify a different CMK, the signature verification fails.
+  ///
+  /// To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or
+  /// alias ARN. When using an alias name, prefix it with <code>"alias/"</code>.
+  /// To specify a CMK in a different AWS account, you must use the key ARN or
+  /// alias ARN.
+  ///
+  /// For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Alias name: <code>alias/ExampleAlias</code>
+  /// </li>
+  /// <li>
+  /// Alias ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias</code>
+  /// </li>
+  /// </ul>
+  /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
+  /// <a>DescribeKey</a>. To get the alias name and alias ARN, use
+  /// <a>ListAliases</a>.
+  @_s.JsonKey(name: 'KeyId')
+  final String keyId;
+
+  /// Specifies the message that was signed. You can submit a raw message of up to
+  /// 4096 bytes, or a hash digest of the message. If you submit a digest, use the
+  /// <code>MessageType</code> parameter with a value of <code>DIGEST</code>.
+  ///
+  /// If the message specified here is different from the message that was signed,
+  /// the signature verification fails. A message and its hash digest are
+  /// considered to be the same message.
+  @Uint8ListConverter()
+  @_s.JsonKey(name: 'Message')
+  final Uint8List message;
+
+  /// The signature that the <code>Sign</code> operation generated.
+  @Uint8ListConverter()
+  @_s.JsonKey(name: 'Signature')
+  final Uint8List signature;
+
+  /// The signing algorithm that was used to sign the message. If you submit a
+  /// different algorithm, the signature verification fails.
+  @_s.JsonKey(name: 'SigningAlgorithm')
+  final SigningAlgorithmSpec signingAlgorithm;
+
+  /// A list of grant tokens.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token">Grant
+  /// Tokens</a> in the <i>AWS Key Management Service Developer Guide</i>.
+  @_s.JsonKey(name: 'GrantTokens')
+  final List<String> grantTokens;
+
+  /// Tells AWS KMS whether the value of the <code>Message</code> parameter is a
+  /// message or message digest. The default value, RAW, indicates a message. To
+  /// indicate a message digest, enter <code>DIGEST</code>.
+  /// <important>
+  /// Use the <code>DIGEST</code> value only when the value of the
+  /// <code>Message</code> parameter is a message digest. If you use the
+  /// <code>DIGEST</code> value with a raw message, the security of the
+  /// verification operation can be compromised.
+  /// </important>
+  @_s.JsonKey(name: 'MessageType')
+  final MessageType messageType;
+
+  VerifyRequest({
+    @_s.required this.keyId,
+    @_s.required this.message,
+    @_s.required this.signature,
+    @_s.required this.signingAlgorithm,
+    this.grantTokens,
+    this.messageType,
+  });
+  Map<String, dynamic> toJson() => _$VerifyRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7359,16 +9790,6 @@ class VerifyResponse {
 enum WrappingKeySpec {
   @_s.JsonValue('RSA_2048')
   rsa_2048,
-}
-
-extension on WrappingKeySpec {
-  String toValue() {
-    switch (this) {
-      case WrappingKeySpec.rsa_2048:
-        return 'RSA_2048';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 class AlreadyExistsException extends _s.GenericAwsException {

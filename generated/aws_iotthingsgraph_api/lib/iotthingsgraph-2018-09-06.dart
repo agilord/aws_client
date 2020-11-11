@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -110,11 +109,11 @@ class IoTThingsGraph {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'entityId': entityId,
-        'thingName': thingName,
-        if (namespaceVersion != null) 'namespaceVersion': namespaceVersion,
-      },
+      payload: AssociateEntityToThingRequest(
+        entityId: entityId,
+        thingName: thingName,
+        namespaceVersion: namespaceVersion,
+      ),
     );
 
     return AssociateEntityToThingResponse.fromJson(jsonResponse.body);
@@ -154,11 +153,10 @@ class IoTThingsGraph {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'definition': definition,
-        if (compatibleNamespaceVersion != null)
-          'compatibleNamespaceVersion': compatibleNamespaceVersion,
-      },
+      payload: CreateFlowTemplateRequest(
+        definition: definition,
+        compatibleNamespaceVersion: compatibleNamespaceVersion,
+      ),
     );
 
     return CreateFlowTemplateResponse.fromJson(jsonResponse.body);
@@ -245,18 +243,15 @@ class IoTThingsGraph {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'definition': definition,
-        'target': target?.toValue(),
-        if (flowActionsRoleArn != null)
-          'flowActionsRoleArn': flowActionsRoleArn,
-        if (greengrassGroupName != null)
-          'greengrassGroupName': greengrassGroupName,
-        if (metricsConfiguration != null)
-          'metricsConfiguration': metricsConfiguration,
-        if (s3BucketName != null) 's3BucketName': s3BucketName,
-        if (tags != null) 'tags': tags,
-      },
+      payload: CreateSystemInstanceRequest(
+        definition: definition,
+        target: target,
+        flowActionsRoleArn: flowActionsRoleArn,
+        greengrassGroupName: greengrassGroupName,
+        metricsConfiguration: metricsConfiguration,
+        s3BucketName: s3BucketName,
+        tags: tags,
+      ),
     );
 
     return CreateSystemInstanceResponse.fromJson(jsonResponse.body);
@@ -293,11 +288,10 @@ class IoTThingsGraph {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'definition': definition,
-        if (compatibleNamespaceVersion != null)
-          'compatibleNamespaceVersion': compatibleNamespaceVersion,
-      },
+      payload: CreateSystemTemplateRequest(
+        definition: definition,
+        compatibleNamespaceVersion: compatibleNamespaceVersion,
+      ),
     );
 
     return CreateSystemTemplateResponse.fromJson(jsonResponse.body);
@@ -346,9 +340,9 @@ class IoTThingsGraph {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'id': id,
-      },
+      payload: DeleteFlowTemplateRequest(
+        id: id,
+      ),
     );
 
     return DeleteFlowTemplateResponse.fromJson(jsonResponse.body);
@@ -413,9 +407,9 @@ class IoTThingsGraph {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (id != null) 'id': id,
-      },
+      payload: DeleteSystemInstanceRequest(
+        id: id,
+      ),
     );
 
     return DeleteSystemInstanceResponse.fromJson(jsonResponse.body);
@@ -464,9 +458,9 @@ class IoTThingsGraph {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'id': id,
-      },
+      payload: DeleteSystemTemplateRequest(
+        id: id,
+      ),
     );
 
     return DeleteSystemTemplateResponse.fromJson(jsonResponse.body);
@@ -530,9 +524,9 @@ class IoTThingsGraph {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (id != null) 'id': id,
-      },
+      payload: DeploySystemInstanceRequest(
+        id: id,
+      ),
     );
 
     return DeploySystemInstanceResponse.fromJson(jsonResponse.body);
@@ -580,9 +574,9 @@ class IoTThingsGraph {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'id': id,
-      },
+      payload: DeprecateFlowTemplateRequest(
+        id: id,
+      ),
     );
 
     return DeprecateFlowTemplateResponse.fromJson(jsonResponse.body);
@@ -628,9 +622,9 @@ class IoTThingsGraph {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'id': id,
-      },
+      payload: DeprecateSystemTemplateRequest(
+        id: id,
+      ),
     );
 
     return DeprecateSystemTemplateResponse.fromJson(jsonResponse.body);
@@ -666,9 +660,9 @@ class IoTThingsGraph {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (namespaceName != null) 'namespaceName': namespaceName,
-      },
+      payload: DescribeNamespaceRequest(
+        namespaceName: namespaceName,
+      ),
     );
 
     return DescribeNamespaceResponse.fromJson(jsonResponse.body);
@@ -717,10 +711,10 @@ class IoTThingsGraph {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'entityType': entityType?.toValue(),
-        'thingName': thingName,
-      },
+      payload: DissociateEntityFromThingRequest(
+        entityType: entityType,
+        thingName: thingName,
+      ),
     );
 
     return DissociateEntityFromThingResponse.fromJson(jsonResponse.body);
@@ -791,10 +785,10 @@ class IoTThingsGraph {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ids': ids,
-        if (namespaceVersion != null) 'namespaceVersion': namespaceVersion,
-      },
+      payload: GetEntitiesRequest(
+        ids: ids,
+        namespaceVersion: namespaceVersion,
+      ),
     );
 
     return GetEntitiesResponse.fromJson(jsonResponse.body);
@@ -845,10 +839,10 @@ class IoTThingsGraph {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'id': id,
-        if (revisionNumber != null) 'revisionNumber': revisionNumber,
-      },
+      payload: GetFlowTemplateRequest(
+        id: id,
+        revisionNumber: revisionNumber,
+      ),
     );
 
     return GetFlowTemplateResponse.fromJson(jsonResponse.body);
@@ -912,11 +906,11 @@ class IoTThingsGraph {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'id': id,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: GetFlowTemplateRevisionsRequest(
+        id: id,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return GetFlowTemplateRevisionsResponse.fromJson(jsonResponse.body);
@@ -985,9 +979,9 @@ class IoTThingsGraph {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'id': id,
-      },
+      payload: GetSystemInstanceRequest(
+        id: id,
+      ),
     );
 
     return GetSystemInstanceResponse.fromJson(jsonResponse.body);
@@ -1037,10 +1031,10 @@ class IoTThingsGraph {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'id': id,
-        if (revisionNumber != null) 'revisionNumber': revisionNumber,
-      },
+      payload: GetSystemTemplateRequest(
+        id: id,
+        revisionNumber: revisionNumber,
+      ),
     );
 
     return GetSystemTemplateResponse.fromJson(jsonResponse.body);
@@ -1104,11 +1098,11 @@ class IoTThingsGraph {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'id': id,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: GetSystemTemplateRevisionsRequest(
+        id: id,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return GetSystemTemplateRevisionsResponse.fromJson(jsonResponse.body);
@@ -1145,9 +1139,9 @@ class IoTThingsGraph {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'uploadId': uploadId,
-      },
+      payload: GetUploadStatusRequest(
+        uploadId: uploadId,
+      ),
     );
 
     return GetUploadStatusResponse.fromJson(jsonResponse.body);
@@ -1192,11 +1186,11 @@ class IoTThingsGraph {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'flowExecutionId': flowExecutionId,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListFlowExecutionMessagesRequest(
+        flowExecutionId: flowExecutionId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListFlowExecutionMessagesResponse.fromJson(jsonResponse.body);
@@ -1247,11 +1241,11 @@ class IoTThingsGraph {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'resourceArn': resourceArn,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListTagsForResourceRequest(
+        resourceArn: resourceArn,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
@@ -1311,13 +1305,13 @@ class IoTThingsGraph {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'entityTypes': entityTypes,
-        if (filters != null) 'filters': filters,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (namespaceVersion != null) 'namespaceVersion': namespaceVersion,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: SearchEntitiesRequest(
+        entityTypes: entityTypes,
+        filters: filters,
+        maxResults: maxResults,
+        namespaceVersion: namespaceVersion,
+        nextToken: nextToken,
+      ),
     );
 
     return SearchEntitiesResponse.fromJson(jsonResponse.body);
@@ -1386,14 +1380,14 @@ class IoTThingsGraph {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'systemInstanceId': systemInstanceId,
-        if (endTime != null) 'endTime': endTime,
-        if (flowExecutionId != null) 'flowExecutionId': flowExecutionId,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (startTime != null) 'startTime': startTime,
-      },
+      payload: SearchFlowExecutionsRequest(
+        systemInstanceId: systemInstanceId,
+        endTime: endTime,
+        flowExecutionId: flowExecutionId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        startTime: startTime,
+      ),
     );
 
     return SearchFlowExecutionsResponse.fromJson(jsonResponse.body);
@@ -1436,11 +1430,11 @@ class IoTThingsGraph {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'filters': filters,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: SearchFlowTemplatesRequest(
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return SearchFlowTemplatesResponse.fromJson(jsonResponse.body);
@@ -1487,11 +1481,11 @@ class IoTThingsGraph {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'filters': filters,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: SearchSystemInstancesRequest(
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return SearchSystemInstancesResponse.fromJson(jsonResponse.body);
@@ -1536,11 +1530,11 @@ class IoTThingsGraph {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'filters': filters,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: SearchSystemTemplatesRequest(
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return SearchSystemTemplatesResponse.fromJson(jsonResponse.body);
@@ -1615,12 +1609,12 @@ class IoTThingsGraph {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'entityId': entityId,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (namespaceVersion != null) 'namespaceVersion': namespaceVersion,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: SearchThingsRequest(
+        entityId: entityId,
+        maxResults: maxResults,
+        namespaceVersion: namespaceVersion,
+        nextToken: nextToken,
+      ),
     );
 
     return SearchThingsResponse.fromJson(jsonResponse.body);
@@ -1661,10 +1655,10 @@ class IoTThingsGraph {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'resourceArn': resourceArn,
-        'tags': tags,
-      },
+      payload: TagResourceRequest(
+        resourceArn: resourceArn,
+        tags: tags,
+      ),
     );
 
     return TagResourceResponse.fromJson(jsonResponse.body);
@@ -1704,9 +1698,9 @@ class IoTThingsGraph {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (id != null) 'id': id,
-      },
+      payload: UndeploySystemInstanceRequest(
+        id: id,
+      ),
     );
 
     return UndeploySystemInstanceResponse.fromJson(jsonResponse.body);
@@ -1755,10 +1749,10 @@ class IoTThingsGraph {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'resourceArn': resourceArn,
-        'tagKeys': tagKeys,
-      },
+      payload: UntagResourceRequest(
+        resourceArn: resourceArn,
+        tagKeys: tagKeys,
+      ),
     );
 
     return UntagResourceResponse.fromJson(jsonResponse.body);
@@ -1822,12 +1816,11 @@ class IoTThingsGraph {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'definition': definition,
-        'id': id,
-        if (compatibleNamespaceVersion != null)
-          'compatibleNamespaceVersion': compatibleNamespaceVersion,
-      },
+      payload: UpdateFlowTemplateRequest(
+        definition: definition,
+        id: id,
+        compatibleNamespaceVersion: compatibleNamespaceVersion,
+      ),
     );
 
     return UpdateFlowTemplateResponse.fromJson(jsonResponse.body);
@@ -1888,12 +1881,11 @@ class IoTThingsGraph {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'definition': definition,
-        'id': id,
-        if (compatibleNamespaceVersion != null)
-          'compatibleNamespaceVersion': compatibleNamespaceVersion,
-      },
+      payload: UpdateSystemTemplateRequest(
+        definition: definition,
+        id: id,
+        compatibleNamespaceVersion: compatibleNamespaceVersion,
+      ),
     );
 
     return UpdateSystemTemplateResponse.fromJson(jsonResponse.body);
@@ -1958,17 +1950,46 @@ class IoTThingsGraph {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (deprecateExistingEntities != null)
-          'deprecateExistingEntities': deprecateExistingEntities,
-        if (document != null) 'document': document,
-        if (syncWithPublicNamespace != null)
-          'syncWithPublicNamespace': syncWithPublicNamespace,
-      },
+      payload: UploadEntityDefinitionsRequest(
+        deprecateExistingEntities: deprecateExistingEntities,
+        document: document,
+        syncWithPublicNamespace: syncWithPublicNamespace,
+      ),
     );
 
     return UploadEntityDefinitionsResponse.fromJson(jsonResponse.body);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateEntityToThingRequest {
+  /// The ID of the device to be associated with the thing.
+  ///
+  /// The ID should be in the following format.
+  ///
+  /// <code>urn:tdm:REGION/ACCOUNT ID/default:device:DEVICENAME</code>
+  @_s.JsonKey(name: 'entityId')
+  final String entityId;
+
+  /// The name of the thing to which the entity is to be associated.
+  @_s.JsonKey(name: 'thingName')
+  final String thingName;
+
+  /// The version of the user's namespace. Defaults to the latest version of the
+  /// user's namespace.
+  @_s.JsonKey(name: 'namespaceVersion')
+  final int namespaceVersion;
+
+  AssociateEntityToThingRequest({
+    @_s.required this.entityId,
+    @_s.required this.thingName,
+    this.namespaceVersion,
+  });
+  Map<String, dynamic> toJson() => _$AssociateEntityToThingRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1980,6 +2001,29 @@ class AssociateEntityToThingResponse {
   AssociateEntityToThingResponse();
   factory AssociateEntityToThingResponse.fromJson(Map<String, dynamic> json) =>
       _$AssociateEntityToThingResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateFlowTemplateRequest {
+  /// The workflow <code>DefinitionDocument</code>.
+  @_s.JsonKey(name: 'definition')
+  final DefinitionDocument definition;
+
+  /// The namespace version in which the workflow is to be created.
+  ///
+  /// If no value is specified, the latest version is used by default.
+  @_s.JsonKey(name: 'compatibleNamespaceVersion')
+  final int compatibleNamespaceVersion;
+
+  CreateFlowTemplateRequest({
+    @_s.required this.definition,
+    this.compatibleNamespaceVersion,
+  });
+  Map<String, dynamic> toJson() => _$CreateFlowTemplateRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2002,6 +2046,60 @@ class CreateFlowTemplateResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateSystemInstanceRequest {
+  @_s.JsonKey(name: 'definition')
+  final DefinitionDocument definition;
+
+  /// The target type of the deployment. Valid values are <code>GREENGRASS</code>
+  /// and <code>CLOUD</code>.
+  @_s.JsonKey(name: 'target')
+  final DeploymentTarget target;
+
+  /// The ARN of the IAM role that AWS IoT Things Graph will assume when it
+  /// executes the flow. This role must have read and write access to AWS Lambda
+  /// and AWS IoT and any other AWS services that the flow uses when it executes.
+  /// This value is required if the value of the <code>target</code> parameter is
+  /// <code>CLOUD</code>.
+  @_s.JsonKey(name: 'flowActionsRoleArn')
+  final String flowActionsRoleArn;
+
+  /// The name of the Greengrass group where the system instance will be deployed.
+  /// This value is required if the value of the <code>target</code> parameter is
+  /// <code>GREENGRASS</code>.
+  @_s.JsonKey(name: 'greengrassGroupName')
+  final String greengrassGroupName;
+  @_s.JsonKey(name: 'metricsConfiguration')
+  final MetricsConfiguration metricsConfiguration;
+
+  /// The name of the Amazon Simple Storage Service bucket that will be used to
+  /// store and deploy the system instance's resource file. This value is required
+  /// if the value of the <code>target</code> parameter is
+  /// <code>GREENGRASS</code>.
+  @_s.JsonKey(name: 's3BucketName')
+  final String s3BucketName;
+
+  /// Metadata, consisting of key-value pairs, that can be used to categorize your
+  /// system instances.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  CreateSystemInstanceRequest({
+    @_s.required this.definition,
+    @_s.required this.target,
+    this.flowActionsRoleArn,
+    this.greengrassGroupName,
+    this.metricsConfiguration,
+    this.s3BucketName,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateSystemInstanceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateSystemInstanceResponse {
@@ -2014,6 +2112,29 @@ class CreateSystemInstanceResponse {
   });
   factory CreateSystemInstanceResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateSystemInstanceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateSystemTemplateRequest {
+  /// The <code>DefinitionDocument</code> used to create the system.
+  @_s.JsonKey(name: 'definition')
+  final DefinitionDocument definition;
+
+  /// The namespace version in which the system is to be created.
+  ///
+  /// If no value is specified, the latest version is used by default.
+  @_s.JsonKey(name: 'compatibleNamespaceVersion')
+  final int compatibleNamespaceVersion;
+
+  CreateSystemTemplateRequest({
+    @_s.required this.definition,
+    this.compatibleNamespaceVersion,
+  });
+  Map<String, dynamic> toJson() => _$CreateSystemTemplateRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2067,6 +2188,26 @@ enum DefinitionLanguage {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteFlowTemplateRequest {
+  /// The ID of the workflow to be deleted.
+  ///
+  /// The ID should be in the following format.
+  ///
+  /// <code>urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME</code>
+  @_s.JsonKey(name: 'id')
+  final String id;
+
+  DeleteFlowTemplateRequest({
+    @_s.required this.id,
+  });
+  Map<String, dynamic> toJson() => _$DeleteFlowTemplateRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteFlowTemplateResponse {
@@ -2100,12 +2241,48 @@ class DeleteNamespaceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteSystemInstanceRequest {
+  /// The ID of the system instance to be deleted.
+  @_s.JsonKey(name: 'id')
+  final String id;
+
+  DeleteSystemInstanceRequest({
+    this.id,
+  });
+  Map<String, dynamic> toJson() => _$DeleteSystemInstanceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteSystemInstanceResponse {
   DeleteSystemInstanceResponse();
   factory DeleteSystemInstanceResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteSystemInstanceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteSystemTemplateRequest {
+  /// The ID of the system to be deleted.
+  ///
+  /// The ID should be in the following format.
+  ///
+  /// <code>urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME</code>
+  @_s.JsonKey(name: 'id')
+  final String id;
+
+  DeleteSystemTemplateRequest({
+    @_s.required this.id,
+  });
+  Map<String, dynamic> toJson() => _$DeleteSystemTemplateRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2146,6 +2323,27 @@ class DependencyRevision {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeploySystemInstanceRequest {
+  /// The ID of the system instance. This value is returned by the
+  /// <code>CreateSystemInstance</code> action.
+  ///
+  /// The ID should be in the following format.
+  ///
+  /// <code>urn:tdm:REGION/ACCOUNT ID/default:deployment:DEPLOYMENTNAME</code>
+  @_s.JsonKey(name: 'id')
+  final String id;
+
+  DeploySystemInstanceRequest({
+    this.id,
+  });
+  Map<String, dynamic> toJson() => _$DeploySystemInstanceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeploySystemInstanceResponse {
@@ -2173,16 +2371,24 @@ enum DeploymentTarget {
   cloud,
 }
 
-extension on DeploymentTarget {
-  String toValue() {
-    switch (this) {
-      case DeploymentTarget.greengrass:
-        return 'GREENGRASS';
-      case DeploymentTarget.cloud:
-        return 'CLOUD';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeprecateFlowTemplateRequest {
+  /// The ID of the workflow to be deleted.
+  ///
+  /// The ID should be in the following format.
+  ///
+  /// <code>urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME</code>
+  @_s.JsonKey(name: 'id')
+  final String id;
+
+  DeprecateFlowTemplateRequest({
+    @_s.required this.id,
+  });
+  Map<String, dynamic> toJson() => _$DeprecateFlowTemplateRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2199,12 +2405,49 @@ class DeprecateFlowTemplateResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeprecateSystemTemplateRequest {
+  /// The ID of the system to delete.
+  ///
+  /// The ID should be in the following format.
+  ///
+  /// <code>urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME</code>
+  @_s.JsonKey(name: 'id')
+  final String id;
+
+  DeprecateSystemTemplateRequest({
+    @_s.required this.id,
+  });
+  Map<String, dynamic> toJson() => _$DeprecateSystemTemplateRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeprecateSystemTemplateResponse {
   DeprecateSystemTemplateResponse();
   factory DeprecateSystemTemplateResponse.fromJson(Map<String, dynamic> json) =>
       _$DeprecateSystemTemplateResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeNamespaceRequest {
+  /// The name of the user's namespace. Set this to <code>aws</code> to get the
+  /// public namespace.
+  @_s.JsonKey(name: 'namespaceName')
+  final String namespaceName;
+
+  DescribeNamespaceRequest({
+    this.namespaceName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeNamespaceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2243,6 +2486,28 @@ class DescribeNamespaceResponse {
   });
   factory DescribeNamespaceResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeNamespaceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DissociateEntityFromThingRequest {
+  /// The entity type from which to disassociate the thing.
+  @_s.JsonKey(name: 'entityType')
+  final EntityType entityType;
+
+  /// The name of the thing to disassociate.
+  @_s.JsonKey(name: 'thingName')
+  final String thingName;
+
+  DissociateEntityFromThingRequest({
+    @_s.required this.entityType,
+    @_s.required this.thingName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DissociateEntityFromThingRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2360,34 +2625,6 @@ enum EntityType {
   mapping,
   @_s.JsonValue('ENUM')
   $enum,
-}
-
-extension on EntityType {
-  String toValue() {
-    switch (this) {
-      case EntityType.device:
-        return 'DEVICE';
-      case EntityType.service:
-        return 'SERVICE';
-      case EntityType.deviceModel:
-        return 'DEVICE_MODEL';
-      case EntityType.capability:
-        return 'CAPABILITY';
-      case EntityType.state:
-        return 'STATE';
-      case EntityType.action:
-        return 'ACTION';
-      case EntityType.event:
-        return 'EVENT';
-      case EntityType.property:
-        return 'PROPERTY';
-      case EntityType.mapping:
-        return 'MAPPING';
-      case EntityType.$enum:
-        return 'ENUM';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 enum FlowExecutionEventType {
@@ -2619,6 +2856,32 @@ class FlowTemplateSummary {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetEntitiesRequest {
+  /// An array of entity IDs.
+  ///
+  /// The IDs should be in the following format.
+  ///
+  /// <code>urn:tdm:REGION/ACCOUNT ID/default:device:DEVICENAME</code>
+  @_s.JsonKey(name: 'ids')
+  final List<String> ids;
+
+  /// The version of the user's namespace. Defaults to the latest version of the
+  /// user's namespace.
+  @_s.JsonKey(name: 'namespaceVersion')
+  final int namespaceVersion;
+
+  GetEntitiesRequest({
+    @_s.required this.ids,
+    this.namespaceVersion,
+  });
+  Map<String, dynamic> toJson() => _$GetEntitiesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetEntitiesResponse {
@@ -2636,6 +2899,31 @@ class GetEntitiesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetFlowTemplateRequest {
+  /// The ID of the workflow.
+  ///
+  /// The ID should be in the following format.
+  ///
+  /// <code>urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME</code>
+  @_s.JsonKey(name: 'id')
+  final String id;
+
+  /// The number of the workflow revision to retrieve.
+  @_s.JsonKey(name: 'revisionNumber')
+  final int revisionNumber;
+
+  GetFlowTemplateRequest({
+    @_s.required this.id,
+    this.revisionNumber,
+  });
+  Map<String, dynamic> toJson() => _$GetFlowTemplateRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetFlowTemplateResponse {
@@ -2648,6 +2936,38 @@ class GetFlowTemplateResponse {
   });
   factory GetFlowTemplateResponse.fromJson(Map<String, dynamic> json) =>
       _$GetFlowTemplateResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetFlowTemplateRevisionsRequest {
+  /// The ID of the workflow.
+  ///
+  /// The ID should be in the following format.
+  ///
+  /// <code>urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME</code>
+  @_s.JsonKey(name: 'id')
+  final String id;
+
+  /// The maximum number of results to return in the response.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The string that specifies the next page of results. Use this when you're
+  /// paginating results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  GetFlowTemplateRevisionsRequest({
+    @_s.required this.id,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetFlowTemplateRevisionsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2715,6 +3035,27 @@ class GetNamespaceDeletionStatusResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetSystemInstanceRequest {
+  /// The ID of the system deployment instance. This value is returned by
+  /// <code>CreateSystemInstance</code>.
+  ///
+  /// The ID should be in the following format.
+  ///
+  /// <code>urn:tdm:REGION/ACCOUNT ID/default:deployment:DEPLOYMENTNAME</code>
+  @_s.JsonKey(name: 'id')
+  final String id;
+
+  GetSystemInstanceRequest({
+    @_s.required this.id,
+  });
+  Map<String, dynamic> toJson() => _$GetSystemInstanceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetSystemInstanceResponse {
@@ -2732,6 +3073,31 @@ class GetSystemInstanceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetSystemTemplateRequest {
+  /// The ID of the system to get. This ID must be in the user's namespace.
+  ///
+  /// The ID should be in the following format.
+  ///
+  /// <code>urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME</code>
+  @_s.JsonKey(name: 'id')
+  final String id;
+
+  /// The number that specifies the revision of the system to get.
+  @_s.JsonKey(name: 'revisionNumber')
+  final int revisionNumber;
+
+  GetSystemTemplateRequest({
+    @_s.required this.id,
+    this.revisionNumber,
+  });
+  Map<String, dynamic> toJson() => _$GetSystemTemplateRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetSystemTemplateResponse {
@@ -2744,6 +3110,38 @@ class GetSystemTemplateResponse {
   });
   factory GetSystemTemplateResponse.fromJson(Map<String, dynamic> json) =>
       _$GetSystemTemplateResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetSystemTemplateRevisionsRequest {
+  /// The ID of the system template.
+  ///
+  /// The ID should be in the following format.
+  ///
+  /// <code>urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME</code>
+  @_s.JsonKey(name: 'id')
+  final String id;
+
+  /// The maximum number of results to return in the response.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The string that specifies the next page of results. Use this when you're
+  /// paginating results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  GetSystemTemplateRevisionsRequest({
+    @_s.required this.id,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetSystemTemplateRevisionsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2769,6 +3167,23 @@ class GetSystemTemplateRevisionsResponse {
   factory GetSystemTemplateRevisionsResponse.fromJson(
           Map<String, dynamic> json) =>
       _$GetSystemTemplateRevisionsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetUploadStatusRequest {
+  /// The ID of the upload. This value is returned by the
+  /// <code>UploadEntityDefinitions</code> action.
+  @_s.JsonKey(name: 'uploadId')
+  final String uploadId;
+
+  GetUploadStatusRequest({
+    @_s.required this.uploadId,
+  });
+  Map<String, dynamic> toJson() => _$GetUploadStatusRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2826,6 +3241,34 @@ class GetUploadStatusResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListFlowExecutionMessagesRequest {
+  /// The ID of the flow execution.
+  @_s.JsonKey(name: 'flowExecutionId')
+  final String flowExecutionId;
+
+  /// The maximum number of results to return in the response.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The string that specifies the next page of results. Use this when you're
+  /// paginating results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListFlowExecutionMessagesRequest({
+    @_s.required this.flowExecutionId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListFlowExecutionMessagesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListFlowExecutionMessagesResponse {
@@ -2846,6 +3289,33 @@ class ListFlowExecutionMessagesResponse {
   factory ListFlowExecutionMessagesResponse.fromJson(
           Map<String, dynamic> json) =>
       _$ListFlowExecutionMessagesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource whose tags are to be
+  /// returned.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  /// The maximum number of tags to return.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The token that specifies the next page of results to return.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListTagsForResourceRequest({
+    @_s.required this.resourceArn,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2913,6 +3383,51 @@ enum NamespaceDeletionStatusErrorCodes {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SearchEntitiesRequest {
+  /// The entity types for which to search.
+  @_s.JsonKey(name: 'entityTypes')
+  final List<String> entityTypes;
+
+  /// Optional filter to apply to the search. Valid filters are <code>NAME</code>
+  /// <code>NAMESPACE</code>, <code>SEMANTIC_TYPE_PATH</code> and
+  /// <code>REFERENCED_ENTITY_ID</code>. <code>REFERENCED_ENTITY_ID</code> filters
+  /// on entities that are used by the entity in the result set. For example, you
+  /// can filter on the ID of a property that is used in a state.
+  ///
+  /// Multiple filters function as OR criteria in the query. Multiple values
+  /// passed inside the filter function as AND criteria.
+  @_s.JsonKey(name: 'filters')
+  final List<EntityFilter> filters;
+
+  /// The maximum number of results to return in the response.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The version of the user's namespace. Defaults to the latest version of the
+  /// user's namespace.
+  @_s.JsonKey(name: 'namespaceVersion')
+  final int namespaceVersion;
+
+  /// The string that specifies the next page of results. Use this when you're
+  /// paginating results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  SearchEntitiesRequest({
+    @_s.required this.entityTypes,
+    this.filters,
+    this.maxResults,
+    this.namespaceVersion,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$SearchEntitiesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class SearchEntitiesResponse {
@@ -2931,6 +3446,54 @@ class SearchEntitiesResponse {
   });
   factory SearchEntitiesResponse.fromJson(Map<String, dynamic> json) =>
       _$SearchEntitiesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SearchFlowExecutionsRequest {
+  /// The ID of the system instance that contains the flow.
+  @_s.JsonKey(name: 'systemInstanceId')
+  final String systemInstanceId;
+
+  /// The date and time of the latest flow execution to return.
+  @_s.JsonKey(
+      name: 'endTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime endTime;
+
+  /// The ID of a flow execution.
+  @_s.JsonKey(name: 'flowExecutionId')
+  final String flowExecutionId;
+
+  /// The maximum number of results to return in the response.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The string that specifies the next page of results. Use this when you're
+  /// paginating results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The date and time of the earliest flow execution to return.
+  @_s.JsonKey(
+      name: 'startTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime startTime;
+
+  SearchFlowExecutionsRequest({
+    @_s.required this.systemInstanceId,
+    this.endTime,
+    this.flowExecutionId,
+    this.maxResults,
+    this.nextToken,
+    this.startTime,
+  });
+  Map<String, dynamic> toJson() => _$SearchFlowExecutionsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2960,6 +3523,34 @@ class SearchFlowExecutionsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SearchFlowTemplatesRequest {
+  /// An array of objects that limit the result set. The only valid filter is
+  /// <code>DEVICE_MODEL_ID</code>.
+  @_s.JsonKey(name: 'filters')
+  final List<FlowTemplateFilter> filters;
+
+  /// The maximum number of results to return in the response.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The string that specifies the next page of results. Use this when you're
+  /// paginating results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  SearchFlowTemplatesRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$SearchFlowTemplatesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class SearchFlowTemplatesResponse {
@@ -2979,6 +3570,38 @@ class SearchFlowTemplatesResponse {
   });
   factory SearchFlowTemplatesResponse.fromJson(Map<String, dynamic> json) =>
       _$SearchFlowTemplatesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SearchSystemInstancesRequest {
+  /// Optional filter to apply to the search. Valid filters are
+  /// <code>SYSTEM_TEMPLATE_ID</code>, <code>STATUS</code>, and
+  /// <code>GREENGRASS_GROUP_NAME</code>.
+  ///
+  /// Multiple filters function as OR criteria in the query. Multiple values
+  /// passed inside the filter function as AND criteria.
+  @_s.JsonKey(name: 'filters')
+  final List<SystemInstanceFilter> filters;
+
+  /// The maximum number of results to return in the response.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The string that specifies the next page of results. Use this when you're
+  /// paginating results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  SearchSystemInstancesRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$SearchSystemInstancesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3008,6 +3631,34 @@ class SearchSystemInstancesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SearchSystemTemplatesRequest {
+  /// An array of filters that limit the result set. The only valid filter is
+  /// <code>FLOW_TEMPLATE_ID</code>.
+  @_s.JsonKey(name: 'filters')
+  final List<SystemTemplateFilter> filters;
+
+  /// The maximum number of results to return in the response.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The string that specifies the next page of results. Use this when you're
+  /// paginating results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  SearchSystemTemplatesRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$SearchSystemTemplatesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class SearchSystemTemplatesResponse {
@@ -3027,6 +3678,43 @@ class SearchSystemTemplatesResponse {
   });
   factory SearchSystemTemplatesResponse.fromJson(Map<String, dynamic> json) =>
       _$SearchSystemTemplatesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SearchThingsRequest {
+  /// The ID of the entity to which the things are associated.
+  ///
+  /// The IDs should be in the following format.
+  ///
+  /// <code>urn:tdm:REGION/ACCOUNT ID/default:device:DEVICENAME</code>
+  @_s.JsonKey(name: 'entityId')
+  final String entityId;
+
+  /// The maximum number of results to return in the response.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The version of the user's namespace. Defaults to the latest version of the
+  /// user's namespace.
+  @_s.JsonKey(name: 'namespaceVersion')
+  final int namespaceVersion;
+
+  /// The string that specifies the next page of results. Use this when you're
+  /// paginating results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  SearchThingsRequest({
+    @_s.required this.entityId,
+    this.maxResults,
+    this.namespaceVersion,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$SearchThingsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3346,6 +4034,27 @@ class Tag {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource whose tags are returned.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  /// A list of tags to add to the resource.&gt;
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagResourceResponse {
@@ -3379,6 +4088,22 @@ class Thing {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UndeploySystemInstanceRequest {
+  /// The ID of the system instance to remove from its target.
+  @_s.JsonKey(name: 'id')
+  final String id;
+
+  UndeploySystemInstanceRequest({
+    this.id,
+  });
+  Map<String, dynamic> toJson() => _$UndeploySystemInstanceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UndeploySystemInstanceResponse {
@@ -3397,12 +4122,75 @@ class UndeploySystemInstanceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource whose tags are to be removed.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  /// A list of tag key names to remove from the resource. You don't specify the
+  /// value. Both the key and its associated value are removed.
+  ///
+  /// This parameter to the API requires a JSON text string argument. For
+  /// information on how to format a JSON parameter for the various command line
+  /// tool environments, see <a
+  /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters.html#cli-using-param-json">Using
+  /// JSON for Parameters</a> in the <i>AWS CLI User Guide</i>.
+  @_s.JsonKey(name: 'tagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
   factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateFlowTemplateRequest {
+  /// The <code>DefinitionDocument</code> that contains the updated workflow
+  /// definition.
+  @_s.JsonKey(name: 'definition')
+  final DefinitionDocument definition;
+
+  /// The ID of the workflow to be updated.
+  ///
+  /// The ID should be in the following format.
+  ///
+  /// <code>urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME</code>
+  @_s.JsonKey(name: 'id')
+  final String id;
+
+  /// The version of the user's namespace.
+  ///
+  /// If no value is specified, the latest version is used by default. Use the
+  /// <code>GetFlowTemplateRevisions</code> if you want to find earlier revisions
+  /// of the flow to update.
+  @_s.JsonKey(name: 'compatibleNamespaceVersion')
+  final int compatibleNamespaceVersion;
+
+  UpdateFlowTemplateRequest({
+    @_s.required this.definition,
+    @_s.required this.id,
+    this.compatibleNamespaceVersion,
+  });
+  Map<String, dynamic> toJson() => _$UpdateFlowTemplateRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3425,6 +4213,40 @@ class UpdateFlowTemplateResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateSystemTemplateRequest {
+  /// The <code>DefinitionDocument</code> that contains the updated system
+  /// definition.
+  @_s.JsonKey(name: 'definition')
+  final DefinitionDocument definition;
+
+  /// The ID of the system to be updated.
+  ///
+  /// The ID should be in the following format.
+  ///
+  /// <code>urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME</code>
+  @_s.JsonKey(name: 'id')
+  final String id;
+
+  /// The version of the user's namespace. Defaults to the latest version of the
+  /// user's namespace.
+  ///
+  /// If no value is specified, the latest version is used by default.
+  @_s.JsonKey(name: 'compatibleNamespaceVersion')
+  final int compatibleNamespaceVersion;
+
+  UpdateSystemTemplateRequest({
+    @_s.required this.definition,
+    @_s.required this.id,
+    this.compatibleNamespaceVersion,
+  });
+  Map<String, dynamic> toJson() => _$UpdateSystemTemplateRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateSystemTemplateResponse {
@@ -3437,6 +4259,36 @@ class UpdateSystemTemplateResponse {
   });
   factory UpdateSystemTemplateResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateSystemTemplateResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UploadEntityDefinitionsRequest {
+  /// A Boolean that specifies whether to deprecate all entities in the latest
+  /// version before uploading the new <code>DefinitionDocument</code>. If set to
+  /// <code>true</code>, the upload will create a new namespace version.
+  @_s.JsonKey(name: 'deprecateExistingEntities')
+  final bool deprecateExistingEntities;
+
+  /// The <code>DefinitionDocument</code> that defines the updated entities.
+  @_s.JsonKey(name: 'document')
+  final DefinitionDocument document;
+
+  /// A Boolean that specifies whether to synchronize with the latest version of
+  /// the public namespace. If set to <code>true</code>, the upload will create a
+  /// new namespace version.
+  @_s.JsonKey(name: 'syncWithPublicNamespace')
+  final bool syncWithPublicNamespace;
+
+  UploadEntityDefinitionsRequest({
+    this.deprecateExistingEntities,
+    this.document,
+    this.syncWithPublicNamespace,
+  });
+  Map<String, dynamic> toJson() => _$UploadEntityDefinitionsRequestToJson(this);
 }
 
 @_s.JsonSerializable(

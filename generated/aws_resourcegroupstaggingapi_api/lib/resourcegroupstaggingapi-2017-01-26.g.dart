@@ -71,6 +71,26 @@ const _$ErrorCodeEnumMap = {
   ErrorCode.invalidParameterException: 'InvalidParameterException',
 };
 
+Map<String, dynamic> _$GetComplianceSummaryInputToJson(
+    GetComplianceSummaryInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GroupBy', instance.groupBy);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('PaginationToken', instance.paginationToken);
+  writeNotNull('RegionFilters', instance.regionFilters);
+  writeNotNull('ResourceTypeFilters', instance.resourceTypeFilters);
+  writeNotNull('TagKeyFilters', instance.tagKeyFilters);
+  writeNotNull('TargetIdFilters', instance.targetIdFilters);
+  return val;
+}
+
 GetComplianceSummaryOutput _$GetComplianceSummaryOutputFromJson(
     Map<String, dynamic> json) {
   return GetComplianceSummaryOutput(
@@ -80,6 +100,26 @@ GetComplianceSummaryOutput _$GetComplianceSummaryOutputFromJson(
             e == null ? null : Summary.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$GetResourcesInputToJson(GetResourcesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ExcludeCompliantResources', instance.excludeCompliantResources);
+  writeNotNull('IncludeComplianceDetails', instance.includeComplianceDetails);
+  writeNotNull('PaginationToken', instance.paginationToken);
+  writeNotNull('ResourceTypeFilters', instance.resourceTypeFilters);
+  writeNotNull('ResourcesPerPage', instance.resourcesPerPage);
+  writeNotNull(
+      'TagFilters', instance.tagFilters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('TagsPerPage', instance.tagsPerPage);
+  return val;
 }
 
 GetResourcesOutput _$GetResourcesOutputFromJson(Map<String, dynamic> json) {
@@ -93,11 +133,38 @@ GetResourcesOutput _$GetResourcesOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetTagKeysInputToJson(GetTagKeysInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('PaginationToken', instance.paginationToken);
+  return val;
+}
+
 GetTagKeysOutput _$GetTagKeysOutputFromJson(Map<String, dynamic> json) {
   return GetTagKeysOutput(
     paginationToken: json['PaginationToken'] as String,
     tagKeys: (json['TagKeys'] as List)?.map((e) => e as String)?.toList(),
   );
+}
+
+Map<String, dynamic> _$GetTagValuesInputToJson(GetTagValuesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Key', instance.key);
+  writeNotNull('PaginationToken', instance.paginationToken);
+  return val;
 }
 
 GetTagValuesOutput _$GetTagValuesOutputFromJson(Map<String, dynamic> json) {
@@ -118,6 +185,20 @@ ResourceTagMapping _$ResourceTagMappingFromJson(Map<String, dynamic> json) {
         ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$StartReportCreationInputToJson(
+    StartReportCreationInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('S3Bucket', instance.s3Bucket);
+  return val;
 }
 
 StartReportCreationOutput _$StartReportCreationOutputFromJson(
@@ -164,6 +245,20 @@ Map<String, dynamic> _$TagFilterToJson(TagFilter instance) {
   return val;
 }
 
+Map<String, dynamic> _$TagResourcesInputToJson(TagResourcesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARNList', instance.resourceARNList);
+  writeNotNull('Tags', instance.tags);
+  return val;
+}
+
 TagResourcesOutput _$TagResourcesOutputFromJson(Map<String, dynamic> json) {
   return TagResourcesOutput(
     failedResourcesMap:
@@ -172,6 +267,20 @@ TagResourcesOutput _$TagResourcesOutputFromJson(Map<String, dynamic> json) {
           e == null ? null : FailureInfo.fromJson(e as Map<String, dynamic>)),
     ),
   );
+}
+
+Map<String, dynamic> _$UntagResourcesInputToJson(UntagResourcesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARNList', instance.resourceARNList);
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
 }
 
 UntagResourcesOutput _$UntagResourcesOutputFromJson(Map<String, dynamic> json) {

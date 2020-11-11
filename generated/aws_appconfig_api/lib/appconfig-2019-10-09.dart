@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -82,11 +81,11 @@ class AppConfig {
       0,
       1024,
     );
-    final $payload = <String, dynamic>{
-      'Name': name,
-      if (description != null) 'Description': description,
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = CreateApplicationRequest(
+      name: name,
+      description: description,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -206,14 +205,15 @@ class AppConfig {
       0,
       1024,
     );
-    final $payload = <String, dynamic>{
-      'LocationUri': locationUri,
-      'Name': name,
-      'RetrievalRoleArn': retrievalRoleArn,
-      if (description != null) 'Description': description,
-      if (tags != null) 'Tags': tags,
-      if (validators != null) 'Validators': validators,
-    };
+    final $payload = CreateConfigurationProfileRequest(
+      applicationId: applicationId,
+      locationUri: locationUri,
+      name: name,
+      retrievalRoleArn: retrievalRoleArn,
+      description: description,
+      tags: tags,
+      validators: validators,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -334,17 +334,16 @@ class AppConfig {
       0,
       1440,
     );
-    final $payload = <String, dynamic>{
-      'DeploymentDurationInMinutes': deploymentDurationInMinutes,
-      'GrowthFactor': growthFactor,
-      'Name': name,
-      'ReplicateTo': replicateTo?.toValue(),
-      if (description != null) 'Description': description,
-      if (finalBakeTimeInMinutes != null)
-        'FinalBakeTimeInMinutes': finalBakeTimeInMinutes,
-      if (growthType != null) 'GrowthType': growthType?.toValue(),
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = CreateDeploymentStrategyRequest(
+      deploymentDurationInMinutes: deploymentDurationInMinutes,
+      growthFactor: growthFactor,
+      name: name,
+      replicateTo: replicateTo,
+      description: description,
+      finalBakeTimeInMinutes: finalBakeTimeInMinutes,
+      growthType: growthType,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -411,12 +410,13 @@ class AppConfig {
       0,
       1024,
     );
-    final $payload = <String, dynamic>{
-      'Name': name,
-      if (description != null) 'Description': description,
-      if (monitors != null) 'Monitors': monitors,
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = CreateEnvironmentRequest(
+      applicationId: applicationId,
+      name: name,
+      description: description,
+      monitors: monitors,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -446,7 +446,9 @@ class AppConfig {
       r'''[a-z0-9]{4,7}''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteApplicationRequest(
+      applicationId: applicationId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -489,7 +491,10 @@ class AppConfig {
       r'''[a-z0-9]{4,7}''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteConfigurationProfileRequest(
+      applicationId: applicationId,
+      configurationProfileId: configurationProfileId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -518,7 +523,9 @@ class AppConfig {
       r'''([a-z0-9]{4,7}|arn:aws.*)''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteDeploymentStrategyRequest(
+      deploymentStrategyId: deploymentStrategyId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -559,7 +566,10 @@ class AppConfig {
       r'''[a-z0-9]{4,7}''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteEnvironmentRequest(
+      applicationId: applicationId,
+      environmentId: environmentId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1223,13 +1233,15 @@ class AppConfig {
       0,
       1024,
     );
-    final $payload = <String, dynamic>{
-      'ConfigurationProfileId': configurationProfileId,
-      'ConfigurationVersion': configurationVersion,
-      'DeploymentStrategyId': deploymentStrategyId,
-      if (description != null) 'Description': description,
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = StartDeploymentRequest(
+      applicationId: applicationId,
+      configurationProfileId: configurationProfileId,
+      configurationVersion: configurationVersion,
+      deploymentStrategyId: deploymentStrategyId,
+      environmentId: environmentId,
+      description: description,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1276,7 +1288,11 @@ class AppConfig {
       r'''[a-z0-9]{4,7}''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = StopDeploymentRequest(
+      applicationId: applicationId,
+      deploymentNumber: deploymentNumber,
+      environmentId: environmentId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1322,9 +1338,10 @@ class AppConfig {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'Tags': tags,
-    };
+    final $payload = TagResourceRequest(
+      resourceArn: resourceArn,
+      tags: tags,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1367,7 +1384,10 @@ class AppConfig {
     _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = UntagResourceRequest(
+      resourceArn: resourceArn,
+      tagKeys: tagKeys,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1414,10 +1434,11 @@ class AppConfig {
       1,
       64,
     );
-    final $payload = <String, dynamic>{
-      if (description != null) 'Description': description,
-      if (name != null) 'Name': name,
-    };
+    final $payload = UpdateApplicationRequest(
+      applicationId: applicationId,
+      description: description,
+      name: name,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -1498,12 +1519,14 @@ class AppConfig {
       retrievalRoleArn,
       r'''arn:(aws[a-zA-Z-]*)?:[a-z]+:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\d{1})?:(\d{12})?:[a-zA-Z0-9-_/:.]+''',
     );
-    final $payload = <String, dynamic>{
-      if (description != null) 'Description': description,
-      if (name != null) 'Name': name,
-      if (retrievalRoleArn != null) 'RetrievalRoleArn': retrievalRoleArn,
-      if (validators != null) 'Validators': validators,
-    };
+    final $payload = UpdateConfigurationProfileRequest(
+      applicationId: applicationId,
+      configurationProfileId: configurationProfileId,
+      description: description,
+      name: name,
+      retrievalRoleArn: retrievalRoleArn,
+      validators: validators,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -1604,15 +1627,14 @@ class AppConfig {
       1,
       100,
     );
-    final $payload = <String, dynamic>{
-      if (deploymentDurationInMinutes != null)
-        'DeploymentDurationInMinutes': deploymentDurationInMinutes,
-      if (description != null) 'Description': description,
-      if (finalBakeTimeInMinutes != null)
-        'FinalBakeTimeInMinutes': finalBakeTimeInMinutes,
-      if (growthFactor != null) 'GrowthFactor': growthFactor,
-      if (growthType != null) 'GrowthType': growthType?.toValue(),
-    };
+    final $payload = UpdateDeploymentStrategyRequest(
+      deploymentStrategyId: deploymentStrategyId,
+      deploymentDurationInMinutes: deploymentDurationInMinutes,
+      description: description,
+      finalBakeTimeInMinutes: finalBakeTimeInMinutes,
+      growthFactor: growthFactor,
+      growthType: growthType,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -1676,11 +1698,13 @@ class AppConfig {
       1,
       64,
     );
-    final $payload = <String, dynamic>{
-      if (description != null) 'Description': description,
-      if (monitors != null) 'Monitors': monitors,
-      if (name != null) 'Name': name,
-    };
+    final $payload = UpdateEnvironmentRequest(
+      applicationId: applicationId,
+      environmentId: environmentId,
+      description: description,
+      monitors: monitors,
+      name: name,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -1739,7 +1763,11 @@ class AppConfig {
       if (configurationVersion != null)
         _s.toQueryParam('configuration_version', configurationVersion),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = ValidateConfigurationRequest(
+      applicationId: applicationId,
+      configurationProfileId: configurationProfileId,
+      configurationVersion: configurationVersion,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1937,6 +1965,289 @@ class ConfigurationProfiles {
   });
   factory ConfigurationProfiles.fromJson(Map<String, dynamic> json) =>
       _$ConfigurationProfilesFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateApplicationRequest {
+  /// A name for the application.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// A description of the application.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// Metadata to assign to the application. Tags help organize and categorize
+  /// your AppConfig resources. Each tag consists of a key and an optional value,
+  /// both of which you define.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  CreateApplicationRequest({
+    @_s.required this.name,
+    this.description,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateApplicationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateConfigurationProfileRequest {
+  /// The application ID.
+  @_s.JsonKey(name: 'ApplicationId', ignore: true)
+  final String applicationId;
+
+  /// A URI to locate the configuration. You can specify a Systems Manager (SSM)
+  /// document, an SSM Parameter Store parameter, or an Amazon S3 object. For an
+  /// SSM document, specify either the document name in the format
+  /// <code>ssm-document://&lt;Document_name&gt;</code> or the Amazon Resource
+  /// Name (ARN). For a parameter, specify either the parameter name in the format
+  /// <code>ssm-parameter://&lt;Parameter_name&gt;</code> or the ARN. For an
+  /// Amazon S3 object, specify the URI in the following format:
+  /// <code>s3://&lt;bucket&gt;/&lt;objectKey&gt; </code>. Here is an example:
+  /// s3://my-bucket/my-app/us-east-1/my-config.json
+  @_s.JsonKey(name: 'LocationUri')
+  final String locationUri;
+
+  /// A name for the configuration profile.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The ARN of an IAM role with permission to access the configuration at the
+  /// specified LocationUri.
+  @_s.JsonKey(name: 'RetrievalRoleArn')
+  final String retrievalRoleArn;
+
+  /// A description of the configuration profile.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// Metadata to assign to the configuration profile. Tags help organize and
+  /// categorize your AppConfig resources. Each tag consists of a key and an
+  /// optional value, both of which you define.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  /// A list of methods for validating the configuration.
+  @_s.JsonKey(name: 'Validators')
+  final List<Validator> validators;
+
+  CreateConfigurationProfileRequest({
+    @_s.required this.applicationId,
+    @_s.required this.locationUri,
+    @_s.required this.name,
+    @_s.required this.retrievalRoleArn,
+    this.description,
+    this.tags,
+    this.validators,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateConfigurationProfileRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDeploymentStrategyRequest {
+  /// Total amount of time for a deployment to last.
+  @_s.JsonKey(name: 'DeploymentDurationInMinutes')
+  final int deploymentDurationInMinutes;
+
+  /// The percentage of targets to receive a deployed configuration during each
+  /// interval.
+  @_s.JsonKey(name: 'GrowthFactor')
+  final double growthFactor;
+
+  /// A name for the deployment strategy.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Save the deployment strategy to a Systems Manager (SSM) document.
+  @_s.JsonKey(name: 'ReplicateTo')
+  final ReplicateTo replicateTo;
+
+  /// A description of the deployment strategy.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The amount of time AppConfig monitors for alarms before considering the
+  /// deployment to be complete and no longer eligible for automatic roll back.
+  @_s.JsonKey(name: 'FinalBakeTimeInMinutes')
+  final int finalBakeTimeInMinutes;
+
+  /// The algorithm used to define how percentage grows over time. AWS AppConfig
+  /// supports the following growth types:
+  ///
+  /// <b>Linear</b>: For this type, AppConfig processes the deployment by dividing
+  /// the total number of targets by the value specified for <code>Step
+  /// percentage</code>. For example, a linear deployment that uses a <code>Step
+  /// percentage</code> of 10 deploys the configuration to 10 percent of the
+  /// hosts. After those deployments are complete, the system deploys the
+  /// configuration to the next 10 percent. This continues until 100% of the
+  /// targets have successfully received the configuration.
+  ///
+  /// <b>Exponential</b>: For this type, AppConfig processes the deployment
+  /// exponentially using the following formula: <code>G*(2^N)</code>. In this
+  /// formula, <code>G</code> is the growth factor specified by the user and
+  /// <code>N</code> is the number of steps until the configuration is deployed to
+  /// all targets. For example, if you specify a growth factor of 2, then the
+  /// system rolls out the configuration as follows:
+  ///
+  /// <code>2*(2^0)</code>
+  ///
+  /// <code>2*(2^1)</code>
+  ///
+  /// <code>2*(2^2)</code>
+  ///
+  /// Expressed numerically, the deployment rolls out as follows: 2% of the
+  /// targets, 4% of the targets, 8% of the targets, and continues until the
+  /// configuration has been deployed to all targets.
+  @_s.JsonKey(name: 'GrowthType')
+  final GrowthType growthType;
+
+  /// Metadata to assign to the deployment strategy. Tags help organize and
+  /// categorize your AppConfig resources. Each tag consists of a key and an
+  /// optional value, both of which you define.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  CreateDeploymentStrategyRequest({
+    @_s.required this.deploymentDurationInMinutes,
+    @_s.required this.growthFactor,
+    @_s.required this.name,
+    @_s.required this.replicateTo,
+    this.description,
+    this.finalBakeTimeInMinutes,
+    this.growthType,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateDeploymentStrategyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateEnvironmentRequest {
+  /// The application ID.
+  @_s.JsonKey(name: 'ApplicationId', ignore: true)
+  final String applicationId;
+
+  /// A name for the environment.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// A description of the environment.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// Amazon CloudWatch alarms to monitor during the deployment process.
+  @_s.JsonKey(name: 'Monitors')
+  final List<Monitor> monitors;
+
+  /// Metadata to assign to the environment. Tags help organize and categorize
+  /// your AppConfig resources. Each tag consists of a key and an optional value,
+  /// both of which you define.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  CreateEnvironmentRequest({
+    @_s.required this.applicationId,
+    @_s.required this.name,
+    this.description,
+    this.monitors,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateEnvironmentRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteApplicationRequest {
+  /// The ID of the application to delete.
+  @_s.JsonKey(name: 'ApplicationId', ignore: true)
+  final String applicationId;
+
+  DeleteApplicationRequest({
+    @_s.required this.applicationId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteApplicationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteConfigurationProfileRequest {
+  /// The application ID that includes the configuration profile you want to
+  /// delete.
+  @_s.JsonKey(name: 'ApplicationId', ignore: true)
+  final String applicationId;
+
+  /// The ID of the configuration profile you want to delete.
+  @_s.JsonKey(name: 'ConfigurationProfileId', ignore: true)
+  final String configurationProfileId;
+
+  DeleteConfigurationProfileRequest({
+    @_s.required this.applicationId,
+    @_s.required this.configurationProfileId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteConfigurationProfileRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDeploymentStrategyRequest {
+  /// The ID of the deployment strategy you want to delete.
+  @_s.JsonKey(name: 'DeploymentStrategyId', ignore: true)
+  final String deploymentStrategyId;
+
+  DeleteDeploymentStrategyRequest({
+    @_s.required this.deploymentStrategyId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteDeploymentStrategyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteEnvironmentRequest {
+  /// The application ID that includes the environment you want to delete.
+  @_s.JsonKey(name: 'ApplicationId', ignore: true)
+  final String applicationId;
+
+  /// The ID of the environment you want to delete.
+  @_s.JsonKey(name: 'EnvironmentId', ignore: true)
+  final String environmentId;
+
+  DeleteEnvironmentRequest({
+    @_s.required this.applicationId,
+    @_s.required this.environmentId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteEnvironmentRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2373,18 +2684,6 @@ enum GrowthType {
   exponential,
 }
 
-extension on GrowthType {
-  String toValue() {
-    switch (this) {
-      case GrowthType.linear:
-        return 'LINEAR';
-      case GrowthType.exponential:
-        return 'EXPONENTIAL';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Amazon CloudWatch alarms to monitor during the deployment process.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2417,18 +2716,6 @@ enum ReplicateTo {
   ssmDocument,
 }
 
-extension on ReplicateTo {
-  String toValue() {
-    switch (this) {
-      case ReplicateTo.none:
-        return 'NONE';
-      case ReplicateTo.ssmDocument:
-        return 'SSM_DOCUMENT';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2448,6 +2735,103 @@ class ResourceTags {
       _$ResourceTagsFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartDeploymentRequest {
+  /// The application ID.
+  @_s.JsonKey(name: 'ApplicationId', ignore: true)
+  final String applicationId;
+
+  /// The configuration profile ID.
+  @_s.JsonKey(name: 'ConfigurationProfileId')
+  final String configurationProfileId;
+
+  /// The configuration version to deploy.
+  @_s.JsonKey(name: 'ConfigurationVersion')
+  final String configurationVersion;
+
+  /// The deployment strategy ID.
+  @_s.JsonKey(name: 'DeploymentStrategyId')
+  final String deploymentStrategyId;
+
+  /// The environment ID.
+  @_s.JsonKey(name: 'EnvironmentId', ignore: true)
+  final String environmentId;
+
+  /// A description of the deployment.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// Metadata to assign to the deployment. Tags help organize and categorize your
+  /// AppConfig resources. Each tag consists of a key and an optional value, both
+  /// of which you define.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  StartDeploymentRequest({
+    @_s.required this.applicationId,
+    @_s.required this.configurationProfileId,
+    @_s.required this.configurationVersion,
+    @_s.required this.deploymentStrategyId,
+    @_s.required this.environmentId,
+    this.description,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$StartDeploymentRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopDeploymentRequest {
+  /// The application ID.
+  @_s.JsonKey(name: 'ApplicationId', ignore: true)
+  final String applicationId;
+
+  /// The sequence number of the deployment.
+  @_s.JsonKey(name: 'DeploymentNumber', ignore: true)
+  final int deploymentNumber;
+
+  /// The environment ID.
+  @_s.JsonKey(name: 'EnvironmentId', ignore: true)
+  final String environmentId;
+
+  StopDeploymentRequest({
+    @_s.required this.applicationId,
+    @_s.required this.deploymentNumber,
+    @_s.required this.environmentId,
+  });
+  Map<String, dynamic> toJson() => _$StopDeploymentRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The ARN of the resource for which to retrieve tags.
+  @_s.JsonKey(name: 'ResourceArn', ignore: true)
+  final String resourceArn;
+
+  /// The key-value string map. The valid character set is [a-zA-Z+-=._:/]. The
+  /// tag key can be up to 128 characters and must not start with
+  /// <code>aws:</code>. The tag value can be up to 256 characters.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
 enum TriggeredBy {
   @_s.JsonValue('USER')
   user,
@@ -2457,6 +2841,228 @@ enum TriggeredBy {
   cloudwatchAlarm,
   @_s.JsonValue('INTERNAL_ERROR')
   internalError,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The ARN of the resource for which to remove tags.
+  @_s.JsonKey(name: 'ResourceArn', ignore: true)
+  final String resourceArn;
+
+  /// The tag keys to delete.
+  @_s.JsonKey(name: 'tagKeys', ignore: true)
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateApplicationRequest {
+  /// The application ID.
+  @_s.JsonKey(name: 'ApplicationId', ignore: true)
+  final String applicationId;
+
+  /// A description of the application.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The name of the application.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  UpdateApplicationRequest({
+    @_s.required this.applicationId,
+    this.description,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$UpdateApplicationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateConfigurationProfileRequest {
+  /// The application ID.
+  @_s.JsonKey(name: 'ApplicationId', ignore: true)
+  final String applicationId;
+
+  /// The ID of the configuration profile.
+  @_s.JsonKey(name: 'ConfigurationProfileId', ignore: true)
+  final String configurationProfileId;
+
+  /// A description of the configuration profile.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The name of the configuration profile.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The ARN of an IAM role with permission to access the configuration at the
+  /// specified LocationUri.
+  @_s.JsonKey(name: 'RetrievalRoleArn')
+  final String retrievalRoleArn;
+
+  /// A list of methods for validating the configuration.
+  @_s.JsonKey(name: 'Validators')
+  final List<Validator> validators;
+
+  UpdateConfigurationProfileRequest({
+    @_s.required this.applicationId,
+    @_s.required this.configurationProfileId,
+    this.description,
+    this.name,
+    this.retrievalRoleArn,
+    this.validators,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateConfigurationProfileRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDeploymentStrategyRequest {
+  /// The deployment strategy ID.
+  @_s.JsonKey(name: 'DeploymentStrategyId', ignore: true)
+  final String deploymentStrategyId;
+
+  /// Total amount of time for a deployment to last.
+  @_s.JsonKey(name: 'DeploymentDurationInMinutes')
+  final int deploymentDurationInMinutes;
+
+  /// A description of the deployment strategy.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The amount of time AppConfig monitors for alarms before considering the
+  /// deployment to be complete and no longer eligible for automatic roll back.
+  @_s.JsonKey(name: 'FinalBakeTimeInMinutes')
+  final int finalBakeTimeInMinutes;
+
+  /// The percentage of targets to receive a deployed configuration during each
+  /// interval.
+  @_s.JsonKey(name: 'GrowthFactor')
+  final double growthFactor;
+
+  /// The algorithm used to define how percentage grows over time. AWS AppConfig
+  /// supports the following growth types:
+  ///
+  /// <b>Linear</b>: For this type, AppConfig processes the deployment by
+  /// increments of the growth factor evenly distributed over the deployment time.
+  /// For example, a linear deployment that uses a growth factor of 20 initially
+  /// makes the configuration available to 20 percent of the targets. After 1/5th
+  /// of the deployment time has passed, the system updates the percentage to 40
+  /// percent. This continues until 100% of the targets are set to receive the
+  /// deployed configuration.
+  ///
+  /// <b>Exponential</b>: For this type, AppConfig processes the deployment
+  /// exponentially using the following formula: <code>G*(2^N)</code>. In this
+  /// formula, <code>G</code> is the growth factor specified by the user and
+  /// <code>N</code> is the number of steps until the configuration is deployed to
+  /// all targets. For example, if you specify a growth factor of 2, then the
+  /// system rolls out the configuration as follows:
+  ///
+  /// <code>2*(2^0)</code>
+  ///
+  /// <code>2*(2^1)</code>
+  ///
+  /// <code>2*(2^2)</code>
+  ///
+  /// Expressed numerically, the deployment rolls out as follows: 2% of the
+  /// targets, 4% of the targets, 8% of the targets, and continues until the
+  /// configuration has been deployed to all targets.
+  @_s.JsonKey(name: 'GrowthType')
+  final GrowthType growthType;
+
+  UpdateDeploymentStrategyRequest({
+    @_s.required this.deploymentStrategyId,
+    this.deploymentDurationInMinutes,
+    this.description,
+    this.finalBakeTimeInMinutes,
+    this.growthFactor,
+    this.growthType,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateDeploymentStrategyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateEnvironmentRequest {
+  /// The application ID.
+  @_s.JsonKey(name: 'ApplicationId', ignore: true)
+  final String applicationId;
+
+  /// The environment ID.
+  @_s.JsonKey(name: 'EnvironmentId', ignore: true)
+  final String environmentId;
+
+  /// A description of the environment.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// Amazon CloudWatch alarms to monitor during the deployment process.
+  @_s.JsonKey(name: 'Monitors')
+  final List<Monitor> monitors;
+
+  /// The name of the environment.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  UpdateEnvironmentRequest({
+    @_s.required this.applicationId,
+    @_s.required this.environmentId,
+    this.description,
+    this.monitors,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$UpdateEnvironmentRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ValidateConfigurationRequest {
+  /// The application ID.
+  @_s.JsonKey(name: 'ApplicationId', ignore: true)
+  final String applicationId;
+
+  /// The configuration profile ID.
+  @_s.JsonKey(name: 'ConfigurationProfileId', ignore: true)
+  final String configurationProfileId;
+
+  /// The version of the configuration to validate.
+  @_s.JsonKey(name: 'configuration_version', ignore: true)
+  final String configurationVersion;
+
+  ValidateConfigurationRequest({
+    @_s.required this.applicationId,
+    @_s.required this.configurationProfileId,
+    @_s.required this.configurationVersion,
+  });
+  Map<String, dynamic> toJson() => _$ValidateConfigurationRequestToJson(this);
 }
 
 /// A validator provides a syntactic or semantic check to ensure the

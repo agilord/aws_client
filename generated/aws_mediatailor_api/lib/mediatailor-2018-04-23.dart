@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -56,7 +55,9 @@ class MediaTailor {
     @_s.required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    final $payload = <String, dynamic>{};
+    final $payload = DeletePlaybackConfigurationRequest(
+      name: name,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -214,24 +215,19 @@ class MediaTailor {
       1,
       1152921504606846976,
     );
-    final $payload = <String, dynamic>{
-      if (adDecisionServerUrl != null)
-        'AdDecisionServerUrl': adDecisionServerUrl,
-      if (availSuppression != null) 'AvailSuppression': availSuppression,
-      if (cdnConfiguration != null) 'CdnConfiguration': cdnConfiguration,
-      if (dashConfiguration != null) 'DashConfiguration': dashConfiguration,
-      if (livePreRollConfiguration != null)
-        'LivePreRollConfiguration': livePreRollConfiguration,
-      if (name != null) 'Name': name,
-      if (personalizationThresholdSeconds != null)
-        'PersonalizationThresholdSeconds': personalizationThresholdSeconds,
-      if (slateAdUrl != null) 'SlateAdUrl': slateAdUrl,
-      if (tags != null) 'Tags': tags,
-      if (transcodeProfileName != null)
-        'TranscodeProfileName': transcodeProfileName,
-      if (videoContentSourceUrl != null)
-        'VideoContentSourceUrl': videoContentSourceUrl,
-    };
+    final $payload = PutPlaybackConfigurationRequest(
+      adDecisionServerUrl: adDecisionServerUrl,
+      availSuppression: availSuppression,
+      cdnConfiguration: cdnConfiguration,
+      dashConfiguration: dashConfiguration,
+      livePreRollConfiguration: livePreRollConfiguration,
+      name: name,
+      personalizationThresholdSeconds: personalizationThresholdSeconds,
+      slateAdUrl: slateAdUrl,
+      tags: tags,
+      transcodeProfileName: transcodeProfileName,
+      videoContentSourceUrl: videoContentSourceUrl,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -263,9 +259,10 @@ class MediaTailor {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'Tags': tags,
-    };
+    final $payload = TagResourceRequest(
+      resourceArn: resourceArn,
+      tags: tags,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -296,7 +293,10 @@ class MediaTailor {
     _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = UntagResourceRequest(
+      resourceArn: resourceArn,
+      tagKeys: tagKeys,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -443,6 +443,23 @@ class DashConfigurationForPut {
     this.originManifestType,
   });
   Map<String, dynamic> toJson() => _$DashConfigurationForPutToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeletePlaybackConfigurationRequest {
+  /// The identifier for the playback configuration.
+  @_s.JsonKey(name: 'Name', ignore: true)
+  final String name;
+
+  DeletePlaybackConfigurationRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeletePlaybackConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -779,6 +796,89 @@ class LivePreRollConfiguration {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutPlaybackConfigurationRequest {
+  /// The URL for the ad decision server (ADS). This includes the specification of
+  /// static parameters and placeholders for dynamic parameters. AWS Elemental
+  /// MediaTailor substitutes player-specific and session-specific parameters as
+  /// needed when calling the ADS. Alternately, for testing you can provide a
+  /// static VAST URL. The maximum length is 25,000 characters.
+  @_s.JsonKey(name: 'AdDecisionServerUrl')
+  final String adDecisionServerUrl;
+
+  /// The configuration for Avail Suppression. Ad suppression can be used to turn
+  /// off ad personalization in a long manifest, or if a viewer joins mid-break.
+  @_s.JsonKey(name: 'AvailSuppression')
+  final AvailSuppression availSuppression;
+
+  /// The configuration for using a content delivery network (CDN), like Amazon
+  /// CloudFront, for content and ad segment management.
+  @_s.JsonKey(name: 'CdnConfiguration')
+  final CdnConfiguration cdnConfiguration;
+
+  /// The configuration for DASH content.
+  @_s.JsonKey(name: 'DashConfiguration')
+  final DashConfigurationForPut dashConfiguration;
+
+  /// The configuration for pre-roll ad insertion.
+  @_s.JsonKey(name: 'LivePreRollConfiguration')
+  final LivePreRollConfiguration livePreRollConfiguration;
+
+  /// The identifier for the playback configuration.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The maximum duration of underfilled ad time (in seconds) allowed in an ad
+  /// break.
+  @_s.JsonKey(name: 'PersonalizationThresholdSeconds')
+  final int personalizationThresholdSeconds;
+
+  /// The URL for a high-quality video asset to transcode and use to fill in time
+  /// that's not used by ads. AWS Elemental MediaTailor shows the slate to fill in
+  /// gaps in media content. Configuring the slate is optional for non-VPAID
+  /// configurations. For VPAID, the slate is required because MediaTailor
+  /// provides it in the slots that are designated for dynamic ad content. The
+  /// slate must be a high-quality asset that contains both audio and video.
+  @_s.JsonKey(name: 'SlateAdUrl')
+  final String slateAdUrl;
+
+  /// The tags to assign to the playback configuration.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  /// The name that is used to associate this playback configuration with a custom
+  /// transcode profile. This overrides the dynamic transcoding defaults of
+  /// MediaTailor. Use this only if you have already set up custom profiles with
+  /// the help of AWS Support.
+  @_s.JsonKey(name: 'TranscodeProfileName')
+  final String transcodeProfileName;
+
+  /// The URL prefix for the master playlist for the stream, minus the asset ID.
+  /// The maximum length is 512 characters.
+  @_s.JsonKey(name: 'VideoContentSourceUrl')
+  final String videoContentSourceUrl;
+
+  PutPlaybackConfigurationRequest({
+    this.adDecisionServerUrl,
+    this.availSuppression,
+    this.cdnConfiguration,
+    this.dashConfiguration,
+    this.livePreRollConfiguration,
+    this.name,
+    this.personalizationThresholdSeconds,
+    this.slateAdUrl,
+    this.tags,
+    this.transcodeProfileName,
+    this.videoContentSourceUrl,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutPlaybackConfigurationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutPlaybackConfigurationResponse {
@@ -880,6 +980,56 @@ class PutPlaybackConfigurationResponse {
   factory PutPlaybackConfigurationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$PutPlaybackConfigurationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The Amazon Resource Name (ARN) for the playback configuration. You can get
+  /// this from the response to any playback configuration request.
+  @_s.JsonKey(name: 'ResourceArn', ignore: true)
+  final String resourceArn;
+
+  /// A comma-separated list of tag key:value pairs. For example:
+  /// {
+  /// "Key1": "Value1",
+  /// "Key2": "Value2"
+  /// }
+  ///
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The Amazon Resource Name (ARN) for the playback configuration. You can get
+  /// this from the response to any playback configuration request.
+  @_s.JsonKey(name: 'ResourceArn', ignore: true)
+  final String resourceArn;
+
+  /// A comma-separated list of the tag keys to remove from the playback
+  /// configuration.
+  @_s.JsonKey(name: 'tagKeys', ignore: true)
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
 }
 
 class BadRequestException extends _s.GenericAwsException {

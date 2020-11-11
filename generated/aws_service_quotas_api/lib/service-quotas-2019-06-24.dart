@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -164,11 +163,11 @@ class ServiceQuotas {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AwsRegion': awsRegion,
-        'QuotaCode': quotaCode,
-        'ServiceCode': serviceCode,
-      },
+      payload: DeleteServiceQuotaIncreaseRequestFromTemplateRequest(
+        awsRegion: awsRegion,
+        quotaCode: quotaCode,
+        serviceCode: serviceCode,
+      ),
     );
 
     return DeleteServiceQuotaIncreaseRequestFromTemplateResponse.fromJson(
@@ -272,10 +271,10 @@ class ServiceQuotas {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'QuotaCode': quotaCode,
-        'ServiceCode': serviceCode,
-      },
+      payload: GetAWSDefaultServiceQuotaRequest(
+        quotaCode: quotaCode,
+        serviceCode: serviceCode,
+      ),
     );
 
     return GetAWSDefaultServiceQuotaResponse.fromJson(jsonResponse.body);
@@ -350,9 +349,9 @@ class ServiceQuotas {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'RequestId': requestId,
-      },
+      payload: GetRequestedServiceQuotaChangeRequest(
+        requestId: requestId,
+      ),
     );
 
     return GetRequestedServiceQuotaChangeResponse.fromJson(jsonResponse.body);
@@ -417,10 +416,10 @@ class ServiceQuotas {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'QuotaCode': quotaCode,
-        'ServiceCode': serviceCode,
-      },
+      payload: GetServiceQuotaRequest(
+        quotaCode: quotaCode,
+        serviceCode: serviceCode,
+      ),
     );
 
     return GetServiceQuotaResponse.fromJson(jsonResponse.body);
@@ -506,11 +505,11 @@ class ServiceQuotas {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AwsRegion': awsRegion,
-        'QuotaCode': quotaCode,
-        'ServiceCode': serviceCode,
-      },
+      payload: GetServiceQuotaIncreaseRequestFromTemplateRequest(
+        awsRegion: awsRegion,
+        quotaCode: quotaCode,
+        serviceCode: serviceCode,
+      ),
     );
 
     return GetServiceQuotaIncreaseRequestFromTemplateResponse.fromJson(
@@ -610,11 +609,11 @@ class ServiceQuotas {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ServiceCode': serviceCode,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListAWSDefaultServiceQuotasRequest(
+        serviceCode: serviceCode,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListAWSDefaultServiceQuotasResponse.fromJson(jsonResponse.body);
@@ -697,12 +696,12 @@ class ServiceQuotas {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (serviceCode != null) 'ServiceCode': serviceCode,
-        if (status != null) 'Status': status?.toValue(),
-      },
+      payload: ListRequestedServiceQuotaChangeHistoryRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+        serviceCode: serviceCode,
+        status: status,
+      ),
     );
 
     return ListRequestedServiceQuotaChangeHistoryResponse.fromJson(
@@ -811,13 +810,13 @@ class ServiceQuotas {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'QuotaCode': quotaCode,
-        'ServiceCode': serviceCode,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (status != null) 'Status': status?.toValue(),
-      },
+      payload: ListRequestedServiceQuotaChangeHistoryByQuotaRequest(
+        quotaCode: quotaCode,
+        serviceCode: serviceCode,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        status: status,
+      ),
     );
 
     return ListRequestedServiceQuotaChangeHistoryByQuotaResponse.fromJson(
@@ -915,12 +914,12 @@ class ServiceQuotas {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (awsRegion != null) 'AwsRegion': awsRegion,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (serviceCode != null) 'ServiceCode': serviceCode,
-      },
+      payload: ListServiceQuotaIncreaseRequestsInTemplateRequest(
+        awsRegion: awsRegion,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        serviceCode: serviceCode,
+      ),
     );
 
     return ListServiceQuotaIncreaseRequestsInTemplateResponse.fromJson(
@@ -1012,11 +1011,11 @@ class ServiceQuotas {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ServiceCode': serviceCode,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListServiceQuotasRequest(
+        serviceCode: serviceCode,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListServiceQuotasResponse.fromJson(jsonResponse.body);
@@ -1079,10 +1078,10 @@ class ServiceQuotas {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListServicesRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListServicesResponse.fromJson(jsonResponse.body);
@@ -1185,12 +1184,12 @@ class ServiceQuotas {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AwsRegion': awsRegion,
-        'DesiredValue': desiredValue,
-        'QuotaCode': quotaCode,
-        'ServiceCode': serviceCode,
-      },
+      payload: PutServiceQuotaIncreaseRequestIntoTemplateRequest(
+        awsRegion: awsRegion,
+        desiredValue: desiredValue,
+        quotaCode: quotaCode,
+        serviceCode: serviceCode,
+      ),
     );
 
     return PutServiceQuotaIncreaseRequestIntoTemplateResponse.fromJson(
@@ -1270,11 +1269,11 @@ class ServiceQuotas {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DesiredValue': desiredValue,
-        'QuotaCode': quotaCode,
-        'ServiceCode': serviceCode,
-      },
+      payload: RequestServiceQuotaIncreaseRequest(
+        desiredValue: desiredValue,
+        quotaCode: quotaCode,
+        serviceCode: serviceCode,
+      ),
     );
 
     return RequestServiceQuotaIncreaseResponse.fromJson(jsonResponse.body);
@@ -1291,6 +1290,33 @@ class AssociateServiceQuotaTemplateResponse {
   factory AssociateServiceQuotaTemplateResponse.fromJson(
           Map<String, dynamic> json) =>
       _$AssociateServiceQuotaTemplateResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteServiceQuotaIncreaseRequestFromTemplateRequest {
+  /// Specifies the AWS Region for the quota that you want to delete.
+  @_s.JsonKey(name: 'AwsRegion')
+  final String awsRegion;
+
+  /// Specifies the code for the quota that you want to delete.
+  @_s.JsonKey(name: 'QuotaCode')
+  final String quotaCode;
+
+  /// Specifies the code for the service that you want to delete.
+  @_s.JsonKey(name: 'ServiceCode')
+  final String serviceCode;
+
+  DeleteServiceQuotaIncreaseRequestFromTemplateRequest({
+    @_s.required this.awsRegion,
+    @_s.required this.quotaCode,
+    @_s.required this.serviceCode,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteServiceQuotaIncreaseRequestFromTemplateRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1367,6 +1393,28 @@ class ErrorReason {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetAWSDefaultServiceQuotaRequest {
+  /// Identifies the service quota you want to select.
+  @_s.JsonKey(name: 'QuotaCode')
+  final String quotaCode;
+
+  /// Specifies the service that you want to use.
+  @_s.JsonKey(name: 'ServiceCode')
+  final String serviceCode;
+
+  GetAWSDefaultServiceQuotaRequest({
+    @_s.required this.quotaCode,
+    @_s.required this.serviceCode,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetAWSDefaultServiceQuotaRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetAWSDefaultServiceQuotaResponse {
@@ -1408,6 +1456,23 @@ class GetAssociationForServiceQuotaTemplateResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetRequestedServiceQuotaChangeRequest {
+  /// Identifies the quota increase request.
+  @_s.JsonKey(name: 'RequestId')
+  final String requestId;
+
+  GetRequestedServiceQuotaChangeRequest({
+    @_s.required this.requestId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetRequestedServiceQuotaChangeRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetRequestedServiceQuotaChangeResponse {
@@ -1422,6 +1487,33 @@ class GetRequestedServiceQuotaChangeResponse {
   factory GetRequestedServiceQuotaChangeResponse.fromJson(
           Map<String, dynamic> json) =>
       _$GetRequestedServiceQuotaChangeResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetServiceQuotaIncreaseRequestFromTemplateRequest {
+  /// Specifies the AWS Region for the quota that you want to use.
+  @_s.JsonKey(name: 'AwsRegion')
+  final String awsRegion;
+
+  /// Specifies the quota you want.
+  @_s.JsonKey(name: 'QuotaCode')
+  final String quotaCode;
+
+  /// Specifies the service that you want to use.
+  @_s.JsonKey(name: 'ServiceCode')
+  final String serviceCode;
+
+  GetServiceQuotaIncreaseRequestFromTemplateRequest({
+    @_s.required this.awsRegion,
+    @_s.required this.quotaCode,
+    @_s.required this.serviceCode,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetServiceQuotaIncreaseRequestFromTemplateRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1446,6 +1538,27 @@ class GetServiceQuotaIncreaseRequestFromTemplateResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetServiceQuotaRequest {
+  /// Identifies the service quota you want to select.
+  @_s.JsonKey(name: 'QuotaCode')
+  final String quotaCode;
+
+  /// Specifies the service that you want to use.
+  @_s.JsonKey(name: 'ServiceCode')
+  final String serviceCode;
+
+  GetServiceQuotaRequest({
+    @_s.required this.quotaCode,
+    @_s.required this.serviceCode,
+  });
+  Map<String, dynamic> toJson() => _$GetServiceQuotaRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetServiceQuotaResponse {
@@ -1459,6 +1572,49 @@ class GetServiceQuotaResponse {
   });
   factory GetServiceQuotaResponse.fromJson(Map<String, dynamic> json) =>
       _$GetServiceQuotaResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListAWSDefaultServiceQuotasRequest {
+  /// Specifies the service that you want to use.
+  @_s.JsonKey(name: 'ServiceCode')
+  final String serviceCode;
+
+  /// (Optional) Limits the number of results that you want to include in the
+  /// response. If you don't include this parameter, the response defaults to a
+  /// value that's specific to the operation. If additional items exist beyond the
+  /// specified maximum, the <code>NextToken</code> element is present and has a
+  /// value (isn't null). Include that value as the <code>NextToken</code> request
+  /// parameter in the call to the operation to get the next part of the results.
+  /// You should check <code>NextToken</code> after every operation to ensure that
+  /// you receive all of the results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// (Optional) Use this parameter in a request if you receive a
+  /// <code>NextToken</code> response in a previous request that indicates that
+  /// there's more output available. In a subsequent call, set it to the value of
+  /// the previous call's <code>NextToken</code> response to indicate where the
+  /// output should continue from. If additional items exist beyond the specified
+  /// maximum, the <code>NextToken</code> element is present and has a value
+  /// (isn't null). Include that value as the <code>NextToken</code> request
+  /// parameter in the call to the operation to get the next part of the results.
+  /// You should check <code>NextToken</code> after every operation to ensure that
+  /// you receive all of the results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListAWSDefaultServiceQuotasRequest({
+    @_s.required this.serviceCode,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListAWSDefaultServiceQuotasRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1486,6 +1642,54 @@ class ListAWSDefaultServiceQuotasResponse {
   factory ListAWSDefaultServiceQuotasResponse.fromJson(
           Map<String, dynamic> json) =>
       _$ListAWSDefaultServiceQuotasResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListRequestedServiceQuotaChangeHistoryByQuotaRequest {
+  /// Specifies the service quota that you want to use
+  @_s.JsonKey(name: 'QuotaCode')
+  final String quotaCode;
+
+  /// Specifies the service that you want to use.
+  @_s.JsonKey(name: 'ServiceCode')
+  final String serviceCode;
+
+  /// (Optional) Limits the number of results that you want to include in the
+  /// response. If you don't include this parameter, the response defaults to a
+  /// value that's specific to the operation. If additional items exist beyond the
+  /// specified maximum, the <code>NextToken</code> element is present and has a
+  /// value (isn't null). Include that value as the <code>NextToken</code> request
+  /// parameter in the call to the operation to get the next part of the results.
+  /// You should check <code>NextToken</code> after every operation to ensure that
+  /// you receive all of the results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// (Optional) Use this parameter in a request if you receive a
+  /// <code>NextToken</code> response in a previous request that indicates that
+  /// there's more output available. In a subsequent call, set it to the value of
+  /// the previous call's <code>NextToken</code> response to indicate where the
+  /// output should continue from.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Specifies the status value of the quota increase request.
+  @_s.JsonKey(name: 'Status')
+  final RequestStatus status;
+
+  ListRequestedServiceQuotaChangeHistoryByQuotaRequest({
+    @_s.required this.quotaCode,
+    @_s.required this.serviceCode,
+    this.maxResults,
+    this.nextToken,
+    this.status,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListRequestedServiceQuotaChangeHistoryByQuotaRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1521,6 +1725,49 @@ class ListRequestedServiceQuotaChangeHistoryByQuotaResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListRequestedServiceQuotaChangeHistoryRequest {
+  /// (Optional) Limits the number of results that you want to include in the
+  /// response. If you don't include this parameter, the response defaults to a
+  /// value that's specific to the operation. If additional items exist beyond the
+  /// specified maximum, the <code>NextToken</code> element is present and has a
+  /// value (isn't null). Include that value as the <code>NextToken</code> request
+  /// parameter in the call to the operation to get the next part of the results.
+  /// You should check <code>NextToken</code> after every operation to ensure that
+  /// you receive all of the results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// (Optional) Use this parameter in a request if you receive a
+  /// <code>NextToken</code> response in a previous request that indicates that
+  /// there's more output available. In a subsequent call, set it to the value of
+  /// the previous call's <code>NextToken</code> response to indicate where the
+  /// output should continue from.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Specifies the service that you want to use.
+  @_s.JsonKey(name: 'ServiceCode')
+  final String serviceCode;
+
+  /// Specifies the status value of the quota increase request.
+  @_s.JsonKey(name: 'Status')
+  final RequestStatus status;
+
+  ListRequestedServiceQuotaChangeHistoryRequest({
+    this.maxResults,
+    this.nextToken,
+    this.serviceCode,
+    this.status,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListRequestedServiceQuotaChangeHistoryRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListRequestedServiceQuotaChangeHistoryResponse {
@@ -1546,6 +1793,50 @@ class ListRequestedServiceQuotaChangeHistoryResponse {
   factory ListRequestedServiceQuotaChangeHistoryResponse.fromJson(
           Map<String, dynamic> json) =>
       _$ListRequestedServiceQuotaChangeHistoryResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListServiceQuotaIncreaseRequestsInTemplateRequest {
+  /// Specifies the AWS Region for the quota that you want to use.
+  @_s.JsonKey(name: 'AwsRegion')
+  final String awsRegion;
+
+  /// (Optional) Limits the number of results that you want to include in the
+  /// response. If you don't include this parameter, the response defaults to a
+  /// value that's specific to the operation. If additional items exist beyond the
+  /// specified maximum, the <code>NextToken</code> element is present and has a
+  /// value (isn't null). Include that value as the <code>NextToken</code> request
+  /// parameter in the call to the operation to get the next part of the results.
+  /// You should check <code>NextToken</code> after every operation to ensure that
+  /// you receive all of the results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// (Optional) Use this parameter in a request if you receive a
+  /// <code>NextToken</code> response in a previous request that indicates that
+  /// there's more output available. In a subsequent call, set it to the value of
+  /// the previous call's <code>NextToken</code> response to indicate where the
+  /// output should continue from.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The identifier for a service. When performing an operation, use the
+  /// <code>ServiceCode</code> to specify a particular service.
+  @_s.JsonKey(name: 'ServiceCode')
+  final String serviceCode;
+
+  ListServiceQuotaIncreaseRequestsInTemplateRequest({
+    this.awsRegion,
+    this.maxResults,
+    this.nextToken,
+    this.serviceCode,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListServiceQuotaIncreaseRequestsInTemplateRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1582,6 +1873,44 @@ class ListServiceQuotaIncreaseRequestsInTemplateResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListServiceQuotasRequest {
+  /// The identifier for a service. When performing an operation, use the
+  /// <code>ServiceCode</code> to specify a particular service.
+  @_s.JsonKey(name: 'ServiceCode')
+  final String serviceCode;
+
+  /// (Optional) Limits the number of results that you want to include in the
+  /// response. If you don't include this parameter, the response defaults to a
+  /// value that's specific to the operation. If additional items exist beyond the
+  /// specified maximum, the <code>NextToken</code> element is present and has a
+  /// value (isn't null). Include that value as the <code>NextToken</code> request
+  /// parameter in the call to the operation to get the next part of the results.
+  /// You should check <code>NextToken</code> after every operation to ensure that
+  /// you receive all of the results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// (Optional) Use this parameter in a request if you receive a
+  /// <code>NextToken</code> response in a previous request that indicates that
+  /// there's more output available. In a subsequent call, set it to the value of
+  /// the previous call's <code>NextToken</code> response to indicate where the
+  /// output should continue from.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListServiceQuotasRequest({
+    @_s.required this.serviceCode,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListServiceQuotasRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListServiceQuotasResponse {
@@ -1607,6 +1936,38 @@ class ListServiceQuotasResponse {
   });
   factory ListServiceQuotasResponse.fromJson(Map<String, dynamic> json) =>
       _$ListServiceQuotasResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListServicesRequest {
+  /// (Optional) Limits the number of results that you want to include in the
+  /// response. If you don't include this parameter, the response defaults to a
+  /// value that's specific to the operation. If additional items exist beyond the
+  /// specified maximum, the <code>NextToken</code> element is present and has a
+  /// value (isn't null). Include that value as the <code>NextToken</code> request
+  /// parameter in the call to the operation to get the next part of the results.
+  /// You should check <code>NextToken</code> after every operation to ensure that
+  /// you receive all of the results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// (Optional) Use this parameter in a request if you receive a
+  /// <code>NextToken</code> response in a previous request that indicates that
+  /// there's more output available. In a subsequent call, set it to the value of
+  /// the previous call's <code>NextToken</code> response to indicate where the
+  /// output should continue from.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListServicesRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListServicesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1700,6 +2061,38 @@ enum PeriodUnit {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutServiceQuotaIncreaseRequestIntoTemplateRequest {
+  /// Specifies the AWS Region for the quota.
+  @_s.JsonKey(name: 'AwsRegion')
+  final String awsRegion;
+
+  /// Specifies the new, increased value for the quota.
+  @_s.JsonKey(name: 'DesiredValue')
+  final double desiredValue;
+
+  /// Specifies the service quota that you want to use.
+  @_s.JsonKey(name: 'QuotaCode')
+  final String quotaCode;
+
+  /// Specifies the service that you want to use.
+  @_s.JsonKey(name: 'ServiceCode')
+  final String serviceCode;
+
+  PutServiceQuotaIncreaseRequestIntoTemplateRequest({
+    @_s.required this.awsRegion,
+    @_s.required this.desiredValue,
+    @_s.required this.quotaCode,
+    @_s.required this.serviceCode,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutServiceQuotaIncreaseRequestIntoTemplateRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutServiceQuotaIncreaseRequestIntoTemplateResponse {
@@ -1743,6 +2136,33 @@ class QuotaPeriod {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RequestServiceQuotaIncreaseRequest {
+  /// Specifies the value submitted in the service quota increase request.
+  @_s.JsonKey(name: 'DesiredValue')
+  final double desiredValue;
+
+  /// Specifies the service quota that you want to use.
+  @_s.JsonKey(name: 'QuotaCode')
+  final String quotaCode;
+
+  /// Specifies the service that you want to use.
+  @_s.JsonKey(name: 'ServiceCode')
+  final String serviceCode;
+
+  RequestServiceQuotaIncreaseRequest({
+    @_s.required this.desiredValue,
+    @_s.required this.quotaCode,
+    @_s.required this.serviceCode,
+  });
+  Map<String, dynamic> toJson() =>
+      _$RequestServiceQuotaIncreaseRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class RequestServiceQuotaIncreaseResponse {
@@ -1769,24 +2189,6 @@ enum RequestStatus {
   denied,
   @_s.JsonValue('CASE_CLOSED')
   caseClosed,
-}
-
-extension on RequestStatus {
-  String toValue() {
-    switch (this) {
-      case RequestStatus.pending:
-        return 'PENDING';
-      case RequestStatus.caseOpened:
-        return 'CASE_OPENED';
-      case RequestStatus.approved:
-        return 'APPROVED';
-      case RequestStatus.denied:
-        return 'DENIED';
-      case RequestStatus.caseClosed:
-        return 'CASE_CLOSED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// A structure that contains information about a requested change for a quota.

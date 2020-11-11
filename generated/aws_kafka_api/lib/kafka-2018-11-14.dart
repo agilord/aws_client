@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -142,21 +141,19 @@ class Kafka {
       15,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'BrokerNodeGroupInfo': brokerNodeGroupInfo,
-      'ClusterName': clusterName,
-      'KafkaVersion': kafkaVersion,
-      'NumberOfBrokerNodes': numberOfBrokerNodes,
-      if (clientAuthentication != null)
-        'ClientAuthentication': clientAuthentication,
-      if (configurationInfo != null) 'ConfigurationInfo': configurationInfo,
-      if (encryptionInfo != null) 'EncryptionInfo': encryptionInfo,
-      if (enhancedMonitoring != null)
-        'EnhancedMonitoring': enhancedMonitoring?.toValue(),
-      if (loggingInfo != null) 'LoggingInfo': loggingInfo,
-      if (openMonitoring != null) 'OpenMonitoring': openMonitoring,
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = CreateClusterRequest(
+      brokerNodeGroupInfo: brokerNodeGroupInfo,
+      clusterName: clusterName,
+      kafkaVersion: kafkaVersion,
+      numberOfBrokerNodes: numberOfBrokerNodes,
+      clientAuthentication: clientAuthentication,
+      configurationInfo: configurationInfo,
+      encryptionInfo: encryptionInfo,
+      enhancedMonitoring: enhancedMonitoring,
+      loggingInfo: loggingInfo,
+      openMonitoring: openMonitoring,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -210,12 +207,12 @@ class Kafka {
     ArgumentError.checkNotNull(kafkaVersions, 'kafkaVersions');
     ArgumentError.checkNotNull(name, 'name');
     ArgumentError.checkNotNull(serverProperties, 'serverProperties');
-    final $payload = <String, dynamic>{
-      'KafkaVersions': kafkaVersions,
-      'Name': name,
-      'ServerProperties': serverProperties?.let(base64Encode),
-      if (description != null) 'Description': description,
-    };
+    final $payload = CreateConfigurationRequest(
+      kafkaVersions: kafkaVersions,
+      name: name,
+      serverProperties: serverProperties,
+      description: description,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -254,7 +251,10 @@ class Kafka {
       if (currentVersion != null)
         _s.toQueryParam('currentVersion', currentVersion),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteClusterRequest(
+      clusterArn: clusterArn,
+      currentVersion: currentVersion,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -772,9 +772,10 @@ class Kafka {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'Tags': tags,
-    };
+    final $payload = TagResourceRequest(
+      resourceArn: resourceArn,
+      tags: tags,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -847,7 +848,10 @@ class Kafka {
     _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = UntagResourceRequest(
+      resourceArn: resourceArn,
+      tagKeys: tagKeys,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -899,10 +903,11 @@ class Kafka {
       15,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'CurrentVersion': currentVersion,
-      'TargetNumberOfBrokerNodes': targetNumberOfBrokerNodes,
-    };
+    final $payload = UpdateBrokerCountRequest(
+      clusterArn: clusterArn,
+      currentVersion: currentVersion,
+      targetNumberOfBrokerNodes: targetNumberOfBrokerNodes,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -948,10 +953,11 @@ class Kafka {
     ArgumentError.checkNotNull(currentVersion, 'currentVersion');
     ArgumentError.checkNotNull(
         targetBrokerEBSVolumeInfo, 'targetBrokerEBSVolumeInfo');
-    final $payload = <String, dynamic>{
-      'CurrentVersion': currentVersion,
-      'TargetBrokerEBSVolumeInfo': targetBrokerEBSVolumeInfo,
-    };
+    final $payload = UpdateBrokerStorageRequest(
+      clusterArn: clusterArn,
+      currentVersion: currentVersion,
+      targetBrokerEBSVolumeInfo: targetBrokerEBSVolumeInfo,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -997,10 +1003,11 @@ class Kafka {
     ArgumentError.checkNotNull(clusterArn, 'clusterArn');
     ArgumentError.checkNotNull(configurationInfo, 'configurationInfo');
     ArgumentError.checkNotNull(currentVersion, 'currentVersion');
-    final $payload = <String, dynamic>{
-      'ConfigurationInfo': configurationInfo,
-      'CurrentVersion': currentVersion,
-    };
+    final $payload = UpdateClusterConfigurationRequest(
+      clusterArn: clusterArn,
+      configurationInfo: configurationInfo,
+      currentVersion: currentVersion,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1055,13 +1062,13 @@ class Kafka {
   }) async {
     ArgumentError.checkNotNull(clusterArn, 'clusterArn');
     ArgumentError.checkNotNull(currentVersion, 'currentVersion');
-    final $payload = <String, dynamic>{
-      'CurrentVersion': currentVersion,
-      if (enhancedMonitoring != null)
-        'EnhancedMonitoring': enhancedMonitoring?.toValue(),
-      if (loggingInfo != null) 'LoggingInfo': loggingInfo,
-      if (openMonitoring != null) 'OpenMonitoring': openMonitoring,
-    };
+    final $payload = UpdateMonitoringRequest(
+      clusterArn: clusterArn,
+      currentVersion: currentVersion,
+      enhancedMonitoring: enhancedMonitoring,
+      loggingInfo: loggingInfo,
+      openMonitoring: openMonitoring,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1732,6 +1739,92 @@ class ConfigurationRevision {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateClusterRequest {
+  ///
+  /// Information about the broker nodes in the cluster.
+  ///
+  @_s.JsonKey(name: 'brokerNodeGroupInfo')
+  final BrokerNodeGroupInfo brokerNodeGroupInfo;
+
+  ///
+  /// The name of the cluster.
+  ///
+  @_s.JsonKey(name: 'clusterName')
+  final String clusterName;
+
+  ///
+  /// The version of Apache Kafka.
+  ///
+  @_s.JsonKey(name: 'kafkaVersion')
+  final String kafkaVersion;
+
+  ///
+  /// The number of broker nodes in the cluster.
+  ///
+  @_s.JsonKey(name: 'numberOfBrokerNodes')
+  final int numberOfBrokerNodes;
+
+  ///
+  /// Includes all client authentication related information.
+  ///
+  @_s.JsonKey(name: 'clientAuthentication')
+  final ClientAuthentication clientAuthentication;
+
+  ///
+  /// Represents the configuration that you want MSK to use for the brokers in a
+  /// cluster.
+  ///
+  @_s.JsonKey(name: 'configurationInfo')
+  final ConfigurationInfo configurationInfo;
+
+  ///
+  /// Includes all encryption-related information.
+  ///
+  @_s.JsonKey(name: 'encryptionInfo')
+  final EncryptionInfo encryptionInfo;
+
+  ///
+  /// Specifies the level of monitoring for the MSK cluster. The possible values
+  /// are DEFAULT, PER_BROKER, and PER_TOPIC_PER_BROKER.
+  ///
+  @_s.JsonKey(name: 'enhancedMonitoring')
+  final EnhancedMonitoring enhancedMonitoring;
+  @_s.JsonKey(name: 'loggingInfo')
+  final LoggingInfo loggingInfo;
+
+  ///
+  /// The settings for open monitoring.
+  ///
+  @_s.JsonKey(name: 'openMonitoring')
+  final OpenMonitoringInfo openMonitoring;
+
+  ///
+  /// Create tags when creating the cluster.
+  ///
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateClusterRequest({
+    @_s.required this.brokerNodeGroupInfo,
+    @_s.required this.clusterName,
+    @_s.required this.kafkaVersion,
+    @_s.required this.numberOfBrokerNodes,
+    this.clientAuthentication,
+    this.configurationInfo,
+    this.encryptionInfo,
+    this.enhancedMonitoring,
+    this.loggingInfo,
+    this.openMonitoring,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateClusterRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateClusterResponse {
@@ -1761,6 +1854,49 @@ class CreateClusterResponse {
   });
   factory CreateClusterResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateClusterResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateConfigurationRequest {
+  ///
+  /// The versions of Apache Kafka with which you can use this MSK configuration.
+  ///
+  @_s.JsonKey(name: 'kafkaVersions')
+  final List<String> kafkaVersions;
+
+  ///
+  /// The name of the configuration.
+  ///
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  ///
+  /// Contents of the <filename>server.properties</filename> file. When using the
+  /// API, you must ensure that the contents of the file are base64 encoded.
+  /// When using the AWS Management Console, the SDK, or the AWS CLI, the contents
+  /// of <filename>server.properties</filename> can be in plaintext.
+  ///
+  @Uint8ListConverter()
+  @_s.JsonKey(name: 'serverProperties')
+  final Uint8List serverProperties;
+
+  ///
+  /// The description of the configuration.
+  ///
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  CreateConfigurationRequest({
+    @_s.required this.kafkaVersions,
+    @_s.required this.name,
+    @_s.required this.serverProperties,
+    this.description,
+  });
+  Map<String, dynamic> toJson() => _$CreateConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1802,6 +1938,31 @@ class CreateConfigurationResponse {
   });
   factory CreateConfigurationResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateConfigurationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteClusterRequest {
+  ///
+  /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+  ///
+  @_s.JsonKey(name: 'clusterArn', ignore: true)
+  final String clusterArn;
+
+  ///
+  /// The current version of the MSK cluster.
+  ///
+  @_s.JsonKey(name: 'currentVersion', ignore: true)
+  final String currentVersion;
+
+  DeleteClusterRequest({
+    @_s.required this.clusterArn,
+    this.currentVersion,
+  });
+  Map<String, dynamic> toJson() => _$DeleteClusterRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2129,20 +2290,6 @@ enum EnhancedMonitoring {
   perBroker,
   @_s.JsonValue('PER_TOPIC_PER_BROKER')
   perTopicPerBroker,
-}
-
-extension on EnhancedMonitoring {
-  String toValue() {
-    switch (this) {
-      case EnhancedMonitoring.$default:
-        return 'DEFAULT';
-      case EnhancedMonitoring.perBroker:
-        return 'PER_BROKER';
-      case EnhancedMonitoring.perTopicPerBroker:
-        return 'PER_TOPIC_PER_BROKER';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 ///
@@ -2814,6 +2961,32 @@ class StorageInfo {
   Map<String, dynamic> toJson() => _$StorageInfoToJson(this);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  ///
+  /// The Amazon Resource Name (ARN) that uniquely identifies the resource that's
+  /// associated with the tags.
+  ///
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  ///
+  /// The key-value pair for the resource tag.
+  ///
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
 ///
 /// Details for client authentication using TLS.
 ///
@@ -2835,6 +3008,100 @@ class Tls {
   factory Tls.fromJson(Map<String, dynamic> json) => _$TlsFromJson(json);
 
   Map<String, dynamic> toJson() => _$TlsToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  ///
+  /// The Amazon Resource Name (ARN) that uniquely identifies the resource that's
+  /// associated with the tags.
+  ///
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  ///
+  /// Tag keys must be unique for a given cluster. In addition, the following
+  /// restrictions apply:
+  ///
+  ///
+  /// <ul>
+  ///
+  /// <li>
+  ///
+  /// Each tag key must be unique. If you add a tag with a key that's already in
+  /// use, your new tag overwrites the existing key-value pair.
+  ///
+  /// </li>
+  ///
+  /// <li>
+  ///
+  /// You can't start a tag key with aws: because this prefix is reserved for use
+  /// by  AWS.  AWS creates tags that begin with this prefix on your behalf, but
+  /// you can't edit or delete them.
+  ///
+  /// </li>
+  ///
+  /// <li>
+  ///
+  /// Tag keys must be between 1 and 128 Unicode characters in length.
+  ///
+  /// </li>
+  ///
+  /// <li>
+  ///
+  /// Tag keys must consist of the following characters: Unicode letters, digits,
+  /// white space, and the following special characters: _ . / = + -
+  /// @.
+  ///
+  /// </li>
+  ///
+  /// </ul>
+  @_s.JsonKey(name: 'tagKeys', ignore: true)
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateBrokerCountRequest {
+  ///
+  /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+  ///
+  @_s.JsonKey(name: 'clusterArn', ignore: true)
+  final String clusterArn;
+
+  ///
+  /// The version of cluster to update from. A successful operation will then
+  /// generate a new version.
+  ///
+  @_s.JsonKey(name: 'currentVersion')
+  final String currentVersion;
+
+  ///
+  /// The number of broker nodes that you want the cluster to have after this
+  /// operation completes successfully.
+  ///
+  @_s.JsonKey(name: 'targetNumberOfBrokerNodes')
+  final int targetNumberOfBrokerNodes;
+
+  UpdateBrokerCountRequest({
+    @_s.required this.clusterArn,
+    @_s.required this.currentVersion,
+    @_s.required this.targetNumberOfBrokerNodes,
+  });
+  Map<String, dynamic> toJson() => _$UpdateBrokerCountRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2866,6 +3133,40 @@ class UpdateBrokerCountResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateBrokerStorageRequest {
+  ///
+  /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+  ///
+  @_s.JsonKey(name: 'clusterArn', ignore: true)
+  final String clusterArn;
+
+  ///
+  /// The version of cluster to update from. A successful operation will then
+  /// generate a new version.
+  ///
+  @_s.JsonKey(name: 'currentVersion')
+  final String currentVersion;
+
+  ///
+  /// Describes the target volume size and the ID of the broker to apply the
+  /// update to.
+  ///
+  @_s.JsonKey(name: 'targetBrokerEBSVolumeInfo')
+  final List<BrokerEBSVolumeInfo> targetBrokerEBSVolumeInfo;
+
+  UpdateBrokerStorageRequest({
+    @_s.required this.clusterArn,
+    @_s.required this.currentVersion,
+    @_s.required this.targetBrokerEBSVolumeInfo,
+  });
+  Map<String, dynamic> toJson() => _$UpdateBrokerStorageRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateBrokerStorageResponse {
@@ -2887,6 +3188,40 @@ class UpdateBrokerStorageResponse {
   });
   factory UpdateBrokerStorageResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateBrokerStorageResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateClusterConfigurationRequest {
+  ///
+  /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+  ///
+  @_s.JsonKey(name: 'clusterArn', ignore: true)
+  final String clusterArn;
+
+  ///
+  /// Represents the configuration that you want MSK to use for the brokers in a
+  /// cluster.
+  ///
+  @_s.JsonKey(name: 'configurationInfo')
+  final ConfigurationInfo configurationInfo;
+
+  ///
+  /// The version of the cluster that needs to be updated.
+  ///
+  @_s.JsonKey(name: 'currentVersion')
+  final String currentVersion;
+
+  UpdateClusterConfigurationRequest({
+    @_s.required this.clusterArn,
+    @_s.required this.configurationInfo,
+    @_s.required this.currentVersion,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateClusterConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2914,6 +3249,52 @@ class UpdateClusterConfigurationResponse {
   factory UpdateClusterConfigurationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$UpdateClusterConfigurationResponseFromJson(json);
+}
+
+/// Request body for UpdateMonitoring.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateMonitoringRequest {
+  ///
+  /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+  ///
+  @_s.JsonKey(name: 'clusterArn', ignore: true)
+  final String clusterArn;
+
+  ///
+  /// The version of the MSK cluster to update. Cluster versions aren't simple
+  /// numbers. You can describe an MSK cluster to find its version. When this
+  /// update operation is successful, it generates a new cluster version.
+  ///
+  @_s.JsonKey(name: 'currentVersion')
+  final String currentVersion;
+
+  ///
+  /// Specifies which Apache Kafka metrics Amazon MSK gathers and sends to Amazon
+  /// CloudWatch for this cluster.
+  ///
+  @_s.JsonKey(name: 'enhancedMonitoring')
+  final EnhancedMonitoring enhancedMonitoring;
+  @_s.JsonKey(name: 'loggingInfo')
+  final LoggingInfo loggingInfo;
+
+  ///
+  /// The settings for open monitoring.
+  ///
+  @_s.JsonKey(name: 'openMonitoring')
+  final OpenMonitoringInfo openMonitoring;
+
+  UpdateMonitoringRequest({
+    @_s.required this.clusterArn,
+    @_s.required this.currentVersion,
+    this.enhancedMonitoring,
+    this.loggingInfo,
+    this.openMonitoring,
+  });
+  Map<String, dynamic> toJson() => _$UpdateMonitoringRequestToJson(this);
 }
 
 @_s.JsonSerializable(

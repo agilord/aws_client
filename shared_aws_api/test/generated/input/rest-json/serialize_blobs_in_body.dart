@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -20,6 +19,8 @@ import 'package:shared_aws_api/shared.dart'
         unixTimestampToJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
+
+part 'serialize_blobs_in_body.g.dart';
 
 /// Serialize blobs in body
 class SerializeBlobsInBody {
@@ -42,9 +43,10 @@ class SerializeBlobsInBody {
     Uint8List bar,
   }) async {
     ArgumentError.checkNotNull(foo, 'foo');
-    final $payload = <String, dynamic>{
-      if (bar != null) 'Bar': bar.let(base64Encode),
-    };
+    final $payload = InputShape(
+      foo: foo,
+      bar: bar,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -52,6 +54,25 @@ class SerializeBlobsInBody {
       exceptionFnMap: _exceptionFns,
     );
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class InputShape {
+  @_s.JsonKey(name: 'Foo', ignore: true)
+  final String foo;
+  @Uint8ListConverter()
+  @_s.JsonKey(name: 'Bar')
+  final Uint8List bar;
+
+  InputShape({
+    @_s.required this.foo,
+    this.bar,
+  });
+  Map<String, dynamic> toJson() => _$InputShapeToJson(this);
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

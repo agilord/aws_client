@@ -134,10 +134,45 @@ Map<String, dynamic> _$ContentToJson(Content instance) {
   return val;
 }
 
+Map<String, dynamic> _$CreateConfigurationSetEventDestinationRequestToJson(
+    CreateConfigurationSetEventDestinationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EventDestination', instance.eventDestination?.toJson());
+  writeNotNull('EventDestinationName', instance.eventDestinationName);
+  return val;
+}
+
 CreateConfigurationSetEventDestinationResponse
     _$CreateConfigurationSetEventDestinationResponseFromJson(
         Map<String, dynamic> json) {
   return CreateConfigurationSetEventDestinationResponse();
+}
+
+Map<String, dynamic> _$CreateConfigurationSetRequestToJson(
+    CreateConfigurationSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConfigurationSetName', instance.configurationSetName);
+  writeNotNull('DeliveryOptions', instance.deliveryOptions?.toJson());
+  writeNotNull('ReputationOptions', instance.reputationOptions?.toJson());
+  writeNotNull('SendingOptions', instance.sendingOptions?.toJson());
+  writeNotNull('SuppressionOptions', instance.suppressionOptions?.toJson());
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('TrackingOptions', instance.trackingOptions?.toJson());
+  return val;
 }
 
 CreateConfigurationSetResponse _$CreateConfigurationSetResponseFromJson(
@@ -145,9 +180,41 @@ CreateConfigurationSetResponse _$CreateConfigurationSetResponseFromJson(
   return CreateConfigurationSetResponse();
 }
 
+Map<String, dynamic> _$CreateDedicatedIpPoolRequestToJson(
+    CreateDedicatedIpPoolRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('PoolName', instance.poolName);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateDedicatedIpPoolResponse _$CreateDedicatedIpPoolResponseFromJson(
     Map<String, dynamic> json) {
   return CreateDedicatedIpPoolResponse();
+}
+
+Map<String, dynamic> _$CreateDeliverabilityTestReportRequestToJson(
+    CreateDeliverabilityTestReportRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Content', instance.content?.toJson());
+  writeNotNull('FromEmailAddress', instance.fromEmailAddress);
+  writeNotNull('ReportName', instance.reportName);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateDeliverabilityTestReportResponse
@@ -164,6 +231,23 @@ const _$DeliverabilityTestStatusEnumMap = {
   DeliverabilityTestStatus.inProgress: 'IN_PROGRESS',
   DeliverabilityTestStatus.completed: 'COMPLETED',
 };
+
+Map<String, dynamic> _$CreateEmailIdentityRequestToJson(
+    CreateEmailIdentityRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EmailIdentity', instance.emailIdentity);
+  writeNotNull(
+      'DkimSigningAttributes', instance.dkimSigningAttributes?.toJson());
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
 
 CreateEmailIdentityResponse _$CreateEmailIdentityResponseFromJson(
     Map<String, dynamic> json) {
@@ -214,26 +298,46 @@ const _$WarmupStatusEnumMap = {
   WarmupStatus.done: 'DONE',
 };
 
+Map<String, dynamic> _$DeleteConfigurationSetEventDestinationRequestToJson(
+        DeleteConfigurationSetEventDestinationRequest instance) =>
+    <String, dynamic>{};
+
 DeleteConfigurationSetEventDestinationResponse
     _$DeleteConfigurationSetEventDestinationResponseFromJson(
         Map<String, dynamic> json) {
   return DeleteConfigurationSetEventDestinationResponse();
 }
 
+Map<String, dynamic> _$DeleteConfigurationSetRequestToJson(
+        DeleteConfigurationSetRequest instance) =>
+    <String, dynamic>{};
+
 DeleteConfigurationSetResponse _$DeleteConfigurationSetResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteConfigurationSetResponse();
 }
+
+Map<String, dynamic> _$DeleteDedicatedIpPoolRequestToJson(
+        DeleteDedicatedIpPoolRequest instance) =>
+    <String, dynamic>{};
 
 DeleteDedicatedIpPoolResponse _$DeleteDedicatedIpPoolResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteDedicatedIpPoolResponse();
 }
 
+Map<String, dynamic> _$DeleteEmailIdentityRequestToJson(
+        DeleteEmailIdentityRequest instance) =>
+    <String, dynamic>{};
+
 DeleteEmailIdentityResponse _$DeleteEmailIdentityResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteEmailIdentityResponse();
 }
+
+Map<String, dynamic> _$DeleteSuppressedDestinationRequestToJson(
+        DeleteSuppressedDestinationRequest instance) =>
+    <String, dynamic>{};
 
 DeleteSuppressedDestinationResponse
     _$DeleteSuppressedDestinationResponseFromJson(Map<String, dynamic> json) {
@@ -891,15 +995,57 @@ PlacementStatistics _$PlacementStatisticsFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$PutAccountDedicatedIpWarmupAttributesRequestToJson(
+    PutAccountDedicatedIpWarmupAttributesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AutoWarmupEnabled', instance.autoWarmupEnabled);
+  return val;
+}
+
 PutAccountDedicatedIpWarmupAttributesResponse
     _$PutAccountDedicatedIpWarmupAttributesResponseFromJson(
         Map<String, dynamic> json) {
   return PutAccountDedicatedIpWarmupAttributesResponse();
 }
 
+Map<String, dynamic> _$PutAccountSendingAttributesRequestToJson(
+    PutAccountSendingAttributesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SendingEnabled', instance.sendingEnabled);
+  return val;
+}
+
 PutAccountSendingAttributesResponse
     _$PutAccountSendingAttributesResponseFromJson(Map<String, dynamic> json) {
   return PutAccountSendingAttributesResponse();
+}
+
+Map<String, dynamic> _$PutAccountSuppressionAttributesRequestToJson(
+    PutAccountSuppressionAttributesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SuppressedReasons', instance.suppressedReasons);
+  return val;
 }
 
 PutAccountSuppressionAttributesResponse
@@ -908,10 +1054,39 @@ PutAccountSuppressionAttributesResponse
   return PutAccountSuppressionAttributesResponse();
 }
 
+Map<String, dynamic> _$PutConfigurationSetDeliveryOptionsRequestToJson(
+    PutConfigurationSetDeliveryOptionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SendingPoolName', instance.sendingPoolName);
+  writeNotNull('TlsPolicy', _$TlsPolicyEnumMap[instance.tlsPolicy]);
+  return val;
+}
+
 PutConfigurationSetDeliveryOptionsResponse
     _$PutConfigurationSetDeliveryOptionsResponseFromJson(
         Map<String, dynamic> json) {
   return PutConfigurationSetDeliveryOptionsResponse();
+}
+
+Map<String, dynamic> _$PutConfigurationSetReputationOptionsRequestToJson(
+    PutConfigurationSetReputationOptionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ReputationMetricsEnabled', instance.reputationMetricsEnabled);
+  return val;
 }
 
 PutConfigurationSetReputationOptionsResponse
@@ -920,10 +1095,38 @@ PutConfigurationSetReputationOptionsResponse
   return PutConfigurationSetReputationOptionsResponse();
 }
 
+Map<String, dynamic> _$PutConfigurationSetSendingOptionsRequestToJson(
+    PutConfigurationSetSendingOptionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SendingEnabled', instance.sendingEnabled);
+  return val;
+}
+
 PutConfigurationSetSendingOptionsResponse
     _$PutConfigurationSetSendingOptionsResponseFromJson(
         Map<String, dynamic> json) {
   return PutConfigurationSetSendingOptionsResponse();
+}
+
+Map<String, dynamic> _$PutConfigurationSetSuppressionOptionsRequestToJson(
+    PutConfigurationSetSuppressionOptionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SuppressedReasons', instance.suppressedReasons);
+  return val;
 }
 
 PutConfigurationSetSuppressionOptionsResponse
@@ -932,15 +1135,57 @@ PutConfigurationSetSuppressionOptionsResponse
   return PutConfigurationSetSuppressionOptionsResponse();
 }
 
+Map<String, dynamic> _$PutConfigurationSetTrackingOptionsRequestToJson(
+    PutConfigurationSetTrackingOptionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CustomRedirectDomain', instance.customRedirectDomain);
+  return val;
+}
+
 PutConfigurationSetTrackingOptionsResponse
     _$PutConfigurationSetTrackingOptionsResponseFromJson(
         Map<String, dynamic> json) {
   return PutConfigurationSetTrackingOptionsResponse();
 }
 
+Map<String, dynamic> _$PutDedicatedIpInPoolRequestToJson(
+    PutDedicatedIpInPoolRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DestinationPoolName', instance.destinationPoolName);
+  return val;
+}
+
 PutDedicatedIpInPoolResponse _$PutDedicatedIpInPoolResponseFromJson(
     Map<String, dynamic> json) {
   return PutDedicatedIpInPoolResponse();
+}
+
+Map<String, dynamic> _$PutDedicatedIpWarmupAttributesRequestToJson(
+    PutDedicatedIpWarmupAttributesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('WarmupPercentage', instance.warmupPercentage);
+  return val;
 }
 
 PutDedicatedIpWarmupAttributesResponse
@@ -949,16 +1194,62 @@ PutDedicatedIpWarmupAttributesResponse
   return PutDedicatedIpWarmupAttributesResponse();
 }
 
+Map<String, dynamic> _$PutDeliverabilityDashboardOptionRequestToJson(
+    PutDeliverabilityDashboardOptionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DashboardEnabled', instance.dashboardEnabled);
+  writeNotNull('SubscribedDomains',
+      instance.subscribedDomains?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 PutDeliverabilityDashboardOptionResponse
     _$PutDeliverabilityDashboardOptionResponseFromJson(
         Map<String, dynamic> json) {
   return PutDeliverabilityDashboardOptionResponse();
 }
 
+Map<String, dynamic> _$PutEmailIdentityDkimAttributesRequestToJson(
+    PutEmailIdentityDkimAttributesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SigningEnabled', instance.signingEnabled);
+  return val;
+}
+
 PutEmailIdentityDkimAttributesResponse
     _$PutEmailIdentityDkimAttributesResponseFromJson(
         Map<String, dynamic> json) {
   return PutEmailIdentityDkimAttributesResponse();
+}
+
+Map<String, dynamic> _$PutEmailIdentityDkimSigningAttributesRequestToJson(
+    PutEmailIdentityDkimSigningAttributesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SigningAttributesOrigin',
+      _$DkimSigningAttributesOriginEnumMap[instance.signingAttributesOrigin]);
+  writeNotNull('SigningAttributes', instance.signingAttributes?.toJson());
+  return val;
 }
 
 PutEmailIdentityDkimSigningAttributesResponse
@@ -970,10 +1261,40 @@ PutEmailIdentityDkimSigningAttributesResponse
   );
 }
 
+Map<String, dynamic> _$PutEmailIdentityFeedbackAttributesRequestToJson(
+    PutEmailIdentityFeedbackAttributesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EmailForwardingEnabled', instance.emailForwardingEnabled);
+  return val;
+}
+
 PutEmailIdentityFeedbackAttributesResponse
     _$PutEmailIdentityFeedbackAttributesResponseFromJson(
         Map<String, dynamic> json) {
   return PutEmailIdentityFeedbackAttributesResponse();
+}
+
+Map<String, dynamic> _$PutEmailIdentityMailFromAttributesRequestToJson(
+    PutEmailIdentityMailFromAttributesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BehaviorOnMxFailure',
+      _$BehaviorOnMxFailureEnumMap[instance.behaviorOnMxFailure]);
+  writeNotNull('MailFromDomain', instance.mailFromDomain);
+  return val;
 }
 
 PutEmailIdentityMailFromAttributesResponse
@@ -981,6 +1302,26 @@ PutEmailIdentityMailFromAttributesResponse
         Map<String, dynamic> json) {
   return PutEmailIdentityMailFromAttributesResponse();
 }
+
+Map<String, dynamic> _$PutSuppressedDestinationRequestToJson(
+    PutSuppressedDestinationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EmailAddress', instance.emailAddress);
+  writeNotNull('Reason', _$SuppressionListReasonEnumMap[instance.reason]);
+  return val;
+}
+
+const _$SuppressionListReasonEnumMap = {
+  SuppressionListReason.bounce: 'BOUNCE',
+  SuppressionListReason.complaint: 'COMPLAINT',
+};
 
 PutSuppressedDestinationResponse _$PutSuppressedDestinationResponseFromJson(
     Map<String, dynamic> json) {
@@ -1018,6 +1359,27 @@ Map<String, dynamic> _$ReputationOptionsToJson(ReputationOptions instance) {
 
   writeNotNull('LastFreshStart', unixTimestampToJson(instance.lastFreshStart));
   writeNotNull('ReputationMetricsEnabled', instance.reputationMetricsEnabled);
+  return val;
+}
+
+Map<String, dynamic> _$SendEmailRequestToJson(SendEmailRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Content', instance.content?.toJson());
+  writeNotNull('Destination', instance.destination?.toJson());
+  writeNotNull('ConfigurationSetName', instance.configurationSetName);
+  writeNotNull(
+      'EmailTags', instance.emailTags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('FeedbackForwardingEmailAddress',
+      instance.feedbackForwardingEmailAddress);
+  writeNotNull('FromEmailAddress', instance.fromEmailAddress);
+  writeNotNull('ReplyToAddresses', instance.replyToAddresses);
   return val;
 }
 
@@ -1087,11 +1449,6 @@ SuppressedDestination _$SuppressedDestinationFromJson(
   );
 }
 
-const _$SuppressionListReasonEnumMap = {
-  SuppressionListReason.bounce: 'BOUNCE',
-  SuppressionListReason.complaint: 'COMPLAINT',
-};
-
 SuppressedDestinationAttributes _$SuppressedDestinationAttributesFromJson(
     Map<String, dynamic> json) {
   return SuppressedDestinationAttributes(
@@ -1159,6 +1516,20 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
   return val;
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
 }
@@ -1196,9 +1567,27 @@ Map<String, dynamic> _$TrackingOptionsToJson(TrackingOptions instance) {
   return val;
 }
 
+Map<String, dynamic> _$UntagResourceRequestToJson(
+        UntagResourceRequest instance) =>
+    <String, dynamic>{};
+
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse();
+}
+
+Map<String, dynamic> _$UpdateConfigurationSetEventDestinationRequestToJson(
+    UpdateConfigurationSetEventDestinationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EventDestination', instance.eventDestination?.toJson());
+  return val;
 }
 
 UpdateConfigurationSetEventDestinationResponse

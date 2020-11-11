@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -117,10 +116,10 @@ class CodeStarconnections {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConnectionName': connectionName,
-        'ProviderType': providerType?.toValue(),
-      },
+      payload: CreateConnectionInput(
+        connectionName: connectionName,
+        providerType: providerType,
+      ),
     );
 
     return CreateConnectionOutput.fromJson(jsonResponse.body);
@@ -163,9 +162,9 @@ class CodeStarconnections {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConnectionArn': connectionArn,
-      },
+      payload: DeleteConnectionInput(
+        connectionArn: connectionArn,
+      ),
     );
 
     return DeleteConnectionOutput.fromJson(jsonResponse.body);
@@ -206,9 +205,9 @@ class CodeStarconnections {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConnectionArn': connectionArn,
-      },
+      payload: GetConnectionInput(
+        connectionArn: connectionArn,
+      ),
     );
 
     return GetConnectionOutput.fromJson(jsonResponse.body);
@@ -261,12 +260,11 @@ class CodeStarconnections {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (providerTypeFilter != null)
-          'ProviderTypeFilter': providerTypeFilter?.toValue(),
-      },
+      payload: ListConnectionsInput(
+        maxResults: maxResults,
+        nextToken: nextToken,
+        providerTypeFilter: providerTypeFilter,
+      ),
     );
 
     return ListConnectionsOutput.fromJson(jsonResponse.body);
@@ -332,6 +330,29 @@ enum ConnectionStatus {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateConnectionInput {
+  /// The name of the connection to be created. The name must be unique in the
+  /// calling AWS account.
+  @_s.JsonKey(name: 'ConnectionName')
+  final String connectionName;
+
+  /// The name of the external provider where your third-party code repository is
+  /// configured. Currently, the valid provider type is Bitbucket.
+  @_s.JsonKey(name: 'ProviderType')
+  final ProviderType providerType;
+
+  CreateConnectionInput({
+    @_s.required this.connectionName,
+    @_s.required this.providerType,
+  });
+  Map<String, dynamic> toJson() => _$CreateConnectionInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateConnectionOutput {
@@ -354,12 +375,47 @@ class CreateConnectionOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteConnectionInput {
+  /// The Amazon Resource Name (ARN) of the connection to be deleted.
+  /// <note>
+  /// The ARN is never reused if the connection is deleted.
+  /// </note>
+  @_s.JsonKey(name: 'ConnectionArn')
+  final String connectionArn;
+
+  DeleteConnectionInput({
+    @_s.required this.connectionArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteConnectionInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteConnectionOutput {
   DeleteConnectionOutput();
   factory DeleteConnectionOutput.fromJson(Map<String, dynamic> json) =>
       _$DeleteConnectionOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetConnectionInput {
+  /// The Amazon Resource Name (ARN) of a connection.
+  @_s.JsonKey(name: 'ConnectionArn')
+  final String connectionArn;
+
+  GetConnectionInput({
+    @_s.required this.connectionArn,
+  });
+  Map<String, dynamic> toJson() => _$GetConnectionInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -377,6 +433,36 @@ class GetConnectionOutput {
   });
   factory GetConnectionOutput.fromJson(Map<String, dynamic> json) =>
       _$GetConnectionOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListConnectionsInput {
+  /// The maximum number of results to return in a single call. To retrieve the
+  /// remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token that was returned from the previous <code>ListConnections</code>
+  /// call, which can be used to return the next set of connections in the list.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Filters the list of connections to those associated with a specified
+  /// provider, such as Bitbucket.
+  @_s.JsonKey(name: 'ProviderTypeFilter')
+  final ProviderType providerTypeFilter;
+
+  ListConnectionsInput({
+    this.maxResults,
+    this.nextToken,
+    this.providerTypeFilter,
+  });
+  Map<String, dynamic> toJson() => _$ListConnectionsInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -407,16 +493,6 @@ class ListConnectionsOutput {
 enum ProviderType {
   @_s.JsonValue('Bitbucket')
   bitbucket,
-}
-
-extension on ProviderType {
-  String toValue() {
-    switch (this) {
-      case ProviderType.bitbucket:
-        return 'Bitbucket';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 class LimitExceededException extends _s.GenericAwsException {

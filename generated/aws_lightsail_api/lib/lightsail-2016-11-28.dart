@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -85,9 +84,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'staticIpName': staticIpName,
-      },
+      payload: AllocateStaticIpRequest(
+        staticIpName: staticIpName,
+      ),
     );
 
     return AllocateStaticIpResult.fromJson(jsonResponse.body);
@@ -155,11 +154,11 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'diskName': diskName,
-        'diskPath': diskPath,
-        'instanceName': instanceName,
-      },
+      payload: AttachDiskRequest(
+        diskName: diskName,
+        diskPath: diskPath,
+        instanceName: instanceName,
+      ),
     );
 
     return AttachDiskResult.fromJson(jsonResponse.body);
@@ -220,10 +219,10 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'instanceNames': instanceNames,
-        'loadBalancerName': loadBalancerName,
-      },
+      payload: AttachInstancesToLoadBalancerRequest(
+        instanceNames: instanceNames,
+        loadBalancerName: loadBalancerName,
+      ),
     );
 
     return AttachInstancesToLoadBalancerResult.fromJson(jsonResponse.body);
@@ -289,10 +288,10 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'certificateName': certificateName,
-        'loadBalancerName': loadBalancerName,
-      },
+      payload: AttachLoadBalancerTlsCertificateRequest(
+        certificateName: certificateName,
+        loadBalancerName: loadBalancerName,
+      ),
     );
 
     return AttachLoadBalancerTlsCertificateResult.fromJson(jsonResponse.body);
@@ -341,10 +340,10 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'instanceName': instanceName,
-        'staticIpName': staticIpName,
-      },
+      payload: AttachStaticIpRequest(
+        instanceName: instanceName,
+        staticIpName: staticIpName,
+      ),
     );
 
     return AttachStaticIpResult.fromJson(jsonResponse.body);
@@ -394,10 +393,10 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'instanceName': instanceName,
-        'portInfo': portInfo,
-      },
+      payload: CloseInstancePublicPortsRequest(
+        instanceName: instanceName,
+        portInfo: portInfo,
+      ),
     );
 
     return CloseInstancePublicPortsResult.fromJson(jsonResponse.body);
@@ -536,17 +535,14 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'sourceRegion': sourceRegion?.toValue(),
-        'targetSnapshotName': targetSnapshotName,
-        if (restoreDate != null) 'restoreDate': restoreDate,
-        if (sourceResourceName != null)
-          'sourceResourceName': sourceResourceName,
-        if (sourceSnapshotName != null)
-          'sourceSnapshotName': sourceSnapshotName,
-        if (useLatestRestorableAutoSnapshot != null)
-          'useLatestRestorableAutoSnapshot': useLatestRestorableAutoSnapshot,
-      },
+      payload: CopySnapshotRequest(
+        sourceRegion: sourceRegion,
+        targetSnapshotName: targetSnapshotName,
+        restoreDate: restoreDate,
+        sourceResourceName: sourceResourceName,
+        sourceSnapshotName: sourceSnapshotName,
+        useLatestRestorableAutoSnapshot: useLatestRestorableAutoSnapshot,
+      ),
     );
 
     return CopySnapshotResult.fromJson(jsonResponse.body);
@@ -591,9 +587,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'instances': instances,
-      },
+      payload: CreateCloudFormationStackRequest(
+        instances: instances,
+      ),
     );
 
     return CreateCloudFormationStackResult.fromJson(jsonResponse.body);
@@ -686,10 +682,10 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'contactEndpoint': contactEndpoint,
-        'protocol': protocol?.toValue(),
-      },
+      payload: CreateContactMethodRequest(
+        contactEndpoint: contactEndpoint,
+        protocol: protocol,
+      ),
     );
 
     return CreateContactMethodResult.fromJson(jsonResponse.body);
@@ -765,13 +761,13 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'availabilityZone': availabilityZone,
-        'diskName': diskName,
-        'sizeInGb': sizeInGb,
-        if (addOns != null) 'addOns': addOns,
-        if (tags != null) 'tags': tags,
-      },
+      payload: CreateDiskRequest(
+        availabilityZone: availabilityZone,
+        diskName: diskName,
+        sizeInGb: sizeInGb,
+        addOns: addOns,
+        tags: tags,
+      ),
     );
 
     return CreateDiskResult.fromJson(jsonResponse.body);
@@ -939,18 +935,17 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'availabilityZone': availabilityZone,
-        'diskName': diskName,
-        'sizeInGb': sizeInGb,
-        if (addOns != null) 'addOns': addOns,
-        if (diskSnapshotName != null) 'diskSnapshotName': diskSnapshotName,
-        if (restoreDate != null) 'restoreDate': restoreDate,
-        if (sourceDiskName != null) 'sourceDiskName': sourceDiskName,
-        if (tags != null) 'tags': tags,
-        if (useLatestRestorableAutoSnapshot != null)
-          'useLatestRestorableAutoSnapshot': useLatestRestorableAutoSnapshot,
-      },
+      payload: CreateDiskFromSnapshotRequest(
+        availabilityZone: availabilityZone,
+        diskName: diskName,
+        sizeInGb: sizeInGb,
+        addOns: addOns,
+        diskSnapshotName: diskSnapshotName,
+        restoreDate: restoreDate,
+        sourceDiskName: sourceDiskName,
+        tags: tags,
+        useLatestRestorableAutoSnapshot: useLatestRestorableAutoSnapshot,
+      ),
     );
 
     return CreateDiskFromSnapshotResult.fromJson(jsonResponse.body);
@@ -1054,12 +1049,12 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'diskSnapshotName': diskSnapshotName,
-        if (diskName != null) 'diskName': diskName,
-        if (instanceName != null) 'instanceName': instanceName,
-        if (tags != null) 'tags': tags,
-      },
+      payload: CreateDiskSnapshotRequest(
+        diskSnapshotName: diskSnapshotName,
+        diskName: diskName,
+        instanceName: instanceName,
+        tags: tags,
+      ),
     );
 
     return CreateDiskSnapshotResult.fromJson(jsonResponse.body);
@@ -1109,10 +1104,10 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'domainName': domainName,
-        if (tags != null) 'tags': tags,
-      },
+      payload: CreateDomainRequest(
+        domainName: domainName,
+        tags: tags,
+      ),
     );
 
     return CreateDomainResult.fromJson(jsonResponse.body);
@@ -1159,10 +1154,10 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'domainEntry': domainEntry,
-        'domainName': domainName,
-      },
+      payload: CreateDomainEntryRequest(
+        domainEntry: domainEntry,
+        domainName: domainName,
+      ),
     );
 
     return CreateDomainEntryResult.fromJson(jsonResponse.body);
@@ -1225,11 +1220,11 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'instanceName': instanceName,
-        'instanceSnapshotName': instanceSnapshotName,
-        if (tags != null) 'tags': tags,
-      },
+      payload: CreateInstanceSnapshotRequest(
+        instanceName: instanceName,
+        instanceSnapshotName: instanceSnapshotName,
+        tags: tags,
+      ),
     );
 
     return CreateInstanceSnapshotResult.fromJson(jsonResponse.body);
@@ -1360,17 +1355,17 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'availabilityZone': availabilityZone,
-        'blueprintId': blueprintId,
-        'bundleId': bundleId,
-        'instanceNames': instanceNames,
-        if (addOns != null) 'addOns': addOns,
-        if (customImageName != null) 'customImageName': customImageName,
-        if (keyPairName != null) 'keyPairName': keyPairName,
-        if (tags != null) 'tags': tags,
-        if (userData != null) 'userData': userData,
-      },
+      payload: CreateInstancesRequest(
+        availabilityZone: availabilityZone,
+        blueprintId: blueprintId,
+        bundleId: bundleId,
+        instanceNames: instanceNames,
+        addOns: addOns,
+        customImageName: customImageName,
+        keyPairName: keyPairName,
+        tags: tags,
+        userData: userData,
+      ),
     );
 
     return CreateInstancesResult.fromJson(jsonResponse.body);
@@ -1561,24 +1556,20 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'availabilityZone': availabilityZone,
-        'bundleId': bundleId,
-        'instanceNames': instanceNames,
-        if (addOns != null) 'addOns': addOns,
-        if (attachedDiskMapping != null)
-          'attachedDiskMapping': attachedDiskMapping,
-        if (instanceSnapshotName != null)
-          'instanceSnapshotName': instanceSnapshotName,
-        if (keyPairName != null) 'keyPairName': keyPairName,
-        if (restoreDate != null) 'restoreDate': restoreDate,
-        if (sourceInstanceName != null)
-          'sourceInstanceName': sourceInstanceName,
-        if (tags != null) 'tags': tags,
-        if (useLatestRestorableAutoSnapshot != null)
-          'useLatestRestorableAutoSnapshot': useLatestRestorableAutoSnapshot,
-        if (userData != null) 'userData': userData,
-      },
+      payload: CreateInstancesFromSnapshotRequest(
+        availabilityZone: availabilityZone,
+        bundleId: bundleId,
+        instanceNames: instanceNames,
+        addOns: addOns,
+        attachedDiskMapping: attachedDiskMapping,
+        instanceSnapshotName: instanceSnapshotName,
+        keyPairName: keyPairName,
+        restoreDate: restoreDate,
+        sourceInstanceName: sourceInstanceName,
+        tags: tags,
+        useLatestRestorableAutoSnapshot: useLatestRestorableAutoSnapshot,
+        userData: userData,
+      ),
     );
 
     return CreateInstancesFromSnapshotResult.fromJson(jsonResponse.body);
@@ -1628,10 +1619,10 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'keyPairName': keyPairName,
-        if (tags != null) 'tags': tags,
-      },
+      payload: CreateKeyPairRequest(
+        keyPairName: keyPairName,
+        tags: tags,
+      ),
     );
 
     return CreateKeyPairResult.fromJson(jsonResponse.body);
@@ -1737,17 +1728,15 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'instancePort': instancePort,
-        'loadBalancerName': loadBalancerName,
-        if (certificateAlternativeNames != null)
-          'certificateAlternativeNames': certificateAlternativeNames,
-        if (certificateDomainName != null)
-          'certificateDomainName': certificateDomainName,
-        if (certificateName != null) 'certificateName': certificateName,
-        if (healthCheckPath != null) 'healthCheckPath': healthCheckPath,
-        if (tags != null) 'tags': tags,
-      },
+      payload: CreateLoadBalancerRequest(
+        instancePort: instancePort,
+        loadBalancerName: loadBalancerName,
+        certificateAlternativeNames: certificateAlternativeNames,
+        certificateDomainName: certificateDomainName,
+        certificateName: certificateName,
+        healthCheckPath: healthCheckPath,
+        tags: tags,
+      ),
     );
 
     return CreateLoadBalancerResult.fromJson(jsonResponse.body);
@@ -1832,14 +1821,13 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'certificateDomainName': certificateDomainName,
-        'certificateName': certificateName,
-        'loadBalancerName': loadBalancerName,
-        if (certificateAlternativeNames != null)
-          'certificateAlternativeNames': certificateAlternativeNames,
-        if (tags != null) 'tags': tags,
-      },
+      payload: CreateLoadBalancerTlsCertificateRequest(
+        certificateDomainName: certificateDomainName,
+        certificateName: certificateName,
+        loadBalancerName: loadBalancerName,
+        certificateAlternativeNames: certificateAlternativeNames,
+        tags: tags,
+      ),
     );
 
     return CreateLoadBalancerTlsCertificateResult.fromJson(jsonResponse.body);
@@ -2049,23 +2037,19 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'masterDatabaseName': masterDatabaseName,
-        'masterUsername': masterUsername,
-        'relationalDatabaseBlueprintId': relationalDatabaseBlueprintId,
-        'relationalDatabaseBundleId': relationalDatabaseBundleId,
-        'relationalDatabaseName': relationalDatabaseName,
-        if (availabilityZone != null) 'availabilityZone': availabilityZone,
-        if (masterUserPassword != null)
-          'masterUserPassword': masterUserPassword,
-        if (preferredBackupWindow != null)
-          'preferredBackupWindow': preferredBackupWindow,
-        if (preferredMaintenanceWindow != null)
-          'preferredMaintenanceWindow': preferredMaintenanceWindow,
-        if (publiclyAccessible != null)
-          'publiclyAccessible': publiclyAccessible,
-        if (tags != null) 'tags': tags,
-      },
+      payload: CreateRelationalDatabaseRequest(
+        masterDatabaseName: masterDatabaseName,
+        masterUsername: masterUsername,
+        relationalDatabaseBlueprintId: relationalDatabaseBlueprintId,
+        relationalDatabaseBundleId: relationalDatabaseBundleId,
+        relationalDatabaseName: relationalDatabaseName,
+        availabilityZone: availabilityZone,
+        masterUserPassword: masterUserPassword,
+        preferredBackupWindow: preferredBackupWindow,
+        preferredMaintenanceWindow: preferredMaintenanceWindow,
+        publiclyAccessible: publiclyAccessible,
+        tags: tags,
+      ),
     );
 
     return CreateRelationalDatabaseResult.fromJson(jsonResponse.body);
@@ -2216,22 +2200,17 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'relationalDatabaseName': relationalDatabaseName,
-        if (availabilityZone != null) 'availabilityZone': availabilityZone,
-        if (publiclyAccessible != null)
-          'publiclyAccessible': publiclyAccessible,
-        if (relationalDatabaseBundleId != null)
-          'relationalDatabaseBundleId': relationalDatabaseBundleId,
-        if (relationalDatabaseSnapshotName != null)
-          'relationalDatabaseSnapshotName': relationalDatabaseSnapshotName,
-        if (restoreTime != null) 'restoreTime': restoreTime,
-        if (sourceRelationalDatabaseName != null)
-          'sourceRelationalDatabaseName': sourceRelationalDatabaseName,
-        if (tags != null) 'tags': tags,
-        if (useLatestRestorableTime != null)
-          'useLatestRestorableTime': useLatestRestorableTime,
-      },
+      payload: CreateRelationalDatabaseFromSnapshotRequest(
+        relationalDatabaseName: relationalDatabaseName,
+        availabilityZone: availabilityZone,
+        publiclyAccessible: publiclyAccessible,
+        relationalDatabaseBundleId: relationalDatabaseBundleId,
+        relationalDatabaseSnapshotName: relationalDatabaseSnapshotName,
+        restoreTime: restoreTime,
+        sourceRelationalDatabaseName: sourceRelationalDatabaseName,
+        tags: tags,
+        useLatestRestorableTime: useLatestRestorableTime,
+      ),
     );
 
     return CreateRelationalDatabaseFromSnapshotResult.fromJson(
@@ -2310,11 +2289,11 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'relationalDatabaseName': relationalDatabaseName,
-        'relationalDatabaseSnapshotName': relationalDatabaseSnapshotName,
-        if (tags != null) 'tags': tags,
-      },
+      payload: CreateRelationalDatabaseSnapshotRequest(
+        relationalDatabaseName: relationalDatabaseName,
+        relationalDatabaseSnapshotName: relationalDatabaseSnapshotName,
+        tags: tags,
+      ),
     );
 
     return CreateRelationalDatabaseSnapshotResult.fromJson(jsonResponse.body);
@@ -2358,9 +2337,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'alarmName': alarmName,
-      },
+      payload: DeleteAlarmRequest(
+        alarmName: alarmName,
+      ),
     );
 
     return DeleteAlarmResult.fromJson(jsonResponse.body);
@@ -2414,10 +2393,10 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'date': date,
-        'resourceName': resourceName,
-      },
+      payload: DeleteAutoSnapshotRequest(
+        date: date,
+        resourceName: resourceName,
+      ),
     );
 
     return DeleteAutoSnapshotResult.fromJson(jsonResponse.body);
@@ -2462,9 +2441,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'protocol': protocol?.toValue(),
-      },
+      payload: DeleteContactMethodRequest(
+        protocol: protocol,
+      ),
     );
 
     return DeleteContactMethodResult.fromJson(jsonResponse.body);
@@ -2518,10 +2497,10 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'diskName': diskName,
-        if (forceDeleteAddOns != null) 'forceDeleteAddOns': forceDeleteAddOns,
-      },
+      payload: DeleteDiskRequest(
+        diskName: diskName,
+        forceDeleteAddOns: forceDeleteAddOns,
+      ),
     );
 
     return DeleteDiskResult.fromJson(jsonResponse.body);
@@ -2573,9 +2552,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'diskSnapshotName': diskSnapshotName,
-      },
+      payload: DeleteDiskSnapshotRequest(
+        diskSnapshotName: diskSnapshotName,
+      ),
     );
 
     return DeleteDiskSnapshotResult.fromJson(jsonResponse.body);
@@ -2613,9 +2592,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'domainName': domainName,
-      },
+      payload: DeleteDomainRequest(
+        domainName: domainName,
+      ),
     );
 
     return DeleteDomainResult.fromJson(jsonResponse.body);
@@ -2659,10 +2638,10 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'domainEntry': domainEntry,
-        'domainName': domainName,
-      },
+      payload: DeleteDomainEntryRequest(
+        domainEntry: domainEntry,
+        domainName: domainName,
+      ),
     );
 
     return DeleteDomainEntryResult.fromJson(jsonResponse.body);
@@ -2711,10 +2690,10 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'instanceName': instanceName,
-        if (forceDeleteAddOns != null) 'forceDeleteAddOns': forceDeleteAddOns,
-      },
+      payload: DeleteInstanceRequest(
+        instanceName: instanceName,
+        forceDeleteAddOns: forceDeleteAddOns,
+      ),
     );
 
     return DeleteInstanceResult.fromJson(jsonResponse.body);
@@ -2759,9 +2738,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'instanceSnapshotName': instanceSnapshotName,
-      },
+      payload: DeleteInstanceSnapshotRequest(
+        instanceSnapshotName: instanceSnapshotName,
+      ),
     );
 
     return DeleteInstanceSnapshotResult.fromJson(jsonResponse.body);
@@ -2805,9 +2784,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'keyPairName': keyPairName,
-      },
+      payload: DeleteKeyPairRequest(
+        keyPairName: keyPairName,
+      ),
     );
 
     return DeleteKeyPairResult.fromJson(jsonResponse.body);
@@ -2857,9 +2836,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'instanceName': instanceName,
-      },
+      payload: DeleteKnownHostKeysRequest(
+        instanceName: instanceName,
+      ),
     );
 
     return DeleteKnownHostKeysResult.fromJson(jsonResponse.body);
@@ -2906,9 +2885,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'loadBalancerName': loadBalancerName,
-      },
+      payload: DeleteLoadBalancerRequest(
+        loadBalancerName: loadBalancerName,
+      ),
     );
 
     return DeleteLoadBalancerResult.fromJson(jsonResponse.body);
@@ -2974,11 +2953,11 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'certificateName': certificateName,
-        'loadBalancerName': loadBalancerName,
-        if (force != null) 'force': force,
-      },
+      payload: DeleteLoadBalancerTlsCertificateRequest(
+        certificateName: certificateName,
+        loadBalancerName: loadBalancerName,
+        force: force,
+      ),
     );
 
     return DeleteLoadBalancerTlsCertificateResult.fromJson(jsonResponse.body);
@@ -3061,13 +3040,12 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'relationalDatabaseName': relationalDatabaseName,
-        if (finalRelationalDatabaseSnapshotName != null)
-          'finalRelationalDatabaseSnapshotName':
-              finalRelationalDatabaseSnapshotName,
-        if (skipFinalSnapshot != null) 'skipFinalSnapshot': skipFinalSnapshot,
-      },
+      payload: DeleteRelationalDatabaseRequest(
+        relationalDatabaseName: relationalDatabaseName,
+        finalRelationalDatabaseSnapshotName:
+            finalRelationalDatabaseSnapshotName,
+        skipFinalSnapshot: skipFinalSnapshot,
+      ),
     );
 
     return DeleteRelationalDatabaseResult.fromJson(jsonResponse.body);
@@ -3113,9 +3091,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'relationalDatabaseSnapshotName': relationalDatabaseSnapshotName,
-      },
+      payload: DeleteRelationalDatabaseSnapshotRequest(
+        relationalDatabaseSnapshotName: relationalDatabaseSnapshotName,
+      ),
     );
 
     return DeleteRelationalDatabaseSnapshotResult.fromJson(jsonResponse.body);
@@ -3162,9 +3140,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'diskName': diskName,
-      },
+      payload: DetachDiskRequest(
+        diskName: diskName,
+      ),
     );
 
     return DetachDiskResult.fromJson(jsonResponse.body);
@@ -3219,10 +3197,10 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'instanceNames': instanceNames,
-        'loadBalancerName': loadBalancerName,
-      },
+      payload: DetachInstancesFromLoadBalancerRequest(
+        instanceNames: instanceNames,
+        loadBalancerName: loadBalancerName,
+      ),
     );
 
     return DetachInstancesFromLoadBalancerResult.fromJson(jsonResponse.body);
@@ -3261,9 +3239,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'staticIpName': staticIpName,
-      },
+      payload: DetachStaticIpRequest(
+        staticIpName: staticIpName,
+      ),
     );
 
     return DetachStaticIpResult.fromJson(jsonResponse.body);
@@ -3308,10 +3286,10 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'addOnType': addOnType?.toValue(),
-        'resourceName': resourceName,
-      },
+      payload: DisableAddOnRequest(
+        addOnType: addOnType,
+        resourceName: resourceName,
+      ),
     );
 
     return DisableAddOnResult.fromJson(jsonResponse.body);
@@ -3381,10 +3359,10 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'addOnRequest': addOnRequest,
-        'resourceName': resourceName,
-      },
+      payload: EnableAddOnRequest(
+        addOnRequest: addOnRequest,
+        resourceName: resourceName,
+      ),
     );
 
     return EnableAddOnResult.fromJson(jsonResponse.body);
@@ -3442,9 +3420,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'sourceSnapshotName': sourceSnapshotName,
-      },
+      payload: ExportSnapshotRequest(
+        sourceSnapshotName: sourceSnapshotName,
+      ),
     );
 
     return ExportSnapshotResult.fromJson(jsonResponse.body);
@@ -3479,9 +3457,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (pageToken != null) 'pageToken': pageToken,
-      },
+      payload: GetActiveNamesRequest(
+        pageToken: pageToken,
+      ),
     );
 
     return GetActiveNamesResult.fromJson(jsonResponse.body);
@@ -3548,12 +3526,11 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (alarmName != null) 'alarmName': alarmName,
-        if (monitoredResourceName != null)
-          'monitoredResourceName': monitoredResourceName,
-        if (pageToken != null) 'pageToken': pageToken,
-      },
+      payload: GetAlarmsRequest(
+        alarmName: alarmName,
+        monitoredResourceName: monitoredResourceName,
+        pageToken: pageToken,
+      ),
     );
 
     return GetAlarmsResult.fromJson(jsonResponse.body);
@@ -3594,9 +3571,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'resourceName': resourceName,
-      },
+      payload: GetAutoSnapshotsRequest(
+        resourceName: resourceName,
+      ),
     );
 
     return GetAutoSnapshotsResult.fromJson(jsonResponse.body);
@@ -3647,10 +3624,10 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (includeInactive != null) 'includeInactive': includeInactive,
-        if (pageToken != null) 'pageToken': pageToken,
-      },
+      payload: GetBlueprintsRequest(
+        includeInactive: includeInactive,
+        pageToken: pageToken,
+      ),
     );
 
     return GetBlueprintsResult.fromJson(jsonResponse.body);
@@ -3691,10 +3668,10 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (includeInactive != null) 'includeInactive': includeInactive,
-        if (pageToken != null) 'pageToken': pageToken,
-      },
+      payload: GetBundlesRequest(
+        includeInactive: includeInactive,
+        pageToken: pageToken,
+      ),
     );
 
     return GetBundlesResult.fromJson(jsonResponse.body);
@@ -3734,9 +3711,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (pageToken != null) 'pageToken': pageToken,
-      },
+      payload: GetCloudFormationStackRecordsRequest(
+        pageToken: pageToken,
+      ),
     );
 
     return GetCloudFormationStackRecordsResult.fromJson(jsonResponse.body);
@@ -3780,9 +3757,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (protocols != null) 'protocols': protocols,
-      },
+      payload: GetContactMethodsRequest(
+        protocols: protocols,
+      ),
     );
 
     return GetContactMethodsResult.fromJson(jsonResponse.body);
@@ -3820,9 +3797,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'diskName': diskName,
-      },
+      payload: GetDiskRequest(
+        diskName: diskName,
+      ),
     );
 
     return GetDiskResult.fromJson(jsonResponse.body);
@@ -3860,9 +3837,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'diskSnapshotName': diskSnapshotName,
-      },
+      payload: GetDiskSnapshotRequest(
+        diskSnapshotName: diskSnapshotName,
+      ),
     );
 
     return GetDiskSnapshotResult.fromJson(jsonResponse.body);
@@ -3898,9 +3875,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (pageToken != null) 'pageToken': pageToken,
-      },
+      payload: GetDiskSnapshotsRequest(
+        pageToken: pageToken,
+      ),
     );
 
     return GetDiskSnapshotsResult.fromJson(jsonResponse.body);
@@ -3936,9 +3913,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (pageToken != null) 'pageToken': pageToken,
-      },
+      payload: GetDisksRequest(
+        pageToken: pageToken,
+      ),
     );
 
     return GetDisksResult.fromJson(jsonResponse.body);
@@ -3970,9 +3947,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'domainName': domainName,
-      },
+      payload: GetDomainRequest(
+        domainName: domainName,
+      ),
     );
 
     return GetDomainResult.fromJson(jsonResponse.body);
@@ -4007,9 +3984,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (pageToken != null) 'pageToken': pageToken,
-      },
+      payload: GetDomainsRequest(
+        pageToken: pageToken,
+      ),
     );
 
     return GetDomainsResult.fromJson(jsonResponse.body);
@@ -4050,9 +4027,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (pageToken != null) 'pageToken': pageToken,
-      },
+      payload: GetExportSnapshotRecordsRequest(
+        pageToken: pageToken,
+      ),
     );
 
     return GetExportSnapshotRecordsResult.fromJson(jsonResponse.body);
@@ -4091,9 +4068,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'instanceName': instanceName,
-      },
+      payload: GetInstanceRequest(
+        instanceName: instanceName,
+      ),
     );
 
     return GetInstanceResult.fromJson(jsonResponse.body);
@@ -4143,10 +4120,10 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'instanceName': instanceName,
-        if (protocol != null) 'protocol': protocol?.toValue(),
-      },
+      payload: GetInstanceAccessDetailsRequest(
+        instanceName: instanceName,
+        protocol: protocol,
+      ),
     );
 
     return GetInstanceAccessDetailsResult.fromJson(jsonResponse.body);
@@ -4334,15 +4311,15 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'endTime': endTime,
-        'instanceName': instanceName,
-        'metricName': metricName?.toValue(),
-        'period': period,
-        'startTime': startTime,
-        'statistics': statistics,
-        'unit': unit?.toValue(),
-      },
+      payload: GetInstanceMetricDataRequest(
+        endTime: endTime,
+        instanceName: instanceName,
+        metricName: metricName,
+        period: period,
+        startTime: startTime,
+        statistics: statistics,
+        unit: unit,
+      ),
     );
 
     return GetInstanceMetricDataResult.fromJson(jsonResponse.body);
@@ -4381,9 +4358,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'instanceName': instanceName,
-      },
+      payload: GetInstancePortStatesRequest(
+        instanceName: instanceName,
+      ),
     );
 
     return GetInstancePortStatesResult.fromJson(jsonResponse.body);
@@ -4421,9 +4398,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'instanceSnapshotName': instanceSnapshotName,
-      },
+      payload: GetInstanceSnapshotRequest(
+        instanceSnapshotName: instanceSnapshotName,
+      ),
     );
 
     return GetInstanceSnapshotResult.fromJson(jsonResponse.body);
@@ -4458,9 +4435,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (pageToken != null) 'pageToken': pageToken,
-      },
+      payload: GetInstanceSnapshotsRequest(
+        pageToken: pageToken,
+      ),
     );
 
     return GetInstanceSnapshotsResult.fromJson(jsonResponse.body);
@@ -4498,9 +4475,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'instanceName': instanceName,
-      },
+      payload: GetInstanceStateRequest(
+        instanceName: instanceName,
+      ),
     );
 
     return GetInstanceStateResult.fromJson(jsonResponse.body);
@@ -4536,9 +4513,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (pageToken != null) 'pageToken': pageToken,
-      },
+      payload: GetInstancesRequest(
+        pageToken: pageToken,
+      ),
     );
 
     return GetInstancesResult.fromJson(jsonResponse.body);
@@ -4576,9 +4553,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'keyPairName': keyPairName,
-      },
+      payload: GetKeyPairRequest(
+        keyPairName: keyPairName,
+      ),
     );
 
     return GetKeyPairResult.fromJson(jsonResponse.body);
@@ -4613,9 +4590,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (pageToken != null) 'pageToken': pageToken,
-      },
+      payload: GetKeyPairsRequest(
+        pageToken: pageToken,
+      ),
     );
 
     return GetKeyPairsResult.fromJson(jsonResponse.body);
@@ -4653,9 +4630,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'loadBalancerName': loadBalancerName,
-      },
+      payload: GetLoadBalancerRequest(
+        loadBalancerName: loadBalancerName,
+      ),
     );
 
     return GetLoadBalancerResult.fromJson(jsonResponse.body);
@@ -4899,15 +4876,15 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'endTime': endTime,
-        'loadBalancerName': loadBalancerName,
-        'metricName': metricName?.toValue(),
-        'period': period,
-        'startTime': startTime,
-        'statistics': statistics,
-        'unit': unit?.toValue(),
-      },
+      payload: GetLoadBalancerMetricDataRequest(
+        endTime: endTime,
+        loadBalancerName: loadBalancerName,
+        metricName: metricName,
+        period: period,
+        startTime: startTime,
+        statistics: statistics,
+        unit: unit,
+      ),
     );
 
     return GetLoadBalancerMetricDataResult.fromJson(jsonResponse.body);
@@ -4952,9 +4929,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'loadBalancerName': loadBalancerName,
-      },
+      payload: GetLoadBalancerTlsCertificatesRequest(
+        loadBalancerName: loadBalancerName,
+      ),
     );
 
     return GetLoadBalancerTlsCertificatesResult.fromJson(jsonResponse.body);
@@ -4989,9 +4966,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (pageToken != null) 'pageToken': pageToken,
-      },
+      payload: GetLoadBalancersRequest(
+        pageToken: pageToken,
+      ),
     );
 
     return GetLoadBalancersResult.fromJson(jsonResponse.body);
@@ -5031,9 +5008,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'operationId': operationId,
-      },
+      payload: GetOperationRequest(
+        operationId: operationId,
+      ),
     );
 
     return GetOperationResult.fromJson(jsonResponse.body);
@@ -5073,9 +5050,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (pageToken != null) 'pageToken': pageToken,
-      },
+      payload: GetOperationsRequest(
+        pageToken: pageToken,
+      ),
     );
 
     return GetOperationsResult.fromJson(jsonResponse.body);
@@ -5123,10 +5100,10 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'resourceName': resourceName,
-        if (pageToken != null) 'pageToken': pageToken,
-      },
+      payload: GetOperationsForResourceRequest(
+        resourceName: resourceName,
+        pageToken: pageToken,
+      ),
     );
 
     return GetOperationsForResourceResult.fromJson(jsonResponse.body);
@@ -5167,13 +5144,11 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (includeAvailabilityZones != null)
-          'includeAvailabilityZones': includeAvailabilityZones,
-        if (includeRelationalDatabaseAvailabilityZones != null)
-          'includeRelationalDatabaseAvailabilityZones':
-              includeRelationalDatabaseAvailabilityZones,
-      },
+      payload: GetRegionsRequest(
+        includeAvailabilityZones: includeAvailabilityZones,
+        includeRelationalDatabaseAvailabilityZones:
+            includeRelationalDatabaseAvailabilityZones,
+      ),
     );
 
     return GetRegionsResult.fromJson(jsonResponse.body);
@@ -5212,9 +5187,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'relationalDatabaseName': relationalDatabaseName,
-      },
+      payload: GetRelationalDatabaseRequest(
+        relationalDatabaseName: relationalDatabaseName,
+      ),
     );
 
     return GetRelationalDatabaseResult.fromJson(jsonResponse.body);
@@ -5255,9 +5230,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (pageToken != null) 'pageToken': pageToken,
-      },
+      payload: GetRelationalDatabaseBlueprintsRequest(
+        pageToken: pageToken,
+      ),
     );
 
     return GetRelationalDatabaseBlueprintsResult.fromJson(jsonResponse.body);
@@ -5297,9 +5272,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (pageToken != null) 'pageToken': pageToken,
-      },
+      payload: GetRelationalDatabaseBundlesRequest(
+        pageToken: pageToken,
+      ),
     );
 
     return GetRelationalDatabaseBundlesResult.fromJson(jsonResponse.body);
@@ -5356,11 +5331,11 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'relationalDatabaseName': relationalDatabaseName,
-        if (durationInMinutes != null) 'durationInMinutes': durationInMinutes,
-        if (pageToken != null) 'pageToken': pageToken,
-      },
+      payload: GetRelationalDatabaseEventsRequest(
+        relationalDatabaseName: relationalDatabaseName,
+        durationInMinutes: durationInMinutes,
+        pageToken: pageToken,
+      ),
     );
 
     return GetRelationalDatabaseEventsResult.fromJson(jsonResponse.body);
@@ -5465,14 +5440,14 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'logStreamName': logStreamName,
-        'relationalDatabaseName': relationalDatabaseName,
-        if (endTime != null) 'endTime': endTime,
-        if (pageToken != null) 'pageToken': pageToken,
-        if (startFromHead != null) 'startFromHead': startFromHead,
-        if (startTime != null) 'startTime': startTime,
-      },
+      payload: GetRelationalDatabaseLogEventsRequest(
+        logStreamName: logStreamName,
+        relationalDatabaseName: relationalDatabaseName,
+        endTime: endTime,
+        pageToken: pageToken,
+        startFromHead: startFromHead,
+        startTime: startTime,
+      ),
     );
 
     return GetRelationalDatabaseLogEventsResult.fromJson(jsonResponse.body);
@@ -5513,9 +5488,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'relationalDatabaseName': relationalDatabaseName,
-      },
+      payload: GetRelationalDatabaseLogStreamsRequest(
+        relationalDatabaseName: relationalDatabaseName,
+      ),
     );
 
     return GetRelationalDatabaseLogStreamsResult.fromJson(jsonResponse.body);
@@ -5574,11 +5549,10 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'relationalDatabaseName': relationalDatabaseName,
-        if (passwordVersion != null)
-          'passwordVersion': passwordVersion?.toValue(),
-      },
+      payload: GetRelationalDatabaseMasterUserPasswordRequest(
+        relationalDatabaseName: relationalDatabaseName,
+        passwordVersion: passwordVersion,
+      ),
     );
 
     return GetRelationalDatabaseMasterUserPasswordResult.fromJson(
@@ -5783,15 +5757,15 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'endTime': endTime,
-        'metricName': metricName?.toValue(),
-        'period': period,
-        'relationalDatabaseName': relationalDatabaseName,
-        'startTime': startTime,
-        'statistics': statistics,
-        'unit': unit?.toValue(),
-      },
+      payload: GetRelationalDatabaseMetricDataRequest(
+        endTime: endTime,
+        metricName: metricName,
+        period: period,
+        relationalDatabaseName: relationalDatabaseName,
+        startTime: startTime,
+        statistics: statistics,
+        unit: unit,
+      ),
     );
 
     return GetRelationalDatabaseMetricDataResult.fromJson(jsonResponse.body);
@@ -5846,10 +5820,10 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'relationalDatabaseName': relationalDatabaseName,
-        if (pageToken != null) 'pageToken': pageToken,
-      },
+      payload: GetRelationalDatabaseParametersRequest(
+        relationalDatabaseName: relationalDatabaseName,
+        pageToken: pageToken,
+      ),
     );
 
     return GetRelationalDatabaseParametersResult.fromJson(jsonResponse.body);
@@ -5889,9 +5863,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'relationalDatabaseSnapshotName': relationalDatabaseSnapshotName,
-      },
+      payload: GetRelationalDatabaseSnapshotRequest(
+        relationalDatabaseSnapshotName: relationalDatabaseSnapshotName,
+      ),
     );
 
     return GetRelationalDatabaseSnapshotResult.fromJson(jsonResponse.body);
@@ -5928,9 +5902,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (pageToken != null) 'pageToken': pageToken,
-      },
+      payload: GetRelationalDatabaseSnapshotsRequest(
+        pageToken: pageToken,
+      ),
     );
 
     return GetRelationalDatabaseSnapshotsResult.fromJson(jsonResponse.body);
@@ -5966,9 +5940,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (pageToken != null) 'pageToken': pageToken,
-      },
+      payload: GetRelationalDatabasesRequest(
+        pageToken: pageToken,
+      ),
     );
 
     return GetRelationalDatabasesResult.fromJson(jsonResponse.body);
@@ -6006,9 +5980,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'staticIpName': staticIpName,
-      },
+      payload: GetStaticIpRequest(
+        staticIpName: staticIpName,
+      ),
     );
 
     return GetStaticIpResult.fromJson(jsonResponse.body);
@@ -6043,9 +6017,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (pageToken != null) 'pageToken': pageToken,
-      },
+      payload: GetStaticIpsRequest(
+        pageToken: pageToken,
+      ),
     );
 
     return GetStaticIpsResult.fromJson(jsonResponse.body);
@@ -6088,10 +6062,10 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'keyPairName': keyPairName,
-        'publicKeyBase64': publicKeyBase64,
-      },
+      payload: ImportKeyPairRequest(
+        keyPairName: keyPairName,
+        publicKeyBase64: publicKeyBase64,
+      ),
     );
 
     return ImportKeyPairResult.fromJson(jsonResponse.body);
@@ -6166,10 +6140,10 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'instanceName': instanceName,
-        'portInfo': portInfo,
-      },
+      payload: OpenInstancePublicPortsRequest(
+        instanceName: instanceName,
+        portInfo: portInfo,
+      ),
     );
 
     return OpenInstancePublicPortsResult.fromJson(jsonResponse.body);
@@ -6421,22 +6395,19 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'alarmName': alarmName,
-        'comparisonOperator': comparisonOperator?.toValue(),
-        'evaluationPeriods': evaluationPeriods,
-        'metricName': metricName?.toValue(),
-        'monitoredResourceName': monitoredResourceName,
-        'threshold': threshold,
-        if (contactProtocols != null) 'contactProtocols': contactProtocols,
-        if (datapointsToAlarm != null) 'datapointsToAlarm': datapointsToAlarm,
-        if (notificationEnabled != null)
-          'notificationEnabled': notificationEnabled,
-        if (notificationTriggers != null)
-          'notificationTriggers': notificationTriggers,
-        if (treatMissingData != null)
-          'treatMissingData': treatMissingData?.toValue(),
-      },
+      payload: PutAlarmRequest(
+        alarmName: alarmName,
+        comparisonOperator: comparisonOperator,
+        evaluationPeriods: evaluationPeriods,
+        metricName: metricName,
+        monitoredResourceName: monitoredResourceName,
+        threshold: threshold,
+        contactProtocols: contactProtocols,
+        datapointsToAlarm: datapointsToAlarm,
+        notificationEnabled: notificationEnabled,
+        notificationTriggers: notificationTriggers,
+        treatMissingData: treatMissingData,
+      ),
     );
 
     return PutAlarmResult.fromJson(jsonResponse.body);
@@ -6486,10 +6457,10 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'instanceName': instanceName,
-        'portInfos': portInfos,
-      },
+      payload: PutInstancePublicPortsRequest(
+        instanceName: instanceName,
+        portInfos: portInfos,
+      ),
     );
 
     return PutInstancePublicPortsResult.fromJson(jsonResponse.body);
@@ -6533,9 +6504,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'instanceName': instanceName,
-      },
+      payload: RebootInstanceRequest(
+        instanceName: instanceName,
+      ),
     );
 
     return RebootInstanceResult.fromJson(jsonResponse.body);
@@ -6580,9 +6551,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'relationalDatabaseName': relationalDatabaseName,
-      },
+      payload: RebootRelationalDatabaseRequest(
+        relationalDatabaseName: relationalDatabaseName,
+      ),
     );
 
     return RebootRelationalDatabaseResult.fromJson(jsonResponse.body);
@@ -6620,9 +6591,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'staticIpName': staticIpName,
-      },
+      payload: ReleaseStaticIpRequest(
+        staticIpName: staticIpName,
+      ),
     );
 
     return ReleaseStaticIpResult.fromJson(jsonResponse.body);
@@ -6671,9 +6642,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'protocol': protocol?.toValue(),
-      },
+      payload: SendContactMethodVerificationRequest(
+        protocol: protocol,
+      ),
     );
 
     return SendContactMethodVerificationResult.fromJson(jsonResponse.body);
@@ -6725,9 +6696,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'instanceName': instanceName,
-      },
+      payload: StartInstanceRequest(
+        instanceName: instanceName,
+      ),
     );
 
     return StartInstanceResult.fromJson(jsonResponse.body);
@@ -6774,9 +6745,9 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'relationalDatabaseName': relationalDatabaseName,
-      },
+      payload: StartRelationalDatabaseRequest(
+        relationalDatabaseName: relationalDatabaseName,
+      ),
     );
 
     return StartRelationalDatabaseResult.fromJson(jsonResponse.body);
@@ -6837,10 +6808,10 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'instanceName': instanceName,
-        if (force != null) 'force': force,
-      },
+      payload: StopInstanceRequest(
+        instanceName: instanceName,
+        force: force,
+      ),
     );
 
     return StopInstanceResult.fromJson(jsonResponse.body);
@@ -6895,11 +6866,10 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'relationalDatabaseName': relationalDatabaseName,
-        if (relationalDatabaseSnapshotName != null)
-          'relationalDatabaseSnapshotName': relationalDatabaseSnapshotName,
-      },
+      payload: StopRelationalDatabaseRequest(
+        relationalDatabaseName: relationalDatabaseName,
+        relationalDatabaseSnapshotName: relationalDatabaseSnapshotName,
+      ),
     );
 
     return StopRelationalDatabaseResult.fromJson(jsonResponse.body);
@@ -6963,11 +6933,11 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'resourceName': resourceName,
-        'tags': tags,
-        if (resourceArn != null) 'resourceArn': resourceArn,
-      },
+      payload: TagResourceRequest(
+        resourceName: resourceName,
+        tags: tags,
+        resourceArn: resourceArn,
+      ),
     );
 
     return TagResourceResult.fromJson(jsonResponse.body);
@@ -7035,10 +7005,10 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'alarmName': alarmName,
-        'state': state?.toValue(),
-      },
+      payload: TestAlarmRequest(
+        alarmName: alarmName,
+        state: state,
+      ),
     );
 
     return TestAlarmResult.fromJson(jsonResponse.body);
@@ -7123,11 +7093,11 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'resourceName': resourceName,
-        'tagKeys': tagKeys,
-        if (resourceArn != null) 'resourceArn': resourceArn,
-      },
+      payload: UntagResourceRequest(
+        resourceName: resourceName,
+        tagKeys: tagKeys,
+        resourceArn: resourceArn,
+      ),
     );
 
     return UntagResourceResult.fromJson(jsonResponse.body);
@@ -7170,10 +7140,10 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'domainEntry': domainEntry,
-        'domainName': domainName,
-      },
+      payload: UpdateDomainEntryRequest(
+        domainEntry: domainEntry,
+        domainName: domainName,
+      ),
     );
 
     return UpdateDomainEntryResult.fromJson(jsonResponse.body);
@@ -7237,11 +7207,11 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'attributeName': attributeName?.toValue(),
-        'attributeValue': attributeValue,
-        'loadBalancerName': loadBalancerName,
-      },
+      payload: UpdateLoadBalancerAttributeRequest(
+        attributeName: attributeName,
+        attributeValue: attributeValue,
+        loadBalancerName: loadBalancerName,
+      ),
     );
 
     return UpdateLoadBalancerAttributeResult.fromJson(jsonResponse.body);
@@ -7398,26 +7368,18 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'relationalDatabaseName': relationalDatabaseName,
-        if (applyImmediately != null) 'applyImmediately': applyImmediately,
-        if (caCertificateIdentifier != null)
-          'caCertificateIdentifier': caCertificateIdentifier,
-        if (disableBackupRetention != null)
-          'disableBackupRetention': disableBackupRetention,
-        if (enableBackupRetention != null)
-          'enableBackupRetention': enableBackupRetention,
-        if (masterUserPassword != null)
-          'masterUserPassword': masterUserPassword,
-        if (preferredBackupWindow != null)
-          'preferredBackupWindow': preferredBackupWindow,
-        if (preferredMaintenanceWindow != null)
-          'preferredMaintenanceWindow': preferredMaintenanceWindow,
-        if (publiclyAccessible != null)
-          'publiclyAccessible': publiclyAccessible,
-        if (rotateMasterUserPassword != null)
-          'rotateMasterUserPassword': rotateMasterUserPassword,
-      },
+      payload: UpdateRelationalDatabaseRequest(
+        relationalDatabaseName: relationalDatabaseName,
+        applyImmediately: applyImmediately,
+        caCertificateIdentifier: caCertificateIdentifier,
+        disableBackupRetention: disableBackupRetention,
+        enableBackupRetention: enableBackupRetention,
+        masterUserPassword: masterUserPassword,
+        preferredBackupWindow: preferredBackupWindow,
+        preferredMaintenanceWindow: preferredMaintenanceWindow,
+        publiclyAccessible: publiclyAccessible,
+        rotateMasterUserPassword: rotateMasterUserPassword,
+      ),
     );
 
     return UpdateRelationalDatabaseResult.fromJson(jsonResponse.body);
@@ -7477,10 +7439,10 @@ class Lightsail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'parameters': parameters,
-        'relationalDatabaseName': relationalDatabaseName,
-      },
+      payload: UpdateRelationalDatabaseParametersRequest(
+        parameters: parameters,
+        relationalDatabaseName: relationalDatabaseName,
+      ),
     );
 
     return UpdateRelationalDatabaseParametersResult.fromJson(jsonResponse.body);
@@ -7570,16 +7532,6 @@ class AddOnRequest {
 enum AddOnType {
   @_s.JsonValue('AutoSnapshot')
   autoSnapshot,
-}
-
-extension on AddOnType {
-  String toValue() {
-    switch (this) {
-      case AddOnType.autoSnapshot:
-        return 'AutoSnapshot';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Describes an alarm.
@@ -7786,18 +7738,20 @@ enum AlarmState {
   insufficientData,
 }
 
-extension on AlarmState {
-  String toValue() {
-    switch (this) {
-      case AlarmState.ok:
-        return 'OK';
-      case AlarmState.alarm:
-        return 'ALARM';
-      case AlarmState.insufficientData:
-        return 'INSUFFICIENT_DATA';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AllocateStaticIpRequest {
+  /// The name of the static IP address.
+  @_s.JsonKey(name: 'staticIpName')
+  final String staticIpName;
+
+  AllocateStaticIpRequest({
+    @_s.required this.staticIpName,
+  });
+  Map<String, dynamic> toJson() => _$AllocateStaticIpRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7822,6 +7776,33 @@ class AllocateStaticIpResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AttachDiskRequest {
+  /// The unique Lightsail disk name (e.g., <code>my-disk</code>).
+  @_s.JsonKey(name: 'diskName')
+  final String diskName;
+
+  /// The disk path to expose to the instance (e.g., <code>/dev/xvdf</code>).
+  @_s.JsonKey(name: 'diskPath')
+  final String diskPath;
+
+  /// The name of the Lightsail instance where you want to utilize the storage
+  /// disk.
+  @_s.JsonKey(name: 'instanceName')
+  final String instanceName;
+
+  AttachDiskRequest({
+    @_s.required this.diskName,
+    @_s.required this.diskPath,
+    @_s.required this.instanceName,
+  });
+  Map<String, dynamic> toJson() => _$AttachDiskRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AttachDiskResult {
@@ -7836,6 +7817,36 @@ class AttachDiskResult {
   });
   factory AttachDiskResult.fromJson(Map<String, dynamic> json) =>
       _$AttachDiskResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AttachInstancesToLoadBalancerRequest {
+  /// An array of strings representing the instance name(s) you want to attach to
+  /// your load balancer.
+  ///
+  /// An instance must be <code>running</code> before you can attach it to your
+  /// load balancer.
+  ///
+  /// There are no additional limits on the number of instances you can attach to
+  /// your load balancer, aside from the limit of Lightsail instances you can
+  /// create in your account (20).
+  @_s.JsonKey(name: 'instanceNames')
+  final List<String> instanceNames;
+
+  /// The name of the load balancer.
+  @_s.JsonKey(name: 'loadBalancerName')
+  final String loadBalancerName;
+
+  AttachInstancesToLoadBalancerRequest({
+    @_s.required this.instanceNames,
+    @_s.required this.loadBalancerName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AttachInstancesToLoadBalancerRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7861,6 +7872,29 @@ class AttachInstancesToLoadBalancerResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AttachLoadBalancerTlsCertificateRequest {
+  /// The name of your SSL/TLS certificate.
+  @_s.JsonKey(name: 'certificateName')
+  final String certificateName;
+
+  /// The name of the load balancer to which you want to associate the SSL/TLS
+  /// certificate.
+  @_s.JsonKey(name: 'loadBalancerName')
+  final String loadBalancerName;
+
+  AttachLoadBalancerTlsCertificateRequest({
+    @_s.required this.certificateName,
+    @_s.required this.loadBalancerName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AttachLoadBalancerTlsCertificateRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AttachLoadBalancerTlsCertificateResult {
@@ -7879,6 +7913,27 @@ class AttachLoadBalancerTlsCertificateResult {
   factory AttachLoadBalancerTlsCertificateResult.fromJson(
           Map<String, dynamic> json) =>
       _$AttachLoadBalancerTlsCertificateResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AttachStaticIpRequest {
+  /// The instance name to which you want to attach the static IP address.
+  @_s.JsonKey(name: 'instanceName')
+  final String instanceName;
+
+  /// The name of the static IP.
+  @_s.JsonKey(name: 'staticIpName')
+  final String staticIpName;
+
+  AttachStaticIpRequest({
+    @_s.required this.instanceName,
+    @_s.required this.staticIpName,
+  });
+  Map<String, dynamic> toJson() => _$AttachStaticIpRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8234,6 +8289,29 @@ class Bundle {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CloseInstancePublicPortsRequest {
+  /// The name of the instance on which you're attempting to close the public
+  /// ports.
+  @_s.JsonKey(name: 'instanceName')
+  final String instanceName;
+
+  /// Information about the public port you are trying to close.
+  @_s.JsonKey(name: 'portInfo')
+  final PortInfo portInfo;
+
+  CloseInstancePublicPortsRequest({
+    @_s.required this.instanceName,
+    @_s.required this.portInfo,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CloseInstancePublicPortsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CloseInstancePublicPortsResult {
@@ -8361,22 +8439,6 @@ enum ComparisonOperator {
   lessThanOrEqualToThreshold,
 }
 
-extension on ComparisonOperator {
-  String toValue() {
-    switch (this) {
-      case ComparisonOperator.greaterThanOrEqualToThreshold:
-        return 'GreaterThanOrEqualToThreshold';
-      case ComparisonOperator.greaterThanThreshold:
-        return 'GreaterThanThreshold';
-      case ComparisonOperator.lessThanThreshold:
-        return 'LessThanThreshold';
-      case ComparisonOperator.lessThanOrEqualToThreshold:
-        return 'LessThanOrEqualToThreshold';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Describes a contact method.
 ///
 /// A contact method is a way to send you notifications. For more information,
@@ -8474,16 +8536,6 @@ enum ContactMethodVerificationProtocol {
   email,
 }
 
-extension on ContactMethodVerificationProtocol {
-  String toValue() {
-    switch (this) {
-      case ContactMethodVerificationProtocol.email:
-        return 'Email';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum ContactProtocol {
   @_s.JsonValue('Email')
   email,
@@ -8491,16 +8543,105 @@ enum ContactProtocol {
   sms,
 }
 
-extension on ContactProtocol {
-  String toValue() {
-    switch (this) {
-      case ContactProtocol.email:
-        return 'Email';
-      case ContactProtocol.sms:
-        return 'SMS';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CopySnapshotRequest {
+  /// The AWS Region where the source manual or automatic snapshot is located.
+  @_s.JsonKey(name: 'sourceRegion')
+  final RegionName sourceRegion;
+
+  /// The name of the new manual snapshot to be created as a copy.
+  @_s.JsonKey(name: 'targetSnapshotName')
+  final String targetSnapshotName;
+
+  /// The date of the source automatic snapshot to copy. Use the <code>get auto
+  /// snapshots</code> operation to identify the dates of the available automatic
+  /// snapshots.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Must be specified in <code>YYYY-MM-DD</code> format.
+  /// </li>
+  /// <li>
+  /// This parameter cannot be defined together with the <code>use latest
+  /// restorable auto snapshot</code> parameter. The <code>restore date</code> and
+  /// <code>use latest restorable auto snapshot</code> parameters are mutually
+  /// exclusive.
+  /// </li>
+  /// <li>
+  /// Define this parameter only when copying an automatic snapshot as a manual
+  /// snapshot. For more information, see the <a
+  /// href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-keeping-automatic-snapshots">Lightsail
+  /// Dev Guide</a>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'restoreDate')
+  final String restoreDate;
+
+  /// The name of the source instance or disk from which the source automatic
+  /// snapshot was created.
+  ///
+  /// Constraint:
+  ///
+  /// <ul>
+  /// <li>
+  /// Define this parameter only when copying an automatic snapshot as a manual
+  /// snapshot. For more information, see the <a
+  /// href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-keeping-automatic-snapshots">Lightsail
+  /// Dev Guide</a>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'sourceResourceName')
+  final String sourceResourceName;
+
+  /// The name of the source manual snapshot to copy.
+  ///
+  /// Constraint:
+  ///
+  /// <ul>
+  /// <li>
+  /// Define this parameter only when copying a manual snapshot as another manual
+  /// snapshot.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'sourceSnapshotName')
+  final String sourceSnapshotName;
+
+  /// A Boolean value to indicate whether to use the latest available automatic
+  /// snapshot of the specified source instance or disk.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// This parameter cannot be defined together with the <code>restore date</code>
+  /// parameter. The <code>use latest restorable auto snapshot</code> and
+  /// <code>restore date</code> parameters are mutually exclusive.
+  /// </li>
+  /// <li>
+  /// Define this parameter only when copying an automatic snapshot as a manual
+  /// snapshot. For more information, see the <a
+  /// href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-keeping-automatic-snapshots">Lightsail
+  /// Dev Guide</a>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'useLatestRestorableAutoSnapshot')
+  final bool useLatestRestorableAutoSnapshot;
+
+  CopySnapshotRequest({
+    @_s.required this.sourceRegion,
+    @_s.required this.targetSnapshotName,
+    this.restoreDate,
+    this.sourceResourceName,
+    this.sourceSnapshotName,
+    this.useLatestRestorableAutoSnapshot,
+  });
+  Map<String, dynamic> toJson() => _$CopySnapshotRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8525,6 +8666,26 @@ class CopySnapshotResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateCloudFormationStackRequest {
+  /// An array of parameters that will be used to create the new Amazon EC2
+  /// instance. You can only pass one instance entry at a time in this array. You
+  /// will get an invalid parameter error if you pass more than one instance entry
+  /// in this array.
+  @_s.JsonKey(name: 'instances')
+  final List<InstanceEntry> instances;
+
+  CreateCloudFormationStackRequest({
+    @_s.required this.instances,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateCloudFormationStackRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateCloudFormationStackResult {
@@ -8539,6 +8700,69 @@ class CreateCloudFormationStackResult {
   });
   factory CreateCloudFormationStackResult.fromJson(Map<String, dynamic> json) =>
       _$CreateCloudFormationStackResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateContactMethodRequest {
+  /// The destination of the contact method, such as an email address or a mobile
+  /// phone number.
+  ///
+  /// Use the E.164 format when specifying a mobile phone number. E.164 is a
+  /// standard for the phone number structure used for international
+  /// telecommunication. Phone numbers that follow this format can have a maximum
+  /// of 15 digits, and they are prefixed with the plus character (+) and the
+  /// country code. For example, a U.S. phone number in E.164 format would be
+  /// specified as +1XXX5550100. For more information, see <a
+  /// href="https://en.wikipedia.org/wiki/E.164">E.164</a> in Wikipedia.
+  @_s.JsonKey(name: 'contactEndpoint')
+  final String contactEndpoint;
+
+  /// The protocol of the contact method, such as <code>Email</code> or
+  /// <code>SMS</code> (text messaging).
+  ///
+  /// The <code>SMS</code> protocol is supported only in the following AWS
+  /// Regions.
+  ///
+  /// <ul>
+  /// <li>
+  /// US East (N. Virginia) (<code>us-east-1</code>)
+  /// </li>
+  /// <li>
+  /// US West (Oregon) (<code>us-west-2</code>)
+  /// </li>
+  /// <li>
+  /// Europe (Ireland) (<code>eu-west-1</code>)
+  /// </li>
+  /// <li>
+  /// Asia Pacific (Tokyo) (<code>ap-northeast-1</code>)
+  /// </li>
+  /// <li>
+  /// Asia Pacific (Singapore) (<code>ap-southeast-1</code>)
+  /// </li>
+  /// <li>
+  /// Asia Pacific (Sydney) (<code>ap-southeast-2</code>)
+  /// </li>
+  /// </ul>
+  /// For a list of countries/regions where SMS text messages can be sent, and the
+  /// latest AWS Regions where SMS text messaging is supported, see <a
+  /// href="https://docs.aws.amazon.com/sns/latest/dg/sns-supported-regions-countries.html">Supported
+  /// Regions and Countries</a> in the <i>Amazon SNS Developer Guide</i>.
+  ///
+  /// For more information about notifications in Amazon Lightsail, see <a
+  /// href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-notifications">Notifications
+  /// in Amazon Lightsail</a>.
+  @_s.JsonKey(name: 'protocol')
+  final ContactProtocol protocol;
+
+  CreateContactMethodRequest({
+    @_s.required this.contactEndpoint,
+    @_s.required this.protocol,
+  });
+  Map<String, dynamic> toJson() => _$CreateContactMethodRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8563,6 +8787,137 @@ class CreateContactMethodResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDiskFromSnapshotRequest {
+  /// The Availability Zone where you want to create the disk (e.g.,
+  /// <code>us-east-2a</code>). Choose the same Availability Zone as the Lightsail
+  /// instance where you want to create the disk.
+  ///
+  /// Use the GetRegions operation to list the Availability Zones where Lightsail
+  /// is currently available.
+  @_s.JsonKey(name: 'availabilityZone')
+  final String availabilityZone;
+
+  /// The unique Lightsail disk name (e.g., <code>my-disk</code>).
+  @_s.JsonKey(name: 'diskName')
+  final String diskName;
+
+  /// The size of the disk in GB (e.g., <code>32</code>).
+  @_s.JsonKey(name: 'sizeInGb')
+  final int sizeInGb;
+
+  /// An array of objects that represent the add-ons to enable for the new disk.
+  @_s.JsonKey(name: 'addOns')
+  final List<AddOnRequest> addOns;
+
+  /// The name of the disk snapshot (e.g., <code>my-snapshot</code>) from which to
+  /// create the new storage disk.
+  ///
+  /// Constraint:
+  ///
+  /// <ul>
+  /// <li>
+  /// This parameter cannot be defined together with the <code>source disk
+  /// name</code> parameter. The <code>disk snapshot name</code> and <code>source
+  /// disk name</code> parameters are mutually exclusive.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'diskSnapshotName')
+  final String diskSnapshotName;
+
+  /// The date of the automatic snapshot to use for the new disk. Use the
+  /// <code>get auto snapshots</code> operation to identify the dates of the
+  /// available automatic snapshots.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Must be specified in <code>YYYY-MM-DD</code> format.
+  /// </li>
+  /// <li>
+  /// This parameter cannot be defined together with the <code>use latest
+  /// restorable auto snapshot</code> parameter. The <code>restore date</code> and
+  /// <code>use latest restorable auto snapshot</code> parameters are mutually
+  /// exclusive.
+  /// </li>
+  /// <li>
+  /// Define this parameter only when creating a new disk from an automatic
+  /// snapshot. For more information, see the <a
+  /// href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots">Lightsail
+  /// Dev Guide</a>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'restoreDate')
+  final String restoreDate;
+
+  /// The name of the source disk from which the source automatic snapshot was
+  /// created.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// This parameter cannot be defined together with the <code>disk snapshot
+  /// name</code> parameter. The <code>source disk name</code> and <code>disk
+  /// snapshot name</code> parameters are mutually exclusive.
+  /// </li>
+  /// <li>
+  /// Define this parameter only when creating a new disk from an automatic
+  /// snapshot. For more information, see the <a
+  /// href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots">Lightsail
+  /// Dev Guide</a>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'sourceDiskName')
+  final String sourceDiskName;
+
+  /// The tag keys and optional values to add to the resource during create.
+  ///
+  /// To tag a resource after it has been created, see the <code>tag
+  /// resource</code> operation.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  /// A Boolean value to indicate whether to use the latest available automatic
+  /// snapshot.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// This parameter cannot be defined together with the <code>restore date</code>
+  /// parameter. The <code>use latest restorable auto snapshot</code> and
+  /// <code>restore date</code> parameters are mutually exclusive.
+  /// </li>
+  /// <li>
+  /// Define this parameter only when creating a new disk from an automatic
+  /// snapshot. For more information, see the <a
+  /// href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots">Lightsail
+  /// Dev Guide</a>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'useLatestRestorableAutoSnapshot')
+  final bool useLatestRestorableAutoSnapshot;
+
+  CreateDiskFromSnapshotRequest({
+    @_s.required this.availabilityZone,
+    @_s.required this.diskName,
+    @_s.required this.sizeInGb,
+    this.addOns,
+    this.diskSnapshotName,
+    this.restoreDate,
+    this.sourceDiskName,
+    this.tags,
+    this.useLatestRestorableAutoSnapshot,
+  });
+  Map<String, dynamic> toJson() => _$CreateDiskFromSnapshotRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateDiskFromSnapshotResult {
@@ -8577,6 +8932,50 @@ class CreateDiskFromSnapshotResult {
   });
   factory CreateDiskFromSnapshotResult.fromJson(Map<String, dynamic> json) =>
       _$CreateDiskFromSnapshotResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDiskRequest {
+  /// The Availability Zone where you want to create the disk (e.g.,
+  /// <code>us-east-2a</code>). Use the same Availability Zone as the Lightsail
+  /// instance to which you want to attach the disk.
+  ///
+  /// Use the <code>get regions</code> operation to list the Availability Zones
+  /// where Lightsail is currently available.
+  @_s.JsonKey(name: 'availabilityZone')
+  final String availabilityZone;
+
+  /// The unique Lightsail disk name (e.g., <code>my-disk</code>).
+  @_s.JsonKey(name: 'diskName')
+  final String diskName;
+
+  /// The size of the disk in GB (e.g., <code>32</code>).
+  @_s.JsonKey(name: 'sizeInGb')
+  final int sizeInGb;
+
+  /// An array of objects that represent the add-ons to enable for the new disk.
+  @_s.JsonKey(name: 'addOns')
+  final List<AddOnRequest> addOns;
+
+  /// The tag keys and optional values to add to the resource during create.
+  ///
+  /// To tag a resource after it has been created, see the <code>tag
+  /// resource</code> operation.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  CreateDiskRequest({
+    @_s.required this.availabilityZone,
+    @_s.required this.diskName,
+    @_s.required this.sizeInGb,
+    this.addOns,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateDiskRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8601,6 +9000,53 @@ class CreateDiskResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDiskSnapshotRequest {
+  /// The name of the destination disk snapshot (e.g.,
+  /// <code>my-disk-snapshot</code>) based on the source disk.
+  @_s.JsonKey(name: 'diskSnapshotName')
+  final String diskSnapshotName;
+
+  /// The unique name of the source disk (e.g., <code>Disk-Virginia-1</code>).
+  /// <note>
+  /// This parameter cannot be defined together with the <code>instance
+  /// name</code> parameter. The <code>disk name</code> and <code>instance
+  /// name</code> parameters are mutually exclusive.
+  /// </note>
+  @_s.JsonKey(name: 'diskName')
+  final String diskName;
+
+  /// The unique name of the source instance (e.g.,
+  /// <code>Amazon_Linux-512MB-Virginia-1</code>). When this is defined, a
+  /// snapshot of the instance's system volume is created.
+  /// <note>
+  /// This parameter cannot be defined together with the <code>disk name</code>
+  /// parameter. The <code>instance name</code> and <code>disk name</code>
+  /// parameters are mutually exclusive.
+  /// </note>
+  @_s.JsonKey(name: 'instanceName')
+  final String instanceName;
+
+  /// The tag keys and optional values to add to the resource during create.
+  ///
+  /// To tag a resource after it has been created, see the <code>tag
+  /// resource</code> operation.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  CreateDiskSnapshotRequest({
+    @_s.required this.diskSnapshotName,
+    this.diskName,
+    this.instanceName,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateDiskSnapshotRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateDiskSnapshotResult {
@@ -8615,6 +9061,29 @@ class CreateDiskSnapshotResult {
   });
   factory CreateDiskSnapshotResult.fromJson(Map<String, dynamic> json) =>
       _$CreateDiskSnapshotResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDomainEntryRequest {
+  /// An array of key-value pairs containing information about the domain entry
+  /// request.
+  @_s.JsonKey(name: 'domainEntry')
+  final DomainEntry domainEntry;
+
+  /// The domain name (e.g., <code>example.com</code>) for which you want to
+  /// create the domain entry.
+  @_s.JsonKey(name: 'domainName')
+  final String domainName;
+
+  CreateDomainEntryRequest({
+    @_s.required this.domainEntry,
+    @_s.required this.domainName,
+  });
+  Map<String, dynamic> toJson() => _$CreateDomainEntryRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8639,6 +9108,36 @@ class CreateDomainEntryResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDomainRequest {
+  /// The domain name to manage (e.g., <code>example.com</code>).
+  /// <note>
+  /// You cannot register a new domain name using Lightsail. You must register a
+  /// domain name using Amazon Route 53 or another domain name registrar. If you
+  /// have already registered your domain, you can enter its name in this
+  /// parameter to manage the DNS records for that domain.
+  /// </note>
+  @_s.JsonKey(name: 'domainName')
+  final String domainName;
+
+  /// The tag keys and optional values to add to the resource during create.
+  ///
+  /// To tag a resource after it has been created, see the <code>tag
+  /// resource</code> operation.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  CreateDomainRequest({
+    @_s.required this.domainName,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateDomainRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateDomainResult {
@@ -8658,6 +9157,35 @@ class CreateDomainResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateInstanceSnapshotRequest {
+  /// The Lightsail instance on which to base your snapshot.
+  @_s.JsonKey(name: 'instanceName')
+  final String instanceName;
+
+  /// The name for your new snapshot.
+  @_s.JsonKey(name: 'instanceSnapshotName')
+  final String instanceSnapshotName;
+
+  /// The tag keys and optional values to add to the resource during create.
+  ///
+  /// To tag a resource after it has been created, see the <code>tag
+  /// resource</code> operation.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  CreateInstanceSnapshotRequest({
+    @_s.required this.instanceName,
+    @_s.required this.instanceSnapshotName,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateInstanceSnapshotRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateInstanceSnapshotResult {
@@ -8672,6 +9200,164 @@ class CreateInstanceSnapshotResult {
   });
   factory CreateInstanceSnapshotResult.fromJson(Map<String, dynamic> json) =>
       _$CreateInstanceSnapshotResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateInstancesFromSnapshotRequest {
+  /// The Availability Zone where you want to create your instances. Use the
+  /// following formatting: <code>us-east-2a</code> (case sensitive). You can get
+  /// a list of Availability Zones by using the <a
+  /// href="http://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetRegions.html">get
+  /// regions</a> operation. Be sure to add the <code>include Availability
+  /// Zones</code> parameter to your request.
+  @_s.JsonKey(name: 'availabilityZone')
+  final String availabilityZone;
+
+  /// The bundle of specification information for your virtual private server (or
+  /// <i>instance</i>), including the pricing plan (e.g., <code>micro_1_0</code>).
+  @_s.JsonKey(name: 'bundleId')
+  final String bundleId;
+
+  /// The names for your new instances.
+  @_s.JsonKey(name: 'instanceNames')
+  final List<String> instanceNames;
+
+  /// An array of objects representing the add-ons to enable for the new instance.
+  @_s.JsonKey(name: 'addOns')
+  final List<AddOnRequest> addOns;
+
+  /// An object containing information about one or more disk mappings.
+  @_s.JsonKey(name: 'attachedDiskMapping')
+  final Map<String, List<DiskMap>> attachedDiskMapping;
+
+  /// The name of the instance snapshot on which you are basing your new
+  /// instances. Use the get instance snapshots operation to return information
+  /// about your existing snapshots.
+  ///
+  /// Constraint:
+  ///
+  /// <ul>
+  /// <li>
+  /// This parameter cannot be defined together with the <code>source instance
+  /// name</code> parameter. The <code>instance snapshot name</code> and
+  /// <code>source instance name</code> parameters are mutually exclusive.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'instanceSnapshotName')
+  final String instanceSnapshotName;
+
+  /// The name for your key pair.
+  @_s.JsonKey(name: 'keyPairName')
+  final String keyPairName;
+
+  /// The date of the automatic snapshot to use for the new instance. Use the
+  /// <code>get auto snapshots</code> operation to identify the dates of the
+  /// available automatic snapshots.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Must be specified in <code>YYYY-MM-DD</code> format.
+  /// </li>
+  /// <li>
+  /// This parameter cannot be defined together with the <code>use latest
+  /// restorable auto snapshot</code> parameter. The <code>restore date</code> and
+  /// <code>use latest restorable auto snapshot</code> parameters are mutually
+  /// exclusive.
+  /// </li>
+  /// <li>
+  /// Define this parameter only when creating a new instance from an automatic
+  /// snapshot. For more information, see the <a
+  /// href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots">Lightsail
+  /// Dev Guide</a>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'restoreDate')
+  final String restoreDate;
+
+  /// The name of the source instance from which the source automatic snapshot was
+  /// created.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// This parameter cannot be defined together with the <code>instance snapshot
+  /// name</code> parameter. The <code>source instance name</code> and
+  /// <code>instance snapshot name</code> parameters are mutually exclusive.
+  /// </li>
+  /// <li>
+  /// Define this parameter only when creating a new instance from an automatic
+  /// snapshot. For more information, see the <a
+  /// href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots">Lightsail
+  /// Dev Guide</a>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'sourceInstanceName')
+  final String sourceInstanceName;
+
+  /// The tag keys and optional values to add to the resource during create.
+  ///
+  /// To tag a resource after it has been created, see the <code>tag
+  /// resource</code> operation.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  /// A Boolean value to indicate whether to use the latest available automatic
+  /// snapshot.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// This parameter cannot be defined together with the <code>restore date</code>
+  /// parameter. The <code>use latest restorable auto snapshot</code> and
+  /// <code>restore date</code> parameters are mutually exclusive.
+  /// </li>
+  /// <li>
+  /// Define this parameter only when creating a new instance from an automatic
+  /// snapshot. For more information, see the <a
+  /// href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots">Lightsail
+  /// Dev Guide</a>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'useLatestRestorableAutoSnapshot')
+  final bool useLatestRestorableAutoSnapshot;
+
+  /// You can create a launch script that configures a server with additional user
+  /// data. For example, <code>apt-get -y update</code>.
+  /// <note>
+  /// Depending on the machine image you choose, the command to get software on
+  /// your instance varies. Amazon Linux and CentOS use <code>yum</code>, Debian
+  /// and Ubuntu use <code>apt-get</code>, and FreeBSD uses <code>pkg</code>. For
+  /// a complete list, see the <a
+  /// href="https://lightsail.aws.amazon.com/ls/docs/getting-started/article/compare-options-choose-lightsail-instance-image">Dev
+  /// Guide</a>.
+  /// </note>
+  @_s.JsonKey(name: 'userData')
+  final String userData;
+
+  CreateInstancesFromSnapshotRequest({
+    @_s.required this.availabilityZone,
+    @_s.required this.bundleId,
+    @_s.required this.instanceNames,
+    this.addOns,
+    this.attachedDiskMapping,
+    this.instanceSnapshotName,
+    this.keyPairName,
+    this.restoreDate,
+    this.sourceInstanceName,
+    this.tags,
+    this.useLatestRestorableAutoSnapshot,
+    this.userData,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateInstancesFromSnapshotRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8697,6 +9383,95 @@ class CreateInstancesFromSnapshotResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateInstancesRequest {
+  /// The Availability Zone in which to create your instance. Use the following
+  /// format: <code>us-east-2a</code> (case sensitive). You can get a list of
+  /// Availability Zones by using the <a
+  /// href="http://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetRegions.html">get
+  /// regions</a> operation. Be sure to add the <code>include Availability
+  /// Zones</code> parameter to your request.
+  @_s.JsonKey(name: 'availabilityZone')
+  final String availabilityZone;
+
+  /// The ID for a virtual private server image (e.g.,
+  /// <code>app_wordpress_4_4</code> or <code>app_lamp_7_0</code>). Use the
+  /// <code>get blueprints</code> operation to return a list of available images
+  /// (or <i>blueprints</i>).
+  /// <note>
+  /// Use active blueprints when creating new instances. Inactive blueprints are
+  /// listed to support customers with existing instances and are not necessarily
+  /// available to create new instances. Blueprints are marked inactive when they
+  /// become outdated due to operating system updates or new application releases.
+  /// </note>
+  @_s.JsonKey(name: 'blueprintId')
+  final String blueprintId;
+
+  /// The bundle of specification information for your virtual private server (or
+  /// <i>instance</i>), including the pricing plan (e.g., <code>micro_1_0</code>).
+  @_s.JsonKey(name: 'bundleId')
+  final String bundleId;
+
+  /// The names to use for your new Lightsail instances. Separate multiple values
+  /// using quotation marks and commas, for example:
+  /// <code>["MyFirstInstance","MySecondInstance"]</code>
+  @_s.JsonKey(name: 'instanceNames')
+  final List<String> instanceNames;
+
+  /// An array of objects representing the add-ons to enable for the new instance.
+  @_s.JsonKey(name: 'addOns')
+  final List<AddOnRequest> addOns;
+
+  /// (Deprecated) The name for your custom image.
+  /// <note>
+  /// In releases prior to June 12, 2017, this parameter was ignored by the API.
+  /// It is now deprecated.
+  /// </note>
+  @_s.JsonKey(name: 'customImageName')
+  final String customImageName;
+
+  /// The name of your key pair.
+  @_s.JsonKey(name: 'keyPairName')
+  final String keyPairName;
+
+  /// The tag keys and optional values to add to the resource during create.
+  ///
+  /// To tag a resource after it has been created, see the <code>tag
+  /// resource</code> operation.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  /// A launch script you can create that configures a server with additional user
+  /// data. For example, you might want to run <code>apt-get -y update</code>.
+  /// <note>
+  /// Depending on the machine image you choose, the command to get software on
+  /// your instance varies. Amazon Linux and CentOS use <code>yum</code>, Debian
+  /// and Ubuntu use <code>apt-get</code>, and FreeBSD uses <code>pkg</code>. For
+  /// a complete list, see the <a
+  /// href="https://lightsail.aws.amazon.com/ls/docs/getting-started/article/compare-options-choose-lightsail-instance-image">Dev
+  /// Guide</a>.
+  /// </note>
+  @_s.JsonKey(name: 'userData')
+  final String userData;
+
+  CreateInstancesRequest({
+    @_s.required this.availabilityZone,
+    @_s.required this.blueprintId,
+    @_s.required this.bundleId,
+    @_s.required this.instanceNames,
+    this.addOns,
+    this.customImageName,
+    this.keyPairName,
+    this.tags,
+    this.userData,
+  });
+  Map<String, dynamic> toJson() => _$CreateInstancesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateInstancesResult {
@@ -8711,6 +9486,30 @@ class CreateInstancesResult {
   });
   factory CreateInstancesResult.fromJson(Map<String, dynamic> json) =>
       _$CreateInstancesResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateKeyPairRequest {
+  /// The name for your new key pair.
+  @_s.JsonKey(name: 'keyPairName')
+  final String keyPairName;
+
+  /// The tag keys and optional values to add to the resource during create.
+  ///
+  /// To tag a resource after it has been created, see the <code>tag
+  /// resource</code> operation.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  CreateKeyPairRequest({
+    @_s.required this.keyPairName,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateKeyPairRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8751,6 +9550,70 @@ class CreateKeyPairResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateLoadBalancerRequest {
+  /// The instance port where you're creating your load balancer.
+  @_s.JsonKey(name: 'instancePort')
+  final int instancePort;
+
+  /// The name of your load balancer.
+  @_s.JsonKey(name: 'loadBalancerName')
+  final String loadBalancerName;
+
+  /// The optional alternative domains and subdomains to use with your SSL/TLS
+  /// certificate (e.g., <code>www.example.com</code>, <code>example.com</code>,
+  /// <code>m.example.com</code>, <code>blog.example.com</code>).
+  @_s.JsonKey(name: 'certificateAlternativeNames')
+  final List<String> certificateAlternativeNames;
+
+  /// The domain name with which your certificate is associated (e.g.,
+  /// <code>example.com</code>).
+  ///
+  /// If you specify <code>certificateDomainName</code>, then
+  /// <code>certificateName</code> is required (and vice-versa).
+  @_s.JsonKey(name: 'certificateDomainName')
+  final String certificateDomainName;
+
+  /// The name of the SSL/TLS certificate.
+  ///
+  /// If you specify <code>certificateName</code>, then
+  /// <code>certificateDomainName</code> is required (and vice-versa).
+  @_s.JsonKey(name: 'certificateName')
+  final String certificateName;
+
+  /// The path you provided to perform the load balancer health check. If you
+  /// didn't specify a health check path, Lightsail uses the root path of your
+  /// website (e.g., <code>"/"</code>).
+  ///
+  /// You may want to specify a custom health check path other than the root of
+  /// your application if your home page loads slowly or has a lot of media or
+  /// scripting on it.
+  @_s.JsonKey(name: 'healthCheckPath')
+  final String healthCheckPath;
+
+  /// The tag keys and optional values to add to the resource during create.
+  ///
+  /// To tag a resource after it has been created, see the <code>tag
+  /// resource</code> operation.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  CreateLoadBalancerRequest({
+    @_s.required this.instancePort,
+    @_s.required this.loadBalancerName,
+    this.certificateAlternativeNames,
+    this.certificateDomainName,
+    this.certificateName,
+    this.healthCheckPath,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateLoadBalancerRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateLoadBalancerResult {
@@ -8765,6 +9628,56 @@ class CreateLoadBalancerResult {
   });
   factory CreateLoadBalancerResult.fromJson(Map<String, dynamic> json) =>
       _$CreateLoadBalancerResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateLoadBalancerTlsCertificateRequest {
+  /// The domain name (e.g., <code>example.com</code>) for your SSL/TLS
+  /// certificate.
+  @_s.JsonKey(name: 'certificateDomainName')
+  final String certificateDomainName;
+
+  /// The SSL/TLS certificate name.
+  ///
+  /// You can have up to 10 certificates in your account at one time. Each
+  /// Lightsail load balancer can have up to 2 certificates associated with it at
+  /// one time. There is also an overall limit to the number of certificates that
+  /// can be issue in a 365-day period. For more information, see <a
+  /// href="http://docs.aws.amazon.com/acm/latest/userguide/acm-limits.html">Limits</a>.
+  @_s.JsonKey(name: 'certificateName')
+  final String certificateName;
+
+  /// The load balancer name where you want to create the SSL/TLS certificate.
+  @_s.JsonKey(name: 'loadBalancerName')
+  final String loadBalancerName;
+
+  /// An array of strings listing alternative domains and subdomains for your
+  /// SSL/TLS certificate. Lightsail will de-dupe the names for you. You can have
+  /// a maximum of 9 alternative names (in addition to the 1 primary domain). We
+  /// do not support wildcards (e.g., <code>*.example.com</code>).
+  @_s.JsonKey(name: 'certificateAlternativeNames')
+  final List<String> certificateAlternativeNames;
+
+  /// The tag keys and optional values to add to the resource during create.
+  ///
+  /// To tag a resource after it has been created, see the <code>tag
+  /// resource</code> operation.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  CreateLoadBalancerTlsCertificateRequest({
+    @_s.required this.certificateDomainName,
+    @_s.required this.certificateName,
+    @_s.required this.loadBalancerName,
+    this.certificateAlternativeNames,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateLoadBalancerTlsCertificateRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8790,6 +9703,123 @@ class CreateLoadBalancerTlsCertificateResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateRelationalDatabaseFromSnapshotRequest {
+  /// The name to use for your new database.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Must contain from 2 to 255 alphanumeric characters, or hyphens.
+  /// </li>
+  /// <li>
+  /// The first and last character must be a letter or number.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'relationalDatabaseName')
+  final String relationalDatabaseName;
+
+  /// The Availability Zone in which to create your new database. Use the
+  /// <code>us-east-2a</code> case-sensitive format.
+  ///
+  /// You can get a list of Availability Zones by using the <code>get
+  /// regions</code> operation. Be sure to add the <code>include relational
+  /// database Availability Zones</code> parameter to your request.
+  @_s.JsonKey(name: 'availabilityZone')
+  final String availabilityZone;
+
+  /// Specifies the accessibility options for your new database. A value of
+  /// <code>true</code> specifies a database that is available to resources
+  /// outside of your Lightsail account. A value of <code>false</code> specifies a
+  /// database that is available only to your Lightsail resources in the same
+  /// region as your database.
+  @_s.JsonKey(name: 'publiclyAccessible')
+  final bool publiclyAccessible;
+
+  /// The bundle ID for your new database. A bundle describes the performance
+  /// specifications for your database.
+  ///
+  /// You can get a list of database bundle IDs by using the <code>get relational
+  /// database bundles</code> operation.
+  ///
+  /// When creating a new database from a snapshot, you cannot choose a bundle
+  /// that is smaller than the bundle of the source database.
+  @_s.JsonKey(name: 'relationalDatabaseBundleId')
+  final String relationalDatabaseBundleId;
+
+  /// The name of the database snapshot from which to create your new database.
+  @_s.JsonKey(name: 'relationalDatabaseSnapshotName')
+  final String relationalDatabaseSnapshotName;
+
+  /// The date and time to restore your database from.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Must be before the latest restorable time for the database.
+  /// </li>
+  /// <li>
+  /// Cannot be specified if the <code>use latest restorable time</code> parameter
+  /// is <code>true</code>.
+  /// </li>
+  /// <li>
+  /// Specified in Coordinated Universal Time (UTC).
+  /// </li>
+  /// <li>
+  /// Specified in the Unix time format.
+  ///
+  /// For example, if you wish to use a restore time of October 1, 2018, at 8 PM
+  /// UTC, then you input <code>1538424000</code> as the restore time.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(
+      name: 'restoreTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime restoreTime;
+
+  /// The name of the source database.
+  @_s.JsonKey(name: 'sourceRelationalDatabaseName')
+  final String sourceRelationalDatabaseName;
+
+  /// The tag keys and optional values to add to the resource during create.
+  ///
+  /// To tag a resource after it has been created, see the <code>tag
+  /// resource</code> operation.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  /// Specifies whether your database is restored from the latest backup time. A
+  /// value of <code>true</code> restores from the latest backup time.
+  ///
+  /// Default: <code>false</code>
+  ///
+  /// Constraints: Cannot be specified if the <code>restore time</code> parameter
+  /// is provided.
+  @_s.JsonKey(name: 'useLatestRestorableTime')
+  final bool useLatestRestorableTime;
+
+  CreateRelationalDatabaseFromSnapshotRequest({
+    @_s.required this.relationalDatabaseName,
+    this.availabilityZone,
+    this.publiclyAccessible,
+    this.relationalDatabaseBundleId,
+    this.relationalDatabaseSnapshotName,
+    this.restoreTime,
+    this.sourceRelationalDatabaseName,
+    this.tags,
+    this.useLatestRestorableTime,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateRelationalDatabaseFromSnapshotRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateRelationalDatabaseFromSnapshotResult {
@@ -8810,6 +9840,193 @@ class CreateRelationalDatabaseFromSnapshotResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateRelationalDatabaseRequest {
+  /// The name of the master database created when the Lightsail database resource
+  /// is created.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Must contain from 1 to 64 alphanumeric characters.
+  /// </li>
+  /// <li>
+  /// Cannot be a word reserved by the specified database engine
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'masterDatabaseName')
+  final String masterDatabaseName;
+
+  /// The master user name for your new database.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Master user name is required.
+  /// </li>
+  /// <li>
+  /// Must contain from 1 to 16 alphanumeric characters.
+  /// </li>
+  /// <li>
+  /// The first character must be a letter.
+  /// </li>
+  /// <li>
+  /// Cannot be a reserved word for the database engine you choose.
+  ///
+  /// For more information about reserved words in MySQL 5.6 or 5.7, see the
+  /// Keywords and Reserved Words articles for <a
+  /// href="https://dev.mysql.com/doc/refman/5.6/en/keywords.html">MySQL 5.6</a>
+  /// or <a href="https://dev.mysql.com/doc/refman/5.7/en/keywords.html">MySQL
+  /// 5.7</a> respectively.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'masterUsername')
+  final String masterUsername;
+
+  /// The blueprint ID for your new database. A blueprint describes the major
+  /// engine version of a database.
+  ///
+  /// You can get a list of database blueprints IDs by using the <code>get
+  /// relational database blueprints</code> operation.
+  @_s.JsonKey(name: 'relationalDatabaseBlueprintId')
+  final String relationalDatabaseBlueprintId;
+
+  /// The bundle ID for your new database. A bundle describes the performance
+  /// specifications for your database.
+  ///
+  /// You can get a list of database bundle IDs by using the <code>get relational
+  /// database bundles</code> operation.
+  @_s.JsonKey(name: 'relationalDatabaseBundleId')
+  final String relationalDatabaseBundleId;
+
+  /// The name to use for your new database.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Must contain from 2 to 255 alphanumeric characters, or hyphens.
+  /// </li>
+  /// <li>
+  /// The first and last character must be a letter or number.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'relationalDatabaseName')
+  final String relationalDatabaseName;
+
+  /// The Availability Zone in which to create your new database. Use the
+  /// <code>us-east-2a</code> case-sensitive format.
+  ///
+  /// You can get a list of Availability Zones by using the <code>get
+  /// regions</code> operation. Be sure to add the <code>include relational
+  /// database Availability Zones</code> parameter to your request.
+  @_s.JsonKey(name: 'availabilityZone')
+  final String availabilityZone;
+
+  /// The password for the master user of your new database. The password can
+  /// include any printable ASCII character except "/", """, or "@".
+  ///
+  /// Constraints: Must contain 8 to 41 characters.
+  @_s.JsonKey(name: 'masterUserPassword')
+  final String masterUserPassword;
+
+  /// The daily time range during which automated backups are created for your new
+  /// database if automated backups are enabled.
+  ///
+  /// The default is a 30-minute window selected at random from an 8-hour block of
+  /// time for each AWS Region. For more information about the preferred backup
+  /// window time blocks for each region, see the <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithAutomatedBackups.html#USER_WorkingWithAutomatedBackups.BackupWindow">Working
+  /// With Backups</a> guide in the Amazon Relational Database Service (Amazon
+  /// RDS) documentation.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Must be in the <code>hh24:mi-hh24:mi</code> format.
+  ///
+  /// Example: <code>16:00-16:30</code>
+  /// </li>
+  /// <li>
+  /// Specified in Coordinated Universal Time (UTC).
+  /// </li>
+  /// <li>
+  /// Must not conflict with the preferred maintenance window.
+  /// </li>
+  /// <li>
+  /// Must be at least 30 minutes.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'preferredBackupWindow')
+  final String preferredBackupWindow;
+
+  /// The weekly time range during which system maintenance can occur on your new
+  /// database.
+  ///
+  /// The default is a 30-minute window selected at random from an 8-hour block of
+  /// time for each AWS Region, occurring on a random day of the week.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Must be in the <code>ddd:hh24:mi-ddd:hh24:mi</code> format.
+  /// </li>
+  /// <li>
+  /// Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun.
+  /// </li>
+  /// <li>
+  /// Must be at least 30 minutes.
+  /// </li>
+  /// <li>
+  /// Specified in Coordinated Universal Time (UTC).
+  /// </li>
+  /// <li>
+  /// Example: <code>Tue:17:00-Tue:17:30</code>
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'preferredMaintenanceWindow')
+  final String preferredMaintenanceWindow;
+
+  /// Specifies the accessibility options for your new database. A value of
+  /// <code>true</code> specifies a database that is available to resources
+  /// outside of your Lightsail account. A value of <code>false</code> specifies a
+  /// database that is available only to your Lightsail resources in the same
+  /// region as your database.
+  @_s.JsonKey(name: 'publiclyAccessible')
+  final bool publiclyAccessible;
+
+  /// The tag keys and optional values to add to the resource during create.
+  ///
+  /// To tag a resource after it has been created, see the <code>tag
+  /// resource</code> operation.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  CreateRelationalDatabaseRequest({
+    @_s.required this.masterDatabaseName,
+    @_s.required this.masterUsername,
+    @_s.required this.relationalDatabaseBlueprintId,
+    @_s.required this.relationalDatabaseBundleId,
+    @_s.required this.relationalDatabaseName,
+    this.availabilityZone,
+    this.masterUserPassword,
+    this.preferredBackupWindow,
+    this.preferredMaintenanceWindow,
+    this.publiclyAccessible,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateRelationalDatabaseRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateRelationalDatabaseResult {
@@ -8824,6 +10041,47 @@ class CreateRelationalDatabaseResult {
   });
   factory CreateRelationalDatabaseResult.fromJson(Map<String, dynamic> json) =>
       _$CreateRelationalDatabaseResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateRelationalDatabaseSnapshotRequest {
+  /// The name of the database on which to base your new snapshot.
+  @_s.JsonKey(name: 'relationalDatabaseName')
+  final String relationalDatabaseName;
+
+  /// The name for your new database snapshot.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Must contain from 2 to 255 alphanumeric characters, or hyphens.
+  /// </li>
+  /// <li>
+  /// The first and last character must be a letter or number.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'relationalDatabaseSnapshotName')
+  final String relationalDatabaseSnapshotName;
+
+  /// The tag keys and optional values to add to the resource during create.
+  ///
+  /// To tag a resource after it has been created, see the <code>tag
+  /// resource</code> operation.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  CreateRelationalDatabaseSnapshotRequest({
+    @_s.required this.relationalDatabaseName,
+    @_s.required this.relationalDatabaseSnapshotName,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateRelationalDatabaseSnapshotRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8849,6 +10107,22 @@ class CreateRelationalDatabaseSnapshotResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteAlarmRequest {
+  /// The name of the alarm to delete.
+  @_s.JsonKey(name: 'alarmName')
+  final String alarmName;
+
+  DeleteAlarmRequest({
+    @_s.required this.alarmName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteAlarmRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteAlarmResult {
@@ -8863,6 +10137,30 @@ class DeleteAlarmResult {
   });
   factory DeleteAlarmResult.fromJson(Map<String, dynamic> json) =>
       _$DeleteAlarmResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteAutoSnapshotRequest {
+  /// The date of the automatic snapshot to delete in <code>YYYY-MM-DD</code>
+  /// format. Use the <code>get auto snapshots</code> operation to get the
+  /// available automatic snapshots for a resource.
+  @_s.JsonKey(name: 'date')
+  final String date;
+
+  /// The name of the source instance or disk from which to delete the automatic
+  /// snapshot.
+  @_s.JsonKey(name: 'resourceName')
+  final String resourceName;
+
+  DeleteAutoSnapshotRequest({
+    @_s.required this.date,
+    @_s.required this.resourceName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteAutoSnapshotRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8887,6 +10185,28 @@ class DeleteAutoSnapshotResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteContactMethodRequest {
+  /// The protocol that will be deleted, such as <code>Email</code> or
+  /// <code>SMS</code> (text messaging).
+  /// <note>
+  /// To delete an <code>Email</code> and an <code>SMS</code> contact method if
+  /// you added both, you must run separate <code>DeleteContactMethod</code>
+  /// actions to delete each protocol.
+  /// </note>
+  @_s.JsonKey(name: 'protocol')
+  final ContactProtocol protocol;
+
+  DeleteContactMethodRequest({
+    @_s.required this.protocol,
+  });
+  Map<String, dynamic> toJson() => _$DeleteContactMethodRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteContactMethodResult {
@@ -8901,6 +10221,28 @@ class DeleteContactMethodResult {
   });
   factory DeleteContactMethodResult.fromJson(Map<String, dynamic> json) =>
       _$DeleteContactMethodResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDiskRequest {
+  /// The unique name of the disk you want to delete (e.g., <code>my-disk</code>).
+  @_s.JsonKey(name: 'diskName')
+  final String diskName;
+
+  /// A Boolean value to indicate whether to delete the enabled add-ons for the
+  /// disk.
+  @_s.JsonKey(name: 'forceDeleteAddOns')
+  final bool forceDeleteAddOns;
+
+  DeleteDiskRequest({
+    @_s.required this.diskName,
+    this.forceDeleteAddOns,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDiskRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8925,6 +10267,23 @@ class DeleteDiskResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDiskSnapshotRequest {
+  /// The name of the disk snapshot you want to delete (e.g.,
+  /// <code>my-disk-snapshot</code>).
+  @_s.JsonKey(name: 'diskSnapshotName')
+  final String diskSnapshotName;
+
+  DeleteDiskSnapshotRequest({
+    @_s.required this.diskSnapshotName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDiskSnapshotRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteDiskSnapshotResult {
@@ -8939,6 +10298,28 @@ class DeleteDiskSnapshotResult {
   });
   factory DeleteDiskSnapshotResult.fromJson(Map<String, dynamic> json) =>
       _$DeleteDiskSnapshotResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDomainEntryRequest {
+  /// An array of key-value pairs containing information about your domain
+  /// entries.
+  @_s.JsonKey(name: 'domainEntry')
+  final DomainEntry domainEntry;
+
+  /// The name of the domain entry to delete.
+  @_s.JsonKey(name: 'domainName')
+  final String domainName;
+
+  DeleteDomainEntryRequest({
+    @_s.required this.domainEntry,
+    @_s.required this.domainName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDomainEntryRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8963,6 +10344,22 @@ class DeleteDomainEntryResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDomainRequest {
+  /// The specific domain name to delete.
+  @_s.JsonKey(name: 'domainName')
+  final String domainName;
+
+  DeleteDomainRequest({
+    @_s.required this.domainName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDomainRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteDomainResult {
@@ -8977,6 +10374,28 @@ class DeleteDomainResult {
   });
   factory DeleteDomainResult.fromJson(Map<String, dynamic> json) =>
       _$DeleteDomainResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteInstanceRequest {
+  /// The name of the instance to delete.
+  @_s.JsonKey(name: 'instanceName')
+  final String instanceName;
+
+  /// A Boolean value to indicate whether to delete the enabled add-ons for the
+  /// disk.
+  @_s.JsonKey(name: 'forceDeleteAddOns')
+  final bool forceDeleteAddOns;
+
+  DeleteInstanceRequest({
+    @_s.required this.instanceName,
+    this.forceDeleteAddOns,
+  });
+  Map<String, dynamic> toJson() => _$DeleteInstanceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -9001,6 +10420,22 @@ class DeleteInstanceResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteInstanceSnapshotRequest {
+  /// The name of the snapshot to delete.
+  @_s.JsonKey(name: 'instanceSnapshotName')
+  final String instanceSnapshotName;
+
+  DeleteInstanceSnapshotRequest({
+    @_s.required this.instanceSnapshotName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteInstanceSnapshotRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteInstanceSnapshotResult {
@@ -9015,6 +10450,22 @@ class DeleteInstanceSnapshotResult {
   });
   factory DeleteInstanceSnapshotResult.fromJson(Map<String, dynamic> json) =>
       _$DeleteInstanceSnapshotResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteKeyPairRequest {
+  /// The name of the key pair to delete.
+  @_s.JsonKey(name: 'keyPairName')
+  final String keyPairName;
+
+  DeleteKeyPairRequest({
+    @_s.required this.keyPairName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteKeyPairRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -9039,6 +10490,23 @@ class DeleteKeyPairResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteKnownHostKeysRequest {
+  /// The name of the instance for which you want to reset the host key or
+  /// certificate.
+  @_s.JsonKey(name: 'instanceName')
+  final String instanceName;
+
+  DeleteKnownHostKeysRequest({
+    @_s.required this.instanceName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteKnownHostKeysRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteKnownHostKeysResult {
@@ -9058,6 +10526,22 @@ class DeleteKnownHostKeysResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteLoadBalancerRequest {
+  /// The name of the load balancer you want to delete.
+  @_s.JsonKey(name: 'loadBalancerName')
+  final String loadBalancerName;
+
+  DeleteLoadBalancerRequest({
+    @_s.required this.loadBalancerName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteLoadBalancerRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteLoadBalancerResult {
@@ -9072,6 +10556,38 @@ class DeleteLoadBalancerResult {
   });
   factory DeleteLoadBalancerResult.fromJson(Map<String, dynamic> json) =>
       _$DeleteLoadBalancerResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteLoadBalancerTlsCertificateRequest {
+  /// The SSL/TLS certificate name.
+  @_s.JsonKey(name: 'certificateName')
+  final String certificateName;
+
+  /// The load balancer name.
+  @_s.JsonKey(name: 'loadBalancerName')
+  final String loadBalancerName;
+
+  /// When <code>true</code>, forces the deletion of an SSL/TLS certificate.
+  ///
+  /// There can be two certificates associated with a Lightsail load balancer: the
+  /// primary and the backup. The <code>force</code> parameter is required when
+  /// the primary SSL/TLS certificate is in use by an instance attached to the
+  /// load balancer.
+  @_s.JsonKey(name: 'force')
+  final bool force;
+
+  DeleteLoadBalancerTlsCertificateRequest({
+    @_s.required this.certificateName,
+    @_s.required this.loadBalancerName,
+    this.force,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteLoadBalancerTlsCertificateRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -9097,6 +10613,58 @@ class DeleteLoadBalancerTlsCertificateResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteRelationalDatabaseRequest {
+  /// The name of the database that you are deleting.
+  @_s.JsonKey(name: 'relationalDatabaseName')
+  final String relationalDatabaseName;
+
+  /// The name of the database snapshot created if <code>skip final
+  /// snapshot</code> is <code>false</code>, which is the default value for that
+  /// parameter.
+  /// <note>
+  /// Specifying this parameter and also specifying the <code>skip final
+  /// snapshot</code> parameter to <code>true</code> results in an error.
+  /// </note>
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Must contain from 2 to 255 alphanumeric characters, or hyphens.
+  /// </li>
+  /// <li>
+  /// The first and last character must be a letter or number.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'finalRelationalDatabaseSnapshotName')
+  final String finalRelationalDatabaseSnapshotName;
+
+  /// Determines whether a final database snapshot is created before your database
+  /// is deleted. If <code>true</code> is specified, no database snapshot is
+  /// created. If <code>false</code> is specified, a database snapshot is created
+  /// before your database is deleted.
+  ///
+  /// You must specify the <code>final relational database snapshot name</code>
+  /// parameter if the <code>skip final snapshot</code> parameter is
+  /// <code>false</code>.
+  ///
+  /// Default: <code>false</code>
+  @_s.JsonKey(name: 'skipFinalSnapshot')
+  final bool skipFinalSnapshot;
+
+  DeleteRelationalDatabaseRequest({
+    @_s.required this.relationalDatabaseName,
+    this.finalRelationalDatabaseSnapshotName,
+    this.skipFinalSnapshot,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteRelationalDatabaseRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteRelationalDatabaseResult {
@@ -9111,6 +10679,23 @@ class DeleteRelationalDatabaseResult {
   });
   factory DeleteRelationalDatabaseResult.fromJson(Map<String, dynamic> json) =>
       _$DeleteRelationalDatabaseResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteRelationalDatabaseSnapshotRequest {
+  /// The name of the database snapshot that you are deleting.
+  @_s.JsonKey(name: 'relationalDatabaseSnapshotName')
+  final String relationalDatabaseSnapshotName;
+
+  DeleteRelationalDatabaseSnapshotRequest({
+    @_s.required this.relationalDatabaseSnapshotName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteRelationalDatabaseSnapshotRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -9159,6 +10744,23 @@ class DestinationInfo {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DetachDiskRequest {
+  /// The unique name of the disk you want to detach from your instance (e.g.,
+  /// <code>my-disk</code>).
+  @_s.JsonKey(name: 'diskName')
+  final String diskName;
+
+  DetachDiskRequest({
+    @_s.required this.diskName,
+  });
+  Map<String, dynamic> toJson() => _$DetachDiskRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DetachDiskResult {
@@ -9173,6 +10775,29 @@ class DetachDiskResult {
   });
   factory DetachDiskResult.fromJson(Map<String, dynamic> json) =>
       _$DetachDiskResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DetachInstancesFromLoadBalancerRequest {
+  /// An array of strings containing the names of the instances you want to detach
+  /// from the load balancer.
+  @_s.JsonKey(name: 'instanceNames')
+  final List<String> instanceNames;
+
+  /// The name of the Lightsail load balancer.
+  @_s.JsonKey(name: 'loadBalancerName')
+  final String loadBalancerName;
+
+  DetachInstancesFromLoadBalancerRequest({
+    @_s.required this.instanceNames,
+    @_s.required this.loadBalancerName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DetachInstancesFromLoadBalancerRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -9198,6 +10823,22 @@ class DetachInstancesFromLoadBalancerResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DetachStaticIpRequest {
+  /// The name of the static IP to detach from the instance.
+  @_s.JsonKey(name: 'staticIpName')
+  final String staticIpName;
+
+  DetachStaticIpRequest({
+    @_s.required this.staticIpName,
+  });
+  Map<String, dynamic> toJson() => _$DetachStaticIpRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DetachStaticIpResult {
@@ -9212,6 +10853,27 @@ class DetachStaticIpResult {
   });
   factory DetachStaticIpResult.fromJson(Map<String, dynamic> json) =>
       _$DetachStaticIpResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisableAddOnRequest {
+  /// The add-on type to disable.
+  @_s.JsonKey(name: 'addOnType')
+  final AddOnType addOnType;
+
+  /// The name of the source resource for which to disable the add-on.
+  @_s.JsonKey(name: 'resourceName')
+  final String resourceName;
+
+  DisableAddOnRequest({
+    @_s.required this.addOnType,
+    @_s.required this.resourceName,
+  });
+  Map<String, dynamic> toJson() => _$DisableAddOnRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -9720,6 +11382,27 @@ class DownloadDefaultKeyPairResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class EnableAddOnRequest {
+  /// An array of strings representing the add-on to enable or modify.
+  @_s.JsonKey(name: 'addOnRequest')
+  final AddOnRequest addOnRequest;
+
+  /// The name of the source resource for which to enable or modify the add-on.
+  @_s.JsonKey(name: 'resourceName')
+  final String resourceName;
+
+  EnableAddOnRequest({
+    @_s.required this.addOnRequest,
+    @_s.required this.resourceName,
+  });
+  Map<String, dynamic> toJson() => _$EnableAddOnRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class EnableAddOnResult {
@@ -9860,6 +11543,22 @@ enum ExportSnapshotRecordSourceType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ExportSnapshotRequest {
+  /// The name of the instance or disk snapshot to be exported to Amazon EC2.
+  @_s.JsonKey(name: 'sourceSnapshotName')
+  final String sourceSnapshotName;
+
+  ExportSnapshotRequest({
+    @_s.required this.sourceSnapshotName,
+  });
+  Map<String, dynamic> toJson() => _$ExportSnapshotRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ExportSnapshotResult {
@@ -9874,6 +11573,26 @@ class ExportSnapshotResult {
   });
   factory ExportSnapshotResult.fromJson(Map<String, dynamic> json) =>
       _$ExportSnapshotResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetActiveNamesRequest {
+  /// The token to advance to the next page of results from your request.
+  ///
+  /// To get a page token, perform an initial <code>GetActiveNames</code> request.
+  /// If your results are paginated, the response will return a next page token
+  /// that you can specify as the page token in a subsequent request.
+  @_s.JsonKey(name: 'pageToken')
+  final String pageToken;
+
+  GetActiveNamesRequest({
+    this.pageToken,
+  });
+  Map<String, dynamic> toJson() => _$GetActiveNamesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -9907,6 +11626,41 @@ class GetActiveNamesResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetAlarmsRequest {
+  /// The name of the alarm.
+  ///
+  /// Specify an alarm name to return information about a specific alarm.
+  @_s.JsonKey(name: 'alarmName')
+  final String alarmName;
+
+  /// The name of the Lightsail resource being monitored by the alarm.
+  ///
+  /// Specify a monitored resource name to return information about all alarms for
+  /// a specific resource.
+  @_s.JsonKey(name: 'monitoredResourceName')
+  final String monitoredResourceName;
+
+  /// The token to advance to the next page of results from your request.
+  ///
+  /// To get a page token, perform an initial <code>GetAlarms</code> request. If
+  /// your results are paginated, the response will return a next page token that
+  /// you can specify as the page token in a subsequent request.
+  @_s.JsonKey(name: 'pageToken')
+  final String pageToken;
+
+  GetAlarmsRequest({
+    this.alarmName,
+    this.monitoredResourceName,
+    this.pageToken,
+  });
+  Map<String, dynamic> toJson() => _$GetAlarmsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetAlarmsResult {
@@ -9935,6 +11689,23 @@ class GetAlarmsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetAutoSnapshotsRequest {
+  /// The name of the source instance or disk from which to get automatic snapshot
+  /// information.
+  @_s.JsonKey(name: 'resourceName')
+  final String resourceName;
+
+  GetAutoSnapshotsRequest({
+    @_s.required this.resourceName,
+  });
+  Map<String, dynamic> toJson() => _$GetAutoSnapshotsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetAutoSnapshotsResult {
@@ -9958,6 +11729,32 @@ class GetAutoSnapshotsResult {
   });
   factory GetAutoSnapshotsResult.fromJson(Map<String, dynamic> json) =>
       _$GetAutoSnapshotsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetBlueprintsRequest {
+  /// A Boolean value indicating whether to include inactive results in your
+  /// request.
+  @_s.JsonKey(name: 'includeInactive')
+  final bool includeInactive;
+
+  /// The token to advance to the next page of results from your request.
+  ///
+  /// To get a page token, perform an initial <code>GetBlueprints</code> request.
+  /// If your results are paginated, the response will return a next page token
+  /// that you can specify as the page token in a subsequent request.
+  @_s.JsonKey(name: 'pageToken')
+  final String pageToken;
+
+  GetBlueprintsRequest({
+    this.includeInactive,
+    this.pageToken,
+  });
+  Map<String, dynamic> toJson() => _$GetBlueprintsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -9992,6 +11789,32 @@ class GetBlueprintsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetBundlesRequest {
+  /// A Boolean value that indicates whether to include inactive bundle results in
+  /// your request.
+  @_s.JsonKey(name: 'includeInactive')
+  final bool includeInactive;
+
+  /// The token to advance to the next page of results from your request.
+  ///
+  /// To get a page token, perform an initial <code>GetBundles</code> request. If
+  /// your results are paginated, the response will return a next page token that
+  /// you can specify as the page token in a subsequent request.
+  @_s.JsonKey(name: 'pageToken')
+  final String pageToken;
+
+  GetBundlesRequest({
+    this.includeInactive,
+    this.pageToken,
+  });
+  Map<String, dynamic> toJson() => _$GetBundlesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetBundlesResult {
@@ -10016,6 +11839,28 @@ class GetBundlesResult {
   });
   factory GetBundlesResult.fromJson(Map<String, dynamic> json) =>
       _$GetBundlesResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetCloudFormationStackRecordsRequest {
+  /// The token to advance to the next page of results from your request.
+  ///
+  /// To get a page token, perform an initial
+  /// <code>GetClouFormationStackRecords</code> request. If your results are
+  /// paginated, the response will return a next page token that you can specify
+  /// as the page token in a subsequent request.
+  @_s.JsonKey(name: 'pageToken')
+  final String pageToken;
+
+  GetCloudFormationStackRecordsRequest({
+    this.pageToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetCloudFormationStackRecordsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10050,6 +11895,26 @@ class GetCloudFormationStackRecordsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetContactMethodsRequest {
+  /// The protocols used to send notifications, such as <code>Email</code>, or
+  /// <code>SMS</code> (text messaging).
+  ///
+  /// Specify a protocol in your request to return information about a specific
+  /// contact method protocol.
+  @_s.JsonKey(name: 'protocols')
+  final List<String> protocols;
+
+  GetContactMethodsRequest({
+    this.protocols,
+  });
+  Map<String, dynamic> toJson() => _$GetContactMethodsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetContactMethodsResult {
@@ -10062,6 +11927,22 @@ class GetContactMethodsResult {
   });
   factory GetContactMethodsResult.fromJson(Map<String, dynamic> json) =>
       _$GetContactMethodsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetDiskRequest {
+  /// The name of the disk (e.g., <code>my-disk</code>).
+  @_s.JsonKey(name: 'diskName')
+  final String diskName;
+
+  GetDiskRequest({
+    @_s.required this.diskName,
+  });
+  Map<String, dynamic> toJson() => _$GetDiskRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10084,6 +11965,22 @@ class GetDiskResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetDiskSnapshotRequest {
+  /// The name of the disk snapshot (e.g., <code>my-disk-snapshot</code>).
+  @_s.JsonKey(name: 'diskSnapshotName')
+  final String diskSnapshotName;
+
+  GetDiskSnapshotRequest({
+    @_s.required this.diskSnapshotName,
+  });
+  Map<String, dynamic> toJson() => _$GetDiskSnapshotRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetDiskSnapshotResult {
@@ -10096,6 +11993,26 @@ class GetDiskSnapshotResult {
   });
   factory GetDiskSnapshotResult.fromJson(Map<String, dynamic> json) =>
       _$GetDiskSnapshotResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetDiskSnapshotsRequest {
+  /// The token to advance to the next page of results from your request.
+  ///
+  /// To get a page token, perform an initial <code>GetDiskSnapshots</code>
+  /// request. If your results are paginated, the response will return a next page
+  /// token that you can specify as the page token in a subsequent request.
+  @_s.JsonKey(name: 'pageToken')
+  final String pageToken;
+
+  GetDiskSnapshotsRequest({
+    this.pageToken,
+  });
+  Map<String, dynamic> toJson() => _$GetDiskSnapshotsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10130,6 +12047,26 @@ class GetDiskSnapshotsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetDisksRequest {
+  /// The token to advance to the next page of results from your request.
+  ///
+  /// To get a page token, perform an initial <code>GetDisks</code> request. If
+  /// your results are paginated, the response will return a next page token that
+  /// you can specify as the page token in a subsequent request.
+  @_s.JsonKey(name: 'pageToken')
+  final String pageToken;
+
+  GetDisksRequest({
+    this.pageToken,
+  });
+  Map<String, dynamic> toJson() => _$GetDisksRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetDisksResult {
@@ -10158,6 +12095,22 @@ class GetDisksResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetDomainRequest {
+  /// The domain name for which your want to return information about.
+  @_s.JsonKey(name: 'domainName')
+  final String domainName;
+
+  GetDomainRequest({
+    @_s.required this.domainName,
+  });
+  Map<String, dynamic> toJson() => _$GetDomainRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetDomainResult {
@@ -10171,6 +12124,26 @@ class GetDomainResult {
   });
   factory GetDomainResult.fromJson(Map<String, dynamic> json) =>
       _$GetDomainResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetDomainsRequest {
+  /// The token to advance to the next page of results from your request.
+  ///
+  /// To get a page token, perform an initial <code>GetDomains</code> request. If
+  /// your results are paginated, the response will return a next page token that
+  /// you can specify as the page token in a subsequent request.
+  @_s.JsonKey(name: 'pageToken')
+  final String pageToken;
+
+  GetDomainsRequest({
+    this.pageToken,
+  });
+  Map<String, dynamic> toJson() => _$GetDomainsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10205,6 +12178,28 @@ class GetDomainsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetExportSnapshotRecordsRequest {
+  /// The token to advance to the next page of results from your request.
+  ///
+  /// To get a page token, perform an initial
+  /// <code>GetExportSnapshotRecords</code> request. If your results are
+  /// paginated, the response will return a next page token that you can specify
+  /// as the page token in a subsequent request.
+  @_s.JsonKey(name: 'pageToken')
+  final String pageToken;
+
+  GetExportSnapshotRecordsRequest({
+    this.pageToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetExportSnapshotRecordsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetExportSnapshotRecordsResult {
@@ -10233,6 +12228,29 @@ class GetExportSnapshotRecordsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetInstanceAccessDetailsRequest {
+  /// The name of the instance to access.
+  @_s.JsonKey(name: 'instanceName')
+  final String instanceName;
+
+  /// The protocol to use to connect to your instance. Defaults to
+  /// <code>ssh</code>.
+  @_s.JsonKey(name: 'protocol')
+  final InstanceAccessProtocol protocol;
+
+  GetInstanceAccessDetailsRequest({
+    @_s.required this.instanceName,
+    this.protocol,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetInstanceAccessDetailsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetInstanceAccessDetailsResult {
@@ -10246,6 +12264,167 @@ class GetInstanceAccessDetailsResult {
   });
   factory GetInstanceAccessDetailsResult.fromJson(Map<String, dynamic> json) =>
       _$GetInstanceAccessDetailsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetInstanceMetricDataRequest {
+  /// The end time of the time period.
+  @_s.JsonKey(
+      name: 'endTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime endTime;
+
+  /// The name of the instance for which you want to get metrics data.
+  @_s.JsonKey(name: 'instanceName')
+  final String instanceName;
+
+  /// The metric for which you want to return information.
+  ///
+  /// Valid instance metric names are listed below, along with the most useful
+  /// <code>statistics</code> to include in your request, and the published
+  /// <code>unit</code> value.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b> <code>CPUUtilization</code> </b> — The percentage of allocated compute
+  /// units that are currently in use on the instance. This metric identifies the
+  /// processing power to run the applications on the instance. Tools in your
+  /// operating system can show a lower percentage than Lightsail when the
+  /// instance is not allocated a full processor core.
+  ///
+  /// <code>Statistics</code>: The most useful statistics are <code>Maximum</code>
+  /// and <code>Average</code>.
+  ///
+  /// <code>Unit</code>: The published unit is <code>Percent</code>.
+  /// </li>
+  /// <li>
+  /// <b> <code>NetworkIn</code> </b> — The number of bytes received on all
+  /// network interfaces by the instance. This metric identifies the volume of
+  /// incoming network traffic to the instance. The number reported is the number
+  /// of bytes received during the period. Because this metric is reported in
+  /// 5-minute intervals, divide the reported number by 300 to find Bytes/second.
+  ///
+  /// <code>Statistics</code>: The most useful statistic is <code>Sum</code>.
+  ///
+  /// <code>Unit</code>: The published unit is <code>Bytes</code>.
+  /// </li>
+  /// <li>
+  /// <b> <code>NetworkOut</code> </b> — The number of bytes sent out on all
+  /// network interfaces by the instance. This metric identifies the volume of
+  /// outgoing network traffic from the instance. The number reported is the
+  /// number of bytes sent during the period. Because this metric is reported in
+  /// 5-minute intervals, divide the reported number by 300 to find Bytes/second.
+  ///
+  /// <code>Statistics</code>: The most useful statistic is <code>Sum</code>.
+  ///
+  /// <code>Unit</code>: The published unit is <code>Bytes</code>.
+  /// </li>
+  /// <li>
+  /// <b> <code>StatusCheckFailed</code> </b> — Reports whether the instance
+  /// passed or failed both the instance status check and the system status check.
+  /// This metric can be either 0 (passed) or 1 (failed). This metric data is
+  /// available in 1-minute (60 seconds) granularity.
+  ///
+  /// <code>Statistics</code>: The most useful statistic is <code>Sum</code>.
+  ///
+  /// <code>Unit</code>: The published unit is <code>Count</code>.
+  /// </li>
+  /// <li>
+  /// <b> <code>StatusCheckFailed_Instance</code> </b> — Reports whether the
+  /// instance passed or failed the instance status check. This metric can be
+  /// either 0 (passed) or 1 (failed). This metric data is available in 1-minute
+  /// (60 seconds) granularity.
+  ///
+  /// <code>Statistics</code>: The most useful statistic is <code>Sum</code>.
+  ///
+  /// <code>Unit</code>: The published unit is <code>Count</code>.
+  /// </li>
+  /// <li>
+  /// <b> <code>StatusCheckFailed_System</code> </b> — Reports whether the
+  /// instance passed or failed the system status check. This metric can be either
+  /// 0 (passed) or 1 (failed). This metric data is available in 1-minute (60
+  /// seconds) granularity.
+  ///
+  /// <code>Statistics</code>: The most useful statistic is <code>Sum</code>.
+  ///
+  /// <code>Unit</code>: The published unit is <code>Count</code>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'metricName')
+  final InstanceMetricName metricName;
+
+  /// The granularity, in seconds, of the returned data points.
+  ///
+  /// The <code>StatusCheckFailed</code>, <code>StatusCheckFailed_Instance</code>,
+  /// and <code>StatusCheckFailed_System</code> instance metric data is available
+  /// in 1-minute (60 seconds) granularity. All other instance metric data is
+  /// available in 5-minute (300 seconds) granularity.
+  @_s.JsonKey(name: 'period')
+  final int period;
+
+  /// The start time of the time period.
+  @_s.JsonKey(
+      name: 'startTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime startTime;
+
+  /// The statistic for the metric.
+  ///
+  /// The following statistics are available:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Minimum</code> — The lowest value observed during the specified
+  /// period. Use this value to determine low volumes of activity for your
+  /// application.
+  /// </li>
+  /// <li>
+  /// <code>Maximum</code> — The highest value observed during the specified
+  /// period. Use this value to determine high volumes of activity for your
+  /// application.
+  /// </li>
+  /// <li>
+  /// <code>Sum</code> — All values submitted for the matching metric added
+  /// together. You can use this statistic to determine the total volume of a
+  /// metric.
+  /// </li>
+  /// <li>
+  /// <code>Average</code> — The value of Sum / SampleCount during the specified
+  /// period. By comparing this statistic with the Minimum and Maximum values, you
+  /// can determine the full scope of a metric and how close the average use is to
+  /// the Minimum and Maximum values. This comparison helps you to know when to
+  /// increase or decrease your resources.
+  /// </li>
+  /// <li>
+  /// <code>SampleCount</code> — The count, or number, of data points used for the
+  /// statistical calculation.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'statistics')
+  final List<String> statistics;
+
+  /// The unit for the metric data request. Valid units depend on the metric data
+  /// being required. For the valid units with each available metric, see the
+  /// <code>metricName</code> parameter.
+  @_s.JsonKey(name: 'unit')
+  final MetricUnit unit;
+
+  GetInstanceMetricDataRequest({
+    @_s.required this.endTime,
+    @_s.required this.instanceName,
+    @_s.required this.metricName,
+    @_s.required this.period,
+    @_s.required this.startTime,
+    @_s.required this.statistics,
+    @_s.required this.unit,
+  });
+  Map<String, dynamic> toJson() => _$GetInstanceMetricDataRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10274,6 +12453,22 @@ class GetInstanceMetricDataResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetInstancePortStatesRequest {
+  /// The name of the instance.
+  @_s.JsonKey(name: 'instanceName')
+  final String instanceName;
+
+  GetInstancePortStatesRequest({
+    @_s.required this.instanceName,
+  });
+  Map<String, dynamic> toJson() => _$GetInstancePortStatesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetInstancePortStatesResult {
@@ -10286,6 +12481,22 @@ class GetInstancePortStatesResult {
   });
   factory GetInstancePortStatesResult.fromJson(Map<String, dynamic> json) =>
       _$GetInstancePortStatesResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetInstanceRequest {
+  /// The name of the instance.
+  @_s.JsonKey(name: 'instanceName')
+  final String instanceName;
+
+  GetInstanceRequest({
+    @_s.required this.instanceName,
+  });
+  Map<String, dynamic> toJson() => _$GetInstanceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10309,6 +12520,22 @@ class GetInstanceResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetInstanceSnapshotRequest {
+  /// The name of the snapshot for which you are requesting information.
+  @_s.JsonKey(name: 'instanceSnapshotName')
+  final String instanceSnapshotName;
+
+  GetInstanceSnapshotRequest({
+    @_s.required this.instanceSnapshotName,
+  });
+  Map<String, dynamic> toJson() => _$GetInstanceSnapshotRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetInstanceSnapshotResult {
@@ -10322,6 +12549,26 @@ class GetInstanceSnapshotResult {
   });
   factory GetInstanceSnapshotResult.fromJson(Map<String, dynamic> json) =>
       _$GetInstanceSnapshotResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetInstanceSnapshotsRequest {
+  /// The token to advance to the next page of results from your request.
+  ///
+  /// To get a page token, perform an initial <code>GetInstanceSnapshots</code>
+  /// request. If your results are paginated, the response will return a next page
+  /// token that you can specify as the page token in a subsequent request.
+  @_s.JsonKey(name: 'pageToken')
+  final String pageToken;
+
+  GetInstanceSnapshotsRequest({
+    this.pageToken,
+  });
+  Map<String, dynamic> toJson() => _$GetInstanceSnapshotsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10356,6 +12603,22 @@ class GetInstanceSnapshotsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetInstanceStateRequest {
+  /// The name of the instance to get state information about.
+  @_s.JsonKey(name: 'instanceName')
+  final String instanceName;
+
+  GetInstanceStateRequest({
+    @_s.required this.instanceName,
+  });
+  Map<String, dynamic> toJson() => _$GetInstanceStateRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetInstanceStateResult {
@@ -10368,6 +12631,26 @@ class GetInstanceStateResult {
   });
   factory GetInstanceStateResult.fromJson(Map<String, dynamic> json) =>
       _$GetInstanceStateResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetInstancesRequest {
+  /// The token to advance to the next page of results from your request.
+  ///
+  /// To get a page token, perform an initial <code>GetInstances</code> request.
+  /// If your results are paginated, the response will return a next page token
+  /// that you can specify as the page token in a subsequent request.
+  @_s.JsonKey(name: 'pageToken')
+  final String pageToken;
+
+  GetInstancesRequest({
+    this.pageToken,
+  });
+  Map<String, dynamic> toJson() => _$GetInstancesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10401,6 +12684,22 @@ class GetInstancesResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetKeyPairRequest {
+  /// The name of the key pair for which you are requesting information.
+  @_s.JsonKey(name: 'keyPairName')
+  final String keyPairName;
+
+  GetKeyPairRequest({
+    @_s.required this.keyPairName,
+  });
+  Map<String, dynamic> toJson() => _$GetKeyPairRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetKeyPairResult {
@@ -10413,6 +12712,26 @@ class GetKeyPairResult {
   });
   factory GetKeyPairResult.fromJson(Map<String, dynamic> json) =>
       _$GetKeyPairResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetKeyPairsRequest {
+  /// The token to advance to the next page of results from your request.
+  ///
+  /// To get a page token, perform an initial <code>GetKeyPairs</code> request. If
+  /// your results are paginated, the response will return a next page token that
+  /// you can specify as the page token in a subsequent request.
+  @_s.JsonKey(name: 'pageToken')
+  final String pageToken;
+
+  GetKeyPairsRequest({
+    this.pageToken,
+  });
+  Map<String, dynamic> toJson() => _$GetKeyPairsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10441,6 +12760,227 @@ class GetKeyPairsResult {
   });
   factory GetKeyPairsResult.fromJson(Map<String, dynamic> json) =>
       _$GetKeyPairsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetLoadBalancerMetricDataRequest {
+  /// The end time of the period.
+  @_s.JsonKey(
+      name: 'endTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime endTime;
+
+  /// The name of the load balancer.
+  @_s.JsonKey(name: 'loadBalancerName')
+  final String loadBalancerName;
+
+  /// The metric for which you want to return information.
+  ///
+  /// Valid load balancer metric names are listed below, along with the most
+  /// useful <code>statistics</code> to include in your request, and the published
+  /// <code>unit</code> value.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b> <code>ClientTLSNegotiationErrorCount</code> </b> — The number of TLS
+  /// connections initiated by the client that did not establish a session with
+  /// the load balancer due to a TLS error generated by the load balancer.
+  /// Possible causes include a mismatch of ciphers or protocols.
+  ///
+  /// <code>Statistics</code>: The most useful statistic is <code>Sum</code>.
+  ///
+  /// <code>Unit</code>: The published unit is <code>Count</code>.
+  /// </li>
+  /// <li>
+  /// <b> <code>HealthyHostCount</code> </b> — The number of target instances that
+  /// are considered healthy.
+  ///
+  /// <code>Statistics</code>: The most useful statistic are <code>Average</code>,
+  /// <code>Minimum</code>, and <code>Maximum</code>.
+  ///
+  /// <code>Unit</code>: The published unit is <code>Count</code>.
+  /// </li>
+  /// <li>
+  /// <b> <code>HTTPCode_Instance_2XX_Count</code> </b> — The number of HTTP 2XX
+  /// response codes generated by the target instances. This does not include any
+  /// response codes generated by the load balancer.
+  ///
+  /// <code>Statistics</code>: The most useful statistic is <code>Sum</code>. Note
+  /// that <code>Minimum</code>, <code>Maximum</code>, and <code>Average</code>
+  /// all return <code>1</code>.
+  ///
+  /// <code>Unit</code>: The published unit is <code>Count</code>.
+  /// </li>
+  /// <li>
+  /// <b> <code>HTTPCode_Instance_3XX_Count</code> </b> — The number of HTTP 3XX
+  /// response codes generated by the target instances. This does not include any
+  /// response codes generated by the load balancer.
+  ///
+  /// <code>Statistics</code>: The most useful statistic is <code>Sum</code>. Note
+  /// that <code>Minimum</code>, <code>Maximum</code>, and <code>Average</code>
+  /// all return <code>1</code>.
+  ///
+  /// <code>Unit</code>: The published unit is <code>Count</code>.
+  /// </li>
+  /// <li>
+  /// <b> <code>HTTPCode_Instance_4XX_Count</code> </b> — The number of HTTP 4XX
+  /// response codes generated by the target instances. This does not include any
+  /// response codes generated by the load balancer.
+  ///
+  /// <code>Statistics</code>: The most useful statistic is <code>Sum</code>. Note
+  /// that <code>Minimum</code>, <code>Maximum</code>, and <code>Average</code>
+  /// all return <code>1</code>.
+  ///
+  /// <code>Unit</code>: The published unit is <code>Count</code>.
+  /// </li>
+  /// <li>
+  /// <b> <code>HTTPCode_Instance_5XX_Count</code> </b> — The number of HTTP 5XX
+  /// response codes generated by the target instances. This does not include any
+  /// response codes generated by the load balancer.
+  ///
+  /// <code>Statistics</code>: The most useful statistic is <code>Sum</code>. Note
+  /// that <code>Minimum</code>, <code>Maximum</code>, and <code>Average</code>
+  /// all return <code>1</code>.
+  ///
+  /// <code>Unit</code>: The published unit is <code>Count</code>.
+  /// </li>
+  /// <li>
+  /// <b> <code>HTTPCode_LB_4XX_Count</code> </b> — The number of HTTP 4XX client
+  /// error codes that originated from the load balancer. Client errors are
+  /// generated when requests are malformed or incomplete. These requests were not
+  /// received by the target instance. This count does not include response codes
+  /// generated by the target instances.
+  ///
+  /// <code>Statistics</code>: The most useful statistic is <code>Sum</code>. Note
+  /// that <code>Minimum</code>, <code>Maximum</code>, and <code>Average</code>
+  /// all return <code>1</code>.
+  ///
+  /// <code>Unit</code>: The published unit is <code>Count</code>.
+  /// </li>
+  /// <li>
+  /// <b> <code>HTTPCode_LB_5XX_Count</code> </b> — The number of HTTP 5XX server
+  /// error codes that originated from the load balancer. This does not include
+  /// any response codes generated by the target instance. This metric is reported
+  /// if there are no healthy instances attached to the load balancer, or if the
+  /// request rate exceeds the capacity of the instances (spillover) or the load
+  /// balancer.
+  ///
+  /// <code>Statistics</code>: The most useful statistic is <code>Sum</code>. Note
+  /// that <code>Minimum</code>, <code>Maximum</code>, and <code>Average</code>
+  /// all return <code>1</code>.
+  ///
+  /// <code>Unit</code>: The published unit is <code>Count</code>.
+  /// </li>
+  /// <li>
+  /// <b> <code>InstanceResponseTime</code> </b> — The time elapsed, in seconds,
+  /// after the request leaves the load balancer until a response from the target
+  /// instance is received.
+  ///
+  /// <code>Statistics</code>: The most useful statistic is <code>Average</code>.
+  ///
+  /// <code>Unit</code>: The published unit is <code>Seconds</code>.
+  /// </li>
+  /// <li>
+  /// <b> <code>RejectedConnectionCount</code> </b> — The number of connections
+  /// that were rejected because the load balancer had reached its maximum number
+  /// of connections.
+  ///
+  /// <code>Statistics</code>: The most useful statistic is <code>Sum</code>.
+  ///
+  /// <code>Unit</code>: The published unit is <code>Count</code>.
+  /// </li>
+  /// <li>
+  /// <b> <code>RequestCount</code> </b> — The number of requests processed over
+  /// IPv4. This count includes only the requests with a response generated by a
+  /// target instance of the load balancer.
+  ///
+  /// <code>Statistics</code>: The most useful statistic is <code>Sum</code>. Note
+  /// that <code>Minimum</code>, <code>Maximum</code>, and <code>Average</code>
+  /// all return <code>1</code>.
+  ///
+  /// <code>Unit</code>: The published unit is <code>Count</code>.
+  /// </li>
+  /// <li>
+  /// <b> <code>UnhealthyHostCount</code> </b> — The number of target instances
+  /// that are considered unhealthy.
+  ///
+  /// <code>Statistics</code>: The most useful statistic are <code>Average</code>,
+  /// <code>Minimum</code>, and <code>Maximum</code>.
+  ///
+  /// <code>Unit</code>: The published unit is <code>Count</code>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'metricName')
+  final LoadBalancerMetricName metricName;
+
+  /// The granularity, in seconds, of the returned data points.
+  @_s.JsonKey(name: 'period')
+  final int period;
+
+  /// The start time of the period.
+  @_s.JsonKey(
+      name: 'startTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime startTime;
+
+  /// The statistic for the metric.
+  ///
+  /// The following statistics are available:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Minimum</code> — The lowest value observed during the specified
+  /// period. Use this value to determine low volumes of activity for your
+  /// application.
+  /// </li>
+  /// <li>
+  /// <code>Maximum</code> — The highest value observed during the specified
+  /// period. Use this value to determine high volumes of activity for your
+  /// application.
+  /// </li>
+  /// <li>
+  /// <code>Sum</code> — All values submitted for the matching metric added
+  /// together. You can use this statistic to determine the total volume of a
+  /// metric.
+  /// </li>
+  /// <li>
+  /// <code>Average</code> — The value of Sum / SampleCount during the specified
+  /// period. By comparing this statistic with the Minimum and Maximum values, you
+  /// can determine the full scope of a metric and how close the average use is to
+  /// the Minimum and Maximum values. This comparison helps you to know when to
+  /// increase or decrease your resources.
+  /// </li>
+  /// <li>
+  /// <code>SampleCount</code> — The count, or number, of data points used for the
+  /// statistical calculation.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'statistics')
+  final List<String> statistics;
+
+  /// The unit for the metric data request. Valid units depend on the metric data
+  /// being required. For the valid units with each available metric, see the
+  /// <code>metricName</code> parameter.
+  @_s.JsonKey(name: 'unit')
+  final MetricUnit unit;
+
+  GetLoadBalancerMetricDataRequest({
+    @_s.required this.endTime,
+    @_s.required this.loadBalancerName,
+    @_s.required this.metricName,
+    @_s.required this.period,
+    @_s.required this.startTime,
+    @_s.required this.statistics,
+    @_s.required this.unit,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetLoadBalancerMetricDataRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10575,6 +13115,22 @@ class GetLoadBalancerMetricDataResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetLoadBalancerRequest {
+  /// The name of the load balancer.
+  @_s.JsonKey(name: 'loadBalancerName')
+  final String loadBalancerName;
+
+  GetLoadBalancerRequest({
+    @_s.required this.loadBalancerName,
+  });
+  Map<String, dynamic> toJson() => _$GetLoadBalancerRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetLoadBalancerResult {
@@ -10587,6 +13143,23 @@ class GetLoadBalancerResult {
   });
   factory GetLoadBalancerResult.fromJson(Map<String, dynamic> json) =>
       _$GetLoadBalancerResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetLoadBalancerTlsCertificatesRequest {
+  /// The name of the load balancer you associated with your SSL/TLS certificate.
+  @_s.JsonKey(name: 'loadBalancerName')
+  final String loadBalancerName;
+
+  GetLoadBalancerTlsCertificatesRequest({
+    @_s.required this.loadBalancerName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetLoadBalancerTlsCertificatesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10606,6 +13179,26 @@ class GetLoadBalancerTlsCertificatesResult {
   factory GetLoadBalancerTlsCertificatesResult.fromJson(
           Map<String, dynamic> json) =>
       _$GetLoadBalancerTlsCertificatesResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetLoadBalancersRequest {
+  /// The token to advance to the next page of results from your request.
+  ///
+  /// To get a page token, perform an initial <code>GetLoadBalancers</code>
+  /// request. If your results are paginated, the response will return a next page
+  /// token that you can specify as the page token in a subsequent request.
+  @_s.JsonKey(name: 'pageToken')
+  final String pageToken;
+
+  GetLoadBalancersRequest({
+    this.pageToken,
+  });
+  Map<String, dynamic> toJson() => _$GetLoadBalancersRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10639,6 +13232,22 @@ class GetLoadBalancersResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetOperationRequest {
+  /// A GUID used to identify the operation.
+  @_s.JsonKey(name: 'operationId')
+  final String operationId;
+
+  GetOperationRequest({
+    @_s.required this.operationId,
+  });
+  Map<String, dynamic> toJson() => _$GetOperationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetOperationResult {
@@ -10653,6 +13262,33 @@ class GetOperationResult {
   });
   factory GetOperationResult.fromJson(Map<String, dynamic> json) =>
       _$GetOperationResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetOperationsForResourceRequest {
+  /// The name of the resource for which you are requesting information.
+  @_s.JsonKey(name: 'resourceName')
+  final String resourceName;
+
+  /// The token to advance to the next page of results from your request.
+  ///
+  /// To get a page token, perform an initial
+  /// <code>GetOperationsForResource</code> request. If your results are
+  /// paginated, the response will return a next page token that you can specify
+  /// as the page token in a subsequent request.
+  @_s.JsonKey(name: 'pageToken')
+  final String pageToken;
+
+  GetOperationsForResourceRequest({
+    @_s.required this.resourceName,
+    this.pageToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetOperationsForResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10698,6 +13334,26 @@ class GetOperationsForResourceResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetOperationsRequest {
+  /// The token to advance to the next page of results from your request.
+  ///
+  /// To get a page token, perform an initial <code>GetOperations</code> request.
+  /// If your results are paginated, the response will return a next page token
+  /// that you can specify as the page token in a subsequent request.
+  @_s.JsonKey(name: 'pageToken')
+  final String pageToken;
+
+  GetOperationsRequest({
+    this.pageToken,
+  });
+  Map<String, dynamic> toJson() => _$GetOperationsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetOperationsResult {
@@ -10728,6 +13384,31 @@ class GetOperationsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetRegionsRequest {
+  /// A Boolean value indicating whether to also include Availability Zones in
+  /// your get regions request. Availability Zones are indicated with a letter:
+  /// e.g., <code>us-east-2a</code>.
+  @_s.JsonKey(name: 'includeAvailabilityZones')
+  final bool includeAvailabilityZones;
+
+  /// &gt;A Boolean value indicating whether to also include Availability Zones
+  /// for databases in your get regions request. Availability Zones are indicated
+  /// with a letter (e.g., <code>us-east-2a</code>).
+  @_s.JsonKey(name: 'includeRelationalDatabaseAvailabilityZones')
+  final bool includeRelationalDatabaseAvailabilityZones;
+
+  GetRegionsRequest({
+    this.includeAvailabilityZones,
+    this.includeRelationalDatabaseAvailabilityZones,
+  });
+  Map<String, dynamic> toJson() => _$GetRegionsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetRegionsResult {
@@ -10741,6 +13422,28 @@ class GetRegionsResult {
   });
   factory GetRegionsResult.fromJson(Map<String, dynamic> json) =>
       _$GetRegionsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetRelationalDatabaseBlueprintsRequest {
+  /// The token to advance to the next page of results from your request.
+  ///
+  /// To get a page token, perform an initial
+  /// <code>GetRelationalDatabaseBlueprints</code> request. If your results are
+  /// paginated, the response will return a next page token that you can specify
+  /// as the page token in a subsequent request.
+  @_s.JsonKey(name: 'pageToken')
+  final String pageToken;
+
+  GetRelationalDatabaseBlueprintsRequest({
+    this.pageToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetRelationalDatabaseBlueprintsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10776,6 +13479,28 @@ class GetRelationalDatabaseBlueprintsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetRelationalDatabaseBundlesRequest {
+  /// The token to advance to the next page of results from your request.
+  ///
+  /// To get a page token, perform an initial
+  /// <code>GetRelationalDatabaseBundles</code> request. If your results are
+  /// paginated, the response will return a next page token that you can specify
+  /// as the page token in a subsequent request.
+  @_s.JsonKey(name: 'pageToken')
+  final String pageToken;
+
+  GetRelationalDatabaseBundlesRequest({
+    this.pageToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetRelationalDatabaseBundlesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetRelationalDatabaseBundlesResult {
@@ -10806,6 +13531,43 @@ class GetRelationalDatabaseBundlesResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetRelationalDatabaseEventsRequest {
+  /// The name of the database from which to get events.
+  @_s.JsonKey(name: 'relationalDatabaseName')
+  final String relationalDatabaseName;
+
+  /// The number of minutes in the past from which to retrieve events. For
+  /// example, to get all events from the past 2 hours, enter 120.
+  ///
+  /// Default: <code>60</code>
+  ///
+  /// The minimum is 1 and the maximum is 14 days (20160 minutes).
+  @_s.JsonKey(name: 'durationInMinutes')
+  final int durationInMinutes;
+
+  /// The token to advance to the next page of results from your request.
+  ///
+  /// To get a page token, perform an initial
+  /// <code>GetRelationalDatabaseEvents</code> request. If your results are
+  /// paginated, the response will return a next page token that you can specify
+  /// as the page token in a subsequent request.
+  @_s.JsonKey(name: 'pageToken')
+  final String pageToken;
+
+  GetRelationalDatabaseEventsRequest({
+    @_s.required this.relationalDatabaseName,
+    this.durationInMinutes,
+    this.pageToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetRelationalDatabaseEventsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetRelationalDatabaseEventsResult {
@@ -10831,6 +13593,99 @@ class GetRelationalDatabaseEventsResult {
   factory GetRelationalDatabaseEventsResult.fromJson(
           Map<String, dynamic> json) =>
       _$GetRelationalDatabaseEventsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetRelationalDatabaseLogEventsRequest {
+  /// The name of the log stream.
+  ///
+  /// Use the <code>get relational database log streams</code> operation to get a
+  /// list of available log streams.
+  @_s.JsonKey(name: 'logStreamName')
+  final String logStreamName;
+
+  /// The name of your database for which to get log events.
+  @_s.JsonKey(name: 'relationalDatabaseName')
+  final String relationalDatabaseName;
+
+  /// The end of the time interval from which to get log events.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Specified in Coordinated Universal Time (UTC).
+  /// </li>
+  /// <li>
+  /// Specified in the Unix time format.
+  ///
+  /// For example, if you wish to use an end time of October 1, 2018, at 8 PM UTC,
+  /// then you input <code>1538424000</code> as the end time.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(
+      name: 'endTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime endTime;
+
+  /// The token to advance to the next or previous page of results from your
+  /// request.
+  ///
+  /// To get a page token, perform an initial
+  /// <code>GetRelationalDatabaseLogEvents</code> request. If your results are
+  /// paginated, the response will return a next forward token and/or next
+  /// backward token that you can specify as the page token in a subsequent
+  /// request.
+  @_s.JsonKey(name: 'pageToken')
+  final String pageToken;
+
+  /// Parameter to specify if the log should start from head or tail. If
+  /// <code>true</code> is specified, the log event starts from the head of the
+  /// log. If <code>false</code> is specified, the log event starts from the tail
+  /// of the log.
+  /// <note>
+  /// For PostgreSQL, the default value of <code>false</code> is the only option
+  /// available.
+  /// </note>
+  @_s.JsonKey(name: 'startFromHead')
+  final bool startFromHead;
+
+  /// The start of the time interval from which to get log events.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Specified in Coordinated Universal Time (UTC).
+  /// </li>
+  /// <li>
+  /// Specified in the Unix time format.
+  ///
+  /// For example, if you wish to use a start time of October 1, 2018, at 8 PM
+  /// UTC, then you input <code>1538424000</code> as the start time.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(
+      name: 'startTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime startTime;
+
+  GetRelationalDatabaseLogEventsRequest({
+    @_s.required this.logStreamName,
+    @_s.required this.relationalDatabaseName,
+    this.endTime,
+    this.pageToken,
+    this.startFromHead,
+    this.startTime,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetRelationalDatabaseLogEventsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10867,6 +13722,23 @@ class GetRelationalDatabaseLogEventsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetRelationalDatabaseLogStreamsRequest {
+  /// The name of your database for which to get log streams.
+  @_s.JsonKey(name: 'relationalDatabaseName')
+  final String relationalDatabaseName;
+
+  GetRelationalDatabaseLogStreamsRequest({
+    @_s.required this.relationalDatabaseName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetRelationalDatabaseLogStreamsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetRelationalDatabaseLogStreamsResult {
@@ -10881,6 +13753,36 @@ class GetRelationalDatabaseLogStreamsResult {
   factory GetRelationalDatabaseLogStreamsResult.fromJson(
           Map<String, dynamic> json) =>
       _$GetRelationalDatabaseLogStreamsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetRelationalDatabaseMasterUserPasswordRequest {
+  /// The name of your database for which to get the master user password.
+  @_s.JsonKey(name: 'relationalDatabaseName')
+  final String relationalDatabaseName;
+
+  /// The password version to return.
+  ///
+  /// Specifying <code>CURRENT</code> or <code>PREVIOUS</code> returns the current
+  /// or previous passwords respectively. Specifying <code>PENDING</code> returns
+  /// the newest version of the password that will rotate to <code>CURRENT</code>.
+  /// After the <code>PENDING</code> password rotates to <code>CURRENT</code>, the
+  /// <code>PENDING</code> password is no longer available.
+  ///
+  /// Default: <code>CURRENT</code>
+  @_s.JsonKey(name: 'passwordVersion')
+  final RelationalDatabasePasswordVersion passwordVersion;
+
+  GetRelationalDatabaseMasterUserPasswordRequest({
+    @_s.required this.relationalDatabaseName,
+    this.passwordVersion,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetRelationalDatabaseMasterUserPasswordRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10913,6 +13815,183 @@ class GetRelationalDatabaseMasterUserPasswordResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetRelationalDatabaseMetricDataRequest {
+  /// The end of the time interval from which to get metric data.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Specified in Coordinated Universal Time (UTC).
+  /// </li>
+  /// <li>
+  /// Specified in the Unix time format.
+  ///
+  /// For example, if you wish to use an end time of October 1, 2018, at 8 PM UTC,
+  /// then you input <code>1538424000</code> as the end time.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(
+      name: 'endTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime endTime;
+
+  /// The metric for which you want to return information.
+  ///
+  /// Valid relational database metric names are listed below, along with the most
+  /// useful <code>statistics</code> to include in your request, and the published
+  /// <code>unit</code> value. All relational database metric data is available in
+  /// 1-minute (60 seconds) granularity.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b> <code>CPUUtilization</code> </b> — The percentage of CPU utilization
+  /// currently in use on the database.
+  ///
+  /// <code>Statistics</code>: The most useful statistics are <code>Maximum</code>
+  /// and <code>Average</code>.
+  ///
+  /// <code>Unit</code>: The published unit is <code>Percent</code>.
+  /// </li>
+  /// <li>
+  /// <b> <code>DatabaseConnections</code> </b> — The number of database
+  /// connections in use.
+  ///
+  /// <code>Statistics</code>: The most useful statistics are <code>Maximum</code>
+  /// and <code>Sum</code>.
+  ///
+  /// <code>Unit</code>: The published unit is <code>Count</code>.
+  /// </li>
+  /// <li>
+  /// <b> <code>DiskQueueDepth</code> </b> — The number of outstanding IOs
+  /// (read/write requests) that are waiting to access the disk.
+  ///
+  /// <code>Statistics</code>: The most useful statistic is <code>Sum</code>.
+  ///
+  /// <code>Unit</code>: The published unit is <code>Count</code>.
+  /// </li>
+  /// <li>
+  /// <b> <code>FreeStorageSpace</code> </b> — The amount of available storage
+  /// space.
+  ///
+  /// <code>Statistics</code>: The most useful statistic is <code>Sum</code>.
+  ///
+  /// <code>Unit</code>: The published unit is <code>Bytes</code>.
+  /// </li>
+  /// <li>
+  /// <b> <code>NetworkReceiveThroughput</code> </b> — The incoming (Receive)
+  /// network traffic on the database, including both customer database traffic
+  /// and AWS traffic used for monitoring and replication.
+  ///
+  /// <code>Statistics</code>: The most useful statistic is <code>Average</code>.
+  ///
+  /// <code>Unit</code>: The published unit is <code>Bytes/Second</code>.
+  /// </li>
+  /// <li>
+  /// <b> <code>NetworkTransmitThroughput</code> </b> — The outgoing (Transmit)
+  /// network traffic on the database, including both customer database traffic
+  /// and AWS traffic used for monitoring and replication.
+  ///
+  /// <code>Statistics</code>: The most useful statistic is <code>Average</code>.
+  ///
+  /// <code>Unit</code>: The published unit is <code>Bytes/Second</code>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'metricName')
+  final RelationalDatabaseMetricName metricName;
+
+  /// The granularity, in seconds, of the returned data points.
+  ///
+  /// All relational database metric data is available in 1-minute (60 seconds)
+  /// granularity.
+  @_s.JsonKey(name: 'period')
+  final int period;
+
+  /// The name of your database from which to get metric data.
+  @_s.JsonKey(name: 'relationalDatabaseName')
+  final String relationalDatabaseName;
+
+  /// The start of the time interval from which to get metric data.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Specified in Coordinated Universal Time (UTC).
+  /// </li>
+  /// <li>
+  /// Specified in the Unix time format.
+  ///
+  /// For example, if you wish to use a start time of October 1, 2018, at 8 PM
+  /// UTC, then you input <code>1538424000</code> as the start time.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(
+      name: 'startTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime startTime;
+
+  /// The statistic for the metric.
+  ///
+  /// The following statistics are available:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Minimum</code> — The lowest value observed during the specified
+  /// period. Use this value to determine low volumes of activity for your
+  /// application.
+  /// </li>
+  /// <li>
+  /// <code>Maximum</code> — The highest value observed during the specified
+  /// period. Use this value to determine high volumes of activity for your
+  /// application.
+  /// </li>
+  /// <li>
+  /// <code>Sum</code> — All values submitted for the matching metric added
+  /// together. You can use this statistic to determine the total volume of a
+  /// metric.
+  /// </li>
+  /// <li>
+  /// <code>Average</code> — The value of Sum / SampleCount during the specified
+  /// period. By comparing this statistic with the Minimum and Maximum values, you
+  /// can determine the full scope of a metric and how close the average use is to
+  /// the Minimum and Maximum values. This comparison helps you to know when to
+  /// increase or decrease your resources.
+  /// </li>
+  /// <li>
+  /// <code>SampleCount</code> — The count, or number, of data points used for the
+  /// statistical calculation.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'statistics')
+  final List<String> statistics;
+
+  /// The unit for the metric data request. Valid units depend on the metric data
+  /// being required. For the valid units with each available metric, see the
+  /// <code>metricName</code> parameter.
+  @_s.JsonKey(name: 'unit')
+  final MetricUnit unit;
+
+  GetRelationalDatabaseMetricDataRequest({
+    @_s.required this.endTime,
+    @_s.required this.metricName,
+    @_s.required this.period,
+    @_s.required this.relationalDatabaseName,
+    @_s.required this.startTime,
+    @_s.required this.statistics,
+    @_s.required this.unit,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetRelationalDatabaseMetricDataRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetRelationalDatabaseMetricDataResult {
@@ -10932,6 +14011,33 @@ class GetRelationalDatabaseMetricDataResult {
   factory GetRelationalDatabaseMetricDataResult.fromJson(
           Map<String, dynamic> json) =>
       _$GetRelationalDatabaseMetricDataResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetRelationalDatabaseParametersRequest {
+  /// The name of your database for which to get parameters.
+  @_s.JsonKey(name: 'relationalDatabaseName')
+  final String relationalDatabaseName;
+
+  /// The token to advance to the next page of results from your request.
+  ///
+  /// To get a page token, perform an initial
+  /// <code>GetRelationalDatabaseParameters</code> request. If your results are
+  /// paginated, the response will return a next page token that you can specify
+  /// as the page token in a subsequent request.
+  @_s.JsonKey(name: 'pageToken')
+  final String pageToken;
+
+  GetRelationalDatabaseParametersRequest({
+    @_s.required this.relationalDatabaseName,
+    this.pageToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetRelationalDatabaseParametersRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10967,6 +14073,22 @@ class GetRelationalDatabaseParametersResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetRelationalDatabaseRequest {
+  /// The name of the database that you are looking up.
+  @_s.JsonKey(name: 'relationalDatabaseName')
+  final String relationalDatabaseName;
+
+  GetRelationalDatabaseRequest({
+    @_s.required this.relationalDatabaseName,
+  });
+  Map<String, dynamic> toJson() => _$GetRelationalDatabaseRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetRelationalDatabaseResult {
@@ -10979,6 +14101,23 @@ class GetRelationalDatabaseResult {
   });
   factory GetRelationalDatabaseResult.fromJson(Map<String, dynamic> json) =>
       _$GetRelationalDatabaseResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetRelationalDatabaseSnapshotRequest {
+  /// The name of the database snapshot for which to get information.
+  @_s.JsonKey(name: 'relationalDatabaseSnapshotName')
+  final String relationalDatabaseSnapshotName;
+
+  GetRelationalDatabaseSnapshotRequest({
+    @_s.required this.relationalDatabaseSnapshotName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetRelationalDatabaseSnapshotRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10997,6 +14136,28 @@ class GetRelationalDatabaseSnapshotResult {
   factory GetRelationalDatabaseSnapshotResult.fromJson(
           Map<String, dynamic> json) =>
       _$GetRelationalDatabaseSnapshotResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetRelationalDatabaseSnapshotsRequest {
+  /// The token to advance to the next page of results from your request.
+  ///
+  /// To get a page token, perform an initial
+  /// <code>GetRelationalDatabaseSnapshots</code> request. If your results are
+  /// paginated, the response will return a next page token that you can specify
+  /// as the page token in a subsequent request.
+  @_s.JsonKey(name: 'pageToken')
+  final String pageToken;
+
+  GetRelationalDatabaseSnapshotsRequest({
+    this.pageToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetRelationalDatabaseSnapshotsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -11032,6 +14193,26 @@ class GetRelationalDatabaseSnapshotsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetRelationalDatabasesRequest {
+  /// The token to advance to the next page of results from your request.
+  ///
+  /// To get a page token, perform an initial <code>GetRelationalDatabases</code>
+  /// request. If your results are paginated, the response will return a next page
+  /// token that you can specify as the page token in a subsequent request.
+  @_s.JsonKey(name: 'pageToken')
+  final String pageToken;
+
+  GetRelationalDatabasesRequest({
+    this.pageToken,
+  });
+  Map<String, dynamic> toJson() => _$GetRelationalDatabasesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetRelationalDatabasesResult {
@@ -11060,6 +14241,22 @@ class GetRelationalDatabasesResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetStaticIpRequest {
+  /// The name of the static IP in Lightsail.
+  @_s.JsonKey(name: 'staticIpName')
+  final String staticIpName;
+
+  GetStaticIpRequest({
+    @_s.required this.staticIpName,
+  });
+  Map<String, dynamic> toJson() => _$GetStaticIpRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetStaticIpResult {
@@ -11073,6 +14270,26 @@ class GetStaticIpResult {
   });
   factory GetStaticIpResult.fromJson(Map<String, dynamic> json) =>
       _$GetStaticIpResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetStaticIpsRequest {
+  /// The token to advance to the next page of results from your request.
+  ///
+  /// To get a page token, perform an initial <code>GetStaticIps</code> request.
+  /// If your results are paginated, the response will return a next page token
+  /// that you can specify as the page token in a subsequent request.
+  @_s.JsonKey(name: 'pageToken')
+  final String pageToken;
+
+  GetStaticIpsRequest({
+    this.pageToken,
+  });
+  Map<String, dynamic> toJson() => _$GetStaticIpsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -11193,6 +14410,27 @@ class HostKeyAttributes {
   });
   factory HostKeyAttributes.fromJson(Map<String, dynamic> json) =>
       _$HostKeyAttributesFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ImportKeyPairRequest {
+  /// The name of the key pair for which you want to import the public key.
+  @_s.JsonKey(name: 'keyPairName')
+  final String keyPairName;
+
+  /// A base64-encoded public key of the <code>ssh-rsa</code> type.
+  @_s.JsonKey(name: 'publicKeyBase64')
+  final String publicKeyBase64;
+
+  ImportKeyPairRequest({
+    @_s.required this.keyPairName,
+    @_s.required this.publicKeyBase64,
+  });
+  Map<String, dynamic> toJson() => _$ImportKeyPairRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -11433,18 +14671,6 @@ enum InstanceAccessProtocol {
   ssh,
   @_s.JsonValue('rdp')
   rdp,
-}
-
-extension on InstanceAccessProtocol {
-  String toValue() {
-    switch (this) {
-      case InstanceAccessProtocol.ssh:
-        return 'ssh';
-      case InstanceAccessProtocol.rdp:
-        return 'rdp';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Describes the Amazon Elastic Compute Cloud instance and related resources to
@@ -11696,26 +14922,6 @@ enum InstanceMetricName {
   statusCheckFailedInstance,
   @_s.JsonValue('StatusCheckFailed_System')
   statusCheckFailedSystem,
-}
-
-extension on InstanceMetricName {
-  String toValue() {
-    switch (this) {
-      case InstanceMetricName.cPUUtilization:
-        return 'CPUUtilization';
-      case InstanceMetricName.networkIn:
-        return 'NetworkIn';
-      case InstanceMetricName.networkOut:
-        return 'NetworkOut';
-      case InstanceMetricName.statusCheckFailed:
-        return 'StatusCheckFailed';
-      case InstanceMetricName.statusCheckFailedInstance:
-        return 'StatusCheckFailed_Instance';
-      case InstanceMetricName.statusCheckFailedSystem:
-        return 'StatusCheckFailed_System';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Describes monthly data transfer rates and port information for an instance.
@@ -12259,20 +15465,6 @@ enum LoadBalancerAttributeName {
   sessionStickinessLbCookieDurationSeconds,
 }
 
-extension on LoadBalancerAttributeName {
-  String toValue() {
-    switch (this) {
-      case LoadBalancerAttributeName.healthCheckPath:
-        return 'HealthCheckPath';
-      case LoadBalancerAttributeName.sessionStickinessEnabled:
-        return 'SessionStickinessEnabled';
-      case LoadBalancerAttributeName.sessionStickinessLbCookieDurationSeconds:
-        return 'SessionStickiness_LB_CookieDurationSeconds';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum LoadBalancerMetricName {
   @_s.JsonValue('ClientTLSNegotiationErrorCount')
   clientTLSNegotiationErrorCount,
@@ -12298,38 +15490,6 @@ enum LoadBalancerMetricName {
   rejectedConnectionCount,
   @_s.JsonValue('RequestCount')
   requestCount,
-}
-
-extension on LoadBalancerMetricName {
-  String toValue() {
-    switch (this) {
-      case LoadBalancerMetricName.clientTLSNegotiationErrorCount:
-        return 'ClientTLSNegotiationErrorCount';
-      case LoadBalancerMetricName.healthyHostCount:
-        return 'HealthyHostCount';
-      case LoadBalancerMetricName.unhealthyHostCount:
-        return 'UnhealthyHostCount';
-      case LoadBalancerMetricName.hTTPCodeLb_4xxCount:
-        return 'HTTPCode_LB_4XX_Count';
-      case LoadBalancerMetricName.hTTPCodeLb_5xxCount:
-        return 'HTTPCode_LB_5XX_Count';
-      case LoadBalancerMetricName.hTTPCodeInstance_2xxCount:
-        return 'HTTPCode_Instance_2XX_Count';
-      case LoadBalancerMetricName.hTTPCodeInstance_3xxCount:
-        return 'HTTPCode_Instance_3XX_Count';
-      case LoadBalancerMetricName.hTTPCodeInstance_4xxCount:
-        return 'HTTPCode_Instance_4XX_Count';
-      case LoadBalancerMetricName.hTTPCodeInstance_5xxCount:
-        return 'HTTPCode_Instance_5XX_Count';
-      case LoadBalancerMetricName.instanceResponseTime:
-        return 'InstanceResponseTime';
-      case LoadBalancerMetricName.rejectedConnectionCount:
-        return 'RejectedConnectionCount';
-      case LoadBalancerMetricName.requestCount:
-        return 'RequestCount';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 enum LoadBalancerProtocol {
@@ -12883,60 +16043,6 @@ enum MetricName {
   networkTransmitThroughput,
 }
 
-extension on MetricName {
-  String toValue() {
-    switch (this) {
-      case MetricName.cPUUtilization:
-        return 'CPUUtilization';
-      case MetricName.networkIn:
-        return 'NetworkIn';
-      case MetricName.networkOut:
-        return 'NetworkOut';
-      case MetricName.statusCheckFailed:
-        return 'StatusCheckFailed';
-      case MetricName.statusCheckFailedInstance:
-        return 'StatusCheckFailed_Instance';
-      case MetricName.statusCheckFailedSystem:
-        return 'StatusCheckFailed_System';
-      case MetricName.clientTLSNegotiationErrorCount:
-        return 'ClientTLSNegotiationErrorCount';
-      case MetricName.healthyHostCount:
-        return 'HealthyHostCount';
-      case MetricName.unhealthyHostCount:
-        return 'UnhealthyHostCount';
-      case MetricName.hTTPCodeLb_4xxCount:
-        return 'HTTPCode_LB_4XX_Count';
-      case MetricName.hTTPCodeLb_5xxCount:
-        return 'HTTPCode_LB_5XX_Count';
-      case MetricName.hTTPCodeInstance_2xxCount:
-        return 'HTTPCode_Instance_2XX_Count';
-      case MetricName.hTTPCodeInstance_3xxCount:
-        return 'HTTPCode_Instance_3XX_Count';
-      case MetricName.hTTPCodeInstance_4xxCount:
-        return 'HTTPCode_Instance_4XX_Count';
-      case MetricName.hTTPCodeInstance_5xxCount:
-        return 'HTTPCode_Instance_5XX_Count';
-      case MetricName.instanceResponseTime:
-        return 'InstanceResponseTime';
-      case MetricName.rejectedConnectionCount:
-        return 'RejectedConnectionCount';
-      case MetricName.requestCount:
-        return 'RequestCount';
-      case MetricName.databaseConnections:
-        return 'DatabaseConnections';
-      case MetricName.diskQueueDepth:
-        return 'DiskQueueDepth';
-      case MetricName.freeStorageSpace:
-        return 'FreeStorageSpace';
-      case MetricName.networkReceiveThroughput:
-        return 'NetworkReceiveThroughput';
-      case MetricName.networkTransmitThroughput:
-        return 'NetworkTransmitThroughput';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum MetricStatistic {
   @_s.JsonValue('Minimum')
   minimum,
@@ -13007,68 +16113,6 @@ enum MetricUnit {
   none,
 }
 
-extension on MetricUnit {
-  String toValue() {
-    switch (this) {
-      case MetricUnit.seconds:
-        return 'Seconds';
-      case MetricUnit.microseconds:
-        return 'Microseconds';
-      case MetricUnit.milliseconds:
-        return 'Milliseconds';
-      case MetricUnit.bytes:
-        return 'Bytes';
-      case MetricUnit.kilobytes:
-        return 'Kilobytes';
-      case MetricUnit.megabytes:
-        return 'Megabytes';
-      case MetricUnit.gigabytes:
-        return 'Gigabytes';
-      case MetricUnit.terabytes:
-        return 'Terabytes';
-      case MetricUnit.bits:
-        return 'Bits';
-      case MetricUnit.kilobits:
-        return 'Kilobits';
-      case MetricUnit.megabits:
-        return 'Megabits';
-      case MetricUnit.gigabits:
-        return 'Gigabits';
-      case MetricUnit.terabits:
-        return 'Terabits';
-      case MetricUnit.percent:
-        return 'Percent';
-      case MetricUnit.count:
-        return 'Count';
-      case MetricUnit.bytesSecond:
-        return 'Bytes/Second';
-      case MetricUnit.kilobytesSecond:
-        return 'Kilobytes/Second';
-      case MetricUnit.megabytesSecond:
-        return 'Megabytes/Second';
-      case MetricUnit.gigabytesSecond:
-        return 'Gigabytes/Second';
-      case MetricUnit.terabytesSecond:
-        return 'Terabytes/Second';
-      case MetricUnit.bitsSecond:
-        return 'Bits/Second';
-      case MetricUnit.kilobitsSecond:
-        return 'Kilobits/Second';
-      case MetricUnit.megabitsSecond:
-        return 'Megabits/Second';
-      case MetricUnit.gigabitsSecond:
-        return 'Gigabits/Second';
-      case MetricUnit.terabitsSecond:
-        return 'Terabits/Second';
-      case MetricUnit.countSecond:
-        return 'Count/Second';
-      case MetricUnit.none:
-        return 'None';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Describes resource being monitored by an alarm.
 ///
 /// An alarm is a way to monitor your Amazon Lightsail resource metrics. For
@@ -13131,6 +16175,27 @@ enum NetworkProtocol {
   all,
   @_s.JsonValue('udp')
   udp,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class OpenInstancePublicPortsRequest {
+  /// The name of the instance for which you want to open the public ports.
+  @_s.JsonKey(name: 'instanceName')
+  final String instanceName;
+
+  /// An array of key-value pairs containing information about the port mappings.
+  @_s.JsonKey(name: 'portInfo')
+  final PortInfo portInfo;
+
+  OpenInstancePublicPortsRequest({
+    @_s.required this.instanceName,
+    @_s.required this.portInfo,
+  });
+  Map<String, dynamic> toJson() => _$OpenInstancePublicPortsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13539,6 +16604,194 @@ enum PortState {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutAlarmRequest {
+  /// The name for the alarm. Specify the name of an existing alarm to update, and
+  /// overwrite the previous configuration of the alarm.
+  @_s.JsonKey(name: 'alarmName')
+  final String alarmName;
+
+  /// The arithmetic operation to use when comparing the specified statistic to
+  /// the threshold. The specified statistic value is used as the first operand.
+  @_s.JsonKey(name: 'comparisonOperator')
+  final ComparisonOperator comparisonOperator;
+
+  /// The number of most recent periods over which data is compared to the
+  /// specified threshold. If you are setting an "M out of N" alarm, this value
+  /// (<code>evaluationPeriods</code>) is the N.
+  ///
+  /// If you are setting an alarm that requires that a number of consecutive data
+  /// points be breaching to trigger the alarm, this value specifies the rolling
+  /// period of time in which data points are evaluated.
+  ///
+  /// Each evaluation period is five minutes long. For example, specify an
+  /// evaluation period of 24 to evaluate a metric over a rolling period of two
+  /// hours.
+  ///
+  /// You can specify a minimum valuation period of 1 (5 minutes), and a maximum
+  /// evaluation period of 288 (24 hours).
+  @_s.JsonKey(name: 'evaluationPeriods')
+  final int evaluationPeriods;
+
+  /// The name of the metric to associate with the alarm.
+  ///
+  /// You can configure up to two alarms per metric.
+  ///
+  /// The following metrics are available for each resource type:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Instances</b>: <code>CPUUtilization</code>, <code>NetworkIn</code>,
+  /// <code>NetworkOut</code>, <code>StatusCheckFailed</code>,
+  /// <code>StatusCheckFailed_Instance</code>, and
+  /// <code>StatusCheckFailed_System</code>.
+  /// </li>
+  /// <li>
+  /// <b>Load balancers</b>: <code>ClientTLSNegotiationErrorCount</code>,
+  /// <code>HealthyHostCount</code>, <code>UnhealthyHostCount</code>,
+  /// <code>HTTPCode_LB_4XX_Count</code>, <code>HTTPCode_LB_5XX_Count</code>,
+  /// <code>HTTPCode_Instance_2XX_Count</code>,
+  /// <code>HTTPCode_Instance_3XX_Count</code>,
+  /// <code>HTTPCode_Instance_4XX_Count</code>,
+  /// <code>HTTPCode_Instance_5XX_Count</code>, <code>InstanceResponseTime</code>,
+  /// <code>RejectedConnectionCount</code>, and <code>RequestCount</code>.
+  /// </li>
+  /// <li>
+  /// <b>Relational databases</b>: <code>CPUUtilization</code>,
+  /// <code>DatabaseConnections</code>, <code>DiskQueueDepth</code>,
+  /// <code>FreeStorageSpace</code>, <code>NetworkReceiveThroughput</code>, and
+  /// <code>NetworkTransmitThroughput</code>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'metricName')
+  final MetricName metricName;
+
+  /// The name of the Lightsail resource that will be monitored.
+  ///
+  /// Instances, load balancers, and relational databases are the only Lightsail
+  /// resources that can currently be monitored by alarms.
+  @_s.JsonKey(name: 'monitoredResourceName')
+  final String monitoredResourceName;
+
+  /// The value against which the specified statistic is compared.
+  @_s.JsonKey(name: 'threshold')
+  final double threshold;
+
+  /// The contact protocols to use for the alarm, such as <code>Email</code>,
+  /// <code>SMS</code> (text messaging), or both.
+  ///
+  /// A notification is sent via the specified contact protocol if notifications
+  /// are enabled for the alarm, and when the alarm is triggered.
+  ///
+  /// A notification is not sent if a contact protocol is not specified, if the
+  /// specified contact protocol is not configured in the AWS Region, or if
+  /// notifications are not enabled for the alarm using the
+  /// <code>notificationEnabled</code> paramater.
+  ///
+  /// Use the <code>CreateContactMethod</code> action to configure a contact
+  /// protocol in an AWS Region.
+  @_s.JsonKey(name: 'contactProtocols')
+  final List<String> contactProtocols;
+
+  /// The number of data points that must be not within the specified threshold to
+  /// trigger the alarm. If you are setting an "M out of N" alarm, this value
+  /// (<code>datapointsToAlarm</code>) is the M.
+  @_s.JsonKey(name: 'datapointsToAlarm')
+  final int datapointsToAlarm;
+
+  /// Indicates whether the alarm is enabled.
+  ///
+  /// Notifications are enabled by default if you don't specify this parameter.
+  @_s.JsonKey(name: 'notificationEnabled')
+  final bool notificationEnabled;
+
+  /// The alarm states that trigger a notification.
+  ///
+  /// An alarm has the following possible states:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ALARM</code> — The metric is outside of the defined threshold.
+  /// </li>
+  /// <li>
+  /// <code>INSUFFICIENT_DATA</code> — The alarm has just started, the metric is
+  /// not available, or not enough data is available for the metric to determine
+  /// the alarm state.
+  /// </li>
+  /// <li>
+  /// <code>OK</code> — The metric is within the defined threshold.
+  /// </li>
+  /// </ul>
+  /// When you specify a notification trigger, the <code>ALARM</code> state must
+  /// be specified. The <code>INSUFFICIENT_DATA</code> and <code>OK</code> states
+  /// can be specified in addition to the <code>ALARM</code> state.
+  ///
+  /// <ul>
+  /// <li>
+  /// If you specify <code>OK</code> as an alarm trigger, a notification is sent
+  /// when the alarm switches from an <code>ALARM</code> or
+  /// <code>INSUFFICIENT_DATA</code> alarm state to an <code>OK</code> state. This
+  /// can be thought of as an <i>all clear</i> alarm notification.
+  /// </li>
+  /// <li>
+  /// If you specify <code>INSUFFICIENT_DATA</code> as the alarm trigger, a
+  /// notification is sent when the alarm switches from an <code>OK</code> or
+  /// <code>ALARM</code> alarm state to an <code>INSUFFICIENT_DATA</code> state.
+  /// </li>
+  /// </ul>
+  /// The notification trigger defaults to <code>ALARM</code> if you don't specify
+  /// this parameter.
+  @_s.JsonKey(name: 'notificationTriggers')
+  final List<String> notificationTriggers;
+
+  /// Sets how this alarm will handle missing data points.
+  ///
+  /// An alarm can treat missing data in the following ways:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>breaching</code> — Assume the missing data is not within the
+  /// threshold. Missing data counts towards the number of times the metric is not
+  /// within the threshold.
+  /// </li>
+  /// <li>
+  /// <code>notBreaching</code> — Assume the missing data is within the threshold.
+  /// Missing data does not count towards the number of times the metric is not
+  /// within the threshold.
+  /// </li>
+  /// <li>
+  /// <code>ignore</code> — Ignore the missing data. Maintains the current alarm
+  /// state.
+  /// </li>
+  /// <li>
+  /// <code>missing</code> — Missing data is treated as missing.
+  /// </li>
+  /// </ul>
+  /// If <code>treatMissingData</code> is not specified, the default behavior of
+  /// <code>missing</code> is used.
+  @_s.JsonKey(name: 'treatMissingData')
+  final TreatMissingData treatMissingData;
+
+  PutAlarmRequest({
+    @_s.required this.alarmName,
+    @_s.required this.comparisonOperator,
+    @_s.required this.evaluationPeriods,
+    @_s.required this.metricName,
+    @_s.required this.monitoredResourceName,
+    @_s.required this.threshold,
+    this.contactProtocols,
+    this.datapointsToAlarm,
+    this.notificationEnabled,
+    this.notificationTriggers,
+    this.treatMissingData,
+  });
+  Map<String, dynamic> toJson() => _$PutAlarmRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutAlarmResult {
@@ -13553,6 +16806,27 @@ class PutAlarmResult {
   });
   factory PutAlarmResult.fromJson(Map<String, dynamic> json) =>
       _$PutAlarmResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutInstancePublicPortsRequest {
+  /// The Lightsail instance name of the public port(s) you are setting.
+  @_s.JsonKey(name: 'instanceName')
+  final String instanceName;
+
+  /// Specifies information about the public port(s).
+  @_s.JsonKey(name: 'portInfos')
+  final List<PortInfo> portInfos;
+
+  PutInstancePublicPortsRequest({
+    @_s.required this.instanceName,
+    @_s.required this.portInfos,
+  });
+  Map<String, dynamic> toJson() => _$PutInstancePublicPortsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13577,6 +16851,22 @@ class PutInstancePublicPortsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RebootInstanceRequest {
+  /// The name of the instance to reboot.
+  @_s.JsonKey(name: 'instanceName')
+  final String instanceName;
+
+  RebootInstanceRequest({
+    @_s.required this.instanceName,
+  });
+  Map<String, dynamic> toJson() => _$RebootInstanceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class RebootInstanceResult {
@@ -13591,6 +16881,23 @@ class RebootInstanceResult {
   });
   factory RebootInstanceResult.fromJson(Map<String, dynamic> json) =>
       _$RebootInstanceResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RebootRelationalDatabaseRequest {
+  /// The name of your database to reboot.
+  @_s.JsonKey(name: 'relationalDatabaseName')
+  final String relationalDatabaseName;
+
+  RebootRelationalDatabaseRequest({
+    @_s.required this.relationalDatabaseName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$RebootRelationalDatabaseRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13695,42 +17002,6 @@ enum RegionName {
   apNortheast_1,
   @_s.JsonValue('ap-northeast-2')
   apNortheast_2,
-}
-
-extension on RegionName {
-  String toValue() {
-    switch (this) {
-      case RegionName.usEast_1:
-        return 'us-east-1';
-      case RegionName.usEast_2:
-        return 'us-east-2';
-      case RegionName.usWest_1:
-        return 'us-west-1';
-      case RegionName.usWest_2:
-        return 'us-west-2';
-      case RegionName.euWest_1:
-        return 'eu-west-1';
-      case RegionName.euWest_2:
-        return 'eu-west-2';
-      case RegionName.euWest_3:
-        return 'eu-west-3';
-      case RegionName.euCentral_1:
-        return 'eu-central-1';
-      case RegionName.caCentral_1:
-        return 'ca-central-1';
-      case RegionName.apSouth_1:
-        return 'ap-south-1';
-      case RegionName.apSoutheast_1:
-        return 'ap-southeast-1';
-      case RegionName.apSoutheast_2:
-        return 'ap-southeast-2';
-      case RegionName.apNortheast_1:
-        return 'ap-northeast-1';
-      case RegionName.apNortheast_2:
-        return 'ap-northeast-2';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Describes a database.
@@ -14115,26 +17386,6 @@ enum RelationalDatabaseMetricName {
   networkTransmitThroughput,
 }
 
-extension on RelationalDatabaseMetricName {
-  String toValue() {
-    switch (this) {
-      case RelationalDatabaseMetricName.cPUUtilization:
-        return 'CPUUtilization';
-      case RelationalDatabaseMetricName.databaseConnections:
-        return 'DatabaseConnections';
-      case RelationalDatabaseMetricName.diskQueueDepth:
-        return 'DiskQueueDepth';
-      case RelationalDatabaseMetricName.freeStorageSpace:
-        return 'FreeStorageSpace';
-      case RelationalDatabaseMetricName.networkReceiveThroughput:
-        return 'NetworkReceiveThroughput';
-      case RelationalDatabaseMetricName.networkTransmitThroughput:
-        return 'NetworkTransmitThroughput';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Describes the parameters of a database.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -14199,20 +17450,6 @@ enum RelationalDatabasePasswordVersion {
   previous,
   @_s.JsonValue('PENDING')
   pending,
-}
-
-extension on RelationalDatabasePasswordVersion {
-  String toValue() {
-    switch (this) {
-      case RelationalDatabasePasswordVersion.current:
-        return 'CURRENT';
-      case RelationalDatabasePasswordVersion.previous:
-        return 'PREVIOUS';
-      case RelationalDatabasePasswordVersion.pending:
-        return 'PENDING';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Describes a database snapshot.
@@ -14321,6 +17558,22 @@ class RelationalDatabaseSnapshot {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ReleaseStaticIpRequest {
+  /// The name of the static IP to delete.
+  @_s.JsonKey(name: 'staticIpName')
+  final String staticIpName;
+
+  ReleaseStaticIpRequest({
+    @_s.required this.staticIpName,
+  });
+  Map<String, dynamic> toJson() => _$ReleaseStaticIpRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ReleaseStaticIpResult {
@@ -14399,6 +17652,24 @@ enum ResourceType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SendContactMethodVerificationRequest {
+  /// The protocol to verify, such as <code>Email</code> or <code>SMS</code> (text
+  /// messaging).
+  @_s.JsonKey(name: 'protocol')
+  final ContactMethodVerificationProtocol protocol;
+
+  SendContactMethodVerificationRequest({
+    @_s.required this.protocol,
+  });
+  Map<String, dynamic> toJson() =>
+      _$SendContactMethodVerificationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class SendContactMethodVerificationResult {
@@ -14419,6 +17690,22 @@ class SendContactMethodVerificationResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartInstanceRequest {
+  /// The name of the instance (a virtual private server) to start.
+  @_s.JsonKey(name: 'instanceName')
+  final String instanceName;
+
+  StartInstanceRequest({
+    @_s.required this.instanceName,
+  });
+  Map<String, dynamic> toJson() => _$StartInstanceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartInstanceResult {
@@ -14433,6 +17720,22 @@ class StartInstanceResult {
   });
   factory StartInstanceResult.fromJson(Map<String, dynamic> json) =>
       _$StartInstanceResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartRelationalDatabaseRequest {
+  /// The name of your database to start.
+  @_s.JsonKey(name: 'relationalDatabaseName')
+  final String relationalDatabaseName;
+
+  StartRelationalDatabaseRequest({
+    @_s.required this.relationalDatabaseName,
+  });
+  Map<String, dynamic> toJson() => _$StartRelationalDatabaseRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -14523,6 +17826,33 @@ class StaticIp {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopInstanceRequest {
+  /// The name of the instance (a virtual private server) to stop.
+  @_s.JsonKey(name: 'instanceName')
+  final String instanceName;
+
+  /// When set to <code>True</code>, forces a Lightsail instance that is stuck in
+  /// a <code>stopping</code> state to stop.
+  /// <important>
+  /// Only use the <code>force</code> parameter if your instance is stuck in the
+  /// <code>stopping</code> state. In any other state, your instance should stop
+  /// normally without adding this parameter to your API request.
+  /// </important>
+  @_s.JsonKey(name: 'force')
+  final bool force;
+
+  StopInstanceRequest({
+    @_s.required this.instanceName,
+    this.force,
+  });
+  Map<String, dynamic> toJson() => _$StopInstanceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StopInstanceResult {
@@ -14537,6 +17867,28 @@ class StopInstanceResult {
   });
   factory StopInstanceResult.fromJson(Map<String, dynamic> json) =>
       _$StopInstanceResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopRelationalDatabaseRequest {
+  /// The name of your database to stop.
+  @_s.JsonKey(name: 'relationalDatabaseName')
+  final String relationalDatabaseName;
+
+  /// The name of your new database snapshot to be created before stopping your
+  /// database.
+  @_s.JsonKey(name: 'relationalDatabaseSnapshotName')
+  final String relationalDatabaseSnapshotName;
+
+  StopRelationalDatabaseRequest({
+    @_s.required this.relationalDatabaseName,
+    this.relationalDatabaseSnapshotName,
+  });
+  Map<String, dynamic> toJson() => _$StopRelationalDatabaseRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -14596,6 +17948,33 @@ class Tag {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The name of the resource to which you are adding tags.
+  @_s.JsonKey(name: 'resourceName')
+  final String resourceName;
+
+  /// The tag key and optional value.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  /// The Amazon Resource Name (ARN) of the resource to which you want to add a
+  /// tag.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  TagResourceRequest({
+    @_s.required this.resourceName,
+    @_s.required this.tags,
+    this.resourceArn,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagResourceResult {
@@ -14610,6 +17989,43 @@ class TagResourceResult {
   });
   factory TagResourceResult.fromJson(Map<String, dynamic> json) =>
       _$TagResourceResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TestAlarmRequest {
+  /// The name of the alarm to test.
+  @_s.JsonKey(name: 'alarmName')
+  final String alarmName;
+
+  /// The alarm state to test.
+  ///
+  /// An alarm has the following possible states that can be tested:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ALARM</code> — The metric is outside of the defined threshold.
+  /// </li>
+  /// <li>
+  /// <code>INSUFFICIENT_DATA</code> — The alarm has just started, the metric is
+  /// not available, or not enough data is available for the metric to determine
+  /// the alarm state.
+  /// </li>
+  /// <li>
+  /// <code>OK</code> — The metric is within the defined threshold.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'state')
+  final AlarmState state;
+
+  TestAlarmRequest({
+    @_s.required this.alarmName,
+    @_s.required this.state,
+  });
+  Map<String, dynamic> toJson() => _$TestAlarmRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -14642,22 +18058,6 @@ enum TreatMissingData {
   missing,
 }
 
-extension on TreatMissingData {
-  String toValue() {
-    switch (this) {
-      case TreatMissingData.breaching:
-        return 'breaching';
-      case TreatMissingData.notBreaching:
-        return 'notBreaching';
-      case TreatMissingData.ignore:
-        return 'ignore';
-      case TreatMissingData.missing:
-        return 'missing';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -14675,6 +18075,33 @@ class UnpeerVpcResult {
   });
   factory UnpeerVpcResult.fromJson(Map<String, dynamic> json) =>
       _$UnpeerVpcResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The name of the resource from which you are removing a tag.
+  @_s.JsonKey(name: 'resourceName')
+  final String resourceName;
+
+  /// The tag keys to delete from the specified resource.
+  @_s.JsonKey(name: 'tagKeys')
+  final List<String> tagKeys;
+
+  /// The Amazon Resource Name (ARN) of the resource from which you want to remove
+  /// a tag.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  UntagResourceRequest({
+    @_s.required this.resourceName,
+    @_s.required this.tagKeys,
+    this.resourceArn,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -14699,6 +18126,27 @@ class UntagResourceResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDomainEntryRequest {
+  /// An array of key-value pairs containing information about the domain entry.
+  @_s.JsonKey(name: 'domainEntry')
+  final DomainEntry domainEntry;
+
+  /// The name of the domain recordset to update.
+  @_s.JsonKey(name: 'domainName')
+  final String domainName;
+
+  UpdateDomainEntryRequest({
+    @_s.required this.domainEntry,
+    @_s.required this.domainName,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDomainEntryRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateDomainEntryResult {
@@ -14713,6 +18161,34 @@ class UpdateDomainEntryResult {
   });
   factory UpdateDomainEntryResult.fromJson(Map<String, dynamic> json) =>
       _$UpdateDomainEntryResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateLoadBalancerAttributeRequest {
+  /// The name of the attribute you want to update. Valid values are below.
+  @_s.JsonKey(name: 'attributeName')
+  final LoadBalancerAttributeName attributeName;
+
+  /// The value that you want to specify for the attribute name.
+  @_s.JsonKey(name: 'attributeValue')
+  final String attributeValue;
+
+  /// The name of the load balancer that you want to modify (e.g.,
+  /// <code>my-load-balancer</code>.
+  @_s.JsonKey(name: 'loadBalancerName')
+  final String loadBalancerName;
+
+  UpdateLoadBalancerAttributeRequest({
+    @_s.required this.attributeName,
+    @_s.required this.attributeValue,
+    @_s.required this.loadBalancerName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateLoadBalancerAttributeRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -14738,6 +18214,28 @@ class UpdateLoadBalancerAttributeResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateRelationalDatabaseParametersRequest {
+  /// The database parameters to update.
+  @_s.JsonKey(name: 'parameters')
+  final List<RelationalDatabaseParameter> parameters;
+
+  /// The name of your database for which to update parameters.
+  @_s.JsonKey(name: 'relationalDatabaseName')
+  final String relationalDatabaseName;
+
+  UpdateRelationalDatabaseParametersRequest({
+    @_s.required this.parameters,
+    @_s.required this.relationalDatabaseName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateRelationalDatabaseParametersRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateRelationalDatabaseParametersResult {
@@ -14753,6 +18251,139 @@ class UpdateRelationalDatabaseParametersResult {
   factory UpdateRelationalDatabaseParametersResult.fromJson(
           Map<String, dynamic> json) =>
       _$UpdateRelationalDatabaseParametersResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateRelationalDatabaseRequest {
+  /// The name of your database to update.
+  @_s.JsonKey(name: 'relationalDatabaseName')
+  final String relationalDatabaseName;
+
+  /// When <code>true</code>, applies changes immediately. When
+  /// <code>false</code>, applies changes during the preferred maintenance window.
+  /// Some changes may cause an outage.
+  ///
+  /// Default: <code>false</code>
+  @_s.JsonKey(name: 'applyImmediately')
+  final bool applyImmediately;
+
+  /// Indicates the certificate that needs to be associated with the database.
+  @_s.JsonKey(name: 'caCertificateIdentifier')
+  final String caCertificateIdentifier;
+
+  /// When <code>true</code>, disables automated backup retention for your
+  /// database.
+  ///
+  /// Disabling backup retention deletes all automated database backups. Before
+  /// disabling this, you may want to create a snapshot of your database using the
+  /// <code>create relational database snapshot</code> operation.
+  ///
+  /// Updates are applied during the next maintenance window because this can
+  /// result in an outage.
+  @_s.JsonKey(name: 'disableBackupRetention')
+  final bool disableBackupRetention;
+
+  /// When <code>true</code>, enables automated backup retention for your
+  /// database.
+  ///
+  /// Updates are applied during the next maintenance window because this can
+  /// result in an outage.
+  @_s.JsonKey(name: 'enableBackupRetention')
+  final bool enableBackupRetention;
+
+  /// The password for the master user of your database. The password can include
+  /// any printable ASCII character except "/", """, or "@".
+  ///
+  /// Constraints: Must contain 8 to 41 characters.
+  @_s.JsonKey(name: 'masterUserPassword')
+  final String masterUserPassword;
+
+  /// The daily time range during which automated backups are created for your
+  /// database if automated backups are enabled.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Must be in the <code>hh24:mi-hh24:mi</code> format.
+  ///
+  /// Example: <code>16:00-16:30</code>
+  /// </li>
+  /// <li>
+  /// Specified in Coordinated Universal Time (UTC).
+  /// </li>
+  /// <li>
+  /// Must not conflict with the preferred maintenance window.
+  /// </li>
+  /// <li>
+  /// Must be at least 30 minutes.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'preferredBackupWindow')
+  final String preferredBackupWindow;
+
+  /// The weekly time range during which system maintenance can occur on your
+  /// database.
+  ///
+  /// The default is a 30-minute window selected at random from an 8-hour block of
+  /// time for each AWS Region, occurring on a random day of the week.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Must be in the <code>ddd:hh24:mi-ddd:hh24:mi</code> format.
+  /// </li>
+  /// <li>
+  /// Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun.
+  /// </li>
+  /// <li>
+  /// Must be at least 30 minutes.
+  /// </li>
+  /// <li>
+  /// Specified in Coordinated Universal Time (UTC).
+  /// </li>
+  /// <li>
+  /// Example: <code>Tue:17:00-Tue:17:30</code>
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'preferredMaintenanceWindow')
+  final String preferredMaintenanceWindow;
+
+  /// Specifies the accessibility options for your database. A value of
+  /// <code>true</code> specifies a database that is available to resources
+  /// outside of your Lightsail account. A value of <code>false</code> specifies a
+  /// database that is available only to your Lightsail resources in the same
+  /// region as your database.
+  @_s.JsonKey(name: 'publiclyAccessible')
+  final bool publiclyAccessible;
+
+  /// When <code>true</code>, the master user password is changed to a new strong
+  /// password generated by Lightsail.
+  ///
+  /// Use the <code>get relational database master user password</code> operation
+  /// to get the new password.
+  @_s.JsonKey(name: 'rotateMasterUserPassword')
+  final bool rotateMasterUserPassword;
+
+  UpdateRelationalDatabaseRequest({
+    @_s.required this.relationalDatabaseName,
+    this.applyImmediately,
+    this.caCertificateIdentifier,
+    this.disableBackupRetention,
+    this.enableBackupRetention,
+    this.masterUserPassword,
+    this.preferredBackupWindow,
+    this.preferredMaintenanceWindow,
+    this.publiclyAccessible,
+    this.rotateMasterUserPassword,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateRelationalDatabaseRequestToJson(this);
 }
 
 @_s.JsonSerializable(

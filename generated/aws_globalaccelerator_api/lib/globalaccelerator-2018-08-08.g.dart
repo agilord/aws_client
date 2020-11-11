@@ -74,6 +74,20 @@ AcceleratorAttributes _$AcceleratorAttributesFromJson(
   );
 }
 
+Map<String, dynamic> _$AdvertiseByoipCidrRequestToJson(
+    AdvertiseByoipCidrRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Cidr', instance.cidr);
+  return val;
+}
+
 AdvertiseByoipCidrResponse _$AdvertiseByoipCidrResponseFromJson(
     Map<String, dynamic> json) {
   return AdvertiseByoipCidrResponse(
@@ -131,6 +145,25 @@ Map<String, dynamic> _$CidrAuthorizationContextToJson(
   return val;
 }
 
+Map<String, dynamic> _$CreateAcceleratorRequestToJson(
+    CreateAcceleratorRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('IdempotencyToken', instance.idempotencyToken);
+  writeNotNull('Name', instance.name);
+  writeNotNull('Enabled', instance.enabled);
+  writeNotNull('IpAddressType', _$IpAddressTypeEnumMap[instance.ipAddressType]);
+  writeNotNull('IpAddresses', instance.ipAddresses);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateAcceleratorResponse _$CreateAcceleratorResponseFromJson(
     Map<String, dynamic> json) {
   return CreateAcceleratorResponse(
@@ -139,6 +172,38 @@ CreateAcceleratorResponse _$CreateAcceleratorResponseFromJson(
         : Accelerator.fromJson(json['Accelerator'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$CreateEndpointGroupRequestToJson(
+    CreateEndpointGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EndpointGroupRegion', instance.endpointGroupRegion);
+  writeNotNull('IdempotencyToken', instance.idempotencyToken);
+  writeNotNull('ListenerArn', instance.listenerArn);
+  writeNotNull('EndpointConfigurations',
+      instance.endpointConfigurations?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'HealthCheckIntervalSeconds', instance.healthCheckIntervalSeconds);
+  writeNotNull('HealthCheckPath', instance.healthCheckPath);
+  writeNotNull('HealthCheckPort', instance.healthCheckPort);
+  writeNotNull('HealthCheckProtocol',
+      _$HealthCheckProtocolEnumMap[instance.healthCheckProtocol]);
+  writeNotNull('ThresholdCount', instance.thresholdCount);
+  writeNotNull('TrafficDialPercentage', instance.trafficDialPercentage);
+  return val;
+}
+
+const _$HealthCheckProtocolEnumMap = {
+  HealthCheckProtocol.tcp: 'TCP',
+  HealthCheckProtocol.http: 'HTTP',
+  HealthCheckProtocol.https: 'HTTPS',
+};
 
 CreateEndpointGroupResponse _$CreateEndpointGroupResponseFromJson(
     Map<String, dynamic> json) {
@@ -149,6 +214,36 @@ CreateEndpointGroupResponse _$CreateEndpointGroupResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateListenerRequestToJson(
+    CreateListenerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AcceleratorArn', instance.acceleratorArn);
+  writeNotNull('IdempotencyToken', instance.idempotencyToken);
+  writeNotNull(
+      'PortRanges', instance.portRanges?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Protocol', _$ProtocolEnumMap[instance.protocol]);
+  writeNotNull(
+      'ClientAffinity', _$ClientAffinityEnumMap[instance.clientAffinity]);
+  return val;
+}
+
+const _$ProtocolEnumMap = {
+  Protocol.tcp: 'TCP',
+  Protocol.udp: 'UDP',
+};
+
+const _$ClientAffinityEnumMap = {
+  ClientAffinity.none: 'NONE',
+  ClientAffinity.sourceIp: 'SOURCE_IP',
+};
+
 CreateListenerResponse _$CreateListenerResponseFromJson(
     Map<String, dynamic> json) {
   return CreateListenerResponse(
@@ -158,6 +253,62 @@ CreateListenerResponse _$CreateListenerResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteAcceleratorRequestToJson(
+    DeleteAcceleratorRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AcceleratorArn', instance.acceleratorArn);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteEndpointGroupRequestToJson(
+    DeleteEndpointGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EndpointGroupArn', instance.endpointGroupArn);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteListenerRequestToJson(
+    DeleteListenerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ListenerArn', instance.listenerArn);
+  return val;
+}
+
+Map<String, dynamic> _$DeprovisionByoipCidrRequestToJson(
+    DeprovisionByoipCidrRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Cidr', instance.cidr);
+  return val;
+}
+
 DeprovisionByoipCidrResponse _$DeprovisionByoipCidrResponseFromJson(
     Map<String, dynamic> json) {
   return DeprovisionByoipCidrResponse(
@@ -165,6 +316,20 @@ DeprovisionByoipCidrResponse _$DeprovisionByoipCidrResponseFromJson(
         ? null
         : ByoipCidr.fromJson(json['ByoipCidr'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeAcceleratorAttributesRequestToJson(
+    DescribeAcceleratorAttributesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AcceleratorArn', instance.acceleratorArn);
+  return val;
 }
 
 DescribeAcceleratorAttributesResponse
@@ -177,6 +342,20 @@ DescribeAcceleratorAttributesResponse
   );
 }
 
+Map<String, dynamic> _$DescribeAcceleratorRequestToJson(
+    DescribeAcceleratorRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AcceleratorArn', instance.acceleratorArn);
+  return val;
+}
+
 DescribeAcceleratorResponse _$DescribeAcceleratorResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeAcceleratorResponse(
@@ -186,6 +365,20 @@ DescribeAcceleratorResponse _$DescribeAcceleratorResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeEndpointGroupRequestToJson(
+    DescribeEndpointGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EndpointGroupArn', instance.endpointGroupArn);
+  return val;
+}
+
 DescribeEndpointGroupResponse _$DescribeEndpointGroupResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeEndpointGroupResponse(
@@ -193,6 +386,20 @@ DescribeEndpointGroupResponse _$DescribeEndpointGroupResponseFromJson(
         ? null
         : EndpointGroup.fromJson(json['EndpointGroup'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeListenerRequestToJson(
+    DescribeListenerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ListenerArn', instance.listenerArn);
+  return val;
 }
 
 DescribeListenerResponse _$DescribeListenerResponseFromJson(
@@ -257,18 +464,27 @@ EndpointGroup _$EndpointGroupFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$HealthCheckProtocolEnumMap = {
-  HealthCheckProtocol.tcp: 'TCP',
-  HealthCheckProtocol.http: 'HTTP',
-  HealthCheckProtocol.https: 'HTTPS',
-};
-
 IpSet _$IpSetFromJson(Map<String, dynamic> json) {
   return IpSet(
     ipAddresses:
         (json['IpAddresses'] as List)?.map((e) => e as String)?.toList(),
     ipFamily: json['IpFamily'] as String,
   );
+}
+
+Map<String, dynamic> _$ListAcceleratorsRequestToJson(
+    ListAcceleratorsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListAcceleratorsResponse _$ListAcceleratorsResponseFromJson(
@@ -282,6 +498,21 @@ ListAcceleratorsResponse _$ListAcceleratorsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListByoipCidrsRequestToJson(
+    ListByoipCidrsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListByoipCidrsResponse _$ListByoipCidrsResponseFromJson(
     Map<String, dynamic> json) {
   return ListByoipCidrsResponse(
@@ -291,6 +522,22 @@ ListByoipCidrsResponse _$ListByoipCidrsResponseFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListEndpointGroupsRequestToJson(
+    ListEndpointGroupsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ListenerArn', instance.listenerArn);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListEndpointGroupsResponse _$ListEndpointGroupsResponseFromJson(
@@ -305,6 +552,22 @@ ListEndpointGroupsResponse _$ListEndpointGroupsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListListenersRequestToJson(
+    ListListenersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AcceleratorArn', instance.acceleratorArn);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListListenersResponse _$ListListenersResponseFromJson(
     Map<String, dynamic> json) {
   return ListListenersResponse(
@@ -314,6 +577,20 @@ ListListenersResponse _$ListListenersResponseFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListTagsForResourceRequestToJson(
+    ListTagsForResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  return val;
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
@@ -338,16 +615,6 @@ Listener _$ListenerFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$ClientAffinityEnumMap = {
-  ClientAffinity.none: 'NONE',
-  ClientAffinity.sourceIp: 'SOURCE_IP',
-};
-
-const _$ProtocolEnumMap = {
-  Protocol.tcp: 'TCP',
-  Protocol.udp: 'UDP',
-};
-
 PortRange _$PortRangeFromJson(Map<String, dynamic> json) {
   return PortRange(
     fromPort: json['FromPort'] as int,
@@ -366,6 +633,22 @@ Map<String, dynamic> _$PortRangeToJson(PortRange instance) {
 
   writeNotNull('FromPort', instance.fromPort);
   writeNotNull('ToPort', instance.toPort);
+  return val;
+}
+
+Map<String, dynamic> _$ProvisionByoipCidrRequestToJson(
+    ProvisionByoipCidrRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Cidr', instance.cidr);
+  writeNotNull(
+      'CidrAuthorizationContext', instance.cidrAuthorizationContext?.toJson());
   return val;
 }
 
@@ -399,13 +682,59 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
   return val;
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
+}
+
+Map<String, dynamic> _$UntagResourceRequestToJson(
+    UntagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
 }
 
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse();
+}
+
+Map<String, dynamic> _$UpdateAcceleratorAttributesRequestToJson(
+    UpdateAcceleratorAttributesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AcceleratorArn', instance.acceleratorArn);
+  writeNotNull('FlowLogsEnabled', instance.flowLogsEnabled);
+  writeNotNull('FlowLogsS3Bucket', instance.flowLogsS3Bucket);
+  writeNotNull('FlowLogsS3Prefix', instance.flowLogsS3Prefix);
+  return val;
 }
 
 UpdateAcceleratorAttributesResponse
@@ -418,6 +747,23 @@ UpdateAcceleratorAttributesResponse
   );
 }
 
+Map<String, dynamic> _$UpdateAcceleratorRequestToJson(
+    UpdateAcceleratorRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AcceleratorArn', instance.acceleratorArn);
+  writeNotNull('Enabled', instance.enabled);
+  writeNotNull('IpAddressType', _$IpAddressTypeEnumMap[instance.ipAddressType]);
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
 UpdateAcceleratorResponse _$UpdateAcceleratorResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateAcceleratorResponse(
@@ -425,6 +771,30 @@ UpdateAcceleratorResponse _$UpdateAcceleratorResponseFromJson(
         ? null
         : Accelerator.fromJson(json['Accelerator'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateEndpointGroupRequestToJson(
+    UpdateEndpointGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EndpointGroupArn', instance.endpointGroupArn);
+  writeNotNull('EndpointConfigurations',
+      instance.endpointConfigurations?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'HealthCheckIntervalSeconds', instance.healthCheckIntervalSeconds);
+  writeNotNull('HealthCheckPath', instance.healthCheckPath);
+  writeNotNull('HealthCheckPort', instance.healthCheckPort);
+  writeNotNull('HealthCheckProtocol',
+      _$HealthCheckProtocolEnumMap[instance.healthCheckProtocol]);
+  writeNotNull('ThresholdCount', instance.thresholdCount);
+  writeNotNull('TrafficDialPercentage', instance.trafficDialPercentage);
+  return val;
 }
 
 UpdateEndpointGroupResponse _$UpdateEndpointGroupResponseFromJson(
@@ -436,6 +806,25 @@ UpdateEndpointGroupResponse _$UpdateEndpointGroupResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateListenerRequestToJson(
+    UpdateListenerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ListenerArn', instance.listenerArn);
+  writeNotNull(
+      'ClientAffinity', _$ClientAffinityEnumMap[instance.clientAffinity]);
+  writeNotNull(
+      'PortRanges', instance.portRanges?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Protocol', _$ProtocolEnumMap[instance.protocol]);
+  return val;
+}
+
 UpdateListenerResponse _$UpdateListenerResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateListenerResponse(
@@ -443,6 +832,20 @@ UpdateListenerResponse _$UpdateListenerResponseFromJson(
         ? null
         : Listener.fromJson(json['Listener'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$WithdrawByoipCidrRequestToJson(
+    WithdrawByoipCidrRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Cidr', instance.cidr);
+  return val;
 }
 
 WithdrawByoipCidrResponse _$WithdrawByoipCidrResponseFromJson(

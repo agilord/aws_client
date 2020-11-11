@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -125,18 +124,16 @@ class LicenseManager {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'LicenseCountingType': licenseCountingType?.toValue(),
-        'Name': name,
-        if (description != null) 'Description': description,
-        if (licenseCount != null) 'LicenseCount': licenseCount,
-        if (licenseCountHardLimit != null)
-          'LicenseCountHardLimit': licenseCountHardLimit,
-        if (licenseRules != null) 'LicenseRules': licenseRules,
-        if (productInformationList != null)
-          'ProductInformationList': productInformationList,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateLicenseConfigurationRequest(
+        licenseCountingType: licenseCountingType,
+        name: name,
+        description: description,
+        licenseCount: licenseCount,
+        licenseCountHardLimit: licenseCountHardLimit,
+        licenseRules: licenseRules,
+        productInformationList: productInformationList,
+        tags: tags,
+      ),
     );
 
     return CreateLicenseConfigurationResponse.fromJson(jsonResponse.body);
@@ -169,9 +166,9 @@ class LicenseManager {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'LicenseConfigurationArn': licenseConfigurationArn,
-      },
+      payload: DeleteLicenseConfigurationRequest(
+        licenseConfigurationArn: licenseConfigurationArn,
+      ),
     );
 
     return DeleteLicenseConfigurationResponse.fromJson(jsonResponse.body);
@@ -202,9 +199,9 @@ class LicenseManager {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'LicenseConfigurationArn': licenseConfigurationArn,
-      },
+      payload: GetLicenseConfigurationRequest(
+        licenseConfigurationArn: licenseConfigurationArn,
+      ),
     );
 
     return GetLicenseConfigurationResponse.fromJson(jsonResponse.body);
@@ -272,11 +269,11 @@ class LicenseManager {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'LicenseConfigurationArn': licenseConfigurationArn,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListAssociationsForLicenseConfigurationRequest(
+        licenseConfigurationArn: licenseConfigurationArn,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListAssociationsForLicenseConfigurationResponse.fromJson(
@@ -318,11 +315,11 @@ class LicenseManager {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'LicenseConfigurationArn': licenseConfigurationArn,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListFailuresForLicenseConfigurationOperationsRequest(
+        licenseConfigurationArn: licenseConfigurationArn,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListFailuresForLicenseConfigurationOperationsResponse.fromJson(
@@ -384,13 +381,12 @@ class LicenseManager {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (licenseConfigurationArns != null)
-          'LicenseConfigurationArns': licenseConfigurationArns,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListLicenseConfigurationsRequest(
+        filters: filters,
+        licenseConfigurationArns: licenseConfigurationArns,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListLicenseConfigurationsResponse.fromJson(jsonResponse.body);
@@ -430,11 +426,11 @@ class LicenseManager {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListLicenseSpecificationsForResourceRequest(
+        resourceArn: resourceArn,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListLicenseSpecificationsForResourceResponse.fromJson(
@@ -502,11 +498,11 @@ class LicenseManager {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListResourceInventoryRequest(
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListResourceInventoryResponse.fromJson(jsonResponse.body);
@@ -536,9 +532,9 @@ class LicenseManager {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-      },
+      payload: ListTagsForResourceRequest(
+        resourceArn: resourceArn,
+      ),
     );
 
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
@@ -604,12 +600,12 @@ class LicenseManager {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'LicenseConfigurationArn': licenseConfigurationArn,
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListUsageForLicenseConfigurationRequest(
+        licenseConfigurationArn: licenseConfigurationArn,
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListUsageForLicenseConfigurationResponse.fromJson(jsonResponse.body);
@@ -644,10 +640,10 @@ class LicenseManager {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        'Tags': tags,
-      },
+      payload: TagResourceRequest(
+        resourceArn: resourceArn,
+        tags: tags,
+      ),
     );
 
     return TagResourceResponse.fromJson(jsonResponse.body);
@@ -682,10 +678,10 @@ class LicenseManager {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        'TagKeys': tagKeys,
-      },
+      payload: UntagResourceRequest(
+        resourceArn: resourceArn,
+        tagKeys: tagKeys,
+      ),
     );
 
     return UntagResourceResponse.fromJson(jsonResponse.body);
@@ -751,19 +747,16 @@ class LicenseManager {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'LicenseConfigurationArn': licenseConfigurationArn,
-        if (description != null) 'Description': description,
-        if (licenseConfigurationStatus != null)
-          'LicenseConfigurationStatus': licenseConfigurationStatus?.toValue(),
-        if (licenseCount != null) 'LicenseCount': licenseCount,
-        if (licenseCountHardLimit != null)
-          'LicenseCountHardLimit': licenseCountHardLimit,
-        if (licenseRules != null) 'LicenseRules': licenseRules,
-        if (name != null) 'Name': name,
-        if (productInformationList != null)
-          'ProductInformationList': productInformationList,
-      },
+      payload: UpdateLicenseConfigurationRequest(
+        licenseConfigurationArn: licenseConfigurationArn,
+        description: description,
+        licenseConfigurationStatus: licenseConfigurationStatus,
+        licenseCount: licenseCount,
+        licenseCountHardLimit: licenseCountHardLimit,
+        licenseRules: licenseRules,
+        name: name,
+        productInformationList: productInformationList,
+      ),
     );
 
     return UpdateLicenseConfigurationResponse.fromJson(jsonResponse.body);
@@ -809,13 +802,11 @@ class LicenseManager {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        if (addLicenseSpecifications != null)
-          'AddLicenseSpecifications': addLicenseSpecifications,
-        if (removeLicenseSpecifications != null)
-          'RemoveLicenseSpecifications': removeLicenseSpecifications,
-      },
+      payload: UpdateLicenseSpecificationsForResourceRequest(
+        resourceArn: resourceArn,
+        addLicenseSpecifications: addLicenseSpecifications,
+        removeLicenseSpecifications: removeLicenseSpecifications,
+      ),
     );
 
     return UpdateLicenseSpecificationsForResourceResponse.fromJson(
@@ -859,14 +850,12 @@ class LicenseManager {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (enableCrossAccountsDiscovery != null)
-          'EnableCrossAccountsDiscovery': enableCrossAccountsDiscovery,
-        if (organizationConfiguration != null)
-          'OrganizationConfiguration': organizationConfiguration,
-        if (s3BucketArn != null) 'S3BucketArn': s3BucketArn,
-        if (snsTopicArn != null) 'SnsTopicArn': snsTopicArn,
-      },
+      payload: UpdateServiceSettingsRequest(
+        enableCrossAccountsDiscovery: enableCrossAccountsDiscovery,
+        organizationConfiguration: organizationConfiguration,
+        s3BucketArn: s3BucketArn,
+        snsTopicArn: snsTopicArn,
+      ),
     );
 
     return UpdateServiceSettingsResponse.fromJson(jsonResponse.body);
@@ -920,6 +909,82 @@ class ConsumedLicenseSummary {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateLicenseConfigurationRequest {
+  /// Dimension used to track the license inventory.
+  @_s.JsonKey(name: 'LicenseCountingType')
+  final LicenseCountingType licenseCountingType;
+
+  /// Name of the license configuration.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Description of the license configuration.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// Number of licenses managed by the license configuration.
+  @_s.JsonKey(name: 'LicenseCount')
+  final int licenseCount;
+
+  /// Indicates whether hard or soft license enforcement is used. Exceeding a hard
+  /// limit blocks the launch of new instances.
+  @_s.JsonKey(name: 'LicenseCountHardLimit')
+  final bool licenseCountHardLimit;
+
+  /// License rules. The syntax is #name=value (for example,
+  /// #allowedTenancy=EC2-DedicatedHost). Available rules vary by dimension.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Cores</code> dimension: <code>allowedTenancy</code> |
+  /// <code>maximumCores</code> | <code>minimumCores</code>
+  /// </li>
+  /// <li>
+  /// <code>Instances</code> dimension: <code>allowedTenancy</code> |
+  /// <code>maximumCores</code> | <code>minimumCores</code> |
+  /// <code>maximumSockets</code> | <code>minimumSockets</code> |
+  /// <code>maximumVcpus</code> | <code>minimumVcpus</code>
+  /// </li>
+  /// <li>
+  /// <code>Sockets</code> dimension: <code>allowedTenancy</code> |
+  /// <code>maximumSockets</code> | <code>minimumSockets</code>
+  /// </li>
+  /// <li>
+  /// <code>vCPUs</code> dimension: <code>allowedTenancy</code> |
+  /// <code>honorVcpuOptimization</code> | <code>maximumVcpus</code> |
+  /// <code>minimumVcpus</code>
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'LicenseRules')
+  final List<String> licenseRules;
+
+  /// Product information.
+  @_s.JsonKey(name: 'ProductInformationList')
+  final List<ProductInformation> productInformationList;
+
+  /// Tags to add to the license configuration.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateLicenseConfigurationRequest({
+    @_s.required this.licenseCountingType,
+    @_s.required this.name,
+    this.description,
+    this.licenseCount,
+    this.licenseCountHardLimit,
+    this.licenseRules,
+    this.productInformationList,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateLicenseConfigurationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateLicenseConfigurationResponse {
@@ -933,6 +998,23 @@ class CreateLicenseConfigurationResponse {
   factory CreateLicenseConfigurationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$CreateLicenseConfigurationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteLicenseConfigurationRequest {
+  /// ID of the license configuration.
+  @_s.JsonKey(name: 'LicenseConfigurationArn')
+  final String licenseConfigurationArn;
+
+  DeleteLicenseConfigurationRequest({
+    @_s.required this.licenseConfigurationArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteLicenseConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -969,6 +1051,22 @@ class Filter {
     this.values,
   });
   Map<String, dynamic> toJson() => _$FilterToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetLicenseConfigurationRequest {
+  /// Amazon Resource Name (ARN) of the license configuration.
+  @_s.JsonKey(name: 'LicenseConfigurationArn')
+  final String licenseConfigurationArn;
+
+  GetLicenseConfigurationRequest({
+    @_s.required this.licenseConfigurationArn,
+  });
+  Map<String, dynamic> toJson() => _$GetLicenseConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1277,18 +1375,6 @@ enum LicenseConfigurationStatus {
   disabled,
 }
 
-extension on LicenseConfigurationStatus {
-  String toValue() {
-    switch (this) {
-      case LicenseConfigurationStatus.available:
-        return 'AVAILABLE';
-      case LicenseConfigurationStatus.disabled:
-        return 'DISABLED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Details about the usage of a resource associated with a license
 /// configuration.
 @_s.JsonSerializable(
@@ -1346,22 +1432,6 @@ enum LicenseCountingType {
   core,
   @_s.JsonValue('Socket')
   socket,
-}
-
-extension on LicenseCountingType {
-  String toValue() {
-    switch (this) {
-      case LicenseCountingType.vcpu:
-        return 'vCPU';
-      case LicenseCountingType.instance:
-        return 'Instance';
-      case LicenseCountingType.core:
-        return 'Core';
-      case LicenseCountingType.socket:
-        return 'Socket';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Describes the failure of a license operation.
@@ -1443,6 +1513,33 @@ class LicenseSpecification {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListAssociationsForLicenseConfigurationRequest {
+  /// Amazon Resource Name (ARN) of a license configuration.
+  @_s.JsonKey(name: 'LicenseConfigurationArn')
+  final String licenseConfigurationArn;
+
+  /// Maximum number of results to return in a single call.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// Token for the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListAssociationsForLicenseConfigurationRequest({
+    @_s.required this.licenseConfigurationArn,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListAssociationsForLicenseConfigurationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListAssociationsForLicenseConfigurationResponse {
@@ -1461,6 +1558,33 @@ class ListAssociationsForLicenseConfigurationResponse {
   factory ListAssociationsForLicenseConfigurationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$ListAssociationsForLicenseConfigurationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListFailuresForLicenseConfigurationOperationsRequest {
+  /// Amazon Resource Name of the license configuration.
+  @_s.JsonKey(name: 'LicenseConfigurationArn')
+  final String licenseConfigurationArn;
+
+  /// Maximum number of results to return in a single call.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// Token for the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListFailuresForLicenseConfigurationOperationsRequest({
+    @_s.required this.licenseConfigurationArn,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListFailuresForLicenseConfigurationOperationsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1489,6 +1613,57 @@ class ListFailuresForLicenseConfigurationOperationsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListLicenseConfigurationsRequest {
+  /// Filters to scope the results. The following filters and logical operators
+  /// are supported:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>licenseCountingType</code> - The dimension on which licenses are
+  /// counted (vCPU). Logical operators are <code>EQUALS</code> |
+  /// <code>NOT_EQUALS</code>.
+  /// </li>
+  /// <li>
+  /// <code>enforceLicenseCount</code> - A Boolean value that indicates whether
+  /// hard license enforcement is used. Logical operators are <code>EQUALS</code>
+  /// | <code>NOT_EQUALS</code>.
+  /// </li>
+  /// <li>
+  /// <code>usagelimitExceeded</code> - A Boolean value that indicates whether the
+  /// available licenses have been exceeded. Logical operators are
+  /// <code>EQUALS</code> | <code>NOT_EQUALS</code>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Filters')
+  final List<Filter> filters;
+
+  /// Amazon Resource Names (ARN) of the license configurations.
+  @_s.JsonKey(name: 'LicenseConfigurationArns')
+  final List<String> licenseConfigurationArns;
+
+  /// Maximum number of results to return in a single call.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// Token for the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListLicenseConfigurationsRequest({
+    this.filters,
+    this.licenseConfigurationArns,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListLicenseConfigurationsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListLicenseConfigurationsResponse {
@@ -1507,6 +1682,34 @@ class ListLicenseConfigurationsResponse {
   factory ListLicenseConfigurationsResponse.fromJson(
           Map<String, dynamic> json) =>
       _$ListLicenseConfigurationsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListLicenseSpecificationsForResourceRequest {
+  /// Amazon Resource Name (ARN) of a resource that has an associated license
+  /// configuration.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// Maximum number of results to return in a single call.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// Token for the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListLicenseSpecificationsForResourceRequest({
+    @_s.required this.resourceArn,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListLicenseSpecificationsForResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1535,6 +1738,58 @@ class ListLicenseSpecificationsForResourceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListResourceInventoryRequest {
+  /// Filters to scope the results. The following filters and logical operators
+  /// are supported:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>account_id</code> - The ID of the AWS account that owns the resource.
+  /// Logical operators are <code>EQUALS</code> | <code>NOT_EQUALS</code>.
+  /// </li>
+  /// <li>
+  /// <code>application_name</code> - The name of the application. Logical
+  /// operators are <code>EQUALS</code> | <code>BEGINS_WITH</code>.
+  /// </li>
+  /// <li>
+  /// <code>license_included</code> - The type of license included. Logical
+  /// operators are <code>EQUALS</code> | <code>NOT_EQUALS</code>. Possible values
+  /// are <code>sql-server-enterprise</code> | <code>sql-server-standard</code> |
+  /// <code>sql-server-web</code> | <code>windows-server-datacenter</code>.
+  /// </li>
+  /// <li>
+  /// <code>platform</code> - The platform of the resource. Logical operators are
+  /// <code>EQUALS</code> | <code>BEGINS_WITH</code>.
+  /// </li>
+  /// <li>
+  /// <code>resource_id</code> - The ID of the resource. Logical operators are
+  /// <code>EQUALS</code> | <code>NOT_EQUALS</code>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Filters')
+  final List<InventoryFilter> filters;
+
+  /// Maximum number of results to return in a single call.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// Token for the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListResourceInventoryRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListResourceInventoryRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListResourceInventoryResponse {
@@ -1557,6 +1812,22 @@ class ListResourceInventoryResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceRequest {
+  /// Amazon Resource Name (ARN) of the license configuration.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  ListTagsForResourceRequest({
+    @_s.required this.resourceArn,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListTagsForResourceResponse {
@@ -1569,6 +1840,55 @@ class ListTagsForResourceResponse {
   });
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$ListTagsForResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListUsageForLicenseConfigurationRequest {
+  /// Amazon Resource Name (ARN) of the license configuration.
+  @_s.JsonKey(name: 'LicenseConfigurationArn')
+  final String licenseConfigurationArn;
+
+  /// Filters to scope the results. The following filters and logical operators
+  /// are supported:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>resourceArn</code> - The ARN of the license configuration resource.
+  /// Logical operators are <code>EQUALS</code> | <code>NOT_EQUALS</code>.
+  /// </li>
+  /// <li>
+  /// <code>resourceType</code> - The resource type (EC2_INSTANCE | EC2_HOST |
+  /// EC2_AMI | SYSTEMS_MANAGER_MANAGED_INSTANCE). Logical operators are
+  /// <code>EQUALS</code> | <code>NOT_EQUALS</code>.
+  /// </li>
+  /// <li>
+  /// <code>resourceAccount</code> - The ID of the account that owns the resource.
+  /// Logical operators are <code>EQUALS</code> | <code>NOT_EQUALS</code>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Filters')
+  final List<Filter> filters;
+
+  /// Maximum number of results to return in a single call.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// Token for the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListUsageForLicenseConfigurationRequest({
+    @_s.required this.licenseConfigurationArn,
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListUsageForLicenseConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1829,6 +2149,27 @@ class Tag {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// Amazon Resource Name (ARN) of the license configuration.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// One or more tags.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagResourceResponse {
@@ -1840,12 +2181,85 @@ class TagResourceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// Amazon Resource Name (ARN) of the license configuration.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// Keys identifying the tags to remove.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
   factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateLicenseConfigurationRequest {
+  /// Amazon Resource Name (ARN) of the license configuration.
+  @_s.JsonKey(name: 'LicenseConfigurationArn')
+  final String licenseConfigurationArn;
+
+  /// New description of the license configuration.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// New status of the license configuration.
+  @_s.JsonKey(name: 'LicenseConfigurationStatus')
+  final LicenseConfigurationStatus licenseConfigurationStatus;
+
+  /// New number of licenses managed by the license configuration.
+  @_s.JsonKey(name: 'LicenseCount')
+  final int licenseCount;
+
+  /// New hard limit of the number of available licenses.
+  @_s.JsonKey(name: 'LicenseCountHardLimit')
+  final bool licenseCountHardLimit;
+
+  /// New license rules.
+  @_s.JsonKey(name: 'LicenseRules')
+  final List<String> licenseRules;
+
+  /// New name of the license configuration.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// New product information.
+  @_s.JsonKey(name: 'ProductInformationList')
+  final List<ProductInformation> productInformationList;
+
+  UpdateLicenseConfigurationRequest({
+    @_s.required this.licenseConfigurationArn,
+    this.description,
+    this.licenseConfigurationStatus,
+    this.licenseCount,
+    this.licenseCountHardLimit,
+    this.licenseRules,
+    this.name,
+    this.productInformationList,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateLicenseConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1863,6 +2277,33 @@ class UpdateLicenseConfigurationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateLicenseSpecificationsForResourceRequest {
+  /// Amazon Resource Name (ARN) of the AWS resource.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// ARNs of the license configurations to add.
+  @_s.JsonKey(name: 'AddLicenseSpecifications')
+  final List<LicenseSpecification> addLicenseSpecifications;
+
+  /// ARNs of the license configurations to remove.
+  @_s.JsonKey(name: 'RemoveLicenseSpecifications')
+  final List<LicenseSpecification> removeLicenseSpecifications;
+
+  UpdateLicenseSpecificationsForResourceRequest({
+    @_s.required this.resourceArn,
+    this.addLicenseSpecifications,
+    this.removeLicenseSpecifications,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateLicenseSpecificationsForResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateLicenseSpecificationsForResourceResponse {
@@ -1870,6 +2311,39 @@ class UpdateLicenseSpecificationsForResourceResponse {
   factory UpdateLicenseSpecificationsForResourceResponse.fromJson(
           Map<String, dynamic> json) =>
       _$UpdateLicenseSpecificationsForResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateServiceSettingsRequest {
+  /// Activates cross-account discovery.
+  @_s.JsonKey(name: 'EnableCrossAccountsDiscovery')
+  final bool enableCrossAccountsDiscovery;
+
+  /// Enables integration with AWS Organizations for cross-account discovery.
+  @_s.JsonKey(name: 'OrganizationConfiguration')
+  final OrganizationConfiguration organizationConfiguration;
+
+  /// Amazon Resource Name (ARN) of the Amazon S3 bucket where the License Manager
+  /// information is stored.
+  @_s.JsonKey(name: 'S3BucketArn')
+  final String s3BucketArn;
+
+  /// Amazon Resource Name (ARN) of the Amazon SNS topic used for License Manager
+  /// alerts.
+  @_s.JsonKey(name: 'SnsTopicArn')
+  final String snsTopicArn;
+
+  UpdateServiceSettingsRequest({
+    this.enableCrossAccountsDiscovery,
+    this.organizationConfiguration,
+    this.s3BucketArn,
+    this.snsTopicArn,
+  });
+  Map<String, dynamic> toJson() => _$UpdateServiceSettingsRequestToJson(this);
 }
 
 @_s.JsonSerializable(

@@ -10,6 +10,10 @@ Attributes _$AttributesFromJson(Map<String, dynamic> json) {
   return Attributes();
 }
 
+Map<String, dynamic> _$ClaimDevicesByClaimCodeRequestToJson(
+        ClaimDevicesByClaimCodeRequest instance) =>
+    <String, dynamic>{};
+
 ClaimDevicesByClaimCodeResponse _$ClaimDevicesByClaimCodeResponseFromJson(
     Map<String, dynamic> json) {
   return ClaimDevicesByClaimCodeResponse(
@@ -84,6 +88,20 @@ Map<String, dynamic> _$DeviceMethodToJson(DeviceMethod instance) {
   return val;
 }
 
+Map<String, dynamic> _$FinalizeDeviceClaimRequestToJson(
+    FinalizeDeviceClaimRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
 FinalizeDeviceClaimResponse _$FinalizeDeviceClaimResponseFromJson(
     Map<String, dynamic> json) {
   return FinalizeDeviceClaimResponse(
@@ -101,11 +119,30 @@ GetDeviceMethodsResponse _$GetDeviceMethodsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$InitiateDeviceClaimRequestToJson(
+        InitiateDeviceClaimRequest instance) =>
+    <String, dynamic>{};
+
 InitiateDeviceClaimResponse _$InitiateDeviceClaimResponseFromJson(
     Map<String, dynamic> json) {
   return InitiateDeviceClaimResponse(
     state: json['state'] as String,
   );
+}
+
+Map<String, dynamic> _$InvokeDeviceMethodRequestToJson(
+    InvokeDeviceMethodRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('deviceMethod', instance.deviceMethod?.toJson());
+  writeNotNull('deviceMethodParameters', instance.deviceMethodParameters);
+  return val;
 }
 
 InvokeDeviceMethodResponse _$InvokeDeviceMethodResponseFromJson(
@@ -146,11 +183,46 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
+Map<String, dynamic> _$UnclaimDeviceRequestToJson(
+        UnclaimDeviceRequest instance) =>
+    <String, dynamic>{};
+
 UnclaimDeviceResponse _$UnclaimDeviceResponseFromJson(
     Map<String, dynamic> json) {
   return UnclaimDeviceResponse(
     state: json['state'] as String,
   );
+}
+
+Map<String, dynamic> _$UntagResourceRequestToJson(
+        UntagResourceRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$UpdateDeviceStateRequestToJson(
+    UpdateDeviceStateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('enabled', instance.enabled);
+  return val;
 }
 
 UpdateDeviceStateResponse _$UpdateDeviceStateResponseFromJson(

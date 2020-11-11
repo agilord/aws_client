@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -91,10 +90,10 @@ class MarketplaceMetering {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ProductCode': productCode,
-        'UsageRecords': usageRecords,
-      },
+      payload: BatchMeterUsageRequest(
+        productCode: productCode,
+        usageRecords: usageRecords,
+      ),
     );
 
     return BatchMeterUsageResult.fromJson(jsonResponse.body);
@@ -178,13 +177,13 @@ class MarketplaceMetering {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ProductCode': productCode,
-        'Timestamp': timestamp,
-        'UsageDimension': usageDimension,
-        if (dryRun != null) 'DryRun': dryRun,
-        if (usageQuantity != null) 'UsageQuantity': usageQuantity,
-      },
+      payload: MeterUsageRequest(
+        productCode: productCode,
+        timestamp: timestamp,
+        usageDimension: usageDimension,
+        dryRun: dryRun,
+        usageQuantity: usageQuantity,
+      ),
     );
 
     return MeterUsageResult.fromJson(jsonResponse.body);
@@ -287,11 +286,11 @@ class MarketplaceMetering {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ProductCode': productCode,
-        'PublicKeyVersion': publicKeyVersion,
-        if (nonce != null) 'Nonce': nonce,
-      },
+      payload: RegisterUsageRequest(
+        productCode: productCode,
+        publicKeyVersion: publicKeyVersion,
+        nonce: nonce,
+      ),
     );
 
     return RegisterUsageResult.fromJson(jsonResponse.body);
@@ -333,13 +332,39 @@ class MarketplaceMetering {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'RegistrationToken': registrationToken,
-      },
+      payload: ResolveCustomerRequest(
+        registrationToken: registrationToken,
+      ),
     );
 
     return ResolveCustomerResult.fromJson(jsonResponse.body);
   }
+}
+
+/// A BatchMeterUsageRequest contains UsageRecords, which indicate quantities of
+/// usage within your application.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchMeterUsageRequest {
+  /// Product code is used to uniquely identify a product in AWS Marketplace. The
+  /// product code should be the same as the one used during the publishing of a
+  /// new product.
+  @_s.JsonKey(name: 'ProductCode')
+  final String productCode;
+
+  /// The set of UsageRecords to submit. BatchMeterUsage accepts up to 25
+  /// UsageRecords at a time.
+  @_s.JsonKey(name: 'UsageRecords')
+  final List<UsageRecord> usageRecords;
+
+  BatchMeterUsageRequest({
+    @_s.required this.productCode,
+    @_s.required this.usageRecords,
+  });
+  Map<String, dynamic> toJson() => _$BatchMeterUsageRequestToJson(this);
 }
 
 /// Contains the UsageRecords processed by BatchMeterUsage and any records that
@@ -373,6 +398,53 @@ class BatchMeterUsageResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class MeterUsageRequest {
+  /// Product code is used to uniquely identify a product in AWS Marketplace. The
+  /// product code should be the same as the one used during the publishing of a
+  /// new product.
+  @_s.JsonKey(name: 'ProductCode')
+  final String productCode;
+
+  /// Timestamp, in UTC, for which the usage is being reported. Your application
+  /// can meter usage for up to one hour in the past. Make sure the timestamp
+  /// value is not before the start of the software usage.
+  @_s.JsonKey(
+      name: 'Timestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime timestamp;
+
+  /// It will be one of the fcp dimension name provided during the publishing of
+  /// the product.
+  @_s.JsonKey(name: 'UsageDimension')
+  final String usageDimension;
+
+  /// Checks whether you have the permissions required for the action, but does
+  /// not make the request. If you have the permissions, the request returns
+  /// DryRunOperation; otherwise, it returns UnauthorizedException. Defaults to
+  /// <code>false</code> if not specified.
+  @_s.JsonKey(name: 'DryRun')
+  final bool dryRun;
+
+  /// Consumption value for the hour. Defaults to <code>0</code> if not specified.
+  @_s.JsonKey(name: 'UsageQuantity')
+  final int usageQuantity;
+
+  MeterUsageRequest({
+    @_s.required this.productCode,
+    @_s.required this.timestamp,
+    @_s.required this.usageDimension,
+    this.dryRun,
+    this.usageQuantity,
+  });
+  Map<String, dynamic> toJson() => _$MeterUsageRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class MeterUsageResult {
@@ -385,6 +457,35 @@ class MeterUsageResult {
   });
   factory MeterUsageResult.fromJson(Map<String, dynamic> json) =>
       _$MeterUsageResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RegisterUsageRequest {
+  /// Product code is used to uniquely identify a product in AWS Marketplace. The
+  /// product code should be the same as the one used during the publishing of a
+  /// new product.
+  @_s.JsonKey(name: 'ProductCode')
+  final String productCode;
+
+  /// Public Key Version provided by AWS Marketplace
+  @_s.JsonKey(name: 'PublicKeyVersion')
+  final int publicKeyVersion;
+
+  /// (Optional) To scope down the registration to a specific running software
+  /// instance and guard against replay attacks.
+  @_s.JsonKey(name: 'Nonce')
+  final String nonce;
+
+  RegisterUsageRequest({
+    @_s.required this.productCode,
+    @_s.required this.publicKeyVersion,
+    this.nonce,
+  });
+  Map<String, dynamic> toJson() => _$RegisterUsageRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -410,6 +511,25 @@ class RegisterUsageResult {
   });
   factory RegisterUsageResult.fromJson(Map<String, dynamic> json) =>
       _$RegisterUsageResultFromJson(json);
+}
+
+/// Contains input to the ResolveCustomer operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ResolveCustomerRequest {
+  /// When a buyer visits your website during the registration process, the buyer
+  /// submits a registration token through the browser. The registration token is
+  /// resolved to obtain a CustomerIdentifier and product code.
+  @_s.JsonKey(name: 'RegistrationToken')
+  final String registrationToken;
+
+  ResolveCustomerRequest({
+    @_s.required this.registrationToken,
+  });
+  Map<String, dynamic> toJson() => _$ResolveCustomerRequestToJson(this);
 }
 
 /// The result of the ResolveCustomer operation. Contains the CustomerIdentifier

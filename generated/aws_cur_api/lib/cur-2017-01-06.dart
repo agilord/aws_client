@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -84,9 +83,9 @@ class CostandUsageReportService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (reportName != null) 'ReportName': reportName,
-      },
+      payload: DeleteReportDefinitionRequest(
+        reportName: reportName,
+      ),
     );
 
     return DeleteReportDefinitionResponse.fromJson(jsonResponse.body);
@@ -116,10 +115,10 @@ class CostandUsageReportService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeReportDefinitionsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeReportDefinitionsResponse.fromJson(jsonResponse.body);
@@ -158,10 +157,10 @@ class CostandUsageReportService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ReportDefinition': reportDefinition,
-        'ReportName': reportName,
-      },
+      payload: ModifyReportDefinitionRequest(
+        reportDefinition: reportDefinition,
+        reportName: reportName,
+      ),
     );
 
     return ModifyReportDefinitionResponse.fromJson(jsonResponse.body);
@@ -191,9 +190,9 @@ class CostandUsageReportService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ReportDefinition': reportDefinition,
-      },
+      payload: PutReportDefinitionRequest(
+        reportDefinition: reportDefinition,
+      ),
     );
 
     return PutReportDefinitionResponse.fromJson(jsonResponse.body);
@@ -246,6 +245,22 @@ enum CompressionFormat {
   parquet,
 }
 
+/// Deletes the specified report.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteReportDefinitionRequest {
+  @_s.JsonKey(name: 'ReportName')
+  final String reportName;
+
+  DeleteReportDefinitionRequest({
+    this.reportName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteReportDefinitionRequestToJson(this);
+}
+
 /// If the action is successful, the service sends back an HTTP 200 response.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -261,6 +276,26 @@ class DeleteReportDefinitionResponse {
   });
   factory DeleteReportDefinitionResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteReportDefinitionResponseFromJson(json);
+}
+
+/// Requests a list of AWS Cost and Usage reports owned by the account.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeReportDefinitionsRequest {
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeReportDefinitionsRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeReportDefinitionsRequestToJson(this);
 }
 
 /// If the action is successful, the service sends back an HTTP 200 response.
@@ -289,12 +324,48 @@ class DescribeReportDefinitionsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ModifyReportDefinitionRequest {
+  @_s.JsonKey(name: 'ReportDefinition')
+  final ReportDefinition reportDefinition;
+  @_s.JsonKey(name: 'ReportName')
+  final String reportName;
+
+  ModifyReportDefinitionRequest({
+    @_s.required this.reportDefinition,
+    @_s.required this.reportName,
+  });
+  Map<String, dynamic> toJson() => _$ModifyReportDefinitionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ModifyReportDefinitionResponse {
   ModifyReportDefinitionResponse();
   factory ModifyReportDefinitionResponse.fromJson(Map<String, dynamic> json) =>
       _$ModifyReportDefinitionResponseFromJson(json);
+}
+
+/// Creates a Cost and Usage Report.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutReportDefinitionRequest {
+  /// Represents the output of the PutReportDefinition operation. The content
+  /// consists of the detailed metadata and data file information.
+  @_s.JsonKey(name: 'ReportDefinition')
+  final ReportDefinition reportDefinition;
+
+  PutReportDefinitionRequest({
+    @_s.required this.reportDefinition,
+  });
+  Map<String, dynamic> toJson() => _$PutReportDefinitionRequestToJson(this);
 }
 
 /// If the action is successful, the service sends back an HTTP 200 response

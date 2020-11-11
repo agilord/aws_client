@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -160,21 +159,17 @@ class CognitoIdentity {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AllowUnauthenticatedIdentities': allowUnauthenticatedIdentities,
-        'IdentityPoolName': identityPoolName,
-        if (allowClassicFlow != null) 'AllowClassicFlow': allowClassicFlow,
-        if (cognitoIdentityProviders != null)
-          'CognitoIdentityProviders': cognitoIdentityProviders,
-        if (developerProviderName != null)
-          'DeveloperProviderName': developerProviderName,
-        if (identityPoolTags != null) 'IdentityPoolTags': identityPoolTags,
-        if (openIdConnectProviderARNs != null)
-          'OpenIdConnectProviderARNs': openIdConnectProviderARNs,
-        if (samlProviderARNs != null) 'SamlProviderARNs': samlProviderARNs,
-        if (supportedLoginProviders != null)
-          'SupportedLoginProviders': supportedLoginProviders,
-      },
+      payload: CreateIdentityPoolInput(
+        allowUnauthenticatedIdentities: allowUnauthenticatedIdentities,
+        identityPoolName: identityPoolName,
+        allowClassicFlow: allowClassicFlow,
+        cognitoIdentityProviders: cognitoIdentityProviders,
+        developerProviderName: developerProviderName,
+        identityPoolTags: identityPoolTags,
+        openIdConnectProviderARNs: openIdConnectProviderARNs,
+        samlProviderARNs: samlProviderARNs,
+        supportedLoginProviders: supportedLoginProviders,
+      ),
     );
 
     return IdentityPool.fromJson(jsonResponse.body);
@@ -205,9 +200,9 @@ class CognitoIdentity {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'IdentityIdsToDelete': identityIdsToDelete,
-      },
+      payload: DeleteIdentitiesInput(
+        identityIdsToDelete: identityIdsToDelete,
+      ),
     );
 
     return DeleteIdentitiesResponse.fromJson(jsonResponse.body);
@@ -253,9 +248,9 @@ class CognitoIdentity {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'IdentityPoolId': identityPoolId,
-      },
+      payload: DeleteIdentityPoolInput(
+        identityPoolId: identityPoolId,
+      ),
     );
   }
 
@@ -299,9 +294,9 @@ class CognitoIdentity {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'IdentityId': identityId,
-      },
+      payload: DescribeIdentityInput(
+        identityId: identityId,
+      ),
     );
 
     return IdentityDescription.fromJson(jsonResponse.body);
@@ -347,9 +342,9 @@ class CognitoIdentity {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'IdentityPoolId': identityPoolId,
-      },
+      payload: DescribeIdentityPoolInput(
+        identityPoolId: identityPoolId,
+      ),
     );
 
     return IdentityPool.fromJson(jsonResponse.body);
@@ -428,11 +423,11 @@ class CognitoIdentity {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'IdentityId': identityId,
-        if (customRoleArn != null) 'CustomRoleArn': customRoleArn,
-        if (logins != null) 'Logins': logins,
-      },
+      payload: GetCredentialsForIdentityInput(
+        identityId: identityId,
+        customRoleArn: customRoleArn,
+        logins: logins,
+      ),
     );
 
     return GetCredentialsForIdentityResponse.fromJson(jsonResponse.body);
@@ -526,11 +521,11 @@ class CognitoIdentity {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'IdentityPoolId': identityPoolId,
-        if (accountId != null) 'AccountId': accountId,
-        if (logins != null) 'Logins': logins,
-      },
+      payload: GetIdInput(
+        identityPoolId: identityPoolId,
+        accountId: accountId,
+        logins: logins,
+      ),
     );
 
     return GetIdResponse.fromJson(jsonResponse.body);
@@ -576,9 +571,9 @@ class CognitoIdentity {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'IdentityPoolId': identityPoolId,
-      },
+      payload: GetIdentityPoolRolesInput(
+        identityPoolId: identityPoolId,
+      ),
     );
 
     return GetIdentityPoolRolesResponse.fromJson(jsonResponse.body);
@@ -637,10 +632,10 @@ class CognitoIdentity {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'IdentityId': identityId,
-        if (logins != null) 'Logins': logins,
-      },
+      payload: GetOpenIdTokenInput(
+        identityId: identityId,
+        logins: logins,
+      ),
     );
 
     return GetOpenIdTokenResponse.fromJson(jsonResponse.body);
@@ -753,12 +748,12 @@ class CognitoIdentity {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'IdentityPoolId': identityPoolId,
-        'Logins': logins,
-        if (identityId != null) 'IdentityId': identityId,
-        if (tokenDuration != null) 'TokenDuration': tokenDuration,
-      },
+      payload: GetOpenIdTokenForDeveloperIdentityInput(
+        identityPoolId: identityPoolId,
+        logins: logins,
+        identityId: identityId,
+        tokenDuration: tokenDuration,
+      ),
     );
 
     return GetOpenIdTokenForDeveloperIdentityResponse.fromJson(
@@ -837,12 +832,12 @@ class CognitoIdentity {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'IdentityPoolId': identityPoolId,
-        'MaxResults': maxResults,
-        if (hideDisabled != null) 'HideDisabled': hideDisabled,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListIdentitiesInput(
+        identityPoolId: identityPoolId,
+        maxResults: maxResults,
+        hideDisabled: hideDisabled,
+        nextToken: nextToken,
+      ),
     );
 
     return ListIdentitiesResponse.fromJson(jsonResponse.body);
@@ -896,10 +891,10 @@ class CognitoIdentity {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListIdentityPoolsInput(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListIdentityPoolsResponse.fromJson(jsonResponse.body);
@@ -943,9 +938,9 @@ class CognitoIdentity {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-      },
+      payload: ListTagsForResourceInput(
+        resourceArn: resourceArn,
+      ),
     );
 
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
@@ -1066,14 +1061,13 @@ class CognitoIdentity {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'IdentityPoolId': identityPoolId,
-        if (developerUserIdentifier != null)
-          'DeveloperUserIdentifier': developerUserIdentifier,
-        if (identityId != null) 'IdentityId': identityId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: LookupDeveloperIdentityInput(
+        identityPoolId: identityPoolId,
+        developerUserIdentifier: developerUserIdentifier,
+        identityId: identityId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return LookupDeveloperIdentityResponse.fromJson(jsonResponse.body);
@@ -1182,12 +1176,12 @@ class CognitoIdentity {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DestinationUserIdentifier': destinationUserIdentifier,
-        'DeveloperProviderName': developerProviderName,
-        'IdentityPoolId': identityPoolId,
-        'SourceUserIdentifier': sourceUserIdentifier,
-      },
+      payload: MergeDeveloperIdentitiesInput(
+        destinationUserIdentifier: destinationUserIdentifier,
+        developerProviderName: developerProviderName,
+        identityPoolId: identityPoolId,
+        sourceUserIdentifier: sourceUserIdentifier,
+      ),
     );
 
     return MergeDeveloperIdentitiesResponse.fromJson(jsonResponse.body);
@@ -1251,11 +1245,11 @@ class CognitoIdentity {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'IdentityPoolId': identityPoolId,
-        'Roles': roles,
-        if (roleMappings != null) 'RoleMappings': roleMappings,
-      },
+      payload: SetIdentityPoolRolesInput(
+        identityPoolId: identityPoolId,
+        roles: roles,
+        roleMappings: roleMappings,
+      ),
     );
   }
 
@@ -1313,10 +1307,10 @@ class CognitoIdentity {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        'Tags': tags,
-      },
+      payload: TagResourceInput(
+        resourceArn: resourceArn,
+        tags: tags,
+      ),
     );
 
     return TagResourceResponse.fromJson(jsonResponse.body);
@@ -1416,12 +1410,12 @@ class CognitoIdentity {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DeveloperProviderName': developerProviderName,
-        'DeveloperUserIdentifier': developerUserIdentifier,
-        'IdentityId': identityId,
-        'IdentityPoolId': identityPoolId,
-      },
+      payload: UnlinkDeveloperIdentityInput(
+        developerProviderName: developerProviderName,
+        developerUserIdentifier: developerUserIdentifier,
+        identityId: identityId,
+        identityPoolId: identityPoolId,
+      ),
     );
   }
 
@@ -1479,11 +1473,11 @@ class CognitoIdentity {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'IdentityId': identityId,
-        'Logins': logins,
-        'LoginsToRemove': loginsToRemove,
-      },
+      payload: UnlinkIdentityInput(
+        identityId: identityId,
+        logins: logins,
+        loginsToRemove: loginsToRemove,
+      ),
     );
   }
 
@@ -1525,10 +1519,10 @@ class CognitoIdentity {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        'TagKeys': tagKeys,
-      },
+      payload: UntagResourceInput(
+        resourceArn: resourceArn,
+        tagKeys: tagKeys,
+      ),
     );
 
     return UntagResourceResponse.fromJson(jsonResponse.body);
@@ -1646,22 +1640,18 @@ class CognitoIdentity {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AllowUnauthenticatedIdentities': allowUnauthenticatedIdentities,
-        'IdentityPoolId': identityPoolId,
-        'IdentityPoolName': identityPoolName,
-        if (allowClassicFlow != null) 'AllowClassicFlow': allowClassicFlow,
-        if (cognitoIdentityProviders != null)
-          'CognitoIdentityProviders': cognitoIdentityProviders,
-        if (developerProviderName != null)
-          'DeveloperProviderName': developerProviderName,
-        if (identityPoolTags != null) 'IdentityPoolTags': identityPoolTags,
-        if (openIdConnectProviderARNs != null)
-          'OpenIdConnectProviderARNs': openIdConnectProviderARNs,
-        if (samlProviderARNs != null) 'SamlProviderARNs': samlProviderARNs,
-        if (supportedLoginProviders != null)
-          'SupportedLoginProviders': supportedLoginProviders,
-      },
+      payload: IdentityPool(
+        allowUnauthenticatedIdentities: allowUnauthenticatedIdentities,
+        identityPoolId: identityPoolId,
+        identityPoolName: identityPoolName,
+        allowClassicFlow: allowClassicFlow,
+        cognitoIdentityProviders: cognitoIdentityProviders,
+        developerProviderName: developerProviderName,
+        identityPoolTags: identityPoolTags,
+        openIdConnectProviderARNs: openIdConnectProviderARNs,
+        samlProviderARNs: samlProviderARNs,
+        supportedLoginProviders: supportedLoginProviders,
+      ),
     );
 
     return IdentityPool.fromJson(jsonResponse.body);
@@ -1715,6 +1705,77 @@ class CognitoIdentityProvider {
   Map<String, dynamic> toJson() => _$CognitoIdentityProviderToJson(this);
 }
 
+/// Input to the CreateIdentityPool action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateIdentityPoolInput {
+  /// TRUE if the identity pool supports unauthenticated logins.
+  @_s.JsonKey(name: 'AllowUnauthenticatedIdentities')
+  final bool allowUnauthenticatedIdentities;
+
+  /// A string that you provide.
+  @_s.JsonKey(name: 'IdentityPoolName')
+  final String identityPoolName;
+
+  /// Enables or disables the Basic (Classic) authentication flow. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/authentication-flow.html">Identity
+  /// Pools (Federated Identities) Authentication Flow</a> in the <i>Amazon
+  /// Cognito Developer Guide</i>.
+  @_s.JsonKey(name: 'AllowClassicFlow')
+  final bool allowClassicFlow;
+
+  /// An array of Amazon Cognito user pools and their client IDs.
+  @_s.JsonKey(name: 'CognitoIdentityProviders')
+  final List<CognitoIdentityProvider> cognitoIdentityProviders;
+
+  /// The "domain" by which Cognito will refer to your users. This name acts as a
+  /// placeholder that allows your backend and the Cognito service to communicate
+  /// about the developer provider. For the <code>DeveloperProviderName</code>,
+  /// you can use letters as well as period (<code>.</code>), underscore
+  /// (<code>_</code>), and dash (<code>-</code>).
+  ///
+  /// Once you have set a developer provider name, you cannot change it. Please
+  /// take care in setting this parameter.
+  @_s.JsonKey(name: 'DeveloperProviderName')
+  final String developerProviderName;
+
+  /// Tags to assign to the identity pool. A tag is a label that you can apply to
+  /// identity pools to categorize and manage them in different ways, such as by
+  /// purpose, owner, environment, or other criteria.
+  @_s.JsonKey(name: 'IdentityPoolTags')
+  final Map<String, String> identityPoolTags;
+
+  /// A list of OpendID Connect provider ARNs.
+  @_s.JsonKey(name: 'OpenIdConnectProviderARNs')
+  final List<String> openIdConnectProviderARNs;
+
+  /// An array of Amazon Resource Names (ARNs) of the SAML provider for your
+  /// identity pool.
+  @_s.JsonKey(name: 'SamlProviderARNs')
+  final List<String> samlProviderARNs;
+
+  /// Optional key:value pairs mapping provider names to provider app IDs.
+  @_s.JsonKey(name: 'SupportedLoginProviders')
+  final Map<String, String> supportedLoginProviders;
+
+  CreateIdentityPoolInput({
+    @_s.required this.allowUnauthenticatedIdentities,
+    @_s.required this.identityPoolName,
+    this.allowClassicFlow,
+    this.cognitoIdentityProviders,
+    this.developerProviderName,
+    this.identityPoolTags,
+    this.openIdConnectProviderARNs,
+    this.samlProviderARNs,
+    this.supportedLoginProviders,
+  });
+  Map<String, dynamic> toJson() => _$CreateIdentityPoolInputToJson(this);
+}
+
 /// Credentials for the provided identity ID.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1751,6 +1812,23 @@ class Credentials {
       _$CredentialsFromJson(json);
 }
 
+/// Input to the <code>DeleteIdentities</code> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteIdentitiesInput {
+  /// A list of 1-60 identities that you want to delete.
+  @_s.JsonKey(name: 'IdentityIdsToDelete')
+  final List<String> identityIdsToDelete;
+
+  DeleteIdentitiesInput({
+    @_s.required this.identityIdsToDelete,
+  });
+  Map<String, dynamic> toJson() => _$DeleteIdentitiesInputToJson(this);
+}
+
 /// Returned in response to a successful <code>DeleteIdentities</code>
 /// operation.
 @_s.JsonSerializable(
@@ -1771,11 +1849,103 @@ class DeleteIdentitiesResponse {
       _$DeleteIdentitiesResponseFromJson(json);
 }
 
+/// Input to the DeleteIdentityPool action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteIdentityPoolInput {
+  /// An identity pool ID in the format REGION:GUID.
+  @_s.JsonKey(name: 'IdentityPoolId')
+  final String identityPoolId;
+
+  DeleteIdentityPoolInput({
+    @_s.required this.identityPoolId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteIdentityPoolInputToJson(this);
+}
+
+/// Input to the <code>DescribeIdentity</code> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeIdentityInput {
+  /// A unique identifier in the format REGION:GUID.
+  @_s.JsonKey(name: 'IdentityId')
+  final String identityId;
+
+  DescribeIdentityInput({
+    @_s.required this.identityId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeIdentityInputToJson(this);
+}
+
+/// Input to the DescribeIdentityPool action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeIdentityPoolInput {
+  /// An identity pool ID in the format REGION:GUID.
+  @_s.JsonKey(name: 'IdentityPoolId')
+  final String identityPoolId;
+
+  DescribeIdentityPoolInput({
+    @_s.required this.identityPoolId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeIdentityPoolInputToJson(this);
+}
+
 enum ErrorCode {
   @_s.JsonValue('AccessDenied')
   accessDenied,
   @_s.JsonValue('InternalServerError')
   internalServerError,
+}
+
+/// Input to the <code>GetCredentialsForIdentity</code> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetCredentialsForIdentityInput {
+  /// A unique identifier in the format REGION:GUID.
+  @_s.JsonKey(name: 'IdentityId')
+  final String identityId;
+
+  /// The Amazon Resource Name (ARN) of the role to be assumed when multiple roles
+  /// were received in the token from the identity provider. For example, a
+  /// SAML-based identity provider. This parameter is optional for identity
+  /// providers that do not support role customization.
+  @_s.JsonKey(name: 'CustomRoleArn')
+  final String customRoleArn;
+
+  /// A set of optional name-value pairs that map provider names to provider
+  /// tokens. The name-value pair will follow the syntax "provider_name":
+  /// "provider_user_identifier".
+  ///
+  /// Logins should not be specified when trying to get credentials for an
+  /// unauthenticated identity.
+  ///
+  /// The Logins parameter is required when using identities associated with
+  /// external identity providers such as FaceBook. For examples of
+  /// <code>Logins</code> maps, see the code examples in the <a
+  /// href="http://docs.aws.amazon.com/cognito/latest/developerguide/external-identity-providers.html">External
+  /// Identity Providers</a> section of the Amazon Cognito Developer Guide.
+  @_s.JsonKey(name: 'Logins')
+  final Map<String, String> logins;
+
+  GetCredentialsForIdentityInput({
+    @_s.required this.identityId,
+    this.customRoleArn,
+    this.logins,
+  });
+  Map<String, dynamic> toJson() => _$GetCredentialsForIdentityInputToJson(this);
 }
 
 /// Returned in response to a successful <code>GetCredentialsForIdentity</code>
@@ -1803,6 +1973,58 @@ class GetCredentialsForIdentityResponse {
       _$GetCredentialsForIdentityResponseFromJson(json);
 }
 
+/// Input to the GetId action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetIdInput {
+  /// An identity pool ID in the format REGION:GUID.
+  @_s.JsonKey(name: 'IdentityPoolId')
+  final String identityPoolId;
+
+  /// A standard AWS account ID (9+ digits).
+  @_s.JsonKey(name: 'AccountId')
+  final String accountId;
+
+  /// A set of optional name-value pairs that map provider names to provider
+  /// tokens. The available provider names for <code>Logins</code> are as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// Facebook: <code>graph.facebook.com</code>
+  /// </li>
+  /// <li>
+  /// Amazon Cognito user pool:
+  /// <code>cognito-idp.&lt;region&gt;.amazonaws.com/&lt;YOUR_USER_POOL_ID&gt;</code>,
+  /// for example,
+  /// <code>cognito-idp.us-east-1.amazonaws.com/us-east-1_123456789</code>.
+  /// </li>
+  /// <li>
+  /// Google: <code>accounts.google.com</code>
+  /// </li>
+  /// <li>
+  /// Amazon: <code>www.amazon.com</code>
+  /// </li>
+  /// <li>
+  /// Twitter: <code>api.twitter.com</code>
+  /// </li>
+  /// <li>
+  /// Digits: <code>www.digits.com</code>
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Logins')
+  final Map<String, String> logins;
+
+  GetIdInput({
+    @_s.required this.identityPoolId,
+    this.accountId,
+    this.logins,
+  });
+  Map<String, dynamic> toJson() => _$GetIdInputToJson(this);
+}
+
 /// Returned in response to a GetId request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1819,6 +2041,23 @@ class GetIdResponse {
   });
   factory GetIdResponse.fromJson(Map<String, dynamic> json) =>
       _$GetIdResponseFromJson(json);
+}
+
+/// Input to the <code>GetIdentityPoolRoles</code> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetIdentityPoolRolesInput {
+  /// An identity pool ID in the format REGION:GUID.
+  @_s.JsonKey(name: 'IdentityPoolId')
+  final String identityPoolId;
+
+  GetIdentityPoolRolesInput({
+    @_s.required this.identityPoolId,
+  });
+  Map<String, dynamic> toJson() => _$GetIdentityPoolRolesInputToJson(this);
 }
 
 /// Returned in response to a successful <code>GetIdentityPoolRoles</code>
@@ -1854,6 +2093,58 @@ class GetIdentityPoolRolesResponse {
       _$GetIdentityPoolRolesResponseFromJson(json);
 }
 
+/// Input to the <code>GetOpenIdTokenForDeveloperIdentity</code> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetOpenIdTokenForDeveloperIdentityInput {
+  /// An identity pool ID in the format REGION:GUID.
+  @_s.JsonKey(name: 'IdentityPoolId')
+  final String identityPoolId;
+
+  /// A set of optional name-value pairs that map provider names to provider
+  /// tokens. Each name-value pair represents a user from a public provider or
+  /// developer provider. If the user is from a developer provider, the name-value
+  /// pair will follow the syntax <code>"developer_provider_name":
+  /// "developer_user_identifier"</code>. The developer provider is the "domain"
+  /// by which Cognito will refer to your users; you provided this domain while
+  /// creating/updating the identity pool. The developer user identifier is an
+  /// identifier from your backend that uniquely identifies a user. When you
+  /// create an identity pool, you can specify the supported logins.
+  @_s.JsonKey(name: 'Logins')
+  final Map<String, String> logins;
+
+  /// A unique identifier in the format REGION:GUID.
+  @_s.JsonKey(name: 'IdentityId')
+  final String identityId;
+
+  /// The expiration time of the token, in seconds. You can specify a custom
+  /// expiration time for the token so that you can cache it. If you don't provide
+  /// an expiration time, the token is valid for 15 minutes. You can exchange the
+  /// token with Amazon STS for temporary AWS credentials, which are valid for a
+  /// maximum of one hour. The maximum token duration you can set is 24 hours. You
+  /// should take care in setting the expiration time for a token, as there are
+  /// significant security implications: an attacker could use a leaked token to
+  /// access your AWS resources for the token's duration.
+  /// <note>
+  /// Please provide for a small grace period, usually no more than 5 minutes, to
+  /// account for clock skew.
+  /// </note>
+  @_s.JsonKey(name: 'TokenDuration')
+  final int tokenDuration;
+
+  GetOpenIdTokenForDeveloperIdentityInput({
+    @_s.required this.identityPoolId,
+    @_s.required this.logins,
+    this.identityId,
+    this.tokenDuration,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetOpenIdTokenForDeveloperIdentityInputToJson(this);
+}
+
 /// Returned in response to a successful
 /// <code>GetOpenIdTokenForDeveloperIdentity</code> request.
 @_s.JsonSerializable(
@@ -1877,6 +2168,32 @@ class GetOpenIdTokenForDeveloperIdentityResponse {
   factory GetOpenIdTokenForDeveloperIdentityResponse.fromJson(
           Map<String, dynamic> json) =>
       _$GetOpenIdTokenForDeveloperIdentityResponseFromJson(json);
+}
+
+/// Input to the GetOpenIdToken action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetOpenIdTokenInput {
+  /// A unique identifier in the format REGION:GUID.
+  @_s.JsonKey(name: 'IdentityId')
+  final String identityId;
+
+  /// A set of optional name-value pairs that map provider names to provider
+  /// tokens. When using graph.facebook.com and www.amazon.com, supply the
+  /// access_token returned from the provider's authflow. For accounts.google.com,
+  /// an Amazon Cognito user pool provider, or any other OpenId Connect provider,
+  /// always include the <code>id_token</code>.
+  @_s.JsonKey(name: 'Logins')
+  final Map<String, String> logins;
+
+  GetOpenIdTokenInput({
+    @_s.required this.identityId,
+    this.logins,
+  });
+  Map<String, dynamic> toJson() => _$GetOpenIdTokenInputToJson(this);
 }
 
 /// Returned in response to a successful GetOpenIdToken request.
@@ -1947,7 +2264,7 @@ class IdentityDescription {
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
-    createToJson: false)
+    createToJson: true)
 class IdentityPool {
   /// TRUE if the identity pool supports unauthenticated logins.
   @_s.JsonKey(name: 'AllowUnauthenticatedIdentities')
@@ -2010,6 +2327,8 @@ class IdentityPool {
   });
   factory IdentityPool.fromJson(Map<String, dynamic> json) =>
       _$IdentityPoolFromJson(json);
+
+  Map<String, dynamic> toJson() => _$IdentityPoolToJson(this);
 }
 
 /// A description of the identity pool.
@@ -2033,6 +2352,40 @@ class IdentityPoolShortDescription {
   });
   factory IdentityPoolShortDescription.fromJson(Map<String, dynamic> json) =>
       _$IdentityPoolShortDescriptionFromJson(json);
+}
+
+/// Input to the ListIdentities action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListIdentitiesInput {
+  /// An identity pool ID in the format REGION:GUID.
+  @_s.JsonKey(name: 'IdentityPoolId')
+  final String identityPoolId;
+
+  /// The maximum number of identities to return.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// An optional boolean parameter that allows you to hide disabled identities.
+  /// If omitted, the ListIdentities API will include disabled identities in the
+  /// response.
+  @_s.JsonKey(name: 'HideDisabled')
+  final bool hideDisabled;
+
+  /// A pagination token.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListIdentitiesInput({
+    @_s.required this.identityPoolId,
+    @_s.required this.maxResults,
+    this.hideDisabled,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListIdentitiesInputToJson(this);
 }
 
 /// The response to a ListIdentities request.
@@ -2063,6 +2416,28 @@ class ListIdentitiesResponse {
       _$ListIdentitiesResponseFromJson(json);
 }
 
+/// Input to the ListIdentityPools action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListIdentityPoolsInput {
+  /// The maximum number of identities to return.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A pagination token.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListIdentityPoolsInput({
+    @_s.required this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListIdentityPoolsInputToJson(this);
+}
+
 /// The result of a successful ListIdentityPools action.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2089,6 +2464,23 @@ class ListIdentityPoolsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceInput {
+  /// The Amazon Resource Name (ARN) of the identity pool that the tags are
+  /// assigned to.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  ListTagsForResourceInput({
+    @_s.required this.resourceArn,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListTagsForResourceResponse {
@@ -2101,6 +2493,51 @@ class ListTagsForResourceResponse {
   });
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$ListTagsForResourceResponseFromJson(json);
+}
+
+/// Input to the <code>LookupDeveloperIdentityInput</code> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class LookupDeveloperIdentityInput {
+  /// An identity pool ID in the format REGION:GUID.
+  @_s.JsonKey(name: 'IdentityPoolId')
+  final String identityPoolId;
+
+  /// A unique ID used by your backend authentication process to identify a user.
+  /// Typically, a developer identity provider would issue many developer user
+  /// identifiers, in keeping with the number of users.
+  @_s.JsonKey(name: 'DeveloperUserIdentifier')
+  final String developerUserIdentifier;
+
+  /// A unique identifier in the format REGION:GUID.
+  @_s.JsonKey(name: 'IdentityId')
+  final String identityId;
+
+  /// The maximum number of identities to return.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A pagination token. The first call you make will have <code>NextToken</code>
+  /// set to null. After that the service will return <code>NextToken</code>
+  /// values as needed. For example, let's say you make a request with
+  /// <code>MaxResults</code> set to 10, and there are 20 matches in the database.
+  /// The service will return a pagination token as a part of the response. This
+  /// token can be used to call the API again and get results starting from the
+  /// 11th match.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  LookupDeveloperIdentityInput({
+    @_s.required this.identityPoolId,
+    this.developerUserIdentifier,
+    this.identityId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$LookupDeveloperIdentityInputToJson(this);
 }
 
 /// Returned in response to a successful <code>LookupDeveloperIdentity</code>
@@ -2187,6 +2624,45 @@ enum MappingRuleMatchType {
   startsWith,
   @_s.JsonValue('NotEqual')
   notEqual,
+}
+
+/// Input to the <code>MergeDeveloperIdentities</code> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class MergeDeveloperIdentitiesInput {
+  /// User identifier for the destination user. The value should be a
+  /// <code>DeveloperUserIdentifier</code>.
+  @_s.JsonKey(name: 'DestinationUserIdentifier')
+  final String destinationUserIdentifier;
+
+  /// The "domain" by which Cognito will refer to your users. This is a (pseudo)
+  /// domain name that you provide while creating an identity pool. This name acts
+  /// as a placeholder that allows your backend and the Cognito service to
+  /// communicate about the developer provider. For the
+  /// <code>DeveloperProviderName</code>, you can use letters as well as period
+  /// (.), underscore (_), and dash (-).
+  @_s.JsonKey(name: 'DeveloperProviderName')
+  final String developerProviderName;
+
+  /// An identity pool ID in the format REGION:GUID.
+  @_s.JsonKey(name: 'IdentityPoolId')
+  final String identityPoolId;
+
+  /// User identifier for the source user. The value should be a
+  /// <code>DeveloperUserIdentifier</code>.
+  @_s.JsonKey(name: 'SourceUserIdentifier')
+  final String sourceUserIdentifier;
+
+  MergeDeveloperIdentitiesInput({
+    @_s.required this.destinationUserIdentifier,
+    @_s.required this.developerProviderName,
+    @_s.required this.identityPoolId,
+    @_s.required this.sourceUserIdentifier,
+  });
+  Map<String, dynamic> toJson() => _$MergeDeveloperIdentitiesInputToJson(this);
 }
 
 /// Returned in response to a successful <code>MergeDeveloperIdentities</code>
@@ -2280,6 +2756,61 @@ class RulesConfigurationType {
   Map<String, dynamic> toJson() => _$RulesConfigurationTypeToJson(this);
 }
 
+/// Input to the <code>SetIdentityPoolRoles</code> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SetIdentityPoolRolesInput {
+  /// An identity pool ID in the format REGION:GUID.
+  @_s.JsonKey(name: 'IdentityPoolId')
+  final String identityPoolId;
+
+  /// The map of roles associated with this pool. For a given role, the key will
+  /// be either "authenticated" or "unauthenticated" and the value will be the
+  /// Role ARN.
+  @_s.JsonKey(name: 'Roles')
+  final Map<String, String> roles;
+
+  /// How users for a specific identity provider are to mapped to roles. This is a
+  /// string to <a>RoleMapping</a> object map. The string identifies the identity
+  /// provider, for example, "graph.facebook.com" or
+  /// "cognito-idp-east-1.amazonaws.com/us-east-1_abcdefghi:app_client_id".
+  ///
+  /// Up to 25 rules can be specified per identity provider.
+  @_s.JsonKey(name: 'RoleMappings')
+  final Map<String, RoleMapping> roleMappings;
+
+  SetIdentityPoolRolesInput({
+    @_s.required this.identityPoolId,
+    @_s.required this.roles,
+    this.roleMappings,
+  });
+  Map<String, dynamic> toJson() => _$SetIdentityPoolRolesInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceInput {
+  /// The Amazon Resource Name (ARN) of the identity pool to assign the tags to.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// The tags to assign to the identity pool.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  TagResourceInput({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceInputToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2289,6 +2820,66 @@ class TagResourceResponse {
   TagResourceResponse();
   factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$TagResourceResponseFromJson(json);
+}
+
+/// Input to the <code>UnlinkDeveloperIdentity</code> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UnlinkDeveloperIdentityInput {
+  /// The "domain" by which Cognito will refer to your users.
+  @_s.JsonKey(name: 'DeveloperProviderName')
+  final String developerProviderName;
+
+  /// A unique ID used by your backend authentication process to identify a user.
+  @_s.JsonKey(name: 'DeveloperUserIdentifier')
+  final String developerUserIdentifier;
+
+  /// A unique identifier in the format REGION:GUID.
+  @_s.JsonKey(name: 'IdentityId')
+  final String identityId;
+
+  /// An identity pool ID in the format REGION:GUID.
+  @_s.JsonKey(name: 'IdentityPoolId')
+  final String identityPoolId;
+
+  UnlinkDeveloperIdentityInput({
+    @_s.required this.developerProviderName,
+    @_s.required this.developerUserIdentifier,
+    @_s.required this.identityId,
+    @_s.required this.identityPoolId,
+  });
+  Map<String, dynamic> toJson() => _$UnlinkDeveloperIdentityInputToJson(this);
+}
+
+/// Input to the UnlinkIdentity action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UnlinkIdentityInput {
+  /// A unique identifier in the format REGION:GUID.
+  @_s.JsonKey(name: 'IdentityId')
+  final String identityId;
+
+  /// A set of optional name-value pairs that map provider names to provider
+  /// tokens.
+  @_s.JsonKey(name: 'Logins')
+  final Map<String, String> logins;
+
+  /// Provider names to unlink from this identity.
+  @_s.JsonKey(name: 'LoginsToRemove')
+  final List<String> loginsToRemove;
+
+  UnlinkIdentityInput({
+    @_s.required this.identityId,
+    @_s.required this.logins,
+    @_s.required this.loginsToRemove,
+  });
+  Map<String, dynamic> toJson() => _$UnlinkIdentityInputToJson(this);
 }
 
 /// An array of UnprocessedIdentityId objects, each of which contains an
@@ -2313,6 +2904,28 @@ class UnprocessedIdentityId {
   });
   factory UnprocessedIdentityId.fromJson(Map<String, dynamic> json) =>
       _$UnprocessedIdentityIdFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceInput {
+  /// The Amazon Resource Name (ARN) of the identity pool that the tags are
+  /// assigned to.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// The keys of the tags to remove from the user pool.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceInput({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceInputToJson(this);
 }
 
 @_s.JsonSerializable(

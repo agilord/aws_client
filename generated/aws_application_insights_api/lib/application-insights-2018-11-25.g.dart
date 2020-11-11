@@ -91,6 +91,24 @@ const _$ConfigurationEventStatusEnumMap = {
   ConfigurationEventStatus.error: 'ERROR',
 };
 
+Map<String, dynamic> _$CreateApplicationRequestToJson(
+    CreateApplicationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceGroupName', instance.resourceGroupName);
+  writeNotNull('CWEMonitorEnabled', instance.cWEMonitorEnabled);
+  writeNotNull('OpsCenterEnabled', instance.opsCenterEnabled);
+  writeNotNull('OpsItemSNSTopicArn', instance.opsItemSNSTopicArn);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateApplicationResponse _$CreateApplicationResponseFromJson(
     Map<String, dynamic> json) {
   return CreateApplicationResponse(
@@ -101,9 +119,43 @@ CreateApplicationResponse _$CreateApplicationResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateComponentRequestToJson(
+    CreateComponentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ComponentName', instance.componentName);
+  writeNotNull('ResourceGroupName', instance.resourceGroupName);
+  writeNotNull('ResourceList', instance.resourceList);
+  return val;
+}
+
 CreateComponentResponse _$CreateComponentResponseFromJson(
     Map<String, dynamic> json) {
   return CreateComponentResponse();
+}
+
+Map<String, dynamic> _$CreateLogPatternRequestToJson(
+    CreateLogPatternRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Pattern', instance.pattern);
+  writeNotNull('PatternName', instance.patternName);
+  writeNotNull('PatternSetName', instance.patternSetName);
+  writeNotNull('Rank', instance.rank);
+  writeNotNull('ResourceGroupName', instance.resourceGroupName);
+  return val;
 }
 
 CreateLogPatternResponse _$CreateLogPatternResponseFromJson(
@@ -116,9 +168,38 @@ CreateLogPatternResponse _$CreateLogPatternResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteApplicationRequestToJson(
+    DeleteApplicationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceGroupName', instance.resourceGroupName);
+  return val;
+}
+
 DeleteApplicationResponse _$DeleteApplicationResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteApplicationResponse();
+}
+
+Map<String, dynamic> _$DeleteComponentRequestToJson(
+    DeleteComponentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ComponentName', instance.componentName);
+  writeNotNull('ResourceGroupName', instance.resourceGroupName);
+  return val;
 }
 
 DeleteComponentResponse _$DeleteComponentResponseFromJson(
@@ -126,9 +207,39 @@ DeleteComponentResponse _$DeleteComponentResponseFromJson(
   return DeleteComponentResponse();
 }
 
+Map<String, dynamic> _$DeleteLogPatternRequestToJson(
+    DeleteLogPatternRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('PatternName', instance.patternName);
+  writeNotNull('PatternSetName', instance.patternSetName);
+  writeNotNull('ResourceGroupName', instance.resourceGroupName);
+  return val;
+}
+
 DeleteLogPatternResponse _$DeleteLogPatternResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteLogPatternResponse();
+}
+
+Map<String, dynamic> _$DescribeApplicationRequestToJson(
+    DescribeApplicationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceGroupName', instance.resourceGroupName);
+  return val;
 }
 
 DescribeApplicationResponse _$DescribeApplicationResponseFromJson(
@@ -141,12 +252,44 @@ DescribeApplicationResponse _$DescribeApplicationResponseFromJson(
   );
 }
 
+Map<String, dynamic>
+    _$DescribeComponentConfigurationRecommendationRequestToJson(
+        DescribeComponentConfigurationRecommendationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ComponentName', instance.componentName);
+  writeNotNull('ResourceGroupName', instance.resourceGroupName);
+  writeNotNull('Tier', _$TierEnumMap[instance.tier]);
+  return val;
+}
+
 DescribeComponentConfigurationRecommendationResponse
     _$DescribeComponentConfigurationRecommendationResponseFromJson(
         Map<String, dynamic> json) {
   return DescribeComponentConfigurationRecommendationResponse(
     componentConfiguration: json['ComponentConfiguration'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeComponentConfigurationRequestToJson(
+    DescribeComponentConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ComponentName', instance.componentName);
+  writeNotNull('ResourceGroupName', instance.resourceGroupName);
+  return val;
 }
 
 DescribeComponentConfigurationResponse
@@ -157,6 +300,21 @@ DescribeComponentConfigurationResponse
     monitor: json['Monitor'] as bool,
     tier: _$enumDecodeNullable(_$TierEnumMap, json['Tier']),
   );
+}
+
+Map<String, dynamic> _$DescribeComponentRequestToJson(
+    DescribeComponentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ComponentName', instance.componentName);
+  writeNotNull('ResourceGroupName', instance.resourceGroupName);
+  return val;
 }
 
 DescribeComponentResponse _$DescribeComponentResponseFromJson(
@@ -171,6 +329,22 @@ DescribeComponentResponse _$DescribeComponentResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeLogPatternRequestToJson(
+    DescribeLogPatternRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('PatternName', instance.patternName);
+  writeNotNull('PatternSetName', instance.patternSetName);
+  writeNotNull('ResourceGroupName', instance.resourceGroupName);
+  return val;
+}
+
 DescribeLogPatternResponse _$DescribeLogPatternResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeLogPatternResponse(
@@ -181,6 +355,20 @@ DescribeLogPatternResponse _$DescribeLogPatternResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeObservationRequestToJson(
+    DescribeObservationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ObservationId', instance.observationId);
+  return val;
+}
+
 DescribeObservationResponse _$DescribeObservationResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeObservationResponse(
@@ -188,6 +376,20 @@ DescribeObservationResponse _$DescribeObservationResponseFromJson(
         ? null
         : Observation.fromJson(json['Observation'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeProblemObservationsRequestToJson(
+    DescribeProblemObservationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ProblemId', instance.problemId);
+  return val;
 }
 
 DescribeProblemObservationsResponse
@@ -200,6 +402,20 @@ DescribeProblemObservationsResponse
   );
 }
 
+Map<String, dynamic> _$DescribeProblemRequestToJson(
+    DescribeProblemRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ProblemId', instance.problemId);
+  return val;
+}
+
 DescribeProblemResponse _$DescribeProblemResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeProblemResponse(
@@ -207,6 +423,21 @@ DescribeProblemResponse _$DescribeProblemResponseFromJson(
         ? null
         : Problem.fromJson(json['Problem'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$ListApplicationsRequestToJson(
+    ListApplicationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListApplicationsResponse _$ListApplicationsResponseFromJson(
@@ -221,6 +452,22 @@ ListApplicationsResponse _$ListApplicationsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListComponentsRequestToJson(
+    ListComponentsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceGroupName', instance.resourceGroupName);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListComponentsResponse _$ListComponentsResponseFromJson(
     Map<String, dynamic> json) {
   return ListComponentsResponse(
@@ -231,6 +478,26 @@ ListComponentsResponse _$ListComponentsResponseFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListConfigurationHistoryRequestToJson(
+    ListConfigurationHistoryRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EndTime', unixTimestampToJson(instance.endTime));
+  writeNotNull(
+      'EventStatus', _$ConfigurationEventStatusEnumMap[instance.eventStatus]);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('ResourceGroupName', instance.resourceGroupName);
+  writeNotNull('StartTime', unixTimestampToJson(instance.startTime));
+  return val;
 }
 
 ListConfigurationHistoryResponse _$ListConfigurationHistoryResponseFromJson(
@@ -245,6 +512,22 @@ ListConfigurationHistoryResponse _$ListConfigurationHistoryResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListLogPatternSetsRequestToJson(
+    ListLogPatternSetsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceGroupName', instance.resourceGroupName);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListLogPatternSetsResponse _$ListLogPatternSetsResponseFromJson(
     Map<String, dynamic> json) {
   return ListLogPatternSetsResponse(
@@ -253,6 +536,23 @@ ListLogPatternSetsResponse _$ListLogPatternSetsResponseFromJson(
     nextToken: json['NextToken'] as String,
     resourceGroupName: json['ResourceGroupName'] as String,
   );
+}
+
+Map<String, dynamic> _$ListLogPatternsRequestToJson(
+    ListLogPatternsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceGroupName', instance.resourceGroupName);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('PatternSetName', instance.patternSetName);
+  return val;
 }
 
 ListLogPatternsResponse _$ListLogPatternsResponseFromJson(
@@ -267,6 +567,23 @@ ListLogPatternsResponse _$ListLogPatternsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListProblemsRequestToJson(ListProblemsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EndTime', unixTimestampToJson(instance.endTime));
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('ResourceGroupName', instance.resourceGroupName);
+  writeNotNull('StartTime', unixTimestampToJson(instance.startTime));
+  return val;
+}
+
 ListProblemsResponse _$ListProblemsResponseFromJson(Map<String, dynamic> json) {
   return ListProblemsResponse(
     nextToken: json['NextToken'] as String,
@@ -275,6 +592,20 @@ ListProblemsResponse _$ListProblemsResponseFromJson(Map<String, dynamic> json) {
             e == null ? null : Problem.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListTagsForResourceRequestToJson(
+    ListTagsForResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARN', instance.resourceARN);
+  return val;
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
@@ -407,13 +738,60 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
   return val;
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARN', instance.resourceARN);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
+}
+
+Map<String, dynamic> _$UntagResourceRequestToJson(
+    UntagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARN', instance.resourceARN);
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
 }
 
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse();
+}
+
+Map<String, dynamic> _$UpdateApplicationRequestToJson(
+    UpdateApplicationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceGroupName', instance.resourceGroupName);
+  writeNotNull('CWEMonitorEnabled', instance.cWEMonitorEnabled);
+  writeNotNull('OpsCenterEnabled', instance.opsCenterEnabled);
+  writeNotNull('OpsItemSNSTopicArn', instance.opsItemSNSTopicArn);
+  writeNotNull('RemoveSNSTopic', instance.removeSNSTopic);
+  return val;
 }
 
 UpdateApplicationResponse _$UpdateApplicationResponseFromJson(
@@ -426,14 +804,67 @@ UpdateApplicationResponse _$UpdateApplicationResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateComponentConfigurationRequestToJson(
+    UpdateComponentConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ComponentName', instance.componentName);
+  writeNotNull('ResourceGroupName', instance.resourceGroupName);
+  writeNotNull('ComponentConfiguration', instance.componentConfiguration);
+  writeNotNull('Monitor', instance.monitor);
+  writeNotNull('Tier', _$TierEnumMap[instance.tier]);
+  return val;
+}
+
 UpdateComponentConfigurationResponse
     _$UpdateComponentConfigurationResponseFromJson(Map<String, dynamic> json) {
   return UpdateComponentConfigurationResponse();
 }
 
+Map<String, dynamic> _$UpdateComponentRequestToJson(
+    UpdateComponentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ComponentName', instance.componentName);
+  writeNotNull('ResourceGroupName', instance.resourceGroupName);
+  writeNotNull('NewComponentName', instance.newComponentName);
+  writeNotNull('ResourceList', instance.resourceList);
+  return val;
+}
+
 UpdateComponentResponse _$UpdateComponentResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateComponentResponse();
+}
+
+Map<String, dynamic> _$UpdateLogPatternRequestToJson(
+    UpdateLogPatternRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('PatternName', instance.patternName);
+  writeNotNull('PatternSetName', instance.patternSetName);
+  writeNotNull('ResourceGroupName', instance.resourceGroupName);
+  writeNotNull('Pattern', instance.pattern);
+  writeNotNull('Rank', instance.rank);
+  return val;
 }
 
 UpdateLogPatternResponse _$UpdateLogPatternResponseFromJson(

@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -141,17 +140,15 @@ class Transfer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (endpointDetails != null) 'EndpointDetails': endpointDetails,
-        if (endpointType != null) 'EndpointType': endpointType?.toValue(),
-        if (hostKey != null) 'HostKey': hostKey,
-        if (identityProviderDetails != null)
-          'IdentityProviderDetails': identityProviderDetails,
-        if (identityProviderType != null)
-          'IdentityProviderType': identityProviderType?.toValue(),
-        if (loggingRole != null) 'LoggingRole': loggingRole,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateServerRequest(
+        endpointDetails: endpointDetails,
+        endpointType: endpointType,
+        hostKey: hostKey,
+        identityProviderDetails: identityProviderDetails,
+        identityProviderType: identityProviderType,
+        loggingRole: loggingRole,
+        tags: tags,
+      ),
     );
 
     return CreateServerResponse.fromJson(jsonResponse.body);
@@ -353,19 +350,17 @@ class Transfer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Role': role,
-        'ServerId': serverId,
-        'UserName': userName,
-        if (homeDirectory != null) 'HomeDirectory': homeDirectory,
-        if (homeDirectoryMappings != null)
-          'HomeDirectoryMappings': homeDirectoryMappings,
-        if (homeDirectoryType != null)
-          'HomeDirectoryType': homeDirectoryType?.toValue(),
-        if (policy != null) 'Policy': policy,
-        if (sshPublicKeyBody != null) 'SshPublicKeyBody': sshPublicKeyBody,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateUserRequest(
+        role: role,
+        serverId: serverId,
+        userName: userName,
+        homeDirectory: homeDirectory,
+        homeDirectoryMappings: homeDirectoryMappings,
+        homeDirectoryType: homeDirectoryType,
+        policy: policy,
+        sshPublicKeyBody: sshPublicKeyBody,
+        tags: tags,
+      ),
     );
 
     return CreateUserResponse.fromJson(jsonResponse.body);
@@ -409,9 +404,9 @@ class Transfer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ServerId': serverId,
-      },
+      payload: DeleteServerRequest(
+        serverId: serverId,
+      ),
     );
   }
 
@@ -491,11 +486,11 @@ class Transfer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ServerId': serverId,
-        'SshPublicKeyId': sshPublicKeyId,
-        'UserName': userName,
-      },
+      payload: DeleteSshPublicKeyRequest(
+        serverId: serverId,
+        sshPublicKeyId: sshPublicKeyId,
+        userName: userName,
+      ),
     );
   }
 
@@ -560,10 +555,10 @@ class Transfer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ServerId': serverId,
-        'UserName': userName,
-      },
+      payload: DeleteUserRequest(
+        serverId: serverId,
+        userName: userName,
+      ),
     );
   }
 
@@ -608,9 +603,9 @@ class Transfer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ServerId': serverId,
-      },
+      payload: DescribeServerRequest(
+        serverId: serverId,
+      ),
     );
 
     return DescribeServerResponse.fromJson(jsonResponse.body);
@@ -677,10 +672,10 @@ class Transfer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ServerId': serverId,
-        'UserName': userName,
-      },
+      payload: DescribeUserRequest(
+        serverId: serverId,
+        userName: userName,
+      ),
     );
 
     return DescribeUserResponse.fromJson(jsonResponse.body);
@@ -766,11 +761,11 @@ class Transfer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ServerId': serverId,
-        'SshPublicKeyBody': sshPublicKeyBody,
-        'UserName': userName,
-      },
+      payload: ImportSshPublicKeyRequest(
+        serverId: serverId,
+        sshPublicKeyBody: sshPublicKeyBody,
+        userName: userName,
+      ),
     );
 
     return ImportSshPublicKeyResponse.fromJson(jsonResponse.body);
@@ -819,10 +814,10 @@ class Transfer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListServersRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListServersResponse.fromJson(jsonResponse.body);
@@ -892,11 +887,11 @@ class Transfer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Arn': arn,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListTagsForResourceRequest(
+        arn: arn,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
@@ -965,11 +960,11 @@ class Transfer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ServerId': serverId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListUsersRequest(
+        serverId: serverId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListUsersResponse.fromJson(jsonResponse.body);
@@ -1021,9 +1016,9 @@ class Transfer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ServerId': serverId,
-      },
+      payload: StartServerRequest(
+        serverId: serverId,
+      ),
     );
   }
 
@@ -1076,9 +1071,9 @@ class Transfer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ServerId': serverId,
-      },
+      payload: StopServerRequest(
+        serverId: serverId,
+      ),
     );
   }
 
@@ -1130,10 +1125,10 @@ class Transfer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Arn': arn,
-        'Tags': tags,
-      },
+      payload: TagResourceRequest(
+        arn: arn,
+        tags: tags,
+      ),
     );
   }
 
@@ -1207,11 +1202,11 @@ class Transfer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ServerId': serverId,
-        'UserName': userName,
-        if (userPassword != null) 'UserPassword': userPassword,
-      },
+      payload: TestIdentityProviderRequest(
+        serverId: serverId,
+        userName: userName,
+        userPassword: userPassword,
+      ),
     );
 
     return TestIdentityProviderResponse.fromJson(jsonResponse.body);
@@ -1266,10 +1261,10 @@ class Transfer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Arn': arn,
-        'TagKeys': tagKeys,
-      },
+      payload: UntagResourceRequest(
+        arn: arn,
+        tagKeys: tagKeys,
+      ),
     );
   }
 
@@ -1372,15 +1367,14 @@ class Transfer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ServerId': serverId,
-        if (endpointDetails != null) 'EndpointDetails': endpointDetails,
-        if (endpointType != null) 'EndpointType': endpointType?.toValue(),
-        if (hostKey != null) 'HostKey': hostKey,
-        if (identityProviderDetails != null)
-          'IdentityProviderDetails': identityProviderDetails,
-        if (loggingRole != null) 'LoggingRole': loggingRole,
-      },
+      payload: UpdateServerRequest(
+        serverId: serverId,
+        endpointDetails: endpointDetails,
+        endpointType: endpointType,
+        hostKey: hostKey,
+        identityProviderDetails: identityProviderDetails,
+        loggingRole: loggingRole,
+      ),
     );
 
     return UpdateServerResponse.fromJson(jsonResponse.body);
@@ -1558,21 +1552,92 @@ class Transfer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ServerId': serverId,
-        'UserName': userName,
-        if (homeDirectory != null) 'HomeDirectory': homeDirectory,
-        if (homeDirectoryMappings != null)
-          'HomeDirectoryMappings': homeDirectoryMappings,
-        if (homeDirectoryType != null)
-          'HomeDirectoryType': homeDirectoryType?.toValue(),
-        if (policy != null) 'Policy': policy,
-        if (role != null) 'Role': role,
-      },
+      payload: UpdateUserRequest(
+        serverId: serverId,
+        userName: userName,
+        homeDirectory: homeDirectory,
+        homeDirectoryMappings: homeDirectoryMappings,
+        homeDirectoryType: homeDirectoryType,
+        policy: policy,
+        role: role,
+      ),
     );
 
     return UpdateUserResponse.fromJson(jsonResponse.body);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateServerRequest {
+  /// The virtual private cloud (VPC) endpoint settings that are configured for
+  /// your SFTP server. With a VPC endpoint, you can restrict access to your SFTP
+  /// server to resources only within your VPC. To control incoming internet
+  /// traffic, you will need to invoke the <code>UpdateServer</code> API and
+  /// attach an Elastic IP to your server's endpoint.
+  @_s.JsonKey(name: 'EndpointDetails')
+  final EndpointDetails endpointDetails;
+
+  /// The type of VPC endpoint that you want your SFTP server to connect to. You
+  /// can choose to connect to the public internet or a virtual private cloud
+  /// (VPC) endpoint. With a VPC endpoint, you can restrict access to your SFTP
+  /// server and resources only within your VPC.
+  @_s.JsonKey(name: 'EndpointType')
+  final EndpointType endpointType;
+
+  /// The RSA private key as generated by the <code>ssh-keygen -N "" -f
+  /// my-new-server-key</code> command.
+  /// <important>
+  /// If you aren't planning to migrate existing users from an existing SFTP
+  /// server to a new AWS SFTP server, don't update the host key. Accidentally
+  /// changing a server's host key can be disruptive.
+  /// </important>
+  /// For more information, see
+  /// "https://alpha-docs-aws.amazon.com/transfer/latest/userguide/configuring-servers.html#change-host-key"
+  /// in the <i>AWS SFTP User Guide.</i>
+  @_s.JsonKey(name: 'HostKey')
+  final String hostKey;
+
+  /// This parameter is required when the <code>IdentityProviderType</code> is set
+  /// to <code>API_GATEWAY</code>. Accepts an array containing all of the
+  /// information required to call a customer-supplied authentication API,
+  /// including the API Gateway URL. This property is not required when the
+  /// <code>IdentityProviderType</code> is set to <code>SERVICE_MANAGED</code>.
+  @_s.JsonKey(name: 'IdentityProviderDetails')
+  final IdentityProviderDetails identityProviderDetails;
+
+  /// Specifies the mode of authentication for the SFTP server. The default value
+  /// is <code>SERVICE_MANAGED</code>, which allows you to store and access SFTP
+  /// user credentials within the AWS Transfer for SFTP service. Use the
+  /// <code>API_GATEWAY</code> value to integrate with an identity provider of
+  /// your choosing. The <code>API_GATEWAY</code> setting requires you to provide
+  /// an API Gateway endpoint URL to call for authentication using the
+  /// <code>IdentityProviderDetails</code> parameter.
+  @_s.JsonKey(name: 'IdentityProviderType')
+  final IdentityProviderType identityProviderType;
+
+  /// A value that allows the service to write your SFTP users' activity to your
+  /// Amazon CloudWatch logs for monitoring and auditing purposes.
+  @_s.JsonKey(name: 'LoggingRole')
+  final String loggingRole;
+
+  /// Key-value pairs that can be used to group and search for servers.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateServerRequest({
+    this.endpointDetails,
+    this.endpointType,
+    this.hostKey,
+    this.identityProviderDetails,
+    this.identityProviderType,
+    this.loggingRole,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateServerRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1590,6 +1655,123 @@ class CreateServerResponse {
   });
   factory CreateServerResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateServerResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateUserRequest {
+  /// The IAM role that controls your user's access to your Amazon S3 bucket. The
+  /// policies attached to this role will determine the level of access you want
+  /// to provide your users when transferring files into and out of your Amazon S3
+  /// bucket or buckets. The IAM role should also contain a trust relationship
+  /// that allows the SFTP server to access your resources when servicing your
+  /// SFTP user's transfer requests.
+  @_s.JsonKey(name: 'Role')
+  final String role;
+
+  /// A system-assigned unique identifier for an SFTP server instance. This is the
+  /// specific SFTP server that you added your user to.
+  @_s.JsonKey(name: 'ServerId')
+  final String serverId;
+
+  /// A unique string that identifies a user and is associated with a server as
+  /// specified by the <code>ServerId</code>. This user name must be a minimum of
+  /// 3 and a maximum of 32 characters long. The following are valid characters:
+  /// a-z, A-Z, 0-9, underscore, and hyphen. The user name can't start with a
+  /// hyphen.
+  @_s.JsonKey(name: 'UserName')
+  final String userName;
+
+  /// The landing directory (folder) for a user when they log in to the server
+  /// using their SFTP client.
+  ///
+  /// An example is &lt;<code>your-Amazon-S3-bucket-name&gt;/home/username</code>.
+  @_s.JsonKey(name: 'HomeDirectory')
+  final String homeDirectory;
+
+  /// Logical directory mappings that specify what S3 paths and keys should be
+  /// visible to your user and how you want to make them visible. You will need to
+  /// specify the "<code>Entry</code>" and "<code>Target</code>" pair, where
+  /// <code>Entry</code> shows how the path is made visible and
+  /// <code>Target</code> is the actual S3 path. If you only specify a target, it
+  /// will be displayed as is. You will need to also make sure that your AWS IAM
+  /// Role provides access to paths in <code>Target</code>. The following is an
+  /// example.
+  ///
+  /// <code>'[ "/bucket2/documentation", { "Entry": "your-personal-report.pdf",
+  /// "Target": "/bucket3/customized-reports/${transfer:UserName}.pdf" } ]'</code>
+  ///
+  /// In most cases, you can use this value instead of the scope down policy to
+  /// lock your user down to the designated home directory ("chroot"). To do this,
+  /// you can set <code>Entry</code> to '/' and set <code>Target</code> to the
+  /// HomeDirectory parameter value.
+  /// <note>
+  /// If the target of a logical directory entry does not exist in S3, the entry
+  /// will be ignored. As a workaround, you can use the S3 api to create 0 byte
+  /// objects as place holders for your directory. If using the CLI, use the s3api
+  /// call instead of s3 so you can use the put-object operation. For example, you
+  /// use the following: <code>aws s3api put-object --bucket bucketname --key
+  /// path/to/folder/</code>. Make sure that the end of the key name ends in a /
+  /// for it to be considered a folder.
+  /// </note>
+  @_s.JsonKey(name: 'HomeDirectoryMappings')
+  final List<HomeDirectoryMapEntry> homeDirectoryMappings;
+
+  /// The type of landing directory (folder) you want your users' home directory
+  /// to be when they log into the SFTP server. If you set it to
+  /// <code>PATH</code>, the user will see the absolute Amazon S3 bucket paths as
+  /// is in their SFTP clients. If you set it <code>LOGICAL</code>, you will need
+  /// to provide mappings in the <code>HomeDirectoryMappings</code> for how you
+  /// want to make S3 paths visible to your user.
+  @_s.JsonKey(name: 'HomeDirectoryType')
+  final HomeDirectoryType homeDirectoryType;
+
+  /// A scope-down policy for your user so you can use the same IAM role across
+  /// multiple users. This policy scopes down user access to portions of their
+  /// Amazon S3 bucket. Variables that you can use inside this policy include
+  /// <code>${Transfer:UserName}</code>, <code>${Transfer:HomeDirectory}</code>,
+  /// and <code>${Transfer:HomeBucket}</code>.
+  /// <note>
+  /// For scope-down policies, AWS Transfer for SFTP stores the policy as a JSON
+  /// blob, instead of the Amazon Resource Name (ARN) of the policy. You save the
+  /// policy as a JSON blob and pass it in the <code>Policy</code> argument.
+  ///
+  /// For an example of a scope-down policy, see
+  /// "https://docs.aws.amazon.com/transfer/latest/userguide/users.html#users-policies-scope-down"&gt;Creating
+  /// a Scope-Down Policy.
+  ///
+  /// For more information, see
+  /// "https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html" in
+  /// the <i>AWS Security Token Service API Reference</i>.
+  /// </note>
+  @_s.JsonKey(name: 'Policy')
+  final String policy;
+
+  /// The public portion of the Secure Shell (SSH) key used to authenticate the
+  /// user to the SFTP server.
+  @_s.JsonKey(name: 'SshPublicKeyBody')
+  final String sshPublicKeyBody;
+
+  /// Key-value pairs that can be used to group and search for users. Tags are
+  /// metadata attached to users for any purpose.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateUserRequest({
+    @_s.required this.role,
+    @_s.required this.serverId,
+    @_s.required this.userName,
+    this.homeDirectory,
+    this.homeDirectoryMappings,
+    this.homeDirectoryType,
+    this.policy,
+    this.sshPublicKeyBody,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateUserRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1618,6 +1800,88 @@ class CreateUserResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteServerRequest {
+  /// A unique system-assigned identifier for an SFTP server instance.
+  @_s.JsonKey(name: 'ServerId')
+  final String serverId;
+
+  DeleteServerRequest({
+    @_s.required this.serverId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteServerRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteSshPublicKeyRequest {
+  /// A system-assigned unique identifier for a Secure File Transfer Protocol
+  /// (SFTP) server instance that has the user assigned to it.
+  @_s.JsonKey(name: 'ServerId')
+  final String serverId;
+
+  /// A unique identifier used to reference your user's specific SSH key.
+  @_s.JsonKey(name: 'SshPublicKeyId')
+  final String sshPublicKeyId;
+
+  /// A unique string that identifies a user whose public key is being deleted.
+  @_s.JsonKey(name: 'UserName')
+  final String userName;
+
+  DeleteSshPublicKeyRequest({
+    @_s.required this.serverId,
+    @_s.required this.sshPublicKeyId,
+    @_s.required this.userName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteSshPublicKeyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteUserRequest {
+  /// A system-assigned unique identifier for an SFTP server instance that has the
+  /// user assigned to it.
+  @_s.JsonKey(name: 'ServerId')
+  final String serverId;
+
+  /// A unique string that identifies a user that is being deleted from the
+  /// server.
+  @_s.JsonKey(name: 'UserName')
+  final String userName;
+
+  DeleteUserRequest({
+    @_s.required this.serverId,
+    @_s.required this.userName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteUserRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeServerRequest {
+  /// A system-assigned unique identifier for an SFTP server.
+  @_s.JsonKey(name: 'ServerId')
+  final String serverId;
+
+  DescribeServerRequest({
+    @_s.required this.serverId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeServerRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeServerResponse {
@@ -1631,6 +1895,30 @@ class DescribeServerResponse {
   });
   factory DescribeServerResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeServerResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeUserRequest {
+  /// A system-assigned unique identifier for an SFTP server that has this user
+  /// assigned.
+  @_s.JsonKey(name: 'ServerId')
+  final String serverId;
+
+  /// The name of the user assigned to one or more servers. User names are part of
+  /// the sign-in credentials to use the AWS Transfer for SFTP service and perform
+  /// file transfer tasks.
+  @_s.JsonKey(name: 'UserName')
+  final String userName;
+
+  DescribeUserRequest({
+    @_s.required this.serverId,
+    @_s.required this.userName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeUserRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1902,20 +2190,6 @@ enum EndpointType {
   vpcEndpoint,
 }
 
-extension on EndpointType {
-  String toValue() {
-    switch (this) {
-      case EndpointType.public:
-        return 'PUBLIC';
-      case EndpointType.vpc:
-        return 'VPC';
-      case EndpointType.vpcEndpoint:
-        return 'VPC_ENDPOINT';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Represents an object that contains entries and a targets for
 /// <code>HomeDirectoryMappings</code>.
 @_s.JsonSerializable(
@@ -1948,18 +2222,6 @@ enum HomeDirectoryType {
   path,
   @_s.JsonValue('LOGICAL')
   logical,
-}
-
-extension on HomeDirectoryType {
-  String toValue() {
-    switch (this) {
-      case HomeDirectoryType.path:
-        return 'PATH';
-      case HomeDirectoryType.logical:
-        return 'LOGICAL';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Returns information related to the type of user authentication that is in
@@ -2004,16 +2266,30 @@ enum IdentityProviderType {
   apiGateway,
 }
 
-extension on IdentityProviderType {
-  String toValue() {
-    switch (this) {
-      case IdentityProviderType.serviceManaged:
-        return 'SERVICE_MANAGED';
-      case IdentityProviderType.apiGateway:
-        return 'API_GATEWAY';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ImportSshPublicKeyRequest {
+  /// A system-assigned unique identifier for an SFTP server.
+  @_s.JsonKey(name: 'ServerId')
+  final String serverId;
+
+  /// The public key portion of an SSH key pair.
+  @_s.JsonKey(name: 'SshPublicKeyBody')
+  final String sshPublicKeyBody;
+
+  /// The name of the user account that is assigned to one or more servers.
+  @_s.JsonKey(name: 'UserName')
+  final String userName;
+
+  ImportSshPublicKeyRequest({
+    @_s.required this.serverId,
+    @_s.required this.sshPublicKeyBody,
+    @_s.required this.userName,
+  });
+  Map<String, dynamic> toJson() => _$ImportSshPublicKeyRequestToJson(this);
 }
 
 /// This response identifies the user, the server they belong to, and the
@@ -2050,6 +2326,31 @@ class ImportSshPublicKeyResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListServersRequest {
+  /// Specifies the number of servers to return as a response to the
+  /// <code>ListServers</code> query.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// When additional results are obtained from the <code>ListServers</code>
+  /// command, a <code>NextToken</code> parameter is returned in the output. You
+  /// can then pass the <code>NextToken</code> parameter in a subsequent command
+  /// to continue listing additional servers.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListServersRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListServersRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListServersResponse {
@@ -2070,6 +2371,39 @@ class ListServersResponse {
   });
   factory ListServersResponse.fromJson(Map<String, dynamic> json) =>
       _$ListServersResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceRequest {
+  /// Requests the tags associated with a particular Amazon Resource Name (ARN).
+  /// An ARN is an identifier for a specific AWS resource, such as a server, user,
+  /// or role.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// Specifies the number of tags to return as a response to the
+  /// <code>ListTagsForResource</code> request.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// When you request additional results from the
+  /// <code>ListTagsForResource</code> operation, a <code>NextToken</code>
+  /// parameter is returned in the input. You can then pass in a subsequent
+  /// command to the <code>NextToken</code> parameter to continue listing
+  /// additional tags.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListTagsForResourceRequest({
+    @_s.required this.arn,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2101,6 +2435,37 @@ class ListTagsForResourceResponse {
   });
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$ListTagsForResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListUsersRequest {
+  /// A system-assigned unique identifier for a Secure File Transfer Protocol
+  /// (SFTP) server that has users assigned to it.
+  @_s.JsonKey(name: 'ServerId')
+  final String serverId;
+
+  /// Specifies the number of users to return as a response to the
+  /// <code>ListUsers</code> request.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// When you can get additional results from the <code>ListUsers</code> call, a
+  /// <code>NextToken</code> parameter is returned in the output. You can then
+  /// pass in a subsequent command to the <code>NextToken</code> parameter to
+  /// continue listing additional users.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListUsersRequest({
+    @_s.required this.serverId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListUsersRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2293,6 +2658,22 @@ class SshPublicKey {
       _$SshPublicKeyFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartServerRequest {
+  /// A system-assigned unique identifier for an SFTP server that you start.
+  @_s.JsonKey(name: 'ServerId')
+  final String serverId;
+
+  StartServerRequest({
+    @_s.required this.serverId,
+  });
+  Map<String, dynamic> toJson() => _$StartServerRequestToJson(this);
+}
+
 /// Describes the condition of the SFTP server with respect to its ability to
 /// perform file operations. There are six possible states:
 /// <code>OFFLINE</code>, <code>ONLINE</code>, <code>STARTING</code>,
@@ -2319,6 +2700,22 @@ enum State {
   startFailed,
   @_s.JsonValue('STOP_FAILED')
   stopFailed,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopServerRequest {
+  /// A system-assigned unique identifier for an SFTP server that you stopped.
+  @_s.JsonKey(name: 'ServerId')
+  final String serverId;
+
+  StopServerRequest({
+    @_s.required this.serverId,
+  });
+  Map<String, dynamic> toJson() => _$StopServerRequestToJson(this);
 }
 
 /// Creates a key-value pair for a specific resource. Tags are metadata that you
@@ -2349,6 +2746,57 @@ class Tag {
   factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
   Map<String, dynamic> toJson() => _$TagToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// An Amazon Resource Name (ARN) for a specific AWS resource, such as a server,
+  /// user, or role.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// Key-value pairs assigned to ARNs that you can use to group and search for
+  /// resources by type. You can attach this metadata to user accounts for any
+  /// purpose.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  TagResourceRequest({
+    @_s.required this.arn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TestIdentityProviderRequest {
+  /// A system-assigned identifier for a specific server. That server's user
+  /// authentication method is tested with a user name and password.
+  @_s.JsonKey(name: 'ServerId')
+  final String serverId;
+
+  /// This request parameter is the name of the user account to be tested.
+  @_s.JsonKey(name: 'UserName')
+  final String userName;
+
+  /// The password of the user account to be tested.
+  @_s.JsonKey(name: 'UserPassword')
+  final String userPassword;
+
+  TestIdentityProviderRequest({
+    @_s.required this.serverId,
+    @_s.required this.userName,
+    this.userPassword,
+  });
+  Map<String, dynamic> toJson() => _$TestIdentityProviderRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2386,6 +2834,92 @@ class TestIdentityProviderResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// This is the value of the resource that will have the tag removed. An Amazon
+  /// Resource Name (ARN) is an identifier for a specific AWS resource, such as a
+  /// server, user, or role.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// TagKeys are key-value pairs assigned to ARNs that can be used to group and
+  /// search for resources by type. This metadata can be attached to resources for
+  /// any purpose.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.arn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateServerRequest {
+  /// A system-assigned unique identifier for an SFTP server instance that the
+  /// user account is assigned to.
+  @_s.JsonKey(name: 'ServerId')
+  final String serverId;
+
+  /// The virtual private cloud (VPC) endpoint settings that are configured for
+  /// your SFTP server. With a VPC endpoint, you can restrict access to your SFTP
+  /// server to resources only within your VPC. To control incoming internet
+  /// traffic, you will need to associate one or more Elastic IP addresses with
+  /// your server's endpoint.
+  @_s.JsonKey(name: 'EndpointDetails')
+  final EndpointDetails endpointDetails;
+
+  /// The type of endpoint that you want your SFTP server to connect to. You can
+  /// choose to connect to the public internet or a virtual private cloud (VPC)
+  /// endpoint. With a VPC endpoint, your SFTP server isn't accessible over the
+  /// public internet.
+  @_s.JsonKey(name: 'EndpointType')
+  final EndpointType endpointType;
+
+  /// The RSA private key as generated by <code>ssh-keygen -N "" -f
+  /// my-new-server-key</code>.
+  /// <important>
+  /// If you aren't planning to migrate existing users from an existing SFTP
+  /// server to a new AWS SFTP server, don't update the host key. Accidentally
+  /// changing a server's host key can be disruptive.
+  /// </important>
+  /// For more information, see
+  /// "https://docs.aws.amazon.com/transfer/latest/userguide/configuring-servers.html#change-host-key"
+  /// in the <i>AWS SFTP User Guide.</i>
+  @_s.JsonKey(name: 'HostKey')
+  final String hostKey;
+
+  /// This response parameter is an array containing all of the information
+  /// required to call a customer's authentication API method.
+  @_s.JsonKey(name: 'IdentityProviderDetails')
+  final IdentityProviderDetails identityProviderDetails;
+
+  /// A value that changes the AWS Identity and Access Management (IAM) role that
+  /// allows Amazon S3 events to be logged in Amazon CloudWatch, turning logging
+  /// on or off.
+  @_s.JsonKey(name: 'LoggingRole')
+  final String loggingRole;
+
+  UpdateServerRequest({
+    @_s.required this.serverId,
+    this.endpointDetails,
+    this.endpointType,
+    this.hostKey,
+    this.identityProviderDetails,
+    this.loggingRole,
+  });
+  Map<String, dynamic> toJson() => _$UpdateServerRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateServerResponse {
@@ -2399,6 +2933,113 @@ class UpdateServerResponse {
   });
   factory UpdateServerResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateServerResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateUserRequest {
+  /// A system-assigned unique identifier for an SFTP server instance that the
+  /// user account is assigned to.
+  @_s.JsonKey(name: 'ServerId')
+  final String serverId;
+
+  /// A unique string that identifies a user and is associated with a server as
+  /// specified by the <code>ServerId</code>. This is the string that will be used
+  /// by your user when they log in to your SFTP server. This user name is a
+  /// minimum of 3 and a maximum of 32 characters long. The following are valid
+  /// characters: a-z, A-Z, 0-9, underscore, and hyphen. The user name can't start
+  /// with a hyphen.
+  @_s.JsonKey(name: 'UserName')
+  final String userName;
+
+  /// A parameter that specifies the landing directory (folder) for a user when
+  /// they log in to the server using their client.
+  ///
+  /// An example is <code>&lt;your-Amazon-S3-bucket-name&gt;/home/username</code>.
+  @_s.JsonKey(name: 'HomeDirectory')
+  final String homeDirectory;
+
+  /// Logical directory mappings that specify what S3 paths and keys should be
+  /// visible to your user and how you want to make them visible. You will need to
+  /// specify the "<code>Entry</code>" and "<code>Target</code>" pair, where
+  /// <code>Entry</code> shows how the path is made visible and
+  /// <code>Target</code> is the actual S3 path. If you only specify a target, it
+  /// will be displayed as is. You will need to also make sure that your AWS IAM
+  /// Role provides access to paths in <code>Target</code>. The following is an
+  /// example.
+  ///
+  /// <code>'[ "/bucket2/documentation", { "Entry": "your-personal-report.pdf",
+  /// "Target": "/bucket3/customized-reports/${transfer:UserName}.pdf" } ]'</code>
+  ///
+  /// In most cases, you can use this value instead of the scope down policy to
+  /// lock your user down to the designated home directory ("chroot"). To do this,
+  /// you can set <code>Entry</code> to '/' and set <code>Target</code> to the
+  /// HomeDirectory parameter value.
+  /// <note>
+  /// If the target of a logical directory entry does not exist in S3, the entry
+  /// will be ignored. As a workaround, you can use the S3 api to create 0 byte
+  /// objects as place holders for your directory. If using the CLI, use the s3api
+  /// call instead of s3 so you can use the put-object operation. For example, you
+  /// use the following: <code>aws s3api put-object --bucket bucketname --key
+  /// path/to/folder/</code>. Make sure that the end of the key name ends in a /
+  /// for it to be considered a folder.
+  /// </note>
+  @_s.JsonKey(name: 'HomeDirectoryMappings')
+  final List<HomeDirectoryMapEntry> homeDirectoryMappings;
+
+  /// The type of landing directory (folder) you want your users' home directory
+  /// to be when they log into the SFTP serve. If you set it to <code>PATH</code>,
+  /// the user will see the absolute Amazon S3 bucket paths as is in their SFTP
+  /// clients. If you set it <code>LOGICAL</code>, you will need to provide
+  /// mappings in the <code>HomeDirectoryMappings</code> for how you want to make
+  /// S3 paths visible to your user.
+  @_s.JsonKey(name: 'HomeDirectoryType')
+  final HomeDirectoryType homeDirectoryType;
+
+  /// Allows you to supply a scope-down policy for your user so you can use the
+  /// same AWS Identity and Access Management (IAM) role across multiple users.
+  /// The policy scopes down user access to portions of your Amazon S3 bucket.
+  /// Variables you can use inside this policy include
+  /// <code>${Transfer:UserName}</code>, <code>${Transfer:HomeDirectory}</code>,
+  /// and <code>${Transfer:HomeBucket}</code>.
+  /// <note>
+  /// For scope-down policies, AWS Transfer for SFTP stores the policy as a JSON
+  /// blob, instead of the Amazon Resource Name (ARN) of the policy. You save the
+  /// policy as a JSON blob and pass it in the <code>Policy</code> argument.
+  ///
+  /// For an example of a scope-down policy, see
+  /// "https://docs.aws.amazon.com/transfer/latest/userguide/users.html#users-policies-scope-down"&gt;Creating
+  /// a Scope-Down Policy.
+  ///
+  /// For more information, see
+  /// "https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html" in
+  /// the <i>AWS Security Token Service API Reference</i>.
+  /// </note>
+  @_s.JsonKey(name: 'Policy')
+  final String policy;
+
+  /// The IAM role that controls your user's access to your Amazon S3 bucket. The
+  /// policies attached to this role will determine the level of access you want
+  /// to provide your users when transferring files into and out of your Amazon S3
+  /// bucket or buckets. The IAM role should also contain a trust relationship
+  /// that allows the Secure File Transfer Protocol (SFTP) server to access your
+  /// resources when servicing your SFTP user's transfer requests.
+  @_s.JsonKey(name: 'Role')
+  final String role;
+
+  UpdateUserRequest({
+    @_s.required this.serverId,
+    @_s.required this.userName,
+    this.homeDirectory,
+    this.homeDirectoryMappings,
+    this.homeDirectoryType,
+    this.policy,
+    this.role,
+  });
+  Map<String, dynamic> toJson() => _$UpdateUserRequestToJson(this);
 }
 
 /// <code>UpdateUserResponse</code> returns the user name and server identifier

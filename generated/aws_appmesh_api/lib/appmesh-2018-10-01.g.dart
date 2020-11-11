@@ -53,6 +53,10 @@ CreateRouteOutput _$CreateRouteOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DeleteVirtualNodeInputToJson(
+        DeleteVirtualNodeInput instance) =>
+    <String, dynamic>{};
+
 DnsServiceDiscovery _$DnsServiceDiscoveryFromJson(Map<String, dynamic> json) {
   return DnsServiceDiscovery(
     serviceName: json['serviceName'] as String,
@@ -258,6 +262,22 @@ CreateVirtualRouterOutput _$CreateVirtualRouterOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateVirtualRouterInputToJson(
+    CreateVirtualRouterInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('spec', instance.spec?.toJson());
+  writeNotNull('virtualRouterName', instance.virtualRouterName);
+  writeNotNull('clientToken', instance.clientToken);
+  return val;
+}
+
 RouteStatus _$RouteStatusFromJson(Map<String, dynamic> json) {
   return RouteStatus(
     status: _$enumDecodeNullable(_$RouteStatusCodeEnumMap, json['status']),
@@ -326,6 +346,24 @@ RouteData _$RouteDataFromJson(Map<String, dynamic> json) {
         : RouteStatus.fromJson(json['status'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$UpdateVirtualNodeInputToJson(
+    UpdateVirtualNodeInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('spec', instance.spec?.toJson());
+  writeNotNull('clientToken', instance.clientToken);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteRouteInputToJson(DeleteRouteInput instance) =>
+    <String, dynamic>{};
 
 HttpRoute _$HttpRouteFromJson(Map<String, dynamic> json) {
   return HttpRoute(
@@ -412,6 +450,21 @@ DeleteVirtualNodeOutput _$DeleteVirtualNodeOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateVirtualRouterInputToJson(
+    UpdateVirtualRouterInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('spec', instance.spec?.toJson());
+  writeNotNull('clientToken', instance.clientToken);
+  return val;
+}
+
 ListVirtualRoutersOutput _$ListVirtualRoutersOutputFromJson(
     Map<String, dynamic> json) {
   return ListVirtualRoutersOutput(
@@ -453,6 +506,20 @@ ResourceMetadata _$ResourceMetadataFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateMeshInputToJson(CreateMeshInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('meshName', instance.meshName);
+  writeNotNull('clientToken', instance.clientToken);
+  return val;
+}
+
 PortMapping _$PortMappingFromJson(Map<String, dynamic> json) {
   return PortMapping(
     port: json['port'] as int,
@@ -479,6 +546,10 @@ const _$PortProtocolEnumMap = {
   PortProtocol.tcp: 'tcp',
 };
 
+Map<String, dynamic> _$DeleteVirtualRouterInputToJson(
+        DeleteVirtualRouterInput instance) =>
+    <String, dynamic>{};
+
 VirtualRouterSpec _$VirtualRouterSpecFromJson(Map<String, dynamic> json) {
   return VirtualRouterSpec(
     serviceNames:
@@ -496,6 +567,20 @@ Map<String, dynamic> _$VirtualRouterSpecToJson(VirtualRouterSpec instance) {
   }
 
   writeNotNull('serviceNames', instance.serviceNames);
+  return val;
+}
+
+Map<String, dynamic> _$UpdateRouteInputToJson(UpdateRouteInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('spec', instance.spec?.toJson());
+  writeNotNull('clientToken', instance.clientToken);
   return val;
 }
 
@@ -580,6 +665,22 @@ Map<String, dynamic> _$HealthCheckPolicyToJson(HealthCheckPolicy instance) {
   return val;
 }
 
+Map<String, dynamic> _$CreateVirtualNodeInputToJson(
+    CreateVirtualNodeInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('spec', instance.spec?.toJson());
+  writeNotNull('virtualNodeName', instance.virtualNodeName);
+  writeNotNull('clientToken', instance.clientToken);
+  return val;
+}
+
 MeshData _$MeshDataFromJson(Map<String, dynamic> json) {
   return MeshData(
     meshName: json['meshName'] as String,
@@ -591,6 +692,9 @@ MeshData _$MeshDataFromJson(Map<String, dynamic> json) {
         : MeshStatus.fromJson(json['status'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$DeleteMeshInputToJson(DeleteMeshInput instance) =>
+    <String, dynamic>{};
 
 HttpRouteMatch _$HttpRouteMatchFromJson(Map<String, dynamic> json) {
   return HttpRouteMatch(
@@ -617,6 +721,21 @@ DeleteRouteOutput _$DeleteRouteOutputFromJson(Map<String, dynamic> json) {
         ? null
         : RouteData.fromJson(json['route'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateRouteInputToJson(CreateRouteInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('routeName', instance.routeName);
+  writeNotNull('spec', instance.spec?.toJson());
+  writeNotNull('clientToken', instance.clientToken);
+  return val;
 }
 
 VirtualNodeStatus _$VirtualNodeStatusFromJson(Map<String, dynamic> json) {

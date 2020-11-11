@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -128,11 +127,11 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'autoScalingGroupProvider': autoScalingGroupProvider,
-        'name': name,
-        if (tags != null) 'tags': tags,
-      },
+      payload: CreateCapacityProviderRequest(
+        autoScalingGroupProvider: autoScalingGroupProvider,
+        name: name,
+        tags: tags,
+      ),
     );
 
     return CreateCapacityProviderResponse.fromJson(jsonResponse.body);
@@ -270,14 +269,13 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (capacityProviders != null) 'capacityProviders': capacityProviders,
-        if (clusterName != null) 'clusterName': clusterName,
-        if (defaultCapacityProviderStrategy != null)
-          'defaultCapacityProviderStrategy': defaultCapacityProviderStrategy,
-        if (settings != null) 'settings': settings,
-        if (tags != null) 'tags': tags,
-      },
+      payload: CreateClusterRequest(
+        capacityProviders: capacityProviders,
+        clusterName: clusterName,
+        defaultCapacityProviderStrategy: defaultCapacityProviderStrategy,
+        settings: settings,
+        tags: tags,
+      ),
     );
 
     return CreateClusterResponse.fromJson(jsonResponse.body);
@@ -760,37 +758,29 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'serviceName': serviceName,
-        if (capacityProviderStrategy != null)
-          'capacityProviderStrategy': capacityProviderStrategy,
-        if (clientToken != null) 'clientToken': clientToken,
-        if (cluster != null) 'cluster': cluster,
-        if (deploymentConfiguration != null)
-          'deploymentConfiguration': deploymentConfiguration,
-        if (deploymentController != null)
-          'deploymentController': deploymentController,
-        if (desiredCount != null) 'desiredCount': desiredCount,
-        if (enableECSManagedTags != null)
-          'enableECSManagedTags': enableECSManagedTags,
-        if (healthCheckGracePeriodSeconds != null)
-          'healthCheckGracePeriodSeconds': healthCheckGracePeriodSeconds,
-        if (launchType != null) 'launchType': launchType?.toValue(),
-        if (loadBalancers != null) 'loadBalancers': loadBalancers,
-        if (networkConfiguration != null)
-          'networkConfiguration': networkConfiguration,
-        if (placementConstraints != null)
-          'placementConstraints': placementConstraints,
-        if (placementStrategy != null) 'placementStrategy': placementStrategy,
-        if (platformVersion != null) 'platformVersion': platformVersion,
-        if (propagateTags != null) 'propagateTags': propagateTags?.toValue(),
-        if (role != null) 'role': role,
-        if (schedulingStrategy != null)
-          'schedulingStrategy': schedulingStrategy?.toValue(),
-        if (serviceRegistries != null) 'serviceRegistries': serviceRegistries,
-        if (tags != null) 'tags': tags,
-        if (taskDefinition != null) 'taskDefinition': taskDefinition,
-      },
+      payload: CreateServiceRequest(
+        serviceName: serviceName,
+        capacityProviderStrategy: capacityProviderStrategy,
+        clientToken: clientToken,
+        cluster: cluster,
+        deploymentConfiguration: deploymentConfiguration,
+        deploymentController: deploymentController,
+        desiredCount: desiredCount,
+        enableECSManagedTags: enableECSManagedTags,
+        healthCheckGracePeriodSeconds: healthCheckGracePeriodSeconds,
+        launchType: launchType,
+        loadBalancers: loadBalancers,
+        networkConfiguration: networkConfiguration,
+        placementConstraints: placementConstraints,
+        placementStrategy: placementStrategy,
+        platformVersion: platformVersion,
+        propagateTags: propagateTags,
+        role: role,
+        schedulingStrategy: schedulingStrategy,
+        serviceRegistries: serviceRegistries,
+        tags: tags,
+        taskDefinition: taskDefinition,
+      ),
     );
 
     return CreateServiceResponse.fromJson(jsonResponse.body);
@@ -959,23 +949,21 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'cluster': cluster,
-        'service': service,
-        'taskDefinition': taskDefinition,
-        if (capacityProviderStrategy != null)
-          'capacityProviderStrategy': capacityProviderStrategy,
-        if (clientToken != null) 'clientToken': clientToken,
-        if (externalId != null) 'externalId': externalId,
-        if (launchType != null) 'launchType': launchType?.toValue(),
-        if (loadBalancers != null) 'loadBalancers': loadBalancers,
-        if (networkConfiguration != null)
-          'networkConfiguration': networkConfiguration,
-        if (platformVersion != null) 'platformVersion': platformVersion,
-        if (scale != null) 'scale': scale,
-        if (serviceRegistries != null) 'serviceRegistries': serviceRegistries,
-        if (tags != null) 'tags': tags,
-      },
+      payload: CreateTaskSetRequest(
+        cluster: cluster,
+        service: service,
+        taskDefinition: taskDefinition,
+        capacityProviderStrategy: capacityProviderStrategy,
+        clientToken: clientToken,
+        externalId: externalId,
+        launchType: launchType,
+        loadBalancers: loadBalancers,
+        networkConfiguration: networkConfiguration,
+        platformVersion: platformVersion,
+        scale: scale,
+        serviceRegistries: serviceRegistries,
+        tags: tags,
+      ),
     );
 
     return CreateTaskSetResponse.fromJson(jsonResponse.body);
@@ -1019,10 +1007,10 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'name': name?.toValue(),
-        if (principalArn != null) 'principalArn': principalArn,
-      },
+      payload: DeleteAccountSettingRequest(
+        name: name,
+        principalArn: principalArn,
+      ),
     );
 
     return DeleteAccountSettingResponse.fromJson(jsonResponse.body);
@@ -1059,10 +1047,10 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'attributes': attributes,
-        if (cluster != null) 'cluster': cluster,
-      },
+      payload: DeleteAttributesRequest(
+        attributes: attributes,
+        cluster: cluster,
+      ),
     );
 
     return DeleteAttributesResponse.fromJson(jsonResponse.body);
@@ -1105,9 +1093,9 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'cluster': cluster,
-      },
+      payload: DeleteClusterRequest(
+        cluster: cluster,
+      ),
     );
 
     return DeleteClusterResponse.fromJson(jsonResponse.body);
@@ -1171,11 +1159,11 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'service': service,
-        if (cluster != null) 'cluster': cluster,
-        if (force != null) 'force': force,
-      },
+      payload: DeleteServiceRequest(
+        service: service,
+        cluster: cluster,
+        force: force,
+      ),
     );
 
     return DeleteServiceResponse.fromJson(jsonResponse.body);
@@ -1232,12 +1220,12 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'cluster': cluster,
-        'service': service,
-        'taskSet': taskSet,
-        if (force != null) 'force': force,
-      },
+      payload: DeleteTaskSetRequest(
+        cluster: cluster,
+        service: service,
+        taskSet: taskSet,
+        force: force,
+      ),
     );
 
     return DeleteTaskSetResponse.fromJson(jsonResponse.body);
@@ -1311,11 +1299,11 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'containerInstance': containerInstance,
-        if (cluster != null) 'cluster': cluster,
-        if (force != null) 'force': force,
-      },
+      payload: DeregisterContainerInstanceRequest(
+        containerInstance: containerInstance,
+        cluster: cluster,
+        force: force,
+      ),
     );
 
     return DeregisterContainerInstanceResponse.fromJson(jsonResponse.body);
@@ -1364,9 +1352,9 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'taskDefinition': taskDefinition,
-      },
+      payload: DeregisterTaskDefinitionRequest(
+        taskDefinition: taskDefinition,
+      ),
     );
 
     return DeregisterTaskDefinitionResponse.fromJson(jsonResponse.body);
@@ -1428,12 +1416,12 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (capacityProviders != null) 'capacityProviders': capacityProviders,
-        if (include != null) 'include': include,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: DescribeCapacityProvidersRequest(
+        capacityProviders: capacityProviders,
+        include: include,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeCapacityProvidersResponse.fromJson(jsonResponse.body);
@@ -1506,10 +1494,10 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (clusters != null) 'clusters': clusters,
-        if (include != null) 'include': include,
-      },
+      payload: DescribeClustersRequest(
+        clusters: clusters,
+        include: include,
+      ),
     );
 
     return DescribeClustersResponse.fromJson(jsonResponse.body);
@@ -1556,11 +1544,11 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'containerInstances': containerInstances,
-        if (cluster != null) 'cluster': cluster,
-        if (include != null) 'include': include,
-      },
+      payload: DescribeContainerInstancesRequest(
+        containerInstances: containerInstances,
+        cluster: cluster,
+        include: include,
+      ),
     );
 
     return DescribeContainerInstancesResponse.fromJson(jsonResponse.body);
@@ -1604,11 +1592,11 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'services': services,
-        if (cluster != null) 'cluster': cluster,
-        if (include != null) 'include': include,
-      },
+      payload: DescribeServicesRequest(
+        services: services,
+        cluster: cluster,
+        include: include,
+      ),
     );
 
     return DescribeServicesResponse.fromJson(jsonResponse.body);
@@ -1653,10 +1641,10 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'taskDefinition': taskDefinition,
-        if (include != null) 'include': include,
-      },
+      payload: DescribeTaskDefinitionRequest(
+        taskDefinition: taskDefinition,
+        include: include,
+      ),
     );
 
     return DescribeTaskDefinitionResponse.fromJson(jsonResponse.body);
@@ -1711,12 +1699,12 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'cluster': cluster,
-        'service': service,
-        if (include != null) 'include': include,
-        if (taskSets != null) 'taskSets': taskSets,
-      },
+      payload: DescribeTaskSetsRequest(
+        cluster: cluster,
+        service: service,
+        include: include,
+        taskSets: taskSets,
+      ),
     );
 
     return DescribeTaskSetsResponse.fromJson(jsonResponse.body);
@@ -1759,11 +1747,11 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'tasks': tasks,
-        if (cluster != null) 'cluster': cluster,
-        if (include != null) 'include': include,
-      },
+      payload: DescribeTasksRequest(
+        tasks: tasks,
+        cluster: cluster,
+        include: include,
+      ),
     );
 
     return DescribeTasksResponse.fromJson(jsonResponse.body);
@@ -1803,10 +1791,10 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (cluster != null) 'cluster': cluster,
-        if (containerInstance != null) 'containerInstance': containerInstance,
-      },
+      payload: DiscoverPollEndpointRequest(
+        cluster: cluster,
+        containerInstance: containerInstance,
+      ),
     );
 
     return DiscoverPollEndpointResponse.fromJson(jsonResponse.body);
@@ -1877,14 +1865,14 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (effectiveSettings != null) 'effectiveSettings': effectiveSettings,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (name != null) 'name': name?.toValue(),
-        if (nextToken != null) 'nextToken': nextToken,
-        if (principalArn != null) 'principalArn': principalArn,
-        if (value != null) 'value': value,
-      },
+      payload: ListAccountSettingsRequest(
+        effectiveSettings: effectiveSettings,
+        maxResults: maxResults,
+        name: name,
+        nextToken: nextToken,
+        principalArn: principalArn,
+        value: value,
+      ),
     );
 
     return ListAccountSettingsResponse.fromJson(jsonResponse.body);
@@ -1957,14 +1945,14 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'targetType': targetType?.toValue(),
-        if (attributeName != null) 'attributeName': attributeName,
-        if (attributeValue != null) 'attributeValue': attributeValue,
-        if (cluster != null) 'cluster': cluster,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListAttributesRequest(
+        targetType: targetType,
+        attributeName: attributeName,
+        attributeValue: attributeValue,
+        cluster: cluster,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListAttributesResponse.fromJson(jsonResponse.body);
@@ -2011,10 +1999,10 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListClustersRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListClustersResponse.fromJson(jsonResponse.body);
@@ -2094,13 +2082,13 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (cluster != null) 'cluster': cluster,
-        if (filter != null) 'filter': filter,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (status != null) 'status': status?.toValue(),
-      },
+      payload: ListContainerInstancesRequest(
+        cluster: cluster,
+        filter: filter,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        status: status,
+      ),
     );
 
     return ListContainerInstancesResponse.fromJson(jsonResponse.body);
@@ -2162,14 +2150,13 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (cluster != null) 'cluster': cluster,
-        if (launchType != null) 'launchType': launchType?.toValue(),
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (schedulingStrategy != null)
-          'schedulingStrategy': schedulingStrategy?.toValue(),
-      },
+      payload: ListServicesRequest(
+        cluster: cluster,
+        launchType: launchType,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        schedulingStrategy: schedulingStrategy,
+      ),
     );
 
     return ListServicesResponse.fromJson(jsonResponse.body);
@@ -2200,9 +2187,9 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'resourceArn': resourceArn,
-      },
+      payload: ListTagsForResourceRequest(
+        resourceArn: resourceArn,
+      ),
     );
 
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
@@ -2279,12 +2266,12 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (familyPrefix != null) 'familyPrefix': familyPrefix,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (status != null) 'status': status?.toValue(),
-      },
+      payload: ListTaskDefinitionFamiliesRequest(
+        familyPrefix: familyPrefix,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        status: status,
+      ),
     );
 
     return ListTaskDefinitionFamiliesResponse.fromJson(jsonResponse.body);
@@ -2362,13 +2349,13 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (familyPrefix != null) 'familyPrefix': familyPrefix,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (sort != null) 'sort': sort?.toValue(),
-        if (status != null) 'status': status?.toValue(),
-      },
+      payload: ListTaskDefinitionsRequest(
+        familyPrefix: familyPrefix,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        sort: sort,
+        status: status,
+      ),
     );
 
     return ListTaskDefinitionsResponse.fromJson(jsonResponse.body);
@@ -2474,17 +2461,17 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (cluster != null) 'cluster': cluster,
-        if (containerInstance != null) 'containerInstance': containerInstance,
-        if (desiredStatus != null) 'desiredStatus': desiredStatus?.toValue(),
-        if (family != null) 'family': family,
-        if (launchType != null) 'launchType': launchType?.toValue(),
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (serviceName != null) 'serviceName': serviceName,
-        if (startedBy != null) 'startedBy': startedBy,
-      },
+      payload: ListTasksRequest(
+        cluster: cluster,
+        containerInstance: containerInstance,
+        desiredStatus: desiredStatus,
+        family: family,
+        launchType: launchType,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        serviceName: serviceName,
+        startedBy: startedBy,
+      ),
     );
 
     return ListTasksResponse.fromJson(jsonResponse.body);
@@ -2571,11 +2558,11 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'name': name?.toValue(),
-        'value': value,
-        if (principalArn != null) 'principalArn': principalArn,
-      },
+      payload: PutAccountSettingRequest(
+        name: name,
+        value: value,
+        principalArn: principalArn,
+      ),
     );
 
     return PutAccountSettingResponse.fromJson(jsonResponse.body);
@@ -2621,10 +2608,10 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'name': name?.toValue(),
-        'value': value,
-      },
+      payload: PutAccountSettingDefaultRequest(
+        name: name,
+        value: value,
+      ),
     );
 
     return PutAccountSettingDefaultResponse.fromJson(jsonResponse.body);
@@ -2666,10 +2653,10 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'attributes': attributes,
-        if (cluster != null) 'cluster': cluster,
-      },
+      payload: PutAttributesRequest(
+        attributes: attributes,
+        cluster: cluster,
+      ),
     );
 
     return PutAttributesResponse.fromJson(jsonResponse.body);
@@ -2761,11 +2748,11 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'capacityProviders': capacityProviders,
-        'cluster': cluster,
-        'defaultCapacityProviderStrategy': defaultCapacityProviderStrategy,
-      },
+      payload: PutClusterCapacityProvidersRequest(
+        capacityProviders: capacityProviders,
+        cluster: cluster,
+        defaultCapacityProviderStrategy: defaultCapacityProviderStrategy,
+      ),
     );
 
     return PutClusterCapacityProvidersResponse.fromJson(jsonResponse.body);
@@ -2876,21 +2863,17 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (attributes != null) 'attributes': attributes,
-        if (cluster != null) 'cluster': cluster,
-        if (containerInstanceArn != null)
-          'containerInstanceArn': containerInstanceArn,
-        if (instanceIdentityDocument != null)
-          'instanceIdentityDocument': instanceIdentityDocument,
-        if (instanceIdentityDocumentSignature != null)
-          'instanceIdentityDocumentSignature':
-              instanceIdentityDocumentSignature,
-        if (platformDevices != null) 'platformDevices': platformDevices,
-        if (tags != null) 'tags': tags,
-        if (totalResources != null) 'totalResources': totalResources,
-        if (versionInfo != null) 'versionInfo': versionInfo,
-      },
+      payload: RegisterContainerInstanceRequest(
+        attributes: attributes,
+        cluster: cluster,
+        containerInstanceArn: containerInstanceArn,
+        instanceIdentityDocument: instanceIdentityDocument,
+        instanceIdentityDocumentSignature: instanceIdentityDocumentSignature,
+        platformDevices: platformDevices,
+        tags: tags,
+        totalResources: totalResources,
+        versionInfo: versionInfo,
+      ),
     );
 
     return RegisterContainerInstanceResponse.fromJson(jsonResponse.body);
@@ -3227,27 +3210,23 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'containerDefinitions': containerDefinitions,
-        'family': family,
-        if (cpu != null) 'cpu': cpu,
-        if (executionRoleArn != null) 'executionRoleArn': executionRoleArn,
-        if (inferenceAccelerators != null)
-          'inferenceAccelerators': inferenceAccelerators,
-        if (ipcMode != null) 'ipcMode': ipcMode?.toValue(),
-        if (memory != null) 'memory': memory,
-        if (networkMode != null) 'networkMode': networkMode?.toValue(),
-        if (pidMode != null) 'pidMode': pidMode?.toValue(),
-        if (placementConstraints != null)
-          'placementConstraints': placementConstraints,
-        if (proxyConfiguration != null)
-          'proxyConfiguration': proxyConfiguration,
-        if (requiresCompatibilities != null)
-          'requiresCompatibilities': requiresCompatibilities,
-        if (tags != null) 'tags': tags,
-        if (taskRoleArn != null) 'taskRoleArn': taskRoleArn,
-        if (volumes != null) 'volumes': volumes,
-      },
+      payload: RegisterTaskDefinitionRequest(
+        containerDefinitions: containerDefinitions,
+        family: family,
+        cpu: cpu,
+        executionRoleArn: executionRoleArn,
+        inferenceAccelerators: inferenceAccelerators,
+        ipcMode: ipcMode,
+        memory: memory,
+        networkMode: networkMode,
+        pidMode: pidMode,
+        placementConstraints: placementConstraints,
+        proxyConfiguration: proxyConfiguration,
+        requiresCompatibilities: requiresCompatibilities,
+        tags: tags,
+        taskRoleArn: taskRoleArn,
+        volumes: volumes,
+      ),
     );
 
     return RegisterTaskDefinitionResponse.fromJson(jsonResponse.body);
@@ -3500,28 +3479,24 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'taskDefinition': taskDefinition,
-        if (capacityProviderStrategy != null)
-          'capacityProviderStrategy': capacityProviderStrategy,
-        if (cluster != null) 'cluster': cluster,
-        if (count != null) 'count': count,
-        if (enableECSManagedTags != null)
-          'enableECSManagedTags': enableECSManagedTags,
-        if (group != null) 'group': group,
-        if (launchType != null) 'launchType': launchType?.toValue(),
-        if (networkConfiguration != null)
-          'networkConfiguration': networkConfiguration,
-        if (overrides != null) 'overrides': overrides,
-        if (placementConstraints != null)
-          'placementConstraints': placementConstraints,
-        if (placementStrategy != null) 'placementStrategy': placementStrategy,
-        if (platformVersion != null) 'platformVersion': platformVersion,
-        if (propagateTags != null) 'propagateTags': propagateTags?.toValue(),
-        if (referenceId != null) 'referenceId': referenceId,
-        if (startedBy != null) 'startedBy': startedBy,
-        if (tags != null) 'tags': tags,
-      },
+      payload: RunTaskRequest(
+        taskDefinition: taskDefinition,
+        capacityProviderStrategy: capacityProviderStrategy,
+        cluster: cluster,
+        count: count,
+        enableECSManagedTags: enableECSManagedTags,
+        group: group,
+        launchType: launchType,
+        networkConfiguration: networkConfiguration,
+        overrides: overrides,
+        placementConstraints: placementConstraints,
+        placementStrategy: placementStrategy,
+        platformVersion: platformVersion,
+        propagateTags: propagateTags,
+        referenceId: referenceId,
+        startedBy: startedBy,
+        tags: tags,
+      ),
     );
 
     return RunTaskResponse.fromJson(jsonResponse.body);
@@ -3671,21 +3646,19 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'containerInstances': containerInstances,
-        'taskDefinition': taskDefinition,
-        if (cluster != null) 'cluster': cluster,
-        if (enableECSManagedTags != null)
-          'enableECSManagedTags': enableECSManagedTags,
-        if (group != null) 'group': group,
-        if (networkConfiguration != null)
-          'networkConfiguration': networkConfiguration,
-        if (overrides != null) 'overrides': overrides,
-        if (propagateTags != null) 'propagateTags': propagateTags?.toValue(),
-        if (referenceId != null) 'referenceId': referenceId,
-        if (startedBy != null) 'startedBy': startedBy,
-        if (tags != null) 'tags': tags,
-      },
+      payload: StartTaskRequest(
+        containerInstances: containerInstances,
+        taskDefinition: taskDefinition,
+        cluster: cluster,
+        enableECSManagedTags: enableECSManagedTags,
+        group: group,
+        networkConfiguration: networkConfiguration,
+        overrides: overrides,
+        propagateTags: propagateTags,
+        referenceId: referenceId,
+        startedBy: startedBy,
+        tags: tags,
+      ),
     );
 
     return StartTaskResponse.fromJson(jsonResponse.body);
@@ -3744,11 +3717,11 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'task': task,
-        if (cluster != null) 'cluster': cluster,
-        if (reason != null) 'reason': reason,
-      },
+      payload: StopTaskRequest(
+        task: task,
+        cluster: cluster,
+        reason: reason,
+      ),
     );
 
     return StopTaskResponse.fromJson(jsonResponse.body);
@@ -3787,10 +3760,10 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'attachments': attachments,
-        if (cluster != null) 'cluster': cluster,
-      },
+      payload: SubmitAttachmentStateChangesRequest(
+        attachments: attachments,
+        cluster: cluster,
+      ),
     );
 
     return SubmitAttachmentStateChangesResponse.fromJson(jsonResponse.body);
@@ -3851,16 +3824,16 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (cluster != null) 'cluster': cluster,
-        if (containerName != null) 'containerName': containerName,
-        if (exitCode != null) 'exitCode': exitCode,
-        if (networkBindings != null) 'networkBindings': networkBindings,
-        if (reason != null) 'reason': reason,
-        if (runtimeId != null) 'runtimeId': runtimeId,
-        if (status != null) 'status': status,
-        if (task != null) 'task': task,
-      },
+      payload: SubmitContainerStateChangeRequest(
+        cluster: cluster,
+        containerName: containerName,
+        exitCode: exitCode,
+        networkBindings: networkBindings,
+        reason: reason,
+        runtimeId: runtimeId,
+        status: status,
+        task: task,
+      ),
     );
 
     return SubmitContainerStateChangeResponse.fromJson(jsonResponse.body);
@@ -3925,18 +3898,17 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (attachments != null) 'attachments': attachments,
-        if (cluster != null) 'cluster': cluster,
-        if (containers != null) 'containers': containers,
-        if (executionStoppedAt != null)
-          'executionStoppedAt': executionStoppedAt,
-        if (pullStartedAt != null) 'pullStartedAt': pullStartedAt,
-        if (pullStoppedAt != null) 'pullStoppedAt': pullStoppedAt,
-        if (reason != null) 'reason': reason,
-        if (status != null) 'status': status,
-        if (task != null) 'task': task,
-      },
+      payload: SubmitTaskStateChangeRequest(
+        attachments: attachments,
+        cluster: cluster,
+        containers: containers,
+        executionStoppedAt: executionStoppedAt,
+        pullStartedAt: pullStartedAt,
+        pullStoppedAt: pullStoppedAt,
+        reason: reason,
+        status: status,
+        task: task,
+      ),
     );
 
     return SubmitTaskStateChangeResponse.fromJson(jsonResponse.body);
@@ -4010,10 +3982,10 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'resourceArn': resourceArn,
-        'tags': tags,
-      },
+      payload: TagResourceRequest(
+        resourceArn: resourceArn,
+        tags: tags,
+      ),
     );
 
     return TagResourceResponse.fromJson(jsonResponse.body);
@@ -4050,10 +4022,10 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'resourceArn': resourceArn,
-        'tagKeys': tagKeys,
-      },
+      payload: UntagResourceRequest(
+        resourceArn: resourceArn,
+        tagKeys: tagKeys,
+      ),
     );
 
     return UntagResourceResponse.fromJson(jsonResponse.body);
@@ -4090,10 +4062,10 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'cluster': cluster,
-        'settings': settings,
-      },
+      payload: UpdateClusterSettingsRequest(
+        cluster: cluster,
+        settings: settings,
+      ),
     );
 
     return UpdateClusterSettingsResponse.fromJson(jsonResponse.body);
@@ -4144,10 +4116,10 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'containerInstance': containerInstance,
-        if (cluster != null) 'cluster': cluster,
-      },
+      payload: UpdateContainerAgentRequest(
+        containerInstance: containerInstance,
+        cluster: cluster,
+      ),
     );
 
     return UpdateContainerAgentResponse.fromJson(jsonResponse.body);
@@ -4254,11 +4226,11 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'containerInstances': containerInstances,
-        'status': status?.toValue(),
-        if (cluster != null) 'cluster': cluster,
-      },
+      payload: UpdateContainerInstancesStateRequest(
+        containerInstances: containerInstances,
+        status: status,
+        cluster: cluster,
+      ),
     );
 
     return UpdateContainerInstancesStateResponse.fromJson(jsonResponse.body);
@@ -4535,26 +4507,20 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'service': service,
-        if (capacityProviderStrategy != null)
-          'capacityProviderStrategy': capacityProviderStrategy,
-        if (cluster != null) 'cluster': cluster,
-        if (deploymentConfiguration != null)
-          'deploymentConfiguration': deploymentConfiguration,
-        if (desiredCount != null) 'desiredCount': desiredCount,
-        if (forceNewDeployment != null)
-          'forceNewDeployment': forceNewDeployment,
-        if (healthCheckGracePeriodSeconds != null)
-          'healthCheckGracePeriodSeconds': healthCheckGracePeriodSeconds,
-        if (networkConfiguration != null)
-          'networkConfiguration': networkConfiguration,
-        if (placementConstraints != null)
-          'placementConstraints': placementConstraints,
-        if (placementStrategy != null) 'placementStrategy': placementStrategy,
-        if (platformVersion != null) 'platformVersion': platformVersion,
-        if (taskDefinition != null) 'taskDefinition': taskDefinition,
-      },
+      payload: UpdateServiceRequest(
+        service: service,
+        capacityProviderStrategy: capacityProviderStrategy,
+        cluster: cluster,
+        deploymentConfiguration: deploymentConfiguration,
+        desiredCount: desiredCount,
+        forceNewDeployment: forceNewDeployment,
+        healthCheckGracePeriodSeconds: healthCheckGracePeriodSeconds,
+        networkConfiguration: networkConfiguration,
+        placementConstraints: placementConstraints,
+        placementStrategy: placementStrategy,
+        platformVersion: platformVersion,
+        taskDefinition: taskDefinition,
+      ),
     );
 
     return UpdateServiceResponse.fromJson(jsonResponse.body);
@@ -4609,11 +4575,11 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'cluster': cluster,
-        'primaryTaskSet': primaryTaskSet,
-        'service': service,
-      },
+      payload: UpdateServicePrimaryTaskSetRequest(
+        cluster: cluster,
+        primaryTaskSet: primaryTaskSet,
+        service: service,
+      ),
     );
 
     return UpdateServicePrimaryTaskSetResponse.fromJson(jsonResponse.body);
@@ -4667,12 +4633,12 @@ class ECS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'cluster': cluster,
-        'scale': scale,
-        'service': service,
-        'taskSet': taskSet,
-      },
+      payload: UpdateTaskSetRequest(
+        cluster: cluster,
+        scale: scale,
+        service: service,
+        taskSet: taskSet,
+      ),
     );
 
     return UpdateTaskSetResponse.fromJson(jsonResponse.body);
@@ -6472,24 +6438,6 @@ enum ContainerInstanceStatus {
   registrationFailed,
 }
 
-extension on ContainerInstanceStatus {
-  String toValue() {
-    switch (this) {
-      case ContainerInstanceStatus.active:
-        return 'ACTIVE';
-      case ContainerInstanceStatus.draining:
-        return 'DRAINING';
-      case ContainerInstanceStatus.registering:
-        return 'REGISTERING';
-      case ContainerInstanceStatus.deregistering:
-        return 'DEREGISTERING';
-      case ContainerInstanceStatus.registrationFailed:
-        return 'REGISTRATION_FAILED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// The overrides that should be sent to a container. An empty container
 /// override can be passed in. An example of an empty container override would
 /// be <code>{"containerOverrides": [ ] }</code>. If a non-empty container
@@ -6609,6 +6557,70 @@ class ContainerStateChange {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateCapacityProviderRequest {
+  /// The details of the Auto Scaling group for the capacity provider.
+  @_s.JsonKey(name: 'autoScalingGroupProvider')
+  final AutoScalingGroupProvider autoScalingGroupProvider;
+
+  /// The name of the capacity provider. Up to 255 characters are allowed,
+  /// including letters (upper and lowercase), numbers, underscores, and hyphens.
+  /// The name cannot be prefixed with "<code>aws</code>", "<code>ecs</code>", or
+  /// "<code>fargate</code>".
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The metadata that you apply to the capacity provider to help you categorize
+  /// and organize them. Each tag consists of a key and an optional value, both of
+  /// which you define.
+  ///
+  /// The following basic restrictions apply to tags:
+  ///
+  /// <ul>
+  /// <li>
+  /// Maximum number of tags per resource - 50
+  /// </li>
+  /// <li>
+  /// For each resource, each tag key must be unique, and each tag key can have
+  /// only one value.
+  /// </li>
+  /// <li>
+  /// Maximum key length - 128 Unicode characters in UTF-8
+  /// </li>
+  /// <li>
+  /// Maximum value length - 256 Unicode characters in UTF-8
+  /// </li>
+  /// <li>
+  /// If your tagging schema is used across multiple services and resources,
+  /// remember that other services may have restrictions on allowed characters.
+  /// Generally allowed characters are: letters, numbers, and spaces representable
+  /// in UTF-8, and the following characters: + - = . _ : / @.
+  /// </li>
+  /// <li>
+  /// Tag keys and values are case-sensitive.
+  /// </li>
+  /// <li>
+  /// Do not use <code>aws:</code>, <code>AWS:</code>, or any upper or lowercase
+  /// combination of such as a prefix for either keys or values as it is reserved
+  /// for AWS use. You cannot edit or delete tag keys or values with this prefix.
+  /// Tags with this prefix do not count against your tags per resource limit.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  CreateCapacityProviderRequest({
+    @_s.required this.autoScalingGroupProvider,
+    @_s.required this.name,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateCapacityProviderRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateCapacityProviderResponse {
@@ -6626,6 +6638,122 @@ class CreateCapacityProviderResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateClusterRequest {
+  /// The short name of one or more capacity providers to associate with the
+  /// cluster.
+  ///
+  /// If specifying a capacity provider that uses an Auto Scaling group, the
+  /// capacity provider must already be created and not already associated with
+  /// another cluster. New capacity providers can be created with the
+  /// <a>CreateCapacityProvider</a> API operation.
+  ///
+  /// To use a AWS Fargate capacity provider, specify either the
+  /// <code>FARGATE</code> or <code>FARGATE_SPOT</code> capacity providers. The
+  /// AWS Fargate capacity providers are available to all accounts and only need
+  /// to be associated with a cluster to be used.
+  ///
+  /// The <a>PutClusterCapacityProviders</a> API operation is used to update the
+  /// list of available capacity providers for a cluster after the cluster is
+  /// created.
+  @_s.JsonKey(name: 'capacityProviders')
+  final List<String> capacityProviders;
+
+  /// The name of your cluster. If you do not specify a name for your cluster, you
+  /// create a cluster named <code>default</code>. Up to 255 letters (uppercase
+  /// and lowercase), numbers, and hyphens are allowed.
+  @_s.JsonKey(name: 'clusterName')
+  final String clusterName;
+
+  /// The capacity provider strategy to use by default for the cluster.
+  ///
+  /// When creating a service or running a task on a cluster, if no capacity
+  /// provider or launch type is specified then the default capacity provider
+  /// strategy for the cluster is used.
+  ///
+  /// A capacity provider strategy consists of one or more capacity providers
+  /// along with the <code>base</code> and <code>weight</code> to assign to them.
+  /// A capacity provider must be associated with the cluster to be used in a
+  /// capacity provider strategy. The <a>PutClusterCapacityProviders</a> API is
+  /// used to associate a capacity provider with a cluster. Only capacity
+  /// providers with an <code>ACTIVE</code> or <code>UPDATING</code> status can be
+  /// used.
+  ///
+  /// If specifying a capacity provider that uses an Auto Scaling group, the
+  /// capacity provider must already be created. New capacity providers can be
+  /// created with the <a>CreateCapacityProvider</a> API operation.
+  ///
+  /// To use a AWS Fargate capacity provider, specify either the
+  /// <code>FARGATE</code> or <code>FARGATE_SPOT</code> capacity providers. The
+  /// AWS Fargate capacity providers are available to all accounts and only need
+  /// to be associated with a cluster to be used.
+  ///
+  /// If a default capacity provider strategy is not defined for a cluster during
+  /// creation, it can be defined later with the
+  /// <a>PutClusterCapacityProviders</a> API operation.
+  @_s.JsonKey(name: 'defaultCapacityProviderStrategy')
+  final List<CapacityProviderStrategyItem> defaultCapacityProviderStrategy;
+
+  /// The setting to use when creating a cluster. This parameter is used to enable
+  /// CloudWatch Container Insights for a cluster. If this value is specified, it
+  /// will override the <code>containerInsights</code> value set with
+  /// <a>PutAccountSetting</a> or <a>PutAccountSettingDefault</a>.
+  @_s.JsonKey(name: 'settings')
+  final List<ClusterSetting> settings;
+
+  /// The metadata that you apply to the cluster to help you categorize and
+  /// organize them. Each tag consists of a key and an optional value, both of
+  /// which you define.
+  ///
+  /// The following basic restrictions apply to tags:
+  ///
+  /// <ul>
+  /// <li>
+  /// Maximum number of tags per resource - 50
+  /// </li>
+  /// <li>
+  /// For each resource, each tag key must be unique, and each tag key can have
+  /// only one value.
+  /// </li>
+  /// <li>
+  /// Maximum key length - 128 Unicode characters in UTF-8
+  /// </li>
+  /// <li>
+  /// Maximum value length - 256 Unicode characters in UTF-8
+  /// </li>
+  /// <li>
+  /// If your tagging schema is used across multiple services and resources,
+  /// remember that other services may have restrictions on allowed characters.
+  /// Generally allowed characters are: letters, numbers, and spaces representable
+  /// in UTF-8, and the following characters: + - = . _ : / @.
+  /// </li>
+  /// <li>
+  /// Tag keys and values are case-sensitive.
+  /// </li>
+  /// <li>
+  /// Do not use <code>aws:</code>, <code>AWS:</code>, or any upper or lowercase
+  /// combination of such as a prefix for either keys or values as it is reserved
+  /// for AWS use. You cannot edit or delete tag keys or values with this prefix.
+  /// Tags with this prefix do not count against your tags per resource limit.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  CreateClusterRequest({
+    this.capacityProviders,
+    this.clusterName,
+    this.defaultCapacityProviderStrategy,
+    this.settings,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateClusterRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateClusterResponse {
@@ -6638,6 +6766,357 @@ class CreateClusterResponse {
   });
   factory CreateClusterResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateClusterResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateServiceRequest {
+  /// The name of your service. Up to 255 letters (uppercase and lowercase),
+  /// numbers, and hyphens are allowed. Service names must be unique within a
+  /// cluster, but you can have similarly named services in multiple clusters
+  /// within a Region or across multiple Regions.
+  @_s.JsonKey(name: 'serviceName')
+  final String serviceName;
+
+  /// The capacity provider strategy to use for the service.
+  ///
+  /// A capacity provider strategy consists of one or more capacity providers
+  /// along with the <code>base</code> and <code>weight</code> to assign to them.
+  /// A capacity provider must be associated with the cluster to be used in a
+  /// capacity provider strategy. The <a>PutClusterCapacityProviders</a> API is
+  /// used to associate a capacity provider with a cluster. Only capacity
+  /// providers with an <code>ACTIVE</code> or <code>UPDATING</code> status can be
+  /// used.
+  ///
+  /// If a <code>capacityProviderStrategy</code> is specified, the
+  /// <code>launchType</code> parameter must be omitted. If no
+  /// <code>capacityProviderStrategy</code> or <code>launchType</code> is
+  /// specified, the <code>defaultCapacityProviderStrategy</code> for the cluster
+  /// is used.
+  ///
+  /// If specifying a capacity provider that uses an Auto Scaling group, the
+  /// capacity provider must already be created. New capacity providers can be
+  /// created with the <a>CreateCapacityProvider</a> API operation.
+  ///
+  /// To use a AWS Fargate capacity provider, specify either the
+  /// <code>FARGATE</code> or <code>FARGATE_SPOT</code> capacity providers. The
+  /// AWS Fargate capacity providers are available to all accounts and only need
+  /// to be associated with a cluster to be used.
+  ///
+  /// The <a>PutClusterCapacityProviders</a> API operation is used to update the
+  /// list of available capacity providers for a cluster after the cluster is
+  /// created.
+  @_s.JsonKey(name: 'capacityProviderStrategy')
+  final List<CapacityProviderStrategyItem> capacityProviderStrategy;
+
+  /// Unique, case-sensitive identifier that you provide to ensure the idempotency
+  /// of the request. Up to 32 ASCII characters are allowed.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// The short name or full Amazon Resource Name (ARN) of the cluster on which to
+  /// run your service. If you do not specify a cluster, the default cluster is
+  /// assumed.
+  @_s.JsonKey(name: 'cluster')
+  final String cluster;
+
+  /// Optional deployment parameters that control how many tasks run during the
+  /// deployment and the ordering of stopping and starting tasks.
+  @_s.JsonKey(name: 'deploymentConfiguration')
+  final DeploymentConfiguration deploymentConfiguration;
+
+  /// The deployment controller to use for the service.
+  @_s.JsonKey(name: 'deploymentController')
+  final DeploymentController deploymentController;
+
+  /// The number of instantiations of the specified task definition to place and
+  /// keep running on your cluster.
+  ///
+  /// This is required if <code>schedulingStrategy</code> is <code>REPLICA</code>
+  /// or is not specified. If <code>schedulingStrategy</code> is
+  /// <code>DAEMON</code> then this is not required.
+  @_s.JsonKey(name: 'desiredCount')
+  final int desiredCount;
+
+  /// Specifies whether to enable Amazon ECS managed tags for the tasks within the
+  /// service. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-using-tags.html">Tagging
+  /// Your Amazon ECS Resources</a> in the <i>Amazon Elastic Container Service
+  /// Developer Guide</i>.
+  @_s.JsonKey(name: 'enableECSManagedTags')
+  final bool enableECSManagedTags;
+
+  /// The period of time, in seconds, that the Amazon ECS service scheduler should
+  /// ignore unhealthy Elastic Load Balancing target health checks after a task
+  /// has first started. This is only used when your service is configured to use
+  /// a load balancer. If your service has a load balancer defined and you don't
+  /// specify a health check grace period value, the default value of
+  /// <code>0</code> is used.
+  ///
+  /// If your service's tasks take a while to start and respond to Elastic Load
+  /// Balancing health checks, you can specify a health check grace period of up
+  /// to 2,147,483,647 seconds. During that time, the Amazon ECS service scheduler
+  /// ignores health check status. This grace period can prevent the service
+  /// scheduler from marking tasks as unhealthy and stopping them before they have
+  /// time to come up.
+  @_s.JsonKey(name: 'healthCheckGracePeriodSeconds')
+  final int healthCheckGracePeriodSeconds;
+
+  /// The launch type on which to run your service. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html">Amazon
+  /// ECS Launch Types</a> in the <i>Amazon Elastic Container Service Developer
+  /// Guide</i>.
+  ///
+  /// If a <code>launchType</code> is specified, the
+  /// <code>capacityProviderStrategy</code> parameter must be omitted.
+  @_s.JsonKey(name: 'launchType')
+  final LaunchType launchType;
+
+  /// A load balancer object representing the load balancers to use with your
+  /// service. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-load-balancing.html">Service
+  /// Load Balancing</a> in the <i>Amazon Elastic Container Service Developer
+  /// Guide</i>.
+  ///
+  /// If the service is using the rolling update (<code>ECS</code>) deployment
+  /// controller and using either an Application Load Balancer or Network Load
+  /// Balancer, you can specify multiple target groups to attach to the service.
+  /// The service-linked role is required for services that make use of multiple
+  /// target groups. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html">Using
+  /// Service-Linked Roles for Amazon ECS</a> in the <i>Amazon Elastic Container
+  /// Service Developer Guide</i>.
+  ///
+  /// If the service is using the <code>CODE_DEPLOY</code> deployment controller,
+  /// the service is required to use either an Application Load Balancer or
+  /// Network Load Balancer. When creating an AWS CodeDeploy deployment group, you
+  /// specify two target groups (referred to as a <code>targetGroupPair</code>).
+  /// During a deployment, AWS CodeDeploy determines which task set in your
+  /// service has the status <code>PRIMARY</code> and associates one target group
+  /// with it, and then associates the other target group with the replacement
+  /// task set. The load balancer can also have up to two listeners: a required
+  /// listener for production traffic and an optional listener that allows you
+  /// perform validation tests with Lambda functions before routing production
+  /// traffic to it.
+  ///
+  /// After you create a service using the <code>ECS</code> deployment controller,
+  /// the load balancer name or target group ARN, container name, and container
+  /// port specified in the service definition are immutable. If you are using the
+  /// <code>CODE_DEPLOY</code> deployment controller, these values can be changed
+  /// when updating the service.
+  ///
+  /// For Application Load Balancers and Network Load Balancers, this object must
+  /// contain the load balancer target group ARN, the container name (as it
+  /// appears in a container definition), and the container port to access from
+  /// the load balancer. When a task from this service is placed on a container
+  /// instance, the container instance and port combination is registered as a
+  /// target in the target group specified here.
+  ///
+  /// For Classic Load Balancers, this object must contain the load balancer name,
+  /// the container name (as it appears in a container definition), and the
+  /// container port to access from the load balancer. When a task from this
+  /// service is placed on a container instance, the container instance is
+  /// registered with the load balancer specified here.
+  ///
+  /// Services with tasks that use the <code>awsvpc</code> network mode (for
+  /// example, those with the Fargate launch type) only support Application Load
+  /// Balancers and Network Load Balancers. Classic Load Balancers are not
+  /// supported. Also, when you create any target groups for these services, you
+  /// must choose <code>ip</code> as the target type, not <code>instance</code>,
+  /// because tasks that use the <code>awsvpc</code> network mode are associated
+  /// with an elastic network interface, not an Amazon EC2 instance.
+  @_s.JsonKey(name: 'loadBalancers')
+  final List<LoadBalancer> loadBalancers;
+
+  /// The network configuration for the service. This parameter is required for
+  /// task definitions that use the <code>awsvpc</code> network mode to receive
+  /// their own elastic network interface, and it is not supported for other
+  /// network modes. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html">Task
+  /// Networking</a> in the <i>Amazon Elastic Container Service Developer
+  /// Guide</i>.
+  @_s.JsonKey(name: 'networkConfiguration')
+  final NetworkConfiguration networkConfiguration;
+
+  /// An array of placement constraint objects to use for tasks in your service.
+  /// You can specify a maximum of 10 constraints per task (this limit includes
+  /// constraints in the task definition and those specified at runtime).
+  @_s.JsonKey(name: 'placementConstraints')
+  final List<PlacementConstraint> placementConstraints;
+
+  /// The placement strategy objects to use for tasks in your service. You can
+  /// specify a maximum of five strategy rules per service.
+  @_s.JsonKey(name: 'placementStrategy')
+  final List<PlacementStrategy> placementStrategy;
+
+  /// The platform version that your tasks in the service are running on. A
+  /// platform version is specified only for tasks using the Fargate launch type.
+  /// If one isn't specified, the <code>LATEST</code> platform version is used by
+  /// default. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html">AWS
+  /// Fargate Platform Versions</a> in the <i>Amazon Elastic Container Service
+  /// Developer Guide</i>.
+  @_s.JsonKey(name: 'platformVersion')
+  final String platformVersion;
+
+  /// Specifies whether to propagate the tags from the task definition or the
+  /// service to the tasks in the service. If no value is specified, the tags are
+  /// not propagated. Tags can only be propagated to the tasks within the service
+  /// during service creation. To add tags to a task after service creation, use
+  /// the <a>TagResource</a> API action.
+  @_s.JsonKey(name: 'propagateTags')
+  final PropagateTags propagateTags;
+
+  /// The name or full Amazon Resource Name (ARN) of the IAM role that allows
+  /// Amazon ECS to make calls to your load balancer on your behalf. This
+  /// parameter is only permitted if you are using a load balancer with your
+  /// service and your task definition does not use the <code>awsvpc</code>
+  /// network mode. If you specify the <code>role</code> parameter, you must also
+  /// specify a load balancer object with the <code>loadBalancers</code>
+  /// parameter.
+  /// <important>
+  /// If your account has already created the Amazon ECS service-linked role, that
+  /// role is used by default for your service unless you specify a role here. The
+  /// service-linked role is required if your task definition uses the
+  /// <code>awsvpc</code> network mode or if the service is configured to use
+  /// service discovery, an external deployment controller, multiple target
+  /// groups, or Elastic Inference accelerators in which case you should not
+  /// specify a role here. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html">Using
+  /// Service-Linked Roles for Amazon ECS</a> in the <i>Amazon Elastic Container
+  /// Service Developer Guide</i>.
+  /// </important>
+  /// If your specified role has a path other than <code>/</code>, then you must
+  /// either specify the full role ARN (this is recommended) or prefix the role
+  /// name with the path. For example, if a role with the name <code>bar</code>
+  /// has a path of <code>/foo/</code> then you would specify
+  /// <code>/foo/bar</code> as the role name. For more information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-friendly-names">Friendly
+  /// Names and Paths</a> in the <i>IAM User Guide</i>.
+  @_s.JsonKey(name: 'role')
+  final String role;
+
+  /// The scheduling strategy to use for the service. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_services.html">Services</a>.
+  ///
+  /// There are two service scheduler strategies available:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>REPLICA</code>-The replica scheduling strategy places and maintains
+  /// the desired number of tasks across your cluster. By default, the service
+  /// scheduler spreads tasks across Availability Zones. You can use task
+  /// placement strategies and constraints to customize task placement decisions.
+  /// This scheduler strategy is required if the service is using the
+  /// <code>CODE_DEPLOY</code> or <code>EXTERNAL</code> deployment controller
+  /// types.
+  /// </li>
+  /// <li>
+  /// <code>DAEMON</code>-The daemon scheduling strategy deploys exactly one task
+  /// on each active container instance that meets all of the task placement
+  /// constraints that you specify in your cluster. The service scheduler also
+  /// evaluates the task placement constraints for running tasks and will stop
+  /// tasks that do not meet the placement constraints. When you're using this
+  /// strategy, you don't need to specify a desired number of tasks, a task
+  /// placement strategy, or use Service Auto Scaling policies.
+  /// <note>
+  /// Tasks using the Fargate launch type or the <code>CODE_DEPLOY</code> or
+  /// <code>EXTERNAL</code> deployment controller types don't support the
+  /// <code>DAEMON</code> scheduling strategy.
+  /// </note> </li>
+  /// </ul>
+  @_s.JsonKey(name: 'schedulingStrategy')
+  final SchedulingStrategy schedulingStrategy;
+
+  /// The details of the service discovery registries to assign to this service.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-discovery.html">Service
+  /// Discovery</a>.
+  /// <note>
+  /// Service discovery is supported for Fargate tasks if you are using platform
+  /// version v1.1.0 or later. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html">AWS
+  /// Fargate Platform Versions</a>.
+  /// </note>
+  @_s.JsonKey(name: 'serviceRegistries')
+  final List<ServiceRegistry> serviceRegistries;
+
+  /// The metadata that you apply to the service to help you categorize and
+  /// organize them. Each tag consists of a key and an optional value, both of
+  /// which you define. When a service is deleted, the tags are deleted as well.
+  ///
+  /// The following basic restrictions apply to tags:
+  ///
+  /// <ul>
+  /// <li>
+  /// Maximum number of tags per resource - 50
+  /// </li>
+  /// <li>
+  /// For each resource, each tag key must be unique, and each tag key can have
+  /// only one value.
+  /// </li>
+  /// <li>
+  /// Maximum key length - 128 Unicode characters in UTF-8
+  /// </li>
+  /// <li>
+  /// Maximum value length - 256 Unicode characters in UTF-8
+  /// </li>
+  /// <li>
+  /// If your tagging schema is used across multiple services and resources,
+  /// remember that other services may have restrictions on allowed characters.
+  /// Generally allowed characters are: letters, numbers, and spaces representable
+  /// in UTF-8, and the following characters: + - = . _ : / @.
+  /// </li>
+  /// <li>
+  /// Tag keys and values are case-sensitive.
+  /// </li>
+  /// <li>
+  /// Do not use <code>aws:</code>, <code>AWS:</code>, or any upper or lowercase
+  /// combination of such as a prefix for either keys or values as it is reserved
+  /// for AWS use. You cannot edit or delete tag keys or values with this prefix.
+  /// Tags with this prefix do not count against your tags per resource limit.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  /// The <code>family</code> and <code>revision</code>
+  /// (<code>family:revision</code>) or full ARN of the task definition to run in
+  /// your service. If a <code>revision</code> is not specified, the latest
+  /// <code>ACTIVE</code> revision is used.
+  ///
+  /// A task definition must be specified if the service is using the
+  /// <code>ECS</code> deployment controller.
+  @_s.JsonKey(name: 'taskDefinition')
+  final String taskDefinition;
+
+  CreateServiceRequest({
+    @_s.required this.serviceName,
+    this.capacityProviderStrategy,
+    this.clientToken,
+    this.cluster,
+    this.deploymentConfiguration,
+    this.deploymentController,
+    this.desiredCount,
+    this.enableECSManagedTags,
+    this.healthCheckGracePeriodSeconds,
+    this.launchType,
+    this.loadBalancers,
+    this.networkConfiguration,
+    this.placementConstraints,
+    this.placementStrategy,
+    this.platformVersion,
+    this.propagateTags,
+    this.role,
+    this.schedulingStrategy,
+    this.serviceRegistries,
+    this.tags,
+    this.taskDefinition,
+  });
+  Map<String, dynamic> toJson() => _$CreateServiceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6669,6 +7148,162 @@ class CreateServiceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateTaskSetRequest {
+  /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts
+  /// the service to create the task set in.
+  @_s.JsonKey(name: 'cluster')
+  final String cluster;
+
+  /// The short name or full Amazon Resource Name (ARN) of the service to create
+  /// the task set in.
+  @_s.JsonKey(name: 'service')
+  final String service;
+
+  /// The task definition for the tasks in the task set to use.
+  @_s.JsonKey(name: 'taskDefinition')
+  final String taskDefinition;
+
+  /// The capacity provider strategy to use for the task set.
+  ///
+  /// A capacity provider strategy consists of one or more capacity providers
+  /// along with the <code>base</code> and <code>weight</code> to assign to them.
+  /// A capacity provider must be associated with the cluster to be used in a
+  /// capacity provider strategy. The <a>PutClusterCapacityProviders</a> API is
+  /// used to associate a capacity provider with a cluster. Only capacity
+  /// providers with an <code>ACTIVE</code> or <code>UPDATING</code> status can be
+  /// used.
+  ///
+  /// If a <code>capacityProviderStrategy</code> is specified, the
+  /// <code>launchType</code> parameter must be omitted. If no
+  /// <code>capacityProviderStrategy</code> or <code>launchType</code> is
+  /// specified, the <code>defaultCapacityProviderStrategy</code> for the cluster
+  /// is used.
+  ///
+  /// If specifying a capacity provider that uses an Auto Scaling group, the
+  /// capacity provider must already be created. New capacity providers can be
+  /// created with the <a>CreateCapacityProvider</a> API operation.
+  ///
+  /// To use a AWS Fargate capacity provider, specify either the
+  /// <code>FARGATE</code> or <code>FARGATE_SPOT</code> capacity providers. The
+  /// AWS Fargate capacity providers are available to all accounts and only need
+  /// to be associated with a cluster to be used.
+  ///
+  /// The <a>PutClusterCapacityProviders</a> API operation is used to update the
+  /// list of available capacity providers for a cluster after the cluster is
+  /// created.
+  @_s.JsonKey(name: 'capacityProviderStrategy')
+  final List<CapacityProviderStrategyItem> capacityProviderStrategy;
+
+  /// Unique, case-sensitive identifier that you provide to ensure the idempotency
+  /// of the request. Up to 32 ASCII characters are allowed.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// An optional non-unique tag that identifies this task set in external
+  /// systems. If the task set is associated with a service discovery registry,
+  /// the tasks in this task set will have the
+  /// <code>ECS_TASK_SET_EXTERNAL_ID</code> AWS Cloud Map attribute set to the
+  /// provided value.
+  @_s.JsonKey(name: 'externalId')
+  final String externalId;
+
+  /// The launch type that new tasks in the task set will use. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html">Amazon
+  /// ECS Launch Types</a> in the <i>Amazon Elastic Container Service Developer
+  /// Guide</i>.
+  ///
+  /// If a <code>launchType</code> is specified, the
+  /// <code>capacityProviderStrategy</code> parameter must be omitted.
+  @_s.JsonKey(name: 'launchType')
+  final LaunchType launchType;
+
+  /// A load balancer object representing the load balancer to use with the task
+  /// set. The supported load balancer types are either an Application Load
+  /// Balancer or a Network Load Balancer.
+  @_s.JsonKey(name: 'loadBalancers')
+  final List<LoadBalancer> loadBalancers;
+  @_s.JsonKey(name: 'networkConfiguration')
+  final NetworkConfiguration networkConfiguration;
+
+  /// The platform version that the tasks in the task set should use. A platform
+  /// version is specified only for tasks using the Fargate launch type. If one
+  /// isn't specified, the <code>LATEST</code> platform version is used by
+  /// default.
+  @_s.JsonKey(name: 'platformVersion')
+  final String platformVersion;
+  @_s.JsonKey(name: 'scale')
+  final Scale scale;
+
+  /// The details of the service discovery registries to assign to this task set.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-discovery.html">Service
+  /// Discovery</a>.
+  @_s.JsonKey(name: 'serviceRegistries')
+  final List<ServiceRegistry> serviceRegistries;
+
+  /// The metadata that you apply to the task set to help you categorize and
+  /// organize them. Each tag consists of a key and an optional value, both of
+  /// which you define. When a service is deleted, the tags are deleted as well.
+  ///
+  /// The following basic restrictions apply to tags:
+  ///
+  /// <ul>
+  /// <li>
+  /// Maximum number of tags per resource - 50
+  /// </li>
+  /// <li>
+  /// For each resource, each tag key must be unique, and each tag key can have
+  /// only one value.
+  /// </li>
+  /// <li>
+  /// Maximum key length - 128 Unicode characters in UTF-8
+  /// </li>
+  /// <li>
+  /// Maximum value length - 256 Unicode characters in UTF-8
+  /// </li>
+  /// <li>
+  /// If your tagging schema is used across multiple services and resources,
+  /// remember that other services may have restrictions on allowed characters.
+  /// Generally allowed characters are: letters, numbers, and spaces representable
+  /// in UTF-8, and the following characters: + - = . _ : / @.
+  /// </li>
+  /// <li>
+  /// Tag keys and values are case-sensitive.
+  /// </li>
+  /// <li>
+  /// Do not use <code>aws:</code>, <code>AWS:</code>, or any upper or lowercase
+  /// combination of such as a prefix for either keys or values as it is reserved
+  /// for AWS use. You cannot edit or delete tag keys or values with this prefix.
+  /// Tags with this prefix do not count against your tags per resource limit.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  CreateTaskSetRequest({
+    @_s.required this.cluster,
+    @_s.required this.service,
+    @_s.required this.taskDefinition,
+    this.capacityProviderStrategy,
+    this.clientToken,
+    this.externalId,
+    this.launchType,
+    this.loadBalancers,
+    this.networkConfiguration,
+    this.platformVersion,
+    this.scale,
+    this.serviceRegistries,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateTaskSetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateTaskSetResponse {
@@ -6680,6 +7315,38 @@ class CreateTaskSetResponse {
   });
   factory CreateTaskSetResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateTaskSetResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteAccountSettingRequest {
+  /// The resource name for which to disable the account setting. If
+  /// <code>serviceLongArnFormat</code> is specified, the ARN for your Amazon ECS
+  /// services is affected. If <code>taskLongArnFormat</code> is specified, the
+  /// ARN and resource ID for your Amazon ECS tasks is affected. If
+  /// <code>containerInstanceLongArnFormat</code> is specified, the ARN and
+  /// resource ID for your Amazon ECS container instances is affected. If
+  /// <code>awsvpcTrunking</code> is specified, the ENI limit for your Amazon ECS
+  /// container instances is affected.
+  @_s.JsonKey(name: 'name')
+  final SettingName name;
+
+  /// The ARN of the principal, which can be an IAM user, IAM role, or the root
+  /// user. If you specify the root user, it disables the account setting for all
+  /// IAM users, IAM roles, and the root user of the account unless an IAM user or
+  /// role explicitly overrides these settings. If this field is omitted, the
+  /// setting is changed only for the authenticated user.
+  @_s.JsonKey(name: 'principalArn')
+  final String principalArn;
+
+  DeleteAccountSettingRequest({
+    @_s.required this.name,
+    this.principalArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteAccountSettingRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6697,6 +7364,32 @@ class DeleteAccountSettingResponse {
   });
   factory DeleteAccountSettingResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteAccountSettingResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteAttributesRequest {
+  /// The attributes to delete from your resource. You can specify up to 10
+  /// attributes per request. For custom attributes, specify the attribute name
+  /// and target ID, but do not specify the value. If you specify the target ID
+  /// using the short form, you must also specify the target type.
+  @_s.JsonKey(name: 'attributes')
+  final List<Attribute> attributes;
+
+  /// The short name or full Amazon Resource Name (ARN) of the cluster that
+  /// contains the resource to delete attributes. If you do not specify a cluster,
+  /// the default cluster is assumed.
+  @_s.JsonKey(name: 'cluster')
+  final String cluster;
+
+  DeleteAttributesRequest({
+    @_s.required this.attributes,
+    this.cluster,
+  });
+  Map<String, dynamic> toJson() => _$DeleteAttributesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6720,6 +7413,22 @@ class DeleteAttributesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteClusterRequest {
+  /// The short name or full Amazon Resource Name (ARN) of the cluster to delete.
+  @_s.JsonKey(name: 'cluster')
+  final String cluster;
+
+  DeleteClusterRequest({
+    @_s.required this.cluster,
+  });
+  Map<String, dynamic> toJson() => _$DeleteClusterRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteClusterResponse {
@@ -6737,6 +7446,36 @@ class DeleteClusterResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteServiceRequest {
+  /// The name of the service to delete.
+  @_s.JsonKey(name: 'service')
+  final String service;
+
+  /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts
+  /// the service to delete. If you do not specify a cluster, the default cluster
+  /// is assumed.
+  @_s.JsonKey(name: 'cluster')
+  final String cluster;
+
+  /// If <code>true</code>, allows you to delete a service even if it has not been
+  /// scaled down to zero tasks. It is only necessary to use this if the service
+  /// is using the <code>REPLICA</code> scheduling strategy.
+  @_s.JsonKey(name: 'force')
+  final bool force;
+
+  DeleteServiceRequest({
+    @_s.required this.service,
+    this.cluster,
+    this.force,
+  });
+  Map<String, dynamic> toJson() => _$DeleteServiceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteServiceResponse {
@@ -6749,6 +7488,41 @@ class DeleteServiceResponse {
   });
   factory DeleteServiceResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteServiceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteTaskSetRequest {
+  /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts
+  /// the service that the task set exists in to delete.
+  @_s.JsonKey(name: 'cluster')
+  final String cluster;
+
+  /// The short name or full Amazon Resource Name (ARN) of the service that hosts
+  /// the task set to delete.
+  @_s.JsonKey(name: 'service')
+  final String service;
+
+  /// The task set ID or full Amazon Resource Name (ARN) of the task set to
+  /// delete.
+  @_s.JsonKey(name: 'taskSet')
+  final String taskSet;
+
+  /// If <code>true</code>, this allows you to delete a task set even if it hasn't
+  /// been scaled down to zero.
+  @_s.JsonKey(name: 'force')
+  final bool force;
+
+  DeleteTaskSetRequest({
+    @_s.required this.cluster,
+    @_s.required this.service,
+    @_s.required this.taskSet,
+    this.force,
+  });
+  Map<String, dynamic> toJson() => _$DeleteTaskSetRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6995,6 +7769,52 @@ enum DeploymentControllerType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeregisterContainerInstanceRequest {
+  /// The container instance ID or full ARN of the container instance to
+  /// deregister. The ARN contains the <code>arn:aws:ecs</code> namespace,
+  /// followed by the Region of the container instance, the AWS account ID of the
+  /// container instance owner, the <code>container-instance</code> namespace, and
+  /// then the container instance ID. For example,
+  /// <code>arn:aws:ecs:region:aws_account_id:container-instance/container_instance_ID</code>.
+  @_s.JsonKey(name: 'containerInstance')
+  final String containerInstance;
+
+  /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts
+  /// the container instance to deregister. If you do not specify a cluster, the
+  /// default cluster is assumed.
+  @_s.JsonKey(name: 'cluster')
+  final String cluster;
+
+  /// Forces the deregistration of the container instance. If you have tasks
+  /// running on the container instance when you deregister it with the
+  /// <code>force</code> option, these tasks remain running until you terminate
+  /// the instance or the tasks stop through some other means, but they are
+  /// orphaned (no longer monitored or accounted for by Amazon ECS). If an
+  /// orphaned task on your container instance is part of an Amazon ECS service,
+  /// then the service scheduler starts another copy of that task, on a different
+  /// container instance if possible.
+  ///
+  /// Any containers in orphaned service tasks that are registered with a Classic
+  /// Load Balancer or an Application Load Balancer target group are deregistered.
+  /// They begin connection draining according to the settings on the load
+  /// balancer or target group.
+  @_s.JsonKey(name: 'force')
+  final bool force;
+
+  DeregisterContainerInstanceRequest({
+    @_s.required this.containerInstance,
+    this.cluster,
+    this.force,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeregisterContainerInstanceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeregisterContainerInstanceResponse {
@@ -7013,6 +7833,25 @@ class DeregisterContainerInstanceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeregisterTaskDefinitionRequest {
+  /// The <code>family</code> and <code>revision</code>
+  /// (<code>family:revision</code>) or full Amazon Resource Name (ARN) of the
+  /// task definition to deregister. You must specify a <code>revision</code>.
+  @_s.JsonKey(name: 'taskDefinition')
+  final String taskDefinition;
+
+  DeregisterTaskDefinitionRequest({
+    @_s.required this.taskDefinition,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeregisterTaskDefinitionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeregisterTaskDefinitionResponse {
@@ -7026,6 +7865,59 @@ class DeregisterTaskDefinitionResponse {
   factory DeregisterTaskDefinitionResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DeregisterTaskDefinitionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeCapacityProvidersRequest {
+  /// The short name or full Amazon Resource Name (ARN) of one or more capacity
+  /// providers. Up to <code>100</code> capacity providers can be described in an
+  /// action.
+  @_s.JsonKey(name: 'capacityProviders')
+  final List<String> capacityProviders;
+
+  /// Specifies whether or not you want to see the resource tags for the capacity
+  /// provider. If <code>TAGS</code> is specified, the tags are included in the
+  /// response. If this field is omitted, tags are not included in the response.
+  @_s.JsonKey(name: 'include')
+  final List<String> include;
+
+  /// The maximum number of account setting results returned by
+  /// <code>DescribeCapacityProviders</code> in paginated output. When this
+  /// parameter is used, <code>DescribeCapacityProviders</code> only returns
+  /// <code>maxResults</code> results in a single page along with a
+  /// <code>nextToken</code> response element. The remaining results of the
+  /// initial request can be seen by sending another
+  /// <code>DescribeCapacityProviders</code> request with the returned
+  /// <code>nextToken</code> value. This value can be between 1 and 10. If this
+  /// parameter is not used, then <code>DescribeCapacityProviders</code> returns
+  /// up to 10 results and a <code>nextToken</code> value if applicable.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The <code>nextToken</code> value returned from a previous paginated
+  /// <code>DescribeCapacityProviders</code> request where <code>maxResults</code>
+  /// was used and the results exceeded the value of that parameter. Pagination
+  /// continues from the end of the previous results that returned the
+  /// <code>nextToken</code> value.
+  /// <note>
+  /// This token should be treated as an opaque identifier that is only used to
+  /// retrieve the next items in a list and not for other programmatic purposes.
+  /// </note>
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  DescribeCapacityProvidersRequest({
+    this.capacityProviders,
+    this.include,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeCapacityProvidersRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7064,6 +7956,68 @@ class DescribeCapacityProvidersResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeClustersRequest {
+  /// A list of up to 100 cluster names or full cluster Amazon Resource Name (ARN)
+  /// entries. If you do not specify a cluster, the default cluster is assumed.
+  @_s.JsonKey(name: 'clusters')
+  final List<String> clusters;
+
+  /// Whether to include additional information about your clusters in the
+  /// response. If this field is omitted, the attachments, statistics, and tags
+  /// are not included.
+  ///
+  /// If <code>ATTACHMENTS</code> is specified, the attachments for the container
+  /// instances or tasks within the cluster are included.
+  ///
+  /// If <code>SETTINGS</code> is specified, the settings for the cluster are
+  /// included.
+  ///
+  /// If <code>STATISTICS</code> is specified, the following additional
+  /// information, separated by launch type, is included:
+  ///
+  /// <ul>
+  /// <li>
+  /// runningEC2TasksCount
+  /// </li>
+  /// <li>
+  /// runningFargateTasksCount
+  /// </li>
+  /// <li>
+  /// pendingEC2TasksCount
+  /// </li>
+  /// <li>
+  /// pendingFargateTasksCount
+  /// </li>
+  /// <li>
+  /// activeEC2ServiceCount
+  /// </li>
+  /// <li>
+  /// activeFargateServiceCount
+  /// </li>
+  /// <li>
+  /// drainingEC2ServiceCount
+  /// </li>
+  /// <li>
+  /// drainingFargateServiceCount
+  /// </li>
+  /// </ul>
+  /// If <code>TAGS</code> is specified, the metadata tags associated with the
+  /// cluster are included.
+  @_s.JsonKey(name: 'include')
+  final List<String> include;
+
+  DescribeClustersRequest({
+    this.clusters,
+    this.include,
+  });
+  Map<String, dynamic> toJson() => _$DescribeClustersRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeClustersResponse {
@@ -7081,6 +8035,40 @@ class DescribeClustersResponse {
   });
   factory DescribeClustersResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeClustersResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeContainerInstancesRequest {
+  /// A list of up to 100 container instance IDs or full Amazon Resource Name
+  /// (ARN) entries.
+  @_s.JsonKey(name: 'containerInstances')
+  final List<String> containerInstances;
+
+  /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts
+  /// the container instances to describe. If you do not specify a cluster, the
+  /// default cluster is assumed. This parameter is required if the container
+  /// instance or container instances you are describing were launched in any
+  /// cluster other than the default cluster.
+  @_s.JsonKey(name: 'cluster')
+  final String cluster;
+
+  /// Specifies whether you want to see the resource tags for the container
+  /// instance. If <code>TAGS</code> is specified, the tags are included in the
+  /// response. If this field is omitted, tags are not included in the response.
+  @_s.JsonKey(name: 'include')
+  final List<String> include;
+
+  DescribeContainerInstancesRequest({
+    @_s.required this.containerInstances,
+    this.cluster,
+    this.include,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeContainerInstancesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7109,6 +8097,38 @@ class DescribeContainerInstancesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeServicesRequest {
+  /// A list of services to describe. You may specify up to 10 services to
+  /// describe in a single operation.
+  @_s.JsonKey(name: 'services')
+  final List<String> services;
+
+  /// The short name or full Amazon Resource Name (ARN)the cluster that hosts the
+  /// service to describe. If you do not specify a cluster, the default cluster is
+  /// assumed. This parameter is required if the service or services you are
+  /// describing were launched in any cluster other than the default cluster.
+  @_s.JsonKey(name: 'cluster')
+  final String cluster;
+
+  /// Specifies whether you want to see the resource tags for the service. If
+  /// <code>TAGS</code> is specified, the tags are included in the response. If
+  /// this field is omitted, tags are not included in the response.
+  @_s.JsonKey(name: 'include')
+  final List<String> include;
+
+  DescribeServicesRequest({
+    @_s.required this.services,
+    this.cluster,
+    this.include,
+  });
+  Map<String, dynamic> toJson() => _$DescribeServicesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeServicesResponse {
@@ -7126,6 +8146,32 @@ class DescribeServicesResponse {
   });
   factory DescribeServicesResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeServicesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeTaskDefinitionRequest {
+  /// The <code>family</code> for the latest <code>ACTIVE</code> revision,
+  /// <code>family</code> and <code>revision</code> (<code>family:revision</code>)
+  /// for a specific revision in the family, or full Amazon Resource Name (ARN) of
+  /// the task definition to describe.
+  @_s.JsonKey(name: 'taskDefinition')
+  final String taskDefinition;
+
+  /// Specifies whether to see the resource tags for the task definition. If
+  /// <code>TAGS</code> is specified, the tags are included in the response. If
+  /// this field is omitted, tags are not included in the response.
+  @_s.JsonKey(name: 'include')
+  final List<String> include;
+
+  DescribeTaskDefinitionRequest({
+    @_s.required this.taskDefinition,
+    this.include,
+  });
+  Map<String, dynamic> toJson() => _$DescribeTaskDefinitionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7188,6 +8234,41 @@ class DescribeTaskDefinitionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeTaskSetsRequest {
+  /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts
+  /// the service that the task sets exist in.
+  @_s.JsonKey(name: 'cluster')
+  final String cluster;
+
+  /// The short name or full Amazon Resource Name (ARN) of the service that the
+  /// task sets exist in.
+  @_s.JsonKey(name: 'service')
+  final String service;
+
+  /// Specifies whether to see the resource tags for the task set. If
+  /// <code>TAGS</code> is specified, the tags are included in the response. If
+  /// this field is omitted, tags are not included in the response.
+  @_s.JsonKey(name: 'include')
+  final List<String> include;
+
+  /// The ID or full Amazon Resource Name (ARN) of task sets to describe.
+  @_s.JsonKey(name: 'taskSets')
+  final List<String> taskSets;
+
+  DescribeTaskSetsRequest({
+    @_s.required this.cluster,
+    @_s.required this.service,
+    this.include,
+    this.taskSets,
+  });
+  Map<String, dynamic> toJson() => _$DescribeTaskSetsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeTaskSetsResponse {
@@ -7205,6 +8286,37 @@ class DescribeTaskSetsResponse {
   });
   factory DescribeTaskSetsResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeTaskSetsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeTasksRequest {
+  /// A list of up to 100 task IDs or full ARN entries.
+  @_s.JsonKey(name: 'tasks')
+  final List<String> tasks;
+
+  /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts
+  /// the task or tasks to describe. If you do not specify a cluster, the default
+  /// cluster is assumed. This parameter is required if the task or tasks you are
+  /// describing were launched in any cluster other than the default cluster.
+  @_s.JsonKey(name: 'cluster')
+  final String cluster;
+
+  /// Specifies whether you want to see the resource tags for the task. If
+  /// <code>TAGS</code> is specified, the tags are included in the response. If
+  /// this field is omitted, tags are not included in the response.
+  @_s.JsonKey(name: 'include')
+  final List<String> include;
+
+  DescribeTasksRequest({
+    @_s.required this.tasks,
+    this.cluster,
+    this.include,
+  });
+  Map<String, dynamic> toJson() => _$DescribeTasksRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7236,20 +8348,6 @@ enum DesiredStatus {
   pending,
   @_s.JsonValue('STOPPED')
   stopped,
-}
-
-extension on DesiredStatus {
-  String toValue() {
-    switch (this) {
-      case DesiredStatus.running:
-        return 'RUNNING';
-      case DesiredStatus.pending:
-        return 'PENDING';
-      case DesiredStatus.stopped:
-        return 'STOPPED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// An object representing a container instance host device.
@@ -7290,6 +8388,33 @@ enum DeviceCgroupPermission {
   write,
   @_s.JsonValue('mknod')
   mknod,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DiscoverPollEndpointRequest {
+  /// The short name or full Amazon Resource Name (ARN) of the cluster to which
+  /// the container instance belongs.
+  @_s.JsonKey(name: 'cluster')
+  final String cluster;
+
+  /// The container instance ID or full ARN of the container instance. The ARN
+  /// contains the <code>arn:aws:ecs</code> namespace, followed by the Region of
+  /// the container instance, the AWS account ID of the container instance owner,
+  /// the <code>container-instance</code> namespace, and then the container
+  /// instance ID. For example,
+  /// <code>arn:aws:ecs:region:aws_account_id:container-instance/container_instance_ID</code>.
+  @_s.JsonKey(name: 'containerInstance')
+  final String containerInstance;
+
+  DiscoverPollEndpointRequest({
+    this.cluster,
+    this.containerInstance,
+  });
+  Map<String, dynamic> toJson() => _$DiscoverPollEndpointRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7844,20 +8969,6 @@ enum IpcMode {
   none,
 }
 
-extension on IpcMode {
-  String toValue() {
-    switch (this) {
-      case IpcMode.host:
-        return 'host';
-      case IpcMode.task:
-        return 'task';
-      case IpcMode.none:
-        return 'none';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// The Linux capabilities for the container that are added to or dropped from
 /// the default configuration provided by Docker. For more information on the
 /// default capabilities and the non-default available capabilities, see <a
@@ -7957,18 +9068,6 @@ enum LaunchType {
   ec2,
   @_s.JsonValue('FARGATE')
   fargate,
-}
-
-extension on LaunchType {
-  String toValue() {
-    switch (this) {
-      case LaunchType.ec2:
-        return 'EC2';
-      case LaunchType.fargate:
-        return 'FARGATE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Linux-specific options that are applied to the container, such as Linux
@@ -8087,6 +9186,70 @@ class LinuxParameters {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListAccountSettingsRequest {
+  /// Specifies whether to return the effective settings. If <code>true</code>,
+  /// the account settings for the root user or the default setting for the
+  /// <code>principalArn</code> are returned. If <code>false</code>, the account
+  /// settings for the <code>principalArn</code> are returned if they are set.
+  /// Otherwise, no account settings are returned.
+  @_s.JsonKey(name: 'effectiveSettings')
+  final bool effectiveSettings;
+
+  /// The maximum number of account setting results returned by
+  /// <code>ListAccountSettings</code> in paginated output. When this parameter is
+  /// used, <code>ListAccountSettings</code> only returns <code>maxResults</code>
+  /// results in a single page along with a <code>nextToken</code> response
+  /// element. The remaining results of the initial request can be seen by sending
+  /// another <code>ListAccountSettings</code> request with the returned
+  /// <code>nextToken</code> value. This value can be between 1 and 10. If this
+  /// parameter is not used, then <code>ListAccountSettings</code> returns up to
+  /// 10 results and a <code>nextToken</code> value if applicable.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The resource name you want to list the account settings for.
+  @_s.JsonKey(name: 'name')
+  final SettingName name;
+
+  /// The <code>nextToken</code> value returned from a
+  /// <code>ListAccountSettings</code> request indicating that more results are
+  /// available to fulfill the request and further calls will be needed. If
+  /// <code>maxResults</code> was provided, it is possible the number of results
+  /// to be fewer than <code>maxResults</code>.
+  /// <note>
+  /// This token should be treated as an opaque identifier that is only used to
+  /// retrieve the next items in a list and not for other programmatic purposes.
+  /// </note>
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The ARN of the principal, which can be an IAM user, IAM role, or the root
+  /// user. If this field is omitted, the account settings are listed only for the
+  /// authenticated user.
+  @_s.JsonKey(name: 'principalArn')
+  final String principalArn;
+
+  /// The value of the account settings with which to filter results. You must
+  /// also specify an account setting name to use this parameter.
+  @_s.JsonKey(name: 'value')
+  final String value;
+
+  ListAccountSettingsRequest({
+    this.effectiveSettings,
+    this.maxResults,
+    this.name,
+    this.nextToken,
+    this.principalArn,
+    this.value,
+  });
+  Map<String, dynamic> toJson() => _$ListAccountSettingsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListAccountSettingsResponse {
@@ -8113,6 +9276,65 @@ class ListAccountSettingsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListAttributesRequest {
+  /// The type of the target with which to list attributes.
+  @_s.JsonKey(name: 'targetType')
+  final TargetType targetType;
+
+  /// The name of the attribute with which to filter the results.
+  @_s.JsonKey(name: 'attributeName')
+  final String attributeName;
+
+  /// The value of the attribute with which to filter results. You must also
+  /// specify an attribute name to use this parameter.
+  @_s.JsonKey(name: 'attributeValue')
+  final String attributeValue;
+
+  /// The short name or full Amazon Resource Name (ARN) of the cluster to list
+  /// attributes. If you do not specify a cluster, the default cluster is assumed.
+  @_s.JsonKey(name: 'cluster')
+  final String cluster;
+
+  /// The maximum number of cluster results returned by
+  /// <code>ListAttributes</code> in paginated output. When this parameter is
+  /// used, <code>ListAttributes</code> only returns <code>maxResults</code>
+  /// results in a single page along with a <code>nextToken</code> response
+  /// element. The remaining results of the initial request can be seen by sending
+  /// another <code>ListAttributes</code> request with the returned
+  /// <code>nextToken</code> value. This value can be between 1 and 100. If this
+  /// parameter is not used, then <code>ListAttributes</code> returns up to 100
+  /// results and a <code>nextToken</code> value if applicable.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The <code>nextToken</code> value returned from a <code>ListAttributes</code>
+  /// request indicating that more results are available to fulfill the request
+  /// and further calls will be needed. If <code>maxResults</code> was provided,
+  /// it is possible the number of results to be fewer than
+  /// <code>maxResults</code>.
+  /// <note>
+  /// This token should be treated as an opaque identifier that is only used to
+  /// retrieve the next items in a list and not for other programmatic purposes.
+  /// </note>
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListAttributesRequest({
+    @_s.required this.targetType,
+    this.attributeName,
+    this.attributeValue,
+    this.cluster,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListAttributesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListAttributesResponse {
@@ -8134,6 +9356,43 @@ class ListAttributesResponse {
   });
   factory ListAttributesResponse.fromJson(Map<String, dynamic> json) =>
       _$ListAttributesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListClustersRequest {
+  /// The maximum number of cluster results returned by <code>ListClusters</code>
+  /// in paginated output. When this parameter is used, <code>ListClusters</code>
+  /// only returns <code>maxResults</code> results in a single page along with a
+  /// <code>nextToken</code> response element. The remaining results of the
+  /// initial request can be seen by sending another <code>ListClusters</code>
+  /// request with the returned <code>nextToken</code> value. This value can be
+  /// between 1 and 100. If this parameter is not used, then
+  /// <code>ListClusters</code> returns up to 100 results and a
+  /// <code>nextToken</code> value if applicable.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The <code>nextToken</code> value returned from a <code>ListClusters</code>
+  /// request indicating that more results are available to fulfill the request
+  /// and further calls will be needed. If <code>maxResults</code> was provided,
+  /// it is possible the number of results to be fewer than
+  /// <code>maxResults</code>.
+  /// <note>
+  /// This token should be treated as an opaque identifier that is only used to
+  /// retrieve the next items in a list and not for other programmatic purposes.
+  /// </note>
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListClustersRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListClustersRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8166,6 +9425,71 @@ class ListClustersResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListContainerInstancesRequest {
+  /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts
+  /// the container instances to list. If you do not specify a cluster, the
+  /// default cluster is assumed.
+  @_s.JsonKey(name: 'cluster')
+  final String cluster;
+
+  /// You can filter the results of a <code>ListContainerInstances</code>
+  /// operation with cluster query language statements. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-query-language.html">Cluster
+  /// Query Language</a> in the <i>Amazon Elastic Container Service Developer
+  /// Guide</i>.
+  @_s.JsonKey(name: 'filter')
+  final String filter;
+
+  /// The maximum number of container instance results returned by
+  /// <code>ListContainerInstances</code> in paginated output. When this parameter
+  /// is used, <code>ListContainerInstances</code> only returns
+  /// <code>maxResults</code> results in a single page along with a
+  /// <code>nextToken</code> response element. The remaining results of the
+  /// initial request can be seen by sending another
+  /// <code>ListContainerInstances</code> request with the returned
+  /// <code>nextToken</code> value. This value can be between 1 and 100. If this
+  /// parameter is not used, then <code>ListContainerInstances</code> returns up
+  /// to 100 results and a <code>nextToken</code> value if applicable.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The <code>nextToken</code> value returned from a
+  /// <code>ListContainerInstances</code> request indicating that more results are
+  /// available to fulfill the request and further calls will be needed. If
+  /// <code>maxResults</code> was provided, it is possible the number of results
+  /// to be fewer than <code>maxResults</code>.
+  /// <note>
+  /// This token should be treated as an opaque identifier that is only used to
+  /// retrieve the next items in a list and not for other programmatic purposes.
+  /// </note>
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// Filters the container instances by status. For example, if you specify the
+  /// <code>DRAINING</code> status, the results include only container instances
+  /// that have been set to <code>DRAINING</code> using
+  /// <a>UpdateContainerInstancesState</a>. If you do not specify this parameter,
+  /// the default is to include container instances set to all states other than
+  /// <code>INACTIVE</code>.
+  @_s.JsonKey(name: 'status')
+  final ContainerInstanceStatus status;
+
+  ListContainerInstancesRequest({
+    this.cluster,
+    this.filter,
+    this.maxResults,
+    this.nextToken,
+    this.status,
+  });
+  Map<String, dynamic> toJson() => _$ListContainerInstancesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListContainerInstancesResponse {
@@ -8188,6 +9512,60 @@ class ListContainerInstancesResponse {
   });
   factory ListContainerInstancesResponse.fromJson(Map<String, dynamic> json) =>
       _$ListContainerInstancesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListServicesRequest {
+  /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts
+  /// the services to list. If you do not specify a cluster, the default cluster
+  /// is assumed.
+  @_s.JsonKey(name: 'cluster')
+  final String cluster;
+
+  /// The launch type for the services to list.
+  @_s.JsonKey(name: 'launchType')
+  final LaunchType launchType;
+
+  /// The maximum number of service results returned by <code>ListServices</code>
+  /// in paginated output. When this parameter is used, <code>ListServices</code>
+  /// only returns <code>maxResults</code> results in a single page along with a
+  /// <code>nextToken</code> response element. The remaining results of the
+  /// initial request can be seen by sending another <code>ListServices</code>
+  /// request with the returned <code>nextToken</code> value. This value can be
+  /// between 1 and 100. If this parameter is not used, then
+  /// <code>ListServices</code> returns up to 10 results and a
+  /// <code>nextToken</code> value if applicable.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The <code>nextToken</code> value returned from a <code>ListServices</code>
+  /// request indicating that more results are available to fulfill the request
+  /// and further calls will be needed. If <code>maxResults</code> was provided,
+  /// it is possible the number of results to be fewer than
+  /// <code>maxResults</code>.
+  /// <note>
+  /// This token should be treated as an opaque identifier that is only used to
+  /// retrieve the next items in a list and not for other programmatic purposes.
+  /// </note>
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The scheduling strategy for services to list.
+  @_s.JsonKey(name: 'schedulingStrategy')
+  final SchedulingStrategy schedulingStrategy;
+
+  ListServicesRequest({
+    this.cluster,
+    this.launchType,
+    this.maxResults,
+    this.nextToken,
+    this.schedulingStrategy,
+  });
+  Map<String, dynamic> toJson() => _$ListServicesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8220,6 +9598,24 @@ class ListServicesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceRequest {
+  /// The Amazon Resource Name (ARN) that identifies the resource for which to
+  /// list the tags. Currently, the supported resources are Amazon ECS tasks,
+  /// services, task definitions, clusters, and container instances.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  ListTagsForResourceRequest({
+    @_s.required this.resourceArn,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListTagsForResourceResponse {
@@ -8232,6 +9628,67 @@ class ListTagsForResourceResponse {
   });
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$ListTagsForResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTaskDefinitionFamiliesRequest {
+  /// The <code>familyPrefix</code> is a string that is used to filter the results
+  /// of <code>ListTaskDefinitionFamilies</code>. If you specify a
+  /// <code>familyPrefix</code>, only task definition family names that begin with
+  /// the <code>familyPrefix</code> string are returned.
+  @_s.JsonKey(name: 'familyPrefix')
+  final String familyPrefix;
+
+  /// The maximum number of task definition family results returned by
+  /// <code>ListTaskDefinitionFamilies</code> in paginated output. When this
+  /// parameter is used, <code>ListTaskDefinitions</code> only returns
+  /// <code>maxResults</code> results in a single page along with a
+  /// <code>nextToken</code> response element. The remaining results of the
+  /// initial request can be seen by sending another
+  /// <code>ListTaskDefinitionFamilies</code> request with the returned
+  /// <code>nextToken</code> value. This value can be between 1 and 100. If this
+  /// parameter is not used, then <code>ListTaskDefinitionFamilies</code> returns
+  /// up to 100 results and a <code>nextToken</code> value if applicable.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The <code>nextToken</code> value returned from a
+  /// <code>ListTaskDefinitionFamilies</code> request indicating that more results
+  /// are available to fulfill the request and further calls will be needed. If
+  /// <code>maxResults</code> was provided, it is possible the number of results
+  /// to be fewer than <code>maxResults</code>.
+  /// <note>
+  /// This token should be treated as an opaque identifier that is only used to
+  /// retrieve the next items in a list and not for other programmatic purposes.
+  /// </note>
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The task definition family status with which to filter the
+  /// <code>ListTaskDefinitionFamilies</code> results. By default, both
+  /// <code>ACTIVE</code> and <code>INACTIVE</code> task definition families are
+  /// listed. If this parameter is set to <code>ACTIVE</code>, only task
+  /// definition families that have an <code>ACTIVE</code> task definition
+  /// revision are returned. If this parameter is set to <code>INACTIVE</code>,
+  /// only task definition families that do not have any <code>ACTIVE</code> task
+  /// definition revisions are returned. If you paginate the resulting output, be
+  /// sure to keep the <code>status</code> value constant in each subsequent
+  /// request.
+  @_s.JsonKey(name: 'status')
+  final TaskDefinitionFamilyStatus status;
+
+  ListTaskDefinitionFamiliesRequest({
+    this.familyPrefix,
+    this.maxResults,
+    this.nextToken,
+    this.status,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListTaskDefinitionFamiliesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8266,6 +9723,73 @@ class ListTaskDefinitionFamiliesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTaskDefinitionsRequest {
+  /// The full family name with which to filter the
+  /// <code>ListTaskDefinitions</code> results. Specifying a
+  /// <code>familyPrefix</code> limits the listed task definitions to task
+  /// definition revisions that belong to that family.
+  @_s.JsonKey(name: 'familyPrefix')
+  final String familyPrefix;
+
+  /// The maximum number of task definition results returned by
+  /// <code>ListTaskDefinitions</code> in paginated output. When this parameter is
+  /// used, <code>ListTaskDefinitions</code> only returns <code>maxResults</code>
+  /// results in a single page along with a <code>nextToken</code> response
+  /// element. The remaining results of the initial request can be seen by sending
+  /// another <code>ListTaskDefinitions</code> request with the returned
+  /// <code>nextToken</code> value. This value can be between 1 and 100. If this
+  /// parameter is not used, then <code>ListTaskDefinitions</code> returns up to
+  /// 100 results and a <code>nextToken</code> value if applicable.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The <code>nextToken</code> value returned from a
+  /// <code>ListTaskDefinitions</code> request indicating that more results are
+  /// available to fulfill the request and further calls will be needed. If
+  /// <code>maxResults</code> was provided, it is possible the number of results
+  /// to be fewer than <code>maxResults</code>.
+  /// <note>
+  /// This token should be treated as an opaque identifier that is only used to
+  /// retrieve the next items in a list and not for other programmatic purposes.
+  /// </note>
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The order in which to sort the results. Valid values are <code>ASC</code>
+  /// and <code>DESC</code>. By default (<code>ASC</code>), task definitions are
+  /// listed lexicographically by family name and in ascending numerical order by
+  /// revision so that the newest task definitions in a family are listed last.
+  /// Setting this parameter to <code>DESC</code> reverses the sort order on
+  /// family name and revision so that the newest task definitions in a family are
+  /// listed first.
+  @_s.JsonKey(name: 'sort')
+  final SortOrder sort;
+
+  /// The task definition status with which to filter the
+  /// <code>ListTaskDefinitions</code> results. By default, only
+  /// <code>ACTIVE</code> task definitions are listed. By setting this parameter
+  /// to <code>INACTIVE</code>, you can view task definitions that are
+  /// <code>INACTIVE</code> as long as an active task or service still references
+  /// them. If you paginate the resulting output, be sure to keep the
+  /// <code>status</code> value constant in each subsequent request.
+  @_s.JsonKey(name: 'status')
+  final TaskDefinitionStatus status;
+
+  ListTaskDefinitionsRequest({
+    this.familyPrefix,
+    this.maxResults,
+    this.nextToken,
+    this.sort,
+    this.status,
+  });
+  Map<String, dynamic> toJson() => _$ListTaskDefinitionsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListTaskDefinitionsResponse {
@@ -8288,6 +9812,101 @@ class ListTaskDefinitionsResponse {
   });
   factory ListTaskDefinitionsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListTaskDefinitionsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTasksRequest {
+  /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts
+  /// the tasks to list. If you do not specify a cluster, the default cluster is
+  /// assumed.
+  @_s.JsonKey(name: 'cluster')
+  final String cluster;
+
+  /// The container instance ID or full ARN of the container instance with which
+  /// to filter the <code>ListTasks</code> results. Specifying a
+  /// <code>containerInstance</code> limits the results to tasks that belong to
+  /// that container instance.
+  @_s.JsonKey(name: 'containerInstance')
+  final String containerInstance;
+
+  /// The task desired status with which to filter the <code>ListTasks</code>
+  /// results. Specifying a <code>desiredStatus</code> of <code>STOPPED</code>
+  /// limits the results to tasks that Amazon ECS has set the desired status to
+  /// <code>STOPPED</code>. This can be useful for debugging tasks that are not
+  /// starting properly or have died or finished. The default status filter is
+  /// <code>RUNNING</code>, which shows tasks that Amazon ECS has set the desired
+  /// status to <code>RUNNING</code>.
+  /// <note>
+  /// Although you can filter results based on a desired status of
+  /// <code>PENDING</code>, this does not return any results. Amazon ECS never
+  /// sets the desired status of a task to that value (only a task's
+  /// <code>lastStatus</code> may have a value of <code>PENDING</code>).
+  /// </note>
+  @_s.JsonKey(name: 'desiredStatus')
+  final DesiredStatus desiredStatus;
+
+  /// The name of the family with which to filter the <code>ListTasks</code>
+  /// results. Specifying a <code>family</code> limits the results to tasks that
+  /// belong to that family.
+  @_s.JsonKey(name: 'family')
+  final String family;
+
+  /// The launch type for services to list.
+  @_s.JsonKey(name: 'launchType')
+  final LaunchType launchType;
+
+  /// The maximum number of task results returned by <code>ListTasks</code> in
+  /// paginated output. When this parameter is used, <code>ListTasks</code> only
+  /// returns <code>maxResults</code> results in a single page along with a
+  /// <code>nextToken</code> response element. The remaining results of the
+  /// initial request can be seen by sending another <code>ListTasks</code>
+  /// request with the returned <code>nextToken</code> value. This value can be
+  /// between 1 and 100. If this parameter is not used, then
+  /// <code>ListTasks</code> returns up to 100 results and a
+  /// <code>nextToken</code> value if applicable.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The <code>nextToken</code> value returned from a <code>ListTasks</code>
+  /// request indicating that more results are available to fulfill the request
+  /// and further calls will be needed. If <code>maxResults</code> was provided,
+  /// it is possible the number of results to be fewer than
+  /// <code>maxResults</code>.
+  /// <note>
+  /// This token should be treated as an opaque identifier that is only used to
+  /// retrieve the next items in a list and not for other programmatic purposes.
+  /// </note>
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The name of the service with which to filter the <code>ListTasks</code>
+  /// results. Specifying a <code>serviceName</code> limits the results to tasks
+  /// that belong to that service.
+  @_s.JsonKey(name: 'serviceName')
+  final String serviceName;
+
+  /// The <code>startedBy</code> value with which to filter the task results.
+  /// Specifying a <code>startedBy</code> value limits the results to tasks that
+  /// were started with that value.
+  @_s.JsonKey(name: 'startedBy')
+  final String startedBy;
+
+  ListTasksRequest({
+    this.cluster,
+    this.containerInstance,
+    this.desiredStatus,
+    this.family,
+    this.launchType,
+    this.maxResults,
+    this.nextToken,
+    this.serviceName,
+    this.startedBy,
+  });
+  Map<String, dynamic> toJson() => _$ListTasksRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8727,39 +10346,11 @@ enum NetworkMode {
   none,
 }
 
-extension on NetworkMode {
-  String toValue() {
-    switch (this) {
-      case NetworkMode.bridge:
-        return 'bridge';
-      case NetworkMode.host:
-        return 'host';
-      case NetworkMode.awsvpc:
-        return 'awsvpc';
-      case NetworkMode.none:
-        return 'none';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum PidMode {
   @_s.JsonValue('host')
   host,
   @_s.JsonValue('task')
   task,
-}
-
-extension on PidMode {
-  String toValue() {
-    switch (this) {
-      case PidMode.host:
-        return 'host';
-      case PidMode.task:
-        return 'task';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// An object representing a constraint on task placement. For more information,
@@ -8990,18 +10581,6 @@ enum PropagateTags {
   service,
 }
 
-extension on PropagateTags {
-  String toValue() {
-    switch (this) {
-      case PropagateTags.taskDefinition:
-        return 'TASK_DEFINITION';
-      case PropagateTags.service:
-        return 'SERVICE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// The configuration details for the App Mesh proxy.
 ///
 /// For tasks using the EC2 launch type, the container instances require at
@@ -9092,6 +10671,38 @@ enum ProxyConfigurationType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutAccountSettingDefaultRequest {
+  /// The resource name for which to modify the account setting. If
+  /// <code>serviceLongArnFormat</code> is specified, the ARN for your Amazon ECS
+  /// services is affected. If <code>taskLongArnFormat</code> is specified, the
+  /// ARN and resource ID for your Amazon ECS tasks is affected. If
+  /// <code>containerInstanceLongArnFormat</code> is specified, the ARN and
+  /// resource ID for your Amazon ECS container instances is affected. If
+  /// <code>awsvpcTrunking</code> is specified, the ENI limit for your Amazon ECS
+  /// container instances is affected. If <code>containerInsights</code> is
+  /// specified, the default setting for CloudWatch Container Insights for your
+  /// clusters is affected.
+  @_s.JsonKey(name: 'name')
+  final SettingName name;
+
+  /// The account setting value for the specified principal ARN. Accepted values
+  /// are <code>enabled</code> and <code>disabled</code>.
+  @_s.JsonKey(name: 'value')
+  final String value;
+
+  PutAccountSettingDefaultRequest({
+    @_s.required this.name,
+    @_s.required this.value,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutAccountSettingDefaultRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutAccountSettingDefaultResponse {
@@ -9104,6 +10715,46 @@ class PutAccountSettingDefaultResponse {
   factory PutAccountSettingDefaultResponse.fromJson(
           Map<String, dynamic> json) =>
       _$PutAccountSettingDefaultResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutAccountSettingRequest {
+  /// The Amazon ECS resource name for which to modify the account setting. If
+  /// <code>serviceLongArnFormat</code> is specified, the ARN for your Amazon ECS
+  /// services is affected. If <code>taskLongArnFormat</code> is specified, the
+  /// ARN and resource ID for your Amazon ECS tasks is affected. If
+  /// <code>containerInstanceLongArnFormat</code> is specified, the ARN and
+  /// resource ID for your Amazon ECS container instances is affected. If
+  /// <code>awsvpcTrunking</code> is specified, the elastic network interface
+  /// (ENI) limit for your Amazon ECS container instances is affected. If
+  /// <code>containerInsights</code> is specified, the default setting for
+  /// CloudWatch Container Insights for your clusters is affected.
+  @_s.JsonKey(name: 'name')
+  final SettingName name;
+
+  /// The account setting value for the specified principal ARN. Accepted values
+  /// are <code>enabled</code> and <code>disabled</code>.
+  @_s.JsonKey(name: 'value')
+  final String value;
+
+  /// The ARN of the principal, which can be an IAM user, IAM role, or the root
+  /// user. If you specify the root user, it modifies the account setting for all
+  /// IAM users, IAM roles, and the root user of the account unless an IAM user or
+  /// role explicitly overrides these settings. If this field is omitted, the
+  /// setting is changed only for the authenticated user.
+  @_s.JsonKey(name: 'principalArn')
+  final String principalArn;
+
+  PutAccountSettingRequest({
+    @_s.required this.name,
+    @_s.required this.value,
+    this.principalArn,
+  });
+  Map<String, dynamic> toJson() => _$PutAccountSettingRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -9126,6 +10777,31 @@ class PutAccountSettingResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutAttributesRequest {
+  /// The attributes to apply to your resource. You can specify up to 10 custom
+  /// attributes per resource. You can specify up to 10 attributes in a single
+  /// call.
+  @_s.JsonKey(name: 'attributes')
+  final List<Attribute> attributes;
+
+  /// The short name or full Amazon Resource Name (ARN) of the cluster that
+  /// contains the resource to apply attributes. If you do not specify a cluster,
+  /// the default cluster is assumed.
+  @_s.JsonKey(name: 'cluster')
+  final String cluster;
+
+  PutAttributesRequest({
+    @_s.required this.attributes,
+    this.cluster,
+  });
+  Map<String, dynamic> toJson() => _$PutAttributesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutAttributesResponse {
@@ -9138,6 +10814,65 @@ class PutAttributesResponse {
   });
   factory PutAttributesResponse.fromJson(Map<String, dynamic> json) =>
       _$PutAttributesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutClusterCapacityProvidersRequest {
+  /// The name of one or more capacity providers to associate with the cluster.
+  ///
+  /// If specifying a capacity provider that uses an Auto Scaling group, the
+  /// capacity provider must already be created. New capacity providers can be
+  /// created with the <a>CreateCapacityProvider</a> API operation.
+  ///
+  /// To use a AWS Fargate capacity provider, specify either the
+  /// <code>FARGATE</code> or <code>FARGATE_SPOT</code> capacity providers. The
+  /// AWS Fargate capacity providers are available to all accounts and only need
+  /// to be associated with a cluster to be used.
+  @_s.JsonKey(name: 'capacityProviders')
+  final List<String> capacityProviders;
+
+  /// The short name or full Amazon Resource Name (ARN) of the cluster to modify
+  /// the capacity provider settings for. If you do not specify a cluster, the
+  /// default cluster is assumed.
+  @_s.JsonKey(name: 'cluster')
+  final String cluster;
+
+  /// The capacity provider strategy to use by default for the cluster.
+  ///
+  /// When creating a service or running a task on a cluster, if no capacity
+  /// provider or launch type is specified then the default capacity provider
+  /// strategy for the cluster is used.
+  ///
+  /// A capacity provider strategy consists of one or more capacity providers
+  /// along with the <code>base</code> and <code>weight</code> to assign to them.
+  /// A capacity provider must be associated with the cluster to be used in a
+  /// capacity provider strategy. The <a>PutClusterCapacityProviders</a> API is
+  /// used to associate a capacity provider with a cluster. Only capacity
+  /// providers with an <code>ACTIVE</code> or <code>UPDATING</code> status can be
+  /// used.
+  ///
+  /// If specifying a capacity provider that uses an Auto Scaling group, the
+  /// capacity provider must already be created. New capacity providers can be
+  /// created with the <a>CreateCapacityProvider</a> API operation.
+  ///
+  /// To use a AWS Fargate capacity provider, specify either the
+  /// <code>FARGATE</code> or <code>FARGATE_SPOT</code> capacity providers. The
+  /// AWS Fargate capacity providers are available to all accounts and only need
+  /// to be associated with a cluster to be used.
+  @_s.JsonKey(name: 'defaultCapacityProviderStrategy')
+  final List<CapacityProviderStrategyItem> defaultCapacityProviderStrategy;
+
+  PutClusterCapacityProvidersRequest({
+    @_s.required this.capacityProviders,
+    @_s.required this.cluster,
+    @_s.required this.defaultCapacityProviderStrategy,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutClusterCapacityProvidersRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -9160,6 +10895,108 @@ class PutClusterCapacityProvidersResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RegisterContainerInstanceRequest {
+  /// The container instance attributes that this container instance supports.
+  @_s.JsonKey(name: 'attributes')
+  final List<Attribute> attributes;
+
+  /// The short name or full Amazon Resource Name (ARN) of the cluster with which
+  /// to register your container instance. If you do not specify a cluster, the
+  /// default cluster is assumed.
+  @_s.JsonKey(name: 'cluster')
+  final String cluster;
+
+  /// The ARN of the container instance (if it was previously registered).
+  @_s.JsonKey(name: 'containerInstanceArn')
+  final String containerInstanceArn;
+
+  /// The instance identity document for the EC2 instance to register. This
+  /// document can be found by running the following command from the instance:
+  /// <code>curl
+  /// http://169.254.169.254/latest/dynamic/instance-identity/document/</code>
+  @_s.JsonKey(name: 'instanceIdentityDocument')
+  final String instanceIdentityDocument;
+
+  /// The instance identity document signature for the EC2 instance to register.
+  /// This signature can be found by running the following command from the
+  /// instance: <code>curl
+  /// http://169.254.169.254/latest/dynamic/instance-identity/signature/</code>
+  @_s.JsonKey(name: 'instanceIdentityDocumentSignature')
+  final String instanceIdentityDocumentSignature;
+
+  /// The devices that are available on the container instance. The only supported
+  /// device type is a GPU.
+  @_s.JsonKey(name: 'platformDevices')
+  final List<PlatformDevice> platformDevices;
+
+  /// The metadata that you apply to the container instance to help you categorize
+  /// and organize them. Each tag consists of a key and an optional value, both of
+  /// which you define.
+  ///
+  /// The following basic restrictions apply to tags:
+  ///
+  /// <ul>
+  /// <li>
+  /// Maximum number of tags per resource - 50
+  /// </li>
+  /// <li>
+  /// For each resource, each tag key must be unique, and each tag key can have
+  /// only one value.
+  /// </li>
+  /// <li>
+  /// Maximum key length - 128 Unicode characters in UTF-8
+  /// </li>
+  /// <li>
+  /// Maximum value length - 256 Unicode characters in UTF-8
+  /// </li>
+  /// <li>
+  /// If your tagging schema is used across multiple services and resources,
+  /// remember that other services may have restrictions on allowed characters.
+  /// Generally allowed characters are: letters, numbers, and spaces representable
+  /// in UTF-8, and the following characters: + - = . _ : / @.
+  /// </li>
+  /// <li>
+  /// Tag keys and values are case-sensitive.
+  /// </li>
+  /// <li>
+  /// Do not use <code>aws:</code>, <code>AWS:</code>, or any upper or lowercase
+  /// combination of such as a prefix for either keys or values as it is reserved
+  /// for AWS use. You cannot edit or delete tag keys or values with this prefix.
+  /// Tags with this prefix do not count against your tags per resource limit.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  /// The resources available on the instance.
+  @_s.JsonKey(name: 'totalResources')
+  final List<Resource> totalResources;
+
+  /// The version information for the Amazon ECS container agent and Docker daemon
+  /// running on the container instance.
+  @_s.JsonKey(name: 'versionInfo')
+  final VersionInfo versionInfo;
+
+  RegisterContainerInstanceRequest({
+    this.attributes,
+    this.cluster,
+    this.containerInstanceArn,
+    this.instanceIdentityDocument,
+    this.instanceIdentityDocumentSignature,
+    this.platformDevices,
+    this.tags,
+    this.totalResources,
+    this.versionInfo,
+  });
+  Map<String, dynamic> toJson() =>
+      _$RegisterContainerInstanceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class RegisterContainerInstanceResponse {
@@ -9173,6 +11010,311 @@ class RegisterContainerInstanceResponse {
   factory RegisterContainerInstanceResponse.fromJson(
           Map<String, dynamic> json) =>
       _$RegisterContainerInstanceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RegisterTaskDefinitionRequest {
+  /// A list of container definitions in JSON format that describe the different
+  /// containers that make up your task.
+  @_s.JsonKey(name: 'containerDefinitions')
+  final List<ContainerDefinition> containerDefinitions;
+
+  /// You must specify a <code>family</code> for a task definition, which allows
+  /// you to track multiple versions of the same task definition. The
+  /// <code>family</code> is used as a name for your task definition. Up to 255
+  /// letters (uppercase and lowercase), numbers, and hyphens are allowed.
+  @_s.JsonKey(name: 'family')
+  final String family;
+
+  /// The number of CPU units used by the task. It can be expressed as an integer
+  /// using CPU units, for example <code>1024</code>, or as a string using vCPUs,
+  /// for example <code>1 vCPU</code> or <code>1 vcpu</code>, in a task
+  /// definition. String values are converted to an integer indicating the CPU
+  /// units when the task definition is registered.
+  /// <note>
+  /// Task-level CPU and memory parameters are ignored for Windows containers. We
+  /// recommend specifying container-level resources for Windows containers.
+  /// </note>
+  /// If you are using the EC2 launch type, this field is optional. Supported
+  /// values are between <code>128</code> CPU units (<code>0.125</code> vCPUs) and
+  /// <code>10240</code> CPU units (<code>10</code> vCPUs).
+  ///
+  /// If you are using the Fargate launch type, this field is required and you
+  /// must use one of the following values, which determines your range of
+  /// supported values for the <code>memory</code> parameter:
+  ///
+  /// <ul>
+  /// <li>
+  /// 256 (.25 vCPU) - Available <code>memory</code> values: 512 (0.5 GB), 1024 (1
+  /// GB), 2048 (2 GB)
+  /// </li>
+  /// <li>
+  /// 512 (.5 vCPU) - Available <code>memory</code> values: 1024 (1 GB), 2048 (2
+  /// GB), 3072 (3 GB), 4096 (4 GB)
+  /// </li>
+  /// <li>
+  /// 1024 (1 vCPU) - Available <code>memory</code> values: 2048 (2 GB), 3072 (3
+  /// GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB)
+  /// </li>
+  /// <li>
+  /// 2048 (2 vCPU) - Available <code>memory</code> values: Between 4096 (4 GB)
+  /// and 16384 (16 GB) in increments of 1024 (1 GB)
+  /// </li>
+  /// <li>
+  /// 4096 (4 vCPU) - Available <code>memory</code> values: Between 8192 (8 GB)
+  /// and 30720 (30 GB) in increments of 1024 (1 GB)
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'cpu')
+  final String cpu;
+
+  /// The Amazon Resource Name (ARN) of the task execution role that the Amazon
+  /// ECS container agent and the Docker daemon can assume.
+  @_s.JsonKey(name: 'executionRoleArn')
+  final String executionRoleArn;
+
+  /// The Elastic Inference accelerators to use for the containers in the task.
+  @_s.JsonKey(name: 'inferenceAccelerators')
+  final List<InferenceAccelerator> inferenceAccelerators;
+
+  /// The IPC resource namespace to use for the containers in the task. The valid
+  /// values are <code>host</code>, <code>task</code>, or <code>none</code>. If
+  /// <code>host</code> is specified, then all containers within the tasks that
+  /// specified the <code>host</code> IPC mode on the same container instance
+  /// share the same IPC resources with the host Amazon EC2 instance. If
+  /// <code>task</code> is specified, all containers within the specified task
+  /// share the same IPC resources. If <code>none</code> is specified, then IPC
+  /// resources within the containers of a task are private and not shared with
+  /// other containers in a task or on the container instance. If no value is
+  /// specified, then the IPC resource namespace sharing depends on the Docker
+  /// daemon setting on the container instance. For more information, see <a
+  /// href="https://docs.docker.com/engine/reference/run/#ipc-settings---ipc">IPC
+  /// settings</a> in the <i>Docker run reference</i>.
+  ///
+  /// If the <code>host</code> IPC mode is used, be aware that there is a
+  /// heightened risk of undesired IPC namespace expose. For more information, see
+  /// <a href="https://docs.docker.com/engine/security/security/">Docker
+  /// security</a>.
+  ///
+  /// If you are setting namespaced kernel parameters using
+  /// <code>systemControls</code> for the containers in the task, the following
+  /// will apply to your IPC resource namespace. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html">System
+  /// Controls</a> in the <i>Amazon Elastic Container Service Developer Guide</i>.
+  ///
+  /// <ul>
+  /// <li>
+  /// For tasks that use the <code>host</code> IPC mode, IPC namespace related
+  /// <code>systemControls</code> are not supported.
+  /// </li>
+  /// <li>
+  /// For tasks that use the <code>task</code> IPC mode, IPC namespace related
+  /// <code>systemControls</code> will apply to all containers within a task.
+  /// </li>
+  /// </ul> <note>
+  /// This parameter is not supported for Windows containers or tasks using the
+  /// Fargate launch type.
+  /// </note>
+  @_s.JsonKey(name: 'ipcMode')
+  final IpcMode ipcMode;
+
+  /// The amount of memory (in MiB) used by the task. It can be expressed as an
+  /// integer using MiB, for example <code>1024</code>, or as a string using GB,
+  /// for example <code>1GB</code> or <code>1 GB</code>, in a task definition.
+  /// String values are converted to an integer indicating the MiB when the task
+  /// definition is registered.
+  /// <note>
+  /// Task-level CPU and memory parameters are ignored for Windows containers. We
+  /// recommend specifying container-level resources for Windows containers.
+  /// </note>
+  /// If using the EC2 launch type, this field is optional.
+  ///
+  /// If using the Fargate launch type, this field is required and you must use
+  /// one of the following values, which determines your range of supported values
+  /// for the <code>cpu</code> parameter:
+  ///
+  /// <ul>
+  /// <li>
+  /// 512 (0.5 GB), 1024 (1 GB), 2048 (2 GB) - Available <code>cpu</code> values:
+  /// 256 (.25 vCPU)
+  /// </li>
+  /// <li>
+  /// 1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB) - Available
+  /// <code>cpu</code> values: 512 (.5 vCPU)
+  /// </li>
+  /// <li>
+  /// 2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7
+  /// GB), 8192 (8 GB) - Available <code>cpu</code> values: 1024 (1 vCPU)
+  /// </li>
+  /// <li>
+  /// Between 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB) -
+  /// Available <code>cpu</code> values: 2048 (2 vCPU)
+  /// </li>
+  /// <li>
+  /// Between 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB) -
+  /// Available <code>cpu</code> values: 4096 (4 vCPU)
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'memory')
+  final String memory;
+
+  /// The Docker networking mode to use for the containers in the task. The valid
+  /// values are <code>none</code>, <code>bridge</code>, <code>awsvpc</code>, and
+  /// <code>host</code>. The default Docker network mode is <code>bridge</code>.
+  /// If you are using the Fargate launch type, the <code>awsvpc</code> network
+  /// mode is required. If you are using the EC2 launch type, any network mode can
+  /// be used. If the network mode is set to <code>none</code>, you cannot specify
+  /// port mappings in your container definitions, and the tasks containers do not
+  /// have external connectivity. The <code>host</code> and <code>awsvpc</code>
+  /// network modes offer the highest networking performance for containers
+  /// because they use the EC2 network stack instead of the virtualized network
+  /// stack provided by the <code>bridge</code> mode.
+  ///
+  /// With the <code>host</code> and <code>awsvpc</code> network modes, exposed
+  /// container ports are mapped directly to the corresponding host port (for the
+  /// <code>host</code> network mode) or the attached elastic network interface
+  /// port (for the <code>awsvpc</code> network mode), so you cannot take
+  /// advantage of dynamic host port mappings.
+  ///
+  /// If the network mode is <code>awsvpc</code>, the task is allocated an elastic
+  /// network interface, and you must specify a <a>NetworkConfiguration</a> value
+  /// when you create a service or run a task with the task definition. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html">Task
+  /// Networking</a> in the <i>Amazon Elastic Container Service Developer
+  /// Guide</i>.
+  /// <note>
+  /// Currently, only Amazon ECS-optimized AMIs, other Amazon Linux variants with
+  /// the <code>ecs-init</code> package, or AWS Fargate infrastructure support the
+  /// <code>awsvpc</code> network mode.
+  /// </note>
+  /// If the network mode is <code>host</code>, you cannot run multiple
+  /// instantiations of the same task on a single container instance when port
+  /// mappings are used.
+  ///
+  /// Docker for Windows uses different network modes than Docker for Linux. When
+  /// you register a task definition with Windows containers, you must not specify
+  /// a network mode. If you use the console to register a task definition with
+  /// Windows containers, you must choose the <code>&lt;default&gt;</code> network
+  /// mode object.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.docker.com/engine/reference/run/#network-settings">Network
+  /// settings</a> in the <i>Docker run reference</i>.
+  @_s.JsonKey(name: 'networkMode')
+  final NetworkMode networkMode;
+
+  /// The process namespace to use for the containers in the task. The valid
+  /// values are <code>host</code> or <code>task</code>. If <code>host</code> is
+  /// specified, then all containers within the tasks that specified the
+  /// <code>host</code> PID mode on the same container instance share the same
+  /// process namespace with the host Amazon EC2 instance. If <code>task</code> is
+  /// specified, all containers within the specified task share the same process
+  /// namespace. If no value is specified, the default is a private namespace. For
+  /// more information, see <a
+  /// href="https://docs.docker.com/engine/reference/run/#pid-settings---pid">PID
+  /// settings</a> in the <i>Docker run reference</i>.
+  ///
+  /// If the <code>host</code> PID mode is used, be aware that there is a
+  /// heightened risk of undesired process namespace expose. For more information,
+  /// see <a href="https://docs.docker.com/engine/security/security/">Docker
+  /// security</a>.
+  /// <note>
+  /// This parameter is not supported for Windows containers or tasks using the
+  /// Fargate launch type.
+  /// </note>
+  @_s.JsonKey(name: 'pidMode')
+  final PidMode pidMode;
+
+  /// An array of placement constraint objects to use for the task. You can
+  /// specify a maximum of 10 constraints per task (this limit includes
+  /// constraints in the task definition and those specified at runtime).
+  @_s.JsonKey(name: 'placementConstraints')
+  final List<TaskDefinitionPlacementConstraint> placementConstraints;
+  @_s.JsonKey(name: 'proxyConfiguration')
+  final ProxyConfiguration proxyConfiguration;
+
+  /// The launch type required by the task. If no value is specified, it defaults
+  /// to <code>EC2</code>.
+  @_s.JsonKey(name: 'requiresCompatibilities')
+  final List<String> requiresCompatibilities;
+
+  /// The metadata that you apply to the task definition to help you categorize
+  /// and organize them. Each tag consists of a key and an optional value, both of
+  /// which you define.
+  ///
+  /// The following basic restrictions apply to tags:
+  ///
+  /// <ul>
+  /// <li>
+  /// Maximum number of tags per resource - 50
+  /// </li>
+  /// <li>
+  /// For each resource, each tag key must be unique, and each tag key can have
+  /// only one value.
+  /// </li>
+  /// <li>
+  /// Maximum key length - 128 Unicode characters in UTF-8
+  /// </li>
+  /// <li>
+  /// Maximum value length - 256 Unicode characters in UTF-8
+  /// </li>
+  /// <li>
+  /// If your tagging schema is used across multiple services and resources,
+  /// remember that other services may have restrictions on allowed characters.
+  /// Generally allowed characters are: letters, numbers, and spaces representable
+  /// in UTF-8, and the following characters: + - = . _ : / @.
+  /// </li>
+  /// <li>
+  /// Tag keys and values are case-sensitive.
+  /// </li>
+  /// <li>
+  /// Do not use <code>aws:</code>, <code>AWS:</code>, or any upper or lowercase
+  /// combination of such as a prefix for either keys or values as it is reserved
+  /// for AWS use. You cannot edit or delete tag keys or values with this prefix.
+  /// Tags with this prefix do not count against your tags per resource limit.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  /// The short name or full Amazon Resource Name (ARN) of the IAM role that
+  /// containers in this task can assume. All containers in this task are granted
+  /// the permissions that are specified in this role. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html">IAM
+  /// Roles for Tasks</a> in the <i>Amazon Elastic Container Service Developer
+  /// Guide</i>.
+  @_s.JsonKey(name: 'taskRoleArn')
+  final String taskRoleArn;
+
+  /// A list of volume definitions in JSON format that containers in your task may
+  /// use.
+  @_s.JsonKey(name: 'volumes')
+  final List<Volume> volumes;
+
+  RegisterTaskDefinitionRequest({
+    @_s.required this.containerDefinitions,
+    @_s.required this.family,
+    this.cpu,
+    this.executionRoleArn,
+    this.inferenceAccelerators,
+    this.ipcMode,
+    this.memory,
+    this.networkMode,
+    this.pidMode,
+    this.placementConstraints,
+    this.proxyConfiguration,
+    this.requiresCompatibilities,
+    this.tags,
+    this.taskRoleArn,
+    this.volumes,
+  });
+  Map<String, dynamic> toJson() => _$RegisterTaskDefinitionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -9328,6 +11470,219 @@ enum ResourceType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RunTaskRequest {
+  /// The <code>family</code> and <code>revision</code>
+  /// (<code>family:revision</code>) or full ARN of the task definition to run. If
+  /// a <code>revision</code> is not specified, the latest <code>ACTIVE</code>
+  /// revision is used.
+  @_s.JsonKey(name: 'taskDefinition')
+  final String taskDefinition;
+
+  /// The capacity provider strategy to use for the task.
+  ///
+  /// A capacity provider strategy consists of one or more capacity providers
+  /// along with the <code>base</code> and <code>weight</code> to assign to them.
+  /// A capacity provider must be associated with the cluster to be used in a
+  /// capacity provider strategy. The <a>PutClusterCapacityProviders</a> API is
+  /// used to associate a capacity provider with a cluster. Only capacity
+  /// providers with an <code>ACTIVE</code> or <code>UPDATING</code> status can be
+  /// used.
+  ///
+  /// If a <code>capacityProviderStrategy</code> is specified, the
+  /// <code>launchType</code> parameter must be omitted. If no
+  /// <code>capacityProviderStrategy</code> or <code>launchType</code> is
+  /// specified, the <code>defaultCapacityProviderStrategy</code> for the cluster
+  /// is used.
+  ///
+  /// If specifying a capacity provider that uses an Auto Scaling group, the
+  /// capacity provider must already be created. New capacity providers can be
+  /// created with the <a>CreateCapacityProvider</a> API operation.
+  ///
+  /// To use a AWS Fargate capacity provider, specify either the
+  /// <code>FARGATE</code> or <code>FARGATE_SPOT</code> capacity providers. The
+  /// AWS Fargate capacity providers are available to all accounts and only need
+  /// to be associated with a cluster to be used.
+  ///
+  /// The <a>PutClusterCapacityProviders</a> API operation is used to update the
+  /// list of available capacity providers for a cluster after the cluster is
+  /// created.
+  @_s.JsonKey(name: 'capacityProviderStrategy')
+  final List<CapacityProviderStrategyItem> capacityProviderStrategy;
+
+  /// The short name or full Amazon Resource Name (ARN) of the cluster on which to
+  /// run your task. If you do not specify a cluster, the default cluster is
+  /// assumed.
+  @_s.JsonKey(name: 'cluster')
+  final String cluster;
+
+  /// The number of instantiations of the specified task to place on your cluster.
+  /// You can specify up to 10 tasks per call.
+  @_s.JsonKey(name: 'count')
+  final int count;
+
+  /// Specifies whether to enable Amazon ECS managed tags for the task. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-using-tags.html">Tagging
+  /// Your Amazon ECS Resources</a> in the <i>Amazon Elastic Container Service
+  /// Developer Guide</i>.
+  @_s.JsonKey(name: 'enableECSManagedTags')
+  final bool enableECSManagedTags;
+
+  /// The name of the task group to associate with the task. The default value is
+  /// the family name of the task definition (for example, family:my-family-name).
+  @_s.JsonKey(name: 'group')
+  final String group;
+
+  /// The launch type on which to run your task. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html">Amazon
+  /// ECS Launch Types</a> in the <i>Amazon Elastic Container Service Developer
+  /// Guide</i>.
+  ///
+  /// If a <code>launchType</code> is specified, the
+  /// <code>capacityProviderStrategy</code> parameter must be omitted.
+  @_s.JsonKey(name: 'launchType')
+  final LaunchType launchType;
+
+  /// The network configuration for the task. This parameter is required for task
+  /// definitions that use the <code>awsvpc</code> network mode to receive their
+  /// own elastic network interface, and it is not supported for other network
+  /// modes. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html">Task
+  /// Networking</a> in the <i>Amazon Elastic Container Service Developer
+  /// Guide</i>.
+  @_s.JsonKey(name: 'networkConfiguration')
+  final NetworkConfiguration networkConfiguration;
+
+  /// A list of container overrides in JSON format that specify the name of a
+  /// container in the specified task definition and the overrides it should
+  /// receive. You can override the default command for a container (that is
+  /// specified in the task definition or Docker image) with a
+  /// <code>command</code> override. You can also override existing environment
+  /// variables (that are specified in the task definition or Docker image) on a
+  /// container or add new environment variables to it with an
+  /// <code>environment</code> override.
+  /// <note>
+  /// A total of 8192 characters are allowed for overrides. This limit includes
+  /// the JSON formatting characters of the override structure.
+  /// </note>
+  @_s.JsonKey(name: 'overrides')
+  final TaskOverride overrides;
+
+  /// An array of placement constraint objects to use for the task. You can
+  /// specify up to 10 constraints per task (including constraints in the task
+  /// definition and those specified at runtime).
+  @_s.JsonKey(name: 'placementConstraints')
+  final List<PlacementConstraint> placementConstraints;
+
+  /// The placement strategy objects to use for the task. You can specify a
+  /// maximum of five strategy rules per task.
+  @_s.JsonKey(name: 'placementStrategy')
+  final List<PlacementStrategy> placementStrategy;
+
+  /// The platform version the task should run. A platform version is only
+  /// specified for tasks using the Fargate launch type. If one is not specified,
+  /// the <code>LATEST</code> platform version is used by default. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html">AWS
+  /// Fargate Platform Versions</a> in the <i>Amazon Elastic Container Service
+  /// Developer Guide</i>.
+  @_s.JsonKey(name: 'platformVersion')
+  final String platformVersion;
+
+  /// Specifies whether to propagate the tags from the task definition to the
+  /// task. If no value is specified, the tags are not propagated. Tags can only
+  /// be propagated to the task during task creation. To add tags to a task after
+  /// task creation, use the <a>TagResource</a> API action.
+  /// <note>
+  /// An error will be received if you specify the <code>SERVICE</code> option
+  /// when running a task.
+  /// </note>
+  @_s.JsonKey(name: 'propagateTags')
+  final PropagateTags propagateTags;
+
+  /// The reference ID to use for the task.
+  @_s.JsonKey(name: 'referenceId')
+  final String referenceId;
+
+  /// An optional tag specified when a task is started. For example, if you
+  /// automatically trigger a task to run a batch process job, you could apply a
+  /// unique identifier for that job to your task with the <code>startedBy</code>
+  /// parameter. You can then identify which tasks belong to that job by filtering
+  /// the results of a <a>ListTasks</a> call with the <code>startedBy</code>
+  /// value. Up to 36 letters (uppercase and lowercase), numbers, hyphens, and
+  /// underscores are allowed.
+  ///
+  /// If a task is started by an Amazon ECS service, then the
+  /// <code>startedBy</code> parameter contains the deployment ID of the service
+  /// that starts it.
+  @_s.JsonKey(name: 'startedBy')
+  final String startedBy;
+
+  /// The metadata that you apply to the task to help you categorize and organize
+  /// them. Each tag consists of a key and an optional value, both of which you
+  /// define.
+  ///
+  /// The following basic restrictions apply to tags:
+  ///
+  /// <ul>
+  /// <li>
+  /// Maximum number of tags per resource - 50
+  /// </li>
+  /// <li>
+  /// For each resource, each tag key must be unique, and each tag key can have
+  /// only one value.
+  /// </li>
+  /// <li>
+  /// Maximum key length - 128 Unicode characters in UTF-8
+  /// </li>
+  /// <li>
+  /// Maximum value length - 256 Unicode characters in UTF-8
+  /// </li>
+  /// <li>
+  /// If your tagging schema is used across multiple services and resources,
+  /// remember that other services may have restrictions on allowed characters.
+  /// Generally allowed characters are: letters, numbers, and spaces representable
+  /// in UTF-8, and the following characters: + - = . _ : / @.
+  /// </li>
+  /// <li>
+  /// Tag keys and values are case-sensitive.
+  /// </li>
+  /// <li>
+  /// Do not use <code>aws:</code>, <code>AWS:</code>, or any upper or lowercase
+  /// combination of such as a prefix for either keys or values as it is reserved
+  /// for AWS use. You cannot edit or delete tag keys or values with this prefix.
+  /// Tags with this prefix do not count against your tags per resource limit.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  RunTaskRequest({
+    @_s.required this.taskDefinition,
+    this.capacityProviderStrategy,
+    this.cluster,
+    this.count,
+    this.enableECSManagedTags,
+    this.group,
+    this.launchType,
+    this.networkConfiguration,
+    this.overrides,
+    this.placementConstraints,
+    this.placementStrategy,
+    this.platformVersion,
+    this.propagateTags,
+    this.referenceId,
+    this.startedBy,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$RunTaskRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class RunTaskResponse {
@@ -9385,18 +11740,6 @@ enum SchedulingStrategy {
   replica,
   @_s.JsonValue('DAEMON')
   daemon,
-}
-
-extension on SchedulingStrategy {
-  String toValue() {
-    switch (this) {
-      case SchedulingStrategy.replica:
-        return 'REPLICA';
-      case SchedulingStrategy.daemon:
-        return 'DAEMON';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 enum Scope {
@@ -9853,24 +12196,6 @@ enum SettingName {
   containerInsights,
 }
 
-extension on SettingName {
-  String toValue() {
-    switch (this) {
-      case SettingName.serviceLongArnFormat:
-        return 'serviceLongArnFormat';
-      case SettingName.taskLongArnFormat:
-        return 'taskLongArnFormat';
-      case SettingName.containerInstanceLongArnFormat:
-        return 'containerInstanceLongArnFormat';
-      case SettingName.awsvpcTrunking:
-        return 'awsvpcTrunking';
-      case SettingName.containerInsights:
-        return 'containerInsights';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum SortOrder {
   @_s.JsonValue('ASC')
   asc,
@@ -9878,23 +12203,148 @@ enum SortOrder {
   desc,
 }
 
-extension on SortOrder {
-  String toValue() {
-    switch (this) {
-      case SortOrder.asc:
-        return 'ASC';
-      case SortOrder.desc:
-        return 'DESC';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum StabilityStatus {
   @_s.JsonValue('STEADY_STATE')
   steadyState,
   @_s.JsonValue('STABILIZING')
   stabilizing,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartTaskRequest {
+  /// The container instance IDs or full ARN entries for the container instances
+  /// on which you would like to place your task. You can specify up to 10
+  /// container instances.
+  @_s.JsonKey(name: 'containerInstances')
+  final List<String> containerInstances;
+
+  /// The <code>family</code> and <code>revision</code>
+  /// (<code>family:revision</code>) or full ARN of the task definition to start.
+  /// If a <code>revision</code> is not specified, the latest <code>ACTIVE</code>
+  /// revision is used.
+  @_s.JsonKey(name: 'taskDefinition')
+  final String taskDefinition;
+
+  /// The short name or full Amazon Resource Name (ARN) of the cluster on which to
+  /// start your task. If you do not specify a cluster, the default cluster is
+  /// assumed.
+  @_s.JsonKey(name: 'cluster')
+  final String cluster;
+
+  /// Specifies whether to enable Amazon ECS managed tags for the task. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-using-tags.html">Tagging
+  /// Your Amazon ECS Resources</a> in the <i>Amazon Elastic Container Service
+  /// Developer Guide</i>.
+  @_s.JsonKey(name: 'enableECSManagedTags')
+  final bool enableECSManagedTags;
+
+  /// The name of the task group to associate with the task. The default value is
+  /// the family name of the task definition (for example, family:my-family-name).
+  @_s.JsonKey(name: 'group')
+  final String group;
+
+  /// The VPC subnet and security group configuration for tasks that receive their
+  /// own elastic network interface by using the <code>awsvpc</code> networking
+  /// mode.
+  @_s.JsonKey(name: 'networkConfiguration')
+  final NetworkConfiguration networkConfiguration;
+
+  /// A list of container overrides in JSON format that specify the name of a
+  /// container in the specified task definition and the overrides it should
+  /// receive. You can override the default command for a container (that is
+  /// specified in the task definition or Docker image) with a
+  /// <code>command</code> override. You can also override existing environment
+  /// variables (that are specified in the task definition or Docker image) on a
+  /// container or add new environment variables to it with an
+  /// <code>environment</code> override.
+  /// <note>
+  /// A total of 8192 characters are allowed for overrides. This limit includes
+  /// the JSON formatting characters of the override structure.
+  /// </note>
+  @_s.JsonKey(name: 'overrides')
+  final TaskOverride overrides;
+
+  /// Specifies whether to propagate the tags from the task definition or the
+  /// service to the task. If no value is specified, the tags are not propagated.
+  @_s.JsonKey(name: 'propagateTags')
+  final PropagateTags propagateTags;
+
+  /// The reference ID to use for the task.
+  @_s.JsonKey(name: 'referenceId')
+  final String referenceId;
+
+  /// An optional tag specified when a task is started. For example, if you
+  /// automatically trigger a task to run a batch process job, you could apply a
+  /// unique identifier for that job to your task with the <code>startedBy</code>
+  /// parameter. You can then identify which tasks belong to that job by filtering
+  /// the results of a <a>ListTasks</a> call with the <code>startedBy</code>
+  /// value. Up to 36 letters (uppercase and lowercase), numbers, hyphens, and
+  /// underscores are allowed.
+  ///
+  /// If a task is started by an Amazon ECS service, then the
+  /// <code>startedBy</code> parameter contains the deployment ID of the service
+  /// that starts it.
+  @_s.JsonKey(name: 'startedBy')
+  final String startedBy;
+
+  /// The metadata that you apply to the task to help you categorize and organize
+  /// them. Each tag consists of a key and an optional value, both of which you
+  /// define.
+  ///
+  /// The following basic restrictions apply to tags:
+  ///
+  /// <ul>
+  /// <li>
+  /// Maximum number of tags per resource - 50
+  /// </li>
+  /// <li>
+  /// For each resource, each tag key must be unique, and each tag key can have
+  /// only one value.
+  /// </li>
+  /// <li>
+  /// Maximum key length - 128 Unicode characters in UTF-8
+  /// </li>
+  /// <li>
+  /// Maximum value length - 256 Unicode characters in UTF-8
+  /// </li>
+  /// <li>
+  /// If your tagging schema is used across multiple services and resources,
+  /// remember that other services may have restrictions on allowed characters.
+  /// Generally allowed characters are: letters, numbers, and spaces representable
+  /// in UTF-8, and the following characters: + - = . _ : / @.
+  /// </li>
+  /// <li>
+  /// Tag keys and values are case-sensitive.
+  /// </li>
+  /// <li>
+  /// Do not use <code>aws:</code>, <code>AWS:</code>, or any upper or lowercase
+  /// combination of such as a prefix for either keys or values as it is reserved
+  /// for AWS use. You cannot edit or delete tag keys or values with this prefix.
+  /// Tags with this prefix do not count against your tags per resource limit.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  StartTaskRequest({
+    @_s.required this.containerInstances,
+    @_s.required this.taskDefinition,
+    this.cluster,
+    this.enableECSManagedTags,
+    this.group,
+    this.networkConfiguration,
+    this.overrides,
+    this.propagateTags,
+    this.referenceId,
+    this.startedBy,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$StartTaskRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -9923,6 +12373,38 @@ class StartTaskResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopTaskRequest {
+  /// The task ID or full Amazon Resource Name (ARN) of the task to stop.
+  @_s.JsonKey(name: 'task')
+  final String task;
+
+  /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts
+  /// the task to stop. If you do not specify a cluster, the default cluster is
+  /// assumed.
+  @_s.JsonKey(name: 'cluster')
+  final String cluster;
+
+  /// An optional message specified when a task is stopped. For example, if you
+  /// are using a custom scheduler, you can use this parameter to specify the
+  /// reason for stopping the task here, and the message appears in subsequent
+  /// <a>DescribeTasks</a> API operations on this task. Up to 255 characters are
+  /// allowed in this message.
+  @_s.JsonKey(name: 'reason')
+  final String reason;
+
+  StopTaskRequest({
+    @_s.required this.task,
+    this.cluster,
+    this.reason,
+  });
+  Map<String, dynamic> toJson() => _$StopTaskRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StopTaskResponse {
@@ -9935,6 +12417,29 @@ class StopTaskResponse {
   });
   factory StopTaskResponse.fromJson(Map<String, dynamic> json) =>
       _$StopTaskResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SubmitAttachmentStateChangesRequest {
+  /// Any attachments associated with the state change request.
+  @_s.JsonKey(name: 'attachments')
+  final List<AttachmentStateChange> attachments;
+
+  /// The short name or full ARN of the cluster that hosts the container instance
+  /// the attachment belongs to.
+  @_s.JsonKey(name: 'cluster')
+  final String cluster;
+
+  SubmitAttachmentStateChangesRequest({
+    @_s.required this.attachments,
+    this.cluster,
+  });
+  Map<String, dynamic> toJson() =>
+      _$SubmitAttachmentStateChangesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -9958,6 +12463,59 @@ class SubmitAttachmentStateChangesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SubmitContainerStateChangeRequest {
+  /// The short name or full ARN of the cluster that hosts the container.
+  @_s.JsonKey(name: 'cluster')
+  final String cluster;
+
+  /// The name of the container.
+  @_s.JsonKey(name: 'containerName')
+  final String containerName;
+
+  /// The exit code returned for the state change request.
+  @_s.JsonKey(name: 'exitCode')
+  final int exitCode;
+
+  /// The network bindings of the container.
+  @_s.JsonKey(name: 'networkBindings')
+  final List<NetworkBinding> networkBindings;
+
+  /// The reason for the state change request.
+  @_s.JsonKey(name: 'reason')
+  final String reason;
+
+  /// The ID of the Docker container.
+  @_s.JsonKey(name: 'runtimeId')
+  final String runtimeId;
+
+  /// The status of the state change request.
+  @_s.JsonKey(name: 'status')
+  final String status;
+
+  /// The task ID or full Amazon Resource Name (ARN) of the task that hosts the
+  /// container.
+  @_s.JsonKey(name: 'task')
+  final String task;
+
+  SubmitContainerStateChangeRequest({
+    this.cluster,
+    this.containerName,
+    this.exitCode,
+    this.networkBindings,
+    this.reason,
+    this.runtimeId,
+    this.status,
+    this.task,
+  });
+  Map<String, dynamic> toJson() =>
+      _$SubmitContainerStateChangeRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class SubmitContainerStateChangeResponse {
@@ -9971,6 +12529,72 @@ class SubmitContainerStateChangeResponse {
   factory SubmitContainerStateChangeResponse.fromJson(
           Map<String, dynamic> json) =>
       _$SubmitContainerStateChangeResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SubmitTaskStateChangeRequest {
+  /// Any attachments associated with the state change request.
+  @_s.JsonKey(name: 'attachments')
+  final List<AttachmentStateChange> attachments;
+
+  /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts
+  /// the task.
+  @_s.JsonKey(name: 'cluster')
+  final String cluster;
+
+  /// Any containers associated with the state change request.
+  @_s.JsonKey(name: 'containers')
+  final List<ContainerStateChange> containers;
+
+  /// The Unix timestamp for when the task execution stopped.
+  @_s.JsonKey(
+      name: 'executionStoppedAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime executionStoppedAt;
+
+  /// The Unix timestamp for when the container image pull began.
+  @_s.JsonKey(
+      name: 'pullStartedAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime pullStartedAt;
+
+  /// The Unix timestamp for when the container image pull completed.
+  @_s.JsonKey(
+      name: 'pullStoppedAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime pullStoppedAt;
+
+  /// The reason for the state change request.
+  @_s.JsonKey(name: 'reason')
+  final String reason;
+
+  /// The status of the state change request.
+  @_s.JsonKey(name: 'status')
+  final String status;
+
+  /// The task ID or full ARN of the task in the state change request.
+  @_s.JsonKey(name: 'task')
+  final String task;
+
+  SubmitTaskStateChangeRequest({
+    this.attachments,
+    this.cluster,
+    this.containers,
+    this.executionStoppedAt,
+    this.pullStartedAt,
+    this.pullStoppedAt,
+    this.reason,
+    this.status,
+    this.task,
+  });
+  Map<String, dynamic> toJson() => _$SubmitTaskStateChangeRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10107,6 +12731,62 @@ class Tag {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource to which to add tags.
+  /// Currently, the supported resources are Amazon ECS capacity providers, tasks,
+  /// services, task definitions, clusters, and container instances.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  /// The tags to add to the resource. A tag is an array of key-value pairs.
+  ///
+  /// The following basic restrictions apply to tags:
+  ///
+  /// <ul>
+  /// <li>
+  /// Maximum number of tags per resource - 50
+  /// </li>
+  /// <li>
+  /// For each resource, each tag key must be unique, and each tag key can have
+  /// only one value.
+  /// </li>
+  /// <li>
+  /// Maximum key length - 128 Unicode characters in UTF-8
+  /// </li>
+  /// <li>
+  /// Maximum value length - 256 Unicode characters in UTF-8
+  /// </li>
+  /// <li>
+  /// If your tagging schema is used across multiple services and resources,
+  /// remember that other services may have restrictions on allowed characters.
+  /// Generally allowed characters are: letters, numbers, and spaces representable
+  /// in UTF-8, and the following characters: + - = . _ : / @.
+  /// </li>
+  /// <li>
+  /// Tag keys and values are case-sensitive.
+  /// </li>
+  /// <li>
+  /// Do not use <code>aws:</code>, <code>AWS:</code>, or any upper or lowercase
+  /// combination of such as a prefix for either keys or values as it is reserved
+  /// for AWS use. You cannot edit or delete tag keys or values with this prefix.
+  /// Tags with this prefix do not count against your tags per resource limit.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagResourceResponse {
@@ -10118,16 +12798,6 @@ class TagResourceResponse {
 enum TargetType {
   @_s.JsonValue('container-instance')
   containerInstance,
-}
-
-extension on TargetType {
-  String toValue() {
-    switch (this) {
-      case TargetType.containerInstance:
-        return 'container-instance';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Details on a task in a cluster.
@@ -10809,20 +13479,6 @@ enum TaskDefinitionFamilyStatus {
   all,
 }
 
-extension on TaskDefinitionFamilyStatus {
-  String toValue() {
-    switch (this) {
-      case TaskDefinitionFamilyStatus.active:
-        return 'ACTIVE';
-      case TaskDefinitionFamilyStatus.inactive:
-        return 'INACTIVE';
-      case TaskDefinitionFamilyStatus.all:
-        return 'ALL';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum TaskDefinitionField {
   @_s.JsonValue('TAGS')
   tags,
@@ -10878,18 +13534,6 @@ enum TaskDefinitionStatus {
   active,
   @_s.JsonValue('INACTIVE')
   inactive,
-}
-
-extension on TaskDefinitionStatus {
-  String toValue() {
-    switch (this) {
-      case TaskDefinitionStatus.active:
-        return 'ACTIVE';
-      case TaskDefinitionStatus.inactive:
-        return 'INACTIVE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 enum TaskField {
@@ -11307,12 +13951,59 @@ enum UlimitName {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource from which to delete tags.
+  /// Currently, the supported resources are Amazon ECS capacity providers, tasks,
+  /// services, task definitions, clusters, and container instances.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  /// The keys of the tags to be removed.
+  @_s.JsonKey(name: 'tagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
   factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateClusterSettingsRequest {
+  /// The name of the cluster to modify the settings for.
+  @_s.JsonKey(name: 'cluster')
+  final String cluster;
+
+  /// The setting to use by default for a cluster. This parameter is used to
+  /// enable CloudWatch Container Insights for a cluster. If this value is
+  /// specified, it will override the <code>containerInsights</code> value set
+  /// with <a>PutAccountSetting</a> or <a>PutAccountSettingDefault</a>.
+  @_s.JsonKey(name: 'settings')
+  final List<ClusterSetting> settings;
+
+  UpdateClusterSettingsRequest({
+    @_s.required this.cluster,
+    @_s.required this.settings,
+  });
+  Map<String, dynamic> toJson() => _$UpdateClusterSettingsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -11334,6 +14025,30 @@ class UpdateClusterSettingsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateContainerAgentRequest {
+  /// The container instance ID or full ARN entries for the container instance on
+  /// which you would like to update the Amazon ECS container agent.
+  @_s.JsonKey(name: 'containerInstance')
+  final String containerInstance;
+
+  /// The short name or full Amazon Resource Name (ARN) of the cluster that your
+  /// container instance is running on. If you do not specify a cluster, the
+  /// default cluster is assumed.
+  @_s.JsonKey(name: 'cluster')
+  final String cluster;
+
+  UpdateContainerAgentRequest({
+    @_s.required this.containerInstance,
+    this.cluster,
+  });
+  Map<String, dynamic> toJson() => _$UpdateContainerAgentRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateContainerAgentResponse {
@@ -11346,6 +14061,42 @@ class UpdateContainerAgentResponse {
   });
   factory UpdateContainerAgentResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateContainerAgentResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateContainerInstancesStateRequest {
+  /// A list of container instance IDs or full ARN entries.
+  @_s.JsonKey(name: 'containerInstances')
+  final List<String> containerInstances;
+
+  /// The container instance state with which to update the container instance.
+  /// The only valid values for this action are <code>ACTIVE</code> and
+  /// <code>DRAINING</code>. A container instance can only be updated to
+  /// <code>DRAINING</code> status once it has reached an <code>ACTIVE</code>
+  /// state. If a container instance is in <code>REGISTERING</code>,
+  /// <code>DEREGISTERING</code>, or <code>REGISTRATION_FAILED</code> state you
+  /// can describe the container instance but will be unable to update the
+  /// container instance state.
+  @_s.JsonKey(name: 'status')
+  final ContainerInstanceStatus status;
+
+  /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts
+  /// the container instance to update. If you do not specify a cluster, the
+  /// default cluster is assumed.
+  @_s.JsonKey(name: 'cluster')
+  final String cluster;
+
+  UpdateContainerInstancesStateRequest({
+    @_s.required this.containerInstances,
+    @_s.required this.status,
+    this.cluster,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateContainerInstancesStateRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -11374,6 +14125,36 @@ class UpdateContainerInstancesStateResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateServicePrimaryTaskSetRequest {
+  /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts
+  /// the service that the task set exists in.
+  @_s.JsonKey(name: 'cluster')
+  final String cluster;
+
+  /// The short name or full Amazon Resource Name (ARN) of the task set to set as
+  /// the primary task set in the deployment.
+  @_s.JsonKey(name: 'primaryTaskSet')
+  final String primaryTaskSet;
+
+  /// The short name or full Amazon Resource Name (ARN) of the service that the
+  /// task set exists in.
+  @_s.JsonKey(name: 'service')
+  final String service;
+
+  UpdateServicePrimaryTaskSetRequest({
+    @_s.required this.cluster,
+    @_s.required this.primaryTaskSet,
+    @_s.required this.service,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateServicePrimaryTaskSetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateServicePrimaryTaskSetResponse {
@@ -11391,6 +14172,146 @@ class UpdateServicePrimaryTaskSetResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateServiceRequest {
+  /// The name of the service to update.
+  @_s.JsonKey(name: 'service')
+  final String service;
+
+  /// The capacity provider strategy to update the service to use.
+  ///
+  /// If the service is using the default capacity provider strategy for the
+  /// cluster, the service can be updated to use one or more capacity providers as
+  /// opposed to the default capacity provider strategy. However, when a service
+  /// is using a capacity provider strategy that is not the default capacity
+  /// provider strategy, the service cannot be updated to use the cluster's
+  /// default capacity provider strategy.
+  ///
+  /// A capacity provider strategy consists of one or more capacity providers
+  /// along with the <code>base</code> and <code>weight</code> to assign to them.
+  /// A capacity provider must be associated with the cluster to be used in a
+  /// capacity provider strategy. The <a>PutClusterCapacityProviders</a> API is
+  /// used to associate a capacity provider with a cluster. Only capacity
+  /// providers with an <code>ACTIVE</code> or <code>UPDATING</code> status can be
+  /// used.
+  ///
+  /// If specifying a capacity provider that uses an Auto Scaling group, the
+  /// capacity provider must already be created. New capacity providers can be
+  /// created with the <a>CreateCapacityProvider</a> API operation.
+  ///
+  /// To use a AWS Fargate capacity provider, specify either the
+  /// <code>FARGATE</code> or <code>FARGATE_SPOT</code> capacity providers. The
+  /// AWS Fargate capacity providers are available to all accounts and only need
+  /// to be associated with a cluster to be used.
+  ///
+  /// The <a>PutClusterCapacityProviders</a> API operation is used to update the
+  /// list of available capacity providers for a cluster after the cluster is
+  /// created.
+  /// <p/>
+  @_s.JsonKey(name: 'capacityProviderStrategy')
+  final List<CapacityProviderStrategyItem> capacityProviderStrategy;
+
+  /// The short name or full Amazon Resource Name (ARN) of the cluster that your
+  /// service is running on. If you do not specify a cluster, the default cluster
+  /// is assumed.
+  @_s.JsonKey(name: 'cluster')
+  final String cluster;
+
+  /// Optional deployment parameters that control how many tasks run during the
+  /// deployment and the ordering of stopping and starting tasks.
+  @_s.JsonKey(name: 'deploymentConfiguration')
+  final DeploymentConfiguration deploymentConfiguration;
+
+  /// The number of instantiations of the task to place and keep running in your
+  /// service.
+  @_s.JsonKey(name: 'desiredCount')
+  final int desiredCount;
+
+  /// Whether to force a new deployment of the service. Deployments are not forced
+  /// by default. You can use this option to trigger a new deployment with no
+  /// service definition changes. For example, you can update a service's tasks to
+  /// use a newer Docker image with the same image/tag combination
+  /// (<code>my_image:latest</code>) or to roll Fargate tasks onto a newer
+  /// platform version.
+  @_s.JsonKey(name: 'forceNewDeployment')
+  final bool forceNewDeployment;
+
+  /// The period of time, in seconds, that the Amazon ECS service scheduler should
+  /// ignore unhealthy Elastic Load Balancing target health checks after a task
+  /// has first started. This is only valid if your service is configured to use a
+  /// load balancer. If your service's tasks take a while to start and respond to
+  /// Elastic Load Balancing health checks, you can specify a health check grace
+  /// period of up to 2,147,483,647 seconds. During that time, the Amazon ECS
+  /// service scheduler ignores the Elastic Load Balancing health check status.
+  /// This grace period can prevent the ECS service scheduler from marking tasks
+  /// as unhealthy and stopping them before they have time to come up.
+  @_s.JsonKey(name: 'healthCheckGracePeriodSeconds')
+  final int healthCheckGracePeriodSeconds;
+  @_s.JsonKey(name: 'networkConfiguration')
+  final NetworkConfiguration networkConfiguration;
+
+  /// An array of task placement constraint objects to update the service to use.
+  /// If no value is specified, the existing placement constraints for the service
+  /// will remain unchanged. If this value is specified, it will override any
+  /// existing placement constraints defined for the service. To remove all
+  /// existing placement constraints, specify an empty array.
+  ///
+  /// You can specify a maximum of 10 constraints per task (this limit includes
+  /// constraints in the task definition and those specified at runtime).
+  @_s.JsonKey(name: 'placementConstraints')
+  final List<PlacementConstraint> placementConstraints;
+
+  /// The task placement strategy objects to update the service to use. If no
+  /// value is specified, the existing placement strategy for the service will
+  /// remain unchanged. If this value is specified, it will override the existing
+  /// placement strategy defined for the service. To remove an existing placement
+  /// strategy, specify an empty object.
+  ///
+  /// You can specify a maximum of five strategy rules per service.
+  @_s.JsonKey(name: 'placementStrategy')
+  final List<PlacementStrategy> placementStrategy;
+
+  /// The platform version on which your tasks in the service are running. A
+  /// platform version is only specified for tasks using the Fargate launch type.
+  /// If a platform version is not specified, the <code>LATEST</code> platform
+  /// version is used by default. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html">AWS
+  /// Fargate Platform Versions</a> in the <i>Amazon Elastic Container Service
+  /// Developer Guide</i>.
+  @_s.JsonKey(name: 'platformVersion')
+  final String platformVersion;
+
+  /// The <code>family</code> and <code>revision</code>
+  /// (<code>family:revision</code>) or full ARN of the task definition to run in
+  /// your service. If a <code>revision</code> is not specified, the latest
+  /// <code>ACTIVE</code> revision is used. If you modify the task definition with
+  /// <code>UpdateService</code>, Amazon ECS spawns a task with the new version of
+  /// the task definition and then stops an old task after the new version is
+  /// running.
+  @_s.JsonKey(name: 'taskDefinition')
+  final String taskDefinition;
+
+  UpdateServiceRequest({
+    @_s.required this.service,
+    this.capacityProviderStrategy,
+    this.cluster,
+    this.deploymentConfiguration,
+    this.desiredCount,
+    this.forceNewDeployment,
+    this.healthCheckGracePeriodSeconds,
+    this.networkConfiguration,
+    this.placementConstraints,
+    this.placementStrategy,
+    this.platformVersion,
+    this.taskDefinition,
+  });
+  Map<String, dynamic> toJson() => _$UpdateServiceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateServiceResponse {
@@ -11403,6 +14324,37 @@ class UpdateServiceResponse {
   });
   factory UpdateServiceResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateServiceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateTaskSetRequest {
+  /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts
+  /// the service that the task set exists in.
+  @_s.JsonKey(name: 'cluster')
+  final String cluster;
+  @_s.JsonKey(name: 'scale')
+  final Scale scale;
+
+  /// The short name or full Amazon Resource Name (ARN) of the service that the
+  /// task set exists in.
+  @_s.JsonKey(name: 'service')
+  final String service;
+
+  /// The short name or full Amazon Resource Name (ARN) of the task set to update.
+  @_s.JsonKey(name: 'taskSet')
+  final String taskSet;
+
+  UpdateTaskSetRequest({
+    @_s.required this.cluster,
+    @_s.required this.scale,
+    @_s.required this.service,
+    @_s.required this.taskSet,
+  });
+  Map<String, dynamic> toJson() => _$UpdateTaskSetRequestToJson(this);
 }
 
 @_s.JsonSerializable(

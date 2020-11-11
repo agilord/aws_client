@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -20,6 +19,8 @@ import 'package:shared_aws_api/shared.dart'
         unixTimestampToJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
+
+part 'endpoint_host_trait.g.dart';
 
 /// Endpoint host trait
 class EndpointHostTrait {
@@ -40,9 +41,9 @@ class EndpointHostTrait {
   Future<void> staticOp0({
     String name,
   }) async {
-    final $payload = <String, dynamic>{
-      if (name != null) 'Name': name,
-    };
+    final $payload = StaticInputShape(
+      name: name,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -54,9 +55,9 @@ class EndpointHostTrait {
   Future<void> memberRefOp1({
     String name,
   }) async {
-    final $payload = <String, dynamic>{
-      if (name != null) 'Name': name,
-    };
+    final $payload = MemberRefInputShape(
+      name: name,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -64,6 +65,36 @@ class EndpointHostTrait {
       exceptionFnMap: _exceptionFns,
     );
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StaticInputShape {
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  StaticInputShape({
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$StaticInputShapeToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class MemberRefInputShape {
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  MemberRefInputShape({
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$MemberRefInputShapeToJson(this);
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

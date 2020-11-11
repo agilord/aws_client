@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -130,11 +129,11 @@ class Textract {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Document': document,
-        'FeatureTypes': featureTypes,
-        if (humanLoopConfig != null) 'HumanLoopConfig': humanLoopConfig,
-      },
+      payload: AnalyzeDocumentRequest(
+        document: document,
+        featureTypes: featureTypes,
+        humanLoopConfig: humanLoopConfig,
+      ),
     );
 
     return AnalyzeDocumentResponse.fromJson(jsonResponse.body);
@@ -191,9 +190,9 @@ class Textract {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Document': document,
-      },
+      payload: DetectDocumentTextRequest(
+        document: document,
+      ),
     );
 
     return DetectDocumentTextResponse.fromJson(jsonResponse.body);
@@ -323,11 +322,11 @@ class Textract {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobId': jobId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: GetDocumentAnalysisRequest(
+        jobId: jobId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return GetDocumentAnalysisResponse.fromJson(jsonResponse.body);
@@ -439,11 +438,11 @@ class Textract {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobId': jobId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: GetDocumentTextDetectionRequest(
+        jobId: jobId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return GetDocumentTextDetectionResponse.fromJson(jsonResponse.body);
@@ -555,15 +554,13 @@ class Textract {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DocumentLocation': documentLocation,
-        'FeatureTypes': featureTypes,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-        if (jobTag != null) 'JobTag': jobTag,
-        if (notificationChannel != null)
-          'NotificationChannel': notificationChannel,
-      },
+      payload: StartDocumentAnalysisRequest(
+        documentLocation: documentLocation,
+        featureTypes: featureTypes,
+        clientRequestToken: clientRequestToken,
+        jobTag: jobTag,
+        notificationChannel: notificationChannel,
+      ),
     );
 
     return StartDocumentAnalysisResponse.fromJson(jsonResponse.body);
@@ -664,18 +661,54 @@ class Textract {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DocumentLocation': documentLocation,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-        if (jobTag != null) 'JobTag': jobTag,
-        if (notificationChannel != null)
-          'NotificationChannel': notificationChannel,
-      },
+      payload: StartDocumentTextDetectionRequest(
+        documentLocation: documentLocation,
+        clientRequestToken: clientRequestToken,
+        jobTag: jobTag,
+        notificationChannel: notificationChannel,
+      ),
     );
 
     return StartDocumentTextDetectionResponse.fromJson(jsonResponse.body);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AnalyzeDocumentRequest {
+  /// The input document as base64-encoded bytes or an Amazon S3 object. If you
+  /// use the AWS CLI to call Amazon Textract operations, you can't pass image
+  /// bytes. The document must be an image in JPEG or PNG format.
+  ///
+  /// If you're using an AWS SDK to call Amazon Textract, you might not need to
+  /// base64-encode image bytes that are passed using the <code>Bytes</code>
+  /// field.
+  @_s.JsonKey(name: 'Document')
+  final Document document;
+
+  /// A list of the types of analysis to perform. Add TABLES to the list to return
+  /// information about the tables that are detected in the input document. Add
+  /// FORMS to return detected form data. To perform both types of analysis, add
+  /// TABLES and FORMS to <code>FeatureTypes</code>. All lines and words detected
+  /// in the document are included in the response (including text that isn't
+  /// related to the value of <code>FeatureTypes</code>).
+  @_s.JsonKey(name: 'FeatureTypes')
+  final List<String> featureTypes;
+
+  /// Sets the configuration for the human in the loop workflow for analyzing
+  /// documents.
+  @_s.JsonKey(name: 'HumanLoopConfig')
+  final HumanLoopConfig humanLoopConfig;
+
+  AnalyzeDocumentRequest({
+    @_s.required this.document,
+    @_s.required this.featureTypes,
+    this.humanLoopConfig,
+  });
+  Map<String, dynamic> toJson() => _$AnalyzeDocumentRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -981,6 +1014,28 @@ enum ContentClassifier {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DetectDocumentTextRequest {
+  /// The input document as base64-encoded bytes or an Amazon S3 object. If you
+  /// use the AWS CLI to call Amazon Textract operations, you can't pass image
+  /// bytes. The document must be an image in JPEG or PNG format.
+  ///
+  /// If you're using an AWS SDK to call Amazon Textract, you might not need to
+  /// base64-encode image bytes that are passed using the <code>Bytes</code>
+  /// field.
+  @_s.JsonKey(name: 'Document')
+  final Document document;
+
+  DetectDocumentTextRequest({
+    @_s.required this.document,
+  });
+  Map<String, dynamic> toJson() => _$DetectDocumentTextRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DetectDocumentTextResponse {
@@ -1140,6 +1195,38 @@ class Geometry {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetDocumentAnalysisRequest {
+  /// A unique identifier for the text-detection job. The <code>JobId</code> is
+  /// returned from <code>StartDocumentAnalysis</code>. A <code>JobId</code> value
+  /// is only valid for 7 days.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  /// The maximum number of results to return per paginated call. The largest
+  /// value that you can specify is 1,000. If you specify a value greater than
+  /// 1,000, a maximum of 1,000 results is returned. The default value is 1,000.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If the previous response was incomplete (because there are more blocks to
+  /// retrieve), Amazon Textract returns a pagination token in the response. You
+  /// can use this pagination token to retrieve the next set of blocks.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetDocumentAnalysisRequest({
+    @_s.required this.jobId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$GetDocumentAnalysisRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetDocumentAnalysisResponse {
@@ -1186,6 +1273,39 @@ class GetDocumentAnalysisResponse {
   });
   factory GetDocumentAnalysisResponse.fromJson(Map<String, dynamic> json) =>
       _$GetDocumentAnalysisResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetDocumentTextDetectionRequest {
+  /// A unique identifier for the text detection job. The <code>JobId</code> is
+  /// returned from <code>StartDocumentTextDetection</code>. A <code>JobId</code>
+  /// value is only valid for 7 days.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  /// The maximum number of results to return per paginated call. The largest
+  /// value you can specify is 1,000. If you specify a value greater than 1,000, a
+  /// maximum of 1,000 results is returned. The default value is 1,000.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If the previous response was incomplete (because there are more blocks to
+  /// retrieve), Amazon Textract returns a pagination token in the response. You
+  /// can use this pagination token to retrieve the next set of blocks.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetDocumentTextDetectionRequest({
+    @_s.required this.jobId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetDocumentTextDetectionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1473,6 +1593,57 @@ enum SelectionStatus {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartDocumentAnalysisRequest {
+  /// The location of the document to be processed.
+  @_s.JsonKey(name: 'DocumentLocation')
+  final DocumentLocation documentLocation;
+
+  /// A list of the types of analysis to perform. Add TABLES to the list to return
+  /// information about the tables that are detected in the input document. Add
+  /// FORMS to return detected form data. To perform both types of analysis, add
+  /// TABLES and FORMS to <code>FeatureTypes</code>. All lines and words detected
+  /// in the document are included in the response (including text that isn't
+  /// related to the value of <code>FeatureTypes</code>).
+  @_s.JsonKey(name: 'FeatureTypes')
+  final List<String> featureTypes;
+
+  /// The idempotent token that you use to identify the start request. If you use
+  /// the same token with multiple <code>StartDocumentAnalysis</code> requests,
+  /// the same <code>JobId</code> is returned. Use <code>ClientRequestToken</code>
+  /// to prevent the same job from being accidentally started more than once. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/textract/latest/dg/api-async.html">Calling
+  /// Amazon Textract Asynchronous Operations</a>.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// An identifier that you specify that's included in the completion
+  /// notification published to the Amazon SNS topic. For example, you can use
+  /// <code>JobTag</code> to identify the type of document that the completion
+  /// notification corresponds to (such as a tax form or a receipt).
+  @_s.JsonKey(name: 'JobTag')
+  final String jobTag;
+
+  /// The Amazon SNS topic ARN that you want Amazon Textract to publish the
+  /// completion status of the operation to.
+  @_s.JsonKey(name: 'NotificationChannel')
+  final NotificationChannel notificationChannel;
+
+  StartDocumentAnalysisRequest({
+    @_s.required this.documentLocation,
+    @_s.required this.featureTypes,
+    this.clientRequestToken,
+    this.jobTag,
+    this.notificationChannel,
+  });
+  Map<String, dynamic> toJson() => _$StartDocumentAnalysisRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartDocumentAnalysisResponse {
@@ -1488,6 +1659,48 @@ class StartDocumentAnalysisResponse {
   });
   factory StartDocumentAnalysisResponse.fromJson(Map<String, dynamic> json) =>
       _$StartDocumentAnalysisResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartDocumentTextDetectionRequest {
+  /// The location of the document to be processed.
+  @_s.JsonKey(name: 'DocumentLocation')
+  final DocumentLocation documentLocation;
+
+  /// The idempotent token that's used to identify the start request. If you use
+  /// the same token with multiple <code>StartDocumentTextDetection</code>
+  /// requests, the same <code>JobId</code> is returned. Use
+  /// <code>ClientRequestToken</code> to prevent the same job from being
+  /// accidentally started more than once. For more information, see <a
+  /// href="https://docs.aws.amazon.com/textract/latest/dg/api-async.html">Calling
+  /// Amazon Textract Asynchronous Operations</a>.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// An identifier that you specify that's included in the completion
+  /// notification published to the Amazon SNS topic. For example, you can use
+  /// <code>JobTag</code> to identify the type of document that the completion
+  /// notification corresponds to (such as a tax form or a receipt).
+  @_s.JsonKey(name: 'JobTag')
+  final String jobTag;
+
+  /// The Amazon SNS topic ARN that you want Amazon Textract to publish the
+  /// completion status of the operation to.
+  @_s.JsonKey(name: 'NotificationChannel')
+  final NotificationChannel notificationChannel;
+
+  StartDocumentTextDetectionRequest({
+    @_s.required this.documentLocation,
+    this.clientRequestToken,
+    this.jobTag,
+    this.notificationChannel,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StartDocumentTextDetectionRequestToJson(this);
 }
 
 @_s.JsonSerializable(

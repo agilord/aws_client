@@ -6,6 +6,29 @@ part of 'directconnect-2012-10-25.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic>
+    _$AcceptDirectConnectGatewayAssociationProposalRequestToJson(
+        AcceptDirectConnectGatewayAssociationProposalRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'associatedGatewayOwnerAccount', instance.associatedGatewayOwnerAccount);
+  writeNotNull('directConnectGatewayId', instance.directConnectGatewayId);
+  writeNotNull('proposalId', instance.proposalId);
+  writeNotNull(
+      'overrideAllowedPrefixesToDirectConnectGateway',
+      instance.overrideAllowedPrefixesToDirectConnectGateway
+          ?.map((e) => e?.toJson())
+          ?.toList());
+  return val;
+}
+
 AcceptDirectConnectGatewayAssociationProposalResult
     _$AcceptDirectConnectGatewayAssociationProposalResultFromJson(
         Map<String, dynamic> json) {
@@ -18,6 +41,94 @@ AcceptDirectConnectGatewayAssociationProposalResult
   );
 }
 
+Map<String, dynamic> _$AllocateConnectionOnInterconnectRequestToJson(
+    AllocateConnectionOnInterconnectRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('bandwidth', instance.bandwidth);
+  writeNotNull('connectionName', instance.connectionName);
+  writeNotNull('interconnectId', instance.interconnectId);
+  writeNotNull('ownerAccount', instance.ownerAccount);
+  writeNotNull('vlan', instance.vlan);
+  return val;
+}
+
+Map<String, dynamic> _$AllocateHostedConnectionRequestToJson(
+    AllocateHostedConnectionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('bandwidth', instance.bandwidth);
+  writeNotNull('connectionId', instance.connectionId);
+  writeNotNull('connectionName', instance.connectionName);
+  writeNotNull('ownerAccount', instance.ownerAccount);
+  writeNotNull('vlan', instance.vlan);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+Map<String, dynamic> _$AllocatePrivateVirtualInterfaceRequestToJson(
+    AllocatePrivateVirtualInterfaceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('connectionId', instance.connectionId);
+  writeNotNull('newPrivateVirtualInterfaceAllocation',
+      instance.newPrivateVirtualInterfaceAllocation?.toJson());
+  writeNotNull('ownerAccount', instance.ownerAccount);
+  return val;
+}
+
+Map<String, dynamic> _$AllocatePublicVirtualInterfaceRequestToJson(
+    AllocatePublicVirtualInterfaceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('connectionId', instance.connectionId);
+  writeNotNull('newPublicVirtualInterfaceAllocation',
+      instance.newPublicVirtualInterfaceAllocation?.toJson());
+  writeNotNull('ownerAccount', instance.ownerAccount);
+  return val;
+}
+
+Map<String, dynamic> _$AllocateTransitVirtualInterfaceRequestToJson(
+    AllocateTransitVirtualInterfaceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('connectionId', instance.connectionId);
+  writeNotNull('newTransitVirtualInterfaceAllocation',
+      instance.newTransitVirtualInterfaceAllocation?.toJson());
+  writeNotNull('ownerAccount', instance.ownerAccount);
+  return val;
+}
+
 AllocateTransitVirtualInterfaceResult
     _$AllocateTransitVirtualInterfaceResultFromJson(Map<String, dynamic> json) {
   return AllocateTransitVirtualInterfaceResult(
@@ -26,6 +137,51 @@ AllocateTransitVirtualInterfaceResult
         : VirtualInterface.fromJson(
             json['virtualInterface'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$AssociateConnectionWithLagRequestToJson(
+    AssociateConnectionWithLagRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('connectionId', instance.connectionId);
+  writeNotNull('lagId', instance.lagId);
+  return val;
+}
+
+Map<String, dynamic> _$AssociateHostedConnectionRequestToJson(
+    AssociateHostedConnectionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('connectionId', instance.connectionId);
+  writeNotNull('parentConnectionId', instance.parentConnectionId);
+  return val;
+}
+
+Map<String, dynamic> _$AssociateVirtualInterfaceRequestToJson(
+    AssociateVirtualInterfaceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('connectionId', instance.connectionId);
+  writeNotNull('virtualInterfaceId', instance.virtualInterfaceId);
+  return val;
 }
 
 AssociatedGateway _$AssociatedGatewayFromJson(Map<String, dynamic> json) {
@@ -109,6 +265,20 @@ const _$BGPStatusEnumMap = {
   BGPStatus.unknown: 'unknown',
 };
 
+Map<String, dynamic> _$ConfirmConnectionRequestToJson(
+    ConfirmConnectionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('connectionId', instance.connectionId);
+  return val;
+}
+
 ConfirmConnectionResponse _$ConfirmConnectionResponseFromJson(
     Map<String, dynamic> json) {
   return ConfirmConnectionResponse(
@@ -128,6 +298,22 @@ const _$ConnectionStateEnumMap = {
   ConnectionState.rejected: 'rejected',
   ConnectionState.unknown: 'unknown',
 };
+
+Map<String, dynamic> _$ConfirmPrivateVirtualInterfaceRequestToJson(
+    ConfirmPrivateVirtualInterfaceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('virtualInterfaceId', instance.virtualInterfaceId);
+  writeNotNull('directConnectGatewayId', instance.directConnectGatewayId);
+  writeNotNull('virtualGatewayId', instance.virtualGatewayId);
+  return val;
+}
 
 ConfirmPrivateVirtualInterfaceResponse
     _$ConfirmPrivateVirtualInterfaceResponseFromJson(
@@ -150,12 +336,41 @@ const _$VirtualInterfaceStateEnumMap = {
   VirtualInterfaceState.unknown: 'unknown',
 };
 
+Map<String, dynamic> _$ConfirmPublicVirtualInterfaceRequestToJson(
+    ConfirmPublicVirtualInterfaceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('virtualInterfaceId', instance.virtualInterfaceId);
+  return val;
+}
+
 ConfirmPublicVirtualInterfaceResponse
     _$ConfirmPublicVirtualInterfaceResponseFromJson(Map<String, dynamic> json) {
   return ConfirmPublicVirtualInterfaceResponse(
     virtualInterfaceState: _$enumDecodeNullable(
         _$VirtualInterfaceStateEnumMap, json['virtualInterfaceState']),
   );
+}
+
+Map<String, dynamic> _$ConfirmTransitVirtualInterfaceRequestToJson(
+    ConfirmTransitVirtualInterfaceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('directConnectGatewayId', instance.directConnectGatewayId);
+  writeNotNull('virtualInterfaceId', instance.virtualInterfaceId);
+  return val;
 }
 
 ConfirmTransitVirtualInterfaceResponse
@@ -208,6 +423,21 @@ Connections _$ConnectionsFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateBGPPeerRequestToJson(
+    CreateBGPPeerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('newBGPPeer', instance.newBGPPeer?.toJson());
+  writeNotNull('virtualInterfaceId', instance.virtualInterfaceId);
+  return val;
+}
+
 CreateBGPPeerResponse _$CreateBGPPeerResponseFromJson(
     Map<String, dynamic> json) {
   return CreateBGPPeerResponse(
@@ -216,6 +446,53 @@ CreateBGPPeerResponse _$CreateBGPPeerResponseFromJson(
         : VirtualInterface.fromJson(
             json['virtualInterface'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateConnectionRequestToJson(
+    CreateConnectionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('bandwidth', instance.bandwidth);
+  writeNotNull('connectionName', instance.connectionName);
+  writeNotNull('location', instance.location);
+  writeNotNull('lagId', instance.lagId);
+  writeNotNull('providerName', instance.providerName);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+Map<String, dynamic>
+    _$CreateDirectConnectGatewayAssociationProposalRequestToJson(
+        CreateDirectConnectGatewayAssociationProposalRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('directConnectGatewayId', instance.directConnectGatewayId);
+  writeNotNull('directConnectGatewayOwnerAccount',
+      instance.directConnectGatewayOwnerAccount);
+  writeNotNull('gatewayId', instance.gatewayId);
+  writeNotNull(
+      'addAllowedPrefixesToDirectConnectGateway',
+      instance.addAllowedPrefixesToDirectConnectGateway
+          ?.map((e) => e?.toJson())
+          ?.toList());
+  writeNotNull(
+      'removeAllowedPrefixesToDirectConnectGateway',
+      instance.removeAllowedPrefixesToDirectConnectGateway
+          ?.map((e) => e?.toJson())
+          ?.toList());
+  return val;
 }
 
 CreateDirectConnectGatewayAssociationProposalResult
@@ -231,6 +508,27 @@ CreateDirectConnectGatewayAssociationProposalResult
   );
 }
 
+Map<String, dynamic> _$CreateDirectConnectGatewayAssociationRequestToJson(
+    CreateDirectConnectGatewayAssociationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('directConnectGatewayId', instance.directConnectGatewayId);
+  writeNotNull(
+      'addAllowedPrefixesToDirectConnectGateway',
+      instance.addAllowedPrefixesToDirectConnectGateway
+          ?.map((e) => e?.toJson())
+          ?.toList());
+  writeNotNull('gatewayId', instance.gatewayId);
+  writeNotNull('virtualGatewayId', instance.virtualGatewayId);
+  return val;
+}
+
 CreateDirectConnectGatewayAssociationResult
     _$CreateDirectConnectGatewayAssociationResultFromJson(
         Map<String, dynamic> json) {
@@ -243,6 +541,21 @@ CreateDirectConnectGatewayAssociationResult
   );
 }
 
+Map<String, dynamic> _$CreateDirectConnectGatewayRequestToJson(
+    CreateDirectConnectGatewayRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('directConnectGatewayName', instance.directConnectGatewayName);
+  writeNotNull('amazonSideAsn', instance.amazonSideAsn);
+  return val;
+}
+
 CreateDirectConnectGatewayResult _$CreateDirectConnectGatewayResultFromJson(
     Map<String, dynamic> json) {
   return CreateDirectConnectGatewayResult(
@@ -251,6 +564,94 @@ CreateDirectConnectGatewayResult _$CreateDirectConnectGatewayResultFromJson(
         : DirectConnectGateway.fromJson(
             json['directConnectGateway'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateInterconnectRequestToJson(
+    CreateInterconnectRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('bandwidth', instance.bandwidth);
+  writeNotNull('interconnectName', instance.interconnectName);
+  writeNotNull('location', instance.location);
+  writeNotNull('lagId', instance.lagId);
+  writeNotNull('providerName', instance.providerName);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+Map<String, dynamic> _$CreateLagRequestToJson(CreateLagRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('connectionsBandwidth', instance.connectionsBandwidth);
+  writeNotNull('lagName', instance.lagName);
+  writeNotNull('location', instance.location);
+  writeNotNull('numberOfConnections', instance.numberOfConnections);
+  writeNotNull('childConnectionTags',
+      instance.childConnectionTags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('connectionId', instance.connectionId);
+  writeNotNull('providerName', instance.providerName);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+Map<String, dynamic> _$CreatePrivateVirtualInterfaceRequestToJson(
+    CreatePrivateVirtualInterfaceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('connectionId', instance.connectionId);
+  writeNotNull('newPrivateVirtualInterface',
+      instance.newPrivateVirtualInterface?.toJson());
+  return val;
+}
+
+Map<String, dynamic> _$CreatePublicVirtualInterfaceRequestToJson(
+    CreatePublicVirtualInterfaceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('connectionId', instance.connectionId);
+  writeNotNull('newPublicVirtualInterface',
+      instance.newPublicVirtualInterface?.toJson());
+  return val;
+}
+
+Map<String, dynamic> _$CreateTransitVirtualInterfaceRequestToJson(
+    CreateTransitVirtualInterfaceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('connectionId', instance.connectionId);
+  writeNotNull('newTransitVirtualInterface',
+      instance.newTransitVirtualInterface?.toJson());
+  return val;
 }
 
 CreateTransitVirtualInterfaceResult
@@ -263,6 +664,23 @@ CreateTransitVirtualInterfaceResult
   );
 }
 
+Map<String, dynamic> _$DeleteBGPPeerRequestToJson(
+    DeleteBGPPeerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('asn', instance.asn);
+  writeNotNull('bgpPeerId', instance.bgpPeerId);
+  writeNotNull('customerAddress', instance.customerAddress);
+  writeNotNull('virtualInterfaceId', instance.virtualInterfaceId);
+  return val;
+}
+
 DeleteBGPPeerResponse _$DeleteBGPPeerResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteBGPPeerResponse(
@@ -271,6 +689,35 @@ DeleteBGPPeerResponse _$DeleteBGPPeerResponseFromJson(
         : VirtualInterface.fromJson(
             json['virtualInterface'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DeleteConnectionRequestToJson(
+    DeleteConnectionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('connectionId', instance.connectionId);
+  return val;
+}
+
+Map<String, dynamic>
+    _$DeleteDirectConnectGatewayAssociationProposalRequestToJson(
+        DeleteDirectConnectGatewayAssociationProposalRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('proposalId', instance.proposalId);
+  return val;
 }
 
 DeleteDirectConnectGatewayAssociationProposalResult
@@ -286,6 +733,22 @@ DeleteDirectConnectGatewayAssociationProposalResult
   );
 }
 
+Map<String, dynamic> _$DeleteDirectConnectGatewayAssociationRequestToJson(
+    DeleteDirectConnectGatewayAssociationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('associationId', instance.associationId);
+  writeNotNull('directConnectGatewayId', instance.directConnectGatewayId);
+  writeNotNull('virtualGatewayId', instance.virtualGatewayId);
+  return val;
+}
+
 DeleteDirectConnectGatewayAssociationResult
     _$DeleteDirectConnectGatewayAssociationResultFromJson(
         Map<String, dynamic> json) {
@@ -298,6 +761,20 @@ DeleteDirectConnectGatewayAssociationResult
   );
 }
 
+Map<String, dynamic> _$DeleteDirectConnectGatewayRequestToJson(
+    DeleteDirectConnectGatewayRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('directConnectGatewayId', instance.directConnectGatewayId);
+  return val;
+}
+
 DeleteDirectConnectGatewayResult _$DeleteDirectConnectGatewayResultFromJson(
     Map<String, dynamic> json) {
   return DeleteDirectConnectGatewayResult(
@@ -306,6 +783,20 @@ DeleteDirectConnectGatewayResult _$DeleteDirectConnectGatewayResultFromJson(
         : DirectConnectGateway.fromJson(
             json['directConnectGateway'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DeleteInterconnectRequestToJson(
+    DeleteInterconnectRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('interconnectId', instance.interconnectId);
+  return val;
 }
 
 DeleteInterconnectResponse _$DeleteInterconnectResponseFromJson(
@@ -326,6 +817,33 @@ const _$InterconnectStateEnumMap = {
   InterconnectState.unknown: 'unknown',
 };
 
+Map<String, dynamic> _$DeleteLagRequestToJson(DeleteLagRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('lagId', instance.lagId);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteVirtualInterfaceRequestToJson(
+    DeleteVirtualInterfaceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('virtualInterfaceId', instance.virtualInterfaceId);
+  return val;
+}
+
 DeleteVirtualInterfaceResponse _$DeleteVirtualInterfaceResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteVirtualInterfaceResponse(
@@ -334,6 +852,27 @@ DeleteVirtualInterfaceResponse _$DeleteVirtualInterfaceResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeConnectionLoaRequestToJson(
+    DescribeConnectionLoaRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('connectionId', instance.connectionId);
+  writeNotNull(
+      'loaContentType', _$LoaContentTypeEnumMap[instance.loaContentType]);
+  writeNotNull('providerName', instance.providerName);
+  return val;
+}
+
+const _$LoaContentTypeEnumMap = {
+  LoaContentType.applicationPdf: 'application/pdf',
+};
+
 DescribeConnectionLoaResponse _$DescribeConnectionLoaResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeConnectionLoaResponse(
@@ -341,6 +880,53 @@ DescribeConnectionLoaResponse _$DescribeConnectionLoaResponseFromJson(
         ? null
         : Loa.fromJson(json['loa'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeConnectionsOnInterconnectRequestToJson(
+    DescribeConnectionsOnInterconnectRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('interconnectId', instance.interconnectId);
+  return val;
+}
+
+Map<String, dynamic> _$DescribeConnectionsRequestToJson(
+    DescribeConnectionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('connectionId', instance.connectionId);
+  return val;
+}
+
+Map<String, dynamic>
+    _$DescribeDirectConnectGatewayAssociationProposalsRequestToJson(
+        DescribeDirectConnectGatewayAssociationProposalsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('associatedGatewayId', instance.associatedGatewayId);
+  writeNotNull('directConnectGatewayId', instance.directConnectGatewayId);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('proposalId', instance.proposalId);
+  return val;
 }
 
 DescribeDirectConnectGatewayAssociationProposalsResult
@@ -358,6 +944,25 @@ DescribeDirectConnectGatewayAssociationProposalsResult
   );
 }
 
+Map<String, dynamic> _$DescribeDirectConnectGatewayAssociationsRequestToJson(
+    DescribeDirectConnectGatewayAssociationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('associatedGatewayId', instance.associatedGatewayId);
+  writeNotNull('associationId', instance.associationId);
+  writeNotNull('directConnectGatewayId', instance.directConnectGatewayId);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('virtualGatewayId', instance.virtualGatewayId);
+  return val;
+}
+
 DescribeDirectConnectGatewayAssociationsResult
     _$DescribeDirectConnectGatewayAssociationsResultFromJson(
         Map<String, dynamic> json) {
@@ -371,6 +976,23 @@ DescribeDirectConnectGatewayAssociationsResult
             ?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeDirectConnectGatewayAttachmentsRequestToJson(
+    DescribeDirectConnectGatewayAttachmentsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('directConnectGatewayId', instance.directConnectGatewayId);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('virtualInterfaceId', instance.virtualInterfaceId);
+  return val;
 }
 
 DescribeDirectConnectGatewayAttachmentsResult
@@ -388,6 +1010,22 @@ DescribeDirectConnectGatewayAttachmentsResult
   );
 }
 
+Map<String, dynamic> _$DescribeDirectConnectGatewaysRequestToJson(
+    DescribeDirectConnectGatewaysRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('directConnectGatewayId', instance.directConnectGatewayId);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 DescribeDirectConnectGatewaysResult
     _$DescribeDirectConnectGatewaysResultFromJson(Map<String, dynamic> json) {
   return DescribeDirectConnectGatewaysResult(
@@ -400,6 +1038,37 @@ DescribeDirectConnectGatewaysResult
   );
 }
 
+Map<String, dynamic> _$DescribeHostedConnectionsRequestToJson(
+    DescribeHostedConnectionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('connectionId', instance.connectionId);
+  return val;
+}
+
+Map<String, dynamic> _$DescribeInterconnectLoaRequestToJson(
+    DescribeInterconnectLoaRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('interconnectId', instance.interconnectId);
+  writeNotNull(
+      'loaContentType', _$LoaContentTypeEnumMap[instance.loaContentType]);
+  writeNotNull('providerName', instance.providerName);
+  return val;
+}
+
 DescribeInterconnectLoaResponse _$DescribeInterconnectLoaResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeInterconnectLoaResponse(
@@ -409,6 +1078,62 @@ DescribeInterconnectLoaResponse _$DescribeInterconnectLoaResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeInterconnectsRequestToJson(
+    DescribeInterconnectsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('interconnectId', instance.interconnectId);
+  return val;
+}
+
+Map<String, dynamic> _$DescribeLagsRequestToJson(DescribeLagsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('lagId', instance.lagId);
+  return val;
+}
+
+Map<String, dynamic> _$DescribeLoaRequestToJson(DescribeLoaRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('connectionId', instance.connectionId);
+  writeNotNull(
+      'loaContentType', _$LoaContentTypeEnumMap[instance.loaContentType]);
+  writeNotNull('providerName', instance.providerName);
+  return val;
+}
+
+Map<String, dynamic> _$DescribeTagsRequestToJson(DescribeTagsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceArns', instance.resourceArns);
+  return val;
+}
+
 DescribeTagsResponse _$DescribeTagsResponseFromJson(Map<String, dynamic> json) {
   return DescribeTagsResponse(
     resourceTags: (json['resourceTags'] as List)
@@ -416,6 +1141,21 @@ DescribeTagsResponse _$DescribeTagsResponseFromJson(Map<String, dynamic> json) {
             e == null ? null : ResourceTag.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeVirtualInterfacesRequestToJson(
+    DescribeVirtualInterfacesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('connectionId', instance.connectionId);
+  writeNotNull('virtualInterfaceId', instance.virtualInterfaceId);
+  return val;
 }
 
 DirectConnectGateway _$DirectConnectGatewayFromJson(Map<String, dynamic> json) {
@@ -538,6 +1278,21 @@ const _$DirectConnectGatewayAttachmentTypeEnumMap = {
       'PrivateVirtualInterface',
 };
 
+Map<String, dynamic> _$DisassociateConnectionFromLagRequestToJson(
+    DisassociateConnectionFromLagRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('connectionId', instance.connectionId);
+  writeNotNull('lagId', instance.lagId);
+  return val;
+}
+
 Interconnect _$InterconnectFromJson(Map<String, dynamic> json) {
   return Interconnect(
     awsDevice: json['awsDevice'] as String,
@@ -624,10 +1379,6 @@ Loa _$LoaFromJson(Map<String, dynamic> json) {
         _$enumDecodeNullable(_$LoaContentTypeEnumMap, json['loaContentType']),
   );
 }
-
-const _$LoaContentTypeEnumMap = {
-  LoaContentType.applicationPdf: 'application/pdf',
-};
 
 Location _$LocationFromJson(Map<String, dynamic> json) {
   return Location(
@@ -854,13 +1605,66 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
   return val;
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceArn', instance.resourceArn);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
+}
+
+Map<String, dynamic> _$UntagResourceRequestToJson(
+    UntagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceArn', instance.resourceArn);
+  writeNotNull('tagKeys', instance.tagKeys);
+  return val;
 }
 
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse();
+}
+
+Map<String, dynamic> _$UpdateDirectConnectGatewayAssociationRequestToJson(
+    UpdateDirectConnectGatewayAssociationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'addAllowedPrefixesToDirectConnectGateway',
+      instance.addAllowedPrefixesToDirectConnectGateway
+          ?.map((e) => e?.toJson())
+          ?.toList());
+  writeNotNull('associationId', instance.associationId);
+  writeNotNull(
+      'removeAllowedPrefixesToDirectConnectGateway',
+      instance.removeAllowedPrefixesToDirectConnectGateway
+          ?.map((e) => e?.toJson())
+          ?.toList());
+  return val;
 }
 
 UpdateDirectConnectGatewayAssociationResult
@@ -873,6 +1677,36 @@ UpdateDirectConnectGatewayAssociationResult
         : DirectConnectGatewayAssociation.fromJson(
             json['directConnectGatewayAssociation'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateLagRequestToJson(UpdateLagRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('lagId', instance.lagId);
+  writeNotNull('lagName', instance.lagName);
+  writeNotNull('minimumLinks', instance.minimumLinks);
+  return val;
+}
+
+Map<String, dynamic> _$UpdateVirtualInterfaceAttributesRequestToJson(
+    UpdateVirtualInterfaceAttributesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('virtualInterfaceId', instance.virtualInterfaceId);
+  writeNotNull('mtu', instance.mtu);
+  return val;
 }
 
 VirtualGateway _$VirtualGatewayFromJson(Map<String, dynamic> json) {

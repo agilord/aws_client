@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -124,12 +123,12 @@ class KinesisVideoSignalingChannels {
       username,
       r'''[a-zA-Z0-9_.-]+''',
     );
-    final $payload = <String, dynamic>{
-      'ChannelARN': channelARN,
-      if (clientId != null) 'ClientId': clientId,
-      if (service != null) 'Service': service?.toValue(),
-      if (username != null) 'Username': username,
-    };
+    final $payload = GetIceServerConfigRequest(
+      channelARN: channelARN,
+      clientId: clientId,
+      service: service,
+      username: username,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -208,11 +207,11 @@ class KinesisVideoSignalingChannels {
       r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'ChannelARN': channelARN,
-      'MessagePayload': messagePayload,
-      'SenderClientId': senderClientId,
-    };
+    final $payload = SendAlexaOfferToMasterRequest(
+      channelARN: channelARN,
+      messagePayload: messagePayload,
+      senderClientId: senderClientId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -221,6 +220,40 @@ class KinesisVideoSignalingChannels {
     );
     return SendAlexaOfferToMasterResponse.fromJson(response);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetIceServerConfigRequest {
+  /// The ARN of the signaling channel to be used for the peer-to-peer connection
+  /// between configured peers.
+  @_s.JsonKey(name: 'ChannelARN')
+  final String channelARN;
+
+  /// Unique identifier for the viewer. Must be unique within the signaling
+  /// channel.
+  @_s.JsonKey(name: 'ClientId')
+  final String clientId;
+
+  /// Specifies the desired service. Currently, <code>TURN</code> is the only
+  /// valid value.
+  @_s.JsonKey(name: 'Service')
+  final Service service;
+
+  /// An optional user ID to be associated with the credentials.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  GetIceServerConfigRequest({
+    @_s.required this.channelARN,
+    this.clientId,
+    this.service,
+    this.username,
+  });
+  Map<String, dynamic> toJson() => _$GetIceServerConfigRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -280,6 +313,33 @@ class IceServer {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SendAlexaOfferToMasterRequest {
+  /// The ARN of the signaling channel by which Alexa and the master peer
+  /// communicate.
+  @_s.JsonKey(name: 'ChannelARN')
+  final String channelARN;
+
+  /// The base64-encoded SDP offer content.
+  @_s.JsonKey(name: 'MessagePayload')
+  final String messagePayload;
+
+  /// The unique identifier for the sender client.
+  @_s.JsonKey(name: 'SenderClientId')
+  final String senderClientId;
+
+  SendAlexaOfferToMasterRequest({
+    @_s.required this.channelARN,
+    @_s.required this.messagePayload,
+    @_s.required this.senderClientId,
+  });
+  Map<String, dynamic> toJson() => _$SendAlexaOfferToMasterRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class SendAlexaOfferToMasterResponse {
@@ -297,16 +357,6 @@ class SendAlexaOfferToMasterResponse {
 enum Service {
   @_s.JsonValue('TURN')
   turn,
-}
-
-extension on Service {
-  String toValue() {
-    switch (this) {
-      case Service.turn:
-        return 'TURN';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 class ClientLimitExceededException extends _s.GenericAwsException {

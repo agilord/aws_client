@@ -6,6 +6,22 @@ part of 'schemas-2019-12-02.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$CreateDiscovererRequestToJson(
+    CreateDiscovererRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SourceArn', instance.sourceArn);
+  writeNotNull('Description', instance.description);
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
 CreateDiscovererResponse _$CreateDiscovererResponseFromJson(
     Map<String, dynamic> json) {
   return CreateDiscovererResponse(
@@ -57,6 +73,21 @@ const _$DiscovererStateEnumMap = {
   DiscovererState.stopped: 'STOPPED',
 };
 
+Map<String, dynamic> _$CreateRegistryRequestToJson(
+    CreateRegistryRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Description', instance.description);
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
 CreateRegistryResponse _$CreateRegistryResponseFromJson(
     Map<String, dynamic> json) {
   return CreateRegistryResponse(
@@ -68,6 +99,26 @@ CreateRegistryResponse _$CreateRegistryResponseFromJson(
     ),
   );
 }
+
+Map<String, dynamic> _$CreateSchemaRequestToJson(CreateSchemaRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Content', instance.content);
+  writeNotNull('Type', _$TypeEnumMap[instance.type]);
+  writeNotNull('Description', instance.description);
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
+const _$TypeEnumMap = {
+  Type.openApi3: 'OpenApi3',
+};
 
 CreateSchemaResponse _$CreateSchemaResponseFromJson(Map<String, dynamic> json) {
   return CreateSchemaResponse(
@@ -83,6 +134,22 @@ CreateSchemaResponse _$CreateSchemaResponseFromJson(Map<String, dynamic> json) {
     versionCreatedDate: iso8601FromJson(json['VersionCreatedDate'] as String),
   );
 }
+
+Map<String, dynamic> _$DeleteDiscovererRequestToJson(
+        DeleteDiscovererRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteRegistryRequestToJson(
+        DeleteRegistryRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteSchemaRequestToJson(
+        DeleteSchemaRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteSchemaVersionRequestToJson(
+        DeleteSchemaVersionRequest instance) =>
+    <String, dynamic>{};
 
 DescribeCodeBindingResponse _$DescribeCodeBindingResponseFromJson(
     Map<String, dynamic> json) {
@@ -162,6 +229,21 @@ GetCodeBindingSourceResponse _$GetCodeBindingSourceResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$GetDiscoveredSchemaRequestToJson(
+    GetDiscoveredSchemaRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Events', instance.events);
+  writeNotNull('Type', _$TypeEnumMap[instance.type]);
+  return val;
+}
+
 GetDiscoveredSchemaResponse _$GetDiscoveredSchemaResponseFromJson(
     Map<String, dynamic> json) {
   return GetDiscoveredSchemaResponse(
@@ -225,6 +307,21 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$LockServiceLinkedRoleRequestToJson(
+    LockServiceLinkedRoleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RoleArn', instance.roleArn);
+  writeNotNull('Timeout', instance.timeout);
+  return val;
+}
+
 LockServiceLinkedRoleResponse _$LockServiceLinkedRoleResponseFromJson(
     Map<String, dynamic> json) {
   return LockServiceLinkedRoleResponse(
@@ -237,6 +334,10 @@ LockServiceLinkedRoleResponse _$LockServiceLinkedRoleResponseFromJson(
         ?.toList(),
   );
 }
+
+Map<String, dynamic> _$PutCodeBindingRequestToJson(
+        PutCodeBindingRequest instance) =>
+    <String, dynamic>{};
 
 PutCodeBindingResponse _$PutCodeBindingResponseFromJson(
     Map<String, dynamic> json) {
@@ -311,6 +412,10 @@ SearchSchemasResponse _$SearchSchemasResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$StartDiscovererRequestToJson(
+        StartDiscovererRequest instance) =>
+    <String, dynamic>{};
+
 StartDiscovererResponse _$StartDiscovererResponseFromJson(
     Map<String, dynamic> json) {
   return StartDiscovererResponse(
@@ -318,6 +423,10 @@ StartDiscovererResponse _$StartDiscovererResponseFromJson(
     state: _$enumDecodeNullable(_$DiscovererStateEnumMap, json['State']),
   );
 }
+
+Map<String, dynamic> _$StopDiscovererRequestToJson(
+        StopDiscovererRequest instance) =>
+    <String, dynamic>{};
 
 StopDiscovererResponse _$StopDiscovererResponseFromJson(
     Map<String, dynamic> json) {
@@ -327,9 +436,54 @@ StopDiscovererResponse _$StopDiscovererResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
+Map<String, dynamic> _$UnlockServiceLinkedRoleRequestToJson(
+    UnlockServiceLinkedRoleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RoleArn', instance.roleArn);
+  return val;
+}
+
 UnlockServiceLinkedRoleResponse _$UnlockServiceLinkedRoleResponseFromJson(
     Map<String, dynamic> json) {
   return UnlockServiceLinkedRoleResponse();
+}
+
+Map<String, dynamic> _$UntagResourceRequestToJson(
+        UntagResourceRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$UpdateDiscovererRequestToJson(
+    UpdateDiscovererRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Description', instance.description);
+  return val;
 }
 
 UpdateDiscovererResponse _$UpdateDiscovererResponseFromJson(
@@ -346,6 +500,20 @@ UpdateDiscovererResponse _$UpdateDiscovererResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateRegistryRequestToJson(
+    UpdateRegistryRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Description', instance.description);
+  return val;
+}
+
 UpdateRegistryResponse _$UpdateRegistryResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateRegistryResponse(
@@ -356,6 +524,22 @@ UpdateRegistryResponse _$UpdateRegistryResponseFromJson(
       (k, e) => MapEntry(k, e as String),
     ),
   );
+}
+
+Map<String, dynamic> _$UpdateSchemaRequestToJson(UpdateSchemaRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClientTokenId', instance.clientTokenId);
+  writeNotNull('Content', instance.content);
+  writeNotNull('Description', instance.description);
+  writeNotNull('Type', _$TypeEnumMap[instance.type]);
+  return val;
 }
 
 UpdateSchemaResponse _$UpdateSchemaResponseFromJson(Map<String, dynamic> json) {

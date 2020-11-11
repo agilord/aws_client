@@ -30,6 +30,32 @@ Activation _$ActivationFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$AddTagsToResourceRequestToJson(
+    AddTagsToResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceId', instance.resourceId);
+  writeNotNull(
+      'ResourceType', _$ResourceTypeForTaggingEnumMap[instance.resourceType]);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+const _$ResourceTypeForTaggingEnumMap = {
+  ResourceTypeForTagging.document: 'Document',
+  ResourceTypeForTagging.managedInstance: 'ManagedInstance',
+  ResourceTypeForTagging.maintenanceWindow: 'MaintenanceWindow',
+  ResourceTypeForTagging.parameter: 'Parameter',
+  ResourceTypeForTagging.patchBaseline: 'PatchBaseline',
+  ResourceTypeForTagging.opsItem: 'OpsItem',
+};
+
 AddTagsToResourceResult _$AddTagsToResourceResultFromJson(
     Map<String, dynamic> json) {
   return AddTagsToResourceResult();
@@ -504,8 +530,37 @@ const _$AutomationTypeEnumMap = {
   AutomationType.local: 'Local',
 };
 
+Map<String, dynamic> _$CancelCommandRequestToJson(
+    CancelCommandRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CommandId', instance.commandId);
+  writeNotNull('InstanceIds', instance.instanceIds);
+  return val;
+}
+
 CancelCommandResult _$CancelCommandResultFromJson(Map<String, dynamic> json) {
   return CancelCommandResult();
+}
+
+Map<String, dynamic> _$CancelMaintenanceWindowExecutionRequestToJson(
+    CancelMaintenanceWindowExecutionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('WindowExecutionId', instance.windowExecutionId);
+  return val;
 }
 
 CancelMaintenanceWindowExecutionResult
@@ -806,12 +861,45 @@ CompliantSummary _$CompliantSummaryFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateActivationRequestToJson(
+    CreateActivationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('IamRole', instance.iamRole);
+  writeNotNull('DefaultInstanceName', instance.defaultInstanceName);
+  writeNotNull('Description', instance.description);
+  writeNotNull('ExpirationDate', unixTimestampToJson(instance.expirationDate));
+  writeNotNull('RegistrationLimit', instance.registrationLimit);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateActivationResult _$CreateActivationResultFromJson(
     Map<String, dynamic> json) {
   return CreateActivationResult(
     activationCode: json['ActivationCode'] as String,
     activationId: json['ActivationId'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateAssociationBatchRequestToJson(
+    CreateAssociationBatchRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Entries', instance.entries?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateAssociationBatchRequestEntry _$CreateAssociationBatchRequestEntryFromJson(
@@ -885,6 +973,33 @@ CreateAssociationBatchResult _$CreateAssociationBatchResultFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateAssociationRequestToJson(
+    CreateAssociationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('AssociationName', instance.associationName);
+  writeNotNull(
+      'AutomationTargetParameterName', instance.automationTargetParameterName);
+  writeNotNull('ComplianceSeverity',
+      _$AssociationComplianceSeverityEnumMap[instance.complianceSeverity]);
+  writeNotNull('DocumentVersion', instance.documentVersion);
+  writeNotNull('InstanceId', instance.instanceId);
+  writeNotNull('MaxConcurrency', instance.maxConcurrency);
+  writeNotNull('MaxErrors', instance.maxErrors);
+  writeNotNull('OutputLocation', instance.outputLocation?.toJson());
+  writeNotNull('Parameters', instance.parameters);
+  writeNotNull('ScheduleExpression', instance.scheduleExpression);
+  writeNotNull('Targets', instance.targets?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateAssociationResult _$CreateAssociationResultFromJson(
     Map<String, dynamic> json) {
   return CreateAssociationResult(
@@ -895,6 +1010,49 @@ CreateAssociationResult _$CreateAssociationResultFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateDocumentRequestToJson(
+    CreateDocumentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Content', instance.content);
+  writeNotNull('Name', instance.name);
+  writeNotNull(
+      'Attachments', instance.attachments?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'DocumentFormat', _$DocumentFormatEnumMap[instance.documentFormat]);
+  writeNotNull('DocumentType', _$DocumentTypeEnumMap[instance.documentType]);
+  writeNotNull(
+      'Requires', instance.requires?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('TargetType', instance.targetType);
+  writeNotNull('VersionName', instance.versionName);
+  return val;
+}
+
+const _$DocumentFormatEnumMap = {
+  DocumentFormat.yaml: 'YAML',
+  DocumentFormat.json: 'JSON',
+  DocumentFormat.text: 'TEXT',
+};
+
+const _$DocumentTypeEnumMap = {
+  DocumentType.command: 'Command',
+  DocumentType.policy: 'Policy',
+  DocumentType.automation: 'Automation',
+  DocumentType.session: 'Session',
+  DocumentType.package: 'Package',
+  DocumentType.applicationConfiguration: 'ApplicationConfiguration',
+  DocumentType.applicationConfigurationSchema: 'ApplicationConfigurationSchema',
+  DocumentType.deploymentStrategy: 'DeploymentStrategy',
+  DocumentType.changeCalendar: 'ChangeCalendar',
+};
+
 CreateDocumentResult _$CreateDocumentResultFromJson(Map<String, dynamic> json) {
   return CreateDocumentResult(
     documentDescription: json['DocumentDescription'] == null
@@ -904,11 +1062,61 @@ CreateDocumentResult _$CreateDocumentResultFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateMaintenanceWindowRequestToJson(
+    CreateMaintenanceWindowRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AllowUnassociatedTargets', instance.allowUnassociatedTargets);
+  writeNotNull('Cutoff', instance.cutoff);
+  writeNotNull('Duration', instance.duration);
+  writeNotNull('Name', instance.name);
+  writeNotNull('Schedule', instance.schedule);
+  writeNotNull('ClientToken', instance.clientToken);
+  writeNotNull('Description', instance.description);
+  writeNotNull('EndDate', instance.endDate);
+  writeNotNull('ScheduleTimezone', instance.scheduleTimezone);
+  writeNotNull('StartDate', instance.startDate);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateMaintenanceWindowResult _$CreateMaintenanceWindowResultFromJson(
     Map<String, dynamic> json) {
   return CreateMaintenanceWindowResult(
     windowId: json['WindowId'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateOpsItemRequestToJson(
+    CreateOpsItemRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Description', instance.description);
+  writeNotNull('Source', instance.source);
+  writeNotNull('Title', instance.title);
+  writeNotNull('Category', instance.category);
+  writeNotNull('Notifications',
+      instance.notifications?.map((e) => e?.toJson())?.toList());
+  writeNotNull('OperationalData',
+      instance.operationalData?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('Priority', instance.priority);
+  writeNotNull('RelatedOpsItems',
+      instance.relatedOpsItems?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Severity', instance.severity);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateOpsItemResponse _$CreateOpsItemResponseFromJson(
@@ -918,6 +1126,60 @@ CreateOpsItemResponse _$CreateOpsItemResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreatePatchBaselineRequestToJson(
+    CreatePatchBaselineRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('ApprovalRules', instance.approvalRules?.toJson());
+  writeNotNull('ApprovedPatches', instance.approvedPatches);
+  writeNotNull('ApprovedPatchesComplianceLevel',
+      _$PatchComplianceLevelEnumMap[instance.approvedPatchesComplianceLevel]);
+  writeNotNull('ApprovedPatchesEnableNonSecurity',
+      instance.approvedPatchesEnableNonSecurity);
+  writeNotNull('ClientToken', instance.clientToken);
+  writeNotNull('Description', instance.description);
+  writeNotNull('GlobalFilters', instance.globalFilters?.toJson());
+  writeNotNull(
+      'OperatingSystem', _$OperatingSystemEnumMap[instance.operatingSystem]);
+  writeNotNull('RejectedPatches', instance.rejectedPatches);
+  writeNotNull('RejectedPatchesAction',
+      _$PatchActionEnumMap[instance.rejectedPatchesAction]);
+  writeNotNull('Sources', instance.sources?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+const _$PatchComplianceLevelEnumMap = {
+  PatchComplianceLevel.critical: 'CRITICAL',
+  PatchComplianceLevel.high: 'HIGH',
+  PatchComplianceLevel.medium: 'MEDIUM',
+  PatchComplianceLevel.low: 'LOW',
+  PatchComplianceLevel.informational: 'INFORMATIONAL',
+  PatchComplianceLevel.unspecified: 'UNSPECIFIED',
+};
+
+const _$OperatingSystemEnumMap = {
+  OperatingSystem.windows: 'WINDOWS',
+  OperatingSystem.amazonLinux: 'AMAZON_LINUX',
+  OperatingSystem.amazonLinux_2: 'AMAZON_LINUX_2',
+  OperatingSystem.ubuntu: 'UBUNTU',
+  OperatingSystem.redhatEnterpriseLinux: 'REDHAT_ENTERPRISE_LINUX',
+  OperatingSystem.suse: 'SUSE',
+  OperatingSystem.centos: 'CENTOS',
+};
+
+const _$PatchActionEnumMap = {
+  PatchAction.allowAsDependency: 'ALLOW_AS_DEPENDENCY',
+  PatchAction.block: 'BLOCK',
+};
+
 CreatePatchBaselineResult _$CreatePatchBaselineResultFromJson(
     Map<String, dynamic> json) {
   return CreatePatchBaselineResult(
@@ -925,9 +1187,40 @@ CreatePatchBaselineResult _$CreatePatchBaselineResultFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateResourceDataSyncRequestToJson(
+    CreateResourceDataSyncRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SyncName', instance.syncName);
+  writeNotNull('S3Destination', instance.s3Destination?.toJson());
+  writeNotNull('SyncSource', instance.syncSource?.toJson());
+  writeNotNull('SyncType', instance.syncType);
+  return val;
+}
+
 CreateResourceDataSyncResult _$CreateResourceDataSyncResultFromJson(
     Map<String, dynamic> json) {
   return CreateResourceDataSyncResult();
+}
+
+Map<String, dynamic> _$DeleteActivationRequestToJson(
+    DeleteActivationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ActivationId', instance.activationId);
+  return val;
 }
 
 DeleteActivationResult _$DeleteActivationResultFromJson(
@@ -935,14 +1228,70 @@ DeleteActivationResult _$DeleteActivationResultFromJson(
   return DeleteActivationResult();
 }
 
+Map<String, dynamic> _$DeleteAssociationRequestToJson(
+    DeleteAssociationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AssociationId', instance.associationId);
+  writeNotNull('InstanceId', instance.instanceId);
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
 DeleteAssociationResult _$DeleteAssociationResultFromJson(
     Map<String, dynamic> json) {
   return DeleteAssociationResult();
 }
 
+Map<String, dynamic> _$DeleteDocumentRequestToJson(
+    DeleteDocumentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('DocumentVersion', instance.documentVersion);
+  writeNotNull('Force', instance.force);
+  writeNotNull('VersionName', instance.versionName);
+  return val;
+}
+
 DeleteDocumentResult _$DeleteDocumentResultFromJson(Map<String, dynamic> json) {
   return DeleteDocumentResult();
 }
+
+Map<String, dynamic> _$DeleteInventoryRequestToJson(
+    DeleteInventoryRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TypeName', instance.typeName);
+  writeNotNull('ClientToken', instance.clientToken);
+  writeNotNull('DryRun', instance.dryRun);
+  writeNotNull('SchemaDeleteOption',
+      _$InventorySchemaDeleteOptionEnumMap[instance.schemaDeleteOption]);
+  return val;
+}
+
+const _$InventorySchemaDeleteOptionEnumMap = {
+  InventorySchemaDeleteOption.disableSchema: 'DisableSchema',
+  InventorySchemaDeleteOption.deleteSchema: 'DeleteSchema',
+};
 
 DeleteInventoryResult _$DeleteInventoryResultFromJson(
     Map<String, dynamic> json) {
@@ -956,6 +1305,20 @@ DeleteInventoryResult _$DeleteInventoryResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteMaintenanceWindowRequestToJson(
+    DeleteMaintenanceWindowRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('WindowId', instance.windowId);
+  return val;
+}
+
 DeleteMaintenanceWindowResult _$DeleteMaintenanceWindowResultFromJson(
     Map<String, dynamic> json) {
   return DeleteMaintenanceWindowResult(
@@ -963,9 +1326,37 @@ DeleteMaintenanceWindowResult _$DeleteMaintenanceWindowResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteParameterRequestToJson(
+    DeleteParameterRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
 DeleteParameterResult _$DeleteParameterResultFromJson(
     Map<String, dynamic> json) {
   return DeleteParameterResult();
+}
+
+Map<String, dynamic> _$DeleteParametersRequestToJson(
+    DeleteParametersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Names', instance.names);
+  return val;
 }
 
 DeleteParametersResult _$DeleteParametersResultFromJson(
@@ -978,6 +1369,20 @@ DeleteParametersResult _$DeleteParametersResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DeletePatchBaselineRequestToJson(
+    DeletePatchBaselineRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BaselineId', instance.baselineId);
+  return val;
+}
+
 DeletePatchBaselineResult _$DeletePatchBaselineResultFromJson(
     Map<String, dynamic> json) {
   return DeletePatchBaselineResult(
@@ -985,14 +1390,58 @@ DeletePatchBaselineResult _$DeletePatchBaselineResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteResourceDataSyncRequestToJson(
+    DeleteResourceDataSyncRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SyncName', instance.syncName);
+  writeNotNull('SyncType', instance.syncType);
+  return val;
+}
+
 DeleteResourceDataSyncResult _$DeleteResourceDataSyncResultFromJson(
     Map<String, dynamic> json) {
   return DeleteResourceDataSyncResult();
 }
 
+Map<String, dynamic> _$DeregisterManagedInstanceRequestToJson(
+    DeregisterManagedInstanceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InstanceId', instance.instanceId);
+  return val;
+}
+
 DeregisterManagedInstanceResult _$DeregisterManagedInstanceResultFromJson(
     Map<String, dynamic> json) {
   return DeregisterManagedInstanceResult();
+}
+
+Map<String, dynamic> _$DeregisterPatchBaselineForPatchGroupRequestToJson(
+    DeregisterPatchBaselineForPatchGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BaselineId', instance.baselineId);
+  writeNotNull('PatchGroup', instance.patchGroup);
+  return val;
 }
 
 DeregisterPatchBaselineForPatchGroupResult
@@ -1004,6 +1453,22 @@ DeregisterPatchBaselineForPatchGroupResult
   );
 }
 
+Map<String, dynamic> _$DeregisterTargetFromMaintenanceWindowRequestToJson(
+    DeregisterTargetFromMaintenanceWindowRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('WindowId', instance.windowId);
+  writeNotNull('WindowTargetId', instance.windowTargetId);
+  writeNotNull('Safe', instance.safe);
+  return val;
+}
+
 DeregisterTargetFromMaintenanceWindowResult
     _$DeregisterTargetFromMaintenanceWindowResultFromJson(
         Map<String, dynamic> json) {
@@ -1011,6 +1476,21 @@ DeregisterTargetFromMaintenanceWindowResult
     windowId: json['WindowId'] as String,
     windowTargetId: json['WindowTargetId'] as String,
   );
+}
+
+Map<String, dynamic> _$DeregisterTaskFromMaintenanceWindowRequestToJson(
+    DeregisterTaskFromMaintenanceWindowRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('WindowId', instance.windowId);
+  writeNotNull('WindowTaskId', instance.windowTaskId);
+  return val;
 }
 
 DeregisterTaskFromMaintenanceWindowResult
@@ -1044,6 +1524,22 @@ const _$DescribeActivationsFilterKeysEnumMap = {
   DescribeActivationsFilterKeys.iamRole: 'IamRole',
 };
 
+Map<String, dynamic> _$DescribeActivationsRequestToJson(
+    DescribeActivationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 DescribeActivationsResult _$DescribeActivationsResultFromJson(
     Map<String, dynamic> json) {
   return DescribeActivationsResult(
@@ -1053,6 +1549,24 @@ DescribeActivationsResult _$DescribeActivationsResultFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeAssociationExecutionTargetsRequestToJson(
+    DescribeAssociationExecutionTargetsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AssociationId', instance.associationId);
+  writeNotNull('ExecutionId', instance.executionId);
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 DescribeAssociationExecutionTargetsResult
@@ -1068,6 +1582,23 @@ DescribeAssociationExecutionTargetsResult
   );
 }
 
+Map<String, dynamic> _$DescribeAssociationExecutionsRequestToJson(
+    DescribeAssociationExecutionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AssociationId', instance.associationId);
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 DescribeAssociationExecutionsResult
     _$DescribeAssociationExecutionsResultFromJson(Map<String, dynamic> json) {
   return DescribeAssociationExecutionsResult(
@@ -1080,6 +1611,23 @@ DescribeAssociationExecutionsResult
   );
 }
 
+Map<String, dynamic> _$DescribeAssociationRequestToJson(
+    DescribeAssociationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AssociationId', instance.associationId);
+  writeNotNull('AssociationVersion', instance.associationVersion);
+  writeNotNull('InstanceId', instance.instanceId);
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
 DescribeAssociationResult _$DescribeAssociationResultFromJson(
     Map<String, dynamic> json) {
   return DescribeAssociationResult(
@@ -1088,6 +1636,22 @@ DescribeAssociationResult _$DescribeAssociationResultFromJson(
         : AssociationDescription.fromJson(
             json['AssociationDescription'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeAutomationExecutionsRequestToJson(
+    DescribeAutomationExecutionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 DescribeAutomationExecutionsResult _$DescribeAutomationExecutionsResultFromJson(
@@ -1103,6 +1667,24 @@ DescribeAutomationExecutionsResult _$DescribeAutomationExecutionsResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeAutomationStepExecutionsRequestToJson(
+    DescribeAutomationStepExecutionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AutomationExecutionId', instance.automationExecutionId);
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('ReverseOrder', instance.reverseOrder);
+  return val;
+}
+
 DescribeAutomationStepExecutionsResult
     _$DescribeAutomationStepExecutionsResultFromJson(
         Map<String, dynamic> json) {
@@ -1116,6 +1698,22 @@ DescribeAutomationStepExecutionsResult
   );
 }
 
+Map<String, dynamic> _$DescribeAvailablePatchesRequestToJson(
+    DescribeAvailablePatchesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 DescribeAvailablePatchesResult _$DescribeAvailablePatchesResultFromJson(
     Map<String, dynamic> json) {
   return DescribeAvailablePatchesResult(
@@ -1126,6 +1724,26 @@ DescribeAvailablePatchesResult _$DescribeAvailablePatchesResultFromJson(
         ?.toList(),
   );
 }
+
+Map<String, dynamic> _$DescribeDocumentPermissionRequestToJson(
+    DescribeDocumentPermissionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('PermissionType',
+      _$DocumentPermissionTypeEnumMap[instance.permissionType]);
+  return val;
+}
+
+const _$DocumentPermissionTypeEnumMap = {
+  DocumentPermissionType.share: 'Share',
+};
 
 DescribeDocumentPermissionResponse _$DescribeDocumentPermissionResponseFromJson(
     Map<String, dynamic> json) {
@@ -1139,6 +1757,22 @@ DescribeDocumentPermissionResponse _$DescribeDocumentPermissionResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeDocumentRequestToJson(
+    DescribeDocumentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('DocumentVersion', instance.documentVersion);
+  writeNotNull('VersionName', instance.versionName);
+  return val;
+}
+
 DescribeDocumentResult _$DescribeDocumentResultFromJson(
     Map<String, dynamic> json) {
   return DescribeDocumentResult(
@@ -1147,6 +1781,22 @@ DescribeDocumentResult _$DescribeDocumentResultFromJson(
         : DocumentDescription.fromJson(
             json['Document'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeEffectiveInstanceAssociationsRequestToJson(
+    DescribeEffectiveInstanceAssociationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InstanceId', instance.instanceId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 DescribeEffectiveInstanceAssociationsResult
@@ -1162,6 +1812,22 @@ DescribeEffectiveInstanceAssociationsResult
   );
 }
 
+Map<String, dynamic> _$DescribeEffectivePatchesForPatchBaselineRequestToJson(
+    DescribeEffectivePatchesForPatchBaselineRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BaselineId', instance.baselineId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 DescribeEffectivePatchesForPatchBaselineResult
     _$DescribeEffectivePatchesForPatchBaselineResultFromJson(
         Map<String, dynamic> json) {
@@ -1173,6 +1839,22 @@ DescribeEffectivePatchesForPatchBaselineResult
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeInstanceAssociationsStatusRequestToJson(
+    DescribeInstanceAssociationsStatusRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InstanceId', instance.instanceId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 DescribeInstanceAssociationsStatusResult
@@ -1189,6 +1871,27 @@ DescribeInstanceAssociationsStatusResult
   );
 }
 
+Map<String, dynamic> _$DescribeInstanceInformationRequestToJson(
+    DescribeInstanceInformationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'InstanceInformationFilterList',
+      instance.instanceInformationFilterList
+          ?.map((e) => e?.toJson())
+          ?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 DescribeInstanceInformationResult _$DescribeInstanceInformationResultFromJson(
     Map<String, dynamic> json) {
   return DescribeInstanceInformationResult(
@@ -1199,6 +1902,23 @@ DescribeInstanceInformationResult _$DescribeInstanceInformationResultFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeInstancePatchStatesForPatchGroupRequestToJson(
+    DescribeInstancePatchStatesForPatchGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('PatchGroup', instance.patchGroup);
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 DescribeInstancePatchStatesForPatchGroupResult
@@ -1214,6 +1934,22 @@ DescribeInstancePatchStatesForPatchGroupResult
   );
 }
 
+Map<String, dynamic> _$DescribeInstancePatchStatesRequestToJson(
+    DescribeInstancePatchStatesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InstanceIds', instance.instanceIds);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 DescribeInstancePatchStatesResult _$DescribeInstancePatchStatesResultFromJson(
     Map<String, dynamic> json) {
   return DescribeInstancePatchStatesResult(
@@ -1224,6 +1960,23 @@ DescribeInstancePatchStatesResult _$DescribeInstancePatchStatesResultFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeInstancePatchesRequestToJson(
+    DescribeInstancePatchesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InstanceId', instance.instanceId);
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 DescribeInstancePatchesResult _$DescribeInstancePatchesResultFromJson(
@@ -1238,6 +1991,22 @@ DescribeInstancePatchesResult _$DescribeInstancePatchesResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeInventoryDeletionsRequestToJson(
+    DescribeInventoryDeletionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DeletionId', instance.deletionId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 DescribeInventoryDeletionsResult _$DescribeInventoryDeletionsResultFromJson(
     Map<String, dynamic> json) {
   return DescribeInventoryDeletionsResult(
@@ -1248,6 +2017,25 @@ DescribeInventoryDeletionsResult _$DescribeInventoryDeletionsResultFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic>
+    _$DescribeMaintenanceWindowExecutionTaskInvocationsRequestToJson(
+        DescribeMaintenanceWindowExecutionTaskInvocationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TaskId', instance.taskId);
+  writeNotNull('WindowExecutionId', instance.windowExecutionId);
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 DescribeMaintenanceWindowExecutionTaskInvocationsResult
@@ -1265,6 +2053,23 @@ DescribeMaintenanceWindowExecutionTaskInvocationsResult
   );
 }
 
+Map<String, dynamic> _$DescribeMaintenanceWindowExecutionTasksRequestToJson(
+    DescribeMaintenanceWindowExecutionTasksRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('WindowExecutionId', instance.windowExecutionId);
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 DescribeMaintenanceWindowExecutionTasksResult
     _$DescribeMaintenanceWindowExecutionTasksResultFromJson(
         Map<String, dynamic> json) {
@@ -1280,6 +2085,23 @@ DescribeMaintenanceWindowExecutionTasksResult
   );
 }
 
+Map<String, dynamic> _$DescribeMaintenanceWindowExecutionsRequestToJson(
+    DescribeMaintenanceWindowExecutionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('WindowId', instance.windowId);
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 DescribeMaintenanceWindowExecutionsResult
     _$DescribeMaintenanceWindowExecutionsResultFromJson(
         Map<String, dynamic> json) {
@@ -1293,6 +2115,31 @@ DescribeMaintenanceWindowExecutionsResult
   );
 }
 
+Map<String, dynamic> _$DescribeMaintenanceWindowScheduleRequestToJson(
+    DescribeMaintenanceWindowScheduleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('ResourceType',
+      _$MaintenanceWindowResourceTypeEnumMap[instance.resourceType]);
+  writeNotNull('Targets', instance.targets?.map((e) => e?.toJson())?.toList());
+  writeNotNull('WindowId', instance.windowId);
+  return val;
+}
+
+const _$MaintenanceWindowResourceTypeEnumMap = {
+  MaintenanceWindowResourceType.instance: 'INSTANCE',
+  MaintenanceWindowResourceType.resourceGroup: 'RESOURCE_GROUP',
+};
+
 DescribeMaintenanceWindowScheduleResult
     _$DescribeMaintenanceWindowScheduleResultFromJson(
         Map<String, dynamic> json) {
@@ -1304,6 +2151,23 @@ DescribeMaintenanceWindowScheduleResult
             : ScheduledWindowExecution.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeMaintenanceWindowTargetsRequestToJson(
+    DescribeMaintenanceWindowTargetsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('WindowId', instance.windowId);
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 DescribeMaintenanceWindowTargetsResult
@@ -1319,6 +2183,23 @@ DescribeMaintenanceWindowTargetsResult
   );
 }
 
+Map<String, dynamic> _$DescribeMaintenanceWindowTasksRequestToJson(
+    DescribeMaintenanceWindowTasksRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('WindowId', instance.windowId);
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 DescribeMaintenanceWindowTasksResult
     _$DescribeMaintenanceWindowTasksResultFromJson(Map<String, dynamic> json) {
   return DescribeMaintenanceWindowTasksResult(
@@ -1329,6 +2210,24 @@ DescribeMaintenanceWindowTasksResult
             : MaintenanceWindowTask.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeMaintenanceWindowsForTargetRequestToJson(
+    DescribeMaintenanceWindowsForTargetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceType',
+      _$MaintenanceWindowResourceTypeEnumMap[instance.resourceType]);
+  writeNotNull('Targets', instance.targets?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 DescribeMaintenanceWindowsForTargetResult
@@ -1345,6 +2244,22 @@ DescribeMaintenanceWindowsForTargetResult
   );
 }
 
+Map<String, dynamic> _$DescribeMaintenanceWindowsRequestToJson(
+    DescribeMaintenanceWindowsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 DescribeMaintenanceWindowsResult _$DescribeMaintenanceWindowsResultFromJson(
     Map<String, dynamic> json) {
   return DescribeMaintenanceWindowsResult(
@@ -1355,6 +2270,23 @@ DescribeMaintenanceWindowsResult _$DescribeMaintenanceWindowsResultFromJson(
             : MaintenanceWindowIdentity.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeOpsItemsRequestToJson(
+    DescribeOpsItemsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('OpsItemFilters',
+      instance.opsItemFilters?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 DescribeOpsItemsResponse _$DescribeOpsItemsResponseFromJson(
@@ -1369,6 +2301,24 @@ DescribeOpsItemsResponse _$DescribeOpsItemsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeParametersRequestToJson(
+    DescribeParametersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('ParameterFilters',
+      instance.parameterFilters?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 DescribeParametersResult _$DescribeParametersResultFromJson(
     Map<String, dynamic> json) {
   return DescribeParametersResult(
@@ -1381,6 +2331,22 @@ DescribeParametersResult _$DescribeParametersResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribePatchBaselinesRequestToJson(
+    DescribePatchBaselinesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 DescribePatchBaselinesResult _$DescribePatchBaselinesResultFromJson(
     Map<String, dynamic> json) {
   return DescribePatchBaselinesResult(
@@ -1391,6 +2357,20 @@ DescribePatchBaselinesResult _$DescribePatchBaselinesResultFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribePatchGroupStateRequestToJson(
+    DescribePatchGroupStateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('PatchGroup', instance.patchGroup);
+  return val;
 }
 
 DescribePatchGroupStateResult _$DescribePatchGroupStateResultFromJson(
@@ -1413,6 +2393,22 @@ DescribePatchGroupStateResult _$DescribePatchGroupStateResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribePatchGroupsRequestToJson(
+    DescribePatchGroupsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 DescribePatchGroupsResult _$DescribePatchGroupsResultFromJson(
     Map<String, dynamic> json) {
   return DescribePatchGroupsResult(
@@ -1426,6 +2422,39 @@ DescribePatchGroupsResult _$DescribePatchGroupsResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribePatchPropertiesRequestToJson(
+    DescribePatchPropertiesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'OperatingSystem', _$OperatingSystemEnumMap[instance.operatingSystem]);
+  writeNotNull('Property', _$PatchPropertyEnumMap[instance.property]);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('PatchSet', _$PatchSetEnumMap[instance.patchSet]);
+  return val;
+}
+
+const _$PatchPropertyEnumMap = {
+  PatchProperty.product: 'PRODUCT',
+  PatchProperty.productFamily: 'PRODUCT_FAMILY',
+  PatchProperty.classification: 'CLASSIFICATION',
+  PatchProperty.msrcSeverity: 'MSRC_SEVERITY',
+  PatchProperty.priority: 'PRIORITY',
+  PatchProperty.severity: 'SEVERITY',
+};
+
+const _$PatchSetEnumMap = {
+  PatchSet.os: 'OS',
+  PatchSet.application: 'APPLICATION',
+};
+
 DescribePatchPropertiesResult _$DescribePatchPropertiesResultFromJson(
     Map<String, dynamic> json) {
   return DescribePatchPropertiesResult(
@@ -1437,6 +2466,28 @@ DescribePatchPropertiesResult _$DescribePatchPropertiesResultFromJson(
         ?.toList(),
   );
 }
+
+Map<String, dynamic> _$DescribeSessionsRequestToJson(
+    DescribeSessionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('State', _$SessionStateEnumMap[instance.state]);
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
+const _$SessionStateEnumMap = {
+  SessionState.active: 'Active',
+  SessionState.history: 'History',
+};
 
 DescribeSessionsResponse _$DescribeSessionsResponseFromJson(
     Map<String, dynamic> json) {
@@ -1501,24 +2552,6 @@ DocumentDescription _$DocumentDescriptionFromJson(Map<String, dynamic> json) {
     versionName: json['VersionName'] as String,
   );
 }
-
-const _$DocumentFormatEnumMap = {
-  DocumentFormat.yaml: 'YAML',
-  DocumentFormat.json: 'JSON',
-  DocumentFormat.text: 'TEXT',
-};
-
-const _$DocumentTypeEnumMap = {
-  DocumentType.command: 'Command',
-  DocumentType.policy: 'Policy',
-  DocumentType.automation: 'Automation',
-  DocumentType.session: 'Session',
-  DocumentType.package: 'Package',
-  DocumentType.applicationConfiguration: 'ApplicationConfiguration',
-  DocumentType.applicationConfigurationSchema: 'ApplicationConfigurationSchema',
-  DocumentType.deploymentStrategy: 'DeploymentStrategy',
-  DocumentType.changeCalendar: 'ChangeCalendar',
-};
 
 const _$DocumentHashTypeEnumMap = {
   DocumentHashType.sha256: 'Sha256',
@@ -1682,6 +2715,20 @@ FailureDetails _$FailureDetailsFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetAutomationExecutionRequestToJson(
+    GetAutomationExecutionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AutomationExecutionId', instance.automationExecutionId);
+  return val;
+}
+
 GetAutomationExecutionResult _$GetAutomationExecutionResultFromJson(
     Map<String, dynamic> json) {
   return GetAutomationExecutionResult(
@@ -1690,6 +2737,21 @@ GetAutomationExecutionResult _$GetAutomationExecutionResultFromJson(
         : AutomationExecution.fromJson(
             json['AutomationExecution'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetCalendarStateRequestToJson(
+    GetCalendarStateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CalendarNames', instance.calendarNames);
+  writeNotNull('AtTime', instance.atTime);
+  return val;
 }
 
 GetCalendarStateResponse _$GetCalendarStateResponseFromJson(
@@ -1705,6 +2767,22 @@ const _$CalendarStateEnumMap = {
   CalendarState.open: 'OPEN',
   CalendarState.closed: 'CLOSED',
 };
+
+Map<String, dynamic> _$GetCommandInvocationRequestToJson(
+    GetCommandInvocationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CommandId', instance.commandId);
+  writeNotNull('InstanceId', instance.instanceId);
+  writeNotNull('PluginName', instance.pluginName);
+  return val;
+}
 
 GetCommandInvocationResult _$GetCommandInvocationResultFromJson(
     Map<String, dynamic> json) {
@@ -1733,6 +2811,20 @@ GetCommandInvocationResult _$GetCommandInvocationResultFromJson(
   );
 }
 
+Map<String, dynamic> _$GetConnectionStatusRequestToJson(
+    GetConnectionStatusRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Target', instance.target);
+  return val;
+}
+
 GetConnectionStatusResponse _$GetConnectionStatusResponseFromJson(
     Map<String, dynamic> json) {
   return GetConnectionStatusResponse(
@@ -1746,6 +2838,21 @@ const _$ConnectionStatusEnumMap = {
   ConnectionStatus.notConnected: 'NotConnected',
 };
 
+Map<String, dynamic> _$GetDefaultPatchBaselineRequestToJson(
+    GetDefaultPatchBaselineRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'OperatingSystem', _$OperatingSystemEnumMap[instance.operatingSystem]);
+  return val;
+}
+
 GetDefaultPatchBaselineResult _$GetDefaultPatchBaselineResultFromJson(
     Map<String, dynamic> json) {
   return GetDefaultPatchBaselineResult(
@@ -1755,15 +2862,20 @@ GetDefaultPatchBaselineResult _$GetDefaultPatchBaselineResultFromJson(
   );
 }
 
-const _$OperatingSystemEnumMap = {
-  OperatingSystem.windows: 'WINDOWS',
-  OperatingSystem.amazonLinux: 'AMAZON_LINUX',
-  OperatingSystem.amazonLinux_2: 'AMAZON_LINUX_2',
-  OperatingSystem.ubuntu: 'UBUNTU',
-  OperatingSystem.redhatEnterpriseLinux: 'REDHAT_ENTERPRISE_LINUX',
-  OperatingSystem.suse: 'SUSE',
-  OperatingSystem.centos: 'CENTOS',
-};
+Map<String, dynamic> _$GetDeployablePatchSnapshotForInstanceRequestToJson(
+    GetDeployablePatchSnapshotForInstanceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InstanceId', instance.instanceId);
+  writeNotNull('SnapshotId', instance.snapshotId);
+  return val;
+}
 
 GetDeployablePatchSnapshotForInstanceResult
     _$GetDeployablePatchSnapshotForInstanceResultFromJson(
@@ -1774,6 +2886,23 @@ GetDeployablePatchSnapshotForInstanceResult
     snapshotDownloadUrl: json['SnapshotDownloadUrl'] as String,
     snapshotId: json['SnapshotId'] as String,
   );
+}
+
+Map<String, dynamic> _$GetDocumentRequestToJson(GetDocumentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull(
+      'DocumentFormat', _$DocumentFormatEnumMap[instance.documentFormat]);
+  writeNotNull('DocumentVersion', instance.documentVersion);
+  writeNotNull('VersionName', instance.versionName);
+  return val;
 }
 
 GetDocumentResult _$GetDocumentResultFromJson(Map<String, dynamic> json) {
@@ -1801,6 +2930,25 @@ GetDocumentResult _$GetDocumentResultFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetInventoryRequestToJson(GetInventoryRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'Aggregators', instance.aggregators?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('ResultAttributes',
+      instance.resultAttributes?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 GetInventoryResult _$GetInventoryResultFromJson(Map<String, dynamic> json) {
   return GetInventoryResult(
     entities: (json['Entities'] as List)
@@ -1810,6 +2958,24 @@ GetInventoryResult _$GetInventoryResultFromJson(Map<String, dynamic> json) {
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$GetInventorySchemaRequestToJson(
+    GetInventorySchemaRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Aggregator', instance.aggregator);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SubType', instance.subType);
+  writeNotNull('TypeName', instance.typeName);
+  return val;
 }
 
 GetInventorySchemaResult _$GetInventorySchemaResultFromJson(
@@ -1822,6 +2988,20 @@ GetInventorySchemaResult _$GetInventorySchemaResultFromJson(
             : InventoryItemSchema.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$GetMaintenanceWindowExecutionRequestToJson(
+    GetMaintenanceWindowExecutionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('WindowExecutionId', instance.windowExecutionId);
+  return val;
 }
 
 GetMaintenanceWindowExecutionResult
@@ -1847,6 +3027,22 @@ const _$MaintenanceWindowExecutionStatusEnumMap = {
   MaintenanceWindowExecutionStatus.cancelled: 'CANCELLED',
   MaintenanceWindowExecutionStatus.skippedOverlapping: 'SKIPPED_OVERLAPPING',
 };
+
+Map<String, dynamic> _$GetMaintenanceWindowExecutionTaskInvocationRequestToJson(
+    GetMaintenanceWindowExecutionTaskInvocationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InvocationId', instance.invocationId);
+  writeNotNull('TaskId', instance.taskId);
+  writeNotNull('WindowExecutionId', instance.windowExecutionId);
+  return val;
+}
 
 GetMaintenanceWindowExecutionTaskInvocationResult
     _$GetMaintenanceWindowExecutionTaskInvocationResultFromJson(
@@ -1875,6 +3071,21 @@ const _$MaintenanceWindowTaskTypeEnumMap = {
   MaintenanceWindowTaskType.stepFunctions: 'STEP_FUNCTIONS',
   MaintenanceWindowTaskType.lambda: 'LAMBDA',
 };
+
+Map<String, dynamic> _$GetMaintenanceWindowExecutionTaskRequestToJson(
+    GetMaintenanceWindowExecutionTaskRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TaskId', instance.taskId);
+  writeNotNull('WindowExecutionId', instance.windowExecutionId);
+  return val;
+}
 
 GetMaintenanceWindowExecutionTaskResult
     _$GetMaintenanceWindowExecutionTaskResultFromJson(
@@ -1907,6 +3118,20 @@ GetMaintenanceWindowExecutionTaskResult
   );
 }
 
+Map<String, dynamic> _$GetMaintenanceWindowRequestToJson(
+    GetMaintenanceWindowRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('WindowId', instance.windowId);
+  return val;
+}
+
 GetMaintenanceWindowResult _$GetMaintenanceWindowResultFromJson(
     Map<String, dynamic> json) {
   return GetMaintenanceWindowResult(
@@ -1925,6 +3150,21 @@ GetMaintenanceWindowResult _$GetMaintenanceWindowResultFromJson(
     startDate: json['StartDate'] as String,
     windowId: json['WindowId'] as String,
   );
+}
+
+Map<String, dynamic> _$GetMaintenanceWindowTaskRequestToJson(
+    GetMaintenanceWindowTaskRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('WindowId', instance.windowId);
+  writeNotNull('WindowTaskId', instance.windowTaskId);
+  return val;
 }
 
 GetMaintenanceWindowTaskResult _$GetMaintenanceWindowTaskResultFromJson(
@@ -1963,12 +3203,46 @@ GetMaintenanceWindowTaskResult _$GetMaintenanceWindowTaskResultFromJson(
   );
 }
 
+Map<String, dynamic> _$GetOpsItemRequestToJson(GetOpsItemRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('OpsItemId', instance.opsItemId);
+  return val;
+}
+
 GetOpsItemResponse _$GetOpsItemResponseFromJson(Map<String, dynamic> json) {
   return GetOpsItemResponse(
     opsItem: json['OpsItem'] == null
         ? null
         : OpsItem.fromJson(json['OpsItem'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetOpsSummaryRequestToJson(
+    GetOpsSummaryRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'Aggregators', instance.aggregators?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('ResultAttributes',
+      instance.resultAttributes?.map((e) => e?.toJson())?.toList());
+  writeNotNull('SyncName', instance.syncName);
+  return val;
 }
 
 GetOpsSummaryResult _$GetOpsSummaryResultFromJson(Map<String, dynamic> json) {
@@ -1979,6 +3253,23 @@ GetOpsSummaryResult _$GetOpsSummaryResultFromJson(Map<String, dynamic> json) {
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$GetParameterHistoryRequestToJson(
+    GetParameterHistoryRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('WithDecryption', instance.withDecryption);
+  return val;
 }
 
 GetParameterHistoryResult _$GetParameterHistoryResultFromJson(
@@ -1993,12 +3284,46 @@ GetParameterHistoryResult _$GetParameterHistoryResultFromJson(
   );
 }
 
+Map<String, dynamic> _$GetParameterRequestToJson(GetParameterRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('WithDecryption', instance.withDecryption);
+  return val;
+}
+
 GetParameterResult _$GetParameterResultFromJson(Map<String, dynamic> json) {
   return GetParameterResult(
     parameter: json['Parameter'] == null
         ? null
         : Parameter.fromJson(json['Parameter'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetParametersByPathRequestToJson(
+    GetParametersByPathRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Path', instance.path);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('ParameterFilters',
+      instance.parameterFilters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Recursive', instance.recursive);
+  writeNotNull('WithDecryption', instance.withDecryption);
+  return val;
 }
 
 GetParametersByPathResult _$GetParametersByPathResultFromJson(
@@ -2012,6 +3337,21 @@ GetParametersByPathResult _$GetParametersByPathResultFromJson(
   );
 }
 
+Map<String, dynamic> _$GetParametersRequestToJson(
+    GetParametersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Names', instance.names);
+  writeNotNull('WithDecryption', instance.withDecryption);
+  return val;
+}
+
 GetParametersResult _$GetParametersResultFromJson(Map<String, dynamic> json) {
   return GetParametersResult(
     invalidParameters:
@@ -2023,6 +3363,22 @@ GetParametersResult _$GetParametersResultFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetPatchBaselineForPatchGroupRequestToJson(
+    GetPatchBaselineForPatchGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('PatchGroup', instance.patchGroup);
+  writeNotNull(
+      'OperatingSystem', _$OperatingSystemEnumMap[instance.operatingSystem]);
+  return val;
+}
+
 GetPatchBaselineForPatchGroupResult
     _$GetPatchBaselineForPatchGroupResultFromJson(Map<String, dynamic> json) {
   return GetPatchBaselineForPatchGroupResult(
@@ -2031,6 +3387,20 @@ GetPatchBaselineForPatchGroupResult
         _$enumDecodeNullable(_$OperatingSystemEnumMap, json['OperatingSystem']),
     patchGroup: json['PatchGroup'] as String,
   );
+}
+
+Map<String, dynamic> _$GetPatchBaselineRequestToJson(
+    GetPatchBaselineRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BaselineId', instance.baselineId);
+  return val;
 }
 
 GetPatchBaselineResult _$GetPatchBaselineResultFromJson(
@@ -2070,19 +3440,19 @@ GetPatchBaselineResult _$GetPatchBaselineResultFromJson(
   );
 }
 
-const _$PatchComplianceLevelEnumMap = {
-  PatchComplianceLevel.critical: 'CRITICAL',
-  PatchComplianceLevel.high: 'HIGH',
-  PatchComplianceLevel.medium: 'MEDIUM',
-  PatchComplianceLevel.low: 'LOW',
-  PatchComplianceLevel.informational: 'INFORMATIONAL',
-  PatchComplianceLevel.unspecified: 'UNSPECIFIED',
-};
+Map<String, dynamic> _$GetServiceSettingRequestToJson(
+    GetServiceSettingRequest instance) {
+  final val = <String, dynamic>{};
 
-const _$PatchActionEnumMap = {
-  PatchAction.allowAsDependency: 'ALLOW_AS_DEPENDENCY',
-  PatchAction.block: 'BLOCK',
-};
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SettingId', instance.settingId);
+  return val;
+}
 
 GetServiceSettingResult _$GetServiceSettingResultFromJson(
     Map<String, dynamic> json) {
@@ -2489,6 +3859,22 @@ InventoryResultItem _$InventoryResultItemFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$LabelParameterVersionRequestToJson(
+    LabelParameterVersionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Labels', instance.labels);
+  writeNotNull('Name', instance.name);
+  writeNotNull('ParameterVersion', instance.parameterVersion);
+  return val;
+}
+
 LabelParameterVersionResult _$LabelParameterVersionResultFromJson(
     Map<String, dynamic> json) {
   return LabelParameterVersionResult(
@@ -2496,6 +3882,22 @@ LabelParameterVersionResult _$LabelParameterVersionResultFromJson(
         (json['InvalidLabels'] as List)?.map((e) => e as String)?.toList(),
     parameterVersion: json['ParameterVersion'] as int,
   );
+}
+
+Map<String, dynamic> _$ListAssociationVersionsRequestToJson(
+    ListAssociationVersionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AssociationId', instance.associationId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListAssociationVersionsResult _$ListAssociationVersionsResultFromJson(
@@ -2510,6 +3912,23 @@ ListAssociationVersionsResult _$ListAssociationVersionsResultFromJson(
   );
 }
 
+Map<String, dynamic> _$ListAssociationsRequestToJson(
+    ListAssociationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AssociationFilterList',
+      instance.associationFilterList?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListAssociationsResult _$ListAssociationsResultFromJson(
     Map<String, dynamic> json) {
   return ListAssociationsResult(
@@ -2519,6 +3938,25 @@ ListAssociationsResult _$ListAssociationsResultFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListCommandInvocationsRequestToJson(
+    ListCommandInvocationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CommandId', instance.commandId);
+  writeNotNull('Details', instance.details);
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('InstanceId', instance.instanceId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListCommandInvocationsResult _$ListCommandInvocationsResultFromJson(
@@ -2533,6 +3971,23 @@ ListCommandInvocationsResult _$ListCommandInvocationsResultFromJson(
   );
 }
 
+Map<String, dynamic> _$ListCommandsRequestToJson(ListCommandsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CommandId', instance.commandId);
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('InstanceId', instance.instanceId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListCommandsResult _$ListCommandsResultFromJson(Map<String, dynamic> json) {
   return ListCommandsResult(
     commands: (json['Commands'] as List)
@@ -2541,6 +3996,24 @@ ListCommandsResult _$ListCommandsResultFromJson(Map<String, dynamic> json) {
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListComplianceItemsRequestToJson(
+    ListComplianceItemsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('ResourceIds', instance.resourceIds);
+  writeNotNull('ResourceTypes', instance.resourceTypes);
+  return val;
 }
 
 ListComplianceItemsResult _$ListComplianceItemsResultFromJson(
@@ -2555,6 +4028,22 @@ ListComplianceItemsResult _$ListComplianceItemsResultFromJson(
   );
 }
 
+Map<String, dynamic> _$ListComplianceSummariesRequestToJson(
+    ListComplianceSummariesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListComplianceSummariesResult _$ListComplianceSummariesResultFromJson(
     Map<String, dynamic> json) {
   return ListComplianceSummariesResult(
@@ -2565,6 +4054,22 @@ ListComplianceSummariesResult _$ListComplianceSummariesResultFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListDocumentVersionsRequestToJson(
+    ListDocumentVersionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListDocumentVersionsResult _$ListDocumentVersionsResultFromJson(
@@ -2579,6 +4084,24 @@ ListDocumentVersionsResult _$ListDocumentVersionsResultFromJson(
   );
 }
 
+Map<String, dynamic> _$ListDocumentsRequestToJson(
+    ListDocumentsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DocumentFilterList',
+      instance.documentFilterList?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListDocumentsResult _$ListDocumentsResultFromJson(Map<String, dynamic> json) {
   return ListDocumentsResult(
     documentIdentifiers: (json['DocumentIdentifiers'] as List)
@@ -2588,6 +4111,24 @@ ListDocumentsResult _$ListDocumentsResultFromJson(Map<String, dynamic> json) {
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListInventoryEntriesRequestToJson(
+    ListInventoryEntriesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InstanceId', instance.instanceId);
+  writeNotNull('TypeName', instance.typeName);
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListInventoryEntriesResult _$ListInventoryEntriesResultFromJson(
@@ -2606,6 +4147,22 @@ ListInventoryEntriesResult _$ListInventoryEntriesResultFromJson(
   );
 }
 
+Map<String, dynamic> _$ListResourceComplianceSummariesRequestToJson(
+    ListResourceComplianceSummariesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListResourceComplianceSummariesResult
     _$ListResourceComplianceSummariesResultFromJson(Map<String, dynamic> json) {
   return ListResourceComplianceSummariesResult(
@@ -2619,6 +4176,22 @@ ListResourceComplianceSummariesResult
   );
 }
 
+Map<String, dynamic> _$ListResourceDataSyncRequestToJson(
+    ListResourceDataSyncRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SyncType', instance.syncType);
+  return val;
+}
+
 ListResourceDataSyncResult _$ListResourceDataSyncResultFromJson(
     Map<String, dynamic> json) {
   return ListResourceDataSyncResult(
@@ -2629,6 +4202,22 @@ ListResourceDataSyncResult _$ListResourceDataSyncResultFromJson(
             : ResourceDataSyncItem.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListTagsForResourceRequestToJson(
+    ListTagsForResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceId', instance.resourceId);
+  writeNotNull(
+      'ResourceType', _$ResourceTypeForTaggingEnumMap[instance.resourceType]);
+  return val;
 }
 
 ListTagsForResourceResult _$ListTagsForResourceResultFromJson(
@@ -2897,11 +4486,6 @@ MaintenanceWindowTarget _$MaintenanceWindowTargetFromJson(
   );
 }
 
-const _$MaintenanceWindowResourceTypeEnumMap = {
-  MaintenanceWindowResourceType.instance: 'INSTANCE',
-  MaintenanceWindowResourceType.resourceGroup: 'RESOURCE_GROUP',
-};
-
 MaintenanceWindowTask _$MaintenanceWindowTaskFromJson(
     Map<String, dynamic> json) {
   return MaintenanceWindowTask(
@@ -2993,6 +4577,25 @@ Map<String, dynamic> _$MaintenanceWindowTaskParameterValueExpressionToJson(
   }
 
   writeNotNull('Values', instance.values);
+  return val;
+}
+
+Map<String, dynamic> _$ModifyDocumentPermissionRequestToJson(
+    ModifyDocumentPermissionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('PermissionType',
+      _$DocumentPermissionTypeEnumMap[instance.permissionType]);
+  writeNotNull('AccountIdsToAdd', instance.accountIdsToAdd);
+  writeNotNull('AccountIdsToRemove', instance.accountIdsToRemove);
+  writeNotNull('SharedDocumentVersion', instance.sharedDocumentVersion);
   return val;
 }
 
@@ -3624,15 +5227,70 @@ ProgressCounters _$ProgressCountersFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$PutComplianceItemsRequestToJson(
+    PutComplianceItemsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ComplianceType', instance.complianceType);
+  writeNotNull('ExecutionSummary', instance.executionSummary?.toJson());
+  writeNotNull('Items', instance.items?.map((e) => e?.toJson())?.toList());
+  writeNotNull('ResourceId', instance.resourceId);
+  writeNotNull('ResourceType', instance.resourceType);
+  writeNotNull('ItemContentHash', instance.itemContentHash);
+  return val;
+}
+
 PutComplianceItemsResult _$PutComplianceItemsResultFromJson(
     Map<String, dynamic> json) {
   return PutComplianceItemsResult();
+}
+
+Map<String, dynamic> _$PutInventoryRequestToJson(PutInventoryRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InstanceId', instance.instanceId);
+  writeNotNull('Items', instance.items?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 PutInventoryResult _$PutInventoryResultFromJson(Map<String, dynamic> json) {
   return PutInventoryResult(
     message: json['Message'] as String,
   );
+}
+
+Map<String, dynamic> _$PutParameterRequestToJson(PutParameterRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('Type', _$ParameterTypeEnumMap[instance.type]);
+  writeNotNull('Value', instance.value);
+  writeNotNull('AllowedPattern', instance.allowedPattern);
+  writeNotNull('Description', instance.description);
+  writeNotNull('KeyId', instance.keyId);
+  writeNotNull('Overwrite', instance.overwrite);
+  writeNotNull('Policies', instance.policies);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Tier', _$ParameterTierEnumMap[instance.tier]);
+  return val;
 }
 
 PutParameterResult _$PutParameterResultFromJson(Map<String, dynamic> json) {
@@ -3642,11 +5300,40 @@ PutParameterResult _$PutParameterResultFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$RegisterDefaultPatchBaselineRequestToJson(
+    RegisterDefaultPatchBaselineRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BaselineId', instance.baselineId);
+  return val;
+}
+
 RegisterDefaultPatchBaselineResult _$RegisterDefaultPatchBaselineResultFromJson(
     Map<String, dynamic> json) {
   return RegisterDefaultPatchBaselineResult(
     baselineId: json['BaselineId'] as String,
   );
+}
+
+Map<String, dynamic> _$RegisterPatchBaselineForPatchGroupRequestToJson(
+    RegisterPatchBaselineForPatchGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BaselineId', instance.baselineId);
+  writeNotNull('PatchGroup', instance.patchGroup);
+  return val;
 }
 
 RegisterPatchBaselineForPatchGroupResult
@@ -3658,12 +5345,63 @@ RegisterPatchBaselineForPatchGroupResult
   );
 }
 
+Map<String, dynamic> _$RegisterTargetWithMaintenanceWindowRequestToJson(
+    RegisterTargetWithMaintenanceWindowRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceType',
+      _$MaintenanceWindowResourceTypeEnumMap[instance.resourceType]);
+  writeNotNull('Targets', instance.targets?.map((e) => e?.toJson())?.toList());
+  writeNotNull('WindowId', instance.windowId);
+  writeNotNull('ClientToken', instance.clientToken);
+  writeNotNull('Description', instance.description);
+  writeNotNull('Name', instance.name);
+  writeNotNull('OwnerInformation', instance.ownerInformation);
+  return val;
+}
+
 RegisterTargetWithMaintenanceWindowResult
     _$RegisterTargetWithMaintenanceWindowResultFromJson(
         Map<String, dynamic> json) {
   return RegisterTargetWithMaintenanceWindowResult(
     windowTargetId: json['WindowTargetId'] as String,
   );
+}
+
+Map<String, dynamic> _$RegisterTaskWithMaintenanceWindowRequestToJson(
+    RegisterTaskWithMaintenanceWindowRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxConcurrency', instance.maxConcurrency);
+  writeNotNull('MaxErrors', instance.maxErrors);
+  writeNotNull('Targets', instance.targets?.map((e) => e?.toJson())?.toList());
+  writeNotNull('TaskArn', instance.taskArn);
+  writeNotNull(
+      'TaskType', _$MaintenanceWindowTaskTypeEnumMap[instance.taskType]);
+  writeNotNull('WindowId', instance.windowId);
+  writeNotNull('ClientToken', instance.clientToken);
+  writeNotNull('Description', instance.description);
+  writeNotNull('LoggingInfo', instance.loggingInfo?.toJson());
+  writeNotNull('Name', instance.name);
+  writeNotNull('Priority', instance.priority);
+  writeNotNull('ServiceRoleArn', instance.serviceRoleArn);
+  writeNotNull(
+      'TaskInvocationParameters', instance.taskInvocationParameters?.toJson());
+  writeNotNull('TaskParameters',
+      instance.taskParameters?.map((k, e) => MapEntry(k, e?.toJson())));
+  return val;
 }
 
 RegisterTaskWithMaintenanceWindowResult
@@ -3693,9 +5431,40 @@ Map<String, dynamic> _$RelatedOpsItemToJson(RelatedOpsItem instance) {
   return val;
 }
 
+Map<String, dynamic> _$RemoveTagsFromResourceRequestToJson(
+    RemoveTagsFromResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceId', instance.resourceId);
+  writeNotNull(
+      'ResourceType', _$ResourceTypeForTaggingEnumMap[instance.resourceType]);
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
+}
+
 RemoveTagsFromResourceResult _$RemoveTagsFromResourceResultFromJson(
     Map<String, dynamic> json) {
   return RemoveTagsFromResourceResult();
+}
+
+Map<String, dynamic> _$ResetServiceSettingRequestToJson(
+    ResetServiceSettingRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SettingId', instance.settingId);
+  return val;
 }
 
 ResetServiceSettingResult _$ResetServiceSettingResultFromJson(
@@ -3930,6 +5699,20 @@ Map<String, dynamic> _$ResultAttributeToJson(ResultAttribute instance) {
   return val;
 }
 
+Map<String, dynamic> _$ResumeSessionRequestToJson(
+    ResumeSessionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SessionId', instance.sessionId);
+  return val;
+}
+
 ResumeSessionResponse _$ResumeSessionResponseFromJson(
     Map<String, dynamic> json) {
   return ResumeSessionResponse(
@@ -3977,9 +5760,64 @@ ScheduledWindowExecution _$ScheduledWindowExecutionFromJson(
   );
 }
 
+Map<String, dynamic> _$SendAutomationSignalRequestToJson(
+    SendAutomationSignalRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AutomationExecutionId', instance.automationExecutionId);
+  writeNotNull('SignalType', _$SignalTypeEnumMap[instance.signalType]);
+  writeNotNull('Payload', instance.payload);
+  return val;
+}
+
+const _$SignalTypeEnumMap = {
+  SignalType.approve: 'Approve',
+  SignalType.reject: 'Reject',
+  SignalType.startStep: 'StartStep',
+  SignalType.stopStep: 'StopStep',
+  SignalType.resume: 'Resume',
+};
+
 SendAutomationSignalResult _$SendAutomationSignalResultFromJson(
     Map<String, dynamic> json) {
   return SendAutomationSignalResult();
+}
+
+Map<String, dynamic> _$SendCommandRequestToJson(SendCommandRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DocumentName', instance.documentName);
+  writeNotNull(
+      'CloudWatchOutputConfig', instance.cloudWatchOutputConfig?.toJson());
+  writeNotNull('Comment', instance.comment);
+  writeNotNull('DocumentHash', instance.documentHash);
+  writeNotNull(
+      'DocumentHashType', _$DocumentHashTypeEnumMap[instance.documentHashType]);
+  writeNotNull('DocumentVersion', instance.documentVersion);
+  writeNotNull('InstanceIds', instance.instanceIds);
+  writeNotNull('MaxConcurrency', instance.maxConcurrency);
+  writeNotNull('MaxErrors', instance.maxErrors);
+  writeNotNull('NotificationConfig', instance.notificationConfig?.toJson());
+  writeNotNull('OutputS3BucketName', instance.outputS3BucketName);
+  writeNotNull('OutputS3KeyPrefix', instance.outputS3KeyPrefix);
+  writeNotNull('OutputS3Region', instance.outputS3Region);
+  writeNotNull('Parameters', instance.parameters);
+  writeNotNull('ServiceRoleArn', instance.serviceRoleArn);
+  writeNotNull('Targets', instance.targets?.map((e) => e?.toJson())?.toList());
+  writeNotNull('TimeoutSeconds', instance.timeoutSeconds);
+  return val;
 }
 
 SendCommandResult _$SendCommandResultFromJson(Map<String, dynamic> json) {
@@ -4068,9 +5906,49 @@ SeveritySummary _$SeveritySummaryFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$StartAssociationsOnceRequestToJson(
+    StartAssociationsOnceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AssociationIds', instance.associationIds);
+  return val;
+}
+
 StartAssociationsOnceResult _$StartAssociationsOnceResultFromJson(
     Map<String, dynamic> json) {
   return StartAssociationsOnceResult();
+}
+
+Map<String, dynamic> _$StartAutomationExecutionRequestToJson(
+    StartAutomationExecutionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DocumentName', instance.documentName);
+  writeNotNull('ClientToken', instance.clientToken);
+  writeNotNull('DocumentVersion', instance.documentVersion);
+  writeNotNull('MaxConcurrency', instance.maxConcurrency);
+  writeNotNull('MaxErrors', instance.maxErrors);
+  writeNotNull('Mode', _$ExecutionModeEnumMap[instance.mode]);
+  writeNotNull('Parameters', instance.parameters);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('TargetLocations',
+      instance.targetLocations?.map((e) => e?.toJson())?.toList());
+  writeNotNull('TargetMaps', instance.targetMaps);
+  writeNotNull('TargetParameterName', instance.targetParameterName);
+  writeNotNull('Targets', instance.targets?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 StartAutomationExecutionResult _$StartAutomationExecutionResultFromJson(
@@ -4078,6 +5956,21 @@ StartAutomationExecutionResult _$StartAutomationExecutionResultFromJson(
   return StartAutomationExecutionResult(
     automationExecutionId: json['AutomationExecutionId'] as String,
   );
+}
+
+Map<String, dynamic> _$StartSessionRequestToJson(StartSessionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Target', instance.target);
+  writeNotNull('DocumentName', instance.documentName);
+  writeNotNull('Parameters', instance.parameters);
+  return val;
 }
 
 StartSessionResponse _$StartSessionResponseFromJson(Map<String, dynamic> json) {
@@ -4156,6 +6049,26 @@ const _$StepExecutionFilterKeyEnumMap = {
   StepExecutionFilterKey.action: 'Action',
 };
 
+Map<String, dynamic> _$StopAutomationExecutionRequestToJson(
+    StopAutomationExecutionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AutomationExecutionId', instance.automationExecutionId);
+  writeNotNull('Type', _$StopTypeEnumMap[instance.type]);
+  return val;
+}
+
+const _$StopTypeEnumMap = {
+  StopType.complete: 'Complete',
+  StopType.cancel: 'Cancel',
+};
+
 StopAutomationExecutionResult _$StopAutomationExecutionResultFromJson(
     Map<String, dynamic> json) {
   return StopAutomationExecutionResult();
@@ -4232,11 +6145,53 @@ Map<String, dynamic> _$TargetLocationToJson(TargetLocation instance) {
   return val;
 }
 
+Map<String, dynamic> _$TerminateSessionRequestToJson(
+    TerminateSessionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SessionId', instance.sessionId);
+  return val;
+}
+
 TerminateSessionResponse _$TerminateSessionResponseFromJson(
     Map<String, dynamic> json) {
   return TerminateSessionResponse(
     sessionId: json['SessionId'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateAssociationRequestToJson(
+    UpdateAssociationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AssociationId', instance.associationId);
+  writeNotNull('AssociationName', instance.associationName);
+  writeNotNull('AssociationVersion', instance.associationVersion);
+  writeNotNull(
+      'AutomationTargetParameterName', instance.automationTargetParameterName);
+  writeNotNull('ComplianceSeverity',
+      _$AssociationComplianceSeverityEnumMap[instance.complianceSeverity]);
+  writeNotNull('DocumentVersion', instance.documentVersion);
+  writeNotNull('MaxConcurrency', instance.maxConcurrency);
+  writeNotNull('MaxErrors', instance.maxErrors);
+  writeNotNull('Name', instance.name);
+  writeNotNull('OutputLocation', instance.outputLocation?.toJson());
+  writeNotNull('Parameters', instance.parameters);
+  writeNotNull('ScheduleExpression', instance.scheduleExpression);
+  writeNotNull('Targets', instance.targets?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 UpdateAssociationResult _$UpdateAssociationResultFromJson(
@@ -4249,6 +6204,22 @@ UpdateAssociationResult _$UpdateAssociationResultFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateAssociationStatusRequestToJson(
+    UpdateAssociationStatusRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AssociationStatus', instance.associationStatus?.toJson());
+  writeNotNull('InstanceId', instance.instanceId);
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
 UpdateAssociationStatusResult _$UpdateAssociationStatusResultFromJson(
     Map<String, dynamic> json) {
   return UpdateAssociationStatusResult(
@@ -4257,6 +6228,21 @@ UpdateAssociationStatusResult _$UpdateAssociationStatusResultFromJson(
         : AssociationDescription.fromJson(
             json['AssociationDescription'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateDocumentDefaultVersionRequestToJson(
+    UpdateDocumentDefaultVersionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DocumentVersion', instance.documentVersion);
+  writeNotNull('Name', instance.name);
+  return val;
 }
 
 UpdateDocumentDefaultVersionResult _$UpdateDocumentDefaultVersionResultFromJson(
@@ -4269,6 +6255,28 @@ UpdateDocumentDefaultVersionResult _$UpdateDocumentDefaultVersionResultFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateDocumentRequestToJson(
+    UpdateDocumentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Content', instance.content);
+  writeNotNull('Name', instance.name);
+  writeNotNull(
+      'Attachments', instance.attachments?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'DocumentFormat', _$DocumentFormatEnumMap[instance.documentFormat]);
+  writeNotNull('DocumentVersion', instance.documentVersion);
+  writeNotNull('TargetType', instance.targetType);
+  writeNotNull('VersionName', instance.versionName);
+  return val;
+}
+
 UpdateDocumentResult _$UpdateDocumentResultFromJson(Map<String, dynamic> json) {
   return UpdateDocumentResult(
     documentDescription: json['DocumentDescription'] == null
@@ -4276,6 +6284,31 @@ UpdateDocumentResult _$UpdateDocumentResultFromJson(Map<String, dynamic> json) {
         : DocumentDescription.fromJson(
             json['DocumentDescription'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateMaintenanceWindowRequestToJson(
+    UpdateMaintenanceWindowRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('WindowId', instance.windowId);
+  writeNotNull('AllowUnassociatedTargets', instance.allowUnassociatedTargets);
+  writeNotNull('Cutoff', instance.cutoff);
+  writeNotNull('Description', instance.description);
+  writeNotNull('Duration', instance.duration);
+  writeNotNull('Enabled', instance.enabled);
+  writeNotNull('EndDate', instance.endDate);
+  writeNotNull('Name', instance.name);
+  writeNotNull('Replace', instance.replace);
+  writeNotNull('Schedule', instance.schedule);
+  writeNotNull('ScheduleTimezone', instance.scheduleTimezone);
+  writeNotNull('StartDate', instance.startDate);
+  return val;
 }
 
 UpdateMaintenanceWindowResult _$UpdateMaintenanceWindowResultFromJson(
@@ -4295,6 +6328,26 @@ UpdateMaintenanceWindowResult _$UpdateMaintenanceWindowResultFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateMaintenanceWindowTargetRequestToJson(
+    UpdateMaintenanceWindowTargetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('WindowId', instance.windowId);
+  writeNotNull('WindowTargetId', instance.windowTargetId);
+  writeNotNull('Description', instance.description);
+  writeNotNull('Name', instance.name);
+  writeNotNull('OwnerInformation', instance.ownerInformation);
+  writeNotNull('Replace', instance.replace);
+  writeNotNull('Targets', instance.targets?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 UpdateMaintenanceWindowTargetResult
     _$UpdateMaintenanceWindowTargetResultFromJson(Map<String, dynamic> json) {
   return UpdateMaintenanceWindowTargetResult(
@@ -4308,6 +6361,35 @@ UpdateMaintenanceWindowTargetResult
     windowId: json['WindowId'] as String,
     windowTargetId: json['WindowTargetId'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateMaintenanceWindowTaskRequestToJson(
+    UpdateMaintenanceWindowTaskRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('WindowId', instance.windowId);
+  writeNotNull('WindowTaskId', instance.windowTaskId);
+  writeNotNull('Description', instance.description);
+  writeNotNull('LoggingInfo', instance.loggingInfo?.toJson());
+  writeNotNull('MaxConcurrency', instance.maxConcurrency);
+  writeNotNull('MaxErrors', instance.maxErrors);
+  writeNotNull('Name', instance.name);
+  writeNotNull('Priority', instance.priority);
+  writeNotNull('Replace', instance.replace);
+  writeNotNull('ServiceRoleArn', instance.serviceRoleArn);
+  writeNotNull('Targets', instance.targets?.map((e) => e?.toJson())?.toList());
+  writeNotNull('TaskArn', instance.taskArn);
+  writeNotNull(
+      'TaskInvocationParameters', instance.taskInvocationParameters?.toJson());
+  writeNotNull('TaskParameters',
+      instance.taskParameters?.map((k, e) => MapEntry(k, e?.toJson())));
+  return val;
 }
 
 UpdateMaintenanceWindowTaskResult _$UpdateMaintenanceWindowTaskResultFromJson(
@@ -4344,14 +6426,84 @@ UpdateMaintenanceWindowTaskResult _$UpdateMaintenanceWindowTaskResultFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateManagedInstanceRoleRequestToJson(
+    UpdateManagedInstanceRoleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('IamRole', instance.iamRole);
+  writeNotNull('InstanceId', instance.instanceId);
+  return val;
+}
+
 UpdateManagedInstanceRoleResult _$UpdateManagedInstanceRoleResultFromJson(
     Map<String, dynamic> json) {
   return UpdateManagedInstanceRoleResult();
 }
 
+Map<String, dynamic> _$UpdateOpsItemRequestToJson(
+    UpdateOpsItemRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('OpsItemId', instance.opsItemId);
+  writeNotNull('Category', instance.category);
+  writeNotNull('Description', instance.description);
+  writeNotNull('Notifications',
+      instance.notifications?.map((e) => e?.toJson())?.toList());
+  writeNotNull('OperationalData',
+      instance.operationalData?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('OperationalDataToDelete', instance.operationalDataToDelete);
+  writeNotNull('Priority', instance.priority);
+  writeNotNull('RelatedOpsItems',
+      instance.relatedOpsItems?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Severity', instance.severity);
+  writeNotNull('Status', _$OpsItemStatusEnumMap[instance.status]);
+  writeNotNull('Title', instance.title);
+  return val;
+}
+
 UpdateOpsItemResponse _$UpdateOpsItemResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateOpsItemResponse();
+}
+
+Map<String, dynamic> _$UpdatePatchBaselineRequestToJson(
+    UpdatePatchBaselineRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BaselineId', instance.baselineId);
+  writeNotNull('ApprovalRules', instance.approvalRules?.toJson());
+  writeNotNull('ApprovedPatches', instance.approvedPatches);
+  writeNotNull('ApprovedPatchesComplianceLevel',
+      _$PatchComplianceLevelEnumMap[instance.approvedPatchesComplianceLevel]);
+  writeNotNull('ApprovedPatchesEnableNonSecurity',
+      instance.approvedPatchesEnableNonSecurity);
+  writeNotNull('Description', instance.description);
+  writeNotNull('GlobalFilters', instance.globalFilters?.toJson());
+  writeNotNull('Name', instance.name);
+  writeNotNull('RejectedPatches', instance.rejectedPatches);
+  writeNotNull('RejectedPatchesAction',
+      _$PatchActionEnumMap[instance.rejectedPatchesAction]);
+  writeNotNull('Replace', instance.replace);
+  writeNotNull('Sources', instance.sources?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 UpdatePatchBaselineResult _$UpdatePatchBaselineResultFromJson(
@@ -4389,9 +6541,40 @@ UpdatePatchBaselineResult _$UpdatePatchBaselineResultFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateResourceDataSyncRequestToJson(
+    UpdateResourceDataSyncRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SyncName', instance.syncName);
+  writeNotNull('SyncSource', instance.syncSource?.toJson());
+  writeNotNull('SyncType', instance.syncType);
+  return val;
+}
+
 UpdateResourceDataSyncResult _$UpdateResourceDataSyncResultFromJson(
     Map<String, dynamic> json) {
   return UpdateResourceDataSyncResult();
+}
+
+Map<String, dynamic> _$UpdateServiceSettingRequestToJson(
+    UpdateServiceSettingRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SettingId', instance.settingId);
+  writeNotNull('SettingValue', instance.settingValue);
+  return val;
 }
 
 UpdateServiceSettingResult _$UpdateServiceSettingResultFromJson(

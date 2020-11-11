@@ -61,9 +61,41 @@ const _$AccessControlRuleEffectEnumMap = {
   AccessControlRuleEffect.deny: 'DENY',
 };
 
+Map<String, dynamic> _$AssociateDelegateToResourceRequestToJson(
+    AssociateDelegateToResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EntityId', instance.entityId);
+  writeNotNull('OrganizationId', instance.organizationId);
+  writeNotNull('ResourceId', instance.resourceId);
+  return val;
+}
+
 AssociateDelegateToResourceResponse
     _$AssociateDelegateToResourceResponseFromJson(Map<String, dynamic> json) {
   return AssociateDelegateToResourceResponse();
+}
+
+Map<String, dynamic> _$AssociateMemberToGroupRequestToJson(
+    AssociateMemberToGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GroupId', instance.groupId);
+  writeNotNull('MemberId', instance.memberId);
+  writeNotNull('OrganizationId', instance.organizationId);
+  return val;
 }
 
 AssociateMemberToGroupResponse _$AssociateMemberToGroupResponseFromJson(
@@ -97,8 +129,37 @@ Map<String, dynamic> _$BookingOptionsToJson(BookingOptions instance) {
   return val;
 }
 
+Map<String, dynamic> _$CreateAliasRequestToJson(CreateAliasRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Alias', instance.alias);
+  writeNotNull('EntityId', instance.entityId);
+  writeNotNull('OrganizationId', instance.organizationId);
+  return val;
+}
+
 CreateAliasResponse _$CreateAliasResponseFromJson(Map<String, dynamic> json) {
   return CreateAliasResponse();
+}
+
+Map<String, dynamic> _$CreateGroupRequestToJson(CreateGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('OrganizationId', instance.organizationId);
+  return val;
 }
 
 CreateGroupResponse _$CreateGroupResponseFromJson(Map<String, dynamic> json) {
@@ -107,11 +168,48 @@ CreateGroupResponse _$CreateGroupResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateResourceRequestToJson(
+    CreateResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('OrganizationId', instance.organizationId);
+  writeNotNull('Type', _$ResourceTypeEnumMap[instance.type]);
+  return val;
+}
+
+const _$ResourceTypeEnumMap = {
+  ResourceType.room: 'ROOM',
+  ResourceType.equipment: 'EQUIPMENT',
+};
+
 CreateResourceResponse _$CreateResourceResponseFromJson(
     Map<String, dynamic> json) {
   return CreateResourceResponse(
     resourceId: json['ResourceId'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateUserRequestToJson(CreateUserRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DisplayName', instance.displayName);
+  writeNotNull('Name', instance.name);
+  writeNotNull('OrganizationId', instance.organizationId);
+  writeNotNull('Password', instance.password);
+  return val;
 }
 
 CreateUserResponse _$CreateUserResponseFromJson(Map<String, dynamic> json) {
@@ -132,17 +230,77 @@ const _$MemberTypeEnumMap = {
   MemberType.user: 'USER',
 };
 
+Map<String, dynamic> _$DeleteAccessControlRuleRequestToJson(
+    DeleteAccessControlRuleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('OrganizationId', instance.organizationId);
+  return val;
+}
+
 DeleteAccessControlRuleResponse _$DeleteAccessControlRuleResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteAccessControlRuleResponse();
+}
+
+Map<String, dynamic> _$DeleteAliasRequestToJson(DeleteAliasRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Alias', instance.alias);
+  writeNotNull('EntityId', instance.entityId);
+  writeNotNull('OrganizationId', instance.organizationId);
+  return val;
 }
 
 DeleteAliasResponse _$DeleteAliasResponseFromJson(Map<String, dynamic> json) {
   return DeleteAliasResponse();
 }
 
+Map<String, dynamic> _$DeleteGroupRequestToJson(DeleteGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GroupId', instance.groupId);
+  writeNotNull('OrganizationId', instance.organizationId);
+  return val;
+}
+
 DeleteGroupResponse _$DeleteGroupResponseFromJson(Map<String, dynamic> json) {
   return DeleteGroupResponse();
+}
+
+Map<String, dynamic> _$DeleteMailboxPermissionsRequestToJson(
+    DeleteMailboxPermissionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EntityId', instance.entityId);
+  writeNotNull('GranteeId', instance.granteeId);
+  writeNotNull('OrganizationId', instance.organizationId);
+  return val;
 }
 
 DeleteMailboxPermissionsResponse _$DeleteMailboxPermissionsResponseFromJson(
@@ -150,18 +308,77 @@ DeleteMailboxPermissionsResponse _$DeleteMailboxPermissionsResponseFromJson(
   return DeleteMailboxPermissionsResponse();
 }
 
+Map<String, dynamic> _$DeleteResourceRequestToJson(
+    DeleteResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('OrganizationId', instance.organizationId);
+  writeNotNull('ResourceId', instance.resourceId);
+  return val;
+}
+
 DeleteResourceResponse _$DeleteResourceResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteResourceResponse();
+}
+
+Map<String, dynamic> _$DeleteUserRequestToJson(DeleteUserRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('OrganizationId', instance.organizationId);
+  writeNotNull('UserId', instance.userId);
+  return val;
 }
 
 DeleteUserResponse _$DeleteUserResponseFromJson(Map<String, dynamic> json) {
   return DeleteUserResponse();
 }
 
+Map<String, dynamic> _$DeregisterFromWorkMailRequestToJson(
+    DeregisterFromWorkMailRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EntityId', instance.entityId);
+  writeNotNull('OrganizationId', instance.organizationId);
+  return val;
+}
+
 DeregisterFromWorkMailResponse _$DeregisterFromWorkMailResponseFromJson(
     Map<String, dynamic> json) {
   return DeregisterFromWorkMailResponse();
+}
+
+Map<String, dynamic> _$DescribeGroupRequestToJson(
+    DescribeGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GroupId', instance.groupId);
+  writeNotNull('OrganizationId', instance.organizationId);
+  return val;
 }
 
 DescribeGroupResponse _$DescribeGroupResponseFromJson(
@@ -182,6 +399,20 @@ const _$EntityStateEnumMap = {
   EntityState.deleted: 'DELETED',
 };
 
+Map<String, dynamic> _$DescribeOrganizationRequestToJson(
+    DescribeOrganizationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('OrganizationId', instance.organizationId);
+  return val;
+}
+
 DescribeOrganizationResponse _$DescribeOrganizationResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeOrganizationResponse(
@@ -195,6 +426,21 @@ DescribeOrganizationResponse _$DescribeOrganizationResponseFromJson(
     organizationId: json['OrganizationId'] as String,
     state: json['State'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeResourceRequestToJson(
+    DescribeResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('OrganizationId', instance.organizationId);
+  writeNotNull('ResourceId', instance.resourceId);
+  return val;
 }
 
 DescribeResourceResponse _$DescribeResourceResponseFromJson(
@@ -214,10 +460,19 @@ DescribeResourceResponse _$DescribeResourceResponseFromJson(
   );
 }
 
-const _$ResourceTypeEnumMap = {
-  ResourceType.room: 'ROOM',
-  ResourceType.equipment: 'EQUIPMENT',
-};
+Map<String, dynamic> _$DescribeUserRequestToJson(DescribeUserRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('OrganizationId', instance.organizationId);
+  writeNotNull('UserId', instance.userId);
+  return val;
+}
 
 DescribeUserResponse _$DescribeUserResponseFromJson(Map<String, dynamic> json) {
   return DescribeUserResponse(
@@ -238,15 +493,64 @@ const _$UserRoleEnumMap = {
   UserRole.systemUser: 'SYSTEM_USER',
 };
 
+Map<String, dynamic> _$DisassociateDelegateFromResourceRequestToJson(
+    DisassociateDelegateFromResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EntityId', instance.entityId);
+  writeNotNull('OrganizationId', instance.organizationId);
+  writeNotNull('ResourceId', instance.resourceId);
+  return val;
+}
+
 DisassociateDelegateFromResourceResponse
     _$DisassociateDelegateFromResourceResponseFromJson(
         Map<String, dynamic> json) {
   return DisassociateDelegateFromResourceResponse();
 }
 
+Map<String, dynamic> _$DisassociateMemberFromGroupRequestToJson(
+    DisassociateMemberFromGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GroupId', instance.groupId);
+  writeNotNull('MemberId', instance.memberId);
+  writeNotNull('OrganizationId', instance.organizationId);
+  return val;
+}
+
 DisassociateMemberFromGroupResponse
     _$DisassociateMemberFromGroupResponseFromJson(Map<String, dynamic> json) {
   return DisassociateMemberFromGroupResponse();
+}
+
+Map<String, dynamic> _$GetAccessControlEffectRequestToJson(
+    GetAccessControlEffectRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Action', instance.action);
+  writeNotNull('IpAddress', instance.ipAddress);
+  writeNotNull('OrganizationId', instance.organizationId);
+  writeNotNull('UserId', instance.userId);
+  return val;
 }
 
 GetAccessControlEffectResponse _$GetAccessControlEffectResponseFromJson(
@@ -257,6 +561,21 @@ GetAccessControlEffectResponse _$GetAccessControlEffectResponseFromJson(
     matchedRules:
         (json['MatchedRules'] as List)?.map((e) => e as String)?.toList(),
   );
+}
+
+Map<String, dynamic> _$GetMailboxDetailsRequestToJson(
+    GetMailboxDetailsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('OrganizationId', instance.organizationId);
+  writeNotNull('UserId', instance.userId);
+  return val;
 }
 
 GetMailboxDetailsResponse _$GetMailboxDetailsResponseFromJson(
@@ -278,6 +597,20 @@ Group _$GroupFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ListAccessControlRulesRequestToJson(
+    ListAccessControlRulesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('OrganizationId', instance.organizationId);
+  return val;
+}
+
 ListAccessControlRulesResponse _$ListAccessControlRulesResponseFromJson(
     Map<String, dynamic> json) {
   return ListAccessControlRulesResponse(
@@ -289,11 +622,44 @@ ListAccessControlRulesResponse _$ListAccessControlRulesResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListAliasesRequestToJson(ListAliasesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EntityId', instance.entityId);
+  writeNotNull('OrganizationId', instance.organizationId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListAliasesResponse _$ListAliasesResponseFromJson(Map<String, dynamic> json) {
   return ListAliasesResponse(
     aliases: (json['Aliases'] as List)?.map((e) => e as String)?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListGroupMembersRequestToJson(
+    ListGroupMembersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GroupId', instance.groupId);
+  writeNotNull('OrganizationId', instance.organizationId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListGroupMembersResponse _$ListGroupMembersResponseFromJson(
@@ -307,6 +673,21 @@ ListGroupMembersResponse _$ListGroupMembersResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListGroupsRequestToJson(ListGroupsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('OrganizationId', instance.organizationId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListGroupsResponse _$ListGroupsResponseFromJson(Map<String, dynamic> json) {
   return ListGroupsResponse(
     groups: (json['Groups'] as List)
@@ -315,6 +696,23 @@ ListGroupsResponse _$ListGroupsResponseFromJson(Map<String, dynamic> json) {
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListMailboxPermissionsRequestToJson(
+    ListMailboxPermissionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EntityId', instance.entityId);
+  writeNotNull('OrganizationId', instance.organizationId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListMailboxPermissionsResponse _$ListMailboxPermissionsResponseFromJson(
@@ -326,6 +724,21 @@ ListMailboxPermissionsResponse _$ListMailboxPermissionsResponseFromJson(
             e == null ? null : Permission.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListOrganizationsRequestToJson(
+    ListOrganizationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListOrganizationsResponse _$ListOrganizationsResponseFromJson(
@@ -340,6 +753,23 @@ ListOrganizationsResponse _$ListOrganizationsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListResourceDelegatesRequestToJson(
+    ListResourceDelegatesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('OrganizationId', instance.organizationId);
+  writeNotNull('ResourceId', instance.resourceId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListResourceDelegatesResponse _$ListResourceDelegatesResponseFromJson(
     Map<String, dynamic> json) {
   return ListResourceDelegatesResponse(
@@ -349,6 +779,22 @@ ListResourceDelegatesResponse _$ListResourceDelegatesResponseFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListResourcesRequestToJson(
+    ListResourcesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('OrganizationId', instance.organizationId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListResourcesResponse _$ListResourcesResponseFromJson(
@@ -362,6 +808,20 @@ ListResourcesResponse _$ListResourcesResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListTagsForResourceRequestToJson(
+    ListTagsForResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARN', instance.resourceARN);
+  return val;
+}
+
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
@@ -369,6 +829,21 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
         ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListUsersRequestToJson(ListUsersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('OrganizationId', instance.organizationId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListUsersResponse _$ListUsersResponseFromJson(Map<String, dynamic> json) {
@@ -410,9 +885,49 @@ Permission _$PermissionFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$PutAccessControlRuleRequestToJson(
+    PutAccessControlRuleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Description', instance.description);
+  writeNotNull('Effect', _$AccessControlRuleEffectEnumMap[instance.effect]);
+  writeNotNull('Name', instance.name);
+  writeNotNull('OrganizationId', instance.organizationId);
+  writeNotNull('Actions', instance.actions);
+  writeNotNull('IpRanges', instance.ipRanges);
+  writeNotNull('NotActions', instance.notActions);
+  writeNotNull('NotIpRanges', instance.notIpRanges);
+  writeNotNull('NotUserIds', instance.notUserIds);
+  writeNotNull('UserIds', instance.userIds);
+  return val;
+}
+
 PutAccessControlRuleResponse _$PutAccessControlRuleResponseFromJson(
     Map<String, dynamic> json) {
   return PutAccessControlRuleResponse();
+}
+
+Map<String, dynamic> _$PutMailboxPermissionsRequestToJson(
+    PutMailboxPermissionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EntityId', instance.entityId);
+  writeNotNull('GranteeId', instance.granteeId);
+  writeNotNull('OrganizationId', instance.organizationId);
+  writeNotNull('PermissionValues', instance.permissionValues);
+  return val;
 }
 
 PutMailboxPermissionsResponse _$PutMailboxPermissionsResponseFromJson(
@@ -420,9 +935,41 @@ PutMailboxPermissionsResponse _$PutMailboxPermissionsResponseFromJson(
   return PutMailboxPermissionsResponse();
 }
 
+Map<String, dynamic> _$RegisterToWorkMailRequestToJson(
+    RegisterToWorkMailRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Email', instance.email);
+  writeNotNull('EntityId', instance.entityId);
+  writeNotNull('OrganizationId', instance.organizationId);
+  return val;
+}
+
 RegisterToWorkMailResponse _$RegisterToWorkMailResponseFromJson(
     Map<String, dynamic> json) {
   return RegisterToWorkMailResponse();
+}
+
+Map<String, dynamic> _$ResetPasswordRequestToJson(
+    ResetPasswordRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('OrganizationId', instance.organizationId);
+  writeNotNull('Password', instance.password);
+  writeNotNull('UserId', instance.userId);
+  return val;
 }
 
 ResetPasswordResponse _$ResetPasswordResponseFromJson(
@@ -463,8 +1010,37 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
   return val;
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARN', instance.resourceARN);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
+}
+
+Map<String, dynamic> _$UntagResourceRequestToJson(
+    UntagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARN', instance.resourceARN);
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
 }
 
 UntagResourceResponse _$UntagResourceResponseFromJson(
@@ -472,14 +1048,63 @@ UntagResourceResponse _$UntagResourceResponseFromJson(
   return UntagResourceResponse();
 }
 
+Map<String, dynamic> _$UpdateMailboxQuotaRequestToJson(
+    UpdateMailboxQuotaRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MailboxQuota', instance.mailboxQuota);
+  writeNotNull('OrganizationId', instance.organizationId);
+  writeNotNull('UserId', instance.userId);
+  return val;
+}
+
 UpdateMailboxQuotaResponse _$UpdateMailboxQuotaResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateMailboxQuotaResponse();
 }
 
+Map<String, dynamic> _$UpdatePrimaryEmailAddressRequestToJson(
+    UpdatePrimaryEmailAddressRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Email', instance.email);
+  writeNotNull('EntityId', instance.entityId);
+  writeNotNull('OrganizationId', instance.organizationId);
+  return val;
+}
+
 UpdatePrimaryEmailAddressResponse _$UpdatePrimaryEmailAddressResponseFromJson(
     Map<String, dynamic> json) {
   return UpdatePrimaryEmailAddressResponse();
+}
+
+Map<String, dynamic> _$UpdateResourceRequestToJson(
+    UpdateResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('OrganizationId', instance.organizationId);
+  writeNotNull('ResourceId', instance.resourceId);
+  writeNotNull('BookingOptions', instance.bookingOptions?.toJson());
+  writeNotNull('Name', instance.name);
+  return val;
 }
 
 UpdateResourceResponse _$UpdateResourceResponseFromJson(

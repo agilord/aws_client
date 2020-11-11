@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -55,7 +54,9 @@ class GroundStation {
     @_s.required String contactId,
   }) async {
     ArgumentError.checkNotNull(contactId, 'contactId');
-    final $payload = <String, dynamic>{};
+    final $payload = CancelContactRequest(
+      contactId: contactId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -103,11 +104,11 @@ class GroundStation {
       r'''^[ a-zA-Z0-9_:-]{1,256}$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'configData': configData,
-      'name': name,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateConfigRequest(
+      configData: configData,
+      name: name,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -142,10 +143,10 @@ class GroundStation {
     Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(endpointDetails, 'endpointDetails');
-    final $payload = <String, dynamic>{
-      'endpointDetails': endpointDetails,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateDataflowEndpointGroupRequest(
+      endpointDetails: endpointDetails,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -235,18 +236,15 @@ class GroundStation {
       1,
       21600,
     );
-    final $payload = <String, dynamic>{
-      'dataflowEdges': dataflowEdges,
-      'minimumViableContactDurationSeconds':
-          minimumViableContactDurationSeconds,
-      'name': name,
-      'trackingConfigArn': trackingConfigArn,
-      if (contactPostPassDurationSeconds != null)
-        'contactPostPassDurationSeconds': contactPostPassDurationSeconds,
-      if (contactPrePassDurationSeconds != null)
-        'contactPrePassDurationSeconds': contactPrePassDurationSeconds,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateMissionProfileRequest(
+      dataflowEdges: dataflowEdges,
+      minimumViableContactDurationSeconds: minimumViableContactDurationSeconds,
+      name: name,
+      trackingConfigArn: trackingConfigArn,
+      contactPostPassDurationSeconds: contactPostPassDurationSeconds,
+      contactPrePassDurationSeconds: contactPrePassDurationSeconds,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -273,7 +271,10 @@ class GroundStation {
   }) async {
     ArgumentError.checkNotNull(configId, 'configId');
     ArgumentError.checkNotNull(configType, 'configType');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteConfigRequest(
+      configId: configId,
+      configType: configType,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -297,7 +298,9 @@ class GroundStation {
   }) async {
     ArgumentError.checkNotNull(
         dataflowEndpointGroupId, 'dataflowEndpointGroupId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteDataflowEndpointGroupRequest(
+      dataflowEndpointGroupId: dataflowEndpointGroupId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -320,7 +323,9 @@ class GroundStation {
     @_s.required String missionProfileId,
   }) async {
     ArgumentError.checkNotNull(missionProfileId, 'missionProfileId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteMissionProfileRequest(
+      missionProfileId: missionProfileId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -421,10 +426,10 @@ class GroundStation {
   }) async {
     ArgumentError.checkNotNull(month, 'month');
     ArgumentError.checkNotNull(year, 'year');
-    final $payload = <String, dynamic>{
-      'month': month,
-      'year': year,
-    };
+    final $payload = GetMinuteUsageRequest(
+      month: month,
+      year: year,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -554,16 +559,16 @@ class GroundStation {
     ArgumentError.checkNotNull(endTime, 'endTime');
     ArgumentError.checkNotNull(startTime, 'startTime');
     ArgumentError.checkNotNull(statusList, 'statusList');
-    final $payload = <String, dynamic>{
-      'endTime': endTime,
-      'startTime': startTime,
-      'statusList': statusList,
-      if (groundStation != null) 'groundStation': groundStation,
-      if (maxResults != null) 'maxResults': maxResults,
-      if (missionProfileArn != null) 'missionProfileArn': missionProfileArn,
-      if (nextToken != null) 'nextToken': nextToken,
-      if (satelliteArn != null) 'satelliteArn': satelliteArn,
-    };
+    final $payload = ListContactsRequest(
+      endTime: endTime,
+      startTime: startTime,
+      statusList: statusList,
+      groundStation: groundStation,
+      maxResults: maxResults,
+      missionProfileArn: missionProfileArn,
+      nextToken: nextToken,
+      satelliteArn: satelliteArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -757,14 +762,14 @@ class GroundStation {
     ArgumentError.checkNotNull(missionProfileArn, 'missionProfileArn');
     ArgumentError.checkNotNull(satelliteArn, 'satelliteArn');
     ArgumentError.checkNotNull(startTime, 'startTime');
-    final $payload = <String, dynamic>{
-      'endTime': endTime,
-      'groundStation': groundStation,
-      'missionProfileArn': missionProfileArn,
-      'satelliteArn': satelliteArn,
-      'startTime': startTime,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = ReserveContactRequest(
+      endTime: endTime,
+      groundStation: groundStation,
+      missionProfileArn: missionProfileArn,
+      satelliteArn: satelliteArn,
+      startTime: startTime,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -791,9 +796,10 @@ class GroundStation {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'tags': tags,
-    };
+    final $payload = TagResourceRequest(
+      resourceArn: resourceArn,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -824,7 +830,10 @@ class GroundStation {
     _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = UntagResourceRequest(
+      resourceArn: resourceArn,
+      tagKeys: tagKeys,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -877,10 +886,12 @@ class GroundStation {
       r'''^[ a-zA-Z0-9_:-]{1,256}$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'configData': configData,
-      'name': name,
-    };
+    final $payload = UpdateConfigRequest(
+      configData: configData,
+      configId: configId,
+      configType: configType,
+      name: name,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -964,18 +975,15 @@ class GroundStation {
       name,
       r'''^[ a-zA-Z0-9_:-]{1,256}$''',
     );
-    final $payload = <String, dynamic>{
-      if (contactPostPassDurationSeconds != null)
-        'contactPostPassDurationSeconds': contactPostPassDurationSeconds,
-      if (contactPrePassDurationSeconds != null)
-        'contactPrePassDurationSeconds': contactPrePassDurationSeconds,
-      if (dataflowEdges != null) 'dataflowEdges': dataflowEdges,
-      if (minimumViableContactDurationSeconds != null)
-        'minimumViableContactDurationSeconds':
-            minimumViableContactDurationSeconds,
-      if (name != null) 'name': name,
-      if (trackingConfigArn != null) 'trackingConfigArn': trackingConfigArn,
-    };
+    final $payload = UpdateMissionProfileRequest(
+      missionProfileId: missionProfileId,
+      contactPostPassDurationSeconds: contactPostPassDurationSeconds,
+      contactPrePassDurationSeconds: contactPrePassDurationSeconds,
+      dataflowEdges: dataflowEdges,
+      minimumViableContactDurationSeconds: minimumViableContactDurationSeconds,
+      name: name,
+      trackingConfigArn: trackingConfigArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1080,6 +1088,23 @@ enum BandwidthUnits {
   mHz,
   @_s.JsonValue('kHz')
   kHz,
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CancelContactRequest {
+  /// UUID of a contact.
+  @_s.JsonKey(name: 'contactId', ignore: true)
+  final String contactId;
+
+  CancelContactRequest({
+    @_s.required this.contactId,
+  });
+  Map<String, dynamic> toJson() => _$CancelContactRequestToJson(this);
 }
 
 enum ConfigCapabilityType {
@@ -1351,6 +1376,108 @@ enum ContactStatus {
   scheduling,
 }
 
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateConfigRequest {
+  /// Parameters of a <code>Config</code>.
+  @_s.JsonKey(name: 'configData')
+  final ConfigTypeData configData;
+
+  /// Name of a <code>Config</code>.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// Tags assigned to a <code>Config</code>.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateConfigRequest({
+    @_s.required this.configData,
+    @_s.required this.name,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateConfigRequestToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDataflowEndpointGroupRequest {
+  /// Endpoint details of each endpoint in the dataflow endpoint group.
+  @_s.JsonKey(name: 'endpointDetails')
+  final List<EndpointDetails> endpointDetails;
+
+  /// Tags of a dataflow endpoint group.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateDataflowEndpointGroupRequest({
+    @_s.required this.endpointDetails,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateDataflowEndpointGroupRequestToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateMissionProfileRequest {
+  /// A list of lists of ARNs. Each list of ARNs is an edge, with a <i>from</i>
+  /// <code>Config</code> and a <i>to</i> <code>Config</code>.
+  @_s.JsonKey(name: 'dataflowEdges')
+  final List<List<String>> dataflowEdges;
+
+  /// Smallest amount of time in seconds that you’d like to see for an available
+  /// contact. AWS Ground Station will not present you with contacts shorter than
+  /// this duration.
+  @_s.JsonKey(name: 'minimumViableContactDurationSeconds')
+  final int minimumViableContactDurationSeconds;
+
+  /// Name of a mission profile.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// ARN of a tracking <code>Config</code>.
+  @_s.JsonKey(name: 'trackingConfigArn')
+  final String trackingConfigArn;
+
+  /// Amount of time after a contact ends that you’d like to receive a CloudWatch
+  /// event indicating the pass has finished.
+  @_s.JsonKey(name: 'contactPostPassDurationSeconds')
+  final int contactPostPassDurationSeconds;
+
+  /// Amount of time prior to contact start you’d like to receive a CloudWatch
+  /// event indicating an upcoming pass.
+  @_s.JsonKey(name: 'contactPrePassDurationSeconds')
+  final int contactPrePassDurationSeconds;
+
+  /// Tags assigned to a mission profile.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateMissionProfileRequest({
+    @_s.required this.dataflowEdges,
+    @_s.required this.minimumViableContactDurationSeconds,
+    @_s.required this.name,
+    @_s.required this.trackingConfigArn,
+    this.contactPostPassDurationSeconds,
+    this.contactPrePassDurationSeconds,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateMissionProfileRequestToJson(this);
+}
+
 enum Criticality {
   @_s.JsonValue('PREFERRED')
   preferred,
@@ -1474,6 +1601,63 @@ class DecodeConfig {
       _$DecodeConfigFromJson(json);
 
   Map<String, dynamic> toJson() => _$DecodeConfigToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteConfigRequest {
+  /// UUID of a <code>Config</code>.
+  @_s.JsonKey(name: 'configId', ignore: true)
+  final String configId;
+
+  /// Type of a <code>Config</code>.
+  @_s.JsonKey(name: 'configType', ignore: true)
+  final ConfigCapabilityType configType;
+
+  DeleteConfigRequest({
+    @_s.required this.configId,
+    @_s.required this.configType,
+  });
+  Map<String, dynamic> toJson() => _$DeleteConfigRequestToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDataflowEndpointGroupRequest {
+  /// UUID of a dataflow endpoint group.
+  @_s.JsonKey(name: 'dataflowEndpointGroupId', ignore: true)
+  final String dataflowEndpointGroupId;
+
+  DeleteDataflowEndpointGroupRequest({
+    @_s.required this.dataflowEndpointGroupId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteDataflowEndpointGroupRequestToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteMissionProfileRequest {
+  /// UUID of a mission profile.
+  @_s.JsonKey(name: 'missionProfileId', ignore: true)
+  final String missionProfileId;
+
+  DeleteMissionProfileRequest({
+    @_s.required this.missionProfileId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteMissionProfileRequestToJson(this);
 }
 
 /// Information about the demodulation <code>Config</code>.
@@ -1818,6 +2002,28 @@ class GetDataflowEndpointGroupResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetMinuteUsageRequest {
+  /// The month being requested, with a value of 1-12.
+  @_s.JsonKey(name: 'month')
+  final int month;
+
+  /// The year being requested, in the format of YYYY.
+  @_s.JsonKey(name: 'year')
+  final int year;
+
+  GetMinuteUsageRequest({
+    @_s.required this.month,
+    @_s.required this.year,
+  });
+  Map<String, dynamic> toJson() => _$GetMinuteUsageRequestToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetMinuteUsageResponse {
@@ -2008,6 +2214,65 @@ class ListConfigsResponse {
   });
   factory ListConfigsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListConfigsResponseFromJson(json);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListContactsRequest {
+  /// End time of a contact.
+  @_s.JsonKey(
+      name: 'endTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime endTime;
+
+  /// Start time of a contact.
+  @_s.JsonKey(
+      name: 'startTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime startTime;
+
+  /// Status of a contact reservation.
+  @_s.JsonKey(name: 'statusList')
+  final List<String> statusList;
+
+  /// Name of a ground station.
+  @_s.JsonKey(name: 'groundStation')
+  final String groundStation;
+
+  /// Maximum number of contacts returned.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// ARN of a mission profile.
+  @_s.JsonKey(name: 'missionProfileArn')
+  final String missionProfileArn;
+
+  /// Next token returned in the request of a previous <code>ListContacts</code>
+  /// call. Used to get the next page of results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// ARN of a satellite.
+  @_s.JsonKey(name: 'satelliteArn')
+  final String satelliteArn;
+
+  ListContactsRequest({
+    @_s.required this.endTime,
+    @_s.required this.startTime,
+    @_s.required this.statusList,
+    this.groundStation,
+    this.maxResults,
+    this.missionProfileArn,
+    this.nextToken,
+    this.satelliteArn,
+  });
+  Map<String, dynamic> toJson() => _$ListContactsRequestToJson(this);
 }
 
 /// <p/>
@@ -2210,6 +2475,54 @@ enum Polarization {
   rightHand,
 }
 
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ReserveContactRequest {
+  /// End time of a contact.
+  @_s.JsonKey(
+      name: 'endTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime endTime;
+
+  /// Name of a ground station.
+  @_s.JsonKey(name: 'groundStation')
+  final String groundStation;
+
+  /// ARN of a mission profile.
+  @_s.JsonKey(name: 'missionProfileArn')
+  final String missionProfileArn;
+
+  /// ARN of a satellite
+  @_s.JsonKey(name: 'satelliteArn')
+  final String satelliteArn;
+
+  /// Start time of a contact.
+  @_s.JsonKey(
+      name: 'startTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime startTime;
+
+  /// Tags assigned to a contact.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  ReserveContactRequest({
+    @_s.required this.endTime,
+    @_s.required this.groundStation,
+    @_s.required this.missionProfileArn,
+    @_s.required this.satelliteArn,
+    @_s.required this.startTime,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$ReserveContactRequestToJson(this);
+}
+
 /// Item in a list of satellites.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2333,6 +2646,28 @@ class SpectrumConfig {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// ARN of a resource tag.
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  /// Tags assigned to a resource.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagResourceResponse {
@@ -2366,12 +2701,118 @@ class TrackingConfig {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// ARN of a resource.
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  /// Keys of a resource tag.
+  @_s.JsonKey(name: 'tagKeys', ignore: true)
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
   factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceResponseFromJson(json);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateConfigRequest {
+  /// Parameters of a <code>Config</code>.
+  @_s.JsonKey(name: 'configData')
+  final ConfigTypeData configData;
+
+  /// UUID of a <code>Config</code>.
+  @_s.JsonKey(name: 'configId', ignore: true)
+  final String configId;
+
+  /// Type of a <code>Config</code>.
+  @_s.JsonKey(name: 'configType', ignore: true)
+  final ConfigCapabilityType configType;
+
+  /// Name of a <code>Config</code>.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  UpdateConfigRequest({
+    @_s.required this.configData,
+    @_s.required this.configId,
+    @_s.required this.configType,
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$UpdateConfigRequestToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateMissionProfileRequest {
+  /// UUID of a mission profile.
+  @_s.JsonKey(name: 'missionProfileId', ignore: true)
+  final String missionProfileId;
+
+  /// Amount of time after a contact ends that you’d like to receive a CloudWatch
+  /// event indicating the pass has finished.
+  @_s.JsonKey(name: 'contactPostPassDurationSeconds')
+  final int contactPostPassDurationSeconds;
+
+  /// Amount of time after a contact ends that you’d like to receive a CloudWatch
+  /// event indicating the pass has finished.
+  @_s.JsonKey(name: 'contactPrePassDurationSeconds')
+  final int contactPrePassDurationSeconds;
+
+  /// A list of lists of ARNs. Each list of ARNs is an edge, with a <i>from</i>
+  /// <code>Config</code> and a <i>to</i> <code>Config</code>.
+  @_s.JsonKey(name: 'dataflowEdges')
+  final List<List<String>> dataflowEdges;
+
+  /// Smallest amount of time in seconds that you’d like to see for an available
+  /// contact. AWS Ground Station will not present you with contacts shorter than
+  /// this duration.
+  @_s.JsonKey(name: 'minimumViableContactDurationSeconds')
+  final int minimumViableContactDurationSeconds;
+
+  /// Name of a mission profile.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// ARN of a tracking <code>Config</code>.
+  @_s.JsonKey(name: 'trackingConfigArn')
+  final String trackingConfigArn;
+
+  UpdateMissionProfileRequest({
+    @_s.required this.missionProfileId,
+    this.contactPostPassDurationSeconds,
+    this.contactPrePassDurationSeconds,
+    this.dataflowEdges,
+    this.minimumViableContactDurationSeconds,
+    this.name,
+    this.trackingConfigArn,
+  });
+  Map<String, dynamic> toJson() => _$UpdateMissionProfileRequestToJson(this);
 }
 
 /// Information about an uplink echo <code>Config</code>.

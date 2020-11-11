@@ -6,6 +6,23 @@ part of 'outposts-2019-12-03.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$CreateOutpostInputToJson(CreateOutpostInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SiteId', instance.siteId);
+  writeNotNull('AvailabilityZone', instance.availabilityZone);
+  writeNotNull('AvailabilityZoneId', instance.availabilityZoneId);
+  writeNotNull('Description', instance.description);
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
 CreateOutpostOutput _$CreateOutpostOutputFromJson(Map<String, dynamic> json) {
   return CreateOutpostOutput(
     outpost: json['Outpost'] == null
@@ -14,9 +31,15 @@ CreateOutpostOutput _$CreateOutpostOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DeleteOutpostInputToJson(DeleteOutpostInput instance) =>
+    <String, dynamic>{};
+
 DeleteOutpostOutput _$DeleteOutpostOutputFromJson(Map<String, dynamic> json) {
   return DeleteOutpostOutput();
 }
+
+Map<String, dynamic> _$DeleteSiteInputToJson(DeleteSiteInput instance) =>
+    <String, dynamic>{};
 
 DeleteSiteOutput _$DeleteSiteOutputFromJson(Map<String, dynamic> json) {
   return DeleteSiteOutput();

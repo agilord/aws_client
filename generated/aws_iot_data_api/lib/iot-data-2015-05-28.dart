@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -78,7 +77,9 @@ class IoTDataPlane {
       r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteThingShadowRequest(
+      thingName: thingName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -242,6 +243,23 @@ class ConflictException implements _s.AwsException {
   });
   factory ConflictException.fromJson(Map<String, dynamic> json) =>
       _$ConflictExceptionFromJson(json);
+}
+
+/// The input for the DeleteThingShadow operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteThingShadowRequest {
+  /// The name of the thing.
+  @_s.JsonKey(name: 'thingName', ignore: true)
+  final String thingName;
+
+  DeleteThingShadowRequest({
+    @_s.required this.thingName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteThingShadowRequestToJson(this);
 }
 
 /// The output from the DeleteThingShadow operation.

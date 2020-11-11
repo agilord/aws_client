@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -102,7 +101,10 @@ class MarketplaceCatalog {
       if (catalog != null) _s.toQueryParam('catalog', catalog),
       if (changeSetId != null) _s.toQueryParam('changeSetId', changeSetId),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = CancelChangeSetRequest(
+      catalog: catalog,
+      changeSetId: changeSetId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -305,13 +307,13 @@ class MarketplaceCatalog {
       nextToken,
       r'''^[\w+=.:@\-\/]$''',
     );
-    final $payload = <String, dynamic>{
-      'Catalog': catalog,
-      if (filterList != null) 'FilterList': filterList,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-      if (sort != null) 'Sort': sort,
-    };
+    final $payload = ListChangeSetsRequest(
+      catalog: catalog,
+      filterList: filterList,
+      maxResults: maxResults,
+      nextToken: nextToken,
+      sort: sort,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -404,14 +406,14 @@ class MarketplaceCatalog {
       nextToken,
       r'''^[\w+=.:@\-\/]$''',
     );
-    final $payload = <String, dynamic>{
-      'Catalog': catalog,
-      'EntityType': entityType,
-      if (filterList != null) 'FilterList': filterList,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-      if (sort != null) 'Sort': sort,
-    };
+    final $payload = ListEntitiesRequest(
+      catalog: catalog,
+      entityType: entityType,
+      filterList: filterList,
+      maxResults: maxResults,
+      nextToken: nextToken,
+      sort: sort,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -487,12 +489,12 @@ class MarketplaceCatalog {
       clientRequestToken,
       r'''^[\w\-]+$''',
     );
-    final $payload = <String, dynamic>{
-      'Catalog': catalog,
-      'ChangeSet': changeSet,
-      if (changeSetName != null) 'ChangeSetName': changeSetName,
-      if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
-    };
+    final $payload = StartChangeSetRequest(
+      catalog: catalog,
+      changeSet: changeSet,
+      changeSetName: changeSetName,
+      clientRequestToken: clientRequestToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -501,6 +503,29 @@ class MarketplaceCatalog {
     );
     return StartChangeSetResponse.fromJson(response);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CancelChangeSetRequest {
+  /// Required. The catalog related to the request. Fixed value:
+  /// <code>AWSMarketplace</code>.
+  @_s.JsonKey(name: 'catalog', ignore: true)
+  final String catalog;
+
+  /// Required. The unique identifier of the <code>StartChangeSet</code> request
+  /// that you want to cancel.
+  @_s.JsonKey(name: 'changeSetId', ignore: true)
+  final String changeSetId;
+
+  CancelChangeSetRequest({
+    @_s.required this.catalog,
+    @_s.required this.changeSetId,
+  });
+  Map<String, dynamic> toJson() => _$CancelChangeSetRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -915,6 +940,46 @@ class Filter {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListChangeSetsRequest {
+  /// The catalog related to the request. Fixed value: <code>AWSMarketplace</code>
+  @_s.JsonKey(name: 'Catalog')
+  final String catalog;
+
+  /// An array of filter objects.
+  @_s.JsonKey(name: 'FilterList')
+  final List<Filter> filterList;
+
+  /// The maximum number of results returned by a single call. This value must be
+  /// provided in the next call to retrieve the next set of results. By default,
+  /// this value is 20.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token value retrieved from a previous call to access the next page of
+  /// results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// An object that contains two attributes, <code>sortBy</code> and
+  /// <code>sortOrder</code>.
+  @_s.JsonKey(name: 'Sort')
+  final Sort sort;
+
+  ListChangeSetsRequest({
+    @_s.required this.catalog,
+    this.filterList,
+    this.maxResults,
+    this.nextToken,
+    this.sort,
+  });
+  Map<String, dynamic> toJson() => _$ListChangeSetsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListChangeSetsResponse {
@@ -933,6 +998,51 @@ class ListChangeSetsResponse {
   });
   factory ListChangeSetsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListChangeSetsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListEntitiesRequest {
+  /// The catalog related to the request. Fixed value: <code>AWSMarketplace</code>
+  @_s.JsonKey(name: 'Catalog')
+  final String catalog;
+
+  /// The type of entities to retrieve.
+  @_s.JsonKey(name: 'EntityType')
+  final String entityType;
+
+  /// An array of filter objects. Each filter object contains two attributes,
+  /// <code>filterName</code> and <code>filterValues</code>.
+  @_s.JsonKey(name: 'FilterList')
+  final List<Filter> filterList;
+
+  /// Specifies the upper limit of the elements on a single page. If a value isn't
+  /// provided, the default value is 20.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The value of the next token, if it exists. Null if there are no more
+  /// results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// An object that contains two attributes, <code>sortBy</code> and
+  /// <code>sortOrder</code>.
+  @_s.JsonKey(name: 'Sort')
+  final Sort sort;
+
+  ListEntitiesRequest({
+    @_s.required this.catalog,
+    @_s.required this.entityType,
+    this.filterList,
+    this.maxResults,
+    this.nextToken,
+    this.sort,
+  });
+  Map<String, dynamic> toJson() => _$ListEntitiesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -991,6 +1101,38 @@ enum SortOrder {
   ascending,
   @_s.JsonValue('DESCENDING')
   descending,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartChangeSetRequest {
+  /// The catalog related to the request. Fixed value: <code>AWSMarketplace</code>
+  @_s.JsonKey(name: 'Catalog')
+  final String catalog;
+
+  /// Array of <code>change</code> object.
+  @_s.JsonKey(name: 'ChangeSet')
+  final List<Change> changeSet;
+
+  /// Optional case sensitive string of up to 100 ASCII characters. The change set
+  /// name can be used to filter the list of change sets.
+  @_s.JsonKey(name: 'ChangeSetName')
+  final String changeSetName;
+
+  /// A unique token to identify the request to ensure idempotency.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  StartChangeSetRequest({
+    @_s.required this.catalog,
+    @_s.required this.changeSet,
+    this.changeSetName,
+    this.clientRequestToken,
+  });
+  Map<String, dynamic> toJson() => _$StartChangeSetRequestToJson(this);
 }
 
 @_s.JsonSerializable(

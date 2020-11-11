@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -116,13 +115,13 @@ class Outposts {
       name,
       r'''^[\S ]+$''',
     );
-    final $payload = <String, dynamic>{
-      'SiteId': siteId,
-      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
-      if (availabilityZoneId != null) 'AvailabilityZoneId': availabilityZoneId,
-      if (description != null) 'Description': description,
-      if (name != null) 'Name': name,
-    };
+    final $payload = CreateOutpostInput(
+      siteId: siteId,
+      availabilityZone: availabilityZone,
+      availabilityZoneId: availabilityZoneId,
+      description: description,
+      name: name,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -155,7 +154,9 @@ class Outposts {
       r'''^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:outpost/)?op-[a-f0-9]{17}$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteOutpostInput(
+      outpostId: outpostId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -188,7 +189,9 @@ class Outposts {
       r'''os-[a-f0-9]{17}''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteSiteInput(
+      siteId: siteId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -371,6 +374,33 @@ class Outposts {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateOutpostInput {
+  @_s.JsonKey(name: 'SiteId')
+  final String siteId;
+  @_s.JsonKey(name: 'AvailabilityZone')
+  final String availabilityZone;
+  @_s.JsonKey(name: 'AvailabilityZoneId')
+  final String availabilityZoneId;
+  @_s.JsonKey(name: 'Description')
+  final String description;
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  CreateOutpostInput({
+    @_s.required this.siteId,
+    this.availabilityZone,
+    this.availabilityZoneId,
+    this.description,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$CreateOutpostInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateOutpostOutput {
@@ -387,12 +417,42 @@ class CreateOutpostOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteOutpostInput {
+  @_s.JsonKey(name: 'OutpostId', ignore: true)
+  final String outpostId;
+
+  DeleteOutpostInput({
+    @_s.required this.outpostId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteOutpostInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteOutpostOutput {
   DeleteOutpostOutput();
   factory DeleteOutpostOutput.fromJson(Map<String, dynamic> json) =>
       _$DeleteOutpostOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteSiteInput {
+  @_s.JsonKey(name: 'SiteId', ignore: true)
+  final String siteId;
+
+  DeleteSiteInput({
+    @_s.required this.siteId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteSiteInputToJson(this);
 }
 
 @_s.JsonSerializable(

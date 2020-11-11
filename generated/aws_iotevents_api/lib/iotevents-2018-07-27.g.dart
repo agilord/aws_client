@@ -193,6 +193,33 @@ Map<String, dynamic> _$ClearTimerActionToJson(ClearTimerAction instance) {
   return val;
 }
 
+Map<String, dynamic> _$CreateDetectorModelRequestToJson(
+    CreateDetectorModelRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'detectorModelDefinition', instance.detectorModelDefinition?.toJson());
+  writeNotNull('detectorModelName', instance.detectorModelName);
+  writeNotNull('roleArn', instance.roleArn);
+  writeNotNull('detectorModelDescription', instance.detectorModelDescription);
+  writeNotNull(
+      'evaluationMethod', _$EvaluationMethodEnumMap[instance.evaluationMethod]);
+  writeNotNull('key', instance.key);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+const _$EvaluationMethodEnumMap = {
+  EvaluationMethod.batch: 'BATCH',
+  EvaluationMethod.serial: 'SERIAL',
+};
+
 CreateDetectorModelResponse _$CreateDetectorModelResponseFromJson(
     Map<String, dynamic> json) {
   return CreateDetectorModelResponse(
@@ -201,6 +228,22 @@ CreateDetectorModelResponse _$CreateDetectorModelResponseFromJson(
         : DetectorModelConfiguration.fromJson(
             json['detectorModelConfiguration'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateInputRequestToJson(CreateInputRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('inputDefinition', instance.inputDefinition?.toJson());
+  writeNotNull('inputName', instance.inputName);
+  writeNotNull('inputDescription', instance.inputDescription);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateInputResponse _$CreateInputResponseFromJson(Map<String, dynamic> json) {
@@ -212,10 +255,17 @@ CreateInputResponse _$CreateInputResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DeleteDetectorModelRequestToJson(
+        DeleteDetectorModelRequest instance) =>
+    <String, dynamic>{};
+
 DeleteDetectorModelResponse _$DeleteDetectorModelResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteDetectorModelResponse();
 }
+
+Map<String, dynamic> _$DeleteInputRequestToJson(DeleteInputRequest instance) =>
+    <String, dynamic>{};
 
 DeleteInputResponse _$DeleteInputResponseFromJson(Map<String, dynamic> json) {
   return DeleteInputResponse();
@@ -332,11 +382,6 @@ T _$enumDecodeNullable<T>(
   }
   return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
 }
-
-const _$EvaluationMethodEnumMap = {
-  EvaluationMethod.batch: 'BATCH',
-  EvaluationMethod.serial: 'SERIAL',
-};
 
 const _$DetectorModelVersionStatusEnumMap = {
   DetectorModelVersionStatus.active: 'ACTIVE',
@@ -856,6 +901,20 @@ const _$PayloadTypeEnumMap = {
   PayloadType.json: 'JSON',
 };
 
+Map<String, dynamic> _$PutLoggingOptionsRequestToJson(
+    PutLoggingOptionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('loggingOptions', instance.loggingOptions?.toJson());
+  return val;
+}
+
 ResetTimerAction _$ResetTimerActionFromJson(Map<String, dynamic> json) {
   return ResetTimerAction(
     timerName: json['timerName'] as String,
@@ -1021,6 +1080,19 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
   return val;
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
 }
@@ -1079,9 +1151,32 @@ Map<String, dynamic> _$TransitionEventToJson(TransitionEvent instance) {
   return val;
 }
 
+Map<String, dynamic> _$UntagResourceRequestToJson(
+        UntagResourceRequest instance) =>
+    <String, dynamic>{};
+
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse();
+}
+
+Map<String, dynamic> _$UpdateDetectorModelRequestToJson(
+    UpdateDetectorModelRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'detectorModelDefinition', instance.detectorModelDefinition?.toJson());
+  writeNotNull('roleArn', instance.roleArn);
+  writeNotNull('detectorModelDescription', instance.detectorModelDescription);
+  writeNotNull(
+      'evaluationMethod', _$EvaluationMethodEnumMap[instance.evaluationMethod]);
+  return val;
 }
 
 UpdateDetectorModelResponse _$UpdateDetectorModelResponseFromJson(
@@ -1092,6 +1187,20 @@ UpdateDetectorModelResponse _$UpdateDetectorModelResponseFromJson(
         : DetectorModelConfiguration.fromJson(
             json['detectorModelConfiguration'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateInputRequestToJson(UpdateInputRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('inputDefinition', instance.inputDefinition?.toJson());
+  writeNotNull('inputDescription', instance.inputDescription);
+  return val;
 }
 
 UpdateInputResponse _$UpdateInputResponseFromJson(Map<String, dynamic> json) {

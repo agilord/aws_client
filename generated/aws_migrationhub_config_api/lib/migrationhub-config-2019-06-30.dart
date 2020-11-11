@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -114,11 +113,11 @@ class MigrationHubConfig {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'HomeRegion': homeRegion,
-        'Target': target,
-        if (dryRun != null) 'DryRun': dryRun,
-      },
+      payload: CreateHomeRegionControlRequest(
+        homeRegion: homeRegion,
+        target: target,
+        dryRun: dryRun,
+      ),
     );
 
     return CreateHomeRegionControlResult.fromJson(jsonResponse.body);
@@ -209,13 +208,13 @@ class MigrationHubConfig {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (controlId != null) 'ControlId': controlId,
-        if (homeRegion != null) 'HomeRegion': homeRegion,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (target != null) 'Target': target,
-      },
+      payload: DescribeHomeRegionControlsRequest(
+        controlId: controlId,
+        homeRegion: homeRegion,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        target: target,
+      ),
     );
 
     return DescribeHomeRegionControlsResult.fromJson(jsonResponse.body);
@@ -253,6 +252,34 @@ class MigrationHubConfig {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateHomeRegionControlRequest {
+  /// The name of the home region of the calling account.
+  @_s.JsonKey(name: 'HomeRegion')
+  final String homeRegion;
+
+  /// The account for which this command sets up a home region control. The
+  /// <code>Target</code> is always of type <code>ACCOUNT</code>.
+  @_s.JsonKey(name: 'Target')
+  final Target target;
+
+  /// Optional Boolean flag to indicate whether any effect should take place. It
+  /// tests whether the caller has permission to make the call.
+  @_s.JsonKey(name: 'DryRun')
+  final bool dryRun;
+
+  CreateHomeRegionControlRequest({
+    @_s.required this.homeRegion,
+    @_s.required this.target,
+    this.dryRun,
+  });
+  Map<String, dynamic> toJson() => _$CreateHomeRegionControlRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateHomeRegionControlResult {
@@ -266,6 +293,48 @@ class CreateHomeRegionControlResult {
   });
   factory CreateHomeRegionControlResult.fromJson(Map<String, dynamic> json) =>
       _$CreateHomeRegionControlResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeHomeRegionControlsRequest {
+  /// The <code>ControlID</code> is a unique identifier string of your
+  /// <code>HomeRegionControl</code> object.
+  @_s.JsonKey(name: 'ControlId')
+  final String controlId;
+
+  /// The name of the home region you'd like to view.
+  @_s.JsonKey(name: 'HomeRegion')
+  final String homeRegion;
+
+  /// The maximum number of filtering results to display per page.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If a <code>NextToken</code> was returned by a previous call, more results
+  /// are available. To retrieve the next page of results, make the call again
+  /// using the returned token in <code>NextToken</code>.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The target parameter specifies the identifier to which the home region is
+  /// applied, which is always of type <code>ACCOUNT</code>. It applies the home
+  /// region to the current <code>ACCOUNT</code>.
+  @_s.JsonKey(name: 'Target')
+  final Target target;
+
+  DescribeHomeRegionControlsRequest({
+    this.controlId,
+    this.homeRegion,
+    this.maxResults,
+    this.nextToken,
+    this.target,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeHomeRegionControlsRequestToJson(this);
 }
 
 @_s.JsonSerializable(

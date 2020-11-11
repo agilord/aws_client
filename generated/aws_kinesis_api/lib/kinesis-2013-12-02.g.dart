@@ -6,6 +6,21 @@ part of 'kinesis-2013-12-02.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$AddTagsToStreamInputToJson(
+    AddTagsToStreamInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('StreamName', instance.streamName);
+  writeNotNull('Tags', instance.tags);
+  return val;
+}
+
 Consumer _$ConsumerFromJson(Map<String, dynamic> json) {
   return Consumer(
     consumerARN: json['ConsumerARN'] as String,
@@ -67,11 +82,86 @@ ConsumerDescription _$ConsumerDescriptionFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateStreamInputToJson(CreateStreamInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ShardCount', instance.shardCount);
+  writeNotNull('StreamName', instance.streamName);
+  return val;
+}
+
+Map<String, dynamic> _$DecreaseStreamRetentionPeriodInputToJson(
+    DecreaseStreamRetentionPeriodInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RetentionPeriodHours', instance.retentionPeriodHours);
+  writeNotNull('StreamName', instance.streamName);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteStreamInputToJson(DeleteStreamInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('StreamName', instance.streamName);
+  writeNotNull('EnforceConsumerDeletion', instance.enforceConsumerDeletion);
+  return val;
+}
+
+Map<String, dynamic> _$DeregisterStreamConsumerInputToJson(
+    DeregisterStreamConsumerInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConsumerARN', instance.consumerARN);
+  writeNotNull('ConsumerName', instance.consumerName);
+  writeNotNull('StreamARN', instance.streamARN);
+  return val;
+}
+
 DescribeLimitsOutput _$DescribeLimitsOutputFromJson(Map<String, dynamic> json) {
   return DescribeLimitsOutput(
     openShardCount: json['OpenShardCount'] as int,
     shardLimit: json['ShardLimit'] as int,
   );
+}
+
+Map<String, dynamic> _$DescribeStreamConsumerInputToJson(
+    DescribeStreamConsumerInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConsumerARN', instance.consumerARN);
+  writeNotNull('ConsumerName', instance.consumerName);
+  writeNotNull('StreamARN', instance.streamARN);
+  return val;
 }
 
 DescribeStreamConsumerOutput _$DescribeStreamConsumerOutputFromJson(
@@ -84,6 +174,21 @@ DescribeStreamConsumerOutput _$DescribeStreamConsumerOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeStreamInputToJson(DescribeStreamInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('StreamName', instance.streamName);
+  writeNotNull('ExclusiveStartShardId', instance.exclusiveStartShardId);
+  writeNotNull('Limit', instance.limit);
+  return val;
+}
+
 DescribeStreamOutput _$DescribeStreamOutputFromJson(Map<String, dynamic> json) {
   return DescribeStreamOutput(
     streamDescription: json['StreamDescription'] == null
@@ -91,6 +196,20 @@ DescribeStreamOutput _$DescribeStreamOutputFromJson(Map<String, dynamic> json) {
         : StreamDescription.fromJson(
             json['StreamDescription'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeStreamSummaryInputToJson(
+    DescribeStreamSummaryInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('StreamName', instance.streamName);
+  return val;
 }
 
 DescribeStreamSummaryOutput _$DescribeStreamSummaryOutputFromJson(
@@ -101,6 +220,36 @@ DescribeStreamSummaryOutput _$DescribeStreamSummaryOutputFromJson(
         : StreamDescriptionSummary.fromJson(
             json['StreamDescriptionSummary'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DisableEnhancedMonitoringInputToJson(
+    DisableEnhancedMonitoringInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ShardLevelMetrics', instance.shardLevelMetrics);
+  writeNotNull('StreamName', instance.streamName);
+  return val;
+}
+
+Map<String, dynamic> _$EnableEnhancedMonitoringInputToJson(
+    EnableEnhancedMonitoringInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ShardLevelMetrics', instance.shardLevelMetrics);
+  writeNotNull('StreamName', instance.streamName);
+  return val;
 }
 
 EnhancedMetrics _$EnhancedMetricsFromJson(Map<String, dynamic> json) {
@@ -137,6 +286,20 @@ ExpiredNextTokenException _$ExpiredNextTokenExceptionFromJson(
   );
 }
 
+Map<String, dynamic> _$GetRecordsInputToJson(GetRecordsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ShardIterator', instance.shardIterator);
+  writeNotNull('Limit', instance.limit);
+  return val;
+}
+
 GetRecordsOutput _$GetRecordsOutputFromJson(Map<String, dynamic> json) {
   return GetRecordsOutput(
     records: (json['Records'] as List)
@@ -147,6 +310,33 @@ GetRecordsOutput _$GetRecordsOutputFromJson(Map<String, dynamic> json) {
     nextShardIterator: json['NextShardIterator'] as String,
   );
 }
+
+Map<String, dynamic> _$GetShardIteratorInputToJson(
+    GetShardIteratorInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ShardId', instance.shardId);
+  writeNotNull('ShardIteratorType',
+      _$ShardIteratorTypeEnumMap[instance.shardIteratorType]);
+  writeNotNull('StreamName', instance.streamName);
+  writeNotNull('StartingSequenceNumber', instance.startingSequenceNumber);
+  writeNotNull('Timestamp', unixTimestampToJson(instance.timestamp));
+  return val;
+}
+
+const _$ShardIteratorTypeEnumMap = {
+  ShardIteratorType.atSequenceNumber: 'AT_SEQUENCE_NUMBER',
+  ShardIteratorType.afterSequenceNumber: 'AFTER_SEQUENCE_NUMBER',
+  ShardIteratorType.trimHorizon: 'TRIM_HORIZON',
+  ShardIteratorType.latest: 'LATEST',
+  ShardIteratorType.atTimestamp: 'AT_TIMESTAMP',
+};
 
 GetShardIteratorOutput _$GetShardIteratorOutputFromJson(
     Map<String, dynamic> json) {
@@ -160,6 +350,21 @@ HashKeyRange _$HashKeyRangeFromJson(Map<String, dynamic> json) {
     endingHashKey: json['EndingHashKey'] as String,
     startingHashKey: json['StartingHashKey'] as String,
   );
+}
+
+Map<String, dynamic> _$IncreaseStreamRetentionPeriodInputToJson(
+    IncreaseStreamRetentionPeriodInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RetentionPeriodHours', instance.retentionPeriodHours);
+  writeNotNull('StreamName', instance.streamName);
+  return val;
 }
 
 InternalFailureException _$InternalFailureExceptionFromJson(
@@ -222,6 +427,24 @@ LimitExceededException _$LimitExceededExceptionFromJson(
   );
 }
 
+Map<String, dynamic> _$ListShardsInputToJson(ListShardsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ExclusiveStartShardId', instance.exclusiveStartShardId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('StreamCreationTimestamp',
+      unixTimestampToJson(instance.streamCreationTimestamp));
+  writeNotNull('StreamName', instance.streamName);
+  return val;
+}
+
 ListShardsOutput _$ListShardsOutputFromJson(Map<String, dynamic> json) {
   return ListShardsOutput(
     nextToken: json['NextToken'] as String,
@@ -230,6 +453,24 @@ ListShardsOutput _$ListShardsOutputFromJson(Map<String, dynamic> json) {
             (e) => e == null ? null : Shard.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListStreamConsumersInputToJson(
+    ListStreamConsumersInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('StreamARN', instance.streamARN);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('StreamCreationTimestamp',
+      unixTimestampToJson(instance.streamCreationTimestamp));
+  return val;
 }
 
 ListStreamConsumersOutput _$ListStreamConsumersOutputFromJson(
@@ -243,12 +484,42 @@ ListStreamConsumersOutput _$ListStreamConsumersOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$ListStreamsInputToJson(ListStreamsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ExclusiveStartStreamName', instance.exclusiveStartStreamName);
+  writeNotNull('Limit', instance.limit);
+  return val;
+}
+
 ListStreamsOutput _$ListStreamsOutputFromJson(Map<String, dynamic> json) {
   return ListStreamsOutput(
     hasMoreStreams: json['HasMoreStreams'] as bool,
     streamNames:
         (json['StreamNames'] as List)?.map((e) => e as String)?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListTagsForStreamInputToJson(
+    ListTagsForStreamInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('StreamName', instance.streamName);
+  writeNotNull('ExclusiveStartTagKey', instance.exclusiveStartTagKey);
+  writeNotNull('Limit', instance.limit);
+  return val;
 }
 
 ListTagsForStreamOutput _$ListTagsForStreamOutputFromJson(
@@ -261,12 +532,44 @@ ListTagsForStreamOutput _$ListTagsForStreamOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$MergeShardsInputToJson(MergeShardsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AdjacentShardToMerge', instance.adjacentShardToMerge);
+  writeNotNull('ShardToMerge', instance.shardToMerge);
+  writeNotNull('StreamName', instance.streamName);
+  return val;
+}
+
 ProvisionedThroughputExceededException
     _$ProvisionedThroughputExceededExceptionFromJson(
         Map<String, dynamic> json) {
   return ProvisionedThroughputExceededException(
     message: json['message'] as String,
   );
+}
+
+Map<String, dynamic> _$PutRecordInputToJson(PutRecordInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Data', const Uint8ListConverter().toJson(instance.data));
+  writeNotNull('PartitionKey', instance.partitionKey);
+  writeNotNull('StreamName', instance.streamName);
+  writeNotNull('ExplicitHashKey', instance.explicitHashKey);
+  writeNotNull('SequenceNumberForOrdering', instance.sequenceNumberForOrdering);
+  return val;
 }
 
 PutRecordOutput _$PutRecordOutputFromJson(Map<String, dynamic> json) {
@@ -282,6 +585,20 @@ const _$EncryptionTypeEnumMap = {
   EncryptionType.none: 'NONE',
   EncryptionType.kms: 'KMS',
 };
+
+Map<String, dynamic> _$PutRecordsInputToJson(PutRecordsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Records', instance.records?.map((e) => e?.toJson())?.toList());
+  writeNotNull('StreamName', instance.streamName);
+  return val;
+}
 
 PutRecordsOutput _$PutRecordsOutputFromJson(Map<String, dynamic> json) {
   return PutRecordsOutput(
@@ -334,6 +651,21 @@ Record _$RecordFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$RegisterStreamConsumerInputToJson(
+    RegisterStreamConsumerInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConsumerName', instance.consumerName);
+  writeNotNull('StreamARN', instance.streamARN);
+  return val;
+}
+
 RegisterStreamConsumerOutput _$RegisterStreamConsumerOutputFromJson(
     Map<String, dynamic> json) {
   return RegisterStreamConsumerOutput(
@@ -341,6 +673,21 @@ RegisterStreamConsumerOutput _$RegisterStreamConsumerOutputFromJson(
         ? null
         : Consumer.fromJson(json['Consumer'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$RemoveTagsFromStreamInputToJson(
+    RemoveTagsFromStreamInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('StreamName', instance.streamName);
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
 }
 
 ResourceInUseException _$ResourceInUseExceptionFromJson(
@@ -377,6 +724,55 @@ Shard _$ShardFromJson(Map<String, dynamic> json) {
     adjacentParentShardId: json['AdjacentParentShardId'] as String,
     parentShardId: json['ParentShardId'] as String,
   );
+}
+
+Map<String, dynamic> _$SplitShardInputToJson(SplitShardInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('NewStartingHashKey', instance.newStartingHashKey);
+  writeNotNull('ShardToSplit', instance.shardToSplit);
+  writeNotNull('StreamName', instance.streamName);
+  return val;
+}
+
+Map<String, dynamic> _$StartStreamEncryptionInputToJson(
+    StartStreamEncryptionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'EncryptionType', _$EncryptionTypeEnumMap[instance.encryptionType]);
+  writeNotNull('KeyId', instance.keyId);
+  writeNotNull('StreamName', instance.streamName);
+  return val;
+}
+
+Map<String, dynamic> _$StopStreamEncryptionInputToJson(
+    StopStreamEncryptionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'EncryptionType', _$EncryptionTypeEnumMap[instance.encryptionType]);
+  writeNotNull('KeyId', instance.keyId);
+  writeNotNull('StreamName', instance.streamName);
+  return val;
 }
 
 StreamDescription _$StreamDescriptionFromJson(Map<String, dynamic> json) {
@@ -440,6 +836,26 @@ Tag _$TagFromJson(Map<String, dynamic> json) {
     value: json['Value'] as String,
   );
 }
+
+Map<String, dynamic> _$UpdateShardCountInputToJson(
+    UpdateShardCountInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ScalingType', _$ScalingTypeEnumMap[instance.scalingType]);
+  writeNotNull('StreamName', instance.streamName);
+  writeNotNull('TargetShardCount', instance.targetShardCount);
+  return val;
+}
+
+const _$ScalingTypeEnumMap = {
+  ScalingType.uniformScaling: 'UNIFORM_SCALING',
+};
 
 UpdateShardCountOutput _$UpdateShardCountOutputFromJson(
     Map<String, dynamic> json) {

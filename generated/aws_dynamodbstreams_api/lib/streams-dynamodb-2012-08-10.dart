@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -107,12 +106,11 @@ class DynamoDBStreams {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'StreamArn': streamArn,
-        if (exclusiveStartShardId != null)
-          'ExclusiveStartShardId': exclusiveStartShardId,
-        if (limit != null) 'Limit': limit,
-      },
+      payload: DescribeStreamInput(
+        streamArn: streamArn,
+        exclusiveStartShardId: exclusiveStartShardId,
+        limit: limit,
+      ),
     );
 
     return DescribeStreamOutput.fromJson(jsonResponse.body);
@@ -174,10 +172,10 @@ class DynamoDBStreams {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ShardIterator': shardIterator,
-        if (limit != null) 'Limit': limit,
-      },
+      payload: GetRecordsInput(
+        shardIterator: shardIterator,
+        limit: limit,
+      ),
     );
 
     return GetRecordsOutput.fromJson(jsonResponse.body);
@@ -270,12 +268,12 @@ class DynamoDBStreams {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ShardId': shardId,
-        'ShardIteratorType': shardIteratorType?.toValue(),
-        'StreamArn': streamArn,
-        if (sequenceNumber != null) 'SequenceNumber': sequenceNumber,
-      },
+      payload: GetShardIteratorInput(
+        shardId: shardId,
+        shardIteratorType: shardIteratorType,
+        streamArn: streamArn,
+        sequenceNumber: sequenceNumber,
+      ),
     );
 
     return GetShardIteratorOutput.fromJson(jsonResponse.body);
@@ -341,12 +339,11 @@ class DynamoDBStreams {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (exclusiveStartStreamArn != null)
-          'ExclusiveStartStreamArn': exclusiveStartStreamArn,
-        if (limit != null) 'Limit': limit,
-        if (tableName != null) 'TableName': tableName,
-      },
+      payload: ListStreamsInput(
+        exclusiveStartStreamArn: exclusiveStartStreamArn,
+        limit: limit,
+        tableName: tableName,
+      ),
     );
 
     return ListStreamsOutput.fromJson(jsonResponse.body);
@@ -376,7 +373,7 @@ class AttributeValue {
   final bool boolValue;
 
   /// A Binary Set data type.
-  @Uint8ListListConverter()
+  @Uint8ListConverter()
   @_s.JsonKey(name: 'BS')
   final List<Uint8List> bs;
 
@@ -424,6 +421,35 @@ class AttributeValue {
       _$AttributeValueFromJson(json);
 }
 
+/// Represents the input of a <code>DescribeStream</code> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeStreamInput {
+  /// The Amazon Resource Name (ARN) for the stream.
+  @_s.JsonKey(name: 'StreamArn')
+  final String streamArn;
+
+  /// The shard ID of the first item that this operation will evaluate. Use the
+  /// value that was returned for <code>LastEvaluatedShardId</code> in the
+  /// previous operation.
+  @_s.JsonKey(name: 'ExclusiveStartShardId')
+  final String exclusiveStartShardId;
+
+  /// The maximum number of shard objects to return. The upper limit is 100.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  DescribeStreamInput({
+    @_s.required this.streamArn,
+    this.exclusiveStartShardId,
+    this.limit,
+  });
+  Map<String, dynamic> toJson() => _$DescribeStreamInputToJson(this);
+}
+
 /// Represents the output of a <code>DescribeStream</code> operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -465,6 +491,31 @@ class ExpiredIteratorException implements _s.AwsException {
       _$ExpiredIteratorExceptionFromJson(json);
 }
 
+/// Represents the input of a <code>GetRecords</code> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetRecordsInput {
+  /// A shard iterator that was retrieved from a previous GetShardIterator
+  /// operation. This iterator can be used to access the stream records in this
+  /// shard.
+  @_s.JsonKey(name: 'ShardIterator')
+  final String shardIterator;
+
+  /// The maximum number of records to return from the shard. The upper limit is
+  /// 1000.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  GetRecordsInput({
+    @_s.required this.shardIterator,
+    this.limit,
+  });
+  Map<String, dynamic> toJson() => _$GetRecordsInputToJson(this);
+}
+
 /// Represents the output of a <code>GetRecords</code> operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -489,6 +540,62 @@ class GetRecordsOutput {
   });
   factory GetRecordsOutput.fromJson(Map<String, dynamic> json) =>
       _$GetRecordsOutputFromJson(json);
+}
+
+/// Represents the input of a <code>GetShardIterator</code> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetShardIteratorInput {
+  /// The identifier of the shard. The iterator will be returned for this shard
+  /// ID.
+  @_s.JsonKey(name: 'ShardId')
+  final String shardId;
+
+  /// Determines how the shard iterator is used to start reading stream records
+  /// from the shard:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AT_SEQUENCE_NUMBER</code> - Start reading exactly from the position
+  /// denoted by a specific sequence number.
+  /// </li>
+  /// <li>
+  /// <code>AFTER_SEQUENCE_NUMBER</code> - Start reading right after the position
+  /// denoted by a specific sequence number.
+  /// </li>
+  /// <li>
+  /// <code>TRIM_HORIZON</code> - Start reading at the last (untrimmed) stream
+  /// record, which is the oldest record in the shard. In DynamoDB Streams, there
+  /// is a 24 hour limit on data retention. Stream records whose age exceeds this
+  /// limit are subject to removal (trimming) from the stream.
+  /// </li>
+  /// <li>
+  /// <code>LATEST</code> - Start reading just after the most recent stream record
+  /// in the shard, so that you always read the most recent data in the shard.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ShardIteratorType')
+  final ShardIteratorType shardIteratorType;
+
+  /// The Amazon Resource Name (ARN) for the stream.
+  @_s.JsonKey(name: 'StreamArn')
+  final String streamArn;
+
+  /// The sequence number of a stream record in the shard from which to start
+  /// reading.
+  @_s.JsonKey(name: 'SequenceNumber')
+  final String sequenceNumber;
+
+  GetShardIteratorInput({
+    @_s.required this.shardId,
+    @_s.required this.shardIteratorType,
+    @_s.required this.streamArn,
+    this.sequenceNumber,
+  });
+  Map<String, dynamic> toJson() => _$GetShardIteratorInputToJson(this);
 }
 
 /// Represents the output of a <code>GetShardIterator</code> operation.
@@ -626,6 +733,36 @@ class LimitExceededException implements _s.AwsException {
   });
   factory LimitExceededException.fromJson(Map<String, dynamic> json) =>
       _$LimitExceededExceptionFromJson(json);
+}
+
+/// Represents the input of a <code>ListStreams</code> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListStreamsInput {
+  /// The ARN (Amazon Resource Name) of the first item that this operation will
+  /// evaluate. Use the value that was returned for
+  /// <code>LastEvaluatedStreamArn</code> in the previous operation.
+  @_s.JsonKey(name: 'ExclusiveStartStreamArn')
+  final String exclusiveStartStreamArn;
+
+  /// The maximum number of streams to return. The upper limit is 100.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// If this parameter is provided, then only the streams associated with this
+  /// table name are returned.
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  ListStreamsInput({
+    this.exclusiveStartStreamArn,
+    this.limit,
+    this.tableName,
+  });
+  Map<String, dynamic> toJson() => _$ListStreamsInputToJson(this);
 }
 
 /// Represents the output of a <code>ListStreams</code> operation.
@@ -832,22 +969,6 @@ enum ShardIteratorType {
   atSequenceNumber,
   @_s.JsonValue('AFTER_SEQUENCE_NUMBER')
   afterSequenceNumber,
-}
-
-extension on ShardIteratorType {
-  String toValue() {
-    switch (this) {
-      case ShardIteratorType.trimHorizon:
-        return 'TRIM_HORIZON';
-      case ShardIteratorType.latest:
-        return 'LATEST';
-      case ShardIteratorType.atSequenceNumber:
-        return 'AT_SEQUENCE_NUMBER';
-      case ShardIteratorType.afterSequenceNumber:
-        return 'AFTER_SEQUENCE_NUMBER';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Represents all of the data describing a particular stream.

@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -70,7 +69,9 @@ class ElasticTranscoder {
       r'''^\d{13}-\w{6}$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = CancelJobRequest(
+      id: id,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -163,16 +164,16 @@ class ElasticTranscoder {
       1,
       255,
     );
-    final $payload = <String, dynamic>{
-      'PipelineId': pipelineId,
-      if (input != null) 'Input': input,
-      if (inputs != null) 'Inputs': inputs,
-      if (output != null) 'Output': output,
-      if (outputKeyPrefix != null) 'OutputKeyPrefix': outputKeyPrefix,
-      if (outputs != null) 'Outputs': outputs,
-      if (playlists != null) 'Playlists': playlists,
-      if (userMetadata != null) 'UserMetadata': userMetadata,
-    };
+    final $payload = CreateJobRequest(
+      pipelineId: pipelineId,
+      input: input,
+      inputs: inputs,
+      output: output,
+      outputKeyPrefix: outputKeyPrefix,
+      outputs: outputs,
+      playlists: playlists,
+      userMetadata: userMetadata,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -507,16 +508,16 @@ class ElasticTranscoder {
       outputBucket,
       r'''^(\w|\.|-){1,255}$''',
     );
-    final $payload = <String, dynamic>{
-      'InputBucket': inputBucket,
-      'Name': name,
-      'Role': role,
-      if (awsKmsKeyArn != null) 'AwsKmsKeyArn': awsKmsKeyArn,
-      if (contentConfig != null) 'ContentConfig': contentConfig,
-      if (notifications != null) 'Notifications': notifications,
-      if (outputBucket != null) 'OutputBucket': outputBucket,
-      if (thumbnailConfig != null) 'ThumbnailConfig': thumbnailConfig,
-    };
+    final $payload = CreatePipelineRequest(
+      inputBucket: inputBucket,
+      name: name,
+      role: role,
+      awsKmsKeyArn: awsKmsKeyArn,
+      contentConfig: contentConfig,
+      notifications: notifications,
+      outputBucket: outputBucket,
+      thumbnailConfig: thumbnailConfig,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -603,14 +604,14 @@ class ElasticTranscoder {
       0,
       255,
     );
-    final $payload = <String, dynamic>{
-      'Container': container,
-      'Name': name,
-      if (audio != null) 'Audio': audio,
-      if (description != null) 'Description': description,
-      if (thumbnails != null) 'Thumbnails': thumbnails,
-      if (video != null) 'Video': video,
-    };
+    final $payload = CreatePresetRequest(
+      container: container,
+      name: name,
+      audio: audio,
+      description: description,
+      thumbnails: thumbnails,
+      video: video,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -645,7 +646,9 @@ class ElasticTranscoder {
       r'''^\d{13}-\w{6}$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeletePipelineRequest(
+      id: id,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -681,7 +684,9 @@ class ElasticTranscoder {
       r'''^\d{13}-\w{6}$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeletePresetRequest(
+      id: id,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1052,12 +1057,12 @@ class ElasticTranscoder {
       isRequired: true,
     );
     ArgumentError.checkNotNull(topics, 'topics');
-    final $payload = <String, dynamic>{
-      'InputBucket': inputBucket,
-      'OutputBucket': outputBucket,
-      'Role': role,
-      'Topics': topics,
-    };
+    final $payload = TestRoleRequest(
+      inputBucket: inputBucket,
+      outputBucket: outputBucket,
+      role: role,
+      topics: topics,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1358,15 +1363,16 @@ class ElasticTranscoder {
       role,
       r'''^arn:aws:iam::\w{12}:role/.+$''',
     );
-    final $payload = <String, dynamic>{
-      if (awsKmsKeyArn != null) 'AwsKmsKeyArn': awsKmsKeyArn,
-      if (contentConfig != null) 'ContentConfig': contentConfig,
-      if (inputBucket != null) 'InputBucket': inputBucket,
-      if (name != null) 'Name': name,
-      if (notifications != null) 'Notifications': notifications,
-      if (role != null) 'Role': role,
-      if (thumbnailConfig != null) 'ThumbnailConfig': thumbnailConfig,
-    };
+    final $payload = UpdatePipelineRequest(
+      id: id,
+      awsKmsKeyArn: awsKmsKeyArn,
+      contentConfig: contentConfig,
+      inputBucket: inputBucket,
+      name: name,
+      notifications: notifications,
+      role: role,
+      thumbnailConfig: thumbnailConfig,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1435,9 +1441,10 @@ class ElasticTranscoder {
       isRequired: true,
     );
     ArgumentError.checkNotNull(notifications, 'notifications');
-    final $payload = <String, dynamic>{
-      'Notifications': notifications,
-    };
+    final $payload = UpdatePipelineNotificationsRequest(
+      id: id,
+      notifications: notifications,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1496,9 +1503,10 @@ class ElasticTranscoder {
       r'''(^Active$)|(^Paused$)''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'Status': status,
-    };
+    final $payload = UpdatePipelineStatusRequest(
+      id: id,
+      status: status,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1957,6 +1965,27 @@ class AudioParameters {
       _$AudioParametersFromJson(json);
 
   Map<String, dynamic> toJson() => _$AudioParametersToJson(this);
+}
+
+/// The <code>CancelJobRequest</code> structure.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CancelJobRequest {
+  /// The identifier of the job that you want to cancel.
+  ///
+  /// To get a list of the jobs (including their <code>jobId</code>) that have a
+  /// status of <code>Submitted</code>, use the <a>ListJobsByStatus</a> API
+  /// action.
+  @_s.JsonKey(name: 'Id', ignore: true)
+  final String id;
+
+  CancelJobRequest({
+    @_s.required this.id,
+  });
+  Map<String, dynamic> toJson() => _$CancelJobRequestToJson(this);
 }
 
 /// The response body contains a JSON object. If the job is successfully
@@ -2498,6 +2527,78 @@ class CreateJobPlaylist {
   Map<String, dynamic> toJson() => _$CreateJobPlaylistToJson(this);
 }
 
+/// The <code>CreateJobRequest</code> structure.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateJobRequest {
+  /// The <code>Id</code> of the pipeline that you want Elastic Transcoder to use
+  /// for transcoding. The pipeline determines several settings, including the
+  /// Amazon S3 bucket from which Elastic Transcoder gets the files to transcode
+  /// and the bucket into which Elastic Transcoder puts the transcoded files.
+  @_s.JsonKey(name: 'PipelineId')
+  final String pipelineId;
+
+  /// A section of the request body that provides information about the file that
+  /// is being transcoded.
+  @_s.JsonKey(name: 'Input')
+  final JobInput input;
+
+  /// A section of the request body that provides information about the files that
+  /// are being transcoded.
+  @_s.JsonKey(name: 'Inputs')
+  final List<JobInput> inputs;
+
+  /// A section of the request body that provides information about the transcoded
+  /// (target) file. We strongly recommend that you use the <code>Outputs</code>
+  /// syntax instead of the <code>Output</code> syntax.
+  @_s.JsonKey(name: 'Output')
+  final CreateJobOutput output;
+
+  /// The value, if any, that you want Elastic Transcoder to prepend to the names
+  /// of all files that this job creates, including output files, thumbnails, and
+  /// playlists.
+  @_s.JsonKey(name: 'OutputKeyPrefix')
+  final String outputKeyPrefix;
+
+  /// A section of the request body that provides information about the transcoded
+  /// (target) files. We recommend that you use the <code>Outputs</code> syntax
+  /// instead of the <code>Output</code> syntax.
+  @_s.JsonKey(name: 'Outputs')
+  final List<CreateJobOutput> outputs;
+
+  /// If you specify a preset in <code>PresetId</code> for which the value of
+  /// <code>Container</code> is fmp4 (Fragmented MP4) or ts (MPEG-TS), Playlists
+  /// contains information about the master playlists that you want Elastic
+  /// Transcoder to create.
+  ///
+  /// The maximum number of master playlists in a job is 30.
+  @_s.JsonKey(name: 'Playlists')
+  final List<CreateJobPlaylist> playlists;
+
+  /// User-defined metadata that you want to associate with an Elastic Transcoder
+  /// job. You specify metadata in <code>key/value</code> pairs, and you can add
+  /// up to 10 <code>key/value</code> pairs per job. Elastic Transcoder does not
+  /// guarantee that <code>key/value</code> pairs are returned in the same order
+  /// in which you specify them.
+  @_s.JsonKey(name: 'UserMetadata')
+  final Map<String, String> userMetadata;
+
+  CreateJobRequest({
+    @_s.required this.pipelineId,
+    this.input,
+    this.inputs,
+    this.output,
+    this.outputKeyPrefix,
+    this.outputs,
+    this.playlists,
+    this.userMetadata,
+  });
+  Map<String, dynamic> toJson() => _$CreateJobRequestToJson(this);
+}
+
 /// The CreateJobResponse structure.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2515,6 +2616,305 @@ class CreateJobResponse {
   });
   factory CreateJobResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateJobResponseFromJson(json);
+}
+
+/// The <code>CreatePipelineRequest</code> structure.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreatePipelineRequest {
+  /// The Amazon S3 bucket in which you saved the media files that you want to
+  /// transcode.
+  @_s.JsonKey(name: 'InputBucket')
+  final String inputBucket;
+
+  /// The name of the pipeline. We recommend that the name be unique within the
+  /// AWS account, but uniqueness is not enforced.
+  ///
+  /// Constraints: Maximum 40 characters.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The IAM Amazon Resource Name (ARN) for the role that you want Elastic
+  /// Transcoder to use to create the pipeline.
+  @_s.JsonKey(name: 'Role')
+  final String role;
+
+  /// The AWS Key Management Service (AWS KMS) key that you want to use with this
+  /// pipeline.
+  ///
+  /// If you use either <code>s3</code> or <code>s3-aws-kms</code> as your
+  /// <code>Encryption:Mode</code>, you don't need to provide a key with your job
+  /// because a default key, known as an AWS-KMS key, is created for you
+  /// automatically. You need to provide an AWS-KMS key only if you want to use a
+  /// non-default AWS-KMS key, or if you are using an <code>Encryption:Mode</code>
+  /// of <code>aes-cbc-pkcs7</code>, <code>aes-ctr</code>, or
+  /// <code>aes-gcm</code>.
+  @_s.JsonKey(name: 'AwsKmsKeyArn')
+  final String awsKmsKeyArn;
+
+  /// The optional <code>ContentConfig</code> object specifies information about
+  /// the Amazon S3 bucket in which you want Elastic Transcoder to save transcoded
+  /// files and playlists: which bucket to use, which users you want to have
+  /// access to the files, the type of access you want users to have, and the
+  /// storage class that you want to assign to the files.
+  ///
+  /// If you specify values for <code>ContentConfig</code>, you must also specify
+  /// values for <code>ThumbnailConfig</code>.
+  ///
+  /// If you specify values for <code>ContentConfig</code> and
+  /// <code>ThumbnailConfig</code>, omit the <code>OutputBucket</code> object.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Bucket</b>: The Amazon S3 bucket in which you want Elastic Transcoder to
+  /// save transcoded files and playlists.
+  /// </li>
+  /// <li>
+  /// <b>Permissions</b> (Optional): The Permissions object specifies which users
+  /// you want to have access to transcoded files and the type of access you want
+  /// them to have. You can grant permissions to a maximum of 30 users and/or
+  /// predefined Amazon S3 groups.
+  /// </li>
+  /// <li>
+  /// <b>Grantee Type</b>: Specify the type of value that appears in the
+  /// <code>Grantee</code> object:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Canonical</b>: The value in the <code>Grantee</code> object is either the
+  /// canonical user ID for an AWS account or an origin access identity for an
+  /// Amazon CloudFront distribution. For more information about canonical user
+  /// IDs, see Access Control List (ACL) Overview in the Amazon Simple Storage
+  /// Service Developer Guide. For more information about using CloudFront origin
+  /// access identities to require that users use CloudFront URLs instead of
+  /// Amazon S3 URLs, see Using an Origin Access Identity to Restrict Access to
+  /// Your Amazon S3 Content.
+  /// <important>
+  /// A canonical user ID is not the same as an AWS account number.
+  /// </important> </li>
+  /// <li>
+  /// <b>Email</b>: The value in the <code>Grantee</code> object is the registered
+  /// email address of an AWS account.
+  /// </li>
+  /// <li>
+  /// <b>Group</b>: The value in the <code>Grantee</code> object is one of the
+  /// following predefined Amazon S3 groups: <code>AllUsers</code>,
+  /// <code>AuthenticatedUsers</code>, or <code>LogDelivery</code>.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <b>Grantee</b>: The AWS user or group that you want to have access to
+  /// transcoded files and playlists. To identify the user or group, you can
+  /// specify the canonical user ID for an AWS account, an origin access identity
+  /// for a CloudFront distribution, the registered email address of an AWS
+  /// account, or a predefined Amazon S3 group
+  /// </li>
+  /// <li>
+  /// <b>Access</b>: The permission that you want to give to the AWS user that you
+  /// specified in <code>Grantee</code>. Permissions are granted on the files that
+  /// Elastic Transcoder adds to the bucket, including playlists and video files.
+  /// Valid values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>READ</code>: The grantee can read the objects and metadata for objects
+  /// that Elastic Transcoder adds to the Amazon S3 bucket.
+  /// </li>
+  /// <li>
+  /// <code>READ_ACP</code>: The grantee can read the object ACL for objects that
+  /// Elastic Transcoder adds to the Amazon S3 bucket.
+  /// </li>
+  /// <li>
+  /// <code>WRITE_ACP</code>: The grantee can write the ACL for the objects that
+  /// Elastic Transcoder adds to the Amazon S3 bucket.
+  /// </li>
+  /// <li>
+  /// <code>FULL_CONTROL</code>: The grantee has <code>READ</code>,
+  /// <code>READ_ACP</code>, and <code>WRITE_ACP</code> permissions for the
+  /// objects that Elastic Transcoder adds to the Amazon S3 bucket.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <b>StorageClass</b>: The Amazon S3 storage class, <code>Standard</code> or
+  /// <code>ReducedRedundancy</code>, that you want Elastic Transcoder to assign
+  /// to the video files and playlists that it stores in your Amazon S3 bucket.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ContentConfig')
+  final PipelineOutputConfig contentConfig;
+
+  /// The Amazon Simple Notification Service (Amazon SNS) topic that you want to
+  /// notify to report job status.
+  /// <important>
+  /// To receive notifications, you must also subscribe to the new topic in the
+  /// Amazon SNS console.
+  /// </important>
+  /// <ul>
+  /// <li>
+  /// <b>Progressing</b>: The topic ARN for the Amazon Simple Notification Service
+  /// (Amazon SNS) topic that you want to notify when Elastic Transcoder has
+  /// started to process a job in this pipeline. This is the ARN that Amazon SNS
+  /// returned when you created the topic. For more information, see Create a
+  /// Topic in the Amazon Simple Notification Service Developer Guide.
+  /// </li>
+  /// <li>
+  /// <b>Complete</b>: The topic ARN for the Amazon SNS topic that you want to
+  /// notify when Elastic Transcoder has finished processing a job in this
+  /// pipeline. This is the ARN that Amazon SNS returned when you created the
+  /// topic.
+  /// </li>
+  /// <li>
+  /// <b>Warning</b>: The topic ARN for the Amazon SNS topic that you want to
+  /// notify when Elastic Transcoder encounters a warning condition while
+  /// processing a job in this pipeline. This is the ARN that Amazon SNS returned
+  /// when you created the topic.
+  /// </li>
+  /// <li>
+  /// <b>Error</b>: The topic ARN for the Amazon SNS topic that you want to notify
+  /// when Elastic Transcoder encounters an error condition while processing a job
+  /// in this pipeline. This is the ARN that Amazon SNS returned when you created
+  /// the topic.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Notifications')
+  final Notifications notifications;
+
+  /// The Amazon S3 bucket in which you want Elastic Transcoder to save the
+  /// transcoded files. (Use this, or use ContentConfig:Bucket plus
+  /// ThumbnailConfig:Bucket.)
+  ///
+  /// Specify this value when all of the following are true:
+  ///
+  /// <ul>
+  /// <li>
+  /// You want to save transcoded files, thumbnails (if any), and playlists (if
+  /// any) together in one bucket.
+  /// </li>
+  /// <li>
+  /// You do not want to specify the users or groups who have access to the
+  /// transcoded files, thumbnails, and playlists.
+  /// </li>
+  /// <li>
+  /// You do not want to specify the permissions that Elastic Transcoder grants to
+  /// the files.
+  /// <important>
+  /// When Elastic Transcoder saves files in <code>OutputBucket</code>, it grants
+  /// full control over the files only to the AWS account that owns the role that
+  /// is specified by <code>Role</code>.
+  /// </important> </li>
+  /// <li>
+  /// You want to associate the transcoded files and thumbnails with the Amazon S3
+  /// Standard storage class.
+  /// </li>
+  /// </ul>
+  /// If you want to save transcoded files and playlists in one bucket and
+  /// thumbnails in another bucket, specify which users can access the transcoded
+  /// files or the permissions the users have, or change the Amazon S3 storage
+  /// class, omit <code>OutputBucket</code> and specify values for
+  /// <code>ContentConfig</code> and <code>ThumbnailConfig</code> instead.
+  @_s.JsonKey(name: 'OutputBucket')
+  final String outputBucket;
+
+  /// The <code>ThumbnailConfig</code> object specifies several values, including
+  /// the Amazon S3 bucket in which you want Elastic Transcoder to save thumbnail
+  /// files, which users you want to have access to the files, the type of access
+  /// you want users to have, and the storage class that you want to assign to the
+  /// files.
+  ///
+  /// If you specify values for <code>ContentConfig</code>, you must also specify
+  /// values for <code>ThumbnailConfig</code> even if you don't want to create
+  /// thumbnails.
+  ///
+  /// If you specify values for <code>ContentConfig</code> and
+  /// <code>ThumbnailConfig</code>, omit the <code>OutputBucket</code> object.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Bucket</b>: The Amazon S3 bucket in which you want Elastic Transcoder to
+  /// save thumbnail files.
+  /// </li>
+  /// <li>
+  /// <b>Permissions</b> (Optional): The <code>Permissions</code> object specifies
+  /// which users and/or predefined Amazon S3 groups you want to have access to
+  /// thumbnail files, and the type of access you want them to have. You can grant
+  /// permissions to a maximum of 30 users and/or predefined Amazon S3 groups.
+  /// </li>
+  /// <li>
+  /// <b>GranteeType</b>: Specify the type of value that appears in the Grantee
+  /// object:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Canonical</b>: The value in the <code>Grantee</code> object is either the
+  /// canonical user ID for an AWS account or an origin access identity for an
+  /// Amazon CloudFront distribution.
+  /// <important>
+  /// A canonical user ID is not the same as an AWS account number.
+  /// </important> </li>
+  /// <li>
+  /// <b>Email</b>: The value in the <code>Grantee</code> object is the registered
+  /// email address of an AWS account.
+  /// </li>
+  /// <li>
+  /// <b>Group</b>: The value in the <code>Grantee</code> object is one of the
+  /// following predefined Amazon S3 groups: <code>AllUsers</code>,
+  /// <code>AuthenticatedUsers</code>, or <code>LogDelivery</code>.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <b>Grantee</b>: The AWS user or group that you want to have access to
+  /// thumbnail files. To identify the user or group, you can specify the
+  /// canonical user ID for an AWS account, an origin access identity for a
+  /// CloudFront distribution, the registered email address of an AWS account, or
+  /// a predefined Amazon S3 group.
+  /// </li>
+  /// <li>
+  /// <b>Access</b>: The permission that you want to give to the AWS user that you
+  /// specified in <code>Grantee</code>. Permissions are granted on the thumbnail
+  /// files that Elastic Transcoder adds to the bucket. Valid values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>READ</code>: The grantee can read the thumbnails and metadata for
+  /// objects that Elastic Transcoder adds to the Amazon S3 bucket.
+  /// </li>
+  /// <li>
+  /// <code>READ_ACP</code>: The grantee can read the object ACL for thumbnails
+  /// that Elastic Transcoder adds to the Amazon S3 bucket.
+  /// </li>
+  /// <li>
+  /// <code>WRITE_ACP</code>: The grantee can write the ACL for the thumbnails
+  /// that Elastic Transcoder adds to the Amazon S3 bucket.
+  /// </li>
+  /// <li>
+  /// <code>FULL_CONTROL</code>: The grantee has <code>READ</code>,
+  /// <code>READ_ACP</code>, and <code>WRITE_ACP</code> permissions for the
+  /// thumbnails that Elastic Transcoder adds to the Amazon S3 bucket.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <b>StorageClass</b>: The Amazon S3 storage class, <code>Standard</code> or
+  /// <code>ReducedRedundancy</code>, that you want Elastic Transcoder to assign
+  /// to the thumbnails that it stores in your Amazon S3 bucket.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ThumbnailConfig')
+  final PipelineOutputConfig thumbnailConfig;
+
+  CreatePipelineRequest({
+    @_s.required this.inputBucket,
+    @_s.required this.name,
+    @_s.required this.role,
+    this.awsKmsKeyArn,
+    this.contentConfig,
+    this.notifications,
+    this.outputBucket,
+    this.thumbnailConfig,
+  });
+  Map<String, dynamic> toJson() => _$CreatePipelineRequestToJson(this);
 }
 
 /// When you create a pipeline, Elastic Transcoder returns the values that you
@@ -2547,6 +2947,53 @@ class CreatePipelineResponse {
       _$CreatePipelineResponseFromJson(json);
 }
 
+/// The <code>CreatePresetRequest</code> structure.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreatePresetRequest {
+  /// The container type for the output file. Valid values include
+  /// <code>flac</code>, <code>flv</code>, <code>fmp4</code>, <code>gif</code>,
+  /// <code>mp3</code>, <code>mp4</code>, <code>mpg</code>, <code>mxf</code>,
+  /// <code>oga</code>, <code>ogg</code>, <code>ts</code>, and <code>webm</code>.
+  @_s.JsonKey(name: 'Container')
+  final String container;
+
+  /// The name of the preset. We recommend that the name be unique within the AWS
+  /// account, but uniqueness is not enforced.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// A section of the request body that specifies the audio parameters.
+  @_s.JsonKey(name: 'Audio')
+  final AudioParameters audio;
+
+  /// A description of the preset.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// A section of the request body that specifies the thumbnail parameters, if
+  /// any.
+  @_s.JsonKey(name: 'Thumbnails')
+  final Thumbnails thumbnails;
+
+  /// A section of the request body that specifies the video parameters.
+  @_s.JsonKey(name: 'Video')
+  final VideoParameters video;
+
+  CreatePresetRequest({
+    @_s.required this.container,
+    @_s.required this.name,
+    this.audio,
+    this.description,
+    this.thumbnails,
+    this.video,
+  });
+  Map<String, dynamic> toJson() => _$CreatePresetRequestToJson(this);
+}
+
 /// The <code>CreatePresetResponse</code> structure.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2574,6 +3021,23 @@ class CreatePresetResponse {
       _$CreatePresetResponseFromJson(json);
 }
 
+/// The <code>DeletePipelineRequest</code> structure.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeletePipelineRequest {
+  /// The identifier of the pipeline that you want to delete.
+  @_s.JsonKey(name: 'Id', ignore: true)
+  final String id;
+
+  DeletePipelineRequest({
+    @_s.required this.id,
+  });
+  Map<String, dynamic> toJson() => _$DeletePipelineRequestToJson(this);
+}
+
 /// The <code>DeletePipelineResponse</code> structure.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2584,6 +3048,23 @@ class DeletePipelineResponse {
   DeletePipelineResponse();
   factory DeletePipelineResponse.fromJson(Map<String, dynamic> json) =>
       _$DeletePipelineResponseFromJson(json);
+}
+
+/// The <code>DeletePresetRequest</code> structure.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeletePresetRequest {
+  /// The identifier of the preset for which you want to get detailed information.
+  @_s.JsonKey(name: 'Id', ignore: true)
+  final String id;
+
+  DeletePresetRequest({
+    @_s.required this.id,
+  });
+  Map<String, dynamic> toJson() => _$DeletePresetRequestToJson(this);
 }
 
 /// The <code>DeletePresetResponse</code> structure.
@@ -4656,6 +5137,43 @@ class ReadPresetResponse {
       _$ReadPresetResponseFromJson(json);
 }
 
+/// The <code>TestRoleRequest</code> structure.
+@deprecated
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TestRoleRequest {
+  /// The Amazon S3 bucket that contains media files to be transcoded. The action
+  /// attempts to read from this bucket.
+  @_s.JsonKey(name: 'InputBucket')
+  final String inputBucket;
+
+  /// The Amazon S3 bucket that Elastic Transcoder writes transcoded media files
+  /// to. The action attempts to read from this bucket.
+  @_s.JsonKey(name: 'OutputBucket')
+  final String outputBucket;
+
+  /// The IAM Amazon Resource Name (ARN) for the role that you want Elastic
+  /// Transcoder to test.
+  @_s.JsonKey(name: 'Role')
+  final String role;
+
+  /// The ARNs of one or more Amazon Simple Notification Service (Amazon SNS)
+  /// topics that you want the action to send a test notification to.
+  @_s.JsonKey(name: 'Topics')
+  final List<String> topics;
+
+  TestRoleRequest({
+    @_s.required this.inputBucket,
+    @_s.required this.outputBucket,
+    @_s.required this.role,
+    @_s.required this.topics,
+  });
+  Map<String, dynamic> toJson() => _$TestRoleRequestToJson(this);
+}
+
 /// The <code>TestRoleResponse</code> structure.
 @deprecated
 @_s.JsonSerializable(
@@ -4876,6 +5394,58 @@ class Timing {
   factory Timing.fromJson(Map<String, dynamic> json) => _$TimingFromJson(json);
 }
 
+/// The <code>UpdatePipelineNotificationsRequest</code> structure.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdatePipelineNotificationsRequest {
+  /// The identifier of the pipeline for which you want to change notification
+  /// settings.
+  @_s.JsonKey(name: 'Id', ignore: true)
+  final String id;
+
+  /// The topic ARN for the Amazon Simple Notification Service (Amazon SNS) topic
+  /// that you want to notify to report job status.
+  /// <important>
+  /// To receive notifications, you must also subscribe to the new topic in the
+  /// Amazon SNS console.
+  /// </important>
+  /// <ul>
+  /// <li>
+  /// <b>Progressing</b>: The topic ARN for the Amazon Simple Notification Service
+  /// (Amazon SNS) topic that you want to notify when Elastic Transcoder has
+  /// started to process jobs that are added to this pipeline. This is the ARN
+  /// that Amazon SNS returned when you created the topic.
+  /// </li>
+  /// <li>
+  /// <b>Complete</b>: The topic ARN for the Amazon SNS topic that you want to
+  /// notify when Elastic Transcoder has finished processing a job. This is the
+  /// ARN that Amazon SNS returned when you created the topic.
+  /// </li>
+  /// <li>
+  /// <b>Warning</b>: The topic ARN for the Amazon SNS topic that you want to
+  /// notify when Elastic Transcoder encounters a warning condition. This is the
+  /// ARN that Amazon SNS returned when you created the topic.
+  /// </li>
+  /// <li>
+  /// <b>Error</b>: The topic ARN for the Amazon SNS topic that you want to notify
+  /// when Elastic Transcoder encounters an error condition. This is the ARN that
+  /// Amazon SNS returned when you created the topic.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Notifications')
+  final Notifications notifications;
+
+  UpdatePipelineNotificationsRequest({
+    @_s.required this.id,
+    @_s.required this.notifications,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdatePipelineNotificationsRequestToJson(this);
+}
+
 /// The <code>UpdatePipelineNotificationsResponse</code> structure.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -4894,6 +5464,269 @@ class UpdatePipelineNotificationsResponse {
   factory UpdatePipelineNotificationsResponse.fromJson(
           Map<String, dynamic> json) =>
       _$UpdatePipelineNotificationsResponseFromJson(json);
+}
+
+/// The <code>UpdatePipelineRequest</code> structure.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdatePipelineRequest {
+  /// The ID of the pipeline that you want to update.
+  @_s.JsonKey(name: 'Id', ignore: true)
+  final String id;
+
+  /// The AWS Key Management Service (AWS KMS) key that you want to use with this
+  /// pipeline.
+  ///
+  /// If you use either <code>s3</code> or <code>s3-aws-kms</code> as your
+  /// <code>Encryption:Mode</code>, you don't need to provide a key with your job
+  /// because a default key, known as an AWS-KMS key, is created for you
+  /// automatically. You need to provide an AWS-KMS key only if you want to use a
+  /// non-default AWS-KMS key, or if you are using an <code>Encryption:Mode</code>
+  /// of <code>aes-cbc-pkcs7</code>, <code>aes-ctr</code>, or
+  /// <code>aes-gcm</code>.
+  @_s.JsonKey(name: 'AwsKmsKeyArn')
+  final String awsKmsKeyArn;
+
+  /// The optional <code>ContentConfig</code> object specifies information about
+  /// the Amazon S3 bucket in which you want Elastic Transcoder to save transcoded
+  /// files and playlists: which bucket to use, which users you want to have
+  /// access to the files, the type of access you want users to have, and the
+  /// storage class that you want to assign to the files.
+  ///
+  /// If you specify values for <code>ContentConfig</code>, you must also specify
+  /// values for <code>ThumbnailConfig</code>.
+  ///
+  /// If you specify values for <code>ContentConfig</code> and
+  /// <code>ThumbnailConfig</code>, omit the <code>OutputBucket</code> object.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Bucket</b>: The Amazon S3 bucket in which you want Elastic Transcoder to
+  /// save transcoded files and playlists.
+  /// </li>
+  /// <li>
+  /// <b>Permissions</b> (Optional): The Permissions object specifies which users
+  /// you want to have access to transcoded files and the type of access you want
+  /// them to have. You can grant permissions to a maximum of 30 users and/or
+  /// predefined Amazon S3 groups.
+  /// </li>
+  /// <li>
+  /// <b>Grantee Type</b>: Specify the type of value that appears in the
+  /// <code>Grantee</code> object:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Canonical</b>: The value in the <code>Grantee</code> object is either the
+  /// canonical user ID for an AWS account or an origin access identity for an
+  /// Amazon CloudFront distribution. For more information about canonical user
+  /// IDs, see Access Control List (ACL) Overview in the Amazon Simple Storage
+  /// Service Developer Guide. For more information about using CloudFront origin
+  /// access identities to require that users use CloudFront URLs instead of
+  /// Amazon S3 URLs, see Using an Origin Access Identity to Restrict Access to
+  /// Your Amazon S3 Content.
+  /// <important>
+  /// A canonical user ID is not the same as an AWS account number.
+  /// </important> </li>
+  /// <li>
+  /// <b>Email</b>: The value in the <code>Grantee</code> object is the registered
+  /// email address of an AWS account.
+  /// </li>
+  /// <li>
+  /// <b>Group</b>: The value in the <code>Grantee</code> object is one of the
+  /// following predefined Amazon S3 groups: <code>AllUsers</code>,
+  /// <code>AuthenticatedUsers</code>, or <code>LogDelivery</code>.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <b>Grantee</b>: The AWS user or group that you want to have access to
+  /// transcoded files and playlists. To identify the user or group, you can
+  /// specify the canonical user ID for an AWS account, an origin access identity
+  /// for a CloudFront distribution, the registered email address of an AWS
+  /// account, or a predefined Amazon S3 group
+  /// </li>
+  /// <li>
+  /// <b>Access</b>: The permission that you want to give to the AWS user that you
+  /// specified in <code>Grantee</code>. Permissions are granted on the files that
+  /// Elastic Transcoder adds to the bucket, including playlists and video files.
+  /// Valid values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>READ</code>: The grantee can read the objects and metadata for objects
+  /// that Elastic Transcoder adds to the Amazon S3 bucket.
+  /// </li>
+  /// <li>
+  /// <code>READ_ACP</code>: The grantee can read the object ACL for objects that
+  /// Elastic Transcoder adds to the Amazon S3 bucket.
+  /// </li>
+  /// <li>
+  /// <code>WRITE_ACP</code>: The grantee can write the ACL for the objects that
+  /// Elastic Transcoder adds to the Amazon S3 bucket.
+  /// </li>
+  /// <li>
+  /// <code>FULL_CONTROL</code>: The grantee has <code>READ</code>,
+  /// <code>READ_ACP</code>, and <code>WRITE_ACP</code> permissions for the
+  /// objects that Elastic Transcoder adds to the Amazon S3 bucket.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <b>StorageClass</b>: The Amazon S3 storage class, <code>Standard</code> or
+  /// <code>ReducedRedundancy</code>, that you want Elastic Transcoder to assign
+  /// to the video files and playlists that it stores in your Amazon S3 bucket.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ContentConfig')
+  final PipelineOutputConfig contentConfig;
+
+  /// The Amazon S3 bucket in which you saved the media files that you want to
+  /// transcode and the graphics that you want to use as watermarks.
+  @_s.JsonKey(name: 'InputBucket')
+  final String inputBucket;
+
+  /// The name of the pipeline. We recommend that the name be unique within the
+  /// AWS account, but uniqueness is not enforced.
+  ///
+  /// Constraints: Maximum 40 characters
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The topic ARN for the Amazon Simple Notification Service (Amazon SNS) topic
+  /// that you want to notify to report job status.
+  /// <important>
+  /// To receive notifications, you must also subscribe to the new topic in the
+  /// Amazon SNS console.
+  /// </important>
+  /// <ul>
+  /// <li>
+  /// <b>Progressing</b>: The topic ARN for the Amazon Simple Notification Service
+  /// (Amazon SNS) topic that you want to notify when Elastic Transcoder has
+  /// started to process jobs that are added to this pipeline. This is the ARN
+  /// that Amazon SNS returned when you created the topic.
+  /// </li>
+  /// <li>
+  /// <b>Complete</b>: The topic ARN for the Amazon SNS topic that you want to
+  /// notify when Elastic Transcoder has finished processing a job. This is the
+  /// ARN that Amazon SNS returned when you created the topic.
+  /// </li>
+  /// <li>
+  /// <b>Warning</b>: The topic ARN for the Amazon SNS topic that you want to
+  /// notify when Elastic Transcoder encounters a warning condition. This is the
+  /// ARN that Amazon SNS returned when you created the topic.
+  /// </li>
+  /// <li>
+  /// <b>Error</b>: The topic ARN for the Amazon SNS topic that you want to notify
+  /// when Elastic Transcoder encounters an error condition. This is the ARN that
+  /// Amazon SNS returned when you created the topic.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Notifications')
+  final Notifications notifications;
+
+  /// The IAM Amazon Resource Name (ARN) for the role that you want Elastic
+  /// Transcoder to use to transcode jobs for this pipeline.
+  @_s.JsonKey(name: 'Role')
+  final String role;
+
+  /// The <code>ThumbnailConfig</code> object specifies several values, including
+  /// the Amazon S3 bucket in which you want Elastic Transcoder to save thumbnail
+  /// files, which users you want to have access to the files, the type of access
+  /// you want users to have, and the storage class that you want to assign to the
+  /// files.
+  ///
+  /// If you specify values for <code>ContentConfig</code>, you must also specify
+  /// values for <code>ThumbnailConfig</code> even if you don't want to create
+  /// thumbnails.
+  ///
+  /// If you specify values for <code>ContentConfig</code> and
+  /// <code>ThumbnailConfig</code>, omit the <code>OutputBucket</code> object.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Bucket</b>: The Amazon S3 bucket in which you want Elastic Transcoder to
+  /// save thumbnail files.
+  /// </li>
+  /// <li>
+  /// <b>Permissions</b> (Optional): The <code>Permissions</code> object specifies
+  /// which users and/or predefined Amazon S3 groups you want to have access to
+  /// thumbnail files, and the type of access you want them to have. You can grant
+  /// permissions to a maximum of 30 users and/or predefined Amazon S3 groups.
+  /// </li>
+  /// <li>
+  /// <b>GranteeType</b>: Specify the type of value that appears in the Grantee
+  /// object:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Canonical</b>: The value in the <code>Grantee</code> object is either the
+  /// canonical user ID for an AWS account or an origin access identity for an
+  /// Amazon CloudFront distribution.
+  /// <important>
+  /// A canonical user ID is not the same as an AWS account number.
+  /// </important> </li>
+  /// <li>
+  /// <b>Email</b>: The value in the <code>Grantee</code> object is the registered
+  /// email address of an AWS account.
+  /// </li>
+  /// <li>
+  /// <b>Group</b>: The value in the <code>Grantee</code> object is one of the
+  /// following predefined Amazon S3 groups: <code>AllUsers</code>,
+  /// <code>AuthenticatedUsers</code>, or <code>LogDelivery</code>.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <b>Grantee</b>: The AWS user or group that you want to have access to
+  /// thumbnail files. To identify the user or group, you can specify the
+  /// canonical user ID for an AWS account, an origin access identity for a
+  /// CloudFront distribution, the registered email address of an AWS account, or
+  /// a predefined Amazon S3 group.
+  /// </li>
+  /// <li>
+  /// <b>Access</b>: The permission that you want to give to the AWS user that you
+  /// specified in <code>Grantee</code>. Permissions are granted on the thumbnail
+  /// files that Elastic Transcoder adds to the bucket. Valid values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>READ</code>: The grantee can read the thumbnails and metadata for
+  /// objects that Elastic Transcoder adds to the Amazon S3 bucket.
+  /// </li>
+  /// <li>
+  /// <code>READ_ACP</code>: The grantee can read the object ACL for thumbnails
+  /// that Elastic Transcoder adds to the Amazon S3 bucket.
+  /// </li>
+  /// <li>
+  /// <code>WRITE_ACP</code>: The grantee can write the ACL for the thumbnails
+  /// that Elastic Transcoder adds to the Amazon S3 bucket.
+  /// </li>
+  /// <li>
+  /// <code>FULL_CONTROL</code>: The grantee has <code>READ</code>,
+  /// <code>READ_ACP</code>, and <code>WRITE_ACP</code> permissions for the
+  /// thumbnails that Elastic Transcoder adds to the Amazon S3 bucket.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <b>StorageClass</b>: The Amazon S3 storage class, <code>Standard</code> or
+  /// <code>ReducedRedundancy</code>, that you want Elastic Transcoder to assign
+  /// to the thumbnails that it stores in your Amazon S3 bucket.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ThumbnailConfig')
+  final PipelineOutputConfig thumbnailConfig;
+
+  UpdatePipelineRequest({
+    @_s.required this.id,
+    this.awsKmsKeyArn,
+    this.contentConfig,
+    this.inputBucket,
+    this.name,
+    this.notifications,
+    this.role,
+    this.thumbnailConfig,
+  });
+  Map<String, dynamic> toJson() => _$UpdatePipelineRequestToJson(this);
 }
 
 /// When you update a pipeline, Elastic Transcoder returns the values that you
@@ -4923,6 +5756,37 @@ class UpdatePipelineResponse {
   });
   factory UpdatePipelineResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdatePipelineResponseFromJson(json);
+}
+
+/// The <code>UpdatePipelineStatusRequest</code> structure.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdatePipelineStatusRequest {
+  /// The identifier of the pipeline to update.
+  @_s.JsonKey(name: 'Id', ignore: true)
+  final String id;
+
+  /// The desired status of the pipeline:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Active</code>: The pipeline is processing jobs.
+  /// </li>
+  /// <li>
+  /// <code>Paused</code>: The pipeline is not currently processing jobs.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Status')
+  final String status;
+
+  UpdatePipelineStatusRequest({
+    @_s.required this.id,
+    @_s.required this.status,
+  });
+  Map<String, dynamic> toJson() => _$UpdatePipelineStatusRequestToJson(this);
 }
 
 /// When you update status for a pipeline, Elastic Transcoder returns the values

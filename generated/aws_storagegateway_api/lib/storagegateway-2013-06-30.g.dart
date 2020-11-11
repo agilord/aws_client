@@ -6,6 +6,27 @@ part of 'storagegateway-2013-06-30.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$ActivateGatewayInputToJson(
+    ActivateGatewayInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ActivationKey', instance.activationKey);
+  writeNotNull('GatewayName', instance.gatewayName);
+  writeNotNull('GatewayRegion', instance.gatewayRegion);
+  writeNotNull('GatewayTimezone', instance.gatewayTimezone);
+  writeNotNull('GatewayType', instance.gatewayType);
+  writeNotNull('MediumChangerType', instance.mediumChangerType);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('TapeDriveType', instance.tapeDriveType);
+  return val;
+}
+
 ActivateGatewayOutput _$ActivateGatewayOutputFromJson(
     Map<String, dynamic> json) {
   return ActivateGatewayOutput(
@@ -13,10 +34,39 @@ ActivateGatewayOutput _$ActivateGatewayOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$AddCacheInputToJson(AddCacheInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DiskIds', instance.diskIds);
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  return val;
+}
+
 AddCacheOutput _$AddCacheOutputFromJson(Map<String, dynamic> json) {
   return AddCacheOutput(
     gatewayARN: json['GatewayARN'] as String,
   );
+}
+
+Map<String, dynamic> _$AddTagsToResourceInputToJson(
+    AddTagsToResourceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARN', instance.resourceARN);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 AddTagsToResourceOutput _$AddTagsToResourceOutputFromJson(
@@ -26,11 +76,41 @@ AddTagsToResourceOutput _$AddTagsToResourceOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$AddUploadBufferInputToJson(
+    AddUploadBufferInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DiskIds', instance.diskIds);
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  return val;
+}
+
 AddUploadBufferOutput _$AddUploadBufferOutputFromJson(
     Map<String, dynamic> json) {
   return AddUploadBufferOutput(
     gatewayARN: json['GatewayARN'] as String,
   );
+}
+
+Map<String, dynamic> _$AddWorkingStorageInputToJson(
+    AddWorkingStorageInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DiskIds', instance.diskIds);
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  return val;
 }
 
 AddWorkingStorageOutput _$AddWorkingStorageOutputFromJson(
@@ -40,10 +120,41 @@ AddWorkingStorageOutput _$AddWorkingStorageOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$AssignTapePoolInputToJson(AssignTapePoolInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('PoolId', instance.poolId);
+  writeNotNull('TapeARN', instance.tapeARN);
+  return val;
+}
+
 AssignTapePoolOutput _$AssignTapePoolOutputFromJson(Map<String, dynamic> json) {
   return AssignTapePoolOutput(
     tapeARN: json['TapeARN'] as String,
   );
+}
+
+Map<String, dynamic> _$AttachVolumeInputToJson(AttachVolumeInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  writeNotNull('NetworkInterfaceId', instance.networkInterfaceId);
+  writeNotNull('VolumeARN', instance.volumeARN);
+  writeNotNull('DiskId', instance.diskId);
+  writeNotNull('TargetName', instance.targetName);
+  return val;
 }
 
 AttachVolumeOutput _$AttachVolumeOutputFromJson(Map<String, dynamic> json) {
@@ -74,10 +185,39 @@ CachediSCSIVolume _$CachediSCSIVolumeFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CancelArchivalInputToJson(CancelArchivalInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  writeNotNull('TapeARN', instance.tapeARN);
+  return val;
+}
+
 CancelArchivalOutput _$CancelArchivalOutputFromJson(Map<String, dynamic> json) {
   return CancelArchivalOutput(
     tapeARN: json['TapeARN'] as String,
   );
+}
+
+Map<String, dynamic> _$CancelRetrievalInputToJson(
+    CancelRetrievalInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  writeNotNull('TapeARN', instance.tapeARN);
+  return val;
 }
 
 CancelRetrievalOutput _$CancelRetrievalOutputFromJson(
@@ -97,6 +237,29 @@ ChapInfo _$ChapInfoFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateCachediSCSIVolumeInputToJson(
+    CreateCachediSCSIVolumeInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClientToken', instance.clientToken);
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  writeNotNull('NetworkInterfaceId', instance.networkInterfaceId);
+  writeNotNull('TargetName', instance.targetName);
+  writeNotNull('VolumeSizeInBytes', instance.volumeSizeInBytes);
+  writeNotNull('KMSEncrypted', instance.kMSEncrypted);
+  writeNotNull('KMSKey', instance.kMSKey);
+  writeNotNull('SnapshotId', instance.snapshotId);
+  writeNotNull('SourceVolumeARN', instance.sourceVolumeARN);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateCachediSCSIVolumeOutput _$CreateCachediSCSIVolumeOutputFromJson(
     Map<String, dynamic> json) {
   return CreateCachediSCSIVolumeOutput(
@@ -105,6 +268,44 @@ CreateCachediSCSIVolumeOutput _$CreateCachediSCSIVolumeOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateNFSFileShareInputToJson(
+    CreateNFSFileShareInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClientToken', instance.clientToken);
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  writeNotNull('LocationARN', instance.locationARN);
+  writeNotNull('Role', instance.role);
+  writeNotNull('ClientList', instance.clientList);
+  writeNotNull('DefaultStorageClass', instance.defaultStorageClass);
+  writeNotNull('GuessMIMETypeEnabled', instance.guessMIMETypeEnabled);
+  writeNotNull('KMSEncrypted', instance.kMSEncrypted);
+  writeNotNull('KMSKey', instance.kMSKey);
+  writeNotNull('NFSFileShareDefaults', instance.nFSFileShareDefaults?.toJson());
+  writeNotNull('ObjectACL', _$ObjectACLEnumMap[instance.objectACL]);
+  writeNotNull('ReadOnly', instance.readOnly);
+  writeNotNull('RequesterPays', instance.requesterPays);
+  writeNotNull('Squash', instance.squash);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+const _$ObjectACLEnumMap = {
+  ObjectACL.private: 'private',
+  ObjectACL.publicRead: 'public-read',
+  ObjectACL.publicReadWrite: 'public-read-write',
+  ObjectACL.authenticatedRead: 'authenticated-read',
+  ObjectACL.bucketOwnerRead: 'bucket-owner-read',
+  ObjectACL.bucketOwnerFullControl: 'bucket-owner-full-control',
+  ObjectACL.awsExecRead: 'aws-exec-read',
+};
+
 CreateNFSFileShareOutput _$CreateNFSFileShareOutputFromJson(
     Map<String, dynamic> json) {
   return CreateNFSFileShareOutput(
@@ -112,11 +313,58 @@ CreateNFSFileShareOutput _$CreateNFSFileShareOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateSMBFileShareInputToJson(
+    CreateSMBFileShareInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClientToken', instance.clientToken);
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  writeNotNull('LocationARN', instance.locationARN);
+  writeNotNull('Role', instance.role);
+  writeNotNull('AdminUserList', instance.adminUserList);
+  writeNotNull('AuditDestinationARN', instance.auditDestinationARN);
+  writeNotNull('Authentication', instance.authentication);
+  writeNotNull('DefaultStorageClass', instance.defaultStorageClass);
+  writeNotNull('GuessMIMETypeEnabled', instance.guessMIMETypeEnabled);
+  writeNotNull('InvalidUserList', instance.invalidUserList);
+  writeNotNull('KMSEncrypted', instance.kMSEncrypted);
+  writeNotNull('KMSKey', instance.kMSKey);
+  writeNotNull('ObjectACL', _$ObjectACLEnumMap[instance.objectACL]);
+  writeNotNull('ReadOnly', instance.readOnly);
+  writeNotNull('RequesterPays', instance.requesterPays);
+  writeNotNull('SMBACLEnabled', instance.sMBACLEnabled);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('ValidUserList', instance.validUserList);
+  return val;
+}
+
 CreateSMBFileShareOutput _$CreateSMBFileShareOutputFromJson(
     Map<String, dynamic> json) {
   return CreateSMBFileShareOutput(
     fileShareARN: json['FileShareARN'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateSnapshotFromVolumeRecoveryPointInputToJson(
+    CreateSnapshotFromVolumeRecoveryPointInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SnapshotDescription', instance.snapshotDescription);
+  writeNotNull('VolumeARN', instance.volumeARN);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateSnapshotFromVolumeRecoveryPointOutput
@@ -129,11 +377,48 @@ CreateSnapshotFromVolumeRecoveryPointOutput
   );
 }
 
+Map<String, dynamic> _$CreateSnapshotInputToJson(CreateSnapshotInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SnapshotDescription', instance.snapshotDescription);
+  writeNotNull('VolumeARN', instance.volumeARN);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateSnapshotOutput _$CreateSnapshotOutputFromJson(Map<String, dynamic> json) {
   return CreateSnapshotOutput(
     snapshotId: json['SnapshotId'] as String,
     volumeARN: json['VolumeARN'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateStorediSCSIVolumeInputToJson(
+    CreateStorediSCSIVolumeInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DiskId', instance.diskId);
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  writeNotNull('NetworkInterfaceId', instance.networkInterfaceId);
+  writeNotNull('PreserveExistingData', instance.preserveExistingData);
+  writeNotNull('TargetName', instance.targetName);
+  writeNotNull('KMSEncrypted', instance.kMSEncrypted);
+  writeNotNull('KMSKey', instance.kMSKey);
+  writeNotNull('SnapshotId', instance.snapshotId);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateStorediSCSIVolumeOutput _$CreateStorediSCSIVolumeOutputFromJson(
@@ -145,11 +430,52 @@ CreateStorediSCSIVolumeOutput _$CreateStorediSCSIVolumeOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateTapeWithBarcodeInputToJson(
+    CreateTapeWithBarcodeInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  writeNotNull('TapeBarcode', instance.tapeBarcode);
+  writeNotNull('TapeSizeInBytes', instance.tapeSizeInBytes);
+  writeNotNull('KMSEncrypted', instance.kMSEncrypted);
+  writeNotNull('KMSKey', instance.kMSKey);
+  writeNotNull('PoolId', instance.poolId);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateTapeWithBarcodeOutput _$CreateTapeWithBarcodeOutputFromJson(
     Map<String, dynamic> json) {
   return CreateTapeWithBarcodeOutput(
     tapeARN: json['TapeARN'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateTapesInputToJson(CreateTapesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClientToken', instance.clientToken);
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  writeNotNull('NumTapesToCreate', instance.numTapesToCreate);
+  writeNotNull('TapeBarcodePrefix', instance.tapeBarcodePrefix);
+  writeNotNull('TapeSizeInBytes', instance.tapeSizeInBytes);
+  writeNotNull('KMSEncrypted', instance.kMSEncrypted);
+  writeNotNull('KMSKey', instance.kMSKey);
+  writeNotNull('PoolId', instance.poolId);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateTapesOutput _$CreateTapesOutputFromJson(Map<String, dynamic> json) {
@@ -158,11 +484,41 @@ CreateTapesOutput _$CreateTapesOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DeleteBandwidthRateLimitInputToJson(
+    DeleteBandwidthRateLimitInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BandwidthType', instance.bandwidthType);
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  return val;
+}
+
 DeleteBandwidthRateLimitOutput _$DeleteBandwidthRateLimitOutputFromJson(
     Map<String, dynamic> json) {
   return DeleteBandwidthRateLimitOutput(
     gatewayARN: json['GatewayARN'] as String,
   );
+}
+
+Map<String, dynamic> _$DeleteChapCredentialsInputToJson(
+    DeleteChapCredentialsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InitiatorName', instance.initiatorName);
+  writeNotNull('TargetARN', instance.targetARN);
+  return val;
 }
 
 DeleteChapCredentialsOutput _$DeleteChapCredentialsOutputFromJson(
@@ -173,6 +529,21 @@ DeleteChapCredentialsOutput _$DeleteChapCredentialsOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteFileShareInputToJson(
+    DeleteFileShareInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FileShareARN', instance.fileShareARN);
+  writeNotNull('ForceDelete', instance.forceDelete);
+  return val;
+}
+
 DeleteFileShareOutput _$DeleteFileShareOutputFromJson(
     Map<String, dynamic> json) {
   return DeleteFileShareOutput(
@@ -180,10 +551,37 @@ DeleteFileShareOutput _$DeleteFileShareOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteGatewayInputToJson(DeleteGatewayInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  return val;
+}
+
 DeleteGatewayOutput _$DeleteGatewayOutputFromJson(Map<String, dynamic> json) {
   return DeleteGatewayOutput(
     gatewayARN: json['GatewayARN'] as String,
   );
+}
+
+Map<String, dynamic> _$DeleteSnapshotScheduleInputToJson(
+    DeleteSnapshotScheduleInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('VolumeARN', instance.volumeARN);
+  return val;
 }
 
 DeleteSnapshotScheduleOutput _$DeleteSnapshotScheduleOutputFromJson(
@@ -193,11 +591,39 @@ DeleteSnapshotScheduleOutput _$DeleteSnapshotScheduleOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteTapeArchiveInputToJson(
+    DeleteTapeArchiveInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TapeARN', instance.tapeARN);
+  return val;
+}
+
 DeleteTapeArchiveOutput _$DeleteTapeArchiveOutputFromJson(
     Map<String, dynamic> json) {
   return DeleteTapeArchiveOutput(
     tapeARN: json['TapeARN'] as String,
   );
+}
+
+Map<String, dynamic> _$DeleteTapeInputToJson(DeleteTapeInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  writeNotNull('TapeARN', instance.tapeARN);
+  return val;
 }
 
 DeleteTapeOutput _$DeleteTapeOutputFromJson(Map<String, dynamic> json) {
@@ -206,10 +632,37 @@ DeleteTapeOutput _$DeleteTapeOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DeleteVolumeInputToJson(DeleteVolumeInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('VolumeARN', instance.volumeARN);
+  return val;
+}
+
 DeleteVolumeOutput _$DeleteVolumeOutputFromJson(Map<String, dynamic> json) {
   return DeleteVolumeOutput(
     volumeARN: json['VolumeARN'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeAvailabilityMonitorTestInputToJson(
+    DescribeAvailabilityMonitorTestInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  return val;
 }
 
 DescribeAvailabilityMonitorTestOutput
@@ -260,6 +713,20 @@ const _$AvailabilityMonitorTestStatusEnumMap = {
   AvailabilityMonitorTestStatus.pending: 'PENDING',
 };
 
+Map<String, dynamic> _$DescribeBandwidthRateLimitInputToJson(
+    DescribeBandwidthRateLimitInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  return val;
+}
+
 DescribeBandwidthRateLimitOutput _$DescribeBandwidthRateLimitOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeBandwidthRateLimitOutput(
@@ -269,6 +736,19 @@ DescribeBandwidthRateLimitOutput _$DescribeBandwidthRateLimitOutputFromJson(
         json['AverageUploadRateLimitInBitsPerSec'] as int,
     gatewayARN: json['GatewayARN'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeCacheInputToJson(DescribeCacheInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  return val;
 }
 
 DescribeCacheOutput _$DescribeCacheOutputFromJson(Map<String, dynamic> json) {
@@ -283,6 +763,20 @@ DescribeCacheOutput _$DescribeCacheOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DescribeCachediSCSIVolumesInputToJson(
+    DescribeCachediSCSIVolumesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('VolumeARNs', instance.volumeARNs);
+  return val;
+}
+
 DescribeCachediSCSIVolumesOutput _$DescribeCachediSCSIVolumesOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeCachediSCSIVolumesOutput(
@@ -294,6 +788,20 @@ DescribeCachediSCSIVolumesOutput _$DescribeCachediSCSIVolumesOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeChapCredentialsInputToJson(
+    DescribeChapCredentialsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TargetARN', instance.targetARN);
+  return val;
+}
+
 DescribeChapCredentialsOutput _$DescribeChapCredentialsOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeChapCredentialsOutput(
@@ -302,6 +810,20 @@ DescribeChapCredentialsOutput _$DescribeChapCredentialsOutputFromJson(
             e == null ? null : ChapInfo.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeGatewayInformationInputToJson(
+    DescribeGatewayInformationInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  return val;
 }
 
 DescribeGatewayInformationOutput _$DescribeGatewayInformationOutputFromJson(
@@ -340,6 +862,20 @@ const _$HostEnvironmentEnumMap = {
   HostEnvironment.other: 'OTHER',
 };
 
+Map<String, dynamic> _$DescribeMaintenanceStartTimeInputToJson(
+    DescribeMaintenanceStartTimeInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  return val;
+}
+
 DescribeMaintenanceStartTimeOutput _$DescribeMaintenanceStartTimeOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeMaintenanceStartTimeOutput(
@@ -350,6 +886,20 @@ DescribeMaintenanceStartTimeOutput _$DescribeMaintenanceStartTimeOutputFromJson(
     minuteOfHour: json['MinuteOfHour'] as int,
     timezone: json['Timezone'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeNFSFileSharesInputToJson(
+    DescribeNFSFileSharesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FileShareARNList', instance.fileShareARNList);
+  return val;
 }
 
 DescribeNFSFileSharesOutput _$DescribeNFSFileSharesOutputFromJson(
@@ -363,6 +913,20 @@ DescribeNFSFileSharesOutput _$DescribeNFSFileSharesOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeSMBFileSharesInputToJson(
+    DescribeSMBFileSharesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FileShareARNList', instance.fileShareARNList);
+  return val;
+}
+
 DescribeSMBFileSharesOutput _$DescribeSMBFileSharesOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeSMBFileSharesOutput(
@@ -372,6 +936,20 @@ DescribeSMBFileSharesOutput _$DescribeSMBFileSharesOutputFromJson(
             : SMBFileShareInfo.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeSMBSettingsInputToJson(
+    DescribeSMBSettingsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  return val;
 }
 
 DescribeSMBSettingsOutput _$DescribeSMBSettingsOutputFromJson(
@@ -403,6 +981,20 @@ const _$SMBSecurityStrategyEnumMap = {
   SMBSecurityStrategy.mandatoryEncryption: 'MandatoryEncryption',
 };
 
+Map<String, dynamic> _$DescribeSnapshotScheduleInputToJson(
+    DescribeSnapshotScheduleInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('VolumeARN', instance.volumeARN);
+  return val;
+}
+
 DescribeSnapshotScheduleOutput _$DescribeSnapshotScheduleOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeSnapshotScheduleOutput(
@@ -417,6 +1009,20 @@ DescribeSnapshotScheduleOutput _$DescribeSnapshotScheduleOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeStorediSCSIVolumesInputToJson(
+    DescribeStorediSCSIVolumesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('VolumeARNs', instance.volumeARNs);
+  return val;
+}
+
 DescribeStorediSCSIVolumesOutput _$DescribeStorediSCSIVolumesOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeStorediSCSIVolumesOutput(
@@ -428,6 +1034,22 @@ DescribeStorediSCSIVolumesOutput _$DescribeStorediSCSIVolumesOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeTapeArchivesInputToJson(
+    DescribeTapeArchivesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('Marker', instance.marker);
+  writeNotNull('TapeARNs', instance.tapeARNs);
+  return val;
+}
+
 DescribeTapeArchivesOutput _$DescribeTapeArchivesOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeTapeArchivesOutput(
@@ -437,6 +1059,22 @@ DescribeTapeArchivesOutput _$DescribeTapeArchivesOutputFromJson(
             e == null ? null : TapeArchive.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeTapeRecoveryPointsInputToJson(
+    DescribeTapeRecoveryPointsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('Marker', instance.marker);
+  return val;
 }
 
 DescribeTapeRecoveryPointsOutput _$DescribeTapeRecoveryPointsOutputFromJson(
@@ -452,6 +1090,22 @@ DescribeTapeRecoveryPointsOutput _$DescribeTapeRecoveryPointsOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeTapesInputToJson(DescribeTapesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('Marker', instance.marker);
+  writeNotNull('TapeARNs', instance.tapeARNs);
+  return val;
+}
+
 DescribeTapesOutput _$DescribeTapesOutputFromJson(Map<String, dynamic> json) {
   return DescribeTapesOutput(
     marker: json['Marker'] as String,
@@ -462,6 +1116,20 @@ DescribeTapesOutput _$DescribeTapesOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DescribeUploadBufferInputToJson(
+    DescribeUploadBufferInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  return val;
+}
+
 DescribeUploadBufferOutput _$DescribeUploadBufferOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeUploadBufferOutput(
@@ -470,6 +1138,23 @@ DescribeUploadBufferOutput _$DescribeUploadBufferOutputFromJson(
     uploadBufferAllocatedInBytes: json['UploadBufferAllocatedInBytes'] as int,
     uploadBufferUsedInBytes: json['UploadBufferUsedInBytes'] as int,
   );
+}
+
+Map<String, dynamic> _$DescribeVTLDevicesInputToJson(
+    DescribeVTLDevicesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('Marker', instance.marker);
+  writeNotNull('VTLDeviceARNs', instance.vTLDeviceARNs);
+  return val;
 }
 
 DescribeVTLDevicesOutput _$DescribeVTLDevicesOutputFromJson(
@@ -484,6 +1169,20 @@ DescribeVTLDevicesOutput _$DescribeVTLDevicesOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeWorkingStorageInputToJson(
+    DescribeWorkingStorageInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  return val;
+}
+
 DescribeWorkingStorageOutput _$DescribeWorkingStorageOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeWorkingStorageOutput(
@@ -493,6 +1192,20 @@ DescribeWorkingStorageOutput _$DescribeWorkingStorageOutputFromJson(
         json['WorkingStorageAllocatedInBytes'] as int,
     workingStorageUsedInBytes: json['WorkingStorageUsedInBytes'] as int,
   );
+}
+
+Map<String, dynamic> _$DetachVolumeInputToJson(DetachVolumeInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('VolumeARN', instance.volumeARN);
+  writeNotNull('ForceDetach', instance.forceDetach);
+  return val;
 }
 
 DetachVolumeOutput _$DetachVolumeOutputFromJson(Map<String, dynamic> json) {
@@ -509,6 +1222,19 @@ DeviceiSCSIAttributes _$DeviceiSCSIAttributesFromJson(
     networkInterfacePort: json['NetworkInterfacePort'] as int,
     targetARN: json['TargetARN'] as String,
   );
+}
+
+Map<String, dynamic> _$DisableGatewayInputToJson(DisableGatewayInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  return val;
 }
 
 DisableGatewayOutput _$DisableGatewayOutputFromJson(Map<String, dynamic> json) {
@@ -559,12 +1285,46 @@ GatewayInfo _$GatewayInfoFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$JoinDomainInputToJson(JoinDomainInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DomainName', instance.domainName);
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  writeNotNull('Password', instance.password);
+  writeNotNull('UserName', instance.userName);
+  writeNotNull('DomainControllers', instance.domainControllers);
+  writeNotNull('OrganizationalUnit', instance.organizationalUnit);
+  writeNotNull('TimeoutInSeconds', instance.timeoutInSeconds);
+  return val;
+}
+
 JoinDomainOutput _$JoinDomainOutputFromJson(Map<String, dynamic> json) {
   return JoinDomainOutput(
     activeDirectoryStatus: _$enumDecodeNullable(
         _$ActiveDirectoryStatusEnumMap, json['ActiveDirectoryStatus']),
     gatewayARN: json['GatewayARN'] as String,
   );
+}
+
+Map<String, dynamic> _$ListFileSharesInputToJson(ListFileSharesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('Marker', instance.marker);
+  return val;
 }
 
 ListFileSharesOutput _$ListFileSharesOutputFromJson(Map<String, dynamic> json) {
@@ -579,6 +1339,20 @@ ListFileSharesOutput _$ListFileSharesOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ListGatewaysInputToJson(ListGatewaysInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('Marker', instance.marker);
+  return val;
+}
+
 ListGatewaysOutput _$ListGatewaysOutputFromJson(Map<String, dynamic> json) {
   return ListGatewaysOutput(
     gateways: (json['Gateways'] as List)
@@ -589,6 +1363,19 @@ ListGatewaysOutput _$ListGatewaysOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ListLocalDisksInputToJson(ListLocalDisksInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  return val;
+}
+
 ListLocalDisksOutput _$ListLocalDisksOutputFromJson(Map<String, dynamic> json) {
   return ListLocalDisksOutput(
     disks: (json['Disks'] as List)
@@ -597,6 +1384,22 @@ ListLocalDisksOutput _$ListLocalDisksOutputFromJson(Map<String, dynamic> json) {
         ?.toList(),
     gatewayARN: json['GatewayARN'] as String,
   );
+}
+
+Map<String, dynamic> _$ListTagsForResourceInputToJson(
+    ListTagsForResourceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARN', instance.resourceARN);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('Marker', instance.marker);
+  return val;
 }
 
 ListTagsForResourceOutput _$ListTagsForResourceOutputFromJson(
@@ -610,6 +1413,21 @@ ListTagsForResourceOutput _$ListTagsForResourceOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$ListTapesInputToJson(ListTapesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('Marker', instance.marker);
+  writeNotNull('TapeARNs', instance.tapeARNs);
+  return val;
+}
+
 ListTapesOutput _$ListTapesOutputFromJson(Map<String, dynamic> json) {
   return ListTapesOutput(
     marker: json['Marker'] as String,
@@ -620,11 +1438,39 @@ ListTapesOutput _$ListTapesOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ListVolumeInitiatorsInputToJson(
+    ListVolumeInitiatorsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('VolumeARN', instance.volumeARN);
+  return val;
+}
+
 ListVolumeInitiatorsOutput _$ListVolumeInitiatorsOutputFromJson(
     Map<String, dynamic> json) {
   return ListVolumeInitiatorsOutput(
     initiators: (json['Initiators'] as List)?.map((e) => e as String)?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListVolumeRecoveryPointsInputToJson(
+    ListVolumeRecoveryPointsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  return val;
 }
 
 ListVolumeRecoveryPointsOutput _$ListVolumeRecoveryPointsOutputFromJson(
@@ -637,6 +1483,21 @@ ListVolumeRecoveryPointsOutput _$ListVolumeRecoveryPointsOutputFromJson(
             : VolumeRecoveryPointInfo.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListVolumesInputToJson(ListVolumesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('Marker', instance.marker);
+  return val;
 }
 
 ListVolumesOutput _$ListVolumesOutputFromJson(Map<String, dynamic> json) {
@@ -704,22 +1565,26 @@ NFSFileShareInfo _$NFSFileShareInfoFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$ObjectACLEnumMap = {
-  ObjectACL.private: 'private',
-  ObjectACL.publicRead: 'public-read',
-  ObjectACL.publicReadWrite: 'public-read-write',
-  ObjectACL.authenticatedRead: 'authenticated-read',
-  ObjectACL.bucketOwnerRead: 'bucket-owner-read',
-  ObjectACL.bucketOwnerFullControl: 'bucket-owner-full-control',
-  ObjectACL.awsExecRead: 'aws-exec-read',
-};
-
 NetworkInterface _$NetworkInterfaceFromJson(Map<String, dynamic> json) {
   return NetworkInterface(
     ipv4Address: json['Ipv4Address'] as String,
     ipv6Address: json['Ipv6Address'] as String,
     macAddress: json['MacAddress'] as String,
   );
+}
+
+Map<String, dynamic> _$NotifyWhenUploadedInputToJson(
+    NotifyWhenUploadedInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FileShareARN', instance.fileShareARN);
+  return val;
 }
 
 NotifyWhenUploadedOutput _$NotifyWhenUploadedOutputFromJson(
@@ -730,11 +1595,41 @@ NotifyWhenUploadedOutput _$NotifyWhenUploadedOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$RefreshCacheInputToJson(RefreshCacheInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FileShareARN', instance.fileShareARN);
+  writeNotNull('FolderList', instance.folderList);
+  writeNotNull('Recursive', instance.recursive);
+  return val;
+}
+
 RefreshCacheOutput _$RefreshCacheOutputFromJson(Map<String, dynamic> json) {
   return RefreshCacheOutput(
     fileShareARN: json['FileShareARN'] as String,
     notificationId: json['NotificationId'] as String,
   );
+}
+
+Map<String, dynamic> _$RemoveTagsFromResourceInputToJson(
+    RemoveTagsFromResourceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARN', instance.resourceARN);
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
 }
 
 RemoveTagsFromResourceOutput _$RemoveTagsFromResourceOutputFromJson(
@@ -744,10 +1639,38 @@ RemoveTagsFromResourceOutput _$RemoveTagsFromResourceOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$ResetCacheInputToJson(ResetCacheInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  return val;
+}
+
 ResetCacheOutput _$ResetCacheOutputFromJson(Map<String, dynamic> json) {
   return ResetCacheOutput(
     gatewayARN: json['GatewayARN'] as String,
   );
+}
+
+Map<String, dynamic> _$RetrieveTapeArchiveInputToJson(
+    RetrieveTapeArchiveInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  writeNotNull('TapeARN', instance.tapeARN);
+  return val;
 }
 
 RetrieveTapeArchiveOutput _$RetrieveTapeArchiveOutputFromJson(
@@ -755,6 +1678,21 @@ RetrieveTapeArchiveOutput _$RetrieveTapeArchiveOutputFromJson(
   return RetrieveTapeArchiveOutput(
     tapeARN: json['TapeARN'] as String,
   );
+}
+
+Map<String, dynamic> _$RetrieveTapeRecoveryPointInputToJson(
+    RetrieveTapeRecoveryPointInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  writeNotNull('TapeARN', instance.tapeARN);
+  return val;
 }
 
 RetrieveTapeRecoveryPointOutput _$RetrieveTapeRecoveryPointOutputFromJson(
@@ -795,11 +1733,41 @@ SMBFileShareInfo _$SMBFileShareInfoFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$SetLocalConsolePasswordInputToJson(
+    SetLocalConsolePasswordInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  writeNotNull('LocalConsolePassword', instance.localConsolePassword);
+  return val;
+}
+
 SetLocalConsolePasswordOutput _$SetLocalConsolePasswordOutputFromJson(
     Map<String, dynamic> json) {
   return SetLocalConsolePasswordOutput(
     gatewayARN: json['GatewayARN'] as String,
   );
+}
+
+Map<String, dynamic> _$SetSMBGuestPasswordInputToJson(
+    SetSMBGuestPasswordInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  writeNotNull('Password', instance.password);
+  return val;
 }
 
 SetSMBGuestPasswordOutput _$SetSMBGuestPasswordOutputFromJson(
@@ -809,6 +1777,20 @@ SetSMBGuestPasswordOutput _$SetSMBGuestPasswordOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$ShutdownGatewayInputToJson(
+    ShutdownGatewayInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  return val;
+}
+
 ShutdownGatewayOutput _$ShutdownGatewayOutputFromJson(
     Map<String, dynamic> json) {
   return ShutdownGatewayOutput(
@@ -816,11 +1798,38 @@ ShutdownGatewayOutput _$ShutdownGatewayOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$StartAvailabilityMonitorTestInputToJson(
+    StartAvailabilityMonitorTestInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  return val;
+}
+
 StartAvailabilityMonitorTestOutput _$StartAvailabilityMonitorTestOutputFromJson(
     Map<String, dynamic> json) {
   return StartAvailabilityMonitorTestOutput(
     gatewayARN: json['GatewayARN'] as String,
   );
+}
+
+Map<String, dynamic> _$StartGatewayInputToJson(StartGatewayInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  return val;
 }
 
 StartGatewayOutput _$StartGatewayOutputFromJson(Map<String, dynamic> json) {
@@ -924,11 +1933,48 @@ TapeRecoveryPointInfo _$TapeRecoveryPointInfoFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateBandwidthRateLimitInputToJson(
+    UpdateBandwidthRateLimitInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  writeNotNull('AverageDownloadRateLimitInBitsPerSec',
+      instance.averageDownloadRateLimitInBitsPerSec);
+  writeNotNull('AverageUploadRateLimitInBitsPerSec',
+      instance.averageUploadRateLimitInBitsPerSec);
+  return val;
+}
+
 UpdateBandwidthRateLimitOutput _$UpdateBandwidthRateLimitOutputFromJson(
     Map<String, dynamic> json) {
   return UpdateBandwidthRateLimitOutput(
     gatewayARN: json['GatewayARN'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateChapCredentialsInputToJson(
+    UpdateChapCredentialsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InitiatorName', instance.initiatorName);
+  writeNotNull(
+      'SecretToAuthenticateInitiator', instance.secretToAuthenticateInitiator);
+  writeNotNull('TargetARN', instance.targetARN);
+  writeNotNull(
+      'SecretToAuthenticateTarget', instance.secretToAuthenticateTarget);
+  return val;
 }
 
 UpdateChapCredentialsOutput _$UpdateChapCredentialsOutputFromJson(
@@ -939,12 +1985,43 @@ UpdateChapCredentialsOutput _$UpdateChapCredentialsOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateGatewayInformationInputToJson(
+    UpdateGatewayInformationInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  writeNotNull('CloudWatchLogGroupARN', instance.cloudWatchLogGroupARN);
+  writeNotNull('GatewayName', instance.gatewayName);
+  writeNotNull('GatewayTimezone', instance.gatewayTimezone);
+  return val;
+}
+
 UpdateGatewayInformationOutput _$UpdateGatewayInformationOutputFromJson(
     Map<String, dynamic> json) {
   return UpdateGatewayInformationOutput(
     gatewayARN: json['GatewayARN'] as String,
     gatewayName: json['GatewayName'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateGatewaySoftwareNowInputToJson(
+    UpdateGatewaySoftwareNowInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  return val;
 }
 
 UpdateGatewaySoftwareNowOutput _$UpdateGatewaySoftwareNowOutputFromJson(
@@ -954,11 +2031,53 @@ UpdateGatewaySoftwareNowOutput _$UpdateGatewaySoftwareNowOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateMaintenanceStartTimeInputToJson(
+    UpdateMaintenanceStartTimeInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  writeNotNull('HourOfDay', instance.hourOfDay);
+  writeNotNull('MinuteOfHour', instance.minuteOfHour);
+  writeNotNull('DayOfMonth', instance.dayOfMonth);
+  writeNotNull('DayOfWeek', instance.dayOfWeek);
+  return val;
+}
+
 UpdateMaintenanceStartTimeOutput _$UpdateMaintenanceStartTimeOutputFromJson(
     Map<String, dynamic> json) {
   return UpdateMaintenanceStartTimeOutput(
     gatewayARN: json['GatewayARN'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateNFSFileShareInputToJson(
+    UpdateNFSFileShareInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FileShareARN', instance.fileShareARN);
+  writeNotNull('ClientList', instance.clientList);
+  writeNotNull('DefaultStorageClass', instance.defaultStorageClass);
+  writeNotNull('GuessMIMETypeEnabled', instance.guessMIMETypeEnabled);
+  writeNotNull('KMSEncrypted', instance.kMSEncrypted);
+  writeNotNull('KMSKey', instance.kMSKey);
+  writeNotNull('NFSFileShareDefaults', instance.nFSFileShareDefaults?.toJson());
+  writeNotNull('ObjectACL', _$ObjectACLEnumMap[instance.objectACL]);
+  writeNotNull('ReadOnly', instance.readOnly);
+  writeNotNull('RequesterPays', instance.requesterPays);
+  writeNotNull('Squash', instance.squash);
+  return val;
 }
 
 UpdateNFSFileShareOutput _$UpdateNFSFileShareOutputFromJson(
@@ -968,11 +2087,53 @@ UpdateNFSFileShareOutput _$UpdateNFSFileShareOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateSMBFileShareInputToJson(
+    UpdateSMBFileShareInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FileShareARN', instance.fileShareARN);
+  writeNotNull('AdminUserList', instance.adminUserList);
+  writeNotNull('AuditDestinationARN', instance.auditDestinationARN);
+  writeNotNull('DefaultStorageClass', instance.defaultStorageClass);
+  writeNotNull('GuessMIMETypeEnabled', instance.guessMIMETypeEnabled);
+  writeNotNull('InvalidUserList', instance.invalidUserList);
+  writeNotNull('KMSEncrypted', instance.kMSEncrypted);
+  writeNotNull('KMSKey', instance.kMSKey);
+  writeNotNull('ObjectACL', _$ObjectACLEnumMap[instance.objectACL]);
+  writeNotNull('ReadOnly', instance.readOnly);
+  writeNotNull('RequesterPays', instance.requesterPays);
+  writeNotNull('SMBACLEnabled', instance.sMBACLEnabled);
+  writeNotNull('ValidUserList', instance.validUserList);
+  return val;
+}
+
 UpdateSMBFileShareOutput _$UpdateSMBFileShareOutputFromJson(
     Map<String, dynamic> json) {
   return UpdateSMBFileShareOutput(
     fileShareARN: json['FileShareARN'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateSMBSecurityStrategyInputToJson(
+    UpdateSMBSecurityStrategyInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GatewayARN', instance.gatewayARN);
+  writeNotNull('SMBSecurityStrategy',
+      _$SMBSecurityStrategyEnumMap[instance.sMBSecurityStrategy]);
+  return val;
 }
 
 UpdateSMBSecurityStrategyOutput _$UpdateSMBSecurityStrategyOutputFromJson(
@@ -982,11 +2143,44 @@ UpdateSMBSecurityStrategyOutput _$UpdateSMBSecurityStrategyOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateSnapshotScheduleInputToJson(
+    UpdateSnapshotScheduleInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RecurrenceInHours', instance.recurrenceInHours);
+  writeNotNull('StartAt', instance.startAt);
+  writeNotNull('VolumeARN', instance.volumeARN);
+  writeNotNull('Description', instance.description);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 UpdateSnapshotScheduleOutput _$UpdateSnapshotScheduleOutputFromJson(
     Map<String, dynamic> json) {
   return UpdateSnapshotScheduleOutput(
     volumeARN: json['VolumeARN'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateVTLDeviceTypeInputToJson(
+    UpdateVTLDeviceTypeInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DeviceType', instance.deviceType);
+  writeNotNull('VTLDeviceARN', instance.vTLDeviceARN);
+  return val;
 }
 
 UpdateVTLDeviceTypeOutput _$UpdateVTLDeviceTypeOutputFromJson(

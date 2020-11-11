@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -111,12 +110,12 @@ class ResourceGroups {
       description,
       r'''[\sa-zA-Z0-9_\.-]*''',
     );
-    final $payload = <String, dynamic>{
-      'Name': name,
-      'ResourceQuery': resourceQuery,
-      if (description != null) 'Description': description,
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = CreateGroupInput(
+      name: name,
+      resourceQuery: resourceQuery,
+      description: description,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -156,7 +155,9 @@ class ResourceGroups {
       r'''[a-zA-Z0-9_\.-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteGroupInput(
+      groupName: groupName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -355,9 +356,12 @@ class ResourceGroups {
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{
-      if (filters != null) 'Filters': filters,
-    };
+    final $payload = ListGroupResourcesInput(
+      groupName: groupName,
+      filters: filters,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -423,9 +427,11 @@ class ResourceGroups {
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{
-      if (filters != null) 'Filters': filters,
-    };
+    final $payload = ListGroupsInput(
+      filters: filters,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -483,11 +489,11 @@ class ResourceGroups {
       nextToken,
       r'''^[a-zA-Z0-9+/]*={0,2}$''',
     );
-    final $payload = <String, dynamic>{
-      'ResourceQuery': resourceQuery,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = SearchResourcesInput(
+      resourceQuery: resourceQuery,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -534,9 +540,10 @@ class ResourceGroups {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'Tags': tags,
-    };
+    final $payload = TagInput(
+      arn: arn,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -579,9 +586,10 @@ class ResourceGroups {
       isRequired: true,
     );
     ArgumentError.checkNotNull(keys, 'keys');
-    final $payload = <String, dynamic>{
-      'Keys': keys,
-    };
+    final $payload = UntagInput(
+      arn: arn,
+      keys: keys,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -638,9 +646,10 @@ class ResourceGroups {
       description,
       r'''[\sa-zA-Z0-9_\.-]*''',
     );
-    final $payload = <String, dynamic>{
-      if (description != null) 'Description': description,
-    };
+    final $payload = UpdateGroupInput(
+      groupName: groupName,
+      description: description,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -684,9 +693,10 @@ class ResourceGroups {
       isRequired: true,
     );
     ArgumentError.checkNotNull(resourceQuery, 'resourceQuery');
-    final $payload = <String, dynamic>{
-      'ResourceQuery': resourceQuery,
-    };
+    final $payload = UpdateGroupQueryInput(
+      groupName: groupName,
+      resourceQuery: resourceQuery,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -695,6 +705,47 @@ class ResourceGroups {
     );
     return UpdateGroupQueryOutput.fromJson(response);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateGroupInput {
+  /// The name of the group, which is the identifier of the group in other
+  /// operations. A resource group name cannot be updated after it is created. A
+  /// resource group name can have a maximum of 128 characters, including letters,
+  /// numbers, hyphens, dots, and underscores. The name cannot start with
+  /// <code>AWS</code> or <code>aws</code>; these are reserved. A resource group
+  /// name must be unique within your account.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The resource query that determines which AWS resources are members of this
+  /// group.
+  @_s.JsonKey(name: 'ResourceQuery')
+  final ResourceQuery resourceQuery;
+
+  /// The description of the resource group. Descriptions can have a maximum of
+  /// 511 characters, including letters, numbers, hyphens, underscores,
+  /// punctuation, and spaces.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The tags to add to the group. A tag is a string-to-string map of key-value
+  /// pairs. Tag keys can have a maximum character length of 128 characters, and
+  /// tag values can have a maximum length of 256 characters.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  CreateGroupInput({
+    @_s.required this.name,
+    @_s.required this.resourceQuery,
+    this.description,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateGroupInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -722,6 +773,22 @@ class CreateGroupOutput {
   });
   factory CreateGroupOutput.fromJson(Map<String, dynamic> json) =>
       _$CreateGroupOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteGroupInput {
+  /// The name of the resource group to delete.
+  @_s.JsonKey(name: 'GroupName', ignore: true)
+  final String groupName;
+
+  DeleteGroupInput({
+    @_s.required this.groupName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteGroupInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -905,6 +972,49 @@ class GroupQuery {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListGroupResourcesInput {
+  /// The name of the resource group.
+  @_s.JsonKey(name: 'GroupName', ignore: true)
+  final String groupName;
+
+  /// Filters, formatted as ResourceFilter objects, that you want to apply to a
+  /// ListGroupResources operation.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>resource-type</code> - Filter resources by their type. Specify up to
+  /// five resource types in the format AWS::ServiceCode::ResourceType. For
+  /// example, AWS::EC2::Instance, or AWS::S3::Bucket.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Filters')
+  final List<ResourceFilter> filters;
+
+  /// The maximum number of group member ARNs that are returned in a single call
+  /// by ListGroupResources, in paginated output. By default, this number is 50.
+  @_s.JsonKey(name: 'maxResults', ignore: true)
+  final int maxResults;
+
+  /// The NextToken value that is returned in a paginated ListGroupResources
+  /// request. To get the next page of results, run the call again, add the
+  /// NextToken parameter, and specify the NextToken value.
+  @_s.JsonKey(name: 'nextToken', ignore: true)
+  final String nextToken;
+
+  ListGroupResourcesInput({
+    @_s.required this.groupName,
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListGroupResourcesInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListGroupResourcesOutput {
@@ -933,6 +1043,44 @@ class ListGroupResourcesOutput {
   });
   factory ListGroupResourcesOutput.fromJson(Map<String, dynamic> json) =>
       _$ListGroupResourcesOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListGroupsInput {
+  /// Filters, formatted as GroupFilter objects, that you want to apply to a
+  /// ListGroups operation.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>resource-type</code> - Filter groups by resource type. Specify up to
+  /// five resource types in the format AWS::ServiceCode::ResourceType. For
+  /// example, AWS::EC2::Instance, or AWS::S3::Bucket.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Filters')
+  final List<GroupFilter> filters;
+
+  /// The maximum number of resource group results that are returned by ListGroups
+  /// in paginated output. By default, this number is 50.
+  @_s.JsonKey(name: 'maxResults', ignore: true)
+  final int maxResults;
+
+  /// The NextToken value that is returned in a paginated <code>ListGroups</code>
+  /// request. To get the next page of results, run the call again, add the
+  /// NextToken parameter, and specify the NextToken value.
+  @_s.JsonKey(name: 'nextToken', ignore: true)
+  final String nextToken;
+
+  ListGroupsInput({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListGroupsInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1138,6 +1286,38 @@ class ResourceQuery {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SearchResourcesInput {
+  /// The search query, using the same formats that are supported for resource
+  /// group definition.
+  @_s.JsonKey(name: 'ResourceQuery')
+  final ResourceQuery resourceQuery;
+
+  /// The maximum number of group member ARNs returned by
+  /// <code>SearchResources</code> in paginated output. By default, this number is
+  /// 50.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The NextToken value that is returned in a paginated
+  /// <code>SearchResources</code> request. To get the next page of results, run
+  /// the call again, add the NextToken parameter, and specify the NextToken
+  /// value.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  SearchResourcesInput({
+    @_s.required this.resourceQuery,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$SearchResourcesInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class SearchResourcesOutput {
@@ -1171,6 +1351,29 @@ class SearchResourcesOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagInput {
+  /// The ARN of the resource to which to add tags.
+  @_s.JsonKey(name: 'Arn', ignore: true)
+  final String arn;
+
+  /// The tags to add to the specified resource. A tag is a string-to-string map
+  /// of key-value pairs. Tag keys can have a maximum character length of 128
+  /// characters, and tag values can have a maximum length of 256 characters.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  TagInput({
+    @_s.required this.arn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagOutput {
@@ -1188,6 +1391,27 @@ class TagOutput {
   });
   factory TagOutput.fromJson(Map<String, dynamic> json) =>
       _$TagOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagInput {
+  /// The ARN of the resource from which to remove tags.
+  @_s.JsonKey(name: 'Arn', ignore: true)
+  final String arn;
+
+  /// The keys of the tags to be removed.
+  @_s.JsonKey(name: 'Keys')
+  final List<String> keys;
+
+  UntagInput({
+    @_s.required this.arn,
+    @_s.required this.keys,
+  });
+  Map<String, dynamic> toJson() => _$UntagInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1215,6 +1439,29 @@ class UntagOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateGroupInput {
+  /// The name of the resource group for which you want to update its description.
+  @_s.JsonKey(name: 'GroupName', ignore: true)
+  final String groupName;
+
+  /// The description of the resource group. Descriptions can have a maximum of
+  /// 511 characters, including letters, numbers, hyphens, underscores,
+  /// punctuation, and spaces.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  UpdateGroupInput({
+    @_s.required this.groupName,
+    this.description,
+  });
+  Map<String, dynamic> toJson() => _$UpdateGroupInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateGroupOutput {
@@ -1227,6 +1474,28 @@ class UpdateGroupOutput {
   });
   factory UpdateGroupOutput.fromJson(Map<String, dynamic> json) =>
       _$UpdateGroupOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateGroupQueryInput {
+  /// The name of the resource group for which you want to edit the query.
+  @_s.JsonKey(name: 'GroupName', ignore: true)
+  final String groupName;
+
+  /// The resource query that determines which AWS resources are members of the
+  /// resource group.
+  @_s.JsonKey(name: 'ResourceQuery')
+  final ResourceQuery resourceQuery;
+
+  UpdateGroupQueryInput({
+    @_s.required this.groupName,
+    @_s.required this.resourceQuery,
+  });
+  Map<String, dynamic> toJson() => _$UpdateGroupQueryInputToJson(this);
 }
 
 @_s.JsonSerializable(

@@ -218,6 +218,25 @@ Map<String, dynamic> _$CognitoUserPoolConfigToJson(
   return val;
 }
 
+Map<String, dynamic> _$CreateApiCacheRequestToJson(
+    CreateApiCacheRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('apiCachingBehavior',
+      _$ApiCachingBehaviorEnumMap[instance.apiCachingBehavior]);
+  writeNotNull('ttl', instance.ttl);
+  writeNotNull('type', _$ApiCacheTypeEnumMap[instance.type]);
+  writeNotNull('atRestEncryptionEnabled', instance.atRestEncryptionEnabled);
+  writeNotNull('transitEncryptionEnabled', instance.transitEncryptionEnabled);
+  return val;
+}
+
 CreateApiCacheResponse _$CreateApiCacheResponseFromJson(
     Map<String, dynamic> json) {
   return CreateApiCacheResponse(
@@ -225,6 +244,20 @@ CreateApiCacheResponse _$CreateApiCacheResponseFromJson(
         ? null
         : ApiCache.fromJson(json['apiCache'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateApiKeyRequestToJson(CreateApiKeyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('description', instance.description);
+  writeNotNull('expires', instance.expires);
+  return val;
 }
 
 CreateApiKeyResponse _$CreateApiKeyResponseFromJson(Map<String, dynamic> json) {
@@ -235,6 +268,38 @@ CreateApiKeyResponse _$CreateApiKeyResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateDataSourceRequestToJson(
+    CreateDataSourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('type', _$DataSourceTypeEnumMap[instance.type]);
+  writeNotNull('description', instance.description);
+  writeNotNull('dynamodbConfig', instance.dynamodbConfig?.toJson());
+  writeNotNull('elasticsearchConfig', instance.elasticsearchConfig?.toJson());
+  writeNotNull('httpConfig', instance.httpConfig?.toJson());
+  writeNotNull('lambdaConfig', instance.lambdaConfig?.toJson());
+  writeNotNull(
+      'relationalDatabaseConfig', instance.relationalDatabaseConfig?.toJson());
+  writeNotNull('serviceRoleArn', instance.serviceRoleArn);
+  return val;
+}
+
+const _$DataSourceTypeEnumMap = {
+  DataSourceType.awsLambda: 'AWS_LAMBDA',
+  DataSourceType.amazonDynamodb: 'AMAZON_DYNAMODB',
+  DataSourceType.amazonElasticsearch: 'AMAZON_ELASTICSEARCH',
+  DataSourceType.none: 'NONE',
+  DataSourceType.http: 'HTTP',
+  DataSourceType.relationalDatabase: 'RELATIONAL_DATABASE',
+};
+
 CreateDataSourceResponse _$CreateDataSourceResponseFromJson(
     Map<String, dynamic> json) {
   return CreateDataSourceResponse(
@@ -242,6 +307,25 @@ CreateDataSourceResponse _$CreateDataSourceResponseFromJson(
         ? null
         : DataSource.fromJson(json['dataSource'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateFunctionRequestToJson(
+    CreateFunctionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('dataSourceName', instance.dataSourceName);
+  writeNotNull('functionVersion', instance.functionVersion);
+  writeNotNull('name', instance.name);
+  writeNotNull('requestMappingTemplate', instance.requestMappingTemplate);
+  writeNotNull('description', instance.description);
+  writeNotNull('responseMappingTemplate', instance.responseMappingTemplate);
+  return val;
 }
 
 CreateFunctionResponse _$CreateFunctionResponseFromJson(
@@ -254,6 +338,32 @@ CreateFunctionResponse _$CreateFunctionResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateGraphqlApiRequestToJson(
+    CreateGraphqlApiRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('authenticationType',
+      _$AuthenticationTypeEnumMap[instance.authenticationType]);
+  writeNotNull('name', instance.name);
+  writeNotNull(
+      'additionalAuthenticationProviders',
+      instance.additionalAuthenticationProviders
+          ?.map((e) => e?.toJson())
+          ?.toList());
+  writeNotNull('logConfig', instance.logConfig?.toJson());
+  writeNotNull('openIDConnectConfig', instance.openIDConnectConfig?.toJson());
+  writeNotNull('tags', instance.tags);
+  writeNotNull('userPoolConfig', instance.userPoolConfig?.toJson());
+  writeNotNull('xrayEnabled', instance.xrayEnabled);
+  return val;
+}
+
 CreateGraphqlApiResponse _$CreateGraphqlApiResponseFromJson(
     Map<String, dynamic> json) {
   return CreateGraphqlApiResponse(
@@ -263,6 +373,32 @@ CreateGraphqlApiResponse _$CreateGraphqlApiResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateResolverRequestToJson(
+    CreateResolverRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('fieldName', instance.fieldName);
+  writeNotNull('requestMappingTemplate', instance.requestMappingTemplate);
+  writeNotNull('cachingConfig', instance.cachingConfig?.toJson());
+  writeNotNull('dataSourceName', instance.dataSourceName);
+  writeNotNull('kind', _$ResolverKindEnumMap[instance.kind]);
+  writeNotNull('pipelineConfig', instance.pipelineConfig?.toJson());
+  writeNotNull('responseMappingTemplate', instance.responseMappingTemplate);
+  writeNotNull('syncConfig', instance.syncConfig?.toJson());
+  return val;
+}
+
+const _$ResolverKindEnumMap = {
+  ResolverKind.unit: 'UNIT',
+  ResolverKind.pipeline: 'PIPELINE',
+};
+
 CreateResolverResponse _$CreateResolverResponseFromJson(
     Map<String, dynamic> json) {
   return CreateResolverResponse(
@@ -271,6 +407,25 @@ CreateResolverResponse _$CreateResolverResponseFromJson(
         : Resolver.fromJson(json['resolver'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$CreateTypeRequestToJson(CreateTypeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('definition', instance.definition);
+  writeNotNull('format', _$TypeDefinitionFormatEnumMap[instance.format]);
+  return val;
+}
+
+const _$TypeDefinitionFormatEnumMap = {
+  TypeDefinitionFormat.sdl: 'SDL',
+  TypeDefinitionFormat.json: 'JSON',
+};
 
 CreateTypeResponse _$CreateTypeResponseFromJson(Map<String, dynamic> json) {
   return CreateTypeResponse(
@@ -310,43 +465,61 @@ DataSource _$DataSourceFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$DataSourceTypeEnumMap = {
-  DataSourceType.awsLambda: 'AWS_LAMBDA',
-  DataSourceType.amazonDynamodb: 'AMAZON_DYNAMODB',
-  DataSourceType.amazonElasticsearch: 'AMAZON_ELASTICSEARCH',
-  DataSourceType.none: 'NONE',
-  DataSourceType.http: 'HTTP',
-  DataSourceType.relationalDatabase: 'RELATIONAL_DATABASE',
-};
+Map<String, dynamic> _$DeleteApiCacheRequestToJson(
+        DeleteApiCacheRequest instance) =>
+    <String, dynamic>{};
 
 DeleteApiCacheResponse _$DeleteApiCacheResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteApiCacheResponse();
 }
 
+Map<String, dynamic> _$DeleteApiKeyRequestToJson(
+        DeleteApiKeyRequest instance) =>
+    <String, dynamic>{};
+
 DeleteApiKeyResponse _$DeleteApiKeyResponseFromJson(Map<String, dynamic> json) {
   return DeleteApiKeyResponse();
 }
+
+Map<String, dynamic> _$DeleteDataSourceRequestToJson(
+        DeleteDataSourceRequest instance) =>
+    <String, dynamic>{};
 
 DeleteDataSourceResponse _$DeleteDataSourceResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteDataSourceResponse();
 }
 
+Map<String, dynamic> _$DeleteFunctionRequestToJson(
+        DeleteFunctionRequest instance) =>
+    <String, dynamic>{};
+
 DeleteFunctionResponse _$DeleteFunctionResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteFunctionResponse();
 }
+
+Map<String, dynamic> _$DeleteGraphqlApiRequestToJson(
+        DeleteGraphqlApiRequest instance) =>
+    <String, dynamic>{};
 
 DeleteGraphqlApiResponse _$DeleteGraphqlApiResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteGraphqlApiResponse();
 }
 
+Map<String, dynamic> _$DeleteResolverRequestToJson(
+        DeleteResolverRequest instance) =>
+    <String, dynamic>{};
+
 DeleteResolverResponse _$DeleteResolverResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteResolverResponse();
 }
+
+Map<String, dynamic> _$DeleteTypeRequestToJson(DeleteTypeRequest instance) =>
+    <String, dynamic>{};
 
 DeleteTypeResponse _$DeleteTypeResponseFromJson(Map<String, dynamic> json) {
   return DeleteTypeResponse();
@@ -429,6 +602,10 @@ Map<String, dynamic> _$ElasticsearchDataSourceConfigToJson(
   writeNotNull('endpoint', instance.endpoint);
   return val;
 }
+
+Map<String, dynamic> _$FlushApiCacheRequestToJson(
+        FlushApiCacheRequest instance) =>
+    <String, dynamic>{};
 
 FlushApiCacheResponse _$FlushApiCacheResponseFromJson(
     Map<String, dynamic> json) {
@@ -872,10 +1049,20 @@ Resolver _$ResolverFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$ResolverKindEnumMap = {
-  ResolverKind.unit: 'UNIT',
-  ResolverKind.pipeline: 'PIPELINE',
-};
+Map<String, dynamic> _$StartSchemaCreationRequestToJson(
+    StartSchemaCreationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'definition', const Uint8ListConverter().toJson(instance.definition));
+  return val;
+}
 
 StartSchemaCreationResponse _$StartSchemaCreationResponseFromJson(
     Map<String, dynamic> json) {
@@ -927,6 +1114,19 @@ const _$ConflictHandlerTypeEnumMap = {
   ConflictHandlerType.none: 'NONE',
 };
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
 }
@@ -941,14 +1141,30 @@ Type _$TypeFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$TypeDefinitionFormatEnumMap = {
-  TypeDefinitionFormat.sdl: 'SDL',
-  TypeDefinitionFormat.json: 'JSON',
-};
+Map<String, dynamic> _$UntagResourceRequestToJson(
+        UntagResourceRequest instance) =>
+    <String, dynamic>{};
 
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse();
+}
+
+Map<String, dynamic> _$UpdateApiCacheRequestToJson(
+    UpdateApiCacheRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('apiCachingBehavior',
+      _$ApiCachingBehaviorEnumMap[instance.apiCachingBehavior]);
+  writeNotNull('ttl', instance.ttl);
+  writeNotNull('type', _$ApiCacheTypeEnumMap[instance.type]);
+  return val;
 }
 
 UpdateApiCacheResponse _$UpdateApiCacheResponseFromJson(
@@ -960,12 +1176,48 @@ UpdateApiCacheResponse _$UpdateApiCacheResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateApiKeyRequestToJson(UpdateApiKeyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('description', instance.description);
+  writeNotNull('expires', instance.expires);
+  return val;
+}
+
 UpdateApiKeyResponse _$UpdateApiKeyResponseFromJson(Map<String, dynamic> json) {
   return UpdateApiKeyResponse(
     apiKey: json['apiKey'] == null
         ? null
         : ApiKey.fromJson(json['apiKey'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateDataSourceRequestToJson(
+    UpdateDataSourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('type', _$DataSourceTypeEnumMap[instance.type]);
+  writeNotNull('description', instance.description);
+  writeNotNull('dynamodbConfig', instance.dynamodbConfig?.toJson());
+  writeNotNull('elasticsearchConfig', instance.elasticsearchConfig?.toJson());
+  writeNotNull('httpConfig', instance.httpConfig?.toJson());
+  writeNotNull('lambdaConfig', instance.lambdaConfig?.toJson());
+  writeNotNull(
+      'relationalDatabaseConfig', instance.relationalDatabaseConfig?.toJson());
+  writeNotNull('serviceRoleArn', instance.serviceRoleArn);
+  return val;
 }
 
 UpdateDataSourceResponse _$UpdateDataSourceResponseFromJson(
@@ -975,6 +1227,25 @@ UpdateDataSourceResponse _$UpdateDataSourceResponseFromJson(
         ? null
         : DataSource.fromJson(json['dataSource'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateFunctionRequestToJson(
+    UpdateFunctionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('dataSourceName', instance.dataSourceName);
+  writeNotNull('functionVersion', instance.functionVersion);
+  writeNotNull('name', instance.name);
+  writeNotNull('requestMappingTemplate', instance.requestMappingTemplate);
+  writeNotNull('description', instance.description);
+  writeNotNull('responseMappingTemplate', instance.responseMappingTemplate);
+  return val;
 }
 
 UpdateFunctionResponse _$UpdateFunctionResponseFromJson(
@@ -987,6 +1258,31 @@ UpdateFunctionResponse _$UpdateFunctionResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateGraphqlApiRequestToJson(
+    UpdateGraphqlApiRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull(
+      'additionalAuthenticationProviders',
+      instance.additionalAuthenticationProviders
+          ?.map((e) => e?.toJson())
+          ?.toList());
+  writeNotNull('authenticationType',
+      _$AuthenticationTypeEnumMap[instance.authenticationType]);
+  writeNotNull('logConfig', instance.logConfig?.toJson());
+  writeNotNull('openIDConnectConfig', instance.openIDConnectConfig?.toJson());
+  writeNotNull('userPoolConfig', instance.userPoolConfig?.toJson());
+  writeNotNull('xrayEnabled', instance.xrayEnabled);
+  return val;
+}
+
 UpdateGraphqlApiResponse _$UpdateGraphqlApiResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateGraphqlApiResponse(
@@ -996,6 +1292,26 @@ UpdateGraphqlApiResponse _$UpdateGraphqlApiResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateResolverRequestToJson(
+    UpdateResolverRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('requestMappingTemplate', instance.requestMappingTemplate);
+  writeNotNull('cachingConfig', instance.cachingConfig?.toJson());
+  writeNotNull('dataSourceName', instance.dataSourceName);
+  writeNotNull('kind', _$ResolverKindEnumMap[instance.kind]);
+  writeNotNull('pipelineConfig', instance.pipelineConfig?.toJson());
+  writeNotNull('responseMappingTemplate', instance.responseMappingTemplate);
+  writeNotNull('syncConfig', instance.syncConfig?.toJson());
+  return val;
+}
+
 UpdateResolverResponse _$UpdateResolverResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateResolverResponse(
@@ -1003,6 +1319,20 @@ UpdateResolverResponse _$UpdateResolverResponseFromJson(
         ? null
         : Resolver.fromJson(json['resolver'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateTypeRequestToJson(UpdateTypeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('format', _$TypeDefinitionFormatEnumMap[instance.format]);
+  writeNotNull('definition', instance.definition);
+  return val;
 }
 
 UpdateTypeResponse _$UpdateTypeResponseFromJson(Map<String, dynamic> json) {

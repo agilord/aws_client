@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -20,6 +19,8 @@ import 'package:shared_aws_api/shared.dart'
         unixTimestampToJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
+
+part 'empty_maps.g.dart';
 
 /// Empty maps
 class EmptyMaps {
@@ -50,11 +51,26 @@ class EmptyMaps {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (map != null) 'Map': map,
-      },
+      payload: InputShape(
+        map: map,
+      ),
     );
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class InputShape {
+  @_s.JsonKey(name: 'Map')
+  final Map<String, String> map;
+
+  InputShape({
+    this.map,
+  });
+  Map<String, dynamic> toJson() => _$InputShapeToJson(this);
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

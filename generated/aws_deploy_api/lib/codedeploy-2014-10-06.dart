@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -76,10 +75,10 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'instanceNames': instanceNames,
-        'tags': tags,
-      },
+      payload: AddTagsToOnPremisesInstancesInput(
+        instanceNames: instanceNames,
+        tags: tags,
+      ),
     );
   }
 
@@ -125,10 +124,10 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'applicationName': applicationName,
-        'revisions': revisions,
-      },
+      payload: BatchGetApplicationRevisionsInput(
+        applicationName: applicationName,
+        revisions: revisions,
+      ),
     );
 
     return BatchGetApplicationRevisionsOutput.fromJson(jsonResponse.body);
@@ -159,9 +158,9 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'applicationNames': applicationNames,
-      },
+      payload: BatchGetApplicationsInput(
+        applicationNames: applicationNames,
+      ),
     );
 
     return BatchGetApplicationsOutput.fromJson(jsonResponse.body);
@@ -206,10 +205,10 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'applicationName': applicationName,
-        'deploymentGroupNames': deploymentGroupNames,
-      },
+      payload: BatchGetDeploymentGroupsInput(
+        applicationName: applicationName,
+        deploymentGroupNames: deploymentGroupNames,
+      ),
     );
 
     return BatchGetDeploymentGroupsOutput.fromJson(jsonResponse.body);
@@ -255,10 +254,10 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'deploymentId': deploymentId,
-        'instanceIds': instanceIds,
-      },
+      payload: BatchGetDeploymentInstancesInput(
+        deploymentId: deploymentId,
+        instanceIds: instanceIds,
+      ),
     );
 
     return BatchGetDeploymentInstancesOutput.fromJson(jsonResponse.body);
@@ -332,10 +331,10 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (deploymentId != null) 'deploymentId': deploymentId,
-        if (targetIds != null) 'targetIds': targetIds,
-      },
+      payload: BatchGetDeploymentTargetsInput(
+        deploymentId: deploymentId,
+        targetIds: targetIds,
+      ),
     );
 
     return BatchGetDeploymentTargetsOutput.fromJson(jsonResponse.body);
@@ -365,9 +364,9 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'deploymentIds': deploymentIds,
-      },
+      payload: BatchGetDeploymentsInput(
+        deploymentIds: deploymentIds,
+      ),
     );
 
     return BatchGetDeploymentsOutput.fromJson(jsonResponse.body);
@@ -397,9 +396,9 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'instanceNames': instanceNames,
-      },
+      payload: BatchGetOnPremisesInstancesInput(
+        instanceNames: instanceNames,
+      ),
     );
 
     return BatchGetOnPremisesInstancesOutput.fromJson(jsonResponse.body);
@@ -443,11 +442,10 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (deploymentId != null) 'deploymentId': deploymentId,
-        if (deploymentWaitType != null)
-          'deploymentWaitType': deploymentWaitType?.toValue(),
-      },
+      payload: ContinueDeploymentInput(
+        deploymentId: deploymentId,
+        deploymentWaitType: deploymentWaitType,
+      ),
     );
   }
 
@@ -495,12 +493,11 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'applicationName': applicationName,
-        if (computePlatform != null)
-          'computePlatform': computePlatform?.toValue(),
-        if (tags != null) 'tags': tags,
-      },
+      payload: CreateApplicationInput(
+        applicationName: applicationName,
+        computePlatform: computePlatform,
+        tags: tags,
+      ),
     );
 
     return CreateApplicationOutput.fromJson(jsonResponse.body);
@@ -657,24 +654,18 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'applicationName': applicationName,
-        if (autoRollbackConfiguration != null)
-          'autoRollbackConfiguration': autoRollbackConfiguration,
-        if (deploymentConfigName != null)
-          'deploymentConfigName': deploymentConfigName,
-        if (deploymentGroupName != null)
-          'deploymentGroupName': deploymentGroupName,
-        if (description != null) 'description': description,
-        if (fileExistsBehavior != null)
-          'fileExistsBehavior': fileExistsBehavior?.toValue(),
-        if (ignoreApplicationStopFailures != null)
-          'ignoreApplicationStopFailures': ignoreApplicationStopFailures,
-        if (revision != null) 'revision': revision,
-        if (targetInstances != null) 'targetInstances': targetInstances,
-        if (updateOutdatedInstancesOnly != null)
-          'updateOutdatedInstancesOnly': updateOutdatedInstancesOnly,
-      },
+      payload: CreateDeploymentInput(
+        applicationName: applicationName,
+        autoRollbackConfiguration: autoRollbackConfiguration,
+        deploymentConfigName: deploymentConfigName,
+        deploymentGroupName: deploymentGroupName,
+        description: description,
+        fileExistsBehavior: fileExistsBehavior,
+        ignoreApplicationStopFailures: ignoreApplicationStopFailures,
+        revision: revision,
+        targetInstances: targetInstances,
+        updateOutdatedInstancesOnly: updateOutdatedInstancesOnly,
+      ),
     );
 
     return CreateDeploymentOutput.fromJson(jsonResponse.body);
@@ -748,15 +739,12 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'deploymentConfigName': deploymentConfigName,
-        if (computePlatform != null)
-          'computePlatform': computePlatform?.toValue(),
-        if (minimumHealthyHosts != null)
-          'minimumHealthyHosts': minimumHealthyHosts,
-        if (trafficRoutingConfig != null)
-          'trafficRoutingConfig': trafficRoutingConfig,
-      },
+      payload: CreateDeploymentConfigInput(
+        deploymentConfigName: deploymentConfigName,
+        computePlatform: computePlatform,
+        minimumHealthyHosts: minimumHealthyHosts,
+        trafficRoutingConfig: trafficRoutingConfig,
+      ),
     );
 
     return CreateDeploymentConfigOutput.fromJson(jsonResponse.body);
@@ -937,31 +925,25 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'applicationName': applicationName,
-        'deploymentGroupName': deploymentGroupName,
-        'serviceRoleArn': serviceRoleArn,
-        if (alarmConfiguration != null)
-          'alarmConfiguration': alarmConfiguration,
-        if (autoRollbackConfiguration != null)
-          'autoRollbackConfiguration': autoRollbackConfiguration,
-        if (autoScalingGroups != null) 'autoScalingGroups': autoScalingGroups,
-        if (blueGreenDeploymentConfiguration != null)
-          'blueGreenDeploymentConfiguration': blueGreenDeploymentConfiguration,
-        if (deploymentConfigName != null)
-          'deploymentConfigName': deploymentConfigName,
-        if (deploymentStyle != null) 'deploymentStyle': deploymentStyle,
-        if (ec2TagFilters != null) 'ec2TagFilters': ec2TagFilters,
-        if (ec2TagSet != null) 'ec2TagSet': ec2TagSet,
-        if (ecsServices != null) 'ecsServices': ecsServices,
-        if (loadBalancerInfo != null) 'loadBalancerInfo': loadBalancerInfo,
-        if (onPremisesInstanceTagFilters != null)
-          'onPremisesInstanceTagFilters': onPremisesInstanceTagFilters,
-        if (onPremisesTagSet != null) 'onPremisesTagSet': onPremisesTagSet,
-        if (tags != null) 'tags': tags,
-        if (triggerConfigurations != null)
-          'triggerConfigurations': triggerConfigurations,
-      },
+      payload: CreateDeploymentGroupInput(
+        applicationName: applicationName,
+        deploymentGroupName: deploymentGroupName,
+        serviceRoleArn: serviceRoleArn,
+        alarmConfiguration: alarmConfiguration,
+        autoRollbackConfiguration: autoRollbackConfiguration,
+        autoScalingGroups: autoScalingGroups,
+        blueGreenDeploymentConfiguration: blueGreenDeploymentConfiguration,
+        deploymentConfigName: deploymentConfigName,
+        deploymentStyle: deploymentStyle,
+        ec2TagFilters: ec2TagFilters,
+        ec2TagSet: ec2TagSet,
+        ecsServices: ecsServices,
+        loadBalancerInfo: loadBalancerInfo,
+        onPremisesInstanceTagFilters: onPremisesInstanceTagFilters,
+        onPremisesTagSet: onPremisesTagSet,
+        tags: tags,
+        triggerConfigurations: triggerConfigurations,
+      ),
     );
 
     return CreateDeploymentGroupOutput.fromJson(jsonResponse.body);
@@ -997,9 +979,9 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'applicationName': applicationName,
-      },
+      payload: DeleteApplicationInput(
+        applicationName: applicationName,
+      ),
     );
   }
 
@@ -1038,9 +1020,9 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'deploymentConfigName': deploymentConfigName,
-      },
+      payload: DeleteDeploymentConfigInput(
+        deploymentConfigName: deploymentConfigName,
+      ),
     );
   }
 
@@ -1088,10 +1070,10 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'applicationName': applicationName,
-        'deploymentGroupName': deploymentGroupName,
-      },
+      payload: DeleteDeploymentGroupInput(
+        applicationName: applicationName,
+        deploymentGroupName: deploymentGroupName,
+      ),
     );
 
     return DeleteDeploymentGroupOutput.fromJson(jsonResponse.body);
@@ -1120,9 +1102,9 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (tokenName != null) 'tokenName': tokenName,
-      },
+      payload: DeleteGitHubAccountTokenInput(
+        tokenName: tokenName,
+      ),
     );
 
     return DeleteGitHubAccountTokenOutput.fromJson(jsonResponse.body);
@@ -1149,9 +1131,9 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'instanceName': instanceName,
-      },
+      payload: DeregisterOnPremisesInstanceInput(
+        instanceName: instanceName,
+      ),
     );
   }
 
@@ -1185,9 +1167,9 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'applicationName': applicationName,
-      },
+      payload: GetApplicationInput(
+        applicationName: applicationName,
+      ),
     );
 
     return GetApplicationOutput.fromJson(jsonResponse.body);
@@ -1231,10 +1213,10 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'applicationName': applicationName,
-        'revision': revision,
-      },
+      payload: GetApplicationRevisionInput(
+        applicationName: applicationName,
+        revision: revision,
+      ),
     );
 
     return GetApplicationRevisionOutput.fromJson(jsonResponse.body);
@@ -1269,9 +1251,9 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'deploymentId': deploymentId,
-      },
+      payload: GetDeploymentInput(
+        deploymentId: deploymentId,
+      ),
     );
 
     return GetDeploymentOutput.fromJson(jsonResponse.body);
@@ -1308,9 +1290,9 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'deploymentConfigName': deploymentConfigName,
-      },
+      payload: GetDeploymentConfigInput(
+        deploymentConfigName: deploymentConfigName,
+      ),
     );
 
     return GetDeploymentConfigOutput.fromJson(jsonResponse.body);
@@ -1362,10 +1344,10 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'applicationName': applicationName,
-        'deploymentGroupName': deploymentGroupName,
-      },
+      payload: GetDeploymentGroupInput(
+        applicationName: applicationName,
+        deploymentGroupName: deploymentGroupName,
+      ),
     );
 
     return GetDeploymentGroupOutput.fromJson(jsonResponse.body);
@@ -1403,10 +1385,10 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'deploymentId': deploymentId,
-        'instanceId': instanceId,
-      },
+      payload: GetDeploymentInstanceInput(
+        deploymentId: deploymentId,
+        instanceId: instanceId,
+      ),
     );
 
     return GetDeploymentInstanceOutput.fromJson(jsonResponse.body);
@@ -1442,10 +1424,10 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (deploymentId != null) 'deploymentId': deploymentId,
-        if (targetId != null) 'targetId': targetId,
-      },
+      payload: GetDeploymentTargetInput(
+        deploymentId: deploymentId,
+        targetId: targetId,
+      ),
     );
 
     return GetDeploymentTargetOutput.fromJson(jsonResponse.body);
@@ -1473,9 +1455,9 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'instanceName': instanceName,
-      },
+      payload: GetOnPremisesInstanceInput(
+        instanceName: instanceName,
+      ),
     );
 
     return GetOnPremisesInstanceOutput.fromJson(jsonResponse.body);
@@ -1590,15 +1572,15 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'applicationName': applicationName,
-        if (deployed != null) 'deployed': deployed?.toValue(),
-        if (nextToken != null) 'nextToken': nextToken,
-        if (s3Bucket != null) 's3Bucket': s3Bucket,
-        if (s3KeyPrefix != null) 's3KeyPrefix': s3KeyPrefix,
-        if (sortBy != null) 'sortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'sortOrder': sortOrder?.toValue(),
-      },
+      payload: ListApplicationRevisionsInput(
+        applicationName: applicationName,
+        deployed: deployed,
+        nextToken: nextToken,
+        s3Bucket: s3Bucket,
+        s3KeyPrefix: s3KeyPrefix,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+      ),
     );
 
     return ListApplicationRevisionsOutput.fromJson(jsonResponse.body);
@@ -1624,9 +1606,9 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListApplicationsInput(
+        nextToken: nextToken,
+      ),
     );
 
     return ListApplicationsOutput.fromJson(jsonResponse.body);
@@ -1653,9 +1635,9 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListDeploymentConfigsInput(
+        nextToken: nextToken,
+      ),
     );
 
     return ListDeploymentConfigsOutput.fromJson(jsonResponse.body);
@@ -1698,10 +1680,10 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'applicationName': applicationName,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListDeploymentGroupsInput(
+        applicationName: applicationName,
+        nextToken: nextToken,
+      ),
     );
 
     return ListDeploymentGroupsOutput.fromJson(jsonResponse.body);
@@ -1781,14 +1763,12 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'deploymentId': deploymentId,
-        if (instanceStatusFilter != null)
-          'instanceStatusFilter': instanceStatusFilter,
-        if (instanceTypeFilter != null)
-          'instanceTypeFilter': instanceTypeFilter,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListDeploymentInstancesInput(
+        deploymentId: deploymentId,
+        instanceStatusFilter: instanceStatusFilter,
+        instanceTypeFilter: instanceTypeFilter,
+        nextToken: nextToken,
+      ),
     );
 
     return ListDeploymentInstancesOutput.fromJson(jsonResponse.body);
@@ -1843,11 +1823,11 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (deploymentId != null) 'deploymentId': deploymentId,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (targetFilters != null) 'targetFilters': targetFilters,
-      },
+      payload: ListDeploymentTargetsInput(
+        deploymentId: deploymentId,
+        nextToken: nextToken,
+        targetFilters: targetFilters,
+      ),
     );
 
     return ListDeploymentTargetsOutput.fromJson(jsonResponse.body);
@@ -1943,15 +1923,13 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (applicationName != null) 'applicationName': applicationName,
-        if (createTimeRange != null) 'createTimeRange': createTimeRange,
-        if (deploymentGroupName != null)
-          'deploymentGroupName': deploymentGroupName,
-        if (includeOnlyStatuses != null)
-          'includeOnlyStatuses': includeOnlyStatuses,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListDeploymentsInput(
+        applicationName: applicationName,
+        createTimeRange: createTimeRange,
+        deploymentGroupName: deploymentGroupName,
+        includeOnlyStatuses: includeOnlyStatuses,
+        nextToken: nextToken,
+      ),
     );
 
     return ListDeploymentsOutput.fromJson(jsonResponse.body);
@@ -1979,9 +1957,9 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListGitHubAccountTokenNamesInput(
+        nextToken: nextToken,
+      ),
     );
 
     return ListGitHubAccountTokenNamesOutput.fromJson(jsonResponse.body);
@@ -2034,12 +2012,11 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (nextToken != null) 'nextToken': nextToken,
-        if (registrationStatus != null)
-          'registrationStatus': registrationStatus?.toValue(),
-        if (tagFilters != null) 'tagFilters': tagFilters,
-      },
+      payload: ListOnPremisesInstancesInput(
+        nextToken: nextToken,
+        registrationStatus: registrationStatus,
+        tagFilters: tagFilters,
+      ),
     );
 
     return ListOnPremisesInstancesOutput.fromJson(jsonResponse.body);
@@ -2082,10 +2059,10 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListTagsForResourceInput(
+        resourceArn: resourceArn,
+        nextToken: nextToken,
+      ),
     );
 
     return ListTagsForResourceOutput.fromJson(jsonResponse.body);
@@ -2131,12 +2108,11 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (deploymentId != null) 'deploymentId': deploymentId,
-        if (lifecycleEventHookExecutionId != null)
-          'lifecycleEventHookExecutionId': lifecycleEventHookExecutionId,
-        if (status != null) 'status': status?.toValue(),
-      },
+      payload: PutLifecycleEventHookExecutionStatusInput(
+        deploymentId: deploymentId,
+        lifecycleEventHookExecutionId: lifecycleEventHookExecutionId,
+        status: status,
+      ),
     );
 
     return PutLifecycleEventHookExecutionStatusOutput.fromJson(
@@ -2186,11 +2162,11 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'applicationName': applicationName,
-        'revision': revision,
-        if (description != null) 'description': description,
-      },
+      payload: RegisterApplicationRevisionInput(
+        applicationName: applicationName,
+        revision: revision,
+        description: description,
+      ),
     );
   }
 
@@ -2235,11 +2211,11 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'instanceName': instanceName,
-        if (iamSessionArn != null) 'iamSessionArn': iamSessionArn,
-        if (iamUserArn != null) 'iamUserArn': iamUserArn,
-      },
+      payload: RegisterOnPremisesInstanceInput(
+        instanceName: instanceName,
+        iamSessionArn: iamSessionArn,
+        iamUserArn: iamUserArn,
+      ),
     );
   }
 
@@ -2274,10 +2250,10 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'instanceNames': instanceNames,
-        'tags': tags,
-      },
+      payload: RemoveTagsFromOnPremisesInstancesInput(
+        instanceNames: instanceNames,
+        tags: tags,
+      ),
     );
   }
 
@@ -2308,9 +2284,9 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (deploymentId != null) 'deploymentId': deploymentId,
-      },
+      payload: SkipWaitTimeForInstanceTerminationInput(
+        deploymentId: deploymentId,
+      ),
     );
   }
 
@@ -2344,11 +2320,10 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'deploymentId': deploymentId,
-        if (autoRollbackEnabled != null)
-          'autoRollbackEnabled': autoRollbackEnabled,
-      },
+      payload: StopDeploymentInput(
+        deploymentId: deploymentId,
+        autoRollbackEnabled: autoRollbackEnabled,
+      ),
     );
 
     return StopDeploymentOutput.fromJson(jsonResponse.body);
@@ -2397,10 +2372,10 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        'Tags': tags,
-      },
+      payload: TagResourceInput(
+        resourceArn: resourceArn,
+        tags: tags,
+      ),
     );
 
     return TagResourceOutput.fromJson(jsonResponse.body);
@@ -2450,10 +2425,10 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        'TagKeys': tagKeys,
-      },
+      payload: UntagResourceInput(
+        resourceArn: resourceArn,
+        tagKeys: tagKeys,
+      ),
     );
 
     return UntagResourceOutput.fromJson(jsonResponse.body);
@@ -2497,11 +2472,10 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (applicationName != null) 'applicationName': applicationName,
-        if (newApplicationName != null)
-          'newApplicationName': newApplicationName,
-      },
+      payload: UpdateApplicationInput(
+        applicationName: applicationName,
+        newApplicationName: newApplicationName,
+      ),
     );
   }
 
@@ -2669,36 +2643,56 @@ class CodeDeploy {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'applicationName': applicationName,
-        'currentDeploymentGroupName': currentDeploymentGroupName,
-        if (alarmConfiguration != null)
-          'alarmConfiguration': alarmConfiguration,
-        if (autoRollbackConfiguration != null)
-          'autoRollbackConfiguration': autoRollbackConfiguration,
-        if (autoScalingGroups != null) 'autoScalingGroups': autoScalingGroups,
-        if (blueGreenDeploymentConfiguration != null)
-          'blueGreenDeploymentConfiguration': blueGreenDeploymentConfiguration,
-        if (deploymentConfigName != null)
-          'deploymentConfigName': deploymentConfigName,
-        if (deploymentStyle != null) 'deploymentStyle': deploymentStyle,
-        if (ec2TagFilters != null) 'ec2TagFilters': ec2TagFilters,
-        if (ec2TagSet != null) 'ec2TagSet': ec2TagSet,
-        if (ecsServices != null) 'ecsServices': ecsServices,
-        if (loadBalancerInfo != null) 'loadBalancerInfo': loadBalancerInfo,
-        if (newDeploymentGroupName != null)
-          'newDeploymentGroupName': newDeploymentGroupName,
-        if (onPremisesInstanceTagFilters != null)
-          'onPremisesInstanceTagFilters': onPremisesInstanceTagFilters,
-        if (onPremisesTagSet != null) 'onPremisesTagSet': onPremisesTagSet,
-        if (serviceRoleArn != null) 'serviceRoleArn': serviceRoleArn,
-        if (triggerConfigurations != null)
-          'triggerConfigurations': triggerConfigurations,
-      },
+      payload: UpdateDeploymentGroupInput(
+        applicationName: applicationName,
+        currentDeploymentGroupName: currentDeploymentGroupName,
+        alarmConfiguration: alarmConfiguration,
+        autoRollbackConfiguration: autoRollbackConfiguration,
+        autoScalingGroups: autoScalingGroups,
+        blueGreenDeploymentConfiguration: blueGreenDeploymentConfiguration,
+        deploymentConfigName: deploymentConfigName,
+        deploymentStyle: deploymentStyle,
+        ec2TagFilters: ec2TagFilters,
+        ec2TagSet: ec2TagSet,
+        ecsServices: ecsServices,
+        loadBalancerInfo: loadBalancerInfo,
+        newDeploymentGroupName: newDeploymentGroupName,
+        onPremisesInstanceTagFilters: onPremisesInstanceTagFilters,
+        onPremisesTagSet: onPremisesTagSet,
+        serviceRoleArn: serviceRoleArn,
+        triggerConfigurations: triggerConfigurations,
+      ),
     );
 
     return UpdateDeploymentGroupOutput.fromJson(jsonResponse.body);
   }
+}
+
+/// Represents the input of, and adds tags to, an on-premises instance
+/// operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AddTagsToOnPremisesInstancesInput {
+  /// The names of the on-premises instances to which to add tags.
+  @_s.JsonKey(name: 'instanceNames')
+  final List<String> instanceNames;
+
+  /// The tag key-value pairs to add to the on-premises instances.
+  ///
+  /// Keys and values are both required. Keys cannot be null or empty strings.
+  /// Value-only tags are not allowed.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  AddTagsToOnPremisesInstancesInput({
+    @_s.required this.instanceNames,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AddTagsToOnPremisesInstancesInputToJson(this);
 }
 
 /// Information about an alarm.
@@ -2863,20 +2857,6 @@ enum ApplicationRevisionSortBy {
   lastUsedTime,
 }
 
-extension on ApplicationRevisionSortBy {
-  String toValue() {
-    switch (this) {
-      case ApplicationRevisionSortBy.registerTime:
-        return 'registerTime';
-      case ApplicationRevisionSortBy.firstUsedTime:
-        return 'firstUsedTime';
-      case ApplicationRevisionSortBy.lastUsedTime:
-        return 'lastUsedTime';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Information about a configuration for automatically rolling back to a
 /// previous version of an application revision when a deployment is not
 /// completed successfully.
@@ -2937,6 +2917,33 @@ class AutoScalingGroup {
       _$AutoScalingGroupFromJson(json);
 }
 
+/// Represents the input of a BatchGetApplicationRevisions operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchGetApplicationRevisionsInput {
+  /// The name of an AWS CodeDeploy application about which to get revision
+  /// information.
+  @_s.JsonKey(name: 'applicationName')
+  final String applicationName;
+
+  /// An array of <code>RevisionLocation</code> objects that specify information
+  /// to get about the application revisions, including type and location. The
+  /// maximum number of <code>RevisionLocation</code> objects you can specify is
+  /// 25.
+  @_s.JsonKey(name: 'revisions')
+  final List<RevisionLocation> revisions;
+
+  BatchGetApplicationRevisionsInput({
+    @_s.required this.applicationName,
+    @_s.required this.revisions,
+  });
+  Map<String, dynamic> toJson() =>
+      _$BatchGetApplicationRevisionsInputToJson(this);
+}
+
 /// Represents the output of a BatchGetApplicationRevisions operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2966,6 +2973,24 @@ class BatchGetApplicationRevisionsOutput {
       _$BatchGetApplicationRevisionsOutputFromJson(json);
 }
 
+/// Represents the input of a BatchGetApplications operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchGetApplicationsInput {
+  /// A list of application names separated by spaces. The maximum number of
+  /// application names you can specify is 25.
+  @_s.JsonKey(name: 'applicationNames')
+  final List<String> applicationNames;
+
+  BatchGetApplicationsInput({
+    @_s.required this.applicationNames,
+  });
+  Map<String, dynamic> toJson() => _$BatchGetApplicationsInputToJson(this);
+}
+
 /// Represents the output of a BatchGetApplications operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2982,6 +3007,29 @@ class BatchGetApplicationsOutput {
   });
   factory BatchGetApplicationsOutput.fromJson(Map<String, dynamic> json) =>
       _$BatchGetApplicationsOutputFromJson(json);
+}
+
+/// Represents the input of a BatchGetDeploymentGroups operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchGetDeploymentGroupsInput {
+  /// The name of an AWS CodeDeploy application associated with the applicable IAM
+  /// user or AWS account.
+  @_s.JsonKey(name: 'applicationName')
+  final String applicationName;
+
+  /// The names of the deployment groups.
+  @_s.JsonKey(name: 'deploymentGroupNames')
+  final List<String> deploymentGroupNames;
+
+  BatchGetDeploymentGroupsInput({
+    @_s.required this.applicationName,
+    @_s.required this.deploymentGroupNames,
+  });
+  Map<String, dynamic> toJson() => _$BatchGetDeploymentGroupsInputToJson(this);
 }
 
 /// Represents the output of a BatchGetDeploymentGroups operation.
@@ -3007,6 +3055,30 @@ class BatchGetDeploymentGroupsOutput {
       _$BatchGetDeploymentGroupsOutputFromJson(json);
 }
 
+/// Represents the input of a BatchGetDeploymentInstances operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchGetDeploymentInstancesInput {
+  /// The unique ID of a deployment.
+  @_s.JsonKey(name: 'deploymentId')
+  final String deploymentId;
+
+  /// The unique IDs of instances used in the deployment. The maximum number of
+  /// instance IDs you can specify is 25.
+  @_s.JsonKey(name: 'instanceIds')
+  final List<String> instanceIds;
+
+  BatchGetDeploymentInstancesInput({
+    @_s.required this.deploymentId,
+    @_s.required this.instanceIds,
+  });
+  Map<String, dynamic> toJson() =>
+      _$BatchGetDeploymentInstancesInputToJson(this);
+}
+
 /// Represents the output of a BatchGetDeploymentInstances operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3029,6 +3101,48 @@ class BatchGetDeploymentInstancesOutput {
   factory BatchGetDeploymentInstancesOutput.fromJson(
           Map<String, dynamic> json) =>
       _$BatchGetDeploymentInstancesOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchGetDeploymentTargetsInput {
+  /// The unique ID of a deployment.
+  @_s.JsonKey(name: 'deploymentId')
+  final String deploymentId;
+
+  /// The unique IDs of the deployment targets. The compute platform of the
+  /// deployment determines the type of the targets and their formats. The maximum
+  /// number of deployment target IDs you can specify is 25.
+  ///
+  /// <ul>
+  /// <li>
+  /// For deployments that use the EC2/On-premises compute platform, the target
+  /// IDs are EC2 or on-premises instances IDs, and their target type is
+  /// <code>instanceTarget</code>.
+  /// </li>
+  /// <li>
+  /// For deployments that use the AWS Lambda compute platform, the target IDs are
+  /// the names of Lambda functions, and their target type is
+  /// <code>instanceTarget</code>.
+  /// </li>
+  /// <li>
+  /// For deployments that use the Amazon ECS compute platform, the target IDs are
+  /// pairs of Amazon ECS clusters and services specified using the format
+  /// <code>&lt;clustername&gt;:&lt;servicename&gt;</code>. Their target type is
+  /// <code>ecsTarget</code>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'targetIds')
+  final List<String> targetIds;
+
+  BatchGetDeploymentTargetsInput({
+    this.deploymentId,
+    this.targetIds,
+  });
+  Map<String, dynamic> toJson() => _$BatchGetDeploymentTargetsInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3064,6 +3178,24 @@ class BatchGetDeploymentTargetsOutput {
       _$BatchGetDeploymentTargetsOutputFromJson(json);
 }
 
+/// Represents the input of a BatchGetDeployments operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchGetDeploymentsInput {
+  /// A list of deployment IDs, separated by spaces. The maximum number of
+  /// deployment IDs you can specify is 25.
+  @_s.JsonKey(name: 'deploymentIds')
+  final List<String> deploymentIds;
+
+  BatchGetDeploymentsInput({
+    @_s.required this.deploymentIds,
+  });
+  Map<String, dynamic> toJson() => _$BatchGetDeploymentsInputToJson(this);
+}
+
 /// Represents the output of a BatchGetDeployments operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3080,6 +3212,25 @@ class BatchGetDeploymentsOutput {
   });
   factory BatchGetDeploymentsOutput.fromJson(Map<String, dynamic> json) =>
       _$BatchGetDeploymentsOutputFromJson(json);
+}
+
+/// Represents the input of a BatchGetOnPremisesInstances operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchGetOnPremisesInstancesInput {
+  /// The names of the on-premises instances about which to get information. The
+  /// maximum number of instance names you can specify is 25.
+  @_s.JsonKey(name: 'instanceNames')
+  final List<String> instanceNames;
+
+  BatchGetOnPremisesInstancesInput({
+    @_s.required this.instanceNames,
+  });
+  Map<String, dynamic> toJson() =>
+      _$BatchGetOnPremisesInstancesInputToJson(this);
 }
 
 /// Represents the output of a BatchGetOnPremisesInstances operation.
@@ -3205,18 +3356,59 @@ enum ComputePlatform {
   ecs,
 }
 
-extension on ComputePlatform {
-  String toValue() {
-    switch (this) {
-      case ComputePlatform.server:
-        return 'Server';
-      case ComputePlatform.lambda:
-        return 'Lambda';
-      case ComputePlatform.ecs:
-        return 'ECS';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ContinueDeploymentInput {
+  /// The unique ID of a blue/green deployment for which you want to start
+  /// rerouting traffic to the replacement environment.
+  @_s.JsonKey(name: 'deploymentId')
+  final String deploymentId;
+
+  /// The status of the deployment's waiting period. READY_WAIT indicates the
+  /// deployment is ready to start shifting traffic. TERMINATION_WAIT indicates
+  /// the traffic is shifted, but the original target is not terminated.
+  @_s.JsonKey(name: 'deploymentWaitType')
+  final DeploymentWaitType deploymentWaitType;
+
+  ContinueDeploymentInput({
+    this.deploymentId,
+    this.deploymentWaitType,
+  });
+  Map<String, dynamic> toJson() => _$ContinueDeploymentInputToJson(this);
+}
+
+/// Represents the input of a CreateApplication operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateApplicationInput {
+  /// The name of the application. This name must be unique with the applicable
+  /// IAM user or AWS account.
+  @_s.JsonKey(name: 'applicationName')
+  final String applicationName;
+
+  /// The destination platform type for the deployment (<code>Lambda</code>,
+  /// <code>Server</code>, or <code>ECS</code>).
+  @_s.JsonKey(name: 'computePlatform')
+  final ComputePlatform computePlatform;
+
+  /// The metadata that you apply to CodeDeploy applications to help you organize
+  /// and categorize them. Each tag consists of a key and an optional value, both
+  /// of which you define.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  CreateApplicationInput({
+    @_s.required this.applicationName,
+    this.computePlatform,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateApplicationInputToJson(this);
 }
 
 /// Represents the output of a CreateApplication operation.
@@ -3237,6 +3429,61 @@ class CreateApplicationOutput {
       _$CreateApplicationOutputFromJson(json);
 }
 
+/// Represents the input of a CreateDeploymentConfig operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDeploymentConfigInput {
+  /// The name of the deployment configuration to create.
+  @_s.JsonKey(name: 'deploymentConfigName')
+  final String deploymentConfigName;
+
+  /// The destination platform type for the deployment (<code>Lambda</code>,
+  /// <code>Server</code>, or <code>ECS</code>).
+  @_s.JsonKey(name: 'computePlatform')
+  final ComputePlatform computePlatform;
+
+  /// The minimum number of healthy instances that should be available at any time
+  /// during the deployment. There are two parameters expected in the input: type
+  /// and value.
+  ///
+  /// The type parameter takes either of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// HOST_COUNT: The value parameter represents the minimum number of healthy
+  /// instances as an absolute value.
+  /// </li>
+  /// <li>
+  /// FLEET_PERCENT: The value parameter represents the minimum number of healthy
+  /// instances as a percentage of the total number of instances in the
+  /// deployment. If you specify FLEET_PERCENT, at the start of the deployment,
+  /// AWS CodeDeploy converts the percentage to the equivalent number of instance
+  /// and rounds up fractional instances.
+  /// </li>
+  /// </ul>
+  /// The value parameter takes an integer.
+  ///
+  /// For example, to set a minimum of 95% healthy instance, specify a type of
+  /// FLEET_PERCENT and a value of 95.
+  @_s.JsonKey(name: 'minimumHealthyHosts')
+  final MinimumHealthyHosts minimumHealthyHosts;
+
+  /// The configuration that specifies how the deployment traffic is routed.
+  @_s.JsonKey(name: 'trafficRoutingConfig')
+  final TrafficRoutingConfig trafficRoutingConfig;
+
+  CreateDeploymentConfigInput({
+    @_s.required this.deploymentConfigName,
+    this.computePlatform,
+    this.minimumHealthyHosts,
+    this.trafficRoutingConfig,
+  });
+  Map<String, dynamic> toJson() => _$CreateDeploymentConfigInputToJson(this);
+}
+
 /// Represents the output of a CreateDeploymentConfig operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3253,6 +3500,138 @@ class CreateDeploymentConfigOutput {
   });
   factory CreateDeploymentConfigOutput.fromJson(Map<String, dynamic> json) =>
       _$CreateDeploymentConfigOutputFromJson(json);
+}
+
+/// Represents the input of a CreateDeploymentGroup operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDeploymentGroupInput {
+  /// The name of an AWS CodeDeploy application associated with the IAM user or
+  /// AWS account.
+  @_s.JsonKey(name: 'applicationName')
+  final String applicationName;
+
+  /// The name of a new deployment group for the specified application.
+  @_s.JsonKey(name: 'deploymentGroupName')
+  final String deploymentGroupName;
+
+  /// A service role ARN that allows AWS CodeDeploy to act on the user's behalf
+  /// when interacting with AWS services.
+  @_s.JsonKey(name: 'serviceRoleArn')
+  final String serviceRoleArn;
+
+  /// Information to add about Amazon CloudWatch alarms when the deployment group
+  /// is created.
+  @_s.JsonKey(name: 'alarmConfiguration')
+  final AlarmConfiguration alarmConfiguration;
+
+  /// Configuration information for an automatic rollback that is added when a
+  /// deployment group is created.
+  @_s.JsonKey(name: 'autoRollbackConfiguration')
+  final AutoRollbackConfiguration autoRollbackConfiguration;
+
+  /// A list of associated Amazon EC2 Auto Scaling groups.
+  @_s.JsonKey(name: 'autoScalingGroups')
+  final List<String> autoScalingGroups;
+
+  /// Information about blue/green deployment options for a deployment group.
+  @_s.JsonKey(name: 'blueGreenDeploymentConfiguration')
+  final BlueGreenDeploymentConfiguration blueGreenDeploymentConfiguration;
+
+  /// If specified, the deployment configuration name can be either one of the
+  /// predefined configurations provided with AWS CodeDeploy or a custom
+  /// deployment configuration that you create by calling the create deployment
+  /// configuration operation.
+  ///
+  /// CodeDeployDefault.OneAtATime is the default deployment configuration. It is
+  /// used if a configuration isn't specified for the deployment or deployment
+  /// group.
+  ///
+  /// For more information about the predefined deployment configurations in AWS
+  /// CodeDeploy, see <a
+  /// href="https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations.html">Working
+  /// with Deployment Groups in AWS CodeDeploy</a> in the AWS CodeDeploy User
+  /// Guide.
+  @_s.JsonKey(name: 'deploymentConfigName')
+  final String deploymentConfigName;
+
+  /// Information about the type of deployment, in-place or blue/green, that you
+  /// want to run and whether to route deployment traffic behind a load balancer.
+  @_s.JsonKey(name: 'deploymentStyle')
+  final DeploymentStyle deploymentStyle;
+
+  /// The Amazon EC2 tags on which to filter. The deployment group includes EC2
+  /// instances with any of the specified tags. Cannot be used in the same call as
+  /// ec2TagSet.
+  @_s.JsonKey(name: 'ec2TagFilters')
+  final List<EC2TagFilter> ec2TagFilters;
+
+  /// Information about groups of tags applied to EC2 instances. The deployment
+  /// group includes only EC2 instances identified by all the tag groups. Cannot
+  /// be used in the same call as ec2TagFilters.
+  @_s.JsonKey(name: 'ec2TagSet')
+  final EC2TagSet ec2TagSet;
+
+  /// The target Amazon ECS services in the deployment group. This applies only to
+  /// deployment groups that use the Amazon ECS compute platform. A target Amazon
+  /// ECS service is specified as an Amazon ECS cluster and service name pair
+  /// using the format <code>&lt;clustername&gt;:&lt;servicename&gt;</code>.
+  @_s.JsonKey(name: 'ecsServices')
+  final List<ECSService> ecsServices;
+
+  /// Information about the load balancer used in a deployment.
+  @_s.JsonKey(name: 'loadBalancerInfo')
+  final LoadBalancerInfo loadBalancerInfo;
+
+  /// The on-premises instance tags on which to filter. The deployment group
+  /// includes on-premises instances with any of the specified tags. Cannot be
+  /// used in the same call as OnPremisesTagSet.
+  @_s.JsonKey(name: 'onPremisesInstanceTagFilters')
+  final List<TagFilter> onPremisesInstanceTagFilters;
+
+  /// Information about groups of tags applied to on-premises instances. The
+  /// deployment group includes only on-premises instances identified by all of
+  /// the tag groups. Cannot be used in the same call as
+  /// onPremisesInstanceTagFilters.
+  @_s.JsonKey(name: 'onPremisesTagSet')
+  final OnPremisesTagSet onPremisesTagSet;
+
+  /// The metadata that you apply to CodeDeploy deployment groups to help you
+  /// organize and categorize them. Each tag consists of a key and an optional
+  /// value, both of which you define.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  /// Information about triggers to create when the deployment group is created.
+  /// For examples, see <a
+  /// href="https://docs.aws.amazon.com/codedeploy/latest/userguide/how-to-notify-sns.html">Create
+  /// a Trigger for an AWS CodeDeploy Event</a> in the AWS CodeDeploy User Guide.
+  @_s.JsonKey(name: 'triggerConfigurations')
+  final List<TriggerConfig> triggerConfigurations;
+
+  CreateDeploymentGroupInput({
+    @_s.required this.applicationName,
+    @_s.required this.deploymentGroupName,
+    @_s.required this.serviceRoleArn,
+    this.alarmConfiguration,
+    this.autoRollbackConfiguration,
+    this.autoScalingGroups,
+    this.blueGreenDeploymentConfiguration,
+    this.deploymentConfigName,
+    this.deploymentStyle,
+    this.ec2TagFilters,
+    this.ec2TagSet,
+    this.ecsServices,
+    this.loadBalancerInfo,
+    this.onPremisesInstanceTagFilters,
+    this.onPremisesTagSet,
+    this.tags,
+    this.triggerConfigurations,
+  });
+  Map<String, dynamic> toJson() => _$CreateDeploymentGroupInputToJson(this);
 }
 
 /// Represents the output of a CreateDeploymentGroup operation.
@@ -3273,6 +3652,120 @@ class CreateDeploymentGroupOutput {
       _$CreateDeploymentGroupOutputFromJson(json);
 }
 
+/// Represents the input of a CreateDeployment operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDeploymentInput {
+  /// The name of an AWS CodeDeploy application associated with the IAM user or
+  /// AWS account.
+  @_s.JsonKey(name: 'applicationName')
+  final String applicationName;
+
+  /// Configuration information for an automatic rollback that is added when a
+  /// deployment is created.
+  @_s.JsonKey(name: 'autoRollbackConfiguration')
+  final AutoRollbackConfiguration autoRollbackConfiguration;
+
+  /// The name of a deployment configuration associated with the IAM user or AWS
+  /// account.
+  ///
+  /// If not specified, the value configured in the deployment group is used as
+  /// the default. If the deployment group does not have a deployment
+  /// configuration associated with it, CodeDeployDefault.OneAtATime is used by
+  /// default.
+  @_s.JsonKey(name: 'deploymentConfigName')
+  final String deploymentConfigName;
+
+  /// The name of the deployment group.
+  @_s.JsonKey(name: 'deploymentGroupName')
+  final String deploymentGroupName;
+
+  /// A comment about the deployment.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// Information about how AWS CodeDeploy handles files that already exist in a
+  /// deployment target location but weren't part of the previous successful
+  /// deployment.
+  ///
+  /// The fileExistsBehavior parameter takes any of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// DISALLOW: The deployment fails. This is also the default behavior if no
+  /// option is specified.
+  /// </li>
+  /// <li>
+  /// OVERWRITE: The version of the file from the application revision currently
+  /// being deployed replaces the version already on the instance.
+  /// </li>
+  /// <li>
+  /// RETAIN: The version of the file already on the instance is kept and used as
+  /// part of the new deployment.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'fileExistsBehavior')
+  final FileExistsBehavior fileExistsBehavior;
+
+  /// If true, then if an ApplicationStop, BeforeBlockTraffic, or
+  /// AfterBlockTraffic deployment lifecycle event to an instance fails, then the
+  /// deployment continues to the next deployment lifecycle event. For example, if
+  /// ApplicationStop fails, the deployment continues with DownloadBundle. If
+  /// BeforeBlockTraffic fails, the deployment continues with BlockTraffic. If
+  /// AfterBlockTraffic fails, the deployment continues with ApplicationStop.
+  ///
+  /// If false or not specified, then if a lifecycle event fails during a
+  /// deployment to an instance, that deployment fails. If deployment to that
+  /// instance is part of an overall deployment and the number of healthy hosts is
+  /// not less than the minimum number of healthy hosts, then a deployment to the
+  /// next instance is attempted.
+  ///
+  /// During a deployment, the AWS CodeDeploy agent runs the scripts specified for
+  /// ApplicationStop, BeforeBlockTraffic, and AfterBlockTraffic in the AppSpec
+  /// file from the previous successful deployment. (All other scripts are run
+  /// from the AppSpec file in the current deployment.) If one of these scripts
+  /// contains an error and does not run successfully, the deployment can fail.
+  ///
+  /// If the cause of the failure is a script from the last successful deployment
+  /// that will never run successfully, create a new deployment and use
+  /// <code>ignoreApplicationStopFailures</code> to specify that the
+  /// ApplicationStop, BeforeBlockTraffic, and AfterBlockTraffic failures should
+  /// be ignored.
+  @_s.JsonKey(name: 'ignoreApplicationStopFailures')
+  final bool ignoreApplicationStopFailures;
+
+  /// The type and location of the revision to deploy.
+  @_s.JsonKey(name: 'revision')
+  final RevisionLocation revision;
+
+  /// Information about the instances that belong to the replacement environment
+  /// in a blue/green deployment.
+  @_s.JsonKey(name: 'targetInstances')
+  final TargetInstances targetInstances;
+
+  /// Indicates whether to deploy to all instances or only to instances that are
+  /// not running the latest application revision.
+  @_s.JsonKey(name: 'updateOutdatedInstancesOnly')
+  final bool updateOutdatedInstancesOnly;
+
+  CreateDeploymentInput({
+    @_s.required this.applicationName,
+    this.autoRollbackConfiguration,
+    this.deploymentConfigName,
+    this.deploymentGroupName,
+    this.description,
+    this.fileExistsBehavior,
+    this.ignoreApplicationStopFailures,
+    this.revision,
+    this.targetInstances,
+    this.updateOutdatedInstancesOnly,
+  });
+  Map<String, dynamic> toJson() => _$CreateDeploymentInputToJson(this);
+}
+
 /// Represents the output of a CreateDeployment operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3289,6 +3782,65 @@ class CreateDeploymentOutput {
   });
   factory CreateDeploymentOutput.fromJson(Map<String, dynamic> json) =>
       _$CreateDeploymentOutputFromJson(json);
+}
+
+/// Represents the input of a DeleteApplication operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteApplicationInput {
+  /// The name of an AWS CodeDeploy application associated with the IAM user or
+  /// AWS account.
+  @_s.JsonKey(name: 'applicationName')
+  final String applicationName;
+
+  DeleteApplicationInput({
+    @_s.required this.applicationName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteApplicationInputToJson(this);
+}
+
+/// Represents the input of a DeleteDeploymentConfig operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDeploymentConfigInput {
+  /// The name of a deployment configuration associated with the IAM user or AWS
+  /// account.
+  @_s.JsonKey(name: 'deploymentConfigName')
+  final String deploymentConfigName;
+
+  DeleteDeploymentConfigInput({
+    @_s.required this.deploymentConfigName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDeploymentConfigInputToJson(this);
+}
+
+/// Represents the input of a DeleteDeploymentGroup operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDeploymentGroupInput {
+  /// The name of an AWS CodeDeploy application associated with the IAM user or
+  /// AWS account.
+  @_s.JsonKey(name: 'applicationName')
+  final String applicationName;
+
+  /// The name of a deployment group for the specified application.
+  @_s.JsonKey(name: 'deploymentGroupName')
+  final String deploymentGroupName;
+
+  DeleteDeploymentGroupInput({
+    @_s.required this.applicationName,
+    @_s.required this.deploymentGroupName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDeploymentGroupInputToJson(this);
 }
 
 /// Represents the output of a DeleteDeploymentGroup operation.
@@ -3312,6 +3864,23 @@ class DeleteDeploymentGroupOutput {
   });
   factory DeleteDeploymentGroupOutput.fromJson(Map<String, dynamic> json) =>
       _$DeleteDeploymentGroupOutputFromJson(json);
+}
+
+/// Represents the input of a DeleteGitHubAccount operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteGitHubAccountTokenInput {
+  /// The name of the GitHub account connection to delete.
+  @_s.JsonKey(name: 'tokenName')
+  final String tokenName;
+
+  DeleteGitHubAccountTokenInput({
+    this.tokenName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteGitHubAccountTokenInputToJson(this);
 }
 
 /// Represents the output of a DeleteGitHubAccountToken operation.
@@ -3959,16 +4528,22 @@ enum DeploymentWaitType {
   terminationWait,
 }
 
-extension on DeploymentWaitType {
-  String toValue() {
-    switch (this) {
-      case DeploymentWaitType.readyWait:
-        return 'READY_WAIT';
-      case DeploymentWaitType.terminationWait:
-        return 'TERMINATION_WAIT';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+/// Represents the input of a DeregisterOnPremisesInstance operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeregisterOnPremisesInstanceInput {
+  /// The name of the on-premises instance to deregister.
+  @_s.JsonKey(name: 'instanceName')
+  final String instanceName;
+
+  DeregisterOnPremisesInstanceInput({
+    @_s.required this.instanceName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeregisterOnPremisesInstanceInputToJson(this);
 }
 
 /// Diagnostic information about executable scripts that are part of a
@@ -4454,20 +5029,6 @@ enum FileExistsBehavior {
   retain,
 }
 
-extension on FileExistsBehavior {
-  String toValue() {
-    switch (this) {
-      case FileExistsBehavior.disallow:
-        return 'DISALLOW';
-      case FileExistsBehavior.overwrite:
-        return 'OVERWRITE';
-      case FileExistsBehavior.retain:
-        return 'RETAIN';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Information about an application revision.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -4515,6 +5076,24 @@ class GenericRevisionInfo {
       _$GenericRevisionInfoFromJson(json);
 }
 
+/// Represents the input of a GetApplication operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetApplicationInput {
+  /// The name of an AWS CodeDeploy application associated with the IAM user or
+  /// AWS account.
+  @_s.JsonKey(name: 'applicationName')
+  final String applicationName;
+
+  GetApplicationInput({
+    @_s.required this.applicationName,
+  });
+  Map<String, dynamic> toJson() => _$GetApplicationInputToJson(this);
+}
+
 /// Represents the output of a GetApplication operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -4531,6 +5110,29 @@ class GetApplicationOutput {
   });
   factory GetApplicationOutput.fromJson(Map<String, dynamic> json) =>
       _$GetApplicationOutputFromJson(json);
+}
+
+/// Represents the input of a GetApplicationRevision operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetApplicationRevisionInput {
+  /// The name of the application that corresponds to the revision.
+  @_s.JsonKey(name: 'applicationName')
+  final String applicationName;
+
+  /// Information about the application revision to get, including type and
+  /// location.
+  @_s.JsonKey(name: 'revision')
+  final RevisionLocation revision;
+
+  GetApplicationRevisionInput({
+    @_s.required this.applicationName,
+    @_s.required this.revision,
+  });
+  Map<String, dynamic> toJson() => _$GetApplicationRevisionInputToJson(this);
 }
 
 /// Represents the output of a GetApplicationRevision operation.
@@ -4561,6 +5163,24 @@ class GetApplicationRevisionOutput {
       _$GetApplicationRevisionOutputFromJson(json);
 }
 
+/// Represents the input of a GetDeploymentConfig operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetDeploymentConfigInput {
+  /// The name of a deployment configuration associated with the IAM user or AWS
+  /// account.
+  @_s.JsonKey(name: 'deploymentConfigName')
+  final String deploymentConfigName;
+
+  GetDeploymentConfigInput({
+    @_s.required this.deploymentConfigName,
+  });
+  Map<String, dynamic> toJson() => _$GetDeploymentConfigInputToJson(this);
+}
+
 /// Represents the output of a GetDeploymentConfig operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -4579,6 +5199,29 @@ class GetDeploymentConfigOutput {
       _$GetDeploymentConfigOutputFromJson(json);
 }
 
+/// Represents the input of a GetDeploymentGroup operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetDeploymentGroupInput {
+  /// The name of an AWS CodeDeploy application associated with the IAM user or
+  /// AWS account.
+  @_s.JsonKey(name: 'applicationName')
+  final String applicationName;
+
+  /// The name of a deployment group for the specified application.
+  @_s.JsonKey(name: 'deploymentGroupName')
+  final String deploymentGroupName;
+
+  GetDeploymentGroupInput({
+    @_s.required this.applicationName,
+    @_s.required this.deploymentGroupName,
+  });
+  Map<String, dynamic> toJson() => _$GetDeploymentGroupInputToJson(this);
+}
+
 /// Represents the output of a GetDeploymentGroup operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -4595,6 +5238,45 @@ class GetDeploymentGroupOutput {
   });
   factory GetDeploymentGroupOutput.fromJson(Map<String, dynamic> json) =>
       _$GetDeploymentGroupOutputFromJson(json);
+}
+
+/// Represents the input of a GetDeployment operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetDeploymentInput {
+  /// The unique ID of a deployment associated with the IAM user or AWS account.
+  @_s.JsonKey(name: 'deploymentId')
+  final String deploymentId;
+
+  GetDeploymentInput({
+    @_s.required this.deploymentId,
+  });
+  Map<String, dynamic> toJson() => _$GetDeploymentInputToJson(this);
+}
+
+/// Represents the input of a GetDeploymentInstance operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetDeploymentInstanceInput {
+  /// The unique ID of a deployment.
+  @_s.JsonKey(name: 'deploymentId')
+  final String deploymentId;
+
+  /// The unique ID of an instance in the deployment group.
+  @_s.JsonKey(name: 'instanceId')
+  final String instanceId;
+
+  GetDeploymentInstanceInput({
+    @_s.required this.deploymentId,
+    @_s.required this.instanceId,
+  });
+  Map<String, dynamic> toJson() => _$GetDeploymentInstanceInputToJson(this);
 }
 
 /// Represents the output of a GetDeploymentInstance operation.
@@ -4636,6 +5318,27 @@ class GetDeploymentOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetDeploymentTargetInput {
+  /// The unique ID of a deployment.
+  @_s.JsonKey(name: 'deploymentId')
+  final String deploymentId;
+
+  /// The unique ID of a deployment target.
+  @_s.JsonKey(name: 'targetId')
+  final String targetId;
+
+  GetDeploymentTargetInput({
+    this.deploymentId,
+    this.targetId,
+  });
+  Map<String, dynamic> toJson() => _$GetDeploymentTargetInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetDeploymentTargetOutput {
@@ -4652,6 +5355,23 @@ class GetDeploymentTargetOutput {
   });
   factory GetDeploymentTargetOutput.fromJson(Map<String, dynamic> json) =>
       _$GetDeploymentTargetOutputFromJson(json);
+}
+
+/// Represents the input of a GetOnPremisesInstance operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetOnPremisesInstanceInput {
+  /// The name of the on-premises instance about which to get information.
+  @_s.JsonKey(name: 'instanceName')
+  final String instanceName;
+
+  GetOnPremisesInstanceInput({
+    @_s.required this.instanceName,
+  });
+  Map<String, dynamic> toJson() => _$GetOnPremisesInstanceInputToJson(this);
 }
 
 /// Represents the output of a GetOnPremisesInstance operation.
@@ -5194,24 +5914,99 @@ enum LifecycleEventStatus {
   unknown,
 }
 
-extension on LifecycleEventStatus {
-  String toValue() {
-    switch (this) {
-      case LifecycleEventStatus.pending:
-        return 'Pending';
-      case LifecycleEventStatus.inProgress:
-        return 'InProgress';
-      case LifecycleEventStatus.succeeded:
-        return 'Succeeded';
-      case LifecycleEventStatus.failed:
-        return 'Failed';
-      case LifecycleEventStatus.skipped:
-        return 'Skipped';
-      case LifecycleEventStatus.unknown:
-        return 'Unknown';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+/// Represents the input of a ListApplicationRevisions operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListApplicationRevisionsInput {
+  /// The name of an AWS CodeDeploy application associated with the IAM user or
+  /// AWS account.
+  @_s.JsonKey(name: 'applicationName')
+  final String applicationName;
+
+  /// Whether to list revisions based on whether the revision is the target
+  /// revision of an deployment group:
+  ///
+  /// <ul>
+  /// <li>
+  /// include: List revisions that are target revisions of a deployment group.
+  /// </li>
+  /// <li>
+  /// exclude: Do not list revisions that are target revisions of a deployment
+  /// group.
+  /// </li>
+  /// <li>
+  /// ignore: List all revisions.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'deployed')
+  final ListStateFilterAction deployed;
+
+  /// An identifier returned from the previous
+  /// <code>ListApplicationRevisions</code> call. It can be used to return the
+  /// next set of applications in the list.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// An Amazon S3 bucket name to limit the search for revisions.
+  ///
+  /// If set to null, all of the user's buckets are searched.
+  @_s.JsonKey(name: 's3Bucket')
+  final String s3Bucket;
+
+  /// A key prefix for the set of Amazon S3 objects to limit the search for
+  /// revisions.
+  @_s.JsonKey(name: 's3KeyPrefix')
+  final String s3KeyPrefix;
+
+  /// The column name to use to sort the list results:
+  ///
+  /// <ul>
+  /// <li>
+  /// registerTime: Sort by the time the revisions were registered with AWS
+  /// CodeDeploy.
+  /// </li>
+  /// <li>
+  /// firstUsedTime: Sort by the time the revisions were first used in a
+  /// deployment.
+  /// </li>
+  /// <li>
+  /// lastUsedTime: Sort by the time the revisions were last used in a deployment.
+  /// </li>
+  /// </ul>
+  /// If not specified or set to null, the results are returned in an arbitrary
+  /// order.
+  @_s.JsonKey(name: 'sortBy')
+  final ApplicationRevisionSortBy sortBy;
+
+  /// The order in which to sort the list results:
+  ///
+  /// <ul>
+  /// <li>
+  /// ascending: ascending order.
+  /// </li>
+  /// <li>
+  /// descending: descending order.
+  /// </li>
+  /// </ul>
+  /// If not specified, the results are sorted in ascending order.
+  ///
+  /// If set to null, the results are sorted in an arbitrary order.
+  @_s.JsonKey(name: 'sortOrder')
+  final SortOrder sortOrder;
+
+  ListApplicationRevisionsInput({
+    @_s.required this.applicationName,
+    this.deployed,
+    this.nextToken,
+    this.s3Bucket,
+    this.s3KeyPrefix,
+    this.sortBy,
+    this.sortOrder,
+  });
+  Map<String, dynamic> toJson() => _$ListApplicationRevisionsInputToJson(this);
 }
 
 /// Represents the output of a ListApplicationRevisions operation.
@@ -5239,6 +6034,24 @@ class ListApplicationRevisionsOutput {
       _$ListApplicationRevisionsOutputFromJson(json);
 }
 
+/// Represents the input of a ListApplications operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListApplicationsInput {
+  /// An identifier returned from the previous list applications call. It can be
+  /// used to return the next set of applications in the list.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListApplicationsInput({
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListApplicationsInputToJson(this);
+}
+
 /// Represents the output of a ListApplications operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -5262,6 +6075,25 @@ class ListApplicationsOutput {
   });
   factory ListApplicationsOutput.fromJson(Map<String, dynamic> json) =>
       _$ListApplicationsOutputFromJson(json);
+}
+
+/// Represents the input of a ListDeploymentConfigs operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListDeploymentConfigsInput {
+  /// An identifier returned from the previous <code>ListDeploymentConfigs</code>
+  /// call. It can be used to return the next set of deployment configurations in
+  /// the list.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListDeploymentConfigsInput({
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListDeploymentConfigsInputToJson(this);
 }
 
 /// Represents the output of a ListDeploymentConfigs operation.
@@ -5288,6 +6120,30 @@ class ListDeploymentConfigsOutput {
   });
   factory ListDeploymentConfigsOutput.fromJson(Map<String, dynamic> json) =>
       _$ListDeploymentConfigsOutputFromJson(json);
+}
+
+/// Represents the input of a ListDeploymentGroups operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListDeploymentGroupsInput {
+  /// The name of an AWS CodeDeploy application associated with the IAM user or
+  /// AWS account.
+  @_s.JsonKey(name: 'applicationName')
+  final String applicationName;
+
+  /// An identifier returned from the previous list deployment groups call. It can
+  /// be used to return the next set of deployment groups in the list.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListDeploymentGroupsInput({
+    @_s.required this.applicationName,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListDeploymentGroupsInputToJson(this);
 }
 
 /// Represents the output of a ListDeploymentGroups operation.
@@ -5320,6 +6176,62 @@ class ListDeploymentGroupsOutput {
       _$ListDeploymentGroupsOutputFromJson(json);
 }
 
+/// Represents the input of a ListDeploymentInstances operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListDeploymentInstancesInput {
+  /// The unique ID of a deployment.
+  @_s.JsonKey(name: 'deploymentId')
+  final String deploymentId;
+
+  /// A subset of instances to list by status:
+  ///
+  /// <ul>
+  /// <li>
+  /// Pending: Include those instances with pending deployments.
+  /// </li>
+  /// <li>
+  /// InProgress: Include those instances where deployments are still in progress.
+  /// </li>
+  /// <li>
+  /// Succeeded: Include those instances with successful deployments.
+  /// </li>
+  /// <li>
+  /// Failed: Include those instances with failed deployments.
+  /// </li>
+  /// <li>
+  /// Skipped: Include those instances with skipped deployments.
+  /// </li>
+  /// <li>
+  /// Unknown: Include those instances with deployments in an unknown state.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'instanceStatusFilter')
+  final List<String> instanceStatusFilter;
+
+  /// The set of instances in a blue/green deployment, either those in the
+  /// original environment ("BLUE") or those in the replacement environment
+  /// ("GREEN"), for which you want to view instance information.
+  @_s.JsonKey(name: 'instanceTypeFilter')
+  final List<String> instanceTypeFilter;
+
+  /// An identifier returned from the previous list deployment instances call. It
+  /// can be used to return the next set of deployment instances in the list.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListDeploymentInstancesInput({
+    @_s.required this.deploymentId,
+    this.instanceStatusFilter,
+    this.instanceTypeFilter,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListDeploymentInstancesInputToJson(this);
+}
+
 /// Represents the output of a ListDeploymentInstances operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -5348,6 +6260,47 @@ class ListDeploymentInstancesOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListDeploymentTargetsInput {
+  /// The unique ID of a deployment.
+  @_s.JsonKey(name: 'deploymentId')
+  final String deploymentId;
+
+  /// A token identifier returned from the previous
+  /// <code>ListDeploymentTargets</code> call. It can be used to return the next
+  /// set of deployment targets in the list.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// A key used to filter the returned targets. The two valid values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>TargetStatus</code> - A <code>TargetStatus</code> filter string can be
+  /// <code>Failed</code>, <code>InProgress</code>, <code>Pending</code>,
+  /// <code>Ready</code>, <code>Skipped</code>, <code>Succeeded</code>, or
+  /// <code>Unknown</code>.
+  /// </li>
+  /// <li>
+  /// <code>ServerInstanceLabel</code> - A <code>ServerInstanceLabel</code> filter
+  /// string can be <code>Blue</code> or <code>Green</code>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'targetFilters')
+  final Map<String, List<String>> targetFilters;
+
+  ListDeploymentTargetsInput({
+    this.deploymentId,
+    this.nextToken,
+    this.targetFilters,
+  });
+  Map<String, dynamic> toJson() => _$ListDeploymentTargetsInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListDeploymentTargetsOutput {
@@ -5367,6 +6320,77 @@ class ListDeploymentTargetsOutput {
   });
   factory ListDeploymentTargetsOutput.fromJson(Map<String, dynamic> json) =>
       _$ListDeploymentTargetsOutputFromJson(json);
+}
+
+/// Represents the input of a ListDeployments operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListDeploymentsInput {
+  /// The name of an AWS CodeDeploy application associated with the IAM user or
+  /// AWS account.
+  /// <note>
+  /// If <code>applicationName</code> is specified, then
+  /// <code>deploymentGroupName</code> must be specified. If it is not specified,
+  /// then <code>deploymentGroupName</code> must not be specified.
+  /// </note>
+  @_s.JsonKey(name: 'applicationName')
+  final String applicationName;
+
+  /// A time range (start and end) for returning a subset of the list of
+  /// deployments.
+  @_s.JsonKey(name: 'createTimeRange')
+  final TimeRange createTimeRange;
+
+  /// The name of a deployment group for the specified application.
+  /// <note>
+  /// If <code>deploymentGroupName</code> is specified, then
+  /// <code>applicationName</code> must be specified. If it is not specified, then
+  /// <code>applicationName</code> must not be specified.
+  /// </note>
+  @_s.JsonKey(name: 'deploymentGroupName')
+  final String deploymentGroupName;
+
+  /// A subset of deployments to list by status:
+  ///
+  /// <ul>
+  /// <li>
+  /// Created: Include created deployments in the resulting list.
+  /// </li>
+  /// <li>
+  /// Queued: Include queued deployments in the resulting list.
+  /// </li>
+  /// <li>
+  /// In Progress: Include in-progress deployments in the resulting list.
+  /// </li>
+  /// <li>
+  /// Succeeded: Include successful deployments in the resulting list.
+  /// </li>
+  /// <li>
+  /// Failed: Include failed deployments in the resulting list.
+  /// </li>
+  /// <li>
+  /// Stopped: Include stopped deployments in the resulting list.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'includeOnlyStatuses')
+  final List<String> includeOnlyStatuses;
+
+  /// An identifier returned from the previous list deployments call. It can be
+  /// used to return the next set of deployments in the list.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListDeploymentsInput({
+    this.applicationName,
+    this.createTimeRange,
+    this.deploymentGroupName,
+    this.includeOnlyStatuses,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListDeploymentsInputToJson(this);
 }
 
 /// Represents the output of a ListDeployments operation.
@@ -5394,6 +6418,25 @@ class ListDeploymentsOutput {
       _$ListDeploymentsOutputFromJson(json);
 }
 
+/// Represents the input of a ListGitHubAccountTokenNames operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListGitHubAccountTokenNamesInput {
+  /// An identifier returned from the previous ListGitHubAccountTokenNames call.
+  /// It can be used to return the next set of names in the list.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListGitHubAccountTokenNamesInput({
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListGitHubAccountTokenNamesInputToJson(this);
+}
+
 /// Represents the output of a ListGitHubAccountTokenNames operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -5418,6 +6461,45 @@ class ListGitHubAccountTokenNamesOutput {
   factory ListGitHubAccountTokenNamesOutput.fromJson(
           Map<String, dynamic> json) =>
       _$ListGitHubAccountTokenNamesOutputFromJson(json);
+}
+
+/// Represents the input of a ListOnPremisesInstances operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListOnPremisesInstancesInput {
+  /// An identifier returned from the previous list on-premises instances call. It
+  /// can be used to return the next set of on-premises instances in the list.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The registration status of the on-premises instances:
+  ///
+  /// <ul>
+  /// <li>
+  /// Deregistered: Include deregistered on-premises instances in the resulting
+  /// list.
+  /// </li>
+  /// <li>
+  /// Registered: Include registered on-premises instances in the resulting list.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'registrationStatus')
+  final RegistrationStatus registrationStatus;
+
+  /// The on-premises instance tags that are used to restrict the on-premises
+  /// instance names returned.
+  @_s.JsonKey(name: 'tagFilters')
+  final List<TagFilter> tagFilters;
+
+  ListOnPremisesInstancesInput({
+    this.nextToken,
+    this.registrationStatus,
+    this.tagFilters,
+  });
+  Map<String, dynamic> toJson() => _$ListOnPremisesInstancesInputToJson(this);
 }
 
 /// Represents the output of the list on-premises instances operation.
@@ -5454,18 +6536,28 @@ enum ListStateFilterAction {
   ignore,
 }
 
-extension on ListStateFilterAction {
-  String toValue() {
-    switch (this) {
-      case ListStateFilterAction.include:
-        return 'include';
-      case ListStateFilterAction.exclude:
-        return 'exclude';
-      case ListStateFilterAction.ignore:
-        return 'ignore';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceInput {
+  /// The ARN of a CodeDeploy resource. <code>ListTagsForResource</code> returns
+  /// all the tags associated with the resource that is identified by the
+  /// <code>ResourceArn</code>.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// An identifier returned from the previous <code>ListTagsForResource</code>
+  /// call. It can be used to return the next set of applications in the list.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListTagsForResourceInput({
+    @_s.required this.resourceArn,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5624,6 +6716,36 @@ class OnPremisesTagSet {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutLifecycleEventHookExecutionStatusInput {
+  /// The unique ID of a deployment. Pass this ID to a Lambda function that
+  /// validates a deployment lifecycle event.
+  @_s.JsonKey(name: 'deploymentId')
+  final String deploymentId;
+
+  /// The execution ID of a deployment's lifecycle hook. A deployment lifecycle
+  /// hook is specified in the <code>hooks</code> section of the AppSpec file.
+  @_s.JsonKey(name: 'lifecycleEventHookExecutionId')
+  final String lifecycleEventHookExecutionId;
+
+  /// The result of a Lambda function that validates a deployment lifecycle event
+  /// (<code>Succeeded</code> or <code>Failed</code>).
+  @_s.JsonKey(name: 'status')
+  final LifecycleEventStatus status;
+
+  PutLifecycleEventHookExecutionStatusInput({
+    this.deploymentId,
+    this.lifecycleEventHookExecutionId,
+    this.status,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutLifecycleEventHookExecutionStatusInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutLifecycleEventHookExecutionStatusOutput {
@@ -5670,6 +6792,64 @@ class RawString {
   Map<String, dynamic> toJson() => _$RawStringToJson(this);
 }
 
+/// Represents the input of a RegisterApplicationRevision operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RegisterApplicationRevisionInput {
+  /// The name of an AWS CodeDeploy application associated with the IAM user or
+  /// AWS account.
+  @_s.JsonKey(name: 'applicationName')
+  final String applicationName;
+
+  /// Information about the application revision to register, including type and
+  /// location.
+  @_s.JsonKey(name: 'revision')
+  final RevisionLocation revision;
+
+  /// A comment about the revision.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  RegisterApplicationRevisionInput({
+    @_s.required this.applicationName,
+    @_s.required this.revision,
+    this.description,
+  });
+  Map<String, dynamic> toJson() =>
+      _$RegisterApplicationRevisionInputToJson(this);
+}
+
+/// Represents the input of the register on-premises instance operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RegisterOnPremisesInstanceInput {
+  /// The name of the on-premises instance to register.
+  @_s.JsonKey(name: 'instanceName')
+  final String instanceName;
+
+  /// The ARN of the IAM session to associate with the on-premises instance.
+  @_s.JsonKey(name: 'iamSessionArn')
+  final String iamSessionArn;
+
+  /// The ARN of the IAM user to associate with the on-premises instance.
+  @_s.JsonKey(name: 'iamUserArn')
+  final String iamUserArn;
+
+  RegisterOnPremisesInstanceInput({
+    @_s.required this.instanceName,
+    this.iamSessionArn,
+    this.iamUserArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$RegisterOnPremisesInstanceInputToJson(this);
+}
+
 enum RegistrationStatus {
   @_s.JsonValue('Registered')
   registered,
@@ -5677,16 +6857,27 @@ enum RegistrationStatus {
   deregistered,
 }
 
-extension on RegistrationStatus {
-  String toValue() {
-    switch (this) {
-      case RegistrationStatus.registered:
-        return 'Registered';
-      case RegistrationStatus.deregistered:
-        return 'Deregistered';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+/// Represents the input of a RemoveTagsFromOnPremisesInstances operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RemoveTagsFromOnPremisesInstancesInput {
+  /// The names of the on-premises instances from which to remove tags.
+  @_s.JsonKey(name: 'instanceNames')
+  final List<String> instanceNames;
+
+  /// The tag key-value pairs to remove from the on-premises instances.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  RemoveTagsFromOnPremisesInstancesInput({
+    @_s.required this.instanceNames,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() =>
+      _$RemoveTagsFromOnPremisesInstancesInputToJson(this);
 }
 
 /// Information about an application revision.
@@ -5872,6 +7063,24 @@ class S3Location {
   Map<String, dynamic> toJson() => _$S3LocationToJson(this);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SkipWaitTimeForInstanceTerminationInput {
+  /// The unique ID of a blue/green deployment for which you want to skip the
+  /// instance termination wait time.
+  @_s.JsonKey(name: 'deploymentId')
+  final String deploymentId;
+
+  SkipWaitTimeForInstanceTerminationInput({
+    this.deploymentId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$SkipWaitTimeForInstanceTerminationInputToJson(this);
+}
+
 enum SortOrder {
   @_s.JsonValue('ascending')
   ascending,
@@ -5879,16 +7088,28 @@ enum SortOrder {
   descending,
 }
 
-extension on SortOrder {
-  String toValue() {
-    switch (this) {
-      case SortOrder.ascending:
-        return 'ascending';
-      case SortOrder.descending:
-        return 'descending';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+/// Represents the input of a StopDeployment operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopDeploymentInput {
+  /// The unique ID of a deployment.
+  @_s.JsonKey(name: 'deploymentId')
+  final String deploymentId;
+
+  /// Indicates, when a deployment is stopped, whether instances that have been
+  /// updated should be rolled back to the previous version of the application
+  /// revision.
+  @_s.JsonKey(name: 'autoRollbackEnabled')
+  final bool autoRollbackEnabled;
+
+  StopDeploymentInput({
+    @_s.required this.deploymentId,
+    this.autoRollbackEnabled,
+  });
+  Map<String, dynamic> toJson() => _$StopDeploymentInputToJson(this);
 }
 
 /// Represents the output of a StopDeployment operation.
@@ -6003,6 +7224,28 @@ enum TagFilterType {
   valueOnly,
   @_s.JsonValue('KEY_AND_VALUE')
   keyAndValue,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceInput {
+  /// The ARN of a resource, such as a CodeDeploy application or deployment group.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// A list of tags that <code>TagResource</code> associates with a resource. The
+  /// resource is identified by the <code>ResourceArn</code> input parameter.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  TagResourceInput({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6363,12 +7606,176 @@ enum TriggerEventType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceInput {
+  /// The ARN that specifies from which resource to disassociate the tags with the
+  /// keys in the <code>TagKeys</code> input paramter.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// A list of keys of <code>Tag</code> objects. The <code>Tag</code> objects
+  /// identified by the keys are disassociated from the resource specified by the
+  /// <code>ResourceArn</code> input parameter.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceInput({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagResourceOutput {
   UntagResourceOutput();
   factory UntagResourceOutput.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceOutputFromJson(json);
+}
+
+/// Represents the input of an UpdateApplication operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateApplicationInput {
+  /// The current name of the application you want to change.
+  @_s.JsonKey(name: 'applicationName')
+  final String applicationName;
+
+  /// The new name to give the application.
+  @_s.JsonKey(name: 'newApplicationName')
+  final String newApplicationName;
+
+  UpdateApplicationInput({
+    this.applicationName,
+    this.newApplicationName,
+  });
+  Map<String, dynamic> toJson() => _$UpdateApplicationInputToJson(this);
+}
+
+/// Represents the input of an UpdateDeploymentGroup operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDeploymentGroupInput {
+  /// The application name that corresponds to the deployment group to update.
+  @_s.JsonKey(name: 'applicationName')
+  final String applicationName;
+
+  /// The current name of the deployment group.
+  @_s.JsonKey(name: 'currentDeploymentGroupName')
+  final String currentDeploymentGroupName;
+
+  /// Information to add or change about Amazon CloudWatch alarms when the
+  /// deployment group is updated.
+  @_s.JsonKey(name: 'alarmConfiguration')
+  final AlarmConfiguration alarmConfiguration;
+
+  /// Information for an automatic rollback configuration that is added or changed
+  /// when a deployment group is updated.
+  @_s.JsonKey(name: 'autoRollbackConfiguration')
+  final AutoRollbackConfiguration autoRollbackConfiguration;
+
+  /// The replacement list of Auto Scaling groups to be included in the deployment
+  /// group, if you want to change them. To keep the Auto Scaling groups, enter
+  /// their names. To remove Auto Scaling groups, do not enter any Auto Scaling
+  /// group names.
+  @_s.JsonKey(name: 'autoScalingGroups')
+  final List<String> autoScalingGroups;
+
+  /// Information about blue/green deployment options for a deployment group.
+  @_s.JsonKey(name: 'blueGreenDeploymentConfiguration')
+  final BlueGreenDeploymentConfiguration blueGreenDeploymentConfiguration;
+
+  /// The replacement deployment configuration name to use, if you want to change
+  /// it.
+  @_s.JsonKey(name: 'deploymentConfigName')
+  final String deploymentConfigName;
+
+  /// Information about the type of deployment, either in-place or blue/green, you
+  /// want to run and whether to route deployment traffic behind a load balancer.
+  @_s.JsonKey(name: 'deploymentStyle')
+  final DeploymentStyle deploymentStyle;
+
+  /// The replacement set of Amazon EC2 tags on which to filter, if you want to
+  /// change them. To keep the existing tags, enter their names. To remove tags,
+  /// do not enter any tag names.
+  @_s.JsonKey(name: 'ec2TagFilters')
+  final List<EC2TagFilter> ec2TagFilters;
+
+  /// Information about groups of tags applied to on-premises instances. The
+  /// deployment group includes only EC2 instances identified by all the tag
+  /// groups.
+  @_s.JsonKey(name: 'ec2TagSet')
+  final EC2TagSet ec2TagSet;
+
+  /// The target Amazon ECS services in the deployment group. This applies only to
+  /// deployment groups that use the Amazon ECS compute platform. A target Amazon
+  /// ECS service is specified as an Amazon ECS cluster and service name pair
+  /// using the format <code>&lt;clustername&gt;:&lt;servicename&gt;</code>.
+  @_s.JsonKey(name: 'ecsServices')
+  final List<ECSService> ecsServices;
+
+  /// Information about the load balancer used in a deployment.
+  @_s.JsonKey(name: 'loadBalancerInfo')
+  final LoadBalancerInfo loadBalancerInfo;
+
+  /// The new name of the deployment group, if you want to change it.
+  @_s.JsonKey(name: 'newDeploymentGroupName')
+  final String newDeploymentGroupName;
+
+  /// The replacement set of on-premises instance tags on which to filter, if you
+  /// want to change them. To keep the existing tags, enter their names. To remove
+  /// tags, do not enter any tag names.
+  @_s.JsonKey(name: 'onPremisesInstanceTagFilters')
+  final List<TagFilter> onPremisesInstanceTagFilters;
+
+  /// Information about an on-premises instance tag set. The deployment group
+  /// includes only on-premises instances identified by all the tag groups.
+  @_s.JsonKey(name: 'onPremisesTagSet')
+  final OnPremisesTagSet onPremisesTagSet;
+
+  /// A replacement ARN for the service role, if you want to change it.
+  @_s.JsonKey(name: 'serviceRoleArn')
+  final String serviceRoleArn;
+
+  /// Information about triggers to change when the deployment group is updated.
+  /// For examples, see <a
+  /// href="https://docs.aws.amazon.com/codedeploy/latest/userguide/how-to-notify-edit.html">Modify
+  /// Triggers in an AWS CodeDeploy Deployment Group</a> in the AWS CodeDeploy
+  /// User Guide.
+  @_s.JsonKey(name: 'triggerConfigurations')
+  final List<TriggerConfig> triggerConfigurations;
+
+  UpdateDeploymentGroupInput({
+    @_s.required this.applicationName,
+    @_s.required this.currentDeploymentGroupName,
+    this.alarmConfiguration,
+    this.autoRollbackConfiguration,
+    this.autoScalingGroups,
+    this.blueGreenDeploymentConfiguration,
+    this.deploymentConfigName,
+    this.deploymentStyle,
+    this.ec2TagFilters,
+    this.ec2TagSet,
+    this.ecsServices,
+    this.loadBalancerInfo,
+    this.newDeploymentGroupName,
+    this.onPremisesInstanceTagFilters,
+    this.onPremisesTagSet,
+    this.serviceRoleArn,
+    this.triggerConfigurations,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDeploymentGroupInputToJson(this);
 }
 
 /// Represents the output of an UpdateDeploymentGroup operation.

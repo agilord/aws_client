@@ -13,6 +13,34 @@ DataPoint _$DataPointFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DescribeDimensionKeysRequestToJson(
+    DescribeDimensionKeysRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EndTime', unixTimestampToJson(instance.endTime));
+  writeNotNull('GroupBy', instance.groupBy?.toJson());
+  writeNotNull('Identifier', instance.identifier);
+  writeNotNull('Metric', instance.metric);
+  writeNotNull('ServiceType', _$ServiceTypeEnumMap[instance.serviceType]);
+  writeNotNull('StartTime', unixTimestampToJson(instance.startTime));
+  writeNotNull('Filter', instance.filter);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('PartitionBy', instance.partitionBy?.toJson());
+  writeNotNull('PeriodInSeconds', instance.periodInSeconds);
+  return val;
+}
+
+const _$ServiceTypeEnumMap = {
+  ServiceType.rds: 'RDS',
+};
+
 DescribeDimensionKeysResponse _$DescribeDimensionKeysResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeDimensionKeysResponse(
@@ -58,6 +86,28 @@ DimensionKeyDescription _$DimensionKeyDescriptionFromJson(
         ?.toList(),
     total: (json['Total'] as num)?.toDouble(),
   );
+}
+
+Map<String, dynamic> _$GetResourceMetricsRequestToJson(
+    GetResourceMetricsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EndTime', unixTimestampToJson(instance.endTime));
+  writeNotNull('Identifier', instance.identifier);
+  writeNotNull('MetricQueries',
+      instance.metricQueries?.map((e) => e?.toJson())?.toList());
+  writeNotNull('ServiceType', _$ServiceTypeEnumMap[instance.serviceType]);
+  writeNotNull('StartTime', unixTimestampToJson(instance.startTime));
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('PeriodInSeconds', instance.periodInSeconds);
+  return val;
 }
 
 GetResourceMetricsResponse _$GetResourceMetricsResponseFromJson(

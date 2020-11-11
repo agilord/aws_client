@@ -39,6 +39,10 @@ CreateProjectResult _$CreateProjectResultFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DeleteProjectRequestToJson(
+        DeleteProjectRequest instance) =>
+    <String, dynamic>{};
+
 DeleteProjectResult _$DeleteProjectResultFromJson(Map<String, dynamic> json) {
   return DeleteProjectResult(
     deletedResources: (json['deletedResources'] as List)
@@ -69,11 +73,19 @@ DescribeProjectResult _$DescribeProjectResultFromJson(
   );
 }
 
+Map<String, dynamic> _$ExportBundleRequestToJson(
+        ExportBundleRequest instance) =>
+    <String, dynamic>{};
+
 ExportBundleResult _$ExportBundleResultFromJson(Map<String, dynamic> json) {
   return ExportBundleResult(
     downloadUrl: json['downloadUrl'] as String,
   );
 }
+
+Map<String, dynamic> _$ExportProjectRequestToJson(
+        ExportProjectRequest instance) =>
+    <String, dynamic>{};
 
 ExportProjectResult _$ExportProjectResultFromJson(Map<String, dynamic> json) {
   return ExportProjectResult(

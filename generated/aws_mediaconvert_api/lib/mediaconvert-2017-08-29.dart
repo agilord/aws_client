@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -56,9 +55,9 @@ class MediaConvert {
     @_s.required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    final $payload = <String, dynamic>{
-      'Arn': arn,
-    };
+    final $payload = AssociateCertificateRequest(
+      arn: arn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -84,7 +83,9 @@ class MediaConvert {
     @_s.required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    final $payload = <String, dynamic>{};
+    final $payload = CancelJobRequest(
+      id: id,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -198,25 +199,21 @@ class MediaConvert {
       -50,
       50,
     );
-    final $payload = <String, dynamic>{
-      'Role': role,
-      'Settings': settings,
-      if (accelerationSettings != null)
-        'AccelerationSettings': accelerationSettings,
-      if (billingTagsSource != null)
-        'BillingTagsSource': billingTagsSource?.toValue(),
-      if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
-      if (hopDestinations != null) 'HopDestinations': hopDestinations,
-      if (jobTemplate != null) 'JobTemplate': jobTemplate,
-      if (priority != null) 'Priority': priority,
-      if (queue != null) 'Queue': queue,
-      if (simulateReservedQueue != null)
-        'SimulateReservedQueue': simulateReservedQueue?.toValue(),
-      if (statusUpdateInterval != null)
-        'StatusUpdateInterval': statusUpdateInterval?.toValue(),
-      if (tags != null) 'Tags': tags,
-      if (userMetadata != null) 'UserMetadata': userMetadata,
-    };
+    final $payload = CreateJobRequest(
+      role: role,
+      settings: settings,
+      accelerationSettings: accelerationSettings,
+      billingTagsSource: billingTagsSource,
+      clientRequestToken: clientRequestToken,
+      hopDestinations: hopDestinations,
+      jobTemplate: jobTemplate,
+      priority: priority,
+      queue: queue,
+      simulateReservedQueue: simulateReservedQueue,
+      statusUpdateInterval: statusUpdateInterval,
+      tags: tags,
+      userMetadata: userMetadata,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -304,20 +301,18 @@ class MediaConvert {
       -50,
       50,
     );
-    final $payload = <String, dynamic>{
-      'Name': name,
-      'Settings': settings,
-      if (accelerationSettings != null)
-        'AccelerationSettings': accelerationSettings,
-      if (category != null) 'Category': category,
-      if (description != null) 'Description': description,
-      if (hopDestinations != null) 'HopDestinations': hopDestinations,
-      if (priority != null) 'Priority': priority,
-      if (queue != null) 'Queue': queue,
-      if (statusUpdateInterval != null)
-        'StatusUpdateInterval': statusUpdateInterval?.toValue(),
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = CreateJobTemplateRequest(
+      name: name,
+      settings: settings,
+      accelerationSettings: accelerationSettings,
+      category: category,
+      description: description,
+      hopDestinations: hopDestinations,
+      priority: priority,
+      queue: queue,
+      statusUpdateInterval: statusUpdateInterval,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -361,13 +356,13 @@ class MediaConvert {
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     ArgumentError.checkNotNull(settings, 'settings');
-    final $payload = <String, dynamic>{
-      'Name': name,
-      'Settings': settings,
-      if (category != null) 'Category': category,
-      if (description != null) 'Description': description,
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = CreatePresetRequest(
+      name: name,
+      settings: settings,
+      category: category,
+      description: description,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -422,15 +417,14 @@ class MediaConvert {
     Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    final $payload = <String, dynamic>{
-      'Name': name,
-      if (description != null) 'Description': description,
-      if (pricingPlan != null) 'PricingPlan': pricingPlan?.toValue(),
-      if (reservationPlanSettings != null)
-        'ReservationPlanSettings': reservationPlanSettings,
-      if (status != null) 'Status': status?.toValue(),
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = CreateQueueRequest(
+      name: name,
+      description: description,
+      pricingPlan: pricingPlan,
+      reservationPlanSettings: reservationPlanSettings,
+      status: status,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -455,7 +449,9 @@ class MediaConvert {
     @_s.required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteJobTemplateRequest(
+      name: name,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -481,7 +477,9 @@ class MediaConvert {
     @_s.required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    final $payload = <String, dynamic>{};
+    final $payload = DeletePresetRequest(
+      name: name,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -506,7 +504,9 @@ class MediaConvert {
     @_s.required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteQueueRequest(
+      name: name,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -544,11 +544,11 @@ class MediaConvert {
     DescribeEndpointsMode mode,
     String nextToken,
   }) async {
-    final $payload = <String, dynamic>{
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (mode != null) 'Mode': mode?.toValue(),
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = DescribeEndpointsRequest(
+      maxResults: maxResults,
+      mode: mode,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -576,7 +576,9 @@ class MediaConvert {
     @_s.required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    final $payload = <String, dynamic>{};
+    final $payload = DisassociateCertificateRequest(
+      arn: arn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -974,10 +976,10 @@ class MediaConvert {
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'Arn': arn,
-      'Tags': tags,
-    };
+    final $payload = TagResourceRequest(
+      arn: arn,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1009,9 +1011,10 @@ class MediaConvert {
     List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    final $payload = <String, dynamic>{
-      if (tagKeys != null) 'TagKeys': tagKeys,
-    };
+    final $payload = UntagResourceRequest(
+      arn: arn,
+      tagKeys: tagKeys,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1086,18 +1089,17 @@ class MediaConvert {
       -50,
       50,
     );
-    final $payload = <String, dynamic>{
-      if (accelerationSettings != null)
-        'AccelerationSettings': accelerationSettings,
-      if (category != null) 'Category': category,
-      if (description != null) 'Description': description,
-      if (hopDestinations != null) 'HopDestinations': hopDestinations,
-      if (priority != null) 'Priority': priority,
-      if (queue != null) 'Queue': queue,
-      if (settings != null) 'Settings': settings,
-      if (statusUpdateInterval != null)
-        'StatusUpdateInterval': statusUpdateInterval?.toValue(),
-    };
+    final $payload = UpdateJobTemplateRequest(
+      name: name,
+      accelerationSettings: accelerationSettings,
+      category: category,
+      description: description,
+      hopDestinations: hopDestinations,
+      priority: priority,
+      queue: queue,
+      settings: settings,
+      statusUpdateInterval: statusUpdateInterval,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1135,11 +1137,12 @@ class MediaConvert {
     PresetSettings settings,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    final $payload = <String, dynamic>{
-      if (category != null) 'Category': category,
-      if (description != null) 'Description': description,
-      if (settings != null) 'Settings': settings,
-    };
+    final $payload = UpdatePresetRequest(
+      name: name,
+      category: category,
+      description: description,
+      settings: settings,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1184,12 +1187,12 @@ class MediaConvert {
     QueueStatus status,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    final $payload = <String, dynamic>{
-      if (description != null) 'Description': description,
-      if (reservationPlanSettings != null)
-        'ReservationPlanSettings': reservationPlanSettings,
-      if (status != null) 'Status': status?.toValue(),
-    };
+    final $payload = UpdateQueueRequest(
+      name: name,
+      description: description,
+      reservationPlanSettings: reservationPlanSettings,
+      status: status,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1682,6 +1685,23 @@ enum AntiAlias {
   disabled,
   @_s.JsonValue('ENABLED')
   enabled,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateCertificateRequest {
+  /// The ARN of the ACM certificate that you want to associate with your
+  /// MediaConvert resource.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  AssociateCertificateRequest({
+    @_s.required this.arn,
+  });
+  Map<String, dynamic> toJson() => _$AssociateCertificateRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2422,22 +2442,6 @@ enum BillingTagsSource {
   job,
 }
 
-extension on BillingTagsSource {
-  String toValue() {
-    switch (this) {
-      case BillingTagsSource.queue:
-        return 'QUEUE';
-      case BillingTagsSource.preset:
-        return 'PRESET';
-      case BillingTagsSource.jobTemplate:
-        return 'JOB_TEMPLATE';
-      case BillingTagsSource.job:
-        return 'JOB';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Burn-In Destination Settings.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2677,6 +2681,22 @@ enum BurninSubtitleTeletextSpacing {
   fixedGrid,
   @_s.JsonValue('PROPORTIONAL')
   proportional,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CancelJobRequest {
+  /// The Job ID of the job to be cancelled.
+  @_s.JsonKey(name: 'id', ignore: true)
+  final String id;
+
+  CancelJobRequest({
+    @_s.required this.id,
+  });
+  Map<String, dynamic> toJson() => _$CancelJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3762,6 +3782,113 @@ enum ContainerType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateJobRequest {
+  /// Required. The IAM role you use for creating this job. For details about
+  /// permissions, see the User Guide topic at the User Guide at
+  /// http://docs.aws.amazon.com/mediaconvert/latest/ug/iam-role.html.
+  @_s.JsonKey(name: 'role')
+  final String role;
+
+  /// JobSettings contains all the transcode settings for a job.
+  @_s.JsonKey(name: 'settings')
+  final JobSettings settings;
+
+  /// Optional. Accelerated transcoding can significantly speed up jobs with long,
+  /// visually complex content. Outputs that use this feature incur pro-tier
+  /// pricing. For information about feature limitations, see the AWS Elemental
+  /// MediaConvert User Guide.
+  @_s.JsonKey(name: 'accelerationSettings')
+  final AccelerationSettings accelerationSettings;
+
+  /// Optional. Choose a tag type that AWS Billing and Cost Management will use to
+  /// sort your AWS Elemental MediaConvert costs on any billing report that you
+  /// set up. Any transcoding outputs that don't have an associated tag will
+  /// appear in your billing report unsorted. If you don't choose a valid value
+  /// for this field, your job outputs will appear on the billing report unsorted.
+  @_s.JsonKey(name: 'billingTagsSource')
+  final BillingTagsSource billingTagsSource;
+
+  /// Optional. Idempotency token for CreateJob operation.
+  @_s.JsonKey(name: 'clientRequestToken')
+  final String clientRequestToken;
+
+  /// Optional. Use queue hopping to avoid overly long waits in the backlog of the
+  /// queue that you submit your job to. Specify an alternate queue and the
+  /// maximum time that your job will wait in the initial queue before hopping.
+  /// For more information about this feature, see the AWS Elemental MediaConvert
+  /// User Guide.
+  @_s.JsonKey(name: 'hopDestinations')
+  final List<HopDestination> hopDestinations;
+
+  /// Optional. When you create a job, you can either specify a job template or
+  /// specify the transcoding settings individually.
+  @_s.JsonKey(name: 'jobTemplate')
+  final String jobTemplate;
+
+  /// Optional. Specify the relative priority for this job. In any given queue,
+  /// the service begins processing the job with the highest value first. When
+  /// more than one job has the same priority, the service begins processing the
+  /// job that you submitted first. If you don't specify a priority, the service
+  /// uses the default value 0.
+  @_s.JsonKey(name: 'priority')
+  final int priority;
+
+  /// Optional. When you create a job, you can specify a queue to send it to. If
+  /// you don't specify, the job will go to the default queue. For more about
+  /// queues, see the User Guide topic at
+  /// http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html.
+  @_s.JsonKey(name: 'queue')
+  final String queue;
+
+  /// Optional. Enable this setting when you run a test job to estimate how many
+  /// reserved transcoding slots (RTS) you need. When this is enabled,
+  /// MediaConvert runs your job from an on-demand queue with similar performance
+  /// to what you will see with one RTS in a reserved queue. This setting is
+  /// disabled by default.
+  @_s.JsonKey(name: 'simulateReservedQueue')
+  final SimulateReservedQueue simulateReservedQueue;
+
+  /// Optional. Specify how often MediaConvert sends STATUS_UPDATE events to
+  /// Amazon CloudWatch Events. Set the interval, in seconds, between status
+  /// updates. MediaConvert sends an update at this interval from the time the
+  /// service begins processing your job to the time it completes the transcode or
+  /// encounters an error.
+  @_s.JsonKey(name: 'statusUpdateInterval')
+  final StatusUpdateInterval statusUpdateInterval;
+
+  /// Optional. The tags that you want to add to the resource. You can tag
+  /// resources with a key-value pair or with only a key.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  /// Optional. User-defined metadata that you want to associate with an
+  /// MediaConvert job. You specify metadata in key/value pairs.
+  @_s.JsonKey(name: 'userMetadata')
+  final Map<String, String> userMetadata;
+
+  CreateJobRequest({
+    @_s.required this.role,
+    @_s.required this.settings,
+    this.accelerationSettings,
+    this.billingTagsSource,
+    this.clientRequestToken,
+    this.hopDestinations,
+    this.jobTemplate,
+    this.priority,
+    this.queue,
+    this.simulateReservedQueue,
+    this.statusUpdateInterval,
+    this.tags,
+    this.userMetadata,
+  });
+  Map<String, dynamic> toJson() => _$CreateJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateJobResponse {
@@ -3776,6 +3903,85 @@ class CreateJobResponse {
   });
   factory CreateJobResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateJobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateJobTemplateRequest {
+  /// The name of the job template you are creating.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// JobTemplateSettings contains all the transcode settings saved in the
+  /// template that will be applied to jobs created from it.
+  @_s.JsonKey(name: 'settings')
+  final JobTemplateSettings settings;
+
+  /// Accelerated transcoding can significantly speed up jobs with long, visually
+  /// complex content. Outputs that use this feature incur pro-tier pricing. For
+  /// information about feature limitations, see the AWS Elemental MediaConvert
+  /// User Guide.
+  @_s.JsonKey(name: 'accelerationSettings')
+  final AccelerationSettings accelerationSettings;
+
+  /// Optional. A category for the job template you are creating
+  @_s.JsonKey(name: 'category')
+  final String category;
+
+  /// Optional. A description of the job template you are creating.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// Optional. Use queue hopping to avoid overly long waits in the backlog of the
+  /// queue that you submit your job to. Specify an alternate queue and the
+  /// maximum time that your job will wait in the initial queue before hopping.
+  /// For more information about this feature, see the AWS Elemental MediaConvert
+  /// User Guide.
+  @_s.JsonKey(name: 'hopDestinations')
+  final List<HopDestination> hopDestinations;
+
+  /// Specify the relative priority for this job. In any given queue, the service
+  /// begins processing the job with the highest value first. When more than one
+  /// job has the same priority, the service begins processing the job that you
+  /// submitted first. If you don't specify a priority, the service uses the
+  /// default value 0.
+  @_s.JsonKey(name: 'priority')
+  final int priority;
+
+  /// Optional. The queue that jobs created from this template are assigned to. If
+  /// you don't specify this, jobs will go to the default queue.
+  @_s.JsonKey(name: 'queue')
+  final String queue;
+
+  /// Specify how often MediaConvert sends STATUS_UPDATE events to Amazon
+  /// CloudWatch Events. Set the interval, in seconds, between status updates.
+  /// MediaConvert sends an update at this interval from the time the service
+  /// begins processing your job to the time it completes the transcode or
+  /// encounters an error.
+  @_s.JsonKey(name: 'statusUpdateInterval')
+  final StatusUpdateInterval statusUpdateInterval;
+
+  /// The tags that you want to add to the resource. You can tag resources with a
+  /// key-value pair or with only a key.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateJobTemplateRequest({
+    @_s.required this.name,
+    @_s.required this.settings,
+    this.accelerationSettings,
+    this.category,
+    this.description,
+    this.hopDestinations,
+    this.priority,
+    this.queue,
+    this.statusUpdateInterval,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateJobTemplateRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3799,6 +4005,43 @@ class CreateJobTemplateResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreatePresetRequest {
+  /// The name of the preset you are creating.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// Settings for preset
+  @_s.JsonKey(name: 'settings')
+  final PresetSettings settings;
+
+  /// Optional. A category for the preset you are creating.
+  @_s.JsonKey(name: 'category')
+  final String category;
+
+  /// Optional. A description of the preset you are creating.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The tags that you want to add to the resource. You can tag resources with a
+  /// key-value pair or with only a key.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreatePresetRequest({
+    @_s.required this.name,
+    @_s.required this.settings,
+    this.category,
+    this.description,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreatePresetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreatePresetResponse {
@@ -3812,6 +4055,55 @@ class CreatePresetResponse {
   });
   factory CreatePresetResponse.fromJson(Map<String, dynamic> json) =>
       _$CreatePresetResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateQueueRequest {
+  /// The name of the queue that you are creating.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// Optional. A description of the queue that you are creating.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// Specifies whether the pricing plan for the queue is on-demand or reserved.
+  /// For on-demand, you pay per minute, billed in increments of .01 minute. For
+  /// reserved, you pay for the transcoding capacity of the entire queue,
+  /// regardless of how much or how little you use it. Reserved pricing requires a
+  /// 12-month commitment. When you use the API to create a queue, the default is
+  /// on-demand.
+  @_s.JsonKey(name: 'pricingPlan')
+  final PricingPlan pricingPlan;
+
+  /// Details about the pricing plan for your reserved queue. Required for
+  /// reserved queues and not applicable to on-demand queues.
+  @_s.JsonKey(name: 'reservationPlanSettings')
+  final ReservationPlanSettings reservationPlanSettings;
+
+  /// Initial state of the queue. If you create a paused queue, then jobs in that
+  /// queue won't begin.
+  @_s.JsonKey(name: 'status')
+  final QueueStatus status;
+
+  /// The tags that you want to add to the resource. You can tag resources with a
+  /// key-value pair or with only a key.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateQueueRequest({
+    @_s.required this.name,
+    this.description,
+    this.pricingPlan,
+    this.reservationPlanSettings,
+    this.status,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateQueueRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4176,6 +4468,22 @@ enum DeinterlacerMode {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteJobTemplateRequest {
+  /// The name of the job template to be deleted.
+  @_s.JsonKey(name: 'name', ignore: true)
+  final String name;
+
+  DeleteJobTemplateRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$DeleteJobTemplateRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteJobTemplateResponse {
@@ -4187,12 +4495,44 @@ class DeleteJobTemplateResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeletePresetRequest {
+  /// The name of the preset to be deleted.
+  @_s.JsonKey(name: 'name', ignore: true)
+  final String name;
+
+  DeletePresetRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$DeletePresetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeletePresetResponse {
   DeletePresetResponse();
   factory DeletePresetResponse.fromJson(Map<String, dynamic> json) =>
       _$DeletePresetResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteQueueRequest {
+  /// The name of the queue that you want to delete.
+  @_s.JsonKey(name: 'name', ignore: true)
+  final String name;
+
+  DeleteQueueRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$DeleteQueueRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4217,16 +4557,36 @@ enum DescribeEndpointsMode {
   getOnly,
 }
 
-extension on DescribeEndpointsMode {
-  String toValue() {
-    switch (this) {
-      case DescribeEndpointsMode.$default:
-        return 'DEFAULT';
-      case DescribeEndpointsMode.getOnly:
-        return 'GET_ONLY';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+/// DescribeEndpointsRequest
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeEndpointsRequest {
+  /// Optional. Max number of endpoints, up to twenty, that will be returned at
+  /// one time.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// Optional field, defaults to DEFAULT. Specify DEFAULT for this operation to
+  /// return your endpoints if any exist, or to create an endpoint for you and
+  /// return it if one doesn't already exist. Specify GET_ONLY to return your
+  /// endpoints if any exist, or an empty list if none exist.
+  @_s.JsonKey(name: 'mode')
+  final DescribeEndpointsMode mode;
+
+  /// Use this string, provided with the response to a previous request, to
+  /// request the next batch of endpoints.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  DescribeEndpointsRequest({
+    this.maxResults,
+    this.mode,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeEndpointsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4270,6 +4630,23 @@ class DestinationSettings {
       _$DestinationSettingsFromJson(json);
 
   Map<String, dynamic> toJson() => _$DestinationSettingsToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateCertificateRequest {
+  /// The ARN of the ACM certificate that you want to disassociate from your
+  /// MediaConvert resource.
+  @_s.JsonKey(name: 'arn', ignore: true)
+  final String arn;
+
+  DisassociateCertificateRequest({
+    @_s.required this.arn,
+  });
+  Map<String, dynamic> toJson() => _$DisassociateCertificateRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -11821,18 +12198,6 @@ enum PricingPlan {
   reserved,
 }
 
-extension on PricingPlan {
-  String toValue() {
-    switch (this) {
-      case PricingPlan.onDemand:
-        return 'ON_DEMAND';
-      case PricingPlan.reserved:
-        return 'RESERVED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Use Profile (ProResCodecProfile) to specifiy the type of Apple ProRes codec
 /// to use for this output.
 enum ProresCodecProfile {
@@ -12144,18 +12509,6 @@ enum QueueStatus {
   active,
   @_s.JsonValue('PAUSED')
   paused,
-}
-
-extension on QueueStatus {
-  String toValue() {
-    switch (this) {
-      case QueueStatus.active:
-        return 'ACTIVE';
-      case QueueStatus.paused:
-        return 'PAUSED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Description of the source and destination queues between which the job has
@@ -12614,18 +12967,6 @@ enum SimulateReservedQueue {
   enabled,
 }
 
-extension on SimulateReservedQueue {
-  String toValue() {
-    switch (this) {
-      case SimulateReservedQueue.disabled:
-        return 'DISABLED';
-      case SimulateReservedQueue.enabled:
-        return 'ENABLED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// If your output group type is HLS, DASH, or Microsoft Smooth, use these
 /// settings when doing DRM encryption with a SPEKE-compliant key provider.  If
 /// your output group type is CMAF, use the SpekeKeyProviderCmaf settings
@@ -12803,42 +13144,27 @@ enum StatusUpdateInterval {
   seconds_600,
 }
 
-extension on StatusUpdateInterval {
-  String toValue() {
-    switch (this) {
-      case StatusUpdateInterval.seconds_10:
-        return 'SECONDS_10';
-      case StatusUpdateInterval.seconds_12:
-        return 'SECONDS_12';
-      case StatusUpdateInterval.seconds_15:
-        return 'SECONDS_15';
-      case StatusUpdateInterval.seconds_20:
-        return 'SECONDS_20';
-      case StatusUpdateInterval.seconds_30:
-        return 'SECONDS_30';
-      case StatusUpdateInterval.seconds_60:
-        return 'SECONDS_60';
-      case StatusUpdateInterval.seconds_120:
-        return 'SECONDS_120';
-      case StatusUpdateInterval.seconds_180:
-        return 'SECONDS_180';
-      case StatusUpdateInterval.seconds_240:
-        return 'SECONDS_240';
-      case StatusUpdateInterval.seconds_300:
-        return 'SECONDS_300';
-      case StatusUpdateInterval.seconds_360:
-        return 'SECONDS_360';
-      case StatusUpdateInterval.seconds_420:
-        return 'SECONDS_420';
-      case StatusUpdateInterval.seconds_480:
-        return 'SECONDS_480';
-      case StatusUpdateInterval.seconds_540:
-        return 'SECONDS_540';
-      case StatusUpdateInterval.seconds_600:
-        return 'SECONDS_600';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource that you want to tag. To get
+  /// the ARN, send a GET request with the resource name.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// The tags that you want to add to the resource. You can tag resources with a
+  /// key-value pair or with only a key.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  TagResourceRequest({
+    @_s.required this.arn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13207,12 +13533,102 @@ enum Type {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource that you want to remove tags
+  /// from. To get the ARN, send a GET request with the resource name.
+  @_s.JsonKey(name: 'arn', ignore: true)
+  final String arn;
+
+  /// The keys of the tags that you want to remove from the resource.
+  @_s.JsonKey(name: 'tagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.arn,
+    this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
   factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateJobTemplateRequest {
+  /// The name of the job template you are modifying
+  @_s.JsonKey(name: 'name', ignore: true)
+  final String name;
+
+  /// Accelerated transcoding can significantly speed up jobs with long, visually
+  /// complex content. Outputs that use this feature incur pro-tier pricing. For
+  /// information about feature limitations, see the AWS Elemental MediaConvert
+  /// User Guide.
+  @_s.JsonKey(name: 'accelerationSettings')
+  final AccelerationSettings accelerationSettings;
+
+  /// The new category for the job template, if you are changing it.
+  @_s.JsonKey(name: 'category')
+  final String category;
+
+  /// The new description for the job template, if you are changing it.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// Optional list of hop destinations.
+  @_s.JsonKey(name: 'hopDestinations')
+  final List<HopDestination> hopDestinations;
+
+  /// Specify the relative priority for this job. In any given queue, the service
+  /// begins processing the job with the highest value first. When more than one
+  /// job has the same priority, the service begins processing the job that you
+  /// submitted first. If you don't specify a priority, the service uses the
+  /// default value 0.
+  @_s.JsonKey(name: 'priority')
+  final int priority;
+
+  /// The new queue for the job template, if you are changing it.
+  @_s.JsonKey(name: 'queue')
+  final String queue;
+
+  /// JobTemplateSettings contains all the transcode settings saved in the
+  /// template that will be applied to jobs created from it.
+  @_s.JsonKey(name: 'settings')
+  final JobTemplateSettings settings;
+
+  /// Specify how often MediaConvert sends STATUS_UPDATE events to Amazon
+  /// CloudWatch Events. Set the interval, in seconds, between status updates.
+  /// MediaConvert sends an update at this interval from the time the service
+  /// begins processing your job to the time it completes the transcode or
+  /// encounters an error.
+  @_s.JsonKey(name: 'statusUpdateInterval')
+  final StatusUpdateInterval statusUpdateInterval;
+
+  UpdateJobTemplateRequest({
+    @_s.required this.name,
+    this.accelerationSettings,
+    this.category,
+    this.description,
+    this.hopDestinations,
+    this.priority,
+    this.queue,
+    this.settings,
+    this.statusUpdateInterval,
+  });
+  Map<String, dynamic> toJson() => _$UpdateJobTemplateRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13236,6 +13652,37 @@ class UpdateJobTemplateResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdatePresetRequest {
+  /// The name of the preset you are modifying.
+  @_s.JsonKey(name: 'name', ignore: true)
+  final String name;
+
+  /// The new category for the preset, if you are changing it.
+  @_s.JsonKey(name: 'category')
+  final String category;
+
+  /// The new description for the preset, if you are changing it.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// Settings for preset
+  @_s.JsonKey(name: 'settings')
+  final PresetSettings settings;
+
+  UpdatePresetRequest({
+    @_s.required this.name,
+    this.category,
+    this.description,
+    this.settings,
+  });
+  Map<String, dynamic> toJson() => _$UpdatePresetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdatePresetResponse {
@@ -13249,6 +13696,44 @@ class UpdatePresetResponse {
   });
   factory UpdatePresetResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdatePresetResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateQueueRequest {
+  /// The name of the queue that you are modifying.
+  @_s.JsonKey(name: 'name', ignore: true)
+  final String name;
+
+  /// The new description for the queue, if you are changing it.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The new details of your pricing plan for your reserved queue. When you set
+  /// up a new pricing plan to replace an expired one, you enter into another
+  /// 12-month commitment. When you add capacity to your queue by increasing the
+  /// number of RTS, you extend the term of your commitment to 12 months from when
+  /// you add capacity. After you make these commitments, you can't cancel them.
+  @_s.JsonKey(name: 'reservationPlanSettings')
+  final ReservationPlanSettings reservationPlanSettings;
+
+  /// Pause or activate a queue by changing its status between ACTIVE and PAUSED.
+  /// If you pause a queue, jobs in that queue won't begin. Jobs that are running
+  /// when you pause the queue continue to run until they finish or result in an
+  /// error.
+  @_s.JsonKey(name: 'status')
+  final QueueStatus status;
+
+  UpdateQueueRequest({
+    @_s.required this.name,
+    this.description,
+    this.reservationPlanSettings,
+    this.status,
+  });
+  Map<String, dynamic> toJson() => _$UpdateQueueRequestToJson(this);
 }
 
 @_s.JsonSerializable(

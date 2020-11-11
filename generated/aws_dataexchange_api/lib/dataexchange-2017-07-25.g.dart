@@ -114,6 +114,26 @@ Map<String, dynamic> _$AssetSourceEntryToJson(AssetSourceEntry instance) {
   return val;
 }
 
+Map<String, dynamic> _$CancelJobRequestToJson(CancelJobRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$CreateDataSetRequestToJson(
+    CreateDataSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AssetType', _$AssetTypeEnumMap[instance.assetType]);
+  writeNotNull('Description', instance.description);
+  writeNotNull('Name', instance.name);
+  writeNotNull('Tags', instance.tags);
+  return val;
+}
+
 CreateDataSetResponse _$CreateDataSetResponseFromJson(
     Map<String, dynamic> json) {
   return CreateDataSetResponse(
@@ -138,6 +158,27 @@ CreateDataSetResponse _$CreateDataSetResponseFromJson(
 const _$OriginEnumMap = {
   Origin.owned: 'OWNED',
   Origin.entitled: 'ENTITLED',
+};
+
+Map<String, dynamic> _$CreateJobRequestToJson(CreateJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Details', instance.details?.toJson());
+  writeNotNull('Type', _$TypeEnumMap[instance.type]);
+  return val;
+}
+
+const _$TypeEnumMap = {
+  Type.importAssetsFromS3: 'IMPORT_ASSETS_FROM_S3',
+  Type.importAssetFromSignedUrl: 'IMPORT_ASSET_FROM_SIGNED_URL',
+  Type.exportAssetsToS3: 'EXPORT_ASSETS_TO_S3',
+  Type.exportAssetToSignedUrl: 'EXPORT_ASSET_TO_SIGNED_URL',
 };
 
 CreateJobResponse _$CreateJobResponseFromJson(Map<String, dynamic> json) {
@@ -167,12 +208,20 @@ const _$StateEnumMap = {
   State.timedOut: 'TIMED_OUT',
 };
 
-const _$TypeEnumMap = {
-  Type.importAssetsFromS3: 'IMPORT_ASSETS_FROM_S3',
-  Type.importAssetFromSignedUrl: 'IMPORT_ASSET_FROM_SIGNED_URL',
-  Type.exportAssetsToS3: 'EXPORT_ASSETS_TO_S3',
-  Type.exportAssetToSignedUrl: 'EXPORT_ASSET_TO_SIGNED_URL',
-};
+Map<String, dynamic> _$CreateRevisionRequestToJson(
+    CreateRevisionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Comment', instance.comment);
+  writeNotNull('Tags', instance.tags);
+  return val;
+}
 
 CreateRevisionResponse _$CreateRevisionResponseFromJson(
     Map<String, dynamic> json) {
@@ -207,6 +256,17 @@ DataSetEntry _$DataSetEntryFromJson(Map<String, dynamic> json) {
     sourceId: json['SourceId'] as String,
   );
 }
+
+Map<String, dynamic> _$DeleteAssetRequestToJson(DeleteAssetRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteDataSetRequestToJson(
+        DeleteDataSetRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteRevisionRequestToJson(
+        DeleteRevisionRequest instance) =>
+    <String, dynamic>{};
 
 Details _$DetailsFromJson(Map<String, dynamic> json) {
   return Details(
@@ -591,8 +651,41 @@ S3SnapshotAsset _$S3SnapshotAssetFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$StartJobRequestToJson(StartJobRequest instance) =>
+    <String, dynamic>{};
+
 StartJobResponse _$StartJobResponseFromJson(Map<String, dynamic> json) {
   return StartJobResponse();
+}
+
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
+Map<String, dynamic> _$UntagResourceRequestToJson(
+        UntagResourceRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$UpdateAssetRequestToJson(UpdateAssetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
 }
 
 UpdateAssetResponse _$UpdateAssetResponseFromJson(Map<String, dynamic> json) {
@@ -612,6 +705,21 @@ UpdateAssetResponse _$UpdateAssetResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$UpdateDataSetRequestToJson(
+    UpdateDataSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Description', instance.description);
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
 UpdateDataSetResponse _$UpdateDataSetResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateDataSetResponse(
@@ -628,6 +736,21 @@ UpdateDataSetResponse _$UpdateDataSetResponseFromJson(
     sourceId: json['SourceId'] as String,
     updatedAt: iso8601FromJson(json['UpdatedAt'] as String),
   );
+}
+
+Map<String, dynamic> _$UpdateRevisionRequestToJson(
+    UpdateRevisionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Comment', instance.comment);
+  writeNotNull('Finalized', instance.finalized);
+  return val;
 }
 
 UpdateRevisionResponse _$UpdateRevisionResponseFromJson(

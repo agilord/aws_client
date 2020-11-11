@@ -176,6 +176,20 @@ ConversationLogsResponse _$ConversationLogsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateBotVersionRequestToJson(
+    CreateBotVersionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('checksum', instance.checksum);
+  return val;
+}
+
 CreateBotVersionResponse _$CreateBotVersionResponseFromJson(
     Map<String, dynamic> json) {
   return CreateBotVersionResponse(
@@ -210,6 +224,20 @@ const _$LocaleEnumMap = {
   Locale.enGb: 'en-GB',
   Locale.deDe: 'de-DE',
 };
+
+Map<String, dynamic> _$CreateIntentVersionRequestToJson(
+    CreateIntentVersionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('checksum', instance.checksum);
+  return val;
+}
 
 CreateIntentVersionResponse _$CreateIntentVersionResponseFromJson(
     Map<String, dynamic> json) {
@@ -252,6 +280,20 @@ CreateIntentVersionResponse _$CreateIntentVersionResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateSlotTypeVersionRequestToJson(
+    CreateSlotTypeVersionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('checksum', instance.checksum);
+  return val;
+}
+
 CreateSlotTypeVersionResponse _$CreateSlotTypeVersionResponseFromJson(
     Map<String, dynamic> json) {
   return CreateSlotTypeVersionResponse(
@@ -281,6 +323,41 @@ const _$SlotValueSelectionStrategyEnumMap = {
   SlotValueSelectionStrategy.originalValue: 'ORIGINAL_VALUE',
   SlotValueSelectionStrategy.topResolution: 'TOP_RESOLUTION',
 };
+
+Map<String, dynamic> _$DeleteBotAliasRequestToJson(
+        DeleteBotAliasRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteBotChannelAssociationRequestToJson(
+        DeleteBotChannelAssociationRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteBotRequestToJson(DeleteBotRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteBotVersionRequestToJson(
+        DeleteBotVersionRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteIntentRequestToJson(
+        DeleteIntentRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteIntentVersionRequestToJson(
+        DeleteIntentVersionRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteSlotTypeRequestToJson(
+        DeleteSlotTypeRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteSlotTypeVersionRequestToJson(
+        DeleteSlotTypeVersionRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteUtterancesRequestToJson(
+        DeleteUtterancesRequest instance) =>
+    <String, dynamic>{};
 
 EnumerationValue _$EnumerationValueFromJson(Map<String, dynamic> json) {
   return EnumerationValue(
@@ -815,6 +892,23 @@ Map<String, dynamic> _$PromptToJson(Prompt instance) {
   return val;
 }
 
+Map<String, dynamic> _$PutBotAliasRequestToJson(PutBotAliasRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('botVersion', instance.botVersion);
+  writeNotNull('checksum', instance.checksum);
+  writeNotNull('conversationLogs', instance.conversationLogs?.toJson());
+  writeNotNull('description', instance.description);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 PutBotAliasResponse _$PutBotAliasResponseFromJson(Map<String, dynamic> json) {
   return PutBotAliasResponse(
     botName: json['botName'] as String,
@@ -833,6 +927,37 @@ PutBotAliasResponse _$PutBotAliasResponseFromJson(Map<String, dynamic> json) {
         ?.toList(),
   );
 }
+
+Map<String, dynamic> _$PutBotRequestToJson(PutBotRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('childDirected', instance.childDirected);
+  writeNotNull('locale', _$LocaleEnumMap[instance.locale]);
+  writeNotNull('abortStatement', instance.abortStatement?.toJson());
+  writeNotNull('checksum', instance.checksum);
+  writeNotNull('clarificationPrompt', instance.clarificationPrompt?.toJson());
+  writeNotNull('createVersion', instance.createVersion);
+  writeNotNull('description', instance.description);
+  writeNotNull('detectSentiment', instance.detectSentiment);
+  writeNotNull('idleSessionTTLInSeconds', instance.idleSessionTTLInSeconds);
+  writeNotNull('intents', instance.intents?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'processBehavior', _$ProcessBehaviorEnumMap[instance.processBehavior]);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('voiceId', instance.voiceId);
+  return val;
+}
+
+const _$ProcessBehaviorEnumMap = {
+  ProcessBehavior.save: 'SAVE',
+  ProcessBehavior.build: 'BUILD',
+};
 
 PutBotResponse _$PutBotResponseFromJson(Map<String, dynamic> json) {
   return PutBotResponse(
@@ -864,6 +989,30 @@ PutBotResponse _$PutBotResponseFromJson(Map<String, dynamic> json) {
     version: json['version'] as String,
     voiceId: json['voiceId'] as String,
   );
+}
+
+Map<String, dynamic> _$PutIntentRequestToJson(PutIntentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('checksum', instance.checksum);
+  writeNotNull('conclusionStatement', instance.conclusionStatement?.toJson());
+  writeNotNull('confirmationPrompt', instance.confirmationPrompt?.toJson());
+  writeNotNull('createVersion', instance.createVersion);
+  writeNotNull('description', instance.description);
+  writeNotNull('dialogCodeHook', instance.dialogCodeHook?.toJson());
+  writeNotNull('followUpPrompt', instance.followUpPrompt?.toJson());
+  writeNotNull('fulfillmentActivity', instance.fulfillmentActivity?.toJson());
+  writeNotNull('parentIntentSignature', instance.parentIntentSignature);
+  writeNotNull('rejectionStatement', instance.rejectionStatement?.toJson());
+  writeNotNull('sampleUtterances', instance.sampleUtterances);
+  writeNotNull('slots', instance.slots?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 PutIntentResponse _$PutIntentResponseFromJson(Map<String, dynamic> json) {
@@ -905,6 +1054,28 @@ PutIntentResponse _$PutIntentResponseFromJson(Map<String, dynamic> json) {
         ?.toList(),
     version: json['version'] as String,
   );
+}
+
+Map<String, dynamic> _$PutSlotTypeRequestToJson(PutSlotTypeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('checksum', instance.checksum);
+  writeNotNull('createVersion', instance.createVersion);
+  writeNotNull('description', instance.description);
+  writeNotNull('enumerationValues',
+      instance.enumerationValues?.map((e) => e?.toJson())?.toList());
+  writeNotNull('parentSlotTypeSignature', instance.parentSlotTypeSignature);
+  writeNotNull('slotTypeConfigurations',
+      instance.slotTypeConfigurations?.map((e) => e?.toJson())?.toList());
+  writeNotNull('valueSelectionStrategy',
+      _$SlotValueSelectionStrategyEnumMap[instance.valueSelectionStrategy]);
+  return val;
 }
 
 PutSlotTypeResponse _$PutSlotTypeResponseFromJson(Map<String, dynamic> json) {
@@ -1043,6 +1214,22 @@ Map<String, dynamic> _$SlotTypeRegexConfigurationToJson(
   return val;
 }
 
+Map<String, dynamic> _$StartImportRequestToJson(StartImportRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('mergeStrategy', _$MergeStrategyEnumMap[instance.mergeStrategy]);
+  writeNotNull('payload', const Uint8ListConverter().toJson(instance.payload));
+  writeNotNull('resourceType', _$ResourceTypeEnumMap[instance.resourceType]);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 StartImportResponse _$StartImportResponseFromJson(Map<String, dynamic> json) {
   return StartImportResponse(
     createdDate: unixTimestampFromJson(json['createdDate']),
@@ -1106,9 +1293,26 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
   return val;
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
 }
+
+Map<String, dynamic> _$UntagResourceRequestToJson(
+        UntagResourceRequest instance) =>
+    <String, dynamic>{};
 
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {

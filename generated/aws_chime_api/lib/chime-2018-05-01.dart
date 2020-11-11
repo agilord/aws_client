@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -114,9 +113,11 @@ class Chime {
       isRequired: true,
     );
     ArgumentError.checkNotNull(userId, 'userId');
-    final $payload = <String, dynamic>{
-      'E164PhoneNumber': e164PhoneNumber,
-    };
+    final $payload = AssociatePhoneNumberWithUserRequest(
+      accountId: accountId,
+      e164PhoneNumber: e164PhoneNumber,
+      userId: userId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -162,10 +163,11 @@ class Chime {
       r'''.*\S.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (e164PhoneNumbers != null) 'E164PhoneNumbers': e164PhoneNumbers,
-      if (forceAssociate != null) 'ForceAssociate': forceAssociate,
-    };
+    final $payload = AssociatePhoneNumbersWithVoiceConnectorRequest(
+      voiceConnectorId: voiceConnectorId,
+      e164PhoneNumbers: e164PhoneNumbers,
+      forceAssociate: forceAssociate,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -212,10 +214,11 @@ class Chime {
       r'''.*\S.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (e164PhoneNumbers != null) 'E164PhoneNumbers': e164PhoneNumbers,
-      if (forceAssociate != null) 'ForceAssociate': forceAssociate,
-    };
+    final $payload = AssociatePhoneNumbersWithVoiceConnectorGroupRequest(
+      voiceConnectorGroupId: voiceConnectorGroupId,
+      e164PhoneNumbers: e164PhoneNumbers,
+      forceAssociate: forceAssociate,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -255,9 +258,10 @@ class Chime {
       isRequired: true,
     );
     ArgumentError.checkNotNull(signinDelegateGroups, 'signinDelegateGroups');
-    final $payload = <String, dynamic>{
-      'SigninDelegateGroups': signinDelegateGroups,
-    };
+    final $payload = AssociateSigninDelegateGroupsWithAccountRequest(
+      accountId: accountId,
+      signinDelegateGroups: signinDelegateGroups,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -299,9 +303,10 @@ class Chime {
       r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'Attendees': attendees,
-    };
+    final $payload = BatchCreateAttendeeRequest(
+      attendees: attendees,
+      meetingId: meetingId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -353,9 +358,11 @@ class Chime {
       r'''.*\S.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'MembershipItemList': membershipItemList,
-    };
+    final $payload = BatchCreateRoomMembershipRequest(
+      accountId: accountId,
+      membershipItemList: membershipItemList,
+      roomId: roomId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -387,9 +394,9 @@ class Chime {
     @_s.required List<String> phoneNumberIds,
   }) async {
     ArgumentError.checkNotNull(phoneNumberIds, 'phoneNumberIds');
-    final $payload = <String, dynamic>{
-      'PhoneNumberIds': phoneNumberIds,
-    };
+    final $payload = BatchDeletePhoneNumberRequest(
+      phoneNumberIds: phoneNumberIds,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -445,9 +452,10 @@ class Chime {
       isRequired: true,
     );
     ArgumentError.checkNotNull(userIdList, 'userIdList');
-    final $payload = <String, dynamic>{
-      'UserIdList': userIdList,
-    };
+    final $payload = BatchSuspendUserRequest(
+      accountId: accountId,
+      userIdList: userIdList,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -495,9 +503,10 @@ class Chime {
       isRequired: true,
     );
     ArgumentError.checkNotNull(userIdList, 'userIdList');
-    final $payload = <String, dynamic>{
-      'UserIdList': userIdList,
-    };
+    final $payload = BatchUnsuspendUserRequest(
+      accountId: accountId,
+      userIdList: userIdList,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -537,9 +546,9 @@ class Chime {
   }) async {
     ArgumentError.checkNotNull(
         updatePhoneNumberRequestItems, 'updatePhoneNumberRequestItems');
-    final $payload = <String, dynamic>{
-      'UpdatePhoneNumberRequestItems': updatePhoneNumberRequestItems,
-    };
+    final $payload = BatchUpdatePhoneNumberRequest(
+      updatePhoneNumberRequestItems: updatePhoneNumberRequestItems,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -579,9 +588,10 @@ class Chime {
     );
     ArgumentError.checkNotNull(
         updateUserRequestItems, 'updateUserRequestItems');
-    final $payload = <String, dynamic>{
-      'UpdateUserRequestItems': updateUserRequestItems,
-    };
+    final $payload = BatchUpdateUserRequest(
+      accountId: accountId,
+      updateUserRequestItems: updateUserRequestItems,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -626,9 +636,9 @@ class Chime {
       r'''.*\S.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'Name': name,
-    };
+    final $payload = CreateAccountRequest(
+      name: name,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -681,10 +691,11 @@ class Chime {
       r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'ExternalUserId': externalUserId,
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = CreateAttendeeRequest(
+      externalUserId: externalUserId,
+      meetingId: meetingId,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -732,10 +743,11 @@ class Chime {
       domain,
       r'''.*\S.*''',
     );
-    final $payload = <String, dynamic>{
-      'DisplayName': displayName,
-      if (domain != null) 'Domain': domain,
-    };
+    final $payload = CreateBotRequest(
+      accountId: accountId,
+      displayName: displayName,
+      domain: domain,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -818,15 +830,14 @@ class Chime {
       2,
       64,
     );
-    final $payload = <String, dynamic>{
-      'ClientRequestToken': clientRequestToken,
-      if (externalMeetingId != null) 'ExternalMeetingId': externalMeetingId,
-      if (mediaRegion != null) 'MediaRegion': mediaRegion,
-      if (meetingHostId != null) 'MeetingHostId': meetingHostId,
-      if (notificationsConfiguration != null)
-        'NotificationsConfiguration': notificationsConfiguration,
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = CreateMeetingRequest(
+      clientRequestToken: clientRequestToken,
+      externalMeetingId: externalMeetingId,
+      mediaRegion: mediaRegion,
+      meetingHostId: meetingHostId,
+      notificationsConfiguration: notificationsConfiguration,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -861,10 +872,10 @@ class Chime {
   }) async {
     ArgumentError.checkNotNull(e164PhoneNumbers, 'e164PhoneNumbers');
     ArgumentError.checkNotNull(productType, 'productType');
-    final $payload = <String, dynamic>{
-      'E164PhoneNumbers': e164PhoneNumbers,
-      'ProductType': productType?.toValue(),
-    };
+    final $payload = CreatePhoneNumberOrderRequest(
+      e164PhoneNumbers: e164PhoneNumbers,
+      productType: productType,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -948,16 +959,16 @@ class Chime {
       name,
       r'''^$|^[a-zA-Z0-9 ]{0,30}$''',
     );
-    final $payload = <String, dynamic>{
-      'Capabilities': capabilities,
-      'ParticipantPhoneNumbers': participantPhoneNumbers,
-      if (expiryMinutes != null) 'ExpiryMinutes': expiryMinutes,
-      if (geoMatchLevel != null) 'GeoMatchLevel': geoMatchLevel?.toValue(),
-      if (geoMatchParams != null) 'GeoMatchParams': geoMatchParams,
-      if (name != null) 'Name': name,
-      if (numberSelectionBehavior != null)
-        'NumberSelectionBehavior': numberSelectionBehavior?.toValue(),
-    };
+    final $payload = CreateProxySessionRequest(
+      capabilities: capabilities,
+      participantPhoneNumbers: participantPhoneNumbers,
+      voiceConnectorId: voiceConnectorId,
+      expiryMinutes: expiryMinutes,
+      geoMatchLevel: geoMatchLevel,
+      geoMatchParams: geoMatchParams,
+      name: name,
+      numberSelectionBehavior: numberSelectionBehavior,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1011,10 +1022,11 @@ class Chime {
       clientRequestToken,
       r'''[-_a-zA-Z0-9]*''',
     );
-    final $payload = <String, dynamic>{
-      'Name': name,
-      if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
-    };
+    final $payload = CreateRoomRequest(
+      accountId: accountId,
+      name: name,
+      clientRequestToken: clientRequestToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1077,10 +1089,12 @@ class Chime {
       r'''.*\S.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'MemberId': memberId,
-      if (role != null) 'Role': role?.toValue(),
-    };
+    final $payload = CreateRoomMembershipRequest(
+      accountId: accountId,
+      memberId: memberId,
+      roomId: roomId,
+      role: role,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1131,11 +1145,12 @@ class Chime {
       email,
       r'''.+@.+\..+''',
     );
-    final $payload = <String, dynamic>{
-      if (email != null) 'Email': email,
-      if (userType != null) 'UserType': userType?.toValue(),
-      if (username != null) 'Username': username,
-    };
+    final $payload = CreateUserRequest(
+      accountId: accountId,
+      email: email,
+      userType: userType,
+      username: username,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1187,11 +1202,11 @@ class Chime {
       isRequired: true,
     );
     ArgumentError.checkNotNull(requireEncryption, 'requireEncryption');
-    final $payload = <String, dynamic>{
-      'Name': name,
-      'RequireEncryption': requireEncryption,
-      if (awsRegion != null) 'AwsRegion': awsRegion?.toValue(),
-    };
+    final $payload = CreateVoiceConnectorRequest(
+      name: name,
+      requireEncryption: requireEncryption,
+      awsRegion: awsRegion,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1236,11 +1251,10 @@ class Chime {
       256,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'Name': name,
-      if (voiceConnectorItems != null)
-        'VoiceConnectorItems': voiceConnectorItems,
-    };
+    final $payload = CreateVoiceConnectorGroupRequest(
+      name: name,
+      voiceConnectorItems: voiceConnectorItems,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1287,7 +1301,9 @@ class Chime {
       r'''.*\S.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteAccountRequest(
+      accountId: accountId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1335,7 +1351,10 @@ class Chime {
       r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteAttendeeRequest(
+      attendeeId: attendeeId,
+      meetingId: meetingId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1378,7 +1397,10 @@ class Chime {
       r'''.*\S.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteEventsConfigurationRequest(
+      accountId: accountId,
+      botId: botId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1414,7 +1436,9 @@ class Chime {
       r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteMeetingRequest(
+      meetingId: meetingId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1444,7 +1468,9 @@ class Chime {
     @_s.required String phoneNumberId,
   }) async {
     ArgumentError.checkNotNull(phoneNumberId, 'phoneNumberId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeletePhoneNumberRequest(
+      phoneNumberId: phoneNumberId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1502,7 +1528,10 @@ class Chime {
       r'''.*\S.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteProxySessionRequest(
+      proxySessionId: proxySessionId,
+      voiceConnectorId: voiceConnectorId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1545,7 +1574,10 @@ class Chime {
       r'''.*\S.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteRoomRequest(
+      accountId: accountId,
+      roomId: roomId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1599,7 +1631,11 @@ class Chime {
       r'''.*\S.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteRoomMembershipRequest(
+      accountId: accountId,
+      memberId: memberId,
+      roomId: roomId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1634,7 +1670,9 @@ class Chime {
       r'''.*\S.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteVoiceConnectorRequest(
+      voiceConnectorId: voiceConnectorId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1669,7 +1707,9 @@ class Chime {
       r'''.*\S.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteVoiceConnectorGroupRequest(
+      voiceConnectorGroupId: voiceConnectorGroupId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1702,7 +1742,9 @@ class Chime {
       r'''.*\S.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteVoiceConnectorOriginationRequest(
+      voiceConnectorId: voiceConnectorId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1742,7 +1784,9 @@ class Chime {
       r'''.*\S.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteVoiceConnectorProxyRequest(
+      voiceConnectorId: voiceConnectorId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1775,7 +1819,9 @@ class Chime {
       r'''.*\S.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteVoiceConnectorStreamingConfigurationRequest(
+      voiceConnectorId: voiceConnectorId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1808,7 +1854,9 @@ class Chime {
       r'''.*\S.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteVoiceConnectorTerminationRequest(
+      voiceConnectorId: voiceConnectorId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1846,9 +1894,10 @@ class Chime {
       r'''.*\S.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (usernames != null) 'Usernames': usernames,
-    };
+    final $payload = DeleteVoiceConnectorTerminationCredentialsRequest(
+      voiceConnectorId: voiceConnectorId,
+      usernames: usernames,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1880,7 +1929,10 @@ class Chime {
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(userId, 'userId');
-    final $payload = <String, dynamic>{};
+    final $payload = DisassociatePhoneNumberFromUserRequest(
+      accountId: accountId,
+      userId: userId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1919,9 +1971,10 @@ class Chime {
       r'''.*\S.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (e164PhoneNumbers != null) 'E164PhoneNumbers': e164PhoneNumbers,
-    };
+    final $payload = DisassociatePhoneNumbersFromVoiceConnectorRequest(
+      voiceConnectorId: voiceConnectorId,
+      e164PhoneNumbers: e164PhoneNumbers,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1961,9 +2014,10 @@ class Chime {
       r'''.*\S.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (e164PhoneNumbers != null) 'E164PhoneNumbers': e164PhoneNumbers,
-    };
+    final $payload = DisassociatePhoneNumbersFromVoiceConnectorGroupRequest(
+      voiceConnectorGroupId: voiceConnectorGroupId,
+      e164PhoneNumbers: e164PhoneNumbers,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2003,9 +2057,10 @@ class Chime {
       isRequired: true,
     );
     ArgumentError.checkNotNull(groupNames, 'groupNames');
-    final $payload = <String, dynamic>{
-      'GroupNames': groupNames,
-    };
+    final $payload = DisassociateSigninDelegateGroupsFromAccountRequest(
+      accountId: accountId,
+      groupNames: groupNames,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2844,10 +2899,11 @@ class Chime {
       isRequired: true,
     );
     ArgumentError.checkNotNull(userEmailList, 'userEmailList');
-    final $payload = <String, dynamic>{
-      'UserEmailList': userEmailList,
-      if (userType != null) 'UserType': userType?.toValue(),
-    };
+    final $payload = InviteUsersRequest(
+      accountId: accountId,
+      userEmailList: userEmailList,
+      userType: userType,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -3691,7 +3747,10 @@ class Chime {
       r'''.*\S.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = LogoutUserRequest(
+      accountId: accountId,
+      userId: userId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -3745,11 +3804,12 @@ class Chime {
       r'''.*\S.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (lambdaFunctionArn != null) 'LambdaFunctionArn': lambdaFunctionArn,
-      if (outboundEventsHTTPSEndpoint != null)
-        'OutboundEventsHTTPSEndpoint': outboundEventsHTTPSEndpoint,
-    };
+    final $payload = PutEventsConfigurationRequest(
+      accountId: accountId,
+      botId: botId,
+      lambdaFunctionArn: lambdaFunctionArn,
+      outboundEventsHTTPSEndpoint: outboundEventsHTTPSEndpoint,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -3790,9 +3850,10 @@ class Chime {
       r'''.*\S.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'LoggingConfiguration': loggingConfiguration,
-    };
+    final $payload = PutVoiceConnectorLoggingConfigurationRequest(
+      loggingConfiguration: loggingConfiguration,
+      voiceConnectorId: voiceConnectorId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -3830,9 +3891,10 @@ class Chime {
       r'''.*\S.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'Origination': origination,
-    };
+    final $payload = PutVoiceConnectorOriginationRequest(
+      origination: origination,
+      voiceConnectorId: voiceConnectorId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -3900,13 +3962,13 @@ class Chime {
       fallBackPhoneNumber,
       r'''^\+?[1-9]\d{1,14}$''',
     );
-    final $payload = <String, dynamic>{
-      'DefaultSessionExpiryMinutes': defaultSessionExpiryMinutes,
-      'PhoneNumberPoolCountries': phoneNumberPoolCountries,
-      if (disabled != null) 'Disabled': disabled,
-      if (fallBackPhoneNumber != null)
-        'FallBackPhoneNumber': fallBackPhoneNumber,
-    };
+    final $payload = PutVoiceConnectorProxyRequest(
+      defaultSessionExpiryMinutes: defaultSessionExpiryMinutes,
+      phoneNumberPoolCountries: phoneNumberPoolCountries,
+      voiceConnectorId: voiceConnectorId,
+      disabled: disabled,
+      fallBackPhoneNumber: fallBackPhoneNumber,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -3949,9 +4011,10 @@ class Chime {
       r'''.*\S.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'StreamingConfiguration': streamingConfiguration,
-    };
+    final $payload = PutVoiceConnectorStreamingConfigurationRequest(
+      streamingConfiguration: streamingConfiguration,
+      voiceConnectorId: voiceConnectorId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -3990,9 +4053,10 @@ class Chime {
       r'''.*\S.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'Termination': termination,
-    };
+    final $payload = PutVoiceConnectorTerminationRequest(
+      termination: termination,
+      voiceConnectorId: voiceConnectorId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -4030,9 +4094,10 @@ class Chime {
       r'''.*\S.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (credentials != null) 'Credentials': credentials,
-    };
+    final $payload = PutVoiceConnectorTerminationCredentialsRequest(
+      voiceConnectorId: voiceConnectorId,
+      credentials: credentials,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -4075,7 +4140,10 @@ class Chime {
       r'''.*\S.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = RegenerateSecurityTokenRequest(
+      accountId: accountId,
+      botId: botId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -4121,7 +4189,10 @@ class Chime {
       r'''.*\S.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = ResetPersonalPINRequest(
+      accountId: accountId,
+      userId: userId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -4156,7 +4227,9 @@ class Chime {
       r'''.*\S.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = RestorePhoneNumberRequest(
+      phoneNumberId: phoneNumberId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -4282,9 +4355,11 @@ class Chime {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'Tags': tags,
-    };
+    final $payload = TagAttendeeRequest(
+      attendeeId: attendeeId,
+      meetingId: meetingId,
+      tags: tags,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -4322,9 +4397,10 @@ class Chime {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'Tags': tags,
-    };
+    final $payload = TagMeetingRequest(
+      meetingId: meetingId,
+      tags: tags,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -4368,10 +4444,10 @@ class Chime {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'ResourceARN': resourceARN,
-      'Tags': tags,
-    };
+    final $payload = TagResourceRequest(
+      resourceARN: resourceARN,
+      tags: tags,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -4418,9 +4494,11 @@ class Chime {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    final $payload = <String, dynamic>{
-      'TagKeys': tagKeys,
-    };
+    final $payload = UntagAttendeeRequest(
+      attendeeId: attendeeId,
+      meetingId: meetingId,
+      tagKeys: tagKeys,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -4457,9 +4535,10 @@ class Chime {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    final $payload = <String, dynamic>{
-      'TagKeys': tagKeys,
-    };
+    final $payload = UntagMeetingRequest(
+      meetingId: meetingId,
+      tagKeys: tagKeys,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -4503,10 +4582,10 @@ class Chime {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    final $payload = <String, dynamic>{
-      'ResourceARN': resourceARN,
-      'TagKeys': tagKeys,
-    };
+    final $payload = UntagResourceRequest(
+      resourceARN: resourceARN,
+      tagKeys: tagKeys,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -4553,9 +4632,10 @@ class Chime {
       name,
       r'''.*\S.*''',
     );
-    final $payload = <String, dynamic>{
-      if (name != null) 'Name': name,
-    };
+    final $payload = UpdateAccountRequest(
+      accountId: accountId,
+      name: name,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -4597,9 +4677,10 @@ class Chime {
       isRequired: true,
     );
     ArgumentError.checkNotNull(accountSettings, 'accountSettings');
-    final $payload = <String, dynamic>{
-      'AccountSettings': accountSettings,
-    };
+    final $payload = UpdateAccountSettingsRequest(
+      accountId: accountId,
+      accountSettings: accountSettings,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -4648,9 +4729,11 @@ class Chime {
       r'''.*\S.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (disabled != null) 'Disabled': disabled,
-    };
+    final $payload = UpdateBotRequest(
+      accountId: accountId,
+      botId: botId,
+      disabled: disabled,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -4682,10 +4765,10 @@ class Chime {
   }) async {
     ArgumentError.checkNotNull(businessCalling, 'businessCalling');
     ArgumentError.checkNotNull(voiceConnector, 'voiceConnector');
-    final $payload = <String, dynamic>{
-      'BusinessCalling': businessCalling,
-      'VoiceConnector': voiceConnector,
-    };
+    final $payload = UpdateGlobalSettingsRequest(
+      businessCalling: businessCalling,
+      voiceConnector: voiceConnector,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -4733,10 +4816,11 @@ class Chime {
       callingName,
       r'''^$|^[a-zA-Z0-9 ]{2,15}$''',
     );
-    final $payload = <String, dynamic>{
-      if (callingName != null) 'CallingName': callingName,
-      if (productType != null) 'ProductType': productType?.toValue(),
-    };
+    final $payload = UpdatePhoneNumberRequest(
+      phoneNumberId: phoneNumberId,
+      callingName: callingName,
+      productType: productType,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -4771,9 +4855,9 @@ class Chime {
       r'''^$|^[a-zA-Z0-9 ]{2,15}$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'CallingName': callingName,
-    };
+    final $payload = UpdatePhoneNumberSettingsRequest(
+      callingName: callingName,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -4845,10 +4929,12 @@ class Chime {
       1,
       1152921504606846976,
     );
-    final $payload = <String, dynamic>{
-      'Capabilities': capabilities,
-      if (expiryMinutes != null) 'ExpiryMinutes': expiryMinutes,
-    };
+    final $payload = UpdateProxySessionRequest(
+      capabilities: capabilities,
+      proxySessionId: proxySessionId,
+      voiceConnectorId: voiceConnectorId,
+      expiryMinutes: expiryMinutes,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -4897,9 +4983,11 @@ class Chime {
       r'''.*\S.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (name != null) 'Name': name,
-    };
+    final $payload = UpdateRoomRequest(
+      accountId: accountId,
+      roomId: roomId,
+      name: name,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -4961,9 +5049,12 @@ class Chime {
       r'''.*\S.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (role != null) 'Role': role?.toValue(),
-    };
+    final $payload = UpdateRoomMembershipRequest(
+      accountId: accountId,
+      memberId: memberId,
+      roomId: roomId,
+      role: role,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -5021,12 +5112,13 @@ class Chime {
       r'''.*\S.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (alexaForBusinessMetadata != null)
-        'AlexaForBusinessMetadata': alexaForBusinessMetadata,
-      if (licenseType != null) 'LicenseType': licenseType?.toValue(),
-      if (userType != null) 'UserType': userType?.toValue(),
-    };
+    final $payload = UpdateUserRequest(
+      accountId: accountId,
+      userId: userId,
+      alexaForBusinessMetadata: alexaForBusinessMetadata,
+      licenseType: licenseType,
+      userType: userType,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -5064,9 +5156,11 @@ class Chime {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(userId, 'userId');
     ArgumentError.checkNotNull(userSettings, 'userSettings');
-    final $payload = <String, dynamic>{
-      'UserSettings': userSettings,
-    };
+    final $payload = UpdateUserSettingsRequest(
+      accountId: accountId,
+      userId: userId,
+      userSettings: userSettings,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -5115,10 +5209,11 @@ class Chime {
       r'''.*\S.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'Name': name,
-      'RequireEncryption': requireEncryption,
-    };
+    final $payload = UpdateVoiceConnectorRequest(
+      name: name,
+      requireEncryption: requireEncryption,
+      voiceConnectorId: voiceConnectorId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -5170,10 +5265,11 @@ class Chime {
       isRequired: true,
     );
     ArgumentError.checkNotNull(voiceConnectorItems, 'voiceConnectorItems');
-    final $payload = <String, dynamic>{
-      'Name': name,
-      'VoiceConnectorItems': voiceConnectorItems,
-    };
+    final $payload = UpdateVoiceConnectorGroupRequest(
+      name: name,
+      voiceConnectorGroupId: voiceConnectorGroupId,
+      voiceConnectorItems: voiceConnectorItems,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -5320,6 +5416,33 @@ class AlexaForBusinessMetadata {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociatePhoneNumberWithUserRequest {
+  /// The Amazon Chime account ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  /// The phone number, in E.164 format.
+  @_s.JsonKey(name: 'E164PhoneNumber')
+  final String e164PhoneNumber;
+
+  /// The user ID.
+  @_s.JsonKey(name: 'userId', ignore: true)
+  final String userId;
+
+  AssociatePhoneNumberWithUserRequest({
+    @_s.required this.accountId,
+    @_s.required this.e164PhoneNumber,
+    @_s.required this.userId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AssociatePhoneNumberWithUserRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AssociatePhoneNumberWithUserResponse {
@@ -5327,6 +5450,36 @@ class AssociatePhoneNumberWithUserResponse {
   factory AssociatePhoneNumberWithUserResponse.fromJson(
           Map<String, dynamic> json) =>
       _$AssociatePhoneNumberWithUserResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociatePhoneNumbersWithVoiceConnectorGroupRequest {
+  /// The Amazon Chime Voice Connector group ID.
+  @_s.JsonKey(name: 'voiceConnectorGroupId', ignore: true)
+  final String voiceConnectorGroupId;
+
+  /// List of phone numbers, in E.164 format.
+  @_s.JsonKey(name: 'E164PhoneNumbers')
+  final List<String> e164PhoneNumbers;
+
+  /// If true, associates the provided phone numbers with the provided Amazon
+  /// Chime Voice Connector Group and removes any previously existing
+  /// associations. If false, does not associate any phone numbers that have
+  /// previously existing associations.
+  @_s.JsonKey(name: 'ForceAssociate')
+  final bool forceAssociate;
+
+  AssociatePhoneNumbersWithVoiceConnectorGroupRequest({
+    @_s.required this.voiceConnectorGroupId,
+    this.e164PhoneNumbers,
+    this.forceAssociate,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AssociatePhoneNumbersWithVoiceConnectorGroupRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5352,6 +5505,36 @@ class AssociatePhoneNumbersWithVoiceConnectorGroupResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociatePhoneNumbersWithVoiceConnectorRequest {
+  /// The Amazon Chime Voice Connector ID.
+  @_s.JsonKey(name: 'voiceConnectorId', ignore: true)
+  final String voiceConnectorId;
+
+  /// List of phone numbers, in E.164 format.
+  @_s.JsonKey(name: 'E164PhoneNumbers')
+  final List<String> e164PhoneNumbers;
+
+  /// If true, associates the provided phone numbers with the provided Amazon
+  /// Chime Voice Connector and removes any previously existing associations. If
+  /// false, does not associate any phone numbers that have previously existing
+  /// associations.
+  @_s.JsonKey(name: 'ForceAssociate')
+  final bool forceAssociate;
+
+  AssociatePhoneNumbersWithVoiceConnectorRequest({
+    @_s.required this.voiceConnectorId,
+    this.e164PhoneNumbers,
+    this.forceAssociate,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AssociatePhoneNumbersWithVoiceConnectorRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AssociatePhoneNumbersWithVoiceConnectorResponse {
@@ -5367,6 +5550,28 @@ class AssociatePhoneNumbersWithVoiceConnectorResponse {
   factory AssociatePhoneNumbersWithVoiceConnectorResponse.fromJson(
           Map<String, dynamic> json) =>
       _$AssociatePhoneNumbersWithVoiceConnectorResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateSigninDelegateGroupsWithAccountRequest {
+  /// The Amazon Chime account ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  /// The sign-in delegate groups.
+  @_s.JsonKey(name: 'SigninDelegateGroups')
+  final List<SigninDelegateGroup> signinDelegateGroups;
+
+  AssociateSigninDelegateGroupsWithAccountRequest({
+    @_s.required this.accountId,
+    @_s.required this.signinDelegateGroups,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AssociateSigninDelegateGroupsWithAccountRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5422,6 +5627,27 @@ class Attendee {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchCreateAttendeeRequest {
+  /// The request containing the attendees to create.
+  @_s.JsonKey(name: 'Attendees')
+  final List<CreateAttendeeRequestItem> attendees;
+
+  /// The Amazon Chime SDK meeting ID.
+  @_s.JsonKey(name: 'meetingId', ignore: true)
+  final String meetingId;
+
+  BatchCreateAttendeeRequest({
+    @_s.required this.attendees,
+    @_s.required this.meetingId,
+  });
+  Map<String, dynamic> toJson() => _$BatchCreateAttendeeRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class BatchCreateAttendeeResponse {
@@ -5440,6 +5666,33 @@ class BatchCreateAttendeeResponse {
   });
   factory BatchCreateAttendeeResponse.fromJson(Map<String, dynamic> json) =>
       _$BatchCreateAttendeeResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchCreateRoomMembershipRequest {
+  /// The Amazon Chime account ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  /// The list of membership items.
+  @_s.JsonKey(name: 'MembershipItemList')
+  final List<MembershipItem> membershipItemList;
+
+  /// The room ID.
+  @_s.JsonKey(name: 'roomId', ignore: true)
+  final String roomId;
+
+  BatchCreateRoomMembershipRequest({
+    @_s.required this.accountId,
+    @_s.required this.membershipItemList,
+    @_s.required this.roomId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$BatchCreateRoomMembershipRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5464,6 +5717,22 @@ class BatchCreateRoomMembershipResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchDeletePhoneNumberRequest {
+  /// List of phone number IDs.
+  @_s.JsonKey(name: 'PhoneNumberIds')
+  final List<String> phoneNumberIds;
+
+  BatchDeletePhoneNumberRequest({
+    @_s.required this.phoneNumberIds,
+  });
+  Map<String, dynamic> toJson() => _$BatchDeletePhoneNumberRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class BatchDeletePhoneNumberResponse {
@@ -5478,6 +5747,27 @@ class BatchDeletePhoneNumberResponse {
   });
   factory BatchDeletePhoneNumberResponse.fromJson(Map<String, dynamic> json) =>
       _$BatchDeletePhoneNumberResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchSuspendUserRequest {
+  /// The Amazon Chime account ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  /// The request containing the user IDs to suspend.
+  @_s.JsonKey(name: 'UserIdList')
+  final List<String> userIdList;
+
+  BatchSuspendUserRequest({
+    @_s.required this.accountId,
+    @_s.required this.userIdList,
+  });
+  Map<String, dynamic> toJson() => _$BatchSuspendUserRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5502,6 +5792,27 @@ class BatchSuspendUserResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchUnsuspendUserRequest {
+  /// The Amazon Chime account ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  /// The request containing the user IDs to unsuspend.
+  @_s.JsonKey(name: 'UserIdList')
+  final List<String> userIdList;
+
+  BatchUnsuspendUserRequest({
+    @_s.required this.accountId,
+    @_s.required this.userIdList,
+  });
+  Map<String, dynamic> toJson() => _$BatchUnsuspendUserRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class BatchUnsuspendUserResponse {
@@ -5521,6 +5832,23 @@ class BatchUnsuspendUserResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchUpdatePhoneNumberRequest {
+  /// The request containing the phone number IDs and product types or calling
+  /// names to update.
+  @_s.JsonKey(name: 'UpdatePhoneNumberRequestItems')
+  final List<UpdatePhoneNumberRequestItem> updatePhoneNumberRequestItems;
+
+  BatchUpdatePhoneNumberRequest({
+    @_s.required this.updatePhoneNumberRequestItems,
+  });
+  Map<String, dynamic> toJson() => _$BatchUpdatePhoneNumberRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class BatchUpdatePhoneNumberResponse {
@@ -5535,6 +5863,27 @@ class BatchUpdatePhoneNumberResponse {
   });
   factory BatchUpdatePhoneNumberResponse.fromJson(Map<String, dynamic> json) =>
       _$BatchUpdatePhoneNumberResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchUpdateUserRequest {
+  /// The Amazon Chime account ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  /// The request containing the user IDs and details to update.
+  @_s.JsonKey(name: 'UpdateUserRequestItems')
+  final List<UpdateUserRequestItem> updateUserRequestItems;
+
+  BatchUpdateUserRequest({
+    @_s.required this.accountId,
+    @_s.required this.updateUserRequestItems,
+  });
+  Map<String, dynamic> toJson() => _$BatchUpdateUserRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5669,6 +6018,22 @@ enum Capability {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateAccountRequest {
+  /// The name of the Amazon Chime account.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  CreateAccountRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$CreateAccountRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateAccountResponse {
@@ -5712,6 +6077,33 @@ class CreateAttendeeError {
   });
   factory CreateAttendeeError.fromJson(Map<String, dynamic> json) =>
       _$CreateAttendeeErrorFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateAttendeeRequest {
+  /// The Amazon Chime SDK external user ID. Links the attendee to an identity
+  /// managed by a builder application.
+  @_s.JsonKey(name: 'ExternalUserId')
+  final String externalUserId;
+
+  /// The Amazon Chime SDK meeting ID.
+  @_s.JsonKey(name: 'meetingId', ignore: true)
+  final String meetingId;
+
+  /// The tag key-value pairs.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateAttendeeRequest({
+    @_s.required this.externalUserId,
+    @_s.required this.meetingId,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateAttendeeRequestToJson(this);
 }
 
 /// The Amazon Chime SDK attendee fields to create, used with the
@@ -5758,6 +6150,32 @@ class CreateAttendeeResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateBotRequest {
+  /// The Amazon Chime account ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  /// The bot display name.
+  @_s.JsonKey(name: 'DisplayName')
+  final String displayName;
+
+  /// The domain of the Amazon Chime Enterprise account.
+  @_s.JsonKey(name: 'Domain')
+  final String domain;
+
+  CreateBotRequest({
+    @_s.required this.accountId,
+    @_s.required this.displayName,
+    this.domain,
+  });
+  Map<String, dynamic> toJson() => _$CreateBotRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateBotResponse {
@@ -5770,6 +6188,55 @@ class CreateBotResponse {
   });
   factory CreateBotResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateBotResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateMeetingRequest {
+  /// The unique identifier for the client request. Use a different token for
+  /// different meetings.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// The external meeting ID.
+  @_s.JsonKey(name: 'ExternalMeetingId')
+  final String externalMeetingId;
+
+  /// The Region in which to create the meeting. Available values:
+  /// <code>ap-northeast-1</code>, <code>ap-southeast-1</code>,
+  /// <code>ap-southeast-2</code>, <code>ca-central-1</code>,
+  /// <code>eu-central-1</code>, <code>eu-north-1</code>, <code>eu-west-1</code>,
+  /// <code>eu-west-2</code>, <code>eu-west-3</code>, <code>sa-east-1</code>,
+  /// <code>us-east-1</code>, <code>us-east-2</code>, <code>us-west-1</code>,
+  /// <code>us-west-2</code>.
+  @_s.JsonKey(name: 'MediaRegion')
+  final String mediaRegion;
+
+  /// Reserved.
+  @_s.JsonKey(name: 'MeetingHostId')
+  final String meetingHostId;
+
+  /// The configuration for resource targets to receive notifications when meeting
+  /// and attendee events occur.
+  @_s.JsonKey(name: 'NotificationsConfiguration')
+  final MeetingNotificationConfiguration notificationsConfiguration;
+
+  /// The tag key-value pairs.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateMeetingRequest({
+    @_s.required this.clientRequestToken,
+    this.externalMeetingId,
+    this.mediaRegion,
+    this.meetingHostId,
+    this.notificationsConfiguration,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateMeetingRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5793,6 +6260,27 @@ class CreateMeetingResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreatePhoneNumberOrderRequest {
+  /// List of phone numbers, in E.164 format.
+  @_s.JsonKey(name: 'E164PhoneNumbers')
+  final List<String> e164PhoneNumbers;
+
+  /// The phone number product type.
+  @_s.JsonKey(name: 'ProductType')
+  final PhoneNumberProductType productType;
+
+  CreatePhoneNumberOrderRequest({
+    @_s.required this.e164PhoneNumbers,
+    @_s.required this.productType,
+  });
+  Map<String, dynamic> toJson() => _$CreatePhoneNumberOrderRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreatePhoneNumberOrderResponse {
@@ -5805,6 +6293,59 @@ class CreatePhoneNumberOrderResponse {
   });
   factory CreatePhoneNumberOrderResponse.fromJson(Map<String, dynamic> json) =>
       _$CreatePhoneNumberOrderResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateProxySessionRequest {
+  /// The proxy session capabilities.
+  @_s.JsonKey(name: 'Capabilities')
+  final List<String> capabilities;
+
+  /// The participant phone numbers.
+  @_s.JsonKey(name: 'ParticipantPhoneNumbers')
+  final List<String> participantPhoneNumbers;
+
+  /// The Amazon Chime voice connector ID.
+  @_s.JsonKey(name: 'voiceConnectorId', ignore: true)
+  final String voiceConnectorId;
+
+  /// The number of minutes allowed for the proxy session.
+  @_s.JsonKey(name: 'ExpiryMinutes')
+  final int expiryMinutes;
+
+  /// The preference for matching the country or area code of the proxy phone
+  /// number with that of the first participant.
+  @_s.JsonKey(name: 'GeoMatchLevel')
+  final GeoMatchLevel geoMatchLevel;
+
+  /// The country and area code for the proxy phone number.
+  @_s.JsonKey(name: 'GeoMatchParams')
+  final GeoMatchParams geoMatchParams;
+
+  /// The name of the proxy session.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The preference for proxy phone number reuse, or stickiness, between the same
+  /// participants across sessions.
+  @_s.JsonKey(name: 'NumberSelectionBehavior')
+  final NumberSelectionBehavior numberSelectionBehavior;
+
+  CreateProxySessionRequest({
+    @_s.required this.capabilities,
+    @_s.required this.participantPhoneNumbers,
+    @_s.required this.voiceConnectorId,
+    this.expiryMinutes,
+    this.geoMatchLevel,
+    this.geoMatchParams,
+    this.name,
+    this.numberSelectionBehavior,
+  });
+  Map<String, dynamic> toJson() => _$CreateProxySessionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5827,6 +6368,37 @@ class CreateProxySessionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateRoomMembershipRequest {
+  /// The Amazon Chime account ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  /// The Amazon Chime member ID (user ID or bot ID).
+  @_s.JsonKey(name: 'MemberId')
+  final String memberId;
+
+  /// The room ID.
+  @_s.JsonKey(name: 'roomId', ignore: true)
+  final String roomId;
+
+  /// The role of the member.
+  @_s.JsonKey(name: 'Role')
+  final RoomMembershipRole role;
+
+  CreateRoomMembershipRequest({
+    @_s.required this.accountId,
+    @_s.required this.memberId,
+    @_s.required this.roomId,
+    this.role,
+  });
+  Map<String, dynamic> toJson() => _$CreateRoomMembershipRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateRoomMembershipResponse {
@@ -5839,6 +6411,32 @@ class CreateRoomMembershipResponse {
   });
   factory CreateRoomMembershipResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateRoomMembershipResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateRoomRequest {
+  /// The Amazon Chime account ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  /// The room name.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The idempotency token for the request.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  CreateRoomRequest({
+    @_s.required this.accountId,
+    @_s.required this.name,
+    this.clientRequestToken,
+  });
+  Map<String, dynamic> toJson() => _$CreateRoomRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5861,6 +6459,37 @@ class CreateRoomResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateUserRequest {
+  /// The Amazon Chime account ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  /// The user's email address.
+  @_s.JsonKey(name: 'Email')
+  final String email;
+
+  /// The user type.
+  @_s.JsonKey(name: 'UserType')
+  final UserType userType;
+
+  /// The user name.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  CreateUserRequest({
+    @_s.required this.accountId,
+    this.email,
+    this.userType,
+    this.username,
+  });
+  Map<String, dynamic> toJson() => _$CreateUserRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateUserResponse {
@@ -5872,6 +6501,28 @@ class CreateUserResponse {
   });
   factory CreateUserResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateUserResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateVoiceConnectorGroupRequest {
+  /// The name of the Amazon Chime Voice Connector group.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The Amazon Chime Voice Connectors to route inbound calls to.
+  @_s.JsonKey(name: 'VoiceConnectorItems')
+  final List<VoiceConnectorItem> voiceConnectorItems;
+
+  CreateVoiceConnectorGroupRequest({
+    @_s.required this.name,
+    this.voiceConnectorItems,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateVoiceConnectorGroupRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5890,6 +6541,33 @@ class CreateVoiceConnectorGroupResponse {
   factory CreateVoiceConnectorGroupResponse.fromJson(
           Map<String, dynamic> json) =>
       _$CreateVoiceConnectorGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateVoiceConnectorRequest {
+  /// The name of the Amazon Chime Voice Connector.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// When enabled, requires encryption for the Amazon Chime Voice Connector.
+  @_s.JsonKey(name: 'RequireEncryption')
+  final bool requireEncryption;
+
+  /// The AWS Region in which the Amazon Chime Voice Connector is created. Default
+  /// value: <code>us-east-1</code>.
+  @_s.JsonKey(name: 'AwsRegion')
+  final VoiceConnectorAwsRegion awsRegion;
+
+  CreateVoiceConnectorRequest({
+    @_s.required this.name,
+    @_s.required this.requireEncryption,
+    this.awsRegion,
+  });
+  Map<String, dynamic> toJson() => _$CreateVoiceConnectorRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5937,12 +6615,317 @@ class Credential {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteAccountRequest {
+  /// The Amazon Chime account ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  DeleteAccountRequest({
+    @_s.required this.accountId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteAccountRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteAccountResponse {
   DeleteAccountResponse();
   factory DeleteAccountResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteAccountResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteAttendeeRequest {
+  /// The Amazon Chime SDK attendee ID.
+  @_s.JsonKey(name: 'attendeeId', ignore: true)
+  final String attendeeId;
+
+  /// The Amazon Chime SDK meeting ID.
+  @_s.JsonKey(name: 'meetingId', ignore: true)
+  final String meetingId;
+
+  DeleteAttendeeRequest({
+    @_s.required this.attendeeId,
+    @_s.required this.meetingId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteAttendeeRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteEventsConfigurationRequest {
+  /// The Amazon Chime account ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  /// The bot ID.
+  @_s.JsonKey(name: 'botId', ignore: true)
+  final String botId;
+
+  DeleteEventsConfigurationRequest({
+    @_s.required this.accountId,
+    @_s.required this.botId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteEventsConfigurationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteMeetingRequest {
+  /// The Amazon Chime SDK meeting ID.
+  @_s.JsonKey(name: 'meetingId', ignore: true)
+  final String meetingId;
+
+  DeleteMeetingRequest({
+    @_s.required this.meetingId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteMeetingRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeletePhoneNumberRequest {
+  /// The phone number ID.
+  @_s.JsonKey(name: 'phoneNumberId', ignore: true)
+  final String phoneNumberId;
+
+  DeletePhoneNumberRequest({
+    @_s.required this.phoneNumberId,
+  });
+  Map<String, dynamic> toJson() => _$DeletePhoneNumberRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteProxySessionRequest {
+  /// The proxy session ID.
+  @_s.JsonKey(name: 'proxySessionId', ignore: true)
+  final String proxySessionId;
+
+  /// The Amazon Chime voice connector ID.
+  @_s.JsonKey(name: 'voiceConnectorId', ignore: true)
+  final String voiceConnectorId;
+
+  DeleteProxySessionRequest({
+    @_s.required this.proxySessionId,
+    @_s.required this.voiceConnectorId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteProxySessionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteRoomMembershipRequest {
+  /// The Amazon Chime account ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  /// The member ID (user ID or bot ID).
+  @_s.JsonKey(name: 'memberId', ignore: true)
+  final String memberId;
+
+  /// The room ID.
+  @_s.JsonKey(name: 'roomId', ignore: true)
+  final String roomId;
+
+  DeleteRoomMembershipRequest({
+    @_s.required this.accountId,
+    @_s.required this.memberId,
+    @_s.required this.roomId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteRoomMembershipRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteRoomRequest {
+  /// The Amazon Chime account ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  /// The chat room ID.
+  @_s.JsonKey(name: 'roomId', ignore: true)
+  final String roomId;
+
+  DeleteRoomRequest({
+    @_s.required this.accountId,
+    @_s.required this.roomId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteRoomRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteVoiceConnectorGroupRequest {
+  /// The Amazon Chime Voice Connector group ID.
+  @_s.JsonKey(name: 'voiceConnectorGroupId', ignore: true)
+  final String voiceConnectorGroupId;
+
+  DeleteVoiceConnectorGroupRequest({
+    @_s.required this.voiceConnectorGroupId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteVoiceConnectorGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteVoiceConnectorOriginationRequest {
+  /// The Amazon Chime Voice Connector ID.
+  @_s.JsonKey(name: 'voiceConnectorId', ignore: true)
+  final String voiceConnectorId;
+
+  DeleteVoiceConnectorOriginationRequest({
+    @_s.required this.voiceConnectorId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteVoiceConnectorOriginationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteVoiceConnectorProxyRequest {
+  /// The Amazon Chime Voice Connector ID.
+  @_s.JsonKey(name: 'voiceConnectorId', ignore: true)
+  final String voiceConnectorId;
+
+  DeleteVoiceConnectorProxyRequest({
+    @_s.required this.voiceConnectorId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteVoiceConnectorProxyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteVoiceConnectorRequest {
+  /// The Amazon Chime Voice Connector ID.
+  @_s.JsonKey(name: 'voiceConnectorId', ignore: true)
+  final String voiceConnectorId;
+
+  DeleteVoiceConnectorRequest({
+    @_s.required this.voiceConnectorId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteVoiceConnectorRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteVoiceConnectorStreamingConfigurationRequest {
+  /// The Amazon Chime Voice Connector ID.
+  @_s.JsonKey(name: 'voiceConnectorId', ignore: true)
+  final String voiceConnectorId;
+
+  DeleteVoiceConnectorStreamingConfigurationRequest({
+    @_s.required this.voiceConnectorId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteVoiceConnectorStreamingConfigurationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteVoiceConnectorTerminationCredentialsRequest {
+  /// The Amazon Chime Voice Connector ID.
+  @_s.JsonKey(name: 'voiceConnectorId', ignore: true)
+  final String voiceConnectorId;
+
+  /// The RFC2617 compliant username associated with the SIP credentials, in
+  /// US-ASCII format.
+  @_s.JsonKey(name: 'Usernames')
+  final List<String> usernames;
+
+  DeleteVoiceConnectorTerminationCredentialsRequest({
+    @_s.required this.voiceConnectorId,
+    this.usernames,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteVoiceConnectorTerminationCredentialsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteVoiceConnectorTerminationRequest {
+  /// The Amazon Chime Voice Connector ID.
+  @_s.JsonKey(name: 'voiceConnectorId', ignore: true)
+  final String voiceConnectorId;
+
+  DeleteVoiceConnectorTerminationRequest({
+    @_s.required this.voiceConnectorId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteVoiceConnectorTerminationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociatePhoneNumberFromUserRequest {
+  /// The Amazon Chime account ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  /// The user ID.
+  @_s.JsonKey(name: 'userId', ignore: true)
+  final String userId;
+
+  DisassociatePhoneNumberFromUserRequest({
+    @_s.required this.accountId,
+    @_s.required this.userId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DisassociatePhoneNumberFromUserRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5955,6 +6938,28 @@ class DisassociatePhoneNumberFromUserResponse {
   factory DisassociatePhoneNumberFromUserResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DisassociatePhoneNumberFromUserResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociatePhoneNumbersFromVoiceConnectorGroupRequest {
+  /// The Amazon Chime Voice Connector group ID.
+  @_s.JsonKey(name: 'voiceConnectorGroupId', ignore: true)
+  final String voiceConnectorGroupId;
+
+  /// List of phone numbers, in E.164 format.
+  @_s.JsonKey(name: 'E164PhoneNumbers')
+  final List<String> e164PhoneNumbers;
+
+  DisassociatePhoneNumbersFromVoiceConnectorGroupRequest({
+    @_s.required this.voiceConnectorGroupId,
+    this.e164PhoneNumbers,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DisassociatePhoneNumbersFromVoiceConnectorGroupRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5980,6 +6985,28 @@ class DisassociatePhoneNumbersFromVoiceConnectorGroupResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociatePhoneNumbersFromVoiceConnectorRequest {
+  /// The Amazon Chime Voice Connector ID.
+  @_s.JsonKey(name: 'voiceConnectorId', ignore: true)
+  final String voiceConnectorId;
+
+  /// List of phone numbers, in E.164 format.
+  @_s.JsonKey(name: 'E164PhoneNumbers')
+  final List<String> e164PhoneNumbers;
+
+  DisassociatePhoneNumbersFromVoiceConnectorRequest({
+    @_s.required this.voiceConnectorId,
+    this.e164PhoneNumbers,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DisassociatePhoneNumbersFromVoiceConnectorRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DisassociatePhoneNumbersFromVoiceConnectorResponse {
@@ -5995,6 +7022,28 @@ class DisassociatePhoneNumbersFromVoiceConnectorResponse {
   factory DisassociatePhoneNumbersFromVoiceConnectorResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DisassociatePhoneNumbersFromVoiceConnectorResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateSigninDelegateGroupsFromAccountRequest {
+  /// The Amazon Chime account ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  /// The sign-in delegate group names.
+  @_s.JsonKey(name: 'GroupNames')
+  final List<String> groupNames;
+
+  DisassociateSigninDelegateGroupsFromAccountRequest({
+    @_s.required this.accountId,
+    @_s.required this.groupNames,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DisassociateSigninDelegateGroupsFromAccountRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6083,18 +7132,6 @@ enum GeoMatchLevel {
   country,
   @_s.JsonValue('AreaCode')
   areaCode,
-}
-
-extension on GeoMatchLevel {
-  String toValue() {
-    switch (this) {
-      case GeoMatchLevel.country:
-        return 'Country';
-      case GeoMatchLevel.areaCode:
-        return 'AreaCode';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// The country and area code for a proxy phone number in a proxy phone session.
@@ -6559,6 +7596,32 @@ enum InviteStatus {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class InviteUsersRequest {
+  /// The Amazon Chime account ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  /// The user email addresses to which to send the email invitation.
+  @_s.JsonKey(name: 'UserEmailList')
+  final List<String> userEmailList;
+
+  /// The user type.
+  @_s.JsonKey(name: 'UserType')
+  final UserType userType;
+
+  InviteUsersRequest({
+    @_s.required this.accountId,
+    @_s.required this.userEmailList,
+    this.userType,
+  });
+  Map<String, dynamic> toJson() => _$InviteUsersRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class InviteUsersResponse {
@@ -6582,22 +7645,6 @@ enum License {
   pro,
   @_s.JsonValue('ProTrial')
   proTrial,
-}
-
-extension on License {
-  String toValue() {
-    switch (this) {
-      case License.basic:
-        return 'Basic';
-      case License.plus:
-        return 'Plus';
-      case License.pro:
-        return 'Pro';
-      case License.proTrial:
-        return 'ProTrial';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 @_s.JsonSerializable(
@@ -6959,6 +8006,27 @@ class LoggingConfiguration {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class LogoutUserRequest {
+  /// The Amazon Chime account ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  /// The user ID.
+  @_s.JsonKey(name: 'userId', ignore: true)
+  final String userId;
+
+  LogoutUserRequest({
+    @_s.required this.accountId,
+    @_s.required this.userId,
+  });
+  Map<String, dynamic> toJson() => _$LogoutUserRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class LogoutUserResponse {
@@ -7180,18 +8248,6 @@ enum NumberSelectionBehavior {
   preferSticky,
   @_s.JsonValue('AvoidSticky')
   avoidSticky,
-}
-
-extension on NumberSelectionBehavior {
-  String toValue() {
-    switch (this) {
-      case NumberSelectionBehavior.preferSticky:
-        return 'PreferSticky';
-      case NumberSelectionBehavior.avoidSticky:
-        return 'AvoidSticky';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// A phone number for which an order has been placed.
@@ -7600,18 +8656,6 @@ enum PhoneNumberProductType {
   voiceConnector,
 }
 
-extension on PhoneNumberProductType {
-  String toValue() {
-    switch (this) {
-      case PhoneNumberProductType.businessCalling:
-        return 'BusinessCalling';
-      case PhoneNumberProductType.voiceConnector:
-        return 'VoiceConnector';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum PhoneNumberStatus {
   @_s.JsonValue('AcquireInProgress')
   acquireInProgress,
@@ -7770,6 +8814,37 @@ enum ProxySessionStatus {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutEventsConfigurationRequest {
+  /// The Amazon Chime account ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  /// The bot ID.
+  @_s.JsonKey(name: 'botId', ignore: true)
+  final String botId;
+
+  /// Lambda function ARN that allows the bot to receive outgoing events.
+  @_s.JsonKey(name: 'LambdaFunctionArn')
+  final String lambdaFunctionArn;
+
+  /// HTTPS endpoint that allows the bot to receive outgoing events.
+  @_s.JsonKey(name: 'OutboundEventsHTTPSEndpoint')
+  final String outboundEventsHTTPSEndpoint;
+
+  PutEventsConfigurationRequest({
+    @_s.required this.accountId,
+    @_s.required this.botId,
+    this.lambdaFunctionArn,
+    this.outboundEventsHTTPSEndpoint,
+  });
+  Map<String, dynamic> toJson() => _$PutEventsConfigurationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutEventsConfigurationResponse {
@@ -7781,6 +8856,28 @@ class PutEventsConfigurationResponse {
   });
   factory PutEventsConfigurationResponse.fromJson(Map<String, dynamic> json) =>
       _$PutEventsConfigurationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutVoiceConnectorLoggingConfigurationRequest {
+  /// The logging configuration details to add.
+  @_s.JsonKey(name: 'LoggingConfiguration')
+  final LoggingConfiguration loggingConfiguration;
+
+  /// The Amazon Chime Voice Connector ID.
+  @_s.JsonKey(name: 'voiceConnectorId', ignore: true)
+  final String voiceConnectorId;
+
+  PutVoiceConnectorLoggingConfigurationRequest({
+    @_s.required this.loggingConfiguration,
+    @_s.required this.voiceConnectorId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutVoiceConnectorLoggingConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7804,6 +8901,28 @@ class PutVoiceConnectorLoggingConfigurationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutVoiceConnectorOriginationRequest {
+  /// The origination setting details to add.
+  @_s.JsonKey(name: 'Origination')
+  final Origination origination;
+
+  /// The Amazon Chime Voice Connector ID.
+  @_s.JsonKey(name: 'voiceConnectorId', ignore: true)
+  final String voiceConnectorId;
+
+  PutVoiceConnectorOriginationRequest({
+    @_s.required this.origination,
+    @_s.required this.voiceConnectorId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutVoiceConnectorOriginationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutVoiceConnectorOriginationResponse {
@@ -7822,6 +8941,43 @@ class PutVoiceConnectorOriginationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutVoiceConnectorProxyRequest {
+  /// The default number of minutes allowed for proxy sessions.
+  @_s.JsonKey(name: 'DefaultSessionExpiryMinutes')
+  final int defaultSessionExpiryMinutes;
+
+  /// The countries for proxy phone numbers to be selected from.
+  @_s.JsonKey(name: 'PhoneNumberPoolCountries')
+  final List<String> phoneNumberPoolCountries;
+
+  /// The Amazon Chime voice connector ID.
+  @_s.JsonKey(name: 'voiceConnectorId', ignore: true)
+  final String voiceConnectorId;
+
+  /// When true, stops proxy sessions from being created on the specified Amazon
+  /// Chime Voice Connector.
+  @_s.JsonKey(name: 'Disabled')
+  final bool disabled;
+
+  /// The phone number to route calls to after a proxy session expires.
+  @_s.JsonKey(name: 'FallBackPhoneNumber')
+  final String fallBackPhoneNumber;
+
+  PutVoiceConnectorProxyRequest({
+    @_s.required this.defaultSessionExpiryMinutes,
+    @_s.required this.phoneNumberPoolCountries,
+    @_s.required this.voiceConnectorId,
+    this.disabled,
+    this.fallBackPhoneNumber,
+  });
+  Map<String, dynamic> toJson() => _$PutVoiceConnectorProxyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutVoiceConnectorProxyResponse {
@@ -7834,6 +8990,28 @@ class PutVoiceConnectorProxyResponse {
   });
   factory PutVoiceConnectorProxyResponse.fromJson(Map<String, dynamic> json) =>
       _$PutVoiceConnectorProxyResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutVoiceConnectorStreamingConfigurationRequest {
+  /// The streaming configuration details to add.
+  @_s.JsonKey(name: 'StreamingConfiguration')
+  final StreamingConfiguration streamingConfiguration;
+
+  /// The Amazon Chime Voice Connector ID.
+  @_s.JsonKey(name: 'voiceConnectorId', ignore: true)
+  final String voiceConnectorId;
+
+  PutVoiceConnectorStreamingConfigurationRequest({
+    @_s.required this.streamingConfiguration,
+    @_s.required this.voiceConnectorId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutVoiceConnectorStreamingConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7857,6 +9035,50 @@ class PutVoiceConnectorStreamingConfigurationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutVoiceConnectorTerminationCredentialsRequest {
+  /// The Amazon Chime Voice Connector ID.
+  @_s.JsonKey(name: 'voiceConnectorId', ignore: true)
+  final String voiceConnectorId;
+
+  /// The termination SIP credentials.
+  @_s.JsonKey(name: 'Credentials')
+  final List<Credential> credentials;
+
+  PutVoiceConnectorTerminationCredentialsRequest({
+    @_s.required this.voiceConnectorId,
+    this.credentials,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutVoiceConnectorTerminationCredentialsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutVoiceConnectorTerminationRequest {
+  /// The termination setting details to add.
+  @_s.JsonKey(name: 'Termination')
+  final Termination termination;
+
+  /// The Amazon Chime Voice Connector ID.
+  @_s.JsonKey(name: 'voiceConnectorId', ignore: true)
+  final String voiceConnectorId;
+
+  PutVoiceConnectorTerminationRequest({
+    @_s.required this.termination,
+    @_s.required this.voiceConnectorId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutVoiceConnectorTerminationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutVoiceConnectorTerminationResponse {
@@ -7870,6 +9092,27 @@ class PutVoiceConnectorTerminationResponse {
   factory PutVoiceConnectorTerminationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$PutVoiceConnectorTerminationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RegenerateSecurityTokenRequest {
+  /// The Amazon Chime account ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  /// The bot ID.
+  @_s.JsonKey(name: 'botId', ignore: true)
+  final String botId;
+
+  RegenerateSecurityTokenRequest({
+    @_s.required this.accountId,
+    @_s.required this.botId,
+  });
+  Map<String, dynamic> toJson() => _$RegenerateSecurityTokenRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7900,6 +9143,27 @@ enum RegistrationStatus {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ResetPersonalPINRequest {
+  /// The Amazon Chime account ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  /// The user ID.
+  @_s.JsonKey(name: 'userId', ignore: true)
+  final String userId;
+
+  ResetPersonalPINRequest({
+    @_s.required this.accountId,
+    @_s.required this.userId,
+  });
+  Map<String, dynamic> toJson() => _$ResetPersonalPINRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ResetPersonalPINResponse {
@@ -7912,6 +9176,22 @@ class ResetPersonalPINResponse {
   });
   factory ResetPersonalPINResponse.fromJson(Map<String, dynamic> json) =>
       _$ResetPersonalPINResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RestorePhoneNumberRequest {
+  /// The phone number.
+  @_s.JsonKey(name: 'phoneNumberId', ignore: true)
+  final String phoneNumberId;
+
+  RestorePhoneNumberRequest({
+    @_s.required this.phoneNumberId,
+  });
+  Map<String, dynamic> toJson() => _$RestorePhoneNumberRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8025,18 +9305,6 @@ enum RoomMembershipRole {
   member,
 }
 
-extension on RoomMembershipRole {
-  String toValue() {
-    switch (this) {
-      case RoomMembershipRole.administrator:
-        return 'Administrator';
-      case RoomMembershipRole.member:
-        return 'Member';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -8125,6 +9393,74 @@ class Tag {
   factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
   Map<String, dynamic> toJson() => _$TagToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagAttendeeRequest {
+  /// The Amazon Chime SDK attendee ID.
+  @_s.JsonKey(name: 'attendeeId', ignore: true)
+  final String attendeeId;
+
+  /// The Amazon Chime SDK meeting ID.
+  @_s.JsonKey(name: 'meetingId', ignore: true)
+  final String meetingId;
+
+  /// The tag key-value pairs.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  TagAttendeeRequest({
+    @_s.required this.attendeeId,
+    @_s.required this.meetingId,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagAttendeeRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagMeetingRequest {
+  /// The Amazon Chime SDK meeting ID.
+  @_s.JsonKey(name: 'meetingId', ignore: true)
+  final String meetingId;
+
+  /// The tag key-value pairs.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  TagMeetingRequest({
+    @_s.required this.meetingId,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagMeetingRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The resource ARN.
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+
+  /// The tag key-value pairs.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceARN,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
 }
 
 /// Settings that allow management of telephony permissions for an Amazon Chime
@@ -8230,6 +9566,95 @@ class TerminationHealth {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagAttendeeRequest {
+  /// The Amazon Chime SDK attendee ID.
+  @_s.JsonKey(name: 'attendeeId', ignore: true)
+  final String attendeeId;
+
+  /// The Amazon Chime SDK meeting ID.
+  @_s.JsonKey(name: 'meetingId', ignore: true)
+  final String meetingId;
+
+  /// The tag keys.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  UntagAttendeeRequest({
+    @_s.required this.attendeeId,
+    @_s.required this.meetingId,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagAttendeeRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagMeetingRequest {
+  /// The Amazon Chime SDK meeting ID.
+  @_s.JsonKey(name: 'meetingId', ignore: true)
+  final String meetingId;
+
+  /// The tag keys.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  UntagMeetingRequest({
+    @_s.required this.meetingId,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagMeetingRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The resource ARN.
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+
+  /// The tag keys.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceARN,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateAccountRequest {
+  /// The Amazon Chime account ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  /// The new name for the specified Amazon Chime account.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  UpdateAccountRequest({
+    @_s.required this.accountId,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$UpdateAccountRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateAccountResponse {
@@ -8247,12 +9672,59 @@ class UpdateAccountResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateAccountSettingsRequest {
+  /// The Amazon Chime account ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  /// The Amazon Chime account settings to update.
+  @_s.JsonKey(name: 'AccountSettings')
+  final AccountSettings accountSettings;
+
+  UpdateAccountSettingsRequest({
+    @_s.required this.accountId,
+    @_s.required this.accountSettings,
+  });
+  Map<String, dynamic> toJson() => _$UpdateAccountSettingsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateAccountSettingsResponse {
   UpdateAccountSettingsResponse();
   factory UpdateAccountSettingsResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateAccountSettingsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateBotRequest {
+  /// The Amazon Chime account ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  /// The bot ID.
+  @_s.JsonKey(name: 'botId', ignore: true)
+  final String botId;
+
+  /// When true, stops the specified bot from running in your account.
+  @_s.JsonKey(name: 'Disabled')
+  final bool disabled;
+
+  UpdateBotRequest({
+    @_s.required this.accountId,
+    @_s.required this.botId,
+    this.disabled,
+  });
+  Map<String, dynamic> toJson() => _$UpdateBotRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8270,6 +9742,53 @@ class UpdateBotResponse {
   });
   factory UpdateBotResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateBotResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateGlobalSettingsRequest {
+  /// The Amazon Chime Business Calling settings.
+  @_s.JsonKey(name: 'BusinessCalling')
+  final BusinessCallingSettings businessCalling;
+
+  /// The Amazon Chime Voice Connector settings.
+  @_s.JsonKey(name: 'VoiceConnector')
+  final VoiceConnectorSettings voiceConnector;
+
+  UpdateGlobalSettingsRequest({
+    @_s.required this.businessCalling,
+    @_s.required this.voiceConnector,
+  });
+  Map<String, dynamic> toJson() => _$UpdateGlobalSettingsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdatePhoneNumberRequest {
+  /// The phone number ID.
+  @_s.JsonKey(name: 'phoneNumberId', ignore: true)
+  final String phoneNumberId;
+
+  /// The outbound calling name associated with the phone number.
+  @_s.JsonKey(name: 'CallingName')
+  final String callingName;
+
+  /// The product type.
+  @_s.JsonKey(name: 'ProductType')
+  final PhoneNumberProductType productType;
+
+  UpdatePhoneNumberRequest({
+    @_s.required this.phoneNumberId,
+    this.callingName,
+    this.productType,
+  });
+  Map<String, dynamic> toJson() => _$UpdatePhoneNumberRequestToJson(this);
 }
 
 /// The phone number ID, product type, or calling name fields to update, used
@@ -8320,6 +9839,54 @@ class UpdatePhoneNumberResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdatePhoneNumberSettingsRequest {
+  /// The default outbound calling name for the account.
+  @_s.JsonKey(name: 'CallingName')
+  final String callingName;
+
+  UpdatePhoneNumberSettingsRequest({
+    @_s.required this.callingName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdatePhoneNumberSettingsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateProxySessionRequest {
+  /// The proxy session capabilities.
+  @_s.JsonKey(name: 'Capabilities')
+  final List<String> capabilities;
+
+  /// The proxy session ID.
+  @_s.JsonKey(name: 'proxySessionId', ignore: true)
+  final String proxySessionId;
+
+  /// The Amazon Chime voice connector ID.
+  @_s.JsonKey(name: 'voiceConnectorId', ignore: true)
+  final String voiceConnectorId;
+
+  /// The number of minutes allowed for the proxy session.
+  @_s.JsonKey(name: 'ExpiryMinutes')
+  final int expiryMinutes;
+
+  UpdateProxySessionRequest({
+    @_s.required this.capabilities,
+    @_s.required this.proxySessionId,
+    @_s.required this.voiceConnectorId,
+    this.expiryMinutes,
+  });
+  Map<String, dynamic> toJson() => _$UpdateProxySessionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateProxySessionResponse {
@@ -8332,6 +9899,37 @@ class UpdateProxySessionResponse {
   });
   factory UpdateProxySessionResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateProxySessionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateRoomMembershipRequest {
+  /// The Amazon Chime account ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  /// The member ID.
+  @_s.JsonKey(name: 'memberId', ignore: true)
+  final String memberId;
+
+  /// The room ID.
+  @_s.JsonKey(name: 'roomId', ignore: true)
+  final String roomId;
+
+  /// The role of the member.
+  @_s.JsonKey(name: 'Role')
+  final RoomMembershipRole role;
+
+  UpdateRoomMembershipRequest({
+    @_s.required this.accountId,
+    @_s.required this.memberId,
+    @_s.required this.roomId,
+    this.role,
+  });
+  Map<String, dynamic> toJson() => _$UpdateRoomMembershipRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8354,6 +9952,32 @@ class UpdateRoomMembershipResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateRoomRequest {
+  /// The Amazon Chime account ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  /// The room ID.
+  @_s.JsonKey(name: 'roomId', ignore: true)
+  final String roomId;
+
+  /// The room name.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  UpdateRoomRequest({
+    @_s.required this.accountId,
+    @_s.required this.roomId,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$UpdateRoomRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateRoomResponse {
@@ -8366,6 +9990,43 @@ class UpdateRoomResponse {
   });
   factory UpdateRoomResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateRoomResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateUserRequest {
+  /// The Amazon Chime account ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  /// The user ID.
+  @_s.JsonKey(name: 'userId', ignore: true)
+  final String userId;
+
+  /// The Alexa for Business metadata.
+  @_s.JsonKey(name: 'AlexaForBusinessMetadata')
+  final AlexaForBusinessMetadata alexaForBusinessMetadata;
+
+  /// The user license type to update. This must be a supported license type for
+  /// the Amazon Chime account that the user belongs to.
+  @_s.JsonKey(name: 'LicenseType')
+  final License licenseType;
+
+  /// The user type.
+  @_s.JsonKey(name: 'UserType')
+  final UserType userType;
+
+  UpdateUserRequest({
+    @_s.required this.accountId,
+    @_s.required this.userId,
+    this.alexaForBusinessMetadata,
+    this.licenseType,
+    this.userType,
+  });
+  Map<String, dynamic> toJson() => _$UpdateUserRequestToJson(this);
 }
 
 /// The user ID and user fields to update, used with the <a>BatchUpdateUser</a>
@@ -8421,6 +10082,59 @@ class UpdateUserResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateUserSettingsRequest {
+  /// The Amazon Chime account ID.
+  @_s.JsonKey(name: 'accountId', ignore: true)
+  final String accountId;
+
+  /// The user ID.
+  @_s.JsonKey(name: 'userId', ignore: true)
+  final String userId;
+
+  /// The user settings to update.
+  @_s.JsonKey(name: 'UserSettings')
+  final UserSettings userSettings;
+
+  UpdateUserSettingsRequest({
+    @_s.required this.accountId,
+    @_s.required this.userId,
+    @_s.required this.userSettings,
+  });
+  Map<String, dynamic> toJson() => _$UpdateUserSettingsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateVoiceConnectorGroupRequest {
+  /// The name of the Amazon Chime Voice Connector group.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The Amazon Chime Voice Connector group ID.
+  @_s.JsonKey(name: 'voiceConnectorGroupId', ignore: true)
+  final String voiceConnectorGroupId;
+
+  /// The <code>VoiceConnectorItems</code> to associate with the group.
+  @_s.JsonKey(name: 'VoiceConnectorItems')
+  final List<VoiceConnectorItem> voiceConnectorItems;
+
+  UpdateVoiceConnectorGroupRequest({
+    @_s.required this.name,
+    @_s.required this.voiceConnectorGroupId,
+    @_s.required this.voiceConnectorItems,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateVoiceConnectorGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateVoiceConnectorGroupResponse {
@@ -8434,6 +10148,32 @@ class UpdateVoiceConnectorGroupResponse {
   factory UpdateVoiceConnectorGroupResponse.fromJson(
           Map<String, dynamic> json) =>
       _$UpdateVoiceConnectorGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateVoiceConnectorRequest {
+  /// The name of the Amazon Chime Voice Connector.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// When enabled, requires encryption for the Amazon Chime Voice Connector.
+  @_s.JsonKey(name: 'RequireEncryption')
+  final bool requireEncryption;
+
+  /// The Amazon Chime Voice Connector ID.
+  @_s.JsonKey(name: 'voiceConnectorId', ignore: true)
+  final String voiceConnectorId;
+
+  UpdateVoiceConnectorRequest({
+    @_s.required this.name,
+    @_s.required this.requireEncryption,
+    @_s.required this.voiceConnectorId,
+  });
+  Map<String, dynamic> toJson() => _$UpdateVoiceConnectorRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8592,18 +10332,6 @@ enum UserType {
   sharedDevice,
 }
 
-extension on UserType {
-  String toValue() {
-    switch (this) {
-      case UserType.privateUser:
-        return 'PrivateUser';
-      case UserType.sharedDevice:
-        return 'SharedDevice';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// The Amazon Chime Voice Connector configuration, including outbound host name
 /// and encryption settings.
 @_s.JsonSerializable(
@@ -8666,18 +10394,6 @@ enum VoiceConnectorAwsRegion {
   usEast_1,
   @_s.JsonValue('us-west-2')
   usWest_2,
-}
-
-extension on VoiceConnectorAwsRegion {
-  String toValue() {
-    switch (this) {
-      case VoiceConnectorAwsRegion.usEast_1:
-        return 'us-east-1';
-      case VoiceConnectorAwsRegion.usWest_2:
-        return 'us-west-2';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// The Amazon Chime Voice Connector group configuration, including associated

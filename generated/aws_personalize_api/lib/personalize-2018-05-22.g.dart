@@ -237,11 +237,46 @@ Map<String, dynamic> _$ContinuousHyperParameterRangeToJson(
   return val;
 }
 
+Map<String, dynamic> _$CreateBatchInferenceJobRequestToJson(
+    CreateBatchInferenceJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('jobInput', instance.jobInput?.toJson());
+  writeNotNull('jobName', instance.jobName);
+  writeNotNull('jobOutput', instance.jobOutput?.toJson());
+  writeNotNull('roleArn', instance.roleArn);
+  writeNotNull('solutionVersionArn', instance.solutionVersionArn);
+  writeNotNull('numResults', instance.numResults);
+  return val;
+}
+
 CreateBatchInferenceJobResponse _$CreateBatchInferenceJobResponseFromJson(
     Map<String, dynamic> json) {
   return CreateBatchInferenceJobResponse(
     batchInferenceJobArn: json['batchInferenceJobArn'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateCampaignRequestToJson(
+    CreateCampaignRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('minProvisionedTPS', instance.minProvisionedTPS);
+  writeNotNull('name', instance.name);
+  writeNotNull('solutionVersionArn', instance.solutionVersionArn);
+  return val;
 }
 
 CreateCampaignResponse _$CreateCampaignResponseFromJson(
@@ -251,11 +286,44 @@ CreateCampaignResponse _$CreateCampaignResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateDatasetGroupRequestToJson(
+    CreateDatasetGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('kmsKeyArn', instance.kmsKeyArn);
+  writeNotNull('roleArn', instance.roleArn);
+  return val;
+}
+
 CreateDatasetGroupResponse _$CreateDatasetGroupResponseFromJson(
     Map<String, dynamic> json) {
   return CreateDatasetGroupResponse(
     datasetGroupArn: json['datasetGroupArn'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateDatasetImportJobRequestToJson(
+    CreateDatasetImportJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('dataSource', instance.dataSource?.toJson());
+  writeNotNull('datasetArn', instance.datasetArn);
+  writeNotNull('jobName', instance.jobName);
+  writeNotNull('roleArn', instance.roleArn);
+  return val;
 }
 
 CreateDatasetImportJobResponse _$CreateDatasetImportJobResponseFromJson(
@@ -265,11 +333,43 @@ CreateDatasetImportJobResponse _$CreateDatasetImportJobResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateDatasetRequestToJson(
+    CreateDatasetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('datasetGroupArn', instance.datasetGroupArn);
+  writeNotNull('datasetType', instance.datasetType);
+  writeNotNull('name', instance.name);
+  writeNotNull('schemaArn', instance.schemaArn);
+  return val;
+}
+
 CreateDatasetResponse _$CreateDatasetResponseFromJson(
     Map<String, dynamic> json) {
   return CreateDatasetResponse(
     datasetArn: json['datasetArn'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateEventTrackerRequestToJson(
+    CreateEventTrackerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('datasetGroupArn', instance.datasetGroupArn);
+  writeNotNull('name', instance.name);
+  return val;
 }
 
 CreateEventTrackerResponse _$CreateEventTrackerResponseFromJson(
@@ -280,10 +380,44 @@ CreateEventTrackerResponse _$CreateEventTrackerResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateSchemaRequestToJson(CreateSchemaRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('schema', instance.schema);
+  return val;
+}
+
 CreateSchemaResponse _$CreateSchemaResponseFromJson(Map<String, dynamic> json) {
   return CreateSchemaResponse(
     schemaArn: json['schemaArn'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateSolutionRequestToJson(
+    CreateSolutionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('datasetGroupArn', instance.datasetGroupArn);
+  writeNotNull('name', instance.name);
+  writeNotNull('eventType', instance.eventType);
+  writeNotNull('performAutoML', instance.performAutoML);
+  writeNotNull('performHPO', instance.performHPO);
+  writeNotNull('recipeArn', instance.recipeArn);
+  writeNotNull('solutionConfig', instance.solutionConfig?.toJson());
+  return val;
 }
 
 CreateSolutionResponse _$CreateSolutionResponseFromJson(
@@ -292,6 +426,26 @@ CreateSolutionResponse _$CreateSolutionResponseFromJson(
     solutionArn: json['solutionArn'] as String,
   );
 }
+
+Map<String, dynamic> _$CreateSolutionVersionRequestToJson(
+    CreateSolutionVersionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('solutionArn', instance.solutionArn);
+  writeNotNull('trainingMode', _$TrainingModeEnumMap[instance.trainingMode]);
+  return val;
+}
+
+const _$TrainingModeEnumMap = {
+  TrainingMode.full: 'FULL',
+  TrainingMode.update: 'UPDATE',
+};
 
 CreateSolutionVersionResponse _$CreateSolutionVersionResponseFromJson(
     Map<String, dynamic> json) {
@@ -469,6 +623,103 @@ DefaultIntegerHyperParameterRange _$DefaultIntegerHyperParameterRangeFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteCampaignRequestToJson(
+    DeleteCampaignRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('campaignArn', instance.campaignArn);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteDatasetGroupRequestToJson(
+    DeleteDatasetGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('datasetGroupArn', instance.datasetGroupArn);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteDatasetRequestToJson(
+    DeleteDatasetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('datasetArn', instance.datasetArn);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteEventTrackerRequestToJson(
+    DeleteEventTrackerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('eventTrackerArn', instance.eventTrackerArn);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteSchemaRequestToJson(DeleteSchemaRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('schemaArn', instance.schemaArn);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteSolutionRequestToJson(
+    DeleteSolutionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('solutionArn', instance.solutionArn);
+  return val;
+}
+
+Map<String, dynamic> _$DescribeAlgorithmRequestToJson(
+    DescribeAlgorithmRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('algorithmArn', instance.algorithmArn);
+  return val;
+}
+
 DescribeAlgorithmResponse _$DescribeAlgorithmResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeAlgorithmResponse(
@@ -476,6 +727,20 @@ DescribeAlgorithmResponse _$DescribeAlgorithmResponseFromJson(
         ? null
         : Algorithm.fromJson(json['algorithm'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeBatchInferenceJobRequestToJson(
+    DescribeBatchInferenceJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('batchInferenceJobArn', instance.batchInferenceJobArn);
+  return val;
 }
 
 DescribeBatchInferenceJobResponse _$DescribeBatchInferenceJobResponseFromJson(
@@ -488,6 +753,20 @@ DescribeBatchInferenceJobResponse _$DescribeBatchInferenceJobResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeCampaignRequestToJson(
+    DescribeCampaignRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('campaignArn', instance.campaignArn);
+  return val;
+}
+
 DescribeCampaignResponse _$DescribeCampaignResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeCampaignResponse(
@@ -497,6 +776,20 @@ DescribeCampaignResponse _$DescribeCampaignResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeDatasetGroupRequestToJson(
+    DescribeDatasetGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('datasetGroupArn', instance.datasetGroupArn);
+  return val;
+}
+
 DescribeDatasetGroupResponse _$DescribeDatasetGroupResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeDatasetGroupResponse(
@@ -504,6 +797,20 @@ DescribeDatasetGroupResponse _$DescribeDatasetGroupResponseFromJson(
         ? null
         : DatasetGroup.fromJson(json['datasetGroup'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeDatasetImportJobRequestToJson(
+    DescribeDatasetImportJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('datasetImportJobArn', instance.datasetImportJobArn);
+  return val;
 }
 
 DescribeDatasetImportJobResponse _$DescribeDatasetImportJobResponseFromJson(
@@ -516,6 +823,20 @@ DescribeDatasetImportJobResponse _$DescribeDatasetImportJobResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeDatasetRequestToJson(
+    DescribeDatasetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('datasetArn', instance.datasetArn);
+  return val;
+}
+
 DescribeDatasetResponse _$DescribeDatasetResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeDatasetResponse(
@@ -525,6 +846,20 @@ DescribeDatasetResponse _$DescribeDatasetResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeEventTrackerRequestToJson(
+    DescribeEventTrackerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('eventTrackerArn', instance.eventTrackerArn);
+  return val;
+}
+
 DescribeEventTrackerResponse _$DescribeEventTrackerResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeEventTrackerResponse(
@@ -532,6 +867,20 @@ DescribeEventTrackerResponse _$DescribeEventTrackerResponseFromJson(
         ? null
         : EventTracker.fromJson(json['eventTracker'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeFeatureTransformationRequestToJson(
+    DescribeFeatureTransformationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('featureTransformationArn', instance.featureTransformationArn);
+  return val;
 }
 
 DescribeFeatureTransformationResponse
@@ -544,6 +893,20 @@ DescribeFeatureTransformationResponse
   );
 }
 
+Map<String, dynamic> _$DescribeRecipeRequestToJson(
+    DescribeRecipeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('recipeArn', instance.recipeArn);
+  return val;
+}
+
 DescribeRecipeResponse _$DescribeRecipeResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeRecipeResponse(
@@ -551,6 +914,20 @@ DescribeRecipeResponse _$DescribeRecipeResponseFromJson(
         ? null
         : Recipe.fromJson(json['recipe'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeSchemaRequestToJson(
+    DescribeSchemaRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('schemaArn', instance.schemaArn);
+  return val;
 }
 
 DescribeSchemaResponse _$DescribeSchemaResponseFromJson(
@@ -562,6 +939,20 @@ DescribeSchemaResponse _$DescribeSchemaResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeSolutionRequestToJson(
+    DescribeSolutionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('solutionArn', instance.solutionArn);
+  return val;
+}
+
 DescribeSolutionResponse _$DescribeSolutionResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeSolutionResponse(
@@ -569,6 +960,20 @@ DescribeSolutionResponse _$DescribeSolutionResponseFromJson(
         ? null
         : Solution.fromJson(json['solution'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeSolutionVersionRequestToJson(
+    DescribeSolutionVersionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('solutionVersionArn', instance.solutionVersionArn);
+  return val;
 }
 
 DescribeSolutionVersionResponse _$DescribeSolutionVersionResponseFromJson(
@@ -616,6 +1021,20 @@ FeatureTransformation _$FeatureTransformationFromJson(
     name: json['name'] as String,
     status: json['status'] as String,
   );
+}
+
+Map<String, dynamic> _$GetSolutionMetricsRequestToJson(
+    GetSolutionMetricsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('solutionVersionArn', instance.solutionVersionArn);
+  return val;
 }
 
 GetSolutionMetricsResponse _$GetSolutionMetricsResponseFromJson(
@@ -777,6 +1196,22 @@ Map<String, dynamic> _$IntegerHyperParameterRangeToJson(
   return val;
 }
 
+Map<String, dynamic> _$ListBatchInferenceJobsRequestToJson(
+    ListBatchInferenceJobsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('solutionVersionArn', instance.solutionVersionArn);
+  return val;
+}
+
 ListBatchInferenceJobsResponse _$ListBatchInferenceJobsResponseFromJson(
     Map<String, dynamic> json) {
   return ListBatchInferenceJobsResponse(
@@ -787,6 +1222,22 @@ ListBatchInferenceJobsResponse _$ListBatchInferenceJobsResponseFromJson(
         ?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListCampaignsRequestToJson(
+    ListCampaignsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('solutionArn', instance.solutionArn);
+  return val;
 }
 
 ListCampaignsResponse _$ListCampaignsResponseFromJson(
@@ -801,6 +1252,21 @@ ListCampaignsResponse _$ListCampaignsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListDatasetGroupsRequestToJson(
+    ListDatasetGroupsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 ListDatasetGroupsResponse _$ListDatasetGroupsResponseFromJson(
     Map<String, dynamic> json) {
   return ListDatasetGroupsResponse(
@@ -811,6 +1277,22 @@ ListDatasetGroupsResponse _$ListDatasetGroupsResponseFromJson(
         ?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListDatasetImportJobsRequestToJson(
+    ListDatasetImportJobsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('datasetArn', instance.datasetArn);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 ListDatasetImportJobsResponse _$ListDatasetImportJobsResponseFromJson(
@@ -825,6 +1307,21 @@ ListDatasetImportJobsResponse _$ListDatasetImportJobsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListDatasetsRequestToJson(ListDatasetsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('datasetGroupArn', instance.datasetGroupArn);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 ListDatasetsResponse _$ListDatasetsResponseFromJson(Map<String, dynamic> json) {
   return ListDatasetsResponse(
     datasets: (json['datasets'] as List)
@@ -834,6 +1331,22 @@ ListDatasetsResponse _$ListDatasetsResponseFromJson(Map<String, dynamic> json) {
         ?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListEventTrackersRequestToJson(
+    ListEventTrackersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('datasetGroupArn', instance.datasetGroupArn);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 ListEventTrackersResponse _$ListEventTrackersResponseFromJson(
@@ -848,6 +1361,26 @@ ListEventTrackersResponse _$ListEventTrackersResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListRecipesRequestToJson(ListRecipesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull(
+      'recipeProvider', _$RecipeProviderEnumMap[instance.recipeProvider]);
+  return val;
+}
+
+const _$RecipeProviderEnumMap = {
+  RecipeProvider.service: 'SERVICE',
+};
+
 ListRecipesResponse _$ListRecipesResponseFromJson(Map<String, dynamic> json) {
   return ListRecipesResponse(
     nextToken: json['nextToken'] as String,
@@ -857,6 +1390,20 @@ ListRecipesResponse _$ListRecipesResponseFromJson(Map<String, dynamic> json) {
             : RecipeSummary.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListSchemasRequestToJson(ListSchemasRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 ListSchemasResponse _$ListSchemasResponseFromJson(Map<String, dynamic> json) {
@@ -870,6 +1417,22 @@ ListSchemasResponse _$ListSchemasResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ListSolutionVersionsRequestToJson(
+    ListSolutionVersionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('solutionArn', instance.solutionArn);
+  return val;
+}
+
 ListSolutionVersionsResponse _$ListSolutionVersionsResponseFromJson(
     Map<String, dynamic> json) {
   return ListSolutionVersionsResponse(
@@ -880,6 +1443,22 @@ ListSolutionVersionsResponse _$ListSolutionVersionsResponseFromJson(
             : SolutionVersionSummary.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListSolutionsRequestToJson(
+    ListSolutionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('datasetGroupArn', instance.datasetGroupArn);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 ListSolutionsResponse _$ListSolutionsResponseFromJson(
@@ -1072,11 +1651,6 @@ T _$enumDecodeNullable<T>(
   return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
 }
 
-const _$TrainingModeEnumMap = {
-  TrainingMode.full: 'FULL',
-  TrainingMode.update: 'UPDATE',
-};
-
 SolutionVersionSummary _$SolutionVersionSummaryFromJson(
     Map<String, dynamic> json) {
   return SolutionVersionSummary(
@@ -1095,6 +1669,22 @@ TunedHPOParams _$TunedHPOParamsFromJson(Map<String, dynamic> json) {
       (k, e) => MapEntry(k, e as String),
     ),
   );
+}
+
+Map<String, dynamic> _$UpdateCampaignRequestToJson(
+    UpdateCampaignRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('campaignArn', instance.campaignArn);
+  writeNotNull('minProvisionedTPS', instance.minProvisionedTPS);
+  writeNotNull('solutionVersionArn', instance.solutionVersionArn);
+  return val;
 }
 
 UpdateCampaignResponse _$UpdateCampaignResponseFromJson(

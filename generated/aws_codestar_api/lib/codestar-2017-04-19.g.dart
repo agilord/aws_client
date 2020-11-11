@@ -6,6 +6,24 @@ part of 'codestar-2017-04-19.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$AssociateTeamMemberRequestToJson(
+    AssociateTeamMemberRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('projectId', instance.projectId);
+  writeNotNull('projectRole', instance.projectRole);
+  writeNotNull('userArn', instance.userArn);
+  writeNotNull('clientRequestToken', instance.clientRequestToken);
+  writeNotNull('remoteAccessAllowed', instance.remoteAccessAllowed);
+  return val;
+}
+
 AssociateTeamMemberResult _$AssociateTeamMemberResultFromJson(
     Map<String, dynamic> json) {
   return AssociateTeamMemberResult(
@@ -68,6 +86,27 @@ Map<String, dynamic> _$CodeSourceToJson(CodeSource instance) {
   return val;
 }
 
+Map<String, dynamic> _$CreateProjectRequestToJson(
+    CreateProjectRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  writeNotNull('name', instance.name);
+  writeNotNull('clientRequestToken', instance.clientRequestToken);
+  writeNotNull('description', instance.description);
+  writeNotNull(
+      'sourceCode', instance.sourceCode?.map((e) => e?.toJson())?.toList());
+  writeNotNull('tags', instance.tags);
+  writeNotNull('toolchain', instance.toolchain?.toJson());
+  return val;
+}
+
 CreateProjectResult _$CreateProjectResultFromJson(Map<String, dynamic> json) {
   return CreateProjectResult(
     arn: json['arn'] as String,
@@ -75,6 +114,23 @@ CreateProjectResult _$CreateProjectResultFromJson(Map<String, dynamic> json) {
     clientRequestToken: json['clientRequestToken'] as String,
     projectTemplateId: json['projectTemplateId'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateUserProfileRequestToJson(
+    CreateUserProfileRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('displayName', instance.displayName);
+  writeNotNull('emailAddress', instance.emailAddress);
+  writeNotNull('userArn', instance.userArn);
+  writeNotNull('sshPublicKey', instance.sshPublicKey);
+  return val;
 }
 
 CreateUserProfileResult _$CreateUserProfileResultFromJson(
@@ -89,6 +145,22 @@ CreateUserProfileResult _$CreateUserProfileResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteProjectRequestToJson(
+    DeleteProjectRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  writeNotNull('clientRequestToken', instance.clientRequestToken);
+  writeNotNull('deleteStack', instance.deleteStack);
+  return val;
+}
+
 DeleteProjectResult _$DeleteProjectResultFromJson(Map<String, dynamic> json) {
   return DeleteProjectResult(
     projectArn: json['projectArn'] as String,
@@ -96,11 +168,39 @@ DeleteProjectResult _$DeleteProjectResultFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DeleteUserProfileRequestToJson(
+    DeleteUserProfileRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('userArn', instance.userArn);
+  return val;
+}
+
 DeleteUserProfileResult _$DeleteUserProfileResultFromJson(
     Map<String, dynamic> json) {
   return DeleteUserProfileResult(
     userArn: json['userArn'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeProjectRequestToJson(
+    DescribeProjectRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  return val;
 }
 
 DescribeProjectResult _$DescribeProjectResultFromJson(
@@ -120,6 +220,20 @@ DescribeProjectResult _$DescribeProjectResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeUserProfileRequestToJson(
+    DescribeUserProfileRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('userArn', instance.userArn);
+  return val;
+}
+
 DescribeUserProfileResult _$DescribeUserProfileResultFromJson(
     Map<String, dynamic> json) {
   return DescribeUserProfileResult(
@@ -130,6 +244,21 @@ DescribeUserProfileResult _$DescribeUserProfileResultFromJson(
     emailAddress: json['emailAddress'] as String,
     sshPublicKey: json['sshPublicKey'] as String,
   );
+}
+
+Map<String, dynamic> _$DisassociateTeamMemberRequestToJson(
+    DisassociateTeamMemberRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('projectId', instance.projectId);
+  writeNotNull('userArn', instance.userArn);
+  return val;
 }
 
 DisassociateTeamMemberResult _$DisassociateTeamMemberResultFromJson(
@@ -157,6 +286,20 @@ Map<String, dynamic> _$GitHubCodeDestinationToJson(
   return val;
 }
 
+Map<String, dynamic> _$ListProjectsRequestToJson(ListProjectsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 ListProjectsResult _$ListProjectsResultFromJson(Map<String, dynamic> json) {
   return ListProjectsResult(
     projects: (json['projects'] as List)
@@ -166,6 +309,22 @@ ListProjectsResult _$ListProjectsResultFromJson(Map<String, dynamic> json) {
         ?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListResourcesRequestToJson(
+    ListResourcesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('projectId', instance.projectId);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 ListResourcesResult _$ListResourcesResultFromJson(Map<String, dynamic> json) {
@@ -178,6 +337,22 @@ ListResourcesResult _$ListResourcesResultFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ListTagsForProjectRequestToJson(
+    ListTagsForProjectRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 ListTagsForProjectResult _$ListTagsForProjectResultFromJson(
     Map<String, dynamic> json) {
   return ListTagsForProjectResult(
@@ -186,6 +361,22 @@ ListTagsForProjectResult _$ListTagsForProjectResultFromJson(
       (k, e) => MapEntry(k, e as String),
     ),
   );
+}
+
+Map<String, dynamic> _$ListTeamMembersRequestToJson(
+    ListTeamMembersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('projectId', instance.projectId);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 ListTeamMembersResult _$ListTeamMembersResultFromJson(
@@ -197,6 +388,21 @@ ListTeamMembersResult _$ListTeamMembersResultFromJson(
         ?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListUserProfilesRequestToJson(
+    ListUserProfilesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 ListUserProfilesResult _$ListUserProfilesResultFromJson(
@@ -245,6 +451,20 @@ Map<String, dynamic> _$S3LocationToJson(S3Location instance) {
   return val;
 }
 
+Map<String, dynamic> _$TagProjectRequestToJson(TagProjectRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
 TagProjectResult _$TagProjectResultFromJson(Map<String, dynamic> json) {
   return TagProjectResult(
     tags: (json['tags'] as Map<String, dynamic>)?.map(
@@ -289,12 +509,59 @@ Map<String, dynamic> _$ToolchainSourceToJson(ToolchainSource instance) {
   return val;
 }
 
+Map<String, dynamic> _$UntagProjectRequestToJson(UntagProjectRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
 UntagProjectResult _$UntagProjectResultFromJson(Map<String, dynamic> json) {
   return UntagProjectResult();
 }
 
+Map<String, dynamic> _$UpdateProjectRequestToJson(
+    UpdateProjectRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  writeNotNull('description', instance.description);
+  writeNotNull('name', instance.name);
+  return val;
+}
+
 UpdateProjectResult _$UpdateProjectResultFromJson(Map<String, dynamic> json) {
   return UpdateProjectResult();
+}
+
+Map<String, dynamic> _$UpdateTeamMemberRequestToJson(
+    UpdateTeamMemberRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('projectId', instance.projectId);
+  writeNotNull('userArn', instance.userArn);
+  writeNotNull('projectRole', instance.projectRole);
+  writeNotNull('remoteAccessAllowed', instance.remoteAccessAllowed);
+  return val;
 }
 
 UpdateTeamMemberResult _$UpdateTeamMemberResultFromJson(
@@ -304,6 +571,23 @@ UpdateTeamMemberResult _$UpdateTeamMemberResultFromJson(
     remoteAccessAllowed: json['remoteAccessAllowed'] as bool,
     userArn: json['userArn'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateUserProfileRequestToJson(
+    UpdateUserProfileRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('userArn', instance.userArn);
+  writeNotNull('displayName', instance.displayName);
+  writeNotNull('emailAddress', instance.emailAddress);
+  writeNotNull('sshPublicKey', instance.sshPublicKey);
+  return val;
 }
 
 UpdateUserProfileResult _$UpdateUserProfileResultFromJson(

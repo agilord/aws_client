@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -58,7 +57,9 @@ class IoT1ClickDevicesService {
     @_s.required String claimCode,
   }) async {
     ArgumentError.checkNotNull(claimCode, 'claimCode');
-    final $payload = <String, dynamic>{};
+    final $payload = ClaimDevicesByClaimCodeRequest(
+      claimCode: claimCode,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -124,9 +125,10 @@ class IoT1ClickDevicesService {
     Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(deviceId, 'deviceId');
-    final $payload = <String, dynamic>{
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = FinalizeDeviceClaimRequest(
+      deviceId: deviceId,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -181,7 +183,9 @@ class IoT1ClickDevicesService {
     @_s.required String deviceId,
   }) async {
     ArgumentError.checkNotNull(deviceId, 'deviceId');
-    final $payload = <String, dynamic>{};
+    final $payload = InitiateDeviceClaimRequest(
+      deviceId: deviceId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -217,11 +221,11 @@ class IoT1ClickDevicesService {
     String deviceMethodParameters,
   }) async {
     ArgumentError.checkNotNull(deviceId, 'deviceId');
-    final $payload = <String, dynamic>{
-      if (deviceMethod != null) 'DeviceMethod': deviceMethod,
-      if (deviceMethodParameters != null)
-        'DeviceMethodParameters': deviceMethodParameters,
-    };
+    final $payload = InvokeDeviceMethodRequest(
+      deviceId: deviceId,
+      deviceMethod: deviceMethod,
+      deviceMethodParameters: deviceMethodParameters,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -384,9 +388,10 @@ class IoT1ClickDevicesService {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'Tags': tags,
-    };
+    final $payload = TagResourceRequest(
+      resourceArn: resourceArn,
+      tags: tags,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -407,7 +412,9 @@ class IoT1ClickDevicesService {
     @_s.required String deviceId,
   }) async {
     ArgumentError.checkNotNull(deviceId, 'deviceId');
-    final $payload = <String, dynamic>{};
+    final $payload = UnclaimDeviceRequest(
+      deviceId: deviceId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -441,7 +448,10 @@ class IoT1ClickDevicesService {
     _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = UntagResourceRequest(
+      resourceArn: resourceArn,
+      tagKeys: tagKeys,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -468,9 +478,10 @@ class IoT1ClickDevicesService {
     bool enabled,
   }) async {
     ArgumentError.checkNotNull(deviceId, 'deviceId');
-    final $payload = <String, dynamic>{
-      if (enabled != null) 'Enabled': enabled,
-    };
+    final $payload = UpdateDeviceStateRequest(
+      deviceId: deviceId,
+      enabled: enabled,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -490,6 +501,22 @@ class Attributes {
   Attributes();
   factory Attributes.fromJson(Map<String, dynamic> json) =>
       _$AttributesFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ClaimDevicesByClaimCodeRequest {
+  /// The claim code, starting with "C-", as provided by the device manufacturer.
+  @_s.JsonKey(name: 'claimCode', ignore: true)
+  final String claimCode;
+
+  ClaimDevicesByClaimCodeRequest({
+    @_s.required this.claimCode,
+  });
+  Map<String, dynamic> toJson() => _$ClaimDevicesByClaimCodeRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -658,6 +685,34 @@ class DeviceMethod {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class FinalizeDeviceClaimRequest {
+  /// The unique identifier of the device.
+  @_s.JsonKey(name: 'deviceId', ignore: true)
+  final String deviceId;
+
+  /// A collection of key/value pairs defining the resource tags. For example, {
+  /// "tags": {"key1": "value1", "key2": "value2"} }. For more information, see <a
+  /// href="https://aws.amazon.com/answers/account-management/aws-tagging-strategies/">AWS
+  /// Tagging Strategies</a>.
+  ///
+  ///
+  ///
+  ///
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  FinalizeDeviceClaimRequest({
+    @_s.required this.deviceId,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$FinalizeDeviceClaimRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class FinalizeDeviceClaimResponse {
@@ -692,6 +747,22 @@ class GetDeviceMethodsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class InitiateDeviceClaimRequest {
+  /// The unique identifier of the device.
+  @_s.JsonKey(name: 'deviceId', ignore: true)
+  final String deviceId;
+
+  InitiateDeviceClaimRequest({
+    @_s.required this.deviceId,
+  });
+  Map<String, dynamic> toJson() => _$InitiateDeviceClaimRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class InitiateDeviceClaimResponse {
@@ -704,6 +775,32 @@ class InitiateDeviceClaimResponse {
   });
   factory InitiateDeviceClaimResponse.fromJson(Map<String, dynamic> json) =>
       _$InitiateDeviceClaimResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class InvokeDeviceMethodRequest {
+  /// The unique identifier of the device.
+  @_s.JsonKey(name: 'deviceId', ignore: true)
+  final String deviceId;
+
+  /// The device method to invoke.
+  @_s.JsonKey(name: 'deviceMethod')
+  final DeviceMethod deviceMethod;
+
+  /// A JSON encoded string containing the device method request parameters.
+  @_s.JsonKey(name: 'deviceMethodParameters')
+  final String deviceMethodParameters;
+
+  InvokeDeviceMethodRequest({
+    @_s.required this.deviceId,
+    this.deviceMethod,
+    this.deviceMethodParameters,
+  });
+  Map<String, dynamic> toJson() => _$InvokeDeviceMethodRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -796,6 +893,50 @@ class ListTagsForResourceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The ARN of the resource.
+  @_s.JsonKey(name: 'resource-arn', ignore: true)
+  final String resourceArn;
+
+  /// A collection of key/value pairs defining the resource tags. For example, {
+  /// "tags": {"key1": "value1", "key2": "value2"} }. For more information, see <a
+  /// href="https://aws.amazon.com/answers/account-management/aws-tagging-strategies/">AWS
+  /// Tagging Strategies</a>.
+  ///
+  ///
+  ///
+  ///
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UnclaimDeviceRequest {
+  /// The unique identifier of the device.
+  @_s.JsonKey(name: 'deviceId', ignore: true)
+  final String deviceId;
+
+  UnclaimDeviceRequest({
+    @_s.required this.deviceId,
+  });
+  Map<String, dynamic> toJson() => _$UnclaimDeviceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UnclaimDeviceResponse {
@@ -808,6 +949,49 @@ class UnclaimDeviceResponse {
   });
   factory UnclaimDeviceResponse.fromJson(Map<String, dynamic> json) =>
       _$UnclaimDeviceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The ARN of the resource.
+  @_s.JsonKey(name: 'resource-arn', ignore: true)
+  final String resourceArn;
+
+  /// A collections of tag keys. For example, {"key1","key2"}
+  @_s.JsonKey(name: 'tagKeys', ignore: true)
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDeviceStateRequest {
+  /// The unique identifier of the device.
+  @_s.JsonKey(name: 'deviceId', ignore: true)
+  final String deviceId;
+
+  /// If true, the device is enabled. If false, the device is
+  /// disabled.
+  @_s.JsonKey(name: 'enabled')
+  final bool enabled;
+
+  UpdateDeviceStateRequest({
+    @_s.required this.deviceId,
+    this.enabled,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDeviceStateRequestToJson(this);
 }
 
 @_s.JsonSerializable(

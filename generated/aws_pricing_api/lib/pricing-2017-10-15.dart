@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -124,12 +123,12 @@ class Pricing {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (formatVersion != null) 'FormatVersion': formatVersion,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (serviceCode != null) 'ServiceCode': serviceCode,
-      },
+      payload: DescribeServicesRequest(
+        formatVersion: formatVersion,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        serviceCode: serviceCode,
+      ),
     );
 
     return DescribeServicesResponse.fromJson(jsonResponse.body);
@@ -187,12 +186,12 @@ class Pricing {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AttributeName': attributeName,
-        'ServiceCode': serviceCode,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: GetAttributeValuesRequest(
+        attributeName: attributeName,
+        serviceCode: serviceCode,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return GetAttributeValuesResponse.fromJson(jsonResponse.body);
@@ -247,13 +246,13 @@ class Pricing {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (formatVersion != null) 'FormatVersion': formatVersion,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (serviceCode != null) 'ServiceCode': serviceCode,
-      },
+      payload: GetProductsRequest(
+        filters: filters,
+        formatVersion: formatVersion,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        serviceCode: serviceCode,
+      ),
     );
 
     return GetProductsResponse.fromJson(jsonResponse.body);
@@ -278,6 +277,43 @@ class AttributeValue {
   });
   factory AttributeValue.fromJson(Map<String, dynamic> json) =>
       _$AttributeValueFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeServicesRequest {
+  /// The format version that you want the response to be in.
+  ///
+  /// Valid values are: <code>aws_v1</code>
+  @_s.JsonKey(name: 'FormatVersion')
+  final String formatVersion;
+
+  /// The maximum number of results that you want returned in the response.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The pagination token that indicates the next set of results that you want to
+  /// retrieve.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The code for the service whose information you want to retrieve, such as
+  /// <code>AmazonEC2</code>. You can use the <code>ServiceCode</code> to filter
+  /// the results in a <code>GetProducts</code> call. To retrieve a list of all
+  /// services, leave this blank.
+  @_s.JsonKey(name: 'ServiceCode')
+  final String serviceCode;
+
+  DescribeServicesRequest({
+    this.formatVersion,
+    this.maxResults,
+    this.nextToken,
+    this.serviceCode,
+  });
+  Map<String, dynamic> toJson() => _$DescribeServicesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -376,6 +412,41 @@ enum FilterType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetAttributeValuesRequest {
+  /// The name of the attribute that you want to retrieve the values for, such as
+  /// <code>volumeType</code>.
+  @_s.JsonKey(name: 'AttributeName')
+  final String attributeName;
+
+  /// The service code for the service whose attributes you want to retrieve. For
+  /// example, if you want the retrieve an EC2 attribute, use
+  /// <code>AmazonEC2</code>.
+  @_s.JsonKey(name: 'ServiceCode')
+  final String serviceCode;
+
+  /// The maximum number of results to return in response.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The pagination token that indicates the next set of results that you want to
+  /// retrieve.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetAttributeValuesRequest({
+    @_s.required this.attributeName,
+    @_s.required this.serviceCode,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$GetAttributeValuesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetAttributeValuesResponse {
@@ -395,6 +466,46 @@ class GetAttributeValuesResponse {
   });
   factory GetAttributeValuesResponse.fromJson(Map<String, dynamic> json) =>
       _$GetAttributeValuesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetProductsRequest {
+  /// The list of filters that limit the returned products. only products that
+  /// match all filters are returned.
+  @_s.JsonKey(name: 'Filters')
+  final List<Filter> filters;
+
+  /// The format version that you want the response to be in.
+  ///
+  /// Valid values are: <code>aws_v1</code>
+  @_s.JsonKey(name: 'FormatVersion')
+  final String formatVersion;
+
+  /// The maximum number of results to return in the response.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The pagination token that indicates the next set of results that you want to
+  /// retrieve.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The code for the service whose products you want to retrieve.
+  @_s.JsonKey(name: 'ServiceCode')
+  final String serviceCode;
+
+  GetProductsRequest({
+    this.filters,
+    this.formatVersion,
+    this.maxResults,
+    this.nextToken,
+    this.serviceCode,
+  });
+  Map<String, dynamic> toJson() => _$GetProductsRequestToJson(this);
 }
 
 @_s.JsonSerializable(

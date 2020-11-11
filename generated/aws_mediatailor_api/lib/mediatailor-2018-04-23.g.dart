@@ -115,6 +115,10 @@ Map<String, dynamic> _$DashConfigurationForPutToJson(
   return val;
 }
 
+Map<String, dynamic> _$DeletePlaybackConfigurationRequestToJson(
+        DeletePlaybackConfigurationRequest instance) =>
+    <String, dynamic>{};
+
 DeletePlaybackConfigurationResponse
     _$DeletePlaybackConfigurationResponseFromJson(Map<String, dynamic> json) {
   return DeletePlaybackConfigurationResponse();
@@ -246,6 +250,32 @@ Map<String, dynamic> _$LivePreRollConfigurationToJson(
   return val;
 }
 
+Map<String, dynamic> _$PutPlaybackConfigurationRequestToJson(
+    PutPlaybackConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AdDecisionServerUrl', instance.adDecisionServerUrl);
+  writeNotNull('AvailSuppression', instance.availSuppression?.toJson());
+  writeNotNull('CdnConfiguration', instance.cdnConfiguration?.toJson());
+  writeNotNull('DashConfiguration', instance.dashConfiguration?.toJson());
+  writeNotNull(
+      'LivePreRollConfiguration', instance.livePreRollConfiguration?.toJson());
+  writeNotNull('Name', instance.name);
+  writeNotNull('PersonalizationThresholdSeconds',
+      instance.personalizationThresholdSeconds);
+  writeNotNull('SlateAdUrl', instance.slateAdUrl);
+  writeNotNull('tags', instance.tags);
+  writeNotNull('TranscodeProfileName', instance.transcodeProfileName);
+  writeNotNull('VideoContentSourceUrl', instance.videoContentSourceUrl);
+  return val;
+}
+
 PutPlaybackConfigurationResponse _$PutPlaybackConfigurationResponseFromJson(
     Map<String, dynamic> json) {
   return PutPlaybackConfigurationResponse(
@@ -285,3 +315,20 @@ PutPlaybackConfigurationResponse _$PutPlaybackConfigurationResponseFromJson(
     videoContentSourceUrl: json['VideoContentSourceUrl'] as String,
   );
 }
+
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
+Map<String, dynamic> _$UntagResourceRequestToJson(
+        UntagResourceRequest instance) =>
+    <String, dynamic>{};

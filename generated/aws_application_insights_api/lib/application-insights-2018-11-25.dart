@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -110,14 +109,13 @@ class ApplicationInsights {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceGroupName': resourceGroupName,
-        if (cWEMonitorEnabled != null) 'CWEMonitorEnabled': cWEMonitorEnabled,
-        if (opsCenterEnabled != null) 'OpsCenterEnabled': opsCenterEnabled,
-        if (opsItemSNSTopicArn != null)
-          'OpsItemSNSTopicArn': opsItemSNSTopicArn,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateApplicationRequest(
+        resourceGroupName: resourceGroupName,
+        cWEMonitorEnabled: cWEMonitorEnabled,
+        opsCenterEnabled: opsCenterEnabled,
+        opsItemSNSTopicArn: opsItemSNSTopicArn,
+        tags: tags,
+      ),
     );
 
     return CreateApplicationResponse.fromJson(jsonResponse.body);
@@ -170,11 +168,11 @@ class ApplicationInsights {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ComponentName': componentName,
-        'ResourceGroupName': resourceGroupName,
-        'ResourceList': resourceList,
-      },
+      payload: CreateComponentRequest(
+        componentName: componentName,
+        resourceGroupName: resourceGroupName,
+        resourceList: resourceList,
+      ),
     );
 
     return CreateComponentResponse.fromJson(jsonResponse.body);
@@ -269,13 +267,13 @@ class ApplicationInsights {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Pattern': pattern,
-        'PatternName': patternName,
-        'PatternSetName': patternSetName,
-        'Rank': rank,
-        'ResourceGroupName': resourceGroupName,
-      },
+      payload: CreateLogPatternRequest(
+        pattern: pattern,
+        patternName: patternName,
+        patternSetName: patternSetName,
+        rank: rank,
+        resourceGroupName: resourceGroupName,
+      ),
     );
 
     return CreateLogPatternResponse.fromJson(jsonResponse.body);
@@ -318,9 +316,9 @@ class ApplicationInsights {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceGroupName': resourceGroupName,
-      },
+      payload: DeleteApplicationRequest(
+        resourceGroupName: resourceGroupName,
+      ),
     );
 
     return DeleteApplicationResponse.fromJson(jsonResponse.body);
@@ -368,10 +366,10 @@ class ApplicationInsights {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ComponentName': componentName,
-        'ResourceGroupName': resourceGroupName,
-      },
+      payload: DeleteComponentRequest(
+        componentName: componentName,
+        resourceGroupName: resourceGroupName,
+      ),
     );
 
     return DeleteComponentResponse.fromJson(jsonResponse.body);
@@ -449,11 +447,11 @@ class ApplicationInsights {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PatternName': patternName,
-        'PatternSetName': patternSetName,
-        'ResourceGroupName': resourceGroupName,
-      },
+      payload: DeleteLogPatternRequest(
+        patternName: patternName,
+        patternSetName: patternSetName,
+        resourceGroupName: resourceGroupName,
+      ),
     );
 
     return DeleteLogPatternResponse.fromJson(jsonResponse.body);
@@ -494,9 +492,9 @@ class ApplicationInsights {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceGroupName': resourceGroupName,
-      },
+      payload: DescribeApplicationRequest(
+        resourceGroupName: resourceGroupName,
+      ),
     );
 
     return DescribeApplicationResponse.fromJson(jsonResponse.body);
@@ -543,10 +541,10 @@ class ApplicationInsights {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ComponentName': componentName,
-        'ResourceGroupName': resourceGroupName,
-      },
+      payload: DescribeComponentRequest(
+        componentName: componentName,
+        resourceGroupName: resourceGroupName,
+      ),
     );
 
     return DescribeComponentResponse.fromJson(jsonResponse.body);
@@ -593,10 +591,10 @@ class ApplicationInsights {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ComponentName': componentName,
-        'ResourceGroupName': resourceGroupName,
-      },
+      payload: DescribeComponentConfigurationRequest(
+        componentName: componentName,
+        resourceGroupName: resourceGroupName,
+      ),
     );
 
     return DescribeComponentConfigurationResponse.fromJson(jsonResponse.body);
@@ -652,11 +650,11 @@ class ApplicationInsights {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ComponentName': componentName,
-        'ResourceGroupName': resourceGroupName,
-        'Tier': tier?.toValue(),
-      },
+      payload: DescribeComponentConfigurationRecommendationRequest(
+        componentName: componentName,
+        resourceGroupName: resourceGroupName,
+        tier: tier,
+      ),
     );
 
     return DescribeComponentConfigurationRecommendationResponse.fromJson(
@@ -734,11 +732,11 @@ class ApplicationInsights {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PatternName': patternName,
-        'PatternSetName': patternSetName,
-        'ResourceGroupName': resourceGroupName,
-      },
+      payload: DescribeLogPatternRequest(
+        patternName: patternName,
+        patternSetName: patternSetName,
+        resourceGroupName: resourceGroupName,
+      ),
     );
 
     return DescribeLogPatternResponse.fromJson(jsonResponse.body);
@@ -779,9 +777,9 @@ class ApplicationInsights {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ObservationId': observationId,
-      },
+      payload: DescribeObservationRequest(
+        observationId: observationId,
+      ),
     );
 
     return DescribeObservationResponse.fromJson(jsonResponse.body);
@@ -822,9 +820,9 @@ class ApplicationInsights {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ProblemId': problemId,
-      },
+      payload: DescribeProblemRequest(
+        problemId: problemId,
+      ),
     );
 
     return DescribeProblemResponse.fromJson(jsonResponse.body);
@@ -865,9 +863,9 @@ class ApplicationInsights {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ProblemId': problemId,
-      },
+      payload: DescribeProblemObservationsRequest(
+        problemId: problemId,
+      ),
     );
 
     return DescribeProblemObservationsResponse.fromJson(jsonResponse.body);
@@ -905,10 +903,10 @@ class ApplicationInsights {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListApplicationsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListApplicationsResponse.fromJson(jsonResponse.body);
@@ -966,11 +964,11 @@ class ApplicationInsights {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceGroupName': resourceGroupName,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListComponentsRequest(
+        resourceGroupName: resourceGroupName,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListComponentsResponse.fromJson(jsonResponse.body);
@@ -1062,14 +1060,14 @@ class ApplicationInsights {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (endTime != null) 'EndTime': endTime,
-        if (eventStatus != null) 'EventStatus': eventStatus?.toValue(),
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (resourceGroupName != null) 'ResourceGroupName': resourceGroupName,
-        if (startTime != null) 'StartTime': startTime,
-      },
+      payload: ListConfigurationHistoryRequest(
+        endTime: endTime,
+        eventStatus: eventStatus,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        resourceGroupName: resourceGroupName,
+        startTime: startTime,
+      ),
     );
 
     return ListConfigurationHistoryResponse.fromJson(jsonResponse.body);
@@ -1126,11 +1124,11 @@ class ApplicationInsights {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceGroupName': resourceGroupName,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListLogPatternSetsRequest(
+        resourceGroupName: resourceGroupName,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListLogPatternSetsResponse.fromJson(jsonResponse.body);
@@ -1202,12 +1200,12 @@ class ApplicationInsights {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceGroupName': resourceGroupName,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (patternSetName != null) 'PatternSetName': patternSetName,
-      },
+      payload: ListLogPatternsRequest(
+        resourceGroupName: resourceGroupName,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        patternSetName: patternSetName,
+      ),
     );
 
     return ListLogPatternsResponse.fromJson(jsonResponse.body);
@@ -1272,13 +1270,13 @@ class ApplicationInsights {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (endTime != null) 'EndTime': endTime,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (resourceGroupName != null) 'ResourceGroupName': resourceGroupName,
-        if (startTime != null) 'StartTime': startTime,
-      },
+      payload: ListProblemsRequest(
+        endTime: endTime,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        resourceGroupName: resourceGroupName,
+        startTime: startTime,
+      ),
     );
 
     return ListProblemsResponse.fromJson(jsonResponse.body);
@@ -1318,9 +1316,9 @@ class ApplicationInsights {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceARN': resourceARN,
-      },
+      payload: ListTagsForResourceRequest(
+        resourceARN: resourceARN,
+      ),
     );
 
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
@@ -1372,10 +1370,10 @@ class ApplicationInsights {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceARN': resourceARN,
-        'Tags': tags,
-      },
+      payload: TagResourceRequest(
+        resourceARN: resourceARN,
+        tags: tags,
+      ),
     );
 
     return TagResourceResponse.fromJson(jsonResponse.body);
@@ -1421,10 +1419,10 @@ class ApplicationInsights {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceARN': resourceARN,
-        'TagKeys': tagKeys,
-      },
+      payload: UntagResourceRequest(
+        resourceARN: resourceARN,
+        tagKeys: tagKeys,
+      ),
     );
 
     return UntagResourceResponse.fromJson(jsonResponse.body);
@@ -1493,14 +1491,13 @@ class ApplicationInsights {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceGroupName': resourceGroupName,
-        if (cWEMonitorEnabled != null) 'CWEMonitorEnabled': cWEMonitorEnabled,
-        if (opsCenterEnabled != null) 'OpsCenterEnabled': opsCenterEnabled,
-        if (opsItemSNSTopicArn != null)
-          'OpsItemSNSTopicArn': opsItemSNSTopicArn,
-        if (removeSNSTopic != null) 'RemoveSNSTopic': removeSNSTopic,
-      },
+      payload: UpdateApplicationRequest(
+        resourceGroupName: resourceGroupName,
+        cWEMonitorEnabled: cWEMonitorEnabled,
+        opsCenterEnabled: opsCenterEnabled,
+        opsItemSNSTopicArn: opsItemSNSTopicArn,
+        removeSNSTopic: removeSNSTopic,
+      ),
     );
 
     return UpdateApplicationResponse.fromJson(jsonResponse.body);
@@ -1556,12 +1553,12 @@ class ApplicationInsights {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ComponentName': componentName,
-        'ResourceGroupName': resourceGroupName,
-        if (newComponentName != null) 'NewComponentName': newComponentName,
-        if (resourceList != null) 'ResourceList': resourceList,
-      },
+      payload: UpdateComponentRequest(
+        componentName: componentName,
+        resourceGroupName: resourceGroupName,
+        newComponentName: newComponentName,
+        resourceList: resourceList,
+      ),
     );
 
     return UpdateComponentResponse.fromJson(jsonResponse.body);
@@ -1639,14 +1636,13 @@ class ApplicationInsights {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ComponentName': componentName,
-        'ResourceGroupName': resourceGroupName,
-        if (componentConfiguration != null)
-          'ComponentConfiguration': componentConfiguration,
-        if (monitor != null) 'Monitor': monitor,
-        if (tier != null) 'Tier': tier?.toValue(),
-      },
+      payload: UpdateComponentConfigurationRequest(
+        componentName: componentName,
+        resourceGroupName: resourceGroupName,
+        componentConfiguration: componentConfiguration,
+        monitor: monitor,
+        tier: tier,
+      ),
     );
 
     return UpdateComponentConfigurationResponse.fromJson(jsonResponse.body);
@@ -1738,13 +1734,13 @@ class ApplicationInsights {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PatternName': patternName,
-        'PatternSetName': patternSetName,
-        'ResourceGroupName': resourceGroupName,
-        if (pattern != null) 'Pattern': pattern,
-        if (rank != null) 'Rank': rank,
-      },
+      payload: UpdateLogPatternRequest(
+        patternName: patternName,
+        patternSetName: patternSetName,
+        resourceGroupName: resourceGroupName,
+        pattern: pattern,
+        rank: rank,
+      ),
     );
 
     return UpdateLogPatternResponse.fromJson(jsonResponse.body);
@@ -1918,18 +1914,47 @@ enum ConfigurationEventStatus {
   error,
 }
 
-extension on ConfigurationEventStatus {
-  String toValue() {
-    switch (this) {
-      case ConfigurationEventStatus.info:
-        return 'INFO';
-      case ConfigurationEventStatus.warn:
-        return 'WARN';
-      case ConfigurationEventStatus.error:
-        return 'ERROR';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateApplicationRequest {
+  /// The name of the resource group.
+  @_s.JsonKey(name: 'ResourceGroupName')
+  final String resourceGroupName;
+
+  /// Indicates whether Application Insights can listen to CloudWatch events for
+  /// the application resources, such as <code>instance terminated</code>,
+  /// <code>failed deployment</code>, and others.
+  @_s.JsonKey(name: 'CWEMonitorEnabled')
+  final bool cWEMonitorEnabled;
+
+  /// When set to <code>true</code>, creates opsItems for any problems detected on
+  /// an application.
+  @_s.JsonKey(name: 'OpsCenterEnabled')
+  final bool opsCenterEnabled;
+
+  /// The SNS topic provided to Application Insights that is associated to the
+  /// created opsItem. Allows you to receive notifications for updates to the
+  /// opsItem.
+  @_s.JsonKey(name: 'OpsItemSNSTopicArn')
+  final String opsItemSNSTopicArn;
+
+  /// List of tags to add to the application. tag key (<code>Key</code>) and an
+  /// associated tag value (<code>Value</code>). The maximum length of a tag key
+  /// is 128 characters. The maximum length of a tag value is 256 characters.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateApplicationRequest({
+    @_s.required this.resourceGroupName,
+    this.cWEMonitorEnabled,
+    this.opsCenterEnabled,
+    this.opsItemSNSTopicArn,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateApplicationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1952,12 +1977,74 @@ class CreateApplicationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateComponentRequest {
+  /// The name of the component.
+  @_s.JsonKey(name: 'ComponentName')
+  final String componentName;
+
+  /// The name of the resource group.
+  @_s.JsonKey(name: 'ResourceGroupName')
+  final String resourceGroupName;
+
+  /// The list of resource ARNs that belong to the component.
+  @_s.JsonKey(name: 'ResourceList')
+  final List<String> resourceList;
+
+  CreateComponentRequest({
+    @_s.required this.componentName,
+    @_s.required this.resourceGroupName,
+    @_s.required this.resourceList,
+  });
+  Map<String, dynamic> toJson() => _$CreateComponentRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateComponentResponse {
   CreateComponentResponse();
   factory CreateComponentResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateComponentResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateLogPatternRequest {
+  /// The log pattern.
+  @_s.JsonKey(name: 'Pattern')
+  final String pattern;
+
+  /// The name of the log pattern.
+  @_s.JsonKey(name: 'PatternName')
+  final String patternName;
+
+  /// The name of the log pattern set.
+  @_s.JsonKey(name: 'PatternSetName')
+  final String patternSetName;
+
+  /// Rank of the log pattern.
+  @_s.JsonKey(name: 'Rank')
+  final int rank;
+
+  /// The name of the resource group.
+  @_s.JsonKey(name: 'ResourceGroupName')
+  final String resourceGroupName;
+
+  CreateLogPatternRequest({
+    @_s.required this.pattern,
+    @_s.required this.patternName,
+    @_s.required this.patternSetName,
+    @_s.required this.rank,
+    @_s.required this.resourceGroupName,
+  });
+  Map<String, dynamic> toJson() => _$CreateLogPatternRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1985,12 +2072,49 @@ class CreateLogPatternResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteApplicationRequest {
+  /// The name of the resource group.
+  @_s.JsonKey(name: 'ResourceGroupName')
+  final String resourceGroupName;
+
+  DeleteApplicationRequest({
+    @_s.required this.resourceGroupName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteApplicationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteApplicationResponse {
   DeleteApplicationResponse();
   factory DeleteApplicationResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteApplicationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteComponentRequest {
+  /// The name of the component.
+  @_s.JsonKey(name: 'ComponentName')
+  final String componentName;
+
+  /// The name of the resource group.
+  @_s.JsonKey(name: 'ResourceGroupName')
+  final String resourceGroupName;
+
+  DeleteComponentRequest({
+    @_s.required this.componentName,
+    @_s.required this.resourceGroupName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteComponentRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2007,12 +2131,54 @@ class DeleteComponentResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteLogPatternRequest {
+  /// The name of the log pattern.
+  @_s.JsonKey(name: 'PatternName')
+  final String patternName;
+
+  /// The name of the log pattern set.
+  @_s.JsonKey(name: 'PatternSetName')
+  final String patternSetName;
+
+  /// The name of the resource group.
+  @_s.JsonKey(name: 'ResourceGroupName')
+  final String resourceGroupName;
+
+  DeleteLogPatternRequest({
+    @_s.required this.patternName,
+    @_s.required this.patternSetName,
+    @_s.required this.resourceGroupName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteLogPatternRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteLogPatternResponse {
   DeleteLogPatternResponse();
   factory DeleteLogPatternResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteLogPatternResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeApplicationRequest {
+  /// The name of the resource group.
+  @_s.JsonKey(name: 'ResourceGroupName')
+  final String resourceGroupName;
+
+  DescribeApplicationRequest({
+    @_s.required this.resourceGroupName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeApplicationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2035,6 +2201,35 @@ class DescribeApplicationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeComponentConfigurationRecommendationRequest {
+  /// The name of the component.
+  @_s.JsonKey(name: 'ComponentName')
+  final String componentName;
+
+  /// The name of the resource group.
+  @_s.JsonKey(name: 'ResourceGroupName')
+  final String resourceGroupName;
+
+  /// The tier of the application component. Supported tiers include
+  /// <code>DOT_NET_CORE</code>, <code>DOT_NET_WORKER</code>,
+  /// <code>DOT_NET_WEB</code>, <code>SQL_SERVER</code>, and <code>DEFAULT</code>.
+  @_s.JsonKey(name: 'Tier')
+  final Tier tier;
+
+  DescribeComponentConfigurationRecommendationRequest({
+    @_s.required this.componentName,
+    @_s.required this.resourceGroupName,
+    @_s.required this.tier,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeComponentConfigurationRecommendationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeComponentConfigurationRecommendationResponse {
@@ -2049,6 +2244,28 @@ class DescribeComponentConfigurationRecommendationResponse {
   factory DescribeComponentConfigurationRecommendationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeComponentConfigurationRecommendationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeComponentConfigurationRequest {
+  /// The name of the component.
+  @_s.JsonKey(name: 'ComponentName')
+  final String componentName;
+
+  /// The name of the resource group.
+  @_s.JsonKey(name: 'ResourceGroupName')
+  final String resourceGroupName;
+
+  DescribeComponentConfigurationRequest({
+    @_s.required this.componentName,
+    @_s.required this.resourceGroupName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeComponentConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2085,6 +2302,27 @@ class DescribeComponentConfigurationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeComponentRequest {
+  /// The name of the component.
+  @_s.JsonKey(name: 'ComponentName')
+  final String componentName;
+
+  /// The name of the resource group.
+  @_s.JsonKey(name: 'ResourceGroupName')
+  final String resourceGroupName;
+
+  DescribeComponentRequest({
+    @_s.required this.componentName,
+    @_s.required this.resourceGroupName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeComponentRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeComponentResponse {
@@ -2101,6 +2339,32 @@ class DescribeComponentResponse {
   });
   factory DescribeComponentResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeComponentResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeLogPatternRequest {
+  /// The name of the log pattern.
+  @_s.JsonKey(name: 'PatternName')
+  final String patternName;
+
+  /// The name of the log pattern set.
+  @_s.JsonKey(name: 'PatternSetName')
+  final String patternSetName;
+
+  /// The name of the resource group.
+  @_s.JsonKey(name: 'ResourceGroupName')
+  final String resourceGroupName;
+
+  DescribeLogPatternRequest({
+    @_s.required this.patternName,
+    @_s.required this.patternSetName,
+    @_s.required this.resourceGroupName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeLogPatternRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2128,6 +2392,22 @@ class DescribeLogPatternResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeObservationRequest {
+  /// The ID of the observation.
+  @_s.JsonKey(name: 'ObservationId')
+  final String observationId;
+
+  DescribeObservationRequest({
+    @_s.required this.observationId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeObservationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeObservationResponse {
@@ -2140,6 +2420,23 @@ class DescribeObservationResponse {
   });
   factory DescribeObservationResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeObservationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeProblemObservationsRequest {
+  /// The ID of the problem.
+  @_s.JsonKey(name: 'ProblemId')
+  final String problemId;
+
+  DescribeProblemObservationsRequest({
+    @_s.required this.problemId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeProblemObservationsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2158,6 +2455,22 @@ class DescribeProblemObservationsResponse {
   factory DescribeProblemObservationsResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeProblemObservationsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeProblemRequest {
+  /// The ID of the problem.
+  @_s.JsonKey(name: 'ProblemId')
+  final String problemId;
+
+  DescribeProblemRequest({
+    @_s.required this.problemId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeProblemRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2194,6 +2507,29 @@ enum FeedbackValue {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListApplicationsRequest {
+  /// The maximum number of results to return in a single call. To retrieve the
+  /// remaining results, make another call with the returned
+  /// <code>NextToken</code> value.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token to request the next page of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListApplicationsRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListApplicationsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListApplicationsResponse {
@@ -2217,6 +2553,34 @@ class ListApplicationsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListComponentsRequest {
+  /// The name of the resource group.
+  @_s.JsonKey(name: 'ResourceGroupName')
+  final String resourceGroupName;
+
+  /// The maximum number of results to return in a single call. To retrieve the
+  /// remaining results, make another call with the returned
+  /// <code>NextToken</code> value.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token to request the next page of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListComponentsRequest({
+    @_s.required this.resourceGroupName,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListComponentsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListComponentsResponse {
@@ -2234,6 +2598,67 @@ class ListComponentsResponse {
   });
   factory ListComponentsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListComponentsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListConfigurationHistoryRequest {
+  /// The end time of the event.
+  @_s.JsonKey(
+      name: 'EndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime endTime;
+
+  /// The status of the configuration update event. Possible values include INFO,
+  /// WARN, and ERROR.
+  @_s.JsonKey(name: 'EventStatus')
+  final ConfigurationEventStatus eventStatus;
+
+  /// The maximum number of results returned by
+  /// <code>ListConfigurationHistory</code> in paginated output. When this
+  /// parameter is used, <code>ListConfigurationHistory</code> returns only
+  /// <code>MaxResults</code> in a single page along with a <code>NextToken</code>
+  /// response element. The remaining results of the initial request can be seen
+  /// by sending another <code>ListConfigurationHistory</code> request with the
+  /// returned <code>NextToken</code> value. If this parameter is not used, then
+  /// <code>ListConfigurationHistory</code> returns all results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The <code>NextToken</code> value returned from a previous paginated
+  /// <code>ListConfigurationHistory</code> request where <code>MaxResults</code>
+  /// was used and the results exceeded the value of that parameter. Pagination
+  /// continues from the end of the previous results that returned the
+  /// <code>NextToken</code> value. This value is <code>null</code> when there are
+  /// no more results to return.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Resource group to which the application belongs.
+  @_s.JsonKey(name: 'ResourceGroupName')
+  final String resourceGroupName;
+
+  /// The start time of the event.
+  @_s.JsonKey(
+      name: 'StartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime startTime;
+
+  ListConfigurationHistoryRequest({
+    this.endTime,
+    this.eventStatus,
+    this.maxResults,
+    this.nextToken,
+    this.resourceGroupName,
+    this.startTime,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListConfigurationHistoryRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2267,6 +2692,34 @@ class ListConfigurationHistoryResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListLogPatternSetsRequest {
+  /// The name of the resource group.
+  @_s.JsonKey(name: 'ResourceGroupName')
+  final String resourceGroupName;
+
+  /// The maximum number of results to return in a single call. To retrieve the
+  /// remaining results, make another call with the returned
+  /// <code>NextToken</code> value.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token to request the next page of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListLogPatternSetsRequest({
+    @_s.required this.resourceGroupName,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListLogPatternSetsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListLogPatternSetsResponse {
@@ -2290,6 +2743,39 @@ class ListLogPatternSetsResponse {
   });
   factory ListLogPatternSetsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListLogPatternSetsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListLogPatternsRequest {
+  /// The name of the resource group.
+  @_s.JsonKey(name: 'ResourceGroupName')
+  final String resourceGroupName;
+
+  /// The maximum number of results to return in a single call. To retrieve the
+  /// remaining results, make another call with the returned
+  /// <code>NextToken</code> value.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token to request the next page of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The name of the log pattern set.
+  @_s.JsonKey(name: 'PatternSetName')
+  final String patternSetName;
+
+  ListLogPatternsRequest({
+    @_s.required this.resourceGroupName,
+    this.maxResults,
+    this.nextToken,
+    this.patternSetName,
+  });
+  Map<String, dynamic> toJson() => _$ListLogPatternsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2323,6 +2809,53 @@ class ListLogPatternsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListProblemsRequest {
+  /// The time when the problem ended, in epoch seconds. If not specified,
+  /// problems within the past seven days are returned.
+  @_s.JsonKey(
+      name: 'EndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime endTime;
+
+  /// The maximum number of results to return in a single call. To retrieve the
+  /// remaining results, make another call with the returned
+  /// <code>NextToken</code> value.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token to request the next page of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The name of the resource group.
+  @_s.JsonKey(name: 'ResourceGroupName')
+  final String resourceGroupName;
+
+  /// The time when the problem was detected, in epoch seconds. If you don't
+  /// specify a time frame for the request, problems within the past seven days
+  /// are returned.
+  @_s.JsonKey(
+      name: 'StartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime startTime;
+
+  ListProblemsRequest({
+    this.endTime,
+    this.maxResults,
+    this.nextToken,
+    this.resourceGroupName,
+    this.startTime,
+  });
+  Map<String, dynamic> toJson() => _$ListProblemsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListProblemsResponse {
@@ -2341,6 +2874,23 @@ class ListProblemsResponse {
   });
   factory ListProblemsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListProblemsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceRequest {
+  /// The Amazon Resource Name (ARN) of the application that you want to retrieve
+  /// tag information for.
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+
+  ListTagsForResourceRequest({
+    @_s.required this.resourceARN,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2773,6 +3323,31 @@ class Tag {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the application that you want to add one
+  /// or more tags to.
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+
+  /// A list of tags that to add to the application. A tag consists of a required
+  /// tag key (<code>Key</code>) and an associated tag value (<code>Value</code>).
+  /// The maximum length of a tag key is 128 characters. The maximum length of a
+  /// tag value is 256 characters.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceARN,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagResourceResponse {
@@ -2794,22 +3369,32 @@ enum Tier {
   sqlServer,
 }
 
-extension on Tier {
-  String toValue() {
-    switch (this) {
-      case Tier.$default:
-        return 'DEFAULT';
-      case Tier.dotNetCore:
-        return 'DOT_NET_CORE';
-      case Tier.dotNetWorker:
-        return 'DOT_NET_WORKER';
-      case Tier.dotNetWeb:
-        return 'DOT_NET_WEB';
-      case Tier.sqlServer:
-        return 'SQL_SERVER';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the application that you want to remove
+  /// one or more tags from.
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+
+  /// The tags (tag keys) that you want to remove from the resource. When you
+  /// specify a tag key, the action removes both that key and its associated tag
+  /// value.
+  ///
+  /// To remove more than one tag from the application, append the
+  /// <code>TagKeys</code> parameter and argument for each additional tag to
+  /// remove, separated by an ampersand.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceARN,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2821,6 +3406,47 @@ class UntagResourceResponse {
   UntagResourceResponse();
   factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateApplicationRequest {
+  /// The name of the resource group.
+  @_s.JsonKey(name: 'ResourceGroupName')
+  final String resourceGroupName;
+
+  /// Indicates whether Application Insights can listen to CloudWatch events for
+  /// the application resources, such as <code>instance terminated</code>,
+  /// <code>failed deployment</code>, and others.
+  @_s.JsonKey(name: 'CWEMonitorEnabled')
+  final bool cWEMonitorEnabled;
+
+  /// When set to <code>true</code>, creates opsItems for any problems detected on
+  /// an application.
+  @_s.JsonKey(name: 'OpsCenterEnabled')
+  final bool opsCenterEnabled;
+
+  /// The SNS topic provided to Application Insights that is associated to the
+  /// created opsItem. Allows you to receive notifications for updates to the
+  /// opsItem.
+  @_s.JsonKey(name: 'OpsItemSNSTopicArn')
+  final String opsItemSNSTopicArn;
+
+  /// Disassociates the SNS topic from the opsItem created for detected problems.
+  @_s.JsonKey(name: 'RemoveSNSTopic')
+  final bool removeSNSTopic;
+
+  UpdateApplicationRequest({
+    @_s.required this.resourceGroupName,
+    this.cWEMonitorEnabled,
+    this.opsCenterEnabled,
+    this.opsItemSNSTopicArn,
+    this.removeSNSTopic,
+  });
+  Map<String, dynamic> toJson() => _$UpdateApplicationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2843,6 +3469,54 @@ class UpdateApplicationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateComponentConfigurationRequest {
+  /// The name of the component.
+  @_s.JsonKey(name: 'ComponentName')
+  final String componentName;
+
+  /// The name of the resource group.
+  @_s.JsonKey(name: 'ResourceGroupName')
+  final String resourceGroupName;
+
+  /// The configuration settings of the component. The value is the escaped JSON
+  /// of the configuration. For more information about the JSON format, see <a
+  /// href="https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/working-with-json.html">Working
+  /// with JSON</a>. You can send a request to
+  /// <code>DescribeComponentConfigurationRecommendation</code> to see the
+  /// recommended configuration for a component. For the complete format of the
+  /// component configuration file, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/component-config.html">Component
+  /// Configuration</a>.
+  @_s.JsonKey(name: 'ComponentConfiguration')
+  final String componentConfiguration;
+
+  /// Indicates whether the application component is monitored.
+  @_s.JsonKey(name: 'Monitor')
+  final bool monitor;
+
+  /// The tier of the application component. Supported tiers include
+  /// <code>DOT_NET_WORKER</code>, <code>DOT_NET_WEB</code>,
+  /// <code>DOT_NET_CORE</code>, <code>SQL_SERVER</code>, and
+  /// <code>DEFAULT</code>.
+  @_s.JsonKey(name: 'Tier')
+  final Tier tier;
+
+  UpdateComponentConfigurationRequest({
+    @_s.required this.componentName,
+    @_s.required this.resourceGroupName,
+    this.componentConfiguration,
+    this.monitor,
+    this.tier,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateComponentConfigurationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateComponentConfigurationResponse {
@@ -2855,12 +3529,79 @@ class UpdateComponentConfigurationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateComponentRequest {
+  /// The name of the component.
+  @_s.JsonKey(name: 'ComponentName')
+  final String componentName;
+
+  /// The name of the resource group.
+  @_s.JsonKey(name: 'ResourceGroupName')
+  final String resourceGroupName;
+
+  /// The new name of the component.
+  @_s.JsonKey(name: 'NewComponentName')
+  final String newComponentName;
+
+  /// The list of resource ARNs that belong to the component.
+  @_s.JsonKey(name: 'ResourceList')
+  final List<String> resourceList;
+
+  UpdateComponentRequest({
+    @_s.required this.componentName,
+    @_s.required this.resourceGroupName,
+    this.newComponentName,
+    this.resourceList,
+  });
+  Map<String, dynamic> toJson() => _$UpdateComponentRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateComponentResponse {
   UpdateComponentResponse();
   factory UpdateComponentResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateComponentResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateLogPatternRequest {
+  /// The name of the log pattern.
+  @_s.JsonKey(name: 'PatternName')
+  final String patternName;
+
+  /// The name of the log pattern set.
+  @_s.JsonKey(name: 'PatternSetName')
+  final String patternSetName;
+
+  /// The name of the resource group.
+  @_s.JsonKey(name: 'ResourceGroupName')
+  final String resourceGroupName;
+
+  /// The log pattern.
+  @_s.JsonKey(name: 'Pattern')
+  final String pattern;
+
+  /// Rank of the log pattern.
+  @_s.JsonKey(name: 'Rank')
+  final int rank;
+
+  UpdateLogPatternRequest({
+    @_s.required this.patternName,
+    @_s.required this.patternSetName,
+    @_s.required this.resourceGroupName,
+    this.pattern,
+    this.rank,
+  });
+  Map<String, dynamic> toJson() => _$UpdateLogPatternRequestToJson(this);
 }
 
 @_s.JsonSerializable(

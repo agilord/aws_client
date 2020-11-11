@@ -112,6 +112,30 @@ CompareFacesMatch _$CompareFacesMatchFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CompareFacesRequestToJson(CompareFacesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SourceImage', instance.sourceImage?.toJson());
+  writeNotNull('TargetImage', instance.targetImage?.toJson());
+  writeNotNull('QualityFilter', _$QualityFilterEnumMap[instance.qualityFilter]);
+  writeNotNull('SimilarityThreshold', instance.similarityThreshold);
+  return val;
+}
+
+const _$QualityFilterEnumMap = {
+  QualityFilter.none: 'NONE',
+  QualityFilter.auto: 'AUTO',
+  QualityFilter.low: 'LOW',
+  QualityFilter.medium: 'MEDIUM',
+  QualityFilter.high: 'HIGH',
+};
+
 CompareFacesResponse _$CompareFacesResponseFromJson(Map<String, dynamic> json) {
   return CompareFacesResponse(
     faceMatches: (json['FaceMatches'] as List)
@@ -215,6 +239,20 @@ ContentModerationDetection _$ContentModerationDetectionFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateCollectionRequestToJson(
+    CreateCollectionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CollectionId', instance.collectionId);
+  return val;
+}
+
 CreateCollectionResponse _$CreateCollectionResponseFromJson(
     Map<String, dynamic> json) {
   return CreateCollectionResponse(
@@ -224,6 +262,20 @@ CreateCollectionResponse _$CreateCollectionResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateProjectRequestToJson(
+    CreateProjectRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ProjectName', instance.projectName);
+  return val;
+}
+
 CreateProjectResponse _$CreateProjectResponseFromJson(
     Map<String, dynamic> json) {
   return CreateProjectResponse(
@@ -231,11 +283,47 @@ CreateProjectResponse _$CreateProjectResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateProjectVersionRequestToJson(
+    CreateProjectVersionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('OutputConfig', instance.outputConfig?.toJson());
+  writeNotNull('ProjectArn', instance.projectArn);
+  writeNotNull('TestingData', instance.testingData?.toJson());
+  writeNotNull('TrainingData', instance.trainingData?.toJson());
+  writeNotNull('VersionName', instance.versionName);
+  return val;
+}
+
 CreateProjectVersionResponse _$CreateProjectVersionResponseFromJson(
     Map<String, dynamic> json) {
   return CreateProjectVersionResponse(
     projectVersionArn: json['ProjectVersionArn'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateStreamProcessorRequestToJson(
+    CreateStreamProcessorRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Input', instance.input?.toJson());
+  writeNotNull('Name', instance.name);
+  writeNotNull('Output', instance.output?.toJson());
+  writeNotNull('RoleArn', instance.roleArn);
+  writeNotNull('Settings', instance.settings?.toJson());
+  return val;
 }
 
 CreateStreamProcessorResponse _$CreateStreamProcessorResponseFromJson(
@@ -255,6 +343,20 @@ CustomLabel _$CustomLabelFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DeleteCollectionRequestToJson(
+    DeleteCollectionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CollectionId', instance.collectionId);
+  return val;
+}
+
 DeleteCollectionResponse _$DeleteCollectionResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteCollectionResponse(
@@ -262,11 +364,39 @@ DeleteCollectionResponse _$DeleteCollectionResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteFacesRequestToJson(DeleteFacesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CollectionId', instance.collectionId);
+  writeNotNull('FaceIds', instance.faceIds);
+  return val;
+}
+
 DeleteFacesResponse _$DeleteFacesResponseFromJson(Map<String, dynamic> json) {
   return DeleteFacesResponse(
     deletedFaces:
         (json['DeletedFaces'] as List)?.map((e) => e as String)?.toList(),
   );
+}
+
+Map<String, dynamic> _$DeleteProjectRequestToJson(
+    DeleteProjectRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ProjectArn', instance.projectArn);
+  return val;
 }
 
 DeleteProjectResponse _$DeleteProjectResponseFromJson(
@@ -281,6 +411,20 @@ const _$ProjectStatusEnumMap = {
   ProjectStatus.created: 'CREATED',
   ProjectStatus.deleting: 'DELETING',
 };
+
+Map<String, dynamic> _$DeleteProjectVersionRequestToJson(
+    DeleteProjectVersionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ProjectVersionArn', instance.projectVersionArn);
+  return val;
+}
 
 DeleteProjectVersionResponse _$DeleteProjectVersionResponseFromJson(
     Map<String, dynamic> json) {
@@ -301,9 +445,37 @@ const _$ProjectVersionStatusEnumMap = {
   ProjectVersionStatus.deleting: 'DELETING',
 };
 
+Map<String, dynamic> _$DeleteStreamProcessorRequestToJson(
+    DeleteStreamProcessorRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
 DeleteStreamProcessorResponse _$DeleteStreamProcessorResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteStreamProcessorResponse();
+}
+
+Map<String, dynamic> _$DescribeCollectionRequestToJson(
+    DescribeCollectionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CollectionId', instance.collectionId);
+  return val;
 }
 
 DescribeCollectionResponse _$DescribeCollectionResponseFromJson(
@@ -314,6 +486,23 @@ DescribeCollectionResponse _$DescribeCollectionResponseFromJson(
     faceCount: json['FaceCount'] as int,
     faceModelVersion: json['FaceModelVersion'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeProjectVersionsRequestToJson(
+    DescribeProjectVersionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ProjectArn', instance.projectArn);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('VersionNames', instance.versionNames);
+  return val;
 }
 
 DescribeProjectVersionsResponse _$DescribeProjectVersionsResponseFromJson(
@@ -328,6 +517,21 @@ DescribeProjectVersionsResponse _$DescribeProjectVersionsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeProjectsRequestToJson(
+    DescribeProjectsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 DescribeProjectsResponse _$DescribeProjectsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeProjectsResponse(
@@ -338,6 +542,20 @@ DescribeProjectsResponse _$DescribeProjectsResponseFromJson(
             : ProjectDescription.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeStreamProcessorRequestToJson(
+    DescribeStreamProcessorRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
 }
 
 DescribeStreamProcessorResponse _$DescribeStreamProcessorResponseFromJson(
@@ -373,6 +591,23 @@ const _$StreamProcessorStatusEnumMap = {
   StreamProcessorStatus.stopping: 'STOPPING',
 };
 
+Map<String, dynamic> _$DetectCustomLabelsRequestToJson(
+    DetectCustomLabelsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Image', instance.image?.toJson());
+  writeNotNull('ProjectVersionArn', instance.projectVersionArn);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('MinConfidence', instance.minConfidence);
+  return val;
+}
+
 DetectCustomLabelsResponse _$DetectCustomLabelsResponseFromJson(
     Map<String, dynamic> json) {
   return DetectCustomLabelsResponse(
@@ -381,6 +616,20 @@ DetectCustomLabelsResponse _$DetectCustomLabelsResponseFromJson(
             e == null ? null : CustomLabel.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DetectFacesRequestToJson(DetectFacesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Image', instance.image?.toJson());
+  writeNotNull('Attributes', instance.attributes);
+  return val;
 }
 
 DetectFacesResponse _$DetectFacesResponseFromJson(Map<String, dynamic> json) {
@@ -394,6 +643,21 @@ DetectFacesResponse _$DetectFacesResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DetectLabelsRequestToJson(DetectLabelsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Image', instance.image?.toJson());
+  writeNotNull('MaxLabels', instance.maxLabels);
+  writeNotNull('MinConfidence', instance.minConfidence);
+  return val;
+}
+
 DetectLabelsResponse _$DetectLabelsResponseFromJson(Map<String, dynamic> json) {
   return DetectLabelsResponse(
     labelModelVersion: json['LabelModelVersion'] as String,
@@ -404,6 +668,22 @@ DetectLabelsResponse _$DetectLabelsResponseFromJson(Map<String, dynamic> json) {
     orientationCorrection: _$enumDecodeNullable(
         _$OrientationCorrectionEnumMap, json['OrientationCorrection']),
   );
+}
+
+Map<String, dynamic> _$DetectModerationLabelsRequestToJson(
+    DetectModerationLabelsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Image', instance.image?.toJson());
+  writeNotNull('HumanLoopConfig', instance.humanLoopConfig?.toJson());
+  writeNotNull('MinConfidence', instance.minConfidence);
+  return val;
 }
 
 DetectModerationLabelsResponse _$DetectModerationLabelsResponseFromJson(
@@ -434,6 +714,20 @@ Map<String, dynamic> _$DetectTextFiltersToJson(DetectTextFilters instance) {
   writeNotNull('RegionsOfInterest',
       instance.regionsOfInterest?.map((e) => e?.toJson())?.toList());
   writeNotNull('WordFilter', instance.wordFilter?.toJson());
+  return val;
+}
+
+Map<String, dynamic> _$DetectTextRequestToJson(DetectTextRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Image', instance.image?.toJson());
+  writeNotNull('Filters', instance.filters?.toJson());
   return val;
 }
 
@@ -641,6 +935,20 @@ Geometry _$GeometryFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetCelebrityInfoRequestToJson(
+    GetCelebrityInfoRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  return val;
+}
+
 GetCelebrityInfoResponse _$GetCelebrityInfoResponseFromJson(
     Map<String, dynamic> json) {
   return GetCelebrityInfoResponse(
@@ -648,6 +956,28 @@ GetCelebrityInfoResponse _$GetCelebrityInfoResponseFromJson(
     urls: (json['Urls'] as List)?.map((e) => e as String)?.toList(),
   );
 }
+
+Map<String, dynamic> _$GetCelebrityRecognitionRequestToJson(
+    GetCelebrityRecognitionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobId', instance.jobId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SortBy', _$CelebrityRecognitionSortByEnumMap[instance.sortBy]);
+  return val;
+}
+
+const _$CelebrityRecognitionSortByEnumMap = {
+  CelebrityRecognitionSortBy.id: 'ID',
+  CelebrityRecognitionSortBy.timestamp: 'TIMESTAMP',
+};
 
 GetCelebrityRecognitionResponse _$GetCelebrityRecognitionResponseFromJson(
     Map<String, dynamic> json) {
@@ -672,6 +1002,28 @@ const _$VideoJobStatusEnumMap = {
   VideoJobStatus.failed: 'FAILED',
 };
 
+Map<String, dynamic> _$GetContentModerationRequestToJson(
+    GetContentModerationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobId', instance.jobId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SortBy', _$ContentModerationSortByEnumMap[instance.sortBy]);
+  return val;
+}
+
+const _$ContentModerationSortByEnumMap = {
+  ContentModerationSortBy.name: 'NAME',
+  ContentModerationSortBy.timestamp: 'TIMESTAMP',
+};
+
 GetContentModerationResponse _$GetContentModerationResponseFromJson(
     Map<String, dynamic> json) {
   return GetContentModerationResponse(
@@ -688,6 +1040,22 @@ GetContentModerationResponse _$GetContentModerationResponseFromJson(
         ? null
         : VideoMetadata.fromJson(json['VideoMetadata'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetFaceDetectionRequestToJson(
+    GetFaceDetectionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobId', instance.jobId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 GetFaceDetectionResponse _$GetFaceDetectionResponseFromJson(
@@ -707,6 +1075,28 @@ GetFaceDetectionResponse _$GetFaceDetectionResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$GetFaceSearchRequestToJson(
+    GetFaceSearchRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobId', instance.jobId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SortBy', _$FaceSearchSortByEnumMap[instance.sortBy]);
+  return val;
+}
+
+const _$FaceSearchSortByEnumMap = {
+  FaceSearchSortBy.$index: 'INDEX',
+  FaceSearchSortBy.timestamp: 'TIMESTAMP',
+};
+
 GetFaceSearchResponse _$GetFaceSearchResponseFromJson(
     Map<String, dynamic> json) {
   return GetFaceSearchResponse(
@@ -722,6 +1112,28 @@ GetFaceSearchResponse _$GetFaceSearchResponseFromJson(
         : VideoMetadata.fromJson(json['VideoMetadata'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$GetLabelDetectionRequestToJson(
+    GetLabelDetectionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobId', instance.jobId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SortBy', _$LabelDetectionSortByEnumMap[instance.sortBy]);
+  return val;
+}
+
+const _$LabelDetectionSortByEnumMap = {
+  LabelDetectionSortBy.name: 'NAME',
+  LabelDetectionSortBy.timestamp: 'TIMESTAMP',
+};
 
 GetLabelDetectionResponse _$GetLabelDetectionResponseFromJson(
     Map<String, dynamic> json) {
@@ -741,6 +1153,28 @@ GetLabelDetectionResponse _$GetLabelDetectionResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$GetPersonTrackingRequestToJson(
+    GetPersonTrackingRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobId', instance.jobId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SortBy', _$PersonTrackingSortByEnumMap[instance.sortBy]);
+  return val;
+}
+
+const _$PersonTrackingSortByEnumMap = {
+  PersonTrackingSortBy.$index: 'INDEX',
+  PersonTrackingSortBy.timestamp: 'TIMESTAMP',
+};
+
 GetPersonTrackingResponse _$GetPersonTrackingResponseFromJson(
     Map<String, dynamic> json) {
   return GetPersonTrackingResponse(
@@ -756,6 +1190,22 @@ GetPersonTrackingResponse _$GetPersonTrackingResponseFromJson(
         ? null
         : VideoMetadata.fromJson(json['VideoMetadata'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetTextDetectionRequestToJson(
+    GetTextDetectionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobId', instance.jobId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 GetTextDetectionResponse _$GetTextDetectionResponseFromJson(
@@ -857,6 +1307,24 @@ ImageQuality _$ImageQualityFromJson(Map<String, dynamic> json) {
     brightness: (json['Brightness'] as num)?.toDouble(),
     sharpness: (json['Sharpness'] as num)?.toDouble(),
   );
+}
+
+Map<String, dynamic> _$IndexFacesRequestToJson(IndexFacesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CollectionId', instance.collectionId);
+  writeNotNull('Image', instance.image?.toJson());
+  writeNotNull('DetectionAttributes', instance.detectionAttributes);
+  writeNotNull('ExternalImageId', instance.externalImageId);
+  writeNotNull('MaxFaces', instance.maxFaces);
+  writeNotNull('QualityFilter', _$QualityFilterEnumMap[instance.qualityFilter]);
+  return val;
 }
 
 IndexFacesResponse _$IndexFacesResponseFromJson(Map<String, dynamic> json) {
@@ -988,6 +1456,21 @@ const _$LandmarkTypeEnumMap = {
   LandmarkType.upperJawlineRight: 'upperJawlineRight',
 };
 
+Map<String, dynamic> _$ListCollectionsRequestToJson(
+    ListCollectionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListCollectionsResponse _$ListCollectionsResponseFromJson(
     Map<String, dynamic> json) {
   return ListCollectionsResponse(
@@ -999,6 +1482,21 @@ ListCollectionsResponse _$ListCollectionsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListFacesRequestToJson(ListFacesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CollectionId', instance.collectionId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListFacesResponse _$ListFacesResponseFromJson(Map<String, dynamic> json) {
   return ListFacesResponse(
     faceModelVersion: json['FaceModelVersion'] as String,
@@ -1008,6 +1506,21 @@ ListFacesResponse _$ListFacesResponseFromJson(Map<String, dynamic> json) {
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListStreamProcessorsRequestToJson(
+    ListStreamProcessorsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListStreamProcessorsResponse _$ListStreamProcessorsResponseFromJson(
@@ -1170,6 +1683,20 @@ ProjectVersionDescription _$ProjectVersionDescriptionFromJson(
   );
 }
 
+Map<String, dynamic> _$RecognizeCelebritiesRequestToJson(
+    RecognizeCelebritiesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Image', instance.image?.toJson());
+  return val;
+}
+
 RecognizeCelebritiesResponse _$RecognizeCelebritiesResponseFromJson(
     Map<String, dynamic> json) {
   return RecognizeCelebritiesResponse(
@@ -1222,6 +1749,24 @@ Map<String, dynamic> _$S3ObjectToJson(S3Object instance) {
   return val;
 }
 
+Map<String, dynamic> _$SearchFacesByImageRequestToJson(
+    SearchFacesByImageRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CollectionId', instance.collectionId);
+  writeNotNull('Image', instance.image?.toJson());
+  writeNotNull('FaceMatchThreshold', instance.faceMatchThreshold);
+  writeNotNull('MaxFaces', instance.maxFaces);
+  writeNotNull('QualityFilter', _$QualityFilterEnumMap[instance.qualityFilter]);
+  return val;
+}
+
 SearchFacesByImageResponse _$SearchFacesByImageResponseFromJson(
     Map<String, dynamic> json) {
   return SearchFacesByImageResponse(
@@ -1236,6 +1781,22 @@ SearchFacesByImageResponse _$SearchFacesByImageResponseFromJson(
             json['SearchedFaceBoundingBox'] as Map<String, dynamic>),
     searchedFaceConfidence: (json['SearchedFaceConfidence'] as num)?.toDouble(),
   );
+}
+
+Map<String, dynamic> _$SearchFacesRequestToJson(SearchFacesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CollectionId', instance.collectionId);
+  writeNotNull('FaceId', instance.faceId);
+  writeNotNull('FaceMatchThreshold', instance.faceMatchThreshold);
+  writeNotNull('MaxFaces', instance.maxFaces);
+  return val;
 }
 
 SearchFacesResponse _$SearchFacesResponseFromJson(Map<String, dynamic> json) {
@@ -1256,11 +1817,46 @@ Smile _$SmileFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$StartCelebrityRecognitionRequestToJson(
+    StartCelebrityRecognitionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Video', instance.video?.toJson());
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('JobTag', instance.jobTag);
+  writeNotNull('NotificationChannel', instance.notificationChannel?.toJson());
+  return val;
+}
+
 StartCelebrityRecognitionResponse _$StartCelebrityRecognitionResponseFromJson(
     Map<String, dynamic> json) {
   return StartCelebrityRecognitionResponse(
     jobId: json['JobId'] as String,
   );
+}
+
+Map<String, dynamic> _$StartContentModerationRequestToJson(
+    StartContentModerationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Video', instance.video?.toJson());
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('JobTag', instance.jobTag);
+  writeNotNull('MinConfidence', instance.minConfidence);
+  writeNotNull('NotificationChannel', instance.notificationChannel?.toJson());
+  return val;
 }
 
 StartContentModerationResponse _$StartContentModerationResponseFromJson(
@@ -1270,11 +1866,54 @@ StartContentModerationResponse _$StartContentModerationResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$StartFaceDetectionRequestToJson(
+    StartFaceDetectionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Video', instance.video?.toJson());
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull(
+      'FaceAttributes', _$FaceAttributesEnumMap[instance.faceAttributes]);
+  writeNotNull('JobTag', instance.jobTag);
+  writeNotNull('NotificationChannel', instance.notificationChannel?.toJson());
+  return val;
+}
+
+const _$FaceAttributesEnumMap = {
+  FaceAttributes.$default: 'DEFAULT',
+  FaceAttributes.all: 'ALL',
+};
+
 StartFaceDetectionResponse _$StartFaceDetectionResponseFromJson(
     Map<String, dynamic> json) {
   return StartFaceDetectionResponse(
     jobId: json['JobId'] as String,
   );
+}
+
+Map<String, dynamic> _$StartFaceSearchRequestToJson(
+    StartFaceSearchRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CollectionId', instance.collectionId);
+  writeNotNull('Video', instance.video?.toJson());
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('FaceMatchThreshold', instance.faceMatchThreshold);
+  writeNotNull('JobTag', instance.jobTag);
+  writeNotNull('NotificationChannel', instance.notificationChannel?.toJson());
+  return val;
 }
 
 StartFaceSearchResponse _$StartFaceSearchResponseFromJson(
@@ -1284,11 +1923,46 @@ StartFaceSearchResponse _$StartFaceSearchResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$StartLabelDetectionRequestToJson(
+    StartLabelDetectionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Video', instance.video?.toJson());
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('JobTag', instance.jobTag);
+  writeNotNull('MinConfidence', instance.minConfidence);
+  writeNotNull('NotificationChannel', instance.notificationChannel?.toJson());
+  return val;
+}
+
 StartLabelDetectionResponse _$StartLabelDetectionResponseFromJson(
     Map<String, dynamic> json) {
   return StartLabelDetectionResponse(
     jobId: json['JobId'] as String,
   );
+}
+
+Map<String, dynamic> _$StartPersonTrackingRequestToJson(
+    StartPersonTrackingRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Video', instance.video?.toJson());
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('JobTag', instance.jobTag);
+  writeNotNull('NotificationChannel', instance.notificationChannel?.toJson());
+  return val;
 }
 
 StartPersonTrackingResponse _$StartPersonTrackingResponseFromJson(
@@ -1298,11 +1972,40 @@ StartPersonTrackingResponse _$StartPersonTrackingResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$StartProjectVersionRequestToJson(
+    StartProjectVersionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MinInferenceUnits', instance.minInferenceUnits);
+  writeNotNull('ProjectVersionArn', instance.projectVersionArn);
+  return val;
+}
+
 StartProjectVersionResponse _$StartProjectVersionResponseFromJson(
     Map<String, dynamic> json) {
   return StartProjectVersionResponse(
     status: _$enumDecodeNullable(_$ProjectVersionStatusEnumMap, json['Status']),
   );
+}
+
+Map<String, dynamic> _$StartStreamProcessorRequestToJson(
+    StartStreamProcessorRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
 }
 
 StartStreamProcessorResponse _$StartStreamProcessorResponseFromJson(
@@ -1326,6 +2029,24 @@ Map<String, dynamic> _$StartTextDetectionFiltersToJson(
   return val;
 }
 
+Map<String, dynamic> _$StartTextDetectionRequestToJson(
+    StartTextDetectionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Video', instance.video?.toJson());
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('Filters', instance.filters?.toJson());
+  writeNotNull('JobTag', instance.jobTag);
+  writeNotNull('NotificationChannel', instance.notificationChannel?.toJson());
+  return val;
+}
+
 StartTextDetectionResponse _$StartTextDetectionResponseFromJson(
     Map<String, dynamic> json) {
   return StartTextDetectionResponse(
@@ -1333,11 +2054,39 @@ StartTextDetectionResponse _$StartTextDetectionResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$StopProjectVersionRequestToJson(
+    StopProjectVersionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ProjectVersionArn', instance.projectVersionArn);
+  return val;
+}
+
 StopProjectVersionResponse _$StopProjectVersionResponseFromJson(
     Map<String, dynamic> json) {
   return StopProjectVersionResponse(
     status: _$enumDecodeNullable(_$ProjectVersionStatusEnumMap, json['Status']),
   );
+}
+
+Map<String, dynamic> _$StopStreamProcessorRequestToJson(
+    StopStreamProcessorRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
 }
 
 StopStreamProcessorResponse _$StopStreamProcessorResponseFromJson(

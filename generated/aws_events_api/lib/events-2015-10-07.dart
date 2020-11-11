@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -100,9 +99,9 @@ class CloudWatchEvents {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: ActivateEventSourceRequest(
+        name: name,
+      ),
     );
   }
 
@@ -174,11 +173,11 @@ class CloudWatchEvents {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        if (eventSourceName != null) 'EventSourceName': eventSourceName,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateEventBusRequest(
+        name: name,
+        eventSourceName: eventSourceName,
+        tags: tags,
+      ),
     );
 
     return CreateEventBusResponse.fromJson(jsonResponse.body);
@@ -271,10 +270,10 @@ class CloudWatchEvents {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Account': account,
-        'Name': name,
-      },
+      payload: CreatePartnerEventSourceRequest(
+        account: account,
+        name: name,
+      ),
     );
 
     return CreatePartnerEventSourceResponse.fromJson(jsonResponse.body);
@@ -324,9 +323,9 @@ class CloudWatchEvents {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: DeactivateEventSourceRequest(
+        name: name,
+      ),
     );
   }
 
@@ -366,9 +365,9 @@ class CloudWatchEvents {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: DeleteEventBusRequest(
+        name: name,
+      ),
     );
   }
 
@@ -430,10 +429,10 @@ class CloudWatchEvents {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Account': account,
-        'Name': name,
-      },
+      payload: DeletePartnerEventSourceRequest(
+        account: account,
+        name: name,
+      ),
     );
   }
 
@@ -510,11 +509,11 @@ class CloudWatchEvents {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        if (eventBusName != null) 'EventBusName': eventBusName,
-        if (force != null) 'Force': force,
-      },
+      payload: DeleteRuleRequest(
+        name: name,
+        eventBusName: eventBusName,
+        force: force,
+      ),
     );
   }
 
@@ -558,9 +557,9 @@ class CloudWatchEvents {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (name != null) 'Name': name,
-      },
+      payload: DescribeEventBusRequest(
+        name: name,
+      ),
     );
 
     return DescribeEventBusResponse.fromJson(jsonResponse.body);
@@ -601,9 +600,9 @@ class CloudWatchEvents {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: DescribeEventSourceRequest(
+        name: name,
+      ),
     );
 
     return DescribeEventSourceResponse.fromJson(jsonResponse.body);
@@ -646,9 +645,9 @@ class CloudWatchEvents {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: DescribePartnerEventSourceRequest(
+        name: name,
+      ),
     );
 
     return DescribePartnerEventSourceResponse.fromJson(jsonResponse.body);
@@ -707,10 +706,10 @@ class CloudWatchEvents {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        if (eventBusName != null) 'EventBusName': eventBusName,
-      },
+      payload: DescribeRuleRequest(
+        name: name,
+        eventBusName: eventBusName,
+      ),
     );
 
     return DescribeRuleResponse.fromJson(jsonResponse.body);
@@ -772,10 +771,10 @@ class CloudWatchEvents {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        if (eventBusName != null) 'EventBusName': eventBusName,
-      },
+      payload: DisableRuleRequest(
+        name: name,
+        eventBusName: eventBusName,
+      ),
     );
   }
 
@@ -836,10 +835,10 @@ class CloudWatchEvents {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        if (eventBusName != null) 'EventBusName': eventBusName,
-      },
+      payload: EnableRuleRequest(
+        name: name,
+        eventBusName: eventBusName,
+      ),
     );
   }
 
@@ -897,11 +896,11 @@ class CloudWatchEvents {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (limit != null) 'Limit': limit,
-        if (namePrefix != null) 'NamePrefix': namePrefix,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListEventBusesRequest(
+        limit: limit,
+        namePrefix: namePrefix,
+        nextToken: nextToken,
+      ),
     );
 
     return ListEventBusesResponse.fromJson(jsonResponse.body);
@@ -962,11 +961,11 @@ class CloudWatchEvents {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (limit != null) 'Limit': limit,
-        if (namePrefix != null) 'NamePrefix': namePrefix,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListEventSourcesRequest(
+        limit: limit,
+        namePrefix: namePrefix,
+        nextToken: nextToken,
+      ),
     );
 
     return ListEventSourcesResponse.fromJson(jsonResponse.body);
@@ -1032,11 +1031,11 @@ class CloudWatchEvents {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EventSourceName': eventSourceName,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListPartnerEventSourceAccountsRequest(
+        eventSourceName: eventSourceName,
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return ListPartnerEventSourceAccountsResponse.fromJson(jsonResponse.body);
@@ -1101,11 +1100,11 @@ class CloudWatchEvents {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'NamePrefix': namePrefix,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListPartnerEventSourcesRequest(
+        namePrefix: namePrefix,
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return ListPartnerEventSourcesResponse.fromJson(jsonResponse.body);
@@ -1176,12 +1175,12 @@ class CloudWatchEvents {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TargetArn': targetArn,
-        if (eventBusName != null) 'EventBusName': eventBusName,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListRuleNamesByTargetRequest(
+        targetArn: targetArn,
+        eventBusName: eventBusName,
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return ListRuleNamesByTargetResponse.fromJson(jsonResponse.body);
@@ -1258,12 +1257,12 @@ class CloudWatchEvents {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (eventBusName != null) 'EventBusName': eventBusName,
-        if (limit != null) 'Limit': limit,
-        if (namePrefix != null) 'NamePrefix': namePrefix,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListRulesRequest(
+        eventBusName: eventBusName,
+        limit: limit,
+        namePrefix: namePrefix,
+        nextToken: nextToken,
+      ),
     );
 
     return ListRulesResponse.fromJson(jsonResponse.body);
@@ -1298,9 +1297,9 @@ class CloudWatchEvents {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceARN': resourceARN,
-      },
+      payload: ListTagsForResourceRequest(
+        resourceARN: resourceARN,
+      ),
     );
 
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
@@ -1376,12 +1375,12 @@ class CloudWatchEvents {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Rule': rule,
-        if (eventBusName != null) 'EventBusName': eventBusName,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListTargetsByRuleRequest(
+        rule: rule,
+        eventBusName: eventBusName,
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return ListTargetsByRuleResponse.fromJson(jsonResponse.body);
@@ -1410,9 +1409,9 @@ class CloudWatchEvents {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Entries': entries,
-      },
+      payload: PutEventsRequest(
+        entries: entries,
+      ),
     );
 
     return PutEventsResponse.fromJson(jsonResponse.body);
@@ -1439,9 +1438,9 @@ class CloudWatchEvents {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Entries': entries,
-      },
+      payload: PutPartnerEventsRequest(
+        entries: entries,
+      ),
     );
 
     return PutPartnerEventsResponse.fromJson(jsonResponse.body);
@@ -1587,13 +1586,13 @@ class CloudWatchEvents {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Action': action,
-        'Principal': principal,
-        'StatementId': statementId,
-        if (condition != null) 'Condition': condition,
-        if (eventBusName != null) 'EventBusName': eventBusName,
-      },
+      payload: PutPermissionRequest(
+        action: action,
+        principal: principal,
+        statementId: statementId,
+        condition: condition,
+        eventBusName: eventBusName,
+      ),
     );
   }
 
@@ -1754,17 +1753,16 @@ class CloudWatchEvents {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        if (description != null) 'Description': description,
-        if (eventBusName != null) 'EventBusName': eventBusName,
-        if (eventPattern != null) 'EventPattern': eventPattern,
-        if (roleArn != null) 'RoleArn': roleArn,
-        if (scheduleExpression != null)
-          'ScheduleExpression': scheduleExpression,
-        if (state != null) 'State': state?.toValue(),
-        if (tags != null) 'Tags': tags,
-      },
+      payload: PutRuleRequest(
+        name: name,
+        description: description,
+        eventBusName: eventBusName,
+        eventPattern: eventPattern,
+        roleArn: roleArn,
+        scheduleExpression: scheduleExpression,
+        state: state,
+        tags: tags,
+      ),
     );
 
     return PutRuleResponse.fromJson(jsonResponse.body);
@@ -1971,11 +1969,11 @@ class CloudWatchEvents {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Rule': rule,
-        'Targets': targets,
-        if (eventBusName != null) 'EventBusName': eventBusName,
-      },
+      payload: PutTargetsRequest(
+        rule: rule,
+        targets: targets,
+        eventBusName: eventBusName,
+      ),
     );
 
     return PutTargetsResponse.fromJson(jsonResponse.body);
@@ -2037,10 +2035,10 @@ class CloudWatchEvents {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'StatementId': statementId,
-        if (eventBusName != null) 'EventBusName': eventBusName,
-      },
+      payload: RemovePermissionRequest(
+        statementId: statementId,
+        eventBusName: eventBusName,
+      ),
     );
   }
 
@@ -2119,12 +2117,12 @@ class CloudWatchEvents {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Ids': ids,
-        'Rule': rule,
-        if (eventBusName != null) 'EventBusName': eventBusName,
-        if (force != null) 'Force': force,
-      },
+      payload: RemoveTargetsRequest(
+        ids: ids,
+        rule: rule,
+        eventBusName: eventBusName,
+        force: force,
+      ),
     );
 
     return RemoveTargetsResponse.fromJson(jsonResponse.body);
@@ -2180,10 +2178,10 @@ class CloudWatchEvents {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceARN': resourceARN,
-        'Tags': tags,
-      },
+      payload: TagResourceRequest(
+        resourceARN: resourceARN,
+        tags: tags,
+      ),
     );
 
     return TagResourceResponse.fromJson(jsonResponse.body);
@@ -2222,10 +2220,10 @@ class CloudWatchEvents {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Event': event,
-        'EventPattern': eventPattern,
-      },
+      payload: TestEventPatternRequest(
+        event: event,
+        eventPattern: eventPattern,
+      ),
     );
 
     return TestEventPatternResponse.fromJson(jsonResponse.body);
@@ -2267,14 +2265,30 @@ class CloudWatchEvents {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceARN': resourceARN,
-        'TagKeys': tagKeys,
-      },
+      payload: UntagResourceRequest(
+        resourceARN: resourceARN,
+        tagKeys: tagKeys,
+      ),
     );
 
     return UntagResourceResponse.fromJson(jsonResponse.body);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ActivateEventSourceRequest {
+  /// The name of the partner event source to activate.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  ActivateEventSourceRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$ActivateEventSourceRequestToJson(this);
 }
 
 enum AssignPublicIp {
@@ -2454,6 +2468,40 @@ class Condition {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateEventBusRequest {
+  /// The name of the new event bus.
+  ///
+  /// Event bus names cannot contain the / character. You can't use the name
+  /// <code>default</code> for a custom event bus, as this name is already used
+  /// for your account's default event bus.
+  ///
+  /// If this is a partner event bus, the name must exactly match the name of the
+  /// partner event source that this event bus is matched to.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// If you are creating a partner event bus, this specifies the partner event
+  /// source that the new event bus will be matched with.
+  @_s.JsonKey(name: 'EventSourceName')
+  final String eventSourceName;
+
+  /// Tags to associate with the event bus.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateEventBusRequest({
+    @_s.required this.name,
+    this.eventSourceName,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateEventBusRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateEventBusResponse {
@@ -2466,6 +2514,34 @@ class CreateEventBusResponse {
   });
   factory CreateEventBusResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateEventBusResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreatePartnerEventSourceRequest {
+  /// The AWS account ID that is permitted to create a matching partner event bus
+  /// for this partner event source.
+  @_s.JsonKey(name: 'Account')
+  final String account;
+
+  /// The name of the partner event source. This name must be unique and must be
+  /// in the format <code>
+  /// <i>partner_name</i>/<i>event_namespace</i>/<i>event_name</i> </code>. The
+  /// AWS account that wants to use this partner event source must create a
+  /// partner event bus with a name that matches the name of the partner event
+  /// source.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  CreatePartnerEventSourceRequest({
+    @_s.required this.account,
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreatePartnerEventSourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2484,6 +2560,110 @@ class CreatePartnerEventSourceResponse {
   factory CreatePartnerEventSourceResponse.fromJson(
           Map<String, dynamic> json) =>
       _$CreatePartnerEventSourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeactivateEventSourceRequest {
+  /// The name of the partner event source to deactivate.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  DeactivateEventSourceRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$DeactivateEventSourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteEventBusRequest {
+  /// The name of the event bus to delete.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  DeleteEventBusRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$DeleteEventBusRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeletePartnerEventSourceRequest {
+  /// The AWS account ID of the AWS customer that the event source was created
+  /// for.
+  @_s.JsonKey(name: 'Account')
+  final String account;
+
+  /// The name of the event source to delete.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  DeletePartnerEventSourceRequest({
+    @_s.required this.account,
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeletePartnerEventSourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteRuleRequest {
+  /// The name of the rule.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The event bus associated with the rule. If you omit this, the default event
+  /// bus is used.
+  @_s.JsonKey(name: 'EventBusName')
+  final String eventBusName;
+
+  /// If this is a managed rule, created by an AWS service on your behalf, you
+  /// must specify <code>Force</code> as <code>True</code> to delete the rule.
+  /// This parameter is ignored for rules that are not managed rules. You can
+  /// check whether a rule is a managed rule by using <code>DescribeRule</code> or
+  /// <code>ListRules</code> and checking the <code>ManagedBy</code> field of the
+  /// response.
+  @_s.JsonKey(name: 'Force')
+  final bool force;
+
+  DeleteRuleRequest({
+    @_s.required this.name,
+    this.eventBusName,
+    this.force,
+  });
+  Map<String, dynamic> toJson() => _$DeleteRuleRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeEventBusRequest {
+  /// The name of the event bus to show details for. If you omit this, the default
+  /// event bus is displayed.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  DescribeEventBusRequest({
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$DescribeEventBusRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2512,6 +2692,22 @@ class DescribeEventBusResponse {
   });
   factory DescribeEventBusResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeEventBusResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeEventSourceRequest {
+  /// The name of the partner event source to display the details of.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  DescribeEventSourceRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$DescribeEventSourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2570,6 +2766,23 @@ class DescribeEventSourceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribePartnerEventSourceRequest {
+  /// The name of the event source to display.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  DescribePartnerEventSourceRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribePartnerEventSourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribePartnerEventSourceResponse {
@@ -2588,6 +2801,28 @@ class DescribePartnerEventSourceResponse {
   factory DescribePartnerEventSourceResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribePartnerEventSourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeRuleRequest {
+  /// The name of the rule.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The event bus associated with the rule. If you omit this, the default event
+  /// bus is used.
+  @_s.JsonKey(name: 'EventBusName')
+  final String eventBusName;
+
+  DescribeRuleRequest({
+    @_s.required this.name,
+    this.eventBusName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeRuleRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2649,6 +2884,28 @@ class DescribeRuleResponse {
   });
   factory DescribeRuleResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeRuleResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisableRuleRequest {
+  /// The name of the rule.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The event bus associated with the rule. If you omit this, the default event
+  /// bus is used.
+  @_s.JsonKey(name: 'EventBusName')
+  final String eventBusName;
+
+  DisableRuleRequest({
+    @_s.required this.name,
+    this.eventBusName,
+  });
+  Map<String, dynamic> toJson() => _$DisableRuleRequestToJson(this);
 }
 
 /// The custom parameters to be used when the target is an Amazon ECS task.
@@ -2720,6 +2977,28 @@ class EcsParameters {
       _$EcsParametersFromJson(json);
 
   Map<String, dynamic> toJson() => _$EcsParametersToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class EnableRuleRequest {
+  /// The name of the rule.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The event bus associated with the rule. If you omit this, the default event
+  /// bus is used.
+  @_s.JsonKey(name: 'EventBusName')
+  final String eventBusName;
+
+  EnableRuleRequest({
+    @_s.required this.name,
+    this.eventBusName,
+  });
+  Map<String, dynamic> toJson() => _$EnableRuleRequestToJson(this);
 }
 
 /// An event bus receives events from a source and routes them to rules
@@ -2936,6 +3215,35 @@ enum LaunchType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListEventBusesRequest {
+  /// Specifying this limits the number of results returned by this operation. The
+  /// operation also returns a NextToken which you can use in a subsequent
+  /// operation to retrieve the next set of results.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// Specifying this limits the results to only those event buses with names that
+  /// start with the specified prefix.
+  @_s.JsonKey(name: 'NamePrefix')
+  final String namePrefix;
+
+  /// The token returned by a previous call to retrieve the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListEventBusesRequest({
+    this.limit,
+    this.namePrefix,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListEventBusesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListEventBusesResponse {
@@ -2959,6 +3267,35 @@ class ListEventBusesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListEventSourcesRequest {
+  /// Specifying this limits the number of results returned by this operation. The
+  /// operation also returns a NextToken which you can use in a subsequent
+  /// operation to retrieve the next set of results.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// Specifying this limits the results to only those partner event sources with
+  /// names that start with the specified prefix.
+  @_s.JsonKey(name: 'NamePrefix')
+  final String namePrefix;
+
+  /// The token returned by a previous call to retrieve the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListEventSourcesRequest({
+    this.limit,
+    this.namePrefix,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListEventSourcesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListEventSourcesResponse {
@@ -2977,6 +3314,36 @@ class ListEventSourcesResponse {
   });
   factory ListEventSourcesResponse.fromJson(Map<String, dynamic> json) =>
       _$ListEventSourcesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListPartnerEventSourceAccountsRequest {
+  /// The name of the partner event source to display account information about.
+  @_s.JsonKey(name: 'EventSourceName')
+  final String eventSourceName;
+
+  /// Specifying this limits the number of results returned by this operation. The
+  /// operation also returns a NextToken which you can use in a subsequent
+  /// operation to retrieve the next set of results.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The token returned by a previous call to this operation. Specifying this
+  /// retrieves the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListPartnerEventSourceAccountsRequest({
+    @_s.required this.eventSourceName,
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListPartnerEventSourceAccountsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3006,6 +3373,36 @@ class ListPartnerEventSourceAccountsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListPartnerEventSourcesRequest {
+  /// If you specify this, the results are limited to only those partner event
+  /// sources that start with the string you specify.
+  @_s.JsonKey(name: 'NamePrefix')
+  final String namePrefix;
+
+  /// pecifying this limits the number of results returned by this operation. The
+  /// operation also returns a NextToken which you can use in a subsequent
+  /// operation to retrieve the next set of results.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The token returned by a previous call to this operation. Specifying this
+  /// retrieves the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListPartnerEventSourcesRequest({
+    @_s.required this.namePrefix,
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListPartnerEventSourcesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListPartnerEventSourcesResponse {
@@ -3024,6 +3421,38 @@ class ListPartnerEventSourcesResponse {
   });
   factory ListPartnerEventSourcesResponse.fromJson(Map<String, dynamic> json) =>
       _$ListPartnerEventSourcesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListRuleNamesByTargetRequest {
+  /// The Amazon Resource Name (ARN) of the target resource.
+  @_s.JsonKey(name: 'TargetArn')
+  final String targetArn;
+
+  /// Limits the results to show only the rules associated with the specified
+  /// event bus.
+  @_s.JsonKey(name: 'EventBusName')
+  final String eventBusName;
+
+  /// The maximum number of results to return.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The token returned by a previous call to retrieve the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListRuleNamesByTargetRequest({
+    @_s.required this.targetArn,
+    this.eventBusName,
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListRuleNamesByTargetRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3052,6 +3481,38 @@ class ListRuleNamesByTargetResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListRulesRequest {
+  /// Limits the results to show only the rules associated with the specified
+  /// event bus.
+  @_s.JsonKey(name: 'EventBusName')
+  final String eventBusName;
+
+  /// The maximum number of results to return.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The prefix matching the rule name.
+  @_s.JsonKey(name: 'NamePrefix')
+  final String namePrefix;
+
+  /// The token returned by a previous call to retrieve the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListRulesRequest({
+    this.eventBusName,
+    this.limit,
+    this.namePrefix,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListRulesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListRulesResponse {
@@ -3075,6 +3536,22 @@ class ListRulesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceRequest {
+  /// The ARN of the EventBridge resource for which you want to view tags.
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+
+  ListTagsForResourceRequest({
+    @_s.required this.resourceARN,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListTagsForResourceResponse {
@@ -3087,6 +3564,38 @@ class ListTagsForResourceResponse {
   });
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$ListTagsForResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTargetsByRuleRequest {
+  /// The name of the rule.
+  @_s.JsonKey(name: 'Rule')
+  final String rule;
+
+  /// The event bus associated with the rule. If you omit this, the default event
+  /// bus is used.
+  @_s.JsonKey(name: 'EventBusName')
+  final String eventBusName;
+
+  /// The maximum number of results to return.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The token returned by a previous call to retrieve the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListTargetsByRuleRequest({
+    @_s.required this.rule,
+    this.eventBusName,
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListTargetsByRuleRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3203,6 +3712,24 @@ class PartnerEventSourceAccount {
       _$PartnerEventSourceAccountFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutEventsRequest {
+  /// The entry that defines an event in your system. You can specify several
+  /// parameters for the entry such as the source and type of the event, resources
+  /// associated with the event, and so on.
+  @_s.JsonKey(name: 'Entries')
+  final List<PutEventsRequestEntry> entries;
+
+  PutEventsRequest({
+    @_s.required this.entries,
+  });
+  Map<String, dynamic> toJson() => _$PutEventsRequestToJson(this);
+}
+
 /// Represents an event to be submitted.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3306,6 +3833,22 @@ class PutEventsResultEntry {
       _$PutEventsResultEntryFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutPartnerEventsRequest {
+  /// The list of events to write to the event bus.
+  @_s.JsonKey(name: 'Entries')
+  final List<PutPartnerEventsRequestEntry> entries;
+
+  PutPartnerEventsRequest({
+    @_s.required this.entries,
+  });
+  Map<String, dynamic> toJson() => _$PutPartnerEventsRequestToJson(this);
+}
+
 /// The details about an event generated by an SaaS partner.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3403,6 +3946,121 @@ class PutPartnerEventsResultEntry {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutPermissionRequest {
+  /// The action that you are enabling the other account to perform. Currently,
+  /// this must be <code>events:PutEvents</code>.
+  @_s.JsonKey(name: 'Action')
+  final String action;
+
+  /// The 12-digit AWS account ID that you are permitting to put events to your
+  /// default event bus. Specify "*" to permit any account to put events to your
+  /// default event bus.
+  ///
+  /// If you specify "*" without specifying <code>Condition</code>, avoid creating
+  /// rules that may match undesirable events. To create more secure rules, make
+  /// sure that the event pattern for each rule contains an <code>account</code>
+  /// field with a specific account ID from which to receive events. Rules with an
+  /// account field do not match any events sent from other accounts.
+  @_s.JsonKey(name: 'Principal')
+  final String principal;
+
+  /// An identifier string for the external account that you are granting
+  /// permissions to. If you later want to revoke the permission for this external
+  /// account, specify this <code>StatementId</code> when you run
+  /// <a>RemovePermission</a>.
+  @_s.JsonKey(name: 'StatementId')
+  final String statementId;
+
+  /// This parameter enables you to limit the permission to accounts that fulfill
+  /// a certain condition, such as being a member of a certain AWS organization.
+  /// For more information about AWS Organizations, see <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_introduction.html">What
+  /// Is AWS Organizations</a> in the <i>AWS Organizations User Guide</i>.
+  ///
+  /// If you specify <code>Condition</code> with an AWS organization ID, and
+  /// specify "*" as the value for <code>Principal</code>, you grant permission to
+  /// all the accounts in the named organization.
+  ///
+  /// The <code>Condition</code> is a JSON string which must contain
+  /// <code>Type</code>, <code>Key</code>, and <code>Value</code> fields.
+  @_s.JsonKey(name: 'Condition')
+  final Condition condition;
+
+  /// The event bus associated with the rule. If you omit this, the default event
+  /// bus is used.
+  @_s.JsonKey(name: 'EventBusName')
+  final String eventBusName;
+
+  PutPermissionRequest({
+    @_s.required this.action,
+    @_s.required this.principal,
+    @_s.required this.statementId,
+    this.condition,
+    this.eventBusName,
+  });
+  Map<String, dynamic> toJson() => _$PutPermissionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutRuleRequest {
+  /// The name of the rule that you are creating or updating.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// A description of the rule.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The event bus to associate with this rule. If you omit this, the default
+  /// event bus is used.
+  @_s.JsonKey(name: 'EventBusName')
+  final String eventBusName;
+
+  /// The event pattern. For more information, see <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-and-event-patterns.html">Events
+  /// and Event Patterns</a> in the <i>Amazon EventBridge User Guide</i>.
+  @_s.JsonKey(name: 'EventPattern')
+  final String eventPattern;
+
+  /// The Amazon Resource Name (ARN) of the IAM role associated with the rule.
+  @_s.JsonKey(name: 'RoleArn')
+  final String roleArn;
+
+  /// The scheduling expression. For example, "cron(0 20 * * ? *)" or "rate(5
+  /// minutes)".
+  @_s.JsonKey(name: 'ScheduleExpression')
+  final String scheduleExpression;
+
+  /// Indicates whether the rule is enabled or disabled.
+  @_s.JsonKey(name: 'State')
+  final RuleState state;
+
+  /// The list of key-value pairs to associate with the rule.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  PutRuleRequest({
+    @_s.required this.name,
+    this.description,
+    this.eventBusName,
+    this.eventPattern,
+    this.roleArn,
+    this.scheduleExpression,
+    this.state,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$PutRuleRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutRuleResponse {
@@ -3415,6 +4073,33 @@ class PutRuleResponse {
   });
   factory PutRuleResponse.fromJson(Map<String, dynamic> json) =>
       _$PutRuleResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutTargetsRequest {
+  /// The name of the rule.
+  @_s.JsonKey(name: 'Rule')
+  final String rule;
+
+  /// The targets to update or add to the rule.
+  @_s.JsonKey(name: 'Targets')
+  final List<Target> targets;
+
+  /// The name of the event bus associated with the rule. If you omit this, the
+  /// default event bus is used.
+  @_s.JsonKey(name: 'EventBusName')
+  final String eventBusName;
+
+  PutTargetsRequest({
+    @_s.required this.rule,
+    @_s.required this.targets,
+    this.eventBusName,
+  });
+  Map<String, dynamic> toJson() => _$PutTargetsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3467,6 +4152,65 @@ class PutTargetsResultEntry {
   });
   factory PutTargetsResultEntry.fromJson(Map<String, dynamic> json) =>
       _$PutTargetsResultEntryFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RemovePermissionRequest {
+  /// The statement ID corresponding to the account that is no longer allowed to
+  /// put events to the default event bus.
+  @_s.JsonKey(name: 'StatementId')
+  final String statementId;
+
+  /// The name of the event bus to revoke permissions for. If you omit this, the
+  /// default event bus is used.
+  @_s.JsonKey(name: 'EventBusName')
+  final String eventBusName;
+
+  RemovePermissionRequest({
+    @_s.required this.statementId,
+    this.eventBusName,
+  });
+  Map<String, dynamic> toJson() => _$RemovePermissionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RemoveTargetsRequest {
+  /// The IDs of the targets to remove from the rule.
+  @_s.JsonKey(name: 'Ids')
+  final List<String> ids;
+
+  /// The name of the rule.
+  @_s.JsonKey(name: 'Rule')
+  final String rule;
+
+  /// The name of the event bus associated with the rule.
+  @_s.JsonKey(name: 'EventBusName')
+  final String eventBusName;
+
+  /// If this is a managed rule, created by an AWS service on your behalf, you
+  /// must specify <code>Force</code> as <code>True</code> to remove targets. This
+  /// parameter is ignored for rules that are not managed rules. You can check
+  /// whether a rule is a managed rule by using <code>DescribeRule</code> or
+  /// <code>ListRules</code> and checking the <code>ManagedBy</code> field of the
+  /// response.
+  @_s.JsonKey(name: 'Force')
+  final bool force;
+
+  RemoveTargetsRequest({
+    @_s.required this.ids,
+    @_s.required this.rule,
+    this.eventBusName,
+    this.force,
+  });
+  Map<String, dynamic> toJson() => _$RemoveTargetsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3590,18 +4334,6 @@ enum RuleState {
   disabled,
 }
 
-extension on RuleState {
-  String toValue() {
-    switch (this) {
-      case RuleState.enabled:
-        return 'ENABLED';
-      case RuleState.disabled:
-        return 'DISABLED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// This parameter contains the criteria (either InstanceIds or a tag) used to
 /// specify which EC2 instances are to be sent the command.
 @_s.JsonSerializable(
@@ -3698,6 +4430,27 @@ class Tag {
   factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
   Map<String, dynamic> toJson() => _$TagToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The ARN of the EventBridge resource that you're adding tags to.
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+
+  /// The list of key-value pairs to associate with the resource.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceARN,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3817,6 +4570,29 @@ class Target {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TestEventPatternRequest {
+  /// The event, in JSON format, to test against the event pattern.
+  @_s.JsonKey(name: 'Event')
+  final String event;
+
+  /// The event pattern. For more information, see <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-and-event-patterns.html">Events
+  /// and Event Patterns</a> in the <i>Amazon EventBridge User Guide</i>.
+  @_s.JsonKey(name: 'EventPattern')
+  final String eventPattern;
+
+  TestEventPatternRequest({
+    @_s.required this.event,
+    @_s.required this.eventPattern,
+  });
+  Map<String, dynamic> toJson() => _$TestEventPatternRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TestEventPatternResponse {
@@ -3829,6 +4605,27 @@ class TestEventPatternResponse {
   });
   factory TestEventPatternResponse.fromJson(Map<String, dynamic> json) =>
       _$TestEventPatternResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The ARN of the EventBridge resource from which you are removing tags.
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+
+  /// The list of tag keys to remove from the resource.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceARN,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(

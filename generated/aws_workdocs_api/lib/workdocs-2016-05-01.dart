@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -135,7 +134,11 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    final $payload = <String, dynamic>{};
+    final $payload = AbortDocumentVersionUploadRequest(
+      documentId: documentId,
+      versionId: versionId,
+      authenticationToken: authenticationToken,
+    );
     await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -187,7 +190,10 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    final $payload = <String, dynamic>{};
+    final $payload = ActivateUserRequest(
+      userId: userId,
+      authenticationToken: authenticationToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -249,11 +255,12 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    final $payload = <String, dynamic>{
-      'Principals': principals,
-      if (notificationOptions != null)
-        'NotificationOptions': notificationOptions,
-    };
+    final $payload = AddResourcePermissionsRequest(
+      principals: principals,
+      resourceId: resourceId,
+      authenticationToken: authenticationToken,
+      notificationOptions: notificationOptions,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -380,14 +387,16 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    final $payload = <String, dynamic>{
-      'Text': text,
-      if (notifyCollaborators != null)
-        'NotifyCollaborators': notifyCollaborators,
-      if (parentId != null) 'ParentId': parentId,
-      if (threadId != null) 'ThreadId': threadId,
-      if (visibility != null) 'Visibility': visibility?.toValue(),
-    };
+    final $payload = CreateCommentRequest(
+      documentId: documentId,
+      text: text,
+      versionId: versionId,
+      authenticationToken: authenticationToken,
+      notifyCollaborators: notifyCollaborators,
+      parentId: parentId,
+      threadId: threadId,
+      visibility: visibility,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -467,9 +476,12 @@ class WorkDocs {
     _query = '?${[
       if (versionId != null) _s.toQueryParam('versionid', versionId),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{
-      'CustomMetadata': customMetadata,
-    };
+    final $payload = CreateCustomMetadataRequest(
+      customMetadata: customMetadata,
+      resourceId: resourceId,
+      authenticationToken: authenticationToken,
+      versionId: versionId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -540,10 +552,11 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    final $payload = <String, dynamic>{
-      'ParentFolderId': parentFolderId,
-      if (name != null) 'Name': name,
-    };
+    final $payload = CreateFolderRequest(
+      parentFolderId: parentFolderId,
+      authenticationToken: authenticationToken,
+      name: name,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -601,9 +614,11 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    final $payload = <String, dynamic>{
-      'Labels': labels,
-    };
+    final $payload = CreateLabelsRequest(
+      labels: labels,
+      resourceId: resourceId,
+      authenticationToken: authenticationToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -670,11 +685,12 @@ class WorkDocs {
     );
     ArgumentError.checkNotNull(protocol, 'protocol');
     ArgumentError.checkNotNull(subscriptionType, 'subscriptionType');
-    final $payload = <String, dynamic>{
-      'Endpoint': endpoint,
-      'Protocol': protocol?.toValue(),
-      'SubscriptionType': subscriptionType?.toValue(),
-    };
+    final $payload = CreateNotificationSubscriptionRequest(
+      endpoint: endpoint,
+      organizationId: organizationId,
+      protocol: protocol,
+      subscriptionType: subscriptionType,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -812,16 +828,17 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    final $payload = <String, dynamic>{
-      'GivenName': givenName,
-      'Password': password,
-      'Surname': surname,
-      'Username': username,
-      if (emailAddress != null) 'EmailAddress': emailAddress,
-      if (organizationId != null) 'OrganizationId': organizationId,
-      if (storageRule != null) 'StorageRule': storageRule,
-      if (timeZoneId != null) 'TimeZoneId': timeZoneId,
-    };
+    final $payload = CreateUserRequest(
+      givenName: givenName,
+      password: password,
+      surname: surname,
+      username: username,
+      authenticationToken: authenticationToken,
+      emailAddress: emailAddress,
+      organizationId: organizationId,
+      storageRule: storageRule,
+      timeZoneId: timeZoneId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -873,7 +890,10 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    final $payload = <String, dynamic>{};
+    final $payload = DeactivateUserRequest(
+      userId: userId,
+      authenticationToken: authenticationToken,
+    );
     await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -962,7 +982,12 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteCommentRequest(
+      commentId: commentId,
+      documentId: documentId,
+      versionId: versionId,
+      authenticationToken: authenticationToken,
+    );
     await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -1045,7 +1070,13 @@ class WorkDocs {
       if (keys != null) _s.toQueryParam('keys', keys),
       if (versionId != null) _s.toQueryParam('versionId', versionId),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteCustomMetadataRequest(
+      resourceId: resourceId,
+      authenticationToken: authenticationToken,
+      deleteAll: deleteAll,
+      keys: keys,
+      versionId: versionId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -1100,7 +1131,10 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteDocumentRequest(
+      documentId: documentId,
+      authenticationToken: authenticationToken,
+    );
     await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -1154,7 +1188,10 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteFolderRequest(
+      folderId: folderId,
+      authenticationToken: authenticationToken,
+    );
     await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -1206,7 +1243,10 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteFolderContentsRequest(
+      folderId: folderId,
+      authenticationToken: authenticationToken,
+    );
     await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -1270,7 +1310,12 @@ class WorkDocs {
       if (deleteAll != null) _s.toQueryParam('deleteAll', deleteAll),
       if (labels != null) _s.toQueryParam('labels', labels),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteLabelsRequest(
+      resourceId: resourceId,
+      authenticationToken: authenticationToken,
+      deleteAll: deleteAll,
+      labels: labels,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -1326,7 +1371,10 @@ class WorkDocs {
       r'''[&\w+-.@]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteNotificationSubscriptionRequest(
+      organizationId: organizationId,
+      subscriptionId: subscriptionId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1376,7 +1424,10 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteUserRequest(
+      userId: userId,
+      authenticationToken: authenticationToken,
+    );
     await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -2989,18 +3040,16 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    final $payload = <String, dynamic>{
-      'ParentFolderId': parentFolderId,
-      if (contentCreatedTimestamp != null)
-        'ContentCreatedTimestamp': contentCreatedTimestamp,
-      if (contentModifiedTimestamp != null)
-        'ContentModifiedTimestamp': contentModifiedTimestamp,
-      if (contentType != null) 'ContentType': contentType,
-      if (documentSizeInBytes != null)
-        'DocumentSizeInBytes': documentSizeInBytes,
-      if (id != null) 'Id': id,
-      if (name != null) 'Name': name,
-    };
+    final $payload = InitiateDocumentVersionUploadRequest(
+      parentFolderId: parentFolderId,
+      authenticationToken: authenticationToken,
+      contentCreatedTimestamp: contentCreatedTimestamp,
+      contentModifiedTimestamp: contentModifiedTimestamp,
+      contentType: contentType,
+      documentSizeInBytes: documentSizeInBytes,
+      id: id,
+      name: name,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -3050,7 +3099,10 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    final $payload = <String, dynamic>{};
+    final $payload = RemoveAllResourcePermissionsRequest(
+      resourceId: resourceId,
+      authenticationToken: authenticationToken,
+    );
     await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -3127,7 +3179,12 @@ class WorkDocs {
     _query = '?${[
       if (principalType != null) _s.toQueryParam('type', principalType),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = RemoveResourcePermissionRequest(
+      principalId: principalId,
+      resourceId: resourceId,
+      authenticationToken: authenticationToken,
+      principalType: principalType,
+    );
     await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -3219,11 +3276,13 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    final $payload = <String, dynamic>{
-      if (name != null) 'Name': name,
-      if (parentFolderId != null) 'ParentFolderId': parentFolderId,
-      if (resourceState != null) 'ResourceState': resourceState?.toValue(),
-    };
+    final $payload = UpdateDocumentRequest(
+      documentId: documentId,
+      authenticationToken: authenticationToken,
+      name: name,
+      parentFolderId: parentFolderId,
+      resourceState: resourceState,
+    );
     await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -3303,9 +3362,12 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    final $payload = <String, dynamic>{
-      if (versionStatus != null) 'VersionStatus': versionStatus?.toValue(),
-    };
+    final $payload = UpdateDocumentVersionRequest(
+      documentId: documentId,
+      versionId: versionId,
+      authenticationToken: authenticationToken,
+      versionStatus: versionStatus,
+    );
     await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -3397,11 +3459,13 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    final $payload = <String, dynamic>{
-      if (name != null) 'Name': name,
-      if (parentFolderId != null) 'ParentFolderId': parentFolderId,
-      if (resourceState != null) 'ResourceState': resourceState?.toValue(),
-    };
+    final $payload = UpdateFolderRequest(
+      folderId: folderId,
+      authenticationToken: authenticationToken,
+      name: name,
+      parentFolderId: parentFolderId,
+      resourceState: resourceState,
+    );
     await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -3502,16 +3566,17 @@ class WorkDocs {
     );
     final headers = <String, String>{};
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
-    final $payload = <String, dynamic>{
-      if (givenName != null) 'GivenName': givenName,
-      if (grantPoweruserPrivileges != null)
-        'GrantPoweruserPrivileges': grantPoweruserPrivileges?.toValue(),
-      if (locale != null) 'Locale': locale?.toValue(),
-      if (storageRule != null) 'StorageRule': storageRule,
-      if (surname != null) 'Surname': surname,
-      if (timeZoneId != null) 'TimeZoneId': timeZoneId,
-      if (type != null) 'Type': type?.toValue(),
-    };
+    final $payload = UpdateUserRequest(
+      userId: userId,
+      authenticationToken: authenticationToken,
+      givenName: givenName,
+      grantPoweruserPrivileges: grantPoweruserPrivileges,
+      locale: locale,
+      storageRule: storageRule,
+      surname: surname,
+      timeZoneId: timeZoneId,
+      type: type,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -3521,6 +3586,56 @@ class WorkDocs {
     );
     return UpdateUserResponse.fromJson(response);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AbortDocumentVersionUploadRequest {
+  /// The ID of the document.
+  @_s.JsonKey(name: 'DocumentId', ignore: true)
+  final String documentId;
+
+  /// The ID of the version.
+  @_s.JsonKey(name: 'VersionId', ignore: true)
+  final String versionId;
+
+  /// Amazon WorkDocs authentication token. Not required when using AWS
+  /// administrator credentials to access the API.
+  @_s.JsonKey(name: 'Authentication', ignore: true)
+  final String authenticationToken;
+
+  AbortDocumentVersionUploadRequest({
+    @_s.required this.documentId,
+    @_s.required this.versionId,
+    this.authenticationToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AbortDocumentVersionUploadRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ActivateUserRequest {
+  /// The ID of the user.
+  @_s.JsonKey(name: 'UserId', ignore: true)
+  final String userId;
+
+  /// Amazon WorkDocs authentication token. Not required when using AWS
+  /// administrator credentials to access the API.
+  @_s.JsonKey(name: 'Authentication', ignore: true)
+  final String authenticationToken;
+
+  ActivateUserRequest({
+    @_s.required this.userId,
+    this.authenticationToken,
+  });
+  Map<String, dynamic> toJson() => _$ActivateUserRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3680,6 +3795,38 @@ enum ActivityType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AddResourcePermissionsRequest {
+  /// The users, groups, or organization being granted permission.
+  @_s.JsonKey(name: 'Principals')
+  final List<SharePrincipal> principals;
+
+  /// The ID of the resource.
+  @_s.JsonKey(name: 'ResourceId', ignore: true)
+  final String resourceId;
+
+  /// Amazon WorkDocs authentication token. Not required when using AWS
+  /// administrator credentials to access the API.
+  @_s.JsonKey(name: 'Authentication', ignore: true)
+  final String authenticationToken;
+
+  /// The notification options.
+  @_s.JsonKey(name: 'NotificationOptions')
+  final NotificationOptions notificationOptions;
+
+  AddResourcePermissionsRequest({
+    @_s.required this.principals,
+    @_s.required this.resourceId,
+    this.authenticationToken,
+    this.notificationOptions,
+  });
+  Map<String, dynamic> toJson() => _$AddResourcePermissionsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AddResourcePermissionsResponse {
@@ -3699,18 +3846,6 @@ enum BooleanEnumType {
   $true,
   @_s.JsonValue('FALSE')
   $false,
-}
-
-extension on BooleanEnumType {
-  String toValue() {
-    switch (this) {
-      case BooleanEnumType.$true:
-        return 'TRUE';
-      case BooleanEnumType.$false:
-        return 'FALSE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Describes a comment.
@@ -3835,16 +3970,60 @@ enum CommentVisibilityType {
   private,
 }
 
-extension on CommentVisibilityType {
-  String toValue() {
-    switch (this) {
-      case CommentVisibilityType.public:
-        return 'PUBLIC';
-      case CommentVisibilityType.private:
-        return 'PRIVATE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateCommentRequest {
+  /// The ID of the document.
+  @_s.JsonKey(name: 'DocumentId', ignore: true)
+  final String documentId;
+
+  /// The text of the comment.
+  @_s.JsonKey(name: 'Text')
+  final String text;
+
+  /// The ID of the document version.
+  @_s.JsonKey(name: 'VersionId', ignore: true)
+  final String versionId;
+
+  /// Amazon WorkDocs authentication token. Not required when using AWS
+  /// administrator credentials to access the API.
+  @_s.JsonKey(name: 'Authentication', ignore: true)
+  final String authenticationToken;
+
+  /// Set this parameter to TRUE to send an email out to the document
+  /// collaborators after the comment is created.
+  @_s.JsonKey(name: 'NotifyCollaborators')
+  final bool notifyCollaborators;
+
+  /// The ID of the parent comment.
+  @_s.JsonKey(name: 'ParentId')
+  final String parentId;
+
+  /// The ID of the root comment in the thread.
+  @_s.JsonKey(name: 'ThreadId')
+  final String threadId;
+
+  /// The visibility of the comment. Options are either PRIVATE, where the comment
+  /// is visible only to the comment author and document owner and co-owners, or
+  /// PUBLIC, where the comment is visible to document owners, co-owners, and
+  /// contributors.
+  @_s.JsonKey(name: 'Visibility')
+  final CommentVisibilityType visibility;
+
+  CreateCommentRequest({
+    @_s.required this.documentId,
+    @_s.required this.text,
+    @_s.required this.versionId,
+    this.authenticationToken,
+    this.notifyCollaborators,
+    this.parentId,
+    this.threadId,
+    this.visibility,
+  });
+  Map<String, dynamic> toJson() => _$CreateCommentRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3867,12 +4046,72 @@ class CreateCommentResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateCustomMetadataRequest {
+  /// Custom metadata in the form of name-value pairs.
+  @_s.JsonKey(name: 'CustomMetadata')
+  final Map<String, String> customMetadata;
+
+  /// The ID of the resource.
+  @_s.JsonKey(name: 'ResourceId', ignore: true)
+  final String resourceId;
+
+  /// Amazon WorkDocs authentication token. Not required when using AWS
+  /// administrator credentials to access the API.
+  @_s.JsonKey(name: 'Authentication', ignore: true)
+  final String authenticationToken;
+
+  /// The ID of the version, if the custom metadata is being added to a document
+  /// version.
+  @_s.JsonKey(name: 'versionid', ignore: true)
+  final String versionId;
+
+  CreateCustomMetadataRequest({
+    @_s.required this.customMetadata,
+    @_s.required this.resourceId,
+    this.authenticationToken,
+    this.versionId,
+  });
+  Map<String, dynamic> toJson() => _$CreateCustomMetadataRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateCustomMetadataResponse {
   CreateCustomMetadataResponse();
   factory CreateCustomMetadataResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateCustomMetadataResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateFolderRequest {
+  /// The ID of the parent folder.
+  @_s.JsonKey(name: 'ParentFolderId')
+  final String parentFolderId;
+
+  /// Amazon WorkDocs authentication token. Not required when using AWS
+  /// administrator credentials to access the API.
+  @_s.JsonKey(name: 'Authentication', ignore: true)
+  final String authenticationToken;
+
+  /// The name of the new folder.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  CreateFolderRequest({
+    @_s.required this.parentFolderId,
+    this.authenticationToken,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$CreateFolderRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3895,12 +4134,73 @@ class CreateFolderResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateLabelsRequest {
+  /// List of labels to add to the resource.
+  @_s.JsonKey(name: 'Labels')
+  final List<String> labels;
+
+  /// The ID of the resource.
+  @_s.JsonKey(name: 'ResourceId', ignore: true)
+  final String resourceId;
+
+  /// Amazon WorkDocs authentication token. Not required when using AWS
+  /// administrator credentials to access the API.
+  @_s.JsonKey(name: 'Authentication', ignore: true)
+  final String authenticationToken;
+
+  CreateLabelsRequest({
+    @_s.required this.labels,
+    @_s.required this.resourceId,
+    this.authenticationToken,
+  });
+  Map<String, dynamic> toJson() => _$CreateLabelsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateLabelsResponse {
   CreateLabelsResponse();
   factory CreateLabelsResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateLabelsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateNotificationSubscriptionRequest {
+  /// The endpoint to receive the notifications. If the protocol is HTTPS, the
+  /// endpoint is a URL that begins with <code>https</code>.
+  @_s.JsonKey(name: 'Endpoint')
+  final String endpoint;
+
+  /// The ID of the organization.
+  @_s.JsonKey(name: 'OrganizationId', ignore: true)
+  final String organizationId;
+
+  /// The protocol to use. The supported value is https, which delivers
+  /// JSON-encoded messages using HTTPS POST.
+  @_s.JsonKey(name: 'Protocol')
+  final SubscriptionProtocolType protocol;
+
+  /// The notification type.
+  @_s.JsonKey(name: 'SubscriptionType')
+  final SubscriptionType subscriptionType;
+
+  CreateNotificationSubscriptionRequest({
+    @_s.required this.endpoint,
+    @_s.required this.organizationId,
+    @_s.required this.protocol,
+    @_s.required this.subscriptionType,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateNotificationSubscriptionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3924,6 +4224,63 @@ class CreateNotificationSubscriptionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateUserRequest {
+  /// The given name of the user.
+  @_s.JsonKey(name: 'GivenName')
+  final String givenName;
+
+  /// The password of the user.
+  @_s.JsonKey(name: 'Password')
+  final String password;
+
+  /// The surname of the user.
+  @_s.JsonKey(name: 'Surname')
+  final String surname;
+
+  /// The login name of the user.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  /// Amazon WorkDocs authentication token. Not required when using AWS
+  /// administrator credentials to access the API.
+  @_s.JsonKey(name: 'Authentication', ignore: true)
+  final String authenticationToken;
+
+  /// The email address of the user.
+  @_s.JsonKey(name: 'EmailAddress')
+  final String emailAddress;
+
+  /// The ID of the organization.
+  @_s.JsonKey(name: 'OrganizationId')
+  final String organizationId;
+
+  /// The amount of storage for the user.
+  @_s.JsonKey(name: 'StorageRule')
+  final StorageRuleType storageRule;
+
+  /// The time zone ID of the user.
+  @_s.JsonKey(name: 'TimeZoneId')
+  final String timeZoneId;
+
+  CreateUserRequest({
+    @_s.required this.givenName,
+    @_s.required this.password,
+    @_s.required this.surname,
+    @_s.required this.username,
+    this.authenticationToken,
+    this.emailAddress,
+    this.organizationId,
+    this.storageRule,
+    this.timeZoneId,
+  });
+  Map<String, dynamic> toJson() => _$CreateUserRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateUserResponse {
@@ -3941,6 +4298,99 @@ class CreateUserResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeactivateUserRequest {
+  /// The ID of the user.
+  @_s.JsonKey(name: 'UserId', ignore: true)
+  final String userId;
+
+  /// Amazon WorkDocs authentication token. Not required when using AWS
+  /// administrator credentials to access the API.
+  @_s.JsonKey(name: 'Authentication', ignore: true)
+  final String authenticationToken;
+
+  DeactivateUserRequest({
+    @_s.required this.userId,
+    this.authenticationToken,
+  });
+  Map<String, dynamic> toJson() => _$DeactivateUserRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteCommentRequest {
+  /// The ID of the comment.
+  @_s.JsonKey(name: 'CommentId', ignore: true)
+  final String commentId;
+
+  /// The ID of the document.
+  @_s.JsonKey(name: 'DocumentId', ignore: true)
+  final String documentId;
+
+  /// The ID of the document version.
+  @_s.JsonKey(name: 'VersionId', ignore: true)
+  final String versionId;
+
+  /// Amazon WorkDocs authentication token. Not required when using AWS
+  /// administrator credentials to access the API.
+  @_s.JsonKey(name: 'Authentication', ignore: true)
+  final String authenticationToken;
+
+  DeleteCommentRequest({
+    @_s.required this.commentId,
+    @_s.required this.documentId,
+    @_s.required this.versionId,
+    this.authenticationToken,
+  });
+  Map<String, dynamic> toJson() => _$DeleteCommentRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteCustomMetadataRequest {
+  /// The ID of the resource, either a document or folder.
+  @_s.JsonKey(name: 'ResourceId', ignore: true)
+  final String resourceId;
+
+  /// Amazon WorkDocs authentication token. Not required when using AWS
+  /// administrator credentials to access the API.
+  @_s.JsonKey(name: 'Authentication', ignore: true)
+  final String authenticationToken;
+
+  /// Flag to indicate removal of all custom metadata properties from the
+  /// specified resource.
+  @_s.JsonKey(name: 'deleteAll', ignore: true)
+  final bool deleteAll;
+
+  /// List of properties to remove.
+  @_s.JsonKey(name: 'keys', ignore: true)
+  final List<String> keys;
+
+  /// The ID of the version, if the custom metadata is being deleted from a
+  /// document version.
+  @_s.JsonKey(name: 'versionId', ignore: true)
+  final String versionId;
+
+  DeleteCustomMetadataRequest({
+    @_s.required this.resourceId,
+    this.authenticationToken,
+    this.deleteAll,
+    this.keys,
+    this.versionId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteCustomMetadataRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteCustomMetadataResponse {
@@ -3952,12 +4402,154 @@ class DeleteCustomMetadataResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDocumentRequest {
+  /// The ID of the document.
+  @_s.JsonKey(name: 'DocumentId', ignore: true)
+  final String documentId;
+
+  /// Amazon WorkDocs authentication token. Not required when using AWS
+  /// administrator credentials to access the API.
+  @_s.JsonKey(name: 'Authentication', ignore: true)
+  final String authenticationToken;
+
+  DeleteDocumentRequest({
+    @_s.required this.documentId,
+    this.authenticationToken,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDocumentRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteFolderContentsRequest {
+  /// The ID of the folder.
+  @_s.JsonKey(name: 'FolderId', ignore: true)
+  final String folderId;
+
+  /// Amazon WorkDocs authentication token. Not required when using AWS
+  /// administrator credentials to access the API.
+  @_s.JsonKey(name: 'Authentication', ignore: true)
+  final String authenticationToken;
+
+  DeleteFolderContentsRequest({
+    @_s.required this.folderId,
+    this.authenticationToken,
+  });
+  Map<String, dynamic> toJson() => _$DeleteFolderContentsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteFolderRequest {
+  /// The ID of the folder.
+  @_s.JsonKey(name: 'FolderId', ignore: true)
+  final String folderId;
+
+  /// Amazon WorkDocs authentication token. Not required when using AWS
+  /// administrator credentials to access the API.
+  @_s.JsonKey(name: 'Authentication', ignore: true)
+  final String authenticationToken;
+
+  DeleteFolderRequest({
+    @_s.required this.folderId,
+    this.authenticationToken,
+  });
+  Map<String, dynamic> toJson() => _$DeleteFolderRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteLabelsRequest {
+  /// The ID of the resource.
+  @_s.JsonKey(name: 'ResourceId', ignore: true)
+  final String resourceId;
+
+  /// Amazon WorkDocs authentication token. Not required when using AWS
+  /// administrator credentials to access the API.
+  @_s.JsonKey(name: 'Authentication', ignore: true)
+  final String authenticationToken;
+
+  /// Flag to request removal of all labels from the specified resource.
+  @_s.JsonKey(name: 'deleteAll', ignore: true)
+  final bool deleteAll;
+
+  /// List of labels to delete from the resource.
+  @_s.JsonKey(name: 'labels', ignore: true)
+  final List<String> labels;
+
+  DeleteLabelsRequest({
+    @_s.required this.resourceId,
+    this.authenticationToken,
+    this.deleteAll,
+    this.labels,
+  });
+  Map<String, dynamic> toJson() => _$DeleteLabelsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteLabelsResponse {
   DeleteLabelsResponse();
   factory DeleteLabelsResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteLabelsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteNotificationSubscriptionRequest {
+  /// The ID of the organization.
+  @_s.JsonKey(name: 'OrganizationId', ignore: true)
+  final String organizationId;
+
+  /// The ID of the subscription.
+  @_s.JsonKey(name: 'SubscriptionId', ignore: true)
+  final String subscriptionId;
+
+  DeleteNotificationSubscriptionRequest({
+    @_s.required this.organizationId,
+    @_s.required this.subscriptionId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteNotificationSubscriptionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteUserRequest {
+  /// The ID of the user.
+  @_s.JsonKey(name: 'UserId', ignore: true)
+  final String userId;
+
+  /// Amazon WorkDocs authentication token. Do not set this field when using
+  /// administrative API actions, as in accessing the API using AWS credentials.
+  @_s.JsonKey(name: 'Authentication', ignore: true)
+  final String authenticationToken;
+
+  DeleteUserRequest({
+    @_s.required this.userId,
+    this.authenticationToken,
+  });
+  Map<String, dynamic> toJson() => _$DeleteUserRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4355,16 +4947,6 @@ enum DocumentVersionStatus {
   active,
 }
 
-extension on DocumentVersionStatus {
-  String toValue() {
-    switch (this) {
-      case DocumentVersionStatus.active:
-        return 'ACTIVE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum FolderContentType {
   @_s.JsonValue('ALL')
   all,
@@ -4620,6 +5202,65 @@ class GroupMetadata {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class InitiateDocumentVersionUploadRequest {
+  /// The ID of the parent folder.
+  @_s.JsonKey(name: 'ParentFolderId')
+  final String parentFolderId;
+
+  /// Amazon WorkDocs authentication token. Not required when using AWS
+  /// administrator credentials to access the API.
+  @_s.JsonKey(name: 'Authentication', ignore: true)
+  final String authenticationToken;
+
+  /// The timestamp when the content of the document was originally created.
+  @_s.JsonKey(
+      name: 'ContentCreatedTimestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime contentCreatedTimestamp;
+
+  /// The timestamp when the content of the document was modified.
+  @_s.JsonKey(
+      name: 'ContentModifiedTimestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime contentModifiedTimestamp;
+
+  /// The content type of the document.
+  @_s.JsonKey(name: 'ContentType')
+  final String contentType;
+
+  /// The size of the document, in bytes.
+  @_s.JsonKey(name: 'DocumentSizeInBytes')
+  final int documentSizeInBytes;
+
+  /// The ID of the document.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// The name of the document.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  InitiateDocumentVersionUploadRequest({
+    @_s.required this.parentFolderId,
+    this.authenticationToken,
+    this.contentCreatedTimestamp,
+    this.contentModifiedTimestamp,
+    this.contentType,
+    this.documentSizeInBytes,
+    this.id,
+    this.name,
+  });
+  Map<String, dynamic> toJson() =>
+      _$InitiateDocumentVersionUploadRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class InitiateDocumentVersionUploadResponse {
@@ -4663,36 +5304,6 @@ enum LocaleType {
   ptBr,
   @_s.JsonValue('default')
   $default,
-}
-
-extension on LocaleType {
-  String toValue() {
-    switch (this) {
-      case LocaleType.en:
-        return 'en';
-      case LocaleType.fr:
-        return 'fr';
-      case LocaleType.ko:
-        return 'ko';
-      case LocaleType.de:
-        return 'de';
-      case LocaleType.es:
-        return 'es';
-      case LocaleType.ja:
-        return 'ja';
-      case LocaleType.ru:
-        return 'ru';
-      case LocaleType.zhCn:
-        return 'zh_CN';
-      case LocaleType.zhTw:
-        return 'zh_TW';
-      case LocaleType.ptBr:
-        return 'pt_BR';
-      case LocaleType.$default:
-        return 'default';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Set of options which defines notification preferences of given action.
@@ -4812,6 +5423,62 @@ enum PrincipalType {
   organization,
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RemoveAllResourcePermissionsRequest {
+  /// The ID of the resource.
+  @_s.JsonKey(name: 'ResourceId', ignore: true)
+  final String resourceId;
+
+  /// Amazon WorkDocs authentication token. Not required when using AWS
+  /// administrator credentials to access the API.
+  @_s.JsonKey(name: 'Authentication', ignore: true)
+  final String authenticationToken;
+
+  RemoveAllResourcePermissionsRequest({
+    @_s.required this.resourceId,
+    this.authenticationToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$RemoveAllResourcePermissionsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RemoveResourcePermissionRequest {
+  /// The principal ID of the resource.
+  @_s.JsonKey(name: 'PrincipalId', ignore: true)
+  final String principalId;
+
+  /// The ID of the resource.
+  @_s.JsonKey(name: 'ResourceId', ignore: true)
+  final String resourceId;
+
+  /// Amazon WorkDocs authentication token. Not required when using AWS
+  /// administrator credentials to access the API.
+  @_s.JsonKey(name: 'Authentication', ignore: true)
+  final String authenticationToken;
+
+  /// The principal type of the resource.
+  @_s.JsonKey(name: 'type', ignore: true)
+  final PrincipalType principalType;
+
+  RemoveResourcePermissionRequest({
+    @_s.required this.principalId,
+    @_s.required this.resourceId,
+    this.authenticationToken,
+    this.principalType,
+  });
+  Map<String, dynamic> toJson() =>
+      _$RemoveResourcePermissionRequestToJson(this);
+}
+
 enum ResourceCollectionType {
   @_s.JsonValue('SHARED_WITH_ME')
   sharedWithMe,
@@ -4923,22 +5590,6 @@ enum ResourceStateType {
   recycling,
   @_s.JsonValue('RECYCLED')
   recycled,
-}
-
-extension on ResourceStateType {
-  String toValue() {
-    switch (this) {
-      case ResourceStateType.active:
-        return 'ACTIVE';
-      case ResourceStateType.restoring:
-        return 'RESTORING';
-      case ResourceStateType.recycling:
-        return 'RECYCLING';
-      case ResourceStateType.recycled:
-        return 'RECYCLED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 enum ResourceType {
@@ -5108,29 +5759,173 @@ enum SubscriptionProtocolType {
   https,
 }
 
-extension on SubscriptionProtocolType {
-  String toValue() {
-    switch (this) {
-      case SubscriptionProtocolType.https:
-        return 'HTTPS';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum SubscriptionType {
   @_s.JsonValue('ALL')
   all,
 }
 
-extension on SubscriptionType {
-  String toValue() {
-    switch (this) {
-      case SubscriptionType.all:
-        return 'ALL';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDocumentRequest {
+  /// The ID of the document.
+  @_s.JsonKey(name: 'DocumentId', ignore: true)
+  final String documentId;
+
+  /// Amazon WorkDocs authentication token. Not required when using AWS
+  /// administrator credentials to access the API.
+  @_s.JsonKey(name: 'Authentication', ignore: true)
+  final String authenticationToken;
+
+  /// The name of the document.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The ID of the parent folder.
+  @_s.JsonKey(name: 'ParentFolderId')
+  final String parentFolderId;
+
+  /// The resource state of the document. Only ACTIVE and RECYCLED are supported.
+  @_s.JsonKey(name: 'ResourceState')
+  final ResourceStateType resourceState;
+
+  UpdateDocumentRequest({
+    @_s.required this.documentId,
+    this.authenticationToken,
+    this.name,
+    this.parentFolderId,
+    this.resourceState,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDocumentRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDocumentVersionRequest {
+  /// The ID of the document.
+  @_s.JsonKey(name: 'DocumentId', ignore: true)
+  final String documentId;
+
+  /// The version ID of the document.
+  @_s.JsonKey(name: 'VersionId', ignore: true)
+  final String versionId;
+
+  /// Amazon WorkDocs authentication token. Not required when using AWS
+  /// administrator credentials to access the API.
+  @_s.JsonKey(name: 'Authentication', ignore: true)
+  final String authenticationToken;
+
+  /// The status of the version.
+  @_s.JsonKey(name: 'VersionStatus')
+  final DocumentVersionStatus versionStatus;
+
+  UpdateDocumentVersionRequest({
+    @_s.required this.documentId,
+    @_s.required this.versionId,
+    this.authenticationToken,
+    this.versionStatus,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDocumentVersionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateFolderRequest {
+  /// The ID of the folder.
+  @_s.JsonKey(name: 'FolderId', ignore: true)
+  final String folderId;
+
+  /// Amazon WorkDocs authentication token. Not required when using AWS
+  /// administrator credentials to access the API.
+  @_s.JsonKey(name: 'Authentication', ignore: true)
+  final String authenticationToken;
+
+  /// The name of the folder.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The ID of the parent folder.
+  @_s.JsonKey(name: 'ParentFolderId')
+  final String parentFolderId;
+
+  /// The resource state of the folder. Only ACTIVE and RECYCLED are accepted
+  /// values from the API.
+  @_s.JsonKey(name: 'ResourceState')
+  final ResourceStateType resourceState;
+
+  UpdateFolderRequest({
+    @_s.required this.folderId,
+    this.authenticationToken,
+    this.name,
+    this.parentFolderId,
+    this.resourceState,
+  });
+  Map<String, dynamic> toJson() => _$UpdateFolderRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateUserRequest {
+  /// The ID of the user.
+  @_s.JsonKey(name: 'UserId', ignore: true)
+  final String userId;
+
+  /// Amazon WorkDocs authentication token. Not required when using AWS
+  /// administrator credentials to access the API.
+  @_s.JsonKey(name: 'Authentication', ignore: true)
+  final String authenticationToken;
+
+  /// The given name of the user.
+  @_s.JsonKey(name: 'GivenName')
+  final String givenName;
+
+  /// Boolean value to determine whether the user is granted Poweruser privileges.
+  @_s.JsonKey(name: 'GrantPoweruserPrivileges')
+  final BooleanEnumType grantPoweruserPrivileges;
+
+  /// The locale of the user.
+  @_s.JsonKey(name: 'Locale')
+  final LocaleType locale;
+
+  /// The amount of storage for the user.
+  @_s.JsonKey(name: 'StorageRule')
+  final StorageRuleType storageRule;
+
+  /// The surname of the user.
+  @_s.JsonKey(name: 'Surname')
+  final String surname;
+
+  /// The time zone ID of the user.
+  @_s.JsonKey(name: 'TimeZoneId')
+  final String timeZoneId;
+
+  /// The type of the user.
+  @_s.JsonKey(name: 'Type')
+  final UserType type;
+
+  UpdateUserRequest({
+    @_s.required this.userId,
+    this.authenticationToken,
+    this.givenName,
+    this.grantPoweruserPrivileges,
+    this.locale,
+    this.storageRule,
+    this.surname,
+    this.timeZoneId,
+    this.type,
+  });
+  Map<String, dynamic> toJson() => _$UpdateUserRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5367,24 +6162,6 @@ enum UserType {
   minimaluser,
   @_s.JsonValue('WORKSPACESUSER')
   workspacesuser,
-}
-
-extension on UserType {
-  String toValue() {
-    switch (this) {
-      case UserType.user:
-        return 'USER';
-      case UserType.admin:
-        return 'ADMIN';
-      case UserType.poweruser:
-        return 'POWERUSER';
-      case UserType.minimaluser:
-        return 'MINIMALUSER';
-      case UserType.workspacesuser:
-        return 'WORKSPACESUSER';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 class ConcurrentModificationException extends _s.GenericAwsException {

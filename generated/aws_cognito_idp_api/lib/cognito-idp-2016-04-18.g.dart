@@ -159,9 +159,57 @@ Map<String, dynamic> _$AccountTakeoverRiskConfigurationTypeToJson(
   return val;
 }
 
+Map<String, dynamic> _$AddCustomAttributesRequestToJson(
+    AddCustomAttributesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CustomAttributes',
+      instance.customAttributes?.map((e) => e?.toJson())?.toList());
+  writeNotNull('UserPoolId', instance.userPoolId);
+  return val;
+}
+
 AddCustomAttributesResponse _$AddCustomAttributesResponseFromJson(
     Map<String, dynamic> json) {
   return AddCustomAttributesResponse();
+}
+
+Map<String, dynamic> _$AdminAddUserToGroupRequestToJson(
+    AdminAddUserToGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GroupName', instance.groupName);
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('Username', instance.username);
+  return val;
+}
+
+Map<String, dynamic> _$AdminConfirmSignUpRequestToJson(
+    AdminConfirmSignUpRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('Username', instance.username);
+  writeNotNull('ClientMetadata', instance.clientMetadata);
+  return val;
 }
 
 AdminConfirmSignUpResponse _$AdminConfirmSignUpResponseFromJson(
@@ -198,6 +246,36 @@ Map<String, dynamic> _$AdminCreateUserConfigTypeToJson(
   return val;
 }
 
+Map<String, dynamic> _$AdminCreateUserRequestToJson(
+    AdminCreateUserRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('Username', instance.username);
+  writeNotNull('ClientMetadata', instance.clientMetadata);
+  writeNotNull('DesiredDeliveryMediums', instance.desiredDeliveryMediums);
+  writeNotNull('ForceAliasCreation', instance.forceAliasCreation);
+  writeNotNull(
+      'MessageAction', _$MessageActionTypeEnumMap[instance.messageAction]);
+  writeNotNull('TemporaryPassword', instance.temporaryPassword);
+  writeNotNull('UserAttributes',
+      instance.userAttributes?.map((e) => e?.toJson())?.toList());
+  writeNotNull('ValidationData',
+      instance.validationData?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+const _$MessageActionTypeEnumMap = {
+  MessageActionType.resend: 'RESEND',
+  MessageActionType.suppress: 'SUPPRESS',
+};
+
 AdminCreateUserResponse _$AdminCreateUserResponseFromJson(
     Map<String, dynamic> json) {
   return AdminCreateUserResponse(
@@ -207,9 +285,55 @@ AdminCreateUserResponse _$AdminCreateUserResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$AdminDeleteUserAttributesRequestToJson(
+    AdminDeleteUserAttributesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UserAttributeNames', instance.userAttributeNames);
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('Username', instance.username);
+  return val;
+}
+
 AdminDeleteUserAttributesResponse _$AdminDeleteUserAttributesResponseFromJson(
     Map<String, dynamic> json) {
   return AdminDeleteUserAttributesResponse();
+}
+
+Map<String, dynamic> _$AdminDeleteUserRequestToJson(
+    AdminDeleteUserRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('Username', instance.username);
+  return val;
+}
+
+Map<String, dynamic> _$AdminDisableProviderForUserRequestToJson(
+    AdminDisableProviderForUserRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('User', instance.user?.toJson());
+  writeNotNull('UserPoolId', instance.userPoolId);
+  return val;
 }
 
 AdminDisableProviderForUserResponse
@@ -217,14 +341,76 @@ AdminDisableProviderForUserResponse
   return AdminDisableProviderForUserResponse();
 }
 
+Map<String, dynamic> _$AdminDisableUserRequestToJson(
+    AdminDisableUserRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('Username', instance.username);
+  return val;
+}
+
 AdminDisableUserResponse _$AdminDisableUserResponseFromJson(
     Map<String, dynamic> json) {
   return AdminDisableUserResponse();
 }
 
+Map<String, dynamic> _$AdminEnableUserRequestToJson(
+    AdminEnableUserRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('Username', instance.username);
+  return val;
+}
+
 AdminEnableUserResponse _$AdminEnableUserResponseFromJson(
     Map<String, dynamic> json) {
   return AdminEnableUserResponse();
+}
+
+Map<String, dynamic> _$AdminForgetDeviceRequestToJson(
+    AdminForgetDeviceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DeviceKey', instance.deviceKey);
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('Username', instance.username);
+  return val;
+}
+
+Map<String, dynamic> _$AdminGetDeviceRequestToJson(
+    AdminGetDeviceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DeviceKey', instance.deviceKey);
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('Username', instance.username);
+  return val;
 }
 
 AdminGetDeviceResponse _$AdminGetDeviceResponseFromJson(
@@ -234,6 +420,20 @@ AdminGetDeviceResponse _$AdminGetDeviceResponseFromJson(
         ? null
         : DeviceType.fromJson(json['Device'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$AdminGetUserRequestToJson(AdminGetUserRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('Username', instance.username);
+  return val;
 }
 
 AdminGetUserResponse _$AdminGetUserResponseFromJson(Map<String, dynamic> json) {
@@ -270,6 +470,36 @@ const _$UserStatusTypeEnumMap = {
   UserStatusType.forceChangePassword: 'FORCE_CHANGE_PASSWORD',
 };
 
+Map<String, dynamic> _$AdminInitiateAuthRequestToJson(
+    AdminInitiateAuthRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AuthFlow', _$AuthFlowTypeEnumMap[instance.authFlow]);
+  writeNotNull('ClientId', instance.clientId);
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('AnalyticsMetadata', instance.analyticsMetadata?.toJson());
+  writeNotNull('AuthParameters', instance.authParameters);
+  writeNotNull('ClientMetadata', instance.clientMetadata);
+  writeNotNull('ContextData', instance.contextData?.toJson());
+  return val;
+}
+
+const _$AuthFlowTypeEnumMap = {
+  AuthFlowType.userSrpAuth: 'USER_SRP_AUTH',
+  AuthFlowType.refreshTokenAuth: 'REFRESH_TOKEN_AUTH',
+  AuthFlowType.refreshToken: 'REFRESH_TOKEN',
+  AuthFlowType.customAuth: 'CUSTOM_AUTH',
+  AuthFlowType.adminNoSrpAuth: 'ADMIN_NO_SRP_AUTH',
+  AuthFlowType.userPasswordAuth: 'USER_PASSWORD_AUTH',
+  AuthFlowType.adminUserPasswordAuth: 'ADMIN_USER_PASSWORD_AUTH',
+};
+
 AdminInitiateAuthResponse _$AdminInitiateAuthResponseFromJson(
     Map<String, dynamic> json) {
   return AdminInitiateAuthResponse(
@@ -300,9 +530,42 @@ const _$ChallengeNameTypeEnumMap = {
   ChallengeNameType.newPasswordRequired: 'NEW_PASSWORD_REQUIRED',
 };
 
+Map<String, dynamic> _$AdminLinkProviderForUserRequestToJson(
+    AdminLinkProviderForUserRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DestinationUser', instance.destinationUser?.toJson());
+  writeNotNull('SourceUser', instance.sourceUser?.toJson());
+  writeNotNull('UserPoolId', instance.userPoolId);
+  return val;
+}
+
 AdminLinkProviderForUserResponse _$AdminLinkProviderForUserResponseFromJson(
     Map<String, dynamic> json) {
   return AdminLinkProviderForUserResponse();
+}
+
+Map<String, dynamic> _$AdminListDevicesRequestToJson(
+    AdminListDevicesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('Username', instance.username);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('PaginationToken', instance.paginationToken);
+  return val;
 }
 
 AdminListDevicesResponse _$AdminListDevicesResponseFromJson(
@@ -316,6 +579,23 @@ AdminListDevicesResponse _$AdminListDevicesResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$AdminListGroupsForUserRequestToJson(
+    AdminListGroupsForUserRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('Username', instance.username);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 AdminListGroupsForUserResponse _$AdminListGroupsForUserResponseFromJson(
     Map<String, dynamic> json) {
   return AdminListGroupsForUserResponse(
@@ -325,6 +605,23 @@ AdminListGroupsForUserResponse _$AdminListGroupsForUserResponseFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$AdminListUserAuthEventsRequestToJson(
+    AdminListUserAuthEventsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('Username', instance.username);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 AdminListUserAuthEventsResponse _$AdminListUserAuthEventsResponseFromJson(
@@ -339,9 +636,63 @@ AdminListUserAuthEventsResponse _$AdminListUserAuthEventsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$AdminRemoveUserFromGroupRequestToJson(
+    AdminRemoveUserFromGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GroupName', instance.groupName);
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('Username', instance.username);
+  return val;
+}
+
+Map<String, dynamic> _$AdminResetUserPasswordRequestToJson(
+    AdminResetUserPasswordRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('Username', instance.username);
+  writeNotNull('ClientMetadata', instance.clientMetadata);
+  return val;
+}
+
 AdminResetUserPasswordResponse _$AdminResetUserPasswordResponseFromJson(
     Map<String, dynamic> json) {
   return AdminResetUserPasswordResponse();
+}
+
+Map<String, dynamic> _$AdminRespondToAuthChallengeRequestToJson(
+    AdminRespondToAuthChallengeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'ChallengeName', _$ChallengeNameTypeEnumMap[instance.challengeName]);
+  writeNotNull('ClientId', instance.clientId);
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('AnalyticsMetadata', instance.analyticsMetadata?.toJson());
+  writeNotNull('ChallengeResponses', instance.challengeResponses);
+  writeNotNull('ClientMetadata', instance.clientMetadata);
+  writeNotNull('ContextData', instance.contextData?.toJson());
+  writeNotNull('Session', instance.session);
+  return val;
 }
 
 AdminRespondToAuthChallengeResponse
@@ -361,9 +712,44 @@ AdminRespondToAuthChallengeResponse
   );
 }
 
+Map<String, dynamic> _$AdminSetUserMFAPreferenceRequestToJson(
+    AdminSetUserMFAPreferenceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('Username', instance.username);
+  writeNotNull('SMSMfaSettings', instance.sMSMfaSettings?.toJson());
+  writeNotNull(
+      'SoftwareTokenMfaSettings', instance.softwareTokenMfaSettings?.toJson());
+  return val;
+}
+
 AdminSetUserMFAPreferenceResponse _$AdminSetUserMFAPreferenceResponseFromJson(
     Map<String, dynamic> json) {
   return AdminSetUserMFAPreferenceResponse();
+}
+
+Map<String, dynamic> _$AdminSetUserPasswordRequestToJson(
+    AdminSetUserPasswordRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Password', instance.password);
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('Username', instance.username);
+  writeNotNull('Permanent', instance.permanent);
+  return val;
 }
 
 AdminSetUserPasswordResponse _$AdminSetUserPasswordResponseFromJson(
@@ -371,24 +757,120 @@ AdminSetUserPasswordResponse _$AdminSetUserPasswordResponseFromJson(
   return AdminSetUserPasswordResponse();
 }
 
+Map<String, dynamic> _$AdminSetUserSettingsRequestToJson(
+    AdminSetUserSettingsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'MFAOptions', instance.mFAOptions?.map((e) => e?.toJson())?.toList());
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('Username', instance.username);
+  return val;
+}
+
 AdminSetUserSettingsResponse _$AdminSetUserSettingsResponseFromJson(
     Map<String, dynamic> json) {
   return AdminSetUserSettingsResponse();
 }
+
+Map<String, dynamic> _$AdminUpdateAuthEventFeedbackRequestToJson(
+    AdminUpdateAuthEventFeedbackRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EventId', instance.eventId);
+  writeNotNull(
+      'FeedbackValue', _$FeedbackValueTypeEnumMap[instance.feedbackValue]);
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('Username', instance.username);
+  return val;
+}
+
+const _$FeedbackValueTypeEnumMap = {
+  FeedbackValueType.valid: 'Valid',
+  FeedbackValueType.invalid: 'Invalid',
+};
 
 AdminUpdateAuthEventFeedbackResponse
     _$AdminUpdateAuthEventFeedbackResponseFromJson(Map<String, dynamic> json) {
   return AdminUpdateAuthEventFeedbackResponse();
 }
 
+Map<String, dynamic> _$AdminUpdateDeviceStatusRequestToJson(
+    AdminUpdateDeviceStatusRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DeviceKey', instance.deviceKey);
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('Username', instance.username);
+  writeNotNull('DeviceRememberedStatus',
+      _$DeviceRememberedStatusTypeEnumMap[instance.deviceRememberedStatus]);
+  return val;
+}
+
+const _$DeviceRememberedStatusTypeEnumMap = {
+  DeviceRememberedStatusType.remembered: 'remembered',
+  DeviceRememberedStatusType.notRemembered: 'not_remembered',
+};
+
 AdminUpdateDeviceStatusResponse _$AdminUpdateDeviceStatusResponseFromJson(
     Map<String, dynamic> json) {
   return AdminUpdateDeviceStatusResponse();
 }
 
+Map<String, dynamic> _$AdminUpdateUserAttributesRequestToJson(
+    AdminUpdateUserAttributesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UserAttributes',
+      instance.userAttributes?.map((e) => e?.toJson())?.toList());
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('Username', instance.username);
+  writeNotNull('ClientMetadata', instance.clientMetadata);
+  return val;
+}
+
 AdminUpdateUserAttributesResponse _$AdminUpdateUserAttributesResponseFromJson(
     Map<String, dynamic> json) {
   return AdminUpdateUserAttributesResponse();
+}
+
+Map<String, dynamic> _$AdminUserGlobalSignOutRequestToJson(
+    AdminUserGlobalSignOutRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('Username', instance.username);
+  return val;
 }
 
 AdminUserGlobalSignOutResponse _$AdminUserGlobalSignOutResponseFromJson(
@@ -434,6 +916,21 @@ Map<String, dynamic> _$AnalyticsMetadataTypeToJson(
   }
 
   writeNotNull('AnalyticsEndpointId', instance.analyticsEndpointId);
+  return val;
+}
+
+Map<String, dynamic> _$AssociateSoftwareTokenRequestToJson(
+    AssociateSoftwareTokenRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccessToken', instance.accessToken);
+  writeNotNull('Session', instance.session);
   return val;
 }
 
@@ -538,6 +1035,22 @@ const _$ChallengeResponseEnumMap = {
   ChallengeResponse.failure: 'Failure',
 };
 
+Map<String, dynamic> _$ChangePasswordRequestToJson(
+    ChangePasswordRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccessToken', instance.accessToken);
+  writeNotNull('PreviousPassword', instance.previousPassword);
+  writeNotNull('ProposedPassword', instance.proposedPassword);
+  return val;
+}
+
 ChangePasswordResponse _$ChangePasswordResponseFromJson(
     Map<String, dynamic> json) {
   return ChangePasswordResponse();
@@ -614,6 +1127,24 @@ Map<String, dynamic> _$CompromisedCredentialsRiskConfigurationTypeToJson(
   return val;
 }
 
+Map<String, dynamic> _$ConfirmDeviceRequestToJson(
+    ConfirmDeviceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccessToken', instance.accessToken);
+  writeNotNull('DeviceKey', instance.deviceKey);
+  writeNotNull('DeviceName', instance.deviceName);
+  writeNotNull('DeviceSecretVerifierConfig',
+      instance.deviceSecretVerifierConfig?.toJson());
+  return val;
+}
+
 ConfirmDeviceResponse _$ConfirmDeviceResponseFromJson(
     Map<String, dynamic> json) {
   return ConfirmDeviceResponse(
@@ -621,9 +1152,51 @@ ConfirmDeviceResponse _$ConfirmDeviceResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ConfirmForgotPasswordRequestToJson(
+    ConfirmForgotPasswordRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClientId', instance.clientId);
+  writeNotNull('ConfirmationCode', instance.confirmationCode);
+  writeNotNull('Password', instance.password);
+  writeNotNull('Username', instance.username);
+  writeNotNull('AnalyticsMetadata', instance.analyticsMetadata?.toJson());
+  writeNotNull('ClientMetadata', instance.clientMetadata);
+  writeNotNull('SecretHash', instance.secretHash);
+  writeNotNull('UserContextData', instance.userContextData?.toJson());
+  return val;
+}
+
 ConfirmForgotPasswordResponse _$ConfirmForgotPasswordResponseFromJson(
     Map<String, dynamic> json) {
   return ConfirmForgotPasswordResponse();
+}
+
+Map<String, dynamic> _$ConfirmSignUpRequestToJson(
+    ConfirmSignUpRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClientId', instance.clientId);
+  writeNotNull('ConfirmationCode', instance.confirmationCode);
+  writeNotNull('Username', instance.username);
+  writeNotNull('AnalyticsMetadata', instance.analyticsMetadata?.toJson());
+  writeNotNull('ClientMetadata', instance.clientMetadata);
+  writeNotNull('ForceAliasCreation', instance.forceAliasCreation);
+  writeNotNull('SecretHash', instance.secretHash);
+  writeNotNull('UserContextData', instance.userContextData?.toJson());
+  return val;
 }
 
 ConfirmSignUpResponse _$ConfirmSignUpResponseFromJson(
@@ -649,6 +1222,23 @@ Map<String, dynamic> _$ContextDataTypeToJson(ContextDataType instance) {
   return val;
 }
 
+Map<String, dynamic> _$CreateGroupRequestToJson(CreateGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GroupName', instance.groupName);
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('Description', instance.description);
+  writeNotNull('Precedence', instance.precedence);
+  writeNotNull('RoleArn', instance.roleArn);
+  return val;
+}
+
 CreateGroupResponse _$CreateGroupResponseFromJson(Map<String, dynamic> json) {
   return CreateGroupResponse(
     group: json['Group'] == null
@@ -656,6 +1246,35 @@ CreateGroupResponse _$CreateGroupResponseFromJson(Map<String, dynamic> json) {
         : GroupType.fromJson(json['Group'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$CreateIdentityProviderRequestToJson(
+    CreateIdentityProviderRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ProviderDetails', instance.providerDetails);
+  writeNotNull('ProviderName', instance.providerName);
+  writeNotNull(
+      'ProviderType', _$IdentityProviderTypeTypeEnumMap[instance.providerType]);
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('AttributeMapping', instance.attributeMapping);
+  writeNotNull('IdpIdentifiers', instance.idpIdentifiers);
+  return val;
+}
+
+const _$IdentityProviderTypeTypeEnumMap = {
+  IdentityProviderTypeType.saml: 'SAML',
+  IdentityProviderTypeType.facebook: 'Facebook',
+  IdentityProviderTypeType.google: 'Google',
+  IdentityProviderTypeType.loginWithAmazon: 'LoginWithAmazon',
+  IdentityProviderTypeType.signInWithApple: 'SignInWithApple',
+  IdentityProviderTypeType.oidc: 'OIDC',
+};
 
 CreateIdentityProviderResponse _$CreateIdentityProviderResponseFromJson(
     Map<String, dynamic> json) {
@@ -665,6 +1284,23 @@ CreateIdentityProviderResponse _$CreateIdentityProviderResponseFromJson(
         : IdentityProviderType.fromJson(
             json['IdentityProvider'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateResourceServerRequestToJson(
+    CreateResourceServerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Identifier', instance.identifier);
+  writeNotNull('Name', instance.name);
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('Scopes', instance.scopes?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateResourceServerResponse _$CreateResourceServerResponseFromJson(
@@ -677,6 +1313,22 @@ CreateResourceServerResponse _$CreateResourceServerResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateUserImportJobRequestToJson(
+    CreateUserImportJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CloudWatchLogsRoleArn', instance.cloudWatchLogsRoleArn);
+  writeNotNull('JobName', instance.jobName);
+  writeNotNull('UserPoolId', instance.userPoolId);
+  return val;
+}
+
 CreateUserImportJobResponse _$CreateUserImportJobResponseFromJson(
     Map<String, dynamic> json) {
   return CreateUserImportJobResponse(
@@ -686,6 +1338,46 @@ CreateUserImportJobResponse _$CreateUserImportJobResponseFromJson(
             json['UserImportJob'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$CreateUserPoolClientRequestToJson(
+    CreateUserPoolClientRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClientName', instance.clientName);
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('AllowedOAuthFlows', instance.allowedOAuthFlows);
+  writeNotNull('AllowedOAuthFlowsUserPoolClient',
+      instance.allowedOAuthFlowsUserPoolClient);
+  writeNotNull('AllowedOAuthScopes', instance.allowedOAuthScopes);
+  writeNotNull(
+      'AnalyticsConfiguration', instance.analyticsConfiguration?.toJson());
+  writeNotNull('CallbackURLs', instance.callbackURLs);
+  writeNotNull('DefaultRedirectURI', instance.defaultRedirectURI);
+  writeNotNull('ExplicitAuthFlows', instance.explicitAuthFlows);
+  writeNotNull('GenerateSecret', instance.generateSecret);
+  writeNotNull('LogoutURLs', instance.logoutURLs);
+  writeNotNull(
+      'PreventUserExistenceErrors',
+      _$PreventUserExistenceErrorTypesEnumMap[
+          instance.preventUserExistenceErrors]);
+  writeNotNull('ReadAttributes', instance.readAttributes);
+  writeNotNull('RefreshTokenValidity', instance.refreshTokenValidity);
+  writeNotNull(
+      'SupportedIdentityProviders', instance.supportedIdentityProviders);
+  writeNotNull('WriteAttributes', instance.writeAttributes);
+  return val;
+}
+
+const _$PreventUserExistenceErrorTypesEnumMap = {
+  PreventUserExistenceErrorTypes.legacy: 'LEGACY',
+  PreventUserExistenceErrorTypes.enabled: 'ENABLED',
+};
 
 CreateUserPoolClientResponse _$CreateUserPoolClientResponseFromJson(
     Map<String, dynamic> json) {
@@ -697,12 +1389,73 @@ CreateUserPoolClientResponse _$CreateUserPoolClientResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateUserPoolDomainRequestToJson(
+    CreateUserPoolDomainRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Domain', instance.domain);
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('CustomDomainConfig', instance.customDomainConfig?.toJson());
+  return val;
+}
+
 CreateUserPoolDomainResponse _$CreateUserPoolDomainResponseFromJson(
     Map<String, dynamic> json) {
   return CreateUserPoolDomainResponse(
     cloudFrontDomain: json['CloudFrontDomain'] as String,
   );
 }
+
+Map<String, dynamic> _$CreateUserPoolRequestToJson(
+    CreateUserPoolRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('PoolName', instance.poolName);
+  writeNotNull(
+      'AccountRecoverySetting', instance.accountRecoverySetting?.toJson());
+  writeNotNull(
+      'AdminCreateUserConfig', instance.adminCreateUserConfig?.toJson());
+  writeNotNull('AliasAttributes', instance.aliasAttributes);
+  writeNotNull('AutoVerifiedAttributes', instance.autoVerifiedAttributes);
+  writeNotNull('DeviceConfiguration', instance.deviceConfiguration?.toJson());
+  writeNotNull('EmailConfiguration', instance.emailConfiguration?.toJson());
+  writeNotNull('EmailVerificationMessage', instance.emailVerificationMessage);
+  writeNotNull('EmailVerificationSubject', instance.emailVerificationSubject);
+  writeNotNull('LambdaConfig', instance.lambdaConfig?.toJson());
+  writeNotNull(
+      'MfaConfiguration', _$UserPoolMfaTypeEnumMap[instance.mfaConfiguration]);
+  writeNotNull('Policies', instance.policies?.toJson());
+  writeNotNull('Schema', instance.schema?.map((e) => e?.toJson())?.toList());
+  writeNotNull('SmsAuthenticationMessage', instance.smsAuthenticationMessage);
+  writeNotNull('SmsConfiguration', instance.smsConfiguration?.toJson());
+  writeNotNull('SmsVerificationMessage', instance.smsVerificationMessage);
+  writeNotNull('UserPoolAddOns', instance.userPoolAddOns?.toJson());
+  writeNotNull('UserPoolTags', instance.userPoolTags);
+  writeNotNull('UsernameAttributes', instance.usernameAttributes);
+  writeNotNull(
+      'UsernameConfiguration', instance.usernameConfiguration?.toJson());
+  writeNotNull('VerificationMessageTemplate',
+      instance.verificationMessageTemplate?.toJson());
+  return val;
+}
+
+const _$UserPoolMfaTypeEnumMap = {
+  UserPoolMfaType.off: 'OFF',
+  UserPoolMfaType.on: 'ON',
+  UserPoolMfaType.optional: 'OPTIONAL',
+};
 
 CreateUserPoolResponse _$CreateUserPoolResponseFromJson(
     Map<String, dynamic> json) {
@@ -734,14 +1487,145 @@ Map<String, dynamic> _$CustomDomainConfigTypeToJson(
   return val;
 }
 
+Map<String, dynamic> _$DeleteGroupRequestToJson(DeleteGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GroupName', instance.groupName);
+  writeNotNull('UserPoolId', instance.userPoolId);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteIdentityProviderRequestToJson(
+    DeleteIdentityProviderRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ProviderName', instance.providerName);
+  writeNotNull('UserPoolId', instance.userPoolId);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteResourceServerRequestToJson(
+    DeleteResourceServerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Identifier', instance.identifier);
+  writeNotNull('UserPoolId', instance.userPoolId);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteUserAttributesRequestToJson(
+    DeleteUserAttributesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccessToken', instance.accessToken);
+  writeNotNull('UserAttributeNames', instance.userAttributeNames);
+  return val;
+}
+
 DeleteUserAttributesResponse _$DeleteUserAttributesResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteUserAttributesResponse();
 }
 
+Map<String, dynamic> _$DeleteUserPoolClientRequestToJson(
+    DeleteUserPoolClientRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClientId', instance.clientId);
+  writeNotNull('UserPoolId', instance.userPoolId);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteUserPoolDomainRequestToJson(
+    DeleteUserPoolDomainRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Domain', instance.domain);
+  writeNotNull('UserPoolId', instance.userPoolId);
+  return val;
+}
+
 DeleteUserPoolDomainResponse _$DeleteUserPoolDomainResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteUserPoolDomainResponse();
+}
+
+Map<String, dynamic> _$DeleteUserPoolRequestToJson(
+    DeleteUserPoolRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UserPoolId', instance.userPoolId);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteUserRequestToJson(DeleteUserRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccessToken', instance.accessToken);
+  return val;
+}
+
+Map<String, dynamic> _$DescribeIdentityProviderRequestToJson(
+    DescribeIdentityProviderRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ProviderName', instance.providerName);
+  writeNotNull('UserPoolId', instance.userPoolId);
+  return val;
 }
 
 DescribeIdentityProviderResponse _$DescribeIdentityProviderResponseFromJson(
@@ -754,6 +1638,21 @@ DescribeIdentityProviderResponse _$DescribeIdentityProviderResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeResourceServerRequestToJson(
+    DescribeResourceServerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Identifier', instance.identifier);
+  writeNotNull('UserPoolId', instance.userPoolId);
+  return val;
+}
+
 DescribeResourceServerResponse _$DescribeResourceServerResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeResourceServerResponse(
@@ -762,6 +1661,21 @@ DescribeResourceServerResponse _$DescribeResourceServerResponseFromJson(
         : ResourceServerType.fromJson(
             json['ResourceServer'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeRiskConfigurationRequestToJson(
+    DescribeRiskConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('ClientId', instance.clientId);
+  return val;
 }
 
 DescribeRiskConfigurationResponse _$DescribeRiskConfigurationResponseFromJson(
@@ -774,6 +1688,21 @@ DescribeRiskConfigurationResponse _$DescribeRiskConfigurationResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeUserImportJobRequestToJson(
+    DescribeUserImportJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobId', instance.jobId);
+  writeNotNull('UserPoolId', instance.userPoolId);
+  return val;
+}
+
 DescribeUserImportJobResponse _$DescribeUserImportJobResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeUserImportJobResponse(
@@ -782,6 +1711,21 @@ DescribeUserImportJobResponse _$DescribeUserImportJobResponseFromJson(
         : UserImportJobType.fromJson(
             json['UserImportJob'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeUserPoolClientRequestToJson(
+    DescribeUserPoolClientRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClientId', instance.clientId);
+  writeNotNull('UserPoolId', instance.userPoolId);
+  return val;
 }
 
 DescribeUserPoolClientResponse _$DescribeUserPoolClientResponseFromJson(
@@ -794,6 +1738,20 @@ DescribeUserPoolClientResponse _$DescribeUserPoolClientResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeUserPoolDomainRequestToJson(
+    DescribeUserPoolDomainRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Domain', instance.domain);
+  return val;
+}
+
 DescribeUserPoolDomainResponse _$DescribeUserPoolDomainResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeUserPoolDomainResponse(
@@ -802,6 +1760,20 @@ DescribeUserPoolDomainResponse _$DescribeUserPoolDomainResponseFromJson(
         : DomainDescriptionType.fromJson(
             json['DomainDescription'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeUserPoolRequestToJson(
+    DescribeUserPoolRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UserPoolId', instance.userPoolId);
+  return val;
 }
 
 DescribeUserPoolResponse _$DescribeUserPoolResponseFromJson(
@@ -950,11 +1922,6 @@ EventFeedbackType _$EventFeedbackTypeFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$FeedbackValueTypeEnumMap = {
-  FeedbackValueType.valid: 'Valid',
-  FeedbackValueType.invalid: 'Invalid',
-};
-
 EventRiskType _$EventRiskTypeFromJson(Map<String, dynamic> json) {
   return EventRiskType(
     compromisedCredentialsDetected:
@@ -977,6 +1944,39 @@ const _$RiskLevelTypeEnumMap = {
   RiskLevelType.high: 'High',
 };
 
+Map<String, dynamic> _$ForgetDeviceRequestToJson(ForgetDeviceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DeviceKey', instance.deviceKey);
+  writeNotNull('AccessToken', instance.accessToken);
+  return val;
+}
+
+Map<String, dynamic> _$ForgotPasswordRequestToJson(
+    ForgotPasswordRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClientId', instance.clientId);
+  writeNotNull('Username', instance.username);
+  writeNotNull('AnalyticsMetadata', instance.analyticsMetadata?.toJson());
+  writeNotNull('ClientMetadata', instance.clientMetadata);
+  writeNotNull('SecretHash', instance.secretHash);
+  writeNotNull('UserContextData', instance.userContextData?.toJson());
+  return val;
+}
+
 ForgotPasswordResponse _$ForgotPasswordResponseFromJson(
     Map<String, dynamic> json) {
   return ForgotPasswordResponse(
@@ -987,11 +1987,38 @@ ForgotPasswordResponse _$ForgotPasswordResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$GetCSVHeaderRequestToJson(GetCSVHeaderRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UserPoolId', instance.userPoolId);
+  return val;
+}
+
 GetCSVHeaderResponse _$GetCSVHeaderResponseFromJson(Map<String, dynamic> json) {
   return GetCSVHeaderResponse(
     cSVHeader: (json['CSVHeader'] as List)?.map((e) => e as String)?.toList(),
     userPoolId: json['UserPoolId'] as String,
   );
+}
+
+Map<String, dynamic> _$GetDeviceRequestToJson(GetDeviceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DeviceKey', instance.deviceKey);
+  writeNotNull('AccessToken', instance.accessToken);
+  return val;
 }
 
 GetDeviceResponse _$GetDeviceResponseFromJson(Map<String, dynamic> json) {
@@ -1002,12 +2029,41 @@ GetDeviceResponse _$GetDeviceResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetGroupRequestToJson(GetGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GroupName', instance.groupName);
+  writeNotNull('UserPoolId', instance.userPoolId);
+  return val;
+}
+
 GetGroupResponse _$GetGroupResponseFromJson(Map<String, dynamic> json) {
   return GetGroupResponse(
     group: json['Group'] == null
         ? null
         : GroupType.fromJson(json['Group'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetIdentityProviderByIdentifierRequestToJson(
+    GetIdentityProviderByIdentifierRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('IdpIdentifier', instance.idpIdentifier);
+  writeNotNull('UserPoolId', instance.userPoolId);
+  return val;
 }
 
 GetIdentityProviderByIdentifierResponse
@@ -1021,11 +2077,40 @@ GetIdentityProviderByIdentifierResponse
   );
 }
 
+Map<String, dynamic> _$GetSigningCertificateRequestToJson(
+    GetSigningCertificateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UserPoolId', instance.userPoolId);
+  return val;
+}
+
 GetSigningCertificateResponse _$GetSigningCertificateResponseFromJson(
     Map<String, dynamic> json) {
   return GetSigningCertificateResponse(
     certificate: json['Certificate'] as String,
   );
+}
+
+Map<String, dynamic> _$GetUICustomizationRequestToJson(
+    GetUICustomizationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('ClientId', instance.clientId);
+  return val;
 }
 
 GetUICustomizationResponse _$GetUICustomizationResponseFromJson(
@@ -1038,6 +2123,22 @@ GetUICustomizationResponse _$GetUICustomizationResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$GetUserAttributeVerificationCodeRequestToJson(
+    GetUserAttributeVerificationCodeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccessToken', instance.accessToken);
+  writeNotNull('AttributeName', instance.attributeName);
+  writeNotNull('ClientMetadata', instance.clientMetadata);
+  return val;
+}
+
 GetUserAttributeVerificationCodeResponse
     _$GetUserAttributeVerificationCodeResponseFromJson(
         Map<String, dynamic> json) {
@@ -1047,6 +2148,20 @@ GetUserAttributeVerificationCodeResponse
         : CodeDeliveryDetailsType.fromJson(
             json['CodeDeliveryDetails'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetUserPoolMfaConfigRequestToJson(
+    GetUserPoolMfaConfigRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UserPoolId', instance.userPoolId);
+  return val;
 }
 
 GetUserPoolMfaConfigResponse _$GetUserPoolMfaConfigResponseFromJson(
@@ -1065,11 +2180,18 @@ GetUserPoolMfaConfigResponse _$GetUserPoolMfaConfigResponseFromJson(
   );
 }
 
-const _$UserPoolMfaTypeEnumMap = {
-  UserPoolMfaType.off: 'OFF',
-  UserPoolMfaType.on: 'ON',
-  UserPoolMfaType.optional: 'OPTIONAL',
-};
+Map<String, dynamic> _$GetUserRequestToJson(GetUserRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccessToken', instance.accessToken);
+  return val;
+}
 
 GetUserResponse _$GetUserResponseFromJson(Map<String, dynamic> json) {
   return GetUserResponse(
@@ -1088,6 +2210,20 @@ GetUserResponse _$GetUserResponseFromJson(Map<String, dynamic> json) {
     userMFASettingList:
         (json['UserMFASettingList'] as List)?.map((e) => e as String)?.toList(),
   );
+}
+
+Map<String, dynamic> _$GlobalSignOutRequestToJson(
+    GlobalSignOutRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccessToken', instance.accessToken);
+  return val;
 }
 
 GlobalSignOutResponse _$GlobalSignOutResponseFromJson(
@@ -1140,14 +2276,23 @@ IdentityProviderType _$IdentityProviderTypeFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$IdentityProviderTypeTypeEnumMap = {
-  IdentityProviderTypeType.saml: 'SAML',
-  IdentityProviderTypeType.facebook: 'Facebook',
-  IdentityProviderTypeType.google: 'Google',
-  IdentityProviderTypeType.loginWithAmazon: 'LoginWithAmazon',
-  IdentityProviderTypeType.signInWithApple: 'SignInWithApple',
-  IdentityProviderTypeType.oidc: 'OIDC',
-};
+Map<String, dynamic> _$InitiateAuthRequestToJson(InitiateAuthRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AuthFlow', _$AuthFlowTypeEnumMap[instance.authFlow]);
+  writeNotNull('ClientId', instance.clientId);
+  writeNotNull('AnalyticsMetadata', instance.analyticsMetadata?.toJson());
+  writeNotNull('AuthParameters', instance.authParameters);
+  writeNotNull('ClientMetadata', instance.clientMetadata);
+  writeNotNull('UserContextData', instance.userContextData?.toJson());
+  return val;
+}
 
 InitiateAuthResponse _$InitiateAuthResponseFromJson(Map<String, dynamic> json) {
   return InitiateAuthResponse(
@@ -1203,6 +2348,21 @@ Map<String, dynamic> _$LambdaConfigTypeToJson(LambdaConfigType instance) {
   return val;
 }
 
+Map<String, dynamic> _$ListDevicesRequestToJson(ListDevicesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccessToken', instance.accessToken);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('PaginationToken', instance.paginationToken);
+  return val;
+}
+
 ListDevicesResponse _$ListDevicesResponseFromJson(Map<String, dynamic> json) {
   return ListDevicesResponse(
     devices: (json['Devices'] as List)
@@ -1213,6 +2373,21 @@ ListDevicesResponse _$ListDevicesResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ListGroupsRequestToJson(ListGroupsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListGroupsResponse _$ListGroupsResponseFromJson(Map<String, dynamic> json) {
   return ListGroupsResponse(
     groups: (json['Groups'] as List)
@@ -1221,6 +2396,22 @@ ListGroupsResponse _$ListGroupsResponseFromJson(Map<String, dynamic> json) {
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListIdentityProvidersRequestToJson(
+    ListIdentityProvidersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListIdentityProvidersResponse _$ListIdentityProvidersResponseFromJson(
@@ -1235,6 +2426,22 @@ ListIdentityProvidersResponse _$ListIdentityProvidersResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListResourceServersRequestToJson(
+    ListResourceServersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListResourceServersResponse _$ListResourceServersResponseFromJson(
     Map<String, dynamic> json) {
   return ListResourceServersResponse(
@@ -1247,6 +2454,20 @@ ListResourceServersResponse _$ListResourceServersResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListTagsForResourceRequestToJson(
+    ListTagsForResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  return val;
+}
+
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
@@ -1254,6 +2475,22 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
       (k, e) => MapEntry(k, e as String),
     ),
   );
+}
+
+Map<String, dynamic> _$ListUserImportJobsRequestToJson(
+    ListUserImportJobsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('PaginationToken', instance.paginationToken);
+  return val;
 }
 
 ListUserImportJobsResponse _$ListUserImportJobsResponseFromJson(
@@ -1268,6 +2505,22 @@ ListUserImportJobsResponse _$ListUserImportJobsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListUserPoolClientsRequestToJson(
+    ListUserPoolClientsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListUserPoolClientsResponse _$ListUserPoolClientsResponseFromJson(
     Map<String, dynamic> json) {
   return ListUserPoolClientsResponse(
@@ -1278,6 +2531,21 @@ ListUserPoolClientsResponse _$ListUserPoolClientsResponseFromJson(
             : UserPoolClientDescription.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListUserPoolsRequestToJson(
+    ListUserPoolsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListUserPoolsResponse _$ListUserPoolsResponseFromJson(
@@ -1292,6 +2560,23 @@ ListUserPoolsResponse _$ListUserPoolsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListUsersInGroupRequestToJson(
+    ListUsersInGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GroupName', instance.groupName);
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListUsersInGroupResponse _$ListUsersInGroupResponseFromJson(
     Map<String, dynamic> json) {
   return ListUsersInGroupResponse(
@@ -1301,6 +2586,23 @@ ListUsersInGroupResponse _$ListUsersInGroupResponseFromJson(
             e == null ? null : UserType.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListUsersRequestToJson(ListUsersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('AttributesToGet', instance.attributesToGet);
+  writeNotNull('Filter', instance.filter);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('PaginationToken', instance.paginationToken);
+  return val;
 }
 
 ListUsersResponse _$ListUsersResponseFromJson(Map<String, dynamic> json) {
@@ -1534,6 +2836,25 @@ const _$RecoveryOptionNameTypeEnumMap = {
   RecoveryOptionNameType.adminOnly: 'admin_only',
 };
 
+Map<String, dynamic> _$ResendConfirmationCodeRequestToJson(
+    ResendConfirmationCodeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClientId', instance.clientId);
+  writeNotNull('Username', instance.username);
+  writeNotNull('AnalyticsMetadata', instance.analyticsMetadata?.toJson());
+  writeNotNull('ClientMetadata', instance.clientMetadata);
+  writeNotNull('SecretHash', instance.secretHash);
+  writeNotNull('UserContextData', instance.userContextData?.toJson());
+  return val;
+}
+
 ResendConfirmationCodeResponse _$ResendConfirmationCodeResponseFromJson(
     Map<String, dynamic> json) {
   return ResendConfirmationCodeResponse(
@@ -1578,6 +2899,27 @@ ResourceServerType _$ResourceServerTypeFromJson(Map<String, dynamic> json) {
         ?.toList(),
     userPoolId: json['UserPoolId'] as String,
   );
+}
+
+Map<String, dynamic> _$RespondToAuthChallengeRequestToJson(
+    RespondToAuthChallengeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'ChallengeName', _$ChallengeNameTypeEnumMap[instance.challengeName]);
+  writeNotNull('ClientId', instance.clientId);
+  writeNotNull('AnalyticsMetadata', instance.analyticsMetadata?.toJson());
+  writeNotNull('ChallengeResponses', instance.challengeResponses);
+  writeNotNull('ClientMetadata', instance.clientMetadata);
+  writeNotNull('Session', instance.session);
+  writeNotNull('UserContextData', instance.userContextData?.toJson());
+  return val;
 }
 
 RespondToAuthChallengeResponse _$RespondToAuthChallengeResponseFromJson(
@@ -1709,6 +3051,27 @@ const _$AttributeDataTypeEnumMap = {
   AttributeDataType.boolean: 'Boolean',
 };
 
+Map<String, dynamic> _$SetRiskConfigurationRequestToJson(
+    SetRiskConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('AccountTakeoverRiskConfiguration',
+      instance.accountTakeoverRiskConfiguration?.toJson());
+  writeNotNull('ClientId', instance.clientId);
+  writeNotNull('CompromisedCredentialsRiskConfiguration',
+      instance.compromisedCredentialsRiskConfiguration?.toJson());
+  writeNotNull('RiskExceptionConfiguration',
+      instance.riskExceptionConfiguration?.toJson());
+  return val;
+}
+
 SetRiskConfigurationResponse _$SetRiskConfigurationResponseFromJson(
     Map<String, dynamic> json) {
   return SetRiskConfigurationResponse(
@@ -1717,6 +3080,24 @@ SetRiskConfigurationResponse _$SetRiskConfigurationResponseFromJson(
         : RiskConfigurationType.fromJson(
             json['RiskConfiguration'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$SetUICustomizationRequestToJson(
+    SetUICustomizationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('CSS', instance.css);
+  writeNotNull('ClientId', instance.clientId);
+  writeNotNull(
+      'ImageFile', const Uint8ListConverter().toJson(instance.imageFile));
+  return val;
 }
 
 SetUICustomizationResponse _$SetUICustomizationResponseFromJson(
@@ -1729,9 +3110,45 @@ SetUICustomizationResponse _$SetUICustomizationResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$SetUserMFAPreferenceRequestToJson(
+    SetUserMFAPreferenceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccessToken', instance.accessToken);
+  writeNotNull('SMSMfaSettings', instance.sMSMfaSettings?.toJson());
+  writeNotNull(
+      'SoftwareTokenMfaSettings', instance.softwareTokenMfaSettings?.toJson());
+  return val;
+}
+
 SetUserMFAPreferenceResponse _$SetUserMFAPreferenceResponseFromJson(
     Map<String, dynamic> json) {
   return SetUserMFAPreferenceResponse();
+}
+
+Map<String, dynamic> _$SetUserPoolMfaConfigRequestToJson(
+    SetUserPoolMfaConfigRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull(
+      'MfaConfiguration', _$UserPoolMfaTypeEnumMap[instance.mfaConfiguration]);
+  writeNotNull('SmsMfaConfiguration', instance.smsMfaConfiguration?.toJson());
+  writeNotNull('SoftwareTokenMfaConfiguration',
+      instance.softwareTokenMfaConfiguration?.toJson());
+  return val;
 }
 
 SetUserPoolMfaConfigResponse _$SetUserPoolMfaConfigResponseFromJson(
@@ -1750,9 +3167,48 @@ SetUserPoolMfaConfigResponse _$SetUserPoolMfaConfigResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$SetUserSettingsRequestToJson(
+    SetUserSettingsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccessToken', instance.accessToken);
+  writeNotNull(
+      'MFAOptions', instance.mFAOptions?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 SetUserSettingsResponse _$SetUserSettingsResponseFromJson(
     Map<String, dynamic> json) {
   return SetUserSettingsResponse();
+}
+
+Map<String, dynamic> _$SignUpRequestToJson(SignUpRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClientId', instance.clientId);
+  writeNotNull('Password', instance.password);
+  writeNotNull('Username', instance.username);
+  writeNotNull('AnalyticsMetadata', instance.analyticsMetadata?.toJson());
+  writeNotNull('ClientMetadata', instance.clientMetadata);
+  writeNotNull('SecretHash', instance.secretHash);
+  writeNotNull('UserAttributes',
+      instance.userAttributes?.map((e) => e?.toJson())?.toList());
+  writeNotNull('UserContextData', instance.userContextData?.toJson());
+  writeNotNull('ValidationData',
+      instance.validationData?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 SignUpResponse _$SignUpResponseFromJson(Map<String, dynamic> json) {
@@ -1848,6 +3304,21 @@ Map<String, dynamic> _$SoftwareTokenMfaSettingsTypeToJson(
   return val;
 }
 
+Map<String, dynamic> _$StartUserImportJobRequestToJson(
+    StartUserImportJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobId', instance.jobId);
+  writeNotNull('UserPoolId', instance.userPoolId);
+  return val;
+}
+
 StartUserImportJobResponse _$StartUserImportJobResponseFromJson(
     Map<String, dynamic> json) {
   return StartUserImportJobResponse(
@@ -1856,6 +3327,21 @@ StartUserImportJobResponse _$StartUserImportJobResponseFromJson(
         : UserImportJobType.fromJson(
             json['UserImportJob'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$StopUserImportJobRequestToJson(
+    StopUserImportJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobId', instance.jobId);
+  writeNotNull('UserPoolId', instance.userPoolId);
+  return val;
 }
 
 StopUserImportJobResponse _$StopUserImportJobResponseFromJson(
@@ -1891,6 +3377,20 @@ Map<String, dynamic> _$StringAttributeConstraintsTypeToJson(
   return val;
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('Tags', instance.tags);
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
 }
@@ -1907,9 +3407,43 @@ UICustomizationType _$UICustomizationTypeFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$UntagResourceRequestToJson(
+    UntagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
+}
+
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse();
+}
+
+Map<String, dynamic> _$UpdateAuthEventFeedbackRequestToJson(
+    UpdateAuthEventFeedbackRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EventId', instance.eventId);
+  writeNotNull('FeedbackToken', instance.feedbackToken);
+  writeNotNull(
+      'FeedbackValue', _$FeedbackValueTypeEnumMap[instance.feedbackValue]);
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('Username', instance.username);
+  return val;
 }
 
 UpdateAuthEventFeedbackResponse _$UpdateAuthEventFeedbackResponseFromJson(
@@ -1917,9 +3451,43 @@ UpdateAuthEventFeedbackResponse _$UpdateAuthEventFeedbackResponseFromJson(
   return UpdateAuthEventFeedbackResponse();
 }
 
+Map<String, dynamic> _$UpdateDeviceStatusRequestToJson(
+    UpdateDeviceStatusRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccessToken', instance.accessToken);
+  writeNotNull('DeviceKey', instance.deviceKey);
+  writeNotNull('DeviceRememberedStatus',
+      _$DeviceRememberedStatusTypeEnumMap[instance.deviceRememberedStatus]);
+  return val;
+}
+
 UpdateDeviceStatusResponse _$UpdateDeviceStatusResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateDeviceStatusResponse();
+}
+
+Map<String, dynamic> _$UpdateGroupRequestToJson(UpdateGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GroupName', instance.groupName);
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('Description', instance.description);
+  writeNotNull('Precedence', instance.precedence);
+  writeNotNull('RoleArn', instance.roleArn);
+  return val;
 }
 
 UpdateGroupResponse _$UpdateGroupResponseFromJson(Map<String, dynamic> json) {
@@ -1928,6 +3496,24 @@ UpdateGroupResponse _$UpdateGroupResponseFromJson(Map<String, dynamic> json) {
         ? null
         : GroupType.fromJson(json['Group'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateIdentityProviderRequestToJson(
+    UpdateIdentityProviderRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ProviderName', instance.providerName);
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('AttributeMapping', instance.attributeMapping);
+  writeNotNull('IdpIdentifiers', instance.idpIdentifiers);
+  writeNotNull('ProviderDetails', instance.providerDetails);
+  return val;
 }
 
 UpdateIdentityProviderResponse _$UpdateIdentityProviderResponseFromJson(
@@ -1940,6 +3526,23 @@ UpdateIdentityProviderResponse _$UpdateIdentityProviderResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateResourceServerRequestToJson(
+    UpdateResourceServerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Identifier', instance.identifier);
+  writeNotNull('Name', instance.name);
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('Scopes', instance.scopes?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 UpdateResourceServerResponse _$UpdateResourceServerResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateResourceServerResponse(
@@ -1948,6 +3551,23 @@ UpdateResourceServerResponse _$UpdateResourceServerResponseFromJson(
         : ResourceServerType.fromJson(
             json['ResourceServer'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateUserAttributesRequestToJson(
+    UpdateUserAttributesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccessToken', instance.accessToken);
+  writeNotNull('UserAttributes',
+      instance.userAttributes?.map((e) => e?.toJson())?.toList());
+  writeNotNull('ClientMetadata', instance.clientMetadata);
+  return val;
 }
 
 UpdateUserAttributesResponse _$UpdateUserAttributesResponseFromJson(
@@ -1961,6 +3581,41 @@ UpdateUserAttributesResponse _$UpdateUserAttributesResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateUserPoolClientRequestToJson(
+    UpdateUserPoolClientRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClientId', instance.clientId);
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull('AllowedOAuthFlows', instance.allowedOAuthFlows);
+  writeNotNull('AllowedOAuthFlowsUserPoolClient',
+      instance.allowedOAuthFlowsUserPoolClient);
+  writeNotNull('AllowedOAuthScopes', instance.allowedOAuthScopes);
+  writeNotNull(
+      'AnalyticsConfiguration', instance.analyticsConfiguration?.toJson());
+  writeNotNull('CallbackURLs', instance.callbackURLs);
+  writeNotNull('ClientName', instance.clientName);
+  writeNotNull('DefaultRedirectURI', instance.defaultRedirectURI);
+  writeNotNull('ExplicitAuthFlows', instance.explicitAuthFlows);
+  writeNotNull('LogoutURLs', instance.logoutURLs);
+  writeNotNull(
+      'PreventUserExistenceErrors',
+      _$PreventUserExistenceErrorTypesEnumMap[
+          instance.preventUserExistenceErrors]);
+  writeNotNull('ReadAttributes', instance.readAttributes);
+  writeNotNull('RefreshTokenValidity', instance.refreshTokenValidity);
+  writeNotNull(
+      'SupportedIdentityProviders', instance.supportedIdentityProviders);
+  writeNotNull('WriteAttributes', instance.writeAttributes);
+  return val;
+}
+
 UpdateUserPoolClientResponse _$UpdateUserPoolClientResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateUserPoolClientResponse(
@@ -1971,11 +3626,61 @@ UpdateUserPoolClientResponse _$UpdateUserPoolClientResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateUserPoolDomainRequestToJson(
+    UpdateUserPoolDomainRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CustomDomainConfig', instance.customDomainConfig?.toJson());
+  writeNotNull('Domain', instance.domain);
+  writeNotNull('UserPoolId', instance.userPoolId);
+  return val;
+}
+
 UpdateUserPoolDomainResponse _$UpdateUserPoolDomainResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateUserPoolDomainResponse(
     cloudFrontDomain: json['CloudFrontDomain'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateUserPoolRequestToJson(
+    UpdateUserPoolRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UserPoolId', instance.userPoolId);
+  writeNotNull(
+      'AccountRecoverySetting', instance.accountRecoverySetting?.toJson());
+  writeNotNull(
+      'AdminCreateUserConfig', instance.adminCreateUserConfig?.toJson());
+  writeNotNull('AutoVerifiedAttributes', instance.autoVerifiedAttributes);
+  writeNotNull('DeviceConfiguration', instance.deviceConfiguration?.toJson());
+  writeNotNull('EmailConfiguration', instance.emailConfiguration?.toJson());
+  writeNotNull('EmailVerificationMessage', instance.emailVerificationMessage);
+  writeNotNull('EmailVerificationSubject', instance.emailVerificationSubject);
+  writeNotNull('LambdaConfig', instance.lambdaConfig?.toJson());
+  writeNotNull(
+      'MfaConfiguration', _$UserPoolMfaTypeEnumMap[instance.mfaConfiguration]);
+  writeNotNull('Policies', instance.policies?.toJson());
+  writeNotNull('SmsAuthenticationMessage', instance.smsAuthenticationMessage);
+  writeNotNull('SmsConfiguration', instance.smsConfiguration?.toJson());
+  writeNotNull('SmsVerificationMessage', instance.smsVerificationMessage);
+  writeNotNull('UserPoolAddOns', instance.userPoolAddOns?.toJson());
+  writeNotNull('UserPoolTags', instance.userPoolTags);
+  writeNotNull('VerificationMessageTemplate',
+      instance.verificationMessageTemplate?.toJson());
+  return val;
 }
 
 UpdateUserPoolResponse _$UpdateUserPoolResponseFromJson(
@@ -2099,11 +3804,6 @@ UserPoolClientType _$UserPoolClientTypeFromJson(Map<String, dynamic> json) {
         (json['WriteAttributes'] as List)?.map((e) => e as String)?.toList(),
   );
 }
-
-const _$PreventUserExistenceErrorTypesEnumMap = {
-  PreventUserExistenceErrorTypes.legacy: 'LEGACY',
-  PreventUserExistenceErrorTypes.enabled: 'ENABLED',
-};
 
 UserPoolDescriptionType _$UserPoolDescriptionTypeFromJson(
     Map<String, dynamic> json) {
@@ -2303,6 +4003,23 @@ const _$DefaultEmailOptionTypeEnumMap = {
   DefaultEmailOptionType.confirmWithCode: 'CONFIRM_WITH_CODE',
 };
 
+Map<String, dynamic> _$VerifySoftwareTokenRequestToJson(
+    VerifySoftwareTokenRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UserCode', instance.userCode);
+  writeNotNull('AccessToken', instance.accessToken);
+  writeNotNull('FriendlyDeviceName', instance.friendlyDeviceName);
+  writeNotNull('Session', instance.session);
+  return val;
+}
+
 VerifySoftwareTokenResponse _$VerifySoftwareTokenResponseFromJson(
     Map<String, dynamic> json) {
   return VerifySoftwareTokenResponse(
@@ -2316,6 +4033,22 @@ const _$VerifySoftwareTokenResponseTypeEnumMap = {
   VerifySoftwareTokenResponseType.success: 'SUCCESS',
   VerifySoftwareTokenResponseType.error: 'ERROR',
 };
+
+Map<String, dynamic> _$VerifyUserAttributeRequestToJson(
+    VerifyUserAttributeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccessToken', instance.accessToken);
+  writeNotNull('AttributeName', instance.attributeName);
+  writeNotNull('Code', instance.code);
+  return val;
+}
 
 VerifyUserAttributeResponse _$VerifyUserAttributeResponseFromJson(
     Map<String, dynamic> json) {

@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -84,10 +83,10 @@ class Support {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'attachments': attachments,
-        if (attachmentSetId != null) 'attachmentSetId': attachmentSetId,
-      },
+      payload: AddAttachmentsToSetRequest(
+        attachments: attachments,
+        attachmentSetId: attachmentSetId,
+      ),
     );
 
     return AddAttachmentsToSetResponse.fromJson(jsonResponse.body);
@@ -149,12 +148,12 @@ class Support {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'communicationBody': communicationBody,
-        if (attachmentSetId != null) 'attachmentSetId': attachmentSetId,
-        if (caseId != null) 'caseId': caseId,
-        if (ccEmailAddresses != null) 'ccEmailAddresses': ccEmailAddresses,
-      },
+      payload: AddCommunicationToCaseRequest(
+        communicationBody: communicationBody,
+        attachmentSetId: attachmentSetId,
+        caseId: caseId,
+        ccEmailAddresses: ccEmailAddresses,
+      ),
     );
 
     return AddCommunicationToCaseResponse.fromJson(jsonResponse.body);
@@ -314,17 +313,17 @@ class Support {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'communicationBody': communicationBody,
-        'subject': subject,
-        if (attachmentSetId != null) 'attachmentSetId': attachmentSetId,
-        if (categoryCode != null) 'categoryCode': categoryCode,
-        if (ccEmailAddresses != null) 'ccEmailAddresses': ccEmailAddresses,
-        if (issueType != null) 'issueType': issueType,
-        if (language != null) 'language': language,
-        if (serviceCode != null) 'serviceCode': serviceCode,
-        if (severityCode != null) 'severityCode': severityCode,
-      },
+      payload: CreateCaseRequest(
+        communicationBody: communicationBody,
+        subject: subject,
+        attachmentSetId: attachmentSetId,
+        categoryCode: categoryCode,
+        ccEmailAddresses: ccEmailAddresses,
+        issueType: issueType,
+        language: language,
+        serviceCode: serviceCode,
+        severityCode: severityCode,
+      ),
     );
 
     return CreateCaseResponse.fromJson(jsonResponse.body);
@@ -357,9 +356,9 @@ class Support {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'attachmentId': attachmentId,
-      },
+      payload: DescribeAttachmentRequest(
+        attachmentId: attachmentId,
+      ),
     );
 
     return DescribeAttachmentResponse.fromJson(jsonResponse.body);
@@ -450,19 +449,17 @@ class Support {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (afterTime != null) 'afterTime': afterTime,
-        if (beforeTime != null) 'beforeTime': beforeTime,
-        if (caseIdList != null) 'caseIdList': caseIdList,
-        if (displayId != null) 'displayId': displayId,
-        if (includeCommunications != null)
-          'includeCommunications': includeCommunications,
-        if (includeResolvedCases != null)
-          'includeResolvedCases': includeResolvedCases,
-        if (language != null) 'language': language,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: DescribeCasesRequest(
+        afterTime: afterTime,
+        beforeTime: beforeTime,
+        caseIdList: caseIdList,
+        displayId: displayId,
+        includeCommunications: includeCommunications,
+        includeResolvedCases: includeResolvedCases,
+        language: language,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeCasesResponse.fromJson(jsonResponse.body);
@@ -527,13 +524,13 @@ class Support {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'caseId': caseId,
-        if (afterTime != null) 'afterTime': afterTime,
-        if (beforeTime != null) 'beforeTime': beforeTime,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: DescribeCommunicationsRequest(
+        caseId: caseId,
+        afterTime: afterTime,
+        beforeTime: beforeTime,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeCommunicationsResponse.fromJson(jsonResponse.body);
@@ -577,10 +574,10 @@ class Support {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (language != null) 'language': language,
-        if (serviceCodeList != null) 'serviceCodeList': serviceCodeList,
-      },
+      payload: DescribeServicesRequest(
+        language: language,
+        serviceCodeList: serviceCodeList,
+      ),
     );
 
     return DescribeServicesResponse.fromJson(jsonResponse.body);
@@ -609,9 +606,9 @@ class Support {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (language != null) 'language': language,
-      },
+      payload: DescribeSeverityLevelsRequest(
+        language: language,
+      ),
     );
 
     return DescribeSeverityLevelsResponse.fromJson(jsonResponse.body);
@@ -649,9 +646,9 @@ class Support {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'checkIds': checkIds,
-      },
+      payload: DescribeTrustedAdvisorCheckRefreshStatusesRequest(
+        checkIds: checkIds,
+      ),
     );
 
     return DescribeTrustedAdvisorCheckRefreshStatusesResponse.fromJson(
@@ -716,10 +713,10 @@ class Support {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'checkId': checkId,
-        if (language != null) 'language': language,
-      },
+      payload: DescribeTrustedAdvisorCheckResultRequest(
+        checkId: checkId,
+        language: language,
+      ),
     );
 
     return DescribeTrustedAdvisorCheckResultResponse.fromJson(
@@ -752,9 +749,9 @@ class Support {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'checkIds': checkIds,
-      },
+      payload: DescribeTrustedAdvisorCheckSummariesRequest(
+        checkIds: checkIds,
+      ),
     );
 
     return DescribeTrustedAdvisorCheckSummariesResponse.fromJson(
@@ -787,9 +784,9 @@ class Support {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'language': language,
-      },
+      payload: DescribeTrustedAdvisorChecksRequest(
+        language: language,
+      ),
     );
 
     return DescribeTrustedAdvisorChecksResponse.fromJson(jsonResponse.body);
@@ -860,9 +857,9 @@ class Support {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'checkId': checkId,
-      },
+      payload: RefreshTrustedAdvisorCheckRequest(
+        checkId: checkId,
+      ),
     );
 
     return RefreshTrustedAdvisorCheckResponse.fromJson(jsonResponse.body);
@@ -892,13 +889,39 @@ class Support {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (caseId != null) 'caseId': caseId,
-      },
+      payload: ResolveCaseRequest(
+        caseId: caseId,
+      ),
     );
 
     return ResolveCaseResponse.fromJson(jsonResponse.body);
   }
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AddAttachmentsToSetRequest {
+  /// One or more attachments to add to the set. The limit is 3 attachments per
+  /// set, and the size limit is 5 MB per attachment.
+  @_s.JsonKey(name: 'attachments')
+  final List<Attachment> attachments;
+
+  /// The ID of the attachment set. If an <code>attachmentSetId</code> is not
+  /// specified, a new attachment set is created, and the ID of the set is
+  /// returned in the response. If an <code>attachmentSetId</code> is specified,
+  /// the attachments are added to the specified set, if it exists.
+  @_s.JsonKey(name: 'attachmentSetId')
+  final String attachmentSetId;
+
+  AddAttachmentsToSetRequest({
+    @_s.required this.attachments,
+    this.attachmentSetId,
+  });
+  Map<String, dynamic> toJson() => _$AddAttachmentsToSetRequestToJson(this);
 }
 
 /// The ID and expiry time of the attachment set returned by the
@@ -926,6 +949,42 @@ class AddAttachmentsToSetResponse {
   });
   factory AddAttachmentsToSetResponse.fromJson(Map<String, dynamic> json) =>
       _$AddAttachmentsToSetResponseFromJson(json);
+}
+
+/// To be written.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AddCommunicationToCaseRequest {
+  /// The body of an email communication to add to the support case.
+  @_s.JsonKey(name: 'communicationBody')
+  final String communicationBody;
+
+  /// The ID of a set of one or more attachments for the communication to add to
+  /// the case. Create the set by calling <a>AddAttachmentsToSet</a>
+  @_s.JsonKey(name: 'attachmentSetId')
+  final String attachmentSetId;
+
+  /// The AWS Support case ID requested or returned in the call. The case ID is an
+  /// alphanumeric string formatted as shown in this example:
+  /// case-<i>12345678910-2013-c4c1d2bf33c5cf47</i>
+  @_s.JsonKey(name: 'caseId')
+  final String caseId;
+
+  /// The email addresses in the CC line of an email to be added to the support
+  /// case.
+  @_s.JsonKey(name: 'ccEmailAddresses')
+  final List<String> ccEmailAddresses;
+
+  AddCommunicationToCaseRequest({
+    @_s.required this.communicationBody,
+    this.attachmentSetId,
+    this.caseId,
+    this.ccEmailAddresses,
+  });
+  Map<String, dynamic> toJson() => _$AddCommunicationToCaseRequestToJson(this);
 }
 
 /// The result of the <a>AddCommunicationToCase</a> operation.
@@ -1211,6 +1270,78 @@ class Communication {
       _$CommunicationFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateCaseRequest {
+  /// The communication body text when you create an AWS Support case by calling
+  /// <a>CreateCase</a>.
+  @_s.JsonKey(name: 'communicationBody')
+  final String communicationBody;
+
+  /// The title of the AWS Support case.
+  @_s.JsonKey(name: 'subject')
+  final String subject;
+
+  /// The ID of a set of one or more attachments for the case. Create the set by
+  /// using <a>AddAttachmentsToSet</a>.
+  @_s.JsonKey(name: 'attachmentSetId')
+  final String attachmentSetId;
+
+  /// The category of problem for the AWS Support case.
+  @_s.JsonKey(name: 'categoryCode')
+  final String categoryCode;
+
+  /// A list of email addresses that AWS Support copies on case correspondence.
+  @_s.JsonKey(name: 'ccEmailAddresses')
+  final List<String> ccEmailAddresses;
+
+  /// The type of issue for the case. You can specify either "customer-service" or
+  /// "technical." If you do not indicate a value, the default is "technical."
+  /// <note>
+  /// Service limit increases are not supported by the Support API; you must
+  /// submit service limit increase requests in <a
+  /// href="https://console.aws.amazon.com/support">Support Center</a>.
+  /// </note>
+  @_s.JsonKey(name: 'issueType')
+  final String issueType;
+
+  /// The ISO 639-1 code for the language in which AWS provides support. AWS
+  /// Support currently supports English ("en") and Japanese ("ja"). Language
+  /// parameters must be passed explicitly for operations that take them.
+  @_s.JsonKey(name: 'language')
+  final String language;
+
+  /// The code for the AWS service returned by the call to
+  /// <a>DescribeServices</a>.
+  @_s.JsonKey(name: 'serviceCode')
+  final String serviceCode;
+
+  /// The code for the severity level returned by the call to
+  /// <a>DescribeSeverityLevels</a>.
+  /// <note>
+  /// The availability of severity levels depends on the support plan for the
+  /// account.
+  /// </note>
+  @_s.JsonKey(name: 'severityCode')
+  final String severityCode;
+
+  CreateCaseRequest({
+    @_s.required this.communicationBody,
+    @_s.required this.subject,
+    this.attachmentSetId,
+    this.categoryCode,
+    this.ccEmailAddresses,
+    this.issueType,
+    this.language,
+    this.serviceCode,
+    this.severityCode,
+  });
+  Map<String, dynamic> toJson() => _$CreateCaseRequestToJson(this);
+}
+
 /// The AWS Support case ID returned by a successful completion of the
 /// <a>CreateCase</a> operation.
 @_s.JsonSerializable(
@@ -1232,6 +1363,23 @@ class CreateCaseResponse {
       _$CreateCaseResponseFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeAttachmentRequest {
+  /// The ID of the attachment to return. Attachment IDs are returned by the
+  /// <a>DescribeCommunications</a> operation.
+  @_s.JsonKey(name: 'attachmentId')
+  final String attachmentId;
+
+  DescribeAttachmentRequest({
+    @_s.required this.attachmentId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeAttachmentRequestToJson(this);
+}
+
 /// The content and file name of the attachment returned by the
 /// <a>DescribeAttachment</a> operation.
 @_s.JsonSerializable(
@@ -1249,6 +1397,69 @@ class DescribeAttachmentResponse {
   });
   factory DescribeAttachmentResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeAttachmentResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeCasesRequest {
+  /// The start date for a filtered date search on support case communications.
+  /// Case communications are available for 12 months after creation.
+  @_s.JsonKey(name: 'afterTime')
+  final String afterTime;
+
+  /// The end date for a filtered date search on support case communications. Case
+  /// communications are available for 12 months after creation.
+  @_s.JsonKey(name: 'beforeTime')
+  final String beforeTime;
+
+  /// A list of ID numbers of the support cases you want returned. The maximum
+  /// number of cases is 100.
+  @_s.JsonKey(name: 'caseIdList')
+  final List<String> caseIdList;
+
+  /// The ID displayed for a case in the AWS Support Center user interface.
+  @_s.JsonKey(name: 'displayId')
+  final String displayId;
+
+  /// Specifies whether communications should be included in the
+  /// <a>DescribeCases</a> results. The default is <i>true</i>.
+  @_s.JsonKey(name: 'includeCommunications')
+  final bool includeCommunications;
+
+  /// Specifies whether resolved support cases should be included in the
+  /// <a>DescribeCases</a> results. The default is <i>false</i>.
+  @_s.JsonKey(name: 'includeResolvedCases')
+  final bool includeResolvedCases;
+
+  /// The ISO 639-1 code for the language in which AWS provides support. AWS
+  /// Support currently supports English ("en") and Japanese ("ja"). Language
+  /// parameters must be passed explicitly for operations that take them.
+  @_s.JsonKey(name: 'language')
+  final String language;
+
+  /// The maximum number of results to return before paginating.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// A resumption point for pagination.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  DescribeCasesRequest({
+    this.afterTime,
+    this.beforeTime,
+    this.caseIdList,
+    this.displayId,
+    this.includeCommunications,
+    this.includeResolvedCases,
+    this.language,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeCasesRequestToJson(this);
 }
 
 /// Returns an array of <a>CaseDetails</a> objects and a <code>nextToken</code>
@@ -1275,6 +1486,46 @@ class DescribeCasesResponse {
       _$DescribeCasesResponseFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeCommunicationsRequest {
+  /// The AWS Support case ID requested or returned in the call. The case ID is an
+  /// alphanumeric string formatted as shown in this example:
+  /// case-<i>12345678910-2013-c4c1d2bf33c5cf47</i>
+  @_s.JsonKey(name: 'caseId')
+  final String caseId;
+
+  /// The start date for a filtered date search on support case communications.
+  /// Case communications are available for 12 months after creation.
+  @_s.JsonKey(name: 'afterTime')
+  final String afterTime;
+
+  /// The end date for a filtered date search on support case communications. Case
+  /// communications are available for 12 months after creation.
+  @_s.JsonKey(name: 'beforeTime')
+  final String beforeTime;
+
+  /// The maximum number of results to return before paginating.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// A resumption point for pagination.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  DescribeCommunicationsRequest({
+    @_s.required this.caseId,
+    this.afterTime,
+    this.beforeTime,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeCommunicationsRequestToJson(this);
+}
+
 /// The communications returned by the <a>DescribeCommunications</a> operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1298,6 +1549,29 @@ class DescribeCommunicationsResponse {
       _$DescribeCommunicationsResponseFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeServicesRequest {
+  /// The ISO 639-1 code for the language in which AWS provides support. AWS
+  /// Support currently supports English ("en") and Japanese ("ja"). Language
+  /// parameters must be passed explicitly for operations that take them.
+  @_s.JsonKey(name: 'language')
+  final String language;
+
+  /// A JSON-formatted list of service codes available for AWS services.
+  @_s.JsonKey(name: 'serviceCodeList')
+  final List<String> serviceCodeList;
+
+  DescribeServicesRequest({
+    this.language,
+    this.serviceCodeList,
+  });
+  Map<String, dynamic> toJson() => _$DescribeServicesRequestToJson(this);
+}
+
 /// The list of AWS services returned by the <a>DescribeServices</a> operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1314,6 +1588,24 @@ class DescribeServicesResponse {
   });
   factory DescribeServicesResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeServicesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeSeverityLevelsRequest {
+  /// The ISO 639-1 code for the language in which AWS provides support. AWS
+  /// Support currently supports English ("en") and Japanese ("ja"). Language
+  /// parameters must be passed explicitly for operations that take them.
+  @_s.JsonKey(name: 'language')
+  final String language;
+
+  DescribeSeverityLevelsRequest({
+    this.language,
+  });
+  Map<String, dynamic> toJson() => _$DescribeSeverityLevelsRequestToJson(this);
 }
 
 /// The list of severity levels returned by the <a>DescribeSeverityLevels</a>
@@ -1336,6 +1628,26 @@ class DescribeSeverityLevelsResponse {
       _$DescribeSeverityLevelsResponseFromJson(json);
 }
 
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeTrustedAdvisorCheckRefreshStatusesRequest {
+  /// The IDs of the Trusted Advisor checks to get the status of. <b>Note:</b>
+  /// Specifying the check ID of a check that is automatically refreshed causes an
+  /// <code>InvalidParameterValue</code> error.
+  @_s.JsonKey(name: 'checkIds')
+  final List<String> checkIds;
+
+  DescribeTrustedAdvisorCheckRefreshStatusesRequest({
+    @_s.required this.checkIds,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeTrustedAdvisorCheckRefreshStatusesRequestToJson(this);
+}
+
 /// The statuses of the Trusted Advisor checks returned by the
 /// <a>DescribeTrustedAdvisorCheckRefreshStatuses</a> operation.
 @_s.JsonSerializable(
@@ -1354,6 +1666,31 @@ class DescribeTrustedAdvisorCheckRefreshStatusesResponse {
   factory DescribeTrustedAdvisorCheckRefreshStatusesResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeTrustedAdvisorCheckRefreshStatusesResponseFromJson(json);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeTrustedAdvisorCheckResultRequest {
+  /// The unique identifier for the Trusted Advisor check.
+  @_s.JsonKey(name: 'checkId')
+  final String checkId;
+
+  /// The ISO 639-1 code for the language in which AWS provides support. AWS
+  /// Support currently supports English ("en") and Japanese ("ja"). Language
+  /// parameters must be passed explicitly for operations that take them.
+  @_s.JsonKey(name: 'language')
+  final String language;
+
+  DescribeTrustedAdvisorCheckResultRequest({
+    @_s.required this.checkId,
+    this.language,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeTrustedAdvisorCheckResultRequestToJson(this);
 }
 
 /// The result of the Trusted Advisor check returned by the
@@ -1376,6 +1713,23 @@ class DescribeTrustedAdvisorCheckResultResponse {
       _$DescribeTrustedAdvisorCheckResultResponseFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeTrustedAdvisorCheckSummariesRequest {
+  /// The IDs of the Trusted Advisor checks.
+  @_s.JsonKey(name: 'checkIds')
+  final List<String> checkIds;
+
+  DescribeTrustedAdvisorCheckSummariesRequest({
+    @_s.required this.checkIds,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeTrustedAdvisorCheckSummariesRequestToJson(this);
+}
+
 /// The summaries of the Trusted Advisor checks returned by the
 /// <a>DescribeTrustedAdvisorCheckSummaries</a> operation.
 @_s.JsonSerializable(
@@ -1394,6 +1748,26 @@ class DescribeTrustedAdvisorCheckSummariesResponse {
   factory DescribeTrustedAdvisorCheckSummariesResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeTrustedAdvisorCheckSummariesResponseFromJson(json);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeTrustedAdvisorChecksRequest {
+  /// The ISO 639-1 code for the language in which AWS provides support. AWS
+  /// Support currently supports English ("en") and Japanese ("ja"). Language
+  /// parameters must be passed explicitly for operations that take them.
+  @_s.JsonKey(name: 'language')
+  final String language;
+
+  DescribeTrustedAdvisorChecksRequest({
+    @_s.required this.language,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeTrustedAdvisorChecksRequestToJson(this);
 }
 
 /// Information about the Trusted Advisor checks returned by the
@@ -1439,6 +1813,26 @@ class RecentCaseCommunications {
       _$RecentCaseCommunicationsFromJson(json);
 }
 
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RefreshTrustedAdvisorCheckRequest {
+  /// The unique identifier for the Trusted Advisor check to refresh. <b>Note:</b>
+  /// Specifying the check ID of a check that is automatically refreshed causes an
+  /// <code>InvalidParameterValue</code> error.
+  @_s.JsonKey(name: 'checkId')
+  final String checkId;
+
+  RefreshTrustedAdvisorCheckRequest({
+    @_s.required this.checkId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$RefreshTrustedAdvisorCheckRequestToJson(this);
+}
+
 /// The current refresh status of a Trusted Advisor check.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1457,6 +1851,24 @@ class RefreshTrustedAdvisorCheckResponse {
   factory RefreshTrustedAdvisorCheckResponse.fromJson(
           Map<String, dynamic> json) =>
       _$RefreshTrustedAdvisorCheckResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ResolveCaseRequest {
+  /// The AWS Support case ID requested or returned in the call. The case ID is an
+  /// alphanumeric string formatted as shown in this example:
+  /// case-<i>12345678910-2013-c4c1d2bf33c5cf47</i>
+  @_s.JsonKey(name: 'caseId')
+  final String caseId;
+
+  ResolveCaseRequest({
+    this.caseId,
+  });
+  Map<String, dynamic> toJson() => _$ResolveCaseRequestToJson(this);
 }
 
 /// The status of the case returned by the <a>ResolveCase</a> operation.

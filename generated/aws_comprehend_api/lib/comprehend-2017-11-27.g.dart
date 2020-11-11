@@ -18,6 +18,20 @@ BatchDetectDominantLanguageItemResult
   );
 }
 
+Map<String, dynamic> _$BatchDetectDominantLanguageRequestToJson(
+    BatchDetectDominantLanguageRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TextList', instance.textList);
+  return val;
+}
+
 BatchDetectDominantLanguageResponse
     _$BatchDetectDominantLanguageResponseFromJson(Map<String, dynamic> json) {
   return BatchDetectDominantLanguageResponse(
@@ -46,6 +60,36 @@ BatchDetectEntitiesItemResult _$BatchDetectEntitiesItemResultFromJson(
   );
 }
 
+Map<String, dynamic> _$BatchDetectEntitiesRequestToJson(
+    BatchDetectEntitiesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LanguageCode', _$LanguageCodeEnumMap[instance.languageCode]);
+  writeNotNull('TextList', instance.textList);
+  return val;
+}
+
+const _$LanguageCodeEnumMap = {
+  LanguageCode.en: 'en',
+  LanguageCode.es: 'es',
+  LanguageCode.fr: 'fr',
+  LanguageCode.de: 'de',
+  LanguageCode.it: 'it',
+  LanguageCode.pt: 'pt',
+  LanguageCode.ar: 'ar',
+  LanguageCode.hi: 'hi',
+  LanguageCode.ja: 'ja',
+  LanguageCode.ko: 'ko',
+  LanguageCode.zh: 'zh',
+  LanguageCode.zhTw: 'zh-TW',
+};
+
 BatchDetectEntitiesResponse _$BatchDetectEntitiesResponseFromJson(
     Map<String, dynamic> json) {
   return BatchDetectEntitiesResponse(
@@ -71,6 +115,21 @@ BatchDetectKeyPhrasesItemResult _$BatchDetectKeyPhrasesItemResultFromJson(
             e == null ? null : KeyPhrase.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$BatchDetectKeyPhrasesRequestToJson(
+    BatchDetectKeyPhrasesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LanguageCode', _$LanguageCodeEnumMap[instance.languageCode]);
+  writeNotNull('TextList', instance.textList);
+  return val;
 }
 
 BatchDetectKeyPhrasesResponse _$BatchDetectKeyPhrasesResponseFromJson(
@@ -141,6 +200,21 @@ const _$SentimentTypeEnumMap = {
   SentimentType.mixed: 'MIXED',
 };
 
+Map<String, dynamic> _$BatchDetectSentimentRequestToJson(
+    BatchDetectSentimentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LanguageCode', _$LanguageCodeEnumMap[instance.languageCode]);
+  writeNotNull('TextList', instance.textList);
+  return val;
+}
+
 BatchDetectSentimentResponse _$BatchDetectSentimentResponseFromJson(
     Map<String, dynamic> json) {
   return BatchDetectSentimentResponse(
@@ -168,6 +242,31 @@ BatchDetectSyntaxItemResult _$BatchDetectSyntaxItemResultFromJson(
         ?.toList(),
   );
 }
+
+Map<String, dynamic> _$BatchDetectSyntaxRequestToJson(
+    BatchDetectSyntaxRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'LanguageCode', _$SyntaxLanguageCodeEnumMap[instance.languageCode]);
+  writeNotNull('TextList', instance.textList);
+  return val;
+}
+
+const _$SyntaxLanguageCodeEnumMap = {
+  SyntaxLanguageCode.en: 'en',
+  SyntaxLanguageCode.es: 'es',
+  SyntaxLanguageCode.fr: 'fr',
+  SyntaxLanguageCode.de: 'de',
+  SyntaxLanguageCode.it: 'it',
+  SyntaxLanguageCode.pt: 'pt',
+};
 
 BatchDetectSyntaxResponse _$BatchDetectSyntaxResponseFromJson(
     Map<String, dynamic> json) {
@@ -219,6 +318,21 @@ ClassifierMetadata _$ClassifierMetadataFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ClassifyDocumentRequestToJson(
+    ClassifyDocumentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EndpointArn', instance.endpointArn);
+  writeNotNull('Text', instance.text);
+  return val;
+}
+
 ClassifyDocumentResponse _$ClassifyDocumentResponseFromJson(
     Map<String, dynamic> json) {
   return ClassifyDocumentResponse(
@@ -235,11 +349,57 @@ ClassifyDocumentResponse _$ClassifyDocumentResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateDocumentClassifierRequestToJson(
+    CreateDocumentClassifierRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DataAccessRoleArn', instance.dataAccessRoleArn);
+  writeNotNull('DocumentClassifierName', instance.documentClassifierName);
+  writeNotNull('InputDataConfig', instance.inputDataConfig?.toJson());
+  writeNotNull('LanguageCode', _$LanguageCodeEnumMap[instance.languageCode]);
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('Mode', _$DocumentClassifierModeEnumMap[instance.mode]);
+  writeNotNull('OutputDataConfig', instance.outputDataConfig?.toJson());
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('VolumeKmsKeyId', instance.volumeKmsKeyId);
+  writeNotNull('VpcConfig', instance.vpcConfig?.toJson());
+  return val;
+}
+
+const _$DocumentClassifierModeEnumMap = {
+  DocumentClassifierMode.multiClass: 'MULTI_CLASS',
+  DocumentClassifierMode.multiLabel: 'MULTI_LABEL',
+};
+
 CreateDocumentClassifierResponse _$CreateDocumentClassifierResponseFromJson(
     Map<String, dynamic> json) {
   return CreateDocumentClassifierResponse(
     documentClassifierArn: json['DocumentClassifierArn'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateEndpointRequestToJson(
+    CreateEndpointRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DesiredInferenceUnits', instance.desiredInferenceUnits);
+  writeNotNull('EndpointName', instance.endpointName);
+  writeNotNull('ModelArn', instance.modelArn);
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateEndpointResponse _$CreateEndpointResponseFromJson(
@@ -249,6 +409,27 @@ CreateEndpointResponse _$CreateEndpointResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateEntityRecognizerRequestToJson(
+    CreateEntityRecognizerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DataAccessRoleArn', instance.dataAccessRoleArn);
+  writeNotNull('InputDataConfig', instance.inputDataConfig?.toJson());
+  writeNotNull('LanguageCode', _$LanguageCodeEnumMap[instance.languageCode]);
+  writeNotNull('RecognizerName', instance.recognizerName);
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('VolumeKmsKeyId', instance.volumeKmsKeyId);
+  writeNotNull('VpcConfig', instance.vpcConfig?.toJson());
+  return val;
+}
+
 CreateEntityRecognizerResponse _$CreateEntityRecognizerResponseFromJson(
     Map<String, dynamic> json) {
   return CreateEntityRecognizerResponse(
@@ -256,9 +437,37 @@ CreateEntityRecognizerResponse _$CreateEntityRecognizerResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteDocumentClassifierRequestToJson(
+    DeleteDocumentClassifierRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DocumentClassifierArn', instance.documentClassifierArn);
+  return val;
+}
+
 DeleteDocumentClassifierResponse _$DeleteDocumentClassifierResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteDocumentClassifierResponse();
+}
+
+Map<String, dynamic> _$DeleteEndpointRequestToJson(
+    DeleteEndpointRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EndpointArn', instance.endpointArn);
+  return val;
 }
 
 DeleteEndpointResponse _$DeleteEndpointResponseFromJson(
@@ -266,9 +475,37 @@ DeleteEndpointResponse _$DeleteEndpointResponseFromJson(
   return DeleteEndpointResponse();
 }
 
+Map<String, dynamic> _$DeleteEntityRecognizerRequestToJson(
+    DeleteEntityRecognizerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EntityRecognizerArn', instance.entityRecognizerArn);
+  return val;
+}
+
 DeleteEntityRecognizerResponse _$DeleteEntityRecognizerResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteEntityRecognizerResponse();
+}
+
+Map<String, dynamic> _$DescribeDocumentClassificationJobRequestToJson(
+    DescribeDocumentClassificationJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobId', instance.jobId);
+  return val;
 }
 
 DescribeDocumentClassificationJobResponse
@@ -284,6 +521,20 @@ DescribeDocumentClassificationJobResponse
   );
 }
 
+Map<String, dynamic> _$DescribeDocumentClassifierRequestToJson(
+    DescribeDocumentClassifierRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DocumentClassifierArn', instance.documentClassifierArn);
+  return val;
+}
+
 DescribeDocumentClassifierResponse _$DescribeDocumentClassifierResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeDocumentClassifierResponse(
@@ -292,6 +543,20 @@ DescribeDocumentClassifierResponse _$DescribeDocumentClassifierResponseFromJson(
         : DocumentClassifierProperties.fromJson(
             json['DocumentClassifierProperties'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeDominantLanguageDetectionJobRequestToJson(
+    DescribeDominantLanguageDetectionJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobId', instance.jobId);
+  return val;
 }
 
 DescribeDominantLanguageDetectionJobResponse
@@ -307,6 +572,20 @@ DescribeDominantLanguageDetectionJobResponse
   );
 }
 
+Map<String, dynamic> _$DescribeEndpointRequestToJson(
+    DescribeEndpointRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EndpointArn', instance.endpointArn);
+  return val;
+}
+
 DescribeEndpointResponse _$DescribeEndpointResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeEndpointResponse(
@@ -315,6 +594,20 @@ DescribeEndpointResponse _$DescribeEndpointResponseFromJson(
         : EndpointProperties.fromJson(
             json['EndpointProperties'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeEntitiesDetectionJobRequestToJson(
+    DescribeEntitiesDetectionJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobId', instance.jobId);
+  return val;
 }
 
 DescribeEntitiesDetectionJobResponse
@@ -328,6 +621,20 @@ DescribeEntitiesDetectionJobResponse
   );
 }
 
+Map<String, dynamic> _$DescribeEntityRecognizerRequestToJson(
+    DescribeEntityRecognizerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EntityRecognizerArn', instance.entityRecognizerArn);
+  return val;
+}
+
 DescribeEntityRecognizerResponse _$DescribeEntityRecognizerResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeEntityRecognizerResponse(
@@ -336,6 +643,20 @@ DescribeEntityRecognizerResponse _$DescribeEntityRecognizerResponseFromJson(
         : EntityRecognizerProperties.fromJson(
             json['EntityRecognizerProperties'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeKeyPhrasesDetectionJobRequestToJson(
+    DescribeKeyPhrasesDetectionJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobId', instance.jobId);
+  return val;
 }
 
 DescribeKeyPhrasesDetectionJobResponse
@@ -351,6 +672,20 @@ DescribeKeyPhrasesDetectionJobResponse
   );
 }
 
+Map<String, dynamic> _$DescribeSentimentDetectionJobRequestToJson(
+    DescribeSentimentDetectionJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobId', instance.jobId);
+  return val;
+}
+
 DescribeSentimentDetectionJobResponse
     _$DescribeSentimentDetectionJobResponseFromJson(Map<String, dynamic> json) {
   return DescribeSentimentDetectionJobResponse(
@@ -362,6 +697,20 @@ DescribeSentimentDetectionJobResponse
   );
 }
 
+Map<String, dynamic> _$DescribeTopicsDetectionJobRequestToJson(
+    DescribeTopicsDetectionJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobId', instance.jobId);
+  return val;
+}
+
 DescribeTopicsDetectionJobResponse _$DescribeTopicsDetectionJobResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeTopicsDetectionJobResponse(
@@ -370,6 +719,20 @@ DescribeTopicsDetectionJobResponse _$DescribeTopicsDetectionJobResponseFromJson(
         : TopicsDetectionJobProperties.fromJson(
             json['TopicsDetectionJobProperties'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DetectDominantLanguageRequestToJson(
+    DetectDominantLanguageRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Text', instance.text);
+  return val;
 }
 
 DetectDominantLanguageResponse _$DetectDominantLanguageResponseFromJson(
@@ -383,6 +746,21 @@ DetectDominantLanguageResponse _$DetectDominantLanguageResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DetectEntitiesRequestToJson(
+    DetectEntitiesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LanguageCode', _$LanguageCodeEnumMap[instance.languageCode]);
+  writeNotNull('Text', instance.text);
+  return val;
+}
+
 DetectEntitiesResponse _$DetectEntitiesResponseFromJson(
     Map<String, dynamic> json) {
   return DetectEntitiesResponse(
@@ -391,6 +769,21 @@ DetectEntitiesResponse _$DetectEntitiesResponseFromJson(
             e == null ? null : Entity.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DetectKeyPhrasesRequestToJson(
+    DetectKeyPhrasesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LanguageCode', _$LanguageCodeEnumMap[instance.languageCode]);
+  writeNotNull('Text', instance.text);
+  return val;
 }
 
 DetectKeyPhrasesResponse _$DetectKeyPhrasesResponseFromJson(
@@ -403,6 +796,21 @@ DetectKeyPhrasesResponse _$DetectKeyPhrasesResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DetectSentimentRequestToJson(
+    DetectSentimentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LanguageCode', _$LanguageCodeEnumMap[instance.languageCode]);
+  writeNotNull('Text', instance.text);
+  return val;
+}
+
 DetectSentimentResponse _$DetectSentimentResponseFromJson(
     Map<String, dynamic> json) {
   return DetectSentimentResponse(
@@ -412,6 +820,21 @@ DetectSentimentResponse _$DetectSentimentResponseFromJson(
         : SentimentScore.fromJson(
             json['SentimentScore'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DetectSyntaxRequestToJson(DetectSyntaxRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'LanguageCode', _$SyntaxLanguageCodeEnumMap[instance.languageCode]);
+  writeNotNull('Text', instance.text);
+  return val;
 }
 
 DetectSyntaxResponse _$DetectSyntaxResponseFromJson(Map<String, dynamic> json) {
@@ -590,26 +1013,6 @@ DocumentClassifierProperties _$DocumentClassifierPropertiesFromJson(
         : VpcConfig.fromJson(json['VpcConfig'] as Map<String, dynamic>),
   );
 }
-
-const _$LanguageCodeEnumMap = {
-  LanguageCode.en: 'en',
-  LanguageCode.es: 'es',
-  LanguageCode.fr: 'fr',
-  LanguageCode.de: 'de',
-  LanguageCode.it: 'it',
-  LanguageCode.pt: 'pt',
-  LanguageCode.ar: 'ar',
-  LanguageCode.hi: 'hi',
-  LanguageCode.ja: 'ja',
-  LanguageCode.ko: 'ko',
-  LanguageCode.zh: 'zh',
-  LanguageCode.zhTw: 'zh-TW',
-};
-
-const _$DocumentClassifierModeEnumMap = {
-  DocumentClassifierMode.multiClass: 'MULTI_CLASS',
-  DocumentClassifierMode.multiLabel: 'MULTI_LABEL',
-};
 
 DocumentLabel _$DocumentLabelFromJson(Map<String, dynamic> json) {
   return DocumentLabel(
@@ -1078,6 +1481,22 @@ KeyPhrasesDetectionJobProperties _$KeyPhrasesDetectionJobPropertiesFromJson(
   );
 }
 
+Map<String, dynamic> _$ListDocumentClassificationJobsRequestToJson(
+    ListDocumentClassificationJobsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filter', instance.filter?.toJson());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListDocumentClassificationJobsResponse
     _$ListDocumentClassificationJobsResponseFromJson(
         Map<String, dynamic> json) {
@@ -1093,6 +1512,22 @@ ListDocumentClassificationJobsResponse
   );
 }
 
+Map<String, dynamic> _$ListDocumentClassifiersRequestToJson(
+    ListDocumentClassifiersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filter', instance.filter?.toJson());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListDocumentClassifiersResponse _$ListDocumentClassifiersResponseFromJson(
     Map<String, dynamic> json) {
   return ListDocumentClassifiersResponse(
@@ -1104,6 +1539,22 @@ ListDocumentClassifiersResponse _$ListDocumentClassifiersResponseFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListDominantLanguageDetectionJobsRequestToJson(
+    ListDominantLanguageDetectionJobsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filter', instance.filter?.toJson());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListDominantLanguageDetectionJobsResponse
@@ -1121,6 +1572,22 @@ ListDominantLanguageDetectionJobsResponse
   );
 }
 
+Map<String, dynamic> _$ListEndpointsRequestToJson(
+    ListEndpointsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filter', instance.filter?.toJson());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListEndpointsResponse _$ListEndpointsResponseFromJson(
     Map<String, dynamic> json) {
   return ListEndpointsResponse(
@@ -1131,6 +1598,22 @@ ListEndpointsResponse _$ListEndpointsResponseFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListEntitiesDetectionJobsRequestToJson(
+    ListEntitiesDetectionJobsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filter', instance.filter?.toJson());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListEntitiesDetectionJobsResponse _$ListEntitiesDetectionJobsResponseFromJson(
@@ -1147,6 +1630,22 @@ ListEntitiesDetectionJobsResponse _$ListEntitiesDetectionJobsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListEntityRecognizersRequestToJson(
+    ListEntityRecognizersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filter', instance.filter?.toJson());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListEntityRecognizersResponse _$ListEntityRecognizersResponseFromJson(
     Map<String, dynamic> json) {
   return ListEntityRecognizersResponse(
@@ -1158,6 +1657,22 @@ ListEntityRecognizersResponse _$ListEntityRecognizersResponseFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListKeyPhrasesDetectionJobsRequestToJson(
+    ListKeyPhrasesDetectionJobsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filter', instance.filter?.toJson());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListKeyPhrasesDetectionJobsResponse
@@ -1174,6 +1689,22 @@ ListKeyPhrasesDetectionJobsResponse
   );
 }
 
+Map<String, dynamic> _$ListSentimentDetectionJobsRequestToJson(
+    ListSentimentDetectionJobsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filter', instance.filter?.toJson());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListSentimentDetectionJobsResponse _$ListSentimentDetectionJobsResponseFromJson(
     Map<String, dynamic> json) {
   return ListSentimentDetectionJobsResponse(
@@ -1188,6 +1719,20 @@ ListSentimentDetectionJobsResponse _$ListSentimentDetectionJobsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListTagsForResourceRequestToJson(
+    ListTagsForResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  return val;
+}
+
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
@@ -1196,6 +1741,22 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
         ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListTopicsDetectionJobsRequestToJson(
+    ListTopicsDetectionJobsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filter', instance.filter?.toJson());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListTopicsDetectionJobsResponse _$ListTopicsDetectionJobsResponseFromJson(
@@ -1315,6 +1876,27 @@ SentimentScore _$SentimentScoreFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$StartDocumentClassificationJobRequestToJson(
+    StartDocumentClassificationJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DataAccessRoleArn', instance.dataAccessRoleArn);
+  writeNotNull('DocumentClassifierArn', instance.documentClassifierArn);
+  writeNotNull('InputDataConfig', instance.inputDataConfig?.toJson());
+  writeNotNull('OutputDataConfig', instance.outputDataConfig?.toJson());
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('JobName', instance.jobName);
+  writeNotNull('VolumeKmsKeyId', instance.volumeKmsKeyId);
+  writeNotNull('VpcConfig', instance.vpcConfig?.toJson());
+  return val;
+}
+
 StartDocumentClassificationJobResponse
     _$StartDocumentClassificationJobResponseFromJson(
         Map<String, dynamic> json) {
@@ -1322,6 +1904,26 @@ StartDocumentClassificationJobResponse
     jobId: json['JobId'] as String,
     jobStatus: _$enumDecodeNullable(_$JobStatusEnumMap, json['JobStatus']),
   );
+}
+
+Map<String, dynamic> _$StartDominantLanguageDetectionJobRequestToJson(
+    StartDominantLanguageDetectionJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DataAccessRoleArn', instance.dataAccessRoleArn);
+  writeNotNull('InputDataConfig', instance.inputDataConfig?.toJson());
+  writeNotNull('OutputDataConfig', instance.outputDataConfig?.toJson());
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('JobName', instance.jobName);
+  writeNotNull('VolumeKmsKeyId', instance.volumeKmsKeyId);
+  writeNotNull('VpcConfig', instance.vpcConfig?.toJson());
+  return val;
 }
 
 StartDominantLanguageDetectionJobResponse
@@ -1333,12 +1935,55 @@ StartDominantLanguageDetectionJobResponse
   );
 }
 
+Map<String, dynamic> _$StartEntitiesDetectionJobRequestToJson(
+    StartEntitiesDetectionJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DataAccessRoleArn', instance.dataAccessRoleArn);
+  writeNotNull('InputDataConfig', instance.inputDataConfig?.toJson());
+  writeNotNull('LanguageCode', _$LanguageCodeEnumMap[instance.languageCode]);
+  writeNotNull('OutputDataConfig', instance.outputDataConfig?.toJson());
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('EntityRecognizerArn', instance.entityRecognizerArn);
+  writeNotNull('JobName', instance.jobName);
+  writeNotNull('VolumeKmsKeyId', instance.volumeKmsKeyId);
+  writeNotNull('VpcConfig', instance.vpcConfig?.toJson());
+  return val;
+}
+
 StartEntitiesDetectionJobResponse _$StartEntitiesDetectionJobResponseFromJson(
     Map<String, dynamic> json) {
   return StartEntitiesDetectionJobResponse(
     jobId: json['JobId'] as String,
     jobStatus: _$enumDecodeNullable(_$JobStatusEnumMap, json['JobStatus']),
   );
+}
+
+Map<String, dynamic> _$StartKeyPhrasesDetectionJobRequestToJson(
+    StartKeyPhrasesDetectionJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DataAccessRoleArn', instance.dataAccessRoleArn);
+  writeNotNull('InputDataConfig', instance.inputDataConfig?.toJson());
+  writeNotNull('LanguageCode', _$LanguageCodeEnumMap[instance.languageCode]);
+  writeNotNull('OutputDataConfig', instance.outputDataConfig?.toJson());
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('JobName', instance.jobName);
+  writeNotNull('VolumeKmsKeyId', instance.volumeKmsKeyId);
+  writeNotNull('VpcConfig', instance.vpcConfig?.toJson());
+  return val;
 }
 
 StartKeyPhrasesDetectionJobResponse
@@ -1349,6 +1994,27 @@ StartKeyPhrasesDetectionJobResponse
   );
 }
 
+Map<String, dynamic> _$StartSentimentDetectionJobRequestToJson(
+    StartSentimentDetectionJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DataAccessRoleArn', instance.dataAccessRoleArn);
+  writeNotNull('InputDataConfig', instance.inputDataConfig?.toJson());
+  writeNotNull('LanguageCode', _$LanguageCodeEnumMap[instance.languageCode]);
+  writeNotNull('OutputDataConfig', instance.outputDataConfig?.toJson());
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('JobName', instance.jobName);
+  writeNotNull('VolumeKmsKeyId', instance.volumeKmsKeyId);
+  writeNotNull('VpcConfig', instance.vpcConfig?.toJson());
+  return val;
+}
+
 StartSentimentDetectionJobResponse _$StartSentimentDetectionJobResponseFromJson(
     Map<String, dynamic> json) {
   return StartSentimentDetectionJobResponse(
@@ -1357,12 +2023,47 @@ StartSentimentDetectionJobResponse _$StartSentimentDetectionJobResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$StartTopicsDetectionJobRequestToJson(
+    StartTopicsDetectionJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DataAccessRoleArn', instance.dataAccessRoleArn);
+  writeNotNull('InputDataConfig', instance.inputDataConfig?.toJson());
+  writeNotNull('OutputDataConfig', instance.outputDataConfig?.toJson());
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('JobName', instance.jobName);
+  writeNotNull('NumberOfTopics', instance.numberOfTopics);
+  writeNotNull('VolumeKmsKeyId', instance.volumeKmsKeyId);
+  writeNotNull('VpcConfig', instance.vpcConfig?.toJson());
+  return val;
+}
+
 StartTopicsDetectionJobResponse _$StartTopicsDetectionJobResponseFromJson(
     Map<String, dynamic> json) {
   return StartTopicsDetectionJobResponse(
     jobId: json['JobId'] as String,
     jobStatus: _$enumDecodeNullable(_$JobStatusEnumMap, json['JobStatus']),
   );
+}
+
+Map<String, dynamic> _$StopDominantLanguageDetectionJobRequestToJson(
+    StopDominantLanguageDetectionJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobId', instance.jobId);
+  return val;
 }
 
 StopDominantLanguageDetectionJobResponse
@@ -1374,12 +2075,40 @@ StopDominantLanguageDetectionJobResponse
   );
 }
 
+Map<String, dynamic> _$StopEntitiesDetectionJobRequestToJson(
+    StopEntitiesDetectionJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobId', instance.jobId);
+  return val;
+}
+
 StopEntitiesDetectionJobResponse _$StopEntitiesDetectionJobResponseFromJson(
     Map<String, dynamic> json) {
   return StopEntitiesDetectionJobResponse(
     jobId: json['JobId'] as String,
     jobStatus: _$enumDecodeNullable(_$JobStatusEnumMap, json['JobStatus']),
   );
+}
+
+Map<String, dynamic> _$StopKeyPhrasesDetectionJobRequestToJson(
+    StopKeyPhrasesDetectionJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobId', instance.jobId);
+  return val;
 }
 
 StopKeyPhrasesDetectionJobResponse _$StopKeyPhrasesDetectionJobResponseFromJson(
@@ -1390,6 +2119,20 @@ StopKeyPhrasesDetectionJobResponse _$StopKeyPhrasesDetectionJobResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$StopSentimentDetectionJobRequestToJson(
+    StopSentimentDetectionJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobId', instance.jobId);
+  return val;
+}
+
 StopSentimentDetectionJobResponse _$StopSentimentDetectionJobResponseFromJson(
     Map<String, dynamic> json) {
   return StopSentimentDetectionJobResponse(
@@ -1398,10 +2141,38 @@ StopSentimentDetectionJobResponse _$StopSentimentDetectionJobResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$StopTrainingDocumentClassifierRequestToJson(
+    StopTrainingDocumentClassifierRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DocumentClassifierArn', instance.documentClassifierArn);
+  return val;
+}
+
 StopTrainingDocumentClassifierResponse
     _$StopTrainingDocumentClassifierResponseFromJson(
         Map<String, dynamic> json) {
   return StopTrainingDocumentClassifierResponse();
+}
+
+Map<String, dynamic> _$StopTrainingEntityRecognizerRequestToJson(
+    StopTrainingEntityRecognizerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EntityRecognizerArn', instance.entityRecognizerArn);
+  return val;
 }
 
 StopTrainingEntityRecognizerResponse
@@ -1440,6 +2211,20 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
 
   writeNotNull('Key', instance.key);
   writeNotNull('Value', instance.value);
+  return val;
+}
+
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
   return val;
 }
 
@@ -1492,9 +2277,39 @@ TopicsDetectionJobProperties _$TopicsDetectionJobPropertiesFromJson(
   );
 }
 
+Map<String, dynamic> _$UntagResourceRequestToJson(
+    UntagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
+}
+
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse();
+}
+
+Map<String, dynamic> _$UpdateEndpointRequestToJson(
+    UpdateEndpointRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DesiredInferenceUnits', instance.desiredInferenceUnits);
+  writeNotNull('EndpointArn', instance.endpointArn);
+  return val;
 }
 
 UpdateEndpointResponse _$UpdateEndpointResponseFromJson(

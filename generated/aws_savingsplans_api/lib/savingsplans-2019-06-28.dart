@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -79,14 +78,13 @@ class SavingsPlans {
   }) async {
     ArgumentError.checkNotNull(commitment, 'commitment');
     ArgumentError.checkNotNull(savingsPlanOfferingId, 'savingsPlanOfferingId');
-    final $payload = <String, dynamic>{
-      'commitment': commitment,
-      'savingsPlanOfferingId': savingsPlanOfferingId,
-      if (clientToken != null) 'clientToken': clientToken,
-      if (tags != null) 'tags': tags,
-      if (upfrontPaymentAmount != null)
-        'upfrontPaymentAmount': upfrontPaymentAmount,
-    };
+    final $payload = CreateSavingsPlanRequest(
+      commitment: commitment,
+      savingsPlanOfferingId: savingsPlanOfferingId,
+      clientToken: clientToken,
+      tags: tags,
+      upfrontPaymentAmount: upfrontPaymentAmount,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -137,12 +135,12 @@ class SavingsPlans {
       nextToken,
       r'''^[A-Za-z0-9/=\+]+$''',
     );
-    final $payload = <String, dynamic>{
-      'savingsPlanId': savingsPlanId,
-      if (filters != null) 'filters': filters,
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
+    final $payload = DescribeSavingsPlanRatesRequest(
+      savingsPlanId: savingsPlanId,
+      filters: filters,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -200,14 +198,14 @@ class SavingsPlans {
       nextToken,
       r'''^[A-Za-z0-9/=\+]+$''',
     );
-    final $payload = <String, dynamic>{
-      if (filters != null) 'filters': filters,
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-      if (savingsPlanArns != null) 'savingsPlanArns': savingsPlanArns,
-      if (savingsPlanIds != null) 'savingsPlanIds': savingsPlanIds,
-      if (states != null) 'states': states,
-    };
+    final $payload = DescribeSavingsPlansRequest(
+      filters: filters,
+      maxResults: maxResults,
+      nextToken: nextToken,
+      savingsPlanArns: savingsPlanArns,
+      savingsPlanIds: savingsPlanIds,
+      states: states,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -282,20 +280,18 @@ class SavingsPlans {
       nextToken,
       r'''^[A-Za-z0-9/=\+]+$''',
     );
-    final $payload = <String, dynamic>{
-      if (filters != null) 'filters': filters,
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-      if (operations != null) 'operations': operations,
-      if (products != null) 'products': products,
-      if (savingsPlanOfferingIds != null)
-        'savingsPlanOfferingIds': savingsPlanOfferingIds,
-      if (savingsPlanPaymentOptions != null)
-        'savingsPlanPaymentOptions': savingsPlanPaymentOptions,
-      if (savingsPlanTypes != null) 'savingsPlanTypes': savingsPlanTypes,
-      if (serviceCodes != null) 'serviceCodes': serviceCodes,
-      if (usageTypes != null) 'usageTypes': usageTypes,
-    };
+    final $payload = DescribeSavingsPlansOfferingRatesRequest(
+      filters: filters,
+      maxResults: maxResults,
+      nextToken: nextToken,
+      operations: operations,
+      products: products,
+      savingsPlanOfferingIds: savingsPlanOfferingIds,
+      savingsPlanPaymentOptions: savingsPlanPaymentOptions,
+      savingsPlanTypes: savingsPlanTypes,
+      serviceCodes: serviceCodes,
+      usageTypes: usageTypes,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -381,21 +377,21 @@ class SavingsPlans {
       nextToken,
       r'''^[A-Za-z0-9/=\+]+$''',
     );
-    final $payload = <String, dynamic>{
-      if (currencies != null) 'currencies': currencies,
-      if (descriptions != null) 'descriptions': descriptions,
-      if (durations != null) 'durations': durations,
-      if (filters != null) 'filters': filters,
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-      if (offeringIds != null) 'offeringIds': offeringIds,
-      if (operations != null) 'operations': operations,
-      if (paymentOptions != null) 'paymentOptions': paymentOptions,
-      if (planTypes != null) 'planTypes': planTypes,
-      if (productType != null) 'productType': productType?.toValue(),
-      if (serviceCodes != null) 'serviceCodes': serviceCodes,
-      if (usageTypes != null) 'usageTypes': usageTypes,
-    };
+    final $payload = DescribeSavingsPlansOfferingsRequest(
+      currencies: currencies,
+      descriptions: descriptions,
+      durations: durations,
+      filters: filters,
+      maxResults: maxResults,
+      nextToken: nextToken,
+      offeringIds: offeringIds,
+      operations: operations,
+      paymentOptions: paymentOptions,
+      planTypes: planTypes,
+      productType: productType,
+      serviceCodes: serviceCodes,
+      usageTypes: usageTypes,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -423,9 +419,9 @@ class SavingsPlans {
       r'''arn:aws:[a-z]+:([a-z]{2}-[a-z]+-\d{1}|):(\d{12}):savingsplan\/([0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'resourceArn': resourceArn,
-    };
+    final $payload = ListTagsForResourceRequest(
+      resourceArn: resourceArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -460,10 +456,10 @@ class SavingsPlans {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'resourceArn': resourceArn,
-      'tags': tags,
-    };
+    final $payload = TagResourceRequest(
+      resourceArn: resourceArn,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -496,10 +492,10 @@ class SavingsPlans {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    final $payload = <String, dynamic>{
-      'resourceArn': resourceArn,
-      'tagKeys': tagKeys,
-    };
+    final $payload = UntagResourceRequest(
+      resourceArn: resourceArn,
+      tagKeys: tagKeys,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -508,6 +504,46 @@ class SavingsPlans {
     );
     return UntagResourceResponse.fromJson(response);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateSavingsPlanRequest {
+  /// The hourly commitment, in USD. This is a value between 0.001 and 1 million.
+  /// You cannot specify more than three digits after the decimal point.
+  @_s.JsonKey(name: 'commitment')
+  final String commitment;
+
+  /// The ID of the offering.
+  @_s.JsonKey(name: 'savingsPlanOfferingId')
+  final String savingsPlanOfferingId;
+
+  /// Unique, case-sensitive identifier that you provide to ensure the idempotency
+  /// of the request.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// One or more tags.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  /// The up-front payment amount. This is a whole number between 50 and 99
+  /// percent of the total value of the Savings Plan. This parameter is supported
+  /// only if the payment option is <code>Partial Upfront</code>.
+  @_s.JsonKey(name: 'upfrontPaymentAmount')
+  final String upfrontPaymentAmount;
+
+  CreateSavingsPlanRequest({
+    @_s.required this.commitment,
+    @_s.required this.savingsPlanOfferingId,
+    this.clientToken,
+    this.tags,
+    this.upfrontPaymentAmount,
+  });
+  Map<String, dynamic> toJson() => _$CreateSavingsPlanRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -532,6 +568,39 @@ enum CurrencyCode {
   cny,
   @_s.JsonValue('USD')
   usd,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeSavingsPlanRatesRequest {
+  /// The ID of the Savings Plan.
+  @_s.JsonKey(name: 'savingsPlanId')
+  final String savingsPlanId;
+
+  /// The filters.
+  @_s.JsonKey(name: 'filters')
+  final List<SavingsPlanRateFilter> filters;
+
+  /// The maximum number of results to return with a single call. To retrieve
+  /// additional results, make another call with the returned token value.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The token for the next page of results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  DescribeSavingsPlanRatesRequest({
+    @_s.required this.savingsPlanId,
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeSavingsPlanRatesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -566,6 +635,69 @@ class DescribeSavingsPlanRatesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeSavingsPlansOfferingRatesRequest {
+  /// The filters.
+  @_s.JsonKey(name: 'filters')
+  final List<SavingsPlanOfferingRateFilterElement> filters;
+
+  /// The maximum number of results to return with a single call. To retrieve
+  /// additional results, make another call with the returned token value.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The token for the next page of results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The specific AWS operation for the line item in the billing report.
+  @_s.JsonKey(name: 'operations')
+  final List<String> operations;
+
+  /// The AWS products.
+  @_s.JsonKey(name: 'products')
+  final List<String> products;
+
+  /// The IDs of the offerings.
+  @_s.JsonKey(name: 'savingsPlanOfferingIds')
+  final List<String> savingsPlanOfferingIds;
+
+  /// The payment options.
+  @_s.JsonKey(name: 'savingsPlanPaymentOptions')
+  final List<String> savingsPlanPaymentOptions;
+
+  /// The plan types.
+  @_s.JsonKey(name: 'savingsPlanTypes')
+  final List<String> savingsPlanTypes;
+
+  /// The services.
+  @_s.JsonKey(name: 'serviceCodes')
+  final List<String> serviceCodes;
+
+  /// The usage details of the line item in the billing report.
+  @_s.JsonKey(name: 'usageTypes')
+  final List<String> usageTypes;
+
+  DescribeSavingsPlansOfferingRatesRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+    this.operations,
+    this.products,
+    this.savingsPlanOfferingIds,
+    this.savingsPlanPaymentOptions,
+    this.savingsPlanTypes,
+    this.serviceCodes,
+    this.usageTypes,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeSavingsPlansOfferingRatesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeSavingsPlansOfferingRatesResponse {
@@ -585,6 +717,84 @@ class DescribeSavingsPlansOfferingRatesResponse {
   factory DescribeSavingsPlansOfferingRatesResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeSavingsPlansOfferingRatesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeSavingsPlansOfferingsRequest {
+  /// The currencies.
+  @_s.JsonKey(name: 'currencies')
+  final List<String> currencies;
+
+  /// The descriptions.
+  @_s.JsonKey(name: 'descriptions')
+  final List<String> descriptions;
+
+  /// The durations, in seconds.
+  @_s.JsonKey(name: 'durations')
+  final List<int> durations;
+
+  /// The filters.
+  @_s.JsonKey(name: 'filters')
+  final List<SavingsPlanOfferingFilterElement> filters;
+
+  /// The maximum number of results to return with a single call. To retrieve
+  /// additional results, make another call with the returned token value.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The token for the next page of results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The IDs of the offerings.
+  @_s.JsonKey(name: 'offeringIds')
+  final List<String> offeringIds;
+
+  /// The specific AWS operation for the line item in the billing report.
+  @_s.JsonKey(name: 'operations')
+  final List<String> operations;
+
+  /// The payment options.
+  @_s.JsonKey(name: 'paymentOptions')
+  final List<String> paymentOptions;
+
+  /// The plan type.
+  @_s.JsonKey(name: 'planTypes')
+  final List<String> planTypes;
+
+  /// The product type.
+  @_s.JsonKey(name: 'productType')
+  final SavingsPlanProductType productType;
+
+  /// The services.
+  @_s.JsonKey(name: 'serviceCodes')
+  final List<String> serviceCodes;
+
+  /// The usage details of the line item in the billing report.
+  @_s.JsonKey(name: 'usageTypes')
+  final List<String> usageTypes;
+
+  DescribeSavingsPlansOfferingsRequest({
+    this.currencies,
+    this.descriptions,
+    this.durations,
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+    this.offeringIds,
+    this.operations,
+    this.paymentOptions,
+    this.planTypes,
+    this.productType,
+    this.serviceCodes,
+    this.usageTypes,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeSavingsPlansOfferingsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -614,6 +824,48 @@ class DescribeSavingsPlansOfferingsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeSavingsPlansRequest {
+  /// The filters.
+  @_s.JsonKey(name: 'filters')
+  final List<SavingsPlanFilter> filters;
+
+  /// The maximum number of results to return with a single call. To retrieve
+  /// additional results, make another call with the returned token value.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The token for the next page of results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The Amazon Resource Names (ARN) of the Savings Plans.
+  @_s.JsonKey(name: 'savingsPlanArns')
+  final List<String> savingsPlanArns;
+
+  /// The IDs of the Savings Plans.
+  @_s.JsonKey(name: 'savingsPlanIds')
+  final List<String> savingsPlanIds;
+
+  /// The states.
+  @_s.JsonKey(name: 'states')
+  final List<String> states;
+
+  DescribeSavingsPlansRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+    this.savingsPlanArns,
+    this.savingsPlanIds,
+    this.states,
+  });
+  Map<String, dynamic> toJson() => _$DescribeSavingsPlansRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeSavingsPlansResponse {
@@ -632,6 +884,22 @@ class DescribeSavingsPlansResponse {
   });
   factory DescribeSavingsPlansResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeSavingsPlansResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  ListTagsForResourceRequest({
+    @_s.required this.resourceArn,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1064,20 +1332,6 @@ enum SavingsPlanProductType {
   lambda,
 }
 
-extension on SavingsPlanProductType {
-  String toValue() {
-    switch (this) {
-      case SavingsPlanProductType.ec2:
-        return 'EC2';
-      case SavingsPlanProductType.fargate:
-        return 'Fargate';
-      case SavingsPlanProductType.lambda:
-        return 'Lambda';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Information about a Savings Plan rate.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1283,12 +1537,55 @@ enum SavingsPlansFilterName {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  /// One or more tags. For example, { "tags": {"key1":"value1", "key2":"value2"}
+  /// }.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
   factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$TagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  /// The tag keys.
+  @_s.JsonKey(name: 'tagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(

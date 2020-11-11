@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -75,9 +74,9 @@ class Translate {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: DeleteTerminologyRequest(
+        name: name,
+      ),
     );
   }
 
@@ -121,9 +120,9 @@ class Translate {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobId': jobId,
-      },
+      payload: DescribeTextTranslationJobRequest(
+        jobId: jobId,
+      ),
     );
 
     return DescribeTextTranslationJobResponse.fromJson(jsonResponse.body);
@@ -171,10 +170,10 @@ class Translate {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        'TerminologyDataFormat': terminologyDataFormat?.toValue(),
-      },
+      payload: GetTerminologyRequest(
+        name: name,
+        terminologyDataFormat: terminologyDataFormat,
+      ),
     );
 
     return GetTerminologyResponse.fromJson(jsonResponse.body);
@@ -257,13 +256,13 @@ class Translate {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'MergeStrategy': mergeStrategy?.toValue(),
-        'Name': name,
-        'TerminologyData': terminologyData,
-        if (description != null) 'Description': description,
-        if (encryptionKey != null) 'EncryptionKey': encryptionKey,
-      },
+      payload: ImportTerminologyRequest(
+        mergeStrategy: mergeStrategy,
+        name: name,
+        terminologyData: terminologyData,
+        description: description,
+        encryptionKey: encryptionKey,
+      ),
     );
 
     return ImportTerminologyResponse.fromJson(jsonResponse.body);
@@ -312,10 +311,10 @@ class Translate {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListTerminologiesRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListTerminologiesResponse.fromJson(jsonResponse.body);
@@ -371,11 +370,11 @@ class Translate {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filter != null) 'Filter': filter,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListTextTranslationJobsRequest(
+        filter: filter,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListTextTranslationJobsResponse.fromJson(jsonResponse.body);
@@ -508,16 +507,16 @@ class Translate {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClientToken': clientToken,
-        'DataAccessRoleArn': dataAccessRoleArn,
-        'InputDataConfig': inputDataConfig,
-        'OutputDataConfig': outputDataConfig,
-        'SourceLanguageCode': sourceLanguageCode,
-        'TargetLanguageCodes': targetLanguageCodes,
-        if (jobName != null) 'JobName': jobName,
-        if (terminologyNames != null) 'TerminologyNames': terminologyNames,
-      },
+      payload: StartTextTranslationJobRequest(
+        clientToken: clientToken,
+        dataAccessRoleArn: dataAccessRoleArn,
+        inputDataConfig: inputDataConfig,
+        outputDataConfig: outputDataConfig,
+        sourceLanguageCode: sourceLanguageCode,
+        targetLanguageCodes: targetLanguageCodes,
+        jobName: jobName,
+        terminologyNames: terminologyNames,
+      ),
     );
 
     return StartTextTranslationJobResponse.fromJson(jsonResponse.body);
@@ -569,9 +568,9 @@ class Translate {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobId': jobId,
-      },
+      payload: StopTextTranslationJobRequest(
+        jobId: jobId,
+      ),
     );
 
     return StopTextTranslationJobResponse.fromJson(jsonResponse.body);
@@ -661,12 +660,12 @@ class Translate {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SourceLanguageCode': sourceLanguageCode,
-        'TargetLanguageCode': targetLanguageCode,
-        'Text': text,
-        if (terminologyNames != null) 'TerminologyNames': terminologyNames,
-      },
+      payload: TranslateTextRequest(
+        sourceLanguageCode: sourceLanguageCode,
+        targetLanguageCode: targetLanguageCode,
+        text: text,
+        terminologyNames: terminologyNames,
+      ),
     );
 
     return TranslateTextResponse.fromJson(jsonResponse.body);
@@ -701,6 +700,41 @@ class AppliedTerminology {
   });
   factory AppliedTerminology.fromJson(Map<String, dynamic> json) =>
       _$AppliedTerminologyFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteTerminologyRequest {
+  /// The name of the custom terminology being deleted.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  DeleteTerminologyRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$DeleteTerminologyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeTextTranslationJobRequest {
+  /// The identifier that Amazon Translate generated for the job. The
+  /// <a>StartTextTranslationJob</a> operation returns this identifier in its
+  /// response.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  DescribeTextTranslationJobRequest({
+    @_s.required this.jobId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeTextTranslationJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -758,6 +792,28 @@ enum EncryptionKeyType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetTerminologyRequest {
+  /// The name of the custom terminology being retrieved.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The data format of the custom terminology being retrieved, either CSV or
+  /// TMX.
+  @_s.JsonKey(name: 'TerminologyDataFormat')
+  final TerminologyDataFormat terminologyDataFormat;
+
+  GetTerminologyRequest({
+    @_s.required this.name,
+    @_s.required this.terminologyDataFormat,
+  });
+  Map<String, dynamic> toJson() => _$GetTerminologyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetTerminologyResponse {
@@ -777,6 +833,44 @@ class GetTerminologyResponse {
   });
   factory GetTerminologyResponse.fromJson(Map<String, dynamic> json) =>
       _$GetTerminologyResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ImportTerminologyRequest {
+  /// The merge strategy of the custom terminology being imported. Currently, only
+  /// the OVERWRITE merge strategy is supported. In this case, the imported
+  /// terminology will overwrite an existing terminology of the same name.
+  @_s.JsonKey(name: 'MergeStrategy')
+  final MergeStrategy mergeStrategy;
+
+  /// The name of the custom terminology being imported.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The terminology data for the custom terminology being imported.
+  @_s.JsonKey(name: 'TerminologyData')
+  final TerminologyData terminologyData;
+
+  /// The description of the custom terminology being imported.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The encryption key for the custom terminology being imported.
+  @_s.JsonKey(name: 'EncryptionKey')
+  final EncryptionKey encryptionKey;
+
+  ImportTerminologyRequest({
+    @_s.required this.mergeStrategy,
+    @_s.required this.name,
+    @_s.required this.terminologyData,
+    this.description,
+    this.encryptionKey,
+  });
+  Map<String, dynamic> toJson() => _$ImportTerminologyRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -874,6 +968,28 @@ enum JobStatus {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTerminologiesRequest {
+  /// The maximum number of custom terminologies returned per list request.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If the result of the request to ListTerminologies was truncated, include the
+  /// NextToken to fetch the next group of custom terminologies.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListTerminologiesRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListTerminologiesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListTerminologiesResponse {
@@ -893,6 +1009,35 @@ class ListTerminologiesResponse {
   });
   factory ListTerminologiesResponse.fromJson(Map<String, dynamic> json) =>
       _$ListTerminologiesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTextTranslationJobsRequest {
+  /// The parameters that specify which batch translation jobs to retrieve.
+  /// Filters include job name, job status, and submission time. You can only set
+  /// one filter at a time.
+  @_s.JsonKey(name: 'Filter')
+  final TextTranslationJobFilter filter;
+
+  /// The maximum number of results to return in each page. The default value is
+  /// 100.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token to request the next page of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListTextTranslationJobsRequest({
+    this.filter,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListTextTranslationJobsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -923,16 +1068,6 @@ enum MergeStrategy {
   overwrite,
 }
 
-extension on MergeStrategy {
-  String toValue() {
-    switch (this) {
-      case MergeStrategy.overwrite:
-        return 'OVERWRITE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// The output configuration properties for a batch translation job.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -952,6 +1087,71 @@ class OutputDataConfig {
       _$OutputDataConfigFromJson(json);
 
   Map<String, dynamic> toJson() => _$OutputDataConfigToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartTextTranslationJobRequest {
+  /// The client token of the EC2 instance calling the request. This token is
+  /// auto-generated when using the Amazon Translate SDK. Otherwise, use the <a
+  /// href="docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html">DescribeInstances</a>
+  /// EC2 operation to retreive an instance's client token. For more information,
+  /// see <a
+  /// href="docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html#client-tokens">Client
+  /// Tokens</a> in the EC2 User Guide.
+  @_s.JsonKey(name: 'ClientToken')
+  final String clientToken;
+
+  /// The Amazon Resource Name (ARN) of an AWS Identity Access and Management
+  /// (IAM) role that grants Amazon Translate read access to your input data. For
+  /// more nformation, see <a>identity-and-access-management</a>.
+  @_s.JsonKey(name: 'DataAccessRoleArn')
+  final String dataAccessRoleArn;
+
+  /// Specifies the format and S3 location of the input documents for the
+  /// translation job.
+  @_s.JsonKey(name: 'InputDataConfig')
+  final InputDataConfig inputDataConfig;
+
+  /// Specifies the S3 folder to which your job output will be saved.
+  @_s.JsonKey(name: 'OutputDataConfig')
+  final OutputDataConfig outputDataConfig;
+
+  /// The language code of the input language. For a list of language codes, see
+  /// <a>what-is-languages</a>.
+  ///
+  /// Amazon Translate does not automatically detect a source language during
+  /// batch translation jobs.
+  @_s.JsonKey(name: 'SourceLanguageCode')
+  final String sourceLanguageCode;
+
+  /// The language code of the output language.
+  @_s.JsonKey(name: 'TargetLanguageCodes')
+  final List<String> targetLanguageCodes;
+
+  /// The name of the batch translation job to be performed.
+  @_s.JsonKey(name: 'JobName')
+  final String jobName;
+
+  /// The name of the terminology to use in the batch translation job. For a list
+  /// of available terminologies, use the <a>ListTerminologies</a> operation.
+  @_s.JsonKey(name: 'TerminologyNames')
+  final List<String> terminologyNames;
+
+  StartTextTranslationJobRequest({
+    @_s.required this.clientToken,
+    @_s.required this.dataAccessRoleArn,
+    @_s.required this.inputDataConfig,
+    @_s.required this.outputDataConfig,
+    @_s.required this.sourceLanguageCode,
+    @_s.required this.targetLanguageCodes,
+    this.jobName,
+    this.terminologyNames,
+  });
+  Map<String, dynamic> toJson() => _$StartTextTranslationJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1004,6 +1204,22 @@ class StartTextTranslationJobResponse {
   });
   factory StartTextTranslationJobResponse.fromJson(Map<String, dynamic> json) =>
       _$StartTextTranslationJobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopTextTranslationJobRequest {
+  /// The job ID of the job to be stopped.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  StopTextTranslationJobRequest({
+    @_s.required this.jobId,
+  });
+  Map<String, dynamic> toJson() => _$StopTextTranslationJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1081,18 +1297,6 @@ enum TerminologyDataFormat {
   csv,
   @_s.JsonValue('TMX')
   tmx,
-}
-
-extension on TerminologyDataFormat {
-  String toValue() {
-    switch (this) {
-      case TerminologyDataFormat.csv:
-        return 'CSV';
-      case TerminologyDataFormat.tmx:
-        return 'TMX';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// The location of the custom terminology data.
@@ -1326,6 +1530,50 @@ class TextTranslationJobProperties {
   });
   factory TextTranslationJobProperties.fromJson(Map<String, dynamic> json) =>
       _$TextTranslationJobPropertiesFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TranslateTextRequest {
+  /// The language code for the language of the source text. The language must be
+  /// a language supported by Amazon Translate. For a list of language codes, see
+  /// <a>what-is-languages</a>.
+  ///
+  /// To have Amazon Translate determine the source language of your text, you can
+  /// specify <code>auto</code> in the <code>SourceLanguageCode</code> field. If
+  /// you specify <code>auto</code>, Amazon Translate will call <a
+  /// href="https://docs.aws.amazon.com/comprehend/latest/dg/comprehend-general.html">Amazon
+  /// Comprehend</a> to determine the source language.
+  @_s.JsonKey(name: 'SourceLanguageCode')
+  final String sourceLanguageCode;
+
+  /// The language code requested for the language of the target text. The
+  /// language must be a language supported by Amazon Translate.
+  @_s.JsonKey(name: 'TargetLanguageCode')
+  final String targetLanguageCode;
+
+  /// The text to translate. The text string can be a maximum of 5,000 bytes long.
+  /// Depending on your character set, this may be fewer than 5,000 characters.
+  @_s.JsonKey(name: 'Text')
+  final String text;
+
+  /// The name of the terminology list file to be used in the TranslateText
+  /// request. You can use 1 terminology list at most in a
+  /// <code>TranslateText</code> request. Terminology lists can contain a maximum
+  /// of 256 terms.
+  @_s.JsonKey(name: 'TerminologyNames')
+  final List<String> terminologyNames;
+
+  TranslateTextRequest({
+    @_s.required this.sourceLanguageCode,
+    @_s.required this.targetLanguageCode,
+    @_s.required this.text,
+    this.terminologyNames,
+  });
+  Map<String, dynamic> toJson() => _$TranslateTextRequestToJson(this);
 }
 
 @_s.JsonSerializable(

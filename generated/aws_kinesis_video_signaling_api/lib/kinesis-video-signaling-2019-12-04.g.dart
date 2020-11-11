@@ -6,6 +6,27 @@ part of 'kinesis-video-signaling-2019-12-04.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$GetIceServerConfigRequestToJson(
+    GetIceServerConfigRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChannelARN', instance.channelARN);
+  writeNotNull('ClientId', instance.clientId);
+  writeNotNull('Service', _$ServiceEnumMap[instance.service]);
+  writeNotNull('Username', instance.username);
+  return val;
+}
+
+const _$ServiceEnumMap = {
+  Service.turn: 'TURN',
+};
+
 GetIceServerConfigResponse _$GetIceServerConfigResponseFromJson(
     Map<String, dynamic> json) {
   return GetIceServerConfigResponse(
@@ -23,6 +44,22 @@ IceServer _$IceServerFromJson(Map<String, dynamic> json) {
     uris: (json['Uris'] as List)?.map((e) => e as String)?.toList(),
     username: json['Username'] as String,
   );
+}
+
+Map<String, dynamic> _$SendAlexaOfferToMasterRequestToJson(
+    SendAlexaOfferToMasterRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChannelARN', instance.channelARN);
+  writeNotNull('MessagePayload', instance.messagePayload);
+  writeNotNull('SenderClientId', instance.senderClientId);
+  return val;
 }
 
 SendAlexaOfferToMasterResponse _$SendAlexaOfferToMasterResponseFromJson(

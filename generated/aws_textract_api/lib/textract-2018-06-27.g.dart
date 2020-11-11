@@ -6,6 +6,22 @@ part of 'textract-2018-06-27.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$AnalyzeDocumentRequestToJson(
+    AnalyzeDocumentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Document', instance.document?.toJson());
+  writeNotNull('FeatureTypes', instance.featureTypes);
+  writeNotNull('HumanLoopConfig', instance.humanLoopConfig?.toJson());
+  return val;
+}
+
 AnalyzeDocumentResponse _$AnalyzeDocumentResponseFromJson(
     Map<String, dynamic> json) {
   return AnalyzeDocumentResponse(
@@ -106,6 +122,20 @@ BoundingBox _$BoundingBoxFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DetectDocumentTextRequestToJson(
+    DetectDocumentTextRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Document', instance.document?.toJson());
+  return val;
+}
+
 DetectDocumentTextResponse _$DetectDocumentTextResponseFromJson(
     Map<String, dynamic> json) {
   return DetectDocumentTextResponse(
@@ -167,6 +197,22 @@ Geometry _$GeometryFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetDocumentAnalysisRequestToJson(
+    GetDocumentAnalysisRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobId', instance.jobId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 GetDocumentAnalysisResponse _$GetDocumentAnalysisResponseFromJson(
     Map<String, dynamic> json) {
   return GetDocumentAnalysisResponse(
@@ -195,6 +241,22 @@ const _$JobStatusEnumMap = {
   JobStatus.failed: 'FAILED',
   JobStatus.partialSuccess: 'PARTIAL_SUCCESS',
 };
+
+Map<String, dynamic> _$GetDocumentTextDetectionRequestToJson(
+    GetDocumentTextDetectionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobId', instance.jobId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
 
 GetDocumentTextDetectionResponse _$GetDocumentTextDetectionResponseFromJson(
     Map<String, dynamic> json) {
@@ -308,11 +370,46 @@ Map<String, dynamic> _$S3ObjectToJson(S3Object instance) {
   return val;
 }
 
+Map<String, dynamic> _$StartDocumentAnalysisRequestToJson(
+    StartDocumentAnalysisRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DocumentLocation', instance.documentLocation?.toJson());
+  writeNotNull('FeatureTypes', instance.featureTypes);
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('JobTag', instance.jobTag);
+  writeNotNull('NotificationChannel', instance.notificationChannel?.toJson());
+  return val;
+}
+
 StartDocumentAnalysisResponse _$StartDocumentAnalysisResponseFromJson(
     Map<String, dynamic> json) {
   return StartDocumentAnalysisResponse(
     jobId: json['JobId'] as String,
   );
+}
+
+Map<String, dynamic> _$StartDocumentTextDetectionRequestToJson(
+    StartDocumentTextDetectionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DocumentLocation', instance.documentLocation?.toJson());
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('JobTag', instance.jobTag);
+  writeNotNull('NotificationChannel', instance.notificationChannel?.toJson());
+  return val;
 }
 
 StartDocumentTextDetectionResponse _$StartDocumentTextDetectionResponseFromJson(

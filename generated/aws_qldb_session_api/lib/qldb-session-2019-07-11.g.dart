@@ -105,6 +105,26 @@ Page _$PageFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$SendCommandRequestToJson(SendCommandRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AbortTransaction', instance.abortTransaction?.toJson());
+  writeNotNull('CommitTransaction', instance.commitTransaction?.toJson());
+  writeNotNull('EndSession', instance.endSession?.toJson());
+  writeNotNull('ExecuteStatement', instance.executeStatement?.toJson());
+  writeNotNull('FetchPage', instance.fetchPage?.toJson());
+  writeNotNull('SessionToken', instance.sessionToken);
+  writeNotNull('StartSession', instance.startSession?.toJson());
+  writeNotNull('StartTransaction', instance.startTransaction?.toJson());
+  return val;
+}
+
 SendCommandResult _$SendCommandResultFromJson(Map<String, dynamic> json) {
   return SendCommandResult(
     abortTransaction: json['AbortTransaction'] == null

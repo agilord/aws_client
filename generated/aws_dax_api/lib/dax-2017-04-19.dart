@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -205,24 +204,21 @@ class DAX {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClusterName': clusterName,
-        'IamRoleArn': iamRoleArn,
-        'NodeType': nodeType,
-        'ReplicationFactor': replicationFactor,
-        if (availabilityZones != null) 'AvailabilityZones': availabilityZones,
-        if (description != null) 'Description': description,
-        if (notificationTopicArn != null)
-          'NotificationTopicArn': notificationTopicArn,
-        if (parameterGroupName != null)
-          'ParameterGroupName': parameterGroupName,
-        if (preferredMaintenanceWindow != null)
-          'PreferredMaintenanceWindow': preferredMaintenanceWindow,
-        if (sSESpecification != null) 'SSESpecification': sSESpecification,
-        if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
-        if (subnetGroupName != null) 'SubnetGroupName': subnetGroupName,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateClusterRequest(
+        clusterName: clusterName,
+        iamRoleArn: iamRoleArn,
+        nodeType: nodeType,
+        replicationFactor: replicationFactor,
+        availabilityZones: availabilityZones,
+        description: description,
+        notificationTopicArn: notificationTopicArn,
+        parameterGroupName: parameterGroupName,
+        preferredMaintenanceWindow: preferredMaintenanceWindow,
+        sSESpecification: sSESpecification,
+        securityGroupIds: securityGroupIds,
+        subnetGroupName: subnetGroupName,
+        tags: tags,
+      ),
     );
 
     return CreateClusterResponse.fromJson(jsonResponse.body);
@@ -259,10 +255,10 @@ class DAX {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ParameterGroupName': parameterGroupName,
-        if (description != null) 'Description': description,
-      },
+      payload: CreateParameterGroupRequest(
+        parameterGroupName: parameterGroupName,
+        description: description,
+      ),
     );
 
     return CreateParameterGroupResponse.fromJson(jsonResponse.body);
@@ -301,11 +297,11 @@ class DAX {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SubnetGroupName': subnetGroupName,
-        'SubnetIds': subnetIds,
-        if (description != null) 'Description': description,
-      },
+      payload: CreateSubnetGroupRequest(
+        subnetGroupName: subnetGroupName,
+        subnetIds: subnetIds,
+        description: description,
+      ),
     );
 
     return CreateSubnetGroupResponse.fromJson(jsonResponse.body);
@@ -354,12 +350,12 @@ class DAX {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClusterName': clusterName,
-        'NewReplicationFactor': newReplicationFactor,
-        if (availabilityZones != null) 'AvailabilityZones': availabilityZones,
-        if (nodeIdsToRemove != null) 'NodeIdsToRemove': nodeIdsToRemove,
-      },
+      payload: DecreaseReplicationFactorRequest(
+        clusterName: clusterName,
+        newReplicationFactor: newReplicationFactor,
+        availabilityZones: availabilityZones,
+        nodeIdsToRemove: nodeIdsToRemove,
+      ),
     );
 
     return DecreaseReplicationFactorResponse.fromJson(jsonResponse.body);
@@ -392,9 +388,9 @@ class DAX {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClusterName': clusterName,
-      },
+      payload: DeleteClusterRequest(
+        clusterName: clusterName,
+      ),
     );
 
     return DeleteClusterResponse.fromJson(jsonResponse.body);
@@ -425,9 +421,9 @@ class DAX {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ParameterGroupName': parameterGroupName,
-      },
+      payload: DeleteParameterGroupRequest(
+        parameterGroupName: parameterGroupName,
+      ),
     );
 
     return DeleteParameterGroupResponse.fromJson(jsonResponse.body);
@@ -459,9 +455,9 @@ class DAX {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SubnetGroupName': subnetGroupName,
-      },
+      payload: DeleteSubnetGroupRequest(
+        subnetGroupName: subnetGroupName,
+      ),
     );
 
     return DeleteSubnetGroupResponse.fromJson(jsonResponse.body);
@@ -520,11 +516,11 @@ class DAX {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (clusterNames != null) 'ClusterNames': clusterNames,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeClustersRequest(
+        clusterNames: clusterNames,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeClustersResponse.fromJson(jsonResponse.body);
@@ -563,10 +559,10 @@ class DAX {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeDefaultParametersRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeDefaultParametersResponse.fromJson(jsonResponse.body);
@@ -634,15 +630,15 @@ class DAX {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (duration != null) 'Duration': duration,
-        if (endTime != null) 'EndTime': endTime,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sourceName != null) 'SourceName': sourceName,
-        if (sourceType != null) 'SourceType': sourceType?.toValue(),
-        if (startTime != null) 'StartTime': startTime,
-      },
+      payload: DescribeEventsRequest(
+        duration: duration,
+        endTime: endTime,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        sourceName: sourceName,
+        sourceType: sourceType,
+        startTime: startTime,
+      ),
     );
 
     return DescribeEventsResponse.fromJson(jsonResponse.body);
@@ -686,12 +682,11 @@ class DAX {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (parameterGroupNames != null)
-          'ParameterGroupNames': parameterGroupNames,
-      },
+      payload: DescribeParameterGroupsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+        parameterGroupNames: parameterGroupNames,
+      ),
     );
 
     return DescribeParameterGroupsResponse.fromJson(jsonResponse.body);
@@ -740,12 +735,12 @@ class DAX {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ParameterGroupName': parameterGroupName,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (source != null) 'Source': source,
-      },
+      payload: DescribeParametersRequest(
+        parameterGroupName: parameterGroupName,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        source: source,
+      ),
     );
 
     return DescribeParametersResponse.fromJson(jsonResponse.body);
@@ -787,11 +782,11 @@ class DAX {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (subnetGroupNames != null) 'SubnetGroupNames': subnetGroupNames,
-      },
+      payload: DescribeSubnetGroupsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+        subnetGroupNames: subnetGroupNames,
+      ),
     );
 
     return DescribeSubnetGroupsResponse.fromJson(jsonResponse.body);
@@ -837,11 +832,11 @@ class DAX {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClusterName': clusterName,
-        'NewReplicationFactor': newReplicationFactor,
-        if (availabilityZones != null) 'AvailabilityZones': availabilityZones,
-      },
+      payload: IncreaseReplicationFactorRequest(
+        clusterName: clusterName,
+        newReplicationFactor: newReplicationFactor,
+        availabilityZones: availabilityZones,
+      ),
     );
 
     return IncreaseReplicationFactorResponse.fromJson(jsonResponse.body);
@@ -879,10 +874,10 @@ class DAX {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceName': resourceName,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListTagsRequest(
+        resourceName: resourceName,
+        nextToken: nextToken,
+      ),
     );
 
     return ListTagsResponse.fromJson(jsonResponse.body);
@@ -923,10 +918,10 @@ class DAX {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClusterName': clusterName,
-        'NodeId': nodeId,
-      },
+      payload: RebootNodeRequest(
+        clusterName: clusterName,
+        nodeId: nodeId,
+      ),
     );
 
     return RebootNodeResponse.fromJson(jsonResponse.body);
@@ -964,10 +959,10 @@ class DAX {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceName': resourceName,
-        'Tags': tags,
-      },
+      payload: TagResourceRequest(
+        resourceName: resourceName,
+        tags: tags,
+      ),
     );
 
     return TagResourceResponse.fromJson(jsonResponse.body);
@@ -1006,10 +1001,10 @@ class DAX {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceName': resourceName,
-        'TagKeys': tagKeys,
-      },
+      payload: UntagResourceRequest(
+        resourceName: resourceName,
+        tagKeys: tagKeys,
+      ),
     );
 
     return UntagResourceResponse.fromJson(jsonResponse.body);
@@ -1072,19 +1067,15 @@ class DAX {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClusterName': clusterName,
-        if (description != null) 'Description': description,
-        if (notificationTopicArn != null)
-          'NotificationTopicArn': notificationTopicArn,
-        if (notificationTopicStatus != null)
-          'NotificationTopicStatus': notificationTopicStatus,
-        if (parameterGroupName != null)
-          'ParameterGroupName': parameterGroupName,
-        if (preferredMaintenanceWindow != null)
-          'PreferredMaintenanceWindow': preferredMaintenanceWindow,
-        if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
-      },
+      payload: UpdateClusterRequest(
+        clusterName: clusterName,
+        description: description,
+        notificationTopicArn: notificationTopicArn,
+        notificationTopicStatus: notificationTopicStatus,
+        parameterGroupName: parameterGroupName,
+        preferredMaintenanceWindow: preferredMaintenanceWindow,
+        securityGroupIds: securityGroupIds,
+      ),
     );
 
     return UpdateClusterResponse.fromJson(jsonResponse.body);
@@ -1122,10 +1113,10 @@ class DAX {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ParameterGroupName': parameterGroupName,
-        'ParameterNameValues': parameterNameValues,
-      },
+      payload: UpdateParameterGroupRequest(
+        parameterGroupName: parameterGroupName,
+        parameterNameValues: parameterNameValues,
+      ),
     );
 
     return UpdateParameterGroupResponse.fromJson(jsonResponse.body);
@@ -1163,11 +1154,11 @@ class DAX {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SubnetGroupName': subnetGroupName,
-        if (description != null) 'Description': description,
-        if (subnetIds != null) 'SubnetIds': subnetIds,
-      },
+      payload: UpdateSubnetGroupRequest(
+        subnetGroupName: subnetGroupName,
+        description: description,
+        subnetIds: subnetIds,
+      ),
     );
 
     return UpdateSubnetGroupResponse.fromJson(jsonResponse.body);
@@ -1296,6 +1287,157 @@ class Cluster {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateClusterRequest {
+  /// The cluster identifier. This parameter is stored as a lowercase string.
+  ///
+  /// <b>Constraints:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// A name must contain from 1 to 20 alphanumeric characters or hyphens.
+  /// </li>
+  /// <li>
+  /// The first character must be a letter.
+  /// </li>
+  /// <li>
+  /// A name cannot end with a hyphen or contain two consecutive hyphens.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ClusterName')
+  final String clusterName;
+
+  /// A valid Amazon Resource Name (ARN) that identifies an IAM role. At runtime,
+  /// DAX will assume this role and use the role's permissions to access DynamoDB
+  /// on your behalf.
+  @_s.JsonKey(name: 'IamRoleArn')
+  final String iamRoleArn;
+
+  /// The compute and memory capacity of the nodes in the cluster.
+  @_s.JsonKey(name: 'NodeType')
+  final String nodeType;
+
+  /// The number of nodes in the DAX cluster. A replication factor of 1 will
+  /// create a single-node cluster, without any read replicas. For additional
+  /// fault tolerance, you can create a multiple node cluster with one or more
+  /// read replicas. To do this, set <code>ReplicationFactor</code> to a number
+  /// between 3 (one primary and two read replicas) and 10 (one primary and nine
+  /// read replicas). <code>If the AvailabilityZones</code> parameter is provided,
+  /// its length must equal the <code>ReplicationFactor</code>.
+  /// <note>
+  /// AWS recommends that you have at least two read replicas per cluster.
+  /// </note>
+  @_s.JsonKey(name: 'ReplicationFactor')
+  final int replicationFactor;
+
+  /// The Availability Zones (AZs) in which the cluster nodes will reside after
+  /// the cluster has been created or updated. If provided, the length of this
+  /// list must equal the <code>ReplicationFactor</code> parameter. If you omit
+  /// this parameter, DAX will spread the nodes across Availability Zones for the
+  /// highest availability.
+  @_s.JsonKey(name: 'AvailabilityZones')
+  final List<String> availabilityZones;
+
+  /// A description of the cluster.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The Amazon Resource Name (ARN) of the Amazon SNS topic to which
+  /// notifications will be sent.
+  /// <note>
+  /// The Amazon SNS topic owner must be same as the DAX cluster owner.
+  /// </note>
+  @_s.JsonKey(name: 'NotificationTopicArn')
+  final String notificationTopicArn;
+
+  /// The parameter group to be associated with the DAX cluster.
+  @_s.JsonKey(name: 'ParameterGroupName')
+  final String parameterGroupName;
+
+  /// Specifies the weekly time range during which maintenance on the DAX cluster
+  /// is performed. It is specified as a range in the format
+  /// ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a
+  /// 60 minute period. Valid values for <code>ddd</code> are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>sun</code>
+  /// </li>
+  /// <li>
+  /// <code>mon</code>
+  /// </li>
+  /// <li>
+  /// <code>tue</code>
+  /// </li>
+  /// <li>
+  /// <code>wed</code>
+  /// </li>
+  /// <li>
+  /// <code>thu</code>
+  /// </li>
+  /// <li>
+  /// <code>fri</code>
+  /// </li>
+  /// <li>
+  /// <code>sat</code>
+  /// </li>
+  /// </ul>
+  /// Example: <code>sun:05:00-sun:09:00</code>
+  /// <note>
+  /// If you don't specify a preferred maintenance window when you create or
+  /// modify a cache cluster, DAX assigns a 60-minute maintenance window on a
+  /// randomly selected day of the week.
+  /// </note>
+  @_s.JsonKey(name: 'PreferredMaintenanceWindow')
+  final String preferredMaintenanceWindow;
+
+  /// Represents the settings used to enable server-side encryption on the
+  /// cluster.
+  @_s.JsonKey(name: 'SSESpecification')
+  final SSESpecification sSESpecification;
+
+  /// A list of security group IDs to be assigned to each node in the DAX cluster.
+  /// (Each of the security group ID is system-generated.)
+  ///
+  /// If this parameter is not specified, DAX assigns the default VPC security
+  /// group to each node.
+  @_s.JsonKey(name: 'SecurityGroupIds')
+  final List<String> securityGroupIds;
+
+  /// The name of the subnet group to be used for the replication group.
+  /// <important>
+  /// DAX clusters can only run in an Amazon VPC environment. All of the subnets
+  /// that you specify in a subnet group must exist in the same VPC.
+  /// </important>
+  @_s.JsonKey(name: 'SubnetGroupName')
+  final String subnetGroupName;
+
+  /// A set of tags to associate with the DAX cluster.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateClusterRequest({
+    @_s.required this.clusterName,
+    @_s.required this.iamRoleArn,
+    @_s.required this.nodeType,
+    @_s.required this.replicationFactor,
+    this.availabilityZones,
+    this.description,
+    this.notificationTopicArn,
+    this.parameterGroupName,
+    this.preferredMaintenanceWindow,
+    this.sSESpecification,
+    this.securityGroupIds,
+    this.subnetGroupName,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateClusterRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateClusterResponse {
@@ -1308,6 +1450,28 @@ class CreateClusterResponse {
   });
   factory CreateClusterResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateClusterResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateParameterGroupRequest {
+  /// The name of the parameter group to apply to all of the clusters in this
+  /// replication group.
+  @_s.JsonKey(name: 'ParameterGroupName')
+  final String parameterGroupName;
+
+  /// A description of the parameter group.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  CreateParameterGroupRequest({
+    @_s.required this.parameterGroupName,
+    this.description,
+  });
+  Map<String, dynamic> toJson() => _$CreateParameterGroupRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1330,6 +1494,32 @@ class CreateParameterGroupResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateSubnetGroupRequest {
+  /// A name for the subnet group. This value is stored as a lowercase string.
+  @_s.JsonKey(name: 'SubnetGroupName')
+  final String subnetGroupName;
+
+  /// A list of VPC subnet IDs for the subnet group.
+  @_s.JsonKey(name: 'SubnetIds')
+  final List<String> subnetIds;
+
+  /// A description for the subnet group
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  CreateSubnetGroupRequest({
+    @_s.required this.subnetGroupName,
+    @_s.required this.subnetIds,
+    this.description,
+  });
+  Map<String, dynamic> toJson() => _$CreateSubnetGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateSubnetGroupResponse {
@@ -1342,6 +1532,38 @@ class CreateSubnetGroupResponse {
   });
   factory CreateSubnetGroupResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateSubnetGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DecreaseReplicationFactorRequest {
+  /// The name of the DAX cluster from which you want to remove nodes.
+  @_s.JsonKey(name: 'ClusterName')
+  final String clusterName;
+
+  /// The new number of nodes for the DAX cluster.
+  @_s.JsonKey(name: 'NewReplicationFactor')
+  final int newReplicationFactor;
+
+  /// The Availability Zone(s) from which to remove nodes.
+  @_s.JsonKey(name: 'AvailabilityZones')
+  final List<String> availabilityZones;
+
+  /// The unique identifiers of the nodes to be removed from the cluster.
+  @_s.JsonKey(name: 'NodeIdsToRemove')
+  final List<String> nodeIdsToRemove;
+
+  DecreaseReplicationFactorRequest({
+    @_s.required this.clusterName,
+    @_s.required this.newReplicationFactor,
+    this.availabilityZones,
+    this.nodeIdsToRemove,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DecreaseReplicationFactorRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1366,6 +1588,22 @@ class DecreaseReplicationFactorResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteClusterRequest {
+  /// The name of the cluster to be deleted.
+  @_s.JsonKey(name: 'ClusterName')
+  final String clusterName;
+
+  DeleteClusterRequest({
+    @_s.required this.clusterName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteClusterRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteClusterResponse {
@@ -1378,6 +1616,22 @@ class DeleteClusterResponse {
   });
   factory DeleteClusterResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteClusterResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteParameterGroupRequest {
+  /// The name of the parameter group to delete.
+  @_s.JsonKey(name: 'ParameterGroupName')
+  final String parameterGroupName;
+
+  DeleteParameterGroupRequest({
+    @_s.required this.parameterGroupName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteParameterGroupRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1401,6 +1655,22 @@ class DeleteParameterGroupResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteSubnetGroupRequest {
+  /// The name of the subnet group to delete.
+  @_s.JsonKey(name: 'SubnetGroupName')
+  final String subnetGroupName;
+
+  DeleteSubnetGroupRequest({
+    @_s.required this.subnetGroupName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteSubnetGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteSubnetGroupResponse {
@@ -1414,6 +1684,39 @@ class DeleteSubnetGroupResponse {
   });
   factory DeleteSubnetGroupResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteSubnetGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeClustersRequest {
+  /// The names of the DAX clusters being described.
+  @_s.JsonKey(name: 'ClusterNames')
+  final List<String> clusterNames;
+
+  /// The maximum number of results to include in the response. If more results
+  /// exist than the specified <code>MaxResults</code> value, a token is included
+  /// in the response so that the remaining results can be retrieved.
+  ///
+  /// The value for <code>MaxResults</code> must be between 20 and 100.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// An optional token returned from a prior request. Use this token for
+  /// pagination of results from this action. If this parameter is specified, the
+  /// response includes only results beyond the token, up to the value specified
+  /// by <code>MaxResults</code>.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeClustersRequest({
+    this.clusterNames,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeClustersRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1442,6 +1745,35 @@ class DescribeClustersResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeDefaultParametersRequest {
+  /// The maximum number of results to include in the response. If more results
+  /// exist than the specified <code>MaxResults</code> value, a token is included
+  /// in the response so that the remaining results can be retrieved.
+  ///
+  /// The value for <code>MaxResults</code> must be between 20 and 100.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// An optional token returned from a prior request. Use this token for
+  /// pagination of results from this action. If this parameter is specified, the
+  /// response includes only results beyond the token, up to the value specified
+  /// by <code>MaxResults</code>.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeDefaultParametersRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeDefaultParametersRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeDefaultParametersResponse {
@@ -1465,6 +1797,69 @@ class DescribeDefaultParametersResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeEventsRequest {
+  /// The number of minutes' worth of events to retrieve.
+  @_s.JsonKey(name: 'Duration')
+  final int duration;
+
+  /// The end of the time interval for which to retrieve events, specified in ISO
+  /// 8601 format.
+  @_s.JsonKey(
+      name: 'EndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime endTime;
+
+  /// The maximum number of results to include in the response. If more results
+  /// exist than the specified <code>MaxResults</code> value, a token is included
+  /// in the response so that the remaining results can be retrieved.
+  ///
+  /// The value for <code>MaxResults</code> must be between 20 and 100.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// An optional token returned from a prior request. Use this token for
+  /// pagination of results from this action. If this parameter is specified, the
+  /// response includes only results beyond the token, up to the value specified
+  /// by <code>MaxResults</code>.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The identifier of the event source for which events will be returned. If not
+  /// specified, then all sources are included in the response.
+  @_s.JsonKey(name: 'SourceName')
+  final String sourceName;
+
+  /// The event source to retrieve events for. If no value is specified, all
+  /// events are returned.
+  @_s.JsonKey(name: 'SourceType')
+  final SourceType sourceType;
+
+  /// The beginning of the time interval to retrieve events for, specified in ISO
+  /// 8601 format.
+  @_s.JsonKey(
+      name: 'StartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime startTime;
+
+  DescribeEventsRequest({
+    this.duration,
+    this.endTime,
+    this.maxResults,
+    this.nextToken,
+    this.sourceName,
+    this.sourceType,
+    this.startTime,
+  });
+  Map<String, dynamic> toJson() => _$DescribeEventsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeEventsResponse {
@@ -1482,6 +1877,39 @@ class DescribeEventsResponse {
   });
   factory DescribeEventsResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeEventsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeParameterGroupsRequest {
+  /// The maximum number of results to include in the response. If more results
+  /// exist than the specified <code>MaxResults</code> value, a token is included
+  /// in the response so that the remaining results can be retrieved.
+  ///
+  /// The value for <code>MaxResults</code> must be between 20 and 100.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// An optional token returned from a prior request. Use this token for
+  /// pagination of results from this action. If this parameter is specified, the
+  /// response includes only results beyond the token, up to the value specified
+  /// by <code>MaxResults</code>.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The names of the parameter groups.
+  @_s.JsonKey(name: 'ParameterGroupNames')
+  final List<String> parameterGroupNames;
+
+  DescribeParameterGroupsRequest({
+    this.maxResults,
+    this.nextToken,
+    this.parameterGroupNames,
+  });
+  Map<String, dynamic> toJson() => _$DescribeParameterGroupsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1510,6 +1938,45 @@ class DescribeParameterGroupsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeParametersRequest {
+  /// The name of the parameter group.
+  @_s.JsonKey(name: 'ParameterGroupName')
+  final String parameterGroupName;
+
+  /// The maximum number of results to include in the response. If more results
+  /// exist than the specified <code>MaxResults</code> value, a token is included
+  /// in the response so that the remaining results can be retrieved.
+  ///
+  /// The value for <code>MaxResults</code> must be between 20 and 100.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// An optional token returned from a prior request. Use this token for
+  /// pagination of results from this action. If this parameter is specified, the
+  /// response includes only results beyond the token, up to the value specified
+  /// by <code>MaxResults</code>.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// How the parameter is defined. For example, <code>system</code> denotes a
+  /// system-defined parameter.
+  @_s.JsonKey(name: 'Source')
+  final String source;
+
+  DescribeParametersRequest({
+    @_s.required this.parameterGroupName,
+    this.maxResults,
+    this.nextToken,
+    this.source,
+  });
+  Map<String, dynamic> toJson() => _$DescribeParametersRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeParametersResponse {
@@ -1528,6 +1995,39 @@ class DescribeParametersResponse {
   });
   factory DescribeParametersResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeParametersResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeSubnetGroupsRequest {
+  /// The maximum number of results to include in the response. If more results
+  /// exist than the specified <code>MaxResults</code> value, a token is included
+  /// in the response so that the remaining results can be retrieved.
+  ///
+  /// The value for <code>MaxResults</code> must be between 20 and 100.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// An optional token returned from a prior request. Use this token for
+  /// pagination of results from this action. If this parameter is specified, the
+  /// response includes only results beyond the token, up to the value specified
+  /// by <code>MaxResults</code>.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The name of the subnet group.
+  @_s.JsonKey(name: 'SubnetGroupNames')
+  final List<String> subnetGroupNames;
+
+  DescribeSubnetGroupsRequest({
+    this.maxResults,
+    this.nextToken,
+    this.subnetGroupNames,
+  });
+  Map<String, dynamic> toJson() => _$DescribeSubnetGroupsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1620,6 +2120,35 @@ class Event {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class IncreaseReplicationFactorRequest {
+  /// The name of the DAX cluster that will receive additional nodes.
+  @_s.JsonKey(name: 'ClusterName')
+  final String clusterName;
+
+  /// The new number of nodes for the DAX cluster.
+  @_s.JsonKey(name: 'NewReplicationFactor')
+  final int newReplicationFactor;
+
+  /// The Availability Zones (AZs) in which the cluster nodes will be created. All
+  /// nodes belonging to the cluster are placed in these Availability Zones. Use
+  /// this parameter if you want to distribute the nodes across multiple AZs.
+  @_s.JsonKey(name: 'AvailabilityZones')
+  final List<String> availabilityZones;
+
+  IncreaseReplicationFactorRequest({
+    @_s.required this.clusterName,
+    @_s.required this.newReplicationFactor,
+    this.availabilityZones,
+  });
+  Map<String, dynamic> toJson() =>
+      _$IncreaseReplicationFactorRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class IncreaseReplicationFactorResponse {
@@ -1642,6 +2171,29 @@ enum IsModifiable {
   $false,
   @_s.JsonValue('CONDITIONAL')
   conditional,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsRequest {
+  /// The name of the DAX resource to which the tags belong.
+  @_s.JsonKey(name: 'ResourceName')
+  final String resourceName;
+
+  /// An optional token returned from a prior request. Use this token for
+  /// pagination of results from this action. If this parameter is specified, the
+  /// response includes only results beyond the token.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListTagsRequest({
+    @_s.required this.resourceName,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1916,6 +2468,27 @@ enum ParameterType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RebootNodeRequest {
+  /// The name of the DAX cluster containing the node to be rebooted.
+  @_s.JsonKey(name: 'ClusterName')
+  final String clusterName;
+
+  /// The system-assigned ID of the node to be rebooted.
+  @_s.JsonKey(name: 'NodeId')
+  final String nodeId;
+
+  RebootNodeRequest({
+    @_s.required this.clusterName,
+    @_s.required this.nodeId,
+  });
+  Map<String, dynamic> toJson() => _$RebootNodeRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class RebootNodeResponse {
@@ -2025,20 +2598,6 @@ enum SourceType {
   subnetGroup,
 }
 
-extension on SourceType {
-  String toValue() {
-    switch (this) {
-      case SourceType.cluster:
-        return 'CLUSTER';
-      case SourceType.parameterGroup:
-        return 'PARAMETER_GROUP';
-      case SourceType.subnetGroup:
-        return 'SUBNET_GROUP';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Represents the subnet associated with a DAX cluster. This parameter refers
 /// to subnets defined in Amazon Virtual Private Cloud (Amazon VPC) and used
 /// with DAX.
@@ -2142,6 +2701,27 @@ class Tag {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The name of the DAX resource to which tags should be added.
+  @_s.JsonKey(name: 'ResourceName')
+  final String resourceName;
+
+  /// The tags to be assigned to the DAX resource.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceName,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagResourceResponse {
@@ -2154,6 +2734,28 @@ class TagResourceResponse {
   });
   factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$TagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The name of the DAX resource from which the tags should be removed.
+  @_s.JsonKey(name: 'ResourceName')
+  final String resourceName;
+
+  /// A list of tag keys. If the DAX cluster has any tags with these keys, then
+  /// the tags are removed from the cluster.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceName,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2176,6 +2778,57 @@ class UntagResourceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateClusterRequest {
+  /// The name of the DAX cluster to be modified.
+  @_s.JsonKey(name: 'ClusterName')
+  final String clusterName;
+
+  /// A description of the changes being made to the cluster.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The Amazon Resource Name (ARN) that identifies the topic.
+  @_s.JsonKey(name: 'NotificationTopicArn')
+  final String notificationTopicArn;
+
+  /// The current state of the topic.
+  @_s.JsonKey(name: 'NotificationTopicStatus')
+  final String notificationTopicStatus;
+
+  /// The name of a parameter group for this cluster.
+  @_s.JsonKey(name: 'ParameterGroupName')
+  final String parameterGroupName;
+
+  /// A range of time when maintenance of DAX cluster software will be performed.
+  /// For example: <code>sun:01:00-sun:09:00</code>. Cluster maintenance normally
+  /// takes less than 30 minutes, and is performed automatically within the
+  /// maintenance window.
+  @_s.JsonKey(name: 'PreferredMaintenanceWindow')
+  final String preferredMaintenanceWindow;
+
+  /// A list of user-specified security group IDs to be assigned to each node in
+  /// the DAX cluster. If this parameter is not specified, DAX assigns the default
+  /// VPC security group to each node.
+  @_s.JsonKey(name: 'SecurityGroupIds')
+  final List<String> securityGroupIds;
+
+  UpdateClusterRequest({
+    @_s.required this.clusterName,
+    this.description,
+    this.notificationTopicArn,
+    this.notificationTopicStatus,
+    this.parameterGroupName,
+    this.preferredMaintenanceWindow,
+    this.securityGroupIds,
+  });
+  Map<String, dynamic> toJson() => _$UpdateClusterRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateClusterResponse {
@@ -2193,6 +2846,28 @@ class UpdateClusterResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateParameterGroupRequest {
+  /// The name of the parameter group.
+  @_s.JsonKey(name: 'ParameterGroupName')
+  final String parameterGroupName;
+
+  /// An array of name-value pairs for the parameters in the group. Each element
+  /// in the array represents a single parameter.
+  @_s.JsonKey(name: 'ParameterNameValues')
+  final List<ParameterNameValue> parameterNameValues;
+
+  UpdateParameterGroupRequest({
+    @_s.required this.parameterGroupName,
+    @_s.required this.parameterNameValues,
+  });
+  Map<String, dynamic> toJson() => _$UpdateParameterGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateParameterGroupResponse {
@@ -2205,6 +2880,32 @@ class UpdateParameterGroupResponse {
   });
   factory UpdateParameterGroupResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateParameterGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateSubnetGroupRequest {
+  /// The name of the subnet group.
+  @_s.JsonKey(name: 'SubnetGroupName')
+  final String subnetGroupName;
+
+  /// A description of the subnet group.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// A list of subnet IDs in the subnet group.
+  @_s.JsonKey(name: 'SubnetIds')
+  final List<String> subnetIds;
+
+  UpdateSubnetGroupRequest({
+    @_s.required this.subnetGroupName,
+    this.description,
+    this.subnetIds,
+  });
+  Map<String, dynamic> toJson() => _$UpdateSubnetGroupRequestToJson(this);
 }
 
 @_s.JsonSerializable(

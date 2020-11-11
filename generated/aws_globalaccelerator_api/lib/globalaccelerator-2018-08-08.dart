@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -89,9 +88,9 @@ class GlobalAccelerator {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Cidr': cidr,
-      },
+      payload: AdvertiseByoipCidrRequest(
+        cidr: cidr,
+      ),
     );
 
     return AdvertiseByoipCidrResponse.fromJson(jsonResponse.body);
@@ -191,14 +190,14 @@ class GlobalAccelerator {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'IdempotencyToken': idempotencyToken,
-        'Name': name,
-        if (enabled != null) 'Enabled': enabled,
-        if (ipAddressType != null) 'IpAddressType': ipAddressType?.toValue(),
-        if (ipAddresses != null) 'IpAddresses': ipAddresses,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateAcceleratorRequest(
+        idempotencyToken: idempotencyToken,
+        name: name,
+        enabled: enabled,
+        ipAddressType: ipAddressType,
+        ipAddresses: ipAddresses,
+        tags: tags,
+      ),
     );
 
     return CreateAcceleratorResponse.fromJson(jsonResponse.body);
@@ -338,22 +337,18 @@ class GlobalAccelerator {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EndpointGroupRegion': endpointGroupRegion,
-        'IdempotencyToken': idempotencyToken,
-        'ListenerArn': listenerArn,
-        if (endpointConfigurations != null)
-          'EndpointConfigurations': endpointConfigurations,
-        if (healthCheckIntervalSeconds != null)
-          'HealthCheckIntervalSeconds': healthCheckIntervalSeconds,
-        if (healthCheckPath != null) 'HealthCheckPath': healthCheckPath,
-        if (healthCheckPort != null) 'HealthCheckPort': healthCheckPort,
-        if (healthCheckProtocol != null)
-          'HealthCheckProtocol': healthCheckProtocol?.toValue(),
-        if (thresholdCount != null) 'ThresholdCount': thresholdCount,
-        if (trafficDialPercentage != null)
-          'TrafficDialPercentage': trafficDialPercentage,
-      },
+      payload: CreateEndpointGroupRequest(
+        endpointGroupRegion: endpointGroupRegion,
+        idempotencyToken: idempotencyToken,
+        listenerArn: listenerArn,
+        endpointConfigurations: endpointConfigurations,
+        healthCheckIntervalSeconds: healthCheckIntervalSeconds,
+        healthCheckPath: healthCheckPath,
+        healthCheckPort: healthCheckPort,
+        healthCheckProtocol: healthCheckProtocol,
+        thresholdCount: thresholdCount,
+        trafficDialPercentage: trafficDialPercentage,
+      ),
     );
 
     return CreateEndpointGroupResponse.fromJson(jsonResponse.body);
@@ -441,13 +436,13 @@ class GlobalAccelerator {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AcceleratorArn': acceleratorArn,
-        'IdempotencyToken': idempotencyToken,
-        'PortRanges': portRanges,
-        'Protocol': protocol?.toValue(),
-        if (clientAffinity != null) 'ClientAffinity': clientAffinity?.toValue(),
-      },
+      payload: CreateListenerRequest(
+        acceleratorArn: acceleratorArn,
+        idempotencyToken: idempotencyToken,
+        portRanges: portRanges,
+        protocol: protocol,
+        clientAffinity: clientAffinity,
+      ),
     );
 
     return CreateListenerResponse.fromJson(jsonResponse.body);
@@ -505,9 +500,9 @@ class GlobalAccelerator {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AcceleratorArn': acceleratorArn,
-      },
+      payload: DeleteAcceleratorRequest(
+        acceleratorArn: acceleratorArn,
+      ),
     );
   }
 
@@ -540,9 +535,9 @@ class GlobalAccelerator {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EndpointGroupArn': endpointGroupArn,
-      },
+      payload: DeleteEndpointGroupRequest(
+        endpointGroupArn: endpointGroupArn,
+      ),
     );
   }
 
@@ -576,9 +571,9 @@ class GlobalAccelerator {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ListenerArn': listenerArn,
-      },
+      payload: DeleteListenerRequest(
+        listenerArn: listenerArn,
+      ),
     );
   }
 
@@ -628,9 +623,9 @@ class GlobalAccelerator {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Cidr': cidr,
-      },
+      payload: DeprovisionByoipCidrRequest(
+        cidr: cidr,
+      ),
     );
 
     return DeprovisionByoipCidrResponse.fromJson(jsonResponse.body);
@@ -666,9 +661,9 @@ class GlobalAccelerator {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AcceleratorArn': acceleratorArn,
-      },
+      payload: DescribeAcceleratorRequest(
+        acceleratorArn: acceleratorArn,
+      ),
     );
 
     return DescribeAcceleratorResponse.fromJson(jsonResponse.body);
@@ -707,9 +702,9 @@ class GlobalAccelerator {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AcceleratorArn': acceleratorArn,
-      },
+      payload: DescribeAcceleratorAttributesRequest(
+        acceleratorArn: acceleratorArn,
+      ),
     );
 
     return DescribeAcceleratorAttributesResponse.fromJson(jsonResponse.body);
@@ -745,9 +740,9 @@ class GlobalAccelerator {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EndpointGroupArn': endpointGroupArn,
-      },
+      payload: DescribeEndpointGroupRequest(
+        endpointGroupArn: endpointGroupArn,
+      ),
     );
 
     return DescribeEndpointGroupResponse.fromJson(jsonResponse.body);
@@ -783,9 +778,9 @@ class GlobalAccelerator {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ListenerArn': listenerArn,
-      },
+      payload: DescribeListenerRequest(
+        listenerArn: listenerArn,
+      ),
     );
 
     return DescribeListenerResponse.fromJson(jsonResponse.body);
@@ -832,10 +827,10 @@ class GlobalAccelerator {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListAcceleratorsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListAcceleratorsResponse.fromJson(jsonResponse.body);
@@ -886,10 +881,10 @@ class GlobalAccelerator {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListByoipCidrsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListByoipCidrsResponse.fromJson(jsonResponse.body);
@@ -949,11 +944,11 @@ class GlobalAccelerator {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ListenerArn': listenerArn,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListEndpointGroupsRequest(
+        listenerArn: listenerArn,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListEndpointGroupsResponse.fromJson(jsonResponse.body);
@@ -1013,11 +1008,11 @@ class GlobalAccelerator {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AcceleratorArn': acceleratorArn,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListListenersRequest(
+        acceleratorArn: acceleratorArn,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListListenersResponse.fromJson(jsonResponse.body);
@@ -1059,9 +1054,9 @@ class GlobalAccelerator {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-      },
+      payload: ListTagsForResourceRequest(
+        resourceArn: resourceArn,
+      ),
     );
 
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
@@ -1120,10 +1115,10 @@ class GlobalAccelerator {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Cidr': cidr,
-        'CidrAuthorizationContext': cidrAuthorizationContext,
-      },
+      payload: ProvisionByoipCidrRequest(
+        cidr: cidr,
+        cidrAuthorizationContext: cidrAuthorizationContext,
+      ),
     );
 
     return ProvisionByoipCidrResponse.fromJson(jsonResponse.body);
@@ -1171,10 +1166,10 @@ class GlobalAccelerator {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        'Tags': tags,
-      },
+      payload: TagResourceRequest(
+        resourceArn: resourceArn,
+        tags: tags,
+      ),
     );
 
     return TagResourceResponse.fromJson(jsonResponse.body);
@@ -1224,10 +1219,10 @@ class GlobalAccelerator {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        'TagKeys': tagKeys,
-      },
+      payload: UntagResourceRequest(
+        resourceArn: resourceArn,
+        tagKeys: tagKeys,
+      ),
     );
 
     return UntagResourceResponse.fromJson(jsonResponse.body);
@@ -1291,12 +1286,12 @@ class GlobalAccelerator {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AcceleratorArn': acceleratorArn,
-        if (enabled != null) 'Enabled': enabled,
-        if (ipAddressType != null) 'IpAddressType': ipAddressType?.toValue(),
-        if (name != null) 'Name': name,
-      },
+      payload: UpdateAcceleratorRequest(
+        acceleratorArn: acceleratorArn,
+        enabled: enabled,
+        ipAddressType: ipAddressType,
+        name: name,
+      ),
     );
 
     return UpdateAcceleratorResponse.fromJson(jsonResponse.body);
@@ -1376,12 +1371,12 @@ class GlobalAccelerator {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AcceleratorArn': acceleratorArn,
-        if (flowLogsEnabled != null) 'FlowLogsEnabled': flowLogsEnabled,
-        if (flowLogsS3Bucket != null) 'FlowLogsS3Bucket': flowLogsS3Bucket,
-        if (flowLogsS3Prefix != null) 'FlowLogsS3Prefix': flowLogsS3Prefix,
-      },
+      payload: UpdateAcceleratorAttributesRequest(
+        acceleratorArn: acceleratorArn,
+        flowLogsEnabled: flowLogsEnabled,
+        flowLogsS3Bucket: flowLogsS3Bucket,
+        flowLogsS3Prefix: flowLogsS3Prefix,
+      ),
     );
 
     return UpdateAcceleratorAttributesResponse.fromJson(jsonResponse.body);
@@ -1492,20 +1487,16 @@ class GlobalAccelerator {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EndpointGroupArn': endpointGroupArn,
-        if (endpointConfigurations != null)
-          'EndpointConfigurations': endpointConfigurations,
-        if (healthCheckIntervalSeconds != null)
-          'HealthCheckIntervalSeconds': healthCheckIntervalSeconds,
-        if (healthCheckPath != null) 'HealthCheckPath': healthCheckPath,
-        if (healthCheckPort != null) 'HealthCheckPort': healthCheckPort,
-        if (healthCheckProtocol != null)
-          'HealthCheckProtocol': healthCheckProtocol?.toValue(),
-        if (thresholdCount != null) 'ThresholdCount': thresholdCount,
-        if (trafficDialPercentage != null)
-          'TrafficDialPercentage': trafficDialPercentage,
-      },
+      payload: UpdateEndpointGroupRequest(
+        endpointGroupArn: endpointGroupArn,
+        endpointConfigurations: endpointConfigurations,
+        healthCheckIntervalSeconds: healthCheckIntervalSeconds,
+        healthCheckPath: healthCheckPath,
+        healthCheckPort: healthCheckPort,
+        healthCheckProtocol: healthCheckProtocol,
+        thresholdCount: thresholdCount,
+        trafficDialPercentage: trafficDialPercentage,
+      ),
     );
 
     return UpdateEndpointGroupResponse.fromJson(jsonResponse.body);
@@ -1576,12 +1567,12 @@ class GlobalAccelerator {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ListenerArn': listenerArn,
-        if (clientAffinity != null) 'ClientAffinity': clientAffinity?.toValue(),
-        if (portRanges != null) 'PortRanges': portRanges,
-        if (protocol != null) 'Protocol': protocol?.toValue(),
-      },
+      payload: UpdateListenerRequest(
+        listenerArn: listenerArn,
+        clientAffinity: clientAffinity,
+        portRanges: portRanges,
+        protocol: protocol,
+      ),
     );
 
     return UpdateListenerResponse.fromJson(jsonResponse.body);
@@ -1630,9 +1621,9 @@ class GlobalAccelerator {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Cidr': cidr,
-      },
+      payload: WithdrawByoipCidrRequest(
+        cidr: cidr,
+      ),
     );
 
     return WithdrawByoipCidrResponse.fromJson(jsonResponse.body);
@@ -1772,6 +1763,23 @@ enum AcceleratorStatus {
   deployed,
   @_s.JsonValue('IN_PROGRESS')
   inProgress,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AdvertiseByoipCidrRequest {
+  /// The address range, in CIDR notation. This must be the exact range that you
+  /// provisioned. You can't advertise only a portion of the provisioned range.
+  @_s.JsonKey(name: 'Cidr')
+  final String cidr;
+
+  AdvertiseByoipCidrRequest({
+    @_s.required this.cidr,
+  });
+  Map<String, dynamic> toJson() => _$AdvertiseByoipCidrRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1973,16 +1981,69 @@ enum ClientAffinity {
   sourceIp,
 }
 
-extension on ClientAffinity {
-  String toValue() {
-    switch (this) {
-      case ClientAffinity.none:
-        return 'NONE';
-      case ClientAffinity.sourceIp:
-        return 'SOURCE_IP';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateAcceleratorRequest {
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency—that is, the uniqueness—of an accelerator.
+  @_s.JsonKey(name: 'IdempotencyToken')
+  final String idempotencyToken;
+
+  /// The name of an accelerator. The name can have a maximum of 32 characters,
+  /// must contain only alphanumeric characters or hyphens (-), and must not begin
+  /// or end with a hyphen.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Indicates whether an accelerator is enabled. The value is true or false. The
+  /// default value is true.
+  ///
+  /// If the value is set to true, an accelerator cannot be deleted. If set to
+  /// false, the accelerator can be deleted.
+  @_s.JsonKey(name: 'Enabled')
+  final bool enabled;
+
+  /// The value for the address type must be IPv4.
+  @_s.JsonKey(name: 'IpAddressType')
+  final IpAddressType ipAddressType;
+
+  /// Optionally, if you've added your own IP address pool to Global Accelerator,
+  /// you can choose IP addresses from your own pool to use for the accelerator's
+  /// static IP addresses. You can specify one or two addresses, separated by a
+  /// comma. Do not include the /32 suffix.
+  ///
+  /// If you specify only one IP address from your IP address range, Global
+  /// Accelerator assigns a second static IP address for the accelerator from the
+  /// AWS IP address pool.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html">Bring
+  /// Your Own IP Addresses (BYOIP)</a> in the <i>AWS Global Accelerator Developer
+  /// Guide</i>.
+  @_s.JsonKey(name: 'IpAddresses')
+  final List<String> ipAddresses;
+
+  /// Create tags for an accelerator.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/tagging-in-global-accelerator.html">Tagging
+  /// in AWS Global Accelerator</a> in the <i>AWS Global Accelerator Developer
+  /// Guide</i>.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateAcceleratorRequest({
+    @_s.required this.idempotencyToken,
+    @_s.required this.name,
+    this.enabled,
+    this.ipAddressType,
+    this.ipAddresses,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateAcceleratorRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2006,6 +2067,84 @@ class CreateAcceleratorResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateEndpointGroupRequest {
+  /// The name of the AWS Region where the endpoint group is located. A listener
+  /// can have only one endpoint group in a specific Region.
+  @_s.JsonKey(name: 'EndpointGroupRegion')
+  final String endpointGroupRegion;
+
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency—that is, the uniqueness—of the request.
+  @_s.JsonKey(name: 'IdempotencyToken')
+  final String idempotencyToken;
+
+  /// The Amazon Resource Name (ARN) of the listener.
+  @_s.JsonKey(name: 'ListenerArn')
+  final String listenerArn;
+
+  /// The list of endpoint objects.
+  @_s.JsonKey(name: 'EndpointConfigurations')
+  final List<EndpointConfiguration> endpointConfigurations;
+
+  /// The time—10 seconds or 30 seconds—between each health check for an endpoint.
+  /// The default value is 30.
+  @_s.JsonKey(name: 'HealthCheckIntervalSeconds')
+  final int healthCheckIntervalSeconds;
+
+  /// If the protocol is HTTP/S, then this specifies the path that is the
+  /// destination for health check targets. The default value is slash (/).
+  @_s.JsonKey(name: 'HealthCheckPath')
+  final String healthCheckPath;
+
+  /// The port that AWS Global Accelerator uses to check the health of endpoints
+  /// that are part of this endpoint group. The default port is the listener port
+  /// that this endpoint group is associated with. If listener port is a list of
+  /// ports, Global Accelerator uses the first port in the list.
+  @_s.JsonKey(name: 'HealthCheckPort')
+  final int healthCheckPort;
+
+  /// The protocol that AWS Global Accelerator uses to check the health of
+  /// endpoints that are part of this endpoint group. The default value is TCP.
+  @_s.JsonKey(name: 'HealthCheckProtocol')
+  final HealthCheckProtocol healthCheckProtocol;
+
+  /// The number of consecutive health checks required to set the state of a
+  /// healthy endpoint to unhealthy, or to set an unhealthy endpoint to healthy.
+  /// The default value is 3.
+  @_s.JsonKey(name: 'ThresholdCount')
+  final int thresholdCount;
+
+  /// The percentage of traffic to send to an AWS Region. Additional traffic is
+  /// distributed to other endpoint groups for this listener.
+  ///
+  /// Use this action to increase (dial up) or decrease (dial down) traffic to a
+  /// specific Region. The percentage is applied to the traffic that would
+  /// otherwise have been routed to the Region based on optimal routing.
+  ///
+  /// The default value is 100.
+  @_s.JsonKey(name: 'TrafficDialPercentage')
+  final double trafficDialPercentage;
+
+  CreateEndpointGroupRequest({
+    @_s.required this.endpointGroupRegion,
+    @_s.required this.idempotencyToken,
+    @_s.required this.listenerArn,
+    this.endpointConfigurations,
+    this.healthCheckIntervalSeconds,
+    this.healthCheckPath,
+    this.healthCheckPort,
+    this.healthCheckProtocol,
+    this.thresholdCount,
+    this.trafficDialPercentage,
+  });
+  Map<String, dynamic> toJson() => _$CreateEndpointGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateEndpointGroupResponse {
@@ -2018,6 +2157,64 @@ class CreateEndpointGroupResponse {
   });
   factory CreateEndpointGroupResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateEndpointGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateListenerRequest {
+  /// The Amazon Resource Name (ARN) of your accelerator.
+  @_s.JsonKey(name: 'AcceleratorArn')
+  final String acceleratorArn;
+
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency—that is, the uniqueness—of the request.
+  @_s.JsonKey(name: 'IdempotencyToken')
+  final String idempotencyToken;
+
+  /// The list of port ranges to support for connections from clients to your
+  /// accelerator.
+  @_s.JsonKey(name: 'PortRanges')
+  final List<PortRange> portRanges;
+
+  /// The protocol for connections from clients to your accelerator.
+  @_s.JsonKey(name: 'Protocol')
+  final Protocol protocol;
+
+  /// Client affinity lets you direct all requests from a user to the same
+  /// endpoint, if you have stateful applications, regardless of the port and
+  /// protocol of the client request. Clienty affinity gives you control over
+  /// whether to always route each client to the same specific endpoint.
+  ///
+  /// AWS Global Accelerator uses a consistent-flow hashing algorithm to choose
+  /// the optimal endpoint for a connection. If client affinity is
+  /// <code>NONE</code>, Global Accelerator uses the "five-tuple" (5-tuple)
+  /// properties—source IP address, source port, destination IP address,
+  /// destination port, and protocol—to select the hash value, and then chooses
+  /// the best endpoint. However, with this setting, if someone uses different
+  /// ports to connect to Global Accelerator, their connections might not be
+  /// always routed to the same endpoint because the hash value changes.
+  ///
+  /// If you want a given client to always be routed to the same endpoint, set
+  /// client affinity to <code>SOURCE_IP</code> instead. When you use the
+  /// <code>SOURCE_IP</code> setting, Global Accelerator uses the "two-tuple"
+  /// (2-tuple) properties— source (client) IP address and destination IP
+  /// address—to select the hash value.
+  ///
+  /// The default value is <code>NONE</code>.
+  @_s.JsonKey(name: 'ClientAffinity')
+  final ClientAffinity clientAffinity;
+
+  CreateListenerRequest({
+    @_s.required this.acceleratorArn,
+    @_s.required this.idempotencyToken,
+    @_s.required this.portRanges,
+    @_s.required this.protocol,
+    this.clientAffinity,
+  });
+  Map<String, dynamic> toJson() => _$CreateListenerRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2040,6 +2237,71 @@ class CreateListenerResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteAcceleratorRequest {
+  /// The Amazon Resource Name (ARN) of an accelerator.
+  @_s.JsonKey(name: 'AcceleratorArn')
+  final String acceleratorArn;
+
+  DeleteAcceleratorRequest({
+    @_s.required this.acceleratorArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteAcceleratorRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteEndpointGroupRequest {
+  /// The Amazon Resource Name (ARN) of the endpoint group to delete.
+  @_s.JsonKey(name: 'EndpointGroupArn')
+  final String endpointGroupArn;
+
+  DeleteEndpointGroupRequest({
+    @_s.required this.endpointGroupArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteEndpointGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteListenerRequest {
+  /// The Amazon Resource Name (ARN) of the listener.
+  @_s.JsonKey(name: 'ListenerArn')
+  final String listenerArn;
+
+  DeleteListenerRequest({
+    @_s.required this.listenerArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteListenerRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeprovisionByoipCidrRequest {
+  /// The address range, in CIDR notation. The prefix must be the same prefix that
+  /// you specified when you provisioned the address range.
+  @_s.JsonKey(name: 'Cidr')
+  final String cidr;
+
+  DeprovisionByoipCidrRequest({
+    @_s.required this.cidr,
+  });
+  Map<String, dynamic> toJson() => _$DeprovisionByoipCidrRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeprovisionByoipCidrResponse {
@@ -2052,6 +2314,24 @@ class DeprovisionByoipCidrResponse {
   });
   factory DeprovisionByoipCidrResponse.fromJson(Map<String, dynamic> json) =>
       _$DeprovisionByoipCidrResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeAcceleratorAttributesRequest {
+  /// The Amazon Resource Name (ARN) of the accelerator with the attributes that
+  /// you want to describe.
+  @_s.JsonKey(name: 'AcceleratorArn')
+  final String acceleratorArn;
+
+  DescribeAcceleratorAttributesRequest({
+    @_s.required this.acceleratorArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeAcceleratorAttributesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2075,6 +2355,22 @@ class DescribeAcceleratorAttributesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeAcceleratorRequest {
+  /// The Amazon Resource Name (ARN) of the accelerator to describe.
+  @_s.JsonKey(name: 'AcceleratorArn')
+  final String acceleratorArn;
+
+  DescribeAcceleratorRequest({
+    @_s.required this.acceleratorArn,
+  });
+  Map<String, dynamic> toJson() => _$DescribeAcceleratorRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeAcceleratorResponse {
@@ -2092,6 +2388,22 @@ class DescribeAcceleratorResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeEndpointGroupRequest {
+  /// The Amazon Resource Name (ARN) of the endpoint group to describe.
+  @_s.JsonKey(name: 'EndpointGroupArn')
+  final String endpointGroupArn;
+
+  DescribeEndpointGroupRequest({
+    @_s.required this.endpointGroupArn,
+  });
+  Map<String, dynamic> toJson() => _$DescribeEndpointGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeEndpointGroupResponse {
@@ -2104,6 +2416,22 @@ class DescribeEndpointGroupResponse {
   });
   factory DescribeEndpointGroupResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeEndpointGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeListenerRequest {
+  /// The Amazon Resource Name (ARN) of the listener to describe.
+  @_s.JsonKey(name: 'ListenerArn')
+  final String listenerArn;
+
+  DescribeListenerRequest({
+    @_s.required this.listenerArn,
+  });
+  Map<String, dynamic> toJson() => _$DescribeListenerRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2354,20 +2682,6 @@ enum HealthCheckProtocol {
   https,
 }
 
-extension on HealthCheckProtocol {
-  String toValue() {
-    switch (this) {
-      case HealthCheckProtocol.tcp:
-        return 'TCP';
-      case HealthCheckProtocol.http:
-        return 'HTTP';
-      case HealthCheckProtocol.https:
-        return 'HTTPS';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum HealthState {
   @_s.JsonValue('INITIAL')
   initial,
@@ -2380,16 +2694,6 @@ enum HealthState {
 enum IpAddressType {
   @_s.JsonValue('IPV4')
   ipv4,
-}
-
-extension on IpAddressType {
-  String toValue() {
-    switch (this) {
-      case IpAddressType.ipv4:
-        return 'IPV4';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// A complex type for the set of IP addresses for an accelerator.
@@ -2418,6 +2722,29 @@ class IpSet {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListAcceleratorsRequest {
+  /// The number of Global Accelerator objects that you want to return with this
+  /// call. The default value is 10.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of results. You receive this token from a
+  /// previous call.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListAcceleratorsRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListAcceleratorsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListAcceleratorsResponse {
@@ -2441,6 +2768,29 @@ class ListAcceleratorsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListByoipCidrsRequest {
+  /// The maximum number of results to return with a single call. To retrieve the
+  /// remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next page of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListByoipCidrsRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListByoipCidrsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListByoipCidrsResponse {
@@ -2458,6 +2808,34 @@ class ListByoipCidrsResponse {
   });
   factory ListByoipCidrsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListByoipCidrsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListEndpointGroupsRequest {
+  /// The Amazon Resource Name (ARN) of the listener.
+  @_s.JsonKey(name: 'ListenerArn')
+  final String listenerArn;
+
+  /// The number of endpoint group objects that you want to return with this call.
+  /// The default value is 10.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of results. You receive this token from a
+  /// previous call.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListEndpointGroupsRequest({
+    @_s.required this.listenerArn,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListEndpointGroupsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2486,6 +2864,35 @@ class ListEndpointGroupsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListListenersRequest {
+  /// The Amazon Resource Name (ARN) of the accelerator for which you want to list
+  /// listener objects.
+  @_s.JsonKey(name: 'AcceleratorArn')
+  final String acceleratorArn;
+
+  /// The number of listener objects that you want to return with this call. The
+  /// default value is 10.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of results. You receive this token from a
+  /// previous call.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListListenersRequest({
+    @_s.required this.acceleratorArn,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListListenersRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListListenersResponse {
@@ -2504,6 +2911,23 @@ class ListListenersResponse {
   });
   factory ListListenersResponse.fromJson(Map<String, dynamic> json) =>
       _$ListListenersResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceRequest {
+  /// The Amazon Resource Name (ARN) of the accelerator to list tags for. An ARN
+  /// uniquely identifies an accelerator.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  ListTagsForResourceRequest({
+    @_s.required this.resourceArn,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2608,16 +3032,28 @@ enum Protocol {
   udp,
 }
 
-extension on Protocol {
-  String toValue() {
-    switch (this) {
-      case Protocol.tcp:
-        return 'TCP';
-      case Protocol.udp:
-        return 'UDP';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ProvisionByoipCidrRequest {
+  /// The public IPv4 address range, in CIDR notation. The most specific IP prefix
+  /// that you can specify is /24. The address range cannot overlap with another
+  /// address range that you've brought to this or another Region.
+  @_s.JsonKey(name: 'Cidr')
+  final String cidr;
+
+  /// A signed document that proves that you are authorized to bring the specified
+  /// IP address range to Amazon using BYOIP.
+  @_s.JsonKey(name: 'CidrAuthorizationContext')
+  final CidrAuthorizationContext cidrAuthorizationContext;
+
+  ProvisionByoipCidrRequest({
+    @_s.required this.cidr,
+    @_s.required this.cidrAuthorizationContext,
+  });
+  Map<String, dynamic> toJson() => _$ProvisionByoipCidrRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2665,6 +3101,29 @@ class Tag {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the Global Accelerator resource to add
+  /// tags to. An ARN uniquely identifies a resource.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// The tags to add to a resource. A tag consists of a key and a value that you
+  /// define.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagResourceResponse {
@@ -2676,12 +3135,84 @@ class TagResourceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the Global Accelerator resource to remove
+  /// tags from. An ARN uniquely identifies a resource.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// The tag key pairs that you want to remove from the specified resources.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
   factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateAcceleratorAttributesRequest {
+  /// The Amazon Resource Name (ARN) of the accelerator that you want to update.
+  @_s.JsonKey(name: 'AcceleratorArn')
+  final String acceleratorArn;
+
+  /// Update whether flow logs are enabled. The default value is false. If the
+  /// value is true, <code>FlowLogsS3Bucket</code> and
+  /// <code>FlowLogsS3Prefix</code> must be specified.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/monitoring-global-accelerator.flow-logs.html">Flow
+  /// Logs</a> in the <i>AWS Global Accelerator Developer Guide</i>.
+  @_s.JsonKey(name: 'FlowLogsEnabled')
+  final bool flowLogsEnabled;
+
+  /// The name of the Amazon S3 bucket for the flow logs. Attribute is required if
+  /// <code>FlowLogsEnabled</code> is <code>true</code>. The bucket must exist and
+  /// have a bucket policy that grants AWS Global Accelerator permission to write
+  /// to the bucket.
+  @_s.JsonKey(name: 'FlowLogsS3Bucket')
+  final String flowLogsS3Bucket;
+
+  /// Update the prefix for the location in the Amazon S3 bucket for the flow
+  /// logs. Attribute is required if <code>FlowLogsEnabled</code> is
+  /// <code>true</code>.
+  ///
+  /// If you don’t specify a prefix, the flow logs are stored in the root of the
+  /// bucket. If you specify slash (/) for the S3 bucket prefix, the log file
+  /// bucket folder structure will include a double slash (//), like the
+  /// following:
+  ///
+  /// s3-bucket_name//AWSLogs/aws_account_id
+  @_s.JsonKey(name: 'FlowLogsS3Prefix')
+  final String flowLogsS3Prefix;
+
+  UpdateAcceleratorAttributesRequest({
+    @_s.required this.acceleratorArn,
+    this.flowLogsEnabled,
+    this.flowLogsS3Bucket,
+    this.flowLogsS3Prefix,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateAcceleratorAttributesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2705,6 +3236,43 @@ class UpdateAcceleratorAttributesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateAcceleratorRequest {
+  /// The Amazon Resource Name (ARN) of the accelerator to update.
+  @_s.JsonKey(name: 'AcceleratorArn')
+  final String acceleratorArn;
+
+  /// Indicates whether an accelerator is enabled. The value is true or false. The
+  /// default value is true.
+  ///
+  /// If the value is set to true, the accelerator cannot be deleted. If set to
+  /// false, the accelerator can be deleted.
+  @_s.JsonKey(name: 'Enabled')
+  final bool enabled;
+
+  /// The value for the address type must be IPv4.
+  @_s.JsonKey(name: 'IpAddressType')
+  final IpAddressType ipAddressType;
+
+  /// The name of the accelerator. The name can have a maximum of 32 characters,
+  /// must contain only alphanumeric characters or hyphens (-), and must not begin
+  /// or end with a hyphen.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  UpdateAcceleratorRequest({
+    @_s.required this.acceleratorArn,
+    this.enabled,
+    this.ipAddressType,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$UpdateAcceleratorRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateAcceleratorResponse {
@@ -2717,6 +3285,72 @@ class UpdateAcceleratorResponse {
   });
   factory UpdateAcceleratorResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateAcceleratorResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateEndpointGroupRequest {
+  /// The Amazon Resource Name (ARN) of the endpoint group.
+  @_s.JsonKey(name: 'EndpointGroupArn')
+  final String endpointGroupArn;
+
+  /// The list of endpoint objects.
+  @_s.JsonKey(name: 'EndpointConfigurations')
+  final List<EndpointConfiguration> endpointConfigurations;
+
+  /// The time—10 seconds or 30 seconds—between each health check for an endpoint.
+  /// The default value is 30.
+  @_s.JsonKey(name: 'HealthCheckIntervalSeconds')
+  final int healthCheckIntervalSeconds;
+
+  /// If the protocol is HTTP/S, then this specifies the path that is the
+  /// destination for health check targets. The default value is slash (/).
+  @_s.JsonKey(name: 'HealthCheckPath')
+  final String healthCheckPath;
+
+  /// The port that AWS Global Accelerator uses to check the health of endpoints
+  /// that are part of this endpoint group. The default port is the listener port
+  /// that this endpoint group is associated with. If the listener port is a list
+  /// of ports, Global Accelerator uses the first port in the list.
+  @_s.JsonKey(name: 'HealthCheckPort')
+  final int healthCheckPort;
+
+  /// The protocol that AWS Global Accelerator uses to check the health of
+  /// endpoints that are part of this endpoint group. The default value is TCP.
+  @_s.JsonKey(name: 'HealthCheckProtocol')
+  final HealthCheckProtocol healthCheckProtocol;
+
+  /// The number of consecutive health checks required to set the state of a
+  /// healthy endpoint to unhealthy, or to set an unhealthy endpoint to healthy.
+  /// The default value is 3.
+  @_s.JsonKey(name: 'ThresholdCount')
+  final int thresholdCount;
+
+  /// The percentage of traffic to send to an AWS Region. Additional traffic is
+  /// distributed to other endpoint groups for this listener.
+  ///
+  /// Use this action to increase (dial up) or decrease (dial down) traffic to a
+  /// specific Region. The percentage is applied to the traffic that would
+  /// otherwise have been routed to the Region based on optimal routing.
+  ///
+  /// The default value is 100.
+  @_s.JsonKey(name: 'TrafficDialPercentage')
+  final double trafficDialPercentage;
+
+  UpdateEndpointGroupRequest({
+    @_s.required this.endpointGroupArn,
+    this.endpointConfigurations,
+    this.healthCheckIntervalSeconds,
+    this.healthCheckPath,
+    this.healthCheckPort,
+    this.healthCheckProtocol,
+    this.thresholdCount,
+    this.trafficDialPercentage,
+  });
+  Map<String, dynamic> toJson() => _$UpdateEndpointGroupRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2739,6 +3373,58 @@ class UpdateEndpointGroupResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateListenerRequest {
+  /// The Amazon Resource Name (ARN) of the listener to update.
+  @_s.JsonKey(name: 'ListenerArn')
+  final String listenerArn;
+
+  /// Client affinity lets you direct all requests from a user to the same
+  /// endpoint, if you have stateful applications, regardless of the port and
+  /// protocol of the client request. Clienty affinity gives you control over
+  /// whether to always route each client to the same specific endpoint.
+  ///
+  /// AWS Global Accelerator uses a consistent-flow hashing algorithm to choose
+  /// the optimal endpoint for a connection. If client affinity is
+  /// <code>NONE</code>, Global Accelerator uses the "five-tuple" (5-tuple)
+  /// properties—source IP address, source port, destination IP address,
+  /// destination port, and protocol—to select the hash value, and then chooses
+  /// the best endpoint. However, with this setting, if someone uses different
+  /// ports to connect to Global Accelerator, their connections might not be
+  /// always routed to the same endpoint because the hash value changes.
+  ///
+  /// If you want a given client to always be routed to the same endpoint, set
+  /// client affinity to <code>SOURCE_IP</code> instead. When you use the
+  /// <code>SOURCE_IP</code> setting, Global Accelerator uses the "two-tuple"
+  /// (2-tuple) properties— source (client) IP address and destination IP
+  /// address—to select the hash value.
+  ///
+  /// The default value is <code>NONE</code>.
+  @_s.JsonKey(name: 'ClientAffinity')
+  final ClientAffinity clientAffinity;
+
+  /// The updated list of port ranges for the connections from clients to the
+  /// accelerator.
+  @_s.JsonKey(name: 'PortRanges')
+  final List<PortRange> portRanges;
+
+  /// The updated protocol for the connections from clients to the accelerator.
+  @_s.JsonKey(name: 'Protocol')
+  final Protocol protocol;
+
+  UpdateListenerRequest({
+    @_s.required this.listenerArn,
+    this.clientAffinity,
+    this.portRanges,
+    this.protocol,
+  });
+  Map<String, dynamic> toJson() => _$UpdateListenerRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateListenerResponse {
@@ -2751,6 +3437,22 @@ class UpdateListenerResponse {
   });
   factory UpdateListenerResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateListenerResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class WithdrawByoipCidrRequest {
+  /// The address range, in CIDR notation.
+  @_s.JsonKey(name: 'Cidr')
+  final String cidr;
+
+  WithdrawByoipCidrRequest({
+    @_s.required this.cidr,
+  });
+  Map<String, dynamic> toJson() => _$WithdrawByoipCidrRequestToJson(this);
 }
 
 @_s.JsonSerializable(

@@ -600,6 +600,23 @@ Map<String, dynamic> _$ContainerStateChangeToJson(
   return val;
 }
 
+Map<String, dynamic> _$CreateCapacityProviderRequestToJson(
+    CreateCapacityProviderRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'autoScalingGroupProvider', instance.autoScalingGroupProvider?.toJson());
+  writeNotNull('name', instance.name);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateCapacityProviderResponse _$CreateCapacityProviderResponseFromJson(
     Map<String, dynamic> json) {
   return CreateCapacityProviderResponse(
@@ -608,6 +625,29 @@ CreateCapacityProviderResponse _$CreateCapacityProviderResponseFromJson(
         : CapacityProvider.fromJson(
             json['capacityProvider'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateClusterRequestToJson(
+    CreateClusterRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('capacityProviders', instance.capacityProviders);
+  writeNotNull('clusterName', instance.clusterName);
+  writeNotNull(
+      'defaultCapacityProviderStrategy',
+      instance.defaultCapacityProviderStrategy
+          ?.map((e) => e?.toJson())
+          ?.toList());
+  writeNotNull(
+      'settings', instance.settings?.map((e) => e?.toJson())?.toList());
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateClusterResponse _$CreateClusterResponseFromJson(
@@ -619,6 +659,63 @@ CreateClusterResponse _$CreateClusterResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateServiceRequestToJson(
+    CreateServiceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('serviceName', instance.serviceName);
+  writeNotNull('capacityProviderStrategy',
+      instance.capacityProviderStrategy?.map((e) => e?.toJson())?.toList());
+  writeNotNull('clientToken', instance.clientToken);
+  writeNotNull('cluster', instance.cluster);
+  writeNotNull(
+      'deploymentConfiguration', instance.deploymentConfiguration?.toJson());
+  writeNotNull('deploymentController', instance.deploymentController?.toJson());
+  writeNotNull('desiredCount', instance.desiredCount);
+  writeNotNull('enableECSManagedTags', instance.enableECSManagedTags);
+  writeNotNull(
+      'healthCheckGracePeriodSeconds', instance.healthCheckGracePeriodSeconds);
+  writeNotNull('launchType', _$LaunchTypeEnumMap[instance.launchType]);
+  writeNotNull('loadBalancers',
+      instance.loadBalancers?.map((e) => e?.toJson())?.toList());
+  writeNotNull('networkConfiguration', instance.networkConfiguration?.toJson());
+  writeNotNull('placementConstraints',
+      instance.placementConstraints?.map((e) => e?.toJson())?.toList());
+  writeNotNull('placementStrategy',
+      instance.placementStrategy?.map((e) => e?.toJson())?.toList());
+  writeNotNull('platformVersion', instance.platformVersion);
+  writeNotNull('propagateTags', _$PropagateTagsEnumMap[instance.propagateTags]);
+  writeNotNull('role', instance.role);
+  writeNotNull('schedulingStrategy',
+      _$SchedulingStrategyEnumMap[instance.schedulingStrategy]);
+  writeNotNull('serviceRegistries',
+      instance.serviceRegistries?.map((e) => e?.toJson())?.toList());
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('taskDefinition', instance.taskDefinition);
+  return val;
+}
+
+const _$LaunchTypeEnumMap = {
+  LaunchType.ec2: 'EC2',
+  LaunchType.fargate: 'FARGATE',
+};
+
+const _$PropagateTagsEnumMap = {
+  PropagateTags.taskDefinition: 'TASK_DEFINITION',
+  PropagateTags.service: 'SERVICE',
+};
+
+const _$SchedulingStrategyEnumMap = {
+  SchedulingStrategy.replica: 'REPLICA',
+  SchedulingStrategy.daemon: 'DAEMON',
+};
+
 CreateServiceResponse _$CreateServiceResponseFromJson(
     Map<String, dynamic> json) {
   return CreateServiceResponse(
@@ -626,6 +723,35 @@ CreateServiceResponse _$CreateServiceResponseFromJson(
         ? null
         : Service.fromJson(json['service'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateTaskSetRequestToJson(
+    CreateTaskSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('cluster', instance.cluster);
+  writeNotNull('service', instance.service);
+  writeNotNull('taskDefinition', instance.taskDefinition);
+  writeNotNull('capacityProviderStrategy',
+      instance.capacityProviderStrategy?.map((e) => e?.toJson())?.toList());
+  writeNotNull('clientToken', instance.clientToken);
+  writeNotNull('externalId', instance.externalId);
+  writeNotNull('launchType', _$LaunchTypeEnumMap[instance.launchType]);
+  writeNotNull('loadBalancers',
+      instance.loadBalancers?.map((e) => e?.toJson())?.toList());
+  writeNotNull('networkConfiguration', instance.networkConfiguration?.toJson());
+  writeNotNull('platformVersion', instance.platformVersion);
+  writeNotNull('scale', instance.scale?.toJson());
+  writeNotNull('serviceRegistries',
+      instance.serviceRegistries?.map((e) => e?.toJson())?.toList());
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateTaskSetResponse _$CreateTaskSetResponseFromJson(
@@ -637,6 +763,29 @@ CreateTaskSetResponse _$CreateTaskSetResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteAccountSettingRequestToJson(
+    DeleteAccountSettingRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', _$SettingNameEnumMap[instance.name]);
+  writeNotNull('principalArn', instance.principalArn);
+  return val;
+}
+
+const _$SettingNameEnumMap = {
+  SettingName.serviceLongArnFormat: 'serviceLongArnFormat',
+  SettingName.taskLongArnFormat: 'taskLongArnFormat',
+  SettingName.containerInstanceLongArnFormat: 'containerInstanceLongArnFormat',
+  SettingName.awsvpcTrunking: 'awsvpcTrunking',
+  SettingName.containerInsights: 'containerInsights',
+};
+
 DeleteAccountSettingResponse _$DeleteAccountSettingResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteAccountSettingResponse(
@@ -644,6 +793,22 @@ DeleteAccountSettingResponse _$DeleteAccountSettingResponseFromJson(
         ? null
         : Setting.fromJson(json['setting'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DeleteAttributesRequestToJson(
+    DeleteAttributesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'attributes', instance.attributes?.map((e) => e?.toJson())?.toList());
+  writeNotNull('cluster', instance.cluster);
+  return val;
 }
 
 DeleteAttributesResponse _$DeleteAttributesResponseFromJson(
@@ -656,6 +821,20 @@ DeleteAttributesResponse _$DeleteAttributesResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteClusterRequestToJson(
+    DeleteClusterRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('cluster', instance.cluster);
+  return val;
+}
+
 DeleteClusterResponse _$DeleteClusterResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteClusterResponse(
@@ -665,6 +844,22 @@ DeleteClusterResponse _$DeleteClusterResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteServiceRequestToJson(
+    DeleteServiceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('service', instance.service);
+  writeNotNull('cluster', instance.cluster);
+  writeNotNull('force', instance.force);
+  return val;
+}
+
 DeleteServiceResponse _$DeleteServiceResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteServiceResponse(
@@ -672,6 +867,23 @@ DeleteServiceResponse _$DeleteServiceResponseFromJson(
         ? null
         : Service.fromJson(json['service'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DeleteTaskSetRequestToJson(
+    DeleteTaskSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('cluster', instance.cluster);
+  writeNotNull('service', instance.service);
+  writeNotNull('taskSet', instance.taskSet);
+  writeNotNull('force', instance.force);
+  return val;
 }
 
 DeleteTaskSetResponse _$DeleteTaskSetResponseFromJson(
@@ -706,11 +918,6 @@ Deployment _$DeploymentFromJson(Map<String, dynamic> json) {
     updatedAt: unixTimestampFromJson(json['updatedAt']),
   );
 }
-
-const _$LaunchTypeEnumMap = {
-  LaunchType.ec2: 'EC2',
-  LaunchType.fargate: 'FARGATE',
-};
 
 DeploymentConfiguration _$DeploymentConfigurationFromJson(
     Map<String, dynamic> json) {
@@ -761,6 +968,22 @@ const _$DeploymentControllerTypeEnumMap = {
   DeploymentControllerType.external: 'EXTERNAL',
 };
 
+Map<String, dynamic> _$DeregisterContainerInstanceRequestToJson(
+    DeregisterContainerInstanceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('containerInstance', instance.containerInstance);
+  writeNotNull('cluster', instance.cluster);
+  writeNotNull('force', instance.force);
+  return val;
+}
+
 DeregisterContainerInstanceResponse
     _$DeregisterContainerInstanceResponseFromJson(Map<String, dynamic> json) {
   return DeregisterContainerInstanceResponse(
@@ -771,6 +994,20 @@ DeregisterContainerInstanceResponse
   );
 }
 
+Map<String, dynamic> _$DeregisterTaskDefinitionRequestToJson(
+    DeregisterTaskDefinitionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('taskDefinition', instance.taskDefinition);
+  return val;
+}
+
 DeregisterTaskDefinitionResponse _$DeregisterTaskDefinitionResponseFromJson(
     Map<String, dynamic> json) {
   return DeregisterTaskDefinitionResponse(
@@ -779,6 +1016,23 @@ DeregisterTaskDefinitionResponse _$DeregisterTaskDefinitionResponseFromJson(
         : TaskDefinition.fromJson(
             json['taskDefinition'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeCapacityProvidersRequestToJson(
+    DescribeCapacityProvidersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('capacityProviders', instance.capacityProviders);
+  writeNotNull('include', instance.include);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 DescribeCapacityProvidersResponse _$DescribeCapacityProvidersResponseFromJson(
@@ -797,6 +1051,21 @@ DescribeCapacityProvidersResponse _$DescribeCapacityProvidersResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeClustersRequestToJson(
+    DescribeClustersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('clusters', instance.clusters);
+  writeNotNull('include', instance.include);
+  return val;
+}
+
 DescribeClustersResponse _$DescribeClustersResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeClustersResponse(
@@ -809,6 +1078,22 @@ DescribeClustersResponse _$DescribeClustersResponseFromJson(
             e == null ? null : Failure.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeContainerInstancesRequestToJson(
+    DescribeContainerInstancesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('containerInstances', instance.containerInstances);
+  writeNotNull('cluster', instance.cluster);
+  writeNotNull('include', instance.include);
+  return val;
 }
 
 DescribeContainerInstancesResponse _$DescribeContainerInstancesResponseFromJson(
@@ -826,6 +1111,22 @@ DescribeContainerInstancesResponse _$DescribeContainerInstancesResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeServicesRequestToJson(
+    DescribeServicesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('services', instance.services);
+  writeNotNull('cluster', instance.cluster);
+  writeNotNull('include', instance.include);
+  return val;
+}
+
 DescribeServicesResponse _$DescribeServicesResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeServicesResponse(
@@ -838,6 +1139,21 @@ DescribeServicesResponse _$DescribeServicesResponseFromJson(
             e == null ? null : Service.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeTaskDefinitionRequestToJson(
+    DescribeTaskDefinitionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('taskDefinition', instance.taskDefinition);
+  writeNotNull('include', instance.include);
+  return val;
 }
 
 DescribeTaskDefinitionResponse _$DescribeTaskDefinitionResponseFromJson(
@@ -853,6 +1169,23 @@ DescribeTaskDefinitionResponse _$DescribeTaskDefinitionResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeTaskSetsRequestToJson(
+    DescribeTaskSetsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('cluster', instance.cluster);
+  writeNotNull('service', instance.service);
+  writeNotNull('include', instance.include);
+  writeNotNull('taskSets', instance.taskSets);
+  return val;
+}
+
 DescribeTaskSetsResponse _$DescribeTaskSetsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeTaskSetsResponse(
@@ -865,6 +1198,22 @@ DescribeTaskSetsResponse _$DescribeTaskSetsResponseFromJson(
             e == null ? null : TaskSet.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeTasksRequestToJson(
+    DescribeTasksRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('tasks', instance.tasks);
+  writeNotNull('cluster', instance.cluster);
+  writeNotNull('include', instance.include);
+  return val;
 }
 
 DescribeTasksResponse _$DescribeTasksResponseFromJson(
@@ -902,6 +1251,21 @@ Map<String, dynamic> _$DeviceToJson(Device instance) {
   writeNotNull('hostPath', instance.hostPath);
   writeNotNull('containerPath', instance.containerPath);
   writeNotNull('permissions', instance.permissions);
+  return val;
+}
+
+Map<String, dynamic> _$DiscoverPollEndpointRequestToJson(
+    DiscoverPollEndpointRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('cluster', instance.cluster);
+  writeNotNull('containerInstance', instance.containerInstance);
   return val;
 }
 
@@ -1252,6 +1616,25 @@ Map<String, dynamic> _$LinuxParametersToJson(LinuxParameters instance) {
   return val;
 }
 
+Map<String, dynamic> _$ListAccountSettingsRequestToJson(
+    ListAccountSettingsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('effectiveSettings', instance.effectiveSettings);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('name', _$SettingNameEnumMap[instance.name]);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('principalArn', instance.principalArn);
+  writeNotNull('value', instance.value);
+  return val;
+}
+
 ListAccountSettingsResponse _$ListAccountSettingsResponseFromJson(
     Map<String, dynamic> json) {
   return ListAccountSettingsResponse(
@@ -1261,6 +1644,25 @@ ListAccountSettingsResponse _$ListAccountSettingsResponseFromJson(
             e == null ? null : Setting.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListAttributesRequestToJson(
+    ListAttributesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('targetType', _$TargetTypeEnumMap[instance.targetType]);
+  writeNotNull('attributeName', instance.attributeName);
+  writeNotNull('attributeValue', instance.attributeValue);
+  writeNotNull('cluster', instance.cluster);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 ListAttributesResponse _$ListAttributesResponseFromJson(
@@ -1274,6 +1676,20 @@ ListAttributesResponse _$ListAttributesResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListClustersRequestToJson(ListClustersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 ListClustersResponse _$ListClustersResponseFromJson(Map<String, dynamic> json) {
   return ListClustersResponse(
     clusterArns:
@@ -1281,6 +1697,32 @@ ListClustersResponse _$ListClustersResponseFromJson(Map<String, dynamic> json) {
     nextToken: json['nextToken'] as String,
   );
 }
+
+Map<String, dynamic> _$ListContainerInstancesRequestToJson(
+    ListContainerInstancesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('cluster', instance.cluster);
+  writeNotNull('filter', instance.filter);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('status', _$ContainerInstanceStatusEnumMap[instance.status]);
+  return val;
+}
+
+const _$ContainerInstanceStatusEnumMap = {
+  ContainerInstanceStatus.active: 'ACTIVE',
+  ContainerInstanceStatus.draining: 'DRAINING',
+  ContainerInstanceStatus.registering: 'REGISTERING',
+  ContainerInstanceStatus.deregistering: 'DEREGISTERING',
+  ContainerInstanceStatus.registrationFailed: 'REGISTRATION_FAILED',
+};
 
 ListContainerInstancesResponse _$ListContainerInstancesResponseFromJson(
     Map<String, dynamic> json) {
@@ -1292,12 +1734,44 @@ ListContainerInstancesResponse _$ListContainerInstancesResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListServicesRequestToJson(ListServicesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('cluster', instance.cluster);
+  writeNotNull('launchType', _$LaunchTypeEnumMap[instance.launchType]);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('schedulingStrategy',
+      _$SchedulingStrategyEnumMap[instance.schedulingStrategy]);
+  return val;
+}
+
 ListServicesResponse _$ListServicesResponseFromJson(Map<String, dynamic> json) {
   return ListServicesResponse(
     nextToken: json['nextToken'] as String,
     serviceArns:
         (json['serviceArns'] as List)?.map((e) => e as String)?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListTagsForResourceRequestToJson(
+    ListTagsForResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceArn', instance.resourceArn);
+  return val;
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
@@ -1309,6 +1783,29 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListTaskDefinitionFamiliesRequestToJson(
+    ListTaskDefinitionFamiliesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('familyPrefix', instance.familyPrefix);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('status', _$TaskDefinitionFamilyStatusEnumMap[instance.status]);
+  return val;
+}
+
+const _$TaskDefinitionFamilyStatusEnumMap = {
+  TaskDefinitionFamilyStatus.active: 'ACTIVE',
+  TaskDefinitionFamilyStatus.inactive: 'INACTIVE',
+  TaskDefinitionFamilyStatus.all: 'ALL',
+};
+
 ListTaskDefinitionFamiliesResponse _$ListTaskDefinitionFamiliesResponseFromJson(
     Map<String, dynamic> json) {
   return ListTaskDefinitionFamiliesResponse(
@@ -1316,6 +1813,34 @@ ListTaskDefinitionFamiliesResponse _$ListTaskDefinitionFamiliesResponseFromJson(
     nextToken: json['nextToken'] as String,
   );
 }
+
+Map<String, dynamic> _$ListTaskDefinitionsRequestToJson(
+    ListTaskDefinitionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('familyPrefix', instance.familyPrefix);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('sort', _$SortOrderEnumMap[instance.sort]);
+  writeNotNull('status', _$TaskDefinitionStatusEnumMap[instance.status]);
+  return val;
+}
+
+const _$SortOrderEnumMap = {
+  SortOrder.asc: 'ASC',
+  SortOrder.desc: 'DESC',
+};
+
+const _$TaskDefinitionStatusEnumMap = {
+  TaskDefinitionStatus.active: 'ACTIVE',
+  TaskDefinitionStatus.inactive: 'INACTIVE',
+};
 
 ListTaskDefinitionsResponse _$ListTaskDefinitionsResponseFromJson(
     Map<String, dynamic> json) {
@@ -1325,6 +1850,33 @@ ListTaskDefinitionsResponse _$ListTaskDefinitionsResponseFromJson(
         (json['taskDefinitionArns'] as List)?.map((e) => e as String)?.toList(),
   );
 }
+
+Map<String, dynamic> _$ListTasksRequestToJson(ListTasksRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('cluster', instance.cluster);
+  writeNotNull('containerInstance', instance.containerInstance);
+  writeNotNull('desiredStatus', _$DesiredStatusEnumMap[instance.desiredStatus]);
+  writeNotNull('family', instance.family);
+  writeNotNull('launchType', _$LaunchTypeEnumMap[instance.launchType]);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('serviceName', instance.serviceName);
+  writeNotNull('startedBy', instance.startedBy);
+  return val;
+}
+
+const _$DesiredStatusEnumMap = {
+  DesiredStatus.running: 'RUNNING',
+  DesiredStatus.pending: 'PENDING',
+  DesiredStatus.stopped: 'STOPPED',
+};
 
 ListTasksResponse _$ListTasksResponseFromJson(Map<String, dynamic> json) {
   return ListTasksResponse(
@@ -1639,6 +2191,21 @@ const _$ProxyConfigurationTypeEnumMap = {
   ProxyConfigurationType.appmesh: 'APPMESH',
 };
 
+Map<String, dynamic> _$PutAccountSettingDefaultRequestToJson(
+    PutAccountSettingDefaultRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', _$SettingNameEnumMap[instance.name]);
+  writeNotNull('value', instance.value);
+  return val;
+}
+
 PutAccountSettingDefaultResponse _$PutAccountSettingDefaultResponseFromJson(
     Map<String, dynamic> json) {
   return PutAccountSettingDefaultResponse(
@@ -1648,6 +2215,22 @@ PutAccountSettingDefaultResponse _$PutAccountSettingDefaultResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$PutAccountSettingRequestToJson(
+    PutAccountSettingRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', _$SettingNameEnumMap[instance.name]);
+  writeNotNull('value', instance.value);
+  writeNotNull('principalArn', instance.principalArn);
+  return val;
+}
+
 PutAccountSettingResponse _$PutAccountSettingResponseFromJson(
     Map<String, dynamic> json) {
   return PutAccountSettingResponse(
@@ -1655,6 +2238,22 @@ PutAccountSettingResponse _$PutAccountSettingResponseFromJson(
         ? null
         : Setting.fromJson(json['setting'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$PutAttributesRequestToJson(
+    PutAttributesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'attributes', instance.attributes?.map((e) => e?.toJson())?.toList());
+  writeNotNull('cluster', instance.cluster);
+  return val;
 }
 
 PutAttributesResponse _$PutAttributesResponseFromJson(
@@ -1667,6 +2266,26 @@ PutAttributesResponse _$PutAttributesResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$PutClusterCapacityProvidersRequestToJson(
+    PutClusterCapacityProvidersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('capacityProviders', instance.capacityProviders);
+  writeNotNull('cluster', instance.cluster);
+  writeNotNull(
+      'defaultCapacityProviderStrategy',
+      instance.defaultCapacityProviderStrategy
+          ?.map((e) => e?.toJson())
+          ?.toList());
+  return val;
+}
+
 PutClusterCapacityProvidersResponse
     _$PutClusterCapacityProvidersResponseFromJson(Map<String, dynamic> json) {
   return PutClusterCapacityProvidersResponse(
@@ -1674,6 +2293,32 @@ PutClusterCapacityProvidersResponse
         ? null
         : Cluster.fromJson(json['cluster'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$RegisterContainerInstanceRequestToJson(
+    RegisterContainerInstanceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'attributes', instance.attributes?.map((e) => e?.toJson())?.toList());
+  writeNotNull('cluster', instance.cluster);
+  writeNotNull('containerInstanceArn', instance.containerInstanceArn);
+  writeNotNull('instanceIdentityDocument', instance.instanceIdentityDocument);
+  writeNotNull('instanceIdentityDocumentSignature',
+      instance.instanceIdentityDocumentSignature);
+  writeNotNull('platformDevices',
+      instance.platformDevices?.map((e) => e?.toJson())?.toList());
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('totalResources',
+      instance.totalResources?.map((e) => e?.toJson())?.toList());
+  writeNotNull('versionInfo', instance.versionInfo?.toJson());
+  return val;
 }
 
 RegisterContainerInstanceResponse _$RegisterContainerInstanceResponseFromJson(
@@ -1685,6 +2330,55 @@ RegisterContainerInstanceResponse _$RegisterContainerInstanceResponseFromJson(
             json['containerInstance'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$RegisterTaskDefinitionRequestToJson(
+    RegisterTaskDefinitionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('containerDefinitions',
+      instance.containerDefinitions?.map((e) => e?.toJson())?.toList());
+  writeNotNull('family', instance.family);
+  writeNotNull('cpu', instance.cpu);
+  writeNotNull('executionRoleArn', instance.executionRoleArn);
+  writeNotNull('inferenceAccelerators',
+      instance.inferenceAccelerators?.map((e) => e?.toJson())?.toList());
+  writeNotNull('ipcMode', _$IpcModeEnumMap[instance.ipcMode]);
+  writeNotNull('memory', instance.memory);
+  writeNotNull('networkMode', _$NetworkModeEnumMap[instance.networkMode]);
+  writeNotNull('pidMode', _$PidModeEnumMap[instance.pidMode]);
+  writeNotNull('placementConstraints',
+      instance.placementConstraints?.map((e) => e?.toJson())?.toList());
+  writeNotNull('proxyConfiguration', instance.proxyConfiguration?.toJson());
+  writeNotNull('requiresCompatibilities', instance.requiresCompatibilities);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('taskRoleArn', instance.taskRoleArn);
+  writeNotNull('volumes', instance.volumes?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+const _$IpcModeEnumMap = {
+  IpcMode.host: 'host',
+  IpcMode.task: 'task',
+  IpcMode.none: 'none',
+};
+
+const _$NetworkModeEnumMap = {
+  NetworkMode.bridge: 'bridge',
+  NetworkMode.host: 'host',
+  NetworkMode.awsvpc: 'awsvpc',
+  NetworkMode.none: 'none',
+};
+
+const _$PidModeEnumMap = {
+  PidMode.host: 'host',
+  PidMode.task: 'task',
+};
 
 RegisterTaskDefinitionResponse _$RegisterTaskDefinitionResponseFromJson(
     Map<String, dynamic> json) {
@@ -1775,6 +2469,37 @@ const _$ResourceTypeEnumMap = {
   ResourceType.gpu: 'GPU',
   ResourceType.inferenceAccelerator: 'InferenceAccelerator',
 };
+
+Map<String, dynamic> _$RunTaskRequestToJson(RunTaskRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('taskDefinition', instance.taskDefinition);
+  writeNotNull('capacityProviderStrategy',
+      instance.capacityProviderStrategy?.map((e) => e?.toJson())?.toList());
+  writeNotNull('cluster', instance.cluster);
+  writeNotNull('count', instance.count);
+  writeNotNull('enableECSManagedTags', instance.enableECSManagedTags);
+  writeNotNull('group', instance.group);
+  writeNotNull('launchType', _$LaunchTypeEnumMap[instance.launchType]);
+  writeNotNull('networkConfiguration', instance.networkConfiguration?.toJson());
+  writeNotNull('overrides', instance.overrides?.toJson());
+  writeNotNull('placementConstraints',
+      instance.placementConstraints?.map((e) => e?.toJson())?.toList());
+  writeNotNull('placementStrategy',
+      instance.placementStrategy?.map((e) => e?.toJson())?.toList());
+  writeNotNull('platformVersion', instance.platformVersion);
+  writeNotNull('propagateTags', _$PropagateTagsEnumMap[instance.propagateTags]);
+  writeNotNull('referenceId', instance.referenceId);
+  writeNotNull('startedBy', instance.startedBy);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
 
 RunTaskResponse _$RunTaskResponseFromJson(Map<String, dynamic> json) {
   return RunTaskResponse(
@@ -1910,16 +2635,6 @@ Service _$ServiceFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$PropagateTagsEnumMap = {
-  PropagateTags.taskDefinition: 'TASK_DEFINITION',
-  PropagateTags.service: 'SERVICE',
-};
-
-const _$SchedulingStrategyEnumMap = {
-  SchedulingStrategy.replica: 'REPLICA',
-  SchedulingStrategy.daemon: 'DAEMON',
-};
-
 ServiceEvent _$ServiceEventFromJson(Map<String, dynamic> json) {
   return ServiceEvent(
     createdAt: unixTimestampFromJson(json['createdAt']),
@@ -1961,13 +2676,28 @@ Setting _$SettingFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$SettingNameEnumMap = {
-  SettingName.serviceLongArnFormat: 'serviceLongArnFormat',
-  SettingName.taskLongArnFormat: 'taskLongArnFormat',
-  SettingName.containerInstanceLongArnFormat: 'containerInstanceLongArnFormat',
-  SettingName.awsvpcTrunking: 'awsvpcTrunking',
-  SettingName.containerInsights: 'containerInsights',
-};
+Map<String, dynamic> _$StartTaskRequestToJson(StartTaskRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('containerInstances', instance.containerInstances);
+  writeNotNull('taskDefinition', instance.taskDefinition);
+  writeNotNull('cluster', instance.cluster);
+  writeNotNull('enableECSManagedTags', instance.enableECSManagedTags);
+  writeNotNull('group', instance.group);
+  writeNotNull('networkConfiguration', instance.networkConfiguration?.toJson());
+  writeNotNull('overrides', instance.overrides?.toJson());
+  writeNotNull('propagateTags', _$PropagateTagsEnumMap[instance.propagateTags]);
+  writeNotNull('referenceId', instance.referenceId);
+  writeNotNull('startedBy', instance.startedBy);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
 
 StartTaskResponse _$StartTaskResponseFromJson(Map<String, dynamic> json) {
   return StartTaskResponse(
@@ -1982,12 +2712,43 @@ StartTaskResponse _$StartTaskResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$StopTaskRequestToJson(StopTaskRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('task', instance.task);
+  writeNotNull('cluster', instance.cluster);
+  writeNotNull('reason', instance.reason);
+  return val;
+}
+
 StopTaskResponse _$StopTaskResponseFromJson(Map<String, dynamic> json) {
   return StopTaskResponse(
     task: json['task'] == null
         ? null
         : Task.fromJson(json['task'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$SubmitAttachmentStateChangesRequestToJson(
+    SubmitAttachmentStateChangesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'attachments', instance.attachments?.map((e) => e?.toJson())?.toList());
+  writeNotNull('cluster', instance.cluster);
+  return val;
 }
 
 SubmitAttachmentStateChangesResponse
@@ -1997,11 +2758,58 @@ SubmitAttachmentStateChangesResponse
   );
 }
 
+Map<String, dynamic> _$SubmitContainerStateChangeRequestToJson(
+    SubmitContainerStateChangeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('cluster', instance.cluster);
+  writeNotNull('containerName', instance.containerName);
+  writeNotNull('exitCode', instance.exitCode);
+  writeNotNull('networkBindings',
+      instance.networkBindings?.map((e) => e?.toJson())?.toList());
+  writeNotNull('reason', instance.reason);
+  writeNotNull('runtimeId', instance.runtimeId);
+  writeNotNull('status', instance.status);
+  writeNotNull('task', instance.task);
+  return val;
+}
+
 SubmitContainerStateChangeResponse _$SubmitContainerStateChangeResponseFromJson(
     Map<String, dynamic> json) {
   return SubmitContainerStateChangeResponse(
     acknowledgment: json['acknowledgment'] as String,
   );
+}
+
+Map<String, dynamic> _$SubmitTaskStateChangeRequestToJson(
+    SubmitTaskStateChangeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'attachments', instance.attachments?.map((e) => e?.toJson())?.toList());
+  writeNotNull('cluster', instance.cluster);
+  writeNotNull(
+      'containers', instance.containers?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'executionStoppedAt', unixTimestampToJson(instance.executionStoppedAt));
+  writeNotNull('pullStartedAt', unixTimestampToJson(instance.pullStartedAt));
+  writeNotNull('pullStoppedAt', unixTimestampToJson(instance.pullStoppedAt));
+  writeNotNull('reason', instance.reason);
+  writeNotNull('status', instance.status);
+  writeNotNull('task', instance.task);
+  return val;
 }
 
 SubmitTaskStateChangeResponse _$SubmitTaskStateChangeResponseFromJson(
@@ -2050,6 +2858,20 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
 
   writeNotNull('key', instance.key);
   writeNotNull('value', instance.value);
+  return val;
+}
+
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceArn', instance.resourceArn);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
   return val;
 }
 
@@ -2174,29 +2996,6 @@ TaskDefinition _$TaskDefinitionFromJson(Map<String, dynamic> json) {
         ?.toList(),
   );
 }
-
-const _$IpcModeEnumMap = {
-  IpcMode.host: 'host',
-  IpcMode.task: 'task',
-  IpcMode.none: 'none',
-};
-
-const _$NetworkModeEnumMap = {
-  NetworkMode.bridge: 'bridge',
-  NetworkMode.host: 'host',
-  NetworkMode.awsvpc: 'awsvpc',
-  NetworkMode.none: 'none',
-};
-
-const _$PidModeEnumMap = {
-  PidMode.host: 'host',
-  PidMode.task: 'task',
-};
-
-const _$TaskDefinitionStatusEnumMap = {
-  TaskDefinitionStatus.active: 'ACTIVE',
-  TaskDefinitionStatus.inactive: 'INACTIVE',
-};
 
 TaskDefinitionPlacementConstraint _$TaskDefinitionPlacementConstraintFromJson(
     Map<String, dynamic> json) {
@@ -2387,9 +3186,40 @@ const _$UlimitNameEnumMap = {
   UlimitName.stack: 'stack',
 };
 
+Map<String, dynamic> _$UntagResourceRequestToJson(
+    UntagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceArn', instance.resourceArn);
+  writeNotNull('tagKeys', instance.tagKeys);
+  return val;
+}
+
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse();
+}
+
+Map<String, dynamic> _$UpdateClusterSettingsRequestToJson(
+    UpdateClusterSettingsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('cluster', instance.cluster);
+  writeNotNull(
+      'settings', instance.settings?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 UpdateClusterSettingsResponse _$UpdateClusterSettingsResponseFromJson(
@@ -2401,6 +3231,21 @@ UpdateClusterSettingsResponse _$UpdateClusterSettingsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateContainerAgentRequestToJson(
+    UpdateContainerAgentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('containerInstance', instance.containerInstance);
+  writeNotNull('cluster', instance.cluster);
+  return val;
+}
+
 UpdateContainerAgentResponse _$UpdateContainerAgentResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateContainerAgentResponse(
@@ -2409,6 +3254,22 @@ UpdateContainerAgentResponse _$UpdateContainerAgentResponseFromJson(
         : ContainerInstance.fromJson(
             json['containerInstance'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateContainerInstancesStateRequestToJson(
+    UpdateContainerInstancesStateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('containerInstances', instance.containerInstances);
+  writeNotNull('status', _$ContainerInstanceStatusEnumMap[instance.status]);
+  writeNotNull('cluster', instance.cluster);
+  return val;
 }
 
 UpdateContainerInstancesStateResponse
@@ -2426,6 +3287,22 @@ UpdateContainerInstancesStateResponse
   );
 }
 
+Map<String, dynamic> _$UpdateServicePrimaryTaskSetRequestToJson(
+    UpdateServicePrimaryTaskSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('cluster', instance.cluster);
+  writeNotNull('primaryTaskSet', instance.primaryTaskSet);
+  writeNotNull('service', instance.service);
+  return val;
+}
+
 UpdateServicePrimaryTaskSetResponse
     _$UpdateServicePrimaryTaskSetResponseFromJson(Map<String, dynamic> json) {
   return UpdateServicePrimaryTaskSetResponse(
@@ -2435,6 +3312,36 @@ UpdateServicePrimaryTaskSetResponse
   );
 }
 
+Map<String, dynamic> _$UpdateServiceRequestToJson(
+    UpdateServiceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('service', instance.service);
+  writeNotNull('capacityProviderStrategy',
+      instance.capacityProviderStrategy?.map((e) => e?.toJson())?.toList());
+  writeNotNull('cluster', instance.cluster);
+  writeNotNull(
+      'deploymentConfiguration', instance.deploymentConfiguration?.toJson());
+  writeNotNull('desiredCount', instance.desiredCount);
+  writeNotNull('forceNewDeployment', instance.forceNewDeployment);
+  writeNotNull(
+      'healthCheckGracePeriodSeconds', instance.healthCheckGracePeriodSeconds);
+  writeNotNull('networkConfiguration', instance.networkConfiguration?.toJson());
+  writeNotNull('placementConstraints',
+      instance.placementConstraints?.map((e) => e?.toJson())?.toList());
+  writeNotNull('placementStrategy',
+      instance.placementStrategy?.map((e) => e?.toJson())?.toList());
+  writeNotNull('platformVersion', instance.platformVersion);
+  writeNotNull('taskDefinition', instance.taskDefinition);
+  return val;
+}
+
 UpdateServiceResponse _$UpdateServiceResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateServiceResponse(
@@ -2442,6 +3349,23 @@ UpdateServiceResponse _$UpdateServiceResponseFromJson(
         ? null
         : Service.fromJson(json['service'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateTaskSetRequestToJson(
+    UpdateTaskSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('cluster', instance.cluster);
+  writeNotNull('scale', instance.scale?.toJson());
+  writeNotNull('service', instance.service);
+  writeNotNull('taskSet', instance.taskSet);
+  return val;
 }
 
 UpdateTaskSetResponse _$UpdateTaskSetResponseFromJson(

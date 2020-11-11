@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -202,11 +201,11 @@ class IoTJobsDataPlane {
       r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (statusDetails != null) 'statusDetails': statusDetails,
-      if (stepTimeoutInMinutes != null)
-        'stepTimeoutInMinutes': stepTimeoutInMinutes,
-    };
+    final $payload = StartNextPendingJobExecutionRequest(
+      thingName: thingName,
+      statusDetails: statusDetails,
+      stepTimeoutInMinutes: stepTimeoutInMinutes,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -312,17 +311,17 @@ class IoTJobsDataPlane {
       r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'status': status?.toValue(),
-      if (executionNumber != null) 'executionNumber': executionNumber,
-      if (expectedVersion != null) 'expectedVersion': expectedVersion,
-      if (includeJobDocument != null) 'includeJobDocument': includeJobDocument,
-      if (includeJobExecutionState != null)
-        'includeJobExecutionState': includeJobExecutionState,
-      if (statusDetails != null) 'statusDetails': statusDetails,
-      if (stepTimeoutInMinutes != null)
-        'stepTimeoutInMinutes': stepTimeoutInMinutes,
-    };
+    final $payload = UpdateJobExecutionRequest(
+      jobId: jobId,
+      status: status,
+      thingName: thingName,
+      executionNumber: executionNumber,
+      expectedVersion: expectedVersion,
+      includeJobDocument: includeJobDocument,
+      includeJobExecutionState: includeJobExecutionState,
+      statusDetails: statusDetails,
+      stepTimeoutInMinutes: stepTimeoutInMinutes,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -500,30 +499,6 @@ enum JobExecutionStatus {
   canceled,
 }
 
-extension on JobExecutionStatus {
-  String toValue() {
-    switch (this) {
-      case JobExecutionStatus.queued:
-        return 'QUEUED';
-      case JobExecutionStatus.inProgress:
-        return 'IN_PROGRESS';
-      case JobExecutionStatus.succeeded:
-        return 'SUCCEEDED';
-      case JobExecutionStatus.failed:
-        return 'FAILED';
-      case JobExecutionStatus.timedOut:
-        return 'TIMED_OUT';
-      case JobExecutionStatus.rejected:
-        return 'REJECTED';
-      case JobExecutionStatus.removed:
-        return 'REMOVED';
-      case JobExecutionStatus.canceled:
-        return 'CANCELED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Contains a subset of information about a job execution.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -573,6 +548,43 @@ class JobExecutionSummary {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartNextPendingJobExecutionRequest {
+  /// The name of the thing associated with the device.
+  @_s.JsonKey(name: 'thingName', ignore: true)
+  final String thingName;
+
+  /// A collection of name/value pairs that describe the status of the job
+  /// execution. If not specified, the statusDetails are unchanged.
+  @_s.JsonKey(name: 'statusDetails')
+  final Map<String, String> statusDetails;
+
+  /// Specifies the amount of time this device has to finish execution of this
+  /// job. If the job execution status is not set to a terminal state before this
+  /// timer expires, or before the timer is reset (by calling
+  /// <code>UpdateJobExecution</code>, setting the status to
+  /// <code>IN_PROGRESS</code> and specifying a new timeout value in field
+  /// <code>stepTimeoutInMinutes</code>) the job execution status will be
+  /// automatically set to <code>TIMED_OUT</code>. Note that setting this timeout
+  /// has no effect on that job execution timeout which may have been specified
+  /// when the job was created (<code>CreateJob</code> using field
+  /// <code>timeoutConfig</code>).
+  @_s.JsonKey(name: 'stepTimeoutInMinutes')
+  final int stepTimeoutInMinutes;
+
+  StartNextPendingJobExecutionRequest({
+    @_s.required this.thingName,
+    this.statusDetails,
+    this.stepTimeoutInMinutes,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StartNextPendingJobExecutionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartNextPendingJobExecutionResponse {
@@ -586,6 +598,82 @@ class StartNextPendingJobExecutionResponse {
   factory StartNextPendingJobExecutionResponse.fromJson(
           Map<String, dynamic> json) =>
       _$StartNextPendingJobExecutionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateJobExecutionRequest {
+  /// The unique identifier assigned to this job when it was created.
+  @_s.JsonKey(name: 'jobId', ignore: true)
+  final String jobId;
+
+  /// The new status for the job execution (IN_PROGRESS, FAILED, SUCCESS, or
+  /// REJECTED). This must be specified on every update.
+  @_s.JsonKey(name: 'status')
+  final JobExecutionStatus status;
+
+  /// The name of the thing associated with the device.
+  @_s.JsonKey(name: 'thingName', ignore: true)
+  final String thingName;
+
+  /// Optional. A number that identifies a particular job execution on a
+  /// particular device.
+  @_s.JsonKey(name: 'executionNumber')
+  final int executionNumber;
+
+  /// Optional. The expected current version of the job execution. Each time you
+  /// update the job execution, its version is incremented. If the version of the
+  /// job execution stored in Jobs does not match, the update is rejected with a
+  /// VersionMismatch error, and an ErrorResponse that contains the current job
+  /// execution status data is returned. (This makes it unnecessary to perform a
+  /// separate DescribeJobExecution request in order to obtain the job execution
+  /// status data.)
+  @_s.JsonKey(name: 'expectedVersion')
+  final int expectedVersion;
+
+  /// Optional. When set to true, the response contains the job document. The
+  /// default is false.
+  @_s.JsonKey(name: 'includeJobDocument')
+  final bool includeJobDocument;
+
+  /// Optional. When included and set to true, the response contains the
+  /// JobExecutionState data. The default is false.
+  @_s.JsonKey(name: 'includeJobExecutionState')
+  final bool includeJobExecutionState;
+
+  /// Optional. A collection of name/value pairs that describe the status of the
+  /// job execution. If not specified, the statusDetails are unchanged.
+  @_s.JsonKey(name: 'statusDetails')
+  final Map<String, String> statusDetails;
+
+  /// Specifies the amount of time this device has to finish execution of this
+  /// job. If the job execution status is not set to a terminal state before this
+  /// timer expires, or before the timer is reset (by again calling
+  /// <code>UpdateJobExecution</code>, setting the status to
+  /// <code>IN_PROGRESS</code> and specifying a new timeout value in this field)
+  /// the job execution status will be automatically set to
+  /// <code>TIMED_OUT</code>. Note that setting or resetting this timeout has no
+  /// effect on that job execution timeout which may have been specified when the
+  /// job was created (<code>CreateJob</code> using field
+  /// <code>timeoutConfig</code>).
+  @_s.JsonKey(name: 'stepTimeoutInMinutes')
+  final int stepTimeoutInMinutes;
+
+  UpdateJobExecutionRequest({
+    @_s.required this.jobId,
+    @_s.required this.status,
+    @_s.required this.thingName,
+    this.executionNumber,
+    this.expectedVersion,
+    this.includeJobDocument,
+    this.includeJobExecutionState,
+    this.statusDetails,
+    this.stepTimeoutInMinutes,
+  });
+  Map<String, dynamic> toJson() => _$UpdateJobExecutionRequestToJson(this);
 }
 
 @_s.JsonSerializable(

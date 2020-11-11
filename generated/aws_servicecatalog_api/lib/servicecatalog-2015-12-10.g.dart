@@ -6,6 +6,29 @@ part of 'servicecatalog-2015-12-10.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$AcceptPortfolioShareInputToJson(
+    AcceptPortfolioShareInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('PortfolioId', instance.portfolioId);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('PortfolioShareType',
+      _$PortfolioShareTypeEnumMap[instance.portfolioShareType]);
+  return val;
+}
+
+const _$PortfolioShareTypeEnumMap = {
+  PortfolioShareType.imported: 'IMPORTED',
+  PortfolioShareType.awsServicecatalog: 'AWS_SERVICECATALOG',
+  PortfolioShareType.awsOrganizations: 'AWS_ORGANIZATIONS',
+};
+
 AcceptPortfolioShareOutput _$AcceptPortfolioShareOutputFromJson(
     Map<String, dynamic> json) {
   return AcceptPortfolioShareOutput();
@@ -31,19 +54,90 @@ const _$AccessLevelFilterKeyEnumMap = {
   AccessLevelFilterKey.user: 'User',
 };
 
+Map<String, dynamic> _$AssociateBudgetWithResourceInputToJson(
+    AssociateBudgetWithResourceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BudgetName', instance.budgetName);
+  writeNotNull('ResourceId', instance.resourceId);
+  return val;
+}
+
 AssociateBudgetWithResourceOutput _$AssociateBudgetWithResourceOutputFromJson(
     Map<String, dynamic> json) {
   return AssociateBudgetWithResourceOutput();
 }
+
+Map<String, dynamic> _$AssociatePrincipalWithPortfolioInputToJson(
+    AssociatePrincipalWithPortfolioInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('PortfolioId', instance.portfolioId);
+  writeNotNull('PrincipalARN', instance.principalARN);
+  writeNotNull('PrincipalType', _$PrincipalTypeEnumMap[instance.principalType]);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  return val;
+}
+
+const _$PrincipalTypeEnumMap = {
+  PrincipalType.iam: 'IAM',
+};
 
 AssociatePrincipalWithPortfolioOutput
     _$AssociatePrincipalWithPortfolioOutputFromJson(Map<String, dynamic> json) {
   return AssociatePrincipalWithPortfolioOutput();
 }
 
+Map<String, dynamic> _$AssociateProductWithPortfolioInputToJson(
+    AssociateProductWithPortfolioInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('PortfolioId', instance.portfolioId);
+  writeNotNull('ProductId', instance.productId);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('SourcePortfolioId', instance.sourcePortfolioId);
+  return val;
+}
+
 AssociateProductWithPortfolioOutput
     _$AssociateProductWithPortfolioOutputFromJson(Map<String, dynamic> json) {
   return AssociateProductWithPortfolioOutput();
+}
+
+Map<String, dynamic>
+    _$AssociateServiceActionWithProvisioningArtifactInputToJson(
+        AssociateServiceActionWithProvisioningArtifactInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ProductId', instance.productId);
+  writeNotNull('ProvisioningArtifactId', instance.provisioningArtifactId);
+  writeNotNull('ServiceActionId', instance.serviceActionId);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  return val;
 }
 
 AssociateServiceActionWithProvisioningArtifactOutput
@@ -52,9 +146,41 @@ AssociateServiceActionWithProvisioningArtifactOutput
   return AssociateServiceActionWithProvisioningArtifactOutput();
 }
 
+Map<String, dynamic> _$AssociateTagOptionWithResourceInputToJson(
+    AssociateTagOptionWithResourceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceId', instance.resourceId);
+  writeNotNull('TagOptionId', instance.tagOptionId);
+  return val;
+}
+
 AssociateTagOptionWithResourceOutput
     _$AssociateTagOptionWithResourceOutputFromJson(Map<String, dynamic> json) {
   return AssociateTagOptionWithResourceOutput();
+}
+
+Map<String, dynamic>
+    _$BatchAssociateServiceActionWithProvisioningArtifactInputToJson(
+        BatchAssociateServiceActionWithProvisioningArtifactInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ServiceActionAssociations',
+      instance.serviceActionAssociations?.map((e) => e?.toJson())?.toList());
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  return val;
 }
 
 BatchAssociateServiceActionWithProvisioningArtifactOutput
@@ -69,6 +195,23 @@ BatchAssociateServiceActionWithProvisioningArtifactOutput
                     e as Map<String, dynamic>))
             ?.toList(),
   );
+}
+
+Map<String, dynamic>
+    _$BatchDisassociateServiceActionFromProvisioningArtifactInputToJson(
+        BatchDisassociateServiceActionFromProvisioningArtifactInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ServiceActionAssociations',
+      instance.serviceActionAssociations?.map((e) => e?.toJson())?.toList());
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  return val;
 }
 
 BatchDisassociateServiceActionFromProvisioningArtifactOutput
@@ -115,10 +258,50 @@ ConstraintSummary _$ConstraintSummaryFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CopyProductInputToJson(CopyProductInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('IdempotencyToken', instance.idempotencyToken);
+  writeNotNull('SourceProductArn', instance.sourceProductArn);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('CopyOptions', instance.copyOptions);
+  writeNotNull('SourceProvisioningArtifactIdentifiers',
+      instance.sourceProvisioningArtifactIdentifiers);
+  writeNotNull('TargetProductId', instance.targetProductId);
+  writeNotNull('TargetProductName', instance.targetProductName);
+  return val;
+}
+
 CopyProductOutput _$CopyProductOutputFromJson(Map<String, dynamic> json) {
   return CopyProductOutput(
     copyProductToken: json['CopyProductToken'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateConstraintInputToJson(
+    CreateConstraintInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('IdempotencyToken', instance.idempotencyToken);
+  writeNotNull('Parameters', instance.parameters);
+  writeNotNull('PortfolioId', instance.portfolioId);
+  writeNotNull('ProductId', instance.productId);
+  writeNotNull('Type', instance.type);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('Description', instance.description);
+  return val;
 }
 
 CreateConstraintOutput _$CreateConstraintOutputFromJson(
@@ -171,6 +354,25 @@ const _$StatusEnumMap = {
   Status.failed: 'FAILED',
 };
 
+Map<String, dynamic> _$CreatePortfolioInputToJson(
+    CreatePortfolioInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DisplayName', instance.displayName);
+  writeNotNull('IdempotencyToken', instance.idempotencyToken);
+  writeNotNull('ProviderName', instance.providerName);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('Description', instance.description);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreatePortfolioOutput _$CreatePortfolioOutputFromJson(
     Map<String, dynamic> json) {
   return CreatePortfolioOutput(
@@ -184,12 +386,59 @@ CreatePortfolioOutput _$CreatePortfolioOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$CreatePortfolioShareInputToJson(
+    CreatePortfolioShareInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('PortfolioId', instance.portfolioId);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('AccountId', instance.accountId);
+  writeNotNull('OrganizationNode', instance.organizationNode?.toJson());
+  return val;
+}
+
 CreatePortfolioShareOutput _$CreatePortfolioShareOutputFromJson(
     Map<String, dynamic> json) {
   return CreatePortfolioShareOutput(
     portfolioShareToken: json['PortfolioShareToken'] as String,
   );
 }
+
+Map<String, dynamic> _$CreateProductInputToJson(CreateProductInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('IdempotencyToken', instance.idempotencyToken);
+  writeNotNull('Name', instance.name);
+  writeNotNull('Owner', instance.owner);
+  writeNotNull('ProductType', _$ProductTypeEnumMap[instance.productType]);
+  writeNotNull('ProvisioningArtifactParameters',
+      instance.provisioningArtifactParameters?.toJson());
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('Description', instance.description);
+  writeNotNull('Distributor', instance.distributor);
+  writeNotNull('SupportDescription', instance.supportDescription);
+  writeNotNull('SupportEmail', instance.supportEmail);
+  writeNotNull('SupportUrl', instance.supportUrl);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+const _$ProductTypeEnumMap = {
+  ProductType.cloudFormationTemplate: 'CLOUD_FORMATION_TEMPLATE',
+  ProductType.marketplace: 'MARKETPLACE',
+};
 
 CreateProductOutput _$CreateProductOutputFromJson(Map<String, dynamic> json) {
   return CreateProductOutput(
@@ -207,6 +456,36 @@ CreateProductOutput _$CreateProductOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateProvisionedProductPlanInputToJson(
+    CreateProvisionedProductPlanInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('IdempotencyToken', instance.idempotencyToken);
+  writeNotNull('PlanName', instance.planName);
+  writeNotNull(
+      'PlanType', _$ProvisionedProductPlanTypeEnumMap[instance.planType]);
+  writeNotNull('ProductId', instance.productId);
+  writeNotNull('ProvisionedProductName', instance.provisionedProductName);
+  writeNotNull('ProvisioningArtifactId', instance.provisioningArtifactId);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('NotificationArns', instance.notificationArns);
+  writeNotNull('PathId', instance.pathId);
+  writeNotNull('ProvisioningParameters',
+      instance.provisioningParameters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+const _$ProvisionedProductPlanTypeEnumMap = {
+  ProvisionedProductPlanType.cloudformation: 'CLOUDFORMATION',
+};
+
 CreateProvisionedProductPlanOutput _$CreateProvisionedProductPlanOutputFromJson(
     Map<String, dynamic> json) {
   return CreateProvisionedProductPlanOutput(
@@ -216,6 +495,23 @@ CreateProvisionedProductPlanOutput _$CreateProvisionedProductPlanOutputFromJson(
     provisionedProductName: json['ProvisionedProductName'] as String,
     provisioningArtifactId: json['ProvisioningArtifactId'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateProvisioningArtifactInputToJson(
+    CreateProvisioningArtifactInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('IdempotencyToken', instance.idempotencyToken);
+  writeNotNull('Parameters', instance.parameters?.toJson());
+  writeNotNull('ProductId', instance.productId);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  return val;
 }
 
 CreateProvisioningArtifactOutput _$CreateProvisioningArtifactOutputFromJson(
@@ -232,6 +528,30 @@ CreateProvisioningArtifactOutput _$CreateProvisioningArtifactOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateServiceActionInputToJson(
+    CreateServiceActionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Definition', instance.definition);
+  writeNotNull('DefinitionType',
+      _$ServiceActionDefinitionTypeEnumMap[instance.definitionType]);
+  writeNotNull('IdempotencyToken', instance.idempotencyToken);
+  writeNotNull('Name', instance.name);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('Description', instance.description);
+  return val;
+}
+
+const _$ServiceActionDefinitionTypeEnumMap = {
+  ServiceActionDefinitionType.ssmAutomation: 'SSM_AUTOMATION',
+};
+
 CreateServiceActionOutput _$CreateServiceActionOutputFromJson(
     Map<String, dynamic> json) {
   return CreateServiceActionOutput(
@@ -240,6 +560,21 @@ CreateServiceActionOutput _$CreateServiceActionOutputFromJson(
         : ServiceActionDetail.fromJson(
             json['ServiceActionDetail'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateTagOptionInputToJson(
+    CreateTagOptionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Key', instance.key);
+  writeNotNull('Value', instance.value);
+  return val;
 }
 
 CreateTagOptionOutput _$CreateTagOptionOutputFromJson(
@@ -252,14 +587,61 @@ CreateTagOptionOutput _$CreateTagOptionOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteConstraintInputToJson(
+    DeleteConstraintInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  return val;
+}
+
 DeleteConstraintOutput _$DeleteConstraintOutputFromJson(
     Map<String, dynamic> json) {
   return DeleteConstraintOutput();
 }
 
+Map<String, dynamic> _$DeletePortfolioInputToJson(
+    DeletePortfolioInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  return val;
+}
+
 DeletePortfolioOutput _$DeletePortfolioOutputFromJson(
     Map<String, dynamic> json) {
   return DeletePortfolioOutput();
+}
+
+Map<String, dynamic> _$DeletePortfolioShareInputToJson(
+    DeletePortfolioShareInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('PortfolioId', instance.portfolioId);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('AccountId', instance.accountId);
+  writeNotNull('OrganizationNode', instance.organizationNode?.toJson());
+  return val;
 }
 
 DeletePortfolioShareOutput _$DeletePortfolioShareOutputFromJson(
@@ -269,8 +651,38 @@ DeletePortfolioShareOutput _$DeletePortfolioShareOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteProductInputToJson(DeleteProductInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  return val;
+}
+
 DeleteProductOutput _$DeleteProductOutputFromJson(Map<String, dynamic> json) {
   return DeleteProductOutput();
+}
+
+Map<String, dynamic> _$DeleteProvisionedProductPlanInputToJson(
+    DeleteProvisionedProductPlanInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('PlanId', instance.planId);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('IgnoreErrors', instance.ignoreErrors);
+  return val;
 }
 
 DeleteProvisionedProductPlanOutput _$DeleteProvisionedProductPlanOutputFromJson(
@@ -278,9 +690,40 @@ DeleteProvisionedProductPlanOutput _$DeleteProvisionedProductPlanOutputFromJson(
   return DeleteProvisionedProductPlanOutput();
 }
 
+Map<String, dynamic> _$DeleteProvisioningArtifactInputToJson(
+    DeleteProvisioningArtifactInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ProductId', instance.productId);
+  writeNotNull('ProvisioningArtifactId', instance.provisioningArtifactId);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  return val;
+}
+
 DeleteProvisioningArtifactOutput _$DeleteProvisioningArtifactOutputFromJson(
     Map<String, dynamic> json) {
   return DeleteProvisioningArtifactOutput();
+}
+
+Map<String, dynamic> _$DeleteServiceActionInputToJson(
+    DeleteServiceActionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  return val;
 }
 
 DeleteServiceActionOutput _$DeleteServiceActionOutputFromJson(
@@ -288,9 +731,38 @@ DeleteServiceActionOutput _$DeleteServiceActionOutputFromJson(
   return DeleteServiceActionOutput();
 }
 
+Map<String, dynamic> _$DeleteTagOptionInputToJson(
+    DeleteTagOptionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  return val;
+}
+
 DeleteTagOptionOutput _$DeleteTagOptionOutputFromJson(
     Map<String, dynamic> json) {
   return DeleteTagOptionOutput();
+}
+
+Map<String, dynamic> _$DescribeConstraintInputToJson(
+    DescribeConstraintInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  return val;
 }
 
 DescribeConstraintOutput _$DescribeConstraintOutputFromJson(
@@ -303,6 +775,21 @@ DescribeConstraintOutput _$DescribeConstraintOutputFromJson(
     constraintParameters: json['ConstraintParameters'] as String,
     status: _$enumDecodeNullable(_$StatusEnumMap, json['Status']),
   );
+}
+
+Map<String, dynamic> _$DescribeCopyProductStatusInputToJson(
+    DescribeCopyProductStatusInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CopyProductToken', instance.copyProductToken);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  return val;
 }
 
 DescribeCopyProductStatusOutput _$DescribeCopyProductStatusOutputFromJson(
@@ -320,6 +807,21 @@ const _$CopyProductStatusEnumMap = {
   CopyProductStatus.inProgress: 'IN_PROGRESS',
   CopyProductStatus.failed: 'FAILED',
 };
+
+Map<String, dynamic> _$DescribePortfolioInputToJson(
+    DescribePortfolioInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  return val;
+}
 
 DescribePortfolioOutput _$DescribePortfolioOutputFromJson(
     Map<String, dynamic> json) {
@@ -343,6 +845,20 @@ DescribePortfolioOutput _$DescribePortfolioOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribePortfolioShareStatusInputToJson(
+    DescribePortfolioShareStatusInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('PortfolioShareToken', instance.portfolioShareToken);
+  return val;
+}
+
 DescribePortfolioShareStatusOutput _$DescribePortfolioShareStatusOutputFromJson(
     Map<String, dynamic> json) {
   return DescribePortfolioShareStatusOutput(
@@ -363,6 +879,21 @@ const _$ShareStatusEnumMap = {
   ShareStatus.completedWithErrors: 'COMPLETED_WITH_ERRORS',
   ShareStatus.error: 'ERROR',
 };
+
+Map<String, dynamic> _$DescribeProductAsAdminInputToJson(
+    DescribeProductAsAdminInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  return val;
+}
 
 DescribeProductAsAdminOutput _$DescribeProductAsAdminOutputFromJson(
     Map<String, dynamic> json) {
@@ -392,6 +923,21 @@ DescribeProductAsAdminOutput _$DescribeProductAsAdminOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeProductInputToJson(
+    DescribeProductInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  return val;
+}
+
 DescribeProductOutput _$DescribeProductOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeProductOutput(
@@ -411,6 +957,21 @@ DescribeProductOutput _$DescribeProductOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeProductViewInputToJson(
+    DescribeProductViewInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  return val;
+}
+
 DescribeProductViewOutput _$DescribeProductViewOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeProductViewOutput(
@@ -426,6 +987,21 @@ DescribeProductViewOutput _$DescribeProductViewOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeProvisionedProductInputToJson(
+    DescribeProvisionedProductInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  return val;
+}
+
 DescribeProvisionedProductOutput _$DescribeProvisionedProductOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeProvisionedProductOutput(
@@ -439,6 +1015,23 @@ DescribeProvisionedProductOutput _$DescribeProvisionedProductOutputFromJson(
         : ProvisionedProductDetail.fromJson(
             json['ProvisionedProductDetail'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeProvisionedProductPlanInputToJson(
+    DescribeProvisionedProductPlanInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('PlanId', instance.planId);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('PageSize', instance.pageSize);
+  writeNotNull('PageToken', instance.pageToken);
+  return val;
 }
 
 DescribeProvisionedProductPlanOutput
@@ -457,6 +1050,23 @@ DescribeProvisionedProductPlanOutput
   );
 }
 
+Map<String, dynamic> _$DescribeProvisioningArtifactInputToJson(
+    DescribeProvisioningArtifactInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ProductId', instance.productId);
+  writeNotNull('ProvisioningArtifactId', instance.provisioningArtifactId);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('Verbose', instance.verbose);
+  return val;
+}
+
 DescribeProvisioningArtifactOutput _$DescribeProvisioningArtifactOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeProvisioningArtifactOutput(
@@ -469,6 +1079,23 @@ DescribeProvisioningArtifactOutput _$DescribeProvisioningArtifactOutputFromJson(
             json['ProvisioningArtifactDetail'] as Map<String, dynamic>),
     status: _$enumDecodeNullable(_$StatusEnumMap, json['Status']),
   );
+}
+
+Map<String, dynamic> _$DescribeProvisioningParametersInputToJson(
+    DescribeProvisioningParametersInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ProductId', instance.productId);
+  writeNotNull('ProvisioningArtifactId', instance.provisioningArtifactId);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('PathId', instance.pathId);
+  return val;
 }
 
 DescribeProvisioningParametersOutput
@@ -503,6 +1130,22 @@ DescribeProvisioningParametersOutput
   );
 }
 
+Map<String, dynamic> _$DescribeRecordInputToJson(DescribeRecordInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('PageSize', instance.pageSize);
+  writeNotNull('PageToken', instance.pageToken);
+  return val;
+}
+
 DescribeRecordOutput _$DescribeRecordOutputFromJson(Map<String, dynamic> json) {
   return DescribeRecordOutput(
     nextPageToken: json['NextPageToken'] as String,
@@ -514,6 +1157,22 @@ DescribeRecordOutput _$DescribeRecordOutputFromJson(Map<String, dynamic> json) {
             e == null ? null : RecordOutput.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeServiceActionExecutionParametersInputToJson(
+    DescribeServiceActionExecutionParametersInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ProvisionedProductId', instance.provisionedProductId);
+  writeNotNull('ServiceActionId', instance.serviceActionId);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  return val;
 }
 
 DescribeServiceActionExecutionParametersOutput
@@ -528,6 +1187,21 @@ DescribeServiceActionExecutionParametersOutput
   );
 }
 
+Map<String, dynamic> _$DescribeServiceActionInputToJson(
+    DescribeServiceActionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  return val;
+}
+
 DescribeServiceActionOutput _$DescribeServiceActionOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeServiceActionOutput(
@@ -536,6 +1210,20 @@ DescribeServiceActionOutput _$DescribeServiceActionOutputFromJson(
         : ServiceActionDetail.fromJson(
             json['ServiceActionDetail'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeTagOptionInputToJson(
+    DescribeTagOptionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  return val;
 }
 
 DescribeTagOptionOutput _$DescribeTagOptionOutputFromJson(
@@ -553,9 +1241,40 @@ DisableAWSOrganizationsAccessOutput
   return DisableAWSOrganizationsAccessOutput();
 }
 
+Map<String, dynamic> _$DisassociateBudgetFromResourceInputToJson(
+    DisassociateBudgetFromResourceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BudgetName', instance.budgetName);
+  writeNotNull('ResourceId', instance.resourceId);
+  return val;
+}
+
 DisassociateBudgetFromResourceOutput
     _$DisassociateBudgetFromResourceOutputFromJson(Map<String, dynamic> json) {
   return DisassociateBudgetFromResourceOutput();
+}
+
+Map<String, dynamic> _$DisassociatePrincipalFromPortfolioInputToJson(
+    DisassociatePrincipalFromPortfolioInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('PortfolioId', instance.portfolioId);
+  writeNotNull('PrincipalARN', instance.principalARN);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  return val;
 }
 
 DisassociatePrincipalFromPortfolioOutput
@@ -564,16 +1283,65 @@ DisassociatePrincipalFromPortfolioOutput
   return DisassociatePrincipalFromPortfolioOutput();
 }
 
+Map<String, dynamic> _$DisassociateProductFromPortfolioInputToJson(
+    DisassociateProductFromPortfolioInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('PortfolioId', instance.portfolioId);
+  writeNotNull('ProductId', instance.productId);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  return val;
+}
+
 DisassociateProductFromPortfolioOutput
     _$DisassociateProductFromPortfolioOutputFromJson(
         Map<String, dynamic> json) {
   return DisassociateProductFromPortfolioOutput();
 }
 
+Map<String, dynamic>
+    _$DisassociateServiceActionFromProvisioningArtifactInputToJson(
+        DisassociateServiceActionFromProvisioningArtifactInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ProductId', instance.productId);
+  writeNotNull('ProvisioningArtifactId', instance.provisioningArtifactId);
+  writeNotNull('ServiceActionId', instance.serviceActionId);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  return val;
+}
+
 DisassociateServiceActionFromProvisioningArtifactOutput
     _$DisassociateServiceActionFromProvisioningArtifactOutputFromJson(
         Map<String, dynamic> json) {
   return DisassociateServiceActionFromProvisioningArtifactOutput();
+}
+
+Map<String, dynamic> _$DisassociateTagOptionFromResourceInputToJson(
+    DisassociateTagOptionFromResourceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceId', instance.resourceId);
+  writeNotNull('TagOptionId', instance.tagOptionId);
+  return val;
 }
 
 DisassociateTagOptionFromResourceOutput
@@ -587,6 +1355,22 @@ EnableAWSOrganizationsAccessOutput _$EnableAWSOrganizationsAccessOutputFromJson(
   return EnableAWSOrganizationsAccessOutput();
 }
 
+Map<String, dynamic> _$ExecuteProvisionedProductPlanInputToJson(
+    ExecuteProvisionedProductPlanInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('IdempotencyToken', instance.idempotencyToken);
+  writeNotNull('PlanId', instance.planId);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  return val;
+}
+
 ExecuteProvisionedProductPlanOutput
     _$ExecuteProvisionedProductPlanOutputFromJson(Map<String, dynamic> json) {
   return ExecuteProvisionedProductPlanOutput(
@@ -594,6 +1378,24 @@ ExecuteProvisionedProductPlanOutput
         ? null
         : RecordDetail.fromJson(json['RecordDetail'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$ExecuteProvisionedProductServiceActionInputToJson(
+    ExecuteProvisionedProductServiceActionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ExecuteToken', instance.executeToken);
+  writeNotNull('ProvisionedProductId', instance.provisionedProductId);
+  writeNotNull('ServiceActionId', instance.serviceActionId);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('Parameters', instance.parameters);
+  return val;
 }
 
 ExecuteProvisionedProductServiceActionOutput
@@ -664,6 +1466,24 @@ LaunchPathSummary _$LaunchPathSummaryFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ListAcceptedPortfolioSharesInputToJson(
+    ListAcceptedPortfolioSharesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('PageSize', instance.pageSize);
+  writeNotNull('PageToken', instance.pageToken);
+  writeNotNull('PortfolioShareType',
+      _$PortfolioShareTypeEnumMap[instance.portfolioShareType]);
+  return val;
+}
+
 ListAcceptedPortfolioSharesOutput _$ListAcceptedPortfolioSharesOutputFromJson(
     Map<String, dynamic> json) {
   return ListAcceptedPortfolioSharesOutput(
@@ -676,6 +1496,23 @@ ListAcceptedPortfolioSharesOutput _$ListAcceptedPortfolioSharesOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$ListBudgetsForResourceInputToJson(
+    ListBudgetsForResourceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceId', instance.resourceId);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('PageSize', instance.pageSize);
+  writeNotNull('PageToken', instance.pageToken);
+  return val;
+}
+
 ListBudgetsForResourceOutput _$ListBudgetsForResourceOutputFromJson(
     Map<String, dynamic> json) {
   return ListBudgetsForResourceOutput(
@@ -685,6 +1522,24 @@ ListBudgetsForResourceOutput _$ListBudgetsForResourceOutputFromJson(
         ?.toList(),
     nextPageToken: json['NextPageToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListConstraintsForPortfolioInputToJson(
+    ListConstraintsForPortfolioInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('PortfolioId', instance.portfolioId);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('PageSize', instance.pageSize);
+  writeNotNull('PageToken', instance.pageToken);
+  writeNotNull('ProductId', instance.productId);
+  return val;
 }
 
 ListConstraintsForPortfolioOutput _$ListConstraintsForPortfolioOutputFromJson(
@@ -699,6 +1554,23 @@ ListConstraintsForPortfolioOutput _$ListConstraintsForPortfolioOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$ListLaunchPathsInputToJson(
+    ListLaunchPathsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ProductId', instance.productId);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('PageSize', instance.pageSize);
+  writeNotNull('PageToken', instance.pageToken);
+  return val;
+}
+
 ListLaunchPathsOutput _$ListLaunchPathsOutputFromJson(
     Map<String, dynamic> json) {
   return ListLaunchPathsOutput(
@@ -710,6 +1582,31 @@ ListLaunchPathsOutput _$ListLaunchPathsOutputFromJson(
     nextPageToken: json['NextPageToken'] as String,
   );
 }
+
+Map<String, dynamic> _$ListOrganizationPortfolioAccessInputToJson(
+    ListOrganizationPortfolioAccessInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('OrganizationNodeType',
+      _$OrganizationNodeTypeEnumMap[instance.organizationNodeType]);
+  writeNotNull('PortfolioId', instance.portfolioId);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('PageSize', instance.pageSize);
+  writeNotNull('PageToken', instance.pageToken);
+  return val;
+}
+
+const _$OrganizationNodeTypeEnumMap = {
+  OrganizationNodeType.organization: 'ORGANIZATION',
+  OrganizationNodeType.organizationalUnit: 'ORGANIZATIONAL_UNIT',
+  OrganizationNodeType.account: 'ACCOUNT',
+};
 
 ListOrganizationPortfolioAccessOutput
     _$ListOrganizationPortfolioAccessOutputFromJson(Map<String, dynamic> json) {
@@ -723,12 +1620,47 @@ ListOrganizationPortfolioAccessOutput
   );
 }
 
+Map<String, dynamic> _$ListPortfolioAccessInputToJson(
+    ListPortfolioAccessInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('PortfolioId', instance.portfolioId);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('OrganizationParentId', instance.organizationParentId);
+  writeNotNull('PageSize', instance.pageSize);
+  writeNotNull('PageToken', instance.pageToken);
+  return val;
+}
+
 ListPortfolioAccessOutput _$ListPortfolioAccessOutputFromJson(
     Map<String, dynamic> json) {
   return ListPortfolioAccessOutput(
     accountIds: (json['AccountIds'] as List)?.map((e) => e as String)?.toList(),
     nextPageToken: json['NextPageToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListPortfoliosForProductInputToJson(
+    ListPortfoliosForProductInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ProductId', instance.productId);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('PageSize', instance.pageSize);
+  writeNotNull('PageToken', instance.pageToken);
+  return val;
 }
 
 ListPortfoliosForProductOutput _$ListPortfoliosForProductOutputFromJson(
@@ -743,6 +1675,21 @@ ListPortfoliosForProductOutput _$ListPortfoliosForProductOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$ListPortfoliosInputToJson(ListPortfoliosInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('PageSize', instance.pageSize);
+  writeNotNull('PageToken', instance.pageToken);
+  return val;
+}
+
 ListPortfoliosOutput _$ListPortfoliosOutputFromJson(Map<String, dynamic> json) {
   return ListPortfoliosOutput(
     nextPageToken: json['NextPageToken'] as String,
@@ -752,6 +1699,23 @@ ListPortfoliosOutput _$ListPortfoliosOutputFromJson(Map<String, dynamic> json) {
             : PortfolioDetail.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListPrincipalsForPortfolioInputToJson(
+    ListPrincipalsForPortfolioInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('PortfolioId', instance.portfolioId);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('PageSize', instance.pageSize);
+  writeNotNull('PageToken', instance.pageToken);
+  return val;
 }
 
 ListPrincipalsForPortfolioOutput _$ListPrincipalsForPortfolioOutputFromJson(
@@ -765,6 +1729,24 @@ ListPrincipalsForPortfolioOutput _$ListPrincipalsForPortfolioOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$ListProvisionedProductPlansInputToJson(
+    ListProvisionedProductPlansInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('AccessLevelFilter', instance.accessLevelFilter?.toJson());
+  writeNotNull('PageSize', instance.pageSize);
+  writeNotNull('PageToken', instance.pageToken);
+  writeNotNull('ProvisionProductId', instance.provisionProductId);
+  return val;
+}
+
 ListProvisionedProductPlansOutput _$ListProvisionedProductPlansOutputFromJson(
     Map<String, dynamic> json) {
   return ListProvisionedProductPlansOutput(
@@ -775,6 +1757,23 @@ ListProvisionedProductPlansOutput _$ListProvisionedProductPlansOutputFromJson(
             : ProvisionedProductPlanSummary.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListProvisioningArtifactsForServiceActionInputToJson(
+    ListProvisioningArtifactsForServiceActionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ServiceActionId', instance.serviceActionId);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('PageSize', instance.pageSize);
+  writeNotNull('PageToken', instance.pageToken);
+  return val;
 }
 
 ListProvisioningArtifactsForServiceActionOutput
@@ -790,6 +1789,21 @@ ListProvisioningArtifactsForServiceActionOutput
   );
 }
 
+Map<String, dynamic> _$ListProvisioningArtifactsInputToJson(
+    ListProvisioningArtifactsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ProductId', instance.productId);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  return val;
+}
+
 ListProvisioningArtifactsOutput _$ListProvisioningArtifactsOutputFromJson(
     Map<String, dynamic> json) {
   return ListProvisioningArtifactsOutput(
@@ -800,6 +1814,24 @@ ListProvisioningArtifactsOutput _$ListProvisioningArtifactsOutputFromJson(
             : ProvisioningArtifactDetail.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListRecordHistoryInputToJson(
+    ListRecordHistoryInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('AccessLevelFilter', instance.accessLevelFilter?.toJson());
+  writeNotNull('PageSize', instance.pageSize);
+  writeNotNull('PageToken', instance.pageToken);
+  writeNotNull('SearchFilter', instance.searchFilter?.toJson());
+  return val;
 }
 
 ListRecordHistoryOutput _$ListRecordHistoryOutputFromJson(
@@ -828,6 +1860,23 @@ Map<String, dynamic> _$ListRecordHistorySearchFilterToJson(
   return val;
 }
 
+Map<String, dynamic> _$ListResourcesForTagOptionInputToJson(
+    ListResourcesForTagOptionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TagOptionId', instance.tagOptionId);
+  writeNotNull('PageSize', instance.pageSize);
+  writeNotNull('PageToken', instance.pageToken);
+  writeNotNull('ResourceType', instance.resourceType);
+  return val;
+}
+
 ListResourcesForTagOptionOutput _$ListResourcesForTagOptionOutputFromJson(
     Map<String, dynamic> json) {
   return ListResourcesForTagOptionOutput(
@@ -838,6 +1887,24 @@ ListResourcesForTagOptionOutput _$ListResourcesForTagOptionOutputFromJson(
             : ResourceDetail.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListServiceActionsForProvisioningArtifactInputToJson(
+    ListServiceActionsForProvisioningArtifactInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ProductId', instance.productId);
+  writeNotNull('ProvisioningArtifactId', instance.provisioningArtifactId);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('PageSize', instance.pageSize);
+  writeNotNull('PageToken', instance.pageToken);
+  return val;
 }
 
 ListServiceActionsForProvisioningArtifactOutput
@@ -853,6 +1920,22 @@ ListServiceActionsForProvisioningArtifactOutput
   );
 }
 
+Map<String, dynamic> _$ListServiceActionsInputToJson(
+    ListServiceActionsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('PageSize', instance.pageSize);
+  writeNotNull('PageToken', instance.pageToken);
+  return val;
+}
+
 ListServiceActionsOutput _$ListServiceActionsOutputFromJson(
     Map<String, dynamic> json) {
   return ListServiceActionsOutput(
@@ -863,6 +1946,23 @@ ListServiceActionsOutput _$ListServiceActionsOutputFromJson(
             : ServiceActionSummary.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListStackInstancesForProvisionedProductInputToJson(
+    ListStackInstancesForProvisionedProductInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ProvisionedProductId', instance.provisionedProductId);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('PageSize', instance.pageSize);
+  writeNotNull('PageToken', instance.pageToken);
+  return val;
 }
 
 ListStackInstancesForProvisionedProductOutput
@@ -891,6 +1991,21 @@ Map<String, dynamic> _$ListTagOptionsFiltersToJson(
   writeNotNull('Active', instance.active);
   writeNotNull('Key', instance.key);
   writeNotNull('Value', instance.value);
+  return val;
+}
+
+Map<String, dynamic> _$ListTagOptionsInputToJson(ListTagOptionsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.toJson());
+  writeNotNull('PageSize', instance.pageSize);
+  writeNotNull('PageToken', instance.pageToken);
   return val;
 }
 
@@ -926,12 +2041,6 @@ Map<String, dynamic> _$OrganizationNodeToJson(OrganizationNode instance) {
   return val;
 }
 
-const _$OrganizationNodeTypeEnumMap = {
-  OrganizationNodeType.organization: 'ORGANIZATION',
-  OrganizationNodeType.organizationalUnit: 'ORGANIZATIONAL_UNIT',
-  OrganizationNodeType.account: 'ACCOUNT',
-};
-
 ParameterConstraints _$ParameterConstraintsFromJson(Map<String, dynamic> json) {
   return ParameterConstraints(
     allowedValues:
@@ -957,10 +2066,6 @@ Principal _$PrincipalFromJson(Map<String, dynamic> json) {
         _$enumDecodeNullable(_$PrincipalTypeEnumMap, json['PrincipalType']),
   );
 }
-
-const _$PrincipalTypeEnumMap = {
-  PrincipalType.iam: 'IAM',
-};
 
 ProductViewAggregationValue _$ProductViewAggregationValueFromJson(
     Map<String, dynamic> json) {
@@ -998,10 +2103,30 @@ ProductViewSummary _$ProductViewSummaryFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$ProductTypeEnumMap = {
-  ProductType.cloudFormationTemplate: 'CLOUD_FORMATION_TEMPLATE',
-  ProductType.marketplace: 'MARKETPLACE',
-};
+Map<String, dynamic> _$ProvisionProductInputToJson(
+    ProvisionProductInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ProductId', instance.productId);
+  writeNotNull('ProvisionToken', instance.provisionToken);
+  writeNotNull('ProvisionedProductName', instance.provisionedProductName);
+  writeNotNull('ProvisioningArtifactId', instance.provisioningArtifactId);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('NotificationArns', instance.notificationArns);
+  writeNotNull('PathId', instance.pathId);
+  writeNotNull('ProvisioningParameters',
+      instance.provisioningParameters?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'ProvisioningPreferences', instance.provisioningPreferences?.toJson());
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
 
 ProvisionProductOutput _$ProvisionProductOutputFromJson(
     Map<String, dynamic> json) {
@@ -1091,10 +2216,6 @@ ProvisionedProductPlanDetails _$ProvisionedProductPlanDetailsFromJson(
     updatedTime: unixTimestampFromJson(json['UpdatedTime']),
   );
 }
-
-const _$ProvisionedProductPlanTypeEnumMap = {
-  ProvisionedProductPlanType.cloudformation: 'CLOUDFORMATION',
-};
 
 const _$ProvisionedProductPlanStatusEnumMap = {
   ProvisionedProductPlanStatus.createInProgress: 'CREATE_IN_PROGRESS',
@@ -1317,6 +2438,23 @@ RecordTag _$RecordTagFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$RejectPortfolioShareInputToJson(
+    RejectPortfolioShareInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('PortfolioId', instance.portfolioId);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('PortfolioShareType',
+      _$PortfolioShareTypeEnumMap[instance.portfolioShareType]);
+  return val;
+}
+
 RejectPortfolioShareOutput _$RejectPortfolioShareOutputFromJson(
     Map<String, dynamic> json) {
   return RejectPortfolioShareOutput();
@@ -1404,6 +2542,23 @@ const _$RequiresRecreationEnumMap = {
   RequiresRecreation.always: 'ALWAYS',
 };
 
+Map<String, dynamic> _$ScanProvisionedProductsInputToJson(
+    ScanProvisionedProductsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('AccessLevelFilter', instance.accessLevelFilter?.toJson());
+  writeNotNull('PageSize', instance.pageSize);
+  writeNotNull('PageToken', instance.pageToken);
+  return val;
+}
+
 ScanProvisionedProductsOutput _$ScanProvisionedProductsOutputFromJson(
     Map<String, dynamic> json) {
   return ScanProvisionedProductsOutput(
@@ -1416,6 +2571,42 @@ ScanProvisionedProductsOutput _$ScanProvisionedProductsOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$SearchProductsAsAdminInputToJson(
+    SearchProductsAsAdminInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('Filters', instance.filters);
+  writeNotNull('PageSize', instance.pageSize);
+  writeNotNull('PageToken', instance.pageToken);
+  writeNotNull('PortfolioId', instance.portfolioId);
+  writeNotNull('ProductSource', _$ProductSourceEnumMap[instance.productSource]);
+  writeNotNull('SortBy', _$ProductViewSortByEnumMap[instance.sortBy]);
+  writeNotNull('SortOrder', _$SortOrderEnumMap[instance.sortOrder]);
+  return val;
+}
+
+const _$ProductSourceEnumMap = {
+  ProductSource.account: 'ACCOUNT',
+};
+
+const _$ProductViewSortByEnumMap = {
+  ProductViewSortBy.title: 'Title',
+  ProductViewSortBy.versionCount: 'VersionCount',
+  ProductViewSortBy.creationDate: 'CreationDate',
+};
+
+const _$SortOrderEnumMap = {
+  SortOrder.ascending: 'ASCENDING',
+  SortOrder.descending: 'DESCENDING',
+};
+
 SearchProductsAsAdminOutput _$SearchProductsAsAdminOutputFromJson(
     Map<String, dynamic> json) {
   return SearchProductsAsAdminOutput(
@@ -1426,6 +2617,24 @@ SearchProductsAsAdminOutput _$SearchProductsAsAdminOutputFromJson(
             : ProductViewDetail.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$SearchProductsInputToJson(SearchProductsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('Filters', instance.filters);
+  writeNotNull('PageSize', instance.pageSize);
+  writeNotNull('PageToken', instance.pageToken);
+  writeNotNull('SortBy', _$ProductViewSortByEnumMap[instance.sortBy]);
+  writeNotNull('SortOrder', _$SortOrderEnumMap[instance.sortOrder]);
+  return val;
 }
 
 SearchProductsOutput _$SearchProductsOutputFromJson(Map<String, dynamic> json) {
@@ -1448,6 +2657,26 @@ SearchProductsOutput _$SearchProductsOutputFromJson(Map<String, dynamic> json) {
             : ProductViewSummary.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$SearchProvisionedProductsInputToJson(
+    SearchProvisionedProductsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('AccessLevelFilter', instance.accessLevelFilter?.toJson());
+  writeNotNull('Filters', instance.filters);
+  writeNotNull('PageSize', instance.pageSize);
+  writeNotNull('PageToken', instance.pageToken);
+  writeNotNull('SortBy', instance.sortBy);
+  writeNotNull('SortOrder', _$SortOrderEnumMap[instance.sortOrder]);
+  return val;
 }
 
 SearchProvisionedProductsOutput _$SearchProvisionedProductsOutputFromJson(
@@ -1500,10 +2729,6 @@ ServiceActionSummary _$ServiceActionSummaryFromJson(Map<String, dynamic> json) {
     name: json['Name'] as String,
   );
 }
-
-const _$ServiceActionDefinitionTypeEnumMap = {
-  ServiceActionDefinitionType.ssmAutomation: 'SSM_AUTOMATION',
-};
 
 ShareDetails _$ShareDetailsFromJson(Map<String, dynamic> json) {
   return ShareDetails(
@@ -1576,6 +2801,24 @@ TagOptionSummary _$TagOptionSummaryFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$TerminateProvisionedProductInputToJson(
+    TerminateProvisionedProductInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TerminateToken', instance.terminateToken);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('IgnoreErrors', instance.ignoreErrors);
+  writeNotNull('ProvisionedProductId', instance.provisionedProductId);
+  writeNotNull('ProvisionedProductName', instance.provisionedProductName);
+  return val;
+}
+
 TerminateProvisionedProductOutput _$TerminateProvisionedProductOutputFromJson(
     Map<String, dynamic> json) {
   return TerminateProvisionedProductOutput(
@@ -1583,6 +2826,23 @@ TerminateProvisionedProductOutput _$TerminateProvisionedProductOutputFromJson(
         ? null
         : RecordDetail.fromJson(json['RecordDetail'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateConstraintInputToJson(
+    UpdateConstraintInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('Description', instance.description);
+  writeNotNull('Parameters', instance.parameters);
+  return val;
 }
 
 UpdateConstraintOutput _$UpdateConstraintOutputFromJson(
@@ -1595,6 +2855,26 @@ UpdateConstraintOutput _$UpdateConstraintOutputFromJson(
     constraintParameters: json['ConstraintParameters'] as String,
     status: _$enumDecodeNullable(_$StatusEnumMap, json['Status']),
   );
+}
+
+Map<String, dynamic> _$UpdatePortfolioInputToJson(
+    UpdatePortfolioInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('AddTags', instance.addTags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Description', instance.description);
+  writeNotNull('DisplayName', instance.displayName);
+  writeNotNull('ProviderName', instance.providerName);
+  writeNotNull('RemoveTags', instance.removeTags);
+  return val;
 }
 
 UpdatePortfolioOutput _$UpdatePortfolioOutputFromJson(
@@ -1610,6 +2890,29 @@ UpdatePortfolioOutput _$UpdatePortfolioOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateProductInputToJson(UpdateProductInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('AddTags', instance.addTags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Description', instance.description);
+  writeNotNull('Distributor', instance.distributor);
+  writeNotNull('Name', instance.name);
+  writeNotNull('Owner', instance.owner);
+  writeNotNull('RemoveTags', instance.removeTags);
+  writeNotNull('SupportDescription', instance.supportDescription);
+  writeNotNull('SupportEmail', instance.supportEmail);
+  writeNotNull('SupportUrl', instance.supportUrl);
+  return val;
+}
+
 UpdateProductOutput _$UpdateProductOutputFromJson(Map<String, dynamic> json) {
   return UpdateProductOutput(
     productViewDetail: json['ProductViewDetail'] == null
@@ -1622,6 +2925,31 @@ UpdateProductOutput _$UpdateProductOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$UpdateProvisionedProductInputToJson(
+    UpdateProvisionedProductInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UpdateToken', instance.updateToken);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('PathId', instance.pathId);
+  writeNotNull('ProductId', instance.productId);
+  writeNotNull('ProvisionedProductId', instance.provisionedProductId);
+  writeNotNull('ProvisionedProductName', instance.provisionedProductName);
+  writeNotNull('ProvisioningArtifactId', instance.provisioningArtifactId);
+  writeNotNull('ProvisioningParameters',
+      instance.provisioningParameters?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'ProvisioningPreferences', instance.provisioningPreferences?.toJson());
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 UpdateProvisionedProductOutput _$UpdateProvisionedProductOutputFromJson(
     Map<String, dynamic> json) {
   return UpdateProvisionedProductOutput(
@@ -1629,6 +2957,24 @@ UpdateProvisionedProductOutput _$UpdateProvisionedProductOutputFromJson(
         ? null
         : RecordDetail.fromJson(json['RecordDetail'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateProvisionedProductPropertiesInputToJson(
+    UpdateProvisionedProductPropertiesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('IdempotencyToken', instance.idempotencyToken);
+  writeNotNull('ProvisionedProductId', instance.provisionedProductId);
+  writeNotNull(
+      'ProvisionedProductProperties', instance.provisionedProductProperties);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  return val;
 }
 
 UpdateProvisionedProductPropertiesOutput
@@ -1643,6 +2989,27 @@ UpdateProvisionedProductPropertiesOutput
     recordId: json['RecordId'] as String,
     status: _$enumDecodeNullable(_$RecordStatusEnumMap, json['Status']),
   );
+}
+
+Map<String, dynamic> _$UpdateProvisioningArtifactInputToJson(
+    UpdateProvisioningArtifactInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ProductId', instance.productId);
+  writeNotNull('ProvisioningArtifactId', instance.provisioningArtifactId);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('Active', instance.active);
+  writeNotNull('Description', instance.description);
+  writeNotNull(
+      'Guidance', _$ProvisioningArtifactGuidanceEnumMap[instance.guidance]);
+  writeNotNull('Name', instance.name);
+  return val;
 }
 
 UpdateProvisioningArtifactOutput _$UpdateProvisioningArtifactOutputFromJson(
@@ -1715,6 +3082,24 @@ const _$StackSetOperationTypeEnumMap = {
   StackSetOperationType.delete: 'DELETE',
 };
 
+Map<String, dynamic> _$UpdateServiceActionInputToJson(
+    UpdateServiceActionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  writeNotNull('AcceptLanguage', instance.acceptLanguage);
+  writeNotNull('Definition', instance.definition);
+  writeNotNull('Description', instance.description);
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
 UpdateServiceActionOutput _$UpdateServiceActionOutputFromJson(
     Map<String, dynamic> json) {
   return UpdateServiceActionOutput(
@@ -1723,6 +3108,22 @@ UpdateServiceActionOutput _$UpdateServiceActionOutputFromJson(
         : ServiceActionDetail.fromJson(
             json['ServiceActionDetail'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateTagOptionInputToJson(
+    UpdateTagOptionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  writeNotNull('Active', instance.active);
+  writeNotNull('Value', instance.value);
+  return val;
 }
 
 UpdateTagOptionOutput _$UpdateTagOptionOutputFromJson(

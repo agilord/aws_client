@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -61,9 +60,10 @@ class MediaConnect {
   }) async {
     ArgumentError.checkNotNull(flowArn, 'flowArn');
     ArgumentError.checkNotNull(outputs, 'outputs');
-    final $payload = <String, dynamic>{
-      'Outputs': outputs,
-    };
+    final $payload = AddFlowOutputsRequest(
+      flowArn: flowArn,
+      outputs: outputs,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -94,9 +94,10 @@ class MediaConnect {
   }) async {
     ArgumentError.checkNotNull(flowArn, 'flowArn');
     ArgumentError.checkNotNull(sources, 'sources');
-    final $payload = <String, dynamic>{
-      'Sources': sources,
-    };
+    final $payload = AddFlowSourcesRequest(
+      flowArn: flowArn,
+      sources: sources,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -126,9 +127,10 @@ class MediaConnect {
   }) async {
     ArgumentError.checkNotNull(flowArn, 'flowArn');
     ArgumentError.checkNotNull(vpcInterfaces, 'vpcInterfaces');
-    final $payload = <String, dynamic>{
-      'VpcInterfaces': vpcInterfaces,
-    };
+    final $payload = AddFlowVpcInterfacesRequest(
+      flowArn: flowArn,
+      vpcInterfaces: vpcInterfaces,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -175,17 +177,16 @@ class MediaConnect {
     List<VpcInterfaceRequest> vpcInterfaces,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    final $payload = <String, dynamic>{
-      'Name': name,
-      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
-      if (entitlements != null) 'Entitlements': entitlements,
-      if (outputs != null) 'Outputs': outputs,
-      if (source != null) 'Source': source,
-      if (sourceFailoverConfig != null)
-        'SourceFailoverConfig': sourceFailoverConfig,
-      if (sources != null) 'Sources': sources,
-      if (vpcInterfaces != null) 'VpcInterfaces': vpcInterfaces,
-    };
+    final $payload = CreateFlowRequest(
+      name: name,
+      availabilityZone: availabilityZone,
+      entitlements: entitlements,
+      outputs: outputs,
+      source: source,
+      sourceFailoverConfig: sourceFailoverConfig,
+      sources: sources,
+      vpcInterfaces: vpcInterfaces,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -210,7 +211,9 @@ class MediaConnect {
     @_s.required String flowArn,
   }) async {
     ArgumentError.checkNotNull(flowArn, 'flowArn');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteFlowRequest(
+      flowArn: flowArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -267,9 +270,10 @@ class MediaConnect {
   }) async {
     ArgumentError.checkNotNull(entitlements, 'entitlements');
     ArgumentError.checkNotNull(flowArn, 'flowArn');
-    final $payload = <String, dynamic>{
-      'Entitlements': entitlements,
-    };
+    final $payload = GrantFlowEntitlementsRequest(
+      entitlements: entitlements,
+      flowArn: flowArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -420,7 +424,10 @@ class MediaConnect {
   }) async {
     ArgumentError.checkNotNull(flowArn, 'flowArn');
     ArgumentError.checkNotNull(outputArn, 'outputArn');
-    final $payload = <String, dynamic>{};
+    final $payload = RemoveFlowOutputRequest(
+      flowArn: flowArn,
+      outputArn: outputArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -452,7 +459,10 @@ class MediaConnect {
   }) async {
     ArgumentError.checkNotNull(flowArn, 'flowArn');
     ArgumentError.checkNotNull(sourceArn, 'sourceArn');
-    final $payload = <String, dynamic>{};
+    final $payload = RemoveFlowSourceRequest(
+      flowArn: flowArn,
+      sourceArn: sourceArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -487,7 +497,10 @@ class MediaConnect {
   }) async {
     ArgumentError.checkNotNull(flowArn, 'flowArn');
     ArgumentError.checkNotNull(vpcInterfaceName, 'vpcInterfaceName');
-    final $payload = <String, dynamic>{};
+    final $payload = RemoveFlowVpcInterfaceRequest(
+      flowArn: flowArn,
+      vpcInterfaceName: vpcInterfaceName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -520,7 +533,10 @@ class MediaConnect {
   }) async {
     ArgumentError.checkNotNull(entitlementArn, 'entitlementArn');
     ArgumentError.checkNotNull(flowArn, 'flowArn');
-    final $payload = <String, dynamic>{};
+    final $payload = RevokeFlowEntitlementRequest(
+      entitlementArn: entitlementArn,
+      flowArn: flowArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -546,7 +562,9 @@ class MediaConnect {
     @_s.required String flowArn,
   }) async {
     ArgumentError.checkNotNull(flowArn, 'flowArn');
-    final $payload = <String, dynamic>{};
+    final $payload = StartFlowRequest(
+      flowArn: flowArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -571,7 +589,9 @@ class MediaConnect {
     @_s.required String flowArn,
   }) async {
     ArgumentError.checkNotNull(flowArn, 'flowArn');
-    final $payload = <String, dynamic>{};
+    final $payload = StopFlowRequest(
+      flowArn: flowArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -604,9 +624,10 @@ class MediaConnect {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'Tags': tags,
-    };
+    final $payload = TagResourceRequest(
+      resourceArn: resourceArn,
+      tags: tags,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -637,7 +658,10 @@ class MediaConnect {
     _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = UntagResourceRequest(
+      resourceArn: resourceArn,
+      tagKeys: tagKeys,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -662,10 +686,10 @@ class MediaConnect {
     UpdateFailoverConfig sourceFailoverConfig,
   }) async {
     ArgumentError.checkNotNull(flowArn, 'flowArn');
-    final $payload = <String, dynamic>{
-      if (sourceFailoverConfig != null)
-        'SourceFailoverConfig': sourceFailoverConfig,
-    };
+    final $payload = UpdateFlowRequest(
+      flowArn: flowArn,
+      sourceFailoverConfig: sourceFailoverConfig,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -714,11 +738,13 @@ class MediaConnect {
   }) async {
     ArgumentError.checkNotNull(entitlementArn, 'entitlementArn');
     ArgumentError.checkNotNull(flowArn, 'flowArn');
-    final $payload = <String, dynamic>{
-      if (description != null) 'Description': description,
-      if (encryption != null) 'Encryption': encryption,
-      if (subscribers != null) 'Subscribers': subscribers,
-    };
+    final $payload = UpdateFlowEntitlementRequest(
+      entitlementArn: entitlementArn,
+      flowArn: flowArn,
+      description: description,
+      encryption: encryption,
+      subscribers: subscribers,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -798,20 +824,21 @@ class MediaConnect {
   }) async {
     ArgumentError.checkNotNull(flowArn, 'flowArn');
     ArgumentError.checkNotNull(outputArn, 'outputArn');
-    final $payload = <String, dynamic>{
-      if (cidrAllowList != null) 'CidrAllowList': cidrAllowList,
-      if (description != null) 'Description': description,
-      if (destination != null) 'Destination': destination,
-      if (encryption != null) 'Encryption': encryption,
-      if (maxLatency != null) 'MaxLatency': maxLatency,
-      if (port != null) 'Port': port,
-      if (protocol != null) 'Protocol': protocol?.toValue(),
-      if (remoteId != null) 'RemoteId': remoteId,
-      if (smoothingLatency != null) 'SmoothingLatency': smoothingLatency,
-      if (streamId != null) 'StreamId': streamId,
-      if (vpcInterfaceAttachment != null)
-        'VpcInterfaceAttachment': vpcInterfaceAttachment,
-    };
+    final $payload = UpdateFlowOutputRequest(
+      flowArn: flowArn,
+      outputArn: outputArn,
+      cidrAllowList: cidrAllowList,
+      description: description,
+      destination: destination,
+      encryption: encryption,
+      maxLatency: maxLatency,
+      port: port,
+      protocol: protocol,
+      remoteId: remoteId,
+      smoothingLatency: smoothingLatency,
+      streamId: streamId,
+      vpcInterfaceAttachment: vpcInterfaceAttachment,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -889,18 +916,20 @@ class MediaConnect {
   }) async {
     ArgumentError.checkNotNull(flowArn, 'flowArn');
     ArgumentError.checkNotNull(sourceArn, 'sourceArn');
-    final $payload = <String, dynamic>{
-      if (decryption != null) 'Decryption': decryption,
-      if (description != null) 'Description': description,
-      if (entitlementArn != null) 'EntitlementArn': entitlementArn,
-      if (ingestPort != null) 'IngestPort': ingestPort,
-      if (maxBitrate != null) 'MaxBitrate': maxBitrate,
-      if (maxLatency != null) 'MaxLatency': maxLatency,
-      if (protocol != null) 'Protocol': protocol?.toValue(),
-      if (streamId != null) 'StreamId': streamId,
-      if (vpcInterfaceName != null) 'VpcInterfaceName': vpcInterfaceName,
-      if (whitelistCidr != null) 'WhitelistCidr': whitelistCidr,
-    };
+    final $payload = UpdateFlowSourceRequest(
+      flowArn: flowArn,
+      sourceArn: sourceArn,
+      decryption: decryption,
+      description: description,
+      entitlementArn: entitlementArn,
+      ingestPort: ingestPort,
+      maxBitrate: maxBitrate,
+      maxLatency: maxLatency,
+      protocol: protocol,
+      streamId: streamId,
+      vpcInterfaceName: vpcInterfaceName,
+      whitelistCidr: whitelistCidr,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -910,6 +939,28 @@ class MediaConnect {
     );
     return UpdateFlowSourceResponse.fromJson(response);
   }
+}
+
+/// A request to add outputs to the specified flow.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AddFlowOutputsRequest {
+  /// The flow that you want to add outputs to.
+  @_s.JsonKey(name: 'flowArn', ignore: true)
+  final String flowArn;
+
+  /// A list of outputs that you want to add.
+  @_s.JsonKey(name: 'outputs')
+  final List<AddOutputRequest> outputs;
+
+  AddFlowOutputsRequest({
+    @_s.required this.flowArn,
+    @_s.required this.outputs,
+  });
+  Map<String, dynamic> toJson() => _$AddFlowOutputsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -934,6 +985,28 @@ class AddFlowOutputsResponse {
       _$AddFlowOutputsResponseFromJson(json);
 }
 
+/// A request to add sources to the flow.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AddFlowSourcesRequest {
+  /// The flow that you want to mutate.
+  @_s.JsonKey(name: 'flowArn', ignore: true)
+  final String flowArn;
+
+  /// A list of sources that you want to add.
+  @_s.JsonKey(name: 'sources')
+  final List<SetSourceRequest> sources;
+
+  AddFlowSourcesRequest({
+    @_s.required this.flowArn,
+    @_s.required this.sources,
+  });
+  Map<String, dynamic> toJson() => _$AddFlowSourcesRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -954,6 +1027,28 @@ class AddFlowSourcesResponse {
   });
   factory AddFlowSourcesResponse.fromJson(Map<String, dynamic> json) =>
       _$AddFlowSourcesResponseFromJson(json);
+}
+
+/// A request to add VPC interfaces to the flow.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AddFlowVpcInterfacesRequest {
+  /// The flow that you want to mutate.
+  @_s.JsonKey(name: 'flowArn', ignore: true)
+  final String flowArn;
+
+  /// A list of VPC interfaces that you want to add.
+  @_s.JsonKey(name: 'vpcInterfaces')
+  final List<VpcInterfaceRequest> vpcInterfaces;
+
+  AddFlowVpcInterfacesRequest({
+    @_s.required this.flowArn,
+    @_s.required this.vpcInterfaces,
+  });
+  Map<String, dynamic> toJson() => _$AddFlowVpcInterfacesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1064,6 +1159,54 @@ enum Algorithm {
   aes256,
 }
 
+/// Creates a new flow. The request must include one source. The request
+/// optionally can include outputs (up to 50) and entitlements (up to 50).
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateFlowRequest {
+  /// The name of the flow.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The Availability Zone that you want to create the flow in. These options are
+  /// limited to the Availability Zones within the current AWS Region.
+  @_s.JsonKey(name: 'availabilityZone')
+  final String availabilityZone;
+
+  /// The entitlements that you want to grant on a flow.
+  @_s.JsonKey(name: 'entitlements')
+  final List<GrantEntitlementRequest> entitlements;
+
+  /// The outputs that you want to add to this flow.
+  @_s.JsonKey(name: 'outputs')
+  final List<AddOutputRequest> outputs;
+  @_s.JsonKey(name: 'source')
+  final SetSourceRequest source;
+  @_s.JsonKey(name: 'sourceFailoverConfig')
+  final FailoverConfig sourceFailoverConfig;
+  @_s.JsonKey(name: 'sources')
+  final List<SetSourceRequest> sources;
+
+  /// The VPC interfaces you want on the flow.
+  @_s.JsonKey(name: 'vpcInterfaces')
+  final List<VpcInterfaceRequest> vpcInterfaces;
+
+  CreateFlowRequest({
+    @_s.required this.name,
+    this.availabilityZone,
+    this.entitlements,
+    this.outputs,
+    this.source,
+    this.sourceFailoverConfig,
+    this.sources,
+    this.vpcInterfaces,
+  });
+  Map<String, dynamic> toJson() => _$CreateFlowRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -1078,6 +1221,22 @@ class CreateFlowResponse {
   });
   factory CreateFlowResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateFlowResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteFlowRequest {
+  /// The ARN of the flow that you want to delete.
+  @_s.JsonKey(name: 'flowArn', ignore: true)
+  final String flowArn;
+
+  DeleteFlowRequest({
+    @_s.required this.flowArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteFlowRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1380,6 +1539,28 @@ class GrantEntitlementRequest {
   Map<String, dynamic> toJson() => _$GrantEntitlementRequestToJson(this);
 }
 
+/// A request to grant entitlements on a flow.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GrantFlowEntitlementsRequest {
+  /// The list of entitlements that you want to grant.
+  @_s.JsonKey(name: 'entitlements')
+  final List<GrantEntitlementRequest> entitlements;
+
+  /// The flow that you want to grant entitlements on.
+  @_s.JsonKey(name: 'flowArn', ignore: true)
+  final String flowArn;
+
+  GrantFlowEntitlementsRequest({
+    @_s.required this.entitlements,
+    @_s.required this.flowArn,
+  });
+  Map<String, dynamic> toJson() => _$GrantFlowEntitlementsRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -1659,22 +1840,25 @@ enum Protocol {
   rist,
 }
 
-extension on Protocol {
-  String toValue() {
-    switch (this) {
-      case Protocol.zixiPush:
-        return 'zixi-push';
-      case Protocol.rtpFec:
-        return 'rtp-fec';
-      case Protocol.rtp:
-        return 'rtp';
-      case Protocol.zixiPull:
-        return 'zixi-pull';
-      case Protocol.rist:
-        return 'rist';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RemoveFlowOutputRequest {
+  /// The flow that you want to remove an output from.
+  @_s.JsonKey(name: 'flowArn', ignore: true)
+  final String flowArn;
+
+  /// The ARN of the output that you want to remove.
+  @_s.JsonKey(name: 'outputArn', ignore: true)
+  final String outputArn;
+
+  RemoveFlowOutputRequest({
+    @_s.required this.flowArn,
+    @_s.required this.outputArn,
+  });
+  Map<String, dynamic> toJson() => _$RemoveFlowOutputRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1702,6 +1886,27 @@ class RemoveFlowOutputResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RemoveFlowSourceRequest {
+  /// The flow that you want to remove a source from.
+  @_s.JsonKey(name: 'flowArn', ignore: true)
+  final String flowArn;
+
+  /// The ARN of the source that you want to remove.
+  @_s.JsonKey(name: 'sourceArn', ignore: true)
+  final String sourceArn;
+
+  RemoveFlowSourceRequest({
+    @_s.required this.flowArn,
+    @_s.required this.sourceArn,
+  });
+  Map<String, dynamic> toJson() => _$RemoveFlowSourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class RemoveFlowSourceResponse {
@@ -1719,6 +1924,27 @@ class RemoveFlowSourceResponse {
   });
   factory RemoveFlowSourceResponse.fromJson(Map<String, dynamic> json) =>
       _$RemoveFlowSourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RemoveFlowVpcInterfaceRequest {
+  /// The flow that you want to remove a VPC interface from.
+  @_s.JsonKey(name: 'flowArn', ignore: true)
+  final String flowArn;
+
+  /// The name of the VPC interface that you want to remove.
+  @_s.JsonKey(name: 'vpcInterfaceName', ignore: true)
+  final String vpcInterfaceName;
+
+  RemoveFlowVpcInterfaceRequest({
+    @_s.required this.flowArn,
+    @_s.required this.vpcInterfaceName,
+  });
+  Map<String, dynamic> toJson() => _$RemoveFlowVpcInterfaceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1747,6 +1973,27 @@ class RemoveFlowVpcInterfaceResponse {
   });
   factory RemoveFlowVpcInterfaceResponse.fromJson(Map<String, dynamic> json) =>
       _$RemoveFlowVpcInterfaceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RevokeFlowEntitlementRequest {
+  /// The ARN of the entitlement that you want to revoke.
+  @_s.JsonKey(name: 'entitlementArn', ignore: true)
+  final String entitlementArn;
+
+  /// The flow that you want to revoke an entitlement from.
+  @_s.JsonKey(name: 'flowArn', ignore: true)
+  final String flowArn;
+
+  RevokeFlowEntitlementRequest({
+    @_s.required this.entitlementArn,
+    @_s.required this.flowArn,
+  });
+  Map<String, dynamic> toJson() => _$RevokeFlowEntitlementRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1930,6 +2177,22 @@ enum SourceType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartFlowRequest {
+  /// The ARN of the flow that you want to start.
+  @_s.JsonKey(name: 'flowArn', ignore: true)
+  final String flowArn;
+
+  StartFlowRequest({
+    @_s.required this.flowArn,
+  });
+  Map<String, dynamic> toJson() => _$StartFlowRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartFlowResponse {
@@ -1976,6 +2239,22 @@ enum Status {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopFlowRequest {
+  /// The ARN of the flow that you want to stop.
+  @_s.JsonKey(name: 'flowArn', ignore: true)
+  final String flowArn;
+
+  StopFlowRequest({
+    @_s.required this.flowArn,
+  });
+  Map<String, dynamic> toJson() => _$StopFlowRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StopFlowResponse {
@@ -1993,6 +2272,33 @@ class StopFlowResponse {
   });
   factory StopFlowResponse.fromJson(Map<String, dynamic> json) =>
       _$StopFlowResponseFromJson(json);
+}
+
+/// The tags to add to the resource. A tag is an array of key-value pairs. Tag
+/// keys can have a maximum character length of 128 characters, and tag values
+/// can have a maximum length of 256 characters.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The Amazon Resource Name (ARN) that identifies the AWS Elemental
+  /// MediaConnect resource to which to add tags.
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  /// A map from tag keys to values. Tag keys can have a maximum character length
+  /// of 128 characters, and tag values can have a maximum length of 256
+  /// characters.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
 }
 
 /// Attributes related to the transport stream that are used in a source or
@@ -2046,6 +2352,28 @@ class Transport {
   });
   factory Transport.fromJson(Map<String, dynamic> json) =>
       _$TransportFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The Amazon Resource Name (ARN) that identifies the AWS Elemental
+  /// MediaConnect resource from which to delete tags.
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  /// The keys of the tags to be removed.
+  @_s.JsonKey(name: 'tagKeys', ignore: true)
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
 }
 
 /// Information about the encryption of the flow.
@@ -2141,6 +2469,48 @@ class UpdateFailoverConfig {
   Map<String, dynamic> toJson() => _$UpdateFailoverConfigToJson(this);
 }
 
+/// The entitlement fields that you want to update.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateFlowEntitlementRequest {
+  /// The ARN of the entitlement that you want to update.
+  @_s.JsonKey(name: 'entitlementArn', ignore: true)
+  final String entitlementArn;
+
+  /// The flow that is associated with the entitlement that you want to update.
+  @_s.JsonKey(name: 'flowArn', ignore: true)
+  final String flowArn;
+
+  /// A description of the entitlement. This description appears only on the AWS
+  /// Elemental MediaConnect console and will not be seen by the subscriber or end
+  /// user.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The type of encryption that will be used on the output associated with this
+  /// entitlement.
+  @_s.JsonKey(name: 'encryption')
+  final UpdateEncryption encryption;
+
+  /// The AWS account IDs that you want to share your content with. The receiving
+  /// accounts (subscribers) will be allowed to create their own flow using your
+  /// content as the source.
+  @_s.JsonKey(name: 'subscribers')
+  final List<String> subscribers;
+
+  UpdateFlowEntitlementRequest({
+    @_s.required this.entitlementArn,
+    @_s.required this.flowArn,
+    this.description,
+    this.encryption,
+    this.subscribers,
+  });
+  Map<String, dynamic> toJson() => _$UpdateFlowEntitlementRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2160,6 +2530,88 @@ class UpdateFlowEntitlementResponse {
   });
   factory UpdateFlowEntitlementResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateFlowEntitlementResponseFromJson(json);
+}
+
+/// The fields that you want to update in the output.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateFlowOutputRequest {
+  /// The flow that is associated with the output that you want to update.
+  @_s.JsonKey(name: 'flowArn', ignore: true)
+  final String flowArn;
+
+  /// The ARN of the output that you want to update.
+  @_s.JsonKey(name: 'outputArn', ignore: true)
+  final String outputArn;
+
+  /// The range of IP addresses that should be allowed to initiate output requests
+  /// to this flow. These IP addresses should be in the form of a Classless
+  /// Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
+  @_s.JsonKey(name: 'cidrAllowList')
+  final List<String> cidrAllowList;
+
+  /// A description of the output. This description appears only on the AWS
+  /// Elemental MediaConnect console and will not be seen by the end user.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The IP address where you want to send the output.
+  @_s.JsonKey(name: 'destination')
+  final String destination;
+
+  /// The type of key used for the encryption. If no keyType is provided, the
+  /// service will use the default setting (static-key).
+  @_s.JsonKey(name: 'encryption')
+  final UpdateEncryption encryption;
+
+  /// The maximum latency in milliseconds for Zixi-based streams.
+  @_s.JsonKey(name: 'maxLatency')
+  final int maxLatency;
+
+  /// The port to use when content is distributed to this output.
+  @_s.JsonKey(name: 'port')
+  final int port;
+
+  /// The protocol to use for the output.
+  @_s.JsonKey(name: 'protocol')
+  final Protocol protocol;
+
+  /// The remote ID for the Zixi-pull stream.
+  @_s.JsonKey(name: 'remoteId')
+  final String remoteId;
+
+  /// The smoothing latency in milliseconds for RIST, RTP, and RTP-FEC streams.
+  @_s.JsonKey(name: 'smoothingLatency')
+  final int smoothingLatency;
+
+  /// The stream ID that you want to use for this transport. This parameter
+  /// applies only to Zixi-based streams.
+  @_s.JsonKey(name: 'streamId')
+  final String streamId;
+
+  /// The name of the VPC interface attachment to use for this output.
+  @_s.JsonKey(name: 'vpcInterfaceAttachment')
+  final VpcInterfaceAttachment vpcInterfaceAttachment;
+
+  UpdateFlowOutputRequest({
+    @_s.required this.flowArn,
+    @_s.required this.outputArn,
+    this.cidrAllowList,
+    this.description,
+    this.destination,
+    this.encryption,
+    this.maxLatency,
+    this.port,
+    this.protocol,
+    this.remoteId,
+    this.smoothingLatency,
+    this.streamId,
+    this.vpcInterfaceAttachment,
+  });
+  Map<String, dynamic> toJson() => _$UpdateFlowOutputRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2182,6 +2634,26 @@ class UpdateFlowOutputResponse {
       _$UpdateFlowOutputResponseFromJson(json);
 }
 
+/// A request to update flow.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateFlowRequest {
+  /// The flow that you want to update.
+  @_s.JsonKey(name: 'flowArn', ignore: true)
+  final String flowArn;
+  @_s.JsonKey(name: 'sourceFailoverConfig')
+  final UpdateFailoverConfig sourceFailoverConfig;
+
+  UpdateFlowRequest({
+    @_s.required this.flowArn,
+    this.sourceFailoverConfig,
+  });
+  Map<String, dynamic> toJson() => _$UpdateFlowRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2196,6 +2668,85 @@ class UpdateFlowResponse {
   });
   factory UpdateFlowResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateFlowResponseFromJson(json);
+}
+
+/// A request to update the source of a flow.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateFlowSourceRequest {
+  /// The flow that is associated with the source that you want to update.
+  @_s.JsonKey(name: 'flowArn', ignore: true)
+  final String flowArn;
+
+  /// The ARN of the source that you want to update.
+  @_s.JsonKey(name: 'sourceArn', ignore: true)
+  final String sourceArn;
+
+  /// The type of encryption used on the content ingested from this source.
+  @_s.JsonKey(name: 'decryption')
+  final UpdateEncryption decryption;
+
+  /// A description for the source. This value is not used or seen outside of the
+  /// current AWS Elemental MediaConnect account.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The ARN of the entitlement that allows you to subscribe to this flow. The
+  /// entitlement is set by the flow originator, and the ARN is generated as part
+  /// of the originator's flow.
+  @_s.JsonKey(name: 'entitlementArn')
+  final String entitlementArn;
+
+  /// The port that the flow will be listening on for incoming content.
+  @_s.JsonKey(name: 'ingestPort')
+  final int ingestPort;
+
+  /// The smoothing max bitrate for RIST, RTP, and RTP-FEC streams.
+  @_s.JsonKey(name: 'maxBitrate')
+  final int maxBitrate;
+
+  /// The maximum latency in milliseconds. This parameter applies only to
+  /// RIST-based and Zixi-based streams.
+  @_s.JsonKey(name: 'maxLatency')
+  final int maxLatency;
+
+  /// The protocol that is used by the source.
+  @_s.JsonKey(name: 'protocol')
+  final Protocol protocol;
+
+  /// The stream ID that you want to use for this transport. This parameter
+  /// applies only to Zixi-based streams.
+  @_s.JsonKey(name: 'streamId')
+  final String streamId;
+
+  /// The name of the VPC Interface to configure this Source with.
+  @_s.JsonKey(name: 'vpcInterfaceName')
+  final String vpcInterfaceName;
+
+  /// The range of IP addresses that should be allowed to contribute content to
+  /// your source. These IP addresses should be in the form of a Classless
+  /// Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
+  @_s.JsonKey(name: 'whitelistCidr')
+  final String whitelistCidr;
+
+  UpdateFlowSourceRequest({
+    @_s.required this.flowArn,
+    @_s.required this.sourceArn,
+    this.decryption,
+    this.description,
+    this.entitlementArn,
+    this.ingestPort,
+    this.maxBitrate,
+    this.maxLatency,
+    this.protocol,
+    this.streamId,
+    this.vpcInterfaceName,
+    this.whitelistCidr,
+  });
+  Map<String, dynamic> toJson() => _$UpdateFlowSourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(

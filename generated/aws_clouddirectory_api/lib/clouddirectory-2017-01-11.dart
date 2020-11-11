@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -85,12 +84,12 @@ class CloudDirectory {
     ArgumentError.checkNotNull(schemaFacet, 'schemaFacet');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{
-      'ObjectReference': objectReference,
-      'SchemaFacet': schemaFacet,
-      if (objectAttributeList != null)
-        'ObjectAttributeList': objectAttributeList,
-    };
+    final $payload = AddFacetToObjectRequest(
+      directoryArn: directoryArn,
+      objectReference: objectReference,
+      schemaFacet: schemaFacet,
+      objectAttributeList: objectAttributeList,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -131,9 +130,10 @@ class CloudDirectory {
     ArgumentError.checkNotNull(publishedSchemaArn, 'publishedSchemaArn');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{
-      'PublishedSchemaArn': publishedSchemaArn,
-    };
+    final $payload = ApplySchemaRequest(
+      directoryArn: directoryArn,
+      publishedSchemaArn: publishedSchemaArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -204,11 +204,12 @@ class CloudDirectory {
     ArgumentError.checkNotNull(parentReference, 'parentReference');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{
-      'ChildReference': childReference,
-      'LinkName': linkName,
-      'ParentReference': parentReference,
-    };
+    final $payload = AttachObjectRequest(
+      childReference: childReference,
+      directoryArn: directoryArn,
+      linkName: linkName,
+      parentReference: parentReference,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -253,10 +254,11 @@ class CloudDirectory {
     ArgumentError.checkNotNull(policyReference, 'policyReference');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{
-      'ObjectReference': objectReference,
-      'PolicyReference': policyReference,
-    };
+    final $payload = AttachPolicyRequest(
+      directoryArn: directoryArn,
+      objectReference: objectReference,
+      policyReference: policyReference,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -301,10 +303,11 @@ class CloudDirectory {
     ArgumentError.checkNotNull(targetReference, 'targetReference');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{
-      'IndexReference': indexReference,
-      'TargetReference': targetReference,
-    };
+    final $payload = AttachToIndexRequest(
+      directoryArn: directoryArn,
+      indexReference: indexReference,
+      targetReference: targetReference,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -361,12 +364,13 @@ class CloudDirectory {
     ArgumentError.checkNotNull(typedLinkFacet, 'typedLinkFacet');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{
-      'Attributes': attributes,
-      'SourceObjectReference': sourceObjectReference,
-      'TargetObjectReference': targetObjectReference,
-      'TypedLinkFacet': typedLinkFacet,
-    };
+    final $payload = AttachTypedLinkRequest(
+      attributes: attributes,
+      directoryArn: directoryArn,
+      sourceObjectReference: sourceObjectReference,
+      targetObjectReference: targetObjectReference,
+      typedLinkFacet: typedLinkFacet,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -409,9 +413,11 @@ class CloudDirectory {
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
     consistencyLevel
         ?.let((v) => headers['x-amz-consistency-level'] = v.toValue());
-    final $payload = <String, dynamic>{
-      'Operations': operations,
-    };
+    final $payload = BatchReadRequest(
+      directoryArn: directoryArn,
+      operations: operations,
+      consistencyLevel: consistencyLevel,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -448,9 +454,10 @@ class CloudDirectory {
     ArgumentError.checkNotNull(operations, 'operations');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{
-      'Operations': operations,
-    };
+    final $payload = BatchWriteRequest(
+      directoryArn: directoryArn,
+      operations: operations,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -506,9 +513,10 @@ class CloudDirectory {
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final headers = <String, String>{};
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{
-      'Name': name,
-    };
+    final $payload = CreateDirectoryRequest(
+      name: name,
+      schemaArn: schemaArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -599,12 +607,13 @@ class CloudDirectory {
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final headers = <String, String>{};
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{
-      'Name': name,
-      if (attributes != null) 'Attributes': attributes,
-      if (facetStyle != null) 'FacetStyle': facetStyle?.toValue(),
-      if (objectType != null) 'ObjectType': objectType?.toValue(),
-    };
+    final $payload = CreateFacetRequest(
+      name: name,
+      schemaArn: schemaArn,
+      attributes: attributes,
+      facetStyle: facetStyle,
+      objectType: objectType,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -671,12 +680,13 @@ class CloudDirectory {
     );
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{
-      'IsUnique': isUnique,
-      'OrderedIndexedAttributeList': orderedIndexedAttributeList,
-      if (linkName != null) 'LinkName': linkName,
-      if (parentReference != null) 'ParentReference': parentReference,
-    };
+    final $payload = CreateIndexRequest(
+      directoryArn: directoryArn,
+      isUnique: isUnique,
+      orderedIndexedAttributeList: orderedIndexedAttributeList,
+      linkName: linkName,
+      parentReference: parentReference,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -745,13 +755,13 @@ class CloudDirectory {
     );
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{
-      'SchemaFacets': schemaFacets,
-      if (linkName != null) 'LinkName': linkName,
-      if (objectAttributeList != null)
-        'ObjectAttributeList': objectAttributeList,
-      if (parentReference != null) 'ParentReference': parentReference,
-    };
+    final $payload = CreateObjectRequest(
+      directoryArn: directoryArn,
+      schemaFacets: schemaFacets,
+      linkName: linkName,
+      objectAttributeList: objectAttributeList,
+      parentReference: parentReference,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -812,9 +822,9 @@ class CloudDirectory {
       r'''^[a-zA-Z0-9._-]*$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'Name': name,
-    };
+    final $payload = CreateSchemaRequest(
+      name: name,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -853,9 +863,10 @@ class CloudDirectory {
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final headers = <String, String>{};
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{
-      'Facet': facet,
-    };
+    final $payload = CreateTypedLinkFacetRequest(
+      facet: facet,
+      schemaArn: schemaArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -888,7 +899,9 @@ class CloudDirectory {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteDirectoryRequest(
+      directoryArn: directoryArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -940,9 +953,10 @@ class CloudDirectory {
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final headers = <String, String>{};
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{
-      'Name': name,
-    };
+    final $payload = DeleteFacetRequest(
+      name: name,
+      schemaArn: schemaArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -985,9 +999,10 @@ class CloudDirectory {
     ArgumentError.checkNotNull(objectReference, 'objectReference');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{
-      'ObjectReference': objectReference,
-    };
+    final $payload = DeleteObjectRequest(
+      directoryArn: directoryArn,
+      objectReference: objectReference,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -1019,7 +1034,9 @@ class CloudDirectory {
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final headers = <String, String>{};
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteSchemaRequest(
+      schemaArn: schemaArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -1063,9 +1080,10 @@ class CloudDirectory {
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final headers = <String, String>{};
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{
-      'Name': name,
-    };
+    final $payload = DeleteTypedLinkFacetRequest(
+      name: name,
+      schemaArn: schemaArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -1108,10 +1126,11 @@ class CloudDirectory {
     ArgumentError.checkNotNull(targetReference, 'targetReference');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{
-      'IndexReference': indexReference,
-      'TargetReference': targetReference,
-    };
+    final $payload = DetachFromIndexRequest(
+      directoryArn: directoryArn,
+      indexReference: indexReference,
+      targetReference: targetReference,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -1169,10 +1188,11 @@ class CloudDirectory {
     ArgumentError.checkNotNull(parentReference, 'parentReference');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{
-      'LinkName': linkName,
-      'ParentReference': parentReference,
-    };
+    final $payload = DetachObjectRequest(
+      directoryArn: directoryArn,
+      linkName: linkName,
+      parentReference: parentReference,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -1215,10 +1235,11 @@ class CloudDirectory {
     ArgumentError.checkNotNull(policyReference, 'policyReference');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{
-      'ObjectReference': objectReference,
-      'PolicyReference': policyReference,
-    };
+    final $payload = DetachPolicyRequest(
+      directoryArn: directoryArn,
+      objectReference: objectReference,
+      policyReference: policyReference,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -1258,9 +1279,10 @@ class CloudDirectory {
     ArgumentError.checkNotNull(typedLinkSpecifier, 'typedLinkSpecifier');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{
-      'TypedLinkSpecifier': typedLinkSpecifier,
-    };
+    final $payload = DetachTypedLinkRequest(
+      directoryArn: directoryArn,
+      typedLinkSpecifier: typedLinkSpecifier,
+    );
     await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -1291,7 +1313,9 @@ class CloudDirectory {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{};
+    final $payload = DisableDirectoryRequest(
+      directoryArn: directoryArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -1322,7 +1346,9 @@ class CloudDirectory {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{};
+    final $payload = EnableDirectoryRequest(
+      directoryArn: directoryArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -1350,9 +1376,9 @@ class CloudDirectory {
     @_s.required String schemaArn,
   }) async {
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
-    final $payload = <String, dynamic>{
-      'SchemaArn': schemaArn,
-    };
+    final $payload = GetAppliedSchemaVersionRequest(
+      schemaArn: schemaArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1379,7 +1405,9 @@ class CloudDirectory {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{};
+    final $payload = GetDirectoryRequest(
+      directoryArn: directoryArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -1430,9 +1458,10 @@ class CloudDirectory {
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final headers = <String, String>{};
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{
-      'Name': name,
-    };
+    final $payload = GetFacetRequest(
+      name: name,
+      schemaArn: schemaArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -1480,12 +1509,12 @@ class CloudDirectory {
     ArgumentError.checkNotNull(typedLinkSpecifier, 'typedLinkSpecifier');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{
-      'AttributeNames': attributeNames,
-      'TypedLinkSpecifier': typedLinkSpecifier,
-      if (consistencyLevel != null)
-        'ConsistencyLevel': consistencyLevel?.toValue(),
-    };
+    final $payload = GetLinkAttributesRequest(
+      attributeNames: attributeNames,
+      directoryArn: directoryArn,
+      typedLinkSpecifier: typedLinkSpecifier,
+      consistencyLevel: consistencyLevel,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -1539,11 +1568,13 @@ class CloudDirectory {
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
     consistencyLevel
         ?.let((v) => headers['x-amz-consistency-level'] = v.toValue());
-    final $payload = <String, dynamic>{
-      'AttributeNames': attributeNames,
-      'ObjectReference': objectReference,
-      'SchemaFacet': schemaFacet,
-    };
+    final $payload = GetObjectAttributesRequest(
+      attributeNames: attributeNames,
+      directoryArn: directoryArn,
+      objectReference: objectReference,
+      schemaFacet: schemaFacet,
+      consistencyLevel: consistencyLevel,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -1584,9 +1615,11 @@ class CloudDirectory {
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
     consistencyLevel
         ?.let((v) => headers['x-amz-consistency-level'] = v.toValue());
-    final $payload = <String, dynamic>{
-      'ObjectReference': objectReference,
-    };
+    final $payload = GetObjectInformationRequest(
+      directoryArn: directoryArn,
+      objectReference: objectReference,
+      consistencyLevel: consistencyLevel,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -1618,7 +1651,9 @@ class CloudDirectory {
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final headers = <String, String>{};
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{};
+    final $payload = GetSchemaAsJsonRequest(
+      schemaArn: schemaArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -1664,9 +1699,10 @@ class CloudDirectory {
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final headers = <String, String>{};
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{
-      'Name': name,
-    };
+    final $payload = GetTypedLinkFacetInformationRequest(
+      name: name,
+      schemaArn: schemaArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -1714,12 +1750,12 @@ class CloudDirectory {
       1,
       1152921504606846976,
     );
-    final $payload = <String, dynamic>{
-      'DirectoryArn': directoryArn,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-      if (schemaArn != null) 'SchemaArn': schemaArn,
-    };
+    final $payload = ListAppliedSchemaArnsRequest(
+      directoryArn: directoryArn,
+      maxResults: maxResults,
+      nextToken: nextToken,
+      schemaArn: schemaArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1773,11 +1809,13 @@ class CloudDirectory {
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
     consistencyLevel
         ?.let((v) => headers['x-amz-consistency-level'] = v.toValue());
-    final $payload = <String, dynamic>{
-      'TargetReference': targetReference,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = ListAttachedIndicesRequest(
+      directoryArn: directoryArn,
+      targetReference: targetReference,
+      consistencyLevel: consistencyLevel,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -1815,10 +1853,10 @@ class CloudDirectory {
       1,
       1152921504606846976,
     );
-    final $payload = <String, dynamic>{
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = ListDevelopmentSchemaArnsRequest(
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1858,11 +1896,11 @@ class CloudDirectory {
       1,
       1152921504606846976,
     );
-    final $payload = <String, dynamic>{
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-      if (state != null) 'state': state?.toValue(),
-    };
+    final $payload = ListDirectoriesRequest(
+      maxResults: maxResults,
+      nextToken: nextToken,
+      state: state,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1924,11 +1962,12 @@ class CloudDirectory {
     );
     final headers = <String, String>{};
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{
-      'Name': name,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = ListFacetAttributesRequest(
+      name: name,
+      schemaArn: schemaArn,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -1972,10 +2011,11 @@ class CloudDirectory {
     );
     final headers = <String, String>{};
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = ListFacetNamesRequest(
+      schemaArn: schemaArn,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -2047,16 +2087,15 @@ class CloudDirectory {
     );
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{
-      'ObjectReference': objectReference,
-      if (consistencyLevel != null)
-        'ConsistencyLevel': consistencyLevel?.toValue(),
-      if (filterAttributeRanges != null)
-        'FilterAttributeRanges': filterAttributeRanges,
-      if (filterTypedLink != null) 'FilterTypedLink': filterTypedLink,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = ListIncomingTypedLinksRequest(
+      directoryArn: directoryArn,
+      objectReference: objectReference,
+      consistencyLevel: consistencyLevel,
+      filterAttributeRanges: filterAttributeRanges,
+      filterTypedLink: filterTypedLink,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -2121,13 +2160,14 @@ class CloudDirectory {
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
     consistencyLevel
         ?.let((v) => headers['x-amz-consistency-level'] = v.toValue());
-    final $payload = <String, dynamic>{
-      'IndexReference': indexReference,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-      if (rangesOnIndexedValues != null)
-        'RangesOnIndexedValues': rangesOnIndexedValues,
-    };
+    final $payload = ListIndexRequest(
+      directoryArn: directoryArn,
+      indexReference: indexReference,
+      consistencyLevel: consistencyLevel,
+      maxResults: maxResults,
+      nextToken: nextToken,
+      rangesOnIndexedValues: rangesOnIndexedValues,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -2169,11 +2209,11 @@ class CloudDirectory {
       1,
       1152921504606846976,
     );
-    final $payload = <String, dynamic>{
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-      if (schemaArn != null) 'SchemaArn': schemaArn,
-    };
+    final $payload = ListManagedSchemaArnsRequest(
+      maxResults: maxResults,
+      nextToken: nextToken,
+      schemaArn: schemaArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2239,12 +2279,14 @@ class CloudDirectory {
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
     consistencyLevel
         ?.let((v) => headers['x-amz-consistency-level'] = v.toValue());
-    final $payload = <String, dynamic>{
-      'ObjectReference': objectReference,
-      if (facetFilter != null) 'FacetFilter': facetFilter,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = ListObjectAttributesRequest(
+      directoryArn: directoryArn,
+      objectReference: objectReference,
+      consistencyLevel: consistencyLevel,
+      facetFilter: facetFilter,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -2308,11 +2350,13 @@ class CloudDirectory {
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
     consistencyLevel
         ?.let((v) => headers['x-amz-consistency-level'] = v.toValue());
-    final $payload = <String, dynamic>{
-      'ObjectReference': objectReference,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = ListObjectChildrenRequest(
+      directoryArn: directoryArn,
+      objectReference: objectReference,
+      consistencyLevel: consistencyLevel,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -2375,11 +2419,12 @@ class CloudDirectory {
     );
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{
-      'ObjectReference': objectReference,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = ListObjectParentPathsRequest(
+      directoryArn: directoryArn,
+      objectReference: objectReference,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -2449,13 +2494,14 @@ class CloudDirectory {
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
     consistencyLevel
         ?.let((v) => headers['x-amz-consistency-level'] = v.toValue());
-    final $payload = <String, dynamic>{
-      'ObjectReference': objectReference,
-      if (includeAllLinksToEachParent != null)
-        'IncludeAllLinksToEachParent': includeAllLinksToEachParent,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = ListObjectParentsRequest(
+      directoryArn: directoryArn,
+      objectReference: objectReference,
+      consistencyLevel: consistencyLevel,
+      includeAllLinksToEachParent: includeAllLinksToEachParent,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -2516,11 +2562,13 @@ class CloudDirectory {
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
     consistencyLevel
         ?.let((v) => headers['x-amz-consistency-level'] = v.toValue());
-    final $payload = <String, dynamic>{
-      'ObjectReference': objectReference,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = ListObjectPoliciesRequest(
+      directoryArn: directoryArn,
+      objectReference: objectReference,
+      consistencyLevel: consistencyLevel,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -2592,16 +2640,15 @@ class CloudDirectory {
     );
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{
-      'ObjectReference': objectReference,
-      if (consistencyLevel != null)
-        'ConsistencyLevel': consistencyLevel?.toValue(),
-      if (filterAttributeRanges != null)
-        'FilterAttributeRanges': filterAttributeRanges,
-      if (filterTypedLink != null) 'FilterTypedLink': filterTypedLink,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = ListOutgoingTypedLinksRequest(
+      directoryArn: directoryArn,
+      objectReference: objectReference,
+      consistencyLevel: consistencyLevel,
+      filterAttributeRanges: filterAttributeRanges,
+      filterTypedLink: filterTypedLink,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -2664,11 +2711,13 @@ class CloudDirectory {
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
     consistencyLevel
         ?.let((v) => headers['x-amz-consistency-level'] = v.toValue());
-    final $payload = <String, dynamic>{
-      'PolicyReference': policyReference,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = ListPolicyAttachmentsRequest(
+      directoryArn: directoryArn,
+      policyReference: policyReference,
+      consistencyLevel: consistencyLevel,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -2712,11 +2761,11 @@ class CloudDirectory {
       1,
       1152921504606846976,
     );
-    final $payload = <String, dynamic>{
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-      if (schemaArn != null) 'SchemaArn': schemaArn,
-    };
+    final $payload = ListPublishedSchemaArnsRequest(
+      maxResults: maxResults,
+      nextToken: nextToken,
+      schemaArn: schemaArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2763,11 +2812,11 @@ class CloudDirectory {
       50,
       1152921504606846976,
     );
-    final $payload = <String, dynamic>{
-      'ResourceArn': resourceArn,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = ListTagsForResourceRequest(
+      resourceArn: resourceArn,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2826,11 +2875,12 @@ class CloudDirectory {
     );
     final headers = <String, String>{};
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{
-      'Name': name,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = ListTypedLinkFacetAttributesRequest(
+      name: name,
+      schemaArn: schemaArn,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -2878,10 +2928,11 @@ class CloudDirectory {
     );
     final headers = <String, String>{};
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = ListTypedLinkFacetNamesRequest(
+      schemaArn: schemaArn,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -2941,11 +2992,12 @@ class CloudDirectory {
     );
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{
-      'ObjectReference': objectReference,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = LookupPolicyRequest(
+      directoryArn: directoryArn,
+      objectReference: objectReference,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -3030,11 +3082,12 @@ class CloudDirectory {
     final headers = <String, String>{};
     developmentSchemaArn
         ?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{
-      'Version': version,
-      if (minorVersion != null) 'MinorVersion': minorVersion,
-      if (name != null) 'Name': name,
-    };
+    final $payload = PublishSchemaRequest(
+      developmentSchemaArn: developmentSchemaArn,
+      version: version,
+      minorVersion: minorVersion,
+      name: name,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -3072,9 +3125,10 @@ class CloudDirectory {
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final headers = <String, String>{};
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{
-      'Document': document,
-    };
+    final $payload = PutSchemaFromJsonRequest(
+      document: document,
+      schemaArn: schemaArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -3115,10 +3169,11 @@ class CloudDirectory {
     ArgumentError.checkNotNull(schemaFacet, 'schemaFacet');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{
-      'ObjectReference': objectReference,
-      'SchemaFacet': schemaFacet,
-    };
+    final $payload = RemoveFacetFromObjectRequest(
+      directoryArn: directoryArn,
+      objectReference: objectReference,
+      schemaFacet: schemaFacet,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -3152,10 +3207,10 @@ class CloudDirectory {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'ResourceArn': resourceArn,
-      'Tags': tags,
-    };
+    final $payload = TagResourceRequest(
+      resourceArn: resourceArn,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -3188,10 +3243,10 @@ class CloudDirectory {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    final $payload = <String, dynamic>{
-      'ResourceArn': resourceArn,
-      'TagKeys': tagKeys,
-    };
+    final $payload = UntagResourceRequest(
+      resourceArn: resourceArn,
+      tagKeys: tagKeys,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -3266,11 +3321,12 @@ class CloudDirectory {
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final headers = <String, String>{};
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{
-      'Name': name,
-      if (attributeUpdates != null) 'AttributeUpdates': attributeUpdates,
-      if (objectType != null) 'ObjectType': objectType?.toValue(),
-    };
+    final $payload = UpdateFacetRequest(
+      name: name,
+      schemaArn: schemaArn,
+      attributeUpdates: attributeUpdates,
+      objectType: objectType,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -3317,10 +3373,11 @@ class CloudDirectory {
     ArgumentError.checkNotNull(typedLinkSpecifier, 'typedLinkSpecifier');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{
-      'AttributeUpdates': attributeUpdates,
-      'TypedLinkSpecifier': typedLinkSpecifier,
-    };
+    final $payload = UpdateLinkAttributesRequest(
+      attributeUpdates: attributeUpdates,
+      directoryArn: directoryArn,
+      typedLinkSpecifier: typedLinkSpecifier,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -3365,10 +3422,11 @@ class CloudDirectory {
     ArgumentError.checkNotNull(objectReference, 'objectReference');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{
-      'AttributeUpdates': attributeUpdates,
-      'ObjectReference': objectReference,
-    };
+    final $payload = UpdateObjectAttributesRequest(
+      attributeUpdates: attributeUpdates,
+      directoryArn: directoryArn,
+      objectReference: objectReference,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -3417,9 +3475,10 @@ class CloudDirectory {
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final headers = <String, String>{};
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{
-      'Name': name,
-    };
+    final $payload = UpdateSchemaRequest(
+      name: name,
+      schemaArn: schemaArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -3487,11 +3546,12 @@ class CloudDirectory {
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final headers = <String, String>{};
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{
-      'AttributeUpdates': attributeUpdates,
-      'IdentityAttributeOrder': identityAttributeOrder,
-      'Name': name,
-    };
+    final $payload = UpdateTypedLinkFacetRequest(
+      attributeUpdates: attributeUpdates,
+      identityAttributeOrder: identityAttributeOrder,
+      name: name,
+      schemaArn: schemaArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -3538,11 +3598,11 @@ class CloudDirectory {
   }) async {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     ArgumentError.checkNotNull(publishedSchemaArn, 'publishedSchemaArn');
-    final $payload = <String, dynamic>{
-      'DirectoryArn': directoryArn,
-      'PublishedSchemaArn': publishedSchemaArn,
-      if (dryRun != null) 'DryRun': dryRun,
-    };
+    final $payload = UpgradeAppliedSchemaRequest(
+      directoryArn: directoryArn,
+      publishedSchemaArn: publishedSchemaArn,
+      dryRun: dryRun,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -3602,12 +3662,12 @@ class CloudDirectory {
       isRequired: true,
     );
     ArgumentError.checkNotNull(publishedSchemaArn, 'publishedSchemaArn');
-    final $payload = <String, dynamic>{
-      'DevelopmentSchemaArn': developmentSchemaArn,
-      'MinorVersion': minorVersion,
-      'PublishedSchemaArn': publishedSchemaArn,
-      if (dryRun != null) 'DryRun': dryRun,
-    };
+    final $payload = UpgradePublishedSchemaRequest(
+      developmentSchemaArn: developmentSchemaArn,
+      minorVersion: minorVersion,
+      publishedSchemaArn: publishedSchemaArn,
+      dryRun: dryRun,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -3621,12 +3681,68 @@ class CloudDirectory {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AddFacetToObjectRequest {
+  /// The Amazon Resource Name (ARN) that is associated with the <a>Directory</a>
+  /// where the object resides. For more information, see <a>arns</a>.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String directoryArn;
+
+  /// A reference to the object you are adding the specified facet to.
+  @_s.JsonKey(name: 'ObjectReference')
+  final ObjectReference objectReference;
+
+  /// Identifiers for the facet that you are adding to the object. See
+  /// <a>SchemaFacet</a> for details.
+  @_s.JsonKey(name: 'SchemaFacet')
+  final SchemaFacet schemaFacet;
+
+  /// Attributes on the facet that you are adding to the object.
+  @_s.JsonKey(name: 'ObjectAttributeList')
+  final List<AttributeKeyAndValue> objectAttributeList;
+
+  AddFacetToObjectRequest({
+    @_s.required this.directoryArn,
+    @_s.required this.objectReference,
+    @_s.required this.schemaFacet,
+    this.objectAttributeList,
+  });
+  Map<String, dynamic> toJson() => _$AddFacetToObjectRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AddFacetToObjectResponse {
   AddFacetToObjectResponse();
   factory AddFacetToObjectResponse.fromJson(Map<String, dynamic> json) =>
       _$AddFacetToObjectResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ApplySchemaRequest {
+  /// The Amazon Resource Name (ARN) that is associated with the <a>Directory</a>
+  /// into which the schema is copied. For more information, see <a>arns</a>.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String directoryArn;
+
+  /// Published schema Amazon Resource Name (ARN) that needs to be copied. For
+  /// more information, see <a>arns</a>.
+  @_s.JsonKey(name: 'PublishedSchemaArn')
+  final String publishedSchemaArn;
+
+  ApplySchemaRequest({
+    @_s.required this.directoryArn,
+    @_s.required this.publishedSchemaArn,
+  });
+  Map<String, dynamic> toJson() => _$ApplySchemaRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3657,6 +3773,38 @@ class ApplySchemaResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AttachObjectRequest {
+  /// The child object reference to be attached to the object.
+  @_s.JsonKey(name: 'ChildReference')
+  final ObjectReference childReference;
+
+  /// Amazon Resource Name (ARN) that is associated with the <a>Directory</a>
+  /// where both objects reside. For more information, see <a>arns</a>.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String directoryArn;
+
+  /// The link name with which the child object is attached to the parent.
+  @_s.JsonKey(name: 'LinkName')
+  final String linkName;
+
+  /// The parent object reference.
+  @_s.JsonKey(name: 'ParentReference')
+  final ObjectReference parentReference;
+
+  AttachObjectRequest({
+    @_s.required this.childReference,
+    @_s.required this.directoryArn,
+    @_s.required this.linkName,
+    @_s.required this.parentReference,
+  });
+  Map<String, dynamic> toJson() => _$AttachObjectRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AttachObjectResponse {
@@ -3675,12 +3823,67 @@ class AttachObjectResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AttachPolicyRequest {
+  /// The Amazon Resource Name (ARN) that is associated with the <a>Directory</a>
+  /// where both objects reside. For more information, see <a>arns</a>.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String directoryArn;
+
+  /// The reference that identifies the object to which the policy will be
+  /// attached.
+  @_s.JsonKey(name: 'ObjectReference')
+  final ObjectReference objectReference;
+
+  /// The reference that is associated with the policy object.
+  @_s.JsonKey(name: 'PolicyReference')
+  final ObjectReference policyReference;
+
+  AttachPolicyRequest({
+    @_s.required this.directoryArn,
+    @_s.required this.objectReference,
+    @_s.required this.policyReference,
+  });
+  Map<String, dynamic> toJson() => _$AttachPolicyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AttachPolicyResponse {
   AttachPolicyResponse();
   factory AttachPolicyResponse.fromJson(Map<String, dynamic> json) =>
       _$AttachPolicyResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AttachToIndexRequest {
+  /// The Amazon Resource Name (ARN) of the directory where the object and index
+  /// exist.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String directoryArn;
+
+  /// A reference to the index that you are attaching the object to.
+  @_s.JsonKey(name: 'IndexReference')
+  final ObjectReference indexReference;
+
+  /// A reference to the object that you are attaching to the index.
+  @_s.JsonKey(name: 'TargetReference')
+  final ObjectReference targetReference;
+
+  AttachToIndexRequest({
+    @_s.required this.directoryArn,
+    @_s.required this.indexReference,
+    @_s.required this.targetReference,
+  });
+  Map<String, dynamic> toJson() => _$AttachToIndexRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3699,6 +3902,43 @@ class AttachToIndexResponse {
   });
   factory AttachToIndexResponse.fromJson(Map<String, dynamic> json) =>
       _$AttachToIndexResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AttachTypedLinkRequest {
+  /// A set of attributes that are associated with the typed link.
+  @_s.JsonKey(name: 'Attributes')
+  final List<AttributeNameAndValue> attributes;
+
+  /// The Amazon Resource Name (ARN) of the directory where you want to attach the
+  /// typed link.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String directoryArn;
+
+  /// Identifies the source object that the typed link will attach to.
+  @_s.JsonKey(name: 'SourceObjectReference')
+  final ObjectReference sourceObjectReference;
+
+  /// Identifies the target object that the typed link will attach to.
+  @_s.JsonKey(name: 'TargetObjectReference')
+  final ObjectReference targetObjectReference;
+
+  /// Identifies the typed link facet that is associated with the typed link.
+  @_s.JsonKey(name: 'TypedLinkFacet')
+  final TypedLinkSchemaAndFacetName typedLinkFacet;
+
+  AttachTypedLinkRequest({
+    @_s.required this.attributes,
+    @_s.required this.directoryArn,
+    @_s.required this.sourceObjectReference,
+    @_s.required this.targetObjectReference,
+    @_s.required this.typedLinkFacet,
+  });
+  Map<String, dynamic> toJson() => _$AttachTypedLinkRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5248,6 +5488,34 @@ class BatchReadOperationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchReadRequest {
+  /// The Amazon Resource Name (ARN) that is associated with the <a>Directory</a>.
+  /// For more information, see <a>arns</a>.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String directoryArn;
+
+  /// A list of operations that are part of the batch.
+  @_s.JsonKey(name: 'Operations')
+  final List<BatchReadOperation> operations;
+
+  /// Represents the manner and timing in which the successful write or update of
+  /// an object is reflected in a subsequent read operation of that same object.
+  @_s.JsonKey(name: 'x-amz-consistency-level', ignore: true)
+  final ConsistencyLevel consistencyLevel;
+
+  BatchReadRequest({
+    @_s.required this.directoryArn,
+    @_s.required this.operations,
+    this.consistencyLevel,
+  });
+  Map<String, dynamic> toJson() => _$BatchReadRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class BatchReadResponse {
@@ -5675,6 +5943,28 @@ class BatchWriteOperationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchWriteRequest {
+  /// The Amazon Resource Name (ARN) that is associated with the <a>Directory</a>.
+  /// For more information, see <a>arns</a>.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String directoryArn;
+
+  /// A list of operations that are part of the batch.
+  @_s.JsonKey(name: 'Operations')
+  final List<BatchWriteOperation> operations;
+
+  BatchWriteRequest({
+    @_s.required this.directoryArn,
+    @_s.required this.operations,
+  });
+  Map<String, dynamic> toJson() => _$BatchWriteRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class BatchWriteResponse {
@@ -5706,6 +5996,28 @@ extension on ConsistencyLevel {
     }
     throw Exception('Unknown enum value: $this');
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDirectoryRequest {
+  /// The name of the <a>Directory</a>. Should be unique per account, per region.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The Amazon Resource Name (ARN) of the published schema that will be copied
+  /// into the data <a>Directory</a>. For more information, see <a>arns</a>.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String schemaArn;
+
+  CreateDirectoryRequest({
+    @_s.required this.name,
+    @_s.required this.schemaArn,
+  });
+  Map<String, dynamic> toJson() => _$CreateDirectoryRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5746,12 +6058,114 @@ class CreateDirectoryResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateFacetRequest {
+  /// The name of the <a>Facet</a>, which is unique for a given schema.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The schema ARN in which the new <a>Facet</a> will be created. For more
+  /// information, see <a>arns</a>.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String schemaArn;
+
+  /// The attributes that are associated with the <a>Facet</a>.
+  @_s.JsonKey(name: 'Attributes')
+  final List<FacetAttribute> attributes;
+
+  /// There are two different styles that you can define on any given facet,
+  /// <code>Static</code> and <code>Dynamic</code>. For static facets, all
+  /// attributes must be defined in the schema. For dynamic facets, attributes can
+  /// be defined during data plane operations.
+  @_s.JsonKey(name: 'FacetStyle')
+  final FacetStyle facetStyle;
+
+  /// Specifies whether a given object created from this facet is of type node,
+  /// leaf node, policy or index.
+  ///
+  /// <ul>
+  /// <li>
+  /// Node: Can have multiple children but one parent.
+  /// </li>
+  /// </ul>
+  /// <ul>
+  /// <li>
+  /// Leaf node: Cannot have children but can have multiple parents.
+  /// </li>
+  /// </ul>
+  /// <ul>
+  /// <li>
+  /// Policy: Allows you to store a policy document and policy type. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directory.html#key_concepts_policies">Policies</a>.
+  /// </li>
+  /// </ul>
+  /// <ul>
+  /// <li>
+  /// Index: Can be created with the Index API.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ObjectType')
+  final ObjectType objectType;
+
+  CreateFacetRequest({
+    @_s.required this.name,
+    @_s.required this.schemaArn,
+    this.attributes,
+    this.facetStyle,
+    this.objectType,
+  });
+  Map<String, dynamic> toJson() => _$CreateFacetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateFacetResponse {
   CreateFacetResponse();
   factory CreateFacetResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateFacetResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateIndexRequest {
+  /// The ARN of the directory where the index should be created.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String directoryArn;
+
+  /// Indicates whether the attribute that is being indexed has unique values or
+  /// not.
+  @_s.JsonKey(name: 'IsUnique')
+  final bool isUnique;
+
+  /// Specifies the attributes that should be indexed on. Currently only a single
+  /// attribute is supported.
+  @_s.JsonKey(name: 'OrderedIndexedAttributeList')
+  final List<AttributeKey> orderedIndexedAttributeList;
+
+  /// The name of the link between the parent object and the index object.
+  @_s.JsonKey(name: 'LinkName')
+  final String linkName;
+
+  /// A reference to the parent object that contains the index object.
+  @_s.JsonKey(name: 'ParentReference')
+  final ObjectReference parentReference;
+
+  CreateIndexRequest({
+    @_s.required this.directoryArn,
+    @_s.required this.isUnique,
+    @_s.required this.orderedIndexedAttributeList,
+    this.linkName,
+    this.parentReference,
+  });
+  Map<String, dynamic> toJson() => _$CreateIndexRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5774,6 +6188,45 @@ class CreateIndexResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateObjectRequest {
+  /// The Amazon Resource Name (ARN) that is associated with the <a>Directory</a>
+  /// in which the object will be created. For more information, see <a>arns</a>.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String directoryArn;
+
+  /// A list of schema facets to be associated with the object. Do not provide
+  /// minor version components. See <a>SchemaFacet</a> for details.
+  @_s.JsonKey(name: 'SchemaFacets')
+  final List<SchemaFacet> schemaFacets;
+
+  /// The name of link that is used to attach this object to a parent.
+  @_s.JsonKey(name: 'LinkName')
+  final String linkName;
+
+  /// The attribute map whose attribute ARN contains the key and attribute value
+  /// as the map value.
+  @_s.JsonKey(name: 'ObjectAttributeList')
+  final List<AttributeKeyAndValue> objectAttributeList;
+
+  /// If specified, the parent reference to which this object will be attached.
+  @_s.JsonKey(name: 'ParentReference')
+  final ObjectReference parentReference;
+
+  CreateObjectRequest({
+    @_s.required this.directoryArn,
+    @_s.required this.schemaFacets,
+    this.linkName,
+    this.objectAttributeList,
+    this.parentReference,
+  });
+  Map<String, dynamic> toJson() => _$CreateObjectRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateObjectResponse {
@@ -5786,6 +6239,23 @@ class CreateObjectResponse {
   });
   factory CreateObjectResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateObjectResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateSchemaRequest {
+  /// The name that is associated with the schema. This is unique to each account
+  /// and in each region.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  CreateSchemaRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$CreateSchemaRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5809,12 +6279,50 @@ class CreateSchemaResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateTypedLinkFacetRequest {
+  /// <a>Facet</a> structure that is associated with the typed link facet.
+  @_s.JsonKey(name: 'Facet')
+  final TypedLinkFacet facet;
+
+  /// The Amazon Resource Name (ARN) that is associated with the schema. For more
+  /// information, see <a>arns</a>.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String schemaArn;
+
+  CreateTypedLinkFacetRequest({
+    @_s.required this.facet,
+    @_s.required this.schemaArn,
+  });
+  Map<String, dynamic> toJson() => _$CreateTypedLinkFacetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateTypedLinkFacetResponse {
   CreateTypedLinkFacetResponse();
   factory CreateTypedLinkFacetResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateTypedLinkFacetResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDirectoryRequest {
+  /// The ARN of the directory to delete.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String directoryArn;
+
+  DeleteDirectoryRequest({
+    @_s.required this.directoryArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDirectoryRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5837,6 +6345,28 @@ class DeleteDirectoryResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteFacetRequest {
+  /// The name of the facet to delete.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The Amazon Resource Name (ARN) that is associated with the <a>Facet</a>. For
+  /// more information, see <a>arns</a>.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String schemaArn;
+
+  DeleteFacetRequest({
+    @_s.required this.name,
+    @_s.required this.schemaArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteFacetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteFacetResponse {
@@ -5848,12 +6378,51 @@ class DeleteFacetResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteObjectRequest {
+  /// The Amazon Resource Name (ARN) that is associated with the <a>Directory</a>
+  /// where the object resides. For more information, see <a>arns</a>.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String directoryArn;
+
+  /// A reference that identifies the object.
+  @_s.JsonKey(name: 'ObjectReference')
+  final ObjectReference objectReference;
+
+  DeleteObjectRequest({
+    @_s.required this.directoryArn,
+    @_s.required this.objectReference,
+  });
+  Map<String, dynamic> toJson() => _$DeleteObjectRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteObjectResponse {
   DeleteObjectResponse();
   factory DeleteObjectResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteObjectResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteSchemaRequest {
+  /// The Amazon Resource Name (ARN) of the development schema. For more
+  /// information, see <a>arns</a>.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String schemaArn;
+
+  DeleteSchemaRequest({
+    @_s.required this.schemaArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteSchemaRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5877,12 +6446,61 @@ class DeleteSchemaResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteTypedLinkFacetRequest {
+  /// The unique name of the typed link facet.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The Amazon Resource Name (ARN) that is associated with the schema. For more
+  /// information, see <a>arns</a>.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String schemaArn;
+
+  DeleteTypedLinkFacetRequest({
+    @_s.required this.name,
+    @_s.required this.schemaArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteTypedLinkFacetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteTypedLinkFacetResponse {
   DeleteTypedLinkFacetResponse();
   factory DeleteTypedLinkFacetResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteTypedLinkFacetResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DetachFromIndexRequest {
+  /// The Amazon Resource Name (ARN) of the directory the index and object exist
+  /// in.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String directoryArn;
+
+  /// A reference to the index object.
+  @_s.JsonKey(name: 'IndexReference')
+  final ObjectReference indexReference;
+
+  /// A reference to the object being detached from the index.
+  @_s.JsonKey(name: 'TargetReference')
+  final ObjectReference targetReference;
+
+  DetachFromIndexRequest({
+    @_s.required this.directoryArn,
+    @_s.required this.indexReference,
+    @_s.required this.targetReference,
+  });
+  Map<String, dynamic> toJson() => _$DetachFromIndexRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5906,6 +6524,34 @@ class DetachFromIndexResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DetachObjectRequest {
+  /// The Amazon Resource Name (ARN) that is associated with the <a>Directory</a>
+  /// where objects reside. For more information, see <a>arns</a>.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String directoryArn;
+
+  /// The link name associated with the object that needs to be detached.
+  @_s.JsonKey(name: 'LinkName')
+  final String linkName;
+
+  /// The parent reference from which the object with the specified link name is
+  /// detached.
+  @_s.JsonKey(name: 'ParentReference')
+  final ObjectReference parentReference;
+
+  DetachObjectRequest({
+    @_s.required this.directoryArn,
+    @_s.required this.linkName,
+    @_s.required this.parentReference,
+  });
+  Map<String, dynamic> toJson() => _$DetachObjectRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DetachObjectResponse {
@@ -5923,12 +6569,61 @@ class DetachObjectResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DetachPolicyRequest {
+  /// The Amazon Resource Name (ARN) that is associated with the <a>Directory</a>
+  /// where both objects reside. For more information, see <a>arns</a>.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String directoryArn;
+
+  /// Reference that identifies the object whose policy object will be detached.
+  @_s.JsonKey(name: 'ObjectReference')
+  final ObjectReference objectReference;
+
+  /// Reference that identifies the policy object.
+  @_s.JsonKey(name: 'PolicyReference')
+  final ObjectReference policyReference;
+
+  DetachPolicyRequest({
+    @_s.required this.directoryArn,
+    @_s.required this.objectReference,
+    @_s.required this.policyReference,
+  });
+  Map<String, dynamic> toJson() => _$DetachPolicyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DetachPolicyResponse {
   DetachPolicyResponse();
   factory DetachPolicyResponse.fromJson(Map<String, dynamic> json) =>
       _$DetachPolicyResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DetachTypedLinkRequest {
+  /// The Amazon Resource Name (ARN) of the directory where you want to detach the
+  /// typed link.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String directoryArn;
+
+  /// Used to accept a typed link specifier as input.
+  @_s.JsonKey(name: 'TypedLinkSpecifier')
+  final TypedLinkSpecifier typedLinkSpecifier;
+
+  DetachTypedLinkRequest({
+    @_s.required this.directoryArn,
+    @_s.required this.typedLinkSpecifier,
+  });
+  Map<String, dynamic> toJson() => _$DetachTypedLinkRequestToJson(this);
 }
 
 /// Directory structure that includes the directory name and directory ARN.
@@ -5978,18 +6673,20 @@ enum DirectoryState {
   deleted,
 }
 
-extension on DirectoryState {
-  String toValue() {
-    switch (this) {
-      case DirectoryState.enabled:
-        return 'ENABLED';
-      case DirectoryState.disabled:
-        return 'DISABLED';
-      case DirectoryState.deleted:
-        return 'DELETED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisableDirectoryRequest {
+  /// The ARN of the directory to disable.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String directoryArn;
+
+  DisableDirectoryRequest({
+    @_s.required this.directoryArn,
+  });
+  Map<String, dynamic> toJson() => _$DisableDirectoryRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6007,6 +6704,22 @@ class DisableDirectoryResponse {
   });
   factory DisableDirectoryResponse.fromJson(Map<String, dynamic> json) =>
       _$DisableDirectoryResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class EnableDirectoryRequest {
+  /// The ARN of the directory to enable.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String directoryArn;
+
+  EnableDirectoryRequest({
+    @_s.required this.directoryArn,
+  });
+  Map<String, dynamic> toJson() => _$EnableDirectoryRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6213,16 +6926,20 @@ enum FacetStyle {
   dynamic,
 }
 
-extension on FacetStyle {
-  String toValue() {
-    switch (this) {
-      case FacetStyle.static:
-        return 'STATIC';
-      case FacetStyle.dynamic:
-        return 'DYNAMIC';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetAppliedSchemaVersionRequest {
+  /// The ARN of the applied schema.
+  @_s.JsonKey(name: 'SchemaArn')
+  final String schemaArn;
+
+  GetAppliedSchemaVersionRequest({
+    @_s.required this.schemaArn,
+  });
+  Map<String, dynamic> toJson() => _$GetAppliedSchemaVersionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6246,6 +6963,22 @@ class GetAppliedSchemaVersionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetDirectoryRequest {
+  /// The ARN of the directory.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String directoryArn;
+
+  GetDirectoryRequest({
+    @_s.required this.directoryArn,
+  });
+  Map<String, dynamic> toJson() => _$GetDirectoryRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetDirectoryResponse {
@@ -6258,6 +6991,28 @@ class GetDirectoryResponse {
   });
   factory GetDirectoryResponse.fromJson(Map<String, dynamic> json) =>
       _$GetDirectoryResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetFacetRequest {
+  /// The name of the facet to retrieve.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The Amazon Resource Name (ARN) that is associated with the <a>Facet</a>. For
+  /// more information, see <a>arns</a>.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String schemaArn;
+
+  GetFacetRequest({
+    @_s.required this.name,
+    @_s.required this.schemaArn,
+  });
+  Map<String, dynamic> toJson() => _$GetFacetRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6280,6 +7035,40 @@ class GetFacetResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetLinkAttributesRequest {
+  /// A list of attribute names whose values will be retrieved.
+  @_s.JsonKey(name: 'AttributeNames')
+  final List<String> attributeNames;
+
+  /// The Amazon Resource Name (ARN) that is associated with the Directory where
+  /// the typed link resides. For more information, see <a>arns</a> or <a
+  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
+  /// Links</a>.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String directoryArn;
+
+  /// Allows a typed link specifier to be accepted as input.
+  @_s.JsonKey(name: 'TypedLinkSpecifier')
+  final TypedLinkSpecifier typedLinkSpecifier;
+
+  /// The consistency level at which to retrieve the attributes on a typed link.
+  @_s.JsonKey(name: 'ConsistencyLevel')
+  final ConsistencyLevel consistencyLevel;
+
+  GetLinkAttributesRequest({
+    @_s.required this.attributeNames,
+    @_s.required this.directoryArn,
+    @_s.required this.typedLinkSpecifier,
+    this.consistencyLevel,
+  });
+  Map<String, dynamic> toJson() => _$GetLinkAttributesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetLinkAttributesResponse {
@@ -6297,6 +7086,44 @@ class GetLinkAttributesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetObjectAttributesRequest {
+  /// List of attribute names whose values will be retrieved.
+  @_s.JsonKey(name: 'AttributeNames')
+  final List<String> attributeNames;
+
+  /// The Amazon Resource Name (ARN) that is associated with the <a>Directory</a>
+  /// where the object resides.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String directoryArn;
+
+  /// Reference that identifies the object whose attributes will be retrieved.
+  @_s.JsonKey(name: 'ObjectReference')
+  final ObjectReference objectReference;
+
+  /// Identifier for the facet whose attributes will be retrieved. See
+  /// <a>SchemaFacet</a> for details.
+  @_s.JsonKey(name: 'SchemaFacet')
+  final SchemaFacet schemaFacet;
+
+  /// The consistency level at which to retrieve the attributes on an object.
+  @_s.JsonKey(name: 'x-amz-consistency-level', ignore: true)
+  final ConsistencyLevel consistencyLevel;
+
+  GetObjectAttributesRequest({
+    @_s.required this.attributeNames,
+    @_s.required this.directoryArn,
+    @_s.required this.objectReference,
+    @_s.required this.schemaFacet,
+    this.consistencyLevel,
+  });
+  Map<String, dynamic> toJson() => _$GetObjectAttributesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetObjectAttributesResponse {
@@ -6309,6 +7136,32 @@ class GetObjectAttributesResponse {
   });
   factory GetObjectAttributesResponse.fromJson(Map<String, dynamic> json) =>
       _$GetObjectAttributesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetObjectInformationRequest {
+  /// The ARN of the directory being retrieved.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String directoryArn;
+
+  /// A reference to the object.
+  @_s.JsonKey(name: 'ObjectReference')
+  final ObjectReference objectReference;
+
+  /// The consistency level at which to retrieve the object information.
+  @_s.JsonKey(name: 'x-amz-consistency-level', ignore: true)
+  final ConsistencyLevel consistencyLevel;
+
+  GetObjectInformationRequest({
+    @_s.required this.directoryArn,
+    @_s.required this.objectReference,
+    this.consistencyLevel,
+  });
+  Map<String, dynamic> toJson() => _$GetObjectInformationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6338,6 +7191,22 @@ class GetObjectInformationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetSchemaAsJsonRequest {
+  /// The ARN of the schema to retrieve.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String schemaArn;
+
+  GetSchemaAsJsonRequest({
+    @_s.required this.schemaArn,
+  });
+  Map<String, dynamic> toJson() => _$GetSchemaAsJsonRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetSchemaAsJsonResponse {
@@ -6355,6 +7224,29 @@ class GetSchemaAsJsonResponse {
   });
   factory GetSchemaAsJsonResponse.fromJson(Map<String, dynamic> json) =>
       _$GetSchemaAsJsonResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetTypedLinkFacetInformationRequest {
+  /// The unique name of the typed link facet.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The Amazon Resource Name (ARN) that is associated with the schema. For more
+  /// information, see <a>arns</a>.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String schemaArn;
+
+  GetTypedLinkFacetInformationRequest({
+    @_s.required this.name,
+    @_s.required this.schemaArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetTypedLinkFacetInformationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6460,6 +7352,38 @@ class LinkAttributeUpdate {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListAppliedSchemaArnsRequest {
+  /// The ARN of the directory you are listing.
+  @_s.JsonKey(name: 'DirectoryArn')
+  final String directoryArn;
+
+  /// The maximum number of results to retrieve.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The pagination token.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The response for <code>ListAppliedSchemaArns</code> when this parameter is
+  /// used will list all minor version ARNs for a major version.
+  @_s.JsonKey(name: 'SchemaArn')
+  final String schemaArn;
+
+  ListAppliedSchemaArnsRequest({
+    @_s.required this.directoryArn,
+    this.maxResults,
+    this.nextToken,
+    this.schemaArn,
+  });
+  Map<String, dynamic> toJson() => _$ListAppliedSchemaArnsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListAppliedSchemaArnsResponse {
@@ -6482,6 +7406,42 @@ class ListAppliedSchemaArnsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListAttachedIndicesRequest {
+  /// The ARN of the directory.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String directoryArn;
+
+  /// A reference to the object that has indices attached.
+  @_s.JsonKey(name: 'TargetReference')
+  final ObjectReference targetReference;
+
+  /// The consistency level to use for this operation.
+  @_s.JsonKey(name: 'x-amz-consistency-level', ignore: true)
+  final ConsistencyLevel consistencyLevel;
+
+  /// The maximum number of results to retrieve.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The pagination token.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListAttachedIndicesRequest({
+    @_s.required this.directoryArn,
+    @_s.required this.targetReference,
+    this.consistencyLevel,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListAttachedIndicesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListAttachedIndicesResponse {
@@ -6499,6 +7459,28 @@ class ListAttachedIndicesResponse {
   });
   factory ListAttachedIndicesResponse.fromJson(Map<String, dynamic> json) =>
       _$ListAttachedIndicesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListDevelopmentSchemaArnsRequest {
+  /// The maximum number of results to retrieve.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The pagination token.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListDevelopmentSchemaArnsRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListDevelopmentSchemaArnsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6527,6 +7509,33 @@ class ListDevelopmentSchemaArnsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListDirectoriesRequest {
+  /// The maximum number of results to retrieve.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The pagination token.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The state of the directories in the list. Can be either Enabled, Disabled,
+  /// or Deleted.
+  @_s.JsonKey(name: 'state')
+  final DirectoryState state;
+
+  ListDirectoriesRequest({
+    this.maxResults,
+    this.nextToken,
+    this.state,
+  });
+  Map<String, dynamic> toJson() => _$ListDirectoriesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListDirectoriesResponse {
@@ -6545,6 +7554,37 @@ class ListDirectoriesResponse {
   });
   factory ListDirectoriesResponse.fromJson(Map<String, dynamic> json) =>
       _$ListDirectoriesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListFacetAttributesRequest {
+  /// The name of the facet whose attributes will be retrieved.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The ARN of the schema where the facet resides.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String schemaArn;
+
+  /// The maximum number of results to retrieve.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The pagination token.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListFacetAttributesRequest({
+    @_s.required this.name,
+    @_s.required this.schemaArn,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListFacetAttributesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6572,6 +7612,32 @@ class ListFacetAttributesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListFacetNamesRequest {
+  /// The Amazon Resource Name (ARN) to retrieve facet names from.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String schemaArn;
+
+  /// The maximum number of results to retrieve.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The pagination token.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListFacetNamesRequest({
+    @_s.required this.schemaArn,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListFacetNamesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListFacetNamesResponse {
@@ -6589,6 +7655,57 @@ class ListFacetNamesResponse {
   });
   factory ListFacetNamesResponse.fromJson(Map<String, dynamic> json) =>
       _$ListFacetNamesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListIncomingTypedLinksRequest {
+  /// The Amazon Resource Name (ARN) of the directory where you want to list the
+  /// typed links.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String directoryArn;
+
+  /// Reference that identifies the object whose attributes will be listed.
+  @_s.JsonKey(name: 'ObjectReference')
+  final ObjectReference objectReference;
+
+  /// The consistency level to execute the request at.
+  @_s.JsonKey(name: 'ConsistencyLevel')
+  final ConsistencyLevel consistencyLevel;
+
+  /// Provides range filters for multiple attributes. When providing ranges to
+  /// typed link selection, any inexact ranges must be specified at the end. Any
+  /// attributes that do not have a range specified are presumed to match the
+  /// entire range.
+  @_s.JsonKey(name: 'FilterAttributeRanges')
+  final List<TypedLinkAttributeRange> filterAttributeRanges;
+
+  /// Filters are interpreted in the order of the attributes on the typed link
+  /// facet, not the order in which they are supplied to any API calls.
+  @_s.JsonKey(name: 'FilterTypedLink')
+  final TypedLinkSchemaAndFacetName filterTypedLink;
+
+  /// The maximum number of results to retrieve.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The pagination token.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListIncomingTypedLinksRequest({
+    @_s.required this.directoryArn,
+    @_s.required this.objectReference,
+    this.consistencyLevel,
+    this.filterAttributeRanges,
+    this.filterTypedLink,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListIncomingTypedLinksRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6616,6 +7733,50 @@ class ListIncomingTypedLinksResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListIndexRequest {
+  /// The ARN of the directory that the index exists in.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String directoryArn;
+
+  /// The reference to the index to list.
+  @_s.JsonKey(name: 'IndexReference')
+  final ObjectReference indexReference;
+
+  /// The consistency level to execute the request at.
+  @_s.JsonKey(name: 'x-amz-consistency-level', ignore: true)
+  final ConsistencyLevel consistencyLevel;
+
+  /// The maximum number of objects in a single page to retrieve from the index
+  /// during a request. For more information, see <a
+  /// href="http://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Amazon
+  /// Cloud Directory Limits</a>.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The pagination token.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Specifies the ranges of indexed values that you want to query.
+  @_s.JsonKey(name: 'RangesOnIndexedValues')
+  final List<ObjectAttributeRange> rangesOnIndexedValues;
+
+  ListIndexRequest({
+    @_s.required this.directoryArn,
+    @_s.required this.indexReference,
+    this.consistencyLevel,
+    this.maxResults,
+    this.nextToken,
+    this.rangesOnIndexedValues,
+  });
+  Map<String, dynamic> toJson() => _$ListIndexRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListIndexResponse {
@@ -6638,6 +7799,33 @@ class ListIndexResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListManagedSchemaArnsRequest {
+  /// The maximum number of results to retrieve.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The pagination token.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The response for ListManagedSchemaArns. When this parameter is used, all
+  /// minor version ARNs for a major version are listed.
+  @_s.JsonKey(name: 'SchemaArn')
+  final String schemaArn;
+
+  ListManagedSchemaArnsRequest({
+    this.maxResults,
+    this.nextToken,
+    this.schemaArn,
+  });
+  Map<String, dynamic> toJson() => _$ListManagedSchemaArnsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListManagedSchemaArnsResponse {
@@ -6655,6 +7843,51 @@ class ListManagedSchemaArnsResponse {
   });
   factory ListManagedSchemaArnsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListManagedSchemaArnsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListObjectAttributesRequest {
+  /// The Amazon Resource Name (ARN) that is associated with the <a>Directory</a>
+  /// where the object resides. For more information, see <a>arns</a>.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String directoryArn;
+
+  /// The reference that identifies the object whose attributes will be listed.
+  @_s.JsonKey(name: 'ObjectReference')
+  final ObjectReference objectReference;
+
+  /// Represents the manner and timing in which the successful write or update of
+  /// an object is reflected in a subsequent read operation of that same object.
+  @_s.JsonKey(name: 'x-amz-consistency-level', ignore: true)
+  final ConsistencyLevel consistencyLevel;
+
+  /// Used to filter the list of object attributes that are associated with a
+  /// certain facet.
+  @_s.JsonKey(name: 'FacetFilter')
+  final SchemaFacet facetFilter;
+
+  /// The maximum number of items to be retrieved in a single call. This is an
+  /// approximate number.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The pagination token.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListObjectAttributesRequest({
+    @_s.required this.directoryArn,
+    @_s.required this.objectReference,
+    this.consistencyLevel,
+    this.facetFilter,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListObjectAttributesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6683,6 +7916,46 @@ class ListObjectAttributesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListObjectChildrenRequest {
+  /// The Amazon Resource Name (ARN) that is associated with the <a>Directory</a>
+  /// where the object resides. For more information, see <a>arns</a>.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String directoryArn;
+
+  /// The reference that identifies the object for which child objects are being
+  /// listed.
+  @_s.JsonKey(name: 'ObjectReference')
+  final ObjectReference objectReference;
+
+  /// Represents the manner and timing in which the successful write or update of
+  /// an object is reflected in a subsequent read operation of that same object.
+  @_s.JsonKey(name: 'x-amz-consistency-level', ignore: true)
+  final ConsistencyLevel consistencyLevel;
+
+  /// The maximum number of items to be retrieved in a single call. This is an
+  /// approximate number.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The pagination token.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListObjectChildrenRequest({
+    @_s.required this.directoryArn,
+    @_s.required this.objectReference,
+    this.consistencyLevel,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListObjectChildrenRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListObjectChildrenResponse {
@@ -6706,6 +7979,38 @@ class ListObjectChildrenResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListObjectParentPathsRequest {
+  /// The ARN of the directory to which the parent path applies.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String directoryArn;
+
+  /// The reference that identifies the object whose parent paths are listed.
+  @_s.JsonKey(name: 'ObjectReference')
+  final ObjectReference objectReference;
+
+  /// The maximum number of items to be retrieved in a single call. This is an
+  /// approximate number.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The pagination token.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListObjectParentPathsRequest({
+    @_s.required this.directoryArn,
+    @_s.required this.objectReference,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListObjectParentPathsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListObjectParentPathsResponse {
@@ -6724,6 +8029,52 @@ class ListObjectParentPathsResponse {
   });
   factory ListObjectParentPathsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListObjectParentPathsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListObjectParentsRequest {
+  /// The Amazon Resource Name (ARN) that is associated with the <a>Directory</a>
+  /// where the object resides. For more information, see <a>arns</a>.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String directoryArn;
+
+  /// The reference that identifies the object for which parent objects are being
+  /// listed.
+  @_s.JsonKey(name: 'ObjectReference')
+  final ObjectReference objectReference;
+
+  /// Represents the manner and timing in which the successful write or update of
+  /// an object is reflected in a subsequent read operation of that same object.
+  @_s.JsonKey(name: 'x-amz-consistency-level', ignore: true)
+  final ConsistencyLevel consistencyLevel;
+
+  /// When set to True, returns all <a>ListObjectParentsResponse$ParentLinks</a>.
+  /// There could be multiple links between a parent-child pair.
+  @_s.JsonKey(name: 'IncludeAllLinksToEachParent')
+  final bool includeAllLinksToEachParent;
+
+  /// The maximum number of items to be retrieved in a single call. This is an
+  /// approximate number.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The pagination token.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListObjectParentsRequest({
+    @_s.required this.directoryArn,
+    @_s.required this.objectReference,
+    this.consistencyLevel,
+    this.includeAllLinksToEachParent,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListObjectParentsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6757,6 +8108,45 @@ class ListObjectParentsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListObjectPoliciesRequest {
+  /// The Amazon Resource Name (ARN) that is associated with the <a>Directory</a>
+  /// where objects reside. For more information, see <a>arns</a>.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String directoryArn;
+
+  /// Reference that identifies the object for which policies will be listed.
+  @_s.JsonKey(name: 'ObjectReference')
+  final ObjectReference objectReference;
+
+  /// Represents the manner and timing in which the successful write or update of
+  /// an object is reflected in a subsequent read operation of that same object.
+  @_s.JsonKey(name: 'x-amz-consistency-level', ignore: true)
+  final ConsistencyLevel consistencyLevel;
+
+  /// The maximum number of items to be retrieved in a single call. This is an
+  /// approximate number.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The pagination token.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListObjectPoliciesRequest({
+    @_s.required this.directoryArn,
+    @_s.required this.objectReference,
+    this.consistencyLevel,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListObjectPoliciesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListObjectPoliciesResponse {
@@ -6775,6 +8165,57 @@ class ListObjectPoliciesResponse {
   });
   factory ListObjectPoliciesResponse.fromJson(Map<String, dynamic> json) =>
       _$ListObjectPoliciesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListOutgoingTypedLinksRequest {
+  /// The Amazon Resource Name (ARN) of the directory where you want to list the
+  /// typed links.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String directoryArn;
+
+  /// A reference that identifies the object whose attributes will be listed.
+  @_s.JsonKey(name: 'ObjectReference')
+  final ObjectReference objectReference;
+
+  /// The consistency level to execute the request at.
+  @_s.JsonKey(name: 'ConsistencyLevel')
+  final ConsistencyLevel consistencyLevel;
+
+  /// Provides range filters for multiple attributes. When providing ranges to
+  /// typed link selection, any inexact ranges must be specified at the end. Any
+  /// attributes that do not have a range specified are presumed to match the
+  /// entire range.
+  @_s.JsonKey(name: 'FilterAttributeRanges')
+  final List<TypedLinkAttributeRange> filterAttributeRanges;
+
+  /// Filters are interpreted in the order of the attributes defined on the typed
+  /// link facet, not the order they are supplied to any API calls.
+  @_s.JsonKey(name: 'FilterTypedLink')
+  final TypedLinkSchemaAndFacetName filterTypedLink;
+
+  /// The maximum number of results to retrieve.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The pagination token.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListOutgoingTypedLinksRequest({
+    @_s.required this.directoryArn,
+    @_s.required this.objectReference,
+    this.consistencyLevel,
+    this.filterAttributeRanges,
+    this.filterTypedLink,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListOutgoingTypedLinksRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6802,6 +8243,45 @@ class ListOutgoingTypedLinksResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListPolicyAttachmentsRequest {
+  /// The Amazon Resource Name (ARN) that is associated with the <a>Directory</a>
+  /// where objects reside. For more information, see <a>arns</a>.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String directoryArn;
+
+  /// The reference that identifies the policy object.
+  @_s.JsonKey(name: 'PolicyReference')
+  final ObjectReference policyReference;
+
+  /// Represents the manner and timing in which the successful write or update of
+  /// an object is reflected in a subsequent read operation of that same object.
+  @_s.JsonKey(name: 'x-amz-consistency-level', ignore: true)
+  final ConsistencyLevel consistencyLevel;
+
+  /// The maximum number of items to be retrieved in a single call. This is an
+  /// approximate number.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The pagination token.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListPolicyAttachmentsRequest({
+    @_s.required this.directoryArn,
+    @_s.required this.policyReference,
+    this.consistencyLevel,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListPolicyAttachmentsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListPolicyAttachmentsResponse {
@@ -6824,6 +8304,33 @@ class ListPolicyAttachmentsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListPublishedSchemaArnsRequest {
+  /// The maximum number of results to retrieve.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The pagination token.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The response for <code>ListPublishedSchemaArns</code> when this parameter is
+  /// used will list all minor version ARNs for a major version.
+  @_s.JsonKey(name: 'SchemaArn')
+  final String schemaArn;
+
+  ListPublishedSchemaArnsRequest({
+    this.maxResults,
+    this.nextToken,
+    this.schemaArn,
+  });
+  Map<String, dynamic> toJson() => _$ListPublishedSchemaArnsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListPublishedSchemaArnsResponse {
@@ -6841,6 +8348,36 @@ class ListPublishedSchemaArnsResponse {
   });
   factory ListPublishedSchemaArnsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListPublishedSchemaArnsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource. Tagging is only supported
+  /// for directories.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// The <code>MaxResults</code> parameter sets the maximum number of results
+  /// returned in a single page. This is for future use and is not supported
+  /// currently.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The pagination token. This is for future use. Currently pagination is not
+  /// supported for tagging.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListTagsForResourceRequest({
+    @_s.required this.resourceArn,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6869,6 +8406,39 @@ class ListTagsForResourceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTypedLinkFacetAttributesRequest {
+  /// The unique name of the typed link facet.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The Amazon Resource Name (ARN) that is associated with the schema. For more
+  /// information, see <a>arns</a>.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String schemaArn;
+
+  /// The maximum number of results to retrieve.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The pagination token.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListTypedLinkFacetAttributesRequest({
+    @_s.required this.name,
+    @_s.required this.schemaArn,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListTypedLinkFacetAttributesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListTypedLinkFacetAttributesResponse {
@@ -6892,6 +8462,33 @@ class ListTypedLinkFacetAttributesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTypedLinkFacetNamesRequest {
+  /// The Amazon Resource Name (ARN) that is associated with the schema. For more
+  /// information, see <a>arns</a>.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String schemaArn;
+
+  /// The maximum number of results to retrieve.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The pagination token.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListTypedLinkFacetNamesRequest({
+    @_s.required this.schemaArn,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListTypedLinkFacetNamesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListTypedLinkFacetNamesResponse {
@@ -6909,6 +8506,39 @@ class ListTypedLinkFacetNamesResponse {
   });
   factory ListTypedLinkFacetNamesResponse.fromJson(Map<String, dynamic> json) =>
       _$ListTypedLinkFacetNamesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class LookupPolicyRequest {
+  /// The Amazon Resource Name (ARN) that is associated with the <a>Directory</a>.
+  /// For more information, see <a>arns</a>.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String directoryArn;
+
+  /// Reference that identifies the object whose policies will be looked up.
+  @_s.JsonKey(name: 'ObjectReference')
+  final ObjectReference objectReference;
+
+  /// The maximum number of items to be retrieved in a single call. This is an
+  /// approximate number.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token to request the next page of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  LookupPolicyRequest({
+    @_s.required this.directoryArn,
+    @_s.required this.objectReference,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$LookupPolicyRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7078,22 +8708,6 @@ enum ObjectType {
   $index,
 }
 
-extension on ObjectType {
-  String toValue() {
-    switch (this) {
-      case ObjectType.node:
-        return 'NODE';
-      case ObjectType.leafNode:
-        return 'LEAF_NODE';
-      case ObjectType.policy:
-        return 'POLICY';
-      case ObjectType.$index:
-        return 'INDEX';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Returns the path to the <code>ObjectIdentifiers</code> that is associated
 /// with the directory.
 @_s.JsonSerializable(
@@ -7180,6 +8794,42 @@ class PolicyToPath {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PublishSchemaRequest {
+  /// The Amazon Resource Name (ARN) that is associated with the development
+  /// schema. For more information, see <a>arns</a>.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String developmentSchemaArn;
+
+  /// The major version under which the schema will be published. Schemas have
+  /// both a major and minor version associated with them.
+  @_s.JsonKey(name: 'Version')
+  final String version;
+
+  /// The minor version under which the schema will be published. This parameter
+  /// is recommended. Schemas have both a major and minor version associated with
+  /// them.
+  @_s.JsonKey(name: 'MinorVersion')
+  final String minorVersion;
+
+  /// The new name under which the schema will be published. If this is not
+  /// provided, the development schema is considered.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  PublishSchemaRequest({
+    @_s.required this.developmentSchemaArn,
+    @_s.required this.version,
+    this.minorVersion,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$PublishSchemaRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PublishSchemaResponse {
@@ -7193,6 +8843,27 @@ class PublishSchemaResponse {
   });
   factory PublishSchemaResponse.fromJson(Map<String, dynamic> json) =>
       _$PublishSchemaResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutSchemaFromJsonRequest {
+  /// The replacement JSON schema.
+  @_s.JsonKey(name: 'Document')
+  final String document;
+
+  /// The ARN of the schema to update.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String schemaArn;
+
+  PutSchemaFromJsonRequest({
+    @_s.required this.document,
+    @_s.required this.schemaArn,
+  });
+  Map<String, dynamic> toJson() => _$PutSchemaFromJsonRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7223,6 +8894,32 @@ enum RangeMode {
   inclusive,
   @_s.JsonValue('EXCLUSIVE')
   exclusive,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RemoveFacetFromObjectRequest {
+  /// The ARN of the directory in which the object resides.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String directoryArn;
+
+  /// A reference to the object to remove the facet from.
+  @_s.JsonKey(name: 'ObjectReference')
+  final ObjectReference objectReference;
+
+  /// The facet to remove. See <a>SchemaFacet</a> for details.
+  @_s.JsonKey(name: 'SchemaFacet')
+  final SchemaFacet schemaFacet;
+
+  RemoveFacetFromObjectRequest({
+    @_s.required this.directoryArn,
+    @_s.required this.objectReference,
+    @_s.required this.schemaFacet,
+  });
+  Map<String, dynamic> toJson() => _$RemoveFacetFromObjectRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7329,6 +9026,28 @@ class Tag {
   factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
   Map<String, dynamic> toJson() => _$TagToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource. Tagging is only supported
+  /// for directories.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// A list of tag key-value pairs.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7617,6 +9336,28 @@ class TypedLinkSpecifier {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource. Tagging is only supported
+  /// for directories.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// Keys of the tag that need to be removed from the resource.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagResourceResponse {
@@ -7635,6 +9376,41 @@ enum UpdateActionType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateFacetRequest {
+  /// The name of the facet.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The Amazon Resource Name (ARN) that is associated with the <a>Facet</a>. For
+  /// more information, see <a>arns</a>.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String schemaArn;
+
+  /// List of attributes that need to be updated in a given schema <a>Facet</a>.
+  /// Each attribute is followed by <code>AttributeAction</code>, which specifies
+  /// the type of update operation to perform.
+  @_s.JsonKey(name: 'AttributeUpdates')
+  final List<FacetAttributeUpdate> attributeUpdates;
+
+  /// The object type that is associated with the facet. See
+  /// <a>CreateFacetRequest$ObjectType</a> for more details.
+  @_s.JsonKey(name: 'ObjectType')
+  final ObjectType objectType;
+
+  UpdateFacetRequest({
+    @_s.required this.name,
+    @_s.required this.schemaArn,
+    this.attributeUpdates,
+    this.objectType,
+  });
+  Map<String, dynamic> toJson() => _$UpdateFacetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateFacetResponse {
@@ -7646,12 +9422,68 @@ class UpdateFacetResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateLinkAttributesRequest {
+  /// The attributes update structure.
+  @_s.JsonKey(name: 'AttributeUpdates')
+  final List<LinkAttributeUpdate> attributeUpdates;
+
+  /// The Amazon Resource Name (ARN) that is associated with the Directory where
+  /// the updated typed link resides. For more information, see <a>arns</a> or <a
+  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
+  /// Links</a>.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String directoryArn;
+
+  /// Allows a typed link specifier to be accepted as input.
+  @_s.JsonKey(name: 'TypedLinkSpecifier')
+  final TypedLinkSpecifier typedLinkSpecifier;
+
+  UpdateLinkAttributesRequest({
+    @_s.required this.attributeUpdates,
+    @_s.required this.directoryArn,
+    @_s.required this.typedLinkSpecifier,
+  });
+  Map<String, dynamic> toJson() => _$UpdateLinkAttributesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateLinkAttributesResponse {
   UpdateLinkAttributesResponse();
   factory UpdateLinkAttributesResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateLinkAttributesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateObjectAttributesRequest {
+  /// The attributes update structure.
+  @_s.JsonKey(name: 'AttributeUpdates')
+  final List<ObjectAttributeUpdate> attributeUpdates;
+
+  /// The Amazon Resource Name (ARN) that is associated with the <a>Directory</a>
+  /// where the object resides. For more information, see <a>arns</a>.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String directoryArn;
+
+  /// The reference that identifies the object.
+  @_s.JsonKey(name: 'ObjectReference')
+  final ObjectReference objectReference;
+
+  UpdateObjectAttributesRequest({
+    @_s.required this.attributeUpdates,
+    @_s.required this.directoryArn,
+    @_s.required this.objectReference,
+  });
+  Map<String, dynamic> toJson() => _$UpdateObjectAttributesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7669,6 +9501,28 @@ class UpdateObjectAttributesResponse {
   });
   factory UpdateObjectAttributesResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateObjectAttributesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateSchemaRequest {
+  /// The name of the schema.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The Amazon Resource Name (ARN) of the development schema. For more
+  /// information, see <a>arns</a>.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String schemaArn;
+
+  UpdateSchemaRequest({
+    @_s.required this.name,
+    @_s.required this.schemaArn,
+  });
+  Map<String, dynamic> toJson() => _$UpdateSchemaRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7692,12 +9546,81 @@ class UpdateSchemaResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateTypedLinkFacetRequest {
+  /// Attributes update structure.
+  @_s.JsonKey(name: 'AttributeUpdates')
+  final List<TypedLinkFacetAttributeUpdate> attributeUpdates;
+
+  /// The order of identity attributes for the facet, from most significant to
+  /// least significant. The ability to filter typed links considers the order
+  /// that the attributes are defined on the typed link facet. When providing
+  /// ranges to a typed link selection, any inexact ranges must be specified at
+  /// the end. Any attributes that do not have a range specified are presumed to
+  /// match the entire range. Filters are interpreted in the order of the
+  /// attributes on the typed link facet, not the order in which they are supplied
+  /// to any API calls. For more information about identity attributes, see <a
+  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
+  /// Links</a>.
+  @_s.JsonKey(name: 'IdentityAttributeOrder')
+  final List<String> identityAttributeOrder;
+
+  /// The unique name of the typed link facet.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The Amazon Resource Name (ARN) that is associated with the schema. For more
+  /// information, see <a>arns</a>.
+  @_s.JsonKey(name: 'x-amz-data-partition', ignore: true)
+  final String schemaArn;
+
+  UpdateTypedLinkFacetRequest({
+    @_s.required this.attributeUpdates,
+    @_s.required this.identityAttributeOrder,
+    @_s.required this.name,
+    @_s.required this.schemaArn,
+  });
+  Map<String, dynamic> toJson() => _$UpdateTypedLinkFacetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateTypedLinkFacetResponse {
   UpdateTypedLinkFacetResponse();
   factory UpdateTypedLinkFacetResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateTypedLinkFacetResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpgradeAppliedSchemaRequest {
+  /// The ARN for the directory to which the upgraded schema will be applied.
+  @_s.JsonKey(name: 'DirectoryArn')
+  final String directoryArn;
+
+  /// The revision of the published schema to upgrade the directory to.
+  @_s.JsonKey(name: 'PublishedSchemaArn')
+  final String publishedSchemaArn;
+
+  /// Used for testing whether the major version schemas are backward compatible
+  /// or not. If schema compatibility fails, an exception would be thrown else the
+  /// call would succeed but no changes will be saved. This parameter is optional.
+  @_s.JsonKey(name: 'DryRun')
+  final bool dryRun;
+
+  UpgradeAppliedSchemaRequest({
+    @_s.required this.directoryArn,
+    @_s.required this.publishedSchemaArn,
+    this.dryRun,
+  });
+  Map<String, dynamic> toJson() => _$UpgradeAppliedSchemaRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7720,6 +9643,41 @@ class UpgradeAppliedSchemaResponse {
   });
   factory UpgradeAppliedSchemaResponse.fromJson(Map<String, dynamic> json) =>
       _$UpgradeAppliedSchemaResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpgradePublishedSchemaRequest {
+  /// The ARN of the development schema with the changes used for the upgrade.
+  @_s.JsonKey(name: 'DevelopmentSchemaArn')
+  final String developmentSchemaArn;
+
+  /// Identifies the minor version of the published schema that will be created.
+  /// This parameter is NOT optional.
+  @_s.JsonKey(name: 'MinorVersion')
+  final String minorVersion;
+
+  /// The ARN of the published schema to be upgraded.
+  @_s.JsonKey(name: 'PublishedSchemaArn')
+  final String publishedSchemaArn;
+
+  /// Used for testing whether the Development schema provided is backwards
+  /// compatible, or not, with the publish schema provided by the user to be
+  /// upgraded. If schema compatibility fails, an exception would be thrown else
+  /// the call would succeed. This parameter is optional and defaults to false.
+  @_s.JsonKey(name: 'DryRun')
+  final bool dryRun;
+
+  UpgradePublishedSchemaRequest({
+    @_s.required this.developmentSchemaArn,
+    @_s.required this.minorVersion,
+    @_s.required this.publishedSchemaArn,
+    this.dryRun,
+  });
+  Map<String, dynamic> toJson() => _$UpgradePublishedSchemaRequestToJson(this);
 }
 
 @_s.JsonSerializable(

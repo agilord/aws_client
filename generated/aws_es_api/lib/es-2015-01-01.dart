@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -64,10 +63,10 @@ class ElasticsearchService {
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     ArgumentError.checkNotNull(tagList, 'tagList');
-    final $payload = <String, dynamic>{
-      'ARN': arn,
-      'TagList': tagList,
-    };
+    final $payload = AddTagsRequest(
+      arn: arn,
+      tagList: tagList,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -110,7 +109,10 @@ class ElasticsearchService {
       isRequired: true,
     );
     ArgumentError.checkNotNull(packageID, 'packageID');
-    final $payload = <String, dynamic>{};
+    final $payload = AssociatePackageRequest(
+      domainName: domainName,
+      packageID: packageID,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -152,9 +154,9 @@ class ElasticsearchService {
       r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'DomainName': domainName,
-    };
+    final $payload = CancelElasticsearchServiceSoftwareUpdateRequest(
+      domainName: domainName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -271,29 +273,22 @@ class ElasticsearchService {
       r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'DomainName': domainName,
-      if (accessPolicies != null) 'AccessPolicies': accessPolicies,
-      if (advancedOptions != null) 'AdvancedOptions': advancedOptions,
-      if (advancedSecurityOptions != null)
-        'AdvancedSecurityOptions': advancedSecurityOptions,
-      if (cognitoOptions != null) 'CognitoOptions': cognitoOptions,
-      if (domainEndpointOptions != null)
-        'DomainEndpointOptions': domainEndpointOptions,
-      if (eBSOptions != null) 'EBSOptions': eBSOptions,
-      if (elasticsearchClusterConfig != null)
-        'ElasticsearchClusterConfig': elasticsearchClusterConfig,
-      if (elasticsearchVersion != null)
-        'ElasticsearchVersion': elasticsearchVersion,
-      if (encryptionAtRestOptions != null)
-        'EncryptionAtRestOptions': encryptionAtRestOptions,
-      if (logPublishingOptions != null)
-        'LogPublishingOptions': logPublishingOptions,
-      if (nodeToNodeEncryptionOptions != null)
-        'NodeToNodeEncryptionOptions': nodeToNodeEncryptionOptions,
-      if (snapshotOptions != null) 'SnapshotOptions': snapshotOptions,
-      if (vPCOptions != null) 'VPCOptions': vPCOptions,
-    };
+    final $payload = CreateElasticsearchDomainRequest(
+      domainName: domainName,
+      accessPolicies: accessPolicies,
+      advancedOptions: advancedOptions,
+      advancedSecurityOptions: advancedSecurityOptions,
+      cognitoOptions: cognitoOptions,
+      domainEndpointOptions: domainEndpointOptions,
+      eBSOptions: eBSOptions,
+      elasticsearchClusterConfig: elasticsearchClusterConfig,
+      elasticsearchVersion: elasticsearchVersion,
+      encryptionAtRestOptions: encryptionAtRestOptions,
+      logPublishingOptions: logPublishingOptions,
+      nodeToNodeEncryptionOptions: nodeToNodeEncryptionOptions,
+      snapshotOptions: snapshotOptions,
+      vPCOptions: vPCOptions,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -353,12 +348,12 @@ class ElasticsearchService {
       0,
       1024,
     );
-    final $payload = <String, dynamic>{
-      'PackageName': packageName,
-      'PackageSource': packageSource,
-      'PackageType': packageType?.toValue(),
-      if (packageDescription != null) 'PackageDescription': packageDescription,
-    };
+    final $payload = CreatePackageRequest(
+      packageName: packageName,
+      packageSource: packageSource,
+      packageType: packageType,
+      packageDescription: packageDescription,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -395,7 +390,9 @@ class ElasticsearchService {
       r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteElasticsearchDomainRequest(
+      domainName: domainName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -442,7 +439,9 @@ class ElasticsearchService {
     @_s.required String packageID,
   }) async {
     ArgumentError.checkNotNull(packageID, 'packageID');
-    final $payload = <String, dynamic>{};
+    final $payload = DeletePackageRequest(
+      packageID: packageID,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -542,9 +541,9 @@ class ElasticsearchService {
     @_s.required List<String> domainNames,
   }) async {
     ArgumentError.checkNotNull(domainNames, 'domainNames');
-    final $payload = <String, dynamic>{
-      'DomainNames': domainNames,
-    };
+    final $payload = DescribeElasticsearchDomainsRequest(
+      domainNames: domainNames,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -640,11 +639,11 @@ class ElasticsearchService {
       0,
       100,
     );
-    final $payload = <String, dynamic>{
-      if (filters != null) 'Filters': filters,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = DescribePackagesRequest(
+      filters: filters,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -793,7 +792,10 @@ class ElasticsearchService {
       isRequired: true,
     );
     ArgumentError.checkNotNull(packageID, 'packageID');
-    final $payload = <String, dynamic>{};
+    final $payload = DissociatePackageRequest(
+      domainName: domainName,
+      packageID: packageID,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1211,12 +1213,12 @@ class ElasticsearchService {
       1,
       1152921504606846976,
     );
-    final $payload = <String, dynamic>{
-      'ReservationName': reservationName,
-      'ReservedElasticsearchInstanceOfferingId':
+    final $payload = PurchaseReservedElasticsearchInstanceOfferingRequest(
+      reservationName: reservationName,
+      reservedElasticsearchInstanceOfferingId:
           reservedElasticsearchInstanceOfferingId,
-      if (instanceCount != null) 'InstanceCount': instanceCount,
-    };
+      instanceCount: instanceCount,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1246,10 +1248,10 @@ class ElasticsearchService {
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    final $payload = <String, dynamic>{
-      'ARN': arn,
-      'TagKeys': tagKeys,
-    };
+    final $payload = RemoveTagsRequest(
+      arn: arn,
+      tagKeys: tagKeys,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1286,9 +1288,9 @@ class ElasticsearchService {
       r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'DomainName': domainName,
-    };
+    final $payload = StartElasticsearchServiceSoftwareUpdateRequest(
+      domainName: domainName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1383,22 +1385,19 @@ class ElasticsearchService {
       r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (accessPolicies != null) 'AccessPolicies': accessPolicies,
-      if (advancedOptions != null) 'AdvancedOptions': advancedOptions,
-      if (advancedSecurityOptions != null)
-        'AdvancedSecurityOptions': advancedSecurityOptions,
-      if (cognitoOptions != null) 'CognitoOptions': cognitoOptions,
-      if (domainEndpointOptions != null)
-        'DomainEndpointOptions': domainEndpointOptions,
-      if (eBSOptions != null) 'EBSOptions': eBSOptions,
-      if (elasticsearchClusterConfig != null)
-        'ElasticsearchClusterConfig': elasticsearchClusterConfig,
-      if (logPublishingOptions != null)
-        'LogPublishingOptions': logPublishingOptions,
-      if (snapshotOptions != null) 'SnapshotOptions': snapshotOptions,
-      if (vPCOptions != null) 'VPCOptions': vPCOptions,
-    };
+    final $payload = UpdateElasticsearchDomainConfigRequest(
+      domainName: domainName,
+      accessPolicies: accessPolicies,
+      advancedOptions: advancedOptions,
+      advancedSecurityOptions: advancedSecurityOptions,
+      cognitoOptions: cognitoOptions,
+      domainEndpointOptions: domainEndpointOptions,
+      eBSOptions: eBSOptions,
+      elasticsearchClusterConfig: elasticsearchClusterConfig,
+      logPublishingOptions: logPublishingOptions,
+      snapshotOptions: snapshotOptions,
+      vPCOptions: vPCOptions,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1445,11 +1444,11 @@ class ElasticsearchService {
       isRequired: true,
     );
     ArgumentError.checkNotNull(targetVersion, 'targetVersion');
-    final $payload = <String, dynamic>{
-      'DomainName': domainName,
-      'TargetVersion': targetVersion,
-      if (performCheckOnly != null) 'PerformCheckOnly': performCheckOnly,
-    };
+    final $payload = UpgradeElasticsearchDomainRequest(
+      domainName: domainName,
+      targetVersion: targetVersion,
+      performCheckOnly: performCheckOnly,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1486,6 +1485,29 @@ class AccessPoliciesStatus {
   });
   factory AccessPoliciesStatus.fromJson(Map<String, dynamic> json) =>
       _$AccessPoliciesStatusFromJson(json);
+}
+
+/// Container for the parameters to the <code><a>AddTags</a></code> operation.
+/// Specify the tags that you want to attach to the Elasticsearch domain.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AddTagsRequest {
+  /// Specify the <code>ARN</code> for which you want to add the tags.
+  @_s.JsonKey(name: 'ARN')
+  final String arn;
+
+  /// List of <code>Tag</code> that need to be added for the Elasticsearch domain.
+  @_s.JsonKey(name: 'TagList')
+  final List<Tag> tagList;
+
+  AddTagsRequest({
+    @_s.required this.arn,
+    @_s.required this.tagList,
+  });
+  Map<String, dynamic> toJson() => _$AddTagsRequestToJson(this);
 }
 
 /// List of limits that are specific to a given InstanceType and for each of
@@ -1642,6 +1664,30 @@ class AdvancedSecurityOptionsStatus {
       _$AdvancedSecurityOptionsStatusFromJson(json);
 }
 
+/// Container for request parameters to <code> <a>AssociatePackage</a> </code>
+/// operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociatePackageRequest {
+  /// Name of the domain that you want to associate the package with.
+  @_s.JsonKey(name: 'DomainName', ignore: true)
+  final String domainName;
+
+  /// Internal ID of the package that you want to associate with a domain. Use
+  /// <code>DescribePackages</code> to find this value.
+  @_s.JsonKey(name: 'PackageID', ignore: true)
+  final String packageID;
+
+  AssociatePackageRequest({
+    @_s.required this.domainName,
+    @_s.required this.packageID,
+  });
+  Map<String, dynamic> toJson() => _$AssociatePackageRequestToJson(this);
+}
+
 /// Container for response returned by <code> <a>AssociatePackage</a> </code>
 /// operation.
 @_s.JsonSerializable(
@@ -1659,6 +1705,28 @@ class AssociatePackageResponse {
   });
   factory AssociatePackageResponse.fromJson(Map<String, dynamic> json) =>
       _$AssociatePackageResponseFromJson(json);
+}
+
+/// Container for the parameters to the
+/// <code><a>CancelElasticsearchServiceSoftwareUpdate</a></code> operation.
+/// Specifies the name of the Elasticsearch domain that you wish to cancel a
+/// service software update on.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CancelElasticsearchServiceSoftwareUpdateRequest {
+  /// The name of the domain that you want to stop the latest service software
+  /// update on.
+  @_s.JsonKey(name: 'DomainName')
+  final String domainName;
+
+  CancelElasticsearchServiceSoftwareUpdateRequest({
+    @_s.required this.domainName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CancelElasticsearchServiceSoftwareUpdateRequestToJson(this);
 }
 
 /// The result of a <code>CancelElasticsearchServiceSoftwareUpdate</code>
@@ -1767,6 +1835,111 @@ class CompatibleVersionsMap {
       _$CompatibleVersionsMapFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateElasticsearchDomainRequest {
+  /// The name of the Elasticsearch domain that you are creating. Domain names are
+  /// unique across the domains owned by an account within an AWS region. Domain
+  /// names must start with a lowercase letter and can contain the following
+  /// characters: a-z (lowercase), 0-9, and - (hyphen).
+  @_s.JsonKey(name: 'DomainName')
+  final String domainName;
+
+  /// IAM access policy as a JSON-formatted string.
+  @_s.JsonKey(name: 'AccessPolicies')
+  final String accessPolicies;
+
+  /// Option to allow references to indices in an HTTP request body. Must be
+  /// <code>false</code> when configuring access to individual sub-resources. By
+  /// default, the value is <code>true</code>. See <a
+  /// href="http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-createupdatedomains.html#es-createdomain-configure-advanced-options"
+  /// target="_blank">Configuration Advanced Options</a> for more information.
+  @_s.JsonKey(name: 'AdvancedOptions')
+  final Map<String, String> advancedOptions;
+
+  /// Specifies advanced security options.
+  @_s.JsonKey(name: 'AdvancedSecurityOptions')
+  final AdvancedSecurityOptionsInput advancedSecurityOptions;
+
+  /// Options to specify the Cognito user and identity pools for Kibana
+  /// authentication. For more information, see <a
+  /// href="http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-cognito-auth.html"
+  /// target="_blank">Amazon Cognito Authentication for Kibana</a>.
+  @_s.JsonKey(name: 'CognitoOptions')
+  final CognitoOptions cognitoOptions;
+
+  /// Options to specify configuration that will be applied to the domain
+  /// endpoint.
+  @_s.JsonKey(name: 'DomainEndpointOptions')
+  final DomainEndpointOptions domainEndpointOptions;
+
+  /// Options to enable, disable and specify the type and size of EBS storage
+  /// volumes.
+  @_s.JsonKey(name: 'EBSOptions')
+  final EBSOptions eBSOptions;
+
+  /// Configuration options for an Elasticsearch domain. Specifies the instance
+  /// type and number of instances in the domain cluster.
+  @_s.JsonKey(name: 'ElasticsearchClusterConfig')
+  final ElasticsearchClusterConfig elasticsearchClusterConfig;
+
+  /// String of format X.Y to specify version for the Elasticsearch domain eg.
+  /// "1.5" or "2.3". For more information, see <a
+  /// href="http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-createupdatedomains.html#es-createdomains"
+  /// target="_blank">Creating Elasticsearch Domains</a> in the <i>Amazon
+  /// Elasticsearch Service Developer Guide</i>.
+  @_s.JsonKey(name: 'ElasticsearchVersion')
+  final String elasticsearchVersion;
+
+  /// Specifies the Encryption At Rest Options.
+  @_s.JsonKey(name: 'EncryptionAtRestOptions')
+  final EncryptionAtRestOptions encryptionAtRestOptions;
+
+  /// Map of <code>LogType</code> and <code>LogPublishingOption</code>, each
+  /// containing options to publish a given type of Elasticsearch log.
+  @_s.JsonKey(name: 'LogPublishingOptions')
+  final Map<String, LogPublishingOption> logPublishingOptions;
+
+  /// Specifies the NodeToNodeEncryptionOptions.
+  @_s.JsonKey(name: 'NodeToNodeEncryptionOptions')
+  final NodeToNodeEncryptionOptions nodeToNodeEncryptionOptions;
+
+  /// Option to set time, in UTC format, of the daily automated snapshot. Default
+  /// value is 0 hours.
+  @_s.JsonKey(name: 'SnapshotOptions')
+  final SnapshotOptions snapshotOptions;
+
+  /// Options to specify the subnets and security groups for VPC endpoint. For
+  /// more information, see <a
+  /// href="http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-vpc.html#es-creating-vpc"
+  /// target="_blank">Creating a VPC</a> in <i>VPC Endpoints for Amazon
+  /// Elasticsearch Service Domains</i>
+  @_s.JsonKey(name: 'VPCOptions')
+  final VPCOptions vPCOptions;
+
+  CreateElasticsearchDomainRequest({
+    @_s.required this.domainName,
+    this.accessPolicies,
+    this.advancedOptions,
+    this.advancedSecurityOptions,
+    this.cognitoOptions,
+    this.domainEndpointOptions,
+    this.eBSOptions,
+    this.elasticsearchClusterConfig,
+    this.elasticsearchVersion,
+    this.encryptionAtRestOptions,
+    this.logPublishingOptions,
+    this.nodeToNodeEncryptionOptions,
+    this.snapshotOptions,
+    this.vPCOptions,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateElasticsearchDomainRequestToJson(this);
+}
+
 /// The result of a <code>CreateElasticsearchDomain</code> operation. Contains
 /// the status of the newly created Elasticsearch domain.
 @_s.JsonSerializable(
@@ -1785,6 +1958,40 @@ class CreateElasticsearchDomainResponse {
   factory CreateElasticsearchDomainResponse.fromJson(
           Map<String, dynamic> json) =>
       _$CreateElasticsearchDomainResponseFromJson(json);
+}
+
+/// Container for request parameters to <code> <a>CreatePackage</a> </code>
+/// operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreatePackageRequest {
+  /// Unique identifier for the package.
+  @_s.JsonKey(name: 'PackageName')
+  final String packageName;
+
+  /// The customer S3 location <code>PackageSource</code> for importing the
+  /// package.
+  @_s.JsonKey(name: 'PackageSource')
+  final PackageSource packageSource;
+
+  /// Type of package. Currently supports only TXT-DICTIONARY.
+  @_s.JsonKey(name: 'PackageType')
+  final PackageType packageType;
+
+  /// Description of the package.
+  @_s.JsonKey(name: 'PackageDescription')
+  final String packageDescription;
+
+  CreatePackageRequest({
+    @_s.required this.packageName,
+    @_s.required this.packageSource,
+    @_s.required this.packageType,
+    this.packageDescription,
+  });
+  Map<String, dynamic> toJson() => _$CreatePackageRequestToJson(this);
 }
 
 /// Container for response returned by <code> <a>CreatePackage</a> </code>
@@ -1806,6 +2013,26 @@ class CreatePackageResponse {
       _$CreatePackageResponseFromJson(json);
 }
 
+/// Container for the parameters to the
+/// <code><a>DeleteElasticsearchDomain</a></code> operation. Specifies the name
+/// of the Elasticsearch domain that you want to delete.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteElasticsearchDomainRequest {
+  /// The name of the Elasticsearch domain that you want to permanently delete.
+  @_s.JsonKey(name: 'DomainName', ignore: true)
+  final String domainName;
+
+  DeleteElasticsearchDomainRequest({
+    @_s.required this.domainName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteElasticsearchDomainRequestToJson(this);
+}
+
 /// The result of a <code>DeleteElasticsearchDomain</code> request. Contains the
 /// status of the pending deletion, or no status if the domain and all of its
 /// resources have been deleted.
@@ -1825,6 +2052,25 @@ class DeleteElasticsearchDomainResponse {
   factory DeleteElasticsearchDomainResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DeleteElasticsearchDomainResponseFromJson(json);
+}
+
+/// Container for request parameters to <code> <a>DeletePackage</a> </code>
+/// operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeletePackageRequest {
+  /// Internal ID of the package that you want to delete. Use
+  /// <code>DescribePackages</code> to find this value.
+  @_s.JsonKey(name: 'PackageID', ignore: true)
+  final String packageID;
+
+  DeletePackageRequest({
+    @_s.required this.packageID,
+  });
+  Map<String, dynamic> toJson() => _$DeletePackageRequestToJson(this);
 }
 
 /// Container for response parameters to <code> <a>DeletePackage</a> </code>
@@ -1900,6 +2146,26 @@ class DescribeElasticsearchDomainResponse {
       _$DescribeElasticsearchDomainResponseFromJson(json);
 }
 
+/// Container for the parameters to the
+/// <code><a>DescribeElasticsearchDomains</a></code> operation. By default, the
+/// API returns the status of all Elasticsearch domains.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeElasticsearchDomainsRequest {
+  /// The Elasticsearch domains for which you want information.
+  @_s.JsonKey(name: 'DomainNames')
+  final List<String> domainNames;
+
+  DescribeElasticsearchDomainsRequest({
+    @_s.required this.domainNames,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeElasticsearchDomainsRequestToJson(this);
+}
+
 /// The result of a <code>DescribeElasticsearchDomains</code> request. Contains
 /// the status of the specified domains or all domains owned by the account.
 @_s.JsonSerializable(
@@ -1969,6 +2235,36 @@ enum DescribePackagesFilterName {
   packageName,
   @_s.JsonValue('PackageStatus')
   packageStatus,
+}
+
+/// Container for request parameters to <code> <a>DescribePackage</a> </code>
+/// operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribePackagesRequest {
+  /// Only returns packages that match the <code>DescribePackagesFilterList</code>
+  /// values.
+  @_s.JsonKey(name: 'Filters')
+  final List<DescribePackagesFilter> filters;
+
+  /// Limits results to a maximum number of packages.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// Used for pagination. Only necessary if a previous API call includes a
+  /// non-null NextToken value. If provided, returns results for the next page.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribePackagesRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribePackagesRequestToJson(this);
 }
 
 /// Container for response returned by <code> <a>DescribePackages</a> </code>
@@ -2043,6 +2339,30 @@ class DescribeReservedElasticsearchInstancesResponse {
   factory DescribeReservedElasticsearchInstancesResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeReservedElasticsearchInstancesResponseFromJson(json);
+}
+
+/// Container for request parameters to <code> <a>DissociatePackage</a> </code>
+/// operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DissociatePackageRequest {
+  /// Name of the domain that you want to associate the package with.
+  @_s.JsonKey(name: 'DomainName', ignore: true)
+  final String domainName;
+
+  /// Internal ID of the package that you want to associate with a domain. Use
+  /// <code>DescribePackages</code> to find this value.
+  @_s.JsonKey(name: 'PackageID', ignore: true)
+  final String packageID;
+
+  DissociatePackageRequest({
+    @_s.required this.domainName,
+    @_s.required this.packageID,
+  });
+  Map<String, dynamic> toJson() => _$DissociatePackageRequestToJson(this);
 }
 
 /// Container for response returned by <code> <a>DissociatePackage</a> </code>
@@ -3438,14 +3758,33 @@ enum PackageType {
   txtDictionary,
 }
 
-extension on PackageType {
-  String toValue() {
-    switch (this) {
-      case PackageType.txtDictionary:
-        return 'TXT-DICTIONARY';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+/// Container for parameters to
+/// <code>PurchaseReservedElasticsearchInstanceOffering</code>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PurchaseReservedElasticsearchInstanceOfferingRequest {
+  /// A customer-specified identifier to track this reservation.
+  @_s.JsonKey(name: 'ReservationName')
+  final String reservationName;
+
+  /// The ID of the reserved Elasticsearch instance offering to purchase.
+  @_s.JsonKey(name: 'ReservedElasticsearchInstanceOfferingId')
+  final String reservedElasticsearchInstanceOfferingId;
+
+  /// The number of Elasticsearch instances to reserve.
+  @_s.JsonKey(name: 'InstanceCount')
+  final int instanceCount;
+
+  PurchaseReservedElasticsearchInstanceOfferingRequest({
+    @_s.required this.reservationName,
+    @_s.required this.reservedElasticsearchInstanceOfferingId,
+    this.instanceCount,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PurchaseReservedElasticsearchInstanceOfferingRequestToJson(this);
 }
 
 /// Represents the output of a
@@ -3496,6 +3835,32 @@ class RecurringCharge {
   });
   factory RecurringCharge.fromJson(Map<String, dynamic> json) =>
       _$RecurringChargeFromJson(json);
+}
+
+/// Container for the parameters to the <code><a>RemoveTags</a></code>
+/// operation. Specify the <code>ARN</code> for the Elasticsearch domain from
+/// which you want to remove the specified <code>TagKey</code>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RemoveTagsRequest {
+  /// Specifies the <code>ARN</code> for the Elasticsearch domain from which you
+  /// want to delete the specified tags.
+  @_s.JsonKey(name: 'ARN')
+  final String arn;
+
+  /// Specifies the <code>TagKey</code> list which you want to remove from the
+  /// Elasticsearch domain.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  RemoveTagsRequest({
+    @_s.required this.arn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$RemoveTagsRequestToJson(this);
 }
 
 /// Details of a reserved Elasticsearch instance.
@@ -3757,6 +4122,28 @@ class SnapshotOptionsStatus {
       _$SnapshotOptionsStatusFromJson(json);
 }
 
+/// Container for the parameters to the
+/// <code><a>StartElasticsearchServiceSoftwareUpdate</a></code> operation.
+/// Specifies the name of the Elasticsearch domain that you wish to schedule a
+/// service software update on.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartElasticsearchServiceSoftwareUpdateRequest {
+  /// The name of the domain that you want to update to the latest service
+  /// software.
+  @_s.JsonKey(name: 'DomainName')
+  final String domainName;
+
+  StartElasticsearchServiceSoftwareUpdateRequest({
+    @_s.required this.domainName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StartElasticsearchServiceSoftwareUpdateRequestToJson(this);
+}
+
 /// The result of a <code>StartElasticsearchServiceSoftwareUpdate</code>
 /// operation. Contains the status of the update.
 @_s.JsonSerializable(
@@ -3871,6 +4258,90 @@ class Tag {
   Map<String, dynamic> toJson() => _$TagToJson(this);
 }
 
+/// Container for the parameters to the
+/// <code><a>UpdateElasticsearchDomain</a></code> operation. Specifies the type
+/// and number of instances in the domain cluster.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateElasticsearchDomainConfigRequest {
+  /// The name of the Elasticsearch domain that you are updating.
+  @_s.JsonKey(name: 'DomainName', ignore: true)
+  final String domainName;
+
+  /// IAM access policy as a JSON-formatted string.
+  @_s.JsonKey(name: 'AccessPolicies')
+  final String accessPolicies;
+
+  /// Modifies the advanced option to allow references to indices in an HTTP
+  /// request body. Must be <code>false</code> when configuring access to
+  /// individual sub-resources. By default, the value is <code>true</code>. See <a
+  /// href="http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-createupdatedomains.html#es-createdomain-configure-advanced-options"
+  /// target="_blank">Configuration Advanced Options</a> for more information.
+  @_s.JsonKey(name: 'AdvancedOptions')
+  final Map<String, String> advancedOptions;
+
+  /// Specifies advanced security options.
+  @_s.JsonKey(name: 'AdvancedSecurityOptions')
+  final AdvancedSecurityOptionsInput advancedSecurityOptions;
+
+  /// Options to specify the Cognito user and identity pools for Kibana
+  /// authentication. For more information, see <a
+  /// href="http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-cognito-auth.html"
+  /// target="_blank">Amazon Cognito Authentication for Kibana</a>.
+  @_s.JsonKey(name: 'CognitoOptions')
+  final CognitoOptions cognitoOptions;
+
+  /// Options to specify configuration that will be applied to the domain
+  /// endpoint.
+  @_s.JsonKey(name: 'DomainEndpointOptions')
+  final DomainEndpointOptions domainEndpointOptions;
+
+  /// Specify the type and size of the EBS volume that you want to use.
+  @_s.JsonKey(name: 'EBSOptions')
+  final EBSOptions eBSOptions;
+
+  /// The type and number of instances to instantiate for the domain cluster.
+  @_s.JsonKey(name: 'ElasticsearchClusterConfig')
+  final ElasticsearchClusterConfig elasticsearchClusterConfig;
+
+  /// Map of <code>LogType</code> and <code>LogPublishingOption</code>, each
+  /// containing options to publish a given type of Elasticsearch log.
+  @_s.JsonKey(name: 'LogPublishingOptions')
+  final Map<String, LogPublishingOption> logPublishingOptions;
+
+  /// Option to set the time, in UTC format, for the daily automated snapshot.
+  /// Default value is <code>0</code> hours.
+  @_s.JsonKey(name: 'SnapshotOptions')
+  final SnapshotOptions snapshotOptions;
+
+  /// Options to specify the subnets and security groups for VPC endpoint. For
+  /// more information, see <a
+  /// href="http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-vpc.html#es-creating-vpc"
+  /// target="_blank">Creating a VPC</a> in <i>VPC Endpoints for Amazon
+  /// Elasticsearch Service Domains</i>
+  @_s.JsonKey(name: 'VPCOptions')
+  final VPCOptions vPCOptions;
+
+  UpdateElasticsearchDomainConfigRequest({
+    @_s.required this.domainName,
+    this.accessPolicies,
+    this.advancedOptions,
+    this.advancedSecurityOptions,
+    this.cognitoOptions,
+    this.domainEndpointOptions,
+    this.eBSOptions,
+    this.elasticsearchClusterConfig,
+    this.logPublishingOptions,
+    this.snapshotOptions,
+    this.vPCOptions,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateElasticsearchDomainConfigRequestToJson(this);
+}
+
 /// The result of an <code>UpdateElasticsearchDomain</code> request. Contains
 /// the status of the Elasticsearch domain being updated.
 @_s.JsonSerializable(
@@ -3889,6 +4360,35 @@ class UpdateElasticsearchDomainConfigResponse {
   factory UpdateElasticsearchDomainConfigResponse.fromJson(
           Map<String, dynamic> json) =>
       _$UpdateElasticsearchDomainConfigResponseFromJson(json);
+}
+
+/// Container for request parameters to <code> <a>UpgradeElasticsearchDomain</a>
+/// </code> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpgradeElasticsearchDomainRequest {
+  @_s.JsonKey(name: 'DomainName')
+  final String domainName;
+
+  /// The version of Elasticsearch that you intend to upgrade the domain to.
+  @_s.JsonKey(name: 'TargetVersion')
+  final String targetVersion;
+
+  /// This flag, when set to True, indicates that an Upgrade Eligibility Check
+  /// needs to be performed. This will not actually perform the Upgrade.
+  @_s.JsonKey(name: 'PerformCheckOnly')
+  final bool performCheckOnly;
+
+  UpgradeElasticsearchDomainRequest({
+    @_s.required this.domainName,
+    @_s.required this.targetVersion,
+    this.performCheckOnly,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpgradeElasticsearchDomainRequestToJson(this);
 }
 
 /// Container for response returned by <code> <a>UpgradeElasticsearchDomain</a>

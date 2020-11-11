@@ -6,6 +6,22 @@ part of 'inspector-2016-02-16.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$AddAttributesToFindingsRequestToJson(
+    AddAttributesToFindingsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'attributes', instance.attributes?.map((e) => e?.toJson())?.toList());
+  writeNotNull('findingArns', instance.findingArns);
+  return val;
+}
+
 AddAttributesToFindingsResponse _$AddAttributesToFindingsResponseFromJson(
     Map<String, dynamic> json) {
   return AddAttributesToFindingsResponse(
@@ -322,11 +338,45 @@ Map<String, dynamic> _$AttributeToJson(Attribute instance) {
   return val;
 }
 
+Map<String, dynamic> _$CreateAssessmentTargetRequestToJson(
+    CreateAssessmentTargetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('assessmentTargetName', instance.assessmentTargetName);
+  writeNotNull('resourceGroupArn', instance.resourceGroupArn);
+  return val;
+}
+
 CreateAssessmentTargetResponse _$CreateAssessmentTargetResponseFromJson(
     Map<String, dynamic> json) {
   return CreateAssessmentTargetResponse(
     assessmentTargetArn: json['assessmentTargetArn'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateAssessmentTemplateRequestToJson(
+    CreateAssessmentTemplateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('assessmentTargetArn', instance.assessmentTargetArn);
+  writeNotNull('assessmentTemplateName', instance.assessmentTemplateName);
+  writeNotNull('durationInSeconds', instance.durationInSeconds);
+  writeNotNull('rulesPackageArns', instance.rulesPackageArns);
+  writeNotNull('userAttributesForFindings',
+      instance.userAttributesForFindings?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateAssessmentTemplateResponse _$CreateAssessmentTemplateResponseFromJson(
@@ -336,6 +386,20 @@ CreateAssessmentTemplateResponse _$CreateAssessmentTemplateResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateExclusionsPreviewRequestToJson(
+    CreateExclusionsPreviewRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('assessmentTemplateArn', instance.assessmentTemplateArn);
+  return val;
+}
+
 CreateExclusionsPreviewResponse _$CreateExclusionsPreviewResponseFromJson(
     Map<String, dynamic> json) {
   return CreateExclusionsPreviewResponse(
@@ -343,11 +407,82 @@ CreateExclusionsPreviewResponse _$CreateExclusionsPreviewResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateResourceGroupRequestToJson(
+    CreateResourceGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceGroupTags',
+      instance.resourceGroupTags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateResourceGroupResponse _$CreateResourceGroupResponseFromJson(
     Map<String, dynamic> json) {
   return CreateResourceGroupResponse(
     resourceGroupArn: json['resourceGroupArn'] as String,
   );
+}
+
+Map<String, dynamic> _$DeleteAssessmentRunRequestToJson(
+    DeleteAssessmentRunRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('assessmentRunArn', instance.assessmentRunArn);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteAssessmentTargetRequestToJson(
+    DeleteAssessmentTargetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('assessmentTargetArn', instance.assessmentTargetArn);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteAssessmentTemplateRequestToJson(
+    DeleteAssessmentTemplateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('assessmentTemplateArn', instance.assessmentTemplateArn);
+  return val;
+}
+
+Map<String, dynamic> _$DescribeAssessmentRunsRequestToJson(
+    DescribeAssessmentRunsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('assessmentRunArns', instance.assessmentRunArns);
+  return val;
 }
 
 DescribeAssessmentRunsResponse _$DescribeAssessmentRunsResponseFromJson(
@@ -368,6 +503,20 @@ DescribeAssessmentRunsResponse _$DescribeAssessmentRunsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeAssessmentTargetsRequestToJson(
+    DescribeAssessmentTargetsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('assessmentTargetArns', instance.assessmentTargetArns);
+  return val;
+}
+
 DescribeAssessmentTargetsResponse _$DescribeAssessmentTargetsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeAssessmentTargetsResponse(
@@ -384,6 +533,20 @@ DescribeAssessmentTargetsResponse _$DescribeAssessmentTargetsResponseFromJson(
               : FailedItemDetails.fromJson(e as Map<String, dynamic>)),
     ),
   );
+}
+
+Map<String, dynamic> _$DescribeAssessmentTemplatesRequestToJson(
+    DescribeAssessmentTemplatesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('assessmentTemplateArns', instance.assessmentTemplateArns);
+  return val;
 }
 
 DescribeAssessmentTemplatesResponse
@@ -414,6 +577,25 @@ DescribeCrossAccountAccessRoleResponse
   );
 }
 
+Map<String, dynamic> _$DescribeExclusionsRequestToJson(
+    DescribeExclusionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('exclusionArns', instance.exclusionArns);
+  writeNotNull('locale', _$LocaleEnumMap[instance.locale]);
+  return val;
+}
+
+const _$LocaleEnumMap = {
+  Locale.enUs: 'EN_US',
+};
+
 DescribeExclusionsResponse _$DescribeExclusionsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeExclusionsResponse(
@@ -429,6 +611,21 @@ DescribeExclusionsResponse _$DescribeExclusionsResponseFromJson(
               : FailedItemDetails.fromJson(e as Map<String, dynamic>)),
     ),
   );
+}
+
+Map<String, dynamic> _$DescribeFindingsRequestToJson(
+    DescribeFindingsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('findingArns', instance.findingArns);
+  writeNotNull('locale', _$LocaleEnumMap[instance.locale]);
+  return val;
 }
 
 DescribeFindingsResponse _$DescribeFindingsResponseFromJson(
@@ -448,6 +645,20 @@ DescribeFindingsResponse _$DescribeFindingsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeResourceGroupsRequestToJson(
+    DescribeResourceGroupsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceGroupArns', instance.resourceGroupArns);
+  return val;
+}
+
 DescribeResourceGroupsResponse _$DescribeResourceGroupsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeResourceGroupsResponse(
@@ -464,6 +675,21 @@ DescribeResourceGroupsResponse _$DescribeResourceGroupsResponseFromJson(
             : ResourceGroup.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeRulesPackagesRequestToJson(
+    DescribeRulesPackagesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('rulesPackageArns', instance.rulesPackageArns);
+  writeNotNull('locale', _$LocaleEnumMap[instance.locale]);
+  return val;
 }
 
 DescribeRulesPackagesResponse _$DescribeRulesPackagesResponseFromJson(
@@ -623,6 +849,33 @@ Map<String, dynamic> _$FindingFilterToJson(FindingFilter instance) {
   return val;
 }
 
+Map<String, dynamic> _$GetAssessmentReportRequestToJson(
+    GetAssessmentReportRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('assessmentRunArn', instance.assessmentRunArn);
+  writeNotNull(
+      'reportFileFormat', _$ReportFileFormatEnumMap[instance.reportFileFormat]);
+  writeNotNull('reportType', _$ReportTypeEnumMap[instance.reportType]);
+  return val;
+}
+
+const _$ReportFileFormatEnumMap = {
+  ReportFileFormat.html: 'HTML',
+  ReportFileFormat.pdf: 'PDF',
+};
+
+const _$ReportTypeEnumMap = {
+  ReportType.finding: 'FINDING',
+  ReportType.full: 'FULL',
+};
+
 GetAssessmentReportResponse _$GetAssessmentReportResponseFromJson(
     Map<String, dynamic> json) {
   return GetAssessmentReportResponse(
@@ -636,6 +889,24 @@ const _$ReportStatusEnumMap = {
   ReportStatus.failed: 'FAILED',
   ReportStatus.completed: 'COMPLETED',
 };
+
+Map<String, dynamic> _$GetExclusionsPreviewRequestToJson(
+    GetExclusionsPreviewRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('assessmentTemplateArn', instance.assessmentTemplateArn);
+  writeNotNull('previewToken', instance.previewToken);
+  writeNotNull('locale', _$LocaleEnumMap[instance.locale]);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
 
 GetExclusionsPreviewResponse _$GetExclusionsPreviewResponseFromJson(
     Map<String, dynamic> json) {
@@ -655,6 +926,20 @@ const _$PreviewStatusEnumMap = {
   PreviewStatus.workInProgress: 'WORK_IN_PROGRESS',
   PreviewStatus.completed: 'COMPLETED',
 };
+
+Map<String, dynamic> _$GetTelemetryMetadataRequestToJson(
+    GetTelemetryMetadataRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('assessmentRunArn', instance.assessmentRunArn);
+  return val;
+}
 
 GetTelemetryMetadataResponse _$GetTelemetryMetadataResponseFromJson(
     Map<String, dynamic> json) {
@@ -676,6 +961,23 @@ InspectorServiceAttributes _$InspectorServiceAttributesFromJson(
   );
 }
 
+Map<String, dynamic> _$ListAssessmentRunAgentsRequestToJson(
+    ListAssessmentRunAgentsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('assessmentRunArn', instance.assessmentRunArn);
+  writeNotNull('filter', instance.filter?.toJson());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 ListAssessmentRunAgentsResponse _$ListAssessmentRunAgentsResponseFromJson(
     Map<String, dynamic> json) {
   return ListAssessmentRunAgentsResponse(
@@ -688,6 +990,23 @@ ListAssessmentRunAgentsResponse _$ListAssessmentRunAgentsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListAssessmentRunsRequestToJson(
+    ListAssessmentRunsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('assessmentTemplateArns', instance.assessmentTemplateArns);
+  writeNotNull('filter', instance.filter?.toJson());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 ListAssessmentRunsResponse _$ListAssessmentRunsResponseFromJson(
     Map<String, dynamic> json) {
   return ListAssessmentRunsResponse(
@@ -695,6 +1014,22 @@ ListAssessmentRunsResponse _$ListAssessmentRunsResponseFromJson(
         (json['assessmentRunArns'] as List)?.map((e) => e as String)?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListAssessmentTargetsRequestToJson(
+    ListAssessmentTargetsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('filter', instance.filter?.toJson());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 ListAssessmentTargetsResponse _$ListAssessmentTargetsResponseFromJson(
@@ -707,6 +1042,23 @@ ListAssessmentTargetsResponse _$ListAssessmentTargetsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListAssessmentTemplatesRequestToJson(
+    ListAssessmentTemplatesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('assessmentTargetArns', instance.assessmentTargetArns);
+  writeNotNull('filter', instance.filter?.toJson());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 ListAssessmentTemplatesResponse _$ListAssessmentTemplatesResponseFromJson(
     Map<String, dynamic> json) {
   return ListAssessmentTemplatesResponse(
@@ -715,6 +1067,22 @@ ListAssessmentTemplatesResponse _$ListAssessmentTemplatesResponseFromJson(
         ?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListEventSubscriptionsRequestToJson(
+    ListEventSubscriptionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('resourceArn', instance.resourceArn);
+  return val;
 }
 
 ListEventSubscriptionsResponse _$ListEventSubscriptionsResponseFromJson(
@@ -728,6 +1096,22 @@ ListEventSubscriptionsResponse _$ListEventSubscriptionsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListExclusionsRequestToJson(
+    ListExclusionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('assessmentRunArn', instance.assessmentRunArn);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 ListExclusionsResponse _$ListExclusionsResponseFromJson(
     Map<String, dynamic> json) {
   return ListExclusionsResponse(
@@ -735,6 +1119,22 @@ ListExclusionsResponse _$ListExclusionsResponseFromJson(
         (json['exclusionArns'] as List)?.map((e) => e as String)?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListFindingsRequestToJson(ListFindingsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('assessmentRunArns', instance.assessmentRunArns);
+  writeNotNull('filter', instance.filter?.toJson());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 ListFindingsResponse _$ListFindingsResponseFromJson(Map<String, dynamic> json) {
@@ -745,6 +1145,21 @@ ListFindingsResponse _$ListFindingsResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ListRulesPackagesRequestToJson(
+    ListRulesPackagesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 ListRulesPackagesResponse _$ListRulesPackagesResponseFromJson(
     Map<String, dynamic> json) {
   return ListRulesPackagesResponse(
@@ -752,6 +1167,20 @@ ListRulesPackagesResponse _$ListRulesPackagesResponseFromJson(
         (json['rulesPackageArns'] as List)?.map((e) => e as String)?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListTagsForResourceRequestToJson(
+    ListTagsForResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceArn', instance.resourceArn);
+  return val;
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
@@ -786,6 +1215,22 @@ NetworkInterface _$NetworkInterfaceFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$PreviewAgentsRequestToJson(
+    PreviewAgentsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('previewAgentsArn', instance.previewAgentsArn);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 PreviewAgentsResponse _$PreviewAgentsResponseFromJson(
     Map<String, dynamic> json) {
   return PreviewAgentsResponse(
@@ -802,6 +1247,35 @@ PrivateIp _$PrivateIpFromJson(Map<String, dynamic> json) {
     privateDnsName: json['privateDnsName'] as String,
     privateIpAddress: json['privateIpAddress'] as String,
   );
+}
+
+Map<String, dynamic> _$RegisterCrossAccountAccessRoleRequestToJson(
+    RegisterCrossAccountAccessRoleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('roleArn', instance.roleArn);
+  return val;
+}
+
+Map<String, dynamic> _$RemoveAttributesFromFindingsRequestToJson(
+    RemoveAttributesFromFindingsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('attributeKeys', instance.attributeKeys);
+  writeNotNull('findingArns', instance.findingArns);
+  return val;
 }
 
 RemoveAttributesFromFindingsResponse
@@ -879,11 +1353,77 @@ SecurityGroup _$SecurityGroupFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$SetTagsForResourceRequestToJson(
+    SetTagsForResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceArn', instance.resourceArn);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+Map<String, dynamic> _$StartAssessmentRunRequestToJson(
+    StartAssessmentRunRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('assessmentTemplateArn', instance.assessmentTemplateArn);
+  writeNotNull('assessmentRunName', instance.assessmentRunName);
+  return val;
+}
+
 StartAssessmentRunResponse _$StartAssessmentRunResponseFromJson(
     Map<String, dynamic> json) {
   return StartAssessmentRunResponse(
     assessmentRunArn: json['assessmentRunArn'] as String,
   );
+}
+
+Map<String, dynamic> _$StopAssessmentRunRequestToJson(
+    StopAssessmentRunRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('assessmentRunArn', instance.assessmentRunArn);
+  writeNotNull('stopAction', _$StopActionEnumMap[instance.stopAction]);
+  return val;
+}
+
+const _$StopActionEnumMap = {
+  StopAction.startEvaluation: 'START_EVALUATION',
+  StopAction.skipEvaluation: 'SKIP_EVALUATION',
+};
+
+Map<String, dynamic> _$SubscribeToEventRequestToJson(
+    SubscribeToEventRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('event', _$InspectorEventEnumMap[instance.event]);
+  writeNotNull('resourceArn', instance.resourceArn);
+  writeNotNull('topicArn', instance.topicArn);
+  return val;
 }
 
 Subscription _$SubscriptionFromJson(Map<String, dynamic> json) {
@@ -938,5 +1478,37 @@ Map<String, dynamic> _$TimestampRangeToJson(TimestampRange instance) {
 
   writeNotNull('beginDate', unixTimestampToJson(instance.beginDate));
   writeNotNull('endDate', unixTimestampToJson(instance.endDate));
+  return val;
+}
+
+Map<String, dynamic> _$UnsubscribeFromEventRequestToJson(
+    UnsubscribeFromEventRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('event', _$InspectorEventEnumMap[instance.event]);
+  writeNotNull('resourceArn', instance.resourceArn);
+  writeNotNull('topicArn', instance.topicArn);
+  return val;
+}
+
+Map<String, dynamic> _$UpdateAssessmentTargetRequestToJson(
+    UpdateAssessmentTargetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('assessmentTargetArn', instance.assessmentTargetArn);
+  writeNotNull('assessmentTargetName', instance.assessmentTargetName);
+  writeNotNull('resourceGroupArn', instance.resourceGroupArn);
   return val;
 }

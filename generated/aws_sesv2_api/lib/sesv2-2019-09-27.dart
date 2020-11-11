@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -87,15 +86,15 @@ class SESV2 {
     TrackingOptions trackingOptions,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
-    final $payload = <String, dynamic>{
-      'ConfigurationSetName': configurationSetName,
-      if (deliveryOptions != null) 'DeliveryOptions': deliveryOptions,
-      if (reputationOptions != null) 'ReputationOptions': reputationOptions,
-      if (sendingOptions != null) 'SendingOptions': sendingOptions,
-      if (suppressionOptions != null) 'SuppressionOptions': suppressionOptions,
-      if (tags != null) 'Tags': tags,
-      if (trackingOptions != null) 'TrackingOptions': trackingOptions,
-    };
+    final $payload = CreateConfigurationSetRequest(
+      configurationSetName: configurationSetName,
+      deliveryOptions: deliveryOptions,
+      reputationOptions: reputationOptions,
+      sendingOptions: sendingOptions,
+      suppressionOptions: suppressionOptions,
+      tags: tags,
+      trackingOptions: trackingOptions,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -138,10 +137,11 @@ class SESV2 {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     ArgumentError.checkNotNull(eventDestination, 'eventDestination');
     ArgumentError.checkNotNull(eventDestinationName, 'eventDestinationName');
-    final $payload = <String, dynamic>{
-      'EventDestination': eventDestination,
-      'EventDestinationName': eventDestinationName,
-    };
+    final $payload = CreateConfigurationSetEventDestinationRequest(
+      configurationSetName: configurationSetName,
+      eventDestination: eventDestination,
+      eventDestinationName: eventDestinationName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -175,10 +175,10 @@ class SESV2 {
     List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(poolName, 'poolName');
-    final $payload = <String, dynamic>{
-      'PoolName': poolName,
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = CreateDedicatedIpPoolRequest(
+      poolName: poolName,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -232,12 +232,12 @@ class SESV2 {
   }) async {
     ArgumentError.checkNotNull(content, 'content');
     ArgumentError.checkNotNull(fromEmailAddress, 'fromEmailAddress');
-    final $payload = <String, dynamic>{
-      'Content': content,
-      'FromEmailAddress': fromEmailAddress,
-      if (reportName != null) 'ReportName': reportName,
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = CreateDeliverabilityTestReportRequest(
+      content: content,
+      fromEmailAddress: fromEmailAddress,
+      reportName: reportName,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -304,12 +304,11 @@ class SESV2 {
     List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
-    final $payload = <String, dynamic>{
-      'EmailIdentity': emailIdentity,
-      if (dkimSigningAttributes != null)
-        'DkimSigningAttributes': dkimSigningAttributes,
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = CreateEmailIdentityRequest(
+      emailIdentity: emailIdentity,
+      dkimSigningAttributes: dkimSigningAttributes,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -338,7 +337,9 @@ class SESV2 {
     @_s.required String configurationSetName,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteConfigurationSetRequest(
+      configurationSetName: configurationSetName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -374,7 +375,10 @@ class SESV2 {
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     ArgumentError.checkNotNull(eventDestinationName, 'eventDestinationName');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteConfigurationSetEventDestinationRequest(
+      configurationSetName: configurationSetName,
+      eventDestinationName: eventDestinationName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -398,7 +402,9 @@ class SESV2 {
     @_s.required String poolName,
   }) async {
     ArgumentError.checkNotNull(poolName, 'poolName');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteDedicatedIpPoolRequest(
+      poolName: poolName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -424,7 +430,9 @@ class SESV2 {
     @_s.required String emailIdentity,
   }) async {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteEmailIdentityRequest(
+      emailIdentity: emailIdentity,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -448,7 +456,9 @@ class SESV2 {
     @_s.required String emailAddress,
   }) async {
     ArgumentError.checkNotNull(emailAddress, 'emailAddress');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteSuppressedDestinationRequest(
+      emailAddress: emailAddress,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1106,9 +1116,9 @@ class SESV2 {
   Future<void> putAccountDedicatedIpWarmupAttributes({
     bool autoWarmupEnabled,
   }) async {
-    final $payload = <String, dynamic>{
-      if (autoWarmupEnabled != null) 'AutoWarmupEnabled': autoWarmupEnabled,
-    };
+    final $payload = PutAccountDedicatedIpWarmupAttributesRequest(
+      autoWarmupEnabled: autoWarmupEnabled,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1134,9 +1144,9 @@ class SESV2 {
   Future<void> putAccountSendingAttributes({
     bool sendingEnabled,
   }) async {
-    final $payload = <String, dynamic>{
-      if (sendingEnabled != null) 'SendingEnabled': sendingEnabled,
-    };
+    final $payload = PutAccountSendingAttributesRequest(
+      sendingEnabled: sendingEnabled,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1171,9 +1181,9 @@ class SESV2 {
   Future<void> putAccountSuppressionAttributes({
     List<String> suppressedReasons,
   }) async {
-    final $payload = <String, dynamic>{
-      if (suppressedReasons != null) 'SuppressedReasons': suppressedReasons,
-    };
+    final $payload = PutAccountSuppressionAttributesRequest(
+      suppressedReasons: suppressedReasons,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1211,10 +1221,11 @@ class SESV2 {
     TlsPolicy tlsPolicy,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
-    final $payload = <String, dynamic>{
-      if (sendingPoolName != null) 'SendingPoolName': sendingPoolName,
-      if (tlsPolicy != null) 'TlsPolicy': tlsPolicy?.toValue(),
-    };
+    final $payload = PutConfigurationSetDeliveryOptionsRequest(
+      configurationSetName: configurationSetName,
+      sendingPoolName: sendingPoolName,
+      tlsPolicy: tlsPolicy,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1245,10 +1256,10 @@ class SESV2 {
     bool reputationMetricsEnabled,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
-    final $payload = <String, dynamic>{
-      if (reputationMetricsEnabled != null)
-        'ReputationMetricsEnabled': reputationMetricsEnabled,
-    };
+    final $payload = PutConfigurationSetReputationOptionsRequest(
+      configurationSetName: configurationSetName,
+      reputationMetricsEnabled: reputationMetricsEnabled,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1279,9 +1290,10 @@ class SESV2 {
     bool sendingEnabled,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
-    final $payload = <String, dynamic>{
-      if (sendingEnabled != null) 'SendingEnabled': sendingEnabled,
-    };
+    final $payload = PutConfigurationSetSendingOptionsRequest(
+      configurationSetName: configurationSetName,
+      sendingEnabled: sendingEnabled,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1324,9 +1336,10 @@ class SESV2 {
     List<String> suppressedReasons,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
-    final $payload = <String, dynamic>{
-      if (suppressedReasons != null) 'SuppressedReasons': suppressedReasons,
-    };
+    final $payload = PutConfigurationSetSuppressionOptionsRequest(
+      configurationSetName: configurationSetName,
+      suppressedReasons: suppressedReasons,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1355,10 +1368,10 @@ class SESV2 {
     String customRedirectDomain,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
-    final $payload = <String, dynamic>{
-      if (customRedirectDomain != null)
-        'CustomRedirectDomain': customRedirectDomain,
-    };
+    final $payload = PutConfigurationSetTrackingOptionsRequest(
+      configurationSetName: configurationSetName,
+      customRedirectDomain: customRedirectDomain,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1396,9 +1409,10 @@ class SESV2 {
   }) async {
     ArgumentError.checkNotNull(destinationPoolName, 'destinationPoolName');
     ArgumentError.checkNotNull(ip, 'ip');
-    final $payload = <String, dynamic>{
-      'DestinationPoolName': destinationPoolName,
-    };
+    final $payload = PutDedicatedIpInPoolRequest(
+      destinationPoolName: destinationPoolName,
+      ip: ip,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1428,9 +1442,10 @@ class SESV2 {
   }) async {
     ArgumentError.checkNotNull(ip, 'ip');
     ArgumentError.checkNotNull(warmupPercentage, 'warmupPercentage');
-    final $payload = <String, dynamic>{
-      'WarmupPercentage': warmupPercentage,
-    };
+    final $payload = PutDedicatedIpWarmupAttributesRequest(
+      ip: ip,
+      warmupPercentage: warmupPercentage,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1470,10 +1485,10 @@ class SESV2 {
     List<DomainDeliverabilityTrackingOption> subscribedDomains,
   }) async {
     ArgumentError.checkNotNull(dashboardEnabled, 'dashboardEnabled');
-    final $payload = <String, dynamic>{
-      'DashboardEnabled': dashboardEnabled,
-      if (subscribedDomains != null) 'SubscribedDomains': subscribedDomains,
-    };
+    final $payload = PutDeliverabilityDashboardOptionRequest(
+      dashboardEnabled: dashboardEnabled,
+      subscribedDomains: subscribedDomains,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1503,9 +1518,10 @@ class SESV2 {
     bool signingEnabled,
   }) async {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
-    final $payload = <String, dynamic>{
-      if (signingEnabled != null) 'SigningEnabled': signingEnabled,
-    };
+    final $payload = PutEmailIdentityDkimAttributesRequest(
+      emailIdentity: emailIdentity,
+      signingEnabled: signingEnabled,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1575,10 +1591,11 @@ class SESV2 {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
     ArgumentError.checkNotNull(
         signingAttributesOrigin, 'signingAttributesOrigin');
-    final $payload = <String, dynamic>{
-      'SigningAttributesOrigin': signingAttributesOrigin?.toValue(),
-      if (signingAttributes != null) 'SigningAttributes': signingAttributes,
-    };
+    final $payload = PutEmailIdentityDkimSigningAttributesRequest(
+      emailIdentity: emailIdentity,
+      signingAttributesOrigin: signingAttributesOrigin,
+      signingAttributes: signingAttributes,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1630,10 +1647,10 @@ class SESV2 {
     bool emailForwardingEnabled,
   }) async {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
-    final $payload = <String, dynamic>{
-      if (emailForwardingEnabled != null)
-        'EmailForwardingEnabled': emailForwardingEnabled,
-    };
+    final $payload = PutEmailIdentityFeedbackAttributesRequest(
+      emailIdentity: emailIdentity,
+      emailForwardingEnabled: emailForwardingEnabled,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1690,11 +1707,11 @@ class SESV2 {
     String mailFromDomain,
   }) async {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
-    final $payload = <String, dynamic>{
-      if (behaviorOnMxFailure != null)
-        'BehaviorOnMxFailure': behaviorOnMxFailure?.toValue(),
-      if (mailFromDomain != null) 'MailFromDomain': mailFromDomain,
-    };
+    final $payload = PutEmailIdentityMailFromAttributesRequest(
+      emailIdentity: emailIdentity,
+      behaviorOnMxFailure: behaviorOnMxFailure,
+      mailFromDomain: mailFromDomain,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1723,10 +1740,10 @@ class SESV2 {
   }) async {
     ArgumentError.checkNotNull(emailAddress, 'emailAddress');
     ArgumentError.checkNotNull(reason, 'reason');
-    final $payload = <String, dynamic>{
-      'EmailAddress': emailAddress,
-      'Reason': reason?.toValue(),
-    };
+    final $payload = PutSuppressedDestinationRequest(
+      emailAddress: emailAddress,
+      reason: reason,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1801,17 +1818,15 @@ class SESV2 {
   }) async {
     ArgumentError.checkNotNull(content, 'content');
     ArgumentError.checkNotNull(destination, 'destination');
-    final $payload = <String, dynamic>{
-      'Content': content,
-      'Destination': destination,
-      if (configurationSetName != null)
-        'ConfigurationSetName': configurationSetName,
-      if (emailTags != null) 'EmailTags': emailTags,
-      if (feedbackForwardingEmailAddress != null)
-        'FeedbackForwardingEmailAddress': feedbackForwardingEmailAddress,
-      if (fromEmailAddress != null) 'FromEmailAddress': fromEmailAddress,
-      if (replyToAddresses != null) 'ReplyToAddresses': replyToAddresses,
-    };
+    final $payload = SendEmailRequest(
+      content: content,
+      destination: destination,
+      configurationSetName: configurationSetName,
+      emailTags: emailTags,
+      feedbackForwardingEmailAddress: feedbackForwardingEmailAddress,
+      fromEmailAddress: fromEmailAddress,
+      replyToAddresses: replyToAddresses,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1852,10 +1867,10 @@ class SESV2 {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'ResourceArn': resourceArn,
-      'Tags': tags,
-    };
+    final $payload = TagResourceRequest(
+      resourceArn: resourceArn,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1896,7 +1911,10 @@ class SESV2 {
       if (resourceArn != null) _s.toQueryParam('ResourceArn', resourceArn),
       if (tagKeys != null) _s.toQueryParam('TagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = UntagResourceRequest(
+      resourceArn: resourceArn,
+      tagKeys: tagKeys,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1936,9 +1954,11 @@ class SESV2 {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     ArgumentError.checkNotNull(eventDestination, 'eventDestination');
     ArgumentError.checkNotNull(eventDestinationName, 'eventDestinationName');
-    final $payload = <String, dynamic>{
-      'EventDestination': eventDestination,
-    };
+    final $payload = UpdateConfigurationSetEventDestinationRequest(
+      configurationSetName: configurationSetName,
+      eventDestination: eventDestination,
+      eventDestinationName: eventDestinationName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1965,18 +1985,6 @@ enum BehaviorOnMxFailure {
   useDefaultValue,
   @_s.JsonValue('REJECT_MESSAGE')
   rejectMessage,
-}
-
-extension on BehaviorOnMxFailure {
-  String toValue() {
-    switch (this) {
-      case BehaviorOnMxFailure.useDefaultValue:
-        return 'USE_DEFAULT_VALUE';
-      case BehaviorOnMxFailure.rejectMessage:
-        return 'REJECT_MESSAGE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// An object that contains information about a blacklisting event that impacts
@@ -2150,6 +2158,35 @@ class Content {
   Map<String, dynamic> toJson() => _$ContentToJson(this);
 }
 
+/// A request to add an event destination to a configuration set.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateConfigurationSetEventDestinationRequest {
+  /// The name of the configuration set that you want to add an event destination
+  /// to.
+  @_s.JsonKey(name: 'ConfigurationSetName', ignore: true)
+  final String configurationSetName;
+
+  /// An object that defines the event destination.
+  @_s.JsonKey(name: 'EventDestination')
+  final EventDestinationDefinition eventDestination;
+
+  /// A name that identifies the event destination within the configuration set.
+  @_s.JsonKey(name: 'EventDestinationName')
+  final String eventDestinationName;
+
+  CreateConfigurationSetEventDestinationRequest({
+    @_s.required this.configurationSetName,
+    @_s.required this.eventDestination,
+    @_s.required this.eventDestinationName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateConfigurationSetEventDestinationRequestToJson(this);
+}
+
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
 @_s.JsonSerializable(
@@ -2162,6 +2199,56 @@ class CreateConfigurationSetEventDestinationResponse {
   factory CreateConfigurationSetEventDestinationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$CreateConfigurationSetEventDestinationResponseFromJson(json);
+}
+
+/// A request to create a configuration set.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateConfigurationSetRequest {
+  /// The name of the configuration set.
+  @_s.JsonKey(name: 'ConfigurationSetName')
+  final String configurationSetName;
+
+  /// An object that defines the dedicated IP pool that is used to send emails
+  /// that you send using the configuration set.
+  @_s.JsonKey(name: 'DeliveryOptions')
+  final DeliveryOptions deliveryOptions;
+
+  /// An object that defines whether or not Amazon SES collects reputation metrics
+  /// for the emails that you send that use the configuration set.
+  @_s.JsonKey(name: 'ReputationOptions')
+  final ReputationOptions reputationOptions;
+
+  /// An object that defines whether or not Amazon SES can send email that you
+  /// send using the configuration set.
+  @_s.JsonKey(name: 'SendingOptions')
+  final SendingOptions sendingOptions;
+  @_s.JsonKey(name: 'SuppressionOptions')
+  final SuppressionOptions suppressionOptions;
+
+  /// An array of objects that define the tags (keys and values) that you want to
+  /// associate with the configuration set.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  /// An object that defines the open and click tracking options for emails that
+  /// you send using the configuration set.
+  @_s.JsonKey(name: 'TrackingOptions')
+  final TrackingOptions trackingOptions;
+
+  CreateConfigurationSetRequest({
+    @_s.required this.configurationSetName,
+    this.deliveryOptions,
+    this.reputationOptions,
+    this.sendingOptions,
+    this.suppressionOptions,
+    this.tags,
+    this.trackingOptions,
+  });
+  Map<String, dynamic> toJson() => _$CreateConfigurationSetRequestToJson(this);
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
@@ -2177,6 +2264,29 @@ class CreateConfigurationSetResponse {
       _$CreateConfigurationSetResponseFromJson(json);
 }
 
+/// A request to create a new dedicated IP pool.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDedicatedIpPoolRequest {
+  /// The name of the dedicated IP pool.
+  @_s.JsonKey(name: 'PoolName')
+  final String poolName;
+
+  /// An object that defines the tags (keys and values) that you want to associate
+  /// with the pool.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateDedicatedIpPoolRequest({
+    @_s.required this.poolName,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateDedicatedIpPoolRequestToJson(this);
+}
+
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
 @_s.JsonSerializable(
@@ -2188,6 +2298,51 @@ class CreateDedicatedIpPoolResponse {
   CreateDedicatedIpPoolResponse();
   factory CreateDedicatedIpPoolResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateDedicatedIpPoolResponseFromJson(json);
+}
+
+/// A request to perform a predictive inbox placement test. Predictive inbox
+/// placement tests can help you predict how your messages will be handled by
+/// various email providers around the world. When you perform a predictive
+/// inbox placement test, you provide a sample message that contains the content
+/// that you plan to send to your customers. We send that message to special
+/// email addresses spread across several major email providers around the
+/// world. The test takes about 24 hours to complete. When the test is complete,
+/// you can use the <code>GetDeliverabilityTestReport</code> operation to view
+/// the results of the test.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDeliverabilityTestReportRequest {
+  /// The HTML body of the message that you sent when you performed the predictive
+  /// inbox placement test.
+  @_s.JsonKey(name: 'Content')
+  final EmailContent content;
+
+  /// The email address that the predictive inbox placement test email was sent
+  /// from.
+  @_s.JsonKey(name: 'FromEmailAddress')
+  final String fromEmailAddress;
+
+  /// A unique name that helps you to identify the predictive inbox placement test
+  /// when you retrieve the results.
+  @_s.JsonKey(name: 'ReportName')
+  final String reportName;
+
+  /// An array of objects that define the tags (keys and values) that you want to
+  /// associate with the predictive inbox placement test.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateDeliverabilityTestReportRequest({
+    @_s.required this.content,
+    @_s.required this.fromEmailAddress,
+    this.reportName,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateDeliverabilityTestReportRequestToJson(this);
 }
 
 /// Information about the predictive inbox placement test that you created.
@@ -2217,6 +2372,42 @@ class CreateDeliverabilityTestReportResponse {
   factory CreateDeliverabilityTestReportResponse.fromJson(
           Map<String, dynamic> json) =>
       _$CreateDeliverabilityTestReportResponseFromJson(json);
+}
+
+/// A request to begin the verification process for an email identity (an email
+/// address or domain).
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateEmailIdentityRequest {
+  /// The email address or domain that you want to verify.
+  @_s.JsonKey(name: 'EmailIdentity')
+  final String emailIdentity;
+
+  /// If your request includes this object, Amazon SES configures the identity to
+  /// use Bring Your Own DKIM (BYODKIM) for DKIM authentication purposes, as
+  /// opposed to the default method, <a
+  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html">Easy
+  /// DKIM</a>.
+  ///
+  /// You can only specify this object if the email identity is a domain, as
+  /// opposed to an address.
+  @_s.JsonKey(name: 'DkimSigningAttributes')
+  final DkimSigningAttributes dkimSigningAttributes;
+
+  /// An array of objects that define the tags (keys and values) that you want to
+  /// associate with the email identity.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateEmailIdentityRequest({
+    @_s.required this.emailIdentity,
+    this.dkimSigningAttributes,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateEmailIdentityRequestToJson(this);
 }
 
 /// If the email identity is a domain, this object contains information about
@@ -2342,6 +2533,30 @@ class DedicatedIp {
       _$DedicatedIpFromJson(json);
 }
 
+/// A request to delete an event destination from a configuration set.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteConfigurationSetEventDestinationRequest {
+  /// The name of the configuration set that contains the event destination that
+  /// you want to delete.
+  @_s.JsonKey(name: 'ConfigurationSetName', ignore: true)
+  final String configurationSetName;
+
+  /// The name of the event destination that you want to delete.
+  @_s.JsonKey(name: 'EventDestinationName', ignore: true)
+  final String eventDestinationName;
+
+  DeleteConfigurationSetEventDestinationRequest({
+    @_s.required this.configurationSetName,
+    @_s.required this.eventDestinationName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteConfigurationSetEventDestinationRequestToJson(this);
+}
+
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
 @_s.JsonSerializable(
@@ -2354,6 +2569,23 @@ class DeleteConfigurationSetEventDestinationResponse {
   factory DeleteConfigurationSetEventDestinationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DeleteConfigurationSetEventDestinationResponseFromJson(json);
+}
+
+/// A request to delete a configuration set.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteConfigurationSetRequest {
+  /// The name of the configuration set that you want to delete.
+  @_s.JsonKey(name: 'ConfigurationSetName', ignore: true)
+  final String configurationSetName;
+
+  DeleteConfigurationSetRequest({
+    @_s.required this.configurationSetName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteConfigurationSetRequestToJson(this);
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
@@ -2369,6 +2601,23 @@ class DeleteConfigurationSetResponse {
       _$DeleteConfigurationSetResponseFromJson(json);
 }
 
+/// A request to delete a dedicated IP pool.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDedicatedIpPoolRequest {
+  /// The name of the dedicated IP pool that you want to delete.
+  @_s.JsonKey(name: 'PoolName', ignore: true)
+  final String poolName;
+
+  DeleteDedicatedIpPoolRequest({
+    @_s.required this.poolName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDedicatedIpPoolRequestToJson(this);
+}
+
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
 @_s.JsonSerializable(
@@ -2382,6 +2631,26 @@ class DeleteDedicatedIpPoolResponse {
       _$DeleteDedicatedIpPoolResponseFromJson(json);
 }
 
+/// A request to delete an existing email identity. When you delete an identity,
+/// you lose the ability to send email from that identity. You can restore your
+/// ability to send email by completing the verification process for the
+/// identity again.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteEmailIdentityRequest {
+  /// The identity (that is, the email address or domain) that you want to delete.
+  @_s.JsonKey(name: 'EmailIdentity', ignore: true)
+  final String emailIdentity;
+
+  DeleteEmailIdentityRequest({
+    @_s.required this.emailIdentity,
+  });
+  Map<String, dynamic> toJson() => _$DeleteEmailIdentityRequestToJson(this);
+}
+
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
 @_s.JsonSerializable(
@@ -2393,6 +2662,26 @@ class DeleteEmailIdentityResponse {
   DeleteEmailIdentityResponse();
   factory DeleteEmailIdentityResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteEmailIdentityResponseFromJson(json);
+}
+
+/// A request to remove an email address from the suppression list for your
+/// account.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteSuppressedDestinationRequest {
+  /// The suppressed email destination to remove from the account suppression
+  /// list.
+  @_s.JsonKey(name: 'EmailAddress', ignore: true)
+  final String emailAddress;
+
+  DeleteSuppressedDestinationRequest({
+    @_s.required this.emailAddress,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteSuppressedDestinationRequestToJson(this);
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
@@ -2698,18 +2987,6 @@ enum DkimSigningAttributesOrigin {
   awsSes,
   @_s.JsonValue('EXTERNAL')
   external,
-}
-
-extension on DkimSigningAttributesOrigin {
-  String toValue() {
-    switch (this) {
-      case DkimSigningAttributesOrigin.awsSes:
-        return 'AWS_SES';
-      case DkimSigningAttributesOrigin.external:
-        return 'EXTERNAL';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// The DKIM authentication status of the identity. The status can be one of the
@@ -4202,6 +4479,27 @@ class PlacementStatistics {
       _$PlacementStatisticsFromJson(json);
 }
 
+/// A request to enable or disable the automatic IP address warm-up feature.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutAccountDedicatedIpWarmupAttributesRequest {
+  /// Enables or disables the automatic warm-up feature for dedicated IP addresses
+  /// that are associated with your Amazon SES account in the current AWS Region.
+  /// Set to <code>true</code> to enable the automatic warm-up feature, or set to
+  /// <code>false</code> to disable it.
+  @_s.JsonKey(name: 'AutoWarmupEnabled')
+  final bool autoWarmupEnabled;
+
+  PutAccountDedicatedIpWarmupAttributesRequest({
+    this.autoWarmupEnabled,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutAccountDedicatedIpWarmupAttributesRequestToJson(this);
+}
+
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
 @_s.JsonSerializable(
@@ -4214,6 +4512,30 @@ class PutAccountDedicatedIpWarmupAttributesResponse {
   factory PutAccountDedicatedIpWarmupAttributesResponse.fromJson(
           Map<String, dynamic> json) =>
       _$PutAccountDedicatedIpWarmupAttributesResponseFromJson(json);
+}
+
+/// A request to change the ability of your account to send email.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutAccountSendingAttributesRequest {
+  /// Enables or disables your account's ability to send email. Set to
+  /// <code>true</code> to enable email sending, or set to <code>false</code> to
+  /// disable email sending.
+  /// <note>
+  /// If AWS paused your account's ability to send email, you can't use this
+  /// operation to resume your account's ability to send email.
+  /// </note>
+  @_s.JsonKey(name: 'SendingEnabled')
+  final bool sendingEnabled;
+
+  PutAccountSendingAttributesRequest({
+    this.sendingEnabled,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutAccountSendingAttributesRequestToJson(this);
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
@@ -4230,6 +4552,39 @@ class PutAccountSendingAttributesResponse {
       _$PutAccountSendingAttributesResponseFromJson(json);
 }
 
+/// A request to change your account's suppression preferences.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutAccountSuppressionAttributesRequest {
+  /// A list that contains the reasons that email addresses will be automatically
+  /// added to the suppression list for your account. This list can contain any or
+  /// all of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>COMPLAINT</code> – Amazon SES adds an email address to the suppression
+  /// list for your account when a message sent to that address results in a
+  /// complaint.
+  /// </li>
+  /// <li>
+  /// <code>BOUNCE</code> – Amazon SES adds an email address to the suppression
+  /// list for your account when a message sent to that address results in a hard
+  /// bounce.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'SuppressedReasons')
+  final List<String> suppressedReasons;
+
+  PutAccountSuppressionAttributesRequest({
+    this.suppressedReasons,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutAccountSuppressionAttributesRequestToJson(this);
+}
+
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
 @_s.JsonSerializable(
@@ -4242,6 +4597,40 @@ class PutAccountSuppressionAttributesResponse {
   factory PutAccountSuppressionAttributesResponse.fromJson(
           Map<String, dynamic> json) =>
       _$PutAccountSuppressionAttributesResponseFromJson(json);
+}
+
+/// A request to associate a configuration set with a dedicated IP pool.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutConfigurationSetDeliveryOptionsRequest {
+  /// The name of the configuration set that you want to associate with a
+  /// dedicated IP pool.
+  @_s.JsonKey(name: 'ConfigurationSetName', ignore: true)
+  final String configurationSetName;
+
+  /// The name of the dedicated IP pool that you want to associate with the
+  /// configuration set.
+  @_s.JsonKey(name: 'SendingPoolName')
+  final String sendingPoolName;
+
+  /// Specifies whether messages that use the configuration set are required to
+  /// use Transport Layer Security (TLS). If the value is <code>Require</code>,
+  /// messages are only delivered if a TLS connection can be established. If the
+  /// value is <code>Optional</code>, messages can be delivered in plain text if a
+  /// TLS connection can't be established.
+  @_s.JsonKey(name: 'TlsPolicy')
+  final TlsPolicy tlsPolicy;
+
+  PutConfigurationSetDeliveryOptionsRequest({
+    @_s.required this.configurationSetName,
+    this.sendingPoolName,
+    this.tlsPolicy,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutConfigurationSetDeliveryOptionsRequestToJson(this);
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
@@ -4258,6 +4647,33 @@ class PutConfigurationSetDeliveryOptionsResponse {
       _$PutConfigurationSetDeliveryOptionsResponseFromJson(json);
 }
 
+/// A request to enable or disable tracking of reputation metrics for a
+/// configuration set.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutConfigurationSetReputationOptionsRequest {
+  /// The name of the configuration set that you want to enable or disable
+  /// reputation metric tracking for.
+  @_s.JsonKey(name: 'ConfigurationSetName', ignore: true)
+  final String configurationSetName;
+
+  /// If <code>true</code>, tracking of reputation metrics is enabled for the
+  /// configuration set. If <code>false</code>, tracking of reputation metrics is
+  /// disabled for the configuration set.
+  @_s.JsonKey(name: 'ReputationMetricsEnabled')
+  final bool reputationMetricsEnabled;
+
+  PutConfigurationSetReputationOptionsRequest({
+    @_s.required this.configurationSetName,
+    this.reputationMetricsEnabled,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutConfigurationSetReputationOptionsRequestToJson(this);
+}
+
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
 @_s.JsonSerializable(
@@ -4270,6 +4686,32 @@ class PutConfigurationSetReputationOptionsResponse {
   factory PutConfigurationSetReputationOptionsResponse.fromJson(
           Map<String, dynamic> json) =>
       _$PutConfigurationSetReputationOptionsResponseFromJson(json);
+}
+
+/// A request to enable or disable the ability of Amazon SES to send emails that
+/// use a specific configuration set.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutConfigurationSetSendingOptionsRequest {
+  /// The name of the configuration set that you want to enable or disable email
+  /// sending for.
+  @_s.JsonKey(name: 'ConfigurationSetName', ignore: true)
+  final String configurationSetName;
+
+  /// If <code>true</code>, email sending is enabled for the configuration set. If
+  /// <code>false</code>, email sending is disabled for the configuration set.
+  @_s.JsonKey(name: 'SendingEnabled')
+  final bool sendingEnabled;
+
+  PutConfigurationSetSendingOptionsRequest({
+    @_s.required this.configurationSetName,
+    this.sendingEnabled,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutConfigurationSetSendingOptionsRequestToJson(this);
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
@@ -4286,6 +4728,46 @@ class PutConfigurationSetSendingOptionsResponse {
       _$PutConfigurationSetSendingOptionsResponseFromJson(json);
 }
 
+/// A request to change the account suppression list preferences for a specific
+/// configuration set.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutConfigurationSetSuppressionOptionsRequest {
+  /// The name of the configuration set that you want to change the suppression
+  /// list preferences for.
+  @_s.JsonKey(name: 'ConfigurationSetName', ignore: true)
+  final String configurationSetName;
+
+  /// A list that contains the reasons that email addresses are automatically
+  /// added to the suppression list for your account. This list can contain any or
+  /// all of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>COMPLAINT</code> – Amazon SES adds an email address to the suppression
+  /// list for your account when a message sent to that address results in a
+  /// complaint.
+  /// </li>
+  /// <li>
+  /// <code>BOUNCE</code> – Amazon SES adds an email address to the suppression
+  /// list for your account when a message sent to that address results in a hard
+  /// bounce.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'SuppressedReasons')
+  final List<String> suppressedReasons;
+
+  PutConfigurationSetSuppressionOptionsRequest({
+    @_s.required this.configurationSetName,
+    this.suppressedReasons,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutConfigurationSetSuppressionOptionsRequestToJson(this);
+}
+
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
 @_s.JsonSerializable(
@@ -4298,6 +4780,31 @@ class PutConfigurationSetSuppressionOptionsResponse {
   factory PutConfigurationSetSuppressionOptionsResponse.fromJson(
           Map<String, dynamic> json) =>
       _$PutConfigurationSetSuppressionOptionsResponseFromJson(json);
+}
+
+/// A request to add a custom domain for tracking open and click events to a
+/// configuration set.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutConfigurationSetTrackingOptionsRequest {
+  /// The name of the configuration set that you want to add a custom tracking
+  /// domain to.
+  @_s.JsonKey(name: 'ConfigurationSetName', ignore: true)
+  final String configurationSetName;
+
+  /// The domain that you want to use to track open and click events.
+  @_s.JsonKey(name: 'CustomRedirectDomain')
+  final String customRedirectDomain;
+
+  PutConfigurationSetTrackingOptionsRequest({
+    @_s.required this.configurationSetName,
+    this.customRedirectDomain,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutConfigurationSetTrackingOptionsRequestToJson(this);
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
@@ -4314,6 +4821,31 @@ class PutConfigurationSetTrackingOptionsResponse {
       _$PutConfigurationSetTrackingOptionsResponseFromJson(json);
 }
 
+/// A request to move a dedicated IP address to a dedicated IP pool.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutDedicatedIpInPoolRequest {
+  /// The name of the IP pool that you want to add the dedicated IP address to.
+  /// You have to specify an IP pool that already exists.
+  @_s.JsonKey(name: 'DestinationPoolName')
+  final String destinationPoolName;
+
+  /// The IP address that you want to move to the dedicated IP pool. The value you
+  /// specify has to be a dedicated IP address that's associated with your AWS
+  /// account.
+  @_s.JsonKey(name: 'IP', ignore: true)
+  final String ip;
+
+  PutDedicatedIpInPoolRequest({
+    @_s.required this.destinationPoolName,
+    @_s.required this.ip,
+  });
+  Map<String, dynamic> toJson() => _$PutDedicatedIpInPoolRequestToJson(this);
+}
+
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
 @_s.JsonSerializable(
@@ -4325,6 +4857,32 @@ class PutDedicatedIpInPoolResponse {
   PutDedicatedIpInPoolResponse();
   factory PutDedicatedIpInPoolResponse.fromJson(Map<String, dynamic> json) =>
       _$PutDedicatedIpInPoolResponseFromJson(json);
+}
+
+/// A request to change the warm-up attributes for a dedicated IP address. This
+/// operation is useful when you want to resume the warm-up process for an
+/// existing IP address.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutDedicatedIpWarmupAttributesRequest {
+  /// The dedicated IP address that you want to update the warm-up attributes for.
+  @_s.JsonKey(name: 'IP', ignore: true)
+  final String ip;
+
+  /// The warm-up percentage that you want to associate with the dedicated IP
+  /// address.
+  @_s.JsonKey(name: 'WarmupPercentage')
+  final int warmupPercentage;
+
+  PutDedicatedIpWarmupAttributesRequest({
+    @_s.required this.ip,
+    @_s.required this.warmupPercentage,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutDedicatedIpWarmupAttributesRequestToJson(this);
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
@@ -4341,6 +4899,41 @@ class PutDedicatedIpWarmupAttributesResponse {
       _$PutDedicatedIpWarmupAttributesResponseFromJson(json);
 }
 
+/// Enable or disable the Deliverability dashboard. When you enable the
+/// Deliverability dashboard, you gain access to reputation, deliverability, and
+/// other metrics for the domains that you use to send email using Amazon SES
+/// API v2. You also gain the ability to perform predictive inbox placement
+/// tests.
+///
+/// When you use the Deliverability dashboard, you pay a monthly subscription
+/// charge, in addition to any other fees that you accrue by using Amazon SES
+/// and other AWS services. For more information about the features and cost of
+/// a Deliverability dashboard subscription, see <a
+/// href="http://aws.amazon.com/pinpoint/pricing/">Amazon Pinpoint Pricing</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutDeliverabilityDashboardOptionRequest {
+  /// Specifies whether to enable the Deliverability dashboard. To enable the
+  /// dashboard, set this value to <code>true</code>.
+  @_s.JsonKey(name: 'DashboardEnabled')
+  final bool dashboardEnabled;
+
+  /// An array of objects, one for each verified domain that you use to send email
+  /// and enabled the Deliverability dashboard for.
+  @_s.JsonKey(name: 'SubscribedDomains')
+  final List<DomainDeliverabilityTrackingOption> subscribedDomains;
+
+  PutDeliverabilityDashboardOptionRequest({
+    @_s.required this.dashboardEnabled,
+    this.subscribedDomains,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutDeliverabilityDashboardOptionRequestToJson(this);
+}
+
 /// A response that indicates whether the Deliverability dashboard is enabled.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -4352,6 +4945,34 @@ class PutDeliverabilityDashboardOptionResponse {
   factory PutDeliverabilityDashboardOptionResponse.fromJson(
           Map<String, dynamic> json) =>
       _$PutDeliverabilityDashboardOptionResponseFromJson(json);
+}
+
+/// A request to enable or disable DKIM signing of email that you send from an
+/// email identity.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutEmailIdentityDkimAttributesRequest {
+  /// The email identity that you want to change the DKIM settings for.
+  @_s.JsonKey(name: 'EmailIdentity', ignore: true)
+  final String emailIdentity;
+
+  /// Sets the DKIM signing configuration for the identity.
+  ///
+  /// When you set this value <code>true</code>, then the messages that are sent
+  /// from the identity are signed using DKIM. If you set this value to
+  /// <code>false</code>, your messages are sent without DKIM signing.
+  @_s.JsonKey(name: 'SigningEnabled')
+  final bool signingEnabled;
+
+  PutEmailIdentityDkimAttributesRequest({
+    @_s.required this.emailIdentity,
+    this.signingEnabled,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutEmailIdentityDkimAttributesRequestToJson(this);
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
@@ -4366,6 +4987,50 @@ class PutEmailIdentityDkimAttributesResponse {
   factory PutEmailIdentityDkimAttributesResponse.fromJson(
           Map<String, dynamic> json) =>
       _$PutEmailIdentityDkimAttributesResponseFromJson(json);
+}
+
+/// A request to change the DKIM attributes for an email identity.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutEmailIdentityDkimSigningAttributesRequest {
+  /// The email identity that you want to configure DKIM for.
+  @_s.JsonKey(name: 'EmailIdentity', ignore: true)
+  final String emailIdentity;
+
+  /// The method that you want to use to configure DKIM for the identity. There
+  /// are two possible values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AWS_SES</code> – Configure DKIM for the identity by using <a
+  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html">Easy
+  /// DKIM</a>.
+  /// </li>
+  /// <li>
+  /// <code>EXTERNAL</code> – Configure DKIM for the identity by using Bring Your
+  /// Own DKIM (BYODKIM).
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'SigningAttributesOrigin')
+  final DkimSigningAttributesOrigin signingAttributesOrigin;
+
+  /// An object that contains information about the private key and selector that
+  /// you want to use to configure DKIM for the identity. This object is only
+  /// required if you want to configure Bring Your Own DKIM (BYODKIM) for the
+  /// identity.
+  @_s.JsonKey(name: 'SigningAttributes')
+  final DkimSigningAttributes signingAttributes;
+
+  PutEmailIdentityDkimSigningAttributesRequest({
+    @_s.required this.emailIdentity,
+    @_s.required this.signingAttributesOrigin,
+    this.signingAttributes,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutEmailIdentityDkimSigningAttributesRequestToJson(this);
 }
 
 /// If the action is successful, the service sends back an HTTP 200 response.
@@ -4444,6 +5109,42 @@ class PutEmailIdentityDkimSigningAttributesResponse {
       _$PutEmailIdentityDkimSigningAttributesResponseFromJson(json);
 }
 
+/// A request to set the attributes that control how bounce and complaint events
+/// are processed.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutEmailIdentityFeedbackAttributesRequest {
+  /// The email identity that you want to configure bounce and complaint feedback
+  /// forwarding for.
+  @_s.JsonKey(name: 'EmailIdentity', ignore: true)
+  final String emailIdentity;
+
+  /// Sets the feedback forwarding configuration for the identity.
+  ///
+  /// If the value is <code>true</code>, you receive email notifications when
+  /// bounce or complaint events occur. These notifications are sent to the
+  /// address that you specified in the <code>Return-Path</code> header of the
+  /// original email.
+  ///
+  /// You're required to have a method of tracking bounces and complaints. If you
+  /// haven't set up another mechanism for receiving bounce or complaint
+  /// notifications (for example, by setting up an event destination), you receive
+  /// an email notification when these events occur (even if this setting is
+  /// disabled).
+  @_s.JsonKey(name: 'EmailForwardingEnabled')
+  final bool emailForwardingEnabled;
+
+  PutEmailIdentityFeedbackAttributesRequest({
+    @_s.required this.emailIdentity,
+    this.emailForwardingEnabled,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutEmailIdentityFeedbackAttributesRequestToJson(this);
+}
+
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
 @_s.JsonSerializable(
@@ -4458,6 +5159,58 @@ class PutEmailIdentityFeedbackAttributesResponse {
       _$PutEmailIdentityFeedbackAttributesResponseFromJson(json);
 }
 
+/// A request to configure the custom MAIL FROM domain for a verified identity.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutEmailIdentityMailFromAttributesRequest {
+  /// The verified email identity that you want to set up the custom MAIL FROM
+  /// domain for.
+  @_s.JsonKey(name: 'EmailIdentity', ignore: true)
+  final String emailIdentity;
+
+  /// The action that you want to take if the required MX record isn't found when
+  /// you send an email. When you set this value to <code>UseDefaultValue</code>,
+  /// the mail is sent using <i>amazonses.com</i> as the MAIL FROM domain. When
+  /// you set this value to <code>RejectMessage</code>, the Amazon SES API v2
+  /// returns a <code>MailFromDomainNotVerified</code> error, and doesn't attempt
+  /// to deliver the email.
+  ///
+  /// These behaviors are taken when the custom MAIL FROM domain configuration is
+  /// in the <code>Pending</code>, <code>Failed</code>, and
+  /// <code>TemporaryFailure</code> states.
+  @_s.JsonKey(name: 'BehaviorOnMxFailure')
+  final BehaviorOnMxFailure behaviorOnMxFailure;
+
+  /// The custom MAIL FROM domain that you want the verified identity to use. The
+  /// MAIL FROM domain must meet the following criteria:
+  ///
+  /// <ul>
+  /// <li>
+  /// It has to be a subdomain of the verified identity.
+  /// </li>
+  /// <li>
+  /// It can't be used to receive email.
+  /// </li>
+  /// <li>
+  /// It can't be used in a "From" address if the MAIL FROM domain is a
+  /// destination for feedback forwarding emails.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'MailFromDomain')
+  final String mailFromDomain;
+
+  PutEmailIdentityMailFromAttributesRequest({
+    @_s.required this.emailIdentity,
+    this.behaviorOnMxFailure,
+    this.mailFromDomain,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutEmailIdentityMailFromAttributesRequestToJson(this);
+}
+
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
 @_s.JsonSerializable(
@@ -4470,6 +5223,32 @@ class PutEmailIdentityMailFromAttributesResponse {
   factory PutEmailIdentityMailFromAttributesResponse.fromJson(
           Map<String, dynamic> json) =>
       _$PutEmailIdentityMailFromAttributesResponseFromJson(json);
+}
+
+/// A request to add an email destination to the suppression list for your
+/// account.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutSuppressedDestinationRequest {
+  /// The email address that should be added to the suppression list for your
+  /// account.
+  @_s.JsonKey(name: 'EmailAddress')
+  final String emailAddress;
+
+  /// The factors that should cause the email address to be added to the
+  /// suppression list for your account.
+  @_s.JsonKey(name: 'Reason')
+  final SuppressionListReason reason;
+
+  PutSuppressedDestinationRequest({
+    @_s.required this.emailAddress,
+    @_s.required this.reason,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutSuppressedDestinationRequestToJson(this);
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
@@ -4563,6 +5342,60 @@ class ReputationOptions {
       _$ReputationOptionsFromJson(json);
 
   Map<String, dynamic> toJson() => _$ReputationOptionsToJson(this);
+}
+
+/// A request to send an email message.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SendEmailRequest {
+  /// An object that contains the body of the message. You can send either a
+  /// Simple message or a Raw message.
+  @_s.JsonKey(name: 'Content')
+  final EmailContent content;
+
+  /// An object that contains the recipients of the email message.
+  @_s.JsonKey(name: 'Destination')
+  final Destination destination;
+
+  /// The name of the configuration set that you want to use when sending the
+  /// email.
+  @_s.JsonKey(name: 'ConfigurationSetName')
+  final String configurationSetName;
+
+  /// A list of tags, in the form of name/value pairs, to apply to an email that
+  /// you send using the <code>SendEmail</code> operation. Tags correspond to
+  /// characteristics of the email that you define, so that you can publish email
+  /// sending events.
+  @_s.JsonKey(name: 'EmailTags')
+  final List<MessageTag> emailTags;
+
+  /// The address that you want bounce and complaint notifications to be sent to.
+  @_s.JsonKey(name: 'FeedbackForwardingEmailAddress')
+  final String feedbackForwardingEmailAddress;
+
+  /// The email address that you want to use as the "From" address for the email.
+  /// The address that you specify has to be verified.
+  @_s.JsonKey(name: 'FromEmailAddress')
+  final String fromEmailAddress;
+
+  /// The "Reply-to" email addresses for the message. When the recipient replies
+  /// to the message, each Reply-to address receives the reply.
+  @_s.JsonKey(name: 'ReplyToAddresses')
+  final List<String> replyToAddresses;
+
+  SendEmailRequest({
+    @_s.required this.content,
+    @_s.required this.destination,
+    this.configurationSetName,
+    this.emailTags,
+    this.feedbackForwardingEmailAddress,
+    this.fromEmailAddress,
+    this.replyToAddresses,
+  });
+  Map<String, dynamic> toJson() => _$SendEmailRequestToJson(this);
 }
 
 /// A unique message ID that you receive when an email is accepted for sending.
@@ -4825,18 +5658,6 @@ enum SuppressionListReason {
   complaint,
 }
 
-extension on SuppressionListReason {
-  String toValue() {
-    switch (this) {
-      case SuppressionListReason.bounce:
-        return 'BOUNCE';
-      case SuppressionListReason.complaint:
-        return 'COMPLAINT';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// An object that contains information about the suppression list preferences
 /// for your account.
 @_s.JsonSerializable(
@@ -4940,6 +5761,31 @@ class Tag {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource that you want to add one or
+  /// more tags to.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// A list of the tags that you want to add to the resource. A tag consists of a
+  /// required tag key (<code>Key</code>) and an associated tag value
+  /// (<code>Value</code>). The maximum length of a tag key is 128 characters. The
+  /// maximum length of a tag value is 256 characters.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagResourceResponse {
@@ -4988,18 +5834,6 @@ enum TlsPolicy {
   optional,
 }
 
-extension on TlsPolicy {
-  String toValue() {
-    switch (this) {
-      case TlsPolicy.require:
-        return 'REQUIRE';
-      case TlsPolicy.optional:
-        return 'OPTIONAL';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// An object that defines the tracking options for a configuration set. When
 /// you use the Amazon SES API v2 to send an email, it contains an invisible
 /// image that's used to track when recipients open your email. If your email
@@ -5031,12 +5865,71 @@ class TrackingOptions {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource that you want to remove one
+  /// or more tags from.
+  @_s.JsonKey(name: 'ResourceArn', ignore: true)
+  final String resourceArn;
+
+  /// The tags (tag keys) that you want to remove from the resource. When you
+  /// specify a tag key, the action removes both that key and its associated tag
+  /// value.
+  ///
+  /// To remove more than one tag from the resource, append the
+  /// <code>TagKeys</code> parameter and argument for each additional tag to
+  /// remove, separated by an ampersand. For example:
+  /// <code>/v2/email/tags?ResourceArn=ResourceArn&amp;TagKeys=Key1&amp;TagKeys=Key2</code>
+  @_s.JsonKey(name: 'TagKeys', ignore: true)
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
   factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceResponseFromJson(json);
+}
+
+/// A request to change the settings for an event destination for a
+/// configuration set.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateConfigurationSetEventDestinationRequest {
+  /// The name of the configuration set that contains the event destination that
+  /// you want to modify.
+  @_s.JsonKey(name: 'ConfigurationSetName', ignore: true)
+  final String configurationSetName;
+
+  /// An object that defines the event destination.
+  @_s.JsonKey(name: 'EventDestination')
+  final EventDestinationDefinition eventDestination;
+
+  /// The name of the event destination that you want to modify.
+  @_s.JsonKey(name: 'EventDestinationName', ignore: true)
+  final String eventDestinationName;
+
+  UpdateConfigurationSetEventDestinationRequest({
+    @_s.required this.configurationSetName,
+    @_s.required this.eventDestination,
+    @_s.required this.eventDestinationName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateConfigurationSetEventDestinationRequestToJson(this);
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the

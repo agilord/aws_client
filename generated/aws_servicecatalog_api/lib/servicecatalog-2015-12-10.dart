@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -123,12 +122,11 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PortfolioId': portfolioId,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (portfolioShareType != null)
-          'PortfolioShareType': portfolioShareType?.toValue(),
-      },
+      payload: AcceptPortfolioShareInput(
+        portfolioId: portfolioId,
+        acceptLanguage: acceptLanguage,
+        portfolioShareType: portfolioShareType,
+      ),
     );
 
     return AcceptPortfolioShareOutput.fromJson(jsonResponse.body);
@@ -182,10 +180,10 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'BudgetName': budgetName,
-        'ResourceId': resourceId,
-      },
+      payload: AssociateBudgetWithResourceInput(
+        budgetName: budgetName,
+        resourceId: resourceId,
+      ),
     );
 
     return AssociateBudgetWithResourceOutput.fromJson(jsonResponse.body);
@@ -266,12 +264,12 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PortfolioId': portfolioId,
-        'PrincipalARN': principalARN,
-        'PrincipalType': principalType?.toValue(),
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-      },
+      payload: AssociatePrincipalWithPortfolioInput(
+        portfolioId: portfolioId,
+        principalARN: principalARN,
+        principalType: principalType,
+        acceptLanguage: acceptLanguage,
+      ),
     );
 
     return AssociatePrincipalWithPortfolioOutput.fromJson(jsonResponse.body);
@@ -368,12 +366,12 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PortfolioId': portfolioId,
-        'ProductId': productId,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (sourcePortfolioId != null) 'SourcePortfolioId': sourcePortfolioId,
-      },
+      payload: AssociateProductWithPortfolioInput(
+        portfolioId: portfolioId,
+        productId: productId,
+        acceptLanguage: acceptLanguage,
+        sourcePortfolioId: sourcePortfolioId,
+      ),
     );
 
     return AssociateProductWithPortfolioOutput.fromJson(jsonResponse.body);
@@ -476,12 +474,12 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ProductId': productId,
-        'ProvisioningArtifactId': provisioningArtifactId,
-        'ServiceActionId': serviceActionId,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-      },
+      payload: AssociateServiceActionWithProvisioningArtifactInput(
+        productId: productId,
+        provisioningArtifactId: provisioningArtifactId,
+        serviceActionId: serviceActionId,
+        acceptLanguage: acceptLanguage,
+      ),
     );
 
     return AssociateServiceActionWithProvisioningArtifactOutput.fromJson(
@@ -526,10 +524,10 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceId': resourceId,
-        'TagOptionId': tagOptionId,
-      },
+      payload: AssociateTagOptionWithResourceInput(
+        resourceId: resourceId,
+        tagOptionId: tagOptionId,
+      ),
     );
 
     return AssociateTagOptionWithResourceOutput.fromJson(jsonResponse.body);
@@ -581,10 +579,10 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ServiceActionAssociations': serviceActionAssociations,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-      },
+      payload: BatchAssociateServiceActionWithProvisioningArtifactInput(
+        serviceActionAssociations: serviceActionAssociations,
+        acceptLanguage: acceptLanguage,
+      ),
     );
 
     return BatchAssociateServiceActionWithProvisioningArtifactOutput.fromJson(
@@ -638,10 +636,10 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ServiceActionAssociations': serviceActionAssociations,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-      },
+      payload: BatchDisassociateServiceActionFromProvisioningArtifactInput(
+        serviceActionAssociations: serviceActionAssociations,
+        acceptLanguage: acceptLanguage,
+      ),
     );
 
     return BatchDisassociateServiceActionFromProvisioningArtifactOutput
@@ -768,17 +766,16 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'IdempotencyToken': idempotencyToken,
-        'SourceProductArn': sourceProductArn,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (copyOptions != null) 'CopyOptions': copyOptions,
-        if (sourceProvisioningArtifactIdentifiers != null)
-          'SourceProvisioningArtifactIdentifiers':
-              sourceProvisioningArtifactIdentifiers,
-        if (targetProductId != null) 'TargetProductId': targetProductId,
-        if (targetProductName != null) 'TargetProductName': targetProductName,
-      },
+      payload: CopyProductInput(
+        idempotencyToken: idempotencyToken,
+        sourceProductArn: sourceProductArn,
+        acceptLanguage: acceptLanguage,
+        copyOptions: copyOptions,
+        sourceProvisioningArtifactIdentifiers:
+            sourceProvisioningArtifactIdentifiers,
+        targetProductId: targetProductId,
+        targetProductName: targetProductName,
+      ),
     );
 
     return CopyProductOutput.fromJson(jsonResponse.body);
@@ -985,15 +982,15 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'IdempotencyToken': idempotencyToken,
-        'Parameters': parameters,
-        'PortfolioId': portfolioId,
-        'ProductId': productId,
-        'Type': type,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (description != null) 'Description': description,
-      },
+      payload: CreateConstraintInput(
+        idempotencyToken: idempotencyToken,
+        parameters: parameters,
+        portfolioId: portfolioId,
+        productId: productId,
+        type: type,
+        acceptLanguage: acceptLanguage,
+        description: description,
+      ),
     );
 
     return CreateConstraintOutput.fromJson(jsonResponse.body);
@@ -1096,14 +1093,14 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DisplayName': displayName,
-        'IdempotencyToken': idempotencyToken,
-        'ProviderName': providerName,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (description != null) 'Description': description,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreatePortfolioInput(
+        displayName: displayName,
+        idempotencyToken: idempotencyToken,
+        providerName: providerName,
+        acceptLanguage: acceptLanguage,
+        description: description,
+        tags: tags,
+      ),
     );
 
     return CreatePortfolioOutput.fromJson(jsonResponse.body);
@@ -1189,12 +1186,12 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PortfolioId': portfolioId,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (accountId != null) 'AccountId': accountId,
-        if (organizationNode != null) 'OrganizationNode': organizationNode,
-      },
+      payload: CreatePortfolioShareInput(
+        portfolioId: portfolioId,
+        acceptLanguage: acceptLanguage,
+        accountId: accountId,
+        organizationNode: organizationNode,
+      ),
     );
 
     return CreatePortfolioShareOutput.fromJson(jsonResponse.body);
@@ -1348,21 +1345,20 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'IdempotencyToken': idempotencyToken,
-        'Name': name,
-        'Owner': owner,
-        'ProductType': productType?.toValue(),
-        'ProvisioningArtifactParameters': provisioningArtifactParameters,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (description != null) 'Description': description,
-        if (distributor != null) 'Distributor': distributor,
-        if (supportDescription != null)
-          'SupportDescription': supportDescription,
-        if (supportEmail != null) 'SupportEmail': supportEmail,
-        if (supportUrl != null) 'SupportUrl': supportUrl,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateProductInput(
+        idempotencyToken: idempotencyToken,
+        name: name,
+        owner: owner,
+        productType: productType,
+        provisioningArtifactParameters: provisioningArtifactParameters,
+        acceptLanguage: acceptLanguage,
+        description: description,
+        distributor: distributor,
+        supportDescription: supportDescription,
+        supportEmail: supportEmail,
+        supportUrl: supportUrl,
+        tags: tags,
+      ),
     );
 
     return CreateProductOutput.fromJson(jsonResponse.body);
@@ -1541,20 +1537,19 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'IdempotencyToken': idempotencyToken,
-        'PlanName': planName,
-        'PlanType': planType?.toValue(),
-        'ProductId': productId,
-        'ProvisionedProductName': provisionedProductName,
-        'ProvisioningArtifactId': provisioningArtifactId,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (notificationArns != null) 'NotificationArns': notificationArns,
-        if (pathId != null) 'PathId': pathId,
-        if (provisioningParameters != null)
-          'ProvisioningParameters': provisioningParameters,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateProvisionedProductPlanInput(
+        idempotencyToken: idempotencyToken,
+        planName: planName,
+        planType: planType,
+        productId: productId,
+        provisionedProductName: provisionedProductName,
+        provisioningArtifactId: provisioningArtifactId,
+        acceptLanguage: acceptLanguage,
+        notificationArns: notificationArns,
+        pathId: pathId,
+        provisioningParameters: provisioningParameters,
+        tags: tags,
+      ),
     );
 
     return CreateProvisionedProductPlanOutput.fromJson(jsonResponse.body);
@@ -1646,12 +1641,12 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'IdempotencyToken': idempotencyToken,
-        'Parameters': parameters,
-        'ProductId': productId,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-      },
+      payload: CreateProvisioningArtifactInput(
+        idempotencyToken: idempotencyToken,
+        parameters: parameters,
+        productId: productId,
+        acceptLanguage: acceptLanguage,
+      ),
     );
 
     return CreateProvisioningArtifactOutput.fromJson(jsonResponse.body);
@@ -1773,14 +1768,14 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Definition': definition,
-        'DefinitionType': definitionType?.toValue(),
-        'IdempotencyToken': idempotencyToken,
-        'Name': name,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (description != null) 'Description': description,
-      },
+      payload: CreateServiceActionInput(
+        definition: definition,
+        definitionType: definitionType,
+        idempotencyToken: idempotencyToken,
+        name: name,
+        acceptLanguage: acceptLanguage,
+        description: description,
+      ),
     );
 
     return CreateServiceActionOutput.fromJson(jsonResponse.body);
@@ -1839,10 +1834,10 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Key': key,
-        'Value': value,
-      },
+      payload: CreateTagOptionInput(
+        key: key,
+        value: value,
+      ),
     );
 
     return CreateTagOptionOutput.fromJson(jsonResponse.body);
@@ -1904,10 +1899,10 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-      },
+      payload: DeleteConstraintInput(
+        id: id,
+        acceptLanguage: acceptLanguage,
+      ),
     );
 
     return DeleteConstraintOutput.fromJson(jsonResponse.body);
@@ -1974,10 +1969,10 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-      },
+      payload: DeletePortfolioInput(
+        id: id,
+        acceptLanguage: acceptLanguage,
+      ),
     );
 
     return DeletePortfolioOutput.fromJson(jsonResponse.body);
@@ -2056,12 +2051,12 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PortfolioId': portfolioId,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (accountId != null) 'AccountId': accountId,
-        if (organizationNode != null) 'OrganizationNode': organizationNode,
-      },
+      payload: DeletePortfolioShareInput(
+        portfolioId: portfolioId,
+        acceptLanguage: acceptLanguage,
+        accountId: accountId,
+        organizationNode: organizationNode,
+      ),
     );
 
     return DeletePortfolioShareOutput.fromJson(jsonResponse.body);
@@ -2128,10 +2123,10 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-      },
+      payload: DeleteProductInput(
+        id: id,
+        acceptLanguage: acceptLanguage,
+      ),
     );
 
     return DeleteProductOutput.fromJson(jsonResponse.body);
@@ -2198,11 +2193,11 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PlanId': planId,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (ignoreErrors != null) 'IgnoreErrors': ignoreErrors,
-      },
+      payload: DeleteProvisionedProductPlanInput(
+        planId: planId,
+        acceptLanguage: acceptLanguage,
+        ignoreErrors: ignoreErrors,
+      ),
     );
 
     return DeleteProvisionedProductPlanOutput.fromJson(jsonResponse.body);
@@ -2289,11 +2284,11 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ProductId': productId,
-        'ProvisioningArtifactId': provisioningArtifactId,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-      },
+      payload: DeleteProvisioningArtifactInput(
+        productId: productId,
+        provisioningArtifactId: provisioningArtifactId,
+        acceptLanguage: acceptLanguage,
+      ),
     );
 
     return DeleteProvisioningArtifactOutput.fromJson(jsonResponse.body);
@@ -2356,10 +2351,10 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-      },
+      payload: DeleteServiceActionInput(
+        id: id,
+        acceptLanguage: acceptLanguage,
+      ),
     );
 
     return DeleteServiceActionOutput.fromJson(jsonResponse.body);
@@ -2397,9 +2392,9 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-      },
+      payload: DeleteTagOptionInput(
+        id: id,
+      ),
     );
 
     return DeleteTagOptionOutput.fromJson(jsonResponse.body);
@@ -2460,10 +2455,10 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-      },
+      payload: DescribeConstraintInput(
+        id: id,
+        acceptLanguage: acceptLanguage,
+      ),
     );
 
     return DescribeConstraintOutput.fromJson(jsonResponse.body);
@@ -2525,10 +2520,10 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CopyProductToken': copyProductToken,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-      },
+      payload: DescribeCopyProductStatusInput(
+        copyProductToken: copyProductToken,
+        acceptLanguage: acceptLanguage,
+      ),
     );
 
     return DescribeCopyProductStatusOutput.fromJson(jsonResponse.body);
@@ -2589,10 +2584,10 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-      },
+      payload: DescribePortfolioInput(
+        id: id,
+        acceptLanguage: acceptLanguage,
+      ),
     );
 
     return DescribePortfolioOutput.fromJson(jsonResponse.body);
@@ -2635,9 +2630,9 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PortfolioShareToken': portfolioShareToken,
-      },
+      payload: DescribePortfolioShareStatusInput(
+        portfolioShareToken: portfolioShareToken,
+      ),
     );
 
     return DescribePortfolioShareStatusOutput.fromJson(jsonResponse.body);
@@ -2699,10 +2694,10 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-      },
+      payload: DescribeProductInput(
+        id: id,
+        acceptLanguage: acceptLanguage,
+      ),
     );
 
     return DescribeProductOutput.fromJson(jsonResponse.body);
@@ -2764,10 +2759,10 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-      },
+      payload: DescribeProductAsAdminInput(
+        id: id,
+        acceptLanguage: acceptLanguage,
+      ),
     );
 
     return DescribeProductAsAdminOutput.fromJson(jsonResponse.body);
@@ -2829,10 +2824,10 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-      },
+      payload: DescribeProductViewInput(
+        id: id,
+        acceptLanguage: acceptLanguage,
+      ),
     );
 
     return DescribeProductViewOutput.fromJson(jsonResponse.body);
@@ -2893,10 +2888,10 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-      },
+      payload: DescribeProvisionedProductInput(
+        id: id,
+        acceptLanguage: acceptLanguage,
+      ),
     );
 
     return DescribeProvisionedProductOutput.fromJson(jsonResponse.body);
@@ -2985,12 +2980,12 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PlanId': planId,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (pageSize != null) 'PageSize': pageSize,
-        if (pageToken != null) 'PageToken': pageToken,
-      },
+      payload: DescribeProvisionedProductPlanInput(
+        planId: planId,
+        acceptLanguage: acceptLanguage,
+        pageSize: pageSize,
+        pageToken: pageToken,
+      ),
     );
 
     return DescribeProvisionedProductPlanOutput.fromJson(jsonResponse.body);
@@ -3075,12 +3070,12 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ProductId': productId,
-        'ProvisioningArtifactId': provisioningArtifactId,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (verbose != null) 'Verbose': verbose,
-      },
+      payload: DescribeProvisioningArtifactInput(
+        productId: productId,
+        provisioningArtifactId: provisioningArtifactId,
+        acceptLanguage: acceptLanguage,
+        verbose: verbose,
+      ),
     );
 
     return DescribeProvisioningArtifactOutput.fromJson(jsonResponse.body);
@@ -3188,12 +3183,12 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ProductId': productId,
-        'ProvisioningArtifactId': provisioningArtifactId,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (pathId != null) 'PathId': pathId,
-      },
+      payload: DescribeProvisioningParametersInput(
+        productId: productId,
+        provisioningArtifactId: provisioningArtifactId,
+        acceptLanguage: acceptLanguage,
+        pathId: pathId,
+      ),
     );
 
     return DescribeProvisioningParametersOutput.fromJson(jsonResponse.body);
@@ -3293,12 +3288,12 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (pageSize != null) 'PageSize': pageSize,
-        if (pageToken != null) 'PageToken': pageToken,
-      },
+      payload: DescribeRecordInput(
+        id: id,
+        acceptLanguage: acceptLanguage,
+        pageSize: pageSize,
+        pageToken: pageToken,
+      ),
     );
 
     return DescribeRecordOutput.fromJson(jsonResponse.body);
@@ -3359,10 +3354,10 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-      },
+      payload: DescribeServiceActionInput(
+        id: id,
+        acceptLanguage: acceptLanguage,
+      ),
     );
 
     return DescribeServiceActionOutput.fromJson(jsonResponse.body);
@@ -3445,11 +3440,11 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ProvisionedProductId': provisionedProductId,
-        'ServiceActionId': serviceActionId,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-      },
+      payload: DescribeServiceActionExecutionParametersInput(
+        provisionedProductId: provisionedProductId,
+        serviceActionId: serviceActionId,
+        acceptLanguage: acceptLanguage,
+      ),
     );
 
     return DescribeServiceActionExecutionParametersOutput.fromJson(
@@ -3484,9 +3479,9 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-      },
+      payload: DescribeTagOptionInput(
+        id: id,
+      ),
     );
 
     return DescribeTagOptionOutput.fromJson(jsonResponse.body);
@@ -3566,10 +3561,10 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'BudgetName': budgetName,
-        'ResourceId': resourceId,
-      },
+      payload: DisassociateBudgetFromResourceInput(
+        budgetName: budgetName,
+        resourceId: resourceId,
+      ),
     );
 
     return DisassociateBudgetFromResourceOutput.fromJson(jsonResponse.body);
@@ -3645,11 +3640,11 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PortfolioId': portfolioId,
-        'PrincipalARN': principalARN,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-      },
+      payload: DisassociatePrincipalFromPortfolioInput(
+        portfolioId: portfolioId,
+        principalARN: principalARN,
+        acceptLanguage: acceptLanguage,
+      ),
     );
 
     return DisassociatePrincipalFromPortfolioOutput.fromJson(jsonResponse.body);
@@ -3731,11 +3726,11 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PortfolioId': portfolioId,
-        'ProductId': productId,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-      },
+      payload: DisassociateProductFromPortfolioInput(
+        portfolioId: portfolioId,
+        productId: productId,
+        acceptLanguage: acceptLanguage,
+      ),
     );
 
     return DisassociateProductFromPortfolioOutput.fromJson(jsonResponse.body);
@@ -3837,12 +3832,12 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ProductId': productId,
-        'ProvisioningArtifactId': provisioningArtifactId,
-        'ServiceActionId': serviceActionId,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-      },
+      payload: DisassociateServiceActionFromProvisioningArtifactInput(
+        productId: productId,
+        provisioningArtifactId: provisioningArtifactId,
+        serviceActionId: serviceActionId,
+        acceptLanguage: acceptLanguage,
+      ),
     );
 
     return DisassociateServiceActionFromProvisioningArtifactOutput.fromJson(
@@ -3883,10 +3878,10 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceId': resourceId,
-        'TagOptionId': tagOptionId,
-      },
+      payload: DisassociateTagOptionFromResourceInput(
+        resourceId: resourceId,
+        tagOptionId: tagOptionId,
+      ),
     );
 
     return DisassociateTagOptionFromResourceOutput.fromJson(jsonResponse.body);
@@ -3999,11 +3994,11 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'IdempotencyToken': idempotencyToken,
-        'PlanId': planId,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-      },
+      payload: ExecuteProvisionedProductPlanInput(
+        idempotencyToken: idempotencyToken,
+        planId: planId,
+        acceptLanguage: acceptLanguage,
+      ),
     );
 
     return ExecuteProvisionedProductPlanOutput.fromJson(jsonResponse.body);
@@ -4114,13 +4109,13 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ExecuteToken': executeToken,
-        'ProvisionedProductId': provisionedProductId,
-        'ServiceActionId': serviceActionId,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (parameters != null) 'Parameters': parameters,
-      },
+      payload: ExecuteProvisionedProductServiceActionInput(
+        executeToken: executeToken,
+        provisionedProductId: provisionedProductId,
+        serviceActionId: serviceActionId,
+        acceptLanguage: acceptLanguage,
+        parameters: parameters,
+      ),
     );
 
     return ExecuteProvisionedProductServiceActionOutput.fromJson(
@@ -4232,13 +4227,12 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (pageSize != null) 'PageSize': pageSize,
-        if (pageToken != null) 'PageToken': pageToken,
-        if (portfolioShareType != null)
-          'PortfolioShareType': portfolioShareType?.toValue(),
-      },
+      payload: ListAcceptedPortfolioSharesInput(
+        acceptLanguage: acceptLanguage,
+        pageSize: pageSize,
+        pageToken: pageToken,
+        portfolioShareType: portfolioShareType,
+      ),
     );
 
     return ListAcceptedPortfolioSharesOutput.fromJson(jsonResponse.body);
@@ -4326,12 +4320,12 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceId': resourceId,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (pageSize != null) 'PageSize': pageSize,
-        if (pageToken != null) 'PageToken': pageToken,
-      },
+      payload: ListBudgetsForResourceInput(
+        resourceId: resourceId,
+        acceptLanguage: acceptLanguage,
+        pageSize: pageSize,
+        pageToken: pageToken,
+      ),
     );
 
     return ListBudgetsForResourceOutput.fromJson(jsonResponse.body);
@@ -4434,13 +4428,13 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PortfolioId': portfolioId,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (pageSize != null) 'PageSize': pageSize,
-        if (pageToken != null) 'PageToken': pageToken,
-        if (productId != null) 'ProductId': productId,
-      },
+      payload: ListConstraintsForPortfolioInput(
+        portfolioId: portfolioId,
+        acceptLanguage: acceptLanguage,
+        pageSize: pageSize,
+        pageToken: pageToken,
+        productId: productId,
+      ),
     );
 
     return ListConstraintsForPortfolioOutput.fromJson(jsonResponse.body);
@@ -4530,12 +4524,12 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ProductId': productId,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (pageSize != null) 'PageSize': pageSize,
-        if (pageToken != null) 'PageToken': pageToken,
-      },
+      payload: ListLaunchPathsInput(
+        productId: productId,
+        acceptLanguage: acceptLanguage,
+        pageSize: pageSize,
+        pageToken: pageToken,
+      ),
     );
 
     return ListLaunchPathsOutput.fromJson(jsonResponse.body);
@@ -4646,13 +4640,13 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'OrganizationNodeType': organizationNodeType?.toValue(),
-        'PortfolioId': portfolioId,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (pageSize != null) 'PageSize': pageSize,
-        if (pageToken != null) 'PageToken': pageToken,
-      },
+      payload: ListOrganizationPortfolioAccessInput(
+        organizationNodeType: organizationNodeType,
+        portfolioId: portfolioId,
+        acceptLanguage: acceptLanguage,
+        pageSize: pageSize,
+        pageToken: pageToken,
+      ),
     );
 
     return ListOrganizationPortfolioAccessOutput.fromJson(jsonResponse.body);
@@ -4756,14 +4750,13 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PortfolioId': portfolioId,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (organizationParentId != null)
-          'OrganizationParentId': organizationParentId,
-        if (pageSize != null) 'PageSize': pageSize,
-        if (pageToken != null) 'PageToken': pageToken,
-      },
+      payload: ListPortfolioAccessInput(
+        portfolioId: portfolioId,
+        acceptLanguage: acceptLanguage,
+        organizationParentId: organizationParentId,
+        pageSize: pageSize,
+        pageToken: pageToken,
+      ),
     );
 
     return ListPortfolioAccessOutput.fromJson(jsonResponse.body);
@@ -4832,11 +4825,11 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (pageSize != null) 'PageSize': pageSize,
-        if (pageToken != null) 'PageToken': pageToken,
-      },
+      payload: ListPortfoliosInput(
+        acceptLanguage: acceptLanguage,
+        pageSize: pageSize,
+        pageToken: pageToken,
+      ),
     );
 
     return ListPortfoliosOutput.fromJson(jsonResponse.body);
@@ -4924,12 +4917,12 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ProductId': productId,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (pageSize != null) 'PageSize': pageSize,
-        if (pageToken != null) 'PageToken': pageToken,
-      },
+      payload: ListPortfoliosForProductInput(
+        productId: productId,
+        acceptLanguage: acceptLanguage,
+        pageSize: pageSize,
+        pageToken: pageToken,
+      ),
     );
 
     return ListPortfoliosForProductOutput.fromJson(jsonResponse.body);
@@ -5017,12 +5010,12 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PortfolioId': portfolioId,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (pageSize != null) 'PageSize': pageSize,
-        if (pageToken != null) 'PageToken': pageToken,
-      },
+      payload: ListPrincipalsForPortfolioInput(
+        portfolioId: portfolioId,
+        acceptLanguage: acceptLanguage,
+        pageSize: pageSize,
+        pageToken: pageToken,
+      ),
     );
 
     return ListPrincipalsForPortfolioOutput.fromJson(jsonResponse.body);
@@ -5113,14 +5106,13 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (accessLevelFilter != null) 'AccessLevelFilter': accessLevelFilter,
-        if (pageSize != null) 'PageSize': pageSize,
-        if (pageToken != null) 'PageToken': pageToken,
-        if (provisionProductId != null)
-          'ProvisionProductId': provisionProductId,
-      },
+      payload: ListProvisionedProductPlansInput(
+        acceptLanguage: acceptLanguage,
+        accessLevelFilter: accessLevelFilter,
+        pageSize: pageSize,
+        pageToken: pageToken,
+        provisionProductId: provisionProductId,
+      ),
     );
 
     return ListProvisionedProductPlansOutput.fromJson(jsonResponse.body);
@@ -5183,10 +5175,10 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ProductId': productId,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-      },
+      payload: ListProvisioningArtifactsInput(
+        productId: productId,
+        acceptLanguage: acceptLanguage,
+      ),
     );
 
     return ListProvisioningArtifactsOutput.fromJson(jsonResponse.body);
@@ -5278,12 +5270,12 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ServiceActionId': serviceActionId,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (pageSize != null) 'PageSize': pageSize,
-        if (pageToken != null) 'PageToken': pageToken,
-      },
+      payload: ListProvisioningArtifactsForServiceActionInput(
+        serviceActionId: serviceActionId,
+        acceptLanguage: acceptLanguage,
+        pageSize: pageSize,
+        pageToken: pageToken,
+      ),
     );
 
     return ListProvisioningArtifactsForServiceActionOutput.fromJson(
@@ -5362,13 +5354,13 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (accessLevelFilter != null) 'AccessLevelFilter': accessLevelFilter,
-        if (pageSize != null) 'PageSize': pageSize,
-        if (pageToken != null) 'PageToken': pageToken,
-        if (searchFilter != null) 'SearchFilter': searchFilter,
-      },
+      payload: ListRecordHistoryInput(
+        acceptLanguage: acceptLanguage,
+        accessLevelFilter: accessLevelFilter,
+        pageSize: pageSize,
+        pageToken: pageToken,
+        searchFilter: searchFilter,
+      ),
     );
 
     return ListRecordHistoryOutput.fromJson(jsonResponse.body);
@@ -5442,12 +5434,12 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TagOptionId': tagOptionId,
-        if (pageSize != null) 'PageSize': pageSize,
-        if (pageToken != null) 'PageToken': pageToken,
-        if (resourceType != null) 'ResourceType': resourceType,
-      },
+      payload: ListResourcesForTagOptionInput(
+        tagOptionId: tagOptionId,
+        pageSize: pageSize,
+        pageToken: pageToken,
+        resourceType: resourceType,
+      ),
     );
 
     return ListResourcesForTagOptionOutput.fromJson(jsonResponse.body);
@@ -5516,11 +5508,11 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (pageSize != null) 'PageSize': pageSize,
-        if (pageToken != null) 'PageToken': pageToken,
-      },
+      payload: ListServiceActionsInput(
+        acceptLanguage: acceptLanguage,
+        pageSize: pageSize,
+        pageToken: pageToken,
+      ),
     );
 
     return ListServiceActionsOutput.fromJson(jsonResponse.body);
@@ -5631,13 +5623,13 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ProductId': productId,
-        'ProvisioningArtifactId': provisioningArtifactId,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (pageSize != null) 'PageSize': pageSize,
-        if (pageToken != null) 'PageToken': pageToken,
-      },
+      payload: ListServiceActionsForProvisioningArtifactInput(
+        productId: productId,
+        provisioningArtifactId: provisioningArtifactId,
+        acceptLanguage: acceptLanguage,
+        pageSize: pageSize,
+        pageToken: pageToken,
+      ),
     );
 
     return ListServiceActionsForProvisioningArtifactOutput.fromJson(
@@ -5731,12 +5723,12 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ProvisionedProductId': provisionedProductId,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (pageSize != null) 'PageSize': pageSize,
-        if (pageToken != null) 'PageToken': pageToken,
-      },
+      payload: ListStackInstancesForProvisionedProductInput(
+        provisionedProductId: provisionedProductId,
+        acceptLanguage: acceptLanguage,
+        pageSize: pageSize,
+        pageToken: pageToken,
+      ),
     );
 
     return ListStackInstancesForProvisionedProductOutput.fromJson(
@@ -5790,11 +5782,11 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (pageSize != null) 'PageSize': pageSize,
-        if (pageToken != null) 'PageToken': pageToken,
-      },
+      payload: ListTagOptionsInput(
+        filters: filters,
+        pageSize: pageSize,
+        pageToken: pageToken,
+      ),
     );
 
     return ListTagOptionsOutput.fromJson(jsonResponse.body);
@@ -5961,20 +5953,18 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ProductId': productId,
-        'ProvisionToken': provisionToken,
-        'ProvisionedProductName': provisionedProductName,
-        'ProvisioningArtifactId': provisioningArtifactId,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (notificationArns != null) 'NotificationArns': notificationArns,
-        if (pathId != null) 'PathId': pathId,
-        if (provisioningParameters != null)
-          'ProvisioningParameters': provisioningParameters,
-        if (provisioningPreferences != null)
-          'ProvisioningPreferences': provisioningPreferences,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: ProvisionProductInput(
+        productId: productId,
+        provisionToken: provisionToken,
+        provisionedProductName: provisionedProductName,
+        provisioningArtifactId: provisioningArtifactId,
+        acceptLanguage: acceptLanguage,
+        notificationArns: notificationArns,
+        pathId: pathId,
+        provisioningParameters: provisioningParameters,
+        provisioningPreferences: provisioningPreferences,
+        tags: tags,
+      ),
     );
 
     return ProvisionProductOutput.fromJson(jsonResponse.body);
@@ -6057,12 +6047,11 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PortfolioId': portfolioId,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (portfolioShareType != null)
-          'PortfolioShareType': portfolioShareType?.toValue(),
-      },
+      payload: RejectPortfolioShareInput(
+        portfolioId: portfolioId,
+        acceptLanguage: acceptLanguage,
+        portfolioShareType: portfolioShareType,
+      ),
     );
 
     return RejectPortfolioShareOutput.fromJson(jsonResponse.body);
@@ -6138,12 +6127,12 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (accessLevelFilter != null) 'AccessLevelFilter': accessLevelFilter,
-        if (pageSize != null) 'PageSize': pageSize,
-        if (pageToken != null) 'PageToken': pageToken,
-      },
+      payload: ScanProvisionedProductsInput(
+        acceptLanguage: acceptLanguage,
+        accessLevelFilter: accessLevelFilter,
+        pageSize: pageSize,
+        pageToken: pageToken,
+      ),
     );
 
     return ScanProvisionedProductsOutput.fromJson(jsonResponse.body);
@@ -6225,14 +6214,14 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (filters != null) 'Filters': filters,
-        if (pageSize != null) 'PageSize': pageSize,
-        if (pageToken != null) 'PageToken': pageToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-      },
+      payload: SearchProductsInput(
+        acceptLanguage: acceptLanguage,
+        filters: filters,
+        pageSize: pageSize,
+        pageToken: pageToken,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+      ),
     );
 
     return SearchProductsOutput.fromJson(jsonResponse.body);
@@ -6335,16 +6324,16 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (filters != null) 'Filters': filters,
-        if (pageSize != null) 'PageSize': pageSize,
-        if (pageToken != null) 'PageToken': pageToken,
-        if (portfolioId != null) 'PortfolioId': portfolioId,
-        if (productSource != null) 'ProductSource': productSource?.toValue(),
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-      },
+      payload: SearchProductsAsAdminInput(
+        acceptLanguage: acceptLanguage,
+        filters: filters,
+        pageSize: pageSize,
+        pageToken: pageToken,
+        portfolioId: portfolioId,
+        productSource: productSource,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+      ),
     );
 
     return SearchProductsAsAdminOutput.fromJson(jsonResponse.body);
@@ -6442,15 +6431,15 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (accessLevelFilter != null) 'AccessLevelFilter': accessLevelFilter,
-        if (filters != null) 'Filters': filters,
-        if (pageSize != null) 'PageSize': pageSize,
-        if (pageToken != null) 'PageToken': pageToken,
-        if (sortBy != null) 'SortBy': sortBy,
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-      },
+      payload: SearchProvisionedProductsInput(
+        acceptLanguage: acceptLanguage,
+        accessLevelFilter: accessLevelFilter,
+        filters: filters,
+        pageSize: pageSize,
+        pageToken: pageToken,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+      ),
     );
 
     return SearchProvisionedProductsOutput.fromJson(jsonResponse.body);
@@ -6556,15 +6545,13 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TerminateToken': terminateToken,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (ignoreErrors != null) 'IgnoreErrors': ignoreErrors,
-        if (provisionedProductId != null)
-          'ProvisionedProductId': provisionedProductId,
-        if (provisionedProductName != null)
-          'ProvisionedProductName': provisionedProductName,
-      },
+      payload: TerminateProvisionedProductInput(
+        terminateToken: terminateToken,
+        acceptLanguage: acceptLanguage,
+        ignoreErrors: ignoreErrors,
+        provisionedProductId: provisionedProductId,
+        provisionedProductName: provisionedProductName,
+      ),
     );
 
     return TerminateProvisionedProductOutput.fromJson(jsonResponse.body);
@@ -6700,12 +6687,12 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (description != null) 'Description': description,
-        if (parameters != null) 'Parameters': parameters,
-      },
+      payload: UpdateConstraintInput(
+        id: id,
+        acceptLanguage: acceptLanguage,
+        description: description,
+        parameters: parameters,
+      ),
     );
 
     return UpdateConstraintOutput.fromJson(jsonResponse.body);
@@ -6809,15 +6796,15 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (addTags != null) 'AddTags': addTags,
-        if (description != null) 'Description': description,
-        if (displayName != null) 'DisplayName': displayName,
-        if (providerName != null) 'ProviderName': providerName,
-        if (removeTags != null) 'RemoveTags': removeTags,
-      },
+      payload: UpdatePortfolioInput(
+        id: id,
+        acceptLanguage: acceptLanguage,
+        addTags: addTags,
+        description: description,
+        displayName: displayName,
+        providerName: providerName,
+        removeTags: removeTags,
+      ),
     );
 
     return UpdatePortfolioOutput.fromJson(jsonResponse.body);
@@ -6958,20 +6945,19 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (addTags != null) 'AddTags': addTags,
-        if (description != null) 'Description': description,
-        if (distributor != null) 'Distributor': distributor,
-        if (name != null) 'Name': name,
-        if (owner != null) 'Owner': owner,
-        if (removeTags != null) 'RemoveTags': removeTags,
-        if (supportDescription != null)
-          'SupportDescription': supportDescription,
-        if (supportEmail != null) 'SupportEmail': supportEmail,
-        if (supportUrl != null) 'SupportUrl': supportUrl,
-      },
+      payload: UpdateProductInput(
+        id: id,
+        acceptLanguage: acceptLanguage,
+        addTags: addTags,
+        description: description,
+        distributor: distributor,
+        name: name,
+        owner: owner,
+        removeTags: removeTags,
+        supportDescription: supportDescription,
+        supportEmail: supportEmail,
+        supportUrl: supportUrl,
+      ),
     );
 
     return UpdateProductOutput.fromJson(jsonResponse.body);
@@ -7136,23 +7122,18 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'UpdateToken': updateToken,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (pathId != null) 'PathId': pathId,
-        if (productId != null) 'ProductId': productId,
-        if (provisionedProductId != null)
-          'ProvisionedProductId': provisionedProductId,
-        if (provisionedProductName != null)
-          'ProvisionedProductName': provisionedProductName,
-        if (provisioningArtifactId != null)
-          'ProvisioningArtifactId': provisioningArtifactId,
-        if (provisioningParameters != null)
-          'ProvisioningParameters': provisioningParameters,
-        if (provisioningPreferences != null)
-          'ProvisioningPreferences': provisioningPreferences,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: UpdateProvisionedProductInput(
+        updateToken: updateToken,
+        acceptLanguage: acceptLanguage,
+        pathId: pathId,
+        productId: productId,
+        provisionedProductId: provisionedProductId,
+        provisionedProductName: provisionedProductName,
+        provisioningArtifactId: provisioningArtifactId,
+        provisioningParameters: provisioningParameters,
+        provisioningPreferences: provisioningPreferences,
+        tags: tags,
+      ),
     );
 
     return UpdateProvisionedProductOutput.fromJson(jsonResponse.body);
@@ -7262,12 +7243,12 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'IdempotencyToken': idempotencyToken,
-        'ProvisionedProductId': provisionedProductId,
-        'ProvisionedProductProperties': provisionedProductProperties,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-      },
+      payload: UpdateProvisionedProductPropertiesInput(
+        idempotencyToken: idempotencyToken,
+        provisionedProductId: provisionedProductId,
+        provisionedProductProperties: provisionedProductProperties,
+        acceptLanguage: acceptLanguage,
+      ),
     );
 
     return UpdateProvisionedProductPropertiesOutput.fromJson(jsonResponse.body);
@@ -7381,15 +7362,15 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ProductId': productId,
-        'ProvisioningArtifactId': provisioningArtifactId,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (active != null) 'Active': active,
-        if (description != null) 'Description': description,
-        if (guidance != null) 'Guidance': guidance?.toValue(),
-        if (name != null) 'Name': name,
-      },
+      payload: UpdateProvisioningArtifactInput(
+        productId: productId,
+        provisioningArtifactId: provisioningArtifactId,
+        acceptLanguage: acceptLanguage,
+        active: active,
+        description: description,
+        guidance: guidance,
+        name: name,
+      ),
     );
 
     return UpdateProvisioningArtifactOutput.fromJson(jsonResponse.body);
@@ -7480,13 +7461,13 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (definition != null) 'Definition': definition,
-        if (description != null) 'Description': description,
-        if (name != null) 'Name': name,
-      },
+      payload: UpdateServiceActionInput(
+        id: id,
+        acceptLanguage: acceptLanguage,
+        definition: definition,
+        description: description,
+        name: name,
+      ),
     );
 
     return UpdateServiceActionOutput.fromJson(jsonResponse.body);
@@ -7541,15 +7522,70 @@ class ServiceCatalog {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-        if (active != null) 'Active': active,
-        if (value != null) 'Value': value,
-      },
+      payload: UpdateTagOptionInput(
+        id: id,
+        active: active,
+        value: value,
+      ),
     );
 
     return UpdateTagOptionOutput.fromJson(jsonResponse.body);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AcceptPortfolioShareInput {
+  /// The portfolio identifier.
+  @_s.JsonKey(name: 'PortfolioId')
+  final String portfolioId;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// The type of shared portfolios to accept. The default is to accept imported
+  /// portfolios.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AWS_ORGANIZATIONS</code> - Accept portfolios shared by the master
+  /// account of your organization.
+  /// </li>
+  /// <li>
+  /// <code>IMPORTED</code> - Accept imported portfolios.
+  /// </li>
+  /// <li>
+  /// <code>AWS_SERVICECATALOG</code> - Not supported. (Throws
+  /// ResourceNotFoundException.)
+  /// </li>
+  /// </ul>
+  /// For example, <code>aws servicecatalog accept-portfolio-share --portfolio-id
+  /// "port-2qwzkwxt3y5fk" --portfolio-share-type AWS_ORGANIZATIONS</code>
+  @_s.JsonKey(name: 'PortfolioShareType')
+  final PortfolioShareType portfolioShareType;
+
+  AcceptPortfolioShareInput({
+    @_s.required this.portfolioId,
+    this.acceptLanguage,
+    this.portfolioShareType,
+  });
+  Map<String, dynamic> toJson() => _$AcceptPortfolioShareInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7620,6 +7656,28 @@ enum AccessStatus {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateBudgetWithResourceInput {
+  /// The name of the budget you want to associate.
+  @_s.JsonKey(name: 'BudgetName')
+  final String budgetName;
+
+  /// The resource identifier. Either a portfolio-id or a product-id.
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  AssociateBudgetWithResourceInput({
+    @_s.required this.budgetName,
+    @_s.required this.resourceId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AssociateBudgetWithResourceInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AssociateBudgetWithResourceOutput {
@@ -7627,6 +7685,50 @@ class AssociateBudgetWithResourceOutput {
   factory AssociateBudgetWithResourceOutput.fromJson(
           Map<String, dynamic> json) =>
       _$AssociateBudgetWithResourceOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociatePrincipalWithPortfolioInput {
+  /// The portfolio identifier.
+  @_s.JsonKey(name: 'PortfolioId')
+  final String portfolioId;
+
+  /// The ARN of the principal (IAM user, role, or group).
+  @_s.JsonKey(name: 'PrincipalARN')
+  final String principalARN;
+
+  /// The principal type. The supported value is <code>IAM</code>.
+  @_s.JsonKey(name: 'PrincipalType')
+  final PrincipalType principalType;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  AssociatePrincipalWithPortfolioInput({
+    @_s.required this.portfolioId,
+    @_s.required this.principalARN,
+    @_s.required this.principalType,
+    this.acceptLanguage,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AssociatePrincipalWithPortfolioInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7644,6 +7746,50 @@ class AssociatePrincipalWithPortfolioOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateProductWithPortfolioInput {
+  /// The portfolio identifier.
+  @_s.JsonKey(name: 'PortfolioId')
+  final String portfolioId;
+
+  /// The product identifier.
+  @_s.JsonKey(name: 'ProductId')
+  final String productId;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// The identifier of the source portfolio.
+  @_s.JsonKey(name: 'SourcePortfolioId')
+  final String sourcePortfolioId;
+
+  AssociateProductWithPortfolioInput({
+    @_s.required this.portfolioId,
+    @_s.required this.productId,
+    this.acceptLanguage,
+    this.sourcePortfolioId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AssociateProductWithPortfolioInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AssociateProductWithPortfolioOutput {
@@ -7651,6 +7797,52 @@ class AssociateProductWithPortfolioOutput {
   factory AssociateProductWithPortfolioOutput.fromJson(
           Map<String, dynamic> json) =>
       _$AssociateProductWithPortfolioOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateServiceActionWithProvisioningArtifactInput {
+  /// The product identifier. For example, <code>prod-abcdzk7xy33qa</code>.
+  @_s.JsonKey(name: 'ProductId')
+  final String productId;
+
+  /// The identifier of the provisioning artifact. For example,
+  /// <code>pa-4abcdjnxjj6ne</code>.
+  @_s.JsonKey(name: 'ProvisioningArtifactId')
+  final String provisioningArtifactId;
+
+  /// The self-service action identifier. For example,
+  /// <code>act-fs7abcd89wxyz</code>.
+  @_s.JsonKey(name: 'ServiceActionId')
+  final String serviceActionId;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  AssociateServiceActionWithProvisioningArtifactInput({
+    @_s.required this.productId,
+    @_s.required this.provisioningArtifactId,
+    @_s.required this.serviceActionId,
+    this.acceptLanguage,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AssociateServiceActionWithProvisioningArtifactInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7668,6 +7860,28 @@ class AssociateServiceActionWithProvisioningArtifactOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateTagOptionWithResourceInput {
+  /// The resource identifier.
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  /// The TagOption identifier.
+  @_s.JsonKey(name: 'TagOptionId')
+  final String tagOptionId;
+
+  AssociateTagOptionWithResourceInput({
+    @_s.required this.resourceId,
+    @_s.required this.tagOptionId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AssociateTagOptionWithResourceInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AssociateTagOptionWithResourceOutput {
@@ -7675,6 +7889,41 @@ class AssociateTagOptionWithResourceOutput {
   factory AssociateTagOptionWithResourceOutput.fromJson(
           Map<String, dynamic> json) =>
       _$AssociateTagOptionWithResourceOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchAssociateServiceActionWithProvisioningArtifactInput {
+  /// One or more associations, each consisting of the Action ID, the Product ID,
+  /// and the Provisioning Artifact ID.
+  @_s.JsonKey(name: 'ServiceActionAssociations')
+  final List<ServiceActionAssociation> serviceActionAssociations;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  BatchAssociateServiceActionWithProvisioningArtifactInput({
+    @_s.required this.serviceActionAssociations,
+    this.acceptLanguage,
+  });
+  Map<String, dynamic> toJson() =>
+      _$BatchAssociateServiceActionWithProvisioningArtifactInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7694,6 +7943,41 @@ class BatchAssociateServiceActionWithProvisioningArtifactOutput {
   factory BatchAssociateServiceActionWithProvisioningArtifactOutput.fromJson(
           Map<String, dynamic> json) =>
       _$BatchAssociateServiceActionWithProvisioningArtifactOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchDisassociateServiceActionFromProvisioningArtifactInput {
+  /// One or more associations, each consisting of the Action ID, the Product ID,
+  /// and the Provisioning Artifact ID.
+  @_s.JsonKey(name: 'ServiceActionAssociations')
+  final List<ServiceActionAssociation> serviceActionAssociations;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  BatchDisassociateServiceActionFromProvisioningArtifactInput({
+    @_s.required this.serviceActionAssociations,
+    this.acceptLanguage,
+  });
+  Map<String, dynamic> toJson() =>
+      _$BatchDisassociateServiceActionFromProvisioningArtifactInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7869,6 +8153,69 @@ enum CopyOption {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CopyProductInput {
+  /// A unique identifier that you provide to ensure idempotency. If multiple
+  /// requests differ only by the idempotency token, the same response is returned
+  /// for each repeated request.
+  @_s.JsonKey(name: 'IdempotencyToken')
+  final String idempotencyToken;
+
+  /// The Amazon Resource Name (ARN) of the source product.
+  @_s.JsonKey(name: 'SourceProductArn')
+  final String sourceProductArn;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// The copy options. If the value is <code>CopyTags</code>, the tags from the
+  /// source product are copied to the target product.
+  @_s.JsonKey(name: 'CopyOptions')
+  final List<String> copyOptions;
+
+  /// The identifiers of the provisioning artifacts (also known as versions) of
+  /// the product to copy. By default, all provisioning artifacts are copied.
+  @_s.JsonKey(name: 'SourceProvisioningArtifactIdentifiers')
+  final List<Map<String, String>> sourceProvisioningArtifactIdentifiers;
+
+  /// The identifier of the target product. By default, a new product is created.
+  @_s.JsonKey(name: 'TargetProductId')
+  final String targetProductId;
+
+  /// A name for the target product. The default is the name of the source
+  /// product.
+  @_s.JsonKey(name: 'TargetProductName')
+  final String targetProductName;
+
+  CopyProductInput({
+    @_s.required this.idempotencyToken,
+    @_s.required this.sourceProductArn,
+    this.acceptLanguage,
+    this.copyOptions,
+    this.sourceProvisioningArtifactIdentifiers,
+    this.targetProductId,
+    this.targetProductName,
+  });
+  Map<String, dynamic> toJson() => _$CopyProductInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CopyProductOutput {
@@ -7890,6 +8237,143 @@ enum CopyProductStatus {
   inProgress,
   @_s.JsonValue('FAILED')
   failed,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateConstraintInput {
+  /// A unique identifier that you provide to ensure idempotency. If multiple
+  /// requests differ only by the idempotency token, the same response is returned
+  /// for each repeated request.
+  @_s.JsonKey(name: 'IdempotencyToken')
+  final String idempotencyToken;
+
+  /// The constraint parameters, in JSON format. The syntax depends on the
+  /// constraint type as follows:
+  /// <dl> <dt>LAUNCH</dt> <dd>
+  /// You are required to specify either the <code>RoleArn</code> or the
+  /// <code>LocalRoleName</code> but can't use both.
+  ///
+  /// Specify the <code>RoleArn</code> property as follows:
+  ///
+  /// <code>{"RoleArn" : "arn:aws:iam::123456789012:role/LaunchRole"}</code>
+  ///
+  /// Specify the <code>LocalRoleName</code> property as follows:
+  ///
+  /// <code>{"LocalRoleName": "SCBasicLaunchRole"}</code>
+  ///
+  /// If you specify the <code>LocalRoleName</code> property, when an account uses
+  /// the launch constraint, the IAM role with that name in the account will be
+  /// used. This allows launch-role constraints to be account-agnostic so the
+  /// administrator can create fewer resources per shared account.
+  /// <note>
+  /// The given role name must exist in the account used to create the launch
+  /// constraint and the account of the user who launches a product with this
+  /// launch constraint.
+  /// </note>
+  /// You cannot have both a <code>LAUNCH</code> and a <code>STACKSET</code>
+  /// constraint.
+  ///
+  /// You also cannot have more than one <code>LAUNCH</code> constraint on a
+  /// product and portfolio.
+  /// </dd> <dt>NOTIFICATION</dt> <dd>
+  /// Specify the <code>NotificationArns</code> property as follows:
+  ///
+  /// <code>{"NotificationArns" :
+  /// ["arn:aws:sns:us-east-1:123456789012:Topic"]}</code>
+  /// </dd> <dt>RESOURCE_UPDATE</dt> <dd>
+  /// Specify the <code>TagUpdatesOnProvisionedProduct</code> property as follows:
+  ///
+  /// <code>{"Version":"2.0","Properties":{"TagUpdateOnProvisionedProduct":"String"}}</code>
+  ///
+  /// The <code>TagUpdatesOnProvisionedProduct</code> property accepts a string
+  /// value of <code>ALLOWED</code> or <code>NOT_ALLOWED</code>.
+  /// </dd> <dt>STACKSET</dt> <dd>
+  /// Specify the <code>Parameters</code> property as follows:
+  ///
+  /// <code>{"Version": "String", "Properties": {"AccountList": [ "String" ],
+  /// "RegionList": [ "String" ], "AdminRole": "String", "ExecutionRole":
+  /// "String"}}</code>
+  ///
+  /// You cannot have both a <code>LAUNCH</code> and a <code>STACKSET</code>
+  /// constraint.
+  ///
+  /// You also cannot have more than one <code>STACKSET</code> constraint on a
+  /// product and portfolio.
+  ///
+  /// Products with a <code>STACKSET</code> constraint will launch an AWS
+  /// CloudFormation stack set.
+  /// </dd> <dt>TEMPLATE</dt> <dd>
+  /// Specify the <code>Rules</code> property. For more information, see <a
+  /// href="http://docs.aws.amazon.com/servicecatalog/latest/adminguide/reference-template_constraint_rules.html">Template
+  /// Constraint Rules</a>.
+  /// </dd> </dl>
+  @_s.JsonKey(name: 'Parameters')
+  final String parameters;
+
+  /// The portfolio identifier.
+  @_s.JsonKey(name: 'PortfolioId')
+  final String portfolioId;
+
+  /// The product identifier.
+  @_s.JsonKey(name: 'ProductId')
+  final String productId;
+
+  /// The type of constraint.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>LAUNCH</code>
+  /// </li>
+  /// <li>
+  /// <code>NOTIFICATION</code>
+  /// </li>
+  /// <li>
+  /// <code>RESOURCE_UPDATE</code>
+  /// </li>
+  /// <li>
+  /// <code>STACKSET</code>
+  /// </li>
+  /// <li>
+  /// <code>TEMPLATE</code>
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Type')
+  final String type;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// The description of the constraint.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  CreateConstraintInput({
+    @_s.required this.idempotencyToken,
+    @_s.required this.parameters,
+    @_s.required this.portfolioId,
+    @_s.required this.productId,
+    @_s.required this.type,
+    this.acceptLanguage,
+    this.description,
+  });
+  Map<String, dynamic> toJson() => _$CreateConstraintInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7922,6 +8406,61 @@ class CreateConstraintOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreatePortfolioInput {
+  /// The name to use for display purposes.
+  @_s.JsonKey(name: 'DisplayName')
+  final String displayName;
+
+  /// A unique identifier that you provide to ensure idempotency. If multiple
+  /// requests differ only by the idempotency token, the same response is returned
+  /// for each repeated request.
+  @_s.JsonKey(name: 'IdempotencyToken')
+  final String idempotencyToken;
+
+  /// The name of the portfolio provider.
+  @_s.JsonKey(name: 'ProviderName')
+  final String providerName;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// The description of the portfolio.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// One or more tags.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreatePortfolioInput({
+    @_s.required this.displayName,
+    @_s.required this.idempotencyToken,
+    @_s.required this.providerName,
+    this.acceptLanguage,
+    this.description,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreatePortfolioInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreatePortfolioOutput {
@@ -7944,6 +8483,54 @@ class CreatePortfolioOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreatePortfolioShareInput {
+  /// The portfolio identifier.
+  @_s.JsonKey(name: 'PortfolioId')
+  final String portfolioId;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// The AWS account ID. For example, <code>123456789012</code>.
+  @_s.JsonKey(name: 'AccountId')
+  final String accountId;
+
+  /// The organization node to whom you are going to share. If
+  /// <code>OrganizationNode</code> is passed in, <code>PortfolioShare</code> will
+  /// be created for the node and its children (when applies), and a
+  /// <code>PortfolioShareToken</code> will be returned in the output in order for
+  /// the administrator to monitor the status of the <code>PortfolioShare</code>
+  /// creation process.
+  @_s.JsonKey(name: 'OrganizationNode')
+  final OrganizationNode organizationNode;
+
+  CreatePortfolioShareInput({
+    @_s.required this.portfolioId,
+    this.acceptLanguage,
+    this.accountId,
+    this.organizationNode,
+  });
+  Map<String, dynamic> toJson() => _$CreatePortfolioShareInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreatePortfolioShareOutput {
@@ -7957,6 +8544,91 @@ class CreatePortfolioShareOutput {
   });
   factory CreatePortfolioShareOutput.fromJson(Map<String, dynamic> json) =>
       _$CreatePortfolioShareOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateProductInput {
+  /// A unique identifier that you provide to ensure idempotency. If multiple
+  /// requests differ only by the idempotency token, the same response is returned
+  /// for each repeated request.
+  @_s.JsonKey(name: 'IdempotencyToken')
+  final String idempotencyToken;
+
+  /// The name of the product.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The owner of the product.
+  @_s.JsonKey(name: 'Owner')
+  final String owner;
+
+  /// The type of product.
+  @_s.JsonKey(name: 'ProductType')
+  final ProductType productType;
+
+  /// The configuration of the provisioning artifact.
+  @_s.JsonKey(name: 'ProvisioningArtifactParameters')
+  final ProvisioningArtifactProperties provisioningArtifactParameters;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// The description of the product.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The distributor of the product.
+  @_s.JsonKey(name: 'Distributor')
+  final String distributor;
+
+  /// The support information about the product.
+  @_s.JsonKey(name: 'SupportDescription')
+  final String supportDescription;
+
+  /// The contact email for product support.
+  @_s.JsonKey(name: 'SupportEmail')
+  final String supportEmail;
+
+  /// The contact URL for product support.
+  @_s.JsonKey(name: 'SupportUrl')
+  final String supportUrl;
+
+  /// One or more tags.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateProductInput({
+    @_s.required this.idempotencyToken,
+    @_s.required this.name,
+    @_s.required this.owner,
+    @_s.required this.productType,
+    @_s.required this.provisioningArtifactParameters,
+    this.acceptLanguage,
+    this.description,
+    this.distributor,
+    this.supportDescription,
+    this.supportEmail,
+    this.supportUrl,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateProductInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7984,6 +8656,97 @@ class CreateProductOutput {
   });
   factory CreateProductOutput.fromJson(Map<String, dynamic> json) =>
       _$CreateProductOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateProvisionedProductPlanInput {
+  /// A unique identifier that you provide to ensure idempotency. If multiple
+  /// requests differ only by the idempotency token, the same response is returned
+  /// for each repeated request.
+  @_s.JsonKey(name: 'IdempotencyToken')
+  final String idempotencyToken;
+
+  /// The name of the plan.
+  @_s.JsonKey(name: 'PlanName')
+  final String planName;
+
+  /// The plan type.
+  @_s.JsonKey(name: 'PlanType')
+  final ProvisionedProductPlanType planType;
+
+  /// The product identifier.
+  @_s.JsonKey(name: 'ProductId')
+  final String productId;
+
+  /// A user-friendly name for the provisioned product. This value must be unique
+  /// for the AWS account and cannot be updated after the product is provisioned.
+  @_s.JsonKey(name: 'ProvisionedProductName')
+  final String provisionedProductName;
+
+  /// The identifier of the provisioning artifact.
+  @_s.JsonKey(name: 'ProvisioningArtifactId')
+  final String provisioningArtifactId;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// Passed to CloudFormation. The SNS topic ARNs to which to publish
+  /// stack-related events.
+  @_s.JsonKey(name: 'NotificationArns')
+  final List<String> notificationArns;
+
+  /// The path identifier of the product. This value is optional if the product
+  /// has a default path, and required if the product has more than one path. To
+  /// list the paths for a product, use <a>ListLaunchPaths</a>.
+  @_s.JsonKey(name: 'PathId')
+  final String pathId;
+
+  /// Parameters specified by the administrator that are required for provisioning
+  /// the product.
+  @_s.JsonKey(name: 'ProvisioningParameters')
+  final List<UpdateProvisioningParameter> provisioningParameters;
+
+  /// One or more tags.
+  ///
+  /// If the plan is for an existing provisioned product, the product must have a
+  /// <code>RESOURCE_UPDATE</code> constraint with
+  /// <code>TagUpdatesOnProvisionedProduct</code> set to <code>ALLOWED</code> to
+  /// allow tag updates.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateProvisionedProductPlanInput({
+    @_s.required this.idempotencyToken,
+    @_s.required this.planName,
+    @_s.required this.planType,
+    @_s.required this.productId,
+    @_s.required this.provisionedProductName,
+    @_s.required this.provisioningArtifactId,
+    this.acceptLanguage,
+    this.notificationArns,
+    this.pathId,
+    this.provisioningParameters,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateProvisionedProductPlanInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8027,6 +8790,52 @@ class CreateProvisionedProductPlanOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateProvisioningArtifactInput {
+  /// A unique identifier that you provide to ensure idempotency. If multiple
+  /// requests differ only by the idempotency token, the same response is returned
+  /// for each repeated request.
+  @_s.JsonKey(name: 'IdempotencyToken')
+  final String idempotencyToken;
+
+  /// The configuration for the provisioning artifact.
+  @_s.JsonKey(name: 'Parameters')
+  final ProvisioningArtifactProperties parameters;
+
+  /// The product identifier.
+  @_s.JsonKey(name: 'ProductId')
+  final String productId;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  CreateProvisioningArtifactInput({
+    @_s.required this.idempotencyToken,
+    @_s.required this.parameters,
+    @_s.required this.productId,
+    this.acceptLanguage,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateProvisioningArtifactInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateProvisioningArtifactOutput {
@@ -8055,6 +8864,81 @@ class CreateProvisioningArtifactOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateServiceActionInput {
+  /// The self-service action definition. Can be one of the following:
+  /// <dl> <dt>Name</dt> <dd>
+  /// The name of the AWS Systems Manager Document. For example,
+  /// <code>AWS-RestartEC2Instance</code>.
+  /// </dd> <dt>Version</dt> <dd>
+  /// The AWS Systems Manager automation document version. For example,
+  /// <code>"Version": "1"</code>
+  /// </dd> <dt>AssumeRole</dt> <dd>
+  /// The Amazon Resource Name (ARN) of the role that performs the self-service
+  /// actions on your behalf. For example, <code>"AssumeRole":
+  /// "arn:aws:iam::12345678910:role/ActionRole"</code>.
+  ///
+  /// To reuse the provisioned product launch role, set to <code>"AssumeRole":
+  /// "LAUNCH_ROLE"</code>.
+  /// </dd> <dt>Parameters</dt> <dd>
+  /// The list of parameters in JSON format.
+  ///
+  /// For example: <code>[{\"Name\":\"InstanceId\",\"Type\":\"TARGET\"}]</code> or
+  /// <code>[{\"Name\":\"InstanceId\",\"Type\":\"TEXT_VALUE\"}]</code>.
+  /// </dd> </dl>
+  @_s.JsonKey(name: 'Definition')
+  final Map<String, String> definition;
+
+  /// The service action definition type. For example,
+  /// <code>SSM_AUTOMATION</code>.
+  @_s.JsonKey(name: 'DefinitionType')
+  final ServiceActionDefinitionType definitionType;
+
+  /// A unique identifier that you provide to ensure idempotency. If multiple
+  /// requests differ only by the idempotency token, the same response is returned
+  /// for each repeated request.
+  @_s.JsonKey(name: 'IdempotencyToken')
+  final String idempotencyToken;
+
+  /// The self-service action name.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// The self-service action description.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  CreateServiceActionInput({
+    @_s.required this.definition,
+    @_s.required this.definitionType,
+    @_s.required this.idempotencyToken,
+    @_s.required this.name,
+    this.acceptLanguage,
+    this.description,
+  });
+  Map<String, dynamic> toJson() => _$CreateServiceActionInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateServiceActionOutput {
@@ -8067,6 +8951,27 @@ class CreateServiceActionOutput {
   });
   factory CreateServiceActionOutput.fromJson(Map<String, dynamic> json) =>
       _$CreateServiceActionOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateTagOptionInput {
+  /// The TagOption key.
+  @_s.JsonKey(name: 'Key')
+  final String key;
+
+  /// The TagOption value.
+  @_s.JsonKey(name: 'Value')
+  final String value;
+
+  CreateTagOptionInput({
+    @_s.required this.key,
+    @_s.required this.value,
+  });
+  Map<String, dynamic> toJson() => _$CreateTagOptionInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8089,6 +8994,39 @@ class CreateTagOptionOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteConstraintInput {
+  /// The identifier of the constraint.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  DeleteConstraintInput({
+    @_s.required this.id,
+    this.acceptLanguage,
+  });
+  Map<String, dynamic> toJson() => _$DeleteConstraintInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteConstraintOutput {
@@ -8100,12 +9038,88 @@ class DeleteConstraintOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeletePortfolioInput {
+  /// The portfolio identifier.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  DeletePortfolioInput({
+    @_s.required this.id,
+    this.acceptLanguage,
+  });
+  Map<String, dynamic> toJson() => _$DeletePortfolioInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeletePortfolioOutput {
   DeletePortfolioOutput();
   factory DeletePortfolioOutput.fromJson(Map<String, dynamic> json) =>
       _$DeletePortfolioOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeletePortfolioShareInput {
+  /// The portfolio identifier.
+  @_s.JsonKey(name: 'PortfolioId')
+  final String portfolioId;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// The AWS account ID.
+  @_s.JsonKey(name: 'AccountId')
+  final String accountId;
+
+  /// The organization node to whom you are going to stop sharing.
+  @_s.JsonKey(name: 'OrganizationNode')
+  final OrganizationNode organizationNode;
+
+  DeletePortfolioShareInput({
+    @_s.required this.portfolioId,
+    this.acceptLanguage,
+    this.accountId,
+    this.organizationNode,
+  });
+  Map<String, dynamic> toJson() => _$DeletePortfolioShareInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8129,12 +9143,85 @@ class DeletePortfolioShareOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteProductInput {
+  /// The product identifier.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  DeleteProductInput({
+    @_s.required this.id,
+    this.acceptLanguage,
+  });
+  Map<String, dynamic> toJson() => _$DeleteProductInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteProductOutput {
   DeleteProductOutput();
   factory DeleteProductOutput.fromJson(Map<String, dynamic> json) =>
       _$DeleteProductOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteProvisionedProductPlanInput {
+  /// The plan identifier.
+  @_s.JsonKey(name: 'PlanId')
+  final String planId;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// If set to true, AWS Service Catalog stops managing the specified provisioned
+  /// product even if it cannot delete the underlying resources.
+  @_s.JsonKey(name: 'IgnoreErrors')
+  final bool ignoreErrors;
+
+  DeleteProvisionedProductPlanInput({
+    @_s.required this.planId,
+    this.acceptLanguage,
+    this.ignoreErrors,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteProvisionedProductPlanInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8152,6 +9239,45 @@ class DeleteProvisionedProductPlanOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteProvisioningArtifactInput {
+  /// The product identifier.
+  @_s.JsonKey(name: 'ProductId')
+  final String productId;
+
+  /// The identifier of the provisioning artifact.
+  @_s.JsonKey(name: 'ProvisioningArtifactId')
+  final String provisioningArtifactId;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  DeleteProvisioningArtifactInput({
+    @_s.required this.productId,
+    @_s.required this.provisioningArtifactId,
+    this.acceptLanguage,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteProvisioningArtifactInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteProvisioningArtifactOutput {
@@ -8159,6 +9285,40 @@ class DeleteProvisioningArtifactOutput {
   factory DeleteProvisioningArtifactOutput.fromJson(
           Map<String, dynamic> json) =>
       _$DeleteProvisioningArtifactOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteServiceActionInput {
+  /// The self-service action identifier. For example,
+  /// <code>act-fs7abcd89wxyz</code>.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  DeleteServiceActionInput({
+    @_s.required this.id,
+    this.acceptLanguage,
+  });
+  Map<String, dynamic> toJson() => _$DeleteServiceActionInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8175,12 +9335,61 @@ class DeleteServiceActionOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteTagOptionInput {
+  /// The TagOption identifier.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  DeleteTagOptionInput({
+    @_s.required this.id,
+  });
+  Map<String, dynamic> toJson() => _$DeleteTagOptionInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteTagOptionOutput {
   DeleteTagOptionOutput();
   factory DeleteTagOptionOutput.fromJson(Map<String, dynamic> json) =>
       _$DeleteTagOptionOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeConstraintInput {
+  /// The identifier of the constraint.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  DescribeConstraintInput({
+    @_s.required this.id,
+    this.acceptLanguage,
+  });
+  Map<String, dynamic> toJson() => _$DescribeConstraintInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8213,6 +9422,40 @@ class DescribeConstraintOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeCopyProductStatusInput {
+  /// The token for the copy product operation. This token is returned by
+  /// <a>CopyProduct</a>.
+  @_s.JsonKey(name: 'CopyProductToken')
+  final String copyProductToken;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  DescribeCopyProductStatusInput({
+    @_s.required this.copyProductToken,
+    this.acceptLanguage,
+  });
+  Map<String, dynamic> toJson() => _$DescribeCopyProductStatusInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeCopyProductStatusOutput {
@@ -8235,6 +9478,39 @@ class DescribeCopyProductStatusOutput {
   });
   factory DescribeCopyProductStatusOutput.fromJson(Map<String, dynamic> json) =>
       _$DescribeCopyProductStatusOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribePortfolioInput {
+  /// The portfolio identifier.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  DescribePortfolioInput({
+    @_s.required this.id,
+    this.acceptLanguage,
+  });
+  Map<String, dynamic> toJson() => _$DescribePortfolioInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8267,6 +9543,24 @@ class DescribePortfolioOutput {
   });
   factory DescribePortfolioOutput.fromJson(Map<String, dynamic> json) =>
       _$DescribePortfolioOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribePortfolioShareStatusInput {
+  /// The token for the portfolio share operation. This token is returned either
+  /// by CreatePortfolioShare or by DeletePortfolioShare.
+  @_s.JsonKey(name: 'PortfolioShareToken')
+  final String portfolioShareToken;
+
+  DescribePortfolioShareStatusInput({
+    @_s.required this.portfolioShareToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribePortfolioShareStatusInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8312,6 +9606,39 @@ class DescribePortfolioShareStatusOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeProductAsAdminInput {
+  /// The product identifier.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  DescribeProductAsAdminInput({
+    @_s.required this.id,
+    this.acceptLanguage,
+  });
+  Map<String, dynamic> toJson() => _$DescribeProductAsAdminInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeProductAsAdminOutput {
@@ -8350,6 +9677,39 @@ class DescribeProductAsAdminOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeProductInput {
+  /// The product identifier.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  DescribeProductInput({
+    @_s.required this.id,
+    this.acceptLanguage,
+  });
+  Map<String, dynamic> toJson() => _$DescribeProductInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeProductOutput {
@@ -8377,6 +9737,39 @@ class DescribeProductOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeProductViewInput {
+  /// The product view identifier.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  DescribeProductViewInput({
+    @_s.required this.id,
+    this.acceptLanguage,
+  });
+  Map<String, dynamic> toJson() => _$DescribeProductViewInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeProductViewOutput {
@@ -8394,6 +9787,40 @@ class DescribeProductViewOutput {
   });
   factory DescribeProductViewOutput.fromJson(Map<String, dynamic> json) =>
       _$DescribeProductViewOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeProvisionedProductInput {
+  /// The provisioned product identifier.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  DescribeProvisionedProductInput({
+    @_s.required this.id,
+    this.acceptLanguage,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeProvisionedProductInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8417,6 +9844,51 @@ class DescribeProvisionedProductOutput {
   factory DescribeProvisionedProductOutput.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeProvisionedProductOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeProvisionedProductPlanInput {
+  /// The plan identifier.
+  @_s.JsonKey(name: 'PlanId')
+  final String planId;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// The maximum number of items to return with this call.
+  @_s.JsonKey(name: 'PageSize')
+  final int pageSize;
+
+  /// The page token for the next set of results. To retrieve the first set of
+  /// results, use null.
+  @_s.JsonKey(name: 'PageToken')
+  final String pageToken;
+
+  DescribeProvisionedProductPlanInput({
+    @_s.required this.planId,
+    this.acceptLanguage,
+    this.pageSize,
+    this.pageToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeProvisionedProductPlanInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8452,6 +9924,50 @@ class DescribeProvisionedProductPlanOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeProvisioningArtifactInput {
+  /// The product identifier.
+  @_s.JsonKey(name: 'ProductId')
+  final String productId;
+
+  /// The identifier of the provisioning artifact.
+  @_s.JsonKey(name: 'ProvisioningArtifactId')
+  final String provisioningArtifactId;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// Indicates whether a verbose level of detail is enabled.
+  @_s.JsonKey(name: 'Verbose')
+  final bool verbose;
+
+  DescribeProvisioningArtifactInput({
+    @_s.required this.productId,
+    @_s.required this.provisioningArtifactId,
+    this.acceptLanguage,
+    this.verbose,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeProvisioningArtifactInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeProvisioningArtifactOutput {
@@ -8475,6 +9991,52 @@ class DescribeProvisioningArtifactOutput {
   factory DescribeProvisioningArtifactOutput.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeProvisioningArtifactOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeProvisioningParametersInput {
+  /// The product identifier.
+  @_s.JsonKey(name: 'ProductId')
+  final String productId;
+
+  /// The identifier of the provisioning artifact.
+  @_s.JsonKey(name: 'ProvisioningArtifactId')
+  final String provisioningArtifactId;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// The path identifier of the product. This value is optional if the product
+  /// has a default path, and required if the product has more than one path. To
+  /// list the paths for a product, use <a>ListLaunchPaths</a>.
+  @_s.JsonKey(name: 'PathId')
+  final String pathId;
+
+  DescribeProvisioningParametersInput({
+    @_s.required this.productId,
+    @_s.required this.provisioningArtifactId,
+    this.acceptLanguage,
+    this.pathId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeProvisioningParametersInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8521,6 +10083,51 @@ class DescribeProvisioningParametersOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeRecordInput {
+  /// The record identifier of the provisioned product. This identifier is
+  /// returned by the request operation.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// The maximum number of items to return with this call.
+  @_s.JsonKey(name: 'PageSize')
+  final int pageSize;
+
+  /// The page token for the next set of results. To retrieve the first set of
+  /// results, use null.
+  @_s.JsonKey(name: 'PageToken')
+  final String pageToken;
+
+  DescribeRecordInput({
+    @_s.required this.id,
+    this.acceptLanguage,
+    this.pageSize,
+    this.pageToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeRecordInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeRecordOutput {
@@ -8551,6 +10158,45 @@ class DescribeRecordOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeServiceActionExecutionParametersInput {
+  /// The identifier of the provisioned product.
+  @_s.JsonKey(name: 'ProvisionedProductId')
+  final String provisionedProductId;
+
+  /// The self-service action identifier.
+  @_s.JsonKey(name: 'ServiceActionId')
+  final String serviceActionId;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  DescribeServiceActionExecutionParametersInput({
+    @_s.required this.provisionedProductId,
+    @_s.required this.serviceActionId,
+    this.acceptLanguage,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeServiceActionExecutionParametersInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeServiceActionExecutionParametersOutput {
@@ -8569,6 +10215,39 @@ class DescribeServiceActionExecutionParametersOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeServiceActionInput {
+  /// The self-service action identifier.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  DescribeServiceActionInput({
+    @_s.required this.id,
+    this.acceptLanguage,
+  });
+  Map<String, dynamic> toJson() => _$DescribeServiceActionInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeServiceActionOutput {
@@ -8581,6 +10260,22 @@ class DescribeServiceActionOutput {
   });
   factory DescribeServiceActionOutput.fromJson(Map<String, dynamic> json) =>
       _$DescribeServiceActionOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeTagOptionInput {
+  /// The TagOption identifier.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  DescribeTagOptionInput({
+    @_s.required this.id,
+  });
+  Map<String, dynamic> toJson() => _$DescribeTagOptionInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8615,6 +10310,29 @@ class DisableAWSOrganizationsAccessOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateBudgetFromResourceInput {
+  /// The name of the budget you want to disassociate.
+  @_s.JsonKey(name: 'BudgetName')
+  final String budgetName;
+
+  /// The resource identifier you want to disassociate from. Either a portfolio-id
+  /// or a product-id.
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  DisassociateBudgetFromResourceInput({
+    @_s.required this.budgetName,
+    @_s.required this.resourceId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DisassociateBudgetFromResourceInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DisassociateBudgetFromResourceOutput {
@@ -8622,6 +10340,45 @@ class DisassociateBudgetFromResourceOutput {
   factory DisassociateBudgetFromResourceOutput.fromJson(
           Map<String, dynamic> json) =>
       _$DisassociateBudgetFromResourceOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociatePrincipalFromPortfolioInput {
+  /// The portfolio identifier.
+  @_s.JsonKey(name: 'PortfolioId')
+  final String portfolioId;
+
+  /// The ARN of the principal (IAM user, role, or group).
+  @_s.JsonKey(name: 'PrincipalARN')
+  final String principalARN;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  DisassociatePrincipalFromPortfolioInput({
+    @_s.required this.portfolioId,
+    @_s.required this.principalARN,
+    this.acceptLanguage,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DisassociatePrincipalFromPortfolioInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8639,6 +10396,45 @@ class DisassociatePrincipalFromPortfolioOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateProductFromPortfolioInput {
+  /// The portfolio identifier.
+  @_s.JsonKey(name: 'PortfolioId')
+  final String portfolioId;
+
+  /// The product identifier.
+  @_s.JsonKey(name: 'ProductId')
+  final String productId;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  DisassociateProductFromPortfolioInput({
+    @_s.required this.portfolioId,
+    @_s.required this.productId,
+    this.acceptLanguage,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DisassociateProductFromPortfolioInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DisassociateProductFromPortfolioOutput {
@@ -8651,6 +10447,52 @@ class DisassociateProductFromPortfolioOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateServiceActionFromProvisioningArtifactInput {
+  /// The product identifier. For example, <code>prod-abcdzk7xy33qa</code>.
+  @_s.JsonKey(name: 'ProductId')
+  final String productId;
+
+  /// The identifier of the provisioning artifact. For example,
+  /// <code>pa-4abcdjnxjj6ne</code>.
+  @_s.JsonKey(name: 'ProvisioningArtifactId')
+  final String provisioningArtifactId;
+
+  /// The self-service action identifier. For example,
+  /// <code>act-fs7abcd89wxyz</code>.
+  @_s.JsonKey(name: 'ServiceActionId')
+  final String serviceActionId;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  DisassociateServiceActionFromProvisioningArtifactInput({
+    @_s.required this.productId,
+    @_s.required this.provisioningArtifactId,
+    @_s.required this.serviceActionId,
+    this.acceptLanguage,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DisassociateServiceActionFromProvisioningArtifactInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DisassociateServiceActionFromProvisioningArtifactOutput {
@@ -8658,6 +10500,28 @@ class DisassociateServiceActionFromProvisioningArtifactOutput {
   factory DisassociateServiceActionFromProvisioningArtifactOutput.fromJson(
           Map<String, dynamic> json) =>
       _$DisassociateServiceActionFromProvisioningArtifactOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateTagOptionFromResourceInput {
+  /// The resource identifier.
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  /// The TagOption identifier.
+  @_s.JsonKey(name: 'TagOptionId')
+  final String tagOptionId;
+
+  DisassociateTagOptionFromResourceInput({
+    @_s.required this.resourceId,
+    @_s.required this.tagOptionId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DisassociateTagOptionFromResourceInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8694,6 +10558,47 @@ enum EvaluationType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ExecuteProvisionedProductPlanInput {
+  /// A unique identifier that you provide to ensure idempotency. If multiple
+  /// requests differ only by the idempotency token, the same response is returned
+  /// for each repeated request.
+  @_s.JsonKey(name: 'IdempotencyToken')
+  final String idempotencyToken;
+
+  /// The plan identifier.
+  @_s.JsonKey(name: 'PlanId')
+  final String planId;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  ExecuteProvisionedProductPlanInput({
+    @_s.required this.idempotencyToken,
+    @_s.required this.planId,
+    this.acceptLanguage,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ExecuteProvisionedProductPlanInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ExecuteProvisionedProductPlanOutput {
@@ -8707,6 +10612,61 @@ class ExecuteProvisionedProductPlanOutput {
   factory ExecuteProvisionedProductPlanOutput.fromJson(
           Map<String, dynamic> json) =>
       _$ExecuteProvisionedProductPlanOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ExecuteProvisionedProductServiceActionInput {
+  /// An idempotency token that uniquely identifies the execute request.
+  @_s.JsonKey(name: 'ExecuteToken')
+  final String executeToken;
+
+  /// The identifier of the provisioned product.
+  @_s.JsonKey(name: 'ProvisionedProductId')
+  final String provisionedProductId;
+
+  /// The self-service action identifier. For example,
+  /// <code>act-fs7abcd89wxyz</code>.
+  @_s.JsonKey(name: 'ServiceActionId')
+  final String serviceActionId;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// A map of all self-service action parameters and their values. If a provided
+  /// parameter is of a special type, such as <code>TARGET</code>, the provided
+  /// value will override the default value generated by AWS Service Catalog. If
+  /// the parameters field is not provided, no additional parameters are passed
+  /// and default values will be used for any special parameters such as
+  /// <code>TARGET</code>.
+  @_s.JsonKey(name: 'Parameters')
+  final Map<String, List<String>> parameters;
+
+  ExecuteProvisionedProductServiceActionInput({
+    @_s.required this.executeToken,
+    @_s.required this.provisionedProductId,
+    @_s.required this.serviceActionId,
+    this.acceptLanguage,
+    this.parameters,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ExecuteProvisionedProductServiceActionInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8852,6 +10812,65 @@ class LaunchPathSummary {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListAcceptedPortfolioSharesInput {
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// The maximum number of items to return with this call.
+  @_s.JsonKey(name: 'PageSize')
+  final int pageSize;
+
+  /// The page token for the next set of results. To retrieve the first set of
+  /// results, use null.
+  @_s.JsonKey(name: 'PageToken')
+  final String pageToken;
+
+  /// The type of shared portfolios to list. The default is to list imported
+  /// portfolios.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AWS_ORGANIZATIONS</code> - List portfolios shared by the master
+  /// account of your organization
+  /// </li>
+  /// <li>
+  /// <code>AWS_SERVICECATALOG</code> - List default portfolios
+  /// </li>
+  /// <li>
+  /// <code>IMPORTED</code> - List imported portfolios
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'PortfolioShareType')
+  final PortfolioShareType portfolioShareType;
+
+  ListAcceptedPortfolioSharesInput({
+    this.acceptLanguage,
+    this.pageSize,
+    this.pageToken,
+    this.portfolioShareType,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListAcceptedPortfolioSharesInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListAcceptedPortfolioSharesOutput {
@@ -8876,6 +10895,50 @@ class ListAcceptedPortfolioSharesOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListBudgetsForResourceInput {
+  /// The resource identifier.
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// The maximum number of items to return with this call.
+  @_s.JsonKey(name: 'PageSize')
+  final int pageSize;
+
+  /// The page token for the next set of results. To retrieve the first set of
+  /// results, use null.
+  @_s.JsonKey(name: 'PageToken')
+  final String pageToken;
+
+  ListBudgetsForResourceInput({
+    @_s.required this.resourceId,
+    this.acceptLanguage,
+    this.pageSize,
+    this.pageToken,
+  });
+  Map<String, dynamic> toJson() => _$ListBudgetsForResourceInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListBudgetsForResourceOutput {
@@ -8894,6 +10957,56 @@ class ListBudgetsForResourceOutput {
   });
   factory ListBudgetsForResourceOutput.fromJson(Map<String, dynamic> json) =>
       _$ListBudgetsForResourceOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListConstraintsForPortfolioInput {
+  /// The portfolio identifier.
+  @_s.JsonKey(name: 'PortfolioId')
+  final String portfolioId;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// The maximum number of items to return with this call.
+  @_s.JsonKey(name: 'PageSize')
+  final int pageSize;
+
+  /// The page token for the next set of results. To retrieve the first set of
+  /// results, use null.
+  @_s.JsonKey(name: 'PageToken')
+  final String pageToken;
+
+  /// The product identifier.
+  @_s.JsonKey(name: 'ProductId')
+  final String productId;
+
+  ListConstraintsForPortfolioInput({
+    @_s.required this.portfolioId,
+    this.acceptLanguage,
+    this.pageSize,
+    this.pageToken,
+    this.productId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListConstraintsForPortfolioInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8923,6 +11036,50 @@ class ListConstraintsForPortfolioOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListLaunchPathsInput {
+  /// The product identifier.
+  @_s.JsonKey(name: 'ProductId')
+  final String productId;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// The maximum number of items to return with this call.
+  @_s.JsonKey(name: 'PageSize')
+  final int pageSize;
+
+  /// The page token for the next set of results. To retrieve the first set of
+  /// results, use null.
+  @_s.JsonKey(name: 'PageToken')
+  final String pageToken;
+
+  ListLaunchPathsInput({
+    @_s.required this.productId,
+    this.acceptLanguage,
+    this.pageSize,
+    this.pageToken,
+  });
+  Map<String, dynamic> toJson() => _$ListLaunchPathsInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListLaunchPathsOutput {
@@ -8941,6 +11098,70 @@ class ListLaunchPathsOutput {
   });
   factory ListLaunchPathsOutput.fromJson(Map<String, dynamic> json) =>
       _$ListLaunchPathsOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListOrganizationPortfolioAccessInput {
+  /// The organization node type that will be returned in the output.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ORGANIZATION</code> - Organization that has access to the portfolio.
+  /// </li>
+  /// <li>
+  /// <code>ORGANIZATIONAL_UNIT</code> - Organizational unit that has access to
+  /// the portfolio within your organization.
+  /// </li>
+  /// <li>
+  /// <code>ACCOUNT</code> - Account that has access to the portfolio within your
+  /// organization.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'OrganizationNodeType')
+  final OrganizationNodeType organizationNodeType;
+
+  /// The portfolio identifier. For example, <code>port-2abcdext3y5fk</code>.
+  @_s.JsonKey(name: 'PortfolioId')
+  final String portfolioId;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// The maximum number of items to return with this call.
+  @_s.JsonKey(name: 'PageSize')
+  final int pageSize;
+
+  /// The page token for the next set of results. To retrieve the first set of
+  /// results, use null.
+  @_s.JsonKey(name: 'PageToken')
+  final String pageToken;
+
+  ListOrganizationPortfolioAccessInput({
+    @_s.required this.organizationNodeType,
+    @_s.required this.portfolioId,
+    this.acceptLanguage,
+    this.pageSize,
+    this.pageToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListOrganizationPortfolioAccessInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8970,6 +11191,56 @@ class ListOrganizationPortfolioAccessOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListPortfolioAccessInput {
+  /// The portfolio identifier.
+  @_s.JsonKey(name: 'PortfolioId')
+  final String portfolioId;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// The ID of an organization node the portfolio is shared with. All children of
+  /// this node with an inherited portfolio share will be returned.
+  @_s.JsonKey(name: 'OrganizationParentId')
+  final String organizationParentId;
+
+  /// The maximum number of items to return with this call.
+  @_s.JsonKey(name: 'PageSize')
+  final int pageSize;
+
+  /// The page token for the next set of results. To retrieve the first set of
+  /// results, use null.
+  @_s.JsonKey(name: 'PageToken')
+  final String pageToken;
+
+  ListPortfolioAccessInput({
+    @_s.required this.portfolioId,
+    this.acceptLanguage,
+    this.organizationParentId,
+    this.pageSize,
+    this.pageToken,
+  });
+  Map<String, dynamic> toJson() => _$ListPortfolioAccessInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListPortfolioAccessOutput {
@@ -8988,6 +11259,50 @@ class ListPortfolioAccessOutput {
   });
   factory ListPortfolioAccessOutput.fromJson(Map<String, dynamic> json) =>
       _$ListPortfolioAccessOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListPortfoliosForProductInput {
+  /// The product identifier.
+  @_s.JsonKey(name: 'ProductId')
+  final String productId;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// The maximum number of items to return with this call.
+  @_s.JsonKey(name: 'PageSize')
+  final int pageSize;
+
+  /// The page token for the next set of results. To retrieve the first set of
+  /// results, use null.
+  @_s.JsonKey(name: 'PageToken')
+  final String pageToken;
+
+  ListPortfoliosForProductInput({
+    @_s.required this.productId,
+    this.acceptLanguage,
+    this.pageSize,
+    this.pageToken,
+  });
+  Map<String, dynamic> toJson() => _$ListPortfoliosForProductInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -9016,6 +11331,45 @@ class ListPortfoliosForProductOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListPortfoliosInput {
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// The maximum number of items to return with this call.
+  @_s.JsonKey(name: 'PageSize')
+  final int pageSize;
+
+  /// The page token for the next set of results. To retrieve the first set of
+  /// results, use null.
+  @_s.JsonKey(name: 'PageToken')
+  final String pageToken;
+
+  ListPortfoliosInput({
+    this.acceptLanguage,
+    this.pageSize,
+    this.pageToken,
+  });
+  Map<String, dynamic> toJson() => _$ListPortfoliosInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListPortfoliosOutput {
@@ -9034,6 +11388,51 @@ class ListPortfoliosOutput {
   });
   factory ListPortfoliosOutput.fromJson(Map<String, dynamic> json) =>
       _$ListPortfoliosOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListPrincipalsForPortfolioInput {
+  /// The portfolio identifier.
+  @_s.JsonKey(name: 'PortfolioId')
+  final String portfolioId;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// The maximum number of items to return with this call.
+  @_s.JsonKey(name: 'PageSize')
+  final int pageSize;
+
+  /// The page token for the next set of results. To retrieve the first set of
+  /// results, use null.
+  @_s.JsonKey(name: 'PageToken')
+  final String pageToken;
+
+  ListPrincipalsForPortfolioInput({
+    @_s.required this.portfolioId,
+    this.acceptLanguage,
+    this.pageSize,
+    this.pageToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListPrincipalsForPortfolioInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -9063,6 +11462,56 @@ class ListPrincipalsForPortfolioOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListProvisionedProductPlansInput {
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// The access level to use to obtain results. The default is <code>User</code>.
+  @_s.JsonKey(name: 'AccessLevelFilter')
+  final AccessLevelFilter accessLevelFilter;
+
+  /// The maximum number of items to return with this call.
+  @_s.JsonKey(name: 'PageSize')
+  final int pageSize;
+
+  /// The page token for the next set of results. To retrieve the first set of
+  /// results, use null.
+  @_s.JsonKey(name: 'PageToken')
+  final String pageToken;
+
+  /// The product identifier.
+  @_s.JsonKey(name: 'ProvisionProductId')
+  final String provisionProductId;
+
+  ListProvisionedProductPlansInput({
+    this.acceptLanguage,
+    this.accessLevelFilter,
+    this.pageSize,
+    this.pageToken,
+    this.provisionProductId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListProvisionedProductPlansInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListProvisionedProductPlansOutput {
@@ -9082,6 +11531,52 @@ class ListProvisionedProductPlansOutput {
   factory ListProvisionedProductPlansOutput.fromJson(
           Map<String, dynamic> json) =>
       _$ListProvisionedProductPlansOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListProvisioningArtifactsForServiceActionInput {
+  /// The self-service action identifier. For example,
+  /// <code>act-fs7abcd89wxyz</code>.
+  @_s.JsonKey(name: 'ServiceActionId')
+  final String serviceActionId;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// The maximum number of items to return with this call.
+  @_s.JsonKey(name: 'PageSize')
+  final int pageSize;
+
+  /// The page token for the next set of results. To retrieve the first set of
+  /// results, use null.
+  @_s.JsonKey(name: 'PageToken')
+  final String pageToken;
+
+  ListProvisioningArtifactsForServiceActionInput({
+    @_s.required this.serviceActionId,
+    this.acceptLanguage,
+    this.pageSize,
+    this.pageToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListProvisioningArtifactsForServiceActionInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -9112,6 +11607,39 @@ class ListProvisioningArtifactsForServiceActionOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListProvisioningArtifactsInput {
+  /// The product identifier.
+  @_s.JsonKey(name: 'ProductId')
+  final String productId;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  ListProvisioningArtifactsInput({
+    @_s.required this.productId,
+    this.acceptLanguage,
+  });
+  Map<String, dynamic> toJson() => _$ListProvisioningArtifactsInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListProvisioningArtifactsOutput {
@@ -9130,6 +11658,55 @@ class ListProvisioningArtifactsOutput {
   });
   factory ListProvisioningArtifactsOutput.fromJson(Map<String, dynamic> json) =>
       _$ListProvisioningArtifactsOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListRecordHistoryInput {
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// The access level to use to obtain results. The default is <code>User</code>.
+  @_s.JsonKey(name: 'AccessLevelFilter')
+  final AccessLevelFilter accessLevelFilter;
+
+  /// The maximum number of items to return with this call.
+  @_s.JsonKey(name: 'PageSize')
+  final int pageSize;
+
+  /// The page token for the next set of results. To retrieve the first set of
+  /// results, use null.
+  @_s.JsonKey(name: 'PageToken')
+  final String pageToken;
+
+  /// The search filter to scope the results.
+  @_s.JsonKey(name: 'SearchFilter')
+  final ListRecordHistorySearchFilter searchFilter;
+
+  ListRecordHistoryInput({
+    this.acceptLanguage,
+    this.accessLevelFilter,
+    this.pageSize,
+    this.pageToken,
+    this.searchFilter,
+  });
+  Map<String, dynamic> toJson() => _$ListRecordHistoryInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -9191,6 +11768,47 @@ class ListRecordHistorySearchFilter {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListResourcesForTagOptionInput {
+  /// The TagOption identifier.
+  @_s.JsonKey(name: 'TagOptionId')
+  final String tagOptionId;
+
+  /// The maximum number of items to return with this call.
+  @_s.JsonKey(name: 'PageSize')
+  final int pageSize;
+
+  /// The page token for the next set of results. To retrieve the first set of
+  /// results, use null.
+  @_s.JsonKey(name: 'PageToken')
+  final String pageToken;
+
+  /// The resource type.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Portfolio</code>
+  /// </li>
+  /// <li>
+  /// <code>Product</code>
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ResourceType')
+  final String resourceType;
+
+  ListResourcesForTagOptionInput({
+    @_s.required this.tagOptionId,
+    this.pageSize,
+    this.pageToken,
+    this.resourceType,
+  });
+  Map<String, dynamic> toJson() => _$ListResourcesForTagOptionInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListResourcesForTagOptionOutput {
@@ -9209,6 +11827,57 @@ class ListResourcesForTagOptionOutput {
   });
   factory ListResourcesForTagOptionOutput.fromJson(Map<String, dynamic> json) =>
       _$ListResourcesForTagOptionOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListServiceActionsForProvisioningArtifactInput {
+  /// The product identifier. For example, <code>prod-abcdzk7xy33qa</code>.
+  @_s.JsonKey(name: 'ProductId')
+  final String productId;
+
+  /// The identifier of the provisioning artifact. For example,
+  /// <code>pa-4abcdjnxjj6ne</code>.
+  @_s.JsonKey(name: 'ProvisioningArtifactId')
+  final String provisioningArtifactId;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// The maximum number of items to return with this call.
+  @_s.JsonKey(name: 'PageSize')
+  final int pageSize;
+
+  /// The page token for the next set of results. To retrieve the first set of
+  /// results, use null.
+  @_s.JsonKey(name: 'PageToken')
+  final String pageToken;
+
+  ListServiceActionsForProvisioningArtifactInput({
+    @_s.required this.productId,
+    @_s.required this.provisioningArtifactId,
+    this.acceptLanguage,
+    this.pageSize,
+    this.pageToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListServiceActionsForProvisioningArtifactInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -9239,6 +11908,45 @@ class ListServiceActionsForProvisioningArtifactOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListServiceActionsInput {
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// The maximum number of items to return with this call.
+  @_s.JsonKey(name: 'PageSize')
+  final int pageSize;
+
+  /// The page token for the next set of results. To retrieve the first set of
+  /// results, use null.
+  @_s.JsonKey(name: 'PageToken')
+  final String pageToken;
+
+  ListServiceActionsInput({
+    this.acceptLanguage,
+    this.pageSize,
+    this.pageToken,
+  });
+  Map<String, dynamic> toJson() => _$ListServiceActionsInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListServiceActionsOutput {
@@ -9258,6 +11966,51 @@ class ListServiceActionsOutput {
   });
   factory ListServiceActionsOutput.fromJson(Map<String, dynamic> json) =>
       _$ListServiceActionsOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListStackInstancesForProvisionedProductInput {
+  /// The identifier of the provisioned product.
+  @_s.JsonKey(name: 'ProvisionedProductId')
+  final String provisionedProductId;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// The maximum number of items to return with this call.
+  @_s.JsonKey(name: 'PageSize')
+  final int pageSize;
+
+  /// The page token for the next set of results. To retrieve the first set of
+  /// results, use null.
+  @_s.JsonKey(name: 'PageToken')
+  final String pageToken;
+
+  ListStackInstancesForProvisionedProductInput({
+    @_s.required this.provisionedProductId,
+    this.acceptLanguage,
+    this.pageSize,
+    this.pageToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListStackInstancesForProvisionedProductInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -9309,6 +12062,34 @@ class ListTagOptionsFilters {
     this.value,
   });
   Map<String, dynamic> toJson() => _$ListTagOptionsFiltersToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagOptionsInput {
+  /// The search filters. If no search filters are specified, the output includes
+  /// all TagOptions.
+  @_s.JsonKey(name: 'Filters')
+  final ListTagOptionsFilters filters;
+
+  /// The maximum number of items to return with this call.
+  @_s.JsonKey(name: 'PageSize')
+  final int pageSize;
+
+  /// The page token for the next set of results. To retrieve the first set of
+  /// results, use null.
+  @_s.JsonKey(name: 'PageToken')
+  final String pageToken;
+
+  ListTagOptionsInput({
+    this.filters,
+    this.pageSize,
+    this.pageToken,
+  });
+  Map<String, dynamic> toJson() => _$ListTagOptionsInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -9366,20 +12147,6 @@ enum OrganizationNodeType {
   organizationalUnit,
   @_s.JsonValue('ACCOUNT')
   account,
-}
-
-extension on OrganizationNodeType {
-  String toValue() {
-    switch (this) {
-      case OrganizationNodeType.organization:
-        return 'ORGANIZATION';
-      case OrganizationNodeType.organizationalUnit:
-        return 'ORGANIZATIONAL_UNIT';
-      case OrganizationNodeType.account:
-        return 'ACCOUNT';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// The constraints that the administrator has put on the parameter.
@@ -9455,20 +12222,6 @@ enum PortfolioShareType {
   awsOrganizations,
 }
 
-extension on PortfolioShareType {
-  String toValue() {
-    switch (this) {
-      case PortfolioShareType.imported:
-        return 'IMPORTED';
-      case PortfolioShareType.awsServicecatalog:
-        return 'AWS_SERVICECATALOG';
-      case PortfolioShareType.awsOrganizations:
-        return 'AWS_ORGANIZATIONS';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Information about a principal.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -9497,29 +12250,9 @@ enum PrincipalType {
   iam,
 }
 
-extension on PrincipalType {
-  String toValue() {
-    switch (this) {
-      case PrincipalType.iam:
-        return 'IAM';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum ProductSource {
   @_s.JsonValue('ACCOUNT')
   account,
-}
-
-extension on ProductSource {
-  String toValue() {
-    switch (this) {
-      case ProductSource.account:
-        return 'ACCOUNT';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 enum ProductType {
@@ -9527,18 +12260,6 @@ enum ProductType {
   cloudFormationTemplate,
   @_s.JsonValue('MARKETPLACE')
   marketplace,
-}
-
-extension on ProductType {
-  String toValue() {
-    switch (this) {
-      case ProductType.cloudFormationTemplate:
-        return 'CLOUD_FORMATION_TEMPLATE';
-      case ProductType.marketplace:
-        return 'MARKETPLACE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// A single product view aggregation value/count pair, containing metadata
@@ -9634,20 +12355,6 @@ enum ProductViewSortBy {
   creationDate,
 }
 
-extension on ProductViewSortBy {
-  String toValue() {
-    switch (this) {
-      case ProductViewSortBy.title:
-        return 'Title';
-      case ProductViewSortBy.versionCount:
-        return 'VersionCount';
-      case ProductViewSortBy.creationDate:
-        return 'CreationDate';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Summary information about a product view.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -9727,6 +12434,85 @@ class ProductViewSummary {
 enum PropertyKey {
   @_s.JsonValue('OWNER')
   owner,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ProvisionProductInput {
+  /// The product identifier.
+  @_s.JsonKey(name: 'ProductId')
+  final String productId;
+
+  /// An idempotency token that uniquely identifies the provisioning request.
+  @_s.JsonKey(name: 'ProvisionToken')
+  final String provisionToken;
+
+  /// A user-friendly name for the provisioned product. This value must be unique
+  /// for the AWS account and cannot be updated after the product is provisioned.
+  @_s.JsonKey(name: 'ProvisionedProductName')
+  final String provisionedProductName;
+
+  /// The identifier of the provisioning artifact.
+  @_s.JsonKey(name: 'ProvisioningArtifactId')
+  final String provisioningArtifactId;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// Passed to CloudFormation. The SNS topic ARNs to which to publish
+  /// stack-related events.
+  @_s.JsonKey(name: 'NotificationArns')
+  final List<String> notificationArns;
+
+  /// The path identifier of the product. This value is optional if the product
+  /// has a default path, and required if the product has more than one path. To
+  /// list the paths for a product, use <a>ListLaunchPaths</a>.
+  @_s.JsonKey(name: 'PathId')
+  final String pathId;
+
+  /// Parameters specified by the administrator that are required for provisioning
+  /// the product.
+  @_s.JsonKey(name: 'ProvisioningParameters')
+  final List<ProvisioningParameter> provisioningParameters;
+
+  /// An object that contains information about the provisioning preferences for a
+  /// stack set.
+  @_s.JsonKey(name: 'ProvisioningPreferences')
+  final ProvisioningPreferences provisioningPreferences;
+
+  /// One or more tags.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  ProvisionProductInput({
+    @_s.required this.productId,
+    @_s.required this.provisionToken,
+    @_s.required this.provisionedProductName,
+    @_s.required this.provisioningArtifactId,
+    this.acceptLanguage,
+    this.notificationArns,
+    this.pathId,
+    this.provisioningParameters,
+    this.provisioningPreferences,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$ProvisionProductInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10139,16 +12925,6 @@ enum ProvisionedProductPlanType {
   cloudformation,
 }
 
-extension on ProvisionedProductPlanType {
-  String toValue() {
-    switch (this) {
-      case ProvisionedProductPlanType.cloudformation:
-        return 'CLOUDFORMATION';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum ProvisionedProductStatus {
   @_s.JsonValue('AVAILABLE')
   available,
@@ -10280,18 +13056,6 @@ enum ProvisioningArtifactGuidance {
   $default,
   @_s.JsonValue('DEPRECATED')
   deprecated,
-}
-
-extension on ProvisioningArtifactGuidance {
-  String toValue() {
-    switch (this) {
-      case ProvisioningArtifactGuidance.$default:
-        return 'DEFAULT';
-      case ProvisioningArtifactGuidance.deprecated:
-        return 'DEPRECATED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Information about a parameter used to provision a product.
@@ -10866,6 +13630,61 @@ class RecordTag {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RejectPortfolioShareInput {
+  /// The portfolio identifier.
+  @_s.JsonKey(name: 'PortfolioId')
+  final String portfolioId;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// The type of shared portfolios to reject. The default is to reject imported
+  /// portfolios.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AWS_ORGANIZATIONS</code> - Reject portfolios shared by the master
+  /// account of your organization.
+  /// </li>
+  /// <li>
+  /// <code>IMPORTED</code> - Reject imported portfolios.
+  /// </li>
+  /// <li>
+  /// <code>AWS_SERVICECATALOG</code> - Not supported. (Throws
+  /// ResourceNotFoundException.)
+  /// </li>
+  /// </ul>
+  /// For example, <code>aws servicecatalog reject-portfolio-share --portfolio-id
+  /// "port-2qwzkwxt3y5fk" --portfolio-share-type AWS_ORGANIZATIONS</code>
+  @_s.JsonKey(name: 'PortfolioShareType')
+  final PortfolioShareType portfolioShareType;
+
+  RejectPortfolioShareInput({
+    @_s.required this.portfolioId,
+    this.acceptLanguage,
+    this.portfolioShareType,
+  });
+  Map<String, dynamic> toJson() => _$RejectPortfolioShareInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class RejectPortfolioShareOutput {
@@ -11060,6 +13879,50 @@ class ResourceTargetDefinition {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ScanProvisionedProductsInput {
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// The access level to use to obtain results. The default is <code>User</code>.
+  @_s.JsonKey(name: 'AccessLevelFilter')
+  final AccessLevelFilter accessLevelFilter;
+
+  /// The maximum number of items to return with this call.
+  @_s.JsonKey(name: 'PageSize')
+  final int pageSize;
+
+  /// The page token for the next set of results. To retrieve the first set of
+  /// results, use null.
+  @_s.JsonKey(name: 'PageToken')
+  final String pageToken;
+
+  ScanProvisionedProductsInput({
+    this.acceptLanguage,
+    this.accessLevelFilter,
+    this.pageSize,
+    this.pageToken,
+  });
+  Map<String, dynamic> toJson() => _$ScanProvisionedProductsInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ScanProvisionedProductsOutput {
@@ -11078,6 +13941,71 @@ class ScanProvisionedProductsOutput {
   });
   factory ScanProvisionedProductsOutput.fromJson(Map<String, dynamic> json) =>
       _$ScanProvisionedProductsOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SearchProductsAsAdminInput {
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// The search filters. If no search filters are specified, the output includes
+  /// all products to which the administrator has access.
+  @_s.JsonKey(name: 'Filters')
+  final Map<String, List<String>> filters;
+
+  /// The maximum number of items to return with this call.
+  @_s.JsonKey(name: 'PageSize')
+  final int pageSize;
+
+  /// The page token for the next set of results. To retrieve the first set of
+  /// results, use null.
+  @_s.JsonKey(name: 'PageToken')
+  final String pageToken;
+
+  /// The portfolio identifier.
+  @_s.JsonKey(name: 'PortfolioId')
+  final String portfolioId;
+
+  /// Access level of the source of the product.
+  @_s.JsonKey(name: 'ProductSource')
+  final ProductSource productSource;
+
+  /// The sort field. If no value is specified, the results are not sorted.
+  @_s.JsonKey(name: 'SortBy')
+  final ProductViewSortBy sortBy;
+
+  /// The sort order. If no value is specified, the results are not sorted.
+  @_s.JsonKey(name: 'SortOrder')
+  final SortOrder sortOrder;
+
+  SearchProductsAsAdminInput({
+    this.acceptLanguage,
+    this.filters,
+    this.pageSize,
+    this.pageToken,
+    this.portfolioId,
+    this.productSource,
+    this.sortBy,
+    this.sortOrder,
+  });
+  Map<String, dynamic> toJson() => _$SearchProductsAsAdminInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -11106,6 +14034,61 @@ class SearchProductsAsAdminOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SearchProductsInput {
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// The search filters. If no search filters are specified, the output includes
+  /// all products to which the caller has access.
+  @_s.JsonKey(name: 'Filters')
+  final Map<String, List<String>> filters;
+
+  /// The maximum number of items to return with this call.
+  @_s.JsonKey(name: 'PageSize')
+  final int pageSize;
+
+  /// The page token for the next set of results. To retrieve the first set of
+  /// results, use null.
+  @_s.JsonKey(name: 'PageToken')
+  final String pageToken;
+
+  /// The sort field. If no value is specified, the results are not sorted.
+  @_s.JsonKey(name: 'SortBy')
+  final ProductViewSortBy sortBy;
+
+  /// The sort order. If no value is specified, the results are not sorted.
+  @_s.JsonKey(name: 'SortOrder')
+  final SortOrder sortOrder;
+
+  SearchProductsInput({
+    this.acceptLanguage,
+    this.filters,
+    this.pageSize,
+    this.pageToken,
+    this.sortBy,
+    this.sortOrder,
+  });
+  Map<String, dynamic> toJson() => _$SearchProductsInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class SearchProductsOutput {
@@ -11129,6 +14112,76 @@ class SearchProductsOutput {
   });
   factory SearchProductsOutput.fromJson(Map<String, dynamic> json) =>
       _$SearchProductsOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SearchProvisionedProductsInput {
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// The access level to use to obtain results. The default is <code>User</code>.
+  @_s.JsonKey(name: 'AccessLevelFilter')
+  final AccessLevelFilter accessLevelFilter;
+
+  /// The search filters.
+  ///
+  /// When the key is <code>SearchQuery</code>, the searchable fields are
+  /// <code>arn</code>, <code>createdTime</code>, <code>id</code>,
+  /// <code>lastRecordId</code>, <code>idempotencyToken</code>, <code>name</code>,
+  /// <code>physicalId</code>, <code>productId</code>,
+  /// <code>provisioningArtifact</code>, <code>type</code>, <code>status</code>,
+  /// <code>tags</code>, <code>userArn</code>, and <code>userArnSession</code>.
+  ///
+  /// Example: <code>"SearchQuery":["status:AVAILABLE"]</code>
+  @_s.JsonKey(name: 'Filters')
+  final Map<String, List<String>> filters;
+
+  /// The maximum number of items to return with this call.
+  @_s.JsonKey(name: 'PageSize')
+  final int pageSize;
+
+  /// The page token for the next set of results. To retrieve the first set of
+  /// results, use null.
+  @_s.JsonKey(name: 'PageToken')
+  final String pageToken;
+
+  /// The sort field. If no value is specified, the results are not sorted. The
+  /// valid values are <code>arn</code>, <code>id</code>, <code>name</code>, and
+  /// <code>lastRecordId</code>.
+  @_s.JsonKey(name: 'SortBy')
+  final String sortBy;
+
+  /// The sort order. If no value is specified, the results are not sorted.
+  @_s.JsonKey(name: 'SortOrder')
+  final SortOrder sortOrder;
+
+  SearchProvisionedProductsInput({
+    this.acceptLanguage,
+    this.accessLevelFilter,
+    this.filters,
+    this.pageSize,
+    this.pageToken,
+    this.sortBy,
+    this.sortOrder,
+  });
+  Map<String, dynamic> toJson() => _$SearchProvisionedProductsInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -11216,16 +14269,6 @@ enum ServiceActionDefinitionKey {
 enum ServiceActionDefinitionType {
   @_s.JsonValue('SSM_AUTOMATION')
   ssmAutomation,
-}
-
-extension on ServiceActionDefinitionType {
-  String toValue() {
-    switch (this) {
-      case ServiceActionDefinitionType.ssmAutomation:
-        return 'SSM_AUTOMATION';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// An object containing detailed information about the self-service action.
@@ -11354,18 +14397,6 @@ enum SortOrder {
   ascending,
   @_s.JsonValue('DESCENDING')
   descending,
-}
-
-extension on SortOrder {
-  String toValue() {
-    switch (this) {
-      case SortOrder.ascending:
-        return 'ASCENDING';
-      case SortOrder.descending:
-        return 'DESCENDING';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// An AWS CloudFormation stack, in a specific account and region, that's part
@@ -11536,6 +14567,61 @@ class TagOptionSummary {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TerminateProvisionedProductInput {
+  /// An idempotency token that uniquely identifies the termination request. This
+  /// token is only valid during the termination process. After the provisioned
+  /// product is terminated, subsequent requests to terminate the same provisioned
+  /// product always return <b>ResourceNotFound</b>.
+  @_s.JsonKey(name: 'TerminateToken')
+  final String terminateToken;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// If set to true, AWS Service Catalog stops managing the specified provisioned
+  /// product even if it cannot delete the underlying resources.
+  @_s.JsonKey(name: 'IgnoreErrors')
+  final bool ignoreErrors;
+
+  /// The identifier of the provisioned product. You cannot specify both
+  /// <code>ProvisionedProductName</code> and <code>ProvisionedProductId</code>.
+  @_s.JsonKey(name: 'ProvisionedProductId')
+  final String provisionedProductId;
+
+  /// The name of the provisioned product. You cannot specify both
+  /// <code>ProvisionedProductName</code> and <code>ProvisionedProductId</code>.
+  @_s.JsonKey(name: 'ProvisionedProductName')
+  final String provisionedProductName;
+
+  TerminateProvisionedProductInput({
+    @_s.required this.terminateToken,
+    this.acceptLanguage,
+    this.ignoreErrors,
+    this.provisionedProductId,
+    this.provisionedProductName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$TerminateProvisionedProductInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TerminateProvisionedProductOutput {
@@ -11549,6 +14635,108 @@ class TerminateProvisionedProductOutput {
   factory TerminateProvisionedProductOutput.fromJson(
           Map<String, dynamic> json) =>
       _$TerminateProvisionedProductOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateConstraintInput {
+  /// The identifier of the constraint.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// The updated description of the constraint.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The constraint parameters, in JSON format. The syntax depends on the
+  /// constraint type as follows:
+  /// <dl> <dt>LAUNCH</dt> <dd>
+  /// You are required to specify either the <code>RoleArn</code> or the
+  /// <code>LocalRoleName</code> but can't use both.
+  ///
+  /// Specify the <code>RoleArn</code> property as follows:
+  ///
+  /// <code>{"RoleArn" : "arn:aws:iam::123456789012:role/LaunchRole"}</code>
+  ///
+  /// Specify the <code>LocalRoleName</code> property as follows:
+  ///
+  /// <code>{"LocalRoleName": "SCBasicLaunchRole"}</code>
+  ///
+  /// If you specify the <code>LocalRoleName</code> property, when an account uses
+  /// the launch constraint, the IAM role with that name in the account will be
+  /// used. This allows launch-role constraints to be account-agnostic so the
+  /// administrator can create fewer resources per shared account.
+  /// <note>
+  /// The given role name must exist in the account used to create the launch
+  /// constraint and the account of the user who launches a product with this
+  /// launch constraint.
+  /// </note>
+  /// You cannot have both a <code>LAUNCH</code> and a <code>STACKSET</code>
+  /// constraint.
+  ///
+  /// You also cannot have more than one <code>LAUNCH</code> constraint on a
+  /// product and portfolio.
+  /// </dd> <dt>NOTIFICATION</dt> <dd>
+  /// Specify the <code>NotificationArns</code> property as follows:
+  ///
+  /// <code>{"NotificationArns" :
+  /// ["arn:aws:sns:us-east-1:123456789012:Topic"]}</code>
+  /// </dd> <dt>RESOURCE_UPDATE</dt> <dd>
+  /// Specify the <code>TagUpdatesOnProvisionedProduct</code> property as follows:
+  ///
+  /// <code>{"Version":"2.0","Properties":{"TagUpdateOnProvisionedProduct":"String"}}</code>
+  ///
+  /// The <code>TagUpdatesOnProvisionedProduct</code> property accepts a string
+  /// value of <code>ALLOWED</code> or <code>NOT_ALLOWED</code>.
+  /// </dd> <dt>STACKSET</dt> <dd>
+  /// Specify the <code>Parameters</code> property as follows:
+  ///
+  /// <code>{"Version": "String", "Properties": {"AccountList": [ "String" ],
+  /// "RegionList": [ "String" ], "AdminRole": "String", "ExecutionRole":
+  /// "String"}}</code>
+  ///
+  /// You cannot have both a <code>LAUNCH</code> and a <code>STACKSET</code>
+  /// constraint.
+  ///
+  /// You also cannot have more than one <code>STACKSET</code> constraint on a
+  /// product and portfolio.
+  ///
+  /// Products with a <code>STACKSET</code> constraint will launch an AWS
+  /// CloudFormation stack set.
+  /// </dd> <dt>TEMPLATE</dt> <dd>
+  /// Specify the <code>Rules</code> property. For more information, see <a
+  /// href="http://docs.aws.amazon.com/servicecatalog/latest/adminguide/reference-template_constraint_rules.html">Template
+  /// Constraint Rules</a>.
+  /// </dd> </dl>
+  @_s.JsonKey(name: 'Parameters')
+  final String parameters;
+
+  UpdateConstraintInput({
+    @_s.required this.id,
+    this.acceptLanguage,
+    this.description,
+    this.parameters,
+  });
+  Map<String, dynamic> toJson() => _$UpdateConstraintInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -11581,6 +14769,64 @@ class UpdateConstraintOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdatePortfolioInput {
+  /// The portfolio identifier.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// The tags to add.
+  @_s.JsonKey(name: 'AddTags')
+  final List<Tag> addTags;
+
+  /// The updated description of the portfolio.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The name to use for display purposes.
+  @_s.JsonKey(name: 'DisplayName')
+  final String displayName;
+
+  /// The updated name of the portfolio provider.
+  @_s.JsonKey(name: 'ProviderName')
+  final String providerName;
+
+  /// The tags to remove.
+  @_s.JsonKey(name: 'RemoveTags')
+  final List<String> removeTags;
+
+  UpdatePortfolioInput({
+    @_s.required this.id,
+    this.acceptLanguage,
+    this.addTags,
+    this.description,
+    this.displayName,
+    this.providerName,
+    this.removeTags,
+  });
+  Map<String, dynamic> toJson() => _$UpdatePortfolioInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdatePortfolioOutput {
@@ -11598,6 +14844,84 @@ class UpdatePortfolioOutput {
   });
   factory UpdatePortfolioOutput.fromJson(Map<String, dynamic> json) =>
       _$UpdatePortfolioOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateProductInput {
+  /// The product identifier.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// The tags to add to the product.
+  @_s.JsonKey(name: 'AddTags')
+  final List<Tag> addTags;
+
+  /// The updated description of the product.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The updated distributor of the product.
+  @_s.JsonKey(name: 'Distributor')
+  final String distributor;
+
+  /// The updated product name.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The updated owner of the product.
+  @_s.JsonKey(name: 'Owner')
+  final String owner;
+
+  /// The tags to remove from the product.
+  @_s.JsonKey(name: 'RemoveTags')
+  final List<String> removeTags;
+
+  /// The updated support description for the product.
+  @_s.JsonKey(name: 'SupportDescription')
+  final String supportDescription;
+
+  /// The updated support email for the product.
+  @_s.JsonKey(name: 'SupportEmail')
+  final String supportEmail;
+
+  /// The updated support URL for the product.
+  @_s.JsonKey(name: 'SupportUrl')
+  final String supportUrl;
+
+  UpdateProductInput({
+    @_s.required this.id,
+    this.acceptLanguage,
+    this.addTags,
+    this.description,
+    this.distributor,
+    this.name,
+    this.owner,
+    this.removeTags,
+    this.supportDescription,
+    this.supportEmail,
+    this.supportUrl,
+  });
+  Map<String, dynamic> toJson() => _$UpdateProductInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -11625,6 +14949,86 @@ class UpdateProductOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateProvisionedProductInput {
+  /// The idempotency token that uniquely identifies the provisioning update
+  /// request.
+  @_s.JsonKey(name: 'UpdateToken')
+  final String updateToken;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// The new path identifier. This value is optional if the product has a default
+  /// path, and required if the product has more than one path.
+  @_s.JsonKey(name: 'PathId')
+  final String pathId;
+
+  /// The identifier of the product.
+  @_s.JsonKey(name: 'ProductId')
+  final String productId;
+
+  /// The identifier of the provisioned product. You cannot specify both
+  /// <code>ProvisionedProductName</code> and <code>ProvisionedProductId</code>.
+  @_s.JsonKey(name: 'ProvisionedProductId')
+  final String provisionedProductId;
+
+  /// The name of the provisioned product. You cannot specify both
+  /// <code>ProvisionedProductName</code> and <code>ProvisionedProductId</code>.
+  @_s.JsonKey(name: 'ProvisionedProductName')
+  final String provisionedProductName;
+
+  /// The identifier of the provisioning artifact.
+  @_s.JsonKey(name: 'ProvisioningArtifactId')
+  final String provisioningArtifactId;
+
+  /// The new parameters.
+  @_s.JsonKey(name: 'ProvisioningParameters')
+  final List<UpdateProvisioningParameter> provisioningParameters;
+
+  /// An object that contains information about the provisioning preferences for a
+  /// stack set.
+  @_s.JsonKey(name: 'ProvisioningPreferences')
+  final UpdateProvisioningPreferences provisioningPreferences;
+
+  /// One or more tags. Requires the product to have <code>RESOURCE_UPDATE</code>
+  /// constraint with <code>TagUpdatesOnProvisionedProduct</code> set to
+  /// <code>ALLOWED</code> to allow tag updates.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  UpdateProvisionedProductInput({
+    @_s.required this.updateToken,
+    this.acceptLanguage,
+    this.pathId,
+    this.productId,
+    this.provisionedProductId,
+    this.provisionedProductName,
+    this.provisioningArtifactId,
+    this.provisioningParameters,
+    this.provisioningPreferences,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$UpdateProvisionedProductInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateProvisionedProductOutput {
@@ -11637,6 +15041,71 @@ class UpdateProvisionedProductOutput {
   });
   factory UpdateProvisionedProductOutput.fromJson(Map<String, dynamic> json) =>
       _$UpdateProvisionedProductOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateProvisionedProductPropertiesInput {
+  /// The idempotency token that uniquely identifies the provisioning product
+  /// update request.
+  @_s.JsonKey(name: 'IdempotencyToken')
+  final String idempotencyToken;
+
+  /// The identifier of the provisioned product.
+  @_s.JsonKey(name: 'ProvisionedProductId')
+  final String provisionedProductId;
+
+  /// A map that contains the provisioned product properties to be updated.
+  ///
+  /// The <code>OWNER</code> key only accepts user ARNs. The owner is the user
+  /// that is allowed to see, update, terminate, and execute service actions in
+  /// the provisioned product.
+  ///
+  /// The administrator can change the owner of a provisioned product to another
+  /// IAM user within the same account. Both end user owners and administrators
+  /// can see ownership history of the provisioned product using the
+  /// <code>ListRecordHistory</code> API. The new owner can describe all past
+  /// records for the provisioned product using the <code>DescribeRecord</code>
+  /// API. The previous owner can no longer use <code>DescribeRecord</code>, but
+  /// can still see the product's history from when he was an owner using
+  /// <code>ListRecordHistory</code>.
+  ///
+  /// If a provisioned product ownership is assigned to an end user, they can see
+  /// and perform any action through the API or Service Catalog console such as
+  /// update, terminate, and execute service actions. If an end user provisions a
+  /// product and the owner is updated to someone else, they will no longer be
+  /// able to see or perform any actions through API or the Service Catalog
+  /// console on that provisioned product.
+  @_s.JsonKey(name: 'ProvisionedProductProperties')
+  final Map<String, String> provisionedProductProperties;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  UpdateProvisionedProductPropertiesInput({
+    @_s.required this.idempotencyToken,
+    @_s.required this.provisionedProductId,
+    @_s.required this.provisionedProductProperties,
+    this.acceptLanguage,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateProvisionedProductPropertiesInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -11670,6 +15139,77 @@ class UpdateProvisionedProductPropertiesOutput {
   factory UpdateProvisionedProductPropertiesOutput.fromJson(
           Map<String, dynamic> json) =>
       _$UpdateProvisionedProductPropertiesOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateProvisioningArtifactInput {
+  /// The product identifier.
+  @_s.JsonKey(name: 'ProductId')
+  final String productId;
+
+  /// The identifier of the provisioning artifact.
+  @_s.JsonKey(name: 'ProvisioningArtifactId')
+  final String provisioningArtifactId;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// Indicates whether the product version is active.
+  ///
+  /// Inactive provisioning artifacts are invisible to end users. End users cannot
+  /// launch or update a provisioned product from an inactive provisioning
+  /// artifact.
+  @_s.JsonKey(name: 'Active')
+  final bool active;
+
+  /// The updated description of the provisioning artifact.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// Information set by the administrator to provide guidance to end users about
+  /// which provisioning artifacts to use.
+  ///
+  /// The <code>DEFAULT</code> value indicates that the product version is active.
+  ///
+  /// The administrator can set the guidance to <code>DEPRECATED</code> to inform
+  /// users that the product version is deprecated. Users are able to make updates
+  /// to a provisioned product of a deprecated version but cannot launch new
+  /// provisioned products using a deprecated version.
+  @_s.JsonKey(name: 'Guidance')
+  final ProvisioningArtifactGuidance guidance;
+
+  /// The updated name of the provisioning artifact.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  UpdateProvisioningArtifactInput({
+    @_s.required this.productId,
+    @_s.required this.provisioningArtifactId,
+    this.acceptLanguage,
+    this.active,
+    this.description,
+    this.guidance,
+    this.name,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateProvisioningArtifactInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -11870,6 +15410,54 @@ class UpdateProvisioningPreferences {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateServiceActionInput {
+  /// The self-service action identifier.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AcceptLanguage')
+  final String acceptLanguage;
+
+  /// A map that defines the self-service action.
+  @_s.JsonKey(name: 'Definition')
+  final Map<String, String> definition;
+
+  /// The self-service action description.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The self-service action name.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  UpdateServiceActionInput({
+    @_s.required this.id,
+    this.acceptLanguage,
+    this.definition,
+    this.description,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$UpdateServiceActionInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateServiceActionOutput {
@@ -11882,6 +15470,32 @@ class UpdateServiceActionOutput {
   });
   factory UpdateServiceActionOutput.fromJson(Map<String, dynamic> json) =>
       _$UpdateServiceActionOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateTagOptionInput {
+  /// The TagOption identifier.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// The updated active state.
+  @_s.JsonKey(name: 'Active')
+  final bool active;
+
+  /// The updated value.
+  @_s.JsonKey(name: 'Value')
+  final String value;
+
+  UpdateTagOptionInput({
+    @_s.required this.id,
+    this.active,
+    this.value,
+  });
+  Map<String, dynamic> toJson() => _$UpdateTagOptionInputToJson(this);
 }
 
 @_s.JsonSerializable(

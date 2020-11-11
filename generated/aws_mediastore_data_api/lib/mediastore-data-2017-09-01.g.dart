@@ -6,6 +6,10 @@ part of 'mediastore-data-2017-09-01.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$DeleteObjectRequestToJson(
+        DeleteObjectRequest instance) =>
+    <String, dynamic>{};
+
 DeleteObjectResponse _$DeleteObjectResponseFromJson(Map<String, dynamic> json) {
   return DeleteObjectResponse();
 }

@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -72,10 +71,10 @@ class Inspector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'attributes': attributes,
-        'findingArns': findingArns,
-      },
+      payload: AddAttributesToFindingsRequest(
+        attributes: attributes,
+        findingArns: findingArns,
+      ),
     );
 
     return AddAttributesToFindingsResponse.fromJson(jsonResponse.body);
@@ -139,10 +138,10 @@ class Inspector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'assessmentTargetName': assessmentTargetName,
-        if (resourceGroupArn != null) 'resourceGroupArn': resourceGroupArn,
-      },
+      payload: CreateAssessmentTargetRequest(
+        assessmentTargetName: assessmentTargetName,
+        resourceGroupArn: resourceGroupArn,
+      ),
     );
 
     return CreateAssessmentTargetResponse.fromJson(jsonResponse.body);
@@ -227,14 +226,13 @@ class Inspector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'assessmentTargetArn': assessmentTargetArn,
-        'assessmentTemplateName': assessmentTemplateName,
-        'durationInSeconds': durationInSeconds,
-        'rulesPackageArns': rulesPackageArns,
-        if (userAttributesForFindings != null)
-          'userAttributesForFindings': userAttributesForFindings,
-      },
+      payload: CreateAssessmentTemplateRequest(
+        assessmentTargetArn: assessmentTargetArn,
+        assessmentTemplateName: assessmentTemplateName,
+        durationInSeconds: durationInSeconds,
+        rulesPackageArns: rulesPackageArns,
+        userAttributesForFindings: userAttributesForFindings,
+      ),
     );
 
     return CreateAssessmentTemplateResponse.fromJson(jsonResponse.body);
@@ -276,9 +274,9 @@ class Inspector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'assessmentTemplateArn': assessmentTemplateArn,
-      },
+      payload: CreateExclusionsPreviewRequest(
+        assessmentTemplateArn: assessmentTemplateArn,
+      ),
     );
 
     return CreateExclusionsPreviewResponse.fromJson(jsonResponse.body);
@@ -315,9 +313,9 @@ class Inspector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'resourceGroupTags': resourceGroupTags,
-      },
+      payload: CreateResourceGroupRequest(
+        resourceGroupTags: resourceGroupTags,
+      ),
     );
 
     return CreateResourceGroupResponse.fromJson(jsonResponse.body);
@@ -356,9 +354,9 @@ class Inspector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'assessmentRunArn': assessmentRunArn,
-      },
+      payload: DeleteAssessmentRunRequest(
+        assessmentRunArn: assessmentRunArn,
+      ),
     );
   }
 
@@ -395,9 +393,9 @@ class Inspector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'assessmentTargetArn': assessmentTargetArn,
-      },
+      payload: DeleteAssessmentTargetRequest(
+        assessmentTargetArn: assessmentTargetArn,
+      ),
     );
   }
 
@@ -434,9 +432,9 @@ class Inspector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'assessmentTemplateArn': assessmentTemplateArn,
-      },
+      payload: DeleteAssessmentTemplateRequest(
+        assessmentTemplateArn: assessmentTemplateArn,
+      ),
     );
   }
 
@@ -462,9 +460,9 @@ class Inspector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'assessmentRunArns': assessmentRunArns,
-      },
+      payload: DescribeAssessmentRunsRequest(
+        assessmentRunArns: assessmentRunArns,
+      ),
     );
 
     return DescribeAssessmentRunsResponse.fromJson(jsonResponse.body);
@@ -492,9 +490,9 @@ class Inspector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'assessmentTargetArns': assessmentTargetArns,
-      },
+      payload: DescribeAssessmentTargetsRequest(
+        assessmentTargetArns: assessmentTargetArns,
+      ),
     );
 
     return DescribeAssessmentTargetsResponse.fromJson(jsonResponse.body);
@@ -520,9 +518,9 @@ class Inspector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'assessmentTemplateArns': assessmentTemplateArns,
-      },
+      payload: DescribeAssessmentTemplatesRequest(
+        assessmentTemplateArns: assessmentTemplateArns,
+      ),
     );
 
     return DescribeAssessmentTemplatesResponse.fromJson(jsonResponse.body);
@@ -575,10 +573,10 @@ class Inspector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'exclusionArns': exclusionArns,
-        if (locale != null) 'locale': locale?.toValue(),
-      },
+      payload: DescribeExclusionsRequest(
+        exclusionArns: exclusionArns,
+        locale: locale,
+      ),
     );
 
     return DescribeExclusionsResponse.fromJson(jsonResponse.body);
@@ -610,10 +608,10 @@ class Inspector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'findingArns': findingArns,
-        if (locale != null) 'locale': locale?.toValue(),
-      },
+      payload: DescribeFindingsRequest(
+        findingArns: findingArns,
+        locale: locale,
+      ),
     );
 
     return DescribeFindingsResponse.fromJson(jsonResponse.body);
@@ -641,9 +639,9 @@ class Inspector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'resourceGroupArns': resourceGroupArns,
-      },
+      payload: DescribeResourceGroupsRequest(
+        resourceGroupArns: resourceGroupArns,
+      ),
     );
 
     return DescribeResourceGroupsResponse.fromJson(jsonResponse.body);
@@ -675,10 +673,10 @@ class Inspector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'rulesPackageArns': rulesPackageArns,
-        if (locale != null) 'locale': locale?.toValue(),
-      },
+      payload: DescribeRulesPackagesRequest(
+        rulesPackageArns: rulesPackageArns,
+        locale: locale,
+      ),
     );
 
     return DescribeRulesPackagesResponse.fromJson(jsonResponse.body);
@@ -734,11 +732,11 @@ class Inspector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'assessmentRunArn': assessmentRunArn,
-        'reportFileFormat': reportFileFormat?.toValue(),
-        'reportType': reportType?.toValue(),
-      },
+      payload: GetAssessmentReportRequest(
+        assessmentRunArn: assessmentRunArn,
+        reportFileFormat: reportFileFormat,
+        reportType: reportType,
+      ),
     );
 
     return GetAssessmentReportResponse.fromJson(jsonResponse.body);
@@ -812,13 +810,13 @@ class Inspector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'assessmentTemplateArn': assessmentTemplateArn,
-        'previewToken': previewToken,
-        if (locale != null) 'locale': locale?.toValue(),
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: GetExclusionsPreviewRequest(
+        assessmentTemplateArn: assessmentTemplateArn,
+        previewToken: previewToken,
+        locale: locale,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return GetExclusionsPreviewResponse.fromJson(jsonResponse.body);
@@ -856,9 +854,9 @@ class Inspector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'assessmentRunArn': assessmentRunArn,
-      },
+      payload: GetTelemetryMetadataRequest(
+        assessmentRunArn: assessmentRunArn,
+      ),
     );
 
     return GetTelemetryMetadataResponse.fromJson(jsonResponse.body);
@@ -924,12 +922,12 @@ class Inspector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'assessmentRunArn': assessmentRunArn,
-        if (filter != null) 'filter': filter,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListAssessmentRunAgentsRequest(
+        assessmentRunArn: assessmentRunArn,
+        filter: filter,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListAssessmentRunAgentsResponse.fromJson(jsonResponse.body);
@@ -988,13 +986,12 @@ class Inspector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (assessmentTemplateArns != null)
-          'assessmentTemplateArns': assessmentTemplateArns,
-        if (filter != null) 'filter': filter,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListAssessmentRunsRequest(
+        assessmentTemplateArns: assessmentTemplateArns,
+        filter: filter,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListAssessmentRunsResponse.fromJson(jsonResponse.body);
@@ -1048,11 +1045,11 @@ class Inspector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filter != null) 'filter': filter,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListAssessmentTargetsRequest(
+        filter: filter,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListAssessmentTargetsResponse.fromJson(jsonResponse.body);
@@ -1110,13 +1107,12 @@ class Inspector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (assessmentTargetArns != null)
-          'assessmentTargetArns': assessmentTargetArns,
-        if (filter != null) 'filter': filter,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListAssessmentTemplatesRequest(
+        assessmentTargetArns: assessmentTargetArns,
+        filter: filter,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListAssessmentTemplatesResponse.fromJson(jsonResponse.body);
@@ -1172,11 +1168,11 @@ class Inspector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (resourceArn != null) 'resourceArn': resourceArn,
-      },
+      payload: ListEventSubscriptionsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+        resourceArn: resourceArn,
+      ),
     );
 
     return ListEventSubscriptionsResponse.fromJson(jsonResponse.body);
@@ -1231,11 +1227,11 @@ class Inspector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'assessmentRunArn': assessmentRunArn,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListExclusionsRequest(
+        assessmentRunArn: assessmentRunArn,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListExclusionsResponse.fromJson(jsonResponse.body);
@@ -1293,12 +1289,12 @@ class Inspector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (assessmentRunArns != null) 'assessmentRunArns': assessmentRunArns,
-        if (filter != null) 'filter': filter,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListFindingsRequest(
+        assessmentRunArns: assessmentRunArns,
+        filter: filter,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListFindingsResponse.fromJson(jsonResponse.body);
@@ -1340,10 +1336,10 @@ class Inspector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListRulesPackagesRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListRulesPackagesResponse.fromJson(jsonResponse.body);
@@ -1380,9 +1376,9 @@ class Inspector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'resourceArn': resourceArn,
-      },
+      payload: ListTagsForResourceRequest(
+        resourceArn: resourceArn,
+      ),
     );
 
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
@@ -1439,11 +1435,11 @@ class Inspector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'previewAgentsArn': previewAgentsArn,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: PreviewAgentsRequest(
+        previewAgentsArn: previewAgentsArn,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return PreviewAgentsResponse.fromJson(jsonResponse.body);
@@ -1482,9 +1478,9 @@ class Inspector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'roleArn': roleArn,
-      },
+      payload: RegisterCrossAccountAccessRoleRequest(
+        roleArn: roleArn,
+      ),
     );
   }
 
@@ -1521,10 +1517,10 @@ class Inspector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'attributeKeys': attributeKeys,
-        'findingArns': findingArns,
-      },
+      payload: RemoveAttributesFromFindingsRequest(
+        attributeKeys: attributeKeys,
+        findingArns: findingArns,
+      ),
     );
 
     return RemoveAttributesFromFindingsResponse.fromJson(jsonResponse.body);
@@ -1567,10 +1563,10 @@ class Inspector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'resourceArn': resourceArn,
-        if (tags != null) 'tags': tags,
-      },
+      payload: SetTagsForResourceRequest(
+        resourceArn: resourceArn,
+        tags: tags,
+      ),
     );
   }
 
@@ -1622,10 +1618,10 @@ class Inspector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'assessmentTemplateArn': assessmentTemplateArn,
-        if (assessmentRunName != null) 'assessmentRunName': assessmentRunName,
-      },
+      payload: StartAssessmentRunRequest(
+        assessmentTemplateArn: assessmentTemplateArn,
+        assessmentRunName: assessmentRunName,
+      ),
     );
 
     return StartAssessmentRunResponse.fromJson(jsonResponse.body);
@@ -1671,10 +1667,10 @@ class Inspector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'assessmentRunArn': assessmentRunArn,
-        if (stopAction != null) 'stopAction': stopAction?.toValue(),
-      },
+      payload: StopAssessmentRunRequest(
+        assessmentRunArn: assessmentRunArn,
+        stopAction: stopAction,
+      ),
     );
   }
 
@@ -1729,11 +1725,11 @@ class Inspector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'event': event?.toValue(),
-        'resourceArn': resourceArn,
-        'topicArn': topicArn,
-      },
+      payload: SubscribeToEventRequest(
+        event: event,
+        resourceArn: resourceArn,
+        topicArn: topicArn,
+      ),
     );
   }
 
@@ -1787,11 +1783,11 @@ class Inspector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'event': event?.toValue(),
-        'resourceArn': resourceArn,
-        'topicArn': topicArn,
-      },
+      payload: UnsubscribeFromEventRequest(
+        event: event,
+        resourceArn: resourceArn,
+        topicArn: topicArn,
+      ),
     );
   }
 
@@ -1853,13 +1849,34 @@ class Inspector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'assessmentTargetArn': assessmentTargetArn,
-        'assessmentTargetName': assessmentTargetName,
-        if (resourceGroupArn != null) 'resourceGroupArn': resourceGroupArn,
-      },
+      payload: UpdateAssessmentTargetRequest(
+        assessmentTargetArn: assessmentTargetArn,
+        assessmentTargetName: assessmentTargetName,
+        resourceGroupArn: resourceGroupArn,
+      ),
     );
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AddAttributesToFindingsRequest {
+  /// The array of attributes that you want to assign to specified findings.
+  @_s.JsonKey(name: 'attributes')
+  final List<Attribute> attributes;
+
+  /// The ARNs that specify the findings that you want to assign attributes to.
+  @_s.JsonKey(name: 'findingArns')
+  final List<String> findingArns;
+
+  AddAttributesToFindingsRequest({
+    @_s.required this.attributes,
+    @_s.required this.findingArns,
+  });
+  Map<String, dynamic> toJson() => _$AddAttributesToFindingsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2586,6 +2603,30 @@ class Attribute {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateAssessmentTargetRequest {
+  /// The user-defined name that identifies the assessment target that you want to
+  /// create. The name must be unique within the AWS account.
+  @_s.JsonKey(name: 'assessmentTargetName')
+  final String assessmentTargetName;
+
+  /// The ARN that specifies the resource group that is used to create the
+  /// assessment target. If resourceGroupArn is not specified, all EC2 instances
+  /// in the current AWS account and region are included in the assessment target.
+  @_s.JsonKey(name: 'resourceGroupArn')
+  final String resourceGroupArn;
+
+  CreateAssessmentTargetRequest({
+    @_s.required this.assessmentTargetName,
+    this.resourceGroupArn,
+  });
+  Map<String, dynamic> toJson() => _$CreateAssessmentTargetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateAssessmentTargetResponse {
@@ -2598,6 +2639,51 @@ class CreateAssessmentTargetResponse {
   });
   factory CreateAssessmentTargetResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateAssessmentTargetResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateAssessmentTemplateRequest {
+  /// The ARN that specifies the assessment target for which you want to create
+  /// the assessment template.
+  @_s.JsonKey(name: 'assessmentTargetArn')
+  final String assessmentTargetArn;
+
+  /// The user-defined name that identifies the assessment template that you want
+  /// to create. You can create several assessment templates for an assessment
+  /// target. The names of the assessment templates that correspond to a
+  /// particular assessment target must be unique.
+  @_s.JsonKey(name: 'assessmentTemplateName')
+  final String assessmentTemplateName;
+
+  /// The duration of the assessment run in seconds.
+  @_s.JsonKey(name: 'durationInSeconds')
+  final int durationInSeconds;
+
+  /// The ARNs that specify the rules packages that you want to attach to the
+  /// assessment template.
+  @_s.JsonKey(name: 'rulesPackageArns')
+  final List<String> rulesPackageArns;
+
+  /// The user-defined attributes that are assigned to every finding that is
+  /// generated by the assessment run that uses this assessment template. An
+  /// attribute is a key and value pair (an <a>Attribute</a> object). Within an
+  /// assessment template, each key must be unique.
+  @_s.JsonKey(name: 'userAttributesForFindings')
+  final List<Attribute> userAttributesForFindings;
+
+  CreateAssessmentTemplateRequest({
+    @_s.required this.assessmentTargetArn,
+    @_s.required this.assessmentTemplateName,
+    @_s.required this.durationInSeconds,
+    @_s.required this.rulesPackageArns,
+    this.userAttributesForFindings,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateAssessmentTemplateRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2616,6 +2702,23 @@ class CreateAssessmentTemplateResponse {
   factory CreateAssessmentTemplateResponse.fromJson(
           Map<String, dynamic> json) =>
       _$CreateAssessmentTemplateResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateExclusionsPreviewRequest {
+  /// The ARN that specifies the assessment template for which you want to create
+  /// an exclusions preview.
+  @_s.JsonKey(name: 'assessmentTemplateArn')
+  final String assessmentTemplateArn;
+
+  CreateExclusionsPreviewRequest({
+    @_s.required this.assessmentTemplateArn,
+  });
+  Map<String, dynamic> toJson() => _$CreateExclusionsPreviewRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2640,6 +2743,25 @@ class CreateExclusionsPreviewResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateResourceGroupRequest {
+  /// A collection of keys and an array of possible values,
+  /// '[{"key":"key1","values":["Value1","Value2"]},{"key":"Key2","values":["Value3"]}]'.
+  ///
+  /// For example,'[{"key":"Name","values":["TestEC2Instance"]}]'.
+  @_s.JsonKey(name: 'resourceGroupTags')
+  final List<ResourceGroupTag> resourceGroupTags;
+
+  CreateResourceGroupRequest({
+    @_s.required this.resourceGroupTags,
+  });
+  Map<String, dynamic> toJson() => _$CreateResourceGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateResourceGroupResponse {
@@ -2652,6 +2774,71 @@ class CreateResourceGroupResponse {
   });
   factory CreateResourceGroupResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateResourceGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteAssessmentRunRequest {
+  /// The ARN that specifies the assessment run that you want to delete.
+  @_s.JsonKey(name: 'assessmentRunArn')
+  final String assessmentRunArn;
+
+  DeleteAssessmentRunRequest({
+    @_s.required this.assessmentRunArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteAssessmentRunRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteAssessmentTargetRequest {
+  /// The ARN that specifies the assessment target that you want to delete.
+  @_s.JsonKey(name: 'assessmentTargetArn')
+  final String assessmentTargetArn;
+
+  DeleteAssessmentTargetRequest({
+    @_s.required this.assessmentTargetArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteAssessmentTargetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteAssessmentTemplateRequest {
+  /// The ARN that specifies the assessment template that you want to delete.
+  @_s.JsonKey(name: 'assessmentTemplateArn')
+  final String assessmentTemplateArn;
+
+  DeleteAssessmentTemplateRequest({
+    @_s.required this.assessmentTemplateArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteAssessmentTemplateRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeAssessmentRunsRequest {
+  /// The ARN that specifies the assessment run that you want to describe.
+  @_s.JsonKey(name: 'assessmentRunArns')
+  final List<String> assessmentRunArns;
+
+  DescribeAssessmentRunsRequest({
+    @_s.required this.assessmentRunArns,
+  });
+  Map<String, dynamic> toJson() => _$DescribeAssessmentRunsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2680,6 +2867,23 @@ class DescribeAssessmentRunsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeAssessmentTargetsRequest {
+  /// The ARNs that specifies the assessment targets that you want to describe.
+  @_s.JsonKey(name: 'assessmentTargetArns')
+  final List<String> assessmentTargetArns;
+
+  DescribeAssessmentTargetsRequest({
+    @_s.required this.assessmentTargetArns,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeAssessmentTargetsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeAssessmentTargetsResponse {
@@ -2699,6 +2903,22 @@ class DescribeAssessmentTargetsResponse {
   factory DescribeAssessmentTargetsResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeAssessmentTargetsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeAssessmentTemplatesRequest {
+  @_s.JsonKey(name: 'assessmentTemplateArns')
+  final List<String> assessmentTemplateArns;
+
+  DescribeAssessmentTemplatesRequest({
+    @_s.required this.assessmentTemplateArns,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeAssessmentTemplatesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2761,6 +2981,28 @@ class DescribeCrossAccountAccessRoleResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeExclusionsRequest {
+  /// The list of ARNs that specify the exclusions that you want to describe.
+  @_s.JsonKey(name: 'exclusionArns')
+  final List<String> exclusionArns;
+
+  /// The locale into which you want to translate the exclusion's title,
+  /// description, and recommendation.
+  @_s.JsonKey(name: 'locale')
+  final Locale locale;
+
+  DescribeExclusionsRequest({
+    @_s.required this.exclusionArns,
+    this.locale,
+  });
+  Map<String, dynamic> toJson() => _$DescribeExclusionsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeExclusionsResponse {
@@ -2779,6 +3021,28 @@ class DescribeExclusionsResponse {
   });
   factory DescribeExclusionsResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeExclusionsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeFindingsRequest {
+  /// The ARN that specifies the finding that you want to describe.
+  @_s.JsonKey(name: 'findingArns')
+  final List<String> findingArns;
+
+  /// The locale into which you want to translate a finding description,
+  /// recommendation, and the short description that identifies the finding.
+  @_s.JsonKey(name: 'locale')
+  final Locale locale;
+
+  DescribeFindingsRequest({
+    @_s.required this.findingArns,
+    this.locale,
+  });
+  Map<String, dynamic> toJson() => _$DescribeFindingsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2807,6 +3071,22 @@ class DescribeFindingsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeResourceGroupsRequest {
+  /// The ARN that specifies the resource group that you want to describe.
+  @_s.JsonKey(name: 'resourceGroupArns')
+  final List<String> resourceGroupArns;
+
+  DescribeResourceGroupsRequest({
+    @_s.required this.resourceGroupArns,
+  });
+  Map<String, dynamic> toJson() => _$DescribeResourceGroupsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeResourceGroupsResponse {
@@ -2825,6 +3105,27 @@ class DescribeResourceGroupsResponse {
   });
   factory DescribeResourceGroupsResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeResourceGroupsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeRulesPackagesRequest {
+  /// The ARN that specifies the rules package that you want to describe.
+  @_s.JsonKey(name: 'rulesPackageArns')
+  final List<String> rulesPackageArns;
+
+  /// The locale that you want to translate a rules package description into.
+  @_s.JsonKey(name: 'locale')
+  final Locale locale;
+
+  DescribeRulesPackagesRequest({
+    @_s.required this.rulesPackageArns,
+    this.locale,
+  });
+  Map<String, dynamic> toJson() => _$DescribeRulesPackagesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3202,6 +3503,38 @@ class FindingFilter {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetAssessmentReportRequest {
+  /// The ARN that specifies the assessment run for which you want to generate a
+  /// report.
+  @_s.JsonKey(name: 'assessmentRunArn')
+  final String assessmentRunArn;
+
+  /// Specifies the file format (html or pdf) of the assessment report that you
+  /// want to generate.
+  @_s.JsonKey(name: 'reportFileFormat')
+  final ReportFileFormat reportFileFormat;
+
+  /// Specifies the type of the assessment report that you want to generate. There
+  /// are two types of assessment reports: a finding report and a full report. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/inspector/latest/userguide/inspector_reports.html">Assessment
+  /// Reports</a>.
+  @_s.JsonKey(name: 'reportType')
+  final ReportType reportType;
+
+  GetAssessmentReportRequest({
+    @_s.required this.assessmentRunArn,
+    @_s.required this.reportFileFormat,
+    @_s.required this.reportType,
+  });
+  Map<String, dynamic> toJson() => _$GetAssessmentReportRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetAssessmentReportResponse {
@@ -3220,6 +3553,48 @@ class GetAssessmentReportResponse {
   });
   factory GetAssessmentReportResponse.fromJson(Map<String, dynamic> json) =>
       _$GetAssessmentReportResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetExclusionsPreviewRequest {
+  /// The ARN that specifies the assessment template for which the exclusions
+  /// preview was requested.
+  @_s.JsonKey(name: 'assessmentTemplateArn')
+  final String assessmentTemplateArn;
+
+  /// The unique identifier associated of the exclusions preview.
+  @_s.JsonKey(name: 'previewToken')
+  final String previewToken;
+
+  /// The locale into which you want to translate the exclusion's title,
+  /// description, and recommendation.
+  @_s.JsonKey(name: 'locale')
+  final Locale locale;
+
+  /// You can use this parameter to indicate the maximum number of items you want
+  /// in the response. The default value is 100. The maximum value is 500.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// You can use this parameter when paginating results. Set the value of this
+  /// parameter to null on your first call to the GetExclusionsPreviewRequest
+  /// action. Subsequent calls to the action fill nextToken in the request with
+  /// the value of nextToken from the previous response to continue listing data.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  GetExclusionsPreviewRequest({
+    @_s.required this.assessmentTemplateArn,
+    @_s.required this.previewToken,
+    this.locale,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$GetExclusionsPreviewRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3255,6 +3630,23 @@ class GetExclusionsPreviewResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetTelemetryMetadataRequest {
+  /// The ARN that specifies the assessment run that has the telemetry data that
+  /// you want to obtain.
+  @_s.JsonKey(name: 'assessmentRunArn')
+  final String assessmentRunArn;
+
+  GetTelemetryMetadataRequest({
+    @_s.required this.assessmentRunArn,
+  });
+  Map<String, dynamic> toJson() => _$GetTelemetryMetadataRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetTelemetryMetadataResponse {
@@ -3280,24 +3672,6 @@ enum InspectorEvent {
   findingReported,
   @_s.JsonValue('OTHER')
   other,
-}
-
-extension on InspectorEvent {
-  String toValue() {
-    switch (this) {
-      case InspectorEvent.assessmentRunStarted:
-        return 'ASSESSMENT_RUN_STARTED';
-      case InspectorEvent.assessmentRunCompleted:
-        return 'ASSESSMENT_RUN_COMPLETED';
-      case InspectorEvent.assessmentRunStateChanged:
-        return 'ASSESSMENT_RUN_STATE_CHANGED';
-      case InspectorEvent.findingReported:
-        return 'FINDING_REPORTED';
-      case InspectorEvent.other:
-        return 'OTHER';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// This data type is used in the <a>Finding</a> data type.
@@ -3331,6 +3705,47 @@ class InspectorServiceAttributes {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListAssessmentRunAgentsRequest {
+  /// The ARN that specifies the assessment run whose agents you want to list.
+  @_s.JsonKey(name: 'assessmentRunArn')
+  final String assessmentRunArn;
+
+  /// You can use this parameter to specify a subset of data to be included in the
+  /// action's response.
+  ///
+  /// For a record to match a filter, all specified filter attributes must match.
+  /// When multiple values are specified for a filter attribute, any of the values
+  /// can match.
+  @_s.JsonKey(name: 'filter')
+  final AgentFilter filter;
+
+  /// You can use this parameter to indicate the maximum number of items that you
+  /// want in the response. The default value is 10. The maximum value is 500.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// You can use this parameter when paginating results. Set the value of this
+  /// parameter to null on your first call to the <b>ListAssessmentRunAgents</b>
+  /// action. Subsequent calls to the action fill <b>nextToken</b> in the request
+  /// with the value of <b>NextToken</b> from the previous response to continue
+  /// listing data.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListAssessmentRunAgentsRequest({
+    @_s.required this.assessmentRunArn,
+    this.filter,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListAssessmentRunAgentsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListAssessmentRunAgentsResponse {
@@ -3351,6 +3766,48 @@ class ListAssessmentRunAgentsResponse {
   });
   factory ListAssessmentRunAgentsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListAssessmentRunAgentsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListAssessmentRunsRequest {
+  /// The ARNs that specify the assessment templates whose assessment runs you
+  /// want to list.
+  @_s.JsonKey(name: 'assessmentTemplateArns')
+  final List<String> assessmentTemplateArns;
+
+  /// You can use this parameter to specify a subset of data to be included in the
+  /// action's response.
+  ///
+  /// For a record to match a filter, all specified filter attributes must match.
+  /// When multiple values are specified for a filter attribute, any of the values
+  /// can match.
+  @_s.JsonKey(name: 'filter')
+  final AssessmentRunFilter filter;
+
+  /// You can use this parameter to indicate the maximum number of items that you
+  /// want in the response. The default value is 10. The maximum value is 500.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// You can use this parameter when paginating results. Set the value of this
+  /// parameter to null on your first call to the <b>ListAssessmentRuns</b>
+  /// action. Subsequent calls to the action fill <b>nextToken</b> in the request
+  /// with the value of <b>NextToken</b> from the previous response to continue
+  /// listing data.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListAssessmentRunsRequest({
+    this.assessmentTemplateArns,
+    this.filter,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListAssessmentRunsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3382,6 +3839,42 @@ class ListAssessmentRunsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListAssessmentTargetsRequest {
+  /// You can use this parameter to specify a subset of data to be included in the
+  /// action's response.
+  ///
+  /// For a record to match a filter, all specified filter attributes must match.
+  /// When multiple values are specified for a filter attribute, any of the values
+  /// can match.
+  @_s.JsonKey(name: 'filter')
+  final AssessmentTargetFilter filter;
+
+  /// You can use this parameter to indicate the maximum number of items you want
+  /// in the response. The default value is 10. The maximum value is 500.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// You can use this parameter when paginating results. Set the value of this
+  /// parameter to null on your first call to the <b>ListAssessmentTargets</b>
+  /// action. Subsequent calls to the action fill <b>nextToken</b> in the request
+  /// with the value of <b>NextToken</b> from the previous response to continue
+  /// listing data.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListAssessmentTargetsRequest({
+    this.filter,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListAssessmentTargetsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListAssessmentTargetsResponse {
@@ -3403,6 +3896,48 @@ class ListAssessmentTargetsResponse {
   });
   factory ListAssessmentTargetsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListAssessmentTargetsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListAssessmentTemplatesRequest {
+  /// A list of ARNs that specifies the assessment targets whose assessment
+  /// templates you want to list.
+  @_s.JsonKey(name: 'assessmentTargetArns')
+  final List<String> assessmentTargetArns;
+
+  /// You can use this parameter to specify a subset of data to be included in the
+  /// action's response.
+  ///
+  /// For a record to match a filter, all specified filter attributes must match.
+  /// When multiple values are specified for a filter attribute, any of the values
+  /// can match.
+  @_s.JsonKey(name: 'filter')
+  final AssessmentTemplateFilter filter;
+
+  /// You can use this parameter to indicate the maximum number of items you want
+  /// in the response. The default value is 10. The maximum value is 500.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// You can use this parameter when paginating results. Set the value of this
+  /// parameter to null on your first call to the <b>ListAssessmentTemplates</b>
+  /// action. Subsequent calls to the action fill <b>nextToken</b> in the request
+  /// with the value of <b>NextToken</b> from the previous response to continue
+  /// listing data.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListAssessmentTemplatesRequest({
+    this.assessmentTargetArns,
+    this.filter,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListAssessmentTemplatesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3434,6 +3969,38 @@ class ListAssessmentTemplatesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListEventSubscriptionsRequest {
+  /// You can use this parameter to indicate the maximum number of items you want
+  /// in the response. The default value is 10. The maximum value is 500.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// You can use this parameter when paginating results. Set the value of this
+  /// parameter to null on your first call to the <b>ListEventSubscriptions</b>
+  /// action. Subsequent calls to the action fill <b>nextToken</b> in the request
+  /// with the value of <b>NextToken</b> from the previous response to continue
+  /// listing data.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The ARN of the assessment template for which you want to list the existing
+  /// event subscriptions.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  ListEventSubscriptionsRequest({
+    this.maxResults,
+    this.nextToken,
+    this.resourceArn,
+  });
+  Map<String, dynamic> toJson() => _$ListEventSubscriptionsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListEventSubscriptionsResponse {
@@ -3454,6 +4021,37 @@ class ListEventSubscriptionsResponse {
   });
   factory ListEventSubscriptionsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListEventSubscriptionsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListExclusionsRequest {
+  /// The ARN of the assessment run that generated the exclusions that you want to
+  /// list.
+  @_s.JsonKey(name: 'assessmentRunArn')
+  final String assessmentRunArn;
+
+  /// You can use this parameter to indicate the maximum number of items you want
+  /// in the response. The default value is 100. The maximum value is 500.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// You can use this parameter when paginating results. Set the value of this
+  /// parameter to null on your first call to the ListExclusionsRequest action.
+  /// Subsequent calls to the action fill nextToken in the request with the value
+  /// of nextToken from the previous response to continue listing data.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListExclusionsRequest({
+    @_s.required this.assessmentRunArn,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListExclusionsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3484,6 +4082,48 @@ class ListExclusionsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListFindingsRequest {
+  /// The ARNs of the assessment runs that generate the findings that you want to
+  /// list.
+  @_s.JsonKey(name: 'assessmentRunArns')
+  final List<String> assessmentRunArns;
+
+  /// You can use this parameter to specify a subset of data to be included in the
+  /// action's response.
+  ///
+  /// For a record to match a filter, all specified filter attributes must match.
+  /// When multiple values are specified for a filter attribute, any of the values
+  /// can match.
+  @_s.JsonKey(name: 'filter')
+  final FindingFilter filter;
+
+  /// You can use this parameter to indicate the maximum number of items you want
+  /// in the response. The default value is 10. The maximum value is 500.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// You can use this parameter when paginating results. Set the value of this
+  /// parameter to null on your first call to the <b>ListFindings</b> action.
+  /// Subsequent calls to the action fill <b>nextToken</b> in the request with the
+  /// value of <b>NextToken</b> from the previous response to continue listing
+  /// data.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListFindingsRequest({
+    this.assessmentRunArns,
+    this.filter,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListFindingsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListFindingsResponse {
@@ -3504,6 +4144,32 @@ class ListFindingsResponse {
   });
   factory ListFindingsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListFindingsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListRulesPackagesRequest {
+  /// You can use this parameter to indicate the maximum number of items you want
+  /// in the response. The default value is 10. The maximum value is 500.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// You can use this parameter when paginating results. Set the value of this
+  /// parameter to null on your first call to the <b>ListRulesPackages</b> action.
+  /// Subsequent calls to the action fill <b>nextToken</b> in the request with the
+  /// value of <b>NextToken</b> from the previous response to continue listing
+  /// data.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListRulesPackagesRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListRulesPackagesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3534,6 +4200,22 @@ class ListRulesPackagesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceRequest {
+  /// The ARN that specifies the assessment template whose tags you want to list.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  ListTagsForResourceRequest({
+    @_s.required this.resourceArn,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListTagsForResourceResponse {
@@ -3551,16 +4233,6 @@ class ListTagsForResourceResponse {
 enum Locale {
   @_s.JsonValue('EN_US')
   enUs,
-}
-
-extension on Locale {
-  String toValue() {
-    switch (this) {
-      case Locale.enUs:
-        return 'EN_US';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Contains information about the network interfaces interacting with an EC2
@@ -3633,6 +4305,37 @@ class NetworkInterface {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PreviewAgentsRequest {
+  /// The ARN of the assessment target whose agents you want to preview.
+  @_s.JsonKey(name: 'previewAgentsArn')
+  final String previewAgentsArn;
+
+  /// You can use this parameter to indicate the maximum number of items you want
+  /// in the response. The default value is 10. The maximum value is 500.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// You can use this parameter when paginating results. Set the value of this
+  /// parameter to null on your first call to the <b>PreviewAgents</b> action.
+  /// Subsequent calls to the action fill <b>nextToken</b> in the request with the
+  /// value of <b>NextToken</b> from the previous response to continue listing
+  /// data.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  PreviewAgentsRequest({
+    @_s.required this.previewAgentsArn,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$PreviewAgentsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PreviewAgentsResponse {
@@ -3690,6 +4393,46 @@ class PrivateIp {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RegisterCrossAccountAccessRoleRequest {
+  /// The ARN of the IAM role that grants Amazon Inspector access to AWS Services
+  /// needed to perform security assessments.
+  @_s.JsonKey(name: 'roleArn')
+  final String roleArn;
+
+  RegisterCrossAccountAccessRoleRequest({
+    @_s.required this.roleArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$RegisterCrossAccountAccessRoleRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RemoveAttributesFromFindingsRequest {
+  /// The array of attribute keys that you want to remove from specified findings.
+  @_s.JsonKey(name: 'attributeKeys')
+  final List<String> attributeKeys;
+
+  /// The ARNs that specify the findings that you want to remove attributes from.
+  @_s.JsonKey(name: 'findingArns')
+  final List<String> findingArns;
+
+  RemoveAttributesFromFindingsRequest({
+    @_s.required this.attributeKeys,
+    @_s.required this.findingArns,
+  });
+  Map<String, dynamic> toJson() =>
+      _$RemoveAttributesFromFindingsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class RemoveAttributesFromFindingsResponse {
@@ -3713,18 +4456,6 @@ enum ReportFileFormat {
   pdf,
 }
 
-extension on ReportFileFormat {
-  String toValue() {
-    switch (this) {
-      case ReportFileFormat.html:
-        return 'HTML';
-      case ReportFileFormat.pdf:
-        return 'PDF';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum ReportStatus {
   @_s.JsonValue('WORK_IN_PROGRESS')
   workInProgress,
@@ -3739,18 +4470,6 @@ enum ReportType {
   finding,
   @_s.JsonValue('FULL')
   full,
-}
-
-extension on ReportType {
-  String toValue() {
-    switch (this) {
-      case ReportType.finding:
-        return 'FINDING';
-      case ReportType.full:
-        return 'FULL';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Contains information about a resource group. The resource group defines a
@@ -3908,6 +4627,28 @@ class SecurityGroup {
       _$SecurityGroupFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SetTagsForResourceRequest {
+  /// The ARN of the assessment template that you want to set tags to.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  /// A collection of key and value pairs that you want to set to the assessment
+  /// template.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  SetTagsForResourceRequest({
+    @_s.required this.resourceArn,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$SetTagsForResourceRequestToJson(this);
+}
+
 enum Severity {
   @_s.JsonValue('Low')
   low,
@@ -3919,6 +4660,29 @@ enum Severity {
   informational,
   @_s.JsonValue('Undefined')
   undefined,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartAssessmentRunRequest {
+  /// The ARN of the assessment template of the assessment run that you want to
+  /// start.
+  @_s.JsonKey(name: 'assessmentTemplateArn')
+  final String assessmentTemplateArn;
+
+  /// You can specify the name for the assessment run. The name must be unique for
+  /// the assessment template whose ARN is used to start the assessment run.
+  @_s.JsonKey(name: 'assessmentRunName')
+  final String assessmentRunName;
+
+  StartAssessmentRunRequest({
+    @_s.required this.assessmentTemplateArn,
+    this.assessmentRunName,
+  });
+  Map<String, dynamic> toJson() => _$StartAssessmentRunRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3945,16 +4709,56 @@ enum StopAction {
   skipEvaluation,
 }
 
-extension on StopAction {
-  String toValue() {
-    switch (this) {
-      case StopAction.startEvaluation:
-        return 'START_EVALUATION';
-      case StopAction.skipEvaluation:
-        return 'SKIP_EVALUATION';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopAssessmentRunRequest {
+  /// The ARN of the assessment run that you want to stop.
+  @_s.JsonKey(name: 'assessmentRunArn')
+  final String assessmentRunArn;
+
+  /// An input option that can be set to either START_EVALUATION or
+  /// SKIP_EVALUATION. START_EVALUATION (the default value), stops the AWS agent
+  /// from collecting data and begins the results evaluation and the findings
+  /// generation process. SKIP_EVALUATION cancels the assessment run immediately,
+  /// after which no findings are generated.
+  @_s.JsonKey(name: 'stopAction')
+  final StopAction stopAction;
+
+  StopAssessmentRunRequest({
+    @_s.required this.assessmentRunArn,
+    this.stopAction,
+  });
+  Map<String, dynamic> toJson() => _$StopAssessmentRunRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SubscribeToEventRequest {
+  /// The event for which you want to receive SNS notifications.
+  @_s.JsonKey(name: 'event')
+  final InspectorEvent event;
+
+  /// The ARN of the assessment template that is used during the event for which
+  /// you want to receive SNS notifications.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  /// The ARN of the SNS topic to which the SNS notifications are sent.
+  @_s.JsonKey(name: 'topicArn')
+  final String topicArn;
+
+  SubscribeToEventRequest({
+    @_s.required this.event,
+    @_s.required this.resourceArn,
+    @_s.required this.topicArn,
+  });
+  Map<String, dynamic> toJson() => _$SubscribeToEventRequestToJson(this);
 }
 
 /// This data type is used as a response element in the
@@ -4071,6 +4875,60 @@ class TimestampRange {
     this.endDate,
   });
   Map<String, dynamic> toJson() => _$TimestampRangeToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UnsubscribeFromEventRequest {
+  /// The event for which you want to stop receiving SNS notifications.
+  @_s.JsonKey(name: 'event')
+  final InspectorEvent event;
+
+  /// The ARN of the assessment template that is used during the event for which
+  /// you want to stop receiving SNS notifications.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  /// The ARN of the SNS topic to which SNS notifications are sent.
+  @_s.JsonKey(name: 'topicArn')
+  final String topicArn;
+
+  UnsubscribeFromEventRequest({
+    @_s.required this.event,
+    @_s.required this.resourceArn,
+    @_s.required this.topicArn,
+  });
+  Map<String, dynamic> toJson() => _$UnsubscribeFromEventRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateAssessmentTargetRequest {
+  /// The ARN of the assessment target that you want to update.
+  @_s.JsonKey(name: 'assessmentTargetArn')
+  final String assessmentTargetArn;
+
+  /// The name of the assessment target that you want to update.
+  @_s.JsonKey(name: 'assessmentTargetName')
+  final String assessmentTargetName;
+
+  /// The ARN of the resource group that is used to specify the new resource group
+  /// to associate with the assessment target.
+  @_s.JsonKey(name: 'resourceGroupArn')
+  final String resourceGroupArn;
+
+  UpdateAssessmentTargetRequest({
+    @_s.required this.assessmentTargetArn,
+    @_s.required this.assessmentTargetName,
+    this.resourceGroupArn,
+  });
+  Map<String, dynamic> toJson() => _$UpdateAssessmentTargetRequestToJson(this);
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

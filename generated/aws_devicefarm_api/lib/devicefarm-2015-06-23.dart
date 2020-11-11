@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -133,13 +132,13 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'name': name,
-        'projectArn': projectArn,
-        'rules': rules,
-        if (description != null) 'description': description,
-        if (maxDevices != null) 'maxDevices': maxDevices,
-      },
+      payload: CreateDevicePoolRequest(
+        name: name,
+        projectArn: projectArn,
+        rules: rules,
+        description: description,
+        maxDevices: maxDevices,
+      ),
     );
 
     return CreateDevicePoolResult.fromJson(jsonResponse.body);
@@ -204,14 +203,13 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'name': name,
-        if (description != null) 'description': description,
-        if (excludeAppPackagesFromCleanup != null)
-          'excludeAppPackagesFromCleanup': excludeAppPackagesFromCleanup,
-        if (packageCleanup != null) 'packageCleanup': packageCleanup,
-        if (rebootAfterUse != null) 'rebootAfterUse': rebootAfterUse,
-      },
+      payload: CreateInstanceProfileRequest(
+        name: name,
+        description: description,
+        excludeAppPackagesFromCleanup: excludeAppPackagesFromCleanup,
+        packageCleanup: packageCleanup,
+        rebootAfterUse: rebootAfterUse,
+      ),
     );
 
     return CreateInstanceProfileResult.fromJson(jsonResponse.body);
@@ -331,23 +329,20 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'name': name,
-        'projectArn': projectArn,
-        if (description != null) 'description': description,
-        if (downlinkBandwidthBits != null)
-          'downlinkBandwidthBits': downlinkBandwidthBits,
-        if (downlinkDelayMs != null) 'downlinkDelayMs': downlinkDelayMs,
-        if (downlinkJitterMs != null) 'downlinkJitterMs': downlinkJitterMs,
-        if (downlinkLossPercent != null)
-          'downlinkLossPercent': downlinkLossPercent,
-        if (type != null) 'type': type?.toValue(),
-        if (uplinkBandwidthBits != null)
-          'uplinkBandwidthBits': uplinkBandwidthBits,
-        if (uplinkDelayMs != null) 'uplinkDelayMs': uplinkDelayMs,
-        if (uplinkJitterMs != null) 'uplinkJitterMs': uplinkJitterMs,
-        if (uplinkLossPercent != null) 'uplinkLossPercent': uplinkLossPercent,
-      },
+      payload: CreateNetworkProfileRequest(
+        name: name,
+        projectArn: projectArn,
+        description: description,
+        downlinkBandwidthBits: downlinkBandwidthBits,
+        downlinkDelayMs: downlinkDelayMs,
+        downlinkJitterMs: downlinkJitterMs,
+        downlinkLossPercent: downlinkLossPercent,
+        type: type,
+        uplinkBandwidthBits: uplinkBandwidthBits,
+        uplinkDelayMs: uplinkDelayMs,
+        uplinkJitterMs: uplinkJitterMs,
+        uplinkLossPercent: uplinkLossPercent,
+      ),
     );
 
     return CreateNetworkProfileResult.fromJson(jsonResponse.body);
@@ -390,11 +385,10 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'name': name,
-        if (defaultJobTimeoutMinutes != null)
-          'defaultJobTimeoutMinutes': defaultJobTimeoutMinutes,
-      },
+      payload: CreateProjectRequest(
+        name: name,
+        defaultJobTimeoutMinutes: defaultJobTimeoutMinutes,
+      ),
     );
 
     return CreateProjectResult.fromJson(jsonResponse.body);
@@ -582,24 +576,20 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'deviceArn': deviceArn,
-        'projectArn': projectArn,
-        if (clientId != null) 'clientId': clientId,
-        if (configuration != null) 'configuration': configuration,
-        if (instanceArn != null) 'instanceArn': instanceArn,
-        if (interactionMode != null)
-          'interactionMode': interactionMode?.toValue(),
-        if (name != null) 'name': name,
-        if (remoteDebugEnabled != null)
-          'remoteDebugEnabled': remoteDebugEnabled,
-        if (remoteRecordAppArn != null)
-          'remoteRecordAppArn': remoteRecordAppArn,
-        if (remoteRecordEnabled != null)
-          'remoteRecordEnabled': remoteRecordEnabled,
-        if (skipAppResign != null) 'skipAppResign': skipAppResign,
-        if (sshPublicKey != null) 'sshPublicKey': sshPublicKey,
-      },
+      payload: CreateRemoteAccessSessionRequest(
+        deviceArn: deviceArn,
+        projectArn: projectArn,
+        clientId: clientId,
+        configuration: configuration,
+        instanceArn: instanceArn,
+        interactionMode: interactionMode,
+        name: name,
+        remoteDebugEnabled: remoteDebugEnabled,
+        remoteRecordAppArn: remoteRecordAppArn,
+        remoteRecordEnabled: remoteRecordEnabled,
+        skipAppResign: skipAppResign,
+        sshPublicKey: sshPublicKey,
+      ),
     );
 
     return CreateRemoteAccessSessionResult.fromJson(jsonResponse.body);
@@ -654,10 +644,10 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'name': name,
-        if (description != null) 'description': description,
-      },
+      payload: CreateTestGridProjectRequest(
+        name: name,
+        description: description,
+      ),
     );
 
     return CreateTestGridProjectResult.fromJson(jsonResponse.body);
@@ -712,10 +702,10 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'expiresInSeconds': expiresInSeconds,
-        'projectArn': projectArn,
-      },
+      payload: CreateTestGridUrlRequest(
+        expiresInSeconds: expiresInSeconds,
+        projectArn: projectArn,
+      ),
     );
 
     return CreateTestGridUrlResult.fromJson(jsonResponse.body);
@@ -892,12 +882,12 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'name': name,
-        'projectArn': projectArn,
-        'type': type?.toValue(),
-        if (contentType != null) 'contentType': contentType,
-      },
+      payload: CreateUploadRequest(
+        name: name,
+        projectArn: projectArn,
+        type: type,
+        contentType: contentType,
+      ),
     );
 
     return CreateUploadResult.fromJson(jsonResponse.body);
@@ -971,13 +961,12 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'serviceDnsName': serviceDnsName,
-        'vpceConfigurationName': vpceConfigurationName,
-        'vpceServiceName': vpceServiceName,
-        if (vpceConfigurationDescription != null)
-          'vpceConfigurationDescription': vpceConfigurationDescription,
-      },
+      payload: CreateVPCEConfigurationRequest(
+        serviceDnsName: serviceDnsName,
+        vpceConfigurationName: vpceConfigurationName,
+        vpceServiceName: vpceServiceName,
+        vpceConfigurationDescription: vpceConfigurationDescription,
+      ),
     );
 
     return CreateVPCEConfigurationResult.fromJson(jsonResponse.body);
@@ -1021,9 +1010,9 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-      },
+      payload: DeleteDevicePoolRequest(
+        arn: arn,
+      ),
     );
 
     return DeleteDevicePoolResult.fromJson(jsonResponse.body);
@@ -1067,9 +1056,9 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-      },
+      payload: DeleteInstanceProfileRequest(
+        arn: arn,
+      ),
     );
 
     return DeleteInstanceProfileResult.fromJson(jsonResponse.body);
@@ -1111,9 +1100,9 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-      },
+      payload: DeleteNetworkProfileRequest(
+        arn: arn,
+      ),
     );
 
     return DeleteNetworkProfileResult.fromJson(jsonResponse.body);
@@ -1158,9 +1147,9 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-      },
+      payload: DeleteProjectRequest(
+        arn: arn,
+      ),
     );
 
     return DeleteProjectResult.fromJson(jsonResponse.body);
@@ -1203,9 +1192,9 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-      },
+      payload: DeleteRemoteAccessSessionRequest(
+        arn: arn,
+      ),
     );
 
     return DeleteRemoteAccessSessionResult.fromJson(jsonResponse.body);
@@ -1249,9 +1238,9 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-      },
+      payload: DeleteRunRequest(
+        arn: arn,
+      ),
     );
 
     return DeleteRunResult.fromJson(jsonResponse.body);
@@ -1299,9 +1288,9 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'projectArn': projectArn,
-      },
+      payload: DeleteTestGridProjectRequest(
+        projectArn: projectArn,
+      ),
     );
 
     return DeleteTestGridProjectResult.fromJson(jsonResponse.body);
@@ -1344,9 +1333,9 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-      },
+      payload: DeleteUploadRequest(
+        arn: arn,
+      ),
     );
 
     return DeleteUploadResult.fromJson(jsonResponse.body);
@@ -1390,9 +1379,9 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-      },
+      payload: DeleteVPCEConfigurationRequest(
+        arn: arn,
+      ),
     );
 
     return DeleteVPCEConfigurationResult.fromJson(jsonResponse.body);
@@ -1457,9 +1446,9 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-      },
+      payload: GetDeviceRequest(
+        arn: arn,
+      ),
     );
 
     return GetDeviceResult.fromJson(jsonResponse.body);
@@ -1503,9 +1492,9 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-      },
+      payload: GetDeviceInstanceRequest(
+        arn: arn,
+      ),
     );
 
     return GetDeviceInstanceResult.fromJson(jsonResponse.body);
@@ -1547,9 +1536,9 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-      },
+      payload: GetDevicePoolRequest(
+        arn: arn,
+      ),
     );
 
     return GetDevicePoolResult.fromJson(jsonResponse.body);
@@ -1678,13 +1667,13 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'devicePoolArn': devicePoolArn,
-        if (appArn != null) 'appArn': appArn,
-        if (configuration != null) 'configuration': configuration,
-        if (test != null) 'test': test,
-        if (testType != null) 'testType': testType?.toValue(),
-      },
+      payload: GetDevicePoolCompatibilityRequest(
+        devicePoolArn: devicePoolArn,
+        appArn: appArn,
+        configuration: configuration,
+        test: test,
+        testType: testType,
+      ),
     );
 
     return GetDevicePoolCompatibilityResult.fromJson(jsonResponse.body);
@@ -1726,9 +1715,9 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-      },
+      payload: GetInstanceProfileRequest(
+        arn: arn,
+      ),
     );
 
     return GetInstanceProfileResult.fromJson(jsonResponse.body);
@@ -1770,9 +1759,9 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-      },
+      payload: GetJobRequest(
+        arn: arn,
+      ),
     );
 
     return GetJobResult.fromJson(jsonResponse.body);
@@ -1814,9 +1803,9 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-      },
+      payload: GetNetworkProfileRequest(
+        arn: arn,
+      ),
     );
 
     return GetNetworkProfileResult.fromJson(jsonResponse.body);
@@ -1858,9 +1847,9 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: GetOfferingStatusRequest(
+        nextToken: nextToken,
+      ),
     );
 
     return GetOfferingStatusResult.fromJson(jsonResponse.body);
@@ -1902,9 +1891,9 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-      },
+      payload: GetProjectRequest(
+        arn: arn,
+      ),
     );
 
     return GetProjectResult.fromJson(jsonResponse.body);
@@ -1947,9 +1936,9 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-      },
+      payload: GetRemoteAccessSessionRequest(
+        arn: arn,
+      ),
     );
 
     return GetRemoteAccessSessionResult.fromJson(jsonResponse.body);
@@ -1991,9 +1980,9 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-      },
+      payload: GetRunRequest(
+        arn: arn,
+      ),
     );
 
     return GetRunResult.fromJson(jsonResponse.body);
@@ -2035,9 +2024,9 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-      },
+      payload: GetSuiteRequest(
+        arn: arn,
+      ),
     );
 
     return GetSuiteResult.fromJson(jsonResponse.body);
@@ -2079,9 +2068,9 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-      },
+      payload: GetTestRequest(
+        arn: arn,
+      ),
     );
 
     return GetTestResult.fromJson(jsonResponse.body);
@@ -2123,9 +2112,9 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'projectArn': projectArn,
-      },
+      payload: GetTestGridProjectRequest(
+        projectArn: projectArn,
+      ),
     );
 
     return GetTestGridProjectResult.fromJson(jsonResponse.body);
@@ -2208,11 +2197,11 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (projectArn != null) 'projectArn': projectArn,
-        if (sessionArn != null) 'sessionArn': sessionArn,
-        if (sessionId != null) 'sessionId': sessionId,
-      },
+      payload: GetTestGridSessionRequest(
+        projectArn: projectArn,
+        sessionArn: sessionArn,
+        sessionId: sessionId,
+      ),
     );
 
     return GetTestGridSessionResult.fromJson(jsonResponse.body);
@@ -2254,9 +2243,9 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-      },
+      payload: GetUploadRequest(
+        arn: arn,
+      ),
     );
 
     return GetUploadResult.fromJson(jsonResponse.body);
@@ -2299,9 +2288,9 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-      },
+      payload: GetVPCEConfigurationRequest(
+        arn: arn,
+      ),
     );
 
     return GetVPCEConfigurationResult.fromJson(jsonResponse.body);
@@ -2365,10 +2354,10 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'appArn': appArn,
-        'remoteAccessSessionArn': remoteAccessSessionArn,
-      },
+      payload: InstallToRemoteAccessSessionRequest(
+        appArn: appArn,
+        remoteAccessSessionArn: remoteAccessSessionArn,
+      ),
     );
 
     return InstallToRemoteAccessSessionResult.fromJson(jsonResponse.body);
@@ -2440,11 +2429,11 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-        'type': type?.toValue(),
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListArtifactsRequest(
+        arn: arn,
+        type: type,
+        nextToken: nextToken,
+      ),
     );
 
     return ListArtifactsResult.fromJson(jsonResponse.body);
@@ -2485,10 +2474,10 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListDeviceInstancesRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListDeviceInstancesResult.fromJson(jsonResponse.body);
@@ -2557,11 +2546,11 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (type != null) 'type': type?.toValue(),
-      },
+      payload: ListDevicePoolsRequest(
+        arn: arn,
+        nextToken: nextToken,
+        type: type,
+      ),
     );
 
     return ListDevicePoolsResult.fromJson(jsonResponse.body);
@@ -2707,11 +2696,11 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (arn != null) 'arn': arn,
-        if (filters != null) 'filters': filters,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListDevicesRequest(
+        arn: arn,
+        filters: filters,
+        nextToken: nextToken,
+      ),
     );
 
     return ListDevicesResult.fromJson(jsonResponse.body);
@@ -2751,10 +2740,10 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListInstanceProfilesRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListInstanceProfilesResult.fromJson(jsonResponse.body);
@@ -2807,10 +2796,10 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListJobsRequest(
+        arn: arn,
+        nextToken: nextToken,
+      ),
     );
 
     return ListJobsResult.fromJson(jsonResponse.body);
@@ -2869,11 +2858,11 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (type != null) 'type': type?.toValue(),
-      },
+      payload: ListNetworkProfilesRequest(
+        arn: arn,
+        nextToken: nextToken,
+        type: type,
+      ),
     );
 
     return ListNetworkProfilesResult.fromJson(jsonResponse.body);
@@ -2914,9 +2903,9 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListOfferingPromotionsRequest(
+        nextToken: nextToken,
+      ),
     );
 
     return ListOfferingPromotionsResult.fromJson(jsonResponse.body);
@@ -2957,9 +2946,9 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListOfferingTransactionsRequest(
+        nextToken: nextToken,
+      ),
     );
 
     return ListOfferingTransactionsResult.fromJson(jsonResponse.body);
@@ -3000,9 +2989,9 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListOfferingsRequest(
+        nextToken: nextToken,
+      ),
     );
 
     return ListOfferingsResult.fromJson(jsonResponse.body);
@@ -3054,10 +3043,10 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (arn != null) 'arn': arn,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListProjectsRequest(
+        arn: arn,
+        nextToken: nextToken,
+      ),
     );
 
     return ListProjectsResult.fromJson(jsonResponse.body);
@@ -3111,10 +3100,10 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListRemoteAccessSessionsRequest(
+        arn: arn,
+        nextToken: nextToken,
+      ),
     );
 
     return ListRemoteAccessSessionsResult.fromJson(jsonResponse.body);
@@ -3168,10 +3157,10 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListRunsRequest(
+        arn: arn,
+        nextToken: nextToken,
+      ),
     );
 
     return ListRunsResult.fromJson(jsonResponse.body);
@@ -3224,10 +3213,10 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListSamplesRequest(
+        arn: arn,
+        nextToken: nextToken,
+      ),
     );
 
     return ListSamplesResult.fromJson(jsonResponse.body);
@@ -3280,10 +3269,10 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListSuitesRequest(
+        arn: arn,
+        nextToken: nextToken,
+      ),
     );
 
     return ListSuitesResult.fromJson(jsonResponse.body);
@@ -3330,9 +3319,9 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceARN': resourceARN,
-      },
+      payload: ListTagsForResourceRequest(
+        resourceARN: resourceARN,
+      ),
     );
 
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
@@ -3374,10 +3363,10 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResult != null) 'maxResult': maxResult,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListTestGridProjectsRequest(
+        maxResult: maxResult,
+        nextToken: nextToken,
+      ),
     );
 
     return ListTestGridProjectsResult.fromJson(jsonResponse.body);
@@ -3438,11 +3427,11 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'sessionArn': sessionArn,
-        if (maxResult != null) 'maxResult': maxResult,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListTestGridSessionActionsRequest(
+        sessionArn: sessionArn,
+        maxResult: maxResult,
+        nextToken: nextToken,
+      ),
     );
 
     return ListTestGridSessionActionsResult.fromJson(jsonResponse.body);
@@ -3507,12 +3496,12 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'sessionArn': sessionArn,
-        if (maxResult != null) 'maxResult': maxResult,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (type != null) 'type': type?.toValue(),
-      },
+      payload: ListTestGridSessionArtifactsRequest(
+        sessionArn: sessionArn,
+        maxResult: maxResult,
+        nextToken: nextToken,
+        type: type,
+      ),
     );
 
     return ListTestGridSessionArtifactsResult.fromJson(jsonResponse.body);
@@ -3593,17 +3582,16 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'projectArn': projectArn,
-        if (creationTimeAfter != null) 'creationTimeAfter': creationTimeAfter,
-        if (creationTimeBefore != null)
-          'creationTimeBefore': creationTimeBefore,
-        if (endTimeAfter != null) 'endTimeAfter': endTimeAfter,
-        if (endTimeBefore != null) 'endTimeBefore': endTimeBefore,
-        if (maxResult != null) 'maxResult': maxResult,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (status != null) 'status': status?.toValue(),
-      },
+      payload: ListTestGridSessionsRequest(
+        projectArn: projectArn,
+        creationTimeAfter: creationTimeAfter,
+        creationTimeBefore: creationTimeBefore,
+        endTimeAfter: endTimeAfter,
+        endTimeBefore: endTimeBefore,
+        maxResult: maxResult,
+        nextToken: nextToken,
+        status: status,
+      ),
     );
 
     return ListTestGridSessionsResult.fromJson(jsonResponse.body);
@@ -3656,10 +3644,10 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListTestsRequest(
+        arn: arn,
+        nextToken: nextToken,
+      ),
     );
 
     return ListTestsResult.fromJson(jsonResponse.body);
@@ -3718,10 +3706,10 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListUniqueProblemsRequest(
+        arn: arn,
+        nextToken: nextToken,
+      ),
     );
 
     return ListUniqueProblemsResult.fromJson(jsonResponse.body);
@@ -3880,11 +3868,11 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (type != null) 'type': type?.toValue(),
-      },
+      payload: ListUploadsRequest(
+        arn: arn,
+        nextToken: nextToken,
+        type: type,
+      ),
     );
 
     return ListUploadsResult.fromJson(jsonResponse.body);
@@ -3923,10 +3911,10 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListVPCEConfigurationsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListVPCEConfigurationsResult.fromJson(jsonResponse.body);
@@ -3980,12 +3968,11 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (offeringId != null) 'offeringId': offeringId,
-        if (offeringPromotionId != null)
-          'offeringPromotionId': offeringPromotionId,
-        if (quantity != null) 'quantity': quantity,
-      },
+      payload: PurchaseOfferingRequest(
+        offeringId: offeringId,
+        offeringPromotionId: offeringPromotionId,
+        quantity: quantity,
+      ),
     );
 
     return PurchaseOfferingResult.fromJson(jsonResponse.body);
@@ -4028,10 +4015,10 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (offeringId != null) 'offeringId': offeringId,
-        if (quantity != null) 'quantity': quantity,
-      },
+      payload: RenewOfferingRequest(
+        offeringId: offeringId,
+        quantity: quantity,
+      ),
     );
 
     return RenewOfferingResult.fromJson(jsonResponse.body);
@@ -4137,18 +4124,16 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'projectArn': projectArn,
-        'test': test,
-        if (appArn != null) 'appArn': appArn,
-        if (configuration != null) 'configuration': configuration,
-        if (devicePoolArn != null) 'devicePoolArn': devicePoolArn,
-        if (deviceSelectionConfiguration != null)
-          'deviceSelectionConfiguration': deviceSelectionConfiguration,
-        if (executionConfiguration != null)
-          'executionConfiguration': executionConfiguration,
-        if (name != null) 'name': name,
-      },
+      payload: ScheduleRunRequest(
+        projectArn: projectArn,
+        test: test,
+        appArn: appArn,
+        configuration: configuration,
+        devicePoolArn: devicePoolArn,
+        deviceSelectionConfiguration: deviceSelectionConfiguration,
+        executionConfiguration: executionConfiguration,
+        name: name,
+      ),
     );
 
     return ScheduleRunResult.fromJson(jsonResponse.body);
@@ -4195,9 +4180,9 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-      },
+      payload: StopJobRequest(
+        arn: arn,
+      ),
     );
 
     return StopJobResult.fromJson(jsonResponse.body);
@@ -4239,9 +4224,9 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-      },
+      payload: StopRemoteAccessSessionRequest(
+        arn: arn,
+      ),
     );
 
     return StopRemoteAccessSessionResult.fromJson(jsonResponse.body);
@@ -4288,9 +4273,9 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-      },
+      payload: StopRunRequest(
+        arn: arn,
+      ),
     );
 
     return StopRunResult.fromJson(jsonResponse.body);
@@ -4348,10 +4333,10 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceARN': resourceARN,
-        'Tags': tags,
-      },
+      payload: TagResourceRequest(
+        resourceARN: resourceARN,
+        tags: tags,
+      ),
     );
 
     return TagResourceResponse.fromJson(jsonResponse.body);
@@ -4403,10 +4388,10 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceARN': resourceARN,
-        'TagKeys': tagKeys,
-      },
+      payload: UntagResourceRequest(
+        resourceARN: resourceARN,
+        tagKeys: tagKeys,
+      ),
     );
 
     return UntagResourceResponse.fromJson(jsonResponse.body);
@@ -4468,11 +4453,11 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-        if (labels != null) 'labels': labels,
-        if (profileArn != null) 'profileArn': profileArn,
-      },
+      payload: UpdateDeviceInstanceRequest(
+        arn: arn,
+        labels: labels,
+        profileArn: profileArn,
+      ),
     );
 
     return UpdateDeviceInstanceResult.fromJson(jsonResponse.body);
@@ -4568,14 +4553,14 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-        if (clearMaxDevices != null) 'clearMaxDevices': clearMaxDevices,
-        if (description != null) 'description': description,
-        if (maxDevices != null) 'maxDevices': maxDevices,
-        if (name != null) 'name': name,
-        if (rules != null) 'rules': rules,
-      },
+      payload: UpdateDevicePoolRequest(
+        arn: arn,
+        clearMaxDevices: clearMaxDevices,
+        description: description,
+        maxDevices: maxDevices,
+        name: name,
+        rules: rules,
+      ),
     );
 
     return UpdateDevicePoolResult.fromJson(jsonResponse.body);
@@ -4655,15 +4640,14 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-        if (description != null) 'description': description,
-        if (excludeAppPackagesFromCleanup != null)
-          'excludeAppPackagesFromCleanup': excludeAppPackagesFromCleanup,
-        if (name != null) 'name': name,
-        if (packageCleanup != null) 'packageCleanup': packageCleanup,
-        if (rebootAfterUse != null) 'rebootAfterUse': rebootAfterUse,
-      },
+      payload: UpdateInstanceProfileRequest(
+        arn: arn,
+        description: description,
+        excludeAppPackagesFromCleanup: excludeAppPackagesFromCleanup,
+        name: name,
+        packageCleanup: packageCleanup,
+        rebootAfterUse: rebootAfterUse,
+      ),
     );
 
     return UpdateInstanceProfileResult.fromJson(jsonResponse.body);
@@ -4783,23 +4767,20 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-        if (description != null) 'description': description,
-        if (downlinkBandwidthBits != null)
-          'downlinkBandwidthBits': downlinkBandwidthBits,
-        if (downlinkDelayMs != null) 'downlinkDelayMs': downlinkDelayMs,
-        if (downlinkJitterMs != null) 'downlinkJitterMs': downlinkJitterMs,
-        if (downlinkLossPercent != null)
-          'downlinkLossPercent': downlinkLossPercent,
-        if (name != null) 'name': name,
-        if (type != null) 'type': type?.toValue(),
-        if (uplinkBandwidthBits != null)
-          'uplinkBandwidthBits': uplinkBandwidthBits,
-        if (uplinkDelayMs != null) 'uplinkDelayMs': uplinkDelayMs,
-        if (uplinkJitterMs != null) 'uplinkJitterMs': uplinkJitterMs,
-        if (uplinkLossPercent != null) 'uplinkLossPercent': uplinkLossPercent,
-      },
+      payload: UpdateNetworkProfileRequest(
+        arn: arn,
+        description: description,
+        downlinkBandwidthBits: downlinkBandwidthBits,
+        downlinkDelayMs: downlinkDelayMs,
+        downlinkJitterMs: downlinkJitterMs,
+        downlinkLossPercent: downlinkLossPercent,
+        name: name,
+        type: type,
+        uplinkBandwidthBits: uplinkBandwidthBits,
+        uplinkDelayMs: uplinkDelayMs,
+        uplinkJitterMs: uplinkJitterMs,
+        uplinkLossPercent: uplinkLossPercent,
+      ),
     );
 
     return UpdateNetworkProfileResult.fromJson(jsonResponse.body);
@@ -4857,12 +4838,11 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-        if (defaultJobTimeoutMinutes != null)
-          'defaultJobTimeoutMinutes': defaultJobTimeoutMinutes,
-        if (name != null) 'name': name,
-      },
+      payload: UpdateProjectRequest(
+        arn: arn,
+        defaultJobTimeoutMinutes: defaultJobTimeoutMinutes,
+        name: name,
+      ),
     );
 
     return UpdateProjectResult.fromJson(jsonResponse.body);
@@ -4933,11 +4913,11 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'projectArn': projectArn,
-        if (description != null) 'description': description,
-        if (name != null) 'name': name,
-      },
+      payload: UpdateTestGridProjectRequest(
+        projectArn: projectArn,
+        description: description,
+        name: name,
+      ),
     );
 
     return UpdateTestGridProjectResult.fromJson(jsonResponse.body);
@@ -5006,12 +4986,12 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-        if (contentType != null) 'contentType': contentType,
-        if (editContent != null) 'editContent': editContent,
-        if (name != null) 'name': name,
-      },
+      payload: UpdateUploadRequest(
+        arn: arn,
+        contentType: contentType,
+        editContent: editContent,
+        name: name,
+      ),
     );
 
     return UpdateUploadResult.fromJson(jsonResponse.body);
@@ -5099,15 +5079,13 @@ class DeviceFarm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-        if (serviceDnsName != null) 'serviceDnsName': serviceDnsName,
-        if (vpceConfigurationDescription != null)
-          'vpceConfigurationDescription': vpceConfigurationDescription,
-        if (vpceConfigurationName != null)
-          'vpceConfigurationName': vpceConfigurationName,
-        if (vpceServiceName != null) 'vpceServiceName': vpceServiceName,
-      },
+      payload: UpdateVPCEConfigurationRequest(
+        arn: arn,
+        serviceDnsName: serviceDnsName,
+        vpceConfigurationDescription: vpceConfigurationDescription,
+        vpceConfigurationName: vpceConfigurationName,
+        vpceServiceName: vpceServiceName,
+      ),
     );
 
     return UpdateVPCEConfigurationResult.fromJson(jsonResponse.body);
@@ -5318,20 +5296,6 @@ enum ArtifactCategory {
   log,
 }
 
-extension on ArtifactCategory {
-  String toValue() {
-    switch (this) {
-      case ArtifactCategory.screenshot:
-        return 'SCREENSHOT';
-      case ArtifactCategory.file:
-        return 'FILE';
-      case ArtifactCategory.log:
-        return 'LOG';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum ArtifactType {
   @_s.JsonValue('UNKNOWN')
   unknown,
@@ -5475,6 +5439,50 @@ class Counters {
       _$CountersFromJson(json);
 }
 
+/// Represents a request to the create device pool operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDevicePoolRequest {
+  /// The device pool's name.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The ARN of the project for the device pool.
+  @_s.JsonKey(name: 'projectArn')
+  final String projectArn;
+
+  /// The device pool's rules.
+  @_s.JsonKey(name: 'rules')
+  final List<Rule> rules;
+
+  /// The device pool's description.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The number of devices that Device Farm can add to your device pool. Device
+  /// Farm adds devices that are available and meet the criteria that you assign
+  /// for the <code>rules</code> parameter. Depending on how many devices meet
+  /// these constraints, your device pool might contain fewer devices than the
+  /// value for this parameter.
+  ///
+  /// By specifying the maximum number of devices, you can control the costs that
+  /// you incur by running tests.
+  @_s.JsonKey(name: 'maxDevices')
+  final int maxDevices;
+
+  CreateDevicePoolRequest({
+    @_s.required this.name,
+    @_s.required this.projectArn,
+    @_s.required this.rules,
+    this.description,
+    this.maxDevices,
+  });
+  Map<String, dynamic> toJson() => _$CreateDevicePoolRequestToJson(this);
+}
+
 /// Represents the result of a create device pool request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -5491,6 +5499,48 @@ class CreateDevicePoolResult {
   });
   factory CreateDevicePoolResult.fromJson(Map<String, dynamic> json) =>
       _$CreateDevicePoolResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateInstanceProfileRequest {
+  /// The name of your instance profile.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The description of your instance profile.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// An array of strings that specifies the list of app packages that should not
+  /// be cleaned up from the device after a test run.
+  ///
+  /// The list of packages is considered only if you set
+  /// <code>packageCleanup</code> to <code>true</code>.
+  @_s.JsonKey(name: 'excludeAppPackagesFromCleanup')
+  final List<String> excludeAppPackagesFromCleanup;
+
+  /// When set to <code>true</code>, Device Farm removes app packages after a test
+  /// run. The default value is <code>false</code> for private devices.
+  @_s.JsonKey(name: 'packageCleanup')
+  final bool packageCleanup;
+
+  /// When set to <code>true</code>, Device Farm reboots the instance after a test
+  /// run. The default value is <code>true</code>.
+  @_s.JsonKey(name: 'rebootAfterUse')
+  final bool rebootAfterUse;
+
+  CreateInstanceProfileRequest({
+    @_s.required this.name,
+    this.description,
+    this.excludeAppPackagesFromCleanup,
+    this.packageCleanup,
+    this.rebootAfterUse,
+  });
+  Map<String, dynamic> toJson() => _$CreateInstanceProfileRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5513,6 +5563,84 @@ class CreateInstanceProfileResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateNetworkProfileRequest {
+  /// The name for the new network profile.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The Amazon Resource Name (ARN) of the project for which you want to create a
+  /// network profile.
+  @_s.JsonKey(name: 'projectArn')
+  final String projectArn;
+
+  /// The description of the network profile.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The data throughput rate in bits per second, as an integer from 0 to
+  /// 104857600.
+  @_s.JsonKey(name: 'downlinkBandwidthBits')
+  final int downlinkBandwidthBits;
+
+  /// Delay time for all packets to destination in milliseconds as an integer from
+  /// 0 to 2000.
+  @_s.JsonKey(name: 'downlinkDelayMs')
+  final int downlinkDelayMs;
+
+  /// Time variation in the delay of received packets in milliseconds as an
+  /// integer from 0 to 2000.
+  @_s.JsonKey(name: 'downlinkJitterMs')
+  final int downlinkJitterMs;
+
+  /// Proportion of received packets that fail to arrive from 0 to 100 percent.
+  @_s.JsonKey(name: 'downlinkLossPercent')
+  final int downlinkLossPercent;
+
+  /// The type of network profile to create. Valid values are listed here.
+  @_s.JsonKey(name: 'type')
+  final NetworkProfileType type;
+
+  /// The data throughput rate in bits per second, as an integer from 0 to
+  /// 104857600.
+  @_s.JsonKey(name: 'uplinkBandwidthBits')
+  final int uplinkBandwidthBits;
+
+  /// Delay time for all packets to destination in milliseconds as an integer from
+  /// 0 to 2000.
+  @_s.JsonKey(name: 'uplinkDelayMs')
+  final int uplinkDelayMs;
+
+  /// Time variation in the delay of received packets in milliseconds as an
+  /// integer from 0 to 2000.
+  @_s.JsonKey(name: 'uplinkJitterMs')
+  final int uplinkJitterMs;
+
+  /// Proportion of transmitted packets that fail to arrive from 0 to 100 percent.
+  @_s.JsonKey(name: 'uplinkLossPercent')
+  final int uplinkLossPercent;
+
+  CreateNetworkProfileRequest({
+    @_s.required this.name,
+    @_s.required this.projectArn,
+    this.description,
+    this.downlinkBandwidthBits,
+    this.downlinkDelayMs,
+    this.downlinkJitterMs,
+    this.downlinkLossPercent,
+    this.type,
+    this.uplinkBandwidthBits,
+    this.uplinkDelayMs,
+    this.uplinkJitterMs,
+    this.uplinkLossPercent,
+  });
+  Map<String, dynamic> toJson() => _$CreateNetworkProfileRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateNetworkProfileResult {
@@ -5525,6 +5653,30 @@ class CreateNetworkProfileResult {
   });
   factory CreateNetworkProfileResult.fromJson(Map<String, dynamic> json) =>
       _$CreateNetworkProfileResultFromJson(json);
+}
+
+/// Represents a request to the create project operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateProjectRequest {
+  /// The project's name.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// Sets the execution timeout value (in minutes) for a project. All test runs
+  /// in this project use the specified execution timeout value unless overridden
+  /// when scheduling a run.
+  @_s.JsonKey(name: 'defaultJobTimeoutMinutes')
+  final int defaultJobTimeoutMinutes;
+
+  CreateProjectRequest({
+    @_s.required this.name,
+    this.defaultJobTimeoutMinutes,
+  });
+  Map<String, dynamic> toJson() => _$CreateProjectRequestToJson(this);
 }
 
 /// Represents the result of a create project request.
@@ -5569,6 +5721,126 @@ class CreateRemoteAccessSessionConfiguration {
       _$CreateRemoteAccessSessionConfigurationToJson(this);
 }
 
+/// Creates and submits a request to start a remote access session.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateRemoteAccessSessionRequest {
+  /// The ARN of the device for which you want to create a remote access session.
+  @_s.JsonKey(name: 'deviceArn')
+  final String deviceArn;
+
+  /// The Amazon Resource Name (ARN) of the project for which you want to create a
+  /// remote access session.
+  @_s.JsonKey(name: 'projectArn')
+  final String projectArn;
+
+  /// Unique identifier for the client. If you want access to multiple devices on
+  /// the same client, you should pass the same <code>clientId</code> value in
+  /// each call to <code>CreateRemoteAccessSession</code>. This identifier is
+  /// required only if <code>remoteDebugEnabled</code> is set to
+  /// <code>true</code>.
+  ///
+  /// Remote debugging is <a
+  /// href="https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html">no
+  /// longer supported</a>.
+  @_s.JsonKey(name: 'clientId')
+  final String clientId;
+
+  /// The configuration information for the remote access session request.
+  @_s.JsonKey(name: 'configuration')
+  final CreateRemoteAccessSessionConfiguration configuration;
+
+  /// The Amazon Resource Name (ARN) of the device instance for which you want to
+  /// create a remote access session.
+  @_s.JsonKey(name: 'instanceArn')
+  final String instanceArn;
+
+  /// The interaction mode of the remote access session. Valid values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// INTERACTIVE: You can interact with the iOS device by viewing, touching, and
+  /// rotating the screen. You cannot run XCUITest framework-based tests in this
+  /// mode.
+  /// </li>
+  /// <li>
+  /// NO_VIDEO: You are connected to the device, but cannot interact with it or
+  /// view the screen. This mode has the fastest test execution speed. You can run
+  /// XCUITest framework-based tests in this mode.
+  /// </li>
+  /// <li>
+  /// VIDEO_ONLY: You can view the screen, but cannot touch or rotate it. You can
+  /// run XCUITest framework-based tests and watch the screen in this mode.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'interactionMode')
+  final InteractionMode interactionMode;
+
+  /// The name of the remote access session to create.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// Set to <code>true</code> if you want to access devices remotely for
+  /// debugging in your remote access session.
+  ///
+  /// Remote debugging is <a
+  /// href="https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html">no
+  /// longer supported</a>.
+  @_s.JsonKey(name: 'remoteDebugEnabled')
+  final bool remoteDebugEnabled;
+
+  /// The Amazon Resource Name (ARN) for the app to be recorded in the remote
+  /// access session.
+  @_s.JsonKey(name: 'remoteRecordAppArn')
+  final String remoteRecordAppArn;
+
+  /// Set to <code>true</code> to enable remote recording for the remote access
+  /// session.
+  @_s.JsonKey(name: 'remoteRecordEnabled')
+  final bool remoteRecordEnabled;
+
+  /// When set to <code>true</code>, for private devices, Device Farm does not
+  /// sign your app again. For public devices, Device Farm always signs your apps
+  /// again.
+  ///
+  /// For more information on how Device Farm modifies your uploads during tests,
+  /// see <a href="https://aws.amazon.com/device-farm/faq/">Do you modify my
+  /// app?</a>
+  @_s.JsonKey(name: 'skipAppResign')
+  final bool skipAppResign;
+
+  /// Ignored. The public key of the <code>ssh</code> key pair you want to use for
+  /// connecting to remote devices in your remote debugging session. This key is
+  /// required only if <code>remoteDebugEnabled</code> is set to
+  /// <code>true</code>.
+  ///
+  /// Remote debugging is <a
+  /// href="https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html">no
+  /// longer supported</a>.
+  @_s.JsonKey(name: 'sshPublicKey')
+  final String sshPublicKey;
+
+  CreateRemoteAccessSessionRequest({
+    @_s.required this.deviceArn,
+    @_s.required this.projectArn,
+    this.clientId,
+    this.configuration,
+    this.instanceArn,
+    this.interactionMode,
+    this.name,
+    this.remoteDebugEnabled,
+    this.remoteRecordAppArn,
+    this.remoteRecordEnabled,
+    this.skipAppResign,
+    this.sshPublicKey,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateRemoteAccessSessionRequestToJson(this);
+}
+
 /// Represents the server response from a request to create a remote access
 /// session.
 @_s.JsonSerializable(
@@ -5592,6 +5864,27 @@ class CreateRemoteAccessSessionResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateTestGridProjectRequest {
+  /// Human-readable name of the Selenium testing project.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// Human-readable description of the project.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  CreateTestGridProjectRequest({
+    @_s.required this.name,
+    this.description,
+  });
+  Map<String, dynamic> toJson() => _$CreateTestGridProjectRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateTestGridProjectResult {
@@ -5604,6 +5897,28 @@ class CreateTestGridProjectResult {
   });
   factory CreateTestGridProjectResult.fromJson(Map<String, dynamic> json) =>
       _$CreateTestGridProjectResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateTestGridUrlRequest {
+  /// Lifetime, in seconds, of the URL.
+  @_s.JsonKey(name: 'expiresInSeconds')
+  final int expiresInSeconds;
+
+  /// ARN (from <a>CreateTestGridProject</a> or <a>ListTestGridProjects</a>) to
+  /// associate with the short-term URL.
+  @_s.JsonKey(name: 'projectArn')
+  final String projectArn;
+
+  CreateTestGridUrlRequest({
+    @_s.required this.expiresInSeconds,
+    @_s.required this.projectArn,
+  });
+  Map<String, dynamic> toJson() => _$CreateTestGridUrlRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5633,6 +5948,146 @@ class CreateTestGridUrlResult {
       _$CreateTestGridUrlResultFromJson(json);
 }
 
+/// Represents a request to the create upload operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateUploadRequest {
+  /// The upload's file name. The name should not contain any forward slashes
+  /// (<code>/</code>). If you are uploading an iOS app, the file name must end
+  /// with the <code>.ipa</code> extension. If you are uploading an Android app,
+  /// the file name must end with the <code>.apk</code> extension. For all others,
+  /// the file name must end with the <code>.zip</code> file extension.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The ARN of the project for the upload.
+  @_s.JsonKey(name: 'projectArn')
+  final String projectArn;
+
+  /// The upload's upload type.
+  ///
+  /// Must be one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// ANDROID_APP
+  /// </li>
+  /// <li>
+  /// IOS_APP
+  /// </li>
+  /// <li>
+  /// WEB_APP
+  /// </li>
+  /// <li>
+  /// EXTERNAL_DATA
+  /// </li>
+  /// <li>
+  /// APPIUM_JAVA_JUNIT_TEST_PACKAGE
+  /// </li>
+  /// <li>
+  /// APPIUM_JAVA_TESTNG_TEST_PACKAGE
+  /// </li>
+  /// <li>
+  /// APPIUM_PYTHON_TEST_PACKAGE
+  /// </li>
+  /// <li>
+  /// APPIUM_NODE_TEST_PACKAGE
+  /// </li>
+  /// <li>
+  /// APPIUM_RUBY_TEST_PACKAGE
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_PYTHON_TEST_PACKAGE
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_NODE_TEST_PACKAGE
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_RUBY_TEST_PACKAGE
+  /// </li>
+  /// <li>
+  /// CALABASH_TEST_PACKAGE
+  /// </li>
+  /// <li>
+  /// INSTRUMENTATION_TEST_PACKAGE
+  /// </li>
+  /// <li>
+  /// UIAUTOMATION_TEST_PACKAGE
+  /// </li>
+  /// <li>
+  /// UIAUTOMATOR_TEST_PACKAGE
+  /// </li>
+  /// <li>
+  /// XCTEST_TEST_PACKAGE
+  /// </li>
+  /// <li>
+  /// XCTEST_UI_TEST_PACKAGE
+  /// </li>
+  /// <li>
+  /// APPIUM_JAVA_JUNIT_TEST_SPEC
+  /// </li>
+  /// <li>
+  /// APPIUM_JAVA_TESTNG_TEST_SPEC
+  /// </li>
+  /// <li>
+  /// APPIUM_PYTHON_TEST_SPEC
+  /// </li>
+  /// <li>
+  /// APPIUM_NODE_TEST_SPEC
+  /// </li>
+  /// <li>
+  /// APPIUM_RUBY_TEST_SPEC
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_JAVA_JUNIT_TEST_SPEC
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_JAVA_TESTNG_TEST_SPEC
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_PYTHON_TEST_SPEC
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_NODE_TEST_SPEC
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_RUBY_TEST_SPEC
+  /// </li>
+  /// <li>
+  /// INSTRUMENTATION_TEST_SPEC
+  /// </li>
+  /// <li>
+  /// XCTEST_UI_TEST_SPEC
+  /// </li>
+  /// </ul>
+  /// If you call <code>CreateUpload</code> with <code>WEB_APP</code> specified,
+  /// AWS Device Farm throws an <code>ArgumentException</code> error.
+  @_s.JsonKey(name: 'type')
+  final UploadType type;
+
+  /// The upload's content type (for example,
+  /// <code>application/octet-stream</code>).
+  @_s.JsonKey(name: 'contentType')
+  final String contentType;
+
+  CreateUploadRequest({
+    @_s.required this.name,
+    @_s.required this.projectArn,
+    @_s.required this.type,
+    this.contentType,
+  });
+  Map<String, dynamic> toJson() => _$CreateUploadRequestToJson(this);
+}
+
 /// Represents the result of a create upload request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -5649,6 +6104,41 @@ class CreateUploadResult {
   });
   factory CreateUploadResult.fromJson(Map<String, dynamic> json) =>
       _$CreateUploadResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateVPCEConfigurationRequest {
+  /// The DNS name of the service running in your VPC that you want Device Farm to
+  /// test.
+  @_s.JsonKey(name: 'serviceDnsName')
+  final String serviceDnsName;
+
+  /// The friendly name you give to your VPC endpoint configuration, to manage
+  /// your configurations more easily.
+  @_s.JsonKey(name: 'vpceConfigurationName')
+  final String vpceConfigurationName;
+
+  /// The name of the VPC endpoint service running in your AWS account that you
+  /// want Device Farm to test.
+  @_s.JsonKey(name: 'vpceServiceName')
+  final String vpceServiceName;
+
+  /// An optional description that provides details about your VPC endpoint
+  /// configuration.
+  @_s.JsonKey(name: 'vpceConfigurationDescription')
+  final String vpceConfigurationDescription;
+
+  CreateVPCEConfigurationRequest({
+    @_s.required this.serviceDnsName,
+    @_s.required this.vpceConfigurationName,
+    @_s.required this.vpceServiceName,
+    this.vpceConfigurationDescription,
+  });
+  Map<String, dynamic> toJson() => _$CreateVPCEConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5713,6 +6203,24 @@ class CustomerArtifactPaths {
   Map<String, dynamic> toJson() => _$CustomerArtifactPathsToJson(this);
 }
 
+/// Represents a request to the delete device pool operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDevicePoolRequest {
+  /// Represents the Amazon Resource Name (ARN) of the Device Farm device pool to
+  /// delete.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  DeleteDevicePoolRequest({
+    @_s.required this.arn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDevicePoolRequestToJson(this);
+}
+
 /// Represents the result of a delete device pool request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -5723,6 +6231,23 @@ class DeleteDevicePoolResult {
   DeleteDevicePoolResult();
   factory DeleteDevicePoolResult.fromJson(Map<String, dynamic> json) =>
       _$DeleteDevicePoolResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteInstanceProfileRequest {
+  /// The Amazon Resource Name (ARN) of the instance profile you are requesting to
+  /// delete.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  DeleteInstanceProfileRequest({
+    @_s.required this.arn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteInstanceProfileRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5739,12 +6264,46 @@ class DeleteInstanceProfileResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteNetworkProfileRequest {
+  /// The ARN of the network profile to delete.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  DeleteNetworkProfileRequest({
+    @_s.required this.arn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteNetworkProfileRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteNetworkProfileResult {
   DeleteNetworkProfileResult();
   factory DeleteNetworkProfileResult.fromJson(Map<String, dynamic> json) =>
       _$DeleteNetworkProfileResultFromJson(json);
+}
+
+/// Represents a request to the delete project operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteProjectRequest {
+  /// Represents the Amazon Resource Name (ARN) of the Device Farm project to
+  /// delete.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  DeleteProjectRequest({
+    @_s.required this.arn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteProjectRequestToJson(this);
 }
 
 /// Represents the result of a delete project request.
@@ -5759,6 +6318,25 @@ class DeleteProjectResult {
       _$DeleteProjectResultFromJson(json);
 }
 
+/// Represents the request to delete the specified remote access session.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteRemoteAccessSessionRequest {
+  /// The Amazon Resource Name (ARN) of the session for which you want to delete
+  /// remote access.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  DeleteRemoteAccessSessionRequest({
+    @_s.required this.arn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteRemoteAccessSessionRequestToJson(this);
+}
+
 /// The response from the server when a request is made to delete the remote
 /// access session.
 @_s.JsonSerializable(
@@ -5770,6 +6348,23 @@ class DeleteRemoteAccessSessionResult {
   DeleteRemoteAccessSessionResult();
   factory DeleteRemoteAccessSessionResult.fromJson(Map<String, dynamic> json) =>
       _$DeleteRemoteAccessSessionResultFromJson(json);
+}
+
+/// Represents a request to the delete run operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteRunRequest {
+  /// The Amazon Resource Name (ARN) for the run to delete.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  DeleteRunRequest({
+    @_s.required this.arn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteRunRequestToJson(this);
 }
 
 /// Represents the result of a delete run request.
@@ -5787,12 +6382,47 @@ class DeleteRunResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteTestGridProjectRequest {
+  /// The ARN of the project to delete, from <a>CreateTestGridProject</a> or
+  /// <a>ListTestGridProjects</a>.
+  @_s.JsonKey(name: 'projectArn')
+  final String projectArn;
+
+  DeleteTestGridProjectRequest({
+    @_s.required this.projectArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteTestGridProjectRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteTestGridProjectResult {
   DeleteTestGridProjectResult();
   factory DeleteTestGridProjectResult.fromJson(Map<String, dynamic> json) =>
       _$DeleteTestGridProjectResultFromJson(json);
+}
+
+/// Represents a request to the delete upload operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteUploadRequest {
+  /// Represents the Amazon Resource Name (ARN) of the Device Farm upload to
+  /// delete.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  DeleteUploadRequest({
+    @_s.required this.arn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteUploadRequestToJson(this);
 }
 
 /// Represents the result of a delete upload request.
@@ -5805,6 +6435,23 @@ class DeleteUploadResult {
   DeleteUploadResult();
   factory DeleteUploadResult.fromJson(Map<String, dynamic> json) =>
       _$DeleteUploadResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteVPCEConfigurationRequest {
+  /// The Amazon Resource Name (ARN) of the VPC endpoint configuration you want to
+  /// delete.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  DeleteVPCEConfigurationRequest({
+    @_s.required this.arn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteVPCEConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6351,18 +6998,6 @@ enum DevicePoolType {
   private,
 }
 
-extension on DevicePoolType {
-  String toValue() {
-    switch (this) {
-      case DevicePoolType.curated:
-        return 'CURATED';
-      case DevicePoolType.private:
-        return 'PRIVATE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Represents the device filters used in a test run and the maximum number of
 /// devices to be included in the run. It is passed in as the
 /// <code>deviceSelectionConfiguration</code> request parameter in
@@ -6642,6 +7277,23 @@ class GetAccountSettingsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetDeviceInstanceRequest {
+  /// The Amazon Resource Name (ARN) of the instance you're requesting information
+  /// about.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  GetDeviceInstanceRequest({
+    @_s.required this.arn,
+  });
+  Map<String, dynamic> toJson() => _$GetDeviceInstanceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetDeviceInstanceResult {
@@ -6654,6 +7306,104 @@ class GetDeviceInstanceResult {
   });
   factory GetDeviceInstanceResult.fromJson(Map<String, dynamic> json) =>
       _$GetDeviceInstanceResultFromJson(json);
+}
+
+/// Represents a request to the get device pool compatibility operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetDevicePoolCompatibilityRequest {
+  /// The device pool's ARN.
+  @_s.JsonKey(name: 'devicePoolArn')
+  final String devicePoolArn;
+
+  /// The ARN of the app that is associated with the specified device pool.
+  @_s.JsonKey(name: 'appArn')
+  final String appArn;
+
+  /// An object that contains information about the settings for a run.
+  @_s.JsonKey(name: 'configuration')
+  final ScheduleRunConfiguration configuration;
+
+  /// Information about the uploaded test to be run against the device pool.
+  @_s.JsonKey(name: 'test')
+  final ScheduleRunTest test;
+
+  /// The test type for the specified device pool.
+  ///
+  /// Allowed values include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// BUILTIN_FUZZ.
+  /// </li>
+  /// <li>
+  /// BUILTIN_EXPLORER. For Android, an app explorer that traverses an Android
+  /// app, interacting with it and capturing screenshots at the same time.
+  /// </li>
+  /// <li>
+  /// APPIUM_JAVA_JUNIT.
+  /// </li>
+  /// <li>
+  /// APPIUM_JAVA_TESTNG.
+  /// </li>
+  /// <li>
+  /// APPIUM_PYTHON.
+  /// </li>
+  /// <li>
+  /// APPIUM_NODE.
+  /// </li>
+  /// <li>
+  /// APPIUM_RUBY.
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_JAVA_JUNIT.
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_JAVA_TESTNG.
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_PYTHON.
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_NODE.
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_RUBY.
+  /// </li>
+  /// <li>
+  /// CALABASH.
+  /// </li>
+  /// <li>
+  /// INSTRUMENTATION.
+  /// </li>
+  /// <li>
+  /// UIAUTOMATION.
+  /// </li>
+  /// <li>
+  /// UIAUTOMATOR.
+  /// </li>
+  /// <li>
+  /// XCTEST.
+  /// </li>
+  /// <li>
+  /// XCTEST_UI.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'testType')
+  final TestType testType;
+
+  GetDevicePoolCompatibilityRequest({
+    @_s.required this.devicePoolArn,
+    this.appArn,
+    this.configuration,
+    this.test,
+    this.testType,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetDevicePoolCompatibilityRequestToJson(this);
 }
 
 /// Represents the result of describe device pool compatibility request.
@@ -6680,6 +7430,23 @@ class GetDevicePoolCompatibilityResult {
       _$GetDevicePoolCompatibilityResultFromJson(json);
 }
 
+/// Represents a request to the get device pool operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetDevicePoolRequest {
+  /// The device pool's ARN.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  GetDevicePoolRequest({
+    @_s.required this.arn,
+  });
+  Map<String, dynamic> toJson() => _$GetDevicePoolRequestToJson(this);
+}
+
 /// Represents the result of a get device pool request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6696,6 +7463,23 @@ class GetDevicePoolResult {
   });
   factory GetDevicePoolResult.fromJson(Map<String, dynamic> json) =>
       _$GetDevicePoolResultFromJson(json);
+}
+
+/// Represents a request to the get device request.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetDeviceRequest {
+  /// The device type's ARN.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  GetDeviceRequest({
+    @_s.required this.arn,
+  });
+  Map<String, dynamic> toJson() => _$GetDeviceRequestToJson(this);
 }
 
 /// Represents the result of a get device request.
@@ -6719,6 +7503,22 @@ class GetDeviceResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetInstanceProfileRequest {
+  /// The Amazon Resource Name (ARN) of an instance profile.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  GetInstanceProfileRequest({
+    @_s.required this.arn,
+  });
+  Map<String, dynamic> toJson() => _$GetInstanceProfileRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetInstanceProfileResult {
@@ -6731,6 +7531,23 @@ class GetInstanceProfileResult {
   });
   factory GetInstanceProfileResult.fromJson(Map<String, dynamic> json) =>
       _$GetInstanceProfileResultFromJson(json);
+}
+
+/// Represents a request to the get job operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetJobRequest {
+  /// The job's ARN.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  GetJobRequest({
+    @_s.required this.arn,
+  });
+  Map<String, dynamic> toJson() => _$GetJobRequestToJson(this);
 }
 
 /// Represents the result of a get job request.
@@ -6754,6 +7571,22 @@ class GetJobResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetNetworkProfileRequest {
+  /// The ARN of the network profile to return information about.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  GetNetworkProfileRequest({
+    @_s.required this.arn,
+  });
+  Map<String, dynamic> toJson() => _$GetNetworkProfileRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetNetworkProfileResult {
@@ -6766,6 +7599,25 @@ class GetNetworkProfileResult {
   });
   factory GetNetworkProfileResult.fromJson(Map<String, dynamic> json) =>
       _$GetNetworkProfileResultFromJson(json);
+}
+
+/// Represents the request to retrieve the offering status for the specified
+/// customer or account.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetOfferingStatusRequest {
+  /// An identifier that was returned from the previous call to this operation,
+  /// which can be used to return the next set of items in the list.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  GetOfferingStatusRequest({
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$GetOfferingStatusRequestToJson(this);
 }
 
 /// Returns the status result for a device offering.
@@ -6797,6 +7649,23 @@ class GetOfferingStatusResult {
       _$GetOfferingStatusResultFromJson(json);
 }
 
+/// Represents a request to the get project operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetProjectRequest {
+  /// The project's ARN.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  GetProjectRequest({
+    @_s.required this.arn,
+  });
+  Map<String, dynamic> toJson() => _$GetProjectRequestToJson(this);
+}
+
 /// Represents the result of a get project request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6813,6 +7682,25 @@ class GetProjectResult {
   });
   factory GetProjectResult.fromJson(Map<String, dynamic> json) =>
       _$GetProjectResultFromJson(json);
+}
+
+/// Represents the request to get information about the specified remote access
+/// session.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetRemoteAccessSessionRequest {
+  /// The Amazon Resource Name (ARN) of the remote access session about which you
+  /// want to get session information.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  GetRemoteAccessSessionRequest({
+    @_s.required this.arn,
+  });
+  Map<String, dynamic> toJson() => _$GetRemoteAccessSessionRequestToJson(this);
 }
 
 /// Represents the response from the server that lists detailed information
@@ -6834,6 +7722,23 @@ class GetRemoteAccessSessionResult {
       _$GetRemoteAccessSessionResultFromJson(json);
 }
 
+/// Represents a request to the get run operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetRunRequest {
+  /// The run's ARN.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  GetRunRequest({
+    @_s.required this.arn,
+  });
+  Map<String, dynamic> toJson() => _$GetRunRequestToJson(this);
+}
+
 /// Represents the result of a get run request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6850,6 +7755,23 @@ class GetRunResult {
   });
   factory GetRunResult.fromJson(Map<String, dynamic> json) =>
       _$GetRunResultFromJson(json);
+}
+
+/// Represents a request to the get suite operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetSuiteRequest {
+  /// The suite's ARN.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  GetSuiteRequest({
+    @_s.required this.arn,
+  });
+  Map<String, dynamic> toJson() => _$GetSuiteRequestToJson(this);
 }
 
 /// Represents the result of a get suite request.
@@ -6873,6 +7795,23 @@ class GetSuiteResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetTestGridProjectRequest {
+  /// The ARN of the Selenium testing project, from either
+  /// <a>CreateTestGridProject</a> or <a>ListTestGridProjects</a>.
+  @_s.JsonKey(name: 'projectArn')
+  final String projectArn;
+
+  GetTestGridProjectRequest({
+    @_s.required this.projectArn,
+  });
+  Map<String, dynamic> toJson() => _$GetTestGridProjectRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetTestGridProjectResult {
@@ -6890,6 +7829,33 @@ class GetTestGridProjectResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetTestGridSessionRequest {
+  /// The ARN for the project that this session belongs to. See
+  /// <a>CreateTestGridProject</a> and <a>ListTestGridProjects</a>.
+  @_s.JsonKey(name: 'projectArn')
+  final String projectArn;
+
+  /// An ARN that uniquely identifies a <a>TestGridSession</a>.
+  @_s.JsonKey(name: 'sessionArn')
+  final String sessionArn;
+
+  /// An ID associated with this session.
+  @_s.JsonKey(name: 'sessionId')
+  final String sessionId;
+
+  GetTestGridSessionRequest({
+    this.projectArn,
+    this.sessionArn,
+    this.sessionId,
+  });
+  Map<String, dynamic> toJson() => _$GetTestGridSessionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetTestGridSessionResult {
@@ -6902,6 +7868,23 @@ class GetTestGridSessionResult {
   });
   factory GetTestGridSessionResult.fromJson(Map<String, dynamic> json) =>
       _$GetTestGridSessionResultFromJson(json);
+}
+
+/// Represents a request to the get test operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetTestRequest {
+  /// The test's ARN.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  GetTestRequest({
+    @_s.required this.arn,
+  });
+  Map<String, dynamic> toJson() => _$GetTestRequestToJson(this);
 }
 
 /// Represents the result of a get test request.
@@ -6922,6 +7905,23 @@ class GetTestResult {
       _$GetTestResultFromJson(json);
 }
 
+/// Represents a request to the get upload operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetUploadRequest {
+  /// The upload's ARN.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  GetUploadRequest({
+    @_s.required this.arn,
+  });
+  Map<String, dynamic> toJson() => _$GetUploadRequestToJson(this);
+}
+
 /// Represents the result of a get upload request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6938,6 +7938,23 @@ class GetUploadResult {
   });
   factory GetUploadResult.fromJson(Map<String, dynamic> json) =>
       _$GetUploadResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetVPCEConfigurationRequest {
+  /// The Amazon Resource Name (ARN) of the VPC endpoint configuration you want to
+  /// describe.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  GetVPCEConfigurationRequest({
+    @_s.required this.arn,
+  });
+  Map<String, dynamic> toJson() => _$GetVPCEConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7001,6 +8018,31 @@ class IncompatibilityMessage {
   });
   factory IncompatibilityMessage.fromJson(Map<String, dynamic> json) =>
       _$IncompatibilityMessageFromJson(json);
+}
+
+/// Represents the request to install an Android application (in .apk format) or
+/// an iOS application (in .ipa format) as part of a remote access session.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class InstallToRemoteAccessSessionRequest {
+  /// The ARN of the app about which you are requesting information.
+  @_s.JsonKey(name: 'appArn')
+  final String appArn;
+
+  /// The Amazon Resource Name (ARN) of the remote access session about which you
+  /// are requesting information.
+  @_s.JsonKey(name: 'remoteAccessSessionArn')
+  final String remoteAccessSessionArn;
+
+  InstallToRemoteAccessSessionRequest({
+    @_s.required this.appArn,
+    @_s.required this.remoteAccessSessionArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$InstallToRemoteAccessSessionRequestToJson(this);
 }
 
 /// Represents the response from the server after AWS Device Farm makes a
@@ -7090,20 +8132,6 @@ enum InteractionMode {
   noVideo,
   @_s.JsonValue('VIDEO_ONLY')
   videoOnly,
-}
-
-extension on InteractionMode {
-  String toValue() {
-    switch (this) {
-      case InteractionMode.interactive:
-        return 'INTERACTIVE';
-      case InteractionMode.noVideo:
-        return 'NO_VIDEO';
-      case InteractionMode.videoOnly:
-        return 'VIDEO_ONLY';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Represents a device.
@@ -7321,6 +8349,48 @@ class Job {
   factory Job.fromJson(Map<String, dynamic> json) => _$JobFromJson(json);
 }
 
+/// Represents a request to the list artifacts operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListArtifactsRequest {
+  /// The run, job, suite, or test ARN.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// The artifacts' type.
+  ///
+  /// Allowed values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// FILE
+  /// </li>
+  /// <li>
+  /// LOG
+  /// </li>
+  /// <li>
+  /// SCREENSHOT
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'type')
+  final ArtifactCategory type;
+
+  /// An identifier that was returned from the previous call to this operation,
+  /// which can be used to return the next set of items in the list.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListArtifactsRequest({
+    @_s.required this.arn,
+    @_s.required this.type,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListArtifactsRequestToJson(this);
+}
+
 /// Represents the result of a list artifacts operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -7344,6 +8414,29 @@ class ListArtifactsResult {
   });
   factory ListArtifactsResult.fromJson(Map<String, dynamic> json) =>
       _$ListArtifactsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListDeviceInstancesRequest {
+  /// An integer that specifies the maximum number of items you want to return in
+  /// the API response.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// An identifier that was returned from the previous call to this operation,
+  /// which can be used to return the next set of items in the list.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListDeviceInstancesRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListDeviceInstancesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7373,6 +8466,46 @@ class ListDeviceInstancesResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListDevicePoolsRequest {
+  /// The project ARN.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// An identifier that was returned from the previous call to this operation,
+  /// which can be used to return the next set of items in the list.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The device pools' type.
+  ///
+  /// Allowed values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// CURATED: A device pool that is created and managed by AWS Device Farm.
+  /// </li>
+  /// <li>
+  /// PRIVATE: A device pool that is created and managed by the device pool
+  /// developer.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'type')
+  final DevicePoolType type;
+
+  ListDevicePoolsRequest({
+    @_s.required this.arn,
+    this.nextToken,
+    this.type,
+  });
+  Map<String, dynamic> toJson() => _$ListDevicePoolsRequestToJson(this);
+}
+
+/// Represents the result of a list device pools request.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListDevicePoolsResult {
@@ -7392,6 +8525,124 @@ class ListDevicePoolsResult {
   });
   factory ListDevicePoolsResult.fromJson(Map<String, dynamic> json) =>
       _$ListDevicePoolsResultFromJson(json);
+}
+
+/// Represents the result of a list devices request.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListDevicesRequest {
+  /// The Amazon Resource Name (ARN) of the project.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// Used to select a set of devices. A filter is made up of an attribute, an
+  /// operator, and one or more values.
+  ///
+  /// <ul>
+  /// <li>
+  /// Attribute: The aspect of a device such as platform or model used as the
+  /// selection criteria in a device filter.
+  ///
+  /// Allowed values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// ARN: The Amazon Resource Name (ARN) of the device (for example,
+  /// <code>arn:aws:devicefarm:us-west-2::device:12345Example</code>).
+  /// </li>
+  /// <li>
+  /// PLATFORM: The device platform. Valid values are ANDROID or IOS.
+  /// </li>
+  /// <li>
+  /// OS_VERSION: The operating system version (for example, 10.3.2).
+  /// </li>
+  /// <li>
+  /// MODEL: The device model (for example, iPad 5th Gen).
+  /// </li>
+  /// <li>
+  /// AVAILABILITY: The current availability of the device. Valid values are
+  /// AVAILABLE, HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAILABLE.
+  /// </li>
+  /// <li>
+  /// FORM_FACTOR: The device form factor. Valid values are PHONE or TABLET.
+  /// </li>
+  /// <li>
+  /// MANUFACTURER: The device manufacturer (for example, Apple).
+  /// </li>
+  /// <li>
+  /// REMOTE_ACCESS_ENABLED: Whether the device is enabled for remote access.
+  /// Valid values are TRUE or FALSE.
+  /// </li>
+  /// <li>
+  /// REMOTE_DEBUG_ENABLED: Whether the device is enabled for remote debugging.
+  /// Valid values are TRUE or FALSE. Because remote debugging is <a
+  /// href="https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html">no
+  /// longer supported</a>, this attribute is ignored.
+  /// </li>
+  /// <li>
+  /// INSTANCE_ARN: The Amazon Resource Name (ARN) of the device instance.
+  /// </li>
+  /// <li>
+  /// INSTANCE_LABELS: The label of the device instance.
+  /// </li>
+  /// <li>
+  /// FLEET_TYPE: The fleet type. Valid values are PUBLIC or PRIVATE.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// Operator: The filter operator.
+  ///
+  /// <ul>
+  /// <li>
+  /// The EQUALS operator is available for every attribute except INSTANCE_LABELS.
+  /// </li>
+  /// <li>
+  /// The CONTAINS operator is available for the INSTANCE_LABELS and MODEL
+  /// attributes.
+  /// </li>
+  /// <li>
+  /// The IN and NOT_IN operators are available for the ARN, OS_VERSION, MODEL,
+  /// MANUFACTURER, and INSTANCE_ARN attributes.
+  /// </li>
+  /// <li>
+  /// The LESS_THAN, GREATER_THAN, LESS_THAN_OR_EQUALS, and GREATER_THAN_OR_EQUALS
+  /// operators are also available for the OS_VERSION attribute.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// Values: An array of one or more filter values.
+  ///
+  /// <ul>
+  /// <li>
+  /// The IN and NOT_IN operators take a values array that has one or more
+  /// elements.
+  /// </li>
+  /// <li>
+  /// The other operators require an array with a single element.
+  /// </li>
+  /// <li>
+  /// In a request, the AVAILABILITY attribute takes the following values:
+  /// AVAILABLE, HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAILABLE.
+  /// </li>
+  /// </ul> </li>
+  /// </ul>
+  @_s.JsonKey(name: 'filters')
+  final List<DeviceFilter> filters;
+
+  /// An identifier that was returned from the previous call to this operation,
+  /// which can be used to return the next set of items in the list.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListDevicesRequest({
+    this.arn,
+    this.filters,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListDevicesRequestToJson(this);
 }
 
 /// Represents the result of a list devices operation.
@@ -7422,6 +8673,29 @@ class ListDevicesResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListInstanceProfilesRequest {
+  /// An integer that specifies the maximum number of items you want to return in
+  /// the API response.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// An identifier that was returned from the previous call to this operation,
+  /// which can be used to return the next set of items in the list.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListInstanceProfilesRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListInstanceProfilesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListInstanceProfilesResult {
@@ -7440,6 +8714,29 @@ class ListInstanceProfilesResult {
   });
   factory ListInstanceProfilesResult.fromJson(Map<String, dynamic> json) =>
       _$ListInstanceProfilesResultFromJson(json);
+}
+
+/// Represents a request to the list jobs operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListJobsRequest {
+  /// The run's Amazon Resource Name (ARN).
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// An identifier that was returned from the previous call to this operation,
+  /// which can be used to return the next set of items in the list.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListJobsRequest({
+    @_s.required this.arn,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListJobsRequestToJson(this);
 }
 
 /// Represents the result of a list jobs request.
@@ -7470,6 +8767,35 @@ class ListJobsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListNetworkProfilesRequest {
+  /// The Amazon Resource Name (ARN) of the project for which you want to list
+  /// network profiles.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// An identifier that was returned from the previous call to this operation,
+  /// which can be used to return the next set of items in the list.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The type of network profile to return information about. Valid values are
+  /// listed here.
+  @_s.JsonKey(name: 'type')
+  final NetworkProfileType type;
+
+  ListNetworkProfilesRequest({
+    @_s.required this.arn,
+    this.nextToken,
+    this.type,
+  });
+  Map<String, dynamic> toJson() => _$ListNetworkProfilesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListNetworkProfilesResult {
@@ -7493,6 +8819,23 @@ class ListNetworkProfilesResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListOfferingPromotionsRequest {
+  /// An identifier that was returned from the previous call to this operation,
+  /// which can be used to return the next set of items in the list.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListOfferingPromotionsRequest({
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListOfferingPromotionsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListOfferingPromotionsResult {
@@ -7511,6 +8854,25 @@ class ListOfferingPromotionsResult {
   });
   factory ListOfferingPromotionsResult.fromJson(Map<String, dynamic> json) =>
       _$ListOfferingPromotionsResultFromJson(json);
+}
+
+/// Represents the request to list the offering transaction history.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListOfferingTransactionsRequest {
+  /// An identifier that was returned from the previous call to this operation,
+  /// which can be used to return the next set of items in the list.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListOfferingTransactionsRequest({
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListOfferingTransactionsRequestToJson(this);
 }
 
 /// Returns the transaction log of the specified offerings.
@@ -7538,6 +8900,24 @@ class ListOfferingTransactionsResult {
       _$ListOfferingTransactionsResultFromJson(json);
 }
 
+/// Represents the request to list all offerings.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListOfferingsRequest {
+  /// An identifier that was returned from the previous call to this operation,
+  /// which can be used to return the next set of items in the list.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListOfferingsRequest({
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListOfferingsRequestToJson(this);
+}
+
 /// Represents the return values of the list of offerings.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -7560,6 +8940,31 @@ class ListOfferingsResult {
   });
   factory ListOfferingsResult.fromJson(Map<String, dynamic> json) =>
       _$ListOfferingsResultFromJson(json);
+}
+
+/// Represents a request to the list projects operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListProjectsRequest {
+  /// Optional. If no Amazon Resource Name (ARN) is specified, then AWS Device
+  /// Farm returns a list of all projects for the AWS account. You can also
+  /// specify a project ARN.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// An identifier that was returned from the previous call to this operation,
+  /// which can be used to return the next set of items in the list.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListProjectsRequest({
+    this.arn,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListProjectsRequestToJson(this);
 }
 
 /// Represents the result of a list projects request.
@@ -7585,6 +8990,32 @@ class ListProjectsResult {
   });
   factory ListProjectsResult.fromJson(Map<String, dynamic> json) =>
       _$ListProjectsResultFromJson(json);
+}
+
+/// Represents the request to return information about the remote access
+/// session.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListRemoteAccessSessionsRequest {
+  /// The Amazon Resource Name (ARN) of the project about which you are requesting
+  /// information.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// An identifier that was returned from the previous call to this operation,
+  /// which can be used to return the next set of items in the list.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListRemoteAccessSessionsRequest({
+    @_s.required this.arn,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListRemoteAccessSessionsRequestToJson(this);
 }
 
 /// Represents the response from the server after AWS Device Farm makes a
@@ -7613,6 +9044,30 @@ class ListRemoteAccessSessionsResult {
       _$ListRemoteAccessSessionsResultFromJson(json);
 }
 
+/// Represents a request to the list runs operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListRunsRequest {
+  /// The Amazon Resource Name (ARN) of the project for which you want to list
+  /// runs.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// An identifier that was returned from the previous call to this operation,
+  /// which can be used to return the next set of items in the list.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListRunsRequest({
+    @_s.required this.arn,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListRunsRequestToJson(this);
+}
+
 /// Represents the result of a list runs request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -7638,6 +9093,29 @@ class ListRunsResult {
       _$ListRunsResultFromJson(json);
 }
 
+/// Represents a request to the list samples operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListSamplesRequest {
+  /// The Amazon Resource Name (ARN) of the job used to list samples.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// An identifier that was returned from the previous call to this operation,
+  /// which can be used to return the next set of items in the list.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListSamplesRequest({
+    @_s.required this.arn,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListSamplesRequestToJson(this);
+}
+
 /// Represents the result of a list samples request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -7661,6 +9139,29 @@ class ListSamplesResult {
   });
   factory ListSamplesResult.fromJson(Map<String, dynamic> json) =>
       _$ListSamplesResultFromJson(json);
+}
+
+/// Represents a request to the list suites operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListSuitesRequest {
+  /// The job's Amazon Resource Name (ARN).
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// An identifier that was returned from the previous call to this operation,
+  /// which can be used to return the next set of items in the list.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListSuitesRequest({
+    @_s.required this.arn,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListSuitesRequestToJson(this);
 }
 
 /// Represents the result of a list suites request.
@@ -7691,6 +9192,27 @@ class ListSuitesResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource or resources for which to
+  /// list tags. You can associate tags with the following Device Farm resources:
+  /// <code>PROJECT</code>, <code>RUN</code>, <code>NETWORK_PROFILE</code>,
+  /// <code>INSTANCE_PROFILE</code>, <code>DEVICE_INSTANCE</code>,
+  /// <code>SESSION</code>, <code>DEVICE_POOL</code>, <code>DEVICE</code>, and
+  /// <code>VPCE_CONFIGURATION</code>.
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+
+  ListTagsForResourceRequest({
+    @_s.required this.resourceARN,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListTagsForResourceResponse {
@@ -7705,6 +9227,27 @@ class ListTagsForResourceResponse {
   });
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$ListTagsForResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTestGridProjectsRequest {
+  /// Return no more than this number of results.
+  @_s.JsonKey(name: 'maxResult')
+  final int maxResult;
+
+  /// From a response, used to continue a paginated listing.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListTestGridProjectsRequest({
+    this.maxResult,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListTestGridProjectsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7733,6 +9276,33 @@ class ListTestGridProjectsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTestGridSessionActionsRequest {
+  /// The ARN of the session to retrieve.
+  @_s.JsonKey(name: 'sessionArn')
+  final String sessionArn;
+
+  /// The maximum number of sessions to return per response.
+  @_s.JsonKey(name: 'maxResult')
+  final int maxResult;
+
+  /// Pagination token.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListTestGridSessionActionsRequest({
+    @_s.required this.sessionArn,
+    this.maxResult,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListTestGridSessionActionsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListTestGridSessionActionsResult {
@@ -7751,6 +9321,38 @@ class ListTestGridSessionActionsResult {
   factory ListTestGridSessionActionsResult.fromJson(
           Map<String, dynamic> json) =>
       _$ListTestGridSessionActionsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTestGridSessionArtifactsRequest {
+  /// The ARN of a <a>TestGridSession</a>.
+  @_s.JsonKey(name: 'sessionArn')
+  final String sessionArn;
+
+  /// The maximum number of results to be returned by a request.
+  @_s.JsonKey(name: 'maxResult')
+  final int maxResult;
+
+  /// Pagination token.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// Limit results to a specified type of artifact.
+  @_s.JsonKey(name: 'type')
+  final TestGridSessionArtifactCategory type;
+
+  ListTestGridSessionArtifactsRequest({
+    @_s.required this.sessionArn,
+    this.maxResult,
+    this.nextToken,
+    this.type,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListTestGridSessionArtifactsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7779,6 +9381,69 @@ class ListTestGridSessionArtifactsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTestGridSessionsRequest {
+  /// ARN of a <a>TestGridProject</a>.
+  @_s.JsonKey(name: 'projectArn')
+  final String projectArn;
+
+  /// Return only sessions created after this time.
+  @_s.JsonKey(
+      name: 'creationTimeAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeAfter;
+
+  /// Return only sessions created before this time.
+  @_s.JsonKey(
+      name: 'creationTimeBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeBefore;
+
+  /// Return only sessions that ended after this time.
+  @_s.JsonKey(
+      name: 'endTimeAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime endTimeAfter;
+
+  /// Return only sessions that ended before this time.
+  @_s.JsonKey(
+      name: 'endTimeBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime endTimeBefore;
+
+  /// Return only this many results at a time.
+  @_s.JsonKey(name: 'maxResult')
+  final int maxResult;
+
+  /// Pagination token.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// Return only sessions in this state.
+  @_s.JsonKey(name: 'status')
+  final TestGridSessionStatus status;
+
+  ListTestGridSessionsRequest({
+    @_s.required this.projectArn,
+    this.creationTimeAfter,
+    this.creationTimeBefore,
+    this.endTimeAfter,
+    this.endTimeBefore,
+    this.maxResult,
+    this.nextToken,
+    this.status,
+  });
+  Map<String, dynamic> toJson() => _$ListTestGridSessionsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListTestGridSessionsResult {
@@ -7797,6 +9462,29 @@ class ListTestGridSessionsResult {
   });
   factory ListTestGridSessionsResult.fromJson(Map<String, dynamic> json) =>
       _$ListTestGridSessionsResultFromJson(json);
+}
+
+/// Represents a request to the list tests operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTestsRequest {
+  /// The test suite's Amazon Resource Name (ARN).
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// An identifier that was returned from the previous call to this operation,
+  /// which can be used to return the next set of items in the list.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListTestsRequest({
+    @_s.required this.arn,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListTestsRequestToJson(this);
 }
 
 /// Represents the result of a list tests request.
@@ -7822,6 +9510,29 @@ class ListTestsResult {
   });
   factory ListTestsResult.fromJson(Map<String, dynamic> json) =>
       _$ListTestsResultFromJson(json);
+}
+
+/// Represents a request to the list unique problems operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListUniqueProblemsRequest {
+  /// The unique problems' ARNs.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// An identifier that was returned from the previous call to this operation,
+  /// which can be used to return the next set of items in the list.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListUniqueProblemsRequest({
+    @_s.required this.arn,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListUniqueProblemsRequestToJson(this);
 }
 
 /// Represents the result of a list unique problems request.
@@ -7875,6 +9586,136 @@ class ListUniqueProblemsResult {
       _$ListUniqueProblemsResultFromJson(json);
 }
 
+/// Represents a request to the list uploads operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListUploadsRequest {
+  /// The Amazon Resource Name (ARN) of the project for which you want to list
+  /// uploads.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// An identifier that was returned from the previous call to this operation,
+  /// which can be used to return the next set of items in the list.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The type of upload.
+  ///
+  /// Must be one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// ANDROID_APP
+  /// </li>
+  /// <li>
+  /// IOS_APP
+  /// </li>
+  /// <li>
+  /// WEB_APP
+  /// </li>
+  /// <li>
+  /// EXTERNAL_DATA
+  /// </li>
+  /// <li>
+  /// APPIUM_JAVA_JUNIT_TEST_PACKAGE
+  /// </li>
+  /// <li>
+  /// APPIUM_JAVA_TESTNG_TEST_PACKAGE
+  /// </li>
+  /// <li>
+  /// APPIUM_PYTHON_TEST_PACKAGE
+  /// </li>
+  /// <li>
+  /// APPIUM_NODE_TEST_PACKAGE
+  /// </li>
+  /// <li>
+  /// APPIUM_RUBY_TEST_PACKAGE
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_PYTHON_TEST_PACKAGE
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_NODE_TEST_PACKAGE
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_RUBY_TEST_PACKAGE
+  /// </li>
+  /// <li>
+  /// CALABASH_TEST_PACKAGE
+  /// </li>
+  /// <li>
+  /// INSTRUMENTATION_TEST_PACKAGE
+  /// </li>
+  /// <li>
+  /// UIAUTOMATION_TEST_PACKAGE
+  /// </li>
+  /// <li>
+  /// UIAUTOMATOR_TEST_PACKAGE
+  /// </li>
+  /// <li>
+  /// XCTEST_TEST_PACKAGE
+  /// </li>
+  /// <li>
+  /// XCTEST_UI_TEST_PACKAGE
+  /// </li>
+  /// <li>
+  /// APPIUM_JAVA_JUNIT_TEST_SPEC
+  /// </li>
+  /// <li>
+  /// APPIUM_JAVA_TESTNG_TEST_SPEC
+  /// </li>
+  /// <li>
+  /// APPIUM_PYTHON_TEST_SPEC
+  /// </li>
+  /// <li>
+  /// APPIUM_NODE_TEST_SPEC
+  /// </li>
+  /// <li>
+  /// APPIUM_RUBY_TEST_SPEC
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_JAVA_JUNIT_TEST_SPEC
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_JAVA_TESTNG_TEST_SPEC
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_PYTHON_TEST_SPEC
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_NODE_TEST_SPEC
+  /// </li>
+  /// <li>
+  /// APPIUM_WEB_RUBY_TEST_SPEC
+  /// </li>
+  /// <li>
+  /// INSTRUMENTATION_TEST_SPEC
+  /// </li>
+  /// <li>
+  /// XCTEST_UI_TEST_SPEC
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'type')
+  final UploadType type;
+
+  ListUploadsRequest({
+    @_s.required this.arn,
+    this.nextToken,
+    this.type,
+  });
+  Map<String, dynamic> toJson() => _$ListUploadsRequestToJson(this);
+}
+
 /// Represents the result of a list uploads request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -7898,6 +9739,29 @@ class ListUploadsResult {
   });
   factory ListUploadsResult.fromJson(Map<String, dynamic> json) =>
       _$ListUploadsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListVPCEConfigurationsRequest {
+  /// An integer that specifies the maximum number of items you want to return in
+  /// the API response.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// An identifier that was returned from the previous call to this operation,
+  /// which can be used to return the next set of items in the list.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListVPCEConfigurationsRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListVPCEConfigurationsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8060,18 +9924,6 @@ enum NetworkProfileType {
   curated,
   @_s.JsonValue('PRIVATE')
   private,
-}
-
-extension on NetworkProfileType {
-  String toValue() {
-    switch (this) {
-      case NetworkProfileType.curated:
-        return 'CURATED';
-      case NetworkProfileType.private:
-        return 'PRIVATE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Represents the metadata of a device offering.
@@ -8360,6 +10212,33 @@ class Project {
   });
   factory Project.fromJson(Map<String, dynamic> json) =>
       _$ProjectFromJson(json);
+}
+
+/// Represents a request for a purchase offering.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PurchaseOfferingRequest {
+  /// The ID of the offering.
+  @_s.JsonKey(name: 'offeringId')
+  final String offeringId;
+
+  /// The ID of the offering promotion to be applied to the purchase.
+  @_s.JsonKey(name: 'offeringPromotionId')
+  final String offeringPromotionId;
+
+  /// The number of device slots to purchase in an offering request.
+  @_s.JsonKey(name: 'quantity')
+  final int quantity;
+
+  PurchaseOfferingRequest({
+    this.offeringId,
+    this.offeringPromotionId,
+    this.quantity,
+  });
+  Map<String, dynamic> toJson() => _$PurchaseOfferingRequestToJson(this);
 }
 
 /// The result of the purchase offering (for example, success or failure).
@@ -8672,6 +10551,28 @@ class RemoteAccessSession {
   });
   factory RemoteAccessSession.fromJson(Map<String, dynamic> json) =>
       _$RemoteAccessSessionFromJson(json);
+}
+
+/// A request that represents an offering renewal.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RenewOfferingRequest {
+  /// The ID of a request to renew an offering.
+  @_s.JsonKey(name: 'offeringId')
+  final String offeringId;
+
+  /// The quantity requested in an offering renewal.
+  @_s.JsonKey(name: 'quantity')
+  final int quantity;
+
+  RenewOfferingRequest({
+    this.offeringId,
+    this.quantity,
+  });
+  Map<String, dynamic> toJson() => _$RenewOfferingRequestToJson(this);
 }
 
 /// The result of a renewal offering.
@@ -9360,6 +11261,64 @@ class ScheduleRunConfiguration {
   Map<String, dynamic> toJson() => _$ScheduleRunConfigurationToJson(this);
 }
 
+/// Represents a request to the schedule run operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ScheduleRunRequest {
+  /// The ARN of the project for the run to be scheduled.
+  @_s.JsonKey(name: 'projectArn')
+  final String projectArn;
+
+  /// Information about the test for the run to be scheduled.
+  @_s.JsonKey(name: 'test')
+  final ScheduleRunTest test;
+
+  /// The ARN of an application package to run tests against, created with
+  /// <a>CreateUpload</a>. See <a>ListUploads</a>.
+  @_s.JsonKey(name: 'appArn')
+  final String appArn;
+
+  /// Information about the settings for the run to be scheduled.
+  @_s.JsonKey(name: 'configuration')
+  final ScheduleRunConfiguration configuration;
+
+  /// The ARN of the device pool for the run to be scheduled.
+  @_s.JsonKey(name: 'devicePoolArn')
+  final String devicePoolArn;
+
+  /// The filter criteria used to dynamically select a set of devices for a test
+  /// run and the maximum number of devices to be included in the run.
+  ///
+  /// Either <b> <code>devicePoolArn</code> </b> or <b>
+  /// <code>deviceSelectionConfiguration</code> </b> is required in a request.
+  @_s.JsonKey(name: 'deviceSelectionConfiguration')
+  final DeviceSelectionConfiguration deviceSelectionConfiguration;
+
+  /// Specifies configuration information about a test run, such as the execution
+  /// timeout (in minutes).
+  @_s.JsonKey(name: 'executionConfiguration')
+  final ExecutionConfiguration executionConfiguration;
+
+  /// The name for the run to be scheduled.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  ScheduleRunRequest({
+    @_s.required this.projectArn,
+    @_s.required this.test,
+    this.appArn,
+    this.configuration,
+    this.devicePoolArn,
+    this.deviceSelectionConfiguration,
+    this.executionConfiguration,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$ScheduleRunRequestToJson(this);
+}
+
 /// Represents the result of a schedule run request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -9610,6 +11569,22 @@ class ScheduleRunTest {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopJobRequest {
+  /// Represents the Amazon Resource Name (ARN) of the Device Farm job to stop.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  StopJobRequest({
+    @_s.required this.arn,
+  });
+  Map<String, dynamic> toJson() => _$StopJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StopJobResult {
@@ -9622,6 +11597,23 @@ class StopJobResult {
   });
   factory StopJobResult.fromJson(Map<String, dynamic> json) =>
       _$StopJobResultFromJson(json);
+}
+
+/// Represents the request to stop the remote access session.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopRemoteAccessSessionRequest {
+  /// The Amazon Resource Name (ARN) of the remote access session to stop.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  StopRemoteAccessSessionRequest({
+    @_s.required this.arn,
+  });
+  Map<String, dynamic> toJson() => _$StopRemoteAccessSessionRequestToJson(this);
 }
 
 /// Represents the response from the server that describes the remote access
@@ -9642,6 +11634,23 @@ class StopRemoteAccessSessionResult {
   });
   factory StopRemoteAccessSessionResult.fromJson(Map<String, dynamic> json) =>
       _$StopRemoteAccessSessionResultFromJson(json);
+}
+
+/// Represents the request to stop a specific run.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopRunRequest {
+  /// Represents the Amazon Resource Name (ARN) of the Device Farm run to stop.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  StopRunRequest({
+    @_s.required this.arn,
+  });
+  Map<String, dynamic> toJson() => _$StopRunRequestToJson(this);
 }
 
 /// Represents the results of your stop run attempt.
@@ -9885,6 +11894,34 @@ class Tag {
   factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
   Map<String, dynamic> toJson() => _$TagToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource or resources to which to add
+  /// tags. You can associate tags with the following Device Farm resources:
+  /// <code>PROJECT</code>, <code>RUN</code>, <code>NETWORK_PROFILE</code>,
+  /// <code>INSTANCE_PROFILE</code>, <code>DEVICE_INSTANCE</code>,
+  /// <code>SESSION</code>, <code>DEVICE_POOL</code>, <code>DEVICE</code>, and
+  /// <code>VPCE_CONFIGURATION</code>.
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+
+  /// The tags to add to the resource. A tag is an array of key-value pairs. Tag
+  /// keys can have a maximum character length of 128 characters. Tag values can
+  /// have a maximum length of 256 characters.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceARN,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10262,18 +12299,6 @@ enum TestGridSessionArtifactCategory {
   log,
 }
 
-extension on TestGridSessionArtifactCategory {
-  String toValue() {
-    switch (this) {
-      case TestGridSessionArtifactCategory.video:
-        return 'VIDEO';
-      case TestGridSessionArtifactCategory.log:
-        return 'LOG';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum TestGridSessionArtifactType {
   @_s.JsonValue('UNKNOWN')
   unknown,
@@ -10290,20 +12315,6 @@ enum TestGridSessionStatus {
   closed,
   @_s.JsonValue('ERRORED')
   errored,
-}
-
-extension on TestGridSessionStatus {
-  String toValue() {
-    switch (this) {
-      case TestGridSessionStatus.active:
-        return 'ACTIVE';
-      case TestGridSessionStatus.closed:
-        return 'CLOSED';
-      case TestGridSessionStatus.errored:
-        return 'ERRORED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 enum TestType {
@@ -10349,56 +12360,6 @@ enum TestType {
   remoteAccessRecord,
   @_s.JsonValue('REMOTE_ACCESS_REPLAY')
   remoteAccessReplay,
-}
-
-extension on TestType {
-  String toValue() {
-    switch (this) {
-      case TestType.builtinFuzz:
-        return 'BUILTIN_FUZZ';
-      case TestType.builtinExplorer:
-        return 'BUILTIN_EXPLORER';
-      case TestType.webPerformanceProfile:
-        return 'WEB_PERFORMANCE_PROFILE';
-      case TestType.appiumJavaJunit:
-        return 'APPIUM_JAVA_JUNIT';
-      case TestType.appiumJavaTestng:
-        return 'APPIUM_JAVA_TESTNG';
-      case TestType.appiumPython:
-        return 'APPIUM_PYTHON';
-      case TestType.appiumNode:
-        return 'APPIUM_NODE';
-      case TestType.appiumRuby:
-        return 'APPIUM_RUBY';
-      case TestType.appiumWebJavaJunit:
-        return 'APPIUM_WEB_JAVA_JUNIT';
-      case TestType.appiumWebJavaTestng:
-        return 'APPIUM_WEB_JAVA_TESTNG';
-      case TestType.appiumWebPython:
-        return 'APPIUM_WEB_PYTHON';
-      case TestType.appiumWebNode:
-        return 'APPIUM_WEB_NODE';
-      case TestType.appiumWebRuby:
-        return 'APPIUM_WEB_RUBY';
-      case TestType.calabash:
-        return 'CALABASH';
-      case TestType.instrumentation:
-        return 'INSTRUMENTATION';
-      case TestType.uiautomation:
-        return 'UIAUTOMATION';
-      case TestType.uiautomator:
-        return 'UIAUTOMATOR';
-      case TestType.xctest:
-        return 'XCTEST';
-      case TestType.xctestUi:
-        return 'XCTEST_UI';
-      case TestType.remoteAccessRecord:
-        return 'REMOTE_ACCESS_RECORD';
-      case TestType.remoteAccessReplay:
-        return 'REMOTE_ACCESS_REPLAY';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Represents information about free trial device minutes for an AWS account.
@@ -10450,12 +12411,65 @@ class UniqueProblem {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource or resources from which to
+  /// delete tags. You can associate tags with the following Device Farm
+  /// resources: <code>PROJECT</code>, <code>RUN</code>,
+  /// <code>NETWORK_PROFILE</code>, <code>INSTANCE_PROFILE</code>,
+  /// <code>DEVICE_INSTANCE</code>, <code>SESSION</code>,
+  /// <code>DEVICE_POOL</code>, <code>DEVICE</code>, and
+  /// <code>VPCE_CONFIGURATION</code>.
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+
+  /// The keys of the tags to be removed.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceARN,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
   factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDeviceInstanceRequest {
+  /// The Amazon Resource Name (ARN) of the device instance.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// An array of strings that you want to associate with the device instance.
+  @_s.JsonKey(name: 'labels')
+  final List<String> labels;
+
+  /// The ARN of the profile that you want to associate with the device instance.
+  @_s.JsonKey(name: 'profileArn')
+  final String profileArn;
+
+  UpdateDeviceInstanceRequest({
+    @_s.required this.arn,
+    this.labels,
+    this.profileArn,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDeviceInstanceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10473,6 +12487,68 @@ class UpdateDeviceInstanceResult {
   });
   factory UpdateDeviceInstanceResult.fromJson(Map<String, dynamic> json) =>
       _$UpdateDeviceInstanceResultFromJson(json);
+}
+
+/// Represents a request to the update device pool operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDevicePoolRequest {
+  /// The Amazon Resource Name (ARN) of the Device Farm device pool to update.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// Sets whether the <code>maxDevices</code> parameter applies to your device
+  /// pool. If you set this parameter to <code>true</code>, the
+  /// <code>maxDevices</code> parameter does not apply, and Device Farm does not
+  /// limit the number of devices that it adds to your device pool. In this case,
+  /// Device Farm adds all available devices that meet the criteria specified in
+  /// the <code>rules</code> parameter.
+  ///
+  /// If you use this parameter in your request, you cannot use the
+  /// <code>maxDevices</code> parameter in the same request.
+  @_s.JsonKey(name: 'clearMaxDevices')
+  final bool clearMaxDevices;
+
+  /// A description of the device pool to update.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The number of devices that Device Farm can add to your device pool. Device
+  /// Farm adds devices that are available and that meet the criteria that you
+  /// assign for the <code>rules</code> parameter. Depending on how many devices
+  /// meet these constraints, your device pool might contain fewer devices than
+  /// the value for this parameter.
+  ///
+  /// By specifying the maximum number of devices, you can control the costs that
+  /// you incur by running tests.
+  ///
+  /// If you use this parameter in your request, you cannot use the
+  /// <code>clearMaxDevices</code> parameter in the same request.
+  @_s.JsonKey(name: 'maxDevices')
+  final int maxDevices;
+
+  /// A string that represents the name of the device pool to update.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// Represents the rules to modify for the device pool. Updating rules is
+  /// optional. If you update rules for your request, the update replaces the
+  /// existing rules.
+  @_s.JsonKey(name: 'rules')
+  final List<Rule> rules;
+
+  UpdateDevicePoolRequest({
+    @_s.required this.arn,
+    this.clearMaxDevices,
+    this.description,
+    this.maxDevices,
+    this.name,
+    this.rules,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDevicePoolRequestToJson(this);
 }
 
 /// Represents the result of an update device pool request.
@@ -10496,6 +12572,53 @@ class UpdateDevicePoolResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateInstanceProfileRequest {
+  /// The Amazon Resource Name (ARN) of the instance profile.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// The updated description for your instance profile.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// An array of strings that specifies the list of app packages that should not
+  /// be cleaned up from the device after a test run is over.
+  ///
+  /// The list of packages is only considered if you set
+  /// <code>packageCleanup</code> to <code>true</code>.
+  @_s.JsonKey(name: 'excludeAppPackagesFromCleanup')
+  final List<String> excludeAppPackagesFromCleanup;
+
+  /// The updated name for your instance profile.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The updated choice for whether you want to specify package cleanup. The
+  /// default value is <code>false</code> for private devices.
+  @_s.JsonKey(name: 'packageCleanup')
+  final bool packageCleanup;
+
+  /// The updated choice for whether you want to reboot the device after use. The
+  /// default value is <code>true</code>.
+  @_s.JsonKey(name: 'rebootAfterUse')
+  final bool rebootAfterUse;
+
+  UpdateInstanceProfileRequest({
+    @_s.required this.arn,
+    this.description,
+    this.excludeAppPackagesFromCleanup,
+    this.name,
+    this.packageCleanup,
+    this.rebootAfterUse,
+  });
+  Map<String, dynamic> toJson() => _$UpdateInstanceProfileRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateInstanceProfileResult {
@@ -10513,6 +12636,86 @@ class UpdateInstanceProfileResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateNetworkProfileRequest {
+  /// The Amazon Resource Name (ARN) of the project for which you want to update
+  /// network profile settings.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// The description of the network profile about which you are returning
+  /// information.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The data throughput rate in bits per second, as an integer from 0 to
+  /// 104857600.
+  @_s.JsonKey(name: 'downlinkBandwidthBits')
+  final int downlinkBandwidthBits;
+
+  /// Delay time for all packets to destination in milliseconds as an integer from
+  /// 0 to 2000.
+  @_s.JsonKey(name: 'downlinkDelayMs')
+  final int downlinkDelayMs;
+
+  /// Time variation in the delay of received packets in milliseconds as an
+  /// integer from 0 to 2000.
+  @_s.JsonKey(name: 'downlinkJitterMs')
+  final int downlinkJitterMs;
+
+  /// Proportion of received packets that fail to arrive from 0 to 100 percent.
+  @_s.JsonKey(name: 'downlinkLossPercent')
+  final int downlinkLossPercent;
+
+  /// The name of the network profile about which you are returning information.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The type of network profile to return information about. Valid values are
+  /// listed here.
+  @_s.JsonKey(name: 'type')
+  final NetworkProfileType type;
+
+  /// The data throughput rate in bits per second, as an integer from 0 to
+  /// 104857600.
+  @_s.JsonKey(name: 'uplinkBandwidthBits')
+  final int uplinkBandwidthBits;
+
+  /// Delay time for all packets to destination in milliseconds as an integer from
+  /// 0 to 2000.
+  @_s.JsonKey(name: 'uplinkDelayMs')
+  final int uplinkDelayMs;
+
+  /// Time variation in the delay of received packets in milliseconds as an
+  /// integer from 0 to 2000.
+  @_s.JsonKey(name: 'uplinkJitterMs')
+  final int uplinkJitterMs;
+
+  /// Proportion of transmitted packets that fail to arrive from 0 to 100 percent.
+  @_s.JsonKey(name: 'uplinkLossPercent')
+  final int uplinkLossPercent;
+
+  UpdateNetworkProfileRequest({
+    @_s.required this.arn,
+    this.description,
+    this.downlinkBandwidthBits,
+    this.downlinkDelayMs,
+    this.downlinkJitterMs,
+    this.downlinkLossPercent,
+    this.name,
+    this.type,
+    this.uplinkBandwidthBits,
+    this.uplinkDelayMs,
+    this.uplinkJitterMs,
+    this.uplinkLossPercent,
+  });
+  Map<String, dynamic> toJson() => _$UpdateNetworkProfileRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateNetworkProfileResult {
@@ -10525,6 +12728,34 @@ class UpdateNetworkProfileResult {
   });
   factory UpdateNetworkProfileResult.fromJson(Map<String, dynamic> json) =>
       _$UpdateNetworkProfileResultFromJson(json);
+}
+
+/// Represents a request to the update project operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateProjectRequest {
+  /// The Amazon Resource Name (ARN) of the project whose name to update.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// The number of minutes a test run in the project executes before it times
+  /// out.
+  @_s.JsonKey(name: 'defaultJobTimeoutMinutes')
+  final int defaultJobTimeoutMinutes;
+
+  /// A string that represents the new name of the project that you are updating.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  UpdateProjectRequest({
+    @_s.required this.arn,
+    this.defaultJobTimeoutMinutes,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$UpdateProjectRequestToJson(this);
 }
 
 /// Represents the result of an update project request.
@@ -10548,6 +12779,32 @@ class UpdateProjectResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateTestGridProjectRequest {
+  /// ARN of the project to update.
+  @_s.JsonKey(name: 'projectArn')
+  final String projectArn;
+
+  /// Human-readable description for the project.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// Human-readable name for the project.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  UpdateTestGridProjectRequest({
+    @_s.required this.projectArn,
+    this.description,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$UpdateTestGridProjectRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateTestGridProjectResult {
@@ -10565,6 +12822,40 @@ class UpdateTestGridProjectResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateUploadRequest {
+  /// The Amazon Resource Name (ARN) of the uploaded test spec.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// The upload's content type (for example, <code>application/x-yaml</code>).
+  @_s.JsonKey(name: 'contentType')
+  final String contentType;
+
+  /// Set to true if the YAML file has changed and must be updated. Otherwise, set
+  /// to false.
+  @_s.JsonKey(name: 'editContent')
+  final bool editContent;
+
+  /// The upload's test spec file name. The name must not contain any forward
+  /// slashes (/). The test spec file name must end with the <code>.yaml</code> or
+  /// <code>.yml</code> file extension.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  UpdateUploadRequest({
+    @_s.required this.arn,
+    this.contentType,
+    this.editContent,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$UpdateUploadRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateUploadResult {
@@ -10577,6 +12868,47 @@ class UpdateUploadResult {
   });
   factory UpdateUploadResult.fromJson(Map<String, dynamic> json) =>
       _$UpdateUploadResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateVPCEConfigurationRequest {
+  /// The Amazon Resource Name (ARN) of the VPC endpoint configuration you want to
+  /// update.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// The DNS (domain) name used to connect to your private service in your VPC.
+  /// The DNS name must not already be in use on the internet.
+  @_s.JsonKey(name: 'serviceDnsName')
+  final String serviceDnsName;
+
+  /// An optional description that provides details about your VPC endpoint
+  /// configuration.
+  @_s.JsonKey(name: 'vpceConfigurationDescription')
+  final String vpceConfigurationDescription;
+
+  /// The friendly name you give to your VPC endpoint configuration to manage your
+  /// configurations more easily.
+  @_s.JsonKey(name: 'vpceConfigurationName')
+  final String vpceConfigurationName;
+
+  /// The name of the VPC endpoint service running in your AWS account that you
+  /// want Device Farm to test.
+  @_s.JsonKey(name: 'vpceServiceName')
+  final String vpceServiceName;
+
+  UpdateVPCEConfigurationRequest({
+    @_s.required this.arn,
+    this.serviceDnsName,
+    this.vpceConfigurationDescription,
+    this.vpceConfigurationName,
+    this.vpceServiceName,
+  });
+  Map<String, dynamic> toJson() => _$UpdateVPCEConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10875,78 +13207,6 @@ enum UploadType {
   instrumentationTestSpec,
   @_s.JsonValue('XCTEST_UI_TEST_SPEC')
   xctestUiTestSpec,
-}
-
-extension on UploadType {
-  String toValue() {
-    switch (this) {
-      case UploadType.androidApp:
-        return 'ANDROID_APP';
-      case UploadType.iosApp:
-        return 'IOS_APP';
-      case UploadType.webApp:
-        return 'WEB_APP';
-      case UploadType.externalData:
-        return 'EXTERNAL_DATA';
-      case UploadType.appiumJavaJunitTestPackage:
-        return 'APPIUM_JAVA_JUNIT_TEST_PACKAGE';
-      case UploadType.appiumJavaTestngTestPackage:
-        return 'APPIUM_JAVA_TESTNG_TEST_PACKAGE';
-      case UploadType.appiumPythonTestPackage:
-        return 'APPIUM_PYTHON_TEST_PACKAGE';
-      case UploadType.appiumNodeTestPackage:
-        return 'APPIUM_NODE_TEST_PACKAGE';
-      case UploadType.appiumRubyTestPackage:
-        return 'APPIUM_RUBY_TEST_PACKAGE';
-      case UploadType.appiumWebJavaJunitTestPackage:
-        return 'APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE';
-      case UploadType.appiumWebJavaTestngTestPackage:
-        return 'APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE';
-      case UploadType.appiumWebPythonTestPackage:
-        return 'APPIUM_WEB_PYTHON_TEST_PACKAGE';
-      case UploadType.appiumWebNodeTestPackage:
-        return 'APPIUM_WEB_NODE_TEST_PACKAGE';
-      case UploadType.appiumWebRubyTestPackage:
-        return 'APPIUM_WEB_RUBY_TEST_PACKAGE';
-      case UploadType.calabashTestPackage:
-        return 'CALABASH_TEST_PACKAGE';
-      case UploadType.instrumentationTestPackage:
-        return 'INSTRUMENTATION_TEST_PACKAGE';
-      case UploadType.uiautomationTestPackage:
-        return 'UIAUTOMATION_TEST_PACKAGE';
-      case UploadType.uiautomatorTestPackage:
-        return 'UIAUTOMATOR_TEST_PACKAGE';
-      case UploadType.xctestTestPackage:
-        return 'XCTEST_TEST_PACKAGE';
-      case UploadType.xctestUiTestPackage:
-        return 'XCTEST_UI_TEST_PACKAGE';
-      case UploadType.appiumJavaJunitTestSpec:
-        return 'APPIUM_JAVA_JUNIT_TEST_SPEC';
-      case UploadType.appiumJavaTestngTestSpec:
-        return 'APPIUM_JAVA_TESTNG_TEST_SPEC';
-      case UploadType.appiumPythonTestSpec:
-        return 'APPIUM_PYTHON_TEST_SPEC';
-      case UploadType.appiumNodeTestSpec:
-        return 'APPIUM_NODE_TEST_SPEC';
-      case UploadType.appiumRubyTestSpec:
-        return 'APPIUM_RUBY_TEST_SPEC';
-      case UploadType.appiumWebJavaJunitTestSpec:
-        return 'APPIUM_WEB_JAVA_JUNIT_TEST_SPEC';
-      case UploadType.appiumWebJavaTestngTestSpec:
-        return 'APPIUM_WEB_JAVA_TESTNG_TEST_SPEC';
-      case UploadType.appiumWebPythonTestSpec:
-        return 'APPIUM_WEB_PYTHON_TEST_SPEC';
-      case UploadType.appiumWebNodeTestSpec:
-        return 'APPIUM_WEB_NODE_TEST_SPEC';
-      case UploadType.appiumWebRubyTestSpec:
-        return 'APPIUM_WEB_RUBY_TEST_SPEC';
-      case UploadType.instrumentationTestSpec:
-        return 'INSTRUMENTATION_TEST_SPEC';
-      case UploadType.xctestUiTestSpec:
-        return 'XCTEST_UI_TEST_SPEC';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Represents an Amazon Virtual Private Cloud (VPC) endpoint configuration.

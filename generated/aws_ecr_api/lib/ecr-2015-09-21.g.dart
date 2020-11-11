@@ -21,6 +21,22 @@ AuthorizationData _$AuthorizationDataFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$BatchCheckLayerAvailabilityRequestToJson(
+    BatchCheckLayerAvailabilityRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('layerDigests', instance.layerDigests);
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('registryId', instance.registryId);
+  return val;
+}
+
 BatchCheckLayerAvailabilityResponse
     _$BatchCheckLayerAvailabilityResponseFromJson(Map<String, dynamic> json) {
   return BatchCheckLayerAvailabilityResponse(
@@ -33,6 +49,23 @@ BatchCheckLayerAvailabilityResponse
             (e) => e == null ? null : Layer.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$BatchDeleteImageRequestToJson(
+    BatchDeleteImageRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'imageIds', instance.imageIds?.map((e) => e?.toJson())?.toList());
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('registryId', instance.registryId);
+  return val;
 }
 
 BatchDeleteImageResponse _$BatchDeleteImageResponseFromJson(
@@ -50,6 +83,24 @@ BatchDeleteImageResponse _$BatchDeleteImageResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$BatchGetImageRequestToJson(
+    BatchGetImageRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'imageIds', instance.imageIds?.map((e) => e?.toJson())?.toList());
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('acceptedMediaTypes', instance.acceptedMediaTypes);
+  writeNotNull('registryId', instance.registryId);
+  return val;
+}
+
 BatchGetImageResponse _$BatchGetImageResponseFromJson(
     Map<String, dynamic> json) {
   return BatchGetImageResponse(
@@ -64,6 +115,23 @@ BatchGetImageResponse _$BatchGetImageResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CompleteLayerUploadRequestToJson(
+    CompleteLayerUploadRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('layerDigests', instance.layerDigests);
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('uploadId', instance.uploadId);
+  writeNotNull('registryId', instance.registryId);
+  return val;
+}
+
 CompleteLayerUploadResponse _$CompleteLayerUploadResponseFromJson(
     Map<String, dynamic> json) {
   return CompleteLayerUploadResponse(
@@ -74,6 +142,30 @@ CompleteLayerUploadResponse _$CompleteLayerUploadResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateRepositoryRequestToJson(
+    CreateRepositoryRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('imageScanningConfiguration',
+      instance.imageScanningConfiguration?.toJson());
+  writeNotNull('imageTagMutability',
+      _$ImageTagMutabilityEnumMap[instance.imageTagMutability]);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+const _$ImageTagMutabilityEnumMap = {
+  ImageTagMutability.mutable: 'MUTABLE',
+  ImageTagMutability.immutable: 'IMMUTABLE',
+};
+
 CreateRepositoryResponse _$CreateRepositoryResponseFromJson(
     Map<String, dynamic> json) {
   return CreateRepositoryResponse(
@@ -81,6 +173,21 @@ CreateRepositoryResponse _$CreateRepositoryResponseFromJson(
         ? null
         : Repository.fromJson(json['repository'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DeleteLifecyclePolicyRequestToJson(
+    DeleteLifecyclePolicyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('registryId', instance.registryId);
+  return val;
 }
 
 DeleteLifecyclePolicyResponse _$DeleteLifecyclePolicyResponseFromJson(
@@ -93,6 +200,21 @@ DeleteLifecyclePolicyResponse _$DeleteLifecyclePolicyResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteRepositoryPolicyRequestToJson(
+    DeleteRepositoryPolicyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('registryId', instance.registryId);
+  return val;
+}
+
 DeleteRepositoryPolicyResponse _$DeleteRepositoryPolicyResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteRepositoryPolicyResponse(
@@ -102,6 +224,22 @@ DeleteRepositoryPolicyResponse _$DeleteRepositoryPolicyResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteRepositoryRequestToJson(
+    DeleteRepositoryRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('force', instance.force);
+  writeNotNull('registryId', instance.registryId);
+  return val;
+}
+
 DeleteRepositoryResponse _$DeleteRepositoryResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteRepositoryResponse(
@@ -109,6 +247,24 @@ DeleteRepositoryResponse _$DeleteRepositoryResponseFromJson(
         ? null
         : Repository.fromJson(json['repository'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeImageScanFindingsRequestToJson(
+    DescribeImageScanFindingsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('imageId', instance.imageId?.toJson());
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('registryId', instance.registryId);
+  return val;
 }
 
 DescribeImageScanFindingsResponse _$DescribeImageScanFindingsResponseFromJson(
@@ -151,6 +307,26 @@ const _$TagStatusEnumMap = {
   TagStatus.any: 'ANY',
 };
 
+Map<String, dynamic> _$DescribeImagesRequestToJson(
+    DescribeImagesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('filter', instance.filter?.toJson());
+  writeNotNull(
+      'imageIds', instance.imageIds?.map((e) => e?.toJson())?.toList());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('registryId', instance.registryId);
+  return val;
+}
+
 DescribeImagesResponse _$DescribeImagesResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeImagesResponse(
@@ -160,6 +336,23 @@ DescribeImagesResponse _$DescribeImagesResponseFromJson(
         ?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeRepositoriesRequestToJson(
+    DescribeRepositoriesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('registryId', instance.registryId);
+  writeNotNull('repositoryNames', instance.repositoryNames);
+  return val;
 }
 
 DescribeRepositoriesResponse _$DescribeRepositoriesResponseFromJson(
@@ -173,6 +366,20 @@ DescribeRepositoriesResponse _$DescribeRepositoriesResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$GetAuthorizationTokenRequestToJson(
+    GetAuthorizationTokenRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('registryIds', instance.registryIds);
+  return val;
+}
+
 GetAuthorizationTokenResponse _$GetAuthorizationTokenResponseFromJson(
     Map<String, dynamic> json) {
   return GetAuthorizationTokenResponse(
@@ -184,12 +391,48 @@ GetAuthorizationTokenResponse _$GetAuthorizationTokenResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$GetDownloadUrlForLayerRequestToJson(
+    GetDownloadUrlForLayerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('layerDigest', instance.layerDigest);
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('registryId', instance.registryId);
+  return val;
+}
+
 GetDownloadUrlForLayerResponse _$GetDownloadUrlForLayerResponseFromJson(
     Map<String, dynamic> json) {
   return GetDownloadUrlForLayerResponse(
     downloadUrl: json['downloadUrl'] as String,
     layerDigest: json['layerDigest'] as String,
   );
+}
+
+Map<String, dynamic> _$GetLifecyclePolicyPreviewRequestToJson(
+    GetLifecyclePolicyPreviewRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('filter', instance.filter?.toJson());
+  writeNotNull(
+      'imageIds', instance.imageIds?.map((e) => e?.toJson())?.toList());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('registryId', instance.registryId);
+  return val;
 }
 
 GetLifecyclePolicyPreviewResponse _$GetLifecyclePolicyPreviewResponseFromJson(
@@ -252,6 +495,21 @@ const _$LifecyclePolicyPreviewStatusEnumMap = {
   LifecyclePolicyPreviewStatus.failed: 'FAILED',
 };
 
+Map<String, dynamic> _$GetLifecyclePolicyRequestToJson(
+    GetLifecyclePolicyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('registryId', instance.registryId);
+  return val;
+}
+
 GetLifecyclePolicyResponse _$GetLifecyclePolicyResponseFromJson(
     Map<String, dynamic> json) {
   return GetLifecyclePolicyResponse(
@@ -260,6 +518,21 @@ GetLifecyclePolicyResponse _$GetLifecyclePolicyResponseFromJson(
     registryId: json['registryId'] as String,
     repositoryName: json['repositoryName'] as String,
   );
+}
+
+Map<String, dynamic> _$GetRepositoryPolicyRequestToJson(
+    GetRepositoryPolicyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('registryId', instance.registryId);
+  return val;
 }
 
 GetRepositoryPolicyResponse _$GetRepositoryPolicyResponseFromJson(
@@ -427,6 +700,21 @@ Map<String, dynamic> _$ImageScanningConfigurationToJson(
   return val;
 }
 
+Map<String, dynamic> _$InitiateLayerUploadRequestToJson(
+    InitiateLayerUploadRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('registryId', instance.registryId);
+  return val;
+}
+
 InitiateLayerUploadResponse _$InitiateLayerUploadResponseFromJson(
     Map<String, dynamic> json) {
   return InitiateLayerUploadResponse(
@@ -523,6 +811,23 @@ Map<String, dynamic> _$ListImagesFilterToJson(ListImagesFilter instance) {
   return val;
 }
 
+Map<String, dynamic> _$ListImagesRequestToJson(ListImagesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('filter', instance.filter?.toJson());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('registryId', instance.registryId);
+  return val;
+}
+
 ListImagesResponse _$ListImagesResponseFromJson(Map<String, dynamic> json) {
   return ListImagesResponse(
     imageIds: (json['imageIds'] as List)
@@ -534,6 +839,20 @@ ListImagesResponse _$ListImagesResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ListTagsForResourceRequestToJson(
+    ListTagsForResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceArn', instance.resourceArn);
+  return val;
+}
+
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
@@ -543,12 +862,45 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$PutImageRequestToJson(PutImageRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('imageManifest', instance.imageManifest);
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('imageTag', instance.imageTag);
+  writeNotNull('registryId', instance.registryId);
+  return val;
+}
+
 PutImageResponse _$PutImageResponseFromJson(Map<String, dynamic> json) {
   return PutImageResponse(
     image: json['image'] == null
         ? null
         : Image.fromJson(json['image'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$PutImageScanningConfigurationRequestToJson(
+    PutImageScanningConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('imageScanningConfiguration',
+      instance.imageScanningConfiguration?.toJson());
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('registryId', instance.registryId);
+  return val;
 }
 
 PutImageScanningConfigurationResponse
@@ -563,6 +915,23 @@ PutImageScanningConfigurationResponse
   );
 }
 
+Map<String, dynamic> _$PutImageTagMutabilityRequestToJson(
+    PutImageTagMutabilityRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('imageTagMutability',
+      _$ImageTagMutabilityEnumMap[instance.imageTagMutability]);
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('registryId', instance.registryId);
+  return val;
+}
+
 PutImageTagMutabilityResponse _$PutImageTagMutabilityResponseFromJson(
     Map<String, dynamic> json) {
   return PutImageTagMutabilityResponse(
@@ -573,10 +942,21 @@ PutImageTagMutabilityResponse _$PutImageTagMutabilityResponseFromJson(
   );
 }
 
-const _$ImageTagMutabilityEnumMap = {
-  ImageTagMutability.mutable: 'MUTABLE',
-  ImageTagMutability.immutable: 'IMMUTABLE',
-};
+Map<String, dynamic> _$PutLifecyclePolicyRequestToJson(
+    PutLifecyclePolicyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('lifecyclePolicyText', instance.lifecyclePolicyText);
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('registryId', instance.registryId);
+  return val;
+}
 
 PutLifecyclePolicyResponse _$PutLifecyclePolicyResponseFromJson(
     Map<String, dynamic> json) {
@@ -603,6 +983,23 @@ Repository _$RepositoryFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$SetRepositoryPolicyRequestToJson(
+    SetRepositoryPolicyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('policyText', instance.policyText);
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('force', instance.force);
+  writeNotNull('registryId', instance.registryId);
+  return val;
+}
+
 SetRepositoryPolicyResponse _$SetRepositoryPolicyResponseFromJson(
     Map<String, dynamic> json) {
   return SetRepositoryPolicyResponse(
@@ -610,6 +1007,22 @@ SetRepositoryPolicyResponse _$SetRepositoryPolicyResponseFromJson(
     registryId: json['registryId'] as String,
     repositoryName: json['repositoryName'] as String,
   );
+}
+
+Map<String, dynamic> _$StartImageScanRequestToJson(
+    StartImageScanRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('imageId', instance.imageId?.toJson());
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('registryId', instance.registryId);
+  return val;
 }
 
 StartImageScanResponse _$StartImageScanResponseFromJson(
@@ -625,6 +1038,22 @@ StartImageScanResponse _$StartImageScanResponseFromJson(
     registryId: json['registryId'] as String,
     repositoryName: json['repositoryName'] as String,
   );
+}
+
+Map<String, dynamic> _$StartLifecyclePolicyPreviewRequestToJson(
+    StartLifecyclePolicyPreviewRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('lifecyclePolicyText', instance.lifecyclePolicyText);
+  writeNotNull('registryId', instance.registryId);
+  return val;
 }
 
 StartLifecyclePolicyPreviewResponse
@@ -659,13 +1088,62 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
   return val;
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceArn', instance.resourceArn);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
+}
+
+Map<String, dynamic> _$UntagResourceRequestToJson(
+    UntagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceArn', instance.resourceArn);
+  writeNotNull('tagKeys', instance.tagKeys);
+  return val;
 }
 
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse();
+}
+
+Map<String, dynamic> _$UploadLayerPartRequestToJson(
+    UploadLayerPartRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('layerPartBlob',
+      const Uint8ListConverter().toJson(instance.layerPartBlob));
+  writeNotNull('partFirstByte', instance.partFirstByte);
+  writeNotNull('partLastByte', instance.partLastByte);
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull('uploadId', instance.uploadId);
+  writeNotNull('registryId', instance.registryId);
+  return val;
 }
 
 UploadLayerPartResponse _$UploadLayerPartResponseFromJson(

@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -147,12 +146,15 @@ class Lambda {
     _query = '?${[
       if (revisionId != null) _s.toQueryParam('RevisionId', revisionId),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{
-      'Action': action,
-      'Principal': principal,
-      'StatementId': statementId,
-      if (organizationId != null) 'OrganizationId': organizationId,
-    };
+    final $payload = AddLayerVersionPermissionRequest(
+      action: action,
+      layerName: layerName,
+      principal: principal,
+      statementId: statementId,
+      versionNumber: versionNumber,
+      organizationId: organizationId,
+      revisionId: revisionId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -336,15 +338,17 @@ class Lambda {
     _query = '?${[
       if (qualifier != null) _s.toQueryParam('Qualifier', qualifier),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{
-      'Action': action,
-      'Principal': principal,
-      'StatementId': statementId,
-      if (eventSourceToken != null) 'EventSourceToken': eventSourceToken,
-      if (revisionId != null) 'RevisionId': revisionId,
-      if (sourceAccount != null) 'SourceAccount': sourceAccount,
-      if (sourceArn != null) 'SourceArn': sourceArn,
-    };
+    final $payload = AddPermissionRequest(
+      action: action,
+      functionName: functionName,
+      principal: principal,
+      statementId: statementId,
+      eventSourceToken: eventSourceToken,
+      qualifier: qualifier,
+      revisionId: revisionId,
+      sourceAccount: sourceAccount,
+      sourceArn: sourceArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -457,12 +461,13 @@ class Lambda {
       0,
       256,
     );
-    final $payload = <String, dynamic>{
-      'FunctionVersion': functionVersion,
-      'Name': name,
-      if (description != null) 'Description': description,
-      if (routingConfig != null) 'RoutingConfig': routingConfig,
-    };
+    final $payload = CreateAliasRequest(
+      functionName: functionName,
+      functionVersion: functionVersion,
+      name: name,
+      description: description,
+      routingConfig: routingConfig,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -677,27 +682,20 @@ class Lambda {
       1,
       10,
     );
-    final $payload = <String, dynamic>{
-      'EventSourceArn': eventSourceArn,
-      'FunctionName': functionName,
-      if (batchSize != null) 'BatchSize': batchSize,
-      if (bisectBatchOnFunctionError != null)
-        'BisectBatchOnFunctionError': bisectBatchOnFunctionError,
-      if (destinationConfig != null) 'DestinationConfig': destinationConfig,
-      if (enabled != null) 'Enabled': enabled,
-      if (maximumBatchingWindowInSeconds != null)
-        'MaximumBatchingWindowInSeconds': maximumBatchingWindowInSeconds,
-      if (maximumRecordAgeInSeconds != null)
-        'MaximumRecordAgeInSeconds': maximumRecordAgeInSeconds,
-      if (maximumRetryAttempts != null)
-        'MaximumRetryAttempts': maximumRetryAttempts,
-      if (parallelizationFactor != null)
-        'ParallelizationFactor': parallelizationFactor,
-      if (startingPosition != null)
-        'StartingPosition': startingPosition?.toValue(),
-      if (startingPositionTimestamp != null)
-        'StartingPositionTimestamp': startingPositionTimestamp,
-    };
+    final $payload = CreateEventSourceMappingRequest(
+      eventSourceArn: eventSourceArn,
+      functionName: functionName,
+      batchSize: batchSize,
+      bisectBatchOnFunctionError: bisectBatchOnFunctionError,
+      destinationConfig: destinationConfig,
+      enabled: enabled,
+      maximumBatchingWindowInSeconds: maximumBatchingWindowInSeconds,
+      maximumRecordAgeInSeconds: maximumRecordAgeInSeconds,
+      maximumRetryAttempts: maximumRetryAttempts,
+      parallelizationFactor: parallelizationFactor,
+      startingPosition: startingPosition,
+      startingPositionTimestamp: startingPositionTimestamp,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -928,24 +926,24 @@ class Lambda {
       1,
       1152921504606846976,
     );
-    final $payload = <String, dynamic>{
-      'Code': code,
-      'FunctionName': functionName,
-      'Handler': handler,
-      'Role': role,
-      'Runtime': runtime?.toValue(),
-      if (deadLetterConfig != null) 'DeadLetterConfig': deadLetterConfig,
-      if (description != null) 'Description': description,
-      if (environment != null) 'Environment': environment,
-      if (kMSKeyArn != null) 'KMSKeyArn': kMSKeyArn,
-      if (layers != null) 'Layers': layers,
-      if (memorySize != null) 'MemorySize': memorySize,
-      if (publish != null) 'Publish': publish,
-      if (tags != null) 'Tags': tags,
-      if (timeout != null) 'Timeout': timeout,
-      if (tracingConfig != null) 'TracingConfig': tracingConfig,
-      if (vpcConfig != null) 'VpcConfig': vpcConfig,
-    };
+    final $payload = CreateFunctionRequest(
+      code: code,
+      functionName: functionName,
+      handler: handler,
+      role: role,
+      runtime: runtime,
+      deadLetterConfig: deadLetterConfig,
+      description: description,
+      environment: environment,
+      kMSKeyArn: kMSKeyArn,
+      layers: layers,
+      memorySize: memorySize,
+      publish: publish,
+      tags: tags,
+      timeout: timeout,
+      tracingConfig: tracingConfig,
+      vpcConfig: vpcConfig,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1016,7 +1014,10 @@ class Lambda {
       r'''(?!^[0-9]+$)([a-zA-Z0-9-_]+)''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteAliasRequest(
+      functionName: functionName,
+      name: name,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1046,7 +1047,9 @@ class Lambda {
     @_s.required String uuid,
   }) async {
     ArgumentError.checkNotNull(uuid, 'uuid');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteEventSourceMappingRequest(
+      uuid: uuid,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1129,7 +1132,10 @@ class Lambda {
     _query = '?${[
       if (qualifier != null) _s.toQueryParam('Qualifier', qualifier),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteFunctionRequest(
+      functionName: functionName,
+      qualifier: qualifier,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1182,7 +1188,9 @@ class Lambda {
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteFunctionConcurrencyRequest(
+      functionName: functionName,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1259,7 +1267,10 @@ class Lambda {
     _query = '?${[
       if (qualifier != null) _s.toQueryParam('Qualifier', qualifier),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteFunctionEventInvokeConfigRequest(
+      functionName: functionName,
+      qualifier: qualifier,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1302,7 +1313,10 @@ class Lambda {
       isRequired: true,
     );
     ArgumentError.checkNotNull(versionNumber, 'versionNumber');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteLayerVersionRequest(
+      layerName: layerName,
+      versionNumber: versionNumber,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1377,7 +1391,10 @@ class Lambda {
     _query = '?${[
       if (qualifier != null) _s.toQueryParam('Qualifier', qualifier),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteProvisionedConcurrencyConfigRequest(
+      functionName: functionName,
+      qualifier: qualifier,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -3008,12 +3025,13 @@ class Lambda {
       0,
       512,
     );
-    final $payload = <String, dynamic>{
-      'Content': content,
-      if (compatibleRuntimes != null) 'CompatibleRuntimes': compatibleRuntimes,
-      if (description != null) 'Description': description,
-      if (licenseInfo != null) 'LicenseInfo': licenseInfo,
-    };
+    final $payload = PublishLayerVersionRequest(
+      content: content,
+      layerName: layerName,
+      compatibleRuntimes: compatibleRuntimes,
+      description: description,
+      licenseInfo: licenseInfo,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -3105,11 +3123,12 @@ class Lambda {
       0,
       256,
     );
-    final $payload = <String, dynamic>{
-      if (codeSha256 != null) 'CodeSha256': codeSha256,
-      if (description != null) 'Description': description,
-      if (revisionId != null) 'RevisionId': revisionId,
-    };
+    final $payload = PublishVersionRequest(
+      functionName: functionName,
+      codeSha256: codeSha256,
+      description: description,
+      revisionId: revisionId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -3190,9 +3209,10 @@ class Lambda {
       1152921504606846976,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'ReservedConcurrentExecutions': reservedConcurrentExecutions,
-    };
+    final $payload = PutFunctionConcurrencyRequest(
+      functionName: functionName,
+      reservedConcurrentExecutions: reservedConcurrentExecutions,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -3329,13 +3349,13 @@ class Lambda {
     _query = '?${[
       if (qualifier != null) _s.toQueryParam('Qualifier', qualifier),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{
-      if (destinationConfig != null) 'DestinationConfig': destinationConfig,
-      if (maximumEventAgeInSeconds != null)
-        'MaximumEventAgeInSeconds': maximumEventAgeInSeconds,
-      if (maximumRetryAttempts != null)
-        'MaximumRetryAttempts': maximumRetryAttempts,
-    };
+    final $payload = PutFunctionEventInvokeConfigRequest(
+      functionName: functionName,
+      destinationConfig: destinationConfig,
+      maximumEventAgeInSeconds: maximumEventAgeInSeconds,
+      maximumRetryAttempts: maximumRetryAttempts,
+      qualifier: qualifier,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -3427,9 +3447,11 @@ class Lambda {
     _query = '?${[
       if (qualifier != null) _s.toQueryParam('Qualifier', qualifier),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{
-      'ProvisionedConcurrentExecutions': provisionedConcurrentExecutions,
-    };
+    final $payload = PutProvisionedConcurrencyConfigRequest(
+      functionName: functionName,
+      provisionedConcurrentExecutions: provisionedConcurrentExecutions,
+      qualifier: qualifier,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -3503,7 +3525,12 @@ class Lambda {
     _query = '?${[
       if (revisionId != null) _s.toQueryParam('RevisionId', revisionId),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = RemoveLayerVersionPermissionRequest(
+      layerName: layerName,
+      statementId: statementId,
+      versionNumber: versionNumber,
+      revisionId: revisionId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -3604,7 +3631,12 @@ class Lambda {
       if (qualifier != null) _s.toQueryParam('Qualifier', qualifier),
       if (revisionId != null) _s.toQueryParam('RevisionId', revisionId),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = RemovePermissionRequest(
+      functionName: functionName,
+      statementId: statementId,
+      qualifier: qualifier,
+      revisionId: revisionId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -3641,9 +3673,10 @@ class Lambda {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'Tags': tags,
-    };
+    final $payload = TagResourceRequest(
+      resource: resource,
+      tags: tags,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -3684,7 +3717,10 @@ class Lambda {
     _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = UntagResourceRequest(
+      resource: resource,
+      tagKeys: tagKeys,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -3794,12 +3830,14 @@ class Lambda {
       functionVersion,
       r'''(\$LATEST|[0-9]+)''',
     );
-    final $payload = <String, dynamic>{
-      if (description != null) 'Description': description,
-      if (functionVersion != null) 'FunctionVersion': functionVersion,
-      if (revisionId != null) 'RevisionId': revisionId,
-      if (routingConfig != null) 'RoutingConfig': routingConfig,
-    };
+    final $payload = UpdateAliasRequest(
+      functionName: functionName,
+      name: name,
+      description: description,
+      functionVersion: functionVersion,
+      revisionId: revisionId,
+      routingConfig: routingConfig,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -3967,22 +4005,18 @@ class Lambda {
       1,
       10,
     );
-    final $payload = <String, dynamic>{
-      if (batchSize != null) 'BatchSize': batchSize,
-      if (bisectBatchOnFunctionError != null)
-        'BisectBatchOnFunctionError': bisectBatchOnFunctionError,
-      if (destinationConfig != null) 'DestinationConfig': destinationConfig,
-      if (enabled != null) 'Enabled': enabled,
-      if (functionName != null) 'FunctionName': functionName,
-      if (maximumBatchingWindowInSeconds != null)
-        'MaximumBatchingWindowInSeconds': maximumBatchingWindowInSeconds,
-      if (maximumRecordAgeInSeconds != null)
-        'MaximumRecordAgeInSeconds': maximumRecordAgeInSeconds,
-      if (maximumRetryAttempts != null)
-        'MaximumRetryAttempts': maximumRetryAttempts,
-      if (parallelizationFactor != null)
-        'ParallelizationFactor': parallelizationFactor,
-    };
+    final $payload = UpdateEventSourceMappingRequest(
+      uuid: uuid,
+      batchSize: batchSize,
+      bisectBatchOnFunctionError: bisectBatchOnFunctionError,
+      destinationConfig: destinationConfig,
+      enabled: enabled,
+      functionName: functionName,
+      maximumBatchingWindowInSeconds: maximumBatchingWindowInSeconds,
+      maximumRecordAgeInSeconds: maximumRecordAgeInSeconds,
+      maximumRetryAttempts: maximumRetryAttempts,
+      parallelizationFactor: parallelizationFactor,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -4100,15 +4134,16 @@ class Lambda {
       1,
       1024,
     );
-    final $payload = <String, dynamic>{
-      if (dryRun != null) 'DryRun': dryRun,
-      if (publish != null) 'Publish': publish,
-      if (revisionId != null) 'RevisionId': revisionId,
-      if (s3Bucket != null) 'S3Bucket': s3Bucket,
-      if (s3Key != null) 'S3Key': s3Key,
-      if (s3ObjectVersion != null) 'S3ObjectVersion': s3ObjectVersion,
-      if (zipFile != null) 'ZipFile': zipFile.let(base64Encode),
-    };
+    final $payload = UpdateFunctionCodeRequest(
+      functionName: functionName,
+      dryRun: dryRun,
+      publish: publish,
+      revisionId: revisionId,
+      s3Bucket: s3Bucket,
+      s3Key: s3Key,
+      s3ObjectVersion: s3ObjectVersion,
+      zipFile: zipFile,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -4301,21 +4336,22 @@ class Lambda {
       1,
       1152921504606846976,
     );
-    final $payload = <String, dynamic>{
-      if (deadLetterConfig != null) 'DeadLetterConfig': deadLetterConfig,
-      if (description != null) 'Description': description,
-      if (environment != null) 'Environment': environment,
-      if (handler != null) 'Handler': handler,
-      if (kMSKeyArn != null) 'KMSKeyArn': kMSKeyArn,
-      if (layers != null) 'Layers': layers,
-      if (memorySize != null) 'MemorySize': memorySize,
-      if (revisionId != null) 'RevisionId': revisionId,
-      if (role != null) 'Role': role,
-      if (runtime != null) 'Runtime': runtime?.toValue(),
-      if (timeout != null) 'Timeout': timeout,
-      if (tracingConfig != null) 'TracingConfig': tracingConfig,
-      if (vpcConfig != null) 'VpcConfig': vpcConfig,
-    };
+    final $payload = UpdateFunctionConfigurationRequest(
+      functionName: functionName,
+      deadLetterConfig: deadLetterConfig,
+      description: description,
+      environment: environment,
+      handler: handler,
+      kMSKeyArn: kMSKeyArn,
+      layers: layers,
+      memorySize: memorySize,
+      revisionId: revisionId,
+      role: role,
+      runtime: runtime,
+      timeout: timeout,
+      tracingConfig: tracingConfig,
+      vpcConfig: vpcConfig,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -4435,13 +4471,13 @@ class Lambda {
     _query = '?${[
       if (qualifier != null) _s.toQueryParam('Qualifier', qualifier),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{
-      if (destinationConfig != null) 'DestinationConfig': destinationConfig,
-      if (maximumEventAgeInSeconds != null)
-        'MaximumEventAgeInSeconds': maximumEventAgeInSeconds,
-      if (maximumRetryAttempts != null)
-        'MaximumRetryAttempts': maximumRetryAttempts,
-    };
+    final $payload = UpdateFunctionEventInvokeConfigRequest(
+      functionName: functionName,
+      destinationConfig: destinationConfig,
+      maximumEventAgeInSeconds: maximumEventAgeInSeconds,
+      maximumRetryAttempts: maximumRetryAttempts,
+      qualifier: qualifier,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -4523,6 +4559,57 @@ class AccountUsage {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AddLayerVersionPermissionRequest {
+  /// The API action that grants access to the layer. For example,
+  /// <code>lambda:GetLayerVersion</code>.
+  @_s.JsonKey(name: 'Action')
+  final String action;
+
+  /// The name or Amazon Resource Name (ARN) of the layer.
+  @_s.JsonKey(name: 'LayerName', ignore: true)
+  final String layerName;
+
+  /// An account ID, or <code>*</code> to grant permission to all AWS accounts.
+  @_s.JsonKey(name: 'Principal')
+  final String principal;
+
+  /// An identifier that distinguishes the policy from others on the same layer
+  /// version.
+  @_s.JsonKey(name: 'StatementId')
+  final String statementId;
+
+  /// The version number.
+  @_s.JsonKey(name: 'VersionNumber', ignore: true)
+  final int versionNumber;
+
+  /// With the principal set to <code>*</code>, grant permission to all accounts
+  /// in the specified organization.
+  @_s.JsonKey(name: 'OrganizationId')
+  final String organizationId;
+
+  /// Only update the policy if the revision ID matches the ID specified. Use this
+  /// option to avoid modifying a policy that has changed since you last read it.
+  @_s.JsonKey(name: 'RevisionId', ignore: true)
+  final String revisionId;
+
+  AddLayerVersionPermissionRequest({
+    @_s.required this.action,
+    @_s.required this.layerName,
+    @_s.required this.principal,
+    @_s.required this.statementId,
+    @_s.required this.versionNumber,
+    this.organizationId,
+    this.revisionId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AddLayerVersionPermissionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AddLayerVersionPermissionResponse {
@@ -4541,6 +4628,92 @@ class AddLayerVersionPermissionResponse {
   factory AddLayerVersionPermissionResponse.fromJson(
           Map<String, dynamic> json) =>
       _$AddLayerVersionPermissionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AddPermissionRequest {
+  /// The action that the principal can use on the function. For example,
+  /// <code>lambda:InvokeFunction</code> or <code>lambda:GetFunction</code>.
+  @_s.JsonKey(name: 'Action')
+  final String action;
+
+  /// The name of the Lambda function, version, or alias.
+  /// <p class="title"> <b>Name formats</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Function name</b> - <code>my-function</code> (name-only),
+  /// <code>my-function:v1</code> (with alias).
+  /// </li>
+  /// <li>
+  /// <b>Function ARN</b> -
+  /// <code>arn:aws:lambda:us-west-2:123456789012:function:my-function</code>.
+  /// </li>
+  /// <li>
+  /// <b>Partial ARN</b> - <code>123456789012:function:my-function</code>.
+  /// </li>
+  /// </ul>
+  /// You can append a version number or alias to any of the formats. The length
+  /// constraint applies only to the full ARN. If you specify only the function
+  /// name, it is limited to 64 characters in length.
+  @_s.JsonKey(name: 'FunctionName', ignore: true)
+  final String functionName;
+
+  /// The AWS service or account that invokes the function. If you specify a
+  /// service, use <code>SourceArn</code> or <code>SourceAccount</code> to limit
+  /// who can invoke the function through that service.
+  @_s.JsonKey(name: 'Principal')
+  final String principal;
+
+  /// A statement identifier that differentiates the statement from others in the
+  /// same policy.
+  @_s.JsonKey(name: 'StatementId')
+  final String statementId;
+
+  /// For Alexa Smart Home functions, a token that must be supplied by the
+  /// invoker.
+  @_s.JsonKey(name: 'EventSourceToken')
+  final String eventSourceToken;
+
+  /// Specify a version or alias to add permissions to a published version of the
+  /// function.
+  @_s.JsonKey(name: 'Qualifier', ignore: true)
+  final String qualifier;
+
+  /// Only update the policy if the revision ID matches the ID that's specified.
+  /// Use this option to avoid modifying a policy that has changed since you last
+  /// read it.
+  @_s.JsonKey(name: 'RevisionId')
+  final String revisionId;
+
+  /// For Amazon S3, the ID of the account that owns the resource. Use this
+  /// together with <code>SourceArn</code> to ensure that the resource is owned by
+  /// the specified account. It is possible for an Amazon S3 bucket to be deleted
+  /// by its owner and recreated by another account.
+  @_s.JsonKey(name: 'SourceAccount')
+  final String sourceAccount;
+
+  /// For AWS services, the ARN of the AWS resource that invokes the function. For
+  /// example, an Amazon S3 bucket or Amazon SNS topic.
+  @_s.JsonKey(name: 'SourceArn')
+  final String sourceArn;
+
+  AddPermissionRequest({
+    @_s.required this.action,
+    @_s.required this.functionName,
+    @_s.required this.principal,
+    @_s.required this.statementId,
+    this.eventSourceToken,
+    this.qualifier,
+    this.revisionId,
+    this.sourceAccount,
+    this.sourceArn,
+  });
+  Map<String, dynamic> toJson() => _$AddPermissionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4649,6 +4822,320 @@ class Concurrency {
       _$ConcurrencyFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateAliasRequest {
+  /// The name of the Lambda function.
+  /// <p class="title"> <b>Name formats</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Function name</b> - <code>MyFunction</code>.
+  /// </li>
+  /// <li>
+  /// <b>Function ARN</b> -
+  /// <code>arn:aws:lambda:us-west-2:123456789012:function:MyFunction</code>.
+  /// </li>
+  /// <li>
+  /// <b>Partial ARN</b> - <code>123456789012:function:MyFunction</code>.
+  /// </li>
+  /// </ul>
+  /// The length constraint applies only to the full ARN. If you specify only the
+  /// function name, it is limited to 64 characters in length.
+  @_s.JsonKey(name: 'FunctionName', ignore: true)
+  final String functionName;
+
+  /// The function version that the alias invokes.
+  @_s.JsonKey(name: 'FunctionVersion')
+  final String functionVersion;
+
+  /// The name of the alias.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// A description of the alias.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-traffic-shifting-using-aliases.html">routing
+  /// configuration</a> of the alias.
+  @_s.JsonKey(name: 'RoutingConfig')
+  final AliasRoutingConfiguration routingConfig;
+
+  CreateAliasRequest({
+    @_s.required this.functionName,
+    @_s.required this.functionVersion,
+    @_s.required this.name,
+    this.description,
+    this.routingConfig,
+  });
+  Map<String, dynamic> toJson() => _$CreateAliasRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateEventSourceMappingRequest {
+  /// The Amazon Resource Name (ARN) of the event source.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Amazon Kinesis</b> - The ARN of the data stream or a stream consumer.
+  /// </li>
+  /// <li>
+  /// <b>Amazon DynamoDB Streams</b> - The ARN of the stream.
+  /// </li>
+  /// <li>
+  /// <b>Amazon Simple Queue Service</b> - The ARN of the queue.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'EventSourceArn')
+  final String eventSourceArn;
+
+  /// The name of the Lambda function.
+  /// <p class="title"> <b>Name formats</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Function name</b> - <code>MyFunction</code>.
+  /// </li>
+  /// <li>
+  /// <b>Function ARN</b> -
+  /// <code>arn:aws:lambda:us-west-2:123456789012:function:MyFunction</code>.
+  /// </li>
+  /// <li>
+  /// <b>Version or Alias ARN</b> -
+  /// <code>arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD</code>.
+  /// </li>
+  /// <li>
+  /// <b>Partial ARN</b> - <code>123456789012:function:MyFunction</code>.
+  /// </li>
+  /// </ul>
+  /// The length constraint applies only to the full ARN. If you specify only the
+  /// function name, it's limited to 64 characters in length.
+  @_s.JsonKey(name: 'FunctionName')
+  final String functionName;
+
+  /// The maximum number of items to retrieve in a single batch.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Amazon Kinesis</b> - Default 100. Max 10,000.
+  /// </li>
+  /// <li>
+  /// <b>Amazon DynamoDB Streams</b> - Default 100. Max 1,000.
+  /// </li>
+  /// <li>
+  /// <b>Amazon Simple Queue Service</b> - Default 10. Max 10.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'BatchSize')
+  final int batchSize;
+
+  /// (Streams) If the function returns an error, split the batch in two and
+  /// retry.
+  @_s.JsonKey(name: 'BisectBatchOnFunctionError')
+  final bool bisectBatchOnFunctionError;
+
+  /// (Streams) An Amazon SQS queue or Amazon SNS topic destination for discarded
+  /// records.
+  @_s.JsonKey(name: 'DestinationConfig')
+  final DestinationConfig destinationConfig;
+
+  /// Disables the event source mapping to pause polling and invocation.
+  @_s.JsonKey(name: 'Enabled')
+  final bool enabled;
+
+  /// (Streams) The maximum amount of time to gather records before invoking the
+  /// function, in seconds.
+  @_s.JsonKey(name: 'MaximumBatchingWindowInSeconds')
+  final int maximumBatchingWindowInSeconds;
+
+  /// (Streams) The maximum age of a record that Lambda sends to a function for
+  /// processing.
+  @_s.JsonKey(name: 'MaximumRecordAgeInSeconds')
+  final int maximumRecordAgeInSeconds;
+
+  /// (Streams) The maximum number of times to retry when the function returns an
+  /// error.
+  @_s.JsonKey(name: 'MaximumRetryAttempts')
+  final int maximumRetryAttempts;
+
+  /// (Streams) The number of batches to process from each shard concurrently.
+  @_s.JsonKey(name: 'ParallelizationFactor')
+  final int parallelizationFactor;
+
+  /// The position in a stream from which to start reading. Required for Amazon
+  /// Kinesis and Amazon DynamoDB Streams sources. <code>AT_TIMESTAMP</code> is
+  /// only supported for Amazon Kinesis streams.
+  @_s.JsonKey(name: 'StartingPosition')
+  final EventSourcePosition startingPosition;
+
+  /// With <code>StartingPosition</code> set to <code>AT_TIMESTAMP</code>, the
+  /// time from which to start reading.
+  @_s.JsonKey(
+      name: 'StartingPositionTimestamp',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime startingPositionTimestamp;
+
+  CreateEventSourceMappingRequest({
+    @_s.required this.eventSourceArn,
+    @_s.required this.functionName,
+    this.batchSize,
+    this.bisectBatchOnFunctionError,
+    this.destinationConfig,
+    this.enabled,
+    this.maximumBatchingWindowInSeconds,
+    this.maximumRecordAgeInSeconds,
+    this.maximumRetryAttempts,
+    this.parallelizationFactor,
+    this.startingPosition,
+    this.startingPositionTimestamp,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateEventSourceMappingRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateFunctionRequest {
+  /// The code for the function.
+  @_s.JsonKey(name: 'Code')
+  final FunctionCode code;
+
+  /// The name of the Lambda function.
+  /// <p class="title"> <b>Name formats</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Function name</b> - <code>my-function</code>.
+  /// </li>
+  /// <li>
+  /// <b>Function ARN</b> -
+  /// <code>arn:aws:lambda:us-west-2:123456789012:function:my-function</code>.
+  /// </li>
+  /// <li>
+  /// <b>Partial ARN</b> - <code>123456789012:function:my-function</code>.
+  /// </li>
+  /// </ul>
+  /// The length constraint applies only to the full ARN. If you specify only the
+  /// function name, it is limited to 64 characters in length.
+  @_s.JsonKey(name: 'FunctionName')
+  final String functionName;
+
+  /// The name of the method within your code that Lambda calls to execute your
+  /// function. The format includes the file name. It can also include namespaces
+  /// and other qualifiers, depending on the runtime. For more information, see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/programming-model-v2.html">Programming
+  /// Model</a>.
+  @_s.JsonKey(name: 'Handler')
+  final String handler;
+
+  /// The Amazon Resource Name (ARN) of the function's execution role.
+  @_s.JsonKey(name: 'Role')
+  final String role;
+
+  /// The identifier of the function's <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html">runtime</a>.
+  @_s.JsonKey(name: 'Runtime')
+  final Runtime runtime;
+
+  /// A dead letter queue configuration that specifies the queue or topic where
+  /// Lambda sends asynchronous events when they fail processing. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#dlq">Dead
+  /// Letter Queues</a>.
+  @_s.JsonKey(name: 'DeadLetterConfig')
+  final DeadLetterConfig deadLetterConfig;
+
+  /// A description of the function.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// Environment variables that are accessible from function code during
+  /// execution.
+  @_s.JsonKey(name: 'Environment')
+  final Environment environment;
+
+  /// The ARN of the AWS Key Management Service (AWS KMS) key that's used to
+  /// encrypt your function's environment variables. If it's not provided, AWS
+  /// Lambda uses a default service key.
+  @_s.JsonKey(name: 'KMSKeyArn')
+  final String kMSKeyArn;
+
+  /// A list of <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">function
+  /// layers</a> to add to the function's execution environment. Specify each
+  /// layer by its ARN, including the version.
+  @_s.JsonKey(name: 'Layers')
+  final List<String> layers;
+
+  /// The amount of memory that your function has access to. Increasing the
+  /// function's memory also increases its CPU allocation. The default value is
+  /// 128 MB. The value must be a multiple of 64 MB.
+  @_s.JsonKey(name: 'MemorySize')
+  final int memorySize;
+
+  /// Set to true to publish the first version of the function during creation.
+  @_s.JsonKey(name: 'Publish')
+  final bool publish;
+
+  /// A list of <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/tagging.html">tags</a> to
+  /// apply to the function.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  /// The amount of time that Lambda allows a function to run before stopping it.
+  /// The default is 3 seconds. The maximum allowed value is 900 seconds.
+  @_s.JsonKey(name: 'Timeout')
+  final int timeout;
+
+  /// Set <code>Mode</code> to <code>Active</code> to sample and trace a subset of
+  /// incoming requests with AWS X-Ray.
+  @_s.JsonKey(name: 'TracingConfig')
+  final TracingConfig tracingConfig;
+
+  /// For network connectivity to AWS resources in a VPC, specify a list of
+  /// security groups and subnets in the VPC. When you connect a function to a
+  /// VPC, it can only access resources and the internet through that VPC. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html">VPC
+  /// Settings</a>.
+  @_s.JsonKey(name: 'VpcConfig')
+  final VpcConfig vpcConfig;
+
+  CreateFunctionRequest({
+    @_s.required this.code,
+    @_s.required this.functionName,
+    @_s.required this.handler,
+    @_s.required this.role,
+    @_s.required this.runtime,
+    this.deadLetterConfig,
+    this.description,
+    this.environment,
+    this.kMSKeyArn,
+    this.layers,
+    this.memorySize,
+    this.publish,
+    this.tags,
+    this.timeout,
+    this.tracingConfig,
+    this.vpcConfig,
+  });
+  Map<String, dynamic> toJson() => _$CreateFunctionRequestToJson(this);
+}
+
 /// The <a
 /// href="https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#dlq">dead-letter
 /// queue</a> for failed asynchronous invocations.
@@ -4669,6 +5156,232 @@ class DeadLetterConfig {
       _$DeadLetterConfigFromJson(json);
 
   Map<String, dynamic> toJson() => _$DeadLetterConfigToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteAliasRequest {
+  /// The name of the Lambda function.
+  /// <p class="title"> <b>Name formats</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Function name</b> - <code>MyFunction</code>.
+  /// </li>
+  /// <li>
+  /// <b>Function ARN</b> -
+  /// <code>arn:aws:lambda:us-west-2:123456789012:function:MyFunction</code>.
+  /// </li>
+  /// <li>
+  /// <b>Partial ARN</b> - <code>123456789012:function:MyFunction</code>.
+  /// </li>
+  /// </ul>
+  /// The length constraint applies only to the full ARN. If you specify only the
+  /// function name, it is limited to 64 characters in length.
+  @_s.JsonKey(name: 'FunctionName', ignore: true)
+  final String functionName;
+
+  /// The name of the alias.
+  @_s.JsonKey(name: 'Name', ignore: true)
+  final String name;
+
+  DeleteAliasRequest({
+    @_s.required this.functionName,
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$DeleteAliasRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteEventSourceMappingRequest {
+  /// The identifier of the event source mapping.
+  @_s.JsonKey(name: 'UUID', ignore: true)
+  final String uuid;
+
+  DeleteEventSourceMappingRequest({
+    @_s.required this.uuid,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteEventSourceMappingRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteFunctionConcurrencyRequest {
+  /// The name of the Lambda function.
+  /// <p class="title"> <b>Name formats</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Function name</b> - <code>my-function</code>.
+  /// </li>
+  /// <li>
+  /// <b>Function ARN</b> -
+  /// <code>arn:aws:lambda:us-west-2:123456789012:function:my-function</code>.
+  /// </li>
+  /// <li>
+  /// <b>Partial ARN</b> - <code>123456789012:function:my-function</code>.
+  /// </li>
+  /// </ul>
+  /// The length constraint applies only to the full ARN. If you specify only the
+  /// function name, it is limited to 64 characters in length.
+  @_s.JsonKey(name: 'FunctionName', ignore: true)
+  final String functionName;
+
+  DeleteFunctionConcurrencyRequest({
+    @_s.required this.functionName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteFunctionConcurrencyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteFunctionEventInvokeConfigRequest {
+  /// The name of the Lambda function, version, or alias.
+  /// <p class="title"> <b>Name formats</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Function name</b> - <code>my-function</code> (name-only),
+  /// <code>my-function:v1</code> (with alias).
+  /// </li>
+  /// <li>
+  /// <b>Function ARN</b> -
+  /// <code>arn:aws:lambda:us-west-2:123456789012:function:my-function</code>.
+  /// </li>
+  /// <li>
+  /// <b>Partial ARN</b> - <code>123456789012:function:my-function</code>.
+  /// </li>
+  /// </ul>
+  /// You can append a version number or alias to any of the formats. The length
+  /// constraint applies only to the full ARN. If you specify only the function
+  /// name, it is limited to 64 characters in length.
+  @_s.JsonKey(name: 'FunctionName', ignore: true)
+  final String functionName;
+
+  /// A version number or alias name.
+  @_s.JsonKey(name: 'Qualifier', ignore: true)
+  final String qualifier;
+
+  DeleteFunctionEventInvokeConfigRequest({
+    @_s.required this.functionName,
+    this.qualifier,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteFunctionEventInvokeConfigRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteFunctionRequest {
+  /// The name of the Lambda function or version.
+  /// <p class="title"> <b>Name formats</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Function name</b> - <code>my-function</code> (name-only),
+  /// <code>my-function:1</code> (with version).
+  /// </li>
+  /// <li>
+  /// <b>Function ARN</b> -
+  /// <code>arn:aws:lambda:us-west-2:123456789012:function:my-function</code>.
+  /// </li>
+  /// <li>
+  /// <b>Partial ARN</b> - <code>123456789012:function:my-function</code>.
+  /// </li>
+  /// </ul>
+  /// You can append a version number or alias to any of the formats. The length
+  /// constraint applies only to the full ARN. If you specify only the function
+  /// name, it is limited to 64 characters in length.
+  @_s.JsonKey(name: 'FunctionName', ignore: true)
+  final String functionName;
+
+  /// Specify a version to delete. You can't delete a version that's referenced by
+  /// an alias.
+  @_s.JsonKey(name: 'Qualifier', ignore: true)
+  final String qualifier;
+
+  DeleteFunctionRequest({
+    @_s.required this.functionName,
+    this.qualifier,
+  });
+  Map<String, dynamic> toJson() => _$DeleteFunctionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteLayerVersionRequest {
+  /// The name or Amazon Resource Name (ARN) of the layer.
+  @_s.JsonKey(name: 'LayerName', ignore: true)
+  final String layerName;
+
+  /// The version number.
+  @_s.JsonKey(name: 'VersionNumber', ignore: true)
+  final int versionNumber;
+
+  DeleteLayerVersionRequest({
+    @_s.required this.layerName,
+    @_s.required this.versionNumber,
+  });
+  Map<String, dynamic> toJson() => _$DeleteLayerVersionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteProvisionedConcurrencyConfigRequest {
+  /// The name of the Lambda function.
+  /// <p class="title"> <b>Name formats</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Function name</b> - <code>my-function</code>.
+  /// </li>
+  /// <li>
+  /// <b>Function ARN</b> -
+  /// <code>arn:aws:lambda:us-west-2:123456789012:function:my-function</code>.
+  /// </li>
+  /// <li>
+  /// <b>Partial ARN</b> - <code>123456789012:function:my-function</code>.
+  /// </li>
+  /// </ul>
+  /// The length constraint applies only to the full ARN. If you specify only the
+  /// function name, it is limited to 64 characters in length.
+  @_s.JsonKey(name: 'FunctionName', ignore: true)
+  final String functionName;
+
+  /// The version number or alias name.
+  @_s.JsonKey(name: 'Qualifier', ignore: true)
+  final String qualifier;
+
+  DeleteProvisionedConcurrencyConfigRequest({
+    @_s.required this.functionName,
+    @_s.required this.qualifier,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteProvisionedConcurrencyConfigRequestToJson(this);
 }
 
 /// A configuration object that specifies the destination of an event after
@@ -4866,20 +5579,6 @@ enum EventSourcePosition {
   latest,
   @_s.JsonValue('AT_TIMESTAMP')
   atTimestamp,
-}
-
-extension on EventSourcePosition {
-  String toValue() {
-    switch (this) {
-      case EventSourcePosition.trimHorizon:
-        return 'TRIM_HORIZON';
-      case EventSourcePosition.latest:
-        return 'LATEST';
-      case EventSourcePosition.atTimestamp:
-        return 'AT_TIMESTAMP';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// The code for the Lambda function. You can specify either an object in Amazon
@@ -5973,6 +6672,59 @@ enum ProvisionedConcurrencyStatusEnum {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PublishLayerVersionRequest {
+  /// The function layer archive.
+  @_s.JsonKey(name: 'Content')
+  final LayerVersionContentInput content;
+
+  /// The name or Amazon Resource Name (ARN) of the layer.
+  @_s.JsonKey(name: 'LayerName', ignore: true)
+  final String layerName;
+
+  /// A list of compatible <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html">function
+  /// runtimes</a>. Used for filtering with <a>ListLayers</a> and
+  /// <a>ListLayerVersions</a>.
+  @_s.JsonKey(name: 'CompatibleRuntimes')
+  final List<String> compatibleRuntimes;
+
+  /// The description of the version.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The layer's software license. It can be any of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// An <a href="https://spdx.org/licenses/">SPDX license identifier</a>. For
+  /// example, <code>MIT</code>.
+  /// </li>
+  /// <li>
+  /// The URL of a license hosted on the internet. For example,
+  /// <code>https://opensource.org/licenses/MIT</code>.
+  /// </li>
+  /// <li>
+  /// The full text of the license.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'LicenseInfo')
+  final String licenseInfo;
+
+  PublishLayerVersionRequest({
+    @_s.required this.content,
+    @_s.required this.layerName,
+    this.compatibleRuntimes,
+    this.description,
+    this.licenseInfo,
+  });
+  Map<String, dynamic> toJson() => _$PublishLayerVersionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PublishLayerVersionResponse {
@@ -6027,6 +6779,211 @@ class PublishLayerVersionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PublishVersionRequest {
+  /// The name of the Lambda function.
+  /// <p class="title"> <b>Name formats</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Function name</b> - <code>MyFunction</code>.
+  /// </li>
+  /// <li>
+  /// <b>Function ARN</b> -
+  /// <code>arn:aws:lambda:us-west-2:123456789012:function:MyFunction</code>.
+  /// </li>
+  /// <li>
+  /// <b>Partial ARN</b> - <code>123456789012:function:MyFunction</code>.
+  /// </li>
+  /// </ul>
+  /// The length constraint applies only to the full ARN. If you specify only the
+  /// function name, it is limited to 64 characters in length.
+  @_s.JsonKey(name: 'FunctionName', ignore: true)
+  final String functionName;
+
+  /// Only publish a version if the hash value matches the value that's specified.
+  /// Use this option to avoid publishing a version if the function code has
+  /// changed since you last updated it. You can get the hash for the version that
+  /// you uploaded from the output of <a>UpdateFunctionCode</a>.
+  @_s.JsonKey(name: 'CodeSha256')
+  final String codeSha256;
+
+  /// A description for the version to override the description in the function
+  /// configuration.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// Only update the function if the revision ID matches the ID that's specified.
+  /// Use this option to avoid publishing a version if the function configuration
+  /// has changed since you last updated it.
+  @_s.JsonKey(name: 'RevisionId')
+  final String revisionId;
+
+  PublishVersionRequest({
+    @_s.required this.functionName,
+    this.codeSha256,
+    this.description,
+    this.revisionId,
+  });
+  Map<String, dynamic> toJson() => _$PublishVersionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutFunctionConcurrencyRequest {
+  /// The name of the Lambda function.
+  /// <p class="title"> <b>Name formats</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Function name</b> - <code>my-function</code>.
+  /// </li>
+  /// <li>
+  /// <b>Function ARN</b> -
+  /// <code>arn:aws:lambda:us-west-2:123456789012:function:my-function</code>.
+  /// </li>
+  /// <li>
+  /// <b>Partial ARN</b> - <code>123456789012:function:my-function</code>.
+  /// </li>
+  /// </ul>
+  /// The length constraint applies only to the full ARN. If you specify only the
+  /// function name, it is limited to 64 characters in length.
+  @_s.JsonKey(name: 'FunctionName', ignore: true)
+  final String functionName;
+
+  /// The number of simultaneous executions to reserve for the function.
+  @_s.JsonKey(name: 'ReservedConcurrentExecutions')
+  final int reservedConcurrentExecutions;
+
+  PutFunctionConcurrencyRequest({
+    @_s.required this.functionName,
+    @_s.required this.reservedConcurrentExecutions,
+  });
+  Map<String, dynamic> toJson() => _$PutFunctionConcurrencyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutFunctionEventInvokeConfigRequest {
+  /// The name of the Lambda function, version, or alias.
+  /// <p class="title"> <b>Name formats</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Function name</b> - <code>my-function</code> (name-only),
+  /// <code>my-function:v1</code> (with alias).
+  /// </li>
+  /// <li>
+  /// <b>Function ARN</b> -
+  /// <code>arn:aws:lambda:us-west-2:123456789012:function:my-function</code>.
+  /// </li>
+  /// <li>
+  /// <b>Partial ARN</b> - <code>123456789012:function:my-function</code>.
+  /// </li>
+  /// </ul>
+  /// You can append a version number or alias to any of the formats. The length
+  /// constraint applies only to the full ARN. If you specify only the function
+  /// name, it is limited to 64 characters in length.
+  @_s.JsonKey(name: 'FunctionName', ignore: true)
+  final String functionName;
+
+  /// A destination for events after they have been sent to a function for
+  /// processing.
+  /// <p class="title"> <b>Destinations</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Function</b> - The Amazon Resource Name (ARN) of a Lambda function.
+  /// </li>
+  /// <li>
+  /// <b>Queue</b> - The ARN of an SQS queue.
+  /// </li>
+  /// <li>
+  /// <b>Topic</b> - The ARN of an SNS topic.
+  /// </li>
+  /// <li>
+  /// <b>Event Bus</b> - The ARN of an Amazon EventBridge event bus.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'DestinationConfig')
+  final DestinationConfig destinationConfig;
+
+  /// The maximum age of a request that Lambda sends to a function for processing.
+  @_s.JsonKey(name: 'MaximumEventAgeInSeconds')
+  final int maximumEventAgeInSeconds;
+
+  /// The maximum number of times to retry when the function returns an error.
+  @_s.JsonKey(name: 'MaximumRetryAttempts')
+  final int maximumRetryAttempts;
+
+  /// A version number or alias name.
+  @_s.JsonKey(name: 'Qualifier', ignore: true)
+  final String qualifier;
+
+  PutFunctionEventInvokeConfigRequest({
+    @_s.required this.functionName,
+    this.destinationConfig,
+    this.maximumEventAgeInSeconds,
+    this.maximumRetryAttempts,
+    this.qualifier,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutFunctionEventInvokeConfigRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutProvisionedConcurrencyConfigRequest {
+  /// The name of the Lambda function.
+  /// <p class="title"> <b>Name formats</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Function name</b> - <code>my-function</code>.
+  /// </li>
+  /// <li>
+  /// <b>Function ARN</b> -
+  /// <code>arn:aws:lambda:us-west-2:123456789012:function:my-function</code>.
+  /// </li>
+  /// <li>
+  /// <b>Partial ARN</b> - <code>123456789012:function:my-function</code>.
+  /// </li>
+  /// </ul>
+  /// The length constraint applies only to the full ARN. If you specify only the
+  /// function name, it is limited to 64 characters in length.
+  @_s.JsonKey(name: 'FunctionName', ignore: true)
+  final String functionName;
+
+  /// The amount of provisioned concurrency to allocate for the version or alias.
+  @_s.JsonKey(name: 'ProvisionedConcurrentExecutions')
+  final int provisionedConcurrentExecutions;
+
+  /// The version number or alias name.
+  @_s.JsonKey(name: 'Qualifier', ignore: true)
+  final String qualifier;
+
+  PutProvisionedConcurrencyConfigRequest({
+    @_s.required this.functionName,
+    @_s.required this.provisionedConcurrentExecutions,
+    @_s.required this.qualifier,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutProvisionedConcurrencyConfigRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutProvisionedConcurrencyConfigResponse {
@@ -6068,6 +7025,91 @@ class PutProvisionedConcurrencyConfigResponse {
   factory PutProvisionedConcurrencyConfigResponse.fromJson(
           Map<String, dynamic> json) =>
       _$PutProvisionedConcurrencyConfigResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RemoveLayerVersionPermissionRequest {
+  /// The name or Amazon Resource Name (ARN) of the layer.
+  @_s.JsonKey(name: 'LayerName', ignore: true)
+  final String layerName;
+
+  /// The identifier that was specified when the statement was added.
+  @_s.JsonKey(name: 'StatementId', ignore: true)
+  final String statementId;
+
+  /// The version number.
+  @_s.JsonKey(name: 'VersionNumber', ignore: true)
+  final int versionNumber;
+
+  /// Only update the policy if the revision ID matches the ID specified. Use this
+  /// option to avoid modifying a policy that has changed since you last read it.
+  @_s.JsonKey(name: 'RevisionId', ignore: true)
+  final String revisionId;
+
+  RemoveLayerVersionPermissionRequest({
+    @_s.required this.layerName,
+    @_s.required this.statementId,
+    @_s.required this.versionNumber,
+    this.revisionId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$RemoveLayerVersionPermissionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RemovePermissionRequest {
+  /// The name of the Lambda function, version, or alias.
+  /// <p class="title"> <b>Name formats</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Function name</b> - <code>my-function</code> (name-only),
+  /// <code>my-function:v1</code> (with alias).
+  /// </li>
+  /// <li>
+  /// <b>Function ARN</b> -
+  /// <code>arn:aws:lambda:us-west-2:123456789012:function:my-function</code>.
+  /// </li>
+  /// <li>
+  /// <b>Partial ARN</b> - <code>123456789012:function:my-function</code>.
+  /// </li>
+  /// </ul>
+  /// You can append a version number or alias to any of the formats. The length
+  /// constraint applies only to the full ARN. If you specify only the function
+  /// name, it is limited to 64 characters in length.
+  @_s.JsonKey(name: 'FunctionName', ignore: true)
+  final String functionName;
+
+  /// Statement ID of the permission to remove.
+  @_s.JsonKey(name: 'StatementId', ignore: true)
+  final String statementId;
+
+  /// Specify a version or alias to remove permissions from a published version of
+  /// the function.
+  @_s.JsonKey(name: 'Qualifier', ignore: true)
+  final String qualifier;
+
+  /// Only update the policy if the revision ID matches the ID that's specified.
+  /// Use this option to avoid modifying a policy that has changed since you last
+  /// read it.
+  @_s.JsonKey(name: 'RevisionId', ignore: true)
+  final String revisionId;
+
+  RemovePermissionRequest({
+    @_s.required this.functionName,
+    @_s.required this.statementId,
+    this.qualifier,
+    this.revisionId,
+  });
+  Map<String, dynamic> toJson() => _$RemovePermissionRequestToJson(this);
 }
 
 enum Runtime {
@@ -6115,56 +7157,6 @@ enum Runtime {
   provided,
 }
 
-extension on Runtime {
-  String toValue() {
-    switch (this) {
-      case Runtime.nodejs:
-        return 'nodejs';
-      case Runtime.nodejs4_3:
-        return 'nodejs4.3';
-      case Runtime.nodejs6_10:
-        return 'nodejs6.10';
-      case Runtime.nodejs8_10:
-        return 'nodejs8.10';
-      case Runtime.nodejs10X:
-        return 'nodejs10.x';
-      case Runtime.nodejs12X:
-        return 'nodejs12.x';
-      case Runtime.java8:
-        return 'java8';
-      case Runtime.java11:
-        return 'java11';
-      case Runtime.python2_7:
-        return 'python2.7';
-      case Runtime.python3_6:
-        return 'python3.6';
-      case Runtime.python3_7:
-        return 'python3.7';
-      case Runtime.python3_8:
-        return 'python3.8';
-      case Runtime.dotnetcore1_0:
-        return 'dotnetcore1.0';
-      case Runtime.dotnetcore2_0:
-        return 'dotnetcore2.0';
-      case Runtime.dotnetcore2_1:
-        return 'dotnetcore2.1';
-      case Runtime.dotnetcore3_1:
-        return 'dotnetcore3.1';
-      case Runtime.nodejs4_3Edge:
-        return 'nodejs4.3-edge';
-      case Runtime.go1X:
-        return 'go1.x';
-      case Runtime.ruby2_5:
-        return 'ruby2.5';
-      case Runtime.ruby2_7:
-        return 'ruby2.7';
-      case Runtime.provided:
-        return 'provided';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum State {
   @_s.JsonValue('Pending')
   pending,
@@ -6197,6 +7189,27 @@ enum StateReasonCode {
   invalidSubnet,
   @_s.JsonValue('InvalidSecurityGroup')
   invalidSecurityGroup,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The function's Amazon Resource Name (ARN).
+  @_s.JsonKey(name: 'ARN', ignore: true)
+  final String resource;
+
+  /// A list of tags to apply to the function.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  TagResourceRequest({
+    @_s.required this.resource,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
 }
 
 /// The function's AWS X-Ray tracing configuration. To sample and record
@@ -6240,6 +7253,457 @@ enum TracingMode {
   active,
   @_s.JsonValue('PassThrough')
   passThrough,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The function's Amazon Resource Name (ARN).
+  @_s.JsonKey(name: 'ARN', ignore: true)
+  final String resource;
+
+  /// A list of tag keys to remove from the function.
+  @_s.JsonKey(name: 'tagKeys', ignore: true)
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resource,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateAliasRequest {
+  /// The name of the Lambda function.
+  /// <p class="title"> <b>Name formats</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Function name</b> - <code>MyFunction</code>.
+  /// </li>
+  /// <li>
+  /// <b>Function ARN</b> -
+  /// <code>arn:aws:lambda:us-west-2:123456789012:function:MyFunction</code>.
+  /// </li>
+  /// <li>
+  /// <b>Partial ARN</b> - <code>123456789012:function:MyFunction</code>.
+  /// </li>
+  /// </ul>
+  /// The length constraint applies only to the full ARN. If you specify only the
+  /// function name, it is limited to 64 characters in length.
+  @_s.JsonKey(name: 'FunctionName', ignore: true)
+  final String functionName;
+
+  /// The name of the alias.
+  @_s.JsonKey(name: 'Name', ignore: true)
+  final String name;
+
+  /// A description of the alias.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The function version that the alias invokes.
+  @_s.JsonKey(name: 'FunctionVersion')
+  final String functionVersion;
+
+  /// Only update the alias if the revision ID matches the ID that's specified.
+  /// Use this option to avoid modifying an alias that has changed since you last
+  /// read it.
+  @_s.JsonKey(name: 'RevisionId')
+  final String revisionId;
+
+  /// The <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-traffic-shifting-using-aliases.html">routing
+  /// configuration</a> of the alias.
+  @_s.JsonKey(name: 'RoutingConfig')
+  final AliasRoutingConfiguration routingConfig;
+
+  UpdateAliasRequest({
+    @_s.required this.functionName,
+    @_s.required this.name,
+    this.description,
+    this.functionVersion,
+    this.revisionId,
+    this.routingConfig,
+  });
+  Map<String, dynamic> toJson() => _$UpdateAliasRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateEventSourceMappingRequest {
+  /// The identifier of the event source mapping.
+  @_s.JsonKey(name: 'UUID', ignore: true)
+  final String uuid;
+
+  /// The maximum number of items to retrieve in a single batch.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Amazon Kinesis</b> - Default 100. Max 10,000.
+  /// </li>
+  /// <li>
+  /// <b>Amazon DynamoDB Streams</b> - Default 100. Max 1,000.
+  /// </li>
+  /// <li>
+  /// <b>Amazon Simple Queue Service</b> - Default 10. Max 10.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'BatchSize')
+  final int batchSize;
+
+  /// (Streams) If the function returns an error, split the batch in two and
+  /// retry.
+  @_s.JsonKey(name: 'BisectBatchOnFunctionError')
+  final bool bisectBatchOnFunctionError;
+
+  /// (Streams) An Amazon SQS queue or Amazon SNS topic destination for discarded
+  /// records.
+  @_s.JsonKey(name: 'DestinationConfig')
+  final DestinationConfig destinationConfig;
+
+  /// Disables the event source mapping to pause polling and invocation.
+  @_s.JsonKey(name: 'Enabled')
+  final bool enabled;
+
+  /// The name of the Lambda function.
+  /// <p class="title"> <b>Name formats</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Function name</b> - <code>MyFunction</code>.
+  /// </li>
+  /// <li>
+  /// <b>Function ARN</b> -
+  /// <code>arn:aws:lambda:us-west-2:123456789012:function:MyFunction</code>.
+  /// </li>
+  /// <li>
+  /// <b>Version or Alias ARN</b> -
+  /// <code>arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD</code>.
+  /// </li>
+  /// <li>
+  /// <b>Partial ARN</b> - <code>123456789012:function:MyFunction</code>.
+  /// </li>
+  /// </ul>
+  /// The length constraint applies only to the full ARN. If you specify only the
+  /// function name, it's limited to 64 characters in length.
+  @_s.JsonKey(name: 'FunctionName')
+  final String functionName;
+
+  /// (Streams) The maximum amount of time to gather records before invoking the
+  /// function, in seconds.
+  @_s.JsonKey(name: 'MaximumBatchingWindowInSeconds')
+  final int maximumBatchingWindowInSeconds;
+
+  /// (Streams) The maximum age of a record that Lambda sends to a function for
+  /// processing.
+  @_s.JsonKey(name: 'MaximumRecordAgeInSeconds')
+  final int maximumRecordAgeInSeconds;
+
+  /// (Streams) The maximum number of times to retry when the function returns an
+  /// error.
+  @_s.JsonKey(name: 'MaximumRetryAttempts')
+  final int maximumRetryAttempts;
+
+  /// (Streams) The number of batches to process from each shard concurrently.
+  @_s.JsonKey(name: 'ParallelizationFactor')
+  final int parallelizationFactor;
+
+  UpdateEventSourceMappingRequest({
+    @_s.required this.uuid,
+    this.batchSize,
+    this.bisectBatchOnFunctionError,
+    this.destinationConfig,
+    this.enabled,
+    this.functionName,
+    this.maximumBatchingWindowInSeconds,
+    this.maximumRecordAgeInSeconds,
+    this.maximumRetryAttempts,
+    this.parallelizationFactor,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateEventSourceMappingRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateFunctionCodeRequest {
+  /// The name of the Lambda function.
+  /// <p class="title"> <b>Name formats</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Function name</b> - <code>my-function</code>.
+  /// </li>
+  /// <li>
+  /// <b>Function ARN</b> -
+  /// <code>arn:aws:lambda:us-west-2:123456789012:function:my-function</code>.
+  /// </li>
+  /// <li>
+  /// <b>Partial ARN</b> - <code>123456789012:function:my-function</code>.
+  /// </li>
+  /// </ul>
+  /// The length constraint applies only to the full ARN. If you specify only the
+  /// function name, it is limited to 64 characters in length.
+  @_s.JsonKey(name: 'FunctionName', ignore: true)
+  final String functionName;
+
+  /// Set to true to validate the request parameters and access permissions
+  /// without modifying the function code.
+  @_s.JsonKey(name: 'DryRun')
+  final bool dryRun;
+
+  /// Set to true to publish a new version of the function after updating the
+  /// code. This has the same effect as calling <a>PublishVersion</a> separately.
+  @_s.JsonKey(name: 'Publish')
+  final bool publish;
+
+  /// Only update the function if the revision ID matches the ID that's specified.
+  /// Use this option to avoid modifying a function that has changed since you
+  /// last read it.
+  @_s.JsonKey(name: 'RevisionId')
+  final String revisionId;
+
+  /// An Amazon S3 bucket in the same AWS Region as your function. The bucket can
+  /// be in a different AWS account.
+  @_s.JsonKey(name: 'S3Bucket')
+  final String s3Bucket;
+
+  /// The Amazon S3 key of the deployment package.
+  @_s.JsonKey(name: 'S3Key')
+  final String s3Key;
+
+  /// For versioned objects, the version of the deployment package object to use.
+  @_s.JsonKey(name: 'S3ObjectVersion')
+  final String s3ObjectVersion;
+
+  /// The base64-encoded contents of the deployment package. AWS SDK and AWS CLI
+  /// clients handle the encoding for you.
+  @Uint8ListConverter()
+  @_s.JsonKey(name: 'ZipFile')
+  final Uint8List zipFile;
+
+  UpdateFunctionCodeRequest({
+    @_s.required this.functionName,
+    this.dryRun,
+    this.publish,
+    this.revisionId,
+    this.s3Bucket,
+    this.s3Key,
+    this.s3ObjectVersion,
+    this.zipFile,
+  });
+  Map<String, dynamic> toJson() => _$UpdateFunctionCodeRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateFunctionConfigurationRequest {
+  /// The name of the Lambda function.
+  /// <p class="title"> <b>Name formats</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Function name</b> - <code>my-function</code>.
+  /// </li>
+  /// <li>
+  /// <b>Function ARN</b> -
+  /// <code>arn:aws:lambda:us-west-2:123456789012:function:my-function</code>.
+  /// </li>
+  /// <li>
+  /// <b>Partial ARN</b> - <code>123456789012:function:my-function</code>.
+  /// </li>
+  /// </ul>
+  /// The length constraint applies only to the full ARN. If you specify only the
+  /// function name, it is limited to 64 characters in length.
+  @_s.JsonKey(name: 'FunctionName', ignore: true)
+  final String functionName;
+
+  /// A dead letter queue configuration that specifies the queue or topic where
+  /// Lambda sends asynchronous events when they fail processing. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#dlq">Dead
+  /// Letter Queues</a>.
+  @_s.JsonKey(name: 'DeadLetterConfig')
+  final DeadLetterConfig deadLetterConfig;
+
+  /// A description of the function.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// Environment variables that are accessible from function code during
+  /// execution.
+  @_s.JsonKey(name: 'Environment')
+  final Environment environment;
+
+  /// The name of the method within your code that Lambda calls to execute your
+  /// function. The format includes the file name. It can also include namespaces
+  /// and other qualifiers, depending on the runtime. For more information, see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/programming-model-v2.html">Programming
+  /// Model</a>.
+  @_s.JsonKey(name: 'Handler')
+  final String handler;
+
+  /// The ARN of the AWS Key Management Service (AWS KMS) key that's used to
+  /// encrypt your function's environment variables. If it's not provided, AWS
+  /// Lambda uses a default service key.
+  @_s.JsonKey(name: 'KMSKeyArn')
+  final String kMSKeyArn;
+
+  /// A list of <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">function
+  /// layers</a> to add to the function's execution environment. Specify each
+  /// layer by its ARN, including the version.
+  @_s.JsonKey(name: 'Layers')
+  final List<String> layers;
+
+  /// The amount of memory that your function has access to. Increasing the
+  /// function's memory also increases its CPU allocation. The default value is
+  /// 128 MB. The value must be a multiple of 64 MB.
+  @_s.JsonKey(name: 'MemorySize')
+  final int memorySize;
+
+  /// Only update the function if the revision ID matches the ID that's specified.
+  /// Use this option to avoid modifying a function that has changed since you
+  /// last read it.
+  @_s.JsonKey(name: 'RevisionId')
+  final String revisionId;
+
+  /// The Amazon Resource Name (ARN) of the function's execution role.
+  @_s.JsonKey(name: 'Role')
+  final String role;
+
+  /// The identifier of the function's <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html">runtime</a>.
+  @_s.JsonKey(name: 'Runtime')
+  final Runtime runtime;
+
+  /// The amount of time that Lambda allows a function to run before stopping it.
+  /// The default is 3 seconds. The maximum allowed value is 900 seconds.
+  @_s.JsonKey(name: 'Timeout')
+  final int timeout;
+
+  /// Set <code>Mode</code> to <code>Active</code> to sample and trace a subset of
+  /// incoming requests with AWS X-Ray.
+  @_s.JsonKey(name: 'TracingConfig')
+  final TracingConfig tracingConfig;
+
+  /// For network connectivity to AWS resources in a VPC, specify a list of
+  /// security groups and subnets in the VPC. When you connect a function to a
+  /// VPC, it can only access resources and the internet through that VPC. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html">VPC
+  /// Settings</a>.
+  @_s.JsonKey(name: 'VpcConfig')
+  final VpcConfig vpcConfig;
+
+  UpdateFunctionConfigurationRequest({
+    @_s.required this.functionName,
+    this.deadLetterConfig,
+    this.description,
+    this.environment,
+    this.handler,
+    this.kMSKeyArn,
+    this.layers,
+    this.memorySize,
+    this.revisionId,
+    this.role,
+    this.runtime,
+    this.timeout,
+    this.tracingConfig,
+    this.vpcConfig,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateFunctionConfigurationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateFunctionEventInvokeConfigRequest {
+  /// The name of the Lambda function, version, or alias.
+  /// <p class="title"> <b>Name formats</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Function name</b> - <code>my-function</code> (name-only),
+  /// <code>my-function:v1</code> (with alias).
+  /// </li>
+  /// <li>
+  /// <b>Function ARN</b> -
+  /// <code>arn:aws:lambda:us-west-2:123456789012:function:my-function</code>.
+  /// </li>
+  /// <li>
+  /// <b>Partial ARN</b> - <code>123456789012:function:my-function</code>.
+  /// </li>
+  /// </ul>
+  /// You can append a version number or alias to any of the formats. The length
+  /// constraint applies only to the full ARN. If you specify only the function
+  /// name, it is limited to 64 characters in length.
+  @_s.JsonKey(name: 'FunctionName', ignore: true)
+  final String functionName;
+
+  /// A destination for events after they have been sent to a function for
+  /// processing.
+  /// <p class="title"> <b>Destinations</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Function</b> - The Amazon Resource Name (ARN) of a Lambda function.
+  /// </li>
+  /// <li>
+  /// <b>Queue</b> - The ARN of an SQS queue.
+  /// </li>
+  /// <li>
+  /// <b>Topic</b> - The ARN of an SNS topic.
+  /// </li>
+  /// <li>
+  /// <b>Event Bus</b> - The ARN of an Amazon EventBridge event bus.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'DestinationConfig')
+  final DestinationConfig destinationConfig;
+
+  /// The maximum age of a request that Lambda sends to a function for processing.
+  @_s.JsonKey(name: 'MaximumEventAgeInSeconds')
+  final int maximumEventAgeInSeconds;
+
+  /// The maximum number of times to retry when the function returns an error.
+  @_s.JsonKey(name: 'MaximumRetryAttempts')
+  final int maximumRetryAttempts;
+
+  /// A version number or alias name.
+  @_s.JsonKey(name: 'Qualifier', ignore: true)
+  final String qualifier;
+
+  UpdateFunctionEventInvokeConfigRequest({
+    @_s.required this.functionName,
+    this.destinationConfig,
+    this.maximumEventAgeInSeconds,
+    this.maximumRetryAttempts,
+    this.qualifier,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateFunctionEventInvokeConfigRequestToJson(this);
 }
 
 /// The VPC security groups and subnets that are attached to a Lambda function.

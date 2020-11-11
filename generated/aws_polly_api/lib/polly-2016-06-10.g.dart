@@ -6,6 +6,9 @@ part of 'polly-2016-06-10.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$DeleteLexiconInputToJson(DeleteLexiconInput instance) =>
+    <String, dynamic>{};
+
 DeleteLexiconOutput _$DeleteLexiconOutputFromJson(Map<String, dynamic> json) {
   return DeleteLexiconOutput();
 }
@@ -157,65 +160,53 @@ ListSpeechSynthesisTasksOutput _$ListSpeechSynthesisTasksOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$PutLexiconInputToJson(PutLexiconInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Content', instance.content);
+  return val;
+}
+
 PutLexiconOutput _$PutLexiconOutputFromJson(Map<String, dynamic> json) {
   return PutLexiconOutput();
 }
 
-StartSpeechSynthesisTaskOutput _$StartSpeechSynthesisTaskOutputFromJson(
-    Map<String, dynamic> json) {
-  return StartSpeechSynthesisTaskOutput(
-    synthesisTask: json['SynthesisTask'] == null
-        ? null
-        : SynthesisTask.fromJson(json['SynthesisTask'] as Map<String, dynamic>),
-  );
-}
+Map<String, dynamic> _$StartSpeechSynthesisTaskInputToJson(
+    StartSpeechSynthesisTaskInput instance) {
+  final val = <String, dynamic>{};
 
-SynthesisTask _$SynthesisTaskFromJson(Map<String, dynamic> json) {
-  return SynthesisTask(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
-    engine: _$enumDecodeNullable(_$EngineEnumMap, json['Engine']),
-    languageCode:
-        _$enumDecodeNullable(_$LanguageCodeEnumMap, json['LanguageCode']),
-    lexiconNames:
-        (json['LexiconNames'] as List)?.map((e) => e as String)?.toList(),
-    outputFormat:
-        _$enumDecodeNullable(_$OutputFormatEnumMap, json['OutputFormat']),
-    outputUri: json['OutputUri'] as String,
-    requestCharacters: json['RequestCharacters'] as int,
-    sampleRate: json['SampleRate'] as String,
-    snsTopicArn: json['SnsTopicArn'] as String,
-    speechMarkTypes:
-        (json['SpeechMarkTypes'] as List)?.map((e) => e as String)?.toList(),
-    taskId: json['TaskId'] as String,
-    taskStatus: _$enumDecodeNullable(_$TaskStatusEnumMap, json['TaskStatus']),
-    taskStatusReason: json['TaskStatusReason'] as String,
-    textType: _$enumDecodeNullable(_$TextTypeEnumMap, json['TextType']),
-    voiceId: _$enumDecodeNullable(_$VoiceIdEnumMap, json['VoiceId']),
-  );
-}
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
 
-const _$EngineEnumMap = {
-  Engine.standard: 'standard',
-  Engine.neural: 'neural',
-};
+  writeNotNull('OutputFormat', _$OutputFormatEnumMap[instance.outputFormat]);
+  writeNotNull('OutputS3BucketName', instance.outputS3BucketName);
+  writeNotNull('Text', instance.text);
+  writeNotNull('VoiceId', _$VoiceIdEnumMap[instance.voiceId]);
+  writeNotNull('Engine', _$EngineEnumMap[instance.engine]);
+  writeNotNull('LanguageCode', _$LanguageCodeEnumMap[instance.languageCode]);
+  writeNotNull('LexiconNames', instance.lexiconNames);
+  writeNotNull('OutputS3KeyPrefix', instance.outputS3KeyPrefix);
+  writeNotNull('SampleRate', instance.sampleRate);
+  writeNotNull('SnsTopicArn', instance.snsTopicArn);
+  writeNotNull('SpeechMarkTypes', instance.speechMarkTypes);
+  writeNotNull('TextType', _$TextTypeEnumMap[instance.textType]);
+  return val;
+}
 
 const _$OutputFormatEnumMap = {
   OutputFormat.json: 'json',
   OutputFormat.mp3: 'mp3',
   OutputFormat.oggVorbis: 'ogg_vorbis',
   OutputFormat.pcm: 'pcm',
-};
-
-const _$TaskStatusEnumMap = {
-  TaskStatus.scheduled: 'scheduled',
-  TaskStatus.inProgress: 'inProgress',
-  TaskStatus.completed: 'completed',
-  TaskStatus.failed: 'failed',
-};
-
-const _$TextTypeEnumMap = {
-  TextType.ssml: 'ssml',
-  TextType.text: 'text',
 };
 
 const _$VoiceIdEnumMap = {
@@ -280,6 +271,78 @@ const _$VoiceIdEnumMap = {
   VoiceId.zeina: 'Zeina',
   VoiceId.zhiyu: 'Zhiyu',
 };
+
+const _$EngineEnumMap = {
+  Engine.standard: 'standard',
+  Engine.neural: 'neural',
+};
+
+const _$TextTypeEnumMap = {
+  TextType.ssml: 'ssml',
+  TextType.text: 'text',
+};
+
+StartSpeechSynthesisTaskOutput _$StartSpeechSynthesisTaskOutputFromJson(
+    Map<String, dynamic> json) {
+  return StartSpeechSynthesisTaskOutput(
+    synthesisTask: json['SynthesisTask'] == null
+        ? null
+        : SynthesisTask.fromJson(json['SynthesisTask'] as Map<String, dynamic>),
+  );
+}
+
+SynthesisTask _$SynthesisTaskFromJson(Map<String, dynamic> json) {
+  return SynthesisTask(
+    creationTime: unixTimestampFromJson(json['CreationTime']),
+    engine: _$enumDecodeNullable(_$EngineEnumMap, json['Engine']),
+    languageCode:
+        _$enumDecodeNullable(_$LanguageCodeEnumMap, json['LanguageCode']),
+    lexiconNames:
+        (json['LexiconNames'] as List)?.map((e) => e as String)?.toList(),
+    outputFormat:
+        _$enumDecodeNullable(_$OutputFormatEnumMap, json['OutputFormat']),
+    outputUri: json['OutputUri'] as String,
+    requestCharacters: json['RequestCharacters'] as int,
+    sampleRate: json['SampleRate'] as String,
+    snsTopicArn: json['SnsTopicArn'] as String,
+    speechMarkTypes:
+        (json['SpeechMarkTypes'] as List)?.map((e) => e as String)?.toList(),
+    taskId: json['TaskId'] as String,
+    taskStatus: _$enumDecodeNullable(_$TaskStatusEnumMap, json['TaskStatus']),
+    taskStatusReason: json['TaskStatusReason'] as String,
+    textType: _$enumDecodeNullable(_$TextTypeEnumMap, json['TextType']),
+    voiceId: _$enumDecodeNullable(_$VoiceIdEnumMap, json['VoiceId']),
+  );
+}
+
+const _$TaskStatusEnumMap = {
+  TaskStatus.scheduled: 'scheduled',
+  TaskStatus.inProgress: 'inProgress',
+  TaskStatus.completed: 'completed',
+  TaskStatus.failed: 'failed',
+};
+
+Map<String, dynamic> _$SynthesizeSpeechInputToJson(
+    SynthesizeSpeechInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('OutputFormat', _$OutputFormatEnumMap[instance.outputFormat]);
+  writeNotNull('Text', instance.text);
+  writeNotNull('VoiceId', _$VoiceIdEnumMap[instance.voiceId]);
+  writeNotNull('Engine', _$EngineEnumMap[instance.engine]);
+  writeNotNull('LanguageCode', _$LanguageCodeEnumMap[instance.languageCode]);
+  writeNotNull('LexiconNames', instance.lexiconNames);
+  writeNotNull('SampleRate', instance.sampleRate);
+  writeNotNull('SpeechMarkTypes', instance.speechMarkTypes);
+  writeNotNull('TextType', _$TextTypeEnumMap[instance.textType]);
+  return val;
+}
 
 SynthesizeSpeechOutput _$SynthesizeSpeechOutputFromJson(
     Map<String, dynamic> json) {

@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -141,11 +140,11 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AcceptanceType': acceptanceType?.toValue(),
-        'PlayerIds': playerIds,
-        'TicketId': ticketId,
-      },
+      payload: AcceptMatchInput(
+        acceptanceType: acceptanceType,
+        playerIds: playerIds,
+        ticketId: ticketId,
+      ),
     );
 
     return AcceptMatchOutput.fromJson(jsonResponse.body);
@@ -291,11 +290,11 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GameServerGroupName': gameServerGroupName,
-        if (gameServerData != null) 'GameServerData': gameServerData,
-        if (gameServerId != null) 'GameServerId': gameServerId,
-      },
+      payload: ClaimGameServerInput(
+        gameServerGroupName: gameServerGroupName,
+        gameServerData: gameServerData,
+        gameServerId: gameServerId,
+      ),
     );
 
     return ClaimGameServerOutput.fromJson(jsonResponse.body);
@@ -406,12 +405,12 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        'RoutingStrategy': routingStrategy,
-        if (description != null) 'Description': description,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateAliasInput(
+        name: name,
+        routingStrategy: routingStrategy,
+        description: description,
+        tags: tags,
+      ),
     );
 
     return CreateAliasOutput.fromJson(jsonResponse.body);
@@ -557,14 +556,13 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (name != null) 'Name': name,
-        if (operatingSystem != null)
-          'OperatingSystem': operatingSystem?.toValue(),
-        if (storageLocation != null) 'StorageLocation': storageLocation,
-        if (tags != null) 'Tags': tags,
-        if (version != null) 'Version': version,
-      },
+      payload: CreateBuildInput(
+        name: name,
+        operatingSystem: operatingSystem,
+        storageLocation: storageLocation,
+        tags: tags,
+        version: version,
+      ),
     );
 
     return CreateBuildOutput.fromJson(jsonResponse.body);
@@ -917,35 +915,27 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EC2InstanceType': eC2InstanceType?.toValue(),
-        'Name': name,
-        if (buildId != null) 'BuildId': buildId,
-        if (certificateConfiguration != null)
-          'CertificateConfiguration': certificateConfiguration,
-        if (description != null) 'Description': description,
-        if (eC2InboundPermissions != null)
-          'EC2InboundPermissions': eC2InboundPermissions,
-        if (fleetType != null) 'FleetType': fleetType?.toValue(),
-        if (instanceRoleArn != null) 'InstanceRoleArn': instanceRoleArn,
-        if (logPaths != null) 'LogPaths': logPaths,
-        if (metricGroups != null) 'MetricGroups': metricGroups,
-        if (newGameSessionProtectionPolicy != null)
-          'NewGameSessionProtectionPolicy':
-              newGameSessionProtectionPolicy?.toValue(),
-        if (peerVpcAwsAccountId != null)
-          'PeerVpcAwsAccountId': peerVpcAwsAccountId,
-        if (peerVpcId != null) 'PeerVpcId': peerVpcId,
-        if (resourceCreationLimitPolicy != null)
-          'ResourceCreationLimitPolicy': resourceCreationLimitPolicy,
-        if (runtimeConfiguration != null)
-          'RuntimeConfiguration': runtimeConfiguration,
-        if (scriptId != null) 'ScriptId': scriptId,
-        if (serverLaunchParameters != null)
-          'ServerLaunchParameters': serverLaunchParameters,
-        if (serverLaunchPath != null) 'ServerLaunchPath': serverLaunchPath,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateFleetInput(
+        eC2InstanceType: eC2InstanceType,
+        name: name,
+        buildId: buildId,
+        certificateConfiguration: certificateConfiguration,
+        description: description,
+        eC2InboundPermissions: eC2InboundPermissions,
+        fleetType: fleetType,
+        instanceRoleArn: instanceRoleArn,
+        logPaths: logPaths,
+        metricGroups: metricGroups,
+        newGameSessionProtectionPolicy: newGameSessionProtectionPolicy,
+        peerVpcAwsAccountId: peerVpcAwsAccountId,
+        peerVpcId: peerVpcId,
+        resourceCreationLimitPolicy: resourceCreationLimitPolicy,
+        runtimeConfiguration: runtimeConfiguration,
+        scriptId: scriptId,
+        serverLaunchParameters: serverLaunchParameters,
+        serverLaunchPath: serverLaunchPath,
+        tags: tags,
+      ),
     );
 
     return CreateFleetOutput.fromJson(jsonResponse.body);
@@ -1206,21 +1196,19 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GameServerGroupName': gameServerGroupName,
-        'InstanceDefinitions': instanceDefinitions,
-        'LaunchTemplate': launchTemplate,
-        'MaxSize': maxSize,
-        'MinSize': minSize,
-        'RoleArn': roleArn,
-        if (autoScalingPolicy != null) 'AutoScalingPolicy': autoScalingPolicy,
-        if (balancingStrategy != null)
-          'BalancingStrategy': balancingStrategy?.toValue(),
-        if (gameServerProtectionPolicy != null)
-          'GameServerProtectionPolicy': gameServerProtectionPolicy?.toValue(),
-        if (tags != null) 'Tags': tags,
-        if (vpcSubnets != null) 'VpcSubnets': vpcSubnets,
-      },
+      payload: CreateGameServerGroupInput(
+        gameServerGroupName: gameServerGroupName,
+        instanceDefinitions: instanceDefinitions,
+        launchTemplate: launchTemplate,
+        maxSize: maxSize,
+        minSize: minSize,
+        roleArn: roleArn,
+        autoScalingPolicy: autoScalingPolicy,
+        balancingStrategy: balancingStrategy,
+        gameServerProtectionPolicy: gameServerProtectionPolicy,
+        tags: tags,
+        vpcSubnets: vpcSubnets,
+      ),
     );
 
     return CreateGameServerGroupOutput.fromJson(jsonResponse.body);
@@ -1442,17 +1430,17 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'MaximumPlayerSessionCount': maximumPlayerSessionCount,
-        if (aliasId != null) 'AliasId': aliasId,
-        if (creatorId != null) 'CreatorId': creatorId,
-        if (fleetId != null) 'FleetId': fleetId,
-        if (gameProperties != null) 'GameProperties': gameProperties,
-        if (gameSessionData != null) 'GameSessionData': gameSessionData,
-        if (gameSessionId != null) 'GameSessionId': gameSessionId,
-        if (idempotencyToken != null) 'IdempotencyToken': idempotencyToken,
-        if (name != null) 'Name': name,
-      },
+      payload: CreateGameSessionInput(
+        maximumPlayerSessionCount: maximumPlayerSessionCount,
+        aliasId: aliasId,
+        creatorId: creatorId,
+        fleetId: fleetId,
+        gameProperties: gameProperties,
+        gameSessionData: gameSessionData,
+        gameSessionId: gameSessionId,
+        idempotencyToken: idempotencyToken,
+        name: name,
+      ),
     );
 
     return CreateGameSessionOutput.fromJson(jsonResponse.body);
@@ -1599,14 +1587,13 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        if (destinations != null) 'Destinations': destinations,
-        if (playerLatencyPolicies != null)
-          'PlayerLatencyPolicies': playerLatencyPolicies,
-        if (tags != null) 'Tags': tags,
-        if (timeoutInSeconds != null) 'TimeoutInSeconds': timeoutInSeconds,
-      },
+      payload: CreateGameSessionQueueInput(
+        name: name,
+        destinations: destinations,
+        playerLatencyPolicies: playerLatencyPolicies,
+        tags: tags,
+        timeoutInSeconds: timeoutInSeconds,
+      ),
     );
 
     return CreateGameSessionQueueOutput.fromJson(jsonResponse.body);
@@ -1875,25 +1862,22 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AcceptanceRequired': acceptanceRequired,
-        'GameSessionQueueArns': gameSessionQueueArns,
-        'Name': name,
-        'RequestTimeoutSeconds': requestTimeoutSeconds,
-        'RuleSetName': ruleSetName,
-        if (acceptanceTimeoutSeconds != null)
-          'AcceptanceTimeoutSeconds': acceptanceTimeoutSeconds,
-        if (additionalPlayerCount != null)
-          'AdditionalPlayerCount': additionalPlayerCount,
-        if (backfillMode != null) 'BackfillMode': backfillMode?.toValue(),
-        if (customEventData != null) 'CustomEventData': customEventData,
-        if (description != null) 'Description': description,
-        if (gameProperties != null) 'GameProperties': gameProperties,
-        if (gameSessionData != null) 'GameSessionData': gameSessionData,
-        if (notificationTarget != null)
-          'NotificationTarget': notificationTarget,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateMatchmakingConfigurationInput(
+        acceptanceRequired: acceptanceRequired,
+        gameSessionQueueArns: gameSessionQueueArns,
+        name: name,
+        requestTimeoutSeconds: requestTimeoutSeconds,
+        ruleSetName: ruleSetName,
+        acceptanceTimeoutSeconds: acceptanceTimeoutSeconds,
+        additionalPlayerCount: additionalPlayerCount,
+        backfillMode: backfillMode,
+        customEventData: customEventData,
+        description: description,
+        gameProperties: gameProperties,
+        gameSessionData: gameSessionData,
+        notificationTarget: notificationTarget,
+        tags: tags,
+      ),
     );
 
     return CreateMatchmakingConfigurationOutput.fromJson(jsonResponse.body);
@@ -2024,11 +2008,11 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        'RuleSetBody': ruleSetBody,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateMatchmakingRuleSetInput(
+        name: name,
+        ruleSetBody: ruleSetBody,
+        tags: tags,
+      ),
     );
 
     return CreateMatchmakingRuleSetOutput.fromJson(jsonResponse.body);
@@ -2135,11 +2119,11 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GameSessionId': gameSessionId,
-        'PlayerId': playerId,
-        if (playerData != null) 'PlayerData': playerData,
-      },
+      payload: CreatePlayerSessionInput(
+        gameSessionId: gameSessionId,
+        playerId: playerId,
+        playerData: playerData,
+      ),
     );
 
     return CreatePlayerSessionOutput.fromJson(jsonResponse.body);
@@ -2237,11 +2221,11 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GameSessionId': gameSessionId,
-        'PlayerIds': playerIds,
-        if (playerDataMap != null) 'PlayerDataMap': playerDataMap,
-      },
+      payload: CreatePlayerSessionsInput(
+        gameSessionId: gameSessionId,
+        playerIds: playerIds,
+        playerDataMap: playerDataMap,
+      ),
     );
 
     return CreatePlayerSessionsOutput.fromJson(jsonResponse.body);
@@ -2382,13 +2366,13 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (name != null) 'Name': name,
-        if (storageLocation != null) 'StorageLocation': storageLocation,
-        if (tags != null) 'Tags': tags,
-        if (version != null) 'Version': version,
-        if (zipFile != null) 'ZipFile': zipFile.let(base64Encode),
-      },
+      payload: CreateScriptInput(
+        name: name,
+        storageLocation: storageLocation,
+        tags: tags,
+        version: version,
+        zipFile: zipFile,
+      ),
     );
 
     return CreateScriptOutput.fromJson(jsonResponse.body);
@@ -2494,10 +2478,10 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GameLiftAwsAccountId': gameLiftAwsAccountId,
-        'PeerVpcId': peerVpcId,
-      },
+      payload: CreateVpcPeeringAuthorizationInput(
+        gameLiftAwsAccountId: gameLiftAwsAccountId,
+        peerVpcId: peerVpcId,
+      ),
     );
 
     return CreateVpcPeeringAuthorizationOutput.fromJson(jsonResponse.body);
@@ -2611,11 +2595,11 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'FleetId': fleetId,
-        'PeerVpcAwsAccountId': peerVpcAwsAccountId,
-        'PeerVpcId': peerVpcId,
-      },
+      payload: CreateVpcPeeringConnectionInput(
+        fleetId: fleetId,
+        peerVpcAwsAccountId: peerVpcAwsAccountId,
+        peerVpcId: peerVpcId,
+      ),
     );
 
     return CreateVpcPeeringConnectionOutput.fromJson(jsonResponse.body);
@@ -2675,9 +2659,9 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AliasId': aliasId,
-      },
+      payload: DeleteAliasInput(
+        aliasId: aliasId,
+      ),
     );
   }
 
@@ -2743,9 +2727,9 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'BuildId': buildId,
-      },
+      payload: DeleteBuildInput(
+        buildId: buildId,
+      ),
     );
   }
 
@@ -2820,9 +2804,9 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'FleetId': fleetId,
-      },
+      payload: DeleteFleetInput(
+        fleetId: fleetId,
+      ),
     );
   }
 
@@ -2936,10 +2920,10 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GameServerGroupName': gameServerGroupName,
-        if (deleteOption != null) 'DeleteOption': deleteOption?.toValue(),
-      },
+      payload: DeleteGameServerGroupInput(
+        gameServerGroupName: gameServerGroupName,
+        deleteOption: deleteOption,
+      ),
     );
 
     return DeleteGameServerGroupOutput.fromJson(jsonResponse.body);
@@ -3009,9 +2993,9 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: DeleteGameSessionQueueInput(
+        name: name,
+      ),
     );
 
     return DeleteGameSessionQueueOutput.fromJson(jsonResponse.body);
@@ -3086,9 +3070,9 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: DeleteMatchmakingConfigurationInput(
+        name: name,
+      ),
     );
 
     return DeleteMatchmakingConfigurationOutput.fromJson(jsonResponse.body);
@@ -3173,9 +3157,9 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: DeleteMatchmakingRuleSetInput(
+        name: name,
+      ),
     );
 
     return DeleteMatchmakingRuleSetOutput.fromJson(jsonResponse.body);
@@ -3267,10 +3251,10 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'FleetId': fleetId,
-        'Name': name,
-      },
+      payload: DeleteScalingPolicyInput(
+        fleetId: fleetId,
+        name: name,
+      ),
     );
   }
 
@@ -3339,9 +3323,9 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ScriptId': scriptId,
-      },
+      payload: DeleteScriptInput(
+        scriptId: scriptId,
+      ),
     );
   }
 
@@ -3418,10 +3402,10 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GameLiftAwsAccountId': gameLiftAwsAccountId,
-        'PeerVpcId': peerVpcId,
-      },
+      payload: DeleteVpcPeeringAuthorizationInput(
+        gameLiftAwsAccountId: gameLiftAwsAccountId,
+        peerVpcId: peerVpcId,
+      ),
     );
 
     return DeleteVpcPeeringAuthorizationOutput.fromJson(jsonResponse.body);
@@ -3503,10 +3487,10 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'FleetId': fleetId,
-        'VpcPeeringConnectionId': vpcPeeringConnectionId,
-      },
+      payload: DeleteVpcPeeringConnectionInput(
+        fleetId: fleetId,
+        vpcPeeringConnectionId: vpcPeeringConnectionId,
+      ),
     );
 
     return DeleteVpcPeeringConnectionOutput.fromJson(jsonResponse.body);
@@ -3606,10 +3590,10 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GameServerGroupName': gameServerGroupName,
-        'GameServerId': gameServerId,
-      },
+      payload: DeregisterGameServerInput(
+        gameServerGroupName: gameServerGroupName,
+        gameServerId: gameServerId,
+      ),
     );
   }
 
@@ -3669,9 +3653,9 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AliasId': aliasId,
-      },
+      payload: DescribeAliasInput(
+        aliasId: aliasId,
+      ),
     );
 
     return DescribeAliasOutput.fromJson(jsonResponse.body);
@@ -3735,9 +3719,9 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'BuildId': buildId,
-      },
+      payload: DescribeBuildInput(
+        buildId: buildId,
+      ),
     );
 
     return DescribeBuildOutput.fromJson(jsonResponse.body);
@@ -3812,10 +3796,9 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (eC2InstanceType != null)
-          'EC2InstanceType': eC2InstanceType?.toValue(),
-      },
+      payload: DescribeEC2InstanceLimitsInput(
+        eC2InstanceType: eC2InstanceType,
+      ),
     );
 
     return DescribeEC2InstanceLimitsOutput.fromJson(jsonResponse.body);
@@ -3937,11 +3920,11 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (fleetIds != null) 'FleetIds': fleetIds,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeFleetAttributesInput(
+        fleetIds: fleetIds,
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeFleetAttributesOutput.fromJson(jsonResponse.body);
@@ -4066,11 +4049,11 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (fleetIds != null) 'FleetIds': fleetIds,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeFleetCapacityInput(
+        fleetIds: fleetIds,
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeFleetCapacityOutput.fromJson(jsonResponse.body);
@@ -4198,13 +4181,13 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'FleetId': fleetId,
-        if (endTime != null) 'EndTime': endTime,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (startTime != null) 'StartTime': startTime,
-      },
+      payload: DescribeFleetEventsInput(
+        fleetId: fleetId,
+        endTime: endTime,
+        limit: limit,
+        nextToken: nextToken,
+        startTime: startTime,
+      ),
     );
 
     return DescribeFleetEventsOutput.fromJson(jsonResponse.body);
@@ -4300,9 +4283,9 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'FleetId': fleetId,
-      },
+      payload: DescribeFleetPortSettingsInput(
+        fleetId: fleetId,
+      ),
     );
 
     return DescribeFleetPortSettingsOutput.fromJson(jsonResponse.body);
@@ -4429,11 +4412,11 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (fleetIds != null) 'FleetIds': fleetIds,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeFleetUtilizationInput(
+        fleetIds: fleetIds,
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeFleetUtilizationOutput.fromJson(jsonResponse.body);
@@ -4531,10 +4514,10 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GameServerGroupName': gameServerGroupName,
-        'GameServerId': gameServerId,
-      },
+      payload: DescribeGameServerInput(
+        gameServerGroupName: gameServerGroupName,
+        gameServerId: gameServerId,
+      ),
     );
 
     return DescribeGameServerOutput.fromJson(jsonResponse.body);
@@ -4615,9 +4598,9 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GameServerGroupName': gameServerGroupName,
-      },
+      payload: DescribeGameServerGroupInput(
+        gameServerGroupName: gameServerGroupName,
+      ),
     );
 
     return DescribeGameServerGroupOutput.fromJson(jsonResponse.body);
@@ -4759,14 +4742,14 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (aliasId != null) 'AliasId': aliasId,
-        if (fleetId != null) 'FleetId': fleetId,
-        if (gameSessionId != null) 'GameSessionId': gameSessionId,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (statusFilter != null) 'StatusFilter': statusFilter,
-      },
+      payload: DescribeGameSessionDetailsInput(
+        aliasId: aliasId,
+        fleetId: fleetId,
+        gameSessionId: gameSessionId,
+        limit: limit,
+        nextToken: nextToken,
+        statusFilter: statusFilter,
+      ),
     );
 
     return DescribeGameSessionDetailsOutput.fromJson(jsonResponse.body);
@@ -4845,9 +4828,9 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PlacementId': placementId,
-      },
+      payload: DescribeGameSessionPlacementInput(
+        placementId: placementId,
+      ),
     );
 
     return DescribeGameSessionPlacementOutput.fromJson(jsonResponse.body);
@@ -4928,11 +4911,11 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (limit != null) 'Limit': limit,
-        if (names != null) 'Names': names,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeGameSessionQueuesInput(
+        limit: limit,
+        names: names,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeGameSessionQueuesOutput.fromJson(jsonResponse.body);
@@ -5075,14 +5058,14 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (aliasId != null) 'AliasId': aliasId,
-        if (fleetId != null) 'FleetId': fleetId,
-        if (gameSessionId != null) 'GameSessionId': gameSessionId,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (statusFilter != null) 'StatusFilter': statusFilter,
-      },
+      payload: DescribeGameSessionsInput(
+        aliasId: aliasId,
+        fleetId: fleetId,
+        gameSessionId: gameSessionId,
+        limit: limit,
+        nextToken: nextToken,
+        statusFilter: statusFilter,
+      ),
     );
 
     return DescribeGameSessionsOutput.fromJson(jsonResponse.body);
@@ -5179,12 +5162,12 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'FleetId': fleetId,
-        if (instanceId != null) 'InstanceId': instanceId,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeInstancesInput(
+        fleetId: fleetId,
+        instanceId: instanceId,
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeInstancesOutput.fromJson(jsonResponse.body);
@@ -5254,9 +5237,9 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TicketIds': ticketIds,
-      },
+      payload: DescribeMatchmakingInput(
+        ticketIds: ticketIds,
+      ),
     );
 
     return DescribeMatchmakingOutput.fromJson(jsonResponse.body);
@@ -5369,12 +5352,12 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (limit != null) 'Limit': limit,
-        if (names != null) 'Names': names,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (ruleSetName != null) 'RuleSetName': ruleSetName,
-      },
+      payload: DescribeMatchmakingConfigurationsInput(
+        limit: limit,
+        names: names,
+        nextToken: nextToken,
+        ruleSetName: ruleSetName,
+      ),
     );
 
     return DescribeMatchmakingConfigurationsOutput.fromJson(jsonResponse.body);
@@ -5469,11 +5452,11 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (limit != null) 'Limit': limit,
-        if (names != null) 'Names': names,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeMatchmakingRuleSetsInput(
+        limit: limit,
+        names: names,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeMatchmakingRuleSetsOutput.fromJson(jsonResponse.body);
@@ -5627,15 +5610,14 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (gameSessionId != null) 'GameSessionId': gameSessionId,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (playerId != null) 'PlayerId': playerId,
-        if (playerSessionId != null) 'PlayerSessionId': playerSessionId,
-        if (playerSessionStatusFilter != null)
-          'PlayerSessionStatusFilter': playerSessionStatusFilter,
-      },
+      payload: DescribePlayerSessionsInput(
+        gameSessionId: gameSessionId,
+        limit: limit,
+        nextToken: nextToken,
+        playerId: playerId,
+        playerSessionId: playerSessionId,
+        playerSessionStatusFilter: playerSessionStatusFilter,
+      ),
     );
 
     return DescribePlayerSessionsOutput.fromJson(jsonResponse.body);
@@ -5734,9 +5716,9 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'FleetId': fleetId,
-      },
+      payload: DescribeRuntimeConfigurationInput(
+        fleetId: fleetId,
+      ),
     );
 
     return DescribeRuntimeConfigurationOutput.fromJson(jsonResponse.body);
@@ -5876,12 +5858,12 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'FleetId': fleetId,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (statusFilter != null) 'StatusFilter': statusFilter?.toValue(),
-      },
+      payload: DescribeScalingPoliciesInput(
+        fleetId: fleetId,
+        limit: limit,
+        nextToken: nextToken,
+        statusFilter: statusFilter,
+      ),
     );
 
     return DescribeScalingPoliciesOutput.fromJson(jsonResponse.body);
@@ -5946,9 +5928,9 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ScriptId': scriptId,
-      },
+      payload: DescribeScriptInput(
+        scriptId: scriptId,
+      ),
     );
 
     return DescribeScriptOutput.fromJson(jsonResponse.body);
@@ -6057,9 +6039,9 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (fleetId != null) 'FleetId': fleetId,
-      },
+      payload: DescribeVpcPeeringConnectionsInput(
+        fleetId: fleetId,
+      ),
     );
 
     return DescribeVpcPeeringConnectionsOutput.fromJson(jsonResponse.body);
@@ -6144,9 +6126,9 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GameSessionId': gameSessionId,
-      },
+      payload: GetGameSessionLogUrlInput(
+        gameSessionId: gameSessionId,
+      ),
     );
 
     return GetGameSessionLogUrlOutput.fromJson(jsonResponse.body);
@@ -6236,10 +6218,10 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'FleetId': fleetId,
-        'InstanceId': instanceId,
-      },
+      payload: GetInstanceAccessInput(
+        fleetId: fleetId,
+        instanceId: instanceId,
+      ),
     );
 
     return GetInstanceAccessOutput.fromJson(jsonResponse.body);
@@ -6342,13 +6324,12 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (limit != null) 'Limit': limit,
-        if (name != null) 'Name': name,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (routingStrategyType != null)
-          'RoutingStrategyType': routingStrategyType?.toValue(),
-      },
+      payload: ListAliasesInput(
+        limit: limit,
+        name: name,
+        nextToken: nextToken,
+        routingStrategyType: routingStrategyType,
+      ),
     );
 
     return ListAliasesOutput.fromJson(jsonResponse.body);
@@ -6449,11 +6430,11 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (status != null) 'Status': status?.toValue(),
-      },
+      payload: ListBuildsInput(
+        limit: limit,
+        nextToken: nextToken,
+        status: status,
+      ),
     );
 
     return ListBuildsOutput.fromJson(jsonResponse.body);
@@ -6558,12 +6539,12 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (buildId != null) 'BuildId': buildId,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (scriptId != null) 'ScriptId': scriptId,
-      },
+      payload: ListFleetsInput(
+        buildId: buildId,
+        limit: limit,
+        nextToken: nextToken,
+        scriptId: scriptId,
+      ),
     );
 
     return ListFleetsOutput.fromJson(jsonResponse.body);
@@ -6646,10 +6627,10 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListGameServerGroupsInput(
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return ListGameServerGroupsOutput.fromJson(jsonResponse.body);
@@ -6756,12 +6737,12 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GameServerGroupName': gameServerGroupName,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-      },
+      payload: ListGameServersInput(
+        gameServerGroupName: gameServerGroupName,
+        limit: limit,
+        nextToken: nextToken,
+        sortOrder: sortOrder,
+      ),
     );
 
     return ListGameServersOutput.fromJson(jsonResponse.body);
@@ -6834,10 +6815,10 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListScriptsInput(
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return ListScriptsOutput.fromJson(jsonResponse.body);
@@ -6931,9 +6912,9 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceARN': resourceARN,
-      },
+      payload: ListTagsForResourceRequest(
+        resourceARN: resourceARN,
+      ),
     );
 
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
@@ -7220,21 +7201,18 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'FleetId': fleetId,
-        'MetricName': metricName?.toValue(),
-        'Name': name,
-        if (comparisonOperator != null)
-          'ComparisonOperator': comparisonOperator?.toValue(),
-        if (evaluationPeriods != null) 'EvaluationPeriods': evaluationPeriods,
-        if (policyType != null) 'PolicyType': policyType?.toValue(),
-        if (scalingAdjustment != null) 'ScalingAdjustment': scalingAdjustment,
-        if (scalingAdjustmentType != null)
-          'ScalingAdjustmentType': scalingAdjustmentType?.toValue(),
-        if (targetConfiguration != null)
-          'TargetConfiguration': targetConfiguration,
-        if (threshold != null) 'Threshold': threshold,
-      },
+      payload: PutScalingPolicyInput(
+        fleetId: fleetId,
+        metricName: metricName,
+        name: name,
+        comparisonOperator: comparisonOperator,
+        evaluationPeriods: evaluationPeriods,
+        policyType: policyType,
+        scalingAdjustment: scalingAdjustment,
+        scalingAdjustmentType: scalingAdjustmentType,
+        targetConfiguration: targetConfiguration,
+        threshold: threshold,
+      ),
     );
 
     return PutScalingPolicyOutput.fromJson(jsonResponse.body);
@@ -7429,15 +7407,15 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GameServerGroupName': gameServerGroupName,
-        'GameServerId': gameServerId,
-        'InstanceId': instanceId,
-        if (connectionInfo != null) 'ConnectionInfo': connectionInfo,
-        if (customSortKey != null) 'CustomSortKey': customSortKey,
-        if (gameServerData != null) 'GameServerData': gameServerData,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: RegisterGameServerInput(
+        gameServerGroupName: gameServerGroupName,
+        gameServerId: gameServerId,
+        instanceId: instanceId,
+        connectionInfo: connectionInfo,
+        customSortKey: customSortKey,
+        gameServerData: gameServerData,
+        tags: tags,
+      ),
     );
 
     return RegisterGameServerOutput.fromJson(jsonResponse.body);
@@ -7506,9 +7484,9 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'BuildId': buildId,
-      },
+      payload: RequestUploadCredentialsInput(
+        buildId: buildId,
+      ),
     );
 
     return RequestUploadCredentialsOutput.fromJson(jsonResponse.body);
@@ -7566,9 +7544,9 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AliasId': aliasId,
-      },
+      payload: ResolveAliasInput(
+        aliasId: aliasId,
+      ),
     );
 
     return ResolveAliasOutput.fromJson(jsonResponse.body);
@@ -7660,10 +7638,10 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GameServerGroupName': gameServerGroupName,
-        'ResumeActions': resumeActions,
-      },
+      payload: ResumeGameServerGroupInput(
+        gameServerGroupName: gameServerGroupName,
+        resumeActions: resumeActions,
+      ),
     );
 
     return ResumeGameServerGroupOutput.fromJson(jsonResponse.body);
@@ -7930,14 +7908,14 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (aliasId != null) 'AliasId': aliasId,
-        if (filterExpression != null) 'FilterExpression': filterExpression,
-        if (fleetId != null) 'FleetId': fleetId,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortExpression != null) 'SortExpression': sortExpression,
-      },
+      payload: SearchGameSessionsInput(
+        aliasId: aliasId,
+        filterExpression: filterExpression,
+        fleetId: fleetId,
+        limit: limit,
+        nextToken: nextToken,
+        sortExpression: sortExpression,
+      ),
     );
 
     return SearchGameSessionsOutput.fromJson(jsonResponse.body);
@@ -8016,10 +7994,10 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Actions': actions,
-        'FleetId': fleetId,
-      },
+      payload: StartFleetActionsInput(
+        actions: actions,
+        fleetId: fleetId,
+      ),
     );
 
     return StartFleetActionsOutput.fromJson(jsonResponse.body);
@@ -8227,17 +8205,16 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GameSessionQueueName': gameSessionQueueName,
-        'MaximumPlayerSessionCount': maximumPlayerSessionCount,
-        'PlacementId': placementId,
-        if (desiredPlayerSessions != null)
-          'DesiredPlayerSessions': desiredPlayerSessions,
-        if (gameProperties != null) 'GameProperties': gameProperties,
-        if (gameSessionData != null) 'GameSessionData': gameSessionData,
-        if (gameSessionName != null) 'GameSessionName': gameSessionName,
-        if (playerLatencies != null) 'PlayerLatencies': playerLatencies,
-      },
+      payload: StartGameSessionPlacementInput(
+        gameSessionQueueName: gameSessionQueueName,
+        maximumPlayerSessionCount: maximumPlayerSessionCount,
+        placementId: placementId,
+        desiredPlayerSessions: desiredPlayerSessions,
+        gameProperties: gameProperties,
+        gameSessionData: gameSessionData,
+        gameSessionName: gameSessionName,
+        playerLatencies: playerLatencies,
+      ),
     );
 
     return StartGameSessionPlacementOutput.fromJson(jsonResponse.body);
@@ -8399,12 +8376,12 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConfigurationName': configurationName,
-        'GameSessionArn': gameSessionArn,
-        'Players': players,
-        if (ticketId != null) 'TicketId': ticketId,
-      },
+      payload: StartMatchBackfillInput(
+        configurationName: configurationName,
+        gameSessionArn: gameSessionArn,
+        players: players,
+        ticketId: ticketId,
+      ),
     );
 
     return StartMatchBackfillOutput.fromJson(jsonResponse.body);
@@ -8582,11 +8559,11 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConfigurationName': configurationName,
-        'Players': players,
-        if (ticketId != null) 'TicketId': ticketId,
-      },
+      payload: StartMatchmakingInput(
+        configurationName: configurationName,
+        players: players,
+        ticketId: ticketId,
+      ),
     );
 
     return StartMatchmakingOutput.fromJson(jsonResponse.body);
@@ -8665,10 +8642,10 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Actions': actions,
-        'FleetId': fleetId,
-      },
+      payload: StopFleetActionsInput(
+        actions: actions,
+        fleetId: fleetId,
+      ),
     );
 
     return StopFleetActionsOutput.fromJson(jsonResponse.body);
@@ -8747,9 +8724,9 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PlacementId': placementId,
-      },
+      payload: StopGameSessionPlacementInput(
+        placementId: placementId,
+      ),
     );
 
     return StopGameSessionPlacementOutput.fromJson(jsonResponse.body);
@@ -8829,9 +8806,9 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TicketId': ticketId,
-      },
+      payload: StopMatchmakingInput(
+        ticketId: ticketId,
+      ),
     );
 
     return StopMatchmakingOutput.fromJson(jsonResponse.body);
@@ -8931,10 +8908,10 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GameServerGroupName': gameServerGroupName,
-        'SuspendActions': suspendActions,
-      },
+      payload: SuspendGameServerGroupInput(
+        gameServerGroupName: gameServerGroupName,
+        suspendActions: suspendActions,
+      ),
     );
 
     return SuspendGameServerGroupOutput.fromJson(jsonResponse.body);
@@ -9040,10 +9017,10 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceARN': resourceARN,
-        'Tags': tags,
-      },
+      payload: TagResourceRequest(
+        resourceARN: resourceARN,
+        tags: tags,
+      ),
     );
 
     return TagResourceResponse.fromJson(jsonResponse.body);
@@ -9146,10 +9123,10 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceARN': resourceARN,
-        'TagKeys': tagKeys,
-      },
+      payload: UntagResourceRequest(
+        resourceARN: resourceARN,
+        tagKeys: tagKeys,
+      ),
     );
 
     return UntagResourceResponse.fromJson(jsonResponse.body);
@@ -9240,12 +9217,12 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AliasId': aliasId,
-        if (description != null) 'Description': description,
-        if (name != null) 'Name': name,
-        if (routingStrategy != null) 'RoutingStrategy': routingStrategy,
-      },
+      payload: UpdateAliasInput(
+        aliasId: aliasId,
+        description: description,
+        name: name,
+        routingStrategy: routingStrategy,
+      ),
     );
 
     return UpdateAliasOutput.fromJson(jsonResponse.body);
@@ -9332,11 +9309,11 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'BuildId': buildId,
-        if (name != null) 'Name': name,
-        if (version != null) 'Version': version,
-      },
+      payload: UpdateBuildInput(
+        buildId: buildId,
+        name: name,
+        version: version,
+      ),
     );
 
     return UpdateBuildOutput.fromJson(jsonResponse.body);
@@ -9472,17 +9449,14 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'FleetId': fleetId,
-        if (description != null) 'Description': description,
-        if (metricGroups != null) 'MetricGroups': metricGroups,
-        if (name != null) 'Name': name,
-        if (newGameSessionProtectionPolicy != null)
-          'NewGameSessionProtectionPolicy':
-              newGameSessionProtectionPolicy?.toValue(),
-        if (resourceCreationLimitPolicy != null)
-          'ResourceCreationLimitPolicy': resourceCreationLimitPolicy,
-      },
+      payload: UpdateFleetAttributesInput(
+        fleetId: fleetId,
+        description: description,
+        metricGroups: metricGroups,
+        name: name,
+        newGameSessionProtectionPolicy: newGameSessionProtectionPolicy,
+        resourceCreationLimitPolicy: resourceCreationLimitPolicy,
+      ),
     );
 
     return UpdateFleetAttributesOutput.fromJson(jsonResponse.body);
@@ -9614,12 +9588,12 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'FleetId': fleetId,
-        if (desiredInstances != null) 'DesiredInstances': desiredInstances,
-        if (maxSize != null) 'MaxSize': maxSize,
-        if (minSize != null) 'MinSize': minSize,
-      },
+      payload: UpdateFleetCapacityInput(
+        fleetId: fleetId,
+        desiredInstances: desiredInstances,
+        maxSize: maxSize,
+        minSize: minSize,
+      ),
     );
 
     return UpdateFleetCapacityOutput.fromJson(jsonResponse.body);
@@ -9715,13 +9689,11 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'FleetId': fleetId,
-        if (inboundPermissionAuthorizations != null)
-          'InboundPermissionAuthorizations': inboundPermissionAuthorizations,
-        if (inboundPermissionRevocations != null)
-          'InboundPermissionRevocations': inboundPermissionRevocations,
-      },
+      payload: UpdateFleetPortSettingsInput(
+        fleetId: fleetId,
+        inboundPermissionAuthorizations: inboundPermissionAuthorizations,
+        inboundPermissionRevocations: inboundPermissionRevocations,
+      ),
     );
 
     return UpdateFleetPortSettingsOutput.fromJson(jsonResponse.body);
@@ -9891,15 +9863,14 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GameServerGroupName': gameServerGroupName,
-        'GameServerId': gameServerId,
-        if (customSortKey != null) 'CustomSortKey': customSortKey,
-        if (gameServerData != null) 'GameServerData': gameServerData,
-        if (healthCheck != null) 'HealthCheck': healthCheck?.toValue(),
-        if (utilizationStatus != null)
-          'UtilizationStatus': utilizationStatus?.toValue(),
-      },
+      payload: UpdateGameServerInput(
+        gameServerGroupName: gameServerGroupName,
+        gameServerId: gameServerId,
+        customSortKey: customSortKey,
+        gameServerData: gameServerData,
+        healthCheck: healthCheck,
+        utilizationStatus: utilizationStatus,
+      ),
     );
 
     return UpdateGameServerOutput.fromJson(jsonResponse.body);
@@ -10055,16 +10026,13 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GameServerGroupName': gameServerGroupName,
-        if (balancingStrategy != null)
-          'BalancingStrategy': balancingStrategy?.toValue(),
-        if (gameServerProtectionPolicy != null)
-          'GameServerProtectionPolicy': gameServerProtectionPolicy?.toValue(),
-        if (instanceDefinitions != null)
-          'InstanceDefinitions': instanceDefinitions,
-        if (roleArn != null) 'RoleArn': roleArn,
-      },
+      payload: UpdateGameServerGroupInput(
+        gameServerGroupName: gameServerGroupName,
+        balancingStrategy: balancingStrategy,
+        gameServerProtectionPolicy: gameServerProtectionPolicy,
+        instanceDefinitions: instanceDefinitions,
+        roleArn: roleArn,
+      ),
     );
 
     return UpdateGameServerGroupOutput.fromJson(jsonResponse.body);
@@ -10190,16 +10158,13 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GameSessionId': gameSessionId,
-        if (maximumPlayerSessionCount != null)
-          'MaximumPlayerSessionCount': maximumPlayerSessionCount,
-        if (name != null) 'Name': name,
-        if (playerSessionCreationPolicy != null)
-          'PlayerSessionCreationPolicy': playerSessionCreationPolicy?.toValue(),
-        if (protectionPolicy != null)
-          'ProtectionPolicy': protectionPolicy?.toValue(),
-      },
+      payload: UpdateGameSessionInput(
+        gameSessionId: gameSessionId,
+        maximumPlayerSessionCount: maximumPlayerSessionCount,
+        name: name,
+        playerSessionCreationPolicy: playerSessionCreationPolicy,
+        protectionPolicy: protectionPolicy,
+      ),
     );
 
     return UpdateGameSessionOutput.fromJson(jsonResponse.body);
@@ -10300,13 +10265,12 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        if (destinations != null) 'Destinations': destinations,
-        if (playerLatencyPolicies != null)
-          'PlayerLatencyPolicies': playerLatencyPolicies,
-        if (timeoutInSeconds != null) 'TimeoutInSeconds': timeoutInSeconds,
-      },
+      payload: UpdateGameSessionQueueInput(
+        name: name,
+        destinations: destinations,
+        playerLatencyPolicies: playerLatencyPolicies,
+        timeoutInSeconds: timeoutInSeconds,
+      ),
     );
 
     return UpdateGameSessionQueueOutput.fromJson(jsonResponse.body);
@@ -10532,27 +10496,21 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        if (acceptanceRequired != null)
-          'AcceptanceRequired': acceptanceRequired,
-        if (acceptanceTimeoutSeconds != null)
-          'AcceptanceTimeoutSeconds': acceptanceTimeoutSeconds,
-        if (additionalPlayerCount != null)
-          'AdditionalPlayerCount': additionalPlayerCount,
-        if (backfillMode != null) 'BackfillMode': backfillMode?.toValue(),
-        if (customEventData != null) 'CustomEventData': customEventData,
-        if (description != null) 'Description': description,
-        if (gameProperties != null) 'GameProperties': gameProperties,
-        if (gameSessionData != null) 'GameSessionData': gameSessionData,
-        if (gameSessionQueueArns != null)
-          'GameSessionQueueArns': gameSessionQueueArns,
-        if (notificationTarget != null)
-          'NotificationTarget': notificationTarget,
-        if (requestTimeoutSeconds != null)
-          'RequestTimeoutSeconds': requestTimeoutSeconds,
-        if (ruleSetName != null) 'RuleSetName': ruleSetName,
-      },
+      payload: UpdateMatchmakingConfigurationInput(
+        name: name,
+        acceptanceRequired: acceptanceRequired,
+        acceptanceTimeoutSeconds: acceptanceTimeoutSeconds,
+        additionalPlayerCount: additionalPlayerCount,
+        backfillMode: backfillMode,
+        customEventData: customEventData,
+        description: description,
+        gameProperties: gameProperties,
+        gameSessionData: gameSessionData,
+        gameSessionQueueArns: gameSessionQueueArns,
+        notificationTarget: notificationTarget,
+        requestTimeoutSeconds: requestTimeoutSeconds,
+        ruleSetName: ruleSetName,
+      ),
     );
 
     return UpdateMatchmakingConfigurationOutput.fromJson(jsonResponse.body);
@@ -10659,10 +10617,10 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'FleetId': fleetId,
-        'RuntimeConfiguration': runtimeConfiguration,
-      },
+      payload: UpdateRuntimeConfigurationInput(
+        fleetId: fleetId,
+        runtimeConfiguration: runtimeConfiguration,
+      ),
     );
 
     return UpdateRuntimeConfigurationOutput.fromJson(jsonResponse.body);
@@ -10781,13 +10739,13 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ScriptId': scriptId,
-        if (name != null) 'Name': name,
-        if (storageLocation != null) 'StorageLocation': storageLocation,
-        if (version != null) 'Version': version,
-        if (zipFile != null) 'ZipFile': zipFile.let(base64Encode),
-      },
+      payload: UpdateScriptInput(
+        scriptId: scriptId,
+        name: name,
+        storageLocation: storageLocation,
+        version: version,
+        zipFile: zipFile,
+      ),
     );
 
     return UpdateScriptOutput.fromJson(jsonResponse.body);
@@ -10863,13 +10821,42 @@ class GameLift {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'RuleSetBody': ruleSetBody,
-      },
+      payload: ValidateMatchmakingRuleSetInput(
+        ruleSetBody: ruleSetBody,
+      ),
     );
 
     return ValidateMatchmakingRuleSetOutput.fromJson(jsonResponse.body);
   }
+}
+
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AcceptMatchInput {
+  /// Player response to the proposed match.
+  @_s.JsonKey(name: 'AcceptanceType')
+  final AcceptanceType acceptanceType;
+
+  /// A unique identifier for a player delivering the response. This parameter can
+  /// include one or multiple player IDs.
+  @_s.JsonKey(name: 'PlayerIds')
+  final List<String> playerIds;
+
+  /// A unique identifier for a matchmaking ticket. The ticket must be in status
+  /// <code>REQUIRES_ACCEPTANCE</code>; otherwise this request will fail.
+  @_s.JsonKey(name: 'TicketId')
+  final String ticketId;
+
+  AcceptMatchInput({
+    @_s.required this.acceptanceType,
+    @_s.required this.playerIds,
+    @_s.required this.ticketId,
+  });
+  Map<String, dynamic> toJson() => _$AcceptMatchInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10888,18 +10875,6 @@ enum AcceptanceType {
   accept,
   @_s.JsonValue('REJECT')
   reject,
-}
-
-extension on AcceptanceType {
-  String toValue() {
-    switch (this) {
-      case AcceptanceType.accept:
-        return 'ACCEPT';
-      case AcceptanceType.reject:
-        return 'REJECT';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Properties that describe an alias resource.
@@ -11065,35 +11040,11 @@ enum BackfillMode {
   manual,
 }
 
-extension on BackfillMode {
-  String toValue() {
-    switch (this) {
-      case BackfillMode.automatic:
-        return 'AUTOMATIC';
-      case BackfillMode.manual:
-        return 'MANUAL';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum BalancingStrategy {
   @_s.JsonValue('SPOT_ONLY')
   spotOnly,
   @_s.JsonValue('SPOT_PREFERRED')
   spotPreferred,
-}
-
-extension on BalancingStrategy {
-  String toValue() {
-    switch (this) {
-      case BalancingStrategy.spotOnly:
-        return 'SPOT_ONLY';
-      case BalancingStrategy.spotPreferred:
-        return 'SPOT_PREFERRED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Properties describing a custom game build.
@@ -11209,20 +11160,6 @@ enum BuildStatus {
   failed,
 }
 
-extension on BuildStatus {
-  String toValue() {
-    switch (this) {
-      case BuildStatus.initialized:
-        return 'INITIALIZED';
-      case BuildStatus.ready:
-        return 'READY';
-      case BuildStatus.failed:
-        return 'FAILED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Information about the use of a TLS/SSL certificate for a fleet. TLS
 /// certificate generation is enabled at the fleet level, with one certificate
 /// generated for the fleet. When this feature is enabled, the certificate can
@@ -11263,6 +11200,39 @@ enum CertificateType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ClaimGameServerInput {
+  /// An identifier for the game server group. When claiming a specific game
+  /// server, this is the game server group whether the game server is located.
+  /// When requesting that GameLift FleetIQ locate an available game server, this
+  /// is the game server group to search on. You can use either the
+  /// <a>GameServerGroup</a> name or ARN value.
+  @_s.JsonKey(name: 'GameServerGroupName')
+  final String gameServerGroupName;
+
+  /// A set of custom game server properties, formatted as a single string value,
+  /// to be passed to the claimed game server.
+  @_s.JsonKey(name: 'GameServerData')
+  final String gameServerData;
+
+  /// A custom string that uniquely identifies the game server to claim. If this
+  /// parameter is left empty, GameLift FleetIQ searches for an available game
+  /// server in the specified game server group.
+  @_s.JsonKey(name: 'GameServerId')
+  final String gameServerId;
+
+  ClaimGameServerInput({
+    @_s.required this.gameServerGroupName,
+    this.gameServerData,
+    this.gameServerId,
+  });
+  Map<String, dynamic> toJson() => _$ClaimGameServerInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ClaimGameServerOutput {
@@ -11288,20 +11258,47 @@ enum ComparisonOperatorType {
   lessThanOrEqualToThreshold,
 }
 
-extension on ComparisonOperatorType {
-  String toValue() {
-    switch (this) {
-      case ComparisonOperatorType.greaterThanOrEqualToThreshold:
-        return 'GreaterThanOrEqualToThreshold';
-      case ComparisonOperatorType.greaterThanThreshold:
-        return 'GreaterThanThreshold';
-      case ComparisonOperatorType.lessThanThreshold:
-        return 'LessThanThreshold';
-      case ComparisonOperatorType.lessThanOrEqualToThreshold:
-        return 'LessThanOrEqualToThreshold';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateAliasInput {
+  /// A descriptive label that is associated with an alias. Alias names do not
+  /// need to be unique.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The routing configuration, including routing type and fleet target, for the
+  /// alias.
+  @_s.JsonKey(name: 'RoutingStrategy')
+  final RoutingStrategy routingStrategy;
+
+  /// A human-readable description of the alias.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// A list of labels to assign to the new alias resource. Tags are
+  /// developer-defined key-value pairs. Tagging AWS resources are useful for
+  /// resource management, access management and cost allocation. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">
+  /// Tagging AWS Resources</a> in the <i>AWS General Reference</i>. Once the
+  /// resource is created, you can use <a>TagResource</a>, <a>UntagResource</a>,
+  /// and <a>ListTagsForResource</a> to add, remove, and view tags. The maximum
+  /// tag limit may be lower than stated. See the AWS General Reference for actual
+  /// tagging limits.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateAliasInput({
+    @_s.required this.name,
+    @_s.required this.routingStrategy,
+    this.description,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateAliasInputToJson(this);
 }
 
 /// Represents the returned data in response to a request action.
@@ -11320,6 +11317,65 @@ class CreateAliasOutput {
   });
   factory CreateAliasOutput.fromJson(Map<String, dynamic> json) =>
       _$CreateAliasOutputFromJson(json);
+}
+
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateBuildInput {
+  /// A descriptive label that is associated with a build. Build names do not need
+  /// to be unique. You can use <a>UpdateBuild</a> to change this value later.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The operating system that the game server binaries are built to run on. This
+  /// value determines the type of fleet resources that you can use for this
+  /// build. If your game build contains multiple executables, they all must run
+  /// on the same operating system. If an operating system is not specified when
+  /// creating a build, Amazon GameLift uses the default value (WINDOWS_2012).
+  /// This value cannot be changed later.
+  @_s.JsonKey(name: 'OperatingSystem')
+  final OperatingSystem operatingSystem;
+
+  /// Information indicating where your game build files are stored. Use this
+  /// parameter only when creating a build with files stored in an S3 bucket that
+  /// you own. The storage location must specify an S3 bucket name and key. The
+  /// location must also specify a role ARN that you set up to allow Amazon
+  /// GameLift to access your S3 bucket. The S3 bucket and your new build must be
+  /// in the same Region.
+  @_s.JsonKey(name: 'StorageLocation')
+  final S3Location storageLocation;
+
+  /// A list of labels to assign to the new build resource. Tags are
+  /// developer-defined key-value pairs. Tagging AWS resources are useful for
+  /// resource management, access management and cost allocation. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">
+  /// Tagging AWS Resources</a> in the <i>AWS General Reference</i>. Once the
+  /// resource is created, you can use <a>TagResource</a>, <a>UntagResource</a>,
+  /// and <a>ListTagsForResource</a> to add, remove, and view tags. The maximum
+  /// tag limit may be lower than stated. See the AWS General Reference for actual
+  /// tagging limits.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  /// Version information that is associated with a build or script. Version
+  /// strings do not need to be unique. You can use <a>UpdateBuild</a> to change
+  /// this value later.
+  @_s.JsonKey(name: 'Version')
+  final String version;
+
+  CreateBuildInput({
+    this.name,
+    this.operatingSystem,
+    this.storageLocation,
+    this.tags,
+    this.version,
+  });
+  Map<String, dynamic> toJson() => _$CreateBuildInputToJson(this);
 }
 
 /// Represents the returned data in response to a request action.
@@ -11354,6 +11410,230 @@ class CreateBuildOutput {
       _$CreateBuildOutputFromJson(json);
 }
 
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateFleetInput {
+  /// The name of an EC2 instance type that is supported in Amazon GameLift. A
+  /// fleet instance type determines the computing resources of each instance in
+  /// the fleet, including CPU, memory, storage, and networking capacity. Amazon
+  /// GameLift supports the following EC2 instance types. See <a
+  /// href="http://aws.amazon.com/ec2/instance-types/">Amazon EC2 Instance
+  /// Types</a> for detailed descriptions.
+  @_s.JsonKey(name: 'EC2InstanceType')
+  final EC2InstanceType eC2InstanceType;
+
+  /// A descriptive label that is associated with a fleet. Fleet names do not need
+  /// to be unique.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// A unique identifier for a build to be deployed on the new fleet. You can use
+  /// either the build ID or ARN value. The custom game server build must have
+  /// been successfully uploaded to Amazon GameLift and be in a <code>READY</code>
+  /// status. This fleet setting cannot be changed once the fleet is created.
+  @_s.JsonKey(name: 'BuildId')
+  final String buildId;
+
+  /// Indicates whether to generate a TLS/SSL certificate for the new fleet. TLS
+  /// certificates are used for encrypting traffic between game clients and game
+  /// servers running on GameLift. If this parameter is not specified, the default
+  /// value, DISABLED, is used. This fleet setting cannot be changed once the
+  /// fleet is created. Learn more at <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-howitworks.html#gamelift-howitworks-security">Securing
+  /// Client/Server Communication</a>.
+  ///
+  /// Note: This feature requires the AWS Certificate Manager (ACM) service, which
+  /// is available in the AWS global partition but not in all other partitions.
+  /// When working in a partition that does not support this feature, a request
+  /// for a new fleet with certificate generation results fails with a 4xx
+  /// unsupported Region error.
+  ///
+  /// Valid values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>GENERATED</b> - Generate a TLS/SSL certificate for this fleet.
+  /// </li>
+  /// <li>
+  /// <b>DISABLED</b> - (default) Do not generate a TLS/SSL certificate for this
+  /// fleet.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'CertificateConfiguration')
+  final CertificateConfiguration certificateConfiguration;
+
+  /// A human-readable description of a fleet.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// Range of IP addresses and port settings that permit inbound traffic to
+  /// access game sessions that are running on the fleet. For fleets using a
+  /// custom game build, this parameter is required before game sessions running
+  /// on the fleet can accept connections. For Realtime Servers fleets, Amazon
+  /// GameLift automatically sets TCP and UDP ranges for use by the Realtime
+  /// servers. You can specify multiple permission settings or add more by
+  /// updating the fleet.
+  @_s.JsonKey(name: 'EC2InboundPermissions')
+  final List<IpPermission> eC2InboundPermissions;
+
+  /// Indicates whether to use On-Demand instances or Spot instances for this
+  /// fleet. If empty, the default is <code>ON_DEMAND</code>. Both categories of
+  /// instances use identical hardware and configurations based on the instance
+  /// type selected for this fleet. Learn more about <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-ec2-instances.html#gamelift-ec2-instances-spot">
+  /// On-Demand versus Spot Instances</a>.
+  @_s.JsonKey(name: 'FleetType')
+  final FleetType fleetType;
+
+  /// A unique identifier for an AWS IAM role that manages access to your AWS
+  /// services. With an instance role ARN set, any application that runs on an
+  /// instance in this fleet can assume the role, including install scripts,
+  /// server processes, and daemons (background processes). Create a role or look
+  /// up a role's ARN from the <a href="https://console.aws.amazon.com/iam/">IAM
+  /// dashboard</a> in the AWS Management Console. Learn more about using on-box
+  /// credentials for your game servers at <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-resources.html">
+  /// Access external resources from a game server</a>.
+  @_s.JsonKey(name: 'InstanceRoleArn')
+  final String instanceRoleArn;
+
+  /// This parameter is no longer used. Instead, to specify where Amazon GameLift
+  /// should store log files once a server process shuts down, use the Amazon
+  /// GameLift server API <code>ProcessReady()</code> and specify one or more
+  /// directory paths in <code>logParameters</code>. See more information in the
+  /// <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api-ref.html#gamelift-sdk-server-api-ref-dataypes-process">Server
+  /// API Reference</a>.
+  @_s.JsonKey(name: 'LogPaths')
+  final List<String> logPaths;
+
+  /// The name of an Amazon CloudWatch metric group to add this fleet to. A metric
+  /// group aggregates the metrics for all fleets in the group. Specify an
+  /// existing metric group name, or provide a new name to create a new metric
+  /// group. A fleet can only be included in one metric group at a time.
+  @_s.JsonKey(name: 'MetricGroups')
+  final List<String> metricGroups;
+
+  /// A game session protection policy to apply to all instances in this fleet. If
+  /// this parameter is not set, instances in this fleet default to no protection.
+  /// You can change a fleet's protection policy using
+  /// <a>UpdateFleetAttributes</a>, but this change will only affect sessions
+  /// created after the policy change. You can also set protection for individual
+  /// instances using <a>UpdateGameSession</a>.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>NoProtection</b> - The game session can be terminated during a scale-down
+  /// event.
+  /// </li>
+  /// <li>
+  /// <b>FullProtection</b> - If the game session is in an <code>ACTIVE</code>
+  /// status, it cannot be terminated during a scale-down event.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'NewGameSessionProtectionPolicy')
+  final ProtectionPolicy newGameSessionProtectionPolicy;
+
+  /// A unique identifier for the AWS account with the VPC that you want to peer
+  /// your Amazon GameLift fleet with. You can find your account ID in the AWS
+  /// Management Console under account settings.
+  @_s.JsonKey(name: 'PeerVpcAwsAccountId')
+  final String peerVpcAwsAccountId;
+
+  /// A unique identifier for a VPC with resources to be accessed by your Amazon
+  /// GameLift fleet. The VPC must be in the same Region as your fleet. To look up
+  /// a VPC ID, use the <a href="https://console.aws.amazon.com/vpc/">VPC
+  /// Dashboard</a> in the AWS Management Console. Learn more about VPC peering in
+  /// <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/vpc-peering.html">VPC
+  /// Peering with Amazon GameLift Fleets</a>.
+  @_s.JsonKey(name: 'PeerVpcId')
+  final String peerVpcId;
+
+  /// A policy that limits the number of game sessions an individual player can
+  /// create over a span of time for this fleet.
+  @_s.JsonKey(name: 'ResourceCreationLimitPolicy')
+  final ResourceCreationLimitPolicy resourceCreationLimitPolicy;
+
+  /// Instructions for launching server processes on each instance in the fleet.
+  /// Server processes run either a custom game build executable or a Realtime
+  /// script. The runtime configuration defines the server executables or launch
+  /// script file, launch parameters, and the number of processes to run
+  /// concurrently on each instance. When creating a fleet, the runtime
+  /// configuration must have at least one server process configuration; otherwise
+  /// the request fails with an invalid request exception. (This parameter
+  /// replaces the parameters <code>ServerLaunchPath</code> and
+  /// <code>ServerLaunchParameters</code>, although requests that contain values
+  /// for these parameters instead of a runtime configuration will continue to
+  /// work.) This parameter is required unless the parameters
+  /// <code>ServerLaunchPath</code> and <code>ServerLaunchParameters</code> are
+  /// defined. Runtime configuration replaced these parameters, but fleets that
+  /// use them will continue to work.
+  @_s.JsonKey(name: 'RuntimeConfiguration')
+  final RuntimeConfiguration runtimeConfiguration;
+
+  /// A unique identifier for a Realtime script to be deployed on the new fleet.
+  /// You can use either the script ID or ARN value. The Realtime script must have
+  /// been successfully uploaded to Amazon GameLift. This fleet setting cannot be
+  /// changed once the fleet is created.
+  @_s.JsonKey(name: 'ScriptId')
+  final String scriptId;
+
+  /// This parameter is no longer used. Instead, specify server launch parameters
+  /// in the <code>RuntimeConfiguration</code> parameter. (Requests that specify a
+  /// server launch path and launch parameters instead of a runtime configuration
+  /// will continue to work.)
+  @_s.JsonKey(name: 'ServerLaunchParameters')
+  final String serverLaunchParameters;
+
+  /// This parameter is no longer used. Instead, specify a server launch path
+  /// using the <code>RuntimeConfiguration</code> parameter. Requests that specify
+  /// a server launch path and launch parameters instead of a runtime
+  /// configuration will continue to work.
+  @_s.JsonKey(name: 'ServerLaunchPath')
+  final String serverLaunchPath;
+
+  /// A list of labels to assign to the new fleet resource. Tags are
+  /// developer-defined key-value pairs. Tagging AWS resources are useful for
+  /// resource management, access management and cost allocation. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">
+  /// Tagging AWS Resources</a> in the <i>AWS General Reference</i>. Once the
+  /// resource is created, you can use <a>TagResource</a>, <a>UntagResource</a>,
+  /// and <a>ListTagsForResource</a> to add, remove, and view tags. The maximum
+  /// tag limit may be lower than stated. See the AWS General Reference for actual
+  /// tagging limits.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateFleetInput({
+    @_s.required this.eC2InstanceType,
+    @_s.required this.name,
+    this.buildId,
+    this.certificateConfiguration,
+    this.description,
+    this.eC2InboundPermissions,
+    this.fleetType,
+    this.instanceRoleArn,
+    this.logPaths,
+    this.metricGroups,
+    this.newGameSessionProtectionPolicy,
+    this.peerVpcAwsAccountId,
+    this.peerVpcId,
+    this.resourceCreationLimitPolicy,
+    this.runtimeConfiguration,
+    this.scriptId,
+    this.serverLaunchParameters,
+    this.serverLaunchPath,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateFleetInputToJson(this);
+}
+
 /// Represents the returned data in response to a request action.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -11370,6 +11650,136 @@ class CreateFleetOutput {
   });
   factory CreateFleetOutput.fromJson(Map<String, dynamic> json) =>
       _$CreateFleetOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateGameServerGroupInput {
+  /// An identifier for the new game server group. This value is used to generate
+  /// unique ARN identifiers for the EC2 Auto Scaling group and the GameLift
+  /// FleetIQ game server group. The name must be unique per Region per AWS
+  /// account.
+  @_s.JsonKey(name: 'GameServerGroupName')
+  final String gameServerGroupName;
+
+  /// A set of EC2 instance types to use when creating instances in the group. The
+  /// instance definitions must specify at least two different instance types that
+  /// are supported by GameLift FleetIQ. For more information on instance types,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html">EC2
+  /// Instance Types</a> in the <i>Amazon EC2 User Guide</i>.
+  @_s.JsonKey(name: 'InstanceDefinitions')
+  final List<InstanceDefinition> instanceDefinitions;
+
+  /// The EC2 launch template that contains configuration settings and game server
+  /// code to be deployed to all instances in the game server group. You can
+  /// specify the template using either the template name or ID. For help with
+  /// creating a launch template, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-launch-template.html">Creating
+  /// a Launch Template for an Auto Scaling Group</a> in the <i>Amazon EC2 Auto
+  /// Scaling User Guide</i>.
+  @_s.JsonKey(name: 'LaunchTemplate')
+  final LaunchTemplateSpecification launchTemplate;
+
+  /// The maximum number of instances allowed in the EC2 Auto Scaling group.
+  /// During autoscaling events, GameLift FleetIQ and EC2 do not scale up the
+  /// group above this maximum.
+  @_s.JsonKey(name: 'MaxSize')
+  final int maxSize;
+
+  /// The minimum number of instances allowed in the EC2 Auto Scaling group.
+  /// During autoscaling events, GameLift FleetIQ and EC2 do not scale down the
+  /// group below this minimum. In production, this value should be set to at
+  /// least 1.
+  @_s.JsonKey(name: 'MinSize')
+  final int minSize;
+
+  /// The Amazon Resource Name (<a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html">ARN</a>)
+  /// for an IAM role that allows Amazon GameLift to access your EC2 Auto Scaling
+  /// groups. The submitted role is validated to ensure that it contains the
+  /// necessary permissions for game server groups.
+  @_s.JsonKey(name: 'RoleArn')
+  final String roleArn;
+
+  /// Configuration settings to define a scaling policy for the Auto Scaling group
+  /// that is optimized for game hosting. The scaling policy uses the metric
+  /// "PercentUtilizedGameServers" to maintain a buffer of idle game servers that
+  /// can immediately accommodate new games and players. Once the game server and
+  /// Auto Scaling groups are created, you can update the scaling policy settings
+  /// directly in Auto Scaling Groups.
+  @_s.JsonKey(name: 'AutoScalingPolicy')
+  final GameServerGroupAutoScalingPolicy autoScalingPolicy;
+
+  /// The fallback balancing method to use for the game server group when Spot
+  /// instances in a Region become unavailable or are not viable for game hosting.
+  /// Once triggered, this method remains active until Spot instances can once
+  /// again be used. Method options include:
+  ///
+  /// <ul>
+  /// <li>
+  /// SPOT_ONLY -- If Spot instances are unavailable, the game server group
+  /// provides no hosting capacity. No new instances are started, and the existing
+  /// nonviable Spot instances are terminated (once current gameplay ends) and not
+  /// replaced.
+  /// </li>
+  /// <li>
+  /// SPOT_PREFERRED -- If Spot instances are unavailable, the game server group
+  /// continues to provide hosting capacity by using On-Demand instances. Existing
+  /// nonviable Spot instances are terminated (once current gameplay ends) and
+  /// replaced with new On-Demand instances.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'BalancingStrategy')
+  final BalancingStrategy balancingStrategy;
+
+  /// A flag that indicates whether instances in the game server group are
+  /// protected from early termination. Unprotected instances that have active
+  /// game servers running may by terminated during a scale-down event, causing
+  /// players to be dropped from the game. Protected instances cannot be
+  /// terminated while there are active game servers running. An exception to this
+  /// is Spot Instances, which may be terminated by AWS regardless of protection
+  /// status. This property is set to NO_PROTECTION by default.
+  @_s.JsonKey(name: 'GameServerProtectionPolicy')
+  final GameServerProtectionPolicy gameServerProtectionPolicy;
+
+  /// A list of labels to assign to the new game server group resource. Tags are
+  /// developer-defined key-value pairs. Tagging AWS resources are useful for
+  /// resource management, access management, and cost allocation. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">
+  /// Tagging AWS Resources</a> in the <i>AWS General Reference</i>. Once the
+  /// resource is created, you can use <a>TagResource</a>, <a>UntagResource</a>,
+  /// and <a>ListTagsForResource</a> to add, remove, and view tags. The maximum
+  /// tag limit may be lower than stated. See the AWS General Reference for actual
+  /// tagging limits.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  /// A list of virtual private cloud (VPC) subnets to use with instances in the
+  /// game server group. By default, all GameLift FleetIQ-supported availability
+  /// zones are used; this parameter allows you to specify VPCs that you've set
+  /// up.
+  @_s.JsonKey(name: 'VpcSubnets')
+  final List<String> vpcSubnets;
+
+  CreateGameServerGroupInput({
+    @_s.required this.gameServerGroupName,
+    @_s.required this.instanceDefinitions,
+    @_s.required this.launchTemplate,
+    @_s.required this.maxSize,
+    @_s.required this.minSize,
+    @_s.required this.roleArn,
+    this.autoScalingPolicy,
+    this.balancingStrategy,
+    this.gameServerProtectionPolicy,
+    this.tags,
+    this.vpcSubnets,
+  });
+  Map<String, dynamic> toJson() => _$CreateGameServerGroupInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -11393,6 +11803,91 @@ class CreateGameServerGroupOutput {
       _$CreateGameServerGroupOutputFromJson(json);
 }
 
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateGameSessionInput {
+  /// The maximum number of players that can be connected simultaneously to the
+  /// game session.
+  @_s.JsonKey(name: 'MaximumPlayerSessionCount')
+  final int maximumPlayerSessionCount;
+
+  /// A unique identifier for an alias associated with the fleet to create a game
+  /// session in. You can use either the alias ID or ARN value. Each request must
+  /// reference either a fleet ID or alias ID, but not both.
+  @_s.JsonKey(name: 'AliasId')
+  final String aliasId;
+
+  /// A unique identifier for a player or entity creating the game session. This
+  /// ID is used to enforce a resource protection policy (if one exists) that
+  /// limits the number of concurrent active game sessions one player can have.
+  @_s.JsonKey(name: 'CreatorId')
+  final String creatorId;
+
+  /// A unique identifier for a fleet to create a game session in. You can use
+  /// either the fleet ID or ARN value. Each request must reference either a fleet
+  /// ID or alias ID, but not both.
+  @_s.JsonKey(name: 'FleetId')
+  final String fleetId;
+
+  /// Set of custom properties for a game session, formatted as key:value pairs.
+  /// These properties are passed to a game server process in the
+  /// <a>GameSession</a> object with a request to start a new game session (see <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession">Start
+  /// a Game Session</a>).
+  @_s.JsonKey(name: 'GameProperties')
+  final List<GameProperty> gameProperties;
+
+  /// Set of custom game session properties, formatted as a single string value.
+  /// This data is passed to a game server process in the <a>GameSession</a>
+  /// object with a request to start a new game session (see <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession">Start
+  /// a Game Session</a>).
+  @_s.JsonKey(name: 'GameSessionData')
+  final String gameSessionData;
+
+  /// <i>This parameter is no longer preferred. Please use
+  /// <code>IdempotencyToken</code> instead.</i> Custom string that uniquely
+  /// identifies a request for a new game session. Maximum token length is 48
+  /// characters. If provided, this string is included in the new game session's
+  /// ID. (A game session ARN has the following format:
+  /// <code>arn:aws:gamelift:&lt;region&gt;::gamesession/&lt;fleet
+  /// ID&gt;/&lt;custom ID string or idempotency token&gt;</code>.)
+  @_s.JsonKey(name: 'GameSessionId')
+  final String gameSessionId;
+
+  /// Custom string that uniquely identifies a request for a new game session.
+  /// Maximum token length is 48 characters. If provided, this string is included
+  /// in the new game session's ID. (A game session ARN has the following format:
+  /// <code>arn:aws:gamelift:&lt;region&gt;::gamesession/&lt;fleet
+  /// ID&gt;/&lt;custom ID string or idempotency token&gt;</code>.) Idempotency
+  /// tokens remain in use for 30 days after a game session has ended; game
+  /// session objects are retained for this time period and then deleted.
+  @_s.JsonKey(name: 'IdempotencyToken')
+  final String idempotencyToken;
+
+  /// A descriptive label that is associated with a game session. Session names do
+  /// not need to be unique.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  CreateGameSessionInput({
+    @_s.required this.maximumPlayerSessionCount,
+    this.aliasId,
+    this.creatorId,
+    this.fleetId,
+    this.gameProperties,
+    this.gameSessionData,
+    this.gameSessionId,
+    this.idempotencyToken,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$CreateGameSessionInputToJson(this);
+}
+
 /// Represents the returned data in response to a request action.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -11411,6 +11906,67 @@ class CreateGameSessionOutput {
       _$CreateGameSessionOutputFromJson(json);
 }
 
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateGameSessionQueueInput {
+  /// A descriptive label that is associated with game session queue. Queue names
+  /// must be unique within each Region.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// A list of fleets that can be used to fulfill game session placement requests
+  /// in the queue. Fleets are identified by either a fleet ARN or a fleet alias
+  /// ARN. Destinations are listed in default preference order.
+  @_s.JsonKey(name: 'Destinations')
+  final List<GameSessionQueueDestination> destinations;
+
+  /// A collection of latency policies to apply when processing game sessions
+  /// placement requests with player latency information. Multiple policies are
+  /// evaluated in order of the maximum latency value, starting with the lowest
+  /// latency values. With just one policy, the policy is enforced at the start of
+  /// the game session placement for the duration period. With multiple policies,
+  /// each policy is enforced consecutively for its duration period. For example,
+  /// a queue might enforce a 60-second policy followed by a 120-second policy,
+  /// and then no policy for the remainder of the placement. A player latency
+  /// policy must set a value for
+  /// <code>MaximumIndividualPlayerLatencyMilliseconds</code>. If none is set,
+  /// this API request fails.
+  @_s.JsonKey(name: 'PlayerLatencyPolicies')
+  final List<PlayerLatencyPolicy> playerLatencyPolicies;
+
+  /// A list of labels to assign to the new game session queue resource. Tags are
+  /// developer-defined key-value pairs. Tagging AWS resources are useful for
+  /// resource management, access management and cost allocation. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">
+  /// Tagging AWS Resources</a> in the <i>AWS General Reference</i>. Once the
+  /// resource is created, you can use <a>TagResource</a>, <a>UntagResource</a>,
+  /// and <a>ListTagsForResource</a> to add, remove, and view tags. The maximum
+  /// tag limit may be lower than stated. See the AWS General Reference for actual
+  /// tagging limits.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  /// The maximum time, in seconds, that a new game session placement request
+  /// remains in the queue. When a request exceeds this time, the game session
+  /// placement changes to a <code>TIMED_OUT</code> status.
+  @_s.JsonKey(name: 'TimeoutInSeconds')
+  final int timeoutInSeconds;
+
+  CreateGameSessionQueueInput({
+    @_s.required this.name,
+    this.destinations,
+    this.playerLatencyPolicies,
+    this.tags,
+    this.timeoutInSeconds,
+  });
+  Map<String, dynamic> toJson() => _$CreateGameSessionQueueInputToJson(this);
+}
+
 /// Represents the returned data in response to a request action.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -11427,6 +11983,134 @@ class CreateGameSessionQueueOutput {
   });
   factory CreateGameSessionQueueOutput.fromJson(Map<String, dynamic> json) =>
       _$CreateGameSessionQueueOutputFromJson(json);
+}
+
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateMatchmakingConfigurationInput {
+  /// A flag that determines whether a match that was created with this
+  /// configuration must be accepted by the matched players. To require
+  /// acceptance, set to <code>TRUE</code>.
+  @_s.JsonKey(name: 'AcceptanceRequired')
+  final bool acceptanceRequired;
+
+  /// Amazon Resource Name (<a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>)
+  /// that is assigned to a GameLift game session queue resource and uniquely
+  /// identifies it. ARNs are unique across all Regions. These queues are used
+  /// when placing game sessions for matches that are created with this
+  /// matchmaking configuration. Queues can be located in any Region.
+  @_s.JsonKey(name: 'GameSessionQueueArns')
+  final List<String> gameSessionQueueArns;
+
+  /// A unique identifier for a matchmaking configuration. This name is used to
+  /// identify the configuration associated with a matchmaking request or ticket.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The maximum duration, in seconds, that a matchmaking ticket can remain in
+  /// process before timing out. Requests that fail due to timing out can be
+  /// resubmitted as needed.
+  @_s.JsonKey(name: 'RequestTimeoutSeconds')
+  final int requestTimeoutSeconds;
+
+  /// A unique identifier for a matchmaking rule set to use with this
+  /// configuration. You can use either the rule set name or ARN value. A
+  /// matchmaking configuration can only use rule sets that are defined in the
+  /// same Region.
+  @_s.JsonKey(name: 'RuleSetName')
+  final String ruleSetName;
+
+  /// The length of time (in seconds) to wait for players to accept a proposed
+  /// match. If any player rejects the match or fails to accept before the
+  /// timeout, the ticket continues to look for an acceptable match.
+  @_s.JsonKey(name: 'AcceptanceTimeoutSeconds')
+  final int acceptanceTimeoutSeconds;
+
+  /// The number of player slots in a match to keep open for future players. For
+  /// example, assume that the configuration's rule set specifies a match for a
+  /// single 12-person team. If the additional player count is set to 2, only 10
+  /// players are initially selected for the match.
+  @_s.JsonKey(name: 'AdditionalPlayerCount')
+  final int additionalPlayerCount;
+
+  /// The method used to backfill game sessions that are created with this
+  /// matchmaking configuration. Specify <code>MANUAL</code> when your game
+  /// manages backfill requests manually or does not use the match backfill
+  /// feature. Specify <code>AUTOMATIC</code> to have GameLift create a
+  /// <a>StartMatchBackfill</a> request whenever a game session has one or more
+  /// open slots. Learn more about manual and automatic backfill in <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/match-backfill.html">
+  /// Backfill Existing Games with FlexMatch</a>.
+  @_s.JsonKey(name: 'BackfillMode')
+  final BackfillMode backfillMode;
+
+  /// Information to be added to all events related to this matchmaking
+  /// configuration.
+  @_s.JsonKey(name: 'CustomEventData')
+  final String customEventData;
+
+  /// A human-readable description of the matchmaking configuration.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// A set of custom properties for a game session, formatted as key-value pairs.
+  /// These properties are passed to a game server process in the
+  /// <a>GameSession</a> object with a request to start a new game session (see <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession">Start
+  /// a Game Session</a>). This information is added to the new <a>GameSession</a>
+  /// object that is created for a successful match.
+  @_s.JsonKey(name: 'GameProperties')
+  final List<GameProperty> gameProperties;
+
+  /// A set of custom game session properties, formatted as a single string value.
+  /// This data is passed to a game server process in the <a>GameSession</a>
+  /// object with a request to start a new game session (see <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession">Start
+  /// a Game Session</a>). This information is added to the new <a>GameSession</a>
+  /// object that is created for a successful match.
+  @_s.JsonKey(name: 'GameSessionData')
+  final String gameSessionData;
+
+  /// An SNS topic ARN that is set up to receive matchmaking notifications.
+  @_s.JsonKey(name: 'NotificationTarget')
+  final String notificationTarget;
+
+  /// A list of labels to assign to the new matchmaking configuration resource.
+  /// Tags are developer-defined key-value pairs. Tagging AWS resources are useful
+  /// for resource management, access management and cost allocation. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">
+  /// Tagging AWS Resources</a> in the <i>AWS General Reference</i>. Once the
+  /// resource is created, you can use <a>TagResource</a>, <a>UntagResource</a>,
+  /// and <a>ListTagsForResource</a> to add, remove, and view tags. The maximum
+  /// tag limit may be lower than stated. See the AWS General Reference for actual
+  /// tagging limits.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateMatchmakingConfigurationInput({
+    @_s.required this.acceptanceRequired,
+    @_s.required this.gameSessionQueueArns,
+    @_s.required this.name,
+    @_s.required this.requestTimeoutSeconds,
+    @_s.required this.ruleSetName,
+    this.acceptanceTimeoutSeconds,
+    this.additionalPlayerCount,
+    this.backfillMode,
+    this.customEventData,
+    this.description,
+    this.gameProperties,
+    this.gameSessionData,
+    this.notificationTarget,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateMatchmakingConfigurationInputToJson(this);
 }
 
 /// Represents the returned data in response to a request action.
@@ -11448,6 +12132,46 @@ class CreateMatchmakingConfigurationOutput {
       _$CreateMatchmakingConfigurationOutputFromJson(json);
 }
 
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateMatchmakingRuleSetInput {
+  /// A unique identifier for a matchmaking rule set. A matchmaking configuration
+  /// identifies the rule set it uses by this name value. Note that the rule set
+  /// name is different from the optional <code>name</code> field in the rule set
+  /// body.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// A collection of matchmaking rules, formatted as a JSON string. Comments are
+  /// not allowed in JSON, but most elements support a description field.
+  @_s.JsonKey(name: 'RuleSetBody')
+  final String ruleSetBody;
+
+  /// A list of labels to assign to the new matchmaking rule set resource. Tags
+  /// are developer-defined key-value pairs. Tagging AWS resources are useful for
+  /// resource management, access management and cost allocation. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">
+  /// Tagging AWS Resources</a> in the <i>AWS General Reference</i>. Once the
+  /// resource is created, you can use <a>TagResource</a>, <a>UntagResource</a>,
+  /// and <a>ListTagsForResource</a> to add, remove, and view tags. The maximum
+  /// tag limit may be lower than stated. See the AWS General Reference for actual
+  /// tagging limits.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateMatchmakingRuleSetInput({
+    @_s.required this.name,
+    @_s.required this.ruleSetBody,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateMatchmakingRuleSetInputToJson(this);
+}
+
 /// Represents the returned data in response to a request action.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -11464,6 +12188,34 @@ class CreateMatchmakingRuleSetOutput {
   });
   factory CreateMatchmakingRuleSetOutput.fromJson(Map<String, dynamic> json) =>
       _$CreateMatchmakingRuleSetOutputFromJson(json);
+}
+
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreatePlayerSessionInput {
+  /// A unique identifier for the game session to add a player to.
+  @_s.JsonKey(name: 'GameSessionId')
+  final String gameSessionId;
+
+  /// A unique identifier for a player. Player IDs are developer-defined.
+  @_s.JsonKey(name: 'PlayerId')
+  final String playerId;
+
+  /// Developer-defined information related to a player. Amazon GameLift does not
+  /// use this data, so it can be formatted as needed for use in the game.
+  @_s.JsonKey(name: 'PlayerData')
+  final String playerData;
+
+  CreatePlayerSessionInput({
+    @_s.required this.gameSessionId,
+    @_s.required this.playerId,
+    this.playerData,
+  });
+  Map<String, dynamic> toJson() => _$CreatePlayerSessionInputToJson(this);
 }
 
 /// Represents the returned data in response to a request action.
@@ -11484,6 +12236,37 @@ class CreatePlayerSessionOutput {
       _$CreatePlayerSessionOutputFromJson(json);
 }
 
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreatePlayerSessionsInput {
+  /// A unique identifier for the game session to add players to.
+  @_s.JsonKey(name: 'GameSessionId')
+  final String gameSessionId;
+
+  /// List of unique identifiers for the players to be added.
+  @_s.JsonKey(name: 'PlayerIds')
+  final List<String> playerIds;
+
+  /// Map of string pairs, each specifying a player ID and a set of
+  /// developer-defined information related to the player. Amazon GameLift does
+  /// not use this data, so it can be formatted as needed for use in the game.
+  /// Player data strings for player IDs not included in the
+  /// <code>PlayerIds</code> parameter are ignored.
+  @_s.JsonKey(name: 'PlayerDataMap')
+  final Map<String, String> playerDataMap;
+
+  CreatePlayerSessionsInput({
+    @_s.required this.gameSessionId,
+    @_s.required this.playerIds,
+    this.playerDataMap,
+  });
+  Map<String, dynamic> toJson() => _$CreatePlayerSessionsInputToJson(this);
+}
+
 /// Represents the returned data in response to a request action.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -11500,6 +12283,70 @@ class CreatePlayerSessionsOutput {
   });
   factory CreatePlayerSessionsOutput.fromJson(Map<String, dynamic> json) =>
       _$CreatePlayerSessionsOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateScriptInput {
+  /// A descriptive label that is associated with a script. Script names do not
+  /// need to be unique. You can use <a>UpdateScript</a> to change this value
+  /// later.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The location of the Amazon S3 bucket where a zipped file containing your
+  /// Realtime scripts is stored. The storage location must specify the Amazon S3
+  /// bucket name, the zip file name (the "key"), and a role ARN that allows
+  /// Amazon GameLift to access the Amazon S3 storage location. The S3 bucket must
+  /// be in the same Region where you want to create a new script. By default,
+  /// Amazon GameLift uploads the latest version of the zip file; if you have S3
+  /// object versioning turned on, you can use the <code>ObjectVersion</code>
+  /// parameter to specify an earlier version.
+  @_s.JsonKey(name: 'StorageLocation')
+  final S3Location storageLocation;
+
+  /// A list of labels to assign to the new script resource. Tags are
+  /// developer-defined key-value pairs. Tagging AWS resources are useful for
+  /// resource management, access management and cost allocation. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">
+  /// Tagging AWS Resources</a> in the <i>AWS General Reference</i>. Once the
+  /// resource is created, you can use <a>TagResource</a>, <a>UntagResource</a>,
+  /// and <a>ListTagsForResource</a> to add, remove, and view tags. The maximum
+  /// tag limit may be lower than stated. See the AWS General Reference for actual
+  /// tagging limits.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  /// The version that is associated with a build or script. Version strings do
+  /// not need to be unique. You can use <a>UpdateScript</a> to change this value
+  /// later.
+  @_s.JsonKey(name: 'Version')
+  final String version;
+
+  /// A data object containing your Realtime scripts and dependencies as a zip
+  /// file. The zip file can have one or multiple files. Maximum size of a zip
+  /// file is 5 MB.
+  ///
+  /// When using the AWS CLI tool to create a script, this parameter is set to the
+  /// zip file name. It must be prepended with the string "fileb://" to indicate
+  /// that the file data is a binary object. For example: <code>--zip-file
+  /// fileb://myRealtimeScript.zip</code>.
+  @Uint8ListConverter()
+  @_s.JsonKey(name: 'ZipFile')
+  final Uint8List zipFile;
+
+  CreateScriptInput({
+    this.name,
+    this.storageLocation,
+    this.tags,
+    this.version,
+    this.zipFile,
+  });
+  Map<String, dynamic> toJson() => _$CreateScriptInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -11525,6 +12372,37 @@ class CreateScriptOutput {
       _$CreateScriptOutputFromJson(json);
 }
 
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateVpcPeeringAuthorizationInput {
+  /// A unique identifier for the AWS account that you use to manage your Amazon
+  /// GameLift fleet. You can find your Account ID in the AWS Management Console
+  /// under account settings.
+  @_s.JsonKey(name: 'GameLiftAwsAccountId')
+  final String gameLiftAwsAccountId;
+
+  /// A unique identifier for a VPC with resources to be accessed by your Amazon
+  /// GameLift fleet. The VPC must be in the same Region where your fleet is
+  /// deployed. Look up a VPC ID using the <a
+  /// href="https://console.aws.amazon.com/vpc/">VPC Dashboard</a> in the AWS
+  /// Management Console. Learn more about VPC peering in <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/vpc-peering.html">VPC
+  /// Peering with Amazon GameLift Fleets</a>.
+  @_s.JsonKey(name: 'PeerVpcId')
+  final String peerVpcId;
+
+  CreateVpcPeeringAuthorizationInput({
+    @_s.required this.gameLiftAwsAccountId,
+    @_s.required this.peerVpcId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateVpcPeeringAuthorizationInputToJson(this);
+}
+
 /// Represents the returned data in response to a request action.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -11544,6 +12422,43 @@ class CreateVpcPeeringAuthorizationOutput {
       _$CreateVpcPeeringAuthorizationOutputFromJson(json);
 }
 
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateVpcPeeringConnectionInput {
+  /// A unique identifier for a fleet. You can use either the fleet ID or ARN
+  /// value. This tells Amazon GameLift which GameLift VPC to peer with.
+  @_s.JsonKey(name: 'FleetId')
+  final String fleetId;
+
+  /// A unique identifier for the AWS account with the VPC that you want to peer
+  /// your Amazon GameLift fleet with. You can find your Account ID in the AWS
+  /// Management Console under account settings.
+  @_s.JsonKey(name: 'PeerVpcAwsAccountId')
+  final String peerVpcAwsAccountId;
+
+  /// A unique identifier for a VPC with resources to be accessed by your Amazon
+  /// GameLift fleet. The VPC must be in the same Region where your fleet is
+  /// deployed. Look up a VPC ID using the <a
+  /// href="https://console.aws.amazon.com/vpc/">VPC Dashboard</a> in the AWS
+  /// Management Console. Learn more about VPC peering in <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/vpc-peering.html">VPC
+  /// Peering with Amazon GameLift Fleets</a>.
+  @_s.JsonKey(name: 'PeerVpcId')
+  final String peerVpcId;
+
+  CreateVpcPeeringConnectionInput({
+    @_s.required this.fleetId,
+    @_s.required this.peerVpcAwsAccountId,
+    @_s.required this.peerVpcId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateVpcPeeringConnectionInputToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -11554,6 +12469,98 @@ class CreateVpcPeeringConnectionOutput {
   factory CreateVpcPeeringConnectionOutput.fromJson(
           Map<String, dynamic> json) =>
       _$CreateVpcPeeringConnectionOutputFromJson(json);
+}
+
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteAliasInput {
+  /// A unique identifier of the alias that you want to delete. You can use either
+  /// the alias ID or ARN value.
+  @_s.JsonKey(name: 'AliasId')
+  final String aliasId;
+
+  DeleteAliasInput({
+    @_s.required this.aliasId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteAliasInputToJson(this);
+}
+
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteBuildInput {
+  /// A unique identifier for a build to delete. You can use either the build ID
+  /// or ARN value.
+  @_s.JsonKey(name: 'BuildId')
+  final String buildId;
+
+  DeleteBuildInput({
+    @_s.required this.buildId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteBuildInputToJson(this);
+}
+
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteFleetInput {
+  /// A unique identifier for a fleet to be deleted. You can use either the fleet
+  /// ID or ARN value.
+  @_s.JsonKey(name: 'FleetId')
+  final String fleetId;
+
+  DeleteFleetInput({
+    @_s.required this.fleetId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteFleetInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteGameServerGroupInput {
+  /// The unique identifier of the game server group to delete. Use either the
+  /// <a>GameServerGroup</a> name or ARN value.
+  @_s.JsonKey(name: 'GameServerGroupName')
+  final String gameServerGroupName;
+
+  /// The type of delete to perform. Options include:
+  ///
+  /// <ul>
+  /// <li>
+  /// SAFE_DELETE – Terminates the game server group and EC2 Auto Scaling group
+  /// only when it has no game servers that are in IN_USE status.
+  /// </li>
+  /// <li>
+  /// FORCE_DELETE – Terminates the game server group, including all active game
+  /// servers regardless of their utilization status, and the EC2 Auto Scaling
+  /// group.
+  /// </li>
+  /// <li>
+  /// RETAIN – Does a safe delete of the game server group but retains the EC2
+  /// Auto Scaling group as is.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'DeleteOption')
+  final GameServerGroupDeleteOption deleteOption;
+
+  DeleteGameServerGroupInput({
+    @_s.required this.gameServerGroupName,
+    this.deleteOption,
+  });
+  Map<String, dynamic> toJson() => _$DeleteGameServerGroupInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -11574,6 +12581,25 @@ class DeleteGameServerGroupOutput {
       _$DeleteGameServerGroupOutputFromJson(json);
 }
 
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteGameSessionQueueInput {
+  /// A descriptive label that is associated with game session queue. Queue names
+  /// must be unique within each Region. You can use either the queue ID or ARN
+  /// value.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  DeleteGameSessionQueueInput({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$DeleteGameSessionQueueInputToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -11583,6 +12609,25 @@ class DeleteGameSessionQueueOutput {
   DeleteGameSessionQueueOutput();
   factory DeleteGameSessionQueueOutput.fromJson(Map<String, dynamic> json) =>
       _$DeleteGameSessionQueueOutputFromJson(json);
+}
+
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteMatchmakingConfigurationInput {
+  /// A unique identifier for a matchmaking configuration. You can use either the
+  /// configuration name or ARN value.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  DeleteMatchmakingConfigurationInput({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteMatchmakingConfigurationInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -11597,6 +12642,25 @@ class DeleteMatchmakingConfigurationOutput {
       _$DeleteMatchmakingConfigurationOutputFromJson(json);
 }
 
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteMatchmakingRuleSetInput {
+  /// A unique identifier for a matchmaking rule set to be deleted. (Note: The
+  /// rule set name is different from the optional "name" field in the rule set
+  /// body.) You can use either the rule set name or ARN value.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  DeleteMatchmakingRuleSetInput({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$DeleteMatchmakingRuleSetInputToJson(this);
+}
+
 /// Represents the returned data in response to a request action.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -11607,6 +12671,78 @@ class DeleteMatchmakingRuleSetOutput {
   DeleteMatchmakingRuleSetOutput();
   factory DeleteMatchmakingRuleSetOutput.fromJson(Map<String, dynamic> json) =>
       _$DeleteMatchmakingRuleSetOutputFromJson(json);
+}
+
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteScalingPolicyInput {
+  /// A unique identifier for a fleet to be deleted. You can use either the fleet
+  /// ID or ARN value.
+  @_s.JsonKey(name: 'FleetId')
+  final String fleetId;
+
+  /// A descriptive label that is associated with a scaling policy. Policy names
+  /// do not need to be unique.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  DeleteScalingPolicyInput({
+    @_s.required this.fleetId,
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$DeleteScalingPolicyInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteScriptInput {
+  /// A unique identifier for a Realtime script to delete. You can use either the
+  /// script ID or ARN value.
+  @_s.JsonKey(name: 'ScriptId')
+  final String scriptId;
+
+  DeleteScriptInput({
+    @_s.required this.scriptId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteScriptInputToJson(this);
+}
+
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteVpcPeeringAuthorizationInput {
+  /// A unique identifier for the AWS account that you use to manage your Amazon
+  /// GameLift fleet. You can find your Account ID in the AWS Management Console
+  /// under account settings.
+  @_s.JsonKey(name: 'GameLiftAwsAccountId')
+  final String gameLiftAwsAccountId;
+
+  /// A unique identifier for a VPC with resources to be accessed by your Amazon
+  /// GameLift fleet. The VPC must be in the same Region where your fleet is
+  /// deployed. Look up a VPC ID using the <a
+  /// href="https://console.aws.amazon.com/vpc/">VPC Dashboard</a> in the AWS
+  /// Management Console. Learn more about VPC peering in <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/vpc-peering.html">VPC
+  /// Peering with Amazon GameLift Fleets</a>.
+  @_s.JsonKey(name: 'PeerVpcId')
+  final String peerVpcId;
+
+  DeleteVpcPeeringAuthorizationInput({
+    @_s.required this.gameLiftAwsAccountId,
+    @_s.required this.peerVpcId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteVpcPeeringAuthorizationInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -11621,6 +12757,33 @@ class DeleteVpcPeeringAuthorizationOutput {
       _$DeleteVpcPeeringAuthorizationOutputFromJson(json);
 }
 
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteVpcPeeringConnectionInput {
+  /// A unique identifier for a fleet. This fleet specified must match the fleet
+  /// referenced in the VPC peering connection record. You can use either the
+  /// fleet ID or ARN value.
+  @_s.JsonKey(name: 'FleetId')
+  final String fleetId;
+
+  /// A unique identifier for a VPC peering connection. This value is included in
+  /// the <a>VpcPeeringConnection</a> object, which can be retrieved by calling
+  /// <a>DescribeVpcPeeringConnections</a>.
+  @_s.JsonKey(name: 'VpcPeeringConnectionId')
+  final String vpcPeeringConnectionId;
+
+  DeleteVpcPeeringConnectionInput({
+    @_s.required this.fleetId,
+    @_s.required this.vpcPeeringConnectionId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteVpcPeeringConnectionInputToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -11631,6 +12794,47 @@ class DeleteVpcPeeringConnectionOutput {
   factory DeleteVpcPeeringConnectionOutput.fromJson(
           Map<String, dynamic> json) =>
       _$DeleteVpcPeeringConnectionOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeregisterGameServerInput {
+  /// An identifier for the game server group where the game server to be
+  /// de-registered is running. Use either the <a>GameServerGroup</a> name or ARN
+  /// value.
+  @_s.JsonKey(name: 'GameServerGroupName')
+  final String gameServerGroupName;
+
+  /// The identifier for the game server to be de-registered.
+  @_s.JsonKey(name: 'GameServerId')
+  final String gameServerId;
+
+  DeregisterGameServerInput({
+    @_s.required this.gameServerGroupName,
+    @_s.required this.gameServerId,
+  });
+  Map<String, dynamic> toJson() => _$DeregisterGameServerInputToJson(this);
+}
+
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeAliasInput {
+  /// The unique identifier for the fleet alias that you want to retrieve. You can
+  /// use either the alias ID or ARN value.
+  @_s.JsonKey(name: 'AliasId')
+  final String aliasId;
+
+  DescribeAliasInput({
+    @_s.required this.aliasId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeAliasInputToJson(this);
 }
 
 /// Represents the returned data in response to a request action.
@@ -11651,6 +12855,24 @@ class DescribeAliasOutput {
       _$DescribeAliasOutputFromJson(json);
 }
 
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeBuildInput {
+  /// A unique identifier for a build to retrieve properties for. You can use
+  /// either the build ID or ARN value.
+  @_s.JsonKey(name: 'BuildId')
+  final String buildId;
+
+  DescribeBuildInput({
+    @_s.required this.buildId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeBuildInputToJson(this);
+}
+
 /// Represents the returned data in response to a request action.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -11669,6 +12891,29 @@ class DescribeBuildOutput {
       _$DescribeBuildOutputFromJson(json);
 }
 
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeEC2InstanceLimitsInput {
+  /// Name of an EC2 instance type that is supported in Amazon GameLift. A fleet
+  /// instance type determines the computing resources of each instance in the
+  /// fleet, including CPU, memory, storage, and networking capacity. Amazon
+  /// GameLift supports the following EC2 instance types. See <a
+  /// href="http://aws.amazon.com/ec2/instance-types/">Amazon EC2 Instance
+  /// Types</a> for detailed descriptions. Leave this parameter blank to retrieve
+  /// limits for all types.
+  @_s.JsonKey(name: 'EC2InstanceType')
+  final EC2InstanceType eC2InstanceType;
+
+  DescribeEC2InstanceLimitsInput({
+    this.eC2InstanceType,
+  });
+  Map<String, dynamic> toJson() => _$DescribeEC2InstanceLimitsInputToJson(this);
+}
+
 /// Represents the returned data in response to a request action.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -11685,6 +12930,42 @@ class DescribeEC2InstanceLimitsOutput {
   });
   factory DescribeEC2InstanceLimitsOutput.fromJson(Map<String, dynamic> json) =>
       _$DescribeEC2InstanceLimitsOutputFromJson(json);
+}
+
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeFleetAttributesInput {
+  /// A list of unique fleet identifiers to retrieve attributes for. You can use
+  /// either the fleet ID or ARN value. To retrieve attributes for all current
+  /// fleets, do not include this parameter. If the list of fleet identifiers
+  /// includes fleets that don't currently exist, the request succeeds but no
+  /// attributes for that fleet are returned.
+  @_s.JsonKey(name: 'FleetIds')
+  final List<String> fleetIds;
+
+  /// The maximum number of results to return. Use this parameter with
+  /// <code>NextToken</code> to get results as a set of sequential pages. This
+  /// parameter is ignored when the request specifies one or a list of fleet IDs.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// Token that indicates the start of the next sequential page of results. Use
+  /// the token that is returned with a previous call to this action. To start at
+  /// the beginning of the result set, do not specify a value. This parameter is
+  /// ignored when the request specifies one or a list of fleet IDs.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeFleetAttributesInput({
+    this.fleetIds,
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeFleetAttributesInputToJson(this);
 }
 
 /// Represents the returned data in response to a request action.
@@ -11714,6 +12995,39 @@ class DescribeFleetAttributesOutput {
       _$DescribeFleetAttributesOutputFromJson(json);
 }
 
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeFleetCapacityInput {
+  /// A unique identifier for a fleet(s) to retrieve capacity information for. You
+  /// can use either the fleet ID or ARN value.
+  @_s.JsonKey(name: 'FleetIds')
+  final List<String> fleetIds;
+
+  /// The maximum number of results to return. Use this parameter with
+  /// <code>NextToken</code> to get results as a set of sequential pages. This
+  /// parameter is ignored when the request specifies one or a list of fleet IDs.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// Token that indicates the start of the next sequential page of results. Use
+  /// the token that is returned with a previous call to this action. To start at
+  /// the beginning of the result set, do not specify a value. This parameter is
+  /// ignored when the request specifies one or a list of fleet IDs.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeFleetCapacityInput({
+    this.fleetIds,
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeFleetCapacityInputToJson(this);
+}
+
 /// Represents the returned data in response to a request action.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -11739,6 +13053,59 @@ class DescribeFleetCapacityOutput {
   });
   factory DescribeFleetCapacityOutput.fromJson(Map<String, dynamic> json) =>
       _$DescribeFleetCapacityOutputFromJson(json);
+}
+
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeFleetEventsInput {
+  /// A unique identifier for a fleet to get event logs for. You can use either
+  /// the fleet ID or ARN value.
+  @_s.JsonKey(name: 'FleetId')
+  final String fleetId;
+
+  /// Most recent date to retrieve event logs for. If no end time is specified,
+  /// this call returns entries from the specified start time up to the present.
+  /// Format is a number expressed in Unix time as milliseconds (ex:
+  /// "1469498468.057").
+  @_s.JsonKey(
+      name: 'EndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime endTime;
+
+  /// The maximum number of results to return. Use this parameter with
+  /// <code>NextToken</code> to get results as a set of sequential pages.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// Token that indicates the start of the next sequential page of results. Use
+  /// the token that is returned with a previous call to this action. To start at
+  /// the beginning of the result set, do not specify a value.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Earliest date to retrieve event logs for. If no start time is specified,
+  /// this call returns entries starting from when the fleet was created to the
+  /// specified end time. Format is a number expressed in Unix time as
+  /// milliseconds (ex: "1469498468.057").
+  @_s.JsonKey(
+      name: 'StartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime startTime;
+
+  DescribeFleetEventsInput({
+    @_s.required this.fleetId,
+    this.endTime,
+    this.limit,
+    this.nextToken,
+    this.startTime,
+  });
+  Map<String, dynamic> toJson() => _$DescribeFleetEventsInputToJson(this);
 }
 
 /// Represents the returned data in response to a request action.
@@ -11767,6 +13134,24 @@ class DescribeFleetEventsOutput {
       _$DescribeFleetEventsOutputFromJson(json);
 }
 
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeFleetPortSettingsInput {
+  /// A unique identifier for a fleet to retrieve port settings for. You can use
+  /// either the fleet ID or ARN value.
+  @_s.JsonKey(name: 'FleetId')
+  final String fleetId;
+
+  DescribeFleetPortSettingsInput({
+    @_s.required this.fleetId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeFleetPortSettingsInputToJson(this);
+}
+
 /// Represents the returned data in response to a request action.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -11783,6 +13168,42 @@ class DescribeFleetPortSettingsOutput {
   });
   factory DescribeFleetPortSettingsOutput.fromJson(Map<String, dynamic> json) =>
       _$DescribeFleetPortSettingsOutputFromJson(json);
+}
+
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeFleetUtilizationInput {
+  /// A unique identifier for a fleet(s) to retrieve utilization data for. You can
+  /// use either the fleet ID or ARN value. To retrieve attributes for all current
+  /// fleets, do not include this parameter. If the list of fleet identifiers
+  /// includes fleets that don't currently exist, the request succeeds but no
+  /// attributes for that fleet are returned.
+  @_s.JsonKey(name: 'FleetIds')
+  final List<String> fleetIds;
+
+  /// The maximum number of results to return. Use this parameter with
+  /// <code>NextToken</code> to get results as a set of sequential pages. This
+  /// parameter is ignored when the request specifies one or a list of fleet IDs.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// Token that indicates the start of the next sequential page of results. Use
+  /// the token that is returned with a previous call to this action. To start at
+  /// the beginning of the result set, do not specify a value. This parameter is
+  /// ignored when the request specifies one or a list of fleet IDs.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeFleetUtilizationInput({
+    this.fleetIds,
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeFleetUtilizationInputToJson(this);
 }
 
 /// Represents the returned data in response to a request action.
@@ -11814,6 +13235,23 @@ class DescribeFleetUtilizationOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeGameServerGroupInput {
+  /// The unique identifier for the game server group being requested. Use either
+  /// the <a>GameServerGroup</a> name or ARN value.
+  @_s.JsonKey(name: 'GameServerGroupName')
+  final String gameServerGroupName;
+
+  DescribeGameServerGroupInput({
+    @_s.required this.gameServerGroupName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeGameServerGroupInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeGameServerGroupOutput {
@@ -11831,6 +13269,28 @@ class DescribeGameServerGroupOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeGameServerInput {
+  /// An identifier for the game server group where the game server is running.
+  /// Use either the <a>GameServerGroup</a> name or ARN value.
+  @_s.JsonKey(name: 'GameServerGroupName')
+  final String gameServerGroupName;
+
+  /// The identifier for the game server to be retrieved.
+  @_s.JsonKey(name: 'GameServerId')
+  final String gameServerId;
+
+  DescribeGameServerInput({
+    @_s.required this.gameServerGroupName,
+    @_s.required this.gameServerId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeGameServerInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeGameServerOutput {
@@ -11843,6 +13303,57 @@ class DescribeGameServerOutput {
   });
   factory DescribeGameServerOutput.fromJson(Map<String, dynamic> json) =>
       _$DescribeGameServerOutputFromJson(json);
+}
+
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeGameSessionDetailsInput {
+  /// A unique identifier for an alias associated with the fleet to retrieve all
+  /// game sessions for. You can use either the alias ID or ARN value.
+  @_s.JsonKey(name: 'AliasId')
+  final String aliasId;
+
+  /// A unique identifier for a fleet to retrieve all game sessions active on the
+  /// fleet. You can use either the fleet ID or ARN value.
+  @_s.JsonKey(name: 'FleetId')
+  final String fleetId;
+
+  /// A unique identifier for the game session to retrieve.
+  @_s.JsonKey(name: 'GameSessionId')
+  final String gameSessionId;
+
+  /// The maximum number of results to return. Use this parameter with
+  /// <code>NextToken</code> to get results as a set of sequential pages.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// Token that indicates the start of the next sequential page of results. Use
+  /// the token that is returned with a previous call to this action. To start at
+  /// the beginning of the result set, do not specify a value.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Game session status to filter results on. Possible game session statuses
+  /// include <code>ACTIVE</code>, <code>TERMINATED</code>,
+  /// <code>ACTIVATING</code> and <code>TERMINATING</code> (the last two are
+  /// transitory).
+  @_s.JsonKey(name: 'StatusFilter')
+  final String statusFilter;
+
+  DescribeGameSessionDetailsInput({
+    this.aliasId,
+    this.fleetId,
+    this.gameSessionId,
+    this.limit,
+    this.nextToken,
+    this.statusFilter,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeGameSessionDetailsInputToJson(this);
 }
 
 /// Represents the returned data in response to a request action.
@@ -11872,6 +13383,24 @@ class DescribeGameSessionDetailsOutput {
       _$DescribeGameSessionDetailsOutputFromJson(json);
 }
 
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeGameSessionPlacementInput {
+  /// A unique identifier for a game session placement to retrieve.
+  @_s.JsonKey(name: 'PlacementId')
+  final String placementId;
+
+  DescribeGameSessionPlacementInput({
+    @_s.required this.placementId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeGameSessionPlacementInputToJson(this);
+}
+
 /// Represents the returned data in response to a request action.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -11889,6 +13418,38 @@ class DescribeGameSessionPlacementOutput {
   factory DescribeGameSessionPlacementOutput.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeGameSessionPlacementOutputFromJson(json);
+}
+
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeGameSessionQueuesInput {
+  /// The maximum number of results to return. Use this parameter with
+  /// <code>NextToken</code> to get results as a set of sequential pages.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// A list of queue names to retrieve information for. You can use either the
+  /// queue ID or ARN value. To request settings for all queues, leave this
+  /// parameter empty.
+  @_s.JsonKey(name: 'Names')
+  final List<String> names;
+
+  /// A token that indicates the start of the next sequential page of results. Use
+  /// the token that is returned with a previous call to this action. To start at
+  /// the beginning of the result set, do not specify a value.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeGameSessionQueuesInput({
+    this.limit,
+    this.names,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeGameSessionQueuesInputToJson(this);
 }
 
 /// Represents the returned data in response to a request action.
@@ -11914,6 +13475,56 @@ class DescribeGameSessionQueuesOutput {
   });
   factory DescribeGameSessionQueuesOutput.fromJson(Map<String, dynamic> json) =>
       _$DescribeGameSessionQueuesOutputFromJson(json);
+}
+
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeGameSessionsInput {
+  /// A unique identifier for an alias associated with the fleet to retrieve all
+  /// game sessions for. You can use either the alias ID or ARN value.
+  @_s.JsonKey(name: 'AliasId')
+  final String aliasId;
+
+  /// A unique identifier for a fleet to retrieve all game sessions for. You can
+  /// use either the fleet ID or ARN value.
+  @_s.JsonKey(name: 'FleetId')
+  final String fleetId;
+
+  /// A unique identifier for the game session to retrieve.
+  @_s.JsonKey(name: 'GameSessionId')
+  final String gameSessionId;
+
+  /// The maximum number of results to return. Use this parameter with
+  /// <code>NextToken</code> to get results as a set of sequential pages.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// Token that indicates the start of the next sequential page of results. Use
+  /// the token that is returned with a previous call to this action. To start at
+  /// the beginning of the result set, do not specify a value.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Game session status to filter results on. Possible game session statuses
+  /// include <code>ACTIVE</code>, <code>TERMINATED</code>,
+  /// <code>ACTIVATING</code>, and <code>TERMINATING</code> (the last two are
+  /// transitory).
+  @_s.JsonKey(name: 'StatusFilter')
+  final String statusFilter;
+
+  DescribeGameSessionsInput({
+    this.aliasId,
+    this.fleetId,
+    this.gameSessionId,
+    this.limit,
+    this.nextToken,
+    this.statusFilter,
+  });
+  Map<String, dynamic> toJson() => _$DescribeGameSessionsInputToJson(this);
 }
 
 /// Represents the returned data in response to a request action.
@@ -11942,6 +13553,43 @@ class DescribeGameSessionsOutput {
       _$DescribeGameSessionsOutputFromJson(json);
 }
 
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeInstancesInput {
+  /// A unique identifier for a fleet to retrieve instance information for. You
+  /// can use either the fleet ID or ARN value.
+  @_s.JsonKey(name: 'FleetId')
+  final String fleetId;
+
+  /// A unique identifier for an instance to retrieve. Specify an instance ID or
+  /// leave blank to retrieve all instances in the fleet.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  /// The maximum number of results to return. Use this parameter with
+  /// <code>NextToken</code> to get results as a set of sequential pages.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// Token that indicates the start of the next sequential page of results. Use
+  /// the token that is returned with a previous call to this action. To start at
+  /// the beginning of the result set, do not specify a value.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeInstancesInput({
+    @_s.required this.fleetId,
+    this.instanceId,
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeInstancesInputToJson(this);
+}
+
 /// Represents the returned data in response to a request action.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -11965,6 +13613,47 @@ class DescribeInstancesOutput {
   });
   factory DescribeInstancesOutput.fromJson(Map<String, dynamic> json) =>
       _$DescribeInstancesOutputFromJson(json);
+}
+
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeMatchmakingConfigurationsInput {
+  /// The maximum number of results to return. Use this parameter with
+  /// <code>NextToken</code> to get results as a set of sequential pages. This
+  /// parameter is limited to 10.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// A unique identifier for a matchmaking configuration(s) to retrieve. You can
+  /// use either the configuration name or ARN value. To request all existing
+  /// configurations, leave this parameter empty.
+  @_s.JsonKey(name: 'Names')
+  final List<String> names;
+
+  /// A token that indicates the start of the next sequential page of results. Use
+  /// the token that is returned with a previous call to this action. To start at
+  /// the beginning of the result set, do not specify a value.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// A unique identifier for a matchmaking rule set. You can use either the rule
+  /// set name or ARN value. Use this parameter to retrieve all matchmaking
+  /// configurations that use this rule set.
+  @_s.JsonKey(name: 'RuleSetName')
+  final String ruleSetName;
+
+  DescribeMatchmakingConfigurationsInput({
+    this.limit,
+    this.names,
+    this.nextToken,
+    this.ruleSetName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeMatchmakingConfigurationsInputToJson(this);
 }
 
 /// Represents the returned data in response to a request action.
@@ -11993,6 +13682,24 @@ class DescribeMatchmakingConfigurationsOutput {
       _$DescribeMatchmakingConfigurationsOutputFromJson(json);
 }
 
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeMatchmakingInput {
+  /// A unique identifier for a matchmaking ticket. You can include up to 10 ID
+  /// values.
+  @_s.JsonKey(name: 'TicketIds')
+  final List<String> ticketIds;
+
+  DescribeMatchmakingInput({
+    @_s.required this.ticketIds,
+  });
+  Map<String, dynamic> toJson() => _$DescribeMatchmakingInputToJson(this);
+}
+
 /// Represents the returned data in response to a request action.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -12009,6 +13716,39 @@ class DescribeMatchmakingOutput {
   });
   factory DescribeMatchmakingOutput.fromJson(Map<String, dynamic> json) =>
       _$DescribeMatchmakingOutputFromJson(json);
+}
+
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeMatchmakingRuleSetsInput {
+  /// The maximum number of results to return. Use this parameter with
+  /// <code>NextToken</code> to get results as a set of sequential pages.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// A list of one or more matchmaking rule set names to retrieve details for.
+  /// (Note: The rule set name is different from the optional "name" field in the
+  /// rule set body.) You can use either the rule set name or ARN value.
+  @_s.JsonKey(name: 'Names')
+  final List<String> names;
+
+  /// A token that indicates the start of the next sequential page of results. Use
+  /// the token that is returned with a previous call to this action. To start at
+  /// the beginning of the result set, do not specify a value.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeMatchmakingRuleSetsInput({
+    this.limit,
+    this.names,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeMatchmakingRuleSetsInputToJson(this);
 }
 
 /// Represents the returned data in response to a request action.
@@ -12037,6 +13777,73 @@ class DescribeMatchmakingRuleSetsOutput {
       _$DescribeMatchmakingRuleSetsOutputFromJson(json);
 }
 
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribePlayerSessionsInput {
+  /// A unique identifier for the game session to retrieve player sessions for.
+  @_s.JsonKey(name: 'GameSessionId')
+  final String gameSessionId;
+
+  /// The maximum number of results to return. Use this parameter with
+  /// <code>NextToken</code> to get results as a set of sequential pages. If a
+  /// player session ID is specified, this parameter is ignored.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// Token that indicates the start of the next sequential page of results. Use
+  /// the token that is returned with a previous call to this action. To start at
+  /// the beginning of the result set, do not specify a value. If a player session
+  /// ID is specified, this parameter is ignored.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// A unique identifier for a player to retrieve player sessions for.
+  @_s.JsonKey(name: 'PlayerId')
+  final String playerId;
+
+  /// A unique identifier for a player session to retrieve.
+  @_s.JsonKey(name: 'PlayerSessionId')
+  final String playerSessionId;
+
+  /// Player session status to filter results on.
+  ///
+  /// Possible player session statuses include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>RESERVED</b> -- The player session request has been received, but the
+  /// player has not yet connected to the server process and/or been validated.
+  /// </li>
+  /// <li>
+  /// <b>ACTIVE</b> -- The player has been validated by the server process and is
+  /// currently connected.
+  /// </li>
+  /// <li>
+  /// <b>COMPLETED</b> -- The player connection has been dropped.
+  /// </li>
+  /// <li>
+  /// <b>TIMEDOUT</b> -- A player session request was received, but the player did
+  /// not connect and/or was not validated within the timeout limit (60 seconds).
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'PlayerSessionStatusFilter')
+  final String playerSessionStatusFilter;
+
+  DescribePlayerSessionsInput({
+    this.gameSessionId,
+    this.limit,
+    this.nextToken,
+    this.playerId,
+    this.playerSessionId,
+    this.playerSessionStatusFilter,
+  });
+  Map<String, dynamic> toJson() => _$DescribePlayerSessionsInputToJson(this);
+}
+
 /// Represents the returned data in response to a request action.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -12063,6 +13870,25 @@ class DescribePlayerSessionsOutput {
       _$DescribePlayerSessionsOutputFromJson(json);
 }
 
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeRuntimeConfigurationInput {
+  /// A unique identifier for a fleet to get the runtime configuration for. You
+  /// can use either the fleet ID or ARN value.
+  @_s.JsonKey(name: 'FleetId')
+  final String fleetId;
+
+  DescribeRuntimeConfigurationInput({
+    @_s.required this.fleetId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeRuntimeConfigurationInputToJson(this);
+}
+
 /// Represents the returned data in response to a request action.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -12081,6 +13907,70 @@ class DescribeRuntimeConfigurationOutput {
   factory DescribeRuntimeConfigurationOutput.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeRuntimeConfigurationOutputFromJson(json);
+}
+
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeScalingPoliciesInput {
+  /// A unique identifier for a fleet to retrieve scaling policies for. You can
+  /// use either the fleet ID or ARN value.
+  @_s.JsonKey(name: 'FleetId')
+  final String fleetId;
+
+  /// The maximum number of results to return. Use this parameter with
+  /// <code>NextToken</code> to get results as a set of sequential pages.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// Token that indicates the start of the next sequential page of results. Use
+  /// the token that is returned with a previous call to this action. To start at
+  /// the beginning of the result set, do not specify a value.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Scaling policy status to filter results on. A scaling policy is only in
+  /// force when in an <code>ACTIVE</code> status.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>ACTIVE</b> -- The scaling policy is currently in force.
+  /// </li>
+  /// <li>
+  /// <b>UPDATEREQUESTED</b> -- A request to update the scaling policy has been
+  /// received.
+  /// </li>
+  /// <li>
+  /// <b>UPDATING</b> -- A change is being made to the scaling policy.
+  /// </li>
+  /// <li>
+  /// <b>DELETEREQUESTED</b> -- A request to delete the scaling policy has been
+  /// received.
+  /// </li>
+  /// <li>
+  /// <b>DELETING</b> -- The scaling policy is being deleted.
+  /// </li>
+  /// <li>
+  /// <b>DELETED</b> -- The scaling policy has been deleted.
+  /// </li>
+  /// <li>
+  /// <b>ERROR</b> -- An error occurred in creating the policy. It should be
+  /// removed and recreated.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'StatusFilter')
+  final ScalingStatusType statusFilter;
+
+  DescribeScalingPoliciesInput({
+    @_s.required this.fleetId,
+    this.limit,
+    this.nextToken,
+    this.statusFilter,
+  });
+  Map<String, dynamic> toJson() => _$DescribeScalingPoliciesInputToJson(this);
 }
 
 /// Represents the returned data in response to a request action.
@@ -12107,6 +13997,23 @@ class DescribeScalingPoliciesOutput {
   });
   factory DescribeScalingPoliciesOutput.fromJson(Map<String, dynamic> json) =>
       _$DescribeScalingPoliciesOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeScriptInput {
+  /// A unique identifier for a Realtime script to retrieve properties for. You
+  /// can use either the script ID or ARN value.
+  @_s.JsonKey(name: 'ScriptId')
+  final String scriptId;
+
+  DescribeScriptInput({
+    @_s.required this.scriptId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeScriptInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -12143,6 +14050,25 @@ class DescribeVpcPeeringAuthorizationsOutput {
   factory DescribeVpcPeeringAuthorizationsOutput.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeVpcPeeringAuthorizationsOutputFromJson(json);
+}
+
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeVpcPeeringConnectionsInput {
+  /// A unique identifier for a fleet. You can use either the fleet ID or ARN
+  /// value.
+  @_s.JsonKey(name: 'FleetId')
+  final String fleetId;
+
+  DescribeVpcPeeringConnectionsInput({
+    this.fleetId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeVpcPeeringConnectionsInputToJson(this);
 }
 
 /// Represents the returned data in response to a request action.
@@ -12416,130 +14342,6 @@ enum EC2InstanceType {
   m5_16xlarge,
   @_s.JsonValue('m5.24xlarge')
   m5_24xlarge,
-}
-
-extension on EC2InstanceType {
-  String toValue() {
-    switch (this) {
-      case EC2InstanceType.t2Micro:
-        return 't2.micro';
-      case EC2InstanceType.t2Small:
-        return 't2.small';
-      case EC2InstanceType.t2Medium:
-        return 't2.medium';
-      case EC2InstanceType.t2Large:
-        return 't2.large';
-      case EC2InstanceType.c3Large:
-        return 'c3.large';
-      case EC2InstanceType.c3Xlarge:
-        return 'c3.xlarge';
-      case EC2InstanceType.c3_2xlarge:
-        return 'c3.2xlarge';
-      case EC2InstanceType.c3_4xlarge:
-        return 'c3.4xlarge';
-      case EC2InstanceType.c3_8xlarge:
-        return 'c3.8xlarge';
-      case EC2InstanceType.c4Large:
-        return 'c4.large';
-      case EC2InstanceType.c4Xlarge:
-        return 'c4.xlarge';
-      case EC2InstanceType.c4_2xlarge:
-        return 'c4.2xlarge';
-      case EC2InstanceType.c4_4xlarge:
-        return 'c4.4xlarge';
-      case EC2InstanceType.c4_8xlarge:
-        return 'c4.8xlarge';
-      case EC2InstanceType.c5Large:
-        return 'c5.large';
-      case EC2InstanceType.c5Xlarge:
-        return 'c5.xlarge';
-      case EC2InstanceType.c5_2xlarge:
-        return 'c5.2xlarge';
-      case EC2InstanceType.c5_4xlarge:
-        return 'c5.4xlarge';
-      case EC2InstanceType.c5_9xlarge:
-        return 'c5.9xlarge';
-      case EC2InstanceType.c5_12xlarge:
-        return 'c5.12xlarge';
-      case EC2InstanceType.c5_18xlarge:
-        return 'c5.18xlarge';
-      case EC2InstanceType.c5_24xlarge:
-        return 'c5.24xlarge';
-      case EC2InstanceType.r3Large:
-        return 'r3.large';
-      case EC2InstanceType.r3Xlarge:
-        return 'r3.xlarge';
-      case EC2InstanceType.r3_2xlarge:
-        return 'r3.2xlarge';
-      case EC2InstanceType.r3_4xlarge:
-        return 'r3.4xlarge';
-      case EC2InstanceType.r3_8xlarge:
-        return 'r3.8xlarge';
-      case EC2InstanceType.r4Large:
-        return 'r4.large';
-      case EC2InstanceType.r4Xlarge:
-        return 'r4.xlarge';
-      case EC2InstanceType.r4_2xlarge:
-        return 'r4.2xlarge';
-      case EC2InstanceType.r4_4xlarge:
-        return 'r4.4xlarge';
-      case EC2InstanceType.r4_8xlarge:
-        return 'r4.8xlarge';
-      case EC2InstanceType.r4_16xlarge:
-        return 'r4.16xlarge';
-      case EC2InstanceType.r5Large:
-        return 'r5.large';
-      case EC2InstanceType.r5Xlarge:
-        return 'r5.xlarge';
-      case EC2InstanceType.r5_2xlarge:
-        return 'r5.2xlarge';
-      case EC2InstanceType.r5_4xlarge:
-        return 'r5.4xlarge';
-      case EC2InstanceType.r5_8xlarge:
-        return 'r5.8xlarge';
-      case EC2InstanceType.r5_12xlarge:
-        return 'r5.12xlarge';
-      case EC2InstanceType.r5_16xlarge:
-        return 'r5.16xlarge';
-      case EC2InstanceType.r5_24xlarge:
-        return 'r5.24xlarge';
-      case EC2InstanceType.m3Medium:
-        return 'm3.medium';
-      case EC2InstanceType.m3Large:
-        return 'm3.large';
-      case EC2InstanceType.m3Xlarge:
-        return 'm3.xlarge';
-      case EC2InstanceType.m3_2xlarge:
-        return 'm3.2xlarge';
-      case EC2InstanceType.m4Large:
-        return 'm4.large';
-      case EC2InstanceType.m4Xlarge:
-        return 'm4.xlarge';
-      case EC2InstanceType.m4_2xlarge:
-        return 'm4.2xlarge';
-      case EC2InstanceType.m4_4xlarge:
-        return 'm4.4xlarge';
-      case EC2InstanceType.m4_10xlarge:
-        return 'm4.10xlarge';
-      case EC2InstanceType.m5Large:
-        return 'm5.large';
-      case EC2InstanceType.m5Xlarge:
-        return 'm5.xlarge';
-      case EC2InstanceType.m5_2xlarge:
-        return 'm5.2xlarge';
-      case EC2InstanceType.m5_4xlarge:
-        return 'm5.4xlarge';
-      case EC2InstanceType.m5_8xlarge:
-        return 'm5.8xlarge';
-      case EC2InstanceType.m5_12xlarge:
-        return 'm5.12xlarge';
-      case EC2InstanceType.m5_16xlarge:
-        return 'm5.16xlarge';
-      case EC2InstanceType.m5_24xlarge:
-        return 'm5.24xlarge';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Log entry describing an event that involves Amazon GameLift resources (such
@@ -13122,18 +14924,6 @@ enum FleetType {
   spot,
 }
 
-extension on FleetType {
-  String toValue() {
-    switch (this) {
-      case FleetType.onDemand:
-        return 'ON_DEMAND';
-      case FleetType.spot:
-        return 'SPOT';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Current status of fleet utilization, including the number of game and player
 /// sessions being hosted.
 ///
@@ -13569,20 +15359,6 @@ enum GameServerGroupDeleteOption {
   retain,
 }
 
-extension on GameServerGroupDeleteOption {
-  String toValue() {
-    switch (this) {
-      case GameServerGroupDeleteOption.safeDelete:
-        return 'SAFE_DELETE';
-      case GameServerGroupDeleteOption.forceDelete:
-        return 'FORCE_DELETE';
-      case GameServerGroupDeleteOption.retain:
-        return 'RETAIN';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum GameServerGroupInstanceType {
   @_s.JsonValue('c4.large')
   c4Large,
@@ -13688,16 +15464,6 @@ enum GameServerHealthCheck {
   healthy,
 }
 
-extension on GameServerHealthCheck {
-  String toValue() {
-    switch (this) {
-      case GameServerHealthCheck.healthy:
-        return 'HEALTHY';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum GameServerProtectionPolicy {
   @_s.JsonValue('NO_PROTECTION')
   noProtection,
@@ -13705,35 +15471,11 @@ enum GameServerProtectionPolicy {
   fullProtection,
 }
 
-extension on GameServerProtectionPolicy {
-  String toValue() {
-    switch (this) {
-      case GameServerProtectionPolicy.noProtection:
-        return 'NO_PROTECTION';
-      case GameServerProtectionPolicy.fullProtection:
-        return 'FULL_PROTECTION';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum GameServerUtilizationStatus {
   @_s.JsonValue('AVAILABLE')
   available,
   @_s.JsonValue('UTILIZED')
   utilized,
-}
-
-extension on GameServerUtilizationStatus {
-  String toValue() {
-    switch (this) {
-      case GameServerUtilizationStatus.available:
-        return 'AVAILABLE';
-      case GameServerUtilizationStatus.utilized:
-        return 'UTILIZED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Properties describing a game session.
@@ -14402,6 +16144,23 @@ enum GameSessionStatusReason {
   interrupted,
 }
 
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetGameSessionLogUrlInput {
+  /// A unique identifier for the game session to get logs for.
+  @_s.JsonKey(name: 'GameSessionId')
+  final String gameSessionId;
+
+  GetGameSessionLogUrlInput({
+    @_s.required this.gameSessionId,
+  });
+  Map<String, dynamic> toJson() => _$GetGameSessionLogUrlInputToJson(this);
+}
+
 /// Represents the returned data in response to a request action.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -14421,6 +16180,33 @@ class GetGameSessionLogUrlOutput {
   });
   factory GetGameSessionLogUrlOutput.fromJson(Map<String, dynamic> json) =>
       _$GetGameSessionLogUrlOutputFromJson(json);
+}
+
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetInstanceAccessInput {
+  /// A unique identifier for a fleet that contains the instance you want access
+  /// to. You can use either the fleet ID or ARN value. The fleet can be in any of
+  /// the following statuses: <code>ACTIVATING</code>, <code>ACTIVE</code>, or
+  /// <code>ERROR</code>. Fleets with an <code>ERROR</code> status may be
+  /// accessible for a short time before they are deleted.
+  @_s.JsonKey(name: 'FleetId')
+  final String fleetId;
+
+  /// A unique identifier for an instance you want to get access to. You can
+  /// access an instance in any status.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  GetInstanceAccessInput({
+    @_s.required this.fleetId,
+    @_s.required this.instanceId,
+  });
+  Map<String, dynamic> toJson() => _$GetInstanceAccessInputToJson(this);
 }
 
 /// Represents the returned data in response to a request action.
@@ -14732,6 +16518,59 @@ class LaunchTemplateSpecification {
   Map<String, dynamic> toJson() => _$LaunchTemplateSpecificationToJson(this);
 }
 
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListAliasesInput {
+  /// The maximum number of results to return. Use this parameter with
+  /// <code>NextToken</code> to get results as a set of sequential pages.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// A descriptive label that is associated with an alias. Alias names do not
+  /// need to be unique.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// A token that indicates the start of the next sequential page of results. Use
+  /// the token that is returned with a previous call to this action. To start at
+  /// the beginning of the result set, do not specify a value.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The routing type to filter results on. Use this parameter to retrieve only
+  /// aliases with a certain routing type. To retrieve all aliases, leave this
+  /// parameter empty.
+  ///
+  /// Possible routing types include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>SIMPLE</b> -- The alias resolves to one specific fleet. Use this type
+  /// when routing to active fleets.
+  /// </li>
+  /// <li>
+  /// <b>TERMINAL</b> -- The alias does not resolve to a fleet but instead can be
+  /// used to display a message to the user. A terminal alias throws a
+  /// TerminalRoutingStrategyException with the <a>RoutingStrategy</a> message
+  /// embedded.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'RoutingStrategyType')
+  final RoutingStrategyType routingStrategyType;
+
+  ListAliasesInput({
+    this.limit,
+    this.name,
+    this.nextToken,
+    this.routingStrategyType,
+  });
+  Map<String, dynamic> toJson() => _$ListAliasesInputToJson(this);
+}
+
 /// Represents the returned data in response to a request action.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -14757,6 +16596,55 @@ class ListAliasesOutput {
       _$ListAliasesOutputFromJson(json);
 }
 
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListBuildsInput {
+  /// The maximum number of results to return. Use this parameter with
+  /// <code>NextToken</code> to get results as a set of sequential pages.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// Token that indicates the start of the next sequential page of results. Use
+  /// the token that is returned with a previous call to this action. To start at
+  /// the beginning of the result set, do not specify a value.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Build status to filter results by. To retrieve all builds, leave this
+  /// parameter empty.
+  ///
+  /// Possible build statuses include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>INITIALIZED</b> -- A new build has been defined, but no files have been
+  /// uploaded. You cannot create fleets for builds that are in this status. When
+  /// a build is successfully created, the build status is set to this value.
+  /// </li>
+  /// <li>
+  /// <b>READY</b> -- The game build has been successfully uploaded. You can now
+  /// create new fleets for this build.
+  /// </li>
+  /// <li>
+  /// <b>FAILED</b> -- The game build upload failed. You cannot create new fleets
+  /// for this build.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Status')
+  final BuildStatus status;
+
+  ListBuildsInput({
+    this.limit,
+    this.nextToken,
+    this.status,
+  });
+  Map<String, dynamic> toJson() => _$ListBuildsInputToJson(this);
+}
+
 /// Represents the returned data in response to a request action.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -14780,6 +16668,46 @@ class ListBuildsOutput {
   });
   factory ListBuildsOutput.fromJson(Map<String, dynamic> json) =>
       _$ListBuildsOutputFromJson(json);
+}
+
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListFleetsInput {
+  /// A unique identifier for a build to return fleets for. Use this parameter to
+  /// return only fleets using a specified build. Use either the build ID or ARN
+  /// value. To retrieve all fleets, do not include either a BuildId and ScriptID
+  /// parameter.
+  @_s.JsonKey(name: 'BuildId')
+  final String buildId;
+
+  /// The maximum number of results to return. Use this parameter with
+  /// <code>NextToken</code> to get results as a set of sequential pages.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// Token that indicates the start of the next sequential page of results. Use
+  /// the token that is returned with a previous call to this action. To start at
+  /// the beginning of the result set, do not specify a value.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// A unique identifier for a Realtime script to return fleets for. Use this
+  /// parameter to return only fleets using a specified script. Use either the
+  /// script ID or ARN value. To retrieve all fleets, leave this parameter empty.
+  @_s.JsonKey(name: 'ScriptId')
+  final String scriptId;
+
+  ListFleetsInput({
+    this.buildId,
+    this.limit,
+    this.nextToken,
+    this.scriptId,
+  });
+  Map<String, dynamic> toJson() => _$ListFleetsInputToJson(this);
 }
 
 /// Represents the returned data in response to a request action.
@@ -14813,6 +16741,30 @@ class ListFleetsOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListGameServerGroupsInput {
+  /// The maximum number of results to return. Use this parameter with
+  /// <code>NextToken</code> to get results as a set of sequential pages.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// A token that indicates the start of the next sequential page of results. Use
+  /// the token that is returned with a previous call to this action. To start at
+  /// the beginning of the result set, do not specify a value.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListGameServerGroupsInput({
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListGameServerGroupsInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListGameServerGroupsOutput {
@@ -14832,6 +16784,43 @@ class ListGameServerGroupsOutput {
   });
   factory ListGameServerGroupsOutput.fromJson(Map<String, dynamic> json) =>
       _$ListGameServerGroupsOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListGameServersInput {
+  /// An identifier for the game server group for the game server you want to
+  /// list. Use either the <a>GameServerGroup</a> name or ARN value.
+  @_s.JsonKey(name: 'GameServerGroupName')
+  final String gameServerGroupName;
+
+  /// The maximum number of results to return. Use this parameter with
+  /// <code>NextToken</code> to get results as a set of sequential pages.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// A token that indicates the start of the next sequential page of results. Use
+  /// the token that is returned with a previous call to this action. To start at
+  /// the beginning of the result set, do not specify a value.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Indicates how to sort the returned data based on the game servers' custom
+  /// key sort value. If this parameter is left empty, the list of game servers is
+  /// returned in no particular order.
+  @_s.JsonKey(name: 'SortOrder')
+  final SortOrder sortOrder;
+
+  ListGameServersInput({
+    @_s.required this.gameServerGroupName,
+    this.limit,
+    this.nextToken,
+    this.sortOrder,
+  });
+  Map<String, dynamic> toJson() => _$ListGameServersInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -14861,6 +16850,30 @@ class ListGameServersOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListScriptsInput {
+  /// The maximum number of results to return. Use this parameter with
+  /// <code>NextToken</code> to get results as a set of sequential pages.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// A token that indicates the start of the next sequential page of results. Use
+  /// the token that is returned with a previous call to this action. To start at
+  /// the beginning of the result set, do not specify a value.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListScriptsInput({
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListScriptsInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListScriptsOutput {
@@ -14880,6 +16893,27 @@ class ListScriptsOutput {
   });
   factory ListScriptsOutput.fromJson(Map<String, dynamic> json) =>
       _$ListScriptsOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceRequest {
+  /// The Amazon Resource Name (<a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html">ARN</a>)
+  /// that is assigned to and uniquely identifies the GameLift resource that you
+  /// want to retrieve tags for. GameLift resource ARNs are included in the data
+  /// object for the resource, which can be retrieved by calling a List or
+  /// Describe action for the resource type.
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+
+  ListTagsForResourceRequest({
+    @_s.required this.resourceARN,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -15331,36 +17365,6 @@ enum MetricName {
   waitTime,
 }
 
-extension on MetricName {
-  String toValue() {
-    switch (this) {
-      case MetricName.activatingGameSessions:
-        return 'ActivatingGameSessions';
-      case MetricName.activeGameSessions:
-        return 'ActiveGameSessions';
-      case MetricName.activeInstances:
-        return 'ActiveInstances';
-      case MetricName.availableGameSessions:
-        return 'AvailableGameSessions';
-      case MetricName.availablePlayerSessions:
-        return 'AvailablePlayerSessions';
-      case MetricName.currentPlayerSessions:
-        return 'CurrentPlayerSessions';
-      case MetricName.idleInstances:
-        return 'IdleInstances';
-      case MetricName.percentAvailableGameSessions:
-        return 'PercentAvailableGameSessions';
-      case MetricName.percentIdleInstances:
-        return 'PercentIdleInstances';
-      case MetricName.queueDepth:
-        return 'QueueDepth';
-      case MetricName.waitTime:
-        return 'WaitTime';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum OperatingSystem {
   @_s.JsonValue('WINDOWS_2012')
   windows_2012,
@@ -15368,20 +17372,6 @@ enum OperatingSystem {
   amazonLinux,
   @_s.JsonValue('AMAZON_LINUX_2')
   amazonLinux_2,
-}
-
-extension on OperatingSystem {
-  String toValue() {
-    switch (this) {
-      case OperatingSystem.windows_2012:
-        return 'WINDOWS_2012';
-      case OperatingSystem.amazonLinux:
-        return 'AMAZON_LINUX';
-      case OperatingSystem.amazonLinux_2:
-        return 'AMAZON_LINUX_2';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Information about a player session that was created as part of a
@@ -15739,18 +17729,6 @@ enum PlayerSessionCreationPolicy {
   denyAll,
 }
 
-extension on PlayerSessionCreationPolicy {
-  String toValue() {
-    switch (this) {
-      case PlayerSessionCreationPolicy.acceptAll:
-        return 'ACCEPT_ALL';
-      case PlayerSessionCreationPolicy.denyAll:
-        return 'DENY_ALL';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum PlayerSessionStatus {
   @_s.JsonValue('RESERVED')
   reserved,
@@ -15769,18 +17747,6 @@ enum PolicyType {
   targetBased,
 }
 
-extension on PolicyType {
-  String toValue() {
-    switch (this) {
-      case PolicyType.ruleBased:
-        return 'RuleBased';
-      case PolicyType.targetBased:
-        return 'TargetBased';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum ProtectionPolicy {
   @_s.JsonValue('NoProtection')
   noProtection,
@@ -15788,16 +17754,148 @@ enum ProtectionPolicy {
   fullProtection,
 }
 
-extension on ProtectionPolicy {
-  String toValue() {
-    switch (this) {
-      case ProtectionPolicy.noProtection:
-        return 'NoProtection';
-      case ProtectionPolicy.fullProtection:
-        return 'FullProtection';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutScalingPolicyInput {
+  /// A unique identifier for a fleet to apply this policy to. You can use either
+  /// the fleet ID or ARN value. The fleet cannot be in any of the following
+  /// statuses: ERROR or DELETING.
+  @_s.JsonKey(name: 'FleetId')
+  final String fleetId;
+
+  /// Name of the Amazon GameLift-defined metric that is used to trigger a scaling
+  /// adjustment. For detailed descriptions of fleet metrics, see <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/monitoring-cloudwatch.html">Monitor
+  /// Amazon GameLift with Amazon CloudWatch</a>.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>ActivatingGameSessions</b> -- Game sessions in the process of being
+  /// created.
+  /// </li>
+  /// <li>
+  /// <b>ActiveGameSessions</b> -- Game sessions that are currently running.
+  /// </li>
+  /// <li>
+  /// <b>ActiveInstances</b> -- Fleet instances that are currently running at
+  /// least one game session.
+  /// </li>
+  /// <li>
+  /// <b>AvailableGameSessions</b> -- Additional game sessions that fleet could
+  /// host simultaneously, given current capacity.
+  /// </li>
+  /// <li>
+  /// <b>AvailablePlayerSessions</b> -- Empty player slots in currently active
+  /// game sessions. This includes game sessions that are not currently accepting
+  /// players. Reserved player slots are not included.
+  /// </li>
+  /// <li>
+  /// <b>CurrentPlayerSessions</b> -- Player slots in active game sessions that
+  /// are being used by a player or are reserved for a player.
+  /// </li>
+  /// <li>
+  /// <b>IdleInstances</b> -- Active instances that are currently hosting zero
+  /// game sessions.
+  /// </li>
+  /// <li>
+  /// <b>PercentAvailableGameSessions</b> -- Unused percentage of the total number
+  /// of game sessions that a fleet could host simultaneously, given current
+  /// capacity. Use this metric for a target-based scaling policy.
+  /// </li>
+  /// <li>
+  /// <b>PercentIdleInstances</b> -- Percentage of the total number of active
+  /// instances that are hosting zero game sessions.
+  /// </li>
+  /// <li>
+  /// <b>QueueDepth</b> -- Pending game session placement requests, in any queue,
+  /// where the current fleet is the top-priority destination.
+  /// </li>
+  /// <li>
+  /// <b>WaitTime</b> -- Current wait time for pending game session placement
+  /// requests, in any queue, where the current fleet is the top-priority
+  /// destination.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'MetricName')
+  final MetricName metricName;
+
+  /// A descriptive label that is associated with a scaling policy. Policy names
+  /// do not need to be unique. A fleet can have only one scaling policy with the
+  /// same name.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Comparison operator to use when measuring the metric against the threshold
+  /// value.
+  @_s.JsonKey(name: 'ComparisonOperator')
+  final ComparisonOperatorType comparisonOperator;
+
+  /// Length of time (in minutes) the metric must be at or beyond the threshold
+  /// before a scaling event is triggered.
+  @_s.JsonKey(name: 'EvaluationPeriods')
+  final int evaluationPeriods;
+
+  /// The type of scaling policy to create. For a target-based policy, set the
+  /// parameter <i>MetricName</i> to 'PercentAvailableGameSessions' and specify a
+  /// <i>TargetConfiguration</i>. For a rule-based policy set the following
+  /// parameters: <i>MetricName</i>, <i>ComparisonOperator</i>, <i>Threshold</i>,
+  /// <i>EvaluationPeriods</i>, <i>ScalingAdjustmentType</i>, and
+  /// <i>ScalingAdjustment</i>.
+  @_s.JsonKey(name: 'PolicyType')
+  final PolicyType policyType;
+
+  /// Amount of adjustment to make, based on the scaling adjustment type.
+  @_s.JsonKey(name: 'ScalingAdjustment')
+  final int scalingAdjustment;
+
+  /// The type of adjustment to make to a fleet's instance count (see
+  /// <a>FleetCapacity</a>):
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>ChangeInCapacity</b> -- add (or subtract) the scaling adjustment value
+  /// from the current instance count. Positive values scale up while negative
+  /// values scale down.
+  /// </li>
+  /// <li>
+  /// <b>ExactCapacity</b> -- set the instance count to the scaling adjustment
+  /// value.
+  /// </li>
+  /// <li>
+  /// <b>PercentChangeInCapacity</b> -- increase or reduce the current instance
+  /// count by the scaling adjustment, read as a percentage. Positive values scale
+  /// up while negative values scale down; for example, a value of "-10" scales
+  /// the fleet down by 10%.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ScalingAdjustmentType')
+  final ScalingAdjustmentType scalingAdjustmentType;
+
+  /// The settings for a target-based scaling policy.
+  @_s.JsonKey(name: 'TargetConfiguration')
+  final TargetConfiguration targetConfiguration;
+
+  /// Metric value used to trigger a scaling event.
+  @_s.JsonKey(name: 'Threshold')
+  final double threshold;
+
+  PutScalingPolicyInput({
+    @_s.required this.fleetId,
+    @_s.required this.metricName,
+    @_s.required this.name,
+    this.comparisonOperator,
+    this.evaluationPeriods,
+    this.policyType,
+    this.scalingAdjustment,
+    this.scalingAdjustmentType,
+    this.targetConfiguration,
+    this.threshold,
+  });
+  Map<String, dynamic> toJson() => _$PutScalingPolicyInputToJson(this);
 }
 
 /// Represents the returned data in response to a request action.
@@ -15822,6 +17920,70 @@ class PutScalingPolicyOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RegisterGameServerInput {
+  /// An identifier for the game server group where the game server is running.
+  /// You can use either the <a>GameServerGroup</a> name or ARN value.
+  @_s.JsonKey(name: 'GameServerGroupName')
+  final String gameServerGroupName;
+
+  /// A custom string that uniquely identifies the new game server. Game server
+  /// IDs are developer-defined and must be unique across all game server groups
+  /// in your AWS account.
+  @_s.JsonKey(name: 'GameServerId')
+  final String gameServerId;
+
+  /// The unique identifier for the instance where the game server is running.
+  /// This ID is available in the instance metadata.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  /// Information needed to make inbound client connections to the game server.
+  /// This might include IP address and port, DNS name, etc.
+  @_s.JsonKey(name: 'ConnectionInfo')
+  final String connectionInfo;
+
+  /// A game server tag that can be used to request sorted lists of game servers
+  /// using <a>ListGameServers</a>. Custom sort keys are developer-defined based
+  /// on how you want to organize the retrieved game server information.
+  @_s.JsonKey(name: 'CustomSortKey')
+  final String customSortKey;
+
+  /// A set of custom game server properties, formatted as a single string value.
+  /// This data is passed to a game client or service when it requests information
+  /// on a game servers using <a>ListGameServers</a> or <a>ClaimGameServer</a>.
+  @_s.JsonKey(name: 'GameServerData')
+  final String gameServerData;
+
+  /// A list of labels to assign to the new game server resource. Tags are
+  /// developer-defined key-value pairs. Tagging AWS resources are useful for
+  /// resource management, access management, and cost allocation. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">
+  /// Tagging AWS Resources</a> in the <i>AWS General Reference</i>. Once the
+  /// resource is created, you can use <a>TagResource</a>, <a>UntagResource</a>,
+  /// and <a>ListTagsForResource</a> to add, remove, and view tags. The maximum
+  /// tag limit may be lower than stated. See the AWS General Reference for actual
+  /// tagging limits.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  RegisterGameServerInput({
+    @_s.required this.gameServerGroupName,
+    @_s.required this.gameServerId,
+    @_s.required this.instanceId,
+    this.connectionInfo,
+    this.customSortKey,
+    this.gameServerData,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$RegisterGameServerInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class RegisterGameServerOutput {
@@ -15834,6 +17996,24 @@ class RegisterGameServerOutput {
   });
   factory RegisterGameServerOutput.fromJson(Map<String, dynamic> json) =>
       _$RegisterGameServerOutputFromJson(json);
+}
+
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RequestUploadCredentialsInput {
+  /// A unique identifier for a build to get credentials for. You can use either
+  /// the build ID or ARN value.
+  @_s.JsonKey(name: 'BuildId')
+  final String buildId;
+
+  RequestUploadCredentialsInput({
+    @_s.required this.buildId,
+  });
+  Map<String, dynamic> toJson() => _$RequestUploadCredentialsInputToJson(this);
 }
 
 /// Represents the returned data in response to a request action.
@@ -15859,6 +18039,24 @@ class RequestUploadCredentialsOutput {
   });
   factory RequestUploadCredentialsOutput.fromJson(Map<String, dynamic> json) =>
       _$RequestUploadCredentialsOutputFromJson(json);
+}
+
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ResolveAliasInput {
+  /// The unique identifier of the alias that you want to retrieve a fleet ID for.
+  /// You can use either the alias ID or ARN value.
+  @_s.JsonKey(name: 'AliasId')
+  final String aliasId;
+
+  ResolveAliasInput({
+    @_s.required this.aliasId,
+  });
+  Map<String, dynamic> toJson() => _$ResolveAliasInputToJson(this);
 }
 
 /// Represents the returned data in response to a request action.
@@ -15921,6 +18119,28 @@ class ResourceCreationLimitPolicy {
       _$ResourceCreationLimitPolicyFromJson(json);
 
   Map<String, dynamic> toJson() => _$ResourceCreationLimitPolicyToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ResumeGameServerGroupInput {
+  /// The unique identifier of the game server group to resume activity on. Use
+  /// either the <a>GameServerGroup</a> name or ARN value.
+  @_s.JsonKey(name: 'GameServerGroupName')
+  final String gameServerGroupName;
+
+  /// The action to resume for this game server group.
+  @_s.JsonKey(name: 'ResumeActions')
+  final List<String> resumeActions;
+
+  ResumeGameServerGroupInput({
+    @_s.required this.gameServerGroupName,
+    @_s.required this.resumeActions,
+  });
+  Map<String, dynamic> toJson() => _$ResumeGameServerGroupInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -16013,18 +18233,6 @@ enum RoutingStrategyType {
   simple,
   @_s.JsonValue('TERMINAL')
   terminal,
-}
-
-extension on RoutingStrategyType {
-  String toValue() {
-    switch (this) {
-      case RoutingStrategyType.simple:
-        return 'SIMPLE';
-      case RoutingStrategyType.terminal:
-        return 'TERMINAL';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// A collection of server process configurations that describe what processes
@@ -16149,20 +18357,6 @@ enum ScalingAdjustmentType {
   exactCapacity,
   @_s.JsonValue('PercentChangeInCapacity')
   percentChangeInCapacity,
-}
-
-extension on ScalingAdjustmentType {
-  String toValue() {
-    switch (this) {
-      case ScalingAdjustmentType.changeInCapacity:
-        return 'ChangeInCapacity';
-      case ScalingAdjustmentType.exactCapacity:
-        return 'ExactCapacity';
-      case ScalingAdjustmentType.percentChangeInCapacity:
-        return 'PercentChangeInCapacity';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Rule that controls how a fleet is scaled. Scaling policies are uniquely
@@ -16397,28 +18591,6 @@ enum ScalingStatusType {
   error,
 }
 
-extension on ScalingStatusType {
-  String toValue() {
-    switch (this) {
-      case ScalingStatusType.active:
-        return 'ACTIVE';
-      case ScalingStatusType.updateRequested:
-        return 'UPDATE_REQUESTED';
-      case ScalingStatusType.updating:
-        return 'UPDATING';
-      case ScalingStatusType.deleteRequested:
-        return 'DELETE_REQUESTED';
-      case ScalingStatusType.deleting:
-        return 'DELETING';
-      case ScalingStatusType.deleted:
-        return 'DELETED';
-      case ScalingStatusType.error:
-        return 'ERROR';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Properties describing a Realtime script.
 ///
 /// <b>Related operations</b>
@@ -16494,6 +18666,133 @@ class Script {
     this.version,
   });
   factory Script.fromJson(Map<String, dynamic> json) => _$ScriptFromJson(json);
+}
+
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SearchGameSessionsInput {
+  /// A unique identifier for an alias associated with the fleet to search for
+  /// active game sessions. You can use either the alias ID or ARN value. Each
+  /// request must reference either a fleet ID or alias ID, but not both.
+  @_s.JsonKey(name: 'AliasId')
+  final String aliasId;
+
+  /// String containing the search criteria for the session search. If no filter
+  /// expression is included, the request returns results for all game sessions in
+  /// the fleet that are in <code>ACTIVE</code> status.
+  ///
+  /// A filter expression can contain one or multiple conditions. Each condition
+  /// consists of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Operand</b> -- Name of a game session attribute. Valid values are
+  /// <code>gameSessionName</code>, <code>gameSessionId</code>,
+  /// <code>gameSessionProperties</code>, <code>maximumSessions</code>,
+  /// <code>creationTimeMillis</code>, <code>playerSessionCount</code>,
+  /// <code>hasAvailablePlayerSessions</code>.
+  /// </li>
+  /// <li>
+  /// <b>Comparator</b> -- Valid comparators are: <code>=</code>,
+  /// <code>&lt;&gt;</code>, <code>&lt;</code>, <code>&gt;</code>,
+  /// <code>&lt;=</code>, <code>&gt;=</code>.
+  /// </li>
+  /// <li>
+  /// <b>Value</b> -- Value to be searched for. Values may be numbers, boolean
+  /// values (true/false) or strings depending on the operand. String values are
+  /// case sensitive and must be enclosed in single quotes. Special characters
+  /// must be escaped. Boolean and string values can only be used with the
+  /// comparators <code>=</code> and <code>&lt;&gt;</code>. For example, the
+  /// following filter expression searches on <code>gameSessionName</code>:
+  /// "<code>FilterExpression": "gameSessionName = 'Matt\\'s Awesome Game
+  /// 1'"</code>.
+  /// </li>
+  /// </ul>
+  /// To chain multiple conditions in a single expression, use the logical
+  /// keywords <code>AND</code>, <code>OR</code>, and <code>NOT</code> and
+  /// parentheses as needed. For example: <code>x AND y AND NOT z</code>,
+  /// <code>NOT (x OR y)</code>.
+  ///
+  /// Session search evaluates conditions from left to right using the following
+  /// precedence rules:
+  /// <ol>
+  /// <li>
+  /// <code>=</code>, <code>&lt;&gt;</code>, <code>&lt;</code>, <code>&gt;</code>,
+  /// <code>&lt;=</code>, <code>&gt;=</code>
+  /// </li>
+  /// <li>
+  /// Parentheses
+  /// </li>
+  /// <li>
+  /// NOT
+  /// </li>
+  /// <li>
+  /// AND
+  /// </li>
+  /// <li>
+  /// OR
+  /// </li> </ol>
+  /// For example, this filter expression retrieves game sessions hosting at least
+  /// ten players that have an open player slot: <code>"maximumSessions&gt;=10 AND
+  /// hasAvailablePlayerSessions=true"</code>.
+  @_s.JsonKey(name: 'FilterExpression')
+  final String filterExpression;
+
+  /// A unique identifier for a fleet to search for active game sessions. You can
+  /// use either the fleet ID or ARN value. Each request must reference either a
+  /// fleet ID or alias ID, but not both.
+  @_s.JsonKey(name: 'FleetId')
+  final String fleetId;
+
+  /// The maximum number of results to return. Use this parameter with
+  /// <code>NextToken</code> to get results as a set of sequential pages. The
+  /// maximum number of results returned is 20, even if this value is not set or
+  /// is set higher than 20.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// Token that indicates the start of the next sequential page of results. Use
+  /// the token that is returned with a previous call to this action. To start at
+  /// the beginning of the result set, do not specify a value.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Instructions on how to sort the search results. If no sort expression is
+  /// included, the request returns results in random order. A sort expression
+  /// consists of the following elements:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Operand</b> -- Name of a game session attribute. Valid values are
+  /// <code>gameSessionName</code>, <code>gameSessionId</code>,
+  /// <code>gameSessionProperties</code>, <code>maximumSessions</code>,
+  /// <code>creationTimeMillis</code>, <code>playerSessionCount</code>,
+  /// <code>hasAvailablePlayerSessions</code>.
+  /// </li>
+  /// <li>
+  /// <b>Order</b> -- Valid sort orders are <code>ASC</code> (ascending) and
+  /// <code>DESC</code> (descending).
+  /// </li>
+  /// </ul>
+  /// For example, this sort expression returns the oldest active sessions first:
+  /// <code>"SortExpression": "creationTimeMillis ASC"</code>. Results with a null
+  /// value for the sort operand are returned at the end of the list.
+  @_s.JsonKey(name: 'SortExpression')
+  final String sortExpression;
+
+  SearchGameSessionsInput({
+    this.aliasId,
+    this.filterExpression,
+    this.fleetId,
+    this.limit,
+    this.nextToken,
+    this.sortExpression,
+  });
+  Map<String, dynamic> toJson() => _$SearchGameSessionsInputToJson(this);
 }
 
 /// Represents the returned data in response to a request action.
@@ -16581,16 +18880,26 @@ enum SortOrder {
   descending,
 }
 
-extension on SortOrder {
-  String toValue() {
-    switch (this) {
-      case SortOrder.ascending:
-        return 'ASCENDING';
-      case SortOrder.descending:
-        return 'DESCENDING';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartFleetActionsInput {
+  /// List of actions to restart on the fleet.
+  @_s.JsonKey(name: 'Actions')
+  final List<String> actions;
+
+  /// A unique identifier for a fleet to start actions on. You can use either the
+  /// fleet ID or ARN value.
+  @_s.JsonKey(name: 'FleetId')
+  final String fleetId;
+
+  StartFleetActionsInput({
+    @_s.required this.actions,
+    @_s.required this.fleetId,
+  });
+  Map<String, dynamic> toJson() => _$StartFleetActionsInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -16602,6 +18911,75 @@ class StartFleetActionsOutput {
   StartFleetActionsOutput();
   factory StartFleetActionsOutput.fromJson(Map<String, dynamic> json) =>
       _$StartFleetActionsOutputFromJson(json);
+}
+
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartGameSessionPlacementInput {
+  /// Name of the queue to use to place the new game session. You can use either
+  /// the queue name or ARN value.
+  @_s.JsonKey(name: 'GameSessionQueueName')
+  final String gameSessionQueueName;
+
+  /// The maximum number of players that can be connected simultaneously to the
+  /// game session.
+  @_s.JsonKey(name: 'MaximumPlayerSessionCount')
+  final int maximumPlayerSessionCount;
+
+  /// A unique identifier to assign to the new game session placement. This value
+  /// is developer-defined. The value must be unique across all Regions and cannot
+  /// be reused unless you are resubmitting a canceled or timed-out placement
+  /// request.
+  @_s.JsonKey(name: 'PlacementId')
+  final String placementId;
+
+  /// Set of information on each player to create a player session for.
+  @_s.JsonKey(name: 'DesiredPlayerSessions')
+  final List<DesiredPlayerSession> desiredPlayerSessions;
+
+  /// Set of custom properties for a game session, formatted as key:value pairs.
+  /// These properties are passed to a game server process in the
+  /// <a>GameSession</a> object with a request to start a new game session (see <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession">Start
+  /// a Game Session</a>).
+  @_s.JsonKey(name: 'GameProperties')
+  final List<GameProperty> gameProperties;
+
+  /// Set of custom game session properties, formatted as a single string value.
+  /// This data is passed to a game server process in the <a>GameSession</a>
+  /// object with a request to start a new game session (see <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession">Start
+  /// a Game Session</a>).
+  @_s.JsonKey(name: 'GameSessionData')
+  final String gameSessionData;
+
+  /// A descriptive label that is associated with a game session. Session names do
+  /// not need to be unique.
+  @_s.JsonKey(name: 'GameSessionName')
+  final String gameSessionName;
+
+  /// Set of values, expressed in milliseconds, indicating the amount of latency
+  /// that a player experiences when connected to AWS Regions. This information is
+  /// used to try to place the new game session where it can offer the best
+  /// possible gameplay experience for the players.
+  @_s.JsonKey(name: 'PlayerLatencies')
+  final List<PlayerLatency> playerLatencies;
+
+  StartGameSessionPlacementInput({
+    @_s.required this.gameSessionQueueName,
+    @_s.required this.maximumPlayerSessionCount,
+    @_s.required this.placementId,
+    this.desiredPlayerSessions,
+    this.gameProperties,
+    this.gameSessionData,
+    this.gameSessionName,
+    this.playerLatencies,
+  });
+  Map<String, dynamic> toJson() => _$StartGameSessionPlacementInputToJson(this);
 }
 
 /// Represents the returned data in response to a request action.
@@ -16624,6 +19002,65 @@ class StartGameSessionPlacementOutput {
       _$StartGameSessionPlacementOutputFromJson(json);
 }
 
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartMatchBackfillInput {
+  /// Name of the matchmaker to use for this request. You can use either the
+  /// configuration name or ARN value. The ARN of the matchmaker that was used
+  /// with the original game session is listed in the <a>GameSession</a> object,
+  /// <code>MatchmakerData</code> property.
+  @_s.JsonKey(name: 'ConfigurationName')
+  final String configurationName;
+
+  /// Amazon Resource Name (<a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>)
+  /// that is assigned to a game session and uniquely identifies it. This is the
+  /// same as the game session ID.
+  @_s.JsonKey(name: 'GameSessionArn')
+  final String gameSessionArn;
+
+  /// Match information on all players that are currently assigned to the game
+  /// session. This information is used by the matchmaker to find new players and
+  /// add them to the existing game.
+  ///
+  /// <ul>
+  /// <li>
+  /// PlayerID, PlayerAttributes, Team -\\- This information is maintained in the
+  /// <a>GameSession</a> object, <code>MatchmakerData</code> property, for all
+  /// players who are currently assigned to the game session. The matchmaker data
+  /// is in JSON syntax, formatted as a string. For more details, see <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/match-server.html#match-server-data">
+  /// Match Data</a>.
+  /// </li>
+  /// <li>
+  /// LatencyInMs -\\- If the matchmaker uses player latency, include a latency
+  /// value, in milliseconds, for the Region that the game session is currently
+  /// in. Do not include latency values for any other Region.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Players')
+  final List<Player> players;
+
+  /// A unique identifier for a matchmaking ticket. If no ticket ID is specified
+  /// here, Amazon GameLift will generate one in the form of a UUID. Use this
+  /// identifier to track the match backfill ticket status and retrieve match
+  /// results.
+  @_s.JsonKey(name: 'TicketId')
+  final String ticketId;
+
+  StartMatchBackfillInput({
+    @_s.required this.configurationName,
+    @_s.required this.gameSessionArn,
+    @_s.required this.players,
+    this.ticketId,
+  });
+  Map<String, dynamic> toJson() => _$StartMatchBackfillInputToJson(this);
+}
+
 /// Represents the returned data in response to a request action.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -16642,6 +19079,41 @@ class StartMatchBackfillOutput {
   });
   factory StartMatchBackfillOutput.fromJson(Map<String, dynamic> json) =>
       _$StartMatchBackfillOutputFromJson(json);
+}
+
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartMatchmakingInput {
+  /// Name of the matchmaking configuration to use for this request. Matchmaking
+  /// configurations must exist in the same Region as this request. You can use
+  /// either the configuration name or ARN value.
+  @_s.JsonKey(name: 'ConfigurationName')
+  final String configurationName;
+
+  /// Information on each player to be matched. This information must include a
+  /// player ID, and may contain player attributes and latency data to be used in
+  /// the matchmaking process. After a successful match, <code>Player</code>
+  /// objects contain the name of the team the player is assigned to.
+  @_s.JsonKey(name: 'Players')
+  final List<Player> players;
+
+  /// A unique identifier for a matchmaking ticket. If no ticket ID is specified
+  /// here, Amazon GameLift will generate one in the form of a UUID. Use this
+  /// identifier to track the matchmaking ticket status and retrieve match
+  /// results.
+  @_s.JsonKey(name: 'TicketId')
+  final String ticketId;
+
+  StartMatchmakingInput({
+    @_s.required this.configurationName,
+    @_s.required this.players,
+    this.ticketId,
+  });
+  Map<String, dynamic> toJson() => _$StartMatchmakingInputToJson(this);
 }
 
 /// Represents the returned data in response to a request action.
@@ -16667,12 +19139,51 @@ class StartMatchmakingOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopFleetActionsInput {
+  /// List of actions to suspend on the fleet.
+  @_s.JsonKey(name: 'Actions')
+  final List<String> actions;
+
+  /// A unique identifier for a fleet to stop actions on. You can use either the
+  /// fleet ID or ARN value.
+  @_s.JsonKey(name: 'FleetId')
+  final String fleetId;
+
+  StopFleetActionsInput({
+    @_s.required this.actions,
+    @_s.required this.fleetId,
+  });
+  Map<String, dynamic> toJson() => _$StopFleetActionsInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StopFleetActionsOutput {
   StopFleetActionsOutput();
   factory StopFleetActionsOutput.fromJson(Map<String, dynamic> json) =>
       _$StopFleetActionsOutputFromJson(json);
+}
+
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopGameSessionPlacementInput {
+  /// A unique identifier for a game session placement to cancel.
+  @_s.JsonKey(name: 'PlacementId')
+  final String placementId;
+
+  StopGameSessionPlacementInput({
+    @_s.required this.placementId,
+  });
+  Map<String, dynamic> toJson() => _$StopGameSessionPlacementInputToJson(this);
 }
 
 /// Represents the returned data in response to a request action.
@@ -16694,6 +19205,23 @@ class StopGameSessionPlacementOutput {
       _$StopGameSessionPlacementOutputFromJson(json);
 }
 
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopMatchmakingInput {
+  /// A unique identifier for a matchmaking ticket.
+  @_s.JsonKey(name: 'TicketId')
+  final String ticketId;
+
+  StopMatchmakingInput({
+    @_s.required this.ticketId,
+  });
+  Map<String, dynamic> toJson() => _$StopMatchmakingInputToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -16703,6 +19231,28 @@ class StopMatchmakingOutput {
   StopMatchmakingOutput();
   factory StopMatchmakingOutput.fromJson(Map<String, dynamic> json) =>
       _$StopMatchmakingOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SuspendGameServerGroupInput {
+  /// The unique identifier of the game server group to stop activity on. Use
+  /// either the <a>GameServerGroup</a> name or ARN value.
+  @_s.JsonKey(name: 'GameServerGroupName')
+  final String gameServerGroupName;
+
+  /// The action to suspend for this game server group.
+  @_s.JsonKey(name: 'SuspendActions')
+  final List<String> suspendActions;
+
+  SuspendGameServerGroupInput({
+    @_s.required this.gameServerGroupName,
+    @_s.required this.suspendActions,
+  });
+  Map<String, dynamic> toJson() => _$SuspendGameServerGroupInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -16770,6 +19320,36 @@ class Tag {
   factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
   Map<String, dynamic> toJson() => _$TagToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The Amazon Resource Name (<a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html">ARN</a>)
+  /// that is assigned to and uniquely identifies the GameLift resource that you
+  /// want to assign tags to. GameLift resource ARNs are included in the data
+  /// object for the resource, which can be retrieved by calling a List or
+  /// Describe action for the resource type.
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+
+  /// A list of one or more tags to assign to the specified GameLift resource.
+  /// Tags are developer-defined and structured as key-value pairs. The maximum
+  /// tag limit may be lower than stated. See <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">
+  /// Tagging AWS Resources</a> for actual tagging limits.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceARN,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -16877,12 +19457,75 @@ class TargetTrackingConfiguration {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The Amazon Resource Name (<a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html">ARN</a>)
+  /// that is assigned to and uniquely identifies the GameLift resource that you
+  /// want to remove tags from. GameLift resource ARNs are included in the data
+  /// object for the resource, which can be retrieved by calling a List or
+  /// Describe action for the resource type.
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+
+  /// A list of one or more tag keys to remove from the specified GameLift
+  /// resource. An AWS resource can have only one tag with a specific tag key, so
+  /// specifying the tag key identifies which tag to remove.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceARN,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
   factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceResponseFromJson(json);
+}
+
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateAliasInput {
+  /// A unique identifier for the alias that you want to update. You can use
+  /// either the alias ID or ARN value.
+  @_s.JsonKey(name: 'AliasId')
+  final String aliasId;
+
+  /// A human-readable description of the alias.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// A descriptive label that is associated with an alias. Alias names do not
+  /// need to be unique.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The routing configuration, including routing type and fleet target, for the
+  /// alias.
+  @_s.JsonKey(name: 'RoutingStrategy')
+  final RoutingStrategy routingStrategy;
+
+  UpdateAliasInput({
+    @_s.required this.aliasId,
+    this.description,
+    this.name,
+    this.routingStrategy,
+  });
+  Map<String, dynamic> toJson() => _$UpdateAliasInputToJson(this);
 }
 
 /// Represents the returned data in response to a request action.
@@ -16903,6 +19546,36 @@ class UpdateAliasOutput {
       _$UpdateAliasOutputFromJson(json);
 }
 
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateBuildInput {
+  /// A unique identifier for a build to update. You can use either the build ID
+  /// or ARN value.
+  @_s.JsonKey(name: 'BuildId')
+  final String buildId;
+
+  /// A descriptive label that is associated with a build. Build names do not need
+  /// to be unique.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Version information that is associated with a build or script. Version
+  /// strings do not need to be unique.
+  @_s.JsonKey(name: 'Version')
+  final String version;
+
+  UpdateBuildInput({
+    @_s.required this.buildId,
+    this.name,
+    this.version,
+  });
+  Map<String, dynamic> toJson() => _$UpdateBuildInputToJson(this);
+}
+
 /// Represents the returned data in response to a request action.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -16919,6 +19592,68 @@ class UpdateBuildOutput {
   });
   factory UpdateBuildOutput.fromJson(Map<String, dynamic> json) =>
       _$UpdateBuildOutputFromJson(json);
+}
+
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateFleetAttributesInput {
+  /// A unique identifier for a fleet to update attribute metadata for. You can
+  /// use either the fleet ID or ARN value.
+  @_s.JsonKey(name: 'FleetId')
+  final String fleetId;
+
+  /// Human-readable description of a fleet.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// Names of metric groups to include this fleet in. Amazon CloudWatch uses a
+  /// fleet metric group is to aggregate metrics from multiple fleets. Use an
+  /// existing metric group name to add this fleet to the group. Or use a new name
+  /// to create a new metric group. A fleet can only be included in one metric
+  /// group at a time.
+  @_s.JsonKey(name: 'MetricGroups')
+  final List<String> metricGroups;
+
+  /// A descriptive label that is associated with a fleet. Fleet names do not need
+  /// to be unique.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Game session protection policy to apply to all new instances created in this
+  /// fleet. Instances that already exist are not affected. You can set protection
+  /// for individual instances using <a>UpdateGameSession</a>.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>NoProtection</b> -- The game session can be terminated during a
+  /// scale-down event.
+  /// </li>
+  /// <li>
+  /// <b>FullProtection</b> -- If the game session is in an <code>ACTIVE</code>
+  /// status, it cannot be terminated during a scale-down event.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'NewGameSessionProtectionPolicy')
+  final ProtectionPolicy newGameSessionProtectionPolicy;
+
+  /// Policy that limits the number of game sessions an individual player can
+  /// create over a span of time.
+  @_s.JsonKey(name: 'ResourceCreationLimitPolicy')
+  final ResourceCreationLimitPolicy resourceCreationLimitPolicy;
+
+  UpdateFleetAttributesInput({
+    @_s.required this.fleetId,
+    this.description,
+    this.metricGroups,
+    this.name,
+    this.newGameSessionProtectionPolicy,
+    this.resourceCreationLimitPolicy,
+  });
+  Map<String, dynamic> toJson() => _$UpdateFleetAttributesInputToJson(this);
 }
 
 /// Represents the returned data in response to a request action.
@@ -16940,6 +19675,41 @@ class UpdateFleetAttributesOutput {
       _$UpdateFleetAttributesOutputFromJson(json);
 }
 
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateFleetCapacityInput {
+  /// A unique identifier for a fleet to update capacity for. You can use either
+  /// the fleet ID or ARN value.
+  @_s.JsonKey(name: 'FleetId')
+  final String fleetId;
+
+  /// Number of EC2 instances you want this fleet to host.
+  @_s.JsonKey(name: 'DesiredInstances')
+  final int desiredInstances;
+
+  /// The maximum value allowed for the fleet's instance count. Default if not set
+  /// is 1.
+  @_s.JsonKey(name: 'MaxSize')
+  final int maxSize;
+
+  /// The minimum value allowed for the fleet's instance count. Default if not set
+  /// is 0.
+  @_s.JsonKey(name: 'MinSize')
+  final int minSize;
+
+  UpdateFleetCapacityInput({
+    @_s.required this.fleetId,
+    this.desiredInstances,
+    this.maxSize,
+    this.minSize,
+  });
+  Map<String, dynamic> toJson() => _$UpdateFleetCapacityInputToJson(this);
+}
+
 /// Represents the returned data in response to a request action.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -16956,6 +19726,34 @@ class UpdateFleetCapacityOutput {
   });
   factory UpdateFleetCapacityOutput.fromJson(Map<String, dynamic> json) =>
       _$UpdateFleetCapacityOutputFromJson(json);
+}
+
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateFleetPortSettingsInput {
+  /// A unique identifier for a fleet to update port settings for. You can use
+  /// either the fleet ID or ARN value.
+  @_s.JsonKey(name: 'FleetId')
+  final String fleetId;
+
+  /// A collection of port settings to be added to the fleet resource.
+  @_s.JsonKey(name: 'InboundPermissionAuthorizations')
+  final List<IpPermission> inboundPermissionAuthorizations;
+
+  /// A collection of port settings to be removed from the fleet resource.
+  @_s.JsonKey(name: 'InboundPermissionRevocations')
+  final List<IpPermission> inboundPermissionRevocations;
+
+  UpdateFleetPortSettingsInput({
+    @_s.required this.fleetId,
+    this.inboundPermissionAuthorizations,
+    this.inboundPermissionRevocations,
+  });
+  Map<String, dynamic> toJson() => _$UpdateFleetPortSettingsInputToJson(this);
 }
 
 /// Represents the returned data in response to a request action.
@@ -16979,6 +19777,77 @@ class UpdateFleetPortSettingsOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateGameServerGroupInput {
+  /// The unique identifier of the game server group to update. Use either the
+  /// <a>GameServerGroup</a> name or ARN value.
+  @_s.JsonKey(name: 'GameServerGroupName')
+  final String gameServerGroupName;
+
+  /// The fallback balancing method to use for the game server group when Spot
+  /// instances in a Region become unavailable or are not viable for game hosting.
+  /// Once triggered, this method remains active until Spot instances can once
+  /// again be used. Method options include:
+  ///
+  /// <ul>
+  /// <li>
+  /// SPOT_ONLY -- If Spot instances are unavailable, the game server group
+  /// provides no hosting capacity. No new instances are started, and the existing
+  /// nonviable Spot instances are terminated (once current gameplay ends) and not
+  /// replaced.
+  /// </li>
+  /// <li>
+  /// SPOT_PREFERRED -- If Spot instances are unavailable, the game server group
+  /// continues to provide hosting capacity by using On-Demand instances. Existing
+  /// nonviable Spot instances are terminated (once current gameplay ends) and
+  /// replaced with new On-Demand instances.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'BalancingStrategy')
+  final BalancingStrategy balancingStrategy;
+
+  /// A flag that indicates whether instances in the game server group are
+  /// protected from early termination. Unprotected instances that have active
+  /// game servers running may by terminated during a scale-down event, causing
+  /// players to be dropped from the game. Protected instances cannot be
+  /// terminated while there are active game servers running. An exception to this
+  /// is Spot Instances, which may be terminated by AWS regardless of protection
+  /// status. This property is set to NO_PROTECTION by default.
+  @_s.JsonKey(name: 'GameServerProtectionPolicy')
+  final GameServerProtectionPolicy gameServerProtectionPolicy;
+
+  /// An updated list of EC2 instance types to use when creating instances in the
+  /// group. The instance definition must specify instance types that are
+  /// supported by GameLift FleetIQ, and must include at least two instance types.
+  /// This updated list replaces the entire current list of instance definitions
+  /// for the game server group. For more information on instance types, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html">EC2
+  /// Instance Types</a> in the <i>Amazon EC2 User Guide</i>..
+  @_s.JsonKey(name: 'InstanceDefinitions')
+  final List<InstanceDefinition> instanceDefinitions;
+
+  /// The Amazon Resource Name (<a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html">ARN</a>)
+  /// for an IAM role that allows Amazon GameLift to access your EC2 Auto Scaling
+  /// groups. The submitted role is validated to ensure that it contains the
+  /// necessary permissions for game server groups.
+  @_s.JsonKey(name: 'RoleArn')
+  final String roleArn;
+
+  UpdateGameServerGroupInput({
+    @_s.required this.gameServerGroupName,
+    this.balancingStrategy,
+    this.gameServerProtectionPolicy,
+    this.instanceDefinitions,
+    this.roleArn,
+  });
+  Map<String, dynamic> toJson() => _$UpdateGameServerGroupInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateGameServerGroupOutput {
@@ -16997,6 +19866,55 @@ class UpdateGameServerGroupOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateGameServerInput {
+  /// An identifier for the game server group where the game server is running.
+  /// Use either the <a>GameServerGroup</a> name or ARN value.
+  @_s.JsonKey(name: 'GameServerGroupName')
+  final String gameServerGroupName;
+
+  /// The identifier for the game server to be updated.
+  @_s.JsonKey(name: 'GameServerId')
+  final String gameServerId;
+
+  /// A game server tag that can be used to request sorted lists of game servers
+  /// using <a>ListGameServers</a>. Custom sort keys are developer-defined based
+  /// on how you want to organize the retrieved game server information.
+  @_s.JsonKey(name: 'CustomSortKey')
+  final String customSortKey;
+
+  /// A set of custom game server properties, formatted as a single string value.
+  /// This data is passed to a game client or service when it requests information
+  /// on a game servers using <a>DescribeGameServer</a> or <a>ClaimGameServer</a>.
+  @_s.JsonKey(name: 'GameServerData')
+  final String gameServerData;
+
+  /// Indicates health status of the game server. An update that explicitly
+  /// includes this parameter updates the game server's <i>LastHealthCheckTime</i>
+  /// time stamp.
+  @_s.JsonKey(name: 'HealthCheck')
+  final GameServerHealthCheck healthCheck;
+
+  /// Indicates whether the game server is available or is currently hosting
+  /// gameplay.
+  @_s.JsonKey(name: 'UtilizationStatus')
+  final GameServerUtilizationStatus utilizationStatus;
+
+  UpdateGameServerInput({
+    @_s.required this.gameServerGroupName,
+    @_s.required this.gameServerId,
+    this.customSortKey,
+    this.gameServerData,
+    this.healthCheck,
+    this.utilizationStatus,
+  });
+  Map<String, dynamic> toJson() => _$UpdateGameServerInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateGameServerOutput {
@@ -17009,6 +19927,56 @@ class UpdateGameServerOutput {
   });
   factory UpdateGameServerOutput.fromJson(Map<String, dynamic> json) =>
       _$UpdateGameServerOutputFromJson(json);
+}
+
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateGameSessionInput {
+  /// A unique identifier for the game session to update.
+  @_s.JsonKey(name: 'GameSessionId')
+  final String gameSessionId;
+
+  /// The maximum number of players that can be connected simultaneously to the
+  /// game session.
+  @_s.JsonKey(name: 'MaximumPlayerSessionCount')
+  final int maximumPlayerSessionCount;
+
+  /// A descriptive label that is associated with a game session. Session names do
+  /// not need to be unique.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Policy determining whether or not the game session accepts new players.
+  @_s.JsonKey(name: 'PlayerSessionCreationPolicy')
+  final PlayerSessionCreationPolicy playerSessionCreationPolicy;
+
+  /// Game session protection policy to apply to this game session only.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>NoProtection</b> -- The game session can be terminated during a
+  /// scale-down event.
+  /// </li>
+  /// <li>
+  /// <b>FullProtection</b> -- If the game session is in an <code>ACTIVE</code>
+  /// status, it cannot be terminated during a scale-down event.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ProtectionPolicy')
+  final ProtectionPolicy protectionPolicy;
+
+  UpdateGameSessionInput({
+    @_s.required this.gameSessionId,
+    this.maximumPlayerSessionCount,
+    this.name,
+    this.playerSessionCreationPolicy,
+    this.protectionPolicy,
+  });
+  Map<String, dynamic> toJson() => _$UpdateGameSessionInputToJson(this);
 }
 
 /// Represents the returned data in response to a request action.
@@ -17029,6 +19997,53 @@ class UpdateGameSessionOutput {
       _$UpdateGameSessionOutputFromJson(json);
 }
 
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateGameSessionQueueInput {
+  /// A descriptive label that is associated with game session queue. Queue names
+  /// must be unique within each Region. You can use either the queue ID or ARN
+  /// value.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// A list of fleets that can be used to fulfill game session placement requests
+  /// in the queue. Fleets are identified by either a fleet ARN or a fleet alias
+  /// ARN. Destinations are listed in default preference order. When updating this
+  /// list, provide a complete list of destinations.
+  @_s.JsonKey(name: 'Destinations')
+  final List<GameSessionQueueDestination> destinations;
+
+  /// A collection of latency policies to apply when processing game sessions
+  /// placement requests with player latency information. Multiple policies are
+  /// evaluated in order of the maximum latency value, starting with the lowest
+  /// latency values. With just one policy, the policy is enforced at the start of
+  /// the game session placement for the duration period. With multiple policies,
+  /// each policy is enforced consecutively for its duration period. For example,
+  /// a queue might enforce a 60-second policy followed by a 120-second policy,
+  /// and then no policy for the remainder of the placement. When updating
+  /// policies, provide a complete collection of policies.
+  @_s.JsonKey(name: 'PlayerLatencyPolicies')
+  final List<PlayerLatencyPolicy> playerLatencyPolicies;
+
+  /// The maximum time, in seconds, that a new game session placement request
+  /// remains in the queue. When a request exceeds this time, the game session
+  /// placement changes to a <code>TIMED_OUT</code> status.
+  @_s.JsonKey(name: 'TimeoutInSeconds')
+  final int timeoutInSeconds;
+
+  UpdateGameSessionQueueInput({
+    @_s.required this.name,
+    this.destinations,
+    this.playerLatencyPolicies,
+    this.timeoutInSeconds,
+  });
+  Map<String, dynamic> toJson() => _$UpdateGameSessionQueueInputToJson(this);
+}
+
 /// Represents the returned data in response to a request action.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -17045,6 +20060,121 @@ class UpdateGameSessionQueueOutput {
   });
   factory UpdateGameSessionQueueOutput.fromJson(Map<String, dynamic> json) =>
       _$UpdateGameSessionQueueOutputFromJson(json);
+}
+
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateMatchmakingConfigurationInput {
+  /// A unique identifier for a matchmaking configuration to update. You can use
+  /// either the configuration name or ARN value.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// A flag that indicates whether a match that was created with this
+  /// configuration must be accepted by the matched players. To require
+  /// acceptance, set to TRUE.
+  @_s.JsonKey(name: 'AcceptanceRequired')
+  final bool acceptanceRequired;
+
+  /// The length of time (in seconds) to wait for players to accept a proposed
+  /// match. If any player rejects the match or fails to accept before the
+  /// timeout, the ticket continues to look for an acceptable match.
+  @_s.JsonKey(name: 'AcceptanceTimeoutSeconds')
+  final int acceptanceTimeoutSeconds;
+
+  /// The number of player slots in a match to keep open for future players. For
+  /// example, assume that the configuration's rule set specifies a match for a
+  /// single 12-person team. If the additional player count is set to 2, only 10
+  /// players are initially selected for the match.
+  @_s.JsonKey(name: 'AdditionalPlayerCount')
+  final int additionalPlayerCount;
+
+  /// The method that is used to backfill game sessions created with this
+  /// matchmaking configuration. Specify MANUAL when your game manages backfill
+  /// requests manually or does not use the match backfill feature. Specify
+  /// AUTOMATIC to have GameLift create a <a>StartMatchBackfill</a> request
+  /// whenever a game session has one or more open slots. Learn more about manual
+  /// and automatic backfill in <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/match-backfill.html">Backfill
+  /// Existing Games with FlexMatch</a>.
+  @_s.JsonKey(name: 'BackfillMode')
+  final BackfillMode backfillMode;
+
+  /// Information to add to all events related to the matchmaking configuration.
+  @_s.JsonKey(name: 'CustomEventData')
+  final String customEventData;
+
+  /// A descriptive label that is associated with matchmaking configuration.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// A set of custom properties for a game session, formatted as key-value pairs.
+  /// These properties are passed to a game server process in the
+  /// <a>GameSession</a> object with a request to start a new game session (see <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession">Start
+  /// a Game Session</a>). This information is added to the new <a>GameSession</a>
+  /// object that is created for a successful match.
+  @_s.JsonKey(name: 'GameProperties')
+  final List<GameProperty> gameProperties;
+
+  /// A set of custom game session properties, formatted as a single string value.
+  /// This data is passed to a game server process in the <a>GameSession</a>
+  /// object with a request to start a new game session (see <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession">Start
+  /// a Game Session</a>). This information is added to the new <a>GameSession</a>
+  /// object that is created for a successful match.
+  @_s.JsonKey(name: 'GameSessionData')
+  final String gameSessionData;
+
+  /// Amazon Resource Name (<a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>)
+  /// that is assigned to a GameLift game session queue resource and uniquely
+  /// identifies it. ARNs are unique across all Regions. These queues are used
+  /// when placing game sessions for matches that are created with this
+  /// matchmaking configuration. Queues can be located in any Region.
+  @_s.JsonKey(name: 'GameSessionQueueArns')
+  final List<String> gameSessionQueueArns;
+
+  /// An SNS topic ARN that is set up to receive matchmaking notifications. See <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/match-notification.html">
+  /// Setting up Notifications for Matchmaking</a> for more information.
+  @_s.JsonKey(name: 'NotificationTarget')
+  final String notificationTarget;
+
+  /// The maximum duration, in seconds, that a matchmaking ticket can remain in
+  /// process before timing out. Requests that fail due to timing out can be
+  /// resubmitted as needed.
+  @_s.JsonKey(name: 'RequestTimeoutSeconds')
+  final int requestTimeoutSeconds;
+
+  /// A unique identifier for a matchmaking rule set to use with this
+  /// configuration. You can use either the rule set name or ARN value. A
+  /// matchmaking configuration can only use rule sets that are defined in the
+  /// same Region.
+  @_s.JsonKey(name: 'RuleSetName')
+  final String ruleSetName;
+
+  UpdateMatchmakingConfigurationInput({
+    @_s.required this.name,
+    this.acceptanceRequired,
+    this.acceptanceTimeoutSeconds,
+    this.additionalPlayerCount,
+    this.backfillMode,
+    this.customEventData,
+    this.description,
+    this.gameProperties,
+    this.gameSessionData,
+    this.gameSessionQueueArns,
+    this.notificationTarget,
+    this.requestTimeoutSeconds,
+    this.ruleSetName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateMatchmakingConfigurationInputToJson(this);
 }
 
 /// Represents the returned data in response to a request action.
@@ -17064,6 +20194,37 @@ class UpdateMatchmakingConfigurationOutput {
   factory UpdateMatchmakingConfigurationOutput.fromJson(
           Map<String, dynamic> json) =>
       _$UpdateMatchmakingConfigurationOutputFromJson(json);
+}
+
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateRuntimeConfigurationInput {
+  /// A unique identifier for a fleet to update runtime configuration for. You can
+  /// use either the fleet ID or ARN value.
+  @_s.JsonKey(name: 'FleetId')
+  final String fleetId;
+
+  /// Instructions for launching server processes on each instance in the fleet.
+  /// Server processes run either a custom game build executable or a Realtime
+  /// Servers script. The runtime configuration lists the types of server
+  /// processes to run on an instance and includes the following configuration
+  /// settings: the server executable or launch script file, launch parameters,
+  /// and the number of processes to run concurrently on each instance. A
+  /// CreateFleet request must include a runtime configuration with at least one
+  /// server process configuration.
+  @_s.JsonKey(name: 'RuntimeConfiguration')
+  final RuntimeConfiguration runtimeConfiguration;
+
+  UpdateRuntimeConfigurationInput({
+    @_s.required this.fleetId,
+    @_s.required this.runtimeConfiguration,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateRuntimeConfigurationInputToJson(this);
 }
 
 /// Represents the returned data in response to a request action.
@@ -17089,6 +20250,60 @@ class UpdateRuntimeConfigurationOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateScriptInput {
+  /// A unique identifier for a Realtime script to update. You can use either the
+  /// script ID or ARN value.
+  @_s.JsonKey(name: 'ScriptId')
+  final String scriptId;
+
+  /// A descriptive label that is associated with a script. Script names do not
+  /// need to be unique.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The location of the Amazon S3 bucket where a zipped file containing your
+  /// Realtime scripts is stored. The storage location must specify the Amazon S3
+  /// bucket name, the zip file name (the "key"), and a role ARN that allows
+  /// Amazon GameLift to access the Amazon S3 storage location. The S3 bucket must
+  /// be in the same Region where you want to create a new script. By default,
+  /// Amazon GameLift uploads the latest version of the zip file; if you have S3
+  /// object versioning turned on, you can use the <code>ObjectVersion</code>
+  /// parameter to specify an earlier version.
+  @_s.JsonKey(name: 'StorageLocation')
+  final S3Location storageLocation;
+
+  /// The version that is associated with a build or script. Version strings do
+  /// not need to be unique.
+  @_s.JsonKey(name: 'Version')
+  final String version;
+
+  /// A data object containing your Realtime scripts and dependencies as a zip
+  /// file. The zip file can have one or multiple files. Maximum size of a zip
+  /// file is 5 MB.
+  ///
+  /// When using the AWS CLI tool to create a script, this parameter is set to the
+  /// zip file name. It must be prepended with the string "fileb://" to indicate
+  /// that the file data is a binary object. For example: <code>--zip-file
+  /// fileb://myRealtimeScript.zip</code>.
+  @Uint8ListConverter()
+  @_s.JsonKey(name: 'ZipFile')
+  final Uint8List zipFile;
+
+  UpdateScriptInput({
+    @_s.required this.scriptId,
+    this.name,
+    this.storageLocation,
+    this.version,
+    this.zipFile,
+  });
+  Map<String, dynamic> toJson() => _$UpdateScriptInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateScriptOutput {
@@ -17106,6 +20321,24 @@ class UpdateScriptOutput {
   });
   factory UpdateScriptOutput.fromJson(Map<String, dynamic> json) =>
       _$UpdateScriptOutputFromJson(json);
+}
+
+/// Represents the input for a request action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ValidateMatchmakingRuleSetInput {
+  /// A collection of matchmaking rules to validate, formatted as a JSON string.
+  @_s.JsonKey(name: 'RuleSetBody')
+  final String ruleSetBody;
+
+  ValidateMatchmakingRuleSetInput({
+    @_s.required this.ruleSetBody,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ValidateMatchmakingRuleSetInputToJson(this);
 }
 
 /// Represents the returned data in response to a request action.

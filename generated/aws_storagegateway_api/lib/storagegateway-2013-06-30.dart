@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -198,16 +197,16 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ActivationKey': activationKey,
-        'GatewayName': gatewayName,
-        'GatewayRegion': gatewayRegion,
-        'GatewayTimezone': gatewayTimezone,
-        if (gatewayType != null) 'GatewayType': gatewayType,
-        if (mediumChangerType != null) 'MediumChangerType': mediumChangerType,
-        if (tags != null) 'Tags': tags,
-        if (tapeDriveType != null) 'TapeDriveType': tapeDriveType,
-      },
+      payload: ActivateGatewayInput(
+        activationKey: activationKey,
+        gatewayName: gatewayName,
+        gatewayRegion: gatewayRegion,
+        gatewayTimezone: gatewayTimezone,
+        gatewayType: gatewayType,
+        mediumChangerType: mediumChangerType,
+        tags: tags,
+        tapeDriveType: tapeDriveType,
+      ),
     );
 
     return ActivateGatewayOutput.fromJson(jsonResponse.body);
@@ -253,10 +252,10 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DiskIds': diskIds,
-        'GatewayARN': gatewayARN,
-      },
+      payload: AddCacheInput(
+        diskIds: diskIds,
+        gatewayARN: gatewayARN,
+      ),
     );
 
     return AddCacheOutput.fromJson(jsonResponse.body);
@@ -323,10 +322,10 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceARN': resourceARN,
-        'Tags': tags,
-      },
+      payload: AddTagsToResourceInput(
+        resourceARN: resourceARN,
+        tags: tags,
+      ),
     );
 
     return AddTagsToResourceOutput.fromJson(jsonResponse.body);
@@ -370,10 +369,10 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DiskIds': diskIds,
-        'GatewayARN': gatewayARN,
-      },
+      payload: AddUploadBufferInput(
+        diskIds: diskIds,
+        gatewayARN: gatewayARN,
+      ),
     );
 
     return AddUploadBufferOutput.fromJson(jsonResponse.body);
@@ -422,10 +421,10 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DiskIds': diskIds,
-        'GatewayARN': gatewayARN,
-      },
+      payload: AddWorkingStorageInput(
+        diskIds: diskIds,
+        gatewayARN: gatewayARN,
+      ),
     );
 
     return AddWorkingStorageOutput.fromJson(jsonResponse.body);
@@ -490,10 +489,10 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PoolId': poolId,
-        'TapeARN': tapeARN,
-      },
+      payload: AssignTapePoolInput(
+        poolId: poolId,
+        tapeARN: tapeARN,
+      ),
     );
 
     return AssignTapePoolOutput.fromJson(jsonResponse.body);
@@ -594,13 +593,13 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GatewayARN': gatewayARN,
-        'NetworkInterfaceId': networkInterfaceId,
-        'VolumeARN': volumeARN,
-        if (diskId != null) 'DiskId': diskId,
-        if (targetName != null) 'TargetName': targetName,
-      },
+      payload: AttachVolumeInput(
+        gatewayARN: gatewayARN,
+        networkInterfaceId: networkInterfaceId,
+        volumeARN: volumeARN,
+        diskId: diskId,
+        targetName: targetName,
+      ),
     );
 
     return AttachVolumeOutput.fromJson(jsonResponse.body);
@@ -652,10 +651,10 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GatewayARN': gatewayARN,
-        'TapeARN': tapeARN,
-      },
+      payload: CancelArchivalInput(
+        gatewayARN: gatewayARN,
+        tapeARN: tapeARN,
+      ),
     );
 
     return CancelArchivalOutput.fromJson(jsonResponse.body);
@@ -708,10 +707,10 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GatewayARN': gatewayARN,
-        'TapeARN': tapeARN,
-      },
+      payload: CancelRetrievalInput(
+        gatewayARN: gatewayARN,
+        tapeARN: tapeARN,
+      ),
     );
 
     return CancelRetrievalOutput.fromJson(jsonResponse.body);
@@ -874,18 +873,18 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClientToken': clientToken,
-        'GatewayARN': gatewayARN,
-        'NetworkInterfaceId': networkInterfaceId,
-        'TargetName': targetName,
-        'VolumeSizeInBytes': volumeSizeInBytes,
-        if (kMSEncrypted != null) 'KMSEncrypted': kMSEncrypted,
-        if (kMSKey != null) 'KMSKey': kMSKey,
-        if (snapshotId != null) 'SnapshotId': snapshotId,
-        if (sourceVolumeARN != null) 'SourceVolumeARN': sourceVolumeARN,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateCachediSCSIVolumeInput(
+        clientToken: clientToken,
+        gatewayARN: gatewayARN,
+        networkInterfaceId: networkInterfaceId,
+        targetName: targetName,
+        volumeSizeInBytes: volumeSizeInBytes,
+        kMSEncrypted: kMSEncrypted,
+        kMSKey: kMSKey,
+        snapshotId: snapshotId,
+        sourceVolumeARN: sourceVolumeARN,
+        tags: tags,
+      ),
     );
 
     return CreateCachediSCSIVolumeOutput.fromJson(jsonResponse.body);
@@ -1075,26 +1074,23 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClientToken': clientToken,
-        'GatewayARN': gatewayARN,
-        'LocationARN': locationARN,
-        'Role': role,
-        if (clientList != null) 'ClientList': clientList,
-        if (defaultStorageClass != null)
-          'DefaultStorageClass': defaultStorageClass,
-        if (guessMIMETypeEnabled != null)
-          'GuessMIMETypeEnabled': guessMIMETypeEnabled,
-        if (kMSEncrypted != null) 'KMSEncrypted': kMSEncrypted,
-        if (kMSKey != null) 'KMSKey': kMSKey,
-        if (nFSFileShareDefaults != null)
-          'NFSFileShareDefaults': nFSFileShareDefaults,
-        if (objectACL != null) 'ObjectACL': objectACL?.toValue(),
-        if (readOnly != null) 'ReadOnly': readOnly,
-        if (requesterPays != null) 'RequesterPays': requesterPays,
-        if (squash != null) 'Squash': squash,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateNFSFileShareInput(
+        clientToken: clientToken,
+        gatewayARN: gatewayARN,
+        locationARN: locationARN,
+        role: role,
+        clientList: clientList,
+        defaultStorageClass: defaultStorageClass,
+        guessMIMETypeEnabled: guessMIMETypeEnabled,
+        kMSEncrypted: kMSEncrypted,
+        kMSKey: kMSKey,
+        nFSFileShareDefaults: nFSFileShareDefaults,
+        objectACL: objectACL,
+        readOnly: readOnly,
+        requesterPays: requesterPays,
+        squash: squash,
+        tags: tags,
+      ),
     );
 
     return CreateNFSFileShareOutput.fromJson(jsonResponse.body);
@@ -1310,29 +1306,26 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClientToken': clientToken,
-        'GatewayARN': gatewayARN,
-        'LocationARN': locationARN,
-        'Role': role,
-        if (adminUserList != null) 'AdminUserList': adminUserList,
-        if (auditDestinationARN != null)
-          'AuditDestinationARN': auditDestinationARN,
-        if (authentication != null) 'Authentication': authentication,
-        if (defaultStorageClass != null)
-          'DefaultStorageClass': defaultStorageClass,
-        if (guessMIMETypeEnabled != null)
-          'GuessMIMETypeEnabled': guessMIMETypeEnabled,
-        if (invalidUserList != null) 'InvalidUserList': invalidUserList,
-        if (kMSEncrypted != null) 'KMSEncrypted': kMSEncrypted,
-        if (kMSKey != null) 'KMSKey': kMSKey,
-        if (objectACL != null) 'ObjectACL': objectACL?.toValue(),
-        if (readOnly != null) 'ReadOnly': readOnly,
-        if (requesterPays != null) 'RequesterPays': requesterPays,
-        if (sMBACLEnabled != null) 'SMBACLEnabled': sMBACLEnabled,
-        if (tags != null) 'Tags': tags,
-        if (validUserList != null) 'ValidUserList': validUserList,
-      },
+      payload: CreateSMBFileShareInput(
+        clientToken: clientToken,
+        gatewayARN: gatewayARN,
+        locationARN: locationARN,
+        role: role,
+        adminUserList: adminUserList,
+        auditDestinationARN: auditDestinationARN,
+        authentication: authentication,
+        defaultStorageClass: defaultStorageClass,
+        guessMIMETypeEnabled: guessMIMETypeEnabled,
+        invalidUserList: invalidUserList,
+        kMSEncrypted: kMSEncrypted,
+        kMSKey: kMSKey,
+        objectACL: objectACL,
+        readOnly: readOnly,
+        requesterPays: requesterPays,
+        sMBACLEnabled: sMBACLEnabled,
+        tags: tags,
+        validUserList: validUserList,
+      ),
     );
 
     return CreateSMBFileShareOutput.fromJson(jsonResponse.body);
@@ -1423,11 +1416,11 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SnapshotDescription': snapshotDescription,
-        'VolumeARN': volumeARN,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateSnapshotInput(
+        snapshotDescription: snapshotDescription,
+        volumeARN: volumeARN,
+        tags: tags,
+      ),
     );
 
     return CreateSnapshotOutput.fromJson(jsonResponse.body);
@@ -1510,11 +1503,11 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SnapshotDescription': snapshotDescription,
-        'VolumeARN': volumeARN,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateSnapshotFromVolumeRecoveryPointInput(
+        snapshotDescription: snapshotDescription,
+        volumeARN: volumeARN,
+        tags: tags,
+      ),
     );
 
     return CreateSnapshotFromVolumeRecoveryPointOutput.fromJson(
@@ -1663,17 +1656,17 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DiskId': diskId,
-        'GatewayARN': gatewayARN,
-        'NetworkInterfaceId': networkInterfaceId,
-        'PreserveExistingData': preserveExistingData,
-        'TargetName': targetName,
-        if (kMSEncrypted != null) 'KMSEncrypted': kMSEncrypted,
-        if (kMSKey != null) 'KMSKey': kMSKey,
-        if (snapshotId != null) 'SnapshotId': snapshotId,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateStorediSCSIVolumeInput(
+        diskId: diskId,
+        gatewayARN: gatewayARN,
+        networkInterfaceId: networkInterfaceId,
+        preserveExistingData: preserveExistingData,
+        targetName: targetName,
+        kMSEncrypted: kMSEncrypted,
+        kMSKey: kMSKey,
+        snapshotId: snapshotId,
+        tags: tags,
+      ),
     );
 
     return CreateStorediSCSIVolumeOutput.fromJson(jsonResponse.body);
@@ -1792,15 +1785,15 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GatewayARN': gatewayARN,
-        'TapeBarcode': tapeBarcode,
-        'TapeSizeInBytes': tapeSizeInBytes,
-        if (kMSEncrypted != null) 'KMSEncrypted': kMSEncrypted,
-        if (kMSKey != null) 'KMSKey': kMSKey,
-        if (poolId != null) 'PoolId': poolId,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateTapeWithBarcodeInput(
+        gatewayARN: gatewayARN,
+        tapeBarcode: tapeBarcode,
+        tapeSizeInBytes: tapeSizeInBytes,
+        kMSEncrypted: kMSEncrypted,
+        kMSKey: kMSKey,
+        poolId: poolId,
+        tags: tags,
+      ),
     );
 
     return CreateTapeWithBarcodeOutput.fromJson(jsonResponse.body);
@@ -1948,17 +1941,17 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClientToken': clientToken,
-        'GatewayARN': gatewayARN,
-        'NumTapesToCreate': numTapesToCreate,
-        'TapeBarcodePrefix': tapeBarcodePrefix,
-        'TapeSizeInBytes': tapeSizeInBytes,
-        if (kMSEncrypted != null) 'KMSEncrypted': kMSEncrypted,
-        if (kMSKey != null) 'KMSKey': kMSKey,
-        if (poolId != null) 'PoolId': poolId,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateTapesInput(
+        clientToken: clientToken,
+        gatewayARN: gatewayARN,
+        numTapesToCreate: numTapesToCreate,
+        tapeBarcodePrefix: tapeBarcodePrefix,
+        tapeSizeInBytes: tapeSizeInBytes,
+        kMSEncrypted: kMSEncrypted,
+        kMSKey: kMSKey,
+        poolId: poolId,
+        tags: tags,
+      ),
     );
 
     return CreateTapesOutput.fromJson(jsonResponse.body);
@@ -2010,10 +2003,10 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'BandwidthType': bandwidthType,
-        'GatewayARN': gatewayARN,
-      },
+      payload: DeleteBandwidthRateLimitInput(
+        bandwidthType: bandwidthType,
+        gatewayARN: gatewayARN,
+      ),
     );
 
     return DeleteBandwidthRateLimitOutput.fromJson(jsonResponse.body);
@@ -2069,10 +2062,10 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'InitiatorName': initiatorName,
-        'TargetARN': targetARN,
-      },
+      payload: DeleteChapCredentialsInput(
+        initiatorName: initiatorName,
+        targetARN: targetARN,
+      ),
     );
 
     return DeleteChapCredentialsOutput.fromJson(jsonResponse.body);
@@ -2114,10 +2107,10 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'FileShareARN': fileShareARN,
-        if (forceDelete != null) 'ForceDelete': forceDelete,
-      },
+      payload: DeleteFileShareInput(
+        fileShareARN: fileShareARN,
+        forceDelete: forceDelete,
+      ),
     );
 
     return DeleteFileShareOutput.fromJson(jsonResponse.body);
@@ -2166,9 +2159,9 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GatewayARN': gatewayARN,
-      },
+      payload: DeleteGatewayInput(
+        gatewayARN: gatewayARN,
+      ),
     );
 
     return DeleteGatewayOutput.fromJson(jsonResponse.body);
@@ -2214,9 +2207,9 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'VolumeARN': volumeARN,
-      },
+      payload: DeleteSnapshotScheduleInput(
+        volumeARN: volumeARN,
+      ),
     );
 
     return DeleteSnapshotScheduleOutput.fromJson(jsonResponse.body);
@@ -2271,10 +2264,10 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GatewayARN': gatewayARN,
-        'TapeARN': tapeARN,
-      },
+      payload: DeleteTapeInput(
+        gatewayARN: gatewayARN,
+        tapeARN: tapeARN,
+      ),
     );
 
     return DeleteTapeOutput.fromJson(jsonResponse.body);
@@ -2316,9 +2309,9 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TapeARN': tapeARN,
-      },
+      payload: DeleteTapeArchiveInput(
+        tapeARN: tapeARN,
+      ),
     );
 
     return DeleteTapeArchiveOutput.fromJson(jsonResponse.body);
@@ -2369,9 +2362,9 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'VolumeARN': volumeARN,
-      },
+      payload: DeleteVolumeInput(
+        volumeARN: volumeARN,
+      ),
     );
 
     return DeleteVolumeOutput.fromJson(jsonResponse.body);
@@ -2405,9 +2398,9 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GatewayARN': gatewayARN,
-      },
+      payload: DescribeAvailabilityMonitorTestInput(
+        gatewayARN: gatewayARN,
+      ),
     );
 
     return DescribeAvailabilityMonitorTestOutput.fromJson(jsonResponse.body);
@@ -2447,9 +2440,9 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GatewayARN': gatewayARN,
-      },
+      payload: DescribeBandwidthRateLimitInput(
+        gatewayARN: gatewayARN,
+      ),
     );
 
     return DescribeBandwidthRateLimitOutput.fromJson(jsonResponse.body);
@@ -2484,9 +2477,9 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GatewayARN': gatewayARN,
-      },
+      payload: DescribeCacheInput(
+        gatewayARN: gatewayARN,
+      ),
     );
 
     return DescribeCacheOutput.fromJson(jsonResponse.body);
@@ -2520,9 +2513,9 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'VolumeARNs': volumeARNs,
-      },
+      payload: DescribeCachediSCSIVolumesInput(
+        volumeARNs: volumeARNs,
+      ),
     );
 
     return DescribeCachediSCSIVolumesOutput.fromJson(jsonResponse.body);
@@ -2561,9 +2554,9 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TargetARN': targetARN,
-      },
+      payload: DescribeChapCredentialsInput(
+        targetARN: targetARN,
+      ),
     );
 
     return DescribeChapCredentialsOutput.fromJson(jsonResponse.body);
@@ -2597,9 +2590,9 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GatewayARN': gatewayARN,
-      },
+      payload: DescribeGatewayInformationInput(
+        gatewayARN: gatewayARN,
+      ),
     );
 
     return DescribeGatewayInformationOutput.fromJson(jsonResponse.body);
@@ -2632,9 +2625,9 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GatewayARN': gatewayARN,
-      },
+      payload: DescribeMaintenanceStartTimeInput(
+        gatewayARN: gatewayARN,
+      ),
     );
 
     return DescribeMaintenanceStartTimeOutput.fromJson(jsonResponse.body);
@@ -2663,9 +2656,9 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'FileShareARNList': fileShareARNList,
-      },
+      payload: DescribeNFSFileSharesInput(
+        fileShareARNList: fileShareARNList,
+      ),
     );
 
     return DescribeNFSFileSharesOutput.fromJson(jsonResponse.body);
@@ -2694,9 +2687,9 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'FileShareARNList': fileShareARNList,
-      },
+      payload: DescribeSMBFileSharesInput(
+        fileShareARNList: fileShareARNList,
+      ),
     );
 
     return DescribeSMBFileSharesOutput.fromJson(jsonResponse.body);
@@ -2728,9 +2721,9 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GatewayARN': gatewayARN,
-      },
+      payload: DescribeSMBSettingsInput(
+        gatewayARN: gatewayARN,
+      ),
     );
 
     return DescribeSMBSettingsOutput.fromJson(jsonResponse.body);
@@ -2768,9 +2761,9 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'VolumeARN': volumeARN,
-      },
+      payload: DescribeSnapshotScheduleInput(
+        volumeARN: volumeARN,
+      ),
     );
 
     return DescribeSnapshotScheduleOutput.fromJson(jsonResponse.body);
@@ -2803,9 +2796,9 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'VolumeARNs': volumeARNs,
-      },
+      payload: DescribeStorediSCSIVolumesInput(
+        volumeARNs: volumeARNs,
+      ),
     );
 
     return DescribeStorediSCSIVolumesOutput.fromJson(jsonResponse.body);
@@ -2859,11 +2852,11 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (limit != null) 'Limit': limit,
-        if (marker != null) 'Marker': marker,
-        if (tapeARNs != null) 'TapeARNs': tapeARNs,
-      },
+      payload: DescribeTapeArchivesInput(
+        limit: limit,
+        marker: marker,
+        tapeARNs: tapeARNs,
+      ),
     );
 
     return DescribeTapeArchivesOutput.fromJson(jsonResponse.body);
@@ -2922,11 +2915,11 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GatewayARN': gatewayARN,
-        if (limit != null) 'Limit': limit,
-        if (marker != null) 'Marker': marker,
-      },
+      payload: DescribeTapeRecoveryPointsInput(
+        gatewayARN: gatewayARN,
+        limit: limit,
+        marker: marker,
+      ),
     );
 
     return DescribeTapeRecoveryPointsOutput.fromJson(jsonResponse.body);
@@ -2994,12 +2987,12 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GatewayARN': gatewayARN,
-        if (limit != null) 'Limit': limit,
-        if (marker != null) 'Marker': marker,
-        if (tapeARNs != null) 'TapeARNs': tapeARNs,
-      },
+      payload: DescribeTapesInput(
+        gatewayARN: gatewayARN,
+        limit: limit,
+        marker: marker,
+        tapeARNs: tapeARNs,
+      ),
     );
 
     return DescribeTapesOutput.fromJson(jsonResponse.body);
@@ -3034,9 +3027,9 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GatewayARN': gatewayARN,
-      },
+      payload: DescribeUploadBufferInput(
+        gatewayARN: gatewayARN,
+      ),
     );
 
     return DescribeUploadBufferOutput.fromJson(jsonResponse.body);
@@ -3103,12 +3096,12 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GatewayARN': gatewayARN,
-        if (limit != null) 'Limit': limit,
-        if (marker != null) 'Marker': marker,
-        if (vTLDeviceARNs != null) 'VTLDeviceARNs': vTLDeviceARNs,
-      },
+      payload: DescribeVTLDevicesInput(
+        gatewayARN: gatewayARN,
+        limit: limit,
+        marker: marker,
+        vTLDeviceARNs: vTLDeviceARNs,
+      ),
     );
 
     return DescribeVTLDevicesOutput.fromJson(jsonResponse.body);
@@ -3149,9 +3142,9 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GatewayARN': gatewayARN,
-      },
+      payload: DescribeWorkingStorageInput(
+        gatewayARN: gatewayARN,
+      ),
     );
 
     return DescribeWorkingStorageOutput.fromJson(jsonResponse.body);
@@ -3197,10 +3190,10 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'VolumeARN': volumeARN,
-        if (forceDetach != null) 'ForceDetach': forceDetach,
-      },
+      payload: DetachVolumeInput(
+        volumeARN: volumeARN,
+        forceDetach: forceDetach,
+      ),
     );
 
     return DetachVolumeOutput.fromJson(jsonResponse.body);
@@ -3239,9 +3232,9 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GatewayARN': gatewayARN,
-      },
+      payload: DisableGatewayInput(
+        gatewayARN: gatewayARN,
+      ),
     );
 
     return DisableGatewayOutput.fromJson(jsonResponse.body);
@@ -3366,16 +3359,15 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DomainName': domainName,
-        'GatewayARN': gatewayARN,
-        'Password': password,
-        'UserName': userName,
-        if (domainControllers != null) 'DomainControllers': domainControllers,
-        if (organizationalUnit != null)
-          'OrganizationalUnit': organizationalUnit,
-        if (timeoutInSeconds != null) 'TimeoutInSeconds': timeoutInSeconds,
-      },
+      payload: JoinDomainInput(
+        domainName: domainName,
+        gatewayARN: gatewayARN,
+        password: password,
+        userName: userName,
+        domainControllers: domainControllers,
+        organizationalUnit: organizationalUnit,
+        timeoutInSeconds: timeoutInSeconds,
+      ),
     );
 
     return JoinDomainOutput.fromJson(jsonResponse.body);
@@ -3434,11 +3426,11 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (gatewayARN != null) 'GatewayARN': gatewayARN,
-        if (limit != null) 'Limit': limit,
-        if (marker != null) 'Marker': marker,
-      },
+      payload: ListFileSharesInput(
+        gatewayARN: gatewayARN,
+        limit: limit,
+        marker: marker,
+      ),
     );
 
     return ListFileSharesOutput.fromJson(jsonResponse.body);
@@ -3493,10 +3485,10 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (limit != null) 'Limit': limit,
-        if (marker != null) 'Marker': marker,
-      },
+      payload: ListGatewaysInput(
+        limit: limit,
+        marker: marker,
+      ),
     );
 
     return ListGatewaysOutput.fromJson(jsonResponse.body);
@@ -3537,9 +3529,9 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GatewayARN': gatewayARN,
-      },
+      payload: ListLocalDisksInput(
+        gatewayARN: gatewayARN,
+      ),
     );
 
     return ListLocalDisksOutput.fromJson(jsonResponse.body);
@@ -3597,11 +3589,11 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceARN': resourceARN,
-        if (limit != null) 'Limit': limit,
-        if (marker != null) 'Marker': marker,
-      },
+      payload: ListTagsForResourceInput(
+        resourceARN: resourceARN,
+        limit: limit,
+        marker: marker,
+      ),
     );
 
     return ListTagsForResourceOutput.fromJson(jsonResponse.body);
@@ -3656,11 +3648,11 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (limit != null) 'Limit': limit,
-        if (marker != null) 'Marker': marker,
-        if (tapeARNs != null) 'TapeARNs': tapeARNs,
-      },
+      payload: ListTapesInput(
+        limit: limit,
+        marker: marker,
+        tapeARNs: tapeARNs,
+      ),
     );
 
     return ListTapesOutput.fromJson(jsonResponse.body);
@@ -3698,9 +3690,9 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'VolumeARN': volumeARN,
-      },
+      payload: ListVolumeInitiatorsInput(
+        volumeARN: volumeARN,
+      ),
     );
 
     return ListVolumeInitiatorsOutput.fromJson(jsonResponse.body);
@@ -3738,9 +3730,9 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GatewayARN': gatewayARN,
-      },
+      payload: ListVolumeRecoveryPointsInput(
+        gatewayARN: gatewayARN,
+      ),
     );
 
     return ListVolumeRecoveryPointsOutput.fromJson(jsonResponse.body);
@@ -3804,11 +3796,11 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (gatewayARN != null) 'GatewayARN': gatewayARN,
-        if (limit != null) 'Limit': limit,
-        if (marker != null) 'Marker': marker,
-      },
+      payload: ListVolumesInput(
+        gatewayARN: gatewayARN,
+        limit: limit,
+        marker: marker,
+      ),
     );
 
     return ListVolumesOutput.fromJson(jsonResponse.body);
@@ -3853,9 +3845,9 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'FileShareARN': fileShareARN,
-      },
+      payload: NotifyWhenUploadedInput(
+        fileShareARN: fileShareARN,
+      ),
     );
 
     return NotifyWhenUploadedOutput.fromJson(jsonResponse.body);
@@ -3938,11 +3930,11 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'FileShareARN': fileShareARN,
-        if (folderList != null) 'FolderList': folderList,
-        if (recursive != null) 'Recursive': recursive,
-      },
+      payload: RefreshCacheInput(
+        fileShareARN: fileShareARN,
+        folderList: folderList,
+        recursive: recursive,
+      ),
     );
 
     return RefreshCacheOutput.fromJson(jsonResponse.body);
@@ -3984,10 +3976,10 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceARN': resourceARN,
-        'TagKeys': tagKeys,
-      },
+      payload: RemoveTagsFromResourceInput(
+        resourceARN: resourceARN,
+        tagKeys: tagKeys,
+      ),
     );
 
     return RemoveTagsFromResourceOutput.fromJson(jsonResponse.body);
@@ -4032,9 +4024,9 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GatewayARN': gatewayARN,
-      },
+      payload: ResetCacheInput(
+        gatewayARN: gatewayARN,
+      ),
     );
 
     return ResetCacheOutput.fromJson(jsonResponse.body);
@@ -4101,10 +4093,10 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GatewayARN': gatewayARN,
-        'TapeARN': tapeARN,
-      },
+      payload: RetrieveTapeArchiveInput(
+        gatewayARN: gatewayARN,
+        tapeARN: tapeARN,
+      ),
     );
 
     return RetrieveTapeArchiveOutput.fromJson(jsonResponse.body);
@@ -4164,10 +4156,10 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GatewayARN': gatewayARN,
-        'TapeARN': tapeARN,
-      },
+      payload: RetrieveTapeRecoveryPointInput(
+        gatewayARN: gatewayARN,
+        tapeARN: tapeARN,
+      ),
     );
 
     return RetrieveTapeRecoveryPointOutput.fromJson(jsonResponse.body);
@@ -4219,10 +4211,10 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GatewayARN': gatewayARN,
-        'LocalConsolePassword': localConsolePassword,
-      },
+      payload: SetLocalConsolePasswordInput(
+        gatewayARN: gatewayARN,
+        localConsolePassword: localConsolePassword,
+      ),
     );
 
     return SetLocalConsolePasswordOutput.fromJson(jsonResponse.body);
@@ -4277,10 +4269,10 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GatewayARN': gatewayARN,
-        'Password': password,
-      },
+      payload: SetSMBGuestPasswordInput(
+        gatewayARN: gatewayARN,
+        password: password,
+      ),
     );
 
     return SetSMBGuestPasswordOutput.fromJson(jsonResponse.body);
@@ -4333,9 +4325,9 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GatewayARN': gatewayARN,
-      },
+      payload: ShutdownGatewayInput(
+        gatewayARN: gatewayARN,
+      ),
     );
 
     return ShutdownGatewayOutput.fromJson(jsonResponse.body);
@@ -4374,9 +4366,9 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GatewayARN': gatewayARN,
-      },
+      payload: StartAvailabilityMonitorTestInput(
+        gatewayARN: gatewayARN,
+      ),
     );
 
     return StartAvailabilityMonitorTestOutput.fromJson(jsonResponse.body);
@@ -4419,9 +4411,9 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GatewayARN': gatewayARN,
-      },
+      payload: StartGatewayInput(
+        gatewayARN: gatewayARN,
+      ),
     );
 
     return StartGatewayOutput.fromJson(jsonResponse.body);
@@ -4483,15 +4475,12 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GatewayARN': gatewayARN,
-        if (averageDownloadRateLimitInBitsPerSec != null)
-          'AverageDownloadRateLimitInBitsPerSec':
-              averageDownloadRateLimitInBitsPerSec,
-        if (averageUploadRateLimitInBitsPerSec != null)
-          'AverageUploadRateLimitInBitsPerSec':
-              averageUploadRateLimitInBitsPerSec,
-      },
+      payload: UpdateBandwidthRateLimitInput(
+        gatewayARN: gatewayARN,
+        averageDownloadRateLimitInBitsPerSec:
+            averageDownloadRateLimitInBitsPerSec,
+        averageUploadRateLimitInBitsPerSec: averageUploadRateLimitInBitsPerSec,
+      ),
     );
 
     return UpdateBandwidthRateLimitOutput.fromJson(jsonResponse.body);
@@ -4585,13 +4574,12 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'InitiatorName': initiatorName,
-        'SecretToAuthenticateInitiator': secretToAuthenticateInitiator,
-        'TargetARN': targetARN,
-        if (secretToAuthenticateTarget != null)
-          'SecretToAuthenticateTarget': secretToAuthenticateTarget,
-      },
+      payload: UpdateChapCredentialsInput(
+        initiatorName: initiatorName,
+        secretToAuthenticateInitiator: secretToAuthenticateInitiator,
+        targetARN: targetARN,
+        secretToAuthenticateTarget: secretToAuthenticateTarget,
+      ),
     );
 
     return UpdateChapCredentialsOutput.fromJson(jsonResponse.body);
@@ -4666,13 +4654,12 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GatewayARN': gatewayARN,
-        if (cloudWatchLogGroupARN != null)
-          'CloudWatchLogGroupARN': cloudWatchLogGroupARN,
-        if (gatewayName != null) 'GatewayName': gatewayName,
-        if (gatewayTimezone != null) 'GatewayTimezone': gatewayTimezone,
-      },
+      payload: UpdateGatewayInformationInput(
+        gatewayARN: gatewayARN,
+        cloudWatchLogGroupARN: cloudWatchLogGroupARN,
+        gatewayName: gatewayName,
+        gatewayTimezone: gatewayTimezone,
+      ),
     );
 
     return UpdateGatewayInformationOutput.fromJson(jsonResponse.body);
@@ -4719,9 +4706,9 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GatewayARN': gatewayARN,
-      },
+      payload: UpdateGatewaySoftwareNowInput(
+        gatewayARN: gatewayARN,
+      ),
     );
 
     return UpdateGatewaySoftwareNowOutput.fromJson(jsonResponse.body);
@@ -4809,13 +4796,13 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GatewayARN': gatewayARN,
-        'HourOfDay': hourOfDay,
-        'MinuteOfHour': minuteOfHour,
-        if (dayOfMonth != null) 'DayOfMonth': dayOfMonth,
-        if (dayOfWeek != null) 'DayOfWeek': dayOfWeek,
-      },
+      payload: UpdateMaintenanceStartTimeInput(
+        gatewayARN: gatewayARN,
+        hourOfDay: hourOfDay,
+        minuteOfHour: minuteOfHour,
+        dayOfMonth: dayOfMonth,
+        dayOfWeek: dayOfWeek,
+      ),
     );
 
     return UpdateMaintenanceStartTimeOutput.fromJson(jsonResponse.body);
@@ -4967,22 +4954,19 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'FileShareARN': fileShareARN,
-        if (clientList != null) 'ClientList': clientList,
-        if (defaultStorageClass != null)
-          'DefaultStorageClass': defaultStorageClass,
-        if (guessMIMETypeEnabled != null)
-          'GuessMIMETypeEnabled': guessMIMETypeEnabled,
-        if (kMSEncrypted != null) 'KMSEncrypted': kMSEncrypted,
-        if (kMSKey != null) 'KMSKey': kMSKey,
-        if (nFSFileShareDefaults != null)
-          'NFSFileShareDefaults': nFSFileShareDefaults,
-        if (objectACL != null) 'ObjectACL': objectACL?.toValue(),
-        if (readOnly != null) 'ReadOnly': readOnly,
-        if (requesterPays != null) 'RequesterPays': requesterPays,
-        if (squash != null) 'Squash': squash,
-      },
+      payload: UpdateNFSFileShareInput(
+        fileShareARN: fileShareARN,
+        clientList: clientList,
+        defaultStorageClass: defaultStorageClass,
+        guessMIMETypeEnabled: guessMIMETypeEnabled,
+        kMSEncrypted: kMSEncrypted,
+        kMSKey: kMSKey,
+        nFSFileShareDefaults: nFSFileShareDefaults,
+        objectACL: objectACL,
+        readOnly: readOnly,
+        requesterPays: requesterPays,
+        squash: squash,
+      ),
     );
 
     return UpdateNFSFileShareOutput.fromJson(jsonResponse.body);
@@ -5134,24 +5118,21 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'FileShareARN': fileShareARN,
-        if (adminUserList != null) 'AdminUserList': adminUserList,
-        if (auditDestinationARN != null)
-          'AuditDestinationARN': auditDestinationARN,
-        if (defaultStorageClass != null)
-          'DefaultStorageClass': defaultStorageClass,
-        if (guessMIMETypeEnabled != null)
-          'GuessMIMETypeEnabled': guessMIMETypeEnabled,
-        if (invalidUserList != null) 'InvalidUserList': invalidUserList,
-        if (kMSEncrypted != null) 'KMSEncrypted': kMSEncrypted,
-        if (kMSKey != null) 'KMSKey': kMSKey,
-        if (objectACL != null) 'ObjectACL': objectACL?.toValue(),
-        if (readOnly != null) 'ReadOnly': readOnly,
-        if (requesterPays != null) 'RequesterPays': requesterPays,
-        if (sMBACLEnabled != null) 'SMBACLEnabled': sMBACLEnabled,
-        if (validUserList != null) 'ValidUserList': validUserList,
-      },
+      payload: UpdateSMBFileShareInput(
+        fileShareARN: fileShareARN,
+        adminUserList: adminUserList,
+        auditDestinationARN: auditDestinationARN,
+        defaultStorageClass: defaultStorageClass,
+        guessMIMETypeEnabled: guessMIMETypeEnabled,
+        invalidUserList: invalidUserList,
+        kMSEncrypted: kMSEncrypted,
+        kMSKey: kMSKey,
+        objectACL: objectACL,
+        readOnly: readOnly,
+        requesterPays: requesterPays,
+        sMBACLEnabled: sMBACLEnabled,
+        validUserList: validUserList,
+      ),
     );
 
     return UpdateSMBFileShareOutput.fromJson(jsonResponse.body);
@@ -5208,10 +5189,10 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GatewayARN': gatewayARN,
-        'SMBSecurityStrategy': sMBSecurityStrategy?.toValue(),
-      },
+      payload: UpdateSMBSecurityStrategyInput(
+        gatewayARN: gatewayARN,
+        sMBSecurityStrategy: sMBSecurityStrategy,
+      ),
     );
 
     return UpdateSMBSecurityStrategyOutput.fromJson(jsonResponse.body);
@@ -5305,13 +5286,13 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'RecurrenceInHours': recurrenceInHours,
-        'StartAt': startAt,
-        'VolumeARN': volumeARN,
-        if (description != null) 'Description': description,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: UpdateSnapshotScheduleInput(
+        recurrenceInHours: recurrenceInHours,
+        startAt: startAt,
+        volumeARN: volumeARN,
+        description: description,
+        tags: tags,
+      ),
     );
 
     return UpdateSnapshotScheduleOutput.fromJson(jsonResponse.body);
@@ -5363,14 +5344,131 @@ class StorageGateway {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DeviceType': deviceType,
-        'VTLDeviceARN': vTLDeviceARN,
-      },
+      payload: UpdateVTLDeviceTypeInput(
+        deviceType: deviceType,
+        vTLDeviceARN: vTLDeviceARN,
+      ),
     );
 
     return UpdateVTLDeviceTypeOutput.fromJson(jsonResponse.body);
   }
+}
+
+/// A JSON object containing one or more of the following fields:
+///
+/// <ul>
+/// <li>
+/// <a>ActivateGatewayInput$ActivationKey</a>
+/// </li>
+/// <li>
+/// <a>ActivateGatewayInput$GatewayName</a>
+/// </li>
+/// <li>
+/// <a>ActivateGatewayInput$GatewayRegion</a>
+/// </li>
+/// <li>
+/// <a>ActivateGatewayInput$GatewayTimezone</a>
+/// </li>
+/// <li>
+/// <a>ActivateGatewayInput$GatewayType</a>
+/// </li>
+/// <li>
+/// <a>ActivateGatewayInput$TapeDriveType</a>
+/// </li>
+/// <li>
+/// <a>ActivateGatewayInput$MediumChangerType</a>
+/// </li>
+/// </ul>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ActivateGatewayInput {
+  /// Your gateway activation key. You can obtain the activation key by sending an
+  /// HTTP GET request with redirects enabled to the gateway IP address (port 80).
+  /// The redirect URL returned in the response provides you the activation key
+  /// for your gateway in the query string parameter <code>activationKey</code>.
+  /// It may also include other activation-related parameters, however, these are
+  /// merely defaults -- the arguments you pass to the
+  /// <code>ActivateGateway</code> API call determine the actual configuration of
+  /// your gateway.
+  ///
+  /// For more information, see
+  /// https://docs.aws.amazon.com/storagegateway/latest/userguide/get-activation-key.html
+  /// in the Storage Gateway User Guide.
+  @_s.JsonKey(name: 'ActivationKey')
+  final String activationKey;
+
+  /// The name you configured for your gateway.
+  @_s.JsonKey(name: 'GatewayName')
+  final String gatewayName;
+
+  /// A value that indicates the AWS Region where you want to store your data. The
+  /// gateway AWS Region specified must be the same AWS Region as the AWS Region
+  /// in your <code>Host</code> header in the request. For more information about
+  /// available AWS Regions and endpoints for AWS Storage Gateway, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html#sg_region">Regions
+  /// and Endpoints</a> in the <i>Amazon Web Services Glossary</i>.
+  ///
+  /// Valid Values: See <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html#sg_region">AWS
+  /// Storage Gateway Regions and Endpoints</a> in the AWS General Reference.
+  @_s.JsonKey(name: 'GatewayRegion')
+  final String gatewayRegion;
+
+  /// A value that indicates the time zone you want to set for the gateway. The
+  /// time zone is of the format "GMT-hr:mm" or "GMT+hr:mm". For example, GMT-4:00
+  /// indicates the time is 4 hours behind GMT. GMT+2:00 indicates the time is 2
+  /// hours ahead of GMT. The time zone is used, for example, for scheduling
+  /// snapshots and your gateway's maintenance schedule.
+  @_s.JsonKey(name: 'GatewayTimezone')
+  final String gatewayTimezone;
+
+  /// A value that defines the type of gateway to activate. The type specified is
+  /// critical to all later functions of the gateway and cannot be changed after
+  /// activation. The default value is <code>CACHED</code>.
+  ///
+  /// Valid Values: "STORED", "CACHED", "VTL", "FILE_S3"
+  @_s.JsonKey(name: 'GatewayType')
+  final String gatewayType;
+
+  /// The value that indicates the type of medium changer to use for tape gateway.
+  /// This field is optional.
+  ///
+  /// Valid Values: "STK-L700", "AWS-Gateway-VTL"
+  @_s.JsonKey(name: 'MediumChangerType')
+  final String mediumChangerType;
+
+  /// A list of up to 50 tags that you can assign to the gateway. Each tag is a
+  /// key-value pair.
+  /// <note>
+  /// Valid characters for key and value are letters, spaces, and numbers that can
+  /// be represented in UTF-8 format, and the following special characters: + - =
+  /// . _ : / @. The maximum length of a tag's key is 128 characters, and the
+  /// maximum length for a tag's value is 256 characters.
+  /// </note>
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  /// The value that indicates the type of tape drive to use for tape gateway.
+  /// This field is optional.
+  ///
+  /// Valid Values: "IBM-ULT3580-TD5"
+  @_s.JsonKey(name: 'TapeDriveType')
+  final String tapeDriveType;
+
+  ActivateGatewayInput({
+    @_s.required this.activationKey,
+    @_s.required this.gatewayName,
+    @_s.required this.gatewayRegion,
+    @_s.required this.gatewayTimezone,
+    this.gatewayType,
+    this.mediumChangerType,
+    this.tags,
+    this.tapeDriveType,
+  });
+  Map<String, dynamic> toJson() => _$ActivateGatewayInputToJson(this);
 }
 
 /// AWS Storage Gateway returns the Amazon Resource Name (ARN) of the activated
@@ -5418,6 +5516,27 @@ enum ActiveDirectoryStatus {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AddCacheInput {
+  /// An array of strings that identify disks that are to be configured as working
+  /// storage. Each string have a minimum length of 1 and maximum length of 300.
+  /// You can get the disk IDs from the <a>ListLocalDisks</a> API.
+  @_s.JsonKey(name: 'DiskIds')
+  final List<String> diskIds;
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  AddCacheInput({
+    @_s.required this.diskIds,
+    @_s.required this.gatewayARN,
+  });
+  Map<String, dynamic> toJson() => _$AddCacheInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AddCacheOutput {
@@ -5429,6 +5548,35 @@ class AddCacheOutput {
   });
   factory AddCacheOutput.fromJson(Map<String, dynamic> json) =>
       _$AddCacheOutputFromJson(json);
+}
+
+/// AddTagsToResourceInput
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AddTagsToResourceInput {
+  /// The Amazon Resource Name (ARN) of the resource you want to add tags to.
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+
+  /// The key-value pair that represents the tag you want to add to the resource.
+  /// The value can be an empty string.
+  /// <note>
+  /// Valid characters for key and value are letters, spaces, and numbers
+  /// representable in UTF-8 format, and the following special characters: + - = .
+  /// _ : / @. The maximum length of a tag's key is 128 characters, and the
+  /// maximum length for a tag's value is 256.
+  /// </note>
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  AddTagsToResourceInput({
+    @_s.required this.resourceARN,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$AddTagsToResourceInputToJson(this);
 }
 
 /// AddTagsToResourceOutput
@@ -5452,6 +5600,27 @@ class AddTagsToResourceOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AddUploadBufferInput {
+  /// An array of strings that identify disks that are to be configured as working
+  /// storage. Each string have a minimum length of 1 and maximum length of 300.
+  /// You can get the disk IDs from the <a>ListLocalDisks</a> API.
+  @_s.JsonKey(name: 'DiskIds')
+  final List<String> diskIds;
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  AddUploadBufferInput({
+    @_s.required this.diskIds,
+    @_s.required this.gatewayARN,
+  });
+  Map<String, dynamic> toJson() => _$AddUploadBufferInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AddUploadBufferOutput {
@@ -5463,6 +5632,34 @@ class AddUploadBufferOutput {
   });
   factory AddUploadBufferOutput.fromJson(Map<String, dynamic> json) =>
       _$AddUploadBufferOutputFromJson(json);
+}
+
+/// A JSON object containing one or more of the following fields:
+///
+/// <ul>
+/// <li>
+/// <a>AddWorkingStorageInput$DiskIds</a>
+/// </li>
+/// </ul>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AddWorkingStorageInput {
+  /// An array of strings that identify disks that are to be configured as working
+  /// storage. Each string have a minimum length of 1 and maximum length of 300.
+  /// You can get the disk IDs from the <a>ListLocalDisks</a> API.
+  @_s.JsonKey(name: 'DiskIds')
+  final List<String> diskIds;
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  AddWorkingStorageInput({
+    @_s.required this.diskIds,
+    @_s.required this.gatewayARN,
+  });
+  Map<String, dynamic> toJson() => _$AddWorkingStorageInputToJson(this);
 }
 
 /// A JSON object containing the of the gateway for which working storage was
@@ -5486,6 +5683,34 @@ class AddWorkingStorageOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssignTapePoolInput {
+  /// The ID of the pool that you want to add your tape to for archiving. The tape
+  /// in this pool is archived in the S3 storage class that is associated with the
+  /// pool. When you use your backup application to eject the tape, the tape is
+  /// archived directly into the storage class (Glacier or Deep Archive) that
+  /// corresponds to the pool.
+  ///
+  /// Valid values: "GLACIER", "DEEP_ARCHIVE"
+  @_s.JsonKey(name: 'PoolId')
+  final String poolId;
+
+  /// The unique Amazon Resource Name (ARN) of the virtual tape that you want to
+  /// add to the tape pool.
+  @_s.JsonKey(name: 'TapeARN')
+  final String tapeARN;
+
+  AssignTapePoolInput({
+    @_s.required this.poolId,
+    @_s.required this.tapeARN,
+  });
+  Map<String, dynamic> toJson() => _$AssignTapePoolInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AssignTapePoolOutput {
@@ -5499,6 +5724,58 @@ class AssignTapePoolOutput {
   });
   factory AssignTapePoolOutput.fromJson(Map<String, dynamic> json) =>
       _$AssignTapePoolOutputFromJson(json);
+}
+
+/// AttachVolumeInput
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AttachVolumeInput {
+  /// The Amazon Resource Name (ARN) of the gateway that you want to attach the
+  /// volume to.
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  /// The network interface of the gateway on which to expose the iSCSI target.
+  /// Only IPv4 addresses are accepted. Use <a>DescribeGatewayInformation</a> to
+  /// get a list of the network interfaces available on a gateway.
+  ///
+  /// Valid Values: A valid IP address.
+  @_s.JsonKey(name: 'NetworkInterfaceId')
+  final String networkInterfaceId;
+
+  /// The Amazon Resource Name (ARN) of the volume to attach to the specified
+  /// gateway.
+  @_s.JsonKey(name: 'VolumeARN')
+  final String volumeARN;
+
+  /// The unique device ID or other distinguishing data that identifies the local
+  /// disk used to create the volume. This value is only required when you are
+  /// attaching a stored volume.
+  @_s.JsonKey(name: 'DiskId')
+  final String diskId;
+
+  /// The name of the iSCSI target used by an initiator to connect to a volume and
+  /// used as a suffix for the target ARN. For example, specifying
+  /// <code>TargetName</code> as <i>myvolume</i> results in the target ARN of
+  /// <code>arn:aws:storagegateway:us-east-2:111122223333:gateway/sgw-12A3456B/target/iqn.1997-05.com.amazon:myvolume</code>.
+  /// The target name must be unique across all volumes on a gateway.
+  ///
+  /// If you don't specify a value, Storage Gateway uses the value that was
+  /// previously used for this volume as the new target name.
+  @_s.JsonKey(name: 'TargetName')
+  final String targetName;
+
+  AttachVolumeInput({
+    @_s.required this.gatewayARN,
+    @_s.required this.networkInterfaceId,
+    @_s.required this.volumeARN,
+    this.diskId,
+    this.targetName,
+  });
+  Map<String, dynamic> toJson() => _$AttachVolumeInputToJson(this);
 }
 
 /// AttachVolumeOutput
@@ -5641,6 +5918,28 @@ class CachediSCSIVolume {
       _$CachediSCSIVolumeFromJson(json);
 }
 
+/// CancelArchivalInput
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CancelArchivalInput {
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  /// The Amazon Resource Name (ARN) of the virtual tape you want to cancel
+  /// archiving for.
+  @_s.JsonKey(name: 'TapeARN')
+  final String tapeARN;
+
+  CancelArchivalInput({
+    @_s.required this.gatewayARN,
+    @_s.required this.tapeARN,
+  });
+  Map<String, dynamic> toJson() => _$CancelArchivalInputToJson(this);
+}
+
 /// CancelArchivalOutput
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -5658,6 +5957,28 @@ class CancelArchivalOutput {
   });
   factory CancelArchivalOutput.fromJson(Map<String, dynamic> json) =>
       _$CancelArchivalOutputFromJson(json);
+}
+
+/// CancelRetrievalInput
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CancelRetrievalInput {
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  /// The Amazon Resource Name (ARN) of the virtual tape you want to cancel
+  /// retrieval for.
+  @_s.JsonKey(name: 'TapeARN')
+  final String tapeARN;
+
+  CancelRetrievalInput({
+    @_s.required this.gatewayARN,
+    @_s.required this.tapeARN,
+  });
+  Map<String, dynamic> toJson() => _$CancelRetrievalInputToJson(this);
 }
 
 /// CancelRetrievalOutput
@@ -5721,6 +6042,95 @@ class ChapInfo {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateCachediSCSIVolumeInput {
+  /// A unique identifier that you use to retry a request. If you retry a request,
+  /// use the same <code>ClientToken</code> you specified in the initial request.
+  @_s.JsonKey(name: 'ClientToken')
+  final String clientToken;
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  /// The network interface of the gateway on which to expose the iSCSI target.
+  /// Only IPv4 addresses are accepted. Use <a>DescribeGatewayInformation</a> to
+  /// get a list of the network interfaces available on a gateway.
+  ///
+  /// Valid Values: A valid IP address.
+  @_s.JsonKey(name: 'NetworkInterfaceId')
+  final String networkInterfaceId;
+
+  /// The name of the iSCSI target used by an initiator to connect to a volume and
+  /// used as a suffix for the target ARN. For example, specifying
+  /// <code>TargetName</code> as <i>myvolume</i> results in the target ARN of
+  /// <code>arn:aws:storagegateway:us-east-2:111122223333:gateway/sgw-12A3456B/target/iqn.1997-05.com.amazon:myvolume</code>.
+  /// The target name must be unique across all volumes on a gateway.
+  ///
+  /// If you don't specify a value, Storage Gateway uses the value that was
+  /// previously used for this volume as the new target name.
+  @_s.JsonKey(name: 'TargetName')
+  final String targetName;
+
+  /// The size of the volume in bytes.
+  @_s.JsonKey(name: 'VolumeSizeInBytes')
+  final int volumeSizeInBytes;
+
+  /// True to use Amazon S3 server side encryption with your own AWS KMS key, or
+  /// false to use a key managed by Amazon S3. Optional.
+  @_s.JsonKey(name: 'KMSEncrypted')
+  final bool kMSEncrypted;
+
+  /// The Amazon Resource Name (ARN) of the AWS KMS key used for Amazon S3 server
+  /// side encryption. This value can only be set when KMSEncrypted is true.
+  /// Optional.
+  @_s.JsonKey(name: 'KMSKey')
+  final String kMSKey;
+
+  /// The snapshot ID (e.g. "snap-1122aabb") of the snapshot to restore as the new
+  /// cached volume. Specify this field if you want to create the iSCSI storage
+  /// volume from a snapshot otherwise do not include this field. To list
+  /// snapshots for your account use <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeSnapshots.html">DescribeSnapshots</a>
+  /// in the <i>Amazon Elastic Compute Cloud API Reference</i>.
+  @_s.JsonKey(name: 'SnapshotId')
+  final String snapshotId;
+
+  /// The ARN for an existing volume. Specifying this ARN makes the new volume
+  /// into an exact copy of the specified existing volume's latest recovery point.
+  /// The <code>VolumeSizeInBytes</code> value for this new volume must be equal
+  /// to or larger than the size of the existing volume, in bytes.
+  @_s.JsonKey(name: 'SourceVolumeARN')
+  final String sourceVolumeARN;
+
+  /// A list of up to 50 tags that you can assign to a cached volume. Each tag is
+  /// a key-value pair.
+  /// <note>
+  /// Valid characters for key and value are letters, spaces, and numbers that you
+  /// can represent in UTF-8 format, and the following special characters: + - = .
+  /// _ : / @. The maximum length of a tag's key is 128 characters, and the
+  /// maximum length for a tag's value is 256 characters.
+  /// </note>
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateCachediSCSIVolumeInput({
+    @_s.required this.clientToken,
+    @_s.required this.gatewayARN,
+    @_s.required this.networkInterfaceId,
+    @_s.required this.targetName,
+    @_s.required this.volumeSizeInBytes,
+    this.kMSEncrypted,
+    this.kMSKey,
+    this.snapshotId,
+    this.sourceVolumeARN,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateCachediSCSIVolumeInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateCachediSCSIVolumeOutput {
@@ -5741,6 +6151,134 @@ class CreateCachediSCSIVolumeOutput {
       _$CreateCachediSCSIVolumeOutputFromJson(json);
 }
 
+/// CreateNFSFileShareInput
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateNFSFileShareInput {
+  /// A unique string value that you supply that is used by file gateway to ensure
+  /// idempotent file share creation.
+  @_s.JsonKey(name: 'ClientToken')
+  final String clientToken;
+
+  /// The Amazon Resource Name (ARN) of the file gateway on which you want to
+  /// create a file share.
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  /// The ARN of the backed storage used for storing file data.
+  @_s.JsonKey(name: 'LocationARN')
+  final String locationARN;
+
+  /// The ARN of the AWS Identity and Access Management (IAM) role that a file
+  /// gateway assumes when it accesses the underlying storage.
+  @_s.JsonKey(name: 'Role')
+  final String role;
+
+  /// The list of clients that are allowed to access the file gateway. The list
+  /// must contain either valid IP addresses or valid CIDR blocks.
+  @_s.JsonKey(name: 'ClientList')
+  final List<String> clientList;
+
+  /// The default storage class for objects put into an Amazon S3 bucket by the
+  /// file gateway. Possible values are <code>S3_STANDARD</code>,
+  /// <code>S3_STANDARD_IA</code>, or <code>S3_ONEZONE_IA</code>. If this field is
+  /// not populated, the default value <code>S3_STANDARD</code> is used. Optional.
+  @_s.JsonKey(name: 'DefaultStorageClass')
+  final String defaultStorageClass;
+
+  /// A value that enables guessing of the MIME type for uploaded objects based on
+  /// file extensions. Set this value to true to enable MIME type guessing, and
+  /// otherwise to false. The default value is true.
+  @_s.JsonKey(name: 'GuessMIMETypeEnabled')
+  final bool guessMIMETypeEnabled;
+
+  /// True to use Amazon S3 server side encryption with your own AWS KMS key, or
+  /// false to use a key managed by Amazon S3. Optional.
+  @_s.JsonKey(name: 'KMSEncrypted')
+  final bool kMSEncrypted;
+
+  /// The Amazon Resource Name (ARN) AWS KMS key used for Amazon S3 server side
+  /// encryption. This value can only be set when KMSEncrypted is true. Optional.
+  @_s.JsonKey(name: 'KMSKey')
+  final String kMSKey;
+
+  /// File share default values. Optional.
+  @_s.JsonKey(name: 'NFSFileShareDefaults')
+  final NFSFileShareDefaults nFSFileShareDefaults;
+
+  /// A value that sets the access control list permission for objects in the S3
+  /// bucket that a file gateway puts objects into. The default value is
+  /// "private".
+  @_s.JsonKey(name: 'ObjectACL')
+  final ObjectACL objectACL;
+
+  /// A value that sets the write status of a file share. This value is true if
+  /// the write status is read-only, and otherwise false.
+  @_s.JsonKey(name: 'ReadOnly')
+  final bool readOnly;
+
+  /// A value that sets who pays the cost of the request and the cost associated
+  /// with data download from the S3 bucket. If this value is set to true, the
+  /// requester pays the costs. Otherwise the S3 bucket owner pays. However, the
+  /// S3 bucket owner always pays the cost of storing data.
+  /// <note>
+  /// <code>RequesterPays</code> is a configuration for the S3 bucket that backs
+  /// the file share, so make sure that the configuration on the file share is the
+  /// same as the S3 bucket configuration.
+  /// </note>
+  @_s.JsonKey(name: 'RequesterPays')
+  final bool requesterPays;
+
+  /// A value that maps a user to anonymous user. Valid options are the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>RootSquash</code> - Only root is mapped to anonymous user.
+  /// </li>
+  /// <li>
+  /// <code>NoSquash</code> - No one is mapped to anonymous user
+  /// </li>
+  /// <li>
+  /// <code>AllSquash</code> - Everyone is mapped to anonymous user.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Squash')
+  final String squash;
+
+  /// A list of up to 50 tags that can be assigned to the NFS file share. Each tag
+  /// is a key-value pair.
+  /// <note>
+  /// Valid characters for key and value are letters, spaces, and numbers
+  /// representable in UTF-8 format, and the following special characters: + - = .
+  /// _ : / @. The maximum length of a tag's key is 128 characters, and the
+  /// maximum length for a tag's value is 256.
+  /// </note>
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateNFSFileShareInput({
+    @_s.required this.clientToken,
+    @_s.required this.gatewayARN,
+    @_s.required this.locationARN,
+    @_s.required this.role,
+    this.clientList,
+    this.defaultStorageClass,
+    this.guessMIMETypeEnabled,
+    this.kMSEncrypted,
+    this.kMSKey,
+    this.nFSFileShareDefaults,
+    this.objectACL,
+    this.readOnly,
+    this.requesterPays,
+    this.squash,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateNFSFileShareInputToJson(this);
+}
+
 /// CreateNFSFileShareOutput
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -5759,6 +6297,157 @@ class CreateNFSFileShareOutput {
       _$CreateNFSFileShareOutputFromJson(json);
 }
 
+/// CreateSMBFileShareInput
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateSMBFileShareInput {
+  /// A unique string value that you supply that is used by file gateway to ensure
+  /// idempotent file share creation.
+  @_s.JsonKey(name: 'ClientToken')
+  final String clientToken;
+
+  /// The ARN of the file gateway on which you want to create a file share.
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  /// The ARN of the backed storage used for storing file data.
+  @_s.JsonKey(name: 'LocationARN')
+  final String locationARN;
+
+  /// The ARN of the AWS Identity and Access Management (IAM) role that a file
+  /// gateway assumes when it accesses the underlying storage.
+  @_s.JsonKey(name: 'Role')
+  final String role;
+
+  /// A list of users in the Active Directory that will be granted administrator
+  /// privileges on the file share. These users can do all file operations as the
+  /// super-user.
+  /// <important>
+  /// Use this option very carefully, because any user in this list can do
+  /// anything they like on the file share, regardless of file permissions.
+  /// </important>
+  @_s.JsonKey(name: 'AdminUserList')
+  final List<String> adminUserList;
+
+  /// The Amazon Resource Name (ARN) of the storage used for the audit logs.
+  @_s.JsonKey(name: 'AuditDestinationARN')
+  final String auditDestinationARN;
+
+  /// The authentication method that users use to access the file share.
+  ///
+  /// Valid values are <code>ActiveDirectory</code> or <code>GuestAccess</code>.
+  /// The default is <code>ActiveDirectory</code>.
+  @_s.JsonKey(name: 'Authentication')
+  final String authentication;
+
+  /// The default storage class for objects put into an Amazon S3 bucket by the
+  /// file gateway. Possible values are <code>S3_STANDARD</code>,
+  /// <code>S3_STANDARD_IA</code>, or <code>S3_ONEZONE_IA</code>. If this field is
+  /// not populated, the default value <code>S3_STANDARD</code> is used. Optional.
+  @_s.JsonKey(name: 'DefaultStorageClass')
+  final String defaultStorageClass;
+
+  /// A value that enables guessing of the MIME type for uploaded objects based on
+  /// file extensions. Set this value to true to enable MIME type guessing, and
+  /// otherwise to false. The default value is true.
+  @_s.JsonKey(name: 'GuessMIMETypeEnabled')
+  final bool guessMIMETypeEnabled;
+
+  /// A list of users or groups in the Active Directory that are not allowed to
+  /// access the file share. A group must be prefixed with the @ character. For
+  /// example <code>@group1</code>. Can only be set if Authentication is set to
+  /// <code>ActiveDirectory</code>.
+  @_s.JsonKey(name: 'InvalidUserList')
+  final List<String> invalidUserList;
+
+  /// True to use Amazon S3 server side encryption with your own AWS KMS key, or
+  /// false to use a key managed by Amazon S3. Optional.
+  @_s.JsonKey(name: 'KMSEncrypted')
+  final bool kMSEncrypted;
+
+  /// The Amazon Resource Name (ARN) of the AWS KMS key used for Amazon S3 server
+  /// side encryption. This value can only be set when KMSEncrypted is true.
+  /// Optional.
+  @_s.JsonKey(name: 'KMSKey')
+  final String kMSKey;
+
+  /// A value that sets the access control list permission for objects in the S3
+  /// bucket that a file gateway puts objects into. The default value is
+  /// "private".
+  @_s.JsonKey(name: 'ObjectACL')
+  final ObjectACL objectACL;
+
+  /// A value that sets the write status of a file share. This value is true if
+  /// the write status is read-only, and otherwise false.
+  @_s.JsonKey(name: 'ReadOnly')
+  final bool readOnly;
+
+  /// A value that sets who pays the cost of the request and the cost associated
+  /// with data download from the S3 bucket. If this value is set to true, the
+  /// requester pays the costs. Otherwise the S3 bucket owner pays. However, the
+  /// S3 bucket owner always pays the cost of storing data.
+  /// <note>
+  /// <code>RequesterPays</code> is a configuration for the S3 bucket that backs
+  /// the file share, so make sure that the configuration on the file share is the
+  /// same as the S3 bucket configuration.
+  /// </note>
+  @_s.JsonKey(name: 'RequesterPays')
+  final bool requesterPays;
+
+  /// Set this value to "true to enable ACL (access control list) on the SMB file
+  /// share. Set it to "false" to map file and directory permissions to the POSIX
+  /// permissions.
+  ///
+  /// For more information, see
+  /// https://docs.aws.amazon.com/storagegateway/latest/userguide/smb-acl.html in
+  /// the Storage Gateway User Guide.
+  @_s.JsonKey(name: 'SMBACLEnabled')
+  final bool sMBACLEnabled;
+
+  /// A list of up to 50 tags that can be assigned to the NFS file share. Each tag
+  /// is a key-value pair.
+  /// <note>
+  /// Valid characters for key and value are letters, spaces, and numbers
+  /// representable in UTF-8 format, and the following special characters: + - = .
+  /// _ : / @. The maximum length of a tag's key is 128 characters, and the
+  /// maximum length for a tag's value is 256.
+  /// </note>
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  /// A list of users or groups in the Active Directory that are allowed to access
+  /// the file share. A group must be prefixed with the @ character. For example
+  /// <code>@group1</code>. Can only be set if Authentication is set to
+  /// <code>ActiveDirectory</code>.
+  @_s.JsonKey(name: 'ValidUserList')
+  final List<String> validUserList;
+
+  CreateSMBFileShareInput({
+    @_s.required this.clientToken,
+    @_s.required this.gatewayARN,
+    @_s.required this.locationARN,
+    @_s.required this.role,
+    this.adminUserList,
+    this.auditDestinationARN,
+    this.authentication,
+    this.defaultStorageClass,
+    this.guessMIMETypeEnabled,
+    this.invalidUserList,
+    this.kMSEncrypted,
+    this.kMSKey,
+    this.objectACL,
+    this.readOnly,
+    this.requesterPays,
+    this.sMBACLEnabled,
+    this.tags,
+    this.validUserList,
+  });
+  Map<String, dynamic> toJson() => _$CreateSMBFileShareInputToJson(this);
+}
+
 /// CreateSMBFileShareOutput
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -5775,6 +6464,45 @@ class CreateSMBFileShareOutput {
   });
   factory CreateSMBFileShareOutput.fromJson(Map<String, dynamic> json) =>
       _$CreateSMBFileShareOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateSnapshotFromVolumeRecoveryPointInput {
+  /// Textual description of the snapshot that appears in the Amazon EC2 console,
+  /// Elastic Block Store snapshots panel in the <b>Description</b> field, and in
+  /// the AWS Storage Gateway snapshot <b>Details</b> pane, <b>Description</b>
+  /// field
+  @_s.JsonKey(name: 'SnapshotDescription')
+  final String snapshotDescription;
+
+  /// The Amazon Resource Name (ARN) of the iSCSI volume target. Use the
+  /// <a>DescribeStorediSCSIVolumes</a> operation to return to retrieve the
+  /// TargetARN for specified VolumeARN.
+  @_s.JsonKey(name: 'VolumeARN')
+  final String volumeARN;
+
+  /// A list of up to 50 tags that can be assigned to a snapshot. Each tag is a
+  /// key-value pair.
+  /// <note>
+  /// Valid characters for key and value are letters, spaces, and numbers
+  /// representable in UTF-8 format, and the following special characters: + - = .
+  /// _ : / @. The maximum length of a tag's key is 128 characters, and the
+  /// maximum length for a tag's value is 256.
+  /// </note>
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateSnapshotFromVolumeRecoveryPointInput({
+    @_s.required this.snapshotDescription,
+    @_s.required this.volumeARN,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateSnapshotFromVolumeRecoveryPointInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5807,6 +6535,53 @@ class CreateSnapshotFromVolumeRecoveryPointOutput {
       _$CreateSnapshotFromVolumeRecoveryPointOutputFromJson(json);
 }
 
+/// A JSON object containing one or more of the following fields:
+///
+/// <ul>
+/// <li>
+/// <a>CreateSnapshotInput$SnapshotDescription</a>
+/// </li>
+/// <li>
+/// <a>CreateSnapshotInput$VolumeARN</a>
+/// </li>
+/// </ul>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateSnapshotInput {
+  /// Textual description of the snapshot that appears in the Amazon EC2 console,
+  /// Elastic Block Store snapshots panel in the <b>Description</b> field, and in
+  /// the AWS Storage Gateway snapshot <b>Details</b> pane, <b>Description</b>
+  /// field
+  @_s.JsonKey(name: 'SnapshotDescription')
+  final String snapshotDescription;
+
+  /// The Amazon Resource Name (ARN) of the volume. Use the <a>ListVolumes</a>
+  /// operation to return a list of gateway volumes.
+  @_s.JsonKey(name: 'VolumeARN')
+  final String volumeARN;
+
+  /// A list of up to 50 tags that can be assigned to a snapshot. Each tag is a
+  /// key-value pair.
+  /// <note>
+  /// Valid characters for key and value are letters, spaces, and numbers
+  /// representable in UTF-8 format, and the following special characters: + - = .
+  /// _ : / @. The maximum length of a tag's key is 128 characters, and the
+  /// maximum length for a tag's value is 256.
+  /// </note>
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateSnapshotInput({
+    @_s.required this.snapshotDescription,
+    @_s.required this.volumeARN,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateSnapshotInputToJson(this);
+}
+
 /// A JSON object containing the following fields:
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -5832,6 +6607,110 @@ class CreateSnapshotOutput {
   });
   factory CreateSnapshotOutput.fromJson(Map<String, dynamic> json) =>
       _$CreateSnapshotOutputFromJson(json);
+}
+
+/// A JSON object containing one or more of the following fields:
+///
+/// <ul>
+/// <li>
+/// <a>CreateStorediSCSIVolumeInput$DiskId</a>
+/// </li>
+/// <li>
+/// <a>CreateStorediSCSIVolumeInput$NetworkInterfaceId</a>
+/// </li>
+/// <li>
+/// <a>CreateStorediSCSIVolumeInput$PreserveExistingData</a>
+/// </li>
+/// <li>
+/// <a>CreateStorediSCSIVolumeInput$SnapshotId</a>
+/// </li>
+/// <li>
+/// <a>CreateStorediSCSIVolumeInput$TargetName</a>
+/// </li>
+/// </ul>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateStorediSCSIVolumeInput {
+  /// The unique identifier for the gateway local disk that is configured as a
+  /// stored volume. Use <a
+  /// href="https://docs.aws.amazon.com/storagegateway/latest/userguide/API_ListLocalDisks.html">ListLocalDisks</a>
+  /// to list disk IDs for a gateway.
+  @_s.JsonKey(name: 'DiskId')
+  final String diskId;
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  /// The network interface of the gateway on which to expose the iSCSI target.
+  /// Only IPv4 addresses are accepted. Use <a>DescribeGatewayInformation</a> to
+  /// get a list of the network interfaces available on a gateway.
+  ///
+  /// Valid Values: A valid IP address.
+  @_s.JsonKey(name: 'NetworkInterfaceId')
+  final String networkInterfaceId;
+
+  /// Specify this field as true if you want to preserve the data on the local
+  /// disk. Otherwise, specifying this field as false creates an empty volume.
+  ///
+  /// Valid Values: true, false
+  @_s.JsonKey(name: 'PreserveExistingData')
+  final bool preserveExistingData;
+
+  /// The name of the iSCSI target used by an initiator to connect to a volume and
+  /// used as a suffix for the target ARN. For example, specifying
+  /// <code>TargetName</code> as <i>myvolume</i> results in the target ARN of
+  /// <code>arn:aws:storagegateway:us-east-2:111122223333:gateway/sgw-12A3456B/target/iqn.1997-05.com.amazon:myvolume</code>.
+  /// The target name must be unique across all volumes on a gateway.
+  ///
+  /// If you don't specify a value, Storage Gateway uses the value that was
+  /// previously used for this volume as the new target name.
+  @_s.JsonKey(name: 'TargetName')
+  final String targetName;
+
+  /// True to use Amazon S3 server side encryption with your own AWS KMS key, or
+  /// false to use a key managed by Amazon S3. Optional.
+  @_s.JsonKey(name: 'KMSEncrypted')
+  final bool kMSEncrypted;
+
+  /// The Amazon Resource Name (ARN) of the KMS key used for Amazon S3 server side
+  /// encryption. This value can only be set when KMSEncrypted is true. Optional.
+  @_s.JsonKey(name: 'KMSKey')
+  final String kMSKey;
+
+  /// The snapshot ID (e.g. "snap-1122aabb") of the snapshot to restore as the new
+  /// stored volume. Specify this field if you want to create the iSCSI storage
+  /// volume from a snapshot otherwise do not include this field. To list
+  /// snapshots for your account use <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeSnapshots.html">DescribeSnapshots</a>
+  /// in the <i>Amazon Elastic Compute Cloud API Reference</i>.
+  @_s.JsonKey(name: 'SnapshotId')
+  final String snapshotId;
+
+  /// A list of up to 50 tags that can be assigned to a stored volume. Each tag is
+  /// a key-value pair.
+  /// <note>
+  /// Valid characters for key and value are letters, spaces, and numbers
+  /// representable in UTF-8 format, and the following special characters: + - = .
+  /// _ : / @. The maximum length of a tag's key is 128 characters, and the
+  /// maximum length for a tag's value is 256.
+  /// </note>
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateStorediSCSIVolumeInput({
+    @_s.required this.diskId,
+    @_s.required this.gatewayARN,
+    @_s.required this.networkInterfaceId,
+    @_s.required this.preserveExistingData,
+    @_s.required this.targetName,
+    this.kMSEncrypted,
+    this.kMSKey,
+    this.snapshotId,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateStorediSCSIVolumeInputToJson(this);
 }
 
 /// A JSON object containing the following fields:
@@ -5863,6 +6742,78 @@ class CreateStorediSCSIVolumeOutput {
       _$CreateStorediSCSIVolumeOutputFromJson(json);
 }
 
+/// CreateTapeWithBarcodeInput
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateTapeWithBarcodeInput {
+  /// The unique Amazon Resource Name (ARN) that represents the gateway to
+  /// associate the virtual tape with. Use the <a>ListGateways</a> operation to
+  /// return a list of gateways for your account and AWS Region.
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  /// The barcode that you want to assign to the tape.
+  /// <note>
+  /// Barcodes cannot be reused. This includes barcodes used for tapes that have
+  /// been deleted.
+  /// </note>
+  @_s.JsonKey(name: 'TapeBarcode')
+  final String tapeBarcode;
+
+  /// The size, in bytes, of the virtual tape that you want to create.
+  /// <note>
+  /// The size must be aligned by gigabyte (1024*1024*1024 byte).
+  /// </note>
+  @_s.JsonKey(name: 'TapeSizeInBytes')
+  final int tapeSizeInBytes;
+
+  /// True to use Amazon S3 server side encryption with your own AWS KMS key, or
+  /// false to use a key managed by Amazon S3. Optional.
+  @_s.JsonKey(name: 'KMSEncrypted')
+  final bool kMSEncrypted;
+
+  /// The Amazon Resource Name (ARN) of the AWS KMS Key used for Amazon S3 server
+  /// side encryption. This value can only be set when KMSEncrypted is true.
+  /// Optional.
+  @_s.JsonKey(name: 'KMSKey')
+  final String kMSKey;
+
+  /// The ID of the pool that you want to add your tape to for archiving. The tape
+  /// in this pool is archived in the S3 storage class that is associated with the
+  /// pool. When you use your backup application to eject the tape, the tape is
+  /// archived directly into the storage class (Glacier or Deep Archive) that
+  /// corresponds to the pool.
+  ///
+  /// Valid values: "GLACIER", "DEEP_ARCHIVE"
+  @_s.JsonKey(name: 'PoolId')
+  final String poolId;
+
+  /// A list of up to 50 tags that can be assigned to a virtual tape that has a
+  /// barcode. Each tag is a key-value pair.
+  /// <note>
+  /// Valid characters for key and value are letters, spaces, and numbers
+  /// representable in UTF-8 format, and the following special characters: + - = .
+  /// _ : / @. The maximum length of a tag's key is 128 characters, and the
+  /// maximum length for a tag's value is 256.
+  /// </note>
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateTapeWithBarcodeInput({
+    @_s.required this.gatewayARN,
+    @_s.required this.tapeBarcode,
+    @_s.required this.tapeSizeInBytes,
+    this.kMSEncrypted,
+    this.kMSKey,
+    this.poolId,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateTapeWithBarcodeInputToJson(this);
+}
+
 /// CreateTapeOutput
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -5880,6 +6831,94 @@ class CreateTapeWithBarcodeOutput {
   });
   factory CreateTapeWithBarcodeOutput.fromJson(Map<String, dynamic> json) =>
       _$CreateTapeWithBarcodeOutputFromJson(json);
+}
+
+/// CreateTapesInput
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateTapesInput {
+  /// A unique identifier that you use to retry a request. If you retry a request,
+  /// use the same <code>ClientToken</code> you specified in the initial request.
+  /// <note>
+  /// Using the same <code>ClientToken</code> prevents creating the tape multiple
+  /// times.
+  /// </note>
+  @_s.JsonKey(name: 'ClientToken')
+  final String clientToken;
+
+  /// The unique Amazon Resource Name (ARN) that represents the gateway to
+  /// associate the virtual tapes with. Use the <a>ListGateways</a> operation to
+  /// return a list of gateways for your account and AWS Region.
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  /// The number of virtual tapes that you want to create.
+  @_s.JsonKey(name: 'NumTapesToCreate')
+  final int numTapesToCreate;
+
+  /// A prefix that you append to the barcode of the virtual tape you are
+  /// creating. This prefix makes the barcode unique.
+  /// <note>
+  /// The prefix must be 1 to 4 characters in length and must be one of the
+  /// uppercase letters from A to Z.
+  /// </note>
+  @_s.JsonKey(name: 'TapeBarcodePrefix')
+  final String tapeBarcodePrefix;
+
+  /// The size, in bytes, of the virtual tapes that you want to create.
+  /// <note>
+  /// The size must be aligned by gigabyte (1024*1024*1024 byte).
+  /// </note>
+  @_s.JsonKey(name: 'TapeSizeInBytes')
+  final int tapeSizeInBytes;
+
+  /// True to use Amazon S3 server side encryption with your own AWS KMS key, or
+  /// false to use a key managed by Amazon S3. Optional.
+  @_s.JsonKey(name: 'KMSEncrypted')
+  final bool kMSEncrypted;
+
+  /// The Amazon Resource Name (ARN) of the AWS KMS key used for Amazon S3 server
+  /// side encryption. This value can only be set when KMSEncrypted is true.
+  /// Optional.
+  @_s.JsonKey(name: 'KMSKey')
+  final String kMSKey;
+
+  /// The ID of the pool that you want to add your tape to for archiving. The tape
+  /// in this pool is archived in the S3 storage class that is associated with the
+  /// pool. When you use your backup application to eject the tape, the tape is
+  /// archived directly into the storage class (Glacier or Deep Archive) that
+  /// corresponds to the pool.
+  ///
+  /// Valid values: "GLACIER", "DEEP_ARCHIVE"
+  @_s.JsonKey(name: 'PoolId')
+  final String poolId;
+
+  /// A list of up to 50 tags that can be assigned to a virtual tape. Each tag is
+  /// a key-value pair.
+  /// <note>
+  /// Valid characters for key and value are letters, spaces, and numbers
+  /// representable in UTF-8 format, and the following special characters: + - = .
+  /// _ : / @. The maximum length of a tag's key is 128 characters, and the
+  /// maximum length for a tag's value is 256.
+  /// </note>
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateTapesInput({
+    @_s.required this.clientToken,
+    @_s.required this.gatewayARN,
+    @_s.required this.numTapesToCreate,
+    @_s.required this.tapeBarcodePrefix,
+    @_s.required this.tapeSizeInBytes,
+    this.kMSEncrypted,
+    this.kMSKey,
+    this.poolId,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateTapesInputToJson(this);
 }
 
 /// CreateTapeOutput
@@ -5901,6 +6940,35 @@ class CreateTapesOutput {
       _$CreateTapesOutputFromJson(json);
 }
 
+/// A JSON object containing the following fields:
+///
+/// <ul>
+/// <li>
+/// <a>DeleteBandwidthRateLimitInput$BandwidthType</a>
+/// </li>
+/// </ul>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteBandwidthRateLimitInput {
+  /// One of the BandwidthType values that indicates the gateway bandwidth rate
+  /// limit to delete.
+  ///
+  /// Valid Values: <code>Upload</code>, <code>Download</code>, <code>All</code>.
+  @_s.JsonKey(name: 'BandwidthType')
+  final String bandwidthType;
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  DeleteBandwidthRateLimitInput({
+    @_s.required this.bandwidthType,
+    @_s.required this.gatewayARN,
+  });
+  Map<String, dynamic> toJson() => _$DeleteBandwidthRateLimitInputToJson(this);
+}
+
 /// A JSON object containing the of the gateway whose bandwidth rate information
 /// was deleted.
 @_s.JsonSerializable(
@@ -5917,6 +6985,39 @@ class DeleteBandwidthRateLimitOutput {
   });
   factory DeleteBandwidthRateLimitOutput.fromJson(Map<String, dynamic> json) =>
       _$DeleteBandwidthRateLimitOutputFromJson(json);
+}
+
+/// A JSON object containing one or more of the following fields:
+///
+/// <ul>
+/// <li>
+/// <a>DeleteChapCredentialsInput$InitiatorName</a>
+/// </li>
+/// <li>
+/// <a>DeleteChapCredentialsInput$TargetARN</a>
+/// </li>
+/// </ul>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteChapCredentialsInput {
+  /// The iSCSI initiator that connects to the target.
+  @_s.JsonKey(name: 'InitiatorName')
+  final String initiatorName;
+
+  /// The Amazon Resource Name (ARN) of the iSCSI volume target. Use the
+  /// <a>DescribeStorediSCSIVolumes</a> operation to return to retrieve the
+  /// TargetARN for specified VolumeARN.
+  @_s.JsonKey(name: 'TargetARN')
+  final String targetARN;
+
+  DeleteChapCredentialsInput({
+    @_s.required this.initiatorName,
+    @_s.required this.targetARN,
+  });
+  Map<String, dynamic> toJson() => _$DeleteChapCredentialsInputToJson(this);
 }
 
 /// A JSON object containing the following fields:
@@ -5942,6 +7043,31 @@ class DeleteChapCredentialsOutput {
       _$DeleteChapCredentialsOutputFromJson(json);
 }
 
+/// DeleteFileShareInput
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteFileShareInput {
+  /// The Amazon Resource Name (ARN) of the file share to be deleted.
+  @_s.JsonKey(name: 'FileShareARN')
+  final String fileShareARN;
+
+  /// If this value is set to true, the operation deletes a file share immediately
+  /// and aborts all data uploads to AWS. Otherwise, the file share is not deleted
+  /// until all data is uploaded to AWS. This process aborts the data upload
+  /// process, and the file share enters the FORCE_DELETING status.
+  @_s.JsonKey(name: 'ForceDelete')
+  final bool forceDelete;
+
+  DeleteFileShareInput({
+    @_s.required this.fileShareARN,
+    this.forceDelete,
+  });
+  Map<String, dynamic> toJson() => _$DeleteFileShareInputToJson(this);
+}
+
 /// DeleteFileShareOutput
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -5958,6 +7084,22 @@ class DeleteFileShareOutput {
   });
   factory DeleteFileShareOutput.fromJson(Map<String, dynamic> json) =>
       _$DeleteFileShareOutputFromJson(json);
+}
+
+/// A JSON object containing the ID of the gateway to delete.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteGatewayInput {
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  DeleteGatewayInput({
+    @_s.required this.gatewayARN,
+  });
+  Map<String, dynamic> toJson() => _$DeleteGatewayInputToJson(this);
 }
 
 /// A JSON object containing the ID of the deleted gateway.
@@ -5980,6 +7122,22 @@ class DeleteGatewayOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteSnapshotScheduleInput {
+  /// The volume which snapshot schedule to delete.
+  @_s.JsonKey(name: 'VolumeARN')
+  final String volumeARN;
+
+  DeleteSnapshotScheduleInput({
+    @_s.required this.volumeARN,
+  });
+  Map<String, dynamic> toJson() => _$DeleteSnapshotScheduleInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteSnapshotScheduleOutput {
@@ -5992,6 +7150,24 @@ class DeleteSnapshotScheduleOutput {
   });
   factory DeleteSnapshotScheduleOutput.fromJson(Map<String, dynamic> json) =>
       _$DeleteSnapshotScheduleOutputFromJson(json);
+}
+
+/// DeleteTapeArchiveInput
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteTapeArchiveInput {
+  /// The Amazon Resource Name (ARN) of the virtual tape to delete from the
+  /// virtual tape shelf (VTS).
+  @_s.JsonKey(name: 'TapeARN')
+  final String tapeARN;
+
+  DeleteTapeArchiveInput({
+    @_s.required this.tapeARN,
+  });
+  Map<String, dynamic> toJson() => _$DeleteTapeArchiveInputToJson(this);
 }
 
 /// DeleteTapeArchiveOutput
@@ -6013,6 +7189,30 @@ class DeleteTapeArchiveOutput {
       _$DeleteTapeArchiveOutputFromJson(json);
 }
 
+/// DeleteTapeInput
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteTapeInput {
+  /// The unique Amazon Resource Name (ARN) of the gateway that the virtual tape
+  /// to delete is associated with. Use the <a>ListGateways</a> operation to
+  /// return a list of gateways for your account and AWS Region.
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  /// The Amazon Resource Name (ARN) of the virtual tape to delete.
+  @_s.JsonKey(name: 'TapeARN')
+  final String tapeARN;
+
+  DeleteTapeInput({
+    @_s.required this.gatewayARN,
+    @_s.required this.tapeARN,
+  });
+  Map<String, dynamic> toJson() => _$DeleteTapeInputToJson(this);
+}
+
 /// DeleteTapeOutput
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6029,6 +7229,24 @@ class DeleteTapeOutput {
   });
   factory DeleteTapeOutput.fromJson(Map<String, dynamic> json) =>
       _$DeleteTapeOutputFromJson(json);
+}
+
+/// A JSON object containing the <a>DeleteVolumeInput$VolumeARN</a> to delete.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteVolumeInput {
+  /// The Amazon Resource Name (ARN) of the volume. Use the <a>ListVolumes</a>
+  /// operation to return a list of gateway volumes.
+  @_s.JsonKey(name: 'VolumeARN')
+  final String volumeARN;
+
+  DeleteVolumeInput({
+    @_s.required this.volumeARN,
+  });
+  Map<String, dynamic> toJson() => _$DeleteVolumeInputToJson(this);
 }
 
 /// A JSON object containing the of the storage volume that was deleted
@@ -6048,6 +7266,22 @@ class DeleteVolumeOutput {
   });
   factory DeleteVolumeOutput.fromJson(Map<String, dynamic> json) =>
       _$DeleteVolumeOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeAvailabilityMonitorTestInput {
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  DescribeAvailabilityMonitorTestInput({
+    @_s.required this.gatewayARN,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeAvailabilityMonitorTestInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6082,6 +7316,23 @@ class DescribeAvailabilityMonitorTestOutput {
       _$DescribeAvailabilityMonitorTestOutputFromJson(json);
 }
 
+/// A JSON object containing the of the gateway.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeBandwidthRateLimitInput {
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  DescribeBandwidthRateLimitInput({
+    @_s.required this.gatewayARN,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeBandwidthRateLimitInputToJson(this);
+}
+
 /// A JSON object containing the following fields:
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6109,6 +7360,21 @@ class DescribeBandwidthRateLimitOutput {
   factory DescribeBandwidthRateLimitOutput.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeBandwidthRateLimitOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeCacheInput {
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  DescribeCacheInput({
+    @_s.required this.gatewayARN,
+  });
+  Map<String, dynamic> toJson() => _$DescribeCacheInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6164,6 +7430,25 @@ class DescribeCacheOutput {
       _$DescribeCacheOutputFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeCachediSCSIVolumesInput {
+  /// An array of strings where each string represents the Amazon Resource Name
+  /// (ARN) of a cached volume. All of the specified cached volumes must from the
+  /// same gateway. Use <a>ListVolumes</a> to get volume ARNs for a gateway.
+  @_s.JsonKey(name: 'VolumeARNs')
+  final List<String> volumeARNs;
+
+  DescribeCachediSCSIVolumesInput({
+    @_s.required this.volumeARNs,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeCachediSCSIVolumesInputToJson(this);
+}
+
 /// A JSON object containing the following fields:
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6182,6 +7467,26 @@ class DescribeCachediSCSIVolumesOutput {
   factory DescribeCachediSCSIVolumesOutput.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeCachediSCSIVolumesOutputFromJson(json);
+}
+
+/// A JSON object containing the Amazon Resource Name (ARN) of the iSCSI volume
+/// target.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeChapCredentialsInput {
+  /// The Amazon Resource Name (ARN) of the iSCSI volume target. Use the
+  /// <a>DescribeStorediSCSIVolumes</a> operation to return to retrieve the
+  /// TargetARN for specified VolumeARN.
+  @_s.JsonKey(name: 'TargetARN')
+  final String targetARN;
+
+  DescribeChapCredentialsInput({
+    @_s.required this.targetARN,
+  });
+  Map<String, dynamic> toJson() => _$DescribeChapCredentialsInputToJson(this);
 }
 
 /// A JSON object containing a .
@@ -6223,6 +7528,23 @@ class DescribeChapCredentialsOutput {
   });
   factory DescribeChapCredentialsOutput.fromJson(Map<String, dynamic> json) =>
       _$DescribeChapCredentialsOutputFromJson(json);
+}
+
+/// A JSON object containing the ID of the gateway.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeGatewayInformationInput {
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  DescribeGatewayInformationInput({
+    @_s.required this.gatewayARN,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeGatewayInformationInputToJson(this);
 }
 
 /// A JSON object containing the following fields:
@@ -6324,6 +7646,23 @@ class DescribeGatewayInformationOutput {
       _$DescribeGatewayInformationOutputFromJson(json);
 }
 
+/// A JSON object containing the of the gateway.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeMaintenanceStartTimeInput {
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  DescribeMaintenanceStartTimeInput({
+    @_s.required this.gatewayARN,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeMaintenanceStartTimeInputToJson(this);
+}
+
 /// A JSON object containing the following fields:
 ///
 /// <ul>
@@ -6396,6 +7735,24 @@ class DescribeMaintenanceStartTimeOutput {
       _$DescribeMaintenanceStartTimeOutputFromJson(json);
 }
 
+/// DescribeNFSFileSharesInput
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeNFSFileSharesInput {
+  /// An array containing the Amazon Resource Name (ARN) of each file share to be
+  /// described.
+  @_s.JsonKey(name: 'FileShareARNList')
+  final List<String> fileShareARNList;
+
+  DescribeNFSFileSharesInput({
+    @_s.required this.fileShareARNList,
+  });
+  Map<String, dynamic> toJson() => _$DescribeNFSFileSharesInputToJson(this);
+}
+
 /// DescribeNFSFileSharesOutput
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6414,6 +7771,24 @@ class DescribeNFSFileSharesOutput {
       _$DescribeNFSFileSharesOutputFromJson(json);
 }
 
+/// DescribeSMBFileSharesInput
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeSMBFileSharesInput {
+  /// An array containing the Amazon Resource Name (ARN) of each file share to be
+  /// described.
+  @_s.JsonKey(name: 'FileShareARNList')
+  final List<String> fileShareARNList;
+
+  DescribeSMBFileSharesInput({
+    @_s.required this.fileShareARNList,
+  });
+  Map<String, dynamic> toJson() => _$DescribeSMBFileSharesInputToJson(this);
+}
+
 /// DescribeSMBFileSharesOutput
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6430,6 +7805,21 @@ class DescribeSMBFileSharesOutput {
   });
   factory DescribeSMBFileSharesOutput.fromJson(Map<String, dynamic> json) =>
       _$DescribeSMBFileSharesOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeSMBSettingsInput {
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  DescribeSMBSettingsInput({
+    @_s.required this.gatewayARN,
+  });
+  Map<String, dynamic> toJson() => _$DescribeSMBSettingsInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6511,6 +7901,25 @@ class DescribeSMBSettingsOutput {
       _$DescribeSMBSettingsOutputFromJson(json);
 }
 
+/// A JSON object containing the <a>DescribeSnapshotScheduleInput$VolumeARN</a>
+/// of the volume.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeSnapshotScheduleInput {
+  /// The Amazon Resource Name (ARN) of the volume. Use the <a>ListVolumes</a>
+  /// operation to return a list of gateway volumes.
+  @_s.JsonKey(name: 'VolumeARN')
+  final String volumeARN;
+
+  DescribeSnapshotScheduleInput({
+    @_s.required this.volumeARN,
+  });
+  Map<String, dynamic> toJson() => _$DescribeSnapshotScheduleInputToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -6557,6 +7966,27 @@ class DescribeSnapshotScheduleOutput {
   });
   factory DescribeSnapshotScheduleOutput.fromJson(Map<String, dynamic> json) =>
       _$DescribeSnapshotScheduleOutputFromJson(json);
+}
+
+/// A JSON object containing a list of
+/// <a>DescribeStorediSCSIVolumesInput$VolumeARNs</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeStorediSCSIVolumesInput {
+  /// An array of strings where each string represents the Amazon Resource Name
+  /// (ARN) of a stored volume. All of the specified stored volumes must from the
+  /// same gateway. Use <a>ListVolumes</a> to get volume ARNs for a gateway.
+  @_s.JsonKey(name: 'VolumeARNs')
+  final List<String> volumeARNs;
+
+  DescribeStorediSCSIVolumesInput({
+    @_s.required this.volumeARNs,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeStorediSCSIVolumesInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6644,6 +8074,36 @@ class DescribeStorediSCSIVolumesOutput {
       _$DescribeStorediSCSIVolumesOutputFromJson(json);
 }
 
+/// DescribeTapeArchivesInput
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeTapeArchivesInput {
+  /// Specifies that the number of virtual tapes descried be limited to the
+  /// specified number.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// An opaque string that indicates the position at which to begin describing
+  /// virtual tapes.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  /// Specifies one or more unique Amazon Resource Names (ARNs) that represent the
+  /// virtual tapes you want to describe.
+  @_s.JsonKey(name: 'TapeARNs')
+  final List<String> tapeARNs;
+
+  DescribeTapeArchivesInput({
+    this.limit,
+    this.marker,
+    this.tapeARNs,
+  });
+  Map<String, dynamic> toJson() => _$DescribeTapeArchivesInputToJson(this);
+}
+
 /// DescribeTapeArchivesOutput
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6673,6 +8133,35 @@ class DescribeTapeArchivesOutput {
   });
   factory DescribeTapeArchivesOutput.fromJson(Map<String, dynamic> json) =>
       _$DescribeTapeArchivesOutputFromJson(json);
+}
+
+/// DescribeTapeRecoveryPointsInput
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeTapeRecoveryPointsInput {
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  /// Specifies that the number of virtual tape recovery points that are described
+  /// be limited to the specified number.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// An opaque string that indicates the position at which to begin describing
+  /// the virtual tape recovery points.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  DescribeTapeRecoveryPointsInput({
+    @_s.required this.gatewayARN,
+    this.limit,
+    this.marker,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeTapeRecoveryPointsInputToJson(this);
 }
 
 /// DescribeTapeRecoveryPointsOutput
@@ -6709,6 +8198,47 @@ class DescribeTapeRecoveryPointsOutput {
       _$DescribeTapeRecoveryPointsOutputFromJson(json);
 }
 
+/// DescribeTapesInput
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeTapesInput {
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  /// Specifies that the number of virtual tapes described be limited to the
+  /// specified number.
+  /// <note>
+  /// Amazon Web Services may impose its own limit, if this field is not set.
+  /// </note>
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// A marker value, obtained in a previous call to <code>DescribeTapes</code>.
+  /// This marker indicates which page of results to retrieve.
+  ///
+  /// If not specified, the first page of results is retrieved.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  /// Specifies one or more unique Amazon Resource Names (ARNs) that represent the
+  /// virtual tapes you want to describe. If this parameter is not specified, Tape
+  /// gateway returns a description of all virtual tapes associated with the
+  /// specified gateway.
+  @_s.JsonKey(name: 'TapeARNs')
+  final List<String> tapeARNs;
+
+  DescribeTapesInput({
+    @_s.required this.gatewayARN,
+    this.limit,
+    this.marker,
+    this.tapeARNs,
+  });
+  Map<String, dynamic> toJson() => _$DescribeTapesInputToJson(this);
+}
+
 /// DescribeTapesOutput
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6734,6 +8264,21 @@ class DescribeTapesOutput {
   });
   factory DescribeTapesOutput.fromJson(Map<String, dynamic> json) =>
       _$DescribeTapesOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeUploadBufferInput {
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  DescribeUploadBufferInput({
+    @_s.required this.gatewayARN,
+  });
+  Map<String, dynamic> toJson() => _$DescribeUploadBufferInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6769,6 +8314,45 @@ class DescribeUploadBufferOutput {
       _$DescribeUploadBufferOutputFromJson(json);
 }
 
+/// DescribeVTLDevicesInput
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeVTLDevicesInput {
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  /// Specifies that the number of VTL devices described be limited to the
+  /// specified number.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// An opaque string that indicates the position at which to begin describing
+  /// the VTL devices.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  /// An array of strings, where each string represents the Amazon Resource Name
+  /// (ARN) of a VTL device.
+  /// <note>
+  /// All of the specified VTL devices must be from the same gateway. If no VTL
+  /// devices are specified, the result will contain all devices on the specified
+  /// gateway.
+  /// </note>
+  @_s.JsonKey(name: 'VTLDeviceARNs')
+  final List<String> vTLDeviceARNs;
+
+  DescribeVTLDevicesInput({
+    @_s.required this.gatewayARN,
+    this.limit,
+    this.marker,
+    this.vTLDeviceARNs,
+  });
+  Map<String, dynamic> toJson() => _$DescribeVTLDevicesInputToJson(this);
+}
+
 /// DescribeVTLDevicesOutput
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6798,6 +8382,22 @@ class DescribeVTLDevicesOutput {
   });
   factory DescribeVTLDevicesOutput.fromJson(Map<String, dynamic> json) =>
       _$DescribeVTLDevicesOutputFromJson(json);
+}
+
+/// A JSON object containing the of the gateway.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeWorkingStorageInput {
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  DescribeWorkingStorageInput({
+    @_s.required this.gatewayARN,
+  });
+  Map<String, dynamic> toJson() => _$DescribeWorkingStorageInputToJson(this);
 }
 
 /// A JSON object containing the following fields:
@@ -6834,6 +8434,31 @@ class DescribeWorkingStorageOutput {
   });
   factory DescribeWorkingStorageOutput.fromJson(Map<String, dynamic> json) =>
       _$DescribeWorkingStorageOutputFromJson(json);
+}
+
+/// AttachVolumeInput
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DetachVolumeInput {
+  /// The Amazon Resource Name (ARN) of the volume to detach from the gateway.
+  @_s.JsonKey(name: 'VolumeARN')
+  final String volumeARN;
+
+  /// Set to <code>true</code> to forcibly remove the iSCSI connection of the
+  /// target volume and detach the volume. The default is <code>false</code>. If
+  /// this value is set to <code>false</code>, you must manually disconnect the
+  /// iSCSI connection from the target volume.
+  @_s.JsonKey(name: 'ForceDetach')
+  final bool forceDetach;
+
+  DetachVolumeInput({
+    @_s.required this.volumeARN,
+    this.forceDetach,
+  });
+  Map<String, dynamic> toJson() => _$DetachVolumeInputToJson(this);
 }
 
 /// AttachVolumeOutput
@@ -6886,6 +8511,22 @@ class DeviceiSCSIAttributes {
   });
   factory DeviceiSCSIAttributes.fromJson(Map<String, dynamic> json) =>
       _$DeviceiSCSIAttributesFromJson(json);
+}
+
+/// DisableGatewayInput
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisableGatewayInput {
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  DisableGatewayInput({
+    @_s.required this.gatewayARN,
+  });
+  Map<String, dynamic> toJson() => _$DisableGatewayInputToJson(this);
 }
 
 /// DisableGatewayOutput
@@ -7062,6 +8703,65 @@ enum HostEnvironment {
   other,
 }
 
+/// JoinDomainInput
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class JoinDomainInput {
+  /// The name of the domain that you want the gateway to join.
+  @_s.JsonKey(name: 'DomainName')
+  final String domainName;
+
+  /// The Amazon Resource Name (ARN) of the gateway. Use the
+  /// <code>ListGateways</code> operation to return a list of gateways for your
+  /// account and AWS Region.
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  /// Sets the password of the user who has permission to add the gateway to the
+  /// Active Directory domain.
+  @_s.JsonKey(name: 'Password')
+  final String password;
+
+  /// Sets the user name of user who has permission to add the gateway to the
+  /// Active Directory domain. The domain user account should be enabled to join
+  /// computers to the domain. For example, you can use the domain administrator
+  /// account or an account with delegated permissions to join computers to the
+  /// domain.
+  @_s.JsonKey(name: 'UserName')
+  final String userName;
+
+  /// List of IPv4 addresses, NetBIOS names, or host names of your domain server.
+  /// If you need to specify the port number include it after the colon (“:”). For
+  /// example, <code>mydc.mydomain.com:389</code>.
+  @_s.JsonKey(name: 'DomainControllers')
+  final List<String> domainControllers;
+
+  /// The organizational unit (OU) is a container in an Active Directory that can
+  /// hold users, groups, computers, and other OUs and this parameter specifies
+  /// the OU that the gateway will join within the AD domain.
+  @_s.JsonKey(name: 'OrganizationalUnit')
+  final String organizationalUnit;
+
+  /// Specifies the time in seconds, in which the <code>JoinDomain</code>
+  /// operation must complete. The default is 20 seconds.
+  @_s.JsonKey(name: 'TimeoutInSeconds')
+  final int timeoutInSeconds;
+
+  JoinDomainInput({
+    @_s.required this.domainName,
+    @_s.required this.gatewayARN,
+    @_s.required this.password,
+    @_s.required this.userName,
+    this.domainControllers,
+    this.organizationalUnit,
+    this.timeoutInSeconds,
+  });
+  Map<String, dynamic> toJson() => _$JoinDomainInputToJson(this);
+}
+
 /// JoinDomainOutput
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -7114,6 +8814,38 @@ class JoinDomainOutput {
       _$JoinDomainOutputFromJson(json);
 }
 
+/// ListFileShareInput
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListFileSharesInput {
+  /// The Amazon resource Name (ARN) of the gateway whose file shares you want to
+  /// list. If this field is not present, all file shares under your account are
+  /// listed.
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  /// The maximum number of file shares to return in the response. The value must
+  /// be an integer with a value greater than zero. Optional.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// Opaque pagination token returned from a previous ListFileShares operation.
+  /// If present, <code>Marker</code> specifies where to continue the list from
+  /// after a previous call to ListFileShares. Optional.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  ListFileSharesInput({
+    this.gatewayARN,
+    this.limit,
+    this.marker,
+  });
+  Map<String, dynamic> toJson() => _$ListFileSharesInputToJson(this);
+}
+
 /// ListFileShareOutput
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -7145,6 +8877,39 @@ class ListFileSharesOutput {
       _$ListFileSharesOutputFromJson(json);
 }
 
+/// A JSON object containing zero or more of the following fields:
+///
+/// <ul>
+/// <li>
+/// <a>ListGatewaysInput$Limit</a>
+/// </li>
+/// <li>
+/// <a>ListGatewaysInput$Marker</a>
+/// </li>
+/// </ul>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListGatewaysInput {
+  /// Specifies that the list of gateways returned be limited to the specified
+  /// number of items.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// An opaque string that indicates the position at which to begin the returned
+  /// list of gateways.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  ListGatewaysInput({
+    this.limit,
+    this.marker,
+  });
+  Map<String, dynamic> toJson() => _$ListGatewaysInputToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -7167,6 +8932,22 @@ class ListGatewaysOutput {
   });
   factory ListGatewaysOutput.fromJson(Map<String, dynamic> json) =>
       _$ListGatewaysOutputFromJson(json);
+}
+
+/// A JSON object containing the of the gateway.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListLocalDisksInput {
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  ListLocalDisksInput({
+    @_s.required this.gatewayARN,
+  });
+  Map<String, dynamic> toJson() => _$ListLocalDisksInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7193,6 +8974,36 @@ class ListLocalDisksOutput {
   });
   factory ListLocalDisksOutput.fromJson(Map<String, dynamic> json) =>
       _$ListLocalDisksOutputFromJson(json);
+}
+
+/// ListTagsForResourceInput
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceInput {
+  /// The Amazon Resource Name (ARN) of the resource for which you want to list
+  /// tags.
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+
+  /// Specifies that the list of tags returned be limited to the specified number
+  /// of items.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// An opaque string that indicates the position at which to begin returning the
+  /// list of tags.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  ListTagsForResourceInput({
+    @_s.required this.resourceARN,
+    this.limit,
+    this.marker,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceInputToJson(this);
 }
 
 /// ListTagsForResourceOutput
@@ -7223,6 +9034,44 @@ class ListTagsForResourceOutput {
   });
   factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) =>
       _$ListTagsForResourceOutputFromJson(json);
+}
+
+/// A JSON object that contains one or more of the following fields:
+///
+/// <ul>
+/// <li>
+/// <a>ListTapesInput$Limit</a>
+/// </li>
+/// <li>
+/// <a>ListTapesInput$Marker</a>
+/// </li>
+/// <li>
+/// <a>ListTapesInput$TapeARNs</a>
+/// </li>
+/// </ul>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTapesInput {
+  /// An optional number limit for the tapes in the list returned by this call.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// A string that indicates the position at which to begin the returned list of
+  /// tapes.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+  @_s.JsonKey(name: 'TapeARNs')
+  final List<String> tapeARNs;
+
+  ListTapesInput({
+    this.limit,
+    this.marker,
+    this.tapeARNs,
+  });
+  Map<String, dynamic> toJson() => _$ListTapesInputToJson(this);
 }
 
 /// A JSON object containing the following fields:
@@ -7258,6 +9107,24 @@ class ListTapesOutput {
       _$ListTapesOutputFromJson(json);
 }
 
+/// ListVolumeInitiatorsInput
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListVolumeInitiatorsInput {
+  /// The Amazon Resource Name (ARN) of the volume. Use the <a>ListVolumes</a>
+  /// operation to return a list of gateway volumes for the gateway.
+  @_s.JsonKey(name: 'VolumeARN')
+  final String volumeARN;
+
+  ListVolumeInitiatorsInput({
+    @_s.required this.volumeARN,
+  });
+  Map<String, dynamic> toJson() => _$ListVolumeInitiatorsInputToJson(this);
+}
+
 /// ListVolumeInitiatorsOutput
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -7280,6 +9147,21 @@ class ListVolumeInitiatorsOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListVolumeRecoveryPointsInput {
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  ListVolumeRecoveryPointsInput({
+    @_s.required this.gatewayARN,
+  });
+  Map<String, dynamic> toJson() => _$ListVolumeRecoveryPointsInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListVolumeRecoveryPointsOutput {
@@ -7296,6 +9178,44 @@ class ListVolumeRecoveryPointsOutput {
   });
   factory ListVolumeRecoveryPointsOutput.fromJson(Map<String, dynamic> json) =>
       _$ListVolumeRecoveryPointsOutputFromJson(json);
+}
+
+/// A JSON object that contains one or more of the following fields:
+///
+/// <ul>
+/// <li>
+/// <a>ListVolumesInput$Limit</a>
+/// </li>
+/// <li>
+/// <a>ListVolumesInput$Marker</a>
+/// </li>
+/// </ul>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListVolumesInput {
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  /// Specifies that the list of volumes returned be limited to the specified
+  /// number of items.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// A string that indicates the position at which to begin the returned list of
+  /// volumes. Obtain the marker from the response of a previous List iSCSI
+  /// Volumes request.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  ListVolumesInput({
+    this.gatewayARN,
+    this.limit,
+    this.marker,
+  });
+  Map<String, dynamic> toJson() => _$ListVolumesInputToJson(this);
 }
 
 /// A JSON object containing the following fields:
@@ -7518,6 +9438,21 @@ class NetworkInterface {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class NotifyWhenUploadedInput {
+  @_s.JsonKey(name: 'FileShareARN')
+  final String fileShareARN;
+
+  NotifyWhenUploadedInput({
+    @_s.required this.fileShareARN,
+  });
+  Map<String, dynamic> toJson() => _$NotifyWhenUploadedInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class NotifyWhenUploadedOutput {
@@ -7554,26 +9489,41 @@ enum ObjectACL {
   awsExecRead,
 }
 
-extension on ObjectACL {
-  String toValue() {
-    switch (this) {
-      case ObjectACL.private:
-        return 'private';
-      case ObjectACL.publicRead:
-        return 'public-read';
-      case ObjectACL.publicReadWrite:
-        return 'public-read-write';
-      case ObjectACL.authenticatedRead:
-        return 'authenticated-read';
-      case ObjectACL.bucketOwnerRead:
-        return 'bucket-owner-read';
-      case ObjectACL.bucketOwnerFullControl:
-        return 'bucket-owner-full-control';
-      case ObjectACL.awsExecRead:
-        return 'aws-exec-read';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+/// RefreshCacheInput
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RefreshCacheInput {
+  /// The Amazon Resource Name (ARN) of the file share you want to refresh.
+  @_s.JsonKey(name: 'FileShareARN')
+  final String fileShareARN;
+
+  /// A comma-separated list of the paths of folders to refresh in the cache. The
+  /// default is [<code>"/"</code>]. The default refreshes objects and folders at
+  /// the root of the Amazon S3 bucket. If <code>Recursive</code> is set to
+  /// "true", the entire S3 bucket that the file share has access to is refreshed.
+  @_s.JsonKey(name: 'FolderList')
+  final List<String> folderList;
+
+  /// A value that specifies whether to recursively refresh folders in the cache.
+  /// The refresh includes folders that were in the cache the last time the
+  /// gateway listed the folder's contents. If this value set to "true", each
+  /// folder that is listed in <code>FolderList</code> is recursively updated.
+  /// Otherwise, subfolders listed in <code>FolderList</code> are not refreshed.
+  /// Only objects that are in folders listed directly under
+  /// <code>FolderList</code> are found and used for the update. The default is
+  /// "true".
+  @_s.JsonKey(name: 'Recursive')
+  final bool recursive;
+
+  RefreshCacheInput({
+    @_s.required this.fileShareARN,
+    this.folderList,
+    this.recursive,
+  });
+  Map<String, dynamic> toJson() => _$RefreshCacheInputToJson(this);
 }
 
 /// RefreshCacheOutput
@@ -7594,6 +9544,30 @@ class RefreshCacheOutput {
   });
   factory RefreshCacheOutput.fromJson(Map<String, dynamic> json) =>
       _$RefreshCacheOutputFromJson(json);
+}
+
+/// RemoveTagsFromResourceInput
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RemoveTagsFromResourceInput {
+  /// The Amazon Resource Name (ARN) of the resource you want to remove the tags
+  /// from.
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+
+  /// The keys of the tags you want to remove from the specified resource. A tag
+  /// is composed of a key/value pair.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  RemoveTagsFromResourceInput({
+    @_s.required this.resourceARN,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$RemoveTagsFromResourceInputToJson(this);
 }
 
 /// RemoveTagsFromResourceOutput
@@ -7618,6 +9592,21 @@ class RemoveTagsFromResourceOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ResetCacheInput {
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  ResetCacheInput({
+    @_s.required this.gatewayARN,
+  });
+  Map<String, dynamic> toJson() => _$ResetCacheInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ResetCacheOutput {
@@ -7629,6 +9618,34 @@ class ResetCacheOutput {
   });
   factory ResetCacheOutput.fromJson(Map<String, dynamic> json) =>
       _$ResetCacheOutputFromJson(json);
+}
+
+/// RetrieveTapeArchiveInput
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RetrieveTapeArchiveInput {
+  /// The Amazon Resource Name (ARN) of the gateway you want to retrieve the
+  /// virtual tape to. Use the <a>ListGateways</a> operation to return a list of
+  /// gateways for your account and AWS Region.
+  ///
+  /// You retrieve archived virtual tapes to only one gateway and the gateway must
+  /// be a tape gateway.
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  /// The Amazon Resource Name (ARN) of the virtual tape you want to retrieve from
+  /// the virtual tape shelf (VTS).
+  @_s.JsonKey(name: 'TapeARN')
+  final String tapeARN;
+
+  RetrieveTapeArchiveInput({
+    @_s.required this.gatewayARN,
+    @_s.required this.tapeARN,
+  });
+  Map<String, dynamic> toJson() => _$RetrieveTapeArchiveInputToJson(this);
 }
 
 /// RetrieveTapeArchiveOutput
@@ -7647,6 +9664,28 @@ class RetrieveTapeArchiveOutput {
   });
   factory RetrieveTapeArchiveOutput.fromJson(Map<String, dynamic> json) =>
       _$RetrieveTapeArchiveOutputFromJson(json);
+}
+
+/// RetrieveTapeRecoveryPointInput
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RetrieveTapeRecoveryPointInput {
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  /// The Amazon Resource Name (ARN) of the virtual tape for which you want to
+  /// retrieve the recovery point.
+  @_s.JsonKey(name: 'TapeARN')
+  final String tapeARN;
+
+  RetrieveTapeRecoveryPointInput({
+    @_s.required this.gatewayARN,
+    @_s.required this.tapeARN,
+  });
+  Map<String, dynamic> toJson() => _$RetrieveTapeRecoveryPointInputToJson(this);
 }
 
 /// RetrieveTapeRecoveryPointOutput
@@ -7812,18 +9851,25 @@ enum SMBSecurityStrategy {
   mandatoryEncryption,
 }
 
-extension on SMBSecurityStrategy {
-  String toValue() {
-    switch (this) {
-      case SMBSecurityStrategy.clientSpecified:
-        return 'ClientSpecified';
-      case SMBSecurityStrategy.mandatorySigning:
-        return 'MandatorySigning';
-      case SMBSecurityStrategy.mandatoryEncryption:
-        return 'MandatoryEncryption';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+/// SetLocalConsolePasswordInput
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SetLocalConsolePasswordInput {
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  /// The password you want to set for your VM local console.
+  @_s.JsonKey(name: 'LocalConsolePassword')
+  final String localConsolePassword;
+
+  SetLocalConsolePasswordInput({
+    @_s.required this.gatewayARN,
+    @_s.required this.localConsolePassword,
+  });
+  Map<String, dynamic> toJson() => _$SetLocalConsolePasswordInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7842,6 +9888,29 @@ class SetLocalConsolePasswordOutput {
       _$SetLocalConsolePasswordOutputFromJson(json);
 }
 
+/// SetSMBGuestPasswordInput
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SetSMBGuestPasswordInput {
+  /// The Amazon Resource Name (ARN) of the file gateway the SMB file share is
+  /// associated with.
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  /// The password that you want to set for your SMB Server.
+  @_s.JsonKey(name: 'Password')
+  final String password;
+
+  SetSMBGuestPasswordInput({
+    @_s.required this.gatewayARN,
+    @_s.required this.password,
+  });
+  Map<String, dynamic> toJson() => _$SetSMBGuestPasswordInputToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -7856,6 +9925,22 @@ class SetSMBGuestPasswordOutput {
   });
   factory SetSMBGuestPasswordOutput.fromJson(Map<String, dynamic> json) =>
       _$SetSMBGuestPasswordOutputFromJson(json);
+}
+
+/// A JSON object containing the of the gateway to shut down.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ShutdownGatewayInput {
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  ShutdownGatewayInput({
+    @_s.required this.gatewayARN,
+  });
+  Map<String, dynamic> toJson() => _$ShutdownGatewayInputToJson(this);
 }
 
 /// A JSON object containing the of the gateway that was shut down.
@@ -7878,6 +9963,22 @@ class ShutdownGatewayOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartAvailabilityMonitorTestInput {
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  StartAvailabilityMonitorTestInput({
+    @_s.required this.gatewayARN,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StartAvailabilityMonitorTestInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartAvailabilityMonitorTestOutput {
@@ -7890,6 +9991,22 @@ class StartAvailabilityMonitorTestOutput {
   factory StartAvailabilityMonitorTestOutput.fromJson(
           Map<String, dynamic> json) =>
       _$StartAvailabilityMonitorTestOutputFromJson(json);
+}
+
+/// A JSON object containing the of the gateway to start.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartGatewayInput {
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  StartGatewayInput({
+    @_s.required this.gatewayARN,
+  });
+  Map<String, dynamic> toJson() => _$StartGatewayInputToJson(this);
 }
 
 /// A JSON object containing the of the gateway that was restarted.
@@ -8301,6 +10418,41 @@ class TapeRecoveryPointInfo {
       _$TapeRecoveryPointInfoFromJson(json);
 }
 
+/// A JSON object containing one or more of the following fields:
+///
+/// <ul>
+/// <li>
+/// <a>UpdateBandwidthRateLimitInput$AverageDownloadRateLimitInBitsPerSec</a>
+/// </li>
+/// <li>
+/// <a>UpdateBandwidthRateLimitInput$AverageUploadRateLimitInBitsPerSec</a>
+/// </li>
+/// </ul>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateBandwidthRateLimitInput {
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  /// The average download bandwidth rate limit in bits per second.
+  @_s.JsonKey(name: 'AverageDownloadRateLimitInBitsPerSec')
+  final int averageDownloadRateLimitInBitsPerSec;
+
+  /// The average upload bandwidth rate limit in bits per second.
+  @_s.JsonKey(name: 'AverageUploadRateLimitInBitsPerSec')
+  final int averageUploadRateLimitInBitsPerSec;
+
+  UpdateBandwidthRateLimitInput({
+    @_s.required this.gatewayARN,
+    this.averageDownloadRateLimitInBitsPerSec,
+    this.averageUploadRateLimitInBitsPerSec,
+  });
+  Map<String, dynamic> toJson() => _$UpdateBandwidthRateLimitInputToJson(this);
+}
+
 /// A JSON object containing the of the gateway whose throttle information was
 /// updated.
 @_s.JsonSerializable(
@@ -8317,6 +10469,65 @@ class UpdateBandwidthRateLimitOutput {
   });
   factory UpdateBandwidthRateLimitOutput.fromJson(Map<String, dynamic> json) =>
       _$UpdateBandwidthRateLimitOutputFromJson(json);
+}
+
+/// A JSON object containing one or more of the following fields:
+///
+/// <ul>
+/// <li>
+/// <a>UpdateChapCredentialsInput$InitiatorName</a>
+/// </li>
+/// <li>
+/// <a>UpdateChapCredentialsInput$SecretToAuthenticateInitiator</a>
+/// </li>
+/// <li>
+/// <a>UpdateChapCredentialsInput$SecretToAuthenticateTarget</a>
+/// </li>
+/// <li>
+/// <a>UpdateChapCredentialsInput$TargetARN</a>
+/// </li>
+/// </ul>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateChapCredentialsInput {
+  /// The iSCSI initiator that connects to the target.
+  @_s.JsonKey(name: 'InitiatorName')
+  final String initiatorName;
+
+  /// The secret key that the initiator (for example, the Windows client) must
+  /// provide to participate in mutual CHAP with the target.
+  /// <note>
+  /// The secret key must be between 12 and 16 bytes when encoded in UTF-8.
+  /// </note>
+  @_s.JsonKey(name: 'SecretToAuthenticateInitiator')
+  final String secretToAuthenticateInitiator;
+
+  /// The Amazon Resource Name (ARN) of the iSCSI volume target. Use the
+  /// <a>DescribeStorediSCSIVolumes</a> operation to return the TargetARN for
+  /// specified VolumeARN.
+  @_s.JsonKey(name: 'TargetARN')
+  final String targetARN;
+
+  /// The secret key that the target must provide to participate in mutual CHAP
+  /// with the initiator (e.g. Windows client).
+  ///
+  /// Byte constraints: Minimum bytes of 12. Maximum bytes of 16.
+  /// <note>
+  /// The secret key must be between 12 and 16 bytes when encoded in UTF-8.
+  /// </note>
+  @_s.JsonKey(name: 'SecretToAuthenticateTarget')
+  final String secretToAuthenticateTarget;
+
+  UpdateChapCredentialsInput({
+    @_s.required this.initiatorName,
+    @_s.required this.secretToAuthenticateInitiator,
+    @_s.required this.targetARN,
+    this.secretToAuthenticateTarget,
+  });
+  Map<String, dynamic> toJson() => _$UpdateChapCredentialsInputToJson(this);
 }
 
 /// A JSON object containing the following fields:
@@ -8344,6 +10555,39 @@ class UpdateChapCredentialsOutput {
       _$UpdateChapCredentialsOutputFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateGatewayInformationInput {
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that you
+  /// want to use to monitor and log events in the gateway.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/WhatIsCloudWatchLogs.html">What
+  /// Is Amazon CloudWatch Logs?</a>.
+  @_s.JsonKey(name: 'CloudWatchLogGroupARN')
+  final String cloudWatchLogGroupARN;
+  @_s.JsonKey(name: 'GatewayName')
+  final String gatewayName;
+
+  /// A value that indicates the time zone of the gateway.
+  @_s.JsonKey(name: 'GatewayTimezone')
+  final String gatewayTimezone;
+
+  UpdateGatewayInformationInput({
+    @_s.required this.gatewayARN,
+    this.cloudWatchLogGroupARN,
+    this.gatewayName,
+    this.gatewayTimezone,
+  });
+  Map<String, dynamic> toJson() => _$UpdateGatewayInformationInputToJson(this);
+}
+
 /// A JSON object containing the ARN of the gateway that was updated.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -8366,6 +10610,22 @@ class UpdateGatewayInformationOutput {
       _$UpdateGatewayInformationOutputFromJson(json);
 }
 
+/// A JSON object containing the of the gateway to update.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateGatewaySoftwareNowInput {
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  UpdateGatewaySoftwareNowInput({
+    @_s.required this.gatewayARN,
+  });
+  Map<String, dynamic> toJson() => _$UpdateGatewaySoftwareNowInputToJson(this);
+}
+
 /// A JSON object containing the of the gateway that was updated.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -8381,6 +10641,68 @@ class UpdateGatewaySoftwareNowOutput {
   });
   factory UpdateGatewaySoftwareNowOutput.fromJson(Map<String, dynamic> json) =>
       _$UpdateGatewaySoftwareNowOutputFromJson(json);
+}
+
+/// A JSON object containing the following fields:
+///
+/// <ul>
+/// <li>
+/// <a>UpdateMaintenanceStartTimeInput$DayOfMonth</a>
+/// </li>
+/// <li>
+/// <a>UpdateMaintenanceStartTimeInput$DayOfWeek</a>
+/// </li>
+/// <li>
+/// <a>UpdateMaintenanceStartTimeInput$HourOfDay</a>
+/// </li>
+/// <li>
+/// <a>UpdateMaintenanceStartTimeInput$MinuteOfHour</a>
+/// </li>
+/// </ul>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateMaintenanceStartTimeInput {
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  /// The hour component of the maintenance start time represented as <i>hh</i>,
+  /// where <i>hh</i> is the hour (00 to 23). The hour of the day is in the time
+  /// zone of the gateway.
+  @_s.JsonKey(name: 'HourOfDay')
+  final int hourOfDay;
+
+  /// The minute component of the maintenance start time represented as <i>mm</i>,
+  /// where <i>mm</i> is the minute (00 to 59). The minute of the hour is in the
+  /// time zone of the gateway.
+  @_s.JsonKey(name: 'MinuteOfHour')
+  final int minuteOfHour;
+
+  /// The day of the month component of the maintenance start time represented as
+  /// an ordinal number from 1 to 28, where 1 represents the first day of the
+  /// month and 28 represents the last day of the month.
+  /// <note>
+  /// This value is only available for tape and volume gateways.
+  /// </note>
+  @_s.JsonKey(name: 'DayOfMonth')
+  final int dayOfMonth;
+
+  /// The day of the week component of the maintenance start time week represented
+  /// as an ordinal number from 0 to 6, where 0 represents Sunday and 6 Saturday.
+  @_s.JsonKey(name: 'DayOfWeek')
+  final int dayOfWeek;
+
+  UpdateMaintenanceStartTimeInput({
+    @_s.required this.gatewayARN,
+    @_s.required this.hourOfDay,
+    @_s.required this.minuteOfHour,
+    this.dayOfMonth,
+    this.dayOfWeek,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateMaintenanceStartTimeInputToJson(this);
 }
 
 /// A JSON object containing the of the gateway whose maintenance start time is
@@ -8402,6 +10724,105 @@ class UpdateMaintenanceStartTimeOutput {
       _$UpdateMaintenanceStartTimeOutputFromJson(json);
 }
 
+/// UpdateNFSFileShareInput
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateNFSFileShareInput {
+  /// The Amazon Resource Name (ARN) of the file share to be updated.
+  @_s.JsonKey(name: 'FileShareARN')
+  final String fileShareARN;
+
+  /// The list of clients that are allowed to access the file gateway. The list
+  /// must contain either valid IP addresses or valid CIDR blocks.
+  @_s.JsonKey(name: 'ClientList')
+  final List<String> clientList;
+
+  /// The default storage class for objects put into an Amazon S3 bucket by the
+  /// file gateway. Possible values are <code>S3_STANDARD</code>,
+  /// <code>S3_STANDARD_IA</code>, or <code>S3_ONEZONE_IA</code>. If this field is
+  /// not populated, the default value <code>S3_STANDARD</code> is used. Optional.
+  @_s.JsonKey(name: 'DefaultStorageClass')
+  final String defaultStorageClass;
+
+  /// A value that enables guessing of the MIME type for uploaded objects based on
+  /// file extensions. Set this value to true to enable MIME type guessing, and
+  /// otherwise to false. The default value is true.
+  @_s.JsonKey(name: 'GuessMIMETypeEnabled')
+  final bool guessMIMETypeEnabled;
+
+  /// True to use Amazon S3 server side encryption with your own AWS KMS key, or
+  /// false to use a key managed by Amazon S3. Optional.
+  @_s.JsonKey(name: 'KMSEncrypted')
+  final bool kMSEncrypted;
+
+  /// The Amazon Resource Name (ARN) of the AWS KMS key used for Amazon S3 server
+  /// side encryption. This value can only be set when KMSEncrypted is true.
+  /// Optional.
+  @_s.JsonKey(name: 'KMSKey')
+  final String kMSKey;
+
+  /// The default values for the file share. Optional.
+  @_s.JsonKey(name: 'NFSFileShareDefaults')
+  final NFSFileShareDefaults nFSFileShareDefaults;
+
+  /// A value that sets the access control list permission for objects in the S3
+  /// bucket that a file gateway puts objects into. The default value is
+  /// "private".
+  @_s.JsonKey(name: 'ObjectACL')
+  final ObjectACL objectACL;
+
+  /// A value that sets the write status of a file share. This value is true if
+  /// the write status is read-only, and otherwise false.
+  @_s.JsonKey(name: 'ReadOnly')
+  final bool readOnly;
+
+  /// A value that sets who pays the cost of the request and the cost associated
+  /// with data download from the S3 bucket. If this value is set to true, the
+  /// requester pays the costs. Otherwise the S3 bucket owner pays. However, the
+  /// S3 bucket owner always pays the cost of storing data.
+  /// <note>
+  /// <code>RequesterPays</code> is a configuration for the S3 bucket that backs
+  /// the file share, so make sure that the configuration on the file share is the
+  /// same as the S3 bucket configuration.
+  /// </note>
+  @_s.JsonKey(name: 'RequesterPays')
+  final bool requesterPays;
+
+  /// The user mapped to anonymous user. Valid options are the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>RootSquash</code> - Only root is mapped to anonymous user.
+  /// </li>
+  /// <li>
+  /// <code>NoSquash</code> - No one is mapped to anonymous user
+  /// </li>
+  /// <li>
+  /// <code>AllSquash</code> - Everyone is mapped to anonymous user.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Squash')
+  final String squash;
+
+  UpdateNFSFileShareInput({
+    @_s.required this.fileShareARN,
+    this.clientList,
+    this.defaultStorageClass,
+    this.guessMIMETypeEnabled,
+    this.kMSEncrypted,
+    this.kMSKey,
+    this.nFSFileShareDefaults,
+    this.objectACL,
+    this.readOnly,
+    this.requesterPays,
+    this.squash,
+  });
+  Map<String, dynamic> toJson() => _$UpdateNFSFileShareInputToJson(this);
+}
+
 /// UpdateNFSFileShareOutput
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -8418,6 +10839,118 @@ class UpdateNFSFileShareOutput {
   });
   factory UpdateNFSFileShareOutput.fromJson(Map<String, dynamic> json) =>
       _$UpdateNFSFileShareOutputFromJson(json);
+}
+
+/// UpdateSMBFileShareInput
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateSMBFileShareInput {
+  /// The Amazon Resource Name (ARN) of the SMB file share that you want to
+  /// update.
+  @_s.JsonKey(name: 'FileShareARN')
+  final String fileShareARN;
+
+  /// A list of users in the Active Directory that have administrator rights to
+  /// the file share. A group must be prefixed with the @ character. For example
+  /// <code>@group1</code>. Can only be set if Authentication is set to
+  /// <code>ActiveDirectory</code>.
+  @_s.JsonKey(name: 'AdminUserList')
+  final List<String> adminUserList;
+
+  /// The Amazon Resource Name (ARN) of the storage used for the audit logs.
+  @_s.JsonKey(name: 'AuditDestinationARN')
+  final String auditDestinationARN;
+
+  /// The default storage class for objects put into an Amazon S3 bucket by the
+  /// file gateway. Possible values are <code>S3_STANDARD</code>,
+  /// <code>S3_STANDARD_IA</code>, or <code>S3_ONEZONE_IA</code>. If this field is
+  /// not populated, the default value <code>S3_STANDARD</code> is used. Optional.
+  @_s.JsonKey(name: 'DefaultStorageClass')
+  final String defaultStorageClass;
+
+  /// A value that enables guessing of the MIME type for uploaded objects based on
+  /// file extensions. Set this value to true to enable MIME type guessing, and
+  /// otherwise to false. The default value is true.
+  @_s.JsonKey(name: 'GuessMIMETypeEnabled')
+  final bool guessMIMETypeEnabled;
+
+  /// A list of users or groups in the Active Directory that are not allowed to
+  /// access the file share. A group must be prefixed with the @ character. For
+  /// example <code>@group1</code>. Can only be set if Authentication is set to
+  /// <code>ActiveDirectory</code>.
+  @_s.JsonKey(name: 'InvalidUserList')
+  final List<String> invalidUserList;
+
+  /// True to use Amazon S3 server side encryption with your own AWS KMS key, or
+  /// false to use a key managed by Amazon S3. Optional.
+  @_s.JsonKey(name: 'KMSEncrypted')
+  final bool kMSEncrypted;
+
+  /// The Amazon Resource Name (ARN) of the AWS KMS key used for Amazon S3 server
+  /// side encryption. This value can only be set when KMSEncrypted is true.
+  /// Optional.
+  @_s.JsonKey(name: 'KMSKey')
+  final String kMSKey;
+
+  /// A value that sets the access control list permission for objects in the S3
+  /// bucket that a file gateway puts objects into. The default value is
+  /// "private".
+  @_s.JsonKey(name: 'ObjectACL')
+  final ObjectACL objectACL;
+
+  /// A value that sets the write status of a file share. This value is true if
+  /// the write status is read-only, and otherwise false.
+  @_s.JsonKey(name: 'ReadOnly')
+  final bool readOnly;
+
+  /// A value that sets who pays the cost of the request and the cost associated
+  /// with data download from the S3 bucket. If this value is set to true, the
+  /// requester pays the costs. Otherwise the S3 bucket owner pays. However, the
+  /// S3 bucket owner always pays the cost of storing data.
+  /// <note>
+  /// <code>RequesterPays</code> is a configuration for the S3 bucket that backs
+  /// the file share, so make sure that the configuration on the file share is the
+  /// same as the S3 bucket configuration.
+  /// </note>
+  @_s.JsonKey(name: 'RequesterPays')
+  final bool requesterPays;
+
+  /// Set this value to "true to enable ACL (access control list) on the SMB file
+  /// share. Set it to "false" to map file and directory permissions to the POSIX
+  /// permissions.
+  ///
+  /// For more information, see
+  /// https://docs.aws.amazon.com/storagegateway/latest/userguide/smb-acl.htmlin
+  /// the Storage Gateway User Guide.
+  @_s.JsonKey(name: 'SMBACLEnabled')
+  final bool sMBACLEnabled;
+
+  /// A list of users or groups in the Active Directory that are allowed to access
+  /// the file share. A group must be prefixed with the @ character. For example
+  /// <code>@group1</code>. Can only be set if Authentication is set to
+  /// <code>ActiveDirectory</code>.
+  @_s.JsonKey(name: 'ValidUserList')
+  final List<String> validUserList;
+
+  UpdateSMBFileShareInput({
+    @_s.required this.fileShareARN,
+    this.adminUserList,
+    this.auditDestinationARN,
+    this.defaultStorageClass,
+    this.guessMIMETypeEnabled,
+    this.invalidUserList,
+    this.kMSEncrypted,
+    this.kMSKey,
+    this.objectACL,
+    this.readOnly,
+    this.requesterPays,
+    this.sMBACLEnabled,
+    this.validUserList,
+  });
+  Map<String, dynamic> toJson() => _$UpdateSMBFileShareInputToJson(this);
 }
 
 /// UpdateSMBFileShareOutput
@@ -8441,6 +10974,40 @@ class UpdateSMBFileShareOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateSMBSecurityStrategyInput {
+  @_s.JsonKey(name: 'GatewayARN')
+  final String gatewayARN;
+
+  /// Specifies the type of security strategy.
+  ///
+  /// ClientSpecified: if you use this option, requests are established based on
+  /// what is negotiated by the client. This option is recommended when you want
+  /// to maximize compatibility across different clients in your environment.
+  ///
+  /// MandatorySigning: if you use this option, file gateway only allows
+  /// connections from SMBv2 or SMBv3 clients that have signing enabled. This
+  /// option works with SMB clients on Microsoft Windows Vista, Windows Server
+  /// 2008 or newer.
+  ///
+  /// MandatoryEncryption: if you use this option, file gateway only allows
+  /// connections from SMBv3 clients that have encryption enabled. This option is
+  /// highly recommended for environments that handle sensitive data. This option
+  /// works with SMB clients on Microsoft Windows 8, Windows Server 2012 or newer.
+  @_s.JsonKey(name: 'SMBSecurityStrategy')
+  final SMBSecurityStrategy sMBSecurityStrategy;
+
+  UpdateSMBSecurityStrategyInput({
+    @_s.required this.gatewayARN,
+    @_s.required this.sMBSecurityStrategy,
+  });
+  Map<String, dynamic> toJson() => _$UpdateSMBSecurityStrategyInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateSMBSecurityStrategyOutput {
@@ -8452,6 +11019,69 @@ class UpdateSMBSecurityStrategyOutput {
   });
   factory UpdateSMBSecurityStrategyOutput.fromJson(Map<String, dynamic> json) =>
       _$UpdateSMBSecurityStrategyOutputFromJson(json);
+}
+
+/// A JSON object containing one or more of the following fields:
+///
+/// <ul>
+/// <li>
+/// <a>UpdateSnapshotScheduleInput$Description</a>
+/// </li>
+/// <li>
+/// <a>UpdateSnapshotScheduleInput$RecurrenceInHours</a>
+/// </li>
+/// <li>
+/// <a>UpdateSnapshotScheduleInput$StartAt</a>
+/// </li>
+/// <li>
+/// <a>UpdateSnapshotScheduleInput$VolumeARN</a>
+/// </li>
+/// </ul>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateSnapshotScheduleInput {
+  /// Frequency of snapshots. Specify the number of hours between snapshots.
+  @_s.JsonKey(name: 'RecurrenceInHours')
+  final int recurrenceInHours;
+
+  /// The hour of the day at which the snapshot schedule begins represented as
+  /// <i>hh</i>, where <i>hh</i> is the hour (0 to 23). The hour of the day is in
+  /// the time zone of the gateway.
+  @_s.JsonKey(name: 'StartAt')
+  final int startAt;
+
+  /// The Amazon Resource Name (ARN) of the volume. Use the <a>ListVolumes</a>
+  /// operation to return a list of gateway volumes.
+  @_s.JsonKey(name: 'VolumeARN')
+  final String volumeARN;
+
+  /// Optional description of the snapshot that overwrites the existing
+  /// description.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// A list of up to 50 tags that can be assigned to a snapshot. Each tag is a
+  /// key-value pair.
+  /// <note>
+  /// Valid characters for key and value are letters, spaces, and numbers
+  /// representable in UTF-8 format, and the following special characters: + - = .
+  /// _ : / @. The maximum length of a tag's key is 128 characters, and the
+  /// maximum length for a tag's value is 256.
+  /// </note>
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  UpdateSnapshotScheduleInput({
+    @_s.required this.recurrenceInHours,
+    @_s.required this.startAt,
+    @_s.required this.volumeARN,
+    this.description,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$UpdateSnapshotScheduleInputToJson(this);
 }
 
 /// A JSON object containing the of the updated storage volume.
@@ -8471,6 +11101,29 @@ class UpdateSnapshotScheduleOutput {
   });
   factory UpdateSnapshotScheduleOutput.fromJson(Map<String, dynamic> json) =>
       _$UpdateSnapshotScheduleOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateVTLDeviceTypeInput {
+  /// The type of medium changer you want to select.
+  ///
+  /// Valid Values: "STK-L700", "AWS-Gateway-VTL"
+  @_s.JsonKey(name: 'DeviceType')
+  final String deviceType;
+
+  /// The Amazon Resource Name (ARN) of the medium changer you want to select.
+  @_s.JsonKey(name: 'VTLDeviceARN')
+  final String vTLDeviceARN;
+
+  UpdateVTLDeviceTypeInput({
+    @_s.required this.deviceType,
+    @_s.required this.vTLDeviceARN,
+  });
+  Map<String, dynamic> toJson() => _$UpdateVTLDeviceTypeInputToJson(this);
 }
 
 /// UpdateVTLDeviceTypeOutput

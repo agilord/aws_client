@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -125,13 +124,13 @@ class Lambda {
       r'''arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'EventSource': eventSource,
-      'FunctionName': functionName,
-      'Role': role,
-      if (batchSize != null) 'BatchSize': batchSize,
-      if (parameters != null) 'Parameters': parameters,
-    };
+    final $payload = AddEventSourceRequest(
+      eventSource: eventSource,
+      functionName: functionName,
+      role: role,
+      batchSize: batchSize,
+      parameters: parameters,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -168,7 +167,9 @@ class Lambda {
       r'''[a-zA-Z0-9-_]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteFunctionRequest(
+      functionName: functionName,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -457,7 +458,9 @@ class Lambda {
     @_s.required String uuid,
   }) async {
     ArgumentError.checkNotNull(uuid, 'uuid');
-    final $payload = <String, dynamic>{};
+    final $payload = RemoveEventSourceRequest(
+      uuid: uuid,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -565,7 +568,14 @@ class Lambda {
       if (role != null) _s.toQueryParam('Role', role),
       if (timeout != null) _s.toQueryParam('Timeout', timeout),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = UpdateFunctionConfigurationRequest(
+      functionName: functionName,
+      description: description,
+      handler: handler,
+      memorySize: memorySize,
+      role: role,
+      timeout: timeout,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -714,6 +724,70 @@ class Lambda {
     );
     return FunctionConfiguration.fromJson(response);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AddEventSourceRequest {
+  /// The Amazon Resource Name (ARN) of the Amazon Kinesis stream that is the
+  /// event source. Any record added to this stream causes AWS Lambda to invoke
+  /// your Lambda function. AWS Lambda POSTs the Amazon Kinesis event, containing
+  /// records, to your Lambda function as JSON.
+  @_s.JsonKey(name: 'EventSource')
+  final String eventSource;
+
+  /// The Lambda function to invoke when AWS Lambda detects an event on the
+  /// stream.
+  @_s.JsonKey(name: 'FunctionName')
+  final String functionName;
+
+  /// The ARN of the IAM role (invocation role) that AWS Lambda can assume to read
+  /// from the stream and invoke the function.
+  @_s.JsonKey(name: 'Role')
+  final String role;
+
+  /// The largest number of records that AWS Lambda will give to your function in
+  /// a single event. The default is 100 records.
+  @_s.JsonKey(name: 'BatchSize')
+  final int batchSize;
+
+  /// A map (key-value pairs) defining the configuration for AWS Lambda to use
+  /// when reading the event source. Currently, AWS Lambda supports only the
+  /// <code>InitialPositionInStream</code> key. The valid values are:
+  /// "TRIM_HORIZON" and "LATEST". The default value is "TRIM_HORIZON". For more
+  /// information, go to <a
+  /// href="http://docs.aws.amazon.com/kinesis/latest/APIReference/API_GetShardIterator.html#Kinesis-GetShardIterator-request-ShardIteratorType">ShardIteratorType</a>
+  /// in the Amazon Kinesis Service API Reference.
+  @_s.JsonKey(name: 'Parameters')
+  final Map<String, String> parameters;
+
+  AddEventSourceRequest({
+    @_s.required this.eventSource,
+    @_s.required this.functionName,
+    @_s.required this.role,
+    this.batchSize,
+    this.parameters,
+  });
+  Map<String, dynamic> toJson() => _$AddEventSourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteFunctionRequest {
+  /// The Lambda function to delete.
+  @_s.JsonKey(name: 'FunctionName', ignore: true)
+  final String functionName;
+
+  DeleteFunctionRequest({
+    @_s.required this.functionName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteFunctionRequestToJson(this);
 }
 
 /// Describes mapping between an Amazon Kinesis stream and a Lambda function.
@@ -1026,6 +1100,22 @@ enum Mode {
   event,
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RemoveEventSourceRequest {
+  /// The event source mapping ID.
+  @_s.JsonKey(name: 'UUID', ignore: true)
+  final String uuid;
+
+  RemoveEventSourceRequest({
+    @_s.required this.uuid,
+  });
+  Map<String, dynamic> toJson() => _$RemoveEventSourceRequestToJson(this);
+}
+
 /// The function or the event source specified in the request does not exist.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1069,6 +1159,58 @@ class ServiceException implements _s.AwsException {
   });
   factory ServiceException.fromJson(Map<String, dynamic> json) =>
       _$ServiceExceptionFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateFunctionConfigurationRequest {
+  /// The name of the Lambda function.
+  @_s.JsonKey(name: 'FunctionName', ignore: true)
+  final String functionName;
+
+  /// A short user-defined function description. Lambda does not use this value.
+  /// Assign a meaningful description as you see fit.
+  @_s.JsonKey(name: 'Description', ignore: true)
+  final String description;
+
+  /// The function that Lambda calls to begin executing your function. For
+  /// Node.js, it is the <i>module-name.export</i> value in your function.
+  @_s.JsonKey(name: 'Handler', ignore: true)
+  final String handler;
+
+  /// The amount of memory, in MB, your Lambda function is given. Lambda uses this
+  /// memory size to infer the amount of CPU allocated to your function. Your
+  /// function use-case determines your CPU and memory requirements. For example,
+  /// a database operation might need less memory compared to an image processing
+  /// function. The default value is 128 MB. The value must be a multiple of 64
+  /// MB.
+  @_s.JsonKey(name: 'MemorySize', ignore: true)
+  final int memorySize;
+
+  /// The Amazon Resource Name (ARN) of the IAM role that Lambda will assume when
+  /// it executes your function.
+  @_s.JsonKey(name: 'Role', ignore: true)
+  final String role;
+
+  /// The function execution time at which Lambda should terminate the function.
+  /// Because the execution time has cost implications, we recommend you set this
+  /// value based on your expected execution time. The default is 3 seconds.
+  @_s.JsonKey(name: 'Timeout', ignore: true)
+  final int timeout;
+
+  UpdateFunctionConfigurationRequest({
+    @_s.required this.functionName,
+    this.description,
+    this.handler,
+    this.memorySize,
+    this.role,
+    this.timeout,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateFunctionConfigurationRequestToJson(this);
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{

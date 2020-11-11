@@ -14,9 +14,40 @@ AccountQuota _$AccountQuotaFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$AddTagsToResourceMessageToJson(
+    AddTagsToResourceMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 AddTagsToResourceResponse _$AddTagsToResourceResponseFromJson(
     Map<String, dynamic> json) {
   return AddTagsToResourceResponse();
+}
+
+Map<String, dynamic> _$ApplyPendingMaintenanceActionMessageToJson(
+    ApplyPendingMaintenanceActionMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ApplyAction', instance.applyAction);
+  writeNotNull('OptInType', instance.optInType);
+  writeNotNull('ReplicationInstanceArn', instance.replicationInstanceArn);
+  return val;
 }
 
 ApplyPendingMaintenanceActionResponse
@@ -66,6 +97,56 @@ Connection _$ConnectionFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateEndpointMessageToJson(
+    CreateEndpointMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EndpointIdentifier', instance.endpointIdentifier);
+  writeNotNull('EndpointType',
+      _$ReplicationEndpointTypeValueEnumMap[instance.endpointType]);
+  writeNotNull('EngineName', instance.engineName);
+  writeNotNull('CertificateArn', instance.certificateArn);
+  writeNotNull('DatabaseName', instance.databaseName);
+  writeNotNull('DmsTransferSettings', instance.dmsTransferSettings?.toJson());
+  writeNotNull('DynamoDbSettings', instance.dynamoDbSettings?.toJson());
+  writeNotNull(
+      'ElasticsearchSettings', instance.elasticsearchSettings?.toJson());
+  writeNotNull('ExternalTableDefinition', instance.externalTableDefinition);
+  writeNotNull('ExtraConnectionAttributes', instance.extraConnectionAttributes);
+  writeNotNull('KafkaSettings', instance.kafkaSettings?.toJson());
+  writeNotNull('KinesisSettings', instance.kinesisSettings?.toJson());
+  writeNotNull('KmsKeyId', instance.kmsKeyId);
+  writeNotNull('MongoDbSettings', instance.mongoDbSettings?.toJson());
+  writeNotNull('Password', instance.password);
+  writeNotNull('Port', instance.port);
+  writeNotNull('RedshiftSettings', instance.redshiftSettings?.toJson());
+  writeNotNull('S3Settings', instance.s3Settings?.toJson());
+  writeNotNull('ServerName', instance.serverName);
+  writeNotNull('ServiceAccessRoleArn', instance.serviceAccessRoleArn);
+  writeNotNull('SslMode', _$DmsSslModeValueEnumMap[instance.sslMode]);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Username', instance.username);
+  return val;
+}
+
+const _$ReplicationEndpointTypeValueEnumMap = {
+  ReplicationEndpointTypeValue.source: 'source',
+  ReplicationEndpointTypeValue.target: 'target',
+};
+
+const _$DmsSslModeValueEnumMap = {
+  DmsSslModeValue.none: 'none',
+  DmsSslModeValue.require: 'require',
+  DmsSslModeValue.verifyCa: 'verify-ca',
+  DmsSslModeValue.verifyFull: 'verify-full',
+};
+
 CreateEndpointResponse _$CreateEndpointResponseFromJson(
     Map<String, dynamic> json) {
   return CreateEndpointResponse(
@@ -73,6 +154,26 @@ CreateEndpointResponse _$CreateEndpointResponseFromJson(
         ? null
         : Endpoint.fromJson(json['Endpoint'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateEventSubscriptionMessageToJson(
+    CreateEventSubscriptionMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SnsTopicArn', instance.snsTopicArn);
+  writeNotNull('SubscriptionName', instance.subscriptionName);
+  writeNotNull('Enabled', instance.enabled);
+  writeNotNull('EventCategories', instance.eventCategories);
+  writeNotNull('SourceIds', instance.sourceIds);
+  writeNotNull('SourceType', instance.sourceType);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateEventSubscriptionResponse _$CreateEventSubscriptionResponseFromJson(
@@ -85,6 +186,36 @@ CreateEventSubscriptionResponse _$CreateEventSubscriptionResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateReplicationInstanceMessageToJson(
+    CreateReplicationInstanceMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ReplicationInstanceClass', instance.replicationInstanceClass);
+  writeNotNull(
+      'ReplicationInstanceIdentifier', instance.replicationInstanceIdentifier);
+  writeNotNull('AllocatedStorage', instance.allocatedStorage);
+  writeNotNull('AutoMinorVersionUpgrade', instance.autoMinorVersionUpgrade);
+  writeNotNull('AvailabilityZone', instance.availabilityZone);
+  writeNotNull('DnsNameServers', instance.dnsNameServers);
+  writeNotNull('EngineVersion', instance.engineVersion);
+  writeNotNull('KmsKeyId', instance.kmsKeyId);
+  writeNotNull('MultiAZ', instance.multiAZ);
+  writeNotNull(
+      'PreferredMaintenanceWindow', instance.preferredMaintenanceWindow);
+  writeNotNull('PubliclyAccessible', instance.publiclyAccessible);
+  writeNotNull('ReplicationSubnetGroupIdentifier',
+      instance.replicationSubnetGroupIdentifier);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('VpcSecurityGroupIds', instance.vpcSecurityGroupIds);
+  return val;
+}
+
 CreateReplicationInstanceResponse _$CreateReplicationInstanceResponseFromJson(
     Map<String, dynamic> json) {
   return CreateReplicationInstanceResponse(
@@ -93,6 +224,25 @@ CreateReplicationInstanceResponse _$CreateReplicationInstanceResponseFromJson(
         : ReplicationInstance.fromJson(
             json['ReplicationInstance'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateReplicationSubnetGroupMessageToJson(
+    CreateReplicationSubnetGroupMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ReplicationSubnetGroupDescription',
+      instance.replicationSubnetGroupDescription);
+  writeNotNull('ReplicationSubnetGroupIdentifier',
+      instance.replicationSubnetGroupIdentifier);
+  writeNotNull('SubnetIds', instance.subnetIds);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateReplicationSubnetGroupResponse
@@ -105,6 +255,37 @@ CreateReplicationSubnetGroupResponse
   );
 }
 
+Map<String, dynamic> _$CreateReplicationTaskMessageToJson(
+    CreateReplicationTaskMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'MigrationType', _$MigrationTypeValueEnumMap[instance.migrationType]);
+  writeNotNull('ReplicationInstanceArn', instance.replicationInstanceArn);
+  writeNotNull('ReplicationTaskIdentifier', instance.replicationTaskIdentifier);
+  writeNotNull('SourceEndpointArn', instance.sourceEndpointArn);
+  writeNotNull('TableMappings', instance.tableMappings);
+  writeNotNull('TargetEndpointArn', instance.targetEndpointArn);
+  writeNotNull('CdcStartPosition', instance.cdcStartPosition);
+  writeNotNull('CdcStartTime', unixTimestampToJson(instance.cdcStartTime));
+  writeNotNull('CdcStopPosition', instance.cdcStopPosition);
+  writeNotNull('ReplicationTaskSettings', instance.replicationTaskSettings);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+const _$MigrationTypeValueEnumMap = {
+  MigrationTypeValue.fullLoad: 'full-load',
+  MigrationTypeValue.cdc: 'cdc',
+  MigrationTypeValue.fullLoadAndCdc: 'full-load-and-cdc',
+};
+
 CreateReplicationTaskResponse _$CreateReplicationTaskResponseFromJson(
     Map<String, dynamic> json) {
   return CreateReplicationTaskResponse(
@@ -113,6 +294,20 @@ CreateReplicationTaskResponse _$CreateReplicationTaskResponseFromJson(
         : ReplicationTask.fromJson(
             json['ReplicationTask'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DeleteCertificateMessageToJson(
+    DeleteCertificateMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CertificateArn', instance.certificateArn);
+  return val;
 }
 
 DeleteCertificateResponse _$DeleteCertificateResponseFromJson(
@@ -124,6 +319,21 @@ DeleteCertificateResponse _$DeleteCertificateResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteConnectionMessageToJson(
+    DeleteConnectionMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EndpointArn', instance.endpointArn);
+  writeNotNull('ReplicationInstanceArn', instance.replicationInstanceArn);
+  return val;
+}
+
 DeleteConnectionResponse _$DeleteConnectionResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteConnectionResponse(
@@ -133,6 +343,20 @@ DeleteConnectionResponse _$DeleteConnectionResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteEndpointMessageToJson(
+    DeleteEndpointMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EndpointArn', instance.endpointArn);
+  return val;
+}
+
 DeleteEndpointResponse _$DeleteEndpointResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteEndpointResponse(
@@ -140,6 +364,20 @@ DeleteEndpointResponse _$DeleteEndpointResponseFromJson(
         ? null
         : Endpoint.fromJson(json['Endpoint'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DeleteEventSubscriptionMessageToJson(
+    DeleteEventSubscriptionMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SubscriptionName', instance.subscriptionName);
+  return val;
 }
 
 DeleteEventSubscriptionResponse _$DeleteEventSubscriptionResponseFromJson(
@@ -152,6 +390,20 @@ DeleteEventSubscriptionResponse _$DeleteEventSubscriptionResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteReplicationInstanceMessageToJson(
+    DeleteReplicationInstanceMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ReplicationInstanceArn', instance.replicationInstanceArn);
+  return val;
+}
+
 DeleteReplicationInstanceResponse _$DeleteReplicationInstanceResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteReplicationInstanceResponse(
@@ -162,9 +414,38 @@ DeleteReplicationInstanceResponse _$DeleteReplicationInstanceResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteReplicationSubnetGroupMessageToJson(
+    DeleteReplicationSubnetGroupMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ReplicationSubnetGroupIdentifier',
+      instance.replicationSubnetGroupIdentifier);
+  return val;
+}
+
 DeleteReplicationSubnetGroupResponse
     _$DeleteReplicationSubnetGroupResponseFromJson(Map<String, dynamic> json) {
   return DeleteReplicationSubnetGroupResponse();
+}
+
+Map<String, dynamic> _$DeleteReplicationTaskMessageToJson(
+    DeleteReplicationTaskMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ReplicationTaskArn', instance.replicationTaskArn);
+  return val;
 }
 
 DeleteReplicationTaskResponse _$DeleteReplicationTaskResponseFromJson(
@@ -188,6 +469,22 @@ DescribeAccountAttributesResponse _$DescribeAccountAttributesResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeCertificatesMessageToJson(
+    DescribeCertificatesMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Marker', instance.marker);
+  writeNotNull('MaxRecords', instance.maxRecords);
+  return val;
+}
+
 DescribeCertificatesResponse _$DescribeCertificatesResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeCertificatesResponse(
@@ -199,6 +496,22 @@ DescribeCertificatesResponse _$DescribeCertificatesResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeConnectionsMessageToJson(
+    DescribeConnectionsMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Marker', instance.marker);
+  writeNotNull('MaxRecords', instance.maxRecords);
+  return val;
+}
+
 DescribeConnectionsResponse _$DescribeConnectionsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeConnectionsResponse(
@@ -208,6 +521,22 @@ DescribeConnectionsResponse _$DescribeConnectionsResponseFromJson(
         ?.toList(),
     marker: json['Marker'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeEndpointTypesMessageToJson(
+    DescribeEndpointTypesMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Marker', instance.marker);
+  writeNotNull('MaxRecords', instance.maxRecords);
+  return val;
 }
 
 DescribeEndpointTypesResponse _$DescribeEndpointTypesResponseFromJson(
@@ -222,6 +551,22 @@ DescribeEndpointTypesResponse _$DescribeEndpointTypesResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeEndpointsMessageToJson(
+    DescribeEndpointsMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Marker', instance.marker);
+  writeNotNull('MaxRecords', instance.maxRecords);
+  return val;
+}
+
 DescribeEndpointsResponse _$DescribeEndpointsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeEndpointsResponse(
@@ -233,6 +578,21 @@ DescribeEndpointsResponse _$DescribeEndpointsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeEventCategoriesMessageToJson(
+    DescribeEventCategoriesMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('SourceType', instance.sourceType);
+  return val;
+}
+
 DescribeEventCategoriesResponse _$DescribeEventCategoriesResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeEventCategoriesResponse(
@@ -242,6 +602,23 @@ DescribeEventCategoriesResponse _$DescribeEventCategoriesResponseFromJson(
             : EventCategoryGroup.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeEventSubscriptionsMessageToJson(
+    DescribeEventSubscriptionsMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Marker', instance.marker);
+  writeNotNull('MaxRecords', instance.maxRecords);
+  writeNotNull('SubscriptionName', instance.subscriptionName);
+  return val;
 }
 
 DescribeEventSubscriptionsResponse _$DescribeEventSubscriptionsResponseFromJson(
@@ -256,6 +633,32 @@ DescribeEventSubscriptionsResponse _$DescribeEventSubscriptionsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeEventsMessageToJson(
+    DescribeEventsMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Duration', instance.duration);
+  writeNotNull('EndTime', unixTimestampToJson(instance.endTime));
+  writeNotNull('EventCategories', instance.eventCategories);
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Marker', instance.marker);
+  writeNotNull('MaxRecords', instance.maxRecords);
+  writeNotNull('SourceIdentifier', instance.sourceIdentifier);
+  writeNotNull('SourceType', _$SourceTypeEnumMap[instance.sourceType]);
+  writeNotNull('StartTime', unixTimestampToJson(instance.startTime));
+  return val;
+}
+
+const _$SourceTypeEnumMap = {
+  SourceType.replicationInstance: 'replication-instance',
+};
+
 DescribeEventsResponse _$DescribeEventsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeEventsResponse(
@@ -265,6 +668,21 @@ DescribeEventsResponse _$DescribeEventsResponseFromJson(
         ?.toList(),
     marker: json['Marker'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeOrderableReplicationInstancesMessageToJson(
+    DescribeOrderableReplicationInstancesMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Marker', instance.marker);
+  writeNotNull('MaxRecords', instance.maxRecords);
+  return val;
 }
 
 DescribeOrderableReplicationInstancesResponse
@@ -281,6 +699,23 @@ DescribeOrderableReplicationInstancesResponse
   );
 }
 
+Map<String, dynamic> _$DescribePendingMaintenanceActionsMessageToJson(
+    DescribePendingMaintenanceActionsMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Marker', instance.marker);
+  writeNotNull('MaxRecords', instance.maxRecords);
+  writeNotNull('ReplicationInstanceArn', instance.replicationInstanceArn);
+  return val;
+}
+
 DescribePendingMaintenanceActionsResponse
     _$DescribePendingMaintenanceActionsResponseFromJson(
         Map<String, dynamic> json) {
@@ -295,6 +730,20 @@ DescribePendingMaintenanceActionsResponse
   );
 }
 
+Map<String, dynamic> _$DescribeRefreshSchemasStatusMessageToJson(
+    DescribeRefreshSchemasStatusMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EndpointArn', instance.endpointArn);
+  return val;
+}
+
 DescribeRefreshSchemasStatusResponse
     _$DescribeRefreshSchemasStatusResponseFromJson(Map<String, dynamic> json) {
   return DescribeRefreshSchemasStatusResponse(
@@ -303,6 +752,22 @@ DescribeRefreshSchemasStatusResponse
         : RefreshSchemasStatus.fromJson(
             json['RefreshSchemasStatus'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeReplicationInstanceTaskLogsMessageToJson(
+    DescribeReplicationInstanceTaskLogsMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ReplicationInstanceArn', instance.replicationInstanceArn);
+  writeNotNull('Marker', instance.marker);
+  writeNotNull('MaxRecords', instance.maxRecords);
+  return val;
 }
 
 DescribeReplicationInstanceTaskLogsResponse
@@ -319,6 +784,22 @@ DescribeReplicationInstanceTaskLogsResponse
   );
 }
 
+Map<String, dynamic> _$DescribeReplicationInstancesMessageToJson(
+    DescribeReplicationInstancesMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Marker', instance.marker);
+  writeNotNull('MaxRecords', instance.maxRecords);
+  return val;
+}
+
 DescribeReplicationInstancesResponse
     _$DescribeReplicationInstancesResponseFromJson(Map<String, dynamic> json) {
   return DescribeReplicationInstancesResponse(
@@ -329,6 +810,22 @@ DescribeReplicationInstancesResponse
             : ReplicationInstance.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeReplicationSubnetGroupsMessageToJson(
+    DescribeReplicationSubnetGroupsMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Marker', instance.marker);
+  writeNotNull('MaxRecords', instance.maxRecords);
+  return val;
 }
 
 DescribeReplicationSubnetGroupsResponse
@@ -342,6 +839,22 @@ DescribeReplicationSubnetGroupsResponse
             : ReplicationSubnetGroup.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeReplicationTaskAssessmentResultsMessageToJson(
+    DescribeReplicationTaskAssessmentResultsMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Marker', instance.marker);
+  writeNotNull('MaxRecords', instance.maxRecords);
+  writeNotNull('ReplicationTaskArn', instance.replicationTaskArn);
+  return val;
 }
 
 DescribeReplicationTaskAssessmentResultsResponse
@@ -360,6 +873,23 @@ DescribeReplicationTaskAssessmentResultsResponse
   );
 }
 
+Map<String, dynamic> _$DescribeReplicationTasksMessageToJson(
+    DescribeReplicationTasksMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Marker', instance.marker);
+  writeNotNull('MaxRecords', instance.maxRecords);
+  writeNotNull('WithoutSettings', instance.withoutSettings);
+  return val;
+}
+
 DescribeReplicationTasksResponse _$DescribeReplicationTasksResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeReplicationTasksResponse(
@@ -372,12 +902,45 @@ DescribeReplicationTasksResponse _$DescribeReplicationTasksResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeSchemasMessageToJson(
+    DescribeSchemasMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EndpointArn', instance.endpointArn);
+  writeNotNull('Marker', instance.marker);
+  writeNotNull('MaxRecords', instance.maxRecords);
+  return val;
+}
+
 DescribeSchemasResponse _$DescribeSchemasResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeSchemasResponse(
     marker: json['Marker'] as String,
     schemas: (json['Schemas'] as List)?.map((e) => e as String)?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeTableStatisticsMessageToJson(
+    DescribeTableStatisticsMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ReplicationTaskArn', instance.replicationTaskArn);
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Marker', instance.marker);
+  writeNotNull('MaxRecords', instance.maxRecords);
+  return val;
 }
 
 DescribeTableStatisticsResponse _$DescribeTableStatisticsResponseFromJson(
@@ -545,18 +1108,6 @@ T _$enumDecodeNullable<T>(
   return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
 }
 
-const _$ReplicationEndpointTypeValueEnumMap = {
-  ReplicationEndpointTypeValue.source: 'source',
-  ReplicationEndpointTypeValue.target: 'target',
-};
-
-const _$DmsSslModeValueEnumMap = {
-  DmsSslModeValue.none: 'none',
-  DmsSslModeValue.require: 'require',
-  DmsSslModeValue.verifyCa: 'verify-ca',
-  DmsSslModeValue.verifyFull: 'verify-full',
-};
-
 Event _$EventFromJson(Map<String, dynamic> json) {
   return Event(
     date: unixTimestampFromJson(json['Date']),
@@ -567,10 +1118,6 @@ Event _$EventFromJson(Map<String, dynamic> json) {
     sourceType: _$enumDecodeNullable(_$SourceTypeEnumMap, json['SourceType']),
   );
 }
-
-const _$SourceTypeEnumMap = {
-  SourceType.replicationInstance: 'replication-instance',
-};
 
 EventCategoryGroup _$EventCategoryGroupFromJson(Map<String, dynamic> json) {
   return EventCategoryGroup(
@@ -608,6 +1155,24 @@ Map<String, dynamic> _$FilterToJson(Filter instance) {
 
   writeNotNull('Name', instance.name);
   writeNotNull('Values', instance.values);
+  return val;
+}
+
+Map<String, dynamic> _$ImportCertificateMessageToJson(
+    ImportCertificateMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CertificateIdentifier', instance.certificateIdentifier);
+  writeNotNull('CertificatePem', instance.certificatePem);
+  writeNotNull('CertificateWallet',
+      const Uint8ListConverter().toJson(instance.certificateWallet));
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
   return val;
 }
 
@@ -683,6 +1248,20 @@ const _$MessageFormatValueEnumMap = {
   MessageFormatValue.jsonUnformatted: 'json-unformatted',
 };
 
+Map<String, dynamic> _$ListTagsForResourceMessageToJson(
+    ListTagsForResourceMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  return val;
+}
+
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
@@ -692,6 +1271,43 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ModifyEndpointMessageToJson(
+    ModifyEndpointMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EndpointArn', instance.endpointArn);
+  writeNotNull('CertificateArn', instance.certificateArn);
+  writeNotNull('DatabaseName', instance.databaseName);
+  writeNotNull('DmsTransferSettings', instance.dmsTransferSettings?.toJson());
+  writeNotNull('DynamoDbSettings', instance.dynamoDbSettings?.toJson());
+  writeNotNull(
+      'ElasticsearchSettings', instance.elasticsearchSettings?.toJson());
+  writeNotNull('EndpointIdentifier', instance.endpointIdentifier);
+  writeNotNull('EndpointType',
+      _$ReplicationEndpointTypeValueEnumMap[instance.endpointType]);
+  writeNotNull('EngineName', instance.engineName);
+  writeNotNull('ExternalTableDefinition', instance.externalTableDefinition);
+  writeNotNull('ExtraConnectionAttributes', instance.extraConnectionAttributes);
+  writeNotNull('KafkaSettings', instance.kafkaSettings?.toJson());
+  writeNotNull('KinesisSettings', instance.kinesisSettings?.toJson());
+  writeNotNull('MongoDbSettings', instance.mongoDbSettings?.toJson());
+  writeNotNull('Password', instance.password);
+  writeNotNull('Port', instance.port);
+  writeNotNull('RedshiftSettings', instance.redshiftSettings?.toJson());
+  writeNotNull('S3Settings', instance.s3Settings?.toJson());
+  writeNotNull('ServerName', instance.serverName);
+  writeNotNull('ServiceAccessRoleArn', instance.serviceAccessRoleArn);
+  writeNotNull('SslMode', _$DmsSslModeValueEnumMap[instance.sslMode]);
+  writeNotNull('Username', instance.username);
+  return val;
+}
+
 ModifyEndpointResponse _$ModifyEndpointResponseFromJson(
     Map<String, dynamic> json) {
   return ModifyEndpointResponse(
@@ -699,6 +1315,24 @@ ModifyEndpointResponse _$ModifyEndpointResponseFromJson(
         ? null
         : Endpoint.fromJson(json['Endpoint'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$ModifyEventSubscriptionMessageToJson(
+    ModifyEventSubscriptionMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SubscriptionName', instance.subscriptionName);
+  writeNotNull('Enabled', instance.enabled);
+  writeNotNull('EventCategories', instance.eventCategories);
+  writeNotNull('SnsTopicArn', instance.snsTopicArn);
+  writeNotNull('SourceType', instance.sourceType);
+  return val;
 }
 
 ModifyEventSubscriptionResponse _$ModifyEventSubscriptionResponseFromJson(
@@ -711,6 +1345,32 @@ ModifyEventSubscriptionResponse _$ModifyEventSubscriptionResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ModifyReplicationInstanceMessageToJson(
+    ModifyReplicationInstanceMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ReplicationInstanceArn', instance.replicationInstanceArn);
+  writeNotNull('AllocatedStorage', instance.allocatedStorage);
+  writeNotNull('AllowMajorVersionUpgrade', instance.allowMajorVersionUpgrade);
+  writeNotNull('ApplyImmediately', instance.applyImmediately);
+  writeNotNull('AutoMinorVersionUpgrade', instance.autoMinorVersionUpgrade);
+  writeNotNull('EngineVersion', instance.engineVersion);
+  writeNotNull('MultiAZ', instance.multiAZ);
+  writeNotNull(
+      'PreferredMaintenanceWindow', instance.preferredMaintenanceWindow);
+  writeNotNull('ReplicationInstanceClass', instance.replicationInstanceClass);
+  writeNotNull(
+      'ReplicationInstanceIdentifier', instance.replicationInstanceIdentifier);
+  writeNotNull('VpcSecurityGroupIds', instance.vpcSecurityGroupIds);
+  return val;
+}
+
 ModifyReplicationInstanceResponse _$ModifyReplicationInstanceResponseFromJson(
     Map<String, dynamic> json) {
   return ModifyReplicationInstanceResponse(
@@ -721,6 +1381,24 @@ ModifyReplicationInstanceResponse _$ModifyReplicationInstanceResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ModifyReplicationSubnetGroupMessageToJson(
+    ModifyReplicationSubnetGroupMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ReplicationSubnetGroupIdentifier',
+      instance.replicationSubnetGroupIdentifier);
+  writeNotNull('SubnetIds', instance.subnetIds);
+  writeNotNull('ReplicationSubnetGroupDescription',
+      instance.replicationSubnetGroupDescription);
+  return val;
+}
+
 ModifyReplicationSubnetGroupResponse
     _$ModifyReplicationSubnetGroupResponseFromJson(Map<String, dynamic> json) {
   return ModifyReplicationSubnetGroupResponse(
@@ -729,6 +1407,28 @@ ModifyReplicationSubnetGroupResponse
         : ReplicationSubnetGroup.fromJson(
             json['ReplicationSubnetGroup'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$ModifyReplicationTaskMessageToJson(
+    ModifyReplicationTaskMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ReplicationTaskArn', instance.replicationTaskArn);
+  writeNotNull('CdcStartPosition', instance.cdcStartPosition);
+  writeNotNull('CdcStartTime', unixTimestampToJson(instance.cdcStartTime));
+  writeNotNull('CdcStopPosition', instance.cdcStopPosition);
+  writeNotNull(
+      'MigrationType', _$MigrationTypeValueEnumMap[instance.migrationType]);
+  writeNotNull('ReplicationTaskIdentifier', instance.replicationTaskIdentifier);
+  writeNotNull('ReplicationTaskSettings', instance.replicationTaskSettings);
+  writeNotNull('TableMappings', instance.tableMappings);
+  return val;
 }
 
 ModifyReplicationTaskResponse _$ModifyReplicationTaskResponseFromJson(
@@ -835,6 +1535,21 @@ PendingMaintenanceAction _$PendingMaintenanceActionFromJson(
   );
 }
 
+Map<String, dynamic> _$RebootReplicationInstanceMessageToJson(
+    RebootReplicationInstanceMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ReplicationInstanceArn', instance.replicationInstanceArn);
+  writeNotNull('ForceFailover', instance.forceFailover);
+  return val;
+}
+
 RebootReplicationInstanceResponse _$RebootReplicationInstanceResponseFromJson(
     Map<String, dynamic> json) {
   return RebootReplicationInstanceResponse(
@@ -921,6 +1636,21 @@ const _$EncryptionModeValueEnumMap = {
   EncryptionModeValue.sseKms: 'sse-kms',
 };
 
+Map<String, dynamic> _$RefreshSchemasMessageToJson(
+    RefreshSchemasMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EndpointArn', instance.endpointArn);
+  writeNotNull('ReplicationInstanceArn', instance.replicationInstanceArn);
+  return val;
+}
+
 RefreshSchemasResponse _$RefreshSchemasResponseFromJson(
     Map<String, dynamic> json) {
   return RefreshSchemasResponse(
@@ -948,10 +1678,47 @@ const _$RefreshSchemasStatusTypeValueEnumMap = {
   RefreshSchemasStatusTypeValue.refreshing: 'refreshing',
 };
 
+Map<String, dynamic> _$ReloadTablesMessageToJson(ReloadTablesMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ReplicationTaskArn', instance.replicationTaskArn);
+  writeNotNull('TablesToReload',
+      instance.tablesToReload?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'ReloadOption', _$ReloadOptionValueEnumMap[instance.reloadOption]);
+  return val;
+}
+
+const _$ReloadOptionValueEnumMap = {
+  ReloadOptionValue.dataReload: 'data-reload',
+  ReloadOptionValue.validateOnly: 'validate-only',
+};
+
 ReloadTablesResponse _$ReloadTablesResponseFromJson(Map<String, dynamic> json) {
   return ReloadTablesResponse(
     replicationTaskArn: json['ReplicationTaskArn'] as String,
   );
+}
+
+Map<String, dynamic> _$RemoveTagsFromResourceMessageToJson(
+    RemoveTagsFromResourceMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
 }
 
 RemoveTagsFromResourceResponse _$RemoveTagsFromResourceResponseFromJson(
@@ -1069,12 +1836,6 @@ ReplicationTask _$ReplicationTaskFromJson(Map<String, dynamic> json) {
     targetEndpointArn: json['TargetEndpointArn'] as String,
   );
 }
-
-const _$MigrationTypeValueEnumMap = {
-  MigrationTypeValue.fullLoad: 'full-load',
-  MigrationTypeValue.cdc: 'cdc',
-  MigrationTypeValue.fullLoadAndCdc: 'full-load-and-cdc',
-};
 
 ReplicationTaskAssessmentResult _$ReplicationTaskAssessmentResultFromJson(
     Map<String, dynamic> json) {
@@ -1212,6 +1973,20 @@ const _$ParquetVersionValueEnumMap = {
   ParquetVersionValue.parquet_2_0: 'parquet-2-0',
 };
 
+Map<String, dynamic> _$StartReplicationTaskAssessmentMessageToJson(
+    StartReplicationTaskAssessmentMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ReplicationTaskArn', instance.replicationTaskArn);
+  return val;
+}
+
 StartReplicationTaskAssessmentResponse
     _$StartReplicationTaskAssessmentResponseFromJson(
         Map<String, dynamic> json) {
@@ -1223,6 +1998,33 @@ StartReplicationTaskAssessmentResponse
   );
 }
 
+Map<String, dynamic> _$StartReplicationTaskMessageToJson(
+    StartReplicationTaskMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ReplicationTaskArn', instance.replicationTaskArn);
+  writeNotNull(
+      'StartReplicationTaskType',
+      _$StartReplicationTaskTypeValueEnumMap[
+          instance.startReplicationTaskType]);
+  writeNotNull('CdcStartPosition', instance.cdcStartPosition);
+  writeNotNull('CdcStartTime', unixTimestampToJson(instance.cdcStartTime));
+  writeNotNull('CdcStopPosition', instance.cdcStopPosition);
+  return val;
+}
+
+const _$StartReplicationTaskTypeValueEnumMap = {
+  StartReplicationTaskTypeValue.startReplication: 'start-replication',
+  StartReplicationTaskTypeValue.resumeProcessing: 'resume-processing',
+  StartReplicationTaskTypeValue.reloadTarget: 'reload-target',
+};
+
 StartReplicationTaskResponse _$StartReplicationTaskResponseFromJson(
     Map<String, dynamic> json) {
   return StartReplicationTaskResponse(
@@ -1231,6 +2033,20 @@ StartReplicationTaskResponse _$StartReplicationTaskResponseFromJson(
         : ReplicationTask.fromJson(
             json['ReplicationTask'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$StopReplicationTaskMessageToJson(
+    StopReplicationTaskMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ReplicationTaskArn', instance.replicationTaskArn);
+  return val;
 }
 
 StopReplicationTaskResponse _$StopReplicationTaskResponseFromJson(
@@ -1321,6 +2137,21 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
 
   writeNotNull('Key', instance.key);
   writeNotNull('Value', instance.value);
+  return val;
+}
+
+Map<String, dynamic> _$TestConnectionMessageToJson(
+    TestConnectionMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EndpointArn', instance.endpointArn);
+  writeNotNull('ReplicationInstanceArn', instance.replicationInstanceArn);
   return val;
 }
 

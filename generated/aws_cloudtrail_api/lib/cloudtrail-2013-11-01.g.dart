@@ -6,8 +6,49 @@ part of 'cloudtrail-2013-11-01.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$AddTagsRequestToJson(AddTagsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceId', instance.resourceId);
+  writeNotNull(
+      'TagsList', instance.tagsList?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 AddTagsResponse _$AddTagsResponseFromJson(Map<String, dynamic> json) {
   return AddTagsResponse();
+}
+
+Map<String, dynamic> _$CreateTrailRequestToJson(CreateTrailRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('S3BucketName', instance.s3BucketName);
+  writeNotNull('CloudWatchLogsLogGroupArn', instance.cloudWatchLogsLogGroupArn);
+  writeNotNull('CloudWatchLogsRoleArn', instance.cloudWatchLogsRoleArn);
+  writeNotNull('EnableLogFileValidation', instance.enableLogFileValidation);
+  writeNotNull(
+      'IncludeGlobalServiceEvents', instance.includeGlobalServiceEvents);
+  writeNotNull('IsMultiRegionTrail', instance.isMultiRegionTrail);
+  writeNotNull('IsOrganizationTrail', instance.isOrganizationTrail);
+  writeNotNull('KmsKeyId', instance.kmsKeyId);
+  writeNotNull('S3KeyPrefix', instance.s3KeyPrefix);
+  writeNotNull('SnsTopicName', instance.snsTopicName);
+  writeNotNull(
+      'TagsList', instance.tagsList?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateTrailResponse _$CreateTrailResponseFromJson(Map<String, dynamic> json) {
@@ -49,8 +90,36 @@ Map<String, dynamic> _$DataResourceToJson(DataResource instance) {
   return val;
 }
 
+Map<String, dynamic> _$DeleteTrailRequestToJson(DeleteTrailRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
 DeleteTrailResponse _$DeleteTrailResponseFromJson(Map<String, dynamic> json) {
   return DeleteTrailResponse();
+}
+
+Map<String, dynamic> _$DescribeTrailsRequestToJson(
+    DescribeTrailsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('includeShadowTrails', instance.includeShadowTrails);
+  writeNotNull('trailNameList', instance.trailNameList);
+  return val;
 }
 
 DescribeTrailsResponse _$DescribeTrailsResponseFromJson(
@@ -152,6 +221,20 @@ const _$ReadWriteTypeEnumMap = {
   ReadWriteType.all: 'All',
 };
 
+Map<String, dynamic> _$GetEventSelectorsRequestToJson(
+    GetEventSelectorsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TrailName', instance.trailName);
+  return val;
+}
+
 GetEventSelectorsResponse _$GetEventSelectorsResponseFromJson(
     Map<String, dynamic> json) {
   return GetEventSelectorsResponse(
@@ -162,6 +245,20 @@ GetEventSelectorsResponse _$GetEventSelectorsResponseFromJson(
         ?.toList(),
     trailARN: json['TrailARN'] as String,
   );
+}
+
+Map<String, dynamic> _$GetInsightSelectorsRequestToJson(
+    GetInsightSelectorsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TrailName', instance.trailName);
+  return val;
 }
 
 GetInsightSelectorsResponse _$GetInsightSelectorsResponseFromJson(
@@ -176,12 +273,39 @@ GetInsightSelectorsResponse _$GetInsightSelectorsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$GetTrailRequestToJson(GetTrailRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
 GetTrailResponse _$GetTrailResponseFromJson(Map<String, dynamic> json) {
   return GetTrailResponse(
     trail: json['Trail'] == null
         ? null
         : Trail.fromJson(json['Trail'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetTrailStatusRequestToJson(
+    GetTrailStatusRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
 }
 
 GetTrailStatusResponse _$GetTrailStatusResponseFromJson(
@@ -238,6 +362,22 @@ const _$InsightTypeEnumMap = {
   InsightType.apiCallRateInsight: 'ApiCallRateInsight',
 };
 
+Map<String, dynamic> _$ListPublicKeysRequestToJson(
+    ListPublicKeysRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EndTime', unixTimestampToJson(instance.endTime));
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('StartTime', unixTimestampToJson(instance.startTime));
+  return val;
+}
+
 ListPublicKeysResponse _$ListPublicKeysResponseFromJson(
     Map<String, dynamic> json) {
   return ListPublicKeysResponse(
@@ -249,6 +389,20 @@ ListPublicKeysResponse _$ListPublicKeysResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListTagsRequestToJson(ListTagsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceIdList', instance.resourceIdList);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListTagsResponse _$ListTagsResponseFromJson(Map<String, dynamic> json) {
   return ListTagsResponse(
     nextToken: json['NextToken'] as String,
@@ -257,6 +411,19 @@ ListTagsResponse _$ListTagsResponseFromJson(Map<String, dynamic> json) {
             e == null ? null : ResourceTag.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListTrailsRequestToJson(ListTrailsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListTrailsResponse _$ListTrailsResponseFromJson(Map<String, dynamic> json) {
@@ -295,6 +462,29 @@ const _$LookupAttributeKeyEnumMap = {
   LookupAttributeKey.accessKeyId: 'AccessKeyId',
 };
 
+Map<String, dynamic> _$LookupEventsRequestToJson(LookupEventsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EndTime', unixTimestampToJson(instance.endTime));
+  writeNotNull('EventCategory', _$EventCategoryEnumMap[instance.eventCategory]);
+  writeNotNull('LookupAttributes',
+      instance.lookupAttributes?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('StartTime', unixTimestampToJson(instance.startTime));
+  return val;
+}
+
+const _$EventCategoryEnumMap = {
+  EventCategory.insight: 'insight',
+};
+
 LookupEventsResponse _$LookupEventsResponseFromJson(Map<String, dynamic> json) {
   return LookupEventsResponse(
     events: (json['Events'] as List)
@@ -314,6 +504,22 @@ PublicKey _$PublicKeyFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$PutEventSelectorsRequestToJson(
+    PutEventSelectorsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EventSelectors',
+      instance.eventSelectors?.map((e) => e?.toJson())?.toList());
+  writeNotNull('TrailName', instance.trailName);
+  return val;
+}
+
 PutEventSelectorsResponse _$PutEventSelectorsResponseFromJson(
     Map<String, dynamic> json) {
   return PutEventSelectorsResponse(
@@ -326,6 +532,22 @@ PutEventSelectorsResponse _$PutEventSelectorsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$PutInsightSelectorsRequestToJson(
+    PutInsightSelectorsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InsightSelectors',
+      instance.insightSelectors?.map((e) => e?.toJson())?.toList());
+  writeNotNull('TrailName', instance.trailName);
+  return val;
+}
+
 PutInsightSelectorsResponse _$PutInsightSelectorsResponseFromJson(
     Map<String, dynamic> json) {
   return PutInsightSelectorsResponse(
@@ -336,6 +558,21 @@ PutInsightSelectorsResponse _$PutInsightSelectorsResponseFromJson(
         ?.toList(),
     trailARN: json['TrailARN'] as String,
   );
+}
+
+Map<String, dynamic> _$RemoveTagsRequestToJson(RemoveTagsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceId', instance.resourceId);
+  writeNotNull(
+      'TagsList', instance.tagsList?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 RemoveTagsResponse _$RemoveTagsResponseFromJson(Map<String, dynamic> json) {
@@ -358,8 +595,34 @@ ResourceTag _$ResourceTagFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$StartLoggingRequestToJson(StartLoggingRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
 StartLoggingResponse _$StartLoggingResponseFromJson(Map<String, dynamic> json) {
   return StartLoggingResponse();
+}
+
+Map<String, dynamic> _$StopLoggingRequestToJson(StopLoggingRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
 }
 
 StopLoggingResponse _$StopLoggingResponseFromJson(Map<String, dynamic> json) {
@@ -414,6 +677,30 @@ TrailInfo _$TrailInfoFromJson(Map<String, dynamic> json) {
     name: json['Name'] as String,
     trailARN: json['TrailARN'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateTrailRequestToJson(UpdateTrailRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('CloudWatchLogsLogGroupArn', instance.cloudWatchLogsLogGroupArn);
+  writeNotNull('CloudWatchLogsRoleArn', instance.cloudWatchLogsRoleArn);
+  writeNotNull('EnableLogFileValidation', instance.enableLogFileValidation);
+  writeNotNull(
+      'IncludeGlobalServiceEvents', instance.includeGlobalServiceEvents);
+  writeNotNull('IsMultiRegionTrail', instance.isMultiRegionTrail);
+  writeNotNull('IsOrganizationTrail', instance.isOrganizationTrail);
+  writeNotNull('KmsKeyId', instance.kmsKeyId);
+  writeNotNull('S3BucketName', instance.s3BucketName);
+  writeNotNull('S3KeyPrefix', instance.s3KeyPrefix);
+  writeNotNull('SnsTopicName', instance.snsTopicName);
+  return val;
 }
 
 UpdateTrailResponse _$UpdateTrailResponseFromJson(Map<String, dynamic> json) {

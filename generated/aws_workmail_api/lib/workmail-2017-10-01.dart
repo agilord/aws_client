@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -130,11 +129,11 @@ class WorkMail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EntityId': entityId,
-        'OrganizationId': organizationId,
-        'ResourceId': resourceId,
-      },
+      payload: AssociateDelegateToResourceRequest(
+        entityId: entityId,
+        organizationId: organizationId,
+        resourceId: resourceId,
+      ),
     );
 
     return AssociateDelegateToResourceResponse.fromJson(jsonResponse.body);
@@ -197,11 +196,11 @@ class WorkMail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GroupId': groupId,
-        'MemberId': memberId,
-        'OrganizationId': organizationId,
-      },
+      payload: AssociateMemberToGroupRequest(
+        groupId: groupId,
+        memberId: memberId,
+        organizationId: organizationId,
+      ),
     );
 
     return AssociateMemberToGroupResponse.fromJson(jsonResponse.body);
@@ -272,11 +271,11 @@ class WorkMail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Alias': alias,
-        'EntityId': entityId,
-        'OrganizationId': organizationId,
-      },
+      payload: CreateAliasRequest(
+        alias: alias,
+        entityId: entityId,
+        organizationId: organizationId,
+      ),
     );
 
     return CreateAliasResponse.fromJson(jsonResponse.body);
@@ -334,10 +333,10 @@ class WorkMail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        'OrganizationId': organizationId,
-      },
+      payload: CreateGroupRequest(
+        name: name,
+        organizationId: organizationId,
+      ),
     );
 
     return CreateGroupResponse.fromJson(jsonResponse.body);
@@ -400,11 +399,11 @@ class WorkMail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        'OrganizationId': organizationId,
-        'Type': type?.toValue(),
-      },
+      payload: CreateResourceRequest(
+        name: name,
+        organizationId: organizationId,
+        type: type,
+      ),
     );
 
     return CreateResourceResponse.fromJson(jsonResponse.body);
@@ -494,12 +493,12 @@ class WorkMail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DisplayName': displayName,
-        'Name': name,
-        'OrganizationId': organizationId,
-        'Password': password,
-      },
+      payload: CreateUserRequest(
+        displayName: displayName,
+        name: name,
+        organizationId: organizationId,
+        password: password,
+      ),
     );
 
     return CreateUserResponse.fromJson(jsonResponse.body);
@@ -548,10 +547,10 @@ class WorkMail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        if (organizationId != null) 'OrganizationId': organizationId,
-      },
+      payload: DeleteAccessControlRuleRequest(
+        name: name,
+        organizationId: organizationId,
+      ),
     );
 
     return DeleteAccessControlRuleResponse.fromJson(jsonResponse.body);
@@ -621,11 +620,11 @@ class WorkMail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Alias': alias,
-        'EntityId': entityId,
-        'OrganizationId': organizationId,
-      },
+      payload: DeleteAliasRequest(
+        alias: alias,
+        entityId: entityId,
+        organizationId: organizationId,
+      ),
     );
 
     return DeleteAliasResponse.fromJson(jsonResponse.body);
@@ -675,10 +674,10 @@ class WorkMail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GroupId': groupId,
-        'OrganizationId': organizationId,
-      },
+      payload: DeleteGroupRequest(
+        groupId: groupId,
+        organizationId: organizationId,
+      ),
     );
 
     return DeleteGroupResponse.fromJson(jsonResponse.body);
@@ -740,11 +739,11 @@ class WorkMail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EntityId': entityId,
-        'GranteeId': granteeId,
-        'OrganizationId': organizationId,
-      },
+      payload: DeleteMailboxPermissionsRequest(
+        entityId: entityId,
+        granteeId: granteeId,
+        organizationId: organizationId,
+      ),
     );
 
     return DeleteMailboxPermissionsResponse.fromJson(jsonResponse.body);
@@ -791,10 +790,10 @@ class WorkMail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'OrganizationId': organizationId,
-        'ResourceId': resourceId,
-      },
+      payload: DeleteResourceRequest(
+        organizationId: organizationId,
+        resourceId: resourceId,
+      ),
     );
 
     return DeleteResourceResponse.fromJson(jsonResponse.body);
@@ -849,10 +848,10 @@ class WorkMail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'OrganizationId': organizationId,
-        'UserId': userId,
-      },
+      payload: DeleteUserRequest(
+        organizationId: organizationId,
+        userId: userId,
+      ),
     );
 
     return DeleteUserResponse.fromJson(jsonResponse.body);
@@ -904,10 +903,10 @@ class WorkMail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EntityId': entityId,
-        'OrganizationId': organizationId,
-      },
+      payload: DeregisterFromWorkMailRequest(
+        entityId: entityId,
+        organizationId: organizationId,
+      ),
     );
 
     return DeregisterFromWorkMailResponse.fromJson(jsonResponse.body);
@@ -954,10 +953,10 @@ class WorkMail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GroupId': groupId,
-        'OrganizationId': organizationId,
-      },
+      payload: DescribeGroupRequest(
+        groupId: groupId,
+        organizationId: organizationId,
+      ),
     );
 
     return DescribeGroupResponse.fromJson(jsonResponse.body);
@@ -991,9 +990,9 @@ class WorkMail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'OrganizationId': organizationId,
-      },
+      payload: DescribeOrganizationRequest(
+        organizationId: organizationId,
+      ),
     );
 
     return DescribeOrganizationResponse.fromJson(jsonResponse.body);
@@ -1040,10 +1039,10 @@ class WorkMail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'OrganizationId': organizationId,
-        'ResourceId': resourceId,
-      },
+      payload: DescribeResourceRequest(
+        organizationId: organizationId,
+        resourceId: resourceId,
+      ),
     );
 
     return DescribeResourceResponse.fromJson(jsonResponse.body);
@@ -1090,10 +1089,10 @@ class WorkMail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'OrganizationId': organizationId,
-        'UserId': userId,
-      },
+      payload: DescribeUserRequest(
+        organizationId: organizationId,
+        userId: userId,
+      ),
     );
 
     return DescribeUserResponse.fromJson(jsonResponse.body);
@@ -1154,11 +1153,11 @@ class WorkMail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EntityId': entityId,
-        'OrganizationId': organizationId,
-        'ResourceId': resourceId,
-      },
+      payload: DisassociateDelegateFromResourceRequest(
+        entityId: entityId,
+        organizationId: organizationId,
+        resourceId: resourceId,
+      ),
     );
 
     return DisassociateDelegateFromResourceResponse.fromJson(jsonResponse.body);
@@ -1221,11 +1220,11 @@ class WorkMail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GroupId': groupId,
-        'MemberId': memberId,
-        'OrganizationId': organizationId,
-      },
+      payload: DisassociateMemberFromGroupRequest(
+        groupId: groupId,
+        memberId: memberId,
+        organizationId: organizationId,
+      ),
     );
 
     return DisassociateMemberFromGroupResponse.fromJson(jsonResponse.body);
@@ -1311,12 +1310,12 @@ class WorkMail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Action': action,
-        'IpAddress': ipAddress,
-        'OrganizationId': organizationId,
-        'UserId': userId,
-      },
+      payload: GetAccessControlEffectRequest(
+        action: action,
+        ipAddress: ipAddress,
+        organizationId: organizationId,
+        userId: userId,
+      ),
     );
 
     return GetAccessControlEffectResponse.fromJson(jsonResponse.body);
@@ -1363,10 +1362,10 @@ class WorkMail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'OrganizationId': organizationId,
-        'UserId': userId,
-      },
+      payload: GetMailboxDetailsRequest(
+        organizationId: organizationId,
+        userId: userId,
+      ),
     );
 
     return GetMailboxDetailsResponse.fromJson(jsonResponse.body);
@@ -1399,9 +1398,9 @@ class WorkMail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'OrganizationId': organizationId,
-      },
+      payload: ListAccessControlRulesRequest(
+        organizationId: organizationId,
+      ),
     );
 
     return ListAccessControlRulesResponse.fromJson(jsonResponse.body);
@@ -1471,12 +1470,12 @@ class WorkMail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EntityId': entityId,
-        'OrganizationId': organizationId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListAliasesRequest(
+        entityId: entityId,
+        organizationId: organizationId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListAliasesResponse.fromJson(jsonResponse.body);
@@ -1547,12 +1546,12 @@ class WorkMail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GroupId': groupId,
-        'OrganizationId': organizationId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListGroupMembersRequest(
+        groupId: groupId,
+        organizationId: organizationId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListGroupMembersResponse.fromJson(jsonResponse.body);
@@ -1608,11 +1607,11 @@ class WorkMail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'OrganizationId': organizationId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListGroupsRequest(
+        organizationId: organizationId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListGroupsResponse.fromJson(jsonResponse.body);
@@ -1683,12 +1682,12 @@ class WorkMail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EntityId': entityId,
-        'OrganizationId': organizationId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListMailboxPermissionsRequest(
+        entityId: entityId,
+        organizationId: organizationId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListMailboxPermissionsResponse.fromJson(jsonResponse.body);
@@ -1730,10 +1729,10 @@ class WorkMail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListOrganizationsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListOrganizationsResponse.fromJson(jsonResponse.body);
@@ -1804,12 +1803,12 @@ class WorkMail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'OrganizationId': organizationId,
-        'ResourceId': resourceId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListResourceDelegatesRequest(
+        organizationId: organizationId,
+        resourceId: resourceId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListResourceDelegatesResponse.fromJson(jsonResponse.body);
@@ -1864,11 +1863,11 @@ class WorkMail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'OrganizationId': organizationId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListResourcesRequest(
+        organizationId: organizationId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListResourcesResponse.fromJson(jsonResponse.body);
@@ -1901,9 +1900,9 @@ class WorkMail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceARN': resourceARN,
-      },
+      payload: ListTagsForResourceRequest(
+        resourceARN: resourceARN,
+      ),
     );
 
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
@@ -1958,11 +1957,11 @@ class WorkMail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'OrganizationId': organizationId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListUsersRequest(
+        organizationId: organizationId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListUsersResponse.fromJson(jsonResponse.body);
@@ -2072,18 +2071,18 @@ class WorkMail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Description': description,
-        'Effect': effect?.toValue(),
-        'Name': name,
-        'OrganizationId': organizationId,
-        if (actions != null) 'Actions': actions,
-        if (ipRanges != null) 'IpRanges': ipRanges,
-        if (notActions != null) 'NotActions': notActions,
-        if (notIpRanges != null) 'NotIpRanges': notIpRanges,
-        if (notUserIds != null) 'NotUserIds': notUserIds,
-        if (userIds != null) 'UserIds': userIds,
-      },
+      payload: PutAccessControlRuleRequest(
+        description: description,
+        effect: effect,
+        name: name,
+        organizationId: organizationId,
+        actions: actions,
+        ipRanges: ipRanges,
+        notActions: notActions,
+        notIpRanges: notIpRanges,
+        notUserIds: notUserIds,
+        userIds: userIds,
+      ),
     );
 
     return PutAccessControlRuleResponse.fromJson(jsonResponse.body);
@@ -2158,12 +2157,12 @@ class WorkMail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EntityId': entityId,
-        'GranteeId': granteeId,
-        'OrganizationId': organizationId,
-        'PermissionValues': permissionValues,
-      },
+      payload: PutMailboxPermissionsRequest(
+        entityId: entityId,
+        granteeId: granteeId,
+        organizationId: organizationId,
+        permissionValues: permissionValues,
+      ),
     );
 
     return PutMailboxPermissionsResponse.fromJson(jsonResponse.body);
@@ -2246,11 +2245,11 @@ class WorkMail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Email': email,
-        'EntityId': entityId,
-        'OrganizationId': organizationId,
-      },
+      payload: RegisterToWorkMailRequest(
+        email: email,
+        entityId: entityId,
+        organizationId: organizationId,
+      ),
     );
 
     return RegisterToWorkMailResponse.fromJson(jsonResponse.body);
@@ -2321,11 +2320,11 @@ class WorkMail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'OrganizationId': organizationId,
-        'Password': password,
-        'UserId': userId,
-      },
+      payload: ResetPasswordRequest(
+        organizationId: organizationId,
+        password: password,
+        userId: userId,
+      ),
     );
 
     return ResetPasswordResponse.fromJson(jsonResponse.body);
@@ -2366,10 +2365,10 @@ class WorkMail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceARN': resourceARN,
-        'Tags': tags,
-      },
+      payload: TagResourceRequest(
+        resourceARN: resourceARN,
+        tags: tags,
+      ),
     );
 
     return TagResourceResponse.fromJson(jsonResponse.body);
@@ -2408,10 +2407,10 @@ class WorkMail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceARN': resourceARN,
-        'TagKeys': tagKeys,
-      },
+      payload: UntagResourceRequest(
+        resourceARN: resourceARN,
+        tagKeys: tagKeys,
+      ),
     );
 
     return UntagResourceResponse.fromJson(jsonResponse.body);
@@ -2473,11 +2472,11 @@ class WorkMail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'MailboxQuota': mailboxQuota,
-        'OrganizationId': organizationId,
-        'UserId': userId,
-      },
+      payload: UpdateMailboxQuotaRequest(
+        mailboxQuota: mailboxQuota,
+        organizationId: organizationId,
+        userId: userId,
+      ),
     );
 
     return UpdateMailboxQuotaResponse.fromJson(jsonResponse.body);
@@ -2553,11 +2552,11 @@ class WorkMail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Email': email,
-        'EntityId': entityId,
-        'OrganizationId': organizationId,
-      },
+      payload: UpdatePrimaryEmailAddressRequest(
+        email: email,
+        entityId: entityId,
+        organizationId: organizationId,
+      ),
     );
 
     return UpdatePrimaryEmailAddressResponse.fromJson(jsonResponse.body);
@@ -2632,12 +2631,12 @@ class WorkMail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'OrganizationId': organizationId,
-        'ResourceId': resourceId,
-        if (bookingOptions != null) 'BookingOptions': bookingOptions,
-        if (name != null) 'Name': name,
-      },
+      payload: UpdateResourceRequest(
+        organizationId: organizationId,
+        resourceId: resourceId,
+        bookingOptions: bookingOptions,
+        name: name,
+      ),
     );
 
     return UpdateResourceResponse.fromJson(jsonResponse.body);
@@ -2731,16 +2730,31 @@ enum AccessControlRuleEffect {
   deny,
 }
 
-extension on AccessControlRuleEffect {
-  String toValue() {
-    switch (this) {
-      case AccessControlRuleEffect.allow:
-        return 'ALLOW';
-      case AccessControlRuleEffect.deny:
-        return 'DENY';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateDelegateToResourceRequest {
+  /// The member (user or group) to associate to the resource.
+  @_s.JsonKey(name: 'EntityId')
+  final String entityId;
+
+  /// The organization under which the resource exists.
+  @_s.JsonKey(name: 'OrganizationId')
+  final String organizationId;
+
+  /// The resource for which members (users or groups) are associated.
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  AssociateDelegateToResourceRequest({
+    @_s.required this.entityId,
+    @_s.required this.organizationId,
+    @_s.required this.resourceId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AssociateDelegateToResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2753,6 +2767,32 @@ class AssociateDelegateToResourceResponse {
   factory AssociateDelegateToResourceResponse.fromJson(
           Map<String, dynamic> json) =>
       _$AssociateDelegateToResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateMemberToGroupRequest {
+  /// The group to which the member (user or group) is associated.
+  @_s.JsonKey(name: 'GroupId')
+  final String groupId;
+
+  /// The member (user or group) to associate to the group.
+  @_s.JsonKey(name: 'MemberId')
+  final String memberId;
+
+  /// The organization under which the group exists.
+  @_s.JsonKey(name: 'OrganizationId')
+  final String organizationId;
+
+  AssociateMemberToGroupRequest({
+    @_s.required this.groupId,
+    @_s.required this.memberId,
+    @_s.required this.organizationId,
+  });
+  Map<String, dynamic> toJson() => _$AssociateMemberToGroupRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2801,12 +2841,59 @@ class BookingOptions {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateAliasRequest {
+  /// The alias to add to the member set.
+  @_s.JsonKey(name: 'Alias')
+  final String alias;
+
+  /// The member (user or group) to which this alias is added.
+  @_s.JsonKey(name: 'EntityId')
+  final String entityId;
+
+  /// The organization under which the member (user or group) exists.
+  @_s.JsonKey(name: 'OrganizationId')
+  final String organizationId;
+
+  CreateAliasRequest({
+    @_s.required this.alias,
+    @_s.required this.entityId,
+    @_s.required this.organizationId,
+  });
+  Map<String, dynamic> toJson() => _$CreateAliasRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateAliasResponse {
   CreateAliasResponse();
   factory CreateAliasResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateAliasResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateGroupRequest {
+  /// The name of the group.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The organization under which the group is to be created.
+  @_s.JsonKey(name: 'OrganizationId')
+  final String organizationId;
+
+  CreateGroupRequest({
+    @_s.required this.name,
+    @_s.required this.organizationId,
+  });
+  Map<String, dynamic> toJson() => _$CreateGroupRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2829,6 +2916,34 @@ class CreateGroupResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateResourceRequest {
+  /// The name of the new resource.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The identifier associated with the organization for which the resource is
+  /// created.
+  @_s.JsonKey(name: 'OrganizationId')
+  final String organizationId;
+
+  /// The type of the new resource. The available types are <code>equipment</code>
+  /// and <code>room</code>.
+  @_s.JsonKey(name: 'Type')
+  final ResourceType type;
+
+  CreateResourceRequest({
+    @_s.required this.name,
+    @_s.required this.organizationId,
+    @_s.required this.type,
+  });
+  Map<String, dynamic> toJson() => _$CreateResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateResourceResponse {
@@ -2841,6 +2956,38 @@ class CreateResourceResponse {
   });
   factory CreateResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateUserRequest {
+  /// The display name for the new user.
+  @_s.JsonKey(name: 'DisplayName')
+  final String displayName;
+
+  /// The name for the new user. Simple AD or AD Connector user names have a
+  /// maximum length of 20. All others have a maximum length of 64.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The identifier of the organization for which the user is created.
+  @_s.JsonKey(name: 'OrganizationId')
+  final String organizationId;
+
+  /// The password for the new user.
+  @_s.JsonKey(name: 'Password')
+  final String password;
+
+  CreateUserRequest({
+    @_s.required this.displayName,
+    @_s.required this.name,
+    @_s.required this.organizationId,
+    @_s.required this.password,
+  });
+  Map<String, dynamic> toJson() => _$CreateUserRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2887,12 +3034,62 @@ class Delegate {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteAccessControlRuleRequest {
+  /// The name of the access control rule.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The identifier for the organization.
+  @_s.JsonKey(name: 'OrganizationId')
+  final String organizationId;
+
+  DeleteAccessControlRuleRequest({
+    @_s.required this.name,
+    this.organizationId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteAccessControlRuleRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteAccessControlRuleResponse {
   DeleteAccessControlRuleResponse();
   factory DeleteAccessControlRuleResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteAccessControlRuleResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteAliasRequest {
+  /// The aliases to be removed from the user's set of aliases. Duplicate entries
+  /// in the list are collapsed into single entries (the list is transformed into
+  /// a set).
+  @_s.JsonKey(name: 'Alias')
+  final String alias;
+
+  /// The identifier for the member (user or group) from which to have the aliases
+  /// removed.
+  @_s.JsonKey(name: 'EntityId')
+  final String entityId;
+
+  /// The identifier for the organization under which the user exists.
+  @_s.JsonKey(name: 'OrganizationId')
+  final String organizationId;
+
+  DeleteAliasRequest({
+    @_s.required this.alias,
+    @_s.required this.entityId,
+    @_s.required this.organizationId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteAliasRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2909,12 +3106,62 @@ class DeleteAliasResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteGroupRequest {
+  /// The identifier of the group to be deleted.
+  @_s.JsonKey(name: 'GroupId')
+  final String groupId;
+
+  /// The organization that contains the group.
+  @_s.JsonKey(name: 'OrganizationId')
+  final String organizationId;
+
+  DeleteGroupRequest({
+    @_s.required this.groupId,
+    @_s.required this.organizationId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteGroupResponse {
   DeleteGroupResponse();
   factory DeleteGroupResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteMailboxPermissionsRequest {
+  /// The identifier of the member (user or group)that owns the mailbox.
+  @_s.JsonKey(name: 'EntityId')
+  final String entityId;
+
+  /// The identifier of the member (user or group) for which to delete granted
+  /// permissions.
+  @_s.JsonKey(name: 'GranteeId')
+  final String granteeId;
+
+  /// The identifier of the organization under which the member (user or group)
+  /// exists.
+  @_s.JsonKey(name: 'OrganizationId')
+  final String organizationId;
+
+  DeleteMailboxPermissionsRequest({
+    @_s.required this.entityId,
+    @_s.required this.granteeId,
+    @_s.required this.organizationId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteMailboxPermissionsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2932,12 +3179,55 @@ class DeleteMailboxPermissionsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteResourceRequest {
+  /// The identifier associated with the organization from which the resource is
+  /// deleted.
+  @_s.JsonKey(name: 'OrganizationId')
+  final String organizationId;
+
+  /// The identifier of the resource to be deleted.
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  DeleteResourceRequest({
+    @_s.required this.organizationId,
+    @_s.required this.resourceId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteResourceResponse {
   DeleteResourceResponse();
   factory DeleteResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteUserRequest {
+  /// The organization that contains the user to be deleted.
+  @_s.JsonKey(name: 'OrganizationId')
+  final String organizationId;
+
+  /// The identifier of the user to be deleted.
+  @_s.JsonKey(name: 'UserId')
+  final String userId;
+
+  DeleteUserRequest({
+    @_s.required this.organizationId,
+    @_s.required this.userId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteUserRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2954,12 +3244,55 @@ class DeleteUserResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeregisterFromWorkMailRequest {
+  /// The identifier for the member (user or group) to be updated.
+  @_s.JsonKey(name: 'EntityId')
+  final String entityId;
+
+  /// The identifier for the organization under which the Amazon WorkMail entity
+  /// exists.
+  @_s.JsonKey(name: 'OrganizationId')
+  final String organizationId;
+
+  DeregisterFromWorkMailRequest({
+    @_s.required this.entityId,
+    @_s.required this.organizationId,
+  });
+  Map<String, dynamic> toJson() => _$DeregisterFromWorkMailRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeregisterFromWorkMailResponse {
   DeregisterFromWorkMailResponse();
   factory DeregisterFromWorkMailResponse.fromJson(Map<String, dynamic> json) =>
       _$DeregisterFromWorkMailResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeGroupRequest {
+  /// The identifier for the group to be described.
+  @_s.JsonKey(name: 'GroupId')
+  final String groupId;
+
+  /// The identifier for the organization under which the group exists.
+  @_s.JsonKey(name: 'OrganizationId')
+  final String organizationId;
+
+  DescribeGroupRequest({
+    @_s.required this.groupId,
+    @_s.required this.organizationId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeGroupRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3011,6 +3344,22 @@ class DescribeGroupResponse {
   });
   factory DescribeGroupResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeOrganizationRequest {
+  /// The identifier for the organization to be described.
+  @_s.JsonKey(name: 'OrganizationId')
+  final String organizationId;
+
+  DescribeOrganizationRequest({
+    @_s.required this.organizationId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeOrganizationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3079,6 +3428,28 @@ class DescribeOrganizationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeResourceRequest {
+  /// The identifier associated with the organization for which the resource is
+  /// described.
+  @_s.JsonKey(name: 'OrganizationId')
+  final String organizationId;
+
+  /// The identifier of the resource to be described.
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  DescribeResourceRequest({
+    @_s.required this.organizationId,
+    @_s.required this.resourceId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeResourceResponse {
@@ -3135,6 +3506,27 @@ class DescribeResourceResponse {
   });
   factory DescribeResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeUserRequest {
+  /// The identifier for the organization under which the user exists.
+  @_s.JsonKey(name: 'OrganizationId')
+  final String organizationId;
+
+  /// The identifier for the user to be described.
+  @_s.JsonKey(name: 'UserId')
+  final String userId;
+
+  DescribeUserRequest({
+    @_s.required this.organizationId,
+    @_s.required this.userId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeUserRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3206,6 +3598,35 @@ class DescribeUserResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateDelegateFromResourceRequest {
+  /// The identifier for the member (user, group) to be removed from the
+  /// resource's delegates.
+  @_s.JsonKey(name: 'EntityId')
+  final String entityId;
+
+  /// The identifier for the organization under which the resource exists.
+  @_s.JsonKey(name: 'OrganizationId')
+  final String organizationId;
+
+  /// The identifier of the resource from which delegates' set members are
+  /// removed.
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  DisassociateDelegateFromResourceRequest({
+    @_s.required this.entityId,
+    @_s.required this.organizationId,
+    @_s.required this.resourceId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DisassociateDelegateFromResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DisassociateDelegateFromResourceResponse {
@@ -3213,6 +3634,33 @@ class DisassociateDelegateFromResourceResponse {
   factory DisassociateDelegateFromResourceResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DisassociateDelegateFromResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateMemberFromGroupRequest {
+  /// The identifier for the group from which members are removed.
+  @_s.JsonKey(name: 'GroupId')
+  final String groupId;
+
+  /// The identifier for the member to be removed to the group.
+  @_s.JsonKey(name: 'MemberId')
+  final String memberId;
+
+  /// The identifier for the organization under which the group exists.
+  @_s.JsonKey(name: 'OrganizationId')
+  final String organizationId;
+
+  DisassociateMemberFromGroupRequest({
+    @_s.required this.groupId,
+    @_s.required this.memberId,
+    @_s.required this.organizationId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DisassociateMemberFromGroupRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3239,6 +3687,39 @@ enum EntityState {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetAccessControlEffectRequest {
+  /// The access protocol action. Valid values include <code>ActiveSync</code>,
+  /// <code>AutoDiscover</code>, <code>EWS</code>, <code>IMAP</code>,
+  /// <code>SMTP</code>, <code>WindowsOutlook</code>, and <code>WebMail</code>.
+  @_s.JsonKey(name: 'Action')
+  final String action;
+
+  /// The IPv4 address.
+  @_s.JsonKey(name: 'IpAddress')
+  final String ipAddress;
+
+  /// The identifier for the organization.
+  @_s.JsonKey(name: 'OrganizationId')
+  final String organizationId;
+
+  /// The user ID.
+  @_s.JsonKey(name: 'UserId')
+  final String userId;
+
+  GetAccessControlEffectRequest({
+    @_s.required this.action,
+    @_s.required this.ipAddress,
+    @_s.required this.organizationId,
+    @_s.required this.userId,
+  });
+  Map<String, dynamic> toJson() => _$GetAccessControlEffectRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetAccessControlEffectResponse {
@@ -3256,6 +3737,28 @@ class GetAccessControlEffectResponse {
   });
   factory GetAccessControlEffectResponse.fromJson(Map<String, dynamic> json) =>
       _$GetAccessControlEffectResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetMailboxDetailsRequest {
+  /// The identifier for the organization that contains the user whose mailbox
+  /// details are being requested.
+  @_s.JsonKey(name: 'OrganizationId')
+  final String organizationId;
+
+  /// The identifier for the user whose mailbox details are being requested.
+  @_s.JsonKey(name: 'UserId')
+  final String userId;
+
+  GetMailboxDetailsRequest({
+    @_s.required this.organizationId,
+    @_s.required this.userId,
+  });
+  Map<String, dynamic> toJson() => _$GetMailboxDetailsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3331,6 +3834,22 @@ class Group {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListAccessControlRulesRequest {
+  /// The identifier for the organization.
+  @_s.JsonKey(name: 'OrganizationId')
+  final String organizationId;
+
+  ListAccessControlRulesRequest({
+    @_s.required this.organizationId,
+  });
+  Map<String, dynamic> toJson() => _$ListAccessControlRulesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListAccessControlRulesResponse {
@@ -3343,6 +3862,38 @@ class ListAccessControlRulesResponse {
   });
   factory ListAccessControlRulesResponse.fromJson(Map<String, dynamic> json) =>
       _$ListAccessControlRulesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListAliasesRequest {
+  /// The identifier for the entity for which to list the aliases.
+  @_s.JsonKey(name: 'EntityId')
+  final String entityId;
+
+  /// The identifier for the organization under which the entity exists.
+  @_s.JsonKey(name: 'OrganizationId')
+  final String organizationId;
+
+  /// The maximum number of results to return in a single call.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token to use to retrieve the next page of results. The first call does
+  /// not contain any tokens.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListAliasesRequest({
+    @_s.required this.entityId,
+    @_s.required this.organizationId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListAliasesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3371,6 +3922,39 @@ class ListAliasesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListGroupMembersRequest {
+  /// The identifier for the group to which the members (users or groups) are
+  /// associated.
+  @_s.JsonKey(name: 'GroupId')
+  final String groupId;
+
+  /// The identifier for the organization under which the group exists.
+  @_s.JsonKey(name: 'OrganizationId')
+  final String organizationId;
+
+  /// The maximum number of results to return in a single call.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token to use to retrieve the next page of results. The first call does
+  /// not contain any tokens.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListGroupMembersRequest({
+    @_s.required this.groupId,
+    @_s.required this.organizationId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListGroupMembersRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListGroupMembersResponse {
@@ -3389,6 +3973,33 @@ class ListGroupMembersResponse {
   });
   factory ListGroupMembersResponse.fromJson(Map<String, dynamic> json) =>
       _$ListGroupMembersResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListGroupsRequest {
+  /// The identifier for the organization under which the groups exist.
+  @_s.JsonKey(name: 'OrganizationId')
+  final String organizationId;
+
+  /// The maximum number of results to return in a single call.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token to use to retrieve the next page of results. The first call does
+  /// not contain any tokens.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListGroupsRequest({
+    @_s.required this.organizationId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListGroupsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3417,6 +4028,40 @@ class ListGroupsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListMailboxPermissionsRequest {
+  /// The identifier of the user, group, or resource for which to list mailbox
+  /// permissions.
+  @_s.JsonKey(name: 'EntityId')
+  final String entityId;
+
+  /// The identifier of the organization under which the user, group, or resource
+  /// exists.
+  @_s.JsonKey(name: 'OrganizationId')
+  final String organizationId;
+
+  /// The maximum number of results to return in a single call.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token to use to retrieve the next page of results. The first call does
+  /// not contain any tokens.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListMailboxPermissionsRequest({
+    @_s.required this.entityId,
+    @_s.required this.organizationId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListMailboxPermissionsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListMailboxPermissionsResponse {
@@ -3435,6 +4080,28 @@ class ListMailboxPermissionsResponse {
   });
   factory ListMailboxPermissionsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListMailboxPermissionsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListOrganizationsRequest {
+  /// The maximum number of results to return in a single call.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token to use to retrieve the next page of results. The first call does
+  /// not contain any tokens.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListOrganizationsRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListOrganizationsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3464,6 +4131,38 @@ class ListOrganizationsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListResourceDelegatesRequest {
+  /// The identifier for the organization that contains the resource for which
+  /// delegates are listed.
+  @_s.JsonKey(name: 'OrganizationId')
+  final String organizationId;
+
+  /// The identifier for the resource whose delegates are listed.
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  /// The number of maximum results in a page.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token used to paginate through the delegates associated with a resource.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListResourceDelegatesRequest({
+    @_s.required this.organizationId,
+    @_s.required this.resourceId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListResourceDelegatesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListResourceDelegatesResponse {
@@ -3483,6 +4182,33 @@ class ListResourceDelegatesResponse {
   });
   factory ListResourceDelegatesResponse.fromJson(Map<String, dynamic> json) =>
       _$ListResourceDelegatesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListResourcesRequest {
+  /// The identifier for the organization under which the resources exist.
+  @_s.JsonKey(name: 'OrganizationId')
+  final String organizationId;
+
+  /// The maximum number of results to return in a single call.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token to use to retrieve the next page of results. The first call does
+  /// not contain any tokens.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListResourcesRequest({
+    @_s.required this.organizationId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListResourcesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3512,6 +4238,22 @@ class ListResourcesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceRequest {
+  /// The resource ARN.
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+
+  ListTagsForResourceRequest({
+    @_s.required this.resourceARN,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListTagsForResourceResponse {
@@ -3524,6 +4266,33 @@ class ListTagsForResourceResponse {
   });
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$ListTagsForResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListUsersRequest {
+  /// The identifier for the organization under which the users exist.
+  @_s.JsonKey(name: 'OrganizationId')
+  final String organizationId;
+
+  /// The maximum number of results to return in a single call.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token to use to retrieve the next page of results. The first call does
+  /// not contain any tokens.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListUsersRequest({
+    @_s.required this.organizationId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListUsersRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3686,12 +4455,118 @@ enum PermissionType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutAccessControlRuleRequest {
+  /// The rule description.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The rule effect.
+  @_s.JsonKey(name: 'Effect')
+  final AccessControlRuleEffect effect;
+
+  /// The rule name.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The identifier of the organization.
+  @_s.JsonKey(name: 'OrganizationId')
+  final String organizationId;
+
+  /// Access protocol actions to include in the rule. Valid values include
+  /// <code>ActiveSync</code>, <code>AutoDiscover</code>, <code>EWS</code>,
+  /// <code>IMAP</code>, <code>SMTP</code>, <code>WindowsOutlook</code>, and
+  /// <code>WebMail</code>.
+  @_s.JsonKey(name: 'Actions')
+  final List<String> actions;
+
+  /// IPv4 CIDR ranges to include in the rule.
+  @_s.JsonKey(name: 'IpRanges')
+  final List<String> ipRanges;
+
+  /// Access protocol actions to exclude from the rule. Valid values include
+  /// <code>ActiveSync</code>, <code>AutoDiscover</code>, <code>EWS</code>,
+  /// <code>IMAP</code>, <code>SMTP</code>, <code>WindowsOutlook</code>, and
+  /// <code>WebMail</code>.
+  @_s.JsonKey(name: 'NotActions')
+  final List<String> notActions;
+
+  /// IPv4 CIDR ranges to exclude from the rule.
+  @_s.JsonKey(name: 'NotIpRanges')
+  final List<String> notIpRanges;
+
+  /// User IDs to exclude from the rule.
+  @_s.JsonKey(name: 'NotUserIds')
+  final List<String> notUserIds;
+
+  /// User IDs to include in the rule.
+  @_s.JsonKey(name: 'UserIds')
+  final List<String> userIds;
+
+  PutAccessControlRuleRequest({
+    @_s.required this.description,
+    @_s.required this.effect,
+    @_s.required this.name,
+    @_s.required this.organizationId,
+    this.actions,
+    this.ipRanges,
+    this.notActions,
+    this.notIpRanges,
+    this.notUserIds,
+    this.userIds,
+  });
+  Map<String, dynamic> toJson() => _$PutAccessControlRuleRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutAccessControlRuleResponse {
   PutAccessControlRuleResponse();
   factory PutAccessControlRuleResponse.fromJson(Map<String, dynamic> json) =>
       _$PutAccessControlRuleResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutMailboxPermissionsRequest {
+  /// The identifier of the user, group, or resource for which to update mailbox
+  /// permissions.
+  @_s.JsonKey(name: 'EntityId')
+  final String entityId;
+
+  /// The identifier of the user, group, or resource to which to grant the
+  /// permissions.
+  @_s.JsonKey(name: 'GranteeId')
+  final String granteeId;
+
+  /// The identifier of the organization under which the user, group, or resource
+  /// exists.
+  @_s.JsonKey(name: 'OrganizationId')
+  final String organizationId;
+
+  /// The permissions granted to the grantee. SEND_AS allows the grantee to send
+  /// email as the owner of the mailbox (the grantee is not mentioned on these
+  /// emails). SEND_ON_BEHALF allows the grantee to send email on behalf of the
+  /// owner of the mailbox (the grantee is not mentioned as the physical sender of
+  /// these emails). FULL_ACCESS allows the grantee full access to the mailbox,
+  /// irrespective of other folder-level permissions set on the mailbox.
+  @_s.JsonKey(name: 'PermissionValues')
+  final List<String> permissionValues;
+
+  PutMailboxPermissionsRequest({
+    @_s.required this.entityId,
+    @_s.required this.granteeId,
+    @_s.required this.organizationId,
+    @_s.required this.permissionValues,
+  });
+  Map<String, dynamic> toJson() => _$PutMailboxPermissionsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3708,12 +4583,66 @@ class PutMailboxPermissionsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RegisterToWorkMailRequest {
+  /// The email for the user, group, or resource to be updated.
+  @_s.JsonKey(name: 'Email')
+  final String email;
+
+  /// The identifier for the user, group, or resource to be updated.
+  @_s.JsonKey(name: 'EntityId')
+  final String entityId;
+
+  /// The identifier for the organization under which the user, group, or resource
+  /// exists.
+  @_s.JsonKey(name: 'OrganizationId')
+  final String organizationId;
+
+  RegisterToWorkMailRequest({
+    @_s.required this.email,
+    @_s.required this.entityId,
+    @_s.required this.organizationId,
+  });
+  Map<String, dynamic> toJson() => _$RegisterToWorkMailRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class RegisterToWorkMailResponse {
   RegisterToWorkMailResponse();
   factory RegisterToWorkMailResponse.fromJson(Map<String, dynamic> json) =>
       _$RegisterToWorkMailResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ResetPasswordRequest {
+  /// The identifier of the organization that contains the user for which the
+  /// password is reset.
+  @_s.JsonKey(name: 'OrganizationId')
+  final String organizationId;
+
+  /// The new password for the user.
+  @_s.JsonKey(name: 'Password')
+  final String password;
+
+  /// The identifier of the user for whom the password is reset.
+  @_s.JsonKey(name: 'UserId')
+  final String userId;
+
+  ResetPasswordRequest({
+    @_s.required this.organizationId,
+    @_s.required this.password,
+    @_s.required this.userId,
+  });
+  Map<String, dynamic> toJson() => _$ResetPasswordRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3788,18 +4717,6 @@ enum ResourceType {
   equipment,
 }
 
-extension on ResourceType {
-  String toValue() {
-    switch (this) {
-      case ResourceType.room:
-        return 'ROOM';
-      case ResourceType.equipment:
-        return 'EQUIPMENT';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Describes a tag applied to a resource.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3827,12 +4744,54 @@ class Tag {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The resource ARN.
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+
+  /// The tag key-value pairs.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceARN,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
   factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$TagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The resource ARN.
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+
+  /// The tag keys.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceARN,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3849,12 +4808,66 @@ class UntagResourceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateMailboxQuotaRequest {
+  /// The updated mailbox quota, in MB, for the specified user.
+  @_s.JsonKey(name: 'MailboxQuota')
+  final int mailboxQuota;
+
+  /// The identifier for the organization that contains the user for whom to
+  /// update the mailbox quota.
+  @_s.JsonKey(name: 'OrganizationId')
+  final String organizationId;
+
+  /// The identifer for the user for whom to update the mailbox quota.
+  @_s.JsonKey(name: 'UserId')
+  final String userId;
+
+  UpdateMailboxQuotaRequest({
+    @_s.required this.mailboxQuota,
+    @_s.required this.organizationId,
+    @_s.required this.userId,
+  });
+  Map<String, dynamic> toJson() => _$UpdateMailboxQuotaRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateMailboxQuotaResponse {
   UpdateMailboxQuotaResponse();
   factory UpdateMailboxQuotaResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateMailboxQuotaResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdatePrimaryEmailAddressRequest {
+  /// The value of the email to be updated as primary.
+  @_s.JsonKey(name: 'Email')
+  final String email;
+
+  /// The user, group, or resource to update.
+  @_s.JsonKey(name: 'EntityId')
+  final String entityId;
+
+  /// The organization that contains the user, group, or resource to update.
+  @_s.JsonKey(name: 'OrganizationId')
+  final String organizationId;
+
+  UpdatePrimaryEmailAddressRequest({
+    @_s.required this.email,
+    @_s.required this.entityId,
+    @_s.required this.organizationId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdatePrimaryEmailAddressRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3867,6 +4880,38 @@ class UpdatePrimaryEmailAddressResponse {
   factory UpdatePrimaryEmailAddressResponse.fromJson(
           Map<String, dynamic> json) =>
       _$UpdatePrimaryEmailAddressResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateResourceRequest {
+  /// The identifier associated with the organization for which the resource is
+  /// updated.
+  @_s.JsonKey(name: 'OrganizationId')
+  final String organizationId;
+
+  /// The identifier of the resource to be updated.
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  /// The resource's booking options to be updated.
+  @_s.JsonKey(name: 'BookingOptions')
+  final BookingOptions bookingOptions;
+
+  /// The name of the resource to be updated.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  UpdateResourceRequest({
+    @_s.required this.organizationId,
+    @_s.required this.resourceId,
+    this.bookingOptions,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$UpdateResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(

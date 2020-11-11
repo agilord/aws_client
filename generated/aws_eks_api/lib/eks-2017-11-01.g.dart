@@ -94,6 +94,28 @@ const _$ClusterStatusEnumMap = {
   ClusterStatus.updating: 'UPDATING',
 };
 
+Map<String, dynamic> _$CreateClusterRequestToJson(
+    CreateClusterRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('resourcesVpcConfig', instance.resourcesVpcConfig?.toJson());
+  writeNotNull('roleArn', instance.roleArn);
+  writeNotNull('clientRequestToken', instance.clientRequestToken);
+  writeNotNull('encryptionConfig',
+      instance.encryptionConfig?.map((e) => e?.toJson())?.toList());
+  writeNotNull('logging', instance.logging?.toJson());
+  writeNotNull('tags', instance.tags);
+  writeNotNull('version', instance.version);
+  return val;
+}
+
 CreateClusterResponse _$CreateClusterResponseFromJson(
     Map<String, dynamic> json) {
   return CreateClusterResponse(
@@ -101,6 +123,26 @@ CreateClusterResponse _$CreateClusterResponseFromJson(
         ? null
         : Cluster.fromJson(json['cluster'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateFargateProfileRequestToJson(
+    CreateFargateProfileRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('fargateProfileName', instance.fargateProfileName);
+  writeNotNull('podExecutionRoleArn', instance.podExecutionRoleArn);
+  writeNotNull('clientRequestToken', instance.clientRequestToken);
+  writeNotNull(
+      'selectors', instance.selectors?.map((e) => e?.toJson())?.toList());
+  writeNotNull('subnets', instance.subnets);
+  writeNotNull('tags', instance.tags);
+  return val;
 }
 
 CreateFargateProfileResponse _$CreateFargateProfileResponseFromJson(
@@ -113,6 +155,37 @@ CreateFargateProfileResponse _$CreateFargateProfileResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateNodegroupRequestToJson(
+    CreateNodegroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('nodeRole', instance.nodeRole);
+  writeNotNull('nodegroupName', instance.nodegroupName);
+  writeNotNull('subnets', instance.subnets);
+  writeNotNull('amiType', _$AMITypesEnumMap[instance.amiType]);
+  writeNotNull('clientRequestToken', instance.clientRequestToken);
+  writeNotNull('diskSize', instance.diskSize);
+  writeNotNull('instanceTypes', instance.instanceTypes);
+  writeNotNull('labels', instance.labels);
+  writeNotNull('releaseVersion', instance.releaseVersion);
+  writeNotNull('remoteAccess', instance.remoteAccess?.toJson());
+  writeNotNull('scalingConfig', instance.scalingConfig?.toJson());
+  writeNotNull('tags', instance.tags);
+  writeNotNull('version', instance.version);
+  return val;
+}
+
+const _$AMITypesEnumMap = {
+  AMITypes.al2X86_64: 'AL2_x86_64',
+  AMITypes.al2X86_64Gpu: 'AL2_x86_64_GPU',
+};
+
 CreateNodegroupResponse _$CreateNodegroupResponseFromJson(
     Map<String, dynamic> json) {
   return CreateNodegroupResponse(
@@ -121,6 +194,10 @@ CreateNodegroupResponse _$CreateNodegroupResponseFromJson(
         : Nodegroup.fromJson(json['nodegroup'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$DeleteClusterRequestToJson(
+        DeleteClusterRequest instance) =>
+    <String, dynamic>{};
 
 DeleteClusterResponse _$DeleteClusterResponseFromJson(
     Map<String, dynamic> json) {
@@ -131,6 +208,10 @@ DeleteClusterResponse _$DeleteClusterResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteFargateProfileRequestToJson(
+        DeleteFargateProfileRequest instance) =>
+    <String, dynamic>{};
+
 DeleteFargateProfileResponse _$DeleteFargateProfileResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteFargateProfileResponse(
@@ -140,6 +221,10 @@ DeleteFargateProfileResponse _$DeleteFargateProfileResponseFromJson(
             json['fargateProfile'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$DeleteNodegroupRequestToJson(
+        DeleteNodegroupRequest instance) =>
+    <String, dynamic>{};
 
 DeleteNodegroupResponse _$DeleteNodegroupResponseFromJson(
     Map<String, dynamic> json) {
@@ -452,11 +537,6 @@ Nodegroup _$NodegroupFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$AMITypesEnumMap = {
-  AMITypes.al2X86_64: 'AL2_x86_64',
-  AMITypes.al2X86_64Gpu: 'AL2_x86_64_GPU',
-};
-
 const _$NodegroupStatusEnumMap = {
   NodegroupStatus.creating: 'CREATING',
   NodegroupStatus.active: 'ACTIVE',
@@ -560,9 +640,26 @@ Map<String, dynamic> _$RemoteAccessConfigToJson(RemoteAccessConfig instance) {
   return val;
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
 }
+
+Map<String, dynamic> _$UntagResourceRequestToJson(
+        UntagResourceRequest instance) =>
+    <String, dynamic>{};
 
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
@@ -600,6 +697,22 @@ const _$UpdateTypeEnumMap = {
   UpdateType.configUpdate: 'ConfigUpdate',
 };
 
+Map<String, dynamic> _$UpdateClusterConfigRequestToJson(
+    UpdateClusterConfigRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('clientRequestToken', instance.clientRequestToken);
+  writeNotNull('logging', instance.logging?.toJson());
+  writeNotNull('resourcesVpcConfig', instance.resourcesVpcConfig?.toJson());
+  return val;
+}
+
 UpdateClusterConfigResponse _$UpdateClusterConfigResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateClusterConfigResponse(
@@ -607,6 +720,21 @@ UpdateClusterConfigResponse _$UpdateClusterConfigResponseFromJson(
         ? null
         : Update.fromJson(json['update'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateClusterVersionRequestToJson(
+    UpdateClusterVersionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('version', instance.version);
+  writeNotNull('clientRequestToken', instance.clientRequestToken);
+  return val;
 }
 
 UpdateClusterVersionResponse _$UpdateClusterVersionResponseFromJson(
@@ -632,6 +760,22 @@ Map<String, dynamic> _$UpdateLabelsPayloadToJson(UpdateLabelsPayload instance) {
   return val;
 }
 
+Map<String, dynamic> _$UpdateNodegroupConfigRequestToJson(
+    UpdateNodegroupConfigRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('clientRequestToken', instance.clientRequestToken);
+  writeNotNull('labels', instance.labels?.toJson());
+  writeNotNull('scalingConfig', instance.scalingConfig?.toJson());
+  return val;
+}
+
 UpdateNodegroupConfigResponse _$UpdateNodegroupConfigResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateNodegroupConfigResponse(
@@ -639,6 +783,23 @@ UpdateNodegroupConfigResponse _$UpdateNodegroupConfigResponseFromJson(
         ? null
         : Update.fromJson(json['update'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateNodegroupVersionRequestToJson(
+    UpdateNodegroupVersionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('clientRequestToken', instance.clientRequestToken);
+  writeNotNull('force', instance.force);
+  writeNotNull('releaseVersion', instance.releaseVersion);
+  writeNotNull('version', instance.version);
+  return val;
 }
 
 UpdateNodegroupVersionResponse _$UpdateNodegroupVersionResponseFromJson(

@@ -6,12 +6,45 @@ part of 'support-2013-04-15.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$AddAttachmentsToSetRequestToJson(
+    AddAttachmentsToSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'attachments', instance.attachments?.map((e) => e?.toJson())?.toList());
+  writeNotNull('attachmentSetId', instance.attachmentSetId);
+  return val;
+}
+
 AddAttachmentsToSetResponse _$AddAttachmentsToSetResponseFromJson(
     Map<String, dynamic> json) {
   return AddAttachmentsToSetResponse(
     attachmentSetId: json['attachmentSetId'] as String,
     expiryTime: json['expiryTime'] as String,
   );
+}
+
+Map<String, dynamic> _$AddCommunicationToCaseRequestToJson(
+    AddCommunicationToCaseRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('communicationBody', instance.communicationBody);
+  writeNotNull('attachmentSetId', instance.attachmentSetId);
+  writeNotNull('caseId', instance.caseId);
+  writeNotNull('ccEmailAddresses', instance.ccEmailAddresses);
+  return val;
 }
 
 AddCommunicationToCaseResponse _$AddCommunicationToCaseResponseFromJson(
@@ -91,10 +124,45 @@ Communication _$CommunicationFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateCaseRequestToJson(CreateCaseRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('communicationBody', instance.communicationBody);
+  writeNotNull('subject', instance.subject);
+  writeNotNull('attachmentSetId', instance.attachmentSetId);
+  writeNotNull('categoryCode', instance.categoryCode);
+  writeNotNull('ccEmailAddresses', instance.ccEmailAddresses);
+  writeNotNull('issueType', instance.issueType);
+  writeNotNull('language', instance.language);
+  writeNotNull('serviceCode', instance.serviceCode);
+  writeNotNull('severityCode', instance.severityCode);
+  return val;
+}
+
 CreateCaseResponse _$CreateCaseResponseFromJson(Map<String, dynamic> json) {
   return CreateCaseResponse(
     caseId: json['caseId'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeAttachmentRequestToJson(
+    DescribeAttachmentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('attachmentId', instance.attachmentId);
+  return val;
 }
 
 DescribeAttachmentResponse _$DescribeAttachmentResponseFromJson(
@@ -106,6 +174,28 @@ DescribeAttachmentResponse _$DescribeAttachmentResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeCasesRequestToJson(
+    DescribeCasesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('afterTime', instance.afterTime);
+  writeNotNull('beforeTime', instance.beforeTime);
+  writeNotNull('caseIdList', instance.caseIdList);
+  writeNotNull('displayId', instance.displayId);
+  writeNotNull('includeCommunications', instance.includeCommunications);
+  writeNotNull('includeResolvedCases', instance.includeResolvedCases);
+  writeNotNull('language', instance.language);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 DescribeCasesResponse _$DescribeCasesResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeCasesResponse(
@@ -115,6 +205,24 @@ DescribeCasesResponse _$DescribeCasesResponseFromJson(
         ?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeCommunicationsRequestToJson(
+    DescribeCommunicationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('caseId', instance.caseId);
+  writeNotNull('afterTime', instance.afterTime);
+  writeNotNull('beforeTime', instance.beforeTime);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 DescribeCommunicationsResponse _$DescribeCommunicationsResponseFromJson(
@@ -129,6 +237,21 @@ DescribeCommunicationsResponse _$DescribeCommunicationsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeServicesRequestToJson(
+    DescribeServicesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('language', instance.language);
+  writeNotNull('serviceCodeList', instance.serviceCodeList);
+  return val;
+}
+
 DescribeServicesResponse _$DescribeServicesResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeServicesResponse(
@@ -137,6 +260,20 @@ DescribeServicesResponse _$DescribeServicesResponseFromJson(
             e == null ? null : Service.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeSeverityLevelsRequestToJson(
+    DescribeSeverityLevelsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('language', instance.language);
+  return val;
 }
 
 DescribeSeverityLevelsResponse _$DescribeSeverityLevelsResponseFromJson(
@@ -148,6 +285,20 @@ DescribeSeverityLevelsResponse _$DescribeSeverityLevelsResponseFromJson(
             : SeverityLevel.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeTrustedAdvisorCheckRefreshStatusesRequestToJson(
+    DescribeTrustedAdvisorCheckRefreshStatusesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('checkIds', instance.checkIds);
+  return val;
 }
 
 DescribeTrustedAdvisorCheckRefreshStatusesResponse
@@ -163,6 +314,21 @@ DescribeTrustedAdvisorCheckRefreshStatusesResponse
   );
 }
 
+Map<String, dynamic> _$DescribeTrustedAdvisorCheckResultRequestToJson(
+    DescribeTrustedAdvisorCheckResultRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('checkId', instance.checkId);
+  writeNotNull('language', instance.language);
+  return val;
+}
+
 DescribeTrustedAdvisorCheckResultResponse
     _$DescribeTrustedAdvisorCheckResultResponseFromJson(
         Map<String, dynamic> json) {
@@ -172,6 +338,20 @@ DescribeTrustedAdvisorCheckResultResponse
         : TrustedAdvisorCheckResult.fromJson(
             json['result'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeTrustedAdvisorCheckSummariesRequestToJson(
+    DescribeTrustedAdvisorCheckSummariesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('checkIds', instance.checkIds);
+  return val;
 }
 
 DescribeTrustedAdvisorCheckSummariesResponse
@@ -184,6 +364,20 @@ DescribeTrustedAdvisorCheckSummariesResponse
             : TrustedAdvisorCheckSummary.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeTrustedAdvisorChecksRequestToJson(
+    DescribeTrustedAdvisorChecksRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('language', instance.language);
+  return val;
 }
 
 DescribeTrustedAdvisorChecksResponse
@@ -210,6 +404,20 @@ RecentCaseCommunications _$RecentCaseCommunicationsFromJson(
   );
 }
 
+Map<String, dynamic> _$RefreshTrustedAdvisorCheckRequestToJson(
+    RefreshTrustedAdvisorCheckRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('checkId', instance.checkId);
+  return val;
+}
+
 RefreshTrustedAdvisorCheckResponse _$RefreshTrustedAdvisorCheckResponseFromJson(
     Map<String, dynamic> json) {
   return RefreshTrustedAdvisorCheckResponse(
@@ -218,6 +426,19 @@ RefreshTrustedAdvisorCheckResponse _$RefreshTrustedAdvisorCheckResponseFromJson(
         : TrustedAdvisorCheckRefreshStatus.fromJson(
             json['status'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$ResolveCaseRequestToJson(ResolveCaseRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('caseId', instance.caseId);
+  return val;
 }
 
 ResolveCaseResponse _$ResolveCaseResponseFromJson(Map<String, dynamic> json) {

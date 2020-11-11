@@ -6,6 +6,10 @@ part of 'sagemaker-a2i-runtime-2019-11-07.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$DeleteHumanLoopRequestToJson(
+        DeleteHumanLoopRequest instance) =>
+    <String, dynamic>{};
+
 DeleteHumanLoopResponse _$DeleteHumanLoopResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteHumanLoopResponse();
@@ -125,11 +129,42 @@ ListHumanLoopsResponse _$ListHumanLoopsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$StartHumanLoopRequestToJson(
+    StartHumanLoopRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FlowDefinitionArn', instance.flowDefinitionArn);
+  writeNotNull('HumanLoopInput', instance.humanLoopInput?.toJson());
+  writeNotNull('HumanLoopName', instance.humanLoopName);
+  writeNotNull('DataAttributes', instance.dataAttributes?.toJson());
+  return val;
+}
+
 StartHumanLoopResponse _$StartHumanLoopResponseFromJson(
     Map<String, dynamic> json) {
   return StartHumanLoopResponse(
     humanLoopArn: json['HumanLoopArn'] as String,
   );
+}
+
+Map<String, dynamic> _$StopHumanLoopRequestToJson(
+    StopHumanLoopRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('HumanLoopName', instance.humanLoopName);
+  return val;
 }
 
 StopHumanLoopResponse _$StopHumanLoopResponseFromJson(

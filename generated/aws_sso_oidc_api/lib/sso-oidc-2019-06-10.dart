@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -125,16 +124,16 @@ class SSOOIDC {
     ArgumentError.checkNotNull(clientSecret, 'clientSecret');
     ArgumentError.checkNotNull(deviceCode, 'deviceCode');
     ArgumentError.checkNotNull(grantType, 'grantType');
-    final $payload = <String, dynamic>{
-      'clientId': clientId,
-      'clientSecret': clientSecret,
-      'deviceCode': deviceCode,
-      'grantType': grantType,
-      if (code != null) 'code': code,
-      if (redirectUri != null) 'redirectUri': redirectUri,
-      if (refreshToken != null) 'refreshToken': refreshToken,
-      if (scope != null) 'scope': scope,
-    };
+    final $payload = CreateTokenRequest(
+      clientId: clientId,
+      clientSecret: clientSecret,
+      deviceCode: deviceCode,
+      grantType: grantType,
+      code: code,
+      redirectUri: redirectUri,
+      refreshToken: refreshToken,
+      scope: scope,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -170,11 +169,11 @@ class SSOOIDC {
   }) async {
     ArgumentError.checkNotNull(clientName, 'clientName');
     ArgumentError.checkNotNull(clientType, 'clientType');
-    final $payload = <String, dynamic>{
-      'clientName': clientName,
-      'clientType': clientType,
-      if (scopes != null) 'scopes': scopes,
-    };
+    final $payload = RegisterClientRequest(
+      clientName: clientName,
+      clientType: clientType,
+      scopes: scopes,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -214,11 +213,11 @@ class SSOOIDC {
     ArgumentError.checkNotNull(clientId, 'clientId');
     ArgumentError.checkNotNull(clientSecret, 'clientSecret');
     ArgumentError.checkNotNull(startUrl, 'startUrl');
-    final $payload = <String, dynamic>{
-      'clientId': clientId,
-      'clientSecret': clientSecret,
-      'startUrl': startUrl,
-    };
+    final $payload = StartDeviceAuthorizationRequest(
+      clientId: clientId,
+      clientSecret: clientSecret,
+      startUrl: startUrl,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -227,6 +226,68 @@ class SSOOIDC {
     );
     return StartDeviceAuthorizationResponse.fromJson(response);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateTokenRequest {
+  /// The unique identifier string for each client. This value should come from
+  /// the persisted result of the <a>RegisterClient</a> API.
+  @_s.JsonKey(name: 'clientId')
+  final String clientId;
+
+  /// A secret string generated for the client. This value should come from the
+  /// persisted result of the <a>RegisterClient</a> API.
+  @_s.JsonKey(name: 'clientSecret')
+  final String clientSecret;
+
+  /// Used only when calling this API for the device code grant type. This
+  /// short-term code is used to identify this authentication attempt. This should
+  /// come from an in-memory reference to the result of the
+  /// <a>StartDeviceAuthorization</a> API.
+  @_s.JsonKey(name: 'deviceCode')
+  final String deviceCode;
+
+  /// Supports grant types for authorization code, refresh token, and device code
+  /// request.
+  @_s.JsonKey(name: 'grantType')
+  final String grantType;
+
+  /// The authorization code received from the authorization service. This
+  /// parameter is required to perform an authorization grant request to get
+  /// access to a token.
+  @_s.JsonKey(name: 'code')
+  final String code;
+
+  /// The location of the application that will receive the authorization code.
+  /// Users authorize the service to send the request to this location.
+  @_s.JsonKey(name: 'redirectUri')
+  final String redirectUri;
+
+  /// The token used to obtain an access token in the event that the access token
+  /// is invalid or expired. This token is not issued by the service.
+  @_s.JsonKey(name: 'refreshToken')
+  final String refreshToken;
+
+  /// The list of scopes that is defined by the client. Upon authorization, this
+  /// list is used to restrict permissions when granting an access token.
+  @_s.JsonKey(name: 'scope')
+  final List<String> scope;
+
+  CreateTokenRequest({
+    @_s.required this.clientId,
+    @_s.required this.clientSecret,
+    @_s.required this.deviceCode,
+    @_s.required this.grantType,
+    this.code,
+    this.redirectUri,
+    this.refreshToken,
+    this.scope,
+  });
+  Map<String, dynamic> toJson() => _$CreateTokenRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -267,6 +328,34 @@ class CreateTokenResponse {
   });
   factory CreateTokenResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateTokenResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RegisterClientRequest {
+  /// The friendly name of the client.
+  @_s.JsonKey(name: 'clientName')
+  final String clientName;
+
+  /// The type of client. The service supports only <code>public</code> as a
+  /// client type. Anything other than public will be rejected by the service.
+  @_s.JsonKey(name: 'clientType')
+  final String clientType;
+
+  /// The list of scopes that are defined by the client. Upon authorization, this
+  /// list is used to restrict permissions when granting an access token.
+  @_s.JsonKey(name: 'scopes')
+  final List<String> scopes;
+
+  RegisterClientRequest({
+    @_s.required this.clientName,
+    @_s.required this.clientType,
+    this.scopes,
+  });
+  Map<String, dynamic> toJson() => _$RegisterClientRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -313,6 +402,38 @@ class RegisterClientResponse {
   });
   factory RegisterClientResponse.fromJson(Map<String, dynamic> json) =>
       _$RegisterClientResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartDeviceAuthorizationRequest {
+  /// The unique identifier string for the client that is registered with AWS SSO.
+  /// This value should come from the persisted result of the
+  /// <a>RegisterClient</a> API operation.
+  @_s.JsonKey(name: 'clientId')
+  final String clientId;
+
+  /// A secret string that is generated for the client. This value should come
+  /// from the persisted result of the <a>RegisterClient</a> API operation.
+  @_s.JsonKey(name: 'clientSecret')
+  final String clientSecret;
+
+  /// The URL for the AWS SSO user portal. For more information, see <a
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/userguide/using-the-portal.html">Using
+  /// the User Portal</a> in the <i>AWS Single Sign-On User Guide</i>.
+  @_s.JsonKey(name: 'startUrl')
+  final String startUrl;
+
+  StartDeviceAuthorizationRequest({
+    @_s.required this.clientId,
+    @_s.required this.clientSecret,
+    @_s.required this.startUrl,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StartDeviceAuthorizationRequestToJson(this);
 }
 
 @_s.JsonSerializable(

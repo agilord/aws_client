@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -85,10 +84,10 @@ class EMR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClusterId': clusterId,
-        'InstanceFleet': instanceFleet,
-      },
+      payload: AddInstanceFleetInput(
+        clusterId: clusterId,
+        instanceFleet: instanceFleet,
+      ),
     );
 
     return AddInstanceFleetOutput.fromJson(jsonResponse.body);
@@ -132,10 +131,10 @@ class EMR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'InstanceGroups': instanceGroups,
-        'JobFlowId': jobFlowId,
-      },
+      payload: AddInstanceGroupsInput(
+        instanceGroups: instanceGroups,
+        jobFlowId: jobFlowId,
+      ),
     );
 
     return AddInstanceGroupsOutput.fromJson(jsonResponse.body);
@@ -206,10 +205,10 @@ class EMR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobFlowId': jobFlowId,
-        'Steps': steps,
-      },
+      payload: AddJobFlowStepsInput(
+        jobFlowId: jobFlowId,
+        steps: steps,
+      ),
     );
 
     return AddJobFlowStepsOutput.fromJson(jsonResponse.body);
@@ -249,10 +248,10 @@ class EMR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceId': resourceId,
-        'Tags': tags,
-      },
+      payload: AddTagsInput(
+        resourceId: resourceId,
+        tags: tags,
+      ),
     );
 
     return AddTagsOutput.fromJson(jsonResponse.body);
@@ -309,12 +308,11 @@ class EMR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClusterId': clusterId,
-        'StepIds': stepIds,
-        if (stepCancellationOption != null)
-          'StepCancellationOption': stepCancellationOption?.toValue(),
-      },
+      payload: CancelStepsInput(
+        clusterId: clusterId,
+        stepIds: stepIds,
+        stepCancellationOption: stepCancellationOption,
+      ),
     );
 
     return CancelStepsOutput.fromJson(jsonResponse.body);
@@ -364,10 +362,10 @@ class EMR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        'SecurityConfiguration': securityConfiguration,
-      },
+      payload: CreateSecurityConfigurationInput(
+        name: name,
+        securityConfiguration: securityConfiguration,
+      ),
     );
 
     return CreateSecurityConfigurationOutput.fromJson(jsonResponse.body);
@@ -407,9 +405,9 @@ class EMR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: DeleteSecurityConfigurationInput(
+        name: name,
+      ),
     );
 
     return DeleteSecurityConfigurationOutput.fromJson(jsonResponse.body);
@@ -437,9 +435,9 @@ class EMR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClusterId': clusterId,
-      },
+      payload: DescribeClusterInput(
+        clusterId: clusterId,
+      ),
     );
 
     return DescribeClusterOutput.fromJson(jsonResponse.body);
@@ -501,12 +499,12 @@ class EMR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (createdAfter != null) 'CreatedAfter': createdAfter,
-        if (createdBefore != null) 'CreatedBefore': createdBefore,
-        if (jobFlowIds != null) 'JobFlowIds': jobFlowIds,
-        if (jobFlowStates != null) 'JobFlowStates': jobFlowStates,
-      },
+      payload: DescribeJobFlowsInput(
+        createdAfter: createdAfter,
+        createdBefore: createdBefore,
+        jobFlowIds: jobFlowIds,
+        jobFlowStates: jobFlowStates,
+      ),
     );
 
     return DescribeJobFlowsOutput.fromJson(jsonResponse.body);
@@ -547,9 +545,9 @@ class EMR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: DescribeSecurityConfigurationInput(
+        name: name,
+      ),
     );
 
     return DescribeSecurityConfigurationOutput.fromJson(jsonResponse.body);
@@ -581,10 +579,10 @@ class EMR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClusterId': clusterId,
-        'StepId': stepId,
-      },
+      payload: DescribeStepInput(
+        clusterId: clusterId,
+        stepId: stepId,
+      ),
     );
 
     return DescribeStepOutput.fromJson(jsonResponse.body);
@@ -641,10 +639,10 @@ class EMR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClusterId': clusterId,
-        if (marker != null) 'Marker': marker,
-      },
+      payload: ListBootstrapActionsInput(
+        clusterId: clusterId,
+        marker: marker,
+      ),
     );
 
     return ListBootstrapActionsOutput.fromJson(jsonResponse.body);
@@ -686,12 +684,12 @@ class EMR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (clusterStates != null) 'ClusterStates': clusterStates,
-        if (createdAfter != null) 'CreatedAfter': createdAfter,
-        if (createdBefore != null) 'CreatedBefore': createdBefore,
-        if (marker != null) 'Marker': marker,
-      },
+      payload: ListClustersInput(
+        clusterStates: clusterStates,
+        createdAfter: createdAfter,
+        createdBefore: createdBefore,
+        marker: marker,
+      ),
     );
 
     return ListClustersOutput.fromJson(jsonResponse.body);
@@ -726,10 +724,10 @@ class EMR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClusterId': clusterId,
-        if (marker != null) 'Marker': marker,
-      },
+      payload: ListInstanceFleetsInput(
+        clusterId: clusterId,
+        marker: marker,
+      ),
     );
 
     return ListInstanceFleetsOutput.fromJson(jsonResponse.body);
@@ -760,10 +758,10 @@ class EMR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClusterId': clusterId,
-        if (marker != null) 'Marker': marker,
-      },
+      payload: ListInstanceGroupsInput(
+        clusterId: clusterId,
+        marker: marker,
+      ),
     );
 
     return ListInstanceGroupsOutput.fromJson(jsonResponse.body);
@@ -818,17 +816,15 @@ class EMR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClusterId': clusterId,
-        if (instanceFleetId != null) 'InstanceFleetId': instanceFleetId,
-        if (instanceFleetType != null)
-          'InstanceFleetType': instanceFleetType?.toValue(),
-        if (instanceGroupId != null) 'InstanceGroupId': instanceGroupId,
-        if (instanceGroupTypes != null)
-          'InstanceGroupTypes': instanceGroupTypes,
-        if (instanceStates != null) 'InstanceStates': instanceStates,
-        if (marker != null) 'Marker': marker,
-      },
+      payload: ListInstancesInput(
+        clusterId: clusterId,
+        instanceFleetId: instanceFleetId,
+        instanceFleetType: instanceFleetType,
+        instanceGroupId: instanceGroupId,
+        instanceGroupTypes: instanceGroupTypes,
+        instanceStates: instanceStates,
+        marker: marker,
+      ),
     );
 
     return ListInstancesOutput.fromJson(jsonResponse.body);
@@ -857,9 +853,9 @@ class EMR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (marker != null) 'Marker': marker,
-      },
+      payload: ListSecurityConfigurationsInput(
+        marker: marker,
+      ),
     );
 
     return ListSecurityConfigurationsOutput.fromJson(jsonResponse.body);
@@ -903,12 +899,12 @@ class EMR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClusterId': clusterId,
-        if (marker != null) 'Marker': marker,
-        if (stepIds != null) 'StepIds': stepIds,
-        if (stepStates != null) 'StepStates': stepStates,
-      },
+      payload: ListStepsInput(
+        clusterId: clusterId,
+        marker: marker,
+        stepIds: stepIds,
+        stepStates: stepStates,
+      ),
     );
 
     return ListStepsOutput.fromJson(jsonResponse.body);
@@ -941,11 +937,10 @@ class EMR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClusterId': clusterId,
-        if (stepConcurrencyLevel != null)
-          'StepConcurrencyLevel': stepConcurrencyLevel,
-      },
+      payload: ModifyClusterInput(
+        clusterId: clusterId,
+        stepConcurrencyLevel: stepConcurrencyLevel,
+      ),
     );
 
     return ModifyClusterOutput.fromJson(jsonResponse.body);
@@ -983,10 +978,10 @@ class EMR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClusterId': clusterId,
-        'InstanceFleet': instanceFleet,
-      },
+      payload: ModifyInstanceFleetInput(
+        clusterId: clusterId,
+        instanceFleet: instanceFleet,
+      ),
     );
   }
 
@@ -1016,10 +1011,10 @@ class EMR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (clusterId != null) 'ClusterId': clusterId,
-        if (instanceGroups != null) 'InstanceGroups': instanceGroups,
-      },
+      payload: ModifyInstanceGroupsInput(
+        clusterId: clusterId,
+        instanceGroups: instanceGroups,
+      ),
     );
   }
 
@@ -1056,11 +1051,11 @@ class EMR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AutoScalingPolicy': autoScalingPolicy,
-        'ClusterId': clusterId,
-        'InstanceGroupId': instanceGroupId,
-      },
+      payload: PutAutoScalingPolicyInput(
+        autoScalingPolicy: autoScalingPolicy,
+        clusterId: clusterId,
+        instanceGroupId: instanceGroupId,
+      ),
     );
 
     return PutAutoScalingPolicyOutput.fromJson(jsonResponse.body);
@@ -1102,9 +1097,9 @@ class EMR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'BlockPublicAccessConfiguration': blockPublicAccessConfiguration,
-      },
+      payload: PutBlockPublicAccessConfigurationInput(
+        blockPublicAccessConfiguration: blockPublicAccessConfiguration,
+      ),
     );
 
     return PutBlockPublicAccessConfigurationOutput.fromJson(jsonResponse.body);
@@ -1136,10 +1131,10 @@ class EMR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClusterId': clusterId,
-        'InstanceGroupId': instanceGroupId,
-      },
+      payload: RemoveAutoScalingPolicyInput(
+        clusterId: clusterId,
+        instanceGroupId: instanceGroupId,
+      ),
     );
 
     return RemoveAutoScalingPolicyOutput.fromJson(jsonResponse.body);
@@ -1179,10 +1174,10 @@ class EMR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceId': resourceId,
-        'TagKeys': tagKeys,
-      },
+      payload: RemoveTagsInput(
+        resourceId: resourceId,
+        tagKeys: tagKeys,
+      ),
     );
 
     return RemoveTagsOutput.fromJson(jsonResponse.body);
@@ -1567,38 +1562,32 @@ class EMR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Instances': instances,
-        'Name': name,
-        if (additionalInfo != null) 'AdditionalInfo': additionalInfo,
-        if (amiVersion != null) 'AmiVersion': amiVersion,
-        if (applications != null) 'Applications': applications,
-        if (autoScalingRole != null) 'AutoScalingRole': autoScalingRole,
-        if (bootstrapActions != null) 'BootstrapActions': bootstrapActions,
-        if (configurations != null) 'Configurations': configurations,
-        if (customAmiId != null) 'CustomAmiId': customAmiId,
-        if (ebsRootVolumeSize != null) 'EbsRootVolumeSize': ebsRootVolumeSize,
-        if (jobFlowRole != null) 'JobFlowRole': jobFlowRole,
-        if (kerberosAttributes != null)
-          'KerberosAttributes': kerberosAttributes,
-        if (logUri != null) 'LogUri': logUri,
-        if (newSupportedProducts != null)
-          'NewSupportedProducts': newSupportedProducts,
-        if (releaseLabel != null) 'ReleaseLabel': releaseLabel,
-        if (repoUpgradeOnBoot != null)
-          'RepoUpgradeOnBoot': repoUpgradeOnBoot?.toValue(),
-        if (scaleDownBehavior != null)
-          'ScaleDownBehavior': scaleDownBehavior?.toValue(),
-        if (securityConfiguration != null)
-          'SecurityConfiguration': securityConfiguration,
-        if (serviceRole != null) 'ServiceRole': serviceRole,
-        if (stepConcurrencyLevel != null)
-          'StepConcurrencyLevel': stepConcurrencyLevel,
-        if (steps != null) 'Steps': steps,
-        if (supportedProducts != null) 'SupportedProducts': supportedProducts,
-        if (tags != null) 'Tags': tags,
-        if (visibleToAllUsers != null) 'VisibleToAllUsers': visibleToAllUsers,
-      },
+      payload: RunJobFlowInput(
+        instances: instances,
+        name: name,
+        additionalInfo: additionalInfo,
+        amiVersion: amiVersion,
+        applications: applications,
+        autoScalingRole: autoScalingRole,
+        bootstrapActions: bootstrapActions,
+        configurations: configurations,
+        customAmiId: customAmiId,
+        ebsRootVolumeSize: ebsRootVolumeSize,
+        jobFlowRole: jobFlowRole,
+        kerberosAttributes: kerberosAttributes,
+        logUri: logUri,
+        newSupportedProducts: newSupportedProducts,
+        releaseLabel: releaseLabel,
+        repoUpgradeOnBoot: repoUpgradeOnBoot,
+        scaleDownBehavior: scaleDownBehavior,
+        securityConfiguration: securityConfiguration,
+        serviceRole: serviceRole,
+        stepConcurrencyLevel: stepConcurrencyLevel,
+        steps: steps,
+        supportedProducts: supportedProducts,
+        tags: tags,
+        visibleToAllUsers: visibleToAllUsers,
+      ),
     );
 
     return RunJobFlowOutput.fromJson(jsonResponse.body);
@@ -1654,10 +1643,10 @@ class EMR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobFlowIds': jobFlowIds,
-        'TerminationProtected': terminationProtected,
-      },
+      payload: SetTerminationProtectionInput(
+        jobFlowIds: jobFlowIds,
+        terminationProtected: terminationProtected,
+      ),
     );
   }
 
@@ -1698,10 +1687,10 @@ class EMR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobFlowIds': jobFlowIds,
-        'VisibleToAllUsers': visibleToAllUsers,
-      },
+      payload: SetVisibleToAllUsersInput(
+        jobFlowIds: jobFlowIds,
+        visibleToAllUsers: visibleToAllUsers,
+      ),
     );
   }
 
@@ -1735,9 +1724,9 @@ class EMR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobFlowIds': jobFlowIds,
-      },
+      payload: TerminateJobFlowsInput(
+        jobFlowIds: jobFlowIds,
+      ),
     );
   }
 }
@@ -1751,6 +1740,27 @@ enum ActionOnFailure {
   cancelAndWait,
   @_s.JsonValue('CONTINUE')
   $continue,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AddInstanceFleetInput {
+  /// The unique identifier of the cluster.
+  @_s.JsonKey(name: 'ClusterId')
+  final String clusterId;
+
+  /// Specifies the configuration of the instance fleet.
+  @_s.JsonKey(name: 'InstanceFleet')
+  final InstanceFleetConfig instanceFleet;
+
+  AddInstanceFleetInput({
+    @_s.required this.clusterId,
+    @_s.required this.instanceFleet,
+  });
+  Map<String, dynamic> toJson() => _$AddInstanceFleetInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1778,6 +1788,28 @@ class AddInstanceFleetOutput {
   });
   factory AddInstanceFleetOutput.fromJson(Map<String, dynamic> json) =>
       _$AddInstanceFleetOutputFromJson(json);
+}
+
+/// Input to an AddInstanceGroups call.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AddInstanceGroupsInput {
+  /// Instance groups to add.
+  @_s.JsonKey(name: 'InstanceGroups')
+  final List<InstanceGroupConfig> instanceGroups;
+
+  /// Job flow in which to add the instance groups.
+  @_s.JsonKey(name: 'JobFlowId')
+  final String jobFlowId;
+
+  AddInstanceGroupsInput({
+    @_s.required this.instanceGroups,
+    @_s.required this.jobFlowId,
+  });
+  Map<String, dynamic> toJson() => _$AddInstanceGroupsInputToJson(this);
 }
 
 /// Output from an AddInstanceGroups call.
@@ -1808,6 +1840,29 @@ class AddInstanceGroupsOutput {
       _$AddInstanceGroupsOutputFromJson(json);
 }
 
+/// The input argument to the <a>AddJobFlowSteps</a> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AddJobFlowStepsInput {
+  /// A string that uniquely identifies the job flow. This identifier is returned
+  /// by <a>RunJobFlow</a> and can also be obtained from <a>ListClusters</a>.
+  @_s.JsonKey(name: 'JobFlowId')
+  final String jobFlowId;
+
+  /// A list of <a>StepConfig</a> to be executed by the job flow.
+  @_s.JsonKey(name: 'Steps')
+  final List<StepConfig> steps;
+
+  AddJobFlowStepsInput({
+    @_s.required this.jobFlowId,
+    @_s.required this.steps,
+  });
+  Map<String, dynamic> toJson() => _$AddJobFlowStepsInputToJson(this);
+}
+
 /// The output for the <a>AddJobFlowSteps</a> operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1824,6 +1879,32 @@ class AddJobFlowStepsOutput {
   });
   factory AddJobFlowStepsOutput.fromJson(Map<String, dynamic> json) =>
       _$AddJobFlowStepsOutputFromJson(json);
+}
+
+/// This input identifies a cluster and a list of tags to attach.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AddTagsInput {
+  /// The Amazon EMR resource identifier to which tags will be added. This value
+  /// must be a cluster identifier.
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  /// A list of tags to associate with a cluster and propagate to EC2 instances.
+  /// Tags are user-defined key/value pairs that consist of a required key string
+  /// with a maximum of 128 characters, and an optional value string with a
+  /// maximum of 256 characters.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  AddTagsInput({
+    @_s.required this.resourceId,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$AddTagsInputToJson(this);
 }
 
 /// This output indicates the result of adding tags to a resource.
@@ -2175,6 +2256,36 @@ class CancelStepsInfo {
   });
   factory CancelStepsInfo.fromJson(Map<String, dynamic> json) =>
       _$CancelStepsInfoFromJson(json);
+}
+
+/// The input argument to the <a>CancelSteps</a> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CancelStepsInput {
+  /// The <code>ClusterID</code> for which specified steps will be canceled. Use
+  /// <a>RunJobFlow</a> and <a>ListClusters</a> to get ClusterIDs.
+  @_s.JsonKey(name: 'ClusterId')
+  final String clusterId;
+
+  /// The list of <code>StepIDs</code> to cancel. Use <a>ListSteps</a> to get
+  /// steps and their states for the specified cluster.
+  @_s.JsonKey(name: 'StepIds')
+  final List<String> stepIds;
+
+  /// The option to choose for cancelling <code>RUNNING</code> steps. By default,
+  /// the value is <code>SEND_INTERRUPT</code>.
+  @_s.JsonKey(name: 'StepCancellationOption')
+  final StepCancellationOption stepCancellationOption;
+
+  CancelStepsInput({
+    @_s.required this.clusterId,
+    @_s.required this.stepIds,
+    this.stepCancellationOption,
+  });
+  Map<String, dynamic> toJson() => _$CancelStepsInputToJson(this);
 }
 
 /// The output for the <a>CancelSteps</a> operation.
@@ -2739,6 +2850,32 @@ class Configuration {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateSecurityConfigurationInput {
+  /// The name of the security configuration.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The security configuration details in JSON format. For JSON parameters and
+  /// examples, see <a
+  /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-security-configurations.html">Use
+  /// Security Configurations to Set Up Cluster Security</a> in the <i>Amazon EMR
+  /// Management Guide</i>.
+  @_s.JsonKey(name: 'SecurityConfiguration')
+  final String securityConfiguration;
+
+  CreateSecurityConfigurationInput({
+    @_s.required this.name,
+    @_s.required this.securityConfiguration,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateSecurityConfigurationInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateSecurityConfigurationOutput {
@@ -2765,6 +2902,23 @@ class CreateSecurityConfigurationOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteSecurityConfigurationInput {
+  /// The name of the security configuration.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  DeleteSecurityConfigurationInput({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteSecurityConfigurationInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteSecurityConfigurationOutput {
@@ -2772,6 +2926,23 @@ class DeleteSecurityConfigurationOutput {
   factory DeleteSecurityConfigurationOutput.fromJson(
           Map<String, dynamic> json) =>
       _$DeleteSecurityConfigurationOutputFromJson(json);
+}
+
+/// This input determines which cluster to describe.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeClusterInput {
+  /// The identifier of the cluster to describe.
+  @_s.JsonKey(name: 'ClusterId')
+  final String clusterId;
+
+  DescribeClusterInput({
+    @_s.required this.clusterId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeClusterInputToJson(this);
 }
 
 /// This output contains the description of the cluster.
@@ -2792,6 +2963,44 @@ class DescribeClusterOutput {
       _$DescribeClusterOutputFromJson(json);
 }
 
+/// The input for the <a>DescribeJobFlows</a> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeJobFlowsInput {
+  /// Return only job flows created after this date and time.
+  @_s.JsonKey(
+      name: 'CreatedAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime createdAfter;
+
+  /// Return only job flows created before this date and time.
+  @_s.JsonKey(
+      name: 'CreatedBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime createdBefore;
+
+  /// Return only job flows whose job flow ID is contained in this list.
+  @_s.JsonKey(name: 'JobFlowIds')
+  final List<String> jobFlowIds;
+
+  /// Return only job flows whose state is contained in this list.
+  @_s.JsonKey(name: 'JobFlowStates')
+  final List<String> jobFlowStates;
+
+  DescribeJobFlowsInput({
+    this.createdAfter,
+    this.createdBefore,
+    this.jobFlowIds,
+    this.jobFlowStates,
+  });
+  Map<String, dynamic> toJson() => _$DescribeJobFlowsInputToJson(this);
+}
+
 /// The output for the <a>DescribeJobFlows</a> operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2808,6 +3017,23 @@ class DescribeJobFlowsOutput {
   });
   factory DescribeJobFlowsOutput.fromJson(Map<String, dynamic> json) =>
       _$DescribeJobFlowsOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeSecurityConfigurationInput {
+  /// The name of the security configuration.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  DescribeSecurityConfigurationInput({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeSecurityConfigurationInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2839,6 +3065,28 @@ class DescribeSecurityConfigurationOutput {
   factory DescribeSecurityConfigurationOutput.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeSecurityConfigurationOutputFromJson(json);
+}
+
+/// This input determines which step to describe.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeStepInput {
+  /// The identifier of the cluster with steps to describe.
+  @_s.JsonKey(name: 'ClusterId')
+  final String clusterId;
+
+  /// The identifier of the step to describe.
+  @_s.JsonKey(name: 'StepId')
+  final String stepId;
+
+  DescribeStepInput({
+    @_s.required this.clusterId,
+    @_s.required this.stepId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeStepInputToJson(this);
 }
 
 /// This output contains the description of the cluster step.
@@ -3712,20 +3960,6 @@ enum InstanceFleetType {
   core,
   @_s.JsonValue('TASK')
   task,
-}
-
-extension on InstanceFleetType {
-  String toValue() {
-    switch (this) {
-      case InstanceFleetType.master:
-        return 'MASTER';
-      case InstanceFleetType.core:
-        return 'CORE';
-      case InstanceFleetType.task:
-        return 'TASK';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// This entity represents an instance group, which is a group of instances that
@@ -4951,6 +5185,28 @@ class KeyValue {
   Map<String, dynamic> toJson() => _$KeyValueToJson(this);
 }
 
+/// This input determines which bootstrap actions to retrieve.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListBootstrapActionsInput {
+  /// The cluster identifier for the bootstrap actions to list.
+  @_s.JsonKey(name: 'ClusterId')
+  final String clusterId;
+
+  /// The pagination token that indicates the next set of results to retrieve.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  ListBootstrapActionsInput({
+    @_s.required this.clusterId,
+    this.marker,
+  });
+  Map<String, dynamic> toJson() => _$ListBootstrapActionsInputToJson(this);
+}
+
 /// This output contains the bootstrap actions detail.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -4972,6 +5228,45 @@ class ListBootstrapActionsOutput {
   });
   factory ListBootstrapActionsOutput.fromJson(Map<String, dynamic> json) =>
       _$ListBootstrapActionsOutputFromJson(json);
+}
+
+/// This input determines how the ListClusters action filters the list of
+/// clusters that it returns.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListClustersInput {
+  /// The cluster state filters to apply when listing clusters.
+  @_s.JsonKey(name: 'ClusterStates')
+  final List<String> clusterStates;
+
+  /// The creation date and time beginning value filter for listing clusters.
+  @_s.JsonKey(
+      name: 'CreatedAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime createdAfter;
+
+  /// The creation date and time end value filter for listing clusters.
+  @_s.JsonKey(
+      name: 'CreatedBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime createdBefore;
+
+  /// The pagination token that indicates the next set of results to retrieve.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  ListClustersInput({
+    this.clusterStates,
+    this.createdAfter,
+    this.createdBefore,
+    this.marker,
+  });
+  Map<String, dynamic> toJson() => _$ListClustersInputToJson(this);
 }
 
 /// This contains a ClusterSummaryList with the cluster details; for example,
@@ -5001,6 +5296,27 @@ class ListClustersOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListInstanceFleetsInput {
+  /// The unique identifier of the cluster.
+  @_s.JsonKey(name: 'ClusterId')
+  final String clusterId;
+
+  /// The pagination token that indicates the next set of results to retrieve.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  ListInstanceFleetsInput({
+    @_s.required this.clusterId,
+    this.marker,
+  });
+  Map<String, dynamic> toJson() => _$ListInstanceFleetsInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListInstanceFleetsOutput {
@@ -5024,6 +5340,28 @@ class ListInstanceFleetsOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListInstanceGroupsInput {
+  /// The identifier of the cluster for which to list the instance groups.
+  @_s.JsonKey(name: 'ClusterId')
+  final String clusterId;
+
+  /// The pagination token that indicates the next set of results to retrieve.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  ListInstanceGroupsInput({
+    @_s.required this.clusterId,
+    this.marker,
+  });
+  Map<String, dynamic> toJson() => _$ListInstanceGroupsInputToJson(this);
+}
+
+/// This input determines which instance groups to retrieve.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListInstanceGroupsOutput {
@@ -5041,6 +5379,54 @@ class ListInstanceGroupsOutput {
   });
   factory ListInstanceGroupsOutput.fromJson(Map<String, dynamic> json) =>
       _$ListInstanceGroupsOutputFromJson(json);
+}
+
+/// This input determines which instances to list.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListInstancesInput {
+  /// The identifier of the cluster for which to list the instances.
+  @_s.JsonKey(name: 'ClusterId')
+  final String clusterId;
+
+  /// The unique identifier of the instance fleet.
+  @_s.JsonKey(name: 'InstanceFleetId')
+  final String instanceFleetId;
+
+  /// The node type of the instance fleet. For example MASTER, CORE, or TASK.
+  @_s.JsonKey(name: 'InstanceFleetType')
+  final InstanceFleetType instanceFleetType;
+
+  /// The identifier of the instance group for which to list the instances.
+  @_s.JsonKey(name: 'InstanceGroupId')
+  final String instanceGroupId;
+
+  /// The type of instance group for which to list the instances.
+  @_s.JsonKey(name: 'InstanceGroupTypes')
+  final List<String> instanceGroupTypes;
+
+  /// A list of instance states that will filter the instances returned with this
+  /// request.
+  @_s.JsonKey(name: 'InstanceStates')
+  final List<String> instanceStates;
+
+  /// The pagination token that indicates the next set of results to retrieve.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  ListInstancesInput({
+    @_s.required this.clusterId,
+    this.instanceFleetId,
+    this.instanceFleetType,
+    this.instanceGroupId,
+    this.instanceGroupTypes,
+    this.instanceStates,
+    this.marker,
+  });
+  Map<String, dynamic> toJson() => _$ListInstancesInputToJson(this);
 }
 
 /// This output contains the list of instances.
@@ -5069,6 +5455,23 @@ class ListInstancesOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListSecurityConfigurationsInput {
+  /// The pagination token that indicates the set of results to retrieve.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  ListSecurityConfigurationsInput({
+    this.marker,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListSecurityConfigurationsInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListSecurityConfigurationsOutput {
@@ -5089,6 +5492,40 @@ class ListSecurityConfigurationsOutput {
   factory ListSecurityConfigurationsOutput.fromJson(
           Map<String, dynamic> json) =>
       _$ListSecurityConfigurationsOutputFromJson(json);
+}
+
+/// This input determines which steps to list.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListStepsInput {
+  /// The identifier of the cluster for which to list the steps.
+  @_s.JsonKey(name: 'ClusterId')
+  final String clusterId;
+
+  /// The pagination token that indicates the next set of results to retrieve.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  /// The filter to limit the step list based on the identifier of the steps. You
+  /// can specify a maximum of ten Step IDs. The character constraint applies to
+  /// the overall length of the array.
+  @_s.JsonKey(name: 'StepIds')
+  final List<String> stepIds;
+
+  /// The filter to limit the step list based on certain states.
+  @_s.JsonKey(name: 'StepStates')
+  final List<String> stepStates;
+
+  ListStepsInput({
+    @_s.required this.clusterId,
+    this.marker,
+    this.stepIds,
+    this.stepStates,
+  });
+  Map<String, dynamic> toJson() => _$ListStepsInputToJson(this);
 }
 
 /// This output contains the list of steps returned in reverse order. This means
@@ -5155,6 +5592,28 @@ class MetricDimension {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ModifyClusterInput {
+  /// The unique identifier of the cluster.
+  @_s.JsonKey(name: 'ClusterId')
+  final String clusterId;
+
+  /// The number of steps that can be executed concurrently. You can specify a
+  /// maximum of 256 steps.
+  @_s.JsonKey(name: 'StepConcurrencyLevel')
+  final int stepConcurrencyLevel;
+
+  ModifyClusterInput({
+    @_s.required this.clusterId,
+    this.stepConcurrencyLevel,
+  });
+  Map<String, dynamic> toJson() => _$ModifyClusterInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ModifyClusterOutput {
@@ -5167,6 +5626,49 @@ class ModifyClusterOutput {
   });
   factory ModifyClusterOutput.fromJson(Map<String, dynamic> json) =>
       _$ModifyClusterOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ModifyInstanceFleetInput {
+  /// The unique identifier of the cluster.
+  @_s.JsonKey(name: 'ClusterId')
+  final String clusterId;
+
+  /// The unique identifier of the instance fleet.
+  @_s.JsonKey(name: 'InstanceFleet')
+  final InstanceFleetModifyConfig instanceFleet;
+
+  ModifyInstanceFleetInput({
+    @_s.required this.clusterId,
+    @_s.required this.instanceFleet,
+  });
+  Map<String, dynamic> toJson() => _$ModifyInstanceFleetInputToJson(this);
+}
+
+/// Change the size of some instance groups.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ModifyInstanceGroupsInput {
+  /// The ID of the cluster to which the instance group belongs.
+  @_s.JsonKey(name: 'ClusterId')
+  final String clusterId;
+
+  /// Instance groups to change.
+  @_s.JsonKey(name: 'InstanceGroups')
+  final List<InstanceGroupModifyConfig> instanceGroups;
+
+  ModifyInstanceGroupsInput({
+    this.clusterId,
+    this.instanceGroups,
+  });
+  Map<String, dynamic> toJson() => _$ModifyInstanceGroupsInputToJson(this);
 }
 
 /// The Amazon EC2 Availability Zone configuration of the cluster (job flow).
@@ -5234,6 +5736,34 @@ class PortRange {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutAutoScalingPolicyInput {
+  /// Specifies the definition of the automatic scaling policy.
+  @_s.JsonKey(name: 'AutoScalingPolicy')
+  final AutoScalingPolicy autoScalingPolicy;
+
+  /// Specifies the ID of a cluster. The instance group to which the automatic
+  /// scaling policy is applied is within this cluster.
+  @_s.JsonKey(name: 'ClusterId')
+  final String clusterId;
+
+  /// Specifies the ID of the instance group to which the automatic scaling policy
+  /// is applied.
+  @_s.JsonKey(name: 'InstanceGroupId')
+  final String instanceGroupId;
+
+  PutAutoScalingPolicyInput({
+    @_s.required this.autoScalingPolicy,
+    @_s.required this.clusterId,
+    @_s.required this.instanceGroupId,
+  });
+  Map<String, dynamic> toJson() => _$PutAutoScalingPolicyInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutAutoScalingPolicyOutput {
@@ -5268,6 +5798,32 @@ class PutAutoScalingPolicyOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutBlockPublicAccessConfigurationInput {
+  /// A configuration for Amazon EMR block public access. The configuration
+  /// applies to all clusters created in your account for the current Region. The
+  /// configuration specifies whether block public access is enabled. If block
+  /// public access is enabled, security groups associated with the cluster cannot
+  /// have rules that allow inbound traffic from 0.0.0.0/0 or ::/0 on a port,
+  /// unless the port is specified as an exception using
+  /// <code>PermittedPublicSecurityGroupRuleRanges</code> in the
+  /// <code>BlockPublicAccessConfiguration</code>. By default, Port 22 (SSH) is an
+  /// exception, and public access is allowed on this port. You can change this by
+  /// updating <code>BlockPublicSecurityGroupRules</code> to remove the exception.
+  @_s.JsonKey(name: 'BlockPublicAccessConfiguration')
+  final BlockPublicAccessConfiguration blockPublicAccessConfiguration;
+
+  PutBlockPublicAccessConfigurationInput({
+    @_s.required this.blockPublicAccessConfiguration,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutBlockPublicAccessConfigurationInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutBlockPublicAccessConfigurationOutput {
@@ -5280,12 +5836,58 @@ class PutBlockPublicAccessConfigurationOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RemoveAutoScalingPolicyInput {
+  /// Specifies the ID of a cluster. The instance group to which the automatic
+  /// scaling policy is applied is within this cluster.
+  @_s.JsonKey(name: 'ClusterId')
+  final String clusterId;
+
+  /// Specifies the ID of the instance group to which the scaling policy is
+  /// applied.
+  @_s.JsonKey(name: 'InstanceGroupId')
+  final String instanceGroupId;
+
+  RemoveAutoScalingPolicyInput({
+    @_s.required this.clusterId,
+    @_s.required this.instanceGroupId,
+  });
+  Map<String, dynamic> toJson() => _$RemoveAutoScalingPolicyInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class RemoveAutoScalingPolicyOutput {
   RemoveAutoScalingPolicyOutput();
   factory RemoveAutoScalingPolicyOutput.fromJson(Map<String, dynamic> json) =>
       _$RemoveAutoScalingPolicyOutputFromJson(json);
+}
+
+/// This input identifies a cluster and a list of tags to remove.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RemoveTagsInput {
+  /// The Amazon EMR resource identifier from which tags will be removed. This
+  /// value must be a cluster identifier.
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  /// A list of tag keys to remove from a resource.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  RemoveTagsInput({
+    @_s.required this.resourceId,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$RemoveTagsInputToJson(this);
 }
 
 /// This output indicates the result of removing tags from a resource.
@@ -5307,16 +5909,256 @@ enum RepoUpgradeOnBoot {
   none,
 }
 
-extension on RepoUpgradeOnBoot {
-  String toValue() {
-    switch (this) {
-      case RepoUpgradeOnBoot.security:
-        return 'SECURITY';
-      case RepoUpgradeOnBoot.none:
-        return 'NONE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+/// Input to the <a>RunJobFlow</a> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RunJobFlowInput {
+  /// A specification of the number and type of Amazon EC2 instances.
+  @_s.JsonKey(name: 'Instances')
+  final JobFlowInstancesConfig instances;
+
+  /// The name of the job flow.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// A JSON string for selecting additional features.
+  @_s.JsonKey(name: 'AdditionalInfo')
+  final String additionalInfo;
+
+  /// Applies only to Amazon EMR AMI versions 3.x and 2.x. For Amazon EMR releases
+  /// 4.0 and later, <code>ReleaseLabel</code> is used. To specify a custom AMI,
+  /// use <code>CustomAmiID</code>.
+  @_s.JsonKey(name: 'AmiVersion')
+  final String amiVersion;
+
+  /// Applies to Amazon EMR releases 4.0 and later. A case-insensitive list of
+  /// applications for Amazon EMR to install and configure when launching the
+  /// cluster. For a list of applications available for each Amazon EMR release
+  /// version, see the <a
+  /// href="https://docs.aws.amazon.com/emr/latest/ReleaseGuide/">Amazon EMR
+  /// Release Guide</a>.
+  @_s.JsonKey(name: 'Applications')
+  final List<Application> applications;
+
+  /// An IAM role for automatic scaling policies. The default role is
+  /// <code>EMR_AutoScaling_DefaultRole</code>. The IAM role provides permissions
+  /// that the automatic scaling feature requires to launch and terminate EC2
+  /// instances in an instance group.
+  @_s.JsonKey(name: 'AutoScalingRole')
+  final String autoScalingRole;
+
+  /// A list of bootstrap actions to run before Hadoop starts on the cluster
+  /// nodes.
+  @_s.JsonKey(name: 'BootstrapActions')
+  final List<BootstrapActionConfig> bootstrapActions;
+
+  /// For Amazon EMR releases 4.0 and later. The list of configurations supplied
+  /// for the EMR cluster you are creating.
+  @_s.JsonKey(name: 'Configurations')
+  final List<Configuration> configurations;
+
+  /// Available only in Amazon EMR version 5.7.0 and later. The ID of a custom
+  /// Amazon EBS-backed Linux AMI. If specified, Amazon EMR uses this AMI when it
+  /// launches cluster EC2 instances. For more information about custom AMIs in
+  /// Amazon EMR, see <a
+  /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-custom-ami.html">Using
+  /// a Custom AMI</a> in the <i>Amazon EMR Management Guide</i>. If omitted, the
+  /// cluster uses the base Linux AMI for the <code>ReleaseLabel</code> specified.
+  /// For Amazon EMR versions 2.x and 3.x, use <code>AmiVersion</code> instead.
+  ///
+  /// For information about creating a custom AMI, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-ebs.html">Creating
+  /// an Amazon EBS-Backed Linux AMI</a> in the <i>Amazon Elastic Compute Cloud
+  /// User Guide for Linux Instances</i>. For information about finding an AMI ID,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/finding-an-ami.html">Finding
+  /// a Linux AMI</a>.
+  @_s.JsonKey(name: 'CustomAmiId')
+  final String customAmiId;
+
+  /// The size, in GiB, of the EBS root device volume of the Linux AMI that is
+  /// used for each EC2 instance. Available in Amazon EMR version 4.x and later.
+  @_s.JsonKey(name: 'EbsRootVolumeSize')
+  final int ebsRootVolumeSize;
+
+  /// Also called instance profile and EC2 role. An IAM role for an EMR cluster.
+  /// The EC2 instances of the cluster assume this role. The default role is
+  /// <code>EMR_EC2_DefaultRole</code>. In order to use the default role, you must
+  /// have already created it using the CLI or console.
+  @_s.JsonKey(name: 'JobFlowRole')
+  final String jobFlowRole;
+
+  /// Attributes for Kerberos configuration when Kerberos authentication is
+  /// enabled using a security configuration. For more information see <a
+  /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-kerberos.html">Use
+  /// Kerberos Authentication</a> in the <i>EMR Management Guide</i>.
+  @_s.JsonKey(name: 'KerberosAttributes')
+  final KerberosAttributes kerberosAttributes;
+
+  /// The location in Amazon S3 to write the log files of the job flow. If a value
+  /// is not provided, logs are not created.
+  @_s.JsonKey(name: 'LogUri')
+  final String logUri;
+
+  /// <note>
+  /// For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and later,
+  /// use Applications.
+  /// </note>
+  /// A list of strings that indicates third-party software to use with the job
+  /// flow that accepts a user argument list. EMR accepts and forwards the
+  /// argument list to the corresponding installation script as bootstrap action
+  /// arguments. For more information, see "Launch a Job Flow on the MapR
+  /// Distribution for Hadoop" in the <a
+  /// href="https://docs.aws.amazon.com/emr/latest/DeveloperGuide/emr-dg.pdf">Amazon
+  /// EMR Developer Guide</a>. Supported values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// "mapr-m3" - launch the cluster using MapR M3 Edition.
+  /// </li>
+  /// <li>
+  /// "mapr-m5" - launch the cluster using MapR M5 Edition.
+  /// </li>
+  /// <li>
+  /// "mapr" with the user arguments specifying "--edition,m3" or "--edition,m5" -
+  /// launch the job flow using MapR M3 or M5 Edition respectively.
+  /// </li>
+  /// <li>
+  /// "mapr-m7" - launch the cluster using MapR M7 Edition.
+  /// </li>
+  /// <li>
+  /// "hunk" - launch the cluster with the Hunk Big Data Analtics Platform.
+  /// </li>
+  /// <li>
+  /// "hue"- launch the cluster with Hue installed.
+  /// </li>
+  /// <li>
+  /// "spark" - launch the cluster with Apache Spark installed.
+  /// </li>
+  /// <li>
+  /// "ganglia" - launch the cluster with the Ganglia Monitoring System installed.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'NewSupportedProducts')
+  final List<SupportedProductConfig> newSupportedProducts;
+
+  /// The Amazon EMR release label, which determines the version of open-source
+  /// application packages installed on the cluster. Release labels are in the
+  /// form <code>emr-x.x.x</code>, where x.x.x is an Amazon EMR release version
+  /// such as <code>emr-5.14.0</code>. For more information about Amazon EMR
+  /// release versions and included application versions and features, see <a
+  /// href="https://docs.aws.amazon.com/emr/latest/ReleaseGuide/">https://docs.aws.amazon.com/emr/latest/ReleaseGuide/</a>.
+  /// The release label applies only to Amazon EMR releases version 4.0 and later.
+  /// Earlier versions use <code>AmiVersion</code>.
+  @_s.JsonKey(name: 'ReleaseLabel')
+  final String releaseLabel;
+
+  /// Applies only when <code>CustomAmiID</code> is used. Specifies which updates
+  /// from the Amazon Linux AMI package repositories to apply automatically when
+  /// the instance boots using the AMI. If omitted, the default is
+  /// <code>SECURITY</code>, which indicates that only security updates are
+  /// applied. If <code>NONE</code> is specified, no updates are applied, and all
+  /// updates must be applied manually.
+  @_s.JsonKey(name: 'RepoUpgradeOnBoot')
+  final RepoUpgradeOnBoot repoUpgradeOnBoot;
+
+  /// Specifies the way that individual Amazon EC2 instances terminate when an
+  /// automatic scale-in activity occurs or an instance group is resized.
+  /// <code>TERMINATE_AT_INSTANCE_HOUR</code> indicates that Amazon EMR terminates
+  /// nodes at the instance-hour boundary, regardless of when the request to
+  /// terminate the instance was submitted. This option is only available with
+  /// Amazon EMR 5.1.0 and later and is the default for clusters created using
+  /// that version. <code>TERMINATE_AT_TASK_COMPLETION</code> indicates that
+  /// Amazon EMR blacklists and drains tasks from nodes before terminating the
+  /// Amazon EC2 instances, regardless of the instance-hour boundary. With either
+  /// behavior, Amazon EMR removes the least active nodes first and blocks
+  /// instance termination if it could lead to HDFS corruption.
+  /// <code>TERMINATE_AT_TASK_COMPLETION</code> available only in Amazon EMR
+  /// version 4.1.0 and later, and is the default for versions of Amazon EMR
+  /// earlier than 5.1.0.
+  @_s.JsonKey(name: 'ScaleDownBehavior')
+  final ScaleDownBehavior scaleDownBehavior;
+
+  /// The name of a security configuration to apply to the cluster.
+  @_s.JsonKey(name: 'SecurityConfiguration')
+  final String securityConfiguration;
+
+  /// The IAM role that will be assumed by the Amazon EMR service to access AWS
+  /// resources on your behalf.
+  @_s.JsonKey(name: 'ServiceRole')
+  final String serviceRole;
+
+  /// Specifies the number of steps that can be executed concurrently. The default
+  /// value is <code>1</code>. The maximum value is <code>256</code>.
+  @_s.JsonKey(name: 'StepConcurrencyLevel')
+  final int stepConcurrencyLevel;
+
+  /// A list of steps to run.
+  @_s.JsonKey(name: 'Steps')
+  final List<StepConfig> steps;
+
+  /// <note>
+  /// For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and later,
+  /// use Applications.
+  /// </note>
+  /// A list of strings that indicates third-party software to use. For more
+  /// information, see the <a
+  /// href="https://docs.aws.amazon.com/emr/latest/DeveloperGuide/emr-dg.pdf">Amazon
+  /// EMR Developer Guide</a>. Currently supported values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// "mapr-m3" - launch the job flow using MapR M3 Edition.
+  /// </li>
+  /// <li>
+  /// "mapr-m5" - launch the job flow using MapR M5 Edition.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'SupportedProducts')
+  final List<String> supportedProducts;
+
+  /// A list of tags to associate with a cluster and propagate to Amazon EC2
+  /// instances.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  /// A value of <code>true</code> indicates that all IAM users in the AWS account
+  /// can perform cluster actions if they have the proper IAM policy permissions.
+  /// This is the default. A value of <code>false</code> indicates that only the
+  /// IAM user who created the cluster can perform actions.
+  @_s.JsonKey(name: 'VisibleToAllUsers')
+  final bool visibleToAllUsers;
+
+  RunJobFlowInput({
+    @_s.required this.instances,
+    @_s.required this.name,
+    this.additionalInfo,
+    this.amiVersion,
+    this.applications,
+    this.autoScalingRole,
+    this.bootstrapActions,
+    this.configurations,
+    this.customAmiId,
+    this.ebsRootVolumeSize,
+    this.jobFlowRole,
+    this.kerberosAttributes,
+    this.logUri,
+    this.newSupportedProducts,
+    this.releaseLabel,
+    this.repoUpgradeOnBoot,
+    this.scaleDownBehavior,
+    this.securityConfiguration,
+    this.serviceRole,
+    this.stepConcurrencyLevel,
+    this.steps,
+    this.supportedProducts,
+    this.tags,
+    this.visibleToAllUsers,
+  });
+  Map<String, dynamic> toJson() => _$RunJobFlowInputToJson(this);
 }
 
 /// The result of the <a>RunJobFlow</a> operation.
@@ -5347,18 +6189,6 @@ enum ScaleDownBehavior {
   terminateAtInstanceHour,
   @_s.JsonValue('TERMINATE_AT_TASK_COMPLETION')
   terminateAtTaskCompletion,
-}
-
-extension on ScaleDownBehavior {
-  String toValue() {
-    switch (this) {
-      case ScaleDownBehavior.terminateAtInstanceHour:
-        return 'TERMINATE_AT_INSTANCE_HOUR';
-      case ScaleDownBehavior.terminateAtTaskCompletion:
-        return 'TERMINATE_AT_TASK_COMPLETION';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// The type of adjustment the automatic scaling activity makes when triggered,
@@ -5532,6 +6362,57 @@ class SecurityConfigurationSummary {
   });
   factory SecurityConfigurationSummary.fromJson(Map<String, dynamic> json) =>
       _$SecurityConfigurationSummaryFromJson(json);
+}
+
+/// The input argument to the <a>TerminationProtection</a> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SetTerminationProtectionInput {
+  /// A list of strings that uniquely identify the clusters to protect. This
+  /// identifier is returned by <a>RunJobFlow</a> and can also be obtained from
+  /// <a>DescribeJobFlows</a> .
+  @_s.JsonKey(name: 'JobFlowIds')
+  final List<String> jobFlowIds;
+
+  /// A Boolean that indicates whether to protect the cluster and prevent the
+  /// Amazon EC2 instances in the cluster from shutting down due to API calls,
+  /// user intervention, or job-flow error.
+  @_s.JsonKey(name: 'TerminationProtected')
+  final bool terminationProtected;
+
+  SetTerminationProtectionInput({
+    @_s.required this.jobFlowIds,
+    @_s.required this.terminationProtected,
+  });
+  Map<String, dynamic> toJson() => _$SetTerminationProtectionInputToJson(this);
+}
+
+/// The input to the SetVisibleToAllUsers action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SetVisibleToAllUsersInput {
+  /// The unique identifier of the job flow (cluster).
+  @_s.JsonKey(name: 'JobFlowIds')
+  final List<String> jobFlowIds;
+
+  /// A value of <code>true</code> indicates that all IAM users in the AWS account
+  /// can perform cluster actions if they have the proper IAM policy permissions.
+  /// This is the default. A value of <code>false</code> indicates that only the
+  /// IAM user who created the cluster can perform actions.
+  @_s.JsonKey(name: 'VisibleToAllUsers')
+  final bool visibleToAllUsers;
+
+  SetVisibleToAllUsersInput({
+    @_s.required this.jobFlowIds,
+    @_s.required this.visibleToAllUsers,
+  });
+  Map<String, dynamic> toJson() => _$SetVisibleToAllUsersInputToJson(this);
 }
 
 /// Policy for customizing shrink operations. Allows configuration of
@@ -5734,18 +6615,6 @@ enum StepCancellationOption {
   sendInterrupt,
   @_s.JsonValue('TERMINATE_PROCESS')
   terminateProcess,
-}
-
-extension on StepCancellationOption {
-  String toValue() {
-    switch (this) {
-      case StepCancellationOption.sendInterrupt:
-        return 'SEND_INTERRUPT';
-      case StepCancellationOption.terminateProcess:
-        return 'TERMINATE_PROCESS';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Specification of a cluster (job flow) step.
@@ -6083,6 +6952,23 @@ class Tag {
   factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
   Map<String, dynamic> toJson() => _$TagToJson(this);
+}
+
+/// Input to the <a>TerminateJobFlows</a> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TerminateJobFlowsInput {
+  /// A list of job flows to be shutdown.
+  @_s.JsonKey(name: 'JobFlowIds')
+  final List<String> jobFlowIds;
+
+  TerminateJobFlowsInput({
+    @_s.required this.jobFlowIds,
+  });
+  Map<String, dynamic> toJson() => _$TerminateJobFlowsInputToJson(this);
 }
 
 enum Unit {

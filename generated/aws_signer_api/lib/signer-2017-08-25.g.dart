@@ -6,6 +6,10 @@ part of 'signer-2017-08-25.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$CancelSigningProfileRequestToJson(
+        CancelSigningProfileRequest instance) =>
+    <String, dynamic>{};
+
 DescribeSigningJobResponse _$DescribeSigningJobResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeSigningJobResponse(
@@ -212,6 +216,24 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
       (k, e) => MapEntry(k, e as String),
     ),
   );
+}
+
+Map<String, dynamic> _$PutSigningProfileRequestToJson(
+    PutSigningProfileRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('platformId', instance.platformId);
+  writeNotNull('signingMaterial', instance.signingMaterial?.toJson());
+  writeNotNull('overrides', instance.overrides?.toJson());
+  writeNotNull('signingParameters', instance.signingParameters);
+  writeNotNull('tags', instance.tags);
+  return val;
 }
 
 PutSigningProfileResponse _$PutSigningProfileResponseFromJson(
@@ -451,6 +473,23 @@ Map<String, dynamic> _$SourceToJson(Source instance) {
   return val;
 }
 
+Map<String, dynamic> _$StartSigningJobRequestToJson(
+    StartSigningJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('clientRequestToken', instance.clientRequestToken);
+  writeNotNull('destination', instance.destination?.toJson());
+  writeNotNull('source', instance.source?.toJson());
+  writeNotNull('profileName', instance.profileName);
+  return val;
+}
+
 StartSigningJobResponse _$StartSigningJobResponseFromJson(
     Map<String, dynamic> json) {
   return StartSigningJobResponse(
@@ -458,9 +497,26 @@ StartSigningJobResponse _$StartSigningJobResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
 }
+
+Map<String, dynamic> _$UntagResourceRequestToJson(
+        UntagResourceRequest instance) =>
+    <String, dynamic>{};
 
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {

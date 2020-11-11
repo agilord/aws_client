@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -66,9 +65,9 @@ class FraudDetector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'variableEntries': variableEntries,
-      },
+      payload: BatchCreateVariableRequest(
+        variableEntries: variableEntries,
+      ),
     );
 
     return BatchCreateVariableResult.fromJson(jsonResponse.body);
@@ -96,9 +95,9 @@ class FraudDetector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'names': names,
-      },
+      payload: BatchGetVariableRequest(
+        names: names,
+      ),
     );
 
     return BatchGetVariableResult.fromJson(jsonResponse.body);
@@ -180,16 +179,14 @@ class FraudDetector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'detectorId': detectorId,
-        'rules': rules,
-        if (description != null) 'description': description,
-        if (externalModelEndpoints != null)
-          'externalModelEndpoints': externalModelEndpoints,
-        if (modelVersions != null) 'modelVersions': modelVersions,
-        if (ruleExecutionMode != null)
-          'ruleExecutionMode': ruleExecutionMode?.toValue(),
-      },
+      payload: CreateDetectorVersionRequest(
+        detectorId: detectorId,
+        rules: rules,
+        description: description,
+        externalModelEndpoints: externalModelEndpoints,
+        modelVersions: modelVersions,
+        ruleExecutionMode: ruleExecutionMode,
+      ),
     );
 
     return CreateDetectorVersionResult.fromJson(jsonResponse.body);
@@ -246,11 +243,11 @@ class FraudDetector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'modelId': modelId,
-        'modelType': modelType?.toValue(),
-        if (description != null) 'description': description,
-      },
+      payload: CreateModelVersionRequest(
+        modelId: modelId,
+        modelType: modelType,
+        description: description,
+      ),
     );
 
     return CreateModelVersionResult.fromJson(jsonResponse.body);
@@ -341,14 +338,14 @@ class FraudDetector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'detectorId': detectorId,
-        'expression': expression,
-        'language': language?.toValue(),
-        'outcomes': outcomes,
-        'ruleId': ruleId,
-        if (description != null) 'description': description,
-      },
+      payload: CreateRuleRequest(
+        detectorId: detectorId,
+        expression: expression,
+        language: language,
+        outcomes: outcomes,
+        ruleId: ruleId,
+        description: description,
+      ),
     );
 
     return CreateRuleResult.fromJson(jsonResponse.body);
@@ -399,14 +396,14 @@ class FraudDetector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'dataSource': dataSource?.toValue(),
-        'dataType': dataType?.toValue(),
-        'defaultValue': defaultValue,
-        'name': name,
-        if (description != null) 'description': description,
-        if (variableType != null) 'variableType': variableType,
-      },
+      payload: CreateVariableRequest(
+        dataSource: dataSource,
+        dataType: dataType,
+        defaultValue: defaultValue,
+        name: name,
+        description: description,
+        variableType: variableType,
+      ),
     );
 
     return CreateVariableResult.fromJson(jsonResponse.body);
@@ -449,9 +446,9 @@ class FraudDetector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'detectorId': detectorId,
-      },
+      payload: DeleteDetectorRequest(
+        detectorId: detectorId,
+      ),
     );
 
     return DeleteDetectorResult.fromJson(jsonResponse.body);
@@ -507,10 +504,10 @@ class FraudDetector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'detectorId': detectorId,
-        'detectorVersionId': detectorVersionId,
-      },
+      payload: DeleteDetectorVersionRequest(
+        detectorId: detectorId,
+        detectorVersionId: detectorVersionId,
+      ),
     );
 
     return DeleteDetectorVersionResult.fromJson(jsonResponse.body);
@@ -537,9 +534,9 @@ class FraudDetector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'eventId': eventId,
-      },
+      payload: DeleteEventRequest(
+        eventId: eventId,
+      ),
     );
 
     return DeleteEventResult.fromJson(jsonResponse.body);
@@ -612,11 +609,11 @@ class FraudDetector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'detectorId': detectorId,
-        'ruleId': ruleId,
-        'ruleVersion': ruleVersion,
-      },
+      payload: DeleteRuleVersionRequest(
+        detectorId: detectorId,
+        ruleId: ruleId,
+        ruleVersion: ruleVersion,
+      ),
     );
 
     return DeleteRuleVersionResult.fromJson(jsonResponse.body);
@@ -672,11 +669,11 @@ class FraudDetector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'detectorId': detectorId,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: DescribeDetectorRequest(
+        detectorId: detectorId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeDetectorResult.fromJson(jsonResponse.body);
@@ -745,14 +742,13 @@ class FraudDetector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'maxResults': maxResults,
-        if (modelId != null) 'modelId': modelId,
-        if (modelType != null) 'modelType': modelType?.toValue(),
-        if (modelVersionNumber != null)
-          'modelVersionNumber': modelVersionNumber,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: DescribeModelVersionsRequest(
+        maxResults: maxResults,
+        modelId: modelId,
+        modelType: modelType,
+        modelVersionNumber: modelVersionNumber,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeModelVersionsResult.fromJson(jsonResponse.body);
@@ -806,10 +802,10 @@ class FraudDetector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'detectorId': detectorId,
-        'detectorVersionId': detectorVersionId,
-      },
+      payload: GetDetectorVersionRequest(
+        detectorId: detectorId,
+        detectorVersionId: detectorVersionId,
+      ),
     );
 
     return GetDetectorVersionResult.fromJson(jsonResponse.body);
@@ -868,11 +864,11 @@ class FraudDetector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (detectorId != null) 'detectorId': detectorId,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: GetDetectorsRequest(
+        detectorId: detectorId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return GetDetectorsResult.fromJson(jsonResponse.body);
@@ -921,11 +917,11 @@ class FraudDetector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'maxResults': maxResults,
-        if (modelEndpoint != null) 'modelEndpoint': modelEndpoint,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: GetExternalModelsRequest(
+        maxResults: maxResults,
+        modelEndpoint: modelEndpoint,
+        nextToken: nextToken,
+      ),
     );
 
     return GetExternalModelsResult.fromJson(jsonResponse.body);
@@ -984,11 +980,11 @@ class FraudDetector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'modelId': modelId,
-        'modelType': modelType?.toValue(),
-        'modelVersionNumber': modelVersionNumber,
-      },
+      payload: GetModelVersionRequest(
+        modelId: modelId,
+        modelType: modelType,
+        modelVersionNumber: modelVersionNumber,
+      ),
     );
 
     return GetModelVersionResult.fromJson(jsonResponse.body);
@@ -1046,12 +1042,12 @@ class FraudDetector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'maxResults': maxResults,
-        if (modelId != null) 'modelId': modelId,
-        if (modelType != null) 'modelType': modelType?.toValue(),
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: GetModelsRequest(
+        maxResults: maxResults,
+        modelId: modelId,
+        modelType: modelType,
+        nextToken: nextToken,
+      ),
     );
 
     return GetModelsResult.fromJson(jsonResponse.body);
@@ -1109,11 +1105,11 @@ class FraudDetector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'maxResults': maxResults,
-        if (name != null) 'name': name,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: GetOutcomesRequest(
+        maxResults: maxResults,
+        name: name,
+        nextToken: nextToken,
+      ),
     );
 
     return GetOutcomesResult.fromJson(jsonResponse.body);
@@ -1162,14 +1158,13 @@ class FraudDetector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'detectorId': detectorId,
-        'eventId': eventId,
-        if (detectorVersionId != null) 'detectorVersionId': detectorVersionId,
-        if (eventAttributes != null) 'eventAttributes': eventAttributes,
-        if (externalModelEndpointDataBlobs != null)
-          'externalModelEndpointDataBlobs': externalModelEndpointDataBlobs,
-      },
+      payload: GetPredictionRequest(
+        detectorId: detectorId,
+        eventId: eventId,
+        detectorVersionId: detectorVersionId,
+        eventAttributes: eventAttributes,
+        externalModelEndpointDataBlobs: externalModelEndpointDataBlobs,
+      ),
     );
 
     return GetPredictionResult.fromJson(jsonResponse.body);
@@ -1250,13 +1245,13 @@ class FraudDetector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'detectorId': detectorId,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (ruleId != null) 'ruleId': ruleId,
-        if (ruleVersion != null) 'ruleVersion': ruleVersion,
-      },
+      payload: GetRulesRequest(
+        detectorId: detectorId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        ruleId: ruleId,
+        ruleVersion: ruleVersion,
+      ),
     );
 
     return GetRulesResult.fromJson(jsonResponse.body);
@@ -1304,11 +1299,11 @@ class FraudDetector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'maxResults': maxResults,
-        if (name != null) 'name': name,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: GetVariablesRequest(
+        maxResults: maxResults,
+        name: name,
+        nextToken: nextToken,
+      ),
     );
 
     return GetVariablesResult.fromJson(jsonResponse.body);
@@ -1359,10 +1354,10 @@ class FraudDetector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'detectorId': detectorId,
-        if (description != null) 'description': description,
-      },
+      payload: PutDetectorRequest(
+        detectorId: detectorId,
+        description: description,
+      ),
     );
 
     return PutDetectorResult.fromJson(jsonResponse.body);
@@ -1417,14 +1412,14 @@ class FraudDetector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'inputConfiguration': inputConfiguration,
-        'modelEndpoint': modelEndpoint,
-        'modelEndpointStatus': modelEndpointStatus?.toValue(),
-        'modelSource': modelSource?.toValue(),
-        'outputConfiguration': outputConfiguration,
-        'role': role,
-      },
+      payload: PutExternalModelRequest(
+        inputConfiguration: inputConfiguration,
+        modelEndpoint: modelEndpoint,
+        modelEndpointStatus: modelEndpointStatus,
+        modelSource: modelSource,
+        outputConfiguration: outputConfiguration,
+        role: role,
+      ),
     );
 
     return PutExternalModelResult.fromJson(jsonResponse.body);
@@ -1495,14 +1490,14 @@ class FraudDetector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'labelSchema': labelSchema,
-        'modelId': modelId,
-        'modelType': modelType?.toValue(),
-        'modelVariables': modelVariables,
-        'trainingDataSource': trainingDataSource,
-        if (description != null) 'description': description,
-      },
+      payload: PutModelRequest(
+        labelSchema: labelSchema,
+        modelId: modelId,
+        modelType: modelType,
+        modelVariables: modelVariables,
+        trainingDataSource: trainingDataSource,
+        description: description,
+      ),
     );
 
     return PutModelResult.fromJson(jsonResponse.body);
@@ -1553,10 +1548,10 @@ class FraudDetector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'name': name,
-        if (description != null) 'description': description,
-      },
+      payload: PutOutcomeRequest(
+        name: name,
+        description: description,
+      ),
     );
 
     return PutOutcomeResult.fromJson(jsonResponse.body);
@@ -1652,16 +1647,15 @@ class FraudDetector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'detectorId': detectorId,
-        'detectorVersionId': detectorVersionId,
-        'externalModelEndpoints': externalModelEndpoints,
-        'rules': rules,
-        if (description != null) 'description': description,
-        if (modelVersions != null) 'modelVersions': modelVersions,
-        if (ruleExecutionMode != null)
-          'ruleExecutionMode': ruleExecutionMode?.toValue(),
-      },
+      payload: UpdateDetectorVersionRequest(
+        detectorId: detectorId,
+        detectorVersionId: detectorVersionId,
+        externalModelEndpoints: externalModelEndpoints,
+        rules: rules,
+        description: description,
+        modelVersions: modelVersions,
+        ruleExecutionMode: ruleExecutionMode,
+      ),
     );
 
     return UpdateDetectorVersionResult.fromJson(jsonResponse.body);
@@ -1728,11 +1722,11 @@ class FraudDetector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'description': description,
-        'detectorId': detectorId,
-        'detectorVersionId': detectorVersionId,
-      },
+      payload: UpdateDetectorVersionMetadataRequest(
+        description: description,
+        detectorId: detectorId,
+        detectorVersionId: detectorVersionId,
+      ),
     );
 
     return UpdateDetectorVersionMetadataResult.fromJson(jsonResponse.body);
@@ -1794,11 +1788,11 @@ class FraudDetector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'detectorId': detectorId,
-        'detectorVersionId': detectorVersionId,
-        'status': status?.toValue(),
-      },
+      payload: UpdateDetectorVersionStatusRequest(
+        detectorId: detectorId,
+        detectorVersionId: detectorVersionId,
+        status: status,
+      ),
     );
 
     return UpdateDetectorVersionStatusResult.fromJson(jsonResponse.body);
@@ -1883,13 +1877,13 @@ class FraudDetector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'description': description,
-        'modelId': modelId,
-        'modelType': modelType?.toValue(),
-        'modelVersionNumber': modelVersionNumber,
-        'status': status?.toValue(),
-      },
+      payload: UpdateModelVersionRequest(
+        description: description,
+        modelId: modelId,
+        modelType: modelType,
+        modelVersionNumber: modelVersionNumber,
+        status: status,
+      ),
     );
 
     return UpdateModelVersionResult.fromJson(jsonResponse.body);
@@ -1930,10 +1924,10 @@ class FraudDetector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'description': description,
-        'rule': rule,
-      },
+      payload: UpdateRuleMetadataRequest(
+        description: description,
+        rule: rule,
+      ),
     );
 
     return UpdateRuleMetadataResult.fromJson(jsonResponse.body);
@@ -1994,13 +1988,13 @@ class FraudDetector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'expression': expression,
-        'language': language?.toValue(),
-        'outcomes': outcomes,
-        'rule': rule,
-        if (description != null) 'description': description,
-      },
+      payload: UpdateRuleVersionRequest(
+        expression: expression,
+        language: language,
+        outcomes: outcomes,
+        rule: rule,
+        description: description,
+      ),
     );
 
     return UpdateRuleVersionResult.fromJson(jsonResponse.body);
@@ -2041,12 +2035,12 @@ class FraudDetector {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'name': name,
-        if (defaultValue != null) 'defaultValue': defaultValue,
-        if (description != null) 'description': description,
-        if (variableType != null) 'variableType': variableType,
-      },
+      payload: UpdateVariableRequest(
+        name: name,
+        defaultValue: defaultValue,
+        description: description,
+        variableType: variableType,
+      ),
     );
 
     return UpdateVariableResult.fromJson(jsonResponse.body);
@@ -2079,6 +2073,22 @@ class BatchCreateVariableError {
   });
   factory BatchCreateVariableError.fromJson(Map<String, dynamic> json) =>
       _$BatchCreateVariableErrorFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchCreateVariableRequest {
+  /// The list of variables for the batch create variable request.
+  @_s.JsonKey(name: 'variableEntries')
+  final List<VariableEntry> variableEntries;
+
+  BatchCreateVariableRequest({
+    @_s.required this.variableEntries,
+  });
+  Map<String, dynamic> toJson() => _$BatchCreateVariableRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2129,6 +2139,22 @@ class BatchGetVariableError {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchGetVariableRequest {
+  /// The list of variable names to get.
+  @_s.JsonKey(name: 'names')
+  final List<String> names;
+
+  BatchGetVariableRequest({
+    @_s.required this.names,
+  });
+  Map<String, dynamic> toJson() => _$BatchGetVariableRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class BatchGetVariableResult {
@@ -2146,6 +2172,59 @@ class BatchGetVariableResult {
   });
   factory BatchGetVariableResult.fromJson(Map<String, dynamic> json) =>
       _$BatchGetVariableResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDetectorVersionRequest {
+  /// The ID of the detector under which you want to create a new version.
+  @_s.JsonKey(name: 'detectorId')
+  final String detectorId;
+
+  /// The rules to include in the detector version.
+  @_s.JsonKey(name: 'rules')
+  final List<Rule> rules;
+
+  /// The description of the detector version.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The Amazon Sagemaker model endpoints to include in the detector version.
+  @_s.JsonKey(name: 'externalModelEndpoints')
+  final List<String> externalModelEndpoints;
+
+  /// The model versions to include in the detector version.
+  @_s.JsonKey(name: 'modelVersions')
+  final List<ModelVersion> modelVersions;
+
+  /// The rule execution mode for the rules included in the detector version.
+  ///
+  /// You can define and edit the rule mode at the detector version level, when it
+  /// is in draft status.
+  ///
+  /// If you specify <code>FIRST_MATCHED</code>, Amazon Fraud Detector evaluates
+  /// rules sequentially, first to last, stopping at the first matched rule.
+  /// Amazon Fraud dectector then provides the outcomes for that single rule.
+  ///
+  /// If you specifiy <code>ALL_MATCHED</code>, Amazon Fraud Detector evaluates
+  /// all rules and returns the outcomes for all matched rules.
+  ///
+  /// The default behavior is <code>FIRST_MATCHED</code>.
+  @_s.JsonKey(name: 'ruleExecutionMode')
+  final RuleExecutionMode ruleExecutionMode;
+
+  CreateDetectorVersionRequest({
+    @_s.required this.detectorId,
+    @_s.required this.rules,
+    this.description,
+    this.externalModelEndpoints,
+    this.modelVersions,
+    this.ruleExecutionMode,
+  });
+  Map<String, dynamic> toJson() => _$CreateDetectorVersionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2173,6 +2252,32 @@ class CreateDetectorVersionResult {
   });
   factory CreateDetectorVersionResult.fromJson(Map<String, dynamic> json) =>
       _$CreateDetectorVersionResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateModelVersionRequest {
+  /// The model ID.
+  @_s.JsonKey(name: 'modelId')
+  final String modelId;
+
+  /// The model type.
+  @_s.JsonKey(name: 'modelType')
+  final ModelTypeEnum modelType;
+
+  /// The model version description.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  CreateModelVersionRequest({
+    @_s.required this.modelId,
+    @_s.required this.modelType,
+    this.description,
+  });
+  Map<String, dynamic> toJson() => _$CreateModelVersionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2210,6 +2315,47 @@ class CreateModelVersionResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateRuleRequest {
+  /// The detector ID for the rule's parent detector.
+  @_s.JsonKey(name: 'detectorId')
+  final String detectorId;
+
+  /// The rule expression.
+  @_s.JsonKey(name: 'expression')
+  final String expression;
+
+  /// The language of the rule.
+  @_s.JsonKey(name: 'language')
+  final Language language;
+
+  /// The outcome or outcomes returned when the rule expression matches.
+  @_s.JsonKey(name: 'outcomes')
+  final List<String> outcomes;
+
+  /// The rule ID.
+  @_s.JsonKey(name: 'ruleId')
+  final String ruleId;
+
+  /// The rule description.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  CreateRuleRequest({
+    @_s.required this.detectorId,
+    @_s.required this.expression,
+    @_s.required this.language,
+    @_s.required this.outcomes,
+    @_s.required this.ruleId,
+    this.description,
+  });
+  Map<String, dynamic> toJson() => _$CreateRuleRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateRuleResult {
@@ -2222,6 +2368,47 @@ class CreateRuleResult {
   });
   factory CreateRuleResult.fromJson(Map<String, dynamic> json) =>
       _$CreateRuleResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateVariableRequest {
+  /// The source of the data.
+  @_s.JsonKey(name: 'dataSource')
+  final DataSource dataSource;
+
+  /// The data type.
+  @_s.JsonKey(name: 'dataType')
+  final DataType dataType;
+
+  /// The default value for the variable when no value is received.
+  @_s.JsonKey(name: 'defaultValue')
+  final String defaultValue;
+
+  /// The name of the variable.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The description.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The variable type.
+  @_s.JsonKey(name: 'variableType')
+  final String variableType;
+
+  CreateVariableRequest({
+    @_s.required this.dataSource,
+    @_s.required this.dataType,
+    @_s.required this.defaultValue,
+    @_s.required this.name,
+    this.description,
+    this.variableType,
+  });
+  Map<String, dynamic> toJson() => _$CreateVariableRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2244,20 +2431,6 @@ enum DataSource {
   externalModelScore,
 }
 
-extension on DataSource {
-  String toValue() {
-    switch (this) {
-      case DataSource.event:
-        return 'EVENT';
-      case DataSource.modelScore:
-        return 'MODEL_SCORE';
-      case DataSource.externalModelScore:
-        return 'EXTERNAL_MODEL_SCORE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum DataType {
   @_s.JsonValue('STRING')
   string,
@@ -2269,20 +2442,20 @@ enum DataType {
   boolean,
 }
 
-extension on DataType {
-  String toValue() {
-    switch (this) {
-      case DataType.string:
-        return 'STRING';
-      case DataType.integer:
-        return 'INTEGER';
-      case DataType.float:
-        return 'FLOAT';
-      case DataType.boolean:
-        return 'BOOLEAN';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDetectorRequest {
+  /// The ID of the detector to delete.
+  @_s.JsonKey(name: 'detectorId')
+  final String detectorId;
+
+  DeleteDetectorRequest({
+    @_s.required this.detectorId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDetectorRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2299,12 +2472,49 @@ class DeleteDetectorResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDetectorVersionRequest {
+  /// The ID of the parent detector for the detector version to delete.
+  @_s.JsonKey(name: 'detectorId')
+  final String detectorId;
+
+  /// The ID of the detector version to delete.
+  @_s.JsonKey(name: 'detectorVersionId')
+  final String detectorVersionId;
+
+  DeleteDetectorVersionRequest({
+    @_s.required this.detectorId,
+    @_s.required this.detectorVersionId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDetectorVersionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteDetectorVersionResult {
   DeleteDetectorVersionResult();
   factory DeleteDetectorVersionResult.fromJson(Map<String, dynamic> json) =>
       _$DeleteDetectorVersionResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteEventRequest {
+  /// The ID of the event to delete.
+  @_s.JsonKey(name: 'eventId')
+  final String eventId;
+
+  DeleteEventRequest({
+    @_s.required this.eventId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteEventRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2321,12 +2531,64 @@ class DeleteEventResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteRuleVersionRequest {
+  /// The ID of the detector that includes the rule version to delete.
+  @_s.JsonKey(name: 'detectorId')
+  final String detectorId;
+
+  /// The rule ID of the rule version to delete.
+  @_s.JsonKey(name: 'ruleId')
+  final String ruleId;
+
+  /// The rule version to delete.
+  @_s.JsonKey(name: 'ruleVersion')
+  final String ruleVersion;
+
+  DeleteRuleVersionRequest({
+    @_s.required this.detectorId,
+    @_s.required this.ruleId,
+    @_s.required this.ruleVersion,
+  });
+  Map<String, dynamic> toJson() => _$DeleteRuleVersionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteRuleVersionResult {
   DeleteRuleVersionResult();
   factory DeleteRuleVersionResult.fromJson(Map<String, dynamic> json) =>
       _$DeleteRuleVersionResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeDetectorRequest {
+  /// The detector ID.
+  @_s.JsonKey(name: 'detectorId')
+  final String detectorId;
+
+  /// The maximum number of results to return for the request.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The next token from the previous response.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  DescribeDetectorRequest({
+    @_s.required this.detectorId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeDetectorRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2354,6 +2616,42 @@ class DescribeDetectorResult {
   });
   factory DescribeDetectorResult.fromJson(Map<String, dynamic> json) =>
       _$DescribeDetectorResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeModelVersionsRequest {
+  /// The maximum number of results to return.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The model ID.
+  @_s.JsonKey(name: 'modelId')
+  final String modelId;
+
+  /// The model type.
+  @_s.JsonKey(name: 'modelType')
+  final ModelTypeEnum modelType;
+
+  /// The model version.
+  @_s.JsonKey(name: 'modelVersionNumber')
+  final String modelVersionNumber;
+
+  /// The next token from the previous results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  DescribeModelVersionsRequest({
+    this.maxResults,
+    this.modelId,
+    this.modelType,
+    this.modelVersionNumber,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeModelVersionsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2418,20 +2716,6 @@ enum DetectorVersionStatus {
   active,
   @_s.JsonValue('INACTIVE')
   inactive,
-}
-
-extension on DetectorVersionStatus {
-  String toValue() {
-    switch (this) {
-      case DetectorVersionStatus.draft:
-        return 'DRAFT';
-      case DetectorVersionStatus.active:
-        return 'ACTIVE';
-      case DetectorVersionStatus.inactive:
-        return 'INACTIVE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// The summary of the detector version.
@@ -2523,6 +2807,27 @@ class ExternalModel {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetDetectorVersionRequest {
+  /// The detector ID.
+  @_s.JsonKey(name: 'detectorId')
+  final String detectorId;
+
+  /// The detector version ID.
+  @_s.JsonKey(name: 'detectorVersionId')
+  final String detectorVersionId;
+
+  GetDetectorVersionRequest({
+    @_s.required this.detectorId,
+    @_s.required this.detectorVersionId,
+  });
+  Map<String, dynamic> toJson() => _$GetDetectorVersionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetDetectorVersionResult {
@@ -2594,6 +2899,32 @@ class GetDetectorVersionResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetDetectorsRequest {
+  /// The detector ID.
+  @_s.JsonKey(name: 'detectorId')
+  final String detectorId;
+
+  /// The maximum number of objects to return for the request.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The next token for the subsequent request.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  GetDetectorsRequest({
+    this.detectorId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$GetDetectorsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetDetectorsResult {
@@ -2616,6 +2947,32 @@ class GetDetectorsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetExternalModelsRequest {
+  /// The maximum number of objects to return for the request.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The Amazon SageMaker model endpoint.
+  @_s.JsonKey(name: 'modelEndpoint')
+  final String modelEndpoint;
+
+  /// The next page token for the request.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  GetExternalModelsRequest({
+    this.maxResults,
+    this.modelEndpoint,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$GetExternalModelsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetExternalModelsResult {
@@ -2633,6 +2990,32 @@ class GetExternalModelsResult {
   });
   factory GetExternalModelsResult.fromJson(Map<String, dynamic> json) =>
       _$GetExternalModelsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetModelVersionRequest {
+  /// The model ID.
+  @_s.JsonKey(name: 'modelId')
+  final String modelId;
+
+  /// The model type.
+  @_s.JsonKey(name: 'modelType')
+  final ModelTypeEnum modelType;
+
+  /// The model version.
+  @_s.JsonKey(name: 'modelVersionNumber')
+  final String modelVersionNumber;
+
+  GetModelVersionRequest({
+    @_s.required this.modelId,
+    @_s.required this.modelType,
+    @_s.required this.modelVersionNumber,
+  });
+  Map<String, dynamic> toJson() => _$GetModelVersionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2675,6 +3058,37 @@ class GetModelVersionResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetModelsRequest {
+  /// The maximum results to return for the request.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The model ID.
+  @_s.JsonKey(name: 'modelId')
+  final String modelId;
+
+  /// The model type.
+  @_s.JsonKey(name: 'modelType')
+  final ModelTypeEnum modelType;
+
+  /// The next token for the request.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  GetModelsRequest({
+    this.maxResults,
+    this.modelId,
+    this.modelType,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$GetModelsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetModelsResult {
@@ -2697,6 +3111,32 @@ class GetModelsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetOutcomesRequest {
+  /// The maximum number of objects to return for the request.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The name of the outcome or outcomes to get.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The next page token for the request.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  GetOutcomesRequest({
+    this.maxResults,
+    this.name,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$GetOutcomesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetOutcomesResult {
@@ -2714,6 +3154,44 @@ class GetOutcomesResult {
   });
   factory GetOutcomesResult.fromJson(Map<String, dynamic> json) =>
       _$GetOutcomesResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetPredictionRequest {
+  /// The detector ID.
+  @_s.JsonKey(name: 'detectorId')
+  final String detectorId;
+
+  /// The unique ID used to identify the event.
+  @_s.JsonKey(name: 'eventId')
+  final String eventId;
+
+  /// The detector version ID.
+  @_s.JsonKey(name: 'detectorVersionId')
+  final String detectorVersionId;
+
+  /// Names of variables you defined in Amazon Fraud Detector to represent event
+  /// data elements and their corresponding values for the event you are sending
+  /// for evaluation.
+  @_s.JsonKey(name: 'eventAttributes')
+  final Map<String, String> eventAttributes;
+
+  /// The Amazon SageMaker model endpoint input data blobs.
+  @_s.JsonKey(name: 'externalModelEndpointDataBlobs')
+  final Map<String, ModelEndpointDataBlob> externalModelEndpointDataBlobs;
+
+  GetPredictionRequest({
+    @_s.required this.detectorId,
+    @_s.required this.eventId,
+    this.detectorVersionId,
+    this.eventAttributes,
+    this.externalModelEndpointDataBlobs,
+  });
+  Map<String, dynamic> toJson() => _$GetPredictionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2746,6 +3224,42 @@ class GetPredictionResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetRulesRequest {
+  /// The detector ID.
+  @_s.JsonKey(name: 'detectorId')
+  final String detectorId;
+
+  /// The maximum number of rules to return for the request.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The next page token.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The rule ID.
+  @_s.JsonKey(name: 'ruleId')
+  final String ruleId;
+
+  /// The rule version.
+  @_s.JsonKey(name: 'ruleVersion')
+  final String ruleVersion;
+
+  GetRulesRequest({
+    @_s.required this.detectorId,
+    this.maxResults,
+    this.nextToken,
+    this.ruleId,
+    this.ruleVersion,
+  });
+  Map<String, dynamic> toJson() => _$GetRulesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetRulesResult {
@@ -2763,6 +3277,32 @@ class GetRulesResult {
   });
   factory GetRulesResult.fromJson(Map<String, dynamic> json) =>
       _$GetRulesResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetVariablesRequest {
+  /// The max size per page determined for the get variable request.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The name of the variable.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The next page token of the get variable request.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  GetVariablesRequest({
+    this.maxResults,
+    this.name,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$GetVariablesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2822,16 +3362,6 @@ class LabelSchema {
 enum Language {
   @_s.JsonValue('DETECTORPL')
   detectorpl,
-}
-
-extension on Language {
-  String toValue() {
-    switch (this) {
-      case Language.detectorpl:
-        return 'DETECTORPL';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// The model.
@@ -2916,18 +3446,6 @@ enum ModelEndpointStatus {
   associated,
   @_s.JsonValue('DISSOCIATED')
   dissociated,
-}
-
-extension on ModelEndpointStatus {
-  String toValue() {
-    switch (this) {
-      case ModelEndpointStatus.associated:
-        return 'ASSOCIATED';
-      case ModelEndpointStatus.dissociated:
-        return 'DISSOCIATED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// The model input configuration.
@@ -3048,29 +3566,9 @@ enum ModelSource {
   sagemaker,
 }
 
-extension on ModelSource {
-  String toValue() {
-    switch (this) {
-      case ModelSource.sagemaker:
-        return 'SAGEMAKER';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum ModelTypeEnum {
   @_s.JsonValue('ONLINE_FRAUD_INSIGHTS')
   onlineFraudInsights,
-}
-
-extension on ModelTypeEnum {
-  String toValue() {
-    switch (this) {
-      case ModelTypeEnum.onlineFraudInsights:
-        return 'ONLINE_FRAUD_INSIGHTS';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// The model variable.&gt;
@@ -3220,30 +3718,6 @@ enum ModelVersionStatus {
   error,
 }
 
-extension on ModelVersionStatus {
-  String toValue() {
-    switch (this) {
-      case ModelVersionStatus.trainingInProgress:
-        return 'TRAINING_IN_PROGRESS';
-      case ModelVersionStatus.trainingComplete:
-        return 'TRAINING_COMPLETE';
-      case ModelVersionStatus.activateRequested:
-        return 'ACTIVATE_REQUESTED';
-      case ModelVersionStatus.activateInProgress:
-        return 'ACTIVATE_IN_PROGRESS';
-      case ModelVersionStatus.active:
-        return 'ACTIVE';
-      case ModelVersionStatus.inactivateInProgress:
-        return 'INACTIVATE_IN_PROGRESS';
-      case ModelVersionStatus.inactive:
-        return 'INACTIVE';
-      case ModelVersionStatus.error:
-        return 'ERROR';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// The outcome.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3280,12 +3754,74 @@ class Outcome {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutDetectorRequest {
+  /// The detector ID.
+  @_s.JsonKey(name: 'detectorId')
+  final String detectorId;
+
+  /// The description of the detector.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  PutDetectorRequest({
+    @_s.required this.detectorId,
+    this.description,
+  });
+  Map<String, dynamic> toJson() => _$PutDetectorRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutDetectorResult {
   PutDetectorResult();
   factory PutDetectorResult.fromJson(Map<String, dynamic> json) =>
       _$PutDetectorResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutExternalModelRequest {
+  /// The model endpoint input configuration.
+  @_s.JsonKey(name: 'inputConfiguration')
+  final ModelInputConfiguration inputConfiguration;
+
+  /// The model endpoints name.
+  @_s.JsonKey(name: 'modelEndpoint')
+  final String modelEndpoint;
+
+  /// The model endpoint’s status in Amazon Fraud Detector.
+  @_s.JsonKey(name: 'modelEndpointStatus')
+  final ModelEndpointStatus modelEndpointStatus;
+
+  /// The source of the model.
+  @_s.JsonKey(name: 'modelSource')
+  final ModelSource modelSource;
+
+  /// The model endpoint output configuration.
+  @_s.JsonKey(name: 'outputConfiguration')
+  final ModelOutputConfiguration outputConfiguration;
+
+  /// The IAM role used to invoke the model endpoint.
+  @_s.JsonKey(name: 'role')
+  final Role role;
+
+  PutExternalModelRequest({
+    @_s.required this.inputConfiguration,
+    @_s.required this.modelEndpoint,
+    @_s.required this.modelEndpointStatus,
+    @_s.required this.modelSource,
+    @_s.required this.outputConfiguration,
+    @_s.required this.role,
+  });
+  Map<String, dynamic> toJson() => _$PutExternalModelRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3302,12 +3838,74 @@ class PutExternalModelResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutModelRequest {
+  /// The label schema.
+  @_s.JsonKey(name: 'labelSchema')
+  final LabelSchema labelSchema;
+
+  /// The model ID.
+  @_s.JsonKey(name: 'modelId')
+  final String modelId;
+
+  /// The model type.
+  @_s.JsonKey(name: 'modelType')
+  final ModelTypeEnum modelType;
+
+  /// The model input variables.
+  @_s.JsonKey(name: 'modelVariables')
+  final List<ModelVariable> modelVariables;
+
+  /// The training data source location in Amazon S3.
+  @_s.JsonKey(name: 'trainingDataSource')
+  final TrainingDataSource trainingDataSource;
+
+  /// The model description.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  PutModelRequest({
+    @_s.required this.labelSchema,
+    @_s.required this.modelId,
+    @_s.required this.modelType,
+    @_s.required this.modelVariables,
+    @_s.required this.trainingDataSource,
+    this.description,
+  });
+  Map<String, dynamic> toJson() => _$PutModelRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutModelResult {
   PutModelResult();
   factory PutModelResult.fromJson(Map<String, dynamic> json) =>
       _$PutModelResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutOutcomeRequest {
+  /// The name of the outcome.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The outcome description.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  PutOutcomeRequest({
+    @_s.required this.name,
+    this.description,
+  });
+  Map<String, dynamic> toJson() => _$PutOutcomeRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3439,18 +4037,6 @@ enum RuleExecutionMode {
   firstMatched,
 }
 
-extension on RuleExecutionMode {
-  String toValue() {
-    switch (this) {
-      case RuleExecutionMode.allMatched:
-        return 'ALL_MATCHED';
-      case RuleExecutionMode.firstMatched:
-        return 'FIRST_MATCHED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// The rule results.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3502,6 +4088,33 @@ class TrainingDataSource {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDetectorVersionMetadataRequest {
+  /// The description.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The detector ID.
+  @_s.JsonKey(name: 'detectorId')
+  final String detectorId;
+
+  /// The detector version ID.
+  @_s.JsonKey(name: 'detectorVersionId')
+  final String detectorVersionId;
+
+  UpdateDetectorVersionMetadataRequest({
+    @_s.required this.description,
+    @_s.required this.detectorId,
+    @_s.required this.detectorVersionId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateDetectorVersionMetadataRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateDetectorVersionMetadataResult {
@@ -3514,12 +4127,96 @@ class UpdateDetectorVersionMetadataResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDetectorVersionRequest {
+  /// The parent detector ID for the detector version you want to update.
+  @_s.JsonKey(name: 'detectorId')
+  final String detectorId;
+
+  /// The detector version ID.
+  @_s.JsonKey(name: 'detectorVersionId')
+  final String detectorVersionId;
+
+  /// The Amazon SageMaker model endpoints to include in the detector version.
+  @_s.JsonKey(name: 'externalModelEndpoints')
+  final List<String> externalModelEndpoints;
+
+  /// The rules to include in the detector version.
+  @_s.JsonKey(name: 'rules')
+  final List<Rule> rules;
+
+  /// The detector version description.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The model versions to include in the detector version.
+  @_s.JsonKey(name: 'modelVersions')
+  final List<ModelVersion> modelVersions;
+
+  /// The rule execution mode to add to the detector.
+  ///
+  /// If you specify <code>FIRST_MATCHED</code>, Amazon Fraud Detector evaluates
+  /// rules sequentially, first to last, stopping at the first matched rule.
+  /// Amazon Fraud dectector then provides the outcomes for that single rule.
+  ///
+  /// If you specifiy <code>ALL_MATCHED</code>, Amazon Fraud Detector evaluates
+  /// all rules and returns the outcomes for all matched rules. You can define and
+  /// edit the rule mode at the detector version level, when it is in draft
+  /// status.
+  ///
+  /// The default behavior is <code>FIRST_MATCHED</code>.
+  @_s.JsonKey(name: 'ruleExecutionMode')
+  final RuleExecutionMode ruleExecutionMode;
+
+  UpdateDetectorVersionRequest({
+    @_s.required this.detectorId,
+    @_s.required this.detectorVersionId,
+    @_s.required this.externalModelEndpoints,
+    @_s.required this.rules,
+    this.description,
+    this.modelVersions,
+    this.ruleExecutionMode,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDetectorVersionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateDetectorVersionResult {
   UpdateDetectorVersionResult();
   factory UpdateDetectorVersionResult.fromJson(Map<String, dynamic> json) =>
       _$UpdateDetectorVersionResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDetectorVersionStatusRequest {
+  /// The detector ID.
+  @_s.JsonKey(name: 'detectorId')
+  final String detectorId;
+
+  /// The detector version ID.
+  @_s.JsonKey(name: 'detectorVersionId')
+  final String detectorVersionId;
+
+  /// The new status.
+  @_s.JsonKey(name: 'status')
+  final DetectorVersionStatus status;
+
+  UpdateDetectorVersionStatusRequest({
+    @_s.required this.detectorId,
+    @_s.required this.detectorVersionId,
+    @_s.required this.status,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateDetectorVersionStatusRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3537,6 +4234,42 @@ class UpdateDetectorVersionStatusResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateModelVersionRequest {
+  /// The model description.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The model ID.
+  @_s.JsonKey(name: 'modelId')
+  final String modelId;
+
+  /// The model type.
+  @_s.JsonKey(name: 'modelType')
+  final ModelTypeEnum modelType;
+
+  /// The model version.
+  @_s.JsonKey(name: 'modelVersionNumber')
+  final String modelVersionNumber;
+
+  /// The new model status.
+  @_s.JsonKey(name: 'status')
+  final ModelVersionStatus status;
+
+  UpdateModelVersionRequest({
+    @_s.required this.description,
+    @_s.required this.modelId,
+    @_s.required this.modelType,
+    @_s.required this.modelVersionNumber,
+    @_s.required this.status,
+  });
+  Map<String, dynamic> toJson() => _$UpdateModelVersionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateModelVersionResult {
@@ -3548,12 +4281,69 @@ class UpdateModelVersionResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateRuleMetadataRequest {
+  /// The rule description.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The rule to update.
+  @_s.JsonKey(name: 'rule')
+  final Rule rule;
+
+  UpdateRuleMetadataRequest({
+    @_s.required this.description,
+    @_s.required this.rule,
+  });
+  Map<String, dynamic> toJson() => _$UpdateRuleMetadataRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateRuleMetadataResult {
   UpdateRuleMetadataResult();
   factory UpdateRuleMetadataResult.fromJson(Map<String, dynamic> json) =>
       _$UpdateRuleMetadataResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateRuleVersionRequest {
+  /// The rule expression.
+  @_s.JsonKey(name: 'expression')
+  final String expression;
+
+  /// The language.
+  @_s.JsonKey(name: 'language')
+  final Language language;
+
+  /// The outcomes.
+  @_s.JsonKey(name: 'outcomes')
+  final List<String> outcomes;
+
+  /// The rule to update.
+  @_s.JsonKey(name: 'rule')
+  final Rule rule;
+
+  /// The description.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  UpdateRuleVersionRequest({
+    @_s.required this.expression,
+    @_s.required this.language,
+    @_s.required this.outcomes,
+    @_s.required this.rule,
+    this.description,
+  });
+  Map<String, dynamic> toJson() => _$UpdateRuleVersionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3571,6 +4361,37 @@ class UpdateRuleVersionResult {
   });
   factory UpdateRuleVersionResult.fromJson(Map<String, dynamic> json) =>
       _$UpdateRuleVersionResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateVariableRequest {
+  /// The name of the variable.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The new default value of the variable.
+  @_s.JsonKey(name: 'defaultValue')
+  final String defaultValue;
+
+  /// The new description.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The variable type.
+  @_s.JsonKey(name: 'variableType')
+  final String variableType;
+
+  UpdateVariableRequest({
+    @_s.required this.name,
+    this.defaultValue,
+    this.description,
+    this.variableType,
+  });
+  Map<String, dynamic> toJson() => _$UpdateVariableRequestToJson(this);
 }
 
 @_s.JsonSerializable(

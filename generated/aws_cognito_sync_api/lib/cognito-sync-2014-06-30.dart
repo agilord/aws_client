@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -83,7 +82,9 @@ class CognitoSync {
       r'''[\w-]+:[0-9a-f-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = BulkPublishRequest(
+      identityPoolId: identityPoolId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -169,7 +170,11 @@ class CognitoSync {
       r'''[\w-]+:[0-9a-f-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteDatasetRequest(
+      datasetName: datasetName,
+      identityId: identityId,
+      identityPoolId: identityPoolId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -402,7 +407,9 @@ class CognitoSync {
       r'''[\w-]+:[0-9a-f-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = GetBulkPublishDetailsRequest(
+      identityPoolId: identityPoolId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -777,10 +784,12 @@ class CognitoSync {
     );
     ArgumentError.checkNotNull(platform, 'platform');
     ArgumentError.checkNotNull(token, 'token');
-    final $payload = <String, dynamic>{
-      'Platform': platform?.toValue(),
-      'Token': token,
-    };
+    final $payload = RegisterDeviceRequest(
+      identityId: identityId,
+      identityPoolId: identityPoolId,
+      platform: platform,
+      token: token,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -829,9 +838,10 @@ class CognitoSync {
       r'''[\w-]+:[0-9a-f-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'Events': events,
-    };
+    final $payload = SetCognitoEventsRequest(
+      events: events,
+      identityPoolId: identityPoolId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -882,10 +892,11 @@ class CognitoSync {
       r'''[\w-]+:[0-9a-f-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (cognitoStreams != null) 'CognitoStreams': cognitoStreams,
-      if (pushSync != null) 'PushSync': pushSync,
-    };
+    final $payload = SetIdentityPoolConfigurationRequest(
+      identityPoolId: identityPoolId,
+      cognitoStreams: cognitoStreams,
+      pushSync: pushSync,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -978,7 +989,12 @@ class CognitoSync {
       r'''[\w-]+:[0-9a-f-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = SubscribeToDatasetRequest(
+      datasetName: datasetName,
+      deviceId: deviceId,
+      identityId: identityId,
+      identityPoolId: identityPoolId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1071,7 +1087,12 @@ class CognitoSync {
       r'''[\w-]+:[0-9a-f-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = UnsubscribeFromDatasetRequest(
+      datasetName: datasetName,
+      deviceId: deviceId,
+      identityId: identityId,
+      identityPoolId: identityPoolId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1199,11 +1220,15 @@ class CognitoSync {
     );
     final headers = <String, String>{};
     clientContext?.let((v) => headers['x-amz-Client-Context'] = v.toString());
-    final $payload = <String, dynamic>{
-      'SyncSessionToken': syncSessionToken,
-      if (deviceId != null) 'DeviceId': deviceId,
-      if (recordPatches != null) 'RecordPatches': recordPatches,
-    };
+    final $payload = UpdateRecordsRequest(
+      datasetName: datasetName,
+      identityId: identityId,
+      identityPoolId: identityPoolId,
+      syncSessionToken: syncSessionToken,
+      clientContext: clientContext,
+      deviceId: deviceId,
+      recordPatches: recordPatches,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -1233,6 +1258,25 @@ class AlreadyStreamedException implements _s.AwsException {
   });
   factory AlreadyStreamedException.fromJson(Map<String, dynamic> json) =>
       _$AlreadyStreamedExceptionFromJson(json);
+}
+
+/// The input for the BulkPublish operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BulkPublishRequest {
+  /// A name-spaced GUID (for example,
+  /// us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito.
+  /// GUID generation is unique within a region.
+  @_s.JsonKey(name: 'IdentityPoolId', ignore: true)
+  final String identityPoolId;
+
+  BulkPublishRequest({
+    @_s.required this.identityPoolId,
+  });
+  Map<String, dynamic> toJson() => _$BulkPublishRequestToJson(this);
 }
 
 /// The output for the BulkPublish operation.
@@ -1382,6 +1426,38 @@ class Dataset {
       _$DatasetFromJson(json);
 }
 
+/// A request to delete the specific dataset.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDatasetRequest {
+  /// A string of up to 128 characters. Allowed characters are a-z, A-Z, 0-9, '_'
+  /// (underscore), '-' (dash), and '.' (dot).
+  @_s.JsonKey(name: 'DatasetName', ignore: true)
+  final String datasetName;
+
+  /// A name-spaced GUID (for example,
+  /// us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito.
+  /// GUID generation is unique within a region.
+  @_s.JsonKey(name: 'IdentityId', ignore: true)
+  final String identityId;
+
+  /// A name-spaced GUID (for example,
+  /// us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito.
+  /// GUID generation is unique within a region.
+  @_s.JsonKey(name: 'IdentityPoolId', ignore: true)
+  final String identityPoolId;
+
+  DeleteDatasetRequest({
+    @_s.required this.datasetName,
+    @_s.required this.identityId,
+    @_s.required this.identityPoolId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDatasetRequestToJson(this);
+}
+
 /// Response to a successful DeleteDataset request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1480,6 +1556,25 @@ class DuplicateRequestException implements _s.AwsException {
   });
   factory DuplicateRequestException.fromJson(Map<String, dynamic> json) =>
       _$DuplicateRequestExceptionFromJson(json);
+}
+
+/// The input for the GetBulkPublishDetails operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetBulkPublishDetailsRequest {
+  /// A name-spaced GUID (for example,
+  /// us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito.
+  /// GUID generation is unique within a region.
+  @_s.JsonKey(name: 'IdentityPoolId', ignore: true)
+  final String identityPoolId;
+
+  GetBulkPublishDetailsRequest({
+    @_s.required this.identityPoolId,
+  });
+  Map<String, dynamic> toJson() => _$GetBulkPublishDetailsRequestToJson(this);
 }
 
 /// The output for the GetBulkPublishDetails operation.
@@ -1935,22 +2030,6 @@ enum Platform {
   adm,
 }
 
-extension on Platform {
-  String toValue() {
-    switch (this) {
-      case Platform.apns:
-        return 'APNS';
-      case Platform.apnsSandbox:
-        return 'APNS_SANDBOX';
-      case Platform.gcm:
-        return 'GCM';
-      case Platform.adm:
-        return 'ADM';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Configuration options to be applied to the identity pool.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2064,6 +2143,40 @@ class RecordPatch {
   Map<String, dynamic> toJson() => _$RecordPatchToJson(this);
 }
 
+/// A request to RegisterDevice.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RegisterDeviceRequest {
+  /// The unique ID for this identity.
+  @_s.JsonKey(name: 'IdentityId', ignore: true)
+  final String identityId;
+
+  /// A name-spaced GUID (for example,
+  /// us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito.
+  /// Here, the ID of the pool that the identity belongs to.
+  @_s.JsonKey(name: 'IdentityPoolId', ignore: true)
+  final String identityPoolId;
+
+  /// The SNS platform type (e.g. GCM, SDM, APNS, APNS_SANDBOX).
+  @_s.JsonKey(name: 'Platform')
+  final Platform platform;
+
+  /// The push token.
+  @_s.JsonKey(name: 'Token')
+  final String token;
+
+  RegisterDeviceRequest({
+    @_s.required this.identityId,
+    @_s.required this.identityPoolId,
+    @_s.required this.platform,
+    @_s.required this.token,
+  });
+  Map<String, dynamic> toJson() => _$RegisterDeviceRequestToJson(this);
+}
+
 /// Response to a RegisterDevice request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2119,6 +2232,59 @@ class ResourceNotFoundException implements _s.AwsException {
       _$ResourceNotFoundExceptionFromJson(json);
 }
 
+/// A request to configure Cognito Events"
+/// "
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SetCognitoEventsRequest {
+  /// The events to configure
+  @_s.JsonKey(name: 'Events')
+  final Map<String, String> events;
+
+  /// The Cognito Identity Pool to use when configuring Cognito Events
+  @_s.JsonKey(name: 'IdentityPoolId', ignore: true)
+  final String identityPoolId;
+
+  SetCognitoEventsRequest({
+    @_s.required this.events,
+    @_s.required this.identityPoolId,
+  });
+  Map<String, dynamic> toJson() => _$SetCognitoEventsRequestToJson(this);
+}
+
+/// The input for the SetIdentityPoolConfiguration operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SetIdentityPoolConfigurationRequest {
+  /// A name-spaced GUID (for example,
+  /// us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito.
+  /// This is the ID of the pool to modify.
+  @_s.JsonKey(name: 'IdentityPoolId', ignore: true)
+  final String identityPoolId;
+
+  /// Options to apply to this identity pool for Amazon Cognito streams.
+  @_s.JsonKey(name: 'CognitoStreams')
+  final CognitoStreams cognitoStreams;
+
+  /// Options to apply to this identity pool for push synchronization.
+  @_s.JsonKey(name: 'PushSync')
+  final PushSync pushSync;
+
+  SetIdentityPoolConfigurationRequest({
+    @_s.required this.identityPoolId,
+    this.cognitoStreams,
+    this.pushSync,
+  });
+  Map<String, dynamic> toJson() =>
+      _$SetIdentityPoolConfigurationRequestToJson(this);
+}
+
 /// The output for the SetIdentityPoolConfiguration operation
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2156,6 +2322,40 @@ enum StreamingStatus {
   disabled,
 }
 
+/// A request to SubscribeToDatasetRequest.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SubscribeToDatasetRequest {
+  /// The name of the dataset to subcribe to.
+  @_s.JsonKey(name: 'DatasetName', ignore: true)
+  final String datasetName;
+
+  /// The unique ID generated for this device by Cognito.
+  @_s.JsonKey(name: 'DeviceId', ignore: true)
+  final String deviceId;
+
+  /// Unique ID for this identity.
+  @_s.JsonKey(name: 'IdentityId', ignore: true)
+  final String identityId;
+
+  /// A name-spaced GUID (for example,
+  /// us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito.
+  /// The ID of the pool to which the identity belongs.
+  @_s.JsonKey(name: 'IdentityPoolId', ignore: true)
+  final String identityPoolId;
+
+  SubscribeToDatasetRequest({
+    @_s.required this.datasetName,
+    @_s.required this.deviceId,
+    @_s.required this.identityId,
+    @_s.required this.identityPoolId,
+  });
+  Map<String, dynamic> toJson() => _$SubscribeToDatasetRequestToJson(this);
+}
+
 /// Response to a SubscribeToDataset request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2186,6 +2386,40 @@ class TooManyRequestsException implements _s.AwsException {
       _$TooManyRequestsExceptionFromJson(json);
 }
 
+/// A request to UnsubscribeFromDataset.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UnsubscribeFromDatasetRequest {
+  /// The name of the dataset from which to unsubcribe.
+  @_s.JsonKey(name: 'DatasetName', ignore: true)
+  final String datasetName;
+
+  /// The unique ID generated for this device by Cognito.
+  @_s.JsonKey(name: 'DeviceId', ignore: true)
+  final String deviceId;
+
+  /// Unique ID for this identity.
+  @_s.JsonKey(name: 'IdentityId', ignore: true)
+  final String identityId;
+
+  /// A name-spaced GUID (for example,
+  /// us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito.
+  /// The ID of the pool to which this identity belongs.
+  @_s.JsonKey(name: 'IdentityPoolId', ignore: true)
+  final String identityPoolId;
+
+  UnsubscribeFromDatasetRequest({
+    @_s.required this.datasetName,
+    @_s.required this.deviceId,
+    @_s.required this.identityId,
+    @_s.required this.identityPoolId,
+  });
+  Map<String, dynamic> toJson() => _$UnsubscribeFromDatasetRequestToJson(this);
+}
+
 /// Response to an UnsubscribeFromDataset request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2196,6 +2430,61 @@ class UnsubscribeFromDatasetResponse {
   UnsubscribeFromDatasetResponse();
   factory UnsubscribeFromDatasetResponse.fromJson(Map<String, dynamic> json) =>
       _$UnsubscribeFromDatasetResponseFromJson(json);
+}
+
+/// A request to post updates to records or add and delete records for a dataset
+/// and user.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateRecordsRequest {
+  /// A string of up to 128 characters. Allowed characters are a-z, A-Z, 0-9, '_'
+  /// (underscore), '-' (dash), and '.' (dot).
+  @_s.JsonKey(name: 'DatasetName', ignore: true)
+  final String datasetName;
+
+  /// A name-spaced GUID (for example,
+  /// us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito.
+  /// GUID generation is unique within a region.
+  @_s.JsonKey(name: 'IdentityId', ignore: true)
+  final String identityId;
+
+  /// A name-spaced GUID (for example,
+  /// us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito.
+  /// GUID generation is unique within a region.
+  @_s.JsonKey(name: 'IdentityPoolId', ignore: true)
+  final String identityPoolId;
+
+  /// The SyncSessionToken returned by a previous call to ListRecords for this
+  /// dataset and identity.
+  @_s.JsonKey(name: 'SyncSessionToken')
+  final String syncSessionToken;
+
+  /// Intended to supply a device ID that will populate the lastModifiedBy field
+  /// referenced in other methods. The ClientContext field is not yet implemented.
+  @_s.JsonKey(name: 'x-amz-Client-Context', ignore: true)
+  final String clientContext;
+
+  /// The unique ID generated for this device by Cognito.
+  @_s.JsonKey(name: 'DeviceId')
+  final String deviceId;
+
+  /// A list of patch operations.
+  @_s.JsonKey(name: 'RecordPatches')
+  final List<RecordPatch> recordPatches;
+
+  UpdateRecordsRequest({
+    @_s.required this.datasetName,
+    @_s.required this.identityId,
+    @_s.required this.identityPoolId,
+    @_s.required this.syncSessionToken,
+    this.clientContext,
+    this.deviceId,
+    this.recordPatches,
+  });
+  Map<String, dynamic> toJson() => _$UpdateRecordsRequestToJson(this);
 }
 
 /// Returned for a successful UpdateRecordsRequest.

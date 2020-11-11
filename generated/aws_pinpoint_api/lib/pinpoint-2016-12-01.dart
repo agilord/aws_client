@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -385,7 +384,9 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteAdmChannelRequest(
+      applicationId: applicationId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -415,7 +416,9 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteApnsChannelRequest(
+      applicationId: applicationId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -445,7 +448,9 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteApnsSandboxChannelRequest(
+      applicationId: applicationId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -475,7 +480,9 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteApnsVoipChannelRequest(
+      applicationId: applicationId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -505,7 +512,9 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteApnsVoipSandboxChannelRequest(
+      applicationId: applicationId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -534,7 +543,9 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteAppRequest(
+      applicationId: applicationId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -563,7 +574,9 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteBaiduChannelRequest(
+      applicationId: applicationId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -597,7 +610,10 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(campaignId, 'campaignId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteCampaignRequest(
+      applicationId: applicationId,
+      campaignId: campaignId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -627,7 +643,9 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteEmailChannelRequest(
+      applicationId: applicationId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -695,7 +713,10 @@ class Pinpoint {
     _query = '?${[
       if (version != null) _s.toQueryParam('version', version),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteEmailTemplateRequest(
+      templateName: templateName,
+      version: version,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -729,7 +750,10 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(endpointId, 'endpointId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteEndpointRequest(
+      applicationId: applicationId,
+      endpointId: endpointId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -758,7 +782,9 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteEventStreamRequest(
+      applicationId: applicationId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -788,7 +814,9 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteGcmChannelRequest(
+      applicationId: applicationId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -822,7 +850,10 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(journeyId, 'journeyId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteJourneyRequest(
+      applicationId: applicationId,
+      journeyId: journeyId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -890,7 +921,10 @@ class Pinpoint {
     _query = '?${[
       if (version != null) _s.toQueryParam('version', version),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = DeletePushTemplateRequest(
+      templateName: templateName,
+      version: version,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -921,7 +955,9 @@ class Pinpoint {
     @_s.required String recommenderId,
   }) async {
     ArgumentError.checkNotNull(recommenderId, 'recommenderId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteRecommenderConfigurationRequest(
+      recommenderId: recommenderId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -955,7 +991,10 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(segmentId, 'segmentId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteSegmentRequest(
+      applicationId: applicationId,
+      segmentId: segmentId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -985,7 +1024,9 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteSmsChannelRequest(
+      applicationId: applicationId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1053,7 +1094,10 @@ class Pinpoint {
     _query = '?${[
       if (version != null) _s.toQueryParam('version', version),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteSmsTemplateRequest(
+      templateName: templateName,
+      version: version,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1087,7 +1131,10 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(userId, 'userId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteUserEndpointsRequest(
+      applicationId: applicationId,
+      userId: userId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1117,7 +1164,9 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteVoiceChannelRequest(
+      applicationId: applicationId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1185,7 +1234,10 @@ class Pinpoint {
     _query = '?${[
       if (version != null) _s.toQueryParam('version', version),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteVoiceTemplateRequest(
+      templateName: templateName,
+      version: version,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -3471,7 +3523,10 @@ class Pinpoint {
     _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = UntagResourceRequest(
+      resourceArn: resourceArn,
+      tagKeys: tagKeys,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -7521,6 +7576,23 @@ class DefaultPushNotificationTemplate {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteAdmChannelRequest {
+  /// The unique identifier for the application. This identifier is displayed as
+  /// the <b>Project ID</b> on the Amazon Pinpoint console.
+  @_s.JsonKey(name: 'application-id', ignore: true)
+  final String applicationId;
+
+  DeleteAdmChannelRequest({
+    @_s.required this.applicationId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteAdmChannelRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteAdmChannelResponse {
@@ -7537,6 +7609,23 @@ class DeleteAdmChannelResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteApnsChannelRequest {
+  /// The unique identifier for the application. This identifier is displayed as
+  /// the <b>Project ID</b> on the Amazon Pinpoint console.
+  @_s.JsonKey(name: 'application-id', ignore: true)
+  final String applicationId;
+
+  DeleteApnsChannelRequest({
+    @_s.required this.applicationId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteApnsChannelRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteApnsChannelResponse {
@@ -7548,6 +7637,24 @@ class DeleteApnsChannelResponse {
   });
   factory DeleteApnsChannelResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteApnsChannelResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteApnsSandboxChannelRequest {
+  /// The unique identifier for the application. This identifier is displayed as
+  /// the <b>Project ID</b> on the Amazon Pinpoint console.
+  @_s.JsonKey(name: 'application-id', ignore: true)
+  final String applicationId;
+
+  DeleteApnsSandboxChannelRequest({
+    @_s.required this.applicationId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteApnsSandboxChannelRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7570,6 +7677,23 @@ class DeleteApnsSandboxChannelResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteApnsVoipChannelRequest {
+  /// The unique identifier for the application. This identifier is displayed as
+  /// the <b>Project ID</b> on the Amazon Pinpoint console.
+  @_s.JsonKey(name: 'application-id', ignore: true)
+  final String applicationId;
+
+  DeleteApnsVoipChannelRequest({
+    @_s.required this.applicationId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteApnsVoipChannelRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteApnsVoipChannelResponse {
@@ -7581,6 +7705,24 @@ class DeleteApnsVoipChannelResponse {
   });
   factory DeleteApnsVoipChannelResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteApnsVoipChannelResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteApnsVoipSandboxChannelRequest {
+  /// The unique identifier for the application. This identifier is displayed as
+  /// the <b>Project ID</b> on the Amazon Pinpoint console.
+  @_s.JsonKey(name: 'application-id', ignore: true)
+  final String applicationId;
+
+  DeleteApnsVoipSandboxChannelRequest({
+    @_s.required this.applicationId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteApnsVoipSandboxChannelRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7603,6 +7745,23 @@ class DeleteApnsVoipSandboxChannelResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteAppRequest {
+  /// The unique identifier for the application. This identifier is displayed as
+  /// the <b>Project ID</b> on the Amazon Pinpoint console.
+  @_s.JsonKey(name: 'application-id', ignore: true)
+  final String applicationId;
+
+  DeleteAppRequest({
+    @_s.required this.applicationId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteAppRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteAppResponse {
@@ -7614,6 +7773,23 @@ class DeleteAppResponse {
   });
   factory DeleteAppResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteAppResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteBaiduChannelRequest {
+  /// The unique identifier for the application. This identifier is displayed as
+  /// the <b>Project ID</b> on the Amazon Pinpoint console.
+  @_s.JsonKey(name: 'application-id', ignore: true)
+  final String applicationId;
+
+  DeleteBaiduChannelRequest({
+    @_s.required this.applicationId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteBaiduChannelRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7635,6 +7811,28 @@ class DeleteBaiduChannelResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteCampaignRequest {
+  /// The unique identifier for the application. This identifier is displayed as
+  /// the <b>Project ID</b> on the Amazon Pinpoint console.
+  @_s.JsonKey(name: 'application-id', ignore: true)
+  final String applicationId;
+
+  /// The unique identifier for the campaign.
+  @_s.JsonKey(name: 'campaign-id', ignore: true)
+  final String campaignId;
+
+  DeleteCampaignRequest({
+    @_s.required this.applicationId,
+    @_s.required this.campaignId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteCampaignRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteCampaignResponse {
@@ -7646,6 +7844,23 @@ class DeleteCampaignResponse {
   });
   factory DeleteCampaignResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteCampaignResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteEmailChannelRequest {
+  /// The unique identifier for the application. This identifier is displayed as
+  /// the <b>Project ID</b> on the Amazon Pinpoint console.
+  @_s.JsonKey(name: 'application-id', ignore: true)
+  final String applicationId;
+
+  DeleteEmailChannelRequest({
+    @_s.required this.applicationId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteEmailChannelRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7667,6 +7882,58 @@ class DeleteEmailChannelResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteEmailTemplateRequest {
+  /// The name of the message template. A template name must start with an
+  /// alphanumeric character and can contain a maximum of 128 characters. The
+  /// characters can be alphanumeric characters, underscores (_), or hyphens (-).
+  /// Template names are case sensitive.
+  @_s.JsonKey(name: 'template-name', ignore: true)
+  final String templateName;
+
+  /// The unique identifier for the version of the message template to update,
+  /// retrieve information about, or delete. To retrieve identifiers and other
+  /// information for all the versions of a template, use the <link
+  /// linkend="templates-template-name-template-type-versions">Template
+  /// Versions</link> resource.
+  ///
+  /// If specified, this value must match the identifier for an existing template
+  /// version. If specified for an update operation, this value must match the
+  /// identifier for the latest existing version of the template. This restriction
+  /// helps ensure that race conditions don't occur.
+  ///
+  /// If you don't specify a value for this parameter, Amazon Pinpoint does the
+  /// following:
+  ///
+  /// <ul>
+  /// <li>
+  /// For a get operation, retrieves information about the active version of the
+  /// template.
+  /// </li>
+  /// <li>
+  /// For an update operation, saves the updates to (overwrites) the latest
+  /// existing version of the template, if the create-new-version parameter isn't
+  /// used or is set to false.
+  /// </li>
+  /// <li>
+  /// For a delete operation, deletes the template, including all versions of the
+  /// template.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'version', ignore: true)
+  final String version;
+
+  DeleteEmailTemplateRequest({
+    @_s.required this.templateName,
+    this.version,
+  });
+  Map<String, dynamic> toJson() => _$DeleteEmailTemplateRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteEmailTemplateResponse {
@@ -7678,6 +7945,28 @@ class DeleteEmailTemplateResponse {
   });
   factory DeleteEmailTemplateResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteEmailTemplateResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteEndpointRequest {
+  /// The unique identifier for the application. This identifier is displayed as
+  /// the <b>Project ID</b> on the Amazon Pinpoint console.
+  @_s.JsonKey(name: 'application-id', ignore: true)
+  final String applicationId;
+
+  /// The unique identifier for the endpoint.
+  @_s.JsonKey(name: 'endpoint-id', ignore: true)
+  final String endpointId;
+
+  DeleteEndpointRequest({
+    @_s.required this.applicationId,
+    @_s.required this.endpointId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteEndpointRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7699,6 +7988,23 @@ class DeleteEndpointResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteEventStreamRequest {
+  /// The unique identifier for the application. This identifier is displayed as
+  /// the <b>Project ID</b> on the Amazon Pinpoint console.
+  @_s.JsonKey(name: 'application-id', ignore: true)
+  final String applicationId;
+
+  DeleteEventStreamRequest({
+    @_s.required this.applicationId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteEventStreamRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteEventStreamResponse {
@@ -7710,6 +8016,23 @@ class DeleteEventStreamResponse {
   });
   factory DeleteEventStreamResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteEventStreamResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteGcmChannelRequest {
+  /// The unique identifier for the application. This identifier is displayed as
+  /// the <b>Project ID</b> on the Amazon Pinpoint console.
+  @_s.JsonKey(name: 'application-id', ignore: true)
+  final String applicationId;
+
+  DeleteGcmChannelRequest({
+    @_s.required this.applicationId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteGcmChannelRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7731,6 +8054,28 @@ class DeleteGcmChannelResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteJourneyRequest {
+  /// The unique identifier for the application. This identifier is displayed as
+  /// the <b>Project ID</b> on the Amazon Pinpoint console.
+  @_s.JsonKey(name: 'application-id', ignore: true)
+  final String applicationId;
+
+  /// The unique identifier for the journey.
+  @_s.JsonKey(name: 'journey-id', ignore: true)
+  final String journeyId;
+
+  DeleteJourneyRequest({
+    @_s.required this.applicationId,
+    @_s.required this.journeyId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteJourneyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteJourneyResponse {
@@ -7747,6 +8092,58 @@ class DeleteJourneyResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeletePushTemplateRequest {
+  /// The name of the message template. A template name must start with an
+  /// alphanumeric character and can contain a maximum of 128 characters. The
+  /// characters can be alphanumeric characters, underscores (_), or hyphens (-).
+  /// Template names are case sensitive.
+  @_s.JsonKey(name: 'template-name', ignore: true)
+  final String templateName;
+
+  /// The unique identifier for the version of the message template to update,
+  /// retrieve information about, or delete. To retrieve identifiers and other
+  /// information for all the versions of a template, use the <link
+  /// linkend="templates-template-name-template-type-versions">Template
+  /// Versions</link> resource.
+  ///
+  /// If specified, this value must match the identifier for an existing template
+  /// version. If specified for an update operation, this value must match the
+  /// identifier for the latest existing version of the template. This restriction
+  /// helps ensure that race conditions don't occur.
+  ///
+  /// If you don't specify a value for this parameter, Amazon Pinpoint does the
+  /// following:
+  ///
+  /// <ul>
+  /// <li>
+  /// For a get operation, retrieves information about the active version of the
+  /// template.
+  /// </li>
+  /// <li>
+  /// For an update operation, saves the updates to (overwrites) the latest
+  /// existing version of the template, if the create-new-version parameter isn't
+  /// used or is set to false.
+  /// </li>
+  /// <li>
+  /// For a delete operation, deletes the template, including all versions of the
+  /// template.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'version', ignore: true)
+  final String version;
+
+  DeletePushTemplateRequest({
+    @_s.required this.templateName,
+    this.version,
+  });
+  Map<String, dynamic> toJson() => _$DeletePushTemplateRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeletePushTemplateResponse {
@@ -7758,6 +8155,25 @@ class DeletePushTemplateResponse {
   });
   factory DeletePushTemplateResponse.fromJson(Map<String, dynamic> json) =>
       _$DeletePushTemplateResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteRecommenderConfigurationRequest {
+  /// The unique identifier for the recommender model configuration. This
+  /// identifier is displayed as the <b>Recommender ID</b> on the Amazon Pinpoint
+  /// console.
+  @_s.JsonKey(name: 'recommender-id', ignore: true)
+  final String recommenderId;
+
+  DeleteRecommenderConfigurationRequest({
+    @_s.required this.recommenderId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteRecommenderConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7780,6 +8196,28 @@ class DeleteRecommenderConfigurationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteSegmentRequest {
+  /// The unique identifier for the application. This identifier is displayed as
+  /// the <b>Project ID</b> on the Amazon Pinpoint console.
+  @_s.JsonKey(name: 'application-id', ignore: true)
+  final String applicationId;
+
+  /// The unique identifier for the segment.
+  @_s.JsonKey(name: 'segment-id', ignore: true)
+  final String segmentId;
+
+  DeleteSegmentRequest({
+    @_s.required this.applicationId,
+    @_s.required this.segmentId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteSegmentRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteSegmentResponse {
@@ -7791,6 +8229,23 @@ class DeleteSegmentResponse {
   });
   factory DeleteSegmentResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteSegmentResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteSmsChannelRequest {
+  /// The unique identifier for the application. This identifier is displayed as
+  /// the <b>Project ID</b> on the Amazon Pinpoint console.
+  @_s.JsonKey(name: 'application-id', ignore: true)
+  final String applicationId;
+
+  DeleteSmsChannelRequest({
+    @_s.required this.applicationId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteSmsChannelRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7812,6 +8267,58 @@ class DeleteSmsChannelResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteSmsTemplateRequest {
+  /// The name of the message template. A template name must start with an
+  /// alphanumeric character and can contain a maximum of 128 characters. The
+  /// characters can be alphanumeric characters, underscores (_), or hyphens (-).
+  /// Template names are case sensitive.
+  @_s.JsonKey(name: 'template-name', ignore: true)
+  final String templateName;
+
+  /// The unique identifier for the version of the message template to update,
+  /// retrieve information about, or delete. To retrieve identifiers and other
+  /// information for all the versions of a template, use the <link
+  /// linkend="templates-template-name-template-type-versions">Template
+  /// Versions</link> resource.
+  ///
+  /// If specified, this value must match the identifier for an existing template
+  /// version. If specified for an update operation, this value must match the
+  /// identifier for the latest existing version of the template. This restriction
+  /// helps ensure that race conditions don't occur.
+  ///
+  /// If you don't specify a value for this parameter, Amazon Pinpoint does the
+  /// following:
+  ///
+  /// <ul>
+  /// <li>
+  /// For a get operation, retrieves information about the active version of the
+  /// template.
+  /// </li>
+  /// <li>
+  /// For an update operation, saves the updates to (overwrites) the latest
+  /// existing version of the template, if the create-new-version parameter isn't
+  /// used or is set to false.
+  /// </li>
+  /// <li>
+  /// For a delete operation, deletes the template, including all versions of the
+  /// template.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'version', ignore: true)
+  final String version;
+
+  DeleteSmsTemplateRequest({
+    @_s.required this.templateName,
+    this.version,
+  });
+  Map<String, dynamic> toJson() => _$DeleteSmsTemplateRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteSmsTemplateResponse {
@@ -7823,6 +8330,28 @@ class DeleteSmsTemplateResponse {
   });
   factory DeleteSmsTemplateResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteSmsTemplateResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteUserEndpointsRequest {
+  /// The unique identifier for the application. This identifier is displayed as
+  /// the <b>Project ID</b> on the Amazon Pinpoint console.
+  @_s.JsonKey(name: 'application-id', ignore: true)
+  final String applicationId;
+
+  /// The unique identifier for the user.
+  @_s.JsonKey(name: 'user-id', ignore: true)
+  final String userId;
+
+  DeleteUserEndpointsRequest({
+    @_s.required this.applicationId,
+    @_s.required this.userId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteUserEndpointsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7844,6 +8373,23 @@ class DeleteUserEndpointsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteVoiceChannelRequest {
+  /// The unique identifier for the application. This identifier is displayed as
+  /// the <b>Project ID</b> on the Amazon Pinpoint console.
+  @_s.JsonKey(name: 'application-id', ignore: true)
+  final String applicationId;
+
+  DeleteVoiceChannelRequest({
+    @_s.required this.applicationId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteVoiceChannelRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteVoiceChannelResponse {
@@ -7855,6 +8401,58 @@ class DeleteVoiceChannelResponse {
   });
   factory DeleteVoiceChannelResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteVoiceChannelResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteVoiceTemplateRequest {
+  /// The name of the message template. A template name must start with an
+  /// alphanumeric character and can contain a maximum of 128 characters. The
+  /// characters can be alphanumeric characters, underscores (_), or hyphens (-).
+  /// Template names are case sensitive.
+  @_s.JsonKey(name: 'template-name', ignore: true)
+  final String templateName;
+
+  /// The unique identifier for the version of the message template to update,
+  /// retrieve information about, or delete. To retrieve identifiers and other
+  /// information for all the versions of a template, use the <link
+  /// linkend="templates-template-name-template-type-versions">Template
+  /// Versions</link> resource.
+  ///
+  /// If specified, this value must match the identifier for an existing template
+  /// version. If specified for an update operation, this value must match the
+  /// identifier for the latest existing version of the template. This restriction
+  /// helps ensure that race conditions don't occur.
+  ///
+  /// If you don't specify a value for this parameter, Amazon Pinpoint does the
+  /// following:
+  ///
+  /// <ul>
+  /// <li>
+  /// For a get operation, retrieves information about the active version of the
+  /// template.
+  /// </li>
+  /// <li>
+  /// For an update operation, saves the updates to (overwrites) the latest
+  /// existing version of the template, if the create-new-version parameter isn't
+  /// used or is set to false.
+  /// </li>
+  /// <li>
+  /// For a delete operation, deletes the template, including all versions of the
+  /// template.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'version', ignore: true)
+  final String version;
+
+  DeleteVoiceTemplateRequest({
+    @_s.required this.templateName,
+    this.version,
+  });
+  Map<String, dynamic> toJson() => _$DeleteVoiceTemplateRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -14285,6 +14883,29 @@ enum Type {
   any,
   @_s.JsonValue('NONE')
   none,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource.
+  @_s.JsonKey(name: 'resource-arn', ignore: true)
+  final String resourceArn;
+
+  /// The key of the tag to remove from the resource. To remove multiple tags,
+  /// append the tagKeys parameter and argument for each additional tag to remove,
+  /// separated by an ampersand (&amp;).
+  @_s.JsonKey(name: 'tagKeys', ignore: true)
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(

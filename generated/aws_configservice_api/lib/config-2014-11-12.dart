@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -102,10 +101,10 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConfigurationAggregatorName': configurationAggregatorName,
-        'ResourceIdentifiers': resourceIdentifiers,
-      },
+      payload: BatchGetAggregateResourceConfigRequest(
+        configurationAggregatorName: configurationAggregatorName,
+        resourceIdentifiers: resourceIdentifiers,
+      ),
     );
 
     return BatchGetAggregateResourceConfigResponse.fromJson(jsonResponse.body);
@@ -147,9 +146,9 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'resourceKeys': resourceKeys,
-      },
+      payload: BatchGetResourceConfigRequest(
+        resourceKeys: resourceKeys,
+      ),
     );
 
     return BatchGetResourceConfigResponse.fromJson(jsonResponse.body);
@@ -194,10 +193,10 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AuthorizedAccountId': authorizedAccountId,
-        'AuthorizedAwsRegion': authorizedAwsRegion,
-      },
+      payload: DeleteAggregationAuthorizationRequest(
+        authorizedAccountId: authorizedAccountId,
+        authorizedAwsRegion: authorizedAwsRegion,
+      ),
     );
   }
 
@@ -244,9 +243,9 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConfigRuleName': configRuleName,
-      },
+      payload: DeleteConfigRuleRequest(
+        configRuleName: configRuleName,
+      ),
     );
   }
 
@@ -285,9 +284,9 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConfigurationAggregatorName': configurationAggregatorName,
-      },
+      payload: DeleteConfigurationAggregatorRequest(
+        configurationAggregatorName: configurationAggregatorName,
+      ),
     );
   }
 
@@ -331,9 +330,9 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConfigurationRecorderName': configurationRecorderName,
-      },
+      payload: DeleteConfigurationRecorderRequest(
+        configurationRecorderName: configurationRecorderName,
+      ),
     );
   }
 
@@ -377,9 +376,9 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConformancePackName': conformancePackName,
-      },
+      payload: DeleteConformancePackRequest(
+        conformancePackName: conformancePackName,
+      ),
     );
   }
 
@@ -415,9 +414,9 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DeliveryChannelName': deliveryChannelName,
-      },
+      payload: DeleteDeliveryChannelRequest(
+        deliveryChannelName: deliveryChannelName,
+      ),
     );
   }
 
@@ -453,9 +452,9 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConfigRuleName': configRuleName,
-      },
+      payload: DeleteEvaluationResultsRequest(
+        configRuleName: configRuleName,
+      ),
     );
 
     return DeleteEvaluationResultsResponse.fromJson(jsonResponse.body);
@@ -502,9 +501,9 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'OrganizationConfigRuleName': organizationConfigRuleName,
-      },
+      payload: DeleteOrganizationConfigRuleRequest(
+        organizationConfigRuleName: organizationConfigRuleName,
+      ),
     );
   }
 
@@ -551,9 +550,9 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'OrganizationConformancePackName': organizationConformancePackName,
-      },
+      payload: DeleteOrganizationConformancePackRequest(
+        organizationConformancePackName: organizationConformancePackName,
+      ),
     );
   }
 
@@ -596,10 +595,10 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'RequesterAccountId': requesterAccountId,
-        'RequesterAwsRegion': requesterAwsRegion,
-      },
+      payload: DeletePendingAggregationRequestRequest(
+        requesterAccountId: requesterAccountId,
+        requesterAwsRegion: requesterAwsRegion,
+      ),
     );
   }
 
@@ -643,10 +642,10 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConfigRuleName': configRuleName,
-        if (resourceType != null) 'ResourceType': resourceType,
-      },
+      payload: DeleteRemediationConfigurationRequest(
+        configRuleName: configRuleName,
+        resourceType: resourceType,
+      ),
     );
 
     return DeleteRemediationConfigurationResponse.fromJson(jsonResponse.body);
@@ -693,10 +692,10 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConfigRuleName': configRuleName,
-        'ResourceKeys': resourceKeys,
-      },
+      payload: DeleteRemediationExceptionsRequest(
+        configRuleName: configRuleName,
+        resourceKeys: resourceKeys,
+      ),
     );
 
     return DeleteRemediationExceptionsResponse.fromJson(jsonResponse.body);
@@ -745,10 +744,10 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceId': resourceId,
-        'ResourceType': resourceType,
-      },
+      payload: DeleteResourceConfigRequest(
+        resourceId: resourceId,
+        resourceType: resourceType,
+      ),
     );
   }
 
@@ -787,9 +786,9 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'RetentionConfigurationName': retentionConfigurationName,
-      },
+      payload: DeleteRetentionConfigurationRequest(
+        retentionConfigurationName: retentionConfigurationName,
+      ),
     );
   }
 
@@ -838,9 +837,9 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'deliveryChannelName': deliveryChannelName,
-      },
+      payload: DeliverConfigSnapshotRequest(
+        deliveryChannelName: deliveryChannelName,
+      ),
     );
 
     return DeliverConfigSnapshotResponse.fromJson(jsonResponse.body);
@@ -910,12 +909,12 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConfigurationAggregatorName': configurationAggregatorName,
-        if (filters != null) 'Filters': filters,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeAggregateComplianceByConfigRulesRequest(
+        configurationAggregatorName: configurationAggregatorName,
+        filters: filters,
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeAggregateComplianceByConfigRulesResponse.fromJson(
@@ -957,10 +956,10 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeAggregationAuthorizationsRequest(
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeAggregationAuthorizationsResponse.fromJson(
@@ -1031,11 +1030,11 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (complianceTypes != null) 'ComplianceTypes': complianceTypes,
-        if (configRuleNames != null) 'ConfigRuleNames': configRuleNames,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeComplianceByConfigRuleRequest(
+        complianceTypes: complianceTypes,
+        configRuleNames: configRuleNames,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeComplianceByConfigRuleResponse.fromJson(jsonResponse.body);
@@ -1137,13 +1136,13 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (complianceTypes != null) 'ComplianceTypes': complianceTypes,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (resourceId != null) 'ResourceId': resourceId,
-        if (resourceType != null) 'ResourceType': resourceType,
-      },
+      payload: DescribeComplianceByResourceRequest(
+        complianceTypes: complianceTypes,
+        limit: limit,
+        nextToken: nextToken,
+        resourceId: resourceId,
+        resourceType: resourceType,
+      ),
     );
 
     return DescribeComplianceByResourceResponse.fromJson(jsonResponse.body);
@@ -1198,11 +1197,11 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (configRuleNames != null) 'ConfigRuleNames': configRuleNames,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeConfigRuleEvaluationStatusRequest(
+        configRuleNames: configRuleNames,
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeConfigRuleEvaluationStatusResponse.fromJson(
@@ -1235,10 +1234,10 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (configRuleNames != null) 'ConfigRuleNames': configRuleNames,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeConfigRulesRequest(
+        configRuleNames: configRuleNames,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeConfigRulesResponse.fromJson(jsonResponse.body);
@@ -1318,12 +1317,12 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConfigurationAggregatorName': configurationAggregatorName,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (updateStatus != null) 'UpdateStatus': updateStatus,
-      },
+      payload: DescribeConfigurationAggregatorSourcesStatusRequest(
+        configurationAggregatorName: configurationAggregatorName,
+        limit: limit,
+        nextToken: nextToken,
+        updateStatus: updateStatus,
+      ),
     );
 
     return DescribeConfigurationAggregatorSourcesStatusResponse.fromJson(
@@ -1371,12 +1370,11 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (configurationAggregatorNames != null)
-          'ConfigurationAggregatorNames': configurationAggregatorNames,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeConfigurationAggregatorsRequest(
+        configurationAggregatorNames: configurationAggregatorNames,
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeConfigurationAggregatorsResponse.fromJson(jsonResponse.body);
@@ -1410,10 +1408,9 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (configurationRecorderNames != null)
-          'ConfigurationRecorderNames': configurationRecorderNames,
-      },
+      payload: DescribeConfigurationRecorderStatusRequest(
+        configurationRecorderNames: configurationRecorderNames,
+      ),
     );
 
     return DescribeConfigurationRecorderStatusResponse.fromJson(
@@ -1446,10 +1443,9 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (configurationRecorderNames != null)
-          'ConfigurationRecorderNames': configurationRecorderNames,
-      },
+      payload: DescribeConfigurationRecordersRequest(
+        configurationRecorderNames: configurationRecorderNames,
+      ),
     );
 
     return DescribeConfigurationRecordersResponse.fromJson(jsonResponse.body);
@@ -1516,12 +1512,12 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConformancePackName': conformancePackName,
-        if (filters != null) 'Filters': filters,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeConformancePackComplianceRequest(
+        conformancePackName: conformancePackName,
+        filters: filters,
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeConformancePackComplianceResponse.fromJson(
@@ -1566,12 +1562,11 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (conformancePackNames != null)
-          'ConformancePackNames': conformancePackNames,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeConformancePackStatusRequest(
+        conformancePackNames: conformancePackNames,
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeConformancePackStatusResponse.fromJson(jsonResponse.body);
@@ -1615,12 +1610,11 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (conformancePackNames != null)
-          'ConformancePackNames': conformancePackNames,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeConformancePacksRequest(
+        conformancePackNames: conformancePackNames,
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeConformancePacksResponse.fromJson(jsonResponse.body);
@@ -1651,10 +1645,9 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (deliveryChannelNames != null)
-          'DeliveryChannelNames': deliveryChannelNames,
-      },
+      payload: DescribeDeliveryChannelStatusRequest(
+        deliveryChannelNames: deliveryChannelNames,
+      ),
     );
 
     return DescribeDeliveryChannelStatusResponse.fromJson(jsonResponse.body);
@@ -1685,10 +1678,9 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (deliveryChannelNames != null)
-          'DeliveryChannelNames': deliveryChannelNames,
-      },
+      payload: DescribeDeliveryChannelsRequest(
+        deliveryChannelNames: deliveryChannelNames,
+      ),
     );
 
     return DescribeDeliveryChannelsResponse.fromJson(jsonResponse.body);
@@ -1749,12 +1741,11 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (organizationConfigRuleNames != null)
-          'OrganizationConfigRuleNames': organizationConfigRuleNames,
-      },
+      payload: DescribeOrganizationConfigRuleStatusesRequest(
+        limit: limit,
+        nextToken: nextToken,
+        organizationConfigRuleNames: organizationConfigRuleNames,
+      ),
     );
 
     return DescribeOrganizationConfigRuleStatusesResponse.fromJson(
@@ -1811,12 +1802,11 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (organizationConfigRuleNames != null)
-          'OrganizationConfigRuleNames': organizationConfigRuleNames,
-      },
+      payload: DescribeOrganizationConfigRulesRequest(
+        limit: limit,
+        nextToken: nextToken,
+        organizationConfigRuleNames: organizationConfigRuleNames,
+      ),
     );
 
     return DescribeOrganizationConfigRulesResponse.fromJson(jsonResponse.body);
@@ -1878,12 +1868,11 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (organizationConformancePackNames != null)
-          'OrganizationConformancePackNames': organizationConformancePackNames,
-      },
+      payload: DescribeOrganizationConformancePackStatusesRequest(
+        limit: limit,
+        nextToken: nextToken,
+        organizationConformancePackNames: organizationConformancePackNames,
+      ),
     );
 
     return DescribeOrganizationConformancePackStatusesResponse.fromJson(
@@ -1940,12 +1929,11 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (organizationConformancePackNames != null)
-          'OrganizationConformancePackNames': organizationConformancePackNames,
-      },
+      payload: DescribeOrganizationConformancePacksRequest(
+        limit: limit,
+        nextToken: nextToken,
+        organizationConformancePackNames: organizationConformancePackNames,
+      ),
     );
 
     return DescribeOrganizationConformancePacksResponse.fromJson(
@@ -1986,10 +1974,10 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribePendingAggregationRequestsRequest(
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribePendingAggregationRequestsResponse.fromJson(
@@ -2016,9 +2004,9 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConfigRuleNames': configRuleNames,
-      },
+      payload: DescribeRemediationConfigurationsRequest(
+        configRuleNames: configRuleNames,
+      ),
     );
 
     return DescribeRemediationConfigurationsResponse.fromJson(
@@ -2092,12 +2080,12 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConfigRuleName': configRuleName,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (resourceKeys != null) 'ResourceKeys': resourceKeys,
-      },
+      payload: DescribeRemediationExceptionsRequest(
+        configRuleName: configRuleName,
+        limit: limit,
+        nextToken: nextToken,
+        resourceKeys: resourceKeys,
+      ),
     );
 
     return DescribeRemediationExceptionsResponse.fromJson(jsonResponse.body);
@@ -2162,12 +2150,12 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConfigRuleName': configRuleName,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (resourceKeys != null) 'ResourceKeys': resourceKeys,
-      },
+      payload: DescribeRemediationExecutionStatusRequest(
+        configRuleName: configRuleName,
+        limit: limit,
+        nextToken: nextToken,
+        resourceKeys: resourceKeys,
+      ),
     );
 
     return DescribeRemediationExecutionStatusResponse.fromJson(
@@ -2213,11 +2201,10 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (nextToken != null) 'NextToken': nextToken,
-        if (retentionConfigurationNames != null)
-          'RetentionConfigurationNames': retentionConfigurationNames,
-      },
+      payload: DescribeRetentionConfigurationsRequest(
+        nextToken: nextToken,
+        retentionConfigurationNames: retentionConfigurationNames,
+      ),
     );
 
     return DescribeRetentionConfigurationsResponse.fromJson(jsonResponse.body);
@@ -2337,15 +2324,15 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AccountId': accountId,
-        'AwsRegion': awsRegion,
-        'ConfigRuleName': configRuleName,
-        'ConfigurationAggregatorName': configurationAggregatorName,
-        if (complianceType != null) 'ComplianceType': complianceType?.toValue(),
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: GetAggregateComplianceDetailsByConfigRuleRequest(
+        accountId: accountId,
+        awsRegion: awsRegion,
+        configRuleName: configRuleName,
+        configurationAggregatorName: configurationAggregatorName,
+        complianceType: complianceType,
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return GetAggregateComplianceDetailsByConfigRuleResponse.fromJson(
@@ -2422,13 +2409,13 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConfigurationAggregatorName': configurationAggregatorName,
-        if (filters != null) 'Filters': filters,
-        if (groupByKey != null) 'GroupByKey': groupByKey?.toValue(),
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: GetAggregateConfigRuleComplianceSummaryRequest(
+        configurationAggregatorName: configurationAggregatorName,
+        filters: filters,
+        groupByKey: groupByKey,
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return GetAggregateConfigRuleComplianceSummaryResponse.fromJson(
@@ -2506,13 +2493,13 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConfigurationAggregatorName': configurationAggregatorName,
-        if (filters != null) 'Filters': filters,
-        if (groupByKey != null) 'GroupByKey': groupByKey?.toValue(),
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: GetAggregateDiscoveredResourceCountsRequest(
+        configurationAggregatorName: configurationAggregatorName,
+        filters: filters,
+        groupByKey: groupByKey,
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return GetAggregateDiscoveredResourceCountsResponse.fromJson(
@@ -2562,10 +2549,10 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConfigurationAggregatorName': configurationAggregatorName,
-        'ResourceIdentifier': resourceIdentifier,
-      },
+      payload: GetAggregateResourceConfigRequest(
+        configurationAggregatorName: configurationAggregatorName,
+        resourceIdentifier: resourceIdentifier,
+      ),
     );
 
     return GetAggregateResourceConfigResponse.fromJson(jsonResponse.body);
@@ -2628,12 +2615,12 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConfigRuleName': configRuleName,
-        if (complianceTypes != null) 'ComplianceTypes': complianceTypes,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: GetComplianceDetailsByConfigRuleRequest(
+        configRuleName: configRuleName,
+        complianceTypes: complianceTypes,
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return GetComplianceDetailsByConfigRuleResponse.fromJson(jsonResponse.body);
@@ -2693,12 +2680,12 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceId': resourceId,
-        'ResourceType': resourceType,
-        if (complianceTypes != null) 'ComplianceTypes': complianceTypes,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: GetComplianceDetailsByResourceRequest(
+        resourceId: resourceId,
+        resourceType: resourceType,
+        complianceTypes: complianceTypes,
+        nextToken: nextToken,
+      ),
     );
 
     return GetComplianceDetailsByResourceResponse.fromJson(jsonResponse.body);
@@ -2750,9 +2737,9 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (resourceTypes != null) 'ResourceTypes': resourceTypes,
-      },
+      payload: GetComplianceSummaryByResourceTypeRequest(
+        resourceTypes: resourceTypes,
+      ),
     );
 
     return GetComplianceSummaryByResourceTypeResponse.fromJson(
@@ -2818,12 +2805,12 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConformancePackName': conformancePackName,
-        if (filters != null) 'Filters': filters,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: GetConformancePackComplianceDetailsRequest(
+        conformancePackName: conformancePackName,
+        filters: filters,
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return GetConformancePackComplianceDetailsResponse.fromJson(
@@ -2869,11 +2856,11 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConformancePackNames': conformancePackNames,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: GetConformancePackComplianceSummaryRequest(
+        conformancePackNames: conformancePackNames,
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return GetConformancePackComplianceSummaryResponse.fromJson(
@@ -2978,11 +2965,11 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (limit != null) 'limit': limit,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (resourceTypes != null) 'resourceTypes': resourceTypes,
-      },
+      payload: GetDiscoveredResourceCountsRequest(
+        limit: limit,
+        nextToken: nextToken,
+        resourceTypes: resourceTypes,
+      ),
     );
 
     return GetDiscoveredResourceCountsResponse.fromJson(jsonResponse.body);
@@ -3053,12 +3040,12 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'OrganizationConfigRuleName': organizationConfigRuleName,
-        if (filters != null) 'Filters': filters,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: GetOrganizationConfigRuleDetailedStatusRequest(
+        organizationConfigRuleName: organizationConfigRuleName,
+        filters: filters,
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return GetOrganizationConfigRuleDetailedStatusResponse.fromJson(
@@ -3130,12 +3117,12 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'OrganizationConformancePackName': organizationConformancePackName,
-        if (filters != null) 'Filters': filters,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: GetOrganizationConformancePackDetailedStatusRequest(
+        organizationConformancePackName: organizationConformancePackName,
+        filters: filters,
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return GetOrganizationConformancePackDetailedStatusResponse.fromJson(
@@ -3230,16 +3217,15 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'resourceId': resourceId,
-        'resourceType': resourceType?.toValue(),
-        if (chronologicalOrder != null)
-          'chronologicalOrder': chronologicalOrder?.toValue(),
-        if (earlierTime != null) 'earlierTime': earlierTime,
-        if (laterTime != null) 'laterTime': laterTime,
-        if (limit != null) 'limit': limit,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: GetResourceConfigHistoryRequest(
+        resourceId: resourceId,
+        resourceType: resourceType,
+        chronologicalOrder: chronologicalOrder,
+        earlierTime: earlierTime,
+        laterTime: laterTime,
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return GetResourceConfigHistoryResponse.fromJson(jsonResponse.body);
@@ -3319,13 +3305,13 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConfigurationAggregatorName': configurationAggregatorName,
-        'ResourceType': resourceType?.toValue(),
-        if (filters != null) 'Filters': filters,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListAggregateDiscoveredResourcesRequest(
+        configurationAggregatorName: configurationAggregatorName,
+        resourceType: resourceType,
+        filters: filters,
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return ListAggregateDiscoveredResourcesResponse.fromJson(jsonResponse.body);
@@ -3403,15 +3389,14 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'resourceType': resourceType?.toValue(),
-        if (includeDeletedResources != null)
-          'includeDeletedResources': includeDeletedResources,
-        if (limit != null) 'limit': limit,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (resourceIds != null) 'resourceIds': resourceIds,
-        if (resourceName != null) 'resourceName': resourceName,
-      },
+      payload: ListDiscoveredResourcesRequest(
+        resourceType: resourceType,
+        includeDeletedResources: includeDeletedResources,
+        limit: limit,
+        nextToken: nextToken,
+        resourceIds: resourceIds,
+        resourceName: resourceName,
+      ),
     );
 
     return ListDiscoveredResourcesResponse.fromJson(jsonResponse.body);
@@ -3467,11 +3452,11 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListTagsForResourceRequest(
+        resourceArn: resourceArn,
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
@@ -3520,11 +3505,11 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AuthorizedAccountId': authorizedAccountId,
-        'AuthorizedAwsRegion': authorizedAwsRegion,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: PutAggregationAuthorizationRequest(
+        authorizedAccountId: authorizedAccountId,
+        authorizedAwsRegion: authorizedAwsRegion,
+        tags: tags,
+      ),
     );
 
     return PutAggregationAuthorizationResponse.fromJson(jsonResponse.body);
@@ -3600,10 +3585,10 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConfigRule': configRule,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: PutConfigRuleRequest(
+        configRule: configRule,
+        tags: tags,
+      ),
     );
   }
 
@@ -3669,14 +3654,12 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConfigurationAggregatorName': configurationAggregatorName,
-        if (accountAggregationSources != null)
-          'AccountAggregationSources': accountAggregationSources,
-        if (organizationAggregationSource != null)
-          'OrganizationAggregationSource': organizationAggregationSource,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: PutConfigurationAggregatorRequest(
+        configurationAggregatorName: configurationAggregatorName,
+        accountAggregationSources: accountAggregationSources,
+        organizationAggregationSource: organizationAggregationSource,
+        tags: tags,
+      ),
     );
 
     return PutConfigurationAggregatorResponse.fromJson(jsonResponse.body);
@@ -3719,9 +3702,9 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConfigurationRecorder': configurationRecorder,
-      },
+      payload: PutConfigurationRecorderRequest(
+        configurationRecorder: configurationRecorder,
+      ),
     );
   }
 
@@ -3840,16 +3823,14 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConformancePackName': conformancePackName,
-        'DeliveryS3Bucket': deliveryS3Bucket,
-        if (conformancePackInputParameters != null)
-          'ConformancePackInputParameters': conformancePackInputParameters,
-        if (deliveryS3KeyPrefix != null)
-          'DeliveryS3KeyPrefix': deliveryS3KeyPrefix,
-        if (templateBody != null) 'TemplateBody': templateBody,
-        if (templateS3Uri != null) 'TemplateS3Uri': templateS3Uri,
-      },
+      payload: PutConformancePackRequest(
+        conformancePackName: conformancePackName,
+        deliveryS3Bucket: deliveryS3Bucket,
+        conformancePackInputParameters: conformancePackInputParameters,
+        deliveryS3KeyPrefix: deliveryS3KeyPrefix,
+        templateBody: templateBody,
+        templateS3Uri: templateS3Uri,
+      ),
     );
 
     return PutConformancePackResponse.fromJson(jsonResponse.body);
@@ -3896,9 +3877,9 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DeliveryChannel': deliveryChannel,
-      },
+      payload: PutDeliveryChannelRequest(
+        deliveryChannel: deliveryChannel,
+      ),
     );
   }
 
@@ -3945,11 +3926,11 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResultToken': resultToken,
-        if (evaluations != null) 'Evaluations': evaluations,
-        if (testMode != null) 'TestMode': testMode,
-      },
+      payload: PutEvaluationsRequest(
+        resultToken: resultToken,
+        evaluations: evaluations,
+        testMode: testMode,
+      ),
     );
 
     return PutEvaluationsResponse.fromJson(jsonResponse.body);
@@ -4035,14 +4016,12 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'OrganizationConfigRuleName': organizationConfigRuleName,
-        if (excludedAccounts != null) 'ExcludedAccounts': excludedAccounts,
-        if (organizationCustomRuleMetadata != null)
-          'OrganizationCustomRuleMetadata': organizationCustomRuleMetadata,
-        if (organizationManagedRuleMetadata != null)
-          'OrganizationManagedRuleMetadata': organizationManagedRuleMetadata,
-      },
+      payload: PutOrganizationConfigRuleRequest(
+        organizationConfigRuleName: organizationConfigRuleName,
+        excludedAccounts: excludedAccounts,
+        organizationCustomRuleMetadata: organizationCustomRuleMetadata,
+        organizationManagedRuleMetadata: organizationManagedRuleMetadata,
+      ),
     );
 
     return PutOrganizationConfigRuleResponse.fromJson(jsonResponse.body);
@@ -4180,17 +4159,15 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DeliveryS3Bucket': deliveryS3Bucket,
-        'OrganizationConformancePackName': organizationConformancePackName,
-        if (conformancePackInputParameters != null)
-          'ConformancePackInputParameters': conformancePackInputParameters,
-        if (deliveryS3KeyPrefix != null)
-          'DeliveryS3KeyPrefix': deliveryS3KeyPrefix,
-        if (excludedAccounts != null) 'ExcludedAccounts': excludedAccounts,
-        if (templateBody != null) 'TemplateBody': templateBody,
-        if (templateS3Uri != null) 'TemplateS3Uri': templateS3Uri,
-      },
+      payload: PutOrganizationConformancePackRequest(
+        deliveryS3Bucket: deliveryS3Bucket,
+        organizationConformancePackName: organizationConformancePackName,
+        conformancePackInputParameters: conformancePackInputParameters,
+        deliveryS3KeyPrefix: deliveryS3KeyPrefix,
+        excludedAccounts: excludedAccounts,
+        templateBody: templateBody,
+        templateS3Uri: templateS3Uri,
+      ),
     );
 
     return PutOrganizationConformancePackResponse.fromJson(jsonResponse.body);
@@ -4223,9 +4200,9 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'RemediationConfigurations': remediationConfigurations,
-      },
+      payload: PutRemediationConfigurationsRequest(
+        remediationConfigurations: remediationConfigurations,
+      ),
     );
 
     return PutRemediationConfigurationsResponse.fromJson(jsonResponse.body);
@@ -4289,12 +4266,12 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConfigRuleName': configRuleName,
-        'ResourceKeys': resourceKeys,
-        if (expirationTime != null) 'ExpirationTime': expirationTime,
-        if (message != null) 'Message': message,
-      },
+      payload: PutRemediationExceptionsRequest(
+        configRuleName: configRuleName,
+        resourceKeys: resourceKeys,
+        expirationTime: expirationTime,
+        message: message,
+      ),
     );
 
     return PutRemediationExceptionsResponse.fromJson(jsonResponse.body);
@@ -4396,14 +4373,14 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Configuration': configuration,
-        'ResourceId': resourceId,
-        'ResourceType': resourceType,
-        'SchemaVersionId': schemaVersionId,
-        if (resourceName != null) 'ResourceName': resourceName,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: PutResourceConfigRequest(
+        configuration: configuration,
+        resourceId: resourceId,
+        resourceType: resourceType,
+        schemaVersionId: schemaVersionId,
+        resourceName: resourceName,
+        tags: tags,
+      ),
     );
   }
 
@@ -4447,9 +4424,9 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'RetentionPeriodInDays': retentionPeriodInDays,
-      },
+      payload: PutRetentionConfigurationRequest(
+        retentionPeriodInDays: retentionPeriodInDays,
+      ),
     );
 
     return PutRetentionConfigurationResponse.fromJson(jsonResponse.body);
@@ -4533,13 +4510,13 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConfigurationAggregatorName': configurationAggregatorName,
-        'Expression': expression,
-        if (limit != null) 'Limit': limit,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: SelectAggregateResourceConfigRequest(
+        configurationAggregatorName: configurationAggregatorName,
+        expression: expression,
+        limit: limit,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return SelectAggregateResourceConfigResponse.fromJson(jsonResponse.body);
@@ -4595,11 +4572,11 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Expression': expression,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: SelectResourceConfigRequest(
+        expression: expression,
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return SelectResourceConfigResponse.fromJson(jsonResponse.body);
@@ -4666,9 +4643,9 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (configRuleNames != null) 'ConfigRuleNames': configRuleNames,
-      },
+      payload: StartConfigRulesEvaluationRequest(
+        configRuleNames: configRuleNames,
+      ),
     );
 
     return StartConfigRulesEvaluationResponse.fromJson(jsonResponse.body);
@@ -4708,9 +4685,9 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConfigurationRecorderName': configurationRecorderName,
-      },
+      payload: StartConfigurationRecorderRequest(
+        configurationRecorderName: configurationRecorderName,
+      ),
     );
   }
 
@@ -4762,10 +4739,10 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConfigRuleName': configRuleName,
-        'ResourceKeys': resourceKeys,
-      },
+      payload: StartRemediationExecutionRequest(
+        configRuleName: configRuleName,
+        resourceKeys: resourceKeys,
+      ),
     );
 
     return StartRemediationExecutionResponse.fromJson(jsonResponse.body);
@@ -4801,9 +4778,9 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConfigurationRecorderName': configurationRecorderName,
-      },
+      payload: StopConfigurationRecorderRequest(
+        configurationRecorderName: configurationRecorderName,
+      ),
     );
   }
 
@@ -4847,10 +4824,10 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        'Tags': tags,
-      },
+      payload: TagResourceRequest(
+        resourceArn: resourceArn,
+        tags: tags,
+      ),
     );
   }
 
@@ -4890,10 +4867,10 @@ class ConfigService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        'TagKeys': tagKeys,
-      },
+      payload: UntagResourceRequest(
+        resourceArn: resourceArn,
+        tagKeys: tagKeys,
+      ),
     );
   }
 }
@@ -5306,6 +5283,28 @@ class BaseConfigurationItem {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchGetAggregateResourceConfigRequest {
+  /// The name of the configuration aggregator.
+  @_s.JsonKey(name: 'ConfigurationAggregatorName')
+  final String configurationAggregatorName;
+
+  /// A list of aggregate ResourceIdentifiers objects.
+  @_s.JsonKey(name: 'ResourceIdentifiers')
+  final List<AggregateResourceIdentifier> resourceIdentifiers;
+
+  BatchGetAggregateResourceConfigRequest({
+    @_s.required this.configurationAggregatorName,
+    @_s.required this.resourceIdentifiers,
+  });
+  Map<String, dynamic> toJson() =>
+      _$BatchGetAggregateResourceConfigRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class BatchGetAggregateResourceConfigResponse {
@@ -5325,6 +5324,23 @@ class BatchGetAggregateResourceConfigResponse {
   factory BatchGetAggregateResourceConfigResponse.fromJson(
           Map<String, dynamic> json) =>
       _$BatchGetAggregateResourceConfigResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchGetResourceConfigRequest {
+  /// A list of resource keys to be processed with the current request. Each
+  /// element in the list consists of the resource type and resource ID.
+  @_s.JsonKey(name: 'resourceKeys')
+  final List<ResourceKey> resourceKeys;
+
+  BatchGetResourceConfigRequest({
+    @_s.required this.resourceKeys,
+  });
+  Map<String, dynamic> toJson() => _$BatchGetResourceConfigRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5358,18 +5374,6 @@ enum ChronologicalOrder {
   reverse,
   @_s.JsonValue('Forward')
   forward,
-}
-
-extension on ChronologicalOrder {
-  String toValue() {
-    switch (this) {
-      case ChronologicalOrder.reverse:
-        return 'Reverse';
-      case ChronologicalOrder.forward:
-        return 'Forward';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Indicates whether an AWS resource or AWS Config rule is compliant and
@@ -5562,22 +5566,6 @@ enum ComplianceType {
   notApplicable,
   @_s.JsonValue('INSUFFICIENT_DATA')
   insufficientData,
-}
-
-extension on ComplianceType {
-  String toValue() {
-    switch (this) {
-      case ComplianceType.compliant:
-        return 'COMPLIANT';
-      case ComplianceType.nonCompliant:
-        return 'NON_COMPLIANT';
-      case ComplianceType.notApplicable:
-        return 'NOT_APPLICABLE';
-      case ComplianceType.insufficientData:
-        return 'INSUFFICIENT_DATA';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Provides status of the delivery of the snapshot or the configuration history
@@ -5822,18 +5810,6 @@ enum ConfigRuleComplianceSummaryGroupKey {
   accountId,
   @_s.JsonValue('AWS_REGION')
   awsRegion,
-}
-
-extension on ConfigRuleComplianceSummaryGroupKey {
-  String toValue() {
-    switch (this) {
-      case ConfigRuleComplianceSummaryGroupKey.accountId:
-        return 'ACCOUNT_ID';
-      case ConfigRuleComplianceSummaryGroupKey.awsRegion:
-        return 'AWS_REGION';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Status information for your AWS managed Config rules. The status includes
@@ -6711,6 +6687,134 @@ class ConformancePackStatusDetail {
       _$ConformancePackStatusDetailFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteAggregationAuthorizationRequest {
+  /// The 12-digit account ID of the account authorized to aggregate data.
+  @_s.JsonKey(name: 'AuthorizedAccountId')
+  final String authorizedAccountId;
+
+  /// The region authorized to collect aggregated data.
+  @_s.JsonKey(name: 'AuthorizedAwsRegion')
+  final String authorizedAwsRegion;
+
+  DeleteAggregationAuthorizationRequest({
+    @_s.required this.authorizedAccountId,
+    @_s.required this.authorizedAwsRegion,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteAggregationAuthorizationRequestToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteConfigRuleRequest {
+  /// The name of the AWS Config rule that you want to delete.
+  @_s.JsonKey(name: 'ConfigRuleName')
+  final String configRuleName;
+
+  DeleteConfigRuleRequest({
+    @_s.required this.configRuleName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteConfigRuleRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteConfigurationAggregatorRequest {
+  /// The name of the configuration aggregator.
+  @_s.JsonKey(name: 'ConfigurationAggregatorName')
+  final String configurationAggregatorName;
+
+  DeleteConfigurationAggregatorRequest({
+    @_s.required this.configurationAggregatorName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteConfigurationAggregatorRequestToJson(this);
+}
+
+/// The request object for the <code>DeleteConfigurationRecorder</code> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteConfigurationRecorderRequest {
+  /// The name of the configuration recorder to be deleted. You can retrieve the
+  /// name of your configuration recorder by using the
+  /// <code>DescribeConfigurationRecorders</code> action.
+  @_s.JsonKey(name: 'ConfigurationRecorderName')
+  final String configurationRecorderName;
+
+  DeleteConfigurationRecorderRequest({
+    @_s.required this.configurationRecorderName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteConfigurationRecorderRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteConformancePackRequest {
+  /// Name of the conformance pack you want to delete.
+  @_s.JsonKey(name: 'ConformancePackName')
+  final String conformancePackName;
+
+  DeleteConformancePackRequest({
+    @_s.required this.conformancePackName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteConformancePackRequestToJson(this);
+}
+
+/// The input for the <a>DeleteDeliveryChannel</a> action. The action accepts
+/// the following data, in JSON format.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDeliveryChannelRequest {
+  /// The name of the delivery channel to delete.
+  @_s.JsonKey(name: 'DeliveryChannelName')
+  final String deliveryChannelName;
+
+  DeleteDeliveryChannelRequest({
+    @_s.required this.deliveryChannelName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDeliveryChannelRequestToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteEvaluationResultsRequest {
+  /// The name of the AWS Config rule for which you want to delete the evaluation
+  /// results.
+  @_s.JsonKey(name: 'ConfigRuleName')
+  final String configRuleName;
+
+  DeleteEvaluationResultsRequest({
+    @_s.required this.configRuleName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteEvaluationResultsRequestToJson(this);
+}
+
 /// The output when you delete the evaluation results for the specified AWS
 /// Config rule.
 @_s.JsonSerializable(
@@ -6727,6 +6831,85 @@ class DeleteEvaluationResultsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteOrganizationConfigRuleRequest {
+  /// The name of organization config rule that you want to delete.
+  @_s.JsonKey(name: 'OrganizationConfigRuleName')
+  final String organizationConfigRuleName;
+
+  DeleteOrganizationConfigRuleRequest({
+    @_s.required this.organizationConfigRuleName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteOrganizationConfigRuleRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteOrganizationConformancePackRequest {
+  /// The name of organization conformance pack that you want to delete.
+  @_s.JsonKey(name: 'OrganizationConformancePackName')
+  final String organizationConformancePackName;
+
+  DeleteOrganizationConformancePackRequest({
+    @_s.required this.organizationConformancePackName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteOrganizationConformancePackRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeletePendingAggregationRequestRequest {
+  /// The 12-digit account ID of the account requesting to aggregate data.
+  @_s.JsonKey(name: 'RequesterAccountId')
+  final String requesterAccountId;
+
+  /// The region requesting to aggregate data.
+  @_s.JsonKey(name: 'RequesterAwsRegion')
+  final String requesterAwsRegion;
+
+  DeletePendingAggregationRequestRequest({
+    @_s.required this.requesterAccountId,
+    @_s.required this.requesterAwsRegion,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeletePendingAggregationRequestRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteRemediationConfigurationRequest {
+  /// The name of the AWS Config rule for which you want to delete remediation
+  /// configuration.
+  @_s.JsonKey(name: 'ConfigRuleName')
+  final String configRuleName;
+
+  /// The type of a resource.
+  @_s.JsonKey(name: 'ResourceType')
+  final String resourceType;
+
+  DeleteRemediationConfigurationRequest({
+    @_s.required this.configRuleName,
+    this.resourceType,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteRemediationConfigurationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteRemediationConfigurationResponse {
@@ -6734,6 +6917,31 @@ class DeleteRemediationConfigurationResponse {
   factory DeleteRemediationConfigurationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DeleteRemediationConfigurationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteRemediationExceptionsRequest {
+  /// The name of the AWS Config rule for which you want to delete remediation
+  /// exception configuration.
+  @_s.JsonKey(name: 'ConfigRuleName')
+  final String configRuleName;
+
+  /// An exception list of resource exception keys to be processed with the
+  /// current request. AWS Config adds exception for each resource key. For
+  /// example, AWS Config adds 3 exceptions for 3 resource keys.
+  @_s.JsonKey(name: 'ResourceKeys')
+  final List<RemediationExceptionResourceKey> resourceKeys;
+
+  DeleteRemediationExceptionsRequest({
+    @_s.required this.configRuleName,
+    @_s.required this.resourceKeys,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteRemediationExceptionsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6753,6 +6961,61 @@ class DeleteRemediationExceptionsResponse {
   factory DeleteRemediationExceptionsResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DeleteRemediationExceptionsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteResourceConfigRequest {
+  /// Unique identifier of the resource.
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  /// The type of the resource.
+  @_s.JsonKey(name: 'ResourceType')
+  final String resourceType;
+
+  DeleteResourceConfigRequest({
+    @_s.required this.resourceId,
+    @_s.required this.resourceType,
+  });
+  Map<String, dynamic> toJson() => _$DeleteResourceConfigRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteRetentionConfigurationRequest {
+  /// The name of the retention configuration to delete.
+  @_s.JsonKey(name: 'RetentionConfigurationName')
+  final String retentionConfigurationName;
+
+  DeleteRetentionConfigurationRequest({
+    @_s.required this.retentionConfigurationName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteRetentionConfigurationRequestToJson(this);
+}
+
+/// The input for the <a>DeliverConfigSnapshot</a> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeliverConfigSnapshotRequest {
+  /// The name of the delivery channel through which the snapshot is delivered.
+  @_s.JsonKey(name: 'deliveryChannelName')
+  final String deliveryChannelName;
+
+  DeliverConfigSnapshotRequest({
+    @_s.required this.deliveryChannelName,
+  });
+  Map<String, dynamic> toJson() => _$DeliverConfigSnapshotRequestToJson(this);
 }
 
 /// The output for the <a>DeliverConfigSnapshot</a> action, in JSON format.
@@ -6882,6 +7145,40 @@ enum DeliveryStatus {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeAggregateComplianceByConfigRulesRequest {
+  /// The name of the configuration aggregator.
+  @_s.JsonKey(name: 'ConfigurationAggregatorName')
+  final String configurationAggregatorName;
+
+  /// Filters the results by ConfigRuleComplianceFilters object.
+  @_s.JsonKey(name: 'Filters')
+  final ConfigRuleComplianceFilters filters;
+
+  /// The maximum number of evaluation results returned on each page. The default
+  /// is maximum. If you specify 0, AWS Config uses the default.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The <code>nextToken</code> string returned on a previous page that you use
+  /// to get the next page of results in a paginated response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeAggregateComplianceByConfigRulesRequest({
+    @_s.required this.configurationAggregatorName,
+    this.filters,
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeAggregateComplianceByConfigRulesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeAggregateComplianceByConfigRulesResponse {
@@ -6901,6 +7198,30 @@ class DescribeAggregateComplianceByConfigRulesResponse {
   factory DescribeAggregateComplianceByConfigRulesResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeAggregateComplianceByConfigRulesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeAggregationAuthorizationsRequest {
+  /// The maximum number of AggregationAuthorizations returned on each page. The
+  /// default is maximum. If you specify 0, AWS Config uses the default.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The <code>nextToken</code> string returned on a previous page that you use
+  /// to get the next page of results in a paginated response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeAggregationAuthorizationsRequest({
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeAggregationAuthorizationsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6932,6 +7253,38 @@ class DescribeAggregationAuthorizationsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeComplianceByConfigRuleRequest {
+  /// Filters the results by compliance.
+  ///
+  /// The allowed values are <code>COMPLIANT</code> and
+  /// <code>NON_COMPLIANT</code>.
+  @_s.JsonKey(name: 'ComplianceTypes')
+  final List<String> complianceTypes;
+
+  /// Specify one or more AWS Config rule names to filter the results by rule.
+  @_s.JsonKey(name: 'ConfigRuleNames')
+  final List<String> configRuleNames;
+
+  /// The <code>nextToken</code> string returned on a previous page that you use
+  /// to get the next page of results in a paginated response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeComplianceByConfigRuleRequest({
+    this.complianceTypes,
+    this.configRuleNames,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeComplianceByConfigRuleRequestToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeComplianceByConfigRuleResponse {
@@ -6951,6 +7304,55 @@ class DescribeComplianceByConfigRuleResponse {
   factory DescribeComplianceByConfigRuleResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeComplianceByConfigRuleResponseFromJson(json);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeComplianceByResourceRequest {
+  /// Filters the results by compliance.
+  ///
+  /// The allowed values are <code>COMPLIANT</code>, <code>NON_COMPLIANT</code>,
+  /// and <code>INSUFFICIENT_DATA</code>.
+  @_s.JsonKey(name: 'ComplianceTypes')
+  final List<String> complianceTypes;
+
+  /// The maximum number of evaluation results returned on each page. The default
+  /// is 10. You cannot specify a number greater than 100. If you specify 0, AWS
+  /// Config uses the default.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The <code>nextToken</code> string returned on a previous page that you use
+  /// to get the next page of results in a paginated response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The ID of the AWS resource for which you want compliance information. You
+  /// can specify only one resource ID. If you specify a resource ID, you must
+  /// also specify a type for <code>ResourceType</code>.
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  /// The types of AWS resources for which you want compliance information (for
+  /// example, <code>AWS::EC2::Instance</code>). For this action, you can specify
+  /// that the resource type is an AWS account by specifying
+  /// <code>AWS::::Account</code>.
+  @_s.JsonKey(name: 'ResourceType')
+  final String resourceType;
+
+  DescribeComplianceByResourceRequest({
+    this.complianceTypes,
+    this.limit,
+    this.nextToken,
+    this.resourceId,
+    this.resourceType,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeComplianceByResourceRequestToJson(this);
 }
 
 /// <p/>
@@ -6983,6 +7385,44 @@ class DescribeComplianceByResourceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeConfigRuleEvaluationStatusRequest {
+  /// The name of the AWS managed Config rules for which you want status
+  /// information. If you do not specify any names, AWS Config returns status
+  /// information for all AWS managed Config rules that you use.
+  @_s.JsonKey(name: 'ConfigRuleNames')
+  final List<String> configRuleNames;
+
+  /// The number of rule evaluation results that you want returned.
+  ///
+  /// This parameter is required if the rule limit for your account is more than
+  /// the default of 150 rules.
+  ///
+  /// For information about requesting a rule limit increase, see <a
+  /// href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_config">AWS
+  /// Config Limits</a> in the <i>AWS General Reference Guide</i>.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The <code>nextToken</code> string returned on a previous page that you use
+  /// to get the next page of results in a paginated response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeConfigRuleEvaluationStatusRequest({
+    this.configRuleNames,
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeConfigRuleEvaluationStatusRequestToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeConfigRuleEvaluationStatusResponse {
@@ -7002,6 +7442,30 @@ class DescribeConfigRuleEvaluationStatusResponse {
   factory DescribeConfigRuleEvaluationStatusResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeConfigRuleEvaluationStatusResponseFromJson(json);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeConfigRulesRequest {
+  /// The names of the AWS Config rules for which you want details. If you do not
+  /// specify any names, AWS Config returns details for all your rules.
+  @_s.JsonKey(name: 'ConfigRuleNames')
+  final List<String> configRuleNames;
+
+  /// The <code>nextToken</code> string returned on a previous page that you use
+  /// to get the next page of results in a paginated response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeConfigRulesRequest({
+    this.configRuleNames,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeConfigRulesRequestToJson(this);
 }
 
 /// <p/>
@@ -7031,6 +7495,52 @@ class DescribeConfigRulesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeConfigurationAggregatorSourcesStatusRequest {
+  /// The name of the configuration aggregator.
+  @_s.JsonKey(name: 'ConfigurationAggregatorName')
+  final String configurationAggregatorName;
+
+  /// The maximum number of AggregatorSourceStatus returned on each page. The
+  /// default is maximum. If you specify 0, AWS Config uses the default.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The <code>nextToken</code> string returned on a previous page that you use
+  /// to get the next page of results in a paginated response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Filters the status type.
+  ///
+  /// <ul>
+  /// <li>
+  /// Valid value FAILED indicates errors while moving data.
+  /// </li>
+  /// <li>
+  /// Valid value SUCCEEDED indicates the data was successfully moved.
+  /// </li>
+  /// <li>
+  /// Valid value OUTDATED indicates the data is not the most recent.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'UpdateStatus')
+  final List<String> updateStatus;
+
+  DescribeConfigurationAggregatorSourcesStatusRequest({
+    @_s.required this.configurationAggregatorName,
+    this.limit,
+    this.nextToken,
+    this.updateStatus,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeConfigurationAggregatorSourcesStatusRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeConfigurationAggregatorSourcesStatusResponse {
@@ -7050,6 +7560,35 @@ class DescribeConfigurationAggregatorSourcesStatusResponse {
   factory DescribeConfigurationAggregatorSourcesStatusResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeConfigurationAggregatorSourcesStatusResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeConfigurationAggregatorsRequest {
+  /// The name of the configuration aggregators.
+  @_s.JsonKey(name: 'ConfigurationAggregatorNames')
+  final List<String> configurationAggregatorNames;
+
+  /// The maximum number of configuration aggregators returned on each page. The
+  /// default is maximum. If you specify 0, AWS Config uses the default.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The <code>nextToken</code> string returned on a previous page that you use
+  /// to get the next page of results in a paginated response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeConfigurationAggregatorsRequest({
+    this.configurationAggregatorNames,
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeConfigurationAggregatorsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7076,6 +7615,26 @@ class DescribeConfigurationAggregatorsResponse {
       _$DescribeConfigurationAggregatorsResponseFromJson(json);
 }
 
+/// The input for the <a>DescribeConfigurationRecorderStatus</a> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeConfigurationRecorderStatusRequest {
+  /// The name(s) of the configuration recorder. If the name is not specified, the
+  /// action returns the current status of all the configuration recorders
+  /// associated with the account.
+  @_s.JsonKey(name: 'ConfigurationRecorderNames')
+  final List<String> configurationRecorderNames;
+
+  DescribeConfigurationRecorderStatusRequest({
+    this.configurationRecorderNames,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeConfigurationRecorderStatusRequestToJson(this);
+}
+
 /// The output for the <a>DescribeConfigurationRecorderStatus</a> action, in
 /// JSON format.
 @_s.JsonSerializable(
@@ -7096,6 +7655,24 @@ class DescribeConfigurationRecorderStatusResponse {
       _$DescribeConfigurationRecorderStatusResponseFromJson(json);
 }
 
+/// The input for the <a>DescribeConfigurationRecorders</a> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeConfigurationRecordersRequest {
+  /// A list of configuration recorder names.
+  @_s.JsonKey(name: 'ConfigurationRecorderNames')
+  final List<String> configurationRecorderNames;
+
+  DescribeConfigurationRecordersRequest({
+    this.configurationRecorderNames,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeConfigurationRecordersRequestToJson(this);
+}
+
 /// The output for the <a>DescribeConfigurationRecorders</a> action.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -7114,6 +7691,40 @@ class DescribeConfigurationRecordersResponse {
   factory DescribeConfigurationRecordersResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeConfigurationRecordersResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeConformancePackComplianceRequest {
+  /// Name of the conformance pack.
+  @_s.JsonKey(name: 'ConformancePackName')
+  final String conformancePackName;
+
+  /// A <code>ConformancePackComplianceFilters</code> object.
+  @_s.JsonKey(name: 'Filters')
+  final ConformancePackComplianceFilters filters;
+
+  /// The maximum number of AWS Config rules within a conformance pack are
+  /// returned on each page.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The <code>nextToken</code> string returned in a previous request that you
+  /// use to request the next page of results in a paginated response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeConformancePackComplianceRequest({
+    @_s.required this.conformancePackName,
+    this.filters,
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeConformancePackComplianceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7148,6 +7759,34 @@ class DescribeConformancePackComplianceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeConformancePackStatusRequest {
+  /// Comma-separated list of conformance pack names.
+  @_s.JsonKey(name: 'ConformancePackNames')
+  final List<String> conformancePackNames;
+
+  /// The maximum number of conformance packs status returned on each page.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The <code>nextToken</code> string returned in a previous request that you
+  /// use to request the next page of results in a paginated response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeConformancePackStatusRequest({
+    this.conformancePackNames,
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeConformancePackStatusRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeConformancePackStatusResponse {
@@ -7167,6 +7806,36 @@ class DescribeConformancePackStatusResponse {
   factory DescribeConformancePackStatusResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeConformancePackStatusResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeConformancePacksRequest {
+  /// Comma-separated list of conformance pack names for which you want details.
+  /// If you do not specify any names, AWS Config returns details for all your
+  /// conformance packs.
+  @_s.JsonKey(name: 'ConformancePackNames')
+  final List<String> conformancePackNames;
+
+  /// The maximum number of conformance packs returned on each page.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The <code>nextToken</code> string returned in a previous request that you
+  /// use to request the next page of results in a paginated response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeConformancePacksRequest({
+    this.conformancePackNames,
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeConformancePacksRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7193,6 +7862,24 @@ class DescribeConformancePacksResponse {
       _$DescribeConformancePacksResponseFromJson(json);
 }
 
+/// The input for the <a>DeliveryChannelStatus</a> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeDeliveryChannelStatusRequest {
+  /// A list of delivery channel names.
+  @_s.JsonKey(name: 'DeliveryChannelNames')
+  final List<String> deliveryChannelNames;
+
+  DescribeDeliveryChannelStatusRequest({
+    this.deliveryChannelNames,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeDeliveryChannelStatusRequestToJson(this);
+}
+
 /// The output for the <a>DescribeDeliveryChannelStatus</a> action.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -7212,6 +7899,24 @@ class DescribeDeliveryChannelStatusResponse {
       _$DescribeDeliveryChannelStatusResponseFromJson(json);
 }
 
+/// The input for the <a>DescribeDeliveryChannels</a> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeDeliveryChannelsRequest {
+  /// A list of delivery channel names.
+  @_s.JsonKey(name: 'DeliveryChannelNames')
+  final List<String> deliveryChannelNames;
+
+  DescribeDeliveryChannelsRequest({
+    this.deliveryChannelNames,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeDeliveryChannelsRequestToJson(this);
+}
+
 /// The output for the <a>DescribeDeliveryChannels</a> action.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -7229,6 +7934,38 @@ class DescribeDeliveryChannelsResponse {
   factory DescribeDeliveryChannelsResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeDeliveryChannelsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeOrganizationConfigRuleStatusesRequest {
+  /// The maximum number of <code>OrganizationConfigRuleStatuses</code> returned
+  /// on each page. If you do no specify a number, AWS Config uses the default.
+  /// The default is 100.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The <code>nextToken</code> string returned on a previous page that you use
+  /// to get the next page of results in a paginated response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The names of organization config rules for which you want status details. If
+  /// you do not specify any names, AWS Config returns details for all your
+  /// organization AWS Confg rules.
+  @_s.JsonKey(name: 'OrganizationConfigRuleNames')
+  final List<String> organizationConfigRuleNames;
+
+  DescribeOrganizationConfigRuleStatusesRequest({
+    this.limit,
+    this.nextToken,
+    this.organizationConfigRuleNames,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeOrganizationConfigRuleStatusesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7258,6 +7995,37 @@ class DescribeOrganizationConfigRuleStatusesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeOrganizationConfigRulesRequest {
+  /// The maximum number of organization config rules returned on each page. If
+  /// you do no specify a number, AWS Config uses the default. The default is 100.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The <code>nextToken</code> string returned on a previous page that you use
+  /// to get the next page of results in a paginated response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The names of organization config rules for which you want details. If you do
+  /// not specify any names, AWS Config returns details for all your organization
+  /// config rules.
+  @_s.JsonKey(name: 'OrganizationConfigRuleNames')
+  final List<String> organizationConfigRuleNames;
+
+  DescribeOrganizationConfigRulesRequest({
+    this.limit,
+    this.nextToken,
+    this.organizationConfigRuleNames,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeOrganizationConfigRulesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeOrganizationConfigRulesResponse {
@@ -7277,6 +8045,38 @@ class DescribeOrganizationConfigRulesResponse {
   factory DescribeOrganizationConfigRulesResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeOrganizationConfigRulesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeOrganizationConformancePackStatusesRequest {
+  /// The maximum number of OrganizationConformancePackStatuses returned on each
+  /// page. If you do no specify a number, AWS Config uses the default. The
+  /// default is 100.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The nextToken string returned on a previous page that you use to get the
+  /// next page of results in a paginated response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The names of organization conformance packs for which you want status
+  /// details. If you do not specify any names, AWS Config returns details for all
+  /// your organization conformance packs.
+  @_s.JsonKey(name: 'OrganizationConformancePackNames')
+  final List<String> organizationConformancePackNames;
+
+  DescribeOrganizationConformancePackStatusesRequest({
+    this.limit,
+    this.nextToken,
+    this.organizationConformancePackNames,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeOrganizationConformancePackStatusesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7307,6 +8107,35 @@ class DescribeOrganizationConformancePackStatusesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeOrganizationConformancePacksRequest {
+  /// The maximum number of organization config packs returned on each page. If
+  /// you do no specify a number, AWS Config uses the default. The default is 100.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The nextToken string returned on a previous page that you use to get the
+  /// next page of results in a paginated response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The name that you assign to an organization conformance pack.
+  @_s.JsonKey(name: 'OrganizationConformancePackNames')
+  final List<String> organizationConformancePackNames;
+
+  DescribeOrganizationConformancePacksRequest({
+    this.limit,
+    this.nextToken,
+    this.organizationConformancePackNames,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeOrganizationConformancePacksRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeOrganizationConformancePacksResponse {
@@ -7326,6 +8155,30 @@ class DescribeOrganizationConformancePacksResponse {
   factory DescribeOrganizationConformancePacksResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeOrganizationConformancePacksResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribePendingAggregationRequestsRequest {
+  /// The maximum number of evaluation results returned on each page. The default
+  /// is maximum. If you specify 0, AWS Config uses the default.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The <code>nextToken</code> string returned on a previous page that you use
+  /// to get the next page of results in a paginated response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribePendingAggregationRequestsRequest({
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribePendingAggregationRequestsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7355,6 +8208,24 @@ class DescribePendingAggregationRequestsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeRemediationConfigurationsRequest {
+  /// A list of AWS Config rule names of remediation configurations for which you
+  /// want details.
+  @_s.JsonKey(name: 'ConfigRuleNames')
+  final List<String> configRuleNames;
+
+  DescribeRemediationConfigurationsRequest({
+    @_s.required this.configRuleNames,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeRemediationConfigurationsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeRemediationConfigurationsResponse {
@@ -7368,6 +8239,42 @@ class DescribeRemediationConfigurationsResponse {
   factory DescribeRemediationConfigurationsResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeRemediationConfigurationsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeRemediationExceptionsRequest {
+  /// The name of the AWS Config rule.
+  @_s.JsonKey(name: 'ConfigRuleName')
+  final String configRuleName;
+
+  /// The maximum number of RemediationExceptionResourceKey returned on each page.
+  /// The default is 25. If you specify 0, AWS Config uses the default.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The <code>nextToken</code> string returned in a previous request that you
+  /// use to request the next page of results in a paginated response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// An exception list of resource exception keys to be processed with the
+  /// current request. AWS Config adds exception for each resource key. For
+  /// example, AWS Config adds 3 exceptions for 3 resource keys.
+  @_s.JsonKey(name: 'ResourceKeys')
+  final List<RemediationExceptionResourceKey> resourceKeys;
+
+  DescribeRemediationExceptionsRequest({
+    @_s.required this.configRuleName,
+    this.limit,
+    this.nextToken,
+    this.resourceKeys,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeRemediationExceptionsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7397,6 +8304,41 @@ class DescribeRemediationExceptionsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeRemediationExecutionStatusRequest {
+  /// A list of AWS Config rule names.
+  @_s.JsonKey(name: 'ConfigRuleName')
+  final String configRuleName;
+
+  /// The maximum number of RemediationExecutionStatuses returned on each page.
+  /// The default is maximum. If you specify 0, AWS Config uses the default.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The <code>nextToken</code> string returned on a previous page that you use
+  /// to get the next page of results in a paginated response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// A list of resource keys to be processed with the current request. Each
+  /// element in the list consists of the resource type and resource ID.
+  @_s.JsonKey(name: 'ResourceKeys')
+  final List<ResourceKey> resourceKeys;
+
+  DescribeRemediationExecutionStatusRequest({
+    @_s.required this.configRuleName,
+    this.limit,
+    this.nextToken,
+    this.resourceKeys,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeRemediationExecutionStatusRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeRemediationExecutionStatusResponse {
@@ -7416,6 +8358,35 @@ class DescribeRemediationExecutionStatusResponse {
   factory DescribeRemediationExecutionStatusResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeRemediationExecutionStatusResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeRetentionConfigurationsRequest {
+  /// The <code>nextToken</code> string returned on a previous page that you use
+  /// to get the next page of results in a paginated response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// A list of names of retention configurations for which you want details. If
+  /// you do not specify a name, AWS Config returns details for all the retention
+  /// configurations for that account.
+  /// <note>
+  /// Currently, AWS Config supports only one retention configuration per region
+  /// in your account.
+  /// </note>
+  @_s.JsonKey(name: 'RetentionConfigurationNames')
+  final List<String> retentionConfigurationNames;
+
+  DescribeRetentionConfigurationsRequest({
+    this.nextToken,
+    this.retentionConfigurationNames,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeRetentionConfigurationsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7740,6 +8711,62 @@ class FieldInfo {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetAggregateComplianceDetailsByConfigRuleRequest {
+  /// The 12-digit account ID of the source account.
+  @_s.JsonKey(name: 'AccountId')
+  final String accountId;
+
+  /// The source region from where the data is aggregated.
+  @_s.JsonKey(name: 'AwsRegion')
+  final String awsRegion;
+
+  /// The name of the AWS Config rule for which you want compliance information.
+  @_s.JsonKey(name: 'ConfigRuleName')
+  final String configRuleName;
+
+  /// The name of the configuration aggregator.
+  @_s.JsonKey(name: 'ConfigurationAggregatorName')
+  final String configurationAggregatorName;
+
+  /// The resource compliance status.
+  /// <note>
+  /// For the <code>GetAggregateComplianceDetailsByConfigRuleRequest</code> data
+  /// type, AWS Config supports only the <code>COMPLIANT</code> and
+  /// <code>NON_COMPLIANT</code>. AWS Config does not support the
+  /// <code>NOT_APPLICABLE</code> and <code>INSUFFICIENT_DATA</code> values.
+  /// </note>
+  @_s.JsonKey(name: 'ComplianceType')
+  final ComplianceType complianceType;
+
+  /// The maximum number of evaluation results returned on each page. The default
+  /// is 50. You cannot specify a number greater than 100. If you specify 0, AWS
+  /// Config uses the default.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The <code>nextToken</code> string returned on a previous page that you use
+  /// to get the next page of results in a paginated response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetAggregateComplianceDetailsByConfigRuleRequest({
+    @_s.required this.accountId,
+    @_s.required this.awsRegion,
+    @_s.required this.configRuleName,
+    @_s.required this.configurationAggregatorName,
+    this.complianceType,
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetAggregateComplianceDetailsByConfigRuleRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetAggregateComplianceDetailsByConfigRuleResponse {
@@ -7759,6 +8786,46 @@ class GetAggregateComplianceDetailsByConfigRuleResponse {
   factory GetAggregateComplianceDetailsByConfigRuleResponse.fromJson(
           Map<String, dynamic> json) =>
       _$GetAggregateComplianceDetailsByConfigRuleResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetAggregateConfigRuleComplianceSummaryRequest {
+  /// The name of the configuration aggregator.
+  @_s.JsonKey(name: 'ConfigurationAggregatorName')
+  final String configurationAggregatorName;
+
+  /// Filters the results based on the ConfigRuleComplianceSummaryFilters object.
+  @_s.JsonKey(name: 'Filters')
+  final ConfigRuleComplianceSummaryFilters filters;
+
+  /// Groups the result based on ACCOUNT_ID or AWS_REGION.
+  @_s.JsonKey(name: 'GroupByKey')
+  final ConfigRuleComplianceSummaryGroupKey groupByKey;
+
+  /// The maximum number of evaluation results returned on each page. The default
+  /// is 1000. You cannot specify a number greater than 1000. If you specify 0,
+  /// AWS Config uses the default.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The <code>nextToken</code> string returned on a previous page that you use
+  /// to get the next page of results in a paginated response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetAggregateConfigRuleComplianceSummaryRequest({
+    @_s.required this.configurationAggregatorName,
+    this.filters,
+    this.groupByKey,
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetAggregateConfigRuleComplianceSummaryRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7788,6 +8855,46 @@ class GetAggregateConfigRuleComplianceSummaryResponse {
   factory GetAggregateConfigRuleComplianceSummaryResponse.fromJson(
           Map<String, dynamic> json) =>
       _$GetAggregateConfigRuleComplianceSummaryResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetAggregateDiscoveredResourceCountsRequest {
+  /// The name of the configuration aggregator.
+  @_s.JsonKey(name: 'ConfigurationAggregatorName')
+  final String configurationAggregatorName;
+
+  /// Filters the results based on the <code>ResourceCountFilters</code> object.
+  @_s.JsonKey(name: 'Filters')
+  final ResourceCountFilters filters;
+
+  /// The key to group the resource counts.
+  @_s.JsonKey(name: 'GroupByKey')
+  final ResourceCountGroupKey groupByKey;
+
+  /// The maximum number of <a>GroupedResourceCount</a> objects returned on each
+  /// page. The default is 1000. You cannot specify a number greater than 1000. If
+  /// you specify 0, AWS Config uses the default.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The <code>nextToken</code> string returned on a previous page that you use
+  /// to get the next page of results in a paginated response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetAggregateDiscoveredResourceCountsRequest({
+    @_s.required this.configurationAggregatorName,
+    this.filters,
+    this.groupByKey,
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetAggregateDiscoveredResourceCountsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7829,6 +8936,28 @@ class GetAggregateDiscoveredResourceCountsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetAggregateResourceConfigRequest {
+  /// The name of the configuration aggregator.
+  @_s.JsonKey(name: 'ConfigurationAggregatorName')
+  final String configurationAggregatorName;
+
+  /// An object that identifies aggregate resource.
+  @_s.JsonKey(name: 'ResourceIdentifier')
+  final AggregateResourceIdentifier resourceIdentifier;
+
+  GetAggregateResourceConfigRequest({
+    @_s.required this.configurationAggregatorName,
+    @_s.required this.resourceIdentifier,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetAggregateResourceConfigRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetAggregateResourceConfigResponse {
@@ -7842,6 +8971,45 @@ class GetAggregateResourceConfigResponse {
   factory GetAggregateResourceConfigResponse.fromJson(
           Map<String, dynamic> json) =>
       _$GetAggregateResourceConfigResponseFromJson(json);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetComplianceDetailsByConfigRuleRequest {
+  /// The name of the AWS Config rule for which you want compliance information.
+  @_s.JsonKey(name: 'ConfigRuleName')
+  final String configRuleName;
+
+  /// Filters the results by compliance.
+  ///
+  /// The allowed values are <code>COMPLIANT</code>, <code>NON_COMPLIANT</code>,
+  /// and <code>NOT_APPLICABLE</code>.
+  @_s.JsonKey(name: 'ComplianceTypes')
+  final List<String> complianceTypes;
+
+  /// The maximum number of evaluation results returned on each page. The default
+  /// is 10. You cannot specify a number greater than 100. If you specify 0, AWS
+  /// Config uses the default.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The <code>nextToken</code> string returned on a previous page that you use
+  /// to get the next page of results in a paginated response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetComplianceDetailsByConfigRuleRequest({
+    @_s.required this.configRuleName,
+    this.complianceTypes,
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetComplianceDetailsByConfigRuleRequestToJson(this);
 }
 
 /// <p/>
@@ -7868,6 +9036,43 @@ class GetComplianceDetailsByConfigRuleResponse {
   factory GetComplianceDetailsByConfigRuleResponse.fromJson(
           Map<String, dynamic> json) =>
       _$GetComplianceDetailsByConfigRuleResponseFromJson(json);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetComplianceDetailsByResourceRequest {
+  /// The ID of the AWS resource for which you want compliance information.
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  /// The type of the AWS resource for which you want compliance information.
+  @_s.JsonKey(name: 'ResourceType')
+  final String resourceType;
+
+  /// Filters the results by compliance.
+  ///
+  /// The allowed values are <code>COMPLIANT</code>, <code>NON_COMPLIANT</code>,
+  /// and <code>NOT_APPLICABLE</code>.
+  @_s.JsonKey(name: 'ComplianceTypes')
+  final List<String> complianceTypes;
+
+  /// The <code>nextToken</code> string returned on a previous page that you use
+  /// to get the next page of results in a paginated response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetComplianceDetailsByResourceRequest({
+    @_s.required this.resourceId,
+    @_s.required this.resourceType,
+    this.complianceTypes,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetComplianceDetailsByResourceRequestToJson(this);
 }
 
 /// <p/>
@@ -7919,6 +9124,29 @@ class GetComplianceSummaryByConfigRuleResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetComplianceSummaryByResourceTypeRequest {
+  /// Specify one or more resource types to get the number of resources that are
+  /// compliant and the number that are noncompliant for each resource type.
+  ///
+  /// For this request, you can specify an AWS resource type such as
+  /// <code>AWS::EC2::Instance</code>. You can specify that the resource type is
+  /// an AWS account by specifying <code>AWS::::Account</code>.
+  @_s.JsonKey(name: 'ResourceTypes')
+  final List<String> resourceTypes;
+
+  GetComplianceSummaryByResourceTypeRequest({
+    this.resourceTypes,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetComplianceSummaryByResourceTypeRequestToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetComplianceSummaryByResourceTypeResponse {
@@ -7935,6 +9163,40 @@ class GetComplianceSummaryByResourceTypeResponse {
   factory GetComplianceSummaryByResourceTypeResponse.fromJson(
           Map<String, dynamic> json) =>
       _$GetComplianceSummaryByResourceTypeResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetConformancePackComplianceDetailsRequest {
+  /// Name of the conformance pack.
+  @_s.JsonKey(name: 'ConformancePackName')
+  final String conformancePackName;
+
+  /// A <code>ConformancePackEvaluationFilters</code> object.
+  @_s.JsonKey(name: 'Filters')
+  final ConformancePackEvaluationFilters filters;
+
+  /// The maximum number of evaluation results returned on each page. If you do no
+  /// specify a number, AWS Config uses the default. The default is 100.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The <code>nextToken</code> string returned in a previous request that you
+  /// use to request the next page of results in a paginated response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetConformancePackComplianceDetailsRequest({
+    @_s.required this.conformancePackName,
+    this.filters,
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetConformancePackComplianceDetailsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7970,6 +9232,34 @@ class GetConformancePackComplianceDetailsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetConformancePackComplianceSummaryRequest {
+  /// Names of conformance packs.
+  @_s.JsonKey(name: 'ConformancePackNames')
+  final List<String> conformancePackNames;
+
+  /// The maximum number of conformance packs returned on each page.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The nextToken string returned on a previous page that you use to get the
+  /// next page of results in a paginated response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetConformancePackComplianceSummaryRequest({
+    @_s.required this.conformancePackNames,
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetConformancePackComplianceSummaryRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetConformancePackComplianceSummaryResponse {
@@ -7990,6 +9280,48 @@ class GetConformancePackComplianceSummaryResponse {
   factory GetConformancePackComplianceSummaryResponse.fromJson(
           Map<String, dynamic> json) =>
       _$GetConformancePackComplianceSummaryResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetDiscoveredResourceCountsRequest {
+  /// The maximum number of <a>ResourceCount</a> objects returned on each page.
+  /// The default is 100. You cannot specify a number greater than 100. If you
+  /// specify 0, AWS Config uses the default.
+  @_s.JsonKey(name: 'limit')
+  final int limit;
+
+  /// The <code>nextToken</code> string returned on a previous page that you use
+  /// to get the next page of results in a paginated response.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The comma-separated list that specifies the resource types that you want AWS
+  /// Config to return (for example, <code>"AWS::EC2::Instance"</code>,
+  /// <code>"AWS::IAM::User"</code>).
+  ///
+  /// If a value for <code>resourceTypes</code> is not specified, AWS Config
+  /// returns all resource types that AWS Config is recording in the region for
+  /// your account.
+  /// <note>
+  /// If the configuration recorder is turned off, AWS Config returns an empty
+  /// list of <a>ResourceCount</a> objects. If the configuration recorder is not
+  /// recording a specific resource type (for example, S3 buckets), that resource
+  /// type is not returned in the list of <a>ResourceCount</a> objects.
+  /// </note>
+  @_s.JsonKey(name: 'resourceTypes')
+  final List<String> resourceTypes;
+
+  GetDiscoveredResourceCountsRequest({
+    this.limit,
+    this.nextToken,
+    this.resourceTypes,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetDiscoveredResourceCountsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8042,6 +9374,42 @@ class GetDiscoveredResourceCountsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetOrganizationConfigRuleDetailedStatusRequest {
+  /// The name of organization config rule for which you want status details for
+  /// member accounts.
+  @_s.JsonKey(name: 'OrganizationConfigRuleName')
+  final String organizationConfigRuleName;
+
+  /// A <code>StatusDetailFilters</code> object.
+  @_s.JsonKey(name: 'Filters')
+  final StatusDetailFilters filters;
+
+  /// The maximum number of <code>OrganizationConfigRuleDetailedStatus</code>
+  /// returned on each page. If you do not specify a number, AWS Config uses the
+  /// default. The default is 100.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The <code>nextToken</code> string returned on a previous page that you use
+  /// to get the next page of results in a paginated response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetOrganizationConfigRuleDetailedStatusRequest({
+    @_s.required this.organizationConfigRuleName,
+    this.filters,
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetOrganizationConfigRuleDetailedStatusRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetOrganizationConfigRuleDetailedStatusResponse {
@@ -8061,6 +9429,43 @@ class GetOrganizationConfigRuleDetailedStatusResponse {
   factory GetOrganizationConfigRuleDetailedStatusResponse.fromJson(
           Map<String, dynamic> json) =>
       _$GetOrganizationConfigRuleDetailedStatusResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetOrganizationConformancePackDetailedStatusRequest {
+  /// The name of organization conformance pack for which you want status details
+  /// for member accounts.
+  @_s.JsonKey(name: 'OrganizationConformancePackName')
+  final String organizationConformancePackName;
+
+  /// An <code>OrganizationResourceDetailedStatusFilters</code> object.
+  @_s.JsonKey(name: 'Filters')
+  final OrganizationResourceDetailedStatusFilters filters;
+
+  /// The maximum number of
+  /// <code>OrganizationConformancePackDetailedStatuses</code> returned on each
+  /// page. If you do not specify a number, AWS Config uses the default. The
+  /// default is 100.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The nextToken string returned on a previous page that you use to get the
+  /// next page of results in a paginated response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetOrganizationConformancePackDetailedStatusRequest({
+    @_s.required this.organizationConformancePackName,
+    this.filters,
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetOrganizationConformancePackDetailedStatusRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8086,6 +9491,67 @@ class GetOrganizationConformancePackDetailedStatusResponse {
   factory GetOrganizationConformancePackDetailedStatusResponse.fromJson(
           Map<String, dynamic> json) =>
       _$GetOrganizationConformancePackDetailedStatusResponseFromJson(json);
+}
+
+/// The input for the <a>GetResourceConfigHistory</a> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetResourceConfigHistoryRequest {
+  /// The ID of the resource (for example., <code>sg-xxxxxx</code>).
+  @_s.JsonKey(name: 'resourceId')
+  final String resourceId;
+
+  /// The resource type.
+  @_s.JsonKey(name: 'resourceType')
+  final ResourceType resourceType;
+
+  /// The chronological order for configuration items listed. By default, the
+  /// results are listed in reverse chronological order.
+  @_s.JsonKey(name: 'chronologicalOrder')
+  final ChronologicalOrder chronologicalOrder;
+
+  /// The time stamp that indicates an earlier time. If not specified, the action
+  /// returns paginated results that contain configuration items that start when
+  /// the first configuration item was recorded.
+  @_s.JsonKey(
+      name: 'earlierTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime earlierTime;
+
+  /// The time stamp that indicates a later time. If not specified, current time
+  /// is taken.
+  @_s.JsonKey(
+      name: 'laterTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime laterTime;
+
+  /// The maximum number of configuration items returned on each page. The default
+  /// is 10. You cannot specify a number greater than 100. If you specify 0, AWS
+  /// Config uses the default.
+  @_s.JsonKey(name: 'limit')
+  final int limit;
+
+  /// The <code>nextToken</code> string returned on a previous page that you use
+  /// to get the next page of results in a paginated response.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  GetResourceConfigHistoryRequest({
+    @_s.required this.resourceId,
+    @_s.required this.resourceType,
+    this.chronologicalOrder,
+    this.earlierTime,
+    this.laterTime,
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetResourceConfigHistoryRequestToJson(this);
 }
 
 /// The output for the <a>GetResourceConfigHistory</a> action.
@@ -8141,6 +9607,46 @@ class GroupedResourceCount {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListAggregateDiscoveredResourcesRequest {
+  /// The name of the configuration aggregator.
+  @_s.JsonKey(name: 'ConfigurationAggregatorName')
+  final String configurationAggregatorName;
+
+  /// The type of resources that you want AWS Config to list in the response.
+  @_s.JsonKey(name: 'ResourceType')
+  final ResourceType resourceType;
+
+  /// Filters the results based on the <code>ResourceFilters</code> object.
+  @_s.JsonKey(name: 'Filters')
+  final ResourceFilters filters;
+
+  /// The maximum number of resource identifiers returned on each page. The
+  /// default is 100. You cannot specify a number greater than 100. If you specify
+  /// 0, AWS Config uses the default.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The <code>nextToken</code> string returned on a previous page that you use
+  /// to get the next page of results in a paginated response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListAggregateDiscoveredResourcesRequest({
+    @_s.required this.configurationAggregatorName,
+    @_s.required this.resourceType,
+    this.filters,
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListAggregateDiscoveredResourcesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListAggregateDiscoveredResourcesResponse {
@@ -8160,6 +9666,56 @@ class ListAggregateDiscoveredResourcesResponse {
   factory ListAggregateDiscoveredResourcesResponse.fromJson(
           Map<String, dynamic> json) =>
       _$ListAggregateDiscoveredResourcesResponseFromJson(json);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListDiscoveredResourcesRequest {
+  /// The type of resources that you want AWS Config to list in the response.
+  @_s.JsonKey(name: 'resourceType')
+  final ResourceType resourceType;
+
+  /// Specifies whether AWS Config includes deleted resources in the results. By
+  /// default, deleted resources are not included.
+  @_s.JsonKey(name: 'includeDeletedResources')
+  final bool includeDeletedResources;
+
+  /// The maximum number of resource identifiers returned on each page. The
+  /// default is 100. You cannot specify a number greater than 100. If you specify
+  /// 0, AWS Config uses the default.
+  @_s.JsonKey(name: 'limit')
+  final int limit;
+
+  /// The <code>nextToken</code> string returned on a previous page that you use
+  /// to get the next page of results in a paginated response.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The IDs of only those resources that you want AWS Config to list in the
+  /// response. If you do not specify this parameter, AWS Config lists all
+  /// resources of the specified type that it has discovered.
+  @_s.JsonKey(name: 'resourceIds')
+  final List<String> resourceIds;
+
+  /// The custom name of only those resources that you want AWS Config to list in
+  /// the response. If you do not specify this parameter, AWS Config lists all
+  /// resources of the specified type that it has discovered.
+  @_s.JsonKey(name: 'resourceName')
+  final String resourceName;
+
+  ListDiscoveredResourcesRequest({
+    @_s.required this.resourceType,
+    this.includeDeletedResources,
+    this.limit,
+    this.nextToken,
+    this.resourceIds,
+    this.resourceName,
+  });
+  Map<String, dynamic> toJson() => _$ListDiscoveredResourcesRequestToJson(this);
 }
 
 /// <p/>
@@ -8186,6 +9742,38 @@ class ListDiscoveredResourcesResponse {
   });
   factory ListDiscoveredResourcesResponse.fromJson(Map<String, dynamic> json) =>
       _$ListDiscoveredResourcesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceRequest {
+  /// The Amazon Resource Name (ARN) that identifies the resource for which to
+  /// list the tags. Currently, the supported resources are
+  /// <code>ConfigRule</code>, <code>ConfigurationAggregator</code> and
+  /// <code>AggregatorAuthorization</code>.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// The maximum number of tags returned on each page. The limit maximum is 50.
+  /// You cannot specify a number greater than 50. If you specify 0, AWS Config
+  /// uses the default.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The <code>nextToken</code> string returned on a previous page that you use
+  /// to get the next page of results in a paginated response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListTagsForResourceRequest({
+    @_s.required this.resourceArn,
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -9115,6 +10703,33 @@ class PendingAggregationRequest {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutAggregationAuthorizationRequest {
+  /// The 12-digit account ID of the account authorized to aggregate data.
+  @_s.JsonKey(name: 'AuthorizedAccountId')
+  final String authorizedAccountId;
+
+  /// The region authorized to collect aggregated data.
+  @_s.JsonKey(name: 'AuthorizedAwsRegion')
+  final String authorizedAwsRegion;
+
+  /// An array of tag object.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  PutAggregationAuthorizationRequest({
+    @_s.required this.authorizedAccountId,
+    @_s.required this.authorizedAwsRegion,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutAggregationAuthorizationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutAggregationAuthorizationResponse {
@@ -9128,6 +10743,59 @@ class PutAggregationAuthorizationResponse {
   factory PutAggregationAuthorizationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$PutAggregationAuthorizationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutConfigRuleRequest {
+  /// The rule that you want to add to your account.
+  @_s.JsonKey(name: 'ConfigRule')
+  final ConfigRule configRule;
+
+  /// An array of tag object.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  PutConfigRuleRequest({
+    @_s.required this.configRule,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$PutConfigRuleRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutConfigurationAggregatorRequest {
+  /// The name of the configuration aggregator.
+  @_s.JsonKey(name: 'ConfigurationAggregatorName')
+  final String configurationAggregatorName;
+
+  /// A list of AccountAggregationSource object.
+  @_s.JsonKey(name: 'AccountAggregationSources')
+  final List<AccountAggregationSource> accountAggregationSources;
+
+  /// An OrganizationAggregationSource object.
+  @_s.JsonKey(name: 'OrganizationAggregationSource')
+  final OrganizationAggregationSource organizationAggregationSource;
+
+  /// An array of tag object.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  PutConfigurationAggregatorRequest({
+    @_s.required this.configurationAggregatorName,
+    this.accountAggregationSources,
+    this.organizationAggregationSource,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutConfigurationAggregatorRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -9148,6 +10816,79 @@ class PutConfigurationAggregatorResponse {
       _$PutConfigurationAggregatorResponseFromJson(json);
 }
 
+/// The input for the <a>PutConfigurationRecorder</a> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutConfigurationRecorderRequest {
+  /// The configuration recorder object that records each configuration change
+  /// made to the resources.
+  @_s.JsonKey(name: 'ConfigurationRecorder')
+  final ConfigurationRecorder configurationRecorder;
+
+  PutConfigurationRecorderRequest({
+    @_s.required this.configurationRecorder,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutConfigurationRecorderRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutConformancePackRequest {
+  /// Name of the conformance pack you want to create.
+  @_s.JsonKey(name: 'ConformancePackName')
+  final String conformancePackName;
+
+  /// AWS Config stores intermediate files while processing conformance pack
+  /// template.
+  @_s.JsonKey(name: 'DeliveryS3Bucket')
+  final String deliveryS3Bucket;
+
+  /// A list of <code>ConformancePackInputParameter</code> objects.
+  @_s.JsonKey(name: 'ConformancePackInputParameters')
+  final List<ConformancePackInputParameter> conformancePackInputParameters;
+
+  /// The prefix for the Amazon S3 bucket.
+  @_s.JsonKey(name: 'DeliveryS3KeyPrefix')
+  final String deliveryS3KeyPrefix;
+
+  /// A string containing full conformance pack template body. Structure
+  /// containing the template body with a minimum length of 1 byte and a maximum
+  /// length of 51,200 bytes.
+  /// <note>
+  /// You can only use a YAML template with one resource type, that is, config
+  /// rule and a remediation action.
+  /// </note>
+  @_s.JsonKey(name: 'TemplateBody')
+  final String templateBody;
+
+  /// Location of file containing the template body
+  /// (<code>s3://bucketname/prefix</code>). The uri must point to the conformance
+  /// pack template (max size: 300 KB) that is located in an Amazon S3 bucket in
+  /// the same region as the conformance pack.
+  /// <note>
+  /// You must have access to read Amazon S3 bucket.
+  /// </note>
+  @_s.JsonKey(name: 'TemplateS3Uri')
+  final String templateS3Uri;
+
+  PutConformancePackRequest({
+    @_s.required this.conformancePackName,
+    @_s.required this.deliveryS3Bucket,
+    this.conformancePackInputParameters,
+    this.deliveryS3KeyPrefix,
+    this.templateBody,
+    this.templateS3Uri,
+  });
+  Map<String, dynamic> toJson() => _$PutConformancePackRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -9163,6 +10904,62 @@ class PutConformancePackResponse {
   });
   factory PutConformancePackResponse.fromJson(Map<String, dynamic> json) =>
       _$PutConformancePackResponseFromJson(json);
+}
+
+/// The input for the <a>PutDeliveryChannel</a> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutDeliveryChannelRequest {
+  /// The configuration delivery channel object that delivers the configuration
+  /// information to an Amazon S3 bucket and to an Amazon SNS topic.
+  @_s.JsonKey(name: 'DeliveryChannel')
+  final DeliveryChannel deliveryChannel;
+
+  PutDeliveryChannelRequest({
+    @_s.required this.deliveryChannel,
+  });
+  Map<String, dynamic> toJson() => _$PutDeliveryChannelRequestToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutEvaluationsRequest {
+  /// An encrypted token that associates an evaluation with an AWS Config rule.
+  /// Identifies the rule and the event that triggered the evaluation.
+  @_s.JsonKey(name: 'ResultToken')
+  final String resultToken;
+
+  /// The assessments that the AWS Lambda function performs. Each evaluation
+  /// identifies an AWS resource and indicates whether it complies with the AWS
+  /// Config rule that invokes the AWS Lambda function.
+  @_s.JsonKey(name: 'Evaluations')
+  final List<Evaluation> evaluations;
+
+  /// Use this parameter to specify a test run for <code>PutEvaluations</code>.
+  /// You can verify whether your AWS Lambda function will deliver evaluation
+  /// results to AWS Config. No updates occur to your existing evaluations, and
+  /// evaluation results are not sent to AWS Config.
+  /// <note>
+  /// When <code>TestMode</code> is <code>true</code>, <code>PutEvaluations</code>
+  /// doesn't require a valid value for the <code>ResultToken</code> parameter,
+  /// but the value cannot be null.
+  /// </note>
+  @_s.JsonKey(name: 'TestMode')
+  final bool testMode;
+
+  PutEvaluationsRequest({
+    @_s.required this.resultToken,
+    this.evaluations,
+    this.testMode,
+  });
+  Map<String, dynamic> toJson() => _$PutEvaluationsRequestToJson(this);
 }
 
 /// <p/>
@@ -9186,6 +10983,39 @@ class PutEvaluationsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutOrganizationConfigRuleRequest {
+  /// The name that you assign to an organization config rule.
+  @_s.JsonKey(name: 'OrganizationConfigRuleName')
+  final String organizationConfigRuleName;
+
+  /// A comma-separated list of accounts that you want to exclude from an
+  /// organization config rule.
+  @_s.JsonKey(name: 'ExcludedAccounts')
+  final List<String> excludedAccounts;
+
+  /// An <code>OrganizationCustomRuleMetadata</code> object.
+  @_s.JsonKey(name: 'OrganizationCustomRuleMetadata')
+  final OrganizationCustomRuleMetadata organizationCustomRuleMetadata;
+
+  /// An <code>OrganizationManagedRuleMetadata</code> object.
+  @_s.JsonKey(name: 'OrganizationManagedRuleMetadata')
+  final OrganizationManagedRuleMetadata organizationManagedRuleMetadata;
+
+  PutOrganizationConfigRuleRequest({
+    @_s.required this.organizationConfigRuleName,
+    this.excludedAccounts,
+    this.organizationCustomRuleMetadata,
+    this.organizationManagedRuleMetadata,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutOrganizationConfigRuleRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutOrganizationConfigRuleResponse {
@@ -9199,6 +11029,67 @@ class PutOrganizationConfigRuleResponse {
   factory PutOrganizationConfigRuleResponse.fromJson(
           Map<String, dynamic> json) =>
       _$PutOrganizationConfigRuleResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutOrganizationConformancePackRequest {
+  /// Location of an Amazon S3 bucket where AWS Config can deliver evaluation
+  /// results. AWS Config stores intermediate files while processing conformance
+  /// pack template.
+  ///
+  /// The delivery bucket name should start with awsconfigconforms. For example:
+  /// "Resource": "arn:aws:s3:::your_bucket_name/*". For more information, see <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/conformance-pack-organization-apis.html">Permissions
+  /// for cross account bucket access</a>.
+  @_s.JsonKey(name: 'DeliveryS3Bucket')
+  final String deliveryS3Bucket;
+
+  /// Name of the organization conformance pack you want to create.
+  @_s.JsonKey(name: 'OrganizationConformancePackName')
+  final String organizationConformancePackName;
+
+  /// A list of <code>ConformancePackInputParameter</code> objects.
+  @_s.JsonKey(name: 'ConformancePackInputParameters')
+  final List<ConformancePackInputParameter> conformancePackInputParameters;
+
+  /// The prefix for the Amazon S3 bucket.
+  @_s.JsonKey(name: 'DeliveryS3KeyPrefix')
+  final String deliveryS3KeyPrefix;
+
+  /// A list of AWS accounts to be excluded from an organization conformance pack
+  /// while deploying a conformance pack.
+  @_s.JsonKey(name: 'ExcludedAccounts')
+  final List<String> excludedAccounts;
+
+  /// A string containing full conformance pack template body. Structure
+  /// containing the template body with a minimum length of 1 byte and a maximum
+  /// length of 51,200 bytes.
+  @_s.JsonKey(name: 'TemplateBody')
+  final String templateBody;
+
+  /// Location of file containing the template body. The uri must point to the
+  /// conformance pack template (max size: 300 KB).
+  /// <note>
+  /// You must have access to read Amazon S3 bucket.
+  /// </note>
+  @_s.JsonKey(name: 'TemplateS3Uri')
+  final String templateS3Uri;
+
+  PutOrganizationConformancePackRequest({
+    @_s.required this.deliveryS3Bucket,
+    @_s.required this.organizationConformancePackName,
+    this.conformancePackInputParameters,
+    this.deliveryS3KeyPrefix,
+    this.excludedAccounts,
+    this.templateBody,
+    this.templateS3Uri,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutOrganizationConformancePackRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -9222,6 +11113,23 @@ class PutOrganizationConformancePackResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutRemediationConfigurationsRequest {
+  /// A list of remediation configuration objects.
+  @_s.JsonKey(name: 'RemediationConfigurations')
+  final List<RemediationConfiguration> remediationConfigurations;
+
+  PutRemediationConfigurationsRequest({
+    @_s.required this.remediationConfigurations,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutRemediationConfigurationsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutRemediationConfigurationsResponse {
@@ -9235,6 +11143,44 @@ class PutRemediationConfigurationsResponse {
   factory PutRemediationConfigurationsResponse.fromJson(
           Map<String, dynamic> json) =>
       _$PutRemediationConfigurationsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutRemediationExceptionsRequest {
+  /// The name of the AWS Config rule for which you want to create remediation
+  /// exception.
+  @_s.JsonKey(name: 'ConfigRuleName')
+  final String configRuleName;
+
+  /// An exception list of resource exception keys to be processed with the
+  /// current request. AWS Config adds exception for each resource key. For
+  /// example, AWS Config adds 3 exceptions for 3 resource keys.
+  @_s.JsonKey(name: 'ResourceKeys')
+  final List<RemediationExceptionResourceKey> resourceKeys;
+
+  /// The exception is automatically deleted after the expiration date.
+  @_s.JsonKey(
+      name: 'ExpirationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime expirationTime;
+
+  /// The message contains an explanation of the exception.
+  @_s.JsonKey(name: 'Message')
+  final String message;
+
+  PutRemediationExceptionsRequest({
+    @_s.required this.configRuleName,
+    @_s.required this.resourceKeys,
+    this.expirationTime,
+    this.message,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutRemediationExceptionsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -9254,6 +11200,77 @@ class PutRemediationExceptionsResponse {
   factory PutRemediationExceptionsResponse.fromJson(
           Map<String, dynamic> json) =>
       _$PutRemediationExceptionsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutResourceConfigRequest {
+  /// The configuration object of the resource in valid JSON format. It must match
+  /// the schema registered with AWS CloudFormation.
+  /// <note>
+  /// The configuration JSON must not exceed 64 KB.
+  /// </note>
+  @_s.JsonKey(name: 'Configuration')
+  final String configuration;
+
+  /// Unique identifier of the resource.
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  /// The type of the resource. The custom resource type must be registered with
+  /// AWS CloudFormation.
+  /// <note>
+  /// You cannot use the organization names “aws”, “amzn”, “amazon”, “alexa”,
+  /// “custom” with custom resource types. It is the first part of the
+  /// ResourceType up to the first ::.
+  /// </note>
+  @_s.JsonKey(name: 'ResourceType')
+  final String resourceType;
+
+  /// Version of the schema registered for the ResourceType in AWS CloudFormation.
+  @_s.JsonKey(name: 'SchemaVersionId')
+  final String schemaVersionId;
+
+  /// Name of the resource.
+  @_s.JsonKey(name: 'ResourceName')
+  final String resourceName;
+
+  /// Tags associated with the resource.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  PutResourceConfigRequest({
+    @_s.required this.configuration,
+    @_s.required this.resourceId,
+    @_s.required this.resourceType,
+    @_s.required this.schemaVersionId,
+    this.resourceName,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$PutResourceConfigRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutRetentionConfigurationRequest {
+  /// Number of days AWS Config stores your historical information.
+  /// <note>
+  /// Currently, only applicable to the configuration item history.
+  /// </note>
+  @_s.JsonKey(name: 'RetentionPeriodInDays')
+  final int retentionPeriodInDays;
+
+  PutRetentionConfigurationRequest({
+    @_s.required this.retentionPeriodInDays,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutRetentionConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -9788,20 +11805,6 @@ enum ResourceCountGroupKey {
   awsRegion,
 }
 
-extension on ResourceCountGroupKey {
-  String toValue() {
-    switch (this) {
-      case ResourceCountGroupKey.resourceType:
-        return 'RESOURCE_TYPE';
-      case ResourceCountGroupKey.accountId:
-        return 'ACCOUNT_ID';
-      case ResourceCountGroupKey.awsRegion:
-        return 'AWS_REGION';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Filters the results by resource account ID, region, resource ID, and
 /// resource name.
 @_s.JsonSerializable(
@@ -10082,194 +12085,6 @@ enum ResourceType {
   awsQldbLedger,
 }
 
-extension on ResourceType {
-  String toValue() {
-    switch (this) {
-      case ResourceType.awsEc2CustomerGateway:
-        return 'AWS::EC2::CustomerGateway';
-      case ResourceType.awsEc2Eip:
-        return 'AWS::EC2::EIP';
-      case ResourceType.awsEc2Host:
-        return 'AWS::EC2::Host';
-      case ResourceType.awsEc2Instance:
-        return 'AWS::EC2::Instance';
-      case ResourceType.awsEc2InternetGateway:
-        return 'AWS::EC2::InternetGateway';
-      case ResourceType.awsEc2NetworkAcl:
-        return 'AWS::EC2::NetworkAcl';
-      case ResourceType.awsEc2NetworkInterface:
-        return 'AWS::EC2::NetworkInterface';
-      case ResourceType.awsEc2RouteTable:
-        return 'AWS::EC2::RouteTable';
-      case ResourceType.awsEc2SecurityGroup:
-        return 'AWS::EC2::SecurityGroup';
-      case ResourceType.awsEc2Subnet:
-        return 'AWS::EC2::Subnet';
-      case ResourceType.awsCloudTrailTrail:
-        return 'AWS::CloudTrail::Trail';
-      case ResourceType.awsEc2Volume:
-        return 'AWS::EC2::Volume';
-      case ResourceType.awsEc2Vpc:
-        return 'AWS::EC2::VPC';
-      case ResourceType.awsEc2VPNConnection:
-        return 'AWS::EC2::VPNConnection';
-      case ResourceType.awsEc2VPNGateway:
-        return 'AWS::EC2::VPNGateway';
-      case ResourceType.awsEc2RegisteredHAInstance:
-        return 'AWS::EC2::RegisteredHAInstance';
-      case ResourceType.awsEc2NatGateway:
-        return 'AWS::EC2::NatGateway';
-      case ResourceType.awsEc2EgressOnlyInternetGateway:
-        return 'AWS::EC2::EgressOnlyInternetGateway';
-      case ResourceType.awsEc2VPCEndpoint:
-        return 'AWS::EC2::VPCEndpoint';
-      case ResourceType.awsEc2VPCEndpointService:
-        return 'AWS::EC2::VPCEndpointService';
-      case ResourceType.awsEc2FlowLog:
-        return 'AWS::EC2::FlowLog';
-      case ResourceType.awsEc2VPCPeeringConnection:
-        return 'AWS::EC2::VPCPeeringConnection';
-      case ResourceType.awsElasticsearchDomain:
-        return 'AWS::Elasticsearch::Domain';
-      case ResourceType.awsIamGroup:
-        return 'AWS::IAM::Group';
-      case ResourceType.awsIamPolicy:
-        return 'AWS::IAM::Policy';
-      case ResourceType.awsIamRole:
-        return 'AWS::IAM::Role';
-      case ResourceType.awsIamUser:
-        return 'AWS::IAM::User';
-      case ResourceType.awsElasticLoadBalancingV2LoadBalancer:
-        return 'AWS::ElasticLoadBalancingV2::LoadBalancer';
-      case ResourceType.awsAcmCertificate:
-        return 'AWS::ACM::Certificate';
-      case ResourceType.awsRdsDBInstance:
-        return 'AWS::RDS::DBInstance';
-      case ResourceType.awsRdsDBSubnetGroup:
-        return 'AWS::RDS::DBSubnetGroup';
-      case ResourceType.awsRdsDBSecurityGroup:
-        return 'AWS::RDS::DBSecurityGroup';
-      case ResourceType.awsRdsDBSnapshot:
-        return 'AWS::RDS::DBSnapshot';
-      case ResourceType.awsRdsDBCluster:
-        return 'AWS::RDS::DBCluster';
-      case ResourceType.awsRdsDBClusterSnapshot:
-        return 'AWS::RDS::DBClusterSnapshot';
-      case ResourceType.awsRdsEventSubscription:
-        return 'AWS::RDS::EventSubscription';
-      case ResourceType.awsS3Bucket:
-        return 'AWS::S3::Bucket';
-      case ResourceType.awsS3AccountPublicAccessBlock:
-        return 'AWS::S3::AccountPublicAccessBlock';
-      case ResourceType.awsRedshiftCluster:
-        return 'AWS::Redshift::Cluster';
-      case ResourceType.awsRedshiftClusterSnapshot:
-        return 'AWS::Redshift::ClusterSnapshot';
-      case ResourceType.awsRedshiftClusterParameterGroup:
-        return 'AWS::Redshift::ClusterParameterGroup';
-      case ResourceType.awsRedshiftClusterSecurityGroup:
-        return 'AWS::Redshift::ClusterSecurityGroup';
-      case ResourceType.awsRedshiftClusterSubnetGroup:
-        return 'AWS::Redshift::ClusterSubnetGroup';
-      case ResourceType.awsRedshiftEventSubscription:
-        return 'AWS::Redshift::EventSubscription';
-      case ResourceType.awsSsmManagedInstanceInventory:
-        return 'AWS::SSM::ManagedInstanceInventory';
-      case ResourceType.awsCloudWatchAlarm:
-        return 'AWS::CloudWatch::Alarm';
-      case ResourceType.awsCloudFormationStack:
-        return 'AWS::CloudFormation::Stack';
-      case ResourceType.awsElasticLoadBalancingLoadBalancer:
-        return 'AWS::ElasticLoadBalancing::LoadBalancer';
-      case ResourceType.awsAutoScalingAutoScalingGroup:
-        return 'AWS::AutoScaling::AutoScalingGroup';
-      case ResourceType.awsAutoScalingLaunchConfiguration:
-        return 'AWS::AutoScaling::LaunchConfiguration';
-      case ResourceType.awsAutoScalingScalingPolicy:
-        return 'AWS::AutoScaling::ScalingPolicy';
-      case ResourceType.awsAutoScalingScheduledAction:
-        return 'AWS::AutoScaling::ScheduledAction';
-      case ResourceType.awsDynamoDBTable:
-        return 'AWS::DynamoDB::Table';
-      case ResourceType.awsCodeBuildProject:
-        return 'AWS::CodeBuild::Project';
-      case ResourceType.awsWafRateBasedRule:
-        return 'AWS::WAF::RateBasedRule';
-      case ResourceType.awsWafRule:
-        return 'AWS::WAF::Rule';
-      case ResourceType.awsWafRuleGroup:
-        return 'AWS::WAF::RuleGroup';
-      case ResourceType.awsWafWebACL:
-        return 'AWS::WAF::WebACL';
-      case ResourceType.awsWAFRegionalRateBasedRule:
-        return 'AWS::WAFRegional::RateBasedRule';
-      case ResourceType.awsWAFRegionalRule:
-        return 'AWS::WAFRegional::Rule';
-      case ResourceType.awsWAFRegionalRuleGroup:
-        return 'AWS::WAFRegional::RuleGroup';
-      case ResourceType.awsWAFRegionalWebACL:
-        return 'AWS::WAFRegional::WebACL';
-      case ResourceType.awsCloudFrontDistribution:
-        return 'AWS::CloudFront::Distribution';
-      case ResourceType.awsCloudFrontStreamingDistribution:
-        return 'AWS::CloudFront::StreamingDistribution';
-      case ResourceType.awsLambdaFunction:
-        return 'AWS::Lambda::Function';
-      case ResourceType.awsElasticBeanstalkApplication:
-        return 'AWS::ElasticBeanstalk::Application';
-      case ResourceType.awsElasticBeanstalkApplicationVersion:
-        return 'AWS::ElasticBeanstalk::ApplicationVersion';
-      case ResourceType.awsElasticBeanstalkEnvironment:
-        return 'AWS::ElasticBeanstalk::Environment';
-      case ResourceType.awsWAFv2WebACL:
-        return 'AWS::WAFv2::WebACL';
-      case ResourceType.awsWAFv2RuleGroup:
-        return 'AWS::WAFv2::RuleGroup';
-      case ResourceType.awsWAFv2IPSet:
-        return 'AWS::WAFv2::IPSet';
-      case ResourceType.awsWAFv2RegexPatternSet:
-        return 'AWS::WAFv2::RegexPatternSet';
-      case ResourceType.awsWAFv2ManagedRuleSet:
-        return 'AWS::WAFv2::ManagedRuleSet';
-      case ResourceType.awsXRayEncryptionConfig:
-        return 'AWS::XRay::EncryptionConfig';
-      case ResourceType.awsSsmAssociationCompliance:
-        return 'AWS::SSM::AssociationCompliance';
-      case ResourceType.awsSsmPatchCompliance:
-        return 'AWS::SSM::PatchCompliance';
-      case ResourceType.awsShieldProtection:
-        return 'AWS::Shield::Protection';
-      case ResourceType.awsShieldRegionalProtection:
-        return 'AWS::ShieldRegional::Protection';
-      case ResourceType.awsConfigResourceCompliance:
-        return 'AWS::Config::ResourceCompliance';
-      case ResourceType.awsApiGatewayStage:
-        return 'AWS::ApiGateway::Stage';
-      case ResourceType.awsApiGatewayRestApi:
-        return 'AWS::ApiGateway::RestApi';
-      case ResourceType.awsApiGatewayV2Stage:
-        return 'AWS::ApiGatewayV2::Stage';
-      case ResourceType.awsApiGatewayV2Api:
-        return 'AWS::ApiGatewayV2::Api';
-      case ResourceType.awsCodePipelinePipeline:
-        return 'AWS::CodePipeline::Pipeline';
-      case ResourceType.awsServiceCatalogCloudFormationProvisionedProduct:
-        return 'AWS::ServiceCatalog::CloudFormationProvisionedProduct';
-      case ResourceType.awsServiceCatalogCloudFormationProduct:
-        return 'AWS::ServiceCatalog::CloudFormationProduct';
-      case ResourceType.awsServiceCatalogPortfolio:
-        return 'AWS::ServiceCatalog::Portfolio';
-      case ResourceType.awsSqsQueue:
-        return 'AWS::SQS::Queue';
-      case ResourceType.awsKmsKey:
-        return 'AWS::KMS::Key';
-      case ResourceType.awsQldbLedger:
-        return 'AWS::QLDB::Ledger';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// The dynamic value of the resource.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -10373,6 +12188,42 @@ class Scope {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SelectAggregateResourceConfigRequest {
+  /// The name of the configuration aggregator.
+  @_s.JsonKey(name: 'ConfigurationAggregatorName')
+  final String configurationAggregatorName;
+
+  /// The SQL query SELECT command.
+  @_s.JsonKey(name: 'Expression')
+  final String expression;
+
+  /// The maximum number of query results returned on each page.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The nextToken string returned in a previous request that you use to request
+  /// the next page of results in a paginated response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  SelectAggregateResourceConfigRequest({
+    @_s.required this.configurationAggregatorName,
+    @_s.required this.expression,
+    this.limit,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$SelectAggregateResourceConfigRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class SelectAggregateResourceConfigResponse {
@@ -10395,6 +12246,33 @@ class SelectAggregateResourceConfigResponse {
   factory SelectAggregateResourceConfigResponse.fromJson(
           Map<String, dynamic> json) =>
       _$SelectAggregateResourceConfigResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SelectResourceConfigRequest {
+  /// The SQL query <code>SELECT</code> command.
+  @_s.JsonKey(name: 'Expression')
+  final String expression;
+
+  /// The maximum number of query results returned on each page.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The <code>nextToken</code> string returned in a previous request that you
+  /// use to request the next page of results in a paginated response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  SelectResourceConfigRequest({
+    @_s.required this.expression,
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$SelectResourceConfigRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10571,6 +12449,24 @@ class SsmControls {
   Map<String, dynamic> toJson() => _$SsmControlsToJson(this);
 }
 
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartConfigRulesEvaluationRequest {
+  /// The list of names of AWS Config rules that you want to run evaluations for.
+  @_s.JsonKey(name: 'ConfigRuleNames')
+  final List<String> configRuleNames;
+
+  StartConfigRulesEvaluationRequest({
+    this.configRuleNames,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StartConfigRulesEvaluationRequestToJson(this);
+}
+
 /// The output when you start the evaluation for the specified AWS Config rule.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -10582,6 +12478,49 @@ class StartConfigRulesEvaluationResponse {
   factory StartConfigRulesEvaluationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$StartConfigRulesEvaluationResponseFromJson(json);
+}
+
+/// The input for the <a>StartConfigurationRecorder</a> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartConfigurationRecorderRequest {
+  /// The name of the recorder object that records each configuration change made
+  /// to the resources.
+  @_s.JsonKey(name: 'ConfigurationRecorderName')
+  final String configurationRecorderName;
+
+  StartConfigurationRecorderRequest({
+    @_s.required this.configurationRecorderName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StartConfigurationRecorderRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartRemediationExecutionRequest {
+  /// The list of names of AWS Config rules that you want to run remediation
+  /// execution for.
+  @_s.JsonKey(name: 'ConfigRuleName')
+  final String configRuleName;
+
+  /// A list of resource keys to be processed with the current request. Each
+  /// element in the list consists of the resource type and resource ID.
+  @_s.JsonKey(name: 'ResourceKeys')
+  final List<ResourceKey> resourceKeys;
+
+  StartRemediationExecutionRequest({
+    @_s.required this.configRuleName,
+    @_s.required this.resourceKeys,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StartRemediationExecutionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10699,6 +12638,25 @@ class StatusDetailFilters {
   Map<String, dynamic> toJson() => _$StatusDetailFiltersToJson(this);
 }
 
+/// The input for the <a>StopConfigurationRecorder</a> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopConfigurationRecorderRequest {
+  /// The name of the recorder object that records each configuration change made
+  /// to the resources.
+  @_s.JsonKey(name: 'ConfigurationRecorderName')
+  final String configurationRecorderName;
+
+  StopConfigurationRecorderRequest({
+    @_s.required this.configurationRecorderName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StopConfigurationRecorderRequestToJson(this);
+}
+
 /// The tags for the resource. The metadata that you apply to a resource to help
 /// you categorize and organize them. Each tag consists of a key and an optional
 /// value, both of which you define. Tag keys can have a maximum character
@@ -10727,6 +12685,54 @@ class Tag {
   factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
   Map<String, dynamic> toJson() => _$TagToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The Amazon Resource Name (ARN) that identifies the resource for which to
+  /// list the tags. Currently, the supported resources are
+  /// <code>ConfigRule</code>, <code>ConfigurationAggregator</code> and
+  /// <code>AggregatorAuthorization</code>.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// An array of tag object.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The Amazon Resource Name (ARN) that identifies the resource for which to
+  /// list the tags. Currently, the supported resources are
+  /// <code>ConfigRule</code>, <code>ConfigurationAggregator</code> and
+  /// <code>AggregatorAuthorization</code>.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// The keys of the tags to be removed.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
 }
 
 class ConformancePackTemplateValidationException

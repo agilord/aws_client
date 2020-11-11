@@ -24,12 +24,49 @@ AccountUsage _$AccountUsageFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$AddLayerVersionPermissionRequestToJson(
+    AddLayerVersionPermissionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Action', instance.action);
+  writeNotNull('Principal', instance.principal);
+  writeNotNull('StatementId', instance.statementId);
+  writeNotNull('OrganizationId', instance.organizationId);
+  return val;
+}
+
 AddLayerVersionPermissionResponse _$AddLayerVersionPermissionResponseFromJson(
     Map<String, dynamic> json) {
   return AddLayerVersionPermissionResponse(
     revisionId: json['RevisionId'] as String,
     statement: json['Statement'] as String,
   );
+}
+
+Map<String, dynamic> _$AddPermissionRequestToJson(
+    AddPermissionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Action', instance.action);
+  writeNotNull('Principal', instance.principal);
+  writeNotNull('StatementId', instance.statementId);
+  writeNotNull('EventSourceToken', instance.eventSourceToken);
+  writeNotNull('RevisionId', instance.revisionId);
+  writeNotNull('SourceAccount', instance.sourceAccount);
+  writeNotNull('SourceArn', instance.sourceArn);
+  return val;
 }
 
 AddPermissionResponse _$AddPermissionResponseFromJson(
@@ -83,6 +120,110 @@ Concurrency _$ConcurrencyFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateAliasRequestToJson(CreateAliasRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FunctionVersion', instance.functionVersion);
+  writeNotNull('Name', instance.name);
+  writeNotNull('Description', instance.description);
+  writeNotNull('RoutingConfig', instance.routingConfig?.toJson());
+  return val;
+}
+
+Map<String, dynamic> _$CreateEventSourceMappingRequestToJson(
+    CreateEventSourceMappingRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EventSourceArn', instance.eventSourceArn);
+  writeNotNull('FunctionName', instance.functionName);
+  writeNotNull('BatchSize', instance.batchSize);
+  writeNotNull(
+      'BisectBatchOnFunctionError', instance.bisectBatchOnFunctionError);
+  writeNotNull('DestinationConfig', instance.destinationConfig?.toJson());
+  writeNotNull('Enabled', instance.enabled);
+  writeNotNull('MaximumBatchingWindowInSeconds',
+      instance.maximumBatchingWindowInSeconds);
+  writeNotNull('MaximumRecordAgeInSeconds', instance.maximumRecordAgeInSeconds);
+  writeNotNull('MaximumRetryAttempts', instance.maximumRetryAttempts);
+  writeNotNull('ParallelizationFactor', instance.parallelizationFactor);
+  writeNotNull('StartingPosition',
+      _$EventSourcePositionEnumMap[instance.startingPosition]);
+  writeNotNull('StartingPositionTimestamp',
+      unixTimestampToJson(instance.startingPositionTimestamp));
+  return val;
+}
+
+const _$EventSourcePositionEnumMap = {
+  EventSourcePosition.trimHorizon: 'TRIM_HORIZON',
+  EventSourcePosition.latest: 'LATEST',
+  EventSourcePosition.atTimestamp: 'AT_TIMESTAMP',
+};
+
+Map<String, dynamic> _$CreateFunctionRequestToJson(
+    CreateFunctionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Code', instance.code?.toJson());
+  writeNotNull('FunctionName', instance.functionName);
+  writeNotNull('Handler', instance.handler);
+  writeNotNull('Role', instance.role);
+  writeNotNull('Runtime', _$RuntimeEnumMap[instance.runtime]);
+  writeNotNull('DeadLetterConfig', instance.deadLetterConfig?.toJson());
+  writeNotNull('Description', instance.description);
+  writeNotNull('Environment', instance.environment?.toJson());
+  writeNotNull('KMSKeyArn', instance.kMSKeyArn);
+  writeNotNull('Layers', instance.layers);
+  writeNotNull('MemorySize', instance.memorySize);
+  writeNotNull('Publish', instance.publish);
+  writeNotNull('Tags', instance.tags);
+  writeNotNull('Timeout', instance.timeout);
+  writeNotNull('TracingConfig', instance.tracingConfig?.toJson());
+  writeNotNull('VpcConfig', instance.vpcConfig?.toJson());
+  return val;
+}
+
+const _$RuntimeEnumMap = {
+  Runtime.nodejs: 'nodejs',
+  Runtime.nodejs4_3: 'nodejs4.3',
+  Runtime.nodejs6_10: 'nodejs6.10',
+  Runtime.nodejs8_10: 'nodejs8.10',
+  Runtime.nodejs10X: 'nodejs10.x',
+  Runtime.nodejs12X: 'nodejs12.x',
+  Runtime.java8: 'java8',
+  Runtime.java11: 'java11',
+  Runtime.python2_7: 'python2.7',
+  Runtime.python3_6: 'python3.6',
+  Runtime.python3_7: 'python3.7',
+  Runtime.python3_8: 'python3.8',
+  Runtime.dotnetcore1_0: 'dotnetcore1.0',
+  Runtime.dotnetcore2_0: 'dotnetcore2.0',
+  Runtime.dotnetcore2_1: 'dotnetcore2.1',
+  Runtime.dotnetcore3_1: 'dotnetcore3.1',
+  Runtime.nodejs4_3Edge: 'nodejs4.3-edge',
+  Runtime.go1X: 'go1.x',
+  Runtime.ruby2_5: 'ruby2.5',
+  Runtime.ruby2_7: 'ruby2.7',
+  Runtime.provided: 'provided',
+};
+
 DeadLetterConfig _$DeadLetterConfigFromJson(Map<String, dynamic> json) {
   return DeadLetterConfig(
     targetArn: json['TargetArn'] as String,
@@ -101,6 +242,33 @@ Map<String, dynamic> _$DeadLetterConfigToJson(DeadLetterConfig instance) {
   writeNotNull('TargetArn', instance.targetArn);
   return val;
 }
+
+Map<String, dynamic> _$DeleteAliasRequestToJson(DeleteAliasRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteEventSourceMappingRequestToJson(
+        DeleteEventSourceMappingRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteFunctionConcurrencyRequestToJson(
+        DeleteFunctionConcurrencyRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteFunctionEventInvokeConfigRequestToJson(
+        DeleteFunctionEventInvokeConfigRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteFunctionRequestToJson(
+        DeleteFunctionRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteLayerVersionRequestToJson(
+        DeleteLayerVersionRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteProvisionedConcurrencyConfigRequestToJson(
+        DeleteProvisionedConcurrencyConfigRequest instance) =>
+    <String, dynamic>{};
 
 DestinationConfig _$DestinationConfigFromJson(Map<String, dynamic> json) {
   return DestinationConfig(
@@ -302,30 +470,6 @@ const _$LastUpdateStatusReasonCodeEnumMap = {
   LastUpdateStatusReasonCode.subnetOutOfIPAddresses: 'SubnetOutOfIPAddresses',
   LastUpdateStatusReasonCode.invalidSubnet: 'InvalidSubnet',
   LastUpdateStatusReasonCode.invalidSecurityGroup: 'InvalidSecurityGroup',
-};
-
-const _$RuntimeEnumMap = {
-  Runtime.nodejs: 'nodejs',
-  Runtime.nodejs4_3: 'nodejs4.3',
-  Runtime.nodejs6_10: 'nodejs6.10',
-  Runtime.nodejs8_10: 'nodejs8.10',
-  Runtime.nodejs10X: 'nodejs10.x',
-  Runtime.nodejs12X: 'nodejs12.x',
-  Runtime.java8: 'java8',
-  Runtime.java11: 'java11',
-  Runtime.python2_7: 'python2.7',
-  Runtime.python3_6: 'python3.6',
-  Runtime.python3_7: 'python3.7',
-  Runtime.python3_8: 'python3.8',
-  Runtime.dotnetcore1_0: 'dotnetcore1.0',
-  Runtime.dotnetcore2_0: 'dotnetcore2.0',
-  Runtime.dotnetcore2_1: 'dotnetcore2.1',
-  Runtime.dotnetcore3_1: 'dotnetcore3.1',
-  Runtime.nodejs4_3Edge: 'nodejs4.3-edge',
-  Runtime.go1X: 'go1.x',
-  Runtime.ruby2_5: 'ruby2.5',
-  Runtime.ruby2_7: 'ruby2.7',
-  Runtime.provided: 'provided',
 };
 
 const _$StateEnumMap = {
@@ -690,6 +834,23 @@ ProvisionedConcurrencyConfigListItem
   );
 }
 
+Map<String, dynamic> _$PublishLayerVersionRequestToJson(
+    PublishLayerVersionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Content', instance.content?.toJson());
+  writeNotNull('CompatibleRuntimes', instance.compatibleRuntimes);
+  writeNotNull('Description', instance.description);
+  writeNotNull('LicenseInfo', instance.licenseInfo);
+  return val;
+}
+
 PublishLayerVersionResponse _$PublishLayerVersionResponseFromJson(
     Map<String, dynamic> json) {
   return PublishLayerVersionResponse(
@@ -708,6 +869,68 @@ PublishLayerVersionResponse _$PublishLayerVersionResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$PublishVersionRequestToJson(
+    PublishVersionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CodeSha256', instance.codeSha256);
+  writeNotNull('Description', instance.description);
+  writeNotNull('RevisionId', instance.revisionId);
+  return val;
+}
+
+Map<String, dynamic> _$PutFunctionConcurrencyRequestToJson(
+    PutFunctionConcurrencyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'ReservedConcurrentExecutions', instance.reservedConcurrentExecutions);
+  return val;
+}
+
+Map<String, dynamic> _$PutFunctionEventInvokeConfigRequestToJson(
+    PutFunctionEventInvokeConfigRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DestinationConfig', instance.destinationConfig?.toJson());
+  writeNotNull('MaximumEventAgeInSeconds', instance.maximumEventAgeInSeconds);
+  writeNotNull('MaximumRetryAttempts', instance.maximumRetryAttempts);
+  return val;
+}
+
+Map<String, dynamic> _$PutProvisionedConcurrencyConfigRequestToJson(
+    PutProvisionedConcurrencyConfigRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ProvisionedConcurrentExecutions',
+      instance.provisionedConcurrentExecutions);
+  return val;
+}
+
 PutProvisionedConcurrencyConfigResponse
     _$PutProvisionedConcurrencyConfigResponseFromJson(
         Map<String, dynamic> json) {
@@ -723,6 +946,27 @@ PutProvisionedConcurrencyConfigResponse
         _$ProvisionedConcurrencyStatusEnumEnumMap, json['Status']),
     statusReason: json['StatusReason'] as String,
   );
+}
+
+Map<String, dynamic> _$RemoveLayerVersionPermissionRequestToJson(
+        RemoveLayerVersionPermissionRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$RemovePermissionRequestToJson(
+        RemovePermissionRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Tags', instance.tags);
+  return val;
 }
 
 Map<String, dynamic> _$TracingConfigToJson(TracingConfig instance) {
@@ -748,6 +992,112 @@ TracingConfigResponse _$TracingConfigResponseFromJson(
   return TracingConfigResponse(
     mode: _$enumDecodeNullable(_$TracingModeEnumMap, json['Mode']),
   );
+}
+
+Map<String, dynamic> _$UntagResourceRequestToJson(
+        UntagResourceRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$UpdateAliasRequestToJson(UpdateAliasRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Description', instance.description);
+  writeNotNull('FunctionVersion', instance.functionVersion);
+  writeNotNull('RevisionId', instance.revisionId);
+  writeNotNull('RoutingConfig', instance.routingConfig?.toJson());
+  return val;
+}
+
+Map<String, dynamic> _$UpdateEventSourceMappingRequestToJson(
+    UpdateEventSourceMappingRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BatchSize', instance.batchSize);
+  writeNotNull(
+      'BisectBatchOnFunctionError', instance.bisectBatchOnFunctionError);
+  writeNotNull('DestinationConfig', instance.destinationConfig?.toJson());
+  writeNotNull('Enabled', instance.enabled);
+  writeNotNull('FunctionName', instance.functionName);
+  writeNotNull('MaximumBatchingWindowInSeconds',
+      instance.maximumBatchingWindowInSeconds);
+  writeNotNull('MaximumRecordAgeInSeconds', instance.maximumRecordAgeInSeconds);
+  writeNotNull('MaximumRetryAttempts', instance.maximumRetryAttempts);
+  writeNotNull('ParallelizationFactor', instance.parallelizationFactor);
+  return val;
+}
+
+Map<String, dynamic> _$UpdateFunctionCodeRequestToJson(
+    UpdateFunctionCodeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DryRun', instance.dryRun);
+  writeNotNull('Publish', instance.publish);
+  writeNotNull('RevisionId', instance.revisionId);
+  writeNotNull('S3Bucket', instance.s3Bucket);
+  writeNotNull('S3Key', instance.s3Key);
+  writeNotNull('S3ObjectVersion', instance.s3ObjectVersion);
+  writeNotNull('ZipFile', const Uint8ListConverter().toJson(instance.zipFile));
+  return val;
+}
+
+Map<String, dynamic> _$UpdateFunctionConfigurationRequestToJson(
+    UpdateFunctionConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DeadLetterConfig', instance.deadLetterConfig?.toJson());
+  writeNotNull('Description', instance.description);
+  writeNotNull('Environment', instance.environment?.toJson());
+  writeNotNull('Handler', instance.handler);
+  writeNotNull('KMSKeyArn', instance.kMSKeyArn);
+  writeNotNull('Layers', instance.layers);
+  writeNotNull('MemorySize', instance.memorySize);
+  writeNotNull('RevisionId', instance.revisionId);
+  writeNotNull('Role', instance.role);
+  writeNotNull('Runtime', _$RuntimeEnumMap[instance.runtime]);
+  writeNotNull('Timeout', instance.timeout);
+  writeNotNull('TracingConfig', instance.tracingConfig?.toJson());
+  writeNotNull('VpcConfig', instance.vpcConfig?.toJson());
+  return val;
+}
+
+Map<String, dynamic> _$UpdateFunctionEventInvokeConfigRequestToJson(
+    UpdateFunctionEventInvokeConfigRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DestinationConfig', instance.destinationConfig?.toJson());
+  writeNotNull('MaximumEventAgeInSeconds', instance.maximumEventAgeInSeconds);
+  writeNotNull('MaximumRetryAttempts', instance.maximumRetryAttempts);
+  return val;
 }
 
 Map<String, dynamic> _$VpcConfigToJson(VpcConfig instance) {

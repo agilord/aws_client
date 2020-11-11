@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -114,9 +113,9 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'HandshakeId': handshakeId,
-      },
+      payload: AcceptHandshakeRequest(
+        handshakeId: handshakeId,
+      ),
     );
 
     return AcceptHandshakeResponse.fromJson(jsonResponse.body);
@@ -249,10 +248,10 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PolicyId': policyId,
-        'TargetId': targetId,
-      },
+      payload: AttachPolicyRequest(
+        policyId: policyId,
+        targetId: targetId,
+      ),
     );
   }
 
@@ -303,9 +302,9 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'HandshakeId': handshakeId,
-      },
+      payload: CancelHandshakeRequest(
+        handshakeId: handshakeId,
+      ),
     );
 
     return CancelHandshakeResponse.fromJson(jsonResponse.body);
@@ -515,13 +514,12 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AccountName': accountName,
-        'Email': email,
-        if (iamUserAccessToBilling != null)
-          'IamUserAccessToBilling': iamUserAccessToBilling?.toValue(),
-        if (roleName != null) 'RoleName': roleName,
-      },
+      payload: CreateAccountRequest(
+        accountName: accountName,
+        email: email,
+        iamUserAccessToBilling: iamUserAccessToBilling,
+        roleName: roleName,
+      ),
     );
 
     return CreateAccountResponse.fromJson(jsonResponse.body);
@@ -777,13 +775,12 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AccountName': accountName,
-        'Email': email,
-        if (iamUserAccessToBilling != null)
-          'IamUserAccessToBilling': iamUserAccessToBilling?.toValue(),
-        if (roleName != null) 'RoleName': roleName,
-      },
+      payload: CreateGovCloudAccountRequest(
+        accountName: accountName,
+        email: email,
+        iamUserAccessToBilling: iamUserAccessToBilling,
+        roleName: roleName,
+      ),
     );
 
     return CreateGovCloudAccountResponse.fromJson(jsonResponse.body);
@@ -852,9 +849,9 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (featureSet != null) 'FeatureSet': featureSet?.toValue(),
-      },
+      payload: CreateOrganizationRequest(
+        featureSet: featureSet,
+      ),
     );
 
     return CreateOrganizationResponse.fromJson(jsonResponse.body);
@@ -933,10 +930,10 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        'ParentId': parentId,
-      },
+      payload: CreateOrganizationalUnitRequest(
+        name: name,
+        parentId: parentId,
+      ),
     );
 
     return CreateOrganizationalUnitResponse.fromJson(jsonResponse.body);
@@ -1030,12 +1027,12 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Content': content,
-        'Description': description,
-        'Name': name,
-        'Type': type?.toValue(),
-      },
+      payload: CreatePolicyRequest(
+        content: content,
+        description: description,
+        name: name,
+        type: type,
+      ),
     );
 
     return CreatePolicyResponse.fromJson(jsonResponse.body);
@@ -1088,9 +1085,9 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'HandshakeId': handshakeId,
-      },
+      payload: DeclineHandshakeRequest(
+        handshakeId: handshakeId,
+      ),
     );
 
     return DeclineHandshakeResponse.fromJson(jsonResponse.body);
@@ -1166,9 +1163,9 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'OrganizationalUnitId': organizationalUnitId,
-      },
+      payload: DeleteOrganizationalUnitRequest(
+        organizationalUnitId: organizationalUnitId,
+      ),
     );
   }
 
@@ -1216,9 +1213,9 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PolicyId': policyId,
-      },
+      payload: DeletePolicyRequest(
+        policyId: policyId,
+      ),
     );
   }
 
@@ -1293,10 +1290,10 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AccountId': accountId,
-        'ServicePrincipal': servicePrincipal,
-      },
+      payload: DeregisterDelegatedAdministratorRequest(
+        accountId: accountId,
+        servicePrincipal: servicePrincipal,
+      ),
     );
   }
 
@@ -1341,9 +1338,9 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AccountId': accountId,
-      },
+      payload: DescribeAccountRequest(
+        accountId: accountId,
+      ),
     );
 
     return DescribeAccountResponse.fromJson(jsonResponse.body);
@@ -1394,9 +1391,9 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CreateAccountRequestId': createAccountRequestId,
-      },
+      payload: DescribeCreateAccountStatusRequest(
+        createAccountRequestId: createAccountRequestId,
+      ),
     );
 
     return DescribeCreateAccountStatusResponse.fromJson(jsonResponse.body);
@@ -1453,10 +1450,10 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PolicyType': policyType?.toValue(),
-        if (targetId != null) 'TargetId': targetId,
-      },
+      payload: DescribeEffectivePolicyRequest(
+        policyType: policyType,
+        targetId: targetId,
+      ),
     );
 
     return DescribeEffectivePolicyResponse.fromJson(jsonResponse.body);
@@ -1508,9 +1505,9 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'HandshakeId': handshakeId,
-      },
+      payload: DescribeHandshakeRequest(
+        handshakeId: handshakeId,
+      ),
     );
 
     return DescribeHandshakeResponse.fromJson(jsonResponse.body);
@@ -1590,9 +1587,9 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'OrganizationalUnitId': organizationalUnitId,
-      },
+      payload: DescribeOrganizationalUnitRequest(
+        organizationalUnitId: organizationalUnitId,
+      ),
     );
 
     return DescribeOrganizationalUnitResponse.fromJson(jsonResponse.body);
@@ -1640,9 +1637,9 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PolicyId': policyId,
-      },
+      payload: DescribePolicyRequest(
+        policyId: policyId,
+      ),
     );
 
     return DescribePolicyResponse.fromJson(jsonResponse.body);
@@ -1743,10 +1740,10 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PolicyId': policyId,
-        'TargetId': targetId,
-      },
+      payload: DetachPolicyRequest(
+        policyId: policyId,
+        targetId: targetId,
+      ),
     );
   }
 
@@ -1820,9 +1817,9 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ServicePrincipal': servicePrincipal,
-      },
+      payload: DisableAWSServiceAccessRequest(
+        servicePrincipal: servicePrincipal,
+      ),
     );
   }
 
@@ -1890,10 +1887,10 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PolicyType': policyType?.toValue(),
-        'RootId': rootId,
-      },
+      payload: DisablePolicyTypeRequest(
+        policyType: policyType,
+        rootId: rootId,
+      ),
     );
 
     return DisablePolicyTypeResponse.fromJson(jsonResponse.body);
@@ -1965,9 +1962,9 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ServicePrincipal': servicePrincipal,
-      },
+      payload: EnableAWSServiceAccessRequest(
+        servicePrincipal: servicePrincipal,
+      ),
     );
   }
 
@@ -2089,10 +2086,10 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PolicyType': policyType?.toValue(),
-        'RootId': rootId,
-      },
+      payload: EnablePolicyTypeRequest(
+        policyType: policyType,
+        rootId: rootId,
+      ),
     );
 
     return EnablePolicyTypeResponse.fromJson(jsonResponse.body);
@@ -2179,10 +2176,10 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Target': target,
-        if (notes != null) 'Notes': notes,
-      },
+      payload: InviteAccountToOrganizationRequest(
+        target: target,
+        notes: notes,
+      ),
     );
 
     return InviteAccountToOrganizationResponse.fromJson(jsonResponse.body);
@@ -2328,10 +2325,10 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListAWSServiceAccessForOrganizationRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListAWSServiceAccessForOrganizationResponse.fromJson(
@@ -2398,10 +2395,10 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListAccountsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListAccountsResponse.fromJson(jsonResponse.body);
@@ -2483,11 +2480,11 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ParentId': parentId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListAccountsForParentRequest(
+        parentId: parentId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListAccountsForParentResponse.fromJson(jsonResponse.body);
@@ -2588,12 +2585,12 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ChildType': childType?.toValue(),
-        'ParentId': parentId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListChildrenRequest(
+        childType: childType,
+        parentId: parentId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListChildrenResponse.fromJson(jsonResponse.body);
@@ -2664,11 +2661,11 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (states != null) 'States': states,
-      },
+      payload: ListCreateAccountStatusRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+        states: states,
+      ),
     );
 
     return ListCreateAccountStatusResponse.fromJson(jsonResponse.body);
@@ -2747,11 +2744,11 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (servicePrincipal != null) 'ServicePrincipal': servicePrincipal,
-      },
+      payload: ListDelegatedAdministratorsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+        servicePrincipal: servicePrincipal,
+      ),
     );
 
     return ListDelegatedAdministratorsResponse.fromJson(jsonResponse.body);
@@ -2827,11 +2824,11 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AccountId': accountId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListDelegatedServicesForAccountRequest(
+        accountId: accountId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListDelegatedServicesForAccountResponse.fromJson(jsonResponse.body);
@@ -2912,11 +2909,11 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filter != null) 'Filter': filter,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListHandshakesForAccountRequest(
+        filter: filter,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListHandshakesForAccountResponse.fromJson(jsonResponse.body);
@@ -3000,11 +2997,11 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filter != null) 'Filter': filter,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListHandshakesForOrganizationRequest(
+        filter: filter,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListHandshakesForOrganizationResponse.fromJson(jsonResponse.body);
@@ -3100,11 +3097,11 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ParentId': parentId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListOrganizationalUnitsForParentRequest(
+        parentId: parentId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListOrganizationalUnitsForParentResponse.fromJson(jsonResponse.body);
@@ -3202,11 +3199,11 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ChildId': childId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListParentsRequest(
+        childId: childId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListParentsResponse.fromJson(jsonResponse.body);
@@ -3276,11 +3273,11 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Filter': filter?.toValue(),
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListPoliciesRequest(
+        filter: filter,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListPoliciesResponse.fromJson(jsonResponse.body);
@@ -3384,12 +3381,12 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Filter': filter?.toValue(),
-        'TargetId': targetId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListPoliciesForTargetRequest(
+        filter: filter,
+        targetId: targetId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListPoliciesForTargetResponse.fromJson(jsonResponse.body);
@@ -3461,10 +3458,10 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListRootsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListRootsResponse.fromJson(jsonResponse.body);
@@ -3516,10 +3513,10 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceId': resourceId,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListTagsForResourceRequest(
+        resourceId: resourceId,
+        nextToken: nextToken,
+      ),
     );
 
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
@@ -3602,11 +3599,11 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PolicyId': policyId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListTargetsForPolicyRequest(
+        policyId: policyId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListTargetsForPolicyResponse.fromJson(jsonResponse.body);
@@ -3709,11 +3706,11 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AccountId': accountId,
-        'DestinationParentId': destinationParentId,
-        'SourceParentId': sourceParentId,
-      },
+      payload: MoveAccountRequest(
+        accountId: accountId,
+        destinationParentId: destinationParentId,
+        sourceParentId: sourceParentId,
+      ),
     );
   }
 
@@ -3784,10 +3781,10 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AccountId': accountId,
-        'ServicePrincipal': servicePrincipal,
-      },
+      payload: RegisterDelegatedAdministratorRequest(
+        accountId: accountId,
+        servicePrincipal: servicePrincipal,
+      ),
     );
   }
 
@@ -3856,9 +3853,9 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AccountId': accountId,
-      },
+      payload: RemoveAccountFromOrganizationRequest(
+        accountId: accountId,
+      ),
     );
   }
 
@@ -3906,10 +3903,10 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceId': resourceId,
-        'Tags': tags,
-      },
+      payload: TagResourceRequest(
+        resourceId: resourceId,
+        tags: tags,
+      ),
     );
   }
 
@@ -3955,10 +3952,10 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceId': resourceId,
-        'TagKeys': tagKeys,
-      },
+      payload: UntagResourceRequest(
+        resourceId: resourceId,
+        tagKeys: tagKeys,
+      ),
     );
   }
 
@@ -4020,10 +4017,10 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'OrganizationalUnitId': organizationalUnitId,
-        if (name != null) 'Name': name,
-      },
+      payload: UpdateOrganizationalUnitRequest(
+        organizationalUnitId: organizationalUnitId,
+        name: name,
+      ),
     );
 
     return UpdateOrganizationalUnitResponse.fromJson(jsonResponse.body);
@@ -4112,16 +4109,36 @@ class Organizations {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PolicyId': policyId,
-        if (content != null) 'Content': content,
-        if (description != null) 'Description': description,
-        if (name != null) 'Name': name,
-      },
+      payload: UpdatePolicyRequest(
+        policyId: policyId,
+        content: content,
+        description: description,
+        name: name,
+      ),
     );
 
     return UpdatePolicyResponse.fromJson(jsonResponse.body);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AcceptHandshakeRequest {
+  /// The unique identifier (ID) of the handshake that you want to accept.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for
+  /// handshake ID string requires "h-" followed by from 8 to 32 lowercase letters
+  /// or digits.
+  @_s.JsonKey(name: 'HandshakeId')
+  final String handshakeId;
+
+  AcceptHandshakeRequest({
+    @_s.required this.handshakeId,
+  });
+  Map<String, dynamic> toJson() => _$AcceptHandshakeRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4237,6 +4254,75 @@ enum ActionType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AttachPolicyRequest {
+  /// The unique identifier (ID) of the policy that you want to attach to the
+  /// target. You can get the ID for the policy by calling the <a>ListPolicies</a>
+  /// operation.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a policy
+  /// ID string requires "p-" followed by from 8 to 128 lowercase or uppercase
+  /// letters, digits, or the underscore character (_).
+  @_s.JsonKey(name: 'PolicyId')
+  final String policyId;
+
+  /// The unique identifier (ID) of the root, OU, or account that you want to
+  /// attach the policy to. You can get the ID by calling the <a>ListRoots</a>,
+  /// <a>ListOrganizationalUnitsForParent</a>, or <a>ListAccounts</a> operations.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a target
+  /// ID string requires one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Root</b> - A string that begins with "r-" followed by from 4 to 32
+  /// lowercase letters or digits.
+  /// </li>
+  /// <li>
+  /// <b>Account</b> - A string that consists of exactly 12 digits.
+  /// </li>
+  /// <li>
+  /// <b>Organizational unit (OU)</b> - A string that begins with "ou-" followed
+  /// by from 4 to 32 lowercase letters or digits (the ID of the root that the OU
+  /// is in). This string is followed by a second "-" dash and from 8 to 32
+  /// additional lowercase letters or digits.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'TargetId')
+  final String targetId;
+
+  AttachPolicyRequest({
+    @_s.required this.policyId,
+    @_s.required this.targetId,
+  });
+  Map<String, dynamic> toJson() => _$AttachPolicyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CancelHandshakeRequest {
+  /// The unique identifier (ID) of the handshake that you want to cancel. You can
+  /// get the ID from the <a>ListHandshakesForOrganization</a> operation.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for
+  /// handshake ID string requires "h-" followed by from 8 to 32 lowercase letters
+  /// or digits.
+  @_s.JsonKey(name: 'HandshakeId')
+  final String handshakeId;
+
+  CancelHandshakeRequest({
+    @_s.required this.handshakeId,
+  });
+  Map<String, dynamic> toJson() => _$CancelHandshakeRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CancelHandshakeResponse {
@@ -4295,18 +4381,6 @@ enum ChildType {
   organizationalUnit,
 }
 
-extension on ChildType {
-  String toValue() {
-    switch (this) {
-      case ChildType.account:
-        return 'ACCOUNT';
-      case ChildType.organizationalUnit:
-        return 'ORGANIZATIONAL_UNIT';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum CreateAccountFailureReason {
   @_s.JsonValue('ACCOUNT_LIMIT_EXCEEDED')
   accountLimitExceeded,
@@ -4322,6 +4396,82 @@ enum CreateAccountFailureReason {
   internalFailure,
   @_s.JsonValue('GOVCLOUD_ACCOUNT_ALREADY_EXISTS')
   govcloudAccountAlreadyExists,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateAccountRequest {
+  /// The friendly name of the member account.
+  @_s.JsonKey(name: 'AccountName')
+  final String accountName;
+
+  /// The email address of the owner to assign to the new member account. This
+  /// email address must not already be associated with another AWS account. You
+  /// must use a valid email address to complete account creation. You can't
+  /// access the root user of the account or remove an account that was created
+  /// with an invalid email address.
+  @_s.JsonKey(name: 'Email')
+  final String email;
+
+  /// If set to <code>ALLOW</code>, the new account enables IAM users to access
+  /// account billing information <i>if</i> they have the required permissions. If
+  /// set to <code>DENY</code>, only the root user of the new account can access
+  /// account billing information. For more information, see <a
+  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/grantaccess.html#ControllingAccessWebsite-Activate">Activating
+  /// Access to the Billing and Cost Management Console</a> in the <i>AWS Billing
+  /// and Cost Management User Guide</i>.
+  ///
+  /// If you don't specify this parameter, the value defaults to
+  /// <code>ALLOW</code>, and IAM users and roles with the required permissions
+  /// can access billing information for the new account.
+  @_s.JsonKey(name: 'IamUserAccessToBilling')
+  final IAMUserAccessToBilling iamUserAccessToBilling;
+
+  /// (Optional)
+  ///
+  /// The name of an IAM role that AWS Organizations automatically preconfigures
+  /// in the new member account. This role trusts the master account, allowing
+  /// users in the master account to assume the role, as permitted by the master
+  /// account administrator. The role has administrator permissions in the new
+  /// member account.
+  ///
+  /// If you don't specify this parameter, the role name defaults to
+  /// <code>OrganizationAccountAccessRole</code>.
+  ///
+  /// For more information about how to use this role to access the member
+  /// account, see the following links:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html#orgs_manage_accounts_create-cross-account-role">Accessing
+  /// and Administering the Member Accounts in Your Organization</a> in the <i>AWS
+  /// Organizations User Guide</i>
+  /// </li>
+  /// <li>
+  /// Steps 2 and 3 in <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html">Tutorial:
+  /// Delegate Access Across AWS Accounts Using IAM Roles</a> in the <i>IAM User
+  /// Guide</i>
+  /// </li>
+  /// </ul>
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> that is used
+  /// to validate this parameter. The pattern can include uppercase letters,
+  /// lowercase letters, digits with no spaces, and any of the following
+  /// characters: =,.@-
+  @_s.JsonKey(name: 'RoleName')
+  final String roleName;
+
+  CreateAccountRequest({
+    @_s.required this.accountName,
+    @_s.required this.email,
+    this.iamUserAccessToBilling,
+    this.roleName,
+  });
+  Map<String, dynamic> toJson() => _$CreateAccountRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4462,6 +4612,79 @@ class CreateAccountStatus {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateGovCloudAccountRequest {
+  /// The friendly name of the member account.
+  @_s.JsonKey(name: 'AccountName')
+  final String accountName;
+
+  /// The email address of the owner to assign to the new member account in the
+  /// commercial Region. This email address must not already be associated with
+  /// another AWS account. You must use a valid email address to complete account
+  /// creation. You can't access the root user of the account or remove an account
+  /// that was created with an invalid email address. Like all request parameters
+  /// for <code>CreateGovCloudAccount</code>, the request for the email address
+  /// for the AWS GovCloud (US) account originates from the commercial Region, not
+  /// from the AWS GovCloud (US) Region.
+  @_s.JsonKey(name: 'Email')
+  final String email;
+
+  /// If set to <code>ALLOW</code>, the new linked account in the commercial
+  /// Region enables IAM users to access account billing information <i>if</i>
+  /// they have the required permissions. If set to <code>DENY</code>, only the
+  /// root user of the new account can access account billing information. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/grantaccess.html#ControllingAccessWebsite-Activate">Activating
+  /// Access to the Billing and Cost Management Console</a> in the <i>AWS Billing
+  /// and Cost Management User Guide.</i>
+  ///
+  /// If you don't specify this parameter, the value defaults to
+  /// <code>ALLOW</code>, and IAM users and roles with the required permissions
+  /// can access billing information for the new account.
+  @_s.JsonKey(name: 'IamUserAccessToBilling')
+  final IAMUserAccessToBilling iamUserAccessToBilling;
+
+  /// (Optional)
+  ///
+  /// The name of an IAM role that AWS Organizations automatically preconfigures
+  /// in the new member accounts in both the AWS GovCloud (US) Region and in the
+  /// commercial Region. This role trusts the master account, allowing users in
+  /// the master account to assume the role, as permitted by the master account
+  /// administrator. The role has administrator permissions in the new member
+  /// account.
+  ///
+  /// If you don't specify this parameter, the role name defaults to
+  /// <code>OrganizationAccountAccessRole</code>.
+  ///
+  /// For more information about how to use this role to access the member
+  /// account, see <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html#orgs_manage_accounts_create-cross-account-role">Accessing
+  /// and Administering the Member Accounts in Your Organization</a> in the <i>AWS
+  /// Organizations User Guide</i> and steps 2 and 3 in <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html">Tutorial:
+  /// Delegate Access Across AWS Accounts Using IAM Roles</a> in the <i>IAM User
+  /// Guide.</i>
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> that is used
+  /// to validate this parameter. The pattern can include uppercase letters,
+  /// lowercase letters, digits with no spaces, and any of the following
+  /// characters: =,.@-
+  @_s.JsonKey(name: 'RoleName')
+  final String roleName;
+
+  CreateGovCloudAccountRequest({
+    @_s.required this.accountName,
+    @_s.required this.email,
+    this.iamUserAccessToBilling,
+    this.roleName,
+  });
+  Map<String, dynamic> toJson() => _$CreateGovCloudAccountRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateGovCloudAccountResponse {
@@ -4473,6 +4696,43 @@ class CreateGovCloudAccountResponse {
   });
   factory CreateGovCloudAccountResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateGovCloudAccountResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateOrganizationRequest {
+  /// Specifies the feature set supported by the new organization. Each feature
+  /// set supports different levels of functionality.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CONSOLIDATED_BILLING</code>: All member accounts have their bills
+  /// consolidated to and paid by the master account. For more information, see <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#feature-set-cb-only">Consolidated
+  /// billing</a> in the <i>AWS Organizations User Guide.</i>
+  ///
+  /// The consolidated billing feature subset isn't available for organizations in
+  /// the AWS GovCloud (US) Region.
+  /// </li>
+  /// <li>
+  /// <code>ALL</code>: In addition to all the features supported by the
+  /// consolidated billing feature set, the master account can also apply any
+  /// policy type to any member account in the organization. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#feature-set-all">All
+  /// features</a> in the <i>AWS Organizations User Guide.</i>
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'FeatureSet')
+  final OrganizationFeatureSet featureSet;
+
+  CreateOrganizationRequest({
+    this.featureSet,
+  });
+  Map<String, dynamic> toJson() => _$CreateOrganizationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4490,6 +4750,45 @@ class CreateOrganizationResponse {
   });
   factory CreateOrganizationResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateOrganizationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateOrganizationalUnitRequest {
+  /// The friendly name to assign to the new OU.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The unique identifier (ID) of the parent root or OU that you want to create
+  /// the new OU in.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a parent
+  /// ID string requires one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Root</b> - A string that begins with "r-" followed by from 4 to 32
+  /// lowercase letters or digits.
+  /// </li>
+  /// <li>
+  /// <b>Organizational unit (OU)</b> - A string that begins with "ou-" followed
+  /// by from 4 to 32 lowercase letters or digits (the ID of the root that the OU
+  /// is in). This string is followed by a second "-" dash and from 8 to 32
+  /// additional lowercase letters or digits.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ParentId')
+  final String parentId;
+
+  CreateOrganizationalUnitRequest({
+    @_s.required this.name,
+    @_s.required this.parentId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateOrganizationalUnitRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4513,6 +4812,51 @@ class CreateOrganizationalUnitResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreatePolicyRequest {
+  /// The policy content to add to the new policy. For example, if you create a <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html">service
+  /// control policy</a> (SCP), this string must be JSON text that specifies the
+  /// permissions that admins in attached accounts can delegate to their users,
+  /// groups, and roles. For more information about the SCP syntax, see <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_scp-syntax.html">Service
+  /// Control Policy Syntax</a> in the <i>AWS Organizations User Guide.</i>
+  @_s.JsonKey(name: 'Content')
+  final String content;
+
+  /// An optional description to assign to the policy.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The friendly name to assign to the policy.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> that is used
+  /// to validate this parameter is a string of any of the characters in the ASCII
+  /// character range.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The type of policy to create.
+  /// <note>
+  /// In the current release, the only type of policy that you can create is a
+  /// service control policy (SCP).
+  /// </note>
+  @_s.JsonKey(name: 'Type')
+  final PolicyType type;
+
+  CreatePolicyRequest({
+    @_s.required this.content,
+    @_s.required this.description,
+    @_s.required this.name,
+    @_s.required this.type,
+  });
+  Map<String, dynamic> toJson() => _$CreatePolicyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreatePolicyResponse {
@@ -4525,6 +4869,27 @@ class CreatePolicyResponse {
   });
   factory CreatePolicyResponse.fromJson(Map<String, dynamic> json) =>
       _$CreatePolicyResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeclineHandshakeRequest {
+  /// The unique identifier (ID) of the handshake that you want to decline. You
+  /// can get the ID from the <a>ListHandshakesForAccount</a> operation.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for
+  /// handshake ID string requires "h-" followed by from 8 to 32 lowercase letters
+  /// or digits.
+  @_s.JsonKey(name: 'HandshakeId')
+  final String handshakeId;
+
+  DeclineHandshakeRequest({
+    @_s.required this.handshakeId,
+  });
+  Map<String, dynamic> toJson() => _$DeclineHandshakeRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4639,6 +5004,103 @@ class DelegatedService {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteOrganizationalUnitRequest {
+  /// The unique identifier (ID) of the organizational unit that you want to
+  /// delete. You can get the ID from the <a>ListOrganizationalUnitsForParent</a>
+  /// operation.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for an
+  /// organizational unit ID string requires "ou-" followed by from 4 to 32
+  /// lowercase letters or digits (the ID of the root that contains the OU). This
+  /// string is followed by a second "-" dash and from 8 to 32 additional
+  /// lowercase letters or digits.
+  @_s.JsonKey(name: 'OrganizationalUnitId')
+  final String organizationalUnitId;
+
+  DeleteOrganizationalUnitRequest({
+    @_s.required this.organizationalUnitId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteOrganizationalUnitRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeletePolicyRequest {
+  /// The unique identifier (ID) of the policy that you want to delete. You can
+  /// get the ID from the <a>ListPolicies</a> or <a>ListPoliciesForTarget</a>
+  /// operations.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a policy
+  /// ID string requires "p-" followed by from 8 to 128 lowercase or uppercase
+  /// letters, digits, or the underscore character (_).
+  @_s.JsonKey(name: 'PolicyId')
+  final String policyId;
+
+  DeletePolicyRequest({
+    @_s.required this.policyId,
+  });
+  Map<String, dynamic> toJson() => _$DeletePolicyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeregisterDelegatedAdministratorRequest {
+  /// The account ID number of the member account in the organization that you
+  /// want to deregister as a delegated administrator.
+  @_s.JsonKey(name: 'AccountId')
+  final String accountId;
+
+  /// The service principal name of an AWS service for which the account is a
+  /// delegated administrator.
+  ///
+  /// Delegated administrator privileges are revoked for only the specified AWS
+  /// service from the member account. If the specified service is the only
+  /// service for which the member account is a delegated administrator, the
+  /// operation also revokes Organizations read action permissions.
+  @_s.JsonKey(name: 'ServicePrincipal')
+  final String servicePrincipal;
+
+  DeregisterDelegatedAdministratorRequest({
+    @_s.required this.accountId,
+    @_s.required this.servicePrincipal,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeregisterDelegatedAdministratorRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeAccountRequest {
+  /// The unique identifier (ID) of the AWS account that you want information
+  /// about. You can get the ID from the <a>ListAccounts</a> or
+  /// <a>ListAccountsForParent</a> operations.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for an
+  /// account ID string requires exactly 12 digits.
+  @_s.JsonKey(name: 'AccountId')
+  final String accountId;
+
+  DescribeAccountRequest({
+    @_s.required this.accountId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeAccountRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeAccountResponse {
@@ -4651,6 +5113,29 @@ class DescribeAccountResponse {
   });
   factory DescribeAccountResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeAccountResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeCreateAccountStatusRequest {
+  /// Specifies the <code>operationId</code> that uniquely identifies the request.
+  /// You can get the ID from the response to an earlier <a>CreateAccount</a>
+  /// request, or from the <a>ListCreateAccountStatus</a> operation.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a create
+  /// account request ID string requires "car-" followed by from 8 to 32 lowercase
+  /// letters or digits.
+  @_s.JsonKey(name: 'CreateAccountRequestId')
+  final String createAccountRequestId;
+
+  DescribeCreateAccountStatusRequest({
+    @_s.required this.createAccountRequestId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeCreateAccountStatusRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4674,6 +5159,29 @@ class DescribeCreateAccountStatusResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeEffectivePolicyRequest {
+  /// The type of policy that you want information about.
+  @_s.JsonKey(name: 'PolicyType')
+  final EffectivePolicyType policyType;
+
+  /// When you're signed in as the master account, specify the ID of the account
+  /// that you want details about. Specifying an organization root or OU as the
+  /// target is not supported.
+  @_s.JsonKey(name: 'TargetId')
+  final String targetId;
+
+  DescribeEffectivePolicyRequest({
+    @_s.required this.policyType,
+    this.targetId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeEffectivePolicyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeEffectivePolicyResponse {
@@ -4686,6 +5194,29 @@ class DescribeEffectivePolicyResponse {
   });
   factory DescribeEffectivePolicyResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeEffectivePolicyResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeHandshakeRequest {
+  /// The unique identifier (ID) of the handshake that you want information about.
+  /// You can get the ID from the original call to
+  /// <a>InviteAccountToOrganization</a>, or from a call to
+  /// <a>ListHandshakesForAccount</a> or <a>ListHandshakesForOrganization</a>.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for
+  /// handshake ID string requires "h-" followed by from 8 to 32 lowercase letters
+  /// or digits.
+  @_s.JsonKey(name: 'HandshakeId')
+  final String handshakeId;
+
+  DescribeHandshakeRequest({
+    @_s.required this.handshakeId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeHandshakeRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4725,6 +5256,31 @@ class DescribeOrganizationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeOrganizationalUnitRequest {
+  /// The unique identifier (ID) of the organizational unit that you want details
+  /// about. You can get the ID from the <a>ListOrganizationalUnitsForParent</a>
+  /// operation.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for an
+  /// organizational unit ID string requires "ou-" followed by from 4 to 32
+  /// lowercase letters or digits (the ID of the root that contains the OU). This
+  /// string is followed by a second "-" dash and from 8 to 32 additional
+  /// lowercase letters or digits.
+  @_s.JsonKey(name: 'OrganizationalUnitId')
+  final String organizationalUnitId;
+
+  DescribeOrganizationalUnitRequest({
+    @_s.required this.organizationalUnitId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeOrganizationalUnitRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeOrganizationalUnitResponse {
@@ -4743,6 +5299,28 @@ class DescribeOrganizationalUnitResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribePolicyRequest {
+  /// The unique identifier (ID) of the policy that you want details about. You
+  /// can get the ID from the <a>ListPolicies</a> or <a>ListPoliciesForTarget</a>
+  /// operations.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a policy
+  /// ID string requires "p-" followed by from 8 to 128 lowercase or uppercase
+  /// letters, digits, or the underscore character (_).
+  @_s.JsonKey(name: 'PolicyId')
+  final String policyId;
+
+  DescribePolicyRequest({
+    @_s.required this.policyId,
+  });
+  Map<String, dynamic> toJson() => _$DescribePolicyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribePolicyResponse {
@@ -4755,6 +5333,97 @@ class DescribePolicyResponse {
   });
   factory DescribePolicyResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribePolicyResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DetachPolicyRequest {
+  /// The unique identifier (ID) of the policy you want to detach. You can get the
+  /// ID from the <a>ListPolicies</a> or <a>ListPoliciesForTarget</a> operations.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a policy
+  /// ID string requires "p-" followed by from 8 to 128 lowercase or uppercase
+  /// letters, digits, or the underscore character (_).
+  @_s.JsonKey(name: 'PolicyId')
+  final String policyId;
+
+  /// The unique identifier (ID) of the root, OU, or account that you want to
+  /// detach the policy from. You can get the ID from the <a>ListRoots</a>,
+  /// <a>ListOrganizationalUnitsForParent</a>, or <a>ListAccounts</a> operations.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a target
+  /// ID string requires one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Root</b> - A string that begins with "r-" followed by from 4 to 32
+  /// lowercase letters or digits.
+  /// </li>
+  /// <li>
+  /// <b>Account</b> - A string that consists of exactly 12 digits.
+  /// </li>
+  /// <li>
+  /// <b>Organizational unit (OU)</b> - A string that begins with "ou-" followed
+  /// by from 4 to 32 lowercase letters or digits (the ID of the root that the OU
+  /// is in). This string is followed by a second "-" dash and from 8 to 32
+  /// additional lowercase letters or digits.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'TargetId')
+  final String targetId;
+
+  DetachPolicyRequest({
+    @_s.required this.policyId,
+    @_s.required this.targetId,
+  });
+  Map<String, dynamic> toJson() => _$DetachPolicyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisableAWSServiceAccessRequest {
+  /// The service principal name of the AWS service for which you want to disable
+  /// integration with your organization. This is typically in the form of a URL,
+  /// such as <code> <i>service-abbreviation</i>.amazonaws.com</code>.
+  @_s.JsonKey(name: 'ServicePrincipal')
+  final String servicePrincipal;
+
+  DisableAWSServiceAccessRequest({
+    @_s.required this.servicePrincipal,
+  });
+  Map<String, dynamic> toJson() => _$DisableAWSServiceAccessRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisablePolicyTypeRequest {
+  /// The policy type that you want to disable in this root.
+  @_s.JsonKey(name: 'PolicyType')
+  final PolicyType policyType;
+
+  /// The unique identifier (ID) of the root in which you want to disable a policy
+  /// type. You can get the ID from the <a>ListRoots</a> operation.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a root
+  /// ID string requires "r-" followed by from 4 to 32 lowercase letters or
+  /// digits.
+  @_s.JsonKey(name: 'RootId')
+  final String rootId;
+
+  DisablePolicyTypeRequest({
+    @_s.required this.policyType,
+    @_s.required this.rootId,
+  });
+  Map<String, dynamic> toJson() => _$DisablePolicyTypeRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4818,14 +5487,22 @@ enum EffectivePolicyType {
   tagPolicy,
 }
 
-extension on EffectivePolicyType {
-  String toValue() {
-    switch (this) {
-      case EffectivePolicyType.tagPolicy:
-        return 'TAG_POLICY';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class EnableAWSServiceAccessRequest {
+  /// The service principal name of the AWS service for which you want to enable
+  /// integration with your organization. This is typically in the form of a URL,
+  /// such as <code> <i>service-abbreviation</i>.amazonaws.com</code>.
+  @_s.JsonKey(name: 'ServicePrincipal')
+  final String servicePrincipal;
+
+  EnableAWSServiceAccessRequest({
+    @_s.required this.servicePrincipal,
+  });
+  Map<String, dynamic> toJson() => _$EnableAWSServiceAccessRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4844,6 +5521,32 @@ class EnableAllFeaturesResponse {
   });
   factory EnableAllFeaturesResponse.fromJson(Map<String, dynamic> json) =>
       _$EnableAllFeaturesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class EnablePolicyTypeRequest {
+  /// The policy type that you want to enable.
+  @_s.JsonKey(name: 'PolicyType')
+  final PolicyType policyType;
+
+  /// The unique identifier (ID) of the root in which you want to enable a policy
+  /// type. You can get the ID from the <a>ListRoots</a> operation.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a root
+  /// ID string requires "r-" followed by from 4 to 32 lowercase letters or
+  /// digits.
+  @_s.JsonKey(name: 'RootId')
+  final String rootId;
+
+  EnablePolicyTypeRequest({
+    @_s.required this.policyType,
+    @_s.required this.rootId,
+  });
+  Map<String, dynamic> toJson() => _$EnablePolicyTypeRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5198,16 +5901,43 @@ enum IAMUserAccessToBilling {
   deny,
 }
 
-extension on IAMUserAccessToBilling {
-  String toValue() {
-    switch (this) {
-      case IAMUserAccessToBilling.allow:
-        return 'ALLOW';
-      case IAMUserAccessToBilling.deny:
-        return 'DENY';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class InviteAccountToOrganizationRequest {
+  /// The identifier (ID) of the AWS account that you want to invite to join your
+  /// organization. This is a JSON object that contains the following elements:
+  ///
+  /// <code>{ "Type": "ACCOUNT", "Id": "&lt;<i> <b>account id number</b> </i>&gt;"
+  /// }</code>
+  ///
+  /// If you use the AWS CLI, you can submit this as a single string, similar to
+  /// the following example:
+  ///
+  /// <code>--target Id=123456789012,Type=ACCOUNT</code>
+  ///
+  /// If you specify <code>"Type": "ACCOUNT"</code>, you must provide the AWS
+  /// account ID number as the <code>Id</code>. If you specify <code>"Type":
+  /// "EMAIL"</code>, you must specify the email address that is associated with
+  /// the account.
+  ///
+  /// <code>--target Id=diego@example.com,Type=EMAIL</code>
+  @_s.JsonKey(name: 'Target')
+  final HandshakeParty target;
+
+  /// Additional information that you want to include in the generated email to
+  /// the recipient account owner.
+  @_s.JsonKey(name: 'Notes')
+  final String notes;
+
+  InviteAccountToOrganizationRequest({
+    @_s.required this.target,
+    this.notes,
+  });
+  Map<String, dynamic> toJson() =>
+      _$InviteAccountToOrganizationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5227,6 +5957,41 @@ class InviteAccountToOrganizationResponse {
   factory InviteAccountToOrganizationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$InviteAccountToOrganizationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListAWSServiceAccessForOrganizationRequest {
+  /// The total number of results that you want included on each page of the
+  /// response. If you do not include this parameter, it defaults to a value that
+  /// is specific to the operation. If additional items exist beyond the maximum
+  /// you specify, the <code>NextToken</code> response element is present and has
+  /// a value (is not null). Include that value as the <code>NextToken</code>
+  /// request parameter in the next call to the operation to get the next part of
+  /// the results. Note that Organizations might return fewer results than the
+  /// maximum even when there are more results available. You should check
+  /// <code>NextToken</code> after every operation to ensure that you receive all
+  /// of the results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The parameter for receiving additional results if you receive a
+  /// <code>NextToken</code> response in a previous request. A
+  /// <code>NextToken</code> response indicates that more output is available. Set
+  /// this parameter to the value of the previous call's <code>NextToken</code>
+  /// response to indicate where the output should continue from.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListAWSServiceAccessForOrganizationRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListAWSServiceAccessForOrganizationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5262,6 +6027,46 @@ class ListAWSServiceAccessForOrganizationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListAccountsForParentRequest {
+  /// The unique identifier (ID) for the parent root or organization unit (OU)
+  /// whose accounts you want to list.
+  @_s.JsonKey(name: 'ParentId')
+  final String parentId;
+
+  /// The total number of results that you want included on each page of the
+  /// response. If you do not include this parameter, it defaults to a value that
+  /// is specific to the operation. If additional items exist beyond the maximum
+  /// you specify, the <code>NextToken</code> response element is present and has
+  /// a value (is not null). Include that value as the <code>NextToken</code>
+  /// request parameter in the next call to the operation to get the next part of
+  /// the results. Note that Organizations might return fewer results than the
+  /// maximum even when there are more results available. You should check
+  /// <code>NextToken</code> after every operation to ensure that you receive all
+  /// of the results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The parameter for receiving additional results if you receive a
+  /// <code>NextToken</code> response in a previous request. A
+  /// <code>NextToken</code> response indicates that more output is available. Set
+  /// this parameter to the value of the previous call's <code>NextToken</code>
+  /// response to indicate where the output should continue from.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListAccountsForParentRequest({
+    @_s.required this.parentId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListAccountsForParentRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListAccountsForParentResponse {
@@ -5283,6 +6088,40 @@ class ListAccountsForParentResponse {
   });
   factory ListAccountsForParentResponse.fromJson(Map<String, dynamic> json) =>
       _$ListAccountsForParentResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListAccountsRequest {
+  /// The total number of results that you want included on each page of the
+  /// response. If you do not include this parameter, it defaults to a value that
+  /// is specific to the operation. If additional items exist beyond the maximum
+  /// you specify, the <code>NextToken</code> response element is present and has
+  /// a value (is not null). Include that value as the <code>NextToken</code>
+  /// request parameter in the next call to the operation to get the next part of
+  /// the results. Note that Organizations might return fewer results than the
+  /// maximum even when there are more results available. You should check
+  /// <code>NextToken</code> after every operation to ensure that you receive all
+  /// of the results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The parameter for receiving additional results if you receive a
+  /// <code>NextToken</code> response in a previous request. A
+  /// <code>NextToken</code> response indicates that more output is available. Set
+  /// this parameter to the value of the previous call's <code>NextToken</code>
+  /// response to indicate where the output should continue from.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListAccountsRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListAccountsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5314,6 +6153,67 @@ class ListAccountsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListChildrenRequest {
+  /// Filters the output to include only the specified child type.
+  @_s.JsonKey(name: 'ChildType')
+  final ChildType childType;
+
+  /// The unique identifier (ID) for the parent root or OU whose children you want
+  /// to list.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a parent
+  /// ID string requires one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Root</b> - A string that begins with "r-" followed by from 4 to 32
+  /// lowercase letters or digits.
+  /// </li>
+  /// <li>
+  /// <b>Organizational unit (OU)</b> - A string that begins with "ou-" followed
+  /// by from 4 to 32 lowercase letters or digits (the ID of the root that the OU
+  /// is in). This string is followed by a second "-" dash and from 8 to 32
+  /// additional lowercase letters or digits.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ParentId')
+  final String parentId;
+
+  /// The total number of results that you want included on each page of the
+  /// response. If you do not include this parameter, it defaults to a value that
+  /// is specific to the operation. If additional items exist beyond the maximum
+  /// you specify, the <code>NextToken</code> response element is present and has
+  /// a value (is not null). Include that value as the <code>NextToken</code>
+  /// request parameter in the next call to the operation to get the next part of
+  /// the results. Note that Organizations might return fewer results than the
+  /// maximum even when there are more results available. You should check
+  /// <code>NextToken</code> after every operation to ensure that you receive all
+  /// of the results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The parameter for receiving additional results if you receive a
+  /// <code>NextToken</code> response in a previous request. A
+  /// <code>NextToken</code> response indicates that more output is available. Set
+  /// this parameter to the value of the previous call's <code>NextToken</code>
+  /// response to indicate where the output should continue from.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListChildrenRequest({
+    @_s.required this.childType,
+    @_s.required this.parentId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListChildrenRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListChildrenResponse {
@@ -5335,6 +6235,46 @@ class ListChildrenResponse {
   });
   factory ListChildrenResponse.fromJson(Map<String, dynamic> json) =>
       _$ListChildrenResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListCreateAccountStatusRequest {
+  /// The total number of results that you want included on each page of the
+  /// response. If you do not include this parameter, it defaults to a value that
+  /// is specific to the operation. If additional items exist beyond the maximum
+  /// you specify, the <code>NextToken</code> response element is present and has
+  /// a value (is not null). Include that value as the <code>NextToken</code>
+  /// request parameter in the next call to the operation to get the next part of
+  /// the results. Note that Organizations might return fewer results than the
+  /// maximum even when there are more results available. You should check
+  /// <code>NextToken</code> after every operation to ensure that you receive all
+  /// of the results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The parameter for receiving additional results if you receive a
+  /// <code>NextToken</code> response in a previous request. A
+  /// <code>NextToken</code> response indicates that more output is available. Set
+  /// this parameter to the value of the previous call's <code>NextToken</code>
+  /// response to indicate where the output should continue from.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// A list of one or more states that you want included in the response. If this
+  /// parameter isn't present, all requests are included in the response.
+  @_s.JsonKey(name: 'States')
+  final List<String> states;
+
+  ListCreateAccountStatusRequest({
+    this.maxResults,
+    this.nextToken,
+    this.states,
+  });
+  Map<String, dynamic> toJson() => _$ListCreateAccountStatusRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5368,6 +6308,50 @@ class ListCreateAccountStatusResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListDelegatedAdministratorsRequest {
+  /// The total number of results that you want included on each page of the
+  /// response. If you do not include this parameter, it defaults to a value that
+  /// is specific to the operation. If additional items exist beyond the maximum
+  /// you specify, the <code>NextToken</code> response element is present and has
+  /// a value (is not null). Include that value as the <code>NextToken</code>
+  /// request parameter in the next call to the operation to get the next part of
+  /// the results. Note that Organizations might return fewer results than the
+  /// maximum even when there are more results available. You should check
+  /// <code>NextToken</code> after every operation to ensure that you receive all
+  /// of the results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The parameter for receiving additional results if you receive a
+  /// <code>NextToken</code> response in a previous request. A
+  /// <code>NextToken</code> response indicates that more output is available. Set
+  /// this parameter to the value of the previous call's <code>NextToken</code>
+  /// response to indicate where the output should continue from.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Specifies a service principal name. If specified, then the operation lists
+  /// the delegated administrators only for the specified service.
+  ///
+  /// If you don't specify a service principal, the operation lists all delegated
+  /// administrators for all services in your organization.
+  @_s.JsonKey(name: 'ServicePrincipal')
+  final String servicePrincipal;
+
+  ListDelegatedAdministratorsRequest({
+    this.maxResults,
+    this.nextToken,
+    this.servicePrincipal,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListDelegatedAdministratorsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListDelegatedAdministratorsResponse {
@@ -5395,6 +6379,47 @@ class ListDelegatedAdministratorsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListDelegatedServicesForAccountRequest {
+  /// The account ID number of a delegated administrator account in the
+  /// organization.
+  @_s.JsonKey(name: 'AccountId')
+  final String accountId;
+
+  /// The total number of results that you want included on each page of the
+  /// response. If you do not include this parameter, it defaults to a value that
+  /// is specific to the operation. If additional items exist beyond the maximum
+  /// you specify, the <code>NextToken</code> response element is present and has
+  /// a value (is not null). Include that value as the <code>NextToken</code>
+  /// request parameter in the next call to the operation to get the next part of
+  /// the results. Note that Organizations might return fewer results than the
+  /// maximum even when there are more results available. You should check
+  /// <code>NextToken</code> after every operation to ensure that you receive all
+  /// of the results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The parameter for receiving additional results if you receive a
+  /// <code>NextToken</code> response in a previous request. A
+  /// <code>NextToken</code> response indicates that more output is available. Set
+  /// this parameter to the value of the previous call's <code>NextToken</code>
+  /// response to indicate where the output should continue from.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListDelegatedServicesForAccountRequest({
+    @_s.required this.accountId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListDelegatedServicesForAccountRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListDelegatedServicesForAccountResponse {
@@ -5417,6 +6442,53 @@ class ListDelegatedServicesForAccountResponse {
   factory ListDelegatedServicesForAccountResponse.fromJson(
           Map<String, dynamic> json) =>
       _$ListDelegatedServicesForAccountResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListHandshakesForAccountRequest {
+  /// Filters the handshakes that you want included in the response. The default
+  /// is all types. Use the <code>ActionType</code> element to limit the output to
+  /// only a specified type, such as <code>INVITE</code>,
+  /// <code>ENABLE_ALL_FEATURES</code>, or <code>APPROVE_ALL_FEATURES</code>.
+  /// Alternatively, for the <code>ENABLE_ALL_FEATURES</code> handshake that
+  /// generates a separate child handshake for each member account, you can
+  /// specify <code>ParentHandshakeId</code> to see only the handshakes that were
+  /// generated by that parent request.
+  @_s.JsonKey(name: 'Filter')
+  final HandshakeFilter filter;
+
+  /// The total number of results that you want included on each page of the
+  /// response. If you do not include this parameter, it defaults to a value that
+  /// is specific to the operation. If additional items exist beyond the maximum
+  /// you specify, the <code>NextToken</code> response element is present and has
+  /// a value (is not null). Include that value as the <code>NextToken</code>
+  /// request parameter in the next call to the operation to get the next part of
+  /// the results. Note that Organizations might return fewer results than the
+  /// maximum even when there are more results available. You should check
+  /// <code>NextToken</code> after every operation to ensure that you receive all
+  /// of the results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The parameter for receiving additional results if you receive a
+  /// <code>NextToken</code> response in a previous request. A
+  /// <code>NextToken</code> response indicates that more output is available. Set
+  /// this parameter to the value of the previous call's <code>NextToken</code>
+  /// response to indicate where the output should continue from.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListHandshakesForAccountRequest({
+    this.filter,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListHandshakesForAccountRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5450,6 +6522,53 @@ class ListHandshakesForAccountResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListHandshakesForOrganizationRequest {
+  /// A filter of the handshakes that you want included in the response. The
+  /// default is all types. Use the <code>ActionType</code> element to limit the
+  /// output to only a specified type, such as <code>INVITE</code>,
+  /// <code>ENABLE-ALL-FEATURES</code>, or <code>APPROVE-ALL-FEATURES</code>.
+  /// Alternatively, for the <code>ENABLE-ALL-FEATURES</code> handshake that
+  /// generates a separate child handshake for each member account, you can
+  /// specify the <code>ParentHandshakeId</code> to see only the handshakes that
+  /// were generated by that parent request.
+  @_s.JsonKey(name: 'Filter')
+  final HandshakeFilter filter;
+
+  /// The total number of results that you want included on each page of the
+  /// response. If you do not include this parameter, it defaults to a value that
+  /// is specific to the operation. If additional items exist beyond the maximum
+  /// you specify, the <code>NextToken</code> response element is present and has
+  /// a value (is not null). Include that value as the <code>NextToken</code>
+  /// request parameter in the next call to the operation to get the next part of
+  /// the results. Note that Organizations might return fewer results than the
+  /// maximum even when there are more results available. You should check
+  /// <code>NextToken</code> after every operation to ensure that you receive all
+  /// of the results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The parameter for receiving additional results if you receive a
+  /// <code>NextToken</code> response in a previous request. A
+  /// <code>NextToken</code> response indicates that more output is available. Set
+  /// this parameter to the value of the previous call's <code>NextToken</code>
+  /// response to indicate where the output should continue from.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListHandshakesForOrganizationRequest({
+    this.filter,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListHandshakesForOrganizationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListHandshakesForOrganizationResponse {
@@ -5473,6 +6592,63 @@ class ListHandshakesForOrganizationResponse {
   factory ListHandshakesForOrganizationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$ListHandshakesForOrganizationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListOrganizationalUnitsForParentRequest {
+  /// The unique identifier (ID) of the root or OU whose child OUs you want to
+  /// list.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a parent
+  /// ID string requires one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Root</b> - A string that begins with "r-" followed by from 4 to 32
+  /// lowercase letters or digits.
+  /// </li>
+  /// <li>
+  /// <b>Organizational unit (OU)</b> - A string that begins with "ou-" followed
+  /// by from 4 to 32 lowercase letters or digits (the ID of the root that the OU
+  /// is in). This string is followed by a second "-" dash and from 8 to 32
+  /// additional lowercase letters or digits.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ParentId')
+  final String parentId;
+
+  /// The total number of results that you want included on each page of the
+  /// response. If you do not include this parameter, it defaults to a value that
+  /// is specific to the operation. If additional items exist beyond the maximum
+  /// you specify, the <code>NextToken</code> response element is present and has
+  /// a value (is not null). Include that value as the <code>NextToken</code>
+  /// request parameter in the next call to the operation to get the next part of
+  /// the results. Note that Organizations might return fewer results than the
+  /// maximum even when there are more results available. You should check
+  /// <code>NextToken</code> after every operation to ensure that you receive all
+  /// of the results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The parameter for receiving additional results if you receive a
+  /// <code>NextToken</code> response in a previous request. A
+  /// <code>NextToken</code> response indicates that more output is available. Set
+  /// this parameter to the value of the previous call's <code>NextToken</code>
+  /// response to indicate where the output should continue from.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListOrganizationalUnitsForParentRequest({
+    @_s.required this.parentId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListOrganizationalUnitsForParentRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5505,6 +6681,61 @@ class ListOrganizationalUnitsForParentResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListParentsRequest {
+  /// The unique identifier (ID) of the OU or account whose parent containers you
+  /// want to list. Don't specify a root.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a child
+  /// ID string requires one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Account</b> - A string that consists of exactly 12 digits.
+  /// </li>
+  /// <li>
+  /// <b>Organizational unit (OU)</b> - A string that begins with "ou-" followed
+  /// by from 4 to 32 lowercase letters or digits (the ID of the root that
+  /// contains the OU). This string is followed by a second "-" dash and from 8 to
+  /// 32 additional lowercase letters or digits.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ChildId')
+  final String childId;
+
+  /// The total number of results that you want included on each page of the
+  /// response. If you do not include this parameter, it defaults to a value that
+  /// is specific to the operation. If additional items exist beyond the maximum
+  /// you specify, the <code>NextToken</code> response element is present and has
+  /// a value (is not null). Include that value as the <code>NextToken</code>
+  /// request parameter in the next call to the operation to get the next part of
+  /// the results. Note that Organizations might return fewer results than the
+  /// maximum even when there are more results available. You should check
+  /// <code>NextToken</code> after every operation to ensure that you receive all
+  /// of the results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The parameter for receiving additional results if you receive a
+  /// <code>NextToken</code> response in a previous request. A
+  /// <code>NextToken</code> response indicates that more output is available. Set
+  /// this parameter to the value of the previous call's <code>NextToken</code>
+  /// response to indicate where the output should continue from.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListParentsRequest({
+    @_s.required this.childId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListParentsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListParentsResponse {
@@ -5531,6 +6762,70 @@ class ListParentsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListPoliciesForTargetRequest {
+  /// The type of policy that you want to include in the returned list.
+  @_s.JsonKey(name: 'Filter')
+  final PolicyType filter;
+
+  /// The unique identifier (ID) of the root, organizational unit, or account
+  /// whose policies you want to list.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a target
+  /// ID string requires one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Root</b> - A string that begins with "r-" followed by from 4 to 32
+  /// lowercase letters or digits.
+  /// </li>
+  /// <li>
+  /// <b>Account</b> - A string that consists of exactly 12 digits.
+  /// </li>
+  /// <li>
+  /// <b>Organizational unit (OU)</b> - A string that begins with "ou-" followed
+  /// by from 4 to 32 lowercase letters or digits (the ID of the root that the OU
+  /// is in). This string is followed by a second "-" dash and from 8 to 32
+  /// additional lowercase letters or digits.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'TargetId')
+  final String targetId;
+
+  /// The total number of results that you want included on each page of the
+  /// response. If you do not include this parameter, it defaults to a value that
+  /// is specific to the operation. If additional items exist beyond the maximum
+  /// you specify, the <code>NextToken</code> response element is present and has
+  /// a value (is not null). Include that value as the <code>NextToken</code>
+  /// request parameter in the next call to the operation to get the next part of
+  /// the results. Note that Organizations might return fewer results than the
+  /// maximum even when there are more results available. You should check
+  /// <code>NextToken</code> after every operation to ensure that you receive all
+  /// of the results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The parameter for receiving additional results if you receive a
+  /// <code>NextToken</code> response in a previous request. A
+  /// <code>NextToken</code> response indicates that more output is available. Set
+  /// this parameter to the value of the previous call's <code>NextToken</code>
+  /// response to indicate where the output should continue from.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListPoliciesForTargetRequest({
+    @_s.required this.filter,
+    @_s.required this.targetId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListPoliciesForTargetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListPoliciesForTargetResponse {
@@ -5552,6 +6847,45 @@ class ListPoliciesForTargetResponse {
   });
   factory ListPoliciesForTargetResponse.fromJson(Map<String, dynamic> json) =>
       _$ListPoliciesForTargetResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListPoliciesRequest {
+  /// Specifies the type of policy that you want to include in the response.
+  @_s.JsonKey(name: 'Filter')
+  final PolicyType filter;
+
+  /// The total number of results that you want included on each page of the
+  /// response. If you do not include this parameter, it defaults to a value that
+  /// is specific to the operation. If additional items exist beyond the maximum
+  /// you specify, the <code>NextToken</code> response element is present and has
+  /// a value (is not null). Include that value as the <code>NextToken</code>
+  /// request parameter in the next call to the operation to get the next part of
+  /// the results. Note that Organizations might return fewer results than the
+  /// maximum even when there are more results available. You should check
+  /// <code>NextToken</code> after every operation to ensure that you receive all
+  /// of the results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The parameter for receiving additional results if you receive a
+  /// <code>NextToken</code> response in a previous request. A
+  /// <code>NextToken</code> response indicates that more output is available. Set
+  /// this parameter to the value of the previous call's <code>NextToken</code>
+  /// response to indicate where the output should continue from.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListPoliciesRequest({
+    @_s.required this.filter,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListPoliciesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5585,6 +6919,40 @@ class ListPoliciesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListRootsRequest {
+  /// The total number of results that you want included on each page of the
+  /// response. If you do not include this parameter, it defaults to a value that
+  /// is specific to the operation. If additional items exist beyond the maximum
+  /// you specify, the <code>NextToken</code> response element is present and has
+  /// a value (is not null). Include that value as the <code>NextToken</code>
+  /// request parameter in the next call to the operation to get the next part of
+  /// the results. Note that Organizations might return fewer results than the
+  /// maximum even when there are more results available. You should check
+  /// <code>NextToken</code> after every operation to ensure that you receive all
+  /// of the results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The parameter for receiving additional results if you receive a
+  /// <code>NextToken</code> response in a previous request. A
+  /// <code>NextToken</code> response indicates that more output is available. Set
+  /// this parameter to the value of the previous call's <code>NextToken</code>
+  /// response to indicate where the output should continue from.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListRootsRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListRootsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListRootsResponse {
@@ -5606,6 +6974,31 @@ class ListRootsResponse {
   });
   factory ListRootsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListRootsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceRequest {
+  /// The ID of the resource that you want to retrieve tags for.
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  /// The parameter for receiving additional results if you receive a
+  /// <code>NextToken</code> response in a previous request. A
+  /// <code>NextToken</code> response indicates that more output is available. Set
+  /// this parameter to the value of the previous call's <code>NextToken</code>
+  /// response to indicate where the output should continue from.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListTagsForResourceRequest({
+    @_s.required this.resourceId,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5637,6 +7030,49 @@ class ListTagsForResourceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTargetsForPolicyRequest {
+  /// The unique identifier (ID) of the policy whose attachments you want to know.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a policy
+  /// ID string requires "p-" followed by from 8 to 128 lowercase or uppercase
+  /// letters, digits, or the underscore character (_).
+  @_s.JsonKey(name: 'PolicyId')
+  final String policyId;
+
+  /// The total number of results that you want included on each page of the
+  /// response. If you do not include this parameter, it defaults to a value that
+  /// is specific to the operation. If additional items exist beyond the maximum
+  /// you specify, the <code>NextToken</code> response element is present and has
+  /// a value (is not null). Include that value as the <code>NextToken</code>
+  /// request parameter in the next call to the operation to get the next part of
+  /// the results. Note that Organizations might return fewer results than the
+  /// maximum even when there are more results available. You should check
+  /// <code>NextToken</code> after every operation to ensure that you receive all
+  /// of the results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The parameter for receiving additional results if you receive a
+  /// <code>NextToken</code> response in a previous request. A
+  /// <code>NextToken</code> response indicates that more output is available. Set
+  /// this parameter to the value of the previous call's <code>NextToken</code>
+  /// response to indicate where the output should continue from.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListTargetsForPolicyRequest({
+    @_s.required this.policyId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListTargetsForPolicyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListTargetsForPolicyResponse {
@@ -5659,6 +7095,69 @@ class ListTargetsForPolicyResponse {
   });
   factory ListTargetsForPolicyResponse.fromJson(Map<String, dynamic> json) =>
       _$ListTargetsForPolicyResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class MoveAccountRequest {
+  /// The unique identifier (ID) of the account that you want to move.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for an
+  /// account ID string requires exactly 12 digits.
+  @_s.JsonKey(name: 'AccountId')
+  final String accountId;
+
+  /// The unique identifier (ID) of the root or organizational unit that you want
+  /// to move the account to.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a parent
+  /// ID string requires one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Root</b> - A string that begins with "r-" followed by from 4 to 32
+  /// lowercase letters or digits.
+  /// </li>
+  /// <li>
+  /// <b>Organizational unit (OU)</b> - A string that begins with "ou-" followed
+  /// by from 4 to 32 lowercase letters or digits (the ID of the root that the OU
+  /// is in). This string is followed by a second "-" dash and from 8 to 32
+  /// additional lowercase letters or digits.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'DestinationParentId')
+  final String destinationParentId;
+
+  /// The unique identifier (ID) of the root or organizational unit that you want
+  /// to move the account from.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a parent
+  /// ID string requires one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Root</b> - A string that begins with "r-" followed by from 4 to 32
+  /// lowercase letters or digits.
+  /// </li>
+  /// <li>
+  /// <b>Organizational unit (OU)</b> - A string that begins with "ou-" followed
+  /// by from 4 to 32 lowercase letters or digits (the ID of the root that the OU
+  /// is in). This string is followed by a second "-" dash and from 8 to 32
+  /// additional lowercase letters or digits.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'SourceParentId')
+  final String sourceParentId;
+
+  MoveAccountRequest({
+    @_s.required this.accountId,
+    @_s.required this.destinationParentId,
+    @_s.required this.sourceParentId,
+  });
+  Map<String, dynamic> toJson() => _$MoveAccountRequestToJson(this);
 }
 
 /// Contains details about an organization. An organization is a collection of
@@ -5751,18 +7250,6 @@ enum OrganizationFeatureSet {
   all,
   @_s.JsonValue('CONSOLIDATED_BILLING')
   consolidatedBilling,
-}
-
-extension on OrganizationFeatureSet {
-  String toValue() {
-    switch (this) {
-      case OrganizationFeatureSet.all:
-        return 'ALL';
-      case OrganizationFeatureSet.consolidatedBilling:
-        return 'CONSOLIDATED_BILLING';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Contains details about an organizational unit (OU). An OU is a container of
@@ -6008,18 +7495,6 @@ enum PolicyType {
   tagPolicy,
 }
 
-extension on PolicyType {
-  String toValue() {
-    switch (this) {
-      case PolicyType.serviceControlPolicy:
-        return 'SERVICE_CONTROL_POLICY';
-      case PolicyType.tagPolicy:
-        return 'TAG_POLICY';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum PolicyTypeStatus {
   @_s.JsonValue('ENABLED')
   enabled,
@@ -6054,6 +7529,51 @@ class PolicyTypeSummary {
   });
   factory PolicyTypeSummary.fromJson(Map<String, dynamic> json) =>
       _$PolicyTypeSummaryFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RegisterDelegatedAdministratorRequest {
+  /// The account ID number of the member account in the organization to register
+  /// as a delegated administrator.
+  @_s.JsonKey(name: 'AccountId')
+  final String accountId;
+
+  /// The service principal of the AWS service for which you want to make the
+  /// member account a delegated administrator.
+  @_s.JsonKey(name: 'ServicePrincipal')
+  final String servicePrincipal;
+
+  RegisterDelegatedAdministratorRequest({
+    @_s.required this.accountId,
+    @_s.required this.servicePrincipal,
+  });
+  Map<String, dynamic> toJson() =>
+      _$RegisterDelegatedAdministratorRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RemoveAccountFromOrganizationRequest {
+  /// The unique identifier (ID) of the member account that you want to remove
+  /// from the organization.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for an
+  /// account ID string requires exactly 12 digits.
+  @_s.JsonKey(name: 'AccountId')
+  final String accountId;
+
+  RemoveAccountFromOrganizationRequest({
+    @_s.required this.accountId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$RemoveAccountFromOrganizationRequestToJson(this);
 }
 
 /// Contains details about a root. A root is a top-level parent node in the
@@ -6140,6 +7660,29 @@ class Tag {
   Map<String, dynamic> toJson() => _$TagToJson(this);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The ID of the resource to add a tag to.
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  /// The tag to add to the specified resource. Specifying the tag key is
+  /// required. You can set the value of a tag to an empty string, but you can't
+  /// set the value of a tag to null.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceId,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
 enum TargetType {
   @_s.JsonValue('ACCOUNT')
   account,
@@ -6147,6 +7690,60 @@ enum TargetType {
   organizationalUnit,
   @_s.JsonValue('ROOT')
   root,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The ID of the resource to remove the tag from.
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  /// The tag to remove from the specified resource.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceId,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateOrganizationalUnitRequest {
+  /// The unique identifier (ID) of the OU that you want to rename. You can get
+  /// the ID from the <a>ListOrganizationalUnitsForParent</a> operation.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for an
+  /// organizational unit ID string requires "ou-" followed by from 4 to 32
+  /// lowercase letters or digits (the ID of the root that contains the OU). This
+  /// string is followed by a second "-" dash and from 8 to 32 additional
+  /// lowercase letters or digits.
+  @_s.JsonKey(name: 'OrganizationalUnitId')
+  final String organizationalUnitId;
+
+  /// The new name that you want to assign to the OU.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> that is used
+  /// to validate this parameter is a string of any of the characters in the ASCII
+  /// character range.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  UpdateOrganizationalUnitRequest({
+    @_s.required this.organizationalUnitId,
+    this.name,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateOrganizationalUnitRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6166,6 +7763,49 @@ class UpdateOrganizationalUnitResponse {
   factory UpdateOrganizationalUnitResponse.fromJson(
           Map<String, dynamic> json) =>
       _$UpdateOrganizationalUnitResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdatePolicyRequest {
+  /// The unique identifier (ID) of the policy that you want to update.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a policy
+  /// ID string requires "p-" followed by from 8 to 128 lowercase or uppercase
+  /// letters, digits, or the underscore character (_).
+  @_s.JsonKey(name: 'PolicyId')
+  final String policyId;
+
+  /// If provided, the new content for the policy. The text must be correctly
+  /// formatted JSON that complies with the syntax for the policy's type. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_scp-syntax.html">Service
+  /// Control Policy Syntax</a> in the <i>AWS Organizations User Guide.</i>
+  @_s.JsonKey(name: 'Content')
+  final String content;
+
+  /// If provided, the new description for the policy.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// If provided, the new name for the policy.
+  ///
+  /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> that is used
+  /// to validate this parameter is a string of any of the characters in the ASCII
+  /// character range.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  UpdatePolicyRequest({
+    @_s.required this.policyId,
+    this.content,
+    this.description,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$UpdatePolicyRequestToJson(this);
 }
 
 @_s.JsonSerializable(

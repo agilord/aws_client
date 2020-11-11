@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -158,18 +157,16 @@ class Cloud9 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'instanceType': instanceType,
-        'name': name,
-        if (automaticStopTimeMinutes != null)
-          'automaticStopTimeMinutes': automaticStopTimeMinutes,
-        if (clientRequestToken != null)
-          'clientRequestToken': clientRequestToken,
-        if (description != null) 'description': description,
-        if (ownerArn != null) 'ownerArn': ownerArn,
-        if (subnetId != null) 'subnetId': subnetId,
-        if (tags != null) 'tags': tags,
-      },
+      payload: CreateEnvironmentEC2Request(
+        instanceType: instanceType,
+        name: name,
+        automaticStopTimeMinutes: automaticStopTimeMinutes,
+        clientRequestToken: clientRequestToken,
+        description: description,
+        ownerArn: ownerArn,
+        subnetId: subnetId,
+        tags: tags,
+      ),
     );
 
     return CreateEnvironmentEC2Result.fromJson(jsonResponse.body);
@@ -235,11 +232,11 @@ class Cloud9 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'environmentId': environmentId,
-        'permissions': permissions?.toValue(),
-        'userArn': userArn,
-      },
+      payload: CreateEnvironmentMembershipRequest(
+        environmentId: environmentId,
+        permissions: permissions,
+        userArn: userArn,
+      ),
     );
 
     return CreateEnvironmentMembershipResult.fromJson(jsonResponse.body);
@@ -278,9 +275,9 @@ class Cloud9 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'environmentId': environmentId,
-      },
+      payload: DeleteEnvironmentRequest(
+        environmentId: environmentId,
+      ),
     );
 
     return DeleteEnvironmentResult.fromJson(jsonResponse.body);
@@ -331,10 +328,10 @@ class Cloud9 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'environmentId': environmentId,
-        'userArn': userArn,
-      },
+      payload: DeleteEnvironmentMembershipRequest(
+        environmentId: environmentId,
+        userArn: userArn,
+      ),
     );
 
     return DeleteEnvironmentMembershipResult.fromJson(jsonResponse.body);
@@ -421,13 +418,13 @@ class Cloud9 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (environmentId != null) 'environmentId': environmentId,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (permissions != null) 'permissions': permissions,
-        if (userArn != null) 'userArn': userArn,
-      },
+      payload: DescribeEnvironmentMembershipsRequest(
+        environmentId: environmentId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        permissions: permissions,
+        userArn: userArn,
+      ),
     );
 
     return DescribeEnvironmentMembershipsResult.fromJson(jsonResponse.body);
@@ -466,9 +463,9 @@ class Cloud9 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'environmentId': environmentId,
-      },
+      payload: DescribeEnvironmentStatusRequest(
+        environmentId: environmentId,
+      ),
     );
 
     return DescribeEnvironmentStatusResult.fromJson(jsonResponse.body);
@@ -500,9 +497,9 @@ class Cloud9 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'environmentIds': environmentIds,
-      },
+      payload: DescribeEnvironmentsRequest(
+        environmentIds: environmentIds,
+      ),
     );
 
     return DescribeEnvironmentsResult.fromJson(jsonResponse.body);
@@ -548,10 +545,10 @@ class Cloud9 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListEnvironmentsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListEnvironmentsResult.fromJson(jsonResponse.body);
@@ -587,9 +584,9 @@ class Cloud9 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceARN': resourceARN,
-      },
+      payload: ListTagsForResourceRequest(
+        resourceARN: resourceARN,
+      ),
     );
 
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
@@ -633,10 +630,10 @@ class Cloud9 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceARN': resourceARN,
-        'Tags': tags,
-      },
+      payload: TagResourceRequest(
+        resourceARN: resourceARN,
+        tags: tags,
+      ),
     );
 
     return TagResourceResponse.fromJson(jsonResponse.body);
@@ -677,10 +674,10 @@ class Cloud9 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceARN': resourceARN,
-        'TagKeys': tagKeys,
-      },
+      payload: UntagResourceRequest(
+        resourceARN: resourceARN,
+        tagKeys: tagKeys,
+      ),
     );
 
     return UntagResourceResponse.fromJson(jsonResponse.body);
@@ -738,11 +735,11 @@ class Cloud9 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'environmentId': environmentId,
-        if (description != null) 'description': description,
-        if (name != null) 'name': name,
-      },
+      payload: UpdateEnvironmentRequest(
+        environmentId: environmentId,
+        description: description,
+        name: name,
+      ),
     );
 
     return UpdateEnvironmentResult.fromJson(jsonResponse.body);
@@ -810,15 +807,79 @@ class Cloud9 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'environmentId': environmentId,
-        'permissions': permissions?.toValue(),
-        'userArn': userArn,
-      },
+      payload: UpdateEnvironmentMembershipRequest(
+        environmentId: environmentId,
+        permissions: permissions,
+        userArn: userArn,
+      ),
     );
 
     return UpdateEnvironmentMembershipResult.fromJson(jsonResponse.body);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateEnvironmentEC2Request {
+  /// The type of instance to connect to the environment (for example,
+  /// <code>t2.micro</code>).
+  @_s.JsonKey(name: 'instanceType')
+  final String instanceType;
+
+  /// The name of the environment to create.
+  ///
+  /// This name is visible to other AWS IAM users in the same AWS account.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The number of minutes until the running instance is shut down after the
+  /// environment has last been used.
+  @_s.JsonKey(name: 'automaticStopTimeMinutes')
+  final int automaticStopTimeMinutes;
+
+  /// A unique, case-sensitive string that helps AWS Cloud9 to ensure this
+  /// operation completes no more than one time.
+  ///
+  /// For more information, see <a
+  /// href="http://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Client
+  /// Tokens</a> in the <i>Amazon EC2 API Reference</i>.
+  @_s.JsonKey(name: 'clientRequestToken')
+  final String clientRequestToken;
+
+  /// The description of the environment to create.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The Amazon Resource Name (ARN) of the environment owner. This ARN can be the
+  /// ARN of any AWS IAM principal. If this value is not specified, the ARN
+  /// defaults to this environment's creator.
+  @_s.JsonKey(name: 'ownerArn')
+  final String ownerArn;
+
+  /// The ID of the subnet in Amazon VPC that AWS Cloud9 will use to communicate
+  /// with the Amazon EC2 instance.
+  @_s.JsonKey(name: 'subnetId')
+  final String subnetId;
+
+  /// An array of key-value pairs that will be associated with the new AWS Cloud9
+  /// development environment.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  CreateEnvironmentEC2Request({
+    @_s.required this.instanceType,
+    @_s.required this.name,
+    this.automaticStopTimeMinutes,
+    this.clientRequestToken,
+    this.description,
+    this.ownerArn,
+    this.subnetId,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateEnvironmentEC2RequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -836,6 +897,44 @@ class CreateEnvironmentEC2Result {
   });
   factory CreateEnvironmentEC2Result.fromJson(Map<String, dynamic> json) =>
       _$CreateEnvironmentEC2ResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateEnvironmentMembershipRequest {
+  /// The ID of the environment that contains the environment member you want to
+  /// add.
+  @_s.JsonKey(name: 'environmentId')
+  final String environmentId;
+
+  /// The type of environment member permissions you want to associate with this
+  /// environment member. Available values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>read-only</code>: Has read-only access to the environment.
+  /// </li>
+  /// <li>
+  /// <code>read-write</code>: Has read-write access to the environment.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'permissions')
+  final MemberPermissions permissions;
+
+  /// The Amazon Resource Name (ARN) of the environment member you want to add.
+  @_s.JsonKey(name: 'userArn')
+  final String userArn;
+
+  CreateEnvironmentMembershipRequest({
+    @_s.required this.environmentId,
+    @_s.required this.permissions,
+    @_s.required this.userArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateEnvironmentMembershipRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -859,6 +958,29 @@ class CreateEnvironmentMembershipResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteEnvironmentMembershipRequest {
+  /// The ID of the environment to delete the environment member from.
+  @_s.JsonKey(name: 'environmentId')
+  final String environmentId;
+
+  /// The Amazon Resource Name (ARN) of the environment member to delete from the
+  /// environment.
+  @_s.JsonKey(name: 'userArn')
+  final String userArn;
+
+  DeleteEnvironmentMembershipRequest({
+    @_s.required this.environmentId,
+    @_s.required this.userArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteEnvironmentMembershipRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteEnvironmentMembershipResult {
@@ -871,12 +993,87 @@ class DeleteEnvironmentMembershipResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteEnvironmentRequest {
+  /// The ID of the environment to delete.
+  @_s.JsonKey(name: 'environmentId')
+  final String environmentId;
+
+  DeleteEnvironmentRequest({
+    @_s.required this.environmentId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteEnvironmentRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteEnvironmentResult {
   DeleteEnvironmentResult();
   factory DeleteEnvironmentResult.fromJson(Map<String, dynamic> json) =>
       _$DeleteEnvironmentResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeEnvironmentMembershipsRequest {
+  /// The ID of the environment to get environment member information about.
+  @_s.JsonKey(name: 'environmentId')
+  final String environmentId;
+
+  /// The maximum number of environment members to get information about.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// During a previous call, if there are more than 25 items in the list, only
+  /// the first 25 items are returned, along with a unique string called a <i>next
+  /// token</i>. To get the next batch of items in the list, call this operation
+  /// again, adding the next token to the call. To get all of the items in the
+  /// list, keep calling this operation with each subsequent next token that is
+  /// returned, until no more next tokens are returned.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The type of environment member permissions to get information about.
+  /// Available values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>owner</code>: Owns the environment.
+  /// </li>
+  /// <li>
+  /// <code>read-only</code>: Has read-only access to the environment.
+  /// </li>
+  /// <li>
+  /// <code>read-write</code>: Has read-write access to the environment.
+  /// </li>
+  /// </ul>
+  /// If no value is specified, information about all environment members are
+  /// returned.
+  @_s.JsonKey(name: 'permissions')
+  final List<String> permissions;
+
+  /// The Amazon Resource Name (ARN) of an individual environment member to get
+  /// information about. If no value is specified, information about all
+  /// environment members are returned.
+  @_s.JsonKey(name: 'userArn')
+  final String userArn;
+
+  DescribeEnvironmentMembershipsRequest({
+    this.environmentId,
+    this.maxResults,
+    this.nextToken,
+    this.permissions,
+    this.userArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeEnvironmentMembershipsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -903,6 +1100,23 @@ class DescribeEnvironmentMembershipsResult {
   factory DescribeEnvironmentMembershipsResult.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeEnvironmentMembershipsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeEnvironmentStatusRequest {
+  /// The ID of the environment to get status information about.
+  @_s.JsonKey(name: 'environmentId')
+  final String environmentId;
+
+  DescribeEnvironmentStatusRequest({
+    @_s.required this.environmentId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeEnvironmentStatusRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -949,6 +1163,22 @@ class DescribeEnvironmentStatusResult {
   });
   factory DescribeEnvironmentStatusResult.fromJson(Map<String, dynamic> json) =>
       _$DescribeEnvironmentStatusResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeEnvironmentsRequest {
+  /// The IDs of individual environments to get information about.
+  @_s.JsonKey(name: 'environmentIds')
+  final List<String> environmentIds;
+
+  DescribeEnvironmentsRequest({
+    @_s.required this.environmentIds,
+  });
+  Map<String, dynamic> toJson() => _$DescribeEnvironmentsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1171,6 +1401,32 @@ enum EnvironmentType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListEnvironmentsRequest {
+  /// The maximum number of environments to get identifiers for.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// During a previous call, if there are more than 25 items in the list, only
+  /// the first 25 items are returned, along with a unique string called a <i>next
+  /// token</i>. To get the next batch of items in the list, call this operation
+  /// again, adding the next token to the call. To get all of the items in the
+  /// list, keep calling this operation with each subsequent next token that is
+  /// returned, until no more next tokens are returned.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListEnvironmentsRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListEnvironmentsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListEnvironmentsResult {
@@ -1196,6 +1452,23 @@ class ListEnvironmentsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceRequest {
+  /// The Amazon Resource Name (ARN) of the AWS Cloud9 development environment to
+  /// get the tags for.
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+
+  ListTagsForResourceRequest({
+    @_s.required this.resourceARN,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListTagsForResourceResponse {
@@ -1215,18 +1488,6 @@ enum MemberPermissions {
   readWrite,
   @_s.JsonValue('read-only')
   readOnly,
-}
-
-extension on MemberPermissions {
-  String toValue() {
-    switch (this) {
-      case MemberPermissions.readWrite:
-        return 'read-write';
-      case MemberPermissions.readOnly:
-        return 'read-only';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 enum Permissions {
@@ -1270,6 +1531,28 @@ class Tag {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the AWS Cloud9 development environment to
+  /// add tags to.
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+
+  /// The list of tags to add to the given AWS Cloud9 development environment.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceARN,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagResourceResponse {
@@ -1281,12 +1564,74 @@ class TagResourceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the AWS Cloud9 development environment to
+  /// remove tags from.
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+
+  /// The tag names of the tags to remove from the given AWS Cloud9 development
+  /// environment.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceARN,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
   factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateEnvironmentMembershipRequest {
+  /// The ID of the environment for the environment member whose settings you want
+  /// to change.
+  @_s.JsonKey(name: 'environmentId')
+  final String environmentId;
+
+  /// The replacement type of environment member permissions you want to associate
+  /// with this environment member. Available values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>read-only</code>: Has read-only access to the environment.
+  /// </li>
+  /// <li>
+  /// <code>read-write</code>: Has read-write access to the environment.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'permissions')
+  final MemberPermissions permissions;
+
+  /// The Amazon Resource Name (ARN) of the environment member whose settings you
+  /// want to change.
+  @_s.JsonKey(name: 'userArn')
+  final String userArn;
+
+  UpdateEnvironmentMembershipRequest({
+    @_s.required this.environmentId,
+    @_s.required this.permissions,
+    @_s.required this.userArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateEnvironmentMembershipRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1305,6 +1650,32 @@ class UpdateEnvironmentMembershipResult {
   factory UpdateEnvironmentMembershipResult.fromJson(
           Map<String, dynamic> json) =>
       _$UpdateEnvironmentMembershipResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateEnvironmentRequest {
+  /// The ID of the environment to change settings.
+  @_s.JsonKey(name: 'environmentId')
+  final String environmentId;
+
+  /// Any new or replacement description for the environment.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// A replacement name for the environment.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  UpdateEnvironmentRequest({
+    @_s.required this.environmentId,
+    this.description,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$UpdateEnvironmentRequestToJson(this);
 }
 
 @_s.JsonSerializable(

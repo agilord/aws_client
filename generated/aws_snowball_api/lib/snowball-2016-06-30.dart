@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -86,9 +85,9 @@ class Snowball {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClusterId': clusterId,
-      },
+      payload: CancelClusterRequest(
+        clusterId: clusterId,
+      ),
     );
 
     return CancelClusterResult.fromJson(jsonResponse.body);
@@ -134,9 +133,9 @@ class Snowball {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobId': jobId,
-      },
+      payload: CancelJobRequest(
+        jobId: jobId,
+      ),
     );
 
     return CancelJobResult.fromJson(jsonResponse.body);
@@ -166,9 +165,9 @@ class Snowball {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Address': address,
-      },
+      payload: CreateAddressRequest(
+        address: address,
+      ),
     );
 
     return CreateAddressResult.fromJson(jsonResponse.body);
@@ -337,20 +336,19 @@ class Snowball {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AddressId': addressId,
-        'JobType': jobType?.toValue(),
-        'Resources': resources,
-        'RoleARN': roleARN,
-        'ShippingOption': shippingOption?.toValue(),
-        if (description != null) 'Description': description,
-        if (forwardingAddressId != null)
-          'ForwardingAddressId': forwardingAddressId,
-        if (kmsKeyARN != null) 'KmsKeyARN': kmsKeyARN,
-        if (notification != null) 'Notification': notification,
-        if (snowballType != null) 'SnowballType': snowballType?.toValue(),
-        if (taxDocuments != null) 'TaxDocuments': taxDocuments,
-      },
+      payload: CreateClusterRequest(
+        addressId: addressId,
+        jobType: jobType,
+        resources: resources,
+        roleARN: roleARN,
+        shippingOption: shippingOption,
+        description: description,
+        forwardingAddressId: forwardingAddressId,
+        kmsKeyARN: kmsKeyARN,
+        notification: notification,
+        snowballType: snowballType,
+        taxDocuments: taxDocuments,
+      ),
     );
 
     return CreateClusterResult.fromJson(jsonResponse.body);
@@ -543,23 +541,21 @@ class Snowball {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (addressId != null) 'AddressId': addressId,
-        if (clusterId != null) 'ClusterId': clusterId,
-        if (description != null) 'Description': description,
-        if (forwardingAddressId != null)
-          'ForwardingAddressId': forwardingAddressId,
-        if (jobType != null) 'JobType': jobType?.toValue(),
-        if (kmsKeyARN != null) 'KmsKeyARN': kmsKeyARN,
-        if (notification != null) 'Notification': notification,
-        if (resources != null) 'Resources': resources,
-        if (roleARN != null) 'RoleARN': roleARN,
-        if (shippingOption != null) 'ShippingOption': shippingOption?.toValue(),
-        if (snowballCapacityPreference != null)
-          'SnowballCapacityPreference': snowballCapacityPreference?.toValue(),
-        if (snowballType != null) 'SnowballType': snowballType?.toValue(),
-        if (taxDocuments != null) 'TaxDocuments': taxDocuments,
-      },
+      payload: CreateJobRequest(
+        addressId: addressId,
+        clusterId: clusterId,
+        description: description,
+        forwardingAddressId: forwardingAddressId,
+        jobType: jobType,
+        kmsKeyARN: kmsKeyARN,
+        notification: notification,
+        resources: resources,
+        roleARN: roleARN,
+        shippingOption: shippingOption,
+        snowballCapacityPreference: snowballCapacityPreference,
+        snowballType: snowballType,
+        taxDocuments: taxDocuments,
+      ),
     );
 
     return CreateJobResult.fromJson(jsonResponse.body);
@@ -599,9 +595,9 @@ class Snowball {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AddressId': addressId,
-      },
+      payload: DescribeAddressRequest(
+        addressId: addressId,
+      ),
     );
 
     return DescribeAddressResult.fromJson(jsonResponse.body);
@@ -648,10 +644,10 @@ class Snowball {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeAddressesRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeAddressesResult.fromJson(jsonResponse.body);
@@ -691,9 +687,9 @@ class Snowball {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClusterId': clusterId,
-      },
+      payload: DescribeClusterRequest(
+        clusterId: clusterId,
+      ),
     );
 
     return DescribeClusterResult.fromJson(jsonResponse.body);
@@ -734,9 +730,9 @@ class Snowball {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobId': jobId,
-      },
+      payload: DescribeJobRequest(
+        jobId: jobId,
+      ),
     );
 
     return DescribeJobResult.fromJson(jsonResponse.body);
@@ -795,9 +791,9 @@ class Snowball {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobId': jobId,
-      },
+      payload: GetJobManifestRequest(
+        jobId: jobId,
+      ),
     );
 
     return GetJobManifestResult.fromJson(jsonResponse.body);
@@ -850,9 +846,9 @@ class Snowball {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobId': jobId,
-      },
+      payload: GetJobUnlockCodeRequest(
+        jobId: jobId,
+      ),
     );
 
     return GetJobUnlockCodeResult.fromJson(jsonResponse.body);
@@ -916,9 +912,9 @@ class Snowball {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobId': jobId,
-      },
+      payload: GetSoftwareUpdatesRequest(
+        jobId: jobId,
+      ),
     );
 
     return GetSoftwareUpdatesResult.fromJson(jsonResponse.body);
@@ -985,11 +981,11 @@ class Snowball {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClusterId': clusterId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListClusterJobsRequest(
+        clusterId: clusterId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListClusterJobsResult.fromJson(jsonResponse.body);
@@ -1035,10 +1031,10 @@ class Snowball {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListClustersRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListClustersResult.fromJson(jsonResponse.body);
@@ -1089,10 +1085,10 @@ class Snowball {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListCompatibleImagesRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListCompatibleImagesResult.fromJson(jsonResponse.body);
@@ -1141,10 +1137,10 @@ class Snowball {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListJobsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListJobsResult.fromJson(jsonResponse.body);
@@ -1265,17 +1261,16 @@ class Snowball {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClusterId': clusterId,
-        if (addressId != null) 'AddressId': addressId,
-        if (description != null) 'Description': description,
-        if (forwardingAddressId != null)
-          'ForwardingAddressId': forwardingAddressId,
-        if (notification != null) 'Notification': notification,
-        if (resources != null) 'Resources': resources,
-        if (roleARN != null) 'RoleARN': roleARN,
-        if (shippingOption != null) 'ShippingOption': shippingOption?.toValue(),
-      },
+      payload: UpdateClusterRequest(
+        clusterId: clusterId,
+        addressId: addressId,
+        description: description,
+        forwardingAddressId: forwardingAddressId,
+        notification: notification,
+        resources: resources,
+        roleARN: roleARN,
+        shippingOption: shippingOption,
+      ),
     );
 
     return UpdateClusterResult.fromJson(jsonResponse.body);
@@ -1402,19 +1397,17 @@ class Snowball {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobId': jobId,
-        if (addressId != null) 'AddressId': addressId,
-        if (description != null) 'Description': description,
-        if (forwardingAddressId != null)
-          'ForwardingAddressId': forwardingAddressId,
-        if (notification != null) 'Notification': notification,
-        if (resources != null) 'Resources': resources,
-        if (roleARN != null) 'RoleARN': roleARN,
-        if (shippingOption != null) 'ShippingOption': shippingOption?.toValue(),
-        if (snowballCapacityPreference != null)
-          'SnowballCapacityPreference': snowballCapacityPreference?.toValue(),
-      },
+      payload: UpdateJobRequest(
+        jobId: jobId,
+        addressId: addressId,
+        description: description,
+        forwardingAddressId: forwardingAddressId,
+        notification: notification,
+        resources: resources,
+        roleARN: roleARN,
+        shippingOption: shippingOption,
+        snowballCapacityPreference: snowballCapacityPreference,
+      ),
     );
 
     return UpdateJobResult.fromJson(jsonResponse.body);
@@ -1516,12 +1509,46 @@ class Address {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CancelClusterRequest {
+  /// The 39-character ID for the cluster that you want to cancel, for example
+  /// <code>CID123e4567-e89b-12d3-a456-426655440000</code>.
+  @_s.JsonKey(name: 'ClusterId')
+  final String clusterId;
+
+  CancelClusterRequest({
+    @_s.required this.clusterId,
+  });
+  Map<String, dynamic> toJson() => _$CancelClusterRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CancelClusterResult {
   CancelClusterResult();
   factory CancelClusterResult.fromJson(Map<String, dynamic> json) =>
       _$CancelClusterResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CancelJobRequest {
+  /// The 39-character job ID for the job that you want to cancel, for example
+  /// <code>JID123e4567-e89b-12d3-a456-426655440000</code>.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  CancelJobRequest({
+    @_s.required this.jobId,
+  });
+  Map<String, dynamic> toJson() => _$CancelJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1738,6 +1765,22 @@ class CompatibleImage {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateAddressRequest {
+  /// The address that you want the Snowball shipped to.
+  @_s.JsonKey(name: 'Address')
+  final Address address;
+
+  CreateAddressRequest({
+    @_s.required this.address,
+  });
+  Map<String, dynamic> toJson() => _$CreateAddressRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateAddressResult {
@@ -1757,6 +1800,111 @@ class CreateAddressResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateClusterRequest {
+  /// The ID for the address that you want the cluster shipped to.
+  @_s.JsonKey(name: 'AddressId')
+  final String addressId;
+
+  /// The type of job for this cluster. Currently, the only job type supported for
+  /// clusters is <code>LOCAL_USE</code>.
+  @_s.JsonKey(name: 'JobType')
+  final JobType jobType;
+
+  /// The resources associated with the cluster job. These resources include
+  /// Amazon S3 buckets and optional AWS Lambda functions written in the Python
+  /// language.
+  @_s.JsonKey(name: 'Resources')
+  final JobResource resources;
+
+  /// The <code>RoleARN</code> that you want to associate with this cluster.
+  /// <code>RoleArn</code> values are created by using the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html">CreateRole</a>
+  /// API action in AWS Identity and Access Management (IAM).
+  @_s.JsonKey(name: 'RoleARN')
+  final String roleARN;
+
+  /// The shipping speed for each node in this cluster. This speed doesn't dictate
+  /// how soon you'll get each Snowball Edge device, rather it represents how
+  /// quickly each device moves to its destination while in transit. Regional
+  /// shipping speeds are as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// In Australia, you have access to express shipping. Typically, devices
+  /// shipped express are delivered in about a day.
+  /// </li>
+  /// <li>
+  /// In the European Union (EU), you have access to express shipping. Typically,
+  /// Snowball Edges shipped express are delivered in about a day. In addition,
+  /// most countries in the EU have access to standard shipping, which typically
+  /// takes less than a week, one way.
+  /// </li>
+  /// <li>
+  /// In India, Snowball Edges are delivered in one to seven days.
+  /// </li>
+  /// <li>
+  /// In the US, you have access to one-day shipping and two-day shipping.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ShippingOption')
+  final ShippingOption shippingOption;
+
+  /// An optional description of this specific cluster, for example
+  /// <code>Environmental Data Cluster-01</code>.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The forwarding address ID for a cluster. This field is not supported in most
+  /// regions.
+  @_s.JsonKey(name: 'ForwardingAddressId')
+  final String forwardingAddressId;
+
+  /// The <code>KmsKeyARN</code> value that you want to associate with this
+  /// cluster. <code>KmsKeyARN</code> values are created by using the <a
+  /// href="https://docs.aws.amazon.com/kms/latest/APIReference/API_CreateKey.html">CreateKey</a>
+  /// API action in AWS Key Management Service (AWS KMS).
+  @_s.JsonKey(name: 'KmsKeyARN')
+  final String kmsKeyARN;
+
+  /// The Amazon Simple Notification Service (Amazon SNS) notification settings
+  /// for this cluster.
+  @_s.JsonKey(name: 'Notification')
+  final Notification notification;
+
+  /// The type of AWS Snowball device to use for this cluster. Currently, the only
+  /// supported device type for cluster jobs is <code>EDGE</code>.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/snowball/latest/developer-guide/device-differences.html">Snowball
+  /// Edge Device Options</a> in the Snowball Edge Developer Guide.
+  @_s.JsonKey(name: 'SnowballType')
+  final SnowballType snowballType;
+
+  /// The tax documents required in your AWS Region.
+  @_s.JsonKey(name: 'TaxDocuments')
+  final TaxDocuments taxDocuments;
+
+  CreateClusterRequest({
+    @_s.required this.addressId,
+    @_s.required this.jobType,
+    @_s.required this.resources,
+    @_s.required this.roleARN,
+    @_s.required this.shippingOption,
+    this.description,
+    this.forwardingAddressId,
+    this.kmsKeyARN,
+    this.notification,
+    this.snowballType,
+    this.taxDocuments,
+  });
+  Map<String, dynamic> toJson() => _$CreateClusterRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateClusterResult {
@@ -1769,6 +1917,131 @@ class CreateClusterResult {
   });
   factory CreateClusterResult.fromJson(Map<String, dynamic> json) =>
       _$CreateClusterResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateJobRequest {
+  /// The ID for the address that you want the Snowball shipped to.
+  @_s.JsonKey(name: 'AddressId')
+  final String addressId;
+
+  /// The ID of a cluster. If you're creating a job for a node in a cluster, you
+  /// need to provide only this <code>clusterId</code> value. The other job
+  /// attributes are inherited from the cluster.
+  @_s.JsonKey(name: 'ClusterId')
+  final String clusterId;
+
+  /// Defines an optional description of this specific job, for example
+  /// <code>Important Photos 2016-08-11</code>.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The forwarding address ID for a job. This field is not supported in most
+  /// regions.
+  @_s.JsonKey(name: 'ForwardingAddressId')
+  final String forwardingAddressId;
+
+  /// Defines the type of job that you're creating.
+  @_s.JsonKey(name: 'JobType')
+  final JobType jobType;
+
+  /// The <code>KmsKeyARN</code> that you want to associate with this job.
+  /// <code>KmsKeyARN</code>s are created using the <a
+  /// href="https://docs.aws.amazon.com/kms/latest/APIReference/API_CreateKey.html">CreateKey</a>
+  /// AWS Key Management Service (KMS) API action.
+  @_s.JsonKey(name: 'KmsKeyARN')
+  final String kmsKeyARN;
+
+  /// Defines the Amazon Simple Notification Service (Amazon SNS) notification
+  /// settings for this job.
+  @_s.JsonKey(name: 'Notification')
+  final Notification notification;
+
+  /// Defines the Amazon S3 buckets associated with this job.
+  ///
+  /// With <code>IMPORT</code> jobs, you specify the bucket or buckets that your
+  /// transferred data will be imported into.
+  ///
+  /// With <code>EXPORT</code> jobs, you specify the bucket or buckets that your
+  /// transferred data will be exported from. Optionally, you can also specify a
+  /// <code>KeyRange</code> value. If you choose to export a range, you define the
+  /// length of the range by providing either an inclusive
+  /// <code>BeginMarker</code> value, an inclusive <code>EndMarker</code> value,
+  /// or both. Ranges are UTF-8 binary sorted.
+  @_s.JsonKey(name: 'Resources')
+  final JobResource resources;
+
+  /// The <code>RoleARN</code> that you want to associate with this job.
+  /// <code>RoleArn</code>s are created using the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html">CreateRole</a>
+  /// AWS Identity and Access Management (IAM) API action.
+  @_s.JsonKey(name: 'RoleARN')
+  final String roleARN;
+
+  /// The shipping speed for this job. This speed doesn't dictate how soon you'll
+  /// get the Snowball, rather it represents how quickly the Snowball moves to its
+  /// destination while in transit. Regional shipping speeds are as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// In Australia, you have access to express shipping. Typically, Snowballs
+  /// shipped express are delivered in about a day.
+  /// </li>
+  /// <li>
+  /// In the European Union (EU), you have access to express shipping. Typically,
+  /// Snowballs shipped express are delivered in about a day. In addition, most
+  /// countries in the EU have access to standard shipping, which typically takes
+  /// less than a week, one way.
+  /// </li>
+  /// <li>
+  /// In India, Snowballs are delivered in one to seven days.
+  /// </li>
+  /// <li>
+  /// In the US, you have access to one-day shipping and two-day shipping.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ShippingOption')
+  final ShippingOption shippingOption;
+
+  /// If your job is being created in one of the US regions, you have the option
+  /// of specifying what size Snowball you'd like for this job. In all other
+  /// regions, Snowballs come with 80 TB in storage capacity.
+  @_s.JsonKey(name: 'SnowballCapacityPreference')
+  final SnowballCapacity snowballCapacityPreference;
+
+  /// The type of AWS Snowball device to use for this job. Currently, the only
+  /// supported device type for cluster jobs is <code>EDGE</code>.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/snowball/latest/developer-guide/device-differences.html">Snowball
+  /// Edge Device Options</a> in the Snowball Edge Developer Guide.
+  @_s.JsonKey(name: 'SnowballType')
+  final SnowballType snowballType;
+
+  /// The tax documents required in your AWS Region.
+  @_s.JsonKey(name: 'TaxDocuments')
+  final TaxDocuments taxDocuments;
+
+  CreateJobRequest({
+    this.addressId,
+    this.clusterId,
+    this.description,
+    this.forwardingAddressId,
+    this.jobType,
+    this.kmsKeyARN,
+    this.notification,
+    this.resources,
+    this.roleARN,
+    this.shippingOption,
+    this.snowballCapacityPreference,
+    this.snowballType,
+    this.taxDocuments,
+  });
+  Map<String, dynamic> toJson() => _$CreateJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1832,6 +2105,22 @@ class DataTransfer {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeAddressRequest {
+  /// The automatically generated ID for a specific address.
+  @_s.JsonKey(name: 'AddressId')
+  final String addressId;
+
+  DescribeAddressRequest({
+    @_s.required this.addressId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeAddressRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeAddressResult {
@@ -1845,6 +2134,30 @@ class DescribeAddressResult {
   });
   factory DescribeAddressResult.fromJson(Map<String, dynamic> json) =>
       _$DescribeAddressResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeAddressesRequest {
+  /// The number of <code>ADDRESS</code> objects to return.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// HTTP requests are stateless. To identify what object comes "next" in the
+  /// list of <code>ADDRESS</code> objects, you have the option of specifying a
+  /// value for <code>NextToken</code> as the starting point for your list of
+  /// returned addresses.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeAddressesRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeAddressesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1875,6 +2188,22 @@ class DescribeAddressesResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeClusterRequest {
+  /// The automatically generated ID for a cluster.
+  @_s.JsonKey(name: 'ClusterId')
+  final String clusterId;
+
+  DescribeClusterRequest({
+    @_s.required this.clusterId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeClusterRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeClusterResult {
@@ -1888,6 +2217,23 @@ class DescribeClusterResult {
   });
   factory DescribeClusterResult.fromJson(Map<String, dynamic> json) =>
       _$DescribeClusterResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeJobRequest {
+  /// The automatically generated ID for a job, for example
+  /// <code>JID123e4567-e89b-12d3-a456-426655440000</code>.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  DescribeJobRequest({
+    @_s.required this.jobId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1966,6 +2312,23 @@ class EventTriggerDefinition {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetJobManifestRequest {
+  /// The ID for a job that you want to get the manifest file for, for example
+  /// <code>JID123e4567-e89b-12d3-a456-426655440000</code>.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  GetJobManifestRequest({
+    @_s.required this.jobId,
+  });
+  Map<String, dynamic> toJson() => _$GetJobManifestRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetJobManifestResult {
@@ -1979,6 +2342,23 @@ class GetJobManifestResult {
   });
   factory GetJobManifestResult.fromJson(Map<String, dynamic> json) =>
       _$GetJobManifestResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetJobUnlockCodeRequest {
+  /// The ID for the job that you want to get the <code>UnlockCode</code> value
+  /// for, for example <code>JID123e4567-e89b-12d3-a456-426655440000</code>.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  GetJobUnlockCodeRequest({
+    @_s.required this.jobId,
+  });
+  Map<String, dynamic> toJson() => _$GetJobUnlockCodeRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2021,6 +2401,23 @@ class GetSnowballUsageResult {
   });
   factory GetSnowballUsageResult.fromJson(Map<String, dynamic> json) =>
       _$GetSnowballUsageResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetSoftwareUpdatesRequest {
+  /// The ID for a job that you want to get the software update file for, for
+  /// example <code>JID123e4567-e89b-12d3-a456-426655440000</code>.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  GetSoftwareUpdatesRequest({
+    @_s.required this.jobId,
+  });
+  Map<String, dynamic> toJson() => _$GetSoftwareUpdatesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2372,20 +2769,6 @@ enum JobType {
   localUse,
 }
 
-extension on JobType {
-  String toValue() {
-    switch (this) {
-      case JobType.import:
-        return 'IMPORT';
-      case JobType.export:
-        return 'EXPORT';
-      case JobType.localUse:
-        return 'LOCAL_USE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Contains a key range. For export jobs, a <code>S3Resource</code> object can
 /// have an optional <code>KeyRange</code> value. The length of the range is
 /// defined at job creation, and has either an inclusive
@@ -2447,6 +2830,35 @@ class LambdaResource {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListClusterJobsRequest {
+  /// The 39-character ID for the cluster that you want to list, for example
+  /// <code>CID123e4567-e89b-12d3-a456-426655440000</code>.
+  @_s.JsonKey(name: 'ClusterId')
+  final String clusterId;
+
+  /// The number of <code>JobListEntry</code> objects to return.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// HTTP requests are stateless. To identify what object comes "next" in the
+  /// list of <code>JobListEntry</code> objects, you have the option of specifying
+  /// <code>NextToken</code> as the starting point for your returned list.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListClusterJobsRequest({
+    @_s.required this.clusterId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListClusterJobsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListClusterJobsResult {
@@ -2468,6 +2880,30 @@ class ListClusterJobsResult {
   });
   factory ListClusterJobsResult.fromJson(Map<String, dynamic> json) =>
       _$ListClusterJobsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListClustersRequest {
+  /// The number of <code>ClusterListEntry</code> objects to return.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// HTTP requests are stateless. To identify what object comes "next" in the
+  /// list of <code>ClusterListEntry</code> objects, you have the option of
+  /// specifying <code>NextToken</code> as the starting point for your returned
+  /// list.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListClustersRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListClustersRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2499,6 +2935,31 @@ class ListClustersResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListCompatibleImagesRequest {
+  /// The maximum number of results for the list of compatible images. Currently,
+  /// a Snowball Edge device can store 10 AMIs.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// HTTP requests are stateless. To identify what object comes "next" in the
+  /// list of compatible images, you can specify a value for
+  /// <code>NextToken</code> as the starting point for your list of returned
+  /// images.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListCompatibleImagesRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListCompatibleImagesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListCompatibleImagesResult {
@@ -2518,6 +2979,29 @@ class ListCompatibleImagesResult {
   });
   factory ListCompatibleImagesResult.fromJson(Map<String, dynamic> json) =>
       _$ListCompatibleImagesResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListJobsRequest {
+  /// The number of <code>JobListEntry</code> objects to return.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// HTTP requests are stateless. To identify what object comes "next" in the
+  /// list of <code>JobListEntry</code> objects, you have the option of specifying
+  /// <code>NextToken</code> as the starting point for your returned list.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListJobsRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListJobsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2722,22 +3206,6 @@ enum ShippingOption {
   standard,
 }
 
-extension on ShippingOption {
-  String toValue() {
-    switch (this) {
-      case ShippingOption.secondDay:
-        return 'SECOND_DAY';
-      case ShippingOption.nextDay:
-        return 'NEXT_DAY';
-      case ShippingOption.express:
-        return 'EXPRESS';
-      case ShippingOption.standard:
-        return 'STANDARD';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum SnowballCapacity {
   @_s.JsonValue('T50')
   t50,
@@ -2753,26 +3221,6 @@ enum SnowballCapacity {
   noPreference,
 }
 
-extension on SnowballCapacity {
-  String toValue() {
-    switch (this) {
-      case SnowballCapacity.t50:
-        return 'T50';
-      case SnowballCapacity.t80:
-        return 'T80';
-      case SnowballCapacity.t100:
-        return 'T100';
-      case SnowballCapacity.t42:
-        return 'T42';
-      case SnowballCapacity.t98:
-        return 'T98';
-      case SnowballCapacity.noPreference:
-        return 'NoPreference';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum SnowballType {
   @_s.JsonValue('STANDARD')
   standard,
@@ -2784,24 +3232,6 @@ enum SnowballType {
   edgeCg,
   @_s.JsonValue('EDGE_S')
   edgeS,
-}
-
-extension on SnowballType {
-  String toValue() {
-    switch (this) {
-      case SnowballType.standard:
-        return 'STANDARD';
-      case SnowballType.edge:
-        return 'EDGE';
-      case SnowballType.edgeC:
-        return 'EDGE_C';
-      case SnowballType.edgeCg:
-        return 'EDGE_CG';
-      case SnowballType.edgeS:
-        return 'EDGE_S';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// The tax documents required in your AWS Region.
@@ -2827,12 +3257,135 @@ class TaxDocuments {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateClusterRequest {
+  /// The cluster ID of the cluster that you want to update, for example
+  /// <code>CID123e4567-e89b-12d3-a456-426655440000</code>.
+  @_s.JsonKey(name: 'ClusterId')
+  final String clusterId;
+
+  /// The ID of the updated <a>Address</a> object.
+  @_s.JsonKey(name: 'AddressId')
+  final String addressId;
+
+  /// The updated description of this cluster.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The updated ID for the forwarding address for a cluster. This field is not
+  /// supported in most regions.
+  @_s.JsonKey(name: 'ForwardingAddressId')
+  final String forwardingAddressId;
+
+  /// The new or updated <a>Notification</a> object.
+  @_s.JsonKey(name: 'Notification')
+  final Notification notification;
+
+  /// The updated arrays of <a>JobResource</a> objects that can include updated
+  /// <a>S3Resource</a> objects or <a>LambdaResource</a> objects.
+  @_s.JsonKey(name: 'Resources')
+  final JobResource resources;
+
+  /// The new role Amazon Resource Name (ARN) that you want to associate with this
+  /// cluster. To create a role ARN, use the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html">CreateRole</a>
+  /// API action in AWS Identity and Access Management (IAM).
+  @_s.JsonKey(name: 'RoleARN')
+  final String roleARN;
+
+  /// The updated shipping option value of this cluster's <a>ShippingDetails</a>
+  /// object.
+  @_s.JsonKey(name: 'ShippingOption')
+  final ShippingOption shippingOption;
+
+  UpdateClusterRequest({
+    @_s.required this.clusterId,
+    this.addressId,
+    this.description,
+    this.forwardingAddressId,
+    this.notification,
+    this.resources,
+    this.roleARN,
+    this.shippingOption,
+  });
+  Map<String, dynamic> toJson() => _$UpdateClusterRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateClusterResult {
   UpdateClusterResult();
   factory UpdateClusterResult.fromJson(Map<String, dynamic> json) =>
       _$UpdateClusterResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateJobRequest {
+  /// The job ID of the job that you want to update, for example
+  /// <code>JID123e4567-e89b-12d3-a456-426655440000</code>.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  /// The ID of the updated <a>Address</a> object.
+  @_s.JsonKey(name: 'AddressId')
+  final String addressId;
+
+  /// The updated description of this job's <a>JobMetadata</a> object.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The updated ID for the forwarding address for a job. This field is not
+  /// supported in most regions.
+  @_s.JsonKey(name: 'ForwardingAddressId')
+  final String forwardingAddressId;
+
+  /// The new or updated <a>Notification</a> object.
+  @_s.JsonKey(name: 'Notification')
+  final Notification notification;
+
+  /// The updated <code>JobResource</code> object, or the updated
+  /// <a>JobResource</a> object.
+  @_s.JsonKey(name: 'Resources')
+  final JobResource resources;
+
+  /// The new role Amazon Resource Name (ARN) that you want to associate with this
+  /// job. To create a role ARN, use the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html">CreateRole</a>AWS
+  /// Identity and Access Management (IAM) API action.
+  @_s.JsonKey(name: 'RoleARN')
+  final String roleARN;
+
+  /// The updated shipping option value of this job's <a>ShippingDetails</a>
+  /// object.
+  @_s.JsonKey(name: 'ShippingOption')
+  final ShippingOption shippingOption;
+
+  /// The updated <code>SnowballCapacityPreference</code> of this job's
+  /// <a>JobMetadata</a> object. The 50 TB Snowballs are only available in the US
+  /// regions.
+  @_s.JsonKey(name: 'SnowballCapacityPreference')
+  final SnowballCapacity snowballCapacityPreference;
+
+  UpdateJobRequest({
+    @_s.required this.jobId,
+    this.addressId,
+    this.description,
+    this.forwardingAddressId,
+    this.notification,
+    this.resources,
+    this.roleARN,
+    this.shippingOption,
+    this.snowballCapacityPreference,
+  });
+  Map<String, dynamic> toJson() => _$UpdateJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(

@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -20,6 +19,8 @@ import 'package:shared_aws_api/shared.dart'
         unixTimestampToJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
+
+part 'enum.g.dart';
 
 /// Enum
 class Enum {
@@ -51,10 +52,10 @@ class Enum {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (fooEnum != null) 'FooEnum': fooEnum?.toValue(),
-        if (listEnums != null) 'ListEnums': listEnums,
-      },
+      payload: InputShape(
+        fooEnum: fooEnum,
+        listEnums: listEnums,
+      ),
     );
   }
 
@@ -72,12 +73,30 @@ class Enum {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (fooEnum != null) 'FooEnum': fooEnum?.toValue(),
-        if (listEnums != null) 'ListEnums': listEnums,
-      },
+      payload: InputShape(
+        fooEnum: fooEnum,
+        listEnums: listEnums,
+      ),
     );
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class InputShape {
+  @_s.JsonKey(name: 'FooEnum')
+  final EnumType fooEnum;
+  @_s.JsonKey(name: 'ListEnums')
+  final List<String> listEnums;
+
+  InputShape({
+    this.fooEnum,
+    this.listEnums,
+  });
+  Map<String, dynamic> toJson() => _$InputShapeToJson(this);
 }
 
 enum EnumType {
@@ -85,18 +104,6 @@ enum EnumType {
   foo,
   @_s.JsonValue('bar')
   bar,
-}
-
-extension on EnumType {
-  String toValue() {
-    switch (this) {
-      case EnumType.foo:
-        return 'foo';
-      case EnumType.bar:
-        return 'bar';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

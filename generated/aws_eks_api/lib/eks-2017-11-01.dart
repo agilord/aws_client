@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -187,16 +186,16 @@ class EKS {
     );
     ArgumentError.checkNotNull(resourcesVpcConfig, 'resourcesVpcConfig');
     ArgumentError.checkNotNull(roleArn, 'roleArn');
-    final $payload = <String, dynamic>{
-      'name': name,
-      'resourcesVpcConfig': resourcesVpcConfig,
-      'roleArn': roleArn,
-      if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
-      if (encryptionConfig != null) 'encryptionConfig': encryptionConfig,
-      if (logging != null) 'logging': logging,
-      if (tags != null) 'tags': tags,
-      if (version != null) 'version': version,
-    };
+    final $payload = CreateClusterRequest(
+      name: name,
+      resourcesVpcConfig: resourcesVpcConfig,
+      roleArn: roleArn,
+      clientRequestToken: clientRequestToken,
+      encryptionConfig: encryptionConfig,
+      logging: logging,
+      tags: tags,
+      version: version,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -300,14 +299,15 @@ class EKS {
     ArgumentError.checkNotNull(clusterName, 'clusterName');
     ArgumentError.checkNotNull(fargateProfileName, 'fargateProfileName');
     ArgumentError.checkNotNull(podExecutionRoleArn, 'podExecutionRoleArn');
-    final $payload = <String, dynamic>{
-      'fargateProfileName': fargateProfileName,
-      'podExecutionRoleArn': podExecutionRoleArn,
-      if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
-      if (selectors != null) 'selectors': selectors,
-      if (subnets != null) 'subnets': subnets,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateFargateProfileRequest(
+      clusterName: clusterName,
+      fargateProfileName: fargateProfileName,
+      podExecutionRoleArn: podExecutionRoleArn,
+      clientRequestToken: clientRequestToken,
+      selectors: selectors,
+      subnets: subnets,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -434,21 +434,22 @@ class EKS {
     ArgumentError.checkNotNull(nodeRole, 'nodeRole');
     ArgumentError.checkNotNull(nodegroupName, 'nodegroupName');
     ArgumentError.checkNotNull(subnets, 'subnets');
-    final $payload = <String, dynamic>{
-      'nodeRole': nodeRole,
-      'nodegroupName': nodegroupName,
-      'subnets': subnets,
-      if (amiType != null) 'amiType': amiType?.toValue(),
-      if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
-      if (diskSize != null) 'diskSize': diskSize,
-      if (instanceTypes != null) 'instanceTypes': instanceTypes,
-      if (labels != null) 'labels': labels,
-      if (releaseVersion != null) 'releaseVersion': releaseVersion,
-      if (remoteAccess != null) 'remoteAccess': remoteAccess,
-      if (scalingConfig != null) 'scalingConfig': scalingConfig,
-      if (tags != null) 'tags': tags,
-      if (version != null) 'version': version,
-    };
+    final $payload = CreateNodegroupRequest(
+      clusterName: clusterName,
+      nodeRole: nodeRole,
+      nodegroupName: nodegroupName,
+      subnets: subnets,
+      amiType: amiType,
+      clientRequestToken: clientRequestToken,
+      diskSize: diskSize,
+      instanceTypes: instanceTypes,
+      labels: labels,
+      releaseVersion: releaseVersion,
+      remoteAccess: remoteAccess,
+      scalingConfig: scalingConfig,
+      tags: tags,
+      version: version,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -485,7 +486,9 @@ class EKS {
     @_s.required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteClusterRequest(
+      name: name,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -524,7 +527,10 @@ class EKS {
   }) async {
     ArgumentError.checkNotNull(clusterName, 'clusterName');
     ArgumentError.checkNotNull(fargateProfileName, 'fargateProfileName');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteFargateProfileRequest(
+      clusterName: clusterName,
+      fargateProfileName: fargateProfileName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -556,7 +562,10 @@ class EKS {
   }) async {
     ArgumentError.checkNotNull(clusterName, 'clusterName');
     ArgumentError.checkNotNull(nodegroupName, 'nodegroupName');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteNodegroupRequest(
+      clusterName: clusterName,
+      nodegroupName: nodegroupName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -975,9 +984,10 @@ class EKS {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'tags': tags,
-    };
+    final $payload = TagResourceRequest(
+      resourceArn: resourceArn,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1009,7 +1019,10 @@ class EKS {
     _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = UntagResourceRequest(
+      resourceArn: resourceArn,
+      tagKeys: tagKeys,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1088,11 +1101,12 @@ class EKS {
     VpcConfigRequest resourcesVpcConfig,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    final $payload = <String, dynamic>{
-      if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
-      if (logging != null) 'logging': logging,
-      if (resourcesVpcConfig != null) 'resourcesVpcConfig': resourcesVpcConfig,
-    };
+    final $payload = UpdateClusterConfigRequest(
+      name: name,
+      clientRequestToken: clientRequestToken,
+      logging: logging,
+      resourcesVpcConfig: resourcesVpcConfig,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1141,10 +1155,11 @@ class EKS {
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     ArgumentError.checkNotNull(version, 'version');
-    final $payload = <String, dynamic>{
-      'version': version,
-      if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
-    };
+    final $payload = UpdateClusterVersionRequest(
+      name: name,
+      version: version,
+      clientRequestToken: clientRequestToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1193,11 +1208,13 @@ class EKS {
   }) async {
     ArgumentError.checkNotNull(clusterName, 'clusterName');
     ArgumentError.checkNotNull(nodegroupName, 'nodegroupName');
-    final $payload = <String, dynamic>{
-      if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
-      if (labels != null) 'labels': labels,
-      if (scalingConfig != null) 'scalingConfig': scalingConfig,
-    };
+    final $payload = UpdateNodegroupConfigRequest(
+      clusterName: clusterName,
+      nodegroupName: nodegroupName,
+      clientRequestToken: clientRequestToken,
+      labels: labels,
+      scalingConfig: scalingConfig,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1274,12 +1291,14 @@ class EKS {
   }) async {
     ArgumentError.checkNotNull(clusterName, 'clusterName');
     ArgumentError.checkNotNull(nodegroupName, 'nodegroupName');
-    final $payload = <String, dynamic>{
-      if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
-      if (force != null) 'force': force,
-      if (releaseVersion != null) 'releaseVersion': releaseVersion,
-      if (version != null) 'version': version,
-    };
+    final $payload = UpdateNodegroupVersionRequest(
+      clusterName: clusterName,
+      nodegroupName: nodegroupName,
+      clientRequestToken: clientRequestToken,
+      force: force,
+      releaseVersion: releaseVersion,
+      version: version,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1296,18 +1315,6 @@ enum AMITypes {
   al2X86_64,
   @_s.JsonValue('AL2_x86_64_GPU')
   al2X86_64Gpu,
-}
-
-extension on AMITypes {
-  String toValue() {
-    switch (this) {
-      case AMITypes.al2X86_64:
-        return 'AL2_x86_64';
-      case AMITypes.al2X86_64Gpu:
-        return 'AL2_x86_64_GPU';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// An Auto Scaling group that is associated with an Amazon EKS managed node
@@ -1473,6 +1480,85 @@ enum ClusterStatus {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateClusterRequest {
+  /// The unique name to give to your cluster.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The VPC configuration used by the cluster control plane. Amazon EKS VPC
+  /// resources have specific requirements to work properly with Kubernetes. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html">Cluster
+  /// VPC Considerations</a> and <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/sec-group-reqs.html">Cluster
+  /// Security Group Considerations</a> in the <i>Amazon EKS User Guide</i>. You
+  /// must specify at least two subnets. You can specify up to five security
+  /// groups, but we recommend that you use a dedicated security group for your
+  /// cluster control plane.
+  @_s.JsonKey(name: 'resourcesVpcConfig')
+  final VpcConfigRequest resourcesVpcConfig;
+
+  /// The Amazon Resource Name (ARN) of the IAM role that provides permissions for
+  /// Amazon EKS to make calls to other AWS API operations on your behalf. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/service_IAM_role.html">Amazon
+  /// EKS Service IAM Role</a> in the <i> <i>Amazon EKS User Guide</i> </i>.
+  @_s.JsonKey(name: 'roleArn')
+  final String roleArn;
+
+  /// Unique, case-sensitive identifier that you provide to ensure the idempotency
+  /// of the request.
+  @_s.JsonKey(name: 'clientRequestToken')
+  final String clientRequestToken;
+
+  /// The encryption configuration for the cluster.
+  @_s.JsonKey(name: 'encryptionConfig')
+  final List<EncryptionConfig> encryptionConfig;
+
+  /// Enable or disable exporting the Kubernetes control plane logs for your
+  /// cluster to CloudWatch Logs. By default, cluster control plane logs aren't
+  /// exported to CloudWatch Logs. For more information, see <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html">Amazon
+  /// EKS Cluster Control Plane Logs</a> in the <i> <i>Amazon EKS User Guide</i>
+  /// </i>.
+  /// <note>
+  /// CloudWatch Logs ingestion, archive storage, and data scanning rates apply to
+  /// exported control plane logs. For more information, see <a
+  /// href="http://aws.amazon.com/cloudwatch/pricing/">Amazon CloudWatch
+  /// Pricing</a>.
+  /// </note>
+  @_s.JsonKey(name: 'logging')
+  final Logging logging;
+
+  /// The metadata to apply to the cluster to assist with categorization and
+  /// organization. Each tag consists of a key and an optional value, both of
+  /// which you define.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  /// The desired Kubernetes version for your cluster. If you don't specify a
+  /// value here, the latest version available in Amazon EKS is used.
+  @_s.JsonKey(name: 'version')
+  final String version;
+
+  CreateClusterRequest({
+    @_s.required this.name,
+    @_s.required this.resourcesVpcConfig,
+    @_s.required this.roleArn,
+    this.clientRequestToken,
+    this.encryptionConfig,
+    this.logging,
+    this.tags,
+    this.version,
+  });
+  Map<String, dynamic> toJson() => _$CreateClusterRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateClusterResponse {
@@ -1485,6 +1571,67 @@ class CreateClusterResponse {
   });
   factory CreateClusterResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateClusterResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateFargateProfileRequest {
+  /// The name of the Amazon EKS cluster to apply the Fargate profile to.
+  @_s.JsonKey(name: 'name', ignore: true)
+  final String clusterName;
+
+  /// The name of the Fargate profile.
+  @_s.JsonKey(name: 'fargateProfileName')
+  final String fargateProfileName;
+
+  /// The Amazon Resource Name (ARN) of the pod execution role to use for pods
+  /// that match the selectors in the Fargate profile. The pod execution role
+  /// allows Fargate infrastructure to register with your cluster as a node, and
+  /// it provides read access to Amazon ECR image repositories. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/pod-execution-role.html">Pod
+  /// Execution Role</a> in the <i>Amazon EKS User Guide</i>.
+  @_s.JsonKey(name: 'podExecutionRoleArn')
+  final String podExecutionRoleArn;
+
+  /// Unique, case-sensitive identifier that you provide to ensure the idempotency
+  /// of the request.
+  @_s.JsonKey(name: 'clientRequestToken')
+  final String clientRequestToken;
+
+  /// The selectors to match for pods to use this Fargate profile. Each selector
+  /// must have an associated namespace. Optionally, you can also specify labels
+  /// for a namespace. You may specify up to five selectors in a Fargate profile.
+  @_s.JsonKey(name: 'selectors')
+  final List<FargateProfileSelector> selectors;
+
+  /// The IDs of subnets to launch your pods into. At this time, pods running on
+  /// Fargate are not assigned public IP addresses, so only private subnets (with
+  /// no direct route to an Internet Gateway) are accepted for this parameter.
+  @_s.JsonKey(name: 'subnets')
+  final List<String> subnets;
+
+  /// The metadata to apply to the Fargate profile to assist with categorization
+  /// and organization. Each tag consists of a key and an optional value, both of
+  /// which you define. Fargate profile tags do not propagate to any other
+  /// resources associated with the Fargate profile, such as the pods that are
+  /// scheduled with it.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateFargateProfileRequest({
+    @_s.required this.clusterName,
+    @_s.required this.fargateProfileName,
+    @_s.required this.podExecutionRoleArn,
+    this.clientRequestToken,
+    this.selectors,
+    this.subnets,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateFargateProfileRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1507,6 +1654,120 @@ class CreateFargateProfileResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateNodegroupRequest {
+  /// The name of the cluster to create the node group in.
+  @_s.JsonKey(name: 'name', ignore: true)
+  final String clusterName;
+
+  /// The Amazon Resource Name (ARN) of the IAM role to associate with your node
+  /// group. The Amazon EKS worker node <code>kubelet</code> daemon makes calls to
+  /// AWS APIs on your behalf. Worker nodes receive permissions for these API
+  /// calls through an IAM instance profile and associated policies. Before you
+  /// can launch worker nodes and register them into a cluster, you must create an
+  /// IAM role for those worker nodes to use when they are launched. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/worker_node_IAM_role.html">Amazon
+  /// EKS Worker Node IAM Role</a> in the <i> <i>Amazon EKS User Guide</i> </i>.
+  @_s.JsonKey(name: 'nodeRole')
+  final String nodeRole;
+
+  /// The unique name to give your node group.
+  @_s.JsonKey(name: 'nodegroupName')
+  final String nodegroupName;
+
+  /// The subnets to use for the Auto Scaling group that is created for your node
+  /// group. These subnets must have the tag key
+  /// <code>kubernetes.io/cluster/CLUSTER_NAME</code> with a value of
+  /// <code>shared</code>, where <code>CLUSTER_NAME</code> is replaced with the
+  /// name of your cluster.
+  @_s.JsonKey(name: 'subnets')
+  final List<String> subnets;
+
+  /// The AMI type for your node group. GPU instance types should use the
+  /// <code>AL2_x86_64_GPU</code> AMI type, which uses the Amazon EKS-optimized
+  /// Linux AMI with GPU support. Non-GPU instances should use the
+  /// <code>AL2_x86_64</code> AMI type, which uses the Amazon EKS-optimized Linux
+  /// AMI.
+  @_s.JsonKey(name: 'amiType')
+  final AMITypes amiType;
+
+  /// Unique, case-sensitive identifier that you provide to ensure the idempotency
+  /// of the request.
+  @_s.JsonKey(name: 'clientRequestToken')
+  final String clientRequestToken;
+
+  /// The root device disk size (in GiB) for your node group instances. The
+  /// default disk size is 20 GiB.
+  @_s.JsonKey(name: 'diskSize')
+  final int diskSize;
+
+  /// The instance type to use for your node group. Currently, you can specify a
+  /// single instance type for a node group. The default value for this parameter
+  /// is <code>t3.medium</code>. If you choose a GPU instance type, be sure to
+  /// specify the <code>AL2_x86_64_GPU</code> with the <code>amiType</code>
+  /// parameter.
+  @_s.JsonKey(name: 'instanceTypes')
+  final List<String> instanceTypes;
+
+  /// The Kubernetes labels to be applied to the nodes in the node group when they
+  /// are created.
+  @_s.JsonKey(name: 'labels')
+  final Map<String, String> labels;
+
+  /// The AMI version of the Amazon EKS-optimized AMI to use with your node group.
+  /// By default, the latest available AMI version for the node group's current
+  /// Kubernetes version is used. For more information, see <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/eks-linux-ami-versions.html">Amazon
+  /// EKS-Optimized Linux AMI Versions</a> in the <i>Amazon EKS User Guide</i>.
+  @_s.JsonKey(name: 'releaseVersion')
+  final String releaseVersion;
+
+  /// The remote access (SSH) configuration to use with your node group.
+  @_s.JsonKey(name: 'remoteAccess')
+  final RemoteAccessConfig remoteAccess;
+
+  /// The scaling configuration details for the Auto Scaling group that is created
+  /// for your node group.
+  @_s.JsonKey(name: 'scalingConfig')
+  final NodegroupScalingConfig scalingConfig;
+
+  /// The metadata to apply to the node group to assist with categorization and
+  /// organization. Each tag consists of a key and an optional value, both of
+  /// which you define. Node group tags do not propagate to any other resources
+  /// associated with the node group, such as the Amazon EC2 instances or subnets.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  /// The Kubernetes version to use for your managed nodes. By default, the
+  /// Kubernetes version of the cluster is used, and this is the only accepted
+  /// specified value.
+  @_s.JsonKey(name: 'version')
+  final String version;
+
+  CreateNodegroupRequest({
+    @_s.required this.clusterName,
+    @_s.required this.nodeRole,
+    @_s.required this.nodegroupName,
+    @_s.required this.subnets,
+    this.amiType,
+    this.clientRequestToken,
+    this.diskSize,
+    this.instanceTypes,
+    this.labels,
+    this.releaseVersion,
+    this.remoteAccess,
+    this.scalingConfig,
+    this.tags,
+    this.version,
+  });
+  Map<String, dynamic> toJson() => _$CreateNodegroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateNodegroupResponse {
@@ -1519,6 +1780,22 @@ class CreateNodegroupResponse {
   });
   factory CreateNodegroupResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateNodegroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteClusterRequest {
+  /// The name of the cluster to delete.
+  @_s.JsonKey(name: 'name', ignore: true)
+  final String name;
+
+  DeleteClusterRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$DeleteClusterRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1541,6 +1818,28 @@ class DeleteClusterResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteFargateProfileRequest {
+  /// The name of the Amazon EKS cluster associated with the Fargate profile to
+  /// delete.
+  @_s.JsonKey(name: 'name', ignore: true)
+  final String clusterName;
+
+  /// The name of the Fargate profile to delete.
+  @_s.JsonKey(name: 'fargateProfileName', ignore: true)
+  final String fargateProfileName;
+
+  DeleteFargateProfileRequest({
+    @_s.required this.clusterName,
+    @_s.required this.fargateProfileName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteFargateProfileRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteFargateProfileResponse {
@@ -1553,6 +1852,27 @@ class DeleteFargateProfileResponse {
   });
   factory DeleteFargateProfileResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteFargateProfileResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteNodegroupRequest {
+  /// The name of the Amazon EKS cluster that is associated with your node group.
+  @_s.JsonKey(name: 'name', ignore: true)
+  final String clusterName;
+
+  /// The name of the node group to delete.
+  @_s.JsonKey(name: 'nodegroupName', ignore: true)
+  final String nodegroupName;
+
+  DeleteNodegroupRequest({
+    @_s.required this.clusterName,
+    @_s.required this.nodegroupName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteNodegroupRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2518,12 +2838,58 @@ class RemoteAccessConfig {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource to which to add tags.
+  /// Currently, the supported resources are Amazon EKS clusters and managed node
+  /// groups.
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  /// The tags to add to the resource. A tag is an array of key-value pairs.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
   factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$TagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource from which to delete tags.
+  /// Currently, the supported resources are Amazon EKS clusters and managed node
+  /// groups.
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  /// The keys of the tags to be removed.
+  @_s.JsonKey(name: 'tagKeys', ignore: true)
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2585,6 +2951,47 @@ class Update {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateClusterConfigRequest {
+  /// The name of the Amazon EKS cluster to update.
+  @_s.JsonKey(name: 'name', ignore: true)
+  final String name;
+
+  /// Unique, case-sensitive identifier that you provide to ensure the idempotency
+  /// of the request.
+  @_s.JsonKey(name: 'clientRequestToken')
+  final String clientRequestToken;
+
+  /// Enable or disable exporting the Kubernetes control plane logs for your
+  /// cluster to CloudWatch Logs. By default, cluster control plane logs aren't
+  /// exported to CloudWatch Logs. For more information, see <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html">Amazon
+  /// EKS Cluster Control Plane Logs</a> in the <i> <i>Amazon EKS User Guide</i>
+  /// </i>.
+  /// <note>
+  /// CloudWatch Logs ingestion, archive storage, and data scanning rates apply to
+  /// exported control plane logs. For more information, see <a
+  /// href="http://aws.amazon.com/cloudwatch/pricing/">Amazon CloudWatch
+  /// Pricing</a>.
+  /// </note>
+  @_s.JsonKey(name: 'logging')
+  final Logging logging;
+  @_s.JsonKey(name: 'resourcesVpcConfig')
+  final VpcConfigRequest resourcesVpcConfig;
+
+  UpdateClusterConfigRequest({
+    @_s.required this.name,
+    this.clientRequestToken,
+    this.logging,
+    this.resourcesVpcConfig,
+  });
+  Map<String, dynamic> toJson() => _$UpdateClusterConfigRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateClusterConfigResponse {
@@ -2596,6 +3003,33 @@ class UpdateClusterConfigResponse {
   });
   factory UpdateClusterConfigResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateClusterConfigResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateClusterVersionRequest {
+  /// The name of the Amazon EKS cluster to update.
+  @_s.JsonKey(name: 'name', ignore: true)
+  final String name;
+
+  /// The desired Kubernetes version following a successful update.
+  @_s.JsonKey(name: 'version')
+  final String version;
+
+  /// Unique, case-sensitive identifier that you provide to ensure the idempotency
+  /// of the request.
+  @_s.JsonKey(name: 'clientRequestToken')
+  final String clientRequestToken;
+
+  UpdateClusterVersionRequest({
+    @_s.required this.name,
+    @_s.required this.version,
+    this.clientRequestToken,
+  });
+  Map<String, dynamic> toJson() => _$UpdateClusterVersionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2640,6 +3074,45 @@ class UpdateLabelsPayload {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateNodegroupConfigRequest {
+  /// The name of the Amazon EKS cluster that the managed node group resides in.
+  @_s.JsonKey(name: 'name', ignore: true)
+  final String clusterName;
+
+  /// The name of the managed node group to update.
+  @_s.JsonKey(name: 'nodegroupName', ignore: true)
+  final String nodegroupName;
+
+  /// Unique, case-sensitive identifier that you provide to ensure the idempotency
+  /// of the request.
+  @_s.JsonKey(name: 'clientRequestToken')
+  final String clientRequestToken;
+
+  /// The Kubernetes labels to be applied to the nodes in the node group after the
+  /// update.
+  @_s.JsonKey(name: 'labels')
+  final UpdateLabelsPayload labels;
+
+  /// The scaling configuration details for the Auto Scaling group after the
+  /// update.
+  @_s.JsonKey(name: 'scalingConfig')
+  final NodegroupScalingConfig scalingConfig;
+
+  UpdateNodegroupConfigRequest({
+    @_s.required this.clusterName,
+    @_s.required this.nodegroupName,
+    this.clientRequestToken,
+    this.labels,
+    this.scalingConfig,
+  });
+  Map<String, dynamic> toJson() => _$UpdateNodegroupConfigRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateNodegroupConfigResponse {
@@ -2651,6 +3124,59 @@ class UpdateNodegroupConfigResponse {
   });
   factory UpdateNodegroupConfigResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateNodegroupConfigResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateNodegroupVersionRequest {
+  /// The name of the Amazon EKS cluster that is associated with the managed node
+  /// group to update.
+  @_s.JsonKey(name: 'name', ignore: true)
+  final String clusterName;
+
+  /// The name of the managed node group to update.
+  @_s.JsonKey(name: 'nodegroupName', ignore: true)
+  final String nodegroupName;
+
+  /// Unique, case-sensitive identifier that you provide to ensure the idempotency
+  /// of the request.
+  @_s.JsonKey(name: 'clientRequestToken')
+  final String clientRequestToken;
+
+  /// Force the update if the existing node group's pods are unable to be drained
+  /// due to a pod disruption budget issue. If an update fails because pods could
+  /// not be drained, you can force the update after it fails to terminate the old
+  /// node whether or not any pods are running on the node.
+  @_s.JsonKey(name: 'force')
+  final bool force;
+
+  /// The AMI version of the Amazon EKS-optimized AMI to use for the update. By
+  /// default, the latest available AMI version for the node group's Kubernetes
+  /// version is used. For more information, see <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/eks-linux-ami-versions.html">Amazon
+  /// EKS-Optimized Linux AMI Versions </a> in the <i>Amazon EKS User Guide</i>.
+  @_s.JsonKey(name: 'releaseVersion')
+  final String releaseVersion;
+
+  /// The Kubernetes version to update to. If no version is specified, then the
+  /// Kubernetes version of the node group does not change. You can specify the
+  /// Kubernetes version of the cluster to update the node group to the latest AMI
+  /// version of the cluster's Kubernetes version.
+  @_s.JsonKey(name: 'version')
+  final String version;
+
+  UpdateNodegroupVersionRequest({
+    @_s.required this.clusterName,
+    @_s.required this.nodegroupName,
+    this.clientRequestToken,
+    this.force,
+    this.releaseVersion,
+    this.version,
+  });
+  Map<String, dynamic> toJson() => _$UpdateNodegroupVersionRequestToJson(this);
 }
 
 @_s.JsonSerializable(

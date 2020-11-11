@@ -96,6 +96,9 @@ Map<String, dynamic> _$AudioParametersToJson(AudioParameters instance) {
   return val;
 }
 
+Map<String, dynamic> _$CancelJobRequestToJson(CancelJobRequest instance) =>
+    <String, dynamic>{};
+
 CancelJobResponse _$CancelJobResponseFromJson(Map<String, dynamic> json) {
   return CancelJobResponse();
 }
@@ -250,12 +253,54 @@ Map<String, dynamic> _$CreateJobPlaylistToJson(CreateJobPlaylist instance) {
   return val;
 }
 
+Map<String, dynamic> _$CreateJobRequestToJson(CreateJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('PipelineId', instance.pipelineId);
+  writeNotNull('Input', instance.input?.toJson());
+  writeNotNull('Inputs', instance.inputs?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Output', instance.output?.toJson());
+  writeNotNull('OutputKeyPrefix', instance.outputKeyPrefix);
+  writeNotNull('Outputs', instance.outputs?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'Playlists', instance.playlists?.map((e) => e?.toJson())?.toList());
+  writeNotNull('UserMetadata', instance.userMetadata);
+  return val;
+}
+
 CreateJobResponse _$CreateJobResponseFromJson(Map<String, dynamic> json) {
   return CreateJobResponse(
     job: json['Job'] == null
         ? null
         : Job.fromJson(json['Job'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreatePipelineRequestToJson(
+    CreatePipelineRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InputBucket', instance.inputBucket);
+  writeNotNull('Name', instance.name);
+  writeNotNull('Role', instance.role);
+  writeNotNull('AwsKmsKeyArn', instance.awsKmsKeyArn);
+  writeNotNull('ContentConfig', instance.contentConfig?.toJson());
+  writeNotNull('Notifications', instance.notifications?.toJson());
+  writeNotNull('OutputBucket', instance.outputBucket);
+  writeNotNull('ThumbnailConfig', instance.thumbnailConfig?.toJson());
+  return val;
 }
 
 CreatePipelineResponse _$CreatePipelineResponseFromJson(
@@ -271,6 +316,24 @@ CreatePipelineResponse _$CreatePipelineResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreatePresetRequestToJson(CreatePresetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Container', instance.container);
+  writeNotNull('Name', instance.name);
+  writeNotNull('Audio', instance.audio?.toJson());
+  writeNotNull('Description', instance.description);
+  writeNotNull('Thumbnails', instance.thumbnails?.toJson());
+  writeNotNull('Video', instance.video?.toJson());
+  return val;
+}
+
 CreatePresetResponse _$CreatePresetResponseFromJson(Map<String, dynamic> json) {
   return CreatePresetResponse(
     preset: json['Preset'] == null
@@ -280,10 +343,18 @@ CreatePresetResponse _$CreatePresetResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DeletePipelineRequestToJson(
+        DeletePipelineRequest instance) =>
+    <String, dynamic>{};
+
 DeletePipelineResponse _$DeletePipelineResponseFromJson(
     Map<String, dynamic> json) {
   return DeletePipelineResponse();
 }
+
+Map<String, dynamic> _$DeletePresetRequestToJson(
+        DeletePresetRequest instance) =>
+    <String, dynamic>{};
 
 DeletePresetResponse _$DeletePresetResponseFromJson(Map<String, dynamic> json) {
   return DeletePresetResponse();
@@ -839,6 +910,22 @@ ReadPresetResponse _$ReadPresetResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$TestRoleRequestToJson(TestRoleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InputBucket', instance.inputBucket);
+  writeNotNull('OutputBucket', instance.outputBucket);
+  writeNotNull('Role', instance.role);
+  writeNotNull('Topics', instance.topics);
+  return val;
+}
+
 TestRoleResponse _$TestRoleResponseFromJson(Map<String, dynamic> json) {
   return TestRoleResponse(
     messages: (json['Messages'] as List)?.map((e) => e as String)?.toList(),
@@ -908,6 +995,20 @@ Timing _$TimingFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$UpdatePipelineNotificationsRequestToJson(
+    UpdatePipelineNotificationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Notifications', instance.notifications?.toJson());
+  return val;
+}
+
 UpdatePipelineNotificationsResponse
     _$UpdatePipelineNotificationsResponseFromJson(Map<String, dynamic> json) {
   return UpdatePipelineNotificationsResponse(
@@ -915,6 +1016,26 @@ UpdatePipelineNotificationsResponse
         ? null
         : Pipeline.fromJson(json['Pipeline'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdatePipelineRequestToJson(
+    UpdatePipelineRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AwsKmsKeyArn', instance.awsKmsKeyArn);
+  writeNotNull('ContentConfig', instance.contentConfig?.toJson());
+  writeNotNull('InputBucket', instance.inputBucket);
+  writeNotNull('Name', instance.name);
+  writeNotNull('Notifications', instance.notifications?.toJson());
+  writeNotNull('Role', instance.role);
+  writeNotNull('ThumbnailConfig', instance.thumbnailConfig?.toJson());
+  return val;
 }
 
 UpdatePipelineResponse _$UpdatePipelineResponseFromJson(
@@ -928,6 +1049,20 @@ UpdatePipelineResponse _$UpdatePipelineResponseFromJson(
             e == null ? null : Warning.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$UpdatePipelineStatusRequestToJson(
+    UpdatePipelineStatusRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Status', instance.status);
+  return val;
 }
 
 UpdatePipelineStatusResponse _$UpdatePipelineStatusResponseFromJson(

@@ -291,6 +291,20 @@ const _$AncillaryTerminateCaptionsEnumMap = {
   AncillaryTerminateCaptions.disabled: 'DISABLED',
 };
 
+Map<String, dynamic> _$AssociateCertificateRequestToJson(
+    AssociateCertificateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  return val;
+}
+
 AssociateCertificateResponse _$AssociateCertificateResponseFromJson(
     Map<String, dynamic> json) {
   return AssociateCertificateResponse();
@@ -993,6 +1007,9 @@ const _$BurninSubtitleTeletextSpacingEnumMap = {
   BurninSubtitleTeletextSpacing.proportional: 'PROPORTIONAL',
 };
 
+Map<String, dynamic> _$CancelJobRequestToJson(CancelJobRequest instance) =>
+    <String, dynamic>{};
+
 CancelJobResponse _$CancelJobResponseFromJson(Map<String, dynamic> json) {
   return CancelJobResponse();
 }
@@ -1640,12 +1657,96 @@ const _$ContainerTypeEnumMap = {
   ContainerType.raw: 'RAW',
 };
 
+Map<String, dynamic> _$CreateJobRequestToJson(CreateJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('role', instance.role);
+  writeNotNull('settings', instance.settings?.toJson());
+  writeNotNull('accelerationSettings', instance.accelerationSettings?.toJson());
+  writeNotNull('billingTagsSource',
+      _$BillingTagsSourceEnumMap[instance.billingTagsSource]);
+  writeNotNull('clientRequestToken', instance.clientRequestToken);
+  writeNotNull('hopDestinations',
+      instance.hopDestinations?.map((e) => e?.toJson())?.toList());
+  writeNotNull('jobTemplate', instance.jobTemplate);
+  writeNotNull('priority', instance.priority);
+  writeNotNull('queue', instance.queue);
+  writeNotNull('simulateReservedQueue',
+      _$SimulateReservedQueueEnumMap[instance.simulateReservedQueue]);
+  writeNotNull('statusUpdateInterval',
+      _$StatusUpdateIntervalEnumMap[instance.statusUpdateInterval]);
+  writeNotNull('tags', instance.tags);
+  writeNotNull('userMetadata', instance.userMetadata);
+  return val;
+}
+
+const _$BillingTagsSourceEnumMap = {
+  BillingTagsSource.queue: 'QUEUE',
+  BillingTagsSource.preset: 'PRESET',
+  BillingTagsSource.jobTemplate: 'JOB_TEMPLATE',
+  BillingTagsSource.job: 'JOB',
+};
+
+const _$SimulateReservedQueueEnumMap = {
+  SimulateReservedQueue.disabled: 'DISABLED',
+  SimulateReservedQueue.enabled: 'ENABLED',
+};
+
+const _$StatusUpdateIntervalEnumMap = {
+  StatusUpdateInterval.seconds_10: 'SECONDS_10',
+  StatusUpdateInterval.seconds_12: 'SECONDS_12',
+  StatusUpdateInterval.seconds_15: 'SECONDS_15',
+  StatusUpdateInterval.seconds_20: 'SECONDS_20',
+  StatusUpdateInterval.seconds_30: 'SECONDS_30',
+  StatusUpdateInterval.seconds_60: 'SECONDS_60',
+  StatusUpdateInterval.seconds_120: 'SECONDS_120',
+  StatusUpdateInterval.seconds_180: 'SECONDS_180',
+  StatusUpdateInterval.seconds_240: 'SECONDS_240',
+  StatusUpdateInterval.seconds_300: 'SECONDS_300',
+  StatusUpdateInterval.seconds_360: 'SECONDS_360',
+  StatusUpdateInterval.seconds_420: 'SECONDS_420',
+  StatusUpdateInterval.seconds_480: 'SECONDS_480',
+  StatusUpdateInterval.seconds_540: 'SECONDS_540',
+  StatusUpdateInterval.seconds_600: 'SECONDS_600',
+};
+
 CreateJobResponse _$CreateJobResponseFromJson(Map<String, dynamic> json) {
   return CreateJobResponse(
     job: json['job'] == null
         ? null
         : Job.fromJson(json['job'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateJobTemplateRequestToJson(
+    CreateJobTemplateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('settings', instance.settings?.toJson());
+  writeNotNull('accelerationSettings', instance.accelerationSettings?.toJson());
+  writeNotNull('category', instance.category);
+  writeNotNull('description', instance.description);
+  writeNotNull('hopDestinations',
+      instance.hopDestinations?.map((e) => e?.toJson())?.toList());
+  writeNotNull('priority', instance.priority);
+  writeNotNull('queue', instance.queue);
+  writeNotNull('statusUpdateInterval',
+      _$StatusUpdateIntervalEnumMap[instance.statusUpdateInterval]);
+  writeNotNull('tags', instance.tags);
+  return val;
 }
 
 CreateJobTemplateResponse _$CreateJobTemplateResponseFromJson(
@@ -1657,6 +1758,23 @@ CreateJobTemplateResponse _$CreateJobTemplateResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreatePresetRequestToJson(CreatePresetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('settings', instance.settings?.toJson());
+  writeNotNull('category', instance.category);
+  writeNotNull('description', instance.description);
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
 CreatePresetResponse _$CreatePresetResponseFromJson(Map<String, dynamic> json) {
   return CreatePresetResponse(
     preset: json['preset'] == null
@@ -1664,6 +1782,35 @@ CreatePresetResponse _$CreatePresetResponseFromJson(Map<String, dynamic> json) {
         : Preset.fromJson(json['preset'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$CreateQueueRequestToJson(CreateQueueRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('description', instance.description);
+  writeNotNull('pricingPlan', _$PricingPlanEnumMap[instance.pricingPlan]);
+  writeNotNull(
+      'reservationPlanSettings', instance.reservationPlanSettings?.toJson());
+  writeNotNull('status', _$QueueStatusEnumMap[instance.status]);
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
+const _$PricingPlanEnumMap = {
+  PricingPlan.onDemand: 'ON_DEMAND',
+  PricingPlan.reserved: 'RESERVED',
+};
+
+const _$QueueStatusEnumMap = {
+  QueueStatus.active: 'ACTIVE',
+  QueueStatus.paused: 'PAUSED',
+};
 
 CreateQueueResponse _$CreateQueueResponseFromJson(Map<String, dynamic> json) {
   return CreateQueueResponse(
@@ -1859,18 +2006,50 @@ const _$DeinterlacerModeEnumMap = {
   DeinterlacerMode.adaptive: 'ADAPTIVE',
 };
 
+Map<String, dynamic> _$DeleteJobTemplateRequestToJson(
+        DeleteJobTemplateRequest instance) =>
+    <String, dynamic>{};
+
 DeleteJobTemplateResponse _$DeleteJobTemplateResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteJobTemplateResponse();
 }
 
+Map<String, dynamic> _$DeletePresetRequestToJson(
+        DeletePresetRequest instance) =>
+    <String, dynamic>{};
+
 DeletePresetResponse _$DeletePresetResponseFromJson(Map<String, dynamic> json) {
   return DeletePresetResponse();
 }
 
+Map<String, dynamic> _$DeleteQueueRequestToJson(DeleteQueueRequest instance) =>
+    <String, dynamic>{};
+
 DeleteQueueResponse _$DeleteQueueResponseFromJson(Map<String, dynamic> json) {
   return DeleteQueueResponse();
 }
+
+Map<String, dynamic> _$DescribeEndpointsRequestToJson(
+    DescribeEndpointsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('mode', _$DescribeEndpointsModeEnumMap[instance.mode]);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
+const _$DescribeEndpointsModeEnumMap = {
+  DescribeEndpointsMode.$default: 'DEFAULT',
+  DescribeEndpointsMode.getOnly: 'GET_ONLY',
+};
 
 DescribeEndpointsResponse _$DescribeEndpointsResponseFromJson(
     Map<String, dynamic> json) {
@@ -1904,6 +2083,10 @@ Map<String, dynamic> _$DestinationSettingsToJson(DestinationSettings instance) {
   writeNotNull('s3Settings', instance.s3Settings?.toJson());
   return val;
 }
+
+Map<String, dynamic> _$DisassociateCertificateRequestToJson(
+        DisassociateCertificateRequest instance) =>
+    <String, dynamic>{};
 
 DisassociateCertificateResponse _$DisassociateCertificateResponseFromJson(
     Map<String, dynamic> json) {
@@ -4264,22 +4447,10 @@ const _$AccelerationStatusEnumMap = {
   AccelerationStatus.notAccelerated: 'NOT_ACCELERATED',
 };
 
-const _$BillingTagsSourceEnumMap = {
-  BillingTagsSource.queue: 'QUEUE',
-  BillingTagsSource.preset: 'PRESET',
-  BillingTagsSource.jobTemplate: 'JOB_TEMPLATE',
-  BillingTagsSource.job: 'JOB',
-};
-
 const _$JobPhaseEnumMap = {
   JobPhase.probing: 'PROBING',
   JobPhase.transcoding: 'TRANSCODING',
   JobPhase.uploading: 'UPLOADING',
-};
-
-const _$SimulateReservedQueueEnumMap = {
-  SimulateReservedQueue.disabled: 'DISABLED',
-  SimulateReservedQueue.enabled: 'ENABLED',
 };
 
 const _$JobStatusEnumMap = {
@@ -4288,24 +4459,6 @@ const _$JobStatusEnumMap = {
   JobStatus.complete: 'COMPLETE',
   JobStatus.canceled: 'CANCELED',
   JobStatus.error: 'ERROR',
-};
-
-const _$StatusUpdateIntervalEnumMap = {
-  StatusUpdateInterval.seconds_10: 'SECONDS_10',
-  StatusUpdateInterval.seconds_12: 'SECONDS_12',
-  StatusUpdateInterval.seconds_15: 'SECONDS_15',
-  StatusUpdateInterval.seconds_20: 'SECONDS_20',
-  StatusUpdateInterval.seconds_30: 'SECONDS_30',
-  StatusUpdateInterval.seconds_60: 'SECONDS_60',
-  StatusUpdateInterval.seconds_120: 'SECONDS_120',
-  StatusUpdateInterval.seconds_180: 'SECONDS_180',
-  StatusUpdateInterval.seconds_240: 'SECONDS_240',
-  StatusUpdateInterval.seconds_300: 'SECONDS_300',
-  StatusUpdateInterval.seconds_360: 'SECONDS_360',
-  StatusUpdateInterval.seconds_420: 'SECONDS_420',
-  StatusUpdateInterval.seconds_480: 'SECONDS_480',
-  StatusUpdateInterval.seconds_540: 'SECONDS_540',
-  StatusUpdateInterval.seconds_600: 'SECONDS_600',
 };
 
 JobMessages _$JobMessagesFromJson(Map<String, dynamic> json) {
@@ -5918,16 +6071,6 @@ Queue _$QueueFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$PricingPlanEnumMap = {
-  PricingPlan.onDemand: 'ON_DEMAND',
-  PricingPlan.reserved: 'RESERVED',
-};
-
-const _$QueueStatusEnumMap = {
-  QueueStatus.active: 'ACTIVE',
-  QueueStatus.paused: 'PAUSED',
-};
-
 QueueTransition _$QueueTransitionFromJson(Map<String, dynamic> json) {
   return QueueTransition(
     destinationQueue: json['destinationQueue'] as String,
@@ -6242,6 +6385,20 @@ Map<String, dynamic> _$StaticKeyProviderToJson(StaticKeyProvider instance) {
   return val;
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
 }
@@ -6437,9 +6594,46 @@ const _$TtmlStylePassthroughEnumMap = {
   TtmlStylePassthrough.disabled: 'DISABLED',
 };
 
+Map<String, dynamic> _$UntagResourceRequestToJson(
+    UntagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('tagKeys', instance.tagKeys);
+  return val;
+}
+
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse();
+}
+
+Map<String, dynamic> _$UpdateJobTemplateRequestToJson(
+    UpdateJobTemplateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('accelerationSettings', instance.accelerationSettings?.toJson());
+  writeNotNull('category', instance.category);
+  writeNotNull('description', instance.description);
+  writeNotNull('hopDestinations',
+      instance.hopDestinations?.map((e) => e?.toJson())?.toList());
+  writeNotNull('priority', instance.priority);
+  writeNotNull('queue', instance.queue);
+  writeNotNull('settings', instance.settings?.toJson());
+  writeNotNull('statusUpdateInterval',
+      _$StatusUpdateIntervalEnumMap[instance.statusUpdateInterval]);
+  return val;
 }
 
 UpdateJobTemplateResponse _$UpdateJobTemplateResponseFromJson(
@@ -6451,12 +6645,43 @@ UpdateJobTemplateResponse _$UpdateJobTemplateResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdatePresetRequestToJson(UpdatePresetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('category', instance.category);
+  writeNotNull('description', instance.description);
+  writeNotNull('settings', instance.settings?.toJson());
+  return val;
+}
+
 UpdatePresetResponse _$UpdatePresetResponseFromJson(Map<String, dynamic> json) {
   return UpdatePresetResponse(
     preset: json['preset'] == null
         ? null
         : Preset.fromJson(json['preset'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateQueueRequestToJson(UpdateQueueRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('description', instance.description);
+  writeNotNull(
+      'reservationPlanSettings', instance.reservationPlanSettings?.toJson());
+  writeNotNull('status', _$QueueStatusEnumMap[instance.status]);
+  return val;
 }
 
 UpdateQueueResponse _$UpdateQueueResponseFromJson(Map<String, dynamic> json) {

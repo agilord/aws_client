@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -102,7 +101,9 @@ class Mobile {
     @_s.required String projectId,
   }) async {
     ArgumentError.checkNotNull(projectId, 'projectId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteProjectRequest(
+      projectId: projectId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -202,7 +203,11 @@ class Mobile {
       if (platform != null) _s.toQueryParam('platform', platform),
       if (projectId != null) _s.toQueryParam('projectId', projectId),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = ExportBundleRequest(
+      bundleId: bundleId,
+      platform: platform,
+      projectId: projectId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -230,7 +235,9 @@ class Mobile {
     @_s.required String projectId,
   }) async {
     ArgumentError.checkNotNull(projectId, 'projectId');
-    final $payload = <String, dynamic>{};
+    final $payload = ExportProjectRequest(
+      projectId: projectId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -428,6 +435,23 @@ class CreateProjectResult {
       _$CreateProjectResultFromJson(json);
 }
 
+/// Request structure used to request a project be deleted.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteProjectRequest {
+  /// Unique project identifier.
+  @_s.JsonKey(name: 'projectId', ignore: true)
+  final String projectId;
+
+  DeleteProjectRequest({
+    @_s.required this.projectId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteProjectRequestToJson(this);
+}
+
 /// Result structure used in response to request to delete a project.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -487,6 +511,34 @@ class DescribeProjectResult {
       _$DescribeProjectResultFromJson(json);
 }
 
+/// Request structure used to request generation of custom SDK and tool packages
+/// required to integrate mobile web or app clients with backed AWS resources.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ExportBundleRequest {
+  /// Unique bundle identifier.
+  @_s.JsonKey(name: 'bundleId', ignore: true)
+  final String bundleId;
+
+  /// Developer desktop or target application platform.
+  @_s.JsonKey(name: 'platform', ignore: true)
+  final Platform platform;
+
+  /// Unique project identifier.
+  @_s.JsonKey(name: 'projectId', ignore: true)
+  final String projectId;
+
+  ExportBundleRequest({
+    @_s.required this.bundleId,
+    this.platform,
+    this.projectId,
+  });
+  Map<String, dynamic> toJson() => _$ExportBundleRequestToJson(this);
+}
+
 /// Result structure which contains link to download custom-generated SDK and
 /// tool packages used to integrate mobile web or app clients with backed AWS
 /// resources.
@@ -507,6 +559,23 @@ class ExportBundleResult {
   });
   factory ExportBundleResult.fromJson(Map<String, dynamic> json) =>
       _$ExportBundleResultFromJson(json);
+}
+
+/// Request structure used in requests to export project configuration details.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ExportProjectRequest {
+  /// Unique project identifier.
+  @_s.JsonKey(name: 'projectId', ignore: true)
+  final String projectId;
+
+  ExportProjectRequest({
+    @_s.required this.projectId,
+  });
+  Map<String, dynamic> toJson() => _$ExportProjectRequestToJson(this);
 }
 
 /// Result structure used for requests to export project configuration details.

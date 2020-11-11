@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -81,7 +80,9 @@ class Signer {
       r'''^[a-zA-Z0-9_]{2,}''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = CancelSigningProfileRequest(
+      profileName: profileName,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -432,13 +433,14 @@ class Signer {
       isRequired: true,
     );
     ArgumentError.checkNotNull(signingMaterial, 'signingMaterial');
-    final $payload = <String, dynamic>{
-      'platformId': platformId,
-      'signingMaterial': signingMaterial,
-      if (overrides != null) 'overrides': overrides,
-      if (signingParameters != null) 'signingParameters': signingParameters,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = PutSigningProfileRequest(
+      platformId: platformId,
+      profileName: profileName,
+      signingMaterial: signingMaterial,
+      overrides: overrides,
+      signingParameters: signingParameters,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -521,12 +523,12 @@ class Signer {
       profileName,
       r'''^[a-zA-Z0-9_]{2,}''',
     );
-    final $payload = <String, dynamic>{
-      'clientRequestToken': clientRequestToken,
-      'destination': destination,
-      'source': source,
-      if (profileName != null) 'profileName': profileName,
-    };
+    final $payload = StartSigningJobRequest(
+      clientRequestToken: clientRequestToken,
+      destination: destination,
+      source: source,
+      profileName: profileName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -556,9 +558,10 @@ class Signer {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'tags': tags,
-    };
+    final $payload = TagResourceRequest(
+      resourceArn: resourceArn,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -590,7 +593,10 @@ class Signer {
     _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = UntagResourceRequest(
+      resourceArn: resourceArn,
+      tagKeys: tagKeys,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -599,6 +605,22 @@ class Signer {
     );
     return UntagResourceResponse.fromJson(response);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CancelSigningProfileRequest {
+  /// The name of the signing profile to be canceled.
+  @_s.JsonKey(name: 'profileName', ignore: true)
+  final String profileName;
+
+  CancelSigningProfileRequest({
+    @_s.required this.profileName,
+  });
+  Map<String, dynamic> toJson() => _$CancelSigningProfileRequestToJson(this);
 }
 
 enum Category {
@@ -970,6 +992,51 @@ class ListTagsForResourceResponse {
   });
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$ListTagsForResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutSigningProfileRequest {
+  /// The ID of the signing platform to be created.
+  @_s.JsonKey(name: 'platformId')
+  final String platformId;
+
+  /// The name of the signing profile to be created.
+  @_s.JsonKey(name: 'profileName', ignore: true)
+  final String profileName;
+
+  /// The AWS Certificate Manager certificate that will be used to sign code with
+  /// the new signing profile.
+  @_s.JsonKey(name: 'signingMaterial')
+  final SigningMaterial signingMaterial;
+
+  /// A subfield of <code>platform</code>. This specifies any different
+  /// configuration options that you want to apply to the chosen platform (such as
+  /// a different <code>hash-algorithm</code> or <code>signing-algorithm</code>).
+  @_s.JsonKey(name: 'overrides')
+  final SigningPlatformOverrides overrides;
+
+  /// Map of key-value pairs for signing. These can include any information that
+  /// you want to use during signing.
+  @_s.JsonKey(name: 'signingParameters')
+  final Map<String, String> signingParameters;
+
+  /// Tags to be associated with the signing profile that is being created.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  PutSigningProfileRequest({
+    @_s.required this.platformId,
+    @_s.required this.profileName,
+    @_s.required this.signingMaterial,
+    this.overrides,
+    this.signingParameters,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$PutSigningProfileRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1404,6 +1471,40 @@ class Source {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartSigningJobRequest {
+  /// String that identifies the signing request. All calls after the first that
+  /// use this token return the same response as the first call.
+  @_s.JsonKey(name: 'clientRequestToken')
+  final String clientRequestToken;
+
+  /// The S3 bucket in which to save your signed object. The destination contains
+  /// the name of your bucket and an optional prefix.
+  @_s.JsonKey(name: 'destination')
+  final Destination destination;
+
+  /// The S3 bucket that contains the object to sign or a BLOB that contains your
+  /// raw code.
+  @_s.JsonKey(name: 'source')
+  final Source source;
+
+  /// The name of the signing profile.
+  @_s.JsonKey(name: 'profileName')
+  final String profileName;
+
+  StartSigningJobRequest({
+    @_s.required this.clientRequestToken,
+    @_s.required this.destination,
+    @_s.required this.source,
+    this.profileName,
+  });
+  Map<String, dynamic> toJson() => _$StartSigningJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartSigningJobResponse {
@@ -1421,12 +1522,54 @@ class StartSigningJobResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The Amazon Resource Name (ARN) for the signing profile.
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  /// One or more tags to be associated with the signing profile.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
   factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$TagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The Amazon Resource Name (ARN) for the signing profile.
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  /// A list of tag keys to be removed from the signing profile.
+  @_s.JsonKey(name: 'tagKeys', ignore: true)
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(

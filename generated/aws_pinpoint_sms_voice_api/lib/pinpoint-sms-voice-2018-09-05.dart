@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -53,10 +52,9 @@ class PinpointSMSVoice {
   Future<void> createConfigurationSet({
     String configurationSetName,
   }) async {
-    final $payload = <String, dynamic>{
-      if (configurationSetName != null)
-        'ConfigurationSetName': configurationSetName,
-    };
+    final $payload = CreateConfigurationSetRequest(
+      configurationSetName: configurationSetName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -86,11 +84,11 @@ class PinpointSMSVoice {
     String eventDestinationName,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
-    final $payload = <String, dynamic>{
-      if (eventDestination != null) 'EventDestination': eventDestination,
-      if (eventDestinationName != null)
-        'EventDestinationName': eventDestinationName,
-    };
+    final $payload = CreateConfigurationSetEventDestinationRequest(
+      configurationSetName: configurationSetName,
+      eventDestination: eventDestination,
+      eventDestinationName: eventDestinationName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -114,7 +112,9 @@ class PinpointSMSVoice {
     @_s.required String configurationSetName,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteConfigurationSetRequest(
+      configurationSetName: configurationSetName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -143,7 +143,10 @@ class PinpointSMSVoice {
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     ArgumentError.checkNotNull(eventDestinationName, 'eventDestinationName');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteConfigurationSetEventDestinationRequest(
+      configurationSetName: configurationSetName,
+      eventDestinationName: eventDestinationName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -241,16 +244,13 @@ class PinpointSMSVoice {
     String destinationPhoneNumber,
     String originationPhoneNumber,
   }) async {
-    final $payload = <String, dynamic>{
-      if (callerId != null) 'CallerId': callerId,
-      if (configurationSetName != null)
-        'ConfigurationSetName': configurationSetName,
-      if (content != null) 'Content': content,
-      if (destinationPhoneNumber != null)
-        'DestinationPhoneNumber': destinationPhoneNumber,
-      if (originationPhoneNumber != null)
-        'OriginationPhoneNumber': originationPhoneNumber,
-    };
+    final $payload = SendVoiceMessageRequest(
+      callerId: callerId,
+      configurationSetName: configurationSetName,
+      content: content,
+      destinationPhoneNumber: destinationPhoneNumber,
+      originationPhoneNumber: originationPhoneNumber,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -282,9 +282,11 @@ class PinpointSMSVoice {
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     ArgumentError.checkNotNull(eventDestinationName, 'eventDestinationName');
-    final $payload = <String, dynamic>{
-      if (eventDestination != null) 'EventDestination': eventDestination,
-    };
+    final $payload = UpdateConfigurationSetEventDestinationRequest(
+      configurationSetName: configurationSetName,
+      eventDestinationName: eventDestinationName,
+      eventDestination: eventDestination,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -344,6 +346,32 @@ class CloudWatchLogsDestination {
   Map<String, dynamic> toJson() => _$CloudWatchLogsDestinationToJson(this);
 }
 
+/// Create a new event destination in a configuration set.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateConfigurationSetEventDestinationRequest {
+  /// ConfigurationSetName
+  @_s.JsonKey(name: 'ConfigurationSetName', ignore: true)
+  final String configurationSetName;
+  @_s.JsonKey(name: 'EventDestination')
+  final EventDestinationDefinition eventDestination;
+
+  /// A name that identifies the event destination.
+  @_s.JsonKey(name: 'EventDestinationName')
+  final String eventDestinationName;
+
+  CreateConfigurationSetEventDestinationRequest({
+    @_s.required this.configurationSetName,
+    this.eventDestination,
+    this.eventDestinationName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateConfigurationSetEventDestinationRequestToJson(this);
+}
+
 /// An empty object that indicates that the event destination was created
 /// successfully.
 @_s.JsonSerializable(
@@ -356,6 +384,23 @@ class CreateConfigurationSetEventDestinationResponse {
   factory CreateConfigurationSetEventDestinationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$CreateConfigurationSetEventDestinationResponseFromJson(json);
+}
+
+/// A request to create a new configuration set.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateConfigurationSetRequest {
+  /// The name that you want to give the configuration set.
+  @_s.JsonKey(name: 'ConfigurationSetName')
+  final String configurationSetName;
+
+  CreateConfigurationSetRequest({
+    this.configurationSetName,
+  });
+  Map<String, dynamic> toJson() => _$CreateConfigurationSetRequestToJson(this);
 }
 
 /// An empty object that indicates that the configuration set was successfully
@@ -371,6 +416,28 @@ class CreateConfigurationSetResponse {
       _$CreateConfigurationSetResponseFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteConfigurationSetEventDestinationRequest {
+  /// ConfigurationSetName
+  @_s.JsonKey(name: 'ConfigurationSetName', ignore: true)
+  final String configurationSetName;
+
+  /// EventDestinationName
+  @_s.JsonKey(name: 'EventDestinationName', ignore: true)
+  final String eventDestinationName;
+
+  DeleteConfigurationSetEventDestinationRequest({
+    @_s.required this.configurationSetName,
+    @_s.required this.eventDestinationName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteConfigurationSetEventDestinationRequestToJson(this);
+}
+
 /// An empty object that indicates that the event destination was deleted
 /// successfully.
 @_s.JsonSerializable(
@@ -383,6 +450,22 @@ class DeleteConfigurationSetEventDestinationResponse {
   factory DeleteConfigurationSetEventDestinationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DeleteConfigurationSetEventDestinationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteConfigurationSetRequest {
+  /// ConfigurationSetName
+  @_s.JsonKey(name: 'ConfigurationSetName', ignore: true)
+  final String configurationSetName;
+
+  DeleteConfigurationSetRequest({
+    @_s.required this.configurationSetName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteConfigurationSetRequestToJson(this);
 }
 
 /// An empty object that indicates that the configuration set was deleted
@@ -616,6 +699,45 @@ class SSMLMessageType {
   Map<String, dynamic> toJson() => _$SSMLMessageTypeToJson(this);
 }
 
+/// SendVoiceMessageRequest
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SendVoiceMessageRequest {
+  /// The phone number that appears on recipients' devices when they receive the
+  /// message.
+  @_s.JsonKey(name: 'CallerId')
+  final String callerId;
+
+  /// The name of the configuration set that you want to use to send the message.
+  @_s.JsonKey(name: 'ConfigurationSetName')
+  final String configurationSetName;
+  @_s.JsonKey(name: 'Content')
+  final VoiceMessageContent content;
+
+  /// The phone number that you want to send the voice message to.
+  @_s.JsonKey(name: 'DestinationPhoneNumber')
+  final String destinationPhoneNumber;
+
+  /// The phone number that Amazon Pinpoint should use to send the voice message.
+  /// This isn't necessarily the phone number that appears on recipients' devices
+  /// when they receive the message, because you can specify a CallerId parameter
+  /// in the request.
+  @_s.JsonKey(name: 'OriginationPhoneNumber')
+  final String originationPhoneNumber;
+
+  SendVoiceMessageRequest({
+    this.callerId,
+    this.configurationSetName,
+    this.content,
+    this.destinationPhoneNumber,
+    this.originationPhoneNumber,
+  });
+  Map<String, dynamic> toJson() => _$SendVoiceMessageRequestToJson(this);
+}
+
 /// An object that that contains the Message ID of a Voice message that was sent
 /// successfully.
 @_s.JsonSerializable(
@@ -655,6 +777,32 @@ class SnsDestination {
       _$SnsDestinationFromJson(json);
 
   Map<String, dynamic> toJson() => _$SnsDestinationToJson(this);
+}
+
+/// UpdateConfigurationSetEventDestinationRequest
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateConfigurationSetEventDestinationRequest {
+  /// ConfigurationSetName
+  @_s.JsonKey(name: 'ConfigurationSetName', ignore: true)
+  final String configurationSetName;
+
+  /// EventDestinationName
+  @_s.JsonKey(name: 'EventDestinationName', ignore: true)
+  final String eventDestinationName;
+  @_s.JsonKey(name: 'EventDestination')
+  final EventDestinationDefinition eventDestination;
+
+  UpdateConfigurationSetEventDestinationRequest({
+    @_s.required this.configurationSetName,
+    @_s.required this.eventDestinationName,
+    this.eventDestination,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateConfigurationSetEventDestinationRequestToJson(this);
 }
 
 /// An empty object that indicates that the event destination was updated

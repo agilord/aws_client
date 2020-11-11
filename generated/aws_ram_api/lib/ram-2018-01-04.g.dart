@@ -6,6 +6,22 @@ part of 'ram-2018-01-04.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$AcceptResourceShareInvitationRequestToJson(
+    AcceptResourceShareInvitationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'resourceShareInvitationArn', instance.resourceShareInvitationArn);
+  writeNotNull('clientToken', instance.clientToken);
+  return val;
+}
+
 AcceptResourceShareInvitationResponse
     _$AcceptResourceShareInvitationResponseFromJson(Map<String, dynamic> json) {
   return AcceptResourceShareInvitationResponse(
@@ -17,6 +33,23 @@ AcceptResourceShareInvitationResponse
   );
 }
 
+Map<String, dynamic> _$AssociateResourceSharePermissionRequestToJson(
+    AssociateResourceSharePermissionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('permissionArn', instance.permissionArn);
+  writeNotNull('resourceShareArn', instance.resourceShareArn);
+  writeNotNull('clientToken', instance.clientToken);
+  writeNotNull('replace', instance.replace);
+  return val;
+}
+
 AssociateResourceSharePermissionResponse
     _$AssociateResourceSharePermissionResponseFromJson(
         Map<String, dynamic> json) {
@@ -24,6 +57,23 @@ AssociateResourceSharePermissionResponse
     clientToken: json['clientToken'] as String,
     returnValue: json['returnValue'] as bool,
   );
+}
+
+Map<String, dynamic> _$AssociateResourceShareRequestToJson(
+    AssociateResourceShareRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceShareArn', instance.resourceShareArn);
+  writeNotNull('clientToken', instance.clientToken);
+  writeNotNull('principals', instance.principals);
+  writeNotNull('resourceArns', instance.resourceArns);
+  return val;
 }
 
 AssociateResourceShareResponse _$AssociateResourceShareResponseFromJson(
@@ -38,6 +88,26 @@ AssociateResourceShareResponse _$AssociateResourceShareResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateResourceShareRequestToJson(
+    CreateResourceShareRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('allowExternalPrincipals', instance.allowExternalPrincipals);
+  writeNotNull('clientToken', instance.clientToken);
+  writeNotNull('permissionArns', instance.permissionArns);
+  writeNotNull('principals', instance.principals);
+  writeNotNull('resourceArns', instance.resourceArns);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateResourceShareResponse _$CreateResourceShareResponseFromJson(
     Map<String, dynamic> json) {
   return CreateResourceShareResponse(
@@ -48,12 +118,32 @@ CreateResourceShareResponse _$CreateResourceShareResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteResourceShareRequestToJson(
+        DeleteResourceShareRequest instance) =>
+    <String, dynamic>{};
+
 DeleteResourceShareResponse _$DeleteResourceShareResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteResourceShareResponse(
     clientToken: json['clientToken'] as String,
     returnValue: json['returnValue'] as bool,
   );
+}
+
+Map<String, dynamic> _$DisassociateResourceSharePermissionRequestToJson(
+    DisassociateResourceSharePermissionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('permissionArn', instance.permissionArn);
+  writeNotNull('resourceShareArn', instance.resourceShareArn);
+  writeNotNull('clientToken', instance.clientToken);
+  return val;
 }
 
 DisassociateResourceSharePermissionResponse
@@ -63,6 +153,23 @@ DisassociateResourceSharePermissionResponse
     clientToken: json['clientToken'] as String,
     returnValue: json['returnValue'] as bool,
   );
+}
+
+Map<String, dynamic> _$DisassociateResourceShareRequestToJson(
+    DisassociateResourceShareRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceShareArn', instance.resourceShareArn);
+  writeNotNull('clientToken', instance.clientToken);
+  writeNotNull('principals', instance.principals);
+  writeNotNull('resourceArns', instance.resourceArns);
+  return val;
 }
 
 DisassociateResourceShareResponse _$DisassociateResourceShareResponseFromJson(
@@ -85,6 +192,21 @@ EnableSharingWithAwsOrganizationResponse
   );
 }
 
+Map<String, dynamic> _$GetPermissionRequestToJson(
+    GetPermissionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('permissionArn', instance.permissionArn);
+  writeNotNull('permissionVersion', instance.permissionVersion);
+  return val;
+}
+
 GetPermissionResponse _$GetPermissionResponseFromJson(
     Map<String, dynamic> json) {
   return GetPermissionResponse(
@@ -95,6 +217,23 @@ GetPermissionResponse _$GetPermissionResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$GetResourcePoliciesRequestToJson(
+    GetResourcePoliciesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceArns', instance.resourceArns);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('principal', instance.principal);
+  return val;
+}
+
 GetResourcePoliciesResponse _$GetResourcePoliciesResponseFromJson(
     Map<String, dynamic> json) {
   return GetResourcePoliciesResponse(
@@ -102,6 +241,41 @@ GetResourcePoliciesResponse _$GetResourcePoliciesResponseFromJson(
     policies: (json['policies'] as List)?.map((e) => e as String)?.toList(),
   );
 }
+
+Map<String, dynamic> _$GetResourceShareAssociationsRequestToJson(
+    GetResourceShareAssociationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('associationType',
+      _$ResourceShareAssociationTypeEnumMap[instance.associationType]);
+  writeNotNull('associationStatus',
+      _$ResourceShareAssociationStatusEnumMap[instance.associationStatus]);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('principal', instance.principal);
+  writeNotNull('resourceArn', instance.resourceArn);
+  writeNotNull('resourceShareArns', instance.resourceShareArns);
+  return val;
+}
+
+const _$ResourceShareAssociationTypeEnumMap = {
+  ResourceShareAssociationType.principal: 'PRINCIPAL',
+  ResourceShareAssociationType.resource: 'RESOURCE',
+};
+
+const _$ResourceShareAssociationStatusEnumMap = {
+  ResourceShareAssociationStatus.associating: 'ASSOCIATING',
+  ResourceShareAssociationStatus.associated: 'ASSOCIATED',
+  ResourceShareAssociationStatus.failed: 'FAILED',
+  ResourceShareAssociationStatus.disassociating: 'DISASSOCIATING',
+  ResourceShareAssociationStatus.disassociated: 'DISASSOCIATED',
+};
 
 GetResourceShareAssociationsResponse
     _$GetResourceShareAssociationsResponseFromJson(Map<String, dynamic> json) {
@@ -113,6 +287,24 @@ GetResourceShareAssociationsResponse
             : ResourceShareAssociation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$GetResourceShareInvitationsRequestToJson(
+    GetResourceShareInvitationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('resourceShareArns', instance.resourceShareArns);
+  writeNotNull(
+      'resourceShareInvitationArns', instance.resourceShareInvitationArns);
+  return val;
 }
 
 GetResourceShareInvitationsResponse
@@ -127,6 +319,41 @@ GetResourceShareInvitationsResponse
   );
 }
 
+Map<String, dynamic> _$GetResourceSharesRequestToJson(
+    GetResourceSharesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceOwner', _$ResourceOwnerEnumMap[instance.resourceOwner]);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('name', instance.name);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('resourceShareArns', instance.resourceShareArns);
+  writeNotNull('resourceShareStatus',
+      _$ResourceShareStatusEnumMap[instance.resourceShareStatus]);
+  writeNotNull(
+      'tagFilters', instance.tagFilters?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+const _$ResourceOwnerEnumMap = {
+  ResourceOwner.self: 'SELF',
+  ResourceOwner.otherAccounts: 'OTHER-ACCOUNTS',
+};
+
+const _$ResourceShareStatusEnumMap = {
+  ResourceShareStatus.pending: 'PENDING',
+  ResourceShareStatus.active: 'ACTIVE',
+  ResourceShareStatus.failed: 'FAILED',
+  ResourceShareStatus.deleting: 'DELETING',
+  ResourceShareStatus.deleted: 'DELETED',
+};
+
 GetResourceSharesResponse _$GetResourceSharesResponseFromJson(
     Map<String, dynamic> json) {
   return GetResourceSharesResponse(
@@ -139,6 +366,23 @@ GetResourceSharesResponse _$GetResourceSharesResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListPendingInvitationResourcesRequestToJson(
+    ListPendingInvitationResourcesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'resourceShareInvitationArn', instance.resourceShareInvitationArn);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 ListPendingInvitationResourcesResponse
     _$ListPendingInvitationResourcesResponseFromJson(
         Map<String, dynamic> json) {
@@ -149,6 +393,22 @@ ListPendingInvitationResourcesResponse
             e == null ? null : Resource.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListPermissionsRequestToJson(
+    ListPermissionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('resourceType', instance.resourceType);
+  return val;
 }
 
 ListPermissionsResponse _$ListPermissionsResponseFromJson(
@@ -164,6 +424,26 @@ ListPermissionsResponse _$ListPermissionsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListPrincipalsRequestToJson(
+    ListPrincipalsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceOwner', _$ResourceOwnerEnumMap[instance.resourceOwner]);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('principals', instance.principals);
+  writeNotNull('resourceArn', instance.resourceArn);
+  writeNotNull('resourceShareArns', instance.resourceShareArns);
+  writeNotNull('resourceType', instance.resourceType);
+  return val;
+}
+
 ListPrincipalsResponse _$ListPrincipalsResponseFromJson(
     Map<String, dynamic> json) {
   return ListPrincipalsResponse(
@@ -173,6 +453,22 @@ ListPrincipalsResponse _$ListPrincipalsResponseFromJson(
             e == null ? null : Principal.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListResourceSharePermissionsRequestToJson(
+    ListResourceSharePermissionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceShareArn', instance.resourceShareArn);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 ListResourceSharePermissionsResponse
@@ -186,6 +482,26 @@ ListResourceSharePermissionsResponse
                 e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListResourcesRequestToJson(
+    ListResourcesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceOwner', _$ResourceOwnerEnumMap[instance.resourceOwner]);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('principal', instance.principal);
+  writeNotNull('resourceArns', instance.resourceArns);
+  writeNotNull('resourceShareArns', instance.resourceShareArns);
+  writeNotNull('resourceType', instance.resourceType);
+  return val;
 }
 
 ListResourcesResponse _$ListResourcesResponseFromJson(
@@ -209,12 +525,32 @@ Principal _$PrincipalFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$PromoteResourceShareCreatedFromPolicyRequestToJson(
+        PromoteResourceShareCreatedFromPolicyRequest instance) =>
+    <String, dynamic>{};
+
 PromoteResourceShareCreatedFromPolicyResponse
     _$PromoteResourceShareCreatedFromPolicyResponseFromJson(
         Map<String, dynamic> json) {
   return PromoteResourceShareCreatedFromPolicyResponse(
     returnValue: json['returnValue'] as bool,
   );
+}
+
+Map<String, dynamic> _$RejectResourceShareInvitationRequestToJson(
+    RejectResourceShareInvitationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'resourceShareInvitationArn', instance.resourceShareInvitationArn);
+  writeNotNull('clientToken', instance.clientToken);
+  return val;
 }
 
 RejectResourceShareInvitationResponse
@@ -305,14 +641,6 @@ const _$ResourceShareFeatureSetEnumMap = {
   ResourceShareFeatureSet.standard: 'STANDARD',
 };
 
-const _$ResourceShareStatusEnumMap = {
-  ResourceShareStatus.pending: 'PENDING',
-  ResourceShareStatus.active: 'ACTIVE',
-  ResourceShareStatus.failed: 'FAILED',
-  ResourceShareStatus.deleting: 'DELETING',
-  ResourceShareStatus.deleted: 'DELETED',
-};
-
 ResourceShareAssociation _$ResourceShareAssociationFromJson(
     Map<String, dynamic> json) {
   return ResourceShareAssociation(
@@ -329,19 +657,6 @@ ResourceShareAssociation _$ResourceShareAssociationFromJson(
     statusMessage: json['statusMessage'] as String,
   );
 }
-
-const _$ResourceShareAssociationTypeEnumMap = {
-  ResourceShareAssociationType.principal: 'PRINCIPAL',
-  ResourceShareAssociationType.resource: 'RESOURCE',
-};
-
-const _$ResourceShareAssociationStatusEnumMap = {
-  ResourceShareAssociationStatus.associating: 'ASSOCIATING',
-  ResourceShareAssociationStatus.associated: 'ASSOCIATED',
-  ResourceShareAssociationStatus.failed: 'FAILED',
-  ResourceShareAssociationStatus.disassociating: 'DISASSOCIATING',
-  ResourceShareAssociationStatus.disassociated: 'DISASSOCIATED',
-};
 
 ResourceShareInvitation _$ResourceShareInvitationFromJson(
     Map<String, dynamic> json) {
@@ -432,13 +747,59 @@ Map<String, dynamic> _$TagFilterToJson(TagFilter instance) {
   return val;
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceShareArn', instance.resourceShareArn);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
+}
+
+Map<String, dynamic> _$UntagResourceRequestToJson(
+    UntagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceShareArn', instance.resourceShareArn);
+  writeNotNull('tagKeys', instance.tagKeys);
+  return val;
 }
 
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse();
+}
+
+Map<String, dynamic> _$UpdateResourceShareRequestToJson(
+    UpdateResourceShareRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceShareArn', instance.resourceShareArn);
+  writeNotNull('allowExternalPrincipals', instance.allowExternalPrincipals);
+  writeNotNull('clientToken', instance.clientToken);
+  writeNotNull('name', instance.name);
+  return val;
 }
 
 UpdateResourceShareResponse _$UpdateResourceShareResponseFromJson(

@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -92,9 +91,9 @@ class FSx {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TaskId': taskId,
-      },
+      payload: CancelDataRepositoryTaskRequest(
+        taskId: taskId,
+      ),
     );
 
     return CancelDataRepositoryTaskResponse.fromJson(jsonResponse.body);
@@ -196,12 +195,11 @@ class FSx {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'FileSystemId': fileSystemId,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateBackupRequest(
+        fileSystemId: fileSystemId,
+        clientRequestToken: clientRequestToken,
+        tags: tags,
+      ),
     );
 
     return CreateBackupResponse.fromJson(jsonResponse.body);
@@ -294,15 +292,14 @@ class FSx {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'FileSystemId': fileSystemId,
-        'Report': report,
-        'Type': type?.toValue(),
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-        if (paths != null) 'Paths': paths,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateDataRepositoryTaskRequest(
+        fileSystemId: fileSystemId,
+        report: report,
+        type: type,
+        clientRequestToken: clientRequestToken,
+        paths: paths,
+        tags: tags,
+      ),
     );
 
     return CreateDataRepositoryTaskResponse.fromJson(jsonResponse.body);
@@ -491,21 +488,18 @@ class FSx {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'FileSystemType': fileSystemType?.toValue(),
-        'StorageCapacity': storageCapacity,
-        'SubnetIds': subnetIds,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-        if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
-        if (lustreConfiguration != null)
-          'LustreConfiguration': lustreConfiguration,
-        if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
-        if (storageType != null) 'StorageType': storageType?.toValue(),
-        if (tags != null) 'Tags': tags,
-        if (windowsConfiguration != null)
-          'WindowsConfiguration': windowsConfiguration,
-      },
+      payload: CreateFileSystemRequest(
+        fileSystemType: fileSystemType,
+        storageCapacity: storageCapacity,
+        subnetIds: subnetIds,
+        clientRequestToken: clientRequestToken,
+        kmsKeyId: kmsKeyId,
+        lustreConfiguration: lustreConfiguration,
+        securityGroupIds: securityGroupIds,
+        storageType: storageType,
+        tags: tags,
+        windowsConfiguration: windowsConfiguration,
+      ),
     );
 
     return CreateFileSystemResponse.fromJson(jsonResponse.body);
@@ -660,17 +654,15 @@ class FSx {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'BackupId': backupId,
-        'SubnetIds': subnetIds,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-        if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
-        if (storageType != null) 'StorageType': storageType?.toValue(),
-        if (tags != null) 'Tags': tags,
-        if (windowsConfiguration != null)
-          'WindowsConfiguration': windowsConfiguration,
-      },
+      payload: CreateFileSystemFromBackupRequest(
+        backupId: backupId,
+        subnetIds: subnetIds,
+        clientRequestToken: clientRequestToken,
+        securityGroupIds: securityGroupIds,
+        storageType: storageType,
+        tags: tags,
+        windowsConfiguration: windowsConfiguration,
+      ),
     );
 
     return CreateFileSystemFromBackupResponse.fromJson(jsonResponse.body);
@@ -740,11 +732,10 @@ class FSx {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'BackupId': backupId,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-      },
+      payload: DeleteBackupRequest(
+        backupId: backupId,
+        clientRequestToken: clientRequestToken,
+      ),
     );
 
     return DeleteBackupResponse.fromJson(jsonResponse.body);
@@ -827,13 +818,11 @@ class FSx {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'FileSystemId': fileSystemId,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-        if (windowsConfiguration != null)
-          'WindowsConfiguration': windowsConfiguration,
-      },
+      payload: DeleteFileSystemRequest(
+        fileSystemId: fileSystemId,
+        clientRequestToken: clientRequestToken,
+        windowsConfiguration: windowsConfiguration,
+      ),
     );
 
     return DeleteFileSystemResponse.fromJson(jsonResponse.body);
@@ -930,12 +919,12 @@ class FSx {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (backupIds != null) 'BackupIds': backupIds,
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeBackupsRequest(
+        backupIds: backupIds,
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeBackupsResponse.fromJson(jsonResponse.body);
@@ -1002,12 +991,12 @@ class FSx {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (taskIds != null) 'TaskIds': taskIds,
-      },
+      payload: DescribeDataRepositoryTasksRequest(
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        taskIds: taskIds,
+      ),
     );
 
     return DescribeDataRepositoryTasksResponse.fromJson(jsonResponse.body);
@@ -1097,11 +1086,11 @@ class FSx {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (fileSystemIds != null) 'FileSystemIds': fileSystemIds,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeFileSystemsRequest(
+        fileSystemIds: fileSystemIds,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeFileSystemsResponse.fromJson(jsonResponse.body);
@@ -1204,11 +1193,11 @@ class FSx {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceARN': resourceARN,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListTagsForResourceRequest(
+        resourceARN: resourceARN,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
@@ -1258,10 +1247,10 @@ class FSx {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceARN': resourceARN,
-        'Tags': tags,
-      },
+      payload: TagResourceRequest(
+        resourceARN: resourceARN,
+        tags: tags,
+      ),
     );
 
     return TagResourceResponse.fromJson(jsonResponse.body);
@@ -1310,10 +1299,10 @@ class FSx {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceARN': resourceARN,
-        'TagKeys': tagKeys,
-      },
+      payload: UntagResourceRequest(
+        resourceARN: resourceARN,
+        tagKeys: tagKeys,
+      ),
     );
 
     return UntagResourceResponse.fromJson(jsonResponse.body);
@@ -1379,15 +1368,12 @@ class FSx {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'FileSystemId': fileSystemId,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-        if (lustreConfiguration != null)
-          'LustreConfiguration': lustreConfiguration,
-        if (windowsConfiguration != null)
-          'WindowsConfiguration': windowsConfiguration,
-      },
+      payload: UpdateFileSystemRequest(
+        fileSystemId: fileSystemId,
+        clientRequestToken: clientRequestToken,
+        lustreConfiguration: lustreConfiguration,
+        windowsConfiguration: windowsConfiguration,
+      ),
     );
 
     return UpdateFileSystemResponse.fromJson(jsonResponse.body);
@@ -1531,6 +1517,24 @@ enum BackupType {
   userInitiated,
 }
 
+/// Cancels a data repository task.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CancelDataRepositoryTaskRequest {
+  /// Specifies the data repository task to cancel.
+  @_s.JsonKey(name: 'TaskId')
+  final String taskId;
+
+  CancelDataRepositoryTaskRequest({
+    @_s.required this.taskId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CancelDataRepositoryTaskRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -1642,6 +1646,36 @@ class CompletionReport {
   Map<String, dynamic> toJson() => _$CompletionReportToJson(this);
 }
 
+/// The request object for the <code>CreateBackup</code> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateBackupRequest {
+  /// The ID of the file system to back up.
+  @_s.JsonKey(name: 'FileSystemId')
+  final String fileSystemId;
+
+  /// (Optional) A string of up to 64 ASCII characters that Amazon FSx uses to
+  /// ensure idempotent creation. This string is automatically filled on your
+  /// behalf when you use the AWS Command Line Interface (AWS CLI) or an AWS SDK.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// The tags to apply to the backup at backup creation. The key value of the
+  /// <code>Name</code> tag appears in the console as the backup name.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateBackupRequest({
+    @_s.required this.fileSystemId,
+    this.clientRequestToken,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateBackupRequestToJson(this);
+}
+
 /// The response object for the <code>CreateBackup</code> operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1663,6 +1697,54 @@ class CreateBackupResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDataRepositoryTaskRequest {
+  @_s.JsonKey(name: 'FileSystemId')
+  final String fileSystemId;
+
+  /// Defines whether or not Amazon FSx provides a CompletionReport once the task
+  /// has completed. A CompletionReport provides a detailed report on the files
+  /// that Amazon FSx processed that meet the criteria specified by the
+  /// <code>Scope</code> parameter. For more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/task-completion-report.html">Working
+  /// with Task Completion Reports</a>.
+  @_s.JsonKey(name: 'Report')
+  final CompletionReport report;
+
+  /// Specifies the type of data repository task to create.
+  @_s.JsonKey(name: 'Type')
+  final DataRepositoryTaskType type;
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// (Optional) The path or paths on the Amazon FSx file system to use when the
+  /// data repository task is processed. The default path is the file system root
+  /// directory. The paths you provide need to be relative to the mount point of
+  /// the file system. If the mount point is <code>/mnt/fsx</code> and
+  /// <code>/mnt/fsx/path1</code> is a directory or file on the file system you
+  /// want to export, then the path to provide is <code>path1</code>. If a path
+  /// that you provide isn't valid, the task fails.
+  @_s.JsonKey(name: 'Paths')
+  final List<String> paths;
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateDataRepositoryTaskRequest({
+    @_s.required this.fileSystemId,
+    @_s.required this.report,
+    @_s.required this.type,
+    this.clientRequestToken,
+    this.paths,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateDataRepositoryTaskRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateDataRepositoryTaskResponse {
@@ -1676,6 +1758,91 @@ class CreateDataRepositoryTaskResponse {
   factory CreateDataRepositoryTaskResponse.fromJson(
           Map<String, dynamic> json) =>
       _$CreateDataRepositoryTaskResponseFromJson(json);
+}
+
+/// The request object for the <code>CreateFileSystemFromBackup</code>
+/// operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateFileSystemFromBackupRequest {
+  @_s.JsonKey(name: 'BackupId')
+  final String backupId;
+
+  /// Specifies the IDs of the subnets that the file system will be accessible
+  /// from. For Windows <code>MULTI_AZ_1</code> file system deployment types,
+  /// provide exactly two subnet IDs, one for the preferred file server and one
+  /// for the standby file server. You specify one of these subnets as the
+  /// preferred subnet using the <code>WindowsConfiguration &gt;
+  /// PreferredSubnetID</code> property.
+  ///
+  /// For Windows <code>SINGLE_AZ_1</code> and <code>SINGLE_AZ_2</code> deployment
+  /// types and Lustre file systems, provide exactly one subnet ID. The file
+  /// server is launched in that subnet's Availability Zone.
+  @_s.JsonKey(name: 'SubnetIds')
+  final List<String> subnetIds;
+
+  /// (Optional) A string of up to 64 ASCII characters that Amazon FSx uses to
+  /// ensure idempotent creation. This string is automatically filled on your
+  /// behalf when you use the AWS Command Line Interface (AWS CLI) or an AWS SDK.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// A list of IDs for the security groups that apply to the specified network
+  /// interfaces created for file system access. These security groups apply to
+  /// all network interfaces. This value isn't returned in later
+  /// DescribeFileSystem requests.
+  @_s.JsonKey(name: 'SecurityGroupIds')
+  final List<String> securityGroupIds;
+
+  /// Sets the storage type for the Windows file system you're creating from a
+  /// backup. Valid values are <code>SSD</code> and <code>HDD</code>.
+  ///
+  /// <ul>
+  /// <li>
+  /// Set to <code>SSD</code> to use solid state drive storage. Supported on all
+  /// Windows deployment types.
+  /// </li>
+  /// <li>
+  /// Set to <code>HDD</code> to use hard disk drive storage. Supported on
+  /// <code>SINGLE_AZ_2</code> and <code>MULTI_AZ_1</code> Windows file system
+  /// deployment types.
+  /// </li>
+  /// </ul>
+  /// Default value is <code>SSD</code>.
+  /// <note>
+  /// HDD and SSD storage types have different minimum storage capacity
+  /// requirements. A restored file system's storage capacity is tied to the file
+  /// system that was backed up. You can create a file system that uses HDD
+  /// storage from a backup of a file system that used SSD storage only if the
+  /// original SSD file system had a storage capacity of at least 2000 GiB.
+  /// </note>
+  @_s.JsonKey(name: 'StorageType')
+  final StorageType storageType;
+
+  /// The tags to be applied to the file system at file system creation. The key
+  /// value of the <code>Name</code> tag appears in the console as the file system
+  /// name.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  /// The configuration for this Microsoft Windows file system.
+  @_s.JsonKey(name: 'WindowsConfiguration')
+  final CreateFileSystemWindowsConfiguration windowsConfiguration;
+
+  CreateFileSystemFromBackupRequest({
+    @_s.required this.backupId,
+    @_s.required this.subnetIds,
+    this.clientRequestToken,
+    this.securityGroupIds,
+    this.storageType,
+    this.tags,
+    this.windowsConfiguration,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateFileSystemFromBackupRequestToJson(this);
 }
 
 /// The response object for the <code>CreateFileSystemFromBackup</code>
@@ -1799,6 +1966,120 @@ class CreateFileSystemLustreConfiguration {
   });
   Map<String, dynamic> toJson() =>
       _$CreateFileSystemLustreConfigurationToJson(this);
+}
+
+/// The request object used to create a new Amazon FSx file system.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateFileSystemRequest {
+  /// The type of Amazon FSx file system to create, either <code>WINDOWS</code> or
+  /// <code>LUSTRE</code>.
+  @_s.JsonKey(name: 'FileSystemType')
+  final FileSystemType fileSystemType;
+
+  /// Sets the storage capacity of the file system that you're creating.
+  ///
+  /// For Lustre file systems:
+  ///
+  /// <ul>
+  /// <li>
+  /// For <code>SCRATCH_2</code> and <code>PERSISTENT_1</code> deployment types,
+  /// valid values are 1.2, 2.4, and increments of 2.4 TiB.
+  /// </li>
+  /// <li>
+  /// For <code>SCRATCH_1</code> deployment type, valid values are 1.2, 2.4, and
+  /// increments of 3.6 TiB.
+  /// </li>
+  /// </ul>
+  /// For Windows file systems:
+  ///
+  /// <ul>
+  /// <li>
+  /// If <code>StorageType=SSD</code>, valid values are 32 GiB - 65,536 GiB (64
+  /// TiB).
+  /// </li>
+  /// <li>
+  /// If <code>StorageType=HDD</code>, valid values are 2000 GiB - 65,536 GiB (64
+  /// TiB).
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'StorageCapacity')
+  final int storageCapacity;
+
+  /// Specifies the IDs of the subnets that the file system will be accessible
+  /// from. For Windows <code>MULTI_AZ_1</code> file system deployment types,
+  /// provide exactly two subnet IDs, one for the preferred file server and one
+  /// for the standby file server. You specify one of these subnets as the
+  /// preferred subnet using the <code>WindowsConfiguration &gt;
+  /// PreferredSubnetID</code> property.
+  ///
+  /// For Windows <code>SINGLE_AZ_1</code> and <code>SINGLE_AZ_2</code> file
+  /// system deployment types and Lustre file systems, provide exactly one subnet
+  /// ID. The file server is launched in that subnet's Availability Zone.
+  @_s.JsonKey(name: 'SubnetIds')
+  final List<String> subnetIds;
+
+  /// (Optional) A string of up to 64 ASCII characters that Amazon FSx uses to
+  /// ensure idempotent creation. This string is automatically filled on your
+  /// behalf when you use the AWS Command Line Interface (AWS CLI) or an AWS SDK.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+  @_s.JsonKey(name: 'KmsKeyId')
+  final String kmsKeyId;
+  @_s.JsonKey(name: 'LustreConfiguration')
+  final CreateFileSystemLustreConfiguration lustreConfiguration;
+
+  /// A list of IDs specifying the security groups to apply to all network
+  /// interfaces created for file system access. This list isn't returned in later
+  /// requests to describe the file system.
+  @_s.JsonKey(name: 'SecurityGroupIds')
+  final List<String> securityGroupIds;
+
+  /// Sets the storage type for the Amazon FSx for Windows file system you're
+  /// creating. Valid values are <code>SSD</code> and <code>HDD</code>.
+  ///
+  /// <ul>
+  /// <li>
+  /// Set to <code>SSD</code> to use solid state drive storage. SSD is supported
+  /// on all Windows deployment types.
+  /// </li>
+  /// <li>
+  /// Set to <code>HDD</code> to use hard disk drive storage. HDD is supported on
+  /// <code>SINGLE_AZ_2</code> and <code>MULTI_AZ_1</code> Windows file system
+  /// deployment types.
+  /// </li>
+  /// </ul>
+  /// Default value is <code>SSD</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/WindowsGuide/optimize-fsx-tco.html#saz-maz-storage-type">
+  /// Storage Type Options</a> in the <i>Amazon FSx for Windows User Guide</i>.
+  @_s.JsonKey(name: 'StorageType')
+  final StorageType storageType;
+
+  /// The tags to apply to the file system being created. The key value of the
+  /// <code>Name</code> tag appears in the console as the file system name.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  /// The Microsoft Windows configuration for the file system being created.
+  @_s.JsonKey(name: 'WindowsConfiguration')
+  final CreateFileSystemWindowsConfiguration windowsConfiguration;
+
+  CreateFileSystemRequest({
+    @_s.required this.fileSystemType,
+    @_s.required this.storageCapacity,
+    @_s.required this.subnetIds,
+    this.clientRequestToken,
+    this.kmsKeyId,
+    this.lustreConfiguration,
+    this.securityGroupIds,
+    this.storageType,
+    this.tags,
+    this.windowsConfiguration,
+  });
+  Map<String, dynamic> toJson() => _$CreateFileSystemRequestToJson(this);
 }
 
 /// The response object returned after the file system is created.
@@ -2208,14 +2489,28 @@ enum DataRepositoryTaskType {
   exportToRepository,
 }
 
-extension on DataRepositoryTaskType {
-  String toValue() {
-    switch (this) {
-      case DataRepositoryTaskType.exportToRepository:
-        return 'EXPORT_TO_REPOSITORY';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+/// The request object for <code>DeleteBackup</code> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteBackupRequest {
+  /// The ID of the backup you want to delete.
+  @_s.JsonKey(name: 'BackupId')
+  final String backupId;
+
+  /// (Optional) A string of up to 64 ASCII characters that Amazon FSx uses to
+  /// ensure idempotent deletion. This is automatically filled on your behalf when
+  /// using the AWS CLI or SDK.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  DeleteBackupRequest({
+    @_s.required this.backupId,
+    this.clientRequestToken,
+  });
+  Map<String, dynamic> toJson() => _$DeleteBackupRequestToJson(this);
 }
 
 /// The response object for <code>DeleteBackup</code> operation.
@@ -2239,6 +2534,33 @@ class DeleteBackupResponse {
   });
   factory DeleteBackupResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteBackupResponseFromJson(json);
+}
+
+/// The request object for <code>DeleteFileSystem</code> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteFileSystemRequest {
+  /// The ID of the file system you want to delete.
+  @_s.JsonKey(name: 'FileSystemId')
+  final String fileSystemId;
+
+  /// (Optional) A string of up to 64 ASCII characters that Amazon FSx uses to
+  /// ensure idempotent deletion. This is automatically filled on your behalf when
+  /// using the AWS CLI or SDK.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+  @_s.JsonKey(name: 'WindowsConfiguration')
+  final DeleteFileSystemWindowsConfiguration windowsConfiguration;
+
+  DeleteFileSystemRequest({
+    @_s.required this.fileSystemId,
+    this.clientRequestToken,
+    this.windowsConfiguration,
+  });
+  Map<String, dynamic> toJson() => _$DeleteFileSystemRequestToJson(this);
 }
 
 /// The response object for the <code>DeleteFileSystem</code> operation.
@@ -2319,6 +2641,46 @@ class DeleteFileSystemWindowsResponse {
       _$DeleteFileSystemWindowsResponseFromJson(json);
 }
 
+/// The request object for <code>DescribeBackups</code> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeBackupsRequest {
+  /// (Optional) IDs of the backups you want to retrieve (String). This overrides
+  /// any filters. If any IDs are not found, BackupNotFound will be thrown.
+  @_s.JsonKey(name: 'BackupIds')
+  final List<String> backupIds;
+
+  /// (Optional) Filters structure. Supported names are file-system-id and
+  /// backup-type.
+  @_s.JsonKey(name: 'Filters')
+  final List<Filter> filters;
+
+  /// (Optional) Maximum number of backups to return in the response (integer).
+  /// This parameter value must be greater than 0. The number of items that Amazon
+  /// FSx returns is the minimum of the <code>MaxResults</code> parameter
+  /// specified in the request and the service's internal maximum number of items
+  /// per page.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// (Optional) Opaque pagination token returned from a previous
+  /// <code>DescribeBackups</code> operation (String). If a token present, the
+  /// action continues the list from where the returning call left off.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeBackupsRequest({
+    this.backupIds,
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeBackupsRequestToJson(this);
+}
+
 /// Response object for <code>DescribeBackups</code> operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2347,6 +2709,37 @@ class DescribeBackupsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeDataRepositoryTasksRequest {
+  /// (Optional) You can use filters to narrow the
+  /// <code>DescribeDataRepositoryTasks</code> response to include just tasks for
+  /// specific file systems, or tasks in a specific lifecycle state.
+  @_s.JsonKey(name: 'Filters')
+  final List<DataRepositoryTaskFilter> filters;
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// (Optional) IDs of the tasks whose descriptions you want to retrieve
+  /// (String).
+  @_s.JsonKey(name: 'TaskIds')
+  final List<String> taskIds;
+
+  DescribeDataRepositoryTasksRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+    this.taskIds,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeDataRepositoryTasksRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeDataRepositoryTasksResponse {
@@ -2363,6 +2756,40 @@ class DescribeDataRepositoryTasksResponse {
   factory DescribeDataRepositoryTasksResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeDataRepositoryTasksResponseFromJson(json);
+}
+
+/// The request object for <code>DescribeFileSystems</code> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeFileSystemsRequest {
+  /// (Optional) IDs of the file systems whose descriptions you want to retrieve
+  /// (String).
+  @_s.JsonKey(name: 'FileSystemIds')
+  final List<String> fileSystemIds;
+
+  /// (Optional) Maximum number of file systems to return in the response
+  /// (integer). This parameter value must be greater than 0. The number of items
+  /// that Amazon FSx returns is the minimum of the <code>MaxResults</code>
+  /// parameter specified in the request and the service's internal maximum number
+  /// of items per page.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// (Optional) Opaque pagination token returned from a previous
+  /// <code>DescribeFileSystems</code> operation (String). If a token present, the
+  /// action continues the list from where the returning call left off.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeFileSystemsRequest({
+    this.fileSystemIds,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeFileSystemsRequestToJson(this);
 }
 
 /// The response object for <code>DescribeFileSystems</code> operation.
@@ -2600,18 +3027,6 @@ enum FileSystemType {
   lustre,
 }
 
-extension on FileSystemType {
-  String toValue() {
-    switch (this) {
-      case FileSystemType.windows:
-        return 'WINDOWS';
-      case FileSystemType.lustre:
-        return 'LUSTRE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// A filter used to restrict the results of describe calls. You can use
 /// multiple filters to return results that meet all applied filter
 /// requirements.
@@ -2643,6 +3058,38 @@ enum FilterName {
   fileSystemId,
   @_s.JsonValue('backup-type')
   backupType,
+}
+
+/// The request object for <code>ListTagsForResource</code> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceRequest {
+  /// The ARN of the Amazon FSx resource that will have its tags listed.
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+
+  /// (Optional) Maximum number of tags to return in the response (integer). This
+  /// parameter value must be greater than 0. The number of items that Amazon FSx
+  /// returns is the minimum of the <code>MaxResults</code> parameter specified in
+  /// the request and the service's internal maximum number of items per page.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// (Optional) Opaque pagination token returned from a previous
+  /// <code>ListTagsForResource</code> operation (String). If a token present, the
+  /// action continues the list from where the returning call left off.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListTagsForResourceRequest({
+    @_s.required this.resourceARN,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceRequestToJson(this);
 }
 
 /// The response object for <code>ListTagsForResource</code> operation.
@@ -2905,18 +3352,6 @@ enum StorageType {
   hdd,
 }
 
-extension on StorageType {
-  String toValue() {
-    switch (this) {
-      case StorageType.ssd:
-        return 'SSD';
-      case StorageType.hdd:
-        return 'HDD';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Specifies a key-value pair for a resource tag.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2945,6 +3380,30 @@ class Tag {
   Map<String, dynamic> toJson() => _$TagToJson(this);
 }
 
+/// The request object for the <code>TagResource</code> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the Amazon FSx resource that you want to
+  /// tag.
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+
+  /// A list of tags for the resource. If a tag with a given key already exists,
+  /// the value is replaced by the one specified in this parameter.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceARN,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
 /// The response object for the <code>TagResource</code> operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2955,6 +3414,29 @@ class TagResourceResponse {
   TagResourceResponse();
   factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$TagResourceResponseFromJson(json);
+}
+
+/// The request object for <code>UntagResource</code> action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The ARN of the Amazon FSx resource to untag.
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+
+  /// A list of keys of tags on the resource to untag. In case the tag key doesn't
+  /// exist, the call will still succeed to be idempotent.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceARN,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
 }
 
 /// The response object for <code>UntagResource</code> action.
@@ -2986,6 +3468,39 @@ class UpdateFileSystemLustreConfiguration {
   });
   Map<String, dynamic> toJson() =>
       _$UpdateFileSystemLustreConfigurationToJson(this);
+}
+
+/// The request object for the <code>UpdateFileSystem</code> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateFileSystemRequest {
+  @_s.JsonKey(name: 'FileSystemId')
+  final String fileSystemId;
+
+  /// (Optional) A string of up to 64 ASCII characters that Amazon FSx uses to
+  /// ensure idempotent updates. This string is automatically filled on your
+  /// behalf when you use the AWS Command Line Interface (AWS CLI) or an AWS SDK.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+  @_s.JsonKey(name: 'LustreConfiguration')
+  final UpdateFileSystemLustreConfiguration lustreConfiguration;
+
+  /// The configuration update for this Microsoft Windows file system. The only
+  /// supported options are for backup and maintenance and for self-managed Active
+  /// Directory configuration.
+  @_s.JsonKey(name: 'WindowsConfiguration')
+  final UpdateFileSystemWindowsConfiguration windowsConfiguration;
+
+  UpdateFileSystemRequest({
+    @_s.required this.fileSystemId,
+    this.clientRequestToken,
+    this.lustreConfiguration,
+    this.windowsConfiguration,
+  });
+  Map<String, dynamic> toJson() => _$UpdateFileSystemRequestToJson(this);
 }
 
 /// The response object for the <code>UpdateFileSystem</code> operation.

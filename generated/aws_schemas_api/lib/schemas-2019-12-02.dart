@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -75,11 +74,11 @@ class Schemas {
       0,
       256,
     );
-    final $payload = <String, dynamic>{
-      'SourceArn': sourceArn,
-      if (description != null) 'Description': description,
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = CreateDiscovererRequest(
+      sourceArn: sourceArn,
+      description: description,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -115,10 +114,11 @@ class Schemas {
       0,
       256,
     );
-    final $payload = <String, dynamic>{
-      if (description != null) 'Description': description,
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = CreateRegistryRequest(
+      registryName: registryName,
+      description: description,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -166,12 +166,14 @@ class Schemas {
       0,
       256,
     );
-    final $payload = <String, dynamic>{
-      'Content': content,
-      'Type': type?.toValue(),
-      if (description != null) 'Description': description,
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = CreateSchemaRequest(
+      content: content,
+      registryName: registryName,
+      schemaName: schemaName,
+      type: type,
+      description: description,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -194,7 +196,9 @@ class Schemas {
     @_s.required String discovererId,
   }) async {
     ArgumentError.checkNotNull(discovererId, 'discovererId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteDiscovererRequest(
+      discovererId: discovererId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -216,7 +220,9 @@ class Schemas {
     @_s.required String registryName,
   }) async {
     ArgumentError.checkNotNull(registryName, 'registryName');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteRegistryRequest(
+      registryName: registryName,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -240,7 +246,10 @@ class Schemas {
   }) async {
     ArgumentError.checkNotNull(registryName, 'registryName');
     ArgumentError.checkNotNull(schemaName, 'schemaName');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteSchemaRequest(
+      registryName: registryName,
+      schemaName: schemaName,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -266,7 +275,11 @@ class Schemas {
     ArgumentError.checkNotNull(registryName, 'registryName');
     ArgumentError.checkNotNull(schemaName, 'schemaName');
     ArgumentError.checkNotNull(schemaVersion, 'schemaVersion');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteSchemaVersionRequest(
+      registryName: registryName,
+      schemaName: schemaName,
+      schemaVersion: schemaVersion,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -434,10 +447,10 @@ class Schemas {
   }) async {
     ArgumentError.checkNotNull(events, 'events');
     ArgumentError.checkNotNull(type, 'type');
-    final $payload = <String, dynamic>{
-      'Events': events,
-      'Type': type?.toValue(),
-    };
+    final $payload = GetDiscoveredSchemaRequest(
+      events: events,
+      type: type,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -615,10 +628,10 @@ class Schemas {
       29000,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'RoleArn': roleArn,
-      'Timeout': timeout,
-    };
+    final $payload = LockServiceLinkedRoleRequest(
+      roleArn: roleArn,
+      timeout: timeout,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -651,7 +664,12 @@ class Schemas {
       if (schemaVersion != null)
         _s.toQueryParam('schemaVersion', schemaVersion),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = PutCodeBindingRequest(
+      language: language,
+      registryName: registryName,
+      schemaName: schemaName,
+      schemaVersion: schemaVersion,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -705,7 +723,9 @@ class Schemas {
     @_s.required String discovererId,
   }) async {
     ArgumentError.checkNotNull(discovererId, 'discovererId');
-    final $payload = <String, dynamic>{};
+    final $payload = StartDiscovererRequest(
+      discovererId: discovererId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -728,7 +748,9 @@ class Schemas {
     @_s.required String discovererId,
   }) async {
     ArgumentError.checkNotNull(discovererId, 'discovererId');
-    final $payload = <String, dynamic>{};
+    final $payload = StopDiscovererRequest(
+      discovererId: discovererId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -751,9 +773,10 @@ class Schemas {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'Tags': tags,
-    };
+    final $payload = TagResourceRequest(
+      resourceArn: resourceArn,
+      tags: tags,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -779,9 +802,9 @@ class Schemas {
       1600,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'RoleArn': roleArn,
-    };
+    final $payload = UnlockServiceLinkedRoleRequest(
+      roleArn: roleArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -807,7 +830,10 @@ class Schemas {
     _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = UntagResourceRequest(
+      resourceArn: resourceArn,
+      tagKeys: tagKeys,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -838,9 +864,10 @@ class Schemas {
       0,
       256,
     );
-    final $payload = <String, dynamic>{
-      if (description != null) 'Description': description,
-    };
+    final $payload = UpdateDiscovererRequest(
+      discovererId: discovererId,
+      description: description,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -873,9 +900,10 @@ class Schemas {
       0,
       256,
     );
-    final $payload = <String, dynamic>{
-      if (description != null) 'Description': description,
-    };
+    final $payload = UpdateRegistryRequest(
+      registryName: registryName,
+      description: description,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -933,12 +961,14 @@ class Schemas {
       0,
       256,
     );
-    final $payload = <String, dynamic>{
-      if (clientTokenId != null) 'ClientTokenId': clientTokenId,
-      if (content != null) 'Content': content,
-      if (description != null) 'Description': description,
-      if (type != null) 'Type': type?.toValue(),
-    };
+    final $payload = UpdateSchemaRequest(
+      registryName: registryName,
+      schemaName: schemaName,
+      clientTokenId: clientTokenId,
+      content: content,
+      description: description,
+      type: type,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -957,6 +987,32 @@ enum CodeGenerationStatus {
   createComplete,
   @_s.JsonValue('CREATE_FAILED')
   createFailed,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDiscovererRequest {
+  /// The ARN of the event bus.
+  @_s.JsonKey(name: 'SourceArn')
+  final String sourceArn;
+
+  /// A description for the discoverer.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// Tags associated with the resource.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateDiscovererRequest({
+    @_s.required this.sourceArn,
+    this.description,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateDiscovererRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1004,6 +1060,31 @@ class CreateDiscovererResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateRegistryRequest {
+  @_s.JsonKey(name: 'registryName', ignore: true)
+  final String registryName;
+
+  /// A description of the registry to be created.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// Tags to associate with the registry.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateRegistryRequest({
+    @_s.required this.registryName,
+    this.description,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateRegistryRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateRegistryResponse {
@@ -1031,6 +1112,40 @@ class CreateRegistryResponse {
   });
   factory CreateRegistryResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateRegistryResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateSchemaRequest {
+  @_s.JsonKey(name: 'Content')
+  final String content;
+  @_s.JsonKey(name: 'registryName', ignore: true)
+  final String registryName;
+  @_s.JsonKey(name: 'schemaName', ignore: true)
+  final String schemaName;
+  @_s.JsonKey(name: 'Type')
+  final Type type;
+
+  /// A description of the schema.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// Tags associated with the schema.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateSchemaRequest({
+    @_s.required this.content,
+    @_s.required this.registryName,
+    @_s.required this.schemaName,
+    @_s.required this.type,
+    this.description,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateSchemaRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1085,6 +1200,75 @@ class CreateSchemaResponse {
   });
   factory CreateSchemaResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateSchemaResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDiscovererRequest {
+  @_s.JsonKey(name: 'discovererId', ignore: true)
+  final String discovererId;
+
+  DeleteDiscovererRequest({
+    @_s.required this.discovererId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDiscovererRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteRegistryRequest {
+  @_s.JsonKey(name: 'registryName', ignore: true)
+  final String registryName;
+
+  DeleteRegistryRequest({
+    @_s.required this.registryName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteRegistryRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteSchemaRequest {
+  @_s.JsonKey(name: 'registryName', ignore: true)
+  final String registryName;
+  @_s.JsonKey(name: 'schemaName', ignore: true)
+  final String schemaName;
+
+  DeleteSchemaRequest({
+    @_s.required this.registryName,
+    @_s.required this.schemaName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteSchemaRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteSchemaVersionRequest {
+  @_s.JsonKey(name: 'registryName', ignore: true)
+  final String registryName;
+  @_s.JsonKey(name: 'schemaName', ignore: true)
+  final String schemaName;
+  @_s.JsonKey(name: 'schemaVersion', ignore: true)
+  final String schemaVersion;
+
+  DeleteSchemaVersionRequest({
+    @_s.required this.registryName,
+    @_s.required this.schemaName,
+    @_s.required this.schemaVersion,
+  });
+  Map<String, dynamic> toJson() => _$DeleteSchemaVersionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1317,6 +1501,27 @@ class GetCodeBindingSourceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetDiscoveredSchemaRequest {
+  /// An array of strings that
+  @_s.JsonKey(name: 'Events')
+  final List<String> events;
+
+  /// The type of event.
+  @_s.JsonKey(name: 'Type')
+  final Type type;
+
+  GetDiscoveredSchemaRequest({
+    @_s.required this.events,
+    @_s.required this.type,
+  });
+  Map<String, dynamic> toJson() => _$GetDiscoveredSchemaRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetDiscoveredSchemaResponse {
@@ -1445,6 +1650,24 @@ class ListTagsForResourceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class LockServiceLinkedRoleRequest {
+  @_s.JsonKey(name: 'RoleArn')
+  final String roleArn;
+  @_s.JsonKey(name: 'Timeout')
+  final int timeout;
+
+  LockServiceLinkedRoleRequest({
+    @_s.required this.roleArn,
+    @_s.required this.timeout,
+  });
+  Map<String, dynamic> toJson() => _$LockServiceLinkedRoleRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class LockServiceLinkedRoleResponse {
@@ -1462,6 +1685,30 @@ class LockServiceLinkedRoleResponse {
   });
   factory LockServiceLinkedRoleResponse.fromJson(Map<String, dynamic> json) =>
       _$LockServiceLinkedRoleResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutCodeBindingRequest {
+  @_s.JsonKey(name: 'language', ignore: true)
+  final String language;
+  @_s.JsonKey(name: 'registryName', ignore: true)
+  final String registryName;
+  @_s.JsonKey(name: 'schemaName', ignore: true)
+  final String schemaName;
+  @_s.JsonKey(name: 'schemaVersion', ignore: true)
+  final String schemaVersion;
+
+  PutCodeBindingRequest({
+    @_s.required this.language,
+    @_s.required this.registryName,
+    @_s.required this.schemaName,
+    this.schemaVersion,
+  });
+  Map<String, dynamic> toJson() => _$PutCodeBindingRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1672,6 +1919,21 @@ class SearchSchemasResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartDiscovererRequest {
+  @_s.JsonKey(name: 'discovererId', ignore: true)
+  final String discovererId;
+
+  StartDiscovererRequest({
+    @_s.required this.discovererId,
+  });
+  Map<String, dynamic> toJson() => _$StartDiscovererRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartDiscovererResponse {
@@ -1689,6 +1951,21 @@ class StartDiscovererResponse {
   });
   factory StartDiscovererResponse.fromJson(Map<String, dynamic> json) =>
       _$StartDiscovererResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopDiscovererRequest {
+  @_s.JsonKey(name: 'discovererId', ignore: true)
+  final String discovererId;
+
+  StopDiscovererRequest({
+    @_s.required this.discovererId,
+  });
+  Map<String, dynamic> toJson() => _$StopDiscovererRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1713,19 +1990,42 @@ class StopDiscovererResponse {
       _$StopDiscovererResponseFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  @_s.JsonKey(name: 'resource-arn', ignore: true)
+  final String resourceArn;
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
 enum Type {
   @_s.JsonValue('OpenApi3')
   openApi3,
 }
 
-extension on Type {
-  String toValue() {
-    switch (this) {
-      case Type.openApi3:
-        return 'OpenApi3';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UnlockServiceLinkedRoleRequest {
+  @_s.JsonKey(name: 'RoleArn')
+  final String roleArn;
+
+  UnlockServiceLinkedRoleRequest({
+    @_s.required this.roleArn,
+  });
+  Map<String, dynamic> toJson() => _$UnlockServiceLinkedRoleRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1737,6 +2037,44 @@ class UnlockServiceLinkedRoleResponse {
   UnlockServiceLinkedRoleResponse();
   factory UnlockServiceLinkedRoleResponse.fromJson(Map<String, dynamic> json) =>
       _$UnlockServiceLinkedRoleResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  @_s.JsonKey(name: 'resource-arn', ignore: true)
+  final String resourceArn;
+  @_s.JsonKey(name: 'tagKeys', ignore: true)
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDiscovererRequest {
+  @_s.JsonKey(name: 'discovererId', ignore: true)
+  final String discovererId;
+
+  /// The description of the discoverer to update.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  UpdateDiscovererRequest({
+    @_s.required this.discovererId,
+    this.description,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDiscovererRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1784,6 +2122,26 @@ class UpdateDiscovererResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateRegistryRequest {
+  @_s.JsonKey(name: 'registryName', ignore: true)
+  final String registryName;
+
+  /// The description of the registry to update.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  UpdateRegistryRequest({
+    @_s.required this.registryName,
+    this.description,
+  });
+  Map<String, dynamic> toJson() => _$UpdateRegistryRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateRegistryResponse {
@@ -1811,6 +2169,44 @@ class UpdateRegistryResponse {
   });
   factory UpdateRegistryResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateRegistryResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateSchemaRequest {
+  @_s.JsonKey(name: 'registryName', ignore: true)
+  final String registryName;
+  @_s.JsonKey(name: 'schemaName', ignore: true)
+  final String schemaName;
+
+  /// The ID of the client token.
+  @_s.JsonKey(name: 'ClientTokenId')
+  final String clientTokenId;
+
+  /// The source of the schema definition.
+  @_s.JsonKey(name: 'Content')
+  final String content;
+
+  /// The description of the schema.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The schema type for the events schema.
+  @_s.JsonKey(name: 'Type')
+  final Type type;
+
+  UpdateSchemaRequest({
+    @_s.required this.registryName,
+    @_s.required this.schemaName,
+    this.clientTokenId,
+    this.content,
+    this.description,
+    this.type,
+  });
+  Map<String, dynamic> toJson() => _$UpdateSchemaRequestToJson(this);
 }
 
 @_s.JsonSerializable(

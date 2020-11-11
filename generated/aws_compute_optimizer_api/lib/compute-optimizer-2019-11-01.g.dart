@@ -118,6 +118,24 @@ const _$FilterNameEnumMap = {
   FilterName.recommendationSourceType: 'RecommendationSourceType',
 };
 
+Map<String, dynamic> _$GetAutoScalingGroupRecommendationsRequestToJson(
+    GetAutoScalingGroupRecommendationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('accountIds', instance.accountIds);
+  writeNotNull('autoScalingGroupArns', instance.autoScalingGroupArns);
+  writeNotNull('filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 GetAutoScalingGroupRecommendationsResponse
     _$GetAutoScalingGroupRecommendationsResponseFromJson(
         Map<String, dynamic> json) {
@@ -138,6 +156,24 @@ GetAutoScalingGroupRecommendationsResponse
   );
 }
 
+Map<String, dynamic> _$GetEC2InstanceRecommendationsRequestToJson(
+    GetEC2InstanceRecommendationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('accountIds', instance.accountIds);
+  writeNotNull('filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('instanceArns', instance.instanceArns);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 GetEC2InstanceRecommendationsResponse
     _$GetEC2InstanceRecommendationsResponseFromJson(Map<String, dynamic> json) {
   return GetEC2InstanceRecommendationsResponse(
@@ -154,6 +190,29 @@ GetEC2InstanceRecommendationsResponse
     nextToken: json['nextToken'] as String,
   );
 }
+
+Map<String, dynamic> _$GetEC2RecommendationProjectedMetricsRequestToJson(
+    GetEC2RecommendationProjectedMetricsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('endTime', unixTimestampToJson(instance.endTime));
+  writeNotNull('instanceArn', instance.instanceArn);
+  writeNotNull('period', instance.period);
+  writeNotNull('startTime', unixTimestampToJson(instance.startTime));
+  writeNotNull('stat', _$MetricStatisticEnumMap[instance.stat]);
+  return val;
+}
+
+const _$MetricStatisticEnumMap = {
+  MetricStatistic.maximum: 'Maximum',
+  MetricStatistic.average: 'Average',
+};
 
 GetEC2RecommendationProjectedMetricsResponse
     _$GetEC2RecommendationProjectedMetricsResponseFromJson(
@@ -192,6 +251,22 @@ GetRecommendationError _$GetRecommendationErrorFromJson(
     identifier: json['identifier'] as String,
     message: json['message'] as String,
   );
+}
+
+Map<String, dynamic> _$GetRecommendationSummariesRequestToJson(
+    GetRecommendationSummariesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('accountIds', instance.accountIds);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 GetRecommendationSummariesResponse _$GetRecommendationSummariesResponseFromJson(
@@ -310,6 +385,21 @@ Summary _$SummaryFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$UpdateEnrollmentStatusRequestToJson(
+    UpdateEnrollmentStatusRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('status', _$StatusEnumMap[instance.status]);
+  writeNotNull('includeMemberAccounts', instance.includeMemberAccounts);
+  return val;
+}
+
 UpdateEnrollmentStatusResponse _$UpdateEnrollmentStatusResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateEnrollmentStatusResponse(
@@ -326,8 +416,3 @@ UtilizationMetric _$UtilizationMetricFromJson(Map<String, dynamic> json) {
     value: (json['value'] as num)?.toDouble(),
   );
 }
-
-const _$MetricStatisticEnumMap = {
-  MetricStatistic.maximum: 'Maximum',
-  MetricStatistic.average: 'Average',
-};

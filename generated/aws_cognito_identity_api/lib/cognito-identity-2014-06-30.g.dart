@@ -31,6 +31,30 @@ Map<String, dynamic> _$CognitoIdentityProviderToJson(
   return val;
 }
 
+Map<String, dynamic> _$CreateIdentityPoolInputToJson(
+    CreateIdentityPoolInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AllowUnauthenticatedIdentities',
+      instance.allowUnauthenticatedIdentities);
+  writeNotNull('IdentityPoolName', instance.identityPoolName);
+  writeNotNull('AllowClassicFlow', instance.allowClassicFlow);
+  writeNotNull('CognitoIdentityProviders',
+      instance.cognitoIdentityProviders?.map((e) => e?.toJson())?.toList());
+  writeNotNull('DeveloperProviderName', instance.developerProviderName);
+  writeNotNull('IdentityPoolTags', instance.identityPoolTags);
+  writeNotNull('OpenIdConnectProviderARNs', instance.openIdConnectProviderARNs);
+  writeNotNull('SamlProviderARNs', instance.samlProviderARNs);
+  writeNotNull('SupportedLoginProviders', instance.supportedLoginProviders);
+  return val;
+}
+
 Credentials _$CredentialsFromJson(Map<String, dynamic> json) {
   return Credentials(
     accessKeyId: json['AccessKeyId'] as String,
@@ -38,6 +62,20 @@ Credentials _$CredentialsFromJson(Map<String, dynamic> json) {
     secretKey: json['SecretKey'] as String,
     sessionToken: json['SessionToken'] as String,
   );
+}
+
+Map<String, dynamic> _$DeleteIdentitiesInputToJson(
+    DeleteIdentitiesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('IdentityIdsToDelete', instance.identityIdsToDelete);
+  return val;
 }
 
 DeleteIdentitiesResponse _$DeleteIdentitiesResponseFromJson(
@@ -51,6 +89,64 @@ DeleteIdentitiesResponse _$DeleteIdentitiesResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteIdentityPoolInputToJson(
+    DeleteIdentityPoolInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('IdentityPoolId', instance.identityPoolId);
+  return val;
+}
+
+Map<String, dynamic> _$DescribeIdentityInputToJson(
+    DescribeIdentityInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('IdentityId', instance.identityId);
+  return val;
+}
+
+Map<String, dynamic> _$DescribeIdentityPoolInputToJson(
+    DescribeIdentityPoolInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('IdentityPoolId', instance.identityPoolId);
+  return val;
+}
+
+Map<String, dynamic> _$GetCredentialsForIdentityInputToJson(
+    GetCredentialsForIdentityInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('IdentityId', instance.identityId);
+  writeNotNull('CustomRoleArn', instance.customRoleArn);
+  writeNotNull('Logins', instance.logins);
+  return val;
+}
+
 GetCredentialsForIdentityResponse _$GetCredentialsForIdentityResponseFromJson(
     Map<String, dynamic> json) {
   return GetCredentialsForIdentityResponse(
@@ -61,10 +157,39 @@ GetCredentialsForIdentityResponse _$GetCredentialsForIdentityResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$GetIdInputToJson(GetIdInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('IdentityPoolId', instance.identityPoolId);
+  writeNotNull('AccountId', instance.accountId);
+  writeNotNull('Logins', instance.logins);
+  return val;
+}
+
 GetIdResponse _$GetIdResponseFromJson(Map<String, dynamic> json) {
   return GetIdResponse(
     identityId: json['IdentityId'] as String,
   );
+}
+
+Map<String, dynamic> _$GetIdentityPoolRolesInputToJson(
+    GetIdentityPoolRolesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('IdentityPoolId', instance.identityPoolId);
+  return val;
 }
 
 GetIdentityPoolRolesResponse _$GetIdentityPoolRolesResponseFromJson(
@@ -81,6 +206,23 @@ GetIdentityPoolRolesResponse _$GetIdentityPoolRolesResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$GetOpenIdTokenForDeveloperIdentityInputToJson(
+    GetOpenIdTokenForDeveloperIdentityInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('IdentityPoolId', instance.identityPoolId);
+  writeNotNull('Logins', instance.logins);
+  writeNotNull('IdentityId', instance.identityId);
+  writeNotNull('TokenDuration', instance.tokenDuration);
+  return val;
+}
+
 GetOpenIdTokenForDeveloperIdentityResponse
     _$GetOpenIdTokenForDeveloperIdentityResponseFromJson(
         Map<String, dynamic> json) {
@@ -88,6 +230,20 @@ GetOpenIdTokenForDeveloperIdentityResponse
     identityId: json['IdentityId'] as String,
     token: json['Token'] as String,
   );
+}
+
+Map<String, dynamic> _$GetOpenIdTokenInputToJson(GetOpenIdTokenInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('IdentityId', instance.identityId);
+  writeNotNull('Logins', instance.logins);
+  return val;
 }
 
 GetOpenIdTokenResponse _$GetOpenIdTokenResponseFromJson(
@@ -135,12 +291,52 @@ IdentityPool _$IdentityPoolFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$IdentityPoolToJson(IdentityPool instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AllowUnauthenticatedIdentities',
+      instance.allowUnauthenticatedIdentities);
+  writeNotNull('IdentityPoolId', instance.identityPoolId);
+  writeNotNull('IdentityPoolName', instance.identityPoolName);
+  writeNotNull('AllowClassicFlow', instance.allowClassicFlow);
+  writeNotNull('CognitoIdentityProviders',
+      instance.cognitoIdentityProviders?.map((e) => e?.toJson())?.toList());
+  writeNotNull('DeveloperProviderName', instance.developerProviderName);
+  writeNotNull('IdentityPoolTags', instance.identityPoolTags);
+  writeNotNull('OpenIdConnectProviderARNs', instance.openIdConnectProviderARNs);
+  writeNotNull('SamlProviderARNs', instance.samlProviderARNs);
+  writeNotNull('SupportedLoginProviders', instance.supportedLoginProviders);
+  return val;
+}
+
 IdentityPoolShortDescription _$IdentityPoolShortDescriptionFromJson(
     Map<String, dynamic> json) {
   return IdentityPoolShortDescription(
     identityPoolId: json['IdentityPoolId'] as String,
     identityPoolName: json['IdentityPoolName'] as String,
   );
+}
+
+Map<String, dynamic> _$ListIdentitiesInputToJson(ListIdentitiesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('IdentityPoolId', instance.identityPoolId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('HideDisabled', instance.hideDisabled);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListIdentitiesResponse _$ListIdentitiesResponseFromJson(
@@ -156,6 +352,21 @@ ListIdentitiesResponse _$ListIdentitiesResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListIdentityPoolsInputToJson(
+    ListIdentityPoolsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListIdentityPoolsResponse _$ListIdentityPoolsResponseFromJson(
     Map<String, dynamic> json) {
   return ListIdentityPoolsResponse(
@@ -168,6 +379,20 @@ ListIdentityPoolsResponse _$ListIdentityPoolsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListTagsForResourceInputToJson(
+    ListTagsForResourceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  return val;
+}
+
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
@@ -175,6 +400,24 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
       (k, e) => MapEntry(k, e as String),
     ),
   );
+}
+
+Map<String, dynamic> _$LookupDeveloperIdentityInputToJson(
+    LookupDeveloperIdentityInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('IdentityPoolId', instance.identityPoolId);
+  writeNotNull('DeveloperUserIdentifier', instance.developerUserIdentifier);
+  writeNotNull('IdentityId', instance.identityId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 LookupDeveloperIdentityResponse _$LookupDeveloperIdentityResponseFromJson(
@@ -253,6 +496,23 @@ const _$MappingRuleMatchTypeEnumMap = {
   MappingRuleMatchType.notEqual: 'NotEqual',
 };
 
+Map<String, dynamic> _$MergeDeveloperIdentitiesInputToJson(
+    MergeDeveloperIdentitiesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DestinationUserIdentifier', instance.destinationUserIdentifier);
+  writeNotNull('DeveloperProviderName', instance.developerProviderName);
+  writeNotNull('IdentityPoolId', instance.identityPoolId);
+  writeNotNull('SourceUserIdentifier', instance.sourceUserIdentifier);
+  return val;
+}
+
 MergeDeveloperIdentitiesResponse _$MergeDeveloperIdentitiesResponseFromJson(
     Map<String, dynamic> json) {
   return MergeDeveloperIdentitiesResponse(
@@ -322,8 +582,71 @@ Map<String, dynamic> _$RulesConfigurationTypeToJson(
   return val;
 }
 
+Map<String, dynamic> _$SetIdentityPoolRolesInputToJson(
+    SetIdentityPoolRolesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('IdentityPoolId', instance.identityPoolId);
+  writeNotNull('Roles', instance.roles);
+  writeNotNull('RoleMappings',
+      instance.roleMappings?.map((k, e) => MapEntry(k, e?.toJson())));
+  return val;
+}
+
+Map<String, dynamic> _$TagResourceInputToJson(TagResourceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('Tags', instance.tags);
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
+}
+
+Map<String, dynamic> _$UnlinkDeveloperIdentityInputToJson(
+    UnlinkDeveloperIdentityInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DeveloperProviderName', instance.developerProviderName);
+  writeNotNull('DeveloperUserIdentifier', instance.developerUserIdentifier);
+  writeNotNull('IdentityId', instance.identityId);
+  writeNotNull('IdentityPoolId', instance.identityPoolId);
+  return val;
+}
+
+Map<String, dynamic> _$UnlinkIdentityInputToJson(UnlinkIdentityInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('IdentityId', instance.identityId);
+  writeNotNull('Logins', instance.logins);
+  writeNotNull('LoginsToRemove', instance.loginsToRemove);
+  return val;
 }
 
 UnprocessedIdentityId _$UnprocessedIdentityIdFromJson(
@@ -338,6 +661,20 @@ const _$ErrorCodeEnumMap = {
   ErrorCode.accessDenied: 'AccessDenied',
   ErrorCode.internalServerError: 'InternalServerError',
 };
+
+Map<String, dynamic> _$UntagResourceInputToJson(UntagResourceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
+}
 
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {

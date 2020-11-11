@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -93,14 +92,13 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'associatedGatewayOwnerAccount': associatedGatewayOwnerAccount,
-        'directConnectGatewayId': directConnectGatewayId,
-        'proposalId': proposalId,
-        if (overrideAllowedPrefixesToDirectConnectGateway != null)
-          'overrideAllowedPrefixesToDirectConnectGateway':
-              overrideAllowedPrefixesToDirectConnectGateway,
-      },
+      payload: AcceptDirectConnectGatewayAssociationProposalRequest(
+        associatedGatewayOwnerAccount: associatedGatewayOwnerAccount,
+        directConnectGatewayId: directConnectGatewayId,
+        proposalId: proposalId,
+        overrideAllowedPrefixesToDirectConnectGateway:
+            overrideAllowedPrefixesToDirectConnectGateway,
+      ),
     );
 
     return AcceptDirectConnectGatewayAssociationProposalResult.fromJson(
@@ -162,13 +160,13 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'bandwidth': bandwidth,
-        'connectionName': connectionName,
-        'interconnectId': interconnectId,
-        'ownerAccount': ownerAccount,
-        'vlan': vlan,
-      },
+      payload: AllocateConnectionOnInterconnectRequest(
+        bandwidth: bandwidth,
+        connectionName: connectionName,
+        interconnectId: interconnectId,
+        ownerAccount: ownerAccount,
+        vlan: vlan,
+      ),
     );
 
     return Connection.fromJson(jsonResponse.body);
@@ -235,14 +233,14 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'bandwidth': bandwidth,
-        'connectionId': connectionId,
-        'connectionName': connectionName,
-        'ownerAccount': ownerAccount,
-        'vlan': vlan,
-        if (tags != null) 'tags': tags,
-      },
+      payload: AllocateHostedConnectionRequest(
+        bandwidth: bandwidth,
+        connectionId: connectionId,
+        connectionName: connectionName,
+        ownerAccount: ownerAccount,
+        vlan: vlan,
+        tags: tags,
+      ),
     );
 
     return Connection.fromJson(jsonResponse.body);
@@ -291,12 +289,12 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'connectionId': connectionId,
-        'newPrivateVirtualInterfaceAllocation':
+      payload: AllocatePrivateVirtualInterfaceRequest(
+        connectionId: connectionId,
+        newPrivateVirtualInterfaceAllocation:
             newPrivateVirtualInterfaceAllocation,
-        'ownerAccount': ownerAccount,
-      },
+        ownerAccount: ownerAccount,
+      ),
     );
 
     return VirtualInterface.fromJson(jsonResponse.body);
@@ -351,12 +349,12 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'connectionId': connectionId,
-        'newPublicVirtualInterfaceAllocation':
+      payload: AllocatePublicVirtualInterfaceRequest(
+        connectionId: connectionId,
+        newPublicVirtualInterfaceAllocation:
             newPublicVirtualInterfaceAllocation,
-        'ownerAccount': ownerAccount,
-      },
+        ownerAccount: ownerAccount,
+      ),
     );
 
     return VirtualInterface.fromJson(jsonResponse.body);
@@ -410,12 +408,12 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'connectionId': connectionId,
-        'newTransitVirtualInterfaceAllocation':
+      payload: AllocateTransitVirtualInterfaceRequest(
+        connectionId: connectionId,
+        newTransitVirtualInterfaceAllocation:
             newTransitVirtualInterfaceAllocation,
-        'ownerAccount': ownerAccount,
-      },
+        ownerAccount: ownerAccount,
+      ),
     );
 
     return AllocateTransitVirtualInterfaceResult.fromJson(jsonResponse.body);
@@ -464,10 +462,10 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'connectionId': connectionId,
-        'lagId': lagId,
-      },
+      payload: AssociateConnectionWithLagRequest(
+        connectionId: connectionId,
+        lagId: lagId,
+      ),
     );
 
     return Connection.fromJson(jsonResponse.body);
@@ -506,10 +504,10 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'connectionId': connectionId,
-        'parentConnectionId': parentConnectionId,
-      },
+      payload: AssociateHostedConnectionRequest(
+        connectionId: connectionId,
+        parentConnectionId: parentConnectionId,
+      ),
     );
 
     return Connection.fromJson(jsonResponse.body);
@@ -554,10 +552,10 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'connectionId': connectionId,
-        'virtualInterfaceId': virtualInterfaceId,
-      },
+      payload: AssociateVirtualInterfaceRequest(
+        connectionId: connectionId,
+        virtualInterfaceId: virtualInterfaceId,
+      ),
     );
 
     return VirtualInterface.fromJson(jsonResponse.body);
@@ -589,9 +587,9 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'connectionId': connectionId,
-      },
+      payload: ConfirmConnectionRequest(
+        connectionId: connectionId,
+      ),
     );
 
     return ConfirmConnectionResponse.fromJson(jsonResponse.body);
@@ -632,12 +630,11 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'virtualInterfaceId': virtualInterfaceId,
-        if (directConnectGatewayId != null)
-          'directConnectGatewayId': directConnectGatewayId,
-        if (virtualGatewayId != null) 'virtualGatewayId': virtualGatewayId,
-      },
+      payload: ConfirmPrivateVirtualInterfaceRequest(
+        virtualInterfaceId: virtualInterfaceId,
+        directConnectGatewayId: directConnectGatewayId,
+        virtualGatewayId: virtualGatewayId,
+      ),
     );
 
     return ConfirmPrivateVirtualInterfaceResponse.fromJson(jsonResponse.body);
@@ -668,9 +665,9 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'virtualInterfaceId': virtualInterfaceId,
-      },
+      payload: ConfirmPublicVirtualInterfaceRequest(
+        virtualInterfaceId: virtualInterfaceId,
+      ),
     );
 
     return ConfirmPublicVirtualInterfaceResponse.fromJson(jsonResponse.body);
@@ -709,10 +706,10 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'directConnectGatewayId': directConnectGatewayId,
-        'virtualInterfaceId': virtualInterfaceId,
-      },
+      payload: ConfirmTransitVirtualInterfaceRequest(
+        directConnectGatewayId: directConnectGatewayId,
+        virtualInterfaceId: virtualInterfaceId,
+      ),
     );
 
     return ConfirmTransitVirtualInterfaceResponse.fromJson(jsonResponse.body);
@@ -757,11 +754,10 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (newBGPPeer != null) 'newBGPPeer': newBGPPeer,
-        if (virtualInterfaceId != null)
-          'virtualInterfaceId': virtualInterfaceId,
-      },
+      payload: CreateBGPPeerRequest(
+        newBGPPeer: newBGPPeer,
+        virtualInterfaceId: virtualInterfaceId,
+      ),
     );
 
     return CreateBGPPeerResponse.fromJson(jsonResponse.body);
@@ -825,14 +821,14 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'bandwidth': bandwidth,
-        'connectionName': connectionName,
-        'location': location,
-        if (lagId != null) 'lagId': lagId,
-        if (providerName != null) 'providerName': providerName,
-        if (tags != null) 'tags': tags,
-      },
+      payload: CreateConnectionRequest(
+        bandwidth: bandwidth,
+        connectionName: connectionName,
+        location: location,
+        lagId: lagId,
+        providerName: providerName,
+        tags: tags,
+      ),
     );
 
     return Connection.fromJson(jsonResponse.body);
@@ -874,10 +870,10 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'directConnectGatewayName': directConnectGatewayName,
-        if (amazonSideAsn != null) 'amazonSideAsn': amazonSideAsn,
-      },
+      payload: CreateDirectConnectGatewayRequest(
+        directConnectGatewayName: directConnectGatewayName,
+        amazonSideAsn: amazonSideAsn,
+      ),
     );
 
     return CreateDirectConnectGatewayResult.fromJson(jsonResponse.body);
@@ -927,14 +923,13 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'directConnectGatewayId': directConnectGatewayId,
-        if (addAllowedPrefixesToDirectConnectGateway != null)
-          'addAllowedPrefixesToDirectConnectGateway':
-              addAllowedPrefixesToDirectConnectGateway,
-        if (gatewayId != null) 'gatewayId': gatewayId,
-        if (virtualGatewayId != null) 'virtualGatewayId': virtualGatewayId,
-      },
+      payload: CreateDirectConnectGatewayAssociationRequest(
+        directConnectGatewayId: directConnectGatewayId,
+        addAllowedPrefixesToDirectConnectGateway:
+            addAllowedPrefixesToDirectConnectGateway,
+        gatewayId: gatewayId,
+        virtualGatewayId: virtualGatewayId,
+      ),
     );
 
     return CreateDirectConnectGatewayAssociationResult.fromJson(
@@ -991,17 +986,15 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'directConnectGatewayId': directConnectGatewayId,
-        'directConnectGatewayOwnerAccount': directConnectGatewayOwnerAccount,
-        'gatewayId': gatewayId,
-        if (addAllowedPrefixesToDirectConnectGateway != null)
-          'addAllowedPrefixesToDirectConnectGateway':
-              addAllowedPrefixesToDirectConnectGateway,
-        if (removeAllowedPrefixesToDirectConnectGateway != null)
-          'removeAllowedPrefixesToDirectConnectGateway':
-              removeAllowedPrefixesToDirectConnectGateway,
-      },
+      payload: CreateDirectConnectGatewayAssociationProposalRequest(
+        directConnectGatewayId: directConnectGatewayId,
+        directConnectGatewayOwnerAccount: directConnectGatewayOwnerAccount,
+        gatewayId: gatewayId,
+        addAllowedPrefixesToDirectConnectGateway:
+            addAllowedPrefixesToDirectConnectGateway,
+        removeAllowedPrefixesToDirectConnectGateway:
+            removeAllowedPrefixesToDirectConnectGateway,
+      ),
     );
 
     return CreateDirectConnectGatewayAssociationProposalResult.fromJson(
@@ -1077,14 +1070,14 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'bandwidth': bandwidth,
-        'interconnectName': interconnectName,
-        'location': location,
-        if (lagId != null) 'lagId': lagId,
-        if (providerName != null) 'providerName': providerName,
-        if (tags != null) 'tags': tags,
-      },
+      payload: CreateInterconnectRequest(
+        bandwidth: bandwidth,
+        interconnectName: interconnectName,
+        location: location,
+        lagId: lagId,
+        providerName: providerName,
+        tags: tags,
+      ),
     );
 
     return Interconnect.fromJson(jsonResponse.body);
@@ -1172,17 +1165,16 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'connectionsBandwidth': connectionsBandwidth,
-        'lagName': lagName,
-        'location': location,
-        'numberOfConnections': numberOfConnections,
-        if (childConnectionTags != null)
-          'childConnectionTags': childConnectionTags,
-        if (connectionId != null) 'connectionId': connectionId,
-        if (providerName != null) 'providerName': providerName,
-        if (tags != null) 'tags': tags,
-      },
+      payload: CreateLagRequest(
+        connectionsBandwidth: connectionsBandwidth,
+        lagName: lagName,
+        location: location,
+        numberOfConnections: numberOfConnections,
+        childConnectionTags: childConnectionTags,
+        connectionId: connectionId,
+        providerName: providerName,
+        tags: tags,
+      ),
     );
 
     return Lag.fromJson(jsonResponse.body);
@@ -1223,10 +1215,10 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'connectionId': connectionId,
-        'newPrivateVirtualInterface': newPrivateVirtualInterface,
-      },
+      payload: CreatePrivateVirtualInterfaceRequest(
+        connectionId: connectionId,
+        newPrivateVirtualInterface: newPrivateVirtualInterface,
+      ),
     );
 
     return VirtualInterface.fromJson(jsonResponse.body);
@@ -1268,10 +1260,10 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'connectionId': connectionId,
-        'newPublicVirtualInterface': newPublicVirtualInterface,
-      },
+      payload: CreatePublicVirtualInterfaceRequest(
+        connectionId: connectionId,
+        newPublicVirtualInterface: newPublicVirtualInterface,
+      ),
     );
 
     return VirtualInterface.fromJson(jsonResponse.body);
@@ -1316,10 +1308,10 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'connectionId': connectionId,
-        'newTransitVirtualInterface': newTransitVirtualInterface,
-      },
+      payload: CreateTransitVirtualInterfaceRequest(
+        connectionId: connectionId,
+        newTransitVirtualInterface: newTransitVirtualInterface,
+      ),
     );
 
     return CreateTransitVirtualInterfaceResult.fromJson(jsonResponse.body);
@@ -1361,13 +1353,12 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (asn != null) 'asn': asn,
-        if (bgpPeerId != null) 'bgpPeerId': bgpPeerId,
-        if (customerAddress != null) 'customerAddress': customerAddress,
-        if (virtualInterfaceId != null)
-          'virtualInterfaceId': virtualInterfaceId,
-      },
+      payload: DeleteBGPPeerRequest(
+        asn: asn,
+        bgpPeerId: bgpPeerId,
+        customerAddress: customerAddress,
+        virtualInterfaceId: virtualInterfaceId,
+      ),
     );
 
     return DeleteBGPPeerResponse.fromJson(jsonResponse.body);
@@ -1399,9 +1390,9 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'connectionId': connectionId,
-      },
+      payload: DeleteConnectionRequest(
+        connectionId: connectionId,
+      ),
     );
 
     return Connection.fromJson(jsonResponse.body);
@@ -1432,9 +1423,9 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'directConnectGatewayId': directConnectGatewayId,
-      },
+      payload: DeleteDirectConnectGatewayRequest(
+        directConnectGatewayId: directConnectGatewayId,
+      ),
     );
 
     return DeleteDirectConnectGatewayResult.fromJson(jsonResponse.body);
@@ -1476,12 +1467,11 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (associationId != null) 'associationId': associationId,
-        if (directConnectGatewayId != null)
-          'directConnectGatewayId': directConnectGatewayId,
-        if (virtualGatewayId != null) 'virtualGatewayId': virtualGatewayId,
-      },
+      payload: DeleteDirectConnectGatewayAssociationRequest(
+        associationId: associationId,
+        directConnectGatewayId: directConnectGatewayId,
+        virtualGatewayId: virtualGatewayId,
+      ),
     );
 
     return DeleteDirectConnectGatewayAssociationResult.fromJson(
@@ -1512,9 +1502,9 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'proposalId': proposalId,
-      },
+      payload: DeleteDirectConnectGatewayAssociationProposalRequest(
+        proposalId: proposalId,
+      ),
     );
 
     return DeleteDirectConnectGatewayAssociationProposalResult.fromJson(
@@ -1545,9 +1535,9 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'interconnectId': interconnectId,
-      },
+      payload: DeleteInterconnectRequest(
+        interconnectId: interconnectId,
+      ),
     );
 
     return DeleteInterconnectResponse.fromJson(jsonResponse.body);
@@ -1575,9 +1565,9 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'lagId': lagId,
-      },
+      payload: DeleteLagRequest(
+        lagId: lagId,
+      ),
     );
 
     return Lag.fromJson(jsonResponse.body);
@@ -1604,9 +1594,9 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'virtualInterfaceId': virtualInterfaceId,
-      },
+      payload: DeleteVirtualInterfaceRequest(
+        virtualInterfaceId: virtualInterfaceId,
+      ),
     );
 
     return DeleteVirtualInterfaceResponse.fromJson(jsonResponse.body);
@@ -1656,11 +1646,11 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'connectionId': connectionId,
-        if (loaContentType != null) 'loaContentType': loaContentType?.toValue(),
-        if (providerName != null) 'providerName': providerName,
-      },
+      payload: DescribeConnectionLoaRequest(
+        connectionId: connectionId,
+        loaContentType: loaContentType,
+        providerName: providerName,
+      ),
     );
 
     return DescribeConnectionLoaResponse.fromJson(jsonResponse.body);
@@ -1686,9 +1676,9 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (connectionId != null) 'connectionId': connectionId,
-      },
+      payload: DescribeConnectionsRequest(
+        connectionId: connectionId,
+      ),
     );
 
     return Connections.fromJson(jsonResponse.body);
@@ -1722,9 +1712,9 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'interconnectId': interconnectId,
-      },
+      payload: DescribeConnectionsOnInterconnectRequest(
+        interconnectId: interconnectId,
+      ),
     );
 
     return Connections.fromJson(jsonResponse.body);
@@ -1774,15 +1764,13 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (associatedGatewayId != null)
-          'associatedGatewayId': associatedGatewayId,
-        if (directConnectGatewayId != null)
-          'directConnectGatewayId': directConnectGatewayId,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (proposalId != null) 'proposalId': proposalId,
-      },
+      payload: DescribeDirectConnectGatewayAssociationProposalsRequest(
+        associatedGatewayId: associatedGatewayId,
+        directConnectGatewayId: directConnectGatewayId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        proposalId: proposalId,
+      ),
     );
 
     return DescribeDirectConnectGatewayAssociationProposalsResult.fromJson(
@@ -1842,16 +1830,14 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (associatedGatewayId != null)
-          'associatedGatewayId': associatedGatewayId,
-        if (associationId != null) 'associationId': associationId,
-        if (directConnectGatewayId != null)
-          'directConnectGatewayId': directConnectGatewayId,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (virtualGatewayId != null) 'virtualGatewayId': virtualGatewayId,
-      },
+      payload: DescribeDirectConnectGatewayAssociationsRequest(
+        associatedGatewayId: associatedGatewayId,
+        associationId: associationId,
+        directConnectGatewayId: directConnectGatewayId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        virtualGatewayId: virtualGatewayId,
+      ),
     );
 
     return DescribeDirectConnectGatewayAssociationsResult.fromJson(
@@ -1903,14 +1889,12 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (directConnectGatewayId != null)
-          'directConnectGatewayId': directConnectGatewayId,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (virtualInterfaceId != null)
-          'virtualInterfaceId': virtualInterfaceId,
-      },
+      payload: DescribeDirectConnectGatewayAttachmentsRequest(
+        directConnectGatewayId: directConnectGatewayId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        virtualInterfaceId: virtualInterfaceId,
+      ),
     );
 
     return DescribeDirectConnectGatewayAttachmentsResult.fromJson(
@@ -1951,12 +1935,11 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (directConnectGatewayId != null)
-          'directConnectGatewayId': directConnectGatewayId,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: DescribeDirectConnectGatewaysRequest(
+        directConnectGatewayId: directConnectGatewayId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeDirectConnectGatewaysResult.fromJson(jsonResponse.body);
@@ -1987,9 +1970,9 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'connectionId': connectionId,
-      },
+      payload: DescribeHostedConnectionsRequest(
+        connectionId: connectionId,
+      ),
     );
 
     return Connections.fromJson(jsonResponse.body);
@@ -2037,11 +2020,11 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'interconnectId': interconnectId,
-        if (loaContentType != null) 'loaContentType': loaContentType?.toValue(),
-        if (providerName != null) 'providerName': providerName,
-      },
+      payload: DescribeInterconnectLoaRequest(
+        interconnectId: interconnectId,
+        loaContentType: loaContentType,
+        providerName: providerName,
+      ),
     );
 
     return DescribeInterconnectLoaResponse.fromJson(jsonResponse.body);
@@ -2068,9 +2051,9 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (interconnectId != null) 'interconnectId': interconnectId,
-      },
+      payload: DescribeInterconnectsRequest(
+        interconnectId: interconnectId,
+      ),
     );
 
     return Interconnects.fromJson(jsonResponse.body);
@@ -2096,9 +2079,9 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (lagId != null) 'lagId': lagId,
-      },
+      payload: DescribeLagsRequest(
+        lagId: lagId,
+      ),
     );
 
     return Lags.fromJson(jsonResponse.body);
@@ -2144,11 +2127,11 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'connectionId': connectionId,
-        if (loaContentType != null) 'loaContentType': loaContentType?.toValue(),
-        if (providerName != null) 'providerName': providerName,
-      },
+      payload: DescribeLoaRequest(
+        connectionId: connectionId,
+        loaContentType: loaContentType,
+        providerName: providerName,
+      ),
     );
 
     return Loa.fromJson(jsonResponse.body);
@@ -2198,9 +2181,9 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'resourceArns': resourceArns,
-      },
+      payload: DescribeTagsRequest(
+        resourceArns: resourceArns,
+      ),
     );
 
     return DescribeTagsResponse.fromJson(jsonResponse.body);
@@ -2260,11 +2243,10 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (connectionId != null) 'connectionId': connectionId,
-        if (virtualInterfaceId != null)
-          'virtualInterfaceId': virtualInterfaceId,
-      },
+      payload: DescribeVirtualInterfacesRequest(
+        connectionId: connectionId,
+        virtualInterfaceId: virtualInterfaceId,
+      ),
     );
 
     return VirtualInterfaces.fromJson(jsonResponse.body);
@@ -2308,10 +2290,10 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'connectionId': connectionId,
-        'lagId': lagId,
-      },
+      payload: DisassociateConnectionFromLagRequest(
+        connectionId: connectionId,
+        lagId: lagId,
+      ),
     );
 
     return Connection.fromJson(jsonResponse.body);
@@ -2350,10 +2332,10 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'resourceArn': resourceArn,
-        'tags': tags,
-      },
+      payload: TagResourceRequest(
+        resourceArn: resourceArn,
+        tags: tags,
+      ),
     );
 
     return TagResourceResponse.fromJson(jsonResponse.body);
@@ -2385,10 +2367,10 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'resourceArn': resourceArn,
-        'tagKeys': tagKeys,
-      },
+      payload: UntagResourceRequest(
+        resourceArn: resourceArn,
+        tagKeys: tagKeys,
+      ),
     );
 
     return UntagResourceResponse.fromJson(jsonResponse.body);
@@ -2427,15 +2409,13 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (addAllowedPrefixesToDirectConnectGateway != null)
-          'addAllowedPrefixesToDirectConnectGateway':
-              addAllowedPrefixesToDirectConnectGateway,
-        if (associationId != null) 'associationId': associationId,
-        if (removeAllowedPrefixesToDirectConnectGateway != null)
-          'removeAllowedPrefixesToDirectConnectGateway':
-              removeAllowedPrefixesToDirectConnectGateway,
-      },
+      payload: UpdateDirectConnectGatewayAssociationRequest(
+        addAllowedPrefixesToDirectConnectGateway:
+            addAllowedPrefixesToDirectConnectGateway,
+        associationId: associationId,
+        removeAllowedPrefixesToDirectConnectGateway:
+            removeAllowedPrefixesToDirectConnectGateway,
+      ),
     );
 
     return UpdateDirectConnectGatewayAssociationResult.fromJson(
@@ -2490,11 +2470,11 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'lagId': lagId,
-        if (lagName != null) 'lagName': lagName,
-        if (minimumLinks != null) 'minimumLinks': minimumLinks,
-      },
+      payload: UpdateLagRequest(
+        lagId: lagId,
+        lagName: lagName,
+        minimumLinks: minimumLinks,
+      ),
     );
 
     return Lag.fromJson(jsonResponse.body);
@@ -2535,14 +2515,51 @@ class DirectConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'virtualInterfaceId': virtualInterfaceId,
-        if (mtu != null) 'mtu': mtu,
-      },
+      payload: UpdateVirtualInterfaceAttributesRequest(
+        virtualInterfaceId: virtualInterfaceId,
+        mtu: mtu,
+      ),
     );
 
     return VirtualInterface.fromJson(jsonResponse.body);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AcceptDirectConnectGatewayAssociationProposalRequest {
+  /// The ID of the AWS account that owns the virtual private gateway or transit
+  /// gateway.
+  @_s.JsonKey(name: 'associatedGatewayOwnerAccount')
+  final String associatedGatewayOwnerAccount;
+
+  /// The ID of the Direct Connect gateway.
+  @_s.JsonKey(name: 'directConnectGatewayId')
+  final String directConnectGatewayId;
+
+  /// The ID of the request proposal.
+  @_s.JsonKey(name: 'proposalId')
+  final String proposalId;
+
+  /// Overrides the Amazon VPC prefixes advertised to the Direct Connect gateway.
+  ///
+  /// For information about how to set the prefixes, see <a
+  /// href="https://docs.aws.amazon.com/directconnect/latest/UserGuide/multi-account-associate-vgw.html#allowed-prefixes">Allowed
+  /// Prefixes</a> in the <i>AWS Direct Connect User Guide</i>.
+  @_s.JsonKey(name: 'overrideAllowedPrefixesToDirectConnectGateway')
+  final List<RouteFilterPrefix> overrideAllowedPrefixesToDirectConnectGateway;
+
+  AcceptDirectConnectGatewayAssociationProposalRequest({
+    @_s.required this.associatedGatewayOwnerAccount,
+    @_s.required this.directConnectGatewayId,
+    @_s.required this.proposalId,
+    this.overrideAllowedPrefixesToDirectConnectGateway,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AcceptDirectConnectGatewayAssociationProposalRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2572,6 +2589,180 @@ enum AddressFamily {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AllocateConnectionOnInterconnectRequest {
+  /// The bandwidth of the connection. The possible values are 50Mbps, 100Mbps,
+  /// 200Mbps, 300Mbps, 400Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps, and 10Gbps. Note
+  /// that only those AWS Direct Connect Partners who have met specific
+  /// requirements are allowed to create a 1Gbps, 2Gbps, 5Gbps or 10Gbps hosted
+  /// connection.
+  @_s.JsonKey(name: 'bandwidth')
+  final String bandwidth;
+
+  /// The name of the provisioned connection.
+  @_s.JsonKey(name: 'connectionName')
+  final String connectionName;
+
+  /// The ID of the interconnect on which the connection will be provisioned.
+  @_s.JsonKey(name: 'interconnectId')
+  final String interconnectId;
+
+  /// The ID of the AWS account of the customer for whom the connection will be
+  /// provisioned.
+  @_s.JsonKey(name: 'ownerAccount')
+  final String ownerAccount;
+
+  /// The dedicated VLAN provisioned to the connection.
+  @_s.JsonKey(name: 'vlan')
+  final int vlan;
+
+  AllocateConnectionOnInterconnectRequest({
+    @_s.required this.bandwidth,
+    @_s.required this.connectionName,
+    @_s.required this.interconnectId,
+    @_s.required this.ownerAccount,
+    @_s.required this.vlan,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AllocateConnectionOnInterconnectRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AllocateHostedConnectionRequest {
+  /// The bandwidth of the connection. The possible values are 50Mbps, 100Mbps,
+  /// 200Mbps, 300Mbps, 400Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps, and 10Gbps. Note
+  /// that only those AWS Direct Connect Partners who have met specific
+  /// requirements are allowed to create a 1Gbps, 2Gbps, 5Gbps or 10Gbps hosted
+  /// connection.
+  @_s.JsonKey(name: 'bandwidth')
+  final String bandwidth;
+
+  /// The ID of the interconnect or LAG.
+  @_s.JsonKey(name: 'connectionId')
+  final String connectionId;
+
+  /// The name of the hosted connection.
+  @_s.JsonKey(name: 'connectionName')
+  final String connectionName;
+
+  /// The ID of the AWS account ID of the customer for the connection.
+  @_s.JsonKey(name: 'ownerAccount')
+  final String ownerAccount;
+
+  /// The dedicated VLAN provisioned to the hosted connection.
+  @_s.JsonKey(name: 'vlan')
+  final int vlan;
+
+  /// The tags associated with the connection.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  AllocateHostedConnectionRequest({
+    @_s.required this.bandwidth,
+    @_s.required this.connectionId,
+    @_s.required this.connectionName,
+    @_s.required this.ownerAccount,
+    @_s.required this.vlan,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AllocateHostedConnectionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AllocatePrivateVirtualInterfaceRequest {
+  /// The ID of the connection on which the private virtual interface is
+  /// provisioned.
+  @_s.JsonKey(name: 'connectionId')
+  final String connectionId;
+
+  /// Information about the private virtual interface.
+  @_s.JsonKey(name: 'newPrivateVirtualInterfaceAllocation')
+  final NewPrivateVirtualInterfaceAllocation
+      newPrivateVirtualInterfaceAllocation;
+
+  /// The ID of the AWS account that owns the virtual private interface.
+  @_s.JsonKey(name: 'ownerAccount')
+  final String ownerAccount;
+
+  AllocatePrivateVirtualInterfaceRequest({
+    @_s.required this.connectionId,
+    @_s.required this.newPrivateVirtualInterfaceAllocation,
+    @_s.required this.ownerAccount,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AllocatePrivateVirtualInterfaceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AllocatePublicVirtualInterfaceRequest {
+  /// The ID of the connection on which the public virtual interface is
+  /// provisioned.
+  @_s.JsonKey(name: 'connectionId')
+  final String connectionId;
+
+  /// Information about the public virtual interface.
+  @_s.JsonKey(name: 'newPublicVirtualInterfaceAllocation')
+  final NewPublicVirtualInterfaceAllocation newPublicVirtualInterfaceAllocation;
+
+  /// The ID of the AWS account that owns the public virtual interface.
+  @_s.JsonKey(name: 'ownerAccount')
+  final String ownerAccount;
+
+  AllocatePublicVirtualInterfaceRequest({
+    @_s.required this.connectionId,
+    @_s.required this.newPublicVirtualInterfaceAllocation,
+    @_s.required this.ownerAccount,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AllocatePublicVirtualInterfaceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AllocateTransitVirtualInterfaceRequest {
+  /// The ID of the connection on which the transit virtual interface is
+  /// provisioned.
+  @_s.JsonKey(name: 'connectionId')
+  final String connectionId;
+
+  /// Information about the transit virtual interface.
+  @_s.JsonKey(name: 'newTransitVirtualInterfaceAllocation')
+  final NewTransitVirtualInterfaceAllocation
+      newTransitVirtualInterfaceAllocation;
+
+  /// The ID of the AWS account that owns the transit virtual interface.
+  @_s.JsonKey(name: 'ownerAccount')
+  final String ownerAccount;
+
+  AllocateTransitVirtualInterfaceRequest({
+    @_s.required this.connectionId,
+    @_s.required this.newTransitVirtualInterfaceAllocation,
+    @_s.required this.ownerAccount,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AllocateTransitVirtualInterfaceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AllocateTransitVirtualInterfaceResult {
@@ -2584,6 +2775,72 @@ class AllocateTransitVirtualInterfaceResult {
   factory AllocateTransitVirtualInterfaceResult.fromJson(
           Map<String, dynamic> json) =>
       _$AllocateTransitVirtualInterfaceResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateConnectionWithLagRequest {
+  /// The ID of the connection.
+  @_s.JsonKey(name: 'connectionId')
+  final String connectionId;
+
+  /// The ID of the LAG with which to associate the connection.
+  @_s.JsonKey(name: 'lagId')
+  final String lagId;
+
+  AssociateConnectionWithLagRequest({
+    @_s.required this.connectionId,
+    @_s.required this.lagId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AssociateConnectionWithLagRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateHostedConnectionRequest {
+  /// The ID of the hosted connection.
+  @_s.JsonKey(name: 'connectionId')
+  final String connectionId;
+
+  /// The ID of the interconnect or the LAG.
+  @_s.JsonKey(name: 'parentConnectionId')
+  final String parentConnectionId;
+
+  AssociateHostedConnectionRequest({
+    @_s.required this.connectionId,
+    @_s.required this.parentConnectionId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AssociateHostedConnectionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateVirtualInterfaceRequest {
+  /// The ID of the LAG or connection.
+  @_s.JsonKey(name: 'connectionId')
+  final String connectionId;
+
+  /// The ID of the virtual interface.
+  @_s.JsonKey(name: 'virtualInterfaceId')
+  final String virtualInterfaceId;
+
+  AssociateVirtualInterfaceRequest({
+    @_s.required this.connectionId,
+    @_s.required this.virtualInterfaceId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AssociateVirtualInterfaceRequestToJson(this);
 }
 
 /// Information about the associated gateway.
@@ -2740,6 +2997,22 @@ enum BGPStatus {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ConfirmConnectionRequest {
+  /// The ID of the hosted connection.
+  @_s.JsonKey(name: 'connectionId')
+  final String connectionId;
+
+  ConfirmConnectionRequest({
+    @_s.required this.connectionId,
+  });
+  Map<String, dynamic> toJson() => _$ConfirmConnectionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ConfirmConnectionResponse {
@@ -2790,6 +3063,33 @@ class ConfirmConnectionResponse {
   });
   factory ConfirmConnectionResponse.fromJson(Map<String, dynamic> json) =>
       _$ConfirmConnectionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ConfirmPrivateVirtualInterfaceRequest {
+  /// The ID of the virtual interface.
+  @_s.JsonKey(name: 'virtualInterfaceId')
+  final String virtualInterfaceId;
+
+  /// The ID of the Direct Connect gateway.
+  @_s.JsonKey(name: 'directConnectGatewayId')
+  final String directConnectGatewayId;
+
+  /// The ID of the virtual private gateway.
+  @_s.JsonKey(name: 'virtualGatewayId')
+  final String virtualGatewayId;
+
+  ConfirmPrivateVirtualInterfaceRequest({
+    @_s.required this.virtualInterfaceId,
+    this.directConnectGatewayId,
+    this.virtualGatewayId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ConfirmPrivateVirtualInterfaceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2855,6 +3155,23 @@ class ConfirmPrivateVirtualInterfaceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ConfirmPublicVirtualInterfaceRequest {
+  /// The ID of the virtual interface.
+  @_s.JsonKey(name: 'virtualInterfaceId')
+  final String virtualInterfaceId;
+
+  ConfirmPublicVirtualInterfaceRequest({
+    @_s.required this.virtualInterfaceId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ConfirmPublicVirtualInterfaceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ConfirmPublicVirtualInterfaceResponse {
@@ -2910,6 +3227,28 @@ class ConfirmPublicVirtualInterfaceResponse {
   factory ConfirmPublicVirtualInterfaceResponse.fromJson(
           Map<String, dynamic> json) =>
       _$ConfirmPublicVirtualInterfaceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ConfirmTransitVirtualInterfaceRequest {
+  /// The ID of the Direct Connect gateway.
+  @_s.JsonKey(name: 'directConnectGatewayId')
+  final String directConnectGatewayId;
+
+  /// The ID of the virtual interface.
+  @_s.JsonKey(name: 'virtualInterfaceId')
+  final String virtualInterfaceId;
+
+  ConfirmTransitVirtualInterfaceRequest({
+    @_s.required this.directConnectGatewayId,
+    @_s.required this.virtualInterfaceId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ConfirmTransitVirtualInterfaceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3154,6 +3493,27 @@ class Connections {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateBGPPeerRequest {
+  /// Information about the BGP peer.
+  @_s.JsonKey(name: 'newBGPPeer')
+  final NewBGPPeer newBGPPeer;
+
+  /// The ID of the virtual interface.
+  @_s.JsonKey(name: 'virtualInterfaceId')
+  final String virtualInterfaceId;
+
+  CreateBGPPeerRequest({
+    this.newBGPPeer,
+    this.virtualInterfaceId,
+  });
+  Map<String, dynamic> toJson() => _$CreateBGPPeerRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateBGPPeerResponse {
@@ -3166,6 +3526,85 @@ class CreateBGPPeerResponse {
   });
   factory CreateBGPPeerResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateBGPPeerResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateConnectionRequest {
+  /// The bandwidth of the connection.
+  @_s.JsonKey(name: 'bandwidth')
+  final String bandwidth;
+
+  /// The name of the connection.
+  @_s.JsonKey(name: 'connectionName')
+  final String connectionName;
+
+  /// The location of the connection.
+  @_s.JsonKey(name: 'location')
+  final String location;
+
+  /// The ID of the LAG.
+  @_s.JsonKey(name: 'lagId')
+  final String lagId;
+
+  /// The name of the service provider associated with the requested connection.
+  @_s.JsonKey(name: 'providerName')
+  final String providerName;
+
+  /// The tags to associate with the lag.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  CreateConnectionRequest({
+    @_s.required this.bandwidth,
+    @_s.required this.connectionName,
+    @_s.required this.location,
+    this.lagId,
+    this.providerName,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateConnectionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDirectConnectGatewayAssociationProposalRequest {
+  /// The ID of the Direct Connect gateway.
+  @_s.JsonKey(name: 'directConnectGatewayId')
+  final String directConnectGatewayId;
+
+  /// The ID of the AWS account that owns the Direct Connect gateway.
+  @_s.JsonKey(name: 'directConnectGatewayOwnerAccount')
+  final String directConnectGatewayOwnerAccount;
+
+  /// The ID of the virtual private gateway or transit gateway.
+  @_s.JsonKey(name: 'gatewayId')
+  final String gatewayId;
+
+  /// The Amazon VPC prefixes to advertise to the Direct Connect gateway.
+  @_s.JsonKey(name: 'addAllowedPrefixesToDirectConnectGateway')
+  final List<RouteFilterPrefix> addAllowedPrefixesToDirectConnectGateway;
+
+  /// The Amazon VPC prefixes to no longer advertise to the Direct Connect
+  /// gateway.
+  @_s.JsonKey(name: 'removeAllowedPrefixesToDirectConnectGateway')
+  final List<RouteFilterPrefix> removeAllowedPrefixesToDirectConnectGateway;
+
+  CreateDirectConnectGatewayAssociationProposalRequest({
+    @_s.required this.directConnectGatewayId,
+    @_s.required this.directConnectGatewayOwnerAccount,
+    @_s.required this.gatewayId,
+    this.addAllowedPrefixesToDirectConnectGateway,
+    this.removeAllowedPrefixesToDirectConnectGateway,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateDirectConnectGatewayAssociationProposalRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3190,6 +3629,45 @@ class CreateDirectConnectGatewayAssociationProposalResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDirectConnectGatewayAssociationRequest {
+  /// The ID of the Direct Connect gateway.
+  @_s.JsonKey(name: 'directConnectGatewayId')
+  final String directConnectGatewayId;
+
+  /// The Amazon VPC prefixes to advertise to the Direct Connect gateway
+  ///
+  /// This parameter is required when you create an association to a transit
+  /// gateway.
+  ///
+  /// For information about how to set the prefixes, see <a
+  /// href="https://docs.aws.amazon.com/directconnect/latest/UserGuide/multi-account-associate-vgw.html#allowed-prefixes">Allowed
+  /// Prefixes</a> in the <i>AWS Direct Connect User Guide</i>.
+  @_s.JsonKey(name: 'addAllowedPrefixesToDirectConnectGateway')
+  final List<RouteFilterPrefix> addAllowedPrefixesToDirectConnectGateway;
+
+  /// The ID of the virtual private gateway or transit gateway.
+  @_s.JsonKey(name: 'gatewayId')
+  final String gatewayId;
+
+  /// The ID of the virtual private gateway.
+  @_s.JsonKey(name: 'virtualGatewayId')
+  final String virtualGatewayId;
+
+  CreateDirectConnectGatewayAssociationRequest({
+    @_s.required this.directConnectGatewayId,
+    this.addAllowedPrefixesToDirectConnectGateway,
+    this.gatewayId,
+    this.virtualGatewayId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateDirectConnectGatewayAssociationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateDirectConnectGatewayAssociationResult {
@@ -3203,6 +3681,31 @@ class CreateDirectConnectGatewayAssociationResult {
   factory CreateDirectConnectGatewayAssociationResult.fromJson(
           Map<String, dynamic> json) =>
       _$CreateDirectConnectGatewayAssociationResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDirectConnectGatewayRequest {
+  /// The name of the Direct Connect gateway.
+  @_s.JsonKey(name: 'directConnectGatewayName')
+  final String directConnectGatewayName;
+
+  /// The autonomous system number (ASN) for Border Gateway Protocol (BGP) to be
+  /// configured on the Amazon side of the connection. The ASN must be in the
+  /// private range of 64,512 to 65,534 or 4,200,000,000 to 4,294,967,294. The
+  /// default is 64512.
+  @_s.JsonKey(name: 'amazonSideAsn')
+  final int amazonSideAsn;
+
+  CreateDirectConnectGatewayRequest({
+    @_s.required this.directConnectGatewayName,
+    this.amazonSideAsn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateDirectConnectGatewayRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3226,6 +3729,167 @@ class CreateDirectConnectGatewayResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateInterconnectRequest {
+  /// The port bandwidth, in Gbps. The possible values are 1 and 10.
+  @_s.JsonKey(name: 'bandwidth')
+  final String bandwidth;
+
+  /// The name of the interconnect.
+  @_s.JsonKey(name: 'interconnectName')
+  final String interconnectName;
+
+  /// The location of the interconnect.
+  @_s.JsonKey(name: 'location')
+  final String location;
+
+  /// The ID of the LAG.
+  @_s.JsonKey(name: 'lagId')
+  final String lagId;
+
+  /// The name of the service provider associated with the interconnect.
+  @_s.JsonKey(name: 'providerName')
+  final String providerName;
+
+  /// The tags to associate with the interconnect.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  CreateInterconnectRequest({
+    @_s.required this.bandwidth,
+    @_s.required this.interconnectName,
+    @_s.required this.location,
+    this.lagId,
+    this.providerName,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateInterconnectRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateLagRequest {
+  /// The bandwidth of the individual physical connections bundled by the LAG. The
+  /// possible values are 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps,
+  /// 1Gbps, 2Gbps, 5Gbps, and 10Gbps.
+  @_s.JsonKey(name: 'connectionsBandwidth')
+  final String connectionsBandwidth;
+
+  /// The name of the LAG.
+  @_s.JsonKey(name: 'lagName')
+  final String lagName;
+
+  /// The location for the LAG.
+  @_s.JsonKey(name: 'location')
+  final String location;
+
+  /// The number of physical connections initially provisioned and bundled by the
+  /// LAG.
+  @_s.JsonKey(name: 'numberOfConnections')
+  final int numberOfConnections;
+
+  /// The tags to associate with the automtically created LAGs.
+  @_s.JsonKey(name: 'childConnectionTags')
+  final List<Tag> childConnectionTags;
+
+  /// The ID of an existing connection to migrate to the LAG.
+  @_s.JsonKey(name: 'connectionId')
+  final String connectionId;
+
+  /// The name of the service provider associated with the LAG.
+  @_s.JsonKey(name: 'providerName')
+  final String providerName;
+
+  /// The tags to associate with the LAG.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  CreateLagRequest({
+    @_s.required this.connectionsBandwidth,
+    @_s.required this.lagName,
+    @_s.required this.location,
+    @_s.required this.numberOfConnections,
+    this.childConnectionTags,
+    this.connectionId,
+    this.providerName,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateLagRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreatePrivateVirtualInterfaceRequest {
+  /// The ID of the connection.
+  @_s.JsonKey(name: 'connectionId')
+  final String connectionId;
+
+  /// Information about the private virtual interface.
+  @_s.JsonKey(name: 'newPrivateVirtualInterface')
+  final NewPrivateVirtualInterface newPrivateVirtualInterface;
+
+  CreatePrivateVirtualInterfaceRequest({
+    @_s.required this.connectionId,
+    @_s.required this.newPrivateVirtualInterface,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreatePrivateVirtualInterfaceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreatePublicVirtualInterfaceRequest {
+  /// The ID of the connection.
+  @_s.JsonKey(name: 'connectionId')
+  final String connectionId;
+
+  /// Information about the public virtual interface.
+  @_s.JsonKey(name: 'newPublicVirtualInterface')
+  final NewPublicVirtualInterface newPublicVirtualInterface;
+
+  CreatePublicVirtualInterfaceRequest({
+    @_s.required this.connectionId,
+    @_s.required this.newPublicVirtualInterface,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreatePublicVirtualInterfaceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateTransitVirtualInterfaceRequest {
+  /// The ID of the connection.
+  @_s.JsonKey(name: 'connectionId')
+  final String connectionId;
+
+  /// Information about the transit virtual interface.
+  @_s.JsonKey(name: 'newTransitVirtualInterface')
+  final NewTransitVirtualInterface newTransitVirtualInterface;
+
+  CreateTransitVirtualInterfaceRequest({
+    @_s.required this.connectionId,
+    @_s.required this.newTransitVirtualInterface,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateTransitVirtualInterfaceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateTransitVirtualInterfaceResult {
@@ -3243,6 +3907,38 @@ class CreateTransitVirtualInterfaceResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteBGPPeerRequest {
+  /// The autonomous system (AS) number for Border Gateway Protocol (BGP)
+  /// configuration.
+  @_s.JsonKey(name: 'asn')
+  final int asn;
+
+  /// The ID of the BGP peer.
+  @_s.JsonKey(name: 'bgpPeerId')
+  final String bgpPeerId;
+
+  /// The IP address assigned to the customer interface.
+  @_s.JsonKey(name: 'customerAddress')
+  final String customerAddress;
+
+  /// The ID of the virtual interface.
+  @_s.JsonKey(name: 'virtualInterfaceId')
+  final String virtualInterfaceId;
+
+  DeleteBGPPeerRequest({
+    this.asn,
+    this.bgpPeerId,
+    this.customerAddress,
+    this.virtualInterfaceId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteBGPPeerRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteBGPPeerResponse {
@@ -3255,6 +3951,39 @@ class DeleteBGPPeerResponse {
   });
   factory DeleteBGPPeerResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteBGPPeerResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteConnectionRequest {
+  /// The ID of the connection.
+  @_s.JsonKey(name: 'connectionId')
+  final String connectionId;
+
+  DeleteConnectionRequest({
+    @_s.required this.connectionId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteConnectionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDirectConnectGatewayAssociationProposalRequest {
+  /// The ID of the proposal.
+  @_s.JsonKey(name: 'proposalId')
+  final String proposalId;
+
+  DeleteDirectConnectGatewayAssociationProposalRequest({
+    @_s.required this.proposalId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteDirectConnectGatewayAssociationProposalRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3279,6 +4008,33 @@ class DeleteDirectConnectGatewayAssociationProposalResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDirectConnectGatewayAssociationRequest {
+  /// The ID of the Direct Connect gateway association.
+  @_s.JsonKey(name: 'associationId')
+  final String associationId;
+
+  /// The ID of the Direct Connect gateway.
+  @_s.JsonKey(name: 'directConnectGatewayId')
+  final String directConnectGatewayId;
+
+  /// The ID of the virtual private gateway.
+  @_s.JsonKey(name: 'virtualGatewayId')
+  final String virtualGatewayId;
+
+  DeleteDirectConnectGatewayAssociationRequest({
+    this.associationId,
+    this.directConnectGatewayId,
+    this.virtualGatewayId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteDirectConnectGatewayAssociationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteDirectConnectGatewayAssociationResult {
@@ -3297,6 +4053,23 @@ class DeleteDirectConnectGatewayAssociationResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDirectConnectGatewayRequest {
+  /// The ID of the Direct Connect gateway.
+  @_s.JsonKey(name: 'directConnectGatewayId')
+  final String directConnectGatewayId;
+
+  DeleteDirectConnectGatewayRequest({
+    @_s.required this.directConnectGatewayId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteDirectConnectGatewayRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteDirectConnectGatewayResult {
@@ -3310,6 +4083,22 @@ class DeleteDirectConnectGatewayResult {
   factory DeleteDirectConnectGatewayResult.fromJson(
           Map<String, dynamic> json) =>
       _$DeleteDirectConnectGatewayResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteInterconnectRequest {
+  /// The ID of the interconnect.
+  @_s.JsonKey(name: 'interconnectId')
+  final String interconnectId;
+
+  DeleteInterconnectRequest({
+    @_s.required this.interconnectId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteInterconnectRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3355,6 +4144,38 @@ class DeleteInterconnectResponse {
   });
   factory DeleteInterconnectResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteInterconnectResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteLagRequest {
+  /// The ID of the LAG.
+  @_s.JsonKey(name: 'lagId')
+  final String lagId;
+
+  DeleteLagRequest({
+    @_s.required this.lagId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteLagRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteVirtualInterfaceRequest {
+  /// The ID of the virtual interface.
+  @_s.JsonKey(name: 'virtualInterfaceId')
+  final String virtualInterfaceId;
+
+  DeleteVirtualInterfaceRequest({
+    @_s.required this.virtualInterfaceId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteVirtualInterfaceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3419,6 +4240,36 @@ class DeleteVirtualInterfaceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeConnectionLoaRequest {
+  /// The ID of the connection.
+  @_s.JsonKey(name: 'connectionId')
+  final String connectionId;
+
+  /// The standard media type for the LOA-CFA document. The only supported value
+  /// is application/pdf.
+  @_s.JsonKey(name: 'loaContentType')
+  final LoaContentType loaContentType;
+
+  /// The name of the APN partner or service provider who establishes connectivity
+  /// on your behalf. If you specify this parameter, the LOA-CFA lists the
+  /// provider name alongside your company name as the requester of the cross
+  /// connect.
+  @_s.JsonKey(name: 'providerName')
+  final String providerName;
+
+  DescribeConnectionLoaRequest({
+    @_s.required this.connectionId,
+    this.loaContentType,
+    this.providerName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeConnectionLoaRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeConnectionLoaResponse {
@@ -3431,6 +4282,81 @@ class DescribeConnectionLoaResponse {
   });
   factory DescribeConnectionLoaResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeConnectionLoaResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeConnectionsOnInterconnectRequest {
+  /// The ID of the interconnect.
+  @_s.JsonKey(name: 'interconnectId')
+  final String interconnectId;
+
+  DescribeConnectionsOnInterconnectRequest({
+    @_s.required this.interconnectId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeConnectionsOnInterconnectRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeConnectionsRequest {
+  /// The ID of the connection.
+  @_s.JsonKey(name: 'connectionId')
+  final String connectionId;
+
+  DescribeConnectionsRequest({
+    this.connectionId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeConnectionsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeDirectConnectGatewayAssociationProposalsRequest {
+  /// The ID of the associated gateway.
+  @_s.JsonKey(name: 'associatedGatewayId')
+  final String associatedGatewayId;
+
+  /// The ID of the Direct Connect gateway.
+  @_s.JsonKey(name: 'directConnectGatewayId')
+  final String directConnectGatewayId;
+
+  /// The maximum number of results to return with a single call. To retrieve the
+  /// remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  ///
+  /// If <code>MaxResults</code> is given a value larger than 100, only 100
+  /// results are returned.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The token for the next page of results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The ID of the proposal.
+  @_s.JsonKey(name: 'proposalId')
+  final String proposalId;
+
+  DescribeDirectConnectGatewayAssociationProposalsRequest({
+    this.associatedGatewayId,
+    this.directConnectGatewayId,
+    this.maxResults,
+    this.nextToken,
+    this.proposalId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeDirectConnectGatewayAssociationProposalsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3461,6 +4387,53 @@ class DescribeDirectConnectGatewayAssociationProposalsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeDirectConnectGatewayAssociationsRequest {
+  /// The ID of the associated gateway.
+  @_s.JsonKey(name: 'associatedGatewayId')
+  final String associatedGatewayId;
+
+  /// The ID of the Direct Connect gateway association.
+  @_s.JsonKey(name: 'associationId')
+  final String associationId;
+
+  /// The ID of the Direct Connect gateway.
+  @_s.JsonKey(name: 'directConnectGatewayId')
+  final String directConnectGatewayId;
+
+  /// The maximum number of results to return with a single call. To retrieve the
+  /// remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  ///
+  /// If <code>MaxResults</code> is given a value larger than 100, only 100
+  /// results are returned.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The token provided in the previous call to retrieve the next page.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The ID of the virtual private gateway.
+  @_s.JsonKey(name: 'virtualGatewayId')
+  final String virtualGatewayId;
+
+  DescribeDirectConnectGatewayAssociationsRequest({
+    this.associatedGatewayId,
+    this.associationId,
+    this.directConnectGatewayId,
+    this.maxResults,
+    this.nextToken,
+    this.virtualGatewayId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeDirectConnectGatewayAssociationsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeDirectConnectGatewayAssociationsResult {
@@ -3479,6 +4452,43 @@ class DescribeDirectConnectGatewayAssociationsResult {
   factory DescribeDirectConnectGatewayAssociationsResult.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeDirectConnectGatewayAssociationsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeDirectConnectGatewayAttachmentsRequest {
+  /// The ID of the Direct Connect gateway.
+  @_s.JsonKey(name: 'directConnectGatewayId')
+  final String directConnectGatewayId;
+
+  /// The maximum number of results to return with a single call. To retrieve the
+  /// remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  ///
+  /// If <code>MaxResults</code> is given a value larger than 100, only 100
+  /// results are returned.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The token provided in the previous call to retrieve the next page.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The ID of the virtual interface.
+  @_s.JsonKey(name: 'virtualInterfaceId')
+  final String virtualInterfaceId;
+
+  DescribeDirectConnectGatewayAttachmentsRequest({
+    this.directConnectGatewayId,
+    this.maxResults,
+    this.nextToken,
+    this.virtualInterfaceId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeDirectConnectGatewayAttachmentsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3507,6 +4517,38 @@ class DescribeDirectConnectGatewayAttachmentsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeDirectConnectGatewaysRequest {
+  /// The ID of the Direct Connect gateway.
+  @_s.JsonKey(name: 'directConnectGatewayId')
+  final String directConnectGatewayId;
+
+  /// The maximum number of results to return with a single call. To retrieve the
+  /// remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  ///
+  /// If <code>MaxResults</code> is given a value larger than 100, only 100
+  /// results are returned.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The token provided in the previous call to retrieve the next page.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  DescribeDirectConnectGatewaysRequest({
+    this.directConnectGatewayId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeDirectConnectGatewaysRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeDirectConnectGatewaysResult {
@@ -3530,6 +4572,52 @@ class DescribeDirectConnectGatewaysResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeHostedConnectionsRequest {
+  /// The ID of the interconnect or LAG.
+  @_s.JsonKey(name: 'connectionId')
+  final String connectionId;
+
+  DescribeHostedConnectionsRequest({
+    @_s.required this.connectionId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeHostedConnectionsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeInterconnectLoaRequest {
+  /// The ID of the interconnect.
+  @_s.JsonKey(name: 'interconnectId')
+  final String interconnectId;
+
+  /// The standard media type for the LOA-CFA document. The only supported value
+  /// is application/pdf.
+  @_s.JsonKey(name: 'loaContentType')
+  final LoaContentType loaContentType;
+
+  /// The name of the service provider who establishes connectivity on your
+  /// behalf. If you supply this parameter, the LOA-CFA lists the provider name
+  /// alongside your company name as the requester of the cross connect.
+  @_s.JsonKey(name: 'providerName')
+  final String providerName;
+
+  DescribeInterconnectLoaRequest({
+    @_s.required this.interconnectId,
+    this.loaContentType,
+    this.providerName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeInterconnectLoaRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeInterconnectLoaResponse {
@@ -3547,6 +4635,83 @@ class DescribeInterconnectLoaResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeInterconnectsRequest {
+  /// The ID of the interconnect.
+  @_s.JsonKey(name: 'interconnectId')
+  final String interconnectId;
+
+  DescribeInterconnectsRequest({
+    this.interconnectId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeInterconnectsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeLagsRequest {
+  /// The ID of the LAG.
+  @_s.JsonKey(name: 'lagId')
+  final String lagId;
+
+  DescribeLagsRequest({
+    this.lagId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeLagsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeLoaRequest {
+  /// The ID of a connection, LAG, or interconnect.
+  @_s.JsonKey(name: 'connectionId')
+  final String connectionId;
+
+  /// The standard media type for the LOA-CFA document. The only supported value
+  /// is application/pdf.
+  @_s.JsonKey(name: 'loaContentType')
+  final LoaContentType loaContentType;
+
+  /// The name of the service provider who establishes connectivity on your
+  /// behalf. If you specify this parameter, the LOA-CFA lists the provider name
+  /// alongside your company name as the requester of the cross connect.
+  @_s.JsonKey(name: 'providerName')
+  final String providerName;
+
+  DescribeLoaRequest({
+    @_s.required this.connectionId,
+    this.loaContentType,
+    this.providerName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeLoaRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeTagsRequest {
+  /// The Amazon Resource Names (ARNs) of the resources.
+  @_s.JsonKey(name: 'resourceArns')
+  final List<String> resourceArns;
+
+  DescribeTagsRequest({
+    @_s.required this.resourceArns,
+  });
+  Map<String, dynamic> toJson() => _$DescribeTagsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeTagsResponse {
@@ -3559,6 +4724,28 @@ class DescribeTagsResponse {
   });
   factory DescribeTagsResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeTagsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeVirtualInterfacesRequest {
+  /// The ID of the connection.
+  @_s.JsonKey(name: 'connectionId')
+  final String connectionId;
+
+  /// The ID of the virtual interface.
+  @_s.JsonKey(name: 'virtualInterfaceId')
+  final String virtualInterfaceId;
+
+  DescribeVirtualInterfacesRequest({
+    this.connectionId,
+    this.virtualInterfaceId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeVirtualInterfacesRequestToJson(this);
 }
 
 /// Information about a Direct Connect gateway, which enables you to connect
@@ -3895,6 +5082,28 @@ enum DirectConnectGatewayState {
   deleting,
   @_s.JsonValue('deleted')
   deleted,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateConnectionFromLagRequest {
+  /// The ID of the connection.
+  @_s.JsonKey(name: 'connectionId')
+  final String connectionId;
+
+  /// The ID of the LAG.
+  @_s.JsonKey(name: 'lagId')
+  final String lagId;
+
+  DisassociateConnectionFromLagRequest({
+    @_s.required this.connectionId,
+    @_s.required this.lagId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DisassociateConnectionFromLagRequestToJson(this);
 }
 
 enum GatewayType {
@@ -4250,16 +5459,6 @@ class Loa {
 enum LoaContentType {
   @_s.JsonValue('application/pdf')
   applicationPdf,
-}
-
-extension on LoaContentType {
-  String toValue() {
-    switch (this) {
-      case LoaContentType.applicationPdf:
-        return 'application/pdf';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Information about an AWS Direct Connect location.
@@ -4822,6 +6021,27 @@ class Tag {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  /// The tags to add.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagResourceResponse {
@@ -4833,12 +6053,61 @@ class TagResourceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  /// The tag keys of the tags to remove.
+  @_s.JsonKey(name: 'tagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
   factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDirectConnectGatewayAssociationRequest {
+  /// The Amazon VPC prefixes to advertise to the Direct Connect gateway.
+  @_s.JsonKey(name: 'addAllowedPrefixesToDirectConnectGateway')
+  final List<RouteFilterPrefix> addAllowedPrefixesToDirectConnectGateway;
+
+  /// The ID of the Direct Connect gateway association.
+  @_s.JsonKey(name: 'associationId')
+  final String associationId;
+
+  /// The Amazon VPC prefixes to no longer advertise to the Direct Connect
+  /// gateway.
+  @_s.JsonKey(name: 'removeAllowedPrefixesToDirectConnectGateway')
+  final List<RouteFilterPrefix> removeAllowedPrefixesToDirectConnectGateway;
+
+  UpdateDirectConnectGatewayAssociationRequest({
+    this.addAllowedPrefixesToDirectConnectGateway,
+    this.associationId,
+    this.removeAllowedPrefixesToDirectConnectGateway,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateDirectConnectGatewayAssociationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4856,6 +6125,56 @@ class UpdateDirectConnectGatewayAssociationResult {
   factory UpdateDirectConnectGatewayAssociationResult.fromJson(
           Map<String, dynamic> json) =>
       _$UpdateDirectConnectGatewayAssociationResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateLagRequest {
+  /// The ID of the LAG.
+  @_s.JsonKey(name: 'lagId')
+  final String lagId;
+
+  /// The name of the LAG.
+  @_s.JsonKey(name: 'lagName')
+  final String lagName;
+
+  /// The minimum number of physical connections that must be operational for the
+  /// LAG itself to be operational.
+  @_s.JsonKey(name: 'minimumLinks')
+  final int minimumLinks;
+
+  UpdateLagRequest({
+    @_s.required this.lagId,
+    this.lagName,
+    this.minimumLinks,
+  });
+  Map<String, dynamic> toJson() => _$UpdateLagRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateVirtualInterfaceAttributesRequest {
+  /// The ID of the virtual private interface.
+  @_s.JsonKey(name: 'virtualInterfaceId')
+  final String virtualInterfaceId;
+
+  /// The maximum transmission unit (MTU), in bytes. The supported values are 1500
+  /// and 9001. The default value is 1500.
+  @_s.JsonKey(name: 'mtu')
+  final int mtu;
+
+  UpdateVirtualInterfaceAttributesRequest({
+    @_s.required this.virtualInterfaceId,
+    this.mtu,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateVirtualInterfaceAttributesRequestToJson(this);
 }
 
 /// Information about a virtual private gateway for a private virtual interface.

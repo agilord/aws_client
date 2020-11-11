@@ -178,6 +178,28 @@ const _$SigningAlgorithmEnumMap = {
   SigningAlgorithm.sha512withrsa: 'SHA512WITHRSA',
 };
 
+Map<String, dynamic> _$CreateCertificateAuthorityAuditReportRequestToJson(
+    CreateCertificateAuthorityAuditReportRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AuditReportResponseFormat',
+      _$AuditReportResponseFormatEnumMap[instance.auditReportResponseFormat]);
+  writeNotNull('CertificateAuthorityArn', instance.certificateAuthorityArn);
+  writeNotNull('S3BucketName', instance.s3BucketName);
+  return val;
+}
+
+const _$AuditReportResponseFormatEnumMap = {
+  AuditReportResponseFormat.json: 'JSON',
+  AuditReportResponseFormat.csv: 'CSV',
+};
+
 CreateCertificateAuthorityAuditReportResponse
     _$CreateCertificateAuthorityAuditReportResponseFromJson(
         Map<String, dynamic> json) {
@@ -187,11 +209,49 @@ CreateCertificateAuthorityAuditReportResponse
   );
 }
 
+Map<String, dynamic> _$CreateCertificateAuthorityRequestToJson(
+    CreateCertificateAuthorityRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CertificateAuthorityConfiguration',
+      instance.certificateAuthorityConfiguration?.toJson());
+  writeNotNull('CertificateAuthorityType',
+      _$CertificateAuthorityTypeEnumMap[instance.certificateAuthorityType]);
+  writeNotNull('IdempotencyToken', instance.idempotencyToken);
+  writeNotNull(
+      'RevocationConfiguration', instance.revocationConfiguration?.toJson());
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateCertificateAuthorityResponse _$CreateCertificateAuthorityResponseFromJson(
     Map<String, dynamic> json) {
   return CreateCertificateAuthorityResponse(
     certificateAuthorityArn: json['CertificateAuthorityArn'] as String,
   );
+}
+
+Map<String, dynamic> _$CreatePermissionRequestToJson(
+    CreatePermissionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Actions', instance.actions);
+  writeNotNull('CertificateAuthorityArn', instance.certificateAuthorityArn);
+  writeNotNull('Principal', instance.principal);
+  writeNotNull('SourceAccount', instance.sourceAccount);
+  return val;
 }
 
 CrlConfiguration _$CrlConfigurationFromJson(Map<String, dynamic> json) {
@@ -219,6 +279,53 @@ Map<String, dynamic> _$CrlConfigurationToJson(CrlConfiguration instance) {
   return val;
 }
 
+Map<String, dynamic> _$DeleteCertificateAuthorityRequestToJson(
+    DeleteCertificateAuthorityRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CertificateAuthorityArn', instance.certificateAuthorityArn);
+  writeNotNull(
+      'PermanentDeletionTimeInDays', instance.permanentDeletionTimeInDays);
+  return val;
+}
+
+Map<String, dynamic> _$DeletePermissionRequestToJson(
+    DeletePermissionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CertificateAuthorityArn', instance.certificateAuthorityArn);
+  writeNotNull('Principal', instance.principal);
+  writeNotNull('SourceAccount', instance.sourceAccount);
+  return val;
+}
+
+Map<String, dynamic> _$DescribeCertificateAuthorityAuditReportRequestToJson(
+    DescribeCertificateAuthorityAuditReportRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AuditReportId', instance.auditReportId);
+  writeNotNull('CertificateAuthorityArn', instance.certificateAuthorityArn);
+  return val;
+}
+
 DescribeCertificateAuthorityAuditReportResponse
     _$DescribeCertificateAuthorityAuditReportResponseFromJson(
         Map<String, dynamic> json) {
@@ -237,6 +344,20 @@ const _$AuditReportStatusEnumMap = {
   AuditReportStatus.failed: 'FAILED',
 };
 
+Map<String, dynamic> _$DescribeCertificateAuthorityRequestToJson(
+    DescribeCertificateAuthorityRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CertificateAuthorityArn', instance.certificateAuthorityArn);
+  return val;
+}
+
 DescribeCertificateAuthorityResponse
     _$DescribeCertificateAuthorityResponseFromJson(Map<String, dynamic> json) {
   return DescribeCertificateAuthorityResponse(
@@ -245,6 +366,20 @@ DescribeCertificateAuthorityResponse
         : CertificateAuthority.fromJson(
             json['CertificateAuthority'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetCertificateAuthorityCertificateRequestToJson(
+    GetCertificateAuthorityCertificateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CertificateAuthorityArn', instance.certificateAuthorityArn);
+  return val;
 }
 
 GetCertificateAuthorityCertificateResponse
@@ -256,11 +391,40 @@ GetCertificateAuthorityCertificateResponse
   );
 }
 
+Map<String, dynamic> _$GetCertificateAuthorityCsrRequestToJson(
+    GetCertificateAuthorityCsrRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CertificateAuthorityArn', instance.certificateAuthorityArn);
+  return val;
+}
+
 GetCertificateAuthorityCsrResponse _$GetCertificateAuthorityCsrResponseFromJson(
     Map<String, dynamic> json) {
   return GetCertificateAuthorityCsrResponse(
     csr: json['Csr'] as String,
   );
+}
+
+Map<String, dynamic> _$GetCertificateRequestToJson(
+    GetCertificateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CertificateArn', instance.certificateArn);
+  writeNotNull('CertificateAuthorityArn', instance.certificateAuthorityArn);
+  return val;
 }
 
 GetCertificateResponse _$GetCertificateResponseFromJson(
@@ -271,11 +435,64 @@ GetCertificateResponse _$GetCertificateResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ImportCertificateAuthorityCertificateRequestToJson(
+    ImportCertificateAuthorityCertificateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'Certificate', const Uint8ListConverter().toJson(instance.certificate));
+  writeNotNull('CertificateAuthorityArn', instance.certificateAuthorityArn);
+  writeNotNull('CertificateChain',
+      const Uint8ListConverter().toJson(instance.certificateChain));
+  return val;
+}
+
+Map<String, dynamic> _$IssueCertificateRequestToJson(
+    IssueCertificateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CertificateAuthorityArn', instance.certificateAuthorityArn);
+  writeNotNull('Csr', const Uint8ListConverter().toJson(instance.csr));
+  writeNotNull(
+      'SigningAlgorithm', _$SigningAlgorithmEnumMap[instance.signingAlgorithm]);
+  writeNotNull('Validity', instance.validity?.toJson());
+  writeNotNull('IdempotencyToken', instance.idempotencyToken);
+  writeNotNull('TemplateArn', instance.templateArn);
+  return val;
+}
+
 IssueCertificateResponse _$IssueCertificateResponseFromJson(
     Map<String, dynamic> json) {
   return IssueCertificateResponse(
     certificateArn: json['CertificateArn'] as String,
   );
+}
+
+Map<String, dynamic> _$ListCertificateAuthoritiesRequestToJson(
+    ListCertificateAuthoritiesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListCertificateAuthoritiesResponse _$ListCertificateAuthoritiesResponseFromJson(
@@ -290,6 +507,22 @@ ListCertificateAuthoritiesResponse _$ListCertificateAuthoritiesResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListPermissionsRequestToJson(
+    ListPermissionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CertificateAuthorityArn', instance.certificateAuthorityArn);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListPermissionsResponse _$ListPermissionsResponseFromJson(
     Map<String, dynamic> json) {
   return ListPermissionsResponse(
@@ -299,6 +532,21 @@ ListPermissionsResponse _$ListPermissionsResponseFromJson(
             e == null ? null : Permission.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListTagsRequestToJson(ListTagsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CertificateAuthorityArn', instance.certificateAuthorityArn);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListTagsResponse _$ListTagsResponseFromJson(Map<String, dynamic> json) {
@@ -319,6 +567,20 @@ Permission _$PermissionFromJson(Map<String, dynamic> json) {
     principal: json['Principal'] as String,
     sourceAccount: json['SourceAccount'] as String,
   );
+}
+
+Map<String, dynamic> _$RestoreCertificateAuthorityRequestToJson(
+    RestoreCertificateAuthorityRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CertificateAuthorityArn', instance.certificateAuthorityArn);
+  return val;
 }
 
 RevocationConfiguration _$RevocationConfigurationFromJson(
@@ -345,6 +607,35 @@ Map<String, dynamic> _$RevocationConfigurationToJson(
   return val;
 }
 
+Map<String, dynamic> _$RevokeCertificateRequestToJson(
+    RevokeCertificateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CertificateAuthorityArn', instance.certificateAuthorityArn);
+  writeNotNull('CertificateSerial', instance.certificateSerial);
+  writeNotNull(
+      'RevocationReason', _$RevocationReasonEnumMap[instance.revocationReason]);
+  return val;
+}
+
+const _$RevocationReasonEnumMap = {
+  RevocationReason.unspecified: 'UNSPECIFIED',
+  RevocationReason.keyCompromise: 'KEY_COMPROMISE',
+  RevocationReason.certificateAuthorityCompromise:
+      'CERTIFICATE_AUTHORITY_COMPROMISE',
+  RevocationReason.affiliationChanged: 'AFFILIATION_CHANGED',
+  RevocationReason.superseded: 'SUPERSEDED',
+  RevocationReason.cessationOfOperation: 'CESSATION_OF_OPERATION',
+  RevocationReason.privilegeWithdrawn: 'PRIVILEGE_WITHDRAWN',
+  RevocationReason.aACompromise: 'A_A_COMPROMISE',
+};
+
 Tag _$TagFromJson(Map<String, dynamic> json) {
   return Tag(
     key: json['Key'] as String,
@@ -363,6 +654,53 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
 
   writeNotNull('Key', instance.key);
   writeNotNull('Value', instance.value);
+  return val;
+}
+
+Map<String, dynamic> _$TagCertificateAuthorityRequestToJson(
+    TagCertificateAuthorityRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CertificateAuthorityArn', instance.certificateAuthorityArn);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+Map<String, dynamic> _$UntagCertificateAuthorityRequestToJson(
+    UntagCertificateAuthorityRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CertificateAuthorityArn', instance.certificateAuthorityArn);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+Map<String, dynamic> _$UpdateCertificateAuthorityRequestToJson(
+    UpdateCertificateAuthorityRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CertificateAuthorityArn', instance.certificateAuthorityArn);
+  writeNotNull(
+      'RevocationConfiguration', instance.revocationConfiguration?.toJson());
+  writeNotNull('Status', _$CertificateAuthorityStatusEnumMap[instance.status]);
   return val;
 }
 

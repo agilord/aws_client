@@ -6,11 +6,208 @@ part of 'logs-2014-03-28.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$AssociateKmsKeyRequestToJson(
+    AssociateKmsKeyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('kmsKeyId', instance.kmsKeyId);
+  writeNotNull('logGroupName', instance.logGroupName);
+  return val;
+}
+
+Map<String, dynamic> _$CancelExportTaskRequestToJson(
+    CancelExportTaskRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('taskId', instance.taskId);
+  return val;
+}
+
+Map<String, dynamic> _$CreateExportTaskRequestToJson(
+    CreateExportTaskRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('destination', instance.destination);
+  writeNotNull('from', instance.from);
+  writeNotNull('logGroupName', instance.logGroupName);
+  writeNotNull('to', instance.to);
+  writeNotNull('destinationPrefix', instance.destinationPrefix);
+  writeNotNull('logStreamNamePrefix', instance.logStreamNamePrefix);
+  writeNotNull('taskName', instance.taskName);
+  return val;
+}
+
 CreateExportTaskResponse _$CreateExportTaskResponseFromJson(
     Map<String, dynamic> json) {
   return CreateExportTaskResponse(
     taskId: json['taskId'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateLogGroupRequestToJson(
+    CreateLogGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('logGroupName', instance.logGroupName);
+  writeNotNull('kmsKeyId', instance.kmsKeyId);
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
+Map<String, dynamic> _$CreateLogStreamRequestToJson(
+    CreateLogStreamRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('logGroupName', instance.logGroupName);
+  writeNotNull('logStreamName', instance.logStreamName);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteDestinationRequestToJson(
+    DeleteDestinationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('destinationName', instance.destinationName);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteLogGroupRequestToJson(
+    DeleteLogGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('logGroupName', instance.logGroupName);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteLogStreamRequestToJson(
+    DeleteLogStreamRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('logGroupName', instance.logGroupName);
+  writeNotNull('logStreamName', instance.logStreamName);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteMetricFilterRequestToJson(
+    DeleteMetricFilterRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('filterName', instance.filterName);
+  writeNotNull('logGroupName', instance.logGroupName);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteResourcePolicyRequestToJson(
+    DeleteResourcePolicyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('policyName', instance.policyName);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteRetentionPolicyRequestToJson(
+    DeleteRetentionPolicyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('logGroupName', instance.logGroupName);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteSubscriptionFilterRequestToJson(
+    DeleteSubscriptionFilterRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('filterName', instance.filterName);
+  writeNotNull('logGroupName', instance.logGroupName);
+  return val;
+}
+
+Map<String, dynamic> _$DescribeDestinationsRequestToJson(
+    DescribeDestinationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DestinationNamePrefix', instance.destinationNamePrefix);
+  writeNotNull('limit', instance.limit);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 DescribeDestinationsResponse _$DescribeDestinationsResponseFromJson(
@@ -24,6 +221,33 @@ DescribeDestinationsResponse _$DescribeDestinationsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeExportTasksRequestToJson(
+    DescribeExportTasksRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('limit', instance.limit);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull(
+      'statusCode', _$ExportTaskStatusCodeEnumMap[instance.statusCode]);
+  writeNotNull('taskId', instance.taskId);
+  return val;
+}
+
+const _$ExportTaskStatusCodeEnumMap = {
+  ExportTaskStatusCode.cancelled: 'CANCELLED',
+  ExportTaskStatusCode.completed: 'COMPLETED',
+  ExportTaskStatusCode.failed: 'FAILED',
+  ExportTaskStatusCode.pending: 'PENDING',
+  ExportTaskStatusCode.pendingCancel: 'PENDING_CANCEL',
+  ExportTaskStatusCode.running: 'RUNNING',
+};
+
 DescribeExportTasksResponse _$DescribeExportTasksResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeExportTasksResponse(
@@ -33,6 +257,22 @@ DescribeExportTasksResponse _$DescribeExportTasksResponseFromJson(
         ?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeLogGroupsRequestToJson(
+    DescribeLogGroupsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('limit', instance.limit);
+  writeNotNull('logGroupNamePrefix', instance.logGroupNamePrefix);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 DescribeLogGroupsResponse _$DescribeLogGroupsResponseFromJson(
@@ -46,6 +286,30 @@ DescribeLogGroupsResponse _$DescribeLogGroupsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeLogStreamsRequestToJson(
+    DescribeLogStreamsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('logGroupName', instance.logGroupName);
+  writeNotNull('descending', instance.descending);
+  writeNotNull('limit', instance.limit);
+  writeNotNull('logStreamNamePrefix', instance.logStreamNamePrefix);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('orderBy', _$OrderByEnumMap[instance.orderBy]);
+  return val;
+}
+
+const _$OrderByEnumMap = {
+  OrderBy.logStreamName: 'LogStreamName',
+  OrderBy.lastEventTime: 'LastEventTime',
+};
+
 DescribeLogStreamsResponse _$DescribeLogStreamsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeLogStreamsResponse(
@@ -55,6 +319,25 @@ DescribeLogStreamsResponse _$DescribeLogStreamsResponseFromJson(
         ?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeMetricFiltersRequestToJson(
+    DescribeMetricFiltersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('filterNamePrefix', instance.filterNamePrefix);
+  writeNotNull('limit', instance.limit);
+  writeNotNull('logGroupName', instance.logGroupName);
+  writeNotNull('metricName', instance.metricName);
+  writeNotNull('metricNamespace', instance.metricNamespace);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 DescribeMetricFiltersResponse _$DescribeMetricFiltersResponseFromJson(
@@ -68,6 +351,31 @@ DescribeMetricFiltersResponse _$DescribeMetricFiltersResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeQueriesRequestToJson(
+    DescribeQueriesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('logGroupName', instance.logGroupName);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('status', _$QueryStatusEnumMap[instance.status]);
+  return val;
+}
+
+const _$QueryStatusEnumMap = {
+  QueryStatus.scheduled: 'Scheduled',
+  QueryStatus.running: 'Running',
+  QueryStatus.complete: 'Complete',
+  QueryStatus.failed: 'Failed',
+  QueryStatus.cancelled: 'Cancelled',
+};
+
 DescribeQueriesResponse _$DescribeQueriesResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeQueriesResponse(
@@ -77,6 +385,21 @@ DescribeQueriesResponse _$DescribeQueriesResponseFromJson(
             e == null ? null : QueryInfo.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeResourcePoliciesRequestToJson(
+    DescribeResourcePoliciesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('limit', instance.limit);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 DescribeResourcePoliciesResponse _$DescribeResourcePoliciesResponseFromJson(
@@ -89,6 +412,23 @@ DescribeResourcePoliciesResponse _$DescribeResourcePoliciesResponseFromJson(
             : ResourcePolicy.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeSubscriptionFiltersRequestToJson(
+    DescribeSubscriptionFiltersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('logGroupName', instance.logGroupName);
+  writeNotNull('filterNamePrefix', instance.filterNamePrefix);
+  writeNotNull('limit', instance.limit);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 DescribeSubscriptionFiltersResponse
@@ -112,6 +452,20 @@ Destination _$DestinationFromJson(Map<String, dynamic> json) {
     roleArn: json['roleArn'] as String,
     targetArn: json['targetArn'] as String,
   );
+}
+
+Map<String, dynamic> _$DisassociateKmsKeyRequestToJson(
+    DisassociateKmsKeyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('logGroupName', instance.logGroupName);
+  return val;
 }
 
 ExportTask _$ExportTaskFromJson(Map<String, dynamic> json) {
@@ -180,14 +534,27 @@ T _$enumDecodeNullable<T>(
   return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
 }
 
-const _$ExportTaskStatusCodeEnumMap = {
-  ExportTaskStatusCode.cancelled: 'CANCELLED',
-  ExportTaskStatusCode.completed: 'COMPLETED',
-  ExportTaskStatusCode.failed: 'FAILED',
-  ExportTaskStatusCode.pending: 'PENDING',
-  ExportTaskStatusCode.pendingCancel: 'PENDING_CANCEL',
-  ExportTaskStatusCode.running: 'RUNNING',
-};
+Map<String, dynamic> _$FilterLogEventsRequestToJson(
+    FilterLogEventsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('logGroupName', instance.logGroupName);
+  writeNotNull('endTime', instance.endTime);
+  writeNotNull('filterPattern', instance.filterPattern);
+  writeNotNull('interleaved', instance.interleaved);
+  writeNotNull('limit', instance.limit);
+  writeNotNull('logStreamNamePrefix', instance.logStreamNamePrefix);
+  writeNotNull('logStreamNames', instance.logStreamNames);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('startTime', instance.startTime);
+  return val;
+}
 
 FilterLogEventsResponse _$FilterLogEventsResponseFromJson(
     Map<String, dynamic> json) {
@@ -216,6 +583,25 @@ FilteredLogEvent _$FilteredLogEventFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetLogEventsRequestToJson(GetLogEventsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('logGroupName', instance.logGroupName);
+  writeNotNull('logStreamName', instance.logStreamName);
+  writeNotNull('endTime', instance.endTime);
+  writeNotNull('limit', instance.limit);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('startFromHead', instance.startFromHead);
+  writeNotNull('startTime', instance.startTime);
+  return val;
+}
+
 GetLogEventsResponse _$GetLogEventsResponseFromJson(Map<String, dynamic> json) {
   return GetLogEventsResponse(
     events: (json['events'] as List)
@@ -226,6 +612,21 @@ GetLogEventsResponse _$GetLogEventsResponseFromJson(Map<String, dynamic> json) {
     nextBackwardToken: json['nextBackwardToken'] as String,
     nextForwardToken: json['nextForwardToken'] as String,
   );
+}
+
+Map<String, dynamic> _$GetLogGroupFieldsRequestToJson(
+    GetLogGroupFieldsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('logGroupName', instance.logGroupName);
+  writeNotNull('time', instance.time);
+  return val;
 }
 
 GetLogGroupFieldsResponse _$GetLogGroupFieldsResponseFromJson(
@@ -239,12 +640,39 @@ GetLogGroupFieldsResponse _$GetLogGroupFieldsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$GetLogRecordRequestToJson(GetLogRecordRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('logRecordPointer', instance.logRecordPointer);
+  return val;
+}
+
 GetLogRecordResponse _$GetLogRecordResponseFromJson(Map<String, dynamic> json) {
   return GetLogRecordResponse(
     logRecord: (json['logRecord'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
+}
+
+Map<String, dynamic> _$GetQueryResultsRequestToJson(
+    GetQueryResultsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('queryId', instance.queryId);
+  return val;
 }
 
 GetQueryResultsResponse _$GetQueryResultsResponseFromJson(
@@ -264,14 +692,6 @@ GetQueryResultsResponse _$GetQueryResultsResponseFromJson(
   );
 }
 
-const _$QueryStatusEnumMap = {
-  QueryStatus.scheduled: 'Scheduled',
-  QueryStatus.running: 'Running',
-  QueryStatus.complete: 'Complete',
-  QueryStatus.failed: 'Failed',
-  QueryStatus.cancelled: 'Cancelled',
-};
-
 Map<String, dynamic> _$InputLogEventToJson(InputLogEvent instance) {
   final val = <String, dynamic>{};
 
@@ -283,6 +703,20 @@ Map<String, dynamic> _$InputLogEventToJson(InputLogEvent instance) {
 
   writeNotNull('message', instance.message);
   writeNotNull('timestamp', instance.timestamp);
+  return val;
+}
+
+Map<String, dynamic> _$ListTagsLogGroupRequestToJson(
+    ListTagsLogGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('logGroupName', instance.logGroupName);
   return val;
 }
 
@@ -386,6 +820,37 @@ OutputLogEvent _$OutputLogEventFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$PutDestinationPolicyRequestToJson(
+    PutDestinationPolicyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('accessPolicy', instance.accessPolicy);
+  writeNotNull('destinationName', instance.destinationName);
+  return val;
+}
+
+Map<String, dynamic> _$PutDestinationRequestToJson(
+    PutDestinationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('destinationName', instance.destinationName);
+  writeNotNull('roleArn', instance.roleArn);
+  writeNotNull('targetArn', instance.targetArn);
+  return val;
+}
+
 PutDestinationResponse _$PutDestinationResponseFromJson(
     Map<String, dynamic> json) {
   return PutDestinationResponse(
@@ -393,6 +858,23 @@ PutDestinationResponse _$PutDestinationResponseFromJson(
         ? null
         : Destination.fromJson(json['destination'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$PutLogEventsRequestToJson(PutLogEventsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'logEvents', instance.logEvents?.map((e) => e?.toJson())?.toList());
+  writeNotNull('logGroupName', instance.logGroupName);
+  writeNotNull('logStreamName', instance.logStreamName);
+  writeNotNull('sequenceToken', instance.sequenceToken);
+  return val;
 }
 
 PutLogEventsResponse _$PutLogEventsResponseFromJson(Map<String, dynamic> json) {
@@ -405,6 +887,39 @@ PutLogEventsResponse _$PutLogEventsResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$PutMetricFilterRequestToJson(
+    PutMetricFilterRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('filterName', instance.filterName);
+  writeNotNull('filterPattern', instance.filterPattern);
+  writeNotNull('logGroupName', instance.logGroupName);
+  writeNotNull('metricTransformations',
+      instance.metricTransformations?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+Map<String, dynamic> _$PutResourcePolicyRequestToJson(
+    PutResourcePolicyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('policyDocument', instance.policyDocument);
+  writeNotNull('policyName', instance.policyName);
+  return val;
+}
+
 PutResourcePolicyResponse _$PutResourcePolicyResponseFromJson(
     Map<String, dynamic> json) {
   return PutResourcePolicyResponse(
@@ -414,6 +929,45 @@ PutResourcePolicyResponse _$PutResourcePolicyResponseFromJson(
             json['resourcePolicy'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$PutRetentionPolicyRequestToJson(
+    PutRetentionPolicyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('logGroupName', instance.logGroupName);
+  writeNotNull('retentionInDays', instance.retentionInDays);
+  return val;
+}
+
+Map<String, dynamic> _$PutSubscriptionFilterRequestToJson(
+    PutSubscriptionFilterRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('destinationArn', instance.destinationArn);
+  writeNotNull('filterName', instance.filterName);
+  writeNotNull('filterPattern', instance.filterPattern);
+  writeNotNull('logGroupName', instance.logGroupName);
+  writeNotNull('distribution', _$DistributionEnumMap[instance.distribution]);
+  writeNotNull('roleArn', instance.roleArn);
+  return val;
+}
+
+const _$DistributionEnumMap = {
+  Distribution.random: 'Random',
+  Distribution.byLogStream: 'ByLogStream',
+};
 
 QueryInfo _$QueryInfoFromJson(Map<String, dynamic> json) {
   return QueryInfo(
@@ -464,10 +1018,41 @@ SearchedLogStream _$SearchedLogStreamFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$StartQueryRequestToJson(StartQueryRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('endTime', instance.endTime);
+  writeNotNull('queryString', instance.queryString);
+  writeNotNull('startTime', instance.startTime);
+  writeNotNull('limit', instance.limit);
+  writeNotNull('logGroupName', instance.logGroupName);
+  writeNotNull('logGroupNames', instance.logGroupNames);
+  return val;
+}
+
 StartQueryResponse _$StartQueryResponseFromJson(Map<String, dynamic> json) {
   return StartQueryResponse(
     queryId: json['queryId'] as String,
   );
+}
+
+Map<String, dynamic> _$StopQueryRequestToJson(StopQueryRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('queryId', instance.queryId);
+  return val;
 }
 
 StopQueryResponse _$StopQueryResponseFromJson(Map<String, dynamic> json) {
@@ -489,10 +1074,34 @@ SubscriptionFilter _$SubscriptionFilterFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$DistributionEnumMap = {
-  Distribution.random: 'Random',
-  Distribution.byLogStream: 'ByLogStream',
-};
+Map<String, dynamic> _$TagLogGroupRequestToJson(TagLogGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('logGroupName', instance.logGroupName);
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
+Map<String, dynamic> _$TestMetricFilterRequestToJson(
+    TestMetricFilterRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('filterPattern', instance.filterPattern);
+  writeNotNull('logEventMessages', instance.logEventMessages);
+  return val;
+}
 
 TestMetricFilterResponse _$TestMetricFilterResponseFromJson(
     Map<String, dynamic> json) {
@@ -503,4 +1112,19 @@ TestMetricFilterResponse _$TestMetricFilterResponseFromJson(
             : MetricFilterMatchRecord.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$UntagLogGroupRequestToJson(
+    UntagLogGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('logGroupName', instance.logGroupName);
+  writeNotNull('tags', instance.tags);
+  return val;
 }

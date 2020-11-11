@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -20,6 +19,8 @@ import 'package:shared_aws_api/shared.dart'
         unixTimestampToJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
+
+part 'timestamp_values.g.dart';
 
 /// Timestamp values
 class TimestampValues {
@@ -63,11 +64,17 @@ class TimestampValues {
       if (timeFormatInQuery != null)
         _s.toQueryParam('TimeFormatQuery', timeFormatInQuery),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{
-      if (timeArg != null) 'TimeArg': timeArg,
-      if (timeCustom != null) 'TimeCustom': timeCustom,
-      if (timeFormat != null) 'TimeFormat': timeFormat,
-    };
+    final $payload = InputShape(
+      timeArg: timeArg,
+      timeArgInHeader: timeArgInHeader,
+      timeArgInQuery: timeArgInQuery,
+      timeCustom: timeCustom,
+      timeCustomInHeader: timeCustomInHeader,
+      timeCustomInQuery: timeCustomInQuery,
+      timeFormat: timeFormat,
+      timeFormatInHeader: timeFormatInHeader,
+      timeFormatInQuery: timeFormatInQuery,
+    );
     await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -76,6 +83,74 @@ class TimestampValues {
       exceptionFnMap: _exceptionFns,
     );
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class InputShape {
+  @_s.JsonKey(
+      name: 'TimeArg',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime timeArg;
+  @_s.JsonKey(
+      name: 'x-amz-timearg',
+      fromJson: rfc822FromJson,
+      toJson: rfc822ToJson,
+      ignore: true)
+  final DateTime timeArgInHeader;
+  @_s.JsonKey(
+      name: 'TimeQuery',
+      fromJson: iso8601FromJson,
+      toJson: iso8601ToJson,
+      ignore: true)
+  final DateTime timeArgInQuery;
+  @_s.JsonKey(
+      name: 'TimeCustom', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+  final DateTime timeCustom;
+  @_s.JsonKey(
+      name: 'x-amz-timecustom-header',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson,
+      ignore: true)
+  final DateTime timeCustomInHeader;
+  @_s.JsonKey(
+      name: 'TimeCustomQuery',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson,
+      ignore: true)
+  final DateTime timeCustomInQuery;
+  @_s.JsonKey(
+      name: 'TimeFormat', fromJson: rfc822FromJson, toJson: rfc822ToJson)
+  final DateTime timeFormat;
+  @_s.JsonKey(
+      name: 'x-amz-timeformat-header',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson,
+      ignore: true)
+  final DateTime timeFormatInHeader;
+  @_s.JsonKey(
+      name: 'TimeFormatQuery',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson,
+      ignore: true)
+  final DateTime timeFormatInQuery;
+
+  InputShape({
+    this.timeArg,
+    this.timeArgInHeader,
+    this.timeArgInQuery,
+    this.timeCustom,
+    this.timeCustomInHeader,
+    this.timeCustomInQuery,
+    this.timeFormat,
+    this.timeFormatInHeader,
+    this.timeFormatInQuery,
+  });
+  Map<String, dynamic> toJson() => _$InputShapeToJson(this);
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

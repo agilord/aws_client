@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -81,9 +80,9 @@ class ComprehendMedical {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobId': jobId,
-      },
+      payload: DescribeEntitiesDetectionV2JobRequest(
+        jobId: jobId,
+      ),
     );
 
     return DescribeEntitiesDetectionV2JobResponse.fromJson(jsonResponse.body);
@@ -128,9 +127,9 @@ class ComprehendMedical {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobId': jobId,
-      },
+      payload: DescribePHIDetectionJobRequest(
+        jobId: jobId,
+      ),
     );
 
     return DescribePHIDetectionJobResponse.fromJson(jsonResponse.body);
@@ -175,9 +174,9 @@ class ComprehendMedical {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Text': text,
-      },
+      payload: DetectEntitiesRequest(
+        text: text,
+      ),
     );
 
     return DetectEntitiesResponse.fromJson(jsonResponse.body);
@@ -229,9 +228,9 @@ class ComprehendMedical {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Text': text,
-      },
+      payload: DetectEntitiesV2Request(
+        text: text,
+      ),
     );
 
     return DetectEntitiesV2Response.fromJson(jsonResponse.body);
@@ -273,9 +272,9 @@ class ComprehendMedical {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Text': text,
-      },
+      payload: DetectPHIRequest(
+        text: text,
+      ),
     );
 
     return DetectPHIResponse.fromJson(jsonResponse.body);
@@ -318,9 +317,9 @@ class ComprehendMedical {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Text': text,
-      },
+      payload: InferICD10CMRequest(
+        text: text,
+      ),
     );
 
     return InferICD10CMResponse.fromJson(jsonResponse.body);
@@ -362,9 +361,9 @@ class ComprehendMedical {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Text': text,
-      },
+      payload: InferRxNormRequest(
+        text: text,
+      ),
     );
 
     return InferRxNormResponse.fromJson(jsonResponse.body);
@@ -414,11 +413,11 @@ class ComprehendMedical {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filter != null) 'Filter': filter,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListEntitiesDetectionV2JobsRequest(
+        filter: filter,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListEntitiesDetectionV2JobsResponse.fromJson(jsonResponse.body);
@@ -469,11 +468,11 @@ class ComprehendMedical {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filter != null) 'Filter': filter,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListPHIDetectionJobsRequest(
+        filter: filter,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListPHIDetectionJobsResponse.fromJson(jsonResponse.body);
@@ -584,16 +583,15 @@ class ComprehendMedical {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DataAccessRoleArn': dataAccessRoleArn,
-        'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode?.toValue(),
-        'OutputDataConfig': outputDataConfig,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-        if (jobName != null) 'JobName': jobName,
-        if (kMSKey != null) 'KMSKey': kMSKey,
-      },
+      payload: StartEntitiesDetectionV2JobRequest(
+        dataAccessRoleArn: dataAccessRoleArn,
+        inputDataConfig: inputDataConfig,
+        languageCode: languageCode,
+        outputDataConfig: outputDataConfig,
+        clientRequestToken: clientRequestToken,
+        jobName: jobName,
+        kMSKey: kMSKey,
+      ),
     );
 
     return StartEntitiesDetectionV2JobResponse.fromJson(jsonResponse.body);
@@ -704,16 +702,15 @@ class ComprehendMedical {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DataAccessRoleArn': dataAccessRoleArn,
-        'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode?.toValue(),
-        'OutputDataConfig': outputDataConfig,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-        if (jobName != null) 'JobName': jobName,
-        if (kMSKey != null) 'KMSKey': kMSKey,
-      },
+      payload: StartPHIDetectionJobRequest(
+        dataAccessRoleArn: dataAccessRoleArn,
+        inputDataConfig: inputDataConfig,
+        languageCode: languageCode,
+        outputDataConfig: outputDataConfig,
+        clientRequestToken: clientRequestToken,
+        jobName: jobName,
+        kMSKey: kMSKey,
+      ),
     );
 
     return StartPHIDetectionJobResponse.fromJson(jsonResponse.body);
@@ -754,9 +751,9 @@ class ComprehendMedical {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobId': jobId,
-      },
+      payload: StopEntitiesDetectionV2JobRequest(
+        jobId: jobId,
+      ),
     );
 
     return StopEntitiesDetectionV2JobResponse.fromJson(jsonResponse.body);
@@ -797,9 +794,9 @@ class ComprehendMedical {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobId': jobId,
-      },
+      payload: StopPHIDetectionJobRequest(
+        jobId: jobId,
+      ),
     );
 
     return StopPHIDetectionJobResponse.fromJson(jsonResponse.body);
@@ -1043,6 +1040,25 @@ class ComprehendMedicalAsyncJobProperties {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeEntitiesDetectionV2JobRequest {
+  /// The identifier that Amazon Comprehend Medical generated for the job. The
+  /// <code>StartEntitiesDetectionV2Job</code> operation returns this identifier
+  /// in its response.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  DescribeEntitiesDetectionV2JobRequest({
+    @_s.required this.jobId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeEntitiesDetectionV2JobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeEntitiesDetectionV2JobResponse {
@@ -1061,6 +1077,24 @@ class DescribeEntitiesDetectionV2JobResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribePHIDetectionJobRequest {
+  /// The identifier that Amazon Comprehend Medical generated for the job. The
+  /// <code>StartPHIDetectionJob</code> operation returns this identifier in its
+  /// response.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  DescribePHIDetectionJobRequest({
+    @_s.required this.jobId,
+  });
+  Map<String, dynamic> toJson() => _$DescribePHIDetectionJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribePHIDetectionJobResponse {
@@ -1073,6 +1107,23 @@ class DescribePHIDetectionJobResponse {
   });
   factory DescribePHIDetectionJobResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribePHIDetectionJobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DetectEntitiesRequest {
+  /// A UTF-8 text string containing the clinical content being examined for
+  /// entities. Each string must contain fewer than 20,000 bytes of characters.
+  @_s.JsonKey(name: 'Text')
+  final String text;
+
+  DetectEntitiesRequest({
+    @_s.required this.text,
+  });
+  Map<String, dynamic> toJson() => _$DetectEntitiesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1119,6 +1170,23 @@ class DetectEntitiesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DetectEntitiesV2Request {
+  /// A UTF-8 string containing the clinical content being examined for entities.
+  /// Each string must contain fewer than 20,000 bytes of characters.
+  @_s.JsonKey(name: 'Text')
+  final String text;
+
+  DetectEntitiesV2Request({
+    @_s.required this.text,
+  });
+  Map<String, dynamic> toJson() => _$DetectEntitiesV2RequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DetectEntitiesV2Response {
@@ -1154,6 +1222,23 @@ class DetectEntitiesV2Response {
   });
   factory DetectEntitiesV2Response.fromJson(Map<String, dynamic> json) =>
       _$DetectEntitiesV2ResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DetectPHIRequest {
+  /// A UTF-8 text string containing the clinical content being examined for PHI
+  /// entities. Each string must contain fewer than 20,000 bytes of characters.
+  @_s.JsonKey(name: 'Text')
+  final String text;
+
+  DetectPHIRequest({
+    @_s.required this.text,
+  });
+  Map<String, dynamic> toJson() => _$DetectPHIRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1575,6 +1660,23 @@ enum ICD10CMTraitName {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class InferICD10CMRequest {
+  /// The input text used for analysis. The input for InferICD10CM is a string
+  /// from 1 to 10000 characters.
+  @_s.JsonKey(name: 'Text')
+  final String text;
+
+  InferICD10CMRequest({
+    @_s.required this.text,
+  });
+  Map<String, dynamic> toJson() => _$InferICD10CMRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class InferICD10CMResponse {
@@ -1603,6 +1705,23 @@ class InferICD10CMResponse {
   });
   factory InferICD10CMResponse.fromJson(Map<String, dynamic> json) =>
       _$InferICD10CMResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class InferRxNormRequest {
+  /// The input text used for analysis. The input for InferRxNorm is a string from
+  /// 1 to 10000 characters.
+  @_s.JsonKey(name: 'Text')
+  final String text;
+
+  InferRxNormRequest({
+    @_s.required this.text,
+  });
+  Map<String, dynamic> toJson() => _$InferRxNormRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1689,14 +1808,33 @@ enum LanguageCode {
   en,
 }
 
-extension on LanguageCode {
-  String toValue() {
-    switch (this) {
-      case LanguageCode.en:
-        return 'en';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListEntitiesDetectionV2JobsRequest {
+  /// Filters the jobs that are returned. You can filter jobs based on their
+  /// names, status, or the date and time that they were submitted. You can only
+  /// set one filter at a time.
+  @_s.JsonKey(name: 'Filter')
+  final ComprehendMedicalAsyncJobFilter filter;
+
+  /// The maximum number of results to return in each page. The default is 100.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// Identifies the next page of results to return.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListEntitiesDetectionV2JobsRequest({
+    this.filter,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListEntitiesDetectionV2JobsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1721,6 +1859,34 @@ class ListEntitiesDetectionV2JobsResponse {
   factory ListEntitiesDetectionV2JobsResponse.fromJson(
           Map<String, dynamic> json) =>
       _$ListEntitiesDetectionV2JobsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListPHIDetectionJobsRequest {
+  /// Filters the jobs that are returned. You can filter jobs based on their
+  /// names, status, or the date and time that they were submitted. You can only
+  /// set one filter at a time.
+  @_s.JsonKey(name: 'Filter')
+  final ComprehendMedicalAsyncJobFilter filter;
+
+  /// The maximum number of results to return in each page. The default is 100.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// Identifies the next page of results to return.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListPHIDetectionJobsRequest({
+    this.filter,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListPHIDetectionJobsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2049,6 +2215,60 @@ enum RxNormTraitName {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartEntitiesDetectionV2JobRequest {
+  /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management
+  /// (IAM) role that grants Amazon Comprehend Medical read access to your input
+  /// data. For more information, see <a
+  /// href="https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions-med.html#auth-role-permissions-med">
+  /// Role-Based Permissions Required for Asynchronous Operations</a>.
+  @_s.JsonKey(name: 'DataAccessRoleArn')
+  final String dataAccessRoleArn;
+
+  /// Specifies the format and location of the input data for the job.
+  @_s.JsonKey(name: 'InputDataConfig')
+  final InputDataConfig inputDataConfig;
+
+  /// The language of the input documents. All documents must be in the same
+  /// language.
+  @_s.JsonKey(name: 'LanguageCode')
+  final LanguageCode languageCode;
+
+  /// Specifies where to send the output files.
+  @_s.JsonKey(name: 'OutputDataConfig')
+  final OutputDataConfig outputDataConfig;
+
+  /// A unique identifier for the request. If you don't set the client request
+  /// token, Amazon Comprehend Medical generates one.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// The identifier of the job.
+  @_s.JsonKey(name: 'JobName')
+  final String jobName;
+
+  /// An AWS Key Management Service key to encrypt your output files. If you do
+  /// not specify a key, the files are written in plain text.
+  @_s.JsonKey(name: 'KMSKey')
+  final String kMSKey;
+
+  StartEntitiesDetectionV2JobRequest({
+    @_s.required this.dataAccessRoleArn,
+    @_s.required this.inputDataConfig,
+    @_s.required this.languageCode,
+    @_s.required this.outputDataConfig,
+    this.clientRequestToken,
+    this.jobName,
+    this.kMSKey,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StartEntitiesDetectionV2JobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartEntitiesDetectionV2JobResponse {
@@ -2063,6 +2283,59 @@ class StartEntitiesDetectionV2JobResponse {
   factory StartEntitiesDetectionV2JobResponse.fromJson(
           Map<String, dynamic> json) =>
       _$StartEntitiesDetectionV2JobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartPHIDetectionJobRequest {
+  /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management
+  /// (IAM) role that grants Amazon Comprehend Medical read access to your input
+  /// data. For more information, see <a
+  /// href="https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions-med.html#auth-role-permissions-med">
+  /// Role-Based Permissions Required for Asynchronous Operations</a>.
+  @_s.JsonKey(name: 'DataAccessRoleArn')
+  final String dataAccessRoleArn;
+
+  /// Specifies the format and location of the input data for the job.
+  @_s.JsonKey(name: 'InputDataConfig')
+  final InputDataConfig inputDataConfig;
+
+  /// The language of the input documents. All documents must be in the same
+  /// language.
+  @_s.JsonKey(name: 'LanguageCode')
+  final LanguageCode languageCode;
+
+  /// Specifies where to send the output files.
+  @_s.JsonKey(name: 'OutputDataConfig')
+  final OutputDataConfig outputDataConfig;
+
+  /// A unique identifier for the request. If you don't set the client request
+  /// token, Amazon Comprehend Medical generates one.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// The identifier of the job.
+  @_s.JsonKey(name: 'JobName')
+  final String jobName;
+
+  /// An AWS Key Management Service key to encrypt your output files. If you do
+  /// not specify a key, the files are written in plain text.
+  @_s.JsonKey(name: 'KMSKey')
+  final String kMSKey;
+
+  StartPHIDetectionJobRequest({
+    @_s.required this.dataAccessRoleArn,
+    @_s.required this.inputDataConfig,
+    @_s.required this.languageCode,
+    @_s.required this.outputDataConfig,
+    this.clientRequestToken,
+    this.jobName,
+    this.kMSKey,
+  });
+  Map<String, dynamic> toJson() => _$StartPHIDetectionJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2086,6 +2359,23 @@ class StartPHIDetectionJobResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopEntitiesDetectionV2JobRequest {
+  /// The identifier of the medical entities job to stop.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  StopEntitiesDetectionV2JobRequest({
+    @_s.required this.jobId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StopEntitiesDetectionV2JobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StopEntitiesDetectionV2JobResponse {
@@ -2099,6 +2389,22 @@ class StopEntitiesDetectionV2JobResponse {
   factory StopEntitiesDetectionV2JobResponse.fromJson(
           Map<String, dynamic> json) =>
       _$StopEntitiesDetectionV2JobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopPHIDetectionJobRequest {
+  /// The identifier of the PHI detection job to stop.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  StopPHIDetectionJobRequest({
+    @_s.required this.jobId,
+  });
+  Map<String, dynamic> toJson() => _$StopPHIDetectionJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(

@@ -6,9 +6,38 @@ part of 'iot1click-projects-2018-05-14.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$AssociateDeviceWithPlacementRequestToJson(
+    AssociateDeviceWithPlacementRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('deviceId', instance.deviceId);
+  return val;
+}
+
 AssociateDeviceWithPlacementResponse
     _$AssociateDeviceWithPlacementResponseFromJson(Map<String, dynamic> json) {
   return AssociateDeviceWithPlacementResponse();
+}
+
+Map<String, dynamic> _$CreatePlacementRequestToJson(
+    CreatePlacementRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('placementName', instance.placementName);
+  writeNotNull('attributes', instance.attributes);
+  return val;
 }
 
 CreatePlacementResponse _$CreatePlacementResponseFromJson(
@@ -16,15 +45,40 @@ CreatePlacementResponse _$CreatePlacementResponseFromJson(
   return CreatePlacementResponse();
 }
 
+Map<String, dynamic> _$CreateProjectRequestToJson(
+    CreateProjectRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('projectName', instance.projectName);
+  writeNotNull('description', instance.description);
+  writeNotNull('placementTemplate', instance.placementTemplate?.toJson());
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
 CreateProjectResponse _$CreateProjectResponseFromJson(
     Map<String, dynamic> json) {
   return CreateProjectResponse();
 }
 
+Map<String, dynamic> _$DeletePlacementRequestToJson(
+        DeletePlacementRequest instance) =>
+    <String, dynamic>{};
+
 DeletePlacementResponse _$DeletePlacementResponseFromJson(
     Map<String, dynamic> json) {
   return DeletePlacementResponse();
 }
+
+Map<String, dynamic> _$DeleteProjectRequestToJson(
+        DeleteProjectRequest instance) =>
+    <String, dynamic>{};
 
 DeleteProjectResponse _$DeleteProjectResponseFromJson(
     Map<String, dynamic> json) {
@@ -72,6 +126,10 @@ Map<String, dynamic> _$DeviceTemplateToJson(DeviceTemplate instance) {
   writeNotNull('deviceType', instance.deviceType);
   return val;
 }
+
+Map<String, dynamic> _$DisassociateDeviceFromPlacementRequestToJson(
+        DisassociateDeviceFromPlacementRequest instance) =>
+    <String, dynamic>{};
 
 DisassociateDeviceFromPlacementResponse
     _$DisassociateDeviceFromPlacementResponseFromJson(
@@ -200,18 +258,64 @@ ProjectSummary _$ProjectSummaryFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
 }
+
+Map<String, dynamic> _$UntagResourceRequestToJson(
+        UntagResourceRequest instance) =>
+    <String, dynamic>{};
 
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse();
 }
 
+Map<String, dynamic> _$UpdatePlacementRequestToJson(
+    UpdatePlacementRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('attributes', instance.attributes);
+  return val;
+}
+
 UpdatePlacementResponse _$UpdatePlacementResponseFromJson(
     Map<String, dynamic> json) {
   return UpdatePlacementResponse();
+}
+
+Map<String, dynamic> _$UpdateProjectRequestToJson(
+    UpdateProjectRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('description', instance.description);
+  writeNotNull('placementTemplate', instance.placementTemplate?.toJson());
+  return val;
 }
 
 UpdateProjectResponse _$UpdateProjectResponseFromJson(

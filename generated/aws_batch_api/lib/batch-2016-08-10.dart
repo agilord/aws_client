@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -79,10 +78,10 @@ class Batch {
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     ArgumentError.checkNotNull(reason, 'reason');
-    final $payload = <String, dynamic>{
-      'jobId': jobId,
-      'reason': reason,
-    };
+    final $payload = CancelJobRequest(
+      jobId: jobId,
+      reason: reason,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -192,13 +191,13 @@ class Batch {
         computeEnvironmentName, 'computeEnvironmentName');
     ArgumentError.checkNotNull(serviceRole, 'serviceRole');
     ArgumentError.checkNotNull(type, 'type');
-    final $payload = <String, dynamic>{
-      'computeEnvironmentName': computeEnvironmentName,
-      'serviceRole': serviceRole,
-      'type': type?.toValue(),
-      if (computeResources != null) 'computeResources': computeResources,
-      if (state != null) 'state': state?.toValue(),
-    };
+    final $payload = CreateComputeEnvironmentRequest(
+      computeEnvironmentName: computeEnvironmentName,
+      serviceRole: serviceRole,
+      type: type,
+      computeResources: computeResources,
+      state: state,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -253,12 +252,12 @@ class Batch {
         computeEnvironmentOrder, 'computeEnvironmentOrder');
     ArgumentError.checkNotNull(jobQueueName, 'jobQueueName');
     ArgumentError.checkNotNull(priority, 'priority');
-    final $payload = <String, dynamic>{
-      'computeEnvironmentOrder': computeEnvironmentOrder,
-      'jobQueueName': jobQueueName,
-      'priority': priority,
-      if (state != null) 'state': state?.toValue(),
-    };
+    final $payload = CreateJobQueueRequest(
+      computeEnvironmentOrder: computeEnvironmentOrder,
+      jobQueueName: jobQueueName,
+      priority: priority,
+      state: state,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -285,9 +284,9 @@ class Batch {
     @_s.required String computeEnvironment,
   }) async {
     ArgumentError.checkNotNull(computeEnvironment, 'computeEnvironment');
-    final $payload = <String, dynamic>{
-      'computeEnvironment': computeEnvironment,
-    };
+    final $payload = DeleteComputeEnvironmentRequest(
+      computeEnvironment: computeEnvironment,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -313,9 +312,9 @@ class Batch {
     @_s.required String jobQueue,
   }) async {
     ArgumentError.checkNotNull(jobQueue, 'jobQueue');
-    final $payload = <String, dynamic>{
-      'jobQueue': jobQueue,
-    };
+    final $payload = DeleteJobQueueRequest(
+      jobQueue: jobQueue,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -338,9 +337,9 @@ class Batch {
     @_s.required String jobDefinition,
   }) async {
     ArgumentError.checkNotNull(jobDefinition, 'jobDefinition');
-    final $payload = <String, dynamic>{
-      'jobDefinition': jobDefinition,
-    };
+    final $payload = DeregisterJobDefinitionRequest(
+      jobDefinition: jobDefinition,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -393,12 +392,11 @@ class Batch {
     int maxResults,
     String nextToken,
   }) async {
-    final $payload = <String, dynamic>{
-      if (computeEnvironments != null)
-        'computeEnvironments': computeEnvironments,
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
+    final $payload = DescribeComputeEnvironmentsRequest(
+      computeEnvironments: computeEnvironments,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -455,13 +453,13 @@ class Batch {
     String nextToken,
     String status,
   }) async {
-    final $payload = <String, dynamic>{
-      if (jobDefinitionName != null) 'jobDefinitionName': jobDefinitionName,
-      if (jobDefinitions != null) 'jobDefinitions': jobDefinitions,
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-      if (status != null) 'status': status,
-    };
+    final $payload = DescribeJobDefinitionsRequest(
+      jobDefinitionName: jobDefinitionName,
+      jobDefinitions: jobDefinitions,
+      maxResults: maxResults,
+      nextToken: nextToken,
+      status: status,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -507,11 +505,11 @@ class Batch {
     int maxResults,
     String nextToken,
   }) async {
-    final $payload = <String, dynamic>{
-      if (jobQueues != null) 'jobQueues': jobQueues,
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
+    final $payload = DescribeJobQueuesRequest(
+      jobQueues: jobQueues,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -532,9 +530,9 @@ class Batch {
     @_s.required List<String> jobs,
   }) async {
     ArgumentError.checkNotNull(jobs, 'jobs');
-    final $payload = <String, dynamic>{
-      'jobs': jobs,
-    };
+    final $payload = DescribeJobsRequest(
+      jobs: jobs,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -613,14 +611,14 @@ class Batch {
     String multiNodeJobId,
     String nextToken,
   }) async {
-    final $payload = <String, dynamic>{
-      if (arrayJobId != null) 'arrayJobId': arrayJobId,
-      if (jobQueue != null) 'jobQueue': jobQueue,
-      if (jobStatus != null) 'jobStatus': jobStatus?.toValue(),
-      if (maxResults != null) 'maxResults': maxResults,
-      if (multiNodeJobId != null) 'multiNodeJobId': multiNodeJobId,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
+    final $payload = ListJobsRequest(
+      arrayJobId: arrayJobId,
+      jobQueue: jobQueue,
+      jobStatus: jobStatus,
+      maxResults: maxResults,
+      multiNodeJobId: multiNodeJobId,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -691,16 +689,15 @@ class Batch {
   }) async {
     ArgumentError.checkNotNull(jobDefinitionName, 'jobDefinitionName');
     ArgumentError.checkNotNull(type, 'type');
-    final $payload = <String, dynamic>{
-      'jobDefinitionName': jobDefinitionName,
-      'type': type?.toValue(),
-      if (containerProperties != null)
-        'containerProperties': containerProperties,
-      if (nodeProperties != null) 'nodeProperties': nodeProperties,
-      if (parameters != null) 'parameters': parameters,
-      if (retryStrategy != null) 'retryStrategy': retryStrategy,
-      if (timeout != null) 'timeout': timeout,
-    };
+    final $payload = RegisterJobDefinitionRequest(
+      jobDefinitionName: jobDefinitionName,
+      type: type,
+      containerProperties: containerProperties,
+      nodeProperties: nodeProperties,
+      parameters: parameters,
+      retryStrategy: retryStrategy,
+      timeout: timeout,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -800,18 +797,18 @@ class Batch {
     ArgumentError.checkNotNull(jobDefinition, 'jobDefinition');
     ArgumentError.checkNotNull(jobName, 'jobName');
     ArgumentError.checkNotNull(jobQueue, 'jobQueue');
-    final $payload = <String, dynamic>{
-      'jobDefinition': jobDefinition,
-      'jobName': jobName,
-      'jobQueue': jobQueue,
-      if (arrayProperties != null) 'arrayProperties': arrayProperties,
-      if (containerOverrides != null) 'containerOverrides': containerOverrides,
-      if (dependsOn != null) 'dependsOn': dependsOn,
-      if (nodeOverrides != null) 'nodeOverrides': nodeOverrides,
-      if (parameters != null) 'parameters': parameters,
-      if (retryStrategy != null) 'retryStrategy': retryStrategy,
-      if (timeout != null) 'timeout': timeout,
-    };
+    final $payload = SubmitJobRequest(
+      jobDefinition: jobDefinition,
+      jobName: jobName,
+      jobQueue: jobQueue,
+      arrayProperties: arrayProperties,
+      containerOverrides: containerOverrides,
+      dependsOn: dependsOn,
+      nodeOverrides: nodeOverrides,
+      parameters: parameters,
+      retryStrategy: retryStrategy,
+      timeout: timeout,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -842,10 +839,10 @@ class Batch {
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     ArgumentError.checkNotNull(reason, 'reason');
-    final $payload = <String, dynamic>{
-      'jobId': jobId,
-      'reason': reason,
-    };
+    final $payload = TerminateJobRequest(
+      jobId: jobId,
+      reason: reason,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -895,12 +892,12 @@ class Batch {
     CEState state,
   }) async {
     ArgumentError.checkNotNull(computeEnvironment, 'computeEnvironment');
-    final $payload = <String, dynamic>{
-      'computeEnvironment': computeEnvironment,
-      if (computeResources != null) 'computeResources': computeResources,
-      if (serviceRole != null) 'serviceRole': serviceRole,
-      if (state != null) 'state': state?.toValue(),
-    };
+    final $payload = UpdateComputeEnvironmentRequest(
+      computeEnvironment: computeEnvironment,
+      computeResources: computeResources,
+      serviceRole: serviceRole,
+      state: state,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -941,13 +938,12 @@ class Batch {
     JQState state,
   }) async {
     ArgumentError.checkNotNull(jobQueue, 'jobQueue');
-    final $payload = <String, dynamic>{
-      'jobQueue': jobQueue,
-      if (computeEnvironmentOrder != null)
-        'computeEnvironmentOrder': computeEnvironmentOrder,
-      if (priority != null) 'priority': priority,
-      if (state != null) 'state': state?.toValue(),
-    };
+    final $payload = UpdateJobQueueRequest(
+      jobQueue: jobQueue,
+      computeEnvironmentOrder: computeEnvironmentOrder,
+      priority: priority,
+      state: state,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1133,18 +1129,6 @@ enum CEState {
   disabled,
 }
 
-extension on CEState {
-  String toValue() {
-    switch (this) {
-      case CEState.enabled:
-        return 'ENABLED';
-      case CEState.disabled:
-        return 'DISABLED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum CEStatus {
   @_s.JsonValue('CREATING')
   creating,
@@ -1167,18 +1151,6 @@ enum CEType {
   unmanaged,
 }
 
-extension on CEType {
-  String toValue() {
-    switch (this) {
-      case CEType.managed:
-        return 'MANAGED';
-      case CEType.unmanaged:
-        return 'UNMANAGED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum CRAllocationStrategy {
   @_s.JsonValue('BEST_FIT')
   bestFit,
@@ -1193,6 +1165,29 @@ enum CRType {
   ec2,
   @_s.JsonValue('SPOT')
   spot,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CancelJobRequest {
+  /// The AWS Batch job ID of the job to cancel.
+  @_s.JsonKey(name: 'jobId')
+  final String jobId;
+
+  /// A message to attach to the job that explains the reason for canceling it.
+  /// This message is returned by future <a>DescribeJobs</a> operations on the
+  /// job. This message is also recorded in the AWS Batch activity logs.
+  @_s.JsonKey(name: 'reason')
+  final String reason;
+
+  CancelJobRequest({
+    @_s.required this.jobId,
+    @_s.required this.reason,
+  });
+  Map<String, dynamic> toJson() => _$CancelJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1920,6 +1915,65 @@ class ContainerSummary {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateComputeEnvironmentRequest {
+  /// The name for your compute environment. Up to 128 letters (uppercase and
+  /// lowercase), numbers, hyphens, and underscores are allowed.
+  @_s.JsonKey(name: 'computeEnvironmentName')
+  final String computeEnvironmentName;
+
+  /// The full Amazon Resource Name (ARN) of the IAM role that allows AWS Batch to
+  /// make calls to other AWS services on your behalf.
+  ///
+  /// If your specified role has a path other than <code>/</code>, then you must
+  /// either specify the full role ARN (this is recommended) or prefix the role
+  /// name with the path.
+  /// <note>
+  /// Depending on how you created your AWS Batch service role, its ARN may
+  /// contain the <code>service-role</code> path prefix. When you only specify the
+  /// name of the service role, AWS Batch assumes that your ARN does not use the
+  /// <code>service-role</code> path prefix. Because of this, we recommend that
+  /// you specify the full ARN of your service role when you create compute
+  /// environments.
+  /// </note>
+  @_s.JsonKey(name: 'serviceRole')
+  final String serviceRole;
+
+  /// The type of the compute environment. For more information, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html">Compute
+  /// Environments</a> in the <i>AWS Batch User Guide</i>.
+  @_s.JsonKey(name: 'type')
+  final CEType type;
+
+  /// Details of the compute resources managed by the compute environment. This
+  /// parameter is required for managed compute environments. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html">Compute
+  /// Environments</a> in the <i>AWS Batch User Guide</i>.
+  @_s.JsonKey(name: 'computeResources')
+  final ComputeResource computeResources;
+
+  /// The state of the compute environment. If the state is <code>ENABLED</code>,
+  /// then the compute environment accepts jobs from a queue and can scale out
+  /// automatically based on queues.
+  @_s.JsonKey(name: 'state')
+  final CEState state;
+
+  CreateComputeEnvironmentRequest({
+    @_s.required this.computeEnvironmentName,
+    @_s.required this.serviceRole,
+    @_s.required this.type,
+    this.computeResources,
+    this.state,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateComputeEnvironmentRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateComputeEnvironmentResponse {
@@ -1938,6 +1992,48 @@ class CreateComputeEnvironmentResponse {
   factory CreateComputeEnvironmentResponse.fromJson(
           Map<String, dynamic> json) =>
       _$CreateComputeEnvironmentResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateJobQueueRequest {
+  /// The set of compute environments mapped to a job queue and their order
+  /// relative to each other. The job scheduler uses this parameter to determine
+  /// which compute environment should execute a given job. Compute environments
+  /// must be in the <code>VALID</code> state before you can associate them with a
+  /// job queue. You can associate up to three compute environments with a job
+  /// queue.
+  @_s.JsonKey(name: 'computeEnvironmentOrder')
+  final List<ComputeEnvironmentOrder> computeEnvironmentOrder;
+
+  /// The name of the job queue.
+  @_s.JsonKey(name: 'jobQueueName')
+  final String jobQueueName;
+
+  /// The priority of the job queue. Job queues with a higher priority (or a
+  /// higher integer value for the <code>priority</code> parameter) are evaluated
+  /// first when associated with the same compute environment. Priority is
+  /// determined in descending order, for example, a job queue with a priority
+  /// value of <code>10</code> is given scheduling preference over a job queue
+  /// with a priority value of <code>1</code>.
+  @_s.JsonKey(name: 'priority')
+  final int priority;
+
+  /// The state of the job queue. If the job queue state is <code>ENABLED</code>,
+  /// it is able to accept jobs.
+  @_s.JsonKey(name: 'state')
+  final JQState state;
+
+  CreateJobQueueRequest({
+    @_s.required this.computeEnvironmentOrder,
+    @_s.required this.jobQueueName,
+    @_s.required this.priority,
+    this.state,
+  });
+  Map<String, dynamic> toJson() => _$CreateJobQueueRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1965,6 +2061,23 @@ class CreateJobQueueResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteComputeEnvironmentRequest {
+  /// The name or Amazon Resource Name (ARN) of the compute environment to delete.
+  @_s.JsonKey(name: 'computeEnvironment')
+  final String computeEnvironment;
+
+  DeleteComputeEnvironmentRequest({
+    @_s.required this.computeEnvironment,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteComputeEnvironmentRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteComputeEnvironmentResponse {
@@ -1972,6 +2085,22 @@ class DeleteComputeEnvironmentResponse {
   factory DeleteComputeEnvironmentResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DeleteComputeEnvironmentResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteJobQueueRequest {
+  /// The short name or full Amazon Resource Name (ARN) of the queue to delete.
+  @_s.JsonKey(name: 'jobQueue')
+  final String jobQueue;
+
+  DeleteJobQueueRequest({
+    @_s.required this.jobQueue,
+  });
+  Map<String, dynamic> toJson() => _$DeleteJobQueueRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1988,12 +2117,75 @@ class DeleteJobQueueResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeregisterJobDefinitionRequest {
+  /// The name and revision (<code>name:revision</code>) or full Amazon Resource
+  /// Name (ARN) of the job definition to deregister.
+  @_s.JsonKey(name: 'jobDefinition')
+  final String jobDefinition;
+
+  DeregisterJobDefinitionRequest({
+    @_s.required this.jobDefinition,
+  });
+  Map<String, dynamic> toJson() => _$DeregisterJobDefinitionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeregisterJobDefinitionResponse {
   DeregisterJobDefinitionResponse();
   factory DeregisterJobDefinitionResponse.fromJson(Map<String, dynamic> json) =>
       _$DeregisterJobDefinitionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeComputeEnvironmentsRequest {
+  /// A list of up to 100 compute environment names or full Amazon Resource Name
+  /// (ARN) entries.
+  @_s.JsonKey(name: 'computeEnvironments')
+  final List<String> computeEnvironments;
+
+  /// The maximum number of cluster results returned by
+  /// <code>DescribeComputeEnvironments</code> in paginated output. When this
+  /// parameter is used, <code>DescribeComputeEnvironments</code> only returns
+  /// <code>maxResults</code> results in a single page along with a
+  /// <code>nextToken</code> response element. The remaining results of the
+  /// initial request can be seen by sending another
+  /// <code>DescribeComputeEnvironments</code> request with the returned
+  /// <code>nextToken</code> value. This value can be between 1 and 100. If this
+  /// parameter is not used, then <code>DescribeComputeEnvironments</code> returns
+  /// up to 100 results and a <code>nextToken</code> value if applicable.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The <code>nextToken</code> value returned from a previous paginated
+  /// <code>DescribeComputeEnvironments</code> request where
+  /// <code>maxResults</code> was used and the results exceeded the value of that
+  /// parameter. Pagination continues from the end of the previous results that
+  /// returned the <code>nextToken</code> value. This value is <code>null</code>
+  /// when there are no more results to return.
+  /// <note>
+  /// This token should be treated as an opaque identifier that is only used to
+  /// retrieve the next items in a list and not for other programmatic purposes.
+  /// </note>
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  DescribeComputeEnvironmentsRequest({
+    this.computeEnvironments,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeComputeEnvironmentsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2026,6 +2218,61 @@ class DescribeComputeEnvironmentsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeJobDefinitionsRequest {
+  /// The name of the job definition to describe.
+  @_s.JsonKey(name: 'jobDefinitionName')
+  final String jobDefinitionName;
+
+  /// A list of up to 100 job definition names or full Amazon Resource Name (ARN)
+  /// entries.
+  @_s.JsonKey(name: 'jobDefinitions')
+  final List<String> jobDefinitions;
+
+  /// The maximum number of results returned by
+  /// <code>DescribeJobDefinitions</code> in paginated output. When this parameter
+  /// is used, <code>DescribeJobDefinitions</code> only returns
+  /// <code>maxResults</code> results in a single page along with a
+  /// <code>nextToken</code> response element. The remaining results of the
+  /// initial request can be seen by sending another
+  /// <code>DescribeJobDefinitions</code> request with the returned
+  /// <code>nextToken</code> value. This value can be between 1 and 100. If this
+  /// parameter is not used, then <code>DescribeJobDefinitions</code> returns up
+  /// to 100 results and a <code>nextToken</code> value if applicable.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The <code>nextToken</code> value returned from a previous paginated
+  /// <code>DescribeJobDefinitions</code> request where <code>maxResults</code>
+  /// was used and the results exceeded the value of that parameter. Pagination
+  /// continues from the end of the previous results that returned the
+  /// <code>nextToken</code> value. This value is <code>null</code> when there are
+  /// no more results to return.
+  /// <note>
+  /// This token should be treated as an opaque identifier that is only used to
+  /// retrieve the next items in a list and not for other programmatic purposes.
+  /// </note>
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The status with which to filter job definitions.
+  @_s.JsonKey(name: 'status')
+  final String status;
+
+  DescribeJobDefinitionsRequest({
+    this.jobDefinitionName,
+    this.jobDefinitions,
+    this.maxResults,
+    this.nextToken,
+    this.status,
+  });
+  Map<String, dynamic> toJson() => _$DescribeJobDefinitionsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeJobDefinitionsResponse {
@@ -2052,6 +2299,50 @@ class DescribeJobDefinitionsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeJobQueuesRequest {
+  /// A list of up to 100 queue names or full queue Amazon Resource Name (ARN)
+  /// entries.
+  @_s.JsonKey(name: 'jobQueues')
+  final List<String> jobQueues;
+
+  /// The maximum number of results returned by <code>DescribeJobQueues</code> in
+  /// paginated output. When this parameter is used,
+  /// <code>DescribeJobQueues</code> only returns <code>maxResults</code> results
+  /// in a single page along with a <code>nextToken</code> response element. The
+  /// remaining results of the initial request can be seen by sending another
+  /// <code>DescribeJobQueues</code> request with the returned
+  /// <code>nextToken</code> value. This value can be between 1 and 100. If this
+  /// parameter is not used, then <code>DescribeJobQueues</code> returns up to 100
+  /// results and a <code>nextToken</code> value if applicable.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The <code>nextToken</code> value returned from a previous paginated
+  /// <code>DescribeJobQueues</code> request where <code>maxResults</code> was
+  /// used and the results exceeded the value of that parameter. Pagination
+  /// continues from the end of the previous results that returned the
+  /// <code>nextToken</code> value. This value is <code>null</code> when there are
+  /// no more results to return.
+  /// <note>
+  /// This token should be treated as an opaque identifier that is only used to
+  /// retrieve the next items in a list and not for other programmatic purposes.
+  /// </note>
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  DescribeJobQueuesRequest({
+    this.jobQueues,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeJobQueuesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeJobQueuesResponse {
@@ -2073,6 +2364,22 @@ class DescribeJobQueuesResponse {
   });
   factory DescribeJobQueuesResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeJobQueuesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeJobsRequest {
+  /// A list of up to 100 job IDs.
+  @_s.JsonKey(name: 'jobs')
+  final List<String> jobs;
+
+  DescribeJobsRequest({
+    @_s.required this.jobs,
+  });
+  Map<String, dynamic> toJson() => _$DescribeJobsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2168,18 +2475,6 @@ enum JQState {
   disabled,
 }
 
-extension on JQState {
-  String toValue() {
-    switch (this) {
-      case JQState.enabled:
-        return 'ENABLED';
-      case JQState.disabled:
-        return 'DISABLED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum JQStatus {
   @_s.JsonValue('CREATING')
   creating,
@@ -2272,18 +2567,6 @@ enum JobDefinitionType {
   container,
   @_s.JsonValue('multinode')
   multinode,
-}
-
-extension on JobDefinitionType {
-  String toValue() {
-    switch (this) {
-      case JobDefinitionType.container:
-        return 'container';
-      case JobDefinitionType.multinode:
-        return 'multinode';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// An object representing an AWS Batch job dependency.
@@ -2503,28 +2786,6 @@ enum JobStatus {
   failed,
 }
 
-extension on JobStatus {
-  String toValue() {
-    switch (this) {
-      case JobStatus.submitted:
-        return 'SUBMITTED';
-      case JobStatus.pending:
-        return 'PENDING';
-      case JobStatus.runnable:
-        return 'RUNNABLE';
-      case JobStatus.starting:
-        return 'STARTING';
-      case JobStatus.running:
-        return 'RUNNING';
-      case JobStatus.succeeded:
-        return 'SUCCEEDED';
-      case JobStatus.failed:
-        return 'FAILED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// An object representing summary details of a job.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2705,6 +2966,67 @@ class LinuxParameters {
       _$LinuxParametersFromJson(json);
 
   Map<String, dynamic> toJson() => _$LinuxParametersToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListJobsRequest {
+  /// The job ID for an array job. Specifying an array job ID with this parameter
+  /// lists all child jobs from within the specified array.
+  @_s.JsonKey(name: 'arrayJobId')
+  final String arrayJobId;
+
+  /// The name or full Amazon Resource Name (ARN) of the job queue with which to
+  /// list jobs.
+  @_s.JsonKey(name: 'jobQueue')
+  final String jobQueue;
+
+  /// The job status with which to filter jobs in the specified queue. If you do
+  /// not specify a status, only <code>RUNNING</code> jobs are returned.
+  @_s.JsonKey(name: 'jobStatus')
+  final JobStatus jobStatus;
+
+  /// The maximum number of results returned by <code>ListJobs</code> in paginated
+  /// output. When this parameter is used, <code>ListJobs</code> only returns
+  /// <code>maxResults</code> results in a single page along with a
+  /// <code>nextToken</code> response element. The remaining results of the
+  /// initial request can be seen by sending another <code>ListJobs</code> request
+  /// with the returned <code>nextToken</code> value. This value can be between 1
+  /// and 100. If this parameter is not used, then <code>ListJobs</code> returns
+  /// up to 100 results and a <code>nextToken</code> value if applicable.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The job ID for a multi-node parallel job. Specifying a multi-node parallel
+  /// job ID with this parameter lists all nodes that are associated with the
+  /// specified job.
+  @_s.JsonKey(name: 'multiNodeJobId')
+  final String multiNodeJobId;
+
+  /// The <code>nextToken</code> value returned from a previous paginated
+  /// <code>ListJobs</code> request where <code>maxResults</code> was used and the
+  /// results exceeded the value of that parameter. Pagination continues from the
+  /// end of the previous results that returned the <code>nextToken</code> value.
+  /// This value is <code>null</code> when there are no more results to return.
+  /// <note>
+  /// This token should be treated as an opaque identifier that is only used to
+  /// retrieve the next items in a list and not for other programmatic purposes.
+  /// </note>
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListJobsRequest({
+    this.arrayJobId,
+    this.jobQueue,
+    this.jobStatus,
+    this.maxResults,
+    this.multiNodeJobId,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListJobsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2992,6 +3314,76 @@ class NodeRangeProperty {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RegisterJobDefinitionRequest {
+  /// The name of the job definition to register. Up to 128 letters (uppercase and
+  /// lowercase), numbers, hyphens, and underscores are allowed.
+  @_s.JsonKey(name: 'jobDefinitionName')
+  final String jobDefinitionName;
+
+  /// The type of job definition.
+  @_s.JsonKey(name: 'type')
+  final JobDefinitionType type;
+
+  /// An object with various properties specific to single-node container-based
+  /// jobs. If the job definition's <code>type</code> parameter is
+  /// <code>container</code>, then you must specify either
+  /// <code>containerProperties</code> or <code>nodeProperties</code>.
+  @_s.JsonKey(name: 'containerProperties')
+  final ContainerProperties containerProperties;
+
+  /// An object with various properties specific to multi-node parallel jobs. If
+  /// you specify node properties for a job, it becomes a multi-node parallel job.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/multi-node-parallel-jobs.html">Multi-node
+  /// Parallel Jobs</a> in the <i>AWS Batch User Guide</i>. If the job
+  /// definition's <code>type</code> parameter is <code>container</code>, then you
+  /// must specify either <code>containerProperties</code> or
+  /// <code>nodeProperties</code>.
+  @_s.JsonKey(name: 'nodeProperties')
+  final NodeProperties nodeProperties;
+
+  /// Default parameter substitution placeholders to set in the job definition.
+  /// Parameters are specified as a key-value pair mapping. Parameters in a
+  /// <code>SubmitJob</code> request override any corresponding parameter defaults
+  /// from the job definition.
+  @_s.JsonKey(name: 'parameters')
+  final Map<String, String> parameters;
+
+  /// The retry strategy to use for failed jobs that are submitted with this job
+  /// definition. Any retry strategy that is specified during a <a>SubmitJob</a>
+  /// operation overrides the retry strategy defined here. If a job is terminated
+  /// due to a timeout, it is not retried.
+  @_s.JsonKey(name: 'retryStrategy')
+  final RetryStrategy retryStrategy;
+
+  /// The timeout configuration for jobs that are submitted with this job
+  /// definition, after which AWS Batch terminates your jobs if they have not
+  /// finished. If a job is terminated due to a timeout, it is not retried. The
+  /// minimum value for the timeout is 60 seconds. Any timeout configuration that
+  /// is specified during a <a>SubmitJob</a> operation overrides the timeout
+  /// configuration defined here. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/job_timeouts.html">Job
+  /// Timeouts</a> in the <i>Amazon Elastic Container Service Developer Guide</i>.
+  @_s.JsonKey(name: 'timeout')
+  final JobTimeout timeout;
+
+  RegisterJobDefinitionRequest({
+    @_s.required this.jobDefinitionName,
+    @_s.required this.type,
+    this.containerProperties,
+    this.nodeProperties,
+    this.parameters,
+    this.retryStrategy,
+    this.timeout,
+  });
+  Map<String, dynamic> toJson() => _$RegisterJobDefinitionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class RegisterJobDefinitionResponse {
@@ -3076,6 +3468,104 @@ class RetryStrategy {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SubmitJobRequest {
+  /// The job definition used by this job. This value can be one of
+  /// <code>name</code>, <code>name:revision</code>, or the Amazon Resource Name
+  /// (ARN) for the job definition. If <code>name</code> is specified without a
+  /// revision then the latest active revision is used.
+  @_s.JsonKey(name: 'jobDefinition')
+  final String jobDefinition;
+
+  /// The name of the job. The first character must be alphanumeric, and up to 128
+  /// letters (uppercase and lowercase), numbers, hyphens, and underscores are
+  /// allowed.
+  @_s.JsonKey(name: 'jobName')
+  final String jobName;
+
+  /// The job queue into which the job is submitted. You can specify either the
+  /// name or the Amazon Resource Name (ARN) of the queue.
+  @_s.JsonKey(name: 'jobQueue')
+  final String jobQueue;
+
+  /// The array properties for the submitted job, such as the size of the array.
+  /// The array size can be between 2 and 10,000. If you specify array properties
+  /// for a job, it becomes an array job. For more information, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/array_jobs.html">Array
+  /// Jobs</a> in the <i>AWS Batch User Guide</i>.
+  @_s.JsonKey(name: 'arrayProperties')
+  final ArrayProperties arrayProperties;
+
+  /// A list of container overrides in JSON format that specify the name of a
+  /// container in the specified job definition and the overrides it should
+  /// receive. You can override the default command for a container (that is
+  /// specified in the job definition or the Docker image) with a
+  /// <code>command</code> override. You can also override existing environment
+  /// variables (that are specified in the job definition or Docker image) on a
+  /// container or add new environment variables to it with an
+  /// <code>environment</code> override.
+  @_s.JsonKey(name: 'containerOverrides')
+  final ContainerOverrides containerOverrides;
+
+  /// A list of dependencies for the job. A job can depend upon a maximum of 20
+  /// jobs. You can specify a <code>SEQUENTIAL</code> type dependency without
+  /// specifying a job ID for array jobs so that each child array job completes
+  /// sequentially, starting at index 0. You can also specify an
+  /// <code>N_TO_N</code> type dependency with a job ID for array jobs. In that
+  /// case, each index child of this job must wait for the corresponding index
+  /// child of each dependency to complete before it can begin.
+  @_s.JsonKey(name: 'dependsOn')
+  final List<JobDependency> dependsOn;
+
+  /// A list of node overrides in JSON format that specify the node range to
+  /// target and the container overrides for that node range.
+  @_s.JsonKey(name: 'nodeOverrides')
+  final NodeOverrides nodeOverrides;
+
+  /// Additional parameters passed to the job that replace parameter substitution
+  /// placeholders that are set in the job definition. Parameters are specified as
+  /// a key and value pair mapping. Parameters in a <code>SubmitJob</code> request
+  /// override any corresponding parameter defaults from the job definition.
+  @_s.JsonKey(name: 'parameters')
+  final Map<String, String> parameters;
+
+  /// The retry strategy to use for failed jobs from this <a>SubmitJob</a>
+  /// operation. When a retry strategy is specified here, it overrides the retry
+  /// strategy defined in the job definition.
+  @_s.JsonKey(name: 'retryStrategy')
+  final RetryStrategy retryStrategy;
+
+  /// The timeout configuration for this <a>SubmitJob</a> operation. You can
+  /// specify a timeout duration after which AWS Batch terminates your jobs if
+  /// they have not finished. If a job is terminated due to a timeout, it is not
+  /// retried. The minimum value for the timeout is 60 seconds. This configuration
+  /// overrides any timeout configuration specified in the job definition. For
+  /// array jobs, child jobs have the same timeout configuration as the parent
+  /// job. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/job_timeouts.html">Job
+  /// Timeouts</a> in the <i>Amazon Elastic Container Service Developer Guide</i>.
+  @_s.JsonKey(name: 'timeout')
+  final JobTimeout timeout;
+
+  SubmitJobRequest({
+    @_s.required this.jobDefinition,
+    @_s.required this.jobName,
+    @_s.required this.jobQueue,
+    this.arrayProperties,
+    this.containerOverrides,
+    this.dependsOn,
+    this.nodeOverrides,
+    this.parameters,
+    this.retryStrategy,
+    this.timeout,
+  });
+  Map<String, dynamic> toJson() => _$SubmitJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class SubmitJobResponse {
@@ -3093,6 +3583,29 @@ class SubmitJobResponse {
   });
   factory SubmitJobResponse.fromJson(Map<String, dynamic> json) =>
       _$SubmitJobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TerminateJobRequest {
+  /// The AWS Batch job ID of the job to terminate.
+  @_s.JsonKey(name: 'jobId')
+  final String jobId;
+
+  /// A message to attach to the job that explains the reason for canceling it.
+  /// This message is returned by future <a>DescribeJobs</a> operations on the
+  /// job. This message is also recorded in the AWS Batch activity logs.
+  @_s.JsonKey(name: 'reason')
+  final String reason;
+
+  TerminateJobRequest({
+    @_s.required this.jobId,
+    @_s.required this.reason,
+  });
+  Map<String, dynamic> toJson() => _$TerminateJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3138,6 +3651,55 @@ class Ulimit {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateComputeEnvironmentRequest {
+  /// The name or full Amazon Resource Name (ARN) of the compute environment to
+  /// update.
+  @_s.JsonKey(name: 'computeEnvironment')
+  final String computeEnvironment;
+
+  /// Details of the compute resources managed by the compute environment.
+  /// Required for a managed compute environment.
+  @_s.JsonKey(name: 'computeResources')
+  final ComputeResourceUpdate computeResources;
+
+  /// The full Amazon Resource Name (ARN) of the IAM role that allows AWS Batch to
+  /// make calls to other AWS services on your behalf.
+  ///
+  /// If your specified role has a path other than <code>/</code>, then you must
+  /// either specify the full role ARN (this is recommended) or prefix the role
+  /// name with the path.
+  /// <note>
+  /// Depending on how you created your AWS Batch service role, its ARN may
+  /// contain the <code>service-role</code> path prefix. When you only specify the
+  /// name of the service role, AWS Batch assumes that your ARN does not use the
+  /// <code>service-role</code> path prefix. Because of this, we recommend that
+  /// you specify the full ARN of your service role when you create compute
+  /// environments.
+  /// </note>
+  @_s.JsonKey(name: 'serviceRole')
+  final String serviceRole;
+
+  /// The state of the compute environment. Compute environments in the
+  /// <code>ENABLED</code> state can accept jobs from a queue and scale in or out
+  /// automatically based on the workload demand of its associated queues.
+  @_s.JsonKey(name: 'state')
+  final CEState state;
+
+  UpdateComputeEnvironmentRequest({
+    @_s.required this.computeEnvironment,
+    this.computeResources,
+    this.serviceRole,
+    this.state,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateComputeEnvironmentRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateComputeEnvironmentResponse {
@@ -3156,6 +3718,44 @@ class UpdateComputeEnvironmentResponse {
   factory UpdateComputeEnvironmentResponse.fromJson(
           Map<String, dynamic> json) =>
       _$UpdateComputeEnvironmentResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateJobQueueRequest {
+  /// The name or the Amazon Resource Name (ARN) of the job queue.
+  @_s.JsonKey(name: 'jobQueue')
+  final String jobQueue;
+
+  /// Details the set of compute environments mapped to a job queue and their
+  /// order relative to each other. This is one of the parameters used by the job
+  /// scheduler to determine which compute environment should execute a given job.
+  @_s.JsonKey(name: 'computeEnvironmentOrder')
+  final List<ComputeEnvironmentOrder> computeEnvironmentOrder;
+
+  /// The priority of the job queue. Job queues with a higher priority (or a
+  /// higher integer value for the <code>priority</code> parameter) are evaluated
+  /// first when associated with the same compute environment. Priority is
+  /// determined in descending order, for example, a job queue with a priority
+  /// value of <code>10</code> is given scheduling preference over a job queue
+  /// with a priority value of <code>1</code>.
+  @_s.JsonKey(name: 'priority')
+  final int priority;
+
+  /// Describes the queue's ability to accept new jobs.
+  @_s.JsonKey(name: 'state')
+  final JQState state;
+
+  UpdateJobQueueRequest({
+    @_s.required this.jobQueue,
+    this.computeEnvironmentOrder,
+    this.priority,
+    this.state,
+  });
+  Map<String, dynamic> toJson() => _$UpdateJobQueueRequestToJson(this);
 }
 
 @_s.JsonSerializable(

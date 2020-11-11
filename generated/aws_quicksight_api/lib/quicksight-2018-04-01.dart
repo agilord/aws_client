@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -93,7 +92,11 @@ class QuickSight {
       r'''^[a-zA-Z0-9-_]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = CancelIngestionRequest(
+      awsAccountId: awsAccountId,
+      dataSetId: dataSetId,
+      ingestionId: ingestionId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -246,16 +249,17 @@ class QuickSight {
       1,
       512,
     );
-    final $payload = <String, dynamic>{
-      'Name': name,
-      'SourceEntity': sourceEntity,
-      if (dashboardPublishOptions != null)
-        'DashboardPublishOptions': dashboardPublishOptions,
-      if (parameters != null) 'Parameters': parameters,
-      if (permissions != null) 'Permissions': permissions,
-      if (tags != null) 'Tags': tags,
-      if (versionDescription != null) 'VersionDescription': versionDescription,
-    };
+    final $payload = CreateDashboardRequest(
+      awsAccountId: awsAccountId,
+      dashboardId: dashboardId,
+      name: name,
+      sourceEntity: sourceEntity,
+      dashboardPublishOptions: dashboardPublishOptions,
+      parameters: parameters,
+      permissions: permissions,
+      tags: tags,
+      versionDescription: versionDescription,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -349,18 +353,18 @@ class QuickSight {
       isRequired: true,
     );
     ArgumentError.checkNotNull(physicalTableMap, 'physicalTableMap');
-    final $payload = <String, dynamic>{
-      'DataSetId': dataSetId,
-      'ImportMode': importMode?.toValue(),
-      'Name': name,
-      'PhysicalTableMap': physicalTableMap,
-      if (columnGroups != null) 'ColumnGroups': columnGroups,
-      if (logicalTableMap != null) 'LogicalTableMap': logicalTableMap,
-      if (permissions != null) 'Permissions': permissions,
-      if (rowLevelPermissionDataSet != null)
-        'RowLevelPermissionDataSet': rowLevelPermissionDataSet,
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = CreateDataSetRequest(
+      awsAccountId: awsAccountId,
+      dataSetId: dataSetId,
+      importMode: importMode,
+      name: name,
+      physicalTableMap: physicalTableMap,
+      columnGroups: columnGroups,
+      logicalTableMap: logicalTableMap,
+      permissions: permissions,
+      rowLevelPermissionDataSet: rowLevelPermissionDataSet,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -456,19 +460,18 @@ class QuickSight {
       isRequired: true,
     );
     ArgumentError.checkNotNull(type, 'type');
-    final $payload = <String, dynamic>{
-      'DataSourceId': dataSourceId,
-      'Name': name,
-      'Type': type?.toValue(),
-      if (credentials != null) 'Credentials': credentials,
-      if (dataSourceParameters != null)
-        'DataSourceParameters': dataSourceParameters,
-      if (permissions != null) 'Permissions': permissions,
-      if (sslProperties != null) 'SslProperties': sslProperties,
-      if (tags != null) 'Tags': tags,
-      if (vpcConnectionProperties != null)
-        'VpcConnectionProperties': vpcConnectionProperties,
-    };
+    final $payload = CreateDataSourceRequest(
+      awsAccountId: awsAccountId,
+      dataSourceId: dataSourceId,
+      name: name,
+      type: type,
+      credentials: credentials,
+      dataSourceParameters: dataSourceParameters,
+      permissions: permissions,
+      sslProperties: sslProperties,
+      tags: tags,
+      vpcConnectionProperties: vpcConnectionProperties,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -563,10 +566,12 @@ class QuickSight {
       1,
       512,
     );
-    final $payload = <String, dynamic>{
-      'GroupName': groupName,
-      if (description != null) 'Description': description,
-    };
+    final $payload = CreateGroupRequest(
+      awsAccountId: awsAccountId,
+      groupName: groupName,
+      namespace: namespace,
+      description: description,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -661,7 +666,12 @@ class QuickSight {
       r'''^[a-zA-Z0-9._-]*$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = CreateGroupMembershipRequest(
+      awsAccountId: awsAccountId,
+      groupName: groupName,
+      memberName: memberName,
+      namespace: namespace,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -771,12 +781,14 @@ class QuickSight {
       r'''^[a-zA-Z0-9._-]*$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'AssignmentName': assignmentName,
-      'AssignmentStatus': assignmentStatus?.toValue(),
-      if (identities != null) 'Identities': identities,
-      if (policyArn != null) 'PolicyArn': policyArn,
-    };
+    final $payload = CreateIAMPolicyAssignmentRequest(
+      assignmentName: assignmentName,
+      assignmentStatus: assignmentStatus,
+      awsAccountId: awsAccountId,
+      namespace: namespace,
+      identities: identities,
+      policyArn: policyArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -846,7 +858,11 @@ class QuickSight {
       r'''^[a-zA-Z0-9-_]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = CreateIngestionRequest(
+      awsAccountId: awsAccountId,
+      dataSetId: dataSetId,
+      ingestionId: ingestionId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -962,13 +978,15 @@ class QuickSight {
       1,
       512,
     );
-    final $payload = <String, dynamic>{
-      'SourceEntity': sourceEntity,
-      if (name != null) 'Name': name,
-      if (permissions != null) 'Permissions': permissions,
-      if (tags != null) 'Tags': tags,
-      if (versionDescription != null) 'VersionDescription': versionDescription,
-    };
+    final $payload = CreateTemplateRequest(
+      awsAccountId: awsAccountId,
+      sourceEntity: sourceEntity,
+      templateId: templateId,
+      name: name,
+      permissions: permissions,
+      tags: tags,
+      versionDescription: versionDescription,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1059,9 +1077,12 @@ class QuickSight {
       1152921504606846976,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'TemplateVersionNumber': templateVersionNumber,
-    };
+    final $payload = CreateTemplateAliasRequest(
+      aliasName: aliasName,
+      awsAccountId: awsAccountId,
+      templateId: templateId,
+      templateVersionNumber: templateVersionNumber,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1135,7 +1156,11 @@ class QuickSight {
       if (versionNumber != null)
         _s.toQueryParam('version-number', versionNumber),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteDashboardRequest(
+      awsAccountId: awsAccountId,
+      dashboardId: dashboardId,
+      versionNumber: versionNumber,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1179,7 +1204,10 @@ class QuickSight {
       isRequired: true,
     );
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteDataSetRequest(
+      awsAccountId: awsAccountId,
+      dataSetId: dataSetId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1224,7 +1252,10 @@ class QuickSight {
       isRequired: true,
     );
     ArgumentError.checkNotNull(dataSourceId, 'dataSourceId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteDataSourceRequest(
+      awsAccountId: awsAccountId,
+      dataSourceId: dataSourceId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1301,7 +1332,11 @@ class QuickSight {
       r'''^[a-zA-Z0-9._-]*$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteGroupRequest(
+      awsAccountId: awsAccountId,
+      groupName: groupName,
+      namespace: namespace,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1397,7 +1432,12 @@ class QuickSight {
       r'''^[a-zA-Z0-9._-]*$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteGroupMembershipRequest(
+      awsAccountId: awsAccountId,
+      groupName: groupName,
+      memberName: memberName,
+      namespace: namespace,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1473,7 +1513,11 @@ class QuickSight {
       r'''^[a-zA-Z0-9._-]*$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteIAMPolicyAssignmentRequest(
+      assignmentName: assignmentName,
+      awsAccountId: awsAccountId,
+      namespace: namespace,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1548,7 +1592,11 @@ class QuickSight {
       if (versionNumber != null)
         _s.toQueryParam('version-number', versionNumber),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteTemplateRequest(
+      awsAccountId: awsAccountId,
+      templateId: templateId,
+      versionNumber: versionNumber,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1626,7 +1674,11 @@ class QuickSight {
       r'''[\w\-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteTemplateAliasRequest(
+      aliasName: aliasName,
+      awsAccountId: awsAccountId,
+      templateId: templateId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1704,7 +1756,11 @@ class QuickSight {
       r'''[\u0020-\u00FF]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteUserRequest(
+      awsAccountId: awsAccountId,
+      namespace: namespace,
+      userName: userName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1767,7 +1823,11 @@ class QuickSight {
       isRequired: true,
     );
     ArgumentError.checkNotNull(principalId, 'principalId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteUserByPrincipalIdRequest(
+      awsAccountId: awsAccountId,
+      namespace: namespace,
+      principalId: principalId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -3969,14 +4029,16 @@ class QuickSight {
       userName,
       r'''[\u0020-\u00FF]+''',
     );
-    final $payload = <String, dynamic>{
-      'Email': email,
-      'IdentityType': identityType?.toValue(),
-      'UserRole': userRole?.toValue(),
-      if (iamArn != null) 'IamArn': iamArn,
-      if (sessionName != null) 'SessionName': sessionName,
-      if (userName != null) 'UserName': userName,
-    };
+    final $payload = RegisterUserRequest(
+      awsAccountId: awsAccountId,
+      email: email,
+      identityType: identityType,
+      namespace: namespace,
+      userRole: userRole,
+      iamArn: iamArn,
+      sessionName: sessionName,
+      userName: userName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -4039,11 +4101,12 @@ class QuickSight {
       1,
       100,
     );
-    final $payload = <String, dynamic>{
-      'Filters': filters,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = SearchDashboardsRequest(
+      awsAccountId: awsAccountId,
+      filters: filters,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -4103,9 +4166,10 @@ class QuickSight {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'Tags': tags,
-    };
+    final $payload = TagResourceRequest(
+      resourceArn: resourceArn,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -4140,7 +4204,10 @@ class QuickSight {
     _query = '?${[
       if (tagKeys != null) _s.toQueryParam('keys', tagKeys),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = UntagResourceRequest(
+      resourceArn: resourceArn,
+      tagKeys: tagKeys,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -4267,14 +4334,15 @@ class QuickSight {
       1,
       512,
     );
-    final $payload = <String, dynamic>{
-      'Name': name,
-      'SourceEntity': sourceEntity,
-      if (dashboardPublishOptions != null)
-        'DashboardPublishOptions': dashboardPublishOptions,
-      if (parameters != null) 'Parameters': parameters,
-      if (versionDescription != null) 'VersionDescription': versionDescription,
-    };
+    final $payload = UpdateDashboardRequest(
+      awsAccountId: awsAccountId,
+      dashboardId: dashboardId,
+      name: name,
+      sourceEntity: sourceEntity,
+      dashboardPublishOptions: dashboardPublishOptions,
+      parameters: parameters,
+      versionDescription: versionDescription,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -4340,10 +4408,12 @@ class QuickSight {
       r'''[\w\-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (grantPermissions != null) 'GrantPermissions': grantPermissions,
-      if (revokePermissions != null) 'RevokePermissions': revokePermissions,
-    };
+    final $payload = UpdateDashboardPermissionsRequest(
+      awsAccountId: awsAccountId,
+      dashboardId: dashboardId,
+      grantPermissions: grantPermissions,
+      revokePermissions: revokePermissions,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -4414,7 +4484,11 @@ class QuickSight {
       1152921504606846976,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = UpdateDashboardPublishedVersionRequest(
+      awsAccountId: awsAccountId,
+      dashboardId: dashboardId,
+      versionNumber: versionNumber,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -4498,15 +4572,16 @@ class QuickSight {
       isRequired: true,
     );
     ArgumentError.checkNotNull(physicalTableMap, 'physicalTableMap');
-    final $payload = <String, dynamic>{
-      'ImportMode': importMode?.toValue(),
-      'Name': name,
-      'PhysicalTableMap': physicalTableMap,
-      if (columnGroups != null) 'ColumnGroups': columnGroups,
-      if (logicalTableMap != null) 'LogicalTableMap': logicalTableMap,
-      if (rowLevelPermissionDataSet != null)
-        'RowLevelPermissionDataSet': rowLevelPermissionDataSet,
-    };
+    final $payload = UpdateDataSetRequest(
+      awsAccountId: awsAccountId,
+      dataSetId: dataSetId,
+      importMode: importMode,
+      name: name,
+      physicalTableMap: physicalTableMap,
+      columnGroups: columnGroups,
+      logicalTableMap: logicalTableMap,
+      rowLevelPermissionDataSet: rowLevelPermissionDataSet,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -4562,10 +4637,12 @@ class QuickSight {
       isRequired: true,
     );
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
-    final $payload = <String, dynamic>{
-      if (grantPermissions != null) 'GrantPermissions': grantPermissions,
-      if (revokePermissions != null) 'RevokePermissions': revokePermissions,
-    };
+    final $payload = UpdateDataSetPermissionsRequest(
+      awsAccountId: awsAccountId,
+      dataSetId: dataSetId,
+      grantPermissions: grantPermissions,
+      revokePermissions: revokePermissions,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -4642,15 +4719,15 @@ class QuickSight {
       128,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'Name': name,
-      if (credentials != null) 'Credentials': credentials,
-      if (dataSourceParameters != null)
-        'DataSourceParameters': dataSourceParameters,
-      if (sslProperties != null) 'SslProperties': sslProperties,
-      if (vpcConnectionProperties != null)
-        'VpcConnectionProperties': vpcConnectionProperties,
-    };
+    final $payload = UpdateDataSourceRequest(
+      awsAccountId: awsAccountId,
+      dataSourceId: dataSourceId,
+      name: name,
+      credentials: credentials,
+      dataSourceParameters: dataSourceParameters,
+      sslProperties: sslProperties,
+      vpcConnectionProperties: vpcConnectionProperties,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -4703,10 +4780,12 @@ class QuickSight {
       isRequired: true,
     );
     ArgumentError.checkNotNull(dataSourceId, 'dataSourceId');
-    final $payload = <String, dynamic>{
-      if (grantPermissions != null) 'GrantPermissions': grantPermissions,
-      if (revokePermissions != null) 'RevokePermissions': revokePermissions,
-    };
+    final $payload = UpdateDataSourcePermissionsRequest(
+      awsAccountId: awsAccountId,
+      dataSourceId: dataSourceId,
+      grantPermissions: grantPermissions,
+      revokePermissions: revokePermissions,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -4793,9 +4872,12 @@ class QuickSight {
       1,
       512,
     );
-    final $payload = <String, dynamic>{
-      if (description != null) 'Description': description,
-    };
+    final $payload = UpdateGroupRequest(
+      awsAccountId: awsAccountId,
+      groupName: groupName,
+      namespace: namespace,
+      description: description,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -4902,12 +4984,14 @@ class QuickSight {
       r'''^[a-zA-Z0-9._-]*$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (assignmentStatus != null)
-        'AssignmentStatus': assignmentStatus?.toValue(),
-      if (identities != null) 'Identities': identities,
-      if (policyArn != null) 'PolicyArn': policyArn,
-    };
+    final $payload = UpdateIAMPolicyAssignmentRequest(
+      assignmentName: assignmentName,
+      awsAccountId: awsAccountId,
+      namespace: namespace,
+      assignmentStatus: assignmentStatus,
+      identities: identities,
+      policyArn: policyArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -5001,11 +5085,13 @@ class QuickSight {
       1,
       512,
     );
-    final $payload = <String, dynamic>{
-      'SourceEntity': sourceEntity,
-      if (name != null) 'Name': name,
-      if (versionDescription != null) 'VersionDescription': versionDescription,
-    };
+    final $payload = UpdateTemplateRequest(
+      awsAccountId: awsAccountId,
+      sourceEntity: sourceEntity,
+      templateId: templateId,
+      name: name,
+      versionDescription: versionDescription,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -5096,9 +5182,12 @@ class QuickSight {
       1152921504606846976,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'TemplateVersionNumber': templateVersionNumber,
-    };
+    final $payload = UpdateTemplateAliasRequest(
+      aliasName: aliasName,
+      awsAccountId: awsAccountId,
+      templateId: templateId,
+      templateVersionNumber: templateVersionNumber,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -5163,10 +5252,12 @@ class QuickSight {
       r'''[\w\-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (grantPermissions != null) 'GrantPermissions': grantPermissions,
-      if (revokePermissions != null) 'RevokePermissions': revokePermissions,
-    };
+    final $payload = UpdateTemplatePermissionsRequest(
+      awsAccountId: awsAccountId,
+      templateId: templateId,
+      grantPermissions: grantPermissions,
+      revokePermissions: revokePermissions,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -5267,10 +5358,13 @@ class QuickSight {
       r'''[\u0020-\u00FF]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'Email': email,
-      'Role': role?.toValue(),
-    };
+    final $payload = UpdateUserRequest(
+      awsAccountId: awsAccountId,
+      email: email,
+      namespace: namespace,
+      role: role,
+      userName: userName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -5349,20 +5443,6 @@ enum AssignmentStatus {
   draft,
   @_s.JsonValue('DISABLED')
   disabled,
-}
-
-extension on AssignmentStatus {
-  String toValue() {
-    switch (this) {
-      case AssignmentStatus.enabled:
-        return 'ENABLED';
-      case AssignmentStatus.draft:
-        return 'DRAFT';
-      case AssignmentStatus.disabled:
-        return 'DISABLED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Amazon Athena parameters.
@@ -5495,6 +5575,32 @@ class CalculatedColumn {
       _$CalculatedColumnFromJson(json);
 
   Map<String, dynamic> toJson() => _$CalculatedColumnToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CancelIngestionRequest {
+  /// The AWS account ID.
+  @_s.JsonKey(name: 'AwsAccountId', ignore: true)
+  final String awsAccountId;
+
+  /// The ID of the dataset used in the ingestion.
+  @_s.JsonKey(name: 'DataSetId', ignore: true)
+  final String dataSetId;
+
+  /// An ID for the ingestion.
+  @_s.JsonKey(name: 'IngestionId', ignore: true)
+  final String ingestionId;
+
+  CancelIngestionRequest({
+    @_s.required this.awsAccountId,
+    @_s.required this.dataSetId,
+    @_s.required this.ingestionId,
+  });
+  Map<String, dynamic> toJson() => _$CancelIngestionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5709,6 +5815,98 @@ class CreateColumnsOperation {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDashboardRequest {
+  /// The ID of the AWS account where you want to create the dashboard.
+  @_s.JsonKey(name: 'AwsAccountId', ignore: true)
+  final String awsAccountId;
+
+  /// The ID for the dashboard, also added to the IAM policy.
+  @_s.JsonKey(name: 'DashboardId', ignore: true)
+  final String dashboardId;
+
+  /// The display name of the dashboard.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The source entity from which the dashboard is created. The source entity
+  /// accepts the Amazon Resource Name (ARN) of the source template or analysis
+  /// and also references the replacement datasets for the placeholders set when
+  /// creating the template. The replacement datasets need to follow the same
+  /// schema as the datasets for which placeholders were created when creating the
+  /// template.
+  ///
+  /// If you are creating a dashboard from a source entity in a different AWS
+  /// account, use the ARN of the source template.
+  @_s.JsonKey(name: 'SourceEntity')
+  final DashboardSourceEntity sourceEntity;
+
+  /// Options for publishing the dashboard when you create it:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AvailabilityStatus</code> for <code>AdHocFilteringOption</code> - This
+  /// status can be either <code>ENABLED</code> or <code>DISABLED</code>. When
+  /// this is set to <code>DISABLED</code>, QuickSight disables the left filter
+  /// pane on the published dashboard, which can be used for ad hoc (one-time)
+  /// filtering. This option is <code>ENABLED</code> by default.
+  /// </li>
+  /// <li>
+  /// <code>AvailabilityStatus</code> for <code>ExportToCSVOption</code> - This
+  /// status can be either <code>ENABLED</code> or <code>DISABLED</code>. The
+  /// visual option to export data to .csv format isn't enabled when this is set
+  /// to <code>DISABLED</code>. This option is <code>ENABLED</code> by default.
+  /// </li>
+  /// <li>
+  /// <code>VisibilityState</code> for <code>SheetControlsOption</code> - This
+  /// visibility state can be either <code>COLLAPSED</code> or
+  /// <code>EXPANDED</code>. The sheet controls pane is collapsed by default when
+  /// set to true. This option is <code>COLLAPSED</code> by default.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'DashboardPublishOptions')
+  final DashboardPublishOptions dashboardPublishOptions;
+
+  /// A structure that contains the parameters of the dashboard. These are
+  /// parameter overrides for a dashboard. A dashboard can have any type of
+  /// parameters, and some parameters might accept multiple values. You can use
+  /// the dashboard permissions structure described following to override two
+  /// string parameters that accept multiple values.
+  @_s.JsonKey(name: 'Parameters')
+  final Parameters parameters;
+
+  /// A structure that contains the permissions of the dashboard. You can use this
+  /// structure for granting permissions with principal and action information.
+  @_s.JsonKey(name: 'Permissions')
+  final List<ResourcePermission> permissions;
+
+  /// Contains a map of the key-value pairs for the resource tag or tags assigned
+  /// to the dashboard.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  /// A description for the first version of the dashboard being created.
+  @_s.JsonKey(name: 'VersionDescription')
+  final String versionDescription;
+
+  CreateDashboardRequest({
+    @_s.required this.awsAccountId,
+    @_s.required this.dashboardId,
+    @_s.required this.name,
+    @_s.required this.sourceEntity,
+    this.dashboardPublishOptions,
+    this.parameters,
+    this.permissions,
+    this.tags,
+    this.versionDescription,
+  });
+  Map<String, dynamic> toJson() => _$CreateDashboardRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateDashboardResponse {
@@ -5747,6 +5945,72 @@ class CreateDashboardResponse {
   });
   factory CreateDashboardResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateDashboardResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDataSetRequest {
+  /// The AWS account ID.
+  @_s.JsonKey(name: 'AwsAccountId', ignore: true)
+  final String awsAccountId;
+
+  /// An ID for the dataset that you want to create. This ID is unique per AWS
+  /// Region for each AWS account.
+  @_s.JsonKey(name: 'DataSetId')
+  final String dataSetId;
+
+  /// Indicates whether you want to import the data into SPICE.
+  @_s.JsonKey(name: 'ImportMode')
+  final DataSetImportMode importMode;
+
+  /// The display name for the dataset.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Declares the physical tables that are available in the underlying data
+  /// sources.
+  @_s.JsonKey(name: 'PhysicalTableMap')
+  final Map<String, PhysicalTable> physicalTableMap;
+
+  /// Groupings of columns that work together in certain QuickSight features.
+  /// Currently, only geospatial hierarchy is supported.
+  @_s.JsonKey(name: 'ColumnGroups')
+  final List<ColumnGroup> columnGroups;
+
+  /// Configures the combination and transformation of the data from the physical
+  /// tables.
+  @_s.JsonKey(name: 'LogicalTableMap')
+  final Map<String, LogicalTable> logicalTableMap;
+
+  /// A list of resource permissions on the dataset.
+  @_s.JsonKey(name: 'Permissions')
+  final List<ResourcePermission> permissions;
+
+  /// The row-level security configuration for the data that you want to create.
+  @_s.JsonKey(name: 'RowLevelPermissionDataSet')
+  final RowLevelPermissionDataSet rowLevelPermissionDataSet;
+
+  /// Contains a map of the key-value pairs for the resource tag or tags assigned
+  /// to the dataset.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateDataSetRequest({
+    @_s.required this.awsAccountId,
+    @_s.required this.dataSetId,
+    @_s.required this.importMode,
+    @_s.required this.name,
+    @_s.required this.physicalTableMap,
+    this.columnGroups,
+    this.logicalTableMap,
+    this.permissions,
+    this.rowLevelPermissionDataSet,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateDataSetRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5797,6 +6061,76 @@ class CreateDataSetResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDataSourceRequest {
+  /// The AWS account ID.
+  @_s.JsonKey(name: 'AwsAccountId', ignore: true)
+  final String awsAccountId;
+
+  /// An ID for the data source. This ID is unique per AWS Region for each AWS
+  /// account.
+  @_s.JsonKey(name: 'DataSourceId')
+  final String dataSourceId;
+
+  /// A display name for the data source.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The type of the data source. Currently, the supported types for this
+  /// operation are: <code>ATHENA, AURORA, AURORA_POSTGRESQL, MARIADB, MYSQL,
+  /// POSTGRESQL, PRESTO, REDSHIFT, S3, SNOWFLAKE, SPARK, SQLSERVER,
+  /// TERADATA</code>. Use <code>ListDataSources</code> to return a list of all
+  /// data sources.
+  @_s.JsonKey(name: 'Type')
+  final DataSourceType type;
+
+  /// The credentials QuickSight that uses to connect to your underlying source.
+  /// Currently, only credentials based on user name and password are supported.
+  @_s.JsonKey(name: 'Credentials')
+  final DataSourceCredentials credentials;
+
+  /// The parameters that QuickSight uses to connect to your underlying source.
+  @_s.JsonKey(name: 'DataSourceParameters')
+  final DataSourceParameters dataSourceParameters;
+
+  /// A list of resource permissions on the data source.
+  @_s.JsonKey(name: 'Permissions')
+  final List<ResourcePermission> permissions;
+
+  /// Secure Socket Layer (SSL) properties that apply when QuickSight connects to
+  /// your underlying source.
+  @_s.JsonKey(name: 'SslProperties')
+  final SslProperties sslProperties;
+
+  /// Contains a map of the key-value pairs for the resource tag or tags assigned
+  /// to the data source.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  /// Use this parameter only when you want QuickSight to use a VPC connection
+  /// when connecting to your underlying source.
+  @_s.JsonKey(name: 'VpcConnectionProperties')
+  final VpcConnectionProperties vpcConnectionProperties;
+
+  CreateDataSourceRequest({
+    @_s.required this.awsAccountId,
+    @_s.required this.dataSourceId,
+    @_s.required this.name,
+    @_s.required this.type,
+    this.credentials,
+    this.dataSourceParameters,
+    this.permissions,
+    this.sslProperties,
+    this.tags,
+    this.vpcConnectionProperties,
+  });
+  Map<String, dynamic> toJson() => _$CreateDataSourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateDataSourceResponse {
@@ -5835,6 +6169,38 @@ class CreateDataSourceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateGroupMembershipRequest {
+  /// The ID for the AWS account that the group is in. Currently, you use the ID
+  /// for the AWS account that contains your Amazon QuickSight account.
+  @_s.JsonKey(name: 'AwsAccountId', ignore: true)
+  final String awsAccountId;
+
+  /// The name of the group that you want to add the user to.
+  @_s.JsonKey(name: 'GroupName', ignore: true)
+  final String groupName;
+
+  /// The name of the user that you want to add to the group membership.
+  @_s.JsonKey(name: 'MemberName', ignore: true)
+  final String memberName;
+
+  /// The namespace. Currently, you should set this to <code>default</code>.
+  @_s.JsonKey(name: 'Namespace', ignore: true)
+  final String namespace;
+
+  CreateGroupMembershipRequest({
+    @_s.required this.awsAccountId,
+    @_s.required this.groupName,
+    @_s.required this.memberName,
+    @_s.required this.namespace,
+  });
+  Map<String, dynamic> toJson() => _$CreateGroupMembershipRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateGroupMembershipResponse {
@@ -5857,6 +6223,39 @@ class CreateGroupMembershipResponse {
   });
   factory CreateGroupMembershipResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateGroupMembershipResponseFromJson(json);
+}
+
+/// The request object for this operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateGroupRequest {
+  /// The ID for the AWS account that the group is in. Currently, you use the ID
+  /// for the AWS account that contains your Amazon QuickSight account.
+  @_s.JsonKey(name: 'AwsAccountId', ignore: true)
+  final String awsAccountId;
+
+  /// A name for the group that you want to create.
+  @_s.JsonKey(name: 'GroupName')
+  final String groupName;
+
+  /// The namespace. Currently, you should set this to <code>default</code>.
+  @_s.JsonKey(name: 'Namespace', ignore: true)
+  final String namespace;
+
+  /// A description for the group that you want to create.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  CreateGroupRequest({
+    @_s.required this.awsAccountId,
+    @_s.required this.groupName,
+    @_s.required this.namespace,
+    this.description,
+  });
+  Map<String, dynamic> toJson() => _$CreateGroupRequestToJson(this);
 }
 
 /// The response object for this operation.
@@ -5885,6 +6284,65 @@ class CreateGroupResponse {
   });
   factory CreateGroupResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateIAMPolicyAssignmentRequest {
+  /// The name of the assignment. It must be unique within an AWS account.
+  @_s.JsonKey(name: 'AssignmentName')
+  final String assignmentName;
+
+  /// The status of the assignment. Possible values are as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ENABLED</code> - Anything specified in this assignment is used when
+  /// creating the data source.
+  /// </li>
+  /// <li>
+  /// <code>DISABLED</code> - This assignment isn't used when creating the data
+  /// source.
+  /// </li>
+  /// <li>
+  /// <code>DRAFT</code> - This assignment is an unfinished draft and isn't used
+  /// when creating the data source.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AssignmentStatus')
+  final AssignmentStatus assignmentStatus;
+
+  /// The ID of the AWS account where you want to assign an IAM policy to
+  /// QuickSight users or groups.
+  @_s.JsonKey(name: 'AwsAccountId', ignore: true)
+  final String awsAccountId;
+
+  /// The namespace that contains the assignment.
+  @_s.JsonKey(name: 'Namespace', ignore: true)
+  final String namespace;
+
+  /// The QuickSight users, groups, or both that you want to assign the policy to.
+  @_s.JsonKey(name: 'Identities')
+  final Map<String, List<String>> identities;
+
+  /// The ARN for the IAM policy to apply to the QuickSight users and groups
+  /// specified in this assignment.
+  @_s.JsonKey(name: 'PolicyArn')
+  final String policyArn;
+
+  CreateIAMPolicyAssignmentRequest({
+    @_s.required this.assignmentName,
+    @_s.required this.assignmentStatus,
+    @_s.required this.awsAccountId,
+    @_s.required this.namespace,
+    this.identities,
+    this.policyArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateIAMPolicyAssignmentRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5954,6 +6412,32 @@ class CreateIAMPolicyAssignmentResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateIngestionRequest {
+  /// The AWS account ID.
+  @_s.JsonKey(name: 'AwsAccountId', ignore: true)
+  final String awsAccountId;
+
+  /// The ID of the dataset used in the ingestion.
+  @_s.JsonKey(name: 'DataSetId', ignore: true)
+  final String dataSetId;
+
+  /// An ID for the ingestion.
+  @_s.JsonKey(name: 'IngestionId', ignore: true)
+  final String ingestionId;
+
+  CreateIngestionRequest({
+    @_s.required this.awsAccountId,
+    @_s.required this.dataSetId,
+    @_s.required this.ingestionId,
+  });
+  Map<String, dynamic> toJson() => _$CreateIngestionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateIngestionResponse {
@@ -5991,6 +6475,40 @@ class CreateIngestionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateTemplateAliasRequest {
+  /// The name that you want to give to the template alias that you're creating.
+  /// Don't start the alias name with the <code>$</code> character. Alias names
+  /// that start with <code>$</code> are reserved by QuickSight.
+  @_s.JsonKey(name: 'AliasName', ignore: true)
+  final String aliasName;
+
+  /// The ID of the AWS account that contains the template that you creating an
+  /// alias for.
+  @_s.JsonKey(name: 'AwsAccountId', ignore: true)
+  final String awsAccountId;
+
+  /// An ID for the template.
+  @_s.JsonKey(name: 'TemplateId', ignore: true)
+  final String templateId;
+
+  /// The version number of the template.
+  @_s.JsonKey(name: 'TemplateVersionNumber')
+  final int templateVersionNumber;
+
+  CreateTemplateAliasRequest({
+    @_s.required this.aliasName,
+    @_s.required this.awsAccountId,
+    @_s.required this.templateId,
+    @_s.required this.templateVersionNumber,
+  });
+  Map<String, dynamic> toJson() => _$CreateTemplateAliasRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateTemplateAliasResponse {
@@ -6013,6 +6531,62 @@ class CreateTemplateAliasResponse {
   });
   factory CreateTemplateAliasResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateTemplateAliasResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateTemplateRequest {
+  /// The ID for the AWS account that the group is in. Currently, you use the ID
+  /// for the AWS account that contains your Amazon QuickSight account.
+  @_s.JsonKey(name: 'AwsAccountId', ignore: true)
+  final String awsAccountId;
+
+  /// The Amazon Resource Name (ARN) of the source entity from which this template
+  /// is being created. Currently, you can create a template from an analysis or
+  /// another template. If the ARN is for an analysis, include its dataset
+  /// references.
+  @_s.JsonKey(name: 'SourceEntity')
+  final TemplateSourceEntity sourceEntity;
+
+  /// An ID for the template that you want to create. This template is unique per
+  /// AWS Region in each AWS account.
+  @_s.JsonKey(name: 'TemplateId', ignore: true)
+  final String templateId;
+
+  /// A display name for the template.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// A list of resource permissions to be set on the template.
+  @_s.JsonKey(name: 'Permissions')
+  final List<ResourcePermission> permissions;
+
+  /// Contains a map of the key-value pairs for the resource tag or tags assigned
+  /// to the resource.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  /// A description of the current template version being created. This API
+  /// operation creates the first version of the template. Every time
+  /// <code>UpdateTemplate</code> is called, a new version is created. Each
+  /// version of the template maintains a description of the version in the
+  /// <code>VersionDescription</code> field.
+  @_s.JsonKey(name: 'VersionDescription')
+  final String versionDescription;
+
+  CreateTemplateRequest({
+    @_s.required this.awsAccountId,
+    @_s.required this.sourceEntity,
+    @_s.required this.templateId,
+    this.name,
+    this.permissions,
+    this.tags,
+    this.versionDescription,
+  });
+  Map<String, dynamic> toJson() => _$CreateTemplateRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6603,18 +7177,6 @@ enum DataSetImportMode {
   directQuery,
 }
 
-extension on DataSetImportMode {
-  String toValue() {
-    switch (this) {
-      case DataSetImportMode.spice:
-        return 'SPICE';
-      case DataSetImportMode.directQuery:
-        return 'DIRECT_QUERY';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Dataset reference.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -7002,56 +7564,6 @@ enum DataSourceType {
   twitter,
 }
 
-extension on DataSourceType {
-  String toValue() {
-    switch (this) {
-      case DataSourceType.adobeAnalytics:
-        return 'ADOBE_ANALYTICS';
-      case DataSourceType.amazonElasticsearch:
-        return 'AMAZON_ELASTICSEARCH';
-      case DataSourceType.athena:
-        return 'ATHENA';
-      case DataSourceType.aurora:
-        return 'AURORA';
-      case DataSourceType.auroraPostgresql:
-        return 'AURORA_POSTGRESQL';
-      case DataSourceType.awsIotAnalytics:
-        return 'AWS_IOT_ANALYTICS';
-      case DataSourceType.github:
-        return 'GITHUB';
-      case DataSourceType.jira:
-        return 'JIRA';
-      case DataSourceType.mariadb:
-        return 'MARIADB';
-      case DataSourceType.mysql:
-        return 'MYSQL';
-      case DataSourceType.postgresql:
-        return 'POSTGRESQL';
-      case DataSourceType.presto:
-        return 'PRESTO';
-      case DataSourceType.redshift:
-        return 'REDSHIFT';
-      case DataSourceType.s3:
-        return 'S3';
-      case DataSourceType.salesforce:
-        return 'SALESFORCE';
-      case DataSourceType.servicenow:
-        return 'SERVICENOW';
-      case DataSourceType.snowflake:
-        return 'SNOWFLAKE';
-      case DataSourceType.spark:
-        return 'SPARK';
-      case DataSourceType.sqlserver:
-        return 'SQLSERVER';
-      case DataSourceType.teradata:
-        return 'TERADATA';
-      case DataSourceType.twitter:
-        return 'TWITTER';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Date time parameter.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -7099,6 +7611,33 @@ class DecimalParameter {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDashboardRequest {
+  /// The ID of the AWS account that contains the dashboard that you're deleting.
+  @_s.JsonKey(name: 'AwsAccountId', ignore: true)
+  final String awsAccountId;
+
+  /// The ID for the dashboard.
+  @_s.JsonKey(name: 'DashboardId', ignore: true)
+  final String dashboardId;
+
+  /// The version number of the dashboard. If the version number property is
+  /// provided, only the specified version of the dashboard is deleted.
+  @_s.JsonKey(name: 'version-number', ignore: true)
+  final int versionNumber;
+
+  DeleteDashboardRequest({
+    @_s.required this.awsAccountId,
+    @_s.required this.dashboardId,
+    this.versionNumber,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDashboardRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteDashboardResponse {
@@ -7126,6 +7665,28 @@ class DeleteDashboardResponse {
   });
   factory DeleteDashboardResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteDashboardResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDataSetRequest {
+  /// The AWS account ID.
+  @_s.JsonKey(name: 'AwsAccountId', ignore: true)
+  final String awsAccountId;
+
+  /// The ID for the dataset that you want to create. This ID is unique per AWS
+  /// Region for each AWS account.
+  @_s.JsonKey(name: 'DataSetId', ignore: true)
+  final String dataSetId;
+
+  DeleteDataSetRequest({
+    @_s.required this.awsAccountId,
+    @_s.required this.dataSetId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDataSetRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7164,6 +7725,28 @@ class DeleteDataSetResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDataSourceRequest {
+  /// The AWS account ID.
+  @_s.JsonKey(name: 'AwsAccountId', ignore: true)
+  final String awsAccountId;
+
+  /// The ID of the data source. This ID is unique per AWS Region for each AWS
+  /// account.
+  @_s.JsonKey(name: 'DataSourceId', ignore: true)
+  final String dataSourceId;
+
+  DeleteDataSourceRequest({
+    @_s.required this.awsAccountId,
+    @_s.required this.dataSourceId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDataSourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteDataSourceResponse {
@@ -7197,6 +7780,38 @@ class DeleteDataSourceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteGroupMembershipRequest {
+  /// The ID for the AWS account that the group is in. Currently, you use the ID
+  /// for the AWS account that contains your Amazon QuickSight account.
+  @_s.JsonKey(name: 'AwsAccountId', ignore: true)
+  final String awsAccountId;
+
+  /// The name of the group that you want to delete the user from.
+  @_s.JsonKey(name: 'GroupName', ignore: true)
+  final String groupName;
+
+  /// The name of the user that you want to delete from the group membership.
+  @_s.JsonKey(name: 'MemberName', ignore: true)
+  final String memberName;
+
+  /// The namespace. Currently, you should set this to <code>default</code>.
+  @_s.JsonKey(name: 'Namespace', ignore: true)
+  final String namespace;
+
+  DeleteGroupMembershipRequest({
+    @_s.required this.awsAccountId,
+    @_s.required this.groupName,
+    @_s.required this.memberName,
+    @_s.required this.namespace,
+  });
+  Map<String, dynamic> toJson() => _$DeleteGroupMembershipRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteGroupMembershipResponse {
@@ -7219,6 +7834,33 @@ class DeleteGroupMembershipResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteGroupRequest {
+  /// The ID for the AWS account that the group is in. Currently, you use the ID
+  /// for the AWS account that contains your Amazon QuickSight account.
+  @_s.JsonKey(name: 'AwsAccountId', ignore: true)
+  final String awsAccountId;
+
+  /// The name of the group that you want to delete.
+  @_s.JsonKey(name: 'GroupName', ignore: true)
+  final String groupName;
+
+  /// The namespace. Currently, you should set this to <code>default</code>.
+  @_s.JsonKey(name: 'Namespace', ignore: true)
+  final String namespace;
+
+  DeleteGroupRequest({
+    @_s.required this.awsAccountId,
+    @_s.required this.groupName,
+    @_s.required this.namespace,
+  });
+  Map<String, dynamic> toJson() => _$DeleteGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteGroupResponse {
@@ -7236,6 +7878,33 @@ class DeleteGroupResponse {
   });
   factory DeleteGroupResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteIAMPolicyAssignmentRequest {
+  /// The name of the assignment.
+  @_s.JsonKey(name: 'AssignmentName', ignore: true)
+  final String assignmentName;
+
+  /// The AWS account ID where you want to delete the IAM policy assignment.
+  @_s.JsonKey(name: 'AwsAccountId', ignore: true)
+  final String awsAccountId;
+
+  /// The namespace that contains the assignment.
+  @_s.JsonKey(name: 'Namespace', ignore: true)
+  final String namespace;
+
+  DeleteIAMPolicyAssignmentRequest({
+    @_s.required this.assignmentName,
+    @_s.required this.awsAccountId,
+    @_s.required this.namespace,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteIAMPolicyAssignmentRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7264,6 +7933,35 @@ class DeleteIAMPolicyAssignmentResponse {
   factory DeleteIAMPolicyAssignmentResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DeleteIAMPolicyAssignmentResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteTemplateAliasRequest {
+  /// The name for the template alias. If you name a specific alias, you delete
+  /// the version that the alias points to. You can specify the latest version of
+  /// the template by providing the keyword <code>$LATEST</code> in the
+  /// <code>AliasName</code> parameter.
+  @_s.JsonKey(name: 'AliasName', ignore: true)
+  final String aliasName;
+
+  /// The ID of the AWS account that contains the item to delete.
+  @_s.JsonKey(name: 'AwsAccountId', ignore: true)
+  final String awsAccountId;
+
+  /// The ID for the template that the specified alias is for.
+  @_s.JsonKey(name: 'TemplateId', ignore: true)
+  final String templateId;
+
+  DeleteTemplateAliasRequest({
+    @_s.required this.aliasName,
+    @_s.required this.awsAccountId,
+    @_s.required this.templateId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteTemplateAliasRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7306,6 +8004,34 @@ class DeleteTemplateAliasResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteTemplateRequest {
+  /// The ID of the AWS account that contains the template that you're deleting.
+  @_s.JsonKey(name: 'AwsAccountId', ignore: true)
+  final String awsAccountId;
+
+  /// An ID for the template you want to delete.
+  @_s.JsonKey(name: 'TemplateId', ignore: true)
+  final String templateId;
+
+  /// Specifies the version of the template that you want to delete. If you don't
+  /// provide a version number, <code>DeleteTemplate</code> deletes all versions
+  /// of the template.
+  @_s.JsonKey(name: 'version-number', ignore: true)
+  final int versionNumber;
+
+  DeleteTemplateRequest({
+    @_s.required this.awsAccountId,
+    @_s.required this.templateId,
+    this.versionNumber,
+  });
+  Map<String, dynamic> toJson() => _$DeleteTemplateRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteTemplateResponse {
@@ -7335,6 +8061,34 @@ class DeleteTemplateResponse {
       _$DeleteTemplateResponseFromJson(json);
 }
 
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteUserByPrincipalIdRequest {
+  /// The ID for the AWS account that the user is in. Currently, you use the ID
+  /// for the AWS account that contains your Amazon QuickSight account.
+  @_s.JsonKey(name: 'AwsAccountId', ignore: true)
+  final String awsAccountId;
+
+  /// The namespace. Currently, you should set this to <code>default</code>.
+  @_s.JsonKey(name: 'Namespace', ignore: true)
+  final String namespace;
+
+  /// The principal ID of the user.
+  @_s.JsonKey(name: 'PrincipalId', ignore: true)
+  final String principalId;
+
+  DeleteUserByPrincipalIdRequest({
+    @_s.required this.awsAccountId,
+    @_s.required this.namespace,
+    @_s.required this.principalId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteUserByPrincipalIdRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -7355,6 +8109,33 @@ class DeleteUserByPrincipalIdResponse {
   });
   factory DeleteUserByPrincipalIdResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteUserByPrincipalIdResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteUserRequest {
+  /// The ID for the AWS account that the user is in. Currently, you use the ID
+  /// for the AWS account that contains your Amazon QuickSight account.
+  @_s.JsonKey(name: 'AwsAccountId', ignore: true)
+  final String awsAccountId;
+
+  /// The namespace. Currently, you should set this to <code>default</code>.
+  @_s.JsonKey(name: 'Namespace', ignore: true)
+  final String namespace;
+
+  /// The name of the user that you want to delete.
+  @_s.JsonKey(name: 'UserName', ignore: true)
+  final String userName;
+
+  DeleteUserRequest({
+    @_s.required this.awsAccountId,
+    @_s.required this.namespace,
+    @_s.required this.userName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteUserRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8065,18 +8846,6 @@ enum IdentityType {
   iam,
   @_s.JsonValue('QUICKSIGHT')
   quicksight,
-}
-
-extension on IdentityType {
-  String toValue() {
-    switch (this) {
-      case IdentityType.iam:
-        return 'IAM';
-      case IdentityType.quicksight:
-        return 'QUICKSIGHT';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Information about the SPICE ingestion for a dataset.
@@ -9276,6 +10045,100 @@ class RedshiftParameters {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RegisterUserRequest {
+  /// The ID for the AWS account that the user is in. Currently, you use the ID
+  /// for the AWS account that contains your Amazon QuickSight account.
+  @_s.JsonKey(name: 'AwsAccountId', ignore: true)
+  final String awsAccountId;
+
+  /// The email address of the user that you want to register.
+  @_s.JsonKey(name: 'Email')
+  final String email;
+
+  /// Amazon QuickSight supports several ways of managing the identity of users.
+  /// This parameter accepts two values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>IAM</code>: A user whose identity maps to an existing IAM user or
+  /// role.
+  /// </li>
+  /// <li>
+  /// <code>QUICKSIGHT</code>: A user whose identity is owned and managed
+  /// internally by Amazon QuickSight.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'IdentityType')
+  final IdentityType identityType;
+
+  /// The namespace. Currently, you should set this to <code>default</code>.
+  @_s.JsonKey(name: 'Namespace', ignore: true)
+  final String namespace;
+
+  /// The Amazon QuickSight role for the user. The user role can be one of the
+  /// following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>READER</code>: A user who has read-only access to dashboards.
+  /// </li>
+  /// <li>
+  /// <code>AUTHOR</code>: A user who can create data sources, datasets, analyses,
+  /// and dashboards.
+  /// </li>
+  /// <li>
+  /// <code>ADMIN</code>: A user who is an author, who can also manage Amazon
+  /// QuickSight settings.
+  /// </li>
+  /// <li>
+  /// <code>RESTRICTED_READER</code>: This role isn't currently available for use.
+  /// </li>
+  /// <li>
+  /// <code>RESTRICTED_AUTHOR</code>: This role isn't currently available for use.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'UserRole')
+  final UserRole userRole;
+
+  /// The ARN of the IAM user or role that you are registering with Amazon
+  /// QuickSight.
+  @_s.JsonKey(name: 'IamArn')
+  final String iamArn;
+
+  /// You need to use this parameter only when you register one or more users
+  /// using an assumed IAM role. You don't need to provide the session name for
+  /// other scenarios, for example when you are registering an IAM user or an
+  /// Amazon QuickSight user. You can register multiple users using the same IAM
+  /// role if each user has a different session name. For more information on
+  /// assuming IAM roles, see <a
+  /// href="https://docs.aws.example.com/cli/latest/reference/sts/assume-role.html">
+  /// <code>assume-role</code> </a> in the <i>AWS CLI Reference.</i>
+  @_s.JsonKey(name: 'SessionName')
+  final String sessionName;
+
+  /// The Amazon QuickSight user name that you want to create for the user you are
+  /// registering.
+  @_s.JsonKey(name: 'UserName')
+  final String userName;
+
+  RegisterUserRequest({
+    @_s.required this.awsAccountId,
+    @_s.required this.email,
+    @_s.required this.identityType,
+    @_s.required this.namespace,
+    @_s.required this.userRole,
+    this.iamArn,
+    this.sessionName,
+    this.userName,
+  });
+  Map<String, dynamic> toJson() => _$RegisterUserRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class RegisterUserResponse {
@@ -9515,6 +10378,41 @@ class S3Source {
       _$S3SourceFromJson(json);
 
   Map<String, dynamic> toJson() => _$S3SourceToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SearchDashboardsRequest {
+  /// The ID of the AWS account that contains the user whose dashboards you're
+  /// searching for.
+  @_s.JsonKey(name: 'AwsAccountId', ignore: true)
+  final String awsAccountId;
+
+  /// The filters to apply to the search. Currently, you can search only by user
+  /// name. For example, <code>"Filters": [ { "Name": "QUICKSIGHT_USER",
+  /// "Operator": "StringEquals", "Value":
+  /// "arn:aws:quicksight:us-east-1:1:user/default/UserName1" } ]</code>
+  @_s.JsonKey(name: 'Filters')
+  final List<DashboardSearchFilter> filters;
+
+  /// The maximum number of results to be returned per request.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of results, or null if there are no more results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  SearchDashboardsRequest({
+    @_s.required this.awsAccountId,
+    @_s.required this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$SearchDashboardsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -9766,6 +10664,28 @@ class TagColumnOperation {
       _$TagColumnOperationFromJson(json);
 
   Map<String, dynamic> toJson() => _$TagColumnOperationToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource that you want to tag.
+  @_s.JsonKey(name: 'ResourceArn', ignore: true)
+  final String resourceArn;
+
+  /// Contains a map of the key-value pairs for the resource tag or tags assigned
+  /// to the resource.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10226,6 +11146,28 @@ class TwitterParameters {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource that you want to untag.
+  @_s.JsonKey(name: 'ResourceArn', ignore: true)
+  final String resourceArn;
+
+  /// The keys of the key-value pairs for the resource tag or tags assigned to the
+  /// resource.
+  @_s.JsonKey(name: 'keys', ignore: true)
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagResourceResponse {
@@ -10243,6 +11185,39 @@ class UntagResourceResponse {
   });
   factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDashboardPermissionsRequest {
+  /// The ID of the AWS account that contains the dashboard whose permissions
+  /// you're updating.
+  @_s.JsonKey(name: 'AwsAccountId', ignore: true)
+  final String awsAccountId;
+
+  /// The ID for the dashboard.
+  @_s.JsonKey(name: 'DashboardId', ignore: true)
+  final String dashboardId;
+
+  /// The permissions that you want to grant on this resource.
+  @_s.JsonKey(name: 'GrantPermissions')
+  final List<ResourcePermission> grantPermissions;
+
+  /// The permissions that you want to revoke from this resource.
+  @_s.JsonKey(name: 'RevokePermissions')
+  final List<ResourcePermission> revokePermissions;
+
+  UpdateDashboardPermissionsRequest({
+    @_s.required this.awsAccountId,
+    @_s.required this.dashboardId,
+    this.grantPermissions,
+    this.revokePermissions,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateDashboardPermissionsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10286,6 +11261,33 @@ class UpdateDashboardPermissionsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDashboardPublishedVersionRequest {
+  /// The ID of the AWS account that contains the dashboard that you're updating.
+  @_s.JsonKey(name: 'AwsAccountId', ignore: true)
+  final String awsAccountId;
+
+  /// The ID for the dashboard.
+  @_s.JsonKey(name: 'DashboardId', ignore: true)
+  final String dashboardId;
+
+  /// The version number of the dashboard.
+  @_s.JsonKey(name: 'VersionNumber', ignore: true)
+  final int versionNumber;
+
+  UpdateDashboardPublishedVersionRequest({
+    @_s.required this.awsAccountId,
+    @_s.required this.dashboardId,
+    @_s.required this.versionNumber,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateDashboardPublishedVersionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateDashboardPublishedVersionResponse {
@@ -10314,6 +11316,79 @@ class UpdateDashboardPublishedVersionResponse {
   factory UpdateDashboardPublishedVersionResponse.fromJson(
           Map<String, dynamic> json) =>
       _$UpdateDashboardPublishedVersionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDashboardRequest {
+  /// The ID of the AWS account that contains the dashboard that you're updating.
+  @_s.JsonKey(name: 'AwsAccountId', ignore: true)
+  final String awsAccountId;
+
+  /// The ID for the dashboard.
+  @_s.JsonKey(name: 'DashboardId', ignore: true)
+  final String dashboardId;
+
+  /// The display name of the dashboard.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The template or analysis from which the dashboard is created. The
+  /// <code>SouceTemplate</code> entity accepts the Amazon Resource Name (ARN) of
+  /// the template and also references to replacement datasets for the
+  /// placeholders set when creating the template. The replacement datasets need
+  /// to follow the same schema as the datasets for which placeholders were
+  /// created when creating the template.
+  @_s.JsonKey(name: 'SourceEntity')
+  final DashboardSourceEntity sourceEntity;
+
+  /// Options for publishing the dashboard when you create it:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AvailabilityStatus</code> for <code>AdHocFilteringOption</code> - This
+  /// status can be either <code>ENABLED</code> or <code>DISABLED</code>. When
+  /// this is set to <code>DISABLED</code>, QuickSight disables the left filter
+  /// pane on the published dashboard, which can be used for ad hoc (one-time)
+  /// filtering. This option is <code>ENABLED</code> by default.
+  /// </li>
+  /// <li>
+  /// <code>AvailabilityStatus</code> for <code>ExportToCSVOption</code> - This
+  /// status can be either <code>ENABLED</code> or <code>DISABLED</code>. The
+  /// visual option to export data to .csv format isn't enabled when this is set
+  /// to <code>DISABLED</code>. This option is <code>ENABLED</code> by default.
+  /// </li>
+  /// <li>
+  /// <code>VisibilityState</code> for <code>SheetControlsOption</code> - This
+  /// visibility state can be either <code>COLLAPSED</code> or
+  /// <code>EXPANDED</code>. The sheet controls pane is collapsed by default when
+  /// set to true. This option is <code>COLLAPSED</code> by default.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'DashboardPublishOptions')
+  final DashboardPublishOptions dashboardPublishOptions;
+
+  /// A structure that contains the parameters of the dashboard.
+  @_s.JsonKey(name: 'Parameters')
+  final Parameters parameters;
+
+  /// A description for the first version of the dashboard being created.
+  @_s.JsonKey(name: 'VersionDescription')
+  final String versionDescription;
+
+  UpdateDashboardRequest({
+    @_s.required this.awsAccountId,
+    @_s.required this.dashboardId,
+    @_s.required this.name,
+    @_s.required this.sourceEntity,
+    this.dashboardPublishOptions,
+    this.parameters,
+    this.versionDescription,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDashboardRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10361,6 +11436,39 @@ class UpdateDashboardResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDataSetPermissionsRequest {
+  /// The AWS account ID.
+  @_s.JsonKey(name: 'AwsAccountId', ignore: true)
+  final String awsAccountId;
+
+  /// The ID for the dataset whose permissions you want to update. This ID is
+  /// unique per AWS Region for each AWS account.
+  @_s.JsonKey(name: 'DataSetId', ignore: true)
+  final String dataSetId;
+
+  /// The resource permissions that you want to grant to the dataset.
+  @_s.JsonKey(name: 'GrantPermissions')
+  final List<ResourcePermission> grantPermissions;
+
+  /// The resource permissions that you want to revoke from the dataset.
+  @_s.JsonKey(name: 'RevokePermissions')
+  final List<ResourcePermission> revokePermissions;
+
+  UpdateDataSetPermissionsRequest({
+    @_s.required this.awsAccountId,
+    @_s.required this.dataSetId,
+    this.grantPermissions,
+    this.revokePermissions,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateDataSetPermissionsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateDataSetPermissionsResponse {
@@ -10390,6 +11498,61 @@ class UpdateDataSetPermissionsResponse {
   factory UpdateDataSetPermissionsResponse.fromJson(
           Map<String, dynamic> json) =>
       _$UpdateDataSetPermissionsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDataSetRequest {
+  /// The AWS account ID.
+  @_s.JsonKey(name: 'AwsAccountId', ignore: true)
+  final String awsAccountId;
+
+  /// The ID for the dataset that you want to update. This ID is unique per AWS
+  /// Region for each AWS account.
+  @_s.JsonKey(name: 'DataSetId', ignore: true)
+  final String dataSetId;
+
+  /// Indicates whether you want to import the data into SPICE.
+  @_s.JsonKey(name: 'ImportMode')
+  final DataSetImportMode importMode;
+
+  /// The display name for the dataset.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Declares the physical tables that are available in the underlying data
+  /// sources.
+  @_s.JsonKey(name: 'PhysicalTableMap')
+  final Map<String, PhysicalTable> physicalTableMap;
+
+  /// Groupings of columns that work together in certain QuickSight features.
+  /// Currently, only geospatial hierarchy is supported.
+  @_s.JsonKey(name: 'ColumnGroups')
+  final List<ColumnGroup> columnGroups;
+
+  /// Configures the combination and transformation of the data from the physical
+  /// tables.
+  @_s.JsonKey(name: 'LogicalTableMap')
+  final Map<String, LogicalTable> logicalTableMap;
+
+  /// The row-level security configuration for the data you want to create.
+  @_s.JsonKey(name: 'RowLevelPermissionDataSet')
+  final RowLevelPermissionDataSet rowLevelPermissionDataSet;
+
+  UpdateDataSetRequest({
+    @_s.required this.awsAccountId,
+    @_s.required this.dataSetId,
+    @_s.required this.importMode,
+    @_s.required this.name,
+    @_s.required this.physicalTableMap,
+    this.columnGroups,
+    this.logicalTableMap,
+    this.rowLevelPermissionDataSet,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDataSetRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10440,6 +11603,39 @@ class UpdateDataSetResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDataSourcePermissionsRequest {
+  /// The AWS account ID.
+  @_s.JsonKey(name: 'AwsAccountId', ignore: true)
+  final String awsAccountId;
+
+  /// The ID of the data source. This ID is unique per AWS Region for each AWS
+  /// account.
+  @_s.JsonKey(name: 'DataSourceId', ignore: true)
+  final String dataSourceId;
+
+  /// A list of resource permissions that you want to grant on the data source.
+  @_s.JsonKey(name: 'GrantPermissions')
+  final List<ResourcePermission> grantPermissions;
+
+  /// A list of resource permissions that you want to revoke on the data source.
+  @_s.JsonKey(name: 'RevokePermissions')
+  final List<ResourcePermission> revokePermissions;
+
+  UpdateDataSourcePermissionsRequest({
+    @_s.required this.awsAccountId,
+    @_s.required this.dataSourceId,
+    this.grantPermissions,
+    this.revokePermissions,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateDataSourcePermissionsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateDataSourcePermissionsResponse {
@@ -10469,6 +11665,57 @@ class UpdateDataSourcePermissionsResponse {
   factory UpdateDataSourcePermissionsResponse.fromJson(
           Map<String, dynamic> json) =>
       _$UpdateDataSourcePermissionsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDataSourceRequest {
+  /// The AWS account ID.
+  @_s.JsonKey(name: 'AwsAccountId', ignore: true)
+  final String awsAccountId;
+
+  /// The ID of the data source. This ID is unique per AWS Region for each AWS
+  /// account.
+  @_s.JsonKey(name: 'DataSourceId', ignore: true)
+  final String dataSourceId;
+
+  /// A display name for the data source.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The credentials that QuickSight that uses to connect to your underlying
+  /// source. Currently, only credentials based on user name and password are
+  /// supported.
+  @_s.JsonKey(name: 'Credentials')
+  final DataSourceCredentials credentials;
+
+  /// The parameters that QuickSight uses to connect to your underlying source.
+  @_s.JsonKey(name: 'DataSourceParameters')
+  final DataSourceParameters dataSourceParameters;
+
+  /// Secure Socket Layer (SSL) properties that apply when QuickSight connects to
+  /// your underlying source.
+  @_s.JsonKey(name: 'SslProperties')
+  final SslProperties sslProperties;
+
+  /// Use this parameter only when you want QuickSight to use a VPC connection
+  /// when connecting to your underlying source.
+  @_s.JsonKey(name: 'VpcConnectionProperties')
+  final VpcConnectionProperties vpcConnectionProperties;
+
+  UpdateDataSourceRequest({
+    @_s.required this.awsAccountId,
+    @_s.required this.dataSourceId,
+    @_s.required this.name,
+    this.credentials,
+    this.dataSourceParameters,
+    this.sslProperties,
+    this.vpcConnectionProperties,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDataSourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10512,6 +11759,38 @@ class UpdateDataSourceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateGroupRequest {
+  /// The ID for the AWS account that the group is in. Currently, you use the ID
+  /// for the AWS account that contains your Amazon QuickSight account.
+  @_s.JsonKey(name: 'AwsAccountId', ignore: true)
+  final String awsAccountId;
+
+  /// The name of the group that you want to update.
+  @_s.JsonKey(name: 'GroupName', ignore: true)
+  final String groupName;
+
+  /// The namespace. Currently, you should set this to <code>default</code>.
+  @_s.JsonKey(name: 'Namespace', ignore: true)
+  final String namespace;
+
+  /// The description for the group that you want to update.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  UpdateGroupRequest({
+    @_s.required this.awsAccountId,
+    @_s.required this.groupName,
+    @_s.required this.namespace,
+    this.description,
+  });
+  Map<String, dynamic> toJson() => _$UpdateGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateGroupResponse {
@@ -10534,6 +11813,64 @@ class UpdateGroupResponse {
   });
   factory UpdateGroupResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateIAMPolicyAssignmentRequest {
+  /// The name of the assignment. This name must be unique within an AWS account.
+  @_s.JsonKey(name: 'AssignmentName', ignore: true)
+  final String assignmentName;
+
+  /// The ID of the AWS account that contains the IAM policy assignment.
+  @_s.JsonKey(name: 'AwsAccountId', ignore: true)
+  final String awsAccountId;
+
+  /// The namespace of the assignment.
+  @_s.JsonKey(name: 'Namespace', ignore: true)
+  final String namespace;
+
+  /// The status of the assignment. Possible values are as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ENABLED</code> - Anything specified in this assignment is used when
+  /// creating the data source.
+  /// </li>
+  /// <li>
+  /// <code>DISABLED</code> - This assignment isn't used when creating the data
+  /// source.
+  /// </li>
+  /// <li>
+  /// <code>DRAFT</code> - This assignment is an unfinished draft and isn't used
+  /// when creating the data source.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AssignmentStatus')
+  final AssignmentStatus assignmentStatus;
+
+  /// The QuickSight users, groups, or both that you want to assign the policy to.
+  @_s.JsonKey(name: 'Identities')
+  final Map<String, List<String>> identities;
+
+  /// The ARN for the IAM policy to apply to the QuickSight users and groups
+  /// specified in this assignment.
+  @_s.JsonKey(name: 'PolicyArn')
+  final String policyArn;
+
+  UpdateIAMPolicyAssignmentRequest({
+    @_s.required this.assignmentName,
+    @_s.required this.awsAccountId,
+    @_s.required this.namespace,
+    this.assignmentStatus,
+    this.identities,
+    this.policyArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateIAMPolicyAssignmentRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10603,6 +11940,42 @@ class UpdateIAMPolicyAssignmentResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateTemplateAliasRequest {
+  /// The alias of the template that you want to update. If you name a specific
+  /// alias, you update the version that the alias points to. You can specify the
+  /// latest version of the template by providing the keyword <code>$LATEST</code>
+  /// in the <code>AliasName</code> parameter. The keyword <code>$PUBLISHED</code>
+  /// doesn't apply to templates.
+  @_s.JsonKey(name: 'AliasName', ignore: true)
+  final String aliasName;
+
+  /// The ID of the AWS account that contains the template alias that you're
+  /// updating.
+  @_s.JsonKey(name: 'AwsAccountId', ignore: true)
+  final String awsAccountId;
+
+  /// The ID for the template.
+  @_s.JsonKey(name: 'TemplateId', ignore: true)
+  final String templateId;
+
+  /// The version number of the template.
+  @_s.JsonKey(name: 'TemplateVersionNumber')
+  final int templateVersionNumber;
+
+  UpdateTemplateAliasRequest({
+    @_s.required this.aliasName,
+    @_s.required this.awsAccountId,
+    @_s.required this.templateId,
+    @_s.required this.templateVersionNumber,
+  });
+  Map<String, dynamic> toJson() => _$UpdateTemplateAliasRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateTemplateAliasResponse {
@@ -10625,6 +11998,38 @@ class UpdateTemplateAliasResponse {
   });
   factory UpdateTemplateAliasResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateTemplateAliasResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateTemplatePermissionsRequest {
+  /// The ID of the AWS account that contains the template.
+  @_s.JsonKey(name: 'AwsAccountId', ignore: true)
+  final String awsAccountId;
+
+  /// The ID for the template.
+  @_s.JsonKey(name: 'TemplateId', ignore: true)
+  final String templateId;
+
+  /// A list of resource permissions to be granted on the template.
+  @_s.JsonKey(name: 'GrantPermissions')
+  final List<ResourcePermission> grantPermissions;
+
+  /// A list of resource permissions to be revoked from the template.
+  @_s.JsonKey(name: 'RevokePermissions')
+  final List<ResourcePermission> revokePermissions;
+
+  UpdateTemplatePermissionsRequest({
+    @_s.required this.awsAccountId,
+    @_s.required this.templateId,
+    this.grantPermissions,
+    this.revokePermissions,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateTemplatePermissionsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10668,6 +12073,46 @@ class UpdateTemplatePermissionsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateTemplateRequest {
+  /// The ID of the AWS account that contains the template that you're updating.
+  @_s.JsonKey(name: 'AwsAccountId', ignore: true)
+  final String awsAccountId;
+
+  /// The source QuickSight entity from which this template is being updated. You
+  /// can currently update templates from an Analysis or another template.
+  @_s.JsonKey(name: 'SourceEntity')
+  final TemplateSourceEntity sourceEntity;
+
+  /// The ID for the template.
+  @_s.JsonKey(name: 'TemplateId', ignore: true)
+  final String templateId;
+
+  /// The name for the template.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// A description of the current template version that is being updated. Every
+  /// time you call <code>UpdateTemplate</code>, you create a new version of the
+  /// template. Each version of the template maintains a description of the
+  /// version in the <code>VersionDescription</code> field.
+  @_s.JsonKey(name: 'VersionDescription')
+  final String versionDescription;
+
+  UpdateTemplateRequest({
+    @_s.required this.awsAccountId,
+    @_s.required this.sourceEntity,
+    @_s.required this.templateId,
+    this.name,
+    this.versionDescription,
+  });
+  Map<String, dynamic> toJson() => _$UpdateTemplateRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateTemplateResponse {
@@ -10706,6 +12151,58 @@ class UpdateTemplateResponse {
   });
   factory UpdateTemplateResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateTemplateResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateUserRequest {
+  /// The ID for the AWS account that the user is in. Currently, you use the ID
+  /// for the AWS account that contains your Amazon QuickSight account.
+  @_s.JsonKey(name: 'AwsAccountId', ignore: true)
+  final String awsAccountId;
+
+  /// The email address of the user that you want to update.
+  @_s.JsonKey(name: 'Email')
+  final String email;
+
+  /// The namespace. Currently, you should set this to <code>default</code>.
+  @_s.JsonKey(name: 'Namespace', ignore: true)
+  final String namespace;
+
+  /// The Amazon QuickSight role of the user. The user role can be one of the
+  /// following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>READER</code>: A user who has read-only access to dashboards.
+  /// </li>
+  /// <li>
+  /// <code>AUTHOR</code>: A user who can create data sources, datasets, analyses,
+  /// and dashboards.
+  /// </li>
+  /// <li>
+  /// <code>ADMIN</code>: A user who is an author, who can also manage Amazon
+  /// QuickSight settings.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Role')
+  final UserRole role;
+
+  /// The Amazon QuickSight user name that you want to update.
+  @_s.JsonKey(name: 'UserName', ignore: true)
+  final String userName;
+
+  UpdateUserRequest({
+    @_s.required this.awsAccountId,
+    @_s.required this.email,
+    @_s.required this.namespace,
+    @_s.required this.role,
+    @_s.required this.userName,
+  });
+  Map<String, dynamic> toJson() => _$UpdateUserRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10857,24 +12354,6 @@ enum UserRole {
   restrictedAuthor,
   @_s.JsonValue('RESTRICTED_READER')
   restrictedReader,
-}
-
-extension on UserRole {
-  String toValue() {
-    switch (this) {
-      case UserRole.admin:
-        return 'ADMIN';
-      case UserRole.author:
-        return 'AUTHOR';
-      case UserRole.reader:
-        return 'READER';
-      case UserRole.restrictedAuthor:
-        return 'RESTRICTED_AUTHOR';
-      case UserRole.restrictedReader:
-        return 'RESTRICTED_READER';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// VPC connection properties.

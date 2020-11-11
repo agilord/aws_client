@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -92,9 +91,10 @@ class ConnectParticipant {
     ArgumentError.checkNotNull(type, 'type');
     final headers = <String, String>{};
     participantToken?.let((v) => headers['X-Amz-Bearer'] = v.toString());
-    final $payload = <String, dynamic>{
-      'Type': type,
-    };
+    final $payload = CreateParticipantConnectionRequest(
+      participantToken: participantToken,
+      type: type,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -139,9 +139,10 @@ class ConnectParticipant {
     );
     final headers = <String, String>{};
     connectionToken?.let((v) => headers['X-Amz-Bearer'] = v.toString());
-    final $payload = <String, dynamic>{
-      if (clientToken != null) 'ClientToken': clientToken,
-    };
+    final $payload = DisconnectParticipantRequest(
+      connectionToken: connectionToken,
+      clientToken: clientToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -220,14 +221,15 @@ class ConnectParticipant {
     );
     final headers = <String, String>{};
     connectionToken?.let((v) => headers['X-Amz-Bearer'] = v.toString());
-    final $payload = <String, dynamic>{
-      if (contactId != null) 'ContactId': contactId,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-      if (scanDirection != null) 'ScanDirection': scanDirection?.toValue(),
-      if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-      if (startPosition != null) 'StartPosition': startPosition,
-    };
+    final $payload = GetTranscriptRequest(
+      connectionToken: connectionToken,
+      contactId: contactId,
+      maxResults: maxResults,
+      nextToken: nextToken,
+      scanDirection: scanDirection,
+      sortOrder: sortOrder,
+      startPosition: startPosition,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -304,11 +306,12 @@ class ConnectParticipant {
     );
     final headers = <String, String>{};
     connectionToken?.let((v) => headers['X-Amz-Bearer'] = v.toString());
-    final $payload = <String, dynamic>{
-      'ContentType': contentType,
-      if (clientToken != null) 'ClientToken': clientToken,
-      if (content != null) 'Content': content,
-    };
+    final $payload = SendEventRequest(
+      connectionToken: connectionToken,
+      contentType: contentType,
+      clientToken: clientToken,
+      content: content,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -377,11 +380,12 @@ class ConnectParticipant {
     );
     final headers = <String, String>{};
     connectionToken?.let((v) => headers['X-Amz-Bearer'] = v.toString());
-    final $payload = <String, dynamic>{
-      'Content': content,
-      'ContentType': contentType,
-      if (clientToken != null) 'ClientToken': clientToken,
-    };
+    final $payload = SendMessageRequest(
+      connectionToken: connectionToken,
+      content: content,
+      contentType: contentType,
+      clientToken: clientToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -438,6 +442,30 @@ enum ConnectionType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateParticipantConnectionRequest {
+  /// Participant Token as obtained from <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_StartChatContactResponse.html">StartChatContact</a>
+  /// API response.
+  @_s.JsonKey(name: 'X-Amz-Bearer', ignore: true)
+  final String participantToken;
+
+  /// Type of connection information required.
+  @_s.JsonKey(name: 'Type')
+  final List<String> type;
+
+  CreateParticipantConnectionRequest({
+    @_s.required this.participantToken,
+    @_s.required this.type,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateParticipantConnectionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateParticipantConnectionResponse {
@@ -462,12 +490,82 @@ class CreateParticipantConnectionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisconnectParticipantRequest {
+  /// The authentication token associated with the participant's connection.
+  @_s.JsonKey(name: 'X-Amz-Bearer', ignore: true)
+  final String connectionToken;
+
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  @_s.JsonKey(name: 'ClientToken')
+  final String clientToken;
+
+  DisconnectParticipantRequest({
+    @_s.required this.connectionToken,
+    this.clientToken,
+  });
+  Map<String, dynamic> toJson() => _$DisconnectParticipantRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DisconnectParticipantResponse {
   DisconnectParticipantResponse();
   factory DisconnectParticipantResponse.fromJson(Map<String, dynamic> json) =>
       _$DisconnectParticipantResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetTranscriptRequest {
+  /// The authentication token associated with the participant's connection.
+  @_s.JsonKey(name: 'X-Amz-Bearer', ignore: true)
+  final String connectionToken;
+
+  /// The contactId from the current contact chain for which transcript is needed.
+  @_s.JsonKey(name: 'ContactId')
+  final String contactId;
+
+  /// The maximum number of results to return in the page. Default: 10.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The pagination token. Use the value returned previously in the next
+  /// subsequent request to retrieve the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The direction from StartPosition from which to retrieve message. Default:
+  /// BACKWARD when no StartPosition is provided, FORWARD with StartPosition.
+  @_s.JsonKey(name: 'ScanDirection')
+  final ScanDirection scanDirection;
+
+  /// The sort order for the records. Default: DESCENDING.
+  @_s.JsonKey(name: 'SortOrder')
+  final SortKey sortOrder;
+
+  /// A filtering option for where to start.
+  @_s.JsonKey(name: 'StartPosition')
+  final StartPosition startPosition;
+
+  GetTranscriptRequest({
+    @_s.required this.connectionToken,
+    this.contactId,
+    this.maxResults,
+    this.nextToken,
+    this.scanDirection,
+    this.sortOrder,
+    this.startPosition,
+  });
+  Map<String, dynamic> toJson() => _$GetTranscriptRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -569,16 +667,46 @@ enum ScanDirection {
   backward,
 }
 
-extension on ScanDirection {
-  String toValue() {
-    switch (this) {
-      case ScanDirection.forward:
-        return 'FORWARD';
-      case ScanDirection.backward:
-        return 'BACKWARD';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SendEventRequest {
+  /// The authentication token associated with the participant's connection.
+  @_s.JsonKey(name: 'X-Amz-Bearer', ignore: true)
+  final String connectionToken;
+
+  /// The content type of the request. Supported types are:
+  ///
+  /// <ul>
+  /// <li>
+  /// application/vnd.amazonaws.connect.event.typing
+  /// </li>
+  /// <li>
+  /// application/vnd.amazonaws.connect.event.connection.acknowledged
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ContentType')
+  final String contentType;
+
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  @_s.JsonKey(name: 'ClientToken')
+  final String clientToken;
+
+  /// The content of the event to be sent (for example, message text). This is not
+  /// yet supported.
+  @_s.JsonKey(name: 'Content')
+  final String content;
+
+  SendEventRequest({
+    @_s.required this.connectionToken,
+    @_s.required this.contentType,
+    this.clientToken,
+    this.content,
+  });
+  Map<String, dynamic> toJson() => _$SendEventRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -604,6 +732,38 @@ class SendEventResponse {
   });
   factory SendEventResponse.fromJson(Map<String, dynamic> json) =>
       _$SendEventResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SendMessageRequest {
+  /// The authentication token associated with the connection.
+  @_s.JsonKey(name: 'X-Amz-Bearer', ignore: true)
+  final String connectionToken;
+
+  /// The content of the message.
+  @_s.JsonKey(name: 'Content')
+  final String content;
+
+  /// The type of the content. Supported types are text/plain.
+  @_s.JsonKey(name: 'ContentType')
+  final String contentType;
+
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  @_s.JsonKey(name: 'ClientToken')
+  final String clientToken;
+
+  SendMessageRequest({
+    @_s.required this.connectionToken,
+    @_s.required this.content,
+    @_s.required this.contentType,
+    this.clientToken,
+  });
+  Map<String, dynamic> toJson() => _$SendMessageRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -636,18 +796,6 @@ enum SortKey {
   descending,
   @_s.JsonValue('ASCENDING')
   ascending,
-}
-
-extension on SortKey {
-  String toValue() {
-    switch (this) {
-      case SortKey.descending:
-        return 'DESCENDING';
-      case SortKey.ascending:
-        return 'ASCENDING';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// A filtering option for where to start. For example, if you sent 100

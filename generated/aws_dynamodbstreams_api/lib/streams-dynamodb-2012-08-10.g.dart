@@ -10,7 +10,9 @@ AttributeValue _$AttributeValueFromJson(Map<String, dynamic> json) {
   return AttributeValue(
     b: const Uint8ListConverter().fromJson(json['B'] as String),
     boolValue: json['BOOL'] as bool,
-    bs: const Uint8ListListConverter().fromJson(json['BS'] as List),
+    bs: (json['BS'] as List)
+        ?.map((e) => const Uint8ListConverter().fromJson(e as String))
+        ?.toList(),
     l: (json['L'] as List)
         ?.map((e) => e == null
             ? null
@@ -31,6 +33,21 @@ AttributeValue _$AttributeValueFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DescribeStreamInputToJson(DescribeStreamInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('StreamArn', instance.streamArn);
+  writeNotNull('ExclusiveStartShardId', instance.exclusiveStartShardId);
+  writeNotNull('Limit', instance.limit);
+  return val;
+}
+
 DescribeStreamOutput _$DescribeStreamOutputFromJson(Map<String, dynamic> json) {
   return DescribeStreamOutput(
     streamDescription: json['StreamDescription'] == null
@@ -47,6 +64,20 @@ ExpiredIteratorException _$ExpiredIteratorExceptionFromJson(
   );
 }
 
+Map<String, dynamic> _$GetRecordsInputToJson(GetRecordsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ShardIterator', instance.shardIterator);
+  writeNotNull('Limit', instance.limit);
+  return val;
+}
+
 GetRecordsOutput _$GetRecordsOutputFromJson(Map<String, dynamic> json) {
   return GetRecordsOutput(
     nextShardIterator: json['NextShardIterator'] as String,
@@ -56,6 +87,31 @@ GetRecordsOutput _$GetRecordsOutputFromJson(Map<String, dynamic> json) {
         ?.toList(),
   );
 }
+
+Map<String, dynamic> _$GetShardIteratorInputToJson(
+    GetShardIteratorInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ShardId', instance.shardId);
+  writeNotNull('ShardIteratorType',
+      _$ShardIteratorTypeEnumMap[instance.shardIteratorType]);
+  writeNotNull('StreamArn', instance.streamArn);
+  writeNotNull('SequenceNumber', instance.sequenceNumber);
+  return val;
+}
+
+const _$ShardIteratorTypeEnumMap = {
+  ShardIteratorType.trimHorizon: 'TRIM_HORIZON',
+  ShardIteratorType.latest: 'LATEST',
+  ShardIteratorType.atSequenceNumber: 'AT_SEQUENCE_NUMBER',
+  ShardIteratorType.afterSequenceNumber: 'AFTER_SEQUENCE_NUMBER',
+};
 
 GetShardIteratorOutput _$GetShardIteratorOutputFromJson(
     Map<String, dynamic> json) {
@@ -126,6 +182,21 @@ LimitExceededException _$LimitExceededExceptionFromJson(
   return LimitExceededException(
     message: json['message'] as String,
   );
+}
+
+Map<String, dynamic> _$ListStreamsInputToJson(ListStreamsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ExclusiveStartStreamArn', instance.exclusiveStartStreamArn);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('TableName', instance.tableName);
+  return val;
 }
 
 ListStreamsOutput _$ListStreamsOutputFromJson(Map<String, dynamic> json) {

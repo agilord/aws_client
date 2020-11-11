@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -79,10 +78,10 @@ class LakeFormation {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Entries': entries,
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
+      payload: BatchGrantPermissionsRequest(
+        entries: entries,
+        catalogId: catalogId,
+      ),
     );
 
     return BatchGrantPermissionsResponse.fromJson(jsonResponse.body);
@@ -128,10 +127,10 @@ class LakeFormation {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Entries': entries,
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
+      payload: BatchRevokePermissionsRequest(
+        entries: entries,
+        catalogId: catalogId,
+      ),
     );
 
     return BatchRevokePermissionsResponse.fromJson(jsonResponse.body);
@@ -164,9 +163,9 @@ class LakeFormation {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-      },
+      payload: DeregisterResourceRequest(
+        resourceArn: resourceArn,
+      ),
     );
 
     return DeregisterResourceResponse.fromJson(jsonResponse.body);
@@ -196,9 +195,9 @@ class LakeFormation {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-      },
+      payload: DescribeResourceRequest(
+        resourceArn: resourceArn,
+      ),
     );
 
     return DescribeResourceResponse.fromJson(jsonResponse.body);
@@ -239,9 +238,9 @@ class LakeFormation {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
+      payload: GetDataLakeSettingsRequest(
+        catalogId: catalogId,
+      ),
     );
 
     return GetDataLakeSettingsResponse.fromJson(jsonResponse.body);
@@ -305,12 +304,12 @@ class LakeFormation {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        if (catalogId != null) 'CatalogId': catalogId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: GetEffectivePermissionsForPathRequest(
+        resourceArn: resourceArn,
+        catalogId: catalogId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return GetEffectivePermissionsForPathResponse.fromJson(jsonResponse.body);
@@ -388,14 +387,13 @@ class LakeFormation {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Permissions': permissions,
-        'Principal': principal,
-        'Resource': resource,
-        if (catalogId != null) 'CatalogId': catalogId,
-        if (permissionsWithGrantOption != null)
-          'PermissionsWithGrantOption': permissionsWithGrantOption,
-      },
+      payload: GrantPermissionsRequest(
+        permissions: permissions,
+        principal: principal,
+        resource: resource,
+        catalogId: catalogId,
+        permissionsWithGrantOption: permissionsWithGrantOption,
+      ),
     );
 
     return GrantPermissionsResponse.fromJson(jsonResponse.body);
@@ -475,14 +473,14 @@ class LakeFormation {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (catalogId != null) 'CatalogId': catalogId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (principal != null) 'Principal': principal,
-        if (resource != null) 'Resource': resource,
-        if (resourceType != null) 'ResourceType': resourceType?.toValue(),
-      },
+      payload: ListPermissionsRequest(
+        catalogId: catalogId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        principal: principal,
+        resource: resource,
+        resourceType: resourceType,
+      ),
     );
 
     return ListPermissionsResponse.fromJson(jsonResponse.body);
@@ -525,12 +523,11 @@ class LakeFormation {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filterConditionList != null)
-          'FilterConditionList': filterConditionList,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListResourcesRequest(
+        filterConditionList: filterConditionList,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListResourcesResponse.fromJson(jsonResponse.body);
@@ -575,10 +572,10 @@ class LakeFormation {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DataLakeSettings': dataLakeSettings,
-        if (catalogId != null) 'CatalogId': catalogId,
-      },
+      payload: PutDataLakeSettingsRequest(
+        dataLakeSettings: dataLakeSettings,
+        catalogId: catalogId,
+      ),
     );
 
     return PutDataLakeSettingsResponse.fromJson(jsonResponse.body);
@@ -630,12 +627,11 @@ class LakeFormation {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        if (roleArn != null) 'RoleArn': roleArn,
-        if (useServiceLinkedRole != null)
-          'UseServiceLinkedRole': useServiceLinkedRole,
-      },
+      payload: RegisterResourceRequest(
+        resourceArn: resourceArn,
+        roleArn: roleArn,
+        useServiceLinkedRole: useServiceLinkedRole,
+      ),
     );
 
     return RegisterResourceResponse.fromJson(jsonResponse.body);
@@ -700,14 +696,13 @@ class LakeFormation {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Permissions': permissions,
-        'Principal': principal,
-        'Resource': resource,
-        if (catalogId != null) 'CatalogId': catalogId,
-        if (permissionsWithGrantOption != null)
-          'PermissionsWithGrantOption': permissionsWithGrantOption,
-      },
+      payload: RevokePermissionsRequest(
+        permissions: permissions,
+        principal: principal,
+        resource: resource,
+        catalogId: catalogId,
+        permissionsWithGrantOption: permissionsWithGrantOption,
+      ),
     );
 
     return RevokePermissionsResponse.fromJson(jsonResponse.body);
@@ -749,14 +744,39 @@ class LakeFormation {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        'RoleArn': roleArn,
-      },
+      payload: UpdateResourceRequest(
+        resourceArn: resourceArn,
+        roleArn: roleArn,
+      ),
     );
 
     return UpdateResourceResponse.fromJson(jsonResponse.body);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchGrantPermissionsRequest {
+  /// A list of up to 20 entries for resource permissions to be granted by batch
+  /// operation to the principal.
+  @_s.JsonKey(name: 'Entries')
+  final List<BatchPermissionsRequestEntry> entries;
+
+  /// The identifier for the Data Catalog. By default, the account ID. The Data
+  /// Catalog is the persistent metadata store. It contains database definitions,
+  /// table definitions, and other control information to manage your AWS Lake
+  /// Formation environment.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  BatchGrantPermissionsRequest({
+    @_s.required this.entries,
+    this.catalogId,
+  });
+  Map<String, dynamic> toJson() => _$BatchGrantPermissionsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -837,6 +857,31 @@ class BatchPermissionsRequestEntry {
       _$BatchPermissionsRequestEntryFromJson(json);
 
   Map<String, dynamic> toJson() => _$BatchPermissionsRequestEntryToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchRevokePermissionsRequest {
+  /// A list of up to 20 entries for resource permissions to be revoked by batch
+  /// operation to the principal.
+  @_s.JsonKey(name: 'Entries')
+  final List<BatchPermissionsRequestEntry> entries;
+
+  /// The identifier for the Data Catalog. By default, the account ID. The Data
+  /// Catalog is the persistent metadata store. It contains database definitions,
+  /// table definitions, and other control information to manage your AWS Lake
+  /// Formation environment.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  BatchRevokePermissionsRequest({
+    @_s.required this.entries,
+    this.catalogId,
+  });
+  Map<String, dynamic> toJson() => _$BatchRevokePermissionsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -947,22 +992,6 @@ enum DataLakeResourceType {
   dataLocation,
 }
 
-extension on DataLakeResourceType {
-  String toValue() {
-    switch (this) {
-      case DataLakeResourceType.catalog:
-        return 'CATALOG';
-      case DataLakeResourceType.database:
-        return 'DATABASE';
-      case DataLakeResourceType.table:
-        return 'TABLE';
-      case DataLakeResourceType.dataLocation:
-        return 'DATA_LOCATION';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// The AWS Lake Formation principal.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1040,12 +1069,44 @@ class DatabaseResource {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeregisterResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource that you want to deregister.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  DeregisterResourceRequest({
+    @_s.required this.resourceArn,
+  });
+  Map<String, dynamic> toJson() => _$DeregisterResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeregisterResourceResponse {
   DeregisterResourceResponse();
   factory DeregisterResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$DeregisterResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeResourceRequest {
+  /// The resource ARN.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  DescribeResourceRequest({
+    @_s.required this.resourceArn,
+  });
+  Map<String, dynamic> toJson() => _$DescribeResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1128,6 +1189,25 @@ class FilterCondition {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetDataLakeSettingsRequest {
+  /// The identifier for the Data Catalog. By default, the account ID. The Data
+  /// Catalog is the persistent metadata store. It contains database definitions,
+  /// table definitions, and other control information to manage your AWS Lake
+  /// Formation environment.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  GetDataLakeSettingsRequest({
+    this.catalogId,
+  });
+  Map<String, dynamic> toJson() => _$GetDataLakeSettingsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetDataLakeSettingsResponse {
@@ -1140,6 +1220,42 @@ class GetDataLakeSettingsResponse {
   });
   factory GetDataLakeSettingsResponse.fromJson(Map<String, dynamic> json) =>
       _$GetDataLakeSettingsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetEffectivePermissionsForPathRequest {
+  /// The Amazon Resource Name (ARN) of the resource for which you want to get
+  /// permissions.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// The identifier for the Data Catalog. By default, the account ID. The Data
+  /// Catalog is the persistent metadata store. It contains database definitions,
+  /// table definitions, and other control information to manage your AWS Lake
+  /// Formation environment.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  /// The maximum number of results to return.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A continuation token, if this is not the first call to retrieve this list.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetEffectivePermissionsForPathRequest({
+    @_s.required this.resourceArn,
+    this.catalogId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetEffectivePermissionsForPathRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1169,12 +1285,112 @@ class GetEffectivePermissionsForPathResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GrantPermissionsRequest {
+  /// The permissions granted to the principal on the resource. AWS Lake Formation
+  /// defines privileges to grant and revoke access to metadata in the Data
+  /// Catalog and data organized in underlying data storage such as Amazon S3. AWS
+  /// Lake Formation requires that each principal be authorized to perform a
+  /// specific task on AWS Lake Formation resources.
+  @_s.JsonKey(name: 'Permissions')
+  final List<String> permissions;
+
+  /// The principal to be granted the permissions on the resource. Supported
+  /// principals are IAM users or IAM roles, and they are defined by their
+  /// principal type and their ARN.
+  ///
+  /// Note that if you define a resource with a particular ARN, then later delete,
+  /// and recreate a resource with that same ARN, the resource maintains the
+  /// permissions already granted.
+  @_s.JsonKey(name: 'Principal')
+  final DataLakePrincipal principal;
+
+  /// The resource to which permissions are to be granted. Resources in AWS Lake
+  /// Formation are the Data Catalog, databases, and tables.
+  @_s.JsonKey(name: 'Resource')
+  final Resource resource;
+
+  /// The identifier for the Data Catalog. By default, the account ID. The Data
+  /// Catalog is the persistent metadata store. It contains database definitions,
+  /// table definitions, and other control information to manage your AWS Lake
+  /// Formation environment.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  /// Indicates a list of the granted permissions that the principal may pass to
+  /// other users. These permissions may only be a subset of the permissions
+  /// granted in the <code>Privileges</code>.
+  @_s.JsonKey(name: 'PermissionsWithGrantOption')
+  final List<String> permissionsWithGrantOption;
+
+  GrantPermissionsRequest({
+    @_s.required this.permissions,
+    @_s.required this.principal,
+    @_s.required this.resource,
+    this.catalogId,
+    this.permissionsWithGrantOption,
+  });
+  Map<String, dynamic> toJson() => _$GrantPermissionsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GrantPermissionsResponse {
   GrantPermissionsResponse();
   factory GrantPermissionsResponse.fromJson(Map<String, dynamic> json) =>
       _$GrantPermissionsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListPermissionsRequest {
+  /// The identifier for the Data Catalog. By default, the account ID. The Data
+  /// Catalog is the persistent metadata store. It contains database definitions,
+  /// table definitions, and other control information to manage your AWS Lake
+  /// Formation environment.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  /// The maximum number of results to return.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A continuation token, if this is not the first call to retrieve this list.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Specifies a principal to filter the permissions returned.
+  @_s.JsonKey(name: 'Principal')
+  final DataLakePrincipal principal;
+
+  /// A resource where you will get a list of the principal permissions.
+  ///
+  /// This operation does not support getting privileges on a table with columns.
+  /// Instead, call this operation on the table, and the operation returns the
+  /// table and the table w columns.
+  @_s.JsonKey(name: 'Resource')
+  final Resource resource;
+
+  /// Specifies a resource type to filter the permissions returned.
+  @_s.JsonKey(name: 'ResourceType')
+  final DataLakeResourceType resourceType;
+
+  ListPermissionsRequest({
+    this.catalogId,
+    this.maxResults,
+    this.nextToken,
+    this.principal,
+    this.resource,
+    this.resourceType,
+  });
+  Map<String, dynamic> toJson() => _$ListPermissionsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1198,6 +1414,34 @@ class ListPermissionsResponse {
   });
   factory ListPermissionsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListPermissionsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListResourcesRequest {
+  /// Any applicable row-level and/or column-level filtering conditions for the
+  /// resources.
+  @_s.JsonKey(name: 'FilterConditionList')
+  final List<FilterCondition> filterConditionList;
+
+  /// The maximum number of resource results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A continuation token, if this is not the first call to retrieve these
+  /// resources.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListResourcesRequest({
+    this.filterConditionList,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListResourcesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1306,12 +1550,63 @@ class PrincipalResourcePermissions {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutDataLakeSettingsRequest {
+  /// A list of AWS Lake Formation principals.
+  @_s.JsonKey(name: 'DataLakeSettings')
+  final DataLakeSettings dataLakeSettings;
+
+  /// The identifier for the Data Catalog. By default, the account ID. The Data
+  /// Catalog is the persistent metadata store. It contains database definitions,
+  /// table definitions, and other control information to manage your AWS Lake
+  /// Formation environment.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  PutDataLakeSettingsRequest({
+    @_s.required this.dataLakeSettings,
+    this.catalogId,
+  });
+  Map<String, dynamic> toJson() => _$PutDataLakeSettingsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutDataLakeSettingsResponse {
   PutDataLakeSettingsResponse();
   factory PutDataLakeSettingsResponse.fromJson(Map<String, dynamic> json) =>
       _$PutDataLakeSettingsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RegisterResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource that you want to register.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// The identifier for the role.
+  @_s.JsonKey(name: 'RoleArn')
+  final String roleArn;
+
+  /// Designates a trusted caller, an IAM principal, by registering this caller
+  /// with the Data Catalog.
+  @_s.JsonKey(name: 'UseServiceLinkedRole')
+  final bool useServiceLinkedRole;
+
+  RegisterResourceRequest({
+    @_s.required this.resourceArn,
+    this.roleArn,
+    this.useServiceLinkedRole,
+  });
+  Map<String, dynamic> toJson() => _$RegisterResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1407,6 +1702,49 @@ class ResourceInfo {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RevokePermissionsRequest {
+  /// The permissions revoked to the principal on the resource. For information
+  /// about permissions, see <a
+  /// href="https://docs-aws.amazon.com/michigan/latest/dg/security-data-access.html">Security
+  /// and Access Control to Metadata and Data</a>.
+  @_s.JsonKey(name: 'Permissions')
+  final List<String> permissions;
+
+  /// The principal to be revoked permissions on the resource.
+  @_s.JsonKey(name: 'Principal')
+  final DataLakePrincipal principal;
+
+  /// The resource to which permissions are to be revoked.
+  @_s.JsonKey(name: 'Resource')
+  final Resource resource;
+
+  /// The identifier for the Data Catalog. By default, the account ID. The Data
+  /// Catalog is the persistent metadata store. It contains database definitions,
+  /// table definitions, and other control information to manage your AWS Lake
+  /// Formation environment.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  /// Indicates a list of permissions for which to revoke the grant option
+  /// allowing the principal to pass permissions to other principals.
+  @_s.JsonKey(name: 'PermissionsWithGrantOption')
+  final List<String> permissionsWithGrantOption;
+
+  RevokePermissionsRequest({
+    @_s.required this.permissions,
+    @_s.required this.principal,
+    @_s.required this.resource,
+    this.catalogId,
+    this.permissionsWithGrantOption,
+  });
+  Map<String, dynamic> toJson() => _$RevokePermissionsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class RevokePermissionsResponse {
@@ -1488,6 +1826,27 @@ class TableWithColumnsResource {
       _$TableWithColumnsResourceFromJson(json);
 
   Map<String, dynamic> toJson() => _$TableWithColumnsResourceToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateResourceRequest {
+  /// The resource ARN.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// The new role to use for the given resource registered in AWS Lake Formation.
+  @_s.JsonKey(name: 'RoleArn')
+  final String roleArn;
+
+  UpdateResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.roleArn,
+  });
+  Map<String, dynamic> toJson() => _$UpdateResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(

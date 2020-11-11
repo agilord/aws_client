@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -127,13 +126,13 @@ class ForecastQueryService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Filters': filters,
-        'ForecastArn': forecastArn,
-        if (endDate != null) 'EndDate': endDate,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (startDate != null) 'StartDate': startDate,
-      },
+      payload: QueryForecastRequest(
+        filters: filters,
+        forecastArn: forecastArn,
+        endDate: endDate,
+        nextToken: nextToken,
+        startDate: startDate,
+      ),
     );
 
     return QueryForecastResponse.fromJson(jsonResponse.body);
@@ -194,6 +193,54 @@ class Forecast {
   });
   factory Forecast.fromJson(Map<String, dynamic> json) =>
       _$ForecastFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class QueryForecastRequest {
+  /// The filtering criteria to apply when retrieving the forecast. For example,
+  /// to get the forecast for <code>client_21</code> in the electricity usage
+  /// dataset, specify the following:
+  ///
+  /// <code>{"item_id" : "client_21"}</code>
+  ///
+  /// To get the full forecast, use the <a
+  /// href="https://docs.aws.amazon.com/en_us/forecast/latest/dg/API_CreateForecastExportJob.html">CreateForecastExportJob</a>
+  /// operation.
+  @_s.JsonKey(name: 'Filters')
+  final Map<String, String> filters;
+
+  /// The Amazon Resource Name (ARN) of the forecast to query.
+  @_s.JsonKey(name: 'ForecastArn')
+  final String forecastArn;
+
+  /// The end date for the forecast. Specify the date using this format:
+  /// yyyy-MM-dd'T'HH:mm:ss (ISO 8601 format). For example, 2015-01-01T20:00:00.
+  @_s.JsonKey(name: 'EndDate')
+  final String endDate;
+
+  /// If the result of the previous request was truncated, the response includes a
+  /// <code>NextToken</code>. To retrieve the next set of results, use the token
+  /// in the next request. Tokens expire after 24 hours.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The start date for the forecast. Specify the date using this format:
+  /// yyyy-MM-dd'T'HH:mm:ss (ISO 8601 format). For example, 2015-01-01T08:00:00.
+  @_s.JsonKey(name: 'StartDate')
+  final String startDate;
+
+  QueryForecastRequest({
+    @_s.required this.filters,
+    @_s.required this.forecastArn,
+    this.endDate,
+    this.nextToken,
+    this.startDate,
+  });
+  Map<String, dynamic> toJson() => _$QueryForecastRequestToJson(this);
 }
 
 @_s.JsonSerializable(

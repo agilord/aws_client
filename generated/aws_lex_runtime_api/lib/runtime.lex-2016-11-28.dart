@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -86,7 +85,11 @@ class LexRuntimeService {
       r'''[0-9a-zA-Z._:-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteSessionRequest(
+      botAlias: botAlias,
+      botName: botName,
+      userId: userId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -637,11 +640,14 @@ class LexRuntimeService {
       r'''[0-9a-zA-Z._:-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'inputText': inputText,
-      if (requestAttributes != null) 'requestAttributes': requestAttributes,
-      if (sessionAttributes != null) 'sessionAttributes': sessionAttributes,
-    };
+    final $payload = PostTextRequest(
+      botAlias: botAlias,
+      botName: botName,
+      inputText: inputText,
+      userId: userId,
+      requestAttributes: requestAttributes,
+      sessionAttributes: sessionAttributes,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -783,12 +789,15 @@ class LexRuntimeService {
     );
     final headers = <String, String>{};
     accept?.let((v) => headers['Accept'] = v.toString());
-    final $payload = <String, dynamic>{
-      if (dialogAction != null) 'dialogAction': dialogAction,
-      if (recentIntentSummaryView != null)
-        'recentIntentSummaryView': recentIntentSummaryView,
-      if (sessionAttributes != null) 'sessionAttributes': sessionAttributes,
-    };
+    final $payload = PutSessionRequest(
+      botAlias: botAlias,
+      botName: botName,
+      userId: userId,
+      accept: accept,
+      dialogAction: dialogAction,
+      recentIntentSummaryView: recentIntentSummaryView,
+      sessionAttributes: sessionAttributes,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -838,6 +847,32 @@ enum ConfirmationStatus {
 enum ContentType {
   @_s.JsonValue('application/vnd.amazonaws.card.generic')
   applicationVndAmazonawsCardGeneric,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteSessionRequest {
+  /// The alias in use for the bot that contains the session data.
+  @_s.JsonKey(name: 'botAlias', ignore: true)
+  final String botAlias;
+
+  /// The name of the bot that contains the session data.
+  @_s.JsonKey(name: 'botName', ignore: true)
+  final String botName;
+
+  /// The identifier of the user associated with the session data.
+  @_s.JsonKey(name: 'userId', ignore: true)
+  final String userId;
+
+  DeleteSessionRequest({
+    @_s.required this.botAlias,
+    @_s.required this.botName,
+    @_s.required this.userId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteSessionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1419,6 +1454,89 @@ class PostContentResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PostTextRequest {
+  /// The alias of the Amazon Lex bot.
+  @_s.JsonKey(name: 'botAlias', ignore: true)
+  final String botAlias;
+
+  /// The name of the Amazon Lex bot.
+  @_s.JsonKey(name: 'botName', ignore: true)
+  final String botName;
+
+  /// The text that the user entered (Amazon Lex interprets this text).
+  @_s.JsonKey(name: 'inputText')
+  final String inputText;
+
+  /// The ID of the client application user. Amazon Lex uses this to identify a
+  /// user's conversation with your bot. At runtime, each request must contain the
+  /// <code>userID</code> field.
+  ///
+  /// To decide the user ID to use for your application, consider the following
+  /// factors.
+  ///
+  /// <ul>
+  /// <li>
+  /// The <code>userID</code> field must not contain any personally identifiable
+  /// information of the user, for example, name, personal identification numbers,
+  /// or other end user personal information.
+  /// </li>
+  /// <li>
+  /// If you want a user to start a conversation on one device and continue on
+  /// another device, use a user-specific identifier.
+  /// </li>
+  /// <li>
+  /// If you want the same user to be able to have two independent conversations
+  /// on two different devices, choose a device-specific identifier.
+  /// </li>
+  /// <li>
+  /// A user can't have two independent conversations with two different versions
+  /// of the same bot. For example, a user can't have a conversation with the PROD
+  /// and BETA versions of the same bot. If you anticipate that a user will need
+  /// to have conversation with two different versions, for example, while
+  /// testing, include the bot alias in the user ID to separate the two
+  /// conversations.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'userId', ignore: true)
+  final String userId;
+
+  /// Request-specific information passed between Amazon Lex and a client
+  /// application.
+  ///
+  /// The namespace <code>x-amz-lex:</code> is reserved for special attributes.
+  /// Don't create any request attributes with the prefix <code>x-amz-lex:</code>.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/lex/latest/dg/context-mgmt.html#context-mgmt-request-attribs">Setting
+  /// Request Attributes</a>.
+  @_s.JsonKey(name: 'requestAttributes')
+  final Map<String, String> requestAttributes;
+
+  /// Application-specific information passed between Amazon Lex and a client
+  /// application.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/lex/latest/dg/context-mgmt.html#context-mgmt-session-attribs">Setting
+  /// Session Attributes</a>.
+  @_s.JsonKey(name: 'sessionAttributes')
+  final Map<String, String> sessionAttributes;
+
+  PostTextRequest({
+    @_s.required this.botAlias,
+    @_s.required this.botName,
+    @_s.required this.inputText,
+    @_s.required this.userId,
+    this.requestAttributes,
+    this.sessionAttributes,
+  });
+  Map<String, dynamic> toJson() => _$PostTextRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PostTextResponse {
@@ -1583,6 +1701,119 @@ class PostTextResponse {
   });
   factory PostTextResponse.fromJson(Map<String, dynamic> json) =>
       _$PostTextResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutSessionRequest {
+  /// The alias in use for the bot that contains the session data.
+  @_s.JsonKey(name: 'botAlias', ignore: true)
+  final String botAlias;
+
+  /// The name of the bot that contains the session data.
+  @_s.JsonKey(name: 'botName', ignore: true)
+  final String botName;
+
+  /// The ID of the client application user. Amazon Lex uses this to identify a
+  /// user's conversation with your bot.
+  @_s.JsonKey(name: 'userId', ignore: true)
+  final String userId;
+
+  /// The message that Amazon Lex returns in the response can be either text or
+  /// speech based depending on the value of this field.
+  ///
+  /// <ul>
+  /// <li>
+  /// If the value is <code>text/plain; charset=utf-8</code>, Amazon Lex returns
+  /// text in the response.
+  /// </li>
+  /// <li>
+  /// If the value begins with <code>audio/</code>, Amazon Lex returns speech in
+  /// the response. Amazon Lex uses Amazon Polly to generate the speech in the
+  /// configuration that you specify. For example, if you specify
+  /// <code>audio/mpeg</code> as the value, Amazon Lex returns speech in the MPEG
+  /// format.
+  /// </li>
+  /// <li>
+  /// If the value is <code>audio/pcm</code>, the speech is returned as
+  /// <code>audio/pcm</code> in 16-bit, little endian format.
+  /// </li>
+  /// <li>
+  /// The following are the accepted values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>audio/mpeg</code>
+  /// </li>
+  /// <li>
+  /// <code>audio/ogg</code>
+  /// </li>
+  /// <li>
+  /// <code>audio/pcm</code>
+  /// </li>
+  /// <li>
+  /// <code>audio/*</code> (defaults to mpeg)
+  /// </li>
+  /// <li>
+  /// <code>text/plain; charset=utf-8</code>
+  /// </li>
+  /// </ul> </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Accept', ignore: true)
+  final String accept;
+
+  /// Sets the next action that the bot should take to fulfill the conversation.
+  @_s.JsonKey(name: 'dialogAction')
+  final DialogAction dialogAction;
+
+  /// A summary of the recent intents for the bot. You can use the intent summary
+  /// view to set a checkpoint label on an intent and modify attributes of
+  /// intents. You can also use it to remove or add intent summary objects to the
+  /// list.
+  ///
+  /// An intent that you modify or add to the list must make sense for the bot.
+  /// For example, the intent name must be valid for the bot. You must provide
+  /// valid values for:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>intentName</code>
+  /// </li>
+  /// <li>
+  /// slot names
+  /// </li>
+  /// <li>
+  /// <code>slotToElict</code>
+  /// </li>
+  /// </ul>
+  /// If you send the <code>recentIntentSummaryView</code> parameter in a
+  /// <code>PutSession</code> request, the contents of the new summary view
+  /// replaces the old summary view. For example, if a <code>GetSession</code>
+  /// request returns three intents in the summary view and you call
+  /// <code>PutSession</code> with one intent in the summary view, the next call
+  /// to <code>GetSession</code> will only return one intent.
+  @_s.JsonKey(name: 'recentIntentSummaryView')
+  final List<IntentSummary> recentIntentSummaryView;
+
+  /// Map of key/value pairs representing the session-specific context
+  /// information. It contains application information passed between Amazon Lex
+  /// and a client application.
+  @_s.JsonKey(name: 'sessionAttributes')
+  final Map<String, String> sessionAttributes;
+
+  PutSessionRequest({
+    @_s.required this.botAlias,
+    @_s.required this.botName,
+    @_s.required this.userId,
+    this.accept,
+    this.dialogAction,
+    this.recentIntentSummaryView,
+    this.sessionAttributes,
+  });
+  Map<String, dynamic> toJson() => _$PutSessionRequestToJson(this);
 }
 
 @_s.JsonSerializable(

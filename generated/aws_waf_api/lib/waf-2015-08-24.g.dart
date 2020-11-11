@@ -170,6 +170,21 @@ const _$TextTransformationEnumMap = {
   TextTransformation.urlDecode: 'URL_DECODE',
 };
 
+Map<String, dynamic> _$CreateByteMatchSetRequestToJson(
+    CreateByteMatchSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChangeToken', instance.changeToken);
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
 CreateByteMatchSetResponse _$CreateByteMatchSetResponseFromJson(
     Map<String, dynamic> json) {
   return CreateByteMatchSetResponse(
@@ -178,6 +193,21 @@ CreateByteMatchSetResponse _$CreateByteMatchSetResponseFromJson(
         : ByteMatchSet.fromJson(json['ByteMatchSet'] as Map<String, dynamic>),
     changeToken: json['ChangeToken'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateGeoMatchSetRequestToJson(
+    CreateGeoMatchSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChangeToken', instance.changeToken);
+  writeNotNull('Name', instance.name);
+  return val;
 }
 
 CreateGeoMatchSetResponse _$CreateGeoMatchSetResponseFromJson(
@@ -190,6 +220,20 @@ CreateGeoMatchSetResponse _$CreateGeoMatchSetResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateIPSetRequestToJson(CreateIPSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChangeToken', instance.changeToken);
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
 CreateIPSetResponse _$CreateIPSetResponseFromJson(Map<String, dynamic> json) {
   return CreateIPSetResponse(
     changeToken: json['ChangeToken'] as String,
@@ -198,6 +242,29 @@ CreateIPSetResponse _$CreateIPSetResponseFromJson(Map<String, dynamic> json) {
         : IPSet.fromJson(json['IPSet'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$CreateRateBasedRuleRequestToJson(
+    CreateRateBasedRuleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChangeToken', instance.changeToken);
+  writeNotNull('MetricName', instance.metricName);
+  writeNotNull('Name', instance.name);
+  writeNotNull('RateKey', _$RateKeyEnumMap[instance.rateKey]);
+  writeNotNull('RateLimit', instance.rateLimit);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+const _$RateKeyEnumMap = {
+  RateKey.ip: 'IP',
+};
 
 CreateRateBasedRuleResponse _$CreateRateBasedRuleResponseFromJson(
     Map<String, dynamic> json) {
@@ -209,6 +276,21 @@ CreateRateBasedRuleResponse _$CreateRateBasedRuleResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateRegexMatchSetRequestToJson(
+    CreateRegexMatchSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChangeToken', instance.changeToken);
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
 CreateRegexMatchSetResponse _$CreateRegexMatchSetResponseFromJson(
     Map<String, dynamic> json) {
   return CreateRegexMatchSetResponse(
@@ -217,6 +299,21 @@ CreateRegexMatchSetResponse _$CreateRegexMatchSetResponseFromJson(
         ? null
         : RegexMatchSet.fromJson(json['RegexMatchSet'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateRegexPatternSetRequestToJson(
+    CreateRegexPatternSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChangeToken', instance.changeToken);
+  writeNotNull('Name', instance.name);
+  return val;
 }
 
 CreateRegexPatternSetResponse _$CreateRegexPatternSetResponseFromJson(
@@ -230,6 +327,23 @@ CreateRegexPatternSetResponse _$CreateRegexPatternSetResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateRuleGroupRequestToJson(
+    CreateRuleGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChangeToken', instance.changeToken);
+  writeNotNull('MetricName', instance.metricName);
+  writeNotNull('Name', instance.name);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateRuleGroupResponse _$CreateRuleGroupResponseFromJson(
     Map<String, dynamic> json) {
   return CreateRuleGroupResponse(
@@ -240,6 +354,22 @@ CreateRuleGroupResponse _$CreateRuleGroupResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateRuleRequestToJson(CreateRuleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChangeToken', instance.changeToken);
+  writeNotNull('MetricName', instance.metricName);
+  writeNotNull('Name', instance.name);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateRuleResponse _$CreateRuleResponseFromJson(Map<String, dynamic> json) {
   return CreateRuleResponse(
     changeToken: json['ChangeToken'] as String,
@@ -247,6 +377,21 @@ CreateRuleResponse _$CreateRuleResponseFromJson(Map<String, dynamic> json) {
         ? null
         : Rule.fromJson(json['Rule'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateSizeConstraintSetRequestToJson(
+    CreateSizeConstraintSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChangeToken', instance.changeToken);
+  writeNotNull('Name', instance.name);
+  return val;
 }
 
 CreateSizeConstraintSetResponse _$CreateSizeConstraintSetResponseFromJson(
@@ -260,6 +405,21 @@ CreateSizeConstraintSetResponse _$CreateSizeConstraintSetResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateSqlInjectionMatchSetRequestToJson(
+    CreateSqlInjectionMatchSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChangeToken', instance.changeToken);
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
 CreateSqlInjectionMatchSetResponse _$CreateSqlInjectionMatchSetResponseFromJson(
     Map<String, dynamic> json) {
   return CreateSqlInjectionMatchSetResponse(
@@ -271,6 +431,23 @@ CreateSqlInjectionMatchSetResponse _$CreateSqlInjectionMatchSetResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateWebACLRequestToJson(CreateWebACLRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChangeToken', instance.changeToken);
+  writeNotNull('DefaultAction', instance.defaultAction?.toJson());
+  writeNotNull('MetricName', instance.metricName);
+  writeNotNull('Name', instance.name);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateWebACLResponse _$CreateWebACLResponseFromJson(Map<String, dynamic> json) {
   return CreateWebACLResponse(
     changeToken: json['ChangeToken'] as String,
@@ -278,6 +455,21 @@ CreateWebACLResponse _$CreateWebACLResponseFromJson(Map<String, dynamic> json) {
         ? null
         : WebACL.fromJson(json['WebACL'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateXssMatchSetRequestToJson(
+    CreateXssMatchSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChangeToken', instance.changeToken);
+  writeNotNull('Name', instance.name);
+  return val;
 }
 
 CreateXssMatchSetResponse _$CreateXssMatchSetResponseFromJson(
@@ -290,11 +482,41 @@ CreateXssMatchSetResponse _$CreateXssMatchSetResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteByteMatchSetRequestToJson(
+    DeleteByteMatchSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ByteMatchSetId', instance.byteMatchSetId);
+  writeNotNull('ChangeToken', instance.changeToken);
+  return val;
+}
+
 DeleteByteMatchSetResponse _$DeleteByteMatchSetResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteByteMatchSetResponse(
     changeToken: json['ChangeToken'] as String,
   );
+}
+
+Map<String, dynamic> _$DeleteGeoMatchSetRequestToJson(
+    DeleteGeoMatchSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChangeToken', instance.changeToken);
+  writeNotNull('GeoMatchSetId', instance.geoMatchSetId);
+  return val;
 }
 
 DeleteGeoMatchSetResponse _$DeleteGeoMatchSetResponseFromJson(
@@ -304,10 +526,38 @@ DeleteGeoMatchSetResponse _$DeleteGeoMatchSetResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteIPSetRequestToJson(DeleteIPSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChangeToken', instance.changeToken);
+  writeNotNull('IPSetId', instance.iPSetId);
+  return val;
+}
+
 DeleteIPSetResponse _$DeleteIPSetResponseFromJson(Map<String, dynamic> json) {
   return DeleteIPSetResponse(
     changeToken: json['ChangeToken'] as String,
   );
+}
+
+Map<String, dynamic> _$DeleteLoggingConfigurationRequestToJson(
+    DeleteLoggingConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  return val;
 }
 
 DeleteLoggingConfigurationResponse _$DeleteLoggingConfigurationResponseFromJson(
@@ -315,9 +565,38 @@ DeleteLoggingConfigurationResponse _$DeleteLoggingConfigurationResponseFromJson(
   return DeleteLoggingConfigurationResponse();
 }
 
+Map<String, dynamic> _$DeletePermissionPolicyRequestToJson(
+    DeletePermissionPolicyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  return val;
+}
+
 DeletePermissionPolicyResponse _$DeletePermissionPolicyResponseFromJson(
     Map<String, dynamic> json) {
   return DeletePermissionPolicyResponse();
+}
+
+Map<String, dynamic> _$DeleteRateBasedRuleRequestToJson(
+    DeleteRateBasedRuleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChangeToken', instance.changeToken);
+  writeNotNull('RuleId', instance.ruleId);
+  return val;
 }
 
 DeleteRateBasedRuleResponse _$DeleteRateBasedRuleResponseFromJson(
@@ -327,11 +606,41 @@ DeleteRateBasedRuleResponse _$DeleteRateBasedRuleResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteRegexMatchSetRequestToJson(
+    DeleteRegexMatchSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChangeToken', instance.changeToken);
+  writeNotNull('RegexMatchSetId', instance.regexMatchSetId);
+  return val;
+}
+
 DeleteRegexMatchSetResponse _$DeleteRegexMatchSetResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteRegexMatchSetResponse(
     changeToken: json['ChangeToken'] as String,
   );
+}
+
+Map<String, dynamic> _$DeleteRegexPatternSetRequestToJson(
+    DeleteRegexPatternSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChangeToken', instance.changeToken);
+  writeNotNull('RegexPatternSetId', instance.regexPatternSetId);
+  return val;
 }
 
 DeleteRegexPatternSetResponse _$DeleteRegexPatternSetResponseFromJson(
@@ -341,6 +650,21 @@ DeleteRegexPatternSetResponse _$DeleteRegexPatternSetResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteRuleGroupRequestToJson(
+    DeleteRuleGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChangeToken', instance.changeToken);
+  writeNotNull('RuleGroupId', instance.ruleGroupId);
+  return val;
+}
+
 DeleteRuleGroupResponse _$DeleteRuleGroupResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteRuleGroupResponse(
@@ -348,10 +672,39 @@ DeleteRuleGroupResponse _$DeleteRuleGroupResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteRuleRequestToJson(DeleteRuleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChangeToken', instance.changeToken);
+  writeNotNull('RuleId', instance.ruleId);
+  return val;
+}
+
 DeleteRuleResponse _$DeleteRuleResponseFromJson(Map<String, dynamic> json) {
   return DeleteRuleResponse(
     changeToken: json['ChangeToken'] as String,
   );
+}
+
+Map<String, dynamic> _$DeleteSizeConstraintSetRequestToJson(
+    DeleteSizeConstraintSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChangeToken', instance.changeToken);
+  writeNotNull('SizeConstraintSetId', instance.sizeConstraintSetId);
+  return val;
 }
 
 DeleteSizeConstraintSetResponse _$DeleteSizeConstraintSetResponseFromJson(
@@ -361,6 +714,21 @@ DeleteSizeConstraintSetResponse _$DeleteSizeConstraintSetResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteSqlInjectionMatchSetRequestToJson(
+    DeleteSqlInjectionMatchSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChangeToken', instance.changeToken);
+  writeNotNull('SqlInjectionMatchSetId', instance.sqlInjectionMatchSetId);
+  return val;
+}
+
 DeleteSqlInjectionMatchSetResponse _$DeleteSqlInjectionMatchSetResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteSqlInjectionMatchSetResponse(
@@ -368,10 +736,39 @@ DeleteSqlInjectionMatchSetResponse _$DeleteSqlInjectionMatchSetResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteWebACLRequestToJson(DeleteWebACLRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChangeToken', instance.changeToken);
+  writeNotNull('WebACLId', instance.webACLId);
+  return val;
+}
+
 DeleteWebACLResponse _$DeleteWebACLResponseFromJson(Map<String, dynamic> json) {
   return DeleteWebACLResponse(
     changeToken: json['ChangeToken'] as String,
   );
+}
+
+Map<String, dynamic> _$DeleteXssMatchSetRequestToJson(
+    DeleteXssMatchSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChangeToken', instance.changeToken);
+  writeNotNull('XssMatchSetId', instance.xssMatchSetId);
+  return val;
 }
 
 DeleteXssMatchSetResponse _$DeleteXssMatchSetResponseFromJson(
@@ -742,6 +1139,20 @@ Map<String, dynamic> _$GeoMatchSetUpdateToJson(GeoMatchSetUpdate instance) {
   return val;
 }
 
+Map<String, dynamic> _$GetByteMatchSetRequestToJson(
+    GetByteMatchSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ByteMatchSetId', instance.byteMatchSetId);
+  return val;
+}
+
 GetByteMatchSetResponse _$GetByteMatchSetResponseFromJson(
     Map<String, dynamic> json) {
   return GetByteMatchSetResponse(
@@ -758,6 +1169,20 @@ GetChangeTokenResponse _$GetChangeTokenResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$GetChangeTokenStatusRequestToJson(
+    GetChangeTokenStatusRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChangeToken', instance.changeToken);
+  return val;
+}
+
 GetChangeTokenStatusResponse _$GetChangeTokenStatusResponseFromJson(
     Map<String, dynamic> json) {
   return GetChangeTokenStatusResponse(
@@ -772,6 +1197,20 @@ const _$ChangeTokenStatusEnumMap = {
   ChangeTokenStatus.insync: 'INSYNC',
 };
 
+Map<String, dynamic> _$GetGeoMatchSetRequestToJson(
+    GetGeoMatchSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GeoMatchSetId', instance.geoMatchSetId);
+  return val;
+}
+
 GetGeoMatchSetResponse _$GetGeoMatchSetResponseFromJson(
     Map<String, dynamic> json) {
   return GetGeoMatchSetResponse(
@@ -781,12 +1220,39 @@ GetGeoMatchSetResponse _$GetGeoMatchSetResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$GetIPSetRequestToJson(GetIPSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('IPSetId', instance.iPSetId);
+  return val;
+}
+
 GetIPSetResponse _$GetIPSetResponseFromJson(Map<String, dynamic> json) {
   return GetIPSetResponse(
     iPSet: json['IPSet'] == null
         ? null
         : IPSet.fromJson(json['IPSet'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetLoggingConfigurationRequestToJson(
+    GetLoggingConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  return val;
 }
 
 GetLoggingConfigurationResponse _$GetLoggingConfigurationResponseFromJson(
@@ -799,11 +1265,40 @@ GetLoggingConfigurationResponse _$GetLoggingConfigurationResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$GetPermissionPolicyRequestToJson(
+    GetPermissionPolicyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  return val;
+}
+
 GetPermissionPolicyResponse _$GetPermissionPolicyResponseFromJson(
     Map<String, dynamic> json) {
   return GetPermissionPolicyResponse(
     policy: json['Policy'] as String,
   );
+}
+
+Map<String, dynamic> _$GetRateBasedRuleManagedKeysRequestToJson(
+    GetRateBasedRuleManagedKeysRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RuleId', instance.ruleId);
+  writeNotNull('NextMarker', instance.nextMarker);
+  return val;
 }
 
 GetRateBasedRuleManagedKeysResponse
@@ -815,6 +1310,20 @@ GetRateBasedRuleManagedKeysResponse
   );
 }
 
+Map<String, dynamic> _$GetRateBasedRuleRequestToJson(
+    GetRateBasedRuleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RuleId', instance.ruleId);
+  return val;
+}
+
 GetRateBasedRuleResponse _$GetRateBasedRuleResponseFromJson(
     Map<String, dynamic> json) {
   return GetRateBasedRuleResponse(
@@ -824,6 +1333,20 @@ GetRateBasedRuleResponse _$GetRateBasedRuleResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$GetRegexMatchSetRequestToJson(
+    GetRegexMatchSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RegexMatchSetId', instance.regexMatchSetId);
+  return val;
+}
+
 GetRegexMatchSetResponse _$GetRegexMatchSetResponseFromJson(
     Map<String, dynamic> json) {
   return GetRegexMatchSetResponse(
@@ -831,6 +1354,20 @@ GetRegexMatchSetResponse _$GetRegexMatchSetResponseFromJson(
         ? null
         : RegexMatchSet.fromJson(json['RegexMatchSet'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetRegexPatternSetRequestToJson(
+    GetRegexPatternSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RegexPatternSetId', instance.regexPatternSetId);
+  return val;
 }
 
 GetRegexPatternSetResponse _$GetRegexPatternSetResponseFromJson(
@@ -843,6 +1380,19 @@ GetRegexPatternSetResponse _$GetRegexPatternSetResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$GetRuleGroupRequestToJson(GetRuleGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RuleGroupId', instance.ruleGroupId);
+  return val;
+}
+
 GetRuleGroupResponse _$GetRuleGroupResponseFromJson(Map<String, dynamic> json) {
   return GetRuleGroupResponse(
     ruleGroup: json['RuleGroup'] == null
@@ -851,12 +1401,42 @@ GetRuleGroupResponse _$GetRuleGroupResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetRuleRequestToJson(GetRuleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RuleId', instance.ruleId);
+  return val;
+}
+
 GetRuleResponse _$GetRuleResponseFromJson(Map<String, dynamic> json) {
   return GetRuleResponse(
     rule: json['Rule'] == null
         ? null
         : Rule.fromJson(json['Rule'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetSampledRequestsRequestToJson(
+    GetSampledRequestsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxItems', instance.maxItems);
+  writeNotNull('RuleId', instance.ruleId);
+  writeNotNull('TimeWindow', instance.timeWindow?.toJson());
+  writeNotNull('WebAclId', instance.webAclId);
+  return val;
 }
 
 GetSampledRequestsResponse _$GetSampledRequestsResponseFromJson(
@@ -874,6 +1454,20 @@ GetSampledRequestsResponse _$GetSampledRequestsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$GetSizeConstraintSetRequestToJson(
+    GetSizeConstraintSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SizeConstraintSetId', instance.sizeConstraintSetId);
+  return val;
+}
+
 GetSizeConstraintSetResponse _$GetSizeConstraintSetResponseFromJson(
     Map<String, dynamic> json) {
   return GetSizeConstraintSetResponse(
@@ -882,6 +1476,20 @@ GetSizeConstraintSetResponse _$GetSizeConstraintSetResponseFromJson(
         : SizeConstraintSet.fromJson(
             json['SizeConstraintSet'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetSqlInjectionMatchSetRequestToJson(
+    GetSqlInjectionMatchSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SqlInjectionMatchSetId', instance.sqlInjectionMatchSetId);
+  return val;
 }
 
 GetSqlInjectionMatchSetResponse _$GetSqlInjectionMatchSetResponseFromJson(
@@ -894,12 +1502,39 @@ GetSqlInjectionMatchSetResponse _$GetSqlInjectionMatchSetResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$GetWebACLRequestToJson(GetWebACLRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('WebACLId', instance.webACLId);
+  return val;
+}
+
 GetWebACLResponse _$GetWebACLResponseFromJson(Map<String, dynamic> json) {
   return GetWebACLResponse(
     webACL: json['WebACL'] == null
         ? null
         : WebACL.fromJson(json['WebACL'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetXssMatchSetRequestToJson(
+    GetXssMatchSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('XssMatchSetId', instance.xssMatchSetId);
+  return val;
 }
 
 GetXssMatchSetResponse _$GetXssMatchSetResponseFromJson(
@@ -991,6 +1626,22 @@ Map<String, dynamic> _$IPSetUpdateToJson(IPSetUpdate instance) {
   return val;
 }
 
+Map<String, dynamic> _$ListActivatedRulesInRuleGroupRequestToJson(
+    ListActivatedRulesInRuleGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextMarker', instance.nextMarker);
+  writeNotNull('RuleGroupId', instance.ruleGroupId);
+  return val;
+}
+
 ListActivatedRulesInRuleGroupResponse
     _$ListActivatedRulesInRuleGroupResponseFromJson(Map<String, dynamic> json) {
   return ListActivatedRulesInRuleGroupResponse(
@@ -1001,6 +1652,21 @@ ListActivatedRulesInRuleGroupResponse
         ?.toList(),
     nextMarker: json['NextMarker'] as String,
   );
+}
+
+Map<String, dynamic> _$ListByteMatchSetsRequestToJson(
+    ListByteMatchSetsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextMarker', instance.nextMarker);
+  return val;
 }
 
 ListByteMatchSetsResponse _$ListByteMatchSetsResponseFromJson(
@@ -1015,6 +1681,21 @@ ListByteMatchSetsResponse _$ListByteMatchSetsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListGeoMatchSetsRequestToJson(
+    ListGeoMatchSetsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextMarker', instance.nextMarker);
+  return val;
+}
+
 ListGeoMatchSetsResponse _$ListGeoMatchSetsResponseFromJson(
     Map<String, dynamic> json) {
   return ListGeoMatchSetsResponse(
@@ -1027,6 +1708,20 @@ ListGeoMatchSetsResponse _$ListGeoMatchSetsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListIPSetsRequestToJson(ListIPSetsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextMarker', instance.nextMarker);
+  return val;
+}
+
 ListIPSetsResponse _$ListIPSetsResponseFromJson(Map<String, dynamic> json) {
   return ListIPSetsResponse(
     iPSets: (json['IPSets'] as List)
@@ -1035,6 +1730,21 @@ ListIPSetsResponse _$ListIPSetsResponseFromJson(Map<String, dynamic> json) {
         ?.toList(),
     nextMarker: json['NextMarker'] as String,
   );
+}
+
+Map<String, dynamic> _$ListLoggingConfigurationsRequestToJson(
+    ListLoggingConfigurationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextMarker', instance.nextMarker);
+  return val;
 }
 
 ListLoggingConfigurationsResponse _$ListLoggingConfigurationsResponseFromJson(
@@ -1049,6 +1759,21 @@ ListLoggingConfigurationsResponse _$ListLoggingConfigurationsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListRateBasedRulesRequestToJson(
+    ListRateBasedRulesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextMarker', instance.nextMarker);
+  return val;
+}
+
 ListRateBasedRulesResponse _$ListRateBasedRulesResponseFromJson(
     Map<String, dynamic> json) {
   return ListRateBasedRulesResponse(
@@ -1058,6 +1783,21 @@ ListRateBasedRulesResponse _$ListRateBasedRulesResponseFromJson(
             e == null ? null : RuleSummary.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListRegexMatchSetsRequestToJson(
+    ListRegexMatchSetsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextMarker', instance.nextMarker);
+  return val;
 }
 
 ListRegexMatchSetsResponse _$ListRegexMatchSetsResponseFromJson(
@@ -1072,6 +1812,21 @@ ListRegexMatchSetsResponse _$ListRegexMatchSetsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListRegexPatternSetsRequestToJson(
+    ListRegexPatternSetsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextMarker', instance.nextMarker);
+  return val;
+}
+
 ListRegexPatternSetsResponse _$ListRegexPatternSetsResponseFromJson(
     Map<String, dynamic> json) {
   return ListRegexPatternSetsResponse(
@@ -1082,6 +1837,21 @@ ListRegexPatternSetsResponse _$ListRegexPatternSetsResponseFromJson(
             : RegexPatternSetSummary.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListRuleGroupsRequestToJson(
+    ListRuleGroupsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextMarker', instance.nextMarker);
+  return val;
 }
 
 ListRuleGroupsResponse _$ListRuleGroupsResponseFromJson(
@@ -1096,6 +1866,20 @@ ListRuleGroupsResponse _$ListRuleGroupsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListRulesRequestToJson(ListRulesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextMarker', instance.nextMarker);
+  return val;
+}
+
 ListRulesResponse _$ListRulesResponseFromJson(Map<String, dynamic> json) {
   return ListRulesResponse(
     nextMarker: json['NextMarker'] as String,
@@ -1104,6 +1888,21 @@ ListRulesResponse _$ListRulesResponseFromJson(Map<String, dynamic> json) {
             e == null ? null : RuleSummary.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListSizeConstraintSetsRequestToJson(
+    ListSizeConstraintSetsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextMarker', instance.nextMarker);
+  return val;
 }
 
 ListSizeConstraintSetsResponse _$ListSizeConstraintSetsResponseFromJson(
@@ -1118,6 +1917,21 @@ ListSizeConstraintSetsResponse _$ListSizeConstraintSetsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListSqlInjectionMatchSetsRequestToJson(
+    ListSqlInjectionMatchSetsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextMarker', instance.nextMarker);
+  return val;
+}
+
 ListSqlInjectionMatchSetsResponse _$ListSqlInjectionMatchSetsResponseFromJson(
     Map<String, dynamic> json) {
   return ListSqlInjectionMatchSetsResponse(
@@ -1128,6 +1942,21 @@ ListSqlInjectionMatchSetsResponse _$ListSqlInjectionMatchSetsResponseFromJson(
             : SqlInjectionMatchSetSummary.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListSubscribedRuleGroupsRequestToJson(
+    ListSubscribedRuleGroupsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextMarker', instance.nextMarker);
+  return val;
 }
 
 ListSubscribedRuleGroupsResponse _$ListSubscribedRuleGroupsResponseFromJson(
@@ -1142,6 +1971,22 @@ ListSubscribedRuleGroupsResponse _$ListSubscribedRuleGroupsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListTagsForResourceRequestToJson(
+    ListTagsForResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARN', instance.resourceARN);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextMarker', instance.nextMarker);
+  return val;
+}
+
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
@@ -1153,6 +1998,20 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListWebACLsRequestToJson(ListWebACLsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextMarker', instance.nextMarker);
+  return val;
+}
+
 ListWebACLsResponse _$ListWebACLsResponseFromJson(Map<String, dynamic> json) {
   return ListWebACLsResponse(
     nextMarker: json['NextMarker'] as String,
@@ -1162,6 +2021,21 @@ ListWebACLsResponse _$ListWebACLsResponseFromJson(Map<String, dynamic> json) {
             : WebACLSummary.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListXssMatchSetsRequestToJson(
+    ListXssMatchSetsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextMarker', instance.nextMarker);
+  return val;
 }
 
 ListXssMatchSetsResponse _$ListXssMatchSetsResponseFromJson(
@@ -1239,6 +2113,20 @@ const _$PredicateTypeEnumMap = {
   PredicateType.regexMatch: 'RegexMatch',
 };
 
+Map<String, dynamic> _$PutLoggingConfigurationRequestToJson(
+    PutLoggingConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LoggingConfiguration', instance.loggingConfiguration?.toJson());
+  return val;
+}
+
 PutLoggingConfigurationResponse _$PutLoggingConfigurationResponseFromJson(
     Map<String, dynamic> json) {
   return PutLoggingConfigurationResponse(
@@ -1247,6 +2135,21 @@ PutLoggingConfigurationResponse _$PutLoggingConfigurationResponseFromJson(
         : LoggingConfiguration.fromJson(
             json['LoggingConfiguration'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$PutPermissionPolicyRequestToJson(
+    PutPermissionPolicyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Policy', instance.policy);
+  writeNotNull('ResourceArn', instance.resourceArn);
+  return val;
 }
 
 PutPermissionPolicyResponse _$PutPermissionPolicyResponseFromJson(
@@ -1267,10 +2170,6 @@ RateBasedRule _$RateBasedRuleFromJson(Map<String, dynamic> json) {
     name: json['Name'] as String,
   );
 }
-
-const _$RateKeyEnumMap = {
-  RateKey.ip: 'IP',
-};
 
 RegexMatchSet _$RegexMatchSetFromJson(Map<String, dynamic> json) {
   return RegexMatchSet(
@@ -1616,6 +2515,20 @@ TagInfoForResource _$TagInfoForResourceFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARN', instance.resourceARN);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
 }
@@ -1641,9 +2554,40 @@ Map<String, dynamic> _$TimeWindowToJson(TimeWindow instance) {
   return val;
 }
 
+Map<String, dynamic> _$UntagResourceRequestToJson(
+    UntagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARN', instance.resourceARN);
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
+}
+
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse();
+}
+
+Map<String, dynamic> _$UpdateByteMatchSetRequestToJson(
+    UpdateByteMatchSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ByteMatchSetId', instance.byteMatchSetId);
+  writeNotNull('ChangeToken', instance.changeToken);
+  writeNotNull('Updates', instance.updates?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 UpdateByteMatchSetResponse _$UpdateByteMatchSetResponseFromJson(
@@ -1653,6 +2597,22 @@ UpdateByteMatchSetResponse _$UpdateByteMatchSetResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateGeoMatchSetRequestToJson(
+    UpdateGeoMatchSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChangeToken', instance.changeToken);
+  writeNotNull('GeoMatchSetId', instance.geoMatchSetId);
+  writeNotNull('Updates', instance.updates?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 UpdateGeoMatchSetResponse _$UpdateGeoMatchSetResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateGeoMatchSetResponse(
@@ -1660,10 +2620,42 @@ UpdateGeoMatchSetResponse _$UpdateGeoMatchSetResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateIPSetRequestToJson(UpdateIPSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChangeToken', instance.changeToken);
+  writeNotNull('IPSetId', instance.iPSetId);
+  writeNotNull('Updates', instance.updates?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 UpdateIPSetResponse _$UpdateIPSetResponseFromJson(Map<String, dynamic> json) {
   return UpdateIPSetResponse(
     changeToken: json['ChangeToken'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateRateBasedRuleRequestToJson(
+    UpdateRateBasedRuleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChangeToken', instance.changeToken);
+  writeNotNull('RateLimit', instance.rateLimit);
+  writeNotNull('RuleId', instance.ruleId);
+  writeNotNull('Updates', instance.updates?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 UpdateRateBasedRuleResponse _$UpdateRateBasedRuleResponseFromJson(
@@ -1673,11 +2665,43 @@ UpdateRateBasedRuleResponse _$UpdateRateBasedRuleResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateRegexMatchSetRequestToJson(
+    UpdateRegexMatchSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChangeToken', instance.changeToken);
+  writeNotNull('RegexMatchSetId', instance.regexMatchSetId);
+  writeNotNull('Updates', instance.updates?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 UpdateRegexMatchSetResponse _$UpdateRegexMatchSetResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateRegexMatchSetResponse(
     changeToken: json['ChangeToken'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateRegexPatternSetRequestToJson(
+    UpdateRegexPatternSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChangeToken', instance.changeToken);
+  writeNotNull('RegexPatternSetId', instance.regexPatternSetId);
+  writeNotNull('Updates', instance.updates?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 UpdateRegexPatternSetResponse _$UpdateRegexPatternSetResponseFromJson(
@@ -1687,6 +2711,22 @@ UpdateRegexPatternSetResponse _$UpdateRegexPatternSetResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateRuleGroupRequestToJson(
+    UpdateRuleGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChangeToken', instance.changeToken);
+  writeNotNull('RuleGroupId', instance.ruleGroupId);
+  writeNotNull('Updates', instance.updates?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 UpdateRuleGroupResponse _$UpdateRuleGroupResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateRuleGroupResponse(
@@ -1694,10 +2734,41 @@ UpdateRuleGroupResponse _$UpdateRuleGroupResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateRuleRequestToJson(UpdateRuleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChangeToken', instance.changeToken);
+  writeNotNull('RuleId', instance.ruleId);
+  writeNotNull('Updates', instance.updates?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 UpdateRuleResponse _$UpdateRuleResponseFromJson(Map<String, dynamic> json) {
   return UpdateRuleResponse(
     changeToken: json['ChangeToken'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateSizeConstraintSetRequestToJson(
+    UpdateSizeConstraintSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChangeToken', instance.changeToken);
+  writeNotNull('SizeConstraintSetId', instance.sizeConstraintSetId);
+  writeNotNull('Updates', instance.updates?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 UpdateSizeConstraintSetResponse _$UpdateSizeConstraintSetResponseFromJson(
@@ -1707,6 +2778,22 @@ UpdateSizeConstraintSetResponse _$UpdateSizeConstraintSetResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateSqlInjectionMatchSetRequestToJson(
+    UpdateSqlInjectionMatchSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChangeToken', instance.changeToken);
+  writeNotNull('SqlInjectionMatchSetId', instance.sqlInjectionMatchSetId);
+  writeNotNull('Updates', instance.updates?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 UpdateSqlInjectionMatchSetResponse _$UpdateSqlInjectionMatchSetResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateSqlInjectionMatchSetResponse(
@@ -1714,10 +2801,42 @@ UpdateSqlInjectionMatchSetResponse _$UpdateSqlInjectionMatchSetResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateWebACLRequestToJson(UpdateWebACLRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChangeToken', instance.changeToken);
+  writeNotNull('WebACLId', instance.webACLId);
+  writeNotNull('DefaultAction', instance.defaultAction?.toJson());
+  writeNotNull('Updates', instance.updates?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 UpdateWebACLResponse _$UpdateWebACLResponseFromJson(Map<String, dynamic> json) {
   return UpdateWebACLResponse(
     changeToken: json['ChangeToken'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateXssMatchSetRequestToJson(
+    UpdateXssMatchSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChangeToken', instance.changeToken);
+  writeNotNull('Updates', instance.updates?.map((e) => e?.toJson())?.toList());
+  writeNotNull('XssMatchSetId', instance.xssMatchSetId);
+  return val;
 }
 
 UpdateXssMatchSetResponse _$UpdateXssMatchSetResponseFromJson(

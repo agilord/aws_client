@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -103,11 +102,12 @@ class ManagedBlockchain {
       32,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'ClientRequestToken': clientRequestToken,
-      'InvitationId': invitationId,
-      'MemberConfiguration': memberConfiguration,
-    };
+    final $payload = CreateMemberInput(
+      clientRequestToken: clientRequestToken,
+      invitationId: invitationId,
+      memberConfiguration: memberConfiguration,
+      networkId: networkId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -205,17 +205,16 @@ class ManagedBlockchain {
       0,
       128,
     );
-    final $payload = <String, dynamic>{
-      'ClientRequestToken': clientRequestToken,
-      'Framework': framework?.toValue(),
-      'FrameworkVersion': frameworkVersion,
-      'MemberConfiguration': memberConfiguration,
-      'Name': name,
-      'VotingPolicy': votingPolicy,
-      if (description != null) 'Description': description,
-      if (frameworkConfiguration != null)
-        'FrameworkConfiguration': frameworkConfiguration,
-    };
+    final $payload = CreateNetworkInput(
+      clientRequestToken: clientRequestToken,
+      framework: framework,
+      frameworkVersion: frameworkVersion,
+      memberConfiguration: memberConfiguration,
+      name: name,
+      votingPolicy: votingPolicy,
+      description: description,
+      frameworkConfiguration: frameworkConfiguration,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -282,10 +281,12 @@ class ManagedBlockchain {
       isRequired: true,
     );
     ArgumentError.checkNotNull(nodeConfiguration, 'nodeConfiguration');
-    final $payload = <String, dynamic>{
-      'ClientRequestToken': clientRequestToken,
-      'NodeConfiguration': nodeConfiguration,
-    };
+    final $payload = CreateNodeInput(
+      clientRequestToken: clientRequestToken,
+      memberId: memberId,
+      networkId: networkId,
+      nodeConfiguration: nodeConfiguration,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -369,12 +370,13 @@ class ManagedBlockchain {
       0,
       128,
     );
-    final $payload = <String, dynamic>{
-      'Actions': actions,
-      'ClientRequestToken': clientRequestToken,
-      'MemberId': memberId,
-      if (description != null) 'Description': description,
-    };
+    final $payload = CreateProposalInput(
+      actions: actions,
+      clientRequestToken: clientRequestToken,
+      memberId: memberId,
+      networkId: networkId,
+      description: description,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -426,7 +428,10 @@ class ManagedBlockchain {
       32,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteMemberInput(
+      memberId: memberId,
+      networkId: networkId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -484,7 +489,11 @@ class ManagedBlockchain {
       32,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteNodeInput(
+      memberId: memberId,
+      networkId: networkId,
+      nodeId: nodeId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1066,7 +1075,9 @@ class ManagedBlockchain {
       32,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = RejectInvitationInput(
+      invitationId: invitationId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1115,10 +1126,11 @@ class ManagedBlockchain {
       32,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (logPublishingConfiguration != null)
-        'LogPublishingConfiguration': logPublishingConfiguration,
-    };
+    final $payload = UpdateMemberInput(
+      memberId: memberId,
+      networkId: networkId,
+      logPublishingConfiguration: logPublishingConfiguration,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -1178,10 +1190,12 @@ class ManagedBlockchain {
       32,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (logPublishingConfiguration != null)
-        'LogPublishingConfiguration': logPublishingConfiguration,
-    };
+    final $payload = UpdateNodeInput(
+      memberId: memberId,
+      networkId: networkId,
+      nodeId: nodeId,
+      logPublishingConfiguration: logPublishingConfiguration,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -1245,10 +1259,12 @@ class ManagedBlockchain {
       32,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'Vote': vote?.toValue(),
-      'VoterMemberId': voterMemberId,
-    };
+    final $payload = VoteOnProposalInput(
+      networkId: networkId,
+      proposalId: proposalId,
+      vote: vote,
+      voterMemberId: voterMemberId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1310,6 +1326,42 @@ class ApprovalThresholdPolicy {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateMemberInput {
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the operation. An idempotent operation completes no more than
+  /// one time. This identifier is required only if you make a service request
+  /// directly using an HTTP client. It is generated automatically if you use an
+  /// AWS SDK or the AWS CLI.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// The unique identifier of the invitation that is sent to the member to join
+  /// the network.
+  @_s.JsonKey(name: 'InvitationId')
+  final String invitationId;
+
+  /// Member configuration parameters.
+  @_s.JsonKey(name: 'MemberConfiguration')
+  final MemberConfiguration memberConfiguration;
+
+  /// The unique identifier of the network in which the member is created.
+  @_s.JsonKey(name: 'networkId', ignore: true)
+  final String networkId;
+
+  CreateMemberInput({
+    @_s.required this.clientRequestToken,
+    @_s.required this.invitationId,
+    @_s.required this.memberConfiguration,
+    @_s.required this.networkId,
+  });
+  Map<String, dynamic> toJson() => _$CreateMemberInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateMemberOutput {
@@ -1322,6 +1374,62 @@ class CreateMemberOutput {
   });
   factory CreateMemberOutput.fromJson(Map<String, dynamic> json) =>
       _$CreateMemberOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateNetworkInput {
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the operation. An idempotent operation completes no more than
+  /// one time. This identifier is required only if you make a service request
+  /// directly using an HTTP client. It is generated automatically if you use an
+  /// AWS SDK or the AWS CLI.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// The blockchain framework that the network uses.
+  @_s.JsonKey(name: 'Framework')
+  final Framework framework;
+
+  /// The version of the blockchain framework that the network uses.
+  @_s.JsonKey(name: 'FrameworkVersion')
+  final String frameworkVersion;
+
+  /// Configuration properties for the first member within the network.
+  @_s.JsonKey(name: 'MemberConfiguration')
+  final MemberConfiguration memberConfiguration;
+
+  /// The name of the network.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The voting rules used by the network to determine if a proposal is approved.
+  @_s.JsonKey(name: 'VotingPolicy')
+  final VotingPolicy votingPolicy;
+
+  /// An optional description for the network.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// Configuration properties of the blockchain framework relevant to the network
+  /// configuration.
+  @_s.JsonKey(name: 'FrameworkConfiguration')
+  final NetworkFrameworkConfiguration frameworkConfiguration;
+
+  CreateNetworkInput({
+    @_s.required this.clientRequestToken,
+    @_s.required this.framework,
+    @_s.required this.frameworkVersion,
+    @_s.required this.memberConfiguration,
+    @_s.required this.name,
+    @_s.required this.votingPolicy,
+    this.description,
+    this.frameworkConfiguration,
+  });
+  Map<String, dynamic> toJson() => _$CreateNetworkInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1349,6 +1457,41 @@ class CreateNetworkOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateNodeInput {
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the operation. An idempotent operation completes no more than
+  /// one time. This identifier is required only if you make a service request
+  /// directly using an HTTP client. It is generated automatically if you use an
+  /// AWS SDK or the AWS CLI.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// The unique identifier of the member that owns this node.
+  @_s.JsonKey(name: 'memberId', ignore: true)
+  final String memberId;
+
+  /// The unique identifier of the network in which this node runs.
+  @_s.JsonKey(name: 'networkId', ignore: true)
+  final String networkId;
+
+  /// The properties of a node configuration.
+  @_s.JsonKey(name: 'NodeConfiguration')
+  final NodeConfiguration nodeConfiguration;
+
+  CreateNodeInput({
+    @_s.required this.clientRequestToken,
+    @_s.required this.memberId,
+    @_s.required this.networkId,
+    @_s.required this.nodeConfiguration,
+  });
+  Map<String, dynamic> toJson() => _$CreateNodeInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateNodeOutput {
@@ -1361,6 +1504,52 @@ class CreateNodeOutput {
   });
   factory CreateNodeOutput.fromJson(Map<String, dynamic> json) =>
       _$CreateNodeOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateProposalInput {
+  /// The type of actions proposed, such as inviting a member or removing a
+  /// member. The types of <code>Actions</code> in a proposal are mutually
+  /// exclusive. For example, a proposal with <code>Invitations</code> actions
+  /// cannot also contain <code>Removals</code> actions.
+  @_s.JsonKey(name: 'Actions')
+  final ProposalActions actions;
+
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the operation. An idempotent operation completes no more than
+  /// one time. This identifier is required only if you make a service request
+  /// directly using an HTTP client. It is generated automatically if you use an
+  /// AWS SDK or the AWS CLI.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// The unique identifier of the member that is creating the proposal. This
+  /// identifier is especially useful for identifying the member making the
+  /// proposal when multiple members exist in a single AWS account.
+  @_s.JsonKey(name: 'MemberId')
+  final String memberId;
+
+  /// The unique identifier of the network for which the proposal is made.
+  @_s.JsonKey(name: 'networkId', ignore: true)
+  final String networkId;
+
+  /// A description for the proposal that is visible to voting members, for
+  /// example, "Proposal to add Example Corp. as member."
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  CreateProposalInput({
+    @_s.required this.actions,
+    @_s.required this.clientRequestToken,
+    @_s.required this.memberId,
+    @_s.required this.networkId,
+    this.description,
+  });
+  Map<String, dynamic> toJson() => _$CreateProposalInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1383,12 +1572,59 @@ class CreateProposalOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteMemberInput {
+  /// The unique identifier of the member to remove.
+  @_s.JsonKey(name: 'memberId', ignore: true)
+  final String memberId;
+
+  /// The unique identifier of the network from which the member is removed.
+  @_s.JsonKey(name: 'networkId', ignore: true)
+  final String networkId;
+
+  DeleteMemberInput({
+    @_s.required this.memberId,
+    @_s.required this.networkId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteMemberInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteMemberOutput {
   DeleteMemberOutput();
   factory DeleteMemberOutput.fromJson(Map<String, dynamic> json) =>
       _$DeleteMemberOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteNodeInput {
+  /// The unique identifier of the member that owns this node.
+  @_s.JsonKey(name: 'memberId', ignore: true)
+  final String memberId;
+
+  /// The unique identifier of the network that the node belongs to.
+  @_s.JsonKey(name: 'networkId', ignore: true)
+  final String networkId;
+
+  /// The unique identifier of the node.
+  @_s.JsonKey(name: 'nodeId', ignore: true)
+  final String nodeId;
+
+  DeleteNodeInput({
+    @_s.required this.memberId,
+    @_s.required this.networkId,
+    @_s.required this.nodeId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteNodeInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1412,16 +1648,6 @@ enum Edition {
 enum Framework {
   @_s.JsonValue('HYPERLEDGER_FABRIC')
   hyperledgerFabric,
-}
-
-extension on Framework {
-  String toValue() {
-    switch (this) {
-      case Framework.hyperledgerFabric:
-        return 'HYPERLEDGER_FABRIC';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 @_s.JsonSerializable(
@@ -2804,6 +3030,22 @@ class ProposalSummary {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RejectInvitationInput {
+  /// The unique identifier of the invitation to reject.
+  @_s.JsonKey(name: 'invitationId', ignore: true)
+  final String invitationId;
+
+  RejectInvitationInput({
+    @_s.required this.invitationId,
+  });
+  Map<String, dynamic> toJson() => _$RejectInvitationInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class RejectInvitationOutput {
@@ -2844,6 +3086,32 @@ enum ThresholdComparator {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateMemberInput {
+  /// The unique ID of the member.
+  @_s.JsonKey(name: 'memberId', ignore: true)
+  final String memberId;
+
+  /// The unique ID of the Managed Blockchain network to which the member belongs.
+  @_s.JsonKey(name: 'networkId', ignore: true)
+  final String networkId;
+
+  /// Configuration properties for publishing to Amazon CloudWatch Logs.
+  @_s.JsonKey(name: 'LogPublishingConfiguration')
+  final MemberLogPublishingConfiguration logPublishingConfiguration;
+
+  UpdateMemberInput({
+    @_s.required this.memberId,
+    @_s.required this.networkId,
+    this.logPublishingConfiguration,
+  });
+  Map<String, dynamic> toJson() => _$UpdateMemberInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateMemberOutput {
@@ -2855,12 +3123,74 @@ class UpdateMemberOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateNodeInput {
+  /// The unique ID of the member that owns the node.
+  @_s.JsonKey(name: 'memberId', ignore: true)
+  final String memberId;
+
+  /// The unique ID of the Managed Blockchain network to which the node belongs.
+  @_s.JsonKey(name: 'networkId', ignore: true)
+  final String networkId;
+
+  /// The unique ID of the node.
+  @_s.JsonKey(name: 'nodeId', ignore: true)
+  final String nodeId;
+
+  /// Configuration properties for publishing to Amazon CloudWatch Logs.
+  @_s.JsonKey(name: 'LogPublishingConfiguration')
+  final NodeLogPublishingConfiguration logPublishingConfiguration;
+
+  UpdateNodeInput({
+    @_s.required this.memberId,
+    @_s.required this.networkId,
+    @_s.required this.nodeId,
+    this.logPublishingConfiguration,
+  });
+  Map<String, dynamic> toJson() => _$UpdateNodeInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateNodeOutput {
   UpdateNodeOutput();
   factory UpdateNodeOutput.fromJson(Map<String, dynamic> json) =>
       _$UpdateNodeOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class VoteOnProposalInput {
+  /// The unique identifier of the network.
+  @_s.JsonKey(name: 'networkId', ignore: true)
+  final String networkId;
+
+  /// The unique identifier of the proposal.
+  @_s.JsonKey(name: 'proposalId', ignore: true)
+  final String proposalId;
+
+  /// The value of the vote.
+  @_s.JsonKey(name: 'Vote')
+  final VoteValue vote;
+
+  /// The unique identifier of the member casting the vote.
+  @_s.JsonKey(name: 'VoterMemberId')
+  final String voterMemberId;
+
+  VoteOnProposalInput({
+    @_s.required this.networkId,
+    @_s.required this.proposalId,
+    @_s.required this.vote,
+    @_s.required this.voterMemberId,
+  });
+  Map<String, dynamic> toJson() => _$VoteOnProposalInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2907,18 +3237,6 @@ enum VoteValue {
   yes,
   @_s.JsonValue('NO')
   no,
-}
-
-extension on VoteValue {
-  String toValue() {
-    switch (this) {
-      case VoteValue.yes:
-        return 'YES';
-      case VoteValue.no:
-        return 'NO';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// The voting rules for the network to decide if a proposal is accepted

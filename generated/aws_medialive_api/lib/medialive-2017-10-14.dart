@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -64,10 +63,11 @@ class MediaLive {
     BatchScheduleActionDeleteRequest deletes,
   }) async {
     ArgumentError.checkNotNull(channelId, 'channelId');
-    final $payload = <String, dynamic>{
-      if (creates != null) 'Creates': creates,
-      if (deletes != null) 'Deletes': deletes,
-    };
+    final $payload = BatchUpdateScheduleRequest(
+      channelId: channelId,
+      creates: creates,
+      deletes: deletes,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -132,19 +132,19 @@ class MediaLive {
     String roleArn,
     Map<String, String> tags,
   }) async {
-    final $payload = <String, dynamic>{
-      if (channelClass != null) 'ChannelClass': channelClass?.toValue(),
-      if (destinations != null) 'Destinations': destinations,
-      if (encoderSettings != null) 'EncoderSettings': encoderSettings,
-      if (inputAttachments != null) 'InputAttachments': inputAttachments,
-      if (inputSpecification != null) 'InputSpecification': inputSpecification,
-      if (logLevel != null) 'LogLevel': logLevel?.toValue(),
-      if (name != null) 'Name': name,
-      if (requestId != null) 'RequestId': requestId,
-      if (reserved != null) 'Reserved': reserved,
-      if (roleArn != null) 'RoleArn': roleArn,
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = CreateChannelRequest(
+      channelClass: channelClass,
+      destinations: destinations,
+      encoderSettings: encoderSettings,
+      inputAttachments: inputAttachments,
+      inputSpecification: inputSpecification,
+      logLevel: logLevel,
+      name: name,
+      requestId: requestId,
+      reserved: reserved,
+      roleArn: roleArn,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -207,19 +207,18 @@ class MediaLive {
     InputType type,
     InputVpcRequest vpc,
   }) async {
-    final $payload = <String, dynamic>{
-      if (destinations != null) 'Destinations': destinations,
-      if (inputSecurityGroups != null)
-        'InputSecurityGroups': inputSecurityGroups,
-      if (mediaConnectFlows != null) 'MediaConnectFlows': mediaConnectFlows,
-      if (name != null) 'Name': name,
-      if (requestId != null) 'RequestId': requestId,
-      if (roleArn != null) 'RoleArn': roleArn,
-      if (sources != null) 'Sources': sources,
-      if (tags != null) 'Tags': tags,
-      if (type != null) 'Type': type?.toValue(),
-      if (vpc != null) 'Vpc': vpc,
-    };
+    final $payload = CreateInputRequest(
+      destinations: destinations,
+      inputSecurityGroups: inputSecurityGroups,
+      mediaConnectFlows: mediaConnectFlows,
+      name: name,
+      requestId: requestId,
+      roleArn: roleArn,
+      sources: sources,
+      tags: tags,
+      type: type,
+      vpc: vpc,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -247,10 +246,10 @@ class MediaLive {
     Map<String, String> tags,
     List<InputWhitelistRuleCidr> whitelistRules,
   }) async {
-    final $payload = <String, dynamic>{
-      if (tags != null) 'Tags': tags,
-      if (whitelistRules != null) 'WhitelistRules': whitelistRules,
-    };
+    final $payload = CreateInputSecurityGroupRequest(
+      tags: tags,
+      whitelistRules: whitelistRules,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -298,13 +297,13 @@ class MediaLive {
     ArgumentError.checkNotNull(multiplexSettings, 'multiplexSettings');
     ArgumentError.checkNotNull(name, 'name');
     ArgumentError.checkNotNull(requestId, 'requestId');
-    final $payload = <String, dynamic>{
-      'AvailabilityZones': availabilityZones,
-      'MultiplexSettings': multiplexSettings,
-      'Name': name,
-      'RequestId': requestId,
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = CreateMultiplexRequest(
+      availabilityZones: availabilityZones,
+      multiplexSettings: multiplexSettings,
+      name: name,
+      requestId: requestId,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -348,11 +347,12 @@ class MediaLive {
         multiplexProgramSettings, 'multiplexProgramSettings');
     ArgumentError.checkNotNull(programName, 'programName');
     ArgumentError.checkNotNull(requestId, 'requestId');
-    final $payload = <String, dynamic>{
-      'MultiplexProgramSettings': multiplexProgramSettings,
-      'ProgramName': programName,
-      'RequestId': requestId,
-    };
+    final $payload = CreateMultiplexProgramRequest(
+      multiplexId: multiplexId,
+      multiplexProgramSettings: multiplexProgramSettings,
+      programName: programName,
+      requestId: requestId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -374,9 +374,10 @@ class MediaLive {
     Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    final $payload = <String, dynamic>{
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = CreateTagsRequest(
+      resourceArn: resourceArn,
+      tags: tags,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -402,7 +403,9 @@ class MediaLive {
     @_s.required String channelId,
   }) async {
     ArgumentError.checkNotNull(channelId, 'channelId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteChannelRequest(
+      channelId: channelId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -429,7 +432,9 @@ class MediaLive {
     @_s.required String inputId,
   }) async {
     ArgumentError.checkNotNull(inputId, 'inputId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteInputRequest(
+      inputId: inputId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -455,7 +460,9 @@ class MediaLive {
     @_s.required String inputSecurityGroupId,
   }) async {
     ArgumentError.checkNotNull(inputSecurityGroupId, 'inputSecurityGroupId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteInputSecurityGroupRequest(
+      inputSecurityGroupId: inputSecurityGroupId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -483,7 +490,9 @@ class MediaLive {
     @_s.required String multiplexId,
   }) async {
     ArgumentError.checkNotNull(multiplexId, 'multiplexId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteMultiplexRequest(
+      multiplexId: multiplexId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -516,7 +525,10 @@ class MediaLive {
   }) async {
     ArgumentError.checkNotNull(multiplexId, 'multiplexId');
     ArgumentError.checkNotNull(programName, 'programName');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteMultiplexProgramRequest(
+      multiplexId: multiplexId,
+      programName: programName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -544,7 +556,9 @@ class MediaLive {
     @_s.required String reservationId,
   }) async {
     ArgumentError.checkNotNull(reservationId, 'reservationId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteReservationRequest(
+      reservationId: reservationId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -571,7 +585,9 @@ class MediaLive {
     @_s.required String channelId,
   }) async {
     ArgumentError.checkNotNull(channelId, 'channelId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteScheduleRequest(
+      channelId: channelId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -601,7 +617,10 @@ class MediaLive {
     _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteTagsRequest(
+      resourceArn: resourceArn,
+      tagKeys: tagKeys,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1243,13 +1262,14 @@ class MediaLive {
       isRequired: true,
     );
     ArgumentError.checkNotNull(offeringId, 'offeringId');
-    final $payload = <String, dynamic>{
-      'Count': count,
-      if (name != null) 'Name': name,
-      if (requestId != null) 'RequestId': requestId,
-      if (start != null) 'Start': start,
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = PurchaseOfferingRequest(
+      count: count,
+      offeringId: offeringId,
+      name: name,
+      requestId: requestId,
+      start: start,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1277,7 +1297,9 @@ class MediaLive {
     @_s.required String channelId,
   }) async {
     ArgumentError.checkNotNull(channelId, 'channelId');
-    final $payload = <String, dynamic>{};
+    final $payload = StartChannelRequest(
+      channelId: channelId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1306,7 +1328,9 @@ class MediaLive {
     @_s.required String multiplexId,
   }) async {
     ArgumentError.checkNotNull(multiplexId, 'multiplexId');
-    final $payload = <String, dynamic>{};
+    final $payload = StartMultiplexRequest(
+      multiplexId: multiplexId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1334,7 +1358,9 @@ class MediaLive {
     @_s.required String channelId,
   }) async {
     ArgumentError.checkNotNull(channelId, 'channelId');
-    final $payload = <String, dynamic>{};
+    final $payload = StopChannelRequest(
+      channelId: channelId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1363,7 +1389,9 @@ class MediaLive {
     @_s.required String multiplexId,
   }) async {
     ArgumentError.checkNotNull(multiplexId, 'multiplexId');
-    final $payload = <String, dynamic>{};
+    final $payload = StopMultiplexRequest(
+      multiplexId: multiplexId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1418,15 +1446,16 @@ class MediaLive {
     String roleArn,
   }) async {
     ArgumentError.checkNotNull(channelId, 'channelId');
-    final $payload = <String, dynamic>{
-      if (destinations != null) 'Destinations': destinations,
-      if (encoderSettings != null) 'EncoderSettings': encoderSettings,
-      if (inputAttachments != null) 'InputAttachments': inputAttachments,
-      if (inputSpecification != null) 'InputSpecification': inputSpecification,
-      if (logLevel != null) 'LogLevel': logLevel?.toValue(),
-      if (name != null) 'Name': name,
-      if (roleArn != null) 'RoleArn': roleArn,
-    };
+    final $payload = UpdateChannelRequest(
+      channelId: channelId,
+      destinations: destinations,
+      encoderSettings: encoderSettings,
+      inputAttachments: inputAttachments,
+      inputSpecification: inputSpecification,
+      logLevel: logLevel,
+      name: name,
+      roleArn: roleArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1463,10 +1492,11 @@ class MediaLive {
   }) async {
     ArgumentError.checkNotNull(channelClass, 'channelClass');
     ArgumentError.checkNotNull(channelId, 'channelId');
-    final $payload = <String, dynamic>{
-      'ChannelClass': channelClass?.toValue(),
-      if (destinations != null) 'Destinations': destinations,
-    };
+    final $payload = UpdateChannelClassRequest(
+      channelClass: channelClass,
+      channelId: channelId,
+      destinations: destinations,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1525,15 +1555,15 @@ class MediaLive {
     List<InputSourceRequest> sources,
   }) async {
     ArgumentError.checkNotNull(inputId, 'inputId');
-    final $payload = <String, dynamic>{
-      if (destinations != null) 'Destinations': destinations,
-      if (inputSecurityGroups != null)
-        'InputSecurityGroups': inputSecurityGroups,
-      if (mediaConnectFlows != null) 'MediaConnectFlows': mediaConnectFlows,
-      if (name != null) 'Name': name,
-      if (roleArn != null) 'RoleArn': roleArn,
-      if (sources != null) 'Sources': sources,
-    };
+    final $payload = UpdateInputRequest(
+      inputId: inputId,
+      destinations: destinations,
+      inputSecurityGroups: inputSecurityGroups,
+      mediaConnectFlows: mediaConnectFlows,
+      name: name,
+      roleArn: roleArn,
+      sources: sources,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1567,10 +1597,11 @@ class MediaLive {
     List<InputWhitelistRuleCidr> whitelistRules,
   }) async {
     ArgumentError.checkNotNull(inputSecurityGroupId, 'inputSecurityGroupId');
-    final $payload = <String, dynamic>{
-      if (tags != null) 'Tags': tags,
-      if (whitelistRules != null) 'WhitelistRules': whitelistRules,
-    };
+    final $payload = UpdateInputSecurityGroupRequest(
+      inputSecurityGroupId: inputSecurityGroupId,
+      tags: tags,
+      whitelistRules: whitelistRules,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1606,10 +1637,11 @@ class MediaLive {
     String name,
   }) async {
     ArgumentError.checkNotNull(multiplexId, 'multiplexId');
-    final $payload = <String, dynamic>{
-      if (multiplexSettings != null) 'MultiplexSettings': multiplexSettings,
-      if (name != null) 'Name': name,
-    };
+    final $payload = UpdateMultiplexRequest(
+      multiplexId: multiplexId,
+      multiplexSettings: multiplexSettings,
+      name: name,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1646,10 +1678,11 @@ class MediaLive {
   }) async {
     ArgumentError.checkNotNull(multiplexId, 'multiplexId');
     ArgumentError.checkNotNull(programName, 'programName');
-    final $payload = <String, dynamic>{
-      if (multiplexProgramSettings != null)
-        'MultiplexProgramSettings': multiplexProgramSettings,
-    };
+    final $payload = UpdateMultiplexProgramRequest(
+      multiplexId: multiplexId,
+      programName: programName,
+      multiplexProgramSettings: multiplexProgramSettings,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1681,9 +1714,10 @@ class MediaLive {
     String name,
   }) async {
     ArgumentError.checkNotNull(reservationId, 'reservationId');
-    final $payload = <String, dynamic>{
-      if (name != null) 'Name': name,
-    };
+    final $payload = UpdateReservationRequest(
+      reservationId: reservationId,
+      name: name,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -2650,6 +2684,33 @@ class BatchScheduleActionDeleteResult {
       _$BatchScheduleActionDeleteResultFromJson(json);
 }
 
+/// List of actions to create and list of actions to delete.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchUpdateScheduleRequest {
+  /// Id of the channel whose schedule is being updated.
+  @_s.JsonKey(name: 'channelId', ignore: true)
+  final String channelId;
+
+  /// Schedule actions to create in the schedule.
+  @_s.JsonKey(name: 'creates')
+  final BatchScheduleActionCreateRequest creates;
+
+  /// Schedule actions to delete from the schedule.
+  @_s.JsonKey(name: 'deletes')
+  final BatchScheduleActionDeleteRequest deletes;
+
+  BatchUpdateScheduleRequest({
+    @_s.required this.channelId,
+    this.creates,
+    this.deletes,
+  });
+  Map<String, dynamic> toJson() => _$BatchUpdateScheduleRequestToJson(this);
+}
+
 /// Placeholder documentation for BatchUpdateScheduleResponse
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3246,18 +3307,6 @@ enum ChannelClass {
   singlePipeline,
 }
 
-extension on ChannelClass {
-  String toValue() {
-    switch (this) {
-      case ChannelClass.standard:
-        return 'STANDARD';
-      case ChannelClass.singlePipeline:
-        return 'SINGLE_PIPELINE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Placeholder documentation for ChannelEgressEndpoint
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3393,6 +3442,73 @@ class ColorSpacePassthroughSettings {
   Map<String, dynamic> toJson() => _$ColorSpacePassthroughSettingsToJson(this);
 }
 
+/// A request to create a channel
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateChannelRequest {
+  /// The class for this channel. STANDARD for a channel with two pipelines or
+  /// SINGLE_PIPELINE for a channel with one pipeline.
+  @_s.JsonKey(name: 'channelClass')
+  final ChannelClass channelClass;
+  @_s.JsonKey(name: 'destinations')
+  final List<OutputDestination> destinations;
+  @_s.JsonKey(name: 'encoderSettings')
+  final EncoderSettings encoderSettings;
+
+  /// List of input attachments for channel.
+  @_s.JsonKey(name: 'inputAttachments')
+  final List<InputAttachment> inputAttachments;
+
+  /// Specification of input for this channel (max. bitrate, resolution, codec,
+  /// etc.)
+  @_s.JsonKey(name: 'inputSpecification')
+  final InputSpecification inputSpecification;
+
+  /// The log level to write to CloudWatch Logs.
+  @_s.JsonKey(name: 'logLevel')
+  final LogLevel logLevel;
+
+  /// Name of channel.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// Unique request ID to be specified. This is needed to prevent retries from
+  /// creating multiple resources.
+  @_s.JsonKey(name: 'requestId')
+  final String requestId;
+
+  /// Deprecated field that's only usable by whitelisted customers.
+  @_s.JsonKey(name: 'reserved')
+  final String reserved;
+
+  /// An optional Amazon Resource Name (ARN) of the role to assume when running
+  /// the Channel.
+  @_s.JsonKey(name: 'roleArn')
+  final String roleArn;
+
+  /// A collection of key-value pairs.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateChannelRequest({
+    this.channelClass,
+    this.destinations,
+    this.encoderSettings,
+    this.inputAttachments,
+    this.inputSpecification,
+    this.logLevel,
+    this.name,
+    this.requestId,
+    this.reserved,
+    this.roleArn,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateChannelRequestToJson(this);
+}
+
 /// Placeholder documentation for CreateChannelResponse
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3410,6 +3526,73 @@ class CreateChannelResponse {
       _$CreateChannelResponseFromJson(json);
 }
 
+/// The name of the input
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateInputRequest {
+  /// Destination settings for PUSH type inputs.
+  @_s.JsonKey(name: 'destinations')
+  final List<InputDestinationRequest> destinations;
+
+  /// A list of security groups referenced by IDs to attach to the input.
+  @_s.JsonKey(name: 'inputSecurityGroups')
+  final List<String> inputSecurityGroups;
+
+  /// A list of the MediaConnect Flows that you want to use in this input. You can
+  /// specify as few as one
+  /// Flow and presently, as many as two. The only requirement is when you have
+  /// more than one is that each Flow is in a
+  /// separate Availability Zone as this ensures your EML input is redundant to AZ
+  /// issues.
+  @_s.JsonKey(name: 'mediaConnectFlows')
+  final List<MediaConnectFlowRequest> mediaConnectFlows;
+
+  /// Name of the input.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// Unique identifier of the request to ensure the request is handled
+  /// exactly once in case of retries.
+  @_s.JsonKey(name: 'requestId')
+  final String requestId;
+
+  /// The Amazon Resource Name (ARN) of the role this input assumes during and
+  /// after creation.
+  @_s.JsonKey(name: 'roleArn')
+  final String roleArn;
+
+  /// The source URLs for a PULL-type input. Every PULL type input needs
+  /// exactly two source URLs for redundancy.
+  /// Only specify sources for PULL type Inputs. Leave Destinations empty.
+  @_s.JsonKey(name: 'sources')
+  final List<InputSourceRequest> sources;
+
+  /// A collection of key-value pairs.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+  @_s.JsonKey(name: 'type')
+  final InputType type;
+  @_s.JsonKey(name: 'vpc')
+  final InputVpcRequest vpc;
+
+  CreateInputRequest({
+    this.destinations,
+    this.inputSecurityGroups,
+    this.mediaConnectFlows,
+    this.name,
+    this.requestId,
+    this.roleArn,
+    this.sources,
+    this.tags,
+    this.type,
+    this.vpc,
+  });
+  Map<String, dynamic> toJson() => _$CreateInputRequestToJson(this);
+}
+
 /// Placeholder documentation for CreateInputResponse
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3425,6 +3608,29 @@ class CreateInputResponse {
   });
   factory CreateInputResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateInputResponseFromJson(json);
+}
+
+/// The IPv4 CIDRs to whitelist for this Input Security Group
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateInputSecurityGroupRequest {
+  /// A collection of key-value pairs.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  /// List of IPv4 CIDR addresses to whitelist
+  @_s.JsonKey(name: 'whitelistRules')
+  final List<InputWhitelistRuleCidr> whitelistRules;
+
+  CreateInputSecurityGroupRequest({
+    this.tags,
+    this.whitelistRules,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateInputSecurityGroupRequestToJson(this);
 }
 
 /// Placeholder documentation for CreateInputSecurityGroupResponse
@@ -3445,6 +3651,39 @@ class CreateInputSecurityGroupResponse {
       _$CreateInputSecurityGroupResponseFromJson(json);
 }
 
+/// A request to create a program in a multiplex.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateMultiplexProgramRequest {
+  /// ID of the multiplex where the program is to be created.
+  @_s.JsonKey(name: 'multiplexId', ignore: true)
+  final String multiplexId;
+
+  /// The settings for this multiplex program.
+  @_s.JsonKey(name: 'multiplexProgramSettings')
+  final MultiplexProgramSettings multiplexProgramSettings;
+
+  /// Name of multiplex program.
+  @_s.JsonKey(name: 'programName')
+  final String programName;
+
+  /// Unique request ID. This prevents retries from creating multiple
+  /// resources.
+  @_s.JsonKey(name: 'requestId')
+  final String requestId;
+
+  CreateMultiplexProgramRequest({
+    @_s.required this.multiplexId,
+    @_s.required this.multiplexProgramSettings,
+    @_s.required this.programName,
+    @_s.required this.requestId,
+  });
+  Map<String, dynamic> toJson() => _$CreateMultiplexProgramRequestToJson(this);
+}
+
 /// Placeholder documentation for CreateMultiplexProgramResponse
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3463,6 +3702,45 @@ class CreateMultiplexProgramResponse {
       _$CreateMultiplexProgramResponseFromJson(json);
 }
 
+/// A request to create a multiplex.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateMultiplexRequest {
+  /// A list of availability zones for the multiplex. You must specify exactly
+  /// two.
+  @_s.JsonKey(name: 'availabilityZones')
+  final List<String> availabilityZones;
+
+  /// Configuration for a multiplex event.
+  @_s.JsonKey(name: 'multiplexSettings')
+  final MultiplexSettings multiplexSettings;
+
+  /// Name of multiplex.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// Unique request ID. This prevents retries from creating multiple
+  /// resources.
+  @_s.JsonKey(name: 'requestId')
+  final String requestId;
+
+  /// A collection of key-value pairs.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateMultiplexRequest({
+    @_s.required this.availabilityZones,
+    @_s.required this.multiplexSettings,
+    @_s.required this.name,
+    @_s.required this.requestId,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateMultiplexRequestToJson(this);
+}
+
 /// Placeholder documentation for CreateMultiplexResponse
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3479,6 +3757,42 @@ class CreateMultiplexResponse {
   });
   factory CreateMultiplexResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateMultiplexResponseFromJson(json);
+}
+
+/// Placeholder documentation for CreateTagsRequest
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateTagsRequest {
+  @_s.JsonKey(name: 'resource-arn', ignore: true)
+  final String resourceArn;
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateTagsRequest({
+    @_s.required this.resourceArn,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateTagsRequestToJson(this);
+}
+
+/// Placeholder documentation for DeleteChannelRequest
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteChannelRequest {
+  /// Unique ID of the channel.
+  @_s.JsonKey(name: 'channelId', ignore: true)
+  final String channelId;
+
+  DeleteChannelRequest({
+    @_s.required this.channelId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteChannelRequestToJson(this);
 }
 
 /// Placeholder documentation for DeleteChannelResponse
@@ -3566,6 +3880,23 @@ class DeleteChannelResponse {
       _$DeleteChannelResponseFromJson(json);
 }
 
+/// Placeholder documentation for DeleteInputRequest
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteInputRequest {
+  /// Unique ID of the input
+  @_s.JsonKey(name: 'inputId', ignore: true)
+  final String inputId;
+
+  DeleteInputRequest({
+    @_s.required this.inputId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteInputRequestToJson(this);
+}
+
 /// Placeholder documentation for DeleteInputResponse
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3576,6 +3907,24 @@ class DeleteInputResponse {
   DeleteInputResponse();
   factory DeleteInputResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteInputResponseFromJson(json);
+}
+
+/// Placeholder documentation for DeleteInputSecurityGroupRequest
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteInputSecurityGroupRequest {
+  /// The Input Security Group to delete
+  @_s.JsonKey(name: 'inputSecurityGroupId', ignore: true)
+  final String inputSecurityGroupId;
+
+  DeleteInputSecurityGroupRequest({
+    @_s.required this.inputSecurityGroupId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteInputSecurityGroupRequestToJson(this);
 }
 
 /// Placeholder documentation for DeleteInputSecurityGroupResponse
@@ -3589,6 +3938,28 @@ class DeleteInputSecurityGroupResponse {
   factory DeleteInputSecurityGroupResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DeleteInputSecurityGroupResponseFromJson(json);
+}
+
+/// Placeholder documentation for DeleteMultiplexProgramRequest
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteMultiplexProgramRequest {
+  /// The ID of the multiplex that the program belongs to.
+  @_s.JsonKey(name: 'multiplexId', ignore: true)
+  final String multiplexId;
+
+  /// The multiplex program name.
+  @_s.JsonKey(name: 'programName', ignore: true)
+  final String programName;
+
+  DeleteMultiplexProgramRequest({
+    @_s.required this.multiplexId,
+    @_s.required this.programName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteMultiplexProgramRequestToJson(this);
 }
 
 /// Placeholder documentation for DeleteMultiplexProgramResponse
@@ -3622,6 +3993,23 @@ class DeleteMultiplexProgramResponse {
   });
   factory DeleteMultiplexProgramResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteMultiplexProgramResponseFromJson(json);
+}
+
+/// Placeholder documentation for DeleteMultiplexRequest
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteMultiplexRequest {
+  /// The ID of the multiplex.
+  @_s.JsonKey(name: 'multiplexId', ignore: true)
+  final String multiplexId;
+
+  DeleteMultiplexRequest({
+    @_s.required this.multiplexId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteMultiplexRequestToJson(this);
 }
 
 /// Placeholder documentation for DeleteMultiplexResponse
@@ -3685,6 +4073,23 @@ class DeleteMultiplexResponse {
   });
   factory DeleteMultiplexResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteMultiplexResponseFromJson(json);
+}
+
+/// Placeholder documentation for DeleteReservationRequest
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteReservationRequest {
+  /// Unique reservation ID, e.g. '1234567'
+  @_s.JsonKey(name: 'reservationId', ignore: true)
+  final String reservationId;
+
+  DeleteReservationRequest({
+    @_s.required this.reservationId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteReservationRequestToJson(this);
 }
 
 /// Placeholder documentation for DeleteReservationResponse
@@ -3795,6 +4200,23 @@ class DeleteReservationResponse {
       _$DeleteReservationResponseFromJson(json);
 }
 
+/// Placeholder documentation for DeleteScheduleRequest
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteScheduleRequest {
+  /// Id of the channel whose schedule is being deleted.
+  @_s.JsonKey(name: 'channelId', ignore: true)
+  final String channelId;
+
+  DeleteScheduleRequest({
+    @_s.required this.channelId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteScheduleRequestToJson(this);
+}
+
 /// Placeholder documentation for DeleteScheduleResponse
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3805,6 +4227,27 @@ class DeleteScheduleResponse {
   DeleteScheduleResponse();
   factory DeleteScheduleResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteScheduleResponseFromJson(json);
+}
+
+/// Placeholder documentation for DeleteTagsRequest
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteTagsRequest {
+  @_s.JsonKey(name: 'resource-arn', ignore: true)
+  final String resourceArn;
+
+  /// An array of tag keys to delete
+  @_s.JsonKey(name: 'tagKeys', ignore: true)
+  final List<String> tagKeys;
+
+  DeleteTagsRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$DeleteTagsRequestToJson(this);
 }
 
 /// Placeholder documentation for DescribeChannelResponse
@@ -8013,28 +8456,6 @@ enum InputType {
   mediaconnect,
 }
 
-extension on InputType {
-  String toValue() {
-    switch (this) {
-      case InputType.udpPush:
-        return 'UDP_PUSH';
-      case InputType.rtpPush:
-        return 'RTP_PUSH';
-      case InputType.rtmpPush:
-        return 'RTMP_PUSH';
-      case InputType.rtmpPull:
-        return 'RTMP_PULL';
-      case InputType.urlPull:
-        return 'URL_PULL';
-      case InputType.mp4File:
-        return 'MP4_FILE';
-      case InputType.mediaconnect:
-        return 'MEDIACONNECT';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Settings for a private VPC Input.
 /// When this property is specified, the input destination addresses will be
 /// created in a VPC rather than with public Internet addresses.
@@ -8311,24 +8732,6 @@ enum LogLevel {
   debug,
   @_s.JsonValue('DISABLED')
   disabled,
-}
-
-extension on LogLevel {
-  String toValue() {
-    switch (this) {
-      case LogLevel.error:
-        return 'ERROR';
-      case LogLevel.warning:
-        return 'WARNING';
-      case LogLevel.info:
-        return 'INFO';
-      case LogLevel.debug:
-        return 'DEBUG';
-      case LogLevel.disabled:
-        return 'DISABLED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// M2ts Absent Input Audio Behavior
@@ -10324,6 +10727,51 @@ enum PreferredChannelPipeline {
   pipeline_1,
 }
 
+/// Placeholder documentation for PurchaseOfferingRequest
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PurchaseOfferingRequest {
+  /// Number of resources
+  @_s.JsonKey(name: 'count')
+  final int count;
+
+  /// Offering to purchase, e.g. '87654321'
+  @_s.JsonKey(name: 'offeringId', ignore: true)
+  final String offeringId;
+
+  /// Name for the new reservation
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// Unique request ID to be specified. This is needed to prevent retries from
+  /// creating multiple resources.
+  @_s.JsonKey(name: 'requestId')
+  final String requestId;
+
+  /// Requested reservation start time (UTC) in ISO-8601 format. The specified
+  /// time must be between the first day of the current month and one year from
+  /// now. If no value is given, the default is now.
+  @_s.JsonKey(name: 'start')
+  final String start;
+
+  /// A collection of key-value pairs
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  PurchaseOfferingRequest({
+    @_s.required this.count,
+    @_s.required this.offeringId,
+    this.name,
+    this.requestId,
+    this.start,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$PurchaseOfferingRequestToJson(this);
+}
+
 /// Placeholder documentation for PurchaseOfferingResponse
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -11522,6 +11970,23 @@ class StandardHlsSettings {
   Map<String, dynamic> toJson() => _$StandardHlsSettingsToJson(this);
 }
 
+/// Placeholder documentation for StartChannelRequest
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartChannelRequest {
+  /// A request to start a channel
+  @_s.JsonKey(name: 'channelId', ignore: true)
+  final String channelId;
+
+  StartChannelRequest({
+    @_s.required this.channelId,
+  });
+  Map<String, dynamic> toJson() => _$StartChannelRequestToJson(this);
+}
+
 /// Placeholder documentation for StartChannelResponse
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -11605,6 +12070,23 @@ class StartChannelResponse {
   });
   factory StartChannelResponse.fromJson(Map<String, dynamic> json) =>
       _$StartChannelResponseFromJson(json);
+}
+
+/// Placeholder documentation for StartMultiplexRequest
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartMultiplexRequest {
+  /// The ID of the multiplex.
+  @_s.JsonKey(name: 'multiplexId', ignore: true)
+  final String multiplexId;
+
+  StartMultiplexRequest({
+    @_s.required this.multiplexId,
+  });
+  Map<String, dynamic> toJson() => _$StartMultiplexRequestToJson(this);
 }
 
 /// Placeholder documentation for StartMultiplexResponse
@@ -11833,6 +12315,23 @@ class StaticKeySettings {
   Map<String, dynamic> toJson() => _$StaticKeySettingsToJson(this);
 }
 
+/// Placeholder documentation for StopChannelRequest
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopChannelRequest {
+  /// A request to stop a running channel
+  @_s.JsonKey(name: 'channelId', ignore: true)
+  final String channelId;
+
+  StopChannelRequest({
+    @_s.required this.channelId,
+  });
+  Map<String, dynamic> toJson() => _$StopChannelRequestToJson(this);
+}
+
 /// Placeholder documentation for StopChannelResponse
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -11916,6 +12415,23 @@ class StopChannelResponse {
   });
   factory StopChannelResponse.fromJson(Map<String, dynamic> json) =>
       _$StopChannelResponseFromJson(json);
+}
+
+/// Placeholder documentation for StopMultiplexRequest
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopMultiplexRequest {
+  /// The ID of the multiplex.
+  @_s.JsonKey(name: 'multiplexId', ignore: true)
+  final String multiplexId;
+
+  StopMultiplexRequest({
+    @_s.required this.multiplexId,
+  });
+  Map<String, dynamic> toJson() => _$StopMultiplexRequestToJson(this);
 }
 
 /// Placeholder documentation for StopMultiplexResponse
@@ -12226,6 +12742,33 @@ enum UdpTimedMetadataId3Frame {
   tdrl,
 }
 
+/// Channel class that the channel should be updated to.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateChannelClassRequest {
+  /// The channel class that you wish to update this channel to use.
+  @_s.JsonKey(name: 'channelClass')
+  final ChannelClass channelClass;
+
+  /// Channel Id of the channel whose class should be updated.
+  @_s.JsonKey(name: 'channelId', ignore: true)
+  final String channelId;
+
+  /// A list of output destinations for this channel.
+  @_s.JsonKey(name: 'destinations')
+  final List<OutputDestination> destinations;
+
+  UpdateChannelClassRequest({
+    @_s.required this.channelClass,
+    @_s.required this.channelId,
+    this.destinations,
+  });
+  Map<String, dynamic> toJson() => _$UpdateChannelClassRequestToJson(this);
+}
+
 /// Placeholder documentation for UpdateChannelClassResponse
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -12241,6 +12784,59 @@ class UpdateChannelClassResponse {
   });
   factory UpdateChannelClassResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateChannelClassResponseFromJson(json);
+}
+
+/// A request to update a channel.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateChannelRequest {
+  /// channel ID
+  @_s.JsonKey(name: 'channelId', ignore: true)
+  final String channelId;
+
+  /// A list of output destinations for this channel.
+  @_s.JsonKey(name: 'destinations')
+  final List<OutputDestination> destinations;
+
+  /// The encoder settings for this channel.
+  @_s.JsonKey(name: 'encoderSettings')
+  final EncoderSettings encoderSettings;
+  @_s.JsonKey(name: 'inputAttachments')
+  final List<InputAttachment> inputAttachments;
+
+  /// Specification of input for this channel (max. bitrate, resolution, codec,
+  /// etc.)
+  @_s.JsonKey(name: 'inputSpecification')
+  final InputSpecification inputSpecification;
+
+  /// The log level to write to CloudWatch Logs.
+  @_s.JsonKey(name: 'logLevel')
+  final LogLevel logLevel;
+
+  /// The name of the channel.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// An optional Amazon Resource Name (ARN) of the role to assume when running
+  /// the Channel. If you do not specify this on an update call but the role was
+  /// previously set that role will be removed.
+  @_s.JsonKey(name: 'roleArn')
+  final String roleArn;
+
+  UpdateChannelRequest({
+    @_s.required this.channelId,
+    this.destinations,
+    this.encoderSettings,
+    this.inputAttachments,
+    this.inputSpecification,
+    this.logLevel,
+    this.name,
+    this.roleArn,
+  });
+  Map<String, dynamic> toJson() => _$UpdateChannelRequestToJson(this);
 }
 
 /// Placeholder documentation for UpdateChannelResponse
@@ -12260,6 +12856,61 @@ class UpdateChannelResponse {
       _$UpdateChannelResponseFromJson(json);
 }
 
+/// A request to update an input.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateInputRequest {
+  /// Unique ID of the input.
+  @_s.JsonKey(name: 'inputId', ignore: true)
+  final String inputId;
+
+  /// Destination settings for PUSH type inputs.
+  @_s.JsonKey(name: 'destinations')
+  final List<InputDestinationRequest> destinations;
+
+  /// A list of security groups referenced by IDs to attach to the input.
+  @_s.JsonKey(name: 'inputSecurityGroups')
+  final List<String> inputSecurityGroups;
+
+  /// A list of the MediaConnect Flow ARNs that you want to use as the source of
+  /// the input. You can specify as few as one
+  /// Flow and presently, as many as two. The only requirement is when you have
+  /// more than one is that each Flow is in a
+  /// separate Availability Zone as this ensures your EML input is redundant to AZ
+  /// issues.
+  @_s.JsonKey(name: 'mediaConnectFlows')
+  final List<MediaConnectFlowRequest> mediaConnectFlows;
+
+  /// Name of the input.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The Amazon Resource Name (ARN) of the role this input assumes during and
+  /// after creation.
+  @_s.JsonKey(name: 'roleArn')
+  final String roleArn;
+
+  /// The source URLs for a PULL-type input. Every PULL type input needs
+  /// exactly two source URLs for redundancy.
+  /// Only specify sources for PULL type Inputs. Leave Destinations empty.
+  @_s.JsonKey(name: 'sources')
+  final List<InputSourceRequest> sources;
+
+  UpdateInputRequest({
+    @_s.required this.inputId,
+    this.destinations,
+    this.inputSecurityGroups,
+    this.mediaConnectFlows,
+    this.name,
+    this.roleArn,
+    this.sources,
+  });
+  Map<String, dynamic> toJson() => _$UpdateInputRequestToJson(this);
+}
+
 /// Placeholder documentation for UpdateInputResponse
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -12275,6 +12926,35 @@ class UpdateInputResponse {
   });
   factory UpdateInputResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateInputResponseFromJson(json);
+}
+
+/// The request to update some combination of the Input Security Group name and
+/// the IPv4 CIDRs the Input Security Group should allow.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateInputSecurityGroupRequest {
+  /// The id of the Input Security Group to update.
+  @_s.JsonKey(name: 'inputSecurityGroupId', ignore: true)
+  final String inputSecurityGroupId;
+
+  /// A collection of key-value pairs.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  /// List of IPv4 CIDR addresses to whitelist
+  @_s.JsonKey(name: 'whitelistRules')
+  final List<InputWhitelistRuleCidr> whitelistRules;
+
+  UpdateInputSecurityGroupRequest({
+    @_s.required this.inputSecurityGroupId,
+    this.tags,
+    this.whitelistRules,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateInputSecurityGroupRequestToJson(this);
 }
 
 /// Placeholder documentation for UpdateInputSecurityGroupResponse
@@ -12295,6 +12975,33 @@ class UpdateInputSecurityGroupResponse {
       _$UpdateInputSecurityGroupResponseFromJson(json);
 }
 
+/// A request to update a program in a multiplex.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateMultiplexProgramRequest {
+  /// The ID of the multiplex of the program to update.
+  @_s.JsonKey(name: 'multiplexId', ignore: true)
+  final String multiplexId;
+
+  /// The name of the program to update.
+  @_s.JsonKey(name: 'programName', ignore: true)
+  final String programName;
+
+  /// The new settings for a multiplex program.
+  @_s.JsonKey(name: 'multiplexProgramSettings')
+  final MultiplexProgramSettings multiplexProgramSettings;
+
+  UpdateMultiplexProgramRequest({
+    @_s.required this.multiplexId,
+    @_s.required this.programName,
+    this.multiplexProgramSettings,
+  });
+  Map<String, dynamic> toJson() => _$UpdateMultiplexProgramRequestToJson(this);
+}
+
 /// Placeholder documentation for UpdateMultiplexProgramResponse
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -12313,6 +13020,33 @@ class UpdateMultiplexProgramResponse {
       _$UpdateMultiplexProgramResponseFromJson(json);
 }
 
+/// A request to update a multiplex.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateMultiplexRequest {
+  /// ID of the multiplex to update.
+  @_s.JsonKey(name: 'multiplexId', ignore: true)
+  final String multiplexId;
+
+  /// The new settings for a multiplex.
+  @_s.JsonKey(name: 'multiplexSettings')
+  final MultiplexSettings multiplexSettings;
+
+  /// Name of the multiplex.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  UpdateMultiplexRequest({
+    @_s.required this.multiplexId,
+    this.multiplexSettings,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$UpdateMultiplexRequestToJson(this);
+}
+
 /// Placeholder documentation for UpdateMultiplexResponse
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -12329,6 +13063,28 @@ class UpdateMultiplexResponse {
   });
   factory UpdateMultiplexResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateMultiplexResponseFromJson(json);
+}
+
+/// Request to update a reservation
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateReservationRequest {
+  /// Unique reservation ID, e.g. '1234567'
+  @_s.JsonKey(name: 'reservationId', ignore: true)
+  final String reservationId;
+
+  /// Name of the reservation
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  UpdateReservationRequest({
+    @_s.required this.reservationId,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$UpdateReservationRequestToJson(this);
 }
 
 /// Placeholder documentation for UpdateReservationResponse

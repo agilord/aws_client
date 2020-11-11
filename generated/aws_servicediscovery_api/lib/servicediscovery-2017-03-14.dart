@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -105,11 +104,11 @@ class ServiceDiscovery {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        if (creatorRequestId != null) 'CreatorRequestId': creatorRequestId,
-        if (description != null) 'Description': description,
-      },
+      payload: CreateHttpNamespaceRequest(
+        name: name,
+        creatorRequestId: creatorRequestId,
+        description: description,
+      ),
     );
 
     return CreateHttpNamespaceResponse.fromJson(jsonResponse.body);
@@ -190,12 +189,12 @@ class ServiceDiscovery {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        'Vpc': vpc,
-        if (creatorRequestId != null) 'CreatorRequestId': creatorRequestId,
-        if (description != null) 'Description': description,
-      },
+      payload: CreatePrivateDnsNamespaceRequest(
+        name: name,
+        vpc: vpc,
+        creatorRequestId: creatorRequestId,
+        description: description,
+      ),
     );
 
     return CreatePrivateDnsNamespaceResponse.fromJson(jsonResponse.body);
@@ -261,11 +260,11 @@ class ServiceDiscovery {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        if (creatorRequestId != null) 'CreatorRequestId': creatorRequestId,
-        if (description != null) 'Description': description,
-      },
+      payload: CreatePublicDnsNamespaceRequest(
+        name: name,
+        creatorRequestId: creatorRequestId,
+        description: description,
+      ),
     );
 
     return CreatePublicDnsNamespaceResponse.fromJson(jsonResponse.body);
@@ -398,16 +397,15 @@ class ServiceDiscovery {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        if (creatorRequestId != null) 'CreatorRequestId': creatorRequestId,
-        if (description != null) 'Description': description,
-        if (dnsConfig != null) 'DnsConfig': dnsConfig,
-        if (healthCheckConfig != null) 'HealthCheckConfig': healthCheckConfig,
-        if (healthCheckCustomConfig != null)
-          'HealthCheckCustomConfig': healthCheckCustomConfig,
-        if (namespaceId != null) 'NamespaceId': namespaceId,
-      },
+      payload: CreateServiceRequest(
+        name: name,
+        creatorRequestId: creatorRequestId,
+        description: description,
+        dnsConfig: dnsConfig,
+        healthCheckConfig: healthCheckConfig,
+        healthCheckCustomConfig: healthCheckCustomConfig,
+        namespaceId: namespaceId,
+      ),
     );
 
     return CreateServiceResponse.fromJson(jsonResponse.body);
@@ -444,9 +442,9 @@ class ServiceDiscovery {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-      },
+      payload: DeleteNamespaceRequest(
+        id: id,
+      ),
     );
 
     return DeleteNamespaceResponse.fromJson(jsonResponse.body);
@@ -482,9 +480,9 @@ class ServiceDiscovery {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-      },
+      payload: DeleteServiceRequest(
+        id: id,
+      ),
     );
 
     return DeleteServiceResponse.fromJson(jsonResponse.body);
@@ -535,10 +533,10 @@ class ServiceDiscovery {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'InstanceId': instanceId,
-        'ServiceId': serviceId,
-      },
+      payload: DeregisterInstanceRequest(
+        instanceId: instanceId,
+        serviceId: serviceId,
+      ),
     );
 
     return DeregisterInstanceResponse.fromJson(jsonResponse.body);
@@ -610,13 +608,13 @@ class ServiceDiscovery {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'NamespaceName': namespaceName,
-        'ServiceName': serviceName,
-        if (healthStatus != null) 'HealthStatus': healthStatus?.toValue(),
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (queryParameters != null) 'QueryParameters': queryParameters,
-      },
+      payload: DiscoverInstancesRequest(
+        namespaceName: namespaceName,
+        serviceName: serviceName,
+        healthStatus: healthStatus,
+        maxResults: maxResults,
+        queryParameters: queryParameters,
+      ),
     );
 
     return DiscoverInstancesResponse.fromJson(jsonResponse.body);
@@ -663,10 +661,10 @@ class ServiceDiscovery {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'InstanceId': instanceId,
-        'ServiceId': serviceId,
-      },
+      payload: GetInstanceRequest(
+        instanceId: instanceId,
+        serviceId: serviceId,
+      ),
     );
 
     return GetInstanceResponse.fromJson(jsonResponse.body);
@@ -749,12 +747,12 @@ class ServiceDiscovery {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ServiceId': serviceId,
-        if (instances != null) 'Instances': instances,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: GetInstancesHealthStatusRequest(
+        serviceId: serviceId,
+        instances: instances,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return GetInstancesHealthStatusResponse.fromJson(jsonResponse.body);
@@ -788,9 +786,9 @@ class ServiceDiscovery {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-      },
+      payload: GetNamespaceRequest(
+        id: id,
+      ),
     );
 
     return GetNamespaceResponse.fromJson(jsonResponse.body);
@@ -829,9 +827,9 @@ class ServiceDiscovery {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'OperationId': operationId,
-      },
+      payload: GetOperationRequest(
+        operationId: operationId,
+      ),
     );
 
     return GetOperationResponse.fromJson(jsonResponse.body);
@@ -865,9 +863,9 @@ class ServiceDiscovery {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-      },
+      payload: GetServiceRequest(
+        id: id,
+      ),
     );
 
     return GetServiceResponse.fromJson(jsonResponse.body);
@@ -930,11 +928,11 @@ class ServiceDiscovery {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ServiceId': serviceId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListInstancesRequest(
+        serviceId: serviceId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListInstancesResponse.fromJson(jsonResponse.body);
@@ -999,11 +997,11 @@ class ServiceDiscovery {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListNamespacesRequest(
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListNamespacesResponse.fromJson(jsonResponse.body);
@@ -1068,11 +1066,11 @@ class ServiceDiscovery {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListOperationsRequest(
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListOperationsResponse.fromJson(jsonResponse.body);
@@ -1137,11 +1135,11 @@ class ServiceDiscovery {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListServicesRequest(
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListServicesResponse.fromJson(jsonResponse.body);
@@ -1387,12 +1385,12 @@ class ServiceDiscovery {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Attributes': attributes,
-        'InstanceId': instanceId,
-        'ServiceId': serviceId,
-        if (creatorRequestId != null) 'CreatorRequestId': creatorRequestId,
-      },
+      payload: RegisterInstanceRequest(
+        attributes: attributes,
+        instanceId: instanceId,
+        serviceId: serviceId,
+        creatorRequestId: creatorRequestId,
+      ),
     );
 
     return RegisterInstanceResponse.fromJson(jsonResponse.body);
@@ -1457,11 +1455,11 @@ class ServiceDiscovery {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'InstanceId': instanceId,
-        'ServiceId': serviceId,
-        'Status': status?.toValue(),
-      },
+      payload: UpdateInstanceCustomHealthStatusRequest(
+        instanceId: instanceId,
+        serviceId: serviceId,
+        status: status,
+      ),
     );
   }
 
@@ -1521,14 +1519,43 @@ class ServiceDiscovery {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-        'Service': service,
-      },
+      payload: UpdateServiceRequest(
+        id: id,
+        service: service,
+      ),
     );
 
     return UpdateServiceResponse.fromJson(jsonResponse.body);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateHttpNamespaceRequest {
+  /// The name that you want to assign to this namespace.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// A unique string that identifies the request and that allows failed
+  /// <code>CreateHttpNamespace</code> requests to be retried without the risk of
+  /// executing the operation twice. <code>CreatorRequestId</code> can be any
+  /// unique string, for example, a date/time stamp.
+  @_s.JsonKey(name: 'CreatorRequestId')
+  final String creatorRequestId;
+
+  /// A description for the namespace.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  CreateHttpNamespaceRequest({
+    @_s.required this.name,
+    this.creatorRequestId,
+    this.description,
+  });
+  Map<String, dynamic> toJson() => _$CreateHttpNamespaceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1547,6 +1574,43 @@ class CreateHttpNamespaceResponse {
   });
   factory CreateHttpNamespaceResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateHttpNamespaceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreatePrivateDnsNamespaceRequest {
+  /// The name that you want to assign to this namespace. When you create a
+  /// private DNS namespace, AWS Cloud Map automatically creates an Amazon Route
+  /// 53 private hosted zone that has the same name as the namespace.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The ID of the Amazon VPC that you want to associate the namespace with.
+  @_s.JsonKey(name: 'Vpc')
+  final String vpc;
+
+  /// A unique string that identifies the request and that allows failed
+  /// <code>CreatePrivateDnsNamespace</code> requests to be retried without the
+  /// risk of executing the operation twice. <code>CreatorRequestId</code> can be
+  /// any unique string, for example, a date/time stamp.
+  @_s.JsonKey(name: 'CreatorRequestId')
+  final String creatorRequestId;
+
+  /// A description for the namespace.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  CreatePrivateDnsNamespaceRequest({
+    @_s.required this.name,
+    @_s.required this.vpc,
+    this.creatorRequestId,
+    this.description,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreatePrivateDnsNamespaceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1571,6 +1635,36 @@ class CreatePrivateDnsNamespaceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreatePublicDnsNamespaceRequest {
+  /// The name that you want to assign to this namespace.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// A unique string that identifies the request and that allows failed
+  /// <code>CreatePublicDnsNamespace</code> requests to be retried without the
+  /// risk of executing the operation twice. <code>CreatorRequestId</code> can be
+  /// any unique string, for example, a date/time stamp.
+  @_s.JsonKey(name: 'CreatorRequestId')
+  final String creatorRequestId;
+
+  /// A description for the namespace.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  CreatePublicDnsNamespaceRequest({
+    @_s.required this.name,
+    this.creatorRequestId,
+    this.description,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreatePublicDnsNamespaceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreatePublicDnsNamespaceResponse {
@@ -1585,6 +1679,72 @@ class CreatePublicDnsNamespaceResponse {
   factory CreatePublicDnsNamespaceResponse.fromJson(
           Map<String, dynamic> json) =>
       _$CreatePublicDnsNamespaceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateServiceRequest {
+  /// The name that you want to assign to the service.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// A unique string that identifies the request and that allows failed
+  /// <code>CreateService</code> requests to be retried without the risk of
+  /// executing the operation twice. <code>CreatorRequestId</code> can be any
+  /// unique string, for example, a date/time stamp.
+  @_s.JsonKey(name: 'CreatorRequestId')
+  final String creatorRequestId;
+
+  /// A description for the service.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// A complex type that contains information about the Amazon Route 53 records
+  /// that you want AWS Cloud Map to create when you register an instance.
+  @_s.JsonKey(name: 'DnsConfig')
+  final DnsConfig dnsConfig;
+
+  /// <i>Public DNS namespaces only.</i> A complex type that contains settings for
+  /// an optional Route 53 health check. If you specify settings for a health
+  /// check, AWS Cloud Map associates the health check with all the Route 53 DNS
+  /// records that you specify in <code>DnsConfig</code>.
+  /// <important>
+  /// If you specify a health check configuration, you can specify either
+  /// <code>HealthCheckCustomConfig</code> or <code>HealthCheckConfig</code> but
+  /// not both.
+  /// </important>
+  /// For information about the charges for health checks, see <a
+  /// href="http://aws.amazon.com/cloud-map/pricing/">AWS Cloud Map Pricing</a>.
+  @_s.JsonKey(name: 'HealthCheckConfig')
+  final HealthCheckConfig healthCheckConfig;
+
+  /// A complex type that contains information about an optional custom health
+  /// check.
+  /// <important>
+  /// If you specify a health check configuration, you can specify either
+  /// <code>HealthCheckCustomConfig</code> or <code>HealthCheckConfig</code> but
+  /// not both.
+  /// </important>
+  @_s.JsonKey(name: 'HealthCheckCustomConfig')
+  final HealthCheckCustomConfig healthCheckCustomConfig;
+
+  /// The ID of the namespace that you want to use to create the service.
+  @_s.JsonKey(name: 'NamespaceId')
+  final String namespaceId;
+
+  CreateServiceRequest({
+    @_s.required this.name,
+    this.creatorRequestId,
+    this.description,
+    this.dnsConfig,
+    this.healthCheckConfig,
+    this.healthCheckCustomConfig,
+    this.namespaceId,
+  });
+  Map<String, dynamic> toJson() => _$CreateServiceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1611,16 +1771,20 @@ enum CustomHealthStatus {
   unhealthy,
 }
 
-extension on CustomHealthStatus {
-  String toValue() {
-    switch (this) {
-      case CustomHealthStatus.healthy:
-        return 'HEALTHY';
-      case CustomHealthStatus.unhealthy:
-        return 'UNHEALTHY';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteNamespaceRequest {
+  /// The ID of the namespace that you want to delete.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  DeleteNamespaceRequest({
+    @_s.required this.id,
+  });
+  Map<String, dynamic> toJson() => _$DeleteNamespaceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1644,12 +1808,50 @@ class DeleteNamespaceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteServiceRequest {
+  /// The ID of the service that you want to delete.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  DeleteServiceRequest({
+    @_s.required this.id,
+  });
+  Map<String, dynamic> toJson() => _$DeleteServiceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteServiceResponse {
   DeleteServiceResponse();
   factory DeleteServiceResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteServiceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeregisterInstanceRequest {
+  /// The value that you specified for <code>Id</code> in the
+  /// <a>RegisterInstance</a> request.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  /// The ID of the service that the instance is associated with.
+  @_s.JsonKey(name: 'ServiceId')
+  final String serviceId;
+
+  DeregisterInstanceRequest({
+    @_s.required this.instanceId,
+    @_s.required this.serviceId,
+  });
+  Map<String, dynamic> toJson() => _$DeregisterInstanceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1668,6 +1870,48 @@ class DeregisterInstanceResponse {
   });
   factory DeregisterInstanceResponse.fromJson(Map<String, dynamic> json) =>
       _$DeregisterInstanceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DiscoverInstancesRequest {
+  /// The name of the namespace that you specified when you registered the
+  /// instance.
+  @_s.JsonKey(name: 'NamespaceName')
+  final String namespaceName;
+
+  /// The name of the service that you specified when you registered the instance.
+  @_s.JsonKey(name: 'ServiceName')
+  final String serviceName;
+
+  /// The health status of the instances that you want to discover.
+  @_s.JsonKey(name: 'HealthStatus')
+  final HealthStatusFilter healthStatus;
+
+  /// The maximum number of instances that you want Cloud Map to return in the
+  /// response to a <code>DiscoverInstances</code> request. If you don't specify a
+  /// value for <code>MaxResults</code>, Cloud Map returns up to 100 instances.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A string map that contains attributes with values that you can use to filter
+  /// instances by any custom attribute that you specified when you registered the
+  /// instance. Only instances that match all the specified key/value pairs will
+  /// be returned.
+  @_s.JsonKey(name: 'QueryParameters')
+  final Map<String, String> queryParameters;
+
+  DiscoverInstancesRequest({
+    @_s.required this.namespaceName,
+    @_s.required this.serviceName,
+    this.healthStatus,
+    this.maxResults,
+    this.queryParameters,
+  });
+  Map<String, dynamic> toJson() => _$DiscoverInstancesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1961,6 +2205,27 @@ enum FilterCondition {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetInstanceRequest {
+  /// The ID of the instance that you want to get information about.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  /// The ID of the service that the instance is associated with.
+  @_s.JsonKey(name: 'ServiceId')
+  final String serviceId;
+
+  GetInstanceRequest({
+    @_s.required this.instanceId,
+    @_s.required this.serviceId,
+  });
+  Map<String, dynamic> toJson() => _$GetInstanceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetInstanceResponse {
@@ -1973,6 +2238,55 @@ class GetInstanceResponse {
   });
   factory GetInstanceResponse.fromJson(Map<String, dynamic> json) =>
       _$GetInstanceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetInstancesHealthStatusRequest {
+  /// The ID of the service that the instance is associated with.
+  @_s.JsonKey(name: 'ServiceId')
+  final String serviceId;
+
+  /// An array that contains the IDs of all the instances that you want to get the
+  /// health status for.
+  ///
+  /// If you omit <code>Instances</code>, AWS Cloud Map returns the health status
+  /// for all the instances that are associated with the specified service.
+  /// <note>
+  /// To get the IDs for the instances that you've registered by using a specified
+  /// service, submit a <a>ListInstances</a> request.
+  /// </note>
+  @_s.JsonKey(name: 'Instances')
+  final List<String> instances;
+
+  /// The maximum number of instances that you want AWS Cloud Map to return in the
+  /// response to a <code>GetInstancesHealthStatus</code> request. If you don't
+  /// specify a value for <code>MaxResults</code>, AWS Cloud Map returns up to 100
+  /// instances.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// For the first <code>GetInstancesHealthStatus</code> request, omit this
+  /// value.
+  ///
+  /// If more than <code>MaxResults</code> instances match the specified criteria,
+  /// you can submit another <code>GetInstancesHealthStatus</code> request to get
+  /// the next group of results. Specify the value of <code>NextToken</code> from
+  /// the previous response in the next request.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetInstancesHealthStatusRequest({
+    @_s.required this.serviceId,
+    this.instances,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetInstancesHealthStatusRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2005,6 +2319,22 @@ class GetInstancesHealthStatusResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetNamespaceRequest {
+  /// The ID of the namespace that you want to get information about.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  GetNamespaceRequest({
+    @_s.required this.id,
+  });
+  Map<String, dynamic> toJson() => _$GetNamespaceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetNamespaceResponse {
@@ -2022,6 +2352,22 @@ class GetNamespaceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetOperationRequest {
+  /// The ID of the operation that you want to get more information about.
+  @_s.JsonKey(name: 'OperationId')
+  final String operationId;
+
+  GetOperationRequest({
+    @_s.required this.operationId,
+  });
+  Map<String, dynamic> toJson() => _$GetOperationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetOperationResponse {
@@ -2034,6 +2380,22 @@ class GetOperationResponse {
   });
   factory GetOperationResponse.fromJson(Map<String, dynamic> json) =>
       _$GetOperationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetServiceRequest {
+  /// The ID of the service that you want to get settings for.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  GetServiceRequest({
+    @_s.required this.id,
+  });
+  Map<String, dynamic> toJson() => _$GetServiceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2318,20 +2680,6 @@ enum HealthStatusFilter {
   all,
 }
 
-extension on HealthStatusFilter {
-  String toValue() {
-    switch (this) {
-      case HealthStatusFilter.healthy:
-        return 'HEALTHY';
-      case HealthStatusFilter.unhealthy:
-        return 'UNHEALTHY';
-      case HealthStatusFilter.all:
-        return 'ALL';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// In a response to a <a>DiscoverInstance</a> request,
 /// <code>HttpInstanceSummary</code> contains information about one instance
 /// that matches the values that you specified in the request.
@@ -2609,6 +2957,40 @@ class InstanceSummary {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListInstancesRequest {
+  /// The ID of the service that you want to list instances for.
+  @_s.JsonKey(name: 'ServiceId')
+  final String serviceId;
+
+  /// The maximum number of instances that you want AWS Cloud Map to return in the
+  /// response to a <code>ListInstances</code> request. If you don't specify a
+  /// value for <code>MaxResults</code>, AWS Cloud Map returns up to 100
+  /// instances.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// For the first <code>ListInstances</code> request, omit this value.
+  ///
+  /// If more than <code>MaxResults</code> instances match the specified criteria,
+  /// you can submit another <code>ListInstances</code> request to get the next
+  /// group of results. Specify the value of <code>NextToken</code> from the
+  /// previous response in the next request.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListInstancesRequest({
+    @_s.required this.serviceId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListInstancesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListInstancesResponse {
@@ -2630,6 +3012,51 @@ class ListInstancesResponse {
   });
   factory ListInstancesResponse.fromJson(Map<String, dynamic> json) =>
       _$ListInstancesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListNamespacesRequest {
+  /// A complex type that contains specifications for the namespaces that you want
+  /// to list.
+  ///
+  /// If you specify more than one filter, a namespace must match all filters to
+  /// be returned by <code>ListNamespaces</code>.
+  @_s.JsonKey(name: 'Filters')
+  final List<NamespaceFilter> filters;
+
+  /// The maximum number of namespaces that you want AWS Cloud Map to return in
+  /// the response to a <code>ListNamespaces</code> request. If you don't specify
+  /// a value for <code>MaxResults</code>, AWS Cloud Map returns up to 100
+  /// namespaces.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// For the first <code>ListNamespaces</code> request, omit this value.
+  ///
+  /// If the response contains <code>NextToken</code>, submit another
+  /// <code>ListNamespaces</code> request to get the next group of results.
+  /// Specify the value of <code>NextToken</code> from the previous response in
+  /// the next request.
+  /// <note>
+  /// AWS Cloud Map gets <code>MaxResults</code> namespaces and then filters them
+  /// based on the specified criteria. It's possible that no namespaces in the
+  /// first <code>MaxResults</code> namespaces matched the specified criteria but
+  /// that subsequent groups of <code>MaxResults</code> namespaces do contain
+  /// namespaces that match the criteria.
+  /// </note>
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListNamespacesRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListNamespacesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2668,6 +3095,52 @@ class ListNamespacesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListOperationsRequest {
+  /// A complex type that contains specifications for the operations that you want
+  /// to list, for example, operations that you started between a specified start
+  /// date and end date.
+  ///
+  /// If you specify more than one filter, an operation must match all filters to
+  /// be returned by <code>ListOperations</code>.
+  @_s.JsonKey(name: 'Filters')
+  final List<OperationFilter> filters;
+
+  /// The maximum number of items that you want AWS Cloud Map to return in the
+  /// response to a <code>ListOperations</code> request. If you don't specify a
+  /// value for <code>MaxResults</code>, AWS Cloud Map returns up to 100
+  /// operations.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// For the first <code>ListOperations</code> request, omit this value.
+  ///
+  /// If the response contains <code>NextToken</code>, submit another
+  /// <code>ListOperations</code> request to get the next group of results.
+  /// Specify the value of <code>NextToken</code> from the previous response in
+  /// the next request.
+  /// <note>
+  /// AWS Cloud Map gets <code>MaxResults</code> operations and then filters them
+  /// based on the specified criteria. It's possible that no operations in the
+  /// first <code>MaxResults</code> operations matched the specified criteria but
+  /// that subsequent groups of <code>MaxResults</code> operations do contain
+  /// operations that match the criteria.
+  /// </note>
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListOperationsRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListOperationsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListOperationsResponse {
@@ -2695,6 +3168,50 @@ class ListOperationsResponse {
   });
   factory ListOperationsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListOperationsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListServicesRequest {
+  /// A complex type that contains specifications for the namespaces that you want
+  /// to list services for.
+  ///
+  /// If you specify more than one filter, an operation must match all filters to
+  /// be returned by <code>ListServices</code>.
+  @_s.JsonKey(name: 'Filters')
+  final List<ServiceFilter> filters;
+
+  /// The maximum number of services that you want AWS Cloud Map to return in the
+  /// response to a <code>ListServices</code> request. If you don't specify a
+  /// value for <code>MaxResults</code>, AWS Cloud Map returns up to 100 services.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// For the first <code>ListServices</code> request, omit this value.
+  ///
+  /// If the response contains <code>NextToken</code>, submit another
+  /// <code>ListServices</code> request to get the next group of results. Specify
+  /// the value of <code>NextToken</code> from the previous response in the next
+  /// request.
+  /// <note>
+  /// AWS Cloud Map gets <code>MaxResults</code> services and then filters them
+  /// based on the specified criteria. It's possible that no services in the first
+  /// <code>MaxResults</code> services matched the specified criteria but that
+  /// subsequent groups of <code>MaxResults</code> services do contain services
+  /// that match the criteria.
+  /// </note>
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListServicesRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListServicesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3264,6 +3781,175 @@ enum RecordType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RegisterInstanceRequest {
+  /// A string map that contains the following information for the service that
+  /// you specify in <code>ServiceId</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// The attributes that apply to the records that are defined in the service.
+  /// </li>
+  /// <li>
+  /// For each attribute, the applicable value.
+  /// </li>
+  /// </ul>
+  /// Supported attribute keys include the following:
+  ///
+  /// <b>AWS_ALIAS_DNS_NAME</b>
+  ///
+  /// <b/>
+  ///
+  /// If you want AWS Cloud Map to create an Amazon Route 53 alias record that
+  /// routes traffic to an Elastic Load Balancing load balancer, specify the DNS
+  /// name that is associated with the load balancer. For information about how to
+  /// get the DNS name, see "DNSName" in the topic <a
+  /// href="http://docs.aws.amazon.com/Route53/latest/APIReference/API_AliasTarget.html">AliasTarget</a>
+  /// in the <i>Route 53 API Reference</i>.
+  ///
+  /// Note the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// The configuration for the service that is specified by
+  /// <code>ServiceId</code> must include settings for an A record, an AAAA
+  /// record, or both.
+  /// </li>
+  /// <li>
+  /// In the service that is specified by <code>ServiceId</code>, the value of
+  /// <code>RoutingPolicy</code> must be <code>WEIGHTED</code>.
+  /// </li>
+  /// <li>
+  /// If the service that is specified by <code>ServiceId</code> includes
+  /// <code>HealthCheckConfig</code> settings, AWS Cloud Map will create the Route
+  /// 53 health check, but it won't associate the health check with the alias
+  /// record.
+  /// </li>
+  /// <li>
+  /// Auto naming currently doesn't support creating alias records that route
+  /// traffic to AWS resources other than ELB load balancers.
+  /// </li>
+  /// <li>
+  /// If you specify a value for <code>AWS_ALIAS_DNS_NAME</code>, don't specify
+  /// values for any of the <code>AWS_INSTANCE</code> attributes.
+  /// </li>
+  /// </ul>
+  /// <b>AWS_INIT_HEALTH_STATUS</b>
+  ///
+  /// If the service configuration includes <code>HealthCheckCustomConfig</code>,
+  /// you can optionally use <code>AWS_INIT_HEALTH_STATUS</code> to specify the
+  /// initial status of the custom health check, <code>HEALTHY</code> or
+  /// <code>UNHEALTHY</code>. If you don't specify a value for
+  /// <code>AWS_INIT_HEALTH_STATUS</code>, the initial status is
+  /// <code>HEALTHY</code>.
+  ///
+  /// <b>AWS_INSTANCE_CNAME</b>
+  ///
+  /// If the service configuration includes a CNAME record, the domain name that
+  /// you want Route 53 to return in response to DNS queries, for example,
+  /// <code>example.com</code>.
+  ///
+  /// This value is required if the service specified by <code>ServiceId</code>
+  /// includes settings for an CNAME record.
+  ///
+  /// <b>AWS_INSTANCE_IPV4</b>
+  ///
+  /// If the service configuration includes an A record, the IPv4 address that you
+  /// want Route 53 to return in response to DNS queries, for example,
+  /// <code>192.0.2.44</code>.
+  ///
+  /// This value is required if the service specified by <code>ServiceId</code>
+  /// includes settings for an A record. If the service includes settings for an
+  /// SRV record, you must specify a value for <code>AWS_INSTANCE_IPV4</code>,
+  /// <code>AWS_INSTANCE_IPV6</code>, or both.
+  ///
+  /// <b>AWS_INSTANCE_IPV6</b>
+  ///
+  /// If the service configuration includes an AAAA record, the IPv6 address that
+  /// you want Route 53 to return in response to DNS queries, for example,
+  /// <code>2001:0db8:85a3:0000:0000:abcd:0001:2345</code>.
+  ///
+  /// This value is required if the service specified by <code>ServiceId</code>
+  /// includes settings for an AAAA record. If the service includes settings for
+  /// an SRV record, you must specify a value for <code>AWS_INSTANCE_IPV4</code>,
+  /// <code>AWS_INSTANCE_IPV6</code>, or both.
+  ///
+  /// <b>AWS_INSTANCE_PORT</b>
+  ///
+  /// If the service includes an SRV record, the value that you want Route 53 to
+  /// return for the port.
+  ///
+  /// If the service includes <code>HealthCheckConfig</code>, the port on the
+  /// endpoint that you want Route 53 to send requests to.
+  ///
+  /// This value is required if you specified settings for an SRV record when you
+  /// created the service.
+  ///
+  /// <b>Custom attributes</b>
+  ///
+  /// You can add up to 30 custom attributes. For each key-value pair, the maximum
+  /// length of the attribute name is 255 characters, and the maximum length of
+  /// the attribute value is 1,024 characters.
+  @_s.JsonKey(name: 'Attributes')
+  final Map<String, String> attributes;
+
+  /// An identifier that you want to associate with the instance. Note the
+  /// following:
+  ///
+  /// <ul>
+  /// <li>
+  /// If the service that is specified by <code>ServiceId</code> includes settings
+  /// for an SRV record, the value of <code>InstanceId</code> is automatically
+  /// included as part of the value for the SRV record. For more information, see
+  /// <a>DnsRecord$Type</a>.
+  /// </li>
+  /// <li>
+  /// You can use this value to update an existing instance.
+  /// </li>
+  /// <li>
+  /// To register a new instance, you must specify a value that is unique among
+  /// instances that you register by using the same service.
+  /// </li>
+  /// <li>
+  /// If you specify an existing <code>InstanceId</code> and
+  /// <code>ServiceId</code>, AWS Cloud Map updates the existing DNS records, if
+  /// any. If there's also an existing health check, AWS Cloud Map deletes the old
+  /// health check and creates a new one.
+  /// <note>
+  /// The health check isn't deleted immediately, so it will still appear for a
+  /// while if you submit a <code>ListHealthChecks</code> request, for example.
+  /// </note> </li>
+  /// </ul>
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  /// The ID of the service that you want to use for settings for the instance.
+  @_s.JsonKey(name: 'ServiceId')
+  final String serviceId;
+
+  /// A unique string that identifies the request and that allows failed
+  /// <code>RegisterInstance</code> requests to be retried without the risk of
+  /// executing the operation twice. You must use a unique
+  /// <code>CreatorRequestId</code> string every time you submit a
+  /// <code>RegisterInstance</code> request if you're registering additional
+  /// instances for the same namespace and service. <code>CreatorRequestId</code>
+  /// can be any unique string, for example, a date/time stamp.
+  @_s.JsonKey(name: 'CreatorRequestId')
+  final String creatorRequestId;
+
+  RegisterInstanceRequest({
+    @_s.required this.attributes,
+    @_s.required this.instanceId,
+    @_s.required this.serviceId,
+    this.creatorRequestId,
+  });
+  Map<String, dynamic> toJson() => _$RegisterInstanceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class RegisterInstanceResponse {
@@ -3513,6 +4199,56 @@ class ServiceSummary {
   });
   factory ServiceSummary.fromJson(Map<String, dynamic> json) =>
       _$ServiceSummaryFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateInstanceCustomHealthStatusRequest {
+  /// The ID of the instance that you want to change the health status for.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  /// The ID of the service that includes the configuration for the custom health
+  /// check that you want to change the status for.
+  @_s.JsonKey(name: 'ServiceId')
+  final String serviceId;
+
+  /// The new status of the instance, <code>HEALTHY</code> or
+  /// <code>UNHEALTHY</code>.
+  @_s.JsonKey(name: 'Status')
+  final CustomHealthStatus status;
+
+  UpdateInstanceCustomHealthStatusRequest({
+    @_s.required this.instanceId,
+    @_s.required this.serviceId,
+    @_s.required this.status,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateInstanceCustomHealthStatusRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateServiceRequest {
+  /// The ID of the service that you want to update.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// A complex type that contains the new settings for the service.
+  @_s.JsonKey(name: 'Service')
+  final ServiceChange service;
+
+  UpdateServiceRequest({
+    @_s.required this.id,
+    @_s.required this.service,
+  });
+  Map<String, dynamic> toJson() => _$UpdateServiceRequestToJson(this);
 }
 
 @_s.JsonSerializable(

@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -108,12 +107,12 @@ class WorkLink {
       0,
       100,
     );
-    final $payload = <String, dynamic>{
-      'AcmCertificateArn': acmCertificateArn,
-      'DomainName': domainName,
-      'FleetArn': fleetArn,
-      if (displayName != null) 'DisplayName': displayName,
-    };
+    final $payload = AssociateDomainRequest(
+      acmCertificateArn: acmCertificateArn,
+      domainName: domainName,
+      fleetArn: fleetArn,
+      displayName: displayName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -170,11 +169,11 @@ class WorkLink {
       domainName,
       r'''^[a-zA-Z0-9]?((?!-)([A-Za-z0-9-]*[A-Za-z0-9])\.)+[a-zA-Z0-9]+$''',
     );
-    final $payload = <String, dynamic>{
-      'AuthorizationProviderType': authorizationProviderType?.toValue(),
-      'FleetArn': fleetArn,
-      if (domainName != null) 'DomainName': domainName,
-    };
+    final $payload = AssociateWebsiteAuthorizationProviderRequest(
+      authorizationProviderType: authorizationProviderType,
+      fleetArn: fleetArn,
+      domainName: domainName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -237,11 +236,11 @@ class WorkLink {
       0,
       100,
     );
-    final $payload = <String, dynamic>{
-      'Certificate': certificate,
-      'FleetArn': fleetArn,
-      if (displayName != null) 'DisplayName': displayName,
-    };
+    final $payload = AssociateWebsiteCertificateAuthorityRequest(
+      certificate: certificate,
+      fleetArn: fleetArn,
+      displayName: displayName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -296,12 +295,11 @@ class WorkLink {
       0,
       100,
     );
-    final $payload = <String, dynamic>{
-      'FleetName': fleetName,
-      if (displayName != null) 'DisplayName': displayName,
-      if (optimizeForEndUserLocation != null)
-        'OptimizeForEndUserLocation': optimizeForEndUserLocation,
-    };
+    final $payload = CreateFleetRequest(
+      fleetName: fleetName,
+      displayName: displayName,
+      optimizeForEndUserLocation: optimizeForEndUserLocation,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -333,9 +331,9 @@ class WorkLink {
       2048,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'FleetArn': fleetArn,
-    };
+    final $payload = DeleteFleetRequest(
+      fleetArn: fleetArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -368,9 +366,9 @@ class WorkLink {
       2048,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'FleetArn': fleetArn,
-    };
+    final $payload = DescribeAuditStreamConfigurationRequest(
+      fleetArn: fleetArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -403,9 +401,9 @@ class WorkLink {
       2048,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'FleetArn': fleetArn,
-    };
+    final $payload = DescribeCompanyNetworkConfigurationRequest(
+      fleetArn: fleetArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -448,10 +446,10 @@ class WorkLink {
       2048,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'DeviceId': deviceId,
-      'FleetArn': fleetArn,
-    };
+    final $payload = DescribeDeviceRequest(
+      deviceId: deviceId,
+      fleetArn: fleetArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -483,9 +481,9 @@ class WorkLink {
       2048,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'FleetArn': fleetArn,
-    };
+    final $payload = DescribeDevicePolicyConfigurationRequest(
+      fleetArn: fleetArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -534,10 +532,10 @@ class WorkLink {
       2048,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'DomainName': domainName,
-      'FleetArn': fleetArn,
-    };
+    final $payload = DescribeDomainRequest(
+      domainName: domainName,
+      fleetArn: fleetArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -569,9 +567,9 @@ class WorkLink {
       2048,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'FleetArn': fleetArn,
-    };
+    final $payload = DescribeFleetMetadataRequest(
+      fleetArn: fleetArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -603,9 +601,9 @@ class WorkLink {
       2048,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'FleetArn': fleetArn,
-    };
+    final $payload = DescribeIdentityProviderConfigurationRequest(
+      fleetArn: fleetArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -649,10 +647,10 @@ class WorkLink {
       256,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'FleetArn': fleetArn,
-      'WebsiteCaId': websiteCaId,
-    };
+    final $payload = DescribeWebsiteCertificateAuthorityRequest(
+      fleetArn: fleetArn,
+      websiteCaId: websiteCaId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -702,10 +700,10 @@ class WorkLink {
       2048,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'DomainName': domainName,
-      'FleetArn': fleetArn,
-    };
+    final $payload = DisassociateDomainRequest(
+      domainName: domainName,
+      fleetArn: fleetArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -752,10 +750,10 @@ class WorkLink {
       2048,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'AuthorizationProviderId': authorizationProviderId,
-      'FleetArn': fleetArn,
-    };
+    final $payload = DisassociateWebsiteAuthorizationProviderRequest(
+      authorizationProviderId: authorizationProviderId,
+      fleetArn: fleetArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -798,10 +796,10 @@ class WorkLink {
       256,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'FleetArn': fleetArn,
-      'WebsiteCaId': websiteCaId,
-    };
+    final $payload = DisassociateWebsiteCertificateAuthorityRequest(
+      fleetArn: fleetArn,
+      websiteCaId: websiteCaId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -858,11 +856,11 @@ class WorkLink {
       nextToken,
       r'''[\w\-]+''',
     );
-    final $payload = <String, dynamic>{
-      'FleetArn': fleetArn,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = ListDevicesRequest(
+      fleetArn: fleetArn,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -918,11 +916,11 @@ class WorkLink {
       nextToken,
       r'''[\w\-]+''',
     );
-    final $payload = <String, dynamic>{
-      'FleetArn': fleetArn,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = ListDomainsRequest(
+      fleetArn: fleetArn,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -966,10 +964,10 @@ class WorkLink {
       nextToken,
       r'''[\w\-]+''',
     );
-    final $payload = <String, dynamic>{
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = ListFleetsRequest(
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1028,11 +1026,11 @@ class WorkLink {
       nextToken,
       r'''[\w\-]+''',
     );
-    final $payload = <String, dynamic>{
-      'FleetArn': fleetArn,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = ListWebsiteAuthorizationProvidersRequest(
+      fleetArn: fleetArn,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1090,11 +1088,11 @@ class WorkLink {
       nextToken,
       r'''[\w\-]+''',
     );
-    final $payload = <String, dynamic>{
-      'FleetArn': fleetArn,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = ListWebsiteCertificateAuthoritiesRequest(
+      fleetArn: fleetArn,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1143,10 +1141,10 @@ class WorkLink {
       2048,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'DomainName': domainName,
-      'FleetArn': fleetArn,
-    };
+    final $payload = RestoreDomainAccessRequest(
+      domainName: domainName,
+      fleetArn: fleetArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1195,10 +1193,10 @@ class WorkLink {
       2048,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'DomainName': domainName,
-      'FleetArn': fleetArn,
-    };
+    final $payload = RevokeDomainAccessRequest(
+      domainName: domainName,
+      fleetArn: fleetArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1242,10 +1240,10 @@ class WorkLink {
       256,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'FleetArn': fleetArn,
-      'Username': username,
-    };
+    final $payload = SignOutUserRequest(
+      fleetArn: fleetArn,
+      username: username,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1280,10 +1278,10 @@ class WorkLink {
       2048,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'FleetArn': fleetArn,
-      if (auditStreamArn != null) 'AuditStreamArn': auditStreamArn,
-    };
+    final $payload = UpdateAuditStreamConfigurationRequest(
+      fleetArn: fleetArn,
+      auditStreamArn: auditStreamArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1336,12 +1334,12 @@ class WorkLink {
       r'''^vpc-([0-9a-f]{8}|[0-9a-f]{17})$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'FleetArn': fleetArn,
-      'SecurityGroupIds': securityGroupIds,
-      'SubnetIds': subnetIds,
-      'VpcId': vpcId,
-    };
+    final $payload = UpdateCompanyNetworkConfigurationRequest(
+      fleetArn: fleetArn,
+      securityGroupIds: securityGroupIds,
+      subnetIds: subnetIds,
+      vpcId: vpcId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1388,11 +1386,10 @@ class WorkLink {
       deviceCaCertificate,
       r'''(-{5}BEGIN CERTIFICATE-{5}\u000D?\u000A([A-Za-z0-9/+]{64}\u000D?\u000A)*[A-Za-z0-9/+]{1,64}={0,2}\u000D?\u000A-{5}END CERTIFICATE-{5}\u000D?\u000A)*-{5}BEGIN CERTIFICATE-{5}\u000D?\u000A([A-Za-z0-9/+]{64}\u000D?\u000A)*[A-Za-z0-9/+]{1,64}={0,2}\u000D?\u000A-{5}END CERTIFICATE-{5}(\u000D?\u000A)?''',
     );
-    final $payload = <String, dynamic>{
-      'FleetArn': fleetArn,
-      if (deviceCaCertificate != null)
-        'DeviceCaCertificate': deviceCaCertificate,
-    };
+    final $payload = UpdateDevicePolicyConfigurationRequest(
+      fleetArn: fleetArn,
+      deviceCaCertificate: deviceCaCertificate,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1451,11 +1448,11 @@ class WorkLink {
       0,
       100,
     );
-    final $payload = <String, dynamic>{
-      'DomainName': domainName,
-      'FleetArn': fleetArn,
-      if (displayName != null) 'DisplayName': displayName,
-    };
+    final $payload = UpdateDomainMetadataRequest(
+      domainName: domainName,
+      fleetArn: fleetArn,
+      displayName: displayName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1502,12 +1499,11 @@ class WorkLink {
       0,
       100,
     );
-    final $payload = <String, dynamic>{
-      'FleetArn': fleetArn,
-      if (displayName != null) 'DisplayName': displayName,
-      if (optimizeForEndUserLocation != null)
-        'OptimizeForEndUserLocation': optimizeForEndUserLocation,
-    };
+    final $payload = UpdateFleetMetadataRequest(
+      fleetArn: fleetArn,
+      displayName: displayName,
+      optimizeForEndUserLocation: optimizeForEndUserLocation,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1554,12 +1550,11 @@ class WorkLink {
       1,
       204800,
     );
-    final $payload = <String, dynamic>{
-      'FleetArn': fleetArn,
-      'IdentityProviderType': identityProviderType?.toValue(),
-      if (identityProviderSamlMetadata != null)
-        'IdentityProviderSamlMetadata': identityProviderSamlMetadata,
-    };
+    final $payload = UpdateIdentityProviderConfigurationRequest(
+      fleetArn: fleetArn,
+      identityProviderType: identityProviderType,
+      identityProviderSamlMetadata: identityProviderSamlMetadata,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1573,12 +1568,72 @@ class WorkLink {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateDomainRequest {
+  /// The ARN of an issued ACM certificate that is valid for the domain being
+  /// associated.
+  @_s.JsonKey(name: 'AcmCertificateArn')
+  final String acmCertificateArn;
+
+  /// The fully qualified domain name (FQDN).
+  @_s.JsonKey(name: 'DomainName')
+  final String domainName;
+
+  /// The Amazon Resource Name (ARN) of the fleet.
+  @_s.JsonKey(name: 'FleetArn')
+  final String fleetArn;
+
+  /// The name to display.
+  @_s.JsonKey(name: 'DisplayName')
+  final String displayName;
+
+  AssociateDomainRequest({
+    @_s.required this.acmCertificateArn,
+    @_s.required this.domainName,
+    @_s.required this.fleetArn,
+    this.displayName,
+  });
+  Map<String, dynamic> toJson() => _$AssociateDomainRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AssociateDomainResponse {
   AssociateDomainResponse();
   factory AssociateDomainResponse.fromJson(Map<String, dynamic> json) =>
       _$AssociateDomainResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateWebsiteAuthorizationProviderRequest {
+  /// The authorization provider type.
+  @_s.JsonKey(name: 'AuthorizationProviderType')
+  final AuthorizationProviderType authorizationProviderType;
+
+  /// The ARN of the fleet.
+  @_s.JsonKey(name: 'FleetArn')
+  final String fleetArn;
+
+  /// The domain name of the authorization provider. This applies only to
+  /// SAML-based authorization providers.
+  @_s.JsonKey(name: 'DomainName')
+  final String domainName;
+
+  AssociateWebsiteAuthorizationProviderRequest({
+    @_s.required this.authorizationProviderType,
+    @_s.required this.fleetArn,
+    this.domainName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AssociateWebsiteAuthorizationProviderRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1597,6 +1652,33 @@ class AssociateWebsiteAuthorizationProviderResponse {
   factory AssociateWebsiteAuthorizationProviderResponse.fromJson(
           Map<String, dynamic> json) =>
       _$AssociateWebsiteAuthorizationProviderResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateWebsiteCertificateAuthorityRequest {
+  /// The root certificate of the CA.
+  @_s.JsonKey(name: 'Certificate')
+  final String certificate;
+
+  /// The ARN of the fleet.
+  @_s.JsonKey(name: 'FleetArn')
+  final String fleetArn;
+
+  /// The certificate name to display.
+  @_s.JsonKey(name: 'DisplayName')
+  final String displayName;
+
+  AssociateWebsiteCertificateAuthorityRequest({
+    @_s.required this.certificate,
+    @_s.required this.fleetArn,
+    this.displayName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AssociateWebsiteCertificateAuthorityRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1622,14 +1704,31 @@ enum AuthorizationProviderType {
   saml,
 }
 
-extension on AuthorizationProviderType {
-  String toValue() {
-    switch (this) {
-      case AuthorizationProviderType.saml:
-        return 'SAML';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateFleetRequest {
+  /// A unique name for the fleet.
+  @_s.JsonKey(name: 'FleetName')
+  final String fleetName;
+
+  /// The fleet name to display.
+  @_s.JsonKey(name: 'DisplayName')
+  final String displayName;
+
+  /// The option to optimize for better performance by routing traffic through the
+  /// closest AWS Region to users, which may be outside of your home Region.
+  @_s.JsonKey(name: 'OptimizeForEndUserLocation')
+  final bool optimizeForEndUserLocation;
+
+  CreateFleetRequest({
+    @_s.required this.fleetName,
+    this.displayName,
+    this.optimizeForEndUserLocation,
+  });
+  Map<String, dynamic> toJson() => _$CreateFleetRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1652,12 +1751,45 @@ class CreateFleetResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteFleetRequest {
+  /// The ARN of the fleet.
+  @_s.JsonKey(name: 'FleetArn')
+  final String fleetArn;
+
+  DeleteFleetRequest({
+    @_s.required this.fleetArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteFleetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteFleetResponse {
   DeleteFleetResponse();
   factory DeleteFleetResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteFleetResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeAuditStreamConfigurationRequest {
+  /// The ARN of the fleet.
+  @_s.JsonKey(name: 'FleetArn')
+  final String fleetArn;
+
+  DescribeAuditStreamConfigurationRequest({
+    @_s.required this.fleetArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeAuditStreamConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1677,6 +1809,23 @@ class DescribeAuditStreamConfigurationResponse {
   factory DescribeAuditStreamConfigurationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeAuditStreamConfigurationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeCompanyNetworkConfigurationRequest {
+  /// The ARN of the fleet.
+  @_s.JsonKey(name: 'FleetArn')
+  final String fleetArn;
+
+  DescribeCompanyNetworkConfigurationRequest({
+    @_s.required this.fleetArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeCompanyNetworkConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1711,6 +1860,23 @@ class DescribeCompanyNetworkConfigurationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeDevicePolicyConfigurationRequest {
+  /// The ARN of the fleet.
+  @_s.JsonKey(name: 'FleetArn')
+  final String fleetArn;
+
+  DescribeDevicePolicyConfigurationRequest({
+    @_s.required this.fleetArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeDevicePolicyConfigurationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeDevicePolicyConfigurationResponse {
@@ -1725,6 +1891,27 @@ class DescribeDevicePolicyConfigurationResponse {
   factory DescribeDevicePolicyConfigurationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeDevicePolicyConfigurationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeDeviceRequest {
+  /// A unique identifier for a registered user's device.
+  @_s.JsonKey(name: 'DeviceId')
+  final String deviceId;
+
+  /// The ARN of the fleet.
+  @_s.JsonKey(name: 'FleetArn')
+  final String fleetArn;
+
+  DescribeDeviceRequest({
+    @_s.required this.deviceId,
+    @_s.required this.fleetArn,
+  });
+  Map<String, dynamic> toJson() => _$DescribeDeviceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1793,6 +1980,27 @@ class DescribeDeviceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeDomainRequest {
+  /// The name of the domain.
+  @_s.JsonKey(name: 'DomainName')
+  final String domainName;
+
+  /// The ARN of the fleet.
+  @_s.JsonKey(name: 'FleetArn')
+  final String fleetArn;
+
+  DescribeDomainRequest({
+    @_s.required this.domainName,
+    @_s.required this.fleetArn,
+  });
+  Map<String, dynamic> toJson() => _$DescribeDomainRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeDomainResponse {
@@ -1829,6 +2037,22 @@ class DescribeDomainResponse {
   });
   factory DescribeDomainResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeDomainResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeFleetMetadataRequest {
+  /// The ARN of the fleet.
+  @_s.JsonKey(name: 'FleetArn')
+  final String fleetArn;
+
+  DescribeFleetMetadataRequest({
+    @_s.required this.fleetArn,
+  });
+  Map<String, dynamic> toJson() => _$DescribeFleetMetadataRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1888,6 +2112,23 @@ class DescribeFleetMetadataResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeIdentityProviderConfigurationRequest {
+  /// The ARN of the fleet.
+  @_s.JsonKey(name: 'FleetArn')
+  final String fleetArn;
+
+  DescribeIdentityProviderConfigurationRequest({
+    @_s.required this.fleetArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeIdentityProviderConfigurationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeIdentityProviderConfigurationResponse {
@@ -1911,6 +2152,28 @@ class DescribeIdentityProviderConfigurationResponse {
   factory DescribeIdentityProviderConfigurationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeIdentityProviderConfigurationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeWebsiteCertificateAuthorityRequest {
+  /// The ARN of the fleet.
+  @_s.JsonKey(name: 'FleetArn')
+  final String fleetArn;
+
+  /// A unique identifier for the certificate authority.
+  @_s.JsonKey(name: 'WebsiteCaId')
+  final String websiteCaId;
+
+  DescribeWebsiteCertificateAuthorityRequest({
+    @_s.required this.fleetArn,
+    @_s.required this.websiteCaId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeWebsiteCertificateAuthorityRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1977,12 +2240,55 @@ class DeviceSummary {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateDomainRequest {
+  /// The name of the domain.
+  @_s.JsonKey(name: 'DomainName')
+  final String domainName;
+
+  /// The ARN of the fleet.
+  @_s.JsonKey(name: 'FleetArn')
+  final String fleetArn;
+
+  DisassociateDomainRequest({
+    @_s.required this.domainName,
+    @_s.required this.fleetArn,
+  });
+  Map<String, dynamic> toJson() => _$DisassociateDomainRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DisassociateDomainResponse {
   DisassociateDomainResponse();
   factory DisassociateDomainResponse.fromJson(Map<String, dynamic> json) =>
       _$DisassociateDomainResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateWebsiteAuthorizationProviderRequest {
+  /// A unique identifier for the authorization provider.
+  @_s.JsonKey(name: 'AuthorizationProviderId')
+  final String authorizationProviderId;
+
+  /// The ARN of the fleet.
+  @_s.JsonKey(name: 'FleetArn')
+  final String fleetArn;
+
+  DisassociateWebsiteAuthorizationProviderRequest({
+    @_s.required this.authorizationProviderId,
+    @_s.required this.fleetArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DisassociateWebsiteAuthorizationProviderRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1995,6 +2301,28 @@ class DisassociateWebsiteAuthorizationProviderResponse {
   factory DisassociateWebsiteAuthorizationProviderResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DisassociateWebsiteAuthorizationProviderResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateWebsiteCertificateAuthorityRequest {
+  /// The ARN of the fleet.
+  @_s.JsonKey(name: 'FleetArn')
+  final String fleetArn;
+
+  /// A unique identifier for the CA.
+  @_s.JsonKey(name: 'WebsiteCaId')
+  final String websiteCaId;
+
+  DisassociateWebsiteCertificateAuthorityRequest({
+    @_s.required this.fleetArn,
+    @_s.required this.websiteCaId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DisassociateWebsiteCertificateAuthorityRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2138,14 +2466,31 @@ enum IdentityProviderType {
   saml,
 }
 
-extension on IdentityProviderType {
-  String toValue() {
-    switch (this) {
-      case IdentityProviderType.saml:
-        return 'SAML';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListDevicesRequest {
+  /// The ARN of the fleet.
+  @_s.JsonKey(name: 'FleetArn')
+  final String fleetArn;
+
+  /// The maximum number of results to be included in the next page.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The pagination token used to retrieve the next page of results for this
+  /// operation. If this value is null, it retrieves the first page.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListDevicesRequest({
+    @_s.required this.fleetArn,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListDevicesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2174,6 +2519,33 @@ class ListDevicesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListDomainsRequest {
+  /// The ARN of the fleet.
+  @_s.JsonKey(name: 'FleetArn')
+  final String fleetArn;
+
+  /// The maximum number of results to be included in the next page.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The pagination token used to retrieve the next page of results for this
+  /// operation. If this value is null, it retrieves the first page.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListDomainsRequest({
+    @_s.required this.fleetArn,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListDomainsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListDomainsResponse {
@@ -2197,6 +2569,28 @@ class ListDomainsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListFleetsRequest {
+  /// The maximum number of results to be included in the next page.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The pagination token used to retrieve the next page of results for this
+  /// operation. If this value is null, it retrieves the first page.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListFleetsRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListFleetsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListFleetsResponse {
@@ -2215,6 +2609,34 @@ class ListFleetsResponse {
   });
   factory ListFleetsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListFleetsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListWebsiteAuthorizationProvidersRequest {
+  /// The ARN of the fleet.
+  @_s.JsonKey(name: 'FleetArn')
+  final String fleetArn;
+
+  /// The maximum number of results to be included in the next page.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The pagination token to use to retrieve the next page of results for this
+  /// operation. If this value is null, it retrieves the first page.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListWebsiteAuthorizationProvidersRequest({
+    @_s.required this.fleetArn,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListWebsiteAuthorizationProvidersRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2244,6 +2666,34 @@ class ListWebsiteAuthorizationProvidersResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListWebsiteCertificateAuthoritiesRequest {
+  /// The ARN of the fleet.
+  @_s.JsonKey(name: 'FleetArn')
+  final String fleetArn;
+
+  /// The maximum number of results to be included in the next page.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The pagination token used to retrieve the next page of results for this
+  /// operation. If this value is null, it retrieves the first page.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListWebsiteCertificateAuthoritiesRequest({
+    @_s.required this.fleetArn,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListWebsiteCertificateAuthoritiesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListWebsiteCertificateAuthoritiesResponse {
@@ -2268,12 +2718,54 @@ class ListWebsiteCertificateAuthoritiesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RestoreDomainAccessRequest {
+  /// The name of the domain.
+  @_s.JsonKey(name: 'DomainName')
+  final String domainName;
+
+  /// The ARN of the fleet.
+  @_s.JsonKey(name: 'FleetArn')
+  final String fleetArn;
+
+  RestoreDomainAccessRequest({
+    @_s.required this.domainName,
+    @_s.required this.fleetArn,
+  });
+  Map<String, dynamic> toJson() => _$RestoreDomainAccessRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class RestoreDomainAccessResponse {
   RestoreDomainAccessResponse();
   factory RestoreDomainAccessResponse.fromJson(Map<String, dynamic> json) =>
       _$RestoreDomainAccessResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RevokeDomainAccessRequest {
+  /// The name of the domain.
+  @_s.JsonKey(name: 'DomainName')
+  final String domainName;
+
+  /// The ARN of the fleet.
+  @_s.JsonKey(name: 'FleetArn')
+  final String fleetArn;
+
+  RevokeDomainAccessRequest({
+    @_s.required this.domainName,
+    @_s.required this.fleetArn,
+  });
+  Map<String, dynamic> toJson() => _$RevokeDomainAccessRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2290,12 +2782,55 @@ class RevokeDomainAccessResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SignOutUserRequest {
+  /// The ARN of the fleet.
+  @_s.JsonKey(name: 'FleetArn')
+  final String fleetArn;
+
+  /// The name of the user.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  SignOutUserRequest({
+    @_s.required this.fleetArn,
+    @_s.required this.username,
+  });
+  Map<String, dynamic> toJson() => _$SignOutUserRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class SignOutUserResponse {
   SignOutUserResponse();
   factory SignOutUserResponse.fromJson(Map<String, dynamic> json) =>
       _$SignOutUserResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateAuditStreamConfigurationRequest {
+  /// The ARN of the fleet.
+  @_s.JsonKey(name: 'FleetArn')
+  final String fleetArn;
+
+  /// The ARN of the Amazon Kinesis data stream that receives the audit events.
+  @_s.JsonKey(name: 'AuditStreamArn')
+  final String auditStreamArn;
+
+  UpdateAuditStreamConfigurationRequest({
+    @_s.required this.fleetArn,
+    this.auditStreamArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateAuditStreamConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2313,6 +2848,39 @@ class UpdateAuditStreamConfigurationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateCompanyNetworkConfigurationRequest {
+  /// The ARN of the fleet.
+  @_s.JsonKey(name: 'FleetArn')
+  final String fleetArn;
+
+  /// The security groups associated with access to the provided subnets.
+  @_s.JsonKey(name: 'SecurityGroupIds')
+  final List<String> securityGroupIds;
+
+  /// The subnets used for X-ENI connections from Amazon WorkLink rendering
+  /// containers.
+  @_s.JsonKey(name: 'SubnetIds')
+  final List<String> subnetIds;
+
+  /// The VPC with connectivity to associated websites.
+  @_s.JsonKey(name: 'VpcId')
+  final String vpcId;
+
+  UpdateCompanyNetworkConfigurationRequest({
+    @_s.required this.fleetArn,
+    @_s.required this.securityGroupIds,
+    @_s.required this.subnetIds,
+    @_s.required this.vpcId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateCompanyNetworkConfigurationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateCompanyNetworkConfigurationResponse {
@@ -2320,6 +2888,29 @@ class UpdateCompanyNetworkConfigurationResponse {
   factory UpdateCompanyNetworkConfigurationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$UpdateCompanyNetworkConfigurationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDevicePolicyConfigurationRequest {
+  /// The ARN of the fleet.
+  @_s.JsonKey(name: 'FleetArn')
+  final String fleetArn;
+
+  /// The certificate chain, including intermediate certificates and the root
+  /// certificate authority certificate used to issue device certificates.
+  @_s.JsonKey(name: 'DeviceCaCertificate')
+  final String deviceCaCertificate;
+
+  UpdateDevicePolicyConfigurationRequest({
+    @_s.required this.fleetArn,
+    this.deviceCaCertificate,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateDevicePolicyConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2337,6 +2928,32 @@ class UpdateDevicePolicyConfigurationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDomainMetadataRequest {
+  /// The name of the domain.
+  @_s.JsonKey(name: 'DomainName')
+  final String domainName;
+
+  /// The ARN of the fleet.
+  @_s.JsonKey(name: 'FleetArn')
+  final String fleetArn;
+
+  /// The name to display.
+  @_s.JsonKey(name: 'DisplayName')
+  final String displayName;
+
+  UpdateDomainMetadataRequest({
+    @_s.required this.domainName,
+    @_s.required this.fleetArn,
+    this.displayName,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDomainMetadataRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateDomainMetadataResponse {
@@ -2348,12 +2965,68 @@ class UpdateDomainMetadataResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateFleetMetadataRequest {
+  /// The ARN of the fleet.
+  @_s.JsonKey(name: 'FleetArn')
+  final String fleetArn;
+
+  /// The fleet name to display. The existing DisplayName is unset if null is
+  /// passed.
+  @_s.JsonKey(name: 'DisplayName')
+  final String displayName;
+
+  /// The option to optimize for better performance by routing traffic through the
+  /// closest AWS Region to users, which may be outside of your home Region.
+  @_s.JsonKey(name: 'OptimizeForEndUserLocation')
+  final bool optimizeForEndUserLocation;
+
+  UpdateFleetMetadataRequest({
+    @_s.required this.fleetArn,
+    this.displayName,
+    this.optimizeForEndUserLocation,
+  });
+  Map<String, dynamic> toJson() => _$UpdateFleetMetadataRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateFleetMetadataResponse {
   UpdateFleetMetadataResponse();
   factory UpdateFleetMetadataResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateFleetMetadataResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateIdentityProviderConfigurationRequest {
+  /// The ARN of the fleet.
+  @_s.JsonKey(name: 'FleetArn')
+  final String fleetArn;
+
+  /// The type of identity provider.
+  @_s.JsonKey(name: 'IdentityProviderType')
+  final IdentityProviderType identityProviderType;
+
+  /// The SAML metadata document provided by the customer’s identity provider. The
+  /// existing IdentityProviderSamlMetadata is unset if null is passed.
+  @_s.JsonKey(name: 'IdentityProviderSamlMetadata')
+  final String identityProviderSamlMetadata;
+
+  UpdateIdentityProviderConfigurationRequest({
+    @_s.required this.fleetArn,
+    @_s.required this.identityProviderType,
+    this.identityProviderSamlMetadata,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateIdentityProviderConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(

@@ -121,6 +121,24 @@ Counters _$CountersFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateDevicePoolRequestToJson(
+    CreateDevicePoolRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('projectArn', instance.projectArn);
+  writeNotNull('rules', instance.rules?.map((e) => e?.toJson())?.toList());
+  writeNotNull('description', instance.description);
+  writeNotNull('maxDevices', instance.maxDevices);
+  return val;
+}
+
 CreateDevicePoolResult _$CreateDevicePoolResultFromJson(
     Map<String, dynamic> json) {
   return CreateDevicePoolResult(
@@ -128,6 +146,25 @@ CreateDevicePoolResult _$CreateDevicePoolResultFromJson(
         ? null
         : DevicePool.fromJson(json['devicePool'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateInstanceProfileRequestToJson(
+    CreateInstanceProfileRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('description', instance.description);
+  writeNotNull(
+      'excludeAppPackagesFromCleanup', instance.excludeAppPackagesFromCleanup);
+  writeNotNull('packageCleanup', instance.packageCleanup);
+  writeNotNull('rebootAfterUse', instance.rebootAfterUse);
+  return val;
 }
 
 CreateInstanceProfileResult _$CreateInstanceProfileResultFromJson(
@@ -140,6 +177,36 @@ CreateInstanceProfileResult _$CreateInstanceProfileResultFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateNetworkProfileRequestToJson(
+    CreateNetworkProfileRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('projectArn', instance.projectArn);
+  writeNotNull('description', instance.description);
+  writeNotNull('downlinkBandwidthBits', instance.downlinkBandwidthBits);
+  writeNotNull('downlinkDelayMs', instance.downlinkDelayMs);
+  writeNotNull('downlinkJitterMs', instance.downlinkJitterMs);
+  writeNotNull('downlinkLossPercent', instance.downlinkLossPercent);
+  writeNotNull('type', _$NetworkProfileTypeEnumMap[instance.type]);
+  writeNotNull('uplinkBandwidthBits', instance.uplinkBandwidthBits);
+  writeNotNull('uplinkDelayMs', instance.uplinkDelayMs);
+  writeNotNull('uplinkJitterMs', instance.uplinkJitterMs);
+  writeNotNull('uplinkLossPercent', instance.uplinkLossPercent);
+  return val;
+}
+
+const _$NetworkProfileTypeEnumMap = {
+  NetworkProfileType.curated: 'CURATED',
+  NetworkProfileType.private: 'PRIVATE',
+};
+
 CreateNetworkProfileResult _$CreateNetworkProfileResultFromJson(
     Map<String, dynamic> json) {
   return CreateNetworkProfileResult(
@@ -148,6 +215,21 @@ CreateNetworkProfileResult _$CreateNetworkProfileResultFromJson(
         : NetworkProfile.fromJson(
             json['networkProfile'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateProjectRequestToJson(
+    CreateProjectRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('defaultJobTimeoutMinutes', instance.defaultJobTimeoutMinutes);
+  return val;
 }
 
 CreateProjectResult _$CreateProjectResultFromJson(Map<String, dynamic> json) {
@@ -178,6 +260,38 @@ const _$BillingMethodEnumMap = {
   BillingMethod.unmetered: 'UNMETERED',
 };
 
+Map<String, dynamic> _$CreateRemoteAccessSessionRequestToJson(
+    CreateRemoteAccessSessionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('deviceArn', instance.deviceArn);
+  writeNotNull('projectArn', instance.projectArn);
+  writeNotNull('clientId', instance.clientId);
+  writeNotNull('configuration', instance.configuration?.toJson());
+  writeNotNull('instanceArn', instance.instanceArn);
+  writeNotNull(
+      'interactionMode', _$InteractionModeEnumMap[instance.interactionMode]);
+  writeNotNull('name', instance.name);
+  writeNotNull('remoteDebugEnabled', instance.remoteDebugEnabled);
+  writeNotNull('remoteRecordAppArn', instance.remoteRecordAppArn);
+  writeNotNull('remoteRecordEnabled', instance.remoteRecordEnabled);
+  writeNotNull('skipAppResign', instance.skipAppResign);
+  writeNotNull('sshPublicKey', instance.sshPublicKey);
+  return val;
+}
+
+const _$InteractionModeEnumMap = {
+  InteractionMode.interactive: 'INTERACTIVE',
+  InteractionMode.noVideo: 'NO_VIDEO',
+  InteractionMode.videoOnly: 'VIDEO_ONLY',
+};
+
 CreateRemoteAccessSessionResult _$CreateRemoteAccessSessionResultFromJson(
     Map<String, dynamic> json) {
   return CreateRemoteAccessSessionResult(
@@ -186,6 +300,21 @@ CreateRemoteAccessSessionResult _$CreateRemoteAccessSessionResultFromJson(
         : RemoteAccessSession.fromJson(
             json['remoteAccessSession'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateTestGridProjectRequestToJson(
+    CreateTestGridProjectRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('description', instance.description);
+  return val;
 }
 
 CreateTestGridProjectResult _$CreateTestGridProjectResultFromJson(
@@ -198,6 +327,21 @@ CreateTestGridProjectResult _$CreateTestGridProjectResultFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateTestGridUrlRequestToJson(
+    CreateTestGridUrlRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('expiresInSeconds', instance.expiresInSeconds);
+  writeNotNull('projectArn', instance.projectArn);
+  return val;
+}
+
 CreateTestGridUrlResult _$CreateTestGridUrlResultFromJson(
     Map<String, dynamic> json) {
   return CreateTestGridUrlResult(
@@ -206,12 +350,83 @@ CreateTestGridUrlResult _$CreateTestGridUrlResultFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateUploadRequestToJson(CreateUploadRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('projectArn', instance.projectArn);
+  writeNotNull('type', _$UploadTypeEnumMap[instance.type]);
+  writeNotNull('contentType', instance.contentType);
+  return val;
+}
+
+const _$UploadTypeEnumMap = {
+  UploadType.androidApp: 'ANDROID_APP',
+  UploadType.iosApp: 'IOS_APP',
+  UploadType.webApp: 'WEB_APP',
+  UploadType.externalData: 'EXTERNAL_DATA',
+  UploadType.appiumJavaJunitTestPackage: 'APPIUM_JAVA_JUNIT_TEST_PACKAGE',
+  UploadType.appiumJavaTestngTestPackage: 'APPIUM_JAVA_TESTNG_TEST_PACKAGE',
+  UploadType.appiumPythonTestPackage: 'APPIUM_PYTHON_TEST_PACKAGE',
+  UploadType.appiumNodeTestPackage: 'APPIUM_NODE_TEST_PACKAGE',
+  UploadType.appiumRubyTestPackage: 'APPIUM_RUBY_TEST_PACKAGE',
+  UploadType.appiumWebJavaJunitTestPackage:
+      'APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE',
+  UploadType.appiumWebJavaTestngTestPackage:
+      'APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE',
+  UploadType.appiumWebPythonTestPackage: 'APPIUM_WEB_PYTHON_TEST_PACKAGE',
+  UploadType.appiumWebNodeTestPackage: 'APPIUM_WEB_NODE_TEST_PACKAGE',
+  UploadType.appiumWebRubyTestPackage: 'APPIUM_WEB_RUBY_TEST_PACKAGE',
+  UploadType.calabashTestPackage: 'CALABASH_TEST_PACKAGE',
+  UploadType.instrumentationTestPackage: 'INSTRUMENTATION_TEST_PACKAGE',
+  UploadType.uiautomationTestPackage: 'UIAUTOMATION_TEST_PACKAGE',
+  UploadType.uiautomatorTestPackage: 'UIAUTOMATOR_TEST_PACKAGE',
+  UploadType.xctestTestPackage: 'XCTEST_TEST_PACKAGE',
+  UploadType.xctestUiTestPackage: 'XCTEST_UI_TEST_PACKAGE',
+  UploadType.appiumJavaJunitTestSpec: 'APPIUM_JAVA_JUNIT_TEST_SPEC',
+  UploadType.appiumJavaTestngTestSpec: 'APPIUM_JAVA_TESTNG_TEST_SPEC',
+  UploadType.appiumPythonTestSpec: 'APPIUM_PYTHON_TEST_SPEC',
+  UploadType.appiumNodeTestSpec: 'APPIUM_NODE_TEST_SPEC',
+  UploadType.appiumRubyTestSpec: 'APPIUM_RUBY_TEST_SPEC',
+  UploadType.appiumWebJavaJunitTestSpec: 'APPIUM_WEB_JAVA_JUNIT_TEST_SPEC',
+  UploadType.appiumWebJavaTestngTestSpec: 'APPIUM_WEB_JAVA_TESTNG_TEST_SPEC',
+  UploadType.appiumWebPythonTestSpec: 'APPIUM_WEB_PYTHON_TEST_SPEC',
+  UploadType.appiumWebNodeTestSpec: 'APPIUM_WEB_NODE_TEST_SPEC',
+  UploadType.appiumWebRubyTestSpec: 'APPIUM_WEB_RUBY_TEST_SPEC',
+  UploadType.instrumentationTestSpec: 'INSTRUMENTATION_TEST_SPEC',
+  UploadType.xctestUiTestSpec: 'XCTEST_UI_TEST_SPEC',
+};
+
 CreateUploadResult _$CreateUploadResultFromJson(Map<String, dynamic> json) {
   return CreateUploadResult(
     upload: json['upload'] == null
         ? null
         : Upload.fromJson(json['upload'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateVPCEConfigurationRequestToJson(
+    CreateVPCEConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('serviceDnsName', instance.serviceDnsName);
+  writeNotNull('vpceConfigurationName', instance.vpceConfigurationName);
+  writeNotNull('vpceServiceName', instance.vpceServiceName);
+  writeNotNull(
+      'vpceConfigurationDescription', instance.vpceConfigurationDescription);
+  return val;
 }
 
 CreateVPCEConfigurationResult _$CreateVPCEConfigurationResultFromJson(
@@ -251,9 +466,37 @@ Map<String, dynamic> _$CustomerArtifactPathsToJson(
   return val;
 }
 
+Map<String, dynamic> _$DeleteDevicePoolRequestToJson(
+    DeleteDevicePoolRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  return val;
+}
+
 DeleteDevicePoolResult _$DeleteDevicePoolResultFromJson(
     Map<String, dynamic> json) {
   return DeleteDevicePoolResult();
+}
+
+Map<String, dynamic> _$DeleteInstanceProfileRequestToJson(
+    DeleteInstanceProfileRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  return val;
 }
 
 DeleteInstanceProfileResult _$DeleteInstanceProfileResultFromJson(
@@ -261,13 +504,55 @@ DeleteInstanceProfileResult _$DeleteInstanceProfileResultFromJson(
   return DeleteInstanceProfileResult();
 }
 
+Map<String, dynamic> _$DeleteNetworkProfileRequestToJson(
+    DeleteNetworkProfileRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  return val;
+}
+
 DeleteNetworkProfileResult _$DeleteNetworkProfileResultFromJson(
     Map<String, dynamic> json) {
   return DeleteNetworkProfileResult();
 }
 
+Map<String, dynamic> _$DeleteProjectRequestToJson(
+    DeleteProjectRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  return val;
+}
+
 DeleteProjectResult _$DeleteProjectResultFromJson(Map<String, dynamic> json) {
   return DeleteProjectResult();
+}
+
+Map<String, dynamic> _$DeleteRemoteAccessSessionRequestToJson(
+    DeleteRemoteAccessSessionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  return val;
 }
 
 DeleteRemoteAccessSessionResult _$DeleteRemoteAccessSessionResultFromJson(
@@ -275,8 +560,35 @@ DeleteRemoteAccessSessionResult _$DeleteRemoteAccessSessionResultFromJson(
   return DeleteRemoteAccessSessionResult();
 }
 
+Map<String, dynamic> _$DeleteRunRequestToJson(DeleteRunRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  return val;
+}
+
 DeleteRunResult _$DeleteRunResultFromJson(Map<String, dynamic> json) {
   return DeleteRunResult();
+}
+
+Map<String, dynamic> _$DeleteTestGridProjectRequestToJson(
+    DeleteTestGridProjectRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('projectArn', instance.projectArn);
+  return val;
 }
 
 DeleteTestGridProjectResult _$DeleteTestGridProjectResultFromJson(
@@ -284,8 +596,35 @@ DeleteTestGridProjectResult _$DeleteTestGridProjectResultFromJson(
   return DeleteTestGridProjectResult();
 }
 
+Map<String, dynamic> _$DeleteUploadRequestToJson(DeleteUploadRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  return val;
+}
+
 DeleteUploadResult _$DeleteUploadResultFromJson(Map<String, dynamic> json) {
   return DeleteUploadResult();
+}
+
+Map<String, dynamic> _$DeleteVPCEConfigurationRequestToJson(
+    DeleteVPCEConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  return val;
 }
 
 DeleteVPCEConfigurationResult _$DeleteVPCEConfigurationResultFromJson(
@@ -514,6 +853,20 @@ GetAccountSettingsResult _$GetAccountSettingsResultFromJson(
   );
 }
 
+Map<String, dynamic> _$GetDeviceInstanceRequestToJson(
+    GetDeviceInstanceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  return val;
+}
+
 GetDeviceInstanceResult _$GetDeviceInstanceResultFromJson(
     Map<String, dynamic> json) {
   return GetDeviceInstanceResult(
@@ -523,6 +876,48 @@ GetDeviceInstanceResult _$GetDeviceInstanceResultFromJson(
             json['deviceInstance'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$GetDevicePoolCompatibilityRequestToJson(
+    GetDevicePoolCompatibilityRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('devicePoolArn', instance.devicePoolArn);
+  writeNotNull('appArn', instance.appArn);
+  writeNotNull('configuration', instance.configuration?.toJson());
+  writeNotNull('test', instance.test?.toJson());
+  writeNotNull('testType', _$TestTypeEnumMap[instance.testType]);
+  return val;
+}
+
+const _$TestTypeEnumMap = {
+  TestType.builtinFuzz: 'BUILTIN_FUZZ',
+  TestType.builtinExplorer: 'BUILTIN_EXPLORER',
+  TestType.webPerformanceProfile: 'WEB_PERFORMANCE_PROFILE',
+  TestType.appiumJavaJunit: 'APPIUM_JAVA_JUNIT',
+  TestType.appiumJavaTestng: 'APPIUM_JAVA_TESTNG',
+  TestType.appiumPython: 'APPIUM_PYTHON',
+  TestType.appiumNode: 'APPIUM_NODE',
+  TestType.appiumRuby: 'APPIUM_RUBY',
+  TestType.appiumWebJavaJunit: 'APPIUM_WEB_JAVA_JUNIT',
+  TestType.appiumWebJavaTestng: 'APPIUM_WEB_JAVA_TESTNG',
+  TestType.appiumWebPython: 'APPIUM_WEB_PYTHON',
+  TestType.appiumWebNode: 'APPIUM_WEB_NODE',
+  TestType.appiumWebRuby: 'APPIUM_WEB_RUBY',
+  TestType.calabash: 'CALABASH',
+  TestType.instrumentation: 'INSTRUMENTATION',
+  TestType.uiautomation: 'UIAUTOMATION',
+  TestType.uiautomator: 'UIAUTOMATOR',
+  TestType.xctest: 'XCTEST',
+  TestType.xctestUi: 'XCTEST_UI',
+  TestType.remoteAccessRecord: 'REMOTE_ACCESS_RECORD',
+  TestType.remoteAccessReplay: 'REMOTE_ACCESS_REPLAY',
+};
 
 GetDevicePoolCompatibilityResult _$GetDevicePoolCompatibilityResultFromJson(
     Map<String, dynamic> json) {
@@ -540,6 +935,20 @@ GetDevicePoolCompatibilityResult _$GetDevicePoolCompatibilityResultFromJson(
   );
 }
 
+Map<String, dynamic> _$GetDevicePoolRequestToJson(
+    GetDevicePoolRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  return val;
+}
+
 GetDevicePoolResult _$GetDevicePoolResultFromJson(Map<String, dynamic> json) {
   return GetDevicePoolResult(
     devicePool: json['devicePool'] == null
@@ -548,12 +957,39 @@ GetDevicePoolResult _$GetDevicePoolResultFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetDeviceRequestToJson(GetDeviceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  return val;
+}
+
 GetDeviceResult _$GetDeviceResultFromJson(Map<String, dynamic> json) {
   return GetDeviceResult(
     device: json['device'] == null
         ? null
         : Device.fromJson(json['device'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetInstanceProfileRequestToJson(
+    GetInstanceProfileRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  return val;
 }
 
 GetInstanceProfileResult _$GetInstanceProfileResultFromJson(
@@ -566,12 +1002,39 @@ GetInstanceProfileResult _$GetInstanceProfileResultFromJson(
   );
 }
 
+Map<String, dynamic> _$GetJobRequestToJson(GetJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  return val;
+}
+
 GetJobResult _$GetJobResultFromJson(Map<String, dynamic> json) {
   return GetJobResult(
     job: json['job'] == null
         ? null
         : Job.fromJson(json['job'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetNetworkProfileRequestToJson(
+    GetNetworkProfileRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  return val;
 }
 
 GetNetworkProfileResult _$GetNetworkProfileResultFromJson(
@@ -582,6 +1045,20 @@ GetNetworkProfileResult _$GetNetworkProfileResultFromJson(
         : NetworkProfile.fromJson(
             json['networkProfile'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetOfferingStatusRequestToJson(
+    GetOfferingStatusRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 GetOfferingStatusResult _$GetOfferingStatusResultFromJson(
@@ -605,12 +1082,39 @@ GetOfferingStatusResult _$GetOfferingStatusResultFromJson(
   );
 }
 
+Map<String, dynamic> _$GetProjectRequestToJson(GetProjectRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  return val;
+}
+
 GetProjectResult _$GetProjectResultFromJson(Map<String, dynamic> json) {
   return GetProjectResult(
     project: json['project'] == null
         ? null
         : Project.fromJson(json['project'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetRemoteAccessSessionRequestToJson(
+    GetRemoteAccessSessionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  return val;
 }
 
 GetRemoteAccessSessionResult _$GetRemoteAccessSessionResultFromJson(
@@ -623,6 +1127,19 @@ GetRemoteAccessSessionResult _$GetRemoteAccessSessionResultFromJson(
   );
 }
 
+Map<String, dynamic> _$GetRunRequestToJson(GetRunRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  return val;
+}
+
 GetRunResult _$GetRunResultFromJson(Map<String, dynamic> json) {
   return GetRunResult(
     run: json['run'] == null
@@ -631,12 +1148,39 @@ GetRunResult _$GetRunResultFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetSuiteRequestToJson(GetSuiteRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  return val;
+}
+
 GetSuiteResult _$GetSuiteResultFromJson(Map<String, dynamic> json) {
   return GetSuiteResult(
     suite: json['suite'] == null
         ? null
         : Suite.fromJson(json['suite'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetTestGridProjectRequestToJson(
+    GetTestGridProjectRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('projectArn', instance.projectArn);
+  return val;
 }
 
 GetTestGridProjectResult _$GetTestGridProjectResultFromJson(
@@ -649,6 +1193,22 @@ GetTestGridProjectResult _$GetTestGridProjectResultFromJson(
   );
 }
 
+Map<String, dynamic> _$GetTestGridSessionRequestToJson(
+    GetTestGridSessionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('projectArn', instance.projectArn);
+  writeNotNull('sessionArn', instance.sessionArn);
+  writeNotNull('sessionId', instance.sessionId);
+  return val;
+}
+
 GetTestGridSessionResult _$GetTestGridSessionResultFromJson(
     Map<String, dynamic> json) {
   return GetTestGridSessionResult(
@@ -659,6 +1219,19 @@ GetTestGridSessionResult _$GetTestGridSessionResultFromJson(
   );
 }
 
+Map<String, dynamic> _$GetTestRequestToJson(GetTestRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  return val;
+}
+
 GetTestResult _$GetTestResultFromJson(Map<String, dynamic> json) {
   return GetTestResult(
     test: json['test'] == null
@@ -667,12 +1240,39 @@ GetTestResult _$GetTestResultFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetUploadRequestToJson(GetUploadRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  return val;
+}
+
 GetUploadResult _$GetUploadResultFromJson(Map<String, dynamic> json) {
   return GetUploadResult(
     upload: json['upload'] == null
         ? null
         : Upload.fromJson(json['upload'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetVPCEConfigurationRequestToJson(
+    GetVPCEConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  return val;
 }
 
 GetVPCEConfigurationResult _$GetVPCEConfigurationResultFromJson(
@@ -708,6 +1308,21 @@ const _$DeviceAttributeEnumMap = {
   DeviceAttribute.model: 'MODEL',
   DeviceAttribute.availability: 'AVAILABILITY',
 };
+
+Map<String, dynamic> _$InstallToRemoteAccessSessionRequestToJson(
+    InstallToRemoteAccessSessionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('appArn', instance.appArn);
+  writeNotNull('remoteAccessSessionArn', instance.remoteAccessSessionArn);
+  return val;
+}
 
 InstallToRemoteAccessSessionResult _$InstallToRemoteAccessSessionResultFromJson(
     Map<String, dynamic> json) {
@@ -780,28 +1395,26 @@ const _$ExecutionStatusEnumMap = {
   ExecutionStatus.stopping: 'STOPPING',
 };
 
-const _$TestTypeEnumMap = {
-  TestType.builtinFuzz: 'BUILTIN_FUZZ',
-  TestType.builtinExplorer: 'BUILTIN_EXPLORER',
-  TestType.webPerformanceProfile: 'WEB_PERFORMANCE_PROFILE',
-  TestType.appiumJavaJunit: 'APPIUM_JAVA_JUNIT',
-  TestType.appiumJavaTestng: 'APPIUM_JAVA_TESTNG',
-  TestType.appiumPython: 'APPIUM_PYTHON',
-  TestType.appiumNode: 'APPIUM_NODE',
-  TestType.appiumRuby: 'APPIUM_RUBY',
-  TestType.appiumWebJavaJunit: 'APPIUM_WEB_JAVA_JUNIT',
-  TestType.appiumWebJavaTestng: 'APPIUM_WEB_JAVA_TESTNG',
-  TestType.appiumWebPython: 'APPIUM_WEB_PYTHON',
-  TestType.appiumWebNode: 'APPIUM_WEB_NODE',
-  TestType.appiumWebRuby: 'APPIUM_WEB_RUBY',
-  TestType.calabash: 'CALABASH',
-  TestType.instrumentation: 'INSTRUMENTATION',
-  TestType.uiautomation: 'UIAUTOMATION',
-  TestType.uiautomator: 'UIAUTOMATOR',
-  TestType.xctest: 'XCTEST',
-  TestType.xctestUi: 'XCTEST_UI',
-  TestType.remoteAccessRecord: 'REMOTE_ACCESS_RECORD',
-  TestType.remoteAccessReplay: 'REMOTE_ACCESS_REPLAY',
+Map<String, dynamic> _$ListArtifactsRequestToJson(
+    ListArtifactsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  writeNotNull('type', _$ArtifactCategoryEnumMap[instance.type]);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
+const _$ArtifactCategoryEnumMap = {
+  ArtifactCategory.screenshot: 'SCREENSHOT',
+  ArtifactCategory.file: 'FILE',
+  ArtifactCategory.log: 'LOG',
 };
 
 ListArtifactsResult _$ListArtifactsResultFromJson(Map<String, dynamic> json) {
@@ -812,6 +1425,21 @@ ListArtifactsResult _$ListArtifactsResultFromJson(Map<String, dynamic> json) {
         ?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListDeviceInstancesRequestToJson(
+    ListDeviceInstancesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 ListDeviceInstancesResult _$ListDeviceInstancesResultFromJson(
@@ -826,6 +1454,22 @@ ListDeviceInstancesResult _$ListDeviceInstancesResultFromJson(
   );
 }
 
+Map<String, dynamic> _$ListDevicePoolsRequestToJson(
+    ListDevicePoolsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('type', _$DevicePoolTypeEnumMap[instance.type]);
+  return val;
+}
+
 ListDevicePoolsResult _$ListDevicePoolsResultFromJson(
     Map<String, dynamic> json) {
   return ListDevicePoolsResult(
@@ -837,6 +1481,21 @@ ListDevicePoolsResult _$ListDevicePoolsResultFromJson(
   );
 }
 
+Map<String, dynamic> _$ListDevicesRequestToJson(ListDevicesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  writeNotNull('filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 ListDevicesResult _$ListDevicesResultFromJson(Map<String, dynamic> json) {
   return ListDevicesResult(
     devices: (json['devices'] as List)
@@ -845,6 +1504,21 @@ ListDevicesResult _$ListDevicesResultFromJson(Map<String, dynamic> json) {
         ?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListInstanceProfilesRequestToJson(
+    ListInstanceProfilesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 ListInstanceProfilesResult _$ListInstanceProfilesResultFromJson(
@@ -859,6 +1533,20 @@ ListInstanceProfilesResult _$ListInstanceProfilesResultFromJson(
   );
 }
 
+Map<String, dynamic> _$ListJobsRequestToJson(ListJobsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 ListJobsResult _$ListJobsResultFromJson(Map<String, dynamic> json) {
   return ListJobsResult(
     jobs: (json['jobs'] as List)
@@ -866,6 +1554,22 @@ ListJobsResult _$ListJobsResultFromJson(Map<String, dynamic> json) {
         ?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListNetworkProfilesRequestToJson(
+    ListNetworkProfilesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('type', _$NetworkProfileTypeEnumMap[instance.type]);
+  return val;
 }
 
 ListNetworkProfilesResult _$ListNetworkProfilesResultFromJson(
@@ -880,6 +1584,20 @@ ListNetworkProfilesResult _$ListNetworkProfilesResultFromJson(
   );
 }
 
+Map<String, dynamic> _$ListOfferingPromotionsRequestToJson(
+    ListOfferingPromotionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 ListOfferingPromotionsResult _$ListOfferingPromotionsResultFromJson(
     Map<String, dynamic> json) {
   return ListOfferingPromotionsResult(
@@ -890,6 +1608,20 @@ ListOfferingPromotionsResult _$ListOfferingPromotionsResultFromJson(
             : OfferingPromotion.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListOfferingTransactionsRequestToJson(
+    ListOfferingTransactionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 ListOfferingTransactionsResult _$ListOfferingTransactionsResultFromJson(
@@ -904,6 +1636,20 @@ ListOfferingTransactionsResult _$ListOfferingTransactionsResultFromJson(
   );
 }
 
+Map<String, dynamic> _$ListOfferingsRequestToJson(
+    ListOfferingsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 ListOfferingsResult _$ListOfferingsResultFromJson(Map<String, dynamic> json) {
   return ListOfferingsResult(
     nextToken: json['nextToken'] as String,
@@ -914,6 +1660,20 @@ ListOfferingsResult _$ListOfferingsResultFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ListProjectsRequestToJson(ListProjectsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 ListProjectsResult _$ListProjectsResultFromJson(Map<String, dynamic> json) {
   return ListProjectsResult(
     nextToken: json['nextToken'] as String,
@@ -922,6 +1682,21 @@ ListProjectsResult _$ListProjectsResultFromJson(Map<String, dynamic> json) {
             e == null ? null : Project.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListRemoteAccessSessionsRequestToJson(
+    ListRemoteAccessSessionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 ListRemoteAccessSessionsResult _$ListRemoteAccessSessionsResultFromJson(
@@ -936,6 +1711,20 @@ ListRemoteAccessSessionsResult _$ListRemoteAccessSessionsResultFromJson(
   );
 }
 
+Map<String, dynamic> _$ListRunsRequestToJson(ListRunsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 ListRunsResult _$ListRunsResultFromJson(Map<String, dynamic> json) {
   return ListRunsResult(
     nextToken: json['nextToken'] as String,
@@ -943,6 +1732,20 @@ ListRunsResult _$ListRunsResultFromJson(Map<String, dynamic> json) {
         ?.map((e) => e == null ? null : Run.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListSamplesRequestToJson(ListSamplesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 ListSamplesResult _$ListSamplesResultFromJson(Map<String, dynamic> json) {
@@ -955,6 +1758,20 @@ ListSamplesResult _$ListSamplesResultFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ListSuitesRequestToJson(ListSuitesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 ListSuitesResult _$ListSuitesResultFromJson(Map<String, dynamic> json) {
   return ListSuitesResult(
     nextToken: json['nextToken'] as String,
@@ -965,6 +1782,20 @@ ListSuitesResult _$ListSuitesResultFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ListTagsForResourceRequestToJson(
+    ListTagsForResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARN', instance.resourceARN);
+  return val;
+}
+
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
@@ -972,6 +1803,21 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
         ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListTestGridProjectsRequestToJson(
+    ListTestGridProjectsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('maxResult', instance.maxResult);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 ListTestGridProjectsResult _$ListTestGridProjectsResultFromJson(
@@ -986,6 +1832,22 @@ ListTestGridProjectsResult _$ListTestGridProjectsResultFromJson(
   );
 }
 
+Map<String, dynamic> _$ListTestGridSessionActionsRequestToJson(
+    ListTestGridSessionActionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('sessionArn', instance.sessionArn);
+  writeNotNull('maxResult', instance.maxResult);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 ListTestGridSessionActionsResult _$ListTestGridSessionActionsResultFromJson(
     Map<String, dynamic> json) {
   return ListTestGridSessionActionsResult(
@@ -997,6 +1859,28 @@ ListTestGridSessionActionsResult _$ListTestGridSessionActionsResultFromJson(
     nextToken: json['nextToken'] as String,
   );
 }
+
+Map<String, dynamic> _$ListTestGridSessionArtifactsRequestToJson(
+    ListTestGridSessionArtifactsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('sessionArn', instance.sessionArn);
+  writeNotNull('maxResult', instance.maxResult);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('type', _$TestGridSessionArtifactCategoryEnumMap[instance.type]);
+  return val;
+}
+
+const _$TestGridSessionArtifactCategoryEnumMap = {
+  TestGridSessionArtifactCategory.video: 'VIDEO',
+  TestGridSessionArtifactCategory.log: 'LOG',
+};
 
 ListTestGridSessionArtifactsResult _$ListTestGridSessionArtifactsResultFromJson(
     Map<String, dynamic> json) {
@@ -1010,6 +1894,35 @@ ListTestGridSessionArtifactsResult _$ListTestGridSessionArtifactsResultFromJson(
   );
 }
 
+Map<String, dynamic> _$ListTestGridSessionsRequestToJson(
+    ListTestGridSessionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('projectArn', instance.projectArn);
+  writeNotNull(
+      'creationTimeAfter', unixTimestampToJson(instance.creationTimeAfter));
+  writeNotNull(
+      'creationTimeBefore', unixTimestampToJson(instance.creationTimeBefore));
+  writeNotNull('endTimeAfter', unixTimestampToJson(instance.endTimeAfter));
+  writeNotNull('endTimeBefore', unixTimestampToJson(instance.endTimeBefore));
+  writeNotNull('maxResult', instance.maxResult);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('status', _$TestGridSessionStatusEnumMap[instance.status]);
+  return val;
+}
+
+const _$TestGridSessionStatusEnumMap = {
+  TestGridSessionStatus.active: 'ACTIVE',
+  TestGridSessionStatus.closed: 'CLOSED',
+  TestGridSessionStatus.errored: 'ERRORED',
+};
+
 ListTestGridSessionsResult _$ListTestGridSessionsResultFromJson(
     Map<String, dynamic> json) {
   return ListTestGridSessionsResult(
@@ -1022,6 +1935,20 @@ ListTestGridSessionsResult _$ListTestGridSessionsResultFromJson(
   );
 }
 
+Map<String, dynamic> _$ListTestsRequestToJson(ListTestsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 ListTestsResult _$ListTestsResultFromJson(Map<String, dynamic> json) {
   return ListTestsResult(
     nextToken: json['nextToken'] as String,
@@ -1030,6 +1957,21 @@ ListTestsResult _$ListTestsResultFromJson(Map<String, dynamic> json) {
             (e) => e == null ? null : Test.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListUniqueProblemsRequestToJson(
+    ListUniqueProblemsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 ListUniqueProblemsResult _$ListUniqueProblemsResultFromJson(
@@ -1048,6 +1990,21 @@ ListUniqueProblemsResult _$ListUniqueProblemsResultFromJson(
   );
 }
 
+Map<String, dynamic> _$ListUploadsRequestToJson(ListUploadsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('type', _$UploadTypeEnumMap[instance.type]);
+  return val;
+}
+
 ListUploadsResult _$ListUploadsResultFromJson(Map<String, dynamic> json) {
   return ListUploadsResult(
     nextToken: json['nextToken'] as String,
@@ -1056,6 +2013,21 @@ ListUploadsResult _$ListUploadsResultFromJson(Map<String, dynamic> json) {
             e == null ? null : Upload.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListVPCEConfigurationsRequestToJson(
+    ListVPCEConfigurationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 ListVPCEConfigurationsResult _$ListVPCEConfigurationsResultFromJson(
@@ -1119,11 +2091,6 @@ NetworkProfile _$NetworkProfileFromJson(Map<String, dynamic> json) {
     uplinkLossPercent: json['uplinkLossPercent'] as int,
   );
 }
-
-const _$NetworkProfileTypeEnumMap = {
-  NetworkProfileType.curated: 'CURATED',
-  NetworkProfileType.private: 'PRIVATE',
-};
 
 Offering _$OfferingFromJson(Map<String, dynamic> json) {
   return Offering(
@@ -1220,6 +2187,22 @@ Project _$ProjectFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$PurchaseOfferingRequestToJson(
+    PurchaseOfferingRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('offeringId', instance.offeringId);
+  writeNotNull('offeringPromotionId', instance.offeringPromotionId);
+  writeNotNull('quantity', instance.quantity);
+  return val;
+}
+
 PurchaseOfferingResult _$PurchaseOfferingResultFromJson(
     Map<String, dynamic> json) {
   return PurchaseOfferingResult(
@@ -1301,11 +2284,20 @@ RemoteAccessSession _$RemoteAccessSessionFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$InteractionModeEnumMap = {
-  InteractionMode.interactive: 'INTERACTIVE',
-  InteractionMode.noVideo: 'NO_VIDEO',
-  InteractionMode.videoOnly: 'VIDEO_ONLY',
-};
+Map<String, dynamic> _$RenewOfferingRequestToJson(
+    RenewOfferingRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('offeringId', instance.offeringId);
+  writeNotNull('quantity', instance.quantity);
+  return val;
+}
 
 RenewOfferingResult _$RenewOfferingResultFromJson(Map<String, dynamic> json) {
   return RenewOfferingResult(
@@ -1458,6 +2450,28 @@ Map<String, dynamic> _$ScheduleRunConfigurationToJson(
   return val;
 }
 
+Map<String, dynamic> _$ScheduleRunRequestToJson(ScheduleRunRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('projectArn', instance.projectArn);
+  writeNotNull('test', instance.test?.toJson());
+  writeNotNull('appArn', instance.appArn);
+  writeNotNull('configuration', instance.configuration?.toJson());
+  writeNotNull('devicePoolArn', instance.devicePoolArn);
+  writeNotNull('deviceSelectionConfiguration',
+      instance.deviceSelectionConfiguration?.toJson());
+  writeNotNull(
+      'executionConfiguration', instance.executionConfiguration?.toJson());
+  writeNotNull('name', instance.name);
+  return val;
+}
+
 ScheduleRunResult _$ScheduleRunResultFromJson(Map<String, dynamic> json) {
   return ScheduleRunResult(
     run: json['run'] == null
@@ -1483,12 +2497,39 @@ Map<String, dynamic> _$ScheduleRunTestToJson(ScheduleRunTest instance) {
   return val;
 }
 
+Map<String, dynamic> _$StopJobRequestToJson(StopJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  return val;
+}
+
 StopJobResult _$StopJobResultFromJson(Map<String, dynamic> json) {
   return StopJobResult(
     job: json['job'] == null
         ? null
         : Job.fromJson(json['job'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$StopRemoteAccessSessionRequestToJson(
+    StopRemoteAccessSessionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  return val;
 }
 
 StopRemoteAccessSessionResult _$StopRemoteAccessSessionResultFromJson(
@@ -1499,6 +2540,19 @@ StopRemoteAccessSessionResult _$StopRemoteAccessSessionResultFromJson(
         : RemoteAccessSession.fromJson(
             json['remoteAccessSession'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$StopRunRequestToJson(StopRunRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  return val;
 }
 
 StopRunResult _$StopRunResultFromJson(Map<String, dynamic> json) {
@@ -1550,6 +2604,20 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
   return val;
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARN', instance.resourceARN);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
 }
@@ -1595,12 +2663,6 @@ TestGridSession _$TestGridSessionFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$TestGridSessionStatusEnumMap = {
-  TestGridSessionStatus.active: 'ACTIVE',
-  TestGridSessionStatus.closed: 'CLOSED',
-  TestGridSessionStatus.errored: 'ERRORED',
-};
-
 TestGridSessionAction _$TestGridSessionActionFromJson(
     Map<String, dynamic> json) {
   return TestGridSessionAction(
@@ -1645,9 +2707,40 @@ UniqueProblem _$UniqueProblemFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$UntagResourceRequestToJson(
+    UntagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARN', instance.resourceARN);
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
+}
+
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse();
+}
+
+Map<String, dynamic> _$UpdateDeviceInstanceRequestToJson(
+    UpdateDeviceInstanceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  writeNotNull('labels', instance.labels);
+  writeNotNull('profileArn', instance.profileArn);
+  return val;
 }
 
 UpdateDeviceInstanceResult _$UpdateDeviceInstanceResultFromJson(
@@ -1660,6 +2753,25 @@ UpdateDeviceInstanceResult _$UpdateDeviceInstanceResultFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateDevicePoolRequestToJson(
+    UpdateDevicePoolRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  writeNotNull('clearMaxDevices', instance.clearMaxDevices);
+  writeNotNull('description', instance.description);
+  writeNotNull('maxDevices', instance.maxDevices);
+  writeNotNull('name', instance.name);
+  writeNotNull('rules', instance.rules?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 UpdateDevicePoolResult _$UpdateDevicePoolResultFromJson(
     Map<String, dynamic> json) {
   return UpdateDevicePoolResult(
@@ -1667,6 +2779,26 @@ UpdateDevicePoolResult _$UpdateDevicePoolResultFromJson(
         ? null
         : DevicePool.fromJson(json['devicePool'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateInstanceProfileRequestToJson(
+    UpdateInstanceProfileRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  writeNotNull('description', instance.description);
+  writeNotNull(
+      'excludeAppPackagesFromCleanup', instance.excludeAppPackagesFromCleanup);
+  writeNotNull('name', instance.name);
+  writeNotNull('packageCleanup', instance.packageCleanup);
+  writeNotNull('rebootAfterUse', instance.rebootAfterUse);
+  return val;
 }
 
 UpdateInstanceProfileResult _$UpdateInstanceProfileResultFromJson(
@@ -1679,6 +2811,31 @@ UpdateInstanceProfileResult _$UpdateInstanceProfileResultFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateNetworkProfileRequestToJson(
+    UpdateNetworkProfileRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  writeNotNull('description', instance.description);
+  writeNotNull('downlinkBandwidthBits', instance.downlinkBandwidthBits);
+  writeNotNull('downlinkDelayMs', instance.downlinkDelayMs);
+  writeNotNull('downlinkJitterMs', instance.downlinkJitterMs);
+  writeNotNull('downlinkLossPercent', instance.downlinkLossPercent);
+  writeNotNull('name', instance.name);
+  writeNotNull('type', _$NetworkProfileTypeEnumMap[instance.type]);
+  writeNotNull('uplinkBandwidthBits', instance.uplinkBandwidthBits);
+  writeNotNull('uplinkDelayMs', instance.uplinkDelayMs);
+  writeNotNull('uplinkJitterMs', instance.uplinkJitterMs);
+  writeNotNull('uplinkLossPercent', instance.uplinkLossPercent);
+  return val;
+}
+
 UpdateNetworkProfileResult _$UpdateNetworkProfileResultFromJson(
     Map<String, dynamic> json) {
   return UpdateNetworkProfileResult(
@@ -1689,12 +2846,44 @@ UpdateNetworkProfileResult _$UpdateNetworkProfileResultFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateProjectRequestToJson(
+    UpdateProjectRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  writeNotNull('defaultJobTimeoutMinutes', instance.defaultJobTimeoutMinutes);
+  writeNotNull('name', instance.name);
+  return val;
+}
+
 UpdateProjectResult _$UpdateProjectResultFromJson(Map<String, dynamic> json) {
   return UpdateProjectResult(
     project: json['project'] == null
         ? null
         : Project.fromJson(json['project'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateTestGridProjectRequestToJson(
+    UpdateTestGridProjectRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('projectArn', instance.projectArn);
+  writeNotNull('description', instance.description);
+  writeNotNull('name', instance.name);
+  return val;
 }
 
 UpdateTestGridProjectResult _$UpdateTestGridProjectResultFromJson(
@@ -1707,12 +2896,47 @@ UpdateTestGridProjectResult _$UpdateTestGridProjectResultFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateUploadRequestToJson(UpdateUploadRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  writeNotNull('contentType', instance.contentType);
+  writeNotNull('editContent', instance.editContent);
+  writeNotNull('name', instance.name);
+  return val;
+}
+
 UpdateUploadResult _$UpdateUploadResultFromJson(Map<String, dynamic> json) {
   return UpdateUploadResult(
     upload: json['upload'] == null
         ? null
         : Upload.fromJson(json['upload'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateVPCEConfigurationRequestToJson(
+    UpdateVPCEConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  writeNotNull('serviceDnsName', instance.serviceDnsName);
+  writeNotNull(
+      'vpceConfigurationDescription', instance.vpceConfigurationDescription);
+  writeNotNull('vpceConfigurationName', instance.vpceConfigurationName);
+  writeNotNull('vpceServiceName', instance.vpceServiceName);
+  return val;
 }
 
 UpdateVPCEConfigurationResult _$UpdateVPCEConfigurationResultFromJson(
@@ -1750,43 +2974,6 @@ const _$UploadStatusEnumMap = {
   UploadStatus.processing: 'PROCESSING',
   UploadStatus.succeeded: 'SUCCEEDED',
   UploadStatus.failed: 'FAILED',
-};
-
-const _$UploadTypeEnumMap = {
-  UploadType.androidApp: 'ANDROID_APP',
-  UploadType.iosApp: 'IOS_APP',
-  UploadType.webApp: 'WEB_APP',
-  UploadType.externalData: 'EXTERNAL_DATA',
-  UploadType.appiumJavaJunitTestPackage: 'APPIUM_JAVA_JUNIT_TEST_PACKAGE',
-  UploadType.appiumJavaTestngTestPackage: 'APPIUM_JAVA_TESTNG_TEST_PACKAGE',
-  UploadType.appiumPythonTestPackage: 'APPIUM_PYTHON_TEST_PACKAGE',
-  UploadType.appiumNodeTestPackage: 'APPIUM_NODE_TEST_PACKAGE',
-  UploadType.appiumRubyTestPackage: 'APPIUM_RUBY_TEST_PACKAGE',
-  UploadType.appiumWebJavaJunitTestPackage:
-      'APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE',
-  UploadType.appiumWebJavaTestngTestPackage:
-      'APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE',
-  UploadType.appiumWebPythonTestPackage: 'APPIUM_WEB_PYTHON_TEST_PACKAGE',
-  UploadType.appiumWebNodeTestPackage: 'APPIUM_WEB_NODE_TEST_PACKAGE',
-  UploadType.appiumWebRubyTestPackage: 'APPIUM_WEB_RUBY_TEST_PACKAGE',
-  UploadType.calabashTestPackage: 'CALABASH_TEST_PACKAGE',
-  UploadType.instrumentationTestPackage: 'INSTRUMENTATION_TEST_PACKAGE',
-  UploadType.uiautomationTestPackage: 'UIAUTOMATION_TEST_PACKAGE',
-  UploadType.uiautomatorTestPackage: 'UIAUTOMATOR_TEST_PACKAGE',
-  UploadType.xctestTestPackage: 'XCTEST_TEST_PACKAGE',
-  UploadType.xctestUiTestPackage: 'XCTEST_UI_TEST_PACKAGE',
-  UploadType.appiumJavaJunitTestSpec: 'APPIUM_JAVA_JUNIT_TEST_SPEC',
-  UploadType.appiumJavaTestngTestSpec: 'APPIUM_JAVA_TESTNG_TEST_SPEC',
-  UploadType.appiumPythonTestSpec: 'APPIUM_PYTHON_TEST_SPEC',
-  UploadType.appiumNodeTestSpec: 'APPIUM_NODE_TEST_SPEC',
-  UploadType.appiumRubyTestSpec: 'APPIUM_RUBY_TEST_SPEC',
-  UploadType.appiumWebJavaJunitTestSpec: 'APPIUM_WEB_JAVA_JUNIT_TEST_SPEC',
-  UploadType.appiumWebJavaTestngTestSpec: 'APPIUM_WEB_JAVA_TESTNG_TEST_SPEC',
-  UploadType.appiumWebPythonTestSpec: 'APPIUM_WEB_PYTHON_TEST_SPEC',
-  UploadType.appiumWebNodeTestSpec: 'APPIUM_WEB_NODE_TEST_SPEC',
-  UploadType.appiumWebRubyTestSpec: 'APPIUM_WEB_RUBY_TEST_SPEC',
-  UploadType.instrumentationTestSpec: 'INSTRUMENTATION_TEST_SPEC',
-  UploadType.xctestUiTestSpec: 'XCTEST_UI_TEST_SPEC',
 };
 
 VPCEConfiguration _$VPCEConfigurationFromJson(Map<String, dynamic> json) {

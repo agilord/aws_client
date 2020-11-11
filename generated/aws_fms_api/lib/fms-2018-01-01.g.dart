@@ -6,6 +6,20 @@ part of 'fms-2018-01-01.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$AssociateAdminAccountRequestToJson(
+    AssociateAdminAccountRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AdminAccount', instance.adminAccount);
+  return val;
+}
+
 ComplianceViolator _$ComplianceViolatorFromJson(Map<String, dynamic> json) {
   return ComplianceViolator(
     resourceId: json['ResourceId'] as String,
@@ -63,6 +77,20 @@ const _$ViolationReasonEnumMap = {
   ViolationReason.securityGroupRedundant: 'SECURITY_GROUP_REDUNDANT',
 };
 
+Map<String, dynamic> _$DeletePolicyRequestToJson(DeletePolicyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('PolicyId', instance.policyId);
+  writeNotNull('DeleteAllPolicyResources', instance.deleteAllPolicyResources);
+  return val;
+}
+
 EvaluationResult _$EvaluationResultFromJson(Map<String, dynamic> json) {
   return EvaluationResult(
     complianceStatus: _$enumDecodeNullable(
@@ -94,6 +122,21 @@ const _$AccountRoleStatusEnumMap = {
   AccountRoleStatus.deleted: 'DELETED',
 };
 
+Map<String, dynamic> _$GetComplianceDetailRequestToJson(
+    GetComplianceDetailRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MemberAccount', instance.memberAccount);
+  writeNotNull('PolicyId', instance.policyId);
+  return val;
+}
+
 GetComplianceDetailResponse _$GetComplianceDetailResponseFromJson(
     Map<String, dynamic> json) {
   return GetComplianceDetailResponse(
@@ -112,6 +155,19 @@ GetNotificationChannelResponse _$GetNotificationChannelResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$GetPolicyRequestToJson(GetPolicyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('PolicyId', instance.policyId);
+  return val;
+}
+
 GetPolicyResponse _$GetPolicyResponseFromJson(Map<String, dynamic> json) {
   return GetPolicyResponse(
     policy: json['Policy'] == null
@@ -119,6 +175,25 @@ GetPolicyResponse _$GetPolicyResponseFromJson(Map<String, dynamic> json) {
         : Policy.fromJson(json['Policy'] as Map<String, dynamic>),
     policyArn: json['PolicyArn'] as String,
   );
+}
+
+Map<String, dynamic> _$GetProtectionStatusRequestToJson(
+    GetProtectionStatusRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('PolicyId', instance.policyId);
+  writeNotNull('EndTime', unixTimestampToJson(instance.endTime));
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('MemberAccountId', instance.memberAccountId);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('StartTime', unixTimestampToJson(instance.startTime));
+  return val;
 }
 
 GetProtectionStatusResponse _$GetProtectionStatusResponseFromJson(
@@ -142,6 +217,22 @@ const _$SecurityServiceTypeEnumMap = {
   SecurityServiceType.securityGroupsUsageAudit: 'SECURITY_GROUPS_USAGE_AUDIT',
 };
 
+Map<String, dynamic> _$ListComplianceStatusRequestToJson(
+    ListComplianceStatusRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('PolicyId', instance.policyId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListComplianceStatusResponse _$ListComplianceStatusResponseFromJson(
     Map<String, dynamic> json) {
   return ListComplianceStatusResponse(
@@ -154,6 +245,21 @@ ListComplianceStatusResponse _$ListComplianceStatusResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListMemberAccountsRequestToJson(
+    ListMemberAccountsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListMemberAccountsResponse _$ListMemberAccountsResponseFromJson(
     Map<String, dynamic> json) {
   return ListMemberAccountsResponse(
@@ -161,6 +267,20 @@ ListMemberAccountsResponse _$ListMemberAccountsResponseFromJson(
         (json['MemberAccounts'] as List)?.map((e) => e as String)?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListPoliciesRequestToJson(ListPoliciesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListPoliciesResponse _$ListPoliciesResponseFromJson(Map<String, dynamic> json) {
@@ -172,6 +292,20 @@ ListPoliciesResponse _$ListPoliciesResponseFromJson(Map<String, dynamic> json) {
             : PolicySummary.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListTagsForResourceRequestToJson(
+    ListTagsForResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  return val;
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
@@ -285,6 +419,35 @@ PolicySummary _$PolicySummaryFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$PutNotificationChannelRequestToJson(
+    PutNotificationChannelRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SnsRoleName', instance.snsRoleName);
+  writeNotNull('SnsTopicArn', instance.snsTopicArn);
+  return val;
+}
+
+Map<String, dynamic> _$PutPolicyRequestToJson(PutPolicyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Policy', instance.policy?.toJson());
+  writeNotNull('TagList', instance.tagList?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 PutPolicyResponse _$PutPolicyResponseFromJson(Map<String, dynamic> json) {
   return PutPolicyResponse(
     policy: json['Policy'] == null
@@ -359,8 +522,37 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
   return val;
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('TagList', instance.tagList?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
+}
+
+Map<String, dynamic> _$UntagResourceRequestToJson(
+    UntagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
 }
 
 UntagResourceResponse _$UntagResourceResponseFromJson(

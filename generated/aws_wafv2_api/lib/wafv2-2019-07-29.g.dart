@@ -43,6 +43,21 @@ Map<String, dynamic> _$AndStatementToJson(AndStatement instance) {
   return val;
 }
 
+Map<String, dynamic> _$AssociateWebACLRequestToJson(
+    AssociateWebACLRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('WebACLArn', instance.webACLArn);
+  return val;
+}
+
 AssociateWebACLResponse _$AssociateWebACLResponseFromJson(
     Map<String, dynamic> json) {
   return AssociateWebACLResponse();
@@ -137,6 +152,26 @@ const _$PositionalConstraintEnumMap = {
   PositionalConstraint.containsWord: 'CONTAINS_WORD',
 };
 
+Map<String, dynamic> _$CheckCapacityRequestToJson(
+    CheckCapacityRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Rules', instance.rules?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Scope', _$ScopeEnumMap[instance.scope]);
+  return val;
+}
+
+const _$ScopeEnumMap = {
+  Scope.cloudfront: 'CLOUDFRONT',
+  Scope.regional: 'REGIONAL',
+};
+
 CheckCapacityResponse _$CheckCapacityResponseFromJson(
     Map<String, dynamic> json) {
   return CheckCapacityResponse(
@@ -151,12 +186,55 @@ CountAction _$CountActionFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$CountActionToJson(CountAction instance) =>
     <String, dynamic>{};
 
+Map<String, dynamic> _$CreateIPSetRequestToJson(CreateIPSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Addresses', instance.addresses);
+  writeNotNull(
+      'IPAddressVersion', _$IPAddressVersionEnumMap[instance.iPAddressVersion]);
+  writeNotNull('Name', instance.name);
+  writeNotNull('Scope', _$ScopeEnumMap[instance.scope]);
+  writeNotNull('Description', instance.description);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+const _$IPAddressVersionEnumMap = {
+  IPAddressVersion.ipv4: 'IPV4',
+  IPAddressVersion.ipv6: 'IPV6',
+};
+
 CreateIPSetResponse _$CreateIPSetResponseFromJson(Map<String, dynamic> json) {
   return CreateIPSetResponse(
     summary: json['Summary'] == null
         ? null
         : IPSetSummary.fromJson(json['Summary'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateRegexPatternSetRequestToJson(
+    CreateRegexPatternSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('RegularExpressionList',
+      instance.regularExpressionList?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Scope', _$ScopeEnumMap[instance.scope]);
+  writeNotNull('Description', instance.description);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateRegexPatternSetResponse _$CreateRegexPatternSetResponseFromJson(
@@ -169,6 +247,26 @@ CreateRegexPatternSetResponse _$CreateRegexPatternSetResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateRuleGroupRequestToJson(
+    CreateRuleGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Capacity', instance.capacity);
+  writeNotNull('Name', instance.name);
+  writeNotNull('Scope', _$ScopeEnumMap[instance.scope]);
+  writeNotNull('VisibilityConfig', instance.visibilityConfig?.toJson());
+  writeNotNull('Description', instance.description);
+  writeNotNull('Rules', instance.rules?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateRuleGroupResponse _$CreateRuleGroupResponseFromJson(
     Map<String, dynamic> json) {
   return CreateRuleGroupResponse(
@@ -176,6 +274,25 @@ CreateRuleGroupResponse _$CreateRuleGroupResponseFromJson(
         ? null
         : RuleGroupSummary.fromJson(json['Summary'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateWebACLRequestToJson(CreateWebACLRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DefaultAction', instance.defaultAction?.toJson());
+  writeNotNull('Name', instance.name);
+  writeNotNull('Scope', _$ScopeEnumMap[instance.scope]);
+  writeNotNull('VisibilityConfig', instance.visibilityConfig?.toJson());
+  writeNotNull('Description', instance.description);
+  writeNotNull('Rules', instance.rules?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateWebACLResponse _$CreateWebACLResponseFromJson(Map<String, dynamic> json) {
@@ -211,6 +328,21 @@ Map<String, dynamic> _$DefaultActionToJson(DefaultAction instance) {
   return val;
 }
 
+Map<String, dynamic> _$DeleteFirewallManagerRuleGroupsRequestToJson(
+    DeleteFirewallManagerRuleGroupsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('WebACLArn', instance.webACLArn);
+  writeNotNull('WebACLLockToken', instance.webACLLockToken);
+  return val;
+}
+
 DeleteFirewallManagerRuleGroupsResponse
     _$DeleteFirewallManagerRuleGroupsResponseFromJson(
         Map<String, dynamic> json) {
@@ -219,8 +351,38 @@ DeleteFirewallManagerRuleGroupsResponse
   );
 }
 
+Map<String, dynamic> _$DeleteIPSetRequestToJson(DeleteIPSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  writeNotNull('LockToken', instance.lockToken);
+  writeNotNull('Name', instance.name);
+  writeNotNull('Scope', _$ScopeEnumMap[instance.scope]);
+  return val;
+}
+
 DeleteIPSetResponse _$DeleteIPSetResponseFromJson(Map<String, dynamic> json) {
   return DeleteIPSetResponse();
+}
+
+Map<String, dynamic> _$DeleteLoggingConfigurationRequestToJson(
+    DeleteLoggingConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  return val;
 }
 
 DeleteLoggingConfigurationResponse _$DeleteLoggingConfigurationResponseFromJson(
@@ -228,9 +390,40 @@ DeleteLoggingConfigurationResponse _$DeleteLoggingConfigurationResponseFromJson(
   return DeleteLoggingConfigurationResponse();
 }
 
+Map<String, dynamic> _$DeletePermissionPolicyRequestToJson(
+    DeletePermissionPolicyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  return val;
+}
+
 DeletePermissionPolicyResponse _$DeletePermissionPolicyResponseFromJson(
     Map<String, dynamic> json) {
   return DeletePermissionPolicyResponse();
+}
+
+Map<String, dynamic> _$DeleteRegexPatternSetRequestToJson(
+    DeleteRegexPatternSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  writeNotNull('LockToken', instance.lockToken);
+  writeNotNull('Name', instance.name);
+  writeNotNull('Scope', _$ScopeEnumMap[instance.scope]);
+  return val;
 }
 
 DeleteRegexPatternSetResponse _$DeleteRegexPatternSetResponseFromJson(
@@ -238,13 +431,62 @@ DeleteRegexPatternSetResponse _$DeleteRegexPatternSetResponseFromJson(
   return DeleteRegexPatternSetResponse();
 }
 
+Map<String, dynamic> _$DeleteRuleGroupRequestToJson(
+    DeleteRuleGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  writeNotNull('LockToken', instance.lockToken);
+  writeNotNull('Name', instance.name);
+  writeNotNull('Scope', _$ScopeEnumMap[instance.scope]);
+  return val;
+}
+
 DeleteRuleGroupResponse _$DeleteRuleGroupResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteRuleGroupResponse();
 }
 
+Map<String, dynamic> _$DeleteWebACLRequestToJson(DeleteWebACLRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  writeNotNull('LockToken', instance.lockToken);
+  writeNotNull('Name', instance.name);
+  writeNotNull('Scope', _$ScopeEnumMap[instance.scope]);
+  return val;
+}
+
 DeleteWebACLResponse _$DeleteWebACLResponseFromJson(Map<String, dynamic> json) {
   return DeleteWebACLResponse();
+}
+
+Map<String, dynamic> _$DescribeManagedRuleGroupRequestToJson(
+    DescribeManagedRuleGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('Scope', _$ScopeEnumMap[instance.scope]);
+  writeNotNull('VendorName', instance.vendorName);
+  return val;
 }
 
 DescribeManagedRuleGroupResponse _$DescribeManagedRuleGroupResponseFromJson(
@@ -256,6 +498,20 @@ DescribeManagedRuleGroupResponse _$DescribeManagedRuleGroupResponseFromJson(
             e == null ? null : RuleSummary.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DisassociateWebACLRequestToJson(
+    DisassociateWebACLRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  return val;
 }
 
 DisassociateWebACLResponse _$DisassociateWebACLResponseFromJson(
@@ -383,6 +639,21 @@ Map<String, dynamic> _$GeoMatchStatementToJson(GeoMatchStatement instance) {
   return val;
 }
 
+Map<String, dynamic> _$GetIPSetRequestToJson(GetIPSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  writeNotNull('Name', instance.name);
+  writeNotNull('Scope', _$ScopeEnumMap[instance.scope]);
+  return val;
+}
+
 GetIPSetResponse _$GetIPSetResponseFromJson(Map<String, dynamic> json) {
   return GetIPSetResponse(
     iPSet: json['IPSet'] == null
@@ -390,6 +661,20 @@ GetIPSetResponse _$GetIPSetResponseFromJson(Map<String, dynamic> json) {
         : IPSet.fromJson(json['IPSet'] as Map<String, dynamic>),
     lockToken: json['LockToken'] as String,
   );
+}
+
+Map<String, dynamic> _$GetLoggingConfigurationRequestToJson(
+    GetLoggingConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  return val;
 }
 
 GetLoggingConfigurationResponse _$GetLoggingConfigurationResponseFromJson(
@@ -402,11 +687,42 @@ GetLoggingConfigurationResponse _$GetLoggingConfigurationResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$GetPermissionPolicyRequestToJson(
+    GetPermissionPolicyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  return val;
+}
+
 GetPermissionPolicyResponse _$GetPermissionPolicyResponseFromJson(
     Map<String, dynamic> json) {
   return GetPermissionPolicyResponse(
     policy: json['Policy'] as String,
   );
+}
+
+Map<String, dynamic> _$GetRateBasedStatementManagedKeysRequestToJson(
+    GetRateBasedStatementManagedKeysRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RuleName', instance.ruleName);
+  writeNotNull('Scope', _$ScopeEnumMap[instance.scope]);
+  writeNotNull('WebACLId', instance.webACLId);
+  writeNotNull('WebACLName', instance.webACLName);
+  return val;
 }
 
 GetRateBasedStatementManagedKeysResponse
@@ -424,6 +740,22 @@ GetRateBasedStatementManagedKeysResponse
   );
 }
 
+Map<String, dynamic> _$GetRegexPatternSetRequestToJson(
+    GetRegexPatternSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  writeNotNull('Name', instance.name);
+  writeNotNull('Scope', _$ScopeEnumMap[instance.scope]);
+  return val;
+}
+
 GetRegexPatternSetResponse _$GetRegexPatternSetResponseFromJson(
     Map<String, dynamic> json) {
   return GetRegexPatternSetResponse(
@@ -435,6 +767,21 @@ GetRegexPatternSetResponse _$GetRegexPatternSetResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$GetRuleGroupRequestToJson(GetRuleGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  writeNotNull('Name', instance.name);
+  writeNotNull('Scope', _$ScopeEnumMap[instance.scope]);
+  return val;
+}
+
 GetRuleGroupResponse _$GetRuleGroupResponseFromJson(Map<String, dynamic> json) {
   return GetRuleGroupResponse(
     lockToken: json['LockToken'] as String,
@@ -442,6 +789,24 @@ GetRuleGroupResponse _$GetRuleGroupResponseFromJson(Map<String, dynamic> json) {
         ? null
         : RuleGroup.fromJson(json['RuleGroup'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetSampledRequestsRequestToJson(
+    GetSampledRequestsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxItems', instance.maxItems);
+  writeNotNull('RuleMetricName', instance.ruleMetricName);
+  writeNotNull('Scope', _$ScopeEnumMap[instance.scope]);
+  writeNotNull('TimeWindow', instance.timeWindow?.toJson());
+  writeNotNull('WebAclArn', instance.webAclArn);
+  return val;
 }
 
 GetSampledRequestsResponse _$GetSampledRequestsResponseFromJson(
@@ -459,6 +824,20 @@ GetSampledRequestsResponse _$GetSampledRequestsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$GetWebACLForResourceRequestToJson(
+    GetWebACLForResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  return val;
+}
+
 GetWebACLForResourceResponse _$GetWebACLForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return GetWebACLForResourceResponse(
@@ -466,6 +845,21 @@ GetWebACLForResourceResponse _$GetWebACLForResourceResponseFromJson(
         ? null
         : WebACL.fromJson(json['WebACL'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetWebACLRequestToJson(GetWebACLRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  writeNotNull('Name', instance.name);
+  writeNotNull('Scope', _$ScopeEnumMap[instance.scope]);
+  return val;
 }
 
 GetWebACLResponse _$GetWebACLResponseFromJson(Map<String, dynamic> json) {
@@ -510,11 +904,6 @@ IPSet _$IPSetFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$IPAddressVersionEnumMap = {
-  IPAddressVersion.ipv4: 'IPV4',
-  IPAddressVersion.ipv6: 'IPV6',
-};
-
 IPSetReferenceStatement _$IPSetReferenceStatementFromJson(
     Map<String, dynamic> json) {
   return IPSetReferenceStatement(
@@ -546,6 +935,22 @@ IPSetSummary _$IPSetSummaryFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ListAvailableManagedRuleGroupsRequestToJson(
+    ListAvailableManagedRuleGroupsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Scope', _$ScopeEnumMap[instance.scope]);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextMarker', instance.nextMarker);
+  return val;
+}
+
 ListAvailableManagedRuleGroupsResponse
     _$ListAvailableManagedRuleGroupsResponseFromJson(
         Map<String, dynamic> json) {
@@ -559,6 +964,21 @@ ListAvailableManagedRuleGroupsResponse
   );
 }
 
+Map<String, dynamic> _$ListIPSetsRequestToJson(ListIPSetsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Scope', _$ScopeEnumMap[instance.scope]);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextMarker', instance.nextMarker);
+  return val;
+}
+
 ListIPSetsResponse _$ListIPSetsResponseFromJson(Map<String, dynamic> json) {
   return ListIPSetsResponse(
     iPSets: (json['IPSets'] as List)
@@ -567,6 +987,22 @@ ListIPSetsResponse _$ListIPSetsResponseFromJson(Map<String, dynamic> json) {
         ?.toList(),
     nextMarker: json['NextMarker'] as String,
   );
+}
+
+Map<String, dynamic> _$ListLoggingConfigurationsRequestToJson(
+    ListLoggingConfigurationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextMarker', instance.nextMarker);
+  writeNotNull('Scope', _$ScopeEnumMap[instance.scope]);
+  return val;
 }
 
 ListLoggingConfigurationsResponse _$ListLoggingConfigurationsResponseFromJson(
@@ -581,6 +1017,22 @@ ListLoggingConfigurationsResponse _$ListLoggingConfigurationsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListRegexPatternSetsRequestToJson(
+    ListRegexPatternSetsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Scope', _$ScopeEnumMap[instance.scope]);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextMarker', instance.nextMarker);
+  return val;
+}
+
 ListRegexPatternSetsResponse _$ListRegexPatternSetsResponseFromJson(
     Map<String, dynamic> json) {
   return ListRegexPatternSetsResponse(
@@ -593,12 +1045,48 @@ ListRegexPatternSetsResponse _$ListRegexPatternSetsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListResourcesForWebACLRequestToJson(
+    ListResourcesForWebACLRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('WebACLArn', instance.webACLArn);
+  writeNotNull('ResourceType', _$ResourceTypeEnumMap[instance.resourceType]);
+  return val;
+}
+
+const _$ResourceTypeEnumMap = {
+  ResourceType.applicationLoadBalancer: 'APPLICATION_LOAD_BALANCER',
+  ResourceType.apiGateway: 'API_GATEWAY',
+};
+
 ListResourcesForWebACLResponse _$ListResourcesForWebACLResponseFromJson(
     Map<String, dynamic> json) {
   return ListResourcesForWebACLResponse(
     resourceArns:
         (json['ResourceArns'] as List)?.map((e) => e as String)?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListRuleGroupsRequestToJson(
+    ListRuleGroupsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Scope', _$ScopeEnumMap[instance.scope]);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextMarker', instance.nextMarker);
+  return val;
 }
 
 ListRuleGroupsResponse _$ListRuleGroupsResponseFromJson(
@@ -613,6 +1101,22 @@ ListRuleGroupsResponse _$ListRuleGroupsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListTagsForResourceRequestToJson(
+    ListTagsForResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARN', instance.resourceARN);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextMarker', instance.nextMarker);
+  return val;
+}
+
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
@@ -622,6 +1126,21 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
         : TagInfoForResource.fromJson(
             json['TagInfoForResource'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$ListWebACLsRequestToJson(ListWebACLsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Scope', _$ScopeEnumMap[instance.scope]);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextMarker', instance.nextMarker);
+  return val;
 }
 
 ListWebACLsResponse _$ListWebACLsResponseFromJson(Map<String, dynamic> json) {
@@ -785,6 +1304,20 @@ Map<String, dynamic> _$OverrideActionToJson(OverrideAction instance) {
   return val;
 }
 
+Map<String, dynamic> _$PutLoggingConfigurationRequestToJson(
+    PutLoggingConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LoggingConfiguration', instance.loggingConfiguration?.toJson());
+  return val;
+}
+
 PutLoggingConfigurationResponse _$PutLoggingConfigurationResponseFromJson(
     Map<String, dynamic> json) {
   return PutLoggingConfigurationResponse(
@@ -793,6 +1326,21 @@ PutLoggingConfigurationResponse _$PutLoggingConfigurationResponseFromJson(
         : LoggingConfiguration.fromJson(
             json['LoggingConfiguration'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$PutPermissionPolicyRequestToJson(
+    PutPermissionPolicyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Policy', instance.policy);
+  writeNotNull('ResourceArn', instance.resourceArn);
+  return val;
 }
 
 PutPermissionPolicyResponse _$PutPermissionPolicyResponseFromJson(
@@ -1294,6 +1842,20 @@ TagInfoForResource _$TagInfoForResourceFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARN', instance.resourceARN);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
 }
@@ -1349,15 +1911,68 @@ Map<String, dynamic> _$TimeWindowToJson(TimeWindow instance) {
   return val;
 }
 
+Map<String, dynamic> _$UntagResourceRequestToJson(
+    UntagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARN', instance.resourceARN);
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
+}
+
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse();
+}
+
+Map<String, dynamic> _$UpdateIPSetRequestToJson(UpdateIPSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Addresses', instance.addresses);
+  writeNotNull('Id', instance.id);
+  writeNotNull('LockToken', instance.lockToken);
+  writeNotNull('Name', instance.name);
+  writeNotNull('Scope', _$ScopeEnumMap[instance.scope]);
+  writeNotNull('Description', instance.description);
+  return val;
 }
 
 UpdateIPSetResponse _$UpdateIPSetResponseFromJson(Map<String, dynamic> json) {
   return UpdateIPSetResponse(
     nextLockToken: json['NextLockToken'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateRegexPatternSetRequestToJson(
+    UpdateRegexPatternSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  writeNotNull('LockToken', instance.lockToken);
+  writeNotNull('Name', instance.name);
+  writeNotNull('RegularExpressionList',
+      instance.regularExpressionList?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Scope', _$ScopeEnumMap[instance.scope]);
+  writeNotNull('Description', instance.description);
+  return val;
 }
 
 UpdateRegexPatternSetResponse _$UpdateRegexPatternSetResponseFromJson(
@@ -1367,11 +1982,51 @@ UpdateRegexPatternSetResponse _$UpdateRegexPatternSetResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateRuleGroupRequestToJson(
+    UpdateRuleGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  writeNotNull('LockToken', instance.lockToken);
+  writeNotNull('Name', instance.name);
+  writeNotNull('Scope', _$ScopeEnumMap[instance.scope]);
+  writeNotNull('VisibilityConfig', instance.visibilityConfig?.toJson());
+  writeNotNull('Description', instance.description);
+  writeNotNull('Rules', instance.rules?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 UpdateRuleGroupResponse _$UpdateRuleGroupResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateRuleGroupResponse(
     nextLockToken: json['NextLockToken'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateWebACLRequestToJson(UpdateWebACLRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DefaultAction', instance.defaultAction?.toJson());
+  writeNotNull('Id', instance.id);
+  writeNotNull('LockToken', instance.lockToken);
+  writeNotNull('Name', instance.name);
+  writeNotNull('Scope', _$ScopeEnumMap[instance.scope]);
+  writeNotNull('VisibilityConfig', instance.visibilityConfig?.toJson());
+  writeNotNull('Description', instance.description);
+  writeNotNull('Rules', instance.rules?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 UpdateWebACLResponse _$UpdateWebACLResponseFromJson(Map<String, dynamic> json) {

@@ -207,8 +207,42 @@ Map<String, dynamic> _$CostTypesToJson(CostTypes instance) {
   return val;
 }
 
+Map<String, dynamic> _$CreateBudgetRequestToJson(CreateBudgetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccountId', instance.accountId);
+  writeNotNull('Budget', instance.budget?.toJson());
+  writeNotNull('NotificationsWithSubscribers',
+      instance.notificationsWithSubscribers?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateBudgetResponse _$CreateBudgetResponseFromJson(Map<String, dynamic> json) {
   return CreateBudgetResponse();
+}
+
+Map<String, dynamic> _$CreateNotificationRequestToJson(
+    CreateNotificationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccountId', instance.accountId);
+  writeNotNull('BudgetName', instance.budgetName);
+  writeNotNull('Notification', instance.notification?.toJson());
+  writeNotNull(
+      'Subscribers', instance.subscribers?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateNotificationResponse _$CreateNotificationResponseFromJson(
@@ -216,13 +250,60 @@ CreateNotificationResponse _$CreateNotificationResponseFromJson(
   return CreateNotificationResponse();
 }
 
+Map<String, dynamic> _$CreateSubscriberRequestToJson(
+    CreateSubscriberRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccountId', instance.accountId);
+  writeNotNull('BudgetName', instance.budgetName);
+  writeNotNull('Notification', instance.notification?.toJson());
+  writeNotNull('Subscriber', instance.subscriber?.toJson());
+  return val;
+}
+
 CreateSubscriberResponse _$CreateSubscriberResponseFromJson(
     Map<String, dynamic> json) {
   return CreateSubscriberResponse();
 }
 
+Map<String, dynamic> _$DeleteBudgetRequestToJson(DeleteBudgetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccountId', instance.accountId);
+  writeNotNull('BudgetName', instance.budgetName);
+  return val;
+}
+
 DeleteBudgetResponse _$DeleteBudgetResponseFromJson(Map<String, dynamic> json) {
   return DeleteBudgetResponse();
+}
+
+Map<String, dynamic> _$DeleteNotificationRequestToJson(
+    DeleteNotificationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccountId', instance.accountId);
+  writeNotNull('BudgetName', instance.budgetName);
+  writeNotNull('Notification', instance.notification?.toJson());
+  return val;
 }
 
 DeleteNotificationResponse _$DeleteNotificationResponseFromJson(
@@ -230,9 +311,44 @@ DeleteNotificationResponse _$DeleteNotificationResponseFromJson(
   return DeleteNotificationResponse();
 }
 
+Map<String, dynamic> _$DeleteSubscriberRequestToJson(
+    DeleteSubscriberRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccountId', instance.accountId);
+  writeNotNull('BudgetName', instance.budgetName);
+  writeNotNull('Notification', instance.notification?.toJson());
+  writeNotNull('Subscriber', instance.subscriber?.toJson());
+  return val;
+}
+
 DeleteSubscriberResponse _$DeleteSubscriberResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteSubscriberResponse();
+}
+
+Map<String, dynamic> _$DescribeBudgetPerformanceHistoryRequestToJson(
+    DescribeBudgetPerformanceHistoryRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccountId', instance.accountId);
+  writeNotNull('BudgetName', instance.budgetName);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('TimePeriod', instance.timePeriod?.toJson());
+  return val;
 }
 
 DescribeBudgetPerformanceHistoryResponse
@@ -247,6 +363,21 @@ DescribeBudgetPerformanceHistoryResponse
   );
 }
 
+Map<String, dynamic> _$DescribeBudgetRequestToJson(
+    DescribeBudgetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccountId', instance.accountId);
+  writeNotNull('BudgetName', instance.budgetName);
+  return val;
+}
+
 DescribeBudgetResponse _$DescribeBudgetResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeBudgetResponse(
@@ -254,6 +385,22 @@ DescribeBudgetResponse _$DescribeBudgetResponseFromJson(
         ? null
         : Budget.fromJson(json['Budget'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeBudgetsRequestToJson(
+    DescribeBudgetsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccountId', instance.accountId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 DescribeBudgetsResponse _$DescribeBudgetsResponseFromJson(
@@ -267,6 +414,23 @@ DescribeBudgetsResponse _$DescribeBudgetsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeNotificationsForBudgetRequestToJson(
+    DescribeNotificationsForBudgetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccountId', instance.accountId);
+  writeNotNull('BudgetName', instance.budgetName);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 DescribeNotificationsForBudgetResponse
     _$DescribeNotificationsForBudgetResponseFromJson(
         Map<String, dynamic> json) {
@@ -277,6 +441,24 @@ DescribeNotificationsForBudgetResponse
             e == null ? null : Notification.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeSubscribersForNotificationRequestToJson(
+    DescribeSubscribersForNotificationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccountId', instance.accountId);
+  writeNotNull('BudgetName', instance.budgetName);
+  writeNotNull('Notification', instance.notification?.toJson());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 DescribeSubscribersForNotificationResponse
@@ -432,13 +614,62 @@ Map<String, dynamic> _$TimePeriodToJson(TimePeriod instance) {
   return val;
 }
 
+Map<String, dynamic> _$UpdateBudgetRequestToJson(UpdateBudgetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccountId', instance.accountId);
+  writeNotNull('NewBudget', instance.newBudget?.toJson());
+  return val;
+}
+
 UpdateBudgetResponse _$UpdateBudgetResponseFromJson(Map<String, dynamic> json) {
   return UpdateBudgetResponse();
+}
+
+Map<String, dynamic> _$UpdateNotificationRequestToJson(
+    UpdateNotificationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccountId', instance.accountId);
+  writeNotNull('BudgetName', instance.budgetName);
+  writeNotNull('NewNotification', instance.newNotification?.toJson());
+  writeNotNull('OldNotification', instance.oldNotification?.toJson());
+  return val;
 }
 
 UpdateNotificationResponse _$UpdateNotificationResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateNotificationResponse();
+}
+
+Map<String, dynamic> _$UpdateSubscriberRequestToJson(
+    UpdateSubscriberRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccountId', instance.accountId);
+  writeNotNull('BudgetName', instance.budgetName);
+  writeNotNull('NewSubscriber', instance.newSubscriber?.toJson());
+  writeNotNull('Notification', instance.notification?.toJson());
+  writeNotNull('OldSubscriber', instance.oldSubscriber?.toJson());
+  return val;
 }
 
 UpdateSubscriberResponse _$UpdateSubscriberResponseFromJson(

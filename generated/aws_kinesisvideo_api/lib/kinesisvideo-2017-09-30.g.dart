@@ -85,11 +85,47 @@ const _$ComparisonOperatorEnumMap = {
   ComparisonOperator.beginsWith: 'BEGINS_WITH',
 };
 
+Map<String, dynamic> _$CreateSignalingChannelInputToJson(
+    CreateSignalingChannelInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChannelName', instance.channelName);
+  writeNotNull('ChannelType', _$ChannelTypeEnumMap[instance.channelType]);
+  writeNotNull('SingleMasterConfiguration',
+      instance.singleMasterConfiguration?.toJson());
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateSignalingChannelOutput _$CreateSignalingChannelOutputFromJson(
     Map<String, dynamic> json) {
   return CreateSignalingChannelOutput(
     channelARN: json['ChannelARN'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateStreamInputToJson(CreateStreamInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('StreamName', instance.streamName);
+  writeNotNull('DataRetentionInHours', instance.dataRetentionInHours);
+  writeNotNull('DeviceName', instance.deviceName);
+  writeNotNull('KmsKeyId', instance.kmsKeyId);
+  writeNotNull('MediaType', instance.mediaType);
+  writeNotNull('Tags', instance.tags);
+  return val;
 }
 
 CreateStreamOutput _$CreateStreamOutputFromJson(Map<String, dynamic> json) {
@@ -98,13 +134,57 @@ CreateStreamOutput _$CreateStreamOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DeleteSignalingChannelInputToJson(
+    DeleteSignalingChannelInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChannelARN', instance.channelARN);
+  writeNotNull('CurrentVersion', instance.currentVersion);
+  return val;
+}
+
 DeleteSignalingChannelOutput _$DeleteSignalingChannelOutputFromJson(
     Map<String, dynamic> json) {
   return DeleteSignalingChannelOutput();
 }
 
+Map<String, dynamic> _$DeleteStreamInputToJson(DeleteStreamInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('StreamARN', instance.streamARN);
+  writeNotNull('CurrentVersion', instance.currentVersion);
+  return val;
+}
+
 DeleteStreamOutput _$DeleteStreamOutputFromJson(Map<String, dynamic> json) {
   return DeleteStreamOutput();
+}
+
+Map<String, dynamic> _$DescribeSignalingChannelInputToJson(
+    DescribeSignalingChannelInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChannelARN', instance.channelARN);
+  writeNotNull('ChannelName', instance.channelName);
+  return val;
 }
 
 DescribeSignalingChannelOutput _$DescribeSignalingChannelOutputFromJson(
@@ -116,6 +196,20 @@ DescribeSignalingChannelOutput _$DescribeSignalingChannelOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeStreamInputToJson(DescribeStreamInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('StreamARN', instance.streamARN);
+  writeNotNull('StreamName', instance.streamName);
+  return val;
+}
+
 DescribeStreamOutput _$DescribeStreamOutputFromJson(Map<String, dynamic> json) {
   return DescribeStreamOutput(
     streamInfo: json['StreamInfo'] == null
@@ -124,11 +218,52 @@ DescribeStreamOutput _$DescribeStreamOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetDataEndpointInputToJson(
+    GetDataEndpointInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('APIName', _$APINameEnumMap[instance.aPIName]);
+  writeNotNull('StreamARN', instance.streamARN);
+  writeNotNull('StreamName', instance.streamName);
+  return val;
+}
+
+const _$APINameEnumMap = {
+  APIName.putMedia: 'PUT_MEDIA',
+  APIName.getMedia: 'GET_MEDIA',
+  APIName.listFragments: 'LIST_FRAGMENTS',
+  APIName.getMediaForFragmentList: 'GET_MEDIA_FOR_FRAGMENT_LIST',
+  APIName.getHlsStreamingSessionUrl: 'GET_HLS_STREAMING_SESSION_URL',
+  APIName.getDashStreamingSessionUrl: 'GET_DASH_STREAMING_SESSION_URL',
+};
+
 GetDataEndpointOutput _$GetDataEndpointOutputFromJson(
     Map<String, dynamic> json) {
   return GetDataEndpointOutput(
     dataEndpoint: json['DataEndpoint'] as String,
   );
+}
+
+Map<String, dynamic> _$GetSignalingChannelEndpointInputToJson(
+    GetSignalingChannelEndpointInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChannelARN', instance.channelARN);
+  writeNotNull('SingleMasterChannelEndpointConfiguration',
+      instance.singleMasterChannelEndpointConfiguration?.toJson());
+  return val;
 }
 
 GetSignalingChannelEndpointOutput _$GetSignalingChannelEndpointOutputFromJson(
@@ -142,6 +277,22 @@ GetSignalingChannelEndpointOutput _$GetSignalingChannelEndpointOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$ListSignalingChannelsInputToJson(
+    ListSignalingChannelsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChannelNameCondition', instance.channelNameCondition?.toJson());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListSignalingChannelsOutput _$ListSignalingChannelsOutputFromJson(
     Map<String, dynamic> json) {
   return ListSignalingChannelsOutput(
@@ -151,6 +302,21 @@ ListSignalingChannelsOutput _$ListSignalingChannelsOutputFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListStreamsInputToJson(ListStreamsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('StreamNameCondition', instance.streamNameCondition?.toJson());
+  return val;
 }
 
 ListStreamsOutput _$ListStreamsOutputFromJson(Map<String, dynamic> json) {
@@ -163,6 +329,21 @@ ListStreamsOutput _$ListStreamsOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ListTagsForResourceInputToJson(
+    ListTagsForResourceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARN', instance.resourceARN);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListTagsForResourceOutput _$ListTagsForResourceOutputFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceOutput(
@@ -171,6 +352,22 @@ ListTagsForResourceOutput _$ListTagsForResourceOutputFromJson(
       (k, e) => MapEntry(k, e as String),
     ),
   );
+}
+
+Map<String, dynamic> _$ListTagsForStreamInputToJson(
+    ListTagsForStreamInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('StreamARN', instance.streamARN);
+  writeNotNull('StreamName', instance.streamName);
+  return val;
 }
 
 ListTagsForStreamOutput _$ListTagsForStreamOutputFromJson(
@@ -280,30 +477,147 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
   return val;
 }
 
+Map<String, dynamic> _$TagResourceInputToJson(TagResourceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARN', instance.resourceARN);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 TagResourceOutput _$TagResourceOutputFromJson(Map<String, dynamic> json) {
   return TagResourceOutput();
+}
+
+Map<String, dynamic> _$TagStreamInputToJson(TagStreamInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Tags', instance.tags);
+  writeNotNull('StreamARN', instance.streamARN);
+  writeNotNull('StreamName', instance.streamName);
+  return val;
 }
 
 TagStreamOutput _$TagStreamOutputFromJson(Map<String, dynamic> json) {
   return TagStreamOutput();
 }
 
+Map<String, dynamic> _$UntagResourceInputToJson(UntagResourceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARN', instance.resourceARN);
+  writeNotNull('TagKeyList', instance.tagKeyList);
+  return val;
+}
+
 UntagResourceOutput _$UntagResourceOutputFromJson(Map<String, dynamic> json) {
   return UntagResourceOutput();
+}
+
+Map<String, dynamic> _$UntagStreamInputToJson(UntagStreamInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TagKeyList', instance.tagKeyList);
+  writeNotNull('StreamARN', instance.streamARN);
+  writeNotNull('StreamName', instance.streamName);
+  return val;
 }
 
 UntagStreamOutput _$UntagStreamOutputFromJson(Map<String, dynamic> json) {
   return UntagStreamOutput();
 }
 
+Map<String, dynamic> _$UpdateDataRetentionInputToJson(
+    UpdateDataRetentionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CurrentVersion', instance.currentVersion);
+  writeNotNull(
+      'DataRetentionChangeInHours', instance.dataRetentionChangeInHours);
+  writeNotNull(
+      'Operation', _$UpdateDataRetentionOperationEnumMap[instance.operation]);
+  writeNotNull('StreamARN', instance.streamARN);
+  writeNotNull('StreamName', instance.streamName);
+  return val;
+}
+
+const _$UpdateDataRetentionOperationEnumMap = {
+  UpdateDataRetentionOperation.increaseDataRetention: 'INCREASE_DATA_RETENTION',
+  UpdateDataRetentionOperation.decreaseDataRetention: 'DECREASE_DATA_RETENTION',
+};
+
 UpdateDataRetentionOutput _$UpdateDataRetentionOutputFromJson(
     Map<String, dynamic> json) {
   return UpdateDataRetentionOutput();
 }
 
+Map<String, dynamic> _$UpdateSignalingChannelInputToJson(
+    UpdateSignalingChannelInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ChannelARN', instance.channelARN);
+  writeNotNull('CurrentVersion', instance.currentVersion);
+  writeNotNull('SingleMasterConfiguration',
+      instance.singleMasterConfiguration?.toJson());
+  return val;
+}
+
 UpdateSignalingChannelOutput _$UpdateSignalingChannelOutputFromJson(
     Map<String, dynamic> json) {
   return UpdateSignalingChannelOutput();
+}
+
+Map<String, dynamic> _$UpdateStreamInputToJson(UpdateStreamInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CurrentVersion', instance.currentVersion);
+  writeNotNull('DeviceName', instance.deviceName);
+  writeNotNull('MediaType', instance.mediaType);
+  writeNotNull('StreamARN', instance.streamARN);
+  writeNotNull('StreamName', instance.streamName);
+  return val;
 }
 
 UpdateStreamOutput _$UpdateStreamOutputFromJson(Map<String, dynamic> json) {

@@ -14,6 +14,23 @@ AccountAttribute _$AccountAttributeFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$AssociateNodeRequestToJson(
+    AssociateNodeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EngineAttributes',
+      instance.engineAttributes?.map((e) => e?.toJson())?.toList());
+  writeNotNull('NodeName', instance.nodeName);
+  writeNotNull('ServerName', instance.serverName);
+  return val;
+}
+
 AssociateNodeResponse _$AssociateNodeResponseFromJson(
     Map<String, dynamic> json) {
   return AssociateNodeResponse(
@@ -95,12 +112,62 @@ const _$BackupStatusEnumMap = {
   BackupStatus.deleting: 'DELETING',
 };
 
+Map<String, dynamic> _$CreateBackupRequestToJson(CreateBackupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ServerName', instance.serverName);
+  writeNotNull('Description', instance.description);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateBackupResponse _$CreateBackupResponseFromJson(Map<String, dynamic> json) {
   return CreateBackupResponse(
     backup: json['Backup'] == null
         ? null
         : Backup.fromJson(json['Backup'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateServerRequestToJson(CreateServerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InstanceProfileArn', instance.instanceProfileArn);
+  writeNotNull('InstanceType', instance.instanceType);
+  writeNotNull('ServerName', instance.serverName);
+  writeNotNull('ServiceRoleArn', instance.serviceRoleArn);
+  writeNotNull('AssociatePublicIpAddress', instance.associatePublicIpAddress);
+  writeNotNull('BackupId', instance.backupId);
+  writeNotNull('BackupRetentionCount', instance.backupRetentionCount);
+  writeNotNull('CustomCertificate', instance.customCertificate);
+  writeNotNull('CustomDomain', instance.customDomain);
+  writeNotNull('CustomPrivateKey', instance.customPrivateKey);
+  writeNotNull('DisableAutomatedBackup', instance.disableAutomatedBackup);
+  writeNotNull('Engine', instance.engine);
+  writeNotNull('EngineAttributes',
+      instance.engineAttributes?.map((e) => e?.toJson())?.toList());
+  writeNotNull('EngineModel', instance.engineModel);
+  writeNotNull('EngineVersion', instance.engineVersion);
+  writeNotNull('KeyPair', instance.keyPair);
+  writeNotNull('PreferredBackupWindow', instance.preferredBackupWindow);
+  writeNotNull(
+      'PreferredMaintenanceWindow', instance.preferredMaintenanceWindow);
+  writeNotNull('SecurityGroupIds', instance.securityGroupIds);
+  writeNotNull('SubnetIds', instance.subnetIds);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateServerResponse _$CreateServerResponseFromJson(Map<String, dynamic> json) {
@@ -111,8 +178,34 @@ CreateServerResponse _$CreateServerResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DeleteBackupRequestToJson(DeleteBackupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BackupId', instance.backupId);
+  return val;
+}
+
 DeleteBackupResponse _$DeleteBackupResponseFromJson(Map<String, dynamic> json) {
   return DeleteBackupResponse();
+}
+
+Map<String, dynamic> _$DeleteServerRequestToJson(DeleteServerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ServerName', instance.serverName);
+  return val;
 }
 
 DeleteServerResponse _$DeleteServerResponseFromJson(Map<String, dynamic> json) {
@@ -130,6 +223,23 @@ DescribeAccountAttributesResponse _$DescribeAccountAttributesResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeBackupsRequestToJson(
+    DescribeBackupsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BackupId', instance.backupId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('ServerName', instance.serverName);
+  return val;
+}
+
 DescribeBackupsResponse _$DescribeBackupsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeBackupsResponse(
@@ -141,6 +251,22 @@ DescribeBackupsResponse _$DescribeBackupsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeEventsRequestToJson(
+    DescribeEventsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ServerName', instance.serverName);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 DescribeEventsResponse _$DescribeEventsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeEventsResponse(
@@ -150,6 +276,22 @@ DescribeEventsResponse _$DescribeEventsResponseFromJson(
             e == null ? null : ServerEvent.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeNodeAssociationStatusRequestToJson(
+    DescribeNodeAssociationStatusRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'NodeAssociationStatusToken', instance.nodeAssociationStatusToken);
+  writeNotNull('ServerName', instance.serverName);
+  return val;
 }
 
 DescribeNodeAssociationStatusResponse
@@ -171,6 +313,22 @@ const _$NodeAssociationStatusEnumMap = {
   NodeAssociationStatus.inProgress: 'IN_PROGRESS',
 };
 
+Map<String, dynamic> _$DescribeServersRequestToJson(
+    DescribeServersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('ServerName', instance.serverName);
+  return val;
+}
+
 DescribeServersResponse _$DescribeServersResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeServersResponse(
@@ -180,6 +338,23 @@ DescribeServersResponse _$DescribeServersResponseFromJson(
             e == null ? null : Server.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DisassociateNodeRequestToJson(
+    DisassociateNodeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('NodeName', instance.nodeName);
+  writeNotNull('ServerName', instance.serverName);
+  writeNotNull('EngineAttributes',
+      instance.engineAttributes?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 DisassociateNodeResponse _$DisassociateNodeResponseFromJson(
@@ -210,6 +385,23 @@ Map<String, dynamic> _$EngineAttributeToJson(EngineAttribute instance) {
   return val;
 }
 
+Map<String, dynamic> _$ExportServerEngineAttributeRequestToJson(
+    ExportServerEngineAttributeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ExportAttributeName', instance.exportAttributeName);
+  writeNotNull('ServerName', instance.serverName);
+  writeNotNull('InputAttributes',
+      instance.inputAttributes?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 ExportServerEngineAttributeResponse
     _$ExportServerEngineAttributeResponseFromJson(Map<String, dynamic> json) {
   return ExportServerEngineAttributeResponse(
@@ -221,6 +413,22 @@ ExportServerEngineAttributeResponse
   );
 }
 
+Map<String, dynamic> _$ListTagsForResourceRequestToJson(
+    ListTagsForResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
@@ -229,6 +437,23 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
         ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$RestoreServerRequestToJson(
+    RestoreServerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BackupId', instance.backupId);
+  writeNotNull('ServerName', instance.serverName);
+  writeNotNull('InstanceType', instance.instanceType);
+  writeNotNull('KeyPair', instance.keyPair);
+  return val;
 }
 
 RestoreServerResponse _$RestoreServerResponseFromJson(
@@ -301,6 +526,22 @@ ServerEvent _$ServerEventFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$StartMaintenanceRequestToJson(
+    StartMaintenanceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ServerName', instance.serverName);
+  writeNotNull('EngineAttributes',
+      instance.engineAttributes?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 StartMaintenanceResponse _$StartMaintenanceResponseFromJson(
     Map<String, dynamic> json) {
   return StartMaintenanceResponse(
@@ -331,13 +572,58 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
   return val;
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
+}
+
+Map<String, dynamic> _$UntagResourceRequestToJson(
+    UntagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
 }
 
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse();
+}
+
+Map<String, dynamic> _$UpdateServerEngineAttributesRequestToJson(
+    UpdateServerEngineAttributesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AttributeName', instance.attributeName);
+  writeNotNull('ServerName', instance.serverName);
+  writeNotNull('AttributeValue', instance.attributeValue);
+  return val;
 }
 
 UpdateServerEngineAttributesResponse
@@ -347,6 +633,24 @@ UpdateServerEngineAttributesResponse
         ? null
         : Server.fromJson(json['Server'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateServerRequestToJson(UpdateServerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ServerName', instance.serverName);
+  writeNotNull('BackupRetentionCount', instance.backupRetentionCount);
+  writeNotNull('DisableAutomatedBackup', instance.disableAutomatedBackup);
+  writeNotNull('PreferredBackupWindow', instance.preferredBackupWindow);
+  writeNotNull(
+      'PreferredMaintenanceWindow', instance.preferredMaintenanceWindow);
+  return val;
 }
 
 UpdateServerResponse _$UpdateServerResponseFromJson(Map<String, dynamic> json) {

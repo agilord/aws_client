@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -50,9 +49,12 @@ class URIParameterQuerystringParamsAndJSONBody {
       if (ascending != null) _s.toQueryParam('Ascending', ascending),
       if (pageToken != null) _s.toQueryParam('PageToken', pageToken),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{
-      if (config != null) 'Config': config,
-    };
+    final $payload = InputShape(
+      ascending: ascending,
+      config: config,
+      pageToken: pageToken,
+      pipelineId: pipelineId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -61,6 +63,30 @@ class URIParameterQuerystringParamsAndJSONBody {
       exceptionFnMap: _exceptionFns,
     );
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class InputShape {
+  @_s.JsonKey(name: 'Ascending', ignore: true)
+  final String ascending;
+  @_s.JsonKey(name: 'Config')
+  final StructType config;
+  @_s.JsonKey(name: 'PageToken', ignore: true)
+  final String pageToken;
+  @_s.JsonKey(name: 'PipelineId', ignore: true)
+  final String pipelineId;
+
+  InputShape({
+    this.ascending,
+    this.config,
+    this.pageToken,
+    this.pipelineId,
+  });
+  Map<String, dynamic> toJson() => _$InputShapeToJson(this);
 }
 
 @_s.JsonSerializable(

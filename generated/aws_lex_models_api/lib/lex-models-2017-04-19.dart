@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -93,9 +92,10 @@ class LexModelBuildingService {
       r'''^([A-Za-z]_?)+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (checksum != null) 'checksum': checksum,
-    };
+    final $payload = CreateBotVersionRequest(
+      name: name,
+      checksum: checksum,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -157,9 +157,10 @@ class LexModelBuildingService {
       r'''^([A-Za-z]_?)+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (checksum != null) 'checksum': checksum,
-    };
+    final $payload = CreateIntentVersionRequest(
+      name: name,
+      checksum: checksum,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -222,9 +223,10 @@ class LexModelBuildingService {
       r'''^([A-Za-z]_?)+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (checksum != null) 'checksum': checksum,
-    };
+    final $payload = CreateSlotTypeVersionRequest(
+      name: name,
+      checksum: checksum,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -281,7 +283,9 @@ class LexModelBuildingService {
       r'''^([A-Za-z]_?)+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteBotRequest(
+      name: name,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -345,7 +349,10 @@ class LexModelBuildingService {
       r'''^([A-Za-z]_?)+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteBotAliasRequest(
+      botName: botName,
+      name: name,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -423,7 +430,11 @@ class LexModelBuildingService {
       r'''^([A-Za-z]_?)+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteBotChannelAssociationRequest(
+      botAlias: botAlias,
+      botName: botName,
+      name: name,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -485,7 +496,10 @@ class LexModelBuildingService {
       r'''[0-9]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteBotVersionRequest(
+      name: name,
+      version: version,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -539,7 +553,9 @@ class LexModelBuildingService {
       r'''^([A-Za-z]_?)+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteIntentRequest(
+      name: name,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -600,7 +616,10 @@ class LexModelBuildingService {
       r'''[0-9]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteIntentVersionRequest(
+      name: name,
+      version: version,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -654,7 +673,9 @@ class LexModelBuildingService {
       r'''^([A-Za-z]_?)+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteSlotTypeRequest(
+      name: name,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -715,7 +736,10 @@ class LexModelBuildingService {
       r'''[0-9]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteSlotTypeVersionRequest(
+      name: name,
+      version: version,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -783,7 +807,10 @@ class LexModelBuildingService {
       100,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteUtterancesRequest(
+      botName: botName,
+      userId: userId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -2295,24 +2322,22 @@ class LexModelBuildingService {
       60,
       86400,
     );
-    final $payload = <String, dynamic>{
-      'childDirected': childDirected,
-      'locale': locale?.toValue(),
-      if (abortStatement != null) 'abortStatement': abortStatement,
-      if (checksum != null) 'checksum': checksum,
-      if (clarificationPrompt != null)
-        'clarificationPrompt': clarificationPrompt,
-      if (createVersion != null) 'createVersion': createVersion,
-      if (description != null) 'description': description,
-      if (detectSentiment != null) 'detectSentiment': detectSentiment,
-      if (idleSessionTTLInSeconds != null)
-        'idleSessionTTLInSeconds': idleSessionTTLInSeconds,
-      if (intents != null) 'intents': intents,
-      if (processBehavior != null)
-        'processBehavior': processBehavior?.toValue(),
-      if (tags != null) 'tags': tags,
-      if (voiceId != null) 'voiceId': voiceId,
-    };
+    final $payload = PutBotRequest(
+      childDirected: childDirected,
+      locale: locale,
+      name: name,
+      abortStatement: abortStatement,
+      checksum: checksum,
+      clarificationPrompt: clarificationPrompt,
+      createVersion: createVersion,
+      description: description,
+      detectSentiment: detectSentiment,
+      idleSessionTTLInSeconds: idleSessionTTLInSeconds,
+      intents: intents,
+      processBehavior: processBehavior,
+      tags: tags,
+      voiceId: voiceId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -2427,13 +2452,15 @@ class LexModelBuildingService {
       0,
       200,
     );
-    final $payload = <String, dynamic>{
-      'botVersion': botVersion,
-      if (checksum != null) 'checksum': checksum,
-      if (conversationLogs != null) 'conversationLogs': conversationLogs,
-      if (description != null) 'description': description,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = PutBotAliasRequest(
+      botName: botName,
+      botVersion: botVersion,
+      name: name,
+      checksum: checksum,
+      conversationLogs: conversationLogs,
+      description: description,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -2685,23 +2712,21 @@ class LexModelBuildingService {
       0,
       200,
     );
-    final $payload = <String, dynamic>{
-      if (checksum != null) 'checksum': checksum,
-      if (conclusionStatement != null)
-        'conclusionStatement': conclusionStatement,
-      if (confirmationPrompt != null) 'confirmationPrompt': confirmationPrompt,
-      if (createVersion != null) 'createVersion': createVersion,
-      if (description != null) 'description': description,
-      if (dialogCodeHook != null) 'dialogCodeHook': dialogCodeHook,
-      if (followUpPrompt != null) 'followUpPrompt': followUpPrompt,
-      if (fulfillmentActivity != null)
-        'fulfillmentActivity': fulfillmentActivity,
-      if (parentIntentSignature != null)
-        'parentIntentSignature': parentIntentSignature,
-      if (rejectionStatement != null) 'rejectionStatement': rejectionStatement,
-      if (sampleUtterances != null) 'sampleUtterances': sampleUtterances,
-      if (slots != null) 'slots': slots,
-    };
+    final $payload = PutIntentRequest(
+      name: name,
+      checksum: checksum,
+      conclusionStatement: conclusionStatement,
+      confirmationPrompt: confirmationPrompt,
+      createVersion: createVersion,
+      description: description,
+      dialogCodeHook: dialogCodeHook,
+      followUpPrompt: followUpPrompt,
+      fulfillmentActivity: fulfillmentActivity,
+      parentIntentSignature: parentIntentSignature,
+      rejectionStatement: rejectionStatement,
+      sampleUtterances: sampleUtterances,
+      slots: slots,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -2853,18 +2878,16 @@ class LexModelBuildingService {
       parentSlotTypeSignature,
       r'''^((AMAZON\.)_?|[A-Za-z]_?)+''',
     );
-    final $payload = <String, dynamic>{
-      if (checksum != null) 'checksum': checksum,
-      if (createVersion != null) 'createVersion': createVersion,
-      if (description != null) 'description': description,
-      if (enumerationValues != null) 'enumerationValues': enumerationValues,
-      if (parentSlotTypeSignature != null)
-        'parentSlotTypeSignature': parentSlotTypeSignature,
-      if (slotTypeConfigurations != null)
-        'slotTypeConfigurations': slotTypeConfigurations,
-      if (valueSelectionStrategy != null)
-        'valueSelectionStrategy': valueSelectionStrategy?.toValue(),
-    };
+    final $payload = PutSlotTypeRequest(
+      name: name,
+      checksum: checksum,
+      createVersion: createVersion,
+      description: description,
+      enumerationValues: enumerationValues,
+      parentSlotTypeSignature: parentSlotTypeSignature,
+      slotTypeConfigurations: slotTypeConfigurations,
+      valueSelectionStrategy: valueSelectionStrategy,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -2928,12 +2951,12 @@ class LexModelBuildingService {
     ArgumentError.checkNotNull(mergeStrategy, 'mergeStrategy');
     ArgumentError.checkNotNull(payload, 'payload');
     ArgumentError.checkNotNull(resourceType, 'resourceType');
-    final $payload = <String, dynamic>{
-      'mergeStrategy': mergeStrategy?.toValue(),
-      'payload': payload?.let(base64Encode),
-      'resourceType': resourceType?.toValue(),
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = StartImportRequest(
+      mergeStrategy: mergeStrategy,
+      payload: payload,
+      resourceType: resourceType,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2972,9 +2995,10 @@ class LexModelBuildingService {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'tags': tags,
-    };
+    final $payload = TagResourceRequest(
+      resourceArn: resourceArn,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -3015,7 +3039,10 @@ class LexModelBuildingService {
     _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = UntagResourceRequest(
+      resourceArn: resourceArn,
+      tagKeys: tagKeys,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -3402,6 +3429,33 @@ class ConversationLogsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateBotVersionRequest {
+  /// The name of the bot that you want to create a new version of. The name is
+  /// case sensitive.
+  @_s.JsonKey(name: 'name', ignore: true)
+  final String name;
+
+  /// Identifies a specific revision of the <code>$LATEST</code> version of the
+  /// bot. If you specify a checksum and the <code>$LATEST</code> version of the
+  /// bot has a different checksum, a <code>PreconditionFailedException</code>
+  /// exception is returned and Amazon Lex doesn't publish a new version. If you
+  /// don't specify a checksum, Amazon Lex publishes the <code>$LATEST</code>
+  /// version.
+  @_s.JsonKey(name: 'checksum')
+  final String checksum;
+
+  CreateBotVersionRequest({
+    @_s.required this.name,
+    this.checksum,
+  });
+  Map<String, dynamic> toJson() => _$CreateBotVersionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateBotVersionResponse {
@@ -3537,6 +3591,33 @@ class CreateBotVersionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateIntentVersionRequest {
+  /// The name of the intent that you want to create a new version of. The name is
+  /// case sensitive.
+  @_s.JsonKey(name: 'name', ignore: true)
+  final String name;
+
+  /// Checksum of the <code>$LATEST</code> version of the intent that should be
+  /// used to create the new version. If you specify a checksum and the
+  /// <code>$LATEST</code> version of the intent has a different checksum, Amazon
+  /// Lex returns a <code>PreconditionFailedException</code> exception and doesn't
+  /// publish a new version. If you don't specify a checksum, Amazon Lex publishes
+  /// the <code>$LATEST</code> version.
+  @_s.JsonKey(name: 'checksum')
+  final String checksum;
+
+  CreateIntentVersionRequest({
+    @_s.required this.name,
+    this.checksum,
+  });
+  Map<String, dynamic> toJson() => _$CreateIntentVersionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateIntentVersionResponse {
@@ -3636,6 +3717,33 @@ class CreateIntentVersionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateSlotTypeVersionRequest {
+  /// The name of the slot type that you want to create a new version for. The
+  /// name is case sensitive.
+  @_s.JsonKey(name: 'name', ignore: true)
+  final String name;
+
+  /// Checksum for the <code>$LATEST</code> version of the slot type that you want
+  /// to publish. If you specify a checksum and the <code>$LATEST</code> version
+  /// of the slot type has a different checksum, Amazon Lex returns a
+  /// <code>PreconditionFailedException</code> exception and doesn't publish the
+  /// new version. If you don't specify a checksum, Amazon Lex publishes the
+  /// <code>$LATEST</code> version.
+  @_s.JsonKey(name: 'checksum')
+  final String checksum;
+
+  CreateSlotTypeVersionRequest({
+    @_s.required this.name,
+    this.checksum,
+  });
+  Map<String, dynamic> toJson() => _$CreateSlotTypeVersionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateSlotTypeVersionResponse {
@@ -3702,6 +3810,198 @@ class CreateSlotTypeVersionResponse {
   });
   factory CreateSlotTypeVersionResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateSlotTypeVersionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteBotAliasRequest {
+  /// The name of the bot that the alias points to.
+  @_s.JsonKey(name: 'botName', ignore: true)
+  final String botName;
+
+  /// The name of the alias to delete. The name is case sensitive.
+  @_s.JsonKey(name: 'name', ignore: true)
+  final String name;
+
+  DeleteBotAliasRequest({
+    @_s.required this.botName,
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$DeleteBotAliasRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteBotChannelAssociationRequest {
+  /// An alias that points to the specific version of the Amazon Lex bot to which
+  /// this association is being made.
+  @_s.JsonKey(name: 'aliasName', ignore: true)
+  final String botAlias;
+
+  /// The name of the Amazon Lex bot.
+  @_s.JsonKey(name: 'botName', ignore: true)
+  final String botName;
+
+  /// The name of the association. The name is case sensitive.
+  @_s.JsonKey(name: 'name', ignore: true)
+  final String name;
+
+  DeleteBotChannelAssociationRequest({
+    @_s.required this.botAlias,
+    @_s.required this.botName,
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteBotChannelAssociationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteBotRequest {
+  /// The name of the bot. The name is case sensitive.
+  @_s.JsonKey(name: 'name', ignore: true)
+  final String name;
+
+  DeleteBotRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$DeleteBotRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteBotVersionRequest {
+  /// The name of the bot.
+  @_s.JsonKey(name: 'name', ignore: true)
+  final String name;
+
+  /// The version of the bot to delete. You cannot delete the <code>$LATEST</code>
+  /// version of the bot. To delete the <code>$LATEST</code> version, use the
+  /// <a>DeleteBot</a> operation.
+  @_s.JsonKey(name: 'version', ignore: true)
+  final String version;
+
+  DeleteBotVersionRequest({
+    @_s.required this.name,
+    @_s.required this.version,
+  });
+  Map<String, dynamic> toJson() => _$DeleteBotVersionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteIntentRequest {
+  /// The name of the intent. The name is case sensitive.
+  @_s.JsonKey(name: 'name', ignore: true)
+  final String name;
+
+  DeleteIntentRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$DeleteIntentRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteIntentVersionRequest {
+  /// The name of the intent.
+  @_s.JsonKey(name: 'name', ignore: true)
+  final String name;
+
+  /// The version of the intent to delete. You cannot delete the
+  /// <code>$LATEST</code> version of the intent. To delete the
+  /// <code>$LATEST</code> version, use the <a>DeleteIntent</a> operation.
+  @_s.JsonKey(name: 'version', ignore: true)
+  final String version;
+
+  DeleteIntentVersionRequest({
+    @_s.required this.name,
+    @_s.required this.version,
+  });
+  Map<String, dynamic> toJson() => _$DeleteIntentVersionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteSlotTypeRequest {
+  /// The name of the slot type. The name is case sensitive.
+  @_s.JsonKey(name: 'name', ignore: true)
+  final String name;
+
+  DeleteSlotTypeRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$DeleteSlotTypeRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteSlotTypeVersionRequest {
+  /// The name of the slot type.
+  @_s.JsonKey(name: 'name', ignore: true)
+  final String name;
+
+  /// The version of the slot type to delete. You cannot delete the
+  /// <code>$LATEST</code> version of the slot type. To delete the
+  /// <code>$LATEST</code> version, use the <a>DeleteSlotType</a> operation.
+  @_s.JsonKey(name: 'version', ignore: true)
+  final String version;
+
+  DeleteSlotTypeVersionRequest({
+    @_s.required this.name,
+    @_s.required this.version,
+  });
+  Map<String, dynamic> toJson() => _$DeleteSlotTypeVersionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteUtterancesRequest {
+  /// The name of the bot that stored the utterances.
+  @_s.JsonKey(name: 'botName', ignore: true)
+  final String botName;
+
+  /// The unique identifier for the user that made the utterances. This is the
+  /// user ID that was sent in the <a
+  /// href="http://docs.aws.amazon.com/lex/latest/dg/API_runtime_PostContent.html">PostContent</a>
+  /// or <a
+  /// href="http://docs.aws.amazon.com/lex/latest/dg/API_runtime_PostText.html">PostText</a>
+  /// operation request that contained the utterance.
+  @_s.JsonKey(name: 'userId', ignore: true)
+  final String userId;
+
+  DeleteUtterancesRequest({
+    @_s.required this.botName,
+    @_s.required this.userId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteUtterancesRequestToJson(this);
 }
 
 enum Destination {
@@ -4835,20 +5135,6 @@ enum Locale {
   deDe,
 }
 
-extension on Locale {
-  String toValue() {
-    switch (this) {
-      case Locale.enUs:
-        return 'en-US';
-      case Locale.enGb:
-        return 'en-GB';
-      case Locale.deDe:
-        return 'de-DE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Settings used to configure delivery mode and destination for conversation
 /// logs.
 @_s.JsonSerializable(
@@ -4943,18 +5229,6 @@ enum MergeStrategy {
   failOnConflict,
 }
 
-extension on MergeStrategy {
-  String toValue() {
-    switch (this) {
-      case MergeStrategy.overwriteLatest:
-        return 'OVERWRITE_LATEST';
-      case MergeStrategy.failOnConflict:
-        return 'FAIL_ON_CONFLICT';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// The message object that provides the message text and its type.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -5001,18 +5275,6 @@ enum ProcessBehavior {
   build,
 }
 
-extension on ProcessBehavior {
-  String toValue() {
-    switch (this) {
-      case ProcessBehavior.save:
-        return 'SAVE';
-      case ProcessBehavior.build:
-        return 'BUILD';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Obtains information from the user. To define a prompt, provide one or more
 /// messages and specify the number of attempts to get information from the
 /// user. If you provide more than one message, Amazon Lex chooses one of the
@@ -5049,6 +5311,65 @@ class Prompt {
   factory Prompt.fromJson(Map<String, dynamic> json) => _$PromptFromJson(json);
 
   Map<String, dynamic> toJson() => _$PromptToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutBotAliasRequest {
+  /// The name of the bot.
+  @_s.JsonKey(name: 'botName', ignore: true)
+  final String botName;
+
+  /// The version of the bot.
+  @_s.JsonKey(name: 'botVersion')
+  final String botVersion;
+
+  /// The name of the alias. The name is <i>not</i> case sensitive.
+  @_s.JsonKey(name: 'name', ignore: true)
+  final String name;
+
+  /// Identifies a specific revision of the <code>$LATEST</code> version.
+  ///
+  /// When you create a new bot alias, leave the <code>checksum</code> field
+  /// blank. If you specify a checksum you get a <code>BadRequestException</code>
+  /// exception.
+  ///
+  /// When you want to update a bot alias, set the <code>checksum</code> field to
+  /// the checksum of the most recent revision of the <code>$LATEST</code>
+  /// version. If you don't specify the <code> checksum</code> field, or if the
+  /// checksum does not match the <code>$LATEST</code> version, you get a
+  /// <code>PreconditionFailedException</code> exception.
+  @_s.JsonKey(name: 'checksum')
+  final String checksum;
+
+  /// Settings for conversation logs for the alias.
+  @_s.JsonKey(name: 'conversationLogs')
+  final ConversationLogsRequest conversationLogs;
+
+  /// A description of the alias.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// A list of tags to add to the bot alias. You can only add tags when you
+  /// create an alias, you can't use the <code>PutBotAlias</code> operation to
+  /// update the tags on a bot alias. To update tags, use the
+  /// <code>TagResource</code> operation.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  PutBotAliasRequest({
+    @_s.required this.botName,
+    @_s.required this.botVersion,
+    @_s.required this.name,
+    this.checksum,
+    this.conversationLogs,
+    this.description,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$PutBotAliasRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5114,6 +5435,217 @@ class PutBotAliasResponse {
   });
   factory PutBotAliasResponse.fromJson(Map<String, dynamic> json) =>
       _$PutBotAliasResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutBotRequest {
+  /// For each Amazon Lex bot created with the Amazon Lex Model Building Service,
+  /// you must specify whether your use of Amazon Lex is related to a website,
+  /// program, or other application that is directed or targeted, in whole or in
+  /// part, to children under age 13 and subject to the Children's Online Privacy
+  /// Protection Act (COPPA) by specifying <code>true</code> or <code>false</code>
+  /// in the <code>childDirected</code> field. By specifying <code>true</code> in
+  /// the <code>childDirected</code> field, you confirm that your use of Amazon
+  /// Lex <b>is</b> related to a website, program, or other application that is
+  /// directed or targeted, in whole or in part, to children under age 13 and
+  /// subject to COPPA. By specifying <code>false</code> in the
+  /// <code>childDirected</code> field, you confirm that your use of Amazon Lex
+  /// <b>is not</b> related to a website, program, or other application that is
+  /// directed or targeted, in whole or in part, to children under age 13 and
+  /// subject to COPPA. You may not specify a default value for the
+  /// <code>childDirected</code> field that does not accurately reflect whether
+  /// your use of Amazon Lex is related to a website, program, or other
+  /// application that is directed or targeted, in whole or in part, to children
+  /// under age 13 and subject to COPPA.
+  ///
+  /// If your use of Amazon Lex relates to a website, program, or other
+  /// application that is directed in whole or in part, to children under age 13,
+  /// you must obtain any required verifiable parental consent under COPPA. For
+  /// information regarding the use of Amazon Lex in connection with websites,
+  /// programs, or other applications that are directed or targeted, in whole or
+  /// in part, to children under age 13, see the <a
+  /// href="https://aws.amazon.com/lex/faqs#data-security">Amazon Lex FAQ.</a>
+  @_s.JsonKey(name: 'childDirected')
+  final bool childDirected;
+
+  /// Specifies the target locale for the bot. Any intent used in the bot must be
+  /// compatible with the locale of the bot.
+  ///
+  /// The default is <code>en-US</code>.
+  @_s.JsonKey(name: 'locale')
+  final Locale locale;
+
+  /// The name of the bot. The name is <i>not</i> case sensitive.
+  @_s.JsonKey(name: 'name', ignore: true)
+  final String name;
+
+  /// When Amazon Lex can't understand the user's input in context, it tries to
+  /// elicit the information a few times. After that, Amazon Lex sends the message
+  /// defined in <code>abortStatement</code> to the user, and then aborts the
+  /// conversation. To set the number of retries, use the
+  /// <code>valueElicitationPrompt</code> field for the slot type.
+  ///
+  /// For example, in a pizza ordering bot, Amazon Lex might ask a user "What type
+  /// of crust would you like?" If the user's response is not one of the expected
+  /// responses (for example, "thin crust, "deep dish," etc.), Amazon Lex tries to
+  /// elicit a correct response a few more times.
+  ///
+  /// For example, in a pizza ordering application, <code>OrderPizza</code> might
+  /// be one of the intents. This intent might require the <code>CrustType</code>
+  /// slot. You specify the <code>valueElicitationPrompt</code> field when you
+  /// create the <code>CrustType</code> slot.
+  ///
+  /// If you have defined a fallback intent the abort statement will not be sent
+  /// to the user, the fallback intent is used instead. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/lex/latest/dg/built-in-intent-fallback.html">
+  /// AMAZON.FallbackIntent</a>.
+  @_s.JsonKey(name: 'abortStatement')
+  final Statement abortStatement;
+
+  /// Identifies a specific revision of the <code>$LATEST</code> version.
+  ///
+  /// When you create a new bot, leave the <code>checksum</code> field blank. If
+  /// you specify a checksum you get a <code>BadRequestException</code> exception.
+  ///
+  /// When you want to update a bot, set the <code>checksum</code> field to the
+  /// checksum of the most recent revision of the <code>$LATEST</code> version. If
+  /// you don't specify the <code> checksum</code> field, or if the checksum does
+  /// not match the <code>$LATEST</code> version, you get a
+  /// <code>PreconditionFailedException</code> exception.
+  @_s.JsonKey(name: 'checksum')
+  final String checksum;
+
+  /// When Amazon Lex doesn't understand the user's intent, it uses this message
+  /// to get clarification. To specify how many times Amazon Lex should repeat the
+  /// clarification prompt, use the <code>maxAttempts</code> field. If Amazon Lex
+  /// still doesn't understand, it sends the message in the
+  /// <code>abortStatement</code> field.
+  ///
+  /// When you create a clarification prompt, make sure that it suggests the
+  /// correct response from the user. for example, for a bot that orders pizza and
+  /// drinks, you might create this clarification prompt: "What would you like to
+  /// do? You can say 'Order a pizza' or 'Order a drink.'"
+  ///
+  /// If you have defined a fallback intent, it will be invoked if the
+  /// clarification prompt is repeated the number of times defined in the
+  /// <code>maxAttempts</code> field. For more information, see <a
+  /// href="https://docs.aws.amazon.com/lex/latest/dg/built-in-intent-fallback.html">
+  /// AMAZON.FallbackIntent</a>.
+  ///
+  /// If you don't define a clarification prompt, at runtime Amazon Lex will
+  /// return a 400 Bad Request exception in three cases:
+  ///
+  /// <ul>
+  /// <li>
+  /// Follow-up prompt - When the user responds to a follow-up prompt but does not
+  /// provide an intent. For example, in response to a follow-up prompt that says
+  /// "Would you like anything else today?" the user says "Yes." Amazon Lex will
+  /// return a 400 Bad Request exception because it does not have a clarification
+  /// prompt to send to the user to get an intent.
+  /// </li>
+  /// <li>
+  /// Lambda function - When using a Lambda function, you return an
+  /// <code>ElicitIntent</code> dialog type. Since Amazon Lex does not have a
+  /// clarification prompt to get an intent from the user, it returns a 400 Bad
+  /// Request exception.
+  /// </li>
+  /// <li>
+  /// PutSession operation - When using the <code>PutSession</code> operation, you
+  /// send an <code>ElicitIntent</code> dialog type. Since Amazon Lex does not
+  /// have a clarification prompt to get an intent from the user, it returns a 400
+  /// Bad Request exception.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'clarificationPrompt')
+  final Prompt clarificationPrompt;
+
+  /// When set to <code>true</code> a new numbered version of the bot is created.
+  /// This is the same as calling the <code>CreateBotVersion</code> operation. If
+  /// you don't specify <code>createVersion</code>, the default is
+  /// <code>false</code>.
+  @_s.JsonKey(name: 'createVersion')
+  final bool createVersion;
+
+  /// A description of the bot.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// When set to <code>true</code> user utterances are sent to Amazon Comprehend
+  /// for sentiment analysis. If you don't specify <code>detectSentiment</code>,
+  /// the default is <code>false</code>.
+  @_s.JsonKey(name: 'detectSentiment')
+  final bool detectSentiment;
+
+  /// The maximum time in seconds that Amazon Lex retains the data gathered in a
+  /// conversation.
+  ///
+  /// A user interaction session remains active for the amount of time specified.
+  /// If no conversation occurs during this time, the session expires and Amazon
+  /// Lex deletes any data provided before the timeout.
+  ///
+  /// For example, suppose that a user chooses the OrderPizza intent, but gets
+  /// sidetracked halfway through placing an order. If the user doesn't complete
+  /// the order within the specified time, Amazon Lex discards the slot
+  /// information that it gathered, and the user must start over.
+  ///
+  /// If you don't include the <code>idleSessionTTLInSeconds</code> element in a
+  /// <code>PutBot</code> operation request, Amazon Lex uses the default value.
+  /// This is also true if the request replaces an existing bot.
+  ///
+  /// The default is 300 seconds (5 minutes).
+  @_s.JsonKey(name: 'idleSessionTTLInSeconds')
+  final int idleSessionTTLInSeconds;
+
+  /// An array of <code>Intent</code> objects. Each intent represents a command
+  /// that a user can express. For example, a pizza ordering bot might support an
+  /// OrderPizza intent. For more information, see <a>how-it-works</a>.
+  @_s.JsonKey(name: 'intents')
+  final List<Intent> intents;
+
+  /// If you set the <code>processBehavior</code> element to <code>BUILD</code>,
+  /// Amazon Lex builds the bot so that it can be run. If you set the element to
+  /// <code>SAVE</code> Amazon Lex saves the bot, but doesn't build it.
+  ///
+  /// If you don't specify this value, the default value is <code>BUILD</code>.
+  @_s.JsonKey(name: 'processBehavior')
+  final ProcessBehavior processBehavior;
+
+  /// A list of tags to add to the bot. You can only add tags when you create a
+  /// bot, you can't use the <code>PutBot</code> operation to update the tags on a
+  /// bot. To update tags, use the <code>TagResource</code> operation.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  /// The Amazon Polly voice ID that you want Amazon Lex to use for voice
+  /// interactions with the user. The locale configured for the voice must match
+  /// the locale of the bot. For more information, see <a
+  /// href="https://docs.aws.amazon.com/polly/latest/dg/voicelist.html">Voices in
+  /// Amazon Polly</a> in the <i>Amazon Polly Developer Guide</i>.
+  @_s.JsonKey(name: 'voiceId')
+  final String voiceId;
+
+  PutBotRequest({
+    @_s.required this.childDirected,
+    @_s.required this.locale,
+    @_s.required this.name,
+    this.abortStatement,
+    this.checksum,
+    this.clarificationPrompt,
+    this.createVersion,
+    this.description,
+    this.detectSentiment,
+    this.idleSessionTTLInSeconds,
+    this.intents,
+    this.processBehavior,
+    this.tags,
+    this.voiceId,
+  });
+  Map<String, dynamic> toJson() => _$PutBotRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5281,6 +5813,180 @@ class PutBotResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutIntentRequest {
+  /// The name of the intent. The name is <i>not</i> case sensitive.
+  ///
+  /// The name can't match a built-in intent name, or a built-in intent name with
+  /// "AMAZON." removed. For example, because there is a built-in intent called
+  /// <code>AMAZON.HelpIntent</code>, you can't create a custom intent called
+  /// <code>HelpIntent</code>.
+  ///
+  /// For a list of built-in intents, see <a
+  /// href="https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/built-in-intent-ref/standard-intents">Standard
+  /// Built-in Intents</a> in the <i>Alexa Skills Kit</i>.
+  @_s.JsonKey(name: 'name', ignore: true)
+  final String name;
+
+  /// Identifies a specific revision of the <code>$LATEST</code> version.
+  ///
+  /// When you create a new intent, leave the <code>checksum</code> field blank.
+  /// If you specify a checksum you get a <code>BadRequestException</code>
+  /// exception.
+  ///
+  /// When you want to update a intent, set the <code>checksum</code> field to the
+  /// checksum of the most recent revision of the <code>$LATEST</code> version. If
+  /// you don't specify the <code> checksum</code> field, or if the checksum does
+  /// not match the <code>$LATEST</code> version, you get a
+  /// <code>PreconditionFailedException</code> exception.
+  @_s.JsonKey(name: 'checksum')
+  final String checksum;
+
+  /// The statement that you want Amazon Lex to convey to the user after the
+  /// intent is successfully fulfilled by the Lambda function.
+  ///
+  /// This element is relevant only if you provide a Lambda function in the
+  /// <code>fulfillmentActivity</code>. If you return the intent to the client
+  /// application, you can't specify this element.
+  /// <note>
+  /// The <code>followUpPrompt</code> and <code>conclusionStatement</code> are
+  /// mutually exclusive. You can specify only one.
+  /// </note>
+  @_s.JsonKey(name: 'conclusionStatement')
+  final Statement conclusionStatement;
+
+  /// Prompts the user to confirm the intent. This question should have a yes or
+  /// no answer.
+  ///
+  /// Amazon Lex uses this prompt to ensure that the user acknowledges that the
+  /// intent is ready for fulfillment. For example, with the
+  /// <code>OrderPizza</code> intent, you might want to confirm that the order is
+  /// correct before placing it. For other intents, such as intents that simply
+  /// respond to user questions, you might not need to ask the user for
+  /// confirmation before providing the information.
+  /// <note>
+  /// You you must provide both the <code>rejectionStatement</code> and the
+  /// <code>confirmationPrompt</code>, or neither.
+  /// </note>
+  @_s.JsonKey(name: 'confirmationPrompt')
+  final Prompt confirmationPrompt;
+
+  /// When set to <code>true</code> a new numbered version of the intent is
+  /// created. This is the same as calling the <code>CreateIntentVersion</code>
+  /// operation. If you do not specify <code>createVersion</code>, the default is
+  /// <code>false</code>.
+  @_s.JsonKey(name: 'createVersion')
+  final bool createVersion;
+
+  /// A description of the intent.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// Specifies a Lambda function to invoke for each user input. You can invoke
+  /// this Lambda function to personalize user interaction.
+  ///
+  /// For example, suppose your bot determines that the user is John. Your Lambda
+  /// function might retrieve John's information from a backend database and
+  /// prepopulate some of the values. For example, if you find that John is gluten
+  /// intolerant, you might set the corresponding intent slot,
+  /// <code>GlutenIntolerant</code>, to true. You might find John's phone number
+  /// and set the corresponding session attribute.
+  @_s.JsonKey(name: 'dialogCodeHook')
+  final CodeHook dialogCodeHook;
+
+  /// Amazon Lex uses this prompt to solicit additional activity after fulfilling
+  /// an intent. For example, after the <code>OrderPizza</code> intent is
+  /// fulfilled, you might prompt the user to order a drink.
+  ///
+  /// The action that Amazon Lex takes depends on the user's response, as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// If the user says "Yes" it responds with the clarification prompt that is
+  /// configured for the bot.
+  /// </li>
+  /// <li>
+  /// if the user says "Yes" and continues with an utterance that triggers an
+  /// intent it starts a conversation for the intent.
+  /// </li>
+  /// <li>
+  /// If the user says "No" it responds with the rejection statement configured
+  /// for the the follow-up prompt.
+  /// </li>
+  /// <li>
+  /// If it doesn't recognize the utterance it repeats the follow-up prompt again.
+  /// </li>
+  /// </ul>
+  /// The <code>followUpPrompt</code> field and the
+  /// <code>conclusionStatement</code> field are mutually exclusive. You can
+  /// specify only one.
+  @_s.JsonKey(name: 'followUpPrompt')
+  final FollowUpPrompt followUpPrompt;
+
+  /// Required. Describes how the intent is fulfilled. For example, after a user
+  /// provides all of the information for a pizza order,
+  /// <code>fulfillmentActivity</code> defines how the bot places an order with a
+  /// local pizza store.
+  ///
+  /// You might configure Amazon Lex to return all of the intent information to
+  /// the client application, or direct it to invoke a Lambda function that can
+  /// process the intent (for example, place an order with a pizzeria).
+  @_s.JsonKey(name: 'fulfillmentActivity')
+  final FulfillmentActivity fulfillmentActivity;
+
+  /// A unique identifier for the built-in intent to base this intent on. To find
+  /// the signature for an intent, see <a
+  /// href="https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/built-in-intent-ref/standard-intents">Standard
+  /// Built-in Intents</a> in the <i>Alexa Skills Kit</i>.
+  @_s.JsonKey(name: 'parentIntentSignature')
+  final String parentIntentSignature;
+
+  /// When the user answers "no" to the question defined in
+  /// <code>confirmationPrompt</code>, Amazon Lex responds with this statement to
+  /// acknowledge that the intent was canceled.
+  /// <note>
+  /// You must provide both the <code>rejectionStatement</code> and the
+  /// <code>confirmationPrompt</code>, or neither.
+  /// </note>
+  @_s.JsonKey(name: 'rejectionStatement')
+  final Statement rejectionStatement;
+
+  /// An array of utterances (strings) that a user might say to signal the intent.
+  /// For example, "I want {PizzaSize} pizza", "Order {Quantity} {PizzaSize}
+  /// pizzas".
+  ///
+  /// In each utterance, a slot name is enclosed in curly braces.
+  @_s.JsonKey(name: 'sampleUtterances')
+  final List<String> sampleUtterances;
+
+  /// An array of intent slots. At runtime, Amazon Lex elicits required slot
+  /// values from the user using prompts defined in the slots. For more
+  /// information, see <a>how-it-works</a>.
+  @_s.JsonKey(name: 'slots')
+  final List<Slot> slots;
+
+  PutIntentRequest({
+    @_s.required this.name,
+    this.checksum,
+    this.conclusionStatement,
+    this.confirmationPrompt,
+    this.createVersion,
+    this.description,
+    this.dialogCodeHook,
+    this.followUpPrompt,
+    this.fulfillmentActivity,
+    this.parentIntentSignature,
+    this.rejectionStatement,
+    this.sampleUtterances,
+    this.slots,
+  });
+  Map<String, dynamic> toJson() => _$PutIntentRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutIntentResponse {
@@ -5393,6 +6099,109 @@ class PutIntentResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutSlotTypeRequest {
+  /// The name of the slot type. The name is <i>not</i> case sensitive.
+  ///
+  /// The name can't match a built-in slot type name, or a built-in slot type name
+  /// with "AMAZON." removed. For example, because there is a built-in slot type
+  /// called <code>AMAZON.DATE</code>, you can't create a custom slot type called
+  /// <code>DATE</code>.
+  ///
+  /// For a list of built-in slot types, see <a
+  /// href="https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/built-in-intent-ref/slot-type-reference">Slot
+  /// Type Reference</a> in the <i>Alexa Skills Kit</i>.
+  @_s.JsonKey(name: 'name', ignore: true)
+  final String name;
+
+  /// Identifies a specific revision of the <code>$LATEST</code> version.
+  ///
+  /// When you create a new slot type, leave the <code>checksum</code> field
+  /// blank. If you specify a checksum you get a <code>BadRequestException</code>
+  /// exception.
+  ///
+  /// When you want to update a slot type, set the <code>checksum</code> field to
+  /// the checksum of the most recent revision of the <code>$LATEST</code>
+  /// version. If you don't specify the <code> checksum</code> field, or if the
+  /// checksum does not match the <code>$LATEST</code> version, you get a
+  /// <code>PreconditionFailedException</code> exception.
+  @_s.JsonKey(name: 'checksum')
+  final String checksum;
+
+  /// When set to <code>true</code> a new numbered version of the slot type is
+  /// created. This is the same as calling the <code>CreateSlotTypeVersion</code>
+  /// operation. If you do not specify <code>createVersion</code>, the default is
+  /// <code>false</code>.
+  @_s.JsonKey(name: 'createVersion')
+  final bool createVersion;
+
+  /// A description of the slot type.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// A list of <code>EnumerationValue</code> objects that defines the values that
+  /// the slot type can take. Each value can have a list of <code>synonyms</code>,
+  /// which are additional values that help train the machine learning model about
+  /// the values that it resolves for a slot.
+  ///
+  /// When Amazon Lex resolves a slot value, it generates a resolution list that
+  /// contains up to five possible values for the slot. If you are using a Lambda
+  /// function, this resolution list is passed to the function. If you are not
+  /// using a Lambda function you can choose to return the value that the user
+  /// entered or the first value in the resolution list as the slot value. The
+  /// <code>valueSelectionStrategy</code> field indicates the option to use.
+  @_s.JsonKey(name: 'enumerationValues')
+  final List<EnumerationValue> enumerationValues;
+
+  /// The built-in slot type used as the parent of the slot type. When you define
+  /// a parent slot type, the new slot type has all of the same configuration as
+  /// the parent.
+  ///
+  /// Only <code>AMAZON.AlphaNumeric</code> is supported.
+  @_s.JsonKey(name: 'parentSlotTypeSignature')
+  final String parentSlotTypeSignature;
+
+  /// Configuration information that extends the parent built-in slot type. The
+  /// configuration is added to the settings for the parent slot type.
+  @_s.JsonKey(name: 'slotTypeConfigurations')
+  final List<SlotTypeConfiguration> slotTypeConfigurations;
+
+  /// Determines the slot resolution strategy that Amazon Lex uses to return slot
+  /// type values. The field can be set to one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ORIGINAL_VALUE</code> - Returns the value entered by the user, if the
+  /// user value is similar to the slot value.
+  /// </li>
+  /// <li>
+  /// <code>TOP_RESOLUTION</code> - If there is a resolution list for the slot,
+  /// return the first value in the resolution list as the slot type value. If
+  /// there is no resolution list, null is returned.
+  /// </li>
+  /// </ul>
+  /// If you don't specify the <code>valueSelectionStrategy</code>, the default is
+  /// <code>ORIGINAL_VALUE</code>.
+  @_s.JsonKey(name: 'valueSelectionStrategy')
+  final SlotValueSelectionStrategy valueSelectionStrategy;
+
+  PutSlotTypeRequest({
+    @_s.required this.name,
+    this.checksum,
+    this.createVersion,
+    this.description,
+    this.enumerationValues,
+    this.parentSlotTypeSignature,
+    this.slotTypeConfigurations,
+    this.valueSelectionStrategy,
+  });
+  Map<String, dynamic> toJson() => _$PutSlotTypeRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutSlotTypeResponse {
@@ -5476,20 +6285,6 @@ enum ResourceType {
   intent,
   @_s.JsonValue('SLOT_TYPE')
   slotType,
-}
-
-extension on ResourceType {
-  String toValue() {
-    switch (this) {
-      case ResourceType.bot:
-        return 'BOT';
-      case ResourceType.intent:
-        return 'INTENT';
-      case ResourceType.slotType:
-        return 'SLOT_TYPE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Identifies the version of a specific slot.
@@ -5699,16 +6494,63 @@ enum SlotValueSelectionStrategy {
   topResolution,
 }
 
-extension on SlotValueSelectionStrategy {
-  String toValue() {
-    switch (this) {
-      case SlotValueSelectionStrategy.originalValue:
-        return 'ORIGINAL_VALUE';
-      case SlotValueSelectionStrategy.topResolution:
-        return 'TOP_RESOLUTION';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartImportRequest {
+  /// Specifies the action that the <code>StartImport</code> operation should take
+  /// when there is an existing resource with the same name.
+  ///
+  /// <ul>
+  /// <li>
+  /// FAIL_ON_CONFLICT - The import operation is stopped on the first conflict
+  /// between a resource in the import file and an existing resource. The name of
+  /// the resource causing the conflict is in the <code>failureReason</code> field
+  /// of the response to the <code>GetImport</code> operation.
+  ///
+  /// OVERWRITE_LATEST - The import operation proceeds even if there is a conflict
+  /// with an existing resource. The $LASTEST version of the existing resource is
+  /// overwritten with the data from the import file.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'mergeStrategy')
+  final MergeStrategy mergeStrategy;
+
+  /// A zip archive in binary format. The archive should contain one file, a JSON
+  /// file containing the resource to import. The resource should match the type
+  /// specified in the <code>resourceType</code> field.
+  @Uint8ListConverter()
+  @_s.JsonKey(name: 'payload')
+  final Uint8List payload;
+
+  /// Specifies the type of resource to export. Each resource also exports any
+  /// resources that it depends on.
+  ///
+  /// <ul>
+  /// <li>
+  /// A bot exports dependent intents.
+  /// </li>
+  /// <li>
+  /// An intent exports dependent slot types.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'resourceType')
+  final ResourceType resourceType;
+
+  /// A list of tags to add to the imported bot. You can only add tags when you
+  /// import a bot, you can't add tags to an intent or slot type.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  StartImportRequest({
+    @_s.required this.mergeStrategy,
+    @_s.required this.payload,
+    @_s.required this.resourceType,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$StartImportRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5842,12 +6684,56 @@ class Tag {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the bot, bot alias, or bot channel to tag.
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  /// A list of tag keys to add to the resource. If a tag key already exists, the
+  /// existing value is replaced with the new value.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
   factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$TagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource to remove the tags from.
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  /// A list of tag keys to remove from the resource. If a tag key does not exist
+  /// on the resource, it is ignored.
+  @_s.JsonKey(name: 'tagKeys', ignore: true)
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(

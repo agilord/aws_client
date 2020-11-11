@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -20,6 +19,8 @@ import 'package:shared_aws_api/shared.dart'
         unixTimestampToJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
+
+part 'omits_null_query_params,_but_serializes_empty_strings.g.dart';
 
 /// Omits null query params, but serializes empty strings
 class OmitsNullQueryParamsButSerializesEmptyStrings {
@@ -44,7 +45,9 @@ class OmitsNullQueryParamsButSerializesEmptyStrings {
     _query = '?${[
       if (foo != null) _s.toQueryParam('param-name', foo),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = InputShape(
+      foo: foo,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -60,7 +63,9 @@ class OmitsNullQueryParamsButSerializesEmptyStrings {
     _query = '?${[
       if (foo != null) _s.toQueryParam('param-name', foo),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = InputShape(
+      foo: foo,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -68,6 +73,21 @@ class OmitsNullQueryParamsButSerializesEmptyStrings {
       exceptionFnMap: _exceptionFns,
     );
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class InputShape {
+  @_s.JsonKey(name: 'param-name', ignore: true)
+  final String foo;
+
+  InputShape({
+    this.foo,
+  });
+  Map<String, dynamic> toJson() => _$InputShapeToJson(this);
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

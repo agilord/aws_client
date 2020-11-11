@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -97,10 +96,10 @@ class CodeGuruReviewer {
       clientRequestToken,
       r'''^[\w-]+$''',
     );
-    final $payload = <String, dynamic>{
-      'Repository': repository,
-      if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
-    };
+    final $payload = AssociateRepositoryRequest(
+      repository: repository,
+      clientRequestToken: clientRequestToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -175,7 +174,9 @@ class CodeGuruReviewer {
       r'''^arn:aws[^:\s]*:codeguru-reviewer:[^:\s]+:[\d]{12}:[a-z]+:[\w-]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DisassociateRepositoryRequest(
+      associationArn: associationArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -272,6 +273,47 @@ class CodeGuruReviewer {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateRepositoryRequest {
+  /// The repository to associate.
+  @_s.JsonKey(name: 'Repository')
+  final Repository repository;
+
+  /// Unique, case-sensitive identifier that you provide to ensure the idempotency
+  /// of the request.
+  ///
+  /// If you want to add a new repository association, this parameter specifies a
+  /// unique identifier for the new repository association that helps ensure
+  /// idempotency.
+  ///
+  /// If you use the AWS CLI or one of the AWS SDK to call this operation, then
+  /// you can leave this parameter empty. The CLI or SDK generates a random UUID
+  /// for you and includes that in the request. If you don't use the SDK and
+  /// instead generate a raw HTTP request to the Secrets Manager service endpoint,
+  /// then you must generate a ClientRequestToken yourself for new versions and
+  /// include that value in the request.
+  ///
+  /// You typically only need to interact with this value if you implement your
+  /// own retry logic and want to ensure that a given repository association is
+  /// not created twice. We recommend that you generate a UUID-type value to
+  /// ensure uniqueness within the specified repository association.
+  ///
+  /// Amazon CodeGuru Reviewer uses this value to prevent the accidental creation
+  /// of duplicate repository associations if there are failures and retries.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  AssociateRepositoryRequest({
+    @_s.required this.repository,
+    this.clientRequestToken,
+  });
+  Map<String, dynamic> toJson() => _$AssociateRepositoryRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AssociateRepositoryResponse {
@@ -319,6 +361,22 @@ class DescribeRepositoryAssociationResponse {
   factory DescribeRepositoryAssociationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeRepositoryAssociationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateRepositoryRequest {
+  /// The Amazon Resource Name (ARN) identifying the association.
+  @_s.JsonKey(name: 'AssociationArn', ignore: true)
+  final String associationArn;
+
+  DisassociateRepositoryRequest({
+    @_s.required this.associationArn,
+  });
+  Map<String, dynamic> toJson() => _$DisassociateRepositoryRequestToJson(this);
 }
 
 @_s.JsonSerializable(

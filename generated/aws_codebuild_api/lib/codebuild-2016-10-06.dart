@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -69,9 +68,9 @@ class CodeBuild {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ids': ids,
-      },
+      payload: BatchDeleteBuildsInput(
+        ids: ids,
+      ),
     );
 
     return BatchDeleteBuildsOutput.fromJson(jsonResponse.body);
@@ -97,9 +96,9 @@ class CodeBuild {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ids': ids,
-      },
+      payload: BatchGetBuildsInput(
+        ids: ids,
+      ),
     );
 
     return BatchGetBuildsOutput.fromJson(jsonResponse.body);
@@ -127,9 +126,9 @@ class CodeBuild {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'names': names,
-      },
+      payload: BatchGetProjectsInput(
+        names: names,
+      ),
     );
 
     return BatchGetProjectsOutput.fromJson(jsonResponse.body);
@@ -155,9 +154,9 @@ class CodeBuild {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'reportGroupArns': reportGroupArns,
-      },
+      payload: BatchGetReportGroupsInput(
+        reportGroupArns: reportGroupArns,
+      ),
     );
 
     return BatchGetReportGroupsOutput.fromJson(jsonResponse.body);
@@ -183,9 +182,9 @@ class CodeBuild {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'reportArns': reportArns,
-      },
+      payload: BatchGetReportsInput(
+        reportArns: reportArns,
+      ),
     );
 
     return BatchGetReportsOutput.fromJson(jsonResponse.body);
@@ -390,31 +389,27 @@ class CodeBuild {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'artifacts': artifacts,
-        'environment': environment,
-        'name': name,
-        'serviceRole': serviceRole,
-        'source': source,
-        if (badgeEnabled != null) 'badgeEnabled': badgeEnabled,
-        if (cache != null) 'cache': cache,
-        if (description != null) 'description': description,
-        if (encryptionKey != null) 'encryptionKey': encryptionKey,
-        if (fileSystemLocations != null)
-          'fileSystemLocations': fileSystemLocations,
-        if (logsConfig != null) 'logsConfig': logsConfig,
-        if (queuedTimeoutInMinutes != null)
-          'queuedTimeoutInMinutes': queuedTimeoutInMinutes,
-        if (secondaryArtifacts != null)
-          'secondaryArtifacts': secondaryArtifacts,
-        if (secondarySourceVersions != null)
-          'secondarySourceVersions': secondarySourceVersions,
-        if (secondarySources != null) 'secondarySources': secondarySources,
-        if (sourceVersion != null) 'sourceVersion': sourceVersion,
-        if (tags != null) 'tags': tags,
-        if (timeoutInMinutes != null) 'timeoutInMinutes': timeoutInMinutes,
-        if (vpcConfig != null) 'vpcConfig': vpcConfig,
-      },
+      payload: CreateProjectInput(
+        artifacts: artifacts,
+        environment: environment,
+        name: name,
+        serviceRole: serviceRole,
+        source: source,
+        badgeEnabled: badgeEnabled,
+        cache: cache,
+        description: description,
+        encryptionKey: encryptionKey,
+        fileSystemLocations: fileSystemLocations,
+        logsConfig: logsConfig,
+        queuedTimeoutInMinutes: queuedTimeoutInMinutes,
+        secondaryArtifacts: secondaryArtifacts,
+        secondarySourceVersions: secondarySourceVersions,
+        secondarySources: secondarySources,
+        sourceVersion: sourceVersion,
+        tags: tags,
+        timeoutInMinutes: timeoutInMinutes,
+        vpcConfig: vpcConfig,
+      ),
     );
 
     return CreateProjectOutput.fromJson(jsonResponse.body);
@@ -460,11 +455,11 @@ class CodeBuild {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'exportConfig': exportConfig,
-        'name': name,
-        'type': type?.toValue(),
-      },
+      payload: CreateReportGroupInput(
+        exportConfig: exportConfig,
+        name: name,
+        type: type,
+      ),
     );
 
     return CreateReportGroupOutput.fromJson(jsonResponse.body);
@@ -541,11 +536,11 @@ class CodeBuild {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'projectName': projectName,
-        if (branchFilter != null) 'branchFilter': branchFilter,
-        if (filterGroups != null) 'filterGroups': filterGroups,
-      },
+      payload: CreateWebhookInput(
+        projectName: projectName,
+        branchFilter: branchFilter,
+        filterGroups: filterGroups,
+      ),
     );
 
     return CreateWebhookOutput.fromJson(jsonResponse.body);
@@ -579,9 +574,9 @@ class CodeBuild {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'name': name,
-      },
+      payload: DeleteProjectInput(
+        name: name,
+      ),
     );
 
     return DeleteProjectOutput.fromJson(jsonResponse.body);
@@ -614,9 +609,9 @@ class CodeBuild {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-      },
+      payload: DeleteReportInput(
+        arn: arn,
+      ),
     );
 
     return DeleteReportOutput.fromJson(jsonResponse.body);
@@ -655,9 +650,9 @@ class CodeBuild {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-      },
+      payload: DeleteReportGroupInput(
+        arn: arn,
+      ),
     );
 
     return DeleteReportGroupOutput.fromJson(jsonResponse.body);
@@ -690,9 +685,9 @@ class CodeBuild {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'resourceArn': resourceArn,
-      },
+      payload: DeleteResourcePolicyInput(
+        resourceArn: resourceArn,
+      ),
     );
 
     return DeleteResourcePolicyOutput.fromJson(jsonResponse.body);
@@ -727,9 +722,9 @@ class CodeBuild {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-      },
+      payload: DeleteSourceCredentialsInput(
+        arn: arn,
+      ),
     );
 
     return DeleteSourceCredentialsOutput.fromJson(jsonResponse.body);
@@ -773,9 +768,9 @@ class CodeBuild {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'projectName': projectName,
-      },
+      payload: DeleteWebhookInput(
+        projectName: projectName,
+      ),
     );
 
     return DeleteWebhookOutput.fromJson(jsonResponse.body);
@@ -828,12 +823,12 @@ class CodeBuild {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'reportArn': reportArn,
-        if (filter != null) 'filter': filter,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: DescribeTestCasesInput(
+        reportArn: reportArn,
+        filter: filter,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeTestCasesOutput.fromJson(jsonResponse.body);
@@ -867,9 +862,9 @@ class CodeBuild {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'resourceArn': resourceArn,
-      },
+      payload: GetResourcePolicyInput(
+        resourceArn: resourceArn,
+      ),
     );
 
     return GetResourcePolicyOutput.fromJson(jsonResponse.body);
@@ -936,13 +931,13 @@ class CodeBuild {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'authType': authType?.toValue(),
-        'serverType': serverType?.toValue(),
-        'token': token,
-        if (shouldOverwrite != null) 'shouldOverwrite': shouldOverwrite,
-        if (username != null) 'username': username,
-      },
+      payload: ImportSourceCredentialsInput(
+        authType: authType,
+        serverType: serverType,
+        token: token,
+        shouldOverwrite: shouldOverwrite,
+        username: username,
+      ),
     );
 
     return ImportSourceCredentialsOutput.fromJson(jsonResponse.body);
@@ -976,9 +971,9 @@ class CodeBuild {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'projectName': projectName,
-      },
+      payload: InvalidateProjectCacheInput(
+        projectName: projectName,
+      ),
     );
 
     return InvalidateProjectCacheOutput.fromJson(jsonResponse.body);
@@ -1022,10 +1017,10 @@ class CodeBuild {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (nextToken != null) 'nextToken': nextToken,
-        if (sortOrder != null) 'sortOrder': sortOrder?.toValue(),
-      },
+      payload: ListBuildsInput(
+        nextToken: nextToken,
+        sortOrder: sortOrder,
+      ),
     );
 
     return ListBuildsOutput.fromJson(jsonResponse.body);
@@ -1083,11 +1078,11 @@ class CodeBuild {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'projectName': projectName,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (sortOrder != null) 'sortOrder': sortOrder?.toValue(),
-      },
+      payload: ListBuildsForProjectInput(
+        projectName: projectName,
+        nextToken: nextToken,
+        sortOrder: sortOrder,
+      ),
     );
 
     return ListBuildsForProjectOutput.fromJson(jsonResponse.body);
@@ -1178,11 +1173,11 @@ class CodeBuild {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (nextToken != null) 'nextToken': nextToken,
-        if (sortBy != null) 'sortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'sortOrder': sortOrder?.toValue(),
-      },
+      payload: ListProjectsInput(
+        nextToken: nextToken,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+      ),
     );
 
     return ListProjectsOutput.fromJson(jsonResponse.body);
@@ -1249,12 +1244,12 @@ class CodeBuild {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (sortBy != null) 'sortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'sortOrder': sortOrder?.toValue(),
-      },
+      payload: ListReportGroupsInput(
+        maxResults: maxResults,
+        nextToken: nextToken,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+      ),
     );
 
     return ListReportGroupsOutput.fromJson(jsonResponse.body);
@@ -1317,12 +1312,12 @@ class CodeBuild {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filter != null) 'filter': filter,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (sortOrder != null) 'sortOrder': sortOrder?.toValue(),
-      },
+      payload: ListReportsInput(
+        filter: filter,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        sortOrder: sortOrder,
+      ),
     );
 
     return ListReportsOutput.fromJson(jsonResponse.body);
@@ -1381,13 +1376,13 @@ class CodeBuild {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'reportGroupArn': reportGroupArn,
-        if (filter != null) 'filter': filter,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (sortOrder != null) 'sortOrder': sortOrder?.toValue(),
-      },
+      payload: ListReportsForReportGroupInput(
+        reportGroupArn: reportGroupArn,
+        filter: filter,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        sortOrder: sortOrder,
+      ),
     );
 
     return ListReportsForReportGroupOutput.fromJson(jsonResponse.body);
@@ -1464,12 +1459,12 @@ class CodeBuild {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (sortBy != null) 'sortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'sortOrder': sortOrder?.toValue(),
-      },
+      payload: ListSharedProjectsInput(
+        maxResults: maxResults,
+        nextToken: nextToken,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+      ),
     );
 
     return ListSharedProjectsOutput.fromJson(jsonResponse.body);
@@ -1541,12 +1536,12 @@ class CodeBuild {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (sortBy != null) 'sortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'sortOrder': sortOrder?.toValue(),
-      },
+      payload: ListSharedReportGroupsInput(
+        maxResults: maxResults,
+        nextToken: nextToken,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+      ),
     );
 
     return ListSharedReportGroupsOutput.fromJson(jsonResponse.body);
@@ -1615,10 +1610,10 @@ class CodeBuild {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'policy': policy,
-        'resourceArn': resourceArn,
-      },
+      payload: PutResourcePolicyInput(
+        policy: policy,
+        resourceArn: resourceArn,
+      ),
     );
 
     return PutResourcePolicyOutput.fromJson(jsonResponse.body);
@@ -1904,60 +1899,37 @@ class CodeBuild {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'projectName': projectName,
-        if (artifactsOverride != null) 'artifactsOverride': artifactsOverride,
-        if (buildspecOverride != null) 'buildspecOverride': buildspecOverride,
-        if (cacheOverride != null) 'cacheOverride': cacheOverride,
-        if (certificateOverride != null)
-          'certificateOverride': certificateOverride,
-        if (computeTypeOverride != null)
-          'computeTypeOverride': computeTypeOverride?.toValue(),
-        if (encryptionKeyOverride != null)
-          'encryptionKeyOverride': encryptionKeyOverride,
-        if (environmentTypeOverride != null)
-          'environmentTypeOverride': environmentTypeOverride?.toValue(),
-        if (environmentVariablesOverride != null)
-          'environmentVariablesOverride': environmentVariablesOverride,
-        if (gitCloneDepthOverride != null)
-          'gitCloneDepthOverride': gitCloneDepthOverride,
-        if (gitSubmodulesConfigOverride != null)
-          'gitSubmodulesConfigOverride': gitSubmodulesConfigOverride,
-        if (idempotencyToken != null) 'idempotencyToken': idempotencyToken,
-        if (imageOverride != null) 'imageOverride': imageOverride,
-        if (imagePullCredentialsTypeOverride != null)
-          'imagePullCredentialsTypeOverride':
-              imagePullCredentialsTypeOverride?.toValue(),
-        if (insecureSslOverride != null)
-          'insecureSslOverride': insecureSslOverride,
-        if (logsConfigOverride != null)
-          'logsConfigOverride': logsConfigOverride,
-        if (privilegedModeOverride != null)
-          'privilegedModeOverride': privilegedModeOverride,
-        if (queuedTimeoutInMinutesOverride != null)
-          'queuedTimeoutInMinutesOverride': queuedTimeoutInMinutesOverride,
-        if (registryCredentialOverride != null)
-          'registryCredentialOverride': registryCredentialOverride,
-        if (reportBuildStatusOverride != null)
-          'reportBuildStatusOverride': reportBuildStatusOverride,
-        if (secondaryArtifactsOverride != null)
-          'secondaryArtifactsOverride': secondaryArtifactsOverride,
-        if (secondarySourcesOverride != null)
-          'secondarySourcesOverride': secondarySourcesOverride,
-        if (secondarySourcesVersionOverride != null)
-          'secondarySourcesVersionOverride': secondarySourcesVersionOverride,
-        if (serviceRoleOverride != null)
-          'serviceRoleOverride': serviceRoleOverride,
-        if (sourceAuthOverride != null)
-          'sourceAuthOverride': sourceAuthOverride,
-        if (sourceLocationOverride != null)
-          'sourceLocationOverride': sourceLocationOverride,
-        if (sourceTypeOverride != null)
-          'sourceTypeOverride': sourceTypeOverride?.toValue(),
-        if (sourceVersion != null) 'sourceVersion': sourceVersion,
-        if (timeoutInMinutesOverride != null)
-          'timeoutInMinutesOverride': timeoutInMinutesOverride,
-      },
+      payload: StartBuildInput(
+        projectName: projectName,
+        artifactsOverride: artifactsOverride,
+        buildspecOverride: buildspecOverride,
+        cacheOverride: cacheOverride,
+        certificateOverride: certificateOverride,
+        computeTypeOverride: computeTypeOverride,
+        encryptionKeyOverride: encryptionKeyOverride,
+        environmentTypeOverride: environmentTypeOverride,
+        environmentVariablesOverride: environmentVariablesOverride,
+        gitCloneDepthOverride: gitCloneDepthOverride,
+        gitSubmodulesConfigOverride: gitSubmodulesConfigOverride,
+        idempotencyToken: idempotencyToken,
+        imageOverride: imageOverride,
+        imagePullCredentialsTypeOverride: imagePullCredentialsTypeOverride,
+        insecureSslOverride: insecureSslOverride,
+        logsConfigOverride: logsConfigOverride,
+        privilegedModeOverride: privilegedModeOverride,
+        queuedTimeoutInMinutesOverride: queuedTimeoutInMinutesOverride,
+        registryCredentialOverride: registryCredentialOverride,
+        reportBuildStatusOverride: reportBuildStatusOverride,
+        secondaryArtifactsOverride: secondaryArtifactsOverride,
+        secondarySourcesOverride: secondarySourcesOverride,
+        secondarySourcesVersionOverride: secondarySourcesVersionOverride,
+        serviceRoleOverride: serviceRoleOverride,
+        sourceAuthOverride: sourceAuthOverride,
+        sourceLocationOverride: sourceLocationOverride,
+        sourceTypeOverride: sourceTypeOverride,
+        sourceVersion: sourceVersion,
+        timeoutInMinutesOverride: timeoutInMinutesOverride,
+      ),
     );
 
     return StartBuildOutput.fromJson(jsonResponse.body);
@@ -1991,9 +1963,9 @@ class CodeBuild {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'id': id,
-      },
+      payload: StopBuildInput(
+        id: id,
+      ),
     );
 
     return StopBuildOutput.fromJson(jsonResponse.body);
@@ -2192,31 +2164,27 @@ class CodeBuild {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'name': name,
-        if (artifacts != null) 'artifacts': artifacts,
-        if (badgeEnabled != null) 'badgeEnabled': badgeEnabled,
-        if (cache != null) 'cache': cache,
-        if (description != null) 'description': description,
-        if (encryptionKey != null) 'encryptionKey': encryptionKey,
-        if (environment != null) 'environment': environment,
-        if (fileSystemLocations != null)
-          'fileSystemLocations': fileSystemLocations,
-        if (logsConfig != null) 'logsConfig': logsConfig,
-        if (queuedTimeoutInMinutes != null)
-          'queuedTimeoutInMinutes': queuedTimeoutInMinutes,
-        if (secondaryArtifacts != null)
-          'secondaryArtifacts': secondaryArtifacts,
-        if (secondarySourceVersions != null)
-          'secondarySourceVersions': secondarySourceVersions,
-        if (secondarySources != null) 'secondarySources': secondarySources,
-        if (serviceRole != null) 'serviceRole': serviceRole,
-        if (source != null) 'source': source,
-        if (sourceVersion != null) 'sourceVersion': sourceVersion,
-        if (tags != null) 'tags': tags,
-        if (timeoutInMinutes != null) 'timeoutInMinutes': timeoutInMinutes,
-        if (vpcConfig != null) 'vpcConfig': vpcConfig,
-      },
+      payload: UpdateProjectInput(
+        name: name,
+        artifacts: artifacts,
+        badgeEnabled: badgeEnabled,
+        cache: cache,
+        description: description,
+        encryptionKey: encryptionKey,
+        environment: environment,
+        fileSystemLocations: fileSystemLocations,
+        logsConfig: logsConfig,
+        queuedTimeoutInMinutes: queuedTimeoutInMinutes,
+        secondaryArtifacts: secondaryArtifacts,
+        secondarySourceVersions: secondarySourceVersions,
+        secondarySources: secondarySources,
+        serviceRole: serviceRole,
+        source: source,
+        sourceVersion: sourceVersion,
+        tags: tags,
+        timeoutInMinutes: timeoutInMinutes,
+        vpcConfig: vpcConfig,
+      ),
     );
 
     return UpdateProjectOutput.fromJson(jsonResponse.body);
@@ -2263,10 +2231,10 @@ class CodeBuild {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'arn': arn,
-        if (exportConfig != null) 'exportConfig': exportConfig,
-      },
+      payload: UpdateReportGroupInput(
+        arn: arn,
+        exportConfig: exportConfig,
+      ),
     );
 
     return UpdateReportGroupOutput.fromJson(jsonResponse.body);
@@ -2334,12 +2302,12 @@ class CodeBuild {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'projectName': projectName,
-        if (branchFilter != null) 'branchFilter': branchFilter,
-        if (filterGroups != null) 'filterGroups': filterGroups,
-        if (rotateSecret != null) 'rotateSecret': rotateSecret,
-      },
+      payload: UpdateWebhookInput(
+        projectName: projectName,
+        branchFilter: branchFilter,
+        filterGroups: filterGroups,
+        rotateSecret: rotateSecret,
+      ),
     );
 
     return UpdateWebhookOutput.fromJson(jsonResponse.body);
@@ -2378,18 +2346,20 @@ enum AuthType {
   personalAccessToken,
 }
 
-extension on AuthType {
-  String toValue() {
-    switch (this) {
-      case AuthType.oauth:
-        return 'OAUTH';
-      case AuthType.basicAuth:
-        return 'BASIC_AUTH';
-      case AuthType.personalAccessToken:
-        return 'PERSONAL_ACCESS_TOKEN';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchDeleteBuildsInput {
+  /// The IDs of the builds to delete.
+  @_s.JsonKey(name: 'ids')
+  final List<String> ids;
+
+  BatchDeleteBuildsInput({
+    @_s.required this.ids,
+  });
+  Map<String, dynamic> toJson() => _$BatchDeleteBuildsInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2417,6 +2387,22 @@ class BatchDeleteBuildsOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchGetBuildsInput {
+  /// The IDs of the builds.
+  @_s.JsonKey(name: 'ids')
+  final List<String> ids;
+
+  BatchGetBuildsInput({
+    @_s.required this.ids,
+  });
+  Map<String, dynamic> toJson() => _$BatchGetBuildsInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class BatchGetBuildsOutput {
@@ -2434,6 +2420,24 @@ class BatchGetBuildsOutput {
   });
   factory BatchGetBuildsOutput.fromJson(Map<String, dynamic> json) =>
       _$BatchGetBuildsOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchGetProjectsInput {
+  /// The names or ARNs of the build projects. To get information about a project
+  /// shared with your AWS account, its ARN must be specified. You cannot specify
+  /// a shared project using its name.
+  @_s.JsonKey(name: 'names')
+  final List<String> names;
+
+  BatchGetProjectsInput({
+    @_s.required this.names,
+  });
+  Map<String, dynamic> toJson() => _$BatchGetProjectsInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2461,6 +2465,22 @@ class BatchGetProjectsOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchGetReportGroupsInput {
+  /// An array of report group ARNs that identify the report groups to return.
+  @_s.JsonKey(name: 'reportGroupArns')
+  final List<String> reportGroupArns;
+
+  BatchGetReportGroupsInput({
+    @_s.required this.reportGroupArns,
+  });
+  Map<String, dynamic> toJson() => _$BatchGetReportGroupsInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class BatchGetReportGroupsOutput {
@@ -2479,6 +2499,22 @@ class BatchGetReportGroupsOutput {
   });
   factory BatchGetReportGroupsOutput.fromJson(Map<String, dynamic> json) =>
       _$BatchGetReportGroupsOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchGetReportsInput {
+  /// An array of ARNs that identify the <code>Report</code> objects to return.
+  @_s.JsonKey(name: 'reportArns')
+  final List<String> reportArns;
+
+  BatchGetReportsInput({
+    @_s.required this.reportArns,
+  });
+  Map<String, dynamic> toJson() => _$BatchGetReportsInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3078,20 +3114,167 @@ enum ComputeType {
   buildGeneral1_2xlarge,
 }
 
-extension on ComputeType {
-  String toValue() {
-    switch (this) {
-      case ComputeType.buildGeneral1Small:
-        return 'BUILD_GENERAL1_SMALL';
-      case ComputeType.buildGeneral1Medium:
-        return 'BUILD_GENERAL1_MEDIUM';
-      case ComputeType.buildGeneral1Large:
-        return 'BUILD_GENERAL1_LARGE';
-      case ComputeType.buildGeneral1_2xlarge:
-        return 'BUILD_GENERAL1_2XLARGE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateProjectInput {
+  /// Information about the build output artifacts for the build project.
+  @_s.JsonKey(name: 'artifacts')
+  final ProjectArtifacts artifacts;
+
+  /// Information about the build environment for the build project.
+  @_s.JsonKey(name: 'environment')
+  final ProjectEnvironment environment;
+
+  /// The name of the build project.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The ARN of the AWS Identity and Access Management (IAM) role that enables
+  /// AWS CodeBuild to interact with dependent AWS services on behalf of the AWS
+  /// account.
+  @_s.JsonKey(name: 'serviceRole')
+  final String serviceRole;
+
+  /// Information about the build input source code for the build project.
+  @_s.JsonKey(name: 'source')
+  final ProjectSource source;
+
+  /// Set this to true to generate a publicly accessible URL for your project's
+  /// build badge.
+  @_s.JsonKey(name: 'badgeEnabled')
+  final bool badgeEnabled;
+
+  /// Stores recently used information so that it can be quickly accessed at a
+  /// later time.
+  @_s.JsonKey(name: 'cache')
+  final ProjectCache cache;
+
+  /// A description that makes the build project easy to identify.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The AWS Key Management Service (AWS KMS) customer master key (CMK) to be
+  /// used for encrypting the build output artifacts.
+  /// <note>
+  /// You can use a cross-account KMS key to encrypt the build output artifacts if
+  /// your service role has permission to that key.
+  /// </note>
+  /// You can specify either the Amazon Resource Name (ARN) of the CMK or, if
+  /// available, the CMK's alias (using the format <code>alias/<i>alias-name</i>
+  /// </code>).
+  @_s.JsonKey(name: 'encryptionKey')
+  final String encryptionKey;
+
+  /// An array of <code>ProjectFileSystemLocation</code> objects for a CodeBuild
+  /// build project. A <code>ProjectFileSystemLocation</code> object specifies the
+  /// <code>identifier</code>, <code>location</code>, <code>mountOptions</code>,
+  /// <code>mountPoint</code>, and <code>type</code> of a file system created
+  /// using Amazon Elastic File System.
+  @_s.JsonKey(name: 'fileSystemLocations')
+  final List<ProjectFileSystemLocation> fileSystemLocations;
+
+  /// Information about logs for the build project. These can be logs in Amazon
+  /// CloudWatch Logs, logs uploaded to a specified S3 bucket, or both.
+  @_s.JsonKey(name: 'logsConfig')
+  final LogsConfig logsConfig;
+
+  /// The number of minutes a build is allowed to be queued before it times out.
+  @_s.JsonKey(name: 'queuedTimeoutInMinutes')
+  final int queuedTimeoutInMinutes;
+
+  /// An array of <code>ProjectArtifacts</code> objects.
+  @_s.JsonKey(name: 'secondaryArtifacts')
+  final List<ProjectArtifacts> secondaryArtifacts;
+
+  /// An array of <code>ProjectSourceVersion</code> objects. If
+  /// <code>secondarySourceVersions</code> is specified at the build level, then
+  /// they take precedence over these <code>secondarySourceVersions</code> (at the
+  /// project level).
+  @_s.JsonKey(name: 'secondarySourceVersions')
+  final List<ProjectSourceVersion> secondarySourceVersions;
+
+  /// An array of <code>ProjectSource</code> objects.
+  @_s.JsonKey(name: 'secondarySources')
+  final List<ProjectSource> secondarySources;
+
+  /// A version of the build input to be built for this project. If not specified,
+  /// the latest version is used. If specified, it must be one of:
+  ///
+  /// <ul>
+  /// <li>
+  /// For AWS CodeCommit: the commit ID, branch, or Git tag to use.
+  /// </li>
+  /// <li>
+  /// For GitHub: the commit ID, pull request ID, branch name, or tag name that
+  /// corresponds to the version of the source code you want to build. If a pull
+  /// request ID is specified, it must use the format
+  /// <code>pr/pull-request-ID</code> (for example <code>pr/25</code>). If a
+  /// branch name is specified, the branch's HEAD commit ID is used. If not
+  /// specified, the default branch's HEAD commit ID is used.
+  /// </li>
+  /// <li>
+  /// For Bitbucket: the commit ID, branch name, or tag name that corresponds to
+  /// the version of the source code you want to build. If a branch name is
+  /// specified, the branch's HEAD commit ID is used. If not specified, the
+  /// default branch's HEAD commit ID is used.
+  /// </li>
+  /// <li>
+  /// For Amazon Simple Storage Service (Amazon S3): the version ID of the object
+  /// that represents the build input ZIP file to use.
+  /// </li>
+  /// </ul>
+  /// If <code>sourceVersion</code> is specified at the build level, then that
+  /// version takes precedence over this <code>sourceVersion</code> (at the
+  /// project level).
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/sample-source-version.html">Source
+  /// Version Sample with CodeBuild</a> in the <i>AWS CodeBuild User Guide</i>.
+  @_s.JsonKey(name: 'sourceVersion')
+  final String sourceVersion;
+
+  /// A set of tags for this build project.
+  ///
+  /// These tags are available for use by AWS services that support AWS CodeBuild
+  /// build project tags.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  /// How long, in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait
+  /// before it times out any build that has not been marked as completed. The
+  /// default is 60 minutes.
+  @_s.JsonKey(name: 'timeoutInMinutes')
+  final int timeoutInMinutes;
+
+  /// VpcConfig enables AWS CodeBuild to access resources in an Amazon VPC.
+  @_s.JsonKey(name: 'vpcConfig')
+  final VpcConfig vpcConfig;
+
+  CreateProjectInput({
+    @_s.required this.artifacts,
+    @_s.required this.environment,
+    @_s.required this.name,
+    @_s.required this.serviceRole,
+    @_s.required this.source,
+    this.badgeEnabled,
+    this.cache,
+    this.description,
+    this.encryptionKey,
+    this.fileSystemLocations,
+    this.logsConfig,
+    this.queuedTimeoutInMinutes,
+    this.secondaryArtifacts,
+    this.secondarySourceVersions,
+    this.secondarySources,
+    this.sourceVersion,
+    this.tags,
+    this.timeoutInMinutes,
+    this.vpcConfig,
+  });
+  Map<String, dynamic> toJson() => _$CreateProjectInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3114,6 +3297,33 @@ class CreateProjectOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateReportGroupInput {
+  /// A <code>ReportExportConfig</code> object that contains information about
+  /// where the report group test results are exported.
+  @_s.JsonKey(name: 'exportConfig')
+  final ReportExportConfig exportConfig;
+
+  /// The name of the report group.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The type of report group.
+  @_s.JsonKey(name: 'type')
+  final ReportType type;
+
+  CreateReportGroupInput({
+    @_s.required this.exportConfig,
+    @_s.required this.name,
+    @_s.required this.type,
+  });
+  Map<String, dynamic> toJson() => _$CreateReportGroupInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateReportGroupOutput {
@@ -3126,6 +3336,45 @@ class CreateReportGroupOutput {
   });
   factory CreateReportGroupOutput.fromJson(Map<String, dynamic> json) =>
       _$CreateReportGroupOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateWebhookInput {
+  /// The name of the AWS CodeBuild project.
+  @_s.JsonKey(name: 'projectName')
+  final String projectName;
+
+  /// A regular expression used to determine which repository branches are built
+  /// when a webhook is triggered. If the name of a branch matches the regular
+  /// expression, then it is built. If <code>branchFilter</code> is empty, then
+  /// all branches are built.
+  /// <note>
+  /// It is recommended that you use <code>filterGroups</code> instead of
+  /// <code>branchFilter</code>.
+  /// </note>
+  @_s.JsonKey(name: 'branchFilter')
+  final String branchFilter;
+
+  /// An array of arrays of <code>WebhookFilter</code> objects used to determine
+  /// which webhooks are triggered. At least one <code>WebhookFilter</code> in the
+  /// array must specify <code>EVENT</code> as its <code>type</code>.
+  ///
+  /// For a build to be triggered, at least one filter group in the
+  /// <code>filterGroups</code> array must pass. For a filter group to pass, each
+  /// of its filters must pass.
+  @_s.JsonKey(name: 'filterGroups')
+  final List<List<WebhookFilter>> filterGroups;
+
+  CreateWebhookInput({
+    @_s.required this.projectName,
+    this.branchFilter,
+    this.filterGroups,
+  });
+  Map<String, dynamic> toJson() => _$CreateWebhookInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3154,12 +3403,44 @@ enum CredentialProviderType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteProjectInput {
+  /// The name of the build project.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  DeleteProjectInput({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$DeleteProjectInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteProjectOutput {
   DeleteProjectOutput();
   factory DeleteProjectOutput.fromJson(Map<String, dynamic> json) =>
       _$DeleteProjectOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteReportGroupInput {
+  /// The ARN of the report group to delete.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  DeleteReportGroupInput({
+    @_s.required this.arn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteReportGroupInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3176,6 +3457,22 @@ class DeleteReportGroupOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteReportInput {
+  /// The ARN of the report to delete.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  DeleteReportInput({
+    @_s.required this.arn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteReportInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteReportOutput {
@@ -3187,12 +3484,44 @@ class DeleteReportOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteResourcePolicyInput {
+  /// The ARN of the resource that is associated with the resource policy.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  DeleteResourcePolicyInput({
+    @_s.required this.resourceArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteResourcePolicyInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteResourcePolicyOutput {
   DeleteResourcePolicyOutput();
   factory DeleteResourcePolicyOutput.fromJson(Map<String, dynamic> json) =>
       _$DeleteResourcePolicyOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteSourceCredentialsInput {
+  /// The Amazon Resource Name (ARN) of the token.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  DeleteSourceCredentialsInput({
+    @_s.required this.arn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteSourceCredentialsInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3215,12 +3544,67 @@ class DeleteSourceCredentialsOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteWebhookInput {
+  /// The name of the AWS CodeBuild project.
+  @_s.JsonKey(name: 'projectName')
+  final String projectName;
+
+  DeleteWebhookInput({
+    @_s.required this.projectName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteWebhookInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteWebhookOutput {
   DeleteWebhookOutput();
   factory DeleteWebhookOutput.fromJson(Map<String, dynamic> json) =>
       _$DeleteWebhookOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeTestCasesInput {
+  /// The ARN of the report for which test cases are returned.
+  @_s.JsonKey(name: 'reportArn')
+  final String reportArn;
+
+  /// A <code>TestCaseFilter</code> object used to filter the returned reports.
+  @_s.JsonKey(name: 'filter')
+  final TestCaseFilter filter;
+
+  /// The maximum number of paginated test cases returned per response. Use
+  /// <code>nextToken</code> to iterate pages in the list of returned
+  /// <code>TestCase</code> objects. The default value is 100.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// During a previous call, the maximum number of items that can be returned is
+  /// the value specified in <code>maxResults</code>. If there more items in the
+  /// list, then a unique string called a <i>nextToken</i> is returned. To get the
+  /// next batch of items in the list, call this operation again, adding the next
+  /// token to the call. To get all of the items in the list, keep calling this
+  /// operation with each subsequent next token that is returned, until no more
+  /// next tokens are returned.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  DescribeTestCasesInput({
+    @_s.required this.reportArn,
+    this.filter,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeTestCasesInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3340,22 +3724,6 @@ enum EnvironmentType {
   armContainer,
 }
 
-extension on EnvironmentType {
-  String toValue() {
-    switch (this) {
-      case EnvironmentType.windowsContainer:
-        return 'WINDOWS_CONTAINER';
-      case EnvironmentType.linuxContainer:
-        return 'LINUX_CONTAINER';
-      case EnvironmentType.linuxGpuContainer:
-        return 'LINUX_GPU_CONTAINER';
-      case EnvironmentType.armContainer:
-        return 'ARM_CONTAINER';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Information about an environment variable for a build project or a build.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3457,6 +3825,22 @@ enum FileSystemType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetResourcePolicyInput {
+  /// The ARN of the resource that is associated with the resource policy.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  GetResourcePolicyInput({
+    @_s.required this.resourceArn,
+  });
+  Map<String, dynamic> toJson() => _$GetResourcePolicyInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetResourcePolicyOutput {
@@ -3499,16 +3883,46 @@ enum ImagePullCredentialsType {
   serviceRole,
 }
 
-extension on ImagePullCredentialsType {
-  String toValue() {
-    switch (this) {
-      case ImagePullCredentialsType.codebuild:
-        return 'CODEBUILD';
-      case ImagePullCredentialsType.serviceRole:
-        return 'SERVICE_ROLE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ImportSourceCredentialsInput {
+  /// The type of authentication used to connect to a GitHub, GitHub Enterprise,
+  /// or Bitbucket repository. An OAUTH connection is not supported by the API and
+  /// must be created using the AWS CodeBuild console.
+  @_s.JsonKey(name: 'authType')
+  final AuthType authType;
+
+  /// The source provider used for this project.
+  @_s.JsonKey(name: 'serverType')
+  final ServerType serverType;
+
+  /// For GitHub or GitHub Enterprise, this is the personal access token. For
+  /// Bitbucket, this is the app password.
+  @_s.JsonKey(name: 'token')
+  final String token;
+
+  /// Set to <code>false</code> to prevent overwriting the repository source
+  /// credentials. Set to <code>true</code> to overwrite the repository source
+  /// credentials. The default value is <code>true</code>.
+  @_s.JsonKey(name: 'shouldOverwrite')
+  final bool shouldOverwrite;
+
+  /// The Bitbucket username when the <code>authType</code> is BASIC_AUTH. This
+  /// parameter is not valid for other types of source providers or connections.
+  @_s.JsonKey(name: 'username')
+  final String username;
+
+  ImportSourceCredentialsInput({
+    @_s.required this.authType,
+    @_s.required this.serverType,
+    @_s.required this.token,
+    this.shouldOverwrite,
+    this.username,
+  });
+  Map<String, dynamic> toJson() => _$ImportSourceCredentialsInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3526,6 +3940,22 @@ class ImportSourceCredentialsOutput {
   });
   factory ImportSourceCredentialsOutput.fromJson(Map<String, dynamic> json) =>
       _$ImportSourceCredentialsOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class InvalidateProjectCacheInput {
+  /// The name of the AWS CodeBuild build project that the cache is reset for.
+  @_s.JsonKey(name: 'projectName')
+  final String projectName;
+
+  InvalidateProjectCacheInput({
+    @_s.required this.projectName,
+  });
+  Map<String, dynamic> toJson() => _$InvalidateProjectCacheInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3565,6 +3995,46 @@ enum LanguageType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListBuildsForProjectInput {
+  /// The name of the AWS CodeBuild project.
+  @_s.JsonKey(name: 'projectName')
+  final String projectName;
+
+  /// During a previous call, if there are more than 100 items in the list, only
+  /// the first 100 items are returned, along with a unique string called a
+  /// <i>nextToken</i>. To get the next batch of items in the list, call this
+  /// operation again, adding the next token to the call. To get all of the items
+  /// in the list, keep calling this operation with each subsequent next token
+  /// that is returned, until no more next tokens are returned.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The order to list build IDs. Valid values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ASCENDING</code>: List the build IDs in ascending order by build ID.
+  /// </li>
+  /// <li>
+  /// <code>DESCENDING</code>: List the build IDs in descending order by build ID.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'sortOrder')
+  final SortOrderType sortOrder;
+
+  ListBuildsForProjectInput({
+    @_s.required this.projectName,
+    this.nextToken,
+    this.sortOrder,
+  });
+  Map<String, dynamic> toJson() => _$ListBuildsForProjectInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListBuildsForProjectOutput {
@@ -3586,6 +4056,41 @@ class ListBuildsForProjectOutput {
   });
   factory ListBuildsForProjectOutput.fromJson(Map<String, dynamic> json) =>
       _$ListBuildsForProjectOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListBuildsInput {
+  /// During a previous call, if there are more than 100 items in the list, only
+  /// the first 100 items are returned, along with a unique string called a
+  /// <i>nextToken</i>. To get the next batch of items in the list, call this
+  /// operation again, adding the next token to the call. To get all of the items
+  /// in the list, keep calling this operation with each subsequent next token
+  /// that is returned, until no more next tokens are returned.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The order to list build IDs. Valid values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ASCENDING</code>: List the build IDs in ascending order by build ID.
+  /// </li>
+  /// <li>
+  /// <code>DESCENDING</code>: List the build IDs in descending order by build ID.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'sortOrder')
+  final SortOrderType sortOrder;
+
+  ListBuildsInput({
+    this.nextToken,
+    this.sortOrder,
+  });
+  Map<String, dynamic> toJson() => _$ListBuildsInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3635,6 +4140,64 @@ class ListCuratedEnvironmentImagesOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListProjectsInput {
+  /// During a previous call, if there are more than 100 items in the list, only
+  /// the first 100 items are returned, along with a unique string called a
+  /// <i>nextToken</i>. To get the next batch of items in the list, call this
+  /// operation again, adding the next token to the call. To get all of the items
+  /// in the list, keep calling this operation with each subsequent next token
+  /// that is returned, until no more next tokens are returned.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The criterion to be used to list build project names. Valid values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATED_TIME</code>: List based on when each build project was
+  /// created.
+  /// </li>
+  /// <li>
+  /// <code>LAST_MODIFIED_TIME</code>: List based on when information about each
+  /// build project was last changed.
+  /// </li>
+  /// <li>
+  /// <code>NAME</code>: List based on each build project's name.
+  /// </li>
+  /// </ul>
+  /// Use <code>sortOrder</code> to specify in what order to list the build
+  /// project names based on the preceding criteria.
+  @_s.JsonKey(name: 'sortBy')
+  final ProjectSortByType sortBy;
+
+  /// The order in which to list build projects. Valid values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ASCENDING</code>: List in ascending order.
+  /// </li>
+  /// <li>
+  /// <code>DESCENDING</code>: List in descending order.
+  /// </li>
+  /// </ul>
+  /// Use <code>sortBy</code> to specify the criterion to be used to list build
+  /// project names.
+  @_s.JsonKey(name: 'sortOrder')
+  final SortOrderType sortOrder;
+
+  ListProjectsInput({
+    this.nextToken,
+    this.sortBy,
+    this.sortOrder,
+  });
+  Map<String, dynamic> toJson() => _$ListProjectsInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListProjectsOutput {
@@ -3656,6 +4219,59 @@ class ListProjectsOutput {
   });
   factory ListProjectsOutput.fromJson(Map<String, dynamic> json) =>
       _$ListProjectsOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListReportGroupsInput {
+  /// The maximum number of paginated report groups returned per response. Use
+  /// <code>nextToken</code> to iterate pages in the list of returned
+  /// <code>ReportGroup</code> objects. The default value is 100.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// During a previous call, the maximum number of items that can be returned is
+  /// the value specified in <code>maxResults</code>. If there more items in the
+  /// list, then a unique string called a <i>nextToken</i> is returned. To get the
+  /// next batch of items in the list, call this operation again, adding the next
+  /// token to the call. To get all of the items in the list, keep calling this
+  /// operation with each subsequent next token that is returned, until no more
+  /// next tokens are returned.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The criterion to be used to list build report groups. Valid values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATED_TIME</code>: List based on when each report group was created.
+  /// </li>
+  /// <li>
+  /// <code>LAST_MODIFIED_TIME</code>: List based on when each report group was
+  /// last changed.
+  /// </li>
+  /// <li>
+  /// <code>NAME</code>: List based on each report group's name.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'sortBy')
+  final ReportGroupSortByType sortBy;
+
+  /// Used to specify the order to sort the list of returned report groups. Valid
+  /// values are <code>ASCENDING</code> and <code>DESCENDING</code>.
+  @_s.JsonKey(name: 'sortOrder')
+  final SortOrderType sortOrder;
+
+  ListReportGroupsInput({
+    this.maxResults,
+    this.nextToken,
+    this.sortBy,
+    this.sortOrder,
+  });
+  Map<String, dynamic> toJson() => _$ListReportGroupsInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3689,6 +4305,51 @@ class ListReportGroupsOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListReportsForReportGroupInput {
+  /// The ARN of the report group for which you want to return report ARNs.
+  @_s.JsonKey(name: 'reportGroupArn')
+  final String reportGroupArn;
+
+  /// A <code>ReportFilter</code> object used to filter the returned reports.
+  @_s.JsonKey(name: 'filter')
+  final ReportFilter filter;
+
+  /// The maximum number of paginated reports in this report group returned per
+  /// response. Use <code>nextToken</code> to iterate pages in the list of
+  /// returned <code>Report</code> objects. The default value is 100.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// During a previous call, the maximum number of items that can be returned is
+  /// the value specified in <code>maxResults</code>. If there more items in the
+  /// list, then a unique string called a <i>nextToken</i> is returned. To get the
+  /// next batch of items in the list, call this operation again, adding the next
+  /// token to the call. To get all of the items in the list, keep calling this
+  /// operation with each subsequent next token that is returned, until no more
+  /// next tokens are returned.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// Use to specify whether the results are returned in ascending or descending
+  /// order.
+  @_s.JsonKey(name: 'sortOrder')
+  final SortOrderType sortOrder;
+
+  ListReportsForReportGroupInput({
+    @_s.required this.reportGroupArn,
+    this.filter,
+    this.maxResults,
+    this.nextToken,
+    this.sortOrder,
+  });
+  Map<String, dynamic> toJson() => _$ListReportsForReportGroupInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListReportsForReportGroupOutput {
@@ -3712,6 +4373,56 @@ class ListReportsForReportGroupOutput {
   });
   factory ListReportsForReportGroupOutput.fromJson(Map<String, dynamic> json) =>
       _$ListReportsForReportGroupOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListReportsInput {
+  /// A <code>ReportFilter</code> object used to filter the returned reports.
+  @_s.JsonKey(name: 'filter')
+  final ReportFilter filter;
+
+  /// The maximum number of paginated reports returned per response. Use
+  /// <code>nextToken</code> to iterate pages in the list of returned
+  /// <code>Report</code> objects. The default value is 100.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// During a previous call, the maximum number of items that can be returned is
+  /// the value specified in <code>maxResults</code>. If there more items in the
+  /// list, then a unique string called a <i>nextToken</i> is returned. To get the
+  /// next batch of items in the list, call this operation again, adding the next
+  /// token to the call. To get all of the items in the list, keep calling this
+  /// operation with each subsequent next token that is returned, until no more
+  /// next tokens are returned.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// Specifies the sort order for the list of returned reports. Valid values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ASCENDING</code>: return reports in chronological order based on their
+  /// creation date.
+  /// </li>
+  /// <li>
+  /// <code>DESCENDING</code>: return reports in the reverse chronological order
+  /// based on their creation date.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'sortOrder')
+  final SortOrderType sortOrder;
+
+  ListReportsInput({
+    this.filter,
+    this.maxResults,
+    this.nextToken,
+    this.sortOrder,
+  });
+  Map<String, dynamic> toJson() => _$ListReportsInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3745,6 +4456,65 @@ class ListReportsOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListSharedProjectsInput {
+  /// The maximum number of paginated shared build projects returned per response.
+  /// Use <code>nextToken</code> to iterate pages in the list of returned
+  /// <code>Project</code> objects. The default value is 100.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// During a previous call, the maximum number of items that can be returned is
+  /// the value specified in <code>maxResults</code>. If there more items in the
+  /// list, then a unique string called a <i>nextToken</i> is returned. To get the
+  /// next batch of items in the list, call this operation again, adding the next
+  /// token to the call. To get all of the items in the list, keep calling this
+  /// operation with each subsequent next token that is returned, until no more
+  /// next tokens are returned.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The criterion to be used to list build projects shared with the current AWS
+  /// account or user. Valid values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ARN</code>: List based on the ARN.
+  /// </li>
+  /// <li>
+  /// <code>MODIFIED_TIME</code>: List based on when information about the shared
+  /// project was last changed.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'sortBy')
+  final SharedResourceSortByType sortBy;
+
+  /// The order in which to list shared build projects. Valid values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ASCENDING</code>: List in ascending order.
+  /// </li>
+  /// <li>
+  /// <code>DESCENDING</code>: List in descending order.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'sortOrder')
+  final SortOrderType sortOrder;
+
+  ListSharedProjectsInput({
+    this.maxResults,
+    this.nextToken,
+    this.sortBy,
+    this.sortOrder,
+  });
+  Map<String, dynamic> toJson() => _$ListSharedProjectsInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListSharedProjectsOutput {
@@ -3769,6 +4539,65 @@ class ListSharedProjectsOutput {
   });
   factory ListSharedProjectsOutput.fromJson(Map<String, dynamic> json) =>
       _$ListSharedProjectsOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListSharedReportGroupsInput {
+  /// The maximum number of paginated shared report groups per response. Use
+  /// <code>nextToken</code> to iterate pages in the list of returned
+  /// <code>ReportGroup</code> objects. The default value is 100.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// During a previous call, the maximum number of items that can be returned is
+  /// the value specified in <code>maxResults</code>. If there more items in the
+  /// list, then a unique string called a <i>nextToken</i> is returned. To get the
+  /// next batch of items in the list, call this operation again, adding the next
+  /// token to the call. To get all of the items in the list, keep calling this
+  /// operation with each subsequent next token that is returned, until no more
+  /// next tokens are returned.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The criterion to be used to list report groups shared with the current AWS
+  /// account or user. Valid values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ARN</code>: List based on the ARN.
+  /// </li>
+  /// <li>
+  /// <code>MODIFIED_TIME</code>: List based on when information about the shared
+  /// report group was last changed.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'sortBy')
+  final SharedResourceSortByType sortBy;
+
+  /// The order in which to list shared report groups. Valid values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ASCENDING</code>: List in ascending order.
+  /// </li>
+  /// <li>
+  /// <code>DESCENDING</code>: List in descending order.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'sortOrder')
+  final SortOrderType sortOrder;
+
+  ListSharedReportGroupsInput({
+    this.maxResults,
+    this.nextToken,
+    this.sortBy,
+    this.sortOrder,
+  });
+  Map<String, dynamic> toJson() => _$ListSharedReportGroupsInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4769,20 +5598,6 @@ enum ProjectSortByType {
   lastModifiedTime,
 }
 
-extension on ProjectSortByType {
-  String toValue() {
-    switch (this) {
-      case ProjectSortByType.name:
-        return 'NAME';
-      case ProjectSortByType.createdTime:
-        return 'CREATED_TIME';
-      case ProjectSortByType.lastModifiedTime:
-        return 'LAST_MODIFIED_TIME';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Information about the build input source code for the build project.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -5003,6 +5818,32 @@ class ProjectSourceVersion {
       _$ProjectSourceVersionFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProjectSourceVersionToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutResourcePolicyInput {
+  /// A JSON-formatted resource policy. For more information, see <a
+  /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/project-sharing.html#project-sharing-share">Sharing
+  /// a Project</a> and <a
+  /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/report-groups-sharing.html#report-groups-sharing-share">Sharing
+  /// a Report Group</a> in the <i>AWS CodeBuild User Guide</i>.
+  @_s.JsonKey(name: 'policy')
+  final String policy;
+
+  /// The ARN of the <code>Project</code> or <code>ReportGroup</code> resource you
+  /// want to associate with a resource policy.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  PutResourcePolicyInput({
+    @_s.required this.policy,
+    @_s.required this.resourceArn,
+  });
+  Map<String, dynamic> toJson() => _$PutResourcePolicyInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5272,20 +6113,6 @@ enum ReportGroupSortByType {
   lastModifiedTime,
 }
 
-extension on ReportGroupSortByType {
-  String toValue() {
-    switch (this) {
-      case ReportGroupSortByType.name:
-        return 'NAME';
-      case ReportGroupSortByType.createdTime:
-        return 'CREATED_TIME';
-      case ReportGroupSortByType.lastModifiedTime:
-        return 'LAST_MODIFIED_TIME';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum ReportPackagingType {
   @_s.JsonValue('ZIP')
   zip,
@@ -5309,16 +6136,6 @@ enum ReportStatusType {
 enum ReportType {
   @_s.JsonValue('TEST')
   test,
-}
-
-extension on ReportType {
-  String toValue() {
-    switch (this) {
-      case ReportType.test:
-        return 'TEST';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Information about S3 logs for a build project.
@@ -5425,20 +6242,6 @@ enum ServerType {
   githubEnterprise,
 }
 
-extension on ServerType {
-  String toValue() {
-    switch (this) {
-      case ServerType.github:
-        return 'GITHUB';
-      case ServerType.bitbucket:
-        return 'BITBUCKET';
-      case ServerType.githubEnterprise:
-        return 'GITHUB_ENTERPRISE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum SharedResourceSortByType {
   @_s.JsonValue('ARN')
   arn,
@@ -5446,35 +6249,11 @@ enum SharedResourceSortByType {
   modifiedTime,
 }
 
-extension on SharedResourceSortByType {
-  String toValue() {
-    switch (this) {
-      case SharedResourceSortByType.arn:
-        return 'ARN';
-      case SharedResourceSortByType.modifiedTime:
-        return 'MODIFIED_TIME';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum SortOrderType {
   @_s.JsonValue('ASCENDING')
   ascending,
   @_s.JsonValue('DESCENDING')
   descending,
-}
-
-extension on SortOrderType {
-  String toValue() {
-    switch (this) {
-      case SortOrderType.ascending:
-        return 'ASCENDING';
-      case SortOrderType.descending:
-        return 'DESCENDING';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Information about the authorization settings for AWS CodeBuild to access the
@@ -5563,26 +6342,261 @@ enum SourceType {
   noSource,
 }
 
-extension on SourceType {
-  String toValue() {
-    switch (this) {
-      case SourceType.codecommit:
-        return 'CODECOMMIT';
-      case SourceType.codepipeline:
-        return 'CODEPIPELINE';
-      case SourceType.github:
-        return 'GITHUB';
-      case SourceType.s3:
-        return 'S3';
-      case SourceType.bitbucket:
-        return 'BITBUCKET';
-      case SourceType.githubEnterprise:
-        return 'GITHUB_ENTERPRISE';
-      case SourceType.noSource:
-        return 'NO_SOURCE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartBuildInput {
+  /// The name of the AWS CodeBuild build project to start running a build.
+  @_s.JsonKey(name: 'projectName')
+  final String projectName;
+
+  /// Build output artifact settings that override, for this build only, the
+  /// latest ones already defined in the build project.
+  @_s.JsonKey(name: 'artifactsOverride')
+  final ProjectArtifacts artifactsOverride;
+
+  /// A buildspec file declaration that overrides, for this build only, the latest
+  /// one already defined in the build project.
+  ///
+  /// If this value is set, it can be either an inline buildspec definition, the
+  /// path to an alternate buildspec file relative to the value of the built-in
+  /// <code>CODEBUILD_SRC_DIR</code> environment variable, or the path to an S3
+  /// bucket. The bucket must be in the same AWS Region as the build project.
+  /// Specify the buildspec file using its ARN (for example,
+  /// <code>arn:aws:s3:::my-codebuild-sample2/buildspec.yml</code>). If this value
+  /// is not provided or is set to an empty string, the source code must contain a
+  /// buildspec file in its root directory. For more information, see <a
+  /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html#build-spec-ref-name-storage">Buildspec
+  /// File Name and Storage Location</a>.
+  @_s.JsonKey(name: 'buildspecOverride')
+  final String buildspecOverride;
+
+  /// A ProjectCache object specified for this build that overrides the one
+  /// defined in the build project.
+  @_s.JsonKey(name: 'cacheOverride')
+  final ProjectCache cacheOverride;
+
+  /// The name of a certificate for this build that overrides the one specified in
+  /// the build project.
+  @_s.JsonKey(name: 'certificateOverride')
+  final String certificateOverride;
+
+  /// The name of a compute type for this build that overrides the one specified
+  /// in the build project.
+  @_s.JsonKey(name: 'computeTypeOverride')
+  final ComputeType computeTypeOverride;
+
+  /// The AWS Key Management Service (AWS KMS) customer master key (CMK) that
+  /// overrides the one specified in the build project. The CMK key encrypts the
+  /// build output artifacts.
+  /// <note>
+  /// You can use a cross-account KMS key to encrypt the build output artifacts if
+  /// your service role has permission to that key.
+  /// </note>
+  /// You can specify either the Amazon Resource Name (ARN) of the CMK or, if
+  /// available, the CMK's alias (using the format <code>alias/<i>alias-name</i>
+  /// </code>).
+  @_s.JsonKey(name: 'encryptionKeyOverride')
+  final String encryptionKeyOverride;
+
+  /// A container type for this build that overrides the one specified in the
+  /// build project.
+  @_s.JsonKey(name: 'environmentTypeOverride')
+  final EnvironmentType environmentTypeOverride;
+
+  /// A set of environment variables that overrides, for this build only, the
+  /// latest ones already defined in the build project.
+  @_s.JsonKey(name: 'environmentVariablesOverride')
+  final List<EnvironmentVariable> environmentVariablesOverride;
+
+  /// The user-defined depth of history, with a minimum value of 0, that
+  /// overrides, for this build only, any previous depth of history defined in the
+  /// build project.
+  @_s.JsonKey(name: 'gitCloneDepthOverride')
+  final int gitCloneDepthOverride;
+
+  /// Information about the Git submodules configuration for this build of an AWS
+  /// CodeBuild build project.
+  @_s.JsonKey(name: 'gitSubmodulesConfigOverride')
+  final GitSubmodulesConfig gitSubmodulesConfigOverride;
+
+  /// A unique, case sensitive identifier you provide to ensure the idempotency of
+  /// the StartBuild request. The token is included in the StartBuild request and
+  /// is valid for 12 hours. If you repeat the StartBuild request with the same
+  /// token, but change a parameter, AWS CodeBuild returns a parameter mismatch
+  /// error.
+  @_s.JsonKey(name: 'idempotencyToken')
+  final String idempotencyToken;
+
+  /// The name of an image for this build that overrides the one specified in the
+  /// build project.
+  @_s.JsonKey(name: 'imageOverride')
+  final String imageOverride;
+
+  /// The type of credentials AWS CodeBuild uses to pull images in your build.
+  /// There are two valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CODEBUILD</code> specifies that AWS CodeBuild uses its own
+  /// credentials. This requires that you modify your ECR repository policy to
+  /// trust AWS CodeBuild's service principal.
+  /// </li>
+  /// <li>
+  /// <code>SERVICE_ROLE</code> specifies that AWS CodeBuild uses your build
+  /// project's service role.
+  /// </li>
+  /// </ul>
+  /// When using a cross-account or private registry image, you must use
+  /// SERVICE_ROLE credentials. When using an AWS CodeBuild curated image, you
+  /// must use CODEBUILD credentials.
+  @_s.JsonKey(name: 'imagePullCredentialsTypeOverride')
+  final ImagePullCredentialsType imagePullCredentialsTypeOverride;
+
+  /// Enable this flag to override the insecure SSL setting that is specified in
+  /// the build project. The insecure SSL setting determines whether to ignore SSL
+  /// warnings while connecting to the project source code. This override applies
+  /// only if the build's source is GitHub Enterprise.
+  @_s.JsonKey(name: 'insecureSslOverride')
+  final bool insecureSslOverride;
+
+  /// Log settings for this build that override the log settings defined in the
+  /// build project.
+  @_s.JsonKey(name: 'logsConfigOverride')
+  final LogsConfig logsConfigOverride;
+
+  /// Enable this flag to override privileged mode in the build project.
+  @_s.JsonKey(name: 'privilegedModeOverride')
+  final bool privilegedModeOverride;
+
+  /// The number of minutes a build is allowed to be queued before it times out.
+  @_s.JsonKey(name: 'queuedTimeoutInMinutesOverride')
+  final int queuedTimeoutInMinutesOverride;
+
+  /// The credentials for access to a private registry.
+  @_s.JsonKey(name: 'registryCredentialOverride')
+  final RegistryCredential registryCredentialOverride;
+
+  /// Set to true to report to your source provider the status of a build's start
+  /// and completion. If you use this option with a source provider other than
+  /// GitHub, GitHub Enterprise, or Bitbucket, an invalidInputException is thrown.
+  /// <note>
+  /// The status of a build triggered by a webhook is always reported to your
+  /// source provider.
+  /// </note>
+  @_s.JsonKey(name: 'reportBuildStatusOverride')
+  final bool reportBuildStatusOverride;
+
+  /// An array of <code>ProjectArtifacts</code> objects.
+  @_s.JsonKey(name: 'secondaryArtifactsOverride')
+  final List<ProjectArtifacts> secondaryArtifactsOverride;
+
+  /// An array of <code>ProjectSource</code> objects.
+  @_s.JsonKey(name: 'secondarySourcesOverride')
+  final List<ProjectSource> secondarySourcesOverride;
+
+  /// An array of <code>ProjectSourceVersion</code> objects that specify one or
+  /// more versions of the project's secondary sources to be used for this build
+  /// only.
+  @_s.JsonKey(name: 'secondarySourcesVersionOverride')
+  final List<ProjectSourceVersion> secondarySourcesVersionOverride;
+
+  /// The name of a service role for this build that overrides the one specified
+  /// in the build project.
+  @_s.JsonKey(name: 'serviceRoleOverride')
+  final String serviceRoleOverride;
+
+  /// An authorization type for this build that overrides the one defined in the
+  /// build project. This override applies only if the build project's source is
+  /// BitBucket or GitHub.
+  @_s.JsonKey(name: 'sourceAuthOverride')
+  final SourceAuth sourceAuthOverride;
+
+  /// A location that overrides, for this build, the source location for the one
+  /// defined in the build project.
+  @_s.JsonKey(name: 'sourceLocationOverride')
+  final String sourceLocationOverride;
+
+  /// A source input type, for this build, that overrides the source input defined
+  /// in the build project.
+  @_s.JsonKey(name: 'sourceTypeOverride')
+  final SourceType sourceTypeOverride;
+
+  /// A version of the build input to be built, for this build only. If not
+  /// specified, the latest version is used. If specified, must be one of:
+  ///
+  /// <ul>
+  /// <li>
+  /// For AWS CodeCommit: the commit ID, branch, or Git tag to use.
+  /// </li>
+  /// <li>
+  /// For GitHub: the commit ID, pull request ID, branch name, or tag name that
+  /// corresponds to the version of the source code you want to build. If a pull
+  /// request ID is specified, it must use the format
+  /// <code>pr/pull-request-ID</code> (for example <code>pr/25</code>). If a
+  /// branch name is specified, the branch's HEAD commit ID is used. If not
+  /// specified, the default branch's HEAD commit ID is used.
+  /// </li>
+  /// <li>
+  /// For Bitbucket: the commit ID, branch name, or tag name that corresponds to
+  /// the version of the source code you want to build. If a branch name is
+  /// specified, the branch's HEAD commit ID is used. If not specified, the
+  /// default branch's HEAD commit ID is used.
+  /// </li>
+  /// <li>
+  /// For Amazon Simple Storage Service (Amazon S3): the version ID of the object
+  /// that represents the build input ZIP file to use.
+  /// </li>
+  /// </ul>
+  /// If <code>sourceVersion</code> is specified at the project level, then this
+  /// <code>sourceVersion</code> (at the build level) takes precedence.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/sample-source-version.html">Source
+  /// Version Sample with CodeBuild</a> in the <i>AWS CodeBuild User Guide</i>.
+  @_s.JsonKey(name: 'sourceVersion')
+  final String sourceVersion;
+
+  /// The number of build timeout minutes, from 5 to 480 (8 hours), that
+  /// overrides, for this build only, the latest setting already defined in the
+  /// build project.
+  @_s.JsonKey(name: 'timeoutInMinutesOverride')
+  final int timeoutInMinutesOverride;
+
+  StartBuildInput({
+    @_s.required this.projectName,
+    this.artifactsOverride,
+    this.buildspecOverride,
+    this.cacheOverride,
+    this.certificateOverride,
+    this.computeTypeOverride,
+    this.encryptionKeyOverride,
+    this.environmentTypeOverride,
+    this.environmentVariablesOverride,
+    this.gitCloneDepthOverride,
+    this.gitSubmodulesConfigOverride,
+    this.idempotencyToken,
+    this.imageOverride,
+    this.imagePullCredentialsTypeOverride,
+    this.insecureSslOverride,
+    this.logsConfigOverride,
+    this.privilegedModeOverride,
+    this.queuedTimeoutInMinutesOverride,
+    this.registryCredentialOverride,
+    this.reportBuildStatusOverride,
+    this.secondaryArtifactsOverride,
+    this.secondarySourcesOverride,
+    this.secondarySourcesVersionOverride,
+    this.serviceRoleOverride,
+    this.sourceAuthOverride,
+    this.sourceLocationOverride,
+    this.sourceTypeOverride,
+    this.sourceVersion,
+    this.timeoutInMinutesOverride,
+  });
+  Map<String, dynamic> toJson() => _$StartBuildInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5615,6 +6629,22 @@ enum StatusType {
   inProgress,
   @_s.JsonValue('STOPPED')
   stopped,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopBuildInput {
+  /// The ID of the build.
+  @_s.JsonKey(name: 'id')
+  final String id;
+
+  StopBuildInput({
+    @_s.required this.id,
+  });
+  Map<String, dynamic> toJson() => _$StopBuildInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5778,6 +6808,174 @@ class TestReportSummary {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateProjectInput {
+  /// The name of the build project.
+  /// <note>
+  /// You cannot change a build project's name.
+  /// </note>
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// Information to be changed about the build output artifacts for the build
+  /// project.
+  @_s.JsonKey(name: 'artifacts')
+  final ProjectArtifacts artifacts;
+
+  /// Set this to true to generate a publicly accessible URL for your project's
+  /// build badge.
+  @_s.JsonKey(name: 'badgeEnabled')
+  final bool badgeEnabled;
+
+  /// Stores recently used information so that it can be quickly accessed at a
+  /// later time.
+  @_s.JsonKey(name: 'cache')
+  final ProjectCache cache;
+
+  /// A new or replacement description of the build project.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The AWS Key Management Service (AWS KMS) customer master key (CMK) to be
+  /// used for encrypting the build output artifacts.
+  /// <note>
+  /// You can use a cross-account KMS key to encrypt the build output artifacts if
+  /// your service role has permission to that key.
+  /// </note>
+  /// You can specify either the Amazon Resource Name (ARN) of the CMK or, if
+  /// available, the CMK's alias (using the format <code>alias/<i>alias-name</i>
+  /// </code>).
+  @_s.JsonKey(name: 'encryptionKey')
+  final String encryptionKey;
+
+  /// Information to be changed about the build environment for the build project.
+  @_s.JsonKey(name: 'environment')
+  final ProjectEnvironment environment;
+
+  /// An array of <code>ProjectFileSystemLocation</code> objects for a CodeBuild
+  /// build project. A <code>ProjectFileSystemLocation</code> object specifies the
+  /// <code>identifier</code>, <code>location</code>, <code>mountOptions</code>,
+  /// <code>mountPoint</code>, and <code>type</code> of a file system created
+  /// using Amazon Elastic File System.
+  @_s.JsonKey(name: 'fileSystemLocations')
+  final List<ProjectFileSystemLocation> fileSystemLocations;
+
+  /// Information about logs for the build project. A project can create logs in
+  /// Amazon CloudWatch Logs, logs in an S3 bucket, or both.
+  @_s.JsonKey(name: 'logsConfig')
+  final LogsConfig logsConfig;
+
+  /// The number of minutes a build is allowed to be queued before it times out.
+  @_s.JsonKey(name: 'queuedTimeoutInMinutes')
+  final int queuedTimeoutInMinutes;
+
+  /// An array of <code>ProjectSource</code> objects.
+  @_s.JsonKey(name: 'secondaryArtifacts')
+  final List<ProjectArtifacts> secondaryArtifacts;
+
+  /// An array of <code>ProjectSourceVersion</code> objects. If
+  /// <code>secondarySourceVersions</code> is specified at the build level, then
+  /// they take over these <code>secondarySourceVersions</code> (at the project
+  /// level).
+  @_s.JsonKey(name: 'secondarySourceVersions')
+  final List<ProjectSourceVersion> secondarySourceVersions;
+
+  /// An array of <code>ProjectSource</code> objects.
+  @_s.JsonKey(name: 'secondarySources')
+  final List<ProjectSource> secondarySources;
+
+  /// The replacement ARN of the AWS Identity and Access Management (IAM) role
+  /// that enables AWS CodeBuild to interact with dependent AWS services on behalf
+  /// of the AWS account.
+  @_s.JsonKey(name: 'serviceRole')
+  final String serviceRole;
+
+  /// Information to be changed about the build input source code for the build
+  /// project.
+  @_s.JsonKey(name: 'source')
+  final ProjectSource source;
+
+  /// A version of the build input to be built for this project. If not specified,
+  /// the latest version is used. If specified, it must be one of:
+  ///
+  /// <ul>
+  /// <li>
+  /// For AWS CodeCommit: the commit ID, branch, or Git tag to use.
+  /// </li>
+  /// <li>
+  /// For GitHub: the commit ID, pull request ID, branch name, or tag name that
+  /// corresponds to the version of the source code you want to build. If a pull
+  /// request ID is specified, it must use the format
+  /// <code>pr/pull-request-ID</code> (for example <code>pr/25</code>). If a
+  /// branch name is specified, the branch's HEAD commit ID is used. If not
+  /// specified, the default branch's HEAD commit ID is used.
+  /// </li>
+  /// <li>
+  /// For Bitbucket: the commit ID, branch name, or tag name that corresponds to
+  /// the version of the source code you want to build. If a branch name is
+  /// specified, the branch's HEAD commit ID is used. If not specified, the
+  /// default branch's HEAD commit ID is used.
+  /// </li>
+  /// <li>
+  /// For Amazon Simple Storage Service (Amazon S3): the version ID of the object
+  /// that represents the build input ZIP file to use.
+  /// </li>
+  /// </ul>
+  /// If <code>sourceVersion</code> is specified at the build level, then that
+  /// version takes precedence over this <code>sourceVersion</code> (at the
+  /// project level).
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/sample-source-version.html">Source
+  /// Version Sample with CodeBuild</a> in the <i>AWS CodeBuild User Guide</i>.
+  @_s.JsonKey(name: 'sourceVersion')
+  final String sourceVersion;
+
+  /// The replacement set of tags for this build project.
+  ///
+  /// These tags are available for use by AWS services that support AWS CodeBuild
+  /// build project tags.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  /// The replacement value in minutes, from 5 to 480 (8 hours), for AWS CodeBuild
+  /// to wait before timing out any related build that did not get marked as
+  /// completed.
+  @_s.JsonKey(name: 'timeoutInMinutes')
+  final int timeoutInMinutes;
+
+  /// VpcConfig enables AWS CodeBuild to access resources in an Amazon VPC.
+  @_s.JsonKey(name: 'vpcConfig')
+  final VpcConfig vpcConfig;
+
+  UpdateProjectInput({
+    @_s.required this.name,
+    this.artifacts,
+    this.badgeEnabled,
+    this.cache,
+    this.description,
+    this.encryptionKey,
+    this.environment,
+    this.fileSystemLocations,
+    this.logsConfig,
+    this.queuedTimeoutInMinutes,
+    this.secondaryArtifacts,
+    this.secondarySourceVersions,
+    this.secondarySources,
+    this.serviceRole,
+    this.source,
+    this.sourceVersion,
+    this.tags,
+    this.timeoutInMinutes,
+    this.vpcConfig,
+  });
+  Map<String, dynamic> toJson() => _$UpdateProjectInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateProjectOutput {
@@ -5795,6 +6993,36 @@ class UpdateProjectOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateReportGroupInput {
+  /// The ARN of the report group to update.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// Used to specify an updated export type. Valid values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>S3</code>: The report results are exported to an S3 bucket.
+  /// </li>
+  /// <li>
+  /// <code>NO_EXPORT</code>: The report results are not exported.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'exportConfig')
+  final ReportExportConfig exportConfig;
+
+  UpdateReportGroupInput({
+    @_s.required this.arn,
+    this.exportConfig,
+  });
+  Map<String, dynamic> toJson() => _$UpdateReportGroupInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateReportGroupOutput {
@@ -5807,6 +7035,48 @@ class UpdateReportGroupOutput {
   });
   factory UpdateReportGroupOutput.fromJson(Map<String, dynamic> json) =>
       _$UpdateReportGroupOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateWebhookInput {
+  /// The name of the AWS CodeBuild project.
+  @_s.JsonKey(name: 'projectName')
+  final String projectName;
+
+  /// A regular expression used to determine which repository branches are built
+  /// when a webhook is triggered. If the name of a branch matches the regular
+  /// expression, then it is built. If <code>branchFilter</code> is empty, then
+  /// all branches are built.
+  /// <note>
+  /// It is recommended that you use <code>filterGroups</code> instead of
+  /// <code>branchFilter</code>.
+  /// </note>
+  @_s.JsonKey(name: 'branchFilter')
+  final String branchFilter;
+
+  /// An array of arrays of <code>WebhookFilter</code> objects used to determine
+  /// if a webhook event can trigger a build. A filter group must contain at least
+  /// one <code>EVENT</code> <code>WebhookFilter</code>.
+  @_s.JsonKey(name: 'filterGroups')
+  final List<List<WebhookFilter>> filterGroups;
+
+  /// A boolean value that specifies whether the associated GitHub repository's
+  /// secret token should be updated. If you use Bitbucket for your repository,
+  /// <code>rotateSecret</code> is ignored.
+  @_s.JsonKey(name: 'rotateSecret')
+  final bool rotateSecret;
+
+  UpdateWebhookInput({
+    @_s.required this.projectName,
+    this.branchFilter,
+    this.filterGroups,
+    this.rotateSecret,
+  });
+  Map<String, dynamic> toJson() => _$UpdateWebhookInputToJson(this);
 }
 
 @_s.JsonSerializable(

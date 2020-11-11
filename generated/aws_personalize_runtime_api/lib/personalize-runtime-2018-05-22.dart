@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -96,12 +95,12 @@ class PersonalizeRuntime {
       256,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'campaignArn': campaignArn,
-      'inputList': inputList,
-      'userId': userId,
-      if (context != null) 'context': context,
-    };
+    final $payload = GetPersonalizedRankingRequest(
+      campaignArn: campaignArn,
+      inputList: inputList,
+      userId: userId,
+      context: context,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -191,13 +190,13 @@ class PersonalizeRuntime {
       0,
       256,
     );
-    final $payload = <String, dynamic>{
-      'campaignArn': campaignArn,
-      if (context != null) 'context': context,
-      if (itemId != null) 'itemId': itemId,
-      if (numResults != null) 'numResults': numResults,
-      if (userId != null) 'userId': userId,
-    };
+    final $payload = GetRecommendationsRequest(
+      campaignArn: campaignArn,
+      context: context,
+      itemId: itemId,
+      numResults: numResults,
+      userId: userId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -206,6 +205,43 @@ class PersonalizeRuntime {
     );
     return GetRecommendationsResponse.fromJson(response);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetPersonalizedRankingRequest {
+  /// The Amazon Resource Name (ARN) of the campaign to use for generating the
+  /// personalized ranking.
+  @_s.JsonKey(name: 'campaignArn')
+  final String campaignArn;
+
+  /// A list of items (itemId's) to rank. If an item was not included in the
+  /// training dataset, the item is appended to the end of the reranked list. The
+  /// maximum is 500.
+  @_s.JsonKey(name: 'inputList')
+  final List<String> inputList;
+
+  /// The user for which you want the campaign to provide a personalized ranking.
+  @_s.JsonKey(name: 'userId')
+  final String userId;
+
+  /// The contextual metadata to use when getting recommendations. Contextual
+  /// metadata includes any interaction information that might be relevant when
+  /// getting a user's recommendations, such as the user's current location or
+  /// device type.
+  @_s.JsonKey(name: 'context')
+  final Map<String, String> context;
+
+  GetPersonalizedRankingRequest({
+    @_s.required this.campaignArn,
+    @_s.required this.inputList,
+    @_s.required this.userId,
+    this.context,
+  });
+  Map<String, dynamic> toJson() => _$GetPersonalizedRankingRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -224,6 +260,50 @@ class GetPersonalizedRankingResponse {
   });
   factory GetPersonalizedRankingResponse.fromJson(Map<String, dynamic> json) =>
       _$GetPersonalizedRankingResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetRecommendationsRequest {
+  /// The Amazon Resource Name (ARN) of the campaign to use for getting
+  /// recommendations.
+  @_s.JsonKey(name: 'campaignArn')
+  final String campaignArn;
+
+  /// The contextual metadata to use when getting recommendations. Contextual
+  /// metadata includes any interaction information that might be relevant when
+  /// getting a user's recommendations, such as the user's current location or
+  /// device type.
+  @_s.JsonKey(name: 'context')
+  final Map<String, String> context;
+
+  /// The item ID to provide recommendations for.
+  ///
+  /// Required for <code>RELATED_ITEMS</code> recipe type.
+  @_s.JsonKey(name: 'itemId')
+  final String itemId;
+
+  /// The number of results to return. The default is 25. The maximum is 500.
+  @_s.JsonKey(name: 'numResults')
+  final int numResults;
+
+  /// The user ID to provide recommendations for.
+  ///
+  /// Required for <code>USER_PERSONALIZATION</code> recipe type.
+  @_s.JsonKey(name: 'userId')
+  final String userId;
+
+  GetRecommendationsRequest({
+    @_s.required this.campaignArn,
+    this.context,
+    this.itemId,
+    this.numResults,
+    this.userId,
+  });
+  Map<String, dynamic> toJson() => _$GetRecommendationsRequestToJson(this);
 }
 
 @_s.JsonSerializable(

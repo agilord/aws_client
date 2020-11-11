@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -79,10 +78,10 @@ class Imagebuilder {
       r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):image/[a-z0-9-_]+/\d+\.\d+\.\d+/\d+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'clientToken': clientToken,
-      'imageBuildVersionArn': imageBuildVersionArn,
-    };
+    final $payload = CancelImageCreationRequest(
+      clientToken: clientToken,
+      imageBuildVersionArn: imageBuildVersionArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -203,18 +202,18 @@ class Imagebuilder {
       1,
       1024,
     );
-    final $payload = <String, dynamic>{
-      'clientToken': clientToken,
-      'name': name,
-      'platform': platform?.toValue(),
-      'semanticVersion': semanticVersion,
-      if (changeDescription != null) 'changeDescription': changeDescription,
-      if (data != null) 'data': data,
-      if (description != null) 'description': description,
-      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
-      if (tags != null) 'tags': tags,
-      if (uri != null) 'uri': uri,
-    };
+    final $payload = CreateComponentRequest(
+      clientToken: clientToken,
+      name: name,
+      platform: platform,
+      semanticVersion: semanticVersion,
+      changeDescription: changeDescription,
+      data: data,
+      description: description,
+      kmsKeyId: kmsKeyId,
+      tags: tags,
+      uri: uri,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -282,13 +281,13 @@ class Imagebuilder {
       1,
       1024,
     );
-    final $payload = <String, dynamic>{
-      'clientToken': clientToken,
-      'distributions': distributions,
-      'name': name,
-      if (description != null) 'description': description,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateDistributionConfigurationRequest(
+      clientToken: clientToken,
+      distributions: distributions,
+      name: name,
+      description: description,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -374,18 +373,15 @@ class Imagebuilder {
       distributionConfigurationArn,
       r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):distribution-configuration/[a-z0-9-_]+$''',
     );
-    final $payload = <String, dynamic>{
-      'clientToken': clientToken,
-      'imageRecipeArn': imageRecipeArn,
-      'infrastructureConfigurationArn': infrastructureConfigurationArn,
-      if (distributionConfigurationArn != null)
-        'distributionConfigurationArn': distributionConfigurationArn,
-      if (enhancedImageMetadataEnabled != null)
-        'enhancedImageMetadataEnabled': enhancedImageMetadataEnabled,
-      if (imageTestsConfiguration != null)
-        'imageTestsConfiguration': imageTestsConfiguration,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateImageRequest(
+      clientToken: clientToken,
+      imageRecipeArn: imageRecipeArn,
+      infrastructureConfigurationArn: infrastructureConfigurationArn,
+      distributionConfigurationArn: distributionConfigurationArn,
+      enhancedImageMetadataEnabled: enhancedImageMetadataEnabled,
+      imageTestsConfiguration: imageTestsConfiguration,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -500,22 +496,19 @@ class Imagebuilder {
       distributionConfigurationArn,
       r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):distribution-configuration/[a-z0-9-_]+$''',
     );
-    final $payload = <String, dynamic>{
-      'clientToken': clientToken,
-      'imageRecipeArn': imageRecipeArn,
-      'infrastructureConfigurationArn': infrastructureConfigurationArn,
-      'name': name,
-      if (description != null) 'description': description,
-      if (distributionConfigurationArn != null)
-        'distributionConfigurationArn': distributionConfigurationArn,
-      if (enhancedImageMetadataEnabled != null)
-        'enhancedImageMetadataEnabled': enhancedImageMetadataEnabled,
-      if (imageTestsConfiguration != null)
-        'imageTestsConfiguration': imageTestsConfiguration,
-      if (schedule != null) 'schedule': schedule,
-      if (status != null) 'status': status?.toValue(),
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateImagePipelineRequest(
+      clientToken: clientToken,
+      imageRecipeArn: imageRecipeArn,
+      infrastructureConfigurationArn: infrastructureConfigurationArn,
+      name: name,
+      description: description,
+      distributionConfigurationArn: distributionConfigurationArn,
+      enhancedImageMetadataEnabled: enhancedImageMetadataEnabled,
+      imageTestsConfiguration: imageTestsConfiguration,
+      schedule: schedule,
+      status: status,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -618,17 +611,16 @@ class Imagebuilder {
       1,
       1024,
     );
-    final $payload = <String, dynamic>{
-      'clientToken': clientToken,
-      'components': components,
-      'name': name,
-      'parentImage': parentImage,
-      'semanticVersion': semanticVersion,
-      if (blockDeviceMappings != null)
-        'blockDeviceMappings': blockDeviceMappings,
-      if (description != null) 'description': description,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateImageRecipeRequest(
+      clientToken: clientToken,
+      components: components,
+      name: name,
+      parentImage: parentImage,
+      semanticVersion: semanticVersion,
+      blockDeviceMappings: blockDeviceMappings,
+      description: description,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -757,21 +749,20 @@ class Imagebuilder {
       1,
       1024,
     );
-    final $payload = <String, dynamic>{
-      'clientToken': clientToken,
-      'instanceProfileName': instanceProfileName,
-      'name': name,
-      if (description != null) 'description': description,
-      if (instanceTypes != null) 'instanceTypes': instanceTypes,
-      if (keyPair != null) 'keyPair': keyPair,
-      if (logging != null) 'logging': logging,
-      if (securityGroupIds != null) 'securityGroupIds': securityGroupIds,
-      if (snsTopicArn != null) 'snsTopicArn': snsTopicArn,
-      if (subnetId != null) 'subnetId': subnetId,
-      if (tags != null) 'tags': tags,
-      if (terminateInstanceOnFailure != null)
-        'terminateInstanceOnFailure': terminateInstanceOnFailure,
-    };
+    final $payload = CreateInfrastructureConfigurationRequest(
+      clientToken: clientToken,
+      instanceProfileName: instanceProfileName,
+      name: name,
+      description: description,
+      instanceTypes: instanceTypes,
+      keyPair: keyPair,
+      logging: logging,
+      securityGroupIds: securityGroupIds,
+      snsTopicArn: snsTopicArn,
+      subnetId: subnetId,
+      tags: tags,
+      terminateInstanceOnFailure: terminateInstanceOnFailure,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -809,7 +800,9 @@ class Imagebuilder {
       if (componentBuildVersionArn != null)
         _s.toQueryParam('componentBuildVersionArn', componentBuildVersionArn),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteComponentRequest(
+      componentBuildVersionArn: componentBuildVersionArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -850,7 +843,9 @@ class Imagebuilder {
         _s.toQueryParam(
             'distributionConfigurationArn', distributionConfigurationArn),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteDistributionConfigurationRequest(
+      distributionConfigurationArn: distributionConfigurationArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -887,7 +882,9 @@ class Imagebuilder {
       if (imageBuildVersionArn != null)
         _s.toQueryParam('imageBuildVersionArn', imageBuildVersionArn),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteImageRequest(
+      imageBuildVersionArn: imageBuildVersionArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -924,7 +921,9 @@ class Imagebuilder {
       if (imagePipelineArn != null)
         _s.toQueryParam('imagePipelineArn', imagePipelineArn),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteImagePipelineRequest(
+      imagePipelineArn: imagePipelineArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -961,7 +960,9 @@ class Imagebuilder {
       if (imageRecipeArn != null)
         _s.toQueryParam('imageRecipeArn', imageRecipeArn),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteImageRecipeRequest(
+      imageRecipeArn: imageRecipeArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1002,7 +1003,9 @@ class Imagebuilder {
         _s.toQueryParam(
             'infrastructureConfigurationArn', infrastructureConfigurationArn),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteInfrastructureConfigurationRequest(
+      infrastructureConfigurationArn: infrastructureConfigurationArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1460,20 +1463,20 @@ class Imagebuilder {
       1,
       1024,
     );
-    final $payload = <String, dynamic>{
-      'clientToken': clientToken,
-      'format': format?.toValue(),
-      'name': name,
-      'platform': platform?.toValue(),
-      'semanticVersion': semanticVersion,
-      'type': type?.toValue(),
-      if (changeDescription != null) 'changeDescription': changeDescription,
-      if (data != null) 'data': data,
-      if (description != null) 'description': description,
-      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
-      if (tags != null) 'tags': tags,
-      if (uri != null) 'uri': uri,
-    };
+    final $payload = ImportComponentRequest(
+      clientToken: clientToken,
+      format: format,
+      name: name,
+      platform: platform,
+      semanticVersion: semanticVersion,
+      type: type,
+      changeDescription: changeDescription,
+      data: data,
+      description: description,
+      kmsKeyId: kmsKeyId,
+      tags: tags,
+      uri: uri,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1528,11 +1531,11 @@ class Imagebuilder {
       1,
       1024,
     );
-    final $payload = <String, dynamic>{
-      'componentVersionArn': componentVersionArn,
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
+    final $payload = ListComponentBuildVersionsRequest(
+      componentVersionArn: componentVersionArn,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1587,12 +1590,12 @@ class Imagebuilder {
       1,
       1024,
     );
-    final $payload = <String, dynamic>{
-      if (filters != null) 'filters': filters,
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-      if (owner != null) 'owner': owner?.toValue(),
-    };
+    final $payload = ListComponentsRequest(
+      filters: filters,
+      maxResults: maxResults,
+      nextToken: nextToken,
+      owner: owner,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1639,11 +1642,11 @@ class Imagebuilder {
       1,
       1024,
     );
-    final $payload = <String, dynamic>{
-      if (filters != null) 'filters': filters,
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
+    final $payload = ListDistributionConfigurationsRequest(
+      filters: filters,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1701,12 +1704,12 @@ class Imagebuilder {
       1,
       1024,
     );
-    final $payload = <String, dynamic>{
-      'imageVersionArn': imageVersionArn,
-      if (filters != null) 'filters': filters,
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
+    final $payload = ListImageBuildVersionsRequest(
+      imageVersionArn: imageVersionArn,
+      filters: filters,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1765,12 +1768,12 @@ class Imagebuilder {
       1,
       1024,
     );
-    final $payload = <String, dynamic>{
-      'imagePipelineArn': imagePipelineArn,
-      if (filters != null) 'filters': filters,
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
+    final $payload = ListImagePipelineImagesRequest(
+      imagePipelineArn: imagePipelineArn,
+      filters: filters,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1816,11 +1819,11 @@ class Imagebuilder {
       1,
       1024,
     );
-    final $payload = <String, dynamic>{
-      if (filters != null) 'filters': filters,
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
+    final $payload = ListImagePipelinesRequest(
+      filters: filters,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1874,12 +1877,12 @@ class Imagebuilder {
       1,
       1024,
     );
-    final $payload = <String, dynamic>{
-      if (filters != null) 'filters': filters,
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-      if (owner != null) 'owner': owner?.toValue(),
-    };
+    final $payload = ListImageRecipesRequest(
+      filters: filters,
+      maxResults: maxResults,
+      nextToken: nextToken,
+      owner: owner,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1933,12 +1936,12 @@ class Imagebuilder {
       1,
       1024,
     );
-    final $payload = <String, dynamic>{
-      if (filters != null) 'filters': filters,
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-      if (owner != null) 'owner': owner?.toValue(),
-    };
+    final $payload = ListImagesRequest(
+      filters: filters,
+      maxResults: maxResults,
+      nextToken: nextToken,
+      owner: owner,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1985,11 +1988,11 @@ class Imagebuilder {
       1,
       1024,
     );
-    final $payload = <String, dynamic>{
-      if (filters != null) 'filters': filters,
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
+    final $payload = ListInfrastructureConfigurationsRequest(
+      filters: filters,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2069,10 +2072,10 @@ class Imagebuilder {
       30000,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'componentArn': componentArn,
-      'policy': policy,
-    };
+    final $payload = PutComponentPolicyRequest(
+      componentArn: componentArn,
+      policy: policy,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -2124,10 +2127,10 @@ class Imagebuilder {
       30000,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'imageArn': imageArn,
-      'policy': policy,
-    };
+    final $payload = PutImagePolicyRequest(
+      imageArn: imageArn,
+      policy: policy,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -2180,10 +2183,10 @@ class Imagebuilder {
       30000,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'imageRecipeArn': imageRecipeArn,
-      'policy': policy,
-    };
+    final $payload = PutImageRecipePolicyRequest(
+      imageRecipeArn: imageRecipeArn,
+      policy: policy,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -2230,10 +2233,10 @@ class Imagebuilder {
       r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):image-pipeline/[a-z0-9-_]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'clientToken': clientToken,
-      'imagePipelineArn': imagePipelineArn,
-    };
+    final $payload = StartImagePipelineExecutionRequest(
+      clientToken: clientToken,
+      imagePipelineArn: imagePipelineArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -2266,9 +2269,10 @@ class Imagebuilder {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'tags': tags,
-    };
+    final $payload = TagResourceRequest(
+      resourceArn: resourceArn,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2305,7 +2309,10 @@ class Imagebuilder {
     _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = UntagResourceRequest(
+      resourceArn: resourceArn,
+      tagKeys: tagKeys,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -2370,12 +2377,12 @@ class Imagebuilder {
       1,
       1024,
     );
-    final $payload = <String, dynamic>{
-      'clientToken': clientToken,
-      'distributionConfigurationArn': distributionConfigurationArn,
-      'distributions': distributions,
-      if (description != null) 'description': description,
-    };
+    final $payload = UpdateDistributionConfigurationRequest(
+      clientToken: clientToken,
+      distributionConfigurationArn: distributionConfigurationArn,
+      distributions: distributions,
+      description: description,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -2486,21 +2493,18 @@ class Imagebuilder {
       distributionConfigurationArn,
       r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):distribution-configuration/[a-z0-9-_]+$''',
     );
-    final $payload = <String, dynamic>{
-      'clientToken': clientToken,
-      'imagePipelineArn': imagePipelineArn,
-      'imageRecipeArn': imageRecipeArn,
-      'infrastructureConfigurationArn': infrastructureConfigurationArn,
-      if (description != null) 'description': description,
-      if (distributionConfigurationArn != null)
-        'distributionConfigurationArn': distributionConfigurationArn,
-      if (enhancedImageMetadataEnabled != null)
-        'enhancedImageMetadataEnabled': enhancedImageMetadataEnabled,
-      if (imageTestsConfiguration != null)
-        'imageTestsConfiguration': imageTestsConfiguration,
-      if (schedule != null) 'schedule': schedule,
-      if (status != null) 'status': status?.toValue(),
-    };
+    final $payload = UpdateImagePipelineRequest(
+      clientToken: clientToken,
+      imagePipelineArn: imagePipelineArn,
+      imageRecipeArn: imageRecipeArn,
+      infrastructureConfigurationArn: infrastructureConfigurationArn,
+      description: description,
+      distributionConfigurationArn: distributionConfigurationArn,
+      enhancedImageMetadataEnabled: enhancedImageMetadataEnabled,
+      imageTestsConfiguration: imageTestsConfiguration,
+      schedule: schedule,
+      status: status,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -2625,20 +2629,19 @@ class Imagebuilder {
       1,
       1024,
     );
-    final $payload = <String, dynamic>{
-      'clientToken': clientToken,
-      'infrastructureConfigurationArn': infrastructureConfigurationArn,
-      'instanceProfileName': instanceProfileName,
-      if (description != null) 'description': description,
-      if (instanceTypes != null) 'instanceTypes': instanceTypes,
-      if (keyPair != null) 'keyPair': keyPair,
-      if (logging != null) 'logging': logging,
-      if (securityGroupIds != null) 'securityGroupIds': securityGroupIds,
-      if (snsTopicArn != null) 'snsTopicArn': snsTopicArn,
-      if (subnetId != null) 'subnetId': subnetId,
-      if (terminateInstanceOnFailure != null)
-        'terminateInstanceOnFailure': terminateInstanceOnFailure,
-    };
+    final $payload = UpdateInfrastructureConfigurationRequest(
+      clientToken: clientToken,
+      infrastructureConfigurationArn: infrastructureConfigurationArn,
+      instanceProfileName: instanceProfileName,
+      description: description,
+      instanceTypes: instanceTypes,
+      keyPair: keyPair,
+      logging: logging,
+      securityGroupIds: securityGroupIds,
+      snsTopicArn: snsTopicArn,
+      subnetId: subnetId,
+      terminateInstanceOnFailure: terminateInstanceOnFailure,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -2718,6 +2721,28 @@ class AmiDistributionConfiguration {
       _$AmiDistributionConfigurationFromJson(json);
 
   Map<String, dynamic> toJson() => _$AmiDistributionConfigurationToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CancelImageCreationRequest {
+  /// The idempotency token used to make this request idempotent.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// The Amazon Resource Name (ARN) of the image whose creation you want to
+  /// cancel.
+  @_s.JsonKey(name: 'imageBuildVersionArn')
+  final String imageBuildVersionArn;
+
+  CancelImageCreationRequest({
+    @_s.required this.clientToken,
+    @_s.required this.imageBuildVersionArn,
+  });
+  Map<String, dynamic> toJson() => _$CancelImageCreationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2852,16 +2877,6 @@ enum ComponentFormat {
   shell,
 }
 
-extension on ComponentFormat {
-  String toValue() {
-    switch (this) {
-      case ComponentFormat.shell:
-        return 'SHELL';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// A high-level summary of a component.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2933,18 +2948,6 @@ enum ComponentType {
   test,
 }
 
-extension on ComponentType {
-  String toValue() {
-    switch (this) {
-      case ComponentType.build:
-        return 'BUILD';
-      case ComponentType.test:
-        return 'TEST';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// A high-level overview of a component semantic version.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3002,6 +3005,76 @@ class ComponentVersion {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateComponentRequest {
+  /// The idempotency token of the component.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// The name of the component.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The platform of the component.
+  @_s.JsonKey(name: 'platform')
+  final Platform platform;
+
+  /// The semantic version of the component. This version follows the semantic
+  /// version syntax. For example, major.minor.patch. This could be versioned like
+  /// software (2.0.1) or like a date (2019.12.01).
+  @_s.JsonKey(name: 'semanticVersion')
+  final String semanticVersion;
+
+  /// The change description of the component. Describes what change has been made
+  /// in this version, or what makes this version different from other versions of
+  /// this component.
+  @_s.JsonKey(name: 'changeDescription')
+  final String changeDescription;
+
+  /// The data of the component. Used to specify the data inline. Either
+  /// <code>data</code> or <code>uri</code> can be used to specify the data within
+  /// the component.
+  @_s.JsonKey(name: 'data')
+  final String data;
+
+  /// The description of the component. Describes the contents of the component.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The ID of the KMS key that should be used to encrypt this component.
+  @_s.JsonKey(name: 'kmsKeyId')
+  final String kmsKeyId;
+
+  /// The tags of the component.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  /// The uri of the component. Must be an S3 URL and the requester must have
+  /// permission to access the S3 bucket. If you use S3, you can specify component
+  /// content up to your service quota. Either <code>data</code> or
+  /// <code>uri</code> can be used to specify the data within the component.
+  @_s.JsonKey(name: 'uri')
+  final String uri;
+
+  CreateComponentRequest({
+    @_s.required this.clientToken,
+    @_s.required this.name,
+    @_s.required this.platform,
+    @_s.required this.semanticVersion,
+    this.changeDescription,
+    this.data,
+    this.description,
+    this.kmsKeyId,
+    this.tags,
+    this.uri,
+  });
+  Map<String, dynamic> toJson() => _$CreateComponentRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateComponentResponse {
@@ -3025,6 +3098,43 @@ class CreateComponentResponse {
   });
   factory CreateComponentResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateComponentResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDistributionConfigurationRequest {
+  /// The idempotency token of the distribution configuration.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// The distributions of the distribution configuration.
+  @_s.JsonKey(name: 'distributions')
+  final List<Distribution> distributions;
+
+  /// The name of the distribution configuration.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The description of the distribution configuration.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The tags of the distribution configuration.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateDistributionConfigurationRequest({
+    @_s.required this.clientToken,
+    @_s.required this.distributions,
+    @_s.required this.name,
+    this.description,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateDistributionConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3059,6 +3169,78 @@ class CreateDistributionConfigurationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateImagePipelineRequest {
+  /// The idempotency token used to make this request idempotent.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// The Amazon Resource Name (ARN) of the image recipe that will be used to
+  /// configure images created by this image pipeline.
+  @_s.JsonKey(name: 'imageRecipeArn')
+  final String imageRecipeArn;
+
+  /// The Amazon Resource Name (ARN) of the infrastructure configuration that will
+  /// be used to build images created by this image pipeline.
+  @_s.JsonKey(name: 'infrastructureConfigurationArn')
+  final String infrastructureConfigurationArn;
+
+  /// The name of the image pipeline.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The description of the image pipeline.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The Amazon Resource Name (ARN) of the distribution configuration that will
+  /// be used to configure and distribute images created by this image pipeline.
+  @_s.JsonKey(name: 'distributionConfigurationArn')
+  final String distributionConfigurationArn;
+
+  /// Collects additional information about the image being created, including the
+  /// operating system (OS) version and package list. This information is used to
+  /// enhance the overall experience of using EC2 Image Builder. Enabled by
+  /// default.
+  @_s.JsonKey(name: 'enhancedImageMetadataEnabled')
+  final bool enhancedImageMetadataEnabled;
+
+  /// The image test configuration of the image pipeline.
+  @_s.JsonKey(name: 'imageTestsConfiguration')
+  final ImageTestsConfiguration imageTestsConfiguration;
+
+  /// The schedule of the image pipeline.
+  @_s.JsonKey(name: 'schedule')
+  final Schedule schedule;
+
+  /// The status of the image pipeline.
+  @_s.JsonKey(name: 'status')
+  final PipelineStatus status;
+
+  /// The tags of the image pipeline.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateImagePipelineRequest({
+    @_s.required this.clientToken,
+    @_s.required this.imageRecipeArn,
+    @_s.required this.infrastructureConfigurationArn,
+    @_s.required this.name,
+    this.description,
+    this.distributionConfigurationArn,
+    this.enhancedImageMetadataEnabled,
+    this.imageTestsConfiguration,
+    this.schedule,
+    this.status,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateImagePipelineRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateImagePipelineResponse {
@@ -3082,6 +3264,66 @@ class CreateImagePipelineResponse {
   });
   factory CreateImagePipelineResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateImagePipelineResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateImageRecipeRequest {
+  /// The idempotency token used to make this request idempotent.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// The components of the image recipe.
+  @_s.JsonKey(name: 'components')
+  final List<ComponentConfiguration> components;
+
+  /// The name of the image recipe.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The parent image of the image recipe. The value of the string can be the ARN
+  /// of the parent image or an AMI ID. The format for the ARN follows this
+  /// example:
+  /// <code>arn:aws:imagebuilder:us-west-2:aws:image/windows-server-2016-english-full-base-x86/2019.x.x</code>.
+  /// The ARN ends with <code>/20xx.x.x</code>, which communicates to EC2 Image
+  /// Builder that you want to use the latest AMI created in 20xx (year). You can
+  /// provide the specific version that you want to use, or you can use a wildcard
+  /// in all of the fields. If you enter an AMI ID for the string value, you must
+  /// have access to the AMI, and the AMI must be in the same Region in which you
+  /// are using Image Builder.
+  @_s.JsonKey(name: 'parentImage')
+  final String parentImage;
+
+  /// The semantic version of the image recipe.
+  @_s.JsonKey(name: 'semanticVersion')
+  final String semanticVersion;
+
+  /// The block device mappings of the image recipe.
+  @_s.JsonKey(name: 'blockDeviceMappings')
+  final List<InstanceBlockDeviceMapping> blockDeviceMappings;
+
+  /// The description of the image recipe.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The tags of the image recipe.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateImageRecipeRequest({
+    @_s.required this.clientToken,
+    @_s.required this.components,
+    @_s.required this.name,
+    @_s.required this.parentImage,
+    @_s.required this.semanticVersion,
+    this.blockDeviceMappings,
+    this.description,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateImageRecipeRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3115,6 +3357,58 @@ class CreateImageRecipeResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateImageRequest {
+  /// The idempotency token used to make this request idempotent.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// The Amazon Resource Name (ARN) of the image recipe that defines how images
+  /// are configured, tested, and assessed.
+  @_s.JsonKey(name: 'imageRecipeArn')
+  final String imageRecipeArn;
+
+  /// The Amazon Resource Name (ARN) of the infrastructure configuration that
+  /// defines the environment in which your image will be built and tested.
+  @_s.JsonKey(name: 'infrastructureConfigurationArn')
+  final String infrastructureConfigurationArn;
+
+  /// The Amazon Resource Name (ARN) of the distribution configuration that
+  /// defines and configures the outputs of your pipeline.
+  @_s.JsonKey(name: 'distributionConfigurationArn')
+  final String distributionConfigurationArn;
+
+  /// Collects additional information about the image being created, including the
+  /// operating system (OS) version and package list. This information is used to
+  /// enhance the overall experience of using EC2 Image Builder. Enabled by
+  /// default.
+  @_s.JsonKey(name: 'enhancedImageMetadataEnabled')
+  final bool enhancedImageMetadataEnabled;
+
+  /// The image tests configuration of the image.
+  @_s.JsonKey(name: 'imageTestsConfiguration')
+  final ImageTestsConfiguration imageTestsConfiguration;
+
+  /// The tags of the image.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateImageRequest({
+    @_s.required this.clientToken,
+    @_s.required this.imageRecipeArn,
+    @_s.required this.infrastructureConfigurationArn,
+    this.distributionConfigurationArn,
+    this.enhancedImageMetadataEnabled,
+    this.imageTestsConfiguration,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateImageRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateImageResponse {
@@ -3138,6 +3432,86 @@ class CreateImageResponse {
   });
   factory CreateImageResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateImageResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateInfrastructureConfigurationRequest {
+  /// The idempotency token used to make this request idempotent.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// The instance profile to associate with the instance used to customize your
+  /// EC2 AMI.
+  @_s.JsonKey(name: 'instanceProfileName')
+  final String instanceProfileName;
+
+  /// The name of the infrastructure configuration.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The description of the infrastructure configuration.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The instance types of the infrastructure configuration. You can specify one
+  /// or more instance types to use for this build. The service will pick one of
+  /// these instance types based on availability.
+  @_s.JsonKey(name: 'instanceTypes')
+  final List<String> instanceTypes;
+
+  /// The key pair of the infrastructure configuration. This can be used to log on
+  /// to and debug the instance used to create your image.
+  @_s.JsonKey(name: 'keyPair')
+  final String keyPair;
+
+  /// The logging configuration of the infrastructure configuration.
+  @_s.JsonKey(name: 'logging')
+  final Logging logging;
+
+  /// The security group IDs to associate with the instance used to customize your
+  /// EC2 AMI.
+  @_s.JsonKey(name: 'securityGroupIds')
+  final List<String> securityGroupIds;
+
+  /// The SNS topic on which to send image build events.
+  @_s.JsonKey(name: 'snsTopicArn')
+  final String snsTopicArn;
+
+  /// The subnet ID in which to place the instance used to customize your EC2 AMI.
+  @_s.JsonKey(name: 'subnetId')
+  final String subnetId;
+
+  /// The tags of the infrastructure configuration.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  /// The terminate instance on failure setting of the infrastructure
+  /// configuration. Set to false if you want Image Builder to retain the instance
+  /// used to configure your AMI if the build or test phase of your workflow
+  /// fails.
+  @_s.JsonKey(name: 'terminateInstanceOnFailure')
+  final bool terminateInstanceOnFailure;
+
+  CreateInfrastructureConfigurationRequest({
+    @_s.required this.clientToken,
+    @_s.required this.instanceProfileName,
+    @_s.required this.name,
+    this.description,
+    this.instanceTypes,
+    this.keyPair,
+    this.logging,
+    this.securityGroupIds,
+    this.snsTopicArn,
+    this.subnetId,
+    this.tags,
+    this.terminateInstanceOnFailure,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateInfrastructureConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3172,6 +3546,22 @@ class CreateInfrastructureConfigurationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteComponentRequest {
+  /// The Amazon Resource Name (ARN) of the component build version to delete.
+  @_s.JsonKey(name: 'componentBuildVersionArn', ignore: true)
+  final String componentBuildVersionArn;
+
+  DeleteComponentRequest({
+    @_s.required this.componentBuildVersionArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteComponentRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteComponentResponse {
@@ -3190,6 +3580,23 @@ class DeleteComponentResponse {
   });
   factory DeleteComponentResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteComponentResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDistributionConfigurationRequest {
+  /// The Amazon Resource Name (ARN) of the distribution configuration to delete.
+  @_s.JsonKey(name: 'distributionConfigurationArn', ignore: true)
+  final String distributionConfigurationArn;
+
+  DeleteDistributionConfigurationRequest({
+    @_s.required this.distributionConfigurationArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteDistributionConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3219,6 +3626,22 @@ class DeleteDistributionConfigurationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteImagePipelineRequest {
+  /// The Amazon Resource Name (ARN) of the image pipeline to delete.
+  @_s.JsonKey(name: 'imagePipelineArn', ignore: true)
+  final String imagePipelineArn;
+
+  DeleteImagePipelineRequest({
+    @_s.required this.imagePipelineArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteImagePipelineRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteImagePipelineResponse {
@@ -3236,6 +3659,22 @@ class DeleteImagePipelineResponse {
   });
   factory DeleteImagePipelineResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteImagePipelineResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteImageRecipeRequest {
+  /// The Amazon Resource Name (ARN) of the image recipe to delete.
+  @_s.JsonKey(name: 'imageRecipeArn', ignore: true)
+  final String imageRecipeArn;
+
+  DeleteImageRecipeRequest({
+    @_s.required this.imageRecipeArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteImageRecipeRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3263,6 +3702,22 @@ class DeleteImageRecipeResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteImageRequest {
+  /// The Amazon Resource Name (ARN) of the image to delete.
+  @_s.JsonKey(name: 'imageBuildVersionArn', ignore: true)
+  final String imageBuildVersionArn;
+
+  DeleteImageRequest({
+    @_s.required this.imageBuildVersionArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteImageRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteImageResponse {
@@ -3280,6 +3735,24 @@ class DeleteImageResponse {
   });
   factory DeleteImageResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteImageResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteInfrastructureConfigurationRequest {
+  /// The Amazon Resource Name (ARN) of the infrastructure configuration to
+  /// delete.
+  @_s.JsonKey(name: 'infrastructureConfigurationArn', ignore: true)
+  final String infrastructureConfigurationArn;
+
+  DeleteInfrastructureConfigurationRequest({
+    @_s.required this.infrastructureConfigurationArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteInfrastructureConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4225,6 +4698,87 @@ class ImageVersion {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ImportComponentRequest {
+  /// The idempotency token of the component.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// The format of the resource that you want to import as a component.
+  @_s.JsonKey(name: 'format')
+  final ComponentFormat format;
+
+  /// The name of the component.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The platform of the component.
+  @_s.JsonKey(name: 'platform')
+  final Platform platform;
+
+  /// The semantic version of the component. This version follows the semantic
+  /// version syntax. For example, major.minor.patch. This could be versioned like
+  /// software (2.0.1) or like a date (2019.12.01).
+  @_s.JsonKey(name: 'semanticVersion')
+  final String semanticVersion;
+
+  /// The type of the component denotes whether the component is used to build the
+  /// image or only to test it.
+  @_s.JsonKey(name: 'type')
+  final ComponentType type;
+
+  /// The change description of the component. Describes what change has been made
+  /// in this version, or what makes this version different from other versions of
+  /// this component.
+  @_s.JsonKey(name: 'changeDescription')
+  final String changeDescription;
+
+  /// The data of the component. Used to specify the data inline. Either
+  /// <code>data</code> or <code>uri</code> can be used to specify the data within
+  /// the component.
+  @_s.JsonKey(name: 'data')
+  final String data;
+
+  /// The description of the component. Describes the contents of the component.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The ID of the KMS key that should be used to encrypt this component.
+  @_s.JsonKey(name: 'kmsKeyId')
+  final String kmsKeyId;
+
+  /// The tags of the component.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  /// The uri of the component. Must be an S3 URL and the requester must have
+  /// permission to access the S3 bucket. If you use S3, you can specify component
+  /// content up to your service quota. Either <code>data</code> or
+  /// <code>uri</code> can be used to specify the data within the component.
+  @_s.JsonKey(name: 'uri')
+  final String uri;
+
+  ImportComponentRequest({
+    @_s.required this.clientToken,
+    @_s.required this.format,
+    @_s.required this.name,
+    @_s.required this.platform,
+    @_s.required this.semanticVersion,
+    @_s.required this.type,
+    this.changeDescription,
+    this.data,
+    this.description,
+    this.kmsKeyId,
+    this.tags,
+    this.uri,
+  });
+  Map<String, dynamic> toJson() => _$ImportComponentRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ImportComponentResponse {
@@ -4445,6 +4999,35 @@ class LaunchPermissionConfiguration {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListComponentBuildVersionsRequest {
+  /// The component version Amazon Resource Name (ARN) whose versions you want to
+  /// list.
+  @_s.JsonKey(name: 'componentVersionArn')
+  final String componentVersionArn;
+
+  /// The maximum items to return in a request.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// A token to specify where to start paginating. This is the NextToken from a
+  /// previously truncated response.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListComponentBuildVersionsRequest({
+    @_s.required this.componentVersionArn,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListComponentBuildVersionsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListComponentBuildVersionsResponse {
@@ -4475,6 +5058,42 @@ class ListComponentBuildVersionsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListComponentsRequest {
+  /// The filters.
+  @_s.JsonKey(name: 'filters')
+  final List<Filter> filters;
+
+  /// The maximum items to return in a request.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// A token to specify where to start paginating. This is the NextToken from a
+  /// previously truncated response.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The owner defines which components you want to list. By default, this
+  /// request will only show components owned by your account. You can use this
+  /// field to specify if you want to view components owned by yourself, by
+  /// Amazon, or those components that have been shared with you by other
+  /// customers.
+  @_s.JsonKey(name: 'owner')
+  final Ownership owner;
+
+  ListComponentsRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+    this.owner,
+  });
+  Map<String, dynamic> toJson() => _$ListComponentsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListComponentsResponse {
@@ -4499,6 +5118,34 @@ class ListComponentsResponse {
   });
   factory ListComponentsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListComponentsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListDistributionConfigurationsRequest {
+  /// The filters.
+  @_s.JsonKey(name: 'filters')
+  final List<Filter> filters;
+
+  /// The maximum items to return in a request.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// A token to specify where to start paginating. This is the NextToken from a
+  /// previously truncated response.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListDistributionConfigurationsRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListDistributionConfigurationsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4535,6 +5182,39 @@ class ListDistributionConfigurationsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListImageBuildVersionsRequest {
+  /// The Amazon Resource Name (ARN) of the image whose build versions you want to
+  /// retrieve.
+  @_s.JsonKey(name: 'imageVersionArn')
+  final String imageVersionArn;
+
+  /// The filters.
+  @_s.JsonKey(name: 'filters')
+  final List<Filter> filters;
+
+  /// The maximum items to return in a request.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// A token to specify where to start paginating. This is the NextToken from a
+  /// previously truncated response.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListImageBuildVersionsRequest({
+    @_s.required this.imageVersionArn,
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListImageBuildVersionsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListImageBuildVersionsResponse {
@@ -4559,6 +5239,39 @@ class ListImageBuildVersionsResponse {
   });
   factory ListImageBuildVersionsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListImageBuildVersionsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListImagePipelineImagesRequest {
+  /// The Amazon Resource Name (ARN) of the image pipeline whose images you want
+  /// to view.
+  @_s.JsonKey(name: 'imagePipelineArn')
+  final String imagePipelineArn;
+
+  /// The filters.
+  @_s.JsonKey(name: 'filters')
+  final List<Filter> filters;
+
+  /// The maximum items to return in a request.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// A token to specify where to start paginating. This is the NextToken from a
+  /// previously truncated response.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListImagePipelineImagesRequest({
+    @_s.required this.imagePipelineArn,
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListImagePipelineImagesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4593,6 +5306,33 @@ class ListImagePipelineImagesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListImagePipelinesRequest {
+  /// The filters.
+  @_s.JsonKey(name: 'filters')
+  final List<Filter> filters;
+
+  /// The maximum items to return in a request.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// A token to specify where to start paginating. This is the NextToken from a
+  /// previously truncated response.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListImagePipelinesRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListImagePipelinesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListImagePipelinesResponse {
@@ -4617,6 +5357,42 @@ class ListImagePipelinesResponse {
   });
   factory ListImagePipelinesResponse.fromJson(Map<String, dynamic> json) =>
       _$ListImagePipelinesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListImageRecipesRequest {
+  /// The filters.
+  @_s.JsonKey(name: 'filters')
+  final List<Filter> filters;
+
+  /// The maximum items to return in a request.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// A token to specify where to start paginating. This is the NextToken from a
+  /// previously truncated response.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The owner defines which image recipes you want to list. By default, this
+  /// request will only show image recipes owned by your account. You can use this
+  /// field to specify if you want to view image recipes owned by yourself, by
+  /// Amazon, or those image recipes that have been shared with you by other
+  /// customers.
+  @_s.JsonKey(name: 'owner')
+  final Ownership owner;
+
+  ListImageRecipesRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+    this.owner,
+  });
+  Map<String, dynamic> toJson() => _$ListImageRecipesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4651,6 +5427,41 @@ class ListImageRecipesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListImagesRequest {
+  /// The filters.
+  @_s.JsonKey(name: 'filters')
+  final List<Filter> filters;
+
+  /// The maximum items to return in a request.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// A token to specify where to start paginating. This is the NextToken from a
+  /// previously truncated response.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The owner defines which images you want to list. By default, this request
+  /// will only show images owned by your account. You can use this field to
+  /// specify if you want to view images owned by yourself, by Amazon, or those
+  /// images that have been shared with you by other customers.
+  @_s.JsonKey(name: 'owner')
+  final Ownership owner;
+
+  ListImagesRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+    this.owner,
+  });
+  Map<String, dynamic> toJson() => _$ListImagesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListImagesResponse {
@@ -4675,6 +5486,34 @@ class ListImagesResponse {
   });
   factory ListImagesResponse.fromJson(Map<String, dynamic> json) =>
       _$ListImagesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListInfrastructureConfigurationsRequest {
+  /// The filters.
+  @_s.JsonKey(name: 'filters')
+  final List<Filter> filters;
+
+  /// The maximum items to return in a request.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// A token to specify where to start paginating. This is the NextToken from a
+  /// previously truncated response.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListInfrastructureConfigurationsRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListInfrastructureConfigurationsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4772,20 +5611,6 @@ enum Ownership {
   amazon,
 }
 
-extension on Ownership {
-  String toValue() {
-    switch (this) {
-      case Ownership.self:
-        return 'Self';
-      case Ownership.shared:
-        return 'Shared';
-      case Ownership.amazon:
-        return 'Amazon';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum PipelineExecutionStartCondition {
   @_s.JsonValue('EXPRESSION_MATCH_ONLY')
   expressionMatchOnly,
@@ -4800,18 +5625,6 @@ enum PipelineStatus {
   enabled,
 }
 
-extension on PipelineStatus {
-  String toValue() {
-    switch (this) {
-      case PipelineStatus.disabled:
-        return 'DISABLED';
-      case PipelineStatus.enabled:
-        return 'ENABLED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum Platform {
   @_s.JsonValue('Windows')
   windows,
@@ -4819,16 +5632,26 @@ enum Platform {
   linux,
 }
 
-extension on Platform {
-  String toValue() {
-    switch (this) {
-      case Platform.windows:
-        return 'Windows';
-      case Platform.linux:
-        return 'Linux';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutComponentPolicyRequest {
+  /// The Amazon Resource Name (ARN) of the component that this policy should be
+  /// applied to.
+  @_s.JsonKey(name: 'componentArn')
+  final String componentArn;
+
+  /// The policy to apply.
+  @_s.JsonKey(name: 'policy')
+  final String policy;
+
+  PutComponentPolicyRequest({
+    @_s.required this.componentArn,
+    @_s.required this.policy,
+  });
+  Map<String, dynamic> toJson() => _$PutComponentPolicyRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4857,6 +5680,28 @@ class PutComponentPolicyResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutImagePolicyRequest {
+  /// The Amazon Resource Name (ARN) of the image that this policy should be
+  /// applied to.
+  @_s.JsonKey(name: 'imageArn')
+  final String imageArn;
+
+  /// The policy to apply.
+  @_s.JsonKey(name: 'policy')
+  final String policy;
+
+  PutImagePolicyRequest({
+    @_s.required this.imageArn,
+    @_s.required this.policy,
+  });
+  Map<String, dynamic> toJson() => _$PutImagePolicyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutImagePolicyResponse {
@@ -4874,6 +5719,28 @@ class PutImagePolicyResponse {
   });
   factory PutImagePolicyResponse.fromJson(Map<String, dynamic> json) =>
       _$PutImagePolicyResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutImageRecipePolicyRequest {
+  /// The Amazon Resource Name (ARN) of the image recipe that this policy should
+  /// be applied to.
+  @_s.JsonKey(name: 'imageRecipeArn')
+  final String imageRecipeArn;
+
+  /// The policy to apply.
+  @_s.JsonKey(name: 'policy')
+  final String policy;
+
+  PutImageRecipePolicyRequest({
+    @_s.required this.imageRecipeArn,
+    @_s.required this.policy,
+  });
+  Map<String, dynamic> toJson() => _$PutImageRecipePolicyRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4958,6 +5825,29 @@ class Schedule {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartImagePipelineExecutionRequest {
+  /// The idempotency token used to make this request idempotent.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// The Amazon Resource Name (ARN) of the image pipeline that you want to
+  /// manually invoke.
+  @_s.JsonKey(name: 'imagePipelineArn')
+  final String imagePipelineArn;
+
+  StartImagePipelineExecutionRequest({
+    @_s.required this.clientToken,
+    @_s.required this.imagePipelineArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StartImagePipelineExecutionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartImagePipelineExecutionResponse {
@@ -4987,6 +5877,27 @@ class StartImagePipelineExecutionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource that you want to tag.
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  /// The tags to apply to the resource.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagResourceResponse {
@@ -4998,12 +5909,66 @@ class TagResourceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource that you want to untag.
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  /// The tag keys to remove from the resource.
+  @_s.JsonKey(name: 'tagKeys', ignore: true)
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
   factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDistributionConfigurationRequest {
+  /// The idempotency token of the distribution configuration.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// The Amazon Resource Name (ARN) of the distribution configuration that you
+  /// want to update.
+  @_s.JsonKey(name: 'distributionConfigurationArn')
+  final String distributionConfigurationArn;
+
+  /// The distributions of the distribution configuration.
+  @_s.JsonKey(name: 'distributions')
+  final List<Distribution> distributions;
+
+  /// The description of the distribution configuration.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  UpdateDistributionConfigurationRequest({
+    @_s.required this.clientToken,
+    @_s.required this.distributionConfigurationArn,
+    @_s.required this.distributions,
+    this.description,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateDistributionConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5038,6 +6003,74 @@ class UpdateDistributionConfigurationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateImagePipelineRequest {
+  /// The idempotency token used to make this request idempotent.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// The Amazon Resource Name (ARN) of the image pipeline that you want to
+  /// update.
+  @_s.JsonKey(name: 'imagePipelineArn')
+  final String imagePipelineArn;
+
+  /// The Amazon Resource Name (ARN) of the image recipe that will be used to
+  /// configure images updated by this image pipeline.
+  @_s.JsonKey(name: 'imageRecipeArn')
+  final String imageRecipeArn;
+
+  /// The Amazon Resource Name (ARN) of the infrastructure configuration that will
+  /// be used to build images updated by this image pipeline.
+  @_s.JsonKey(name: 'infrastructureConfigurationArn')
+  final String infrastructureConfigurationArn;
+
+  /// The description of the image pipeline.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The Amazon Resource Name (ARN) of the distribution configuration that will
+  /// be used to configure and distribute images updated by this image pipeline.
+  @_s.JsonKey(name: 'distributionConfigurationArn')
+  final String distributionConfigurationArn;
+
+  /// Collects additional information about the image being created, including the
+  /// operating system (OS) version and package list. This information is used to
+  /// enhance the overall experience of using EC2 Image Builder. Enabled by
+  /// default.
+  @_s.JsonKey(name: 'enhancedImageMetadataEnabled')
+  final bool enhancedImageMetadataEnabled;
+
+  /// The image test configuration of the image pipeline.
+  @_s.JsonKey(name: 'imageTestsConfiguration')
+  final ImageTestsConfiguration imageTestsConfiguration;
+
+  /// The schedule of the image pipeline.
+  @_s.JsonKey(name: 'schedule')
+  final Schedule schedule;
+
+  /// The status of the image pipeline.
+  @_s.JsonKey(name: 'status')
+  final PipelineStatus status;
+
+  UpdateImagePipelineRequest({
+    @_s.required this.clientToken,
+    @_s.required this.imagePipelineArn,
+    @_s.required this.imageRecipeArn,
+    @_s.required this.infrastructureConfigurationArn,
+    this.description,
+    this.distributionConfigurationArn,
+    this.enhancedImageMetadataEnabled,
+    this.imageTestsConfiguration,
+    this.schedule,
+    this.status,
+  });
+  Map<String, dynamic> toJson() => _$UpdateImagePipelineRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateImagePipelineResponse {
@@ -5061,6 +6094,82 @@ class UpdateImagePipelineResponse {
   });
   factory UpdateImagePipelineResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateImagePipelineResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateInfrastructureConfigurationRequest {
+  /// The idempotency token used to make this request idempotent.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// The Amazon Resource Name (ARN) of the infrastructure configuration that you
+  /// want to update.
+  @_s.JsonKey(name: 'infrastructureConfigurationArn')
+  final String infrastructureConfigurationArn;
+
+  /// The instance profile to associate with the instance used to customize your
+  /// EC2 AMI.
+  @_s.JsonKey(name: 'instanceProfileName')
+  final String instanceProfileName;
+
+  /// The description of the infrastructure configuration.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The instance types of the infrastructure configuration. You can specify one
+  /// or more instance types to use for this build. The service will pick one of
+  /// these instance types based on availability.
+  @_s.JsonKey(name: 'instanceTypes')
+  final List<String> instanceTypes;
+
+  /// The key pair of the infrastructure configuration. This can be used to log on
+  /// to and debug the instance used to create your image.
+  @_s.JsonKey(name: 'keyPair')
+  final String keyPair;
+
+  /// The logging configuration of the infrastructure configuration.
+  @_s.JsonKey(name: 'logging')
+  final Logging logging;
+
+  /// The security group IDs to associate with the instance used to customize your
+  /// EC2 AMI.
+  @_s.JsonKey(name: 'securityGroupIds')
+  final List<String> securityGroupIds;
+
+  /// The SNS topic on which to send image build events.
+  @_s.JsonKey(name: 'snsTopicArn')
+  final String snsTopicArn;
+
+  /// The subnet ID to place the instance used to customize your EC2 AMI in.
+  @_s.JsonKey(name: 'subnetId')
+  final String subnetId;
+
+  /// The terminate instance on failure setting of the infrastructure
+  /// configuration. Set to false if you want Image Builder to retain the instance
+  /// used to configure your AMI if the build or test phase of your workflow
+  /// fails.
+  @_s.JsonKey(name: 'terminateInstanceOnFailure')
+  final bool terminateInstanceOnFailure;
+
+  UpdateInfrastructureConfigurationRequest({
+    @_s.required this.clientToken,
+    @_s.required this.infrastructureConfigurationArn,
+    @_s.required this.instanceProfileName,
+    this.description,
+    this.instanceTypes,
+    this.keyPair,
+    this.logging,
+    this.securityGroupIds,
+    this.snsTopicArn,
+    this.subnetId,
+    this.terminateInstanceOnFailure,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateInfrastructureConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(

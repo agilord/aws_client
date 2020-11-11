@@ -51,15 +51,64 @@ const _$AgentStatusEnumMap = {
   AgentStatus.offline: 'OFFLINE',
 };
 
+Map<String, dynamic> _$CancelTaskExecutionRequestToJson(
+    CancelTaskExecutionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TaskExecutionArn', instance.taskExecutionArn);
+  return val;
+}
+
 CancelTaskExecutionResponse _$CancelTaskExecutionResponseFromJson(
     Map<String, dynamic> json) {
   return CancelTaskExecutionResponse();
+}
+
+Map<String, dynamic> _$CreateAgentRequestToJson(CreateAgentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ActivationKey', instance.activationKey);
+  writeNotNull('AgentName', instance.agentName);
+  writeNotNull('SecurityGroupArns', instance.securityGroupArns);
+  writeNotNull('SubnetArns', instance.subnetArns);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('VpcEndpointId', instance.vpcEndpointId);
+  return val;
 }
 
 CreateAgentResponse _$CreateAgentResponseFromJson(Map<String, dynamic> json) {
   return CreateAgentResponse(
     agentArn: json['AgentArn'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateLocationEfsRequestToJson(
+    CreateLocationEfsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Ec2Config', instance.ec2Config?.toJson());
+  writeNotNull('EfsFilesystemArn', instance.efsFilesystemArn);
+  writeNotNull('Subdirectory', instance.subdirectory);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateLocationEfsResponse _$CreateLocationEfsResponseFromJson(
@@ -69,11 +118,49 @@ CreateLocationEfsResponse _$CreateLocationEfsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateLocationFsxWindowsRequestToJson(
+    CreateLocationFsxWindowsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FsxFilesystemArn', instance.fsxFilesystemArn);
+  writeNotNull('Password', instance.password);
+  writeNotNull('SecurityGroupArns', instance.securityGroupArns);
+  writeNotNull('User', instance.user);
+  writeNotNull('Domain', instance.domain);
+  writeNotNull('Subdirectory', instance.subdirectory);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateLocationFsxWindowsResponse _$CreateLocationFsxWindowsResponseFromJson(
     Map<String, dynamic> json) {
   return CreateLocationFsxWindowsResponse(
     locationArn: json['LocationArn'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateLocationNfsRequestToJson(
+    CreateLocationNfsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('OnPremConfig', instance.onPremConfig?.toJson());
+  writeNotNull('ServerHostname', instance.serverHostname);
+  writeNotNull('Subdirectory', instance.subdirectory);
+  writeNotNull('MountOptions', instance.mountOptions?.toJson());
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateLocationNfsResponse _$CreateLocationNfsResponseFromJson(
@@ -83,11 +170,60 @@ CreateLocationNfsResponse _$CreateLocationNfsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateLocationS3RequestToJson(
+    CreateLocationS3Request instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('S3BucketArn', instance.s3BucketArn);
+  writeNotNull('S3Config', instance.s3Config?.toJson());
+  writeNotNull(
+      'S3StorageClass', _$S3StorageClassEnumMap[instance.s3StorageClass]);
+  writeNotNull('Subdirectory', instance.subdirectory);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+const _$S3StorageClassEnumMap = {
+  S3StorageClass.standard: 'STANDARD',
+  S3StorageClass.standardIa: 'STANDARD_IA',
+  S3StorageClass.onezoneIa: 'ONEZONE_IA',
+  S3StorageClass.intelligentTiering: 'INTELLIGENT_TIERING',
+  S3StorageClass.glacier: 'GLACIER',
+  S3StorageClass.deepArchive: 'DEEP_ARCHIVE',
+};
+
 CreateLocationS3Response _$CreateLocationS3ResponseFromJson(
     Map<String, dynamic> json) {
   return CreateLocationS3Response(
     locationArn: json['LocationArn'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateLocationSmbRequestToJson(
+    CreateLocationSmbRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AgentArns', instance.agentArns);
+  writeNotNull('Password', instance.password);
+  writeNotNull('ServerHostname', instance.serverHostname);
+  writeNotNull('Subdirectory', instance.subdirectory);
+  writeNotNull('User', instance.user);
+  writeNotNull('Domain', instance.domain);
+  writeNotNull('MountOptions', instance.mountOptions?.toJson());
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateLocationSmbResponse _$CreateLocationSmbResponseFromJson(
@@ -97,14 +233,62 @@ CreateLocationSmbResponse _$CreateLocationSmbResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateTaskRequestToJson(CreateTaskRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DestinationLocationArn', instance.destinationLocationArn);
+  writeNotNull('SourceLocationArn', instance.sourceLocationArn);
+  writeNotNull('CloudWatchLogGroupArn', instance.cloudWatchLogGroupArn);
+  writeNotNull(
+      'Excludes', instance.excludes?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Name', instance.name);
+  writeNotNull('Options', instance.options?.toJson());
+  writeNotNull('Schedule', instance.schedule?.toJson());
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateTaskResponse _$CreateTaskResponseFromJson(Map<String, dynamic> json) {
   return CreateTaskResponse(
     taskArn: json['TaskArn'] as String,
   );
 }
 
+Map<String, dynamic> _$DeleteAgentRequestToJson(DeleteAgentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AgentArn', instance.agentArn);
+  return val;
+}
+
 DeleteAgentResponse _$DeleteAgentResponseFromJson(Map<String, dynamic> json) {
   return DeleteAgentResponse();
+}
+
+Map<String, dynamic> _$DeleteLocationRequestToJson(
+    DeleteLocationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LocationArn', instance.locationArn);
+  return val;
 }
 
 DeleteLocationResponse _$DeleteLocationResponseFromJson(
@@ -112,8 +296,35 @@ DeleteLocationResponse _$DeleteLocationResponseFromJson(
   return DeleteLocationResponse();
 }
 
+Map<String, dynamic> _$DeleteTaskRequestToJson(DeleteTaskRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TaskArn', instance.taskArn);
+  return val;
+}
+
 DeleteTaskResponse _$DeleteTaskResponseFromJson(Map<String, dynamic> json) {
   return DeleteTaskResponse();
+}
+
+Map<String, dynamic> _$DescribeAgentRequestToJson(
+    DescribeAgentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AgentArn', instance.agentArn);
+  return val;
 }
 
 DescribeAgentResponse _$DescribeAgentResponseFromJson(
@@ -139,6 +350,20 @@ const _$EndpointTypeEnumMap = {
   EndpointType.fips: 'FIPS',
 };
 
+Map<String, dynamic> _$DescribeLocationEfsRequestToJson(
+    DescribeLocationEfsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LocationArn', instance.locationArn);
+  return val;
+}
+
 DescribeLocationEfsResponse _$DescribeLocationEfsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeLocationEfsResponse(
@@ -149,6 +374,20 @@ DescribeLocationEfsResponse _$DescribeLocationEfsResponseFromJson(
     locationArn: json['LocationArn'] as String,
     locationUri: json['LocationUri'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeLocationFsxWindowsRequestToJson(
+    DescribeLocationFsxWindowsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LocationArn', instance.locationArn);
+  return val;
 }
 
 DescribeLocationFsxWindowsResponse _$DescribeLocationFsxWindowsResponseFromJson(
@@ -162,6 +401,20 @@ DescribeLocationFsxWindowsResponse _$DescribeLocationFsxWindowsResponseFromJson(
         (json['SecurityGroupArns'] as List)?.map((e) => e as String)?.toList(),
     user: json['User'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeLocationNfsRequestToJson(
+    DescribeLocationNfsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LocationArn', instance.locationArn);
+  return val;
 }
 
 DescribeLocationNfsResponse _$DescribeLocationNfsResponseFromJson(
@@ -180,6 +433,20 @@ DescribeLocationNfsResponse _$DescribeLocationNfsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeLocationS3RequestToJson(
+    DescribeLocationS3Request instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LocationArn', instance.locationArn);
+  return val;
+}
+
 DescribeLocationS3Response _$DescribeLocationS3ResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeLocationS3Response(
@@ -194,14 +461,19 @@ DescribeLocationS3Response _$DescribeLocationS3ResponseFromJson(
   );
 }
 
-const _$S3StorageClassEnumMap = {
-  S3StorageClass.standard: 'STANDARD',
-  S3StorageClass.standardIa: 'STANDARD_IA',
-  S3StorageClass.onezoneIa: 'ONEZONE_IA',
-  S3StorageClass.intelligentTiering: 'INTELLIGENT_TIERING',
-  S3StorageClass.glacier: 'GLACIER',
-  S3StorageClass.deepArchive: 'DEEP_ARCHIVE',
-};
+Map<String, dynamic> _$DescribeLocationSmbRequestToJson(
+    DescribeLocationSmbRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LocationArn', instance.locationArn);
+  return val;
+}
 
 DescribeLocationSmbResponse _$DescribeLocationSmbResponseFromJson(
     Map<String, dynamic> json) {
@@ -217,6 +489,20 @@ DescribeLocationSmbResponse _$DescribeLocationSmbResponseFromJson(
             json['MountOptions'] as Map<String, dynamic>),
     user: json['User'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeTaskExecutionRequestToJson(
+    DescribeTaskExecutionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TaskExecutionArn', instance.taskExecutionArn);
+  return val;
 }
 
 DescribeTaskExecutionResponse _$DescribeTaskExecutionResponseFromJson(
@@ -257,6 +543,19 @@ const _$TaskExecutionStatusEnumMap = {
   TaskExecutionStatus.success: 'SUCCESS',
   TaskExecutionStatus.error: 'ERROR',
 };
+
+Map<String, dynamic> _$DescribeTaskRequestToJson(DescribeTaskRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TaskArn', instance.taskArn);
+  return val;
+}
 
 DescribeTaskResponse _$DescribeTaskResponseFromJson(Map<String, dynamic> json) {
   return DescribeTaskResponse(
@@ -345,6 +644,20 @@ const _$FilterTypeEnumMap = {
   FilterType.simplePattern: 'SIMPLE_PATTERN',
 };
 
+Map<String, dynamic> _$ListAgentsRequestToJson(ListAgentsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListAgentsResponse _$ListAgentsResponseFromJson(Map<String, dynamic> json) {
   return ListAgentsResponse(
     agents: (json['Agents'] as List)
@@ -354,6 +667,21 @@ ListAgentsResponse _$ListAgentsResponseFromJson(Map<String, dynamic> json) {
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListLocationsRequestToJson(
+    ListLocationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListLocationsResponse _$ListLocationsResponseFromJson(
@@ -368,6 +696,22 @@ ListLocationsResponse _$ListLocationsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListTagsForResourceRequestToJson(
+    ListTagsForResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
@@ -377,6 +721,22 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
             e == null ? null : TagListEntry.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListTaskExecutionsRequestToJson(
+    ListTaskExecutionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('TaskArn', instance.taskArn);
+  return val;
 }
 
 ListTaskExecutionsResponse _$ListTaskExecutionsResponseFromJson(
@@ -389,6 +749,20 @@ ListTaskExecutionsResponse _$ListTaskExecutionsResponseFromJson(
             : TaskExecutionListEntry.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListTasksRequestToJson(ListTasksRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListTasksResponse _$ListTasksResponseFromJson(Map<String, dynamic> json) {
@@ -618,6 +992,23 @@ const _$SmbVersionEnumMap = {
   SmbVersion.smb3: 'SMB3',
 };
 
+Map<String, dynamic> _$StartTaskExecutionRequestToJson(
+    StartTaskExecutionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TaskArn', instance.taskArn);
+  writeNotNull(
+      'Includes', instance.includes?.map((e) => e?.toJson())?.toList());
+  writeNotNull('OverrideOptions', instance.overrideOptions?.toJson());
+  return val;
+}
+
 StartTaskExecutionResponse _$StartTaskExecutionResponseFromJson(
     Map<String, dynamic> json) {
   return StartTaskExecutionResponse(
@@ -643,6 +1034,20 @@ Map<String, dynamic> _$TagListEntryToJson(TagListEntry instance) {
 
   writeNotNull('Key', instance.key);
   writeNotNull('Value', instance.value);
+  return val;
+}
+
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
   return val;
 }
 
@@ -709,13 +1114,61 @@ Map<String, dynamic> _$TaskScheduleToJson(TaskSchedule instance) {
   return val;
 }
 
+Map<String, dynamic> _$UntagResourceRequestToJson(
+    UntagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Keys', instance.keys);
+  writeNotNull('ResourceArn', instance.resourceArn);
+  return val;
+}
+
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse();
 }
 
+Map<String, dynamic> _$UpdateAgentRequestToJson(UpdateAgentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AgentArn', instance.agentArn);
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
 UpdateAgentResponse _$UpdateAgentResponseFromJson(Map<String, dynamic> json) {
   return UpdateAgentResponse();
+}
+
+Map<String, dynamic> _$UpdateTaskRequestToJson(UpdateTaskRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TaskArn', instance.taskArn);
+  writeNotNull('CloudWatchLogGroupArn', instance.cloudWatchLogGroupArn);
+  writeNotNull(
+      'Excludes', instance.excludes?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Name', instance.name);
+  writeNotNull('Options', instance.options?.toJson());
+  writeNotNull('Schedule', instance.schedule?.toJson());
+  return val;
 }
 
 UpdateTaskResponse _$UpdateTaskResponseFromJson(Map<String, dynamic> json) {

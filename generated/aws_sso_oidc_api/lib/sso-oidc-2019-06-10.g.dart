@@ -6,6 +6,26 @@ part of 'sso-oidc-2019-06-10.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$CreateTokenRequestToJson(CreateTokenRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('clientId', instance.clientId);
+  writeNotNull('clientSecret', instance.clientSecret);
+  writeNotNull('deviceCode', instance.deviceCode);
+  writeNotNull('grantType', instance.grantType);
+  writeNotNull('code', instance.code);
+  writeNotNull('redirectUri', instance.redirectUri);
+  writeNotNull('refreshToken', instance.refreshToken);
+  writeNotNull('scope', instance.scope);
+  return val;
+}
+
 CreateTokenResponse _$CreateTokenResponseFromJson(Map<String, dynamic> json) {
   return CreateTokenResponse(
     accessToken: json['accessToken'] as String,
@@ -14,6 +34,22 @@ CreateTokenResponse _$CreateTokenResponseFromJson(Map<String, dynamic> json) {
     refreshToken: json['refreshToken'] as String,
     tokenType: json['tokenType'] as String,
   );
+}
+
+Map<String, dynamic> _$RegisterClientRequestToJson(
+    RegisterClientRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('clientName', instance.clientName);
+  writeNotNull('clientType', instance.clientType);
+  writeNotNull('scopes', instance.scopes);
+  return val;
 }
 
 RegisterClientResponse _$RegisterClientResponseFromJson(
@@ -26,6 +62,22 @@ RegisterClientResponse _$RegisterClientResponseFromJson(
     clientSecretExpiresAt: json['clientSecretExpiresAt'] as int,
     tokenEndpoint: json['tokenEndpoint'] as String,
   );
+}
+
+Map<String, dynamic> _$StartDeviceAuthorizationRequestToJson(
+    StartDeviceAuthorizationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('clientId', instance.clientId);
+  writeNotNull('clientSecret', instance.clientSecret);
+  writeNotNull('startUrl', instance.startUrl);
+  return val;
 }
 
 StartDeviceAuthorizationResponse _$StartDeviceAuthorizationResponseFromJson(

@@ -303,6 +303,22 @@ const _$CopyJobStateEnumMap = {
   CopyJobState.failed: 'FAILED',
 };
 
+Map<String, dynamic> _$CreateBackupPlanInputToJson(
+    CreateBackupPlanInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BackupPlan', instance.backupPlan?.toJson());
+  writeNotNull('BackupPlanTags', instance.backupPlanTags);
+  writeNotNull('CreatorRequestId', instance.creatorRequestId);
+  return val;
+}
+
 CreateBackupPlanOutput _$CreateBackupPlanOutputFromJson(
     Map<String, dynamic> json) {
   return CreateBackupPlanOutput(
@@ -311,6 +327,21 @@ CreateBackupPlanOutput _$CreateBackupPlanOutputFromJson(
     creationDate: unixTimestampFromJson(json['CreationDate']),
     versionId: json['VersionId'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateBackupSelectionInputToJson(
+    CreateBackupSelectionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BackupSelection', instance.backupSelection?.toJson());
+  writeNotNull('CreatorRequestId', instance.creatorRequestId);
+  return val;
 }
 
 CreateBackupSelectionOutput _$CreateBackupSelectionOutputFromJson(
@@ -322,6 +353,22 @@ CreateBackupSelectionOutput _$CreateBackupSelectionOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateBackupVaultInputToJson(
+    CreateBackupVaultInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BackupVaultTags', instance.backupVaultTags);
+  writeNotNull('CreatorRequestId', instance.creatorRequestId);
+  writeNotNull('EncryptionKeyArn', instance.encryptionKeyArn);
+  return val;
+}
+
 CreateBackupVaultOutput _$CreateBackupVaultOutputFromJson(
     Map<String, dynamic> json) {
   return CreateBackupVaultOutput(
@@ -330,6 +377,10 @@ CreateBackupVaultOutput _$CreateBackupVaultOutputFromJson(
     creationDate: unixTimestampFromJson(json['CreationDate']),
   );
 }
+
+Map<String, dynamic> _$DeleteBackupPlanInputToJson(
+        DeleteBackupPlanInput instance) =>
+    <String, dynamic>{};
 
 DeleteBackupPlanOutput _$DeleteBackupPlanOutputFromJson(
     Map<String, dynamic> json) {
@@ -340,6 +391,26 @@ DeleteBackupPlanOutput _$DeleteBackupPlanOutputFromJson(
     versionId: json['VersionId'] as String,
   );
 }
+
+Map<String, dynamic> _$DeleteBackupSelectionInputToJson(
+        DeleteBackupSelectionInput instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteBackupVaultAccessPolicyInputToJson(
+        DeleteBackupVaultAccessPolicyInput instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteBackupVaultInputToJson(
+        DeleteBackupVaultInput instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteBackupVaultNotificationsInputToJson(
+        DeleteBackupVaultNotificationsInput instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteRecoveryPointInputToJson(
+        DeleteRecoveryPointInput instance) =>
+    <String, dynamic>{};
 
 DescribeBackupJobOutput _$DescribeBackupJobOutputFromJson(
     Map<String, dynamic> json) {
@@ -473,6 +544,20 @@ ExportBackupPlanTemplateOutput _$ExportBackupPlanTemplateOutputFromJson(
   return ExportBackupPlanTemplateOutput(
     backupPlanTemplateJson: json['BackupPlanTemplateJson'] as String,
   );
+}
+
+Map<String, dynamic> _$GetBackupPlanFromJSONInputToJson(
+    GetBackupPlanFromJSONInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BackupPlanTemplateJson', instance.backupPlanTemplateJson);
+  return val;
 }
 
 GetBackupPlanFromJSONOutput _$GetBackupPlanFromJSONOutputFromJson(
@@ -729,6 +814,35 @@ ProtectedResource _$ProtectedResourceFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$PutBackupVaultAccessPolicyInputToJson(
+    PutBackupVaultAccessPolicyInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Policy', instance.policy);
+  return val;
+}
+
+Map<String, dynamic> _$PutBackupVaultNotificationsInputToJson(
+    PutBackupVaultNotificationsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BackupVaultEvents', instance.backupVaultEvents);
+  writeNotNull('SNSTopicArn', instance.sNSTopicArn);
+  return val;
+}
+
 RecoveryPointByBackupVault _$RecoveryPointByBackupVaultFromJson(
     Map<String, dynamic> json) {
   return RecoveryPointByBackupVault(
@@ -797,12 +911,50 @@ RestoreJobsListMember _$RestoreJobsListMemberFromJson(
   );
 }
 
+Map<String, dynamic> _$StartBackupJobInputToJson(StartBackupJobInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BackupVaultName', instance.backupVaultName);
+  writeNotNull('IamRoleArn', instance.iamRoleArn);
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('CompleteWindowMinutes', instance.completeWindowMinutes);
+  writeNotNull('IdempotencyToken', instance.idempotencyToken);
+  writeNotNull('Lifecycle', instance.lifecycle?.toJson());
+  writeNotNull('RecoveryPointTags', instance.recoveryPointTags);
+  writeNotNull('StartWindowMinutes', instance.startWindowMinutes);
+  return val;
+}
+
 StartBackupJobOutput _$StartBackupJobOutputFromJson(Map<String, dynamic> json) {
   return StartBackupJobOutput(
     backupJobId: json['BackupJobId'] as String,
     creationDate: unixTimestampFromJson(json['CreationDate']),
     recoveryPointArn: json['RecoveryPointArn'] as String,
   );
+}
+
+Map<String, dynamic> _$StartCopyJobInputToJson(StartCopyJobInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DestinationBackupVaultArn', instance.destinationBackupVaultArn);
+  writeNotNull('IamRoleArn', instance.iamRoleArn);
+  writeNotNull('RecoveryPointArn', instance.recoveryPointArn);
+  writeNotNull('SourceBackupVaultName', instance.sourceBackupVaultName);
+  writeNotNull('IdempotencyToken', instance.idempotencyToken);
+  writeNotNull('Lifecycle', instance.lifecycle?.toJson());
+  return val;
 }
 
 StartCopyJobOutput _$StartCopyJobOutputFromJson(Map<String, dynamic> json) {
@@ -812,11 +964,72 @@ StartCopyJobOutput _$StartCopyJobOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$StartRestoreJobInputToJson(
+    StartRestoreJobInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('IamRoleArn', instance.iamRoleArn);
+  writeNotNull('Metadata', instance.metadata);
+  writeNotNull('RecoveryPointArn', instance.recoveryPointArn);
+  writeNotNull('IdempotencyToken', instance.idempotencyToken);
+  writeNotNull('ResourceType', instance.resourceType);
+  return val;
+}
+
 StartRestoreJobOutput _$StartRestoreJobOutputFromJson(
     Map<String, dynamic> json) {
   return StartRestoreJobOutput(
     restoreJobId: json['RestoreJobId'] as String,
   );
+}
+
+Map<String, dynamic> _$StopBackupJobInputToJson(StopBackupJobInput instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$TagResourceInputToJson(TagResourceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Tags', instance.tags);
+  return val;
+}
+
+Map<String, dynamic> _$UntagResourceInputToJson(UntagResourceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TagKeyList', instance.tagKeyList);
+  return val;
+}
+
+Map<String, dynamic> _$UpdateBackupPlanInputToJson(
+    UpdateBackupPlanInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BackupPlan', instance.backupPlan?.toJson());
+  return val;
 }
 
 UpdateBackupPlanOutput _$UpdateBackupPlanOutputFromJson(
@@ -827,6 +1040,20 @@ UpdateBackupPlanOutput _$UpdateBackupPlanOutputFromJson(
     creationDate: unixTimestampFromJson(json['CreationDate']),
     versionId: json['VersionId'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateRecoveryPointLifecycleInputToJson(
+    UpdateRecoveryPointLifecycleInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Lifecycle', instance.lifecycle?.toJson());
+  return val;
 }
 
 UpdateRecoveryPointLifecycleOutput _$UpdateRecoveryPointLifecycleOutputFromJson(

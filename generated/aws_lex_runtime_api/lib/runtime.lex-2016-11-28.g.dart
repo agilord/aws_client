@@ -13,6 +13,10 @@ Button _$ButtonFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DeleteSessionRequestToJson(
+        DeleteSessionRequest instance) =>
+    <String, dynamic>{};
+
 DeleteSessionResponse _$DeleteSessionResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteSessionResponse(
@@ -217,6 +221,21 @@ const _$DialogStateEnumMap = {
   DialogState.failed: 'Failed',
 };
 
+Map<String, dynamic> _$PostTextRequestToJson(PostTextRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('inputText', instance.inputText);
+  writeNotNull('requestAttributes', instance.requestAttributes);
+  writeNotNull('sessionAttributes', instance.sessionAttributes);
+  return val;
+}
+
 PostTextResponse _$PostTextResponseFromJson(Map<String, dynamic> json) {
   return PostTextResponse(
     dialogState:
@@ -241,6 +260,22 @@ PostTextResponse _$PostTextResponseFromJson(Map<String, dynamic> json) {
       (k, e) => MapEntry(k, e as String),
     ),
   );
+}
+
+Map<String, dynamic> _$PutSessionRequestToJson(PutSessionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('dialogAction', instance.dialogAction?.toJson());
+  writeNotNull('recentIntentSummaryView',
+      instance.recentIntentSummaryView?.map((e) => e?.toJson())?.toList());
+  writeNotNull('sessionAttributes', instance.sessionAttributes);
+  return val;
 }
 
 PutSessionResponse _$PutSessionResponseFromJson(Map<String, dynamic> json) {

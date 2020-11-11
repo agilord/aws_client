@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -200,10 +199,10 @@ class WAFV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        'WebACLArn': webACLArn,
-      },
+      payload: AssociateWebACLRequest(
+        resourceArn: resourceArn,
+        webACLArn: webACLArn,
+      ),
     );
 
     return AssociateWebACLResponse.fromJson(jsonResponse.body);
@@ -273,10 +272,10 @@ class WAFV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Rules': rules,
-        'Scope': scope?.toValue(),
-      },
+      payload: CheckCapacityRequest(
+        rules: rules,
+        scope: scope,
+      ),
     );
 
     return CheckCapacityResponse.fromJson(jsonResponse.body);
@@ -414,14 +413,14 @@ class WAFV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Addresses': addresses,
-        'IPAddressVersion': iPAddressVersion?.toValue(),
-        'Name': name,
-        'Scope': scope?.toValue(),
-        if (description != null) 'Description': description,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateIPSetRequest(
+        addresses: addresses,
+        iPAddressVersion: iPAddressVersion,
+        name: name,
+        scope: scope,
+        description: description,
+        tags: tags,
+      ),
     );
 
     return CreateIPSetResponse.fromJson(jsonResponse.body);
@@ -521,13 +520,13 @@ class WAFV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        'RegularExpressionList': regularExpressionList,
-        'Scope': scope?.toValue(),
-        if (description != null) 'Description': description,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateRegexPatternSetRequest(
+        name: name,
+        regularExpressionList: regularExpressionList,
+        scope: scope,
+        description: description,
+        tags: tags,
+      ),
     );
 
     return CreateRegexPatternSetResponse.fromJson(jsonResponse.body);
@@ -668,15 +667,15 @@ class WAFV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Capacity': capacity,
-        'Name': name,
-        'Scope': scope?.toValue(),
-        'VisibilityConfig': visibilityConfig,
-        if (description != null) 'Description': description,
-        if (rules != null) 'Rules': rules,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateRuleGroupRequest(
+        capacity: capacity,
+        name: name,
+        scope: scope,
+        visibilityConfig: visibilityConfig,
+        description: description,
+        rules: rules,
+        tags: tags,
+      ),
     );
 
     return CreateRuleGroupResponse.fromJson(jsonResponse.body);
@@ -803,15 +802,15 @@ class WAFV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DefaultAction': defaultAction,
-        'Name': name,
-        'Scope': scope?.toValue(),
-        'VisibilityConfig': visibilityConfig,
-        if (description != null) 'Description': description,
-        if (rules != null) 'Rules': rules,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateWebACLRequest(
+        defaultAction: defaultAction,
+        name: name,
+        scope: scope,
+        visibilityConfig: visibilityConfig,
+        description: description,
+        rules: rules,
+        tags: tags,
+      ),
     );
 
     return CreateWebACLResponse.fromJson(jsonResponse.body);
@@ -884,10 +883,10 @@ class WAFV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'WebACLArn': webACLArn,
-        'WebACLLockToken': webACLLockToken,
-      },
+      payload: DeleteFirewallManagerRuleGroupsRequest(
+        webACLArn: webACLArn,
+        webACLLockToken: webACLLockToken,
+      ),
     );
 
     return DeleteFirewallManagerRuleGroupsResponse.fromJson(jsonResponse.body);
@@ -1006,12 +1005,12 @@ class WAFV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-        'LockToken': lockToken,
-        'Name': name,
-        'Scope': scope?.toValue(),
-      },
+      payload: DeleteIPSetRequest(
+        id: id,
+        lockToken: lockToken,
+        name: name,
+        scope: scope,
+      ),
     );
 
     return DeleteIPSetResponse.fromJson(jsonResponse.body);
@@ -1062,9 +1061,9 @@ class WAFV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-      },
+      payload: DeleteLoggingConfigurationRequest(
+        resourceArn: resourceArn,
+      ),
     );
 
     return DeleteLoggingConfigurationResponse.fromJson(jsonResponse.body);
@@ -1110,9 +1109,9 @@ class WAFV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-      },
+      payload: DeletePermissionPolicyRequest(
+        resourceArn: resourceArn,
+      ),
     );
 
     return DeletePermissionPolicyResponse.fromJson(jsonResponse.body);
@@ -1230,12 +1229,12 @@ class WAFV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-        'LockToken': lockToken,
-        'Name': name,
-        'Scope': scope?.toValue(),
-      },
+      payload: DeleteRegexPatternSetRequest(
+        id: id,
+        lockToken: lockToken,
+        name: name,
+        scope: scope,
+      ),
     );
 
     return DeleteRegexPatternSetResponse.fromJson(jsonResponse.body);
@@ -1354,12 +1353,12 @@ class WAFV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-        'LockToken': lockToken,
-        'Name': name,
-        'Scope': scope?.toValue(),
-      },
+      payload: DeleteRuleGroupRequest(
+        id: id,
+        lockToken: lockToken,
+        name: name,
+        scope: scope,
+      ),
     );
 
     return DeleteRuleGroupResponse.fromJson(jsonResponse.body);
@@ -1481,12 +1480,12 @@ class WAFV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-        'LockToken': lockToken,
-        'Name': name,
-        'Scope': scope?.toValue(),
-      },
+      payload: DeleteWebACLRequest(
+        id: id,
+        lockToken: lockToken,
+        name: name,
+        scope: scope,
+      ),
     );
 
     return DeleteWebACLResponse.fromJson(jsonResponse.body);
@@ -1577,11 +1576,11 @@ class WAFV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        'Scope': scope?.toValue(),
-        'VendorName': vendorName,
-      },
+      payload: DescribeManagedRuleGroupRequest(
+        name: name,
+        scope: scope,
+        vendorName: vendorName,
+      ),
     );
 
     return DescribeManagedRuleGroupResponse.fromJson(jsonResponse.body);
@@ -1654,9 +1653,9 @@ class WAFV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-      },
+      payload: DisassociateWebACLRequest(
+        resourceArn: resourceArn,
+      ),
     );
 
     return DisassociateWebACLResponse.fromJson(jsonResponse.body);
@@ -1746,11 +1745,11 @@ class WAFV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-        'Name': name,
-        'Scope': scope?.toValue(),
-      },
+      payload: GetIPSetRequest(
+        id: id,
+        name: name,
+        scope: scope,
+      ),
     );
 
     return GetIPSetResponse.fromJson(jsonResponse.body);
@@ -1800,9 +1799,9 @@ class WAFV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-      },
+      payload: GetLoggingConfigurationRequest(
+        resourceArn: resourceArn,
+      ),
     );
 
     return GetLoggingConfigurationResponse.fromJson(jsonResponse.body);
@@ -1846,9 +1845,9 @@ class WAFV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-      },
+      payload: GetPermissionPolicyRequest(
+        resourceArn: resourceArn,
+      ),
     );
 
     return GetPermissionPolicyResponse.fromJson(jsonResponse.body);
@@ -1960,12 +1959,12 @@ class WAFV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'RuleName': ruleName,
-        'Scope': scope?.toValue(),
-        'WebACLId': webACLId,
-        'WebACLName': webACLName,
-      },
+      payload: GetRateBasedStatementManagedKeysRequest(
+        ruleName: ruleName,
+        scope: scope,
+        webACLId: webACLId,
+        webACLName: webACLName,
+      ),
     );
 
     return GetRateBasedStatementManagedKeysResponse.fromJson(jsonResponse.body);
@@ -2054,11 +2053,11 @@ class WAFV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-        'Name': name,
-        'Scope': scope?.toValue(),
-      },
+      payload: GetRegexPatternSetRequest(
+        id: id,
+        name: name,
+        scope: scope,
+      ),
     );
 
     return GetRegexPatternSetResponse.fromJson(jsonResponse.body);
@@ -2148,11 +2147,11 @@ class WAFV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-        'Name': name,
-        'Scope': scope?.toValue(),
-      },
+      payload: GetRuleGroupRequest(
+        id: id,
+        name: name,
+        scope: scope,
+      ),
     );
 
     return GetRuleGroupResponse.fromJson(jsonResponse.body);
@@ -2276,13 +2275,13 @@ class WAFV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'MaxItems': maxItems,
-        'RuleMetricName': ruleMetricName,
-        'Scope': scope?.toValue(),
-        'TimeWindow': timeWindow,
-        'WebAclArn': webAclArn,
-      },
+      payload: GetSampledRequestsRequest(
+        maxItems: maxItems,
+        ruleMetricName: ruleMetricName,
+        scope: scope,
+        timeWindow: timeWindow,
+        webAclArn: webAclArn,
+      ),
     );
 
     return GetSampledRequestsResponse.fromJson(jsonResponse.body);
@@ -2372,11 +2371,11 @@ class WAFV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-        'Name': name,
-        'Scope': scope?.toValue(),
-      },
+      payload: GetWebACLRequest(
+        id: id,
+        name: name,
+        scope: scope,
+      ),
     );
 
     return GetWebACLResponse.fromJson(jsonResponse.body);
@@ -2426,9 +2425,9 @@ class WAFV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-      },
+      payload: GetWebACLForResourceRequest(
+        resourceArn: resourceArn,
+      ),
     );
 
     return GetWebACLForResourceResponse.fromJson(jsonResponse.body);
@@ -2513,11 +2512,11 @@ class WAFV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Scope': scope?.toValue(),
-        if (limit != null) 'Limit': limit,
-        if (nextMarker != null) 'NextMarker': nextMarker,
-      },
+      payload: ListAvailableManagedRuleGroupsRequest(
+        scope: scope,
+        limit: limit,
+        nextMarker: nextMarker,
+      ),
     );
 
     return ListAvailableManagedRuleGroupsResponse.fromJson(jsonResponse.body);
@@ -2600,11 +2599,11 @@ class WAFV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Scope': scope?.toValue(),
-        if (limit != null) 'Limit': limit,
-        if (nextMarker != null) 'NextMarker': nextMarker,
-      },
+      payload: ListIPSetsRequest(
+        scope: scope,
+        limit: limit,
+        nextMarker: nextMarker,
+      ),
     );
 
     return ListIPSetsResponse.fromJson(jsonResponse.body);
@@ -2685,11 +2684,11 @@ class WAFV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (limit != null) 'Limit': limit,
-        if (nextMarker != null) 'NextMarker': nextMarker,
-        if (scope != null) 'Scope': scope?.toValue(),
-      },
+      payload: ListLoggingConfigurationsRequest(
+        limit: limit,
+        nextMarker: nextMarker,
+        scope: scope,
+      ),
     );
 
     return ListLoggingConfigurationsResponse.fromJson(jsonResponse.body);
@@ -2772,11 +2771,11 @@ class WAFV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Scope': scope?.toValue(),
-        if (limit != null) 'Limit': limit,
-        if (nextMarker != null) 'NextMarker': nextMarker,
-      },
+      payload: ListRegexPatternSetsRequest(
+        scope: scope,
+        limit: limit,
+        nextMarker: nextMarker,
+      ),
     );
 
     return ListRegexPatternSetsResponse.fromJson(jsonResponse.body);
@@ -2834,10 +2833,10 @@ class WAFV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'WebACLArn': webACLArn,
-        if (resourceType != null) 'ResourceType': resourceType?.toValue(),
-      },
+      payload: ListResourcesForWebACLRequest(
+        webACLArn: webACLArn,
+        resourceType: resourceType,
+      ),
     );
 
     return ListResourcesForWebACLResponse.fromJson(jsonResponse.body);
@@ -2920,11 +2919,11 @@ class WAFV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Scope': scope?.toValue(),
-        if (limit != null) 'Limit': limit,
-        if (nextMarker != null) 'NextMarker': nextMarker,
-      },
+      payload: ListRuleGroupsRequest(
+        scope: scope,
+        limit: limit,
+        nextMarker: nextMarker,
+      ),
     );
 
     return ListRuleGroupsResponse.fromJson(jsonResponse.body);
@@ -3007,11 +3006,11 @@ class WAFV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceARN': resourceARN,
-        if (limit != null) 'Limit': limit,
-        if (nextMarker != null) 'NextMarker': nextMarker,
-      },
+      payload: ListTagsForResourceRequest(
+        resourceARN: resourceARN,
+        limit: limit,
+        nextMarker: nextMarker,
+      ),
     );
 
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
@@ -3094,11 +3093,11 @@ class WAFV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Scope': scope?.toValue(),
-        if (limit != null) 'Limit': limit,
-        if (nextMarker != null) 'NextMarker': nextMarker,
-      },
+      payload: ListWebACLsRequest(
+        scope: scope,
+        limit: limit,
+        nextMarker: nextMarker,
+      ),
     );
 
     return ListWebACLsResponse.fromJson(jsonResponse.body);
@@ -3161,9 +3160,9 @@ class WAFV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'LoggingConfiguration': loggingConfiguration,
-      },
+      payload: PutLoggingConfigurationRequest(
+        loggingConfiguration: loggingConfiguration,
+      ),
     );
 
     return PutLoggingConfigurationResponse.fromJson(jsonResponse.body);
@@ -3265,10 +3264,10 @@ class WAFV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Policy': policy,
-        'ResourceArn': resourceArn,
-      },
+      payload: PutPermissionPolicyRequest(
+        policy: policy,
+        resourceArn: resourceArn,
+      ),
     );
 
     return PutPermissionPolicyResponse.fromJson(jsonResponse.body);
@@ -3329,10 +3328,10 @@ class WAFV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceARN': resourceARN,
-        'Tags': tags,
-      },
+      payload: TagResourceRequest(
+        resourceARN: resourceARN,
+        tags: tags,
+      ),
     );
 
     return TagResourceResponse.fromJson(jsonResponse.body);
@@ -3392,10 +3391,10 @@ class WAFV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceARN': resourceARN,
-        'TagKeys': tagKeys,
-      },
+      payload: UntagResourceRequest(
+        resourceARN: resourceARN,
+        tagKeys: tagKeys,
+      ),
     );
 
     return UntagResourceResponse.fromJson(jsonResponse.body);
@@ -3564,14 +3563,14 @@ class WAFV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Addresses': addresses,
-        'Id': id,
-        'LockToken': lockToken,
-        'Name': name,
-        'Scope': scope?.toValue(),
-        if (description != null) 'Description': description,
-      },
+      payload: UpdateIPSetRequest(
+        addresses: addresses,
+        id: id,
+        lockToken: lockToken,
+        name: name,
+        scope: scope,
+        description: description,
+      ),
     );
 
     return UpdateIPSetResponse.fromJson(jsonResponse.body);
@@ -3709,14 +3708,14 @@ class WAFV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-        'LockToken': lockToken,
-        'Name': name,
-        'RegularExpressionList': regularExpressionList,
-        'Scope': scope?.toValue(),
-        if (description != null) 'Description': description,
-      },
+      payload: UpdateRegexPatternSetRequest(
+        id: id,
+        lockToken: lockToken,
+        name: name,
+        regularExpressionList: regularExpressionList,
+        scope: scope,
+        description: description,
+      ),
     );
 
     return UpdateRegexPatternSetResponse.fromJson(jsonResponse.body);
@@ -3871,15 +3870,15 @@ class WAFV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Id': id,
-        'LockToken': lockToken,
-        'Name': name,
-        'Scope': scope?.toValue(),
-        'VisibilityConfig': visibilityConfig,
-        if (description != null) 'Description': description,
-        if (rules != null) 'Rules': rules,
-      },
+      payload: UpdateRuleGroupRequest(
+        id: id,
+        lockToken: lockToken,
+        name: name,
+        scope: scope,
+        visibilityConfig: visibilityConfig,
+        description: description,
+        rules: rules,
+      ),
     );
 
     return UpdateRuleGroupResponse.fromJson(jsonResponse.body);
@@ -4045,16 +4044,16 @@ class WAFV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DefaultAction': defaultAction,
-        'Id': id,
-        'LockToken': lockToken,
-        'Name': name,
-        'Scope': scope?.toValue(),
-        'VisibilityConfig': visibilityConfig,
-        if (description != null) 'Description': description,
-        if (rules != null) 'Rules': rules,
-      },
+      payload: UpdateWebACLRequest(
+        defaultAction: defaultAction,
+        id: id,
+        lockToken: lockToken,
+        name: name,
+        scope: scope,
+        visibilityConfig: visibilityConfig,
+        description: description,
+        rules: rules,
+      ),
     );
 
     return UpdateWebACLResponse.fromJson(jsonResponse.body);
@@ -4137,6 +4136,44 @@ class AndStatement {
       _$AndStatementFromJson(json);
 
   Map<String, dynamic> toJson() => _$AndStatementToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateWebACLRequest {
+  /// The Amazon Resource Name (ARN) of the resource to associate with the web
+  /// ACL.
+  ///
+  /// The ARN must be in one of the following formats:
+  ///
+  /// <ul>
+  /// <li>
+  /// For an Application Load Balancer:
+  /// <code>arn:aws:elasticloadbalancing:<i>region</i>:<i>account-id</i>:loadbalancer/app/<i>load-balancer-name</i>/<i>load-balancer-id</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// For an Amazon API Gateway stage:
+  /// <code>arn:aws:apigateway:<i>region</i>::/restapis/<i>api-id</i>/stages/<i>stage-name</i>
+  /// </code>
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// The Amazon Resource Name (ARN) of the Web ACL that you want to associate
+  /// with the resource.
+  @_s.JsonKey(name: 'WebACLArn')
+  final String webACLArn;
+
+  AssociateWebACLRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.webACLArn,
+  });
+  Map<String, dynamic> toJson() => _$AssociateWebACLRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4327,6 +4364,43 @@ class ByteMatchStatement {
       _$ByteMatchStatementFromJson(json);
 
   Map<String, dynamic> toJson() => _$ByteMatchStatementToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CheckCapacityRequest {
+  /// An array of <a>Rule</a> that you're configuring to use in a rule group or
+  /// web ACL.
+  @_s.JsonKey(name: 'Rules')
+  final List<Rule> rules;
+
+  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// regional application. A regional application can be an Application Load
+  /// Balancer (ALB) or an API Gateway stage.
+  ///
+  /// To work with CloudFront, you must also specify the Region US East (N.
+  /// Virginia) as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// CLI - Specify the Region when you use the CloudFront scope:
+  /// <code>--scope=CLOUDFRONT --region=us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// API and SDKs - For all calls, use the Region endpoint us-east-1.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Scope')
+  final Scope scope;
+
+  CheckCapacityRequest({
+    @_s.required this.rules,
+    @_s.required this.scope,
+  });
+  Map<String, dynamic> toJson() => _$CheckCapacityRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4889,6 +4963,94 @@ enum CountryCode {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateIPSetRequest {
+  /// Contains an array of strings that specify one or more IP addresses or blocks
+  /// of IP addresses in Classless Inter-Domain Routing (CIDR) notation. AWS WAF
+  /// supports all address ranges for IP versions IPv4 and IPv6.
+  ///
+  /// Examples:
+  ///
+  /// <ul>
+  /// <li>
+  /// To configure AWS WAF to allow, block, or count requests that originated from
+  /// the IP address 192.0.2.44, specify <code>192.0.2.44/32</code>.
+  /// </li>
+  /// <li>
+  /// To configure AWS WAF to allow, block, or count requests that originated from
+  /// IP addresses from 192.0.2.0 to 192.0.2.255, specify
+  /// <code>192.0.2.0/24</code>.
+  /// </li>
+  /// <li>
+  /// To configure AWS WAF to allow, block, or count requests that originated from
+  /// the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify
+  /// <code>1111:0000:0000:0000:0000:0000:0000:0111/128</code>.
+  /// </li>
+  /// <li>
+  /// To configure AWS WAF to allow, block, or count requests that originated from
+  /// IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to
+  /// 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify
+  /// <code>1111:0000:0000:0000:0000:0000:0000:0000/64</code>.
+  /// </li>
+  /// </ul>
+  /// For more information about CIDR notation, see the Wikipedia entry <a
+  /// href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing">Classless
+  /// Inter-Domain Routing</a>.
+  @_s.JsonKey(name: 'Addresses')
+  final List<String> addresses;
+
+  /// Specify IPV4 or IPV6.
+  @_s.JsonKey(name: 'IPAddressVersion')
+  final IPAddressVersion iPAddressVersion;
+
+  /// The name of the IP set. You cannot change the name of an <code>IPSet</code>
+  /// after you create it.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// regional application. A regional application can be an Application Load
+  /// Balancer (ALB) or an API Gateway stage.
+  ///
+  /// To work with CloudFront, you must also specify the Region US East (N.
+  /// Virginia) as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// CLI - Specify the Region when you use the CloudFront scope:
+  /// <code>--scope=CLOUDFRONT --region=us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// API and SDKs - For all calls, use the Region endpoint us-east-1.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Scope')
+  final Scope scope;
+
+  /// A description of the IP set that helps with identification. You cannot
+  /// change the description of an IP set after you create it.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// An array of key:value pairs to associate with the resource.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateIPSetRequest({
+    @_s.required this.addresses,
+    @_s.required this.iPAddressVersion,
+    @_s.required this.name,
+    @_s.required this.scope,
+    this.description,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateIPSetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateIPSetResponse {
@@ -4904,6 +5066,58 @@ class CreateIPSetResponse {
   });
   factory CreateIPSetResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateIPSetResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateRegexPatternSetRequest {
+  /// The name of the set. You cannot change the name after you create the set.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Array of regular expression strings.
+  @_s.JsonKey(name: 'RegularExpressionList')
+  final List<Regex> regularExpressionList;
+
+  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// regional application. A regional application can be an Application Load
+  /// Balancer (ALB) or an API Gateway stage.
+  ///
+  /// To work with CloudFront, you must also specify the Region US East (N.
+  /// Virginia) as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// CLI - Specify the Region when you use the CloudFront scope:
+  /// <code>--scope=CLOUDFRONT --region=us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// API and SDKs - For all calls, use the Region endpoint us-east-1.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Scope')
+  final Scope scope;
+
+  /// A description of the set that helps with identification. You cannot change
+  /// the description of a set after you create it.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// An array of key:value pairs to associate with the resource.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateRegexPatternSetRequest({
+    @_s.required this.name,
+    @_s.required this.regularExpressionList,
+    @_s.required this.scope,
+    this.description,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateRegexPatternSetRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4930,6 +5144,86 @@ class CreateRegexPatternSetResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateRuleGroupRequest {
+  /// The web ACL capacity units (WCUs) required for this rule group.
+  ///
+  /// When you create your own rule group, you define this, and you cannot change
+  /// it after creation. When you add or modify the rules in a rule group, AWS WAF
+  /// enforces this limit. You can check the capacity for a set of rules using
+  /// <a>CheckCapacity</a>.
+  ///
+  /// AWS WAF uses WCUs to calculate and control the operating resources that are
+  /// used to run your rules, rule groups, and web ACLs. AWS WAF calculates
+  /// capacity differently for each rule type, to reflect the relative cost of
+  /// each rule. Simple rules that cost little to run use fewer WCUs than more
+  /// complex rules that use more processing power. Rule group capacity is fixed
+  /// at creation, which helps users plan their web ACL WCU usage when they use a
+  /// rule group. The WCU limit for web ACLs is 1,500.
+  @_s.JsonKey(name: 'Capacity')
+  final int capacity;
+
+  /// The name of the rule group. You cannot change the name of a rule group after
+  /// you create it.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// regional application. A regional application can be an Application Load
+  /// Balancer (ALB) or an API Gateway stage.
+  ///
+  /// To work with CloudFront, you must also specify the Region US East (N.
+  /// Virginia) as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// CLI - Specify the Region when you use the CloudFront scope:
+  /// <code>--scope=CLOUDFRONT --region=us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// API and SDKs - For all calls, use the Region endpoint us-east-1.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Scope')
+  final Scope scope;
+
+  /// Defines and enables Amazon CloudWatch metrics and web request sample
+  /// collection.
+  @_s.JsonKey(name: 'VisibilityConfig')
+  final VisibilityConfig visibilityConfig;
+
+  /// A description of the rule group that helps with identification. You cannot
+  /// change the description of a rule group after you create it.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The <a>Rule</a> statements used to identify the web requests that you want
+  /// to allow, block, or count. Each rule includes one top-level statement that
+  /// AWS WAF uses to identify matching web requests, and parameters that govern
+  /// how AWS WAF handles them.
+  @_s.JsonKey(name: 'Rules')
+  final List<Rule> rules;
+
+  /// An array of key:value pairs to associate with the resource.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateRuleGroupRequest({
+    @_s.required this.capacity,
+    @_s.required this.name,
+    @_s.required this.scope,
+    @_s.required this.visibilityConfig,
+    this.description,
+    this.rules,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateRuleGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateRuleGroupResponse {
@@ -4946,6 +5240,74 @@ class CreateRuleGroupResponse {
   });
   factory CreateRuleGroupResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateRuleGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateWebACLRequest {
+  /// The action to perform if none of the <code>Rules</code> contained in the
+  /// <code>WebACL</code> match.
+  @_s.JsonKey(name: 'DefaultAction')
+  final DefaultAction defaultAction;
+
+  /// The name of the Web ACL. You cannot change the name of a Web ACL after you
+  /// create it.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// regional application. A regional application can be an Application Load
+  /// Balancer (ALB) or an API Gateway stage.
+  ///
+  /// To work with CloudFront, you must also specify the Region US East (N.
+  /// Virginia) as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// CLI - Specify the Region when you use the CloudFront scope:
+  /// <code>--scope=CLOUDFRONT --region=us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// API and SDKs - For all calls, use the Region endpoint us-east-1.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Scope')
+  final Scope scope;
+
+  /// Defines and enables Amazon CloudWatch metrics and web request sample
+  /// collection.
+  @_s.JsonKey(name: 'VisibilityConfig')
+  final VisibilityConfig visibilityConfig;
+
+  /// A description of the Web ACL that helps with identification. You cannot
+  /// change the description of a Web ACL after you create it.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The <a>Rule</a> statements used to identify the web requests that you want
+  /// to allow, block, or count. Each rule includes one top-level statement that
+  /// AWS WAF uses to identify matching web requests, and parameters that govern
+  /// how AWS WAF handles them.
+  @_s.JsonKey(name: 'Rules')
+  final List<Rule> rules;
+
+  /// An array of key:value pairs to associate with the resource.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateWebACLRequest({
+    @_s.required this.defaultAction,
+    @_s.required this.name,
+    @_s.required this.scope,
+    @_s.required this.visibilityConfig,
+    this.description,
+    this.rules,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateWebACLRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5005,6 +5367,35 @@ class DefaultAction {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteFirewallManagerRuleGroupsRequest {
+  /// The Amazon Resource Name (ARN) of the web ACL.
+  @_s.JsonKey(name: 'WebACLArn')
+  final String webACLArn;
+
+  /// A token used for optimistic locking. AWS WAF returns a token to your get and
+  /// list requests, to mark the state of the entity at the time of the request.
+  /// To make changes to the entity associated with the token, you provide the
+  /// token to operations like update and delete. AWS WAF uses the token to ensure
+  /// that no changes have been made to the entity since you last retrieved it. If
+  /// a change has been made, the update fails with a
+  /// <code>WAFOptimisticLockException</code>. If this happens, perform another
+  /// get, and use the new token returned by that operation.
+  @_s.JsonKey(name: 'WebACLLockToken')
+  final String webACLLockToken;
+
+  DeleteFirewallManagerRuleGroupsRequest({
+    @_s.required this.webACLArn,
+    @_s.required this.webACLLockToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteFirewallManagerRuleGroupsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteFirewallManagerRuleGroupsResponse {
@@ -5030,12 +5421,86 @@ class DeleteFirewallManagerRuleGroupsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteIPSetRequest {
+  /// A unique identifier for the set. This ID is returned in the responses to
+  /// create and list commands. You provide it to operations like update and
+  /// delete.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// A token used for optimistic locking. AWS WAF returns a token to your get and
+  /// list requests, to mark the state of the entity at the time of the request.
+  /// To make changes to the entity associated with the token, you provide the
+  /// token to operations like update and delete. AWS WAF uses the token to ensure
+  /// that no changes have been made to the entity since you last retrieved it. If
+  /// a change has been made, the update fails with a
+  /// <code>WAFOptimisticLockException</code>. If this happens, perform another
+  /// get, and use the new token returned by that operation.
+  @_s.JsonKey(name: 'LockToken')
+  final String lockToken;
+
+  /// The name of the IP set. You cannot change the name of an <code>IPSet</code>
+  /// after you create it.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// regional application. A regional application can be an Application Load
+  /// Balancer (ALB) or an API Gateway stage.
+  ///
+  /// To work with CloudFront, you must also specify the Region US East (N.
+  /// Virginia) as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// CLI - Specify the Region when you use the CloudFront scope:
+  /// <code>--scope=CLOUDFRONT --region=us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// API and SDKs - For all calls, use the Region endpoint us-east-1.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Scope')
+  final Scope scope;
+
+  DeleteIPSetRequest({
+    @_s.required this.id,
+    @_s.required this.lockToken,
+    @_s.required this.name,
+    @_s.required this.scope,
+  });
+  Map<String, dynamic> toJson() => _$DeleteIPSetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteIPSetResponse {
   DeleteIPSetResponse();
   factory DeleteIPSetResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteIPSetResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteLoggingConfigurationRequest {
+  /// The Amazon Resource Name (ARN) of the web ACL from which you want to delete
+  /// the <a>LoggingConfiguration</a>.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  DeleteLoggingConfigurationRequest({
+    @_s.required this.resourceArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteLoggingConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5053,12 +5518,86 @@ class DeleteLoggingConfigurationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeletePermissionPolicyRequest {
+  /// The Amazon Resource Name (ARN) of the rule group from which you want to
+  /// delete the policy.
+  ///
+  /// You must be the owner of the rule group to perform this operation.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  DeletePermissionPolicyRequest({
+    @_s.required this.resourceArn,
+  });
+  Map<String, dynamic> toJson() => _$DeletePermissionPolicyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeletePermissionPolicyResponse {
   DeletePermissionPolicyResponse();
   factory DeletePermissionPolicyResponse.fromJson(Map<String, dynamic> json) =>
       _$DeletePermissionPolicyResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteRegexPatternSetRequest {
+  /// A unique identifier for the set. This ID is returned in the responses to
+  /// create and list commands. You provide it to operations like update and
+  /// delete.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// A token used for optimistic locking. AWS WAF returns a token to your get and
+  /// list requests, to mark the state of the entity at the time of the request.
+  /// To make changes to the entity associated with the token, you provide the
+  /// token to operations like update and delete. AWS WAF uses the token to ensure
+  /// that no changes have been made to the entity since you last retrieved it. If
+  /// a change has been made, the update fails with a
+  /// <code>WAFOptimisticLockException</code>. If this happens, perform another
+  /// get, and use the new token returned by that operation.
+  @_s.JsonKey(name: 'LockToken')
+  final String lockToken;
+
+  /// The name of the set. You cannot change the name after you create the set.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// regional application. A regional application can be an Application Load
+  /// Balancer (ALB) or an API Gateway stage.
+  ///
+  /// To work with CloudFront, you must also specify the Region US East (N.
+  /// Virginia) as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// CLI - Specify the Region when you use the CloudFront scope:
+  /// <code>--scope=CLOUDFRONT --region=us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// API and SDKs - For all calls, use the Region endpoint us-east-1.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Scope')
+  final Scope scope;
+
+  DeleteRegexPatternSetRequest({
+    @_s.required this.id,
+    @_s.required this.lockToken,
+    @_s.required this.name,
+    @_s.required this.scope,
+  });
+  Map<String, dynamic> toJson() => _$DeleteRegexPatternSetRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5075,6 +5614,62 @@ class DeleteRegexPatternSetResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteRuleGroupRequest {
+  /// A unique identifier for the rule group. This ID is returned in the responses
+  /// to create and list commands. You provide it to operations like update and
+  /// delete.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// A token used for optimistic locking. AWS WAF returns a token to your get and
+  /// list requests, to mark the state of the entity at the time of the request.
+  /// To make changes to the entity associated with the token, you provide the
+  /// token to operations like update and delete. AWS WAF uses the token to ensure
+  /// that no changes have been made to the entity since you last retrieved it. If
+  /// a change has been made, the update fails with a
+  /// <code>WAFOptimisticLockException</code>. If this happens, perform another
+  /// get, and use the new token returned by that operation.
+  @_s.JsonKey(name: 'LockToken')
+  final String lockToken;
+
+  /// The name of the rule group. You cannot change the name of a rule group after
+  /// you create it.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// regional application. A regional application can be an Application Load
+  /// Balancer (ALB) or an API Gateway stage.
+  ///
+  /// To work with CloudFront, you must also specify the Region US East (N.
+  /// Virginia) as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// CLI - Specify the Region when you use the CloudFront scope:
+  /// <code>--scope=CLOUDFRONT --region=us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// API and SDKs - For all calls, use the Region endpoint us-east-1.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Scope')
+  final Scope scope;
+
+  DeleteRuleGroupRequest({
+    @_s.required this.id,
+    @_s.required this.lockToken,
+    @_s.required this.name,
+    @_s.required this.scope,
+  });
+  Map<String, dynamic> toJson() => _$DeleteRuleGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteRuleGroupResponse {
@@ -5086,12 +5681,112 @@ class DeleteRuleGroupResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteWebACLRequest {
+  /// The unique identifier for the Web ACL. This ID is returned in the responses
+  /// to create and list commands. You provide it to operations like update and
+  /// delete.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// A token used for optimistic locking. AWS WAF returns a token to your get and
+  /// list requests, to mark the state of the entity at the time of the request.
+  /// To make changes to the entity associated with the token, you provide the
+  /// token to operations like update and delete. AWS WAF uses the token to ensure
+  /// that no changes have been made to the entity since you last retrieved it. If
+  /// a change has been made, the update fails with a
+  /// <code>WAFOptimisticLockException</code>. If this happens, perform another
+  /// get, and use the new token returned by that operation.
+  @_s.JsonKey(name: 'LockToken')
+  final String lockToken;
+
+  /// The name of the Web ACL. You cannot change the name of a Web ACL after you
+  /// create it.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// regional application. A regional application can be an Application Load
+  /// Balancer (ALB) or an API Gateway stage.
+  ///
+  /// To work with CloudFront, you must also specify the Region US East (N.
+  /// Virginia) as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// CLI - Specify the Region when you use the CloudFront scope:
+  /// <code>--scope=CLOUDFRONT --region=us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// API and SDKs - For all calls, use the Region endpoint us-east-1.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Scope')
+  final Scope scope;
+
+  DeleteWebACLRequest({
+    @_s.required this.id,
+    @_s.required this.lockToken,
+    @_s.required this.name,
+    @_s.required this.scope,
+  });
+  Map<String, dynamic> toJson() => _$DeleteWebACLRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteWebACLResponse {
   DeleteWebACLResponse();
   factory DeleteWebACLResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteWebACLResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeManagedRuleGroupRequest {
+  /// The name of the managed rule group. You use this, along with the vendor
+  /// name, to identify the rule group.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// regional application. A regional application can be an Application Load
+  /// Balancer (ALB) or an API Gateway stage.
+  ///
+  /// To work with CloudFront, you must also specify the Region US East (N.
+  /// Virginia) as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// CLI - Specify the Region when you use the CloudFront scope:
+  /// <code>--scope=CLOUDFRONT --region=us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// API and SDKs - For all calls, use the Region endpoint us-east-1.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Scope')
+  final Scope scope;
+
+  /// The name of the managed rule group vendor. You use this, along with the rule
+  /// group name, to identify the rule group.
+  @_s.JsonKey(name: 'VendorName')
+  final String vendorName;
+
+  DescribeManagedRuleGroupRequest({
+    @_s.required this.name,
+    @_s.required this.scope,
+    @_s.required this.vendorName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeManagedRuleGroupRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5121,6 +5816,38 @@ class DescribeManagedRuleGroupResponse {
   factory DescribeManagedRuleGroupResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeManagedRuleGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateWebACLRequest {
+  /// The Amazon Resource Name (ARN) of the resource to disassociate from the web
+  /// ACL.
+  ///
+  /// The ARN must be in one of the following formats:
+  ///
+  /// <ul>
+  /// <li>
+  /// For an Application Load Balancer:
+  /// <code>arn:aws:elasticloadbalancing:<i>region</i>:<i>account-id</i>:loadbalancer/app/<i>load-balancer-name</i>/<i>load-balancer-id</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// For an Amazon API Gateway stage:
+  /// <code>arn:aws:apigateway:<i>region</i>::/restapis/<i>api-id</i>/stages/<i>stage-name</i>
+  /// </code>
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  DisassociateWebACLRequest({
+    @_s.required this.resourceArn,
+  });
+  Map<String, dynamic> toJson() => _$DisassociateWebACLRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5343,6 +6070,50 @@ class GeoMatchStatement {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetIPSetRequest {
+  /// A unique identifier for the set. This ID is returned in the responses to
+  /// create and list commands. You provide it to operations like update and
+  /// delete.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// The name of the IP set. You cannot change the name of an <code>IPSet</code>
+  /// after you create it.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// regional application. A regional application can be an Application Load
+  /// Balancer (ALB) or an API Gateway stage.
+  ///
+  /// To work with CloudFront, you must also specify the Region US East (N.
+  /// Virginia) as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// CLI - Specify the Region when you use the CloudFront scope:
+  /// <code>--scope=CLOUDFRONT --region=us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// API and SDKs - For all calls, use the Region endpoint us-east-1.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Scope')
+  final Scope scope;
+
+  GetIPSetRequest({
+    @_s.required this.id,
+    @_s.required this.name,
+    @_s.required this.scope,
+  });
+  Map<String, dynamic> toJson() => _$GetIPSetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetIPSetResponse {
@@ -5372,6 +6143,23 @@ class GetIPSetResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetLoggingConfigurationRequest {
+  /// The Amazon Resource Name (ARN) of the web ACL for which you want to get the
+  /// <a>LoggingConfiguration</a>.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  GetLoggingConfigurationRequest({
+    @_s.required this.resourceArn,
+  });
+  Map<String, dynamic> toJson() => _$GetLoggingConfigurationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetLoggingConfigurationResponse {
@@ -5389,6 +6177,23 @@ class GetLoggingConfigurationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetPermissionPolicyRequest {
+  /// The Amazon Resource Name (ARN) of the rule group for which you want to get
+  /// the policy.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  GetPermissionPolicyRequest({
+    @_s.required this.resourceArn,
+  });
+  Map<String, dynamic> toJson() => _$GetPermissionPolicyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetPermissionPolicyResponse {
@@ -5401,6 +6206,56 @@ class GetPermissionPolicyResponse {
   });
   factory GetPermissionPolicyResponse.fromJson(Map<String, dynamic> json) =>
       _$GetPermissionPolicyResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetRateBasedStatementManagedKeysRequest {
+  /// The name of the rate-based rule to get the keys for.
+  @_s.JsonKey(name: 'RuleName')
+  final String ruleName;
+
+  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// regional application. A regional application can be an Application Load
+  /// Balancer (ALB) or an API Gateway stage.
+  ///
+  /// To work with CloudFront, you must also specify the Region US East (N.
+  /// Virginia) as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// CLI - Specify the Region when you use the CloudFront scope:
+  /// <code>--scope=CLOUDFRONT --region=us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// API and SDKs - For all calls, use the Region endpoint us-east-1.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Scope')
+  final Scope scope;
+
+  /// The unique identifier for the Web ACL. This ID is returned in the responses
+  /// to create and list commands. You provide it to operations like update and
+  /// delete.
+  @_s.JsonKey(name: 'WebACLId')
+  final String webACLId;
+
+  /// The name of the Web ACL. You cannot change the name of a Web ACL after you
+  /// create it.
+  @_s.JsonKey(name: 'WebACLName')
+  final String webACLName;
+
+  GetRateBasedStatementManagedKeysRequest({
+    @_s.required this.ruleName,
+    @_s.required this.scope,
+    @_s.required this.webACLId,
+    @_s.required this.webACLName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetRateBasedStatementManagedKeysRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5424,6 +6279,49 @@ class GetRateBasedStatementManagedKeysResponse {
   factory GetRateBasedStatementManagedKeysResponse.fromJson(
           Map<String, dynamic> json) =>
       _$GetRateBasedStatementManagedKeysResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetRegexPatternSetRequest {
+  /// A unique identifier for the set. This ID is returned in the responses to
+  /// create and list commands. You provide it to operations like update and
+  /// delete.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// The name of the set. You cannot change the name after you create the set.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// regional application. A regional application can be an Application Load
+  /// Balancer (ALB) or an API Gateway stage.
+  ///
+  /// To work with CloudFront, you must also specify the Region US East (N.
+  /// Virginia) as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// CLI - Specify the Region when you use the CloudFront scope:
+  /// <code>--scope=CLOUDFRONT --region=us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// API and SDKs - For all calls, use the Region endpoint us-east-1.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Scope')
+  final Scope scope;
+
+  GetRegexPatternSetRequest({
+    @_s.required this.id,
+    @_s.required this.name,
+    @_s.required this.scope,
+  });
+  Map<String, dynamic> toJson() => _$GetRegexPatternSetRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5458,6 +6356,50 @@ class GetRegexPatternSetResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetRuleGroupRequest {
+  /// A unique identifier for the rule group. This ID is returned in the responses
+  /// to create and list commands. You provide it to operations like update and
+  /// delete.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// The name of the rule group. You cannot change the name of a rule group after
+  /// you create it.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// regional application. A regional application can be an Application Load
+  /// Balancer (ALB) or an API Gateway stage.
+  ///
+  /// To work with CloudFront, you must also specify the Region US East (N.
+  /// Virginia) as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// CLI - Specify the Region when you use the CloudFront scope:
+  /// <code>--scope=CLOUDFRONT --region=us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// API and SDKs - For all calls, use the Region endpoint us-east-1.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Scope')
+  final Scope scope;
+
+  GetRuleGroupRequest({
+    @_s.required this.id,
+    @_s.required this.name,
+    @_s.required this.scope,
+  });
+  Map<String, dynamic> toJson() => _$GetRuleGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetRuleGroupResponse {
@@ -5482,6 +6424,66 @@ class GetRuleGroupResponse {
   });
   factory GetRuleGroupResponse.fromJson(Map<String, dynamic> json) =>
       _$GetRuleGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetSampledRequestsRequest {
+  /// The number of requests that you want AWS WAF to return from among the first
+  /// 5,000 requests that your AWS resource received during the time range. If
+  /// your resource received fewer requests than the value of
+  /// <code>MaxItems</code>, <code>GetSampledRequests</code> returns information
+  /// about all of them.
+  @_s.JsonKey(name: 'MaxItems')
+  final int maxItems;
+
+  /// The metric name assigned to the <code>Rule</code> or <code>RuleGroup</code>
+  /// for which you want a sample of requests.
+  @_s.JsonKey(name: 'RuleMetricName')
+  final String ruleMetricName;
+
+  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// regional application. A regional application can be an Application Load
+  /// Balancer (ALB) or an API Gateway stage.
+  ///
+  /// To work with CloudFront, you must also specify the Region US East (N.
+  /// Virginia) as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// CLI - Specify the Region when you use the CloudFront scope:
+  /// <code>--scope=CLOUDFRONT --region=us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// API and SDKs - For all calls, use the Region endpoint us-east-1.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Scope')
+  final Scope scope;
+
+  /// The start date and time and the end date and time of the range for which you
+  /// want <code>GetSampledRequests</code> to return a sample of requests. Specify
+  /// the date and time in the following format: <code>"2016-09-27T14:50Z"</code>.
+  /// You can specify any time range in the previous three hours.
+  @_s.JsonKey(name: 'TimeWindow')
+  final TimeWindow timeWindow;
+
+  /// The Amazon resource name (ARN) of the <code>WebACL</code> for which you want
+  /// a sample of requests.
+  @_s.JsonKey(name: 'WebAclArn')
+  final String webAclArn;
+
+  GetSampledRequestsRequest({
+    @_s.required this.maxItems,
+    @_s.required this.ruleMetricName,
+    @_s.required this.scope,
+    @_s.required this.timeWindow,
+    @_s.required this.webAclArn,
+  });
+  Map<String, dynamic> toJson() => _$GetSampledRequestsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5522,6 +6524,22 @@ class GetSampledRequestsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetWebACLForResourceRequest {
+  /// The ARN (Amazon Resource Name) of the resource.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  GetWebACLForResourceRequest({
+    @_s.required this.resourceArn,
+  });
+  Map<String, dynamic> toJson() => _$GetWebACLForResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetWebACLForResourceResponse {
@@ -5535,6 +6553,50 @@ class GetWebACLForResourceResponse {
   });
   factory GetWebACLForResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$GetWebACLForResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetWebACLRequest {
+  /// The unique identifier for the Web ACL. This ID is returned in the responses
+  /// to create and list commands. You provide it to operations like update and
+  /// delete.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// The name of the Web ACL. You cannot change the name of a Web ACL after you
+  /// create it.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// regional application. A regional application can be an Application Load
+  /// Balancer (ALB) or an API Gateway stage.
+  ///
+  /// To work with CloudFront, you must also specify the Region US East (N.
+  /// Virginia) as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// CLI - Specify the Region when you use the CloudFront scope:
+  /// <code>--scope=CLOUDFRONT --region=us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// API and SDKs - For all calls, use the Region endpoint us-east-1.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Scope')
+  final Scope scope;
+
+  GetWebACLRequest({
+    @_s.required this.id,
+    @_s.required this.name,
+    @_s.required this.scope,
+  });
+  Map<String, dynamic> toJson() => _$GetWebACLRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5676,18 +6738,6 @@ enum IPAddressVersion {
   ipv4,
   @_s.JsonValue('IPV6')
   ipv6,
-}
-
-extension on IPAddressVersion {
-  String toValue() {
-    switch (this) {
-      case IPAddressVersion.ipv4:
-        return 'IPV4';
-      case IPAddressVersion.ipv6:
-        return 'IPV6';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// <note>
@@ -5879,6 +6929,55 @@ class IPSetSummary {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListAvailableManagedRuleGroupsRequest {
+  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// regional application. A regional application can be an Application Load
+  /// Balancer (ALB) or an API Gateway stage.
+  ///
+  /// To work with CloudFront, you must also specify the Region US East (N.
+  /// Virginia) as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// CLI - Specify the Region when you use the CloudFront scope:
+  /// <code>--scope=CLOUDFRONT --region=us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// API and SDKs - For all calls, use the Region endpoint us-east-1.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Scope')
+  final Scope scope;
+
+  /// The maximum number of objects that you want AWS WAF to return for this
+  /// request. If more objects are available, in the response, AWS WAF provides a
+  /// <code>NextMarker</code> value that you can use in a subsequent call to get
+  /// the next batch of objects.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// When you request a list of objects with a <code>Limit</code> setting, if the
+  /// number of objects that are still available for retrieval exceeds the limit,
+  /// AWS WAF returns a <code>NextMarker</code> value in the response. To retrieve
+  /// the next batch of objects, provide the marker from the prior call in your
+  /// next request.
+  @_s.JsonKey(name: 'NextMarker')
+  final String nextMarker;
+
+  ListAvailableManagedRuleGroupsRequest({
+    @_s.required this.scope,
+    this.limit,
+    this.nextMarker,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListAvailableManagedRuleGroupsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListAvailableManagedRuleGroupsResponse {
@@ -5901,6 +7000,54 @@ class ListAvailableManagedRuleGroupsResponse {
   factory ListAvailableManagedRuleGroupsResponse.fromJson(
           Map<String, dynamic> json) =>
       _$ListAvailableManagedRuleGroupsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListIPSetsRequest {
+  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// regional application. A regional application can be an Application Load
+  /// Balancer (ALB) or an API Gateway stage.
+  ///
+  /// To work with CloudFront, you must also specify the Region US East (N.
+  /// Virginia) as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// CLI - Specify the Region when you use the CloudFront scope:
+  /// <code>--scope=CLOUDFRONT --region=us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// API and SDKs - For all calls, use the Region endpoint us-east-1.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Scope')
+  final Scope scope;
+
+  /// The maximum number of objects that you want AWS WAF to return for this
+  /// request. If more objects are available, in the response, AWS WAF provides a
+  /// <code>NextMarker</code> value that you can use in a subsequent call to get
+  /// the next batch of objects.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// When you request a list of objects with a <code>Limit</code> setting, if the
+  /// number of objects that are still available for retrieval exceeds the limit,
+  /// AWS WAF returns a <code>NextMarker</code> value in the response. To retrieve
+  /// the next batch of objects, provide the marker from the prior call in your
+  /// next request.
+  @_s.JsonKey(name: 'NextMarker')
+  final String nextMarker;
+
+  ListIPSetsRequest({
+    @_s.required this.scope,
+    this.limit,
+    this.nextMarker,
+  });
+  Map<String, dynamic> toJson() => _$ListIPSetsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5933,6 +7080,55 @@ class ListIPSetsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListLoggingConfigurationsRequest {
+  /// The maximum number of objects that you want AWS WAF to return for this
+  /// request. If more objects are available, in the response, AWS WAF provides a
+  /// <code>NextMarker</code> value that you can use in a subsequent call to get
+  /// the next batch of objects.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// When you request a list of objects with a <code>Limit</code> setting, if the
+  /// number of objects that are still available for retrieval exceeds the limit,
+  /// AWS WAF returns a <code>NextMarker</code> value in the response. To retrieve
+  /// the next batch of objects, provide the marker from the prior call in your
+  /// next request.
+  @_s.JsonKey(name: 'NextMarker')
+  final String nextMarker;
+
+  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// regional application. A regional application can be an Application Load
+  /// Balancer (ALB) or an API Gateway stage.
+  ///
+  /// To work with CloudFront, you must also specify the Region US East (N.
+  /// Virginia) as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// CLI - Specify the Region when you use the CloudFront scope:
+  /// <code>--scope=CLOUDFRONT --region=us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// API and SDKs - For all calls, use the Region endpoint us-east-1.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Scope')
+  final Scope scope;
+
+  ListLoggingConfigurationsRequest({
+    this.limit,
+    this.nextMarker,
+    this.scope,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListLoggingConfigurationsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListLoggingConfigurationsResponse {
@@ -5955,6 +7151,54 @@ class ListLoggingConfigurationsResponse {
   factory ListLoggingConfigurationsResponse.fromJson(
           Map<String, dynamic> json) =>
       _$ListLoggingConfigurationsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListRegexPatternSetsRequest {
+  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// regional application. A regional application can be an Application Load
+  /// Balancer (ALB) or an API Gateway stage.
+  ///
+  /// To work with CloudFront, you must also specify the Region US East (N.
+  /// Virginia) as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// CLI - Specify the Region when you use the CloudFront scope:
+  /// <code>--scope=CLOUDFRONT --region=us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// API and SDKs - For all calls, use the Region endpoint us-east-1.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Scope')
+  final Scope scope;
+
+  /// The maximum number of objects that you want AWS WAF to return for this
+  /// request. If more objects are available, in the response, AWS WAF provides a
+  /// <code>NextMarker</code> value that you can use in a subsequent call to get
+  /// the next batch of objects.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// When you request a list of objects with a <code>Limit</code> setting, if the
+  /// number of objects that are still available for retrieval exceeds the limit,
+  /// AWS WAF returns a <code>NextMarker</code> value in the response. To retrieve
+  /// the next batch of objects, provide the marker from the prior call in your
+  /// next request.
+  @_s.JsonKey(name: 'NextMarker')
+  final String nextMarker;
+
+  ListRegexPatternSetsRequest({
+    @_s.required this.scope,
+    this.limit,
+    this.nextMarker,
+  });
+  Map<String, dynamic> toJson() => _$ListRegexPatternSetsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5986,6 +7230,29 @@ class ListRegexPatternSetsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListResourcesForWebACLRequest {
+  /// The Amazon Resource Name (ARN) of the Web ACL.
+  @_s.JsonKey(name: 'WebACLArn')
+  final String webACLArn;
+
+  /// Used for web ACLs that are scoped for regional applications. A regional
+  /// application can be an Application Load Balancer (ALB) or an API Gateway
+  /// stage.
+  @_s.JsonKey(name: 'ResourceType')
+  final ResourceType resourceType;
+
+  ListResourcesForWebACLRequest({
+    @_s.required this.webACLArn,
+    this.resourceType,
+  });
+  Map<String, dynamic> toJson() => _$ListResourcesForWebACLRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListResourcesForWebACLResponse {
@@ -5998,6 +7265,54 @@ class ListResourcesForWebACLResponse {
   });
   factory ListResourcesForWebACLResponse.fromJson(Map<String, dynamic> json) =>
       _$ListResourcesForWebACLResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListRuleGroupsRequest {
+  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// regional application. A regional application can be an Application Load
+  /// Balancer (ALB) or an API Gateway stage.
+  ///
+  /// To work with CloudFront, you must also specify the Region US East (N.
+  /// Virginia) as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// CLI - Specify the Region when you use the CloudFront scope:
+  /// <code>--scope=CLOUDFRONT --region=us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// API and SDKs - For all calls, use the Region endpoint us-east-1.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Scope')
+  final Scope scope;
+
+  /// The maximum number of objects that you want AWS WAF to return for this
+  /// request. If more objects are available, in the response, AWS WAF provides a
+  /// <code>NextMarker</code> value that you can use in a subsequent call to get
+  /// the next batch of objects.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// When you request a list of objects with a <code>Limit</code> setting, if the
+  /// number of objects that are still available for retrieval exceeds the limit,
+  /// AWS WAF returns a <code>NextMarker</code> value in the response. To retrieve
+  /// the next batch of objects, provide the marker from the prior call in your
+  /// next request.
+  @_s.JsonKey(name: 'NextMarker')
+  final String nextMarker;
+
+  ListRuleGroupsRequest({
+    @_s.required this.scope,
+    this.limit,
+    this.nextMarker,
+  });
+  Map<String, dynamic> toJson() => _$ListRuleGroupsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6029,6 +7344,39 @@ class ListRuleGroupsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource.
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+
+  /// The maximum number of objects that you want AWS WAF to return for this
+  /// request. If more objects are available, in the response, AWS WAF provides a
+  /// <code>NextMarker</code> value that you can use in a subsequent call to get
+  /// the next batch of objects.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// When you request a list of objects with a <code>Limit</code> setting, if the
+  /// number of objects that are still available for retrieval exceeds the limit,
+  /// AWS WAF returns a <code>NextMarker</code> value in the response. To retrieve
+  /// the next batch of objects, provide the marker from the prior call in your
+  /// next request.
+  @_s.JsonKey(name: 'NextMarker')
+  final String nextMarker;
+
+  ListTagsForResourceRequest({
+    @_s.required this.resourceARN,
+    this.limit,
+    this.nextMarker,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListTagsForResourceResponse {
@@ -6050,6 +7398,54 @@ class ListTagsForResourceResponse {
   });
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$ListTagsForResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListWebACLsRequest {
+  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// regional application. A regional application can be an Application Load
+  /// Balancer (ALB) or an API Gateway stage.
+  ///
+  /// To work with CloudFront, you must also specify the Region US East (N.
+  /// Virginia) as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// CLI - Specify the Region when you use the CloudFront scope:
+  /// <code>--scope=CLOUDFRONT --region=us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// API and SDKs - For all calls, use the Region endpoint us-east-1.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Scope')
+  final Scope scope;
+
+  /// The maximum number of objects that you want AWS WAF to return for this
+  /// request. If more objects are available, in the response, AWS WAF provides a
+  /// <code>NextMarker</code> value that you can use in a subsequent call to get
+  /// the next batch of objects.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// When you request a list of objects with a <code>Limit</code> setting, if the
+  /// number of objects that are still available for retrieval exceeds the limit,
+  /// AWS WAF returns a <code>NextMarker</code> value in the response. To retrieve
+  /// the next batch of objects, provide the marker from the prior call in your
+  /// next request.
+  @_s.JsonKey(name: 'NextMarker')
+  final String nextMarker;
+
+  ListWebACLsRequest({
+    @_s.required this.scope,
+    this.limit,
+    this.nextMarker,
+  });
+  Map<String, dynamic> toJson() => _$ListWebACLsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6384,6 +7780,22 @@ enum PositionalConstraint {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutLoggingConfigurationRequest {
+  /// <p/>
+  @_s.JsonKey(name: 'LoggingConfiguration')
+  final LoggingConfiguration loggingConfiguration;
+
+  PutLoggingConfigurationRequest({
+    @_s.required this.loggingConfiguration,
+  });
+  Map<String, dynamic> toJson() => _$PutLoggingConfigurationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutLoggingConfigurationResponse {
@@ -6396,6 +7808,56 @@ class PutLoggingConfigurationResponse {
   });
   factory PutLoggingConfigurationResponse.fromJson(Map<String, dynamic> json) =>
       _$PutLoggingConfigurationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutPermissionPolicyRequest {
+  /// The policy to attach to the specified rule group.
+  ///
+  /// The policy specifications must conform to the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// The policy must be composed using IAM Policy version 2012-10-17 or version
+  /// 2015-01-01.
+  /// </li>
+  /// <li>
+  /// The policy must include specifications for <code>Effect</code>,
+  /// <code>Action</code>, and <code>Principal</code>.
+  /// </li>
+  /// <li>
+  /// <code>Effect</code> must specify <code>Allow</code>.
+  /// </li>
+  /// <li>
+  /// <code>Action</code> must specify <code>wafv2:CreateWebACL</code>,
+  /// <code>wafv2:UpdateWebACL</code>, and
+  /// <code>wafv2:PutFirewallManagerRuleGroups</code>. AWS WAF rejects any extra
+  /// actions or wildcard actions in the policy.
+  /// </li>
+  /// <li>
+  /// The policy must not include a <code>Resource</code> parameter.
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html">IAM
+  /// Policies</a>.
+  @_s.JsonKey(name: 'Policy')
+  final String policy;
+
+  /// The Amazon Resource Name (ARN) of the <a>RuleGroup</a> to which you want to
+  /// attach the policy.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  PutPermissionPolicyRequest({
+    @_s.required this.policy,
+    @_s.required this.resourceArn,
+  });
+  Map<String, dynamic> toJson() => _$PutPermissionPolicyRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6743,18 +8205,6 @@ enum ResourceType {
   applicationLoadBalancer,
   @_s.JsonValue('API_GATEWAY')
   apiGateway,
-}
-
-extension on ResourceType {
-  String toValue() {
-    switch (this) {
-      case ResourceType.applicationLoadBalancer:
-        return 'APPLICATION_LOAD_BALANCER';
-      case ResourceType.apiGateway:
-        return 'API_GATEWAY';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// <note>
@@ -7177,18 +8627,6 @@ enum Scope {
   cloudfront,
   @_s.JsonValue('REGIONAL')
   regional,
-}
-
-extension on Scope {
-  String toValue() {
-    switch (this) {
-      case Scope.cloudfront:
-        return 'CLOUDFRONT';
-      case Scope.regional:
-        return 'REGIONAL';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// <note>
@@ -7617,6 +9055,27 @@ class TagInfoForResource {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource.
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+
+  /// An array of key:value pairs to associate with the resource.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceARN,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagResourceResponse {
@@ -7828,12 +9287,130 @@ class TimeWindow {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource.
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+
+  /// An array of keys identifying the tags to disassociate from the resource.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceARN,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
   factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateIPSetRequest {
+  /// Contains an array of strings that specify one or more IP addresses or blocks
+  /// of IP addresses in Classless Inter-Domain Routing (CIDR) notation. AWS WAF
+  /// supports all address ranges for IP versions IPv4 and IPv6.
+  ///
+  /// Examples:
+  ///
+  /// <ul>
+  /// <li>
+  /// To configure AWS WAF to allow, block, or count requests that originated from
+  /// the IP address 192.0.2.44, specify <code>192.0.2.44/32</code>.
+  /// </li>
+  /// <li>
+  /// To configure AWS WAF to allow, block, or count requests that originated from
+  /// IP addresses from 192.0.2.0 to 192.0.2.255, specify
+  /// <code>192.0.2.0/24</code>.
+  /// </li>
+  /// <li>
+  /// To configure AWS WAF to allow, block, or count requests that originated from
+  /// the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify
+  /// <code>1111:0000:0000:0000:0000:0000:0000:0111/128</code>.
+  /// </li>
+  /// <li>
+  /// To configure AWS WAF to allow, block, or count requests that originated from
+  /// IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to
+  /// 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify
+  /// <code>1111:0000:0000:0000:0000:0000:0000:0000/64</code>.
+  /// </li>
+  /// </ul>
+  /// For more information about CIDR notation, see the Wikipedia entry <a
+  /// href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing">Classless
+  /// Inter-Domain Routing</a>.
+  @_s.JsonKey(name: 'Addresses')
+  final List<String> addresses;
+
+  /// A unique identifier for the set. This ID is returned in the responses to
+  /// create and list commands. You provide it to operations like update and
+  /// delete.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// A token used for optimistic locking. AWS WAF returns a token to your get and
+  /// list requests, to mark the state of the entity at the time of the request.
+  /// To make changes to the entity associated with the token, you provide the
+  /// token to operations like update and delete. AWS WAF uses the token to ensure
+  /// that no changes have been made to the entity since you last retrieved it. If
+  /// a change has been made, the update fails with a
+  /// <code>WAFOptimisticLockException</code>. If this happens, perform another
+  /// get, and use the new token returned by that operation.
+  @_s.JsonKey(name: 'LockToken')
+  final String lockToken;
+
+  /// The name of the IP set. You cannot change the name of an <code>IPSet</code>
+  /// after you create it.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// regional application. A regional application can be an Application Load
+  /// Balancer (ALB) or an API Gateway stage.
+  ///
+  /// To work with CloudFront, you must also specify the Region US East (N.
+  /// Virginia) as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// CLI - Specify the Region when you use the CloudFront scope:
+  /// <code>--scope=CLOUDFRONT --region=us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// API and SDKs - For all calls, use the Region endpoint us-east-1.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Scope')
+  final Scope scope;
+
+  /// A description of the IP set that helps with identification. You cannot
+  /// change the description of an IP set after you create it.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  UpdateIPSetRequest({
+    @_s.required this.addresses,
+    @_s.required this.id,
+    @_s.required this.lockToken,
+    @_s.required this.name,
+    @_s.required this.scope,
+    this.description,
+  });
+  Map<String, dynamic> toJson() => _$UpdateIPSetRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7858,6 +9435,72 @@ class UpdateIPSetResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateRegexPatternSetRequest {
+  /// A unique identifier for the set. This ID is returned in the responses to
+  /// create and list commands. You provide it to operations like update and
+  /// delete.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// A token used for optimistic locking. AWS WAF returns a token to your get and
+  /// list requests, to mark the state of the entity at the time of the request.
+  /// To make changes to the entity associated with the token, you provide the
+  /// token to operations like update and delete. AWS WAF uses the token to ensure
+  /// that no changes have been made to the entity since you last retrieved it. If
+  /// a change has been made, the update fails with a
+  /// <code>WAFOptimisticLockException</code>. If this happens, perform another
+  /// get, and use the new token returned by that operation.
+  @_s.JsonKey(name: 'LockToken')
+  final String lockToken;
+
+  /// The name of the set. You cannot change the name after you create the set.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// <p/>
+  @_s.JsonKey(name: 'RegularExpressionList')
+  final List<Regex> regularExpressionList;
+
+  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// regional application. A regional application can be an Application Load
+  /// Balancer (ALB) or an API Gateway stage.
+  ///
+  /// To work with CloudFront, you must also specify the Region US East (N.
+  /// Virginia) as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// CLI - Specify the Region when you use the CloudFront scope:
+  /// <code>--scope=CLOUDFRONT --region=us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// API and SDKs - For all calls, use the Region endpoint us-east-1.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Scope')
+  final Scope scope;
+
+  /// A description of the set that helps with identification. You cannot change
+  /// the description of a set after you create it.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  UpdateRegexPatternSetRequest({
+    @_s.required this.id,
+    @_s.required this.lockToken,
+    @_s.required this.name,
+    @_s.required this.regularExpressionList,
+    @_s.required this.scope,
+    this.description,
+  });
+  Map<String, dynamic> toJson() => _$UpdateRegexPatternSetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateRegexPatternSetResponse {
@@ -7877,6 +9520,82 @@ class UpdateRegexPatternSetResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateRuleGroupRequest {
+  /// A unique identifier for the rule group. This ID is returned in the responses
+  /// to create and list commands. You provide it to operations like update and
+  /// delete.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// A token used for optimistic locking. AWS WAF returns a token to your get and
+  /// list requests, to mark the state of the entity at the time of the request.
+  /// To make changes to the entity associated with the token, you provide the
+  /// token to operations like update and delete. AWS WAF uses the token to ensure
+  /// that no changes have been made to the entity since you last retrieved it. If
+  /// a change has been made, the update fails with a
+  /// <code>WAFOptimisticLockException</code>. If this happens, perform another
+  /// get, and use the new token returned by that operation.
+  @_s.JsonKey(name: 'LockToken')
+  final String lockToken;
+
+  /// The name of the rule group. You cannot change the name of a rule group after
+  /// you create it.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// regional application. A regional application can be an Application Load
+  /// Balancer (ALB) or an API Gateway stage.
+  ///
+  /// To work with CloudFront, you must also specify the Region US East (N.
+  /// Virginia) as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// CLI - Specify the Region when you use the CloudFront scope:
+  /// <code>--scope=CLOUDFRONT --region=us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// API and SDKs - For all calls, use the Region endpoint us-east-1.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Scope')
+  final Scope scope;
+
+  /// Defines and enables Amazon CloudWatch metrics and web request sample
+  /// collection.
+  @_s.JsonKey(name: 'VisibilityConfig')
+  final VisibilityConfig visibilityConfig;
+
+  /// A description of the rule group that helps with identification. You cannot
+  /// change the description of a rule group after you create it.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The <a>Rule</a> statements used to identify the web requests that you want
+  /// to allow, block, or count. Each rule includes one top-level statement that
+  /// AWS WAF uses to identify matching web requests, and parameters that govern
+  /// how AWS WAF handles them.
+  @_s.JsonKey(name: 'Rules')
+  final List<Rule> rules;
+
+  UpdateRuleGroupRequest({
+    @_s.required this.id,
+    @_s.required this.lockToken,
+    @_s.required this.name,
+    @_s.required this.scope,
+    @_s.required this.visibilityConfig,
+    this.description,
+    this.rules,
+  });
+  Map<String, dynamic> toJson() => _$UpdateRuleGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateRuleGroupResponse {
@@ -7891,6 +9610,88 @@ class UpdateRuleGroupResponse {
   });
   factory UpdateRuleGroupResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateRuleGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateWebACLRequest {
+  /// The action to perform if none of the <code>Rules</code> contained in the
+  /// <code>WebACL</code> match.
+  @_s.JsonKey(name: 'DefaultAction')
+  final DefaultAction defaultAction;
+
+  /// The unique identifier for the Web ACL. This ID is returned in the responses
+  /// to create and list commands. You provide it to operations like update and
+  /// delete.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// A token used for optimistic locking. AWS WAF returns a token to your get and
+  /// list requests, to mark the state of the entity at the time of the request.
+  /// To make changes to the entity associated with the token, you provide the
+  /// token to operations like update and delete. AWS WAF uses the token to ensure
+  /// that no changes have been made to the entity since you last retrieved it. If
+  /// a change has been made, the update fails with a
+  /// <code>WAFOptimisticLockException</code>. If this happens, perform another
+  /// get, and use the new token returned by that operation.
+  @_s.JsonKey(name: 'LockToken')
+  final String lockToken;
+
+  /// The name of the Web ACL. You cannot change the name of a Web ACL after you
+  /// create it.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Specifies whether this is for an AWS CloudFront distribution or for a
+  /// regional application. A regional application can be an Application Load
+  /// Balancer (ALB) or an API Gateway stage.
+  ///
+  /// To work with CloudFront, you must also specify the Region US East (N.
+  /// Virginia) as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// CLI - Specify the Region when you use the CloudFront scope:
+  /// <code>--scope=CLOUDFRONT --region=us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// API and SDKs - For all calls, use the Region endpoint us-east-1.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Scope')
+  final Scope scope;
+
+  /// Defines and enables Amazon CloudWatch metrics and web request sample
+  /// collection.
+  @_s.JsonKey(name: 'VisibilityConfig')
+  final VisibilityConfig visibilityConfig;
+
+  /// A description of the Web ACL that helps with identification. You cannot
+  /// change the description of a Web ACL after you create it.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The <a>Rule</a> statements used to identify the web requests that you want
+  /// to allow, block, or count. Each rule includes one top-level statement that
+  /// AWS WAF uses to identify matching web requests, and parameters that govern
+  /// how AWS WAF handles them.
+  @_s.JsonKey(name: 'Rules')
+  final List<Rule> rules;
+
+  UpdateWebACLRequest({
+    @_s.required this.defaultAction,
+    @_s.required this.id,
+    @_s.required this.lockToken,
+    @_s.required this.name,
+    @_s.required this.scope,
+    @_s.required this.visibilityConfig,
+    this.description,
+    this.rules,
+  });
+  Map<String, dynamic> toJson() => _$UpdateWebACLRequestToJson(this);
 }
 
 @_s.JsonSerializable(

@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -225,29 +224,20 @@ class Firehose {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DeliveryStreamName': deliveryStreamName,
-        if (deliveryStreamEncryptionConfigurationInput != null)
-          'DeliveryStreamEncryptionConfigurationInput':
-              deliveryStreamEncryptionConfigurationInput,
-        if (deliveryStreamType != null)
-          'DeliveryStreamType': deliveryStreamType?.toValue(),
-        if (elasticsearchDestinationConfiguration != null)
-          'ElasticsearchDestinationConfiguration':
-              elasticsearchDestinationConfiguration,
-        if (extendedS3DestinationConfiguration != null)
-          'ExtendedS3DestinationConfiguration':
-              extendedS3DestinationConfiguration,
-        if (kinesisStreamSourceConfiguration != null)
-          'KinesisStreamSourceConfiguration': kinesisStreamSourceConfiguration,
-        if (redshiftDestinationConfiguration != null)
-          'RedshiftDestinationConfiguration': redshiftDestinationConfiguration,
-        if (s3DestinationConfiguration != null)
-          'S3DestinationConfiguration': s3DestinationConfiguration,
-        if (splunkDestinationConfiguration != null)
-          'SplunkDestinationConfiguration': splunkDestinationConfiguration,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateDeliveryStreamInput(
+        deliveryStreamName: deliveryStreamName,
+        deliveryStreamEncryptionConfigurationInput:
+            deliveryStreamEncryptionConfigurationInput,
+        deliveryStreamType: deliveryStreamType,
+        elasticsearchDestinationConfiguration:
+            elasticsearchDestinationConfiguration,
+        extendedS3DestinationConfiguration: extendedS3DestinationConfiguration,
+        kinesisStreamSourceConfiguration: kinesisStreamSourceConfiguration,
+        redshiftDestinationConfiguration: redshiftDestinationConfiguration,
+        s3DestinationConfiguration: s3DestinationConfiguration,
+        splunkDestinationConfiguration: splunkDestinationConfiguration,
+        tags: tags,
+      ),
     );
 
     return CreateDeliveryStreamOutput.fromJson(jsonResponse.body);
@@ -315,10 +305,10 @@ class Firehose {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DeliveryStreamName': deliveryStreamName,
-        if (allowForceDelete != null) 'AllowForceDelete': allowForceDelete,
-      },
+      payload: DeleteDeliveryStreamInput(
+        deliveryStreamName: deliveryStreamName,
+        allowForceDelete: allowForceDelete,
+      ),
     );
 
     return DeleteDeliveryStreamOutput.fromJson(jsonResponse.body);
@@ -389,12 +379,11 @@ class Firehose {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DeliveryStreamName': deliveryStreamName,
-        if (exclusiveStartDestinationId != null)
-          'ExclusiveStartDestinationId': exclusiveStartDestinationId,
-        if (limit != null) 'Limit': limit,
-      },
+      payload: DescribeDeliveryStreamInput(
+        deliveryStreamName: deliveryStreamName,
+        exclusiveStartDestinationId: exclusiveStartDestinationId,
+        limit: limit,
+      ),
     );
 
     return DescribeDeliveryStreamOutput.fromJson(jsonResponse.body);
@@ -468,13 +457,11 @@ class Firehose {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (deliveryStreamType != null)
-          'DeliveryStreamType': deliveryStreamType?.toValue(),
-        if (exclusiveStartDeliveryStreamName != null)
-          'ExclusiveStartDeliveryStreamName': exclusiveStartDeliveryStreamName,
-        if (limit != null) 'Limit': limit,
-      },
+      payload: ListDeliveryStreamsInput(
+        deliveryStreamType: deliveryStreamType,
+        exclusiveStartDeliveryStreamName: exclusiveStartDeliveryStreamName,
+        limit: limit,
+      ),
     );
 
     return ListDeliveryStreamsOutput.fromJson(jsonResponse.body);
@@ -541,12 +528,11 @@ class Firehose {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DeliveryStreamName': deliveryStreamName,
-        if (exclusiveStartTagKey != null)
-          'ExclusiveStartTagKey': exclusiveStartTagKey,
-        if (limit != null) 'Limit': limit,
-      },
+      payload: ListTagsForDeliveryStreamInput(
+        deliveryStreamName: deliveryStreamName,
+        exclusiveStartTagKey: exclusiveStartTagKey,
+        limit: limit,
+      ),
     );
 
     return ListTagsForDeliveryStreamOutput.fromJson(jsonResponse.body);
@@ -636,10 +622,10 @@ class Firehose {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DeliveryStreamName': deliveryStreamName,
-        'Record': record,
-      },
+      payload: PutRecordInput(
+        deliveryStreamName: deliveryStreamName,
+        record: record,
+      ),
     );
 
     return PutRecordOutput.fromJson(jsonResponse.body);
@@ -758,10 +744,10 @@ class Firehose {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DeliveryStreamName': deliveryStreamName,
-        'Records': records,
-      },
+      payload: PutRecordBatchInput(
+        deliveryStreamName: deliveryStreamName,
+        records: records,
+      ),
     );
 
     return PutRecordBatchOutput.fromJson(jsonResponse.body);
@@ -853,12 +839,11 @@ class Firehose {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DeliveryStreamName': deliveryStreamName,
-        if (deliveryStreamEncryptionConfigurationInput != null)
-          'DeliveryStreamEncryptionConfigurationInput':
-              deliveryStreamEncryptionConfigurationInput,
-      },
+      payload: StartDeliveryStreamEncryptionInput(
+        deliveryStreamName: deliveryStreamName,
+        deliveryStreamEncryptionConfigurationInput:
+            deliveryStreamEncryptionConfigurationInput,
+      ),
     );
 
     return StartDeliveryStreamEncryptionOutput.fromJson(jsonResponse.body);
@@ -927,9 +912,9 @@ class Firehose {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DeliveryStreamName': deliveryStreamName,
-      },
+      payload: StopDeliveryStreamEncryptionInput(
+        deliveryStreamName: deliveryStreamName,
+      ),
     );
 
     return StopDeliveryStreamEncryptionOutput.fromJson(jsonResponse.body);
@@ -989,10 +974,10 @@ class Firehose {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DeliveryStreamName': deliveryStreamName,
-        'Tags': tags,
-      },
+      payload: TagDeliveryStreamInput(
+        deliveryStreamName: deliveryStreamName,
+        tags: tags,
+      ),
     );
 
     return TagDeliveryStreamOutput.fromJson(jsonResponse.body);
@@ -1045,10 +1030,10 @@ class Firehose {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DeliveryStreamName': deliveryStreamName,
-        'TagKeys': tagKeys,
-      },
+      payload: UntagDeliveryStreamInput(
+        deliveryStreamName: deliveryStreamName,
+        tagKeys: tagKeys,
+      ),
     );
 
     return UntagDeliveryStreamOutput.fromJson(jsonResponse.body);
@@ -1180,21 +1165,16 @@ class Firehose {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CurrentDeliveryStreamVersionId': currentDeliveryStreamVersionId,
-        'DeliveryStreamName': deliveryStreamName,
-        'DestinationId': destinationId,
-        if (elasticsearchDestinationUpdate != null)
-          'ElasticsearchDestinationUpdate': elasticsearchDestinationUpdate,
-        if (extendedS3DestinationUpdate != null)
-          'ExtendedS3DestinationUpdate': extendedS3DestinationUpdate,
-        if (redshiftDestinationUpdate != null)
-          'RedshiftDestinationUpdate': redshiftDestinationUpdate,
-        if (s3DestinationUpdate != null)
-          'S3DestinationUpdate': s3DestinationUpdate,
-        if (splunkDestinationUpdate != null)
-          'SplunkDestinationUpdate': splunkDestinationUpdate,
-      },
+      payload: UpdateDestinationInput(
+        currentDeliveryStreamVersionId: currentDeliveryStreamVersionId,
+        deliveryStreamName: deliveryStreamName,
+        destinationId: destinationId,
+        elasticsearchDestinationUpdate: elasticsearchDestinationUpdate,
+        extendedS3DestinationUpdate: extendedS3DestinationUpdate,
+        redshiftDestinationUpdate: redshiftDestinationUpdate,
+        s3DestinationUpdate: s3DestinationUpdate,
+        splunkDestinationUpdate: splunkDestinationUpdate,
+      ),
     );
 
     return UpdateDestinationOutput.fromJson(jsonResponse.body);
@@ -1342,6 +1322,95 @@ class CopyCommand {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDeliveryStreamInput {
+  /// The name of the delivery stream. This name must be unique per AWS account in
+  /// the same AWS Region. If the delivery streams are in different accounts or
+  /// different Regions, you can have multiple delivery streams with the same
+  /// name.
+  @_s.JsonKey(name: 'DeliveryStreamName')
+  final String deliveryStreamName;
+
+  /// Used to specify the type and Amazon Resource Name (ARN) of the KMS key
+  /// needed for Server-Side Encryption (SSE).
+  @_s.JsonKey(name: 'DeliveryStreamEncryptionConfigurationInput')
+  final DeliveryStreamEncryptionConfigurationInput
+      deliveryStreamEncryptionConfigurationInput;
+
+  /// The delivery stream type. This parameter can be one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>DirectPut</code>: Provider applications access the delivery stream
+  /// directly.
+  /// </li>
+  /// <li>
+  /// <code>KinesisStreamAsSource</code>: The delivery stream uses a Kinesis data
+  /// stream as a source.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'DeliveryStreamType')
+  final DeliveryStreamType deliveryStreamType;
+
+  /// The destination in Amazon ES. You can specify only one destination.
+  @_s.JsonKey(name: 'ElasticsearchDestinationConfiguration')
+  final ElasticsearchDestinationConfiguration
+      elasticsearchDestinationConfiguration;
+
+  /// The destination in Amazon S3. You can specify only one destination.
+  @_s.JsonKey(name: 'ExtendedS3DestinationConfiguration')
+  final ExtendedS3DestinationConfiguration extendedS3DestinationConfiguration;
+
+  /// When a Kinesis data stream is used as the source for the delivery stream, a
+  /// <a>KinesisStreamSourceConfiguration</a> containing the Kinesis data stream
+  /// Amazon Resource Name (ARN) and the role ARN for the source stream.
+  @_s.JsonKey(name: 'KinesisStreamSourceConfiguration')
+  final KinesisStreamSourceConfiguration kinesisStreamSourceConfiguration;
+
+  /// The destination in Amazon Redshift. You can specify only one destination.
+  @_s.JsonKey(name: 'RedshiftDestinationConfiguration')
+  final RedshiftDestinationConfiguration redshiftDestinationConfiguration;
+
+  /// [Deprecated] The destination in Amazon S3. You can specify only one
+  /// destination.
+  @_s.JsonKey(name: 'S3DestinationConfiguration')
+  final S3DestinationConfiguration s3DestinationConfiguration;
+
+  /// The destination in Splunk. You can specify only one destination.
+  @_s.JsonKey(name: 'SplunkDestinationConfiguration')
+  final SplunkDestinationConfiguration splunkDestinationConfiguration;
+
+  /// A set of tags to assign to the delivery stream. A tag is a key-value pair
+  /// that you can define and assign to AWS resources. Tags are metadata. For
+  /// example, you can add friendly names and descriptions or other types of
+  /// information that can help you distinguish the delivery stream. For more
+  /// information about tags, see <a
+  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Using
+  /// Cost Allocation Tags</a> in the AWS Billing and Cost Management User Guide.
+  ///
+  /// You can specify up to 50 tags when creating a delivery stream.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateDeliveryStreamInput({
+    @_s.required this.deliveryStreamName,
+    this.deliveryStreamEncryptionConfigurationInput,
+    this.deliveryStreamType,
+    this.elasticsearchDestinationConfiguration,
+    this.extendedS3DestinationConfiguration,
+    this.kinesisStreamSourceConfiguration,
+    this.redshiftDestinationConfiguration,
+    this.s3DestinationConfiguration,
+    this.splunkDestinationConfiguration,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateDeliveryStreamInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateDeliveryStreamOutput {
@@ -1402,6 +1471,37 @@ class DataFormatConversionConfiguration {
 
   Map<String, dynamic> toJson() =>
       _$DataFormatConversionConfigurationToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDeliveryStreamInput {
+  /// The name of the delivery stream.
+  @_s.JsonKey(name: 'DeliveryStreamName')
+  final String deliveryStreamName;
+
+  /// Set this to true if you want to delete the delivery stream even if Kinesis
+  /// Data Firehose is unable to retire the grant for the CMK. Kinesis Data
+  /// Firehose might be unable to retire the grant due to a customer error, such
+  /// as when the CMK or the grant are in an invalid state. If you force deletion,
+  /// you can then use the <a
+  /// href="https://docs.aws.amazon.com/kms/latest/APIReference/API_RevokeGrant.html">RevokeGrant</a>
+  /// operation to revoke the grant you gave to Kinesis Data Firehose. If a
+  /// failure to retire the grant happens due to an AWS KMS issue, Kinesis Data
+  /// Firehose keeps retrying the delete operation.
+  ///
+  /// The default value is false.
+  @_s.JsonKey(name: 'AllowForceDelete')
+  final bool allowForceDelete;
+
+  DeleteDeliveryStreamInput({
+    @_s.required this.deliveryStreamName,
+    this.allowForceDelete,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDeliveryStreamInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1671,16 +1771,32 @@ enum DeliveryStreamType {
   kinesisStreamAsSource,
 }
 
-extension on DeliveryStreamType {
-  String toValue() {
-    switch (this) {
-      case DeliveryStreamType.directPut:
-        return 'DirectPut';
-      case DeliveryStreamType.kinesisStreamAsSource:
-        return 'KinesisStreamAsSource';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeDeliveryStreamInput {
+  /// The name of the delivery stream.
+  @_s.JsonKey(name: 'DeliveryStreamName')
+  final String deliveryStreamName;
+
+  /// The ID of the destination to start returning the destination information.
+  /// Kinesis Data Firehose supports one destination per delivery stream.
+  @_s.JsonKey(name: 'ExclusiveStartDestinationId')
+  final String exclusiveStartDestinationId;
+
+  /// The limit on the number of destinations to return. You can have one
+  /// destination per delivery stream.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  DescribeDeliveryStreamInput({
+    @_s.required this.deliveryStreamName,
+    this.exclusiveStartDestinationId,
+    this.limit,
+  });
+  Map<String, dynamic> toJson() => _$DescribeDeliveryStreamInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2632,6 +2748,48 @@ class KinesisStreamSourceDescription {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListDeliveryStreamsInput {
+  /// The delivery stream type. This can be one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>DirectPut</code>: Provider applications access the delivery stream
+  /// directly.
+  /// </li>
+  /// <li>
+  /// <code>KinesisStreamAsSource</code>: The delivery stream uses a Kinesis data
+  /// stream as a source.
+  /// </li>
+  /// </ul>
+  /// This parameter is optional. If this parameter is omitted, delivery streams
+  /// of all types are returned.
+  @_s.JsonKey(name: 'DeliveryStreamType')
+  final DeliveryStreamType deliveryStreamType;
+
+  /// The list of delivery streams returned by this call to
+  /// <code>ListDeliveryStreams</code> will start with the delivery stream whose
+  /// name comes alphabetically immediately after the name you specify in
+  /// <code>ExclusiveStartDeliveryStreamName</code>.
+  @_s.JsonKey(name: 'ExclusiveStartDeliveryStreamName')
+  final String exclusiveStartDeliveryStreamName;
+
+  /// The maximum number of delivery streams to list. The default value is 10.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  ListDeliveryStreamsInput({
+    this.deliveryStreamType,
+    this.exclusiveStartDeliveryStreamName,
+    this.limit,
+  });
+  Map<String, dynamic> toJson() => _$ListDeliveryStreamsInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListDeliveryStreamsOutput {
@@ -2649,6 +2807,37 @@ class ListDeliveryStreamsOutput {
   });
   factory ListDeliveryStreamsOutput.fromJson(Map<String, dynamic> json) =>
       _$ListDeliveryStreamsOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForDeliveryStreamInput {
+  /// The name of the delivery stream whose tags you want to list.
+  @_s.JsonKey(name: 'DeliveryStreamName')
+  final String deliveryStreamName;
+
+  /// The key to use as the starting point for the list of tags. If you set this
+  /// parameter, <code>ListTagsForDeliveryStream</code> gets all tags that occur
+  /// after <code>ExclusiveStartTagKey</code>.
+  @_s.JsonKey(name: 'ExclusiveStartTagKey')
+  final String exclusiveStartTagKey;
+
+  /// The number of tags to return. If this number is less than the total number
+  /// of tags associated with the delivery stream, <code>HasMoreTags</code> is set
+  /// to <code>true</code> in the response. To list additional tags, set
+  /// <code>ExclusiveStartTagKey</code> to the last key in the response.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  ListTagsForDeliveryStreamInput({
+    @_s.required this.deliveryStreamName,
+    this.exclusiveStartTagKey,
+    this.limit,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForDeliveryStreamInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3029,6 +3218,27 @@ enum ProcessorType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutRecordBatchInput {
+  /// The name of the delivery stream.
+  @_s.JsonKey(name: 'DeliveryStreamName')
+  final String deliveryStreamName;
+
+  /// One or more records.
+  @_s.JsonKey(name: 'Records')
+  final List<Record> records;
+
+  PutRecordBatchInput({
+    @_s.required this.deliveryStreamName,
+    @_s.required this.records,
+  });
+  Map<String, dynamic> toJson() => _$PutRecordBatchInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutRecordBatchOutput {
@@ -3087,6 +3297,27 @@ class PutRecordBatchResponseEntry {
   });
   factory PutRecordBatchResponseEntry.fromJson(Map<String, dynamic> json) =>
       _$PutRecordBatchResponseEntryFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutRecordInput {
+  /// The name of the delivery stream.
+  @_s.JsonKey(name: 'DeliveryStreamName')
+  final String deliveryStreamName;
+
+  /// The record.
+  @_s.JsonKey(name: 'Record')
+  final Record record;
+
+  PutRecordInput({
+    @_s.required this.deliveryStreamName,
+    @_s.required this.record,
+  });
+  Map<String, dynamic> toJson() => _$PutRecordInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3953,6 +4184,31 @@ enum SplunkS3BackupMode {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartDeliveryStreamEncryptionInput {
+  /// The name of the delivery stream for which you want to enable server-side
+  /// encryption (SSE).
+  @_s.JsonKey(name: 'DeliveryStreamName')
+  final String deliveryStreamName;
+
+  /// Used to specify the type and Amazon Resource Name (ARN) of the KMS key
+  /// needed for Server-Side Encryption (SSE).
+  @_s.JsonKey(name: 'DeliveryStreamEncryptionConfigurationInput')
+  final DeliveryStreamEncryptionConfigurationInput
+      deliveryStreamEncryptionConfigurationInput;
+
+  StartDeliveryStreamEncryptionInput({
+    @_s.required this.deliveryStreamName,
+    this.deliveryStreamEncryptionConfigurationInput,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StartDeliveryStreamEncryptionInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartDeliveryStreamEncryptionOutput {
@@ -3960,6 +4216,24 @@ class StartDeliveryStreamEncryptionOutput {
   factory StartDeliveryStreamEncryptionOutput.fromJson(
           Map<String, dynamic> json) =>
       _$StartDeliveryStreamEncryptionOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopDeliveryStreamEncryptionInput {
+  /// The name of the delivery stream for which you want to disable server-side
+  /// encryption (SSE).
+  @_s.JsonKey(name: 'DeliveryStreamName')
+  final String deliveryStreamName;
+
+  StopDeliveryStreamEncryptionInput({
+    @_s.required this.deliveryStreamName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StopDeliveryStreamEncryptionInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4005,6 +4279,27 @@ class Tag {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagDeliveryStreamInput {
+  /// The name of the delivery stream to which you want to add the tags.
+  @_s.JsonKey(name: 'DeliveryStreamName')
+  final String deliveryStreamName;
+
+  /// A set of key-value pairs to use to create the tags.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  TagDeliveryStreamInput({
+    @_s.required this.deliveryStreamName,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagDeliveryStreamInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagDeliveryStreamOutput {
@@ -4016,12 +4311,91 @@ class TagDeliveryStreamOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagDeliveryStreamInput {
+  /// The name of the delivery stream.
+  @_s.JsonKey(name: 'DeliveryStreamName')
+  final String deliveryStreamName;
+
+  /// A list of tag keys. Each corresponding tag is removed from the delivery
+  /// stream.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  UntagDeliveryStreamInput({
+    @_s.required this.deliveryStreamName,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagDeliveryStreamInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagDeliveryStreamOutput {
   UntagDeliveryStreamOutput();
   factory UntagDeliveryStreamOutput.fromJson(Map<String, dynamic> json) =>
       _$UntagDeliveryStreamOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDestinationInput {
+  /// Obtain this value from the <code>VersionId</code> result of
+  /// <a>DeliveryStreamDescription</a>. This value is required, and helps the
+  /// service perform conditional operations. For example, if there is an
+  /// interleaving update and this value is null, then the update destination
+  /// fails. After the update is successful, the <code>VersionId</code> value is
+  /// updated. The service then performs a merge of the old configuration with the
+  /// new configuration.
+  @_s.JsonKey(name: 'CurrentDeliveryStreamVersionId')
+  final String currentDeliveryStreamVersionId;
+
+  /// The name of the delivery stream.
+  @_s.JsonKey(name: 'DeliveryStreamName')
+  final String deliveryStreamName;
+
+  /// The ID of the destination.
+  @_s.JsonKey(name: 'DestinationId')
+  final String destinationId;
+
+  /// Describes an update for a destination in Amazon ES.
+  @_s.JsonKey(name: 'ElasticsearchDestinationUpdate')
+  final ElasticsearchDestinationUpdate elasticsearchDestinationUpdate;
+
+  /// Describes an update for a destination in Amazon S3.
+  @_s.JsonKey(name: 'ExtendedS3DestinationUpdate')
+  final ExtendedS3DestinationUpdate extendedS3DestinationUpdate;
+
+  /// Describes an update for a destination in Amazon Redshift.
+  @_s.JsonKey(name: 'RedshiftDestinationUpdate')
+  final RedshiftDestinationUpdate redshiftDestinationUpdate;
+
+  /// [Deprecated] Describes an update for a destination in Amazon S3.
+  @_s.JsonKey(name: 'S3DestinationUpdate')
+  final S3DestinationUpdate s3DestinationUpdate;
+
+  /// Describes an update for a destination in Splunk.
+  @_s.JsonKey(name: 'SplunkDestinationUpdate')
+  final SplunkDestinationUpdate splunkDestinationUpdate;
+
+  UpdateDestinationInput({
+    @_s.required this.currentDeliveryStreamVersionId,
+    @_s.required this.deliveryStreamName,
+    @_s.required this.destinationId,
+    this.elasticsearchDestinationUpdate,
+    this.extendedS3DestinationUpdate,
+    this.redshiftDestinationUpdate,
+    this.s3DestinationUpdate,
+    this.splunkDestinationUpdate,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDestinationInputToJson(this);
 }
 
 @_s.JsonSerializable(

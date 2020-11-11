@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -111,10 +110,10 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        'Tags': tags,
-      },
+      payload: AddTagsInput(
+        resourceArn: resourceArn,
+        tags: tags,
+      ),
     );
 
     return AddTagsOutput.fromJson(jsonResponse.body);
@@ -174,10 +173,10 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TrialComponentName': trialComponentName,
-        'TrialName': trialName,
-      },
+      payload: AssociateTrialComponentRequest(
+        trialComponentName: trialComponentName,
+        trialName: trialName,
+      ),
     );
 
     return AssociateTrialComponentResponse.fromJson(jsonResponse.body);
@@ -296,18 +295,14 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AlgorithmName': algorithmName,
-        'TrainingSpecification': trainingSpecification,
-        if (algorithmDescription != null)
-          'AlgorithmDescription': algorithmDescription,
-        if (certifyForMarketplace != null)
-          'CertifyForMarketplace': certifyForMarketplace,
-        if (inferenceSpecification != null)
-          'InferenceSpecification': inferenceSpecification,
-        if (validationSpecification != null)
-          'ValidationSpecification': validationSpecification,
-      },
+      payload: CreateAlgorithmInput(
+        algorithmName: algorithmName,
+        trainingSpecification: trainingSpecification,
+        algorithmDescription: algorithmDescription,
+        certifyForMarketplace: certifyForMarketplace,
+        inferenceSpecification: inferenceSpecification,
+        validationSpecification: validationSpecification,
+      ),
     );
 
     return CreateAlgorithmOutput.fromJson(jsonResponse.body);
@@ -398,14 +393,14 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AppName': appName,
-        'AppType': appType?.toValue(),
-        'DomainId': domainId,
-        'UserProfileName': userProfileName,
-        if (resourceSpec != null) 'ResourceSpec': resourceSpec,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateAppRequest(
+        appName: appName,
+        appType: appType,
+        domainId: domainId,
+        userProfileName: userProfileName,
+        resourceSpec: resourceSpec,
+        tags: tags,
+      ),
     );
 
     return CreateAppResponse.fromJson(jsonResponse.body);
@@ -512,19 +507,17 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AutoMLJobName': autoMLJobName,
-        'InputDataConfig': inputDataConfig,
-        'OutputDataConfig': outputDataConfig,
-        'RoleArn': roleArn,
-        if (autoMLJobConfig != null) 'AutoMLJobConfig': autoMLJobConfig,
-        if (autoMLJobObjective != null)
-          'AutoMLJobObjective': autoMLJobObjective,
-        if (generateCandidateDefinitionsOnly != null)
-          'GenerateCandidateDefinitionsOnly': generateCandidateDefinitionsOnly,
-        if (problemType != null) 'ProblemType': problemType?.toValue(),
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateAutoMLJobRequest(
+        autoMLJobName: autoMLJobName,
+        inputDataConfig: inputDataConfig,
+        outputDataConfig: outputDataConfig,
+        roleArn: roleArn,
+        autoMLJobConfig: autoMLJobConfig,
+        autoMLJobObjective: autoMLJobObjective,
+        generateCandidateDefinitionsOnly: generateCandidateDefinitionsOnly,
+        problemType: problemType,
+        tags: tags,
+      ),
     );
 
     return CreateAutoMLJobResponse.fromJson(jsonResponse.body);
@@ -578,10 +571,10 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CodeRepositoryName': codeRepositoryName,
-        'GitConfig': gitConfig,
-      },
+      payload: CreateCodeRepositoryInput(
+        codeRepositoryName: codeRepositoryName,
+        gitConfig: gitConfig,
+      ),
     );
 
     return CreateCodeRepositoryOutput.fromJson(jsonResponse.body);
@@ -717,13 +710,13 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CompilationJobName': compilationJobName,
-        'InputConfig': inputConfig,
-        'OutputConfig': outputConfig,
-        'RoleArn': roleArn,
-        'StoppingCondition': stoppingCondition,
-      },
+      payload: CreateCompilationJobRequest(
+        compilationJobName: compilationJobName,
+        inputConfig: inputConfig,
+        outputConfig: outputConfig,
+        roleArn: roleArn,
+        stoppingCondition: stoppingCondition,
+      ),
     );
 
     return CreateCompilationJobResponse.fromJson(jsonResponse.body);
@@ -826,16 +819,15 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AuthMode': authMode?.toValue(),
-        'DefaultUserSettings': defaultUserSettings,
-        'DomainName': domainName,
-        'SubnetIds': subnetIds,
-        'VpcId': vpcId,
-        if (homeEfsFileSystemKmsKeyId != null)
-          'HomeEfsFileSystemKmsKeyId': homeEfsFileSystemKmsKeyId,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateDomainRequest(
+        authMode: authMode,
+        defaultUserSettings: defaultUserSettings,
+        domainName: domainName,
+        subnetIds: subnetIds,
+        vpcId: vpcId,
+        homeEfsFileSystemKmsKeyId: homeEfsFileSystemKmsKeyId,
+        tags: tags,
+      ),
     );
 
     return CreateDomainResponse.fromJson(jsonResponse.body);
@@ -940,11 +932,11 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EndpointConfigName': endpointConfigName,
-        'EndpointName': endpointName,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateEndpointInput(
+        endpointConfigName: endpointConfigName,
+        endpointName: endpointName,
+        tags: tags,
+      ),
     );
 
     return CreateEndpointOutput.fromJson(jsonResponse.body);
@@ -1084,13 +1076,13 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EndpointConfigName': endpointConfigName,
-        'ProductionVariants': productionVariants,
-        if (dataCaptureConfig != null) 'DataCaptureConfig': dataCaptureConfig,
-        if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateEndpointConfigInput(
+        endpointConfigName: endpointConfigName,
+        productionVariants: productionVariants,
+        dataCaptureConfig: dataCaptureConfig,
+        kmsKeyId: kmsKeyId,
+        tags: tags,
+      ),
     );
 
     return CreateEndpointConfigOutput.fromJson(jsonResponse.body);
@@ -1193,12 +1185,12 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ExperimentName': experimentName,
-        if (description != null) 'Description': description,
-        if (displayName != null) 'DisplayName': displayName,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateExperimentRequest(
+        experimentName: experimentName,
+        description: description,
+        displayName: displayName,
+        tags: tags,
+      ),
     );
 
     return CreateExperimentResponse.fromJson(jsonResponse.body);
@@ -1287,17 +1279,15 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'FlowDefinitionName': flowDefinitionName,
-        'HumanLoopConfig': humanLoopConfig,
-        'OutputConfig': outputConfig,
-        'RoleArn': roleArn,
-        if (humanLoopActivationConfig != null)
-          'HumanLoopActivationConfig': humanLoopActivationConfig,
-        if (humanLoopRequestSource != null)
-          'HumanLoopRequestSource': humanLoopRequestSource,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateFlowDefinitionRequest(
+        flowDefinitionName: flowDefinitionName,
+        humanLoopConfig: humanLoopConfig,
+        outputConfig: outputConfig,
+        roleArn: roleArn,
+        humanLoopActivationConfig: humanLoopActivationConfig,
+        humanLoopRequestSource: humanLoopRequestSource,
+        tags: tags,
+      ),
     );
 
     return CreateFlowDefinitionResponse.fromJson(jsonResponse.body);
@@ -1347,11 +1337,11 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'HumanTaskUiName': humanTaskUiName,
-        'UiTemplate': uiTemplate,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateHumanTaskUiRequest(
+        humanTaskUiName: humanTaskUiName,
+        uiTemplate: uiTemplate,
+        tags: tags,
+      ),
     );
 
     return CreateHumanTaskUiResponse.fromJson(jsonResponse.body);
@@ -1455,16 +1445,14 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'HyperParameterTuningJobConfig': hyperParameterTuningJobConfig,
-        'HyperParameterTuningJobName': hyperParameterTuningJobName,
-        if (tags != null) 'Tags': tags,
-        if (trainingJobDefinition != null)
-          'TrainingJobDefinition': trainingJobDefinition,
-        if (trainingJobDefinitions != null)
-          'TrainingJobDefinitions': trainingJobDefinitions,
-        if (warmStartConfig != null) 'WarmStartConfig': warmStartConfig,
-      },
+      payload: CreateHyperParameterTuningJobRequest(
+        hyperParameterTuningJobConfig: hyperParameterTuningJobConfig,
+        hyperParameterTuningJobName: hyperParameterTuningJobName,
+        tags: tags,
+        trainingJobDefinition: trainingJobDefinition,
+        trainingJobDefinitions: trainingJobDefinitions,
+        warmStartConfig: warmStartConfig,
+      ),
     );
 
     return CreateHyperParameterTuningJobResponse.fromJson(jsonResponse.body);
@@ -1671,21 +1659,18 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'HumanTaskConfig': humanTaskConfig,
-        'InputConfig': inputConfig,
-        'LabelAttributeName': labelAttributeName,
-        'LabelingJobName': labelingJobName,
-        'OutputConfig': outputConfig,
-        'RoleArn': roleArn,
-        if (labelCategoryConfigS3Uri != null)
-          'LabelCategoryConfigS3Uri': labelCategoryConfigS3Uri,
-        if (labelingJobAlgorithmsConfig != null)
-          'LabelingJobAlgorithmsConfig': labelingJobAlgorithmsConfig,
-        if (stoppingConditions != null)
-          'StoppingConditions': stoppingConditions,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateLabelingJobRequest(
+        humanTaskConfig: humanTaskConfig,
+        inputConfig: inputConfig,
+        labelAttributeName: labelAttributeName,
+        labelingJobName: labelingJobName,
+        outputConfig: outputConfig,
+        roleArn: roleArn,
+        labelCategoryConfigS3Uri: labelCategoryConfigS3Uri,
+        labelingJobAlgorithmsConfig: labelingJobAlgorithmsConfig,
+        stoppingConditions: stoppingConditions,
+        tags: tags,
+      ),
     );
 
     return CreateLabelingJobResponse.fromJson(jsonResponse.body);
@@ -1817,16 +1802,15 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ExecutionRoleArn': executionRoleArn,
-        'ModelName': modelName,
-        if (containers != null) 'Containers': containers,
-        if (enableNetworkIsolation != null)
-          'EnableNetworkIsolation': enableNetworkIsolation,
-        if (primaryContainer != null) 'PrimaryContainer': primaryContainer,
-        if (tags != null) 'Tags': tags,
-        if (vpcConfig != null) 'VpcConfig': vpcConfig,
-      },
+      payload: CreateModelInput(
+        executionRoleArn: executionRoleArn,
+        modelName: modelName,
+        containers: containers,
+        enableNetworkIsolation: enableNetworkIsolation,
+        primaryContainer: primaryContainer,
+        tags: tags,
+        vpcConfig: vpcConfig,
+      ),
     );
 
     return CreateModelOutput.fromJson(jsonResponse.body);
@@ -1921,19 +1905,14 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ModelPackageName': modelPackageName,
-        if (certifyForMarketplace != null)
-          'CertifyForMarketplace': certifyForMarketplace,
-        if (inferenceSpecification != null)
-          'InferenceSpecification': inferenceSpecification,
-        if (modelPackageDescription != null)
-          'ModelPackageDescription': modelPackageDescription,
-        if (sourceAlgorithmSpecification != null)
-          'SourceAlgorithmSpecification': sourceAlgorithmSpecification,
-        if (validationSpecification != null)
-          'ValidationSpecification': validationSpecification,
-      },
+      payload: CreateModelPackageInput(
+        modelPackageName: modelPackageName,
+        certifyForMarketplace: certifyForMarketplace,
+        inferenceSpecification: inferenceSpecification,
+        modelPackageDescription: modelPackageDescription,
+        sourceAlgorithmSpecification: sourceAlgorithmSpecification,
+        validationSpecification: validationSpecification,
+      ),
     );
 
     return CreateModelPackageOutput.fromJson(jsonResponse.body);
@@ -1991,11 +1970,11 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'MonitoringScheduleConfig': monitoringScheduleConfig,
-        'MonitoringScheduleName': monitoringScheduleName,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateMonitoringScheduleRequest(
+        monitoringScheduleConfig: monitoringScheduleConfig,
+        monitoringScheduleName: monitoringScheduleName,
+        tags: tags,
+      ),
     );
 
     return CreateMonitoringScheduleResponse.fromJson(jsonResponse.body);
@@ -2256,26 +2235,22 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'InstanceType': instanceType?.toValue(),
-        'NotebookInstanceName': notebookInstanceName,
-        'RoleArn': roleArn,
-        if (acceleratorTypes != null) 'AcceleratorTypes': acceleratorTypes,
-        if (additionalCodeRepositories != null)
-          'AdditionalCodeRepositories': additionalCodeRepositories,
-        if (defaultCodeRepository != null)
-          'DefaultCodeRepository': defaultCodeRepository,
-        if (directInternetAccess != null)
-          'DirectInternetAccess': directInternetAccess?.toValue(),
-        if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
-        if (lifecycleConfigName != null)
-          'LifecycleConfigName': lifecycleConfigName,
-        if (rootAccess != null) 'RootAccess': rootAccess?.toValue(),
-        if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
-        if (subnetId != null) 'SubnetId': subnetId,
-        if (tags != null) 'Tags': tags,
-        if (volumeSizeInGB != null) 'VolumeSizeInGB': volumeSizeInGB,
-      },
+      payload: CreateNotebookInstanceInput(
+        instanceType: instanceType,
+        notebookInstanceName: notebookInstanceName,
+        roleArn: roleArn,
+        acceleratorTypes: acceleratorTypes,
+        additionalCodeRepositories: additionalCodeRepositories,
+        defaultCodeRepository: defaultCodeRepository,
+        directInternetAccess: directInternetAccess,
+        kmsKeyId: kmsKeyId,
+        lifecycleConfigName: lifecycleConfigName,
+        rootAccess: rootAccess,
+        securityGroupIds: securityGroupIds,
+        subnetId: subnetId,
+        tags: tags,
+        volumeSizeInGB: volumeSizeInGB,
+      ),
     );
 
     return CreateNotebookInstanceOutput.fromJson(jsonResponse.body);
@@ -2346,12 +2321,12 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'NotebookInstanceLifecycleConfigName':
+      payload: CreateNotebookInstanceLifecycleConfigInput(
+        notebookInstanceLifecycleConfigName:
             notebookInstanceLifecycleConfigName,
-        if (onCreate != null) 'OnCreate': onCreate,
-        if (onStart != null) 'OnStart': onStart,
-      },
+        onCreate: onCreate,
+        onStart: onStart,
+      ),
     );
 
     return CreateNotebookInstanceLifecycleConfigOutput.fromJson(
@@ -2417,13 +2392,11 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DomainId': domainId,
-        'UserProfileName': userProfileName,
-        if (sessionExpirationDurationInSeconds != null)
-          'SessionExpirationDurationInSeconds':
-              sessionExpirationDurationInSeconds,
-      },
+      payload: CreatePresignedDomainUrlRequest(
+        domainId: domainId,
+        userProfileName: userProfileName,
+        sessionExpirationDurationInSeconds: sessionExpirationDurationInSeconds,
+      ),
     );
 
     return CreatePresignedDomainUrlResponse.fromJson(jsonResponse.body);
@@ -2492,12 +2465,10 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'NotebookInstanceName': notebookInstanceName,
-        if (sessionExpirationDurationInSeconds != null)
-          'SessionExpirationDurationInSeconds':
-              sessionExpirationDurationInSeconds,
-      },
+      payload: CreatePresignedNotebookInstanceUrlInput(
+        notebookInstanceName: notebookInstanceName,
+        sessionExpirationDurationInSeconds: sessionExpirationDurationInSeconds,
+      ),
     );
 
     return CreatePresignedNotebookInstanceUrlOutput.fromJson(jsonResponse.body);
@@ -2600,20 +2571,19 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AppSpecification': appSpecification,
-        'ProcessingJobName': processingJobName,
-        'ProcessingResources': processingResources,
-        'RoleArn': roleArn,
-        if (environment != null) 'Environment': environment,
-        if (experimentConfig != null) 'ExperimentConfig': experimentConfig,
-        if (networkConfig != null) 'NetworkConfig': networkConfig,
-        if (processingInputs != null) 'ProcessingInputs': processingInputs,
-        if (processingOutputConfig != null)
-          'ProcessingOutputConfig': processingOutputConfig,
-        if (stoppingCondition != null) 'StoppingCondition': stoppingCondition,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateProcessingJobRequest(
+        appSpecification: appSpecification,
+        processingJobName: processingJobName,
+        processingResources: processingResources,
+        roleArn: roleArn,
+        environment: environment,
+        experimentConfig: experimentConfig,
+        networkConfig: networkConfig,
+        processingInputs: processingInputs,
+        processingOutputConfig: processingOutputConfig,
+        stoppingCondition: stoppingCondition,
+        tags: tags,
+      ),
     );
 
     return CreateProcessingJobResponse.fromJson(jsonResponse.body);
@@ -2883,32 +2853,27 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AlgorithmSpecification': algorithmSpecification,
-        'OutputDataConfig': outputDataConfig,
-        'ResourceConfig': resourceConfig,
-        'RoleArn': roleArn,
-        'StoppingCondition': stoppingCondition,
-        'TrainingJobName': trainingJobName,
-        if (checkpointConfig != null) 'CheckpointConfig': checkpointConfig,
-        if (debugHookConfig != null) 'DebugHookConfig': debugHookConfig,
-        if (debugRuleConfigurations != null)
-          'DebugRuleConfigurations': debugRuleConfigurations,
-        if (enableInterContainerTrafficEncryption != null)
-          'EnableInterContainerTrafficEncryption':
-              enableInterContainerTrafficEncryption,
-        if (enableManagedSpotTraining != null)
-          'EnableManagedSpotTraining': enableManagedSpotTraining,
-        if (enableNetworkIsolation != null)
-          'EnableNetworkIsolation': enableNetworkIsolation,
-        if (experimentConfig != null) 'ExperimentConfig': experimentConfig,
-        if (hyperParameters != null) 'HyperParameters': hyperParameters,
-        if (inputDataConfig != null) 'InputDataConfig': inputDataConfig,
-        if (tags != null) 'Tags': tags,
-        if (tensorBoardOutputConfig != null)
-          'TensorBoardOutputConfig': tensorBoardOutputConfig,
-        if (vpcConfig != null) 'VpcConfig': vpcConfig,
-      },
+      payload: CreateTrainingJobRequest(
+        algorithmSpecification: algorithmSpecification,
+        outputDataConfig: outputDataConfig,
+        resourceConfig: resourceConfig,
+        roleArn: roleArn,
+        stoppingCondition: stoppingCondition,
+        trainingJobName: trainingJobName,
+        checkpointConfig: checkpointConfig,
+        debugHookConfig: debugHookConfig,
+        debugRuleConfigurations: debugRuleConfigurations,
+        enableInterContainerTrafficEncryption:
+            enableInterContainerTrafficEncryption,
+        enableManagedSpotTraining: enableManagedSpotTraining,
+        enableNetworkIsolation: enableNetworkIsolation,
+        experimentConfig: experimentConfig,
+        hyperParameters: hyperParameters,
+        inputDataConfig: inputDataConfig,
+        tags: tags,
+        tensorBoardOutputConfig: tensorBoardOutputConfig,
+        vpcConfig: vpcConfig,
+      ),
     );
 
     return CreateTrainingJobResponse.fromJson(jsonResponse.body);
@@ -3104,21 +3069,20 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ModelName': modelName,
-        'TransformInput': transformInput,
-        'TransformJobName': transformJobName,
-        'TransformOutput': transformOutput,
-        'TransformResources': transformResources,
-        if (batchStrategy != null) 'BatchStrategy': batchStrategy?.toValue(),
-        if (dataProcessing != null) 'DataProcessing': dataProcessing,
-        if (environment != null) 'Environment': environment,
-        if (experimentConfig != null) 'ExperimentConfig': experimentConfig,
-        if (maxConcurrentTransforms != null)
-          'MaxConcurrentTransforms': maxConcurrentTransforms,
-        if (maxPayloadInMB != null) 'MaxPayloadInMB': maxPayloadInMB,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateTransformJobRequest(
+        modelName: modelName,
+        transformInput: transformInput,
+        transformJobName: transformJobName,
+        transformOutput: transformOutput,
+        transformResources: transformResources,
+        batchStrategy: batchStrategy,
+        dataProcessing: dataProcessing,
+        environment: environment,
+        experimentConfig: experimentConfig,
+        maxConcurrentTransforms: maxConcurrentTransforms,
+        maxPayloadInMB: maxPayloadInMB,
+        tags: tags,
+      ),
     );
 
     return CreateTransformJobResponse.fromJson(jsonResponse.body);
@@ -3213,12 +3177,12 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ExperimentName': experimentName,
-        'TrialName': trialName,
-        if (displayName != null) 'DisplayName': displayName,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateTrialRequest(
+        experimentName: experimentName,
+        trialName: trialName,
+        displayName: displayName,
+        tags: tags,
+      ),
     );
 
     return CreateTrialResponse.fromJson(jsonResponse.body);
@@ -3338,17 +3302,17 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TrialComponentName': trialComponentName,
-        if (displayName != null) 'DisplayName': displayName,
-        if (endTime != null) 'EndTime': endTime,
-        if (inputArtifacts != null) 'InputArtifacts': inputArtifacts,
-        if (outputArtifacts != null) 'OutputArtifacts': outputArtifacts,
-        if (parameters != null) 'Parameters': parameters,
-        if (startTime != null) 'StartTime': startTime,
-        if (status != null) 'Status': status,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateTrialComponentRequest(
+        trialComponentName: trialComponentName,
+        displayName: displayName,
+        endTime: endTime,
+        inputArtifacts: inputArtifacts,
+        outputArtifacts: outputArtifacts,
+        parameters: parameters,
+        startTime: startTime,
+        status: status,
+        tags: tags,
+      ),
     );
 
     return CreateTrialComponentResponse.fromJson(jsonResponse.body);
@@ -3441,16 +3405,14 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DomainId': domainId,
-        'UserProfileName': userProfileName,
-        if (singleSignOnUserIdentifier != null)
-          'SingleSignOnUserIdentifier': singleSignOnUserIdentifier,
-        if (singleSignOnUserValue != null)
-          'SingleSignOnUserValue': singleSignOnUserValue,
-        if (tags != null) 'Tags': tags,
-        if (userSettings != null) 'UserSettings': userSettings,
-      },
+      payload: CreateUserProfileRequest(
+        domainId: domainId,
+        userProfileName: userProfileName,
+        singleSignOnUserIdentifier: singleSignOnUserIdentifier,
+        singleSignOnUserValue: singleSignOnUserValue,
+        tags: tags,
+        userSettings: userSettings,
+      ),
     );
 
     return CreateUserProfileResponse.fromJson(jsonResponse.body);
@@ -3541,14 +3503,13 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Description': description,
-        'MemberDefinitions': memberDefinitions,
-        'WorkteamName': workteamName,
-        if (notificationConfiguration != null)
-          'NotificationConfiguration': notificationConfiguration,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateWorkteamRequest(
+        description: description,
+        memberDefinitions: memberDefinitions,
+        workteamName: workteamName,
+        notificationConfiguration: notificationConfiguration,
+        tags: tags,
+      ),
     );
 
     return CreateWorkteamResponse.fromJson(jsonResponse.body);
@@ -3585,9 +3546,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AlgorithmName': algorithmName,
-      },
+      payload: DeleteAlgorithmInput(
+        algorithmName: algorithmName,
+      ),
     );
   }
 
@@ -3660,12 +3621,12 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AppName': appName,
-        'AppType': appType?.toValue(),
-        'DomainId': domainId,
-        'UserProfileName': userProfileName,
-      },
+      payload: DeleteAppRequest(
+        appName: appName,
+        appType: appType,
+        domainId: domainId,
+        userProfileName: userProfileName,
+      ),
     );
   }
 
@@ -3700,9 +3661,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CodeRepositoryName': codeRepositoryName,
-      },
+      payload: DeleteCodeRepositoryInput(
+        codeRepositoryName: codeRepositoryName,
+      ),
     );
   }
 
@@ -3743,10 +3704,10 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DomainId': domainId,
-        if (retentionPolicy != null) 'RetentionPolicy': retentionPolicy,
-      },
+      payload: DeleteDomainRequest(
+        domainId: domainId,
+        retentionPolicy: retentionPolicy,
+      ),
     );
   }
 
@@ -3787,9 +3748,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EndpointName': endpointName,
-      },
+      payload: DeleteEndpointInput(
+        endpointName: endpointName,
+      ),
     );
   }
 
@@ -3826,9 +3787,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EndpointConfigName': endpointConfigName,
-      },
+      payload: DeleteEndpointConfigInput(
+        endpointConfigName: endpointConfigName,
+      ),
     );
   }
 
@@ -3867,9 +3828,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ExperimentName': experimentName,
-      },
+      payload: DeleteExperimentRequest(
+        experimentName: experimentName,
+      ),
     );
 
     return DeleteExperimentResponse.fromJson(jsonResponse.body);
@@ -3908,9 +3869,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'FlowDefinitionName': flowDefinitionName,
-      },
+      payload: DeleteFlowDefinitionRequest(
+        flowDefinitionName: flowDefinitionName,
+      ),
     );
 
     return DeleteFlowDefinitionResponse.fromJson(jsonResponse.body);
@@ -3950,9 +3911,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ModelName': modelName,
-      },
+      payload: DeleteModelInput(
+        modelName: modelName,
+      ),
     );
   }
 
@@ -3992,9 +3953,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ModelPackageName': modelPackageName,
-      },
+      payload: DeleteModelPackageInput(
+        modelPackageName: modelPackageName,
+      ),
     );
   }
 
@@ -4034,9 +3995,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'MonitoringScheduleName': monitoringScheduleName,
-      },
+      payload: DeleteMonitoringScheduleRequest(
+        monitoringScheduleName: monitoringScheduleName,
+      ),
     );
   }
 
@@ -4078,9 +4039,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'NotebookInstanceName': notebookInstanceName,
-      },
+      payload: DeleteNotebookInstanceInput(
+        notebookInstanceName: notebookInstanceName,
+      ),
     );
   }
 
@@ -4116,10 +4077,10 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'NotebookInstanceLifecycleConfigName':
+      payload: DeleteNotebookInstanceLifecycleConfigInput(
+        notebookInstanceLifecycleConfigName:
             notebookInstanceLifecycleConfigName,
-      },
+      ),
     );
   }
 
@@ -4167,10 +4128,10 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        'TagKeys': tagKeys,
-      },
+      payload: DeleteTagsInput(
+        resourceArn: resourceArn,
+        tagKeys: tagKeys,
+      ),
     );
 
     return DeleteTagsOutput.fromJson(jsonResponse.body);
@@ -4211,9 +4172,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TrialName': trialName,
-      },
+      payload: DeleteTrialRequest(
+        trialName: trialName,
+      ),
     );
 
     return DeleteTrialResponse.fromJson(jsonResponse.body);
@@ -4255,9 +4216,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TrialComponentName': trialComponentName,
-      },
+      payload: DeleteTrialComponentRequest(
+        trialComponentName: trialComponentName,
+      ),
     );
 
     return DeleteTrialComponentResponse.fromJson(jsonResponse.body);
@@ -4309,10 +4270,10 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DomainId': domainId,
-        'UserProfileName': userProfileName,
-      },
+      payload: DeleteUserProfileRequest(
+        domainId: domainId,
+        userProfileName: userProfileName,
+      ),
     );
   }
 
@@ -4349,9 +4310,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'WorkteamName': workteamName,
-      },
+      payload: DeleteWorkteamRequest(
+        workteamName: workteamName,
+      ),
     );
 
     return DeleteWorkteamResponse.fromJson(jsonResponse.body);
@@ -4388,9 +4349,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AlgorithmName': algorithmName,
-      },
+      payload: DescribeAlgorithmInput(
+        algorithmName: algorithmName,
+      ),
     );
 
     return DescribeAlgorithmOutput.fromJson(jsonResponse.body);
@@ -4464,12 +4425,12 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AppName': appName,
-        'AppType': appType?.toValue(),
-        'DomainId': domainId,
-        'UserProfileName': userProfileName,
-      },
+      payload: DescribeAppRequest(
+        appName: appName,
+        appType: appType,
+        domainId: domainId,
+        userProfileName: userProfileName,
+      ),
     );
 
     return DescribeAppResponse.fromJson(jsonResponse.body);
@@ -4508,9 +4469,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AutoMLJobName': autoMLJobName,
-      },
+      payload: DescribeAutoMLJobRequest(
+        autoMLJobName: autoMLJobName,
+      ),
     );
 
     return DescribeAutoMLJobResponse.fromJson(jsonResponse.body);
@@ -4547,9 +4508,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CodeRepositoryName': codeRepositoryName,
-      },
+      payload: DescribeCodeRepositoryInput(
+        codeRepositoryName: codeRepositoryName,
+      ),
     );
 
     return DescribeCodeRepositoryOutput.fromJson(jsonResponse.body);
@@ -4592,9 +4553,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CompilationJobName': compilationJobName,
-      },
+      payload: DescribeCompilationJobRequest(
+        compilationJobName: compilationJobName,
+      ),
     );
 
     return DescribeCompilationJobResponse.fromJson(jsonResponse.body);
@@ -4627,9 +4588,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DomainId': domainId,
-      },
+      payload: DescribeDomainRequest(
+        domainId: domainId,
+      ),
     );
 
     return DescribeDomainResponse.fromJson(jsonResponse.body);
@@ -4666,9 +4627,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EndpointName': endpointName,
-      },
+      payload: DescribeEndpointInput(
+        endpointName: endpointName,
+      ),
     );
 
     return DescribeEndpointOutput.fromJson(jsonResponse.body);
@@ -4706,9 +4667,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EndpointConfigName': endpointConfigName,
-      },
+      payload: DescribeEndpointConfigInput(
+        endpointConfigName: endpointConfigName,
+      ),
     );
 
     return DescribeEndpointConfigOutput.fromJson(jsonResponse.body);
@@ -4747,9 +4708,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ExperimentName': experimentName,
-      },
+      payload: DescribeExperimentRequest(
+        experimentName: experimentName,
+      ),
     );
 
     return DescribeExperimentResponse.fromJson(jsonResponse.body);
@@ -4788,9 +4749,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'FlowDefinitionName': flowDefinitionName,
-      },
+      payload: DescribeFlowDefinitionRequest(
+        flowDefinitionName: flowDefinitionName,
+      ),
     );
 
     return DescribeFlowDefinitionResponse.fromJson(jsonResponse.body);
@@ -4829,9 +4790,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'HumanTaskUiName': humanTaskUiName,
-      },
+      payload: DescribeHumanTaskUiRequest(
+        humanTaskUiName: humanTaskUiName,
+      ),
     );
 
     return DescribeHumanTaskUiResponse.fromJson(jsonResponse.body);
@@ -4872,9 +4833,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'HyperParameterTuningJobName': hyperParameterTuningJobName,
-      },
+      payload: DescribeHyperParameterTuningJobRequest(
+        hyperParameterTuningJobName: hyperParameterTuningJobName,
+      ),
     );
 
     return DescribeHyperParameterTuningJobResponse.fromJson(jsonResponse.body);
@@ -4913,9 +4874,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'LabelingJobName': labelingJobName,
-      },
+      payload: DescribeLabelingJobRequest(
+        labelingJobName: labelingJobName,
+      ),
     );
 
     return DescribeLabelingJobResponse.fromJson(jsonResponse.body);
@@ -4952,9 +4913,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ModelName': modelName,
-      },
+      payload: DescribeModelInput(
+        modelName: modelName,
+      ),
     );
 
     return DescribeModelOutput.fromJson(jsonResponse.body);
@@ -4995,9 +4956,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ModelPackageName': modelPackageName,
-      },
+      payload: DescribeModelPackageInput(
+        modelPackageName: modelPackageName,
+      ),
     );
 
     return DescribeModelPackageOutput.fromJson(jsonResponse.body);
@@ -5037,9 +4998,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'MonitoringScheduleName': monitoringScheduleName,
-      },
+      payload: DescribeMonitoringScheduleRequest(
+        monitoringScheduleName: monitoringScheduleName,
+      ),
     );
 
     return DescribeMonitoringScheduleResponse.fromJson(jsonResponse.body);
@@ -5076,9 +5037,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'NotebookInstanceName': notebookInstanceName,
-      },
+      payload: DescribeNotebookInstanceInput(
+        notebookInstanceName: notebookInstanceName,
+      ),
     );
 
     return DescribeNotebookInstanceOutput.fromJson(jsonResponse.body);
@@ -5121,10 +5082,10 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'NotebookInstanceLifecycleConfigName':
+      payload: DescribeNotebookInstanceLifecycleConfigInput(
+        notebookInstanceLifecycleConfigName:
             notebookInstanceLifecycleConfigName,
-      },
+      ),
     );
 
     return DescribeNotebookInstanceLifecycleConfigOutput.fromJson(
@@ -5165,9 +5126,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ProcessingJobName': processingJobName,
-      },
+      payload: DescribeProcessingJobRequest(
+        processingJobName: processingJobName,
+      ),
     );
 
     return DescribeProcessingJobResponse.fromJson(jsonResponse.body);
@@ -5205,9 +5166,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'WorkteamArn': workteamArn,
-      },
+      payload: DescribeSubscribedWorkteamRequest(
+        workteamArn: workteamArn,
+      ),
     );
 
     return DescribeSubscribedWorkteamResponse.fromJson(jsonResponse.body);
@@ -5246,9 +5207,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TrainingJobName': trainingJobName,
-      },
+      payload: DescribeTrainingJobRequest(
+        trainingJobName: trainingJobName,
+      ),
     );
 
     return DescribeTrainingJobResponse.fromJson(jsonResponse.body);
@@ -5287,9 +5248,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TransformJobName': transformJobName,
-      },
+      payload: DescribeTransformJobRequest(
+        transformJobName: transformJobName,
+      ),
     );
 
     return DescribeTransformJobResponse.fromJson(jsonResponse.body);
@@ -5328,9 +5289,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TrialName': trialName,
-      },
+      payload: DescribeTrialRequest(
+        trialName: trialName,
+      ),
     );
 
     return DescribeTrialResponse.fromJson(jsonResponse.body);
@@ -5369,9 +5330,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TrialComponentName': trialComponentName,
-      },
+      payload: DescribeTrialComponentRequest(
+        trialComponentName: trialComponentName,
+      ),
     );
 
     return DescribeTrialComponentResponse.fromJson(jsonResponse.body);
@@ -5422,10 +5383,10 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DomainId': domainId,
-        'UserProfileName': userProfileName,
-      },
+      payload: DescribeUserProfileRequest(
+        domainId: domainId,
+        userProfileName: userProfileName,
+      ),
     );
 
     return DescribeUserProfileResponse.fromJson(jsonResponse.body);
@@ -5471,9 +5432,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'WorkforceName': workforceName,
-      },
+      payload: DescribeWorkforceRequest(
+        workforceName: workforceName,
+      ),
     );
 
     return DescribeWorkforceResponse.fromJson(jsonResponse.body);
@@ -5512,9 +5473,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'WorkteamName': workteamName,
-      },
+      payload: DescribeWorkteamRequest(
+        workteamName: workteamName,
+      ),
     );
 
     return DescribeWorkteamResponse.fromJson(jsonResponse.body);
@@ -5580,10 +5541,10 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TrialComponentName': trialComponentName,
-        'TrialName': trialName,
-      },
+      payload: DisassociateTrialComponentRequest(
+        trialComponentName: trialComponentName,
+        trialName: trialName,
+      ),
     );
 
     return DisassociateTrialComponentResponse.fromJson(jsonResponse.body);
@@ -5614,10 +5575,10 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Resource': resource?.toValue(),
-        if (suggestionQuery != null) 'SuggestionQuery': suggestionQuery,
-      },
+      payload: GetSearchSuggestionsRequest(
+        resource: resource,
+        suggestionQuery: suggestionQuery,
+      ),
     );
 
     return GetSearchSuggestionsResponse.fromJson(jsonResponse.body);
@@ -5698,16 +5659,15 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
-        if (creationTimeBefore != null)
-          'CreationTimeBefore': creationTimeBefore,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nameContains != null) 'NameContains': nameContains,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-      },
+      payload: ListAlgorithmsInput(
+        creationTimeAfter: creationTimeAfter,
+        creationTimeBefore: creationTimeBefore,
+        maxResults: maxResults,
+        nameContains: nameContains,
+        nextToken: nextToken,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+      ),
     );
 
     return ListAlgorithmsOutput.fromJson(jsonResponse.body);
@@ -5785,15 +5745,14 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (domainIdEquals != null) 'DomainIdEquals': domainIdEquals,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-        if (userProfileNameEquals != null)
-          'UserProfileNameEquals': userProfileNameEquals,
-      },
+      payload: ListAppsRequest(
+        domainIdEquals: domainIdEquals,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+        userProfileNameEquals: userProfileNameEquals,
+      ),
     );
 
     return ListAppsResponse.fromJson(jsonResponse.body);
@@ -5881,21 +5840,18 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
-        if (creationTimeBefore != null)
-          'CreationTimeBefore': creationTimeBefore,
-        if (lastModifiedTimeAfter != null)
-          'LastModifiedTimeAfter': lastModifiedTimeAfter,
-        if (lastModifiedTimeBefore != null)
-          'LastModifiedTimeBefore': lastModifiedTimeBefore,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nameContains != null) 'NameContains': nameContains,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals?.toValue(),
-      },
+      payload: ListAutoMLJobsRequest(
+        creationTimeAfter: creationTimeAfter,
+        creationTimeBefore: creationTimeBefore,
+        lastModifiedTimeAfter: lastModifiedTimeAfter,
+        lastModifiedTimeBefore: lastModifiedTimeBefore,
+        maxResults: maxResults,
+        nameContains: nameContains,
+        nextToken: nextToken,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+        statusEquals: statusEquals,
+      ),
     );
 
     return ListAutoMLJobsResponse.fromJson(jsonResponse.body);
@@ -5982,16 +5938,15 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AutoMLJobName': autoMLJobName,
-        if (candidateNameEquals != null)
-          'CandidateNameEquals': candidateNameEquals,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals?.toValue(),
-      },
+      payload: ListCandidatesForAutoMLJobRequest(
+        autoMLJobName: autoMLJobName,
+        candidateNameEquals: candidateNameEquals,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+        statusEquals: statusEquals,
+      ),
     );
 
     return ListCandidatesForAutoMLJobResponse.fromJson(jsonResponse.body);
@@ -6081,20 +6036,17 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
-        if (creationTimeBefore != null)
-          'CreationTimeBefore': creationTimeBefore,
-        if (lastModifiedTimeAfter != null)
-          'LastModifiedTimeAfter': lastModifiedTimeAfter,
-        if (lastModifiedTimeBefore != null)
-          'LastModifiedTimeBefore': lastModifiedTimeBefore,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nameContains != null) 'NameContains': nameContains,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-      },
+      payload: ListCodeRepositoriesInput(
+        creationTimeAfter: creationTimeAfter,
+        creationTimeBefore: creationTimeBefore,
+        lastModifiedTimeAfter: lastModifiedTimeAfter,
+        lastModifiedTimeBefore: lastModifiedTimeBefore,
+        maxResults: maxResults,
+        nameContains: nameContains,
+        nextToken: nextToken,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+      ),
     );
 
     return ListCodeRepositoriesOutput.fromJson(jsonResponse.body);
@@ -6194,21 +6146,18 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
-        if (creationTimeBefore != null)
-          'CreationTimeBefore': creationTimeBefore,
-        if (lastModifiedTimeAfter != null)
-          'LastModifiedTimeAfter': lastModifiedTimeAfter,
-        if (lastModifiedTimeBefore != null)
-          'LastModifiedTimeBefore': lastModifiedTimeBefore,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nameContains != null) 'NameContains': nameContains,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals?.toValue(),
-      },
+      payload: ListCompilationJobsRequest(
+        creationTimeAfter: creationTimeAfter,
+        creationTimeBefore: creationTimeBefore,
+        lastModifiedTimeAfter: lastModifiedTimeAfter,
+        lastModifiedTimeBefore: lastModifiedTimeBefore,
+        maxResults: maxResults,
+        nameContains: nameContains,
+        nextToken: nextToken,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+        statusEquals: statusEquals,
+      ),
     );
 
     return ListCompilationJobsResponse.fromJson(jsonResponse.body);
@@ -6253,10 +6202,10 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListDomainsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListDomainsResponse.fromJson(jsonResponse.body);
@@ -6336,16 +6285,15 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
-        if (creationTimeBefore != null)
-          'CreationTimeBefore': creationTimeBefore,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nameContains != null) 'NameContains': nameContains,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-      },
+      payload: ListEndpointConfigsInput(
+        creationTimeAfter: creationTimeAfter,
+        creationTimeBefore: creationTimeBefore,
+        maxResults: maxResults,
+        nameContains: nameContains,
+        nextToken: nextToken,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+      ),
     );
 
     return ListEndpointConfigsOutput.fromJson(jsonResponse.body);
@@ -6439,21 +6387,18 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
-        if (creationTimeBefore != null)
-          'CreationTimeBefore': creationTimeBefore,
-        if (lastModifiedTimeAfter != null)
-          'LastModifiedTimeAfter': lastModifiedTimeAfter,
-        if (lastModifiedTimeBefore != null)
-          'LastModifiedTimeBefore': lastModifiedTimeBefore,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nameContains != null) 'NameContains': nameContains,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals?.toValue(),
-      },
+      payload: ListEndpointsInput(
+        creationTimeAfter: creationTimeAfter,
+        creationTimeBefore: creationTimeBefore,
+        lastModifiedTimeAfter: lastModifiedTimeAfter,
+        lastModifiedTimeBefore: lastModifiedTimeBefore,
+        maxResults: maxResults,
+        nameContains: nameContains,
+        nextToken: nextToken,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+        statusEquals: statusEquals,
+      ),
     );
 
     return ListEndpointsOutput.fromJson(jsonResponse.body);
@@ -6519,14 +6464,14 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (createdAfter != null) 'CreatedAfter': createdAfter,
-        if (createdBefore != null) 'CreatedBefore': createdBefore,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-      },
+      payload: ListExperimentsRequest(
+        createdAfter: createdAfter,
+        createdBefore: createdBefore,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+      ),
     );
 
     return ListExperimentsResponse.fromJson(jsonResponse.body);
@@ -6588,14 +6533,13 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
-        if (creationTimeBefore != null)
-          'CreationTimeBefore': creationTimeBefore,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-      },
+      payload: ListFlowDefinitionsRequest(
+        creationTimeAfter: creationTimeAfter,
+        creationTimeBefore: creationTimeBefore,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        sortOrder: sortOrder,
+      ),
     );
 
     return ListFlowDefinitionsResponse.fromJson(jsonResponse.body);
@@ -6657,14 +6601,13 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
-        if (creationTimeBefore != null)
-          'CreationTimeBefore': creationTimeBefore,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-      },
+      payload: ListHumanTaskUisRequest(
+        creationTimeAfter: creationTimeAfter,
+        creationTimeBefore: creationTimeBefore,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        sortOrder: sortOrder,
+      ),
     );
 
     return ListHumanTaskUisResponse.fromJson(jsonResponse.body);
@@ -6759,21 +6702,18 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
-        if (creationTimeBefore != null)
-          'CreationTimeBefore': creationTimeBefore,
-        if (lastModifiedTimeAfter != null)
-          'LastModifiedTimeAfter': lastModifiedTimeAfter,
-        if (lastModifiedTimeBefore != null)
-          'LastModifiedTimeBefore': lastModifiedTimeBefore,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nameContains != null) 'NameContains': nameContains,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals?.toValue(),
-      },
+      payload: ListHyperParameterTuningJobsRequest(
+        creationTimeAfter: creationTimeAfter,
+        creationTimeBefore: creationTimeBefore,
+        lastModifiedTimeAfter: lastModifiedTimeAfter,
+        lastModifiedTimeBefore: lastModifiedTimeBefore,
+        maxResults: maxResults,
+        nameContains: nameContains,
+        nextToken: nextToken,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+        statusEquals: statusEquals,
+      ),
     );
 
     return ListHyperParameterTuningJobsResponse.fromJson(jsonResponse.body);
@@ -6868,21 +6808,18 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
-        if (creationTimeBefore != null)
-          'CreationTimeBefore': creationTimeBefore,
-        if (lastModifiedTimeAfter != null)
-          'LastModifiedTimeAfter': lastModifiedTimeAfter,
-        if (lastModifiedTimeBefore != null)
-          'LastModifiedTimeBefore': lastModifiedTimeBefore,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nameContains != null) 'NameContains': nameContains,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals?.toValue(),
-      },
+      payload: ListLabelingJobsRequest(
+        creationTimeAfter: creationTimeAfter,
+        creationTimeBefore: creationTimeBefore,
+        lastModifiedTimeAfter: lastModifiedTimeAfter,
+        lastModifiedTimeBefore: lastModifiedTimeBefore,
+        maxResults: maxResults,
+        nameContains: nameContains,
+        nextToken: nextToken,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+        statusEquals: statusEquals,
+      ),
     );
 
     return ListLabelingJobsResponse.fromJson(jsonResponse.body);
@@ -6984,18 +6921,16 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'WorkteamArn': workteamArn,
-        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
-        if (creationTimeBefore != null)
-          'CreationTimeBefore': creationTimeBefore,
-        if (jobReferenceCodeContains != null)
-          'JobReferenceCodeContains': jobReferenceCodeContains,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-      },
+      payload: ListLabelingJobsForWorkteamRequest(
+        workteamArn: workteamArn,
+        creationTimeAfter: creationTimeAfter,
+        creationTimeBefore: creationTimeBefore,
+        jobReferenceCodeContains: jobReferenceCodeContains,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+      ),
     );
 
     return ListLabelingJobsForWorkteamResponse.fromJson(jsonResponse.body);
@@ -7076,16 +7011,15 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
-        if (creationTimeBefore != null)
-          'CreationTimeBefore': creationTimeBefore,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nameContains != null) 'NameContains': nameContains,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-      },
+      payload: ListModelPackagesInput(
+        creationTimeAfter: creationTimeAfter,
+        creationTimeBefore: creationTimeBefore,
+        maxResults: maxResults,
+        nameContains: nameContains,
+        nextToken: nextToken,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+      ),
     );
 
     return ListModelPackagesOutput.fromJson(jsonResponse.body);
@@ -7165,16 +7099,15 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
-        if (creationTimeBefore != null)
-          'CreationTimeBefore': creationTimeBefore,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nameContains != null) 'NameContains': nameContains,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-      },
+      payload: ListModelsInput(
+        creationTimeAfter: creationTimeAfter,
+        creationTimeBefore: creationTimeBefore,
+        maxResults: maxResults,
+        nameContains: nameContains,
+        nextToken: nextToken,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+      ),
     );
 
     return ListModelsOutput.fromJson(jsonResponse.body);
@@ -7289,27 +7222,21 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
-        if (creationTimeBefore != null)
-          'CreationTimeBefore': creationTimeBefore,
-        if (endpointName != null) 'EndpointName': endpointName,
-        if (lastModifiedTimeAfter != null)
-          'LastModifiedTimeAfter': lastModifiedTimeAfter,
-        if (lastModifiedTimeBefore != null)
-          'LastModifiedTimeBefore': lastModifiedTimeBefore,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (monitoringScheduleName != null)
-          'MonitoringScheduleName': monitoringScheduleName,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (scheduledTimeAfter != null)
-          'ScheduledTimeAfter': scheduledTimeAfter,
-        if (scheduledTimeBefore != null)
-          'ScheduledTimeBefore': scheduledTimeBefore,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals?.toValue(),
-      },
+      payload: ListMonitoringExecutionsRequest(
+        creationTimeAfter: creationTimeAfter,
+        creationTimeBefore: creationTimeBefore,
+        endpointName: endpointName,
+        lastModifiedTimeAfter: lastModifiedTimeAfter,
+        lastModifiedTimeBefore: lastModifiedTimeBefore,
+        maxResults: maxResults,
+        monitoringScheduleName: monitoringScheduleName,
+        nextToken: nextToken,
+        scheduledTimeAfter: scheduledTimeAfter,
+        scheduledTimeBefore: scheduledTimeBefore,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+        statusEquals: statusEquals,
+      ),
     );
 
     return ListMonitoringExecutionsResponse.fromJson(jsonResponse.body);
@@ -7421,22 +7348,19 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
-        if (creationTimeBefore != null)
-          'CreationTimeBefore': creationTimeBefore,
-        if (endpointName != null) 'EndpointName': endpointName,
-        if (lastModifiedTimeAfter != null)
-          'LastModifiedTimeAfter': lastModifiedTimeAfter,
-        if (lastModifiedTimeBefore != null)
-          'LastModifiedTimeBefore': lastModifiedTimeBefore,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nameContains != null) 'NameContains': nameContains,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals?.toValue(),
-      },
+      payload: ListMonitoringSchedulesRequest(
+        creationTimeAfter: creationTimeAfter,
+        creationTimeBefore: creationTimeBefore,
+        endpointName: endpointName,
+        lastModifiedTimeAfter: lastModifiedTimeAfter,
+        lastModifiedTimeBefore: lastModifiedTimeBefore,
+        maxResults: maxResults,
+        nameContains: nameContains,
+        nextToken: nextToken,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+        statusEquals: statusEquals,
+      ),
     );
 
     return ListMonitoringSchedulesResponse.fromJson(jsonResponse.body);
@@ -7529,20 +7453,17 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
-        if (creationTimeBefore != null)
-          'CreationTimeBefore': creationTimeBefore,
-        if (lastModifiedTimeAfter != null)
-          'LastModifiedTimeAfter': lastModifiedTimeAfter,
-        if (lastModifiedTimeBefore != null)
-          'LastModifiedTimeBefore': lastModifiedTimeBefore,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nameContains != null) 'NameContains': nameContains,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-      },
+      payload: ListNotebookInstanceLifecycleConfigsInput(
+        creationTimeAfter: creationTimeAfter,
+        creationTimeBefore: creationTimeBefore,
+        lastModifiedTimeAfter: lastModifiedTimeAfter,
+        lastModifiedTimeBefore: lastModifiedTimeBefore,
+        maxResults: maxResults,
+        nameContains: nameContains,
+        nextToken: nextToken,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+      ),
     );
 
     return ListNotebookInstanceLifecycleConfigsOutput.fromJson(
@@ -7695,28 +7616,22 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (additionalCodeRepositoryEquals != null)
-          'AdditionalCodeRepositoryEquals': additionalCodeRepositoryEquals,
-        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
-        if (creationTimeBefore != null)
-          'CreationTimeBefore': creationTimeBefore,
-        if (defaultCodeRepositoryContains != null)
-          'DefaultCodeRepositoryContains': defaultCodeRepositoryContains,
-        if (lastModifiedTimeAfter != null)
-          'LastModifiedTimeAfter': lastModifiedTimeAfter,
-        if (lastModifiedTimeBefore != null)
-          'LastModifiedTimeBefore': lastModifiedTimeBefore,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nameContains != null) 'NameContains': nameContains,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (notebookInstanceLifecycleConfigNameContains != null)
-          'NotebookInstanceLifecycleConfigNameContains':
-              notebookInstanceLifecycleConfigNameContains,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals?.toValue(),
-      },
+      payload: ListNotebookInstancesInput(
+        additionalCodeRepositoryEquals: additionalCodeRepositoryEquals,
+        creationTimeAfter: creationTimeAfter,
+        creationTimeBefore: creationTimeBefore,
+        defaultCodeRepositoryContains: defaultCodeRepositoryContains,
+        lastModifiedTimeAfter: lastModifiedTimeAfter,
+        lastModifiedTimeBefore: lastModifiedTimeBefore,
+        maxResults: maxResults,
+        nameContains: nameContains,
+        nextToken: nextToken,
+        notebookInstanceLifecycleConfigNameContains:
+            notebookInstanceLifecycleConfigNameContains,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+        statusEquals: statusEquals,
+      ),
     );
 
     return ListNotebookInstancesOutput.fromJson(jsonResponse.body);
@@ -7799,21 +7714,18 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
-        if (creationTimeBefore != null)
-          'CreationTimeBefore': creationTimeBefore,
-        if (lastModifiedTimeAfter != null)
-          'LastModifiedTimeAfter': lastModifiedTimeAfter,
-        if (lastModifiedTimeBefore != null)
-          'LastModifiedTimeBefore': lastModifiedTimeBefore,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nameContains != null) 'NameContains': nameContains,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals?.toValue(),
-      },
+      payload: ListProcessingJobsRequest(
+        creationTimeAfter: creationTimeAfter,
+        creationTimeBefore: creationTimeBefore,
+        lastModifiedTimeAfter: lastModifiedTimeAfter,
+        lastModifiedTimeBefore: lastModifiedTimeBefore,
+        maxResults: maxResults,
+        nameContains: nameContains,
+        nextToken: nextToken,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+        statusEquals: statusEquals,
+      ),
     );
 
     return ListProcessingJobsResponse.fromJson(jsonResponse.body);
@@ -7877,11 +7789,11 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nameContains != null) 'NameContains': nameContains,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListSubscribedWorkteamsRequest(
+        maxResults: maxResults,
+        nameContains: nameContains,
+        nextToken: nextToken,
+      ),
     );
 
     return ListSubscribedWorkteamsResponse.fromJson(jsonResponse.body);
@@ -7946,11 +7858,11 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListTagsInput(
+        resourceArn: resourceArn,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListTagsOutput.fromJson(jsonResponse.body);
@@ -8044,21 +7956,18 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
-        if (creationTimeBefore != null)
-          'CreationTimeBefore': creationTimeBefore,
-        if (lastModifiedTimeAfter != null)
-          'LastModifiedTimeAfter': lastModifiedTimeAfter,
-        if (lastModifiedTimeBefore != null)
-          'LastModifiedTimeBefore': lastModifiedTimeBefore,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nameContains != null) 'NameContains': nameContains,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals?.toValue(),
-      },
+      payload: ListTrainingJobsRequest(
+        creationTimeAfter: creationTimeAfter,
+        creationTimeBefore: creationTimeBefore,
+        lastModifiedTimeAfter: lastModifiedTimeAfter,
+        lastModifiedTimeBefore: lastModifiedTimeBefore,
+        maxResults: maxResults,
+        nameContains: nameContains,
+        nextToken: nextToken,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+        statusEquals: statusEquals,
+      ),
     );
 
     return ListTrainingJobsResponse.fromJson(jsonResponse.body);
@@ -8143,14 +8052,14 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'HyperParameterTuningJobName': hyperParameterTuningJobName,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals?.toValue(),
-      },
+      payload: ListTrainingJobsForHyperParameterTuningJobRequest(
+        hyperParameterTuningJobName: hyperParameterTuningJobName,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+        statusEquals: statusEquals,
+      ),
     );
 
     return ListTrainingJobsForHyperParameterTuningJobResponse.fromJson(
@@ -8246,21 +8155,18 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
-        if (creationTimeBefore != null)
-          'CreationTimeBefore': creationTimeBefore,
-        if (lastModifiedTimeAfter != null)
-          'LastModifiedTimeAfter': lastModifiedTimeAfter,
-        if (lastModifiedTimeBefore != null)
-          'LastModifiedTimeBefore': lastModifiedTimeBefore,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nameContains != null) 'NameContains': nameContains,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals?.toValue(),
-      },
+      payload: ListTransformJobsRequest(
+        creationTimeAfter: creationTimeAfter,
+        creationTimeBefore: creationTimeBefore,
+        lastModifiedTimeAfter: lastModifiedTimeAfter,
+        lastModifiedTimeBefore: lastModifiedTimeBefore,
+        maxResults: maxResults,
+        nameContains: nameContains,
+        nextToken: nextToken,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+        statusEquals: statusEquals,
+      ),
     );
 
     return ListTransformJobsResponse.fromJson(jsonResponse.body);
@@ -8387,17 +8293,17 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (createdAfter != null) 'CreatedAfter': createdAfter,
-        if (createdBefore != null) 'CreatedBefore': createdBefore,
-        if (experimentName != null) 'ExperimentName': experimentName,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-        if (sourceArn != null) 'SourceArn': sourceArn,
-        if (trialName != null) 'TrialName': trialName,
-      },
+      payload: ListTrialComponentsRequest(
+        createdAfter: createdAfter,
+        createdBefore: createdBefore,
+        experimentName: experimentName,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+        sourceArn: sourceArn,
+        trialName: trialName,
+      ),
     );
 
     return ListTrialComponentsResponse.fromJson(jsonResponse.body);
@@ -8499,17 +8405,16 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (createdAfter != null) 'CreatedAfter': createdAfter,
-        if (createdBefore != null) 'CreatedBefore': createdBefore,
-        if (experimentName != null) 'ExperimentName': experimentName,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-        if (trialComponentName != null)
-          'TrialComponentName': trialComponentName,
-      },
+      payload: ListTrialsRequest(
+        createdAfter: createdAfter,
+        createdBefore: createdBefore,
+        experimentName: experimentName,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+        trialComponentName: trialComponentName,
+      ),
     );
 
     return ListTrialsResponse.fromJson(jsonResponse.body);
@@ -8587,15 +8492,14 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (domainIdEquals != null) 'DomainIdEquals': domainIdEquals,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-        if (userProfileNameContains != null)
-          'UserProfileNameContains': userProfileNameContains,
-      },
+      payload: ListUserProfilesRequest(
+        domainIdEquals: domainIdEquals,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+        userProfileNameContains: userProfileNameContains,
+      ),
     );
 
     return ListUserProfilesResponse.fromJson(jsonResponse.body);
@@ -8667,13 +8571,13 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nameContains != null) 'NameContains': nameContains,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-      },
+      payload: ListWorkteamsRequest(
+        maxResults: maxResults,
+        nameContains: nameContains,
+        nextToken: nextToken,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+      ),
     );
 
     return ListWorkteamsResponse.fromJson(jsonResponse.body);
@@ -8723,11 +8627,11 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'RoleArn': roleArn,
-        'Task': task,
-        'UiTemplate': uiTemplate,
-      },
+      payload: RenderUiTemplateRequest(
+        roleArn: roleArn,
+        task: task,
+        uiTemplate: uiTemplate,
+      ),
     );
 
     return RenderUiTemplateResponse.fromJson(jsonResponse.body);
@@ -8816,14 +8720,14 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Resource': resource?.toValue(),
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (searchExpression != null) 'SearchExpression': searchExpression,
-        if (sortBy != null) 'SortBy': sortBy,
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-      },
+      payload: SearchRequest(
+        resource: resource,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        searchExpression: searchExpression,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+      ),
     );
 
     return SearchResponse.fromJson(jsonResponse.body);
@@ -8866,9 +8770,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'MonitoringScheduleName': monitoringScheduleName,
-      },
+      payload: StartMonitoringScheduleRequest(
+        monitoringScheduleName: monitoringScheduleName,
+      ),
     );
   }
 
@@ -8909,9 +8813,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'NotebookInstanceName': notebookInstanceName,
-      },
+      payload: StartNotebookInstanceInput(
+        notebookInstanceName: notebookInstanceName,
+      ),
     );
   }
 
@@ -8948,9 +8852,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AutoMLJobName': autoMLJobName,
-      },
+      payload: StopAutoMLJobRequest(
+        autoMLJobName: autoMLJobName,
+      ),
     );
   }
 
@@ -8997,9 +8901,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CompilationJobName': compilationJobName,
-      },
+      payload: StopCompilationJobRequest(
+        compilationJobName: compilationJobName,
+      ),
     );
   }
 
@@ -9044,9 +8948,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'HyperParameterTuningJobName': hyperParameterTuningJobName,
-      },
+      payload: StopHyperParameterTuningJobRequest(
+        hyperParameterTuningJobName: hyperParameterTuningJobName,
+      ),
     );
   }
 
@@ -9085,9 +8989,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'LabelingJobName': labelingJobName,
-      },
+      payload: StopLabelingJobRequest(
+        labelingJobName: labelingJobName,
+      ),
     );
   }
 
@@ -9125,9 +9029,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'MonitoringScheduleName': monitoringScheduleName,
-      },
+      payload: StopMonitoringScheduleRequest(
+        monitoringScheduleName: monitoringScheduleName,
+      ),
     );
   }
 
@@ -9172,9 +9076,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'NotebookInstanceName': notebookInstanceName,
-      },
+      payload: StopNotebookInstanceInput(
+        notebookInstanceName: notebookInstanceName,
+      ),
     );
   }
 
@@ -9211,9 +9115,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ProcessingJobName': processingJobName,
-      },
+      payload: StopProcessingJobRequest(
+        processingJobName: processingJobName,
+      ),
     );
   }
 
@@ -9257,9 +9161,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TrainingJobName': trainingJobName,
-      },
+      payload: StopTrainingJobRequest(
+        trainingJobName: trainingJobName,
+      ),
     );
   }
 
@@ -9302,9 +9206,9 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TransformJobName': transformJobName,
-      },
+      payload: StopTransformJobRequest(
+        transformJobName: transformJobName,
+      ),
     );
   }
 
@@ -9348,10 +9252,10 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CodeRepositoryName': codeRepositoryName,
-        if (gitConfig != null) 'GitConfig': gitConfig,
-      },
+      payload: UpdateCodeRepositoryInput(
+        codeRepositoryName: codeRepositoryName,
+        gitConfig: gitConfig,
+      ),
     );
 
     return UpdateCodeRepositoryOutput.fromJson(jsonResponse.body);
@@ -9390,11 +9294,10 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DomainId': domainId,
-        if (defaultUserSettings != null)
-          'DefaultUserSettings': defaultUserSettings,
-      },
+      payload: UpdateDomainRequest(
+        domainId: domainId,
+        defaultUserSettings: defaultUserSettings,
+      ),
     );
 
     return UpdateDomainResponse.fromJson(jsonResponse.body);
@@ -9486,14 +9389,12 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EndpointConfigName': endpointConfigName,
-        'EndpointName': endpointName,
-        if (excludeRetainedVariantProperties != null)
-          'ExcludeRetainedVariantProperties': excludeRetainedVariantProperties,
-        if (retainAllVariantProperties != null)
-          'RetainAllVariantProperties': retainAllVariantProperties,
-      },
+      payload: UpdateEndpointInput(
+        endpointConfigName: endpointConfigName,
+        endpointName: endpointName,
+        excludeRetainedVariantProperties: excludeRetainedVariantProperties,
+        retainAllVariantProperties: retainAllVariantProperties,
+      ),
     );
 
     return UpdateEndpointOutput.fromJson(jsonResponse.body);
@@ -9544,10 +9445,10 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DesiredWeightsAndCapacities': desiredWeightsAndCapacities,
-        'EndpointName': endpointName,
-      },
+      payload: UpdateEndpointWeightsAndCapacitiesInput(
+        desiredWeightsAndCapacities: desiredWeightsAndCapacities,
+        endpointName: endpointName,
+      ),
     );
 
     return UpdateEndpointWeightsAndCapacitiesOutput.fromJson(jsonResponse.body);
@@ -9620,11 +9521,11 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ExperimentName': experimentName,
-        if (description != null) 'Description': description,
-        if (displayName != null) 'DisplayName': displayName,
-      },
+      payload: UpdateExperimentRequest(
+        experimentName: experimentName,
+        description: description,
+        displayName: displayName,
+      ),
     );
 
     return UpdateExperimentResponse.fromJson(jsonResponse.body);
@@ -9673,10 +9574,10 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'MonitoringScheduleConfig': monitoringScheduleConfig,
-        'MonitoringScheduleName': monitoringScheduleName,
-      },
+      payload: UpdateMonitoringScheduleRequest(
+        monitoringScheduleConfig: monitoringScheduleConfig,
+        monitoringScheduleName: monitoringScheduleName,
+      ),
     );
 
     return UpdateMonitoringScheduleResponse.fromJson(jsonResponse.body);
@@ -9859,30 +9760,22 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'NotebookInstanceName': notebookInstanceName,
-        if (acceleratorTypes != null) 'AcceleratorTypes': acceleratorTypes,
-        if (additionalCodeRepositories != null)
-          'AdditionalCodeRepositories': additionalCodeRepositories,
-        if (defaultCodeRepository != null)
-          'DefaultCodeRepository': defaultCodeRepository,
-        if (disassociateAcceleratorTypes != null)
-          'DisassociateAcceleratorTypes': disassociateAcceleratorTypes,
-        if (disassociateAdditionalCodeRepositories != null)
-          'DisassociateAdditionalCodeRepositories':
-              disassociateAdditionalCodeRepositories,
-        if (disassociateDefaultCodeRepository != null)
-          'DisassociateDefaultCodeRepository':
-              disassociateDefaultCodeRepository,
-        if (disassociateLifecycleConfig != null)
-          'DisassociateLifecycleConfig': disassociateLifecycleConfig,
-        if (instanceType != null) 'InstanceType': instanceType?.toValue(),
-        if (lifecycleConfigName != null)
-          'LifecycleConfigName': lifecycleConfigName,
-        if (roleArn != null) 'RoleArn': roleArn,
-        if (rootAccess != null) 'RootAccess': rootAccess?.toValue(),
-        if (volumeSizeInGB != null) 'VolumeSizeInGB': volumeSizeInGB,
-      },
+      payload: UpdateNotebookInstanceInput(
+        notebookInstanceName: notebookInstanceName,
+        acceleratorTypes: acceleratorTypes,
+        additionalCodeRepositories: additionalCodeRepositories,
+        defaultCodeRepository: defaultCodeRepository,
+        disassociateAcceleratorTypes: disassociateAcceleratorTypes,
+        disassociateAdditionalCodeRepositories:
+            disassociateAdditionalCodeRepositories,
+        disassociateDefaultCodeRepository: disassociateDefaultCodeRepository,
+        disassociateLifecycleConfig: disassociateLifecycleConfig,
+        instanceType: instanceType,
+        lifecycleConfigName: lifecycleConfigName,
+        roleArn: roleArn,
+        rootAccess: rootAccess,
+        volumeSizeInGB: volumeSizeInGB,
+      ),
     );
 
     return UpdateNotebookInstanceOutput.fromJson(jsonResponse.body);
@@ -9934,12 +9827,12 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'NotebookInstanceLifecycleConfigName':
+      payload: UpdateNotebookInstanceLifecycleConfigInput(
+        notebookInstanceLifecycleConfigName:
             notebookInstanceLifecycleConfigName,
-        if (onCreate != null) 'OnCreate': onCreate,
-        if (onStart != null) 'OnStart': onStart,
-      },
+        onCreate: onCreate,
+        onStart: onStart,
+      ),
     );
 
     return UpdateNotebookInstanceLifecycleConfigOutput.fromJson(
@@ -9997,10 +9890,10 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TrialName': trialName,
-        if (displayName != null) 'DisplayName': displayName,
-      },
+      payload: UpdateTrialRequest(
+        trialName: trialName,
+        displayName: displayName,
+      ),
     );
 
     return UpdateTrialResponse.fromJson(jsonResponse.body);
@@ -10096,22 +9989,19 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TrialComponentName': trialComponentName,
-        if (displayName != null) 'DisplayName': displayName,
-        if (endTime != null) 'EndTime': endTime,
-        if (inputArtifacts != null) 'InputArtifacts': inputArtifacts,
-        if (inputArtifactsToRemove != null)
-          'InputArtifactsToRemove': inputArtifactsToRemove,
-        if (outputArtifacts != null) 'OutputArtifacts': outputArtifacts,
-        if (outputArtifactsToRemove != null)
-          'OutputArtifactsToRemove': outputArtifactsToRemove,
-        if (parameters != null) 'Parameters': parameters,
-        if (parametersToRemove != null)
-          'ParametersToRemove': parametersToRemove,
-        if (startTime != null) 'StartTime': startTime,
-        if (status != null) 'Status': status,
-      },
+      payload: UpdateTrialComponentRequest(
+        trialComponentName: trialComponentName,
+        displayName: displayName,
+        endTime: endTime,
+        inputArtifacts: inputArtifacts,
+        inputArtifactsToRemove: inputArtifactsToRemove,
+        outputArtifacts: outputArtifacts,
+        outputArtifactsToRemove: outputArtifactsToRemove,
+        parameters: parameters,
+        parametersToRemove: parametersToRemove,
+        startTime: startTime,
+        status: status,
+      ),
     );
 
     return UpdateTrialComponentResponse.fromJson(jsonResponse.body);
@@ -10168,11 +10058,11 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DomainId': domainId,
-        'UserProfileName': userProfileName,
-        if (userSettings != null) 'UserSettings': userSettings,
-      },
+      payload: UpdateUserProfileRequest(
+        domainId: domainId,
+        userProfileName: userProfileName,
+        userSettings: userSettings,
+      ),
     );
 
     return UpdateUserProfileResponse.fromJson(jsonResponse.body);
@@ -10232,10 +10122,10 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'WorkforceName': workforceName,
-        if (sourceIpConfig != null) 'SourceIpConfig': sourceIpConfig,
-      },
+      payload: UpdateWorkforceRequest(
+        workforceName: workforceName,
+        sourceIpConfig: sourceIpConfig,
+      ),
     );
 
     return UpdateWorkforceResponse.fromJson(jsonResponse.body);
@@ -10298,17 +10188,39 @@ class SageMaker {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'WorkteamName': workteamName,
-        if (description != null) 'Description': description,
-        if (memberDefinitions != null) 'MemberDefinitions': memberDefinitions,
-        if (notificationConfiguration != null)
-          'NotificationConfiguration': notificationConfiguration,
-      },
+      payload: UpdateWorkteamRequest(
+        workteamName: workteamName,
+        description: description,
+        memberDefinitions: memberDefinitions,
+        notificationConfiguration: notificationConfiguration,
+      ),
     );
 
     return UpdateWorkteamResponse.fromJson(jsonResponse.body);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AddTagsInput {
+  /// The Amazon Resource Name (ARN) of the resource that you want to tag.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// An array of <code>Tag</code> objects. Each tag is a key-value pair. Only the
+  /// <code>key</code> parameter is required. If you don't specify a value, Amazon
+  /// SageMaker sets the value to an empty string.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  AddTagsInput({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$AddTagsInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10333,18 +10245,6 @@ enum AlgorithmSortBy {
   name,
   @_s.JsonValue('CreationTime')
   creationTime,
-}
-
-extension on AlgorithmSortBy {
-  String toValue() {
-    switch (this) {
-      case AlgorithmSortBy.name:
-        return 'Name';
-      case AlgorithmSortBy.creationTime:
-        return 'CreationTime';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Specifies the training algorithm to use in a <a>CreateTrainingJob</a>
@@ -11093,16 +10993,6 @@ enum AppSortKey {
   creationTime,
 }
 
-extension on AppSortKey {
-  String toValue() {
-    switch (this) {
-      case AppSortKey.creationTime:
-        return 'CreationTime';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Configuration to run a processing job in a specified container image.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -11155,25 +11045,32 @@ enum AppType {
   tensorBoard,
 }
 
-extension on AppType {
-  String toValue() {
-    switch (this) {
-      case AppType.jupyterServer:
-        return 'JupyterServer';
-      case AppType.kernelGateway:
-        return 'KernelGateway';
-      case AppType.tensorBoard:
-        return 'TensorBoard';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum AssemblyType {
   @_s.JsonValue('None')
   none,
   @_s.JsonValue('Line')
   line,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateTrialComponentRequest {
+  /// The name of the component to associated with the trial.
+  @_s.JsonKey(name: 'TrialComponentName')
+  final String trialComponentName;
+
+  /// The name of the trial to associate with.
+  @_s.JsonKey(name: 'TrialName')
+  final String trialName;
+
+  AssociateTrialComponentRequest({
+    @_s.required this.trialComponentName,
+    @_s.required this.trialName,
+  });
+  Map<String, dynamic> toJson() => _$AssociateTrialComponentRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -11203,18 +11100,6 @@ enum AuthMode {
   sso,
   @_s.JsonValue('IAM')
   iam,
-}
-
-extension on AuthMode {
-  String toValue() {
-    switch (this) {
-      case AuthMode.sso:
-        return 'SSO';
-      case AuthMode.iam:
-        return 'IAM';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// An AutoPilot job will return recommendations, or candidates. Each candidate
@@ -11547,24 +11432,6 @@ enum AutoMLJobStatus {
   stopping,
 }
 
-extension on AutoMLJobStatus {
-  String toValue() {
-    switch (this) {
-      case AutoMLJobStatus.completed:
-        return 'Completed';
-      case AutoMLJobStatus.inProgress:
-        return 'InProgress';
-      case AutoMLJobStatus.failed:
-        return 'Failed';
-      case AutoMLJobStatus.stopped:
-        return 'Stopped';
-      case AutoMLJobStatus.stopping:
-        return 'Stopping';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Provides a summary about a job.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -11734,37 +11601,11 @@ enum AutoMLSortBy {
   status,
 }
 
-extension on AutoMLSortBy {
-  String toValue() {
-    switch (this) {
-      case AutoMLSortBy.name:
-        return 'Name';
-      case AutoMLSortBy.creationTime:
-        return 'CreationTime';
-      case AutoMLSortBy.status:
-        return 'Status';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum AutoMLSortOrder {
   @_s.JsonValue('Ascending')
   ascending,
   @_s.JsonValue('Descending')
   descending,
-}
-
-extension on AutoMLSortOrder {
-  String toValue() {
-    switch (this) {
-      case AutoMLSortOrder.ascending:
-        return 'Ascending';
-      case AutoMLSortOrder.descending:
-        return 'Descending';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 enum AwsManagedHumanLoopRequestSource {
@@ -11779,18 +11620,6 @@ enum BatchStrategy {
   multiRecord,
   @_s.JsonValue('SingleRecord')
   singleRecord,
-}
-
-extension on BatchStrategy {
-  String toValue() {
-    switch (this) {
-      case BatchStrategy.multiRecord:
-        return 'MultiRecord';
-      case BatchStrategy.singleRecord:
-        return 'SingleRecord';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 enum BooleanOperator {
@@ -11809,20 +11638,6 @@ enum CandidateSortBy {
   finalObjectiveMetricValue,
 }
 
-extension on CandidateSortBy {
-  String toValue() {
-    switch (this) {
-      case CandidateSortBy.creationTime:
-        return 'CreationTime';
-      case CandidateSortBy.status:
-        return 'Status';
-      case CandidateSortBy.finalObjectiveMetricValue:
-        return 'FinalObjectiveMetricValue';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum CandidateStatus {
   @_s.JsonValue('Completed')
   completed,
@@ -11834,24 +11649,6 @@ enum CandidateStatus {
   stopped,
   @_s.JsonValue('Stopping')
   stopping,
-}
-
-extension on CandidateStatus {
-  String toValue() {
-    switch (this) {
-      case CandidateStatus.completed:
-        return 'Completed';
-      case CandidateStatus.inProgress:
-        return 'InProgress';
-      case CandidateStatus.failed:
-        return 'Failed';
-      case CandidateStatus.stopped:
-        return 'Stopped';
-      case CandidateStatus.stopping:
-        return 'Stopping';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 enum CandidateStepType {
@@ -12145,37 +11942,11 @@ enum CodeRepositorySortBy {
   lastModifiedTime,
 }
 
-extension on CodeRepositorySortBy {
-  String toValue() {
-    switch (this) {
-      case CodeRepositorySortBy.name:
-        return 'Name';
-      case CodeRepositorySortBy.creationTime:
-        return 'CreationTime';
-      case CodeRepositorySortBy.lastModifiedTime:
-        return 'LastModifiedTime';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum CodeRepositorySortOrder {
   @_s.JsonValue('Ascending')
   ascending,
   @_s.JsonValue('Descending')
   descending,
-}
-
-extension on CodeRepositorySortOrder {
-  String toValue() {
-    switch (this) {
-      case CodeRepositorySortOrder.ascending:
-        return 'Ascending';
-      case CodeRepositorySortOrder.descending:
-        return 'Descending';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Specifies summary information about a Git repository.
@@ -12299,26 +12070,6 @@ enum CompilationJobStatus {
   stopping,
   @_s.JsonValue('STOPPED')
   stopped,
-}
-
-extension on CompilationJobStatus {
-  String toValue() {
-    switch (this) {
-      case CompilationJobStatus.inprogress:
-        return 'INPROGRESS';
-      case CompilationJobStatus.completed:
-        return 'COMPLETED';
-      case CompilationJobStatus.failed:
-        return 'FAILED';
-      case CompilationJobStatus.starting:
-        return 'STARTING';
-      case CompilationJobStatus.stopping:
-        return 'STOPPING';
-      case CompilationJobStatus.stopped:
-        return 'STOPPED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// A summary of a model compilation job.
@@ -12587,6 +12338,96 @@ class ContinuousParameterRangeSpecification {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateAlgorithmInput {
+  /// The name of the algorithm.
+  @_s.JsonKey(name: 'AlgorithmName')
+  final String algorithmName;
+
+  /// Specifies details about training jobs run by this algorithm, including the
+  /// following:
+  ///
+  /// <ul>
+  /// <li>
+  /// The Amazon ECR path of the container and the version digest of the
+  /// algorithm.
+  /// </li>
+  /// <li>
+  /// The hyperparameters that the algorithm supports.
+  /// </li>
+  /// <li>
+  /// The instance types that the algorithm supports for training.
+  /// </li>
+  /// <li>
+  /// Whether the algorithm supports distributed training.
+  /// </li>
+  /// <li>
+  /// The metrics that the algorithm emits to Amazon CloudWatch.
+  /// </li>
+  /// <li>
+  /// Which metrics that the algorithm emits can be used as the objective metric
+  /// for hyperparameter tuning jobs.
+  /// </li>
+  /// <li>
+  /// The input channels that the algorithm supports for training data. For
+  /// example, an algorithm might support <code>train</code>,
+  /// <code>validation</code>, and <code>test</code> channels.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'TrainingSpecification')
+  final TrainingSpecification trainingSpecification;
+
+  /// A description of the algorithm.
+  @_s.JsonKey(name: 'AlgorithmDescription')
+  final String algorithmDescription;
+
+  /// Whether to certify the algorithm so that it can be listed in AWS
+  /// Marketplace.
+  @_s.JsonKey(name: 'CertifyForMarketplace')
+  final bool certifyForMarketplace;
+
+  /// Specifies details about inference jobs that the algorithm runs, including
+  /// the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// The Amazon ECR paths of containers that contain the inference code and model
+  /// artifacts.
+  /// </li>
+  /// <li>
+  /// The instance types that the algorithm supports for transform jobs and
+  /// real-time endpoints used for inference.
+  /// </li>
+  /// <li>
+  /// The input and output content formats that the algorithm supports for
+  /// inference.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'InferenceSpecification')
+  final InferenceSpecification inferenceSpecification;
+
+  /// Specifies configurations for one or more training jobs and that Amazon
+  /// SageMaker runs to test the algorithm's training code and, optionally, one or
+  /// more batch transform jobs that Amazon SageMaker runs to test the algorithm's
+  /// inference code.
+  @_s.JsonKey(name: 'ValidationSpecification')
+  final AlgorithmValidationSpecification validationSpecification;
+
+  CreateAlgorithmInput({
+    @_s.required this.algorithmName,
+    @_s.required this.trainingSpecification,
+    this.algorithmDescription,
+    this.certifyForMarketplace,
+    this.inferenceSpecification,
+    this.validationSpecification,
+  });
+  Map<String, dynamic> toJson() => _$CreateAlgorithmInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateAlgorithmOutput {
@@ -12599,6 +12440,48 @@ class CreateAlgorithmOutput {
   });
   factory CreateAlgorithmOutput.fromJson(Map<String, dynamic> json) =>
       _$CreateAlgorithmOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateAppRequest {
+  /// The name of the app.
+  @_s.JsonKey(name: 'AppName')
+  final String appName;
+
+  /// The type of app.
+  @_s.JsonKey(name: 'AppType')
+  final AppType appType;
+
+  /// The domain ID.
+  @_s.JsonKey(name: 'DomainId')
+  final String domainId;
+
+  /// The user profile name.
+  @_s.JsonKey(name: 'UserProfileName')
+  final String userProfileName;
+
+  /// The instance type and quantity.
+  @_s.JsonKey(name: 'ResourceSpec')
+  final ResourceSpec resourceSpec;
+
+  /// Each tag consists of a key and an optional value. Tag keys must be unique
+  /// per resource.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateAppRequest({
+    @_s.required this.appName,
+    @_s.required this.appType,
+    @_s.required this.domainId,
+    @_s.required this.userProfileName,
+    this.resourceSpec,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateAppRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -12621,6 +12504,71 @@ class CreateAppResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateAutoMLJobRequest {
+  /// Identifies an AutoPilot job. Must be unique to your account and is
+  /// case-insensitive.
+  @_s.JsonKey(name: 'AutoMLJobName')
+  final String autoMLJobName;
+
+  /// Similar to InputDataConfig supported by Tuning. Format(s) supported: CSV.
+  /// Minimum of 1000 rows.
+  @_s.JsonKey(name: 'InputDataConfig')
+  final List<AutoMLChannel> inputDataConfig;
+
+  /// Similar to OutputDataConfig supported by Tuning. Format(s) supported: CSV.
+  @_s.JsonKey(name: 'OutputDataConfig')
+  final AutoMLOutputDataConfig outputDataConfig;
+
+  /// The ARN of the role that will be used to access the data.
+  @_s.JsonKey(name: 'RoleArn')
+  final String roleArn;
+
+  /// Contains CompletionCriteria and SecurityConfig.
+  @_s.JsonKey(name: 'AutoMLJobConfig')
+  final AutoMLJobConfig autoMLJobConfig;
+
+  /// Defines the job's objective. You provide a MetricName and AutoML will infer
+  /// minimize or maximize. If this is not provided, the most commonly used
+  /// ObjectiveMetric for problem type will be selected.
+  @_s.JsonKey(name: 'AutoMLJobObjective')
+  final AutoMLJobObjective autoMLJobObjective;
+
+  /// This will generate possible candidates without training a model. A candidate
+  /// is a combination of data preprocessors, algorithms, and algorithm parameter
+  /// settings.
+  @_s.JsonKey(name: 'GenerateCandidateDefinitionsOnly')
+  final bool generateCandidateDefinitionsOnly;
+
+  /// Defines the kind of preprocessing and algorithms intended for the
+  /// candidates. Options include: BinaryClassification, MulticlassClassification,
+  /// and Regression.
+  @_s.JsonKey(name: 'ProblemType')
+  final ProblemType problemType;
+
+  /// Each tag consists of a key and an optional value. Tag keys must be unique
+  /// per resource.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateAutoMLJobRequest({
+    @_s.required this.autoMLJobName,
+    @_s.required this.inputDataConfig,
+    @_s.required this.outputDataConfig,
+    @_s.required this.roleArn,
+    this.autoMLJobConfig,
+    this.autoMLJobObjective,
+    this.generateCandidateDefinitionsOnly,
+    this.problemType,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateAutoMLJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateAutoMLJobResponse {
@@ -12638,6 +12586,30 @@ class CreateAutoMLJobResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateCodeRepositoryInput {
+  /// The name of the Git repository. The name must have 1 to 63 characters. Valid
+  /// characters are a-z, A-Z, 0-9, and - (hyphen).
+  @_s.JsonKey(name: 'CodeRepositoryName')
+  final String codeRepositoryName;
+
+  /// Specifies details about the repository, including the URL where the
+  /// repository is located, the default branch, and credentials to use to access
+  /// the repository.
+  @_s.JsonKey(name: 'GitConfig')
+  final GitConfig gitConfig;
+
+  CreateCodeRepositoryInput({
+    @_s.required this.codeRepositoryName,
+    @_s.required this.gitConfig,
+  });
+  Map<String, dynamic> toJson() => _$CreateCodeRepositoryInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateCodeRepositoryOutput {
@@ -12650,6 +12622,71 @@ class CreateCodeRepositoryOutput {
   });
   factory CreateCodeRepositoryOutput.fromJson(Map<String, dynamic> json) =>
       _$CreateCodeRepositoryOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateCompilationJobRequest {
+  /// A name for the model compilation job. The name must be unique within the AWS
+  /// Region and within your AWS account.
+  @_s.JsonKey(name: 'CompilationJobName')
+  final String compilationJobName;
+
+  /// Provides information about the location of input model artifacts, the name
+  /// and shape of the expected data inputs, and the framework in which the model
+  /// was trained.
+  @_s.JsonKey(name: 'InputConfig')
+  final InputConfig inputConfig;
+
+  /// Provides information about the output location for the compiled model and
+  /// the target device the model runs on.
+  @_s.JsonKey(name: 'OutputConfig')
+  final OutputConfig outputConfig;
+
+  /// The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker
+  /// to perform tasks on your behalf.
+  ///
+  /// During model compilation, Amazon SageMaker needs your permission to:
+  ///
+  /// <ul>
+  /// <li>
+  /// Read input data from an S3 bucket
+  /// </li>
+  /// <li>
+  /// Write model artifacts to an S3 bucket
+  /// </li>
+  /// <li>
+  /// Write logs to Amazon CloudWatch Logs
+  /// </li>
+  /// <li>
+  /// Publish metrics to Amazon CloudWatch
+  /// </li>
+  /// </ul>
+  /// You grant permissions for all of these tasks to an IAM role. To pass this
+  /// role to Amazon SageMaker, the caller of this API must have the
+  /// <code>iam:PassRole</code> permission. For more information, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html">Amazon
+  /// SageMaker Roles.</a>
+  @_s.JsonKey(name: 'RoleArn')
+  final String roleArn;
+
+  /// Specifies a limit to how long a model compilation job can run. When the job
+  /// reaches the time limit, Amazon SageMaker ends the compilation job. Use this
+  /// API to cap model training costs.
+  @_s.JsonKey(name: 'StoppingCondition')
+  final StoppingCondition stoppingCondition;
+
+  CreateCompilationJobRequest({
+    @_s.required this.compilationJobName,
+    @_s.required this.inputConfig,
+    @_s.required this.outputConfig,
+    @_s.required this.roleArn,
+    @_s.required this.stoppingCondition,
+  });
+  Map<String, dynamic> toJson() => _$CreateCompilationJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -12680,6 +12717,54 @@ class CreateCompilationJobResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDomainRequest {
+  /// The mode of authentication that member use to access the domain.
+  @_s.JsonKey(name: 'AuthMode')
+  final AuthMode authMode;
+
+  /// The default user settings.
+  @_s.JsonKey(name: 'DefaultUserSettings')
+  final UserSettings defaultUserSettings;
+
+  /// A name for the domain.
+  @_s.JsonKey(name: 'DomainName')
+  final String domainName;
+
+  /// Security setting to limit to a set of subnets.
+  @_s.JsonKey(name: 'SubnetIds')
+  final List<String> subnetIds;
+
+  /// Security setting to limit the domain's communication to a Amazon Virtual
+  /// Private Cloud.
+  @_s.JsonKey(name: 'VpcId')
+  final String vpcId;
+
+  /// The AWS Key Management Service encryption key ID.
+  @_s.JsonKey(name: 'HomeEfsFileSystemKmsKeyId')
+  final String homeEfsFileSystemKmsKeyId;
+
+  /// Each tag consists of a key and an optional value. Tag keys must be unique
+  /// per resource.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateDomainRequest({
+    @_s.required this.authMode,
+    @_s.required this.defaultUserSettings,
+    @_s.required this.domainName,
+    @_s.required this.subnetIds,
+    @_s.required this.vpcId,
+    this.homeEfsFileSystemKmsKeyId,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateDomainRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateDomainResponse {
@@ -12702,6 +12787,90 @@ class CreateDomainResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateEndpointConfigInput {
+  /// The name of the endpoint configuration. You specify this name in a
+  /// <a>CreateEndpoint</a> request.
+  @_s.JsonKey(name: 'EndpointConfigName')
+  final String endpointConfigName;
+
+  /// An list of <code>ProductionVariant</code> objects, one for each model that
+  /// you want to host at this endpoint.
+  @_s.JsonKey(name: 'ProductionVariants')
+  final List<ProductionVariant> productionVariants;
+  @_s.JsonKey(name: 'DataCaptureConfig')
+  final DataCaptureConfig dataCaptureConfig;
+
+  /// The Amazon Resource Name (ARN) of a AWS Key Management Service key that
+  /// Amazon SageMaker uses to encrypt data on the storage volume attached to the
+  /// ML compute instance that hosts the endpoint.
+  ///
+  /// The KmsKeyId can be any of the following formats:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Alias name: <code>alias/ExampleAlias</code>
+  /// </li>
+  /// <li>
+  /// Alias name ARN:
+  /// <code>arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias</code>
+  /// </li>
+  /// </ul>
+  /// The KMS key policy must grant permission to the IAM role that you specify in
+  /// your <code>CreateEndpoint</code>, <code>UpdateEndpoint</code> requests. For
+  /// more information, refer to the AWS Key Management Service section<a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html">
+  /// Using Key Policies in AWS KMS </a>
+  /// <note>
+  /// Certain Nitro-based instances include local storage, dependent on the
+  /// instance type. Local storage volumes are encrypted using a hardware module
+  /// on the instance. You can't request a <code>KmsKeyId</code> when using an
+  /// instance type with local storage. If any of the models that you specify in
+  /// the <code>ProductionVariants</code> parameter use nitro-based instances with
+  /// local storage, do not specify a value for the <code>KmsKeyId</code>
+  /// parameter. If you specify a value for <code>KmsKeyId</code> when using any
+  /// nitro-based instances with local storage, the call to
+  /// <code>CreateEndpointConfig</code> fails.
+  ///
+  /// For a list of instance types that support local instance storage, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html#instance-store-volumes">Instance
+  /// Store Volumes</a>.
+  ///
+  /// For more information about local instance storage encryption, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ssd-instance-store.html">SSD
+  /// Instance Store Volumes</a>.
+  /// </note>
+  @_s.JsonKey(name: 'KmsKeyId')
+  final String kmsKeyId;
+
+  /// A list of key-value pairs. For more information, see <a
+  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html#allocation-what">Using
+  /// Cost Allocation Tags</a> in the <i> AWS Billing and Cost Management User
+  /// Guide</i>.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateEndpointConfigInput({
+    @_s.required this.endpointConfigName,
+    @_s.required this.productionVariants,
+    this.dataCaptureConfig,
+    this.kmsKeyId,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateEndpointConfigInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateEndpointConfigOutput {
@@ -12714,6 +12883,37 @@ class CreateEndpointConfigOutput {
   });
   factory CreateEndpointConfigOutput.fromJson(Map<String, dynamic> json) =>
       _$CreateEndpointConfigOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateEndpointInput {
+  /// The name of an endpoint configuration. For more information, see
+  /// <a>CreateEndpointConfig</a>.
+  @_s.JsonKey(name: 'EndpointConfigName')
+  final String endpointConfigName;
+
+  /// The name of the endpoint. The name must be unique within an AWS Region in
+  /// your AWS account.
+  @_s.JsonKey(name: 'EndpointName')
+  final String endpointName;
+
+  /// An array of key-value pairs. For more information, see <a
+  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html#allocation-what">Using
+  /// Cost Allocation Tags</a>in the <i>AWS Billing and Cost Management User
+  /// Guide</i>.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateEndpointInput({
+    @_s.required this.endpointConfigName,
+    @_s.required this.endpointName,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateEndpointInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -12736,6 +12936,41 @@ class CreateEndpointOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateExperimentRequest {
+  /// The name of the experiment. The name must be unique in your AWS account and
+  /// is not case-sensitive.
+  @_s.JsonKey(name: 'ExperimentName')
+  final String experimentName;
+
+  /// The description of the experiment.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The name of the experiment as displayed. The name doesn't need to be unique.
+  /// If you don't specify <code>DisplayName</code>, the value in
+  /// <code>ExperimentName</code> is displayed.
+  @_s.JsonKey(name: 'DisplayName')
+  final String displayName;
+
+  /// A list of tags to associate with the experiment. You can use <a>Search</a>
+  /// API to search on the tags.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateExperimentRequest({
+    @_s.required this.experimentName,
+    this.description,
+    this.displayName,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateExperimentRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateExperimentResponse {
@@ -12748,6 +12983,60 @@ class CreateExperimentResponse {
   });
   factory CreateExperimentResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateExperimentResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateFlowDefinitionRequest {
+  /// The name of your flow definition.
+  @_s.JsonKey(name: 'FlowDefinitionName')
+  final String flowDefinitionName;
+
+  /// An object containing information about the tasks the human reviewers will
+  /// perform.
+  @_s.JsonKey(name: 'HumanLoopConfig')
+  final HumanLoopConfig humanLoopConfig;
+
+  /// An object containing information about where the human review results will
+  /// be uploaded.
+  @_s.JsonKey(name: 'OutputConfig')
+  final FlowDefinitionOutputConfig outputConfig;
+
+  /// The Amazon Resource Name (ARN) of the role needed to call other services on
+  /// your behalf. For example,
+  /// <code>arn:aws:iam::1234567890:role/service-role/AmazonSageMaker-ExecutionRole-20180111T151298</code>.
+  @_s.JsonKey(name: 'RoleArn')
+  final String roleArn;
+
+  /// An object containing information about the events that trigger a human
+  /// workflow.
+  @_s.JsonKey(name: 'HumanLoopActivationConfig')
+  final HumanLoopActivationConfig humanLoopActivationConfig;
+
+  /// Container for configuring the source of human task requests. Use to specify
+  /// if Amazon Rekognition or Amazon Textract is used as an integration source.
+  @_s.JsonKey(name: 'HumanLoopRequestSource')
+  final HumanLoopRequestSource humanLoopRequestSource;
+
+  /// An array of key-value pairs that contain metadata to help you categorize and
+  /// organize a flow definition. Each tag consists of a key and a value, both of
+  /// which you define.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateFlowDefinitionRequest({
+    @_s.required this.flowDefinitionName,
+    @_s.required this.humanLoopConfig,
+    @_s.required this.outputConfig,
+    @_s.required this.roleArn,
+    this.humanLoopActivationConfig,
+    this.humanLoopRequestSource,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateFlowDefinitionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -12770,6 +13059,32 @@ class CreateFlowDefinitionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateHumanTaskUiRequest {
+  /// The name of the user interface you are creating.
+  @_s.JsonKey(name: 'HumanTaskUiName')
+  final String humanTaskUiName;
+  @_s.JsonKey(name: 'UiTemplate')
+  final UiTemplate uiTemplate;
+
+  /// An array of key-value pairs that contain metadata to help you categorize and
+  /// organize a human review workflow user interface. Each tag consists of a key
+  /// and a value, both of which you define.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateHumanTaskUiRequest({
+    @_s.required this.humanTaskUiName,
+    @_s.required this.uiTemplate,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateHumanTaskUiRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateHumanTaskUiResponse {
@@ -12783,6 +13098,84 @@ class CreateHumanTaskUiResponse {
   });
   factory CreateHumanTaskUiResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateHumanTaskUiResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateHyperParameterTuningJobRequest {
+  /// The <a>HyperParameterTuningJobConfig</a> object that describes the tuning
+  /// job, including the search strategy, the objective metric used to evaluate
+  /// training jobs, ranges of parameters to search, and resource limits for the
+  /// tuning job. For more information, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/automatic-model-tuning-how-it-works.html">How
+  /// Hyperparameter Tuning Works</a>.
+  @_s.JsonKey(name: 'HyperParameterTuningJobConfig')
+  final HyperParameterTuningJobConfig hyperParameterTuningJobConfig;
+
+  /// The name of the tuning job. This name is the prefix for the names of all
+  /// training jobs that this tuning job launches. The name must be unique within
+  /// the same AWS account and AWS Region. The name must have { } to { }
+  /// characters. Valid characters are a-z, A-Z, 0-9, and : + = @ _ % - (hyphen).
+  /// The name is not case sensitive.
+  @_s.JsonKey(name: 'HyperParameterTuningJobName')
+  final String hyperParameterTuningJobName;
+
+  /// An array of key-value pairs. You can use tags to categorize your AWS
+  /// resources in different ways, for example, by purpose, owner, or environment.
+  /// For more information, see <a
+  /// href="https://aws.amazon.com/answers/account-management/aws-tagging-strategies/">AWS
+  /// Tagging Strategies</a>.
+  ///
+  /// Tags that you specify for the tuning job are also added to all training jobs
+  /// that the tuning job launches.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  /// The <a>HyperParameterTrainingJobDefinition</a> object that describes the
+  /// training jobs that this tuning job launches, including static
+  /// hyperparameters, input data configuration, output data configuration,
+  /// resource configuration, and stopping condition.
+  @_s.JsonKey(name: 'TrainingJobDefinition')
+  final HyperParameterTrainingJobDefinition trainingJobDefinition;
+
+  /// <p/>
+  @_s.JsonKey(name: 'TrainingJobDefinitions')
+  final List<HyperParameterTrainingJobDefinition> trainingJobDefinitions;
+
+  /// Specifies the configuration for starting the hyperparameter tuning job using
+  /// one or more previous tuning jobs as a starting point. The results of
+  /// previous tuning jobs are used to inform which combinations of
+  /// hyperparameters to search over in the new tuning job.
+  ///
+  /// All training jobs launched by the new hyperparameter tuning job are
+  /// evaluated by using the objective metric. If you specify
+  /// <code>IDENTICAL_DATA_AND_ALGORITHM</code> as the <code>WarmStartType</code>
+  /// value for the warm start configuration, the training job that performs the
+  /// best in the new tuning job is compared to the best training jobs from the
+  /// parent tuning jobs. From these, the training job that performs the best as
+  /// measured by the objective metric is returned as the overall best training
+  /// job.
+  /// <note>
+  /// All training jobs launched by parent hyperparameter tuning jobs and the new
+  /// hyperparameter tuning jobs count against the limit of training jobs for the
+  /// tuning job.
+  /// </note>
+  @_s.JsonKey(name: 'WarmStartConfig')
+  final HyperParameterTuningJobWarmStartConfig warmStartConfig;
+
+  CreateHyperParameterTuningJobRequest({
+    @_s.required this.hyperParameterTuningJobConfig,
+    @_s.required this.hyperParameterTuningJobName,
+    this.tags,
+    this.trainingJobDefinition,
+    this.trainingJobDefinitions,
+    this.warmStartConfig,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateHyperParameterTuningJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -12807,6 +13200,118 @@ class CreateHyperParameterTuningJobResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateLabelingJobRequest {
+  /// Configures the labeling task and how it is presented to workers; including,
+  /// but not limited to price, keywords, and batch size (task count).
+  @_s.JsonKey(name: 'HumanTaskConfig')
+  final HumanTaskConfig humanTaskConfig;
+
+  /// Input data for the labeling job, such as the Amazon S3 location of the data
+  /// objects and the location of the manifest file that describes the data
+  /// objects.
+  @_s.JsonKey(name: 'InputConfig')
+  final LabelingJobInputConfig inputConfig;
+
+  /// The attribute name to use for the label in the output manifest file. This is
+  /// the key for the key/value pair formed with the label that a worker assigns
+  /// to the object. The name can't end with "-metadata". If you are running a
+  /// semantic segmentation labeling job, the attribute name must end with "-ref".
+  /// If you are running any other kind of labeling job, the attribute name must
+  /// not end with "-ref".
+  @_s.JsonKey(name: 'LabelAttributeName')
+  final String labelAttributeName;
+
+  /// The name of the labeling job. This name is used to identify the job in a
+  /// list of labeling jobs.
+  @_s.JsonKey(name: 'LabelingJobName')
+  final String labelingJobName;
+
+  /// The location of the output data and the AWS Key Management Service key ID
+  /// for the key used to encrypt the output data, if any.
+  @_s.JsonKey(name: 'OutputConfig')
+  final LabelingJobOutputConfig outputConfig;
+
+  /// The Amazon Resource Number (ARN) that Amazon SageMaker assumes to perform
+  /// tasks on your behalf during data labeling. You must grant this role the
+  /// necessary permissions so that Amazon SageMaker can successfully complete
+  /// data labeling.
+  @_s.JsonKey(name: 'RoleArn')
+  final String roleArn;
+
+  /// The S3 URL of the file that defines the categories used to label the data
+  /// objects.
+  ///
+  /// The file is a JSON structure in the following format:
+  ///
+  /// <code>{</code>
+  ///
+  /// <code> "document-version": "2018-11-28"</code>
+  ///
+  /// <code> "labels": [</code>
+  ///
+  /// <code> {</code>
+  ///
+  /// <code> "label": "<i>label 1</i>"</code>
+  ///
+  /// <code> },</code>
+  ///
+  /// <code> {</code>
+  ///
+  /// <code> "label": "<i>label 2</i>"</code>
+  ///
+  /// <code> },</code>
+  ///
+  /// <code> ...</code>
+  ///
+  /// <code> {</code>
+  ///
+  /// <code> "label": "<i>label n</i>"</code>
+  ///
+  /// <code> }</code>
+  ///
+  /// <code> ]</code>
+  ///
+  /// <code>}</code>
+  @_s.JsonKey(name: 'LabelCategoryConfigS3Uri')
+  final String labelCategoryConfigS3Uri;
+
+  /// Configures the information required to perform automated data labeling.
+  @_s.JsonKey(name: 'LabelingJobAlgorithmsConfig')
+  final LabelingJobAlgorithmsConfig labelingJobAlgorithmsConfig;
+
+  /// A set of conditions for stopping the labeling job. If any of the conditions
+  /// are met, the job is automatically stopped. You can use these conditions to
+  /// control the cost of data labeling.
+  @_s.JsonKey(name: 'StoppingConditions')
+  final LabelingJobStoppingConditions stoppingConditions;
+
+  /// An array of key/value pairs. For more information, see <a
+  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html#allocation-what">Using
+  /// Cost Allocation Tags</a> in the <i>AWS Billing and Cost Management User
+  /// Guide</i>.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateLabelingJobRequest({
+    @_s.required this.humanTaskConfig,
+    @_s.required this.inputConfig,
+    @_s.required this.labelAttributeName,
+    @_s.required this.labelingJobName,
+    @_s.required this.outputConfig,
+    @_s.required this.roleArn,
+    this.labelCategoryConfigS3Uri,
+    this.labelingJobAlgorithmsConfig,
+    this.stoppingConditions,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateLabelingJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateLabelingJobResponse {
@@ -12820,6 +13325,74 @@ class CreateLabelingJobResponse {
   });
   factory CreateLabelingJobResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateLabelingJobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateModelInput {
+  /// The Amazon Resource Name (ARN) of the IAM role that Amazon SageMaker can
+  /// assume to access model artifacts and docker image for deployment on ML
+  /// compute instances or for batch transform jobs. Deploying on ML compute
+  /// instances is part of model hosting. For more information, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html">Amazon
+  /// SageMaker Roles</a>.
+  /// <note>
+  /// To be able to pass this role to Amazon SageMaker, the caller of this API
+  /// must have the <code>iam:PassRole</code> permission.
+  /// </note>
+  @_s.JsonKey(name: 'ExecutionRoleArn')
+  final String executionRoleArn;
+
+  /// The name of the new model.
+  @_s.JsonKey(name: 'ModelName')
+  final String modelName;
+
+  /// Specifies the containers in the inference pipeline.
+  @_s.JsonKey(name: 'Containers')
+  final List<ContainerDefinition> containers;
+
+  /// Isolates the model container. No inbound or outbound network calls can be
+  /// made to or from the model container.
+  @_s.JsonKey(name: 'EnableNetworkIsolation')
+  final bool enableNetworkIsolation;
+
+  /// The location of the primary docker image containing inference code,
+  /// associated artifacts, and custom environment map that the inference code
+  /// uses when the model is deployed for predictions.
+  @_s.JsonKey(name: 'PrimaryContainer')
+  final ContainerDefinition primaryContainer;
+
+  /// An array of key-value pairs. For more information, see <a
+  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html#allocation-what">Using
+  /// Cost Allocation Tags</a> in the <i>AWS Billing and Cost Management User
+  /// Guide</i>.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  /// A <a>VpcConfig</a> object that specifies the VPC that you want your model to
+  /// connect to. Control access to and from your model container by configuring
+  /// the VPC. <code>VpcConfig</code> is used in hosting services and in batch
+  /// transform. For more information, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/host-vpc.html">Protect
+  /// Endpoints by Using an Amazon Virtual Private Cloud</a> and <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/batch-vpc.html">Protect
+  /// Data in Batch Transform Jobs by Using an Amazon Virtual Private Cloud</a>.
+  @_s.JsonKey(name: 'VpcConfig')
+  final VpcConfig vpcConfig;
+
+  CreateModelInput({
+    @_s.required this.executionRoleArn,
+    @_s.required this.modelName,
+    this.containers,
+    this.enableNetworkIsolation,
+    this.primaryContainer,
+    this.tags,
+    this.vpcConfig,
+  });
+  Map<String, dynamic> toJson() => _$CreateModelInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -12842,6 +13415,65 @@ class CreateModelOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateModelPackageInput {
+  /// The name of the model package. The name must have 1 to 63 characters. Valid
+  /// characters are a-z, A-Z, 0-9, and - (hyphen).
+  @_s.JsonKey(name: 'ModelPackageName')
+  final String modelPackageName;
+
+  /// Whether to certify the model package for listing on AWS Marketplace.
+  @_s.JsonKey(name: 'CertifyForMarketplace')
+  final bool certifyForMarketplace;
+
+  /// Specifies details about inference jobs that can be run with models based on
+  /// this model package, including the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// The Amazon ECR paths of containers that contain the inference code and model
+  /// artifacts.
+  /// </li>
+  /// <li>
+  /// The instance types that the model package supports for transform jobs and
+  /// real-time endpoints used for inference.
+  /// </li>
+  /// <li>
+  /// The input and output content formats that the model package supports for
+  /// inference.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'InferenceSpecification')
+  final InferenceSpecification inferenceSpecification;
+
+  /// A description of the model package.
+  @_s.JsonKey(name: 'ModelPackageDescription')
+  final String modelPackageDescription;
+
+  /// Details about the algorithm that was used to create the model package.
+  @_s.JsonKey(name: 'SourceAlgorithmSpecification')
+  final SourceAlgorithmSpecification sourceAlgorithmSpecification;
+
+  /// Specifies configurations for one or more transform jobs that Amazon
+  /// SageMaker runs to test the model package.
+  @_s.JsonKey(name: 'ValidationSpecification')
+  final ModelPackageValidationSpecification validationSpecification;
+
+  CreateModelPackageInput({
+    @_s.required this.modelPackageName,
+    this.certifyForMarketplace,
+    this.inferenceSpecification,
+    this.modelPackageDescription,
+    this.sourceAlgorithmSpecification,
+    this.validationSpecification,
+  });
+  Map<String, dynamic> toJson() => _$CreateModelPackageInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateModelPackageOutput {
@@ -12854,6 +13486,38 @@ class CreateModelPackageOutput {
   });
   factory CreateModelPackageOutput.fromJson(Map<String, dynamic> json) =>
       _$CreateModelPackageOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateMonitoringScheduleRequest {
+  /// The configuration object that specifies the monitoring schedule and defines
+  /// the monitoring job.
+  @_s.JsonKey(name: 'MonitoringScheduleConfig')
+  final MonitoringScheduleConfig monitoringScheduleConfig;
+
+  /// The name of the monitoring schedule. The name must be unique within an AWS
+  /// Region within an AWS account.
+  @_s.JsonKey(name: 'MonitoringScheduleName')
+  final String monitoringScheduleName;
+
+  /// (Optional) An array of key-value pairs. For more information, see <a href="
+  /// https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html#allocation-whatURL">Using
+  /// Cost Allocation Tags</a> in the <i>AWS Billing and Cost Management User
+  /// Guide</i>.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateMonitoringScheduleRequest({
+    @_s.required this.monitoringScheduleConfig,
+    @_s.required this.monitoringScheduleName,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateMonitoringScheduleRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -12872,6 +13536,178 @@ class CreateMonitoringScheduleResponse {
   factory CreateMonitoringScheduleResponse.fromJson(
           Map<String, dynamic> json) =>
       _$CreateMonitoringScheduleResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateNotebookInstanceInput {
+  /// The type of ML compute instance to launch for the notebook instance.
+  @_s.JsonKey(name: 'InstanceType')
+  final InstanceType instanceType;
+
+  /// The name of the new notebook instance.
+  @_s.JsonKey(name: 'NotebookInstanceName')
+  final String notebookInstanceName;
+
+  /// When you send any requests to AWS resources from the notebook instance,
+  /// Amazon SageMaker assumes this role to perform tasks on your behalf. You must
+  /// grant this role necessary permissions so Amazon SageMaker can perform these
+  /// tasks. The policy must allow the Amazon SageMaker service principal
+  /// (sagemaker.amazonaws.com) permissions to assume this role. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html">Amazon
+  /// SageMaker Roles</a>.
+  /// <note>
+  /// To be able to pass this role to Amazon SageMaker, the caller of this API
+  /// must have the <code>iam:PassRole</code> permission.
+  /// </note>
+  @_s.JsonKey(name: 'RoleArn')
+  final String roleArn;
+
+  /// A list of Elastic Inference (EI) instance types to associate with this
+  /// notebook instance. Currently, only one instance type can be associated with
+  /// a notebook instance. For more information, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/ei.html">Using Elastic
+  /// Inference in Amazon SageMaker</a>.
+  @_s.JsonKey(name: 'AcceleratorTypes')
+  final List<String> acceleratorTypes;
+
+  /// An array of up to three Git repositories to associate with the notebook
+  /// instance. These can be either the names of Git repositories stored as
+  /// resources in your account, or the URL of Git repositories in <a
+  /// href="https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html">AWS
+  /// CodeCommit</a> or in any other Git repository. These repositories are cloned
+  /// at the same level as the default repository of your notebook instance. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html">Associating
+  /// Git Repositories with Amazon SageMaker Notebook Instances</a>.
+  @_s.JsonKey(name: 'AdditionalCodeRepositories')
+  final List<String> additionalCodeRepositories;
+
+  /// A Git repository to associate with the notebook instance as its default code
+  /// repository. This can be either the name of a Git repository stored as a
+  /// resource in your account, or the URL of a Git repository in <a
+  /// href="https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html">AWS
+  /// CodeCommit</a> or in any other Git repository. When you open a notebook
+  /// instance, it opens in the directory that contains this repository. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html">Associating
+  /// Git Repositories with Amazon SageMaker Notebook Instances</a>.
+  @_s.JsonKey(name: 'DefaultCodeRepository')
+  final String defaultCodeRepository;
+
+  /// Sets whether Amazon SageMaker provides internet access to the notebook
+  /// instance. If you set this to <code>Disabled</code> this notebook instance
+  /// will be able to access resources only in your VPC, and will not be able to
+  /// connect to Amazon SageMaker training and endpoint services unless your
+  /// configure a NAT Gateway in your VPC.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/appendix-additional-considerations.html#appendix-notebook-and-internet-access">Notebook
+  /// Instances Are Internet-Enabled by Default</a>. You can set the value of this
+  /// parameter to <code>Disabled</code> only if you set a value for the
+  /// <code>SubnetId</code> parameter.
+  @_s.JsonKey(name: 'DirectInternetAccess')
+  final DirectInternetAccess directInternetAccess;
+
+  /// The Amazon Resource Name (ARN) of a AWS Key Management Service key that
+  /// Amazon SageMaker uses to encrypt data on the storage volume attached to your
+  /// notebook instance. The KMS key you provide must be enabled. For information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/enabling-keys.html">Enabling
+  /// and Disabling Keys</a> in the <i>AWS Key Management Service Developer
+  /// Guide</i>.
+  @_s.JsonKey(name: 'KmsKeyId')
+  final String kmsKeyId;
+
+  /// The name of a lifecycle configuration to associate with the notebook
+  /// instance. For information about lifestyle configurations, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/notebook-lifecycle-config.html">Step
+  /// 2.1: (Optional) Customize a Notebook Instance</a>.
+  @_s.JsonKey(name: 'LifecycleConfigName')
+  final String lifecycleConfigName;
+
+  /// Whether root access is enabled or disabled for users of the notebook
+  /// instance. The default value is <code>Enabled</code>.
+  /// <note>
+  /// Lifecycle configurations need root access to be able to set up a notebook
+  /// instance. Because of this, lifecycle configurations associated with a
+  /// notebook instance always run with root access even if you disable root
+  /// access for users.
+  /// </note>
+  @_s.JsonKey(name: 'RootAccess')
+  final RootAccess rootAccess;
+
+  /// The VPC security group IDs, in the form sg-xxxxxxxx. The security groups
+  /// must be for the same VPC as specified in the subnet.
+  @_s.JsonKey(name: 'SecurityGroupIds')
+  final List<String> securityGroupIds;
+
+  /// The ID of the subnet in a VPC to which you would like to have a connectivity
+  /// from your ML compute instance.
+  @_s.JsonKey(name: 'SubnetId')
+  final String subnetId;
+
+  /// A list of tags to associate with the notebook instance. You can add tags
+  /// later by using the <code>CreateTags</code> API.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  /// The size, in GB, of the ML storage volume to attach to the notebook
+  /// instance. The default value is 5 GB.
+  @_s.JsonKey(name: 'VolumeSizeInGB')
+  final int volumeSizeInGB;
+
+  CreateNotebookInstanceInput({
+    @_s.required this.instanceType,
+    @_s.required this.notebookInstanceName,
+    @_s.required this.roleArn,
+    this.acceleratorTypes,
+    this.additionalCodeRepositories,
+    this.defaultCodeRepository,
+    this.directInternetAccess,
+    this.kmsKeyId,
+    this.lifecycleConfigName,
+    this.rootAccess,
+    this.securityGroupIds,
+    this.subnetId,
+    this.tags,
+    this.volumeSizeInGB,
+  });
+  Map<String, dynamic> toJson() => _$CreateNotebookInstanceInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateNotebookInstanceLifecycleConfigInput {
+  /// The name of the lifecycle configuration.
+  @_s.JsonKey(name: 'NotebookInstanceLifecycleConfigName')
+  final String notebookInstanceLifecycleConfigName;
+
+  /// A shell script that runs only once, when you create a notebook instance. The
+  /// shell script must be a base64-encoded string.
+  @_s.JsonKey(name: 'OnCreate')
+  final List<NotebookInstanceLifecycleHook> onCreate;
+
+  /// A shell script that runs every time you start a notebook instance, including
+  /// when you create the notebook instance. The shell script must be a
+  /// base64-encoded string.
+  @_s.JsonKey(name: 'OnStart')
+  final List<NotebookInstanceLifecycleHook> onStart;
+
+  CreateNotebookInstanceLifecycleConfigInput({
+    @_s.required this.notebookInstanceLifecycleConfigName,
+    this.onCreate,
+    this.onStart,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateNotebookInstanceLifecycleConfigInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -12912,6 +13748,33 @@ class CreateNotebookInstanceOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreatePresignedDomainUrlRequest {
+  /// The domain ID.
+  @_s.JsonKey(name: 'DomainId')
+  final String domainId;
+
+  /// The name of the UserProfile to sign-in as.
+  @_s.JsonKey(name: 'UserProfileName')
+  final String userProfileName;
+
+  /// The session expiration duration in seconds.
+  @_s.JsonKey(name: 'SessionExpirationDurationInSeconds')
+  final int sessionExpirationDurationInSeconds;
+
+  CreatePresignedDomainUrlRequest({
+    @_s.required this.domainId,
+    @_s.required this.userProfileName,
+    this.sessionExpirationDurationInSeconds,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreatePresignedDomainUrlRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreatePresignedDomainUrlResponse {
@@ -12925,6 +13788,28 @@ class CreatePresignedDomainUrlResponse {
   factory CreatePresignedDomainUrlResponse.fromJson(
           Map<String, dynamic> json) =>
       _$CreatePresignedDomainUrlResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreatePresignedNotebookInstanceUrlInput {
+  /// The name of the notebook instance.
+  @_s.JsonKey(name: 'NotebookInstanceName')
+  final String notebookInstanceName;
+
+  /// The duration of the session, in seconds. The default is 12 hours.
+  @_s.JsonKey(name: 'SessionExpirationDurationInSeconds')
+  final int sessionExpirationDurationInSeconds;
+
+  CreatePresignedNotebookInstanceUrlInput({
+    @_s.required this.notebookInstanceName,
+    this.sessionExpirationDurationInSeconds,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreatePresignedNotebookInstanceUrlInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -12948,6 +13833,79 @@ class CreatePresignedNotebookInstanceUrlOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateProcessingJobRequest {
+  /// Configures the processing job to run a specified Docker container image.
+  @_s.JsonKey(name: 'AppSpecification')
+  final AppSpecification appSpecification;
+
+  /// The name of the processing job. The name must be unique within an AWS Region
+  /// in the AWS account.
+  @_s.JsonKey(name: 'ProcessingJobName')
+  final String processingJobName;
+
+  /// Identifies the resources, ML compute instances, and ML storage volumes to
+  /// deploy for a processing job. In distributed training, you specify more than
+  /// one instance.
+  @_s.JsonKey(name: 'ProcessingResources')
+  final ProcessingResources processingResources;
+
+  /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can
+  /// assume to perform tasks on your behalf.
+  @_s.JsonKey(name: 'RoleArn')
+  final String roleArn;
+
+  /// Sets the environment variables in the Docker container.
+  @_s.JsonKey(name: 'Environment')
+  final Map<String, String> environment;
+  @_s.JsonKey(name: 'ExperimentConfig')
+  final ExperimentConfig experimentConfig;
+
+  /// Networking options for a processing job.
+  @_s.JsonKey(name: 'NetworkConfig')
+  final NetworkConfig networkConfig;
+
+  /// For each input, data is downloaded from S3 into the processing container
+  /// before the processing job begins running if "S3InputMode" is set to
+  /// <code>File</code>.
+  @_s.JsonKey(name: 'ProcessingInputs')
+  final List<ProcessingInput> processingInputs;
+
+  /// Output configuration for the processing job.
+  @_s.JsonKey(name: 'ProcessingOutputConfig')
+  final ProcessingOutputConfig processingOutputConfig;
+
+  /// The time limit for how long the processing job is allowed to run.
+  @_s.JsonKey(name: 'StoppingCondition')
+  final ProcessingStoppingCondition stoppingCondition;
+
+  /// (Optional) An array of key-value pairs. For more information, see <a
+  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html#allocation-whatURL">Using
+  /// Cost Allocation Tags</a> in the <i>AWS Billing and Cost Management User
+  /// Guide</i>.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateProcessingJobRequest({
+    @_s.required this.appSpecification,
+    @_s.required this.processingJobName,
+    @_s.required this.processingResources,
+    @_s.required this.roleArn,
+    this.environment,
+    this.experimentConfig,
+    this.networkConfig,
+    this.processingInputs,
+    this.processingOutputConfig,
+    this.stoppingCondition,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateProcessingJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateProcessingJobResponse {
@@ -12960,6 +13918,191 @@ class CreateProcessingJobResponse {
   });
   factory CreateProcessingJobResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateProcessingJobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateTrainingJobRequest {
+  /// The registry path of the Docker image that contains the training algorithm
+  /// and algorithm-specific metadata, including the input mode. For more
+  /// information about algorithms provided by Amazon SageMaker, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/algos.html">Algorithms</a>.
+  /// For information about providing your own algorithms, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms.html">Using
+  /// Your Own Algorithms with Amazon SageMaker</a>.
+  @_s.JsonKey(name: 'AlgorithmSpecification')
+  final AlgorithmSpecification algorithmSpecification;
+
+  /// Specifies the path to the S3 location where you want to store model
+  /// artifacts. Amazon SageMaker creates subfolders for the artifacts.
+  @_s.JsonKey(name: 'OutputDataConfig')
+  final OutputDataConfig outputDataConfig;
+
+  /// The resources, including the ML compute instances and ML storage volumes, to
+  /// use for model training.
+  ///
+  /// ML storage volumes store model artifacts and incremental states. Training
+  /// algorithms might also use ML storage volumes for scratch space. If you want
+  /// Amazon SageMaker to use the ML storage volume to store the training data,
+  /// choose <code>File</code> as the <code>TrainingInputMode</code> in the
+  /// algorithm specification. For distributed training algorithms, specify an
+  /// instance count greater than 1.
+  @_s.JsonKey(name: 'ResourceConfig')
+  final ResourceConfig resourceConfig;
+
+  /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can
+  /// assume to perform tasks on your behalf.
+  ///
+  /// During model training, Amazon SageMaker needs your permission to read input
+  /// data from an S3 bucket, download a Docker image that contains training code,
+  /// write model artifacts to an S3 bucket, write logs to Amazon CloudWatch Logs,
+  /// and publish metrics to Amazon CloudWatch. You grant permissions for all of
+  /// these tasks to an IAM role. For more information, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html">Amazon
+  /// SageMaker Roles</a>.
+  /// <note>
+  /// To be able to pass this role to Amazon SageMaker, the caller of this API
+  /// must have the <code>iam:PassRole</code> permission.
+  /// </note>
+  @_s.JsonKey(name: 'RoleArn')
+  final String roleArn;
+
+  /// Specifies a limit to how long a model training job can run. When the job
+  /// reaches the time limit, Amazon SageMaker ends the training job. Use this API
+  /// to cap model training costs.
+  ///
+  /// To stop a job, Amazon SageMaker sends the algorithm the <code>SIGTERM</code>
+  /// signal, which delays job termination for 120 seconds. Algorithms can use
+  /// this 120-second window to save the model artifacts, so the results of
+  /// training are not lost.
+  @_s.JsonKey(name: 'StoppingCondition')
+  final StoppingCondition stoppingCondition;
+
+  /// The name of the training job. The name must be unique within an AWS Region
+  /// in an AWS account.
+  @_s.JsonKey(name: 'TrainingJobName')
+  final String trainingJobName;
+
+  /// Contains information about the output location for managed spot training
+  /// checkpoint data.
+  @_s.JsonKey(name: 'CheckpointConfig')
+  final CheckpointConfig checkpointConfig;
+  @_s.JsonKey(name: 'DebugHookConfig')
+  final DebugHookConfig debugHookConfig;
+
+  /// Configuration information for debugging rules.
+  @_s.JsonKey(name: 'DebugRuleConfigurations')
+  final List<DebugRuleConfiguration> debugRuleConfigurations;
+
+  /// To encrypt all communications between ML compute instances in distributed
+  /// training, choose <code>True</code>. Encryption provides greater security for
+  /// distributed training, but training might take longer. How long it takes
+  /// depends on the amount of communication between compute instances, especially
+  /// if you use a deep learning algorithm in distributed training. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/train-encrypt.html">Protect
+  /// Communications Between ML Compute Instances in a Distributed Training
+  /// Job</a>.
+  @_s.JsonKey(name: 'EnableInterContainerTrafficEncryption')
+  final bool enableInterContainerTrafficEncryption;
+
+  /// To train models using managed spot training, choose <code>True</code>.
+  /// Managed spot training provides a fully managed and scalable infrastructure
+  /// for training machine learning models. this option is useful when training
+  /// jobs can be interrupted and when there is flexibility when the training job
+  /// is run.
+  ///
+  /// The complete and intermediate results of jobs are stored in an Amazon S3
+  /// bucket, and can be used as a starting point to train models incrementally.
+  /// Amazon SageMaker provides metrics and logs in CloudWatch. They can be used
+  /// to see when managed spot training jobs are running, interrupted, resumed, or
+  /// completed.
+  @_s.JsonKey(name: 'EnableManagedSpotTraining')
+  final bool enableManagedSpotTraining;
+
+  /// Isolates the training container. No inbound or outbound network calls can be
+  /// made, except for calls between peers within a training cluster for
+  /// distributed training. If you enable network isolation for training jobs that
+  /// are configured to use a VPC, Amazon SageMaker downloads and uploads customer
+  /// data and model artifacts through the specified VPC, but the training
+  /// container does not have network access.
+  @_s.JsonKey(name: 'EnableNetworkIsolation')
+  final bool enableNetworkIsolation;
+  @_s.JsonKey(name: 'ExperimentConfig')
+  final ExperimentConfig experimentConfig;
+
+  /// Algorithm-specific parameters that influence the quality of the model. You
+  /// set hyperparameters before you start the learning process. For a list of
+  /// hyperparameters for each training algorithm provided by Amazon SageMaker,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/algos.html">Algorithms</a>.
+  ///
+  /// You can specify a maximum of 100 hyperparameters. Each hyperparameter is a
+  /// key-value pair. Each key and value is limited to 256 characters, as
+  /// specified by the <code>Length Constraint</code>.
+  @_s.JsonKey(name: 'HyperParameters')
+  final Map<String, String> hyperParameters;
+
+  /// An array of <code>Channel</code> objects. Each channel is a named input
+  /// source. <code>InputDataConfig</code> describes the input data and its
+  /// location.
+  ///
+  /// Algorithms can accept input data from one or more channels. For example, an
+  /// algorithm might have two channels of input data, <code>training_data</code>
+  /// and <code>validation_data</code>. The configuration for each channel
+  /// provides the S3, EFS, or FSx location where the input data is stored. It
+  /// also provides information about the stored data: the MIME type, compression
+  /// method, and whether the data is wrapped in RecordIO format.
+  ///
+  /// Depending on the input mode that the algorithm supports, Amazon SageMaker
+  /// either copies input data files from an S3 bucket to a local directory in the
+  /// Docker container, or makes it available as input streams. For example, if
+  /// you specify an EFS location, input data files will be made available as
+  /// input streams. They do not need to be downloaded.
+  @_s.JsonKey(name: 'InputDataConfig')
+  final List<Channel> inputDataConfig;
+
+  /// An array of key-value pairs. For more information, see <a
+  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html#allocation-what">Using
+  /// Cost Allocation Tags</a> in the <i>AWS Billing and Cost Management User
+  /// Guide</i>.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+  @_s.JsonKey(name: 'TensorBoardOutputConfig')
+  final TensorBoardOutputConfig tensorBoardOutputConfig;
+
+  /// A <a>VpcConfig</a> object that specifies the VPC that you want your training
+  /// job to connect to. Control access to and from your training container by
+  /// configuring the VPC. For more information, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/train-vpc.html">Protect
+  /// Training Jobs by Using an Amazon Virtual Private Cloud</a>.
+  @_s.JsonKey(name: 'VpcConfig')
+  final VpcConfig vpcConfig;
+
+  CreateTrainingJobRequest({
+    @_s.required this.algorithmSpecification,
+    @_s.required this.outputDataConfig,
+    @_s.required this.resourceConfig,
+    @_s.required this.roleArn,
+    @_s.required this.stoppingCondition,
+    @_s.required this.trainingJobName,
+    this.checkpointConfig,
+    this.debugHookConfig,
+    this.debugRuleConfigurations,
+    this.enableInterContainerTrafficEncryption,
+    this.enableManagedSpotTraining,
+    this.enableNetworkIsolation,
+    this.experimentConfig,
+    this.hyperParameters,
+    this.inputDataConfig,
+    this.tags,
+    this.tensorBoardOutputConfig,
+    this.vpcConfig,
+  });
+  Map<String, dynamic> toJson() => _$CreateTrainingJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -12982,6 +14125,125 @@ class CreateTrainingJobResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateTransformJobRequest {
+  /// The name of the model that you want to use for the transform job.
+  /// <code>ModelName</code> must be the name of an existing Amazon SageMaker
+  /// model within an AWS Region in an AWS account.
+  @_s.JsonKey(name: 'ModelName')
+  final String modelName;
+
+  /// Describes the input source and the way the transform job consumes it.
+  @_s.JsonKey(name: 'TransformInput')
+  final TransformInput transformInput;
+
+  /// The name of the transform job. The name must be unique within an AWS Region
+  /// in an AWS account.
+  @_s.JsonKey(name: 'TransformJobName')
+  final String transformJobName;
+
+  /// Describes the results of the transform job.
+  @_s.JsonKey(name: 'TransformOutput')
+  final TransformOutput transformOutput;
+
+  /// Describes the resources, including ML instance types and ML instance count,
+  /// to use for the transform job.
+  @_s.JsonKey(name: 'TransformResources')
+  final TransformResources transformResources;
+
+  /// Specifies the number of records to include in a mini-batch for an HTTP
+  /// inference request. A <i>record</i> <i/> is a single unit of input data that
+  /// inference can be made on. For example, a single line in a CSV file is a
+  /// record.
+  ///
+  /// To enable the batch strategy, you must set the <code>SplitType</code>
+  /// property to <code>Line</code>, <code>RecordIO</code>, or
+  /// <code>TFRecord</code>.
+  ///
+  /// To use only one record when making an HTTP invocation request to a
+  /// container, set <code>BatchStrategy</code> to <code>SingleRecord</code> and
+  /// <code>SplitType</code> to <code>Line</code>.
+  ///
+  /// To fit as many records in a mini-batch as can fit within the
+  /// <code>MaxPayloadInMB</code> limit, set <code>BatchStrategy</code> to
+  /// <code>MultiRecord</code> and <code>SplitType</code> to <code>Line</code>.
+  @_s.JsonKey(name: 'BatchStrategy')
+  final BatchStrategy batchStrategy;
+
+  /// The data structure used to specify the data to be used for inference in a
+  /// batch transform job and to associate the data that is relevant to the
+  /// prediction results in the output. The input filter provided allows you to
+  /// exclude input data that is not needed for inference in a batch transform
+  /// job. The output filter provided allows you to include input data relevant to
+  /// interpreting the predictions in the output from the job. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/batch-transform-data-processing.html">Associate
+  /// Prediction Results with their Corresponding Input Records</a>.
+  @_s.JsonKey(name: 'DataProcessing')
+  final DataProcessing dataProcessing;
+
+  /// The environment variables to set in the Docker container. We support up to
+  /// 16 key and values entries in the map.
+  @_s.JsonKey(name: 'Environment')
+  final Map<String, String> environment;
+  @_s.JsonKey(name: 'ExperimentConfig')
+  final ExperimentConfig experimentConfig;
+
+  /// The maximum number of parallel requests that can be sent to each instance in
+  /// a transform job. If <code>MaxConcurrentTransforms</code> is set to
+  /// <code>0</code> or left unset, Amazon SageMaker checks the optional
+  /// execution-parameters to determine the settings for your chosen algorithm. If
+  /// the execution-parameters endpoint is not enabled, the default value is
+  /// <code>1</code>. For more information on execution-parameters, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms-batch-code.html#your-algorithms-batch-code-how-containe-serves-requests">How
+  /// Containers Serve Requests</a>. For built-in algorithms, you don't need to
+  /// set a value for <code>MaxConcurrentTransforms</code>.
+  @_s.JsonKey(name: 'MaxConcurrentTransforms')
+  final int maxConcurrentTransforms;
+
+  /// The maximum allowed size of the payload, in MB. A <i>payload</i> is the data
+  /// portion of a record (without metadata). The value in
+  /// <code>MaxPayloadInMB</code> must be greater than, or equal to, the size of a
+  /// single record. To estimate the size of a record in MB, divide the size of
+  /// your dataset by the number of records. To ensure that the records fit within
+  /// the maximum payload size, we recommend using a slightly larger value. The
+  /// default value is <code>6</code> MB.
+  ///
+  /// For cases where the payload might be arbitrarily large and is transmitted
+  /// using HTTP chunked encoding, set the value to <code>0</code>. This feature
+  /// works only in supported algorithms. Currently, Amazon SageMaker built-in
+  /// algorithms do not support HTTP chunked encoding.
+  @_s.JsonKey(name: 'MaxPayloadInMB')
+  final int maxPayloadInMB;
+
+  /// (Optional) An array of key-value pairs. For more information, see <a
+  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html#allocation-what">Using
+  /// Cost Allocation Tags</a> in the <i>AWS Billing and Cost Management User
+  /// Guide</i>.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateTransformJobRequest({
+    @_s.required this.modelName,
+    @_s.required this.transformInput,
+    @_s.required this.transformJobName,
+    @_s.required this.transformOutput,
+    @_s.required this.transformResources,
+    this.batchStrategy,
+    this.dataProcessing,
+    this.environment,
+    this.experimentConfig,
+    this.maxConcurrentTransforms,
+    this.maxPayloadInMB,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateTransformJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateTransformJobResponse {
@@ -12994,6 +14256,86 @@ class CreateTransformJobResponse {
   });
   factory CreateTransformJobResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateTransformJobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateTrialComponentRequest {
+  /// The name of the component. The name must be unique in your AWS account and
+  /// is not case-sensitive.
+  @_s.JsonKey(name: 'TrialComponentName')
+  final String trialComponentName;
+
+  /// The name of the component as displayed. The name doesn't need to be unique.
+  /// If <code>DisplayName</code> isn't specified, <code>TrialComponentName</code>
+  /// is displayed.
+  @_s.JsonKey(name: 'DisplayName')
+  final String displayName;
+
+  /// When the component ended.
+  @_s.JsonKey(
+      name: 'EndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime endTime;
+
+  /// The input artifacts for the component. Examples of input artifacts are
+  /// datasets, algorithms, hyperparameters, source code, and instance types.
+  @_s.JsonKey(name: 'InputArtifacts')
+  final Map<String, TrialComponentArtifact> inputArtifacts;
+
+  /// The output artifacts for the component. Examples of output artifacts are
+  /// metrics, snapshots, logs, and images.
+  @_s.JsonKey(name: 'OutputArtifacts')
+  final Map<String, TrialComponentArtifact> outputArtifacts;
+
+  /// The hyperparameters for the component.
+  @_s.JsonKey(name: 'Parameters')
+  final Map<String, TrialComponentParameterValue> parameters;
+
+  /// When the component started.
+  @_s.JsonKey(
+      name: 'StartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime startTime;
+
+  /// The status of the component. States include:
+  ///
+  /// <ul>
+  /// <li>
+  /// InProgress
+  /// </li>
+  /// <li>
+  /// Completed
+  /// </li>
+  /// <li>
+  /// Failed
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Status')
+  final TrialComponentStatus status;
+
+  /// A list of tags to associate with the component. You can use <a>Search</a>
+  /// API to search on the tags.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateTrialComponentRequest({
+    @_s.required this.trialComponentName,
+    this.displayName,
+    this.endTime,
+    this.inputArtifacts,
+    this.outputArtifacts,
+    this.parameters,
+    this.startTime,
+    this.status,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateTrialComponentRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13016,6 +14358,41 @@ class CreateTrialComponentResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateTrialRequest {
+  /// The name of the experiment to associate the trial with.
+  @_s.JsonKey(name: 'ExperimentName')
+  final String experimentName;
+
+  /// The name of the trial. The name must be unique in your AWS account and is
+  /// not case-sensitive.
+  @_s.JsonKey(name: 'TrialName')
+  final String trialName;
+
+  /// The name of the trial as displayed. The name doesn't need to be unique. If
+  /// <code>DisplayName</code> isn't specified, <code>TrialName</code> is
+  /// displayed.
+  @_s.JsonKey(name: 'DisplayName')
+  final String displayName;
+
+  /// A list of tags to associate with the trial. You can use <a>Search</a> API to
+  /// search on the tags.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateTrialRequest({
+    @_s.required this.experimentName,
+    @_s.required this.trialName,
+    this.displayName,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateTrialRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateTrialResponse {
@@ -13033,6 +14410,54 @@ class CreateTrialResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateUserProfileRequest {
+  /// The ID of the associated Domain.
+  @_s.JsonKey(name: 'DomainId')
+  final String domainId;
+
+  /// A name for the UserProfile.
+  @_s.JsonKey(name: 'UserProfileName')
+  final String userProfileName;
+
+  /// A specifier for the type of value specified in SingleSignOnUserValue.
+  /// Currently, the only supported value is "UserName". If the Domain's AuthMode
+  /// is SSO, this field is required. If the Domain's AuthMode is not SSO, this
+  /// field cannot be specified.
+  @_s.JsonKey(name: 'SingleSignOnUserIdentifier')
+  final String singleSignOnUserIdentifier;
+
+  /// The username of the associated AWS Single Sign-On User for this UserProfile.
+  /// If the Domain's AuthMode is SSO, this field is required, and must match a
+  /// valid username of a user in your directory. If the Domain's AuthMode is not
+  /// SSO, this field cannot be specified.
+  @_s.JsonKey(name: 'SingleSignOnUserValue')
+  final String singleSignOnUserValue;
+
+  /// Each tag consists of a key and an optional value. Tag keys must be unique
+  /// per resource.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  /// A collection of settings.
+  @_s.JsonKey(name: 'UserSettings')
+  final UserSettings userSettings;
+
+  CreateUserProfileRequest({
+    @_s.required this.domainId,
+    @_s.required this.userProfileName,
+    this.singleSignOnUserIdentifier,
+    this.singleSignOnUserValue,
+    this.tags,
+    this.userSettings,
+  });
+  Map<String, dynamic> toJson() => _$CreateUserProfileRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateUserProfileResponse {
@@ -13045,6 +14470,58 @@ class CreateUserProfileResponse {
   });
   factory CreateUserProfileResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateUserProfileResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateWorkteamRequest {
+  /// A description of the work team.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// A list of <code>MemberDefinition</code> objects that contains objects that
+  /// identify the Amazon Cognito user pool that makes up the work team. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools.html">Amazon
+  /// Cognito User Pools</a>.
+  ///
+  /// All of the <code>CognitoMemberDefinition</code> objects that make up the
+  /// member definition must have the same <code>ClientId</code> and
+  /// <code>UserPool</code> values.
+  @_s.JsonKey(name: 'MemberDefinitions')
+  final List<MemberDefinition> memberDefinitions;
+
+  /// The name of the work team. Use this name to identify the work team.
+  @_s.JsonKey(name: 'WorkteamName')
+  final String workteamName;
+
+  /// Configures notification of workers regarding available or expiring work
+  /// items.
+  @_s.JsonKey(name: 'NotificationConfiguration')
+  final NotificationConfiguration notificationConfiguration;
+
+  /// An array of key-value pairs.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html">Resource
+  /// Tag</a> and <a
+  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html#allocation-what">Using
+  /// Cost Allocation Tags</a> in the <i> AWS Billing and Cost Management User
+  /// Guide</i>.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateWorkteamRequest({
+    @_s.required this.description,
+    @_s.required this.memberDefinitions,
+    @_s.required this.workteamName,
+    this.notificationConfiguration,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateWorkteamRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13380,6 +14857,140 @@ class DebugRuleEvaluationStatus {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteAlgorithmInput {
+  /// The name of the algorithm to delete.
+  @_s.JsonKey(name: 'AlgorithmName')
+  final String algorithmName;
+
+  DeleteAlgorithmInput({
+    @_s.required this.algorithmName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteAlgorithmInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteAppRequest {
+  /// The name of the app.
+  @_s.JsonKey(name: 'AppName')
+  final String appName;
+
+  /// The type of app.
+  @_s.JsonKey(name: 'AppType')
+  final AppType appType;
+
+  /// The domain ID.
+  @_s.JsonKey(name: 'DomainId')
+  final String domainId;
+
+  /// The user profile name.
+  @_s.JsonKey(name: 'UserProfileName')
+  final String userProfileName;
+
+  DeleteAppRequest({
+    @_s.required this.appName,
+    @_s.required this.appType,
+    @_s.required this.domainId,
+    @_s.required this.userProfileName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteAppRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteCodeRepositoryInput {
+  /// The name of the Git repository to delete.
+  @_s.JsonKey(name: 'CodeRepositoryName')
+  final String codeRepositoryName;
+
+  DeleteCodeRepositoryInput({
+    @_s.required this.codeRepositoryName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteCodeRepositoryInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDomainRequest {
+  /// The domain ID.
+  @_s.JsonKey(name: 'DomainId')
+  final String domainId;
+
+  /// The retention policy for this domain, which specifies which resources will
+  /// be retained after the Domain is deleted. By default, all resources are
+  /// retained (not automatically deleted).
+  @_s.JsonKey(name: 'RetentionPolicy')
+  final RetentionPolicy retentionPolicy;
+
+  DeleteDomainRequest({
+    @_s.required this.domainId,
+    this.retentionPolicy,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDomainRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteEndpointConfigInput {
+  /// The name of the endpoint configuration that you want to delete.
+  @_s.JsonKey(name: 'EndpointConfigName')
+  final String endpointConfigName;
+
+  DeleteEndpointConfigInput({
+    @_s.required this.endpointConfigName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteEndpointConfigInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteEndpointInput {
+  /// The name of the endpoint that you want to delete.
+  @_s.JsonKey(name: 'EndpointName')
+  final String endpointName;
+
+  DeleteEndpointInput({
+    @_s.required this.endpointName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteEndpointInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteExperimentRequest {
+  /// The name of the experiment to delete.
+  @_s.JsonKey(name: 'ExperimentName')
+  final String experimentName;
+
+  DeleteExperimentRequest({
+    @_s.required this.experimentName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteExperimentRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteExperimentResponse {
@@ -13397,6 +15008,22 @@ class DeleteExperimentResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteFlowDefinitionRequest {
+  /// The name of the flow definition you are deleting.
+  @_s.JsonKey(name: 'FlowDefinitionName')
+  final String flowDefinitionName;
+
+  DeleteFlowDefinitionRequest({
+    @_s.required this.flowDefinitionName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteFlowDefinitionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteFlowDefinitionResponse {
@@ -13408,12 +15035,133 @@ class DeleteFlowDefinitionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteModelInput {
+  /// The name of the model to delete.
+  @_s.JsonKey(name: 'ModelName')
+  final String modelName;
+
+  DeleteModelInput({
+    @_s.required this.modelName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteModelInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteModelPackageInput {
+  /// The name of the model package. The name must have 1 to 63 characters. Valid
+  /// characters are a-z, A-Z, 0-9, and - (hyphen).
+  @_s.JsonKey(name: 'ModelPackageName')
+  final String modelPackageName;
+
+  DeleteModelPackageInput({
+    @_s.required this.modelPackageName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteModelPackageInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteMonitoringScheduleRequest {
+  /// The name of the monitoring schedule to delete.
+  @_s.JsonKey(name: 'MonitoringScheduleName')
+  final String monitoringScheduleName;
+
+  DeleteMonitoringScheduleRequest({
+    @_s.required this.monitoringScheduleName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteMonitoringScheduleRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteNotebookInstanceInput {
+  /// The name of the Amazon SageMaker notebook instance to delete.
+  @_s.JsonKey(name: 'NotebookInstanceName')
+  final String notebookInstanceName;
+
+  DeleteNotebookInstanceInput({
+    @_s.required this.notebookInstanceName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteNotebookInstanceInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteNotebookInstanceLifecycleConfigInput {
+  /// The name of the lifecycle configuration to delete.
+  @_s.JsonKey(name: 'NotebookInstanceLifecycleConfigName')
+  final String notebookInstanceLifecycleConfigName;
+
+  DeleteNotebookInstanceLifecycleConfigInput({
+    @_s.required this.notebookInstanceLifecycleConfigName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteNotebookInstanceLifecycleConfigInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteTagsInput {
+  /// The Amazon Resource Name (ARN) of the resource whose tags you want to
+  /// delete.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// An array or one or more tag keys to delete.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  DeleteTagsInput({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$DeleteTagsInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteTagsOutput {
   DeleteTagsOutput();
   factory DeleteTagsOutput.fromJson(Map<String, dynamic> json) =>
       _$DeleteTagsOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteTrialComponentRequest {
+  /// The name of the component to delete.
+  @_s.JsonKey(name: 'TrialComponentName')
+  final String trialComponentName;
+
+  DeleteTrialComponentRequest({
+    @_s.required this.trialComponentName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteTrialComponentRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13436,6 +15184,22 @@ class DeleteTrialComponentResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteTrialRequest {
+  /// The name of the trial to delete.
+  @_s.JsonKey(name: 'TrialName')
+  final String trialName;
+
+  DeleteTrialRequest({
+    @_s.required this.trialName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteTrialRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteTrialResponse {
@@ -13448,6 +15212,43 @@ class DeleteTrialResponse {
   });
   factory DeleteTrialResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteTrialResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteUserProfileRequest {
+  /// The domain ID.
+  @_s.JsonKey(name: 'DomainId')
+  final String domainId;
+
+  /// The user profile name.
+  @_s.JsonKey(name: 'UserProfileName')
+  final String userProfileName;
+
+  DeleteUserProfileRequest({
+    @_s.required this.domainId,
+    @_s.required this.userProfileName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteUserProfileRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteWorkteamRequest {
+  /// The name of the work team to delete.
+  @_s.JsonKey(name: 'WorkteamName')
+  final String workteamName;
+
+  DeleteWorkteamRequest({
+    @_s.required this.workteamName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteWorkteamRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13509,6 +15310,22 @@ class DeployedImage {
   });
   factory DeployedImage.fromJson(Map<String, dynamic> json) =>
       _$DeployedImageFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeAlgorithmInput {
+  /// The name of the algorithm to describe.
+  @_s.JsonKey(name: 'AlgorithmName')
+  final String algorithmName;
+
+  DescribeAlgorithmInput({
+    @_s.required this.algorithmName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeAlgorithmInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13585,6 +15402,37 @@ class DescribeAlgorithmOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeAppRequest {
+  /// The name of the app.
+  @_s.JsonKey(name: 'AppName')
+  final String appName;
+
+  /// The type of app.
+  @_s.JsonKey(name: 'AppType')
+  final AppType appType;
+
+  /// The domain ID.
+  @_s.JsonKey(name: 'DomainId')
+  final String domainId;
+
+  /// The user profile name.
+  @_s.JsonKey(name: 'UserProfileName')
+  final String userProfileName;
+
+  DescribeAppRequest({
+    @_s.required this.appName,
+    @_s.required this.appType,
+    @_s.required this.domainId,
+    @_s.required this.userProfileName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeAppRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeAppResponse {
@@ -13656,6 +15504,22 @@ class DescribeAppResponse {
   });
   factory DescribeAppResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeAppResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeAutoMLJobRequest {
+  /// Request information about a job using that job's unique name.
+  @_s.JsonKey(name: 'AutoMLJobName')
+  final String autoMLJobName;
+
+  DescribeAutoMLJobRequest({
+    @_s.required this.autoMLJobName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeAutoMLJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13776,6 +15640,22 @@ class DescribeAutoMLJobResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeCodeRepositoryInput {
+  /// The name of the Git repository to describe.
+  @_s.JsonKey(name: 'CodeRepositoryName')
+  final String codeRepositoryName;
+
+  DescribeCodeRepositoryInput({
+    @_s.required this.codeRepositoryName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeCodeRepositoryInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeCodeRepositoryOutput {
@@ -13817,6 +15697,22 @@ class DescribeCodeRepositoryOutput {
   });
   factory DescribeCodeRepositoryOutput.fromJson(Map<String, dynamic> json) =>
       _$DescribeCodeRepositoryOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeCompilationJobRequest {
+  /// The name of the model compilation job that you want information about.
+  @_s.JsonKey(name: 'CompilationJobName')
+  final String compilationJobName;
+
+  DescribeCompilationJobRequest({
+    @_s.required this.compilationJobName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeCompilationJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13928,6 +15824,22 @@ class DescribeCompilationJobResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeDomainRequest {
+  /// The domain ID.
+  @_s.JsonKey(name: 'DomainId')
+  final String domainId;
+
+  DescribeDomainRequest({
+    @_s.required this.domainId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeDomainRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeDomainResponse {
@@ -14022,6 +15934,22 @@ class DescribeDomainResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeEndpointConfigInput {
+  /// The name of the endpoint configuration.
+  @_s.JsonKey(name: 'EndpointConfigName')
+  final String endpointConfigName;
+
+  DescribeEndpointConfigInput({
+    @_s.required this.endpointConfigName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeEndpointConfigInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeEndpointConfigOutput {
@@ -14062,6 +15990,22 @@ class DescribeEndpointConfigOutput {
   });
   factory DescribeEndpointConfigOutput.fromJson(Map<String, dynamic> json) =>
       _$DescribeEndpointConfigOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeEndpointInput {
+  /// The name of the endpoint.
+  @_s.JsonKey(name: 'EndpointName')
+  final String endpointName;
+
+  DescribeEndpointInput({
+    @_s.required this.endpointName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeEndpointInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -14172,6 +16116,22 @@ class DescribeEndpointOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeExperimentRequest {
+  /// The name of the experiment to describe.
+  @_s.JsonKey(name: 'ExperimentName')
+  final String experimentName;
+
+  DescribeExperimentRequest({
+    @_s.required this.experimentName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeExperimentRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeExperimentResponse {
@@ -14231,6 +16191,22 @@ class DescribeExperimentResponse {
   });
   factory DescribeExperimentResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeExperimentResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeFlowDefinitionRequest {
+  /// The name of the flow definition.
+  @_s.JsonKey(name: 'FlowDefinitionName')
+  final String flowDefinitionName;
+
+  DescribeFlowDefinitionRequest({
+    @_s.required this.flowDefinitionName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeFlowDefinitionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -14305,6 +16281,22 @@ class DescribeFlowDefinitionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeHumanTaskUiRequest {
+  /// The name of the human task user interface you want information about.
+  @_s.JsonKey(name: 'HumanTaskUiName')
+  final String humanTaskUiName;
+
+  DescribeHumanTaskUiRequest({
+    @_s.required this.humanTaskUiName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeHumanTaskUiRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeHumanTaskUiResponse {
@@ -14333,6 +16325,23 @@ class DescribeHumanTaskUiResponse {
   });
   factory DescribeHumanTaskUiResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeHumanTaskUiResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeHyperParameterTuningJobRequest {
+  /// The name of the tuning job to describe.
+  @_s.JsonKey(name: 'HyperParameterTuningJobName')
+  final String hyperParameterTuningJobName;
+
+  DescribeHyperParameterTuningJobRequest({
+    @_s.required this.hyperParameterTuningJobName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeHyperParameterTuningJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -14444,6 +16453,22 @@ class DescribeHyperParameterTuningJobResponse {
   factory DescribeHyperParameterTuningJobResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeHyperParameterTuningJobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeLabelingJobRequest {
+  /// The name of the labeling job to return information for.
+  @_s.JsonKey(name: 'LabelingJobName')
+  final String labelingJobName;
+
+  DescribeLabelingJobRequest({
+    @_s.required this.labelingJobName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeLabelingJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -14609,6 +16634,22 @@ class DescribeLabelingJobResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeModelInput {
+  /// The name of the model.
+  @_s.JsonKey(name: 'ModelName')
+  final String modelName;
+
+  DescribeModelInput({
+    @_s.required this.modelName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeModelInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeModelOutput {
@@ -14666,6 +16707,22 @@ class DescribeModelOutput {
   });
   factory DescribeModelOutput.fromJson(Map<String, dynamic> json) =>
       _$DescribeModelOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeModelPackageInput {
+  /// The name of the model package to describe.
+  @_s.JsonKey(name: 'ModelPackageName')
+  final String modelPackageName;
+
+  DescribeModelPackageInput({
+    @_s.required this.modelPackageName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeModelPackageInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -14738,6 +16795,23 @@ class DescribeModelPackageOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeMonitoringScheduleRequest {
+  /// Name of a previously created monitoring schedule.
+  @_s.JsonKey(name: 'MonitoringScheduleName')
+  final String monitoringScheduleName;
+
+  DescribeMonitoringScheduleRequest({
+    @_s.required this.monitoringScheduleName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeMonitoringScheduleRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeMonitoringScheduleResponse {
@@ -14799,6 +16873,39 @@ class DescribeMonitoringScheduleResponse {
   factory DescribeMonitoringScheduleResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeMonitoringScheduleResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeNotebookInstanceInput {
+  /// The name of the notebook instance that you want information about.
+  @_s.JsonKey(name: 'NotebookInstanceName')
+  final String notebookInstanceName;
+
+  DescribeNotebookInstanceInput({
+    @_s.required this.notebookInstanceName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeNotebookInstanceInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeNotebookInstanceLifecycleConfigInput {
+  /// The name of the lifecycle configuration to describe.
+  @_s.JsonKey(name: 'NotebookInstanceLifecycleConfigName')
+  final String notebookInstanceLifecycleConfigName;
+
+  DescribeNotebookInstanceLifecycleConfigInput({
+    @_s.required this.notebookInstanceLifecycleConfigName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeNotebookInstanceLifecycleConfigInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -15015,6 +17122,23 @@ class DescribeNotebookInstanceOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeProcessingJobRequest {
+  /// The name of the processing job. The name must be unique within an AWS Region
+  /// in the AWS account.
+  @_s.JsonKey(name: 'ProcessingJobName')
+  final String processingJobName;
+
+  DescribeProcessingJobRequest({
+    @_s.required this.processingJobName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeProcessingJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeProcessingJobResponse {
@@ -15151,6 +17275,23 @@ class DescribeProcessingJobResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeSubscribedWorkteamRequest {
+  /// The Amazon Resource Name (ARN) of the subscribed work team to describe.
+  @_s.JsonKey(name: 'WorkteamArn')
+  final String workteamArn;
+
+  DescribeSubscribedWorkteamRequest({
+    @_s.required this.workteamArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeSubscribedWorkteamRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeSubscribedWorkteamResponse {
@@ -15165,6 +17306,22 @@ class DescribeSubscribedWorkteamResponse {
   factory DescribeSubscribedWorkteamResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeSubscribedWorkteamResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeTrainingJobRequest {
+  /// The name of the training job.
+  @_s.JsonKey(name: 'TrainingJobName')
+  final String trainingJobName;
+
+  DescribeTrainingJobRequest({
+    @_s.required this.trainingJobName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeTrainingJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -15496,6 +17653,22 @@ class DescribeTrainingJobResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeTransformJobRequest {
+  /// The name of the transform job that you want to view details of.
+  @_s.JsonKey(name: 'TransformJobName')
+  final String transformJobName;
+
+  DescribeTransformJobRequest({
+    @_s.required this.transformJobName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeTransformJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeTransformJobResponse {
@@ -15629,6 +17802,22 @@ class DescribeTransformJobResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeTrialComponentRequest {
+  /// The name of the trial component to describe.
+  @_s.JsonKey(name: 'TrialComponentName')
+  final String trialComponentName;
+
+  DescribeTrialComponentRequest({
+    @_s.required this.trialComponentName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeTrialComponentRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeTrialComponentResponse {
@@ -15741,6 +17930,22 @@ class DescribeTrialComponentResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeTrialRequest {
+  /// The name of the trial to describe.
+  @_s.JsonKey(name: 'TrialName')
+  final String trialName;
+
+  DescribeTrialRequest({
+    @_s.required this.trialName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeTrialRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeTrialResponse {
@@ -15800,6 +18005,27 @@ class DescribeTrialResponse {
   });
   factory DescribeTrialResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeTrialResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeUserProfileRequest {
+  /// The domain ID.
+  @_s.JsonKey(name: 'DomainId')
+  final String domainId;
+
+  /// The user profile name.
+  @_s.JsonKey(name: 'UserProfileName')
+  final String userProfileName;
+
+  DescribeUserProfileRequest({
+    @_s.required this.domainId,
+    @_s.required this.userProfileName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeUserProfileRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -15878,6 +18104,24 @@ class DescribeUserProfileResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeWorkforceRequest {
+  /// The name of the private workforce whose access you want to restrict.
+  /// <code>WorkforceName</code> is automatically set to <code>default</code> when
+  /// a workforce is created and cannot be modified.
+  @_s.JsonKey(name: 'WorkforceName')
+  final String workforceName;
+
+  DescribeWorkforceRequest({
+    @_s.required this.workforceName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeWorkforceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeWorkforceResponse {
@@ -15896,6 +18140,22 @@ class DescribeWorkforceResponse {
   });
   factory DescribeWorkforceResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeWorkforceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeWorkteamRequest {
+  /// The name of the work team to return a description of.
+  @_s.JsonKey(name: 'WorkteamName')
+  final String workteamName;
+
+  DescribeWorkteamRequest({
+    @_s.required this.workteamName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeWorkteamRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -15972,16 +18232,26 @@ enum DirectInternetAccess {
   disabled,
 }
 
-extension on DirectInternetAccess {
-  String toValue() {
-    switch (this) {
-      case DirectInternetAccess.enabled:
-        return 'Enabled';
-      case DirectInternetAccess.disabled:
-        return 'Disabled';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateTrialComponentRequest {
+  /// The name of the component to disassociate from the trial.
+  @_s.JsonKey(name: 'TrialComponentName')
+  final String trialComponentName;
+
+  /// The name of the trial to disassociate from.
+  @_s.JsonKey(name: 'TrialName')
+  final String trialName;
+
+  DisassociateTrialComponentRequest({
+    @_s.required this.trialComponentName,
+    @_s.required this.trialName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DisassociateTrialComponentRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -16079,18 +18349,6 @@ enum EndpointConfigSortKey {
   creationTime,
 }
 
-extension on EndpointConfigSortKey {
-  String toValue() {
-    switch (this) {
-      case EndpointConfigSortKey.name:
-        return 'Name';
-      case EndpointConfigSortKey.creationTime:
-        return 'CreationTime';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Provides summary information for an endpoint configuration.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -16172,20 +18430,6 @@ enum EndpointSortKey {
   status,
 }
 
-extension on EndpointSortKey {
-  String toValue() {
-    switch (this) {
-      case EndpointSortKey.name:
-        return 'Name';
-      case EndpointSortKey.creationTime:
-        return 'CreationTime';
-      case EndpointSortKey.status:
-        return 'Status';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum EndpointStatus {
   @_s.JsonValue('OutOfService')
   outOfService,
@@ -16203,30 +18447,6 @@ enum EndpointStatus {
   deleting,
   @_s.JsonValue('Failed')
   failed,
-}
-
-extension on EndpointStatus {
-  String toValue() {
-    switch (this) {
-      case EndpointStatus.outOfService:
-        return 'OutOfService';
-      case EndpointStatus.creating:
-        return 'Creating';
-      case EndpointStatus.updating:
-        return 'Updating';
-      case EndpointStatus.systemUpdating:
-        return 'SystemUpdating';
-      case EndpointStatus.rollingBack:
-        return 'RollingBack';
-      case EndpointStatus.inService:
-        return 'InService';
-      case EndpointStatus.deleting:
-        return 'Deleting';
-      case EndpointStatus.failed:
-        return 'Failed';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Provides summary information for an endpoint.
@@ -16332,28 +18552,6 @@ enum ExecutionStatus {
   stopping,
   @_s.JsonValue('Stopped')
   stopped,
-}
-
-extension on ExecutionStatus {
-  String toValue() {
-    switch (this) {
-      case ExecutionStatus.pending:
-        return 'Pending';
-      case ExecutionStatus.completed:
-        return 'Completed';
-      case ExecutionStatus.completedWithViolations:
-        return 'CompletedWithViolations';
-      case ExecutionStatus.inProgress:
-        return 'InProgress';
-      case ExecutionStatus.failed:
-        return 'Failed';
-      case ExecutionStatus.stopping:
-        return 'Stopping';
-      case ExecutionStatus.stopped:
-        return 'Stopped';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// The properties of an experiment as returned by the <a>Search</a> API.
@@ -16838,6 +19036,27 @@ enum Framework {
   xgboost,
   @_s.JsonValue('TFLITE')
   tflite,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetSearchSuggestionsRequest {
+  /// The name of the Amazon SageMaker resource to search for.
+  @_s.JsonKey(name: 'Resource')
+  final ResourceType resource;
+
+  /// Limits the property names that are included in the response.
+  @_s.JsonKey(name: 'SuggestionQuery')
+  final SuggestionQuery suggestionQuery;
+
+  GetSearchSuggestionsRequest({
+    @_s.required this.resource,
+    this.suggestionQuery,
+  });
+  Map<String, dynamic> toJson() => _$GetSearchSuggestionsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -18086,20 +20305,6 @@ enum HyperParameterTuningJobSortByOptions {
   creationTime,
 }
 
-extension on HyperParameterTuningJobSortByOptions {
-  String toValue() {
-    switch (this) {
-      case HyperParameterTuningJobSortByOptions.name:
-        return 'Name';
-      case HyperParameterTuningJobSortByOptions.status:
-        return 'Status';
-      case HyperParameterTuningJobSortByOptions.creationTime:
-        return 'CreationTime';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum HyperParameterTuningJobStatus {
   @_s.JsonValue('Completed')
   completed,
@@ -18111,24 +20316,6 @@ enum HyperParameterTuningJobStatus {
   stopped,
   @_s.JsonValue('Stopping')
   stopping,
-}
-
-extension on HyperParameterTuningJobStatus {
-  String toValue() {
-    switch (this) {
-      case HyperParameterTuningJobStatus.completed:
-        return 'Completed';
-      case HyperParameterTuningJobStatus.inProgress:
-        return 'InProgress';
-      case HyperParameterTuningJobStatus.failed:
-        return 'Failed';
-      case HyperParameterTuningJobStatus.stopped:
-        return 'Stopped';
-      case HyperParameterTuningJobStatus.stopping:
-        return 'Stopping';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// The strategy hyperparameter tuning uses to find the best combination of
@@ -18597,90 +20784,6 @@ enum InstanceType {
   mlP3_8xlarge,
   @_s.JsonValue('ml.p3.16xlarge')
   mlP3_16xlarge,
-}
-
-extension on InstanceType {
-  String toValue() {
-    switch (this) {
-      case InstanceType.mlT2Medium:
-        return 'ml.t2.medium';
-      case InstanceType.mlT2Large:
-        return 'ml.t2.large';
-      case InstanceType.mlT2Xlarge:
-        return 'ml.t2.xlarge';
-      case InstanceType.mlT2_2xlarge:
-        return 'ml.t2.2xlarge';
-      case InstanceType.mlT3Medium:
-        return 'ml.t3.medium';
-      case InstanceType.mlT3Large:
-        return 'ml.t3.large';
-      case InstanceType.mlT3Xlarge:
-        return 'ml.t3.xlarge';
-      case InstanceType.mlT3_2xlarge:
-        return 'ml.t3.2xlarge';
-      case InstanceType.mlM4Xlarge:
-        return 'ml.m4.xlarge';
-      case InstanceType.mlM4_2xlarge:
-        return 'ml.m4.2xlarge';
-      case InstanceType.mlM4_4xlarge:
-        return 'ml.m4.4xlarge';
-      case InstanceType.mlM4_10xlarge:
-        return 'ml.m4.10xlarge';
-      case InstanceType.mlM4_16xlarge:
-        return 'ml.m4.16xlarge';
-      case InstanceType.mlM5Xlarge:
-        return 'ml.m5.xlarge';
-      case InstanceType.mlM5_2xlarge:
-        return 'ml.m5.2xlarge';
-      case InstanceType.mlM5_4xlarge:
-        return 'ml.m5.4xlarge';
-      case InstanceType.mlM5_12xlarge:
-        return 'ml.m5.12xlarge';
-      case InstanceType.mlM5_24xlarge:
-        return 'ml.m5.24xlarge';
-      case InstanceType.mlC4Xlarge:
-        return 'ml.c4.xlarge';
-      case InstanceType.mlC4_2xlarge:
-        return 'ml.c4.2xlarge';
-      case InstanceType.mlC4_4xlarge:
-        return 'ml.c4.4xlarge';
-      case InstanceType.mlC4_8xlarge:
-        return 'ml.c4.8xlarge';
-      case InstanceType.mlC5Xlarge:
-        return 'ml.c5.xlarge';
-      case InstanceType.mlC5_2xlarge:
-        return 'ml.c5.2xlarge';
-      case InstanceType.mlC5_4xlarge:
-        return 'ml.c5.4xlarge';
-      case InstanceType.mlC5_9xlarge:
-        return 'ml.c5.9xlarge';
-      case InstanceType.mlC5_18xlarge:
-        return 'ml.c5.18xlarge';
-      case InstanceType.mlC5dXlarge:
-        return 'ml.c5d.xlarge';
-      case InstanceType.mlC5d_2xlarge:
-        return 'ml.c5d.2xlarge';
-      case InstanceType.mlC5d_4xlarge:
-        return 'ml.c5d.4xlarge';
-      case InstanceType.mlC5d_9xlarge:
-        return 'ml.c5d.9xlarge';
-      case InstanceType.mlC5d_18xlarge:
-        return 'ml.c5d.18xlarge';
-      case InstanceType.mlP2Xlarge:
-        return 'ml.p2.xlarge';
-      case InstanceType.mlP2_8xlarge:
-        return 'ml.p2.8xlarge';
-      case InstanceType.mlP2_16xlarge:
-        return 'ml.p2.16xlarge';
-      case InstanceType.mlP3_2xlarge:
-        return 'ml.p3.2xlarge';
-      case InstanceType.mlP3_8xlarge:
-        return 'ml.p3.8xlarge';
-      case InstanceType.mlP3_16xlarge:
-        return 'ml.p3.16xlarge';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// For a hyperparameter of the integer type, specifies the range that a
@@ -19188,24 +21291,6 @@ enum LabelingJobStatus {
   stopped,
 }
 
-extension on LabelingJobStatus {
-  String toValue() {
-    switch (this) {
-      case LabelingJobStatus.inProgress:
-        return 'InProgress';
-      case LabelingJobStatus.completed:
-        return 'Completed';
-      case LabelingJobStatus.failed:
-        return 'Failed';
-      case LabelingJobStatus.stopping:
-        return 'Stopping';
-      case LabelingJobStatus.stopped:
-        return 'Stopped';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// A set of conditions for stopping a labeling job. If any of the conditions
 /// are met, the job is automatically stopped. You can use these conditions to
 /// control the cost of data labeling.
@@ -19325,6 +21410,64 @@ class LabelingJobSummary {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListAlgorithmsInput {
+  /// A filter that returns only algorithms created after the specified time
+  /// (timestamp).
+  @_s.JsonKey(
+      name: 'CreationTimeAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeAfter;
+
+  /// A filter that returns only algorithms created before the specified time
+  /// (timestamp).
+  @_s.JsonKey(
+      name: 'CreationTimeBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeBefore;
+
+  /// The maximum number of algorithms to return in the response.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A string in the algorithm name. This filter returns only algorithms whose
+  /// name contains the specified string.
+  @_s.JsonKey(name: 'NameContains')
+  final String nameContains;
+
+  /// If the response to a previous <code>ListAlgorithms</code> request was
+  /// truncated, the response includes a <code>NextToken</code>. To retrieve the
+  /// next set of algorithms, use the token in the next request.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The parameter by which to sort the results. The default is
+  /// <code>CreationTime</code>.
+  @_s.JsonKey(name: 'SortBy')
+  final AlgorithmSortBy sortBy;
+
+  /// The sort order for the results. The default is <code>Ascending</code>.
+  @_s.JsonKey(name: 'SortOrder')
+  final SortOrder sortOrder;
+
+  ListAlgorithmsInput({
+    this.creationTimeAfter,
+    this.creationTimeBefore,
+    this.maxResults,
+    this.nameContains,
+    this.nextToken,
+    this.sortBy,
+    this.sortOrder,
+  });
+  Map<String, dynamic> toJson() => _$ListAlgorithmsInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListAlgorithmsOutput {
@@ -19344,6 +21487,48 @@ class ListAlgorithmsOutput {
   });
   factory ListAlgorithmsOutput.fromJson(Map<String, dynamic> json) =>
       _$ListAlgorithmsOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListAppsRequest {
+  /// A parameter to search for the domain ID.
+  @_s.JsonKey(name: 'DomainIdEquals')
+  final String domainIdEquals;
+
+  /// Returns a list up to a specified limit.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If the previous response was truncated, you will receive this token. Use it
+  /// in your next request to receive the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The parameter by which to sort the results. The default is CreationTime.
+  @_s.JsonKey(name: 'SortBy')
+  final AppSortKey sortBy;
+
+  /// The sort order for the results. The default is Ascending.
+  @_s.JsonKey(name: 'SortOrder')
+  final SortOrder sortOrder;
+
+  /// A parameter to search by user profile name.
+  @_s.JsonKey(name: 'UserProfileNameEquals')
+  final String userProfileNameEquals;
+
+  ListAppsRequest({
+    this.domainIdEquals,
+    this.maxResults,
+    this.nextToken,
+    this.sortBy,
+    this.sortOrder,
+    this.userProfileNameEquals,
+  });
+  Map<String, dynamic> toJson() => _$ListAppsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -19372,6 +21557,80 @@ class ListAppsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListAutoMLJobsRequest {
+  /// Request a list of jobs, using a filter for time.
+  @_s.JsonKey(
+      name: 'CreationTimeAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeAfter;
+
+  /// Request a list of jobs, using a filter for time.
+  @_s.JsonKey(
+      name: 'CreationTimeBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeBefore;
+
+  /// Request a list of jobs, using a filter for time.
+  @_s.JsonKey(
+      name: 'LastModifiedTimeAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime lastModifiedTimeAfter;
+
+  /// Request a list of jobs, using a filter for time.
+  @_s.JsonKey(
+      name: 'LastModifiedTimeBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime lastModifiedTimeBefore;
+
+  /// Request a list of jobs up to a specified limit.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// Request a list of jobs, using a search filter for name.
+  @_s.JsonKey(name: 'NameContains')
+  final String nameContains;
+
+  /// If the previous response was truncated, you will receive this token. Use it
+  /// in your next request to receive the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The parameter by which to sort the results. The default is AutoMLJobName.
+  @_s.JsonKey(name: 'SortBy')
+  final AutoMLSortBy sortBy;
+
+  /// The sort order for the results. The default is Descending.
+  @_s.JsonKey(name: 'SortOrder')
+  final AutoMLSortOrder sortOrder;
+
+  /// Request a list of jobs, using a filter for status.
+  @_s.JsonKey(name: 'StatusEquals')
+  final AutoMLJobStatus statusEquals;
+
+  ListAutoMLJobsRequest({
+    this.creationTimeAfter,
+    this.creationTimeBefore,
+    this.lastModifiedTimeAfter,
+    this.lastModifiedTimeBefore,
+    this.maxResults,
+    this.nameContains,
+    this.nextToken,
+    this.sortBy,
+    this.sortOrder,
+    this.statusEquals,
+  });
+  Map<String, dynamic> toJson() => _$ListAutoMLJobsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListAutoMLJobsResponse {
@@ -19390,6 +21649,54 @@ class ListAutoMLJobsResponse {
   });
   factory ListAutoMLJobsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListAutoMLJobsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListCandidatesForAutoMLJobRequest {
+  /// List the Candidates created for the job by providing the job's name.
+  @_s.JsonKey(name: 'AutoMLJobName')
+  final String autoMLJobName;
+
+  /// List the Candidates for the job and filter by candidate name.
+  @_s.JsonKey(name: 'CandidateNameEquals')
+  final String candidateNameEquals;
+
+  /// List the job's Candidates up to a specified limit.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If the previous response was truncated, you will receive this token. Use it
+  /// in your next request to receive the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The parameter by which to sort the results. The default is Descending.
+  @_s.JsonKey(name: 'SortBy')
+  final CandidateSortBy sortBy;
+
+  /// The sort order for the results. The default is Ascending.
+  @_s.JsonKey(name: 'SortOrder')
+  final AutoMLSortOrder sortOrder;
+
+  /// List the Candidates for the job and filter by status.
+  @_s.JsonKey(name: 'StatusEquals')
+  final CandidateStatus statusEquals;
+
+  ListCandidatesForAutoMLJobRequest({
+    @_s.required this.autoMLJobName,
+    this.candidateNameEquals,
+    this.maxResults,
+    this.nextToken,
+    this.sortBy,
+    this.sortOrder,
+    this.statusEquals,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListCandidatesForAutoMLJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -19414,6 +21721,81 @@ class ListCandidatesForAutoMLJobResponse {
   factory ListCandidatesForAutoMLJobResponse.fromJson(
           Map<String, dynamic> json) =>
       _$ListCandidatesForAutoMLJobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListCodeRepositoriesInput {
+  /// A filter that returns only Git repositories that were created after the
+  /// specified time.
+  @_s.JsonKey(
+      name: 'CreationTimeAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeAfter;
+
+  /// A filter that returns only Git repositories that were created before the
+  /// specified time.
+  @_s.JsonKey(
+      name: 'CreationTimeBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeBefore;
+
+  /// A filter that returns only Git repositories that were last modified after
+  /// the specified time.
+  @_s.JsonKey(
+      name: 'LastModifiedTimeAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime lastModifiedTimeAfter;
+
+  /// A filter that returns only Git repositories that were last modified before
+  /// the specified time.
+  @_s.JsonKey(
+      name: 'LastModifiedTimeBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime lastModifiedTimeBefore;
+
+  /// The maximum number of Git repositories to return in the response.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A string in the Git repositories name. This filter returns only repositories
+  /// whose name contains the specified string.
+  @_s.JsonKey(name: 'NameContains')
+  final String nameContains;
+
+  /// If the result of a <code>ListCodeRepositoriesOutput</code> request was
+  /// truncated, the response includes a <code>NextToken</code>. To get the next
+  /// set of Git repositories, use the token in the next request.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The field to sort results by. The default is <code>Name</code>.
+  @_s.JsonKey(name: 'SortBy')
+  final CodeRepositorySortBy sortBy;
+
+  /// The sort order for results. The default is <code>Ascending</code>.
+  @_s.JsonKey(name: 'SortOrder')
+  final CodeRepositorySortOrder sortOrder;
+
+  ListCodeRepositoriesInput({
+    this.creationTimeAfter,
+    this.creationTimeBefore,
+    this.lastModifiedTimeAfter,
+    this.lastModifiedTimeBefore,
+    this.maxResults,
+    this.nameContains,
+    this.nextToken,
+    this.sortBy,
+    this.sortOrder,
+  });
+  Map<String, dynamic> toJson() => _$ListCodeRepositoriesInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -19464,6 +21846,88 @@ class ListCodeRepositoriesOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListCompilationJobsRequest {
+  /// A filter that returns the model compilation jobs that were created after a
+  /// specified time.
+  @_s.JsonKey(
+      name: 'CreationTimeAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeAfter;
+
+  /// A filter that returns the model compilation jobs that were created before a
+  /// specified time.
+  @_s.JsonKey(
+      name: 'CreationTimeBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeBefore;
+
+  /// A filter that returns the model compilation jobs that were modified after a
+  /// specified time.
+  @_s.JsonKey(
+      name: 'LastModifiedTimeAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime lastModifiedTimeAfter;
+
+  /// A filter that returns the model compilation jobs that were modified before a
+  /// specified time.
+  @_s.JsonKey(
+      name: 'LastModifiedTimeBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime lastModifiedTimeBefore;
+
+  /// The maximum number of model compilation jobs to return in the response.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A filter that returns the model compilation jobs whose name contains a
+  /// specified string.
+  @_s.JsonKey(name: 'NameContains')
+  final String nameContains;
+
+  /// If the result of the previous <code>ListCompilationJobs</code> request was
+  /// truncated, the response includes a <code>NextToken</code>. To retrieve the
+  /// next set of model compilation jobs, use the token in the next request.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The field by which to sort results. The default is
+  /// <code>CreationTime</code>.
+  @_s.JsonKey(name: 'SortBy')
+  final ListCompilationJobsSortBy sortBy;
+
+  /// The sort order for results. The default is <code>Ascending</code>.
+  @_s.JsonKey(name: 'SortOrder')
+  final SortOrder sortOrder;
+
+  /// A filter that retrieves model compilation jobs with a specific
+  /// <a>DescribeCompilationJobResponse$CompilationJobStatus</a> status.
+  @_s.JsonKey(name: 'StatusEquals')
+  final CompilationJobStatus statusEquals;
+
+  ListCompilationJobsRequest({
+    this.creationTimeAfter,
+    this.creationTimeBefore,
+    this.lastModifiedTimeAfter,
+    this.lastModifiedTimeBefore,
+    this.maxResults,
+    this.nameContains,
+    this.nextToken,
+    this.sortBy,
+    this.sortOrder,
+    this.statusEquals,
+  });
+  Map<String, dynamic> toJson() => _$ListCompilationJobsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListCompilationJobsResponse {
@@ -19495,18 +21959,26 @@ enum ListCompilationJobsSortBy {
   status,
 }
 
-extension on ListCompilationJobsSortBy {
-  String toValue() {
-    switch (this) {
-      case ListCompilationJobsSortBy.name:
-        return 'Name';
-      case ListCompilationJobsSortBy.creationTime:
-        return 'CreationTime';
-      case ListCompilationJobsSortBy.status:
-        return 'Status';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListDomainsRequest {
+  /// Returns a list up to a specified limit.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If the previous response was truncated, you will receive this token. Use it
+  /// in your next request to receive the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListDomainsRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListDomainsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -19530,6 +22002,63 @@ class ListDomainsResponse {
   });
   factory ListDomainsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListDomainsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListEndpointConfigsInput {
+  /// A filter that returns only endpoint configurations with a creation time
+  /// greater than or equal to the specified time (timestamp).
+  @_s.JsonKey(
+      name: 'CreationTimeAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeAfter;
+
+  /// A filter that returns only endpoint configurations created before the
+  /// specified time (timestamp).
+  @_s.JsonKey(
+      name: 'CreationTimeBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeBefore;
+
+  /// The maximum number of training jobs to return in the response.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A string in the endpoint configuration name. This filter returns only
+  /// endpoint configurations whose name contains the specified string.
+  @_s.JsonKey(name: 'NameContains')
+  final String nameContains;
+
+  /// If the result of the previous <code>ListEndpointConfig</code> request was
+  /// truncated, the response includes a <code>NextToken</code>. To retrieve the
+  /// next set of endpoint configurations, use the token in the next request.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The field to sort results by. The default is <code>CreationTime</code>.
+  @_s.JsonKey(name: 'SortBy')
+  final EndpointConfigSortKey sortBy;
+
+  /// The sort order for results. The default is <code>Descending</code>.
+  @_s.JsonKey(name: 'SortOrder')
+  final OrderKey sortOrder;
+
+  ListEndpointConfigsInput({
+    this.creationTimeAfter,
+    this.creationTimeBefore,
+    this.maxResults,
+    this.nameContains,
+    this.nextToken,
+    this.sortBy,
+    this.sortOrder,
+  });
+  Map<String, dynamic> toJson() => _$ListEndpointConfigsInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -19559,6 +22088,86 @@ class ListEndpointConfigsOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListEndpointsInput {
+  /// A filter that returns only endpoints with a creation time greater than or
+  /// equal to the specified time (timestamp).
+  @_s.JsonKey(
+      name: 'CreationTimeAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeAfter;
+
+  /// A filter that returns only endpoints that were created before the specified
+  /// time (timestamp).
+  @_s.JsonKey(
+      name: 'CreationTimeBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeBefore;
+
+  /// A filter that returns only endpoints that were modified after the specified
+  /// timestamp.
+  @_s.JsonKey(
+      name: 'LastModifiedTimeAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime lastModifiedTimeAfter;
+
+  /// A filter that returns only endpoints that were modified before the specified
+  /// timestamp.
+  @_s.JsonKey(
+      name: 'LastModifiedTimeBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime lastModifiedTimeBefore;
+
+  /// The maximum number of endpoints to return in the response.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A string in endpoint names. This filter returns only endpoints whose name
+  /// contains the specified string.
+  @_s.JsonKey(name: 'NameContains')
+  final String nameContains;
+
+  /// If the result of a <code>ListEndpoints</code> request was truncated, the
+  /// response includes a <code>NextToken</code>. To retrieve the next set of
+  /// endpoints, use the token in the next request.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Sorts the list of results. The default is <code>CreationTime</code>.
+  @_s.JsonKey(name: 'SortBy')
+  final EndpointSortKey sortBy;
+
+  /// The sort order for results. The default is <code>Descending</code>.
+  @_s.JsonKey(name: 'SortOrder')
+  final OrderKey sortOrder;
+
+  /// A filter that returns only endpoints with the specified status.
+  @_s.JsonKey(name: 'StatusEquals')
+  final EndpointStatus statusEquals;
+
+  ListEndpointsInput({
+    this.creationTimeAfter,
+    this.creationTimeBefore,
+    this.lastModifiedTimeAfter,
+    this.lastModifiedTimeBefore,
+    this.maxResults,
+    this.nameContains,
+    this.nextToken,
+    this.sortBy,
+    this.sortOrder,
+    this.statusEquals,
+  });
+  Map<String, dynamic> toJson() => _$ListEndpointsInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListEndpointsOutput {
@@ -19577,6 +22186,57 @@ class ListEndpointsOutput {
   });
   factory ListEndpointsOutput.fromJson(Map<String, dynamic> json) =>
       _$ListEndpointsOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListExperimentsRequest {
+  /// A filter that returns only experiments created after the specified time.
+  @_s.JsonKey(
+      name: 'CreatedAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime createdAfter;
+
+  /// A filter that returns only experiments created before the specified time.
+  @_s.JsonKey(
+      name: 'CreatedBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime createdBefore;
+
+  /// The maximum number of experiments to return in the response. The default
+  /// value is 10.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If the previous call to <code>ListExperiments</code> didn't return the full
+  /// set of experiments, the call returns a token for getting the next set of
+  /// experiments.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The property used to sort results. The default value is
+  /// <code>CreationTime</code>.
+  @_s.JsonKey(name: 'SortBy')
+  final SortExperimentsBy sortBy;
+
+  /// The sort order. The default value is <code>Descending</code>.
+  @_s.JsonKey(name: 'SortOrder')
+  final SortOrder sortOrder;
+
+  ListExperimentsRequest({
+    this.createdAfter,
+    this.createdBefore,
+    this.maxResults,
+    this.nextToken,
+    this.sortBy,
+    this.sortOrder,
+  });
+  Map<String, dynamic> toJson() => _$ListExperimentsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -19604,6 +22264,54 @@ class ListExperimentsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListFlowDefinitionsRequest {
+  /// A filter that returns only flow definitions with a creation time greater
+  /// than or equal to the specified timestamp.
+  @_s.JsonKey(
+      name: 'CreationTimeAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeAfter;
+
+  /// A filter that returns only flow definitions that were created before the
+  /// specified timestamp.
+  @_s.JsonKey(
+      name: 'CreationTimeBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeBefore;
+
+  /// The total number of items to return. If the total number of available items
+  /// is more than the value specified in <code>MaxResults</code>, then a
+  /// <code>NextToken</code> will be provided in the output that you can use to
+  /// resume pagination.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A token to resume pagination.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// An optional value that specifies whether you want the results sorted in
+  /// <code>Ascending</code> or <code>Descending</code> order.
+  @_s.JsonKey(name: 'SortOrder')
+  final SortOrder sortOrder;
+
+  ListFlowDefinitionsRequest({
+    this.creationTimeAfter,
+    this.creationTimeBefore,
+    this.maxResults,
+    this.nextToken,
+    this.sortOrder,
+  });
+  Map<String, dynamic> toJson() => _$ListFlowDefinitionsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListFlowDefinitionsResponse {
@@ -19626,6 +22334,54 @@ class ListFlowDefinitionsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListHumanTaskUisRequest {
+  /// A filter that returns only human task user interfaces with a creation time
+  /// greater than or equal to the specified timestamp.
+  @_s.JsonKey(
+      name: 'CreationTimeAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeAfter;
+
+  /// A filter that returns only human task user interfaces that were created
+  /// before the specified timestamp.
+  @_s.JsonKey(
+      name: 'CreationTimeBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeBefore;
+
+  /// The total number of items to return. If the total number of available items
+  /// is more than the value specified in <code>MaxResults</code>, then a
+  /// <code>NextToken</code> will be provided in the output that you can use to
+  /// resume pagination.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A token to resume pagination.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// An optional value that specifies whether you want the results sorted in
+  /// <code>Ascending</code> or <code>Descending</code> order.
+  @_s.JsonKey(name: 'SortOrder')
+  final SortOrder sortOrder;
+
+  ListHumanTaskUisRequest({
+    this.creationTimeAfter,
+    this.creationTimeBefore,
+    this.maxResults,
+    this.nextToken,
+    this.sortOrder,
+  });
+  Map<String, dynamic> toJson() => _$ListHumanTaskUisRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListHumanTaskUisResponse {
@@ -19643,6 +22399,87 @@ class ListHumanTaskUisResponse {
   });
   factory ListHumanTaskUisResponse.fromJson(Map<String, dynamic> json) =>
       _$ListHumanTaskUisResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListHyperParameterTuningJobsRequest {
+  /// A filter that returns only tuning jobs that were created after the specified
+  /// time.
+  @_s.JsonKey(
+      name: 'CreationTimeAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeAfter;
+
+  /// A filter that returns only tuning jobs that were created before the
+  /// specified time.
+  @_s.JsonKey(
+      name: 'CreationTimeBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeBefore;
+
+  /// A filter that returns only tuning jobs that were modified after the
+  /// specified time.
+  @_s.JsonKey(
+      name: 'LastModifiedTimeAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime lastModifiedTimeAfter;
+
+  /// A filter that returns only tuning jobs that were modified before the
+  /// specified time.
+  @_s.JsonKey(
+      name: 'LastModifiedTimeBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime lastModifiedTimeBefore;
+
+  /// The maximum number of tuning jobs to return. The default value is 10.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A string in the tuning job name. This filter returns only tuning jobs whose
+  /// name contains the specified string.
+  @_s.JsonKey(name: 'NameContains')
+  final String nameContains;
+
+  /// If the result of the previous <code>ListHyperParameterTuningJobs</code>
+  /// request was truncated, the response includes a <code>NextToken</code>. To
+  /// retrieve the next set of tuning jobs, use the token in the next request.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The field to sort results by. The default is <code>Name</code>.
+  @_s.JsonKey(name: 'SortBy')
+  final HyperParameterTuningJobSortByOptions sortBy;
+
+  /// The sort order for results. The default is <code>Ascending</code>.
+  @_s.JsonKey(name: 'SortOrder')
+  final SortOrder sortOrder;
+
+  /// A filter that returns only tuning jobs with the specified status.
+  @_s.JsonKey(name: 'StatusEquals')
+  final HyperParameterTuningJobStatus statusEquals;
+
+  ListHyperParameterTuningJobsRequest({
+    this.creationTimeAfter,
+    this.creationTimeBefore,
+    this.lastModifiedTimeAfter,
+    this.lastModifiedTimeBefore,
+    this.maxResults,
+    this.nameContains,
+    this.nextToken,
+    this.sortBy,
+    this.sortOrder,
+    this.statusEquals,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListHyperParameterTuningJobsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -19675,6 +22512,70 @@ class ListHyperParameterTuningJobsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListLabelingJobsForWorkteamRequest {
+  /// The Amazon Resource Name (ARN) of the work team for which you want to see
+  /// labeling jobs for.
+  @_s.JsonKey(name: 'WorkteamArn')
+  final String workteamArn;
+
+  /// A filter that returns only labeling jobs created after the specified time
+  /// (timestamp).
+  @_s.JsonKey(
+      name: 'CreationTimeAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeAfter;
+
+  /// A filter that returns only labeling jobs created before the specified time
+  /// (timestamp).
+  @_s.JsonKey(
+      name: 'CreationTimeBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeBefore;
+
+  /// A filter the limits jobs to only the ones whose job reference code contains
+  /// the specified string.
+  @_s.JsonKey(name: 'JobReferenceCodeContains')
+  final String jobReferenceCodeContains;
+
+  /// The maximum number of labeling jobs to return in each page of the response.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If the result of the previous <code>ListLabelingJobsForWorkteam</code>
+  /// request was truncated, the response includes a <code>NextToken</code>. To
+  /// retrieve the next set of labeling jobs, use the token in the next request.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The field to sort results by. The default is <code>CreationTime</code>.
+  @_s.JsonKey(name: 'SortBy')
+  final ListLabelingJobsForWorkteamSortByOptions sortBy;
+
+  /// The sort order for results. The default is <code>Ascending</code>.
+  @_s.JsonKey(name: 'SortOrder')
+  final SortOrder sortOrder;
+
+  ListLabelingJobsForWorkteamRequest({
+    @_s.required this.workteamArn,
+    this.creationTimeAfter,
+    this.creationTimeBefore,
+    this.jobReferenceCodeContains,
+    this.maxResults,
+    this.nextToken,
+    this.sortBy,
+    this.sortOrder,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListLabelingJobsForWorkteamRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListLabelingJobsForWorkteamResponse {
@@ -19702,14 +22603,84 @@ enum ListLabelingJobsForWorkteamSortByOptions {
   creationTime,
 }
 
-extension on ListLabelingJobsForWorkteamSortByOptions {
-  String toValue() {
-    switch (this) {
-      case ListLabelingJobsForWorkteamSortByOptions.creationTime:
-        return 'CreationTime';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListLabelingJobsRequest {
+  /// A filter that returns only labeling jobs created after the specified time
+  /// (timestamp).
+  @_s.JsonKey(
+      name: 'CreationTimeAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeAfter;
+
+  /// A filter that returns only labeling jobs created before the specified time
+  /// (timestamp).
+  @_s.JsonKey(
+      name: 'CreationTimeBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeBefore;
+
+  /// A filter that returns only labeling jobs modified after the specified time
+  /// (timestamp).
+  @_s.JsonKey(
+      name: 'LastModifiedTimeAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime lastModifiedTimeAfter;
+
+  /// A filter that returns only labeling jobs modified before the specified time
+  /// (timestamp).
+  @_s.JsonKey(
+      name: 'LastModifiedTimeBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime lastModifiedTimeBefore;
+
+  /// The maximum number of labeling jobs to return in each page of the response.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A string in the labeling job name. This filter returns only labeling jobs
+  /// whose name contains the specified string.
+  @_s.JsonKey(name: 'NameContains')
+  final String nameContains;
+
+  /// If the result of the previous <code>ListLabelingJobs</code> request was
+  /// truncated, the response includes a <code>NextToken</code>. To retrieve the
+  /// next set of labeling jobs, use the token in the next request.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The field to sort results by. The default is <code>CreationTime</code>.
+  @_s.JsonKey(name: 'SortBy')
+  final SortBy sortBy;
+
+  /// The sort order for results. The default is <code>Ascending</code>.
+  @_s.JsonKey(name: 'SortOrder')
+  final SortOrder sortOrder;
+
+  /// A filter that retrieves only labeling jobs with a specific status.
+  @_s.JsonKey(name: 'StatusEquals')
+  final LabelingJobStatus statusEquals;
+
+  ListLabelingJobsRequest({
+    this.creationTimeAfter,
+    this.creationTimeBefore,
+    this.lastModifiedTimeAfter,
+    this.lastModifiedTimeBefore,
+    this.maxResults,
+    this.nameContains,
+    this.nextToken,
+    this.sortBy,
+    this.sortOrder,
+    this.statusEquals,
+  });
+  Map<String, dynamic> toJson() => _$ListLabelingJobsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -19739,6 +22710,64 @@ class ListLabelingJobsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListModelPackagesInput {
+  /// A filter that returns only model packages created after the specified time
+  /// (timestamp).
+  @_s.JsonKey(
+      name: 'CreationTimeAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeAfter;
+
+  /// A filter that returns only model packages created before the specified time
+  /// (timestamp).
+  @_s.JsonKey(
+      name: 'CreationTimeBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeBefore;
+
+  /// The maximum number of model packages to return in the response.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A string in the model package name. This filter returns only model packages
+  /// whose name contains the specified string.
+  @_s.JsonKey(name: 'NameContains')
+  final String nameContains;
+
+  /// If the response to a previous <code>ListModelPackages</code> request was
+  /// truncated, the response includes a <code>NextToken</code>. To retrieve the
+  /// next set of model packages, use the token in the next request.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The parameter by which to sort the results. The default is
+  /// <code>CreationTime</code>.
+  @_s.JsonKey(name: 'SortBy')
+  final ModelPackageSortBy sortBy;
+
+  /// The sort order for the results. The default is <code>Ascending</code>.
+  @_s.JsonKey(name: 'SortOrder')
+  final SortOrder sortOrder;
+
+  ListModelPackagesInput({
+    this.creationTimeAfter,
+    this.creationTimeBefore,
+    this.maxResults,
+    this.nameContains,
+    this.nextToken,
+    this.sortBy,
+    this.sortOrder,
+  });
+  Map<String, dynamic> toJson() => _$ListModelPackagesInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListModelPackagesOutput {
@@ -19763,6 +22792,63 @@ class ListModelPackagesOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListModelsInput {
+  /// A filter that returns only models with a creation time greater than or equal
+  /// to the specified time (timestamp).
+  @_s.JsonKey(
+      name: 'CreationTimeAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeAfter;
+
+  /// A filter that returns only models created before the specified time
+  /// (timestamp).
+  @_s.JsonKey(
+      name: 'CreationTimeBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeBefore;
+
+  /// The maximum number of models to return in the response.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A string in the training job name. This filter returns only models in the
+  /// training job whose name contains the specified string.
+  @_s.JsonKey(name: 'NameContains')
+  final String nameContains;
+
+  /// If the response to a previous <code>ListModels</code> request was truncated,
+  /// the response includes a <code>NextToken</code>. To retrieve the next set of
+  /// models, use the token in the next request.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Sorts the list of results. The default is <code>CreationTime</code>.
+  @_s.JsonKey(name: 'SortBy')
+  final ModelSortKey sortBy;
+
+  /// The sort order for results. The default is <code>Descending</code>.
+  @_s.JsonKey(name: 'SortOrder')
+  final OrderKey sortOrder;
+
+  ListModelsInput({
+    this.creationTimeAfter,
+    this.creationTimeBefore,
+    this.maxResults,
+    this.nameContains,
+    this.nextToken,
+    this.sortBy,
+    this.sortOrder,
+  });
+  Map<String, dynamic> toJson() => _$ListModelsInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListModelsOutput {
@@ -19781,6 +22867,105 @@ class ListModelsOutput {
   });
   factory ListModelsOutput.fromJson(Map<String, dynamic> json) =>
       _$ListModelsOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListMonitoringExecutionsRequest {
+  /// A filter that returns only jobs created after a specified time.
+  @_s.JsonKey(
+      name: 'CreationTimeAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeAfter;
+
+  /// A filter that returns only jobs created before a specified time.
+  @_s.JsonKey(
+      name: 'CreationTimeBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeBefore;
+
+  /// Name of a specific endpoint to fetch jobs for.
+  @_s.JsonKey(name: 'EndpointName')
+  final String endpointName;
+
+  /// A filter that returns only jobs modified before a specified time.
+  @_s.JsonKey(
+      name: 'LastModifiedTimeAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime lastModifiedTimeAfter;
+
+  /// A filter that returns only jobs modified after a specified time.
+  @_s.JsonKey(
+      name: 'LastModifiedTimeBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime lastModifiedTimeBefore;
+
+  /// The maximum number of jobs to return in the response. The default value is
+  /// 10.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// Name of a specific schedule to fetch jobs for.
+  @_s.JsonKey(name: 'MonitoringScheduleName')
+  final String monitoringScheduleName;
+
+  /// The token returned if the response is truncated. To retrieve the next set of
+  /// job executions, use it in the next request.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Filter for jobs scheduled after a specified time.
+  @_s.JsonKey(
+      name: 'ScheduledTimeAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime scheduledTimeAfter;
+
+  /// Filter for jobs scheduled before a specified time.
+  @_s.JsonKey(
+      name: 'ScheduledTimeBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime scheduledTimeBefore;
+
+  /// Whether to sort results by <code>Status</code>, <code>CreationTime</code>,
+  /// <code>ScheduledTime</code> field. The default is <code>CreationTime</code>.
+  @_s.JsonKey(name: 'SortBy')
+  final MonitoringExecutionSortKey sortBy;
+
+  /// Whether to sort the results in <code>Ascending</code> or
+  /// <code>Descending</code> order. The default is <code>Descending</code>.
+  @_s.JsonKey(name: 'SortOrder')
+  final SortOrder sortOrder;
+
+  /// A filter that retrieves only jobs with a specific status.
+  @_s.JsonKey(name: 'StatusEquals')
+  final ExecutionStatus statusEquals;
+
+  ListMonitoringExecutionsRequest({
+    this.creationTimeAfter,
+    this.creationTimeBefore,
+    this.endpointName,
+    this.lastModifiedTimeAfter,
+    this.lastModifiedTimeBefore,
+    this.maxResults,
+    this.monitoringScheduleName,
+    this.nextToken,
+    this.scheduledTimeAfter,
+    this.scheduledTimeBefore,
+    this.sortBy,
+    this.sortOrder,
+    this.statusEquals,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListMonitoringExecutionsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -19810,6 +22995,93 @@ class ListMonitoringExecutionsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListMonitoringSchedulesRequest {
+  /// A filter that returns only monitoring schedules created after a specified
+  /// time.
+  @_s.JsonKey(
+      name: 'CreationTimeAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeAfter;
+
+  /// A filter that returns only monitoring schedules created before a specified
+  /// time.
+  @_s.JsonKey(
+      name: 'CreationTimeBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeBefore;
+
+  /// Name of a specific endpoint to fetch schedules for.
+  @_s.JsonKey(name: 'EndpointName')
+  final String endpointName;
+
+  /// A filter that returns only monitoring schedules modified after a specified
+  /// time.
+  @_s.JsonKey(
+      name: 'LastModifiedTimeAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime lastModifiedTimeAfter;
+
+  /// A filter that returns only monitoring schedules modified before a specified
+  /// time.
+  @_s.JsonKey(
+      name: 'LastModifiedTimeBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime lastModifiedTimeBefore;
+
+  /// The maximum number of jobs to return in the response. The default value is
+  /// 10.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// Filter for monitoring schedules whose name contains a specified string.
+  @_s.JsonKey(name: 'NameContains')
+  final String nameContains;
+
+  /// The token returned if the response is truncated. To retrieve the next set of
+  /// job executions, use it in the next request.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Whether to sort results by <code>Status</code>, <code>CreationTime</code>,
+  /// <code>ScheduledTime</code> field. The default is <code>CreationTime</code>.
+  @_s.JsonKey(name: 'SortBy')
+  final MonitoringScheduleSortKey sortBy;
+
+  /// Whether to sort the results in <code>Ascending</code> or
+  /// <code>Descending</code> order. The default is <code>Descending</code>.
+  @_s.JsonKey(name: 'SortOrder')
+  final SortOrder sortOrder;
+
+  /// A filter that returns only monitoring schedules modified before a specified
+  /// time.
+  @_s.JsonKey(name: 'StatusEquals')
+  final ScheduleStatus statusEquals;
+
+  ListMonitoringSchedulesRequest({
+    this.creationTimeAfter,
+    this.creationTimeBefore,
+    this.endpointName,
+    this.lastModifiedTimeAfter,
+    this.lastModifiedTimeBefore,
+    this.maxResults,
+    this.nameContains,
+    this.nextToken,
+    this.sortBy,
+    this.sortOrder,
+    this.statusEquals,
+  });
+  Map<String, dynamic> toJson() => _$ListMonitoringSchedulesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListMonitoringSchedulesResponse {
@@ -19828,6 +23100,82 @@ class ListMonitoringSchedulesResponse {
   });
   factory ListMonitoringSchedulesResponse.fromJson(Map<String, dynamic> json) =>
       _$ListMonitoringSchedulesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListNotebookInstanceLifecycleConfigsInput {
+  /// A filter that returns only lifecycle configurations that were created after
+  /// the specified time (timestamp).
+  @_s.JsonKey(
+      name: 'CreationTimeAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeAfter;
+
+  /// A filter that returns only lifecycle configurations that were created before
+  /// the specified time (timestamp).
+  @_s.JsonKey(
+      name: 'CreationTimeBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeBefore;
+
+  /// A filter that returns only lifecycle configurations that were modified after
+  /// the specified time (timestamp).
+  @_s.JsonKey(
+      name: 'LastModifiedTimeAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime lastModifiedTimeAfter;
+
+  /// A filter that returns only lifecycle configurations that were modified
+  /// before the specified time (timestamp).
+  @_s.JsonKey(
+      name: 'LastModifiedTimeBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime lastModifiedTimeBefore;
+
+  /// The maximum number of lifecycle configurations to return in the response.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A string in the lifecycle configuration name. This filter returns only
+  /// lifecycle configurations whose name contains the specified string.
+  @_s.JsonKey(name: 'NameContains')
+  final String nameContains;
+
+  /// If the result of a <code>ListNotebookInstanceLifecycleConfigs</code> request
+  /// was truncated, the response includes a <code>NextToken</code>. To get the
+  /// next set of lifecycle configurations, use the token in the next request.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Sorts the list of results. The default is <code>CreationTime</code>.
+  @_s.JsonKey(name: 'SortBy')
+  final NotebookInstanceLifecycleConfigSortKey sortBy;
+
+  /// The sort order for results.
+  @_s.JsonKey(name: 'SortOrder')
+  final NotebookInstanceLifecycleConfigSortOrder sortOrder;
+
+  ListNotebookInstanceLifecycleConfigsInput({
+    this.creationTimeAfter,
+    this.creationTimeBefore,
+    this.lastModifiedTimeAfter,
+    this.lastModifiedTimeBefore,
+    this.maxResults,
+    this.nameContains,
+    this.nextToken,
+    this.sortBy,
+    this.sortOrder,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListNotebookInstanceLifecycleConfigsInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -19859,6 +23207,113 @@ class ListNotebookInstanceLifecycleConfigsOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListNotebookInstancesInput {
+  /// A filter that returns only notebook instances with associated with the
+  /// specified git repository.
+  @_s.JsonKey(name: 'AdditionalCodeRepositoryEquals')
+  final String additionalCodeRepositoryEquals;
+
+  /// A filter that returns only notebook instances that were created after the
+  /// specified time (timestamp).
+  @_s.JsonKey(
+      name: 'CreationTimeAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeAfter;
+
+  /// A filter that returns only notebook instances that were created before the
+  /// specified time (timestamp).
+  @_s.JsonKey(
+      name: 'CreationTimeBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeBefore;
+
+  /// A string in the name or URL of a Git repository associated with this
+  /// notebook instance. This filter returns only notebook instances associated
+  /// with a git repository with a name that contains the specified string.
+  @_s.JsonKey(name: 'DefaultCodeRepositoryContains')
+  final String defaultCodeRepositoryContains;
+
+  /// A filter that returns only notebook instances that were modified after the
+  /// specified time (timestamp).
+  @_s.JsonKey(
+      name: 'LastModifiedTimeAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime lastModifiedTimeAfter;
+
+  /// A filter that returns only notebook instances that were modified before the
+  /// specified time (timestamp).
+  @_s.JsonKey(
+      name: 'LastModifiedTimeBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime lastModifiedTimeBefore;
+
+  /// The maximum number of notebook instances to return.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A string in the notebook instances' name. This filter returns only notebook
+  /// instances whose name contains the specified string.
+  @_s.JsonKey(name: 'NameContains')
+  final String nameContains;
+
+  /// If the previous call to the <code>ListNotebookInstances</code> is truncated,
+  /// the response includes a <code>NextToken</code>. You can use this token in
+  /// your subsequent <code>ListNotebookInstances</code> request to fetch the next
+  /// set of notebook instances.
+  /// <note>
+  /// You might specify a filter or a sort order in your request. When response is
+  /// truncated, you must use the same values for the filer and sort order in the
+  /// next request.
+  /// </note>
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// A string in the name of a notebook instances lifecycle configuration
+  /// associated with this notebook instance. This filter returns only notebook
+  /// instances associated with a lifecycle configuration with a name that
+  /// contains the specified string.
+  @_s.JsonKey(name: 'NotebookInstanceLifecycleConfigNameContains')
+  final String notebookInstanceLifecycleConfigNameContains;
+
+  /// The field to sort results by. The default is <code>Name</code>.
+  @_s.JsonKey(name: 'SortBy')
+  final NotebookInstanceSortKey sortBy;
+
+  /// The sort order for results.
+  @_s.JsonKey(name: 'SortOrder')
+  final NotebookInstanceSortOrder sortOrder;
+
+  /// A filter that returns only notebook instances with the specified status.
+  @_s.JsonKey(name: 'StatusEquals')
+  final NotebookInstanceStatus statusEquals;
+
+  ListNotebookInstancesInput({
+    this.additionalCodeRepositoryEquals,
+    this.creationTimeAfter,
+    this.creationTimeBefore,
+    this.defaultCodeRepositoryContains,
+    this.lastModifiedTimeAfter,
+    this.lastModifiedTimeBefore,
+    this.maxResults,
+    this.nameContains,
+    this.nextToken,
+    this.notebookInstanceLifecycleConfigNameContains,
+    this.sortBy,
+    this.sortOrder,
+    this.statusEquals,
+  });
+  Map<String, dynamic> toJson() => _$ListNotebookInstancesInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListNotebookInstancesOutput {
@@ -19879,6 +23334,84 @@ class ListNotebookInstancesOutput {
   });
   factory ListNotebookInstancesOutput.fromJson(Map<String, dynamic> json) =>
       _$ListNotebookInstancesOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListProcessingJobsRequest {
+  /// A filter that returns only processing jobs created after the specified time.
+  @_s.JsonKey(
+      name: 'CreationTimeAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeAfter;
+
+  /// A filter that returns only processing jobs created after the specified time.
+  @_s.JsonKey(
+      name: 'CreationTimeBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeBefore;
+
+  /// A filter that returns only processing jobs modified after the specified
+  /// time.
+  @_s.JsonKey(
+      name: 'LastModifiedTimeAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime lastModifiedTimeAfter;
+
+  /// A filter that returns only processing jobs modified before the specified
+  /// time.
+  @_s.JsonKey(
+      name: 'LastModifiedTimeBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime lastModifiedTimeBefore;
+
+  /// The maximum number of processing jobs to return in the response.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A string in the processing job name. This filter returns only processing
+  /// jobs whose name contains the specified string.
+  @_s.JsonKey(name: 'NameContains')
+  final String nameContains;
+
+  /// If the result of the previous <code>ListProcessingJobs</code> request was
+  /// truncated, the response includes a <code>NextToken</code>. To retrieve the
+  /// next set of processing jobs, use the token in the next request.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The field to sort results by. The default is <code>CreationTime</code>.
+  @_s.JsonKey(name: 'SortBy')
+  final SortBy sortBy;
+
+  /// The sort order for results. The default is <code>Ascending</code>.
+  @_s.JsonKey(name: 'SortOrder')
+  final SortOrder sortOrder;
+
+  /// A filter that retrieves only processing jobs with a specific status.
+  @_s.JsonKey(name: 'StatusEquals')
+  final ProcessingJobStatus statusEquals;
+
+  ListProcessingJobsRequest({
+    this.creationTimeAfter,
+    this.creationTimeBefore,
+    this.lastModifiedTimeAfter,
+    this.lastModifiedTimeBefore,
+    this.maxResults,
+    this.nameContains,
+    this.nextToken,
+    this.sortBy,
+    this.sortOrder,
+    this.statusEquals,
+  });
+  Map<String, dynamic> toJson() => _$ListProcessingJobsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -19908,6 +23441,35 @@ class ListProcessingJobsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListSubscribedWorkteamsRequest {
+  /// The maximum number of work teams to return in each page of the response.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A string in the work team name. This filter returns only work teams whose
+  /// name contains the specified string.
+  @_s.JsonKey(name: 'NameContains')
+  final String nameContains;
+
+  /// If the result of the previous <code>ListSubscribedWorkteams</code> request
+  /// was truncated, the response includes a <code>NextToken</code>. To retrieve
+  /// the next set of labeling jobs, use the token in the next request.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListSubscribedWorkteamsRequest({
+    this.maxResults,
+    this.nameContains,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListSubscribedWorkteamsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListSubscribedWorkteamsResponse {
@@ -19926,6 +23488,35 @@ class ListSubscribedWorkteamsResponse {
   });
   factory ListSubscribedWorkteamsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListSubscribedWorkteamsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsInput {
+  /// The Amazon Resource Name (ARN) of the resource whose tags you want to
+  /// retrieve.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// Maximum number of tags to return.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If the response to the previous <code>ListTags</code> request is truncated,
+  /// Amazon SageMaker returns this token. To retrieve the next set of tags, use
+  /// it in the subsequent request.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListTagsInput({
+    @_s.required this.resourceArn,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -19950,6 +23541,54 @@ class ListTagsOutput {
   });
   factory ListTagsOutput.fromJson(Map<String, dynamic> json) =>
       _$ListTagsOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTrainingJobsForHyperParameterTuningJobRequest {
+  /// The name of the tuning job whose training jobs you want to list.
+  @_s.JsonKey(name: 'HyperParameterTuningJobName')
+  final String hyperParameterTuningJobName;
+
+  /// The maximum number of training jobs to return. The default value is 10.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If the result of the previous
+  /// <code>ListTrainingJobsForHyperParameterTuningJob</code> request was
+  /// truncated, the response includes a <code>NextToken</code>. To retrieve the
+  /// next set of training jobs, use the token in the next request.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The field to sort results by. The default is <code>Name</code>.
+  ///
+  /// If the value of this field is <code>FinalObjectiveMetricValue</code>, any
+  /// training jobs that did not return an objective metric are not listed.
+  @_s.JsonKey(name: 'SortBy')
+  final TrainingJobSortByOptions sortBy;
+
+  /// The sort order for results. The default is <code>Ascending</code>.
+  @_s.JsonKey(name: 'SortOrder')
+  final SortOrder sortOrder;
+
+  /// A filter that returns only training jobs with the specified status.
+  @_s.JsonKey(name: 'StatusEquals')
+  final TrainingJobStatus statusEquals;
+
+  ListTrainingJobsForHyperParameterTuningJobRequest({
+    @_s.required this.hyperParameterTuningJobName,
+    this.maxResults,
+    this.nextToken,
+    this.sortBy,
+    this.sortOrder,
+    this.statusEquals,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListTrainingJobsForHyperParameterTuningJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -19983,6 +23622,86 @@ class ListTrainingJobsForHyperParameterTuningJobResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTrainingJobsRequest {
+  /// A filter that returns only training jobs created after the specified time
+  /// (timestamp).
+  @_s.JsonKey(
+      name: 'CreationTimeAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeAfter;
+
+  /// A filter that returns only training jobs created before the specified time
+  /// (timestamp).
+  @_s.JsonKey(
+      name: 'CreationTimeBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeBefore;
+
+  /// A filter that returns only training jobs modified after the specified time
+  /// (timestamp).
+  @_s.JsonKey(
+      name: 'LastModifiedTimeAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime lastModifiedTimeAfter;
+
+  /// A filter that returns only training jobs modified before the specified time
+  /// (timestamp).
+  @_s.JsonKey(
+      name: 'LastModifiedTimeBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime lastModifiedTimeBefore;
+
+  /// The maximum number of training jobs to return in the response.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A string in the training job name. This filter returns only training jobs
+  /// whose name contains the specified string.
+  @_s.JsonKey(name: 'NameContains')
+  final String nameContains;
+
+  /// If the result of the previous <code>ListTrainingJobs</code> request was
+  /// truncated, the response includes a <code>NextToken</code>. To retrieve the
+  /// next set of training jobs, use the token in the next request.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The field to sort results by. The default is <code>CreationTime</code>.
+  @_s.JsonKey(name: 'SortBy')
+  final SortBy sortBy;
+
+  /// The sort order for results. The default is <code>Ascending</code>.
+  @_s.JsonKey(name: 'SortOrder')
+  final SortOrder sortOrder;
+
+  /// A filter that retrieves only training jobs with a specific status.
+  @_s.JsonKey(name: 'StatusEquals')
+  final TrainingJobStatus statusEquals;
+
+  ListTrainingJobsRequest({
+    this.creationTimeAfter,
+    this.creationTimeBefore,
+    this.lastModifiedTimeAfter,
+    this.lastModifiedTimeBefore,
+    this.maxResults,
+    this.nameContains,
+    this.nextToken,
+    this.sortBy,
+    this.sortOrder,
+    this.statusEquals,
+  });
+  Map<String, dynamic> toJson() => _$ListTrainingJobsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListTrainingJobsResponse {
@@ -20002,6 +23721,84 @@ class ListTrainingJobsResponse {
   });
   factory ListTrainingJobsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListTrainingJobsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTransformJobsRequest {
+  /// A filter that returns only transform jobs created after the specified time.
+  @_s.JsonKey(
+      name: 'CreationTimeAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeAfter;
+
+  /// A filter that returns only transform jobs created before the specified time.
+  @_s.JsonKey(
+      name: 'CreationTimeBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime creationTimeBefore;
+
+  /// A filter that returns only transform jobs modified after the specified time.
+  @_s.JsonKey(
+      name: 'LastModifiedTimeAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime lastModifiedTimeAfter;
+
+  /// A filter that returns only transform jobs modified before the specified
+  /// time.
+  @_s.JsonKey(
+      name: 'LastModifiedTimeBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime lastModifiedTimeBefore;
+
+  /// The maximum number of transform jobs to return in the response. The default
+  /// value is <code>10</code>.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A string in the transform job name. This filter returns only transform jobs
+  /// whose name contains the specified string.
+  @_s.JsonKey(name: 'NameContains')
+  final String nameContains;
+
+  /// If the result of the previous <code>ListTransformJobs</code> request was
+  /// truncated, the response includes a <code>NextToken</code>. To retrieve the
+  /// next set of transform jobs, use the token in the next request.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The field to sort results by. The default is <code>CreationTime</code>.
+  @_s.JsonKey(name: 'SortBy')
+  final SortBy sortBy;
+
+  /// The sort order for results. The default is <code>Descending</code>.
+  @_s.JsonKey(name: 'SortOrder')
+  final SortOrder sortOrder;
+
+  /// A filter that retrieves only transform jobs with a specific status.
+  @_s.JsonKey(name: 'StatusEquals')
+  final TransformJobStatus statusEquals;
+
+  ListTransformJobsRequest({
+    this.creationTimeAfter,
+    this.creationTimeBefore,
+    this.lastModifiedTimeAfter,
+    this.lastModifiedTimeBefore,
+    this.maxResults,
+    this.nameContains,
+    this.nextToken,
+    this.sortBy,
+    this.sortOrder,
+    this.statusEquals,
+  });
+  Map<String, dynamic> toJson() => _$ListTransformJobsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -20030,6 +23827,78 @@ class ListTransformJobsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTrialComponentsRequest {
+  /// A filter that returns only components created after the specified time.
+  @_s.JsonKey(
+      name: 'CreatedAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime createdAfter;
+
+  /// A filter that returns only components created before the specified time.
+  @_s.JsonKey(
+      name: 'CreatedBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime createdBefore;
+
+  /// A filter that returns only components that are part of the specified
+  /// experiment. If you specify <code>ExperimentName</code>, you can't filter by
+  /// <code>SourceArn</code> or <code>TrialName</code>.
+  @_s.JsonKey(name: 'ExperimentName')
+  final String experimentName;
+
+  /// The maximum number of components to return in the response. The default
+  /// value is 10.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If the previous call to <code>ListTrialComponents</code> didn't return the
+  /// full set of components, the call returns a token for getting the next set of
+  /// components.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The property used to sort results. The default value is
+  /// <code>CreationTime</code>.
+  @_s.JsonKey(name: 'SortBy')
+  final SortTrialComponentsBy sortBy;
+
+  /// The sort order. The default value is <code>Descending</code>.
+  @_s.JsonKey(name: 'SortOrder')
+  final SortOrder sortOrder;
+
+  /// A filter that returns only components that have the specified source Amazon
+  /// Resource Name (ARN). If you specify <code>SourceArn</code>, you can't filter
+  /// by <code>ExperimentName</code> or <code>TrialName</code>.
+  @_s.JsonKey(name: 'SourceArn')
+  final String sourceArn;
+
+  /// A filter that returns only components that are part of the specified trial.
+  /// If you specify <code>TrialName</code>, you can't filter by
+  /// <code>ExperimentName</code> or <code>SourceArn</code>.
+  @_s.JsonKey(name: 'TrialName')
+  final String trialName;
+
+  ListTrialComponentsRequest({
+    this.createdAfter,
+    this.createdBefore,
+    this.experimentName,
+    this.maxResults,
+    this.nextToken,
+    this.sortBy,
+    this.sortOrder,
+    this.sourceArn,
+    this.trialName,
+  });
+  Map<String, dynamic> toJson() => _$ListTrialComponentsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListTrialComponentsResponse {
@@ -20047,6 +23916,67 @@ class ListTrialComponentsResponse {
   });
   factory ListTrialComponentsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListTrialComponentsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTrialsRequest {
+  /// A filter that returns only trials created after the specified time.
+  @_s.JsonKey(
+      name: 'CreatedAfter',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime createdAfter;
+
+  /// A filter that returns only trials created before the specified time.
+  @_s.JsonKey(
+      name: 'CreatedBefore',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime createdBefore;
+
+  /// A filter that returns only trials that are part of the specified experiment.
+  @_s.JsonKey(name: 'ExperimentName')
+  final String experimentName;
+
+  /// The maximum number of trials to return in the response. The default value is
+  /// 10.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If the previous call to <code>ListTrials</code> didn't return the full set
+  /// of trials, the call returns a token for getting the next set of trials.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The property used to sort results. The default value is
+  /// <code>CreationTime</code>.
+  @_s.JsonKey(name: 'SortBy')
+  final SortTrialsBy sortBy;
+
+  /// The sort order. The default value is <code>Descending</code>.
+  @_s.JsonKey(name: 'SortOrder')
+  final SortOrder sortOrder;
+
+  /// A filter that returns only trials that are associated with the specified
+  /// trial component.
+  @_s.JsonKey(name: 'TrialComponentName')
+  final String trialComponentName;
+
+  ListTrialsRequest({
+    this.createdAfter,
+    this.createdBefore,
+    this.experimentName,
+    this.maxResults,
+    this.nextToken,
+    this.sortBy,
+    this.sortOrder,
+    this.trialComponentName,
+  });
+  Map<String, dynamic> toJson() => _$ListTrialsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -20074,6 +24004,48 @@ class ListTrialsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListUserProfilesRequest {
+  /// A parameter by which to filter the results.
+  @_s.JsonKey(name: 'DomainIdEquals')
+  final String domainIdEquals;
+
+  /// Returns a list up to a specified limit.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If the previous response was truncated, you will receive this token. Use it
+  /// in your next request to receive the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The parameter by which to sort the results. The default is CreationTime.
+  @_s.JsonKey(name: 'SortBy')
+  final UserProfileSortKey sortBy;
+
+  /// The sort order for the results. The default is Ascending.
+  @_s.JsonKey(name: 'SortOrder')
+  final SortOrder sortOrder;
+
+  /// A parameter by which to filter the results.
+  @_s.JsonKey(name: 'UserProfileNameContains')
+  final String userProfileNameContains;
+
+  ListUserProfilesRequest({
+    this.domainIdEquals,
+    this.maxResults,
+    this.nextToken,
+    this.sortBy,
+    this.sortOrder,
+    this.userProfileNameContains,
+  });
+  Map<String, dynamic> toJson() => _$ListUserProfilesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListUserProfilesResponse {
@@ -20092,6 +24064,45 @@ class ListUserProfilesResponse {
   });
   factory ListUserProfilesResponse.fromJson(Map<String, dynamic> json) =>
       _$ListUserProfilesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListWorkteamsRequest {
+  /// The maximum number of work teams to return in each page of the response.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A string in the work team's name. This filter returns only work teams whose
+  /// name contains the specified string.
+  @_s.JsonKey(name: 'NameContains')
+  final String nameContains;
+
+  /// If the result of the previous <code>ListWorkteams</code> request was
+  /// truncated, the response includes a <code>NextToken</code>. To retrieve the
+  /// next set of labeling jobs, use the token in the next request.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The field to sort results by. The default is <code>CreationTime</code>.
+  @_s.JsonKey(name: 'SortBy')
+  final ListWorkteamsSortByOptions sortBy;
+
+  /// The sort order for results. The default is <code>Ascending</code>.
+  @_s.JsonKey(name: 'SortOrder')
+  final SortOrder sortOrder;
+
+  ListWorkteamsRequest({
+    this.maxResults,
+    this.nameContains,
+    this.nextToken,
+    this.sortBy,
+    this.sortOrder,
+  });
+  Map<String, dynamic> toJson() => _$ListWorkteamsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -20122,18 +24133,6 @@ enum ListWorkteamsSortByOptions {
   name,
   @_s.JsonValue('CreateDate')
   createDate,
-}
-
-extension on ListWorkteamsSortByOptions {
-  String toValue() {
-    switch (this) {
-      case ListWorkteamsSortByOptions.name:
-        return 'Name';
-      case ListWorkteamsSortByOptions.createDate:
-        return 'CreateDate';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Defines the Amazon Cognito user group that is part of a work team.
@@ -20299,18 +24298,6 @@ enum ModelPackageSortBy {
   name,
   @_s.JsonValue('CreationTime')
   creationTime,
-}
-
-extension on ModelPackageSortBy {
-  String toValue() {
-    switch (this) {
-      case ModelPackageSortBy.name:
-        return 'Name';
-      case ModelPackageSortBy.creationTime:
-        return 'CreationTime';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 enum ModelPackageStatus {
@@ -20486,18 +24473,6 @@ enum ModelSortKey {
   creationTime,
 }
 
-extension on ModelSortKey {
-  String toValue() {
-    switch (this) {
-      case ModelSortKey.name:
-        return 'Name';
-      case ModelSortKey.creationTime:
-        return 'CreationTime';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Provides summary information about a model.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -20669,20 +24644,6 @@ enum MonitoringExecutionSortKey {
   scheduledTime,
   @_s.JsonValue('Status')
   status,
-}
-
-extension on MonitoringExecutionSortKey {
-  String toValue() {
-    switch (this) {
-      case MonitoringExecutionSortKey.creationTime:
-        return 'CreationTime';
-      case MonitoringExecutionSortKey.scheduledTime:
-        return 'ScheduledTime';
-      case MonitoringExecutionSortKey.status:
-        return 'Status';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Summary of information about the last monitoring job to run.
@@ -20970,20 +24931,6 @@ enum MonitoringScheduleSortKey {
   status,
 }
 
-extension on MonitoringScheduleSortKey {
-  String toValue() {
-    switch (this) {
-      case MonitoringScheduleSortKey.name:
-        return 'Name';
-      case MonitoringScheduleSortKey.creationTime:
-        return 'CreationTime';
-      case MonitoringScheduleSortKey.status:
-        return 'Status';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Summarizes the monitoring schedule.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -21169,37 +25116,11 @@ enum NotebookInstanceLifecycleConfigSortKey {
   lastModifiedTime,
 }
 
-extension on NotebookInstanceLifecycleConfigSortKey {
-  String toValue() {
-    switch (this) {
-      case NotebookInstanceLifecycleConfigSortKey.name:
-        return 'Name';
-      case NotebookInstanceLifecycleConfigSortKey.creationTime:
-        return 'CreationTime';
-      case NotebookInstanceLifecycleConfigSortKey.lastModifiedTime:
-        return 'LastModifiedTime';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum NotebookInstanceLifecycleConfigSortOrder {
   @_s.JsonValue('Ascending')
   ascending,
   @_s.JsonValue('Descending')
   descending,
-}
-
-extension on NotebookInstanceLifecycleConfigSortOrder {
-  String toValue() {
-    switch (this) {
-      case NotebookInstanceLifecycleConfigSortOrder.ascending:
-        return 'Ascending';
-      case NotebookInstanceLifecycleConfigSortOrder.descending:
-        return 'Descending';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Provides a summary of a notebook instance lifecycle configuration.
@@ -21289,37 +25210,11 @@ enum NotebookInstanceSortKey {
   status,
 }
 
-extension on NotebookInstanceSortKey {
-  String toValue() {
-    switch (this) {
-      case NotebookInstanceSortKey.name:
-        return 'Name';
-      case NotebookInstanceSortKey.creationTime:
-        return 'CreationTime';
-      case NotebookInstanceSortKey.status:
-        return 'Status';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum NotebookInstanceSortOrder {
   @_s.JsonValue('Ascending')
   ascending,
   @_s.JsonValue('Descending')
   descending,
-}
-
-extension on NotebookInstanceSortOrder {
-  String toValue() {
-    switch (this) {
-      case NotebookInstanceSortOrder.ascending:
-        return 'Ascending';
-      case NotebookInstanceSortOrder.descending:
-        return 'Descending';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 enum NotebookInstanceStatus {
@@ -21337,28 +25232,6 @@ enum NotebookInstanceStatus {
   deleting,
   @_s.JsonValue('Updating')
   updating,
-}
-
-extension on NotebookInstanceStatus {
-  String toValue() {
-    switch (this) {
-      case NotebookInstanceStatus.pending:
-        return 'Pending';
-      case NotebookInstanceStatus.inService:
-        return 'InService';
-      case NotebookInstanceStatus.stopping:
-        return 'Stopping';
-      case NotebookInstanceStatus.stopped:
-        return 'Stopped';
-      case NotebookInstanceStatus.failed:
-        return 'Failed';
-      case NotebookInstanceStatus.deleting:
-        return 'Deleting';
-      case NotebookInstanceStatus.updating:
-        return 'Updating';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Provides summary information for an Amazon SageMaker notebook instance.
@@ -21553,18 +25426,6 @@ enum OrderKey {
   ascending,
   @_s.JsonValue('Descending')
   descending,
-}
-
-extension on OrderKey {
-  String toValue() {
-    switch (this) {
-      case OrderKey.ascending:
-        return 'Ascending';
-      case OrderKey.descending:
-        return 'Descending';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Contains information about the output location for the compiled model and
@@ -21810,20 +25671,6 @@ enum ProblemType {
   multiclassClassification,
   @_s.JsonValue('Regression')
   regression,
-}
-
-extension on ProblemType {
-  String toValue() {
-    switch (this) {
-      case ProblemType.binaryClassification:
-        return 'BinaryClassification';
-      case ProblemType.multiclassClassification:
-        return 'MulticlassClassification';
-      case ProblemType.regression:
-        return 'Regression';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Configuration for the cluster used to run a processing job.
@@ -22117,24 +25964,6 @@ enum ProcessingJobStatus {
   stopping,
   @_s.JsonValue('Stopped')
   stopped,
-}
-
-extension on ProcessingJobStatus {
-  String toValue() {
-    switch (this) {
-      case ProcessingJobStatus.inProgress:
-        return 'InProgress';
-      case ProcessingJobStatus.completed:
-        return 'Completed';
-      case ProcessingJobStatus.failed:
-        return 'Failed';
-      case ProcessingJobStatus.stopping:
-        return 'Stopping';
-      case ProcessingJobStatus.stopped:
-        return 'Stopped';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Summary of information about a processing job.
@@ -23062,6 +26891,34 @@ enum RecordWrapper {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RenderUiTemplateRequest {
+  /// The Amazon Resource Name (ARN) that has access to the S3 objects that are
+  /// used by the template.
+  @_s.JsonKey(name: 'RoleArn')
+  final String roleArn;
+
+  /// A <code>RenderableTask</code> object containing a representative task to
+  /// render.
+  @_s.JsonKey(name: 'Task')
+  final RenderableTask task;
+
+  /// A <code>Template</code> object containing the worker UI template to render.
+  @_s.JsonKey(name: 'UiTemplate')
+  final UiTemplate uiTemplate;
+
+  RenderUiTemplateRequest({
+    @_s.required this.roleArn,
+    @_s.required this.task,
+    @_s.required this.uiTemplate,
+  });
+  Map<String, dynamic> toJson() => _$RenderUiTemplateRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class RenderUiTemplateResponse {
@@ -23305,22 +27162,6 @@ enum ResourceType {
   experimentTrialComponent,
 }
 
-extension on ResourceType {
-  String toValue() {
-    switch (this) {
-      case ResourceType.trainingJob:
-        return 'TrainingJob';
-      case ResourceType.experiment:
-        return 'Experiment';
-      case ResourceType.experimentTrial:
-        return 'ExperimentTrial';
-      case ResourceType.experimentTrialComponent:
-        return 'ExperimentTrialComponent';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// The retention policy.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -23350,18 +27191,6 @@ enum RootAccess {
   enabled,
   @_s.JsonValue('Disabled')
   disabled,
-}
-
-extension on RootAccess {
-  String toValue() {
-    switch (this) {
-      case RootAccess.enabled:
-        return 'Enabled';
-      case RootAccess.disabled:
-        return 'Disabled';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 enum RuleEvaluationStatus {
@@ -23587,22 +27416,6 @@ enum ScheduleStatus {
   stopped,
 }
 
-extension on ScheduleStatus {
-  String toValue() {
-    switch (this) {
-      case ScheduleStatus.pending:
-        return 'Pending';
-      case ScheduleStatus.failed:
-        return 'Failed';
-      case ScheduleStatus.scheduled:
-        return 'Scheduled';
-      case ScheduleStatus.stopped:
-        return 'Stopped';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// A multi-expression that searches for the specified resource or resources in
 /// a search. All resource objects that satisfy the expression's condition are
 /// included in the search results. You must specify at least one subexpression,
@@ -23703,6 +27516,58 @@ class SearchRecord {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SearchRequest {
+  /// The name of the Amazon SageMaker resource to search for.
+  @_s.JsonKey(name: 'Resource')
+  final ResourceType resource;
+
+  /// The maximum number of results to return.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If more than <code>MaxResults</code> resources match the specified
+  /// <code>SearchExpression</code>, the response includes a
+  /// <code>NextToken</code>. The <code>NextToken</code> can be passed to the next
+  /// <code>SearchRequest</code> to continue retrieving results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// A Boolean conditional statement. Resources must satisfy this condition to be
+  /// included in search results. You must provide at least one subexpression,
+  /// filter, or nested filter. The maximum number of recursive
+  /// <code>SubExpressions</code>, <code>NestedFilters</code>, and
+  /// <code>Filters</code> that can be included in a <code>SearchExpression</code>
+  /// object is 50.
+  @_s.JsonKey(name: 'SearchExpression')
+  final SearchExpression searchExpression;
+
+  /// The name of the resource property used to sort the
+  /// <code>SearchResults</code>. The default is <code>LastModifiedTime</code>.
+  @_s.JsonKey(name: 'SortBy')
+  final String sortBy;
+
+  /// How <code>SearchResults</code> are ordered. Valid values are
+  /// <code>Ascending</code> or <code>Descending</code>. The default is
+  /// <code>Descending</code>.
+  @_s.JsonKey(name: 'SortOrder')
+  final SearchSortOrder sortOrder;
+
+  SearchRequest({
+    @_s.required this.resource,
+    this.maxResults,
+    this.nextToken,
+    this.searchExpression,
+    this.sortBy,
+    this.sortOrder,
+  });
+  Map<String, dynamic> toJson() => _$SearchRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class SearchResponse {
@@ -23729,18 +27594,6 @@ enum SearchSortOrder {
   ascending,
   @_s.JsonValue('Descending')
   descending,
-}
-
-extension on SearchSortOrder {
-  String toValue() {
-    switch (this) {
-      case SearchSortOrder.ascending:
-        return 'Ascending';
-      case SearchSortOrder.descending:
-        return 'Descending';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 enum SecondaryStatus {
@@ -24007,37 +27860,11 @@ enum SortBy {
   status,
 }
 
-extension on SortBy {
-  String toValue() {
-    switch (this) {
-      case SortBy.name:
-        return 'Name';
-      case SortBy.creationTime:
-        return 'CreationTime';
-      case SortBy.status:
-        return 'Status';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum SortExperimentsBy {
   @_s.JsonValue('Name')
   name,
   @_s.JsonValue('CreationTime')
   creationTime,
-}
-
-extension on SortExperimentsBy {
-  String toValue() {
-    switch (this) {
-      case SortExperimentsBy.name:
-        return 'Name';
-      case SortExperimentsBy.creationTime:
-        return 'CreationTime';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 enum SortOrder {
@@ -24047,18 +27874,6 @@ enum SortOrder {
   descending,
 }
 
-extension on SortOrder {
-  String toValue() {
-    switch (this) {
-      case SortOrder.ascending:
-        return 'Ascending';
-      case SortOrder.descending:
-        return 'Descending';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum SortTrialComponentsBy {
   @_s.JsonValue('Name')
   name,
@@ -24066,35 +27881,11 @@ enum SortTrialComponentsBy {
   creationTime,
 }
 
-extension on SortTrialComponentsBy {
-  String toValue() {
-    switch (this) {
-      case SortTrialComponentsBy.name:
-        return 'Name';
-      case SortTrialComponentsBy.creationTime:
-        return 'CreationTime';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum SortTrialsBy {
   @_s.JsonValue('Name')
   name,
   @_s.JsonValue('CreationTime')
   creationTime,
-}
-
-extension on SortTrialsBy {
-  String toValue() {
-    switch (this) {
-      case SortTrialsBy.name:
-        return 'Name';
-      case SortTrialsBy.creationTime:
-        return 'CreationTime';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Specifies an algorithm that was used to create the model package. The
@@ -24188,6 +27979,183 @@ enum SplitType {
   recordIO,
   @_s.JsonValue('TFRecord')
   tFRecord,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartMonitoringScheduleRequest {
+  /// The name of the schedule to start.
+  @_s.JsonKey(name: 'MonitoringScheduleName')
+  final String monitoringScheduleName;
+
+  StartMonitoringScheduleRequest({
+    @_s.required this.monitoringScheduleName,
+  });
+  Map<String, dynamic> toJson() => _$StartMonitoringScheduleRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartNotebookInstanceInput {
+  /// The name of the notebook instance to start.
+  @_s.JsonKey(name: 'NotebookInstanceName')
+  final String notebookInstanceName;
+
+  StartNotebookInstanceInput({
+    @_s.required this.notebookInstanceName,
+  });
+  Map<String, dynamic> toJson() => _$StartNotebookInstanceInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopAutoMLJobRequest {
+  /// The name of the object you are requesting.
+  @_s.JsonKey(name: 'AutoMLJobName')
+  final String autoMLJobName;
+
+  StopAutoMLJobRequest({
+    @_s.required this.autoMLJobName,
+  });
+  Map<String, dynamic> toJson() => _$StopAutoMLJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopCompilationJobRequest {
+  /// The name of the model compilation job to stop.
+  @_s.JsonKey(name: 'CompilationJobName')
+  final String compilationJobName;
+
+  StopCompilationJobRequest({
+    @_s.required this.compilationJobName,
+  });
+  Map<String, dynamic> toJson() => _$StopCompilationJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopHyperParameterTuningJobRequest {
+  /// The name of the tuning job to stop.
+  @_s.JsonKey(name: 'HyperParameterTuningJobName')
+  final String hyperParameterTuningJobName;
+
+  StopHyperParameterTuningJobRequest({
+    @_s.required this.hyperParameterTuningJobName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StopHyperParameterTuningJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopLabelingJobRequest {
+  /// The name of the labeling job to stop.
+  @_s.JsonKey(name: 'LabelingJobName')
+  final String labelingJobName;
+
+  StopLabelingJobRequest({
+    @_s.required this.labelingJobName,
+  });
+  Map<String, dynamic> toJson() => _$StopLabelingJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopMonitoringScheduleRequest {
+  /// The name of the schedule to stop.
+  @_s.JsonKey(name: 'MonitoringScheduleName')
+  final String monitoringScheduleName;
+
+  StopMonitoringScheduleRequest({
+    @_s.required this.monitoringScheduleName,
+  });
+  Map<String, dynamic> toJson() => _$StopMonitoringScheduleRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopNotebookInstanceInput {
+  /// The name of the notebook instance to terminate.
+  @_s.JsonKey(name: 'NotebookInstanceName')
+  final String notebookInstanceName;
+
+  StopNotebookInstanceInput({
+    @_s.required this.notebookInstanceName,
+  });
+  Map<String, dynamic> toJson() => _$StopNotebookInstanceInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopProcessingJobRequest {
+  /// The name of the processing job to stop.
+  @_s.JsonKey(name: 'ProcessingJobName')
+  final String processingJobName;
+
+  StopProcessingJobRequest({
+    @_s.required this.processingJobName,
+  });
+  Map<String, dynamic> toJson() => _$StopProcessingJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopTrainingJobRequest {
+  /// The name of the training job to stop.
+  @_s.JsonKey(name: 'TrainingJobName')
+  final String trainingJobName;
+
+  StopTrainingJobRequest({
+    @_s.required this.trainingJobName,
+  });
+  Map<String, dynamic> toJson() => _$StopTrainingJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopTransformJobRequest {
+  /// The name of the transform job to stop.
+  @_s.JsonKey(name: 'TransformJobName')
+  final String transformJobName;
+
+  StopTransformJobRequest({
+    @_s.required this.transformJobName,
+  });
+  Map<String, dynamic> toJson() => _$StopTransformJobRequestToJson(this);
 }
 
 /// Specifies a limit to how long a model training or compilation job can run.
@@ -24904,22 +28872,6 @@ enum TrainingJobSortByOptions {
   finalObjectiveMetricValue,
 }
 
-extension on TrainingJobSortByOptions {
-  String toValue() {
-    switch (this) {
-      case TrainingJobSortByOptions.name:
-        return 'Name';
-      case TrainingJobSortByOptions.creationTime:
-        return 'CreationTime';
-      case TrainingJobSortByOptions.status:
-        return 'Status';
-      case TrainingJobSortByOptions.finalObjectiveMetricValue:
-        return 'FinalObjectiveMetricValue';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum TrainingJobStatus {
   @_s.JsonValue('InProgress')
   inProgress,
@@ -24931,24 +28883,6 @@ enum TrainingJobStatus {
   stopping,
   @_s.JsonValue('Stopped')
   stopped,
-}
-
-extension on TrainingJobStatus {
-  String toValue() {
-    switch (this) {
-      case TrainingJobStatus.inProgress:
-        return 'InProgress';
-      case TrainingJobStatus.completed:
-        return 'Completed';
-      case TrainingJobStatus.failed:
-        return 'Failed';
-      case TrainingJobStatus.stopping:
-        return 'Stopping';
-      case TrainingJobStatus.stopped:
-        return 'Stopped';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// The numbers of training jobs launched by a hyperparameter tuning job,
@@ -25332,24 +29266,6 @@ enum TransformJobStatus {
   stopping,
   @_s.JsonValue('Stopped')
   stopped,
-}
-
-extension on TransformJobStatus {
-  String toValue() {
-    switch (this) {
-      case TransformJobStatus.inProgress:
-        return 'InProgress';
-      case TransformJobStatus.completed:
-        return 'Completed';
-      case TransformJobStatus.failed:
-        return 'Failed';
-      case TransformJobStatus.stopping:
-        return 'Stopping';
-      case TransformJobStatus.stopped:
-        return 'Stopped';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Provides a summary of a transform job. Multiple
@@ -26354,6 +30270,32 @@ class UiTemplateInfo {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateCodeRepositoryInput {
+  /// The name of the Git repository to update.
+  @_s.JsonKey(name: 'CodeRepositoryName')
+  final String codeRepositoryName;
+
+  /// The configuration of the git repository, including the URL and the Amazon
+  /// Resource Name (ARN) of the AWS Secrets Manager secret that contains the
+  /// credentials used to access the repository. The secret must have a staging
+  /// label of <code>AWSCURRENT</code> and must be in the following format:
+  ///
+  /// <code>{"username": <i>UserName</i>, "password": <i>Password</i>}</code>
+  @_s.JsonKey(name: 'GitConfig')
+  final GitConfigForUpdate gitConfig;
+
+  UpdateCodeRepositoryInput({
+    @_s.required this.codeRepositoryName,
+    this.gitConfig,
+  });
+  Map<String, dynamic> toJson() => _$UpdateCodeRepositoryInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateCodeRepositoryOutput {
@@ -26366,6 +30308,27 @@ class UpdateCodeRepositoryOutput {
   });
   factory UpdateCodeRepositoryOutput.fromJson(Map<String, dynamic> json) =>
       _$UpdateCodeRepositoryOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDomainRequest {
+  /// The domain ID.
+  @_s.JsonKey(name: 'DomainId')
+  final String domainId;
+
+  /// A collection of settings.
+  @_s.JsonKey(name: 'DefaultUserSettings')
+  final UserSettings defaultUserSettings;
+
+  UpdateDomainRequest({
+    @_s.required this.domainId,
+    this.defaultUserSettings,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDomainRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -26388,6 +30351,49 @@ class UpdateDomainResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateEndpointInput {
+  /// The name of the new endpoint configuration.
+  @_s.JsonKey(name: 'EndpointConfigName')
+  final String endpointConfigName;
+
+  /// The name of the endpoint whose configuration you want to update.
+  @_s.JsonKey(name: 'EndpointName')
+  final String endpointName;
+
+  /// When you are updating endpoint resources with
+  /// <a>UpdateEndpointInput$RetainAllVariantProperties</a>, whose value is set to
+  /// <code>true</code>, <code>ExcludeRetainedVariantProperties</code> specifies
+  /// the list of type <a>VariantProperty</a> to override with the values provided
+  /// by <code>EndpointConfig</code>. If you don't specify a value for
+  /// <code>ExcludeAllVariantProperties</code>, no variant properties are
+  /// overridden.
+  @_s.JsonKey(name: 'ExcludeRetainedVariantProperties')
+  final List<VariantProperty> excludeRetainedVariantProperties;
+
+  /// When updating endpoint resources, enables or disables the retention of
+  /// variant properties, such as the instance count or the variant weight. To
+  /// retain the variant properties of an endpoint when updating it, set
+  /// <code>RetainAllVariantProperties</code> to <code>true</code>. To use the
+  /// variant properties specified in a new <code>EndpointConfig</code> call when
+  /// updating an endpoint, set <code>RetainAllVariantProperties</code> to
+  /// <code>false</code>.
+  @_s.JsonKey(name: 'RetainAllVariantProperties')
+  final bool retainAllVariantProperties;
+
+  UpdateEndpointInput({
+    @_s.required this.endpointConfigName,
+    @_s.required this.endpointName,
+    this.excludeRetainedVariantProperties,
+    this.retainAllVariantProperties,
+  });
+  Map<String, dynamic> toJson() => _$UpdateEndpointInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateEndpointOutput {
@@ -26400,6 +30406,28 @@ class UpdateEndpointOutput {
   });
   factory UpdateEndpointOutput.fromJson(Map<String, dynamic> json) =>
       _$UpdateEndpointOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateEndpointWeightsAndCapacitiesInput {
+  /// An object that provides new capacity and weight values for a variant.
+  @_s.JsonKey(name: 'DesiredWeightsAndCapacities')
+  final List<DesiredWeightAndCapacity> desiredWeightsAndCapacities;
+
+  /// The name of an existing Amazon SageMaker endpoint.
+  @_s.JsonKey(name: 'EndpointName')
+  final String endpointName;
+
+  UpdateEndpointWeightsAndCapacitiesInput({
+    @_s.required this.desiredWeightsAndCapacities,
+    @_s.required this.endpointName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateEndpointWeightsAndCapacitiesInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -26423,6 +30451,34 @@ class UpdateEndpointWeightsAndCapacitiesOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateExperimentRequest {
+  /// The name of the experiment to update.
+  @_s.JsonKey(name: 'ExperimentName')
+  final String experimentName;
+
+  /// The description of the experiment.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The name of the experiment as displayed. The name doesn't need to be unique.
+  /// If <code>DisplayName</code> isn't specified, <code>ExperimentName</code> is
+  /// displayed.
+  @_s.JsonKey(name: 'DisplayName')
+  final String displayName;
+
+  UpdateExperimentRequest({
+    @_s.required this.experimentName,
+    this.description,
+    this.displayName,
+  });
+  Map<String, dynamic> toJson() => _$UpdateExperimentRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateExperimentResponse {
@@ -26435,6 +30491,30 @@ class UpdateExperimentResponse {
   });
   factory UpdateExperimentResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateExperimentResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateMonitoringScheduleRequest {
+  /// The configuration object that specifies the monitoring schedule and defines
+  /// the monitoring job.
+  @_s.JsonKey(name: 'MonitoringScheduleConfig')
+  final MonitoringScheduleConfig monitoringScheduleConfig;
+
+  /// The name of the monitoring schedule. The name must be unique within an AWS
+  /// Region within an AWS account.
+  @_s.JsonKey(name: 'MonitoringScheduleName')
+  final String monitoringScheduleName;
+
+  UpdateMonitoringScheduleRequest({
+    @_s.required this.monitoringScheduleConfig,
+    @_s.required this.monitoringScheduleName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateMonitoringScheduleRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -26453,6 +30533,167 @@ class UpdateMonitoringScheduleResponse {
   factory UpdateMonitoringScheduleResponse.fromJson(
           Map<String, dynamic> json) =>
       _$UpdateMonitoringScheduleResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateNotebookInstanceInput {
+  /// The name of the notebook instance to update.
+  @_s.JsonKey(name: 'NotebookInstanceName')
+  final String notebookInstanceName;
+
+  /// A list of the Elastic Inference (EI) instance types to associate with this
+  /// notebook instance. Currently only one EI instance type can be associated
+  /// with a notebook instance. For more information, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/ei.html">Using Elastic
+  /// Inference in Amazon SageMaker</a>.
+  @_s.JsonKey(name: 'AcceleratorTypes')
+  final List<String> acceleratorTypes;
+
+  /// An array of up to three Git repositories to associate with the notebook
+  /// instance. These can be either the names of Git repositories stored as
+  /// resources in your account, or the URL of Git repositories in <a
+  /// href="https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html">AWS
+  /// CodeCommit</a> or in any other Git repository. These repositories are cloned
+  /// at the same level as the default repository of your notebook instance. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html">Associating
+  /// Git Repositories with Amazon SageMaker Notebook Instances</a>.
+  @_s.JsonKey(name: 'AdditionalCodeRepositories')
+  final List<String> additionalCodeRepositories;
+
+  /// The Git repository to associate with the notebook instance as its default
+  /// code repository. This can be either the name of a Git repository stored as a
+  /// resource in your account, or the URL of a Git repository in <a
+  /// href="https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html">AWS
+  /// CodeCommit</a> or in any other Git repository. When you open a notebook
+  /// instance, it opens in the directory that contains this repository. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html">Associating
+  /// Git Repositories with Amazon SageMaker Notebook Instances</a>.
+  @_s.JsonKey(name: 'DefaultCodeRepository')
+  final String defaultCodeRepository;
+
+  /// A list of the Elastic Inference (EI) instance types to remove from this
+  /// notebook instance. This operation is idempotent. If you specify an
+  /// accelerator type that is not associated with the notebook instance when you
+  /// call this method, it does not throw an error.
+  @_s.JsonKey(name: 'DisassociateAcceleratorTypes')
+  final bool disassociateAcceleratorTypes;
+
+  /// A list of names or URLs of the default Git repositories to remove from this
+  /// notebook instance. This operation is idempotent. If you specify a Git
+  /// repository that is not associated with the notebook instance when you call
+  /// this method, it does not throw an error.
+  @_s.JsonKey(name: 'DisassociateAdditionalCodeRepositories')
+  final bool disassociateAdditionalCodeRepositories;
+
+  /// The name or URL of the default Git repository to remove from this notebook
+  /// instance. This operation is idempotent. If you specify a Git repository that
+  /// is not associated with the notebook instance when you call this method, it
+  /// does not throw an error.
+  @_s.JsonKey(name: 'DisassociateDefaultCodeRepository')
+  final bool disassociateDefaultCodeRepository;
+
+  /// Set to <code>true</code> to remove the notebook instance lifecycle
+  /// configuration currently associated with the notebook instance. This
+  /// operation is idempotent. If you specify a lifecycle configuration that is
+  /// not associated with the notebook instance when you call this method, it does
+  /// not throw an error.
+  @_s.JsonKey(name: 'DisassociateLifecycleConfig')
+  final bool disassociateLifecycleConfig;
+
+  /// The Amazon ML compute instance type.
+  @_s.JsonKey(name: 'InstanceType')
+  final InstanceType instanceType;
+
+  /// The name of a lifecycle configuration to associate with the notebook
+  /// instance. For information about lifestyle configurations, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/notebook-lifecycle-config.html">Step
+  /// 2.1: (Optional) Customize a Notebook Instance</a>.
+  @_s.JsonKey(name: 'LifecycleConfigName')
+  final String lifecycleConfigName;
+
+  /// The Amazon Resource Name (ARN) of the IAM role that Amazon SageMaker can
+  /// assume to access the notebook instance. For more information, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html">Amazon
+  /// SageMaker Roles</a>.
+  /// <note>
+  /// To be able to pass this role to Amazon SageMaker, the caller of this API
+  /// must have the <code>iam:PassRole</code> permission.
+  /// </note>
+  @_s.JsonKey(name: 'RoleArn')
+  final String roleArn;
+
+  /// Whether root access is enabled or disabled for users of the notebook
+  /// instance. The default value is <code>Enabled</code>.
+  /// <note>
+  /// If you set this to <code>Disabled</code>, users don't have root access on
+  /// the notebook instance, but lifecycle configuration scripts still run with
+  /// root permissions.
+  /// </note>
+  @_s.JsonKey(name: 'RootAccess')
+  final RootAccess rootAccess;
+
+  /// The size, in GB, of the ML storage volume to attach to the notebook
+  /// instance. The default value is 5 GB. ML storage volumes are encrypted, so
+  /// Amazon SageMaker can't determine the amount of available free space on the
+  /// volume. Because of this, you can increase the volume size when you update a
+  /// notebook instance, but you can't decrease the volume size. If you want to
+  /// decrease the size of the ML storage volume in use, create a new notebook
+  /// instance with the desired size.
+  @_s.JsonKey(name: 'VolumeSizeInGB')
+  final int volumeSizeInGB;
+
+  UpdateNotebookInstanceInput({
+    @_s.required this.notebookInstanceName,
+    this.acceleratorTypes,
+    this.additionalCodeRepositories,
+    this.defaultCodeRepository,
+    this.disassociateAcceleratorTypes,
+    this.disassociateAdditionalCodeRepositories,
+    this.disassociateDefaultCodeRepository,
+    this.disassociateLifecycleConfig,
+    this.instanceType,
+    this.lifecycleConfigName,
+    this.roleArn,
+    this.rootAccess,
+    this.volumeSizeInGB,
+  });
+  Map<String, dynamic> toJson() => _$UpdateNotebookInstanceInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateNotebookInstanceLifecycleConfigInput {
+  /// The name of the lifecycle configuration.
+  @_s.JsonKey(name: 'NotebookInstanceLifecycleConfigName')
+  final String notebookInstanceLifecycleConfigName;
+
+  /// The shell script that runs only once, when you create a notebook instance.
+  /// The shell script must be a base64-encoded string.
+  @_s.JsonKey(name: 'OnCreate')
+  final List<NotebookInstanceLifecycleHook> onCreate;
+
+  /// The shell script that runs every time you start a notebook instance,
+  /// including when you create the notebook instance. The shell script must be a
+  /// base64-encoded string.
+  @_s.JsonKey(name: 'OnStart')
+  final List<NotebookInstanceLifecycleHook> onStart;
+
+  UpdateNotebookInstanceLifecycleConfigInput({
+    @_s.required this.notebookInstanceLifecycleConfigName,
+    this.onCreate,
+    this.onStart,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateNotebookInstanceLifecycleConfigInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -26481,6 +30722,83 @@ class UpdateNotebookInstanceOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateTrialComponentRequest {
+  /// The name of the component to update.
+  @_s.JsonKey(name: 'TrialComponentName')
+  final String trialComponentName;
+
+  /// The name of the component as displayed. The name doesn't need to be unique.
+  /// If <code>DisplayName</code> isn't specified, <code>TrialComponentName</code>
+  /// is displayed.
+  @_s.JsonKey(name: 'DisplayName')
+  final String displayName;
+
+  /// When the component ended.
+  @_s.JsonKey(
+      name: 'EndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime endTime;
+
+  /// Replaces all of the component's input artifacts with the specified
+  /// artifacts.
+  @_s.JsonKey(name: 'InputArtifacts')
+  final Map<String, TrialComponentArtifact> inputArtifacts;
+
+  /// The input artifacts to remove from the component.
+  @_s.JsonKey(name: 'InputArtifactsToRemove')
+  final List<String> inputArtifactsToRemove;
+
+  /// Replaces all of the component's output artifacts with the specified
+  /// artifacts.
+  @_s.JsonKey(name: 'OutputArtifacts')
+  final Map<String, TrialComponentArtifact> outputArtifacts;
+
+  /// The output artifacts to remove from the component.
+  @_s.JsonKey(name: 'OutputArtifactsToRemove')
+  final List<String> outputArtifactsToRemove;
+
+  /// Replaces all of the component's hyperparameters with the specified
+  /// hyperparameters.
+  @_s.JsonKey(name: 'Parameters')
+  final Map<String, TrialComponentParameterValue> parameters;
+
+  /// The hyperparameters to remove from the component.
+  @_s.JsonKey(name: 'ParametersToRemove')
+  final List<String> parametersToRemove;
+
+  /// When the component started.
+  @_s.JsonKey(
+      name: 'StartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime startTime;
+
+  /// The new status of the component.
+  @_s.JsonKey(name: 'Status')
+  final TrialComponentStatus status;
+
+  UpdateTrialComponentRequest({
+    @_s.required this.trialComponentName,
+    this.displayName,
+    this.endTime,
+    this.inputArtifacts,
+    this.inputArtifactsToRemove,
+    this.outputArtifacts,
+    this.outputArtifactsToRemove,
+    this.parameters,
+    this.parametersToRemove,
+    this.startTime,
+    this.status,
+  });
+  Map<String, dynamic> toJson() => _$UpdateTrialComponentRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateTrialComponentResponse {
@@ -26493,6 +30811,29 @@ class UpdateTrialComponentResponse {
   });
   factory UpdateTrialComponentResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateTrialComponentResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateTrialRequest {
+  /// The name of the trial to update.
+  @_s.JsonKey(name: 'TrialName')
+  final String trialName;
+
+  /// The name of the trial as displayed. The name doesn't need to be unique. If
+  /// <code>DisplayName</code> isn't specified, <code>TrialName</code> is
+  /// displayed.
+  @_s.JsonKey(name: 'DisplayName')
+  final String displayName;
+
+  UpdateTrialRequest({
+    @_s.required this.trialName,
+    this.displayName,
+  });
+  Map<String, dynamic> toJson() => _$UpdateTrialRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -26515,6 +30856,32 @@ class UpdateTrialResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateUserProfileRequest {
+  /// The domain ID.
+  @_s.JsonKey(name: 'DomainId')
+  final String domainId;
+
+  /// The user profile name.
+  @_s.JsonKey(name: 'UserProfileName')
+  final String userProfileName;
+
+  /// A collection of settings.
+  @_s.JsonKey(name: 'UserSettings')
+  final UserSettings userSettings;
+
+  UpdateUserProfileRequest({
+    @_s.required this.domainId,
+    @_s.required this.userProfileName,
+    this.userSettings,
+  });
+  Map<String, dynamic> toJson() => _$UpdateUserProfileRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateUserProfileResponse {
@@ -26527,6 +30894,33 @@ class UpdateUserProfileResponse {
   });
   factory UpdateUserProfileResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateUserProfileResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateWorkforceRequest {
+  /// The name of the private workforce whose access you want to restrict.
+  /// <code>WorkforceName</code> is automatically set to <code>default</code> when
+  /// a workforce is created and cannot be modified.
+  @_s.JsonKey(name: 'WorkforceName')
+  final String workforceName;
+
+  /// A list of one to four worker IP address ranges (<a
+  /// href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html">CIDRs</a>)
+  /// that can be used to access tasks assigned to this workforce.
+  ///
+  /// Maximum: Four CIDR values
+  @_s.JsonKey(name: 'SourceIpConfig')
+  final SourceIpConfig sourceIpConfig;
+
+  UpdateWorkforceRequest({
+    @_s.required this.workforceName,
+    this.sourceIpConfig,
+  });
+  Map<String, dynamic> toJson() => _$UpdateWorkforceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -26550,6 +30944,38 @@ class UpdateWorkforceResponse {
   });
   factory UpdateWorkforceResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateWorkforceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateWorkteamRequest {
+  /// The name of the work team to update.
+  @_s.JsonKey(name: 'WorkteamName')
+  final String workteamName;
+
+  /// An updated description for the work team.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// A list of <code>MemberDefinition</code> objects that contain the updated
+  /// work team members.
+  @_s.JsonKey(name: 'MemberDefinitions')
+  final List<MemberDefinition> memberDefinitions;
+
+  /// Configures SNS topic notifications for available or expiring work items
+  @_s.JsonKey(name: 'NotificationConfiguration')
+  final NotificationConfiguration notificationConfiguration;
+
+  UpdateWorkteamRequest({
+    @_s.required this.workteamName,
+    this.description,
+    this.memberDefinitions,
+    this.notificationConfiguration,
+  });
+  Map<String, dynamic> toJson() => _$UpdateWorkteamRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -26647,18 +31073,6 @@ enum UserProfileSortKey {
   creationTime,
   @_s.JsonValue('LastModifiedTime')
   lastModifiedTime,
-}
-
-extension on UserProfileSortKey {
-  String toValue() {
-    switch (this) {
-      case UserProfileSortKey.creationTime:
-        return 'CreationTime';
-      case UserProfileSortKey.lastModifiedTime:
-        return 'LastModifiedTime';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 enum UserProfileStatus {

@@ -96,11 +96,54 @@ const _$ScalingTypeEnumMap = {
   ScalingType.reverseLogarithmic: 'ReverseLogarithmic',
 };
 
+Map<String, dynamic> _$CreateDatasetGroupRequestToJson(
+    CreateDatasetGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DatasetGroupName', instance.datasetGroupName);
+  writeNotNull('Domain', _$DomainEnumMap[instance.domain]);
+  writeNotNull('DatasetArns', instance.datasetArns);
+  return val;
+}
+
+const _$DomainEnumMap = {
+  Domain.retail: 'RETAIL',
+  Domain.custom: 'CUSTOM',
+  Domain.inventoryPlanning: 'INVENTORY_PLANNING',
+  Domain.ec2Capacity: 'EC2_CAPACITY',
+  Domain.workForce: 'WORK_FORCE',
+  Domain.webTraffic: 'WEB_TRAFFIC',
+  Domain.metrics: 'METRICS',
+};
+
 CreateDatasetGroupResponse _$CreateDatasetGroupResponseFromJson(
     Map<String, dynamic> json) {
   return CreateDatasetGroupResponse(
     datasetGroupArn: json['DatasetGroupArn'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateDatasetImportJobRequestToJson(
+    CreateDatasetImportJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DataSource', instance.dataSource?.toJson());
+  writeNotNull('DatasetArn', instance.datasetArn);
+  writeNotNull('DatasetImportJobName', instance.datasetImportJobName);
+  writeNotNull('TimestampFormat', instance.timestampFormat);
+  return val;
 }
 
 CreateDatasetImportJobResponse _$CreateDatasetImportJobResponseFromJson(
@@ -110,11 +153,52 @@ CreateDatasetImportJobResponse _$CreateDatasetImportJobResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateDatasetRequestToJson(
+    CreateDatasetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DatasetName', instance.datasetName);
+  writeNotNull('DatasetType', _$DatasetTypeEnumMap[instance.datasetType]);
+  writeNotNull('Domain', _$DomainEnumMap[instance.domain]);
+  writeNotNull('Schema', instance.schema?.toJson());
+  writeNotNull('DataFrequency', instance.dataFrequency);
+  writeNotNull('EncryptionConfig', instance.encryptionConfig?.toJson());
+  return val;
+}
+
+const _$DatasetTypeEnumMap = {
+  DatasetType.targetTimeSeries: 'TARGET_TIME_SERIES',
+  DatasetType.relatedTimeSeries: 'RELATED_TIME_SERIES',
+  DatasetType.itemMetadata: 'ITEM_METADATA',
+};
+
 CreateDatasetResponse _$CreateDatasetResponseFromJson(
     Map<String, dynamic> json) {
   return CreateDatasetResponse(
     datasetArn: json['DatasetArn'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateForecastExportJobRequestToJson(
+    CreateForecastExportJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Destination', instance.destination?.toJson());
+  writeNotNull('ForecastArn', instance.forecastArn);
+  writeNotNull('ForecastExportJobName', instance.forecastExportJobName);
+  return val;
 }
 
 CreateForecastExportJobResponse _$CreateForecastExportJobResponseFromJson(
@@ -124,11 +208,51 @@ CreateForecastExportJobResponse _$CreateForecastExportJobResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateForecastRequestToJson(
+    CreateForecastRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ForecastName', instance.forecastName);
+  writeNotNull('PredictorArn', instance.predictorArn);
+  writeNotNull('ForecastTypes', instance.forecastTypes);
+  return val;
+}
+
 CreateForecastResponse _$CreateForecastResponseFromJson(
     Map<String, dynamic> json) {
   return CreateForecastResponse(
     forecastArn: json['ForecastArn'] as String,
   );
+}
+
+Map<String, dynamic> _$CreatePredictorRequestToJson(
+    CreatePredictorRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FeaturizationConfig', instance.featurizationConfig?.toJson());
+  writeNotNull('ForecastHorizon', instance.forecastHorizon);
+  writeNotNull('InputDataConfig', instance.inputDataConfig?.toJson());
+  writeNotNull('PredictorName', instance.predictorName);
+  writeNotNull('AlgorithmArn', instance.algorithmArn);
+  writeNotNull('EncryptionConfig', instance.encryptionConfig?.toJson());
+  writeNotNull('EvaluationParameters', instance.evaluationParameters?.toJson());
+  writeNotNull('HPOConfig', instance.hPOConfig?.toJson());
+  writeNotNull('PerformAutoML', instance.performAutoML);
+  writeNotNull('PerformHPO', instance.performHPO);
+  writeNotNull('TrainingParameters', instance.trainingParameters);
+  return val;
 }
 
 CreatePredictorResponse _$CreatePredictorResponseFromJson(
@@ -216,21 +340,103 @@ DatasetSummary _$DatasetSummaryFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$DatasetTypeEnumMap = {
-  DatasetType.targetTimeSeries: 'TARGET_TIME_SERIES',
-  DatasetType.relatedTimeSeries: 'RELATED_TIME_SERIES',
-  DatasetType.itemMetadata: 'ITEM_METADATA',
-};
+Map<String, dynamic> _$DeleteDatasetGroupRequestToJson(
+    DeleteDatasetGroupRequest instance) {
+  final val = <String, dynamic>{};
 
-const _$DomainEnumMap = {
-  Domain.retail: 'RETAIL',
-  Domain.custom: 'CUSTOM',
-  Domain.inventoryPlanning: 'INVENTORY_PLANNING',
-  Domain.ec2Capacity: 'EC2_CAPACITY',
-  Domain.workForce: 'WORK_FORCE',
-  Domain.webTraffic: 'WEB_TRAFFIC',
-  Domain.metrics: 'METRICS',
-};
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DatasetGroupArn', instance.datasetGroupArn);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteDatasetImportJobRequestToJson(
+    DeleteDatasetImportJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DatasetImportJobArn', instance.datasetImportJobArn);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteDatasetRequestToJson(
+    DeleteDatasetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DatasetArn', instance.datasetArn);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteForecastExportJobRequestToJson(
+    DeleteForecastExportJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ForecastExportJobArn', instance.forecastExportJobArn);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteForecastRequestToJson(
+    DeleteForecastRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ForecastArn', instance.forecastArn);
+  return val;
+}
+
+Map<String, dynamic> _$DeletePredictorRequestToJson(
+    DeletePredictorRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('PredictorArn', instance.predictorArn);
+  return val;
+}
+
+Map<String, dynamic> _$DescribeDatasetGroupRequestToJson(
+    DescribeDatasetGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DatasetGroupArn', instance.datasetGroupArn);
+  return val;
+}
 
 DescribeDatasetGroupResponse _$DescribeDatasetGroupResponseFromJson(
     Map<String, dynamic> json) {
@@ -244,6 +450,20 @@ DescribeDatasetGroupResponse _$DescribeDatasetGroupResponseFromJson(
     lastModificationTime: unixTimestampFromJson(json['LastModificationTime']),
     status: json['Status'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeDatasetImportJobRequestToJson(
+    DescribeDatasetImportJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DatasetImportJobArn', instance.datasetImportJobArn);
+  return val;
 }
 
 DescribeDatasetImportJobResponse _$DescribeDatasetImportJobResponseFromJson(
@@ -268,6 +488,20 @@ DescribeDatasetImportJobResponse _$DescribeDatasetImportJobResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeDatasetRequestToJson(
+    DescribeDatasetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DatasetArn', instance.datasetArn);
+  return val;
+}
+
 DescribeDatasetResponse _$DescribeDatasetResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeDatasetResponse(
@@ -290,6 +524,20 @@ DescribeDatasetResponse _$DescribeDatasetResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeForecastExportJobRequestToJson(
+    DescribeForecastExportJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ForecastExportJobArn', instance.forecastExportJobArn);
+  return val;
+}
+
 DescribeForecastExportJobResponse _$DescribeForecastExportJobResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeForecastExportJobResponse(
@@ -306,6 +554,20 @@ DescribeForecastExportJobResponse _$DescribeForecastExportJobResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeForecastRequestToJson(
+    DescribeForecastRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ForecastArn', instance.forecastArn);
+  return val;
+}
+
 DescribeForecastResponse _$DescribeForecastResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeForecastResponse(
@@ -320,6 +582,20 @@ DescribeForecastResponse _$DescribeForecastResponseFromJson(
     predictorArn: json['PredictorArn'] as String,
     status: json['Status'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribePredictorRequestToJson(
+    DescribePredictorRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('PredictorArn', instance.predictorArn);
+  return val;
 }
 
 DescribePredictorResponse _$DescribePredictorResponseFromJson(
@@ -560,6 +836,20 @@ ForecastSummary _$ForecastSummaryFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetAccuracyMetricsRequestToJson(
+    GetAccuracyMetricsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('PredictorArn', instance.predictorArn);
+  return val;
+}
+
 GetAccuracyMetricsResponse _$GetAccuracyMetricsResponseFromJson(
     Map<String, dynamic> json) {
   return GetAccuracyMetricsResponse(
@@ -649,6 +939,21 @@ Map<String, dynamic> _$IntegerParameterRangeToJson(
   return val;
 }
 
+Map<String, dynamic> _$ListDatasetGroupsRequestToJson(
+    ListDatasetGroupsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListDatasetGroupsResponse _$ListDatasetGroupsResponseFromJson(
     Map<String, dynamic> json) {
   return ListDatasetGroupsResponse(
@@ -659,6 +964,22 @@ ListDatasetGroupsResponse _$ListDatasetGroupsResponseFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListDatasetImportJobsRequestToJson(
+    ListDatasetImportJobsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListDatasetImportJobsResponse _$ListDatasetImportJobsResponseFromJson(
@@ -673,6 +994,20 @@ ListDatasetImportJobsResponse _$ListDatasetImportJobsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListDatasetsRequestToJson(ListDatasetsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListDatasetsResponse _$ListDatasetsResponseFromJson(Map<String, dynamic> json) {
   return ListDatasetsResponse(
     datasets: (json['Datasets'] as List)
@@ -682,6 +1017,22 @@ ListDatasetsResponse _$ListDatasetsResponseFromJson(Map<String, dynamic> json) {
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListForecastExportJobsRequestToJson(
+    ListForecastExportJobsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListForecastExportJobsResponse _$ListForecastExportJobsResponseFromJson(
@@ -696,6 +1047,22 @@ ListForecastExportJobsResponse _$ListForecastExportJobsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListForecastsRequestToJson(
+    ListForecastsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListForecastsResponse _$ListForecastsResponseFromJson(
     Map<String, dynamic> json) {
   return ListForecastsResponse(
@@ -706,6 +1073,22 @@ ListForecastsResponse _$ListForecastsResponseFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListPredictorsRequestToJson(
+    ListPredictorsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListPredictorsResponse _$ListPredictorsResponseFromJson(
@@ -921,6 +1304,21 @@ TestWindowSummary _$TestWindowSummaryFromJson(Map<String, dynamic> json) {
     testWindowEnd: unixTimestampFromJson(json['TestWindowEnd']),
     testWindowStart: unixTimestampFromJson(json['TestWindowStart']),
   );
+}
+
+Map<String, dynamic> _$UpdateDatasetGroupRequestToJson(
+    UpdateDatasetGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DatasetArns', instance.datasetArns);
+  writeNotNull('DatasetGroupArn', instance.datasetGroupArn);
+  return val;
 }
 
 UpdateDatasetGroupResponse _$UpdateDatasetGroupResponseFromJson(

@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -132,10 +131,10 @@ class Route53Resolver {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'IpAddress': ipAddress,
-        'ResolverEndpointId': resolverEndpointId,
-      },
+      payload: AssociateResolverEndpointIpAddressRequest(
+        ipAddress: ipAddress,
+        resolverEndpointId: resolverEndpointId,
+      ),
     );
 
     return AssociateResolverEndpointIpAddressResponse.fromJson(
@@ -208,11 +207,11 @@ class Route53Resolver {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResolverRuleId': resolverRuleId,
-        'VPCId': vPCId,
-        if (name != null) 'Name': name,
-      },
+      payload: AssociateResolverRuleRequest(
+        resolverRuleId: resolverRuleId,
+        vPCId: vPCId,
+        name: name,
+      ),
     );
 
     return AssociateResolverRuleResponse.fromJson(jsonResponse.body);
@@ -319,14 +318,14 @@ class Route53Resolver {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CreatorRequestId': creatorRequestId,
-        'Direction': direction?.toValue(),
-        'IpAddresses': ipAddresses,
-        'SecurityGroupIds': securityGroupIds,
-        if (name != null) 'Name': name,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateResolverEndpointRequest(
+        creatorRequestId: creatorRequestId,
+        direction: direction,
+        ipAddresses: ipAddresses,
+        securityGroupIds: securityGroupIds,
+        name: name,
+        tags: tags,
+      ),
     );
 
     return CreateResolverEndpointResponse.fromJson(jsonResponse.body);
@@ -430,16 +429,15 @@ class Route53Resolver {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CreatorRequestId': creatorRequestId,
-        'DomainName': domainName,
-        'RuleType': ruleType?.toValue(),
-        if (name != null) 'Name': name,
-        if (resolverEndpointId != null)
-          'ResolverEndpointId': resolverEndpointId,
-        if (tags != null) 'Tags': tags,
-        if (targetIps != null) 'TargetIps': targetIps,
-      },
+      payload: CreateResolverRuleRequest(
+        creatorRequestId: creatorRequestId,
+        domainName: domainName,
+        ruleType: ruleType,
+        name: name,
+        resolverEndpointId: resolverEndpointId,
+        tags: tags,
+        targetIps: targetIps,
+      ),
     );
 
     return CreateResolverRuleResponse.fromJson(jsonResponse.body);
@@ -488,9 +486,9 @@ class Route53Resolver {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResolverEndpointId': resolverEndpointId,
-      },
+      payload: DeleteResolverEndpointRequest(
+        resolverEndpointId: resolverEndpointId,
+      ),
     );
 
     return DeleteResolverEndpointResponse.fromJson(jsonResponse.body);
@@ -529,9 +527,9 @@ class Route53Resolver {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResolverRuleId': resolverRuleId,
-      },
+      payload: DeleteResolverRuleRequest(
+        resolverRuleId: resolverRuleId,
+      ),
     );
 
     return DeleteResolverRuleResponse.fromJson(jsonResponse.body);
@@ -582,10 +580,10 @@ class Route53Resolver {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'IpAddress': ipAddress,
-        'ResolverEndpointId': resolverEndpointId,
-      },
+      payload: DisassociateResolverEndpointIpAddressRequest(
+        ipAddress: ipAddress,
+        resolverEndpointId: resolverEndpointId,
+      ),
     );
 
     return DisassociateResolverEndpointIpAddressResponse.fromJson(
@@ -640,10 +638,10 @@ class Route53Resolver {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResolverRuleId': resolverRuleId,
-        'VPCId': vPCId,
-      },
+      payload: DisassociateResolverRuleRequest(
+        resolverRuleId: resolverRuleId,
+        vPCId: vPCId,
+      ),
     );
 
     return DisassociateResolverRuleResponse.fromJson(jsonResponse.body);
@@ -681,9 +679,9 @@ class Route53Resolver {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResolverEndpointId': resolverEndpointId,
-      },
+      payload: GetResolverEndpointRequest(
+        resolverEndpointId: resolverEndpointId,
+      ),
     );
 
     return GetResolverEndpointResponse.fromJson(jsonResponse.body);
@@ -721,9 +719,9 @@ class Route53Resolver {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResolverRuleId': resolverRuleId,
-      },
+      payload: GetResolverRuleRequest(
+        resolverRuleId: resolverRuleId,
+      ),
     );
 
     return GetResolverRuleResponse.fromJson(jsonResponse.body);
@@ -763,9 +761,9 @@ class Route53Resolver {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResolverRuleAssociationId': resolverRuleAssociationId,
-      },
+      payload: GetResolverRuleAssociationRequest(
+        resolverRuleAssociationId: resolverRuleAssociationId,
+      ),
     );
 
     return GetResolverRuleAssociationResponse.fromJson(jsonResponse.body);
@@ -802,9 +800,9 @@ class Route53Resolver {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Arn': arn,
-      },
+      payload: GetResolverRulePolicyRequest(
+        arn: arn,
+      ),
     );
 
     return GetResolverRulePolicyResponse.fromJson(jsonResponse.body);
@@ -866,11 +864,11 @@ class Route53Resolver {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResolverEndpointId': resolverEndpointId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListResolverEndpointIpAddressesRequest(
+        resolverEndpointId: resolverEndpointId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListResolverEndpointIpAddressesResponse.fromJson(jsonResponse.body);
@@ -928,11 +926,11 @@ class Route53Resolver {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListResolverEndpointsRequest(
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListResolverEndpointsResponse.fromJson(jsonResponse.body);
@@ -992,11 +990,11 @@ class Route53Resolver {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListResolverRuleAssociationsRequest(
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListResolverRuleAssociationsResponse.fromJson(jsonResponse.body);
@@ -1053,11 +1051,11 @@ class Route53Resolver {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListResolverRulesRequest(
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListResolverRulesResponse.fromJson(jsonResponse.body);
@@ -1117,11 +1115,11 @@ class Route53Resolver {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListTagsForResourceRequest(
+        resourceArn: resourceArn,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
@@ -1172,10 +1170,10 @@ class Route53Resolver {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Arn': arn,
-        'ResolverRulePolicy': resolverRulePolicy,
-      },
+      payload: PutResolverRulePolicyRequest(
+        arn: arn,
+        resolverRulePolicy: resolverRulePolicy,
+      ),
     );
 
     return PutResolverRulePolicyResponse.fromJson(jsonResponse.body);
@@ -1241,10 +1239,10 @@ class Route53Resolver {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        'Tags': tags,
-      },
+      payload: TagResourceRequest(
+        resourceArn: resourceArn,
+        tags: tags,
+      ),
     );
 
     return TagResourceResponse.fromJson(jsonResponse.body);
@@ -1308,10 +1306,10 @@ class Route53Resolver {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        'TagKeys': tagKeys,
-      },
+      payload: UntagResourceRequest(
+        resourceArn: resourceArn,
+        tagKeys: tagKeys,
+      ),
     );
 
     return UntagResourceResponse.fromJson(jsonResponse.body);
@@ -1363,10 +1361,10 @@ class Route53Resolver {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResolverEndpointId': resolverEndpointId,
-        if (name != null) 'Name': name,
-      },
+      payload: UpdateResolverEndpointRequest(
+        resolverEndpointId: resolverEndpointId,
+        name: name,
+      ),
     );
 
     return UpdateResolverEndpointResponse.fromJson(jsonResponse.body);
@@ -1412,14 +1410,39 @@ class Route53Resolver {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Config': config,
-        'ResolverRuleId': resolverRuleId,
-      },
+      payload: UpdateResolverRuleRequest(
+        config: config,
+        resolverRuleId: resolverRuleId,
+      ),
     );
 
     return UpdateResolverRuleResponse.fromJson(jsonResponse.body);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateResolverEndpointIpAddressRequest {
+  /// Either the IPv4 address that you want to add to a resolver endpoint or a
+  /// subnet ID. If you specify a subnet ID, Resolver chooses an IP address for
+  /// you from the available IPs in the specified subnet.
+  @_s.JsonKey(name: 'IpAddress')
+  final IpAddressUpdate ipAddress;
+
+  /// The ID of the resolver endpoint that you want to associate IP addresses
+  /// with.
+  @_s.JsonKey(name: 'ResolverEndpointId')
+  final String resolverEndpointId;
+
+  AssociateResolverEndpointIpAddressRequest({
+    @_s.required this.ipAddress,
+    @_s.required this.resolverEndpointId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AssociateResolverEndpointIpAddressRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1443,6 +1466,34 @@ class AssociateResolverEndpointIpAddressResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateResolverRuleRequest {
+  /// The ID of the resolver rule that you want to associate with the VPC. To list
+  /// the existing resolver rules, use <a>ListResolverRules</a>.
+  @_s.JsonKey(name: 'ResolverRuleId')
+  final String resolverRuleId;
+
+  /// The ID of the VPC that you want to associate the resolver rule with.
+  @_s.JsonKey(name: 'VPCId')
+  final String vPCId;
+
+  /// A name for the association that you're creating between a resolver rule and
+  /// a VPC.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  AssociateResolverRuleRequest({
+    @_s.required this.resolverRuleId,
+    @_s.required this.vPCId,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$AssociateResolverRuleRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AssociateResolverRuleResponse {
@@ -1456,6 +1507,69 @@ class AssociateResolverRuleResponse {
   });
   factory AssociateResolverRuleResponse.fromJson(Map<String, dynamic> json) =>
       _$AssociateResolverRuleResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateResolverEndpointRequest {
+  /// A unique string that identifies the request and that allows failed requests
+  /// to be retried without the risk of executing the operation twice.
+  /// <code>CreatorRequestId</code> can be any unique string, for example, a
+  /// date/time stamp.
+  @_s.JsonKey(name: 'CreatorRequestId')
+  final String creatorRequestId;
+
+  /// Specify the applicable value:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>INBOUND</code>: Resolver forwards DNS queries to the DNS service for a
+  /// VPC from your network or another VPC
+  /// </li>
+  /// <li>
+  /// <code>OUTBOUND</code>: Resolver forwards DNS queries from the DNS service
+  /// for a VPC to your network or another VPC
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Direction')
+  final ResolverEndpointDirection direction;
+
+  /// The subnets and IP addresses in your VPC that you want DNS queries to pass
+  /// through on the way from your VPCs to your network (for outbound endpoints)
+  /// or on the way from your network to your VPCs (for inbound resolver
+  /// endpoints).
+  @_s.JsonKey(name: 'IpAddresses')
+  final List<IpAddressRequest> ipAddresses;
+
+  /// The ID of one or more security groups that you want to use to control access
+  /// to this VPC. The security group that you specify must include one or more
+  /// inbound rules (for inbound resolver endpoints) or outbound rules (for
+  /// outbound resolver endpoints).
+  @_s.JsonKey(name: 'SecurityGroupIds')
+  final List<String> securityGroupIds;
+
+  /// A friendly name that lets you easily find a configuration in the Resolver
+  /// dashboard in the Route 53 console.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// A list of the tag keys and values that you want to associate with the
+  /// endpoint.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateResolverEndpointRequest({
+    @_s.required this.creatorRequestId,
+    @_s.required this.direction,
+    @_s.required this.ipAddresses,
+    @_s.required this.securityGroupIds,
+    this.name,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateResolverEndpointRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1479,6 +1593,63 @@ class CreateResolverEndpointResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateResolverRuleRequest {
+  /// A unique string that identifies the request and that allows failed requests
+  /// to be retried without the risk of executing the operation twice.
+  /// <code>CreatorRequestId</code> can be any unique string, for example, a
+  /// date/time stamp.
+  @_s.JsonKey(name: 'CreatorRequestId')
+  final String creatorRequestId;
+
+  /// DNS queries for this domain name are forwarded to the IP addresses that you
+  /// specify in <code>TargetIps</code>. If a query matches multiple resolver
+  /// rules (example.com and www.example.com), outbound DNS queries are routed
+  /// using the resolver rule that contains the most specific domain name
+  /// (www.example.com).
+  @_s.JsonKey(name: 'DomainName')
+  final String domainName;
+
+  /// Specify <code>FORWARD</code>. Other resolver rule types aren't supported.
+  @_s.JsonKey(name: 'RuleType')
+  final RuleTypeOption ruleType;
+
+  /// A friendly name that lets you easily find a rule in the Resolver dashboard
+  /// in the Route 53 console.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The ID of the outbound resolver endpoint that you want to use to route DNS
+  /// queries to the IP addresses that you specify in <code>TargetIps</code>.
+  @_s.JsonKey(name: 'ResolverEndpointId')
+  final String resolverEndpointId;
+
+  /// A list of the tag keys and values that you want to associate with the
+  /// endpoint.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  /// The IPs that you want Resolver to forward DNS queries to. You can specify
+  /// only IPv4 addresses. Separate IP addresses with a comma.
+  @_s.JsonKey(name: 'TargetIps')
+  final List<TargetAddress> targetIps;
+
+  CreateResolverRuleRequest({
+    @_s.required this.creatorRequestId,
+    @_s.required this.domainName,
+    @_s.required this.ruleType,
+    this.name,
+    this.resolverEndpointId,
+    this.tags,
+    this.targetIps,
+  });
+  Map<String, dynamic> toJson() => _$CreateResolverRuleRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateResolverRuleResponse {
@@ -1492,6 +1663,22 @@ class CreateResolverRuleResponse {
   });
   factory CreateResolverRuleResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateResolverRuleResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteResolverEndpointRequest {
+  /// The ID of the resolver endpoint that you want to delete.
+  @_s.JsonKey(name: 'ResolverEndpointId')
+  final String resolverEndpointId;
+
+  DeleteResolverEndpointRequest({
+    @_s.required this.resolverEndpointId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteResolverEndpointRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1515,6 +1702,22 @@ class DeleteResolverEndpointResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteResolverRuleRequest {
+  /// The ID of the resolver rule that you want to delete.
+  @_s.JsonKey(name: 'ResolverRuleId')
+  final String resolverRuleId;
+
+  DeleteResolverRuleRequest({
+    @_s.required this.resolverRuleId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteResolverRuleRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteResolverRuleResponse {
@@ -1528,6 +1731,29 @@ class DeleteResolverRuleResponse {
   });
   factory DeleteResolverRuleResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteResolverRuleResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateResolverEndpointIpAddressRequest {
+  /// The IPv4 address that you want to remove from a resolver endpoint.
+  @_s.JsonKey(name: 'IpAddress')
+  final IpAddressUpdate ipAddress;
+
+  /// The ID of the resolver endpoint that you want to disassociate an IP address
+  /// from.
+  @_s.JsonKey(name: 'ResolverEndpointId')
+  final String resolverEndpointId;
+
+  DisassociateResolverEndpointIpAddressRequest({
+    @_s.required this.ipAddress,
+    @_s.required this.resolverEndpointId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DisassociateResolverEndpointIpAddressRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1547,6 +1773,29 @@ class DisassociateResolverEndpointIpAddressResponse {
   factory DisassociateResolverEndpointIpAddressResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DisassociateResolverEndpointIpAddressResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateResolverRuleRequest {
+  /// The ID of the resolver rule that you want to disassociate from the specified
+  /// VPC.
+  @_s.JsonKey(name: 'ResolverRuleId')
+  final String resolverRuleId;
+
+  /// The ID of the VPC that you want to disassociate the resolver rule from.
+  @_s.JsonKey(name: 'VPCId')
+  final String vPCId;
+
+  DisassociateResolverRuleRequest({
+    @_s.required this.resolverRuleId,
+    @_s.required this.vPCId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DisassociateResolverRuleRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1602,6 +1851,22 @@ class Filter {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetResolverEndpointRequest {
+  /// The ID of the resolver endpoint that you want to get information about.
+  @_s.JsonKey(name: 'ResolverEndpointId')
+  final String resolverEndpointId;
+
+  GetResolverEndpointRequest({
+    @_s.required this.resolverEndpointId,
+  });
+  Map<String, dynamic> toJson() => _$GetResolverEndpointRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetResolverEndpointResponse {
@@ -1615,6 +1880,24 @@ class GetResolverEndpointResponse {
   });
   factory GetResolverEndpointResponse.fromJson(Map<String, dynamic> json) =>
       _$GetResolverEndpointResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetResolverRuleAssociationRequest {
+  /// The ID of the resolver rule association that you want to get information
+  /// about.
+  @_s.JsonKey(name: 'ResolverRuleAssociationId')
+  final String resolverRuleAssociationId;
+
+  GetResolverRuleAssociationRequest({
+    @_s.required this.resolverRuleAssociationId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetResolverRuleAssociationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1639,6 +1922,22 @@ class GetResolverRuleAssociationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetResolverRulePolicyRequest {
+  /// The ID of the resolver rule policy that you want to get information about.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  GetResolverRulePolicyRequest({
+    @_s.required this.arn,
+  });
+  Map<String, dynamic> toJson() => _$GetResolverRulePolicyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetResolverRulePolicyResponse {
@@ -1652,6 +1951,22 @@ class GetResolverRulePolicyResponse {
   });
   factory GetResolverRulePolicyResponse.fromJson(Map<String, dynamic> json) =>
       _$GetResolverRulePolicyResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetResolverRuleRequest {
+  /// The ID of the resolver rule that you want to get information about.
+  @_s.JsonKey(name: 'ResolverRuleId')
+  final String resolverRuleId;
+
+  GetResolverRuleRequest({
+    @_s.required this.resolverRuleId,
+  });
+  Map<String, dynamic> toJson() => _$GetResolverRuleRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1804,6 +2119,43 @@ class IpAddressUpdate {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListResolverEndpointIpAddressesRequest {
+  /// The ID of the resolver endpoint that you want to get IP addresses for.
+  @_s.JsonKey(name: 'ResolverEndpointId')
+  final String resolverEndpointId;
+
+  /// The maximum number of IP addresses that you want to return in the response
+  /// to a <code>ListResolverEndpointIpAddresses</code> request. If you don't
+  /// specify a value for <code>MaxResults</code>, Resolver returns up to 100 IP
+  /// addresses.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// For the first <code>ListResolverEndpointIpAddresses</code> request, omit
+  /// this value.
+  ///
+  /// If the specified resolver endpoint has more than <code>MaxResults</code> IP
+  /// addresses, you can submit another
+  /// <code>ListResolverEndpointIpAddresses</code> request to get the next group
+  /// of IP addresses. In the next request, specify the value of
+  /// <code>NextToken</code> from the previous response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListResolverEndpointIpAddressesRequest({
+    @_s.required this.resolverEndpointId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListResolverEndpointIpAddressesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListResolverEndpointIpAddressesResponse {
@@ -1837,6 +2189,46 @@ class ListResolverEndpointIpAddressesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListResolverEndpointsRequest {
+  /// An optional specification to return a subset of resolver endpoints, such as
+  /// all inbound resolver endpoints.
+  /// <note>
+  /// If you submit a second or subsequent <code>ListResolverEndpoints</code>
+  /// request and specify the <code>NextToken</code> parameter, you must use the
+  /// same values for <code>Filters</code>, if any, as in the previous request.
+  /// </note>
+  @_s.JsonKey(name: 'Filters')
+  final List<Filter> filters;
+
+  /// The maximum number of resolver endpoints that you want to return in the
+  /// response to a <code>ListResolverEndpoints</code> request. If you don't
+  /// specify a value for <code>MaxResults</code>, Resolver returns up to 100
+  /// resolver endpoints.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// For the first <code>ListResolverEndpoints</code> request, omit this value.
+  ///
+  /// If you have more than <code>MaxResults</code> resolver endpoints, you can
+  /// submit another <code>ListResolverEndpoints</code> request to get the next
+  /// group of resolver endpoints. In the next request, specify the value of
+  /// <code>NextToken</code> from the previous response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListResolverEndpointsRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListResolverEndpointsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListResolverEndpointsResponse {
@@ -1863,6 +2255,49 @@ class ListResolverEndpointsResponse {
   });
   factory ListResolverEndpointsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListResolverEndpointsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListResolverRuleAssociationsRequest {
+  /// An optional specification to return a subset of resolver rules, such as
+  /// resolver rules that are associated with the same VPC ID.
+  /// <note>
+  /// If you submit a second or subsequent
+  /// <code>ListResolverRuleAssociations</code> request and specify the
+  /// <code>NextToken</code> parameter, you must use the same values for
+  /// <code>Filters</code>, if any, as in the previous request.
+  /// </note>
+  @_s.JsonKey(name: 'Filters')
+  final List<Filter> filters;
+
+  /// The maximum number of rule associations that you want to return in the
+  /// response to a <code>ListResolverRuleAssociations</code> request. If you
+  /// don't specify a value for <code>MaxResults</code>, Resolver returns up to
+  /// 100 rule associations.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// For the first <code>ListResolverRuleAssociation</code> request, omit this
+  /// value.
+  ///
+  /// If you have more than <code>MaxResults</code> rule associations, you can
+  /// submit another <code>ListResolverRuleAssociation</code> request to get the
+  /// next group of rule associations. In the next request, specify the value of
+  /// <code>NextToken</code> from the previous response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListResolverRuleAssociationsRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListResolverRuleAssociationsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1900,6 +2335,45 @@ class ListResolverRuleAssociationsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListResolverRulesRequest {
+  /// An optional specification to return a subset of resolver rules, such as all
+  /// resolver rules that are associated with the same resolver endpoint.
+  /// <note>
+  /// If you submit a second or subsequent <code>ListResolverRules</code> request
+  /// and specify the <code>NextToken</code> parameter, you must use the same
+  /// values for <code>Filters</code>, if any, as in the previous request.
+  /// </note>
+  @_s.JsonKey(name: 'Filters')
+  final List<Filter> filters;
+
+  /// The maximum number of resolver rules that you want to return in the response
+  /// to a <code>ListResolverRules</code> request. If you don't specify a value
+  /// for <code>MaxResults</code>, Resolver returns up to 100 resolver rules.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// For the first <code>ListResolverRules</code> request, omit this value.
+  ///
+  /// If you have more than <code>MaxResults</code> resolver rules, you can submit
+  /// another <code>ListResolverRules</code> request to get the next group of
+  /// resolver rules. In the next request, specify the value of
+  /// <code>NextToken</code> from the previous response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListResolverRulesRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListResolverRulesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListResolverRulesResponse {
@@ -1931,6 +2405,40 @@ class ListResolverRulesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceRequest {
+  /// The Amazon Resource Name (ARN) for the resource that you want to list tags
+  /// for.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// The maximum number of tags that you want to return in the response to a
+  /// <code>ListTagsForResource</code> request. If you don't specify a value for
+  /// <code>MaxResults</code>, Resolver returns up to 100 tags.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// For the first <code>ListTagsForResource</code> request, omit this value.
+  ///
+  /// If you have more than <code>MaxResults</code> tags, you can submit another
+  /// <code>ListTagsForResource</code> request to get the next group of tags for
+  /// the resource. In the next request, specify the value of
+  /// <code>NextToken</code> from the previous response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListTagsForResourceRequest({
+    @_s.required this.resourceArn,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListTagsForResourceResponse {
@@ -1952,6 +2460,29 @@ class ListTagsForResourceResponse {
   });
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$ListTagsForResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutResolverRulePolicyRequest {
+  /// The Amazon Resource Name (ARN) of the account that you want to grant
+  /// permissions to.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// An AWS Identity and Access Management policy statement that lists the
+  /// permissions that you want to grant to another AWS account.
+  @_s.JsonKey(name: 'ResolverRulePolicy')
+  final String resolverRulePolicy;
+
+  PutResolverRulePolicyRequest({
+    @_s.required this.arn,
+    @_s.required this.resolverRulePolicy,
+  });
+  Map<String, dynamic> toJson() => _$PutResolverRulePolicyRequestToJson(this);
 }
 
 /// The response to a <code>PutResolverRulePolicy</code> request.
@@ -2073,18 +2604,6 @@ enum ResolverEndpointDirection {
   inbound,
   @_s.JsonValue('OUTBOUND')
   outbound,
-}
-
-extension on ResolverEndpointDirection {
-  String toValue() {
-    switch (this) {
-      case ResolverEndpointDirection.inbound:
-        return 'INBOUND';
-      case ResolverEndpointDirection.outbound:
-        return 'OUTBOUND';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 enum ResolverEndpointStatus {
@@ -2304,20 +2823,6 @@ enum RuleTypeOption {
   recursive,
 }
 
-extension on RuleTypeOption {
-  String toValue() {
-    switch (this) {
-      case RuleTypeOption.forward:
-        return 'FORWARD';
-      case RuleTypeOption.system:
-        return 'SYSTEM';
-      case RuleTypeOption.recursive:
-        return 'RECURSIVE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum ShareStatus {
   @_s.JsonValue('NOT_SHARED')
   notShared,
@@ -2354,6 +2859,50 @@ class Tag {
   factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
   Map<String, dynamic> toJson() => _$TagToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The Amazon Resource Name (ARN) for the resource that you want to add tags
+  /// to. To get the ARN for a resource, use the applicable <code>Get</code> or
+  /// <code>List</code> command:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>GetResolverEndpoint</a>
+  /// </li>
+  /// <li>
+  /// <a>GetResolverRule</a>
+  /// </li>
+  /// <li>
+  /// <a>GetResolverRuleAssociation</a>
+  /// </li>
+  /// <li>
+  /// <a>ListResolverEndpoints</a>
+  /// </li>
+  /// <li>
+  /// <a>ListResolverRuleAssociations</a>
+  /// </li>
+  /// <li>
+  /// <a>ListResolverRules</a>
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// The tags that you want to add to the specified resource.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2397,12 +2946,77 @@ class TargetAddress {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The Amazon Resource Name (ARN) for the resource that you want to remove tags
+  /// from. To get the ARN for a resource, use the applicable <code>Get</code> or
+  /// <code>List</code> command:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>GetResolverEndpoint</a>
+  /// </li>
+  /// <li>
+  /// <a>GetResolverRule</a>
+  /// </li>
+  /// <li>
+  /// <a>GetResolverRuleAssociation</a>
+  /// </li>
+  /// <li>
+  /// <a>ListResolverEndpoints</a>
+  /// </li>
+  /// <li>
+  /// <a>ListResolverRuleAssociations</a>
+  /// </li>
+  /// <li>
+  /// <a>ListResolverRules</a>
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// The tags that you want to remove to the specified resource.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
   factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateResolverEndpointRequest {
+  /// The ID of the resolver endpoint that you want to update.
+  @_s.JsonKey(name: 'ResolverEndpointId')
+  final String resolverEndpointId;
+
+  /// The name of the resolver endpoint that you want to update.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  UpdateResolverEndpointRequest({
+    @_s.required this.resolverEndpointId,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$UpdateResolverEndpointRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2420,6 +3034,27 @@ class UpdateResolverEndpointResponse {
   });
   factory UpdateResolverEndpointResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateResolverEndpointResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateResolverRuleRequest {
+  /// The new settings for the resolver rule.
+  @_s.JsonKey(name: 'Config')
+  final ResolverRuleConfig config;
+
+  /// The ID of the resolver rule that you want to update.
+  @_s.JsonKey(name: 'ResolverRuleId')
+  final String resolverRuleId;
+
+  UpdateResolverRuleRequest({
+    @_s.required this.config,
+    @_s.required this.resolverRuleId,
+  });
+  Map<String, dynamic> toJson() => _$UpdateResolverRuleRequestToJson(this);
 }
 
 @_s.JsonSerializable(

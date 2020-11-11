@@ -118,6 +118,22 @@ const _$ClusterStateEnumMap = {
   ClusterState.degraded: 'DEGRADED',
 };
 
+Map<String, dynamic> _$CopyBackupToRegionRequestToJson(
+    CopyBackupToRegionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BackupId', instance.backupId);
+  writeNotNull('DestinationRegion', instance.destinationRegion);
+  writeNotNull('TagList', instance.tagList?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CopyBackupToRegionResponse _$CopyBackupToRegionResponseFromJson(
     Map<String, dynamic> json) {
   return CopyBackupToRegionResponse(
@@ -126,6 +142,23 @@ CopyBackupToRegionResponse _$CopyBackupToRegionResponseFromJson(
         : DestinationBackup.fromJson(
             json['DestinationBackup'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateClusterRequestToJson(
+    CreateClusterRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('HsmType', instance.hsmType);
+  writeNotNull('SubnetIds', instance.subnetIds);
+  writeNotNull('SourceBackupId', instance.sourceBackupId);
+  writeNotNull('TagList', instance.tagList?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateClusterResponse _$CreateClusterResponseFromJson(
@@ -137,6 +170,21 @@ CreateClusterResponse _$CreateClusterResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateHsmRequestToJson(CreateHsmRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AvailabilityZone', instance.availabilityZone);
+  writeNotNull('ClusterId', instance.clusterId);
+  writeNotNull('IpAddress', instance.ipAddress);
+  return val;
+}
+
 CreateHsmResponse _$CreateHsmResponseFromJson(Map<String, dynamic> json) {
   return CreateHsmResponse(
     hsm: json['Hsm'] == null
@@ -145,12 +193,39 @@ CreateHsmResponse _$CreateHsmResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DeleteBackupRequestToJson(DeleteBackupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BackupId', instance.backupId);
+  return val;
+}
+
 DeleteBackupResponse _$DeleteBackupResponseFromJson(Map<String, dynamic> json) {
   return DeleteBackupResponse(
     backup: json['Backup'] == null
         ? null
         : Backup.fromJson(json['Backup'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DeleteClusterRequestToJson(
+    DeleteClusterRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClusterId', instance.clusterId);
+  return val;
 }
 
 DeleteClusterResponse _$DeleteClusterResponseFromJson(
@@ -162,10 +237,43 @@ DeleteClusterResponse _$DeleteClusterResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteHsmRequestToJson(DeleteHsmRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClusterId', instance.clusterId);
+  writeNotNull('EniId', instance.eniId);
+  writeNotNull('EniIp', instance.eniIp);
+  writeNotNull('HsmId', instance.hsmId);
+  return val;
+}
+
 DeleteHsmResponse _$DeleteHsmResponseFromJson(Map<String, dynamic> json) {
   return DeleteHsmResponse(
     hsmId: json['HsmId'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeBackupsRequestToJson(
+    DescribeBackupsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SortAscending', instance.sortAscending);
+  return val;
 }
 
 DescribeBackupsResponse _$DescribeBackupsResponseFromJson(
@@ -177,6 +285,22 @@ DescribeBackupsResponse _$DescribeBackupsResponseFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeClustersRequestToJson(
+    DescribeClustersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 DescribeClustersResponse _$DescribeClustersResponseFromJson(
@@ -220,12 +344,43 @@ const _$HsmStateEnumMap = {
   HsmState.deleted: 'DELETED',
 };
 
+Map<String, dynamic> _$InitializeClusterRequestToJson(
+    InitializeClusterRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClusterId', instance.clusterId);
+  writeNotNull('SignedCert', instance.signedCert);
+  writeNotNull('TrustAnchor', instance.trustAnchor);
+  return val;
+}
+
 InitializeClusterResponse _$InitializeClusterResponseFromJson(
     Map<String, dynamic> json) {
   return InitializeClusterResponse(
     state: _$enumDecodeNullable(_$ClusterStateEnumMap, json['State']),
     stateMessage: json['StateMessage'] as String,
   );
+}
+
+Map<String, dynamic> _$ListTagsRequestToJson(ListTagsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceId', instance.resourceId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListTagsResponse _$ListTagsResponseFromJson(Map<String, dynamic> json) {
@@ -235,6 +390,20 @@ ListTagsResponse _$ListTagsResponseFromJson(Map<String, dynamic> json) {
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$RestoreBackupRequestToJson(
+    RestoreBackupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BackupId', instance.backupId);
+  return val;
 }
 
 RestoreBackupResponse _$RestoreBackupResponseFromJson(
@@ -267,8 +436,37 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
   return val;
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceId', instance.resourceId);
+  writeNotNull('TagList', instance.tagList?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
+}
+
+Map<String, dynamic> _$UntagResourceRequestToJson(
+    UntagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceId', instance.resourceId);
+  writeNotNull('TagKeyList', instance.tagKeyList);
+  return val;
 }
 
 UntagResourceResponse _$UntagResourceResponseFromJson(

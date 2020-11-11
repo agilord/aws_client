@@ -6,11 +6,40 @@ part of 'cur-2017-01-06.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$DeleteReportDefinitionRequestToJson(
+    DeleteReportDefinitionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ReportName', instance.reportName);
+  return val;
+}
+
 DeleteReportDefinitionResponse _$DeleteReportDefinitionResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteReportDefinitionResponse(
     responseMessage: json['ResponseMessage'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeReportDefinitionsRequestToJson(
+    DescribeReportDefinitionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 DescribeReportDefinitionsResponse _$DescribeReportDefinitionsResponseFromJson(
@@ -25,9 +54,38 @@ DescribeReportDefinitionsResponse _$DescribeReportDefinitionsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ModifyReportDefinitionRequestToJson(
+    ModifyReportDefinitionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ReportDefinition', instance.reportDefinition?.toJson());
+  writeNotNull('ReportName', instance.reportName);
+  return val;
+}
+
 ModifyReportDefinitionResponse _$ModifyReportDefinitionResponseFromJson(
     Map<String, dynamic> json) {
   return ModifyReportDefinitionResponse();
+}
+
+Map<String, dynamic> _$PutReportDefinitionRequestToJson(
+    PutReportDefinitionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ReportDefinition', instance.reportDefinition?.toJson());
+  return val;
 }
 
 PutReportDefinitionResponse _$PutReportDefinitionResponseFromJson(

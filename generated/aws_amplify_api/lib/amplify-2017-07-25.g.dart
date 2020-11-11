@@ -190,12 +190,60 @@ Branch _$BranchFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateAppRequestToJson(CreateAppRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('accessToken', instance.accessToken);
+  writeNotNull(
+      'autoBranchCreationConfig', instance.autoBranchCreationConfig?.toJson());
+  writeNotNull(
+      'autoBranchCreationPatterns', instance.autoBranchCreationPatterns);
+  writeNotNull('basicAuthCredentials', instance.basicAuthCredentials);
+  writeNotNull('buildSpec', instance.buildSpec);
+  writeNotNull(
+      'customRules', instance.customRules?.map((e) => e?.toJson())?.toList());
+  writeNotNull('description', instance.description);
+  writeNotNull('enableAutoBranchCreation', instance.enableAutoBranchCreation);
+  writeNotNull('enableBasicAuth', instance.enableBasicAuth);
+  writeNotNull('enableBranchAutoBuild', instance.enableBranchAutoBuild);
+  writeNotNull('environmentVariables', instance.environmentVariables);
+  writeNotNull('iamServiceRoleArn', instance.iamServiceRoleArn);
+  writeNotNull('oauthToken', instance.oauthToken);
+  writeNotNull('platform', _$PlatformEnumMap[instance.platform]);
+  writeNotNull('repository', instance.repository);
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
 CreateAppResult _$CreateAppResultFromJson(Map<String, dynamic> json) {
   return CreateAppResult(
     app: json['app'] == null
         ? null
         : App.fromJson(json['app'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateBackendEnvironmentRequestToJson(
+    CreateBackendEnvironmentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('environmentName', instance.environmentName);
+  writeNotNull('deploymentArtifacts', instance.deploymentArtifacts);
+  writeNotNull('stackName', instance.stackName);
+  return val;
 }
 
 CreateBackendEnvironmentResult _$CreateBackendEnvironmentResultFromJson(
@@ -208,12 +256,55 @@ CreateBackendEnvironmentResult _$CreateBackendEnvironmentResultFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateBranchRequestToJson(CreateBranchRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('branchName', instance.branchName);
+  writeNotNull('backendEnvironmentArn', instance.backendEnvironmentArn);
+  writeNotNull('basicAuthCredentials', instance.basicAuthCredentials);
+  writeNotNull('buildSpec', instance.buildSpec);
+  writeNotNull('description', instance.description);
+  writeNotNull('displayName', instance.displayName);
+  writeNotNull('enableAutoBuild', instance.enableAutoBuild);
+  writeNotNull('enableBasicAuth', instance.enableBasicAuth);
+  writeNotNull('enableNotification', instance.enableNotification);
+  writeNotNull('enablePullRequestPreview', instance.enablePullRequestPreview);
+  writeNotNull('environmentVariables', instance.environmentVariables);
+  writeNotNull('framework', instance.framework);
+  writeNotNull(
+      'pullRequestEnvironmentName', instance.pullRequestEnvironmentName);
+  writeNotNull('stage', _$StageEnumMap[instance.stage]);
+  writeNotNull('tags', instance.tags);
+  writeNotNull('ttl', instance.ttl);
+  return val;
+}
+
 CreateBranchResult _$CreateBranchResultFromJson(Map<String, dynamic> json) {
   return CreateBranchResult(
     branch: json['branch'] == null
         ? null
         : Branch.fromJson(json['branch'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateDeploymentRequestToJson(
+    CreateDeploymentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('fileMap', instance.fileMap);
+  return val;
 }
 
 CreateDeploymentResult _$CreateDeploymentResultFromJson(
@@ -227,6 +318,23 @@ CreateDeploymentResult _$CreateDeploymentResultFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateDomainAssociationRequestToJson(
+    CreateDomainAssociationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('domainName', instance.domainName);
+  writeNotNull('subDomainSettings',
+      instance.subDomainSettings?.map((e) => e?.toJson())?.toList());
+  writeNotNull('enableAutoSubDomain', instance.enableAutoSubDomain);
+  return val;
+}
+
 CreateDomainAssociationResult _$CreateDomainAssociationResultFromJson(
     Map<String, dynamic> json) {
   return CreateDomainAssociationResult(
@@ -235,6 +343,21 @@ CreateDomainAssociationResult _$CreateDomainAssociationResultFromJson(
         : DomainAssociation.fromJson(
             json['domainAssociation'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateWebhookRequestToJson(
+    CreateWebhookRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('branchName', instance.branchName);
+  writeNotNull('description', instance.description);
+  return val;
 }
 
 CreateWebhookResult _$CreateWebhookResultFromJson(Map<String, dynamic> json) {
@@ -270,6 +393,9 @@ Map<String, dynamic> _$CustomRuleToJson(CustomRule instance) {
   return val;
 }
 
+Map<String, dynamic> _$DeleteAppRequestToJson(DeleteAppRequest instance) =>
+    <String, dynamic>{};
+
 DeleteAppResult _$DeleteAppResultFromJson(Map<String, dynamic> json) {
   return DeleteAppResult(
     app: json['app'] == null
@@ -277,6 +403,10 @@ DeleteAppResult _$DeleteAppResultFromJson(Map<String, dynamic> json) {
         : App.fromJson(json['app'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$DeleteBackendEnvironmentRequestToJson(
+        DeleteBackendEnvironmentRequest instance) =>
+    <String, dynamic>{};
 
 DeleteBackendEnvironmentResult _$DeleteBackendEnvironmentResultFromJson(
     Map<String, dynamic> json) {
@@ -288,6 +418,10 @@ DeleteBackendEnvironmentResult _$DeleteBackendEnvironmentResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteBranchRequestToJson(
+        DeleteBranchRequest instance) =>
+    <String, dynamic>{};
+
 DeleteBranchResult _$DeleteBranchResultFromJson(Map<String, dynamic> json) {
   return DeleteBranchResult(
     branch: json['branch'] == null
@@ -295,6 +429,10 @@ DeleteBranchResult _$DeleteBranchResultFromJson(Map<String, dynamic> json) {
         : Branch.fromJson(json['branch'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$DeleteDomainAssociationRequestToJson(
+        DeleteDomainAssociationRequest instance) =>
+    <String, dynamic>{};
 
 DeleteDomainAssociationResult _$DeleteDomainAssociationResultFromJson(
     Map<String, dynamic> json) {
@@ -306,6 +444,9 @@ DeleteDomainAssociationResult _$DeleteDomainAssociationResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteJobRequestToJson(DeleteJobRequest instance) =>
+    <String, dynamic>{};
+
 DeleteJobResult _$DeleteJobResultFromJson(Map<String, dynamic> json) {
   return DeleteJobResult(
     jobSummary: json['jobSummary'] == null
@@ -313,6 +454,10 @@ DeleteJobResult _$DeleteJobResultFromJson(Map<String, dynamic> json) {
         : JobSummary.fromJson(json['jobSummary'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$DeleteWebhookRequestToJson(
+        DeleteWebhookRequest instance) =>
+    <String, dynamic>{};
 
 DeleteWebhookResult _$DeleteWebhookResultFromJson(Map<String, dynamic> json) {
   return DeleteWebhookResult(
@@ -349,6 +494,22 @@ const _$DomainStatusEnumMap = {
   DomainStatus.requestingCertificate: 'REQUESTING_CERTIFICATE',
   DomainStatus.updating: 'UPDATING',
 };
+
+Map<String, dynamic> _$GenerateAccessLogsRequestToJson(
+    GenerateAccessLogsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('domainName', instance.domainName);
+  writeNotNull('endTime', unixTimestampToJson(instance.endTime));
+  writeNotNull('startTime', unixTimestampToJson(instance.startTime));
+  return val;
+}
 
 GenerateAccessLogsResult _$GenerateAccessLogsResultFromJson(
     Map<String, dynamic> json) {
@@ -550,6 +711,21 @@ ProductionBranch _$ProductionBranchFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$StartDeploymentRequestToJson(
+    StartDeploymentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('jobId', instance.jobId);
+  writeNotNull('sourceUrl', instance.sourceUrl);
+  return val;
+}
+
 StartDeploymentResult _$StartDeploymentResultFromJson(
     Map<String, dynamic> json) {
   return StartDeploymentResult(
@@ -557,6 +733,24 @@ StartDeploymentResult _$StartDeploymentResultFromJson(
         ? null
         : JobSummary.fromJson(json['jobSummary'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$StartJobRequestToJson(StartJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('jobType', _$JobTypeEnumMap[instance.jobType]);
+  writeNotNull('commitId', instance.commitId);
+  writeNotNull('commitMessage', instance.commitMessage);
+  writeNotNull('commitTime', unixTimestampToJson(instance.commitTime));
+  writeNotNull('jobId', instance.jobId);
+  writeNotNull('jobReason', instance.jobReason);
+  return val;
 }
 
 StartJobResult _$StartJobResultFromJson(Map<String, dynamic> json) {
@@ -584,6 +778,9 @@ Step _$StepFromJson(Map<String, dynamic> json) {
     testConfigUrl: json['testConfigUrl'] as String,
   );
 }
+
+Map<String, dynamic> _$StopJobRequestToJson(StopJobRequest instance) =>
+    <String, dynamic>{};
 
 StopJobResult _$StopJobResultFromJson(Map<String, dynamic> json) {
   return StopJobResult(
@@ -625,13 +822,61 @@ Map<String, dynamic> _$SubDomainSettingToJson(SubDomainSetting instance) {
   return val;
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
 }
 
+Map<String, dynamic> _$UntagResourceRequestToJson(
+        UntagResourceRequest instance) =>
+    <String, dynamic>{};
+
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse();
+}
+
+Map<String, dynamic> _$UpdateAppRequestToJson(UpdateAppRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('accessToken', instance.accessToken);
+  writeNotNull(
+      'autoBranchCreationConfig', instance.autoBranchCreationConfig?.toJson());
+  writeNotNull(
+      'autoBranchCreationPatterns', instance.autoBranchCreationPatterns);
+  writeNotNull('basicAuthCredentials', instance.basicAuthCredentials);
+  writeNotNull('buildSpec', instance.buildSpec);
+  writeNotNull(
+      'customRules', instance.customRules?.map((e) => e?.toJson())?.toList());
+  writeNotNull('description', instance.description);
+  writeNotNull('enableAutoBranchCreation', instance.enableAutoBranchCreation);
+  writeNotNull('enableBasicAuth', instance.enableBasicAuth);
+  writeNotNull('enableBranchAutoBuild', instance.enableBranchAutoBuild);
+  writeNotNull('environmentVariables', instance.environmentVariables);
+  writeNotNull('iamServiceRoleArn', instance.iamServiceRoleArn);
+  writeNotNull('name', instance.name);
+  writeNotNull('oauthToken', instance.oauthToken);
+  writeNotNull('platform', _$PlatformEnumMap[instance.platform]);
+  writeNotNull('repository', instance.repository);
+  return val;
 }
 
 UpdateAppResult _$UpdateAppResultFromJson(Map<String, dynamic> json) {
@@ -642,12 +887,55 @@ UpdateAppResult _$UpdateAppResultFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$UpdateBranchRequestToJson(UpdateBranchRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('backendEnvironmentArn', instance.backendEnvironmentArn);
+  writeNotNull('basicAuthCredentials', instance.basicAuthCredentials);
+  writeNotNull('buildSpec', instance.buildSpec);
+  writeNotNull('description', instance.description);
+  writeNotNull('displayName', instance.displayName);
+  writeNotNull('enableAutoBuild', instance.enableAutoBuild);
+  writeNotNull('enableBasicAuth', instance.enableBasicAuth);
+  writeNotNull('enableNotification', instance.enableNotification);
+  writeNotNull('enablePullRequestPreview', instance.enablePullRequestPreview);
+  writeNotNull('environmentVariables', instance.environmentVariables);
+  writeNotNull('framework', instance.framework);
+  writeNotNull(
+      'pullRequestEnvironmentName', instance.pullRequestEnvironmentName);
+  writeNotNull('stage', _$StageEnumMap[instance.stage]);
+  writeNotNull('ttl', instance.ttl);
+  return val;
+}
+
 UpdateBranchResult _$UpdateBranchResultFromJson(Map<String, dynamic> json) {
   return UpdateBranchResult(
     branch: json['branch'] == null
         ? null
         : Branch.fromJson(json['branch'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateDomainAssociationRequestToJson(
+    UpdateDomainAssociationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('subDomainSettings',
+      instance.subDomainSettings?.map((e) => e?.toJson())?.toList());
+  writeNotNull('enableAutoSubDomain', instance.enableAutoSubDomain);
+  return val;
 }
 
 UpdateDomainAssociationResult _$UpdateDomainAssociationResultFromJson(
@@ -658,6 +946,21 @@ UpdateDomainAssociationResult _$UpdateDomainAssociationResultFromJson(
         : DomainAssociation.fromJson(
             json['domainAssociation'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateWebhookRequestToJson(
+    UpdateWebhookRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('branchName', instance.branchName);
+  writeNotNull('description', instance.description);
+  return val;
 }
 
 UpdateWebhookResult _$UpdateWebhookResultFromJson(Map<String, dynamic> json) {

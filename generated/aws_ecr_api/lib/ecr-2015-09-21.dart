@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -110,11 +109,11 @@ class ECR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'layerDigests': layerDigests,
-        'repositoryName': repositoryName,
-        if (registryId != null) 'registryId': registryId,
-      },
+      payload: BatchCheckLayerAvailabilityRequest(
+        layerDigests: layerDigests,
+        repositoryName: repositoryName,
+        registryId: registryId,
+      ),
     );
 
     return BatchCheckLayerAvailabilityResponse.fromJson(jsonResponse.body);
@@ -181,11 +180,11 @@ class ECR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'imageIds': imageIds,
-        'repositoryName': repositoryName,
-        if (registryId != null) 'registryId': registryId,
-      },
+      payload: BatchDeleteImageRequest(
+        imageIds: imageIds,
+        repositoryName: repositoryName,
+        registryId: registryId,
+      ),
     );
 
     return BatchDeleteImageResponse.fromJson(jsonResponse.body);
@@ -257,13 +256,12 @@ class ECR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'imageIds': imageIds,
-        'repositoryName': repositoryName,
-        if (acceptedMediaTypes != null)
-          'acceptedMediaTypes': acceptedMediaTypes,
-        if (registryId != null) 'registryId': registryId,
-      },
+      payload: BatchGetImageRequest(
+        imageIds: imageIds,
+        repositoryName: repositoryName,
+        acceptedMediaTypes: acceptedMediaTypes,
+        registryId: registryId,
+      ),
     );
 
     return BatchGetImageResponse.fromJson(jsonResponse.body);
@@ -347,12 +345,12 @@ class ECR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'layerDigests': layerDigests,
-        'repositoryName': repositoryName,
-        'uploadId': uploadId,
-        if (registryId != null) 'registryId': registryId,
-      },
+      payload: CompleteLayerUploadRequest(
+        layerDigests: layerDigests,
+        repositoryName: repositoryName,
+        uploadId: uploadId,
+        registryId: registryId,
+      ),
     );
 
     return CompleteLayerUploadResponse.fromJson(jsonResponse.body);
@@ -423,14 +421,12 @@ class ECR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'repositoryName': repositoryName,
-        if (imageScanningConfiguration != null)
-          'imageScanningConfiguration': imageScanningConfiguration,
-        if (imageTagMutability != null)
-          'imageTagMutability': imageTagMutability?.toValue(),
-        if (tags != null) 'tags': tags,
-      },
+      payload: CreateRepositoryRequest(
+        repositoryName: repositoryName,
+        imageScanningConfiguration: imageScanningConfiguration,
+        imageTagMutability: imageTagMutability,
+        tags: tags,
+      ),
     );
 
     return CreateRepositoryResponse.fromJson(jsonResponse.body);
@@ -484,10 +480,10 @@ class ECR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'repositoryName': repositoryName,
-        if (registryId != null) 'registryId': registryId,
-      },
+      payload: DeleteLifecyclePolicyRequest(
+        repositoryName: repositoryName,
+        registryId: registryId,
+      ),
     );
 
     return DeleteLifecyclePolicyResponse.fromJson(jsonResponse.body);
@@ -546,11 +542,11 @@ class ECR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'repositoryName': repositoryName,
-        if (force != null) 'force': force,
-        if (registryId != null) 'registryId': registryId,
-      },
+      payload: DeleteRepositoryRequest(
+        repositoryName: repositoryName,
+        force: force,
+        registryId: registryId,
+      ),
     );
 
     return DeleteRepositoryResponse.fromJson(jsonResponse.body);
@@ -605,10 +601,10 @@ class ECR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'repositoryName': repositoryName,
-        if (registryId != null) 'registryId': registryId,
-      },
+      payload: DeleteRepositoryPolicyRequest(
+        repositoryName: repositoryName,
+        registryId: registryId,
+      ),
     );
 
     return DeleteRepositoryPolicyResponse.fromJson(jsonResponse.body);
@@ -694,13 +690,13 @@ class ECR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'imageId': imageId,
-        'repositoryName': repositoryName,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (registryId != null) 'registryId': registryId,
-      },
+      payload: DescribeImageScanFindingsRequest(
+        imageId: imageId,
+        repositoryName: repositoryName,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        registryId: registryId,
+      ),
     );
 
     return DescribeImageScanFindingsResponse.fromJson(jsonResponse.body);
@@ -798,14 +794,14 @@ class ECR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'repositoryName': repositoryName,
-        if (filter != null) 'filter': filter,
-        if (imageIds != null) 'imageIds': imageIds,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (registryId != null) 'registryId': registryId,
-      },
+      payload: DescribeImagesRequest(
+        repositoryName: repositoryName,
+        filter: filter,
+        imageIds: imageIds,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        registryId: registryId,
+      ),
     );
 
     return DescribeImagesResponse.fromJson(jsonResponse.body);
@@ -880,12 +876,12 @@ class ECR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (registryId != null) 'registryId': registryId,
-        if (repositoryNames != null) 'repositoryNames': repositoryNames,
-      },
+      payload: DescribeRepositoriesRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+        registryId: registryId,
+        repositoryNames: repositoryNames,
+      ),
     );
 
     return DescribeRepositoriesResponse.fromJson(jsonResponse.body);
@@ -926,9 +922,9 @@ class ECR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (registryIds != null) 'registryIds': registryIds,
-      },
+      payload: GetAuthorizationTokenRequest(
+        registryIds: registryIds,
+      ),
     );
 
     return GetAuthorizationTokenResponse.fromJson(jsonResponse.body);
@@ -1005,11 +1001,11 @@ class ECR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'layerDigest': layerDigest,
-        'repositoryName': repositoryName,
-        if (registryId != null) 'registryId': registryId,
-      },
+      payload: GetDownloadUrlForLayerRequest(
+        layerDigest: layerDigest,
+        repositoryName: repositoryName,
+        registryId: registryId,
+      ),
     );
 
     return GetDownloadUrlForLayerResponse.fromJson(jsonResponse.body);
@@ -1062,10 +1058,10 @@ class ECR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'repositoryName': repositoryName,
-        if (registryId != null) 'registryId': registryId,
-      },
+      payload: GetLifecyclePolicyRequest(
+        repositoryName: repositoryName,
+        registryId: registryId,
+      ),
     );
 
     return GetLifecyclePolicyResponse.fromJson(jsonResponse.body);
@@ -1161,14 +1157,14 @@ class ECR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'repositoryName': repositoryName,
-        if (filter != null) 'filter': filter,
-        if (imageIds != null) 'imageIds': imageIds,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (registryId != null) 'registryId': registryId,
-      },
+      payload: GetLifecyclePolicyPreviewRequest(
+        repositoryName: repositoryName,
+        filter: filter,
+        imageIds: imageIds,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        registryId: registryId,
+      ),
     );
 
     return GetLifecyclePolicyPreviewResponse.fromJson(jsonResponse.body);
@@ -1221,10 +1217,10 @@ class ECR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'repositoryName': repositoryName,
-        if (registryId != null) 'registryId': registryId,
-      },
+      payload: GetRepositoryPolicyRequest(
+        repositoryName: repositoryName,
+        registryId: registryId,
+      ),
     );
 
     return GetRepositoryPolicyResponse.fromJson(jsonResponse.body);
@@ -1286,10 +1282,10 @@ class ECR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'repositoryName': repositoryName,
-        if (registryId != null) 'registryId': registryId,
-      },
+      payload: InitiateLayerUploadRequest(
+        repositoryName: repositoryName,
+        registryId: registryId,
+      ),
     );
 
     return InitiateLayerUploadResponse.fromJson(jsonResponse.body);
@@ -1385,13 +1381,13 @@ class ECR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'repositoryName': repositoryName,
-        if (filter != null) 'filter': filter,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (registryId != null) 'registryId': registryId,
-      },
+      payload: ListImagesRequest(
+        repositoryName: repositoryName,
+        filter: filter,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        registryId: registryId,
+      ),
     );
 
     return ListImagesResponse.fromJson(jsonResponse.body);
@@ -1421,9 +1417,9 @@ class ECR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'resourceArn': resourceArn,
-      },
+      payload: ListTagsForResourceRequest(
+        resourceArn: resourceArn,
+      ),
     );
 
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
@@ -1511,12 +1507,12 @@ class ECR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'imageManifest': imageManifest,
-        'repositoryName': repositoryName,
-        if (imageTag != null) 'imageTag': imageTag,
-        if (registryId != null) 'registryId': registryId,
-      },
+      payload: PutImageRequest(
+        imageManifest: imageManifest,
+        repositoryName: repositoryName,
+        imageTag: imageTag,
+        registryId: registryId,
+      ),
     );
 
     return PutImageResponse.fromJson(jsonResponse.body);
@@ -1578,11 +1574,11 @@ class ECR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'imageScanningConfiguration': imageScanningConfiguration,
-        'repositoryName': repositoryName,
-        if (registryId != null) 'registryId': registryId,
-      },
+      payload: PutImageScanningConfigurationRequest(
+        imageScanningConfiguration: imageScanningConfiguration,
+        repositoryName: repositoryName,
+        registryId: registryId,
+      ),
     );
 
     return PutImageScanningConfigurationResponse.fromJson(jsonResponse.body);
@@ -1648,11 +1644,11 @@ class ECR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'imageTagMutability': imageTagMutability?.toValue(),
-        'repositoryName': repositoryName,
-        if (registryId != null) 'registryId': registryId,
-      },
+      payload: PutImageTagMutabilityRequest(
+        imageTagMutability: imageTagMutability,
+        repositoryName: repositoryName,
+        registryId: registryId,
+      ),
     );
 
     return PutImageTagMutabilityResponse.fromJson(jsonResponse.body);
@@ -1719,11 +1715,11 @@ class ECR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'lifecyclePolicyText': lifecyclePolicyText,
-        'repositoryName': repositoryName,
-        if (registryId != null) 'registryId': registryId,
-      },
+      payload: PutLifecyclePolicyRequest(
+        lifecyclePolicyText: lifecyclePolicyText,
+        repositoryName: repositoryName,
+        registryId: registryId,
+      ),
     );
 
     return PutLifecyclePolicyResponse.fromJson(jsonResponse.body);
@@ -1802,12 +1798,12 @@ class ECR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'policyText': policyText,
-        'repositoryName': repositoryName,
-        if (force != null) 'force': force,
-        if (registryId != null) 'registryId': registryId,
-      },
+      payload: SetRepositoryPolicyRequest(
+        policyText: policyText,
+        repositoryName: repositoryName,
+        force: force,
+        registryId: registryId,
+      ),
     );
 
     return SetRepositoryPolicyResponse.fromJson(jsonResponse.body);
@@ -1866,11 +1862,11 @@ class ECR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'imageId': imageId,
-        'repositoryName': repositoryName,
-        if (registryId != null) 'registryId': registryId,
-      },
+      payload: StartImageScanRequest(
+        imageId: imageId,
+        repositoryName: repositoryName,
+        registryId: registryId,
+      ),
     );
 
     return StartImageScanResponse.fromJson(jsonResponse.body);
@@ -1938,12 +1934,11 @@ class ECR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'repositoryName': repositoryName,
-        if (lifecyclePolicyText != null)
-          'lifecyclePolicyText': lifecyclePolicyText,
-        if (registryId != null) 'registryId': registryId,
-      },
+      payload: StartLifecyclePolicyPreviewRequest(
+        repositoryName: repositoryName,
+        lifecyclePolicyText: lifecyclePolicyText,
+        registryId: registryId,
+      ),
     );
 
     return StartLifecyclePolicyPreviewResponse.fromJson(jsonResponse.body);
@@ -1983,10 +1978,10 @@ class ECR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'resourceArn': resourceArn,
-        'tags': tags,
-      },
+      payload: TagResourceRequest(
+        resourceArn: resourceArn,
+        tags: tags,
+      ),
     );
 
     return TagResourceResponse.fromJson(jsonResponse.body);
@@ -2022,10 +2017,10 @@ class ECR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'resourceArn': resourceArn,
-        'tagKeys': tagKeys,
-      },
+      payload: UntagResourceRequest(
+        resourceArn: resourceArn,
+        tagKeys: tagKeys,
+      ),
     );
 
     return UntagResourceResponse.fromJson(jsonResponse.body);
@@ -2131,14 +2126,14 @@ class ECR {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'layerPartBlob': layerPartBlob?.let(base64Encode),
-        'partFirstByte': partFirstByte,
-        'partLastByte': partLastByte,
-        'repositoryName': repositoryName,
-        'uploadId': uploadId,
-        if (registryId != null) 'registryId': registryId,
-      },
+      payload: UploadLayerPartRequest(
+        layerPartBlob: layerPartBlob,
+        partFirstByte: partFirstByte,
+        partLastByte: partLastByte,
+        repositoryName: repositoryName,
+        uploadId: uploadId,
+        registryId: registryId,
+      ),
     );
 
     return UploadLayerPartResponse.fromJson(jsonResponse.body);
@@ -2209,6 +2204,36 @@ class AuthorizationData {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchCheckLayerAvailabilityRequest {
+  /// The digests of the image layers to check.
+  @_s.JsonKey(name: 'layerDigests')
+  final List<String> layerDigests;
+
+  /// The name of the repository that is associated with the image layers to
+  /// check.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// The AWS account ID associated with the registry that contains the image
+  /// layers to check. If you do not specify a registry, the default registry is
+  /// assumed.
+  @_s.JsonKey(name: 'registryId')
+  final String registryId;
+
+  BatchCheckLayerAvailabilityRequest({
+    @_s.required this.layerDigests,
+    @_s.required this.repositoryName,
+    this.registryId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$BatchCheckLayerAvailabilityRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class BatchCheckLayerAvailabilityResponse {
@@ -2228,6 +2253,37 @@ class BatchCheckLayerAvailabilityResponse {
   factory BatchCheckLayerAvailabilityResponse.fromJson(
           Map<String, dynamic> json) =>
       _$BatchCheckLayerAvailabilityResponseFromJson(json);
+}
+
+/// Deletes specified images within a specified repository. Images are specified
+/// with either the <code>imageTag</code> or <code>imageDigest</code>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchDeleteImageRequest {
+  /// A list of image ID references that correspond to images to delete. The
+  /// format of the <code>imageIds</code> reference is <code>imageTag=tag</code>
+  /// or <code>imageDigest=digest</code>.
+  @_s.JsonKey(name: 'imageIds')
+  final List<ImageIdentifier> imageIds;
+
+  /// The repository that contains the image to delete.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// The AWS account ID associated with the registry that contains the image to
+  /// delete. If you do not specify a registry, the default registry is assumed.
+  @_s.JsonKey(name: 'registryId')
+  final String registryId;
+
+  BatchDeleteImageRequest({
+    @_s.required this.imageIds,
+    @_s.required this.repositoryName,
+    this.registryId,
+  });
+  Map<String, dynamic> toJson() => _$BatchDeleteImageRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2255,6 +2311,45 @@ class BatchDeleteImageResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchGetImageRequest {
+  /// A list of image ID references that correspond to images to describe. The
+  /// format of the <code>imageIds</code> reference is <code>imageTag=tag</code>
+  /// or <code>imageDigest=digest</code>.
+  @_s.JsonKey(name: 'imageIds')
+  final List<ImageIdentifier> imageIds;
+
+  /// The repository that contains the images to describe.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// The accepted media types for the request.
+  ///
+  /// Valid values:
+  /// <code>application/vnd.docker.distribution.manifest.v1+json</code> |
+  /// <code>application/vnd.docker.distribution.manifest.v2+json</code> |
+  /// <code>application/vnd.oci.image.manifest.v1+json</code>
+  @_s.JsonKey(name: 'acceptedMediaTypes')
+  final List<String> acceptedMediaTypes;
+
+  /// The AWS account ID associated with the registry that contains the images to
+  /// describe. If you do not specify a registry, the default registry is assumed.
+  @_s.JsonKey(name: 'registryId')
+  final String registryId;
+
+  BatchGetImageRequest({
+    @_s.required this.imageIds,
+    @_s.required this.repositoryName,
+    this.acceptedMediaTypes,
+    this.registryId,
+  });
+  Map<String, dynamic> toJson() => _$BatchGetImageRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class BatchGetImageResponse {
@@ -2273,6 +2368,39 @@ class BatchGetImageResponse {
   });
   factory BatchGetImageResponse.fromJson(Map<String, dynamic> json) =>
       _$BatchGetImageResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CompleteLayerUploadRequest {
+  /// The <code>sha256</code> digest of the image layer.
+  @_s.JsonKey(name: 'layerDigests')
+  final List<String> layerDigests;
+
+  /// The name of the repository to associate with the image layer.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// The upload ID from a previous <a>InitiateLayerUpload</a> operation to
+  /// associate with the image layer.
+  @_s.JsonKey(name: 'uploadId')
+  final String uploadId;
+
+  /// The AWS account ID associated with the registry to which to upload layers.
+  /// If you do not specify a registry, the default registry is assumed.
+  @_s.JsonKey(name: 'registryId')
+  final String registryId;
+
+  CompleteLayerUploadRequest({
+    @_s.required this.layerDigests,
+    @_s.required this.repositoryName,
+    @_s.required this.uploadId,
+    this.registryId,
+  });
+  Map<String, dynamic> toJson() => _$CompleteLayerUploadRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2310,6 +2438,49 @@ class CompleteLayerUploadResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateRepositoryRequest {
+  /// The name to use for the repository. The repository name may be specified on
+  /// its own (such as <code>nginx-web-app</code>) or it can be prepended with a
+  /// namespace to group the repository into a category (such as
+  /// <code>project-a/nginx-web-app</code>).
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// The image scanning configuration for the repository. This setting determines
+  /// whether images are scanned for known vulnerabilities after being pushed to
+  /// the repository.
+  @_s.JsonKey(name: 'imageScanningConfiguration')
+  final ImageScanningConfiguration imageScanningConfiguration;
+
+  /// The tag mutability setting for the repository. If this parameter is omitted,
+  /// the default setting of <code>MUTABLE</code> will be used which will allow
+  /// image tags to be overwritten. If <code>IMMUTABLE</code> is specified, all
+  /// image tags within the repository will be immutable which will prevent them
+  /// from being overwritten.
+  @_s.JsonKey(name: 'imageTagMutability')
+  final ImageTagMutability imageTagMutability;
+
+  /// The metadata that you apply to the repository to help you categorize and
+  /// organize them. Each tag consists of a key and an optional value, both of
+  /// which you define. Tag keys can have a maximum character length of 128
+  /// characters, and tag values can have a maximum length of 256 characters.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  CreateRepositoryRequest({
+    @_s.required this.repositoryName,
+    this.imageScanningConfiguration,
+    this.imageTagMutability,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateRepositoryRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateRepositoryResponse {
@@ -2322,6 +2493,29 @@ class CreateRepositoryResponse {
   });
   factory CreateRepositoryResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateRepositoryResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteLifecyclePolicyRequest {
+  /// The name of the repository.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// The AWS account ID associated with the registry that contains the
+  /// repository. If you do not specify a registry, the default registry is
+  /// assumed.
+  @_s.JsonKey(name: 'registryId')
+  final String registryId;
+
+  DeleteLifecyclePolicyRequest({
+    @_s.required this.repositoryName,
+    this.registryId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteLifecyclePolicyRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2362,6 +2556,30 @@ class DeleteLifecyclePolicyResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteRepositoryPolicyRequest {
+  /// The name of the repository that is associated with the repository policy to
+  /// delete.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// The AWS account ID associated with the registry that contains the repository
+  /// policy to delete. If you do not specify a registry, the default registry is
+  /// assumed.
+  @_s.JsonKey(name: 'registryId')
+  final String registryId;
+
+  DeleteRepositoryPolicyRequest({
+    @_s.required this.repositoryName,
+    this.registryId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteRepositoryPolicyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteRepositoryPolicyResponse {
@@ -2389,6 +2607,34 @@ class DeleteRepositoryPolicyResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteRepositoryRequest {
+  /// The name of the repository to delete.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// If a repository contains images, forces the deletion.
+  @_s.JsonKey(name: 'force')
+  final bool force;
+
+  /// The AWS account ID associated with the registry that contains the repository
+  /// to delete. If you do not specify a registry, the default registry is
+  /// assumed.
+  @_s.JsonKey(name: 'registryId')
+  final String registryId;
+
+  DeleteRepositoryRequest({
+    @_s.required this.repositoryName,
+    this.force,
+    this.registryId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteRepositoryRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteRepositoryResponse {
@@ -2401,6 +2647,58 @@ class DeleteRepositoryResponse {
   });
   factory DeleteRepositoryResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteRepositoryResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeImageScanFindingsRequest {
+  @_s.JsonKey(name: 'imageId')
+  final ImageIdentifier imageId;
+
+  /// The repository for the image for which to describe the scan findings.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// The maximum number of image scan results returned by
+  /// <code>DescribeImageScanFindings</code> in paginated output. When this
+  /// parameter is used, <code>DescribeImageScanFindings</code> only returns
+  /// <code>maxResults</code> results in a single page along with a
+  /// <code>nextToken</code> response element. The remaining results of the
+  /// initial request can be seen by sending another
+  /// <code>DescribeImageScanFindings</code> request with the returned
+  /// <code>nextToken</code> value. This value can be between 1 and 1000. If this
+  /// parameter is not used, then <code>DescribeImageScanFindings</code> returns
+  /// up to 100 results and a <code>nextToken</code> value, if applicable.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The <code>nextToken</code> value returned from a previous paginated
+  /// <code>DescribeImageScanFindings</code> request where <code>maxResults</code>
+  /// was used and the results exceeded the value of that parameter. Pagination
+  /// continues from the end of the previous results that returned the
+  /// <code>nextToken</code> value. This value is null when there are no more
+  /// results to return.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The AWS account ID associated with the registry that contains the repository
+  /// in which to describe the image scan findings for. If you do not specify a
+  /// registry, the default registry is assumed.
+  @_s.JsonKey(name: 'registryId')
+  final String registryId;
+
+  DescribeImageScanFindingsRequest({
+    @_s.required this.imageId,
+    @_s.required this.repositoryName,
+    this.maxResults,
+    this.nextToken,
+    this.registryId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeImageScanFindingsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2471,6 +2769,65 @@ class DescribeImagesFilter {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeImagesRequest {
+  /// The repository that contains the images to describe.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// The filter key and value with which to filter your
+  /// <code>DescribeImages</code> results.
+  @_s.JsonKey(name: 'filter')
+  final DescribeImagesFilter filter;
+
+  /// The list of image IDs for the requested repository.
+  @_s.JsonKey(name: 'imageIds')
+  final List<ImageIdentifier> imageIds;
+
+  /// The maximum number of repository results returned by
+  /// <code>DescribeImages</code> in paginated output. When this parameter is
+  /// used, <code>DescribeImages</code> only returns <code>maxResults</code>
+  /// results in a single page along with a <code>nextToken</code> response
+  /// element. The remaining results of the initial request can be seen by sending
+  /// another <code>DescribeImages</code> request with the returned
+  /// <code>nextToken</code> value. This value can be between 1 and 1000. If this
+  /// parameter is not used, then <code>DescribeImages</code> returns up to 100
+  /// results and a <code>nextToken</code> value, if applicable. This option
+  /// cannot be used when you specify images with <code>imageIds</code>.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The <code>nextToken</code> value returned from a previous paginated
+  /// <code>DescribeImages</code> request where <code>maxResults</code> was used
+  /// and the results exceeded the value of that parameter. Pagination continues
+  /// from the end of the previous results that returned the
+  /// <code>nextToken</code> value. This value is <code>null</code> when there are
+  /// no more results to return. This option cannot be used when you specify
+  /// images with <code>imageIds</code>.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The AWS account ID associated with the registry that contains the repository
+  /// in which to describe images. If you do not specify a registry, the default
+  /// registry is assumed.
+  @_s.JsonKey(name: 'registryId')
+  final String registryId;
+
+  DescribeImagesRequest({
+    @_s.required this.repositoryName,
+    this.filter,
+    this.imageIds,
+    this.maxResults,
+    this.nextToken,
+    this.registryId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeImagesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeImagesResponse {
@@ -2492,6 +2849,61 @@ class DescribeImagesResponse {
   });
   factory DescribeImagesResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeImagesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeRepositoriesRequest {
+  /// The maximum number of repository results returned by
+  /// <code>DescribeRepositories</code> in paginated output. When this parameter
+  /// is used, <code>DescribeRepositories</code> only returns
+  /// <code>maxResults</code> results in a single page along with a
+  /// <code>nextToken</code> response element. The remaining results of the
+  /// initial request can be seen by sending another
+  /// <code>DescribeRepositories</code> request with the returned
+  /// <code>nextToken</code> value. This value can be between 1 and 1000. If this
+  /// parameter is not used, then <code>DescribeRepositories</code> returns up to
+  /// 100 results and a <code>nextToken</code> value, if applicable. This option
+  /// cannot be used when you specify repositories with
+  /// <code>repositoryNames</code>.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The <code>nextToken</code> value returned from a previous paginated
+  /// <code>DescribeRepositories</code> request where <code>maxResults</code> was
+  /// used and the results exceeded the value of that parameter. Pagination
+  /// continues from the end of the previous results that returned the
+  /// <code>nextToken</code> value. This value is <code>null</code> when there are
+  /// no more results to return. This option cannot be used when you specify
+  /// repositories with <code>repositoryNames</code>.
+  /// <note>
+  /// This token should be treated as an opaque identifier that is only used to
+  /// retrieve the next items in a list and not for other programmatic purposes.
+  /// </note>
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The AWS account ID associated with the registry that contains the
+  /// repositories to be described. If you do not specify a registry, the default
+  /// registry is assumed.
+  @_s.JsonKey(name: 'registryId')
+  final String registryId;
+
+  /// A list of repositories to describe. If this parameter is omitted, then all
+  /// repositories in a registry are described.
+  @_s.JsonKey(name: 'repositoryNames')
+  final List<String> repositoryNames;
+
+  DescribeRepositoriesRequest({
+    this.maxResults,
+    this.nextToken,
+    this.registryId,
+    this.repositoryNames,
+  });
+  Map<String, dynamic> toJson() => _$DescribeRepositoriesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2538,6 +2950,24 @@ enum FindingSeverity {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetAuthorizationTokenRequest {
+  /// A list of AWS account IDs that are associated with the registries for which
+  /// to get AuthorizationData objects. If you do not specify a registry, the
+  /// default registry is assumed.
+  @_s.JsonKey(name: 'registryIds')
+  final List<String> registryIds;
+
+  GetAuthorizationTokenRequest({
+    this.registryIds,
+  });
+  Map<String, dynamic> toJson() => _$GetAuthorizationTokenRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetAuthorizationTokenResponse {
@@ -2551,6 +2981,35 @@ class GetAuthorizationTokenResponse {
   });
   factory GetAuthorizationTokenResponse.fromJson(Map<String, dynamic> json) =>
       _$GetAuthorizationTokenResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetDownloadUrlForLayerRequest {
+  /// The digest of the image layer to download.
+  @_s.JsonKey(name: 'layerDigest')
+  final String layerDigest;
+
+  /// The name of the repository that is associated with the image layer to
+  /// download.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// The AWS account ID associated with the registry that contains the image
+  /// layer to download. If you do not specify a registry, the default registry is
+  /// assumed.
+  @_s.JsonKey(name: 'registryId')
+  final String registryId;
+
+  GetDownloadUrlForLayerRequest({
+    @_s.required this.layerDigest,
+    @_s.required this.repositoryName,
+    this.registryId,
+  });
+  Map<String, dynamic> toJson() => _$GetDownloadUrlForLayerRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2573,6 +3032,68 @@ class GetDownloadUrlForLayerResponse {
   });
   factory GetDownloadUrlForLayerResponse.fromJson(Map<String, dynamic> json) =>
       _$GetDownloadUrlForLayerResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetLifecyclePolicyPreviewRequest {
+  /// The name of the repository.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// An optional parameter that filters results based on image tag status and all
+  /// tags, if tagged.
+  @_s.JsonKey(name: 'filter')
+  final LifecyclePolicyPreviewFilter filter;
+
+  /// The list of imageIDs to be included.
+  @_s.JsonKey(name: 'imageIds')
+  final List<ImageIdentifier> imageIds;
+
+  /// The maximum number of repository results returned by
+  /// <code>GetLifecyclePolicyPreviewRequest</code> in&#x2028; paginated output.
+  /// When this parameter is used, <code>GetLifecyclePolicyPreviewRequest</code>
+  /// only returns&#x2028; <code>maxResults</code> results in a single page along
+  /// with a <code>nextToken</code>&#x2028; response element. The remaining
+  /// results of the initial request can be seen by sending&#x2028; another
+  /// <code>GetLifecyclePolicyPreviewRequest</code> request with the returned
+  /// <code>nextToken</code>&#x2028; value. This value can be between 1 and 1000.
+  /// If this&#x2028; parameter is not used, then
+  /// <code>GetLifecyclePolicyPreviewRequest</code> returns up to&#x2028; 100
+  /// results and a <code>nextToken</code> value, if&#x2028; applicable. This
+  /// option cannot be used when you specify images with <code>imageIds</code>.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The <code>nextToken</code> value returned from a previous paginated&#x2028;
+  /// <code>GetLifecyclePolicyPreviewRequest</code> request where
+  /// <code>maxResults</code> was used and the&#x2028; results exceeded the value
+  /// of that parameter. Pagination continues from the end of the&#x2028; previous
+  /// results that returned the <code>nextToken</code> value. This value
+  /// is&#x2028; <code>null</code> when there are no more results to return. This
+  /// option cannot be used when you specify images with <code>imageIds</code>.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The AWS account ID associated with the registry that contains the
+  /// repository. If you do not specify a registry, the default registry is
+  /// assumed.
+  @_s.JsonKey(name: 'registryId')
+  final String registryId;
+
+  GetLifecyclePolicyPreviewRequest({
+    @_s.required this.repositoryName,
+    this.filter,
+    this.imageIds,
+    this.maxResults,
+    this.nextToken,
+    this.registryId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetLifecyclePolicyPreviewRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2631,6 +3152,29 @@ class GetLifecyclePolicyPreviewResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetLifecyclePolicyRequest {
+  /// The name of the repository.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// The AWS account ID associated with the registry that contains the
+  /// repository. If you do not specify a registry, the default registry is
+  /// assumed.
+  @_s.JsonKey(name: 'registryId')
+  final String registryId;
+
+  GetLifecyclePolicyRequest({
+    @_s.required this.repositoryName,
+    this.registryId,
+  });
+  Map<String, dynamic> toJson() => _$GetLifecyclePolicyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetLifecyclePolicyResponse {
@@ -2661,6 +3205,29 @@ class GetLifecyclePolicyResponse {
   });
   factory GetLifecyclePolicyResponse.fromJson(Map<String, dynamic> json) =>
       _$GetLifecyclePolicyResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetRepositoryPolicyRequest {
+  /// The name of the repository with the policy to retrieve.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// The AWS account ID associated with the registry that contains the
+  /// repository. If you do not specify a registry, the default registry is
+  /// assumed.
+  @_s.JsonKey(name: 'registryId')
+  final String registryId;
+
+  GetRepositoryPolicyRequest({
+    @_s.required this.repositoryName,
+    this.registryId,
+  });
+  Map<String, dynamic> toJson() => _$GetRepositoryPolicyRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3023,16 +3590,27 @@ enum ImageTagMutability {
   immutable,
 }
 
-extension on ImageTagMutability {
-  String toValue() {
-    switch (this) {
-      case ImageTagMutability.mutable:
-        return 'MUTABLE';
-      case ImageTagMutability.immutable:
-        return 'IMMUTABLE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class InitiateLayerUploadRequest {
+  /// The name of the repository to which you intend to upload layers.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// The AWS account ID associated with the registry to which you intend to
+  /// upload layers. If you do not specify a registry, the default registry is
+  /// assumed.
+  @_s.JsonKey(name: 'registryId')
+  final String registryId;
+
+  InitiateLayerUploadRequest({
+    @_s.required this.repositoryName,
+    this.registryId,
+  });
+  Map<String, dynamic> toJson() => _$InitiateLayerUploadRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3262,6 +3840,62 @@ class ListImagesFilter {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListImagesRequest {
+  /// The repository with image IDs to be listed.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// The filter key and value with which to filter your <code>ListImages</code>
+  /// results.
+  @_s.JsonKey(name: 'filter')
+  final ListImagesFilter filter;
+
+  /// The maximum number of image results returned by <code>ListImages</code> in
+  /// paginated output. When this parameter is used, <code>ListImages</code> only
+  /// returns <code>maxResults</code> results in a single page along with a
+  /// <code>nextToken</code> response element. The remaining results of the
+  /// initial request can be seen by sending another <code>ListImages</code>
+  /// request with the returned <code>nextToken</code> value. This value can be
+  /// between 1 and 1000. If this parameter is not used, then
+  /// <code>ListImages</code> returns up to 100 results and a
+  /// <code>nextToken</code> value, if applicable.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The <code>nextToken</code> value returned from a previous paginated
+  /// <code>ListImages</code> request where <code>maxResults</code> was used and
+  /// the results exceeded the value of that parameter. Pagination continues from
+  /// the end of the previous results that returned the <code>nextToken</code>
+  /// value. This value is <code>null</code> when there are no more results to
+  /// return.
+  /// <note>
+  /// This token should be treated as an opaque identifier that is only used to
+  /// retrieve the next items in a list and not for other programmatic purposes.
+  /// </note>
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The AWS account ID associated with the registry that contains the repository
+  /// in which to list images. If you do not specify a registry, the default
+  /// registry is assumed.
+  @_s.JsonKey(name: 'registryId')
+  final String registryId;
+
+  ListImagesRequest({
+    @_s.required this.repositoryName,
+    this.filter,
+    this.maxResults,
+    this.nextToken,
+    this.registryId,
+  });
+  Map<String, dynamic> toJson() => _$ListImagesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListImagesResponse {
@@ -3288,6 +3922,24 @@ class ListImagesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceRequest {
+  /// The Amazon Resource Name (ARN) that identifies the resource for which to
+  /// list the tags. Currently, the only supported resource is an Amazon ECR
+  /// repository.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  ListTagsForResourceRequest({
+    @_s.required this.resourceArn,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListTagsForResourceResponse {
@@ -3305,6 +3957,40 @@ class ListTagsForResourceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutImageRequest {
+  /// The image manifest corresponding to the image to be uploaded.
+  @_s.JsonKey(name: 'imageManifest')
+  final String imageManifest;
+
+  /// The name of the repository in which to put the image.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// The tag to associate with the image. This parameter is required for images
+  /// that use the Docker Image Manifest V2 Schema 2 or OCI formats.
+  @_s.JsonKey(name: 'imageTag')
+  final String imageTag;
+
+  /// The AWS account ID associated with the registry that contains the repository
+  /// in which to put the image. If you do not specify a registry, the default
+  /// registry is assumed.
+  @_s.JsonKey(name: 'registryId')
+  final String registryId;
+
+  PutImageRequest({
+    @_s.required this.imageManifest,
+    @_s.required this.repositoryName,
+    this.imageTag,
+    this.registryId,
+  });
+  Map<String, dynamic> toJson() => _$PutImageRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutImageResponse {
@@ -3317,6 +4003,38 @@ class PutImageResponse {
   });
   factory PutImageResponse.fromJson(Map<String, dynamic> json) =>
       _$PutImageResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutImageScanningConfigurationRequest {
+  /// The image scanning configuration for the repository. This setting determines
+  /// whether images are scanned for known vulnerabilities after being pushed to
+  /// the repository.
+  @_s.JsonKey(name: 'imageScanningConfiguration')
+  final ImageScanningConfiguration imageScanningConfiguration;
+
+  /// The name of the repository in which to update the image scanning
+  /// configuration setting.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// The AWS account ID associated with the registry that contains the repository
+  /// in which to update the image scanning configuration setting. If you do not
+  /// specify a registry, the default registry is assumed.
+  @_s.JsonKey(name: 'registryId')
+  final String registryId;
+
+  PutImageScanningConfigurationRequest({
+    @_s.required this.imageScanningConfiguration,
+    @_s.required this.repositoryName,
+    this.registryId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutImageScanningConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3350,6 +4068,38 @@ class PutImageScanningConfigurationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutImageTagMutabilityRequest {
+  /// The tag mutability setting for the repository. If <code>MUTABLE</code> is
+  /// specified, image tags can be overwritten. If <code>IMMUTABLE</code> is
+  /// specified, all image tags within the repository will be immutable which will
+  /// prevent them from being overwritten.
+  @_s.JsonKey(name: 'imageTagMutability')
+  final ImageTagMutability imageTagMutability;
+
+  /// The name of the repository in which to update the image tag mutability
+  /// settings.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// The AWS account ID associated with the registry that contains the repository
+  /// in which to update the image tag mutability settings. If you do not specify
+  /// a registry, the default registry is assumed.
+  @_s.JsonKey(name: 'registryId')
+  final String registryId;
+
+  PutImageTagMutabilityRequest({
+    @_s.required this.imageTagMutability,
+    @_s.required this.repositoryName,
+    this.registryId,
+  });
+  Map<String, dynamic> toJson() => _$PutImageTagMutabilityRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutImageTagMutabilityResponse {
@@ -3372,6 +4122,34 @@ class PutImageTagMutabilityResponse {
   });
   factory PutImageTagMutabilityResponse.fromJson(Map<String, dynamic> json) =>
       _$PutImageTagMutabilityResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutLifecyclePolicyRequest {
+  /// The JSON repository policy text to apply to the repository.
+  @_s.JsonKey(name: 'lifecyclePolicyText')
+  final String lifecyclePolicyText;
+
+  /// The name of the repository to receive the policy.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// The AWS account ID associated with the registry that contains the
+  /// repository. If you do&#x2028; not specify a registry, the default registry
+  /// is assumed.
+  @_s.JsonKey(name: 'registryId')
+  final String registryId;
+
+  PutLifecyclePolicyRequest({
+    @_s.required this.lifecyclePolicyText,
+    @_s.required this.repositoryName,
+    this.registryId,
+  });
+  Map<String, dynamic> toJson() => _$PutLifecyclePolicyRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3469,6 +4247,46 @@ enum ScanStatus {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SetRepositoryPolicyRequest {
+  /// The JSON repository policy text to apply to the repository. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/RepositoryPolicyExamples.html">Amazon
+  /// ECR Repository Policy Examples</a> in the <i>Amazon Elastic Container
+  /// Registry User Guide</i>.
+  @_s.JsonKey(name: 'policyText')
+  final String policyText;
+
+  /// The name of the repository to receive the policy.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// If the policy you are attempting to set on a repository policy would prevent
+  /// you from setting another policy in the future, you must force the
+  /// <a>SetRepositoryPolicy</a> operation. This is intended to prevent accidental
+  /// repository lock outs.
+  @_s.JsonKey(name: 'force')
+  final bool force;
+
+  /// The AWS account ID associated with the registry that contains the
+  /// repository. If you do not specify a registry, the default registry is
+  /// assumed.
+  @_s.JsonKey(name: 'registryId')
+  final String registryId;
+
+  SetRepositoryPolicyRequest({
+    @_s.required this.policyText,
+    @_s.required this.repositoryName,
+    this.force,
+    this.registryId,
+  });
+  Map<String, dynamic> toJson() => _$SetRepositoryPolicyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class SetRepositoryPolicyResponse {
@@ -3491,6 +4309,33 @@ class SetRepositoryPolicyResponse {
   });
   factory SetRepositoryPolicyResponse.fromJson(Map<String, dynamic> json) =>
       _$SetRepositoryPolicyResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartImageScanRequest {
+  @_s.JsonKey(name: 'imageId')
+  final ImageIdentifier imageId;
+
+  /// The name of the repository that contains the images to scan.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// The AWS account ID associated with the registry that contains the repository
+  /// in which to start an image scan request. If you do not specify a registry,
+  /// the default registry is assumed.
+  @_s.JsonKey(name: 'registryId')
+  final String registryId;
+
+  StartImageScanRequest({
+    @_s.required this.imageId,
+    @_s.required this.repositoryName,
+    this.registryId,
+  });
+  Map<String, dynamic> toJson() => _$StartImageScanRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3522,6 +4367,36 @@ class StartImageScanResponse {
   });
   factory StartImageScanResponse.fromJson(Map<String, dynamic> json) =>
       _$StartImageScanResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartLifecyclePolicyPreviewRequest {
+  /// The name of the repository to be evaluated.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// The policy to be evaluated against. If you do not specify a policy, the
+  /// current policy for the repository is used.
+  @_s.JsonKey(name: 'lifecyclePolicyText')
+  final String lifecyclePolicyText;
+
+  /// The AWS account ID associated with the registry that contains the
+  /// repository. If you do not specify a registry, the default registry is
+  /// assumed.
+  @_s.JsonKey(name: 'registryId')
+  final String registryId;
+
+  StartLifecyclePolicyPreviewRequest({
+    @_s.required this.repositoryName,
+    this.lifecyclePolicyText,
+    this.registryId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StartLifecyclePolicyPreviewRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3589,6 +4464,30 @@ class Tag {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the the resource to which to add tags.
+  /// Currently, the only supported resource is an Amazon ECR repository.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  /// The tags to add to the resource. A tag is an array of key-value pairs. Tag
+  /// keys can have a maximum character length of 128 characters, and tag values
+  /// can have a maximum length of 256 characters.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagResourceResponse {
@@ -3609,12 +4508,79 @@ enum TagStatus {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource from which to remove tags.
+  /// Currently, the only supported resource is an Amazon ECR repository.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  /// The keys of the tags to be removed.
+  @_s.JsonKey(name: 'tagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
   factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UploadLayerPartRequest {
+  /// The base64-encoded layer part payload.
+  @Uint8ListConverter()
+  @_s.JsonKey(name: 'layerPartBlob')
+  final Uint8List layerPartBlob;
+
+  /// The integer value of the first byte of the layer part.
+  @_s.JsonKey(name: 'partFirstByte')
+  final int partFirstByte;
+
+  /// The integer value of the last byte of the layer part.
+  @_s.JsonKey(name: 'partLastByte')
+  final int partLastByte;
+
+  /// The name of the repository to which you are uploading layer parts.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// The upload ID from a previous <a>InitiateLayerUpload</a> operation to
+  /// associate with the layer part upload.
+  @_s.JsonKey(name: 'uploadId')
+  final String uploadId;
+
+  /// The AWS account ID associated with the registry to which you are uploading
+  /// layer parts. If you do not specify a registry, the default registry is
+  /// assumed.
+  @_s.JsonKey(name: 'registryId')
+  final String registryId;
+
+  UploadLayerPartRequest({
+    @_s.required this.layerPartBlob,
+    @_s.required this.partFirstByte,
+    @_s.required this.partLastByte,
+    @_s.required this.repositoryName,
+    @_s.required this.uploadId,
+    this.registryId,
+  });
+  Map<String, dynamic> toJson() => _$UploadLayerPartRequestToJson(this);
 }
 
 @_s.JsonSerializable(

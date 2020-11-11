@@ -71,14 +71,21 @@ const _$RedactionTypeEnumMap = {
   RedactionType.pii: 'PII',
 };
 
-CreateVocabularyFilterResponse _$CreateVocabularyFilterResponseFromJson(
-    Map<String, dynamic> json) {
-  return CreateVocabularyFilterResponse(
-    languageCode:
-        _$enumDecodeNullable(_$LanguageCodeEnumMap, json['LanguageCode']),
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
-    vocabularyFilterName: json['VocabularyFilterName'] as String,
-  );
+Map<String, dynamic> _$CreateVocabularyFilterRequestToJson(
+    CreateVocabularyFilterRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LanguageCode', _$LanguageCodeEnumMap[instance.languageCode]);
+  writeNotNull('VocabularyFilterName', instance.vocabularyFilterName);
+  writeNotNull('VocabularyFilterFileUri', instance.vocabularyFilterFileUri);
+  writeNotNull('Words', instance.words);
+  return val;
 }
 
 const _$LanguageCodeEnumMap = {
@@ -115,6 +122,33 @@ const _$LanguageCodeEnumMap = {
   LanguageCode.arAe: 'ar-AE',
 };
 
+CreateVocabularyFilterResponse _$CreateVocabularyFilterResponseFromJson(
+    Map<String, dynamic> json) {
+  return CreateVocabularyFilterResponse(
+    languageCode:
+        _$enumDecodeNullable(_$LanguageCodeEnumMap, json['LanguageCode']),
+    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
+    vocabularyFilterName: json['VocabularyFilterName'] as String,
+  );
+}
+
+Map<String, dynamic> _$CreateVocabularyRequestToJson(
+    CreateVocabularyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LanguageCode', _$LanguageCodeEnumMap[instance.languageCode]);
+  writeNotNull('VocabularyName', instance.vocabularyName);
+  writeNotNull('Phrases', instance.phrases);
+  writeNotNull('VocabularyFileUri', instance.vocabularyFileUri);
+  return val;
+}
+
 CreateVocabularyResponse _$CreateVocabularyResponseFromJson(
     Map<String, dynamic> json) {
   return CreateVocabularyResponse(
@@ -134,6 +168,78 @@ const _$VocabularyStateEnumMap = {
   VocabularyState.failed: 'FAILED',
 };
 
+Map<String, dynamic> _$DeleteMedicalTranscriptionJobRequestToJson(
+    DeleteMedicalTranscriptionJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'MedicalTranscriptionJobName', instance.medicalTranscriptionJobName);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteTranscriptionJobRequestToJson(
+    DeleteTranscriptionJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TranscriptionJobName', instance.transcriptionJobName);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteVocabularyFilterRequestToJson(
+    DeleteVocabularyFilterRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('VocabularyFilterName', instance.vocabularyFilterName);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteVocabularyRequestToJson(
+    DeleteVocabularyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('VocabularyName', instance.vocabularyName);
+  return val;
+}
+
+Map<String, dynamic> _$GetMedicalTranscriptionJobRequestToJson(
+    GetMedicalTranscriptionJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'MedicalTranscriptionJobName', instance.medicalTranscriptionJobName);
+  return val;
+}
+
 GetMedicalTranscriptionJobResponse _$GetMedicalTranscriptionJobResponseFromJson(
     Map<String, dynamic> json) {
   return GetMedicalTranscriptionJobResponse(
@@ -142,6 +248,20 @@ GetMedicalTranscriptionJobResponse _$GetMedicalTranscriptionJobResponseFromJson(
         : MedicalTranscriptionJob.fromJson(
             json['MedicalTranscriptionJob'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetTranscriptionJobRequestToJson(
+    GetTranscriptionJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TranscriptionJobName', instance.transcriptionJobName);
+  return val;
 }
 
 GetTranscriptionJobResponse _$GetTranscriptionJobResponseFromJson(
@@ -154,6 +274,20 @@ GetTranscriptionJobResponse _$GetTranscriptionJobResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$GetVocabularyFilterRequestToJson(
+    GetVocabularyFilterRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('VocabularyFilterName', instance.vocabularyFilterName);
+  return val;
+}
+
 GetVocabularyFilterResponse _$GetVocabularyFilterResponseFromJson(
     Map<String, dynamic> json) {
   return GetVocabularyFilterResponse(
@@ -163,6 +297,20 @@ GetVocabularyFilterResponse _$GetVocabularyFilterResponseFromJson(
     lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
     vocabularyFilterName: json['VocabularyFilterName'] as String,
   );
+}
+
+Map<String, dynamic> _$GetVocabularyRequestToJson(
+    GetVocabularyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('VocabularyName', instance.vocabularyName);
+  return val;
 }
 
 GetVocabularyResponse _$GetVocabularyResponseFromJson(
@@ -201,6 +349,30 @@ Map<String, dynamic> _$JobExecutionSettingsToJson(
   return val;
 }
 
+Map<String, dynamic> _$ListMedicalTranscriptionJobsRequestToJson(
+    ListMedicalTranscriptionJobsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobNameContains', instance.jobNameContains);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('Status', _$TranscriptionJobStatusEnumMap[instance.status]);
+  return val;
+}
+
+const _$TranscriptionJobStatusEnumMap = {
+  TranscriptionJobStatus.queued: 'QUEUED',
+  TranscriptionJobStatus.inProgress: 'IN_PROGRESS',
+  TranscriptionJobStatus.failed: 'FAILED',
+  TranscriptionJobStatus.completed: 'COMPLETED',
+};
+
 ListMedicalTranscriptionJobsResponse
     _$ListMedicalTranscriptionJobsResponseFromJson(Map<String, dynamic> json) {
   return ListMedicalTranscriptionJobsResponse(
@@ -217,12 +389,22 @@ ListMedicalTranscriptionJobsResponse
   );
 }
 
-const _$TranscriptionJobStatusEnumMap = {
-  TranscriptionJobStatus.queued: 'QUEUED',
-  TranscriptionJobStatus.inProgress: 'IN_PROGRESS',
-  TranscriptionJobStatus.failed: 'FAILED',
-  TranscriptionJobStatus.completed: 'COMPLETED',
-};
+Map<String, dynamic> _$ListTranscriptionJobsRequestToJson(
+    ListTranscriptionJobsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobNameContains', instance.jobNameContains);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('Status', _$TranscriptionJobStatusEnumMap[instance.status]);
+  return val;
+}
 
 ListTranscriptionJobsResponse _$ListTranscriptionJobsResponseFromJson(
     Map<String, dynamic> json) {
@@ -238,6 +420,23 @@ ListTranscriptionJobsResponse _$ListTranscriptionJobsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListVocabulariesRequestToJson(
+    ListVocabulariesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NameContains', instance.nameContains);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('StateEquals', _$VocabularyStateEnumMap[instance.stateEquals]);
+  return val;
+}
+
 ListVocabulariesResponse _$ListVocabulariesResponseFromJson(
     Map<String, dynamic> json) {
   return ListVocabulariesResponse(
@@ -250,6 +449,22 @@ ListVocabulariesResponse _$ListVocabulariesResponseFromJson(
             : VocabularyInfo.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListVocabularyFiltersRequestToJson(
+    ListVocabularyFiltersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NameContains', instance.nameContains);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListVocabularyFiltersResponse _$ListVocabularyFiltersResponseFromJson(
@@ -429,6 +644,30 @@ const _$VocabularyFilterMethodEnumMap = {
   VocabularyFilterMethod.mask: 'mask',
 };
 
+Map<String, dynamic> _$StartMedicalTranscriptionJobRequestToJson(
+    StartMedicalTranscriptionJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LanguageCode', _$LanguageCodeEnumMap[instance.languageCode]);
+  writeNotNull('Media', instance.media?.toJson());
+  writeNotNull(
+      'MedicalTranscriptionJobName', instance.medicalTranscriptionJobName);
+  writeNotNull('OutputBucketName', instance.outputBucketName);
+  writeNotNull('Specialty', _$SpecialtyEnumMap[instance.specialty]);
+  writeNotNull('Type', _$TypeEnumMap[instance.type]);
+  writeNotNull('MediaFormat', _$MediaFormatEnumMap[instance.mediaFormat]);
+  writeNotNull('MediaSampleRateHertz', instance.mediaSampleRateHertz);
+  writeNotNull('OutputEncryptionKMSKeyId', instance.outputEncryptionKMSKeyId);
+  writeNotNull('Settings', instance.settings?.toJson());
+  return val;
+}
+
 StartMedicalTranscriptionJobResponse
     _$StartMedicalTranscriptionJobResponseFromJson(Map<String, dynamic> json) {
   return StartMedicalTranscriptionJobResponse(
@@ -437,6 +676,29 @@ StartMedicalTranscriptionJobResponse
         : MedicalTranscriptionJob.fromJson(
             json['MedicalTranscriptionJob'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$StartTranscriptionJobRequestToJson(
+    StartTranscriptionJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LanguageCode', _$LanguageCodeEnumMap[instance.languageCode]);
+  writeNotNull('Media', instance.media?.toJson());
+  writeNotNull('TranscriptionJobName', instance.transcriptionJobName);
+  writeNotNull('ContentRedaction', instance.contentRedaction?.toJson());
+  writeNotNull('JobExecutionSettings', instance.jobExecutionSettings?.toJson());
+  writeNotNull('MediaFormat', _$MediaFormatEnumMap[instance.mediaFormat]);
+  writeNotNull('MediaSampleRateHertz', instance.mediaSampleRateHertz);
+  writeNotNull('OutputBucketName', instance.outputBucketName);
+  writeNotNull('OutputEncryptionKMSKeyId', instance.outputEncryptionKMSKeyId);
+  writeNotNull('Settings', instance.settings?.toJson());
+  return val;
 }
 
 StartTranscriptionJobResponse _$StartTranscriptionJobResponseFromJson(
@@ -511,6 +773,22 @@ TranscriptionJobSummary _$TranscriptionJobSummaryFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateVocabularyFilterRequestToJson(
+    UpdateVocabularyFilterRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('VocabularyFilterName', instance.vocabularyFilterName);
+  writeNotNull('VocabularyFilterFileUri', instance.vocabularyFilterFileUri);
+  writeNotNull('Words', instance.words);
+  return val;
+}
+
 UpdateVocabularyFilterResponse _$UpdateVocabularyFilterResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateVocabularyFilterResponse(
@@ -519,6 +797,23 @@ UpdateVocabularyFilterResponse _$UpdateVocabularyFilterResponseFromJson(
     lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
     vocabularyFilterName: json['VocabularyFilterName'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateVocabularyRequestToJson(
+    UpdateVocabularyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LanguageCode', _$LanguageCodeEnumMap[instance.languageCode]);
+  writeNotNull('VocabularyName', instance.vocabularyName);
+  writeNotNull('Phrases', instance.phrases);
+  writeNotNull('VocabularyFileUri', instance.vocabularyFileUri);
+  return val;
 }
 
 UpdateVocabularyResponse _$UpdateVocabularyResponseFromJson(

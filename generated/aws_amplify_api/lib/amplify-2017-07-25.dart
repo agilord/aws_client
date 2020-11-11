@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -170,31 +169,25 @@ class Amplify {
       0,
       1000,
     );
-    final $payload = <String, dynamic>{
-      'name': name,
-      if (accessToken != null) 'accessToken': accessToken,
-      if (autoBranchCreationConfig != null)
-        'autoBranchCreationConfig': autoBranchCreationConfig,
-      if (autoBranchCreationPatterns != null)
-        'autoBranchCreationPatterns': autoBranchCreationPatterns,
-      if (basicAuthCredentials != null)
-        'basicAuthCredentials': basicAuthCredentials,
-      if (buildSpec != null) 'buildSpec': buildSpec,
-      if (customRules != null) 'customRules': customRules,
-      if (description != null) 'description': description,
-      if (enableAutoBranchCreation != null)
-        'enableAutoBranchCreation': enableAutoBranchCreation,
-      if (enableBasicAuth != null) 'enableBasicAuth': enableBasicAuth,
-      if (enableBranchAutoBuild != null)
-        'enableBranchAutoBuild': enableBranchAutoBuild,
-      if (environmentVariables != null)
-        'environmentVariables': environmentVariables,
-      if (iamServiceRoleArn != null) 'iamServiceRoleArn': iamServiceRoleArn,
-      if (oauthToken != null) 'oauthToken': oauthToken,
-      if (platform != null) 'platform': platform?.toValue(),
-      if (repository != null) 'repository': repository,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateAppRequest(
+      name: name,
+      accessToken: accessToken,
+      autoBranchCreationConfig: autoBranchCreationConfig,
+      autoBranchCreationPatterns: autoBranchCreationPatterns,
+      basicAuthCredentials: basicAuthCredentials,
+      buildSpec: buildSpec,
+      customRules: customRules,
+      description: description,
+      enableAutoBranchCreation: enableAutoBranchCreation,
+      enableBasicAuth: enableBasicAuth,
+      enableBranchAutoBuild: enableBranchAutoBuild,
+      environmentVariables: environmentVariables,
+      iamServiceRoleArn: iamServiceRoleArn,
+      oauthToken: oauthToken,
+      platform: platform,
+      repository: repository,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -257,12 +250,12 @@ class Amplify {
       1,
       255,
     );
-    final $payload = <String, dynamic>{
-      'environmentName': environmentName,
-      if (deploymentArtifacts != null)
-        'deploymentArtifacts': deploymentArtifacts,
-      if (stackName != null) 'stackName': stackName,
-    };
+    final $payload = CreateBackendEnvironmentRequest(
+      appId: appId,
+      environmentName: environmentName,
+      deploymentArtifacts: deploymentArtifacts,
+      stackName: stackName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -409,29 +402,25 @@ class Amplify {
       0,
       20,
     );
-    final $payload = <String, dynamic>{
-      'branchName': branchName,
-      if (backendEnvironmentArn != null)
-        'backendEnvironmentArn': backendEnvironmentArn,
-      if (basicAuthCredentials != null)
-        'basicAuthCredentials': basicAuthCredentials,
-      if (buildSpec != null) 'buildSpec': buildSpec,
-      if (description != null) 'description': description,
-      if (displayName != null) 'displayName': displayName,
-      if (enableAutoBuild != null) 'enableAutoBuild': enableAutoBuild,
-      if (enableBasicAuth != null) 'enableBasicAuth': enableBasicAuth,
-      if (enableNotification != null) 'enableNotification': enableNotification,
-      if (enablePullRequestPreview != null)
-        'enablePullRequestPreview': enablePullRequestPreview,
-      if (environmentVariables != null)
-        'environmentVariables': environmentVariables,
-      if (framework != null) 'framework': framework,
-      if (pullRequestEnvironmentName != null)
-        'pullRequestEnvironmentName': pullRequestEnvironmentName,
-      if (stage != null) 'stage': stage?.toValue(),
-      if (tags != null) 'tags': tags,
-      if (ttl != null) 'ttl': ttl,
-    };
+    final $payload = CreateBranchRequest(
+      appId: appId,
+      branchName: branchName,
+      backendEnvironmentArn: backendEnvironmentArn,
+      basicAuthCredentials: basicAuthCredentials,
+      buildSpec: buildSpec,
+      description: description,
+      displayName: displayName,
+      enableAutoBuild: enableAutoBuild,
+      enableBasicAuth: enableBasicAuth,
+      enableNotification: enableNotification,
+      enablePullRequestPreview: enablePullRequestPreview,
+      environmentVariables: environmentVariables,
+      framework: framework,
+      pullRequestEnvironmentName: pullRequestEnvironmentName,
+      stage: stage,
+      tags: tags,
+      ttl: ttl,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -481,9 +470,11 @@ class Amplify {
       255,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (fileMap != null) 'fileMap': fileMap,
-    };
+    final $payload = CreateDeploymentRequest(
+      appId: appId,
+      branchName: branchName,
+      fileMap: fileMap,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -538,12 +529,12 @@ class Amplify {
       isRequired: true,
     );
     ArgumentError.checkNotNull(subDomainSettings, 'subDomainSettings');
-    final $payload = <String, dynamic>{
-      'domainName': domainName,
-      'subDomainSettings': subDomainSettings,
-      if (enableAutoSubDomain != null)
-        'enableAutoSubDomain': enableAutoSubDomain,
-    };
+    final $payload = CreateDomainAssociationRequest(
+      appId: appId,
+      domainName: domainName,
+      subDomainSettings: subDomainSettings,
+      enableAutoSubDomain: enableAutoSubDomain,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -597,10 +588,11 @@ class Amplify {
       0,
       1000,
     );
-    final $payload = <String, dynamic>{
-      'branchName': branchName,
-      if (description != null) 'description': description,
-    };
+    final $payload = CreateWebhookRequest(
+      appId: appId,
+      branchName: branchName,
+      description: description,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -631,7 +623,9 @@ class Amplify {
       255,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteAppRequest(
+      appId: appId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -674,7 +668,10 @@ class Amplify {
       255,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteBackendEnvironmentRequest(
+      appId: appId,
+      environmentName: environmentName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -718,7 +715,10 @@ class Amplify {
       255,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteBranchRequest(
+      appId: appId,
+      branchName: branchName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -762,7 +762,10 @@ class Amplify {
       255,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteDomainAssociationRequest(
+      appId: appId,
+      domainName: domainName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -818,7 +821,11 @@ class Amplify {
       255,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteJobRequest(
+      appId: appId,
+      branchName: branchName,
+      jobId: jobId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -850,7 +857,9 @@ class Amplify {
       255,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteWebhookRequest(
+      webhookId: webhookId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -901,11 +910,12 @@ class Amplify {
       255,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'domainName': domainName,
-      if (endTime != null) 'endTime': endTime,
-      if (startTime != null) 'startTime': startTime,
-    };
+    final $payload = GenerateAccessLogsRequest(
+      appId: appId,
+      domainName: domainName,
+      endTime: endTime,
+      startTime: startTime,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1695,10 +1705,12 @@ class Amplify {
       0,
       1000,
     );
-    final $payload = <String, dynamic>{
-      if (jobId != null) 'jobId': jobId,
-      if (sourceUrl != null) 'sourceUrl': sourceUrl,
-    };
+    final $payload = StartDeploymentRequest(
+      appId: appId,
+      branchName: branchName,
+      jobId: jobId,
+      sourceUrl: sourceUrl,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1794,14 +1806,16 @@ class Amplify {
       0,
       255,
     );
-    final $payload = <String, dynamic>{
-      'jobType': jobType?.toValue(),
-      if (commitId != null) 'commitId': commitId,
-      if (commitMessage != null) 'commitMessage': commitMessage,
-      if (commitTime != null) 'commitTime': commitTime,
-      if (jobId != null) 'jobId': jobId,
-      if (jobReason != null) 'jobReason': jobReason,
-    };
+    final $payload = StartJobRequest(
+      appId: appId,
+      branchName: branchName,
+      jobType: jobType,
+      commitId: commitId,
+      commitMessage: commitMessage,
+      commitTime: commitTime,
+      jobId: jobId,
+      jobReason: jobReason,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1858,7 +1872,11 @@ class Amplify {
       255,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = StopJobRequest(
+      appId: appId,
+      branchName: branchName,
+      jobId: jobId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1892,9 +1910,10 @@ class Amplify {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'tags': tags,
-    };
+    final $payload = TagResourceRequest(
+      resourceArn: resourceArn,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1931,7 +1950,10 @@ class Amplify {
     _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = UntagResourceRequest(
+      resourceArn: resourceArn,
+      tagKeys: tagKeys,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -2075,30 +2097,25 @@ class Amplify {
       0,
       1000,
     );
-    final $payload = <String, dynamic>{
-      if (accessToken != null) 'accessToken': accessToken,
-      if (autoBranchCreationConfig != null)
-        'autoBranchCreationConfig': autoBranchCreationConfig,
-      if (autoBranchCreationPatterns != null)
-        'autoBranchCreationPatterns': autoBranchCreationPatterns,
-      if (basicAuthCredentials != null)
-        'basicAuthCredentials': basicAuthCredentials,
-      if (buildSpec != null) 'buildSpec': buildSpec,
-      if (customRules != null) 'customRules': customRules,
-      if (description != null) 'description': description,
-      if (enableAutoBranchCreation != null)
-        'enableAutoBranchCreation': enableAutoBranchCreation,
-      if (enableBasicAuth != null) 'enableBasicAuth': enableBasicAuth,
-      if (enableBranchAutoBuild != null)
-        'enableBranchAutoBuild': enableBranchAutoBuild,
-      if (environmentVariables != null)
-        'environmentVariables': environmentVariables,
-      if (iamServiceRoleArn != null) 'iamServiceRoleArn': iamServiceRoleArn,
-      if (name != null) 'name': name,
-      if (oauthToken != null) 'oauthToken': oauthToken,
-      if (platform != null) 'platform': platform?.toValue(),
-      if (repository != null) 'repository': repository,
-    };
+    final $payload = UpdateAppRequest(
+      appId: appId,
+      accessToken: accessToken,
+      autoBranchCreationConfig: autoBranchCreationConfig,
+      autoBranchCreationPatterns: autoBranchCreationPatterns,
+      basicAuthCredentials: basicAuthCredentials,
+      buildSpec: buildSpec,
+      customRules: customRules,
+      description: description,
+      enableAutoBranchCreation: enableAutoBranchCreation,
+      enableBasicAuth: enableBasicAuth,
+      enableBranchAutoBuild: enableBranchAutoBuild,
+      environmentVariables: environmentVariables,
+      iamServiceRoleArn: iamServiceRoleArn,
+      name: name,
+      oauthToken: oauthToken,
+      platform: platform,
+      repository: repository,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2239,27 +2256,24 @@ class Amplify {
       0,
       20,
     );
-    final $payload = <String, dynamic>{
-      if (backendEnvironmentArn != null)
-        'backendEnvironmentArn': backendEnvironmentArn,
-      if (basicAuthCredentials != null)
-        'basicAuthCredentials': basicAuthCredentials,
-      if (buildSpec != null) 'buildSpec': buildSpec,
-      if (description != null) 'description': description,
-      if (displayName != null) 'displayName': displayName,
-      if (enableAutoBuild != null) 'enableAutoBuild': enableAutoBuild,
-      if (enableBasicAuth != null) 'enableBasicAuth': enableBasicAuth,
-      if (enableNotification != null) 'enableNotification': enableNotification,
-      if (enablePullRequestPreview != null)
-        'enablePullRequestPreview': enablePullRequestPreview,
-      if (environmentVariables != null)
-        'environmentVariables': environmentVariables,
-      if (framework != null) 'framework': framework,
-      if (pullRequestEnvironmentName != null)
-        'pullRequestEnvironmentName': pullRequestEnvironmentName,
-      if (stage != null) 'stage': stage?.toValue(),
-      if (ttl != null) 'ttl': ttl,
-    };
+    final $payload = UpdateBranchRequest(
+      appId: appId,
+      branchName: branchName,
+      backendEnvironmentArn: backendEnvironmentArn,
+      basicAuthCredentials: basicAuthCredentials,
+      buildSpec: buildSpec,
+      description: description,
+      displayName: displayName,
+      enableAutoBuild: enableAutoBuild,
+      enableBasicAuth: enableBasicAuth,
+      enableNotification: enableNotification,
+      enablePullRequestPreview: enablePullRequestPreview,
+      environmentVariables: environmentVariables,
+      framework: framework,
+      pullRequestEnvironmentName: pullRequestEnvironmentName,
+      stage: stage,
+      ttl: ttl,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2313,11 +2327,12 @@ class Amplify {
       isRequired: true,
     );
     ArgumentError.checkNotNull(subDomainSettings, 'subDomainSettings');
-    final $payload = <String, dynamic>{
-      'subDomainSettings': subDomainSettings,
-      if (enableAutoSubDomain != null)
-        'enableAutoSubDomain': enableAutoSubDomain,
-    };
+    final $payload = UpdateDomainAssociationRequest(
+      appId: appId,
+      domainName: domainName,
+      subDomainSettings: subDomainSettings,
+      enableAutoSubDomain: enableAutoSubDomain,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2369,10 +2384,11 @@ class Amplify {
       0,
       1000,
     );
-    final $payload = <String, dynamic>{
-      if (branchName != null) 'branchName': branchName,
-      if (description != null) 'description': description,
-    };
+    final $payload = UpdateWebhookRequest(
+      webhookId: webhookId,
+      branchName: branchName,
+      description: description,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2788,6 +2804,106 @@ class Branch {
   factory Branch.fromJson(Map<String, dynamic> json) => _$BranchFromJson(json);
 }
 
+/// Request structure used to create Apps in Amplify.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateAppRequest {
+  /// Name for the Amplify App
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// Personal Access token for 3rd party source control system for an Amplify
+  /// App, used to create webhook and read-only deploy key. Token is not stored.
+  @_s.JsonKey(name: 'accessToken')
+  final String accessToken;
+
+  /// Automated branch creation config for the Amplify App.
+  @_s.JsonKey(name: 'autoBranchCreationConfig')
+  final AutoBranchCreationConfig autoBranchCreationConfig;
+
+  /// Automated branch creation glob patterns for the Amplify App.
+  @_s.JsonKey(name: 'autoBranchCreationPatterns')
+  final List<String> autoBranchCreationPatterns;
+
+  /// Credentials for Basic Authorization for an Amplify App.
+  @_s.JsonKey(name: 'basicAuthCredentials')
+  final String basicAuthCredentials;
+
+  /// BuildSpec for an Amplify App
+  @_s.JsonKey(name: 'buildSpec')
+  final String buildSpec;
+
+  /// Custom rewrite / redirect rules for an Amplify App.
+  @_s.JsonKey(name: 'customRules')
+  final List<CustomRule> customRules;
+
+  /// Description for an Amplify App
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// Enables automated branch creation for the Amplify App.
+  @_s.JsonKey(name: 'enableAutoBranchCreation')
+  final bool enableAutoBranchCreation;
+
+  /// Enable Basic Authorization for an Amplify App, this will apply to all
+  /// branches part of this App.
+  @_s.JsonKey(name: 'enableBasicAuth')
+  final bool enableBasicAuth;
+
+  /// Enable the auto building of branches for an Amplify App.
+  @_s.JsonKey(name: 'enableBranchAutoBuild')
+  final bool enableBranchAutoBuild;
+
+  /// Environment variables map for an Amplify App.
+  @_s.JsonKey(name: 'environmentVariables')
+  final Map<String, String> environmentVariables;
+
+  /// AWS IAM service role for an Amplify App
+  @_s.JsonKey(name: 'iamServiceRoleArn')
+  final String iamServiceRoleArn;
+
+  /// OAuth token for 3rd party source control system for an Amplify App, used to
+  /// create webhook and read-only deploy key. OAuth token is not stored.
+  @_s.JsonKey(name: 'oauthToken')
+  final String oauthToken;
+
+  /// Platform / framework for an Amplify App
+  @_s.JsonKey(name: 'platform')
+  final Platform platform;
+
+  /// Repository for an Amplify App
+  @_s.JsonKey(name: 'repository')
+  final String repository;
+
+  /// Tag for an Amplify App
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateAppRequest({
+    @_s.required this.name,
+    this.accessToken,
+    this.autoBranchCreationConfig,
+    this.autoBranchCreationPatterns,
+    this.basicAuthCredentials,
+    this.buildSpec,
+    this.customRules,
+    this.description,
+    this.enableAutoBranchCreation,
+    this.enableBasicAuth,
+    this.enableBranchAutoBuild,
+    this.environmentVariables,
+    this.iamServiceRoleArn,
+    this.oauthToken,
+    this.platform,
+    this.repository,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateAppRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2802,6 +2918,39 @@ class CreateAppResult {
   });
   factory CreateAppResult.fromJson(Map<String, dynamic> json) =>
       _$CreateAppResultFromJson(json);
+}
+
+/// Request structure for a backend environment create request.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateBackendEnvironmentRequest {
+  /// Unique Id for an Amplify App.
+  @_s.JsonKey(name: 'appId', ignore: true)
+  final String appId;
+
+  /// Name for the backend environment.
+  @_s.JsonKey(name: 'environmentName')
+  final String environmentName;
+
+  /// Name of deployment artifacts.
+  @_s.JsonKey(name: 'deploymentArtifacts')
+  final String deploymentArtifacts;
+
+  /// CloudFormation stack name of backend environment.
+  @_s.JsonKey(name: 'stackName')
+  final String stackName;
+
+  CreateBackendEnvironmentRequest({
+    @_s.required this.appId,
+    @_s.required this.environmentName,
+    this.deploymentArtifacts,
+    this.stackName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateBackendEnvironmentRequestToJson(this);
 }
 
 /// Result structure for create backend environment.
@@ -2822,6 +2971,103 @@ class CreateBackendEnvironmentResult {
       _$CreateBackendEnvironmentResultFromJson(json);
 }
 
+/// Request structure for a branch create request.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateBranchRequest {
+  /// Unique Id for an Amplify App.
+  @_s.JsonKey(name: 'appId', ignore: true)
+  final String appId;
+
+  /// Name for the branch.
+  @_s.JsonKey(name: 'branchName')
+  final String branchName;
+
+  /// ARN for a Backend Environment, part of an Amplify App.
+  @_s.JsonKey(name: 'backendEnvironmentArn')
+  final String backendEnvironmentArn;
+
+  /// Basic Authorization credentials for the branch.
+  @_s.JsonKey(name: 'basicAuthCredentials')
+  final String basicAuthCredentials;
+
+  /// BuildSpec for the branch.
+  @_s.JsonKey(name: 'buildSpec')
+  final String buildSpec;
+
+  /// Description for the branch.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// Display name for a branch, will use as the default domain prefix.
+  @_s.JsonKey(name: 'displayName')
+  final String displayName;
+
+  /// Enables auto building for the branch.
+  @_s.JsonKey(name: 'enableAutoBuild')
+  final bool enableAutoBuild;
+
+  /// Enables Basic Auth for the branch.
+  @_s.JsonKey(name: 'enableBasicAuth')
+  final bool enableBasicAuth;
+
+  /// Enables notifications for the branch.
+  @_s.JsonKey(name: 'enableNotification')
+  final bool enableNotification;
+
+  /// Enables Pull Request Preview for this branch.
+  @_s.JsonKey(name: 'enablePullRequestPreview')
+  final bool enablePullRequestPreview;
+
+  /// Environment Variables for the branch.
+  @_s.JsonKey(name: 'environmentVariables')
+  final Map<String, String> environmentVariables;
+
+  /// Framework for the branch.
+  @_s.JsonKey(name: 'framework')
+  final String framework;
+
+  /// The Amplify Environment name for the pull request.
+  @_s.JsonKey(name: 'pullRequestEnvironmentName')
+  final String pullRequestEnvironmentName;
+
+  /// Stage for the branch.
+  @_s.JsonKey(name: 'stage')
+  final Stage stage;
+
+  /// Tag for the branch.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  /// The content TTL for the website in seconds.
+  @_s.JsonKey(name: 'ttl')
+  final String ttl;
+
+  CreateBranchRequest({
+    @_s.required this.appId,
+    @_s.required this.branchName,
+    this.backendEnvironmentArn,
+    this.basicAuthCredentials,
+    this.buildSpec,
+    this.description,
+    this.displayName,
+    this.enableAutoBuild,
+    this.enableBasicAuth,
+    this.enableNotification,
+    this.enablePullRequestPreview,
+    this.environmentVariables,
+    this.framework,
+    this.pullRequestEnvironmentName,
+    this.stage,
+    this.tags,
+    this.ttl,
+  });
+  Map<String, dynamic> toJson() => _$CreateBranchRequestToJson(this);
+}
+
 /// Result structure for create branch request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2838,6 +3084,36 @@ class CreateBranchResult {
   });
   factory CreateBranchResult.fromJson(Map<String, dynamic> json) =>
       _$CreateBranchResultFromJson(json);
+}
+
+/// Request structure for create a new deployment.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDeploymentRequest {
+  /// Unique Id for an Amplify App.
+  @_s.JsonKey(name: 'appId', ignore: true)
+  final String appId;
+
+  /// Name for the branch, for the Job.
+  @_s.JsonKey(name: 'branchName', ignore: true)
+  final String branchName;
+
+  /// Optional file map that contains file name as the key and file content md5
+  /// hash as the value. If this argument is provided, the service will generate
+  /// different upload url per file. Otherwise, the service will only generate a
+  /// single upload url for the zipped files.
+  @_s.JsonKey(name: 'fileMap')
+  final Map<String, String> fileMap;
+
+  CreateDeploymentRequest({
+    @_s.required this.appId,
+    @_s.required this.branchName,
+    this.fileMap,
+  });
+  Map<String, dynamic> toJson() => _$CreateDeploymentRequestToJson(this);
 }
 
 /// Result structure for create a new deployment.
@@ -2870,6 +3146,39 @@ class CreateDeploymentResult {
       _$CreateDeploymentResultFromJson(json);
 }
 
+/// Request structure for create Domain Association request.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDomainAssociationRequest {
+  /// Unique Id for an Amplify App.
+  @_s.JsonKey(name: 'appId', ignore: true)
+  final String appId;
+
+  /// Domain name for the Domain Association.
+  @_s.JsonKey(name: 'domainName')
+  final String domainName;
+
+  /// Setting structure for the Subdomain.
+  @_s.JsonKey(name: 'subDomainSettings')
+  final List<SubDomainSetting> subDomainSettings;
+
+  /// Enables automated creation of Subdomains for branches. (Currently not
+  /// supported)
+  @_s.JsonKey(name: 'enableAutoSubDomain')
+  final bool enableAutoSubDomain;
+
+  CreateDomainAssociationRequest({
+    @_s.required this.appId,
+    @_s.required this.domainName,
+    @_s.required this.subDomainSettings,
+    this.enableAutoSubDomain,
+  });
+  Map<String, dynamic> toJson() => _$CreateDomainAssociationRequestToJson(this);
+}
+
 /// Result structure for the create Domain Association request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2886,6 +3195,33 @@ class CreateDomainAssociationResult {
   });
   factory CreateDomainAssociationResult.fromJson(Map<String, dynamic> json) =>
       _$CreateDomainAssociationResultFromJson(json);
+}
+
+/// Request structure for create webhook request.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateWebhookRequest {
+  /// Unique Id for an Amplify App.
+  @_s.JsonKey(name: 'appId', ignore: true)
+  final String appId;
+
+  /// Name for a branch, part of an Amplify App.
+  @_s.JsonKey(name: 'branchName')
+  final String branchName;
+
+  /// Description for a webhook.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  CreateWebhookRequest({
+    @_s.required this.appId,
+    @_s.required this.branchName,
+    this.description,
+  });
+  Map<String, dynamic> toJson() => _$CreateWebhookRequestToJson(this);
 }
 
 /// Result structure for the create webhook request.
@@ -2941,6 +3277,23 @@ class CustomRule {
   Map<String, dynamic> toJson() => _$CustomRuleToJson(this);
 }
 
+/// Request structure for an Amplify App delete request.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteAppRequest {
+  /// Unique Id for an Amplify App.
+  @_s.JsonKey(name: 'appId', ignore: true)
+  final String appId;
+
+  DeleteAppRequest({
+    @_s.required this.appId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteAppRequestToJson(this);
+}
+
 /// Result structure for an Amplify App delete request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2956,6 +3309,29 @@ class DeleteAppResult {
   });
   factory DeleteAppResult.fromJson(Map<String, dynamic> json) =>
       _$DeleteAppResultFromJson(json);
+}
+
+/// Request structure for delete backend environment request.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteBackendEnvironmentRequest {
+  /// Unique Id of an Amplify App.
+  @_s.JsonKey(name: 'appId', ignore: true)
+  final String appId;
+
+  /// Name of a backend environment of an Amplify App.
+  @_s.JsonKey(name: 'environmentName', ignore: true)
+  final String environmentName;
+
+  DeleteBackendEnvironmentRequest({
+    @_s.required this.appId,
+    @_s.required this.environmentName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteBackendEnvironmentRequestToJson(this);
 }
 
 /// Result structure of a delete backend environment result.
@@ -2976,6 +3352,28 @@ class DeleteBackendEnvironmentResult {
       _$DeleteBackendEnvironmentResultFromJson(json);
 }
 
+/// Request structure for delete branch request.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteBranchRequest {
+  /// Unique Id for an Amplify App.
+  @_s.JsonKey(name: 'appId', ignore: true)
+  final String appId;
+
+  /// Name for the branch.
+  @_s.JsonKey(name: 'branchName', ignore: true)
+  final String branchName;
+
+  DeleteBranchRequest({
+    @_s.required this.appId,
+    @_s.required this.branchName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteBranchRequestToJson(this);
+}
+
 /// Result structure for delete branch request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2994,6 +3392,28 @@ class DeleteBranchResult {
       _$DeleteBranchResultFromJson(json);
 }
 
+/// Request structure for the delete Domain Association request.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDomainAssociationRequest {
+  /// Unique Id for an Amplify App.
+  @_s.JsonKey(name: 'appId', ignore: true)
+  final String appId;
+
+  /// Name of the domain.
+  @_s.JsonKey(name: 'domainName', ignore: true)
+  final String domainName;
+
+  DeleteDomainAssociationRequest({
+    @_s.required this.appId,
+    @_s.required this.domainName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDomainAssociationRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3008,6 +3428,33 @@ class DeleteDomainAssociationResult {
   });
   factory DeleteDomainAssociationResult.fromJson(Map<String, dynamic> json) =>
       _$DeleteDomainAssociationResultFromJson(json);
+}
+
+/// Request structure for delete job request.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteJobRequest {
+  /// Unique Id for an Amplify App.
+  @_s.JsonKey(name: 'appId', ignore: true)
+  final String appId;
+
+  /// Name for the branch, for the Job.
+  @_s.JsonKey(name: 'branchName', ignore: true)
+  final String branchName;
+
+  /// Unique Id for the Job.
+  @_s.JsonKey(name: 'jobId', ignore: true)
+  final String jobId;
+
+  DeleteJobRequest({
+    @_s.required this.appId,
+    @_s.required this.branchName,
+    @_s.required this.jobId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteJobRequestToJson(this);
 }
 
 /// Result structure for the delete job request.
@@ -3025,6 +3472,23 @@ class DeleteJobResult {
   });
   factory DeleteJobResult.fromJson(Map<String, dynamic> json) =>
       _$DeleteJobResultFromJson(json);
+}
+
+/// Request structure for the delete webhook request.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteWebhookRequest {
+  /// Unique Id for a webhook.
+  @_s.JsonKey(name: 'webhookId', ignore: true)
+  final String webhookId;
+
+  DeleteWebhookRequest({
+    @_s.required this.webhookId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteWebhookRequestToJson(this);
 }
 
 /// Result structure for the delete webhook request.
@@ -3112,6 +3576,44 @@ enum DomainStatus {
   requestingCertificate,
   @_s.JsonValue('UPDATING')
   updating,
+}
+
+/// Request structure for the generate access logs request.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GenerateAccessLogsRequest {
+  /// Unique Id for an Amplify App.
+  @_s.JsonKey(name: 'appId', ignore: true)
+  final String appId;
+
+  /// Name of the domain.
+  @_s.JsonKey(name: 'domainName')
+  final String domainName;
+
+  /// The time at which the logs should end, inclusive.
+  @_s.JsonKey(
+      name: 'endTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime endTime;
+
+  /// The time at which the logs should start, inclusive.
+  @_s.JsonKey(
+      name: 'startTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime startTime;
+
+  GenerateAccessLogsRequest({
+    @_s.required this.appId,
+    @_s.required this.domainName,
+    this.endTime,
+    this.startTime,
+  });
+  Map<String, dynamic> toJson() => _$GenerateAccessLogsRequestToJson(this);
 }
 
 /// Result structure for the generate access logs request.
@@ -3376,22 +3878,6 @@ enum JobType {
   webHook,
 }
 
-extension on JobType {
-  String toValue() {
-    switch (this) {
-      case JobType.release:
-        return 'RELEASE';
-      case JobType.retry:
-        return 'RETRY';
-      case JobType.manual:
-        return 'MANUAL';
-      case JobType.webHook:
-        return 'WEB_HOOK';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Result structure for an Amplify App list request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3584,16 +4070,6 @@ enum Platform {
   web,
 }
 
-extension on Platform {
-  String toValue() {
-    switch (this) {
-      case Platform.web:
-        return 'WEB';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Structure with Production Branch information.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3643,22 +4119,38 @@ enum Stage {
   pullRequest,
 }
 
-extension on Stage {
-  String toValue() {
-    switch (this) {
-      case Stage.production:
-        return 'PRODUCTION';
-      case Stage.beta:
-        return 'BETA';
-      case Stage.development:
-        return 'DEVELOPMENT';
-      case Stage.experimental:
-        return 'EXPERIMENTAL';
-      case Stage.pullRequest:
-        return 'PULL_REQUEST';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+/// Request structure for start a deployment.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartDeploymentRequest {
+  /// Unique Id for an Amplify App.
+  @_s.JsonKey(name: 'appId', ignore: true)
+  final String appId;
+
+  /// Name for the branch, for the Job.
+  @_s.JsonKey(name: 'branchName', ignore: true)
+  final String branchName;
+
+  /// The job id for this deployment, generated by create deployment request.
+  @_s.JsonKey(name: 'jobId')
+  final String jobId;
+
+  /// The sourceUrl for this deployment, used when calling start deployment
+  /// without create deployment. SourceUrl can be any HTTP GET url that is public
+  /// accessible and downloads a single zip.
+  @_s.JsonKey(name: 'sourceUrl')
+  final String sourceUrl;
+
+  StartDeploymentRequest({
+    @_s.required this.appId,
+    @_s.required this.branchName,
+    this.jobId,
+    this.sourceUrl,
+  });
+  Map<String, dynamic> toJson() => _$StartDeploymentRequestToJson(this);
 }
 
 /// Result structure for start a deployment.
@@ -3677,6 +4169,64 @@ class StartDeploymentResult {
   });
   factory StartDeploymentResult.fromJson(Map<String, dynamic> json) =>
       _$StartDeploymentResultFromJson(json);
+}
+
+/// Request structure for Start job request.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartJobRequest {
+  /// Unique Id for an Amplify App.
+  @_s.JsonKey(name: 'appId', ignore: true)
+  final String appId;
+
+  /// Name for the branch, for the Job.
+  @_s.JsonKey(name: 'branchName', ignore: true)
+  final String branchName;
+
+  /// Type for the Job. Available JobTypes are: \n "RELEASE": Start a new job with
+  /// the latest change from the specified branch. Only available for apps that
+  /// have connected to a repository. "RETRY": Retry an existing job. JobId is
+  /// required for this type of job.
+  @_s.JsonKey(name: 'jobType')
+  final JobType jobType;
+
+  /// Commit Id from 3rd party repository provider for the Job.
+  @_s.JsonKey(name: 'commitId')
+  final String commitId;
+
+  /// Commit message from 3rd party repository provider for the Job.
+  @_s.JsonKey(name: 'commitMessage')
+  final String commitMessage;
+
+  /// Commit date / time for the Job.
+  @_s.JsonKey(
+      name: 'commitTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime commitTime;
+
+  /// Unique Id for an existing job. Required for "RETRY" JobType.
+  @_s.JsonKey(name: 'jobId')
+  final String jobId;
+
+  /// Descriptive reason for starting this job.
+  @_s.JsonKey(name: 'jobReason')
+  final String jobReason;
+
+  StartJobRequest({
+    @_s.required this.appId,
+    @_s.required this.branchName,
+    @_s.required this.jobType,
+    this.commitId,
+    this.commitMessage,
+    this.commitTime,
+    this.jobId,
+    this.jobReason,
+  });
+  Map<String, dynamic> toJson() => _$StartJobRequestToJson(this);
 }
 
 /// Result structure for run job request.
@@ -3770,6 +4320,33 @@ class Step {
   factory Step.fromJson(Map<String, dynamic> json) => _$StepFromJson(json);
 }
 
+/// Request structure for stop job request.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopJobRequest {
+  /// Unique Id for an Amplify App.
+  @_s.JsonKey(name: 'appId', ignore: true)
+  final String appId;
+
+  /// Name for the branch, for the Job.
+  @_s.JsonKey(name: 'branchName', ignore: true)
+  final String branchName;
+
+  /// Unique Id for the Job.
+  @_s.JsonKey(name: 'jobId', ignore: true)
+  final String jobId;
+
+  StopJobRequest({
+    @_s.required this.appId,
+    @_s.required this.branchName,
+    @_s.required this.jobId,
+  });
+  Map<String, dynamic> toJson() => _$StopJobRequestToJson(this);
+}
+
 /// Result structure for the stop job request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3841,6 +4418,28 @@ class SubDomainSetting {
   Map<String, dynamic> toJson() => _$SubDomainSettingToJson(this);
 }
 
+/// Request structure used to tag resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// Resource arn used to tag resource.
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  /// Tags used to tag resource.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
 /// Response for tag resource.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3853,6 +4452,28 @@ class TagResourceResponse {
       _$TagResourceResponseFromJson(json);
 }
 
+/// Request structure used to untag resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// Resource arn used to untag resource.
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  /// Tag keys used to untag resource.
+  @_s.JsonKey(name: 'tagKeys', ignore: true)
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
 /// Response for untag resource.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3863,6 +4484,105 @@ class UntagResourceResponse {
   UntagResourceResponse();
   factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceResponseFromJson(json);
+}
+
+/// Request structure for update App request.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateAppRequest {
+  /// Unique Id for an Amplify App.
+  @_s.JsonKey(name: 'appId', ignore: true)
+  final String appId;
+
+  /// Personal Access token for 3rd party source control system for an Amplify
+  /// App, used to create webhook and read-only deploy key. Token is not stored.
+  @_s.JsonKey(name: 'accessToken')
+  final String accessToken;
+
+  /// Automated branch creation branchConfig for the Amplify App.
+  @_s.JsonKey(name: 'autoBranchCreationConfig')
+  final AutoBranchCreationConfig autoBranchCreationConfig;
+
+  /// Automated branch creation glob patterns for the Amplify App.
+  @_s.JsonKey(name: 'autoBranchCreationPatterns')
+  final List<String> autoBranchCreationPatterns;
+
+  /// Basic Authorization credentials for an Amplify App.
+  @_s.JsonKey(name: 'basicAuthCredentials')
+  final String basicAuthCredentials;
+
+  /// BuildSpec for an Amplify App.
+  @_s.JsonKey(name: 'buildSpec')
+  final String buildSpec;
+
+  /// Custom redirect / rewrite rules for an Amplify App.
+  @_s.JsonKey(name: 'customRules')
+  final List<CustomRule> customRules;
+
+  /// Description for an Amplify App.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// Enables automated branch creation for the Amplify App.
+  @_s.JsonKey(name: 'enableAutoBranchCreation')
+  final bool enableAutoBranchCreation;
+
+  /// Enables Basic Authorization for an Amplify App.
+  @_s.JsonKey(name: 'enableBasicAuth')
+  final bool enableBasicAuth;
+
+  /// Enables branch auto-building for an Amplify App.
+  @_s.JsonKey(name: 'enableBranchAutoBuild')
+  final bool enableBranchAutoBuild;
+
+  /// Environment Variables for an Amplify App.
+  @_s.JsonKey(name: 'environmentVariables')
+  final Map<String, String> environmentVariables;
+
+  /// IAM service role for an Amplify App.
+  @_s.JsonKey(name: 'iamServiceRoleArn')
+  final String iamServiceRoleArn;
+
+  /// Name for an Amplify App.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// OAuth token for 3rd party source control system for an Amplify App, used to
+  /// create webhook and read-only deploy key. OAuth token is not stored.
+  @_s.JsonKey(name: 'oauthToken')
+  final String oauthToken;
+
+  /// Platform for an Amplify App.
+  @_s.JsonKey(name: 'platform')
+  final Platform platform;
+
+  /// Repository for an Amplify App
+  @_s.JsonKey(name: 'repository')
+  final String repository;
+
+  UpdateAppRequest({
+    @_s.required this.appId,
+    this.accessToken,
+    this.autoBranchCreationConfig,
+    this.autoBranchCreationPatterns,
+    this.basicAuthCredentials,
+    this.buildSpec,
+    this.customRules,
+    this.description,
+    this.enableAutoBranchCreation,
+    this.enableBasicAuth,
+    this.enableBranchAutoBuild,
+    this.environmentVariables,
+    this.iamServiceRoleArn,
+    this.name,
+    this.oauthToken,
+    this.platform,
+    this.repository,
+  });
+  Map<String, dynamic> toJson() => _$UpdateAppRequestToJson(this);
 }
 
 /// Result structure for an Amplify App update request.
@@ -3883,6 +4603,98 @@ class UpdateAppResult {
       _$UpdateAppResultFromJson(json);
 }
 
+/// Request structure for update branch request.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateBranchRequest {
+  /// Unique Id for an Amplify App.
+  @_s.JsonKey(name: 'appId', ignore: true)
+  final String appId;
+
+  /// Name for the branch.
+  @_s.JsonKey(name: 'branchName', ignore: true)
+  final String branchName;
+
+  /// ARN for a Backend Environment, part of an Amplify App.
+  @_s.JsonKey(name: 'backendEnvironmentArn')
+  final String backendEnvironmentArn;
+
+  /// Basic Authorization credentials for the branch.
+  @_s.JsonKey(name: 'basicAuthCredentials')
+  final String basicAuthCredentials;
+
+  /// BuildSpec for the branch.
+  @_s.JsonKey(name: 'buildSpec')
+  final String buildSpec;
+
+  /// Description for the branch.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// Display name for a branch, will use as the default domain prefix.
+  @_s.JsonKey(name: 'displayName')
+  final String displayName;
+
+  /// Enables auto building for the branch.
+  @_s.JsonKey(name: 'enableAutoBuild')
+  final bool enableAutoBuild;
+
+  /// Enables Basic Auth for the branch.
+  @_s.JsonKey(name: 'enableBasicAuth')
+  final bool enableBasicAuth;
+
+  /// Enables notifications for the branch.
+  @_s.JsonKey(name: 'enableNotification')
+  final bool enableNotification;
+
+  /// Enables Pull Request Preview for this branch.
+  @_s.JsonKey(name: 'enablePullRequestPreview')
+  final bool enablePullRequestPreview;
+
+  /// Environment Variables for the branch.
+  @_s.JsonKey(name: 'environmentVariables')
+  final Map<String, String> environmentVariables;
+
+  /// Framework for the branch.
+  @_s.JsonKey(name: 'framework')
+  final String framework;
+
+  /// The Amplify Environment name for the pull request.
+  @_s.JsonKey(name: 'pullRequestEnvironmentName')
+  final String pullRequestEnvironmentName;
+
+  /// Stage for the branch.
+  @_s.JsonKey(name: 'stage')
+  final Stage stage;
+
+  /// The content TTL for the website in seconds.
+  @_s.JsonKey(name: 'ttl')
+  final String ttl;
+
+  UpdateBranchRequest({
+    @_s.required this.appId,
+    @_s.required this.branchName,
+    this.backendEnvironmentArn,
+    this.basicAuthCredentials,
+    this.buildSpec,
+    this.description,
+    this.displayName,
+    this.enableAutoBuild,
+    this.enableBasicAuth,
+    this.enableNotification,
+    this.enablePullRequestPreview,
+    this.environmentVariables,
+    this.framework,
+    this.pullRequestEnvironmentName,
+    this.stage,
+    this.ttl,
+  });
+  Map<String, dynamic> toJson() => _$UpdateBranchRequestToJson(this);
+}
+
 /// Result structure for update branch request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3901,6 +4713,39 @@ class UpdateBranchResult {
       _$UpdateBranchResultFromJson(json);
 }
 
+/// Request structure for update Domain Association request.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDomainAssociationRequest {
+  /// Unique Id for an Amplify App.
+  @_s.JsonKey(name: 'appId', ignore: true)
+  final String appId;
+
+  /// Name of the domain.
+  @_s.JsonKey(name: 'domainName', ignore: true)
+  final String domainName;
+
+  /// Setting structure for the Subdomain.
+  @_s.JsonKey(name: 'subDomainSettings')
+  final List<SubDomainSetting> subDomainSettings;
+
+  /// Enables automated creation of Subdomains for branches. (Currently not
+  /// supported)
+  @_s.JsonKey(name: 'enableAutoSubDomain')
+  final bool enableAutoSubDomain;
+
+  UpdateDomainAssociationRequest({
+    @_s.required this.appId,
+    @_s.required this.domainName,
+    @_s.required this.subDomainSettings,
+    this.enableAutoSubDomain,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDomainAssociationRequestToJson(this);
+}
+
 /// Result structure for the update Domain Association request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3917,6 +4762,33 @@ class UpdateDomainAssociationResult {
   });
   factory UpdateDomainAssociationResult.fromJson(Map<String, dynamic> json) =>
       _$UpdateDomainAssociationResultFromJson(json);
+}
+
+/// Request structure for update webhook request.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateWebhookRequest {
+  /// Unique Id for a webhook.
+  @_s.JsonKey(name: 'webhookId', ignore: true)
+  final String webhookId;
+
+  /// Name for a branch, part of an Amplify App.
+  @_s.JsonKey(name: 'branchName')
+  final String branchName;
+
+  /// Description for a webhook.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  UpdateWebhookRequest({
+    @_s.required this.webhookId,
+    this.branchName,
+    this.description,
+  });
+  Map<String, dynamic> toJson() => _$UpdateWebhookRequestToJson(this);
 }
 
 /// Result structure for the update webhook request.

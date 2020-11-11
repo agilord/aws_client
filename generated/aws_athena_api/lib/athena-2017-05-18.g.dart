@@ -6,6 +6,20 @@ part of 'athena-2017-05-18.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$BatchGetNamedQueryInputToJson(
+    BatchGetNamedQueryInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('NamedQueryIds', instance.namedQueryIds);
+  return val;
+}
+
 BatchGetNamedQueryOutput _$BatchGetNamedQueryOutputFromJson(
     Map<String, dynamic> json) {
   return BatchGetNamedQueryOutput(
@@ -19,6 +33,20 @@ BatchGetNamedQueryOutput _$BatchGetNamedQueryOutputFromJson(
             : UnprocessedNamedQueryId.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$BatchGetQueryExecutionInputToJson(
+    BatchGetQueryExecutionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('QueryExecutionIds', instance.queryExecutionIds);
+  return val;
 }
 
 BatchGetQueryExecutionOutput _$BatchGetQueryExecutionOutputFromJson(
@@ -90,11 +118,47 @@ const _$ColumnNullableEnumMap = {
   ColumnNullable.unknown: 'UNKNOWN',
 };
 
+Map<String, dynamic> _$CreateNamedQueryInputToJson(
+    CreateNamedQueryInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Database', instance.database);
+  writeNotNull('Name', instance.name);
+  writeNotNull('QueryString', instance.queryString);
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('Description', instance.description);
+  writeNotNull('WorkGroup', instance.workGroup);
+  return val;
+}
+
 CreateNamedQueryOutput _$CreateNamedQueryOutputFromJson(
     Map<String, dynamic> json) {
   return CreateNamedQueryOutput(
     namedQueryId: json['NamedQueryId'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateWorkGroupInputToJson(
+    CreateWorkGroupInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('Configuration', instance.configuration?.toJson());
+  writeNotNull('Description', instance.description);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateWorkGroupOutput _$CreateWorkGroupOutputFromJson(
@@ -108,9 +172,38 @@ Datum _$DatumFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DeleteNamedQueryInputToJson(
+    DeleteNamedQueryInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('NamedQueryId', instance.namedQueryId);
+  return val;
+}
+
 DeleteNamedQueryOutput _$DeleteNamedQueryOutputFromJson(
     Map<String, dynamic> json) {
   return DeleteNamedQueryOutput();
+}
+
+Map<String, dynamic> _$DeleteWorkGroupInputToJson(
+    DeleteWorkGroupInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('WorkGroup', instance.workGroup);
+  writeNotNull('RecursiveDeleteOption', instance.recursiveDeleteOption);
+  return val;
 }
 
 DeleteWorkGroupOutput _$DeleteWorkGroupOutputFromJson(
@@ -149,12 +242,39 @@ const _$EncryptionOptionEnumMap = {
   EncryptionOption.cseKms: 'CSE_KMS',
 };
 
+Map<String, dynamic> _$GetNamedQueryInputToJson(GetNamedQueryInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('NamedQueryId', instance.namedQueryId);
+  return val;
+}
+
 GetNamedQueryOutput _$GetNamedQueryOutputFromJson(Map<String, dynamic> json) {
   return GetNamedQueryOutput(
     namedQuery: json['NamedQuery'] == null
         ? null
         : NamedQuery.fromJson(json['NamedQuery'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetQueryExecutionInputToJson(
+    GetQueryExecutionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('QueryExecutionId', instance.queryExecutionId);
+  return val;
 }
 
 GetQueryExecutionOutput _$GetQueryExecutionOutputFromJson(
@@ -165,6 +285,22 @@ GetQueryExecutionOutput _$GetQueryExecutionOutputFromJson(
         : QueryExecution.fromJson(
             json['QueryExecution'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetQueryResultsInputToJson(
+    GetQueryResultsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('QueryExecutionId', instance.queryExecutionId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 GetQueryResultsOutput _$GetQueryResultsOutputFromJson(
@@ -178,12 +314,41 @@ GetQueryResultsOutput _$GetQueryResultsOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$GetWorkGroupInputToJson(GetWorkGroupInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('WorkGroup', instance.workGroup);
+  return val;
+}
+
 GetWorkGroupOutput _$GetWorkGroupOutputFromJson(Map<String, dynamic> json) {
   return GetWorkGroupOutput(
     workGroup: json['WorkGroup'] == null
         ? null
         : WorkGroup.fromJson(json['WorkGroup'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$ListNamedQueriesInputToJson(
+    ListNamedQueriesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('WorkGroup', instance.workGroup);
+  return val;
 }
 
 ListNamedQueriesOutput _$ListNamedQueriesOutputFromJson(
@@ -195,6 +360,22 @@ ListNamedQueriesOutput _$ListNamedQueriesOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$ListQueryExecutionsInputToJson(
+    ListQueryExecutionsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('WorkGroup', instance.workGroup);
+  return val;
+}
+
 ListQueryExecutionsOutput _$ListQueryExecutionsOutputFromJson(
     Map<String, dynamic> json) {
   return ListQueryExecutionsOutput(
@@ -202,6 +383,22 @@ ListQueryExecutionsOutput _$ListQueryExecutionsOutputFromJson(
     queryExecutionIds:
         (json['QueryExecutionIds'] as List)?.map((e) => e as String)?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListTagsForResourceInputToJson(
+    ListTagsForResourceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARN', instance.resourceARN);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListTagsForResourceOutput _$ListTagsForResourceOutputFromJson(
@@ -212,6 +409,20 @@ ListTagsForResourceOutput _$ListTagsForResourceOutputFromJson(
         ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListWorkGroupsInputToJson(ListWorkGroupsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListWorkGroupsOutput _$ListWorkGroupsOutputFromJson(Map<String, dynamic> json) {
@@ -392,11 +603,44 @@ Row _$RowFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$StartQueryExecutionInputToJson(
+    StartQueryExecutionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('QueryString', instance.queryString);
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull(
+      'QueryExecutionContext', instance.queryExecutionContext?.toJson());
+  writeNotNull('ResultConfiguration', instance.resultConfiguration?.toJson());
+  writeNotNull('WorkGroup', instance.workGroup);
+  return val;
+}
+
 StartQueryExecutionOutput _$StartQueryExecutionOutputFromJson(
     Map<String, dynamic> json) {
   return StartQueryExecutionOutput(
     queryExecutionId: json['QueryExecutionId'] as String,
   );
+}
+
+Map<String, dynamic> _$StopQueryExecutionInputToJson(
+    StopQueryExecutionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('QueryExecutionId', instance.queryExecutionId);
+  return val;
 }
 
 StopQueryExecutionOutput _$StopQueryExecutionOutputFromJson(
@@ -425,6 +669,20 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
   return val;
 }
 
+Map<String, dynamic> _$TagResourceInputToJson(TagResourceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARN', instance.resourceARN);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 TagResourceOutput _$TagResourceOutputFromJson(Map<String, dynamic> json) {
   return TagResourceOutput();
 }
@@ -447,9 +705,45 @@ UnprocessedQueryExecutionId _$UnprocessedQueryExecutionIdFromJson(
   );
 }
 
+Map<String, dynamic> _$UntagResourceInputToJson(UntagResourceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARN', instance.resourceARN);
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
+}
+
 UntagResourceOutput _$UntagResourceOutputFromJson(Map<String, dynamic> json) {
   return UntagResourceOutput();
 }
+
+Map<String, dynamic> _$UpdateWorkGroupInputToJson(
+    UpdateWorkGroupInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('WorkGroup', instance.workGroup);
+  writeNotNull('ConfigurationUpdates', instance.configurationUpdates?.toJson());
+  writeNotNull('Description', instance.description);
+  writeNotNull('State', _$WorkGroupStateEnumMap[instance.state]);
+  return val;
+}
+
+const _$WorkGroupStateEnumMap = {
+  WorkGroupState.enabled: 'ENABLED',
+  WorkGroupState.disabled: 'DISABLED',
+};
 
 UpdateWorkGroupOutput _$UpdateWorkGroupOutputFromJson(
     Map<String, dynamic> json) {
@@ -468,11 +762,6 @@ WorkGroup _$WorkGroupFromJson(Map<String, dynamic> json) {
     state: _$enumDecodeNullable(_$WorkGroupStateEnumMap, json['State']),
   );
 }
-
-const _$WorkGroupStateEnumMap = {
-  WorkGroupState.enabled: 'ENABLED',
-  WorkGroupState.disabled: 'DISABLED',
-};
 
 WorkGroupConfiguration _$WorkGroupConfigurationFromJson(
     Map<String, dynamic> json) {

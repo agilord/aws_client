@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -52,9 +51,9 @@ class RecursiveShapes {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (recursiveStruct != null) 'RecursiveStruct': recursiveStruct,
-      },
+      payload: InputShape(
+        recursiveStruct: recursiveStruct,
+      ),
     );
   }
 
@@ -71,9 +70,9 @@ class RecursiveShapes {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (recursiveStruct != null) 'RecursiveStruct': recursiveStruct,
-      },
+      payload: InputShape(
+        recursiveStruct: recursiveStruct,
+      ),
     );
   }
 
@@ -90,9 +89,9 @@ class RecursiveShapes {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (recursiveStruct != null) 'RecursiveStruct': recursiveStruct,
-      },
+      payload: InputShape(
+        recursiveStruct: recursiveStruct,
+      ),
     );
   }
 
@@ -109,9 +108,9 @@ class RecursiveShapes {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (recursiveStruct != null) 'RecursiveStruct': recursiveStruct,
-      },
+      payload: InputShape(
+        recursiveStruct: recursiveStruct,
+      ),
     );
   }
 
@@ -128,9 +127,9 @@ class RecursiveShapes {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (recursiveStruct != null) 'RecursiveStruct': recursiveStruct,
-      },
+      payload: InputShape(
+        recursiveStruct: recursiveStruct,
+      ),
     );
   }
 
@@ -147,11 +146,26 @@ class RecursiveShapes {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (recursiveStruct != null) 'RecursiveStruct': recursiveStruct,
-      },
+      payload: InputShape(
+        recursiveStruct: recursiveStruct,
+      ),
     );
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class InputShape {
+  @_s.JsonKey(name: 'RecursiveStruct')
+  final RecursiveStructType recursiveStruct;
+
+  InputShape({
+    this.recursiveStruct,
+  });
+  Map<String, dynamic> toJson() => _$InputShapeToJson(this);
 }
 
 @_s.JsonSerializable(

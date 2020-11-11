@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -115,15 +114,14 @@ class AppSync {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(ttl, 'ttl');
     ArgumentError.checkNotNull(type, 'type');
-    final $payload = <String, dynamic>{
-      'apiCachingBehavior': apiCachingBehavior?.toValue(),
-      'ttl': ttl,
-      'type': type?.toValue(),
-      if (atRestEncryptionEnabled != null)
-        'atRestEncryptionEnabled': atRestEncryptionEnabled,
-      if (transitEncryptionEnabled != null)
-        'transitEncryptionEnabled': transitEncryptionEnabled,
-    };
+    final $payload = CreateApiCacheRequest(
+      apiCachingBehavior: apiCachingBehavior,
+      apiId: apiId,
+      ttl: ttl,
+      type: type,
+      atRestEncryptionEnabled: atRestEncryptionEnabled,
+      transitEncryptionEnabled: transitEncryptionEnabled,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -162,10 +160,11 @@ class AppSync {
     int expires,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
-    final $payload = <String, dynamic>{
-      if (description != null) 'description': description,
-      if (expires != null) 'expires': expires,
-    };
+    final $payload = CreateApiKeyRequest(
+      apiId: apiId,
+      description: description,
+      expires: expires,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -241,19 +240,18 @@ class AppSync {
       isRequired: true,
     );
     ArgumentError.checkNotNull(type, 'type');
-    final $payload = <String, dynamic>{
-      'name': name,
-      'type': type?.toValue(),
-      if (description != null) 'description': description,
-      if (dynamodbConfig != null) 'dynamodbConfig': dynamodbConfig,
-      if (elasticsearchConfig != null)
-        'elasticsearchConfig': elasticsearchConfig,
-      if (httpConfig != null) 'httpConfig': httpConfig,
-      if (lambdaConfig != null) 'lambdaConfig': lambdaConfig,
-      if (relationalDatabaseConfig != null)
-        'relationalDatabaseConfig': relationalDatabaseConfig,
-      if (serviceRoleArn != null) 'serviceRoleArn': serviceRoleArn,
-    };
+    final $payload = CreateDataSourceRequest(
+      apiId: apiId,
+      name: name,
+      type: type,
+      description: description,
+      dynamodbConfig: dynamodbConfig,
+      elasticsearchConfig: elasticsearchConfig,
+      httpConfig: httpConfig,
+      lambdaConfig: lambdaConfig,
+      relationalDatabaseConfig: relationalDatabaseConfig,
+      serviceRoleArn: serviceRoleArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -351,15 +349,15 @@ class AppSync {
       1,
       65536,
     );
-    final $payload = <String, dynamic>{
-      'dataSourceName': dataSourceName,
-      'functionVersion': functionVersion,
-      'name': name,
-      'requestMappingTemplate': requestMappingTemplate,
-      if (description != null) 'description': description,
-      if (responseMappingTemplate != null)
-        'responseMappingTemplate': responseMappingTemplate,
-    };
+    final $payload = CreateFunctionRequest(
+      apiId: apiId,
+      dataSourceName: dataSourceName,
+      functionVersion: functionVersion,
+      name: name,
+      requestMappingTemplate: requestMappingTemplate,
+      description: description,
+      responseMappingTemplate: responseMappingTemplate,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -416,18 +414,16 @@ class AppSync {
   }) async {
     ArgumentError.checkNotNull(authenticationType, 'authenticationType');
     ArgumentError.checkNotNull(name, 'name');
-    final $payload = <String, dynamic>{
-      'authenticationType': authenticationType?.toValue(),
-      'name': name,
-      if (additionalAuthenticationProviders != null)
-        'additionalAuthenticationProviders': additionalAuthenticationProviders,
-      if (logConfig != null) 'logConfig': logConfig,
-      if (openIDConnectConfig != null)
-        'openIDConnectConfig': openIDConnectConfig,
-      if (tags != null) 'tags': tags,
-      if (userPoolConfig != null) 'userPoolConfig': userPoolConfig,
-      if (xrayEnabled != null) 'xrayEnabled': xrayEnabled,
-    };
+    final $payload = CreateGraphqlApiRequest(
+      authenticationType: authenticationType,
+      name: name,
+      additionalAuthenticationProviders: additionalAuthenticationProviders,
+      logConfig: logConfig,
+      openIDConnectConfig: openIDConnectConfig,
+      tags: tags,
+      userPoolConfig: userPoolConfig,
+      xrayEnabled: xrayEnabled,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -562,17 +558,18 @@ class AppSync {
       1,
       65536,
     );
-    final $payload = <String, dynamic>{
-      'fieldName': fieldName,
-      'requestMappingTemplate': requestMappingTemplate,
-      if (cachingConfig != null) 'cachingConfig': cachingConfig,
-      if (dataSourceName != null) 'dataSourceName': dataSourceName,
-      if (kind != null) 'kind': kind?.toValue(),
-      if (pipelineConfig != null) 'pipelineConfig': pipelineConfig,
-      if (responseMappingTemplate != null)
-        'responseMappingTemplate': responseMappingTemplate,
-      if (syncConfig != null) 'syncConfig': syncConfig,
-    };
+    final $payload = CreateResolverRequest(
+      apiId: apiId,
+      fieldName: fieldName,
+      requestMappingTemplate: requestMappingTemplate,
+      typeName: typeName,
+      cachingConfig: cachingConfig,
+      dataSourceName: dataSourceName,
+      kind: kind,
+      pipelineConfig: pipelineConfig,
+      responseMappingTemplate: responseMappingTemplate,
+      syncConfig: syncConfig,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -610,10 +607,11 @@ class AppSync {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(definition, 'definition');
     ArgumentError.checkNotNull(format, 'format');
-    final $payload = <String, dynamic>{
-      'definition': definition,
-      'format': format?.toValue(),
-    };
+    final $payload = CreateTypeRequest(
+      apiId: apiId,
+      definition: definition,
+      format: format,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -637,7 +635,9 @@ class AppSync {
     @_s.required String apiId,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteApiCacheRequest(
+      apiId: apiId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -665,7 +665,10 @@ class AppSync {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(id, 'id');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteApiKeyRequest(
+      apiId: apiId,
+      id: id,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -708,7 +711,10 @@ class AppSync {
       r'''[_A-Za-z][_0-9A-Za-z]*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteDataSourceRequest(
+      apiId: apiId,
+      name: name,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -750,7 +756,10 @@ class AppSync {
       r'''[_A-Za-z][_0-9A-Za-z]*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteFunctionRequest(
+      apiId: apiId,
+      functionId: functionId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -776,7 +785,9 @@ class AppSync {
     @_s.required String apiId,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteGraphqlApiRequest(
+      apiId: apiId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -835,7 +846,11 @@ class AppSync {
       r'''[_A-Za-z][_0-9A-Za-z]*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteResolverRequest(
+      apiId: apiId,
+      fieldName: fieldName,
+      typeName: typeName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -878,7 +893,10 @@ class AppSync {
       r'''[_A-Za-z][_0-9A-Za-z]*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteTypeRequest(
+      apiId: apiId,
+      typeName: typeName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -903,7 +921,9 @@ class AppSync {
     @_s.required String apiId,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
-    final $payload = <String, dynamic>{};
+    final $payload = FlushApiCacheRequest(
+      apiId: apiId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1666,9 +1686,10 @@ class AppSync {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(definition, 'definition');
-    final $payload = <String, dynamic>{
-      'definition': definition?.let(base64Encode),
-    };
+    final $payload = StartSchemaCreationRequest(
+      apiId: apiId,
+      definition: definition,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1712,9 +1733,10 @@ class AppSync {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'tags': tags,
-    };
+    final $payload = TagResourceRequest(
+      resourceArn: resourceArn,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1761,7 +1783,10 @@ class AppSync {
     _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = UntagResourceRequest(
+      resourceArn: resourceArn,
+      tagKeys: tagKeys,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1837,11 +1862,12 @@ class AppSync {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(ttl, 'ttl');
     ArgumentError.checkNotNull(type, 'type');
-    final $payload = <String, dynamic>{
-      'apiCachingBehavior': apiCachingBehavior?.toValue(),
-      'ttl': ttl,
-      'type': type?.toValue(),
-    };
+    final $payload = UpdateApiCacheRequest(
+      apiCachingBehavior: apiCachingBehavior,
+      apiId: apiId,
+      ttl: ttl,
+      type: type,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1881,10 +1907,12 @@ class AppSync {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(id, 'id');
-    final $payload = <String, dynamic>{
-      if (description != null) 'description': description,
-      if (expires != null) 'expires': expires,
-    };
+    final $payload = UpdateApiKeyRequest(
+      apiId: apiId,
+      id: id,
+      description: description,
+      expires: expires,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1960,18 +1988,18 @@ class AppSync {
       isRequired: true,
     );
     ArgumentError.checkNotNull(type, 'type');
-    final $payload = <String, dynamic>{
-      'type': type?.toValue(),
-      if (description != null) 'description': description,
-      if (dynamodbConfig != null) 'dynamodbConfig': dynamodbConfig,
-      if (elasticsearchConfig != null)
-        'elasticsearchConfig': elasticsearchConfig,
-      if (httpConfig != null) 'httpConfig': httpConfig,
-      if (lambdaConfig != null) 'lambdaConfig': lambdaConfig,
-      if (relationalDatabaseConfig != null)
-        'relationalDatabaseConfig': relationalDatabaseConfig,
-      if (serviceRoleArn != null) 'serviceRoleArn': serviceRoleArn,
-    };
+    final $payload = UpdateDataSourceRequest(
+      apiId: apiId,
+      name: name,
+      type: type,
+      description: description,
+      dynamodbConfig: dynamodbConfig,
+      elasticsearchConfig: elasticsearchConfig,
+      httpConfig: httpConfig,
+      lambdaConfig: lambdaConfig,
+      relationalDatabaseConfig: relationalDatabaseConfig,
+      serviceRoleArn: serviceRoleArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2083,15 +2111,16 @@ class AppSync {
       1,
       65536,
     );
-    final $payload = <String, dynamic>{
-      'dataSourceName': dataSourceName,
-      'functionVersion': functionVersion,
-      'name': name,
-      'requestMappingTemplate': requestMappingTemplate,
-      if (description != null) 'description': description,
-      if (responseMappingTemplate != null)
-        'responseMappingTemplate': responseMappingTemplate,
-    };
+    final $payload = UpdateFunctionRequest(
+      apiId: apiId,
+      dataSourceName: dataSourceName,
+      functionId: functionId,
+      functionVersion: functionVersion,
+      name: name,
+      requestMappingTemplate: requestMappingTemplate,
+      description: description,
+      responseMappingTemplate: responseMappingTemplate,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2150,18 +2179,16 @@ class AppSync {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(name, 'name');
-    final $payload = <String, dynamic>{
-      'name': name,
-      if (additionalAuthenticationProviders != null)
-        'additionalAuthenticationProviders': additionalAuthenticationProviders,
-      if (authenticationType != null)
-        'authenticationType': authenticationType?.toValue(),
-      if (logConfig != null) 'logConfig': logConfig,
-      if (openIDConnectConfig != null)
-        'openIDConnectConfig': openIDConnectConfig,
-      if (userPoolConfig != null) 'userPoolConfig': userPoolConfig,
-      if (xrayEnabled != null) 'xrayEnabled': xrayEnabled,
-    };
+    final $payload = UpdateGraphqlApiRequest(
+      apiId: apiId,
+      name: name,
+      additionalAuthenticationProviders: additionalAuthenticationProviders,
+      authenticationType: authenticationType,
+      logConfig: logConfig,
+      openIDConnectConfig: openIDConnectConfig,
+      userPoolConfig: userPoolConfig,
+      xrayEnabled: xrayEnabled,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2289,16 +2316,18 @@ class AppSync {
       1,
       65536,
     );
-    final $payload = <String, dynamic>{
-      'requestMappingTemplate': requestMappingTemplate,
-      if (cachingConfig != null) 'cachingConfig': cachingConfig,
-      if (dataSourceName != null) 'dataSourceName': dataSourceName,
-      if (kind != null) 'kind': kind?.toValue(),
-      if (pipelineConfig != null) 'pipelineConfig': pipelineConfig,
-      if (responseMappingTemplate != null)
-        'responseMappingTemplate': responseMappingTemplate,
-      if (syncConfig != null) 'syncConfig': syncConfig,
-    };
+    final $payload = UpdateResolverRequest(
+      apiId: apiId,
+      fieldName: fieldName,
+      requestMappingTemplate: requestMappingTemplate,
+      typeName: typeName,
+      cachingConfig: cachingConfig,
+      dataSourceName: dataSourceName,
+      kind: kind,
+      pipelineConfig: pipelineConfig,
+      responseMappingTemplate: responseMappingTemplate,
+      syncConfig: syncConfig,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2350,10 +2379,12 @@ class AppSync {
       r'''[_A-Za-z][_0-9A-Za-z]*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'format': format?.toValue(),
-      if (definition != null) 'definition': definition,
-    };
+    final $payload = UpdateTypeRequest(
+      apiId: apiId,
+      format: format,
+      typeName: typeName,
+      definition: definition,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2527,45 +2558,11 @@ enum ApiCacheType {
   r4_8xlarge,
 }
 
-extension on ApiCacheType {
-  String toValue() {
-    switch (this) {
-      case ApiCacheType.t2Small:
-        return 'T2_SMALL';
-      case ApiCacheType.t2Medium:
-        return 'T2_MEDIUM';
-      case ApiCacheType.r4Large:
-        return 'R4_LARGE';
-      case ApiCacheType.r4Xlarge:
-        return 'R4_XLARGE';
-      case ApiCacheType.r4_2xlarge:
-        return 'R4_2XLARGE';
-      case ApiCacheType.r4_4xlarge:
-        return 'R4_4XLARGE';
-      case ApiCacheType.r4_8xlarge:
-        return 'R4_8XLARGE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum ApiCachingBehavior {
   @_s.JsonValue('FULL_REQUEST_CACHING')
   fullRequestCaching,
   @_s.JsonValue('PER_RESOLVER_CACHING')
   perResolverCaching,
-}
-
-extension on ApiCachingBehavior {
-  String toValue() {
-    switch (this) {
-      case ApiCachingBehavior.fullRequestCaching:
-        return 'FULL_REQUEST_CACHING';
-      case ApiCachingBehavior.perResolverCaching:
-        return 'PER_RESOLVER_CACHING';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Describes an API key.
@@ -2657,22 +2654,6 @@ enum AuthenticationType {
   amazonCognitoUserPools,
   @_s.JsonValue('OPENID_CONNECT')
   openidConnect,
-}
-
-extension on AuthenticationType {
-  String toValue() {
-    switch (this) {
-      case AuthenticationType.apiKey:
-        return 'API_KEY';
-      case AuthenticationType.awsIam:
-        return 'AWS_IAM';
-      case AuthenticationType.amazonCognitoUserPools:
-        return 'AMAZON_COGNITO_USER_POOLS';
-      case AuthenticationType.openidConnect:
-        return 'OPENID_CONNECT';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// The authorization config in case the HTTP endpoint requires authorization.
@@ -2815,6 +2796,86 @@ enum ConflictHandlerType {
   none,
 }
 
+/// Represents the input of a <code>CreateApiCache</code> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateApiCacheRequest {
+  /// Caching behavior.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>FULL_REQUEST_CACHING</b>: All requests are fully cached.
+  /// </li>
+  /// <li>
+  /// <b>PER_RESOLVER_CACHING</b>: Individual resovlers that you specify are
+  /// cached.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'apiCachingBehavior')
+  final ApiCachingBehavior apiCachingBehavior;
+
+  /// The GraphQL API Id.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// TTL in seconds for cache entries.
+  ///
+  /// Valid values are between 1 and 3600 seconds.
+  @_s.JsonKey(name: 'ttl')
+  final int ttl;
+
+  /// The cache instance type.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>T2_SMALL</b>: A t2.small instance type.
+  /// </li>
+  /// <li>
+  /// <b>T2_MEDIUM</b>: A t2.medium instance type.
+  /// </li>
+  /// <li>
+  /// <b>R4_LARGE</b>: A r4.large instance type.
+  /// </li>
+  /// <li>
+  /// <b>R4_XLARGE</b>: A r4.xlarge instance type.
+  /// </li>
+  /// <li>
+  /// <b>R4_2XLARGE</b>: A r4.2xlarge instance type.
+  /// </li>
+  /// <li>
+  /// <b>R4_4XLARGE</b>: A r4.4xlarge instance type.
+  /// </li>
+  /// <li>
+  /// <b>R4_8XLARGE</b>: A r4.8xlarge instance type.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'type')
+  final ApiCacheType type;
+
+  /// At rest encryption flag for cache. This setting cannot be updated after
+  /// creation.
+  @_s.JsonKey(name: 'atRestEncryptionEnabled')
+  final bool atRestEncryptionEnabled;
+
+  /// Transit encryption flag when connecting to cache. This setting cannot be
+  /// updated after creation.
+  @_s.JsonKey(name: 'transitEncryptionEnabled')
+  final bool transitEncryptionEnabled;
+
+  CreateApiCacheRequest({
+    @_s.required this.apiCachingBehavior,
+    @_s.required this.apiId,
+    @_s.required this.ttl,
+    @_s.required this.type,
+    this.atRestEncryptionEnabled,
+    this.transitEncryptionEnabled,
+  });
+  Map<String, dynamic> toJson() => _$CreateApiCacheRequestToJson(this);
+}
+
 /// Represents the output of a <code>CreateApiCache</code> operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2831,6 +2892,35 @@ class CreateApiCacheResponse {
   });
   factory CreateApiCacheResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateApiCacheResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateApiKeyRequest {
+  /// The ID for your GraphQL API.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// A description of the purpose of the API key.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The time from creation time after which the API key expires. The date is
+  /// represented as seconds since the epoch, rounded down to the nearest hour.
+  /// The default value for this parameter is 7 days from creation time. For more
+  /// information, see .
+  @_s.JsonKey(name: 'expires')
+  final int expires;
+
+  CreateApiKeyRequest({
+    @_s.required this.apiId,
+    this.description,
+    this.expires,
+  });
+  Map<String, dynamic> toJson() => _$CreateApiKeyRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2853,6 +2943,68 @@ class CreateApiKeyResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDataSourceRequest {
+  /// The API ID for the GraphQL API for the <code>DataSource</code>.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// A user-supplied name for the <code>DataSource</code>.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The type of the <code>DataSource</code>.
+  @_s.JsonKey(name: 'type')
+  final DataSourceType type;
+
+  /// A description of the <code>DataSource</code>.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// Amazon DynamoDB settings.
+  @_s.JsonKey(name: 'dynamodbConfig')
+  final DynamodbDataSourceConfig dynamodbConfig;
+
+  /// Amazon Elasticsearch Service settings.
+  @_s.JsonKey(name: 'elasticsearchConfig')
+  final ElasticsearchDataSourceConfig elasticsearchConfig;
+
+  /// HTTP endpoint settings.
+  @_s.JsonKey(name: 'httpConfig')
+  final HttpDataSourceConfig httpConfig;
+
+  /// AWS Lambda settings.
+  @_s.JsonKey(name: 'lambdaConfig')
+  final LambdaDataSourceConfig lambdaConfig;
+
+  /// Relational database settings.
+  @_s.JsonKey(name: 'relationalDatabaseConfig')
+  final RelationalDatabaseDataSourceConfig relationalDatabaseConfig;
+
+  /// The AWS IAM service role ARN for the data source. The system assumes this
+  /// role when accessing the data source.
+  @_s.JsonKey(name: 'serviceRoleArn')
+  final String serviceRoleArn;
+
+  CreateDataSourceRequest({
+    @_s.required this.apiId,
+    @_s.required this.name,
+    @_s.required this.type,
+    this.description,
+    this.dynamodbConfig,
+    this.elasticsearchConfig,
+    this.httpConfig,
+    this.lambdaConfig,
+    this.relationalDatabaseConfig,
+    this.serviceRoleArn,
+  });
+  Map<String, dynamic> toJson() => _$CreateDataSourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateDataSourceResponse {
@@ -2865,6 +3017,55 @@ class CreateDataSourceResponse {
   });
   factory CreateDataSourceResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateDataSourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateFunctionRequest {
+  /// The GraphQL API ID.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The <code>Function</code> <code>DataSource</code> name.
+  @_s.JsonKey(name: 'dataSourceName')
+  final String dataSourceName;
+
+  /// The <code>version</code> of the request mapping template. Currently the
+  /// supported value is 2018-05-29.
+  @_s.JsonKey(name: 'functionVersion')
+  final String functionVersion;
+
+  /// The <code>Function</code> name. The function name does not have to be
+  /// unique.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The <code>Function</code> request mapping template. Functions support only
+  /// the 2018-05-29 version of the request mapping template.
+  @_s.JsonKey(name: 'requestMappingTemplate')
+  final String requestMappingTemplate;
+
+  /// The <code>Function</code> description.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The <code>Function</code> response mapping template.
+  @_s.JsonKey(name: 'responseMappingTemplate')
+  final String responseMappingTemplate;
+
+  CreateFunctionRequest({
+    @_s.required this.apiId,
+    @_s.required this.dataSourceName,
+    @_s.required this.functionVersion,
+    @_s.required this.name,
+    @_s.required this.requestMappingTemplate,
+    this.description,
+    this.responseMappingTemplate,
+  });
+  Map<String, dynamic> toJson() => _$CreateFunctionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2887,6 +3088,61 @@ class CreateFunctionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateGraphqlApiRequest {
+  /// The authentication type: API key, AWS IAM, OIDC, or Amazon Cognito user
+  /// pools.
+  @_s.JsonKey(name: 'authenticationType')
+  final AuthenticationType authenticationType;
+
+  /// A user-supplied name for the <code>GraphqlApi</code>.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// A list of additional authentication providers for the
+  /// <code>GraphqlApi</code> API.
+  @_s.JsonKey(name: 'additionalAuthenticationProviders')
+  final List<AdditionalAuthenticationProvider>
+      additionalAuthenticationProviders;
+
+  /// The Amazon CloudWatch Logs configuration.
+  @_s.JsonKey(name: 'logConfig')
+  final LogConfig logConfig;
+
+  /// The OpenID Connect configuration.
+  @_s.JsonKey(name: 'openIDConnectConfig')
+  final OpenIDConnectConfig openIDConnectConfig;
+
+  /// A <code>TagMap</code> object.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  /// The Amazon Cognito user pool configuration.
+  @_s.JsonKey(name: 'userPoolConfig')
+  final UserPoolConfig userPoolConfig;
+
+  /// A flag indicating whether to enable X-Ray tracing for the
+  /// <code>GraphqlApi</code>.
+  @_s.JsonKey(name: 'xrayEnabled')
+  final bool xrayEnabled;
+
+  CreateGraphqlApiRequest({
+    @_s.required this.authenticationType,
+    @_s.required this.name,
+    this.additionalAuthenticationProviders,
+    this.logConfig,
+    this.openIDConnectConfig,
+    this.tags,
+    this.userPoolConfig,
+    this.xrayEnabled,
+  });
+  Map<String, dynamic> toJson() => _$CreateGraphqlApiRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateGraphqlApiResponse {
@@ -2904,6 +3160,86 @@ class CreateGraphqlApiResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateResolverRequest {
+  /// The ID for the GraphQL API for which the resolver is being created.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The name of the field to attach the resolver to.
+  @_s.JsonKey(name: 'fieldName')
+  final String fieldName;
+
+  /// The mapping template to be used for requests.
+  ///
+  /// A resolver uses a request mapping template to convert a GraphQL expression
+  /// into a format that a data source can understand. Mapping templates are
+  /// written in Apache Velocity Template Language (VTL).
+  @_s.JsonKey(name: 'requestMappingTemplate')
+  final String requestMappingTemplate;
+
+  /// The name of the <code>Type</code>.
+  @_s.JsonKey(name: 'typeName', ignore: true)
+  final String typeName;
+
+  /// The caching configuration for the resolver.
+  @_s.JsonKey(name: 'cachingConfig')
+  final CachingConfig cachingConfig;
+
+  /// The name of the data source for which the resolver is being created.
+  @_s.JsonKey(name: 'dataSourceName')
+  final String dataSourceName;
+
+  /// The resolver type.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>UNIT</b>: A UNIT resolver type. A UNIT resolver is the default resolver
+  /// type. A UNIT resolver enables you to execute a GraphQL query against a
+  /// single data source.
+  /// </li>
+  /// <li>
+  /// <b>PIPELINE</b>: A PIPELINE resolver type. A PIPELINE resolver enables you
+  /// to execute a series of <code>Function</code> in a serial manner. You can use
+  /// a pipeline resolver to execute a GraphQL query against multiple data
+  /// sources.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'kind')
+  final ResolverKind kind;
+
+  /// The <code>PipelineConfig</code>.
+  @_s.JsonKey(name: 'pipelineConfig')
+  final PipelineConfig pipelineConfig;
+
+  /// The mapping template to be used for responses from the data source.
+  @_s.JsonKey(name: 'responseMappingTemplate')
+  final String responseMappingTemplate;
+
+  /// The <code>SyncConfig</code> for a resolver attached to a versioned
+  /// datasource.
+  @_s.JsonKey(name: 'syncConfig')
+  final SyncConfig syncConfig;
+
+  CreateResolverRequest({
+    @_s.required this.apiId,
+    @_s.required this.fieldName,
+    @_s.required this.requestMappingTemplate,
+    @_s.required this.typeName,
+    this.cachingConfig,
+    this.dataSourceName,
+    this.kind,
+    this.pipelineConfig,
+    this.responseMappingTemplate,
+    this.syncConfig,
+  });
+  Map<String, dynamic> toJson() => _$CreateResolverRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateResolverResponse {
@@ -2916,6 +3252,35 @@ class CreateResolverResponse {
   });
   factory CreateResolverResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateResolverResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateTypeRequest {
+  /// The API ID.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The type definition, in GraphQL Schema Definition Language (SDL) format.
+  ///
+  /// For more information, see the <a
+  /// href="http://graphql.org/learn/schema/">GraphQL SDL documentation</a>.
+  @_s.JsonKey(name: 'definition')
+  final String definition;
+
+  /// The type format: SDL or JSON.
+  @_s.JsonKey(name: 'format')
+  final TypeDefinitionFormat format;
+
+  CreateTypeRequest({
+    @_s.required this.apiId,
+    @_s.required this.definition,
+    @_s.required this.format,
+  });
+  Map<String, dynamic> toJson() => _$CreateTypeRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3039,31 +3404,28 @@ enum DataSourceType {
   relationalDatabase,
 }
 
-extension on DataSourceType {
-  String toValue() {
-    switch (this) {
-      case DataSourceType.awsLambda:
-        return 'AWS_LAMBDA';
-      case DataSourceType.amazonDynamodb:
-        return 'AMAZON_DYNAMODB';
-      case DataSourceType.amazonElasticsearch:
-        return 'AMAZON_ELASTICSEARCH';
-      case DataSourceType.none:
-        return 'NONE';
-      case DataSourceType.http:
-        return 'HTTP';
-      case DataSourceType.relationalDatabase:
-        return 'RELATIONAL_DATABASE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum DefaultAction {
   @_s.JsonValue('ALLOW')
   allow,
   @_s.JsonValue('DENY')
   deny,
+}
+
+/// Represents the input of a <code>DeleteApiCache</code> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteApiCacheRequest {
+  /// The API ID.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  DeleteApiCacheRequest({
+    @_s.required this.apiId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteApiCacheRequestToJson(this);
 }
 
 /// Represents the output of a <code>DeleteApiCache</code> operation.
@@ -3081,12 +3443,54 @@ class DeleteApiCacheResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteApiKeyRequest {
+  /// The API ID.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The ID for the API key.
+  @_s.JsonKey(name: 'id', ignore: true)
+  final String id;
+
+  DeleteApiKeyRequest({
+    @_s.required this.apiId,
+    @_s.required this.id,
+  });
+  Map<String, dynamic> toJson() => _$DeleteApiKeyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteApiKeyResponse {
   DeleteApiKeyResponse();
   factory DeleteApiKeyResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteApiKeyResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDataSourceRequest {
+  /// The API ID.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The name of the data source.
+  @_s.JsonKey(name: 'name', ignore: true)
+  final String name;
+
+  DeleteDataSourceRequest({
+    @_s.required this.apiId,
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDataSourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3103,12 +3507,49 @@ class DeleteDataSourceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteFunctionRequest {
+  /// The GraphQL API ID.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The <code>Function</code> ID.
+  @_s.JsonKey(name: 'functionId', ignore: true)
+  final String functionId;
+
+  DeleteFunctionRequest({
+    @_s.required this.apiId,
+    @_s.required this.functionId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteFunctionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteFunctionResponse {
   DeleteFunctionResponse();
   factory DeleteFunctionResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteFunctionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteGraphqlApiRequest {
+  /// The API ID.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  DeleteGraphqlApiRequest({
+    @_s.required this.apiId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteGraphqlApiRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3125,12 +3566,59 @@ class DeleteGraphqlApiResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteResolverRequest {
+  /// The API ID.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The resolver field name.
+  @_s.JsonKey(name: 'fieldName', ignore: true)
+  final String fieldName;
+
+  /// The name of the resolver type.
+  @_s.JsonKey(name: 'typeName', ignore: true)
+  final String typeName;
+
+  DeleteResolverRequest({
+    @_s.required this.apiId,
+    @_s.required this.fieldName,
+    @_s.required this.typeName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteResolverRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteResolverResponse {
   DeleteResolverResponse();
   factory DeleteResolverResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteResolverResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteTypeRequest {
+  /// The API ID.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The type name.
+  @_s.JsonKey(name: 'typeName', ignore: true)
+  final String typeName;
+
+  DeleteTypeRequest({
+    @_s.required this.apiId,
+    @_s.required this.typeName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteTypeRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3247,6 +3735,23 @@ enum FieldLogLevel {
   error,
   @_s.JsonValue('ALL')
   all,
+}
+
+/// Represents the input of a <code>FlushApiCache</code> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class FlushApiCacheRequest {
+  /// The API ID.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  FlushApiCacheRequest({
+    @_s.required this.apiId,
+  });
+  Map<String, dynamic> toJson() => _$FlushApiCacheRequestToJson(this);
 }
 
 /// Represents the output of a <code>FlushApiCache</code> operation.
@@ -4075,18 +4580,6 @@ enum ResolverKind {
   pipeline,
 }
 
-extension on ResolverKind {
-  String toValue() {
-    switch (this) {
-      case ResolverKind.unit:
-        return 'UNIT';
-      case ResolverKind.pipeline:
-        return 'PIPELINE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum SchemaStatus {
   @_s.JsonValue('PROCESSING')
   processing,
@@ -4100,6 +4593,28 @@ enum SchemaStatus {
   success,
   @_s.JsonValue('NOT_APPLICABLE')
   notApplicable,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartSchemaCreationRequest {
+  /// The API ID.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The schema definition, in GraphQL schema language format.
+  @Uint8ListConverter()
+  @_s.JsonKey(name: 'definition')
+  final Uint8List definition;
+
+  StartSchemaCreationRequest({
+    @_s.required this.apiId,
+    @_s.required this.definition,
+  });
+  Map<String, dynamic> toJson() => _$StartSchemaCreationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4181,6 +4696,27 @@ class SyncConfig {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The <code>GraphqlApi</code> ARN.
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  /// A <code>TagMap</code> object.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagResourceResponse {
@@ -4233,16 +4769,25 @@ enum TypeDefinitionFormat {
   json,
 }
 
-extension on TypeDefinitionFormat {
-  String toValue() {
-    switch (this) {
-      case TypeDefinitionFormat.sdl:
-        return 'SDL';
-      case TypeDefinitionFormat.json:
-        return 'JSON';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The <code>GraphqlApi</code> ARN.
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  /// A list of <code>TagKey</code> objects.
+  @_s.JsonKey(name: 'tagKeys', ignore: true)
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4254,6 +4799,74 @@ class UntagResourceResponse {
   UntagResourceResponse();
   factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceResponseFromJson(json);
+}
+
+/// Represents the input of a <code>UpdateApiCache</code> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateApiCacheRequest {
+  /// Caching behavior.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>FULL_REQUEST_CACHING</b>: All requests are fully cached.
+  /// </li>
+  /// <li>
+  /// <b>PER_RESOLVER_CACHING</b>: Individual resovlers that you specify are
+  /// cached.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'apiCachingBehavior')
+  final ApiCachingBehavior apiCachingBehavior;
+
+  /// The GraphQL API Id.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// TTL in seconds for cache entries.
+  ///
+  /// Valid values are between 1 and 3600 seconds.
+  @_s.JsonKey(name: 'ttl')
+  final int ttl;
+
+  /// The cache instance type.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>T2_SMALL</b>: A t2.small instance type.
+  /// </li>
+  /// <li>
+  /// <b>T2_MEDIUM</b>: A t2.medium instance type.
+  /// </li>
+  /// <li>
+  /// <b>R4_LARGE</b>: A r4.large instance type.
+  /// </li>
+  /// <li>
+  /// <b>R4_XLARGE</b>: A r4.xlarge instance type.
+  /// </li>
+  /// <li>
+  /// <b>R4_2XLARGE</b>: A r4.2xlarge instance type.
+  /// </li>
+  /// <li>
+  /// <b>R4_4XLARGE</b>: A r4.4xlarge instance type.
+  /// </li>
+  /// <li>
+  /// <b>R4_8XLARGE</b>: A r4.8xlarge instance type.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'type')
+  final ApiCacheType type;
+
+  UpdateApiCacheRequest({
+    @_s.required this.apiCachingBehavior,
+    @_s.required this.apiId,
+    @_s.required this.ttl,
+    @_s.required this.type,
+  });
+  Map<String, dynamic> toJson() => _$UpdateApiCacheRequestToJson(this);
 }
 
 /// Represents the output of a <code>UpdateApiCache</code> operation.
@@ -4277,6 +4890,38 @@ class UpdateApiCacheResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateApiKeyRequest {
+  /// The ID for the GraphQL API.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The API key ID.
+  @_s.JsonKey(name: 'id', ignore: true)
+  final String id;
+
+  /// A description of the purpose of the API key.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The time from update time after which the API key expires. The date is
+  /// represented as seconds since the epoch. For more information, see .
+  @_s.JsonKey(name: 'expires')
+  final int expires;
+
+  UpdateApiKeyRequest({
+    @_s.required this.apiId,
+    @_s.required this.id,
+    this.description,
+    this.expires,
+  });
+  Map<String, dynamic> toJson() => _$UpdateApiKeyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateApiKeyResponse {
@@ -4289,6 +4934,67 @@ class UpdateApiKeyResponse {
   });
   factory UpdateApiKeyResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateApiKeyResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDataSourceRequest {
+  /// The API ID.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The new name for the data source.
+  @_s.JsonKey(name: 'name', ignore: true)
+  final String name;
+
+  /// The new data source type.
+  @_s.JsonKey(name: 'type')
+  final DataSourceType type;
+
+  /// The new description for the data source.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The new Amazon DynamoDB configuration.
+  @_s.JsonKey(name: 'dynamodbConfig')
+  final DynamodbDataSourceConfig dynamodbConfig;
+
+  /// The new Elasticsearch Service configuration.
+  @_s.JsonKey(name: 'elasticsearchConfig')
+  final ElasticsearchDataSourceConfig elasticsearchConfig;
+
+  /// The new HTTP endpoint configuration.
+  @_s.JsonKey(name: 'httpConfig')
+  final HttpDataSourceConfig httpConfig;
+
+  /// The new AWS Lambda configuration.
+  @_s.JsonKey(name: 'lambdaConfig')
+  final LambdaDataSourceConfig lambdaConfig;
+
+  /// The new relational database configuration.
+  @_s.JsonKey(name: 'relationalDatabaseConfig')
+  final RelationalDatabaseDataSourceConfig relationalDatabaseConfig;
+
+  /// The new service role ARN for the data source.
+  @_s.JsonKey(name: 'serviceRoleArn')
+  final String serviceRoleArn;
+
+  UpdateDataSourceRequest({
+    @_s.required this.apiId,
+    @_s.required this.name,
+    @_s.required this.type,
+    this.description,
+    this.dynamodbConfig,
+    this.elasticsearchConfig,
+    this.httpConfig,
+    this.lambdaConfig,
+    this.relationalDatabaseConfig,
+    this.serviceRoleArn,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDataSourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4311,6 +5017,59 @@ class UpdateDataSourceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateFunctionRequest {
+  /// The GraphQL API ID.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The <code>Function</code> <code>DataSource</code> name.
+  @_s.JsonKey(name: 'dataSourceName')
+  final String dataSourceName;
+
+  /// The function ID.
+  @_s.JsonKey(name: 'functionId', ignore: true)
+  final String functionId;
+
+  /// The <code>version</code> of the request mapping template. Currently the
+  /// supported value is 2018-05-29.
+  @_s.JsonKey(name: 'functionVersion')
+  final String functionVersion;
+
+  /// The <code>Function</code> name.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The <code>Function</code> request mapping template. Functions support only
+  /// the 2018-05-29 version of the request mapping template.
+  @_s.JsonKey(name: 'requestMappingTemplate')
+  final String requestMappingTemplate;
+
+  /// The <code>Function</code> description.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The <code>Function</code> request mapping template.
+  @_s.JsonKey(name: 'responseMappingTemplate')
+  final String responseMappingTemplate;
+
+  UpdateFunctionRequest({
+    @_s.required this.apiId,
+    @_s.required this.dataSourceName,
+    @_s.required this.functionId,
+    @_s.required this.functionVersion,
+    @_s.required this.name,
+    @_s.required this.requestMappingTemplate,
+    this.description,
+    this.responseMappingTemplate,
+  });
+  Map<String, dynamic> toJson() => _$UpdateFunctionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateFunctionResponse {
@@ -4323,6 +5082,62 @@ class UpdateFunctionResponse {
   });
   factory UpdateFunctionResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateFunctionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateGraphqlApiRequest {
+  /// The API ID.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The new name for the <code>GraphqlApi</code> object.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// A list of additional authentication providers for the
+  /// <code>GraphqlApi</code> API.
+  @_s.JsonKey(name: 'additionalAuthenticationProviders')
+  final List<AdditionalAuthenticationProvider>
+      additionalAuthenticationProviders;
+
+  /// The new authentication type for the <code>GraphqlApi</code> object.
+  @_s.JsonKey(name: 'authenticationType')
+  final AuthenticationType authenticationType;
+
+  /// The Amazon CloudWatch Logs configuration for the <code>GraphqlApi</code>
+  /// object.
+  @_s.JsonKey(name: 'logConfig')
+  final LogConfig logConfig;
+
+  /// The OpenID Connect configuration for the <code>GraphqlApi</code> object.
+  @_s.JsonKey(name: 'openIDConnectConfig')
+  final OpenIDConnectConfig openIDConnectConfig;
+
+  /// The new Amazon Cognito user pool configuration for the
+  /// <code>GraphqlApi</code> object.
+  @_s.JsonKey(name: 'userPoolConfig')
+  final UserPoolConfig userPoolConfig;
+
+  /// A flag indicating whether to enable X-Ray tracing for the
+  /// <code>GraphqlApi</code>.
+  @_s.JsonKey(name: 'xrayEnabled')
+  final bool xrayEnabled;
+
+  UpdateGraphqlApiRequest({
+    @_s.required this.apiId,
+    @_s.required this.name,
+    this.additionalAuthenticationProviders,
+    this.authenticationType,
+    this.logConfig,
+    this.openIDConnectConfig,
+    this.userPoolConfig,
+    this.xrayEnabled,
+  });
+  Map<String, dynamic> toJson() => _$UpdateGraphqlApiRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4345,6 +5160,82 @@ class UpdateGraphqlApiResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateResolverRequest {
+  /// The API ID.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The new field name.
+  @_s.JsonKey(name: 'fieldName', ignore: true)
+  final String fieldName;
+
+  /// The new request mapping template.
+  @_s.JsonKey(name: 'requestMappingTemplate')
+  final String requestMappingTemplate;
+
+  /// The new type name.
+  @_s.JsonKey(name: 'typeName', ignore: true)
+  final String typeName;
+
+  /// The caching configuration for the resolver.
+  @_s.JsonKey(name: 'cachingConfig')
+  final CachingConfig cachingConfig;
+
+  /// The new data source name.
+  @_s.JsonKey(name: 'dataSourceName')
+  final String dataSourceName;
+
+  /// The resolver type.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>UNIT</b>: A UNIT resolver type. A UNIT resolver is the default resolver
+  /// type. A UNIT resolver enables you to execute a GraphQL query against a
+  /// single data source.
+  /// </li>
+  /// <li>
+  /// <b>PIPELINE</b>: A PIPELINE resolver type. A PIPELINE resolver enables you
+  /// to execute a series of <code>Function</code> in a serial manner. You can use
+  /// a pipeline resolver to execute a GraphQL query against multiple data
+  /// sources.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'kind')
+  final ResolverKind kind;
+
+  /// The <code>PipelineConfig</code>.
+  @_s.JsonKey(name: 'pipelineConfig')
+  final PipelineConfig pipelineConfig;
+
+  /// The new response mapping template.
+  @_s.JsonKey(name: 'responseMappingTemplate')
+  final String responseMappingTemplate;
+
+  /// The <code>SyncConfig</code> for a resolver attached to a versioned
+  /// datasource.
+  @_s.JsonKey(name: 'syncConfig')
+  final SyncConfig syncConfig;
+
+  UpdateResolverRequest({
+    @_s.required this.apiId,
+    @_s.required this.fieldName,
+    @_s.required this.requestMappingTemplate,
+    @_s.required this.typeName,
+    this.cachingConfig,
+    this.dataSourceName,
+    this.kind,
+    this.pipelineConfig,
+    this.responseMappingTemplate,
+    this.syncConfig,
+  });
+  Map<String, dynamic> toJson() => _$UpdateResolverRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateResolverResponse {
@@ -4357,6 +5248,37 @@ class UpdateResolverResponse {
   });
   factory UpdateResolverResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateResolverResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateTypeRequest {
+  /// The API ID.
+  @_s.JsonKey(name: 'apiId', ignore: true)
+  final String apiId;
+
+  /// The new type format: SDL or JSON.
+  @_s.JsonKey(name: 'format')
+  final TypeDefinitionFormat format;
+
+  /// The new type name.
+  @_s.JsonKey(name: 'typeName', ignore: true)
+  final String typeName;
+
+  /// The new definition.
+  @_s.JsonKey(name: 'definition')
+  final String definition;
+
+  UpdateTypeRequest({
+    @_s.required this.apiId,
+    @_s.required this.format,
+    @_s.required this.typeName,
+    this.definition,
+  });
+  Map<String, dynamic> toJson() => _$UpdateTypeRequestToJson(this);
 }
 
 @_s.JsonSerializable(

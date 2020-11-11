@@ -103,6 +103,22 @@ Map<String, dynamic> _$CmafPackageCreateOrUpdateParametersToJson(
   return val;
 }
 
+Map<String, dynamic> _$CreateChannelRequestToJson(
+    CreateChannelRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  writeNotNull('description', instance.description);
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
 CreateChannelResponse _$CreateChannelResponseFromJson(
     Map<String, dynamic> json) {
   return CreateChannelResponse(
@@ -116,6 +132,24 @@ CreateChannelResponse _$CreateChannelResponseFromJson(
       (k, e) => MapEntry(k, e as String),
     ),
   );
+}
+
+Map<String, dynamic> _$CreateHarvestJobRequestToJson(
+    CreateHarvestJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('endTime', instance.endTime);
+  writeNotNull('id', instance.id);
+  writeNotNull('originEndpointId', instance.originEndpointId);
+  writeNotNull('s3Destination', instance.s3Destination?.toJson());
+  writeNotNull('startTime', instance.startTime);
+  return val;
 }
 
 CreateHarvestJobResponse _$CreateHarvestJobResponseFromJson(
@@ -173,6 +207,38 @@ const _$StatusEnumMap = {
   Status.failed: 'FAILED',
 };
 
+Map<String, dynamic> _$CreateOriginEndpointRequestToJson(
+    CreateOriginEndpointRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('channelId', instance.channelId);
+  writeNotNull('id', instance.id);
+  writeNotNull('authorization', instance.authorization?.toJson());
+  writeNotNull('cmafPackage', instance.cmafPackage?.toJson());
+  writeNotNull('dashPackage', instance.dashPackage?.toJson());
+  writeNotNull('description', instance.description);
+  writeNotNull('hlsPackage', instance.hlsPackage?.toJson());
+  writeNotNull('manifestName', instance.manifestName);
+  writeNotNull('mssPackage', instance.mssPackage?.toJson());
+  writeNotNull('origination', _$OriginationEnumMap[instance.origination]);
+  writeNotNull('startoverWindowSeconds', instance.startoverWindowSeconds);
+  writeNotNull('tags', instance.tags);
+  writeNotNull('timeDelaySeconds', instance.timeDelaySeconds);
+  writeNotNull('whitelist', instance.whitelist);
+  return val;
+}
+
+const _$OriginationEnumMap = {
+  Origination.allow: 'ALLOW',
+  Origination.deny: 'DENY',
+};
+
 CreateOriginEndpointResponse _$CreateOriginEndpointResponseFromJson(
     Map<String, dynamic> json) {
   return CreateOriginEndpointResponse(
@@ -207,11 +273,6 @@ CreateOriginEndpointResponse _$CreateOriginEndpointResponseFromJson(
     whitelist: (json['whitelist'] as List)?.map((e) => e as String)?.toList(),
   );
 }
-
-const _$OriginationEnumMap = {
-  Origination.allow: 'ALLOW',
-  Origination.deny: 'DENY',
-};
 
 DashEncryption _$DashEncryptionFromJson(Map<String, dynamic> json) {
   return DashEncryption(
@@ -318,10 +379,18 @@ const _$SegmentTemplateFormatEnumMap = {
   SegmentTemplateFormat.numberWithDuration: 'NUMBER_WITH_DURATION',
 };
 
+Map<String, dynamic> _$DeleteChannelRequestToJson(
+        DeleteChannelRequest instance) =>
+    <String, dynamic>{};
+
 DeleteChannelResponse _$DeleteChannelResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteChannelResponse();
 }
+
+Map<String, dynamic> _$DeleteOriginEndpointRequestToJson(
+        DeleteOriginEndpointRequest instance) =>
+    <String, dynamic>{};
 
 DeleteOriginEndpointResponse _$DeleteOriginEndpointResponseFromJson(
     Map<String, dynamic> json) {
@@ -698,6 +767,10 @@ OriginEndpoint _$OriginEndpointFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$RotateChannelCredentialsRequestToJson(
+        RotateChannelCredentialsRequest instance) =>
+    <String, dynamic>{};
+
 RotateChannelCredentialsResponse _$RotateChannelCredentialsResponseFromJson(
     Map<String, dynamic> json) {
   return RotateChannelCredentialsResponse(
@@ -712,6 +785,10 @@ RotateChannelCredentialsResponse _$RotateChannelCredentialsResponseFromJson(
     ),
   );
 }
+
+Map<String, dynamic> _$RotateIngestEndpointCredentialsRequestToJson(
+        RotateIngestEndpointCredentialsRequest instance) =>
+    <String, dynamic>{};
 
 RotateIngestEndpointCredentialsResponse
     _$RotateIngestEndpointCredentialsResponseFromJson(
@@ -809,6 +886,37 @@ const _$StreamOrderEnumMap = {
   StreamOrder.videoBitrateDescending: 'VIDEO_BITRATE_DESCENDING',
 };
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
+Map<String, dynamic> _$UntagResourceRequestToJson(
+        UntagResourceRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$UpdateChannelRequestToJson(
+    UpdateChannelRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('description', instance.description);
+  return val;
+}
+
 UpdateChannelResponse _$UpdateChannelResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateChannelResponse(
@@ -822,6 +930,30 @@ UpdateChannelResponse _$UpdateChannelResponseFromJson(
       (k, e) => MapEntry(k, e as String),
     ),
   );
+}
+
+Map<String, dynamic> _$UpdateOriginEndpointRequestToJson(
+    UpdateOriginEndpointRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('authorization', instance.authorization?.toJson());
+  writeNotNull('cmafPackage', instance.cmafPackage?.toJson());
+  writeNotNull('dashPackage', instance.dashPackage?.toJson());
+  writeNotNull('description', instance.description);
+  writeNotNull('hlsPackage', instance.hlsPackage?.toJson());
+  writeNotNull('manifestName', instance.manifestName);
+  writeNotNull('mssPackage', instance.mssPackage?.toJson());
+  writeNotNull('origination', _$OriginationEnumMap[instance.origination]);
+  writeNotNull('startoverWindowSeconds', instance.startoverWindowSeconds);
+  writeNotNull('timeDelaySeconds', instance.timeDelaySeconds);
+  writeNotNull('whitelist', instance.whitelist);
+  return val;
 }
 
 UpdateOriginEndpointResponse _$UpdateOriginEndpointResponseFromJson(

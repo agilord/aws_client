@@ -80,6 +80,20 @@ const _$AggregationPeriodEnumMap = {
   AggregationPeriod.pt5m: 'PT5M',
 };
 
+Map<String, dynamic> _$ConfigureAgentRequestToJson(
+    ConfigureAgentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('fleetInstanceId', instance.fleetInstanceId);
+  return val;
+}
+
 ConfigureAgentResponse _$ConfigureAgentResponseFromJson(
     Map<String, dynamic> json) {
   return ConfigureAgentResponse(
@@ -88,6 +102,22 @@ ConfigureAgentResponse _$ConfigureAgentResponseFromJson(
         : AgentConfiguration.fromJson(
             json['configuration'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateProfilingGroupRequestToJson(
+    CreateProfilingGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('profilingGroupName', instance.profilingGroupName);
+  writeNotNull(
+      'agentOrchestrationConfig', instance.agentOrchestrationConfig?.toJson());
+  return val;
 }
 
 CreateProfilingGroupResponse _$CreateProfilingGroupResponseFromJson(
@@ -99,6 +129,10 @@ CreateProfilingGroupResponse _$CreateProfilingGroupResponseFromJson(
             json['profilingGroup'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$DeleteProfilingGroupRequestToJson(
+        DeleteProfilingGroupRequest instance) =>
+    <String, dynamic>{};
 
 DeleteProfilingGroupResponse _$DeleteProfilingGroupResponseFromJson(
     Map<String, dynamic> json) {
@@ -198,6 +232,21 @@ ProfilingStatus _$ProfilingStatusFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$PutPermissionRequestToJson(
+    PutPermissionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('principals', instance.principals);
+  writeNotNull('revisionId', instance.revisionId);
+  return val;
+}
+
 PutPermissionResponse _$PutPermissionResponseFromJson(
     Map<String, dynamic> json) {
   return PutPermissionResponse(
@@ -206,12 +255,31 @@ PutPermissionResponse _$PutPermissionResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$RemovePermissionRequestToJson(
+        RemovePermissionRequest instance) =>
+    <String, dynamic>{};
+
 RemovePermissionResponse _$RemovePermissionResponseFromJson(
     Map<String, dynamic> json) {
   return RemovePermissionResponse(
     policy: json['policy'] as String,
     revisionId: json['revisionId'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateProfilingGroupRequestToJson(
+    UpdateProfilingGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'agentOrchestrationConfig', instance.agentOrchestrationConfig?.toJson());
+  return val;
 }
 
 UpdateProfilingGroupResponse _$UpdateProfilingGroupResponseFromJson(

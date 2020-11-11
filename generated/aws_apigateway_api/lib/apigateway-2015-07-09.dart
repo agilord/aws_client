@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -93,16 +92,16 @@ class APIGateway {
     Map<String, String> tags,
     String value,
   }) async {
-    final $payload = <String, dynamic>{
-      if (customerId != null) 'customerId': customerId,
-      if (description != null) 'description': description,
-      if (enabled != null) 'enabled': enabled,
-      if (generateDistinctId != null) 'generateDistinctId': generateDistinctId,
-      if (name != null) 'name': name,
-      if (stageKeys != null) 'stageKeys': stageKeys,
-      if (tags != null) 'tags': tags,
-      if (value != null) 'value': value,
-    };
+    final $payload = CreateApiKeyRequest(
+      customerId: customerId,
+      description: description,
+      enabled: enabled,
+      generateDistinctId: generateDistinctId,
+      name: name,
+      stageKeys: stageKeys,
+      tags: tags,
+      value: value,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -224,20 +223,18 @@ class APIGateway {
     ArgumentError.checkNotNull(name, 'name');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
     ArgumentError.checkNotNull(type, 'type');
-    final $payload = <String, dynamic>{
-      'name': name,
-      'type': type?.toValue(),
-      if (authType != null) 'authType': authType,
-      if (authorizerCredentials != null)
-        'authorizerCredentials': authorizerCredentials,
-      if (authorizerResultTtlInSeconds != null)
-        'authorizerResultTtlInSeconds': authorizerResultTtlInSeconds,
-      if (authorizerUri != null) 'authorizerUri': authorizerUri,
-      if (identitySource != null) 'identitySource': identitySource,
-      if (identityValidationExpression != null)
-        'identityValidationExpression': identityValidationExpression,
-      if (providerARNs != null) 'providerARNs': providerARNs,
-    };
+    final $payload = CreateAuthorizerRequest(
+      name: name,
+      restApiId: restApiId,
+      type: type,
+      authType: authType,
+      authorizerCredentials: authorizerCredentials,
+      authorizerResultTtlInSeconds: authorizerResultTtlInSeconds,
+      authorizerUri: authorizerUri,
+      identitySource: identitySource,
+      identityValidationExpression: identityValidationExpression,
+      providerARNs: providerARNs,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -281,11 +278,12 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{
-      'restApiId': restApiId,
-      if (basePath != null) 'basePath': basePath,
-      if (stage != null) 'stage': stage,
-    };
+    final $payload = CreateBasePathMappingRequest(
+      domainName: domainName,
+      restApiId: restApiId,
+      basePath: basePath,
+      stage: stage,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -354,18 +352,17 @@ class APIGateway {
     Map<String, String> variables,
   }) async {
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{
-      if (cacheClusterEnabled != null)
-        'cacheClusterEnabled': cacheClusterEnabled,
-      if (cacheClusterSize != null)
-        'cacheClusterSize': cacheClusterSize?.toValue(),
-      if (canarySettings != null) 'canarySettings': canarySettings,
-      if (description != null) 'description': description,
-      if (stageDescription != null) 'stageDescription': stageDescription,
-      if (stageName != null) 'stageName': stageName,
-      if (tracingEnabled != null) 'tracingEnabled': tracingEnabled,
-      if (variables != null) 'variables': variables,
-    };
+    final $payload = CreateDeploymentRequest(
+      restApiId: restApiId,
+      cacheClusterEnabled: cacheClusterEnabled,
+      cacheClusterSize: cacheClusterSize,
+      canarySettings: canarySettings,
+      description: description,
+      stageDescription: stageDescription,
+      stageName: stageName,
+      tracingEnabled: tracingEnabled,
+      variables: variables,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -403,10 +400,11 @@ class APIGateway {
     ArgumentError.checkNotNull(location, 'location');
     ArgumentError.checkNotNull(properties, 'properties');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{
-      'location': location,
-      'properties': properties,
-    };
+    final $payload = CreateDocumentationPartRequest(
+      location: location,
+      properties: properties,
+      restApiId: restApiId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -444,11 +442,12 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(documentationVersion, 'documentationVersion');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{
-      'documentationVersion': documentationVersion,
-      if (description != null) 'description': description,
-      if (stageName != null) 'stageName': stageName,
-    };
+    final $payload = CreateDocumentationVersionRequest(
+      documentationVersion: documentationVersion,
+      restApiId: restApiId,
+      description: description,
+      stageName: stageName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -532,23 +531,19 @@ class APIGateway {
     Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    final $payload = <String, dynamic>{
-      'domainName': domainName,
-      if (certificateArn != null) 'certificateArn': certificateArn,
-      if (certificateBody != null) 'certificateBody': certificateBody,
-      if (certificateChain != null) 'certificateChain': certificateChain,
-      if (certificateName != null) 'certificateName': certificateName,
-      if (certificatePrivateKey != null)
-        'certificatePrivateKey': certificatePrivateKey,
-      if (endpointConfiguration != null)
-        'endpointConfiguration': endpointConfiguration,
-      if (regionalCertificateArn != null)
-        'regionalCertificateArn': regionalCertificateArn,
-      if (regionalCertificateName != null)
-        'regionalCertificateName': regionalCertificateName,
-      if (securityPolicy != null) 'securityPolicy': securityPolicy?.toValue(),
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateDomainNameRequest(
+      domainName: domainName,
+      certificateArn: certificateArn,
+      certificateBody: certificateBody,
+      certificateChain: certificateChain,
+      certificateName: certificateName,
+      certificatePrivateKey: certificatePrivateKey,
+      endpointConfiguration: endpointConfiguration,
+      regionalCertificateArn: regionalCertificateArn,
+      regionalCertificateName: regionalCertificateName,
+      securityPolicy: securityPolicy,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -594,12 +589,13 @@ class APIGateway {
     ArgumentError.checkNotNull(contentType, 'contentType');
     ArgumentError.checkNotNull(name, 'name');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{
-      'contentType': contentType,
-      'name': name,
-      if (description != null) 'description': description,
-      if (schema != null) 'schema': schema,
-    };
+    final $payload = CreateModelRequest(
+      contentType: contentType,
+      name: name,
+      restApiId: restApiId,
+      description: description,
+      schema: schema,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -639,13 +635,12 @@ class APIGateway {
     bool validateRequestParameters,
   }) async {
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{
-      if (name != null) 'name': name,
-      if (validateRequestBody != null)
-        'validateRequestBody': validateRequestBody,
-      if (validateRequestParameters != null)
-        'validateRequestParameters': validateRequestParameters,
-    };
+    final $payload = CreateRequestValidatorRequest(
+      restApiId: restApiId,
+      name: name,
+      validateRequestBody: validateRequestBody,
+      validateRequestParameters: validateRequestParameters,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -681,9 +676,11 @@ class APIGateway {
     ArgumentError.checkNotNull(parentId, 'parentId');
     ArgumentError.checkNotNull(pathPart, 'pathPart');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{
-      'pathPart': pathPart,
-    };
+    final $payload = CreateResourceRequest(
+      parentId: parentId,
+      pathPart: pathPart,
+      restApiId: restApiId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -760,20 +757,18 @@ class APIGateway {
     String version,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    final $payload = <String, dynamic>{
-      'name': name,
-      if (apiKeySource != null) 'apiKeySource': apiKeySource?.toValue(),
-      if (binaryMediaTypes != null) 'binaryMediaTypes': binaryMediaTypes,
-      if (cloneFrom != null) 'cloneFrom': cloneFrom,
-      if (description != null) 'description': description,
-      if (endpointConfiguration != null)
-        'endpointConfiguration': endpointConfiguration,
-      if (minimumCompressionSize != null)
-        'minimumCompressionSize': minimumCompressionSize,
-      if (policy != null) 'policy': policy,
-      if (tags != null) 'tags': tags,
-      if (version != null) 'version': version,
-    };
+    final $payload = CreateRestApiRequest(
+      name: name,
+      apiKeySource: apiKeySource,
+      binaryMediaTypes: binaryMediaTypes,
+      cloneFrom: cloneFrom,
+      description: description,
+      endpointConfiguration: endpointConfiguration,
+      minimumCompressionSize: minimumCompressionSize,
+      policy: policy,
+      tags: tags,
+      version: version,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -849,21 +844,19 @@ class APIGateway {
     ArgumentError.checkNotNull(deploymentId, 'deploymentId');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
     ArgumentError.checkNotNull(stageName, 'stageName');
-    final $payload = <String, dynamic>{
-      'deploymentId': deploymentId,
-      'stageName': stageName,
-      if (cacheClusterEnabled != null)
-        'cacheClusterEnabled': cacheClusterEnabled,
-      if (cacheClusterSize != null)
-        'cacheClusterSize': cacheClusterSize?.toValue(),
-      if (canarySettings != null) 'canarySettings': canarySettings,
-      if (description != null) 'description': description,
-      if (documentationVersion != null)
-        'documentationVersion': documentationVersion,
-      if (tags != null) 'tags': tags,
-      if (tracingEnabled != null) 'tracingEnabled': tracingEnabled,
-      if (variables != null) 'variables': variables,
-    };
+    final $payload = CreateStageRequest(
+      deploymentId: deploymentId,
+      restApiId: restApiId,
+      stageName: stageName,
+      cacheClusterEnabled: cacheClusterEnabled,
+      cacheClusterSize: cacheClusterSize,
+      canarySettings: canarySettings,
+      description: description,
+      documentationVersion: documentationVersion,
+      tags: tags,
+      tracingEnabled: tracingEnabled,
+      variables: variables,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -912,14 +905,14 @@ class APIGateway {
     ThrottleSettings throttle,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    final $payload = <String, dynamic>{
-      'name': name,
-      if (apiStages != null) 'apiStages': apiStages,
-      if (description != null) 'description': description,
-      if (quota != null) 'quota': quota,
-      if (tags != null) 'tags': tags,
-      if (throttle != null) 'throttle': throttle,
-    };
+    final $payload = CreateUsagePlanRequest(
+      name: name,
+      apiStages: apiStages,
+      description: description,
+      quota: quota,
+      tags: tags,
+      throttle: throttle,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -956,10 +949,11 @@ class APIGateway {
     ArgumentError.checkNotNull(keyId, 'keyId');
     ArgumentError.checkNotNull(keyType, 'keyType');
     ArgumentError.checkNotNull(usagePlanId, 'usagePlanId');
-    final $payload = <String, dynamic>{
-      'keyId': keyId,
-      'keyType': keyType,
-    };
+    final $payload = CreateUsagePlanKeyRequest(
+      keyId: keyId,
+      keyType: keyType,
+      usagePlanId: usagePlanId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1002,12 +996,12 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     ArgumentError.checkNotNull(targetArns, 'targetArns');
-    final $payload = <String, dynamic>{
-      'name': name,
-      'targetArns': targetArns,
-      if (description != null) 'description': description,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateVpcLinkRequest(
+      name: name,
+      targetArns: targetArns,
+      description: description,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1029,7 +1023,9 @@ class APIGateway {
     @_s.required String apiKey,
   }) async {
     ArgumentError.checkNotNull(apiKey, 'apiKey');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteApiKeyRequest(
+      apiKey: apiKey,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1060,7 +1056,10 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(authorizerId, 'authorizerId');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteAuthorizerRequest(
+      authorizerId: authorizerId,
+      restApiId: restApiId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1094,7 +1093,10 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(basePath, 'basePath');
     ArgumentError.checkNotNull(domainName, 'domainName');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteBasePathMappingRequest(
+      basePath: basePath,
+      domainName: domainName,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1118,7 +1120,9 @@ class APIGateway {
     @_s.required String clientCertificateId,
   }) async {
     ArgumentError.checkNotNull(clientCertificateId, 'clientCertificateId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteClientCertificateRequest(
+      clientCertificateId: clientCertificateId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1147,7 +1151,10 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(deploymentId, 'deploymentId');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteDeploymentRequest(
+      deploymentId: deploymentId,
+      restApiId: restApiId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1175,7 +1182,10 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(documentationPartId, 'documentationPartId');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteDocumentationPartRequest(
+      documentationPartId: documentationPartId,
+      restApiId: restApiId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1204,7 +1214,10 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(documentationVersion, 'documentationVersion');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteDocumentationVersionRequest(
+      documentationVersion: documentationVersion,
+      restApiId: restApiId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1227,7 +1240,9 @@ class APIGateway {
     @_s.required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteDomainNameRequest(
+      domainName: domainName,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1282,7 +1297,10 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(responseType, 'responseType');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteGatewayResponseRequest(
+      responseType: responseType,
+      restApiId: restApiId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1315,7 +1333,11 @@ class APIGateway {
     ArgumentError.checkNotNull(httpMethod, 'httpMethod');
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteIntegrationRequest(
+      httpMethod: httpMethod,
+      resourceId: resourceId,
+      restApiId: restApiId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1361,7 +1383,12 @@ class APIGateway {
       r'''[1-5]\d\d''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteIntegrationResponseRequest(
+      httpMethod: httpMethod,
+      resourceId: resourceId,
+      restApiId: restApiId,
+      statusCode: statusCode,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1394,7 +1421,11 @@ class APIGateway {
     ArgumentError.checkNotNull(httpMethod, 'httpMethod');
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteMethodRequest(
+      httpMethod: httpMethod,
+      resourceId: resourceId,
+      restApiId: restApiId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1441,7 +1472,12 @@ class APIGateway {
       r'''[1-5]\d\d''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteMethodResponseRequest(
+      httpMethod: httpMethod,
+      resourceId: resourceId,
+      restApiId: restApiId,
+      statusCode: statusCode,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1470,7 +1506,10 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(modelName, 'modelName');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteModelRequest(
+      modelName: modelName,
+      restApiId: restApiId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1499,7 +1538,10 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(requestValidatorId, 'requestValidatorId');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteRequestValidatorRequest(
+      requestValidatorId: requestValidatorId,
+      restApiId: restApiId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1528,7 +1570,10 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteResourceRequest(
+      resourceId: resourceId,
+      restApiId: restApiId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1551,7 +1596,9 @@ class APIGateway {
     @_s.required String restApiId,
   }) async {
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteRestApiRequest(
+      restApiId: restApiId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1578,7 +1625,10 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(restApiId, 'restApiId');
     ArgumentError.checkNotNull(stageName, 'stageName');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteStageRequest(
+      restApiId: restApiId,
+      stageName: stageName,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1601,7 +1651,9 @@ class APIGateway {
     @_s.required String usagePlanId,
   }) async {
     ArgumentError.checkNotNull(usagePlanId, 'usagePlanId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteUsagePlanRequest(
+      usagePlanId: usagePlanId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1632,7 +1684,10 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(keyId, 'keyId');
     ArgumentError.checkNotNull(usagePlanId, 'usagePlanId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteUsagePlanKeyRequest(
+      keyId: keyId,
+      usagePlanId: usagePlanId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1656,7 +1711,9 @@ class APIGateway {
     @_s.required String vpcLinkId,
   }) async {
     ArgumentError.checkNotNull(vpcLinkId, 'vpcLinkId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteVpcLinkRequest(
+      vpcLinkId: vpcLinkId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1683,7 +1740,10 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(restApiId, 'restApiId');
     ArgumentError.checkNotNull(stageName, 'stageName');
-    final $payload = <String, dynamic>{};
+    final $payload = FlushStageAuthorizersCacheRequest(
+      restApiId: restApiId,
+      stageName: stageName,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1711,7 +1771,10 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(restApiId, 'restApiId');
     ArgumentError.checkNotNull(stageName, 'stageName');
-    final $payload = <String, dynamic>{};
+    final $payload = FlushStageCacheRequest(
+      restApiId: restApiId,
+      stageName: stageName,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1738,10 +1801,10 @@ class APIGateway {
     String description,
     Map<String, String> tags,
   }) async {
-    final $payload = <String, dynamic>{
-      if (description != null) 'description': description,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = GenerateClientCertificateRequest(
+      description: description,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -3609,11 +3672,13 @@ class APIGateway {
       statusCode,
       r'''[1-5]\d\d''',
     );
-    final $payload = <String, dynamic>{
-      if (responseParameters != null) 'responseParameters': responseParameters,
-      if (responseTemplates != null) 'responseTemplates': responseTemplates,
-      if (statusCode != null) 'statusCode': statusCode,
-    };
+    final $payload = PutGatewayResponseRequest(
+      responseType: responseType,
+      restApiId: restApiId,
+      responseParameters: responseParameters,
+      responseTemplates: responseTemplates,
+      statusCode: statusCode,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -3795,24 +3860,24 @@ class APIGateway {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
     ArgumentError.checkNotNull(type, 'type');
-    final $payload = <String, dynamic>{
-      'type': type?.toValue(),
-      if (cacheKeyParameters != null) 'cacheKeyParameters': cacheKeyParameters,
-      if (cacheNamespace != null) 'cacheNamespace': cacheNamespace,
-      if (connectionId != null) 'connectionId': connectionId,
-      if (connectionType != null) 'connectionType': connectionType?.toValue(),
-      if (contentHandling != null)
-        'contentHandling': contentHandling?.toValue(),
-      if (credentials != null) 'credentials': credentials,
-      if (integrationHttpMethod != null)
-        'integrationHttpMethod': integrationHttpMethod,
-      if (passthroughBehavior != null)
-        'passthroughBehavior': passthroughBehavior,
-      if (requestParameters != null) 'requestParameters': requestParameters,
-      if (requestTemplates != null) 'requestTemplates': requestTemplates,
-      if (timeoutInMillis != null) 'timeoutInMillis': timeoutInMillis,
-      if (uri != null) 'uri': uri,
-    };
+    final $payload = PutIntegrationRequest(
+      httpMethod: httpMethod,
+      resourceId: resourceId,
+      restApiId: restApiId,
+      type: type,
+      cacheKeyParameters: cacheKeyParameters,
+      cacheNamespace: cacheNamespace,
+      connectionId: connectionId,
+      connectionType: connectionType,
+      contentHandling: contentHandling,
+      credentials: credentials,
+      integrationHttpMethod: integrationHttpMethod,
+      passthroughBehavior: passthroughBehavior,
+      requestParameters: requestParameters,
+      requestTemplates: requestTemplates,
+      timeoutInMillis: timeoutInMillis,
+      uri: uri,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -3905,13 +3970,16 @@ class APIGateway {
       r'''[1-5]\d\d''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (contentHandling != null)
-        'contentHandling': contentHandling?.toValue(),
-      if (responseParameters != null) 'responseParameters': responseParameters,
-      if (responseTemplates != null) 'responseTemplates': responseTemplates,
-      if (selectionPattern != null) 'selectionPattern': selectionPattern,
-    };
+    final $payload = PutIntegrationResponseRequest(
+      httpMethod: httpMethod,
+      resourceId: resourceId,
+      restApiId: restApiId,
+      statusCode: statusCode,
+      contentHandling: contentHandling,
+      responseParameters: responseParameters,
+      responseTemplates: responseTemplates,
+      selectionPattern: selectionPattern,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -4008,17 +4076,19 @@ class APIGateway {
     ArgumentError.checkNotNull(httpMethod, 'httpMethod');
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{
-      'authorizationType': authorizationType,
-      if (apiKeyRequired != null) 'apiKeyRequired': apiKeyRequired,
-      if (authorizationScopes != null)
-        'authorizationScopes': authorizationScopes,
-      if (authorizerId != null) 'authorizerId': authorizerId,
-      if (operationName != null) 'operationName': operationName,
-      if (requestModels != null) 'requestModels': requestModels,
-      if (requestParameters != null) 'requestParameters': requestParameters,
-      if (requestValidatorId != null) 'requestValidatorId': requestValidatorId,
-    };
+    final $payload = PutMethodRequest(
+      authorizationType: authorizationType,
+      httpMethod: httpMethod,
+      resourceId: resourceId,
+      restApiId: restApiId,
+      apiKeyRequired: apiKeyRequired,
+      authorizationScopes: authorizationScopes,
+      authorizerId: authorizerId,
+      operationName: operationName,
+      requestModels: requestModels,
+      requestParameters: requestParameters,
+      requestValidatorId: requestValidatorId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -4089,10 +4159,14 @@ class APIGateway {
       r'''[1-5]\d\d''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (responseModels != null) 'responseModels': responseModels,
-      if (responseParameters != null) 'responseParameters': responseParameters,
-    };
+    final $payload = PutMethodResponseRequest(
+      httpMethod: httpMethod,
+      resourceId: resourceId,
+      restApiId: restApiId,
+      statusCode: statusCode,
+      responseModels: responseModels,
+      responseParameters: responseParameters,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -4188,9 +4262,10 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'tags': tags,
-    };
+    final $payload = TagResourceRequest(
+      resourceArn: resourceArn,
+      tags: tags,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -4255,15 +4330,16 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(authorizerId, 'authorizerId');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{
-      if (additionalContext != null) 'additionalContext': additionalContext,
-      if (body != null) 'body': body,
-      if (headers != null) 'headers': headers,
-      if (multiValueHeaders != null) 'multiValueHeaders': multiValueHeaders,
-      if (pathWithQueryString != null)
-        'pathWithQueryString': pathWithQueryString,
-      if (stageVariables != null) 'stageVariables': stageVariables,
-    };
+    final $payload = TestInvokeAuthorizerRequest(
+      authorizerId: authorizerId,
+      restApiId: restApiId,
+      additionalContext: additionalContext,
+      body: body,
+      headers: headers,
+      multiValueHeaders: multiValueHeaders,
+      pathWithQueryString: pathWithQueryString,
+      stageVariables: stageVariables,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -4327,16 +4403,17 @@ class APIGateway {
     ArgumentError.checkNotNull(httpMethod, 'httpMethod');
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{
-      if (body != null) 'body': body,
-      if (clientCertificateId != null)
-        'clientCertificateId': clientCertificateId,
-      if (headers != null) 'headers': headers,
-      if (multiValueHeaders != null) 'multiValueHeaders': multiValueHeaders,
-      if (pathWithQueryString != null)
-        'pathWithQueryString': pathWithQueryString,
-      if (stageVariables != null) 'stageVariables': stageVariables,
-    };
+    final $payload = TestInvokeMethodRequest(
+      httpMethod: httpMethod,
+      resourceId: resourceId,
+      restApiId: restApiId,
+      body: body,
+      clientCertificateId: clientCertificateId,
+      headers: headers,
+      multiValueHeaders: multiValueHeaders,
+      pathWithQueryString: pathWithQueryString,
+      stageVariables: stageVariables,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -4370,7 +4447,10 @@ class APIGateway {
     _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = UntagResourceRequest(
+      resourceArn: resourceArn,
+      tagKeys: tagKeys,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -4392,9 +4472,9 @@ class APIGateway {
   Future<Account> updateAccount({
     List<PatchOperation> patchOperations,
   }) async {
-    final $payload = <String, dynamic>{
-      if (patchOperations != null) 'patchOperations': patchOperations,
-    };
+    final $payload = UpdateAccountRequest(
+      patchOperations: patchOperations,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -4423,9 +4503,10 @@ class APIGateway {
     List<PatchOperation> patchOperations,
   }) async {
     ArgumentError.checkNotNull(apiKey, 'apiKey');
-    final $payload = <String, dynamic>{
-      if (patchOperations != null) 'patchOperations': patchOperations,
-    };
+    final $payload = UpdateApiKeyRequest(
+      apiKey: apiKey,
+      patchOperations: patchOperations,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -4461,9 +4542,11 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(authorizerId, 'authorizerId');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{
-      if (patchOperations != null) 'patchOperations': patchOperations,
-    };
+    final $payload = UpdateAuthorizerRequest(
+      authorizerId: authorizerId,
+      restApiId: restApiId,
+      patchOperations: patchOperations,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -4502,9 +4585,11 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(basePath, 'basePath');
     ArgumentError.checkNotNull(domainName, 'domainName');
-    final $payload = <String, dynamic>{
-      if (patchOperations != null) 'patchOperations': patchOperations,
-    };
+    final $payload = UpdateBasePathMappingRequest(
+      basePath: basePath,
+      domainName: domainName,
+      patchOperations: patchOperations,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -4534,9 +4619,10 @@ class APIGateway {
     List<PatchOperation> patchOperations,
   }) async {
     ArgumentError.checkNotNull(clientCertificateId, 'clientCertificateId');
-    final $payload = <String, dynamic>{
-      if (patchOperations != null) 'patchOperations': patchOperations,
-    };
+    final $payload = UpdateClientCertificateRequest(
+      clientCertificateId: clientCertificateId,
+      patchOperations: patchOperations,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -4572,9 +4658,11 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(deploymentId, 'deploymentId');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{
-      if (patchOperations != null) 'patchOperations': patchOperations,
-    };
+    final $payload = UpdateDeploymentRequest(
+      deploymentId: deploymentId,
+      restApiId: restApiId,
+      patchOperations: patchOperations,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -4609,9 +4697,11 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(documentationPartId, 'documentationPartId');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{
-      if (patchOperations != null) 'patchOperations': patchOperations,
-    };
+    final $payload = UpdateDocumentationPartRequest(
+      documentationPartId: documentationPartId,
+      restApiId: restApiId,
+      patchOperations: patchOperations,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -4646,9 +4736,11 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(documentationVersion, 'documentationVersion');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{
-      if (patchOperations != null) 'patchOperations': patchOperations,
-    };
+    final $payload = UpdateDocumentationVersionRequest(
+      documentationVersion: documentationVersion,
+      restApiId: restApiId,
+      patchOperations: patchOperations,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -4678,9 +4770,10 @@ class APIGateway {
     List<PatchOperation> patchOperations,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    final $payload = <String, dynamic>{
-      if (patchOperations != null) 'patchOperations': patchOperations,
-    };
+    final $payload = UpdateDomainNameRequest(
+      domainName: domainName,
+      patchOperations: patchOperations,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -4739,9 +4832,11 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(responseType, 'responseType');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{
-      if (patchOperations != null) 'patchOperations': patchOperations,
-    };
+    final $payload = UpdateGatewayResponseRequest(
+      responseType: responseType,
+      restApiId: restApiId,
+      patchOperations: patchOperations,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -4781,9 +4876,12 @@ class APIGateway {
     ArgumentError.checkNotNull(httpMethod, 'httpMethod');
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{
-      if (patchOperations != null) 'patchOperations': patchOperations,
-    };
+    final $payload = UpdateIntegrationRequest(
+      httpMethod: httpMethod,
+      resourceId: resourceId,
+      restApiId: restApiId,
+      patchOperations: patchOperations,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -4835,9 +4933,13 @@ class APIGateway {
       r'''[1-5]\d\d''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (patchOperations != null) 'patchOperations': patchOperations,
-    };
+    final $payload = UpdateIntegrationResponseRequest(
+      httpMethod: httpMethod,
+      resourceId: resourceId,
+      restApiId: restApiId,
+      statusCode: statusCode,
+      patchOperations: patchOperations,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -4877,9 +4979,12 @@ class APIGateway {
     ArgumentError.checkNotNull(httpMethod, 'httpMethod');
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{
-      if (patchOperations != null) 'patchOperations': patchOperations,
-    };
+    final $payload = UpdateMethodRequest(
+      httpMethod: httpMethod,
+      resourceId: resourceId,
+      restApiId: restApiId,
+      patchOperations: patchOperations,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -4932,9 +5037,13 @@ class APIGateway {
       r'''[1-5]\d\d''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (patchOperations != null) 'patchOperations': patchOperations,
-    };
+    final $payload = UpdateMethodResponseRequest(
+      httpMethod: httpMethod,
+      resourceId: resourceId,
+      restApiId: restApiId,
+      statusCode: statusCode,
+      patchOperations: patchOperations,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -4969,9 +5078,11 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(modelName, 'modelName');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{
-      if (patchOperations != null) 'patchOperations': patchOperations,
-    };
+    final $payload = UpdateModelRequest(
+      modelName: modelName,
+      restApiId: restApiId,
+      patchOperations: patchOperations,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -5005,9 +5116,11 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(requestValidatorId, 'requestValidatorId');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{
-      if (patchOperations != null) 'patchOperations': patchOperations,
-    };
+    final $payload = UpdateRequestValidatorRequest(
+      requestValidatorId: requestValidatorId,
+      restApiId: restApiId,
+      patchOperations: patchOperations,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -5042,9 +5155,11 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{
-      if (patchOperations != null) 'patchOperations': patchOperations,
-    };
+    final $payload = UpdateResourceRequest(
+      resourceId: resourceId,
+      restApiId: restApiId,
+      patchOperations: patchOperations,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -5074,9 +5189,10 @@ class APIGateway {
     List<PatchOperation> patchOperations,
   }) async {
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{
-      if (patchOperations != null) 'patchOperations': patchOperations,
-    };
+    final $payload = UpdateRestApiRequest(
+      restApiId: restApiId,
+      patchOperations: patchOperations,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -5111,9 +5227,11 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(restApiId, 'restApiId');
     ArgumentError.checkNotNull(stageName, 'stageName');
-    final $payload = <String, dynamic>{
-      if (patchOperations != null) 'patchOperations': patchOperations,
-    };
+    final $payload = UpdateStageRequest(
+      restApiId: restApiId,
+      stageName: stageName,
+      patchOperations: patchOperations,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -5149,9 +5267,11 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(keyId, 'keyId');
     ArgumentError.checkNotNull(usagePlanId, 'usagePlanId');
-    final $payload = <String, dynamic>{
-      if (patchOperations != null) 'patchOperations': patchOperations,
-    };
+    final $payload = UpdateUsageRequest(
+      keyId: keyId,
+      usagePlanId: usagePlanId,
+      patchOperations: patchOperations,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -5181,9 +5301,10 @@ class APIGateway {
     List<PatchOperation> patchOperations,
   }) async {
     ArgumentError.checkNotNull(usagePlanId, 'usagePlanId');
-    final $payload = <String, dynamic>{
-      if (patchOperations != null) 'patchOperations': patchOperations,
-    };
+    final $payload = UpdateUsagePlanRequest(
+      usagePlanId: usagePlanId,
+      patchOperations: patchOperations,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -5213,9 +5334,10 @@ class APIGateway {
     List<PatchOperation> patchOperations,
   }) async {
     ArgumentError.checkNotNull(vpcLinkId, 'vpcLinkId');
-    final $payload = <String, dynamic>{
-      if (patchOperations != null) 'patchOperations': patchOperations,
-    };
+    final $payload = UpdateVpcLinkRequest(
+      vpcLinkId: vpcLinkId,
+      patchOperations: patchOperations,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -5435,18 +5557,6 @@ enum ApiKeySourceType {
   authorizer,
 }
 
-extension on ApiKeySourceType {
-  String toValue() {
-    switch (this) {
-      case ApiKeySourceType.header:
-        return 'HEADER';
-      case ApiKeySourceType.authorizer:
-        return 'AUTHORIZER';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Represents a collection of API keys as represented by an <a>ApiKeys</a>
 /// resource.
 /// <div class="seeAlso"> <a
@@ -5651,20 +5761,6 @@ enum AuthorizerType {
   cognitoUserPools,
 }
 
-extension on AuthorizerType {
-  String toValue() {
-    switch (this) {
-      case AuthorizerType.token:
-        return 'TOKEN';
-      case AuthorizerType.request:
-        return 'REQUEST';
-      case AuthorizerType.cognitoUserPools:
-        return 'COGNITO_USER_POOLS';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Represents a collection of <a>Authorizer</a> resources.
 /// <div class="seeAlso"> <a
 /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html">Use
@@ -5769,30 +5865,6 @@ enum CacheClusterSize {
   $118,
   @_s.JsonValue('237')
   $237,
-}
-
-extension on CacheClusterSize {
-  String toValue() {
-    switch (this) {
-      case CacheClusterSize.$0_5:
-        return '0.5';
-      case CacheClusterSize.$1_6:
-        return '1.6';
-      case CacheClusterSize.$6_1:
-        return '6.1';
-      case CacheClusterSize.$13_5:
-        return '13.5';
-      case CacheClusterSize.$28_4:
-        return '28.4';
-      case CacheClusterSize.$58_2:
-        return '58.2';
-      case CacheClusterSize.$118:
-        return '118';
-      case CacheClusterSize.$237:
-        return '237';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Returns the status of the <b>CacheCluster</b>.
@@ -5937,18 +6009,6 @@ enum ConnectionType {
   vpcLink,
 }
 
-extension on ConnectionType {
-  String toValue() {
-    switch (this) {
-      case ConnectionType.internet:
-        return 'INTERNET';
-      case ConnectionType.vpcLink:
-        return 'VPC_LINK';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum ContentHandlingStrategy {
   @_s.JsonValue('CONVERT_TO_BINARY')
   convertToBinary,
@@ -5956,16 +6016,1300 @@ enum ContentHandlingStrategy {
   convertToText,
 }
 
-extension on ContentHandlingStrategy {
-  String toValue() {
-    switch (this) {
-      case ContentHandlingStrategy.convertToBinary:
-        return 'CONVERT_TO_BINARY';
-      case ContentHandlingStrategy.convertToText:
-        return 'CONVERT_TO_TEXT';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+/// Request to create an <a>ApiKey</a> resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateApiKeyRequest {
+  /// An AWS Marketplace customer identifier , when integrating with the AWS SaaS
+  /// Marketplace.
+  @_s.JsonKey(name: 'customerId')
+  final String customerId;
+
+  /// The description of the <a>ApiKey</a>.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// Specifies whether the <a>ApiKey</a> can be used by callers.
+  @_s.JsonKey(name: 'enabled')
+  final bool enabled;
+
+  /// Specifies whether (<code>true</code>) or not (<code>false</code>) the key
+  /// identifier is distinct from the created API key value. This parameter is
+  /// deprecated and should not be used.
+  @_s.JsonKey(name: 'generateDistinctId')
+  final bool generateDistinctId;
+
+  /// The name of the <a>ApiKey</a>.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// DEPRECATED FOR USAGE PLANS - Specifies stages associated with the API key.
+  @_s.JsonKey(name: 'stageKeys')
+  final List<StageKey> stageKeys;
+
+  /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/].
+  /// The tag key can be up to 128 characters and must not start with
+  /// <code>aws:</code>. The tag value can be up to 256 characters.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  /// Specifies a value of the API key.
+  @_s.JsonKey(name: 'value')
+  final String value;
+
+  CreateApiKeyRequest({
+    this.customerId,
+    this.description,
+    this.enabled,
+    this.generateDistinctId,
+    this.name,
+    this.stageKeys,
+    this.tags,
+    this.value,
+  });
+  Map<String, dynamic> toJson() => _$CreateApiKeyRequestToJson(this);
+}
+
+/// Request to add a new <a>Authorizer</a> to an existing <a>RestApi</a>
+/// resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateAuthorizerRequest {
+  /// [Required] The name of the authorizer.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  /// [Required] The authorizer type. Valid values are <code>TOKEN</code> for a
+  /// Lambda function using a single authorization token submitted in a custom
+  /// header, <code>REQUEST</code> for a Lambda function using incoming request
+  /// parameters, and <code>COGNITO_USER_POOLS</code> for using an Amazon Cognito
+  /// user pool.
+  @_s.JsonKey(name: 'type')
+  final AuthorizerType type;
+
+  /// Optional customer-defined field, used in OpenAPI imports and exports without
+  /// functional impact.
+  @_s.JsonKey(name: 'authType')
+  final String authType;
+
+  /// Specifies the required credentials as an IAM role for API Gateway to invoke
+  /// the authorizer. To specify an IAM role for API Gateway to assume, use the
+  /// role's Amazon Resource Name (ARN). To use resource-based permissions on the
+  /// Lambda function, specify null.
+  @_s.JsonKey(name: 'authorizerCredentials')
+  final String authorizerCredentials;
+
+  /// The TTL in seconds of cached authorizer results. If it equals 0,
+  /// authorization caching is disabled. If it is greater than 0, API Gateway will
+  /// cache authorizer responses. If this field is not set, the default value is
+  /// 300. The maximum value is 3600, or 1 hour.
+  @_s.JsonKey(name: 'authorizerResultTtlInSeconds')
+  final int authorizerResultTtlInSeconds;
+
+  /// Specifies the authorizer's Uniform Resource Identifier (URI). For
+  /// <code>TOKEN</code> or <code>REQUEST</code> authorizers, this must be a
+  /// well-formed Lambda function URI, for example,
+  /// <code>arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:{account_id}:function:{lambda_function_name}/invocations</code>.
+  /// In general, the URI has this form
+  /// <code>arn:aws:apigateway:{region}:lambda:path/{service_api}</code>, where
+  /// <code>{region}</code> is the same as the region hosting the Lambda function,
+  /// <code>path</code> indicates that the remaining substring in the URI should
+  /// be treated as the path to the resource, including the initial
+  /// <code>/</code>. For Lambda functions, this is usually of the form
+  /// <code>/2015-03-31/functions/[FunctionARN]/invocations</code>.
+  @_s.JsonKey(name: 'authorizerUri')
+  final String authorizerUri;
+
+  /// The identity source for which authorization is requested.
+  /// <ul>
+  /// <li>For a <code>TOKEN</code> or <code>COGNITO_USER_POOLS</code> authorizer,
+  /// this is required and specifies the request header mapping expression for the
+  /// custom header holding the authorization token submitted by the client. For
+  /// example, if the token header name is <code>Auth</code>, the header mapping
+  /// expression is <code>method.request.header.Auth</code>.</li>
+  /// <li>For the <code>REQUEST</code> authorizer, this is required when
+  /// authorization caching is enabled. The value is a comma-separated string of
+  /// one or more mapping expressions of the specified request parameters. For
+  /// example, if an <code>Auth</code> header, a <code>Name</code> query string
+  /// parameter are defined as identity sources, this value is
+  /// <code>method.request.header.Auth, method.request.querystring.Name</code>.
+  /// These parameters will be used to derive the authorization caching key and to
+  /// perform runtime validation of the <code>REQUEST</code> authorizer by
+  /// verifying all of the identity-related request parameters are present, not
+  /// null and non-empty. Only when this is true does the authorizer invoke the
+  /// authorizer Lambda function, otherwise, it returns a 401 Unauthorized
+  /// response without calling the Lambda function. The valid value is a string of
+  /// comma-separated mapping expressions of the specified request parameters.
+  /// When the authorization caching is not enabled, this property is
+  /// optional.</li>
+  /// </ul>
+  @_s.JsonKey(name: 'identitySource')
+  final String identitySource;
+
+  /// A validation expression for the incoming identity token. For
+  /// <code>TOKEN</code> authorizers, this value is a regular expression. For
+  /// <code>COGNITO_USER_POOLS</code> authorizers, API Gateway will match the
+  /// <code>aud</code> field of the incoming token from the client against the
+  /// specified regular expression. It will invoke the authorizer's Lambda
+  /// function when there is a match. Otherwise, it will return a 401 Unauthorized
+  /// response without calling the Lambda function. The validation expression does
+  /// not apply to the <code>REQUEST</code> authorizer.
+  @_s.JsonKey(name: 'identityValidationExpression')
+  final String identityValidationExpression;
+
+  /// A list of the Amazon Cognito user pool ARNs for the
+  /// <code>COGNITO_USER_POOLS</code> authorizer. Each element is of this format:
+  /// <code>arn:aws:cognito-idp:{region}:{account_id}:userpool/{user_pool_id}</code>.
+  /// For a <code>TOKEN</code> or <code>REQUEST</code> authorizer, this is not
+  /// defined.
+  @_s.JsonKey(name: 'providerARNs')
+  final List<String> providerARNs;
+
+  CreateAuthorizerRequest({
+    @_s.required this.name,
+    @_s.required this.restApiId,
+    @_s.required this.type,
+    this.authType,
+    this.authorizerCredentials,
+    this.authorizerResultTtlInSeconds,
+    this.authorizerUri,
+    this.identitySource,
+    this.identityValidationExpression,
+    this.providerARNs,
+  });
+  Map<String, dynamic> toJson() => _$CreateAuthorizerRequestToJson(this);
+}
+
+/// Requests API Gateway to create a new <a>BasePathMapping</a> resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateBasePathMappingRequest {
+  /// [Required] The domain name of the <a>BasePathMapping</a> resource to create.
+  @_s.JsonKey(name: 'domain_name', ignore: true)
+  final String domainName;
+
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restApiId')
+  final String restApiId;
+
+  /// The base path name that callers of the API must provide as part of the URL
+  /// after the domain name. This value must be unique for all of the mappings
+  /// across a single API. Specify '(none)' if you do not want callers to specify
+  /// a base path name after the domain name.
+  @_s.JsonKey(name: 'basePath')
+  final String basePath;
+
+  /// The name of the API's stage that you want to use for this mapping. Specify
+  /// '(none)' if you want callers to explicitly specify the stage name after any
+  /// base path name.
+  @_s.JsonKey(name: 'stage')
+  final String stage;
+
+  CreateBasePathMappingRequest({
+    @_s.required this.domainName,
+    @_s.required this.restApiId,
+    this.basePath,
+    this.stage,
+  });
+  Map<String, dynamic> toJson() => _$CreateBasePathMappingRequestToJson(this);
+}
+
+/// Requests API Gateway to create a <a>Deployment</a> resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDeploymentRequest {
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  /// Enables a cache cluster for the <a>Stage</a> resource specified in the
+  /// input.
+  @_s.JsonKey(name: 'cacheClusterEnabled')
+  final bool cacheClusterEnabled;
+
+  /// Specifies the cache cluster size for the <a>Stage</a> resource specified in
+  /// the input, if a cache cluster is enabled.
+  @_s.JsonKey(name: 'cacheClusterSize')
+  final CacheClusterSize cacheClusterSize;
+
+  /// The input configuration for the canary deployment when the deployment is a
+  /// canary release deployment.
+  @_s.JsonKey(name: 'canarySettings')
+  final DeploymentCanarySettings canarySettings;
+
+  /// The description for the <a>Deployment</a> resource to create.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The description of the <a>Stage</a> resource for the <a>Deployment</a>
+  /// resource to create.
+  @_s.JsonKey(name: 'stageDescription')
+  final String stageDescription;
+
+  /// The name of the <a>Stage</a> resource for the <a>Deployment</a> resource to
+  /// create.
+  @_s.JsonKey(name: 'stageName')
+  final String stageName;
+
+  /// Specifies whether active tracing with X-ray is enabled for the <a>Stage</a>.
+  @_s.JsonKey(name: 'tracingEnabled')
+  final bool tracingEnabled;
+
+  /// A map that defines the stage variables for the <a>Stage</a> resource that is
+  /// associated with the new deployment. Variable names can have alphanumeric and
+  /// underscore characters, and the values must match
+  /// <code>[A-Za-z0-9-._~:/?#&amp;=,]+</code>.
+  @_s.JsonKey(name: 'variables')
+  final Map<String, String> variables;
+
+  CreateDeploymentRequest({
+    @_s.required this.restApiId,
+    this.cacheClusterEnabled,
+    this.cacheClusterSize,
+    this.canarySettings,
+    this.description,
+    this.stageDescription,
+    this.stageName,
+    this.tracingEnabled,
+    this.variables,
+  });
+  Map<String, dynamic> toJson() => _$CreateDeploymentRequestToJson(this);
+}
+
+/// Creates a new documentation part of a given API.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDocumentationPartRequest {
+  /// [Required] The location of the targeted API entity of the to-be-created
+  /// documentation part.
+  @_s.JsonKey(name: 'location')
+  final DocumentationPartLocation location;
+
+  /// [Required] The new documentation content map of the targeted API entity.
+  /// Enclosed key-value pairs are API-specific, but only OpenAPI-compliant
+  /// key-value pairs can be exported and, hence, published.
+  @_s.JsonKey(name: 'properties')
+  final String properties;
+
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  CreateDocumentationPartRequest({
+    @_s.required this.location,
+    @_s.required this.properties,
+    @_s.required this.restApiId,
+  });
+  Map<String, dynamic> toJson() => _$CreateDocumentationPartRequestToJson(this);
+}
+
+/// Creates a new documentation version of a given API.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDocumentationVersionRequest {
+  /// [Required] The version identifier of the new snapshot.
+  @_s.JsonKey(name: 'documentationVersion')
+  final String documentationVersion;
+
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  /// A description about the new documentation snapshot.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The stage name to be associated with the new documentation snapshot.
+  @_s.JsonKey(name: 'stageName')
+  final String stageName;
+
+  CreateDocumentationVersionRequest({
+    @_s.required this.documentationVersion,
+    @_s.required this.restApiId,
+    this.description,
+    this.stageName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateDocumentationVersionRequestToJson(this);
+}
+
+/// A request to create a new domain name.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDomainNameRequest {
+  /// [Required] The name of the <a>DomainName</a> resource.
+  @_s.JsonKey(name: 'domainName')
+  final String domainName;
+
+  /// The reference to an AWS-managed certificate that will be used by
+  /// edge-optimized endpoint for this domain name. AWS Certificate Manager is the
+  /// only supported source.
+  @_s.JsonKey(name: 'certificateArn')
+  final String certificateArn;
+
+  /// [Deprecated] The body of the server certificate that will be used by
+  /// edge-optimized endpoint for this domain name provided by your certificate
+  /// authority.
+  @_s.JsonKey(name: 'certificateBody')
+  final String certificateBody;
+
+  /// [Deprecated] The intermediate certificates and optionally the root
+  /// certificate, one after the other without any blank lines, used by an
+  /// edge-optimized endpoint for this domain name. If you include the root
+  /// certificate, your certificate chain must start with intermediate
+  /// certificates and end with the root certificate. Use the intermediate
+  /// certificates that were provided by your certificate authority. Do not
+  /// include any intermediaries that are not in the chain of trust path.
+  @_s.JsonKey(name: 'certificateChain')
+  final String certificateChain;
+
+  /// The user-friendly name of the certificate that will be used by
+  /// edge-optimized endpoint for this domain name.
+  @_s.JsonKey(name: 'certificateName')
+  final String certificateName;
+
+  /// [Deprecated] Your edge-optimized endpoint's domain name certificate's
+  /// private key.
+  @_s.JsonKey(name: 'certificatePrivateKey')
+  final String certificatePrivateKey;
+
+  /// The endpoint configuration of this <a>DomainName</a> showing the endpoint
+  /// types of the domain name.
+  @_s.JsonKey(name: 'endpointConfiguration')
+  final EndpointConfiguration endpointConfiguration;
+
+  /// The reference to an AWS-managed certificate that will be used by regional
+  /// endpoint for this domain name. AWS Certificate Manager is the only supported
+  /// source.
+  @_s.JsonKey(name: 'regionalCertificateArn')
+  final String regionalCertificateArn;
+
+  /// The user-friendly name of the certificate that will be used by regional
+  /// endpoint for this domain name.
+  @_s.JsonKey(name: 'regionalCertificateName')
+  final String regionalCertificateName;
+
+  /// The Transport Layer Security (TLS) version + cipher suite for this
+  /// <a>DomainName</a>. The valid values are <code>TLS_1_0</code> and
+  /// <code>TLS_1_2</code>.
+  @_s.JsonKey(name: 'securityPolicy')
+  final SecurityPolicy securityPolicy;
+
+  /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/].
+  /// The tag key can be up to 128 characters and must not start with
+  /// <code>aws:</code>. The tag value can be up to 256 characters.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateDomainNameRequest({
+    @_s.required this.domainName,
+    this.certificateArn,
+    this.certificateBody,
+    this.certificateChain,
+    this.certificateName,
+    this.certificatePrivateKey,
+    this.endpointConfiguration,
+    this.regionalCertificateArn,
+    this.regionalCertificateName,
+    this.securityPolicy,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateDomainNameRequestToJson(this);
+}
+
+/// Request to add a new <a>Model</a> to an existing <a>RestApi</a> resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateModelRequest {
+  /// [Required] The content-type for the model.
+  @_s.JsonKey(name: 'contentType')
+  final String contentType;
+
+  /// [Required] The name of the model. Must be alphanumeric.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// [Required] The <a>RestApi</a> identifier under which the <a>Model</a> will
+  /// be created.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  /// The description of the model.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The schema for the model. For <code>application/json</code> models, this
+  /// should be <a href="https://tools.ietf.org/html/draft-zyp-json-schema-04"
+  /// target="_blank">JSON schema draft 4</a> model.
+  @_s.JsonKey(name: 'schema')
+  final String schema;
+
+  CreateModelRequest({
+    @_s.required this.contentType,
+    @_s.required this.name,
+    @_s.required this.restApiId,
+    this.description,
+    this.schema,
+  });
+  Map<String, dynamic> toJson() => _$CreateModelRequestToJson(this);
+}
+
+/// Creates a <a>RequestValidator</a> of a given <a>RestApi</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateRequestValidatorRequest {
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  /// The name of the to-be-created <a>RequestValidator</a>.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// A Boolean flag to indicate whether to validate request body according to the
+  /// configured model schema for the method (<code>true</code>) or not
+  /// (<code>false</code>).
+  @_s.JsonKey(name: 'validateRequestBody')
+  final bool validateRequestBody;
+
+  /// A Boolean flag to indicate whether to validate request parameters,
+  /// <code>true</code>, or not <code>false</code>.
+  @_s.JsonKey(name: 'validateRequestParameters')
+  final bool validateRequestParameters;
+
+  CreateRequestValidatorRequest({
+    @_s.required this.restApiId,
+    this.name,
+    this.validateRequestBody,
+    this.validateRequestParameters,
+  });
+  Map<String, dynamic> toJson() => _$CreateRequestValidatorRequestToJson(this);
+}
+
+/// Requests API Gateway to create a <a>Resource</a> resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateResourceRequest {
+  /// [Required] The parent resource's identifier.
+  @_s.JsonKey(name: 'parent_id', ignore: true)
+  final String parentId;
+
+  /// The last path segment for this resource.
+  @_s.JsonKey(name: 'pathPart')
+  final String pathPart;
+
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  CreateResourceRequest({
+    @_s.required this.parentId,
+    @_s.required this.pathPart,
+    @_s.required this.restApiId,
+  });
+  Map<String, dynamic> toJson() => _$CreateResourceRequestToJson(this);
+}
+
+/// The POST Request to add a new <a>RestApi</a> resource to your collection.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateRestApiRequest {
+  /// [Required] The name of the <a>RestApi</a>.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The source of the API key for metering requests according to a usage plan.
+  /// Valid values are:
+  /// <ul>
+  /// <li><code>HEADER</code> to read the API key from the <code>X-API-Key</code>
+  /// header of a request. </li>
+  /// <li><code>AUTHORIZER</code> to read the API key from the
+  /// <code>UsageIdentifierKey</code> from a custom authorizer.</li>
+  /// </ul>
+  @_s.JsonKey(name: 'apiKeySource')
+  final ApiKeySourceType apiKeySource;
+
+  /// The list of binary media types supported by the <a>RestApi</a>. By default,
+  /// the <a>RestApi</a> supports only UTF-8-encoded text payloads.
+  @_s.JsonKey(name: 'binaryMediaTypes')
+  final List<String> binaryMediaTypes;
+
+  /// The ID of the <a>RestApi</a> that you want to clone from.
+  @_s.JsonKey(name: 'cloneFrom')
+  final String cloneFrom;
+
+  /// The description of the <a>RestApi</a>.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The endpoint configuration of this <a>RestApi</a> showing the endpoint types
+  /// of the API.
+  @_s.JsonKey(name: 'endpointConfiguration')
+  final EndpointConfiguration endpointConfiguration;
+
+  /// A nullable integer that is used to enable compression (with non-negative
+  /// between 0 and 10485760 (10M) bytes, inclusive) or disable compression (with
+  /// a null value) on an API. When compression is enabled, compression or
+  /// decompression is not applied on the payload if the payload size is smaller
+  /// than this value. Setting it to zero allows compression for any payload size.
+  @_s.JsonKey(name: 'minimumCompressionSize')
+  final int minimumCompressionSize;
+
+  /// A stringified JSON policy document that applies to this RestApi regardless
+  /// of the caller and <a>Method</a> configuration.
+  @_s.JsonKey(name: 'policy')
+  final String policy;
+
+  /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/].
+  /// The tag key can be up to 128 characters and must not start with
+  /// <code>aws:</code>. The tag value can be up to 256 characters.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  /// A version identifier for the API.
+  @_s.JsonKey(name: 'version')
+  final String version;
+
+  CreateRestApiRequest({
+    @_s.required this.name,
+    this.apiKeySource,
+    this.binaryMediaTypes,
+    this.cloneFrom,
+    this.description,
+    this.endpointConfiguration,
+    this.minimumCompressionSize,
+    this.policy,
+    this.tags,
+    this.version,
+  });
+  Map<String, dynamic> toJson() => _$CreateRestApiRequestToJson(this);
+}
+
+/// Requests API Gateway to create a <a>Stage</a> resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateStageRequest {
+  /// [Required] The identifier of the <a>Deployment</a> resource for the
+  /// <a>Stage</a> resource.
+  @_s.JsonKey(name: 'deploymentId')
+  final String deploymentId;
+
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  /// [Required] The name for the <a>Stage</a> resource. Stage names can only
+  /// contain alphanumeric characters, hyphens, and underscores. Maximum length is
+  /// 128 characters.
+  @_s.JsonKey(name: 'stageName')
+  final String stageName;
+
+  /// Whether cache clustering is enabled for the stage.
+  @_s.JsonKey(name: 'cacheClusterEnabled')
+  final bool cacheClusterEnabled;
+
+  /// The stage's cache cluster size.
+  @_s.JsonKey(name: 'cacheClusterSize')
+  final CacheClusterSize cacheClusterSize;
+
+  /// The canary deployment settings of this stage.
+  @_s.JsonKey(name: 'canarySettings')
+  final CanarySettings canarySettings;
+
+  /// The description of the <a>Stage</a> resource.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The version of the associated API documentation.
+  @_s.JsonKey(name: 'documentationVersion')
+  final String documentationVersion;
+
+  /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/].
+  /// The tag key can be up to 128 characters and must not start with
+  /// <code>aws:</code>. The tag value can be up to 256 characters.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  /// Specifies whether active tracing with X-ray is enabled for the <a>Stage</a>.
+  @_s.JsonKey(name: 'tracingEnabled')
+  final bool tracingEnabled;
+
+  /// A map that defines the stage variables for the new <a>Stage</a> resource.
+  /// Variable names can have alphanumeric and underscore characters, and the
+  /// values must match <code>[A-Za-z0-9-._~:/?#&amp;=,]+</code>.
+  @_s.JsonKey(name: 'variables')
+  final Map<String, String> variables;
+
+  CreateStageRequest({
+    @_s.required this.deploymentId,
+    @_s.required this.restApiId,
+    @_s.required this.stageName,
+    this.cacheClusterEnabled,
+    this.cacheClusterSize,
+    this.canarySettings,
+    this.description,
+    this.documentationVersion,
+    this.tags,
+    this.tracingEnabled,
+    this.variables,
+  });
+  Map<String, dynamic> toJson() => _$CreateStageRequestToJson(this);
+}
+
+/// The POST request to create a usage plan key for adding an existing API key
+/// to a usage plan.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateUsagePlanKeyRequest {
+  /// [Required] The identifier of a <a>UsagePlanKey</a> resource for a plan
+  /// customer.
+  @_s.JsonKey(name: 'keyId')
+  final String keyId;
+
+  /// [Required] The type of a <a>UsagePlanKey</a> resource for a plan customer.
+  @_s.JsonKey(name: 'keyType')
+  final String keyType;
+
+  /// [Required] The Id of the <a>UsagePlan</a> resource representing the usage
+  /// plan containing the to-be-created <a>UsagePlanKey</a> resource representing
+  /// a plan customer.
+  @_s.JsonKey(name: 'usageplanId', ignore: true)
+  final String usagePlanId;
+
+  CreateUsagePlanKeyRequest({
+    @_s.required this.keyId,
+    @_s.required this.keyType,
+    @_s.required this.usagePlanId,
+  });
+  Map<String, dynamic> toJson() => _$CreateUsagePlanKeyRequestToJson(this);
+}
+
+/// The POST request to create a usage plan with the name, description, throttle
+/// limits and quota limits, as well as the associated API stages, specified in
+/// the payload.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateUsagePlanRequest {
+  /// [Required] The name of the usage plan.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The associated API stages of the usage plan.
+  @_s.JsonKey(name: 'apiStages')
+  final List<ApiStage> apiStages;
+
+  /// The description of the usage plan.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The quota of the usage plan.
+  @_s.JsonKey(name: 'quota')
+  final QuotaSettings quota;
+
+  /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/].
+  /// The tag key can be up to 128 characters and must not start with
+  /// <code>aws:</code>. The tag value can be up to 256 characters.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  /// The throttling limits of the usage plan.
+  @_s.JsonKey(name: 'throttle')
+  final ThrottleSettings throttle;
+
+  CreateUsagePlanRequest({
+    @_s.required this.name,
+    this.apiStages,
+    this.description,
+    this.quota,
+    this.tags,
+    this.throttle,
+  });
+  Map<String, dynamic> toJson() => _$CreateUsagePlanRequestToJson(this);
+}
+
+/// Creates a VPC link, under the caller's account in a selected region, in an
+/// asynchronous operation that typically takes 2-4 minutes to complete and
+/// become operational. The caller must have permissions to create and update
+/// VPC Endpoint services.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateVpcLinkRequest {
+  /// [Required] The name used to label and identify the VPC link.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// [Required] The ARN of the network load balancer of the VPC targeted by the
+  /// VPC link. The network load balancer must be owned by the same AWS account of
+  /// the API owner.
+  @_s.JsonKey(name: 'targetArns')
+  final List<String> targetArns;
+
+  /// The description of the VPC link.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/].
+  /// The tag key can be up to 128 characters and must not start with
+  /// <code>aws:</code>. The tag value can be up to 256 characters.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateVpcLinkRequest({
+    @_s.required this.name,
+    @_s.required this.targetArns,
+    this.description,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateVpcLinkRequestToJson(this);
+}
+
+/// A request to delete the <a>ApiKey</a> resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteApiKeyRequest {
+  /// [Required] The identifier of the <a>ApiKey</a> resource to be deleted.
+  @_s.JsonKey(name: 'api_Key', ignore: true)
+  final String apiKey;
+
+  DeleteApiKeyRequest({
+    @_s.required this.apiKey,
+  });
+  Map<String, dynamic> toJson() => _$DeleteApiKeyRequestToJson(this);
+}
+
+/// Request to delete an existing <a>Authorizer</a> resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteAuthorizerRequest {
+  /// [Required] The identifier of the <a>Authorizer</a> resource.
+  @_s.JsonKey(name: 'authorizer_id', ignore: true)
+  final String authorizerId;
+
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  DeleteAuthorizerRequest({
+    @_s.required this.authorizerId,
+    @_s.required this.restApiId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteAuthorizerRequestToJson(this);
+}
+
+/// A request to delete the <a>BasePathMapping</a> resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteBasePathMappingRequest {
+  /// [Required] The base path name of the <a>BasePathMapping</a> resource to
+  /// delete.
+  ///
+  /// To specify an empty base path, set this parameter to <code>'(none)'</code>.
+  @_s.JsonKey(name: 'base_path', ignore: true)
+  final String basePath;
+
+  /// [Required] The domain name of the <a>BasePathMapping</a> resource to delete.
+  @_s.JsonKey(name: 'domain_name', ignore: true)
+  final String domainName;
+
+  DeleteBasePathMappingRequest({
+    @_s.required this.basePath,
+    @_s.required this.domainName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteBasePathMappingRequestToJson(this);
+}
+
+/// A request to delete the <a>ClientCertificate</a> resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteClientCertificateRequest {
+  /// [Required] The identifier of the <a>ClientCertificate</a> resource to be
+  /// deleted.
+  @_s.JsonKey(name: 'clientcertificate_id', ignore: true)
+  final String clientCertificateId;
+
+  DeleteClientCertificateRequest({
+    @_s.required this.clientCertificateId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteClientCertificateRequestToJson(this);
+}
+
+/// Requests API Gateway to delete a <a>Deployment</a> resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDeploymentRequest {
+  /// [Required] The identifier of the <a>Deployment</a> resource to delete.
+  @_s.JsonKey(name: 'deployment_id', ignore: true)
+  final String deploymentId;
+
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  DeleteDeploymentRequest({
+    @_s.required this.deploymentId,
+    @_s.required this.restApiId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDeploymentRequestToJson(this);
+}
+
+/// Deletes an existing documentation part of an API.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDocumentationPartRequest {
+  /// [Required] The identifier of the to-be-deleted documentation part.
+  @_s.JsonKey(name: 'part_id', ignore: true)
+  final String documentationPartId;
+
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  DeleteDocumentationPartRequest({
+    @_s.required this.documentationPartId,
+    @_s.required this.restApiId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDocumentationPartRequestToJson(this);
+}
+
+/// Deletes an existing documentation version of an API.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDocumentationVersionRequest {
+  /// [Required] The version identifier of a to-be-deleted documentation snapshot.
+  @_s.JsonKey(name: 'doc_version', ignore: true)
+  final String documentationVersion;
+
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  DeleteDocumentationVersionRequest({
+    @_s.required this.documentationVersion,
+    @_s.required this.restApiId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteDocumentationVersionRequestToJson(this);
+}
+
+/// A request to delete the <a>DomainName</a> resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDomainNameRequest {
+  /// [Required] The name of the <a>DomainName</a> resource to be deleted.
+  @_s.JsonKey(name: 'domain_name', ignore: true)
+  final String domainName;
+
+  DeleteDomainNameRequest({
+    @_s.required this.domainName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDomainNameRequestToJson(this);
+}
+
+/// Clears any customization of a <a>GatewayResponse</a> of a specified response
+/// type on the given <a>RestApi</a> and resets it with the default settings.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteGatewayResponseRequest {
+  /// [Required]
+  /// The response type of the associated <a>GatewayResponse</a>. Valid values are
+  /// <ul>
+  /// <li>ACCESS_DENIED</li>
+  /// <li>API_CONFIGURATION_ERROR</li>
+  /// <li>AUTHORIZER_FAILURE</li>
+  /// <li> AUTHORIZER_CONFIGURATION_ERROR</li>
+  /// <li>BAD_REQUEST_PARAMETERS</li>
+  /// <li>BAD_REQUEST_BODY</li>
+  /// <li>DEFAULT_4XX</li>
+  /// <li>DEFAULT_5XX</li>
+  /// <li>EXPIRED_TOKEN</li>
+  /// <li>INVALID_SIGNATURE</li>
+  /// <li>INTEGRATION_FAILURE</li>
+  /// <li>INTEGRATION_TIMEOUT</li>
+  /// <li>INVALID_API_KEY</li>
+  /// <li>MISSING_AUTHENTICATION_TOKEN</li>
+  /// <li> QUOTA_EXCEEDED</li>
+  /// <li>REQUEST_TOO_LARGE</li>
+  /// <li>RESOURCE_NOT_FOUND</li>
+  /// <li>THROTTLED</li>
+  /// <li>UNAUTHORIZED</li>
+  /// <li>UNSUPPORTED_MEDIA_TYPE</li>
+  /// </ul>
+  ///
+  @_s.JsonKey(name: 'response_type', ignore: true)
+  final GatewayResponseType responseType;
+
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  DeleteGatewayResponseRequest({
+    @_s.required this.responseType,
+    @_s.required this.restApiId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteGatewayResponseRequestToJson(this);
+}
+
+/// Represents a delete integration request.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteIntegrationRequest {
+  /// [Required] Specifies a delete integration request's HTTP method.
+  @_s.JsonKey(name: 'http_method', ignore: true)
+  final String httpMethod;
+
+  /// [Required] Specifies a delete integration request's resource identifier.
+  @_s.JsonKey(name: 'resource_id', ignore: true)
+  final String resourceId;
+
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  DeleteIntegrationRequest({
+    @_s.required this.httpMethod,
+    @_s.required this.resourceId,
+    @_s.required this.restApiId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteIntegrationRequestToJson(this);
+}
+
+/// Represents a delete integration response request.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteIntegrationResponseRequest {
+  /// [Required] Specifies a delete integration response request's HTTP method.
+  @_s.JsonKey(name: 'http_method', ignore: true)
+  final String httpMethod;
+
+  /// [Required] Specifies a delete integration response request's resource
+  /// identifier.
+  @_s.JsonKey(name: 'resource_id', ignore: true)
+  final String resourceId;
+
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  /// [Required] Specifies a delete integration response request's status code.
+  @_s.JsonKey(name: 'status_code', ignore: true)
+  final String statusCode;
+
+  DeleteIntegrationResponseRequest({
+    @_s.required this.httpMethod,
+    @_s.required this.resourceId,
+    @_s.required this.restApiId,
+    @_s.required this.statusCode,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteIntegrationResponseRequestToJson(this);
+}
+
+/// Request to delete an existing <a>Method</a> resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteMethodRequest {
+  /// [Required] The HTTP verb of the <a>Method</a> resource.
+  @_s.JsonKey(name: 'http_method', ignore: true)
+  final String httpMethod;
+
+  /// [Required] The <a>Resource</a> identifier for the <a>Method</a> resource.
+  @_s.JsonKey(name: 'resource_id', ignore: true)
+  final String resourceId;
+
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  DeleteMethodRequest({
+    @_s.required this.httpMethod,
+    @_s.required this.resourceId,
+    @_s.required this.restApiId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteMethodRequestToJson(this);
+}
+
+/// A request to delete an existing <a>MethodResponse</a> resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteMethodResponseRequest {
+  /// [Required] The HTTP verb of the <a>Method</a> resource.
+  @_s.JsonKey(name: 'http_method', ignore: true)
+  final String httpMethod;
+
+  /// [Required] The <a>Resource</a> identifier for the <a>MethodResponse</a>
+  /// resource.
+  @_s.JsonKey(name: 'resource_id', ignore: true)
+  final String resourceId;
+
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  /// [Required] The status code identifier for the <a>MethodResponse</a>
+  /// resource.
+  @_s.JsonKey(name: 'status_code', ignore: true)
+  final String statusCode;
+
+  DeleteMethodResponseRequest({
+    @_s.required this.httpMethod,
+    @_s.required this.resourceId,
+    @_s.required this.restApiId,
+    @_s.required this.statusCode,
+  });
+  Map<String, dynamic> toJson() => _$DeleteMethodResponseRequestToJson(this);
+}
+
+/// Request to delete an existing model in an existing <a>RestApi</a> resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteModelRequest {
+  /// [Required] The name of the model to delete.
+  @_s.JsonKey(name: 'model_name', ignore: true)
+  final String modelName;
+
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  DeleteModelRequest({
+    @_s.required this.modelName,
+    @_s.required this.restApiId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteModelRequestToJson(this);
+}
+
+/// Deletes a specified <a>RequestValidator</a> of a given <a>RestApi</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteRequestValidatorRequest {
+  /// [Required] The identifier of the <a>RequestValidator</a> to be deleted.
+  @_s.JsonKey(name: 'requestvalidator_id', ignore: true)
+  final String requestValidatorId;
+
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  DeleteRequestValidatorRequest({
+    @_s.required this.requestValidatorId,
+    @_s.required this.restApiId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteRequestValidatorRequestToJson(this);
+}
+
+/// Request to delete a <a>Resource</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteResourceRequest {
+  /// [Required] The identifier of the <a>Resource</a> resource.
+  @_s.JsonKey(name: 'resource_id', ignore: true)
+  final String resourceId;
+
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  DeleteResourceRequest({
+    @_s.required this.resourceId,
+    @_s.required this.restApiId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteResourceRequestToJson(this);
+}
+
+/// Request to delete the specified API from your collection.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteRestApiRequest {
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  DeleteRestApiRequest({
+    @_s.required this.restApiId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteRestApiRequestToJson(this);
+}
+
+/// Requests API Gateway to delete a <a>Stage</a> resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteStageRequest {
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  /// [Required] The name of the <a>Stage</a> resource to delete.
+  @_s.JsonKey(name: 'stage_name', ignore: true)
+  final String stageName;
+
+  DeleteStageRequest({
+    @_s.required this.restApiId,
+    @_s.required this.stageName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteStageRequestToJson(this);
+}
+
+/// The DELETE request to delete a usage plan key and remove the underlying API
+/// key from the associated usage plan.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteUsagePlanKeyRequest {
+  /// [Required] The Id of the <a>UsagePlanKey</a> resource to be deleted.
+  @_s.JsonKey(name: 'keyId', ignore: true)
+  final String keyId;
+
+  /// [Required] The Id of the <a>UsagePlan</a> resource representing the usage
+  /// plan containing the to-be-deleted <a>UsagePlanKey</a> resource representing
+  /// a plan customer.
+  @_s.JsonKey(name: 'usageplanId', ignore: true)
+  final String usagePlanId;
+
+  DeleteUsagePlanKeyRequest({
+    @_s.required this.keyId,
+    @_s.required this.usagePlanId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteUsagePlanKeyRequestToJson(this);
+}
+
+/// The DELETE request to delete a usage plan of a given plan Id.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteUsagePlanRequest {
+  /// [Required] The Id of the to-be-deleted usage plan.
+  @_s.JsonKey(name: 'usageplanId', ignore: true)
+  final String usagePlanId;
+
+  DeleteUsagePlanRequest({
+    @_s.required this.usagePlanId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteUsagePlanRequestToJson(this);
+}
+
+/// Deletes an existing <a>VpcLink</a> of a specified identifier.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteVpcLinkRequest {
+  /// [Required] The identifier of the <a>VpcLink</a>. It is used in an
+  /// <a>Integration</a> to reference this <a>VpcLink</a>.
+  @_s.JsonKey(name: 'vpclink_id', ignore: true)
+  final String vpcLinkId;
+
+  DeleteVpcLinkRequest({
+    @_s.required this.vpcLinkId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteVpcLinkRequestToJson(this);
 }
 
 /// An immutable representation of a <a>RestApi</a> resource that can be called
@@ -6613,6 +7957,51 @@ class ExportResponse {
       _$ExportResponseFromJson(json);
 }
 
+/// Request to flush authorizer cache entries on a specified stage.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class FlushStageAuthorizersCacheRequest {
+  /// The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  /// The name of the stage to flush.
+  @_s.JsonKey(name: 'stage_name', ignore: true)
+  final String stageName;
+
+  FlushStageAuthorizersCacheRequest({
+    @_s.required this.restApiId,
+    @_s.required this.stageName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$FlushStageAuthorizersCacheRequestToJson(this);
+}
+
+/// Requests API Gateway to flush a stage's cache.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class FlushStageCacheRequest {
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  /// [Required] The name of the stage to flush its cache.
+  @_s.JsonKey(name: 'stage_name', ignore: true)
+  final String stageName;
+
+  FlushStageCacheRequest({
+    @_s.required this.restApiId,
+    @_s.required this.stageName,
+  });
+  Map<String, dynamic> toJson() => _$FlushStageCacheRequestToJson(this);
+}
+
 /// A gateway response of a given response type and status code, with optional
 /// response parameters and mapping templates.
 /// <div class="remarks"> For more information about valid gateway response
@@ -7011,6 +8400,31 @@ class GatewayResponses {
       _$GatewayResponsesFromJson(json);
 }
 
+/// A request to generate a <a>ClientCertificate</a> resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GenerateClientCertificateRequest {
+  /// The description of the <a>ClientCertificate</a>.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/].
+  /// The tag key can be up to 128 characters and must not start with
+  /// <code>aws:</code>. The tag value can be up to 256 characters.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  GenerateClientCertificateRequest({
+    this.description,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GenerateClientCertificateRequestToJson(this);
+}
+
 /// Represents an HTTP, HTTP_PROXY, AWS, AWS_PROXY, or Mock integration.
 /// <div class="remarks">In the API Gateway console, the built-in Lambda
 /// integration is an AWS integration.</div> <div class="seeAlso"> <a
@@ -7351,24 +8765,6 @@ enum IntegrationType {
   httpProxy,
   @_s.JsonValue('AWS_PROXY')
   awsProxy,
-}
-
-extension on IntegrationType {
-  String toValue() {
-    switch (this) {
-      case IntegrationType.http:
-        return 'HTTP';
-      case IntegrationType.aws:
-        return 'AWS';
-      case IntegrationType.mock:
-        return 'MOCK';
-      case IntegrationType.httpProxy:
-        return 'HTTP_PROXY';
-      case IntegrationType.awsProxy:
-        return 'AWS_PROXY';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 enum LocationStatusType {
@@ -7997,6 +9393,490 @@ class PatchOperation {
   Map<String, dynamic> toJson() => _$PatchOperationToJson(this);
 }
 
+/// Creates a customization of a <a>GatewayResponse</a> of a specified response
+/// type and status code on the given <a>RestApi</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutGatewayResponseRequest {
+  /// [Required]
+  /// The response type of the associated <a>GatewayResponse</a>. Valid values are
+  /// <ul>
+  /// <li>ACCESS_DENIED</li>
+  /// <li>API_CONFIGURATION_ERROR</li>
+  /// <li>AUTHORIZER_FAILURE</li>
+  /// <li> AUTHORIZER_CONFIGURATION_ERROR</li>
+  /// <li>BAD_REQUEST_PARAMETERS</li>
+  /// <li>BAD_REQUEST_BODY</li>
+  /// <li>DEFAULT_4XX</li>
+  /// <li>DEFAULT_5XX</li>
+  /// <li>EXPIRED_TOKEN</li>
+  /// <li>INVALID_SIGNATURE</li>
+  /// <li>INTEGRATION_FAILURE</li>
+  /// <li>INTEGRATION_TIMEOUT</li>
+  /// <li>INVALID_API_KEY</li>
+  /// <li>MISSING_AUTHENTICATION_TOKEN</li>
+  /// <li> QUOTA_EXCEEDED</li>
+  /// <li>REQUEST_TOO_LARGE</li>
+  /// <li>RESOURCE_NOT_FOUND</li>
+  /// <li>THROTTLED</li>
+  /// <li>UNAUTHORIZED</li>
+  /// <li>UNSUPPORTED_MEDIA_TYPE</li>
+  /// </ul>
+  ///
+  @_s.JsonKey(name: 'response_type', ignore: true)
+  final GatewayResponseType responseType;
+
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  ///
+  /// Response parameters (paths, query strings and headers) of the
+  /// <a>GatewayResponse</a> as a string-to-string map of key-value pairs.
+  ///
+  @_s.JsonKey(name: 'responseParameters')
+  final Map<String, String> responseParameters;
+
+  ///
+  /// Response templates of the <a>GatewayResponse</a> as a string-to-string map
+  /// of key-value pairs.
+  ///
+  @_s.JsonKey(name: 'responseTemplates')
+  final Map<String, String> responseTemplates;
+
+  /// The HTTP status code of the <a>GatewayResponse</a>.
+  @_s.JsonKey(name: 'statusCode')
+  final String statusCode;
+
+  PutGatewayResponseRequest({
+    @_s.required this.responseType,
+    @_s.required this.restApiId,
+    this.responseParameters,
+    this.responseTemplates,
+    this.statusCode,
+  });
+  Map<String, dynamic> toJson() => _$PutGatewayResponseRequestToJson(this);
+}
+
+/// Sets up a method's integration.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutIntegrationRequest {
+  /// [Required] Specifies a put integration request's HTTP method.
+  @_s.JsonKey(name: 'http_method', ignore: true)
+  final String httpMethod;
+
+  /// [Required] Specifies a put integration request's resource ID.
+  @_s.JsonKey(name: 'resource_id', ignore: true)
+  final String resourceId;
+
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  /// [Required] Specifies a put integration input's type.
+  @_s.JsonKey(name: 'type')
+  final IntegrationType type;
+
+  /// An API-specific tag group of related cached parameters.
+  @_s.JsonKey(name: 'cacheKeyParameters')
+  final List<String> cacheKeyParameters;
+
+  /// A list of request parameters whose values are to be cached.
+  @_s.JsonKey(name: 'cacheNamespace')
+  final String cacheNamespace;
+
+  /// The (<a
+  /// href="https://docs.aws.amazon.com/apigateway/api-reference/resource/vpc-link/#id"><code>id</code></a>)
+  /// of the <a>VpcLink</a> used for the integration when
+  /// <code>connectionType=VPC_LINK</code> and undefined, otherwise.
+  @_s.JsonKey(name: 'connectionId')
+  final String connectionId;
+
+  /// The type of the network connection to the integration endpoint. The valid
+  /// value is <code>INTERNET</code> for connections through the public routable
+  /// internet or <code>VPC_LINK</code> for private connections between API
+  /// Gateway and a network load balancer in a VPC. The default value is
+  /// <code>INTERNET</code>.
+  @_s.JsonKey(name: 'connectionType')
+  final ConnectionType connectionType;
+
+  /// Specifies how to handle request payload content type conversions. Supported
+  /// values are <code>CONVERT_TO_BINARY</code> and <code>CONVERT_TO_TEXT</code>,
+  /// with the following behaviors:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CONVERT_TO_BINARY</code>: Converts a request payload from a
+  /// Base64-encoded string to the corresponding binary blob.
+  /// </li>
+  /// <li>
+  /// <code>CONVERT_TO_TEXT</code>: Converts a request payload from a binary blob
+  /// to a Base64-encoded string.
+  /// </li>
+  /// </ul>
+  /// If this property is not defined, the request payload will be passed through
+  /// from the method request to integration request without modification,
+  /// provided that the <code>passthroughBehavior</code> is configured to support
+  /// payload pass-through.
+  @_s.JsonKey(name: 'contentHandling')
+  final ContentHandlingStrategy contentHandling;
+
+  /// Specifies whether credentials are required for a put integration.
+  @_s.JsonKey(name: 'credentials')
+  final String credentials;
+
+  /// Specifies a put integration HTTP method. When the integration type is HTTP
+  /// or AWS, this field is required.
+  @_s.JsonKey(name: 'httpMethod')
+  final String integrationHttpMethod;
+
+  /// Specifies the pass-through behavior for incoming requests based on the
+  /// Content-Type header in the request, and the available mapping templates
+  /// specified as the <code>requestTemplates</code> property on the Integration
+  /// resource. There are three valid values: <code>WHEN_NO_MATCH</code>,
+  /// <code>WHEN_NO_TEMPLATES</code>, and <code>NEVER</code>.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>WHEN_NO_MATCH</code> passes the request body for unmapped content
+  /// types through to the integration back end without transformation.
+  /// </li>
+  /// <li>
+  /// <code>NEVER</code> rejects unmapped content types with an HTTP 415
+  /// 'Unsupported Media Type' response.
+  /// </li>
+  /// <li>
+  /// <code>WHEN_NO_TEMPLATES</code> allows pass-through when the integration has
+  /// NO content types mapped to templates. However if there is at least one
+  /// content type defined, unmapped content types will be rejected with the same
+  /// 415 response.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'passthroughBehavior')
+  final String passthroughBehavior;
+
+  /// A key-value map specifying request parameters that are passed from the
+  /// method request to the back end. The key is an integration request parameter
+  /// name and the associated value is a method request parameter value or static
+  /// value that must be enclosed within single quotes and pre-encoded as required
+  /// by the back end. The method request parameter value must match the pattern
+  /// of <code>method.request.{location}.{name}</code>, where
+  /// <code>location</code> is <code>querystring</code>, <code>path</code>, or
+  /// <code>header</code> and <code>name</code> must be a valid and unique method
+  /// request parameter name.
+  @_s.JsonKey(name: 'requestParameters')
+  final Map<String, String> requestParameters;
+
+  /// Represents a map of Velocity templates that are applied on the request
+  /// payload based on the value of the Content-Type header sent by the client.
+  /// The content type value is the key in this map, and the template (as a
+  /// String) is the value.
+  @_s.JsonKey(name: 'requestTemplates')
+  final Map<String, String> requestTemplates;
+
+  /// Custom timeout between 50 and 29,000 milliseconds. The default value is
+  /// 29,000 milliseconds or 29 seconds.
+  @_s.JsonKey(name: 'timeoutInMillis')
+  final int timeoutInMillis;
+
+  /// Specifies Uniform Resource Identifier (URI) of the integration endpoint.
+  ///
+  /// <ul>
+  /// <li>
+  /// For <code>HTTP</code> or <code>HTTP_PROXY</code> integrations, the URI must
+  /// be a fully formed, encoded HTTP(S) URL according to the <a target="_blank"
+  /// href="https://en.wikipedia.org/wiki/Uniform_Resource_Identifier">RFC-3986
+  /// specification</a>, for either standard integration, where
+  /// <code>connectionType</code> is not <code>VPC_LINK</code>, or private
+  /// integration, where <code>connectionType</code> is <code>VPC_LINK</code>. For
+  /// a private HTTP integration, the URI is not used for routing.
+  /// </li>
+  /// <li>
+  /// For <code>AWS</code> or <code>AWS_PROXY</code> integrations, the URI is of
+  /// the form
+  /// <code>arn:aws:apigateway:{region}:{subdomain.service|service}:path|action/{service_api}</code>.
+  /// Here, <code>{Region}</code> is the API Gateway region (e.g.,
+  /// <code>us-east-1</code>); <code>{service}</code> is the name of the
+  /// integrated AWS service (e.g., <code>s3</code>); and <code>{subdomain}</code>
+  /// is a designated subdomain supported by certain AWS service for fast
+  /// host-name lookup. <code>action</code> can be used for an AWS service
+  /// action-based API, using an
+  /// <code>Action={name}&amp;{p1}={v1}&amp;p2={v2}...</code> query string. The
+  /// ensuing <code>{service_api}</code> refers to a supported action
+  /// <code>{name}</code> plus any required input parameters. Alternatively,
+  /// <code>path</code> can be used for an AWS service path-based API. The ensuing
+  /// <code>service_api</code> refers to the path to an AWS service resource,
+  /// including the region of the integrated AWS service, if applicable. For
+  /// example, for integration with the S3 API of <code><a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectGET.html">GetObject</a></code>,
+  /// the <code>uri</code> can be either
+  /// <code>arn:aws:apigateway:us-west-2:s3:action/GetObject&amp;Bucket={bucket}&amp;Key={key}</code>
+  /// or <code>arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key}</code>
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'uri')
+  final String uri;
+
+  PutIntegrationRequest({
+    @_s.required this.httpMethod,
+    @_s.required this.resourceId,
+    @_s.required this.restApiId,
+    @_s.required this.type,
+    this.cacheKeyParameters,
+    this.cacheNamespace,
+    this.connectionId,
+    this.connectionType,
+    this.contentHandling,
+    this.credentials,
+    this.integrationHttpMethod,
+    this.passthroughBehavior,
+    this.requestParameters,
+    this.requestTemplates,
+    this.timeoutInMillis,
+    this.uri,
+  });
+  Map<String, dynamic> toJson() => _$PutIntegrationRequestToJson(this);
+}
+
+/// Represents a put integration response request.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutIntegrationResponseRequest {
+  /// [Required] Specifies a put integration response request's HTTP method.
+  @_s.JsonKey(name: 'http_method', ignore: true)
+  final String httpMethod;
+
+  /// [Required] Specifies a put integration response request's resource
+  /// identifier.
+  @_s.JsonKey(name: 'resource_id', ignore: true)
+  final String resourceId;
+
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  /// [Required] Specifies the status code that is used to map the integration
+  /// response to an existing <a>MethodResponse</a>.
+  @_s.JsonKey(name: 'status_code', ignore: true)
+  final String statusCode;
+
+  /// Specifies how to handle response payload content type conversions. Supported
+  /// values are <code>CONVERT_TO_BINARY</code> and <code>CONVERT_TO_TEXT</code>,
+  /// with the following behaviors:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CONVERT_TO_BINARY</code>: Converts a response payload from a
+  /// Base64-encoded string to the corresponding binary blob.
+  /// </li>
+  /// <li>
+  /// <code>CONVERT_TO_TEXT</code>: Converts a response payload from a binary blob
+  /// to a Base64-encoded string.
+  /// </li>
+  /// </ul>
+  /// If this property is not defined, the response payload will be passed through
+  /// from the integration response to the method response without modification.
+  @_s.JsonKey(name: 'contentHandling')
+  final ContentHandlingStrategy contentHandling;
+
+  /// A key-value map specifying response parameters that are passed to the method
+  /// response from the back end. The key is a method response header parameter
+  /// name and the mapped value is an integration response header value, a static
+  /// value enclosed within a pair of single quotes, or a JSON expression from the
+  /// integration response body. The mapping key must match the pattern of
+  /// <code>method.response.header.{name}</code>, where <code>name</code> is a
+  /// valid and unique header name. The mapped non-static value must match the
+  /// pattern of <code>integration.response.header.{name}</code> or
+  /// <code>integration.response.body.{JSON-expression}</code>, where
+  /// <code>name</code> must be a valid and unique response header name and
+  /// <code>JSON-expression</code> a valid JSON expression without the
+  /// <code>$</code> prefix.
+  @_s.JsonKey(name: 'responseParameters')
+  final Map<String, String> responseParameters;
+
+  /// Specifies a put integration response's templates.
+  @_s.JsonKey(name: 'responseTemplates')
+  final Map<String, String> responseTemplates;
+
+  /// Specifies the selection pattern of a put integration response.
+  @_s.JsonKey(name: 'selectionPattern')
+  final String selectionPattern;
+
+  PutIntegrationResponseRequest({
+    @_s.required this.httpMethod,
+    @_s.required this.resourceId,
+    @_s.required this.restApiId,
+    @_s.required this.statusCode,
+    this.contentHandling,
+    this.responseParameters,
+    this.responseTemplates,
+    this.selectionPattern,
+  });
+  Map<String, dynamic> toJson() => _$PutIntegrationResponseRequestToJson(this);
+}
+
+/// Request to add a method to an existing <a>Resource</a> resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutMethodRequest {
+  /// [Required] The method's authorization type. Valid values are
+  /// <code>NONE</code> for open access, <code>AWS_IAM</code> for using AWS IAM
+  /// permissions, <code>CUSTOM</code> for using a custom authorizer, or
+  /// <code>COGNITO_USER_POOLS</code> for using a Cognito user pool.
+  @_s.JsonKey(name: 'authorizationType')
+  final String authorizationType;
+
+  /// [Required] Specifies the method request's HTTP method type.
+  @_s.JsonKey(name: 'http_method', ignore: true)
+  final String httpMethod;
+
+  /// [Required] The <a>Resource</a> identifier for the new <a>Method</a>
+  /// resource.
+  @_s.JsonKey(name: 'resource_id', ignore: true)
+  final String resourceId;
+
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  /// Specifies whether the method required a valid <a>ApiKey</a>.
+  @_s.JsonKey(name: 'apiKeyRequired')
+  final bool apiKeyRequired;
+
+  /// A list of authorization scopes configured on the method. The scopes are used
+  /// with a <code>COGNITO_USER_POOLS</code> authorizer to authorize the method
+  /// invocation. The authorization works by matching the method scopes against
+  /// the scopes parsed from the access token in the incoming request. The method
+  /// invocation is authorized if any method scopes matches a claimed scope in the
+  /// access token. Otherwise, the invocation is not authorized. When the method
+  /// scope is configured, the client must provide an access token instead of an
+  /// identity token for authorization purposes.
+  @_s.JsonKey(name: 'authorizationScopes')
+  final List<String> authorizationScopes;
+
+  /// Specifies the identifier of an <a>Authorizer</a> to use on this Method, if
+  /// the type is CUSTOM or COGNITO_USER_POOLS. The authorizer identifier is
+  /// generated by API Gateway when you created the authorizer.
+  @_s.JsonKey(name: 'authorizerId')
+  final String authorizerId;
+
+  /// A human-friendly operation identifier for the method. For example, you can
+  /// assign the <code>operationName</code> of <code>ListPets</code> for the
+  /// <code>GET /pets</code> method in the <code>PetStore</code> example.
+  @_s.JsonKey(name: 'operationName')
+  final String operationName;
+
+  /// Specifies the <a>Model</a> resources used for the request's content type.
+  /// Request models are represented as a key/value map, with a content type as
+  /// the key and a <a>Model</a> name as the value.
+  @_s.JsonKey(name: 'requestModels')
+  final Map<String, String> requestModels;
+
+  /// A key-value map defining required or optional method request parameters that
+  /// can be accepted by API Gateway. A key defines a method request parameter
+  /// name matching the pattern of <code>method.request.{location}.{name}</code>,
+  /// where <code>location</code> is <code>querystring</code>, <code>path</code>,
+  /// or <code>header</code> and <code>name</code> is a valid and unique parameter
+  /// name. The value associated with the key is a Boolean flag indicating whether
+  /// the parameter is required (<code>true</code>) or optional
+  /// (<code>false</code>). The method request parameter names defined here are
+  /// available in <a>Integration</a> to be mapped to integration request
+  /// parameters or body-mapping templates.
+  @_s.JsonKey(name: 'requestParameters')
+  final Map<String, bool> requestParameters;
+
+  /// The identifier of a <a>RequestValidator</a> for validating the method
+  /// request.
+  @_s.JsonKey(name: 'requestValidatorId')
+  final String requestValidatorId;
+
+  PutMethodRequest({
+    @_s.required this.authorizationType,
+    @_s.required this.httpMethod,
+    @_s.required this.resourceId,
+    @_s.required this.restApiId,
+    this.apiKeyRequired,
+    this.authorizationScopes,
+    this.authorizerId,
+    this.operationName,
+    this.requestModels,
+    this.requestParameters,
+    this.requestValidatorId,
+  });
+  Map<String, dynamic> toJson() => _$PutMethodRequestToJson(this);
+}
+
+/// Request to add a <a>MethodResponse</a> to an existing <a>Method</a>
+/// resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutMethodResponseRequest {
+  /// [Required] The HTTP verb of the <a>Method</a> resource.
+  @_s.JsonKey(name: 'http_method', ignore: true)
+  final String httpMethod;
+
+  /// [Required] The <a>Resource</a> identifier for the <a>Method</a> resource.
+  @_s.JsonKey(name: 'resource_id', ignore: true)
+  final String resourceId;
+
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  /// [Required] The method response's status code.
+  @_s.JsonKey(name: 'status_code', ignore: true)
+  final String statusCode;
+
+  /// Specifies the <a>Model</a> resources used for the response's content type.
+  /// Response models are represented as a key/value map, with a content type as
+  /// the key and a <a>Model</a> name as the value.
+  @_s.JsonKey(name: 'responseModels')
+  final Map<String, String> responseModels;
+
+  /// A key-value map specifying required or optional response parameters that API
+  /// Gateway can send back to the caller. A key defines a method response header
+  /// name and the associated value is a Boolean flag indicating whether the
+  /// method response parameter is required or not. The method response header
+  /// names must match the pattern of <code>method.response.header.{name}</code>,
+  /// where <code>name</code> is a valid and unique header name. The response
+  /// parameter names defined here are available in the integration response to be
+  /// mapped from an integration response header expressed in
+  /// <code>integration.response.header.{name}</code>, a static value enclosed
+  /// within a pair of single quotes (e.g., <code>'application/json'</code>), or a
+  /// JSON expression from the back-end response payload in the form of
+  /// <code>integration.response.body.{JSON-expression}</code>, where
+  /// <code>JSON-expression</code> is a valid JSON expression without the
+  /// <code>$</code> prefix.)
+  @_s.JsonKey(name: 'responseParameters')
+  final Map<String, bool> responseParameters;
+
+  PutMethodResponseRequest({
+    @_s.required this.httpMethod,
+    @_s.required this.resourceId,
+    @_s.required this.restApiId,
+    @_s.required this.statusCode,
+    this.responseModels,
+    this.responseParameters,
+  });
+  Map<String, dynamic> toJson() => _$PutMethodResponseRequestToJson(this);
+}
+
 enum PutMode {
   @_s.JsonValue('merge')
   merge,
@@ -8512,18 +10392,6 @@ enum SecurityPolicy {
   tls_1_2,
 }
 
-extension on SecurityPolicy {
-  String toValue() {
-    switch (this) {
-      case SecurityPolicy.tls_1_0:
-        return 'TLS_1_0';
-      case SecurityPolicy.tls_1_2:
-        return 'TLS_1_2';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Represents a unique identifier for a version of a deployed <a>RestApi</a>
 /// that is callable by users.
 /// <div class="seeAlso"> <a
@@ -8685,6 +10553,30 @@ class Stages {
   factory Stages.fromJson(Map<String, dynamic> json) => _$StagesFromJson(json);
 }
 
+/// Adds or updates a tag on a given resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// [Required] The ARN of a resource that can be tagged.
+  @_s.JsonKey(name: 'resource_arn', ignore: true)
+  final String resourceArn;
+
+  /// [Required] The key-value map of strings. The valid character set is
+  /// [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start
+  /// with <code>aws:</code>. The tag value can be up to 256 characters.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
 /// The collection of tags. Each tag element is associated with a given
 /// resource.
 @_s.JsonSerializable(
@@ -8726,6 +10618,65 @@ class Template {
   });
   factory Template.fromJson(Map<String, dynamic> json) =>
       _$TemplateFromJson(json);
+}
+
+/// Make a request to simulate the execution of an <a>Authorizer</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TestInvokeAuthorizerRequest {
+  /// [Required] Specifies a test invoke authorizer request's <a>Authorizer</a>
+  /// ID.
+  @_s.JsonKey(name: 'authorizer_id', ignore: true)
+  final String authorizerId;
+
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  /// [Optional] A key-value map of additional context variables.
+  @_s.JsonKey(name: 'additionalContext')
+  final Map<String, String> additionalContext;
+
+  /// [Optional] The simulated request body of an incoming invocation request.
+  @_s.JsonKey(name: 'body')
+  final String body;
+
+  /// [Required] A key-value map of headers to simulate an incoming invocation
+  /// request. This is where the incoming authorization token, or identity source,
+  /// should be specified.
+  @_s.JsonKey(name: 'headers')
+  final Map<String, String> headers;
+
+  /// [Optional] The headers as a map from string to list of values to simulate an
+  /// incoming invocation request. This is where the incoming authorization token,
+  /// or identity source, may be specified.
+  @_s.JsonKey(name: 'multiValueHeaders')
+  final Map<String, List<String>> multiValueHeaders;
+
+  /// [Optional] The URI path, including query string, of the simulated invocation
+  /// request. Use this to specify path parameters and query string parameters.
+  @_s.JsonKey(name: 'pathWithQueryString')
+  final String pathWithQueryString;
+
+  /// A key-value map of stage variables to simulate an invocation on a deployed
+  /// <a>Stage</a>.
+  @_s.JsonKey(name: 'stageVariables')
+  final Map<String, String> stageVariables;
+
+  TestInvokeAuthorizerRequest({
+    @_s.required this.authorizerId,
+    @_s.required this.restApiId,
+    this.additionalContext,
+    this.body,
+    this.headers,
+    this.multiValueHeaders,
+    this.pathWithQueryString,
+    this.stageVariables,
+  });
+  Map<String, dynamic> toJson() => _$TestInvokeAuthorizerRequestToJson(this);
 }
 
 /// Represents the response of the test invoke request for a custom
@@ -8778,6 +10729,68 @@ class TestInvokeAuthorizerResponse {
   });
   factory TestInvokeAuthorizerResponse.fromJson(Map<String, dynamic> json) =>
       _$TestInvokeAuthorizerResponseFromJson(json);
+}
+
+/// Make a request to simulate the execution of a <a>Method</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TestInvokeMethodRequest {
+  /// [Required] Specifies a test invoke method request's HTTP method.
+  @_s.JsonKey(name: 'http_method', ignore: true)
+  final String httpMethod;
+
+  /// [Required] Specifies a test invoke method request's resource ID.
+  @_s.JsonKey(name: 'resource_id', ignore: true)
+  final String resourceId;
+
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  /// The simulated request body of an incoming invocation request.
+  @_s.JsonKey(name: 'body')
+  final String body;
+
+  /// A <a>ClientCertificate</a> identifier to use in the test invocation. API
+  /// Gateway will use the certificate when making the HTTPS request to the
+  /// defined back-end endpoint.
+  @_s.JsonKey(name: 'clientCertificateId')
+  final String clientCertificateId;
+
+  /// A key-value map of headers to simulate an incoming invocation request.
+  @_s.JsonKey(name: 'headers')
+  final Map<String, String> headers;
+
+  /// The headers as a map from string to list of values to simulate an incoming
+  /// invocation request.
+  @_s.JsonKey(name: 'multiValueHeaders')
+  final Map<String, List<String>> multiValueHeaders;
+
+  /// The URI path, including query string, of the simulated invocation request.
+  /// Use this to specify path parameters and query string parameters.
+  @_s.JsonKey(name: 'pathWithQueryString')
+  final String pathWithQueryString;
+
+  /// A key-value map of stage variables to simulate an invocation on a deployed
+  /// <a>Stage</a>.
+  @_s.JsonKey(name: 'stageVariables')
+  final Map<String, String> stageVariables;
+
+  TestInvokeMethodRequest({
+    @_s.required this.httpMethod,
+    @_s.required this.resourceId,
+    @_s.required this.restApiId,
+    this.body,
+    this.clientCertificateId,
+    this.headers,
+    this.multiValueHeaders,
+    this.pathWithQueryString,
+    this.stageVariables,
+  });
+  Map<String, dynamic> toJson() => _$TestInvokeMethodRequestToJson(this);
 }
 
 /// Represents the response of the test invoke request in the HTTP method.
@@ -8860,6 +10873,674 @@ enum UnauthorizedCacheControlHeaderStrategy {
   succeedWithResponseHeader,
   @_s.JsonValue('SUCCEED_WITHOUT_RESPONSE_HEADER')
   succeedWithoutResponseHeader,
+}
+
+/// Removes a tag from a given resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// [Required] The ARN of a resource that can be tagged.
+  @_s.JsonKey(name: 'resource_arn', ignore: true)
+  final String resourceArn;
+
+  /// [Required] The Tag keys to delete.
+  @_s.JsonKey(name: 'tagKeys', ignore: true)
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+/// Requests API Gateway to change information about the current <a>Account</a>
+/// resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateAccountRequest {
+  /// A list of update operations to be applied to the specified resource and in
+  /// the order specified in this list.
+  @_s.JsonKey(name: 'patchOperations')
+  final List<PatchOperation> patchOperations;
+
+  UpdateAccountRequest({
+    this.patchOperations,
+  });
+  Map<String, dynamic> toJson() => _$UpdateAccountRequestToJson(this);
+}
+
+/// A request to change information about an <a>ApiKey</a> resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateApiKeyRequest {
+  /// [Required] The identifier of the <a>ApiKey</a> resource to be updated.
+  @_s.JsonKey(name: 'api_Key', ignore: true)
+  final String apiKey;
+
+  /// A list of update operations to be applied to the specified resource and in
+  /// the order specified in this list.
+  @_s.JsonKey(name: 'patchOperations')
+  final List<PatchOperation> patchOperations;
+
+  UpdateApiKeyRequest({
+    @_s.required this.apiKey,
+    this.patchOperations,
+  });
+  Map<String, dynamic> toJson() => _$UpdateApiKeyRequestToJson(this);
+}
+
+/// Request to update an existing <a>Authorizer</a> resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateAuthorizerRequest {
+  /// [Required] The identifier of the <a>Authorizer</a> resource.
+  @_s.JsonKey(name: 'authorizer_id', ignore: true)
+  final String authorizerId;
+
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  /// A list of update operations to be applied to the specified resource and in
+  /// the order specified in this list.
+  @_s.JsonKey(name: 'patchOperations')
+  final List<PatchOperation> patchOperations;
+
+  UpdateAuthorizerRequest({
+    @_s.required this.authorizerId,
+    @_s.required this.restApiId,
+    this.patchOperations,
+  });
+  Map<String, dynamic> toJson() => _$UpdateAuthorizerRequestToJson(this);
+}
+
+/// A request to change information about the <a>BasePathMapping</a> resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateBasePathMappingRequest {
+  /// [Required] The base path of the <a>BasePathMapping</a> resource to change.
+  ///
+  /// To specify an empty base path, set this parameter to <code>'(none)'</code>.
+  @_s.JsonKey(name: 'base_path', ignore: true)
+  final String basePath;
+
+  /// [Required] The domain name of the <a>BasePathMapping</a> resource to change.
+  @_s.JsonKey(name: 'domain_name', ignore: true)
+  final String domainName;
+
+  /// A list of update operations to be applied to the specified resource and in
+  /// the order specified in this list.
+  @_s.JsonKey(name: 'patchOperations')
+  final List<PatchOperation> patchOperations;
+
+  UpdateBasePathMappingRequest({
+    @_s.required this.basePath,
+    @_s.required this.domainName,
+    this.patchOperations,
+  });
+  Map<String, dynamic> toJson() => _$UpdateBasePathMappingRequestToJson(this);
+}
+
+/// A request to change information about an <a>ClientCertificate</a> resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateClientCertificateRequest {
+  /// [Required] The identifier of the <a>ClientCertificate</a> resource to be
+  /// updated.
+  @_s.JsonKey(name: 'clientcertificate_id', ignore: true)
+  final String clientCertificateId;
+
+  /// A list of update operations to be applied to the specified resource and in
+  /// the order specified in this list.
+  @_s.JsonKey(name: 'patchOperations')
+  final List<PatchOperation> patchOperations;
+
+  UpdateClientCertificateRequest({
+    @_s.required this.clientCertificateId,
+    this.patchOperations,
+  });
+  Map<String, dynamic> toJson() => _$UpdateClientCertificateRequestToJson(this);
+}
+
+/// Requests API Gateway to change information about a <a>Deployment</a>
+/// resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDeploymentRequest {
+  /// The replacement identifier for the <a>Deployment</a> resource to change
+  /// information about.
+  @_s.JsonKey(name: 'deployment_id', ignore: true)
+  final String deploymentId;
+
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  /// A list of update operations to be applied to the specified resource and in
+  /// the order specified in this list.
+  @_s.JsonKey(name: 'patchOperations')
+  final List<PatchOperation> patchOperations;
+
+  UpdateDeploymentRequest({
+    @_s.required this.deploymentId,
+    @_s.required this.restApiId,
+    this.patchOperations,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDeploymentRequestToJson(this);
+}
+
+/// Updates an existing documentation part of a given API.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDocumentationPartRequest {
+  /// [Required] The identifier of the to-be-updated documentation part.
+  @_s.JsonKey(name: 'part_id', ignore: true)
+  final String documentationPartId;
+
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  /// A list of update operations to be applied to the specified resource and in
+  /// the order specified in this list.
+  @_s.JsonKey(name: 'patchOperations')
+  final List<PatchOperation> patchOperations;
+
+  UpdateDocumentationPartRequest({
+    @_s.required this.documentationPartId,
+    @_s.required this.restApiId,
+    this.patchOperations,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDocumentationPartRequestToJson(this);
+}
+
+/// Updates an existing documentation version of an API.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDocumentationVersionRequest {
+  /// [Required] The version identifier of the to-be-updated documentation
+  /// version.
+  @_s.JsonKey(name: 'doc_version', ignore: true)
+  final String documentationVersion;
+
+  /// [Required] The string identifier of the associated <a>RestApi</a>..
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  /// A list of update operations to be applied to the specified resource and in
+  /// the order specified in this list.
+  @_s.JsonKey(name: 'patchOperations')
+  final List<PatchOperation> patchOperations;
+
+  UpdateDocumentationVersionRequest({
+    @_s.required this.documentationVersion,
+    @_s.required this.restApiId,
+    this.patchOperations,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateDocumentationVersionRequestToJson(this);
+}
+
+/// A request to change information about the <a>DomainName</a> resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDomainNameRequest {
+  /// [Required] The name of the <a>DomainName</a> resource to be changed.
+  @_s.JsonKey(name: 'domain_name', ignore: true)
+  final String domainName;
+
+  /// A list of update operations to be applied to the specified resource and in
+  /// the order specified in this list.
+  @_s.JsonKey(name: 'patchOperations')
+  final List<PatchOperation> patchOperations;
+
+  UpdateDomainNameRequest({
+    @_s.required this.domainName,
+    this.patchOperations,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDomainNameRequestToJson(this);
+}
+
+/// Updates a <a>GatewayResponse</a> of a specified response type on the given
+/// <a>RestApi</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateGatewayResponseRequest {
+  /// [Required]
+  /// The response type of the associated <a>GatewayResponse</a>. Valid values are
+  /// <ul>
+  /// <li>ACCESS_DENIED</li>
+  /// <li>API_CONFIGURATION_ERROR</li>
+  /// <li>AUTHORIZER_FAILURE</li>
+  /// <li> AUTHORIZER_CONFIGURATION_ERROR</li>
+  /// <li>BAD_REQUEST_PARAMETERS</li>
+  /// <li>BAD_REQUEST_BODY</li>
+  /// <li>DEFAULT_4XX</li>
+  /// <li>DEFAULT_5XX</li>
+  /// <li>EXPIRED_TOKEN</li>
+  /// <li>INVALID_SIGNATURE</li>
+  /// <li>INTEGRATION_FAILURE</li>
+  /// <li>INTEGRATION_TIMEOUT</li>
+  /// <li>INVALID_API_KEY</li>
+  /// <li>MISSING_AUTHENTICATION_TOKEN</li>
+  /// <li> QUOTA_EXCEEDED</li>
+  /// <li>REQUEST_TOO_LARGE</li>
+  /// <li>RESOURCE_NOT_FOUND</li>
+  /// <li>THROTTLED</li>
+  /// <li>UNAUTHORIZED</li>
+  /// <li>UNSUPPORTED_MEDIA_TYPE</li>
+  /// </ul>
+  ///
+  @_s.JsonKey(name: 'response_type', ignore: true)
+  final GatewayResponseType responseType;
+
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  /// A list of update operations to be applied to the specified resource and in
+  /// the order specified in this list.
+  @_s.JsonKey(name: 'patchOperations')
+  final List<PatchOperation> patchOperations;
+
+  UpdateGatewayResponseRequest({
+    @_s.required this.responseType,
+    @_s.required this.restApiId,
+    this.patchOperations,
+  });
+  Map<String, dynamic> toJson() => _$UpdateGatewayResponseRequestToJson(this);
+}
+
+/// Represents an update integration request.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateIntegrationRequest {
+  /// [Required] Represents an update integration request's HTTP method.
+  @_s.JsonKey(name: 'http_method', ignore: true)
+  final String httpMethod;
+
+  /// [Required] Represents an update integration request's resource identifier.
+  @_s.JsonKey(name: 'resource_id', ignore: true)
+  final String resourceId;
+
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  /// A list of update operations to be applied to the specified resource and in
+  /// the order specified in this list.
+  @_s.JsonKey(name: 'patchOperations')
+  final List<PatchOperation> patchOperations;
+
+  UpdateIntegrationRequest({
+    @_s.required this.httpMethod,
+    @_s.required this.resourceId,
+    @_s.required this.restApiId,
+    this.patchOperations,
+  });
+  Map<String, dynamic> toJson() => _$UpdateIntegrationRequestToJson(this);
+}
+
+/// Represents an update integration response request.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateIntegrationResponseRequest {
+  /// [Required] Specifies an update integration response request's HTTP method.
+  @_s.JsonKey(name: 'http_method', ignore: true)
+  final String httpMethod;
+
+  /// [Required] Specifies an update integration response request's resource
+  /// identifier.
+  @_s.JsonKey(name: 'resource_id', ignore: true)
+  final String resourceId;
+
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  /// [Required] Specifies an update integration response request's status code.
+  @_s.JsonKey(name: 'status_code', ignore: true)
+  final String statusCode;
+
+  /// A list of update operations to be applied to the specified resource and in
+  /// the order specified in this list.
+  @_s.JsonKey(name: 'patchOperations')
+  final List<PatchOperation> patchOperations;
+
+  UpdateIntegrationResponseRequest({
+    @_s.required this.httpMethod,
+    @_s.required this.resourceId,
+    @_s.required this.restApiId,
+    @_s.required this.statusCode,
+    this.patchOperations,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateIntegrationResponseRequestToJson(this);
+}
+
+/// Request to update an existing <a>Method</a> resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateMethodRequest {
+  /// [Required] The HTTP verb of the <a>Method</a> resource.
+  @_s.JsonKey(name: 'http_method', ignore: true)
+  final String httpMethod;
+
+  /// [Required] The <a>Resource</a> identifier for the <a>Method</a> resource.
+  @_s.JsonKey(name: 'resource_id', ignore: true)
+  final String resourceId;
+
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  /// A list of update operations to be applied to the specified resource and in
+  /// the order specified in this list.
+  @_s.JsonKey(name: 'patchOperations')
+  final List<PatchOperation> patchOperations;
+
+  UpdateMethodRequest({
+    @_s.required this.httpMethod,
+    @_s.required this.resourceId,
+    @_s.required this.restApiId,
+    this.patchOperations,
+  });
+  Map<String, dynamic> toJson() => _$UpdateMethodRequestToJson(this);
+}
+
+/// A request to update an existing <a>MethodResponse</a> resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateMethodResponseRequest {
+  /// [Required] The HTTP verb of the <a>Method</a> resource.
+  @_s.JsonKey(name: 'http_method', ignore: true)
+  final String httpMethod;
+
+  /// [Required] The <a>Resource</a> identifier for the <a>MethodResponse</a>
+  /// resource.
+  @_s.JsonKey(name: 'resource_id', ignore: true)
+  final String resourceId;
+
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  /// [Required] The status code for the <a>MethodResponse</a> resource.
+  @_s.JsonKey(name: 'status_code', ignore: true)
+  final String statusCode;
+
+  /// A list of update operations to be applied to the specified resource and in
+  /// the order specified in this list.
+  @_s.JsonKey(name: 'patchOperations')
+  final List<PatchOperation> patchOperations;
+
+  UpdateMethodResponseRequest({
+    @_s.required this.httpMethod,
+    @_s.required this.resourceId,
+    @_s.required this.restApiId,
+    @_s.required this.statusCode,
+    this.patchOperations,
+  });
+  Map<String, dynamic> toJson() => _$UpdateMethodResponseRequestToJson(this);
+}
+
+/// Request to update an existing model in an existing <a>RestApi</a> resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateModelRequest {
+  /// [Required] The name of the model to update.
+  @_s.JsonKey(name: 'model_name', ignore: true)
+  final String modelName;
+
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  /// A list of update operations to be applied to the specified resource and in
+  /// the order specified in this list.
+  @_s.JsonKey(name: 'patchOperations')
+  final List<PatchOperation> patchOperations;
+
+  UpdateModelRequest({
+    @_s.required this.modelName,
+    @_s.required this.restApiId,
+    this.patchOperations,
+  });
+  Map<String, dynamic> toJson() => _$UpdateModelRequestToJson(this);
+}
+
+/// Updates a <a>RequestValidator</a> of a given <a>RestApi</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateRequestValidatorRequest {
+  /// [Required] The identifier of <a>RequestValidator</a> to be updated.
+  @_s.JsonKey(name: 'requestvalidator_id', ignore: true)
+  final String requestValidatorId;
+
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  /// A list of update operations to be applied to the specified resource and in
+  /// the order specified in this list.
+  @_s.JsonKey(name: 'patchOperations')
+  final List<PatchOperation> patchOperations;
+
+  UpdateRequestValidatorRequest({
+    @_s.required this.requestValidatorId,
+    @_s.required this.restApiId,
+    this.patchOperations,
+  });
+  Map<String, dynamic> toJson() => _$UpdateRequestValidatorRequestToJson(this);
+}
+
+/// Request to change information about a <a>Resource</a> resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateResourceRequest {
+  /// [Required] The identifier of the <a>Resource</a> resource.
+  @_s.JsonKey(name: 'resource_id', ignore: true)
+  final String resourceId;
+
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  /// A list of update operations to be applied to the specified resource and in
+  /// the order specified in this list.
+  @_s.JsonKey(name: 'patchOperations')
+  final List<PatchOperation> patchOperations;
+
+  UpdateResourceRequest({
+    @_s.required this.resourceId,
+    @_s.required this.restApiId,
+    this.patchOperations,
+  });
+  Map<String, dynamic> toJson() => _$UpdateResourceRequestToJson(this);
+}
+
+/// Request to update an existing <a>RestApi</a> resource in your collection.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateRestApiRequest {
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  /// A list of update operations to be applied to the specified resource and in
+  /// the order specified in this list.
+  @_s.JsonKey(name: 'patchOperations')
+  final List<PatchOperation> patchOperations;
+
+  UpdateRestApiRequest({
+    @_s.required this.restApiId,
+    this.patchOperations,
+  });
+  Map<String, dynamic> toJson() => _$UpdateRestApiRequestToJson(this);
+}
+
+/// Requests API Gateway to change information about a <a>Stage</a> resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateStageRequest {
+  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  @_s.JsonKey(name: 'restapi_id', ignore: true)
+  final String restApiId;
+
+  /// [Required] The name of the <a>Stage</a> resource to change information
+  /// about.
+  @_s.JsonKey(name: 'stage_name', ignore: true)
+  final String stageName;
+
+  /// A list of update operations to be applied to the specified resource and in
+  /// the order specified in this list.
+  @_s.JsonKey(name: 'patchOperations')
+  final List<PatchOperation> patchOperations;
+
+  UpdateStageRequest({
+    @_s.required this.restApiId,
+    @_s.required this.stageName,
+    this.patchOperations,
+  });
+  Map<String, dynamic> toJson() => _$UpdateStageRequestToJson(this);
+}
+
+/// The PATCH request to update a usage plan of a given plan Id.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateUsagePlanRequest {
+  /// [Required] The Id of the to-be-updated usage plan.
+  @_s.JsonKey(name: 'usageplanId', ignore: true)
+  final String usagePlanId;
+
+  /// A list of update operations to be applied to the specified resource and in
+  /// the order specified in this list.
+  @_s.JsonKey(name: 'patchOperations')
+  final List<PatchOperation> patchOperations;
+
+  UpdateUsagePlanRequest({
+    @_s.required this.usagePlanId,
+    this.patchOperations,
+  });
+  Map<String, dynamic> toJson() => _$UpdateUsagePlanRequestToJson(this);
+}
+
+/// The PATCH request to grant a temporary extension to the remaining quota of a
+/// usage plan associated with a specified API key.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateUsageRequest {
+  /// [Required] The identifier of the API key associated with the usage plan in
+  /// which a temporary extension is granted to the remaining quota.
+  @_s.JsonKey(name: 'keyId', ignore: true)
+  final String keyId;
+
+  /// [Required] The Id of the usage plan associated with the usage data.
+  @_s.JsonKey(name: 'usageplanId', ignore: true)
+  final String usagePlanId;
+
+  /// A list of update operations to be applied to the specified resource and in
+  /// the order specified in this list.
+  @_s.JsonKey(name: 'patchOperations')
+  final List<PatchOperation> patchOperations;
+
+  UpdateUsageRequest({
+    @_s.required this.keyId,
+    @_s.required this.usagePlanId,
+    this.patchOperations,
+  });
+  Map<String, dynamic> toJson() => _$UpdateUsageRequestToJson(this);
+}
+
+/// Updates an existing <a>VpcLink</a> of a specified identifier.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateVpcLinkRequest {
+  /// [Required] The identifier of the <a>VpcLink</a>. It is used in an
+  /// <a>Integration</a> to reference this <a>VpcLink</a>.
+  @_s.JsonKey(name: 'vpclink_id', ignore: true)
+  final String vpcLinkId;
+
+  /// A list of update operations to be applied to the specified resource and in
+  /// the order specified in this list.
+  @_s.JsonKey(name: 'patchOperations')
+  final List<PatchOperation> patchOperations;
+
+  UpdateVpcLinkRequest({
+    @_s.required this.vpcLinkId,
+    this.patchOperations,
+  });
+  Map<String, dynamic> toJson() => _$UpdateVpcLinkRequestToJson(this);
 }
 
 /// Represents the usage data of a usage plan.

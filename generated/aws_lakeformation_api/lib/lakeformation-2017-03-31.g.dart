@@ -6,6 +6,21 @@ part of 'lakeformation-2017-03-31.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$BatchGrantPermissionsRequestToJson(
+    BatchGrantPermissionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Entries', instance.entries?.map((e) => e?.toJson())?.toList());
+  writeNotNull('CatalogId', instance.catalogId);
+  return val;
+}
+
 BatchGrantPermissionsResponse _$BatchGrantPermissionsResponseFromJson(
     Map<String, dynamic> json) {
   return BatchGrantPermissionsResponse(
@@ -64,6 +79,21 @@ Map<String, dynamic> _$BatchPermissionsRequestEntryToJson(
       'PermissionsWithGrantOption', instance.permissionsWithGrantOption);
   writeNotNull('Principal', instance.principal?.toJson());
   writeNotNull('Resource', instance.resource?.toJson());
+  return val;
+}
+
+Map<String, dynamic> _$BatchRevokePermissionsRequestToJson(
+    BatchRevokePermissionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Entries', instance.entries?.map((e) => e?.toJson())?.toList());
+  writeNotNull('CatalogId', instance.catalogId);
   return val;
 }
 
@@ -211,9 +241,37 @@ Map<String, dynamic> _$DatabaseResourceToJson(DatabaseResource instance) {
   return val;
 }
 
+Map<String, dynamic> _$DeregisterResourceRequestToJson(
+    DeregisterResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  return val;
+}
+
 DeregisterResourceResponse _$DeregisterResourceResponseFromJson(
     Map<String, dynamic> json) {
   return DeregisterResourceResponse();
+}
+
+Map<String, dynamic> _$DescribeResourceRequestToJson(
+    DescribeResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  return val;
 }
 
 DescribeResourceResponse _$DescribeResourceResponseFromJson(
@@ -268,6 +326,20 @@ const _$FieldNameStringEnumMap = {
   FieldNameString.lastModified: 'LAST_MODIFIED',
 };
 
+Map<String, dynamic> _$GetDataLakeSettingsRequestToJson(
+    GetDataLakeSettingsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CatalogId', instance.catalogId);
+  return val;
+}
+
 GetDataLakeSettingsResponse _$GetDataLakeSettingsResponseFromJson(
     Map<String, dynamic> json) {
   return GetDataLakeSettingsResponse(
@@ -276,6 +348,23 @@ GetDataLakeSettingsResponse _$GetDataLakeSettingsResponseFromJson(
         : DataLakeSettings.fromJson(
             json['DataLakeSettings'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetEffectivePermissionsForPathRequestToJson(
+    GetEffectivePermissionsForPathRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('CatalogId', instance.catalogId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 GetEffectivePermissionsForPathResponse
@@ -291,10 +380,56 @@ GetEffectivePermissionsForPathResponse
   );
 }
 
+Map<String, dynamic> _$GrantPermissionsRequestToJson(
+    GrantPermissionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Permissions', instance.permissions);
+  writeNotNull('Principal', instance.principal?.toJson());
+  writeNotNull('Resource', instance.resource?.toJson());
+  writeNotNull('CatalogId', instance.catalogId);
+  writeNotNull(
+      'PermissionsWithGrantOption', instance.permissionsWithGrantOption);
+  return val;
+}
+
 GrantPermissionsResponse _$GrantPermissionsResponseFromJson(
     Map<String, dynamic> json) {
   return GrantPermissionsResponse();
 }
+
+Map<String, dynamic> _$ListPermissionsRequestToJson(
+    ListPermissionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CatalogId', instance.catalogId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('Principal', instance.principal?.toJson());
+  writeNotNull('Resource', instance.resource?.toJson());
+  writeNotNull(
+      'ResourceType', _$DataLakeResourceTypeEnumMap[instance.resourceType]);
+  return val;
+}
+
+const _$DataLakeResourceTypeEnumMap = {
+  DataLakeResourceType.catalog: 'CATALOG',
+  DataLakeResourceType.database: 'DATABASE',
+  DataLakeResourceType.table: 'TABLE',
+  DataLakeResourceType.dataLocation: 'DATA_LOCATION',
+};
 
 ListPermissionsResponse _$ListPermissionsResponseFromJson(
     Map<String, dynamic> json) {
@@ -306,6 +441,23 @@ ListPermissionsResponse _$ListPermissionsResponseFromJson(
             : PrincipalResourcePermissions.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListResourcesRequestToJson(
+    ListResourcesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FilterConditionList',
+      instance.filterConditionList?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListResourcesResponse _$ListResourcesResponseFromJson(
@@ -361,9 +513,40 @@ PrincipalResourcePermissions _$PrincipalResourcePermissionsFromJson(
   );
 }
 
+Map<String, dynamic> _$PutDataLakeSettingsRequestToJson(
+    PutDataLakeSettingsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DataLakeSettings', instance.dataLakeSettings?.toJson());
+  writeNotNull('CatalogId', instance.catalogId);
+  return val;
+}
+
 PutDataLakeSettingsResponse _$PutDataLakeSettingsResponseFromJson(
     Map<String, dynamic> json) {
   return PutDataLakeSettingsResponse();
+}
+
+Map<String, dynamic> _$RegisterResourceRequestToJson(
+    RegisterResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('RoleArn', instance.roleArn);
+  writeNotNull('UseServiceLinkedRole', instance.useServiceLinkedRole);
+  return val;
 }
 
 RegisterResourceResponse _$RegisterResourceResponseFromJson(
@@ -416,6 +599,25 @@ ResourceInfo _$ResourceInfoFromJson(Map<String, dynamic> json) {
     resourceArn: json['ResourceArn'] as String,
     roleArn: json['RoleArn'] as String,
   );
+}
+
+Map<String, dynamic> _$RevokePermissionsRequestToJson(
+    RevokePermissionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Permissions', instance.permissions);
+  writeNotNull('Principal', instance.principal?.toJson());
+  writeNotNull('Resource', instance.resource?.toJson());
+  writeNotNull('CatalogId', instance.catalogId);
+  writeNotNull(
+      'PermissionsWithGrantOption', instance.permissionsWithGrantOption);
+  return val;
 }
 
 RevokePermissionsResponse _$RevokePermissionsResponseFromJson(
@@ -472,6 +674,21 @@ Map<String, dynamic> _$TableWithColumnsResourceToJson(
   writeNotNull('ColumnWildcard', instance.columnWildcard?.toJson());
   writeNotNull('DatabaseName', instance.databaseName);
   writeNotNull('Name', instance.name);
+  return val;
+}
+
+Map<String, dynamic> _$UpdateResourceRequestToJson(
+    UpdateResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('RoleArn', instance.roleArn);
   return val;
 }
 

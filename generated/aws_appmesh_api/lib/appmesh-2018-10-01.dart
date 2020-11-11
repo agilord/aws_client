@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -107,10 +106,10 @@ class AppMesh {
       255,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'meshName': meshName,
-      if (clientToken != null) 'clientToken': clientToken,
-    };
+    final $payload = CreateMeshInput(
+      meshName: meshName,
+      clientToken: clientToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -192,11 +191,13 @@ class AppMesh {
       255,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'routeName': routeName,
-      'spec': spec,
-      if (clientToken != null) 'clientToken': clientToken,
-    };
+    final $payload = CreateRouteInput(
+      meshName: meshName,
+      routeName: routeName,
+      spec: spec,
+      virtualRouterName: virtualRouterName,
+      clientToken: clientToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -291,11 +292,12 @@ class AppMesh {
       255,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'spec': spec,
-      'virtualNodeName': virtualNodeName,
-      if (clientToken != null) 'clientToken': clientToken,
-    };
+    final $payload = CreateVirtualNodeInput(
+      meshName: meshName,
+      spec: spec,
+      virtualNodeName: virtualNodeName,
+      clientToken: clientToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -361,11 +363,12 @@ class AppMesh {
       255,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'spec': spec,
-      'virtualRouterName': virtualRouterName,
-      if (clientToken != null) 'clientToken': clientToken,
-    };
+    final $payload = CreateVirtualRouterInput(
+      meshName: meshName,
+      spec: spec,
+      virtualRouterName: virtualRouterName,
+      clientToken: clientToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -405,7 +408,9 @@ class AppMesh {
       255,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteMeshInput(
+      meshName: meshName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -462,7 +467,11 @@ class AppMesh {
       255,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteRouteInput(
+      meshName: meshName,
+      routeName: routeName,
+      virtualRouterName: virtualRouterName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -508,7 +517,10 @@ class AppMesh {
       255,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteVirtualNodeInput(
+      meshName: meshName,
+      virtualNodeName: virtualNodeName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -560,7 +572,10 @@ class AppMesh {
       255,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteVirtualRouterInput(
+      meshName: meshName,
+      virtualRouterName: virtualRouterName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1082,10 +1097,13 @@ class AppMesh {
       255,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'spec': spec,
-      if (clientToken != null) 'clientToken': clientToken,
-    };
+    final $payload = UpdateRouteInput(
+      meshName: meshName,
+      routeName: routeName,
+      spec: spec,
+      virtualRouterName: virtualRouterName,
+      clientToken: clientToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1144,10 +1162,12 @@ class AppMesh {
       255,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'spec': spec,
-      if (clientToken != null) 'clientToken': clientToken,
-    };
+    final $payload = UpdateVirtualNodeInput(
+      meshName: meshName,
+      spec: spec,
+      virtualNodeName: virtualNodeName,
+      clientToken: clientToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1207,10 +1227,12 @@ class AppMesh {
       255,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'spec': spec,
-      if (clientToken != null) 'clientToken': clientToken,
-    };
+    final $payload = UpdateVirtualRouterInput(
+      meshName: meshName,
+      spec: spec,
+      virtualRouterName: virtualRouterName,
+      clientToken: clientToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1312,6 +1334,27 @@ class CreateRouteOutput {
   });
   factory CreateRouteOutput.fromJson(Map<String, dynamic> json) =>
       _$CreateRouteOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteVirtualNodeInput {
+  /// The name of the service mesh in which to delete the virtual node.
+  @_s.JsonKey(name: 'meshName', ignore: true)
+  final String meshName;
+
+  /// The name of the virtual node to delete.
+  @_s.JsonKey(name: 'virtualNodeName', ignore: true)
+  final String virtualNodeName;
+
+  DeleteVirtualNodeInput({
+    @_s.required this.meshName,
+    @_s.required this.virtualNodeName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteVirtualNodeInputToJson(this);
 }
 
 /// The DNS service discovery information for your virtual node.
@@ -1585,6 +1628,39 @@ class CreateVirtualRouterOutput {
       _$CreateVirtualRouterOutputFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateVirtualRouterInput {
+  /// The name of the service mesh in which to create the virtual router.
+  @_s.JsonKey(name: 'meshName', ignore: true)
+  final String meshName;
+
+  /// The virtual router specification to apply.
+  @_s.JsonKey(name: 'spec')
+  final VirtualRouterSpec spec;
+
+  /// The name to use for the virtual router.
+  @_s.JsonKey(name: 'virtualRouterName')
+  final String virtualRouterName;
+
+  /// Unique, case-sensitive identifier that you provide to ensure the idempotency
+  /// of the
+  /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  CreateVirtualRouterInput({
+    @_s.required this.meshName,
+    @_s.required this.spec,
+    @_s.required this.virtualRouterName,
+    this.clientToken,
+  });
+  Map<String, dynamic> toJson() => _$CreateVirtualRouterInputToJson(this);
+}
+
 /// An object representing the current status of a route.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1723,6 +1799,66 @@ class RouteData {
   });
   factory RouteData.fromJson(Map<String, dynamic> json) =>
       _$RouteDataFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateVirtualNodeInput {
+  /// The name of the service mesh in which the virtual node resides.
+  @_s.JsonKey(name: 'meshName', ignore: true)
+  final String meshName;
+
+  /// The new virtual node specification to apply. This overwrites the existing
+  /// data.
+  @_s.JsonKey(name: 'spec')
+  final VirtualNodeSpec spec;
+
+  /// The name of the virtual node to update.
+  @_s.JsonKey(name: 'virtualNodeName', ignore: true)
+  final String virtualNodeName;
+
+  /// Unique, case-sensitive identifier that you provide to ensure the idempotency
+  /// of the
+  /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  UpdateVirtualNodeInput({
+    @_s.required this.meshName,
+    @_s.required this.spec,
+    @_s.required this.virtualNodeName,
+    this.clientToken,
+  });
+  Map<String, dynamic> toJson() => _$UpdateVirtualNodeInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteRouteInput {
+  /// The name of the service mesh in which to delete the route.
+  @_s.JsonKey(name: 'meshName', ignore: true)
+  final String meshName;
+
+  /// The name of the route to delete.
+  @_s.JsonKey(name: 'routeName', ignore: true)
+  final String routeName;
+
+  /// The name of the virtual router in which to delete the route.
+  @_s.JsonKey(name: 'virtualRouterName', ignore: true)
+  final String virtualRouterName;
+
+  DeleteRouteInput({
+    @_s.required this.meshName,
+    @_s.required this.routeName,
+    @_s.required this.virtualRouterName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteRouteInputToJson(this);
 }
 
 /// An object representing the HTTP routing specification for a route.
@@ -1882,6 +2018,40 @@ class DeleteVirtualNodeOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateVirtualRouterInput {
+  /// The name of the service mesh in which the virtual router resides.
+  @_s.JsonKey(name: 'meshName', ignore: true)
+  final String meshName;
+
+  /// The new virtual router specification to apply. This overwrites the existing
+  /// data.
+  @_s.JsonKey(name: 'spec')
+  final VirtualRouterSpec spec;
+
+  /// The name of the virtual router to update.
+  @_s.JsonKey(name: 'virtualRouterName', ignore: true)
+  final String virtualRouterName;
+
+  /// Unique, case-sensitive identifier that you provide to ensure the idempotency
+  /// of the
+  /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  UpdateVirtualRouterInput({
+    @_s.required this.meshName,
+    @_s.required this.spec,
+    @_s.required this.virtualRouterName,
+    this.clientToken,
+  });
+  Map<String, dynamic> toJson() => _$UpdateVirtualRouterInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListVirtualRoutersOutput {
@@ -2014,6 +2184,29 @@ class ResourceMetadata {
       _$ResourceMetadataFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateMeshInput {
+  /// The name to use for the service mesh.
+  @_s.JsonKey(name: 'meshName')
+  final String meshName;
+
+  /// Unique, case-sensitive identifier that you provide to ensure the idempotency
+  /// of the
+  /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  CreateMeshInput({
+    @_s.required this.meshName,
+    this.clientToken,
+  });
+  Map<String, dynamic> toJson() => _$CreateMeshInputToJson(this);
+}
+
 /// An object representing a virtual node listener port mapping.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2048,6 +2241,27 @@ enum VirtualNodeStatusCode {
   inactive,
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteVirtualRouterInput {
+  /// The name of the service mesh in which to delete the virtual router.
+  @_s.JsonKey(name: 'meshName', ignore: true)
+  final String meshName;
+
+  /// The name of the virtual router to delete.
+  @_s.JsonKey(name: 'virtualRouterName', ignore: true)
+  final String virtualRouterName;
+
+  DeleteVirtualRouterInput({
+    @_s.required this.meshName,
+    @_s.required this.virtualRouterName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteVirtualRouterInputToJson(this);
+}
+
 /// An object representing the specification of a virtual router.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2066,6 +2280,44 @@ class VirtualRouterSpec {
       _$VirtualRouterSpecFromJson(json);
 
   Map<String, dynamic> toJson() => _$VirtualRouterSpecToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateRouteInput {
+  /// The name of the service mesh in which the route resides.
+  @_s.JsonKey(name: 'meshName', ignore: true)
+  final String meshName;
+
+  /// The name of the route to update.
+  @_s.JsonKey(name: 'routeName', ignore: true)
+  final String routeName;
+
+  /// The new route specification to apply. This overwrites the existing data.
+  @_s.JsonKey(name: 'spec')
+  final RouteSpec spec;
+
+  /// The name of the virtual router with which the route is associated.
+  @_s.JsonKey(name: 'virtualRouterName', ignore: true)
+  final String virtualRouterName;
+
+  /// Unique, case-sensitive identifier that you provide to ensure the idempotency
+  /// of the
+  /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  UpdateRouteInput({
+    @_s.required this.meshName,
+    @_s.required this.routeName,
+    @_s.required this.spec,
+    @_s.required this.virtualRouterName,
+    this.clientToken,
+  });
+  Map<String, dynamic> toJson() => _$UpdateRouteInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2210,6 +2462,39 @@ class HealthCheckPolicy {
   Map<String, dynamic> toJson() => _$HealthCheckPolicyToJson(this);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateVirtualNodeInput {
+  /// The name of the service mesh in which to create the virtual node.
+  @_s.JsonKey(name: 'meshName', ignore: true)
+  final String meshName;
+
+  /// The virtual node specification to apply.
+  @_s.JsonKey(name: 'spec')
+  final VirtualNodeSpec spec;
+
+  /// The name to use for the virtual node.
+  @_s.JsonKey(name: 'virtualNodeName')
+  final String virtualNodeName;
+
+  /// Unique, case-sensitive identifier that you provide to ensure the idempotency
+  /// of the
+  /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  CreateVirtualNodeInput({
+    @_s.required this.meshName,
+    @_s.required this.spec,
+    @_s.required this.virtualNodeName,
+    this.clientToken,
+  });
+  Map<String, dynamic> toJson() => _$CreateVirtualNodeInputToJson(this);
+}
+
 /// An object representing a service mesh returned by a describe operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2236,6 +2521,22 @@ class MeshData {
   });
   factory MeshData.fromJson(Map<String, dynamic> json) =>
       _$MeshDataFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteMeshInput {
+  /// The name of the service mesh to delete.
+  @_s.JsonKey(name: 'meshName', ignore: true)
+  final String meshName;
+
+  DeleteMeshInput({
+    @_s.required this.meshName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteMeshInputToJson(this);
 }
 
 /// An object representing the requirements for a route to match HTTP requests
@@ -2284,6 +2585,44 @@ class DeleteRouteOutput {
   });
   factory DeleteRouteOutput.fromJson(Map<String, dynamic> json) =>
       _$DeleteRouteOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateRouteInput {
+  /// The name of the service mesh in which to create the route.
+  @_s.JsonKey(name: 'meshName', ignore: true)
+  final String meshName;
+
+  /// The name to use for the route.
+  @_s.JsonKey(name: 'routeName')
+  final String routeName;
+
+  /// The route specification to apply.
+  @_s.JsonKey(name: 'spec')
+  final RouteSpec spec;
+
+  /// The name of the virtual router in which to create the route.
+  @_s.JsonKey(name: 'virtualRouterName', ignore: true)
+  final String virtualRouterName;
+
+  /// Unique, case-sensitive identifier that you provide to ensure the idempotency
+  /// of the
+  /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  CreateRouteInput({
+    @_s.required this.meshName,
+    @_s.required this.routeName,
+    @_s.required this.spec,
+    @_s.required this.virtualRouterName,
+    this.clientToken,
+  });
+  Map<String, dynamic> toJson() => _$CreateRouteInputToJson(this);
 }
 
 /// An object representing the current status of the virtual node.

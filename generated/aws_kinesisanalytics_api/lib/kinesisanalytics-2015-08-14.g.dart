@@ -6,10 +6,47 @@ part of 'kinesisanalytics-2015-08-14.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$AddApplicationCloudWatchLoggingOptionRequestToJson(
+    AddApplicationCloudWatchLoggingOptionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ApplicationName', instance.applicationName);
+  writeNotNull(
+      'CloudWatchLoggingOption', instance.cloudWatchLoggingOption?.toJson());
+  writeNotNull(
+      'CurrentApplicationVersionId', instance.currentApplicationVersionId);
+  return val;
+}
+
 AddApplicationCloudWatchLoggingOptionResponse
     _$AddApplicationCloudWatchLoggingOptionResponseFromJson(
         Map<String, dynamic> json) {
   return AddApplicationCloudWatchLoggingOptionResponse();
+}
+
+Map<String, dynamic> _$AddApplicationInputProcessingConfigurationRequestToJson(
+    AddApplicationInputProcessingConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ApplicationName', instance.applicationName);
+  writeNotNull(
+      'CurrentApplicationVersionId', instance.currentApplicationVersionId);
+  writeNotNull('InputId', instance.inputId);
+  writeNotNull('InputProcessingConfiguration',
+      instance.inputProcessingConfiguration?.toJson());
+  return val;
 }
 
 AddApplicationInputProcessingConfigurationResponse
@@ -18,14 +55,65 @@ AddApplicationInputProcessingConfigurationResponse
   return AddApplicationInputProcessingConfigurationResponse();
 }
 
+Map<String, dynamic> _$AddApplicationInputRequestToJson(
+    AddApplicationInputRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ApplicationName', instance.applicationName);
+  writeNotNull(
+      'CurrentApplicationVersionId', instance.currentApplicationVersionId);
+  writeNotNull('Input', instance.input?.toJson());
+  return val;
+}
+
 AddApplicationInputResponse _$AddApplicationInputResponseFromJson(
     Map<String, dynamic> json) {
   return AddApplicationInputResponse();
 }
 
+Map<String, dynamic> _$AddApplicationOutputRequestToJson(
+    AddApplicationOutputRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ApplicationName', instance.applicationName);
+  writeNotNull(
+      'CurrentApplicationVersionId', instance.currentApplicationVersionId);
+  writeNotNull('Output', instance.output?.toJson());
+  return val;
+}
+
 AddApplicationOutputResponse _$AddApplicationOutputResponseFromJson(
     Map<String, dynamic> json) {
   return AddApplicationOutputResponse();
+}
+
+Map<String, dynamic> _$AddApplicationReferenceDataSourceRequestToJson(
+    AddApplicationReferenceDataSourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ApplicationName', instance.applicationName);
+  writeNotNull(
+      'CurrentApplicationVersionId', instance.currentApplicationVersionId);
+  writeNotNull('ReferenceDataSource', instance.referenceDataSource?.toJson());
+  return val;
 }
 
 AddApplicationReferenceDataSourceResponse
@@ -208,6 +296,27 @@ Map<String, dynamic> _$CloudWatchLoggingOptionUpdateToJson(
   return val;
 }
 
+Map<String, dynamic> _$CreateApplicationRequestToJson(
+    CreateApplicationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ApplicationName', instance.applicationName);
+  writeNotNull('ApplicationCode', instance.applicationCode);
+  writeNotNull('ApplicationDescription', instance.applicationDescription);
+  writeNotNull('CloudWatchLoggingOptions',
+      instance.cloudWatchLoggingOptions?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Inputs', instance.inputs?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Outputs', instance.outputs?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateApplicationResponse _$CreateApplicationResponseFromJson(
     Map<String, dynamic> json) {
   return CreateApplicationResponse(
@@ -218,10 +327,45 @@ CreateApplicationResponse _$CreateApplicationResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteApplicationCloudWatchLoggingOptionRequestToJson(
+    DeleteApplicationCloudWatchLoggingOptionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ApplicationName', instance.applicationName);
+  writeNotNull('CloudWatchLoggingOptionId', instance.cloudWatchLoggingOptionId);
+  writeNotNull(
+      'CurrentApplicationVersionId', instance.currentApplicationVersionId);
+  return val;
+}
+
 DeleteApplicationCloudWatchLoggingOptionResponse
     _$DeleteApplicationCloudWatchLoggingOptionResponseFromJson(
         Map<String, dynamic> json) {
   return DeleteApplicationCloudWatchLoggingOptionResponse();
+}
+
+Map<String, dynamic>
+    _$DeleteApplicationInputProcessingConfigurationRequestToJson(
+        DeleteApplicationInputProcessingConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ApplicationName', instance.applicationName);
+  writeNotNull(
+      'CurrentApplicationVersionId', instance.currentApplicationVersionId);
+  writeNotNull('InputId', instance.inputId);
+  return val;
 }
 
 DeleteApplicationInputProcessingConfigurationResponse
@@ -230,9 +374,43 @@ DeleteApplicationInputProcessingConfigurationResponse
   return DeleteApplicationInputProcessingConfigurationResponse();
 }
 
+Map<String, dynamic> _$DeleteApplicationOutputRequestToJson(
+    DeleteApplicationOutputRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ApplicationName', instance.applicationName);
+  writeNotNull(
+      'CurrentApplicationVersionId', instance.currentApplicationVersionId);
+  writeNotNull('OutputId', instance.outputId);
+  return val;
+}
+
 DeleteApplicationOutputResponse _$DeleteApplicationOutputResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteApplicationOutputResponse();
+}
+
+Map<String, dynamic> _$DeleteApplicationReferenceDataSourceRequestToJson(
+    DeleteApplicationReferenceDataSourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ApplicationName', instance.applicationName);
+  writeNotNull(
+      'CurrentApplicationVersionId', instance.currentApplicationVersionId);
+  writeNotNull('ReferenceId', instance.referenceId);
+  return val;
 }
 
 DeleteApplicationReferenceDataSourceResponse
@@ -241,9 +419,39 @@ DeleteApplicationReferenceDataSourceResponse
   return DeleteApplicationReferenceDataSourceResponse();
 }
 
+Map<String, dynamic> _$DeleteApplicationRequestToJson(
+    DeleteApplicationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ApplicationName', instance.applicationName);
+  writeNotNull(
+      'CreateTimestamp', unixTimestampToJson(instance.createTimestamp));
+  return val;
+}
+
 DeleteApplicationResponse _$DeleteApplicationResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteApplicationResponse();
+}
+
+Map<String, dynamic> _$DescribeApplicationRequestToJson(
+    DescribeApplicationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ApplicationName', instance.applicationName);
+  return val;
 }
 
 DescribeApplicationResponse _$DescribeApplicationResponseFromJson(
@@ -281,6 +489,26 @@ const _$RecordFormatTypeEnumMap = {
   RecordFormatType.json: 'JSON',
   RecordFormatType.csv: 'CSV',
 };
+
+Map<String, dynamic> _$DiscoverInputSchemaRequestToJson(
+    DiscoverInputSchemaRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InputProcessingConfiguration',
+      instance.inputProcessingConfiguration?.toJson());
+  writeNotNull('InputStartingPositionConfiguration',
+      instance.inputStartingPositionConfiguration?.toJson());
+  writeNotNull('ResourceARN', instance.resourceARN);
+  writeNotNull('RoleARN', instance.roleARN);
+  writeNotNull('S3Configuration', instance.s3Configuration?.toJson());
+  return val;
+}
 
 DiscoverInputSchemaResponse _$DiscoverInputSchemaResponseFromJson(
     Map<String, dynamic> json) {
@@ -759,6 +987,22 @@ Map<String, dynamic> _$LambdaOutputUpdateToJson(LambdaOutputUpdate instance) {
   return val;
 }
 
+Map<String, dynamic> _$ListApplicationsRequestToJson(
+    ListApplicationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'ExclusiveStartApplicationName', instance.exclusiveStartApplicationName);
+  writeNotNull('Limit', instance.limit);
+  return val;
+}
+
 ListApplicationsResponse _$ListApplicationsResponseFromJson(
     Map<String, dynamic> json) {
   return ListApplicationsResponse(
@@ -769,6 +1013,20 @@ ListApplicationsResponse _$ListApplicationsResponseFromJson(
         ?.toList(),
     hasMoreApplications: json['HasMoreApplications'] as bool,
   );
+}
+
+Map<String, dynamic> _$ListTagsForResourceRequestToJson(
+    ListTagsForResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARN', instance.resourceARN);
+  return val;
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
@@ -1060,9 +1318,39 @@ Map<String, dynamic> _$SourceSchemaToJson(SourceSchema instance) {
   return val;
 }
 
+Map<String, dynamic> _$StartApplicationRequestToJson(
+    StartApplicationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ApplicationName', instance.applicationName);
+  writeNotNull('InputConfigurations',
+      instance.inputConfigurations?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 StartApplicationResponse _$StartApplicationResponseFromJson(
     Map<String, dynamic> json) {
   return StartApplicationResponse();
+}
+
+Map<String, dynamic> _$StopApplicationRequestToJson(
+    StopApplicationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ApplicationName', instance.applicationName);
+  return val;
 }
 
 StopApplicationResponse _$StopApplicationResponseFromJson(
@@ -1091,13 +1379,59 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
   return val;
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARN', instance.resourceARN);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
+}
+
+Map<String, dynamic> _$UntagResourceRequestToJson(
+    UntagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARN', instance.resourceARN);
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
 }
 
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse();
+}
+
+Map<String, dynamic> _$UpdateApplicationRequestToJson(
+    UpdateApplicationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ApplicationName', instance.applicationName);
+  writeNotNull('ApplicationUpdate', instance.applicationUpdate?.toJson());
+  writeNotNull(
+      'CurrentApplicationVersionId', instance.currentApplicationVersionId);
+  return val;
 }
 
 UpdateApplicationResponse _$UpdateApplicationResponseFromJson(

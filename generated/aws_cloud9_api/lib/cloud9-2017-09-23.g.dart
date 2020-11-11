@@ -6,12 +6,54 @@ part of 'cloud9-2017-09-23.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$CreateEnvironmentEC2RequestToJson(
+    CreateEnvironmentEC2Request instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('instanceType', instance.instanceType);
+  writeNotNull('name', instance.name);
+  writeNotNull('automaticStopTimeMinutes', instance.automaticStopTimeMinutes);
+  writeNotNull('clientRequestToken', instance.clientRequestToken);
+  writeNotNull('description', instance.description);
+  writeNotNull('ownerArn', instance.ownerArn);
+  writeNotNull('subnetId', instance.subnetId);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateEnvironmentEC2Result _$CreateEnvironmentEC2ResultFromJson(
     Map<String, dynamic> json) {
   return CreateEnvironmentEC2Result(
     environmentId: json['environmentId'] as String,
   );
 }
+
+Map<String, dynamic> _$CreateEnvironmentMembershipRequestToJson(
+    CreateEnvironmentMembershipRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('environmentId', instance.environmentId);
+  writeNotNull('permissions', _$MemberPermissionsEnumMap[instance.permissions]);
+  writeNotNull('userArn', instance.userArn);
+  return val;
+}
+
+const _$MemberPermissionsEnumMap = {
+  MemberPermissions.readWrite: 'read-write',
+  MemberPermissions.readOnly: 'read-only',
+};
 
 CreateEnvironmentMembershipResult _$CreateEnvironmentMembershipResultFromJson(
     Map<String, dynamic> json) {
@@ -23,14 +65,61 @@ CreateEnvironmentMembershipResult _$CreateEnvironmentMembershipResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteEnvironmentMembershipRequestToJson(
+    DeleteEnvironmentMembershipRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('environmentId', instance.environmentId);
+  writeNotNull('userArn', instance.userArn);
+  return val;
+}
+
 DeleteEnvironmentMembershipResult _$DeleteEnvironmentMembershipResultFromJson(
     Map<String, dynamic> json) {
   return DeleteEnvironmentMembershipResult();
 }
 
+Map<String, dynamic> _$DeleteEnvironmentRequestToJson(
+    DeleteEnvironmentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('environmentId', instance.environmentId);
+  return val;
+}
+
 DeleteEnvironmentResult _$DeleteEnvironmentResultFromJson(
     Map<String, dynamic> json) {
   return DeleteEnvironmentResult();
+}
+
+Map<String, dynamic> _$DescribeEnvironmentMembershipsRequestToJson(
+    DescribeEnvironmentMembershipsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('environmentId', instance.environmentId);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('permissions', instance.permissions);
+  writeNotNull('userArn', instance.userArn);
+  return val;
 }
 
 DescribeEnvironmentMembershipsResult
@@ -43,6 +132,20 @@ DescribeEnvironmentMembershipsResult
         ?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeEnvironmentStatusRequestToJson(
+    DescribeEnvironmentStatusRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('environmentId', instance.environmentId);
+  return val;
 }
 
 DescribeEnvironmentStatusResult _$DescribeEnvironmentStatusResultFromJson(
@@ -94,6 +197,20 @@ const _$EnvironmentStatusEnumMap = {
   EnvironmentStatus.stopped: 'stopped',
   EnvironmentStatus.deleting: 'deleting',
 };
+
+Map<String, dynamic> _$DescribeEnvironmentsRequestToJson(
+    DescribeEnvironmentsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('environmentIds', instance.environmentIds);
+  return val;
+}
 
 DescribeEnvironmentsResult _$DescribeEnvironmentsResultFromJson(
     Map<String, dynamic> json) {
@@ -159,6 +276,21 @@ const _$PermissionsEnumMap = {
   Permissions.readOnly: 'read-only',
 };
 
+Map<String, dynamic> _$ListEnvironmentsRequestToJson(
+    ListEnvironmentsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 ListEnvironmentsResult _$ListEnvironmentsResultFromJson(
     Map<String, dynamic> json) {
   return ListEnvironmentsResult(
@@ -166,6 +298,20 @@ ListEnvironmentsResult _$ListEnvironmentsResultFromJson(
         (json['environmentIds'] as List)?.map((e) => e as String)?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListTagsForResourceRequestToJson(
+    ListTagsForResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARN', instance.resourceARN);
+  return val;
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
@@ -198,13 +344,58 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
   return val;
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARN', instance.resourceARN);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
+}
+
+Map<String, dynamic> _$UntagResourceRequestToJson(
+    UntagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARN', instance.resourceARN);
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
 }
 
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse();
+}
+
+Map<String, dynamic> _$UpdateEnvironmentMembershipRequestToJson(
+    UpdateEnvironmentMembershipRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('environmentId', instance.environmentId);
+  writeNotNull('permissions', _$MemberPermissionsEnumMap[instance.permissions]);
+  writeNotNull('userArn', instance.userArn);
+  return val;
 }
 
 UpdateEnvironmentMembershipResult _$UpdateEnvironmentMembershipResultFromJson(
@@ -215,6 +406,22 @@ UpdateEnvironmentMembershipResult _$UpdateEnvironmentMembershipResultFromJson(
         : EnvironmentMember.fromJson(
             json['membership'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateEnvironmentRequestToJson(
+    UpdateEnvironmentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('environmentId', instance.environmentId);
+  writeNotNull('description', instance.description);
+  writeNotNull('name', instance.name);
+  return val;
 }
 
 UpdateEnvironmentResult _$UpdateEnvironmentResultFromJson(

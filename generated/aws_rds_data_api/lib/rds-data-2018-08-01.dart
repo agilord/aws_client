@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -151,15 +150,15 @@ class RDSDataService {
       0,
       192,
     );
-    final $payload = <String, dynamic>{
-      'resourceArn': resourceArn,
-      'secretArn': secretArn,
-      'sql': sql,
-      if (database != null) 'database': database,
-      if (parameterSets != null) 'parameterSets': parameterSets,
-      if (schema != null) 'schema': schema,
-      if (transactionId != null) 'transactionId': transactionId,
-    };
+    final $payload = BatchExecuteStatementRequest(
+      resourceArn: resourceArn,
+      secretArn: secretArn,
+      sql: sql,
+      database: database,
+      parameterSets: parameterSets,
+      schema: schema,
+      transactionId: transactionId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -232,12 +231,12 @@ class RDSDataService {
       0,
       64,
     );
-    final $payload = <String, dynamic>{
-      'resourceArn': resourceArn,
-      'secretArn': secretArn,
-      if (database != null) 'database': database,
-      if (schema != null) 'schema': schema,
-    };
+    final $payload = BeginTransactionRequest(
+      resourceArn: resourceArn,
+      secretArn: secretArn,
+      database: database,
+      schema: schema,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -294,11 +293,11 @@ class RDSDataService {
       192,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'resourceArn': resourceArn,
-      'secretArn': secretArn,
-      'transactionId': transactionId,
-    };
+    final $payload = CommitTransactionRequest(
+      resourceArn: resourceArn,
+      secretArn: secretArn,
+      transactionId: transactionId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -383,13 +382,13 @@ class RDSDataService {
       0,
       64,
     );
-    final $payload = <String, dynamic>{
-      'awsSecretStoreArn': awsSecretStoreArn,
-      'dbClusterOrInstanceArn': dbClusterOrInstanceArn,
-      'sqlStatements': sqlStatements,
-      if (database != null) 'database': database,
-      if (schema != null) 'schema': schema,
-    };
+    final $payload = ExecuteSqlRequest(
+      awsSecretStoreArn: awsSecretStoreArn,
+      dbClusterOrInstanceArn: dbClusterOrInstanceArn,
+      sqlStatements: sqlStatements,
+      database: database,
+      schema: schema,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -512,20 +511,18 @@ class RDSDataService {
       0,
       192,
     );
-    final $payload = <String, dynamic>{
-      'resourceArn': resourceArn,
-      'secretArn': secretArn,
-      'sql': sql,
-      if (continueAfterTimeout != null)
-        'continueAfterTimeout': continueAfterTimeout,
-      if (database != null) 'database': database,
-      if (includeResultMetadata != null)
-        'includeResultMetadata': includeResultMetadata,
-      if (parameters != null) 'parameters': parameters,
-      if (resultSetOptions != null) 'resultSetOptions': resultSetOptions,
-      if (schema != null) 'schema': schema,
-      if (transactionId != null) 'transactionId': transactionId,
-    };
+    final $payload = ExecuteStatementRequest(
+      resourceArn: resourceArn,
+      secretArn: secretArn,
+      sql: sql,
+      continueAfterTimeout: continueAfterTimeout,
+      database: database,
+      includeResultMetadata: includeResultMetadata,
+      parameters: parameters,
+      resultSetOptions: resultSetOptions,
+      schema: schema,
+      transactionId: transactionId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -582,11 +579,11 @@ class RDSDataService {
       192,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'resourceArn': resourceArn,
-      'secretArn': secretArn,
-      'transactionId': transactionId,
-    };
+    final $payload = RollbackTransactionRequest(
+      resourceArn: resourceArn,
+      secretArn: secretArn,
+      transactionId: transactionId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -637,6 +634,74 @@ class ArrayValue {
   Map<String, dynamic> toJson() => _$ArrayValueToJson(this);
 }
 
+/// The request parameters represent the input of a SQL statement over an array
+/// of data.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchExecuteStatementRequest {
+  /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  /// The name or ARN of the secret that enables access to the DB cluster.
+  @_s.JsonKey(name: 'secretArn')
+  final String secretArn;
+
+  /// The SQL statement to run.
+  @_s.JsonKey(name: 'sql')
+  final String sql;
+
+  /// The name of the database.
+  @_s.JsonKey(name: 'database')
+  final String database;
+
+  /// The parameter set for the batch operation.
+  ///
+  /// The SQL statement is executed as many times as the number of parameter sets
+  /// provided. To execute a SQL statement with no parameters, use one of the
+  /// following options:
+  ///
+  /// <ul>
+  /// <li>
+  /// Specify one or more empty parameter sets.
+  /// </li>
+  /// <li>
+  /// Use the <code>ExecuteStatement</code> operation instead of the
+  /// <code>BatchExecuteStatement</code> operation.
+  /// </li>
+  /// </ul> <note>
+  /// Array parameters are not supported.
+  /// </note>
+  @_s.JsonKey(name: 'parameterSets')
+  final List<List<SqlParameter>> parameterSets;
+
+  /// The name of the database schema.
+  @_s.JsonKey(name: 'schema')
+  final String schema;
+
+  /// The identifier of a transaction that was started by using the
+  /// <code>BeginTransaction</code> operation. Specify the transaction ID of the
+  /// transaction that you want to include the SQL statement in.
+  ///
+  /// If the SQL statement is not part of a transaction, don't set this parameter.
+  @_s.JsonKey(name: 'transactionId')
+  final String transactionId;
+
+  BatchExecuteStatementRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.secretArn,
+    @_s.required this.sql,
+    this.database,
+    this.parameterSets,
+    this.schema,
+    this.transactionId,
+  });
+  Map<String, dynamic> toJson() => _$BatchExecuteStatementRequestToJson(this);
+}
+
 /// The response elements represent the output of a SQL statement over an array
 /// of data.
 @_s.JsonSerializable(
@@ -654,6 +719,39 @@ class BatchExecuteStatementResponse {
   });
   factory BatchExecuteStatementResponse.fromJson(Map<String, dynamic> json) =>
       _$BatchExecuteStatementResponseFromJson(json);
+}
+
+/// The request parameters represent the input of a request to start a SQL
+/// transaction.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BeginTransactionRequest {
+  /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  /// The name or ARN of the secret that enables access to the DB cluster.
+  @_s.JsonKey(name: 'secretArn')
+  final String secretArn;
+
+  /// The name of the database.
+  @_s.JsonKey(name: 'database')
+  final String database;
+
+  /// The name of the database schema.
+  @_s.JsonKey(name: 'schema')
+  final String schema;
+
+  BeginTransactionRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.secretArn,
+    this.database,
+    this.schema,
+  });
+  Map<String, dynamic> toJson() => _$BeginTransactionRequestToJson(this);
 }
 
 /// The response elements represent the output of a request to start a SQL
@@ -758,6 +856,33 @@ class ColumnMetadata {
       _$ColumnMetadataFromJson(json);
 }
 
+/// The request parameters represent the input of a commit transaction request.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CommitTransactionRequest {
+  /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  /// The name or ARN of the secret that enables access to the DB cluster.
+  @_s.JsonKey(name: 'secretArn')
+  final String secretArn;
+
+  /// The identifier of the transaction to end and commit.
+  @_s.JsonKey(name: 'transactionId')
+  final String transactionId;
+
+  CommitTransactionRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.secretArn,
+    @_s.required this.transactionId,
+  });
+  Map<String, dynamic> toJson() => _$CommitTransactionRequestToJson(this);
+}
+
 /// The response elements represent the output of a commit transaction request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -783,6 +908,49 @@ enum DecimalReturnType {
   string,
 }
 
+/// The request parameters represent the input of a request to run one or more
+/// SQL statements.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ExecuteSqlRequest {
+  /// The Amazon Resource Name (ARN) of the secret that enables access to the DB
+  /// cluster.
+  @_s.JsonKey(name: 'awsSecretStoreArn')
+  final String awsSecretStoreArn;
+
+  /// The ARN of the Aurora Serverless DB cluster.
+  @_s.JsonKey(name: 'dbClusterOrInstanceArn')
+  final String dbClusterOrInstanceArn;
+
+  /// One or more SQL statements to run on the DB cluster.
+  ///
+  /// You can separate SQL statements from each other with a semicolon (;). Any
+  /// valid SQL statement is permitted, including data definition, data
+  /// manipulation, and commit statements.
+  @_s.JsonKey(name: 'sqlStatements')
+  final String sqlStatements;
+
+  /// The name of the database.
+  @_s.JsonKey(name: 'database')
+  final String database;
+
+  /// The name of the database schema.
+  @_s.JsonKey(name: 'schema')
+  final String schema;
+
+  ExecuteSqlRequest({
+    @_s.required this.awsSecretStoreArn,
+    @_s.required this.dbClusterOrInstanceArn,
+    @_s.required this.sqlStatements,
+    this.database,
+    this.schema,
+  });
+  Map<String, dynamic> toJson() => _$ExecuteSqlRequestToJson(this);
+}
+
 /// The response elements represent the output of a request to run one or more
 /// SQL statements.
 @_s.JsonSerializable(
@@ -800,6 +968,83 @@ class ExecuteSqlResponse {
   });
   factory ExecuteSqlResponse.fromJson(Map<String, dynamic> json) =>
       _$ExecuteSqlResponseFromJson(json);
+}
+
+/// The request parameters represent the input of a request to run a SQL
+/// statement against a database.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ExecuteStatementRequest {
+  /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  /// The name or ARN of the secret that enables access to the DB cluster.
+  @_s.JsonKey(name: 'secretArn')
+  final String secretArn;
+
+  /// The SQL statement to run.
+  @_s.JsonKey(name: 'sql')
+  final String sql;
+
+  /// A value that indicates whether to continue running the statement after the
+  /// call times out. By default, the statement stops running when the call times
+  /// out.
+  /// <important>
+  /// For DDL statements, we recommend continuing to run the statement after the
+  /// call times out. When a DDL statement terminates before it is finished
+  /// running, it can result in errors and possibly corrupted data structures.
+  /// </important>
+  @_s.JsonKey(name: 'continueAfterTimeout')
+  final bool continueAfterTimeout;
+
+  /// The name of the database.
+  @_s.JsonKey(name: 'database')
+  final String database;
+
+  /// A value that indicates whether to include metadata in the results.
+  @_s.JsonKey(name: 'includeResultMetadata')
+  final bool includeResultMetadata;
+
+  /// The parameters for the SQL statement.
+  /// <note>
+  /// Array parameters are not supported.
+  /// </note>
+  @_s.JsonKey(name: 'parameters')
+  final List<SqlParameter> parameters;
+
+  /// Options that control how the result set is returned.
+  @_s.JsonKey(name: 'resultSetOptions')
+  final ResultSetOptions resultSetOptions;
+
+  /// The name of the database schema.
+  @_s.JsonKey(name: 'schema')
+  final String schema;
+
+  /// The identifier of a transaction that was started by using the
+  /// <code>BeginTransaction</code> operation. Specify the transaction ID of the
+  /// transaction that you want to include the SQL statement in.
+  ///
+  /// If the SQL statement is not part of a transaction, don't set this parameter.
+  @_s.JsonKey(name: 'transactionId')
+  final String transactionId;
+
+  ExecuteStatementRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.secretArn,
+    @_s.required this.sql,
+    this.continueAfterTimeout,
+    this.database,
+    this.includeResultMetadata,
+    this.parameters,
+    this.resultSetOptions,
+    this.schema,
+    this.transactionId,
+  });
+  Map<String, dynamic> toJson() => _$ExecuteStatementRequestToJson(this);
 }
 
 /// The response elements represent the output of a request to run a SQL
@@ -980,6 +1225,34 @@ class ResultSetOptions {
     this.decimalReturnType,
   });
   Map<String, dynamic> toJson() => _$ResultSetOptionsToJson(this);
+}
+
+/// The request parameters represent the input of a request to perform a
+/// rollback of a transaction.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RollbackTransactionRequest {
+  /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  /// The name or ARN of the secret that enables access to the DB cluster.
+  @_s.JsonKey(name: 'secretArn')
+  final String secretArn;
+
+  /// The identifier of the transaction to roll back.
+  @_s.JsonKey(name: 'transactionId')
+  final String transactionId;
+
+  RollbackTransactionRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.secretArn,
+    @_s.required this.transactionId,
+  });
+  Map<String, dynamic> toJson() => _$RollbackTransactionRequestToJson(this);
 }
 
 /// The response elements represent the output of a request to perform a

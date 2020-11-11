@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -90,10 +89,10 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CustomAttributes': customAttributes,
-        'UserPoolId': userPoolId,
-      },
+      payload: AddCustomAttributesRequest(
+        customAttributes: customAttributes,
+        userPoolId: userPoolId,
+      ),
     );
 
     return AddCustomAttributesResponse.fromJson(jsonResponse.body);
@@ -175,11 +174,11 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GroupName': groupName,
-        'UserPoolId': userPoolId,
-        'Username': username,
-      },
+      payload: AdminAddUserToGroupRequest(
+        groupName: groupName,
+        userPoolId: userPoolId,
+        username: username,
+      ),
     );
   }
 
@@ -286,11 +285,11 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'UserPoolId': userPoolId,
-        'Username': username,
-        if (clientMetadata != null) 'ClientMetadata': clientMetadata,
-      },
+      payload: AdminConfirmSignUpRequest(
+        userPoolId: userPoolId,
+        username: username,
+        clientMetadata: clientMetadata,
+      ),
     );
 
     return AdminConfirmSignUpResponse.fromJson(jsonResponse.body);
@@ -533,19 +532,17 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'UserPoolId': userPoolId,
-        'Username': username,
-        if (clientMetadata != null) 'ClientMetadata': clientMetadata,
-        if (desiredDeliveryMediums != null)
-          'DesiredDeliveryMediums': desiredDeliveryMediums,
-        if (forceAliasCreation != null)
-          'ForceAliasCreation': forceAliasCreation,
-        if (messageAction != null) 'MessageAction': messageAction?.toValue(),
-        if (temporaryPassword != null) 'TemporaryPassword': temporaryPassword,
-        if (userAttributes != null) 'UserAttributes': userAttributes,
-        if (validationData != null) 'ValidationData': validationData,
-      },
+      payload: AdminCreateUserRequest(
+        userPoolId: userPoolId,
+        username: username,
+        clientMetadata: clientMetadata,
+        desiredDeliveryMediums: desiredDeliveryMediums,
+        forceAliasCreation: forceAliasCreation,
+        messageAction: messageAction,
+        temporaryPassword: temporaryPassword,
+        userAttributes: userAttributes,
+        validationData: validationData,
+      ),
     );
 
     return AdminCreateUserResponse.fromJson(jsonResponse.body);
@@ -609,10 +606,10 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'UserPoolId': userPoolId,
-        'Username': username,
-      },
+      payload: AdminDeleteUserRequest(
+        userPoolId: userPoolId,
+        username: username,
+      ),
     );
   }
 
@@ -686,11 +683,11 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'UserAttributeNames': userAttributeNames,
-        'UserPoolId': userPoolId,
-        'Username': username,
-      },
+      payload: AdminDeleteUserAttributesRequest(
+        userAttributeNames: userAttributeNames,
+        userPoolId: userPoolId,
+        username: username,
+      ),
     );
 
     return AdminDeleteUserAttributesResponse.fromJson(jsonResponse.body);
@@ -763,10 +760,10 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'User': user,
-        'UserPoolId': userPoolId,
-      },
+      payload: AdminDisableProviderForUserRequest(
+        user: user,
+        userPoolId: userPoolId,
+      ),
     );
 
     return AdminDisableProviderForUserResponse.fromJson(jsonResponse.body);
@@ -830,10 +827,10 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'UserPoolId': userPoolId,
-        'Username': username,
-      },
+      payload: AdminDisableUserRequest(
+        userPoolId: userPoolId,
+        username: username,
+      ),
     );
 
     return AdminDisableUserResponse.fromJson(jsonResponse.body);
@@ -897,10 +894,10 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'UserPoolId': userPoolId,
-        'Username': username,
-      },
+      payload: AdminEnableUserRequest(
+        userPoolId: userPoolId,
+        username: username,
+      ),
     );
 
     return AdminEnableUserResponse.fromJson(jsonResponse.body);
@@ -983,11 +980,11 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DeviceKey': deviceKey,
-        'UserPoolId': userPoolId,
-        'Username': username,
-      },
+      payload: AdminForgetDeviceRequest(
+        deviceKey: deviceKey,
+        userPoolId: userPoolId,
+        username: username,
+      ),
     );
   }
 
@@ -1067,11 +1064,11 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DeviceKey': deviceKey,
-        'UserPoolId': userPoolId,
-        'Username': username,
-      },
+      payload: AdminGetDeviceRequest(
+        deviceKey: deviceKey,
+        userPoolId: userPoolId,
+        username: username,
+      ),
     );
 
     return AdminGetDeviceResponse.fromJson(jsonResponse.body);
@@ -1137,10 +1134,10 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'UserPoolId': userPoolId,
-        'Username': username,
-      },
+      payload: AdminGetUserRequest(
+        userPoolId: userPoolId,
+        username: username,
+      ),
     );
 
     return AdminGetUserResponse.fromJson(jsonResponse.body);
@@ -1387,15 +1384,15 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AuthFlow': authFlow?.toValue(),
-        'ClientId': clientId,
-        'UserPoolId': userPoolId,
-        if (analyticsMetadata != null) 'AnalyticsMetadata': analyticsMetadata,
-        if (authParameters != null) 'AuthParameters': authParameters,
-        if (clientMetadata != null) 'ClientMetadata': clientMetadata,
-        if (contextData != null) 'ContextData': contextData,
-      },
+      payload: AdminInitiateAuthRequest(
+        authFlow: authFlow,
+        clientId: clientId,
+        userPoolId: userPoolId,
+        analyticsMetadata: analyticsMetadata,
+        authParameters: authParameters,
+        clientMetadata: clientMetadata,
+        contextData: contextData,
+      ),
     );
 
     return AdminInitiateAuthResponse.fromJson(jsonResponse.body);
@@ -1498,11 +1495,11 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DestinationUser': destinationUser,
-        'SourceUser': sourceUser,
-        'UserPoolId': userPoolId,
-      },
+      payload: AdminLinkProviderForUserRequest(
+        destinationUser: destinationUser,
+        sourceUser: sourceUser,
+        userPoolId: userPoolId,
+      ),
     );
 
     return AdminLinkProviderForUserResponse.fromJson(jsonResponse.body);
@@ -1591,12 +1588,12 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'UserPoolId': userPoolId,
-        'Username': username,
-        if (limit != null) 'Limit': limit,
-        if (paginationToken != null) 'PaginationToken': paginationToken,
-      },
+      payload: AdminListDevicesRequest(
+        userPoolId: userPoolId,
+        username: username,
+        limit: limit,
+        paginationToken: paginationToken,
+      ),
     );
 
     return AdminListDevicesResponse.fromJson(jsonResponse.body);
@@ -1686,12 +1683,12 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'UserPoolId': userPoolId,
-        'Username': username,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: AdminListGroupsForUserRequest(
+        userPoolId: userPoolId,
+        username: username,
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return AdminListGroupsForUserResponse.fromJson(jsonResponse.body);
@@ -1781,12 +1778,12 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'UserPoolId': userPoolId,
-        'Username': username,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: AdminListUserAuthEventsRequest(
+        userPoolId: userPoolId,
+        username: username,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return AdminListUserAuthEventsResponse.fromJson(jsonResponse.body);
@@ -1869,11 +1866,11 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GroupName': groupName,
-        'UserPoolId': userPoolId,
-        'Username': username,
-      },
+      payload: AdminRemoveUserFromGroupRequest(
+        groupName: groupName,
+        userPoolId: userPoolId,
+        username: username,
+      ),
     );
   }
 
@@ -1994,11 +1991,11 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'UserPoolId': userPoolId,
-        'Username': username,
-        if (clientMetadata != null) 'ClientMetadata': clientMetadata,
-      },
+      payload: AdminResetUserPasswordRequest(
+        userPoolId: userPoolId,
+        username: username,
+        clientMetadata: clientMetadata,
+      ),
     );
 
     return AdminResetUserPasswordResponse.fromJson(jsonResponse.body);
@@ -2185,17 +2182,16 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ChallengeName': challengeName?.toValue(),
-        'ClientId': clientId,
-        'UserPoolId': userPoolId,
-        if (analyticsMetadata != null) 'AnalyticsMetadata': analyticsMetadata,
-        if (challengeResponses != null)
-          'ChallengeResponses': challengeResponses,
-        if (clientMetadata != null) 'ClientMetadata': clientMetadata,
-        if (contextData != null) 'ContextData': contextData,
-        if (session != null) 'Session': session,
-      },
+      payload: AdminRespondToAuthChallengeRequest(
+        challengeName: challengeName,
+        clientId: clientId,
+        userPoolId: userPoolId,
+        analyticsMetadata: analyticsMetadata,
+        challengeResponses: challengeResponses,
+        clientMetadata: clientMetadata,
+        contextData: contextData,
+        session: session,
+      ),
     );
 
     return AdminRespondToAuthChallengeResponse.fromJson(jsonResponse.body);
@@ -2272,13 +2268,12 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'UserPoolId': userPoolId,
-        'Username': username,
-        if (sMSMfaSettings != null) 'SMSMfaSettings': sMSMfaSettings,
-        if (softwareTokenMfaSettings != null)
-          'SoftwareTokenMfaSettings': softwareTokenMfaSettings,
-      },
+      payload: AdminSetUserMFAPreferenceRequest(
+        userPoolId: userPoolId,
+        username: username,
+        sMSMfaSettings: sMSMfaSettings,
+        softwareTokenMfaSettings: softwareTokenMfaSettings,
+      ),
     );
 
     return AdminSetUserMFAPreferenceResponse.fromJson(jsonResponse.body);
@@ -2376,12 +2371,12 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Password': password,
-        'UserPoolId': userPoolId,
-        'Username': username,
-        if (permanent != null) 'Permanent': permanent,
-      },
+      payload: AdminSetUserPasswordRequest(
+        password: password,
+        userPoolId: userPoolId,
+        username: username,
+        permanent: permanent,
+      ),
     );
 
     return AdminSetUserPasswordResponse.fromJson(jsonResponse.body);
@@ -2452,11 +2447,11 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'MFAOptions': mFAOptions,
-        'UserPoolId': userPoolId,
-        'Username': username,
-      },
+      payload: AdminSetUserSettingsRequest(
+        mFAOptions: mFAOptions,
+        userPoolId: userPoolId,
+        username: username,
+      ),
     );
 
     return AdminSetUserSettingsResponse.fromJson(jsonResponse.body);
@@ -2545,12 +2540,12 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EventId': eventId,
-        'FeedbackValue': feedbackValue?.toValue(),
-        'UserPoolId': userPoolId,
-        'Username': username,
-      },
+      payload: AdminUpdateAuthEventFeedbackRequest(
+        eventId: eventId,
+        feedbackValue: feedbackValue,
+        userPoolId: userPoolId,
+        username: username,
+      ),
     );
 
     return AdminUpdateAuthEventFeedbackResponse.fromJson(jsonResponse.body);
@@ -2638,13 +2633,12 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DeviceKey': deviceKey,
-        'UserPoolId': userPoolId,
-        'Username': username,
-        if (deviceRememberedStatus != null)
-          'DeviceRememberedStatus': deviceRememberedStatus?.toValue(),
-      },
+      payload: AdminUpdateDeviceStatusRequest(
+        deviceKey: deviceKey,
+        userPoolId: userPoolId,
+        username: username,
+        deviceRememberedStatus: deviceRememberedStatus,
+      ),
     );
 
     return AdminUpdateDeviceStatusResponse.fromJson(jsonResponse.body);
@@ -2772,12 +2766,12 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'UserAttributes': userAttributes,
-        'UserPoolId': userPoolId,
-        'Username': username,
-        if (clientMetadata != null) 'ClientMetadata': clientMetadata,
-      },
+      payload: AdminUpdateUserAttributesRequest(
+        userAttributes: userAttributes,
+        userPoolId: userPoolId,
+        username: username,
+        clientMetadata: clientMetadata,
+      ),
     );
 
     return AdminUpdateUserAttributesResponse.fromJson(jsonResponse.body);
@@ -2844,10 +2838,10 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'UserPoolId': userPoolId,
-        'Username': username,
-      },
+      payload: AdminUserGlobalSignOutRequest(
+        userPoolId: userPoolId,
+        username: username,
+      ),
     );
 
     return AdminUserGlobalSignOutResponse.fromJson(jsonResponse.body);
@@ -2894,10 +2888,10 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (accessToken != null) 'AccessToken': accessToken,
-        if (session != null) 'Session': session,
-      },
+      payload: AssociateSoftwareTokenRequest(
+        accessToken: accessToken,
+        session: session,
+      ),
     );
 
     return AssociateSoftwareTokenResponse.fromJson(jsonResponse.body);
@@ -2974,11 +2968,11 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AccessToken': accessToken,
-        'PreviousPassword': previousPassword,
-        'ProposedPassword': proposedPassword,
-      },
+      payload: ChangePasswordRequest(
+        accessToken: accessToken,
+        previousPassword: previousPassword,
+        proposedPassword: proposedPassword,
+      ),
     );
 
     return ChangePasswordResponse.fromJson(jsonResponse.body);
@@ -3054,13 +3048,12 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AccessToken': accessToken,
-        'DeviceKey': deviceKey,
-        if (deviceName != null) 'DeviceName': deviceName,
-        if (deviceSecretVerifierConfig != null)
-          'DeviceSecretVerifierConfig': deviceSecretVerifierConfig,
-      },
+      payload: ConfirmDeviceRequest(
+        accessToken: accessToken,
+        deviceKey: deviceKey,
+        deviceName: deviceName,
+        deviceSecretVerifierConfig: deviceSecretVerifierConfig,
+      ),
     );
 
     return ConfirmDeviceResponse.fromJson(jsonResponse.body);
@@ -3237,16 +3230,16 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClientId': clientId,
-        'ConfirmationCode': confirmationCode,
-        'Password': password,
-        'Username': username,
-        if (analyticsMetadata != null) 'AnalyticsMetadata': analyticsMetadata,
-        if (clientMetadata != null) 'ClientMetadata': clientMetadata,
-        if (secretHash != null) 'SecretHash': secretHash,
-        if (userContextData != null) 'UserContextData': userContextData,
-      },
+      payload: ConfirmForgotPasswordRequest(
+        clientId: clientId,
+        confirmationCode: confirmationCode,
+        password: password,
+        username: username,
+        analyticsMetadata: analyticsMetadata,
+        clientMetadata: clientMetadata,
+        secretHash: secretHash,
+        userContextData: userContextData,
+      ),
     );
 
     return ConfirmForgotPasswordResponse.fromJson(jsonResponse.body);
@@ -3413,17 +3406,16 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClientId': clientId,
-        'ConfirmationCode': confirmationCode,
-        'Username': username,
-        if (analyticsMetadata != null) 'AnalyticsMetadata': analyticsMetadata,
-        if (clientMetadata != null) 'ClientMetadata': clientMetadata,
-        if (forceAliasCreation != null)
-          'ForceAliasCreation': forceAliasCreation,
-        if (secretHash != null) 'SecretHash': secretHash,
-        if (userContextData != null) 'UserContextData': userContextData,
-      },
+      payload: ConfirmSignUpRequest(
+        clientId: clientId,
+        confirmationCode: confirmationCode,
+        username: username,
+        analyticsMetadata: analyticsMetadata,
+        clientMetadata: clientMetadata,
+        forceAliasCreation: forceAliasCreation,
+        secretHash: secretHash,
+        userContextData: userContextData,
+      ),
     );
 
     return ConfirmSignUpResponse.fromJson(jsonResponse.body);
@@ -3539,13 +3531,13 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GroupName': groupName,
-        'UserPoolId': userPoolId,
-        if (description != null) 'Description': description,
-        if (precedence != null) 'Precedence': precedence,
-        if (roleArn != null) 'RoleArn': roleArn,
-      },
+      payload: CreateGroupRequest(
+        groupName: groupName,
+        userPoolId: userPoolId,
+        description: description,
+        precedence: precedence,
+        roleArn: roleArn,
+      ),
     );
 
     return CreateGroupResponse.fromJson(jsonResponse.body);
@@ -3715,14 +3707,14 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ProviderDetails': providerDetails,
-        'ProviderName': providerName,
-        'ProviderType': providerType?.toValue(),
-        'UserPoolId': userPoolId,
-        if (attributeMapping != null) 'AttributeMapping': attributeMapping,
-        if (idpIdentifiers != null) 'IdpIdentifiers': idpIdentifiers,
-      },
+      payload: CreateIdentityProviderRequest(
+        providerDetails: providerDetails,
+        providerName: providerName,
+        providerType: providerType,
+        userPoolId: userPoolId,
+        attributeMapping: attributeMapping,
+        idpIdentifiers: idpIdentifiers,
+      ),
     );
 
     return CreateIdentityProviderResponse.fromJson(jsonResponse.body);
@@ -3809,12 +3801,12 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Identifier': identifier,
-        'Name': name,
-        'UserPoolId': userPoolId,
-        if (scopes != null) 'Scopes': scopes,
-      },
+      payload: CreateResourceServerRequest(
+        identifier: identifier,
+        name: name,
+        userPoolId: userPoolId,
+        scopes: scopes,
+      ),
     );
 
     return CreateResourceServerResponse.fromJson(jsonResponse.body);
@@ -3896,11 +3888,11 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CloudWatchLogsRoleArn': cloudWatchLogsRoleArn,
-        'JobName': jobName,
-        'UserPoolId': userPoolId,
-      },
+      payload: CreateUserImportJobRequest(
+        cloudWatchLogsRoleArn: cloudWatchLogsRoleArn,
+        jobName: jobName,
+        userPoolId: userPoolId,
+      ),
     );
 
     return CreateUserImportJobResponse.fromJson(jsonResponse.body);
@@ -4110,42 +4102,29 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PoolName': poolName,
-        if (accountRecoverySetting != null)
-          'AccountRecoverySetting': accountRecoverySetting,
-        if (adminCreateUserConfig != null)
-          'AdminCreateUserConfig': adminCreateUserConfig,
-        if (aliasAttributes != null) 'AliasAttributes': aliasAttributes,
-        if (autoVerifiedAttributes != null)
-          'AutoVerifiedAttributes': autoVerifiedAttributes,
-        if (deviceConfiguration != null)
-          'DeviceConfiguration': deviceConfiguration,
-        if (emailConfiguration != null)
-          'EmailConfiguration': emailConfiguration,
-        if (emailVerificationMessage != null)
-          'EmailVerificationMessage': emailVerificationMessage,
-        if (emailVerificationSubject != null)
-          'EmailVerificationSubject': emailVerificationSubject,
-        if (lambdaConfig != null) 'LambdaConfig': lambdaConfig,
-        if (mfaConfiguration != null)
-          'MfaConfiguration': mfaConfiguration?.toValue(),
-        if (policies != null) 'Policies': policies,
-        if (schema != null) 'Schema': schema,
-        if (smsAuthenticationMessage != null)
-          'SmsAuthenticationMessage': smsAuthenticationMessage,
-        if (smsConfiguration != null) 'SmsConfiguration': smsConfiguration,
-        if (smsVerificationMessage != null)
-          'SmsVerificationMessage': smsVerificationMessage,
-        if (userPoolAddOns != null) 'UserPoolAddOns': userPoolAddOns,
-        if (userPoolTags != null) 'UserPoolTags': userPoolTags,
-        if (usernameAttributes != null)
-          'UsernameAttributes': usernameAttributes,
-        if (usernameConfiguration != null)
-          'UsernameConfiguration': usernameConfiguration,
-        if (verificationMessageTemplate != null)
-          'VerificationMessageTemplate': verificationMessageTemplate,
-      },
+      payload: CreateUserPoolRequest(
+        poolName: poolName,
+        accountRecoverySetting: accountRecoverySetting,
+        adminCreateUserConfig: adminCreateUserConfig,
+        aliasAttributes: aliasAttributes,
+        autoVerifiedAttributes: autoVerifiedAttributes,
+        deviceConfiguration: deviceConfiguration,
+        emailConfiguration: emailConfiguration,
+        emailVerificationMessage: emailVerificationMessage,
+        emailVerificationSubject: emailVerificationSubject,
+        lambdaConfig: lambdaConfig,
+        mfaConfiguration: mfaConfiguration,
+        policies: policies,
+        schema: schema,
+        smsAuthenticationMessage: smsAuthenticationMessage,
+        smsConfiguration: smsConfiguration,
+        smsVerificationMessage: smsVerificationMessage,
+        userPoolAddOns: userPoolAddOns,
+        userPoolTags: userPoolTags,
+        usernameAttributes: usernameAttributes,
+        usernameConfiguration: usernameConfiguration,
+        verificationMessageTemplate: verificationMessageTemplate,
+      ),
     );
 
     return CreateUserPoolResponse.fromJson(jsonResponse.body);
@@ -4447,31 +4426,24 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClientName': clientName,
-        'UserPoolId': userPoolId,
-        if (allowedOAuthFlows != null) 'AllowedOAuthFlows': allowedOAuthFlows,
-        if (allowedOAuthFlowsUserPoolClient != null)
-          'AllowedOAuthFlowsUserPoolClient': allowedOAuthFlowsUserPoolClient,
-        if (allowedOAuthScopes != null)
-          'AllowedOAuthScopes': allowedOAuthScopes,
-        if (analyticsConfiguration != null)
-          'AnalyticsConfiguration': analyticsConfiguration,
-        if (callbackURLs != null) 'CallbackURLs': callbackURLs,
-        if (defaultRedirectURI != null)
-          'DefaultRedirectURI': defaultRedirectURI,
-        if (explicitAuthFlows != null) 'ExplicitAuthFlows': explicitAuthFlows,
-        if (generateSecret != null) 'GenerateSecret': generateSecret,
-        if (logoutURLs != null) 'LogoutURLs': logoutURLs,
-        if (preventUserExistenceErrors != null)
-          'PreventUserExistenceErrors': preventUserExistenceErrors?.toValue(),
-        if (readAttributes != null) 'ReadAttributes': readAttributes,
-        if (refreshTokenValidity != null)
-          'RefreshTokenValidity': refreshTokenValidity,
-        if (supportedIdentityProviders != null)
-          'SupportedIdentityProviders': supportedIdentityProviders,
-        if (writeAttributes != null) 'WriteAttributes': writeAttributes,
-      },
+      payload: CreateUserPoolClientRequest(
+        clientName: clientName,
+        userPoolId: userPoolId,
+        allowedOAuthFlows: allowedOAuthFlows,
+        allowedOAuthFlowsUserPoolClient: allowedOAuthFlowsUserPoolClient,
+        allowedOAuthScopes: allowedOAuthScopes,
+        analyticsConfiguration: analyticsConfiguration,
+        callbackURLs: callbackURLs,
+        defaultRedirectURI: defaultRedirectURI,
+        explicitAuthFlows: explicitAuthFlows,
+        generateSecret: generateSecret,
+        logoutURLs: logoutURLs,
+        preventUserExistenceErrors: preventUserExistenceErrors,
+        readAttributes: readAttributes,
+        refreshTokenValidity: refreshTokenValidity,
+        supportedIdentityProviders: supportedIdentityProviders,
+        writeAttributes: writeAttributes,
+      ),
     );
 
     return CreateUserPoolClientResponse.fromJson(jsonResponse.body);
@@ -4545,12 +4517,11 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Domain': domain,
-        'UserPoolId': userPoolId,
-        if (customDomainConfig != null)
-          'CustomDomainConfig': customDomainConfig,
-      },
+      payload: CreateUserPoolDomainRequest(
+        domain: domain,
+        userPoolId: userPoolId,
+        customDomainConfig: customDomainConfig,
+      ),
     );
 
     return CreateUserPoolDomainResponse.fromJson(jsonResponse.body);
@@ -4613,10 +4584,10 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GroupName': groupName,
-        'UserPoolId': userPoolId,
-      },
+      payload: DeleteGroupRequest(
+        groupName: groupName,
+        userPoolId: userPoolId,
+      ),
     );
   }
 
@@ -4676,10 +4647,10 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ProviderName': providerName,
-        'UserPoolId': userPoolId,
-      },
+      payload: DeleteIdentityProviderRequest(
+        providerName: providerName,
+        userPoolId: userPoolId,
+      ),
     );
   }
 
@@ -4738,10 +4709,10 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Identifier': identifier,
-        'UserPoolId': userPoolId,
-      },
+      payload: DeleteResourceServerRequest(
+        identifier: identifier,
+        userPoolId: userPoolId,
+      ),
     );
   }
 
@@ -4778,9 +4749,9 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AccessToken': accessToken,
-      },
+      payload: DeleteUserRequest(
+        accessToken: accessToken,
+      ),
     );
   }
 
@@ -4826,10 +4797,10 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AccessToken': accessToken,
-        'UserAttributeNames': userAttributeNames,
-      },
+      payload: DeleteUserAttributesRequest(
+        accessToken: accessToken,
+        userAttributeNames: userAttributeNames,
+      ),
     );
 
     return DeleteUserAttributesResponse.fromJson(jsonResponse.body);
@@ -4873,9 +4844,9 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'UserPoolId': userPoolId,
-      },
+      payload: DeleteUserPoolRequest(
+        userPoolId: userPoolId,
+      ),
     );
   }
 
@@ -4934,10 +4905,10 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClientId': clientId,
-        'UserPoolId': userPoolId,
-      },
+      payload: DeleteUserPoolClientRequest(
+        clientId: clientId,
+        userPoolId: userPoolId,
+      ),
     );
   }
 
@@ -4995,10 +4966,10 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Domain': domain,
-        'UserPoolId': userPoolId,
-      },
+      payload: DeleteUserPoolDomainRequest(
+        domain: domain,
+        userPoolId: userPoolId,
+      ),
     );
 
     return DeleteUserPoolDomainResponse.fromJson(jsonResponse.body);
@@ -5060,10 +5031,10 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ProviderName': providerName,
-        'UserPoolId': userPoolId,
-      },
+      payload: DescribeIdentityProviderRequest(
+        providerName: providerName,
+        userPoolId: userPoolId,
+      ),
     );
 
     return DescribeIdentityProviderResponse.fromJson(jsonResponse.body);
@@ -5124,10 +5095,10 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Identifier': identifier,
-        'UserPoolId': userPoolId,
-      },
+      payload: DescribeResourceServerRequest(
+        identifier: identifier,
+        userPoolId: userPoolId,
+      ),
     );
 
     return DescribeResourceServerResponse.fromJson(jsonResponse.body);
@@ -5187,10 +5158,10 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'UserPoolId': userPoolId,
-        if (clientId != null) 'ClientId': clientId,
-      },
+      payload: DescribeRiskConfigurationRequest(
+        userPoolId: userPoolId,
+        clientId: clientId,
+      ),
     );
 
     return DescribeRiskConfigurationResponse.fromJson(jsonResponse.body);
@@ -5251,10 +5222,10 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobId': jobId,
-        'UserPoolId': userPoolId,
-      },
+      payload: DescribeUserImportJobRequest(
+        jobId: jobId,
+        userPoolId: userPoolId,
+      ),
     );
 
     return DescribeUserImportJobResponse.fromJson(jsonResponse.body);
@@ -5299,9 +5270,9 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'UserPoolId': userPoolId,
-      },
+      payload: DescribeUserPoolRequest(
+        userPoolId: userPoolId,
+      ),
     );
 
     return DescribeUserPoolResponse.fromJson(jsonResponse.body);
@@ -5363,10 +5334,10 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClientId': clientId,
-        'UserPoolId': userPoolId,
-      },
+      payload: DescribeUserPoolClientRequest(
+        clientId: clientId,
+        userPoolId: userPoolId,
+      ),
     );
 
     return DescribeUserPoolClientResponse.fromJson(jsonResponse.body);
@@ -5408,9 +5379,9 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Domain': domain,
-      },
+      payload: DescribeUserPoolDomainRequest(
+        domain: domain,
+      ),
     );
 
     return DescribeUserPoolDomainResponse.fromJson(jsonResponse.body);
@@ -5466,10 +5437,10 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DeviceKey': deviceKey,
-        if (accessToken != null) 'AccessToken': accessToken,
-      },
+      payload: ForgetDeviceRequest(
+        deviceKey: deviceKey,
+        accessToken: accessToken,
+      ),
     );
   }
 
@@ -5616,14 +5587,14 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClientId': clientId,
-        'Username': username,
-        if (analyticsMetadata != null) 'AnalyticsMetadata': analyticsMetadata,
-        if (clientMetadata != null) 'ClientMetadata': clientMetadata,
-        if (secretHash != null) 'SecretHash': secretHash,
-        if (userContextData != null) 'UserContextData': userContextData,
-      },
+      payload: ForgotPasswordRequest(
+        clientId: clientId,
+        username: username,
+        analyticsMetadata: analyticsMetadata,
+        clientMetadata: clientMetadata,
+        secretHash: secretHash,
+        userContextData: userContextData,
+      ),
     );
 
     return ForgotPasswordResponse.fromJson(jsonResponse.body);
@@ -5667,9 +5638,9 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'UserPoolId': userPoolId,
-      },
+      payload: GetCSVHeaderRequest(
+        userPoolId: userPoolId,
+      ),
     );
 
     return GetCSVHeaderResponse.fromJson(jsonResponse.body);
@@ -5725,10 +5696,10 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DeviceKey': deviceKey,
-        if (accessToken != null) 'AccessToken': accessToken,
-      },
+      payload: GetDeviceRequest(
+        deviceKey: deviceKey,
+        accessToken: accessToken,
+      ),
     );
 
     return GetDeviceResponse.fromJson(jsonResponse.body);
@@ -5791,10 +5762,10 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GroupName': groupName,
-        'UserPoolId': userPoolId,
-      },
+      payload: GetGroupRequest(
+        groupName: groupName,
+        userPoolId: userPoolId,
+      ),
     );
 
     return GetGroupResponse.fromJson(jsonResponse.body);
@@ -5857,10 +5828,10 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'IdpIdentifier': idpIdentifier,
-        'UserPoolId': userPoolId,
-      },
+      payload: GetIdentityProviderByIdentifierRequest(
+        idpIdentifier: idpIdentifier,
+        userPoolId: userPoolId,
+      ),
     );
 
     return GetIdentityProviderByIdentifierResponse.fromJson(jsonResponse.body);
@@ -5901,9 +5872,9 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'UserPoolId': userPoolId,
-      },
+      payload: GetSigningCertificateRequest(
+        userPoolId: userPoolId,
+      ),
     );
 
     return GetSigningCertificateResponse.fromJson(jsonResponse.body);
@@ -5965,10 +5936,10 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'UserPoolId': userPoolId,
-        if (clientId != null) 'ClientId': clientId,
-      },
+      payload: GetUICustomizationRequest(
+        userPoolId: userPoolId,
+        clientId: clientId,
+      ),
     );
 
     return GetUICustomizationResponse.fromJson(jsonResponse.body);
@@ -6008,9 +5979,9 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AccessToken': accessToken,
-      },
+      payload: GetUserRequest(
+        accessToken: accessToken,
+      ),
     );
 
     return GetUserResponse.fromJson(jsonResponse.body);
@@ -6120,11 +6091,11 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AccessToken': accessToken,
-        'AttributeName': attributeName,
-        if (clientMetadata != null) 'ClientMetadata': clientMetadata,
-      },
+      payload: GetUserAttributeVerificationCodeRequest(
+        accessToken: accessToken,
+        attributeName: attributeName,
+        clientMetadata: clientMetadata,
+      ),
     );
 
     return GetUserAttributeVerificationCodeResponse.fromJson(jsonResponse.body);
@@ -6167,9 +6138,9 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'UserPoolId': userPoolId,
-      },
+      payload: GetUserPoolMfaConfigRequest(
+        userPoolId: userPoolId,
+      ),
     );
 
     return GetUserPoolMfaConfigResponse.fromJson(jsonResponse.body);
@@ -6210,9 +6181,9 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AccessToken': accessToken,
-      },
+      payload: GlobalSignOutRequest(
+        accessToken: accessToken,
+      ),
     );
 
     return GlobalSignOutResponse.fromJson(jsonResponse.body);
@@ -6429,14 +6400,14 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AuthFlow': authFlow?.toValue(),
-        'ClientId': clientId,
-        if (analyticsMetadata != null) 'AnalyticsMetadata': analyticsMetadata,
-        if (authParameters != null) 'AuthParameters': authParameters,
-        if (clientMetadata != null) 'ClientMetadata': clientMetadata,
-        if (userContextData != null) 'UserContextData': userContextData,
-      },
+      payload: InitiateAuthRequest(
+        authFlow: authFlow,
+        clientId: clientId,
+        analyticsMetadata: analyticsMetadata,
+        authParameters: authParameters,
+        clientMetadata: clientMetadata,
+        userContextData: userContextData,
+      ),
     );
 
     return InitiateAuthResponse.fromJson(jsonResponse.body);
@@ -6501,11 +6472,11 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AccessToken': accessToken,
-        if (limit != null) 'Limit': limit,
-        if (paginationToken != null) 'PaginationToken': paginationToken,
-      },
+      payload: ListDevicesRequest(
+        accessToken: accessToken,
+        limit: limit,
+        paginationToken: paginationToken,
+      ),
     );
 
     return ListDevicesResponse.fromJson(jsonResponse.body);
@@ -6576,11 +6547,11 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'UserPoolId': userPoolId,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListGroupsRequest(
+        userPoolId: userPoolId,
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return ListGroupsResponse.fromJson(jsonResponse.body);
@@ -6648,11 +6619,11 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'UserPoolId': userPoolId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListIdentityProvidersRequest(
+        userPoolId: userPoolId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListIdentityProvidersResponse.fromJson(jsonResponse.body);
@@ -6720,11 +6691,11 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'UserPoolId': userPoolId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListResourceServersRequest(
+        userPoolId: userPoolId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListResourceServersResponse.fromJson(jsonResponse.body);
@@ -6774,9 +6745,9 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-      },
+      payload: ListTagsForResourceRequest(
+        resourceArn: resourceArn,
+      ),
     );
 
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
@@ -6848,11 +6819,11 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'MaxResults': maxResults,
-        'UserPoolId': userPoolId,
-        if (paginationToken != null) 'PaginationToken': paginationToken,
-      },
+      payload: ListUserImportJobsRequest(
+        maxResults: maxResults,
+        userPoolId: userPoolId,
+        paginationToken: paginationToken,
+      ),
     );
 
     return ListUserImportJobsResponse.fromJson(jsonResponse.body);
@@ -6923,11 +6894,11 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'UserPoolId': userPoolId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListUserPoolClientsRequest(
+        userPoolId: userPoolId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListUserPoolClientsResponse.fromJson(jsonResponse.body);
@@ -6980,10 +6951,10 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListUserPoolsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListUserPoolsResponse.fromJson(jsonResponse.body);
@@ -7135,13 +7106,13 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'UserPoolId': userPoolId,
-        if (attributesToGet != null) 'AttributesToGet': attributesToGet,
-        if (filter != null) 'Filter': filter,
-        if (limit != null) 'Limit': limit,
-        if (paginationToken != null) 'PaginationToken': paginationToken,
-      },
+      payload: ListUsersRequest(
+        userPoolId: userPoolId,
+        attributesToGet: attributesToGet,
+        filter: filter,
+        limit: limit,
+        paginationToken: paginationToken,
+      ),
     );
 
     return ListUsersResponse.fromJson(jsonResponse.body);
@@ -7230,12 +7201,12 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GroupName': groupName,
-        'UserPoolId': userPoolId,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListUsersInGroupRequest(
+        groupName: groupName,
+        userPoolId: userPoolId,
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return ListUsersInGroupResponse.fromJson(jsonResponse.body);
@@ -7374,14 +7345,14 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClientId': clientId,
-        'Username': username,
-        if (analyticsMetadata != null) 'AnalyticsMetadata': analyticsMetadata,
-        if (clientMetadata != null) 'ClientMetadata': clientMetadata,
-        if (secretHash != null) 'SecretHash': secretHash,
-        if (userContextData != null) 'UserContextData': userContextData,
-      },
+      payload: ResendConfirmationCodeRequest(
+        clientId: clientId,
+        username: username,
+        analyticsMetadata: analyticsMetadata,
+        clientMetadata: clientMetadata,
+        secretHash: secretHash,
+        userContextData: userContextData,
+      ),
     );
 
     return ResendConfirmationCodeResponse.fromJson(jsonResponse.body);
@@ -7550,16 +7521,15 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ChallengeName': challengeName?.toValue(),
-        'ClientId': clientId,
-        if (analyticsMetadata != null) 'AnalyticsMetadata': analyticsMetadata,
-        if (challengeResponses != null)
-          'ChallengeResponses': challengeResponses,
-        if (clientMetadata != null) 'ClientMetadata': clientMetadata,
-        if (session != null) 'Session': session,
-        if (userContextData != null) 'UserContextData': userContextData,
-      },
+      payload: RespondToAuthChallengeRequest(
+        challengeName: challengeName,
+        clientId: clientId,
+        analyticsMetadata: analyticsMetadata,
+        challengeResponses: challengeResponses,
+        clientMetadata: clientMetadata,
+        session: session,
+        userContextData: userContextData,
+      ),
     );
 
     return RespondToAuthChallengeResponse.fromJson(jsonResponse.body);
@@ -7648,17 +7618,14 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'UserPoolId': userPoolId,
-        if (accountTakeoverRiskConfiguration != null)
-          'AccountTakeoverRiskConfiguration': accountTakeoverRiskConfiguration,
-        if (clientId != null) 'ClientId': clientId,
-        if (compromisedCredentialsRiskConfiguration != null)
-          'CompromisedCredentialsRiskConfiguration':
-              compromisedCredentialsRiskConfiguration,
-        if (riskExceptionConfiguration != null)
-          'RiskExceptionConfiguration': riskExceptionConfiguration,
-      },
+      payload: SetRiskConfigurationRequest(
+        userPoolId: userPoolId,
+        accountTakeoverRiskConfiguration: accountTakeoverRiskConfiguration,
+        clientId: clientId,
+        compromisedCredentialsRiskConfiguration:
+            compromisedCredentialsRiskConfiguration,
+        riskExceptionConfiguration: riskExceptionConfiguration,
+      ),
     );
 
     return SetRiskConfigurationResponse.fromJson(jsonResponse.body);
@@ -7737,12 +7704,12 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'UserPoolId': userPoolId,
-        if (css != null) 'CSS': css,
-        if (clientId != null) 'ClientId': clientId,
-        if (imageFile != null) 'ImageFile': imageFile.let(base64Encode),
-      },
+      payload: SetUICustomizationRequest(
+        userPoolId: userPoolId,
+        css: css,
+        clientId: clientId,
+        imageFile: imageFile,
+      ),
     );
 
     return SetUICustomizationResponse.fromJson(jsonResponse.body);
@@ -7793,12 +7760,11 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AccessToken': accessToken,
-        if (sMSMfaSettings != null) 'SMSMfaSettings': sMSMfaSettings,
-        if (softwareTokenMfaSettings != null)
-          'SoftwareTokenMfaSettings': softwareTokenMfaSettings,
-      },
+      payload: SetUserMFAPreferenceRequest(
+        accessToken: accessToken,
+        sMSMfaSettings: sMSMfaSettings,
+        softwareTokenMfaSettings: softwareTokenMfaSettings,
+      ),
     );
 
     return SetUserMFAPreferenceResponse.fromJson(jsonResponse.body);
@@ -7868,15 +7834,12 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'UserPoolId': userPoolId,
-        if (mfaConfiguration != null)
-          'MfaConfiguration': mfaConfiguration?.toValue(),
-        if (smsMfaConfiguration != null)
-          'SmsMfaConfiguration': smsMfaConfiguration,
-        if (softwareTokenMfaConfiguration != null)
-          'SoftwareTokenMfaConfiguration': softwareTokenMfaConfiguration,
-      },
+      payload: SetUserPoolMfaConfigRequest(
+        userPoolId: userPoolId,
+        mfaConfiguration: mfaConfiguration,
+        smsMfaConfiguration: smsMfaConfiguration,
+        softwareTokenMfaConfiguration: softwareTokenMfaConfiguration,
+      ),
     );
 
     return SetUserPoolMfaConfigResponse.fromJson(jsonResponse.body);
@@ -7923,10 +7886,10 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AccessToken': accessToken,
-        'MFAOptions': mFAOptions,
-      },
+      payload: SetUserSettingsRequest(
+        accessToken: accessToken,
+        mFAOptions: mFAOptions,
+      ),
     );
 
     return SetUserSettingsResponse.fromJson(jsonResponse.body);
@@ -8095,17 +8058,17 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClientId': clientId,
-        'Password': password,
-        'Username': username,
-        if (analyticsMetadata != null) 'AnalyticsMetadata': analyticsMetadata,
-        if (clientMetadata != null) 'ClientMetadata': clientMetadata,
-        if (secretHash != null) 'SecretHash': secretHash,
-        if (userAttributes != null) 'UserAttributes': userAttributes,
-        if (userContextData != null) 'UserContextData': userContextData,
-        if (validationData != null) 'ValidationData': validationData,
-      },
+      payload: SignUpRequest(
+        clientId: clientId,
+        password: password,
+        username: username,
+        analyticsMetadata: analyticsMetadata,
+        clientMetadata: clientMetadata,
+        secretHash: secretHash,
+        userAttributes: userAttributes,
+        userContextData: userContextData,
+        validationData: validationData,
+      ),
     );
 
     return SignUpResponse.fromJson(jsonResponse.body);
@@ -8167,10 +8130,10 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobId': jobId,
-        'UserPoolId': userPoolId,
-      },
+      payload: StartUserImportJobRequest(
+        jobId: jobId,
+        userPoolId: userPoolId,
+      ),
     );
 
     return StartUserImportJobResponse.fromJson(jsonResponse.body);
@@ -8232,10 +8195,10 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobId': jobId,
-        'UserPoolId': userPoolId,
-      },
+      payload: StopUserImportJobRequest(
+        jobId: jobId,
+        userPoolId: userPoolId,
+      ),
     );
 
     return StopUserImportJobResponse.fromJson(jsonResponse.body);
@@ -8301,10 +8264,10 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        'Tags': tags,
-      },
+      payload: TagResourceRequest(
+        resourceArn: resourceArn,
+        tags: tags,
+      ),
     );
 
     return TagResourceResponse.fromJson(jsonResponse.body);
@@ -8354,10 +8317,10 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        'TagKeys': tagKeys,
-      },
+      payload: UntagResourceRequest(
+        resourceArn: resourceArn,
+        tagKeys: tagKeys,
+      ),
     );
 
     return UntagResourceResponse.fromJson(jsonResponse.body);
@@ -8457,13 +8420,13 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EventId': eventId,
-        'FeedbackToken': feedbackToken,
-        'FeedbackValue': feedbackValue?.toValue(),
-        'UserPoolId': userPoolId,
-        'Username': username,
-      },
+      payload: UpdateAuthEventFeedbackRequest(
+        eventId: eventId,
+        feedbackToken: feedbackToken,
+        feedbackValue: feedbackValue,
+        userPoolId: userPoolId,
+        username: username,
+      ),
     );
 
     return UpdateAuthEventFeedbackResponse.fromJson(jsonResponse.body);
@@ -8525,12 +8488,11 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AccessToken': accessToken,
-        'DeviceKey': deviceKey,
-        if (deviceRememberedStatus != null)
-          'DeviceRememberedStatus': deviceRememberedStatus?.toValue(),
-      },
+      payload: UpdateDeviceStatusRequest(
+        accessToken: accessToken,
+        deviceKey: deviceKey,
+        deviceRememberedStatus: deviceRememberedStatus,
+      ),
     );
 
     return UpdateDeviceStatusResponse.fromJson(jsonResponse.body);
@@ -8635,13 +8597,13 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GroupName': groupName,
-        'UserPoolId': userPoolId,
-        if (description != null) 'Description': description,
-        if (precedence != null) 'Precedence': precedence,
-        if (roleArn != null) 'RoleArn': roleArn,
-      },
+      payload: UpdateGroupRequest(
+        groupName: groupName,
+        userPoolId: userPoolId,
+        description: description,
+        precedence: precedence,
+        roleArn: roleArn,
+      ),
     );
 
     return UpdateGroupResponse.fromJson(jsonResponse.body);
@@ -8716,13 +8678,13 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ProviderName': providerName,
-        'UserPoolId': userPoolId,
-        if (attributeMapping != null) 'AttributeMapping': attributeMapping,
-        if (idpIdentifiers != null) 'IdpIdentifiers': idpIdentifiers,
-        if (providerDetails != null) 'ProviderDetails': providerDetails,
-      },
+      payload: UpdateIdentityProviderRequest(
+        providerName: providerName,
+        userPoolId: userPoolId,
+        attributeMapping: attributeMapping,
+        idpIdentifiers: idpIdentifiers,
+        providerDetails: providerDetails,
+      ),
     );
 
     return UpdateIdentityProviderResponse.fromJson(jsonResponse.body);
@@ -8810,12 +8772,12 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Identifier': identifier,
-        'Name': name,
-        'UserPoolId': userPoolId,
-        if (scopes != null) 'Scopes': scopes,
-      },
+      payload: UpdateResourceServerRequest(
+        identifier: identifier,
+        name: name,
+        userPoolId: userPoolId,
+        scopes: scopes,
+      ),
     );
 
     return UpdateResourceServerResponse.fromJson(jsonResponse.body);
@@ -8912,11 +8874,11 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AccessToken': accessToken,
-        'UserAttributes': userAttributes,
-        if (clientMetadata != null) 'ClientMetadata': clientMetadata,
-      },
+      payload: UpdateUserAttributesRequest(
+        accessToken: accessToken,
+        userAttributes: userAttributes,
+        clientMetadata: clientMetadata,
+      ),
     );
 
     return UpdateUserAttributesResponse.fromJson(jsonResponse.body);
@@ -9104,36 +9066,25 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'UserPoolId': userPoolId,
-        if (accountRecoverySetting != null)
-          'AccountRecoverySetting': accountRecoverySetting,
-        if (adminCreateUserConfig != null)
-          'AdminCreateUserConfig': adminCreateUserConfig,
-        if (autoVerifiedAttributes != null)
-          'AutoVerifiedAttributes': autoVerifiedAttributes,
-        if (deviceConfiguration != null)
-          'DeviceConfiguration': deviceConfiguration,
-        if (emailConfiguration != null)
-          'EmailConfiguration': emailConfiguration,
-        if (emailVerificationMessage != null)
-          'EmailVerificationMessage': emailVerificationMessage,
-        if (emailVerificationSubject != null)
-          'EmailVerificationSubject': emailVerificationSubject,
-        if (lambdaConfig != null) 'LambdaConfig': lambdaConfig,
-        if (mfaConfiguration != null)
-          'MfaConfiguration': mfaConfiguration?.toValue(),
-        if (policies != null) 'Policies': policies,
-        if (smsAuthenticationMessage != null)
-          'SmsAuthenticationMessage': smsAuthenticationMessage,
-        if (smsConfiguration != null) 'SmsConfiguration': smsConfiguration,
-        if (smsVerificationMessage != null)
-          'SmsVerificationMessage': smsVerificationMessage,
-        if (userPoolAddOns != null) 'UserPoolAddOns': userPoolAddOns,
-        if (userPoolTags != null) 'UserPoolTags': userPoolTags,
-        if (verificationMessageTemplate != null)
-          'VerificationMessageTemplate': verificationMessageTemplate,
-      },
+      payload: UpdateUserPoolRequest(
+        userPoolId: userPoolId,
+        accountRecoverySetting: accountRecoverySetting,
+        adminCreateUserConfig: adminCreateUserConfig,
+        autoVerifiedAttributes: autoVerifiedAttributes,
+        deviceConfiguration: deviceConfiguration,
+        emailConfiguration: emailConfiguration,
+        emailVerificationMessage: emailVerificationMessage,
+        emailVerificationSubject: emailVerificationSubject,
+        lambdaConfig: lambdaConfig,
+        mfaConfiguration: mfaConfiguration,
+        policies: policies,
+        smsAuthenticationMessage: smsAuthenticationMessage,
+        smsConfiguration: smsConfiguration,
+        smsVerificationMessage: smsVerificationMessage,
+        userPoolAddOns: userPoolAddOns,
+        userPoolTags: userPoolTags,
+        verificationMessageTemplate: verificationMessageTemplate,
+      ),
     );
 
     return UpdateUserPoolResponse.fromJson(jsonResponse.body);
@@ -9438,31 +9389,24 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClientId': clientId,
-        'UserPoolId': userPoolId,
-        if (allowedOAuthFlows != null) 'AllowedOAuthFlows': allowedOAuthFlows,
-        if (allowedOAuthFlowsUserPoolClient != null)
-          'AllowedOAuthFlowsUserPoolClient': allowedOAuthFlowsUserPoolClient,
-        if (allowedOAuthScopes != null)
-          'AllowedOAuthScopes': allowedOAuthScopes,
-        if (analyticsConfiguration != null)
-          'AnalyticsConfiguration': analyticsConfiguration,
-        if (callbackURLs != null) 'CallbackURLs': callbackURLs,
-        if (clientName != null) 'ClientName': clientName,
-        if (defaultRedirectURI != null)
-          'DefaultRedirectURI': defaultRedirectURI,
-        if (explicitAuthFlows != null) 'ExplicitAuthFlows': explicitAuthFlows,
-        if (logoutURLs != null) 'LogoutURLs': logoutURLs,
-        if (preventUserExistenceErrors != null)
-          'PreventUserExistenceErrors': preventUserExistenceErrors?.toValue(),
-        if (readAttributes != null) 'ReadAttributes': readAttributes,
-        if (refreshTokenValidity != null)
-          'RefreshTokenValidity': refreshTokenValidity,
-        if (supportedIdentityProviders != null)
-          'SupportedIdentityProviders': supportedIdentityProviders,
-        if (writeAttributes != null) 'WriteAttributes': writeAttributes,
-      },
+      payload: UpdateUserPoolClientRequest(
+        clientId: clientId,
+        userPoolId: userPoolId,
+        allowedOAuthFlows: allowedOAuthFlows,
+        allowedOAuthFlowsUserPoolClient: allowedOAuthFlowsUserPoolClient,
+        allowedOAuthScopes: allowedOAuthScopes,
+        analyticsConfiguration: analyticsConfiguration,
+        callbackURLs: callbackURLs,
+        clientName: clientName,
+        defaultRedirectURI: defaultRedirectURI,
+        explicitAuthFlows: explicitAuthFlows,
+        logoutURLs: logoutURLs,
+        preventUserExistenceErrors: preventUserExistenceErrors,
+        readAttributes: readAttributes,
+        refreshTokenValidity: refreshTokenValidity,
+        supportedIdentityProviders: supportedIdentityProviders,
+        writeAttributes: writeAttributes,
+      ),
     );
 
     return UpdateUserPoolClientResponse.fromJson(jsonResponse.body);
@@ -9567,11 +9511,11 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CustomDomainConfig': customDomainConfig,
-        'Domain': domain,
-        'UserPoolId': userPoolId,
-      },
+      payload: UpdateUserPoolDomainRequest(
+        customDomainConfig: customDomainConfig,
+        domain: domain,
+        userPoolId: userPoolId,
+      ),
     );
 
     return UpdateUserPoolDomainResponse.fromJson(jsonResponse.body);
@@ -9648,13 +9592,12 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'UserCode': userCode,
-        if (accessToken != null) 'AccessToken': accessToken,
-        if (friendlyDeviceName != null)
-          'FriendlyDeviceName': friendlyDeviceName,
-        if (session != null) 'Session': session,
-      },
+      payload: VerifySoftwareTokenRequest(
+        userCode: userCode,
+        accessToken: accessToken,
+        friendlyDeviceName: friendlyDeviceName,
+        session: session,
+      ),
     );
 
     return VerifySoftwareTokenResponse.fromJson(jsonResponse.body);
@@ -9732,11 +9675,11 @@ class CognitoIdentityProvider {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AccessToken': accessToken,
-        'AttributeName': attributeName,
-        'Code': code,
-      },
+      payload: VerifyUserAttributeRequest(
+        accessToken: accessToken,
+        attributeName: attributeName,
+        code: code,
+      ),
     );
 
     return VerifyUserAttributeResponse.fromJson(jsonResponse.body);
@@ -9874,6 +9817,28 @@ class AccountTakeoverRiskConfigurationType {
       _$AccountTakeoverRiskConfigurationTypeToJson(this);
 }
 
+/// Represents the request to add custom attributes.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AddCustomAttributesRequest {
+  /// An array of custom attributes, such as Mutable and Name.
+  @_s.JsonKey(name: 'CustomAttributes')
+  final List<SchemaAttributeType> customAttributes;
+
+  /// The user pool ID for the user pool where you want to add custom attributes.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  AddCustomAttributesRequest({
+    @_s.required this.customAttributes,
+    @_s.required this.userPoolId,
+  });
+  Map<String, dynamic> toJson() => _$AddCustomAttributesRequestToJson(this);
+}
+
 /// Represents the response from the server for the request to add custom
 /// attributes.
 @_s.JsonSerializable(
@@ -9885,6 +9850,93 @@ class AddCustomAttributesResponse {
   AddCustomAttributesResponse();
   factory AddCustomAttributesResponse.fromJson(Map<String, dynamic> json) =>
       _$AddCustomAttributesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AdminAddUserToGroupRequest {
+  /// The group name.
+  @_s.JsonKey(name: 'GroupName')
+  final String groupName;
+
+  /// The user pool ID for the user pool.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// The username for the user.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  AdminAddUserToGroupRequest({
+    @_s.required this.groupName,
+    @_s.required this.userPoolId,
+    @_s.required this.username,
+  });
+  Map<String, dynamic> toJson() => _$AdminAddUserToGroupRequestToJson(this);
+}
+
+/// Represents the request to confirm user registration.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AdminConfirmSignUpRequest {
+  /// The user pool ID for which you want to confirm user registration.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// The user name for which you want to confirm user registration.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  /// A map of custom key-value pairs that you can provide as input for any custom
+  /// workflows that this action triggers.
+  ///
+  /// If your user pool configuration includes triggers, the AdminConfirmSignUp
+  /// API action invokes the AWS Lambda function that is specified for the <i>post
+  /// confirmation</i> trigger. When Amazon Cognito invokes this function, it
+  /// passes a JSON payload, which the function receives as input. In this
+  /// payload, the <code>clientMetadata</code> attribute provides the data that
+  /// you assigned to the ClientMetadata parameter in your AdminConfirmSignUp
+  /// request. In your function code in AWS Lambda, you can process the
+  /// ClientMetadata value to enhance your workflow for your specific needs.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html">Customizing
+  /// User Pool Workflows with Lambda Triggers</a> in the <i>Amazon Cognito
+  /// Developer Guide</i>.
+  /// <note>
+  /// Take the following limitations into consideration when you use the
+  /// ClientMetadata parameter:
+  ///
+  /// <ul>
+  /// <li>
+  /// Amazon Cognito does not store the ClientMetadata value. This data is
+  /// available only to AWS Lambda triggers that are assigned to a user pool to
+  /// support custom workflows. If your user pool configuration does not include
+  /// triggers, the ClientMetadata parameter serves no purpose.
+  /// </li>
+  /// <li>
+  /// Amazon Cognito does not validate the ClientMetadata value.
+  /// </li>
+  /// <li>
+  /// Amazon Cognito does not encrypt the the ClientMetadata value, so don't use
+  /// it to provide sensitive information.
+  /// </li>
+  /// </ul> </note>
+  @_s.JsonKey(name: 'ClientMetadata')
+  final Map<String, String> clientMetadata;
+
+  AdminConfirmSignUpRequest({
+    @_s.required this.userPoolId,
+    @_s.required this.username,
+    this.clientMetadata,
+  });
+  Map<String, dynamic> toJson() => _$AdminConfirmSignUpRequestToJson(this);
 }
 
 /// Represents the response from the server for the request to confirm
@@ -9946,6 +9998,179 @@ class AdminCreateUserConfigType {
   Map<String, dynamic> toJson() => _$AdminCreateUserConfigTypeToJson(this);
 }
 
+/// Represents the request to create a user in the specified user pool.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AdminCreateUserRequest {
+  /// The user pool ID for the user pool where the user will be created.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// The username for the user. Must be unique within the user pool. Must be a
+  /// UTF-8 string between 1 and 128 characters. After the user is created, the
+  /// username cannot be changed.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  /// A map of custom key-value pairs that you can provide as input for any custom
+  /// workflows that this action triggers.
+  ///
+  /// You create custom workflows by assigning AWS Lambda functions to user pool
+  /// triggers. When you use the AdminCreateUser API action, Amazon Cognito
+  /// invokes the function that is assigned to the <i>pre sign-up</i> trigger.
+  /// When Amazon Cognito invokes this function, it passes a JSON payload, which
+  /// the function receives as input. This payload contains a
+  /// <code>clientMetadata</code> attribute, which provides the data that you
+  /// assigned to the ClientMetadata parameter in your AdminCreateUser request. In
+  /// your function code in AWS Lambda, you can process the
+  /// <code>clientMetadata</code> value to enhance your workflow for your specific
+  /// needs.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html">Customizing
+  /// User Pool Workflows with Lambda Triggers</a> in the <i>Amazon Cognito
+  /// Developer Guide</i>.
+  /// <note>
+  /// Take the following limitations into consideration when you use the
+  /// ClientMetadata parameter:
+  ///
+  /// <ul>
+  /// <li>
+  /// Amazon Cognito does not store the ClientMetadata value. This data is
+  /// available only to AWS Lambda triggers that are assigned to a user pool to
+  /// support custom workflows. If your user pool configuration does not include
+  /// triggers, the ClientMetadata parameter serves no purpose.
+  /// </li>
+  /// <li>
+  /// Amazon Cognito does not validate the ClientMetadata value.
+  /// </li>
+  /// <li>
+  /// Amazon Cognito does not encrypt the the ClientMetadata value, so don't use
+  /// it to provide sensitive information.
+  /// </li>
+  /// </ul> </note>
+  @_s.JsonKey(name: 'ClientMetadata')
+  final Map<String, String> clientMetadata;
+
+  /// Specify <code>"EMAIL"</code> if email will be used to send the welcome
+  /// message. Specify <code>"SMS"</code> if the phone number will be used. The
+  /// default value is <code>"SMS"</code>. More than one value can be specified.
+  @_s.JsonKey(name: 'DesiredDeliveryMediums')
+  final List<String> desiredDeliveryMediums;
+
+  /// This parameter is only used if the <code>phone_number_verified</code> or
+  /// <code>email_verified</code> attribute is set to <code>True</code>.
+  /// Otherwise, it is ignored.
+  ///
+  /// If this parameter is set to <code>True</code> and the phone number or email
+  /// address specified in the UserAttributes parameter already exists as an alias
+  /// with a different user, the API call will migrate the alias from the previous
+  /// user to the newly created user. The previous user will no longer be able to
+  /// log in using that alias.
+  ///
+  /// If this parameter is set to <code>False</code>, the API throws an
+  /// <code>AliasExistsException</code> error if the alias already exists. The
+  /// default value is <code>False</code>.
+  @_s.JsonKey(name: 'ForceAliasCreation')
+  final bool forceAliasCreation;
+
+  /// Set to <code>"RESEND"</code> to resend the invitation message to a user that
+  /// already exists and reset the expiration limit on the user's account. Set to
+  /// <code>"SUPPRESS"</code> to suppress sending the message. Only one value can
+  /// be specified.
+  @_s.JsonKey(name: 'MessageAction')
+  final MessageActionType messageAction;
+
+  /// The user's temporary password. This password must conform to the password
+  /// policy that you specified when you created the user pool.
+  ///
+  /// The temporary password is valid only once. To complete the Admin Create User
+  /// flow, the user must enter the temporary password in the sign-in page along
+  /// with a new password to be used in all future sign-ins.
+  ///
+  /// This parameter is not required. If you do not specify a value, Amazon
+  /// Cognito generates one for you.
+  ///
+  /// The temporary password can only be used until the user account expiration
+  /// limit that you specified when you created the user pool. To reset the
+  /// account after that time limit, you must call <code>AdminCreateUser</code>
+  /// again, specifying <code>"RESEND"</code> for the <code>MessageAction</code>
+  /// parameter.
+  @_s.JsonKey(name: 'TemporaryPassword')
+  final String temporaryPassword;
+
+  /// An array of name-value pairs that contain user attributes and attribute
+  /// values to be set for the user to be created. You can create a user without
+  /// specifying any attributes other than <code>Username</code>. However, any
+  /// attributes that you specify as required (in or in the <b>Attributes</b> tab
+  /// of the console) must be supplied either by you (in your call to
+  /// <code>AdminCreateUser</code>) or by the user (when he or she signs up in
+  /// response to your welcome message).
+  ///
+  /// For custom attributes, you must prepend the <code>custom:</code> prefix to
+  /// the attribute name.
+  ///
+  /// To send a message inviting the user to sign up, you must specify the user's
+  /// email address or phone number. This can be done in your call to
+  /// AdminCreateUser or in the <b>Users</b> tab of the Amazon Cognito console for
+  /// managing your user pools.
+  ///
+  /// In your call to <code>AdminCreateUser</code>, you can set the
+  /// <code>email_verified</code> attribute to <code>True</code>, and you can set
+  /// the <code>phone_number_verified</code> attribute to <code>True</code>. (You
+  /// can also do this by calling .)
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>email</b>: The email address of the user to whom the message that
+  /// contains the code and username will be sent. Required if the
+  /// <code>email_verified</code> attribute is set to <code>True</code>, or if
+  /// <code>"EMAIL"</code> is specified in the <code>DesiredDeliveryMediums</code>
+  /// parameter.
+  /// </li>
+  /// <li>
+  /// <b>phone_number</b>: The phone number of the user to whom the message that
+  /// contains the code and username will be sent. Required if the
+  /// <code>phone_number_verified</code> attribute is set to <code>True</code>, or
+  /// if <code>"SMS"</code> is specified in the
+  /// <code>DesiredDeliveryMediums</code> parameter.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'UserAttributes')
+  final List<AttributeType> userAttributes;
+
+  /// The user's validation data. This is an array of name-value pairs that
+  /// contain user attributes and attribute values that you can use for custom
+  /// validation, such as restricting the types of user accounts that can be
+  /// registered. For example, you might choose to allow or disallow user sign-up
+  /// based on the user's domain.
+  ///
+  /// To configure custom validation, you must create a Pre Sign-up Lambda trigger
+  /// for the user pool as described in the Amazon Cognito Developer Guide. The
+  /// Lambda trigger receives the validation data and uses it in the validation
+  /// process.
+  ///
+  /// The user's validation data is not persisted.
+  @_s.JsonKey(name: 'ValidationData')
+  final List<AttributeType> validationData;
+
+  AdminCreateUserRequest({
+    @_s.required this.userPoolId,
+    @_s.required this.username,
+    this.clientMetadata,
+    this.desiredDeliveryMediums,
+    this.forceAliasCreation,
+    this.messageAction,
+    this.temporaryPassword,
+    this.userAttributes,
+    this.validationData,
+  });
+  Map<String, dynamic> toJson() => _$AdminCreateUserRequestToJson(this);
+}
+
 /// Represents the response from the server to the request to create the user.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -9964,6 +10189,38 @@ class AdminCreateUserResponse {
       _$AdminCreateUserResponseFromJson(json);
 }
 
+/// Represents the request to delete user attributes as an administrator.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AdminDeleteUserAttributesRequest {
+  /// An array of strings representing the user attribute names you wish to
+  /// delete.
+  ///
+  /// For custom attributes, you must prepend the <code>custom:</code> prefix to
+  /// the attribute name.
+  @_s.JsonKey(name: 'UserAttributeNames')
+  final List<String> userAttributeNames;
+
+  /// The user pool ID for the user pool where you want to delete user attributes.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// The user name of the user from which you would like to delete attributes.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  AdminDeleteUserAttributesRequest({
+    @_s.required this.userAttributeNames,
+    @_s.required this.userPoolId,
+    @_s.required this.username,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AdminDeleteUserAttributesRequestToJson(this);
+}
+
 /// Represents the response received from the server for a request to delete
 /// user attributes.
 @_s.JsonSerializable(
@@ -9978,6 +10235,50 @@ class AdminDeleteUserAttributesResponse {
       _$AdminDeleteUserAttributesResponseFromJson(json);
 }
 
+/// Represents the request to delete a user as an administrator.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AdminDeleteUserRequest {
+  /// The user pool ID for the user pool where you want to delete the user.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// The user name of the user you wish to delete.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  AdminDeleteUserRequest({
+    @_s.required this.userPoolId,
+    @_s.required this.username,
+  });
+  Map<String, dynamic> toJson() => _$AdminDeleteUserRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AdminDisableProviderForUserRequest {
+  /// The user to be disabled.
+  @_s.JsonKey(name: 'User')
+  final ProviderUserIdentifierType user;
+
+  /// The user pool ID for the user pool.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  AdminDisableProviderForUserRequest({
+    @_s.required this.user,
+    @_s.required this.userPoolId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AdminDisableProviderForUserRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -9988,6 +10289,28 @@ class AdminDisableProviderForUserResponse {
   factory AdminDisableProviderForUserResponse.fromJson(
           Map<String, dynamic> json) =>
       _$AdminDisableProviderForUserResponseFromJson(json);
+}
+
+/// Represents the request to disable any user as an administrator.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AdminDisableUserRequest {
+  /// The user pool ID for the user pool where you want to disable the user.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// The user name of the user you wish to disable.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  AdminDisableUserRequest({
+    @_s.required this.userPoolId,
+    @_s.required this.username,
+  });
+  Map<String, dynamic> toJson() => _$AdminDisableUserRequestToJson(this);
 }
 
 /// Represents the response received from the server to disable the user as an
@@ -10003,6 +10326,28 @@ class AdminDisableUserResponse {
       _$AdminDisableUserResponseFromJson(json);
 }
 
+/// Represents the request that enables the user as an administrator.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AdminEnableUserRequest {
+  /// The user pool ID for the user pool where you want to enable the user.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// The user name of the user you wish to enable.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  AdminEnableUserRequest({
+    @_s.required this.userPoolId,
+    @_s.required this.username,
+  });
+  Map<String, dynamic> toJson() => _$AdminEnableUserRequestToJson(this);
+}
+
 /// Represents the response from the server for the request to enable a user as
 /// an administrator.
 @_s.JsonSerializable(
@@ -10014,6 +10359,60 @@ class AdminEnableUserResponse {
   AdminEnableUserResponse();
   factory AdminEnableUserResponse.fromJson(Map<String, dynamic> json) =>
       _$AdminEnableUserResponseFromJson(json);
+}
+
+/// Sends the forgot device request, as an administrator.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AdminForgetDeviceRequest {
+  /// The device key.
+  @_s.JsonKey(name: 'DeviceKey')
+  final String deviceKey;
+
+  /// The user pool ID.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// The user name.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  AdminForgetDeviceRequest({
+    @_s.required this.deviceKey,
+    @_s.required this.userPoolId,
+    @_s.required this.username,
+  });
+  Map<String, dynamic> toJson() => _$AdminForgetDeviceRequestToJson(this);
+}
+
+/// Represents the request to get the device, as an administrator.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AdminGetDeviceRequest {
+  /// The device key.
+  @_s.JsonKey(name: 'DeviceKey')
+  final String deviceKey;
+
+  /// The user pool ID.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// The user name.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  AdminGetDeviceRequest({
+    @_s.required this.deviceKey,
+    @_s.required this.userPoolId,
+    @_s.required this.username,
+  });
+  Map<String, dynamic> toJson() => _$AdminGetDeviceRequestToJson(this);
 }
 
 /// Gets the device response, as an administrator.
@@ -10032,6 +10431,29 @@ class AdminGetDeviceResponse {
   });
   factory AdminGetDeviceResponse.fromJson(Map<String, dynamic> json) =>
       _$AdminGetDeviceResponseFromJson(json);
+}
+
+/// Represents the request to get the specified user as an administrator.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AdminGetUserRequest {
+  /// The user pool ID for the user pool where you want to get information about
+  /// the user.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// The user name of the user you wish to retrieve.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  AdminGetUserRequest({
+    @_s.required this.userPoolId,
+    @_s.required this.username,
+  });
+  Map<String, dynamic> toJson() => _$AdminGetUserRequestToJson(this);
 }
 
 /// Represents the response from the server from the request to get the
@@ -10129,6 +10551,205 @@ class AdminGetUserResponse {
   });
   factory AdminGetUserResponse.fromJson(Map<String, dynamic> json) =>
       _$AdminGetUserResponseFromJson(json);
+}
+
+/// Initiates the authorization request, as an administrator.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AdminInitiateAuthRequest {
+  /// The authentication flow for this call to execute. The API action will depend
+  /// on this value. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>REFRESH_TOKEN_AUTH</code> will take in a valid refresh token and
+  /// return new tokens.
+  /// </li>
+  /// <li>
+  /// <code>USER_SRP_AUTH</code> will take in <code>USERNAME</code> and
+  /// <code>SRP_A</code> and return the SRP variables to be used for next
+  /// challenge execution.
+  /// </li>
+  /// <li>
+  /// <code>USER_PASSWORD_AUTH</code> will take in <code>USERNAME</code> and
+  /// <code>PASSWORD</code> and return the next challenge or tokens.
+  /// </li>
+  /// </ul>
+  /// Valid values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>USER_SRP_AUTH</code>: Authentication flow for the Secure Remote
+  /// Password (SRP) protocol.
+  /// </li>
+  /// <li>
+  /// <code>REFRESH_TOKEN_AUTH</code>/<code>REFRESH_TOKEN</code>: Authentication
+  /// flow for refreshing the access token and ID token by supplying a valid
+  /// refresh token.
+  /// </li>
+  /// <li>
+  /// <code>CUSTOM_AUTH</code>: Custom authentication flow.
+  /// </li>
+  /// <li>
+  /// <code>ADMIN_NO_SRP_AUTH</code>: Non-SRP authentication flow; you can pass in
+  /// the USERNAME and PASSWORD directly if the flow is enabled for calling the
+  /// app client.
+  /// </li>
+  /// <li>
+  /// <code>USER_PASSWORD_AUTH</code>: Non-SRP authentication flow; USERNAME and
+  /// PASSWORD are passed directly. If a user migration Lambda trigger is set,
+  /// this flow will invoke the user migration Lambda if the USERNAME is not found
+  /// in the user pool.
+  /// </li>
+  /// <li>
+  /// <code>ADMIN_USER_PASSWORD_AUTH</code>: Admin-based user password
+  /// authentication. This replaces the <code>ADMIN_NO_SRP_AUTH</code>
+  /// authentication flow. In this flow, Cognito receives the password in the
+  /// request instead of using the SRP process to verify passwords.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AuthFlow')
+  final AuthFlowType authFlow;
+
+  /// The app client ID.
+  @_s.JsonKey(name: 'ClientId')
+  final String clientId;
+
+  /// The ID of the Amazon Cognito user pool.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// The analytics metadata for collecting Amazon Pinpoint metrics for
+  /// <code>AdminInitiateAuth</code> calls.
+  @_s.JsonKey(name: 'AnalyticsMetadata')
+  final AnalyticsMetadataType analyticsMetadata;
+
+  /// The authentication parameters. These are inputs corresponding to the
+  /// <code>AuthFlow</code> that you are invoking. The required values depend on
+  /// the value of <code>AuthFlow</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// For <code>USER_SRP_AUTH</code>: <code>USERNAME</code> (required),
+  /// <code>SRP_A</code> (required), <code>SECRET_HASH</code> (required if the app
+  /// client is configured with a client secret), <code>DEVICE_KEY</code>
+  /// </li>
+  /// <li>
+  /// For <code>REFRESH_TOKEN_AUTH/REFRESH_TOKEN</code>:
+  /// <code>REFRESH_TOKEN</code> (required), <code>SECRET_HASH</code> (required if
+  /// the app client is configured with a client secret), <code>DEVICE_KEY</code>
+  /// </li>
+  /// <li>
+  /// For <code>ADMIN_NO_SRP_AUTH</code>: <code>USERNAME</code> (required),
+  /// <code>SECRET_HASH</code> (if app client is configured with client secret),
+  /// <code>PASSWORD</code> (required), <code>DEVICE_KEY</code>
+  /// </li>
+  /// <li>
+  /// For <code>CUSTOM_AUTH</code>: <code>USERNAME</code> (required),
+  /// <code>SECRET_HASH</code> (if app client is configured with client secret),
+  /// <code>DEVICE_KEY</code>
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AuthParameters')
+  final Map<String, String> authParameters;
+
+  /// A map of custom key-value pairs that you can provide as input for certain
+  /// custom workflows that this action triggers.
+  ///
+  /// You create custom workflows by assigning AWS Lambda functions to user pool
+  /// triggers. When you use the AdminInitiateAuth API action, Amazon Cognito
+  /// invokes the AWS Lambda functions that are specified for various triggers.
+  /// The ClientMetadata value is passed as input to the functions for only the
+  /// following triggers:
+  ///
+  /// <ul>
+  /// <li>
+  /// Pre signup
+  /// </li>
+  /// <li>
+  /// Pre authentication
+  /// </li>
+  /// <li>
+  /// User migration
+  /// </li>
+  /// </ul>
+  /// When Amazon Cognito invokes the functions for these triggers, it passes a
+  /// JSON payload, which the function receives as input. This payload contains a
+  /// <code>validationData</code> attribute, which provides the data that you
+  /// assigned to the ClientMetadata parameter in your AdminInitiateAuth request.
+  /// In your function code in AWS Lambda, you can process the
+  /// <code>validationData</code> value to enhance your workflow for your specific
+  /// needs.
+  ///
+  /// When you use the AdminInitiateAuth API action, Amazon Cognito also invokes
+  /// the functions for the following triggers, but it does not provide the
+  /// ClientMetadata value as input:
+  ///
+  /// <ul>
+  /// <li>
+  /// Post authentication
+  /// </li>
+  /// <li>
+  /// Custom message
+  /// </li>
+  /// <li>
+  /// Pre token generation
+  /// </li>
+  /// <li>
+  /// Create auth challenge
+  /// </li>
+  /// <li>
+  /// Define auth challenge
+  /// </li>
+  /// <li>
+  /// Verify auth challenge
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html">Customizing
+  /// User Pool Workflows with Lambda Triggers</a> in the <i>Amazon Cognito
+  /// Developer Guide</i>.
+  /// <note>
+  /// Take the following limitations into consideration when you use the
+  /// ClientMetadata parameter:
+  ///
+  /// <ul>
+  /// <li>
+  /// Amazon Cognito does not store the ClientMetadata value. This data is
+  /// available only to AWS Lambda triggers that are assigned to a user pool to
+  /// support custom workflows. If your user pool configuration does not include
+  /// triggers, the ClientMetadata parameter serves no purpose.
+  /// </li>
+  /// <li>
+  /// Amazon Cognito does not validate the ClientMetadata value.
+  /// </li>
+  /// <li>
+  /// Amazon Cognito does not encrypt the the ClientMetadata value, so don't use
+  /// it to provide sensitive information.
+  /// </li>
+  /// </ul> </note>
+  @_s.JsonKey(name: 'ClientMetadata')
+  final Map<String, String> clientMetadata;
+
+  /// Contextual data such as the user's device fingerprint, IP address, or
+  /// location used for evaluating the risk of an unexpected event by Amazon
+  /// Cognito advanced security.
+  @_s.JsonKey(name: 'ContextData')
+  final ContextDataType contextData;
+
+  AdminInitiateAuthRequest({
+    @_s.required this.authFlow,
+    @_s.required this.clientId,
+    @_s.required this.userPoolId,
+    this.analyticsMetadata,
+    this.authParameters,
+    this.clientMetadata,
+    this.contextData,
+  });
+  Map<String, dynamic> toJson() => _$AdminInitiateAuthRequestToJson(this);
 }
 
 /// Initiates the authentication response, as an administrator.
@@ -10238,6 +10859,72 @@ class AdminInitiateAuthResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AdminLinkProviderForUserRequest {
+  /// The existing user in the user pool to be linked to the external identity
+  /// provider user account. Can be a native (Username + Password) Cognito User
+  /// Pools user or a federated user (for example, a SAML or Facebook user). If
+  /// the user doesn't exist, an exception is thrown. This is the user that is
+  /// returned when the new user (with the linked identity provider attribute)
+  /// signs in.
+  ///
+  /// For a native username + password user, the
+  /// <code>ProviderAttributeValue</code> for the <code>DestinationUser</code>
+  /// should be the username in the user pool. For a federated user, it should be
+  /// the provider-specific <code>user_id</code>.
+  ///
+  /// The <code>ProviderAttributeName</code> of the <code>DestinationUser</code>
+  /// is ignored.
+  ///
+  /// The <code>ProviderName</code> should be set to <code>Cognito</code> for
+  /// users in Cognito user pools.
+  @_s.JsonKey(name: 'DestinationUser')
+  final ProviderUserIdentifierType destinationUser;
+
+  /// An external identity provider account for a user who does not currently
+  /// exist yet in the user pool. This user must be a federated user (for example,
+  /// a SAML or Facebook user), not another native user.
+  ///
+  /// If the <code>SourceUser</code> is a federated social identity provider user
+  /// (Facebook, Google, or Login with Amazon), you must set the
+  /// <code>ProviderAttributeName</code> to <code>Cognito_Subject</code>. For
+  /// social identity providers, the <code>ProviderName</code> will be
+  /// <code>Facebook</code>, <code>Google</code>, or <code>LoginWithAmazon</code>,
+  /// and Cognito will automatically parse the Facebook, Google, and Login with
+  /// Amazon tokens for <code>id</code>, <code>sub</code>, and
+  /// <code>user_id</code>, respectively. The <code>ProviderAttributeValue</code>
+  /// for the user must be the same value as the <code>id</code>,
+  /// <code>sub</code>, or <code>user_id</code> value found in the social identity
+  /// provider token.
+  /// <p/>
+  /// For SAML, the <code>ProviderAttributeName</code> can be any value that
+  /// matches a claim in the SAML assertion. If you wish to link SAML users based
+  /// on the subject of the SAML assertion, you should map the subject to a claim
+  /// through the SAML identity provider and submit that claim name as the
+  /// <code>ProviderAttributeName</code>. If you set
+  /// <code>ProviderAttributeName</code> to <code>Cognito_Subject</code>, Cognito
+  /// will automatically parse the default unique identifier found in the subject
+  /// from the SAML token.
+  @_s.JsonKey(name: 'SourceUser')
+  final ProviderUserIdentifierType sourceUser;
+
+  /// The user pool ID for the user pool.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  AdminLinkProviderForUserRequest({
+    @_s.required this.destinationUser,
+    @_s.required this.sourceUser,
+    @_s.required this.userPoolId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AdminLinkProviderForUserRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AdminLinkProviderForUserResponse {
@@ -10245,6 +10932,38 @@ class AdminLinkProviderForUserResponse {
   factory AdminLinkProviderForUserResponse.fromJson(
           Map<String, dynamic> json) =>
       _$AdminLinkProviderForUserResponseFromJson(json);
+}
+
+/// Represents the request to list devices, as an administrator.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AdminListDevicesRequest {
+  /// The user pool ID.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// The user name.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  /// The limit of the devices request.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The pagination token.
+  @_s.JsonKey(name: 'PaginationToken')
+  final String paginationToken;
+
+  AdminListDevicesRequest({
+    @_s.required this.userPoolId,
+    @_s.required this.username,
+    this.limit,
+    this.paginationToken,
+  });
+  Map<String, dynamic> toJson() => _$AdminListDevicesRequestToJson(this);
 }
 
 /// Lists the device's response, as an administrator.
@@ -10273,6 +10992,38 @@ class AdminListDevicesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AdminListGroupsForUserRequest {
+  /// The user pool ID for the user pool.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// The username for the user.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  /// The limit of the request to list groups.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// An identifier that was returned from the previous call to this operation,
+  /// which can be used to return the next set of items in the list.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  AdminListGroupsForUserRequest({
+    @_s.required this.userPoolId,
+    @_s.required this.username,
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$AdminListGroupsForUserRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AdminListGroupsForUserResponse {
@@ -10291,6 +11042,37 @@ class AdminListGroupsForUserResponse {
   });
   factory AdminListGroupsForUserResponse.fromJson(Map<String, dynamic> json) =>
       _$AdminListGroupsForUserResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AdminListUserAuthEventsRequest {
+  /// The user pool ID.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// The user pool username or an alias.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  /// The maximum number of authentication events to return.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A pagination token.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  AdminListUserAuthEventsRequest({
+    @_s.required this.userPoolId,
+    @_s.required this.username,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$AdminListUserAuthEventsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10317,6 +11099,97 @@ class AdminListUserAuthEventsResponse {
       _$AdminListUserAuthEventsResponseFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AdminRemoveUserFromGroupRequest {
+  /// The group name.
+  @_s.JsonKey(name: 'GroupName')
+  final String groupName;
+
+  /// The user pool ID for the user pool.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// The username for the user.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  AdminRemoveUserFromGroupRequest({
+    @_s.required this.groupName,
+    @_s.required this.userPoolId,
+    @_s.required this.username,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AdminRemoveUserFromGroupRequestToJson(this);
+}
+
+/// Represents the request to reset a user's password as an administrator.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AdminResetUserPasswordRequest {
+  /// The user pool ID for the user pool where you want to reset the user's
+  /// password.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// The user name of the user whose password you wish to reset.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  /// A map of custom key-value pairs that you can provide as input for any custom
+  /// workflows that this action triggers.
+  ///
+  /// You create custom workflows by assigning AWS Lambda functions to user pool
+  /// triggers. When you use the AdminResetUserPassword API action, Amazon Cognito
+  /// invokes the function that is assigned to the <i>custom message</i> trigger.
+  /// When Amazon Cognito invokes this function, it passes a JSON payload, which
+  /// the function receives as input. This payload contains a
+  /// <code>clientMetadata</code> attribute, which provides the data that you
+  /// assigned to the ClientMetadata parameter in your AdminResetUserPassword
+  /// request. In your function code in AWS Lambda, you can process the
+  /// <code>clientMetadata</code> value to enhance your workflow for your specific
+  /// needs.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html">Customizing
+  /// User Pool Workflows with Lambda Triggers</a> in the <i>Amazon Cognito
+  /// Developer Guide</i>.
+  /// <note>
+  /// Take the following limitations into consideration when you use the
+  /// ClientMetadata parameter:
+  ///
+  /// <ul>
+  /// <li>
+  /// Amazon Cognito does not store the ClientMetadata value. This data is
+  /// available only to AWS Lambda triggers that are assigned to a user pool to
+  /// support custom workflows. If your user pool configuration does not include
+  /// triggers, the ClientMetadata parameter serves no purpose.
+  /// </li>
+  /// <li>
+  /// Amazon Cognito does not validate the ClientMetadata value.
+  /// </li>
+  /// <li>
+  /// Amazon Cognito does not encrypt the the ClientMetadata value, so don't use
+  /// it to provide sensitive information.
+  /// </li>
+  /// </ul> </note>
+  @_s.JsonKey(name: 'ClientMetadata')
+  final Map<String, String> clientMetadata;
+
+  AdminResetUserPasswordRequest({
+    @_s.required this.userPoolId,
+    @_s.required this.username,
+    this.clientMetadata,
+  });
+  Map<String, dynamic> toJson() => _$AdminResetUserPasswordRequestToJson(this);
+}
+
 /// Represents the response from the server to reset a user password as an
 /// administrator.
 @_s.JsonSerializable(
@@ -10328,6 +11201,135 @@ class AdminResetUserPasswordResponse {
   AdminResetUserPasswordResponse();
   factory AdminResetUserPasswordResponse.fromJson(Map<String, dynamic> json) =>
       _$AdminResetUserPasswordResponseFromJson(json);
+}
+
+/// The request to respond to the authentication challenge, as an administrator.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AdminRespondToAuthChallengeRequest {
+  /// The challenge name. For more information, see .
+  @_s.JsonKey(name: 'ChallengeName')
+  final ChallengeNameType challengeName;
+
+  /// The app client ID.
+  @_s.JsonKey(name: 'ClientId')
+  final String clientId;
+
+  /// The ID of the Amazon Cognito user pool.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// The analytics metadata for collecting Amazon Pinpoint metrics for
+  /// <code>AdminRespondToAuthChallenge</code> calls.
+  @_s.JsonKey(name: 'AnalyticsMetadata')
+  final AnalyticsMetadataType analyticsMetadata;
+
+  /// The challenge responses. These are inputs corresponding to the value of
+  /// <code>ChallengeName</code>, for example:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>SMS_MFA</code>: <code>SMS_MFA_CODE</code>, <code>USERNAME</code>,
+  /// <code>SECRET_HASH</code> (if app client is configured with client secret).
+  /// </li>
+  /// <li>
+  /// <code>PASSWORD_VERIFIER</code>: <code>PASSWORD_CLAIM_SIGNATURE</code>,
+  /// <code>PASSWORD_CLAIM_SECRET_BLOCK</code>, <code>TIMESTAMP</code>,
+  /// <code>USERNAME</code>, <code>SECRET_HASH</code> (if app client is configured
+  /// with client secret).
+  /// </li>
+  /// <li>
+  /// <code>ADMIN_NO_SRP_AUTH</code>: <code>PASSWORD</code>,
+  /// <code>USERNAME</code>, <code>SECRET_HASH</code> (if app client is configured
+  /// with client secret).
+  /// </li>
+  /// <li>
+  /// <code>NEW_PASSWORD_REQUIRED</code>: <code>NEW_PASSWORD</code>, any other
+  /// required attributes, <code>USERNAME</code>, <code>SECRET_HASH</code> (if app
+  /// client is configured with client secret).
+  /// </li>
+  /// </ul>
+  /// The value of the <code>USERNAME</code> attribute must be the user's actual
+  /// username, not an alias (such as email address or phone number). To make this
+  /// easier, the <code>AdminInitiateAuth</code> response includes the actual
+  /// username value in the <code>USERNAMEUSER_ID_FOR_SRP</code> attribute, even
+  /// if you specified an alias in your call to <code>AdminInitiateAuth</code>.
+  @_s.JsonKey(name: 'ChallengeResponses')
+  final Map<String, String> challengeResponses;
+
+  /// A map of custom key-value pairs that you can provide as input for any custom
+  /// workflows that this action triggers.
+  ///
+  /// You create custom workflows by assigning AWS Lambda functions to user pool
+  /// triggers. When you use the AdminRespondToAuthChallenge API action, Amazon
+  /// Cognito invokes any functions that are assigned to the following triggers:
+  /// <i>pre sign-up</i>, <i>custom message</i>, <i>post authentication</i>,
+  /// <i>user migration</i>, <i>pre token generation</i>, <i>define auth
+  /// challenge</i>, <i>create auth challenge</i>, and <i>verify auth challenge
+  /// response</i>. When Amazon Cognito invokes any of these functions, it passes
+  /// a JSON payload, which the function receives as input. This payload contains
+  /// a <code>clientMetadata</code> attribute, which provides the data that you
+  /// assigned to the ClientMetadata parameter in your AdminRespondToAuthChallenge
+  /// request. In your function code in AWS Lambda, you can process the
+  /// <code>clientMetadata</code> value to enhance your workflow for your specific
+  /// needs.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html">Customizing
+  /// User Pool Workflows with Lambda Triggers</a> in the <i>Amazon Cognito
+  /// Developer Guide</i>.
+  /// <note>
+  /// Take the following limitations into consideration when you use the
+  /// ClientMetadata parameter:
+  ///
+  /// <ul>
+  /// <li>
+  /// Amazon Cognito does not store the ClientMetadata value. This data is
+  /// available only to AWS Lambda triggers that are assigned to a user pool to
+  /// support custom workflows. If your user pool configuration does not include
+  /// triggers, the ClientMetadata parameter serves no purpose.
+  /// </li>
+  /// <li>
+  /// Amazon Cognito does not validate the ClientMetadata value.
+  /// </li>
+  /// <li>
+  /// Amazon Cognito does not encrypt the the ClientMetadata value, so don't use
+  /// it to provide sensitive information.
+  /// </li>
+  /// </ul> </note>
+  @_s.JsonKey(name: 'ClientMetadata')
+  final Map<String, String> clientMetadata;
+
+  /// Contextual data such as the user's device fingerprint, IP address, or
+  /// location used for evaluating the risk of an unexpected event by Amazon
+  /// Cognito advanced security.
+  @_s.JsonKey(name: 'ContextData')
+  final ContextDataType contextData;
+
+  /// The session which should be passed both ways in challenge-response calls to
+  /// the service. If <code>InitiateAuth</code> or
+  /// <code>RespondToAuthChallenge</code> API call determines that the caller
+  /// needs to go through another challenge, they return a session with other
+  /// challenge parameters. This session should be passed as it is to the next
+  /// <code>RespondToAuthChallenge</code> API call.
+  @_s.JsonKey(name: 'Session')
+  final String session;
+
+  AdminRespondToAuthChallengeRequest({
+    @_s.required this.challengeName,
+    @_s.required this.clientId,
+    @_s.required this.userPoolId,
+    this.analyticsMetadata,
+    this.challengeResponses,
+    this.clientMetadata,
+    this.contextData,
+    this.session,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AdminRespondToAuthChallengeRequestToJson(this);
 }
 
 /// Responds to the authentication challenge, as an administrator.
@@ -10371,6 +11373,38 @@ class AdminRespondToAuthChallengeResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AdminSetUserMFAPreferenceRequest {
+  /// The user pool ID.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// The user pool username or alias.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  /// The SMS text message MFA settings.
+  @_s.JsonKey(name: 'SMSMfaSettings')
+  final SMSMfaSettingsType sMSMfaSettings;
+
+  /// The time-based one-time password software token MFA settings.
+  @_s.JsonKey(name: 'SoftwareTokenMfaSettings')
+  final SoftwareTokenMfaSettingsType softwareTokenMfaSettings;
+
+  AdminSetUserMFAPreferenceRequest({
+    @_s.required this.userPoolId,
+    @_s.required this.username,
+    this.sMSMfaSettings,
+    this.softwareTokenMfaSettings,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AdminSetUserMFAPreferenceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AdminSetUserMFAPreferenceResponse {
@@ -10383,12 +11417,75 @@ class AdminSetUserMFAPreferenceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AdminSetUserPasswordRequest {
+  /// The password for the user.
+  @_s.JsonKey(name: 'Password')
+  final String password;
+
+  /// The user pool ID for the user pool where you want to set the user's
+  /// password.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// The user name of the user whose password you wish to set.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  /// <code>True</code> if the password is permanent, <code>False</code> if it is
+  /// temporary.
+  @_s.JsonKey(name: 'Permanent')
+  final bool permanent;
+
+  AdminSetUserPasswordRequest({
+    @_s.required this.password,
+    @_s.required this.userPoolId,
+    @_s.required this.username,
+    this.permanent,
+  });
+  Map<String, dynamic> toJson() => _$AdminSetUserPasswordRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AdminSetUserPasswordResponse {
   AdminSetUserPasswordResponse();
   factory AdminSetUserPasswordResponse.fromJson(Map<String, dynamic> json) =>
       _$AdminSetUserPasswordResponseFromJson(json);
+}
+
+/// You can use this parameter to set an MFA configuration that uses the SMS
+/// delivery medium.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AdminSetUserSettingsRequest {
+  /// You can use this parameter only to set an SMS configuration that uses SMS
+  /// for delivery.
+  @_s.JsonKey(name: 'MFAOptions')
+  final List<MFAOptionType> mFAOptions;
+
+  /// The ID of the user pool that contains the user that you are setting options
+  /// for.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// The user name of the user that you are setting options for.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  AdminSetUserSettingsRequest({
+    @_s.required this.mFAOptions,
+    @_s.required this.userPoolId,
+    @_s.required this.username,
+  });
+  Map<String, dynamic> toJson() => _$AdminSetUserSettingsRequestToJson(this);
 }
 
 /// Represents the response from the server to set user settings as an
@@ -10407,6 +11504,38 @@ class AdminSetUserSettingsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AdminUpdateAuthEventFeedbackRequest {
+  /// The authentication event ID.
+  @_s.JsonKey(name: 'EventId')
+  final String eventId;
+
+  /// The authentication event feedback value.
+  @_s.JsonKey(name: 'FeedbackValue')
+  final FeedbackValueType feedbackValue;
+
+  /// The user pool ID.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// The user pool username.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  AdminUpdateAuthEventFeedbackRequest({
+    @_s.required this.eventId,
+    @_s.required this.feedbackValue,
+    @_s.required this.userPoolId,
+    @_s.required this.username,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AdminUpdateAuthEventFeedbackRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AdminUpdateAuthEventFeedbackResponse {
@@ -10414,6 +11543,38 @@ class AdminUpdateAuthEventFeedbackResponse {
   factory AdminUpdateAuthEventFeedbackResponse.fromJson(
           Map<String, dynamic> json) =>
       _$AdminUpdateAuthEventFeedbackResponseFromJson(json);
+}
+
+/// The request to update the device status, as an administrator.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AdminUpdateDeviceStatusRequest {
+  /// The device key.
+  @_s.JsonKey(name: 'DeviceKey')
+  final String deviceKey;
+
+  /// The user pool ID.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// The user name.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  /// The status indicating whether a device has been remembered or not.
+  @_s.JsonKey(name: 'DeviceRememberedStatus')
+  final DeviceRememberedStatusType deviceRememberedStatus;
+
+  AdminUpdateDeviceStatusRequest({
+    @_s.required this.deviceKey,
+    @_s.required this.userPoolId,
+    @_s.required this.username,
+    this.deviceRememberedStatus,
+  });
+  Map<String, dynamic> toJson() => _$AdminUpdateDeviceStatusRequestToJson(this);
 }
 
 /// The status response from the request to update the device, as an
@@ -10429,6 +11590,78 @@ class AdminUpdateDeviceStatusResponse {
       _$AdminUpdateDeviceStatusResponseFromJson(json);
 }
 
+/// Represents the request to update the user's attributes as an administrator.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AdminUpdateUserAttributesRequest {
+  /// An array of name-value pairs representing user attributes.
+  ///
+  /// For custom attributes, you must prepend the <code>custom:</code> prefix to
+  /// the attribute name.
+  @_s.JsonKey(name: 'UserAttributes')
+  final List<AttributeType> userAttributes;
+
+  /// The user pool ID for the user pool where you want to update user attributes.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// The user name of the user for whom you want to update user attributes.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  /// A map of custom key-value pairs that you can provide as input for any custom
+  /// workflows that this action triggers.
+  ///
+  /// You create custom workflows by assigning AWS Lambda functions to user pool
+  /// triggers. When you use the AdminUpdateUserAttributes API action, Amazon
+  /// Cognito invokes the function that is assigned to the <i>custom message</i>
+  /// trigger. When Amazon Cognito invokes this function, it passes a JSON
+  /// payload, which the function receives as input. This payload contains a
+  /// <code>clientMetadata</code> attribute, which provides the data that you
+  /// assigned to the ClientMetadata parameter in your AdminUpdateUserAttributes
+  /// request. In your function code in AWS Lambda, you can process the
+  /// <code>clientMetadata</code> value to enhance your workflow for your specific
+  /// needs.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html">Customizing
+  /// User Pool Workflows with Lambda Triggers</a> in the <i>Amazon Cognito
+  /// Developer Guide</i>.
+  /// <note>
+  /// Take the following limitations into consideration when you use the
+  /// ClientMetadata parameter:
+  ///
+  /// <ul>
+  /// <li>
+  /// Amazon Cognito does not store the ClientMetadata value. This data is
+  /// available only to AWS Lambda triggers that are assigned to a user pool to
+  /// support custom workflows. If your user pool configuration does not include
+  /// triggers, the ClientMetadata parameter serves no purpose.
+  /// </li>
+  /// <li>
+  /// Amazon Cognito does not validate the ClientMetadata value.
+  /// </li>
+  /// <li>
+  /// Amazon Cognito does not encrypt the the ClientMetadata value, so don't use
+  /// it to provide sensitive information.
+  /// </li>
+  /// </ul> </note>
+  @_s.JsonKey(name: 'ClientMetadata')
+  final Map<String, String> clientMetadata;
+
+  AdminUpdateUserAttributesRequest({
+    @_s.required this.userAttributes,
+    @_s.required this.userPoolId,
+    @_s.required this.username,
+    this.clientMetadata,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AdminUpdateUserAttributesRequestToJson(this);
+}
+
 /// Represents the response from the server for the request to update user
 /// attributes as an administrator.
 @_s.JsonSerializable(
@@ -10441,6 +11674,28 @@ class AdminUpdateUserAttributesResponse {
   factory AdminUpdateUserAttributesResponse.fromJson(
           Map<String, dynamic> json) =>
       _$AdminUpdateUserAttributesResponseFromJson(json);
+}
+
+/// The request to sign out of all devices, as an administrator.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AdminUserGlobalSignOutRequest {
+  /// The user pool ID.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// The user name.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  AdminUserGlobalSignOutRequest({
+    @_s.required this.userPoolId,
+    @_s.required this.username,
+  });
+  Map<String, dynamic> toJson() => _$AdminUserGlobalSignOutRequestToJson(this);
 }
 
 /// The global sign-out response, as an administrator.
@@ -10539,6 +11794,29 @@ class AnalyticsMetadataType {
     this.analyticsEndpointId,
   });
   Map<String, dynamic> toJson() => _$AnalyticsMetadataTypeToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateSoftwareTokenRequest {
+  /// The access token.
+  @_s.JsonKey(name: 'AccessToken')
+  final String accessToken;
+
+  /// The session which should be passed both ways in challenge-response calls to
+  /// the service. This allows authentication of the user as part of the MFA setup
+  /// process.
+  @_s.JsonKey(name: 'Session')
+  final String session;
+
+  AssociateSoftwareTokenRequest({
+    this.accessToken,
+    this.session,
+  });
+  Map<String, dynamic> toJson() => _$AssociateSoftwareTokenRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10678,28 +11956,6 @@ enum AuthFlowType {
   adminUserPasswordAuth,
 }
 
-extension on AuthFlowType {
-  String toValue() {
-    switch (this) {
-      case AuthFlowType.userSrpAuth:
-        return 'USER_SRP_AUTH';
-      case AuthFlowType.refreshTokenAuth:
-        return 'REFRESH_TOKEN_AUTH';
-      case AuthFlowType.refreshToken:
-        return 'REFRESH_TOKEN';
-      case AuthFlowType.customAuth:
-        return 'CUSTOM_AUTH';
-      case AuthFlowType.adminNoSrpAuth:
-        return 'ADMIN_NO_SRP_AUTH';
-      case AuthFlowType.userPasswordAuth:
-        return 'USER_PASSWORD_AUTH';
-      case AuthFlowType.adminUserPasswordAuth:
-        return 'ADMIN_USER_PASSWORD_AUTH';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// The authentication result.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -10773,34 +12029,6 @@ enum ChallengeNameType {
   newPasswordRequired,
 }
 
-extension on ChallengeNameType {
-  String toValue() {
-    switch (this) {
-      case ChallengeNameType.smsMfa:
-        return 'SMS_MFA';
-      case ChallengeNameType.softwareTokenMfa:
-        return 'SOFTWARE_TOKEN_MFA';
-      case ChallengeNameType.selectMfaType:
-        return 'SELECT_MFA_TYPE';
-      case ChallengeNameType.mfaSetup:
-        return 'MFA_SETUP';
-      case ChallengeNameType.passwordVerifier:
-        return 'PASSWORD_VERIFIER';
-      case ChallengeNameType.customChallenge:
-        return 'CUSTOM_CHALLENGE';
-      case ChallengeNameType.deviceSrpAuth:
-        return 'DEVICE_SRP_AUTH';
-      case ChallengeNameType.devicePasswordVerifier:
-        return 'DEVICE_PASSWORD_VERIFIER';
-      case ChallengeNameType.adminNoSrpAuth:
-        return 'ADMIN_NO_SRP_AUTH';
-      case ChallengeNameType.newPasswordRequired:
-        return 'NEW_PASSWORD_REQUIRED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum ChallengeResponse {
   @_s.JsonValue('Success')
   success,
@@ -10829,6 +12057,33 @@ class ChallengeResponseType {
   });
   factory ChallengeResponseType.fromJson(Map<String, dynamic> json) =>
       _$ChallengeResponseTypeFromJson(json);
+}
+
+/// Represents the request to change a user password.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ChangePasswordRequest {
+  /// The access token.
+  @_s.JsonKey(name: 'AccessToken')
+  final String accessToken;
+
+  /// The old password.
+  @_s.JsonKey(name: 'PreviousPassword')
+  final String previousPassword;
+
+  /// The new password.
+  @_s.JsonKey(name: 'ProposedPassword')
+  final String proposedPassword;
+
+  ChangePasswordRequest({
+    @_s.required this.accessToken,
+    @_s.required this.previousPassword,
+    @_s.required this.proposedPassword,
+  });
+  Map<String, dynamic> toJson() => _$ChangePasswordRequestToJson(this);
 }
 
 /// The response from the server to the change password request.
@@ -10928,6 +12183,38 @@ class CompromisedCredentialsRiskConfigurationType {
       _$CompromisedCredentialsRiskConfigurationTypeToJson(this);
 }
 
+/// Confirms the device request.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ConfirmDeviceRequest {
+  /// The access token.
+  @_s.JsonKey(name: 'AccessToken')
+  final String accessToken;
+
+  /// The device key.
+  @_s.JsonKey(name: 'DeviceKey')
+  final String deviceKey;
+
+  /// The device name.
+  @_s.JsonKey(name: 'DeviceName')
+  final String deviceName;
+
+  /// The configuration of the device secret verifier.
+  @_s.JsonKey(name: 'DeviceSecretVerifierConfig')
+  final DeviceSecretVerifierConfigType deviceSecretVerifierConfig;
+
+  ConfirmDeviceRequest({
+    @_s.required this.accessToken,
+    @_s.required this.deviceKey,
+    this.deviceName,
+    this.deviceSecretVerifierConfig,
+  });
+  Map<String, dynamic> toJson() => _$ConfirmDeviceRequestToJson(this);
+}
+
 /// Confirms the device response.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -10947,6 +12234,100 @@ class ConfirmDeviceResponse {
       _$ConfirmDeviceResponseFromJson(json);
 }
 
+/// The request representing the confirmation for a password reset.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ConfirmForgotPasswordRequest {
+  /// The app client ID of the app associated with the user pool.
+  @_s.JsonKey(name: 'ClientId')
+  final String clientId;
+
+  /// The confirmation code sent by a user's request to retrieve a forgotten
+  /// password. For more information, see
+  @_s.JsonKey(name: 'ConfirmationCode')
+  final String confirmationCode;
+
+  /// The password sent by a user's request to retrieve a forgotten password.
+  @_s.JsonKey(name: 'Password')
+  final String password;
+
+  /// The user name of the user for whom you want to enter a code to retrieve a
+  /// forgotten password.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  /// The Amazon Pinpoint analytics metadata for collecting metrics for
+  /// <code>ConfirmForgotPassword</code> calls.
+  @_s.JsonKey(name: 'AnalyticsMetadata')
+  final AnalyticsMetadataType analyticsMetadata;
+
+  /// A map of custom key-value pairs that you can provide as input for any custom
+  /// workflows that this action triggers.
+  ///
+  /// You create custom workflows by assigning AWS Lambda functions to user pool
+  /// triggers. When you use the ConfirmForgotPassword API action, Amazon Cognito
+  /// invokes the function that is assigned to the <i>post confirmation</i>
+  /// trigger. When Amazon Cognito invokes this function, it passes a JSON
+  /// payload, which the function receives as input. This payload contains a
+  /// <code>clientMetadata</code> attribute, which provides the data that you
+  /// assigned to the ClientMetadata parameter in your ConfirmForgotPassword
+  /// request. In your function code in AWS Lambda, you can process the
+  /// <code>clientMetadata</code> value to enhance your workflow for your specific
+  /// needs.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html">Customizing
+  /// User Pool Workflows with Lambda Triggers</a> in the <i>Amazon Cognito
+  /// Developer Guide</i>.
+  /// <note>
+  /// Take the following limitations into consideration when you use the
+  /// ClientMetadata parameter:
+  ///
+  /// <ul>
+  /// <li>
+  /// Amazon Cognito does not store the ClientMetadata value. This data is
+  /// available only to AWS Lambda triggers that are assigned to a user pool to
+  /// support custom workflows. If your user pool configuration does not include
+  /// triggers, the ClientMetadata parameter serves no purpose.
+  /// </li>
+  /// <li>
+  /// Amazon Cognito does not validate the ClientMetadata value.
+  /// </li>
+  /// <li>
+  /// Amazon Cognito does not encrypt the the ClientMetadata value, so don't use
+  /// it to provide sensitive information.
+  /// </li>
+  /// </ul> </note>
+  @_s.JsonKey(name: 'ClientMetadata')
+  final Map<String, String> clientMetadata;
+
+  /// A keyed-hash message authentication code (HMAC) calculated using the secret
+  /// key of a user pool client and username plus the client ID in the message.
+  @_s.JsonKey(name: 'SecretHash')
+  final String secretHash;
+
+  /// Contextual data such as the user's device fingerprint, IP address, or
+  /// location used for evaluating the risk of an unexpected event by Amazon
+  /// Cognito advanced security.
+  @_s.JsonKey(name: 'UserContextData')
+  final UserContextDataType userContextData;
+
+  ConfirmForgotPasswordRequest({
+    @_s.required this.clientId,
+    @_s.required this.confirmationCode,
+    @_s.required this.password,
+    @_s.required this.username,
+    this.analyticsMetadata,
+    this.clientMetadata,
+    this.secretHash,
+    this.userContextData,
+  });
+  Map<String, dynamic> toJson() => _$ConfirmForgotPasswordRequestToJson(this);
+}
+
 /// The response from the server that results from a user's request to retrieve
 /// a forgotten password.
 @_s.JsonSerializable(
@@ -10958,6 +12339,104 @@ class ConfirmForgotPasswordResponse {
   ConfirmForgotPasswordResponse();
   factory ConfirmForgotPasswordResponse.fromJson(Map<String, dynamic> json) =>
       _$ConfirmForgotPasswordResponseFromJson(json);
+}
+
+/// Represents the request to confirm registration of a user.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ConfirmSignUpRequest {
+  /// The ID of the app client associated with the user pool.
+  @_s.JsonKey(name: 'ClientId')
+  final String clientId;
+
+  /// The confirmation code sent by a user's request to confirm registration.
+  @_s.JsonKey(name: 'ConfirmationCode')
+  final String confirmationCode;
+
+  /// The user name of the user whose registration you wish to confirm.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  /// The Amazon Pinpoint analytics metadata for collecting metrics for
+  /// <code>ConfirmSignUp</code> calls.
+  @_s.JsonKey(name: 'AnalyticsMetadata')
+  final AnalyticsMetadataType analyticsMetadata;
+
+  /// A map of custom key-value pairs that you can provide as input for any custom
+  /// workflows that this action triggers.
+  ///
+  /// You create custom workflows by assigning AWS Lambda functions to user pool
+  /// triggers. When you use the ConfirmSignUp API action, Amazon Cognito invokes
+  /// the function that is assigned to the <i>post confirmation</i> trigger. When
+  /// Amazon Cognito invokes this function, it passes a JSON payload, which the
+  /// function receives as input. This payload contains a
+  /// <code>clientMetadata</code> attribute, which provides the data that you
+  /// assigned to the ClientMetadata parameter in your ConfirmSignUp request. In
+  /// your function code in AWS Lambda, you can process the
+  /// <code>clientMetadata</code> value to enhance your workflow for your specific
+  /// needs.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html">Customizing
+  /// User Pool Workflows with Lambda Triggers</a> in the <i>Amazon Cognito
+  /// Developer Guide</i>.
+  /// <note>
+  /// Take the following limitations into consideration when you use the
+  /// ClientMetadata parameter:
+  ///
+  /// <ul>
+  /// <li>
+  /// Amazon Cognito does not store the ClientMetadata value. This data is
+  /// available only to AWS Lambda triggers that are assigned to a user pool to
+  /// support custom workflows. If your user pool configuration does not include
+  /// triggers, the ClientMetadata parameter serves no purpose.
+  /// </li>
+  /// <li>
+  /// Amazon Cognito does not validate the ClientMetadata value.
+  /// </li>
+  /// <li>
+  /// Amazon Cognito does not encrypt the the ClientMetadata value, so don't use
+  /// it to provide sensitive information.
+  /// </li>
+  /// </ul> </note>
+  @_s.JsonKey(name: 'ClientMetadata')
+  final Map<String, String> clientMetadata;
+
+  /// Boolean to be specified to force user confirmation irrespective of existing
+  /// alias. By default set to <code>False</code>. If this parameter is set to
+  /// <code>True</code> and the phone number/email used for sign up confirmation
+  /// already exists as an alias with a different user, the API call will migrate
+  /// the alias from the previous user to the newly created user being confirmed.
+  /// If set to <code>False</code>, the API will throw an
+  /// <b>AliasExistsException</b> error.
+  @_s.JsonKey(name: 'ForceAliasCreation')
+  final bool forceAliasCreation;
+
+  /// A keyed-hash message authentication code (HMAC) calculated using the secret
+  /// key of a user pool client and username plus the client ID in the message.
+  @_s.JsonKey(name: 'SecretHash')
+  final String secretHash;
+
+  /// Contextual data such as the user's device fingerprint, IP address, or
+  /// location used for evaluating the risk of an unexpected event by Amazon
+  /// Cognito advanced security.
+  @_s.JsonKey(name: 'UserContextData')
+  final UserContextDataType userContextData;
+
+  ConfirmSignUpRequest({
+    @_s.required this.clientId,
+    @_s.required this.confirmationCode,
+    @_s.required this.username,
+    this.analyticsMetadata,
+    this.clientMetadata,
+    this.forceAliasCreation,
+    this.secretHash,
+    this.userContextData,
+  });
+  Map<String, dynamic> toJson() => _$ConfirmSignUpRequestToJson(this);
 }
 
 /// Represents the response from the server for the registration confirmation.
@@ -11014,6 +12493,58 @@ class ContextDataType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateGroupRequest {
+  /// The name of the group. Must be unique.
+  @_s.JsonKey(name: 'GroupName')
+  final String groupName;
+
+  /// The user pool ID for the user pool.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// A string containing the description of the group.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// A nonnegative integer value that specifies the precedence of this group
+  /// relative to the other groups that a user can belong to in the user pool.
+  /// Zero is the highest precedence value. Groups with lower
+  /// <code>Precedence</code> values take precedence over groups with higher or
+  /// null <code>Precedence</code> values. If a user belongs to two or more
+  /// groups, it is the group with the lowest precedence value whose role ARN will
+  /// be used in the <code>cognito:roles</code> and
+  /// <code>cognito:preferred_role</code> claims in the user's tokens.
+  ///
+  /// Two groups can have the same <code>Precedence</code> value. If this happens,
+  /// neither group takes precedence over the other. If two groups with the same
+  /// <code>Precedence</code> have the same role ARN, that role is used in the
+  /// <code>cognito:preferred_role</code> claim in tokens for users in each group.
+  /// If the two groups have different role ARNs, the
+  /// <code>cognito:preferred_role</code> claim is not set in users' tokens.
+  ///
+  /// The default <code>Precedence</code> value is null.
+  @_s.JsonKey(name: 'Precedence')
+  final int precedence;
+
+  /// The role ARN for the group.
+  @_s.JsonKey(name: 'RoleArn')
+  final String roleArn;
+
+  CreateGroupRequest({
+    @_s.required this.groupName,
+    @_s.required this.userPoolId,
+    this.description,
+    this.precedence,
+    this.roleArn,
+  });
+  Map<String, dynamic> toJson() => _$CreateGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateGroupResponse {
@@ -11026,6 +12557,136 @@ class CreateGroupResponse {
   });
   factory CreateGroupResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateIdentityProviderRequest {
+  /// The identity provider details. The following list describes the provider
+  /// detail keys for each identity provider type.
+  ///
+  /// <ul>
+  /// <li>
+  /// For Google, Facebook and Login with Amazon:
+  ///
+  /// <ul>
+  /// <li>
+  /// client_id
+  /// </li>
+  /// <li>
+  /// client_secret
+  /// </li>
+  /// <li>
+  /// authorize_scopes
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// For Sign in with Apple:
+  ///
+  /// <ul>
+  /// <li>
+  /// client_id
+  /// </li>
+  /// <li>
+  /// team_id
+  /// </li>
+  /// <li>
+  /// key_id
+  /// </li>
+  /// <li>
+  /// private_key
+  /// </li>
+  /// <li>
+  /// authorize_scopes
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// For OIDC providers:
+  ///
+  /// <ul>
+  /// <li>
+  /// client_id
+  /// </li>
+  /// <li>
+  /// client_secret
+  /// </li>
+  /// <li>
+  /// attributes_request_method
+  /// </li>
+  /// <li>
+  /// oidc_issuer
+  /// </li>
+  /// <li>
+  /// authorize_scopes
+  /// </li>
+  /// <li>
+  /// authorize_url <i>if not available from discovery URL specified by
+  /// oidc_issuer key</i>
+  /// </li>
+  /// <li>
+  /// token_url <i>if not available from discovery URL specified by oidc_issuer
+  /// key</i>
+  /// </li>
+  /// <li>
+  /// attributes_url <i>if not available from discovery URL specified by
+  /// oidc_issuer key</i>
+  /// </li>
+  /// <li>
+  /// jwks_uri <i>if not available from discovery URL specified by oidc_issuer
+  /// key</i>
+  /// </li>
+  /// <li>
+  /// authorize_scopes
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// For SAML providers:
+  ///
+  /// <ul>
+  /// <li>
+  /// MetadataFile OR MetadataURL
+  /// </li>
+  /// <li>
+  /// IDPSignout <i>optional</i>
+  /// </li>
+  /// </ul> </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ProviderDetails')
+  final Map<String, String> providerDetails;
+
+  /// The identity provider name.
+  @_s.JsonKey(name: 'ProviderName')
+  final String providerName;
+
+  /// The identity provider type.
+  @_s.JsonKey(name: 'ProviderType')
+  final IdentityProviderTypeType providerType;
+
+  /// The user pool ID.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// A mapping of identity provider attributes to standard and custom user pool
+  /// attributes.
+  @_s.JsonKey(name: 'AttributeMapping')
+  final Map<String, String> attributeMapping;
+
+  /// A list of identity provider identifiers.
+  @_s.JsonKey(name: 'IdpIdentifiers')
+  final List<String> idpIdentifiers;
+
+  CreateIdentityProviderRequest({
+    @_s.required this.providerDetails,
+    @_s.required this.providerName,
+    @_s.required this.providerType,
+    @_s.required this.userPoolId,
+    this.attributeMapping,
+    this.idpIdentifiers,
+  });
+  Map<String, dynamic> toJson() => _$CreateIdentityProviderRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -11048,6 +12709,40 @@ class CreateIdentityProviderResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateResourceServerRequest {
+  /// A unique resource server identifier for the resource server. This could be
+  /// an HTTPS endpoint where the resource server is located. For example,
+  /// <code>https://my-weather-api.example.com</code>.
+  @_s.JsonKey(name: 'Identifier')
+  final String identifier;
+
+  /// A friendly name for the resource server.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The user pool ID for the user pool.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// A list of scopes. Each scope is map, where the keys are <code>name</code>
+  /// and <code>description</code>.
+  @_s.JsonKey(name: 'Scopes')
+  final List<ResourceServerScopeType> scopes;
+
+  CreateResourceServerRequest({
+    @_s.required this.identifier,
+    @_s.required this.name,
+    @_s.required this.userPoolId,
+    this.scopes,
+  });
+  Map<String, dynamic> toJson() => _$CreateResourceServerRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateResourceServerResponse {
@@ -11060,6 +12755,33 @@ class CreateResourceServerResponse {
   });
   factory CreateResourceServerResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateResourceServerResponseFromJson(json);
+}
+
+/// Represents the request to create the user import job.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateUserImportJobRequest {
+  /// The role ARN for the Amazon CloudWatch Logging role for the user import job.
+  @_s.JsonKey(name: 'CloudWatchLogsRoleArn')
+  final String cloudWatchLogsRoleArn;
+
+  /// The job name for the user import job.
+  @_s.JsonKey(name: 'JobName')
+  final String jobName;
+
+  /// The user pool ID for the user pool that the users are being imported into.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  CreateUserImportJobRequest({
+    @_s.required this.cloudWatchLogsRoleArn,
+    @_s.required this.jobName,
+    @_s.required this.userPoolId,
+  });
+  Map<String, dynamic> toJson() => _$CreateUserImportJobRequestToJson(this);
 }
 
 /// Represents the response from the server to the request to create the user
@@ -11079,6 +12801,259 @@ class CreateUserImportJobResponse {
   });
   factory CreateUserImportJobResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateUserImportJobResponseFromJson(json);
+}
+
+/// Represents the request to create a user pool client.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateUserPoolClientRequest {
+  /// The client name for the user pool client you would like to create.
+  @_s.JsonKey(name: 'ClientName')
+  final String clientName;
+
+  /// The user pool ID for the user pool where you want to create a user pool
+  /// client.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// The allowed OAuth flows.
+  ///
+  /// Set to <code>code</code> to initiate a code grant flow, which provides an
+  /// authorization code as the response. This code can be exchanged for access
+  /// tokens with the token endpoint.
+  ///
+  /// Set to <code>implicit</code> to specify that the client should get the
+  /// access token (and, optionally, ID token, based on scopes) directly.
+  ///
+  /// Set to <code>client_credentials</code> to specify that the client should get
+  /// the access token (and, optionally, ID token, based on scopes) from the token
+  /// endpoint using a combination of client and client_secret.
+  @_s.JsonKey(name: 'AllowedOAuthFlows')
+  final List<String> allowedOAuthFlows;
+
+  /// Set to true if the client is allowed to follow the OAuth protocol when
+  /// interacting with Cognito user pools.
+  @_s.JsonKey(name: 'AllowedOAuthFlowsUserPoolClient')
+  final bool allowedOAuthFlowsUserPoolClient;
+
+  /// The allowed OAuth scopes. Possible values provided by OAuth are:
+  /// <code>phone</code>, <code>email</code>, <code>openid</code>, and
+  /// <code>profile</code>. Possible values provided by AWS are:
+  /// <code>aws.cognito.signin.user.admin</code>. Custom scopes created in
+  /// Resource Servers are also supported.
+  @_s.JsonKey(name: 'AllowedOAuthScopes')
+  final List<String> allowedOAuthScopes;
+
+  /// The Amazon Pinpoint analytics configuration for collecting metrics for this
+  /// user pool.
+  /// <note>
+  /// Cognito User Pools only supports sending events to Amazon Pinpoint projects
+  /// in the US East (N. Virginia) us-east-1 Region, regardless of the region in
+  /// which the user pool resides.
+  /// </note>
+  @_s.JsonKey(name: 'AnalyticsConfiguration')
+  final AnalyticsConfigurationType analyticsConfiguration;
+
+  /// A list of allowed redirect (callback) URLs for the identity providers.
+  ///
+  /// A redirect URI must:
+  ///
+  /// <ul>
+  /// <li>
+  /// Be an absolute URI.
+  /// </li>
+  /// <li>
+  /// Be registered with the authorization server.
+  /// </li>
+  /// <li>
+  /// Not include a fragment component.
+  /// </li>
+  /// </ul>
+  /// See <a href="https://tools.ietf.org/html/rfc6749#section-3.1.2">OAuth 2.0 -
+  /// Redirection Endpoint</a>.
+  ///
+  /// Amazon Cognito requires HTTPS over HTTP except for http://localhost for
+  /// testing purposes only.
+  ///
+  /// App callback URLs such as myapp://example are also supported.
+  @_s.JsonKey(name: 'CallbackURLs')
+  final List<String> callbackURLs;
+
+  /// The default redirect URI. Must be in the <code>CallbackURLs</code> list.
+  ///
+  /// A redirect URI must:
+  ///
+  /// <ul>
+  /// <li>
+  /// Be an absolute URI.
+  /// </li>
+  /// <li>
+  /// Be registered with the authorization server.
+  /// </li>
+  /// <li>
+  /// Not include a fragment component.
+  /// </li>
+  /// </ul>
+  /// See <a href="https://tools.ietf.org/html/rfc6749#section-3.1.2">OAuth 2.0 -
+  /// Redirection Endpoint</a>.
+  ///
+  /// Amazon Cognito requires HTTPS over HTTP except for http://localhost for
+  /// testing purposes only.
+  ///
+  /// App callback URLs such as myapp://example are also supported.
+  @_s.JsonKey(name: 'DefaultRedirectURI')
+  final String defaultRedirectURI;
+
+  /// The authentication flows that are supported by the user pool clients. Flow
+  /// names without the <code>ALLOW_</code> prefix are deprecated in favor of new
+  /// names with the <code>ALLOW_</code> prefix. Note that values with
+  /// <code>ALLOW_</code> prefix cannot be used along with values without
+  /// <code>ALLOW_</code> prefix.
+  ///
+  /// Valid values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ALLOW_ADMIN_USER_PASSWORD_AUTH</code>: Enable admin based user
+  /// password authentication flow <code>ADMIN_USER_PASSWORD_AUTH</code>. This
+  /// setting replaces the <code>ADMIN_NO_SRP_AUTH</code> setting. With this
+  /// authentication flow, Cognito receives the password in the request instead of
+  /// using the SRP (Secure Remote Password protocol) protocol to verify
+  /// passwords.
+  /// </li>
+  /// <li>
+  /// <code>ALLOW_CUSTOM_AUTH</code>: Enable Lambda trigger based authentication.
+  /// </li>
+  /// <li>
+  /// <code>ALLOW_USER_PASSWORD_AUTH</code>: Enable user password-based
+  /// authentication. In this flow, Cognito receives the password in the request
+  /// instead of using the SRP protocol to verify passwords.
+  /// </li>
+  /// <li>
+  /// <code>ALLOW_USER_SRP_AUTH</code>: Enable SRP based authentication.
+  /// </li>
+  /// <li>
+  /// <code>ALLOW_REFRESH_TOKEN_AUTH</code>: Enable authflow to refresh tokens.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ExplicitAuthFlows')
+  final List<String> explicitAuthFlows;
+
+  /// Boolean to specify whether you want to generate a secret for the user pool
+  /// client being created.
+  @_s.JsonKey(name: 'GenerateSecret')
+  final bool generateSecret;
+
+  /// A list of allowed logout URLs for the identity providers.
+  @_s.JsonKey(name: 'LogoutURLs')
+  final List<String> logoutURLs;
+
+  /// Use this setting to choose which errors and responses are returned by
+  /// Cognito APIs during authentication, account confirmation, and password
+  /// recovery when the user does not exist in the user pool. When set to
+  /// <code>ENABLED</code> and the user does not exist, authentication returns an
+  /// error indicating either the username or password was incorrect, and account
+  /// confirmation and password recovery return a response indicating a code was
+  /// sent to a simulated destination. When set to <code>LEGACY</code>, those APIs
+  /// will return a <code>UserNotFoundException</code> exception if the user does
+  /// not exist in the user pool.
+  ///
+  /// Valid values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ENABLED</code> - This prevents user existence-related errors.
+  /// </li>
+  /// <li>
+  /// <code>LEGACY</code> - This represents the old behavior of Cognito where user
+  /// existence related errors are not prevented.
+  /// </li>
+  /// </ul>
+  /// This setting affects the behavior of following APIs:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>AdminInitiateAuth</a>
+  /// </li>
+  /// <li>
+  /// <a>AdminRespondToAuthChallenge</a>
+  /// </li>
+  /// <li>
+  /// <a>InitiateAuth</a>
+  /// </li>
+  /// <li>
+  /// <a>RespondToAuthChallenge</a>
+  /// </li>
+  /// <li>
+  /// <a>ForgotPassword</a>
+  /// </li>
+  /// <li>
+  /// <a>ConfirmForgotPassword</a>
+  /// </li>
+  /// <li>
+  /// <a>ConfirmSignUp</a>
+  /// </li>
+  /// <li>
+  /// <a>ResendConfirmationCode</a>
+  /// </li>
+  /// </ul> <note>
+  /// After February 15th 2020, the value of
+  /// <code>PreventUserExistenceErrors</code> will default to <code>ENABLED</code>
+  /// for newly created user pool clients if no value is provided.
+  /// </note>
+  @_s.JsonKey(name: 'PreventUserExistenceErrors')
+  final PreventUserExistenceErrorTypes preventUserExistenceErrors;
+
+  /// The read attributes.
+  @_s.JsonKey(name: 'ReadAttributes')
+  final List<String> readAttributes;
+
+  /// The time limit, in days, after which the refresh token is no longer valid
+  /// and cannot be used.
+  @_s.JsonKey(name: 'RefreshTokenValidity')
+  final int refreshTokenValidity;
+
+  /// A list of provider names for the identity providers that are supported on
+  /// this client. The following are supported: <code>COGNITO</code>,
+  /// <code>Facebook</code>, <code>Google</code> and <code>LoginWithAmazon</code>.
+  @_s.JsonKey(name: 'SupportedIdentityProviders')
+  final List<String> supportedIdentityProviders;
+
+  /// The user pool attributes that the app client can write to.
+  ///
+  /// If your app client allows users to sign in through an identity provider,
+  /// this array must include all attributes that are mapped to identity provider
+  /// attributes. Amazon Cognito updates mapped attributes when users sign in to
+  /// your application through an identity provider. If your app client lacks
+  /// write access to a mapped attribute, Amazon Cognito throws an error when it
+  /// attempts to update the attribute. For more information, see <a
+  /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-specifying-attribute-mapping.html">Specifying
+  /// Identity Provider Attribute Mappings for Your User Pool</a>.
+  @_s.JsonKey(name: 'WriteAttributes')
+  final List<String> writeAttributes;
+
+  CreateUserPoolClientRequest({
+    @_s.required this.clientName,
+    @_s.required this.userPoolId,
+    this.allowedOAuthFlows,
+    this.allowedOAuthFlowsUserPoolClient,
+    this.allowedOAuthScopes,
+    this.analyticsConfiguration,
+    this.callbackURLs,
+    this.defaultRedirectURI,
+    this.explicitAuthFlows,
+    this.generateSecret,
+    this.logoutURLs,
+    this.preventUserExistenceErrors,
+    this.readAttributes,
+    this.refreshTokenValidity,
+    this.supportedIdentityProviders,
+    this.writeAttributes,
+  });
+  Map<String, dynamic> toJson() => _$CreateUserPoolClientRequestToJson(this);
 }
 
 /// Represents the response from the server to create a user pool client.
@@ -11102,6 +13077,41 @@ class CreateUserPoolClientResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateUserPoolDomainRequest {
+  /// The domain string.
+  @_s.JsonKey(name: 'Domain')
+  final String domain;
+
+  /// The user pool ID.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// The configuration for a custom domain that hosts the sign-up and sign-in
+  /// webpages for your application.
+  ///
+  /// Provide this parameter only if you want to use a custom domain for your user
+  /// pool. Otherwise, you can exclude this parameter and use the Amazon Cognito
+  /// hosted domain instead.
+  ///
+  /// For more information about the hosted domain and custom domains, see <a
+  /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-assign-domain.html">Configuring
+  /// a User Pool Domain</a>.
+  @_s.JsonKey(name: 'CustomDomainConfig')
+  final CustomDomainConfigType customDomainConfig;
+
+  CreateUserPoolDomainRequest({
+    @_s.required this.domain,
+    @_s.required this.userPoolId,
+    this.customDomainConfig,
+  });
+  Map<String, dynamic> toJson() => _$CreateUserPoolDomainRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateUserPoolDomainResponse {
@@ -11115,6 +13125,160 @@ class CreateUserPoolDomainResponse {
   });
   factory CreateUserPoolDomainResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateUserPoolDomainResponseFromJson(json);
+}
+
+/// Represents the request to create a user pool.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateUserPoolRequest {
+  /// A string used to name the user pool.
+  @_s.JsonKey(name: 'PoolName')
+  final String poolName;
+
+  /// Use this setting to define which verified available method a user can use to
+  /// recover their password when they call <code>ForgotPassword</code>. It allows
+  /// you to define a preferred method when a user has more than one method
+  /// available. With this setting, SMS does not qualify for a valid password
+  /// recovery mechanism if the user also has SMS MFA enabled. In the absence of
+  /// this setting, Cognito uses the legacy behavior to determine the recovery
+  /// method where SMS is preferred over email.
+  /// <note>
+  /// Starting February 1, 2020, the value of <code>AccountRecoverySetting</code>
+  /// will default to <code>verified_email</code> first and
+  /// <code>verified_phone_number</code> as the second option for newly created
+  /// user pools if no value is provided.
+  /// </note>
+  @_s.JsonKey(name: 'AccountRecoverySetting')
+  final AccountRecoverySettingType accountRecoverySetting;
+
+  /// The configuration for <code>AdminCreateUser</code> requests.
+  @_s.JsonKey(name: 'AdminCreateUserConfig')
+  final AdminCreateUserConfigType adminCreateUserConfig;
+
+  /// Attributes supported as an alias for this user pool. Possible values:
+  /// <b>phone_number</b>, <b>email</b>, or <b>preferred_username</b>.
+  @_s.JsonKey(name: 'AliasAttributes')
+  final List<String> aliasAttributes;
+
+  /// The attributes to be auto-verified. Possible values: <b>email</b>,
+  /// <b>phone_number</b>.
+  @_s.JsonKey(name: 'AutoVerifiedAttributes')
+  final List<String> autoVerifiedAttributes;
+
+  /// The device configuration.
+  @_s.JsonKey(name: 'DeviceConfiguration')
+  final DeviceConfigurationType deviceConfiguration;
+
+  /// The email configuration.
+  @_s.JsonKey(name: 'EmailConfiguration')
+  final EmailConfigurationType emailConfiguration;
+
+  /// A string representing the email verification message.
+  @_s.JsonKey(name: 'EmailVerificationMessage')
+  final String emailVerificationMessage;
+
+  /// A string representing the email verification subject.
+  @_s.JsonKey(name: 'EmailVerificationSubject')
+  final String emailVerificationSubject;
+
+  /// The Lambda trigger configuration information for the new user pool.
+  /// <note>
+  /// In a push model, event sources (such as Amazon S3 and custom applications)
+  /// need permission to invoke a function. So you will need to make an extra call
+  /// to add permission for these event sources to invoke your Lambda function.
+  /// <p/>
+  /// For more information on using the Lambda API to add permission, see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/API_AddPermission.html">
+  /// AddPermission </a>.
+  ///
+  /// For adding permission using the AWS CLI, see <a
+  /// href="https://docs.aws.amazon.com/cli/latest/reference/lambda/add-permission.html">
+  /// add-permission </a>.
+  /// </note>
+  @_s.JsonKey(name: 'LambdaConfig')
+  final LambdaConfigType lambdaConfig;
+
+  /// Specifies MFA configuration details.
+  @_s.JsonKey(name: 'MfaConfiguration')
+  final UserPoolMfaType mfaConfiguration;
+
+  /// The policies associated with the new user pool.
+  @_s.JsonKey(name: 'Policies')
+  final UserPoolPolicyType policies;
+
+  /// An array of schema attributes for the new user pool. These attributes can be
+  /// standard or custom attributes.
+  @_s.JsonKey(name: 'Schema')
+  final List<SchemaAttributeType> schema;
+
+  /// A string representing the SMS authentication message.
+  @_s.JsonKey(name: 'SmsAuthenticationMessage')
+  final String smsAuthenticationMessage;
+
+  /// The SMS configuration.
+  @_s.JsonKey(name: 'SmsConfiguration')
+  final SmsConfigurationType smsConfiguration;
+
+  /// A string representing the SMS verification message.
+  @_s.JsonKey(name: 'SmsVerificationMessage')
+  final String smsVerificationMessage;
+
+  /// Used to enable advanced security risk detection. Set the key
+  /// <code>AdvancedSecurityMode</code> to the value "AUDIT".
+  @_s.JsonKey(name: 'UserPoolAddOns')
+  final UserPoolAddOnsType userPoolAddOns;
+
+  /// The tag keys and values to assign to the user pool. A tag is a label that
+  /// you can use to categorize and manage user pools in different ways, such as
+  /// by purpose, owner, environment, or other criteria.
+  @_s.JsonKey(name: 'UserPoolTags')
+  final Map<String, String> userPoolTags;
+
+  /// Specifies whether email addresses or phone numbers can be specified as
+  /// usernames when a user signs up.
+  @_s.JsonKey(name: 'UsernameAttributes')
+  final List<String> usernameAttributes;
+
+  /// You can choose to set case sensitivity on the username input for the
+  /// selected sign-in option. For example, when this is set to
+  /// <code>False</code>, users will be able to sign in using either "username" or
+  /// "Username". This configuration is immutable once it has been set. For more
+  /// information, see .
+  @_s.JsonKey(name: 'UsernameConfiguration')
+  final UsernameConfigurationType usernameConfiguration;
+
+  /// The template for the verification message that the user sees when the app
+  /// requests permission to access the user's information.
+  @_s.JsonKey(name: 'VerificationMessageTemplate')
+  final VerificationMessageTemplateType verificationMessageTemplate;
+
+  CreateUserPoolRequest({
+    @_s.required this.poolName,
+    this.accountRecoverySetting,
+    this.adminCreateUserConfig,
+    this.aliasAttributes,
+    this.autoVerifiedAttributes,
+    this.deviceConfiguration,
+    this.emailConfiguration,
+    this.emailVerificationMessage,
+    this.emailVerificationSubject,
+    this.lambdaConfig,
+    this.mfaConfiguration,
+    this.policies,
+    this.schema,
+    this.smsAuthenticationMessage,
+    this.smsConfiguration,
+    this.smsVerificationMessage,
+    this.userPoolAddOns,
+    this.userPoolTags,
+    this.usernameAttributes,
+    this.usernameConfiguration,
+    this.verificationMessageTemplate,
+  });
+  Map<String, dynamic> toJson() => _$CreateUserPoolRequestToJson(this);
 }
 
 /// Represents the response from the server for the request to create a user
@@ -11166,6 +13330,95 @@ enum DefaultEmailOptionType {
   confirmWithCode,
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteGroupRequest {
+  /// The name of the group.
+  @_s.JsonKey(name: 'GroupName')
+  final String groupName;
+
+  /// The user pool ID for the user pool.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  DeleteGroupRequest({
+    @_s.required this.groupName,
+    @_s.required this.userPoolId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteIdentityProviderRequest {
+  /// The identity provider name.
+  @_s.JsonKey(name: 'ProviderName')
+  final String providerName;
+
+  /// The user pool ID.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  DeleteIdentityProviderRequest({
+    @_s.required this.providerName,
+    @_s.required this.userPoolId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteIdentityProviderRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteResourceServerRequest {
+  /// The identifier for the resource server.
+  @_s.JsonKey(name: 'Identifier')
+  final String identifier;
+
+  /// The user pool ID for the user pool that hosts the resource server.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  DeleteResourceServerRequest({
+    @_s.required this.identifier,
+    @_s.required this.userPoolId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteResourceServerRequestToJson(this);
+}
+
+/// Represents the request to delete user attributes.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteUserAttributesRequest {
+  /// The access token used in the request to delete user attributes.
+  @_s.JsonKey(name: 'AccessToken')
+  final String accessToken;
+
+  /// An array of strings representing the user attribute names you wish to
+  /// delete.
+  ///
+  /// For custom attributes, you must prepend the <code>custom:</code> prefix to
+  /// the attribute name.
+  @_s.JsonKey(name: 'UserAttributeNames')
+  final List<String> userAttributeNames;
+
+  DeleteUserAttributesRequest({
+    @_s.required this.accessToken,
+    @_s.required this.userAttributeNames,
+  });
+  Map<String, dynamic> toJson() => _$DeleteUserAttributesRequestToJson(this);
+}
+
 /// Represents the response from the server to delete user attributes.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -11176,6 +13429,49 @@ class DeleteUserAttributesResponse {
   DeleteUserAttributesResponse();
   factory DeleteUserAttributesResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteUserAttributesResponseFromJson(json);
+}
+
+/// Represents the request to delete a user pool client.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteUserPoolClientRequest {
+  /// The app client ID of the app associated with the user pool.
+  @_s.JsonKey(name: 'ClientId')
+  final String clientId;
+
+  /// The user pool ID for the user pool where you want to delete the client.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  DeleteUserPoolClientRequest({
+    @_s.required this.clientId,
+    @_s.required this.userPoolId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteUserPoolClientRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteUserPoolDomainRequest {
+  /// The domain string.
+  @_s.JsonKey(name: 'Domain')
+  final String domain;
+
+  /// The user pool ID.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  DeleteUserPoolDomainRequest({
+    @_s.required this.domain,
+    @_s.required this.userPoolId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteUserPoolDomainRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -11189,11 +13485,67 @@ class DeleteUserPoolDomainResponse {
       _$DeleteUserPoolDomainResponseFromJson(json);
 }
 
+/// Represents the request to delete a user pool.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteUserPoolRequest {
+  /// The user pool ID for the user pool you want to delete.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  DeleteUserPoolRequest({
+    @_s.required this.userPoolId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteUserPoolRequestToJson(this);
+}
+
+/// Represents the request to delete a user.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteUserRequest {
+  /// The access token from a request to delete a user.
+  @_s.JsonKey(name: 'AccessToken')
+  final String accessToken;
+
+  DeleteUserRequest({
+    @_s.required this.accessToken,
+  });
+  Map<String, dynamic> toJson() => _$DeleteUserRequestToJson(this);
+}
+
 enum DeliveryMediumType {
   @_s.JsonValue('SMS')
   sms,
   @_s.JsonValue('EMAIL')
   email,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeIdentityProviderRequest {
+  /// The identity provider name.
+  @_s.JsonKey(name: 'ProviderName')
+  final String providerName;
+
+  /// The user pool ID.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  DescribeIdentityProviderRequest({
+    @_s.required this.providerName,
+    @_s.required this.userPoolId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeIdentityProviderRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -11217,6 +13569,27 @@ class DescribeIdentityProviderResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeResourceServerRequest {
+  /// The identifier for the resource server
+  @_s.JsonKey(name: 'Identifier')
+  final String identifier;
+
+  /// The user pool ID for the user pool that hosts the resource server.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  DescribeResourceServerRequest({
+    @_s.required this.identifier,
+    @_s.required this.userPoolId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeResourceServerRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeResourceServerResponse {
@@ -11229,6 +13602,28 @@ class DescribeResourceServerResponse {
   });
   factory DescribeResourceServerResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeResourceServerResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeRiskConfigurationRequest {
+  /// The user pool ID.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// The app client ID.
+  @_s.JsonKey(name: 'ClientId')
+  final String clientId;
+
+  DescribeRiskConfigurationRequest({
+    @_s.required this.userPoolId,
+    this.clientId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeRiskConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -11249,6 +13644,28 @@ class DescribeRiskConfigurationResponse {
       _$DescribeRiskConfigurationResponseFromJson(json);
 }
 
+/// Represents the request to describe the user import job.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeUserImportJobRequest {
+  /// The job ID for the user import job.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  /// The user pool ID for the user pool that the users are being imported into.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  DescribeUserImportJobRequest({
+    @_s.required this.jobId,
+    @_s.required this.userPoolId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeUserImportJobRequestToJson(this);
+}
+
 /// Represents the response from the server to the request to describe the user
 /// import job.
 @_s.JsonSerializable(
@@ -11266,6 +13683,28 @@ class DescribeUserImportJobResponse {
   });
   factory DescribeUserImportJobResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeUserImportJobResponseFromJson(json);
+}
+
+/// Represents the request to describe a user pool client.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeUserPoolClientRequest {
+  /// The app client ID of the app associated with the user pool.
+  @_s.JsonKey(name: 'ClientId')
+  final String clientId;
+
+  /// The user pool ID for the user pool you want to describe.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  DescribeUserPoolClientRequest({
+    @_s.required this.clientId,
+    @_s.required this.userPoolId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeUserPoolClientRequestToJson(this);
 }
 
 /// Represents the response from the server from a request to describe the user
@@ -11291,6 +13730,22 @@ class DescribeUserPoolClientResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeUserPoolDomainRequest {
+  /// The domain string.
+  @_s.JsonKey(name: 'Domain')
+  final String domain;
+
+  DescribeUserPoolDomainRequest({
+    @_s.required this.domain,
+  });
+  Map<String, dynamic> toJson() => _$DescribeUserPoolDomainRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeUserPoolDomainResponse {
@@ -11303,6 +13758,23 @@ class DescribeUserPoolDomainResponse {
   });
   factory DescribeUserPoolDomainResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeUserPoolDomainResponseFromJson(json);
+}
+
+/// Represents the request to describe the user pool.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeUserPoolRequest {
+  /// The user pool ID for the user pool you want to describe.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  DescribeUserPoolRequest({
+    @_s.required this.userPoolId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeUserPoolRequestToJson(this);
 }
 
 /// Represents the response to describe the user pool.
@@ -11354,18 +13826,6 @@ enum DeviceRememberedStatusType {
   remembered,
   @_s.JsonValue('not_remembered')
   notRemembered,
-}
-
-extension on DeviceRememberedStatusType {
-  String toValue() {
-    switch (this) {
-      case DeviceRememberedStatusType.remembered:
-        return 'remembered';
-      case DeviceRememberedStatusType.notRemembered:
-        return 'not_remembered';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// The device verifier against which it will be authenticated.
@@ -11774,16 +14234,110 @@ enum FeedbackValueType {
   invalid,
 }
 
-extension on FeedbackValueType {
-  String toValue() {
-    switch (this) {
-      case FeedbackValueType.valid:
-        return 'Valid';
-      case FeedbackValueType.invalid:
-        return 'Invalid';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+/// Represents the request to forget the device.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ForgetDeviceRequest {
+  /// The device key.
+  @_s.JsonKey(name: 'DeviceKey')
+  final String deviceKey;
+
+  /// The access token for the forgotten device request.
+  @_s.JsonKey(name: 'AccessToken')
+  final String accessToken;
+
+  ForgetDeviceRequest({
+    @_s.required this.deviceKey,
+    this.accessToken,
+  });
+  Map<String, dynamic> toJson() => _$ForgetDeviceRequestToJson(this);
+}
+
+/// Represents the request to reset a user's password.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ForgotPasswordRequest {
+  /// The ID of the client associated with the user pool.
+  @_s.JsonKey(name: 'ClientId')
+  final String clientId;
+
+  /// The user name of the user for whom you want to enter a code to reset a
+  /// forgotten password.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  /// The Amazon Pinpoint analytics metadata for collecting metrics for
+  /// <code>ForgotPassword</code> calls.
+  @_s.JsonKey(name: 'AnalyticsMetadata')
+  final AnalyticsMetadataType analyticsMetadata;
+
+  /// A map of custom key-value pairs that you can provide as input for any custom
+  /// workflows that this action triggers.
+  ///
+  /// You create custom workflows by assigning AWS Lambda functions to user pool
+  /// triggers. When you use the ForgotPassword API action, Amazon Cognito invokes
+  /// any functions that are assigned to the following triggers: <i>pre
+  /// sign-up</i>, <i>custom message</i>, and <i>user migration</i>. When Amazon
+  /// Cognito invokes any of these functions, it passes a JSON payload, which the
+  /// function receives as input. This payload contains a
+  /// <code>clientMetadata</code> attribute, which provides the data that you
+  /// assigned to the ClientMetadata parameter in your ForgotPassword request. In
+  /// your function code in AWS Lambda, you can process the
+  /// <code>clientMetadata</code> value to enhance your workflow for your specific
+  /// needs.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html">Customizing
+  /// User Pool Workflows with Lambda Triggers</a> in the <i>Amazon Cognito
+  /// Developer Guide</i>.
+  /// <note>
+  /// Take the following limitations into consideration when you use the
+  /// ClientMetadata parameter:
+  ///
+  /// <ul>
+  /// <li>
+  /// Amazon Cognito does not store the ClientMetadata value. This data is
+  /// available only to AWS Lambda triggers that are assigned to a user pool to
+  /// support custom workflows. If your user pool configuration does not include
+  /// triggers, the ClientMetadata parameter serves no purpose.
+  /// </li>
+  /// <li>
+  /// Amazon Cognito does not validate the ClientMetadata value.
+  /// </li>
+  /// <li>
+  /// Amazon Cognito does not encrypt the the ClientMetadata value, so don't use
+  /// it to provide sensitive information.
+  /// </li>
+  /// </ul> </note>
+  @_s.JsonKey(name: 'ClientMetadata')
+  final Map<String, String> clientMetadata;
+
+  /// A keyed-hash message authentication code (HMAC) calculated using the secret
+  /// key of a user pool client and username plus the client ID in the message.
+  @_s.JsonKey(name: 'SecretHash')
+  final String secretHash;
+
+  /// Contextual data such as the user's device fingerprint, IP address, or
+  /// location used for evaluating the risk of an unexpected event by Amazon
+  /// Cognito advanced security.
+  @_s.JsonKey(name: 'UserContextData')
+  final UserContextDataType userContextData;
+
+  ForgotPasswordRequest({
+    @_s.required this.clientId,
+    @_s.required this.username,
+    this.analyticsMetadata,
+    this.clientMetadata,
+    this.secretHash,
+    this.userContextData,
+  });
+  Map<String, dynamic> toJson() => _$ForgotPasswordRequestToJson(this);
 }
 
 /// Respresents the response from the server regarding the request to reset a
@@ -11804,6 +14358,24 @@ class ForgotPasswordResponse {
   });
   factory ForgotPasswordResponse.fromJson(Map<String, dynamic> json) =>
       _$ForgotPasswordResponseFromJson(json);
+}
+
+/// Represents the request to get the header information for the .csv file for
+/// the user import job.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetCSVHeaderRequest {
+  /// The user pool ID for the user pool that the users are to be imported into.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  GetCSVHeaderRequest({
+    @_s.required this.userPoolId,
+  });
+  Map<String, dynamic> toJson() => _$GetCSVHeaderRequestToJson(this);
 }
 
 /// Represents the response from the server to the request to get the header
@@ -11830,6 +14402,28 @@ class GetCSVHeaderResponse {
       _$GetCSVHeaderResponseFromJson(json);
 }
 
+/// Represents the request to get the device.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetDeviceRequest {
+  /// The device key.
+  @_s.JsonKey(name: 'DeviceKey')
+  final String deviceKey;
+
+  /// The access token.
+  @_s.JsonKey(name: 'AccessToken')
+  final String accessToken;
+
+  GetDeviceRequest({
+    @_s.required this.deviceKey,
+    this.accessToken,
+  });
+  Map<String, dynamic> toJson() => _$GetDeviceRequestToJson(this);
+}
+
 /// Gets the device response.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -11846,6 +14440,27 @@ class GetDeviceResponse {
   });
   factory GetDeviceResponse.fromJson(Map<String, dynamic> json) =>
       _$GetDeviceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetGroupRequest {
+  /// The name of the group.
+  @_s.JsonKey(name: 'GroupName')
+  final String groupName;
+
+  /// The user pool ID for the user pool.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  GetGroupRequest({
+    @_s.required this.groupName,
+    @_s.required this.userPoolId,
+  });
+  Map<String, dynamic> toJson() => _$GetGroupRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -11868,6 +14483,28 @@ class GetGroupResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetIdentityProviderByIdentifierRequest {
+  /// The identity provider ID.
+  @_s.JsonKey(name: 'IdpIdentifier')
+  final String idpIdentifier;
+
+  /// The user pool ID.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  GetIdentityProviderByIdentifierRequest({
+    @_s.required this.idpIdentifier,
+    @_s.required this.userPoolId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetIdentityProviderByIdentifierRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetIdentityProviderByIdentifierResponse {
@@ -11881,6 +14518,23 @@ class GetIdentityProviderByIdentifierResponse {
   factory GetIdentityProviderByIdentifierResponse.fromJson(
           Map<String, dynamic> json) =>
       _$GetIdentityProviderByIdentifierResponseFromJson(json);
+}
+
+/// Request to get a signing certificate from Cognito.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetSigningCertificateRequest {
+  /// The user pool ID.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  GetSigningCertificateRequest({
+    @_s.required this.userPoolId,
+  });
+  Map<String, dynamic> toJson() => _$GetSigningCertificateRequestToJson(this);
 }
 
 /// Response from Cognito for a signing certificate request.
@@ -11904,6 +14558,27 @@ class GetSigningCertificateResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetUICustomizationRequest {
+  /// The user pool ID for the user pool.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// The client ID for the client app.
+  @_s.JsonKey(name: 'ClientId')
+  final String clientId;
+
+  GetUICustomizationRequest({
+    @_s.required this.userPoolId,
+    this.clientId,
+  });
+  Map<String, dynamic> toJson() => _$GetUICustomizationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetUICustomizationResponse {
@@ -11916,6 +14591,72 @@ class GetUICustomizationResponse {
   });
   factory GetUICustomizationResponse.fromJson(Map<String, dynamic> json) =>
       _$GetUICustomizationResponseFromJson(json);
+}
+
+/// Represents the request to get user attribute verification.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetUserAttributeVerificationCodeRequest {
+  /// The access token returned by the server response to get the user attribute
+  /// verification code.
+  @_s.JsonKey(name: 'AccessToken')
+  final String accessToken;
+
+  /// The attribute name returned by the server response to get the user attribute
+  /// verification code.
+  @_s.JsonKey(name: 'AttributeName')
+  final String attributeName;
+
+  /// A map of custom key-value pairs that you can provide as input for any custom
+  /// workflows that this action triggers.
+  ///
+  /// You create custom workflows by assigning AWS Lambda functions to user pool
+  /// triggers. When you use the GetUserAttributeVerificationCode API action,
+  /// Amazon Cognito invokes the function that is assigned to the <i>custom
+  /// message</i> trigger. When Amazon Cognito invokes this function, it passes a
+  /// JSON payload, which the function receives as input. This payload contains a
+  /// <code>clientMetadata</code> attribute, which provides the data that you
+  /// assigned to the ClientMetadata parameter in your
+  /// GetUserAttributeVerificationCode request. In your function code in AWS
+  /// Lambda, you can process the <code>clientMetadata</code> value to enhance
+  /// your workflow for your specific needs.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html">Customizing
+  /// User Pool Workflows with Lambda Triggers</a> in the <i>Amazon Cognito
+  /// Developer Guide</i>.
+  /// <note>
+  /// Take the following limitations into consideration when you use the
+  /// ClientMetadata parameter:
+  ///
+  /// <ul>
+  /// <li>
+  /// Amazon Cognito does not store the ClientMetadata value. This data is
+  /// available only to AWS Lambda triggers that are assigned to a user pool to
+  /// support custom workflows. If your user pool configuration does not include
+  /// triggers, the ClientMetadata parameter serves no purpose.
+  /// </li>
+  /// <li>
+  /// Amazon Cognito does not validate the ClientMetadata value.
+  /// </li>
+  /// <li>
+  /// Amazon Cognito does not encrypt the the ClientMetadata value, so don't use
+  /// it to provide sensitive information.
+  /// </li>
+  /// </ul> </note>
+  @_s.JsonKey(name: 'ClientMetadata')
+  final Map<String, String> clientMetadata;
+
+  GetUserAttributeVerificationCodeRequest({
+    @_s.required this.accessToken,
+    @_s.required this.attributeName,
+    this.clientMetadata,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetUserAttributeVerificationCodeRequestToJson(this);
 }
 
 /// The verification code response returned by the server response to get the
@@ -11937,6 +14678,22 @@ class GetUserAttributeVerificationCodeResponse {
   factory GetUserAttributeVerificationCodeResponse.fromJson(
           Map<String, dynamic> json) =>
       _$GetUserAttributeVerificationCodeResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetUserPoolMfaConfigRequest {
+  /// The user pool ID.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  GetUserPoolMfaConfigRequest({
+    @_s.required this.userPoolId,
+  });
+  Map<String, dynamic> toJson() => _$GetUserPoolMfaConfigRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -11977,6 +14734,24 @@ class GetUserPoolMfaConfigResponse {
   });
   factory GetUserPoolMfaConfigResponse.fromJson(Map<String, dynamic> json) =>
       _$GetUserPoolMfaConfigResponseFromJson(json);
+}
+
+/// Represents the request to get information about the user.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetUserRequest {
+  /// The access token returned by the server response to get information about
+  /// the user.
+  @_s.JsonKey(name: 'AccessToken')
+  final String accessToken;
+
+  GetUserRequest({
+    @_s.required this.accessToken,
+  });
+  Map<String, dynamic> toJson() => _$GetUserRequestToJson(this);
 }
 
 /// Represents the response from the server from the request to get information
@@ -12024,6 +14799,23 @@ class GetUserResponse {
   });
   factory GetUserResponse.fromJson(Map<String, dynamic> json) =>
       _$GetUserResponseFromJson(json);
+}
+
+/// Represents the request to sign out all devices.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GlobalSignOutRequest {
+  /// The access token.
+  @_s.JsonKey(name: 'AccessToken')
+  final String accessToken;
+
+  GlobalSignOutRequest({
+    @_s.required this.accessToken,
+  });
+  Map<String, dynamic> toJson() => _$GlobalSignOutRequestToJson(this);
 }
 
 /// The response to the request to sign out all devices.
@@ -12292,24 +15084,189 @@ enum IdentityProviderTypeType {
   oidc,
 }
 
-extension on IdentityProviderTypeType {
-  String toValue() {
-    switch (this) {
-      case IdentityProviderTypeType.saml:
-        return 'SAML';
-      case IdentityProviderTypeType.facebook:
-        return 'Facebook';
-      case IdentityProviderTypeType.google:
-        return 'Google';
-      case IdentityProviderTypeType.loginWithAmazon:
-        return 'LoginWithAmazon';
-      case IdentityProviderTypeType.signInWithApple:
-        return 'SignInWithApple';
-      case IdentityProviderTypeType.oidc:
-        return 'OIDC';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+/// Initiates the authentication request.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class InitiateAuthRequest {
+  /// The authentication flow for this call to execute. The API action will depend
+  /// on this value. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>REFRESH_TOKEN_AUTH</code> will take in a valid refresh token and
+  /// return new tokens.
+  /// </li>
+  /// <li>
+  /// <code>USER_SRP_AUTH</code> will take in <code>USERNAME</code> and
+  /// <code>SRP_A</code> and return the SRP variables to be used for next
+  /// challenge execution.
+  /// </li>
+  /// <li>
+  /// <code>USER_PASSWORD_AUTH</code> will take in <code>USERNAME</code> and
+  /// <code>PASSWORD</code> and return the next challenge or tokens.
+  /// </li>
+  /// </ul>
+  /// Valid values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>USER_SRP_AUTH</code>: Authentication flow for the Secure Remote
+  /// Password (SRP) protocol.
+  /// </li>
+  /// <li>
+  /// <code>REFRESH_TOKEN_AUTH</code>/<code>REFRESH_TOKEN</code>: Authentication
+  /// flow for refreshing the access token and ID token by supplying a valid
+  /// refresh token.
+  /// </li>
+  /// <li>
+  /// <code>CUSTOM_AUTH</code>: Custom authentication flow.
+  /// </li>
+  /// <li>
+  /// <code>USER_PASSWORD_AUTH</code>: Non-SRP authentication flow; USERNAME and
+  /// PASSWORD are passed directly. If a user migration Lambda trigger is set,
+  /// this flow will invoke the user migration Lambda if the USERNAME is not found
+  /// in the user pool.
+  /// </li>
+  /// <li>
+  /// <code>ADMIN_USER_PASSWORD_AUTH</code>: Admin-based user password
+  /// authentication. This replaces the <code>ADMIN_NO_SRP_AUTH</code>
+  /// authentication flow. In this flow, Cognito receives the password in the
+  /// request instead of using the SRP process to verify passwords.
+  /// </li>
+  /// </ul>
+  /// <code>ADMIN_NO_SRP_AUTH</code> is not a valid value.
+  @_s.JsonKey(name: 'AuthFlow')
+  final AuthFlowType authFlow;
+
+  /// The app client ID.
+  @_s.JsonKey(name: 'ClientId')
+  final String clientId;
+
+  /// The Amazon Pinpoint analytics metadata for collecting metrics for
+  /// <code>InitiateAuth</code> calls.
+  @_s.JsonKey(name: 'AnalyticsMetadata')
+  final AnalyticsMetadataType analyticsMetadata;
+
+  /// The authentication parameters. These are inputs corresponding to the
+  /// <code>AuthFlow</code> that you are invoking. The required values depend on
+  /// the value of <code>AuthFlow</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// For <code>USER_SRP_AUTH</code>: <code>USERNAME</code> (required),
+  /// <code>SRP_A</code> (required), <code>SECRET_HASH</code> (required if the app
+  /// client is configured with a client secret), <code>DEVICE_KEY</code>
+  /// </li>
+  /// <li>
+  /// For <code>REFRESH_TOKEN_AUTH/REFRESH_TOKEN</code>:
+  /// <code>REFRESH_TOKEN</code> (required), <code>SECRET_HASH</code> (required if
+  /// the app client is configured with a client secret), <code>DEVICE_KEY</code>
+  /// </li>
+  /// <li>
+  /// For <code>CUSTOM_AUTH</code>: <code>USERNAME</code> (required),
+  /// <code>SECRET_HASH</code> (if app client is configured with client secret),
+  /// <code>DEVICE_KEY</code>
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AuthParameters')
+  final Map<String, String> authParameters;
+
+  /// A map of custom key-value pairs that you can provide as input for certain
+  /// custom workflows that this action triggers.
+  ///
+  /// You create custom workflows by assigning AWS Lambda functions to user pool
+  /// triggers. When you use the InitiateAuth API action, Amazon Cognito invokes
+  /// the AWS Lambda functions that are specified for various triggers. The
+  /// ClientMetadata value is passed as input to the functions for only the
+  /// following triggers:
+  ///
+  /// <ul>
+  /// <li>
+  /// Pre signup
+  /// </li>
+  /// <li>
+  /// Pre authentication
+  /// </li>
+  /// <li>
+  /// User migration
+  /// </li>
+  /// </ul>
+  /// When Amazon Cognito invokes the functions for these triggers, it passes a
+  /// JSON payload, which the function receives as input. This payload contains a
+  /// <code>validationData</code> attribute, which provides the data that you
+  /// assigned to the ClientMetadata parameter in your InitiateAuth request. In
+  /// your function code in AWS Lambda, you can process the
+  /// <code>validationData</code> value to enhance your workflow for your specific
+  /// needs.
+  ///
+  /// When you use the InitiateAuth API action, Amazon Cognito also invokes the
+  /// functions for the following triggers, but it does not provide the
+  /// ClientMetadata value as input:
+  ///
+  /// <ul>
+  /// <li>
+  /// Post authentication
+  /// </li>
+  /// <li>
+  /// Custom message
+  /// </li>
+  /// <li>
+  /// Pre token generation
+  /// </li>
+  /// <li>
+  /// Create auth challenge
+  /// </li>
+  /// <li>
+  /// Define auth challenge
+  /// </li>
+  /// <li>
+  /// Verify auth challenge
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html">Customizing
+  /// User Pool Workflows with Lambda Triggers</a> in the <i>Amazon Cognito
+  /// Developer Guide</i>.
+  /// <note>
+  /// Take the following limitations into consideration when you use the
+  /// ClientMetadata parameter:
+  ///
+  /// <ul>
+  /// <li>
+  /// Amazon Cognito does not store the ClientMetadata value. This data is
+  /// available only to AWS Lambda triggers that are assigned to a user pool to
+  /// support custom workflows. If your user pool configuration does not include
+  /// triggers, the ClientMetadata parameter serves no purpose.
+  /// </li>
+  /// <li>
+  /// Amazon Cognito does not validate the ClientMetadata value.
+  /// </li>
+  /// <li>
+  /// Amazon Cognito does not encrypt the the ClientMetadata value, so don't use
+  /// it to provide sensitive information.
+  /// </li>
+  /// </ul> </note>
+  @_s.JsonKey(name: 'ClientMetadata')
+  final Map<String, String> clientMetadata;
+
+  /// Contextual data such as the user's device fingerprint, IP address, or
+  /// location used for evaluating the risk of an unexpected event by Amazon
+  /// Cognito advanced security.
+  @_s.JsonKey(name: 'UserContextData')
+  final UserContextDataType userContextData;
+
+  InitiateAuthRequest({
+    @_s.required this.authFlow,
+    @_s.required this.clientId,
+    this.analyticsMetadata,
+    this.authParameters,
+    this.clientMetadata,
+    this.userContextData,
+  });
+  Map<String, dynamic> toJson() => _$InitiateAuthRequestToJson(this);
 }
 
 /// Initiates the authentication response.
@@ -12461,6 +15418,33 @@ class LambdaConfigType {
   Map<String, dynamic> toJson() => _$LambdaConfigTypeToJson(this);
 }
 
+/// Represents the request to list the devices.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListDevicesRequest {
+  /// The access tokens for the request to list devices.
+  @_s.JsonKey(name: 'AccessToken')
+  final String accessToken;
+
+  /// The limit of the device request.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// The pagination token for the list request.
+  @_s.JsonKey(name: 'PaginationToken')
+  final String paginationToken;
+
+  ListDevicesRequest({
+    @_s.required this.accessToken,
+    this.limit,
+    this.paginationToken,
+  });
+  Map<String, dynamic> toJson() => _$ListDevicesRequestToJson(this);
+}
+
 /// Represents the response to list devices.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -12482,6 +15466,33 @@ class ListDevicesResponse {
   });
   factory ListDevicesResponse.fromJson(Map<String, dynamic> json) =>
       _$ListDevicesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListGroupsRequest {
+  /// The user pool ID for the user pool.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// The limit of the request to list groups.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// An identifier that was returned from the previous call to this operation,
+  /// which can be used to return the next set of items in the list.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListGroupsRequest({
+    @_s.required this.userPoolId,
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListGroupsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -12510,6 +15521,32 @@ class ListGroupsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListIdentityProvidersRequest {
+  /// The user pool ID.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// The maximum number of identity providers to return.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A pagination token.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListIdentityProvidersRequest({
+    @_s.required this.userPoolId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListIdentityProvidersRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListIdentityProvidersResponse {
@@ -12527,6 +15564,32 @@ class ListIdentityProvidersResponse {
   });
   factory ListIdentityProvidersResponse.fromJson(Map<String, dynamic> json) =>
       _$ListIdentityProvidersResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListResourceServersRequest {
+  /// The user pool ID for the user pool.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// The maximum number of resource servers to return.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A pagination token.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListResourceServersRequest({
+    @_s.required this.userPoolId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListResourceServersRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -12554,6 +15617,23 @@ class ListResourceServersResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceRequest {
+  /// The Amazon Resource Name (ARN) of the user pool that the tags are assigned
+  /// to.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  ListTagsForResourceRequest({
+    @_s.required this.resourceArn,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListTagsForResourceResponse {
@@ -12566,6 +15646,35 @@ class ListTagsForResourceResponse {
   });
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$ListTagsForResourceResponseFromJson(json);
+}
+
+/// Represents the request to list the user import jobs.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListUserImportJobsRequest {
+  /// The maximum number of import jobs you want the request to return.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The user pool ID for the user pool that the users are being imported into.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// An identifier that was returned from the previous call to
+  /// <code>ListUserImportJobs</code>, which can be used to return the next set of
+  /// import jobs in the list.
+  @_s.JsonKey(name: 'PaginationToken')
+  final String paginationToken;
+
+  ListUserImportJobsRequest({
+    @_s.required this.maxResults,
+    @_s.required this.userPoolId,
+    this.paginationToken,
+  });
+  Map<String, dynamic> toJson() => _$ListUserImportJobsRequestToJson(this);
 }
 
 /// Represents the response from the server to the request to list the user
@@ -12593,6 +15702,35 @@ class ListUserImportJobsResponse {
       _$ListUserImportJobsResponseFromJson(json);
 }
 
+/// Represents the request to list the user pool clients.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListUserPoolClientsRequest {
+  /// The user pool ID for the user pool where you want to list user pool clients.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// The maximum number of results you want the request to return when listing
+  /// the user pool clients.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// An identifier that was returned from the previous call to this operation,
+  /// which can be used to return the next set of items in the list.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListUserPoolClientsRequest({
+    @_s.required this.userPoolId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListUserPoolClientsRequestToJson(this);
+}
+
 /// Represents the response from the server that lists user pool clients.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -12615,6 +15753,30 @@ class ListUserPoolClientsResponse {
   });
   factory ListUserPoolClientsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListUserPoolClientsResponseFromJson(json);
+}
+
+/// Represents the request to list user pools.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListUserPoolsRequest {
+  /// The maximum number of results you want the request to return when listing
+  /// the user pools.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// An identifier that was returned from the previous call to this operation,
+  /// which can be used to return the next set of items in the list.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListUserPoolsRequest({
+    @_s.required this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListUserPoolsRequestToJson(this);
 }
 
 /// Represents the response to list user pools.
@@ -12644,6 +15806,38 @@ class ListUserPoolsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListUsersInGroupRequest {
+  /// The name of the group.
+  @_s.JsonKey(name: 'GroupName')
+  final String groupName;
+
+  /// The user pool ID for the user pool.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// The limit of the request to list users.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// An identifier that was returned from the previous call to this operation,
+  /// which can be used to return the next set of items in the list.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListUsersInGroupRequest({
+    @_s.required this.groupName,
+    @_s.required this.userPoolId,
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListUsersInGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListUsersInGroupResponse {
@@ -12662,6 +15856,110 @@ class ListUsersInGroupResponse {
   });
   factory ListUsersInGroupResponse.fromJson(Map<String, dynamic> json) =>
       _$ListUsersInGroupResponseFromJson(json);
+}
+
+/// Represents the request to list users.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListUsersRequest {
+  /// The user pool ID for the user pool on which the search should be performed.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// An array of strings, where each string is the name of a user attribute to be
+  /// returned for each user in the search results. If the array is null, all
+  /// attributes are returned.
+  @_s.JsonKey(name: 'AttributesToGet')
+  final List<String> attributesToGet;
+
+  /// A filter string of the form "<i>AttributeName</i> <i>Filter-Type</i>
+  /// "<i>AttributeValue</i>"". Quotation marks within the filter string must be
+  /// escaped using the backslash (\) character. For example,
+  /// "<code>family_name</code> = \"Reddy\"".
+  ///
+  /// <ul>
+  /// <li>
+  /// <i>AttributeName</i>: The name of the attribute to search for. You can only
+  /// search for one attribute at a time.
+  /// </li>
+  /// <li>
+  /// <i>Filter-Type</i>: For an exact match, use =, for example,
+  /// "<code>given_name</code> = \"Jon\"". For a prefix ("starts with") match, use
+  /// ^=, for example, "<code>given_name</code> ^= \"Jon\"".
+  /// </li>
+  /// <li>
+  /// <i>AttributeValue</i>: The attribute value that must be matched for each
+  /// user.
+  /// </li>
+  /// </ul>
+  /// If the filter string is empty, <code>ListUsers</code> returns all users in
+  /// the user pool.
+  ///
+  /// You can only search for the following standard attributes:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>username</code> (case-sensitive)
+  /// </li>
+  /// <li>
+  /// <code>email</code>
+  /// </li>
+  /// <li>
+  /// <code>phone_number</code>
+  /// </li>
+  /// <li>
+  /// <code>name</code>
+  /// </li>
+  /// <li>
+  /// <code>given_name</code>
+  /// </li>
+  /// <li>
+  /// <code>family_name</code>
+  /// </li>
+  /// <li>
+  /// <code>preferred_username</code>
+  /// </li>
+  /// <li>
+  /// <code>cognito:user_status</code> (called <b>Status</b> in the Console)
+  /// (case-insensitive)
+  /// </li>
+  /// <li>
+  /// <code>status (called <b>Enabled</b> in the Console) (case-sensitive)</code>
+  /// </li>
+  /// <li>
+  /// <code>sub</code>
+  /// </li>
+  /// </ul>
+  /// Custom attributes are not searchable.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/how-to-manage-user-accounts.html#cognito-user-pools-searching-for-users-using-listusers-api">Searching
+  /// for Users Using the ListUsers API</a> and <a
+  /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/how-to-manage-user-accounts.html#cognito-user-pools-searching-for-users-listusers-api-examples">Examples
+  /// of Using the ListUsers API</a> in the <i>Amazon Cognito Developer Guide</i>.
+  @_s.JsonKey(name: 'Filter')
+  final String filter;
+
+  /// Maximum number of users to be returned.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// An identifier that was returned from the previous call to this operation,
+  /// which can be used to return the next set of items in the list.
+  @_s.JsonKey(name: 'PaginationToken')
+  final String paginationToken;
+
+  ListUsersRequest({
+    @_s.required this.userPoolId,
+    this.attributesToGet,
+    this.filter,
+    this.limit,
+    this.paginationToken,
+  });
+  Map<String, dynamic> toJson() => _$ListUsersRequestToJson(this);
 }
 
 /// The response from the request to list users.
@@ -12729,18 +16027,6 @@ enum MessageActionType {
   resend,
   @_s.JsonValue('SUPPRESS')
   suppress,
-}
-
-extension on MessageActionType {
-  String toValue() {
-    switch (this) {
-      case MessageActionType.resend:
-        return 'RESEND';
-      case MessageActionType.suppress:
-        return 'SUPPRESS';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// The message template structure.
@@ -12975,18 +16261,6 @@ enum PreventUserExistenceErrorTypes {
   enabled,
 }
 
-extension on PreventUserExistenceErrorTypes {
-  String toValue() {
-    switch (this) {
-      case PreventUserExistenceErrorTypes.legacy:
-        return 'LEGACY';
-      case PreventUserExistenceErrorTypes.enabled:
-        return 'ENABLED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// A container for identity provider details.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -13091,6 +16365,88 @@ class RecoveryOptionType {
   Map<String, dynamic> toJson() => _$RecoveryOptionTypeToJson(this);
 }
 
+/// Represents the request to resend the confirmation code.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ResendConfirmationCodeRequest {
+  /// The ID of the client associated with the user pool.
+  @_s.JsonKey(name: 'ClientId')
+  final String clientId;
+
+  /// The user name of the user to whom you wish to resend a confirmation code.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  /// The Amazon Pinpoint analytics metadata for collecting metrics for
+  /// <code>ResendConfirmationCode</code> calls.
+  @_s.JsonKey(name: 'AnalyticsMetadata')
+  final AnalyticsMetadataType analyticsMetadata;
+
+  /// A map of custom key-value pairs that you can provide as input for any custom
+  /// workflows that this action triggers.
+  ///
+  /// You create custom workflows by assigning AWS Lambda functions to user pool
+  /// triggers. When you use the ResendConfirmationCode API action, Amazon Cognito
+  /// invokes the function that is assigned to the <i>custom message</i> trigger.
+  /// When Amazon Cognito invokes this function, it passes a JSON payload, which
+  /// the function receives as input. This payload contains a
+  /// <code>clientMetadata</code> attribute, which provides the data that you
+  /// assigned to the ClientMetadata parameter in your ResendConfirmationCode
+  /// request. In your function code in AWS Lambda, you can process the
+  /// <code>clientMetadata</code> value to enhance your workflow for your specific
+  /// needs.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html">Customizing
+  /// User Pool Workflows with Lambda Triggers</a> in the <i>Amazon Cognito
+  /// Developer Guide</i>.
+  /// <note>
+  /// Take the following limitations into consideration when you use the
+  /// ClientMetadata parameter:
+  ///
+  /// <ul>
+  /// <li>
+  /// Amazon Cognito does not store the ClientMetadata value. This data is
+  /// available only to AWS Lambda triggers that are assigned to a user pool to
+  /// support custom workflows. If your user pool configuration does not include
+  /// triggers, the ClientMetadata parameter serves no purpose.
+  /// </li>
+  /// <li>
+  /// Amazon Cognito does not validate the ClientMetadata value.
+  /// </li>
+  /// <li>
+  /// Amazon Cognito does not encrypt the the ClientMetadata value, so don't use
+  /// it to provide sensitive information.
+  /// </li>
+  /// </ul> </note>
+  @_s.JsonKey(name: 'ClientMetadata')
+  final Map<String, String> clientMetadata;
+
+  /// A keyed-hash message authentication code (HMAC) calculated using the secret
+  /// key of a user pool client and username plus the client ID in the message.
+  @_s.JsonKey(name: 'SecretHash')
+  final String secretHash;
+
+  /// Contextual data such as the user's device fingerprint, IP address, or
+  /// location used for evaluating the risk of an unexpected event by Amazon
+  /// Cognito advanced security.
+  @_s.JsonKey(name: 'UserContextData')
+  final UserContextDataType userContextData;
+
+  ResendConfirmationCodeRequest({
+    @_s.required this.clientId,
+    @_s.required this.username,
+    this.analyticsMetadata,
+    this.clientMetadata,
+    this.secretHash,
+    this.userContextData,
+  });
+  Map<String, dynamic> toJson() => _$ResendConfirmationCodeRequestToJson(this);
+}
+
 /// The response from the server when the Amazon Cognito Your User Pools service
 /// makes the request to resend a confirmation code.
 @_s.JsonSerializable(
@@ -13167,6 +16523,132 @@ class ResourceServerType {
   });
   factory ResourceServerType.fromJson(Map<String, dynamic> json) =>
       _$ResourceServerTypeFromJson(json);
+}
+
+/// The request to respond to an authentication challenge.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RespondToAuthChallengeRequest {
+  /// The challenge name. For more information, see .
+  ///
+  /// <code>ADMIN_NO_SRP_AUTH</code> is not a valid value.
+  @_s.JsonKey(name: 'ChallengeName')
+  final ChallengeNameType challengeName;
+
+  /// The app client ID.
+  @_s.JsonKey(name: 'ClientId')
+  final String clientId;
+
+  /// The Amazon Pinpoint analytics metadata for collecting metrics for
+  /// <code>RespondToAuthChallenge</code> calls.
+  @_s.JsonKey(name: 'AnalyticsMetadata')
+  final AnalyticsMetadataType analyticsMetadata;
+
+  /// The challenge responses. These are inputs corresponding to the value of
+  /// <code>ChallengeName</code>, for example:
+  /// <note>
+  /// <code>SECRET_HASH</code> (if app client is configured with client secret)
+  /// applies to all inputs below (including <code>SOFTWARE_TOKEN_MFA</code>).
+  /// </note>
+  /// <ul>
+  /// <li>
+  /// <code>SMS_MFA</code>: <code>SMS_MFA_CODE</code>, <code>USERNAME</code>.
+  /// </li>
+  /// <li>
+  /// <code>PASSWORD_VERIFIER</code>: <code>PASSWORD_CLAIM_SIGNATURE</code>,
+  /// <code>PASSWORD_CLAIM_SECRET_BLOCK</code>, <code>TIMESTAMP</code>,
+  /// <code>USERNAME</code>.
+  /// </li>
+  /// <li>
+  /// <code>NEW_PASSWORD_REQUIRED</code>: <code>NEW_PASSWORD</code>, any other
+  /// required attributes, <code>USERNAME</code>.
+  /// </li>
+  /// <li>
+  /// <code>SOFTWARE_TOKEN_MFA</code>: <code>USERNAME</code> and
+  /// <code>SOFTWARE_TOKEN_MFA_CODE</code> are required attributes.
+  /// </li>
+  /// <li>
+  /// <code>DEVICE_SRP_AUTH</code> requires <code>USERNAME</code>,
+  /// <code>DEVICE_KEY</code>, <code>SRP_A</code> (and <code>SECRET_HASH</code>).
+  /// </li>
+  /// <li>
+  /// <code>DEVICE_PASSWORD_VERIFIER</code> requires everything that
+  /// <code>PASSWORD_VERIFIER</code> requires plus <code>DEVICE_KEY</code>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ChallengeResponses')
+  final Map<String, String> challengeResponses;
+
+  /// A map of custom key-value pairs that you can provide as input for any custom
+  /// workflows that this action triggers.
+  ///
+  /// You create custom workflows by assigning AWS Lambda functions to user pool
+  /// triggers. When you use the RespondToAuthChallenge API action, Amazon Cognito
+  /// invokes any functions that are assigned to the following triggers: <i>post
+  /// authentication</i>, <i>pre token generation</i>, <i>define auth
+  /// challenge</i>, <i>create auth challenge</i>, and <i>verify auth
+  /// challenge</i>. When Amazon Cognito invokes any of these functions, it passes
+  /// a JSON payload, which the function receives as input. This payload contains
+  /// a <code>clientMetadata</code> attribute, which provides the data that you
+  /// assigned to the ClientMetadata parameter in your RespondToAuthChallenge
+  /// request. In your function code in AWS Lambda, you can process the
+  /// <code>clientMetadata</code> value to enhance your workflow for your specific
+  /// needs.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html">Customizing
+  /// User Pool Workflows with Lambda Triggers</a> in the <i>Amazon Cognito
+  /// Developer Guide</i>.
+  /// <note>
+  /// Take the following limitations into consideration when you use the
+  /// ClientMetadata parameter:
+  ///
+  /// <ul>
+  /// <li>
+  /// Amazon Cognito does not store the ClientMetadata value. This data is
+  /// available only to AWS Lambda triggers that are assigned to a user pool to
+  /// support custom workflows. If your user pool configuration does not include
+  /// triggers, the ClientMetadata parameter serves no purpose.
+  /// </li>
+  /// <li>
+  /// Amazon Cognito does not validate the ClientMetadata value.
+  /// </li>
+  /// <li>
+  /// Amazon Cognito does not encrypt the the ClientMetadata value, so don't use
+  /// it to provide sensitive information.
+  /// </li>
+  /// </ul> </note>
+  @_s.JsonKey(name: 'ClientMetadata')
+  final Map<String, String> clientMetadata;
+
+  /// The session which should be passed both ways in challenge-response calls to
+  /// the service. If <code>InitiateAuth</code> or
+  /// <code>RespondToAuthChallenge</code> API call determines that the caller
+  /// needs to go through another challenge, they return a session with other
+  /// challenge parameters. This session should be passed as it is to the next
+  /// <code>RespondToAuthChallenge</code> API call.
+  @_s.JsonKey(name: 'Session')
+  final String session;
+
+  /// Contextual data such as the user's device fingerprint, IP address, or
+  /// location used for evaluating the risk of an unexpected event by Amazon
+  /// Cognito advanced security.
+  @_s.JsonKey(name: 'UserContextData')
+  final UserContextDataType userContextData;
+
+  RespondToAuthChallengeRequest({
+    @_s.required this.challengeName,
+    @_s.required this.clientId,
+    this.analyticsMetadata,
+    this.challengeResponses,
+    this.clientMetadata,
+    this.session,
+    this.userContextData,
+  });
+  Map<String, dynamic> toJson() => _$RespondToAuthChallengeRequestToJson(this);
 }
 
 /// The response to respond to the authentication challenge.
@@ -13398,6 +16880,50 @@ class SchemaAttributeType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SetRiskConfigurationRequest {
+  /// The user pool ID.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// The account takeover risk configuration.
+  @_s.JsonKey(name: 'AccountTakeoverRiskConfiguration')
+  final AccountTakeoverRiskConfigurationType accountTakeoverRiskConfiguration;
+
+  /// The app client ID. If <code>ClientId</code> is null, then the risk
+  /// configuration is mapped to <code>userPoolId</code>. When the client ID is
+  /// null, the same risk configuration is applied to all the clients in the
+  /// userPool.
+  ///
+  /// Otherwise, <code>ClientId</code> is mapped to the client. When the client ID
+  /// is not null, the user pool configuration is overridden and the risk
+  /// configuration for the client is used instead.
+  @_s.JsonKey(name: 'ClientId')
+  final String clientId;
+
+  /// The compromised credentials risk configuration.
+  @_s.JsonKey(name: 'CompromisedCredentialsRiskConfiguration')
+  final CompromisedCredentialsRiskConfigurationType
+      compromisedCredentialsRiskConfiguration;
+
+  /// The configuration to override the risk decision.
+  @_s.JsonKey(name: 'RiskExceptionConfiguration')
+  final RiskExceptionConfigurationType riskExceptionConfiguration;
+
+  SetRiskConfigurationRequest({
+    @_s.required this.userPoolId,
+    this.accountTakeoverRiskConfiguration,
+    this.clientId,
+    this.compromisedCredentialsRiskConfiguration,
+    this.riskExceptionConfiguration,
+  });
+  Map<String, dynamic> toJson() => _$SetRiskConfigurationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class SetRiskConfigurationResponse {
@@ -13410,6 +16936,38 @@ class SetRiskConfigurationResponse {
   });
   factory SetRiskConfigurationResponse.fromJson(Map<String, dynamic> json) =>
       _$SetRiskConfigurationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SetUICustomizationRequest {
+  /// The user pool ID for the user pool.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// The CSS values in the UI customization.
+  @_s.JsonKey(name: 'CSS')
+  final String css;
+
+  /// The client ID for the client app.
+  @_s.JsonKey(name: 'ClientId')
+  final String clientId;
+
+  /// The uploaded logo image for the UI customization.
+  @Uint8ListConverter()
+  @_s.JsonKey(name: 'ImageFile')
+  final Uint8List imageFile;
+
+  SetUICustomizationRequest({
+    @_s.required this.userPoolId,
+    this.css,
+    this.clientId,
+    this.imageFile,
+  });
+  Map<String, dynamic> toJson() => _$SetUICustomizationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13432,12 +16990,82 @@ class SetUICustomizationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SetUserMFAPreferenceRequest {
+  /// The access token for the user.
+  @_s.JsonKey(name: 'AccessToken')
+  final String accessToken;
+
+  /// The SMS text message multi-factor authentication (MFA) settings.
+  @_s.JsonKey(name: 'SMSMfaSettings')
+  final SMSMfaSettingsType sMSMfaSettings;
+
+  /// The time-based one-time password software token MFA settings.
+  @_s.JsonKey(name: 'SoftwareTokenMfaSettings')
+  final SoftwareTokenMfaSettingsType softwareTokenMfaSettings;
+
+  SetUserMFAPreferenceRequest({
+    @_s.required this.accessToken,
+    this.sMSMfaSettings,
+    this.softwareTokenMfaSettings,
+  });
+  Map<String, dynamic> toJson() => _$SetUserMFAPreferenceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class SetUserMFAPreferenceResponse {
   SetUserMFAPreferenceResponse();
   factory SetUserMFAPreferenceResponse.fromJson(Map<String, dynamic> json) =>
       _$SetUserMFAPreferenceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SetUserPoolMfaConfigRequest {
+  /// The user pool ID.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// The MFA configuration. Valid values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>OFF</code> MFA will not be used for any users.
+  /// </li>
+  /// <li>
+  /// <code>ON</code> MFA is required for all users to sign in.
+  /// </li>
+  /// <li>
+  /// <code>OPTIONAL</code> MFA will be required only for individual users who
+  /// have an MFA factor enabled.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'MfaConfiguration')
+  final UserPoolMfaType mfaConfiguration;
+
+  /// The SMS text message MFA configuration.
+  @_s.JsonKey(name: 'SmsMfaConfiguration')
+  final SmsMfaConfigType smsMfaConfiguration;
+
+  /// The software token MFA configuration.
+  @_s.JsonKey(name: 'SoftwareTokenMfaConfiguration')
+  final SoftwareTokenMfaConfigType softwareTokenMfaConfiguration;
+
+  SetUserPoolMfaConfigRequest({
+    @_s.required this.userPoolId,
+    this.mfaConfiguration,
+    this.smsMfaConfiguration,
+    this.softwareTokenMfaConfiguration,
+  });
+  Map<String, dynamic> toJson() => _$SetUserPoolMfaConfigRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13480,6 +17108,29 @@ class SetUserPoolMfaConfigResponse {
       _$SetUserPoolMfaConfigResponseFromJson(json);
 }
 
+/// Represents the request to set user settings.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SetUserSettingsRequest {
+  /// The access token for the set user settings request.
+  @_s.JsonKey(name: 'AccessToken')
+  final String accessToken;
+
+  /// You can use this parameter only to set an SMS configuration that uses SMS
+  /// for delivery.
+  @_s.JsonKey(name: 'MFAOptions')
+  final List<MFAOptionType> mFAOptions;
+
+  SetUserSettingsRequest({
+    @_s.required this.accessToken,
+    @_s.required this.mFAOptions,
+  });
+  Map<String, dynamic> toJson() => _$SetUserSettingsRequestToJson(this);
+}
+
 /// The response from the server for a set user settings request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -13490,6 +17141,106 @@ class SetUserSettingsResponse {
   SetUserSettingsResponse();
   factory SetUserSettingsResponse.fromJson(Map<String, dynamic> json) =>
       _$SetUserSettingsResponseFromJson(json);
+}
+
+/// Represents the request to register a user.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SignUpRequest {
+  /// The ID of the client associated with the user pool.
+  @_s.JsonKey(name: 'ClientId')
+  final String clientId;
+
+  /// The password of the user you wish to register.
+  @_s.JsonKey(name: 'Password')
+  final String password;
+
+  /// The user name of the user you wish to register.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  /// The Amazon Pinpoint analytics metadata for collecting metrics for
+  /// <code>SignUp</code> calls.
+  @_s.JsonKey(name: 'AnalyticsMetadata')
+  final AnalyticsMetadataType analyticsMetadata;
+
+  /// A map of custom key-value pairs that you can provide as input for any custom
+  /// workflows that this action triggers.
+  ///
+  /// You create custom workflows by assigning AWS Lambda functions to user pool
+  /// triggers. When you use the SignUp API action, Amazon Cognito invokes any
+  /// functions that are assigned to the following triggers: <i>pre sign-up</i>,
+  /// <i>custom message</i>, and <i>post confirmation</i>. When Amazon Cognito
+  /// invokes any of these functions, it passes a JSON payload, which the function
+  /// receives as input. This payload contains a <code>clientMetadata</code>
+  /// attribute, which provides the data that you assigned to the ClientMetadata
+  /// parameter in your SignUp request. In your function code in AWS Lambda, you
+  /// can process the <code>clientMetadata</code> value to enhance your workflow
+  /// for your specific needs.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html">Customizing
+  /// User Pool Workflows with Lambda Triggers</a> in the <i>Amazon Cognito
+  /// Developer Guide</i>.
+  /// <note>
+  /// Take the following limitations into consideration when you use the
+  /// ClientMetadata parameter:
+  ///
+  /// <ul>
+  /// <li>
+  /// Amazon Cognito does not store the ClientMetadata value. This data is
+  /// available only to AWS Lambda triggers that are assigned to a user pool to
+  /// support custom workflows. If your user pool configuration does not include
+  /// triggers, the ClientMetadata parameter serves no purpose.
+  /// </li>
+  /// <li>
+  /// Amazon Cognito does not validate the ClientMetadata value.
+  /// </li>
+  /// <li>
+  /// Amazon Cognito does not encrypt the the ClientMetadata value, so don't use
+  /// it to provide sensitive information.
+  /// </li>
+  /// </ul> </note>
+  @_s.JsonKey(name: 'ClientMetadata')
+  final Map<String, String> clientMetadata;
+
+  /// A keyed-hash message authentication code (HMAC) calculated using the secret
+  /// key of a user pool client and username plus the client ID in the message.
+  @_s.JsonKey(name: 'SecretHash')
+  final String secretHash;
+
+  /// An array of name-value pairs representing user attributes.
+  ///
+  /// For custom attributes, you must prepend the <code>custom:</code> prefix to
+  /// the attribute name.
+  @_s.JsonKey(name: 'UserAttributes')
+  final List<AttributeType> userAttributes;
+
+  /// Contextual data such as the user's device fingerprint, IP address, or
+  /// location used for evaluating the risk of an unexpected event by Amazon
+  /// Cognito advanced security.
+  @_s.JsonKey(name: 'UserContextData')
+  final UserContextDataType userContextData;
+
+  /// The validation data in the request to register a user.
+  @_s.JsonKey(name: 'ValidationData')
+  final List<AttributeType> validationData;
+
+  SignUpRequest({
+    @_s.required this.clientId,
+    @_s.required this.password,
+    @_s.required this.username,
+    this.analyticsMetadata,
+    this.clientMetadata,
+    this.secretHash,
+    this.userAttributes,
+    this.userContextData,
+    this.validationData,
+  });
+  Map<String, dynamic> toJson() => _$SignUpRequestToJson(this);
 }
 
 /// The response from the server for a registration request.
@@ -13630,6 +17381,28 @@ class SoftwareTokenMfaSettingsType {
   Map<String, dynamic> toJson() => _$SoftwareTokenMfaSettingsTypeToJson(this);
 }
 
+/// Represents the request to start the user import job.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartUserImportJobRequest {
+  /// The job ID for the user import job.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  /// The user pool ID for the user pool that the users are being imported into.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  StartUserImportJobRequest({
+    @_s.required this.jobId,
+    @_s.required this.userPoolId,
+  });
+  Map<String, dynamic> toJson() => _$StartUserImportJobRequestToJson(this);
+}
+
 /// Represents the response from the server to the request to start the user
 /// import job.
 @_s.JsonSerializable(
@@ -13654,6 +17427,28 @@ enum StatusType {
   enabled,
   @_s.JsonValue('Disabled')
   disabled,
+}
+
+/// Represents the request to stop the user import job.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopUserImportJobRequest {
+  /// The job ID for the user import job.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  /// The user pool ID for the user pool that the users are being imported into.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  StopUserImportJobRequest({
+    @_s.required this.jobId,
+    @_s.required this.userPoolId,
+  });
+  Map<String, dynamic> toJson() => _$StopUserImportJobRequestToJson(this);
 }
 
 /// Represents the response from the server to the request to stop the user
@@ -13698,6 +17493,27 @@ class StringAttributeConstraintsType {
       _$StringAttributeConstraintsTypeFromJson(json);
 
   Map<String, dynamic> toJson() => _$StringAttributeConstraintsTypeToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the user pool to assign the tags to.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// The tags to assign to the user pool.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13769,12 +17585,70 @@ class UICustomizationType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the user pool that the tags are assigned
+  /// to.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// The keys of the tags to remove from the user pool.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
   factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateAuthEventFeedbackRequest {
+  /// The event ID.
+  @_s.JsonKey(name: 'EventId')
+  final String eventId;
+
+  /// The feedback token.
+  @_s.JsonKey(name: 'FeedbackToken')
+  final String feedbackToken;
+
+  /// The authentication event feedback value.
+  @_s.JsonKey(name: 'FeedbackValue')
+  final FeedbackValueType feedbackValue;
+
+  /// The user pool ID.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// The user pool username.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  UpdateAuthEventFeedbackRequest({
+    @_s.required this.eventId,
+    @_s.required this.feedbackToken,
+    @_s.required this.feedbackValue,
+    @_s.required this.userPoolId,
+    @_s.required this.username,
+  });
+  Map<String, dynamic> toJson() => _$UpdateAuthEventFeedbackRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13788,6 +17662,33 @@ class UpdateAuthEventFeedbackResponse {
       _$UpdateAuthEventFeedbackResponseFromJson(json);
 }
 
+/// Represents the request to update the device status.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDeviceStatusRequest {
+  /// The access token.
+  @_s.JsonKey(name: 'AccessToken')
+  final String accessToken;
+
+  /// The device key.
+  @_s.JsonKey(name: 'DeviceKey')
+  final String deviceKey;
+
+  /// The status of whether a device is remembered.
+  @_s.JsonKey(name: 'DeviceRememberedStatus')
+  final DeviceRememberedStatusType deviceRememberedStatus;
+
+  UpdateDeviceStatusRequest({
+    @_s.required this.accessToken,
+    @_s.required this.deviceKey,
+    this.deviceRememberedStatus,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDeviceStatusRequestToJson(this);
+}
+
 /// The response to the request to update the device status.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -13798,6 +17699,45 @@ class UpdateDeviceStatusResponse {
   UpdateDeviceStatusResponse();
   factory UpdateDeviceStatusResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateDeviceStatusResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateGroupRequest {
+  /// The name of the group.
+  @_s.JsonKey(name: 'GroupName')
+  final String groupName;
+
+  /// The user pool ID for the user pool.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// A string containing the new description of the group.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The new precedence value for the group. For more information about this
+  /// parameter, see .
+  @_s.JsonKey(name: 'Precedence')
+  final int precedence;
+
+  /// The new role ARN for the group. This is used for setting the
+  /// <code>cognito:roles</code> and <code>cognito:preferred_role</code> claims in
+  /// the token.
+  @_s.JsonKey(name: 'RoleArn')
+  final String roleArn;
+
+  UpdateGroupRequest({
+    @_s.required this.groupName,
+    @_s.required this.userPoolId,
+    this.description,
+    this.precedence,
+    this.roleArn,
+  });
+  Map<String, dynamic> toJson() => _$UpdateGroupRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13820,6 +17760,43 @@ class UpdateGroupResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateIdentityProviderRequest {
+  /// The identity provider name.
+  @_s.JsonKey(name: 'ProviderName')
+  final String providerName;
+
+  /// The user pool ID.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// The identity provider attribute mapping to be changed.
+  @_s.JsonKey(name: 'AttributeMapping')
+  final Map<String, String> attributeMapping;
+
+  /// A list of identity provider identifiers.
+  @_s.JsonKey(name: 'IdpIdentifiers')
+  final List<String> idpIdentifiers;
+
+  /// The identity provider details to be updated, such as
+  /// <code>MetadataURL</code> and <code>MetadataFile</code>.
+  @_s.JsonKey(name: 'ProviderDetails')
+  final Map<String, String> providerDetails;
+
+  UpdateIdentityProviderRequest({
+    @_s.required this.providerName,
+    @_s.required this.userPoolId,
+    this.attributeMapping,
+    this.idpIdentifiers,
+    this.providerDetails,
+  });
+  Map<String, dynamic> toJson() => _$UpdateIdentityProviderRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateIdentityProviderResponse {
@@ -13837,6 +17814,37 @@ class UpdateIdentityProviderResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateResourceServerRequest {
+  /// The identifier for the resource server.
+  @_s.JsonKey(name: 'Identifier')
+  final String identifier;
+
+  /// The name of the resource server.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The user pool ID for the user pool.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// The scope values to be set for the resource server.
+  @_s.JsonKey(name: 'Scopes')
+  final List<ResourceServerScopeType> scopes;
+
+  UpdateResourceServerRequest({
+    @_s.required this.identifier,
+    @_s.required this.name,
+    @_s.required this.userPoolId,
+    this.scopes,
+  });
+  Map<String, dynamic> toJson() => _$UpdateResourceServerRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateResourceServerResponse {
@@ -13849,6 +17857,72 @@ class UpdateResourceServerResponse {
   });
   factory UpdateResourceServerResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateResourceServerResponseFromJson(json);
+}
+
+/// Represents the request to update user attributes.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateUserAttributesRequest {
+  /// The access token for the request to update user attributes.
+  @_s.JsonKey(name: 'AccessToken')
+  final String accessToken;
+
+  /// An array of name-value pairs representing user attributes.
+  ///
+  /// For custom attributes, you must prepend the <code>custom:</code> prefix to
+  /// the attribute name.
+  @_s.JsonKey(name: 'UserAttributes')
+  final List<AttributeType> userAttributes;
+
+  /// A map of custom key-value pairs that you can provide as input for any custom
+  /// workflows that this action triggers.
+  ///
+  /// You create custom workflows by assigning AWS Lambda functions to user pool
+  /// triggers. When you use the UpdateUserAttributes API action, Amazon Cognito
+  /// invokes the function that is assigned to the <i>custom message</i> trigger.
+  /// When Amazon Cognito invokes this function, it passes a JSON payload, which
+  /// the function receives as input. This payload contains a
+  /// <code>clientMetadata</code> attribute, which provides the data that you
+  /// assigned to the ClientMetadata parameter in your UpdateUserAttributes
+  /// request. In your function code in AWS Lambda, you can process the
+  /// <code>clientMetadata</code> value to enhance your workflow for your specific
+  /// needs.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html">Customizing
+  /// User Pool Workflows with Lambda Triggers</a> in the <i>Amazon Cognito
+  /// Developer Guide</i>.
+  /// <note>
+  /// Take the following limitations into consideration when you use the
+  /// ClientMetadata parameter:
+  ///
+  /// <ul>
+  /// <li>
+  /// Amazon Cognito does not store the ClientMetadata value. This data is
+  /// available only to AWS Lambda triggers that are assigned to a user pool to
+  /// support custom workflows. If your user pool configuration does not include
+  /// triggers, the ClientMetadata parameter serves no purpose.
+  /// </li>
+  /// <li>
+  /// Amazon Cognito does not validate the ClientMetadata value.
+  /// </li>
+  /// <li>
+  /// Amazon Cognito does not encrypt the the ClientMetadata value, so don't use
+  /// it to provide sensitive information.
+  /// </li>
+  /// </ul> </note>
+  @_s.JsonKey(name: 'ClientMetadata')
+  final Map<String, String> clientMetadata;
+
+  UpdateUserAttributesRequest({
+    @_s.required this.accessToken,
+    @_s.required this.userAttributes,
+    this.clientMetadata,
+  });
+  Map<String, dynamic> toJson() => _$UpdateUserAttributesRequestToJson(this);
 }
 
 /// Represents the response from the server for the request to update user
@@ -13871,6 +17945,248 @@ class UpdateUserAttributesResponse {
       _$UpdateUserAttributesResponseFromJson(json);
 }
 
+/// Represents the request to update the user pool client.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateUserPoolClientRequest {
+  /// The ID of the client associated with the user pool.
+  @_s.JsonKey(name: 'ClientId')
+  final String clientId;
+
+  /// The user pool ID for the user pool where you want to update the user pool
+  /// client.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// The allowed OAuth flows.
+  ///
+  /// Set to <code>code</code> to initiate a code grant flow, which provides an
+  /// authorization code as the response. This code can be exchanged for access
+  /// tokens with the token endpoint.
+  ///
+  /// Set to <code>implicit</code> to specify that the client should get the
+  /// access token (and, optionally, ID token, based on scopes) directly.
+  ///
+  /// Set to <code>client_credentials</code> to specify that the client should get
+  /// the access token (and, optionally, ID token, based on scopes) from the token
+  /// endpoint using a combination of client and client_secret.
+  @_s.JsonKey(name: 'AllowedOAuthFlows')
+  final List<String> allowedOAuthFlows;
+
+  /// Set to true if the client is allowed to follow the OAuth protocol when
+  /// interacting with Cognito user pools.
+  @_s.JsonKey(name: 'AllowedOAuthFlowsUserPoolClient')
+  final bool allowedOAuthFlowsUserPoolClient;
+
+  /// The allowed OAuth scopes. Possible values provided by OAuth are:
+  /// <code>phone</code>, <code>email</code>, <code>openid</code>, and
+  /// <code>profile</code>. Possible values provided by AWS are:
+  /// <code>aws.cognito.signin.user.admin</code>. Custom scopes created in
+  /// Resource Servers are also supported.
+  @_s.JsonKey(name: 'AllowedOAuthScopes')
+  final List<String> allowedOAuthScopes;
+
+  /// The Amazon Pinpoint analytics configuration for collecting metrics for this
+  /// user pool.
+  /// <note>
+  /// Cognito User Pools only supports sending events to Amazon Pinpoint projects
+  /// in the US East (N. Virginia) us-east-1 Region, regardless of the region in
+  /// which the user pool resides.
+  /// </note>
+  @_s.JsonKey(name: 'AnalyticsConfiguration')
+  final AnalyticsConfigurationType analyticsConfiguration;
+
+  /// A list of allowed redirect (callback) URLs for the identity providers.
+  ///
+  /// A redirect URI must:
+  ///
+  /// <ul>
+  /// <li>
+  /// Be an absolute URI.
+  /// </li>
+  /// <li>
+  /// Be registered with the authorization server.
+  /// </li>
+  /// <li>
+  /// Not include a fragment component.
+  /// </li>
+  /// </ul>
+  /// See <a href="https://tools.ietf.org/html/rfc6749#section-3.1.2">OAuth 2.0 -
+  /// Redirection Endpoint</a>.
+  ///
+  /// Amazon Cognito requires HTTPS over HTTP except for http://localhost for
+  /// testing purposes only.
+  ///
+  /// App callback URLs such as myapp://example are also supported.
+  @_s.JsonKey(name: 'CallbackURLs')
+  final List<String> callbackURLs;
+
+  /// The client name from the update user pool client request.
+  @_s.JsonKey(name: 'ClientName')
+  final String clientName;
+
+  /// The default redirect URI. Must be in the <code>CallbackURLs</code> list.
+  ///
+  /// A redirect URI must:
+  ///
+  /// <ul>
+  /// <li>
+  /// Be an absolute URI.
+  /// </li>
+  /// <li>
+  /// Be registered with the authorization server.
+  /// </li>
+  /// <li>
+  /// Not include a fragment component.
+  /// </li>
+  /// </ul>
+  /// See <a href="https://tools.ietf.org/html/rfc6749#section-3.1.2">OAuth 2.0 -
+  /// Redirection Endpoint</a>.
+  ///
+  /// Amazon Cognito requires HTTPS over HTTP except for http://localhost for
+  /// testing purposes only.
+  ///
+  /// App callback URLs such as myapp://example are also supported.
+  @_s.JsonKey(name: 'DefaultRedirectURI')
+  final String defaultRedirectURI;
+
+  /// The authentication flows that are supported by the user pool clients. Flow
+  /// names without the <code>ALLOW_</code> prefix are deprecated in favor of new
+  /// names with the <code>ALLOW_</code> prefix. Note that values with
+  /// <code>ALLOW_</code> prefix cannot be used along with values without
+  /// <code>ALLOW_</code> prefix.
+  ///
+  /// Valid values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ALLOW_ADMIN_USER_PASSWORD_AUTH</code>: Enable admin based user
+  /// password authentication flow <code>ADMIN_USER_PASSWORD_AUTH</code>. This
+  /// setting replaces the <code>ADMIN_NO_SRP_AUTH</code> setting. With this
+  /// authentication flow, Cognito receives the password in the request instead of
+  /// using the SRP (Secure Remote Password protocol) protocol to verify
+  /// passwords.
+  /// </li>
+  /// <li>
+  /// <code>ALLOW_CUSTOM_AUTH</code>: Enable Lambda trigger based authentication.
+  /// </li>
+  /// <li>
+  /// <code>ALLOW_USER_PASSWORD_AUTH</code>: Enable user password-based
+  /// authentication. In this flow, Cognito receives the password in the request
+  /// instead of using the SRP protocol to verify passwords.
+  /// </li>
+  /// <li>
+  /// <code>ALLOW_USER_SRP_AUTH</code>: Enable SRP based authentication.
+  /// </li>
+  /// <li>
+  /// <code>ALLOW_REFRESH_TOKEN_AUTH</code>: Enable authflow to refresh tokens.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ExplicitAuthFlows')
+  final List<String> explicitAuthFlows;
+
+  /// A list of allowed logout URLs for the identity providers.
+  @_s.JsonKey(name: 'LogoutURLs')
+  final List<String> logoutURLs;
+
+  /// Use this setting to choose which errors and responses are returned by
+  /// Cognito APIs during authentication, account confirmation, and password
+  /// recovery when the user does not exist in the user pool. When set to
+  /// <code>ENABLED</code> and the user does not exist, authentication returns an
+  /// error indicating either the username or password was incorrect, and account
+  /// confirmation and password recovery return a response indicating a code was
+  /// sent to a simulated destination. When set to <code>LEGACY</code>, those APIs
+  /// will return a <code>UserNotFoundException</code> exception if the user does
+  /// not exist in the user pool.
+  ///
+  /// Valid values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ENABLED</code> - This prevents user existence-related errors.
+  /// </li>
+  /// <li>
+  /// <code>LEGACY</code> - This represents the old behavior of Cognito where user
+  /// existence related errors are not prevented.
+  /// </li>
+  /// </ul>
+  /// This setting affects the behavior of following APIs:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>AdminInitiateAuth</a>
+  /// </li>
+  /// <li>
+  /// <a>AdminRespondToAuthChallenge</a>
+  /// </li>
+  /// <li>
+  /// <a>InitiateAuth</a>
+  /// </li>
+  /// <li>
+  /// <a>RespondToAuthChallenge</a>
+  /// </li>
+  /// <li>
+  /// <a>ForgotPassword</a>
+  /// </li>
+  /// <li>
+  /// <a>ConfirmForgotPassword</a>
+  /// </li>
+  /// <li>
+  /// <a>ConfirmSignUp</a>
+  /// </li>
+  /// <li>
+  /// <a>ResendConfirmationCode</a>
+  /// </li>
+  /// </ul> <note>
+  /// After February 15th 2020, the value of
+  /// <code>PreventUserExistenceErrors</code> will default to <code>ENABLED</code>
+  /// for newly created user pool clients if no value is provided.
+  /// </note>
+  @_s.JsonKey(name: 'PreventUserExistenceErrors')
+  final PreventUserExistenceErrorTypes preventUserExistenceErrors;
+
+  /// The read-only attributes of the user pool.
+  @_s.JsonKey(name: 'ReadAttributes')
+  final List<String> readAttributes;
+
+  /// The time limit, in days, after which the refresh token is no longer valid
+  /// and cannot be used.
+  @_s.JsonKey(name: 'RefreshTokenValidity')
+  final int refreshTokenValidity;
+
+  /// A list of provider names for the identity providers that are supported on
+  /// this client.
+  @_s.JsonKey(name: 'SupportedIdentityProviders')
+  final List<String> supportedIdentityProviders;
+
+  /// The writeable attributes of the user pool.
+  @_s.JsonKey(name: 'WriteAttributes')
+  final List<String> writeAttributes;
+
+  UpdateUserPoolClientRequest({
+    @_s.required this.clientId,
+    @_s.required this.userPoolId,
+    this.allowedOAuthFlows,
+    this.allowedOAuthFlowsUserPoolClient,
+    this.allowedOAuthScopes,
+    this.analyticsConfiguration,
+    this.callbackURLs,
+    this.clientName,
+    this.defaultRedirectURI,
+    this.explicitAuthFlows,
+    this.logoutURLs,
+    this.preventUserExistenceErrors,
+    this.readAttributes,
+    this.refreshTokenValidity,
+    this.supportedIdentityProviders,
+    this.writeAttributes,
+  });
+  Map<String, dynamic> toJson() => _$UpdateUserPoolClientRequestToJson(this);
+}
+
 /// Represents the response from the server to the request to update the user
 /// pool client.
 @_s.JsonSerializable(
@@ -13891,6 +18207,41 @@ class UpdateUserPoolClientResponse {
       _$UpdateUserPoolClientResponseFromJson(json);
 }
 
+/// The UpdateUserPoolDomain request input.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateUserPoolDomainRequest {
+  /// The configuration for a custom domain that hosts the sign-up and sign-in
+  /// pages for your application. Use this object to specify an SSL certificate
+  /// that is managed by ACM.
+  @_s.JsonKey(name: 'CustomDomainConfig')
+  final CustomDomainConfigType customDomainConfig;
+
+  /// The domain name for the custom domain that hosts the sign-up and sign-in
+  /// pages for your application. For example: <code>auth.example.com</code>.
+  ///
+  /// This string can include only lowercase letters, numbers, and hyphens. Do not
+  /// use a hyphen for the first or last character. Use periods to separate
+  /// subdomain names.
+  @_s.JsonKey(name: 'Domain')
+  final String domain;
+
+  /// The ID of the user pool that is associated with the custom domain that you
+  /// are updating the certificate for.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  UpdateUserPoolDomainRequest({
+    @_s.required this.customDomainConfig,
+    @_s.required this.domain,
+    @_s.required this.userPoolId,
+  });
+  Map<String, dynamic> toJson() => _$UpdateUserPoolDomainRequestToJson(this);
+}
+
 /// The UpdateUserPoolDomain response output.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -13908,6 +18259,129 @@ class UpdateUserPoolDomainResponse {
   });
   factory UpdateUserPoolDomainResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateUserPoolDomainResponseFromJson(json);
+}
+
+/// Represents the request to update the user pool.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateUserPoolRequest {
+  /// The user pool ID for the user pool you want to update.
+  @_s.JsonKey(name: 'UserPoolId')
+  final String userPoolId;
+
+  /// Use this setting to define which verified available method a user can use to
+  /// recover their password when they call <code>ForgotPassword</code>. It allows
+  /// you to define a preferred method when a user has more than one method
+  /// available. With this setting, SMS does not qualify for a valid password
+  /// recovery mechanism if the user also has SMS MFA enabled. In the absence of
+  /// this setting, Cognito uses the legacy behavior to determine the recovery
+  /// method where SMS is preferred over email.
+  @_s.JsonKey(name: 'AccountRecoverySetting')
+  final AccountRecoverySettingType accountRecoverySetting;
+
+  /// The configuration for <code>AdminCreateUser</code> requests.
+  @_s.JsonKey(name: 'AdminCreateUserConfig')
+  final AdminCreateUserConfigType adminCreateUserConfig;
+
+  /// The attributes that are automatically verified when the Amazon Cognito
+  /// service makes a request to update user pools.
+  @_s.JsonKey(name: 'AutoVerifiedAttributes')
+  final List<String> autoVerifiedAttributes;
+
+  /// Device configuration.
+  @_s.JsonKey(name: 'DeviceConfiguration')
+  final DeviceConfigurationType deviceConfiguration;
+
+  /// Email configuration.
+  @_s.JsonKey(name: 'EmailConfiguration')
+  final EmailConfigurationType emailConfiguration;
+
+  /// The contents of the email verification message.
+  @_s.JsonKey(name: 'EmailVerificationMessage')
+  final String emailVerificationMessage;
+
+  /// The subject of the email verification message.
+  @_s.JsonKey(name: 'EmailVerificationSubject')
+  final String emailVerificationSubject;
+
+  /// The AWS Lambda configuration information from the request to update the user
+  /// pool.
+  @_s.JsonKey(name: 'LambdaConfig')
+  final LambdaConfigType lambdaConfig;
+
+  /// Can be one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>OFF</code> - MFA tokens are not required and cannot be specified
+  /// during user registration.
+  /// </li>
+  /// <li>
+  /// <code>ON</code> - MFA tokens are required for all user registrations. You
+  /// can only specify required when you are initially creating a user pool.
+  /// </li>
+  /// <li>
+  /// <code>OPTIONAL</code> - Users have the option when registering to create an
+  /// MFA token.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'MfaConfiguration')
+  final UserPoolMfaType mfaConfiguration;
+
+  /// A container with the policies you wish to update in a user pool.
+  @_s.JsonKey(name: 'Policies')
+  final UserPoolPolicyType policies;
+
+  /// The contents of the SMS authentication message.
+  @_s.JsonKey(name: 'SmsAuthenticationMessage')
+  final String smsAuthenticationMessage;
+
+  /// SMS configuration.
+  @_s.JsonKey(name: 'SmsConfiguration')
+  final SmsConfigurationType smsConfiguration;
+
+  /// A container with information about the SMS verification message.
+  @_s.JsonKey(name: 'SmsVerificationMessage')
+  final String smsVerificationMessage;
+
+  /// Used to enable advanced security risk detection. Set the key
+  /// <code>AdvancedSecurityMode</code> to the value "AUDIT".
+  @_s.JsonKey(name: 'UserPoolAddOns')
+  final UserPoolAddOnsType userPoolAddOns;
+
+  /// The tag keys and values to assign to the user pool. A tag is a label that
+  /// you can use to categorize and manage user pools in different ways, such as
+  /// by purpose, owner, environment, or other criteria.
+  @_s.JsonKey(name: 'UserPoolTags')
+  final Map<String, String> userPoolTags;
+
+  /// The template for verification messages.
+  @_s.JsonKey(name: 'VerificationMessageTemplate')
+  final VerificationMessageTemplateType verificationMessageTemplate;
+
+  UpdateUserPoolRequest({
+    @_s.required this.userPoolId,
+    this.accountRecoverySetting,
+    this.adminCreateUserConfig,
+    this.autoVerifiedAttributes,
+    this.deviceConfiguration,
+    this.emailConfiguration,
+    this.emailVerificationMessage,
+    this.emailVerificationSubject,
+    this.lambdaConfig,
+    this.mfaConfiguration,
+    this.policies,
+    this.smsAuthenticationMessage,
+    this.smsConfiguration,
+    this.smsVerificationMessage,
+    this.userPoolAddOns,
+    this.userPoolTags,
+    this.verificationMessageTemplate,
+  });
+  Map<String, dynamic> toJson() => _$UpdateUserPoolRequestToJson(this);
 }
 
 /// Represents the response from the server when you make a request to update
@@ -14453,20 +18927,6 @@ enum UserPoolMfaType {
   optional,
 }
 
-extension on UserPoolMfaType {
-  String toValue() {
-    switch (this) {
-      case UserPoolMfaType.off:
-        return 'OFF';
-      case UserPoolMfaType.on:
-        return 'ON';
-      case UserPoolMfaType.optional:
-        return 'OPTIONAL';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// The policy associated with a user pool.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -14898,6 +19358,38 @@ enum VerifiedAttributeType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class VerifySoftwareTokenRequest {
+  /// The one time password computed using the secret code returned by
+  @_s.JsonKey(name: 'UserCode')
+  final String userCode;
+
+  /// The access token.
+  @_s.JsonKey(name: 'AccessToken')
+  final String accessToken;
+
+  /// The friendly device name.
+  @_s.JsonKey(name: 'FriendlyDeviceName')
+  final String friendlyDeviceName;
+
+  /// The session which should be passed both ways in challenge-response calls to
+  /// the service.
+  @_s.JsonKey(name: 'Session')
+  final String session;
+
+  VerifySoftwareTokenRequest({
+    @_s.required this.userCode,
+    this.accessToken,
+    this.friendlyDeviceName,
+    this.session,
+  });
+  Map<String, dynamic> toJson() => _$VerifySoftwareTokenRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class VerifySoftwareTokenResponse {
@@ -14923,6 +19415,33 @@ enum VerifySoftwareTokenResponseType {
   success,
   @_s.JsonValue('ERROR')
   error,
+}
+
+/// Represents the request to verify user attributes.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class VerifyUserAttributeRequest {
+  /// Represents the access token of the request to verify user attributes.
+  @_s.JsonKey(name: 'AccessToken')
+  final String accessToken;
+
+  /// The attribute name in the request to verify user attributes.
+  @_s.JsonKey(name: 'AttributeName')
+  final String attributeName;
+
+  /// The verification code in the request to verify user attributes.
+  @_s.JsonKey(name: 'Code')
+  final String code;
+
+  VerifyUserAttributeRequest({
+    @_s.required this.accessToken,
+    @_s.required this.attributeName,
+    @_s.required this.code,
+  });
+  Map<String, dynamic> toJson() => _$VerifyUserAttributeRequestToJson(this);
 }
 
 /// A container representing the response from the server from the request to

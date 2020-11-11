@@ -55,6 +55,21 @@ const _$ErrorCodeEnumMap = {
   ErrorCode.throttlingException: 'ThrottlingException',
 };
 
+Map<String, dynamic> _$BatchPutMessageRequestToJson(
+    BatchPutMessageRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'messages', instance.messages?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 BatchPutMessageResponse _$BatchPutMessageResponseFromJson(
     Map<String, dynamic> json) {
   return BatchPutMessageResponse(
@@ -73,6 +88,21 @@ BatchUpdateDetectorErrorEntry _$BatchUpdateDetectorErrorEntryFromJson(
     errorMessage: json['errorMessage'] as String,
     messageId: json['messageId'] as String,
   );
+}
+
+Map<String, dynamic> _$BatchUpdateDetectorRequestToJson(
+    BatchUpdateDetectorRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'detectors', instance.detectors?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 BatchUpdateDetectorResponse _$BatchUpdateDetectorResponseFromJson(

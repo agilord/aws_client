@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -91,11 +90,11 @@ class AutoScalingPlans {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ApplicationSource': applicationSource,
-        'ScalingInstructions': scalingInstructions,
-        'ScalingPlanName': scalingPlanName,
-      },
+      payload: CreateScalingPlanRequest(
+        applicationSource: applicationSource,
+        scalingInstructions: scalingInstructions,
+        scalingPlanName: scalingPlanName,
+      ),
     );
 
     return CreateScalingPlanResponse.fromJson(jsonResponse.body);
@@ -148,10 +147,10 @@ class AutoScalingPlans {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ScalingPlanName': scalingPlanName,
-        'ScalingPlanVersion': scalingPlanVersion,
-      },
+      payload: DeleteScalingPlanRequest(
+        scalingPlanName: scalingPlanName,
+        scalingPlanVersion: scalingPlanVersion,
+      ),
     );
 
     return DeleteScalingPlanResponse.fromJson(jsonResponse.body);
@@ -208,12 +207,12 @@ class AutoScalingPlans {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ScalingPlanName': scalingPlanName,
-        'ScalingPlanVersion': scalingPlanVersion,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeScalingPlanResourcesRequest(
+        scalingPlanName: scalingPlanName,
+        scalingPlanVersion: scalingPlanVersion,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeScalingPlanResourcesResponse.fromJson(jsonResponse.body);
@@ -262,15 +261,13 @@ class AutoScalingPlans {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (applicationSources != null)
-          'ApplicationSources': applicationSources,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (scalingPlanNames != null) 'ScalingPlanNames': scalingPlanNames,
-        if (scalingPlanVersion != null)
-          'ScalingPlanVersion': scalingPlanVersion,
-      },
+      payload: DescribeScalingPlansRequest(
+        applicationSources: applicationSources,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        scalingPlanNames: scalingPlanNames,
+        scalingPlanVersion: scalingPlanVersion,
+      ),
     );
 
     return DescribeScalingPlansResponse.fromJson(jsonResponse.body);
@@ -417,16 +414,16 @@ class AutoScalingPlans {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EndTime': endTime,
-        'ForecastDataType': forecastDataType?.toValue(),
-        'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension?.toValue(),
-        'ScalingPlanName': scalingPlanName,
-        'ScalingPlanVersion': scalingPlanVersion,
-        'ServiceNamespace': serviceNamespace?.toValue(),
-        'StartTime': startTime,
-      },
+      payload: GetScalingPlanResourceForecastDataRequest(
+        endTime: endTime,
+        forecastDataType: forecastDataType,
+        resourceId: resourceId,
+        scalableDimension: scalableDimension,
+        scalingPlanName: scalingPlanName,
+        scalingPlanVersion: scalingPlanVersion,
+        serviceNamespace: serviceNamespace,
+        startTime: startTime,
+      ),
     );
 
     return GetScalingPlanResourceForecastDataResponse.fromJson(
@@ -485,13 +482,12 @@ class AutoScalingPlans {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ScalingPlanName': scalingPlanName,
-        'ScalingPlanVersion': scalingPlanVersion,
-        if (applicationSource != null) 'ApplicationSource': applicationSource,
-        if (scalingInstructions != null)
-          'ScalingInstructions': scalingInstructions,
-      },
+      payload: UpdateScalingPlanRequest(
+        scalingPlanName: scalingPlanName,
+        scalingPlanVersion: scalingPlanVersion,
+        applicationSource: applicationSource,
+        scalingInstructions: scalingInstructions,
+      ),
     );
 
     return UpdateScalingPlanResponse.fromJson(jsonResponse.body);
@@ -521,6 +517,34 @@ class ApplicationSource {
       _$ApplicationSourceFromJson(json);
 
   Map<String, dynamic> toJson() => _$ApplicationSourceToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateScalingPlanRequest {
+  /// A CloudFormation stack or set of tags. You can create one scaling plan per
+  /// application source.
+  @_s.JsonKey(name: 'ApplicationSource')
+  final ApplicationSource applicationSource;
+
+  /// The scaling instructions.
+  @_s.JsonKey(name: 'ScalingInstructions')
+  final List<ScalingInstruction> scalingInstructions;
+
+  /// The name of the scaling plan. Names cannot contain vertical bars, colons, or
+  /// forward slashes.
+  @_s.JsonKey(name: 'ScalingPlanName')
+  final String scalingPlanName;
+
+  CreateScalingPlanRequest({
+    @_s.required this.applicationSource,
+    @_s.required this.scalingInstructions,
+    @_s.required this.scalingPlanName,
+  });
+  Map<String, dynamic> toJson() => _$CreateScalingPlanRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -709,12 +733,66 @@ class Datapoint {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteScalingPlanRequest {
+  /// The name of the scaling plan.
+  @_s.JsonKey(name: 'ScalingPlanName')
+  final String scalingPlanName;
+
+  /// The version number of the scaling plan.
+  @_s.JsonKey(name: 'ScalingPlanVersion')
+  final int scalingPlanVersion;
+
+  DeleteScalingPlanRequest({
+    @_s.required this.scalingPlanName,
+    @_s.required this.scalingPlanVersion,
+  });
+  Map<String, dynamic> toJson() => _$DeleteScalingPlanRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteScalingPlanResponse {
   DeleteScalingPlanResponse();
   factory DeleteScalingPlanResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteScalingPlanResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeScalingPlanResourcesRequest {
+  /// The name of the scaling plan.
+  @_s.JsonKey(name: 'ScalingPlanName')
+  final String scalingPlanName;
+
+  /// The version number of the scaling plan.
+  @_s.JsonKey(name: 'ScalingPlanVersion')
+  final int scalingPlanVersion;
+
+  /// The maximum number of scalable resources to return. The value must be
+  /// between 1 and 50. The default value is 50.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeScalingPlanResourcesRequest({
+    @_s.required this.scalingPlanName,
+    @_s.required this.scalingPlanVersion,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeScalingPlanResourcesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -739,6 +817,46 @@ class DescribeScalingPlanResourcesResponse {
   factory DescribeScalingPlanResourcesResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeScalingPlanResourcesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeScalingPlansRequest {
+  /// The sources for the applications (up to 10). If you specify scaling plan
+  /// names, you cannot specify application sources.
+  @_s.JsonKey(name: 'ApplicationSources')
+  final List<ApplicationSource> applicationSources;
+
+  /// The maximum number of scalable resources to return. This value can be
+  /// between 1 and 50. The default value is 50.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The names of the scaling plans (up to 10). If you specify application
+  /// sources, you cannot specify scaling plan names.
+  @_s.JsonKey(name: 'ScalingPlanNames')
+  final List<String> scalingPlanNames;
+
+  /// The version number of the scaling plan. If you specify a scaling plan
+  /// version, you must also specify a scaling plan name.
+  @_s.JsonKey(name: 'ScalingPlanVersion')
+  final int scalingPlanVersion;
+
+  DescribeScalingPlansRequest({
+    this.applicationSources,
+    this.maxResults,
+    this.nextToken,
+    this.scalingPlanNames,
+    this.scalingPlanVersion,
+  });
+  Map<String, dynamic> toJson() => _$DescribeScalingPlansRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -775,20 +893,121 @@ enum ForecastDataType {
   scheduledActionMaxCapacity,
 }
 
-extension on ForecastDataType {
-  String toValue() {
-    switch (this) {
-      case ForecastDataType.capacityForecast:
-        return 'CapacityForecast';
-      case ForecastDataType.loadForecast:
-        return 'LoadForecast';
-      case ForecastDataType.scheduledActionMinCapacity:
-        return 'ScheduledActionMinCapacity';
-      case ForecastDataType.scheduledActionMaxCapacity:
-        return 'ScheduledActionMaxCapacity';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetScalingPlanResourceForecastDataRequest {
+  /// The exclusive end time of the time range for the forecast data to get. The
+  /// maximum time duration between the start and end time is seven days.
+  ///
+  /// Although this parameter can accept a date and time that is more than two
+  /// days in the future, the availability of forecast data has limits. AWS Auto
+  /// Scaling only issues forecasts for periods of two days in advance.
+  @_s.JsonKey(
+      name: 'EndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime endTime;
+
+  /// The type of forecast data to get.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>LoadForecast</code>: The load metric forecast.
+  /// </li>
+  /// <li>
+  /// <code>CapacityForecast</code>: The capacity forecast.
+  /// </li>
+  /// <li>
+  /// <code>ScheduledActionMinCapacity</code>: The minimum capacity for each
+  /// scheduled scaling action. This data is calculated as the larger of two
+  /// values: the capacity forecast or the minimum capacity in the scaling
+  /// instruction.
+  /// </li>
+  /// <li>
+  /// <code>ScheduledActionMaxCapacity</code>: The maximum capacity for each
+  /// scheduled scaling action. The calculation used is determined by the
+  /// predictive scaling maximum capacity behavior setting in the scaling
+  /// instruction.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ForecastDataType')
+  final ForecastDataType forecastDataType;
+
+  /// The ID of the resource. This string consists of the resource type and unique
+  /// identifier.
+  ///
+  /// <ul>
+  /// <li>
+  /// Auto Scaling group - The resource type is <code>autoScalingGroup</code> and
+  /// the unique identifier is the name of the Auto Scaling group. Example:
+  /// <code>autoScalingGroup/my-asg</code>.
+  /// </li>
+  /// <li>
+  /// ECS service - The resource type is <code>service</code> and the unique
+  /// identifier is the cluster name and service name. Example:
+  /// <code>service/default/sample-webapp</code>.
+  /// </li>
+  /// <li>
+  /// Spot Fleet request - The resource type is <code>spot-fleet-request</code>
+  /// and the unique identifier is the Spot Fleet request ID. Example:
+  /// <code>spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE</code>.
+  /// </li>
+  /// <li>
+  /// DynamoDB table - The resource type is <code>table</code> and the unique
+  /// identifier is the resource ID. Example: <code>table/my-table</code>.
+  /// </li>
+  /// <li>
+  /// DynamoDB global secondary index - The resource type is <code>index</code>
+  /// and the unique identifier is the resource ID. Example:
+  /// <code>table/my-table/index/my-table-index</code>.
+  /// </li>
+  /// <li>
+  /// Aurora DB cluster - The resource type is <code>cluster</code> and the unique
+  /// identifier is the cluster name. Example: <code>cluster:my-db-cluster</code>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  /// The scalable dimension for the resource.
+  @_s.JsonKey(name: 'ScalableDimension')
+  final ScalableDimension scalableDimension;
+
+  /// The name of the scaling plan.
+  @_s.JsonKey(name: 'ScalingPlanName')
+  final String scalingPlanName;
+
+  /// The version number of the scaling plan.
+  @_s.JsonKey(name: 'ScalingPlanVersion')
+  final int scalingPlanVersion;
+
+  /// The namespace of the AWS service.
+  @_s.JsonKey(name: 'ServiceNamespace')
+  final ServiceNamespace serviceNamespace;
+
+  /// The inclusive start time of the time range for the forecast data to get. The
+  /// date and time can be at most 56 days before the current date and time.
+  @_s.JsonKey(
+      name: 'StartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime startTime;
+
+  GetScalingPlanResourceForecastDataRequest({
+    @_s.required this.endTime,
+    @_s.required this.forecastDataType,
+    @_s.required this.resourceId,
+    @_s.required this.scalableDimension,
+    @_s.required this.scalingPlanName,
+    @_s.required this.scalingPlanVersion,
+    @_s.required this.serviceNamespace,
+    @_s.required this.startTime,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetScalingPlanResourceForecastDataRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -989,30 +1208,6 @@ enum ScalableDimension {
   dynamodbIndexReadCapacityUnits,
   @_s.JsonValue('dynamodb:index:WriteCapacityUnits')
   dynamodbIndexWriteCapacityUnits,
-}
-
-extension on ScalableDimension {
-  String toValue() {
-    switch (this) {
-      case ScalableDimension.autoscalingAutoScalingGroupDesiredCapacity:
-        return 'autoscaling:autoScalingGroup:DesiredCapacity';
-      case ScalableDimension.ecsServiceDesiredCount:
-        return 'ecs:service:DesiredCount';
-      case ScalableDimension.ec2SpotFleetRequestTargetCapacity:
-        return 'ec2:spot-fleet-request:TargetCapacity';
-      case ScalableDimension.rdsClusterReadReplicaCount:
-        return 'rds:cluster:ReadReplicaCount';
-      case ScalableDimension.dynamodbTableReadCapacityUnits:
-        return 'dynamodb:table:ReadCapacityUnits';
-      case ScalableDimension.dynamodbTableWriteCapacityUnits:
-        return 'dynamodb:table:WriteCapacityUnits';
-      case ScalableDimension.dynamodbIndexReadCapacityUnits:
-        return 'dynamodb:index:ReadCapacityUnits';
-      case ScalableDimension.dynamodbIndexWriteCapacityUnits:
-        return 'dynamodb:index:WriteCapacityUnits';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Describes a scaling instruction for a scalable resource.
@@ -1609,24 +1804,6 @@ enum ServiceNamespace {
   dynamodb,
 }
 
-extension on ServiceNamespace {
-  String toValue() {
-    switch (this) {
-      case ServiceNamespace.autoscaling:
-        return 'autoscaling';
-      case ServiceNamespace.ecs:
-        return 'ecs';
-      case ServiceNamespace.ec2:
-        return 'ec2';
-      case ServiceNamespace.rds:
-        return 'rds';
-      case ServiceNamespace.dynamodb:
-        return 'dynamodb';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Represents a tag.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1729,6 +1906,37 @@ class TargetTrackingConfiguration {
       _$TargetTrackingConfigurationFromJson(json);
 
   Map<String, dynamic> toJson() => _$TargetTrackingConfigurationToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateScalingPlanRequest {
+  /// The name of the scaling plan.
+  @_s.JsonKey(name: 'ScalingPlanName')
+  final String scalingPlanName;
+
+  /// The version number of the scaling plan.
+  @_s.JsonKey(name: 'ScalingPlanVersion')
+  final int scalingPlanVersion;
+
+  /// A CloudFormation stack or set of tags.
+  @_s.JsonKey(name: 'ApplicationSource')
+  final ApplicationSource applicationSource;
+
+  /// The scaling instructions.
+  @_s.JsonKey(name: 'ScalingInstructions')
+  final List<ScalingInstruction> scalingInstructions;
+
+  UpdateScalingPlanRequest({
+    @_s.required this.scalingPlanName,
+    @_s.required this.scalingPlanVersion,
+    this.applicationSource,
+    this.scalingInstructions,
+  });
+  Map<String, dynamic> toJson() => _$UpdateScalingPlanRequestToJson(this);
 }
 
 @_s.JsonSerializable(

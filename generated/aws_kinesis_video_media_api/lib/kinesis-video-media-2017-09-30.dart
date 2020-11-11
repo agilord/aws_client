@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -143,11 +142,11 @@ class KinesisVideoMedia {
       streamName,
       r'''[a-zA-Z0-9_.-]+''',
     );
-    final $payload = <String, dynamic>{
-      'StartSelector': startSelector,
-      if (streamARN != null) 'StreamARN': streamARN,
-      if (streamName != null) 'StreamName': streamName,
-    };
+    final $payload = GetMediaInput(
+      startSelector: startSelector,
+      streamARN: streamARN,
+      streamName: streamName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -156,6 +155,36 @@ class KinesisVideoMedia {
     );
     return GetMediaOutput.fromJson({...response, 'Payload': response});
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetMediaInput {
+  /// Identifies the starting chunk to get from the specified stream.
+  @_s.JsonKey(name: 'StartSelector')
+  final StartSelector startSelector;
+
+  /// The ARN of the stream from where you want to get the media content. If you
+  /// don't specify the <code>streamARN</code>, you must specify the
+  /// <code>streamName</code>.
+  @_s.JsonKey(name: 'StreamARN')
+  final String streamARN;
+
+  /// The Kinesis video stream name from where you want to get the media content.
+  /// If you don't specify the <code>streamName</code>, you must specify the
+  /// <code>streamARN</code>.
+  @_s.JsonKey(name: 'StreamName')
+  final String streamName;
+
+  GetMediaInput({
+    @_s.required this.startSelector,
+    this.streamARN,
+    this.streamName,
+  });
+  Map<String, dynamic> toJson() => _$GetMediaInputToJson(this);
 }
 
 @_s.JsonSerializable(

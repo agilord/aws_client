@@ -317,6 +317,31 @@ ConfigurationRevision _$ConfigurationRevisionFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateClusterRequestToJson(
+    CreateClusterRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('brokerNodeGroupInfo', instance.brokerNodeGroupInfo?.toJson());
+  writeNotNull('clusterName', instance.clusterName);
+  writeNotNull('kafkaVersion', instance.kafkaVersion);
+  writeNotNull('numberOfBrokerNodes', instance.numberOfBrokerNodes);
+  writeNotNull('clientAuthentication', instance.clientAuthentication?.toJson());
+  writeNotNull('configurationInfo', instance.configurationInfo?.toJson());
+  writeNotNull('encryptionInfo', instance.encryptionInfo?.toJson());
+  writeNotNull('enhancedMonitoring',
+      _$EnhancedMonitoringEnumMap[instance.enhancedMonitoring]);
+  writeNotNull('loggingInfo', instance.loggingInfo?.toJson());
+  writeNotNull('openMonitoring', instance.openMonitoring?.toJson());
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
 CreateClusterResponse _$CreateClusterResponseFromJson(
     Map<String, dynamic> json) {
   return CreateClusterResponse(
@@ -324,6 +349,24 @@ CreateClusterResponse _$CreateClusterResponseFromJson(
     clusterName: json['clusterName'] as String,
     state: _$enumDecodeNullable(_$ClusterStateEnumMap, json['state']),
   );
+}
+
+Map<String, dynamic> _$CreateConfigurationRequestToJson(
+    CreateConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('kafkaVersions', instance.kafkaVersions);
+  writeNotNull('name', instance.name);
+  writeNotNull('serverProperties',
+      const Uint8ListConverter().toJson(instance.serverProperties));
+  writeNotNull('description', instance.description);
+  return val;
 }
 
 CreateConfigurationResponse _$CreateConfigurationResponseFromJson(
@@ -338,6 +381,10 @@ CreateConfigurationResponse _$CreateConfigurationResponseFromJson(
     name: json['name'] as String,
   );
 }
+
+Map<String, dynamic> _$DeleteClusterRequestToJson(
+        DeleteClusterRequest instance) =>
+    <String, dynamic>{};
 
 DeleteClusterResponse _$DeleteClusterResponseFromJson(
     Map<String, dynamic> json) {
@@ -813,6 +860,19 @@ Map<String, dynamic> _$StorageInfoToJson(StorageInfo instance) {
   return val;
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
 Tls _$TlsFromJson(Map<String, dynamic> json) {
   return Tls(
     certificateAuthorityArnList: (json['certificateAuthorityArnList'] as List)
@@ -835,12 +895,47 @@ Map<String, dynamic> _$TlsToJson(Tls instance) {
   return val;
 }
 
+Map<String, dynamic> _$UntagResourceRequestToJson(
+        UntagResourceRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$UpdateBrokerCountRequestToJson(
+    UpdateBrokerCountRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('currentVersion', instance.currentVersion);
+  writeNotNull('targetNumberOfBrokerNodes', instance.targetNumberOfBrokerNodes);
+  return val;
+}
+
 UpdateBrokerCountResponse _$UpdateBrokerCountResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateBrokerCountResponse(
     clusterArn: json['clusterArn'] as String,
     clusterOperationArn: json['clusterOperationArn'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateBrokerStorageRequestToJson(
+    UpdateBrokerStorageRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('currentVersion', instance.currentVersion);
+  writeNotNull('targetBrokerEBSVolumeInfo',
+      instance.targetBrokerEBSVolumeInfo?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 UpdateBrokerStorageResponse _$UpdateBrokerStorageResponseFromJson(
@@ -851,12 +946,45 @@ UpdateBrokerStorageResponse _$UpdateBrokerStorageResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateClusterConfigurationRequestToJson(
+    UpdateClusterConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('configurationInfo', instance.configurationInfo?.toJson());
+  writeNotNull('currentVersion', instance.currentVersion);
+  return val;
+}
+
 UpdateClusterConfigurationResponse _$UpdateClusterConfigurationResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateClusterConfigurationResponse(
     clusterArn: json['clusterArn'] as String,
     clusterOperationArn: json['clusterOperationArn'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateMonitoringRequestToJson(
+    UpdateMonitoringRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('currentVersion', instance.currentVersion);
+  writeNotNull('enhancedMonitoring',
+      _$EnhancedMonitoringEnumMap[instance.enhancedMonitoring]);
+  writeNotNull('loggingInfo', instance.loggingInfo?.toJson());
+  writeNotNull('openMonitoring', instance.openMonitoring?.toJson());
+  return val;
 }
 
 UpdateMonitoringResponse _$UpdateMonitoringResponseFromJson(

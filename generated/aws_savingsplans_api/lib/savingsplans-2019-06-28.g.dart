@@ -6,11 +6,46 @@ part of 'savingsplans-2019-06-28.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$CreateSavingsPlanRequestToJson(
+    CreateSavingsPlanRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('commitment', instance.commitment);
+  writeNotNull('savingsPlanOfferingId', instance.savingsPlanOfferingId);
+  writeNotNull('clientToken', instance.clientToken);
+  writeNotNull('tags', instance.tags);
+  writeNotNull('upfrontPaymentAmount', instance.upfrontPaymentAmount);
+  return val;
+}
+
 CreateSavingsPlanResponse _$CreateSavingsPlanResponseFromJson(
     Map<String, dynamic> json) {
   return CreateSavingsPlanResponse(
     savingsPlanId: json['savingsPlanId'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeSavingsPlanRatesRequestToJson(
+    DescribeSavingsPlanRatesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('savingsPlanId', instance.savingsPlanId);
+  writeNotNull('filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 DescribeSavingsPlanRatesResponse _$DescribeSavingsPlanRatesResponseFromJson(
@@ -26,6 +61,29 @@ DescribeSavingsPlanRatesResponse _$DescribeSavingsPlanRatesResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeSavingsPlansOfferingRatesRequestToJson(
+    DescribeSavingsPlansOfferingRatesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('operations', instance.operations);
+  writeNotNull('products', instance.products);
+  writeNotNull('savingsPlanOfferingIds', instance.savingsPlanOfferingIds);
+  writeNotNull('savingsPlanPaymentOptions', instance.savingsPlanPaymentOptions);
+  writeNotNull('savingsPlanTypes', instance.savingsPlanTypes);
+  writeNotNull('serviceCodes', instance.serviceCodes);
+  writeNotNull('usageTypes', instance.usageTypes);
+  return val;
+}
+
 DescribeSavingsPlansOfferingRatesResponse
     _$DescribeSavingsPlansOfferingRatesResponseFromJson(
         Map<String, dynamic> json) {
@@ -39,6 +97,39 @@ DescribeSavingsPlansOfferingRatesResponse
   );
 }
 
+Map<String, dynamic> _$DescribeSavingsPlansOfferingsRequestToJson(
+    DescribeSavingsPlansOfferingsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('currencies', instance.currencies);
+  writeNotNull('descriptions', instance.descriptions);
+  writeNotNull('durations', instance.durations);
+  writeNotNull('filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('offeringIds', instance.offeringIds);
+  writeNotNull('operations', instance.operations);
+  writeNotNull('paymentOptions', instance.paymentOptions);
+  writeNotNull('planTypes', instance.planTypes);
+  writeNotNull(
+      'productType', _$SavingsPlanProductTypeEnumMap[instance.productType]);
+  writeNotNull('serviceCodes', instance.serviceCodes);
+  writeNotNull('usageTypes', instance.usageTypes);
+  return val;
+}
+
+const _$SavingsPlanProductTypeEnumMap = {
+  SavingsPlanProductType.ec2: 'EC2',
+  SavingsPlanProductType.fargate: 'Fargate',
+  SavingsPlanProductType.lambda: 'Lambda',
+};
+
 DescribeSavingsPlansOfferingsResponse
     _$DescribeSavingsPlansOfferingsResponseFromJson(Map<String, dynamic> json) {
   return DescribeSavingsPlansOfferingsResponse(
@@ -51,6 +142,25 @@ DescribeSavingsPlansOfferingsResponse
   );
 }
 
+Map<String, dynamic> _$DescribeSavingsPlansRequestToJson(
+    DescribeSavingsPlansRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('savingsPlanArns', instance.savingsPlanArns);
+  writeNotNull('savingsPlanIds', instance.savingsPlanIds);
+  writeNotNull('states', instance.states);
+  return val;
+}
+
 DescribeSavingsPlansResponse _$DescribeSavingsPlansResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeSavingsPlansResponse(
@@ -60,6 +170,20 @@ DescribeSavingsPlansResponse _$DescribeSavingsPlansResponseFromJson(
             e == null ? null : SavingsPlan.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListTagsForResourceRequestToJson(
+    ListTagsForResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceArn', instance.resourceArn);
+  return val;
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
@@ -274,12 +398,6 @@ SavingsPlanOfferingRate _$SavingsPlanOfferingRateFromJson(
   );
 }
 
-const _$SavingsPlanProductTypeEnumMap = {
-  SavingsPlanProductType.ec2: 'EC2',
-  SavingsPlanProductType.fargate: 'Fargate',
-  SavingsPlanProductType.lambda: 'Lambda',
-};
-
 const _$SavingsPlanRateServiceCodeEnumMap = {
   SavingsPlanRateServiceCode.amazonEC2: 'AmazonEC2',
   SavingsPlanRateServiceCode.amazonECS: 'AmazonECS',
@@ -386,8 +504,37 @@ const _$SavingsPlanRatePropertyKeyEnumMap = {
   SavingsPlanRatePropertyKey.tenancy: 'tenancy',
 };
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceArn', instance.resourceArn);
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
+}
+
+Map<String, dynamic> _$UntagResourceRequestToJson(
+    UntagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceArn', instance.resourceArn);
+  writeNotNull('tagKeys', instance.tagKeys);
+  return val;
 }
 
 UntagResourceResponse _$UntagResourceResponseFromJson(

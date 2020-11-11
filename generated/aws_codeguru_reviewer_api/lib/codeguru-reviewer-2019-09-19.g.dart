@@ -6,6 +6,21 @@ part of 'codeguru-reviewer-2019-09-19.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$AssociateRepositoryRequestToJson(
+    AssociateRepositoryRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Repository', instance.repository?.toJson());
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  return val;
+}
+
 AssociateRepositoryResponse _$AssociateRepositoryResponseFromJson(
     Map<String, dynamic> json) {
   return AssociateRepositoryResponse(
@@ -39,6 +54,10 @@ DescribeRepositoryAssociationResponse
             json['RepositoryAssociation'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$DisassociateRepositoryRequestToJson(
+        DisassociateRepositoryRequest instance) =>
+    <String, dynamic>{};
 
 DisassociateRepositoryResponse _$DisassociateRepositoryResponseFromJson(
     Map<String, dynamic> json) {

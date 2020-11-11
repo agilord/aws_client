@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -72,9 +71,9 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TextList': textList,
-      },
+      payload: BatchDetectDominantLanguageRequest(
+        textList: textList,
+      ),
     );
 
     return BatchDetectDominantLanguageResponse.fromJson(jsonResponse.body);
@@ -115,10 +114,10 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'LanguageCode': languageCode?.toValue(),
-        'TextList': textList,
-      },
+      payload: BatchDetectEntitiesRequest(
+        languageCode: languageCode,
+        textList: textList,
+      ),
     );
 
     return BatchDetectEntitiesResponse.fromJson(jsonResponse.body);
@@ -157,10 +156,10 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'LanguageCode': languageCode?.toValue(),
-        'TextList': textList,
-      },
+      payload: BatchDetectKeyPhrasesRequest(
+        languageCode: languageCode,
+        textList: textList,
+      ),
     );
 
     return BatchDetectKeyPhrasesResponse.fromJson(jsonResponse.body);
@@ -201,10 +200,10 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'LanguageCode': languageCode?.toValue(),
-        'TextList': textList,
-      },
+      payload: BatchDetectSentimentRequest(
+        languageCode: languageCode,
+        textList: textList,
+      ),
     );
 
     return BatchDetectSentimentResponse.fromJson(jsonResponse.body);
@@ -246,10 +245,10 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'LanguageCode': languageCode?.toValue(),
-        'TextList': textList,
-      },
+      payload: BatchDetectSyntaxRequest(
+        languageCode: languageCode,
+        textList: textList,
+      ),
     );
 
     return BatchDetectSyntaxResponse.fromJson(jsonResponse.body);
@@ -305,10 +304,10 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EndpointArn': endpointArn,
-        'Text': text,
-      },
+      payload: ClassifyDocumentRequest(
+        endpointArn: endpointArn,
+        text: text,
+      ),
     );
 
     return ClassifyDocumentResponse.fromJson(jsonResponse.body);
@@ -460,19 +459,18 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DataAccessRoleArn': dataAccessRoleArn,
-        'DocumentClassifierName': documentClassifierName,
-        'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode?.toValue(),
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-        if (mode != null) 'Mode': mode?.toValue(),
-        if (outputDataConfig != null) 'OutputDataConfig': outputDataConfig,
-        if (tags != null) 'Tags': tags,
-        if (volumeKmsKeyId != null) 'VolumeKmsKeyId': volumeKmsKeyId,
-        if (vpcConfig != null) 'VpcConfig': vpcConfig,
-      },
+      payload: CreateDocumentClassifierRequest(
+        dataAccessRoleArn: dataAccessRoleArn,
+        documentClassifierName: documentClassifierName,
+        inputDataConfig: inputDataConfig,
+        languageCode: languageCode,
+        clientRequestToken: clientRequestToken,
+        mode: mode,
+        outputDataConfig: outputDataConfig,
+        tags: tags,
+        volumeKmsKeyId: volumeKmsKeyId,
+        vpcConfig: vpcConfig,
+      ),
     );
 
     return CreateDocumentClassifierResponse.fromJson(jsonResponse.body);
@@ -578,14 +576,13 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DesiredInferenceUnits': desiredInferenceUnits,
-        'EndpointName': endpointName,
-        'ModelArn': modelArn,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateEndpointRequest(
+        desiredInferenceUnits: desiredInferenceUnits,
+        endpointName: endpointName,
+        modelArn: modelArn,
+        clientRequestToken: clientRequestToken,
+        tags: tags,
+      ),
     );
 
     return CreateEndpointResponse.fromJson(jsonResponse.body);
@@ -722,17 +719,16 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DataAccessRoleArn': dataAccessRoleArn,
-        'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode?.toValue(),
-        'RecognizerName': recognizerName,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-        if (tags != null) 'Tags': tags,
-        if (volumeKmsKeyId != null) 'VolumeKmsKeyId': volumeKmsKeyId,
-        if (vpcConfig != null) 'VpcConfig': vpcConfig,
-      },
+      payload: CreateEntityRecognizerRequest(
+        dataAccessRoleArn: dataAccessRoleArn,
+        inputDataConfig: inputDataConfig,
+        languageCode: languageCode,
+        recognizerName: recognizerName,
+        clientRequestToken: clientRequestToken,
+        tags: tags,
+        volumeKmsKeyId: volumeKmsKeyId,
+        vpcConfig: vpcConfig,
+      ),
     );
 
     return CreateEntityRecognizerResponse.fromJson(jsonResponse.body);
@@ -785,9 +781,9 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DocumentClassifierArn': documentClassifierArn,
-      },
+      payload: DeleteDocumentClassifierRequest(
+        documentClassifierArn: documentClassifierArn,
+      ),
     );
 
     return DeleteDocumentClassifierResponse.fromJson(jsonResponse.body);
@@ -831,9 +827,9 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EndpointArn': endpointArn,
-      },
+      payload: DeleteEndpointRequest(
+        endpointArn: endpointArn,
+      ),
     );
 
     return DeleteEndpointResponse.fromJson(jsonResponse.body);
@@ -886,9 +882,9 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EntityRecognizerArn': entityRecognizerArn,
-      },
+      payload: DeleteEntityRecognizerRequest(
+        entityRecognizerArn: entityRecognizerArn,
+      ),
     );
 
     return DeleteEntityRecognizerResponse.fromJson(jsonResponse.body);
@@ -933,9 +929,9 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobId': jobId,
-      },
+      payload: DescribeDocumentClassificationJobRequest(
+        jobId: jobId,
+      ),
     );
 
     return DescribeDocumentClassificationJobResponse.fromJson(
@@ -979,9 +975,9 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DocumentClassifierArn': documentClassifierArn,
-      },
+      payload: DescribeDocumentClassifierRequest(
+        documentClassifierArn: documentClassifierArn,
+      ),
     );
 
     return DescribeDocumentClassifierResponse.fromJson(jsonResponse.body);
@@ -1026,9 +1022,9 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobId': jobId,
-      },
+      payload: DescribeDominantLanguageDetectionJobRequest(
+        jobId: jobId,
+      ),
     );
 
     return DescribeDominantLanguageDetectionJobResponse.fromJson(
@@ -1072,9 +1068,9 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EndpointArn': endpointArn,
-      },
+      payload: DescribeEndpointRequest(
+        endpointArn: endpointArn,
+      ),
     );
 
     return DescribeEndpointResponse.fromJson(jsonResponse.body);
@@ -1118,9 +1114,9 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobId': jobId,
-      },
+      payload: DescribeEntitiesDetectionJobRequest(
+        jobId: jobId,
+      ),
     );
 
     return DescribeEntitiesDetectionJobResponse.fromJson(jsonResponse.body);
@@ -1163,9 +1159,9 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EntityRecognizerArn': entityRecognizerArn,
-      },
+      payload: DescribeEntityRecognizerRequest(
+        entityRecognizerArn: entityRecognizerArn,
+      ),
     );
 
     return DescribeEntityRecognizerResponse.fromJson(jsonResponse.body);
@@ -1210,9 +1206,9 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobId': jobId,
-      },
+      payload: DescribeKeyPhrasesDetectionJobRequest(
+        jobId: jobId,
+      ),
     );
 
     return DescribeKeyPhrasesDetectionJobResponse.fromJson(jsonResponse.body);
@@ -1256,9 +1252,9 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobId': jobId,
-      },
+      payload: DescribeSentimentDetectionJobRequest(
+        jobId: jobId,
+      ),
     );
 
     return DescribeSentimentDetectionJobResponse.fromJson(jsonResponse.body);
@@ -1301,9 +1297,9 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobId': jobId,
-      },
+      payload: DescribeTopicsDetectionJobRequest(
+        jobId: jobId,
+      ),
     );
 
     return DescribeTopicsDetectionJobResponse.fromJson(jsonResponse.body);
@@ -1342,9 +1338,9 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Text': text,
-      },
+      payload: DetectDominantLanguageRequest(
+        text: text,
+      ),
     );
 
     return DetectDominantLanguageResponse.fromJson(jsonResponse.body);
@@ -1389,10 +1385,10 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'LanguageCode': languageCode?.toValue(),
-        'Text': text,
-      },
+      payload: DetectEntitiesRequest(
+        languageCode: languageCode,
+        text: text,
+      ),
     );
 
     return DetectEntitiesResponse.fromJson(jsonResponse.body);
@@ -1436,10 +1432,10 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'LanguageCode': languageCode?.toValue(),
-        'Text': text,
-      },
+      payload: DetectKeyPhrasesRequest(
+        languageCode: languageCode,
+        text: text,
+      ),
     );
 
     return DetectKeyPhrasesResponse.fromJson(jsonResponse.body);
@@ -1485,10 +1481,10 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'LanguageCode': languageCode?.toValue(),
-        'Text': text,
-      },
+      payload: DetectSentimentRequest(
+        languageCode: languageCode,
+        text: text,
+      ),
     );
 
     return DetectSentimentResponse.fromJson(jsonResponse.body);
@@ -1534,10 +1530,10 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'LanguageCode': languageCode?.toValue(),
-        'Text': text,
-      },
+      payload: DetectSyntaxRequest(
+        languageCode: languageCode,
+        text: text,
+      ),
     );
 
     return DetectSyntaxResponse.fromJson(jsonResponse.body);
@@ -1589,11 +1585,11 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filter != null) 'Filter': filter,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListDocumentClassificationJobsRequest(
+        filter: filter,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListDocumentClassificationJobsResponse.fromJson(jsonResponse.body);
@@ -1643,11 +1639,11 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filter != null) 'Filter': filter,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListDocumentClassifiersRequest(
+        filter: filter,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListDocumentClassifiersResponse.fromJson(jsonResponse.body);
@@ -1699,11 +1695,11 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filter != null) 'Filter': filter,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListDominantLanguageDetectionJobsRequest(
+        filter: filter,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListDominantLanguageDetectionJobsResponse.fromJson(
@@ -1753,11 +1749,11 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filter != null) 'Filter': filter,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListEndpointsRequest(
+        filter: filter,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListEndpointsResponse.fromJson(jsonResponse.body);
@@ -1807,11 +1803,11 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filter != null) 'Filter': filter,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListEntitiesDetectionJobsRequest(
+        filter: filter,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListEntitiesDetectionJobsResponse.fromJson(jsonResponse.body);
@@ -1868,11 +1864,11 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filter != null) 'Filter': filter,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListEntityRecognizersRequest(
+        filter: filter,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListEntityRecognizersResponse.fromJson(jsonResponse.body);
@@ -1922,11 +1918,11 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filter != null) 'Filter': filter,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListKeyPhrasesDetectionJobsRequest(
+        filter: filter,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListKeyPhrasesDetectionJobsResponse.fromJson(jsonResponse.body);
@@ -1976,11 +1972,11 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filter != null) 'Filter': filter,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListSentimentDetectionJobsRequest(
+        filter: filter,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListSentimentDetectionJobsResponse.fromJson(jsonResponse.body);
@@ -2022,9 +2018,9 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-      },
+      payload: ListTagsForResourceRequest(
+        resourceArn: resourceArn,
+      ),
     );
 
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
@@ -2074,11 +2070,11 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filter != null) 'Filter': filter,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListTopicsDetectionJobsRequest(
+        filter: filter,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListTopicsDetectionJobsResponse.fromJson(jsonResponse.body);
@@ -2216,17 +2212,16 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DataAccessRoleArn': dataAccessRoleArn,
-        'DocumentClassifierArn': documentClassifierArn,
-        'InputDataConfig': inputDataConfig,
-        'OutputDataConfig': outputDataConfig,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-        if (jobName != null) 'JobName': jobName,
-        if (volumeKmsKeyId != null) 'VolumeKmsKeyId': volumeKmsKeyId,
-        if (vpcConfig != null) 'VpcConfig': vpcConfig,
-      },
+      payload: StartDocumentClassificationJobRequest(
+        dataAccessRoleArn: dataAccessRoleArn,
+        documentClassifierArn: documentClassifierArn,
+        inputDataConfig: inputDataConfig,
+        outputDataConfig: outputDataConfig,
+        clientRequestToken: clientRequestToken,
+        jobName: jobName,
+        volumeKmsKeyId: volumeKmsKeyId,
+        vpcConfig: vpcConfig,
+      ),
     );
 
     return StartDocumentClassificationJobResponse.fromJson(jsonResponse.body);
@@ -2345,16 +2340,15 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DataAccessRoleArn': dataAccessRoleArn,
-        'InputDataConfig': inputDataConfig,
-        'OutputDataConfig': outputDataConfig,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-        if (jobName != null) 'JobName': jobName,
-        if (volumeKmsKeyId != null) 'VolumeKmsKeyId': volumeKmsKeyId,
-        if (vpcConfig != null) 'VpcConfig': vpcConfig,
-      },
+      payload: StartDominantLanguageDetectionJobRequest(
+        dataAccessRoleArn: dataAccessRoleArn,
+        inputDataConfig: inputDataConfig,
+        outputDataConfig: outputDataConfig,
+        clientRequestToken: clientRequestToken,
+        jobName: jobName,
+        volumeKmsKeyId: volumeKmsKeyId,
+        vpcConfig: vpcConfig,
+      ),
     );
 
     return StartDominantLanguageDetectionJobResponse.fromJson(
@@ -2505,19 +2499,17 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DataAccessRoleArn': dataAccessRoleArn,
-        'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode?.toValue(),
-        'OutputDataConfig': outputDataConfig,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-        if (entityRecognizerArn != null)
-          'EntityRecognizerArn': entityRecognizerArn,
-        if (jobName != null) 'JobName': jobName,
-        if (volumeKmsKeyId != null) 'VolumeKmsKeyId': volumeKmsKeyId,
-        if (vpcConfig != null) 'VpcConfig': vpcConfig,
-      },
+      payload: StartEntitiesDetectionJobRequest(
+        dataAccessRoleArn: dataAccessRoleArn,
+        inputDataConfig: inputDataConfig,
+        languageCode: languageCode,
+        outputDataConfig: outputDataConfig,
+        clientRequestToken: clientRequestToken,
+        entityRecognizerArn: entityRecognizerArn,
+        jobName: jobName,
+        volumeKmsKeyId: volumeKmsKeyId,
+        vpcConfig: vpcConfig,
+      ),
     );
 
     return StartEntitiesDetectionJobResponse.fromJson(jsonResponse.body);
@@ -2642,17 +2634,16 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DataAccessRoleArn': dataAccessRoleArn,
-        'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode?.toValue(),
-        'OutputDataConfig': outputDataConfig,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-        if (jobName != null) 'JobName': jobName,
-        if (volumeKmsKeyId != null) 'VolumeKmsKeyId': volumeKmsKeyId,
-        if (vpcConfig != null) 'VpcConfig': vpcConfig,
-      },
+      payload: StartKeyPhrasesDetectionJobRequest(
+        dataAccessRoleArn: dataAccessRoleArn,
+        inputDataConfig: inputDataConfig,
+        languageCode: languageCode,
+        outputDataConfig: outputDataConfig,
+        clientRequestToken: clientRequestToken,
+        jobName: jobName,
+        volumeKmsKeyId: volumeKmsKeyId,
+        vpcConfig: vpcConfig,
+      ),
     );
 
     return StartKeyPhrasesDetectionJobResponse.fromJson(jsonResponse.body);
@@ -2777,17 +2768,16 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DataAccessRoleArn': dataAccessRoleArn,
-        'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode?.toValue(),
-        'OutputDataConfig': outputDataConfig,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-        if (jobName != null) 'JobName': jobName,
-        if (volumeKmsKeyId != null) 'VolumeKmsKeyId': volumeKmsKeyId,
-        if (vpcConfig != null) 'VpcConfig': vpcConfig,
-      },
+      payload: StartSentimentDetectionJobRequest(
+        dataAccessRoleArn: dataAccessRoleArn,
+        inputDataConfig: inputDataConfig,
+        languageCode: languageCode,
+        outputDataConfig: outputDataConfig,
+        clientRequestToken: clientRequestToken,
+        jobName: jobName,
+        volumeKmsKeyId: volumeKmsKeyId,
+        vpcConfig: vpcConfig,
+      ),
     );
 
     return StartSentimentDetectionJobResponse.fromJson(jsonResponse.body);
@@ -2919,17 +2909,16 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DataAccessRoleArn': dataAccessRoleArn,
-        'InputDataConfig': inputDataConfig,
-        'OutputDataConfig': outputDataConfig,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-        if (jobName != null) 'JobName': jobName,
-        if (numberOfTopics != null) 'NumberOfTopics': numberOfTopics,
-        if (volumeKmsKeyId != null) 'VolumeKmsKeyId': volumeKmsKeyId,
-        if (vpcConfig != null) 'VpcConfig': vpcConfig,
-      },
+      payload: StartTopicsDetectionJobRequest(
+        dataAccessRoleArn: dataAccessRoleArn,
+        inputDataConfig: inputDataConfig,
+        outputDataConfig: outputDataConfig,
+        clientRequestToken: clientRequestToken,
+        jobName: jobName,
+        numberOfTopics: numberOfTopics,
+        volumeKmsKeyId: volumeKmsKeyId,
+        vpcConfig: vpcConfig,
+      ),
     );
 
     return StartTopicsDetectionJobResponse.fromJson(jsonResponse.body);
@@ -2984,9 +2973,9 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobId': jobId,
-      },
+      payload: StopDominantLanguageDetectionJobRequest(
+        jobId: jobId,
+      ),
     );
 
     return StopDominantLanguageDetectionJobResponse.fromJson(jsonResponse.body);
@@ -3040,9 +3029,9 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobId': jobId,
-      },
+      payload: StopEntitiesDetectionJobRequest(
+        jobId: jobId,
+      ),
     );
 
     return StopEntitiesDetectionJobResponse.fromJson(jsonResponse.body);
@@ -3096,9 +3085,9 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobId': jobId,
-      },
+      payload: StopKeyPhrasesDetectionJobRequest(
+        jobId: jobId,
+      ),
     );
 
     return StopKeyPhrasesDetectionJobResponse.fromJson(jsonResponse.body);
@@ -3152,9 +3141,9 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'JobId': jobId,
-      },
+      payload: StopSentimentDetectionJobRequest(
+        jobId: jobId,
+      ),
     );
 
     return StopSentimentDetectionJobResponse.fromJson(jsonResponse.body);
@@ -3204,9 +3193,9 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DocumentClassifierArn': documentClassifierArn,
-      },
+      payload: StopTrainingDocumentClassifierRequest(
+        documentClassifierArn: documentClassifierArn,
+      ),
     );
 
     return StopTrainingDocumentClassifierResponse.fromJson(jsonResponse.body);
@@ -3256,9 +3245,9 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EntityRecognizerArn': entityRecognizerArn,
-      },
+      payload: StopTrainingEntityRecognizerRequest(
+        entityRecognizerArn: entityRecognizerArn,
+      ),
     );
 
     return StopTrainingEntityRecognizerResponse.fromJson(jsonResponse.body);
@@ -3312,10 +3301,10 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        'Tags': tags,
-      },
+      payload: TagResourceRequest(
+        resourceArn: resourceArn,
+        tags: tags,
+      ),
     );
 
     return TagResourceResponse.fromJson(jsonResponse.body);
@@ -3367,10 +3356,10 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        'TagKeys': tagKeys,
-      },
+      payload: UntagResourceRequest(
+        resourceArn: resourceArn,
+        tagKeys: tagKeys,
+      ),
     );
 
     return UntagResourceResponse.fromJson(jsonResponse.body);
@@ -3429,10 +3418,10 @@ class Comprehend {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DesiredInferenceUnits': desiredInferenceUnits,
-        'EndpointArn': endpointArn,
-      },
+      payload: UpdateEndpointRequest(
+        desiredInferenceUnits: desiredInferenceUnits,
+        endpointArn: endpointArn,
+      ),
     );
 
     return UpdateEndpointResponse.fromJson(jsonResponse.body);
@@ -3463,6 +3452,25 @@ class BatchDetectDominantLanguageItemResult {
   factory BatchDetectDominantLanguageItemResult.fromJson(
           Map<String, dynamic> json) =>
       _$BatchDetectDominantLanguageItemResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchDetectDominantLanguageRequest {
+  /// A list containing the text of the input documents. The list can contain a
+  /// maximum of 25 documents. Each document should contain at least 20 characters
+  /// and must contain fewer than 5,000 bytes of UTF-8 encoded characters.
+  @_s.JsonKey(name: 'TextList')
+  final List<String> textList;
+
+  BatchDetectDominantLanguageRequest({
+    @_s.required this.textList,
+  });
+  Map<String, dynamic> toJson() =>
+      _$BatchDetectDominantLanguageRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3522,6 +3530,31 @@ class BatchDetectEntitiesItemResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchDetectEntitiesRequest {
+  /// The language of the input documents. You can specify any of the primary
+  /// languages supported by Amazon Comprehend. All documents must be in the same
+  /// language.
+  @_s.JsonKey(name: 'LanguageCode')
+  final LanguageCode languageCode;
+
+  /// A list containing the text of the input documents. The list can contain a
+  /// maximum of 25 documents. Each document must contain fewer than 5,000 bytes
+  /// of UTF-8 encoded characters.
+  @_s.JsonKey(name: 'TextList')
+  final List<String> textList;
+
+  BatchDetectEntitiesRequest({
+    @_s.required this.languageCode,
+    @_s.required this.textList,
+  });
+  Map<String, dynamic> toJson() => _$BatchDetectEntitiesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class BatchDetectEntitiesResponse {
@@ -3570,6 +3603,31 @@ class BatchDetectKeyPhrasesItemResult {
   });
   factory BatchDetectKeyPhrasesItemResult.fromJson(Map<String, dynamic> json) =>
       _$BatchDetectKeyPhrasesItemResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchDetectKeyPhrasesRequest {
+  /// The language of the input documents. You can specify any of the primary
+  /// languages supported by Amazon Comprehend. All documents must be in the same
+  /// language.
+  @_s.JsonKey(name: 'LanguageCode')
+  final LanguageCode languageCode;
+
+  /// A list containing the text of the input documents. The list can contain a
+  /// maximum of 25 documents. Each document must contain fewer that 5,000 bytes
+  /// of UTF-8 encoded characters.
+  @_s.JsonKey(name: 'TextList')
+  final List<String> textList;
+
+  BatchDetectKeyPhrasesRequest({
+    @_s.required this.languageCode,
+    @_s.required this.textList,
+  });
+  Map<String, dynamic> toJson() => _$BatchDetectKeyPhrasesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3633,6 +3691,31 @@ class BatchDetectSentimentItemResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchDetectSentimentRequest {
+  /// The language of the input documents. You can specify any of the primary
+  /// languages supported by Amazon Comprehend. All documents must be in the same
+  /// language.
+  @_s.JsonKey(name: 'LanguageCode')
+  final LanguageCode languageCode;
+
+  /// A list containing the text of the input documents. The list can contain a
+  /// maximum of 25 documents. Each document must contain fewer that 5,000 bytes
+  /// of UTF-8 encoded characters.
+  @_s.JsonKey(name: 'TextList')
+  final List<String> textList;
+
+  BatchDetectSentimentRequest({
+    @_s.required this.languageCode,
+    @_s.required this.textList,
+  });
+  Map<String, dynamic> toJson() => _$BatchDetectSentimentRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class BatchDetectSentimentResponse {
@@ -3680,6 +3763,32 @@ class BatchDetectSyntaxItemResult {
   });
   factory BatchDetectSyntaxItemResult.fromJson(Map<String, dynamic> json) =>
       _$BatchDetectSyntaxItemResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchDetectSyntaxRequest {
+  /// The language of the input documents. You can specify any of the following
+  /// languages supported by Amazon Comprehend: German ("de"), English ("en"),
+  /// Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt"). All
+  /// documents must be in the same language.
+  @_s.JsonKey(name: 'LanguageCode')
+  final SyntaxLanguageCode languageCode;
+
+  /// A list containing the text of the input documents. The list can contain a
+  /// maximum of 25 documents. Each document must contain fewer that 5,000 bytes
+  /// of UTF-8 encoded characters.
+  @_s.JsonKey(name: 'TextList')
+  final List<String> textList;
+
+  BatchDetectSyntaxRequest({
+    @_s.required this.languageCode,
+    @_s.required this.textList,
+  });
+  Map<String, dynamic> toJson() => _$BatchDetectSyntaxRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3856,6 +3965,27 @@ class ClassifierMetadata {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ClassifyDocumentRequest {
+  /// The Amazon Resource Number (ARN) of the endpoint.
+  @_s.JsonKey(name: 'EndpointArn')
+  final String endpointArn;
+
+  /// The document text to be analyzed.
+  @_s.JsonKey(name: 'Text')
+  final String text;
+
+  ClassifyDocumentRequest({
+    @_s.required this.endpointArn,
+    @_s.required this.text,
+  });
+  Map<String, dynamic> toJson() => _$ClassifyDocumentRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ClassifyDocumentResponse {
@@ -3885,6 +4015,99 @@ class ClassifyDocumentResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDocumentClassifierRequest {
+  /// The Amazon Resource Name (ARN) of the AWS Identity and Management (IAM) role
+  /// that grants Amazon Comprehend read access to your input data.
+  @_s.JsonKey(name: 'DataAccessRoleArn')
+  final String dataAccessRoleArn;
+
+  /// The name of the document classifier.
+  @_s.JsonKey(name: 'DocumentClassifierName')
+  final String documentClassifierName;
+
+  /// Specifies the format and location of the input data for the job.
+  @_s.JsonKey(name: 'InputDataConfig')
+  final DocumentClassifierInputDataConfig inputDataConfig;
+
+  /// The language of the input documents. You can specify any of the following
+  /// languages supported by Amazon Comprehend: German ("de"), English ("en"),
+  /// Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt"). All
+  /// documents must be in the same language.
+  @_s.JsonKey(name: 'LanguageCode')
+  final LanguageCode languageCode;
+
+  /// A unique identifier for the request. If you don't set the client request
+  /// token, Amazon Comprehend generates one.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// Indicates the mode in which the classifier will be trained. The classifier
+  /// can be trained in multi-class mode, which identifies one and only one class
+  /// for each document, or multi-label mode, which identifies one or more labels
+  /// for each document. In multi-label mode, multiple labels for an individual
+  /// document are separated by a delimiter. The default delimiter between labels
+  /// is a pipe (|).
+  @_s.JsonKey(name: 'Mode')
+  final DocumentClassifierMode mode;
+
+  /// Enables the addition of output results configuration parameters for custom
+  /// classifier jobs.
+  @_s.JsonKey(name: 'OutputDataConfig')
+  final DocumentClassifierOutputDataConfig outputDataConfig;
+
+  /// Tags to be associated with the document classifier being created. A tag is a
+  /// key-value pair that adds as a metadata to a resource used by Amazon
+  /// Comprehend. For example, a tag with "Sales" as the key might be added to a
+  /// resource to indicate its use by the sales department.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses
+  /// to encrypt data on the storage volume attached to the ML compute instance(s)
+  /// that process the analysis job. The VolumeKmsKeyId can be either of the
+  /// following formats:
+  ///
+  /// <ul>
+  /// <li>
+  /// KMS Key ID: <code>"1234abcd-12ab-34cd-56ef-1234567890ab"</code>
+  /// </li>
+  /// <li>
+  /// Amazon Resource Name (ARN) of a KMS Key:
+  /// <code>"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"</code>
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'VolumeKmsKeyId')
+  final String volumeKmsKeyId;
+
+  /// Configuration parameters for an optional private Virtual Private Cloud (VPC)
+  /// containing the resources you are using for your custom classifier. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html">Amazon
+  /// VPC</a>.
+  @_s.JsonKey(name: 'VpcConfig')
+  final VpcConfig vpcConfig;
+
+  CreateDocumentClassifierRequest({
+    @_s.required this.dataAccessRoleArn,
+    @_s.required this.documentClassifierName,
+    @_s.required this.inputDataConfig,
+    @_s.required this.languageCode,
+    this.clientRequestToken,
+    this.mode,
+    this.outputDataConfig,
+    this.tags,
+    this.volumeKmsKeyId,
+    this.vpcConfig,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateDocumentClassifierRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateDocumentClassifierResponse {
@@ -3898,6 +4121,51 @@ class CreateDocumentClassifierResponse {
   factory CreateDocumentClassifierResponse.fromJson(
           Map<String, dynamic> json) =>
       _$CreateDocumentClassifierResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateEndpointRequest {
+  /// The desired number of inference units to be used by the model using this
+  /// endpoint. Each inference unit represents of a throughput of 100 characters
+  /// per second.
+  @_s.JsonKey(name: 'DesiredInferenceUnits')
+  final int desiredInferenceUnits;
+
+  /// This is the descriptive suffix that becomes part of the
+  /// <code>EndpointArn</code> used for all subsequent requests to this resource.
+  @_s.JsonKey(name: 'EndpointName')
+  final String endpointName;
+
+  /// The Amazon Resource Number (ARN) of the model to which the endpoint will be
+  /// attached.
+  @_s.JsonKey(name: 'ModelArn')
+  final String modelArn;
+
+  /// An idempotency token provided by the customer. If this token matches a
+  /// previous endpoint creation request, Amazon Comprehend will not return a
+  /// <code>ResourceInUseException</code>.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// Tags associated with the endpoint being created. A tag is a key-value pair
+  /// that adds metadata to the endpoint. For example, a tag with "Sales" as the
+  /// key might be added to an endpoint to indicate its use by the sales
+  /// department.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateEndpointRequest({
+    @_s.required this.desiredInferenceUnits,
+    @_s.required this.endpointName,
+    @_s.required this.modelArn,
+    this.clientRequestToken,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateEndpointRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3920,6 +4188,84 @@ class CreateEndpointResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateEntityRecognizerRequest {
+  /// The Amazon Resource Name (ARN) of the AWS Identity and Management (IAM) role
+  /// that grants Amazon Comprehend read access to your input data.
+  @_s.JsonKey(name: 'DataAccessRoleArn')
+  final String dataAccessRoleArn;
+
+  /// Specifies the format and location of the input data. The S3 bucket
+  /// containing the input data must be located in the same region as the entity
+  /// recognizer being created.
+  @_s.JsonKey(name: 'InputDataConfig')
+  final EntityRecognizerInputDataConfig inputDataConfig;
+
+  /// The language of the input documents. All documents must be in the same
+  /// language. Only English ("en") is currently supported.
+  @_s.JsonKey(name: 'LanguageCode')
+  final LanguageCode languageCode;
+
+  /// The name given to the newly created recognizer. Recognizer names can be a
+  /// maximum of 256 characters. Alphanumeric characters, hyphens (-) and
+  /// underscores (_) are allowed. The name must be unique in the account/region.
+  @_s.JsonKey(name: 'RecognizerName')
+  final String recognizerName;
+
+  /// A unique identifier for the request. If you don't set the client request
+  /// token, Amazon Comprehend generates one.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// Tags to be associated with the entity recognizer being created. A tag is a
+  /// key-value pair that adds as a metadata to a resource used by Amazon
+  /// Comprehend. For example, a tag with "Sales" as the key might be added to a
+  /// resource to indicate its use by the sales department.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses
+  /// to encrypt data on the storage volume attached to the ML compute instance(s)
+  /// that process the analysis job. The VolumeKmsKeyId can be either of the
+  /// following formats:
+  ///
+  /// <ul>
+  /// <li>
+  /// KMS Key ID: <code>"1234abcd-12ab-34cd-56ef-1234567890ab"</code>
+  /// </li>
+  /// <li>
+  /// Amazon Resource Name (ARN) of a KMS Key:
+  /// <code>"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"</code>
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'VolumeKmsKeyId')
+  final String volumeKmsKeyId;
+
+  /// Configuration parameters for an optional private Virtual Private Cloud (VPC)
+  /// containing the resources you are using for your custom entity recognizer.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html">Amazon
+  /// VPC</a>.
+  @_s.JsonKey(name: 'VpcConfig')
+  final VpcConfig vpcConfig;
+
+  CreateEntityRecognizerRequest({
+    @_s.required this.dataAccessRoleArn,
+    @_s.required this.inputDataConfig,
+    @_s.required this.languageCode,
+    @_s.required this.recognizerName,
+    this.clientRequestToken,
+    this.tags,
+    this.volumeKmsKeyId,
+    this.vpcConfig,
+  });
+  Map<String, dynamic> toJson() => _$CreateEntityRecognizerRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateEntityRecognizerResponse {
@@ -3937,6 +4283,23 @@ class CreateEntityRecognizerResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDocumentClassifierRequest {
+  /// The Amazon Resource Name (ARN) that identifies the document classifier.
+  @_s.JsonKey(name: 'DocumentClassifierArn')
+  final String documentClassifierArn;
+
+  DeleteDocumentClassifierRequest({
+    @_s.required this.documentClassifierArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteDocumentClassifierRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteDocumentClassifierResponse {
@@ -3944,6 +4307,22 @@ class DeleteDocumentClassifierResponse {
   factory DeleteDocumentClassifierResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DeleteDocumentClassifierResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteEndpointRequest {
+  /// The Amazon Resource Number (ARN) of the endpoint being deleted.
+  @_s.JsonKey(name: 'EndpointArn')
+  final String endpointArn;
+
+  DeleteEndpointRequest({
+    @_s.required this.endpointArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteEndpointRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3960,12 +4339,46 @@ class DeleteEndpointResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteEntityRecognizerRequest {
+  /// The Amazon Resource Name (ARN) that identifies the entity recognizer.
+  @_s.JsonKey(name: 'EntityRecognizerArn')
+  final String entityRecognizerArn;
+
+  DeleteEntityRecognizerRequest({
+    @_s.required this.entityRecognizerArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteEntityRecognizerRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteEntityRecognizerResponse {
   DeleteEntityRecognizerResponse();
   factory DeleteEntityRecognizerResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteEntityRecognizerResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeDocumentClassificationJobRequest {
+  /// The identifier that Amazon Comprehend generated for the job. The operation
+  /// returns this identifier in its response.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  DescribeDocumentClassificationJobRequest({
+    @_s.required this.jobId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeDocumentClassificationJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3990,6 +4403,24 @@ class DescribeDocumentClassificationJobResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeDocumentClassifierRequest {
+  /// The Amazon Resource Name (ARN) that identifies the document classifier. The
+  /// operation returns this identifier in its response.
+  @_s.JsonKey(name: 'DocumentClassifierArn')
+  final String documentClassifierArn;
+
+  DescribeDocumentClassifierRequest({
+    @_s.required this.documentClassifierArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeDocumentClassifierRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeDocumentClassifierResponse {
@@ -4004,6 +4435,24 @@ class DescribeDocumentClassifierResponse {
   factory DescribeDocumentClassifierResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeDocumentClassifierResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeDominantLanguageDetectionJobRequest {
+  /// The identifier that Amazon Comprehend generated for the job. The operation
+  /// returns this identifier in its response.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  DescribeDominantLanguageDetectionJobRequest({
+    @_s.required this.jobId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeDominantLanguageDetectionJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4029,6 +4478,22 @@ class DescribeDominantLanguageDetectionJobResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeEndpointRequest {
+  /// The Amazon Resource Number (ARN) of the endpoint being described.
+  @_s.JsonKey(name: 'EndpointArn')
+  final String endpointArn;
+
+  DescribeEndpointRequest({
+    @_s.required this.endpointArn,
+  });
+  Map<String, dynamic> toJson() => _$DescribeEndpointRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeEndpointResponse {
@@ -4041,6 +4506,24 @@ class DescribeEndpointResponse {
   });
   factory DescribeEndpointResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeEndpointResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeEntitiesDetectionJobRequest {
+  /// The identifier that Amazon Comprehend generated for the job. The operation
+  /// returns this identifier in its response.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  DescribeEntitiesDetectionJobRequest({
+    @_s.required this.jobId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeEntitiesDetectionJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4065,6 +4548,23 @@ class DescribeEntitiesDetectionJobResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeEntityRecognizerRequest {
+  /// The Amazon Resource Name (ARN) that identifies the entity recognizer.
+  @_s.JsonKey(name: 'EntityRecognizerArn')
+  final String entityRecognizerArn;
+
+  DescribeEntityRecognizerRequest({
+    @_s.required this.entityRecognizerArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeEntityRecognizerRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeEntityRecognizerResponse {
@@ -4078,6 +4578,24 @@ class DescribeEntityRecognizerResponse {
   factory DescribeEntityRecognizerResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeEntityRecognizerResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeKeyPhrasesDetectionJobRequest {
+  /// The identifier that Amazon Comprehend generated for the job. The operation
+  /// returns this identifier in its response.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  DescribeKeyPhrasesDetectionJobRequest({
+    @_s.required this.jobId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeKeyPhrasesDetectionJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4102,6 +4620,24 @@ class DescribeKeyPhrasesDetectionJobResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeSentimentDetectionJobRequest {
+  /// The identifier that Amazon Comprehend generated for the job. The operation
+  /// returns this identifier in its response.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  DescribeSentimentDetectionJobRequest({
+    @_s.required this.jobId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeSentimentDetectionJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeSentimentDetectionJobResponse {
@@ -4121,6 +4657,23 @@ class DescribeSentimentDetectionJobResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeTopicsDetectionJobRequest {
+  /// The identifier assigned by the user to the detection job.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  DescribeTopicsDetectionJobRequest({
+    @_s.required this.jobId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeTopicsDetectionJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeTopicsDetectionJobResponse {
@@ -4134,6 +4687,23 @@ class DescribeTopicsDetectionJobResponse {
   factory DescribeTopicsDetectionJobResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeTopicsDetectionJobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DetectDominantLanguageRequest {
+  /// A UTF-8 text string. Each string should contain at least 20 characters and
+  /// must contain fewer that 5,000 bytes of UTF-8 encoded characters.
+  @_s.JsonKey(name: 'Text')
+  final String text;
+
+  DetectDominantLanguageRequest({
+    @_s.required this.text,
+  });
+  Map<String, dynamic> toJson() => _$DetectDominantLanguageRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4161,6 +4731,30 @@ class DetectDominantLanguageResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DetectEntitiesRequest {
+  /// The language of the input documents. You can specify any of the primary
+  /// languages supported by Amazon Comprehend. All documents must be in the same
+  /// language.
+  @_s.JsonKey(name: 'LanguageCode')
+  final LanguageCode languageCode;
+
+  /// A UTF-8 text string. Each string must contain fewer that 5,000 bytes of
+  /// UTF-8 encoded characters.
+  @_s.JsonKey(name: 'Text')
+  final String text;
+
+  DetectEntitiesRequest({
+    @_s.required this.languageCode,
+    @_s.required this.text,
+  });
+  Map<String, dynamic> toJson() => _$DetectEntitiesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DetectEntitiesResponse {
@@ -4176,6 +4770,30 @@ class DetectEntitiesResponse {
   });
   factory DetectEntitiesResponse.fromJson(Map<String, dynamic> json) =>
       _$DetectEntitiesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DetectKeyPhrasesRequest {
+  /// The language of the input documents. You can specify any of the primary
+  /// languages supported by Amazon Comprehend. All documents must be in the same
+  /// language.
+  @_s.JsonKey(name: 'LanguageCode')
+  final LanguageCode languageCode;
+
+  /// A UTF-8 text string. Each string must contain fewer that 5,000 bytes of
+  /// UTF-8 encoded characters.
+  @_s.JsonKey(name: 'Text')
+  final String text;
+
+  DetectKeyPhrasesRequest({
+    @_s.required this.languageCode,
+    @_s.required this.text,
+  });
+  Map<String, dynamic> toJson() => _$DetectKeyPhrasesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4201,6 +4819,30 @@ class DetectKeyPhrasesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DetectSentimentRequest {
+  /// The language of the input documents. You can specify any of the primary
+  /// languages supported by Amazon Comprehend. All documents must be in the same
+  /// language.
+  @_s.JsonKey(name: 'LanguageCode')
+  final LanguageCode languageCode;
+
+  /// A UTF-8 text string. Each string must contain fewer that 5,000 bytes of
+  /// UTF-8 encoded characters.
+  @_s.JsonKey(name: 'Text')
+  final String text;
+
+  DetectSentimentRequest({
+    @_s.required this.languageCode,
+    @_s.required this.text,
+  });
+  Map<String, dynamic> toJson() => _$DetectSentimentRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DetectSentimentResponse {
@@ -4220,6 +4862,30 @@ class DetectSentimentResponse {
   });
   factory DetectSentimentResponse.fromJson(Map<String, dynamic> json) =>
       _$DetectSentimentResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DetectSyntaxRequest {
+  /// The language code of the input documents. You can specify any of the
+  /// following languages supported by Amazon Comprehend: German ("de"), English
+  /// ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt").
+  @_s.JsonKey(name: 'LanguageCode')
+  final SyntaxLanguageCode languageCode;
+
+  /// A UTF-8 string. Each string must contain fewer that 5,000 bytes of UTF
+  /// encoded characters.
+  @_s.JsonKey(name: 'Text')
+  final String text;
+
+  DetectSyntaxRequest({
+    @_s.required this.languageCode,
+    @_s.required this.text,
+  });
+  Map<String, dynamic> toJson() => _$DetectSyntaxRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4504,18 +5170,6 @@ enum DocumentClassifierMode {
   multiClass,
   @_s.JsonValue('MULTI_LABEL')
   multiLabel,
-}
-
-extension on DocumentClassifierMode {
-  String toValue() {
-    switch (this) {
-      case DocumentClassifierMode.multiClass:
-        return 'MULTI_CLASS';
-      case DocumentClassifierMode.multiLabel:
-        return 'MULTI_LABEL';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Provides output results configuration parameters for custom classifier jobs.
@@ -5933,36 +6587,33 @@ enum LanguageCode {
   zhTw,
 }
 
-extension on LanguageCode {
-  String toValue() {
-    switch (this) {
-      case LanguageCode.en:
-        return 'en';
-      case LanguageCode.es:
-        return 'es';
-      case LanguageCode.fr:
-        return 'fr';
-      case LanguageCode.de:
-        return 'de';
-      case LanguageCode.it:
-        return 'it';
-      case LanguageCode.pt:
-        return 'pt';
-      case LanguageCode.ar:
-        return 'ar';
-      case LanguageCode.hi:
-        return 'hi';
-      case LanguageCode.ja:
-        return 'ja';
-      case LanguageCode.ko:
-        return 'ko';
-      case LanguageCode.zh:
-        return 'zh';
-      case LanguageCode.zhTw:
-        return 'zh-TW';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListDocumentClassificationJobsRequest {
+  /// Filters the jobs that are returned. You can filter jobs on their names,
+  /// status, or the date and time that they were submitted. You can only set one
+  /// filter at a time.
+  @_s.JsonKey(name: 'Filter')
+  final DocumentClassificationJobFilter filter;
+
+  /// The maximum number of results to return in each page. The default is 100.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// Identifies the next page of results to return.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListDocumentClassificationJobsRequest({
+    this.filter,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListDocumentClassificationJobsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5992,6 +6643,34 @@ class ListDocumentClassificationJobsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListDocumentClassifiersRequest {
+  /// Filters the jobs that are returned. You can filter jobs on their name,
+  /// status, or the date and time that they were submitted. You can only set one
+  /// filter at a time.
+  @_s.JsonKey(name: 'Filter')
+  final DocumentClassifierFilter filter;
+
+  /// The maximum number of results to return in each page. The default is 100.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// Identifies the next page of results to return.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListDocumentClassifiersRequest({
+    this.filter,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListDocumentClassifiersRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListDocumentClassifiersResponse {
@@ -6009,6 +6688,35 @@ class ListDocumentClassifiersResponse {
   });
   factory ListDocumentClassifiersResponse.fromJson(Map<String, dynamic> json) =>
       _$ListDocumentClassifiersResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListDominantLanguageDetectionJobsRequest {
+  /// Filters that jobs that are returned. You can filter jobs on their name,
+  /// status, or the date and time that they were submitted. You can only set one
+  /// filter at a time.
+  @_s.JsonKey(name: 'Filter')
+  final DominantLanguageDetectionJobFilter filter;
+
+  /// The maximum number of results to return in each page. The default is 100.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// Identifies the next page of results to return.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListDominantLanguageDetectionJobsRequest({
+    this.filter,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListDominantLanguageDetectionJobsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6038,6 +6746,34 @@ class ListDominantLanguageDetectionJobsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListEndpointsRequest {
+  /// Filters the endpoints that are returned. You can filter endpoints on their
+  /// name, model, status, or the date and time that they were created. You can
+  /// only set one filter at a time.
+  @_s.JsonKey(name: 'Filter')
+  final EndpointFilter filter;
+
+  /// The maximum number of results to return in each page. The default is 100.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// Identifies the next page of results to return.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListEndpointsRequest({
+    this.filter,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListEndpointsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListEndpointsResponse {
@@ -6056,6 +6792,35 @@ class ListEndpointsResponse {
   });
   factory ListEndpointsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListEndpointsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListEntitiesDetectionJobsRequest {
+  /// Filters the jobs that are returned. You can filter jobs on their name,
+  /// status, or the date and time that they were submitted. You can only set one
+  /// filter at a time.
+  @_s.JsonKey(name: 'Filter')
+  final EntitiesDetectionJobFilter filter;
+
+  /// The maximum number of results to return in each page. The default is 100.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// Identifies the next page of results to return.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListEntitiesDetectionJobsRequest({
+    this.filter,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListEntitiesDetectionJobsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6084,6 +6849,34 @@ class ListEntitiesDetectionJobsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListEntityRecognizersRequest {
+  /// Filters the list of entities returned. You can filter on
+  /// <code>Status</code>, <code>SubmitTimeBefore</code>, or
+  /// <code>SubmitTimeAfter</code>. You can only set one filter at a time.
+  @_s.JsonKey(name: 'Filter')
+  final EntityRecognizerFilter filter;
+
+  /// The maximum number of results to return on each page. The default is 100.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// Identifies the next page of results to return.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListEntityRecognizersRequest({
+    this.filter,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListEntityRecognizersRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListEntityRecognizersResponse {
@@ -6101,6 +6894,35 @@ class ListEntityRecognizersResponse {
   });
   factory ListEntityRecognizersResponse.fromJson(Map<String, dynamic> json) =>
       _$ListEntityRecognizersResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListKeyPhrasesDetectionJobsRequest {
+  /// Filters the jobs that are returned. You can filter jobs on their name,
+  /// status, or the date and time that they were submitted. You can only set one
+  /// filter at a time.
+  @_s.JsonKey(name: 'Filter')
+  final KeyPhrasesDetectionJobFilter filter;
+
+  /// The maximum number of results to return in each page. The default is 100.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// Identifies the next page of results to return.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListKeyPhrasesDetectionJobsRequest({
+    this.filter,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListKeyPhrasesDetectionJobsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6130,6 +6952,35 @@ class ListKeyPhrasesDetectionJobsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListSentimentDetectionJobsRequest {
+  /// Filters the jobs that are returned. You can filter jobs on their name,
+  /// status, or the date and time that they were submitted. You can only set one
+  /// filter at a time.
+  @_s.JsonKey(name: 'Filter')
+  final SentimentDetectionJobFilter filter;
+
+  /// The maximum number of results to return in each page. The default is 100.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// Identifies the next page of results to return.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListSentimentDetectionJobsRequest({
+    this.filter,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListSentimentDetectionJobsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListSentimentDetectionJobsResponse {
@@ -6149,6 +7000,23 @@ class ListSentimentDetectionJobsResponse {
   factory ListSentimentDetectionJobsResponse.fromJson(
           Map<String, dynamic> json) =>
       _$ListSentimentDetectionJobsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceRequest {
+  /// The Amazon Resource Name (ARN) of the given Amazon Comprehend resource you
+  /// are querying.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  ListTagsForResourceRequest({
+    @_s.required this.resourceArn,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6175,6 +7043,34 @@ class ListTagsForResourceResponse {
   });
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$ListTagsForResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTopicsDetectionJobsRequest {
+  /// Filters the jobs that are returned. Jobs can be filtered on their name,
+  /// status, or the date and time that they were submitted. You can set only one
+  /// filter at a time.
+  @_s.JsonKey(name: 'Filter')
+  final TopicsDetectionJobFilter filter;
+
+  /// The maximum number of results to return in each page. The default is 100.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// Identifies the next page of results to return.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListTopicsDetectionJobsRequest({
+    this.filter,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListTopicsDetectionJobsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6533,6 +7429,78 @@ enum SentimentType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartDocumentClassificationJobRequest {
+  /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management
+  /// (IAM) role that grants Amazon Comprehend read access to your input data.
+  @_s.JsonKey(name: 'DataAccessRoleArn')
+  final String dataAccessRoleArn;
+
+  /// The Amazon Resource Name (ARN) of the document classifier to use to process
+  /// the job.
+  @_s.JsonKey(name: 'DocumentClassifierArn')
+  final String documentClassifierArn;
+
+  /// Specifies the format and location of the input data for the job.
+  @_s.JsonKey(name: 'InputDataConfig')
+  final InputDataConfig inputDataConfig;
+
+  /// Specifies where to send the output files.
+  @_s.JsonKey(name: 'OutputDataConfig')
+  final OutputDataConfig outputDataConfig;
+
+  /// A unique identifier for the request. If you do not set the client request
+  /// token, Amazon Comprehend generates one.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// The identifier of the job.
+  @_s.JsonKey(name: 'JobName')
+  final String jobName;
+
+  /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses
+  /// to encrypt data on the storage volume attached to the ML compute instance(s)
+  /// that process the analysis job. The VolumeKmsKeyId can be either of the
+  /// following formats:
+  ///
+  /// <ul>
+  /// <li>
+  /// KMS Key ID: <code>"1234abcd-12ab-34cd-56ef-1234567890ab"</code>
+  /// </li>
+  /// <li>
+  /// Amazon Resource Name (ARN) of a KMS Key:
+  /// <code>"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"</code>
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'VolumeKmsKeyId')
+  final String volumeKmsKeyId;
+
+  /// Configuration parameters for an optional private Virtual Private Cloud (VPC)
+  /// containing the resources you are using for your document classification job.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html">Amazon
+  /// VPC</a>.
+  @_s.JsonKey(name: 'VpcConfig')
+  final VpcConfig vpcConfig;
+
+  StartDocumentClassificationJobRequest({
+    @_s.required this.dataAccessRoleArn,
+    @_s.required this.documentClassifierArn,
+    @_s.required this.inputDataConfig,
+    @_s.required this.outputDataConfig,
+    this.clientRequestToken,
+    this.jobName,
+    this.volumeKmsKeyId,
+    this.vpcConfig,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StartDocumentClassificationJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartDocumentClassificationJobResponse {
@@ -6579,6 +7547,74 @@ class StartDocumentClassificationJobResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartDominantLanguageDetectionJobRequest {
+  /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management
+  /// (IAM) role that grants Amazon Comprehend read access to your input data. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions">https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions</a>.
+  @_s.JsonKey(name: 'DataAccessRoleArn')
+  final String dataAccessRoleArn;
+
+  /// Specifies the format and location of the input data for the job.
+  @_s.JsonKey(name: 'InputDataConfig')
+  final InputDataConfig inputDataConfig;
+
+  /// Specifies where to send the output files.
+  @_s.JsonKey(name: 'OutputDataConfig')
+  final OutputDataConfig outputDataConfig;
+
+  /// A unique identifier for the request. If you do not set the client request
+  /// token, Amazon Comprehend generates one.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// An identifier for the job.
+  @_s.JsonKey(name: 'JobName')
+  final String jobName;
+
+  /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses
+  /// to encrypt data on the storage volume attached to the ML compute instance(s)
+  /// that process the analysis job. The VolumeKmsKeyId can be either of the
+  /// following formats:
+  ///
+  /// <ul>
+  /// <li>
+  /// KMS Key ID: <code>"1234abcd-12ab-34cd-56ef-1234567890ab"</code>
+  /// </li>
+  /// <li>
+  /// Amazon Resource Name (ARN) of a KMS Key:
+  /// <code>"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"</code>
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'VolumeKmsKeyId')
+  final String volumeKmsKeyId;
+
+  /// Configuration parameters for an optional private Virtual Private Cloud (VPC)
+  /// containing the resources you are using for your dominant language detection
+  /// job. For more information, see <a
+  /// href="https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html">Amazon
+  /// VPC</a>.
+  @_s.JsonKey(name: 'VpcConfig')
+  final VpcConfig vpcConfig;
+
+  StartDominantLanguageDetectionJobRequest({
+    @_s.required this.dataAccessRoleArn,
+    @_s.required this.inputDataConfig,
+    @_s.required this.outputDataConfig,
+    this.clientRequestToken,
+    this.jobName,
+    this.volumeKmsKeyId,
+    this.vpcConfig,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StartDominantLanguageDetectionJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartDominantLanguageDetectionJobResponse {
@@ -6613,6 +7649,89 @@ class StartDominantLanguageDetectionJobResponse {
   factory StartDominantLanguageDetectionJobResponse.fromJson(
           Map<String, dynamic> json) =>
       _$StartDominantLanguageDetectionJobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartEntitiesDetectionJobRequest {
+  /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management
+  /// (IAM) role that grants Amazon Comprehend read access to your input data. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions">https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions</a>.
+  @_s.JsonKey(name: 'DataAccessRoleArn')
+  final String dataAccessRoleArn;
+
+  /// Specifies the format and location of the input data for the job.
+  @_s.JsonKey(name: 'InputDataConfig')
+  final InputDataConfig inputDataConfig;
+
+  /// The language of the input documents. All documents must be in the same
+  /// language. You can specify any of the languages supported by Amazon
+  /// Comprehend. If custom entities recognition is used, this parameter is
+  /// ignored and the language used for training the model is used instead.
+  @_s.JsonKey(name: 'LanguageCode')
+  final LanguageCode languageCode;
+
+  /// Specifies where to send the output files.
+  @_s.JsonKey(name: 'OutputDataConfig')
+  final OutputDataConfig outputDataConfig;
+
+  /// A unique identifier for the request. If you don't set the client request
+  /// token, Amazon Comprehend generates one.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// The Amazon Resource Name (ARN) that identifies the specific entity
+  /// recognizer to be used by the <code>StartEntitiesDetectionJob</code>. This
+  /// ARN is optional and is only used for a custom entity recognition job.
+  @_s.JsonKey(name: 'EntityRecognizerArn')
+  final String entityRecognizerArn;
+
+  /// The identifier of the job.
+  @_s.JsonKey(name: 'JobName')
+  final String jobName;
+
+  /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses
+  /// to encrypt data on the storage volume attached to the ML compute instance(s)
+  /// that process the analysis job. The VolumeKmsKeyId can be either of the
+  /// following formats:
+  ///
+  /// <ul>
+  /// <li>
+  /// KMS Key ID: <code>"1234abcd-12ab-34cd-56ef-1234567890ab"</code>
+  /// </li>
+  /// <li>
+  /// Amazon Resource Name (ARN) of a KMS Key:
+  /// <code>"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"</code>
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'VolumeKmsKeyId')
+  final String volumeKmsKeyId;
+
+  /// Configuration parameters for an optional private Virtual Private Cloud (VPC)
+  /// containing the resources you are using for your entity detection job. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html">Amazon
+  /// VPC</a>.
+  @_s.JsonKey(name: 'VpcConfig')
+  final VpcConfig vpcConfig;
+
+  StartEntitiesDetectionJobRequest({
+    @_s.required this.dataAccessRoleArn,
+    @_s.required this.inputDataConfig,
+    @_s.required this.languageCode,
+    @_s.required this.outputDataConfig,
+    this.clientRequestToken,
+    this.entityRecognizerArn,
+    this.jobName,
+    this.volumeKmsKeyId,
+    this.vpcConfig,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StartEntitiesDetectionJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6664,6 +7783,81 @@ class StartEntitiesDetectionJobResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartKeyPhrasesDetectionJobRequest {
+  /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management
+  /// (IAM) role that grants Amazon Comprehend read access to your input data. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions">https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions</a>.
+  @_s.JsonKey(name: 'DataAccessRoleArn')
+  final String dataAccessRoleArn;
+
+  /// Specifies the format and location of the input data for the job.
+  @_s.JsonKey(name: 'InputDataConfig')
+  final InputDataConfig inputDataConfig;
+
+  /// The language of the input documents. You can specify any of the primary
+  /// languages supported by Amazon Comprehend. All documents must be in the same
+  /// language.
+  @_s.JsonKey(name: 'LanguageCode')
+  final LanguageCode languageCode;
+
+  /// Specifies where to send the output files.
+  @_s.JsonKey(name: 'OutputDataConfig')
+  final OutputDataConfig outputDataConfig;
+
+  /// A unique identifier for the request. If you don't set the client request
+  /// token, Amazon Comprehend generates one.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// The identifier of the job.
+  @_s.JsonKey(name: 'JobName')
+  final String jobName;
+
+  /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses
+  /// to encrypt data on the storage volume attached to the ML compute instance(s)
+  /// that process the analysis job. The VolumeKmsKeyId can be either of the
+  /// following formats:
+  ///
+  /// <ul>
+  /// <li>
+  /// KMS Key ID: <code>"1234abcd-12ab-34cd-56ef-1234567890ab"</code>
+  /// </li>
+  /// <li>
+  /// Amazon Resource Name (ARN) of a KMS Key:
+  /// <code>"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"</code>
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'VolumeKmsKeyId')
+  final String volumeKmsKeyId;
+
+  /// Configuration parameters for an optional private Virtual Private Cloud (VPC)
+  /// containing the resources you are using for your key phrases detection job.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html">Amazon
+  /// VPC</a>.
+  @_s.JsonKey(name: 'VpcConfig')
+  final VpcConfig vpcConfig;
+
+  StartKeyPhrasesDetectionJobRequest({
+    @_s.required this.dataAccessRoleArn,
+    @_s.required this.inputDataConfig,
+    @_s.required this.languageCode,
+    @_s.required this.outputDataConfig,
+    this.clientRequestToken,
+    this.jobName,
+    this.volumeKmsKeyId,
+    this.vpcConfig,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StartKeyPhrasesDetectionJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartKeyPhrasesDetectionJobResponse {
@@ -6698,6 +7892,81 @@ class StartKeyPhrasesDetectionJobResponse {
   factory StartKeyPhrasesDetectionJobResponse.fromJson(
           Map<String, dynamic> json) =>
       _$StartKeyPhrasesDetectionJobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartSentimentDetectionJobRequest {
+  /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management
+  /// (IAM) role that grants Amazon Comprehend read access to your input data. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions">https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions</a>.
+  @_s.JsonKey(name: 'DataAccessRoleArn')
+  final String dataAccessRoleArn;
+
+  /// Specifies the format and location of the input data for the job.
+  @_s.JsonKey(name: 'InputDataConfig')
+  final InputDataConfig inputDataConfig;
+
+  /// The language of the input documents. You can specify any of the primary
+  /// languages supported by Amazon Comprehend. All documents must be in the same
+  /// language.
+  @_s.JsonKey(name: 'LanguageCode')
+  final LanguageCode languageCode;
+
+  /// Specifies where to send the output files.
+  @_s.JsonKey(name: 'OutputDataConfig')
+  final OutputDataConfig outputDataConfig;
+
+  /// A unique identifier for the request. If you don't set the client request
+  /// token, Amazon Comprehend generates one.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// The identifier of the job.
+  @_s.JsonKey(name: 'JobName')
+  final String jobName;
+
+  /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses
+  /// to encrypt data on the storage volume attached to the ML compute instance(s)
+  /// that process the analysis job. The VolumeKmsKeyId can be either of the
+  /// following formats:
+  ///
+  /// <ul>
+  /// <li>
+  /// KMS Key ID: <code>"1234abcd-12ab-34cd-56ef-1234567890ab"</code>
+  /// </li>
+  /// <li>
+  /// Amazon Resource Name (ARN) of a KMS Key:
+  /// <code>"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"</code>
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'VolumeKmsKeyId')
+  final String volumeKmsKeyId;
+
+  /// Configuration parameters for an optional private Virtual Private Cloud (VPC)
+  /// containing the resources you are using for your sentiment detection job. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html">Amazon
+  /// VPC</a>.
+  @_s.JsonKey(name: 'VpcConfig')
+  final VpcConfig vpcConfig;
+
+  StartSentimentDetectionJobRequest({
+    @_s.required this.dataAccessRoleArn,
+    @_s.required this.inputDataConfig,
+    @_s.required this.languageCode,
+    @_s.required this.outputDataConfig,
+    this.clientRequestToken,
+    this.jobName,
+    this.volumeKmsKeyId,
+    this.vpcConfig,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StartSentimentDetectionJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6742,6 +8011,81 @@ class StartSentimentDetectionJobResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartTopicsDetectionJobRequest {
+  /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management
+  /// (IAM) role that grants Amazon Comprehend read access to your input data. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions">https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions</a>.
+  @_s.JsonKey(name: 'DataAccessRoleArn')
+  final String dataAccessRoleArn;
+
+  /// Specifies the format and location of the input data for the job.
+  @_s.JsonKey(name: 'InputDataConfig')
+  final InputDataConfig inputDataConfig;
+
+  /// Specifies where to send the output files. The output is a compressed archive
+  /// with two files, <code>topic-terms.csv</code> that lists the terms associated
+  /// with each topic, and <code>doc-topics.csv</code> that lists the documents
+  /// associated with each topic
+  @_s.JsonKey(name: 'OutputDataConfig')
+  final OutputDataConfig outputDataConfig;
+
+  /// A unique identifier for the request. If you do not set the client request
+  /// token, Amazon Comprehend generates one.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// The identifier of the job.
+  @_s.JsonKey(name: 'JobName')
+  final String jobName;
+
+  /// The number of topics to detect.
+  @_s.JsonKey(name: 'NumberOfTopics')
+  final int numberOfTopics;
+
+  /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses
+  /// to encrypt data on the storage volume attached to the ML compute instance(s)
+  /// that process the analysis job. The VolumeKmsKeyId can be either of the
+  /// following formats:
+  ///
+  /// <ul>
+  /// <li>
+  /// KMS Key ID: <code>"1234abcd-12ab-34cd-56ef-1234567890ab"</code>
+  /// </li>
+  /// <li>
+  /// Amazon Resource Name (ARN) of a KMS Key:
+  /// <code>"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"</code>
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'VolumeKmsKeyId')
+  final String volumeKmsKeyId;
+
+  /// Configuration parameters for an optional private Virtual Private Cloud (VPC)
+  /// containing the resources you are using for your topic detection job. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html">Amazon
+  /// VPC</a>.
+  @_s.JsonKey(name: 'VpcConfig')
+  final VpcConfig vpcConfig;
+
+  StartTopicsDetectionJobRequest({
+    @_s.required this.dataAccessRoleArn,
+    @_s.required this.inputDataConfig,
+    @_s.required this.outputDataConfig,
+    this.clientRequestToken,
+    this.jobName,
+    this.numberOfTopics,
+    this.volumeKmsKeyId,
+    this.vpcConfig,
+  });
+  Map<String, dynamic> toJson() => _$StartTopicsDetectionJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartTopicsDetectionJobResponse {
@@ -6781,6 +8125,23 @@ class StartTopicsDetectionJobResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopDominantLanguageDetectionJobRequest {
+  /// The identifier of the dominant language detection job to stop.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  StopDominantLanguageDetectionJobRequest({
+    @_s.required this.jobId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StopDominantLanguageDetectionJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StopDominantLanguageDetectionJobResponse {
@@ -6801,6 +8162,23 @@ class StopDominantLanguageDetectionJobResponse {
   factory StopDominantLanguageDetectionJobResponse.fromJson(
           Map<String, dynamic> json) =>
       _$StopDominantLanguageDetectionJobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopEntitiesDetectionJobRequest {
+  /// The identifier of the entities detection job to stop.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  StopEntitiesDetectionJobRequest({
+    @_s.required this.jobId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StopEntitiesDetectionJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6831,6 +8209,23 @@ class StopEntitiesDetectionJobResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopKeyPhrasesDetectionJobRequest {
+  /// The identifier of the key phrases detection job to stop.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  StopKeyPhrasesDetectionJobRequest({
+    @_s.required this.jobId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StopKeyPhrasesDetectionJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StopKeyPhrasesDetectionJobResponse {
@@ -6851,6 +8246,23 @@ class StopKeyPhrasesDetectionJobResponse {
   factory StopKeyPhrasesDetectionJobResponse.fromJson(
           Map<String, dynamic> json) =>
       _$StopKeyPhrasesDetectionJobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopSentimentDetectionJobRequest {
+  /// The identifier of the sentiment detection job to stop.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  StopSentimentDetectionJobRequest({
+    @_s.required this.jobId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StopSentimentDetectionJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6881,6 +8293,24 @@ class StopSentimentDetectionJobResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopTrainingDocumentClassifierRequest {
+  /// The Amazon Resource Name (ARN) that identifies the document classifier
+  /// currently being trained.
+  @_s.JsonKey(name: 'DocumentClassifierArn')
+  final String documentClassifierArn;
+
+  StopTrainingDocumentClassifierRequest({
+    @_s.required this.documentClassifierArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StopTrainingDocumentClassifierRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StopTrainingDocumentClassifierResponse {
@@ -6888,6 +8318,24 @@ class StopTrainingDocumentClassifierResponse {
   factory StopTrainingDocumentClassifierResponse.fromJson(
           Map<String, dynamic> json) =>
       _$StopTrainingDocumentClassifierResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopTrainingEntityRecognizerRequest {
+  /// The Amazon Resource Name (ARN) that identifies the entity recognizer
+  /// currently being trained.
+  @_s.JsonKey(name: 'EntityRecognizerArn')
+  final String entityRecognizerArn;
+
+  StopTrainingEntityRecognizerRequest({
+    @_s.required this.entityRecognizerArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StopTrainingEntityRecognizerRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6915,26 +8363,6 @@ enum SyntaxLanguageCode {
   it,
   @_s.JsonValue('pt')
   pt,
-}
-
-extension on SyntaxLanguageCode {
-  String toValue() {
-    switch (this) {
-      case SyntaxLanguageCode.en:
-        return 'en';
-      case SyntaxLanguageCode.es:
-        return 'es';
-      case SyntaxLanguageCode.fr:
-        return 'fr';
-      case SyntaxLanguageCode.de:
-        return 'de';
-      case SyntaxLanguageCode.it:
-        return 'it';
-      case SyntaxLanguageCode.pt:
-        return 'pt';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Represents a work in the input text that was recognized and assigned a part
@@ -7012,6 +8440,30 @@ class Tag {
   factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
   Map<String, dynamic> toJson() => _$TagToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the given Amazon Comprehend resource to
+  /// which you want to associate the tags.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// Tags being associated with a specific Amazon Comprehend resource. There can
+  /// be a maximum of 50 tags (both existing and pending) associated with a
+  /// specific resource.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7174,12 +8626,60 @@ class TopicsDetectionJobProperties {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the given Amazon Comprehend resource from
+  /// which you want to remove the tags.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// The initial part of a key-value pair that forms a tag being removed from a
+  /// given resource. For example, a tag with "Sales" as the key might be added to
+  /// a resource to indicate its use by the sales department. Keys must be unique
+  /// and cannot be duplicated for a particular resource.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
   factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateEndpointRequest {
+  /// The desired number of inference units to be used by the model using this
+  /// endpoint. Each inference unit represents of a throughput of 100 characters
+  /// per second.
+  @_s.JsonKey(name: 'DesiredInferenceUnits')
+  final int desiredInferenceUnits;
+
+  /// The Amazon Resource Number (ARN) of the endpoint being updated.
+  @_s.JsonKey(name: 'EndpointArn')
+  final String endpointArn;
+
+  UpdateEndpointRequest({
+    @_s.required this.desiredInferenceUnits,
+    @_s.required this.endpointArn,
+  });
+  Map<String, dynamic> toJson() => _$UpdateEndpointRequestToJson(this);
 }
 
 @_s.JsonSerializable(

@@ -65,9 +65,40 @@ const _$DedicatedTenancyModificationStateEnumEnumMap = {
   DedicatedTenancyModificationStateEnum.failed: 'FAILED',
 };
 
+Map<String, dynamic> _$AssociateIpGroupsRequestToJson(
+    AssociateIpGroupsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryId', instance.directoryId);
+  writeNotNull('GroupIds', instance.groupIds);
+  return val;
+}
+
 AssociateIpGroupsResult _$AssociateIpGroupsResultFromJson(
     Map<String, dynamic> json) {
   return AssociateIpGroupsResult();
+}
+
+Map<String, dynamic> _$AuthorizeIpRulesRequestToJson(
+    AuthorizeIpRulesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GroupId', instance.groupId);
+  writeNotNull(
+      'UserRules', instance.userRules?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 AuthorizeIpRulesResult _$AuthorizeIpRulesResultFromJson(
@@ -128,11 +159,47 @@ const _$ComputeEnumMap = {
   Compute.graphicspro: 'GRAPHICSPRO',
 };
 
+Map<String, dynamic> _$CopyWorkspaceImageRequestToJson(
+    CopyWorkspaceImageRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('SourceImageId', instance.sourceImageId);
+  writeNotNull('SourceRegion', instance.sourceRegion);
+  writeNotNull('Description', instance.description);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CopyWorkspaceImageResult _$CopyWorkspaceImageResultFromJson(
     Map<String, dynamic> json) {
   return CopyWorkspaceImageResult(
     imageId: json['ImageId'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateIpGroupRequestToJson(
+    CreateIpGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GroupName', instance.groupName);
+  writeNotNull('GroupDesc', instance.groupDesc);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'UserRules', instance.userRules?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateIpGroupResult _$CreateIpGroupResultFromJson(Map<String, dynamic> json) {
@@ -141,8 +208,37 @@ CreateIpGroupResult _$CreateIpGroupResultFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateTagsRequestToJson(CreateTagsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceId', instance.resourceId);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateTagsResult _$CreateTagsResultFromJson(Map<String, dynamic> json) {
   return CreateTagsResult();
+}
+
+Map<String, dynamic> _$CreateWorkspacesRequestToJson(
+    CreateWorkspacesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'Workspaces', instance.workspaces?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateWorkspacesResult _$CreateWorkspacesResultFromJson(
@@ -173,12 +269,54 @@ DefaultWorkspaceCreationProperties _$DefaultWorkspaceCreationPropertiesFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteIpGroupRequestToJson(
+    DeleteIpGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GroupId', instance.groupId);
+  return val;
+}
+
 DeleteIpGroupResult _$DeleteIpGroupResultFromJson(Map<String, dynamic> json) {
   return DeleteIpGroupResult();
 }
 
+Map<String, dynamic> _$DeleteTagsRequestToJson(DeleteTagsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceId', instance.resourceId);
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
+}
+
 DeleteTagsResult _$DeleteTagsResultFromJson(Map<String, dynamic> json) {
   return DeleteTagsResult();
+}
+
+Map<String, dynamic> _$DeleteWorkspaceImageRequestToJson(
+    DeleteWorkspaceImageRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ImageId', instance.imageId);
+  return val;
 }
 
 DeleteWorkspaceImageResult _$DeleteWorkspaceImageResultFromJson(
@@ -186,9 +324,37 @@ DeleteWorkspaceImageResult _$DeleteWorkspaceImageResultFromJson(
   return DeleteWorkspaceImageResult();
 }
 
+Map<String, dynamic> _$DeregisterWorkspaceDirectoryRequestToJson(
+    DeregisterWorkspaceDirectoryRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryId', instance.directoryId);
+  return val;
+}
+
 DeregisterWorkspaceDirectoryResult _$DeregisterWorkspaceDirectoryResultFromJson(
     Map<String, dynamic> json) {
   return DeregisterWorkspaceDirectoryResult();
+}
+
+Map<String, dynamic> _$DescribeAccountModificationsRequestToJson(
+    DescribeAccountModificationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 DescribeAccountModificationsResult _$DescribeAccountModificationsResultFromJson(
@@ -214,6 +380,20 @@ DescribeAccountResult _$DescribeAccountResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeClientPropertiesRequestToJson(
+    DescribeClientPropertiesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceIds', instance.resourceIds);
+  return val;
+}
+
 DescribeClientPropertiesResult _$DescribeClientPropertiesResultFromJson(
     Map<String, dynamic> json) {
   return DescribeClientPropertiesResult(
@@ -223,6 +403,22 @@ DescribeClientPropertiesResult _$DescribeClientPropertiesResultFromJson(
             : ClientPropertiesResult.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeIpGroupsRequestToJson(
+    DescribeIpGroupsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GroupIds', instance.groupIds);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 DescribeIpGroupsResult _$DescribeIpGroupsResultFromJson(
@@ -237,12 +433,41 @@ DescribeIpGroupsResult _$DescribeIpGroupsResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeTagsRequestToJson(DescribeTagsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceId', instance.resourceId);
+  return val;
+}
+
 DescribeTagsResult _$DescribeTagsResultFromJson(Map<String, dynamic> json) {
   return DescribeTagsResult(
     tagList: (json['TagList'] as List)
         ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeWorkspaceBundlesRequestToJson(
+    DescribeWorkspaceBundlesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BundleIds', instance.bundleIds);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('Owner', instance.owner);
+  return val;
 }
 
 DescribeWorkspaceBundlesResult _$DescribeWorkspaceBundlesResultFromJson(
@@ -257,6 +482,22 @@ DescribeWorkspaceBundlesResult _$DescribeWorkspaceBundlesResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeWorkspaceDirectoriesRequestToJson(
+    DescribeWorkspaceDirectoriesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryIds', instance.directoryIds);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 DescribeWorkspaceDirectoriesResult _$DescribeWorkspaceDirectoriesResultFromJson(
     Map<String, dynamic> json) {
   return DescribeWorkspaceDirectoriesResult(
@@ -269,6 +510,22 @@ DescribeWorkspaceDirectoriesResult _$DescribeWorkspaceDirectoriesResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeWorkspaceImagesRequestToJson(
+    DescribeWorkspaceImagesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ImageIds', instance.imageIds);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 DescribeWorkspaceImagesResult _$DescribeWorkspaceImagesResultFromJson(
     Map<String, dynamic> json) {
   return DescribeWorkspaceImagesResult(
@@ -279,6 +536,20 @@ DescribeWorkspaceImagesResult _$DescribeWorkspaceImagesResultFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeWorkspaceSnapshotsRequestToJson(
+    DescribeWorkspaceSnapshotsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('WorkspaceId', instance.workspaceId);
+  return val;
 }
 
 DescribeWorkspaceSnapshotsResult _$DescribeWorkspaceSnapshotsResultFromJson(
@@ -295,6 +566,21 @@ DescribeWorkspaceSnapshotsResult _$DescribeWorkspaceSnapshotsResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeWorkspacesConnectionStatusRequestToJson(
+    DescribeWorkspacesConnectionStatusRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('WorkspaceIds', instance.workspaceIds);
+  return val;
+}
+
 DescribeWorkspacesConnectionStatusResult
     _$DescribeWorkspacesConnectionStatusResultFromJson(
         Map<String, dynamic> json) {
@@ -308,6 +594,25 @@ DescribeWorkspacesConnectionStatusResult
   );
 }
 
+Map<String, dynamic> _$DescribeWorkspacesRequestToJson(
+    DescribeWorkspacesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BundleId', instance.bundleId);
+  writeNotNull('DirectoryId', instance.directoryId);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('UserName', instance.userName);
+  writeNotNull('WorkspaceIds', instance.workspaceIds);
+  return val;
+}
+
 DescribeWorkspacesResult _$DescribeWorkspacesResultFromJson(
     Map<String, dynamic> json) {
   return DescribeWorkspacesResult(
@@ -317,6 +622,21 @@ DescribeWorkspacesResult _$DescribeWorkspacesResultFromJson(
             e == null ? null : Workspace.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DisassociateIpGroupsRequestToJson(
+    DisassociateIpGroupsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryId', instance.directoryId);
+  writeNotNull('GroupIds', instance.groupIds);
+  return val;
 }
 
 DisassociateIpGroupsResult _$DisassociateIpGroupsResultFromJson(
@@ -344,6 +664,31 @@ FailedWorkspaceChangeRequest _$FailedWorkspaceChangeRequestFromJson(
     workspaceId: json['WorkspaceId'] as String,
   );
 }
+
+Map<String, dynamic> _$ImportWorkspaceImageRequestToJson(
+    ImportWorkspaceImageRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Ec2ImageId', instance.ec2ImageId);
+  writeNotNull('ImageDescription', instance.imageDescription);
+  writeNotNull('ImageName', instance.imageName);
+  writeNotNull('IngestionProcess',
+      _$WorkspaceImageIngestionProcessEnumMap[instance.ingestionProcess]);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+const _$WorkspaceImageIngestionProcessEnumMap = {
+  WorkspaceImageIngestionProcess.byolRegular: 'BYOL_REGULAR',
+  WorkspaceImageIngestionProcess.byolGraphics: 'BYOL_GRAPHICS',
+  WorkspaceImageIngestionProcess.byolGraphicspro: 'BYOL_GRAPHICSPRO',
+};
 
 ImportWorkspaceImageResult _$ImportWorkspaceImageResultFromJson(
     Map<String, dynamic> json) {
@@ -373,6 +718,23 @@ Map<String, dynamic> _$IpRuleItemToJson(IpRuleItem instance) {
   return val;
 }
 
+Map<String, dynamic> _$ListAvailableManagementCidrRangesRequestToJson(
+    ListAvailableManagementCidrRangesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'ManagementCidrRangeConstraint', instance.managementCidrRangeConstraint);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListAvailableManagementCidrRangesResult
     _$ListAvailableManagementCidrRangesResultFromJson(
         Map<String, dynamic> json) {
@@ -382,6 +744,21 @@ ListAvailableManagementCidrRangesResult
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$MigrateWorkspaceRequestToJson(
+    MigrateWorkspaceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BundleId', instance.bundleId);
+  writeNotNull('SourceWorkspaceId', instance.sourceWorkspaceId);
+  return val;
 }
 
 MigrateWorkspaceResult _$MigrateWorkspaceResultFromJson(
@@ -411,8 +788,44 @@ const _$ModificationStateEnumEnumMap = {
   ModificationStateEnum.updateInProgress: 'UPDATE_IN_PROGRESS',
 };
 
+Map<String, dynamic> _$ModifyAccountRequestToJson(
+    ModifyAccountRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DedicatedTenancyManagementCidrRange',
+      instance.dedicatedTenancyManagementCidrRange);
+  writeNotNull('DedicatedTenancySupport',
+      _$DedicatedTenancySupportEnumEnumMap[instance.dedicatedTenancySupport]);
+  return val;
+}
+
+const _$DedicatedTenancySupportEnumEnumMap = {
+  DedicatedTenancySupportEnum.enabled: 'ENABLED',
+};
+
 ModifyAccountResult _$ModifyAccountResultFromJson(Map<String, dynamic> json) {
   return ModifyAccountResult();
+}
+
+Map<String, dynamic> _$ModifyClientPropertiesRequestToJson(
+    ModifyClientPropertiesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClientProperties', instance.clientProperties?.toJson());
+  writeNotNull('ResourceId', instance.resourceId);
+  return val;
 }
 
 ModifyClientPropertiesResult _$ModifyClientPropertiesResultFromJson(
@@ -420,14 +833,62 @@ ModifyClientPropertiesResult _$ModifyClientPropertiesResultFromJson(
   return ModifyClientPropertiesResult();
 }
 
+Map<String, dynamic> _$ModifySelfservicePermissionsRequestToJson(
+    ModifySelfservicePermissionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceId', instance.resourceId);
+  writeNotNull(
+      'SelfservicePermissions', instance.selfservicePermissions?.toJson());
+  return val;
+}
+
 ModifySelfservicePermissionsResult _$ModifySelfservicePermissionsResultFromJson(
     Map<String, dynamic> json) {
   return ModifySelfservicePermissionsResult();
 }
 
+Map<String, dynamic> _$ModifyWorkspaceAccessPropertiesRequestToJson(
+    ModifyWorkspaceAccessPropertiesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceId', instance.resourceId);
+  writeNotNull('WorkspaceAccessProperties',
+      instance.workspaceAccessProperties?.toJson());
+  return val;
+}
+
 ModifyWorkspaceAccessPropertiesResult
     _$ModifyWorkspaceAccessPropertiesResultFromJson(Map<String, dynamic> json) {
   return ModifyWorkspaceAccessPropertiesResult();
+}
+
+Map<String, dynamic> _$ModifyWorkspaceCreationPropertiesRequestToJson(
+    ModifyWorkspaceCreationPropertiesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceId', instance.resourceId);
+  writeNotNull('WorkspaceCreationProperties',
+      instance.workspaceCreationProperties?.toJson());
+  return val;
 }
 
 ModifyWorkspaceCreationPropertiesResult
@@ -436,10 +897,46 @@ ModifyWorkspaceCreationPropertiesResult
   return ModifyWorkspaceCreationPropertiesResult();
 }
 
+Map<String, dynamic> _$ModifyWorkspacePropertiesRequestToJson(
+    ModifyWorkspacePropertiesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('WorkspaceId', instance.workspaceId);
+  writeNotNull('WorkspaceProperties', instance.workspaceProperties?.toJson());
+  return val;
+}
+
 ModifyWorkspacePropertiesResult _$ModifyWorkspacePropertiesResultFromJson(
     Map<String, dynamic> json) {
   return ModifyWorkspacePropertiesResult();
 }
+
+Map<String, dynamic> _$ModifyWorkspaceStateRequestToJson(
+    ModifyWorkspaceStateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('WorkspaceId', instance.workspaceId);
+  writeNotNull(
+      'WorkspaceState', _$TargetWorkspaceStateEnumMap[instance.workspaceState]);
+  return val;
+}
+
+const _$TargetWorkspaceStateEnumMap = {
+  TargetWorkspaceState.available: 'AVAILABLE',
+  TargetWorkspaceState.adminMaintenance: 'ADMIN_MAINTENANCE',
+};
 
 ModifyWorkspaceStateResult _$ModifyWorkspaceStateResultFromJson(
     Map<String, dynamic> json) {
@@ -470,6 +967,21 @@ Map<String, dynamic> _$RebootRequestToJson(RebootRequest instance) {
   return val;
 }
 
+Map<String, dynamic> _$RebootWorkspacesRequestToJson(
+    RebootWorkspacesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RebootWorkspaceRequests',
+      instance.rebootWorkspaceRequests?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 RebootWorkspacesResult _$RebootWorkspacesResultFromJson(
     Map<String, dynamic> json) {
   return RebootWorkspacesResult(
@@ -494,6 +1006,21 @@ Map<String, dynamic> _$RebuildRequestToJson(RebuildRequest instance) {
   return val;
 }
 
+Map<String, dynamic> _$RebuildWorkspacesRequestToJson(
+    RebuildWorkspacesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RebuildWorkspaceRequests',
+      instance.rebuildWorkspaceRequests?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 RebuildWorkspacesResult _$RebuildWorkspacesResultFromJson(
     Map<String, dynamic> json) {
   return RebuildWorkspacesResult(
@@ -505,14 +1032,67 @@ RebuildWorkspacesResult _$RebuildWorkspacesResultFromJson(
   );
 }
 
+Map<String, dynamic> _$RegisterWorkspaceDirectoryRequestToJson(
+    RegisterWorkspaceDirectoryRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DirectoryId', instance.directoryId);
+  writeNotNull('EnableWorkDocs', instance.enableWorkDocs);
+  writeNotNull('EnableSelfService', instance.enableSelfService);
+  writeNotNull('SubnetIds', instance.subnetIds);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Tenancy', _$TenancyEnumMap[instance.tenancy]);
+  return val;
+}
+
+const _$TenancyEnumMap = {
+  Tenancy.dedicated: 'DEDICATED',
+  Tenancy.shared: 'SHARED',
+};
+
 RegisterWorkspaceDirectoryResult _$RegisterWorkspaceDirectoryResultFromJson(
     Map<String, dynamic> json) {
   return RegisterWorkspaceDirectoryResult();
 }
 
+Map<String, dynamic> _$RestoreWorkspaceRequestToJson(
+    RestoreWorkspaceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('WorkspaceId', instance.workspaceId);
+  return val;
+}
+
 RestoreWorkspaceResult _$RestoreWorkspaceResultFromJson(
     Map<String, dynamic> json) {
   return RestoreWorkspaceResult();
+}
+
+Map<String, dynamic> _$RevokeIpRulesRequestToJson(
+    RevokeIpRulesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GroupId', instance.groupId);
+  writeNotNull('UserRules', instance.userRules);
+  return val;
 }
 
 RevokeIpRulesResult _$RevokeIpRulesResultFromJson(Map<String, dynamic> json) {
@@ -583,6 +1163,21 @@ Map<String, dynamic> _$StartRequestToJson(StartRequest instance) {
   return val;
 }
 
+Map<String, dynamic> _$StartWorkspacesRequestToJson(
+    StartWorkspacesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('StartWorkspaceRequests',
+      instance.startWorkspaceRequests?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 StartWorkspacesResult _$StartWorkspacesResultFromJson(
     Map<String, dynamic> json) {
   return StartWorkspacesResult(
@@ -604,6 +1199,21 @@ Map<String, dynamic> _$StopRequestToJson(StopRequest instance) {
   }
 
   writeNotNull('WorkspaceId', instance.workspaceId);
+  return val;
+}
+
+Map<String, dynamic> _$StopWorkspacesRequestToJson(
+    StopWorkspacesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('StopWorkspaceRequests',
+      instance.stopWorkspaceRequests?.map((e) => e?.toJson())?.toList());
   return val;
 }
 
@@ -651,6 +1261,21 @@ Map<String, dynamic> _$TerminateRequestToJson(TerminateRequest instance) {
   return val;
 }
 
+Map<String, dynamic> _$TerminateWorkspacesRequestToJson(
+    TerminateWorkspacesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TerminateWorkspaceRequests',
+      instance.terminateWorkspaceRequests?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 TerminateWorkspacesResult _$TerminateWorkspacesResultFromJson(
     Map<String, dynamic> json) {
   return TerminateWorkspacesResult(
@@ -660,6 +1285,22 @@ TerminateWorkspacesResult _$TerminateWorkspacesResultFromJson(
             : FailedWorkspaceChangeRequest.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$UpdateRulesOfIpGroupRequestToJson(
+    UpdateRulesOfIpGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GroupId', instance.groupId);
+  writeNotNull(
+      'UserRules', instance.userRules?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 UpdateRulesOfIpGroupResult _$UpdateRulesOfIpGroupResultFromJson(
@@ -874,11 +1515,6 @@ const _$WorkspaceDirectoryStateEnumMap = {
   WorkspaceDirectoryState.deregistering: 'DEREGISTERING',
   WorkspaceDirectoryState.deregistered: 'DEREGISTERED',
   WorkspaceDirectoryState.error: 'ERROR',
-};
-
-const _$TenancyEnumMap = {
-  Tenancy.dedicated: 'DEDICATED',
-  Tenancy.shared: 'SHARED',
 };
 
 WorkspaceImage _$WorkspaceImageFromJson(Map<String, dynamic> json) {

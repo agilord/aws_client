@@ -88,9 +88,87 @@ const _$MetricStatisticEnumMap = {
   MetricStatistic.sum: 'Sum',
 };
 
+Map<String, dynamic> _$DeleteScalingPolicyRequestToJson(
+    DeleteScalingPolicyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('PolicyName', instance.policyName);
+  writeNotNull('ResourceId', instance.resourceId);
+  writeNotNull('ScalableDimension',
+      _$ScalableDimensionEnumMap[instance.scalableDimension]);
+  writeNotNull(
+      'ServiceNamespace', _$ServiceNamespaceEnumMap[instance.serviceNamespace]);
+  return val;
+}
+
+const _$ScalableDimensionEnumMap = {
+  ScalableDimension.ecsServiceDesiredCount: 'ecs:service:DesiredCount',
+  ScalableDimension.ec2SpotFleetRequestTargetCapacity:
+      'ec2:spot-fleet-request:TargetCapacity',
+  ScalableDimension.elasticmapreduceInstancegroupInstanceCount:
+      'elasticmapreduce:instancegroup:InstanceCount',
+  ScalableDimension.appstreamFleetDesiredCapacity:
+      'appstream:fleet:DesiredCapacity',
+  ScalableDimension.dynamodbTableReadCapacityUnits:
+      'dynamodb:table:ReadCapacityUnits',
+  ScalableDimension.dynamodbTableWriteCapacityUnits:
+      'dynamodb:table:WriteCapacityUnits',
+  ScalableDimension.dynamodbIndexReadCapacityUnits:
+      'dynamodb:index:ReadCapacityUnits',
+  ScalableDimension.dynamodbIndexWriteCapacityUnits:
+      'dynamodb:index:WriteCapacityUnits',
+  ScalableDimension.rdsClusterReadReplicaCount: 'rds:cluster:ReadReplicaCount',
+  ScalableDimension.sagemakerVariantDesiredInstanceCount:
+      'sagemaker:variant:DesiredInstanceCount',
+  ScalableDimension.customResourceResourceTypeProperty:
+      'custom-resource:ResourceType:Property',
+  ScalableDimension.comprehendDocumentClassifierEndpointDesiredInferenceUnits:
+      'comprehend:document-classifier-endpoint:DesiredInferenceUnits',
+  ScalableDimension.lambdaFunctionProvisionedConcurrency:
+      'lambda:function:ProvisionedConcurrency',
+};
+
+const _$ServiceNamespaceEnumMap = {
+  ServiceNamespace.ecs: 'ecs',
+  ServiceNamespace.elasticmapreduce: 'elasticmapreduce',
+  ServiceNamespace.ec2: 'ec2',
+  ServiceNamespace.appstream: 'appstream',
+  ServiceNamespace.dynamodb: 'dynamodb',
+  ServiceNamespace.rds: 'rds',
+  ServiceNamespace.sagemaker: 'sagemaker',
+  ServiceNamespace.customResource: 'custom-resource',
+  ServiceNamespace.comprehend: 'comprehend',
+  ServiceNamespace.lambda: 'lambda',
+};
+
 DeleteScalingPolicyResponse _$DeleteScalingPolicyResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteScalingPolicyResponse();
+}
+
+Map<String, dynamic> _$DeleteScheduledActionRequestToJson(
+    DeleteScheduledActionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceId', instance.resourceId);
+  writeNotNull('ScalableDimension',
+      _$ScalableDimensionEnumMap[instance.scalableDimension]);
+  writeNotNull('ScheduledActionName', instance.scheduledActionName);
+  writeNotNull(
+      'ServiceNamespace', _$ServiceNamespaceEnumMap[instance.serviceNamespace]);
+  return val;
 }
 
 DeleteScheduledActionResponse _$DeleteScheduledActionResponseFromJson(
@@ -98,9 +176,47 @@ DeleteScheduledActionResponse _$DeleteScheduledActionResponseFromJson(
   return DeleteScheduledActionResponse();
 }
 
+Map<String, dynamic> _$DeregisterScalableTargetRequestToJson(
+    DeregisterScalableTargetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceId', instance.resourceId);
+  writeNotNull('ScalableDimension',
+      _$ScalableDimensionEnumMap[instance.scalableDimension]);
+  writeNotNull(
+      'ServiceNamespace', _$ServiceNamespaceEnumMap[instance.serviceNamespace]);
+  return val;
+}
+
 DeregisterScalableTargetResponse _$DeregisterScalableTargetResponseFromJson(
     Map<String, dynamic> json) {
   return DeregisterScalableTargetResponse();
+}
+
+Map<String, dynamic> _$DescribeScalableTargetsRequestToJson(
+    DescribeScalableTargetsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'ServiceNamespace', _$ServiceNamespaceEnumMap[instance.serviceNamespace]);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('ResourceIds', instance.resourceIds);
+  writeNotNull('ScalableDimension',
+      _$ScalableDimensionEnumMap[instance.scalableDimension]);
+  return val;
 }
 
 DescribeScalableTargetsResponse _$DescribeScalableTargetsResponseFromJson(
@@ -115,6 +231,26 @@ DescribeScalableTargetsResponse _$DescribeScalableTargetsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeScalingActivitiesRequestToJson(
+    DescribeScalingActivitiesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'ServiceNamespace', _$ServiceNamespaceEnumMap[instance.serviceNamespace]);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('ResourceId', instance.resourceId);
+  writeNotNull('ScalableDimension',
+      _$ScalableDimensionEnumMap[instance.scalableDimension]);
+  return val;
+}
+
 DescribeScalingActivitiesResponse _$DescribeScalingActivitiesResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeScalingActivitiesResponse(
@@ -127,6 +263,27 @@ DescribeScalingActivitiesResponse _$DescribeScalingActivitiesResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeScalingPoliciesRequestToJson(
+    DescribeScalingPoliciesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'ServiceNamespace', _$ServiceNamespaceEnumMap[instance.serviceNamespace]);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('PolicyNames', instance.policyNames);
+  writeNotNull('ResourceId', instance.resourceId);
+  writeNotNull('ScalableDimension',
+      _$ScalableDimensionEnumMap[instance.scalableDimension]);
+  return val;
+}
+
 DescribeScalingPoliciesResponse _$DescribeScalingPoliciesResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeScalingPoliciesResponse(
@@ -137,6 +294,27 @@ DescribeScalingPoliciesResponse _$DescribeScalingPoliciesResponseFromJson(
             : ScalingPolicy.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeScheduledActionsRequestToJson(
+    DescribeScheduledActionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'ServiceNamespace', _$ServiceNamespaceEnumMap[instance.serviceNamespace]);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('ResourceId', instance.resourceId);
+  writeNotNull('ScalableDimension',
+      _$ScalableDimensionEnumMap[instance.scalableDimension]);
+  writeNotNull('ScheduledActionNames', instance.scheduledActionNames);
+  return val;
 }
 
 DescribeScheduledActionsResponse _$DescribeScheduledActionsResponseFromJson(
@@ -223,6 +401,35 @@ const _$MetricTypeEnumMap = {
       'LambdaProvisionedConcurrencyUtilization',
 };
 
+Map<String, dynamic> _$PutScalingPolicyRequestToJson(
+    PutScalingPolicyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('PolicyName', instance.policyName);
+  writeNotNull('ResourceId', instance.resourceId);
+  writeNotNull('ScalableDimension',
+      _$ScalableDimensionEnumMap[instance.scalableDimension]);
+  writeNotNull(
+      'ServiceNamespace', _$ServiceNamespaceEnumMap[instance.serviceNamespace]);
+  writeNotNull('PolicyType', _$PolicyTypeEnumMap[instance.policyType]);
+  writeNotNull('StepScalingPolicyConfiguration',
+      instance.stepScalingPolicyConfiguration?.toJson());
+  writeNotNull('TargetTrackingScalingPolicyConfiguration',
+      instance.targetTrackingScalingPolicyConfiguration?.toJson());
+  return val;
+}
+
+const _$PolicyTypeEnumMap = {
+  PolicyType.stepScaling: 'StepScaling',
+  PolicyType.targetTrackingScaling: 'TargetTrackingScaling',
+};
+
 PutScalingPolicyResponse _$PutScalingPolicyResponseFromJson(
     Map<String, dynamic> json) {
   return PutScalingPolicyResponse(
@@ -234,9 +441,54 @@ PutScalingPolicyResponse _$PutScalingPolicyResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$PutScheduledActionRequestToJson(
+    PutScheduledActionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceId', instance.resourceId);
+  writeNotNull('ScalableDimension',
+      _$ScalableDimensionEnumMap[instance.scalableDimension]);
+  writeNotNull('ScheduledActionName', instance.scheduledActionName);
+  writeNotNull(
+      'ServiceNamespace', _$ServiceNamespaceEnumMap[instance.serviceNamespace]);
+  writeNotNull('EndTime', unixTimestampToJson(instance.endTime));
+  writeNotNull('ScalableTargetAction', instance.scalableTargetAction?.toJson());
+  writeNotNull('Schedule', instance.schedule);
+  writeNotNull('StartTime', unixTimestampToJson(instance.startTime));
+  return val;
+}
+
 PutScheduledActionResponse _$PutScheduledActionResponseFromJson(
     Map<String, dynamic> json) {
   return PutScheduledActionResponse();
+}
+
+Map<String, dynamic> _$RegisterScalableTargetRequestToJson(
+    RegisterScalableTargetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceId', instance.resourceId);
+  writeNotNull('ScalableDimension',
+      _$ScalableDimensionEnumMap[instance.scalableDimension]);
+  writeNotNull(
+      'ServiceNamespace', _$ServiceNamespaceEnumMap[instance.serviceNamespace]);
+  writeNotNull('MaxCapacity', instance.maxCapacity);
+  writeNotNull('MinCapacity', instance.minCapacity);
+  writeNotNull('RoleARN', instance.roleARN);
+  writeNotNull('SuspendedState', instance.suspendedState?.toJson());
+  return val;
 }
 
 RegisterScalableTargetResponse _$RegisterScalableTargetResponseFromJson(
@@ -261,46 +513,6 @@ ScalableTarget _$ScalableTargetFromJson(Map<String, dynamic> json) {
             json['SuspendedState'] as Map<String, dynamic>),
   );
 }
-
-const _$ScalableDimensionEnumMap = {
-  ScalableDimension.ecsServiceDesiredCount: 'ecs:service:DesiredCount',
-  ScalableDimension.ec2SpotFleetRequestTargetCapacity:
-      'ec2:spot-fleet-request:TargetCapacity',
-  ScalableDimension.elasticmapreduceInstancegroupInstanceCount:
-      'elasticmapreduce:instancegroup:InstanceCount',
-  ScalableDimension.appstreamFleetDesiredCapacity:
-      'appstream:fleet:DesiredCapacity',
-  ScalableDimension.dynamodbTableReadCapacityUnits:
-      'dynamodb:table:ReadCapacityUnits',
-  ScalableDimension.dynamodbTableWriteCapacityUnits:
-      'dynamodb:table:WriteCapacityUnits',
-  ScalableDimension.dynamodbIndexReadCapacityUnits:
-      'dynamodb:index:ReadCapacityUnits',
-  ScalableDimension.dynamodbIndexWriteCapacityUnits:
-      'dynamodb:index:WriteCapacityUnits',
-  ScalableDimension.rdsClusterReadReplicaCount: 'rds:cluster:ReadReplicaCount',
-  ScalableDimension.sagemakerVariantDesiredInstanceCount:
-      'sagemaker:variant:DesiredInstanceCount',
-  ScalableDimension.customResourceResourceTypeProperty:
-      'custom-resource:ResourceType:Property',
-  ScalableDimension.comprehendDocumentClassifierEndpointDesiredInferenceUnits:
-      'comprehend:document-classifier-endpoint:DesiredInferenceUnits',
-  ScalableDimension.lambdaFunctionProvisionedConcurrency:
-      'lambda:function:ProvisionedConcurrency',
-};
-
-const _$ServiceNamespaceEnumMap = {
-  ServiceNamespace.ecs: 'ecs',
-  ServiceNamespace.elasticmapreduce: 'elasticmapreduce',
-  ServiceNamespace.ec2: 'ec2',
-  ServiceNamespace.appstream: 'appstream',
-  ServiceNamespace.dynamodb: 'dynamodb',
-  ServiceNamespace.rds: 'rds',
-  ServiceNamespace.sagemaker: 'sagemaker',
-  ServiceNamespace.customResource: 'custom-resource',
-  ServiceNamespace.comprehend: 'comprehend',
-  ServiceNamespace.lambda: 'lambda',
-};
 
 ScalableTargetAction _$ScalableTargetActionFromJson(Map<String, dynamic> json) {
   return ScalableTargetAction(
@@ -380,11 +592,6 @@ ScalingPolicy _$ScalingPolicyFromJson(Map<String, dynamic> json) {
                     as Map<String, dynamic>),
   );
 }
-
-const _$PolicyTypeEnumMap = {
-  PolicyType.stepScaling: 'StepScaling',
-  PolicyType.targetTrackingScaling: 'TargetTrackingScaling',
-};
 
 ScheduledAction _$ScheduledActionFromJson(Map<String, dynamic> json) {
   return ScheduledAction(

@@ -6,6 +6,21 @@ part of 'securityhub-2018-10-26.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$AcceptInvitationRequestToJson(
+    AcceptInvitationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InvitationId', instance.invitationId);
+  writeNotNull('MasterId', instance.masterId);
+  return val;
+}
+
 AcceptInvitationResponse _$AcceptInvitationResponseFromJson(
     Map<String, dynamic> json) {
   return AcceptInvitationResponse();
@@ -2401,6 +2416,20 @@ Map<String, dynamic> _$AwsWafWebAclRuleToJson(AwsWafWebAclRule instance) {
   return val;
 }
 
+Map<String, dynamic> _$BatchDisableStandardsRequestToJson(
+    BatchDisableStandardsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('StandardsSubscriptionArns', instance.standardsSubscriptionArns);
+  return val;
+}
+
 BatchDisableStandardsResponse _$BatchDisableStandardsResponseFromJson(
     Map<String, dynamic> json) {
   return BatchDisableStandardsResponse(
@@ -2410,6 +2439,24 @@ BatchDisableStandardsResponse _$BatchDisableStandardsResponseFromJson(
             : StandardsSubscription.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$BatchEnableStandardsRequestToJson(
+    BatchEnableStandardsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'StandardsSubscriptionRequests',
+      instance.standardsSubscriptionRequests
+          ?.map((e) => e?.toJson())
+          ?.toList());
+  return val;
 }
 
 BatchEnableStandardsResponse _$BatchEnableStandardsResponseFromJson(
@@ -2423,6 +2470,21 @@ BatchEnableStandardsResponse _$BatchEnableStandardsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$BatchImportFindingsRequestToJson(
+    BatchImportFindingsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'Findings', instance.findings?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 BatchImportFindingsResponse _$BatchImportFindingsResponseFromJson(
     Map<String, dynamic> json) {
   return BatchImportFindingsResponse(
@@ -2434,6 +2496,32 @@ BatchImportFindingsResponse _$BatchImportFindingsResponseFromJson(
             : ImportFindingsError.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$BatchUpdateFindingsRequestToJson(
+    BatchUpdateFindingsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FindingIdentifiers',
+      instance.findingIdentifiers?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Confidence', instance.confidence);
+  writeNotNull('Criticality', instance.criticality);
+  writeNotNull('Note', instance.note?.toJson());
+  writeNotNull('RelatedFindings',
+      instance.relatedFindings?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Severity', instance.severity?.toJson());
+  writeNotNull('Types', instance.types);
+  writeNotNull('UserDefinedFields', instance.userDefinedFields);
+  writeNotNull('VerificationState',
+      _$VerificationStateEnumMap[instance.verificationState]);
+  writeNotNull('Workflow', instance.workflow?.toJson());
+  return val;
 }
 
 BatchUpdateFindingsResponse _$BatchUpdateFindingsResponseFromJson(
@@ -2520,6 +2608,22 @@ Map<String, dynamic> _$ContainerDetailsToJson(ContainerDetails instance) {
   return val;
 }
 
+Map<String, dynamic> _$CreateActionTargetRequestToJson(
+    CreateActionTargetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Description', instance.description);
+  writeNotNull('Id', instance.id);
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
 CreateActionTargetResponse _$CreateActionTargetResponseFromJson(
     Map<String, dynamic> json) {
   return CreateActionTargetResponse(
@@ -2527,11 +2631,42 @@ CreateActionTargetResponse _$CreateActionTargetResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateInsightRequestToJson(
+    CreateInsightRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.toJson());
+  writeNotNull('GroupByAttribute', instance.groupByAttribute);
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
 CreateInsightResponse _$CreateInsightResponseFromJson(
     Map<String, dynamic> json) {
   return CreateInsightResponse(
     insightArn: json['InsightArn'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateMembersRequestToJson(
+    CreateMembersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccountDetails',
+      instance.accountDetails?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateMembersResponse _$CreateMembersResponseFromJson(
@@ -2594,6 +2729,20 @@ const _$DateRangeUnitEnumMap = {
   DateRangeUnit.days: 'DAYS',
 };
 
+Map<String, dynamic> _$DeclineInvitationsRequestToJson(
+    DeclineInvitationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccountIds', instance.accountIds);
+  return val;
+}
+
 DeclineInvitationsResponse _$DeclineInvitationsResponseFromJson(
     Map<String, dynamic> json) {
   return DeclineInvitationsResponse(
@@ -2604,6 +2753,10 @@ DeclineInvitationsResponse _$DeclineInvitationsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteActionTargetRequestToJson(
+        DeleteActionTargetRequest instance) =>
+    <String, dynamic>{};
+
 DeleteActionTargetResponse _$DeleteActionTargetResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteActionTargetResponse(
@@ -2611,11 +2764,29 @@ DeleteActionTargetResponse _$DeleteActionTargetResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteInsightRequestToJson(
+        DeleteInsightRequest instance) =>
+    <String, dynamic>{};
+
 DeleteInsightResponse _$DeleteInsightResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteInsightResponse(
     insightArn: json['InsightArn'] as String,
   );
+}
+
+Map<String, dynamic> _$DeleteInvitationsRequestToJson(
+    DeleteInvitationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccountIds', instance.accountIds);
+  return val;
 }
 
 DeleteInvitationsResponse _$DeleteInvitationsResponseFromJson(
@@ -2628,6 +2799,20 @@ DeleteInvitationsResponse _$DeleteInvitationsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteMembersRequestToJson(
+    DeleteMembersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccountIds', instance.accountIds);
+  return val;
+}
+
 DeleteMembersResponse _$DeleteMembersResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteMembersResponse(
@@ -2636,6 +2821,22 @@ DeleteMembersResponse _$DeleteMembersResponseFromJson(
             e == null ? null : Result.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeActionTargetsRequestToJson(
+    DescribeActionTargetsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ActionTargetArns', instance.actionTargetArns);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 DescribeActionTargetsResponse _$DescribeActionTargetsResponseFromJson(
@@ -2690,6 +2891,10 @@ DescribeStandardsResponse _$DescribeStandardsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DisableImportFindingsForProductRequestToJson(
+        DisableImportFindingsForProductRequest instance) =>
+    <String, dynamic>{};
+
 DisableImportFindingsForProductResponse
     _$DisableImportFindingsForProductResponseFromJson(
         Map<String, dynamic> json) {
@@ -2706,9 +2911,37 @@ DisassociateFromMasterAccountResponse
   return DisassociateFromMasterAccountResponse();
 }
 
+Map<String, dynamic> _$DisassociateMembersRequestToJson(
+    DisassociateMembersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccountIds', instance.accountIds);
+  return val;
+}
+
 DisassociateMembersResponse _$DisassociateMembersResponseFromJson(
     Map<String, dynamic> json) {
   return DisassociateMembersResponse();
+}
+
+Map<String, dynamic> _$EnableImportFindingsForProductRequestToJson(
+    EnableImportFindingsForProductRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ProductArn', instance.productArn);
+  return val;
 }
 
 EnableImportFindingsForProductResponse
@@ -2719,9 +2952,40 @@ EnableImportFindingsForProductResponse
   );
 }
 
+Map<String, dynamic> _$EnableSecurityHubRequestToJson(
+    EnableSecurityHubRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EnableDefaultStandards', instance.enableDefaultStandards);
+  writeNotNull('Tags', instance.tags);
+  return val;
+}
+
 EnableSecurityHubResponse _$EnableSecurityHubResponseFromJson(
     Map<String, dynamic> json) {
   return EnableSecurityHubResponse();
+}
+
+Map<String, dynamic> _$GetEnabledStandardsRequestToJson(
+    GetEnabledStandardsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('StandardsSubscriptionArns', instance.standardsSubscriptionArns);
+  return val;
 }
 
 GetEnabledStandardsResponse _$GetEnabledStandardsResponseFromJson(
@@ -2734,6 +2998,23 @@ GetEnabledStandardsResponse _$GetEnabledStandardsResponseFromJson(
             : StandardsSubscription.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$GetFindingsRequestToJson(GetFindingsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.toJson());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull(
+      'SortCriteria', instance.sortCriteria?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 GetFindingsResponse _$GetFindingsResponseFromJson(Map<String, dynamic> json) {
@@ -2755,6 +3036,21 @@ GetInsightResultsResponse _$GetInsightResultsResponseFromJson(
         : InsightResults.fromJson(
             json['InsightResults'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetInsightsRequestToJson(GetInsightsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InsightArns', instance.insightArns);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 GetInsightsResponse _$GetInsightsResponseFromJson(Map<String, dynamic> json) {
@@ -2781,6 +3077,19 @@ GetMasterAccountResponse _$GetMasterAccountResponseFromJson(
         ? null
         : Invitation.fromJson(json['Master'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetMembersRequestToJson(GetMembersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccountIds', instance.accountIds);
+  return val;
 }
 
 GetMembersResponse _$GetMembersResponseFromJson(Map<String, dynamic> json) {
@@ -2842,6 +3151,20 @@ Invitation _$InvitationFromJson(Map<String, dynamic> json) {
     invitedAt: iso8601FromJson(json['InvitedAt'] as String),
     memberStatus: json['MemberStatus'] as String,
   );
+}
+
+Map<String, dynamic> _$InviteMembersRequestToJson(
+    InviteMembersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccountIds', instance.accountIds);
+  return val;
 }
 
 InviteMembersResponse _$InviteMembersResponseFromJson(
@@ -3589,6 +3912,19 @@ const _$StringFilterComparisonEnumMap = {
   StringFilterComparison.prefix: 'PREFIX',
 };
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Tags', instance.tags);
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
 }
@@ -3648,9 +3984,28 @@ const _$ThreatIntelIndicatorTypeEnumMap = {
   ThreatIntelIndicatorType.url: 'URL',
 };
 
+Map<String, dynamic> _$UntagResourceRequestToJson(
+        UntagResourceRequest instance) =>
+    <String, dynamic>{};
+
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse();
+}
+
+Map<String, dynamic> _$UpdateActionTargetRequestToJson(
+    UpdateActionTargetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Description', instance.description);
+  writeNotNull('Name', instance.name);
+  return val;
 }
 
 UpdateActionTargetResponse _$UpdateActionTargetResponseFromJson(
@@ -3658,14 +4013,61 @@ UpdateActionTargetResponse _$UpdateActionTargetResponseFromJson(
   return UpdateActionTargetResponse();
 }
 
+Map<String, dynamic> _$UpdateFindingsRequestToJson(
+    UpdateFindingsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.toJson());
+  writeNotNull('Note', instance.note?.toJson());
+  writeNotNull('RecordState', _$RecordStateEnumMap[instance.recordState]);
+  return val;
+}
+
 UpdateFindingsResponse _$UpdateFindingsResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateFindingsResponse();
 }
 
+Map<String, dynamic> _$UpdateInsightRequestToJson(
+    UpdateInsightRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.toJson());
+  writeNotNull('GroupByAttribute', instance.groupByAttribute);
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
 UpdateInsightResponse _$UpdateInsightResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateInsightResponse();
+}
+
+Map<String, dynamic> _$UpdateStandardsControlRequestToJson(
+    UpdateStandardsControlRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ControlStatus', _$ControlStatusEnumMap[instance.controlStatus]);
+  writeNotNull('DisabledReason', instance.disabledReason);
+  return val;
 }
 
 UpdateStandardsControlResponse _$UpdateStandardsControlResponseFromJson(

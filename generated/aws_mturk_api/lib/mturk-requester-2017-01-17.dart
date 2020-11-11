@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -75,10 +74,10 @@ class MTurk {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'QualificationRequestId': qualificationRequestId,
-        if (integerValue != null) 'IntegerValue': integerValue,
-      },
+      payload: AcceptQualificationRequestRequest(
+        qualificationRequestId: qualificationRequestId,
+        integerValue: integerValue,
+      ),
     );
 
     return AcceptQualificationRequestResponse.fromJson(jsonResponse.body);
@@ -154,11 +153,11 @@ class MTurk {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AssignmentId': assignmentId,
-        if (overrideRejection != null) 'OverrideRejection': overrideRejection,
-        if (requesterFeedback != null) 'RequesterFeedback': requesterFeedback,
-      },
+      payload: ApproveAssignmentRequest(
+        assignmentId: assignmentId,
+        overrideRejection: overrideRejection,
+        requesterFeedback: requesterFeedback,
+      ),
     );
 
     return ApproveAssignmentResponse.fromJson(jsonResponse.body);
@@ -244,12 +243,12 @@ class MTurk {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'QualificationTypeId': qualificationTypeId,
-        'WorkerId': workerId,
-        if (integerValue != null) 'IntegerValue': integerValue,
-        if (sendNotification != null) 'SendNotification': sendNotification,
-      },
+      payload: AssociateQualificationWithWorkerRequest(
+        qualificationTypeId: qualificationTypeId,
+        workerId: workerId,
+        integerValue: integerValue,
+        sendNotification: sendNotification,
+      ),
     );
 
     return AssociateQualificationWithWorkerResponse.fromJson(jsonResponse.body);
@@ -332,12 +331,11 @@ class MTurk {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'HITId': hITId,
-        'NumberOfAdditionalAssignments': numberOfAdditionalAssignments,
-        if (uniqueRequestToken != null)
-          'UniqueRequestToken': uniqueRequestToken,
-      },
+      payload: CreateAdditionalAssignmentsForHITRequest(
+        hITId: hITId,
+        numberOfAdditionalAssignments: numberOfAdditionalAssignments,
+        uniqueRequestToken: uniqueRequestToken,
+      ),
     );
 
     return CreateAdditionalAssignmentsForHITResponse.fromJson(
@@ -542,30 +540,24 @@ class MTurk {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AssignmentDurationInSeconds': assignmentDurationInSeconds,
-        'Description': description,
-        'LifetimeInSeconds': lifetimeInSeconds,
-        'Reward': reward,
-        'Title': title,
-        if (assignmentReviewPolicy != null)
-          'AssignmentReviewPolicy': assignmentReviewPolicy,
-        if (autoApprovalDelayInSeconds != null)
-          'AutoApprovalDelayInSeconds': autoApprovalDelayInSeconds,
-        if (hITLayoutId != null) 'HITLayoutId': hITLayoutId,
-        if (hITLayoutParameters != null)
-          'HITLayoutParameters': hITLayoutParameters,
-        if (hITReviewPolicy != null) 'HITReviewPolicy': hITReviewPolicy,
-        if (keywords != null) 'Keywords': keywords,
-        if (maxAssignments != null) 'MaxAssignments': maxAssignments,
-        if (qualificationRequirements != null)
-          'QualificationRequirements': qualificationRequirements,
-        if (question != null) 'Question': question,
-        if (requesterAnnotation != null)
-          'RequesterAnnotation': requesterAnnotation,
-        if (uniqueRequestToken != null)
-          'UniqueRequestToken': uniqueRequestToken,
-      },
+      payload: CreateHITRequest(
+        assignmentDurationInSeconds: assignmentDurationInSeconds,
+        description: description,
+        lifetimeInSeconds: lifetimeInSeconds,
+        reward: reward,
+        title: title,
+        assignmentReviewPolicy: assignmentReviewPolicy,
+        autoApprovalDelayInSeconds: autoApprovalDelayInSeconds,
+        hITLayoutId: hITLayoutId,
+        hITLayoutParameters: hITLayoutParameters,
+        hITReviewPolicy: hITReviewPolicy,
+        keywords: keywords,
+        maxAssignments: maxAssignments,
+        qualificationRequirements: qualificationRequirements,
+        question: question,
+        requesterAnnotation: requesterAnnotation,
+        uniqueRequestToken: uniqueRequestToken,
+      ),
     );
 
     return CreateHITResponse.fromJson(jsonResponse.body);
@@ -649,17 +641,15 @@ class MTurk {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AssignmentDurationInSeconds': assignmentDurationInSeconds,
-        'Description': description,
-        'Reward': reward,
-        'Title': title,
-        if (autoApprovalDelayInSeconds != null)
-          'AutoApprovalDelayInSeconds': autoApprovalDelayInSeconds,
-        if (keywords != null) 'Keywords': keywords,
-        if (qualificationRequirements != null)
-          'QualificationRequirements': qualificationRequirements,
-      },
+      payload: CreateHITTypeRequest(
+        assignmentDurationInSeconds: assignmentDurationInSeconds,
+        description: description,
+        reward: reward,
+        title: title,
+        autoApprovalDelayInSeconds: autoApprovalDelayInSeconds,
+        keywords: keywords,
+        qualificationRequirements: qualificationRequirements,
+      ),
     );
 
     return CreateHITTypeResponse.fromJson(jsonResponse.body);
@@ -813,22 +803,18 @@ class MTurk {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'HITTypeId': hITTypeId,
-        'LifetimeInSeconds': lifetimeInSeconds,
-        if (assignmentReviewPolicy != null)
-          'AssignmentReviewPolicy': assignmentReviewPolicy,
-        if (hITLayoutId != null) 'HITLayoutId': hITLayoutId,
-        if (hITLayoutParameters != null)
-          'HITLayoutParameters': hITLayoutParameters,
-        if (hITReviewPolicy != null) 'HITReviewPolicy': hITReviewPolicy,
-        if (maxAssignments != null) 'MaxAssignments': maxAssignments,
-        if (question != null) 'Question': question,
-        if (requesterAnnotation != null)
-          'RequesterAnnotation': requesterAnnotation,
-        if (uniqueRequestToken != null)
-          'UniqueRequestToken': uniqueRequestToken,
-      },
+      payload: CreateHITWithHITTypeRequest(
+        hITTypeId: hITTypeId,
+        lifetimeInSeconds: lifetimeInSeconds,
+        assignmentReviewPolicy: assignmentReviewPolicy,
+        hITLayoutId: hITLayoutId,
+        hITLayoutParameters: hITLayoutParameters,
+        hITReviewPolicy: hITReviewPolicy,
+        maxAssignments: maxAssignments,
+        question: question,
+        requesterAnnotation: requesterAnnotation,
+        uniqueRequestToken: uniqueRequestToken,
+      ),
     );
 
     return CreateHITWithHITTypeResponse.fromJson(jsonResponse.body);
@@ -935,20 +921,18 @@ class MTurk {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Description': description,
-        'Name': name,
-        'QualificationTypeStatus': qualificationTypeStatus?.toValue(),
-        if (answerKey != null) 'AnswerKey': answerKey,
-        if (autoGranted != null) 'AutoGranted': autoGranted,
-        if (autoGrantedValue != null) 'AutoGrantedValue': autoGrantedValue,
-        if (keywords != null) 'Keywords': keywords,
-        if (retryDelayInSeconds != null)
-          'RetryDelayInSeconds': retryDelayInSeconds,
-        if (test != null) 'Test': test,
-        if (testDurationInSeconds != null)
-          'TestDurationInSeconds': testDurationInSeconds,
-      },
+      payload: CreateQualificationTypeRequest(
+        description: description,
+        name: name,
+        qualificationTypeStatus: qualificationTypeStatus,
+        answerKey: answerKey,
+        autoGranted: autoGranted,
+        autoGrantedValue: autoGrantedValue,
+        keywords: keywords,
+        retryDelayInSeconds: retryDelayInSeconds,
+        test: test,
+        testDurationInSeconds: testDurationInSeconds,
+      ),
     );
 
     return CreateQualificationTypeResponse.fromJson(jsonResponse.body);
@@ -997,10 +981,10 @@ class MTurk {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Reason': reason,
-        'WorkerId': workerId,
-      },
+      payload: CreateWorkerBlockRequest(
+        reason: reason,
+        workerId: workerId,
+      ),
     );
 
     return CreateWorkerBlockResponse.fromJson(jsonResponse.body);
@@ -1066,9 +1050,9 @@ class MTurk {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'HITId': hITId,
-      },
+      payload: DeleteHITRequest(
+        hITId: hITId,
+      ),
     );
 
     return DeleteHITResponse.fromJson(jsonResponse.body);
@@ -1121,9 +1105,9 @@ class MTurk {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'QualificationTypeId': qualificationTypeId,
-      },
+      payload: DeleteQualificationTypeRequest(
+        qualificationTypeId: qualificationTypeId,
+      ),
     );
 
     return DeleteQualificationTypeResponse.fromJson(jsonResponse.body);
@@ -1173,10 +1157,10 @@ class MTurk {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'WorkerId': workerId,
-        if (reason != null) 'Reason': reason,
-      },
+      payload: DeleteWorkerBlockRequest(
+        workerId: workerId,
+        reason: reason,
+      ),
     );
 
     return DeleteWorkerBlockResponse.fromJson(jsonResponse.body);
@@ -1244,11 +1228,11 @@ class MTurk {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'QualificationTypeId': qualificationTypeId,
-        'WorkerId': workerId,
-        if (reason != null) 'Reason': reason,
-      },
+      payload: DisassociateQualificationFromWorkerRequest(
+        qualificationTypeId: qualificationTypeId,
+        workerId: workerId,
+        reason: reason,
+      ),
     );
 
     return DisassociateQualificationFromWorkerResponse.fromJson(
@@ -1311,9 +1295,9 @@ class MTurk {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AssignmentId': assignmentId,
-      },
+      payload: GetAssignmentRequest(
+        assignmentId: assignmentId,
+      ),
     );
 
     return GetAssignmentResponse.fromJson(jsonResponse.body);
@@ -1370,10 +1354,10 @@ class MTurk {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AssignmentId': assignmentId,
-        'QuestionIdentifier': questionIdentifier,
-      },
+      payload: GetFileUploadURLRequest(
+        assignmentId: assignmentId,
+        questionIdentifier: questionIdentifier,
+      ),
     );
 
     return GetFileUploadURLResponse.fromJson(jsonResponse.body);
@@ -1414,9 +1398,9 @@ class MTurk {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'HITId': hITId,
-      },
+      payload: GetHITRequest(
+        hITId: hITId,
+      ),
     );
 
     return GetHITResponse.fromJson(jsonResponse.body);
@@ -1482,10 +1466,10 @@ class MTurk {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'QualificationTypeId': qualificationTypeId,
-        'WorkerId': workerId,
-      },
+      payload: GetQualificationScoreRequest(
+        qualificationTypeId: qualificationTypeId,
+        workerId: workerId,
+      ),
     );
 
     return GetQualificationScoreResponse.fromJson(jsonResponse.body);
@@ -1526,9 +1510,9 @@ class MTurk {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'QualificationTypeId': qualificationTypeId,
-      },
+      payload: GetQualificationTypeRequest(
+        qualificationTypeId: qualificationTypeId,
+      ),
     );
 
     return GetQualificationTypeResponse.fromJson(jsonResponse.body);
@@ -1610,13 +1594,12 @@ class MTurk {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'HITId': hITId,
-        if (assignmentStatuses != null)
-          'AssignmentStatuses': assignmentStatuses,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListAssignmentsForHITRequest(
+        hITId: hITId,
+        assignmentStatuses: assignmentStatuses,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListAssignmentsForHITResponse.fromJson(jsonResponse.body);
@@ -1691,12 +1674,12 @@ class MTurk {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (assignmentId != null) 'AssignmentId': assignmentId,
-        if (hITId != null) 'HITId': hITId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListBonusPaymentsRequest(
+        assignmentId: assignmentId,
+        hITId: hITId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListBonusPaymentsResponse.fromJson(jsonResponse.body);
@@ -1737,10 +1720,10 @@ class MTurk {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListHITsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListHITsResponse.fromJson(jsonResponse.body);
@@ -1805,11 +1788,11 @@ class MTurk {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'QualificationTypeId': qualificationTypeId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListHITsForQualificationTypeRequest(
+        qualificationTypeId: qualificationTypeId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListHITsForQualificationTypeResponse.fromJson(jsonResponse.body);
@@ -1866,12 +1849,11 @@ class MTurk {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (qualificationTypeId != null)
-          'QualificationTypeId': qualificationTypeId,
-      },
+      payload: ListQualificationRequestsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+        qualificationTypeId: qualificationTypeId,
+      ),
     );
 
     return ListQualificationRequestsResponse.fromJson(jsonResponse.body);
@@ -1931,14 +1913,13 @@ class MTurk {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'MustBeRequestable': mustBeRequestable,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (mustBeOwnedByCaller != null)
-          'MustBeOwnedByCaller': mustBeOwnedByCaller,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (query != null) 'Query': query,
-      },
+      payload: ListQualificationTypesRequest(
+        mustBeRequestable: mustBeRequestable,
+        maxResults: maxResults,
+        mustBeOwnedByCaller: mustBeOwnedByCaller,
+        nextToken: nextToken,
+        query: query,
+      ),
     );
 
     return ListQualificationTypesResponse.fromJson(jsonResponse.body);
@@ -2020,14 +2001,14 @@ class MTurk {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'HITId': hITId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (policyLevels != null) 'PolicyLevels': policyLevels,
-        if (retrieveActions != null) 'RetrieveActions': retrieveActions,
-        if (retrieveResults != null) 'RetrieveResults': retrieveResults,
-      },
+      payload: ListReviewPolicyResultsForHITRequest(
+        hITId: hITId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        policyLevels: policyLevels,
+        retrieveActions: retrieveActions,
+        retrieveResults: retrieveResults,
+      ),
     );
 
     return ListReviewPolicyResultsForHITResponse.fromJson(jsonResponse.body);
@@ -2092,12 +2073,12 @@ class MTurk {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (hITTypeId != null) 'HITTypeId': hITTypeId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (status != null) 'Status': status?.toValue(),
-      },
+      payload: ListReviewableHITsRequest(
+        hITTypeId: hITTypeId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        status: status,
+      ),
     );
 
     return ListReviewableHITsResponse.fromJson(jsonResponse.body);
@@ -2137,10 +2118,10 @@ class MTurk {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListWorkerBlocksRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListWorkerBlocksResponse.fromJson(jsonResponse.body);
@@ -2208,12 +2189,12 @@ class MTurk {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'QualificationTypeId': qualificationTypeId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (status != null) 'Status': status?.toValue(),
-      },
+      payload: ListWorkersWithQualificationTypeRequest(
+        qualificationTypeId: qualificationTypeId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        status: status,
+      ),
     );
 
     return ListWorkersWithQualificationTypeResponse.fromJson(jsonResponse.body);
@@ -2257,11 +2238,11 @@ class MTurk {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'MessageText': messageText,
-        'Subject': subject,
-        'WorkerIds': workerIds,
-      },
+      payload: NotifyWorkersRequest(
+        messageText: messageText,
+        subject: subject,
+        workerIds: workerIds,
+      ),
     );
 
     return NotifyWorkersResponse.fromJson(jsonResponse.body);
@@ -2318,10 +2299,10 @@ class MTurk {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AssignmentId': assignmentId,
-        'RequesterFeedback': requesterFeedback,
-      },
+      payload: RejectAssignmentRequest(
+        assignmentId: assignmentId,
+        requesterFeedback: requesterFeedback,
+      ),
     );
 
     return RejectAssignmentResponse.fromJson(jsonResponse.body);
@@ -2360,10 +2341,10 @@ class MTurk {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'QualificationRequestId': qualificationRequestId,
-        if (reason != null) 'Reason': reason,
-      },
+      payload: RejectQualificationRequestRequest(
+        qualificationRequestId: qualificationRequestId,
+        reason: reason,
+      ),
     );
 
     return RejectQualificationRequestResponse.fromJson(jsonResponse.body);
@@ -2463,14 +2444,13 @@ class MTurk {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AssignmentId': assignmentId,
-        'BonusAmount': bonusAmount,
-        'Reason': reason,
-        'WorkerId': workerId,
-        if (uniqueRequestToken != null)
-          'UniqueRequestToken': uniqueRequestToken,
-      },
+      payload: SendBonusRequest(
+        assignmentId: assignmentId,
+        bonusAmount: bonusAmount,
+        reason: reason,
+        workerId: workerId,
+        uniqueRequestToken: uniqueRequestToken,
+      ),
     );
 
     return SendBonusResponse.fromJson(jsonResponse.body);
@@ -2512,10 +2492,10 @@ class MTurk {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Notification': notification,
-        'TestEventType': testEventType?.toValue(),
-      },
+      payload: SendTestEventNotificationRequest(
+        notification: notification,
+        testEventType: testEventType,
+      ),
     );
 
     return SendTestEventNotificationResponse.fromJson(jsonResponse.body);
@@ -2562,10 +2542,10 @@ class MTurk {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ExpireAt': expireAt,
-        'HITId': hITId,
-      },
+      payload: UpdateExpirationForHITRequest(
+        expireAt: expireAt,
+        hITId: hITId,
+      ),
     );
 
     return UpdateExpirationForHITResponse.fromJson(jsonResponse.body);
@@ -2622,10 +2602,10 @@ class MTurk {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'HITId': hITId,
-        if (revert != null) 'Revert': revert,
-      },
+      payload: UpdateHITReviewStatusRequest(
+        hITId: hITId,
+        revert: revert,
+      ),
     );
 
     return UpdateHITReviewStatusResponse.fromJson(jsonResponse.body);
@@ -2687,10 +2667,10 @@ class MTurk {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'HITId': hITId,
-        'HITTypeId': hITTypeId,
-      },
+      payload: UpdateHITTypeOfHITRequest(
+        hITId: hITId,
+        hITTypeId: hITTypeId,
+      ),
     );
 
     return UpdateHITTypeOfHITResponse.fromJson(jsonResponse.body);
@@ -2752,11 +2732,11 @@ class MTurk {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'HITTypeId': hITTypeId,
-        if (active != null) 'Active': active,
-        if (notification != null) 'Notification': notification,
-      },
+      payload: UpdateNotificationSettingsRequest(
+        hITTypeId: hITTypeId,
+        active: active,
+        notification: notification,
+      ),
     );
 
     return UpdateNotificationSettingsResponse.fromJson(jsonResponse.body);
@@ -2883,24 +2863,45 @@ class MTurk {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'QualificationTypeId': qualificationTypeId,
-        if (answerKey != null) 'AnswerKey': answerKey,
-        if (autoGranted != null) 'AutoGranted': autoGranted,
-        if (autoGrantedValue != null) 'AutoGrantedValue': autoGrantedValue,
-        if (description != null) 'Description': description,
-        if (qualificationTypeStatus != null)
-          'QualificationTypeStatus': qualificationTypeStatus?.toValue(),
-        if (retryDelayInSeconds != null)
-          'RetryDelayInSeconds': retryDelayInSeconds,
-        if (test != null) 'Test': test,
-        if (testDurationInSeconds != null)
-          'TestDurationInSeconds': testDurationInSeconds,
-      },
+      payload: UpdateQualificationTypeRequest(
+        qualificationTypeId: qualificationTypeId,
+        answerKey: answerKey,
+        autoGranted: autoGranted,
+        autoGrantedValue: autoGrantedValue,
+        description: description,
+        qualificationTypeStatus: qualificationTypeStatus,
+        retryDelayInSeconds: retryDelayInSeconds,
+        test: test,
+        testDurationInSeconds: testDurationInSeconds,
+      ),
     );
 
     return UpdateQualificationTypeResponse.fromJson(jsonResponse.body);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AcceptQualificationRequestRequest {
+  /// The ID of the Qualification request, as returned by the
+  /// <code>GetQualificationRequests</code> operation.
+  @_s.JsonKey(name: 'QualificationRequestId')
+  final String qualificationRequestId;
+
+  /// The value of the Qualification. You can omit this value if you are using the
+  /// presence or absence of the Qualification as the basis for a HIT requirement.
+  @_s.JsonKey(name: 'IntegerValue')
+  final int integerValue;
+
+  AcceptQualificationRequestRequest({
+    @_s.required this.qualificationRequestId,
+    this.integerValue,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AcceptQualificationRequestRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2913,6 +2914,35 @@ class AcceptQualificationRequestResponse {
   factory AcceptQualificationRequestResponse.fromJson(
           Map<String, dynamic> json) =>
       _$AcceptQualificationRequestResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ApproveAssignmentRequest {
+  /// The ID of the assignment. The assignment must correspond to a HIT created by
+  /// the Requester.
+  @_s.JsonKey(name: 'AssignmentId')
+  final String assignmentId;
+
+  /// A flag indicating that an assignment should be approved even if it was
+  /// previously rejected. Defaults to <code>False</code>.
+  @_s.JsonKey(name: 'OverrideRejection')
+  final bool overrideRejection;
+
+  /// A message for the Worker, which the Worker can see in the Status section of
+  /// the web site.
+  @_s.JsonKey(name: 'RequesterFeedback')
+  final String requesterFeedback;
+
+  ApproveAssignmentRequest({
+    @_s.required this.assignmentId,
+    this.overrideRejection,
+    this.requesterFeedback,
+  });
+  Map<String, dynamic> toJson() => _$ApproveAssignmentRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3050,6 +3080,41 @@ enum AssignmentStatus {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateQualificationWithWorkerRequest {
+  /// The ID of the Qualification type to use for the assigned Qualification.
+  @_s.JsonKey(name: 'QualificationTypeId')
+  final String qualificationTypeId;
+
+  /// The ID of the Worker to whom the Qualification is being assigned. Worker IDs
+  /// are included with submitted HIT assignments and Qualification requests.
+  @_s.JsonKey(name: 'WorkerId')
+  final String workerId;
+
+  /// The value of the Qualification to assign.
+  @_s.JsonKey(name: 'IntegerValue')
+  final int integerValue;
+
+  /// Specifies whether to send a notification email message to the Worker saying
+  /// that the qualification was assigned to the Worker. Note: this is true by
+  /// default.
+  @_s.JsonKey(name: 'SendNotification')
+  final bool sendNotification;
+
+  AssociateQualificationWithWorkerRequest({
+    @_s.required this.qualificationTypeId,
+    @_s.required this.workerId,
+    this.integerValue,
+    this.sendNotification,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AssociateQualificationWithWorkerRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AssociateQualificationWithWorkerResponse {
@@ -3124,6 +3189,38 @@ enum Comparator {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateAdditionalAssignmentsForHITRequest {
+  /// The ID of the HIT to extend.
+  @_s.JsonKey(name: 'HITId')
+  final String hITId;
+
+  /// The number of additional assignments to request for this HIT.
+  @_s.JsonKey(name: 'NumberOfAdditionalAssignments')
+  final int numberOfAdditionalAssignments;
+
+  /// A unique identifier for this request, which allows you to retry the call on
+  /// error without extending the HIT multiple times. This is useful in cases such
+  /// as network timeouts where it is unclear whether or not the call succeeded on
+  /// the server. If the extend HIT already exists in the system from a previous
+  /// call using the same <code>UniqueRequestToken</code>, subsequent calls will
+  /// return an error with a message containing the request ID.
+  @_s.JsonKey(name: 'UniqueRequestToken')
+  final String uniqueRequestToken;
+
+  CreateAdditionalAssignmentsForHITRequest({
+    @_s.required this.hITId,
+    @_s.required this.numberOfAdditionalAssignments,
+    this.uniqueRequestToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateAdditionalAssignmentsForHITRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateAdditionalAssignmentsForHITResponse {
@@ -3131,6 +3228,156 @@ class CreateAdditionalAssignmentsForHITResponse {
   factory CreateAdditionalAssignmentsForHITResponse.fromJson(
           Map<String, dynamic> json) =>
       _$CreateAdditionalAssignmentsForHITResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateHITRequest {
+  /// The amount of time, in seconds, that a Worker has to complete the HIT after
+  /// accepting it. If a Worker does not complete the assignment within the
+  /// specified duration, the assignment is considered abandoned. If the HIT is
+  /// still active (that is, its lifetime has not elapsed), the assignment becomes
+  /// available for other users to find and accept.
+  @_s.JsonKey(name: 'AssignmentDurationInSeconds')
+  final int assignmentDurationInSeconds;
+
+  /// A general description of the HIT. A description includes detailed
+  /// information about the kind of task the HIT contains. On the Amazon
+  /// Mechanical Turk web site, the HIT description appears in the expanded view
+  /// of search results, and in the HIT and assignment screens. A good description
+  /// gives the user enough information to evaluate the HIT before accepting it.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// An amount of time, in seconds, after which the HIT is no longer available
+  /// for users to accept. After the lifetime of the HIT elapses, the HIT no
+  /// longer appears in HIT searches, even if not all of the assignments for the
+  /// HIT have been accepted.
+  @_s.JsonKey(name: 'LifetimeInSeconds')
+  final int lifetimeInSeconds;
+
+  /// The amount of money the Requester will pay a Worker for successfully
+  /// completing the HIT.
+  @_s.JsonKey(name: 'Reward')
+  final String reward;
+
+  /// The title of the HIT. A title should be short and descriptive about the kind
+  /// of task the HIT contains. On the Amazon Mechanical Turk web site, the HIT
+  /// title appears in search results, and everywhere the HIT is mentioned.
+  @_s.JsonKey(name: 'Title')
+  final String title;
+
+  /// The Assignment-level Review Policy applies to the assignments under the HIT.
+  /// You can specify for Mechanical Turk to take various actions based on the
+  /// policy.
+  @_s.JsonKey(name: 'AssignmentReviewPolicy')
+  final ReviewPolicy assignmentReviewPolicy;
+
+  /// The number of seconds after an assignment for the HIT has been submitted,
+  /// after which the assignment is considered Approved automatically unless the
+  /// Requester explicitly rejects it.
+  @_s.JsonKey(name: 'AutoApprovalDelayInSeconds')
+  final int autoApprovalDelayInSeconds;
+
+  /// The HITLayoutId allows you to use a pre-existing HIT design with placeholder
+  /// values and create an additional HIT by providing those values as
+  /// HITLayoutParameters.
+  ///
+  /// Constraints: Either a Question parameter or a HITLayoutId parameter must be
+  /// provided.
+  @_s.JsonKey(name: 'HITLayoutId')
+  final String hITLayoutId;
+
+  /// If the HITLayoutId is provided, any placeholder values must be filled in
+  /// with values using the HITLayoutParameter structure. For more information,
+  /// see HITLayout.
+  @_s.JsonKey(name: 'HITLayoutParameters')
+  final List<HITLayoutParameter> hITLayoutParameters;
+
+  /// The HIT-level Review Policy applies to the HIT. You can specify for
+  /// Mechanical Turk to take various actions based on the policy.
+  @_s.JsonKey(name: 'HITReviewPolicy')
+  final ReviewPolicy hITReviewPolicy;
+
+  /// One or more words or phrases that describe the HIT, separated by commas.
+  /// These words are used in searches to find HITs.
+  @_s.JsonKey(name: 'Keywords')
+  final String keywords;
+
+  /// The number of times the HIT can be accepted and completed before the HIT
+  /// becomes unavailable.
+  @_s.JsonKey(name: 'MaxAssignments')
+  final int maxAssignments;
+
+  /// Conditions that a Worker's Qualifications must meet in order to accept the
+  /// HIT. A HIT can have between zero and ten Qualification requirements. All
+  /// requirements must be met in order for a Worker to accept the HIT.
+  /// Additionally, other actions can be restricted using the
+  /// <code>ActionsGuarded</code> field on each
+  /// <code>QualificationRequirement</code> structure.
+  @_s.JsonKey(name: 'QualificationRequirements')
+  final List<QualificationRequirement> qualificationRequirements;
+
+  /// The data the person completing the HIT uses to produce the results.
+  ///
+  /// Constraints: Must be a QuestionForm data structure, an ExternalQuestion data
+  /// structure, or an HTMLQuestion data structure. The XML question data must not
+  /// be larger than 64 kilobytes (65,535 bytes) in size, including whitespace.
+  ///
+  /// Either a Question parameter or a HITLayoutId parameter must be provided.
+  @_s.JsonKey(name: 'Question')
+  final String question;
+
+  /// An arbitrary data field. The RequesterAnnotation parameter lets your
+  /// application attach arbitrary data to the HIT for tracking purposes. For
+  /// example, this parameter could be an identifier internal to the Requester's
+  /// application that corresponds with the HIT.
+  ///
+  /// The RequesterAnnotation parameter for a HIT is only visible to the Requester
+  /// who created the HIT. It is not shown to the Worker, or any other Requester.
+  ///
+  /// The RequesterAnnotation parameter may be different for each HIT you submit.
+  /// It does not affect how your HITs are grouped.
+  @_s.JsonKey(name: 'RequesterAnnotation')
+  final String requesterAnnotation;
+
+  /// A unique identifier for this request which allows you to retry the call on
+  /// error without creating duplicate HITs. This is useful in cases such as
+  /// network timeouts where it is unclear whether or not the call succeeded on
+  /// the server. If the HIT already exists in the system from a previous call
+  /// using the same UniqueRequestToken, subsequent calls will return a
+  /// AWS.MechanicalTurk.HitAlreadyExists error with a message containing the
+  /// HITId.
+  /// <note>
+  /// Note: It is your responsibility to ensure uniqueness of the token. The
+  /// unique token expires after 24 hours. Subsequent calls using the same
+  /// UniqueRequestToken made after the 24 hour limit could create duplicate HITs.
+  /// </note>
+  @_s.JsonKey(name: 'UniqueRequestToken')
+  final String uniqueRequestToken;
+
+  CreateHITRequest({
+    @_s.required this.assignmentDurationInSeconds,
+    @_s.required this.description,
+    @_s.required this.lifetimeInSeconds,
+    @_s.required this.reward,
+    @_s.required this.title,
+    this.assignmentReviewPolicy,
+    this.autoApprovalDelayInSeconds,
+    this.hITLayoutId,
+    this.hITLayoutParameters,
+    this.hITReviewPolicy,
+    this.keywords,
+    this.maxAssignments,
+    this.qualificationRequirements,
+    this.question,
+    this.requesterAnnotation,
+    this.uniqueRequestToken,
+  });
+  Map<String, dynamic> toJson() => _$CreateHITRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3155,6 +3402,71 @@ class CreateHITResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateHITTypeRequest {
+  /// The amount of time, in seconds, that a Worker has to complete the HIT after
+  /// accepting it. If a Worker does not complete the assignment within the
+  /// specified duration, the assignment is considered abandoned. If the HIT is
+  /// still active (that is, its lifetime has not elapsed), the assignment becomes
+  /// available for other users to find and accept.
+  @_s.JsonKey(name: 'AssignmentDurationInSeconds')
+  final int assignmentDurationInSeconds;
+
+  /// A general description of the HIT. A description includes detailed
+  /// information about the kind of task the HIT contains. On the Amazon
+  /// Mechanical Turk web site, the HIT description appears in the expanded view
+  /// of search results, and in the HIT and assignment screens. A good description
+  /// gives the user enough information to evaluate the HIT before accepting it.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The amount of money the Requester will pay a Worker for successfully
+  /// completing the HIT.
+  @_s.JsonKey(name: 'Reward')
+  final String reward;
+
+  /// The title of the HIT. A title should be short and descriptive about the kind
+  /// of task the HIT contains. On the Amazon Mechanical Turk web site, the HIT
+  /// title appears in search results, and everywhere the HIT is mentioned.
+  @_s.JsonKey(name: 'Title')
+  final String title;
+
+  /// The number of seconds after an assignment for the HIT has been submitted,
+  /// after which the assignment is considered Approved automatically unless the
+  /// Requester explicitly rejects it.
+  @_s.JsonKey(name: 'AutoApprovalDelayInSeconds')
+  final int autoApprovalDelayInSeconds;
+
+  /// One or more words or phrases that describe the HIT, separated by commas.
+  /// These words are used in searches to find HITs.
+  @_s.JsonKey(name: 'Keywords')
+  final String keywords;
+
+  /// Conditions that a Worker's Qualifications must meet in order to accept the
+  /// HIT. A HIT can have between zero and ten Qualification requirements. All
+  /// requirements must be met in order for a Worker to accept the HIT.
+  /// Additionally, other actions can be restricted using the
+  /// <code>ActionsGuarded</code> field on each
+  /// <code>QualificationRequirement</code> structure.
+  @_s.JsonKey(name: 'QualificationRequirements')
+  final List<QualificationRequirement> qualificationRequirements;
+
+  CreateHITTypeRequest({
+    @_s.required this.assignmentDurationInSeconds,
+    @_s.required this.description,
+    @_s.required this.reward,
+    @_s.required this.title,
+    this.autoApprovalDelayInSeconds,
+    this.keywords,
+    this.qualificationRequirements,
+  });
+  Map<String, dynamic> toJson() => _$CreateHITTypeRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateHITTypeResponse {
@@ -3167,6 +3479,107 @@ class CreateHITTypeResponse {
   });
   factory CreateHITTypeResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateHITTypeResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateHITWithHITTypeRequest {
+  /// The HIT type ID you want to create this HIT with.
+  @_s.JsonKey(name: 'HITTypeId')
+  final String hITTypeId;
+
+  /// An amount of time, in seconds, after which the HIT is no longer available
+  /// for users to accept. After the lifetime of the HIT elapses, the HIT no
+  /// longer appears in HIT searches, even if not all of the assignments for the
+  /// HIT have been accepted.
+  @_s.JsonKey(name: 'LifetimeInSeconds')
+  final int lifetimeInSeconds;
+
+  /// The Assignment-level Review Policy applies to the assignments under the HIT.
+  /// You can specify for Mechanical Turk to take various actions based on the
+  /// policy.
+  @_s.JsonKey(name: 'AssignmentReviewPolicy')
+  final ReviewPolicy assignmentReviewPolicy;
+
+  /// The HITLayoutId allows you to use a pre-existing HIT design with placeholder
+  /// values and create an additional HIT by providing those values as
+  /// HITLayoutParameters.
+  ///
+  /// Constraints: Either a Question parameter or a HITLayoutId parameter must be
+  /// provided.
+  @_s.JsonKey(name: 'HITLayoutId')
+  final String hITLayoutId;
+
+  /// If the HITLayoutId is provided, any placeholder values must be filled in
+  /// with values using the HITLayoutParameter structure. For more information,
+  /// see HITLayout.
+  @_s.JsonKey(name: 'HITLayoutParameters')
+  final List<HITLayoutParameter> hITLayoutParameters;
+
+  /// The HIT-level Review Policy applies to the HIT. You can specify for
+  /// Mechanical Turk to take various actions based on the policy.
+  @_s.JsonKey(name: 'HITReviewPolicy')
+  final ReviewPolicy hITReviewPolicy;
+
+  /// The number of times the HIT can be accepted and completed before the HIT
+  /// becomes unavailable.
+  @_s.JsonKey(name: 'MaxAssignments')
+  final int maxAssignments;
+
+  /// The data the person completing the HIT uses to produce the results.
+  ///
+  /// Constraints: Must be a QuestionForm data structure, an ExternalQuestion data
+  /// structure, or an HTMLQuestion data structure. The XML question data must not
+  /// be larger than 64 kilobytes (65,535 bytes) in size, including whitespace.
+  ///
+  /// Either a Question parameter or a HITLayoutId parameter must be provided.
+  @_s.JsonKey(name: 'Question')
+  final String question;
+
+  /// An arbitrary data field. The RequesterAnnotation parameter lets your
+  /// application attach arbitrary data to the HIT for tracking purposes. For
+  /// example, this parameter could be an identifier internal to the Requester's
+  /// application that corresponds with the HIT.
+  ///
+  /// The RequesterAnnotation parameter for a HIT is only visible to the Requester
+  /// who created the HIT. It is not shown to the Worker, or any other Requester.
+  ///
+  /// The RequesterAnnotation parameter may be different for each HIT you submit.
+  /// It does not affect how your HITs are grouped.
+  @_s.JsonKey(name: 'RequesterAnnotation')
+  final String requesterAnnotation;
+
+  /// A unique identifier for this request which allows you to retry the call on
+  /// error without creating duplicate HITs. This is useful in cases such as
+  /// network timeouts where it is unclear whether or not the call succeeded on
+  /// the server. If the HIT already exists in the system from a previous call
+  /// using the same UniqueRequestToken, subsequent calls will return a
+  /// AWS.MechanicalTurk.HitAlreadyExists error with a message containing the
+  /// HITId.
+  /// <note>
+  /// Note: It is your responsibility to ensure uniqueness of the token. The
+  /// unique token expires after 24 hours. Subsequent calls using the same
+  /// UniqueRequestToken made after the 24 hour limit could create duplicate HITs.
+  /// </note>
+  @_s.JsonKey(name: 'UniqueRequestToken')
+  final String uniqueRequestToken;
+
+  CreateHITWithHITTypeRequest({
+    @_s.required this.hITTypeId,
+    @_s.required this.lifetimeInSeconds,
+    this.assignmentReviewPolicy,
+    this.hITLayoutId,
+    this.hITLayoutParameters,
+    this.hITReviewPolicy,
+    this.maxAssignments,
+    this.question,
+    this.requesterAnnotation,
+    this.uniqueRequestToken,
+  });
+  Map<String, dynamic> toJson() => _$CreateHITWithHITTypeRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3191,6 +3604,106 @@ class CreateHITWithHITTypeResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateQualificationTypeRequest {
+  /// A long description for the Qualification type. On the Amazon Mechanical Turk
+  /// website, the long description is displayed when a Worker examines a
+  /// Qualification type.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The name you give to the Qualification type. The type name is used to
+  /// represent the Qualification to Workers, and to find the type using a
+  /// Qualification type search. It must be unique across all of your
+  /// Qualification types.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The initial status of the Qualification type.
+  ///
+  /// Constraints: Valid values are: Active | Inactive
+  @_s.JsonKey(name: 'QualificationTypeStatus')
+  final QualificationTypeStatus qualificationTypeStatus;
+
+  /// The answers to the Qualification test specified in the Test parameter, in
+  /// the form of an AnswerKey data structure.
+  ///
+  /// Constraints: Must not be longer than 65535 bytes.
+  ///
+  /// Constraints: None. If not specified, you must process Qualification requests
+  /// manually.
+  @_s.JsonKey(name: 'AnswerKey')
+  final String answerKey;
+
+  /// Specifies whether requests for the Qualification type are granted
+  /// immediately, without prompting the Worker with a Qualification test.
+  ///
+  /// Constraints: If the Test parameter is specified, this parameter cannot be
+  /// true.
+  @_s.JsonKey(name: 'AutoGranted')
+  final bool autoGranted;
+
+  /// The Qualification value to use for automatically granted Qualifications.
+  /// This parameter is used only if the AutoGranted parameter is true.
+  @_s.JsonKey(name: 'AutoGrantedValue')
+  final int autoGrantedValue;
+
+  /// One or more words or phrases that describe the Qualification type, separated
+  /// by commas. The keywords of a type make the type easier to find during a
+  /// search.
+  @_s.JsonKey(name: 'Keywords')
+  final String keywords;
+
+  /// The number of seconds that a Worker must wait after requesting a
+  /// Qualification of the Qualification type before the worker can retry the
+  /// Qualification request.
+  ///
+  /// Constraints: None. If not specified, retries are disabled and Workers can
+  /// request a Qualification of this type only once, even if the Worker has not
+  /// been granted the Qualification. It is not possible to disable retries for a
+  /// Qualification type after it has been created with retries enabled. If you
+  /// want to disable retries, you must delete existing retry-enabled
+  /// Qualification type and then create a new Qualification type with retries
+  /// disabled.
+  @_s.JsonKey(name: 'RetryDelayInSeconds')
+  final int retryDelayInSeconds;
+
+  /// The questions for the Qualification test a Worker must answer correctly to
+  /// obtain a Qualification of this type. If this parameter is specified,
+  /// <code>TestDurationInSeconds</code> must also be specified.
+  ///
+  /// Constraints: Must not be longer than 65535 bytes. Must be a QuestionForm
+  /// data structure. This parameter cannot be specified if AutoGranted is true.
+  ///
+  /// Constraints: None. If not specified, the Worker may request the
+  /// Qualification without answering any questions.
+  @_s.JsonKey(name: 'Test')
+  final String test;
+
+  /// The number of seconds the Worker has to complete the Qualification test,
+  /// starting from the time the Worker requests the Qualification.
+  @_s.JsonKey(name: 'TestDurationInSeconds')
+  final int testDurationInSeconds;
+
+  CreateQualificationTypeRequest({
+    @_s.required this.description,
+    @_s.required this.name,
+    @_s.required this.qualificationTypeStatus,
+    this.answerKey,
+    this.autoGranted,
+    this.autoGrantedValue,
+    this.keywords,
+    this.retryDelayInSeconds,
+    this.test,
+    this.testDurationInSeconds,
+  });
+  Map<String, dynamic> toJson() => _$CreateQualificationTypeRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateQualificationTypeResponse {
@@ -3209,12 +3722,51 @@ class CreateQualificationTypeResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateWorkerBlockRequest {
+  /// A message explaining the reason for blocking the Worker. This parameter
+  /// enables you to keep track of your Workers. The Worker does not see this
+  /// message.
+  @_s.JsonKey(name: 'Reason')
+  final String reason;
+
+  /// The ID of the Worker to block.
+  @_s.JsonKey(name: 'WorkerId')
+  final String workerId;
+
+  CreateWorkerBlockRequest({
+    @_s.required this.reason,
+    @_s.required this.workerId,
+  });
+  Map<String, dynamic> toJson() => _$CreateWorkerBlockRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateWorkerBlockResponse {
   CreateWorkerBlockResponse();
   factory CreateWorkerBlockResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateWorkerBlockResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteHITRequest {
+  /// The ID of the HIT to be deleted.
+  @_s.JsonKey(name: 'HITId')
+  final String hITId;
+
+  DeleteHITRequest({
+    @_s.required this.hITId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteHITRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3231,6 +3783,22 @@ class DeleteHITResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteQualificationTypeRequest {
+  /// The ID of the QualificationType to dispose.
+  @_s.JsonKey(name: 'QualificationTypeId')
+  final String qualificationTypeId;
+
+  DeleteQualificationTypeRequest({
+    @_s.required this.qualificationTypeId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteQualificationTypeRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteQualificationTypeResponse {
@@ -3242,12 +3810,62 @@ class DeleteQualificationTypeResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteWorkerBlockRequest {
+  /// The ID of the Worker to unblock.
+  @_s.JsonKey(name: 'WorkerId')
+  final String workerId;
+
+  /// A message that explains the reason for unblocking the Worker. The Worker
+  /// does not see this message.
+  @_s.JsonKey(name: 'Reason')
+  final String reason;
+
+  DeleteWorkerBlockRequest({
+    @_s.required this.workerId,
+    this.reason,
+  });
+  Map<String, dynamic> toJson() => _$DeleteWorkerBlockRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteWorkerBlockResponse {
   DeleteWorkerBlockResponse();
   factory DeleteWorkerBlockResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteWorkerBlockResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateQualificationFromWorkerRequest {
+  /// The ID of the Qualification type of the Qualification to be revoked.
+  @_s.JsonKey(name: 'QualificationTypeId')
+  final String qualificationTypeId;
+
+  /// The ID of the Worker who possesses the Qualification to be revoked.
+  @_s.JsonKey(name: 'WorkerId')
+  final String workerId;
+
+  /// A text message that explains why the Qualification was revoked. The user who
+  /// had the Qualification sees this message.
+  @_s.JsonKey(name: 'Reason')
+  final String reason;
+
+  DisassociateQualificationFromWorkerRequest({
+    @_s.required this.qualificationTypeId,
+    @_s.required this.workerId,
+    this.reason,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DisassociateQualificationFromWorkerRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3289,38 +3907,6 @@ enum EventType {
   ping,
 }
 
-extension on EventType {
-  String toValue() {
-    switch (this) {
-      case EventType.assignmentAccepted:
-        return 'AssignmentAccepted';
-      case EventType.assignmentAbandoned:
-        return 'AssignmentAbandoned';
-      case EventType.assignmentReturned:
-        return 'AssignmentReturned';
-      case EventType.assignmentSubmitted:
-        return 'AssignmentSubmitted';
-      case EventType.assignmentRejected:
-        return 'AssignmentRejected';
-      case EventType.assignmentApproved:
-        return 'AssignmentApproved';
-      case EventType.hITCreated:
-        return 'HITCreated';
-      case EventType.hITExpired:
-        return 'HITExpired';
-      case EventType.hITReviewable:
-        return 'HITReviewable';
-      case EventType.hITExtended:
-        return 'HITExtended';
-      case EventType.hITDisposed:
-        return 'HITDisposed';
-      case EventType.ping:
-        return 'Ping';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3338,6 +3924,22 @@ class GetAccountBalanceResponse {
   });
   factory GetAccountBalanceResponse.fromJson(Map<String, dynamic> json) =>
       _$GetAccountBalanceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetAssignmentRequest {
+  /// The ID of the Assignment to be retrieved.
+  @_s.JsonKey(name: 'AssignmentId')
+  final String assignmentId;
+
+  GetAssignmentRequest({
+    @_s.required this.assignmentId,
+  });
+  Map<String, dynamic> toJson() => _$GetAssignmentRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3366,6 +3968,28 @@ class GetAssignmentResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetFileUploadURLRequest {
+  /// The ID of the assignment that contains the question with a FileUploadAnswer.
+  @_s.JsonKey(name: 'AssignmentId')
+  final String assignmentId;
+
+  /// The identifier of the question with a FileUploadAnswer, as specified in the
+  /// QuestionForm of the HIT.
+  @_s.JsonKey(name: 'QuestionIdentifier')
+  final String questionIdentifier;
+
+  GetFileUploadURLRequest({
+    @_s.required this.assignmentId,
+    @_s.required this.questionIdentifier,
+  });
+  Map<String, dynamic> toJson() => _$GetFileUploadURLRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetFileUploadURLResponse {
@@ -3378,6 +4002,22 @@ class GetFileUploadURLResponse {
   });
   factory GetFileUploadURLResponse.fromJson(Map<String, dynamic> json) =>
       _$GetFileUploadURLResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetHITRequest {
+  /// The ID of the HIT to be retrieved.
+  @_s.JsonKey(name: 'HITId')
+  final String hITId;
+
+  GetHITRequest({
+    @_s.required this.hITId,
+  });
+  Map<String, dynamic> toJson() => _$GetHITRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3400,6 +4040,27 @@ class GetHITResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetQualificationScoreRequest {
+  /// The ID of the QualificationType.
+  @_s.JsonKey(name: 'QualificationTypeId')
+  final String qualificationTypeId;
+
+  /// The ID of the Worker whose Qualification is being updated.
+  @_s.JsonKey(name: 'WorkerId')
+  final String workerId;
+
+  GetQualificationScoreRequest({
+    @_s.required this.qualificationTypeId,
+    @_s.required this.workerId,
+  });
+  Map<String, dynamic> toJson() => _$GetQualificationScoreRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetQualificationScoreResponse {
@@ -3413,6 +4074,22 @@ class GetQualificationScoreResponse {
   });
   factory GetQualificationScoreResponse.fromJson(Map<String, dynamic> json) =>
       _$GetQualificationScoreResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetQualificationTypeRequest {
+  /// The ID of the QualificationType.
+  @_s.JsonKey(name: 'QualificationTypeId')
+  final String qualificationTypeId;
+
+  GetQualificationTypeRequest({
+    @_s.required this.qualificationTypeId,
+  });
+  Map<String, dynamic> toJson() => _$GetQualificationTypeRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3635,6 +4312,35 @@ enum HITStatus {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListAssignmentsForHITRequest {
+  /// The ID of the HIT.
+  @_s.JsonKey(name: 'HITId')
+  final String hITId;
+
+  /// The status of the assignments to return: Submitted | Approved | Rejected
+  @_s.JsonKey(name: 'AssignmentStatuses')
+  final List<String> assignmentStatuses;
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// Pagination token
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListAssignmentsForHITRequest({
+    @_s.required this.hITId,
+    this.assignmentStatuses,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListAssignmentsForHITRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListAssignmentsForHITResponse {
@@ -3656,6 +4362,40 @@ class ListAssignmentsForHITResponse {
   });
   factory ListAssignmentsForHITResponse.fromJson(Map<String, dynamic> json) =>
       _$ListAssignmentsForHITResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListBonusPaymentsRequest {
+  /// The ID of the assignment associated with the bonus payments to retrieve. If
+  /// specified, only bonus payments for the given assignment are returned. Either
+  /// the HITId parameter or the AssignmentId parameter must be specified
+  @_s.JsonKey(name: 'AssignmentId')
+  final String assignmentId;
+
+  /// The ID of the HIT associated with the bonus payments to retrieve. If not
+  /// specified, all bonus payments for all assignments for the given HIT are
+  /// returned. Either the HITId parameter or the AssignmentId parameter must be
+  /// specified
+  @_s.JsonKey(name: 'HITId')
+  final String hITId;
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// Pagination token
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListBonusPaymentsRequest({
+    this.assignmentId,
+    this.hITId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListBonusPaymentsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3688,6 +4428,33 @@ class ListBonusPaymentsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListHITsForQualificationTypeRequest {
+  /// The ID of the Qualification type to use when querying HITs.
+  @_s.JsonKey(name: 'QualificationTypeId')
+  final String qualificationTypeId;
+
+  /// Limit the number of results returned.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// Pagination Token
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListHITsForQualificationTypeRequest({
+    @_s.required this.qualificationTypeId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListHITsForQualificationTypeRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListHITsForQualificationTypeResponse {
@@ -3715,6 +4482,26 @@ class ListHITsForQualificationTypeResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListHITsRequest {
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// Pagination token
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListHITsRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListHITsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListHITsResponse {
@@ -3736,6 +4523,31 @@ class ListHITsResponse {
   });
   factory ListHITsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListHITsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListQualificationRequestsRequest {
+  /// The maximum number of results to return in a single call.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The ID of the QualificationType.
+  @_s.JsonKey(name: 'QualificationTypeId')
+  final String qualificationTypeId;
+
+  ListQualificationRequestsRequest({
+    this.maxResults,
+    this.nextToken,
+    this.qualificationTypeId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListQualificationRequestsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3771,6 +4583,47 @@ class ListQualificationRequestsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListQualificationTypesRequest {
+  /// Specifies that only Qualification types that a user can request through the
+  /// Amazon Mechanical Turk web site, such as by taking a Qualification test, are
+  /// returned as results of the search. Some Qualification types, such as those
+  /// assigned automatically by the system, cannot be requested directly by users.
+  /// If false, all Qualification types, including those managed by the system,
+  /// are considered. Valid values are True | False.
+  @_s.JsonKey(name: 'MustBeRequestable')
+  final bool mustBeRequestable;
+
+  /// The maximum number of results to return in a single call.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// Specifies that only Qualification types that the Requester created are
+  /// returned. If false, the operation returns all Qualification types.
+  @_s.JsonKey(name: 'MustBeOwnedByCaller')
+  final bool mustBeOwnedByCaller;
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// A text query against all of the searchable attributes of Qualification
+  /// types.
+  @_s.JsonKey(name: 'Query')
+  final String query;
+
+  ListQualificationTypesRequest({
+    @_s.required this.mustBeRequestable,
+    this.maxResults,
+    this.mustBeOwnedByCaller,
+    this.nextToken,
+    this.query,
+  });
+  Map<String, dynamic> toJson() => _$ListQualificationTypesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListQualificationTypesResponse {
@@ -3793,6 +4646,52 @@ class ListQualificationTypesResponse {
   });
   factory ListQualificationTypesResponse.fromJson(Map<String, dynamic> json) =>
       _$ListQualificationTypesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListReviewPolicyResultsForHITRequest {
+  /// The unique identifier of the HIT to retrieve review results for.
+  @_s.JsonKey(name: 'HITId')
+  final String hITId;
+
+  /// Limit the number of results returned.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// Pagination token
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The Policy Level(s) to retrieve review results for - HIT or Assignment. If
+  /// omitted, the default behavior is to retrieve all data for both policy
+  /// levels. For a list of all the described policies, see Review Policies.
+  @_s.JsonKey(name: 'PolicyLevels')
+  final List<String> policyLevels;
+
+  /// Specify if the operation should retrieve a list of the actions taken
+  /// executing the Review Policies and their outcomes.
+  @_s.JsonKey(name: 'RetrieveActions')
+  final bool retrieveActions;
+
+  /// Specify if the operation should retrieve a list of the results computed by
+  /// the Review Policies.
+  @_s.JsonKey(name: 'RetrieveResults')
+  final bool retrieveResults;
+
+  ListReviewPolicyResultsForHITRequest({
+    @_s.required this.hITId,
+    this.maxResults,
+    this.nextToken,
+    this.policyLevels,
+    this.retrieveActions,
+    this.retrieveResults,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListReviewPolicyResultsForHITRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3841,6 +4740,39 @@ class ListReviewPolicyResultsForHITResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListReviewableHITsRequest {
+  /// The ID of the HIT type of the HITs to consider for the query. If not
+  /// specified, all HITs for the Reviewer are considered
+  @_s.JsonKey(name: 'HITTypeId')
+  final String hITTypeId;
+
+  /// Limit the number of results returned.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// Pagination Token
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Can be either <code>Reviewable</code> or <code>Reviewing</code>. Reviewable
+  /// is the default value.
+  @_s.JsonKey(name: 'Status')
+  final ReviewableHITStatus status;
+
+  ListReviewableHITsRequest({
+    this.hITTypeId,
+    this.maxResults,
+    this.nextToken,
+    this.status,
+  });
+  Map<String, dynamic> toJson() => _$ListReviewableHITsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListReviewableHITsResponse {
@@ -3862,6 +4794,26 @@ class ListReviewableHITsResponse {
   });
   factory ListReviewableHITsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListReviewableHITsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListWorkerBlocksRequest {
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// Pagination token
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListWorkerBlocksRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListWorkerBlocksRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3890,6 +4842,39 @@ class ListWorkerBlocksResponse {
   });
   factory ListWorkerBlocksResponse.fromJson(Map<String, dynamic> json) =>
       _$ListWorkerBlocksResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListWorkersWithQualificationTypeRequest {
+  /// The ID of the Qualification type of the Qualifications to return.
+  @_s.JsonKey(name: 'QualificationTypeId')
+  final String qualificationTypeId;
+
+  /// Limit the number of results returned.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// Pagination Token
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The status of the Qualifications to return. Can be <code>Granted |
+  /// Revoked</code>.
+  @_s.JsonKey(name: 'Status')
+  final QualificationStatus status;
+
+  ListWorkersWithQualificationTypeRequest({
+    @_s.required this.qualificationTypeId,
+    this.maxResults,
+    this.nextToken,
+    this.status,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListWorkersWithQualificationTypeRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4040,6 +5025,34 @@ class NotifyWorkersFailureStatus {
   });
   factory NotifyWorkersFailureStatus.fromJson(Map<String, dynamic> json) =>
       _$NotifyWorkersFailureStatusFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class NotifyWorkersRequest {
+  /// The text of the email message to send. Can include up to 4,096 characters
+  @_s.JsonKey(name: 'MessageText')
+  final String messageText;
+
+  /// The subject line of the email message to send. Can include up to 200
+  /// characters.
+  @_s.JsonKey(name: 'Subject')
+  final String subject;
+
+  /// A list of Worker IDs you wish to notify. You can notify upto 100 Workers at
+  /// a time.
+  @_s.JsonKey(name: 'WorkerIds')
+  final List<String> workerIds;
+
+  NotifyWorkersRequest({
+    @_s.required this.messageText,
+    @_s.required this.subject,
+    @_s.required this.workerIds,
+  });
+  Map<String, dynamic> toJson() => _$NotifyWorkersRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4328,18 +5341,6 @@ enum QualificationStatus {
   revoked,
 }
 
-extension on QualificationStatus {
-  String toValue() {
-    switch (this) {
-      case QualificationStatus.granted:
-        return 'Granted';
-      case QualificationStatus.revoked:
-        return 'Revoked';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// The QualificationType data structure represents a Qualification type, a
 /// description of a property of a Worker that must match the requirements of a
 /// HIT for the Worker to be able to accept the HIT. The type also describes how
@@ -4456,16 +5457,27 @@ enum QualificationTypeStatus {
   inactive,
 }
 
-extension on QualificationTypeStatus {
-  String toValue() {
-    switch (this) {
-      case QualificationTypeStatus.active:
-        return 'Active';
-      case QualificationTypeStatus.inactive:
-        return 'Inactive';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RejectAssignmentRequest {
+  /// The ID of the assignment. The assignment must correspond to a HIT created by
+  /// the Requester.
+  @_s.JsonKey(name: 'AssignmentId')
+  final String assignmentId;
+
+  /// A message for the Worker, which the Worker can see in the Status section of
+  /// the web site.
+  @_s.JsonKey(name: 'RequesterFeedback')
+  final String requesterFeedback;
+
+  RejectAssignmentRequest({
+    @_s.required this.assignmentId,
+    @_s.required this.requesterFeedback,
+  });
+  Map<String, dynamic> toJson() => _$RejectAssignmentRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4477,6 +5489,30 @@ class RejectAssignmentResponse {
   RejectAssignmentResponse();
   factory RejectAssignmentResponse.fromJson(Map<String, dynamic> json) =>
       _$RejectAssignmentResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RejectQualificationRequestRequest {
+  /// The ID of the Qualification request, as returned by the
+  /// <code>ListQualificationRequests</code> operation.
+  @_s.JsonKey(name: 'QualificationRequestId')
+  final String qualificationRequestId;
+
+  /// A text message explaining why the request was rejected, to be shown to the
+  /// Worker who made the request.
+  @_s.JsonKey(name: 'Reason')
+  final String reason;
+
+  RejectQualificationRequestRequest({
+    @_s.required this.qualificationRequestId,
+    this.reason,
+  });
+  Map<String, dynamic> toJson() =>
+      _$RejectQualificationRequestRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4701,16 +5737,48 @@ enum ReviewableHITStatus {
   reviewing,
 }
 
-extension on ReviewableHITStatus {
-  String toValue() {
-    switch (this) {
-      case ReviewableHITStatus.reviewable:
-        return 'Reviewable';
-      case ReviewableHITStatus.reviewing:
-        return 'Reviewing';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SendBonusRequest {
+  /// The ID of the assignment for which this bonus is paid.
+  @_s.JsonKey(name: 'AssignmentId')
+  final String assignmentId;
+
+  /// The Bonus amount is a US Dollar amount specified using a string (for
+  /// example, "5" represents $5.00 USD and "101.42" represents $101.42 USD). Do
+  /// not include currency symbols or currency codes.
+  @_s.JsonKey(name: 'BonusAmount')
+  final String bonusAmount;
+
+  /// A message that explains the reason for the bonus payment. The Worker
+  /// receiving the bonus can see this message.
+  @_s.JsonKey(name: 'Reason')
+  final String reason;
+
+  /// The ID of the Worker being paid the bonus.
+  @_s.JsonKey(name: 'WorkerId')
+  final String workerId;
+
+  /// A unique identifier for this request, which allows you to retry the call on
+  /// error without granting multiple bonuses. This is useful in cases such as
+  /// network timeouts where it is unclear whether or not the call succeeded on
+  /// the server. If the bonus already exists in the system from a previous call
+  /// using the same UniqueRequestToken, subsequent calls will return an error
+  /// with a message containing the request ID.
+  @_s.JsonKey(name: 'UniqueRequestToken')
+  final String uniqueRequestToken;
+
+  SendBonusRequest({
+    @_s.required this.assignmentId,
+    @_s.required this.bonusAmount,
+    @_s.required this.reason,
+    @_s.required this.workerId,
+    this.uniqueRequestToken,
+  });
+  Map<String, dynamic> toJson() => _$SendBonusRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4722,6 +5790,33 @@ class SendBonusResponse {
   SendBonusResponse();
   factory SendBonusResponse.fromJson(Map<String, dynamic> json) =>
       _$SendBonusResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SendTestEventNotificationRequest {
+  /// The notification specification to test. This value is identical to the value
+  /// you would provide to the UpdateNotificationSettings operation when you
+  /// establish the notification specification for a HIT type.
+  @_s.JsonKey(name: 'Notification')
+  final NotificationSpecification notification;
+
+  /// The event to simulate to test the notification specification. This event is
+  /// included in the test message even if the notification specification does not
+  /// include the event type. The notification specification does not filter out
+  /// the test event.
+  @_s.JsonKey(name: 'TestEventType')
+  final EventType testEventType;
+
+  SendTestEventNotificationRequest({
+    @_s.required this.notification,
+    @_s.required this.testEventType,
+  });
+  Map<String, dynamic> toJson() =>
+      _$SendTestEventNotificationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4760,12 +5855,68 @@ class ServiceFault implements _s.AwsException {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateExpirationForHITRequest {
+  /// The date and time at which you want the HIT to expire
+  @_s.JsonKey(
+      name: 'ExpireAt',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime expireAt;
+
+  /// The HIT to update.
+  @_s.JsonKey(name: 'HITId')
+  final String hITId;
+
+  UpdateExpirationForHITRequest({
+    @_s.required this.expireAt,
+    @_s.required this.hITId,
+  });
+  Map<String, dynamic> toJson() => _$UpdateExpirationForHITRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateExpirationForHITResponse {
   UpdateExpirationForHITResponse();
   factory UpdateExpirationForHITResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateExpirationForHITResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateHITReviewStatusRequest {
+  /// The ID of the HIT to update.
+  @_s.JsonKey(name: 'HITId')
+  final String hITId;
+
+  /// Specifies how to update the HIT status. Default is <code>False</code>.
+  ///
+  /// <ul>
+  /// <li>
+  /// Setting this to false will only transition a HIT from
+  /// <code>Reviewable</code> to <code>Reviewing</code>
+  /// </li>
+  /// <li>
+  /// Setting this to true will only transition a HIT from <code>Reviewing</code>
+  /// to <code>Reviewable</code>
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Revert')
+  final bool revert;
+
+  UpdateHITReviewStatusRequest({
+    @_s.required this.hITId,
+    this.revert,
+  });
+  Map<String, dynamic> toJson() => _$UpdateHITReviewStatusRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4782,12 +5933,63 @@ class UpdateHITReviewStatusResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateHITTypeOfHITRequest {
+  /// The HIT to update.
+  @_s.JsonKey(name: 'HITId')
+  final String hITId;
+
+  /// The ID of the new HIT type.
+  @_s.JsonKey(name: 'HITTypeId')
+  final String hITTypeId;
+
+  UpdateHITTypeOfHITRequest({
+    @_s.required this.hITId,
+    @_s.required this.hITTypeId,
+  });
+  Map<String, dynamic> toJson() => _$UpdateHITTypeOfHITRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateHITTypeOfHITResponse {
   UpdateHITTypeOfHITResponse();
   factory UpdateHITTypeOfHITResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateHITTypeOfHITResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateNotificationSettingsRequest {
+  /// The ID of the HIT type whose notification specification is being updated.
+  @_s.JsonKey(name: 'HITTypeId')
+  final String hITTypeId;
+
+  /// Specifies whether notifications are sent for HITs of this HIT type,
+  /// according to the notification specification. You must specify either the
+  /// Notification parameter or the Active parameter for the call to
+  /// UpdateNotificationSettings to succeed.
+  @_s.JsonKey(name: 'Active')
+  final bool active;
+
+  /// The notification specification for the HIT type.
+  @_s.JsonKey(name: 'Notification')
+  final NotificationSpecification notification;
+
+  UpdateNotificationSettingsRequest({
+    @_s.required this.hITTypeId,
+    this.active,
+    this.notification,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateNotificationSettingsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4800,6 +6002,83 @@ class UpdateNotificationSettingsResponse {
   factory UpdateNotificationSettingsResponse.fromJson(
           Map<String, dynamic> json) =>
       _$UpdateNotificationSettingsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateQualificationTypeRequest {
+  /// The ID of the Qualification type to update.
+  @_s.JsonKey(name: 'QualificationTypeId')
+  final String qualificationTypeId;
+
+  /// The answers to the Qualification test specified in the Test parameter, in
+  /// the form of an AnswerKey data structure.
+  @_s.JsonKey(name: 'AnswerKey')
+  final String answerKey;
+
+  /// Specifies whether requests for the Qualification type are granted
+  /// immediately, without prompting the Worker with a Qualification test.
+  ///
+  /// Constraints: If the Test parameter is specified, this parameter cannot be
+  /// true.
+  @_s.JsonKey(name: 'AutoGranted')
+  final bool autoGranted;
+
+  /// The Qualification value to use for automatically granted Qualifications.
+  /// This parameter is used only if the AutoGranted parameter is true.
+  @_s.JsonKey(name: 'AutoGrantedValue')
+  final int autoGrantedValue;
+
+  /// The new description of the Qualification type.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The new status of the Qualification type - Active | Inactive
+  @_s.JsonKey(name: 'QualificationTypeStatus')
+  final QualificationTypeStatus qualificationTypeStatus;
+
+  /// The amount of time, in seconds, that Workers must wait after requesting a
+  /// Qualification of the specified Qualification type before they can retry the
+  /// Qualification request. It is not possible to disable retries for a
+  /// Qualification type after it has been created with retries enabled. If you
+  /// want to disable retries, you must dispose of the existing retry-enabled
+  /// Qualification type using DisposeQualificationType and then create a new
+  /// Qualification type with retries disabled using CreateQualificationType.
+  @_s.JsonKey(name: 'RetryDelayInSeconds')
+  final int retryDelayInSeconds;
+
+  /// The questions for the Qualification test a Worker must answer correctly to
+  /// obtain a Qualification of this type. If this parameter is specified,
+  /// <code>TestDurationInSeconds</code> must also be specified.
+  ///
+  /// Constraints: Must not be longer than 65535 bytes. Must be a QuestionForm
+  /// data structure. This parameter cannot be specified if AutoGranted is true.
+  ///
+  /// Constraints: None. If not specified, the Worker may request the
+  /// Qualification without answering any questions.
+  @_s.JsonKey(name: 'Test')
+  final String test;
+
+  /// The number of seconds the Worker has to complete the Qualification test,
+  /// starting from the time the Worker requests the Qualification.
+  @_s.JsonKey(name: 'TestDurationInSeconds')
+  final int testDurationInSeconds;
+
+  UpdateQualificationTypeRequest({
+    @_s.required this.qualificationTypeId,
+    this.answerKey,
+    this.autoGranted,
+    this.autoGrantedValue,
+    this.description,
+    this.qualificationTypeStatus,
+    this.retryDelayInSeconds,
+    this.test,
+    this.testDurationInSeconds,
+  });
+  Map<String, dynamic> toJson() => _$UpdateQualificationTypeRequestToJson(this);
 }
 
 @_s.JsonSerializable(

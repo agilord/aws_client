@@ -15,6 +15,20 @@ AWSSessionCredentials _$AWSSessionCredentialsFromJson(
   );
 }
 
+Map<String, dynamic> _$AcknowledgeJobInputToJson(AcknowledgeJobInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('jobId', instance.jobId);
+  writeNotNull('nonce', instance.nonce);
+  return val;
+}
+
 AcknowledgeJobOutput _$AcknowledgeJobOutputFromJson(Map<String, dynamic> json) {
   return AcknowledgeJobOutput(
     status: _$enumDecodeNullable(_$JobStatusEnumMap, json['status']),
@@ -62,6 +76,22 @@ const _$JobStatusEnumMap = {
   JobStatus.succeeded: 'Succeeded',
   JobStatus.failed: 'Failed',
 };
+
+Map<String, dynamic> _$AcknowledgeThirdPartyJobInputToJson(
+    AcknowledgeThirdPartyJobInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('clientToken', instance.clientToken);
+  writeNotNull('jobId', instance.jobId);
+  writeNotNull('nonce', instance.nonce);
+  return val;
+}
 
 AcknowledgeThirdPartyJobOutput _$AcknowledgeThirdPartyJobOutputFromJson(
     Map<String, dynamic> json) {
@@ -552,6 +582,29 @@ const _$BlockerTypeEnumMap = {
   BlockerType.schedule: 'Schedule',
 };
 
+Map<String, dynamic> _$CreateCustomActionTypeInputToJson(
+    CreateCustomActionTypeInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('category', _$ActionCategoryEnumMap[instance.category]);
+  writeNotNull('inputArtifactDetails', instance.inputArtifactDetails?.toJson());
+  writeNotNull(
+      'outputArtifactDetails', instance.outputArtifactDetails?.toJson());
+  writeNotNull('provider', instance.provider);
+  writeNotNull('version', instance.version);
+  writeNotNull('configurationProperties',
+      instance.configurationProperties?.map((e) => e?.toJson())?.toList());
+  writeNotNull('settings', instance.settings?.toJson());
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateCustomActionTypeOutput _$CreateCustomActionTypeOutputFromJson(
     Map<String, dynamic> json) {
   return CreateCustomActionTypeOutput(
@@ -562,6 +615,20 @@ CreateCustomActionTypeOutput _$CreateCustomActionTypeOutputFromJson(
         ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$CreatePipelineInputToJson(CreatePipelineInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pipeline', instance.pipeline?.toJson());
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreatePipelineOutput _$CreatePipelineOutputFromJson(Map<String, dynamic> json) {
@@ -592,13 +659,109 @@ Map<String, dynamic> _$CurrentRevisionToJson(CurrentRevision instance) {
   return val;
 }
 
+Map<String, dynamic> _$DeleteCustomActionTypeInputToJson(
+    DeleteCustomActionTypeInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('category', _$ActionCategoryEnumMap[instance.category]);
+  writeNotNull('provider', instance.provider);
+  writeNotNull('version', instance.version);
+  return val;
+}
+
+Map<String, dynamic> _$DeletePipelineInputToJson(DeletePipelineInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteWebhookInputToJson(DeleteWebhookInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  return val;
+}
+
 DeleteWebhookOutput _$DeleteWebhookOutputFromJson(Map<String, dynamic> json) {
   return DeleteWebhookOutput();
+}
+
+Map<String, dynamic> _$DeregisterWebhookWithThirdPartyInputToJson(
+    DeregisterWebhookWithThirdPartyInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('webhookName', instance.webhookName);
+  return val;
 }
 
 DeregisterWebhookWithThirdPartyOutput
     _$DeregisterWebhookWithThirdPartyOutputFromJson(Map<String, dynamic> json) {
   return DeregisterWebhookWithThirdPartyOutput();
+}
+
+Map<String, dynamic> _$DisableStageTransitionInputToJson(
+    DisableStageTransitionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pipelineName', instance.pipelineName);
+  writeNotNull('reason', instance.reason);
+  writeNotNull('stageName', instance.stageName);
+  writeNotNull(
+      'transitionType', _$StageTransitionTypeEnumMap[instance.transitionType]);
+  return val;
+}
+
+const _$StageTransitionTypeEnumMap = {
+  StageTransitionType.inbound: 'Inbound',
+  StageTransitionType.outbound: 'Outbound',
+};
+
+Map<String, dynamic> _$EnableStageTransitionInputToJson(
+    EnableStageTransitionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pipelineName', instance.pipelineName);
+  writeNotNull('stageName', instance.stageName);
+  writeNotNull(
+      'transitionType', _$StageTransitionTypeEnumMap[instance.transitionType]);
+  return val;
 }
 
 EncryptionKey _$EncryptionKeyFromJson(Map<String, dynamic> json) {
@@ -689,12 +852,40 @@ const _$FailureTypeEnumMap = {
   FailureType.systemUnavailable: 'SystemUnavailable',
 };
 
+Map<String, dynamic> _$GetJobDetailsInputToJson(GetJobDetailsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('jobId', instance.jobId);
+  return val;
+}
+
 GetJobDetailsOutput _$GetJobDetailsOutputFromJson(Map<String, dynamic> json) {
   return GetJobDetailsOutput(
     jobDetails: json['jobDetails'] == null
         ? null
         : JobDetails.fromJson(json['jobDetails'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetPipelineExecutionInputToJson(
+    GetPipelineExecutionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pipelineExecutionId', instance.pipelineExecutionId);
+  writeNotNull('pipelineName', instance.pipelineName);
+  return val;
 }
 
 GetPipelineExecutionOutput _$GetPipelineExecutionOutputFromJson(
@@ -705,6 +896,20 @@ GetPipelineExecutionOutput _$GetPipelineExecutionOutputFromJson(
         : PipelineExecution.fromJson(
             json['pipelineExecution'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetPipelineInputToJson(GetPipelineInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('version', instance.version);
+  return val;
 }
 
 GetPipelineOutput _$GetPipelineOutputFromJson(Map<String, dynamic> json) {
@@ -719,6 +924,20 @@ GetPipelineOutput _$GetPipelineOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetPipelineStateInputToJson(
+    GetPipelineStateInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  return val;
+}
+
 GetPipelineStateOutput _$GetPipelineStateOutputFromJson(
     Map<String, dynamic> json) {
   return GetPipelineStateOutput(
@@ -731,6 +950,21 @@ GetPipelineStateOutput _$GetPipelineStateOutputFromJson(
         ?.toList(),
     updated: unixTimestampFromJson(json['updated']),
   );
+}
+
+Map<String, dynamic> _$GetThirdPartyJobDetailsInputToJson(
+    GetThirdPartyJobDetailsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('clientToken', instance.clientToken);
+  writeNotNull('jobId', instance.jobId);
+  return val;
 }
 
 GetThirdPartyJobDetailsOutput _$GetThirdPartyJobDetailsOutputFromJson(
@@ -815,6 +1049,23 @@ JobDetails _$JobDetailsFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ListActionExecutionsInputToJson(
+    ListActionExecutionsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pipelineName', instance.pipelineName);
+  writeNotNull('filter', instance.filter?.toJson());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 ListActionExecutionsOutput _$ListActionExecutionsOutputFromJson(
     Map<String, dynamic> json) {
   return ListActionExecutionsOutput(
@@ -827,6 +1078,22 @@ ListActionExecutionsOutput _$ListActionExecutionsOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$ListActionTypesInputToJson(
+    ListActionTypesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'actionOwnerFilter', _$ActionOwnerEnumMap[instance.actionOwnerFilter]);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 ListActionTypesOutput _$ListActionTypesOutputFromJson(
     Map<String, dynamic> json) {
   return ListActionTypesOutput(
@@ -836,6 +1103,22 @@ ListActionTypesOutput _$ListActionTypesOutputFromJson(
         ?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListPipelineExecutionsInputToJson(
+    ListPipelineExecutionsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pipelineName', instance.pipelineName);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 ListPipelineExecutionsOutput _$ListPipelineExecutionsOutputFromJson(
@@ -850,6 +1133,19 @@ ListPipelineExecutionsOutput _$ListPipelineExecutionsOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$ListPipelinesInputToJson(ListPipelinesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 ListPipelinesOutput _$ListPipelinesOutputFromJson(Map<String, dynamic> json) {
   return ListPipelinesOutput(
     nextToken: json['nextToken'] as String,
@@ -859,6 +1155,22 @@ ListPipelinesOutput _$ListPipelinesOutputFromJson(Map<String, dynamic> json) {
             : PipelineSummary.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListTagsForResourceInputToJson(
+    ListTagsForResourceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceArn', instance.resourceArn);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 ListTagsForResourceOutput _$ListTagsForResourceOutputFromJson(
@@ -886,6 +1198,20 @@ ListWebhookItem _$ListWebhookItemFromJson(Map<String, dynamic> json) {
         ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListWebhooksInputToJson(ListWebhooksInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListWebhooksOutput _$ListWebhooksOutputFromJson(Map<String, dynamic> json) {
@@ -1035,12 +1361,42 @@ PipelineSummary _$PipelineSummaryFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$PollForJobsInputToJson(PollForJobsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('actionTypeId', instance.actionTypeId?.toJson());
+  writeNotNull('maxBatchSize', instance.maxBatchSize);
+  writeNotNull('queryParam', instance.queryParam);
+  return val;
+}
+
 PollForJobsOutput _$PollForJobsOutputFromJson(Map<String, dynamic> json) {
   return PollForJobsOutput(
     jobs: (json['jobs'] as List)
         ?.map((e) => e == null ? null : Job.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$PollForThirdPartyJobsInputToJson(
+    PollForThirdPartyJobsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('actionTypeId', instance.actionTypeId?.toJson());
+  writeNotNull('maxBatchSize', instance.maxBatchSize);
+  return val;
 }
 
 PollForThirdPartyJobsOutput _$PollForThirdPartyJobsOutputFromJson(
@@ -1054,6 +1410,23 @@ PollForThirdPartyJobsOutput _$PollForThirdPartyJobsOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$PutActionRevisionInputToJson(
+    PutActionRevisionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('actionName', instance.actionName);
+  writeNotNull('actionRevision', instance.actionRevision?.toJson());
+  writeNotNull('pipelineName', instance.pipelineName);
+  writeNotNull('stageName', instance.stageName);
+  return val;
+}
+
 PutActionRevisionOutput _$PutActionRevisionOutputFromJson(
     Map<String, dynamic> json) {
   return PutActionRevisionOutput(
@@ -1062,11 +1435,110 @@ PutActionRevisionOutput _$PutActionRevisionOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$PutApprovalResultInputToJson(
+    PutApprovalResultInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('actionName', instance.actionName);
+  writeNotNull('pipelineName', instance.pipelineName);
+  writeNotNull('result', instance.result?.toJson());
+  writeNotNull('stageName', instance.stageName);
+  writeNotNull('token', instance.token);
+  return val;
+}
+
 PutApprovalResultOutput _$PutApprovalResultOutputFromJson(
     Map<String, dynamic> json) {
   return PutApprovalResultOutput(
     approvedAt: unixTimestampFromJson(json['approvedAt']),
   );
+}
+
+Map<String, dynamic> _$PutJobFailureResultInputToJson(
+    PutJobFailureResultInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('failureDetails', instance.failureDetails?.toJson());
+  writeNotNull('jobId', instance.jobId);
+  return val;
+}
+
+Map<String, dynamic> _$PutJobSuccessResultInputToJson(
+    PutJobSuccessResultInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('jobId', instance.jobId);
+  writeNotNull('continuationToken', instance.continuationToken);
+  writeNotNull('currentRevision', instance.currentRevision?.toJson());
+  writeNotNull('executionDetails', instance.executionDetails?.toJson());
+  writeNotNull('outputVariables', instance.outputVariables);
+  return val;
+}
+
+Map<String, dynamic> _$PutThirdPartyJobFailureResultInputToJson(
+    PutThirdPartyJobFailureResultInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('clientToken', instance.clientToken);
+  writeNotNull('failureDetails', instance.failureDetails?.toJson());
+  writeNotNull('jobId', instance.jobId);
+  return val;
+}
+
+Map<String, dynamic> _$PutThirdPartyJobSuccessResultInputToJson(
+    PutThirdPartyJobSuccessResultInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('clientToken', instance.clientToken);
+  writeNotNull('jobId', instance.jobId);
+  writeNotNull('continuationToken', instance.continuationToken);
+  writeNotNull('currentRevision', instance.currentRevision?.toJson());
+  writeNotNull('executionDetails', instance.executionDetails?.toJson());
+  return val;
+}
+
+Map<String, dynamic> _$PutWebhookInputToJson(PutWebhookInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('webhook', instance.webhook?.toJson());
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 PutWebhookOutput _$PutWebhookOutputFromJson(Map<String, dynamic> json) {
@@ -1077,10 +1549,45 @@ PutWebhookOutput _$PutWebhookOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$RegisterWebhookWithThirdPartyInputToJson(
+    RegisterWebhookWithThirdPartyInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('webhookName', instance.webhookName);
+  return val;
+}
+
 RegisterWebhookWithThirdPartyOutput
     _$RegisterWebhookWithThirdPartyOutputFromJson(Map<String, dynamic> json) {
   return RegisterWebhookWithThirdPartyOutput();
 }
+
+Map<String, dynamic> _$RetryStageExecutionInputToJson(
+    RetryStageExecutionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pipelineExecutionId', instance.pipelineExecutionId);
+  writeNotNull('pipelineName', instance.pipelineName);
+  writeNotNull('retryMode', _$StageRetryModeEnumMap[instance.retryMode]);
+  writeNotNull('stageName', instance.stageName);
+  return val;
+}
+
+const _$StageRetryModeEnumMap = {
+  StageRetryMode.failedActions: 'FAILED_ACTIONS',
+};
 
 RetryStageExecutionOutput _$RetryStageExecutionOutputFromJson(
     Map<String, dynamic> json) {
@@ -1183,6 +1690,21 @@ StageState _$StageStateFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$StartPipelineExecutionInputToJson(
+    StartPipelineExecutionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('clientRequestToken', instance.clientRequestToken);
+  return val;
+}
+
 StartPipelineExecutionOutput _$StartPipelineExecutionOutputFromJson(
     Map<String, dynamic> json) {
   return StartPipelineExecutionOutput(
@@ -1194,6 +1716,23 @@ StopExecutionTrigger _$StopExecutionTriggerFromJson(Map<String, dynamic> json) {
   return StopExecutionTrigger(
     reason: json['reason'] as String,
   );
+}
+
+Map<String, dynamic> _$StopPipelineExecutionInputToJson(
+    StopPipelineExecutionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pipelineExecutionId', instance.pipelineExecutionId);
+  writeNotNull('pipelineName', instance.pipelineName);
+  writeNotNull('abandon', instance.abandon);
+  writeNotNull('reason', instance.reason);
+  return val;
 }
 
 StopPipelineExecutionOutput _$StopPipelineExecutionOutputFromJson(
@@ -1221,6 +1760,20 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
 
   writeNotNull('key', instance.key);
   writeNotNull('value', instance.value);
+  return val;
+}
+
+Map<String, dynamic> _$TagResourceInputToJson(TagResourceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceArn', instance.resourceArn);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
   return val;
 }
 
@@ -1286,8 +1839,35 @@ TransitionState _$TransitionStateFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$UntagResourceInputToJson(UntagResourceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceArn', instance.resourceArn);
+  writeNotNull('tagKeys', instance.tagKeys);
+  return val;
+}
+
 UntagResourceOutput _$UntagResourceOutputFromJson(Map<String, dynamic> json) {
   return UntagResourceOutput();
+}
+
+Map<String, dynamic> _$UpdatePipelineInputToJson(UpdatePipelineInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pipeline', instance.pipeline?.toJson());
+  return val;
 }
 
 UpdatePipelineOutput _$UpdatePipelineOutputFromJson(Map<String, dynamic> json) {

@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -89,12 +88,12 @@ class QLDB {
       isRequired: true,
     );
     ArgumentError.checkNotNull(permissionsMode, 'permissionsMode');
-    final $payload = <String, dynamic>{
-      'Name': name,
-      'PermissionsMode': permissionsMode?.toValue(),
-      if (deletionProtection != null) 'DeletionProtection': deletionProtection,
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = CreateLedgerRequest(
+      name: name,
+      permissionsMode: permissionsMode,
+      deletionProtection: deletionProtection,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -136,7 +135,9 @@ class QLDB {
       r'''(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteLedgerRequest(
+      name: name,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -333,12 +334,13 @@ class QLDB {
       isRequired: true,
     );
     ArgumentError.checkNotNull(s3ExportConfiguration, 's3ExportConfiguration');
-    final $payload = <String, dynamic>{
-      'ExclusiveEndTime': exclusiveEndTime,
-      'InclusiveStartTime': inclusiveStartTime,
-      'RoleArn': roleArn,
-      'S3ExportConfiguration': s3ExportConfiguration,
-    };
+    final $payload = ExportJournalToS3Request(
+      exclusiveEndTime: exclusiveEndTime,
+      inclusiveStartTime: inclusiveStartTime,
+      name: name,
+      roleArn: roleArn,
+      s3ExportConfiguration: s3ExportConfiguration,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -404,10 +406,11 @@ class QLDB {
       r'''(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'BlockAddress': blockAddress,
-      if (digestTipAddress != null) 'DigestTipAddress': digestTipAddress,
-    };
+    final $payload = GetBlockRequest(
+      blockAddress: blockAddress,
+      name: name,
+      digestTipAddress: digestTipAddress,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -443,7 +446,9 @@ class QLDB {
       r'''(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = GetDigestRequest(
+      name: name,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -517,11 +522,12 @@ class QLDB {
       r'''(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'BlockAddress': blockAddress,
-      'DocumentId': documentId,
-      if (digestTipAddress != null) 'DigestTipAddress': digestTipAddress,
-    };
+    final $payload = GetRevisionRequest(
+      blockAddress: blockAddress,
+      documentId: documentId,
+      name: name,
+      digestTipAddress: digestTipAddress,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -768,9 +774,10 @@ class QLDB {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'Tags': tags,
-    };
+    final $payload = TagResourceRequest(
+      resourceArn: resourceArn,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -811,7 +818,10 @@ class QLDB {
     _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = UntagResourceRequest(
+      resourceArn: resourceArn,
+      tagKeys: tagKeys,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -857,9 +867,10 @@ class QLDB {
       r'''(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (deletionProtection != null) 'DeletionProtection': deletionProtection,
-    };
+    final $payload = UpdateLedgerRequest(
+      name: name,
+      deletionProtection: deletionProtection,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -868,6 +879,47 @@ class QLDB {
     );
     return UpdateLedgerResponse.fromJson(response);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateLedgerRequest {
+  /// The name of the ledger that you want to create. The name must be unique
+  /// among all of your ledgers in the current AWS Region.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The permissions mode to assign to the ledger that you want to create.
+  @_s.JsonKey(name: 'PermissionsMode')
+  final PermissionsMode permissionsMode;
+
+  /// The flag that prevents a ledger from being deleted by any user. If not
+  /// provided on ledger creation, this feature is enabled (<code>true</code>) by
+  /// default.
+  ///
+  /// If deletion protection is enabled, you must first disable it before you can
+  /// delete the ledger using the QLDB API or the AWS Command Line Interface (AWS
+  /// CLI). You can disable it by calling the <code>UpdateLedger</code> operation
+  /// to set the flag to <code>false</code>. The QLDB console disables deletion
+  /// protection for you when you use it to delete a ledger.
+  @_s.JsonKey(name: 'DeletionProtection')
+  final bool deletionProtection;
+
+  /// The key-value pairs to add as tags to the ledger that you want to create.
+  /// Tag keys are case sensitive. Tag values are case sensitive and can be null.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  CreateLedgerRequest({
+    @_s.required this.name,
+    @_s.required this.permissionsMode,
+    this.deletionProtection,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateLedgerRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -918,6 +970,22 @@ class CreateLedgerResponse {
   });
   factory CreateLedgerResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateLedgerResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteLedgerRequest {
+  /// The name of the ledger that you want to delete.
+  @_s.JsonKey(name: 'name', ignore: true)
+  final String name;
+
+  DeleteLedgerRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$DeleteLedgerRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -991,6 +1059,80 @@ class DescribeLedgerResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ExportJournalToS3Request {
+  /// The exclusive end date and time for the range of journal contents that you
+  /// want to export.
+  ///
+  /// The <code>ExclusiveEndTime</code> must be in <code>ISO 8601</code> date and
+  /// time format and in Universal Coordinated Time (UTC). For example:
+  /// <code>2019-06-13T21:36:34Z</code>
+  ///
+  /// The <code>ExclusiveEndTime</code> must be less than or equal to the current
+  /// UTC date and time.
+  @_s.JsonKey(
+      name: 'ExclusiveEndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime exclusiveEndTime;
+
+  /// The inclusive start date and time for the range of journal contents that you
+  /// want to export.
+  ///
+  /// The <code>InclusiveStartTime</code> must be in <code>ISO 8601</code> date
+  /// and time format and in Universal Coordinated Time (UTC). For example:
+  /// <code>2019-06-13T21:36:34Z</code>
+  ///
+  /// The <code>InclusiveStartTime</code> must be before
+  /// <code>ExclusiveEndTime</code>.
+  ///
+  /// If you provide an <code>InclusiveStartTime</code> that is before the
+  /// ledger's <code>CreationDateTime</code>, Amazon QLDB defaults it to the
+  /// ledger's <code>CreationDateTime</code>.
+  @_s.JsonKey(
+      name: 'InclusiveStartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime inclusiveStartTime;
+
+  /// The name of the ledger.
+  @_s.JsonKey(name: 'name', ignore: true)
+  final String name;
+
+  /// The Amazon Resource Name (ARN) of the IAM role that grants QLDB permissions
+  /// for a journal export job to do the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// Write objects into your Amazon Simple Storage Service (Amazon S3) bucket.
+  /// </li>
+  /// <li>
+  /// (Optional) Use your customer master key (CMK) in AWS Key Management Service
+  /// (AWS KMS) for server-side encryption of your exported data.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'RoleArn')
+  final String roleArn;
+
+  /// The configuration settings of the Amazon S3 bucket destination for your
+  /// export request.
+  @_s.JsonKey(name: 'S3ExportConfiguration')
+  final S3ExportConfiguration s3ExportConfiguration;
+
+  ExportJournalToS3Request({
+    @_s.required this.exclusiveEndTime,
+    @_s.required this.inclusiveStartTime,
+    @_s.required this.name,
+    @_s.required this.roleArn,
+    @_s.required this.s3ExportConfiguration,
+  });
+  Map<String, dynamic> toJson() => _$ExportJournalToS3RequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ExportJournalToS3Response {
@@ -1020,6 +1162,40 @@ enum ExportStatus {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetBlockRequest {
+  /// The location of the block that you want to request. An address is an Amazon
+  /// Ion structure that has two fields: <code>strandId</code> and
+  /// <code>sequenceNo</code>.
+  ///
+  /// For example: <code>{strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:14}</code>
+  @_s.JsonKey(name: 'BlockAddress')
+  final ValueHolder blockAddress;
+
+  /// The name of the ledger.
+  @_s.JsonKey(name: 'name', ignore: true)
+  final String name;
+
+  /// The latest block location covered by the digest for which to request a
+  /// proof. An address is an Amazon Ion structure that has two fields:
+  /// <code>strandId</code> and <code>sequenceNo</code>.
+  ///
+  /// For example: <code>{strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:49}</code>
+  @_s.JsonKey(name: 'DigestTipAddress')
+  final ValueHolder digestTipAddress;
+
+  GetBlockRequest({
+    @_s.required this.blockAddress,
+    @_s.required this.name,
+    this.digestTipAddress,
+  });
+  Map<String, dynamic> toJson() => _$GetBlockRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetBlockResponse {
@@ -1039,6 +1215,22 @@ class GetBlockResponse {
   });
   factory GetBlockResponse.fromJson(Map<String, dynamic> json) =>
       _$GetBlockResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetDigestRequest {
+  /// The name of the ledger.
+  @_s.JsonKey(name: 'name', ignore: true)
+  final String name;
+
+  GetDigestRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$GetDigestRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1065,6 +1257,45 @@ class GetDigestResponse {
   });
   factory GetDigestResponse.fromJson(Map<String, dynamic> json) =>
       _$GetDigestResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetRevisionRequest {
+  /// The block location of the document revision to be verified. An address is an
+  /// Amazon Ion structure that has two fields: <code>strandId</code> and
+  /// <code>sequenceNo</code>.
+  ///
+  /// For example: <code>{strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:14}</code>
+  @_s.JsonKey(name: 'BlockAddress')
+  final ValueHolder blockAddress;
+
+  /// The unique ID of the document to be verified.
+  @_s.JsonKey(name: 'DocumentId')
+  final String documentId;
+
+  /// The name of the ledger.
+  @_s.JsonKey(name: 'name', ignore: true)
+  final String name;
+
+  /// The latest block location covered by the digest for which to request a
+  /// proof. An address is an Amazon Ion structure that has two fields:
+  /// <code>strandId</code> and <code>sequenceNo</code>.
+  ///
+  /// For example: <code>{strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:49}</code>
+  @_s.JsonKey(name: 'DigestTipAddress')
+  final ValueHolder digestTipAddress;
+
+  GetRevisionRequest({
+    @_s.required this.blockAddress,
+    @_s.required this.documentId,
+    @_s.required this.name,
+    this.digestTipAddress,
+  });
+  Map<String, dynamic> toJson() => _$GetRevisionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1341,16 +1572,6 @@ enum PermissionsMode {
   allowAll,
 }
 
-extension on PermissionsMode {
-  String toValue() {
-    switch (this) {
-      case PermissionsMode.allowAll:
-        return 'ALLOW_ALL';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// The encryption settings that are used by a journal export job to write data
 /// in an Amazon Simple Storage Service (Amazon S3) bucket.
 @_s.JsonSerializable(
@@ -1459,6 +1680,33 @@ enum S3ObjectEncryptionType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The Amazon Resource Name (ARN) to which you want to add the tags. For
+  /// example:
+  ///
+  /// <code>arn:aws:qldb:us-east-1:123456789012:ledger/exampleLedger</code>
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  /// The key-value pairs to add as tags to the specified QLDB resource. Tag keys
+  /// are case sensitive. If you specify a key that already exists for the
+  /// resource, your request fails and returns an error. Tag values are case
+  /// sensitive and can be null.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagResourceResponse {
@@ -1470,12 +1718,65 @@ class TagResourceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The Amazon Resource Name (ARN) from which you want to remove the tags. For
+  /// example:
+  ///
+  /// <code>arn:aws:qldb:us-east-1:123456789012:ledger/exampleLedger</code>
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  /// The list of tag keys that you want to remove.
+  @_s.JsonKey(name: 'tagKeys', ignore: true)
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
   factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateLedgerRequest {
+  /// The name of the ledger.
+  @_s.JsonKey(name: 'name', ignore: true)
+  final String name;
+
+  /// The flag that prevents a ledger from being deleted by any user. If not
+  /// provided on ledger creation, this feature is enabled (<code>true</code>) by
+  /// default.
+  ///
+  /// If deletion protection is enabled, you must first disable it before you can
+  /// delete the ledger using the QLDB API or the AWS Command Line Interface (AWS
+  /// CLI). You can disable it by calling the <code>UpdateLedger</code> operation
+  /// to set the flag to <code>false</code>. The QLDB console disables deletion
+  /// protection for you when you use it to delete a ledger.
+  @_s.JsonKey(name: 'DeletionProtection')
+  final bool deletionProtection;
+
+  UpdateLedgerRequest({
+    @_s.required this.name,
+    this.deletionProtection,
+  });
+  Map<String, dynamic> toJson() => _$UpdateLedgerRequestToJson(this);
 }
 
 @_s.JsonSerializable(

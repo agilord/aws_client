@@ -114,6 +114,21 @@ JobExecutionSummary _$JobExecutionSummaryFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$StartNextPendingJobExecutionRequestToJson(
+    StartNextPendingJobExecutionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('statusDetails', instance.statusDetails);
+  writeNotNull('stepTimeoutInMinutes', instance.stepTimeoutInMinutes);
+  return val;
+}
+
 StartNextPendingJobExecutionResponse
     _$StartNextPendingJobExecutionResponseFromJson(Map<String, dynamic> json) {
   return StartNextPendingJobExecutionResponse(
@@ -121,6 +136,26 @@ StartNextPendingJobExecutionResponse
         ? null
         : JobExecution.fromJson(json['execution'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateJobExecutionRequestToJson(
+    UpdateJobExecutionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('status', _$JobExecutionStatusEnumMap[instance.status]);
+  writeNotNull('executionNumber', instance.executionNumber);
+  writeNotNull('expectedVersion', instance.expectedVersion);
+  writeNotNull('includeJobDocument', instance.includeJobDocument);
+  writeNotNull('includeJobExecutionState', instance.includeJobExecutionState);
+  writeNotNull('statusDetails', instance.statusDetails);
+  writeNotNull('stepTimeoutInMinutes', instance.stepTimeoutInMinutes);
+  return val;
 }
 
 UpdateJobExecutionResponse _$UpdateJobExecutionResponseFromJson(

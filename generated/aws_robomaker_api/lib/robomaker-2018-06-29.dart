@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -52,9 +51,9 @@ class RoboMaker {
     @_s.required List<String> jobs,
   }) async {
     ArgumentError.checkNotNull(jobs, 'jobs');
-    final $payload = <String, dynamic>{
-      'jobs': jobs,
-    };
+    final $payload = BatchDescribeSimulationJobRequest(
+      jobs: jobs,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -90,9 +89,9 @@ class RoboMaker {
       r'''arn:.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'job': job,
-    };
+    final $payload = CancelDeploymentJobRequest(
+      job: job,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -128,9 +127,9 @@ class RoboMaker {
       r'''arn:.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'job': job,
-    };
+    final $payload = CancelSimulationJobRequest(
+      job: job,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -168,9 +167,9 @@ class RoboMaker {
       r'''arn:.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'batch': batch,
-    };
+    final $payload = CancelSimulationJobBatchRequest(
+      batch: batch,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -253,13 +252,13 @@ class RoboMaker {
       r'''arn:.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'clientRequestToken': clientRequestToken,
-      'deploymentApplicationConfigs': deploymentApplicationConfigs,
-      'fleet': fleet,
-      if (deploymentConfig != null) 'deploymentConfig': deploymentConfig,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateDeploymentJobRequest(
+      clientRequestToken: clientRequestToken,
+      deploymentApplicationConfigs: deploymentApplicationConfigs,
+      fleet: fleet,
+      deploymentConfig: deploymentConfig,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -301,10 +300,10 @@ class RoboMaker {
       r'''[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'name': name,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateFleetRequest(
+      name: name,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -369,12 +368,12 @@ class RoboMaker {
       r'''[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'architecture': architecture?.toValue(),
-      'greengrassGroupId': greengrassGroupId,
-      'name': name,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateRobotRequest(
+      architecture: architecture,
+      greengrassGroupId: greengrassGroupId,
+      name: name,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -428,12 +427,12 @@ class RoboMaker {
     );
     ArgumentError.checkNotNull(robotSoftwareSuite, 'robotSoftwareSuite');
     ArgumentError.checkNotNull(sources, 'sources');
-    final $payload = <String, dynamic>{
-      'name': name,
-      'robotSoftwareSuite': robotSoftwareSuite,
-      'sources': sources,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateRobotApplicationRequest(
+      name: name,
+      robotSoftwareSuite: robotSoftwareSuite,
+      sources: sources,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -486,10 +485,10 @@ class RoboMaker {
       currentRevisionId,
       r'''[a-zA-Z0-9_.\-]*''',
     );
-    final $payload = <String, dynamic>{
-      'application': application,
-      if (currentRevisionId != null) 'currentRevisionId': currentRevisionId,
-    };
+    final $payload = CreateRobotApplicationVersionRequest(
+      application: application,
+      currentRevisionId: currentRevisionId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -553,14 +552,14 @@ class RoboMaker {
     ArgumentError.checkNotNull(
         simulationSoftwareSuite, 'simulationSoftwareSuite');
     ArgumentError.checkNotNull(sources, 'sources');
-    final $payload = <String, dynamic>{
-      'name': name,
-      'robotSoftwareSuite': robotSoftwareSuite,
-      'simulationSoftwareSuite': simulationSoftwareSuite,
-      'sources': sources,
-      if (renderingEngine != null) 'renderingEngine': renderingEngine,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateSimulationApplicationRequest(
+      name: name,
+      robotSoftwareSuite: robotSoftwareSuite,
+      simulationSoftwareSuite: simulationSoftwareSuite,
+      sources: sources,
+      renderingEngine: renderingEngine,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -615,10 +614,10 @@ class RoboMaker {
       currentRevisionId,
       r'''[a-zA-Z0-9_.\-]*''',
     );
-    final $payload = <String, dynamic>{
-      'application': application,
-      if (currentRevisionId != null) 'currentRevisionId': currentRevisionId,
-    };
+    final $payload = CreateSimulationApplicationVersionRequest(
+      application: application,
+      currentRevisionId: currentRevisionId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -738,22 +737,20 @@ class RoboMaker {
       clientRequestToken,
       r'''[a-zA-Z0-9_\-=]*''',
     );
-    final $payload = <String, dynamic>{
-      'iamRole': iamRole,
-      'maxJobDurationInSeconds': maxJobDurationInSeconds,
-      if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
-      if (compute != null) 'compute': compute,
-      if (dataSources != null) 'dataSources': dataSources,
-      if (failureBehavior != null)
-        'failureBehavior': failureBehavior?.toValue(),
-      if (loggingConfig != null) 'loggingConfig': loggingConfig,
-      if (outputLocation != null) 'outputLocation': outputLocation,
-      if (robotApplications != null) 'robotApplications': robotApplications,
-      if (simulationApplications != null)
-        'simulationApplications': simulationApplications,
-      if (tags != null) 'tags': tags,
-      if (vpcConfig != null) 'vpcConfig': vpcConfig,
-    };
+    final $payload = CreateSimulationJobRequest(
+      iamRole: iamRole,
+      maxJobDurationInSeconds: maxJobDurationInSeconds,
+      clientRequestToken: clientRequestToken,
+      compute: compute,
+      dataSources: dataSources,
+      failureBehavior: failureBehavior,
+      loggingConfig: loggingConfig,
+      outputLocation: outputLocation,
+      robotApplications: robotApplications,
+      simulationApplications: simulationApplications,
+      tags: tags,
+      vpcConfig: vpcConfig,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -788,9 +785,9 @@ class RoboMaker {
       r'''arn:.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'fleet': fleet,
-    };
+    final $payload = DeleteFleetRequest(
+      fleet: fleet,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -825,9 +822,9 @@ class RoboMaker {
       r'''arn:.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'robot': robot,
-    };
+    final $payload = DeleteRobotRequest(
+      robot: robot,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -877,10 +874,10 @@ class RoboMaker {
       applicationVersion,
       r'''(\$LATEST)|[0-9]*''',
     );
-    final $payload = <String, dynamic>{
-      'application': application,
-      if (applicationVersion != null) 'applicationVersion': applicationVersion,
-    };
+    final $payload = DeleteRobotApplicationRequest(
+      application: application,
+      applicationVersion: applicationVersion,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -930,10 +927,10 @@ class RoboMaker {
       applicationVersion,
       r'''(\$LATEST)|[0-9]*''',
     );
-    final $payload = <String, dynamic>{
-      'application': application,
-      if (applicationVersion != null) 'applicationVersion': applicationVersion,
-    };
+    final $payload = DeleteSimulationApplicationRequest(
+      application: application,
+      applicationVersion: applicationVersion,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -987,10 +984,10 @@ class RoboMaker {
       r'''arn:.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'fleet': fleet,
-      'robot': robot,
-    };
+    final $payload = DeregisterRobotRequest(
+      fleet: fleet,
+      robot: robot,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1026,9 +1023,9 @@ class RoboMaker {
       r'''arn:.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'job': job,
-    };
+    final $payload = DescribeDeploymentJobRequest(
+      job: job,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1064,9 +1061,9 @@ class RoboMaker {
       r'''arn:.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'fleet': fleet,
-    };
+    final $payload = DescribeFleetRequest(
+      fleet: fleet,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1102,9 +1099,9 @@ class RoboMaker {
       r'''arn:.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'robot': robot,
-    };
+    final $payload = DescribeRobotRequest(
+      robot: robot,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1155,10 +1152,10 @@ class RoboMaker {
       applicationVersion,
       r'''(\$LATEST)|[0-9]*''',
     );
-    final $payload = <String, dynamic>{
-      'application': application,
-      if (applicationVersion != null) 'applicationVersion': applicationVersion,
-    };
+    final $payload = DescribeRobotApplicationRequest(
+      application: application,
+      applicationVersion: applicationVersion,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1209,10 +1206,10 @@ class RoboMaker {
       applicationVersion,
       r'''(\$LATEST)|[0-9]*''',
     );
-    final $payload = <String, dynamic>{
-      'application': application,
-      if (applicationVersion != null) 'applicationVersion': applicationVersion,
-    };
+    final $payload = DescribeSimulationApplicationRequest(
+      application: application,
+      applicationVersion: applicationVersion,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1248,9 +1245,9 @@ class RoboMaker {
       r'''arn:.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'job': job,
-    };
+    final $payload = DescribeSimulationJobRequest(
+      job: job,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1285,9 +1282,9 @@ class RoboMaker {
       r'''arn:.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'batch': batch,
-    };
+    final $payload = DescribeSimulationJobBatchRequest(
+      batch: batch,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1346,11 +1343,11 @@ class RoboMaker {
       nextToken,
       r'''[a-zA-Z0-9_.\-\/+=]*''',
     );
-    final $payload = <String, dynamic>{
-      if (filters != null) 'filters': filters,
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
+    final $payload = ListDeploymentJobsRequest(
+      filters: filters,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1411,11 +1408,11 @@ class RoboMaker {
       nextToken,
       r'''[a-zA-Z0-9_.\-\/+=]*''',
     );
-    final $payload = <String, dynamic>{
-      if (filters != null) 'filters': filters,
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
+    final $payload = ListFleetsRequest(
+      filters: filters,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1486,12 +1483,12 @@ class RoboMaker {
       versionQualifier,
       r'''ALL''',
     );
-    final $payload = <String, dynamic>{
-      if (filters != null) 'filters': filters,
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-      if (versionQualifier != null) 'versionQualifier': versionQualifier,
-    };
+    final $payload = ListRobotApplicationsRequest(
+      filters: filters,
+      maxResults: maxResults,
+      nextToken: nextToken,
+      versionQualifier: versionQualifier,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1550,11 +1547,11 @@ class RoboMaker {
       nextToken,
       r'''[a-zA-Z0-9_.\-\/+=]*''',
     );
-    final $payload = <String, dynamic>{
-      if (filters != null) 'filters': filters,
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
+    final $payload = ListRobotsRequest(
+      filters: filters,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1626,12 +1623,12 @@ class RoboMaker {
       versionQualifier,
       r'''ALL''',
     );
-    final $payload = <String, dynamic>{
-      if (filters != null) 'filters': filters,
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-      if (versionQualifier != null) 'versionQualifier': versionQualifier,
-    };
+    final $payload = ListSimulationApplicationsRequest(
+      filters: filters,
+      maxResults: maxResults,
+      nextToken: nextToken,
+      versionQualifier: versionQualifier,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1680,11 +1677,11 @@ class RoboMaker {
       nextToken,
       r'''[a-zA-Z0-9_.\-\/+=]*''',
     );
-    final $payload = <String, dynamic>{
-      if (filters != null) 'filters': filters,
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
+    final $payload = ListSimulationJobBatchesRequest(
+      filters: filters,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1748,11 +1745,11 @@ class RoboMaker {
       nextToken,
       r'''[a-zA-Z0-9_.\-\/+=]*''',
     );
-    final $payload = <String, dynamic>{
-      if (filters != null) 'filters': filters,
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
+    final $payload = ListSimulationJobsRequest(
+      filters: filters,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1842,10 +1839,10 @@ class RoboMaker {
       r'''arn:.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'fleet': fleet,
-      'robot': robot,
-    };
+    final $payload = RegisterRobotRequest(
+      fleet: fleet,
+      robot: robot,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1882,9 +1879,9 @@ class RoboMaker {
       r'''arn:.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'job': job,
-    };
+    final $payload = RestartSimulationJobRequest(
+      job: job,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1935,12 +1932,12 @@ class RoboMaker {
       clientRequestToken,
       r'''[a-zA-Z0-9_\-=]*''',
     );
-    final $payload = <String, dynamic>{
-      'createSimulationJobRequests': createSimulationJobRequests,
-      if (batchPolicy != null) 'batchPolicy': batchPolicy,
-      if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = StartSimulationJobBatchRequest(
+      createSimulationJobRequests: createSimulationJobRequests,
+      batchPolicy: batchPolicy,
+      clientRequestToken: clientRequestToken,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1999,10 +1996,10 @@ class RoboMaker {
       r'''arn:.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'clientRequestToken': clientRequestToken,
-      'fleet': fleet,
-    };
+    final $payload = SyncDeploymentJobRequest(
+      clientRequestToken: clientRequestToken,
+      fleet: fleet,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2054,9 +2051,10 @@ class RoboMaker {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'tags': tags,
-    };
+    final $payload = TagResourceRequest(
+      resourceArn: resourceArn,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2108,7 +2106,10 @@ class RoboMaker {
     _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = UntagResourceRequest(
+      resourceArn: resourceArn,
+      tagKeys: tagKeys,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -2170,12 +2171,12 @@ class RoboMaker {
       currentRevisionId,
       r'''[a-zA-Z0-9_.\-]*''',
     );
-    final $payload = <String, dynamic>{
-      'application': application,
-      'robotSoftwareSuite': robotSoftwareSuite,
-      'sources': sources,
-      if (currentRevisionId != null) 'currentRevisionId': currentRevisionId,
-    };
+    final $payload = UpdateRobotApplicationRequest(
+      application: application,
+      robotSoftwareSuite: robotSoftwareSuite,
+      sources: sources,
+      currentRevisionId: currentRevisionId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2247,14 +2248,14 @@ class RoboMaker {
       currentRevisionId,
       r'''[a-zA-Z0-9_.\-]*''',
     );
-    final $payload = <String, dynamic>{
-      'application': application,
-      'robotSoftwareSuite': robotSoftwareSuite,
-      'simulationSoftwareSuite': simulationSoftwareSuite,
-      'sources': sources,
-      if (currentRevisionId != null) 'currentRevisionId': currentRevisionId,
-      if (renderingEngine != null) 'renderingEngine': renderingEngine,
-    };
+    final $payload = UpdateSimulationApplicationRequest(
+      application: application,
+      robotSoftwareSuite: robotSoftwareSuite,
+      simulationSoftwareSuite: simulationSoftwareSuite,
+      sources: sources,
+      currentRevisionId: currentRevisionId,
+      renderingEngine: renderingEngine,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2274,18 +2275,21 @@ enum Architecture {
   armhf,
 }
 
-extension on Architecture {
-  String toValue() {
-    switch (this) {
-      case Architecture.x86_64:
-        return 'X86_64';
-      case Architecture.arm64:
-        return 'ARM64';
-      case Architecture.armhf:
-        return 'ARMHF';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchDescribeSimulationJobRequest {
+  /// A list of Amazon Resource Names (ARNs) of simulation jobs to describe.
+  @_s.JsonKey(name: 'jobs')
+  final List<String> jobs;
+
+  BatchDescribeSimulationJobRequest({
+    @_s.required this.jobs,
+  });
+  Map<String, dynamic> toJson() =>
+      _$BatchDescribeSimulationJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2351,12 +2355,45 @@ class BatchPolicy {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CancelDeploymentJobRequest {
+  /// The deployment job ARN to cancel.
+  @_s.JsonKey(name: 'job')
+  final String job;
+
+  CancelDeploymentJobRequest({
+    @_s.required this.job,
+  });
+  Map<String, dynamic> toJson() => _$CancelDeploymentJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CancelDeploymentJobResponse {
   CancelDeploymentJobResponse();
   factory CancelDeploymentJobResponse.fromJson(Map<String, dynamic> json) =>
       _$CancelDeploymentJobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CancelSimulationJobBatchRequest {
+  /// The id of the batch to cancel.
+  @_s.JsonKey(name: 'batch')
+  final String batch;
+
+  CancelSimulationJobBatchRequest({
+    @_s.required this.batch,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CancelSimulationJobBatchRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2369,6 +2406,22 @@ class CancelSimulationJobBatchResponse {
   factory CancelSimulationJobBatchResponse.fromJson(
           Map<String, dynamic> json) =>
       _$CancelSimulationJobBatchResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CancelSimulationJobRequest {
+  /// The simulation job ARN to cancel.
+  @_s.JsonKey(name: 'job')
+  final String job;
+
+  CancelSimulationJobRequest({
+    @_s.required this.job,
+  });
+  Map<String, dynamic> toJson() => _$CancelSimulationJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2424,6 +2477,44 @@ class ComputeResponse {
   });
   factory ComputeResponse.fromJson(Map<String, dynamic> json) =>
       _$ComputeResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDeploymentJobRequest {
+  /// Unique, case-sensitive identifier that you provide to ensure the idempotency
+  /// of the request.
+  @_s.JsonKey(name: 'clientRequestToken')
+  final String clientRequestToken;
+
+  /// The deployment application configuration.
+  @_s.JsonKey(name: 'deploymentApplicationConfigs')
+  final List<DeploymentApplicationConfig> deploymentApplicationConfigs;
+
+  /// The Amazon Resource Name (ARN) of the fleet to deploy.
+  @_s.JsonKey(name: 'fleet')
+  final String fleet;
+
+  /// The requested deployment configuration.
+  @_s.JsonKey(name: 'deploymentConfig')
+  final DeploymentConfig deploymentConfig;
+
+  /// A map that contains tag keys and tag values that are attached to the
+  /// deployment job.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateDeploymentJobRequest({
+    @_s.required this.clientRequestToken,
+    @_s.required this.deploymentApplicationConfigs,
+    @_s.required this.fleet,
+    this.deploymentConfig,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateDeploymentJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2524,6 +2615,27 @@ class CreateDeploymentJobResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateFleetRequest {
+  /// The name of the fleet.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// A map that contains tag keys and tag values that are attached to the fleet.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateFleetRequest({
+    @_s.required this.name,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateFleetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateFleetResponse {
@@ -2554,6 +2666,38 @@ class CreateFleetResponse {
   });
   factory CreateFleetResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateFleetResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateRobotApplicationRequest {
+  /// The name of the robot application.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The robot software suite (ROS distribuition) used by the robot application.
+  @_s.JsonKey(name: 'robotSoftwareSuite')
+  final RobotSoftwareSuite robotSoftwareSuite;
+
+  /// The sources of the robot application.
+  @_s.JsonKey(name: 'sources')
+  final List<SourceConfig> sources;
+
+  /// A map that contains tag keys and tag values that are attached to the robot
+  /// application.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateRobotApplicationRequest({
+    @_s.required this.name,
+    @_s.required this.robotSoftwareSuite,
+    @_s.required this.sources,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateRobotApplicationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2615,6 +2759,29 @@ class CreateRobotApplicationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateRobotApplicationVersionRequest {
+  /// The application information for the robot application.
+  @_s.JsonKey(name: 'application')
+  final String application;
+
+  /// The current revision id for the robot application. If you provide a value
+  /// and it matches the latest revision ID, a new version will be created.
+  @_s.JsonKey(name: 'currentRevisionId')
+  final String currentRevisionId;
+
+  CreateRobotApplicationVersionRequest({
+    @_s.required this.application,
+    this.currentRevisionId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateRobotApplicationVersionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateRobotApplicationVersionResponse {
@@ -2667,6 +2834,37 @@ class CreateRobotApplicationVersionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateRobotRequest {
+  /// The target architecture of the robot.
+  @_s.JsonKey(name: 'architecture')
+  final Architecture architecture;
+
+  /// The Greengrass group id.
+  @_s.JsonKey(name: 'greengrassGroupId')
+  final String greengrassGroupId;
+
+  /// The name for the robot.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// A map that contains tag keys and tag values that are attached to the robot.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateRobotRequest({
+    @_s.required this.architecture,
+    @_s.required this.greengrassGroupId,
+    @_s.required this.name,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateRobotRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateRobotResponse {
@@ -2708,6 +2906,50 @@ class CreateRobotResponse {
   });
   factory CreateRobotResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateRobotResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateSimulationApplicationRequest {
+  /// The name of the simulation application.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The robot software suite (ROS distribution) used by the simulation
+  /// application.
+  @_s.JsonKey(name: 'robotSoftwareSuite')
+  final RobotSoftwareSuite robotSoftwareSuite;
+
+  /// The simulation software suite used by the simulation application.
+  @_s.JsonKey(name: 'simulationSoftwareSuite')
+  final SimulationSoftwareSuite simulationSoftwareSuite;
+
+  /// The sources of the simulation application.
+  @_s.JsonKey(name: 'sources')
+  final List<SourceConfig> sources;
+
+  /// The rendering engine for the simulation application.
+  @_s.JsonKey(name: 'renderingEngine')
+  final RenderingEngine renderingEngine;
+
+  /// A map that contains tag keys and tag values that are attached to the
+  /// simulation application.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateSimulationApplicationRequest({
+    @_s.required this.name,
+    @_s.required this.robotSoftwareSuite,
+    @_s.required this.simulationSoftwareSuite,
+    @_s.required this.sources,
+    this.renderingEngine,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateSimulationApplicationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2780,6 +3022,29 @@ class CreateSimulationApplicationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateSimulationApplicationVersionRequest {
+  /// The application information for the simulation application.
+  @_s.JsonKey(name: 'application')
+  final String application;
+
+  /// The current revision id for the simulation application. If you provide a
+  /// value and it matches the latest revision ID, a new version will be created.
+  @_s.JsonKey(name: 'currentRevisionId')
+  final String currentRevisionId;
+
+  CreateSimulationApplicationVersionRequest({
+    @_s.required this.application,
+    this.currentRevisionId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateSimulationApplicationVersionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateSimulationApplicationVersionResponse {
@@ -2837,6 +3102,97 @@ class CreateSimulationApplicationVersionResponse {
   factory CreateSimulationApplicationVersionResponse.fromJson(
           Map<String, dynamic> json) =>
       _$CreateSimulationApplicationVersionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateSimulationJobRequest {
+  /// The IAM role name that allows the simulation instance to call the AWS APIs
+  /// that are specified in its associated policies on your behalf. This is how
+  /// credentials are passed in to your simulation job.
+  @_s.JsonKey(name: 'iamRole')
+  final String iamRole;
+
+  /// The maximum simulation job duration in seconds (up to 14 days or 1,209,600
+  /// seconds. When <code>maxJobDurationInSeconds</code> is reached, the
+  /// simulation job will status will transition to <code>Completed</code>.
+  @_s.JsonKey(name: 'maxJobDurationInSeconds')
+  final int maxJobDurationInSeconds;
+
+  /// Unique, case-sensitive identifier that you provide to ensure the idempotency
+  /// of the request.
+  @_s.JsonKey(name: 'clientRequestToken')
+  final String clientRequestToken;
+
+  /// Compute information for the simulation job.
+  @_s.JsonKey(name: 'compute')
+  final Compute compute;
+
+  /// Specify data sources to mount read-only files from S3 into your simulation.
+  /// These files are available under
+  /// <code>/opt/robomaker/datasources/data_source_name</code>.
+  /// <note>
+  /// There is a limit of 100 files and a combined size of 25GB for all
+  /// <code>DataSourceConfig</code> objects.
+  /// </note>
+  @_s.JsonKey(name: 'dataSources')
+  final List<DataSourceConfig> dataSources;
+
+  /// The failure behavior the simulation job.
+  /// <dl> <dt>Continue</dt> <dd>
+  /// Restart the simulation job in the same host instance.
+  /// </dd> <dt>Fail</dt> <dd>
+  /// Stop the simulation job and terminate the instance.
+  /// </dd> </dl>
+  @_s.JsonKey(name: 'failureBehavior')
+  final FailureBehavior failureBehavior;
+
+  /// The logging configuration.
+  @_s.JsonKey(name: 'loggingConfig')
+  final LoggingConfig loggingConfig;
+
+  /// Location for output files generated by the simulation job.
+  @_s.JsonKey(name: 'outputLocation')
+  final OutputLocation outputLocation;
+
+  /// The robot application to use in the simulation job.
+  @_s.JsonKey(name: 'robotApplications')
+  final List<RobotApplicationConfig> robotApplications;
+
+  /// The simulation application to use in the simulation job.
+  @_s.JsonKey(name: 'simulationApplications')
+  final List<SimulationApplicationConfig> simulationApplications;
+
+  /// A map that contains tag keys and tag values that are attached to the
+  /// simulation job.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  /// If your simulation job accesses resources in a VPC, you provide this
+  /// parameter identifying the list of security group IDs and subnet IDs. These
+  /// must belong to the same VPC. You must provide at least one security group
+  /// and one subnet ID.
+  @_s.JsonKey(name: 'vpcConfig')
+  final VPCConfig vpcConfig;
+
+  CreateSimulationJobRequest({
+    @_s.required this.iamRole,
+    @_s.required this.maxJobDurationInSeconds,
+    this.clientRequestToken,
+    this.compute,
+    this.dataSources,
+    this.failureBehavior,
+    this.loggingConfig,
+    this.outputLocation,
+    this.robotApplications,
+    this.simulationApplications,
+    this.tags,
+    this.vpcConfig,
+  });
+  Map<String, dynamic> toJson() => _$CreateSimulationJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3043,12 +3399,49 @@ class DataSourceConfig {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteFleetRequest {
+  /// The Amazon Resource Name (ARN) of the fleet.
+  @_s.JsonKey(name: 'fleet')
+  final String fleet;
+
+  DeleteFleetRequest({
+    @_s.required this.fleet,
+  });
+  Map<String, dynamic> toJson() => _$DeleteFleetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteFleetResponse {
   DeleteFleetResponse();
   factory DeleteFleetResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteFleetResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteRobotApplicationRequest {
+  /// The Amazon Resource Name (ARN) of the the robot application.
+  @_s.JsonKey(name: 'application')
+  final String application;
+
+  /// The version of the robot application to delete.
+  @_s.JsonKey(name: 'applicationVersion')
+  final String applicationVersion;
+
+  DeleteRobotApplicationRequest({
+    @_s.required this.application,
+    this.applicationVersion,
+  });
+  Map<String, dynamic> toJson() => _$DeleteRobotApplicationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3065,12 +3458,50 @@ class DeleteRobotApplicationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteRobotRequest {
+  /// The Amazon Resource Name (ARN) of the robot.
+  @_s.JsonKey(name: 'robot')
+  final String robot;
+
+  DeleteRobotRequest({
+    @_s.required this.robot,
+  });
+  Map<String, dynamic> toJson() => _$DeleteRobotRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteRobotResponse {
   DeleteRobotResponse();
   factory DeleteRobotResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteRobotResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteSimulationApplicationRequest {
+  /// The application information for the simulation application to delete.
+  @_s.JsonKey(name: 'application')
+  final String application;
+
+  /// The version of the simulation application to delete.
+  @_s.JsonKey(name: 'applicationVersion')
+  final String applicationVersion;
+
+  DeleteSimulationApplicationRequest({
+    @_s.required this.application,
+    this.applicationVersion,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteSimulationApplicationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3312,6 +3743,27 @@ enum DeploymentStatus {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeregisterRobotRequest {
+  /// The Amazon Resource Name (ARN) of the fleet.
+  @_s.JsonKey(name: 'fleet')
+  final String fleet;
+
+  /// The Amazon Resource Name (ARN) of the robot.
+  @_s.JsonKey(name: 'robot')
+  final String robot;
+
+  DeregisterRobotRequest({
+    @_s.required this.fleet,
+    @_s.required this.robot,
+  });
+  Map<String, dynamic> toJson() => _$DeregisterRobotRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeregisterRobotResponse {
@@ -3329,6 +3781,22 @@ class DeregisterRobotResponse {
   });
   factory DeregisterRobotResponse.fromJson(Map<String, dynamic> json) =>
       _$DeregisterRobotResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeDeploymentJobRequest {
+  /// The Amazon Resource Name (ARN) of the deployment job.
+  @_s.JsonKey(name: 'job')
+  final String job;
+
+  DescribeDeploymentJobRequest({
+    @_s.required this.job,
+  });
+  Map<String, dynamic> toJson() => _$DescribeDeploymentJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3400,6 +3868,22 @@ class DescribeDeploymentJobResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeFleetRequest {
+  /// The Amazon Resource Name (ARN) of the fleet.
+  @_s.JsonKey(name: 'fleet')
+  final String fleet;
+
+  DescribeFleetRequest({
+    @_s.required this.fleet,
+  });
+  Map<String, dynamic> toJson() => _$DescribeFleetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeFleetResponse {
@@ -3458,6 +3942,28 @@ class DescribeFleetResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeRobotApplicationRequest {
+  /// The Amazon Resource Name (ARN) of the robot application.
+  @_s.JsonKey(name: 'application')
+  final String application;
+
+  /// The version of the robot application to describe.
+  @_s.JsonKey(name: 'applicationVersion')
+  final String applicationVersion;
+
+  DescribeRobotApplicationRequest({
+    @_s.required this.application,
+    this.applicationVersion,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeRobotApplicationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeRobotApplicationResponse {
@@ -3510,6 +4016,22 @@ class DescribeRobotApplicationResponse {
   factory DescribeRobotApplicationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeRobotApplicationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeRobotRequest {
+  /// The Amazon Resource Name (ARN) of the robot to be described.
+  @_s.JsonKey(name: 'robot')
+  final String robot;
+
+  DescribeRobotRequest({
+    @_s.required this.robot,
+  });
+  Map<String, dynamic> toJson() => _$DescribeRobotRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3583,6 +4105,28 @@ class DescribeRobotResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeSimulationApplicationRequest {
+  /// The application information for the simulation application.
+  @_s.JsonKey(name: 'application')
+  final String application;
+
+  /// The version of the simulation application to describe.
+  @_s.JsonKey(name: 'applicationVersion')
+  final String applicationVersion;
+
+  DescribeSimulationApplicationRequest({
+    @_s.required this.application,
+    this.applicationVersion,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeSimulationApplicationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeSimulationApplicationResponse {
@@ -3645,6 +4189,23 @@ class DescribeSimulationApplicationResponse {
   factory DescribeSimulationApplicationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeSimulationApplicationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeSimulationJobBatchRequest {
+  /// The id of the batch to describe.
+  @_s.JsonKey(name: 'batch')
+  final String batch;
+
+  DescribeSimulationJobBatchRequest({
+    @_s.required this.batch,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeSimulationJobBatchRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3762,6 +4323,22 @@ class DescribeSimulationJobBatchResponse {
   factory DescribeSimulationJobBatchResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeSimulationJobBatchResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeSimulationJobRequest {
+  /// The Amazon Resource Name (ARN) of the simulation job to be described.
+  @_s.JsonKey(name: 'job')
+  final String job;
+
+  DescribeSimulationJobRequest({
+    @_s.required this.job,
+  });
+  Map<String, dynamic> toJson() => _$DescribeSimulationJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3970,18 +4547,6 @@ enum FailureBehavior {
   $continue,
 }
 
-extension on FailureBehavior {
-  String toValue() {
-    switch (this) {
-      case FailureBehavior.fail:
-        return 'Fail';
-      case FailureBehavior.$continue:
-        return 'Continue';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Information about a filter.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -4099,6 +4664,49 @@ class LaunchConfig {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListDeploymentJobsRequest {
+  /// Optional filters to limit results.
+  ///
+  /// The filter names <code>status</code> and <code>fleetName</code> are
+  /// supported. When filtering, you must use the complete value of the filtered
+  /// item. You can use up to three filters, but they must be for the same named
+  /// item. For example, if you are looking for items with the status
+  /// <code>InProgress</code> or the status <code>Pending</code>.
+  @_s.JsonKey(name: 'filters')
+  final List<Filter> filters;
+
+  /// When this parameter is used, <code>ListDeploymentJobs</code> only returns
+  /// <code>maxResults</code> results in a single page along with a
+  /// <code>nextToken</code> response element. The remaining results of the
+  /// initial request can be seen by sending another
+  /// <code>ListDeploymentJobs</code> request with the returned
+  /// <code>nextToken</code> value. This value can be between 1 and 200. If this
+  /// parameter is not used, then <code>ListDeploymentJobs</code> returns up to
+  /// 200 results and a <code>nextToken</code> value if applicable.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The <code>nextToken</code> value returned from a previous paginated
+  /// <code>ListDeploymentJobs</code> request where <code>maxResults</code> was
+  /// used and the results exceeded the value of that parameter. Pagination
+  /// continues from the end of the previous results that returned the
+  /// <code>nextToken</code> value.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListDeploymentJobsRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListDeploymentJobsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListDeploymentJobsResponse {
@@ -4120,6 +4728,50 @@ class ListDeploymentJobsResponse {
   });
   factory ListDeploymentJobsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListDeploymentJobsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListFleetsRequest {
+  /// Optional filters to limit results.
+  ///
+  /// The filter name <code>name</code> is supported. When filtering, you must use
+  /// the complete value of the filtered item. You can use up to three filters.
+  @_s.JsonKey(name: 'filters')
+  final List<Filter> filters;
+
+  /// When this parameter is used, <code>ListFleets</code> only returns
+  /// <code>maxResults</code> results in a single page along with a
+  /// <code>nextToken</code> response element. The remaining results of the
+  /// initial request can be seen by sending another <code>ListFleets</code>
+  /// request with the returned <code>nextToken</code> value. This value can be
+  /// between 1 and 200. If this parameter is not used, then
+  /// <code>ListFleets</code> returns up to 200 results and a
+  /// <code>nextToken</code> value if applicable.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The <code>nextToken</code> value returned from a previous paginated
+  /// <code>ListFleets</code> request where <code>maxResults</code> was used and
+  /// the results exceeded the value of that parameter. Pagination continues from
+  /// the end of the previous results that returned the <code>nextToken</code>
+  /// value.
+  /// <note>
+  /// This token should be treated as an opaque identifier that is only used to
+  /// retrieve the next items in a list and not for other programmatic purposes.
+  /// </note>
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListFleetsRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListFleetsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4151,6 +4803,51 @@ class ListFleetsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListRobotApplicationsRequest {
+  /// Optional filters to limit results.
+  ///
+  /// The filter name <code>name</code> is supported. When filtering, you must use
+  /// the complete value of the filtered item. You can use up to three filters.
+  @_s.JsonKey(name: 'filters')
+  final List<Filter> filters;
+
+  /// When this parameter is used, <code>ListRobotApplications</code> only returns
+  /// <code>maxResults</code> results in a single page along with a
+  /// <code>nextToken</code> response element. The remaining results of the
+  /// initial request can be seen by sending another
+  /// <code>ListRobotApplications</code> request with the returned
+  /// <code>nextToken</code> value. This value can be between 1 and 100. If this
+  /// parameter is not used, then <code>ListRobotApplications</code> returns up to
+  /// 100 results and a <code>nextToken</code> value if applicable.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The <code>nextToken</code> value returned from a previous paginated
+  /// <code>ListRobotApplications</code> request where <code>maxResults</code> was
+  /// used and the results exceeded the value of that parameter. Pagination
+  /// continues from the end of the previous results that returned the
+  /// <code>nextToken</code> value.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The version qualifier of the robot application.
+  @_s.JsonKey(name: 'versionQualifier')
+  final String versionQualifier;
+
+  ListRobotApplicationsRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+    this.versionQualifier,
+  });
+  Map<String, dynamic> toJson() => _$ListRobotApplicationsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListRobotApplicationsResponse {
@@ -4177,6 +4874,49 @@ class ListRobotApplicationsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListRobotsRequest {
+  /// Optional filters to limit results.
+  ///
+  /// The filter names <code>status</code> and <code>fleetName</code> are
+  /// supported. When filtering, you must use the complete value of the filtered
+  /// item. You can use up to three filters, but they must be for the same named
+  /// item. For example, if you are looking for items with the status
+  /// <code>Registered</code> or the status <code>Available</code>.
+  @_s.JsonKey(name: 'filters')
+  final List<Filter> filters;
+
+  /// When this parameter is used, <code>ListRobots</code> only returns
+  /// <code>maxResults</code> results in a single page along with a
+  /// <code>nextToken</code> response element. The remaining results of the
+  /// initial request can be seen by sending another <code>ListRobots</code>
+  /// request with the returned <code>nextToken</code> value. This value can be
+  /// between 1 and 200. If this parameter is not used, then
+  /// <code>ListRobots</code> returns up to 200 results and a
+  /// <code>nextToken</code> value if applicable.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The <code>nextToken</code> value returned from a previous paginated
+  /// <code>ListRobots</code> request where <code>maxResults</code> was used and
+  /// the results exceeded the value of that parameter. Pagination continues from
+  /// the end of the previous results that returned the <code>nextToken</code>
+  /// value.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListRobotsRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListRobotsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListRobotsResponse {
@@ -4198,6 +4938,52 @@ class ListRobotsResponse {
   });
   factory ListRobotsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListRobotsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListSimulationApplicationsRequest {
+  /// Optional list of filters to limit results.
+  ///
+  /// The filter name <code>name</code> is supported. When filtering, you must use
+  /// the complete value of the filtered item. You can use up to three filters.
+  @_s.JsonKey(name: 'filters')
+  final List<Filter> filters;
+
+  /// When this parameter is used, <code>ListSimulationApplications</code> only
+  /// returns <code>maxResults</code> results in a single page along with a
+  /// <code>nextToken</code> response element. The remaining results of the
+  /// initial request can be seen by sending another
+  /// <code>ListSimulationApplications</code> request with the returned
+  /// <code>nextToken</code> value. This value can be between 1 and 100. If this
+  /// parameter is not used, then <code>ListSimulationApplications</code> returns
+  /// up to 100 results and a <code>nextToken</code> value if applicable.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The <code>nextToken</code> value returned from a previous paginated
+  /// <code>ListSimulationApplications</code> request where
+  /// <code>maxResults</code> was used and the results exceeded the value of that
+  /// parameter. Pagination continues from the end of the previous results that
+  /// returned the <code>nextToken</code> value.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The version qualifier of the simulation application.
+  @_s.JsonKey(name: 'versionQualifier')
+  final String versionQualifier;
+
+  ListSimulationApplicationsRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+    this.versionQualifier,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListSimulationApplicationsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4231,6 +5017,42 @@ class ListSimulationApplicationsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListSimulationJobBatchesRequest {
+  /// Optional filters to limit results.
+  @_s.JsonKey(name: 'filters')
+  final List<Filter> filters;
+
+  /// When this parameter is used, <code>ListSimulationJobBatches</code> only
+  /// returns <code>maxResults</code> results in a single page along with a
+  /// <code>nextToken</code> response element. The remaining results of the
+  /// initial request can be seen by sending another
+  /// <code>ListSimulationJobBatches</code> request with the returned
+  /// <code>nextToken</code> value.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The <code>nextToken</code> value returned from a previous paginated
+  /// <code>ListSimulationJobBatches</code> request where <code>maxResults</code>
+  /// was used and the results exceeded the value of that parameter. Pagination
+  /// continues from the end of the previous results that returned the
+  /// <code>nextToken</code> value.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListSimulationJobBatchesRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListSimulationJobBatchesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListSimulationJobBatchesResponse {
@@ -4254,6 +5076,54 @@ class ListSimulationJobBatchesResponse {
   factory ListSimulationJobBatchesResponse.fromJson(
           Map<String, dynamic> json) =>
       _$ListSimulationJobBatchesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListSimulationJobsRequest {
+  /// Optional filters to limit results.
+  ///
+  /// The filter names <code>status</code> and
+  /// <code>simulationApplicationName</code> and <code>robotApplicationName</code>
+  /// are supported. When filtering, you must use the complete value of the
+  /// filtered item. You can use up to three filters, but they must be for the
+  /// same named item. For example, if you are looking for items with the status
+  /// <code>Preparing</code> or the status <code>Running</code>.
+  @_s.JsonKey(name: 'filters')
+  final List<Filter> filters;
+
+  /// When this parameter is used, <code>ListSimulationJobs</code> only returns
+  /// <code>maxResults</code> results in a single page along with a
+  /// <code>nextToken</code> response element. The remaining results of the
+  /// initial request can be seen by sending another
+  /// <code>ListSimulationJobs</code> request with the returned
+  /// <code>nextToken</code> value. This value can be between 1 and 1000. If this
+  /// parameter is not used, then <code>ListSimulationJobs</code> returns up to
+  /// 1000 results and a <code>nextToken</code> value if applicable.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The <code>nextToken</code> value returned from a previous paginated
+  /// <code>ListSimulationJobs</code> request where <code>maxResults</code> was
+  /// used and the results exceeded the value of that parameter. Pagination
+  /// continues from the end of the previous results that returned the
+  /// <code>nextToken</code> value.
+  /// <note>
+  /// This token should be treated as an opaque identifier that is only used to
+  /// retrieve the next items in a list and not for other programmatic purposes.
+  /// </note>
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListSimulationJobsRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListSimulationJobsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4477,6 +5347,27 @@ class ProgressDetail {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RegisterRobotRequest {
+  /// The Amazon Resource Name (ARN) of the fleet.
+  @_s.JsonKey(name: 'fleet')
+  final String fleet;
+
+  /// The Amazon Resource Name (ARN) of the robot.
+  @_s.JsonKey(name: 'robot')
+  final String robot;
+
+  RegisterRobotRequest({
+    @_s.required this.fleet,
+    @_s.required this.robot,
+  });
+  Map<String, dynamic> toJson() => _$RegisterRobotRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class RegisterRobotResponse {
@@ -4524,6 +5415,22 @@ class RenderingEngine {
 enum RenderingEngineType {
   @_s.JsonValue('OGRE')
   ogre,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RestartSimulationJobRequest {
+  /// The Amazon Resource Name (ARN) of the simulation job.
+  @_s.JsonKey(name: 'job')
+  final String job;
+
+  RestartSimulationJobRequest({
+    @_s.required this.job,
+  });
+  Map<String, dynamic> toJson() => _$RestartSimulationJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5490,6 +6397,39 @@ class SourceConfig {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartSimulationJobBatchRequest {
+  /// A list of simulation job requests to create in the batch.
+  @_s.JsonKey(name: 'createSimulationJobRequests')
+  final List<SimulationJobRequest> createSimulationJobRequests;
+
+  /// The batch policy.
+  @_s.JsonKey(name: 'batchPolicy')
+  final BatchPolicy batchPolicy;
+
+  /// Unique, case-sensitive identifier that you provide to ensure the idempotency
+  /// of the request.
+  @_s.JsonKey(name: 'clientRequestToken')
+  final String clientRequestToken;
+
+  /// A map that contains tag keys and tag values that are attached to the
+  /// deployment job batch.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  StartSimulationJobBatchRequest({
+    @_s.required this.createSimulationJobRequests,
+    this.batchPolicy,
+    this.clientRequestToken,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$StartSimulationJobBatchRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartSimulationJobBatchResponse {
@@ -5596,6 +6536,28 @@ class StartSimulationJobBatchResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SyncDeploymentJobRequest {
+  /// Unique, case-sensitive identifier that you provide to ensure the idempotency
+  /// of the request.
+  @_s.JsonKey(name: 'clientRequestToken')
+  final String clientRequestToken;
+
+  /// The target fleet for the synchronization.
+  @_s.JsonKey(name: 'fleet')
+  final String fleet;
+
+  SyncDeploymentJobRequest({
+    @_s.required this.clientRequestToken,
+    @_s.required this.fleet,
+  });
+  Map<String, dynamic> toJson() => _$SyncDeploymentJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class SyncDeploymentJobResponse {
@@ -5682,6 +6644,29 @@ class SyncDeploymentJobResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the AWS RoboMaker resource you are
+  /// tagging.
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  /// A map that contains tag keys and tag values that are attached to the
+  /// resource.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagResourceResponse {
@@ -5693,12 +6678,66 @@ class TagResourceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the AWS RoboMaker resource you are
+  /// removing tags.
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  /// A map that contains tag keys and tag values that will be unattached from the
+  /// resource.
+  @_s.JsonKey(name: 'tagKeys', ignore: true)
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
   factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateRobotApplicationRequest {
+  /// The application information for the robot application.
+  @_s.JsonKey(name: 'application')
+  final String application;
+
+  /// The robot software suite (ROS distribution) used by the robot application.
+  @_s.JsonKey(name: 'robotSoftwareSuite')
+  final RobotSoftwareSuite robotSoftwareSuite;
+
+  /// The sources of the robot application.
+  @_s.JsonKey(name: 'sources')
+  final List<SourceConfig> sources;
+
+  /// The revision id for the robot application.
+  @_s.JsonKey(name: 'currentRevisionId')
+  final String currentRevisionId;
+
+  UpdateRobotApplicationRequest({
+    @_s.required this.application,
+    @_s.required this.robotSoftwareSuite,
+    @_s.required this.sources,
+    this.currentRevisionId,
+  });
+  Map<String, dynamic> toJson() => _$UpdateRobotApplicationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5750,6 +6789,48 @@ class UpdateRobotApplicationResponse {
   });
   factory UpdateRobotApplicationResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateRobotApplicationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateSimulationApplicationRequest {
+  /// The application information for the simulation application.
+  @_s.JsonKey(name: 'application')
+  final String application;
+
+  /// Information about the robot software suite (ROS distribution).
+  @_s.JsonKey(name: 'robotSoftwareSuite')
+  final RobotSoftwareSuite robotSoftwareSuite;
+
+  /// The simulation software suite used by the simulation application.
+  @_s.JsonKey(name: 'simulationSoftwareSuite')
+  final SimulationSoftwareSuite simulationSoftwareSuite;
+
+  /// The sources of the simulation application.
+  @_s.JsonKey(name: 'sources')
+  final List<SourceConfig> sources;
+
+  /// The revision id for the robot application.
+  @_s.JsonKey(name: 'currentRevisionId')
+  final String currentRevisionId;
+
+  /// The rendering engine for the simulation application.
+  @_s.JsonKey(name: 'renderingEngine')
+  final RenderingEngine renderingEngine;
+
+  UpdateSimulationApplicationRequest({
+    @_s.required this.application,
+    @_s.required this.robotSoftwareSuite,
+    @_s.required this.simulationSoftwareSuite,
+    @_s.required this.sources,
+    this.currentRevisionId,
+    this.renderingEngine,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateSimulationApplicationRequestToJson(this);
 }
 
 @_s.JsonSerializable(

@@ -6,9 +6,40 @@ part of 'mturk-requester-2017-01-17.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$AcceptQualificationRequestRequestToJson(
+    AcceptQualificationRequestRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('QualificationRequestId', instance.qualificationRequestId);
+  writeNotNull('IntegerValue', instance.integerValue);
+  return val;
+}
+
 AcceptQualificationRequestResponse _$AcceptQualificationRequestResponseFromJson(
     Map<String, dynamic> json) {
   return AcceptQualificationRequestResponse();
+}
+
+Map<String, dynamic> _$ApproveAssignmentRequestToJson(
+    ApproveAssignmentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AssignmentId', instance.assignmentId);
+  writeNotNull('OverrideRejection', instance.overrideRejection);
+  writeNotNull('RequesterFeedback', instance.requesterFeedback);
+  return val;
 }
 
 ApproveAssignmentResponse _$ApproveAssignmentResponseFromJson(
@@ -72,6 +103,23 @@ const _$AssignmentStatusEnumMap = {
   AssignmentStatus.rejected: 'Rejected',
 };
 
+Map<String, dynamic> _$AssociateQualificationWithWorkerRequestToJson(
+    AssociateQualificationWithWorkerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('QualificationTypeId', instance.qualificationTypeId);
+  writeNotNull('WorkerId', instance.workerId);
+  writeNotNull('IntegerValue', instance.integerValue);
+  writeNotNull('SendNotification', instance.sendNotification);
+  return val;
+}
+
 AssociateQualificationWithWorkerResponse
     _$AssociateQualificationWithWorkerResponseFromJson(
         Map<String, dynamic> json) {
@@ -88,10 +136,60 @@ BonusPayment _$BonusPaymentFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateAdditionalAssignmentsForHITRequestToJson(
+    CreateAdditionalAssignmentsForHITRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('HITId', instance.hITId);
+  writeNotNull(
+      'NumberOfAdditionalAssignments', instance.numberOfAdditionalAssignments);
+  writeNotNull('UniqueRequestToken', instance.uniqueRequestToken);
+  return val;
+}
+
 CreateAdditionalAssignmentsForHITResponse
     _$CreateAdditionalAssignmentsForHITResponseFromJson(
         Map<String, dynamic> json) {
   return CreateAdditionalAssignmentsForHITResponse();
+}
+
+Map<String, dynamic> _$CreateHITRequestToJson(CreateHITRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'AssignmentDurationInSeconds', instance.assignmentDurationInSeconds);
+  writeNotNull('Description', instance.description);
+  writeNotNull('LifetimeInSeconds', instance.lifetimeInSeconds);
+  writeNotNull('Reward', instance.reward);
+  writeNotNull('Title', instance.title);
+  writeNotNull(
+      'AssignmentReviewPolicy', instance.assignmentReviewPolicy?.toJson());
+  writeNotNull(
+      'AutoApprovalDelayInSeconds', instance.autoApprovalDelayInSeconds);
+  writeNotNull('HITLayoutId', instance.hITLayoutId);
+  writeNotNull('HITLayoutParameters',
+      instance.hITLayoutParameters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('HITReviewPolicy', instance.hITReviewPolicy?.toJson());
+  writeNotNull('Keywords', instance.keywords);
+  writeNotNull('MaxAssignments', instance.maxAssignments);
+  writeNotNull('QualificationRequirements',
+      instance.qualificationRequirements?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Question', instance.question);
+  writeNotNull('RequesterAnnotation', instance.requesterAnnotation);
+  writeNotNull('UniqueRequestToken', instance.uniqueRequestToken);
+  return val;
 }
 
 CreateHITResponse _$CreateHITResponseFromJson(Map<String, dynamic> json) {
@@ -102,11 +200,59 @@ CreateHITResponse _$CreateHITResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateHITTypeRequestToJson(
+    CreateHITTypeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'AssignmentDurationInSeconds', instance.assignmentDurationInSeconds);
+  writeNotNull('Description', instance.description);
+  writeNotNull('Reward', instance.reward);
+  writeNotNull('Title', instance.title);
+  writeNotNull(
+      'AutoApprovalDelayInSeconds', instance.autoApprovalDelayInSeconds);
+  writeNotNull('Keywords', instance.keywords);
+  writeNotNull('QualificationRequirements',
+      instance.qualificationRequirements?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateHITTypeResponse _$CreateHITTypeResponseFromJson(
     Map<String, dynamic> json) {
   return CreateHITTypeResponse(
     hITTypeId: json['HITTypeId'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateHITWithHITTypeRequestToJson(
+    CreateHITWithHITTypeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('HITTypeId', instance.hITTypeId);
+  writeNotNull('LifetimeInSeconds', instance.lifetimeInSeconds);
+  writeNotNull(
+      'AssignmentReviewPolicy', instance.assignmentReviewPolicy?.toJson());
+  writeNotNull('HITLayoutId', instance.hITLayoutId);
+  writeNotNull('HITLayoutParameters',
+      instance.hITLayoutParameters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('HITReviewPolicy', instance.hITReviewPolicy?.toJson());
+  writeNotNull('MaxAssignments', instance.maxAssignments);
+  writeNotNull('Question', instance.question);
+  writeNotNull('RequesterAnnotation', instance.requesterAnnotation);
+  writeNotNull('UniqueRequestToken', instance.uniqueRequestToken);
+  return val;
 }
 
 CreateHITWithHITTypeResponse _$CreateHITWithHITTypeResponseFromJson(
@@ -118,6 +264,35 @@ CreateHITWithHITTypeResponse _$CreateHITWithHITTypeResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateQualificationTypeRequestToJson(
+    CreateQualificationTypeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Description', instance.description);
+  writeNotNull('Name', instance.name);
+  writeNotNull('QualificationTypeStatus',
+      _$QualificationTypeStatusEnumMap[instance.qualificationTypeStatus]);
+  writeNotNull('AnswerKey', instance.answerKey);
+  writeNotNull('AutoGranted', instance.autoGranted);
+  writeNotNull('AutoGrantedValue', instance.autoGrantedValue);
+  writeNotNull('Keywords', instance.keywords);
+  writeNotNull('RetryDelayInSeconds', instance.retryDelayInSeconds);
+  writeNotNull('Test', instance.test);
+  writeNotNull('TestDurationInSeconds', instance.testDurationInSeconds);
+  return val;
+}
+
+const _$QualificationTypeStatusEnumMap = {
+  QualificationTypeStatus.active: 'Active',
+  QualificationTypeStatus.inactive: 'Inactive',
+};
+
 CreateQualificationTypeResponse _$CreateQualificationTypeResponseFromJson(
     Map<String, dynamic> json) {
   return CreateQualificationTypeResponse(
@@ -128,13 +303,55 @@ CreateQualificationTypeResponse _$CreateQualificationTypeResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateWorkerBlockRequestToJson(
+    CreateWorkerBlockRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Reason', instance.reason);
+  writeNotNull('WorkerId', instance.workerId);
+  return val;
+}
+
 CreateWorkerBlockResponse _$CreateWorkerBlockResponseFromJson(
     Map<String, dynamic> json) {
   return CreateWorkerBlockResponse();
 }
 
+Map<String, dynamic> _$DeleteHITRequestToJson(DeleteHITRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('HITId', instance.hITId);
+  return val;
+}
+
 DeleteHITResponse _$DeleteHITResponseFromJson(Map<String, dynamic> json) {
   return DeleteHITResponse();
+}
+
+Map<String, dynamic> _$DeleteQualificationTypeRequestToJson(
+    DeleteQualificationTypeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('QualificationTypeId', instance.qualificationTypeId);
+  return val;
 }
 
 DeleteQualificationTypeResponse _$DeleteQualificationTypeResponseFromJson(
@@ -142,9 +359,40 @@ DeleteQualificationTypeResponse _$DeleteQualificationTypeResponseFromJson(
   return DeleteQualificationTypeResponse();
 }
 
+Map<String, dynamic> _$DeleteWorkerBlockRequestToJson(
+    DeleteWorkerBlockRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('WorkerId', instance.workerId);
+  writeNotNull('Reason', instance.reason);
+  return val;
+}
+
 DeleteWorkerBlockResponse _$DeleteWorkerBlockResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteWorkerBlockResponse();
+}
+
+Map<String, dynamic> _$DisassociateQualificationFromWorkerRequestToJson(
+    DisassociateQualificationFromWorkerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('QualificationTypeId', instance.qualificationTypeId);
+  writeNotNull('WorkerId', instance.workerId);
+  writeNotNull('Reason', instance.reason);
+  return val;
 }
 
 DisassociateQualificationFromWorkerResponse
@@ -161,6 +409,20 @@ GetAccountBalanceResponse _$GetAccountBalanceResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$GetAssignmentRequestToJson(
+    GetAssignmentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AssignmentId', instance.assignmentId);
+  return val;
+}
+
 GetAssignmentResponse _$GetAssignmentResponseFromJson(
     Map<String, dynamic> json) {
   return GetAssignmentResponse(
@@ -173,11 +435,39 @@ GetAssignmentResponse _$GetAssignmentResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$GetFileUploadURLRequestToJson(
+    GetFileUploadURLRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AssignmentId', instance.assignmentId);
+  writeNotNull('QuestionIdentifier', instance.questionIdentifier);
+  return val;
+}
+
 GetFileUploadURLResponse _$GetFileUploadURLResponseFromJson(
     Map<String, dynamic> json) {
   return GetFileUploadURLResponse(
     fileUploadURL: json['FileUploadURL'] as String,
   );
+}
+
+Map<String, dynamic> _$GetHITRequestToJson(GetHITRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('HITId', instance.hITId);
+  return val;
 }
 
 GetHITResponse _$GetHITResponseFromJson(Map<String, dynamic> json) {
@@ -188,6 +478,21 @@ GetHITResponse _$GetHITResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetQualificationScoreRequestToJson(
+    GetQualificationScoreRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('QualificationTypeId', instance.qualificationTypeId);
+  writeNotNull('WorkerId', instance.workerId);
+  return val;
+}
+
 GetQualificationScoreResponse _$GetQualificationScoreResponseFromJson(
     Map<String, dynamic> json) {
   return GetQualificationScoreResponse(
@@ -195,6 +500,20 @@ GetQualificationScoreResponse _$GetQualificationScoreResponseFromJson(
         ? null
         : Qualification.fromJson(json['Qualification'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetQualificationTypeRequestToJson(
+    GetQualificationTypeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('QualificationTypeId', instance.qualificationTypeId);
+  return val;
 }
 
 GetQualificationTypeResponse _$GetQualificationTypeResponseFromJson(
@@ -267,6 +586,23 @@ Map<String, dynamic> _$HITLayoutParameterToJson(HITLayoutParameter instance) {
   return val;
 }
 
+Map<String, dynamic> _$ListAssignmentsForHITRequestToJson(
+    ListAssignmentsForHITRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('HITId', instance.hITId);
+  writeNotNull('AssignmentStatuses', instance.assignmentStatuses);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListAssignmentsForHITResponse _$ListAssignmentsForHITResponseFromJson(
     Map<String, dynamic> json) {
   return ListAssignmentsForHITResponse(
@@ -277,6 +613,23 @@ ListAssignmentsForHITResponse _$ListAssignmentsForHITResponseFromJson(
     nextToken: json['NextToken'] as String,
     numResults: json['NumResults'] as int,
   );
+}
+
+Map<String, dynamic> _$ListBonusPaymentsRequestToJson(
+    ListBonusPaymentsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AssignmentId', instance.assignmentId);
+  writeNotNull('HITId', instance.hITId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListBonusPaymentsResponse _$ListBonusPaymentsResponseFromJson(
@@ -291,6 +644,22 @@ ListBonusPaymentsResponse _$ListBonusPaymentsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListHITsForQualificationTypeRequestToJson(
+    ListHITsForQualificationTypeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('QualificationTypeId', instance.qualificationTypeId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListHITsForQualificationTypeResponse
     _$ListHITsForQualificationTypeResponseFromJson(Map<String, dynamic> json) {
   return ListHITsForQualificationTypeResponse(
@@ -302,6 +671,20 @@ ListHITsForQualificationTypeResponse
   );
 }
 
+Map<String, dynamic> _$ListHITsRequestToJson(ListHITsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListHITsResponse _$ListHITsResponseFromJson(Map<String, dynamic> json) {
   return ListHITsResponse(
     hITs: (json['HITs'] as List)
@@ -310,6 +693,22 @@ ListHITsResponse _$ListHITsResponseFromJson(Map<String, dynamic> json) {
     nextToken: json['NextToken'] as String,
     numResults: json['NumResults'] as int,
   );
+}
+
+Map<String, dynamic> _$ListQualificationRequestsRequestToJson(
+    ListQualificationRequestsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('QualificationTypeId', instance.qualificationTypeId);
+  return val;
 }
 
 ListQualificationRequestsResponse _$ListQualificationRequestsResponseFromJson(
@@ -325,6 +724,24 @@ ListQualificationRequestsResponse _$ListQualificationRequestsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListQualificationTypesRequestToJson(
+    ListQualificationTypesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MustBeRequestable', instance.mustBeRequestable);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('MustBeOwnedByCaller', instance.mustBeOwnedByCaller);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('Query', instance.query);
+  return val;
+}
+
 ListQualificationTypesResponse _$ListQualificationTypesResponseFromJson(
     Map<String, dynamic> json) {
   return ListQualificationTypesResponse(
@@ -336,6 +753,25 @@ ListQualificationTypesResponse _$ListQualificationTypesResponseFromJson(
             : QualificationType.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListReviewPolicyResultsForHITRequestToJson(
+    ListReviewPolicyResultsForHITRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('HITId', instance.hITId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('PolicyLevels', instance.policyLevels);
+  writeNotNull('RetrieveActions', instance.retrieveActions);
+  writeNotNull('RetrieveResults', instance.retrieveResults);
+  return val;
 }
 
 ListReviewPolicyResultsForHITResponse
@@ -362,6 +798,28 @@ ListReviewPolicyResultsForHITResponse
   );
 }
 
+Map<String, dynamic> _$ListReviewableHITsRequestToJson(
+    ListReviewableHITsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('HITTypeId', instance.hITTypeId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('Status', _$ReviewableHITStatusEnumMap[instance.status]);
+  return val;
+}
+
+const _$ReviewableHITStatusEnumMap = {
+  ReviewableHITStatus.reviewable: 'Reviewable',
+  ReviewableHITStatus.reviewing: 'Reviewing',
+};
+
 ListReviewableHITsResponse _$ListReviewableHITsResponseFromJson(
     Map<String, dynamic> json) {
   return ListReviewableHITsResponse(
@@ -371,6 +829,21 @@ ListReviewableHITsResponse _$ListReviewableHITsResponseFromJson(
     nextToken: json['NextToken'] as String,
     numResults: json['NumResults'] as int,
   );
+}
+
+Map<String, dynamic> _$ListWorkerBlocksRequestToJson(
+    ListWorkerBlocksRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListWorkerBlocksResponse _$ListWorkerBlocksResponseFromJson(
@@ -384,6 +857,28 @@ ListWorkerBlocksResponse _$ListWorkerBlocksResponseFromJson(
         ?.toList(),
   );
 }
+
+Map<String, dynamic> _$ListWorkersWithQualificationTypeRequestToJson(
+    ListWorkersWithQualificationTypeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('QualificationTypeId', instance.qualificationTypeId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('Status', _$QualificationStatusEnumMap[instance.status]);
+  return val;
+}
+
+const _$QualificationStatusEnumMap = {
+  QualificationStatus.granted: 'Granted',
+  QualificationStatus.revoked: 'Revoked',
+};
 
 ListWorkersWithQualificationTypeResponse
     _$ListWorkersWithQualificationTypeResponseFromJson(
@@ -458,6 +953,22 @@ const _$NotifyWorkersFailureCodeEnumMap = {
   NotifyWorkersFailureCode.hardFailure: 'HardFailure',
 };
 
+Map<String, dynamic> _$NotifyWorkersRequestToJson(
+    NotifyWorkersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MessageText', instance.messageText);
+  writeNotNull('Subject', instance.subject);
+  writeNotNull('WorkerIds', instance.workerIds);
+  return val;
+}
+
 NotifyWorkersResponse _$NotifyWorkersResponseFromJson(
     Map<String, dynamic> json) {
   return NotifyWorkersResponse(
@@ -530,11 +1041,6 @@ Qualification _$QualificationFromJson(Map<String, dynamic> json) {
     workerId: json['WorkerId'] as String,
   );
 }
-
-const _$QualificationStatusEnumMap = {
-  QualificationStatus.granted: 'Granted',
-  QualificationStatus.revoked: 'Revoked',
-};
 
 QualificationRequest _$QualificationRequestFromJson(Map<String, dynamic> json) {
   return QualificationRequest(
@@ -623,14 +1129,39 @@ QualificationType _$QualificationTypeFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$QualificationTypeStatusEnumMap = {
-  QualificationTypeStatus.active: 'Active',
-  QualificationTypeStatus.inactive: 'Inactive',
-};
+Map<String, dynamic> _$RejectAssignmentRequestToJson(
+    RejectAssignmentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AssignmentId', instance.assignmentId);
+  writeNotNull('RequesterFeedback', instance.requesterFeedback);
+  return val;
+}
 
 RejectAssignmentResponse _$RejectAssignmentResponseFromJson(
     Map<String, dynamic> json) {
   return RejectAssignmentResponse();
+}
+
+Map<String, dynamic> _$RejectQualificationRequestRequestToJson(
+    RejectQualificationRequestRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('QualificationRequestId', instance.qualificationRequestId);
+  writeNotNull('Reason', instance.reason);
+  return val;
 }
 
 RejectQualificationRequestResponse _$RejectQualificationRequestResponseFromJson(
@@ -717,9 +1248,56 @@ ReviewResultDetail _$ReviewResultDetailFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$SendBonusRequestToJson(SendBonusRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AssignmentId', instance.assignmentId);
+  writeNotNull('BonusAmount', instance.bonusAmount);
+  writeNotNull('Reason', instance.reason);
+  writeNotNull('WorkerId', instance.workerId);
+  writeNotNull('UniqueRequestToken', instance.uniqueRequestToken);
+  return val;
+}
+
 SendBonusResponse _$SendBonusResponseFromJson(Map<String, dynamic> json) {
   return SendBonusResponse();
 }
+
+Map<String, dynamic> _$SendTestEventNotificationRequestToJson(
+    SendTestEventNotificationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Notification', instance.notification?.toJson());
+  writeNotNull('TestEventType', _$EventTypeEnumMap[instance.testEventType]);
+  return val;
+}
+
+const _$EventTypeEnumMap = {
+  EventType.assignmentAccepted: 'AssignmentAccepted',
+  EventType.assignmentAbandoned: 'AssignmentAbandoned',
+  EventType.assignmentReturned: 'AssignmentReturned',
+  EventType.assignmentSubmitted: 'AssignmentSubmitted',
+  EventType.assignmentRejected: 'AssignmentRejected',
+  EventType.assignmentApproved: 'AssignmentApproved',
+  EventType.hITCreated: 'HITCreated',
+  EventType.hITExpired: 'HITExpired',
+  EventType.hITReviewable: 'HITReviewable',
+  EventType.hITExtended: 'HITExtended',
+  EventType.hITDisposed: 'HITDisposed',
+  EventType.ping: 'Ping',
+};
 
 SendTestEventNotificationResponse _$SendTestEventNotificationResponseFromJson(
     Map<String, dynamic> json) {
@@ -733,9 +1311,39 @@ ServiceFault _$ServiceFaultFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$UpdateExpirationForHITRequestToJson(
+    UpdateExpirationForHITRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ExpireAt', unixTimestampToJson(instance.expireAt));
+  writeNotNull('HITId', instance.hITId);
+  return val;
+}
+
 UpdateExpirationForHITResponse _$UpdateExpirationForHITResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateExpirationForHITResponse();
+}
+
+Map<String, dynamic> _$UpdateHITReviewStatusRequestToJson(
+    UpdateHITReviewStatusRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('HITId', instance.hITId);
+  writeNotNull('Revert', instance.revert);
+  return val;
 }
 
 UpdateHITReviewStatusResponse _$UpdateHITReviewStatusResponseFromJson(
@@ -743,14 +1351,68 @@ UpdateHITReviewStatusResponse _$UpdateHITReviewStatusResponseFromJson(
   return UpdateHITReviewStatusResponse();
 }
 
+Map<String, dynamic> _$UpdateHITTypeOfHITRequestToJson(
+    UpdateHITTypeOfHITRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('HITId', instance.hITId);
+  writeNotNull('HITTypeId', instance.hITTypeId);
+  return val;
+}
+
 UpdateHITTypeOfHITResponse _$UpdateHITTypeOfHITResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateHITTypeOfHITResponse();
 }
 
+Map<String, dynamic> _$UpdateNotificationSettingsRequestToJson(
+    UpdateNotificationSettingsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('HITTypeId', instance.hITTypeId);
+  writeNotNull('Active', instance.active);
+  writeNotNull('Notification', instance.notification?.toJson());
+  return val;
+}
+
 UpdateNotificationSettingsResponse _$UpdateNotificationSettingsResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateNotificationSettingsResponse();
+}
+
+Map<String, dynamic> _$UpdateQualificationTypeRequestToJson(
+    UpdateQualificationTypeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('QualificationTypeId', instance.qualificationTypeId);
+  writeNotNull('AnswerKey', instance.answerKey);
+  writeNotNull('AutoGranted', instance.autoGranted);
+  writeNotNull('AutoGrantedValue', instance.autoGrantedValue);
+  writeNotNull('Description', instance.description);
+  writeNotNull('QualificationTypeStatus',
+      _$QualificationTypeStatusEnumMap[instance.qualificationTypeStatus]);
+  writeNotNull('RetryDelayInSeconds', instance.retryDelayInSeconds);
+  writeNotNull('Test', instance.test);
+  writeNotNull('TestDurationInSeconds', instance.testDurationInSeconds);
+  return val;
 }
 
 UpdateQualificationTypeResponse _$UpdateQualificationTypeResponseFromJson(

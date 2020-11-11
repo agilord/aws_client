@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -85,13 +84,12 @@ class KinesisVideo {
       r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'ChannelName': channelName,
-      if (channelType != null) 'ChannelType': channelType?.toValue(),
-      if (singleMasterConfiguration != null)
-        'SingleMasterConfiguration': singleMasterConfiguration,
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = CreateSignalingChannelInput(
+      channelName: channelName,
+      channelType: channelType,
+      singleMasterConfiguration: singleMasterConfiguration,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -232,15 +230,14 @@ class KinesisVideo {
       mediaType,
       r'''[\w\-\.\+]+/[\w\-\.\+]+(,[\w\-\.\+]+/[\w\-\.\+]+)*''',
     );
-    final $payload = <String, dynamic>{
-      'StreamName': streamName,
-      if (dataRetentionInHours != null)
-        'DataRetentionInHours': dataRetentionInHours,
-      if (deviceName != null) 'DeviceName': deviceName,
-      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
-      if (mediaType != null) 'MediaType': mediaType,
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = CreateStreamInput(
+      streamName: streamName,
+      dataRetentionInHours: dataRetentionInHours,
+      deviceName: deviceName,
+      kmsKeyId: kmsKeyId,
+      mediaType: mediaType,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -297,10 +294,10 @@ class KinesisVideo {
       currentVersion,
       r'''[a-zA-Z0-9]+''',
     );
-    final $payload = <String, dynamic>{
-      'ChannelARN': channelARN,
-      if (currentVersion != null) 'CurrentVersion': currentVersion,
-    };
+    final $payload = DeleteSignalingChannelInput(
+      channelARN: channelARN,
+      currentVersion: currentVersion,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -373,10 +370,10 @@ class KinesisVideo {
       currentVersion,
       r'''[a-zA-Z0-9]+''',
     );
-    final $payload = <String, dynamic>{
-      'StreamARN': streamARN,
-      if (currentVersion != null) 'CurrentVersion': currentVersion,
-    };
+    final $payload = DeleteStreamInput(
+      streamARN: streamARN,
+      currentVersion: currentVersion,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -426,10 +423,10 @@ class KinesisVideo {
       channelName,
       r'''[a-zA-Z0-9_.-]+''',
     );
-    final $payload = <String, dynamic>{
-      if (channelARN != null) 'ChannelARN': channelARN,
-      if (channelName != null) 'ChannelName': channelName,
-    };
+    final $payload = DescribeSignalingChannelInput(
+      channelARN: channelARN,
+      channelName: channelName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -478,10 +475,10 @@ class KinesisVideo {
       streamName,
       r'''[a-zA-Z0-9_.-]+''',
     );
-    final $payload = <String, dynamic>{
-      if (streamARN != null) 'StreamARN': streamARN,
-      if (streamName != null) 'StreamName': streamName,
-    };
+    final $payload = DescribeStreamInput(
+      streamARN: streamARN,
+      streamName: streamName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -546,11 +543,11 @@ class KinesisVideo {
       streamName,
       r'''[a-zA-Z0-9_.-]+''',
     );
-    final $payload = <String, dynamic>{
-      'APIName': aPIName?.toValue(),
-      if (streamARN != null) 'StreamARN': streamARN,
-      if (streamName != null) 'StreamName': streamName,
-    };
+    final $payload = GetDataEndpointInput(
+      aPIName: aPIName,
+      streamARN: streamARN,
+      streamName: streamName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -609,12 +606,11 @@ class KinesisVideo {
       r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'ChannelARN': channelARN,
-      if (singleMasterChannelEndpointConfiguration != null)
-        'SingleMasterChannelEndpointConfiguration':
-            singleMasterChannelEndpointConfiguration,
-    };
+    final $payload = GetSignalingChannelEndpointInput(
+      channelARN: channelARN,
+      singleMasterChannelEndpointConfiguration:
+          singleMasterChannelEndpointConfiguration,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -667,12 +663,11 @@ class KinesisVideo {
       nextToken,
       r'''[a-zA-Z0-9+/=]*''',
     );
-    final $payload = <String, dynamic>{
-      if (channelNameCondition != null)
-        'ChannelNameCondition': channelNameCondition,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = ListSignalingChannelsInput(
+      channelNameCondition: channelNameCondition,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -725,12 +720,11 @@ class KinesisVideo {
       nextToken,
       r'''[a-zA-Z0-9+/=]*''',
     );
-    final $payload = <String, dynamic>{
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-      if (streamNameCondition != null)
-        'StreamNameCondition': streamNameCondition,
-    };
+    final $payload = ListStreamsInput(
+      maxResults: maxResults,
+      nextToken: nextToken,
+      streamNameCondition: streamNameCondition,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -783,10 +777,10 @@ class KinesisVideo {
       nextToken,
       r'''[a-zA-Z0-9+/=]*''',
     );
-    final $payload = <String, dynamic>{
-      'ResourceARN': resourceARN,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = ListTagsForResourceInput(
+      resourceARN: resourceARN,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -857,11 +851,11 @@ class KinesisVideo {
       streamName,
       r'''[a-zA-Z0-9_.-]+''',
     );
-    final $payload = <String, dynamic>{
-      if (nextToken != null) 'NextToken': nextToken,
-      if (streamARN != null) 'StreamARN': streamARN,
-      if (streamName != null) 'StreamName': streamName,
-    };
+    final $payload = ListTagsForStreamInput(
+      nextToken: nextToken,
+      streamARN: streamARN,
+      streamName: streamName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -911,10 +905,10 @@ class KinesisVideo {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'ResourceARN': resourceARN,
-      'Tags': tags,
-    };
+    final $payload = TagResourceInput(
+      resourceARN: resourceARN,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -985,11 +979,11 @@ class KinesisVideo {
       streamName,
       r'''[a-zA-Z0-9_.-]+''',
     );
-    final $payload = <String, dynamic>{
-      'Tags': tags,
-      if (streamARN != null) 'StreamARN': streamARN,
-      if (streamName != null) 'StreamName': streamName,
-    };
+    final $payload = TagStreamInput(
+      tags: tags,
+      streamARN: streamARN,
+      streamName: streamName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1032,10 +1026,10 @@ class KinesisVideo {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeyList, 'tagKeyList');
-    final $payload = <String, dynamic>{
-      'ResourceARN': resourceARN,
-      'TagKeyList': tagKeyList,
-    };
+    final $payload = UntagResourceInput(
+      resourceARN: resourceARN,
+      tagKeyList: tagKeyList,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1095,11 +1089,11 @@ class KinesisVideo {
       streamName,
       r'''[a-zA-Z0-9_.-]+''',
     );
-    final $payload = <String, dynamic>{
-      'TagKeyList': tagKeyList,
-      if (streamARN != null) 'StreamARN': streamARN,
-      if (streamName != null) 'StreamName': streamName,
-    };
+    final $payload = UntagStreamInput(
+      tagKeyList: tagKeyList,
+      streamARN: streamARN,
+      streamName: streamName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1216,13 +1210,13 @@ class KinesisVideo {
       streamName,
       r'''[a-zA-Z0-9_.-]+''',
     );
-    final $payload = <String, dynamic>{
-      'CurrentVersion': currentVersion,
-      'DataRetentionChangeInHours': dataRetentionChangeInHours,
-      'Operation': operation?.toValue(),
-      if (streamARN != null) 'StreamARN': streamARN,
-      if (streamName != null) 'StreamName': streamName,
-    };
+    final $payload = UpdateDataRetentionInput(
+      currentVersion: currentVersion,
+      dataRetentionChangeInHours: dataRetentionChangeInHours,
+      operation: operation,
+      streamARN: streamARN,
+      streamName: streamName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1290,12 +1284,11 @@ class KinesisVideo {
       r'''[a-zA-Z0-9]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'ChannelARN': channelARN,
-      'CurrentVersion': currentVersion,
-      if (singleMasterConfiguration != null)
-        'SingleMasterConfiguration': singleMasterConfiguration,
-    };
+    final $payload = UpdateSignalingChannelInput(
+      channelARN: channelARN,
+      currentVersion: currentVersion,
+      singleMasterConfiguration: singleMasterConfiguration,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1422,13 +1415,13 @@ class KinesisVideo {
       streamName,
       r'''[a-zA-Z0-9_.-]+''',
     );
-    final $payload = <String, dynamic>{
-      'CurrentVersion': currentVersion,
-      if (deviceName != null) 'DeviceName': deviceName,
-      if (mediaType != null) 'MediaType': mediaType,
-      if (streamARN != null) 'StreamARN': streamARN,
-      if (streamName != null) 'StreamName': streamName,
-    };
+    final $payload = UpdateStreamInput(
+      currentVersion: currentVersion,
+      deviceName: deviceName,
+      mediaType: mediaType,
+      streamARN: streamARN,
+      streamName: streamName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1452,26 +1445,6 @@ enum APIName {
   getHlsStreamingSessionUrl,
   @_s.JsonValue('GET_DASH_STREAMING_SESSION_URL')
   getDashStreamingSessionUrl,
-}
-
-extension on APIName {
-  String toValue() {
-    switch (this) {
-      case APIName.putMedia:
-        return 'PUT_MEDIA';
-      case APIName.getMedia:
-        return 'GET_MEDIA';
-      case APIName.listFragments:
-        return 'LIST_FRAGMENTS';
-      case APIName.getMediaForFragmentList:
-        return 'GET_MEDIA_FOR_FRAGMENT_LIST';
-      case APIName.getHlsStreamingSessionUrl:
-        return 'GET_HLS_STREAMING_SESSION_URL';
-      case APIName.getDashStreamingSessionUrl:
-        return 'GET_DASH_STREAMING_SESSION_URL';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// A structure that encapsulates a signaling channel's metadata and properties.
@@ -1572,19 +1545,44 @@ enum ChannelType {
   singleMaster,
 }
 
-extension on ChannelType {
-  String toValue() {
-    switch (this) {
-      case ChannelType.singleMaster:
-        return 'SINGLE_MASTER';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum ComparisonOperator {
   @_s.JsonValue('BEGINS_WITH')
   beginsWith,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateSignalingChannelInput {
+  /// A name for the signaling channel that you are creating. It must be unique
+  /// for each account and region.
+  @_s.JsonKey(name: 'ChannelName')
+  final String channelName;
+
+  /// A type of the signaling channel that you are creating. Currently,
+  /// <code>SINGLE_MASTER</code> is the only supported channel type.
+  @_s.JsonKey(name: 'ChannelType')
+  final ChannelType channelType;
+
+  /// A structure containing the configuration for the <code>SINGLE_MASTER</code>
+  /// channel type.
+  @_s.JsonKey(name: 'SingleMasterConfiguration')
+  final SingleMasterConfiguration singleMasterConfiguration;
+
+  /// A set of tags (key/value pairs) that you want to associate with this
+  /// channel.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateSignalingChannelInput({
+    @_s.required this.channelName,
+    this.channelType,
+    this.singleMasterConfiguration,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateSignalingChannelInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1607,6 +1605,81 @@ class CreateSignalingChannelOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateStreamInput {
+  /// A name for the stream that you are creating.
+  ///
+  /// The stream name is an identifier for the stream, and must be unique for each
+  /// account and region.
+  @_s.JsonKey(name: 'StreamName')
+  final String streamName;
+
+  /// The number of hours that you want to retain the data in the stream. Kinesis
+  /// Video Streams retains the data in a data store that is associated with the
+  /// stream.
+  ///
+  /// The default value is 0, indicating that the stream does not persist data.
+  ///
+  /// When the <code>DataRetentionInHours</code> value is 0, consumers can still
+  /// consume the fragments that remain in the service host buffer, which has a
+  /// retention time limit of 5 minutes and a retention memory limit of 200 MB.
+  /// Fragments are removed from the buffer when either limit is reached.
+  @_s.JsonKey(name: 'DataRetentionInHours')
+  final int dataRetentionInHours;
+
+  /// The name of the device that is writing to the stream.
+  /// <note>
+  /// In the current implementation, Kinesis Video Streams does not use this name.
+  /// </note>
+  @_s.JsonKey(name: 'DeviceName')
+  final String deviceName;
+
+  /// The ID of the AWS Key Management Service (AWS KMS) key that you want Kinesis
+  /// Video Streams to use to encrypt stream data.
+  ///
+  /// If no key ID is specified, the default, Kinesis Video-managed key
+  /// (<code>aws/kinesisvideo</code>) is used.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/APIReference/API_DescribeKey.html#API_DescribeKey_RequestParameters">DescribeKey</a>.
+  @_s.JsonKey(name: 'KmsKeyId')
+  final String kmsKeyId;
+
+  /// The media type of the stream. Consumers of the stream can use this
+  /// information when processing the stream. For more information about media
+  /// types, see <a
+  /// href="http://www.iana.org/assignments/media-types/media-types.xhtml">Media
+  /// Types</a>. If you choose to specify the <code>MediaType</code>, see <a
+  /// href="https://tools.ietf.org/html/rfc6838#section-4.2">Naming
+  /// Requirements</a> for guidelines.
+  ///
+  /// Example valid values include "video/h264" and "video/h264,audio/aac".
+  ///
+  /// This parameter is optional; the default value is <code>null</code> (or empty
+  /// in JSON).
+  @_s.JsonKey(name: 'MediaType')
+  final String mediaType;
+
+  /// A list of tags to associate with the specified stream. Each tag is a
+  /// key-value pair (the value is optional).
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  CreateStreamInput({
+    @_s.required this.streamName,
+    this.dataRetentionInHours,
+    this.deviceName,
+    this.kmsKeyId,
+    this.mediaType,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateStreamInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateStreamOutput {
@@ -1624,6 +1697,30 @@ class CreateStreamOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteSignalingChannelInput {
+  /// The ARN of the signaling channel that you want to delete.
+  @_s.JsonKey(name: 'ChannelARN')
+  final String channelARN;
+
+  /// The current version of the signaling channel that you want to delete. You
+  /// can obtain the current version by invoking the
+  /// <code>DescribeSignalingChannel</code> or <code>ListSignalingChannels</code>
+  /// APIs.
+  @_s.JsonKey(name: 'CurrentVersion')
+  final String currentVersion;
+
+  DeleteSignalingChannelInput({
+    @_s.required this.channelARN,
+    this.currentVersion,
+  });
+  Map<String, dynamic> toJson() => _$DeleteSignalingChannelInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteSignalingChannelOutput {
@@ -1635,12 +1732,61 @@ class DeleteSignalingChannelOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteStreamInput {
+  /// The Amazon Resource Name (ARN) of the stream that you want to delete.
+  @_s.JsonKey(name: 'StreamARN')
+  final String streamARN;
+
+  /// Optional: The version of the stream that you want to delete.
+  ///
+  /// Specify the version as a safeguard to ensure that your are deleting the
+  /// correct stream. To get the stream version, use the
+  /// <code>DescribeStream</code> API.
+  ///
+  /// If not specified, only the <code>CreationTime</code> is checked before
+  /// deleting the stream.
+  @_s.JsonKey(name: 'CurrentVersion')
+  final String currentVersion;
+
+  DeleteStreamInput({
+    @_s.required this.streamARN,
+    this.currentVersion,
+  });
+  Map<String, dynamic> toJson() => _$DeleteStreamInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteStreamOutput {
   DeleteStreamOutput();
   factory DeleteStreamOutput.fromJson(Map<String, dynamic> json) =>
       _$DeleteStreamOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeSignalingChannelInput {
+  /// The ARN of the signaling channel that you want to describe.
+  @_s.JsonKey(name: 'ChannelARN')
+  final String channelARN;
+
+  /// The name of the signaling channel that you want to describe.
+  @_s.JsonKey(name: 'ChannelName')
+  final String channelName;
+
+  DescribeSignalingChannelInput({
+    this.channelARN,
+    this.channelName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeSignalingChannelInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1664,6 +1810,27 @@ class DescribeSignalingChannelOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeStreamInput {
+  /// The Amazon Resource Name (ARN) of the stream.
+  @_s.JsonKey(name: 'StreamARN')
+  final String streamARN;
+
+  /// The name of the stream.
+  @_s.JsonKey(name: 'StreamName')
+  final String streamName;
+
+  DescribeStreamInput({
+    this.streamARN,
+    this.streamName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeStreamInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeStreamOutput {
@@ -1676,6 +1843,35 @@ class DescribeStreamOutput {
   });
   factory DescribeStreamOutput.fromJson(Map<String, dynamic> json) =>
       _$DescribeStreamOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetDataEndpointInput {
+  /// The name of the API action for which to get an endpoint.
+  @_s.JsonKey(name: 'APIName')
+  final APIName aPIName;
+
+  /// The Amazon Resource Name (ARN) of the stream that you want to get the
+  /// endpoint for. You must specify either this parameter or a
+  /// <code>StreamName</code> in the request.
+  @_s.JsonKey(name: 'StreamARN')
+  final String streamARN;
+
+  /// The name of the stream that you want to get the endpoint for. You must
+  /// specify either this parameter or a <code>StreamARN</code> in the request.
+  @_s.JsonKey(name: 'StreamName')
+  final String streamName;
+
+  GetDataEndpointInput({
+    @_s.required this.aPIName,
+    this.streamARN,
+    this.streamName,
+  });
+  Map<String, dynamic> toJson() => _$GetDataEndpointInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1699,6 +1895,30 @@ class GetDataEndpointOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetSignalingChannelEndpointInput {
+  /// The ARN of the signalling channel for which you want to get an endpoint.
+  @_s.JsonKey(name: 'ChannelARN')
+  final String channelARN;
+
+  /// A structure containing the endpoint configuration for the
+  /// <code>SINGLE_MASTER</code> channel type.
+  @_s.JsonKey(name: 'SingleMasterChannelEndpointConfiguration')
+  final SingleMasterChannelEndpointConfiguration
+      singleMasterChannelEndpointConfiguration;
+
+  GetSignalingChannelEndpointInput({
+    @_s.required this.channelARN,
+    this.singleMasterChannelEndpointConfiguration,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetSignalingChannelEndpointInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetSignalingChannelEndpointOutput {
@@ -1712,6 +1932,36 @@ class GetSignalingChannelEndpointOutput {
   factory GetSignalingChannelEndpointOutput.fromJson(
           Map<String, dynamic> json) =>
       _$GetSignalingChannelEndpointOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListSignalingChannelsInput {
+  /// Optional: Returns only the channels that satisfy a specific condition.
+  @_s.JsonKey(name: 'ChannelNameCondition')
+  final ChannelNameCondition channelNameCondition;
+
+  /// The maximum number of channels to return in the response. The default is
+  /// 500.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If you specify this parameter, when the result of a
+  /// <code>ListSignalingChannels</code> operation is truncated, the call returns
+  /// the <code>NextToken</code> in the response. To get another batch of
+  /// channels, provide this token in your next request.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListSignalingChannelsInput({
+    this.channelNameCondition,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListSignalingChannelsInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1740,6 +1990,37 @@ class ListSignalingChannelsOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListStreamsInput {
+  /// The maximum number of streams to return in the response. The default is
+  /// 10,000.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If you specify this parameter, when the result of a <code>ListStreams</code>
+  /// operation is truncated, the call returns the <code>NextToken</code> in the
+  /// response. To get another batch of streams, provide this token in your next
+  /// request.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Optional: Returns only streams that satisfy a specific condition. Currently,
+  /// you can specify only the prefix of a stream name as a condition.
+  @_s.JsonKey(name: 'StreamNameCondition')
+  final StreamNameCondition streamNameCondition;
+
+  ListStreamsInput({
+    this.maxResults,
+    this.nextToken,
+    this.streamNameCondition,
+  });
+  Map<String, dynamic> toJson() => _$ListStreamsInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListStreamsOutput {
@@ -1758,6 +2039,29 @@ class ListStreamsOutput {
   });
   factory ListStreamsOutput.fromJson(Map<String, dynamic> json) =>
       _$ListStreamsOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceInput {
+  /// The ARN of the signaling channel for which you want to list tags.
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+
+  /// If you specify this parameter and the result of a ListTagsForResource call
+  /// is truncated, the response includes a token that you can use in the next
+  /// request to fetch the next batch of tags.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListTagsForResourceInput({
+    @_s.required this.resourceARN,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1783,6 +2087,34 @@ class ListTagsForResourceOutput {
   });
   factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) =>
       _$ListTagsForResourceOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForStreamInput {
+  /// If you specify this parameter and the result of a
+  /// <code>ListTagsForStream</code> call is truncated, the response includes a
+  /// token that you can use in the next request to fetch the next batch of tags.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The Amazon Resource Name (ARN) of the stream that you want to list tags for.
+  @_s.JsonKey(name: 'StreamARN')
+  final String streamARN;
+
+  /// The name of the stream that you want to list tags for.
+  @_s.JsonKey(name: 'StreamName')
+  final String streamName;
+
+  ListTagsForStreamInput({
+    this.nextToken,
+    this.streamARN,
+    this.streamName,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForStreamInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2018,12 +2350,62 @@ class Tag {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceInput {
+  /// The ARN of the signaling channel to which you want to add tags.
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+
+  /// A list of tags to associate with the specified signaling channel. Each tag
+  /// is a key-value pair.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  TagResourceInput({
+    @_s.required this.resourceARN,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagResourceOutput {
   TagResourceOutput();
   factory TagResourceOutput.fromJson(Map<String, dynamic> json) =>
       _$TagResourceOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagStreamInput {
+  /// A list of tags to associate with the specified stream. Each tag is a
+  /// key-value pair (the value is optional).
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  /// The Amazon Resource Name (ARN) of the resource that you want to add the tag
+  /// or tags to.
+  @_s.JsonKey(name: 'StreamARN')
+  final String streamARN;
+
+  /// The name of the stream that you want to add the tag or tags to.
+  @_s.JsonKey(name: 'StreamName')
+  final String streamName;
+
+  TagStreamInput({
+    @_s.required this.tags,
+    this.streamARN,
+    this.streamName,
+  });
+  Map<String, dynamic> toJson() => _$TagStreamInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2040,12 +2422,60 @@ class TagStreamOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceInput {
+  /// The ARN of the signaling channel from which you want to remove tags.
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+
+  /// A list of the keys of the tags that you want to remove.
+  @_s.JsonKey(name: 'TagKeyList')
+  final List<String> tagKeyList;
+
+  UntagResourceInput({
+    @_s.required this.resourceARN,
+    @_s.required this.tagKeyList,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagResourceOutput {
   UntagResourceOutput();
   factory UntagResourceOutput.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagStreamInput {
+  /// A list of the keys of the tags that you want to remove.
+  @_s.JsonKey(name: 'TagKeyList')
+  final List<String> tagKeyList;
+
+  /// The Amazon Resource Name (ARN) of the stream that you want to remove tags
+  /// from.
+  @_s.JsonKey(name: 'StreamARN')
+  final String streamARN;
+
+  /// The name of the stream that you want to remove tags from.
+  @_s.JsonKey(name: 'StreamName')
+  final String streamName;
+
+  UntagStreamInput({
+    @_s.required this.tagKeyList,
+    this.streamARN,
+    this.streamName,
+  });
+  Map<String, dynamic> toJson() => _$UntagStreamInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2059,23 +2489,51 @@ class UntagStreamOutput {
       _$UntagStreamOutputFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDataRetentionInput {
+  /// The version of the stream whose retention period you want to change. To get
+  /// the version, call either the <code>DescribeStream</code> or the
+  /// <code>ListStreams</code> API.
+  @_s.JsonKey(name: 'CurrentVersion')
+  final String currentVersion;
+
+  /// The retention period, in hours. The value you specify replaces the current
+  /// value. The maximum value for this parameter is 87600 (ten years).
+  @_s.JsonKey(name: 'DataRetentionChangeInHours')
+  final int dataRetentionChangeInHours;
+
+  /// Indicates whether you want to increase or decrease the retention period.
+  @_s.JsonKey(name: 'Operation')
+  final UpdateDataRetentionOperation operation;
+
+  /// The Amazon Resource Name (ARN) of the stream whose retention period you want
+  /// to change.
+  @_s.JsonKey(name: 'StreamARN')
+  final String streamARN;
+
+  /// The name of the stream whose retention period you want to change.
+  @_s.JsonKey(name: 'StreamName')
+  final String streamName;
+
+  UpdateDataRetentionInput({
+    @_s.required this.currentVersion,
+    @_s.required this.dataRetentionChangeInHours,
+    @_s.required this.operation,
+    this.streamARN,
+    this.streamName,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDataRetentionInputToJson(this);
+}
+
 enum UpdateDataRetentionOperation {
   @_s.JsonValue('INCREASE_DATA_RETENTION')
   increaseDataRetention,
   @_s.JsonValue('DECREASE_DATA_RETENTION')
   decreaseDataRetention,
-}
-
-extension on UpdateDataRetentionOperation {
-  String toValue() {
-    switch (this) {
-      case UpdateDataRetentionOperation.increaseDataRetention:
-        return 'INCREASE_DATA_RETENTION';
-      case UpdateDataRetentionOperation.decreaseDataRetention:
-        return 'DECREASE_DATA_RETENTION';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 @_s.JsonSerializable(
@@ -2092,12 +2550,92 @@ class UpdateDataRetentionOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateSignalingChannelInput {
+  /// The ARN of the signaling channel that you want to update.
+  @_s.JsonKey(name: 'ChannelARN')
+  final String channelARN;
+
+  /// The current version of the signaling channel that you want to update.
+  @_s.JsonKey(name: 'CurrentVersion')
+  final String currentVersion;
+
+  /// The structure containing the configuration for the
+  /// <code>SINGLE_MASTER</code> type of the signaling channel that you want to
+  /// update.
+  @_s.JsonKey(name: 'SingleMasterConfiguration')
+  final SingleMasterConfiguration singleMasterConfiguration;
+
+  UpdateSignalingChannelInput({
+    @_s.required this.channelARN,
+    @_s.required this.currentVersion,
+    this.singleMasterConfiguration,
+  });
+  Map<String, dynamic> toJson() => _$UpdateSignalingChannelInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateSignalingChannelOutput {
   UpdateSignalingChannelOutput();
   factory UpdateSignalingChannelOutput.fromJson(Map<String, dynamic> json) =>
       _$UpdateSignalingChannelOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateStreamInput {
+  /// The version of the stream whose metadata you want to update.
+  @_s.JsonKey(name: 'CurrentVersion')
+  final String currentVersion;
+
+  /// The name of the device that is writing to the stream.
+  /// <note>
+  /// In the current implementation, Kinesis Video Streams does not use this name.
+  /// </note>
+  @_s.JsonKey(name: 'DeviceName')
+  final String deviceName;
+
+  /// The stream's media type. Use <code>MediaType</code> to specify the type of
+  /// content that the stream contains to the consumers of the stream. For more
+  /// information about media types, see <a
+  /// href="http://www.iana.org/assignments/media-types/media-types.xhtml">Media
+  /// Types</a>. If you choose to specify the <code>MediaType</code>, see <a
+  /// href="https://tools.ietf.org/html/rfc6838#section-4.2">Naming
+  /// Requirements</a>.
+  ///
+  /// To play video on the console, you must specify the correct video type. For
+  /// example, if the video in the stream is H.264, specify
+  /// <code>video/h264</code> as the <code>MediaType</code>.
+  @_s.JsonKey(name: 'MediaType')
+  final String mediaType;
+
+  /// The ARN of the stream whose metadata you want to update.
+  @_s.JsonKey(name: 'StreamARN')
+  final String streamARN;
+
+  /// The name of the stream whose metadata you want to update.
+  ///
+  /// The stream name is an identifier for the stream, and must be unique for each
+  /// account and region.
+  @_s.JsonKey(name: 'StreamName')
+  final String streamName;
+
+  UpdateStreamInput({
+    @_s.required this.currentVersion,
+    this.deviceName,
+    this.mediaType,
+    this.streamARN,
+    this.streamName,
+  });
+  Map<String, dynamic> toJson() => _$UpdateStreamInputToJson(this);
 }
 
 @_s.JsonSerializable(

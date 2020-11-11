@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -144,9 +143,9 @@ class SecretsManager {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SecretId': secretId,
-      },
+      payload: CancelRotateSecretRequest(
+        secretId: secretId,
+      ),
     );
 
     return CancelRotateSecretResponse.fromJson(jsonResponse.body);
@@ -491,17 +490,15 @@ class SecretsManager {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-        if (description != null) 'Description': description,
-        if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
-        if (secretBinary != null)
-          'SecretBinary': secretBinary.let(base64Encode),
-        if (secretString != null) 'SecretString': secretString,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateSecretRequest(
+        name: name,
+        clientRequestToken: clientRequestToken,
+        description: description,
+        kmsKeyId: kmsKeyId,
+        secretBinary: secretBinary,
+        secretString: secretString,
+        tags: tags,
+      ),
     );
 
     return CreateSecretResponse.fromJson(jsonResponse.body);
@@ -576,9 +573,9 @@ class SecretsManager {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SecretId': secretId,
-      },
+      payload: DeleteResourcePolicyRequest(
+        secretId: secretId,
+      ),
     );
 
     return DeleteResourcePolicyResponse.fromJson(jsonResponse.body);
@@ -706,13 +703,11 @@ class SecretsManager {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SecretId': secretId,
-        if (forceDeleteWithoutRecovery != null)
-          'ForceDeleteWithoutRecovery': forceDeleteWithoutRecovery,
-        if (recoveryWindowInDays != null)
-          'RecoveryWindowInDays': recoveryWindowInDays,
-      },
+      payload: DeleteSecretRequest(
+        secretId: secretId,
+        forceDeleteWithoutRecovery: forceDeleteWithoutRecovery,
+        recoveryWindowInDays: recoveryWindowInDays,
+      ),
     );
 
     return DeleteSecretResponse.fromJson(jsonResponse.body);
@@ -790,9 +785,9 @@ class SecretsManager {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SecretId': secretId,
-      },
+      payload: DescribeSecretRequest(
+        secretId: secretId,
+      ),
     );
 
     return DescribeSecretResponse.fromJson(jsonResponse.body);
@@ -895,18 +890,16 @@ class SecretsManager {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (excludeCharacters != null) 'ExcludeCharacters': excludeCharacters,
-        if (excludeLowercase != null) 'ExcludeLowercase': excludeLowercase,
-        if (excludeNumbers != null) 'ExcludeNumbers': excludeNumbers,
-        if (excludePunctuation != null)
-          'ExcludePunctuation': excludePunctuation,
-        if (excludeUppercase != null) 'ExcludeUppercase': excludeUppercase,
-        if (includeSpace != null) 'IncludeSpace': includeSpace,
-        if (passwordLength != null) 'PasswordLength': passwordLength,
-        if (requireEachIncludedType != null)
-          'RequireEachIncludedType': requireEachIncludedType,
-      },
+      payload: GetRandomPasswordRequest(
+        excludeCharacters: excludeCharacters,
+        excludeLowercase: excludeLowercase,
+        excludeNumbers: excludeNumbers,
+        excludePunctuation: excludePunctuation,
+        excludeUppercase: excludeUppercase,
+        includeSpace: includeSpace,
+        passwordLength: passwordLength,
+        requireEachIncludedType: requireEachIncludedType,
+      ),
     );
 
     return GetRandomPasswordResponse.fromJson(jsonResponse.body);
@@ -983,9 +976,9 @@ class SecretsManager {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SecretId': secretId,
-      },
+      payload: GetResourcePolicyRequest(
+        secretId: secretId,
+      ),
     );
 
     return GetResourcePolicyResponse.fromJson(jsonResponse.body);
@@ -1103,11 +1096,11 @@ class SecretsManager {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SecretId': secretId,
-        if (versionId != null) 'VersionId': versionId,
-        if (versionStage != null) 'VersionStage': versionStage,
-      },
+      payload: GetSecretValueRequest(
+        secretId: secretId,
+        versionId: versionId,
+        versionStage: versionStage,
+      ),
     );
 
     return GetSecretValueResponse.fromJson(jsonResponse.body);
@@ -1224,12 +1217,12 @@ class SecretsManager {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SecretId': secretId,
-        if (includeDeprecated != null) 'IncludeDeprecated': includeDeprecated,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListSecretVersionIdsRequest(
+        secretId: secretId,
+        includeDeprecated: includeDeprecated,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListSecretVersionIdsResponse.fromJson(jsonResponse.body);
@@ -1315,10 +1308,10 @@ class SecretsManager {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListSecretsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListSecretsResponse.fromJson(jsonResponse.body);
@@ -1423,10 +1416,10 @@ class SecretsManager {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourcePolicy': resourcePolicy,
-        'SecretId': secretId,
-      },
+      payload: PutResourcePolicyRequest(
+        resourcePolicy: resourcePolicy,
+        secretId: secretId,
+      ),
     );
 
     return PutResourcePolicyResponse.fromJson(jsonResponse.body);
@@ -1684,15 +1677,13 @@ class SecretsManager {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SecretId': secretId,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-        if (secretBinary != null)
-          'SecretBinary': secretBinary.let(base64Encode),
-        if (secretString != null) 'SecretString': secretString,
-        if (versionStages != null) 'VersionStages': versionStages,
-      },
+      payload: PutSecretValueRequest(
+        secretId: secretId,
+        clientRequestToken: clientRequestToken,
+        secretBinary: secretBinary,
+        secretString: secretString,
+        versionStages: versionStages,
+      ),
     );
 
     return PutSecretValueResponse.fromJson(jsonResponse.body);
@@ -1762,9 +1753,9 @@ class SecretsManager {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SecretId': secretId,
-      },
+      payload: RestoreSecretRequest(
+        secretId: secretId,
+      ),
     );
 
     return RestoreSecretResponse.fromJson(jsonResponse.body);
@@ -1931,13 +1922,12 @@ class SecretsManager {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SecretId': secretId,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-        if (rotationLambdaARN != null) 'RotationLambdaARN': rotationLambdaARN,
-        if (rotationRules != null) 'RotationRules': rotationRules,
-      },
+      payload: RotateSecretRequest(
+        secretId: secretId,
+        clientRequestToken: clientRequestToken,
+        rotationLambdaARN: rotationLambdaARN,
+        rotationRules: rotationRules,
+      ),
     );
 
     return RotateSecretResponse.fromJson(jsonResponse.body);
@@ -2061,10 +2051,10 @@ class SecretsManager {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SecretId': secretId,
-        'Tags': tags,
-      },
+      payload: TagResourceRequest(
+        secretId: secretId,
+        tags: tags,
+      ),
     );
   }
 
@@ -2154,10 +2144,10 @@ class SecretsManager {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SecretId': secretId,
-        'TagKeys': tagKeys,
-      },
+      payload: UntagResourceRequest(
+        secretId: secretId,
+        tagKeys: tagKeys,
+      ),
     );
   }
 
@@ -2428,16 +2418,14 @@ class SecretsManager {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SecretId': secretId,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-        if (description != null) 'Description': description,
-        if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
-        if (secretBinary != null)
-          'SecretBinary': secretBinary.let(base64Encode),
-        if (secretString != null) 'SecretString': secretString,
-      },
+      payload: UpdateSecretRequest(
+        secretId: secretId,
+        clientRequestToken: clientRequestToken,
+        description: description,
+        kmsKeyId: kmsKeyId,
+        secretBinary: secretBinary,
+        secretString: secretString,
+      ),
     );
 
     return UpdateSecretResponse.fromJson(jsonResponse.body);
@@ -2574,17 +2562,47 @@ class SecretsManager {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SecretId': secretId,
-        'VersionStage': versionStage,
-        if (moveToVersionId != null) 'MoveToVersionId': moveToVersionId,
-        if (removeFromVersionId != null)
-          'RemoveFromVersionId': removeFromVersionId,
-      },
+      payload: UpdateSecretVersionStageRequest(
+        secretId: secretId,
+        versionStage: versionStage,
+        moveToVersionId: moveToVersionId,
+        removeFromVersionId: removeFromVersionId,
+      ),
     );
 
     return UpdateSecretVersionStageResponse.fromJson(jsonResponse.body);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CancelRotateSecretRequest {
+  /// Specifies the secret for which you want to cancel a rotation request. You
+  /// can specify either the Amazon Resource Name (ARN) or the friendly name of
+  /// the secret.
+  /// <note>
+  /// If you specify an ARN, we generally recommend that you specify a complete
+  /// ARN. You can specify a partial ARN too—for example, if you don’t include the
+  /// final hyphen and six random characters that Secrets Manager adds at the end
+  /// of the ARN when you created the secret. A partial ARN match can work as long
+  /// as it uniquely matches only one secret. However, if your secret has a name
+  /// that ends in a hyphen followed by six characters (before Secrets Manager
+  /// adds the hyphen and six characters to the ARN) and you try to use that as a
+  /// partial ARN, then those characters cause Secrets Manager to assume that
+  /// you’re specifying a complete ARN. This confusion can cause unexpected
+  /// results. To avoid this situation, we recommend that you don’t create secret
+  /// names that end with a hyphen followed by six characters.
+  /// </note>
+  @_s.JsonKey(name: 'SecretId')
+  final String secretId;
+
+  CancelRotateSecretRequest({
+    @_s.required this.secretId,
+  });
+  Map<String, dynamic> toJson() => _$CancelRotateSecretRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2617,6 +2635,207 @@ class CancelRotateSecretResponse {
   });
   factory CancelRotateSecretResponse.fromJson(Map<String, dynamic> json) =>
       _$CancelRotateSecretResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateSecretRequest {
+  /// Specifies the friendly name of the new secret.
+  ///
+  /// The secret name must be ASCII letters, digits, or the following characters :
+  /// /_+=.@-
+  /// <note>
+  /// Don't end your secret name with a hyphen followed by six characters. If you
+  /// do so, you risk confusion and unexpected results when searching for a secret
+  /// by partial ARN. This is because Secrets Manager automatically adds a hyphen
+  /// and six random characters at the end of the ARN.
+  /// </note>
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// (Optional) If you include <code>SecretString</code> or
+  /// <code>SecretBinary</code>, then an initial version is created as part of the
+  /// secret, and this parameter specifies a unique identifier for the new
+  /// version.
+  /// <note>
+  /// If you use the AWS CLI or one of the AWS SDK to call this operation, then
+  /// you can leave this parameter empty. The CLI or SDK generates a random UUID
+  /// for you and includes it as the value for this parameter in the request. If
+  /// you don't use the SDK and instead generate a raw HTTP request to the Secrets
+  /// Manager service endpoint, then you must generate a
+  /// <code>ClientRequestToken</code> yourself for the new version and include
+  /// that value in the request.
+  /// </note>
+  /// This value helps ensure idempotency. Secrets Manager uses this value to
+  /// prevent the accidental creation of duplicate versions if there are failures
+  /// and retries during a rotation. We recommend that you generate a <a
+  /// href="https://wikipedia.org/wiki/Universally_unique_identifier">UUID-type</a>
+  /// value to ensure uniqueness of your versions within the specified secret.
+  ///
+  /// <ul>
+  /// <li>
+  /// If the <code>ClientRequestToken</code> value isn't already associated with a
+  /// version of the secret then a new version of the secret is created.
+  /// </li>
+  /// <li>
+  /// If a version with this value already exists and that version's
+  /// <code>SecretString</code> and <code>SecretBinary</code> values are the same
+  /// as those in the request, then the request is ignored (the operation is
+  /// idempotent).
+  /// </li>
+  /// <li>
+  /// If a version with this value already exists and that version's
+  /// <code>SecretString</code> and <code>SecretBinary</code> values are different
+  /// from those in the request then the request fails because you cannot modify
+  /// an existing version. Instead, use <a>PutSecretValue</a> to create a new
+  /// version.
+  /// </li>
+  /// </ul>
+  /// This value becomes the <code>VersionId</code> of the new version.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// (Optional) Specifies a user-provided description of the secret.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// (Optional) Specifies the ARN, Key ID, or alias of the AWS KMS customer
+  /// master key (CMK) to be used to encrypt the <code>SecretString</code> or
+  /// <code>SecretBinary</code> values in the versions stored in this secret.
+  ///
+  /// You can specify any of the supported ways to identify a AWS KMS key ID. If
+  /// you need to reference a CMK in a different account, you can use only the key
+  /// ARN or the alias ARN.
+  ///
+  /// If you don't specify this value, then Secrets Manager defaults to using the
+  /// AWS account's default CMK (the one named <code>aws/secretsmanager</code>).
+  /// If a AWS KMS CMK with that name doesn't yet exist, then Secrets Manager
+  /// creates it for you automatically the first time it needs to encrypt a
+  /// version's <code>SecretString</code> or <code>SecretBinary</code> fields.
+  /// <important>
+  /// You can use the account's default CMK to encrypt and decrypt only if you
+  /// call this operation using credentials from the same account that owns the
+  /// secret. If the secret is in a different account, then you must create a
+  /// custom CMK and specify the ARN in this field.
+  /// </important>
+  @_s.JsonKey(name: 'KmsKeyId')
+  final String kmsKeyId;
+
+  /// (Optional) Specifies binary data that you want to encrypt and store in the
+  /// new version of the secret. To use this parameter in the command-line tools,
+  /// we recommend that you store your binary data in a file and then use the
+  /// appropriate technique for your tool to pass the contents of the file as a
+  /// parameter.
+  ///
+  /// Either <code>SecretString</code> or <code>SecretBinary</code> must have a
+  /// value, but not both. They cannot both be empty.
+  ///
+  /// This parameter is not available using the Secrets Manager console. It can be
+  /// accessed only by using the AWS CLI or one of the AWS SDKs.
+  @Uint8ListConverter()
+  @_s.JsonKey(name: 'SecretBinary')
+  final Uint8List secretBinary;
+
+  /// (Optional) Specifies text data that you want to encrypt and store in this
+  /// new version of the secret.
+  ///
+  /// Either <code>SecretString</code> or <code>SecretBinary</code> must have a
+  /// value, but not both. They cannot both be empty.
+  ///
+  /// If you create a secret by using the Secrets Manager console then Secrets
+  /// Manager puts the protected secret text in only the <code>SecretString</code>
+  /// parameter. The Secrets Manager console stores the information as a JSON
+  /// structure of key/value pairs that the Lambda rotation function knows how to
+  /// parse.
+  ///
+  /// For storing multiple values, we recommend that you use a JSON text string
+  /// argument and specify key/value pairs. For information on how to format a
+  /// JSON parameter for the various command line tool environments, see <a
+  /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#cli-using-param-json">Using
+  /// JSON for Parameters</a> in the <i>AWS CLI User Guide</i>. For example:
+  ///
+  /// <code>[{"username":"bob"},{"password":"abc123xyz456"}]</code>
+  ///
+  /// If your command-line tool or SDK requires quotation marks around the
+  /// parameter, you should use single quotes to avoid confusion with the double
+  /// quotes required in the JSON text.
+  @_s.JsonKey(name: 'SecretString')
+  final String secretString;
+
+  /// (Optional) Specifies a list of user-defined tags that are attached to the
+  /// secret. Each tag is a "Key" and "Value" pair of strings. This operation only
+  /// appends tags to the existing list of tags. To remove tags, you must use
+  /// <a>UntagResource</a>.
+  /// <important>
+  /// <ul>
+  /// <li>
+  /// Secrets Manager tag key names are case sensitive. A tag with the key "ABC"
+  /// is a different tag from one with key "abc".
+  /// </li>
+  /// <li>
+  /// If you check tags in IAM policy <code>Condition</code> elements as part of
+  /// your security strategy, then adding or removing a tag can change
+  /// permissions. If the successful completion of this operation would result in
+  /// you losing your permissions for this secret, then this operation is blocked
+  /// and returns an <code>Access Denied</code> error.
+  /// </li>
+  /// </ul> </important>
+  /// This parameter requires a JSON text string argument. For information on how
+  /// to format a JSON parameter for the various command line tool environments,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#cli-using-param-json">Using
+  /// JSON for Parameters</a> in the <i>AWS CLI User Guide</i>. For example:
+  ///
+  /// <code>[{"Key":"CostCenter","Value":"12345"},{"Key":"environment","Value":"production"}]</code>
+  ///
+  /// If your command-line tool or SDK requires quotation marks around the
+  /// parameter, you should use single quotes to avoid confusion with the double
+  /// quotes required in the JSON text.
+  ///
+  /// The following basic restrictions apply to tags:
+  ///
+  /// <ul>
+  /// <li>
+  /// Maximum number of tags per secret—50
+  /// </li>
+  /// <li>
+  /// Maximum key length—127 Unicode characters in UTF-8
+  /// </li>
+  /// <li>
+  /// Maximum value length—255 Unicode characters in UTF-8
+  /// </li>
+  /// <li>
+  /// Tag keys and values are case sensitive.
+  /// </li>
+  /// <li>
+  /// Do not use the <code>aws:</code> prefix in your tag names or values because
+  /// it is reserved for AWS use. You can't edit or delete tag names or values
+  /// with this prefix. Tags with this prefix do not count against your tags per
+  /// secret limit.
+  /// </li>
+  /// <li>
+  /// If your tagging schema will be used across multiple services and resources,
+  /// remember that other services might have restrictions on allowed characters.
+  /// Generally allowed characters are: letters, spaces, and numbers representable
+  /// in UTF-8, plus the following special characters: + - = . _ : / @.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateSecretRequest({
+    @_s.required this.name,
+    this.clientRequestToken,
+    this.description,
+    this.kmsKeyId,
+    this.secretBinary,
+    this.secretString,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateSecretRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2658,6 +2877,37 @@ class CreateSecretResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteResourcePolicyRequest {
+  /// Specifies the secret that you want to delete the attached resource-based
+  /// policy for. You can specify either the Amazon Resource Name (ARN) or the
+  /// friendly name of the secret.
+  /// <note>
+  /// If you specify an ARN, we generally recommend that you specify a complete
+  /// ARN. You can specify a partial ARN too—for example, if you don’t include the
+  /// final hyphen and six random characters that Secrets Manager adds at the end
+  /// of the ARN when you created the secret. A partial ARN match can work as long
+  /// as it uniquely matches only one secret. However, if your secret has a name
+  /// that ends in a hyphen followed by six characters (before Secrets Manager
+  /// adds the hyphen and six characters to the ARN) and you try to use that as a
+  /// partial ARN, then those characters cause Secrets Manager to assume that
+  /// you’re specifying a complete ARN. This confusion can cause unexpected
+  /// results. To avoid this situation, we recommend that you don’t create secret
+  /// names that end with a hyphen followed by six characters.
+  /// </note>
+  @_s.JsonKey(name: 'SecretId')
+  final String secretId;
+
+  DeleteResourcePolicyRequest({
+    @_s.required this.secretId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteResourcePolicyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteResourcePolicyResponse {
@@ -2676,6 +2926,64 @@ class DeleteResourcePolicyResponse {
   });
   factory DeleteResourcePolicyResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteResourcePolicyResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteSecretRequest {
+  /// Specifies the secret that you want to delete. You can specify either the
+  /// Amazon Resource Name (ARN) or the friendly name of the secret.
+  /// <note>
+  /// If you specify an ARN, we generally recommend that you specify a complete
+  /// ARN. You can specify a partial ARN too—for example, if you don’t include the
+  /// final hyphen and six random characters that Secrets Manager adds at the end
+  /// of the ARN when you created the secret. A partial ARN match can work as long
+  /// as it uniquely matches only one secret. However, if your secret has a name
+  /// that ends in a hyphen followed by six characters (before Secrets Manager
+  /// adds the hyphen and six characters to the ARN) and you try to use that as a
+  /// partial ARN, then those characters cause Secrets Manager to assume that
+  /// you’re specifying a complete ARN. This confusion can cause unexpected
+  /// results. To avoid this situation, we recommend that you don’t create secret
+  /// names that end with a hyphen followed by six characters.
+  /// </note>
+  @_s.JsonKey(name: 'SecretId')
+  final String secretId;
+
+  /// (Optional) Specifies that the secret is to be deleted without any recovery
+  /// window. You can't use both this parameter and the
+  /// <code>RecoveryWindowInDays</code> parameter in the same API call.
+  ///
+  /// An asynchronous background process performs the actual deletion, so there
+  /// can be a short delay before the operation completes. If you write code to
+  /// delete and then immediately recreate a secret with the same name, ensure
+  /// that your code includes appropriate back off and retry logic.
+  /// <important>
+  /// Use this parameter with caution. This parameter causes the operation to skip
+  /// the normal waiting period before the permanent deletion that AWS would
+  /// normally impose with the <code>RecoveryWindowInDays</code> parameter. If you
+  /// delete a secret with the <code>ForceDeleteWithouRecovery</code> parameter,
+  /// then you have no opportunity to recover the secret. It is permanently lost.
+  /// </important>
+  @_s.JsonKey(name: 'ForceDeleteWithoutRecovery')
+  final bool forceDeleteWithoutRecovery;
+
+  /// (Optional) Specifies the number of days that Secrets Manager waits before it
+  /// can delete the secret. You can't use both this parameter and the
+  /// <code>ForceDeleteWithoutRecovery</code> parameter in the same API call.
+  ///
+  /// This value can range from 7 to 30 days. The default value is 30.
+  @_s.JsonKey(name: 'RecoveryWindowInDays')
+  final int recoveryWindowInDays;
+
+  DeleteSecretRequest({
+    @_s.required this.secretId,
+    this.forceDeleteWithoutRecovery,
+    this.recoveryWindowInDays,
+  });
+  Map<String, dynamic> toJson() => _$DeleteSecretRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2709,6 +3017,37 @@ class DeleteSecretResponse {
   });
   factory DeleteSecretResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteSecretResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeSecretRequest {
+  /// The identifier of the secret whose details you want to retrieve. You can
+  /// specify either the Amazon Resource Name (ARN) or the friendly name of the
+  /// secret.
+  /// <note>
+  /// If you specify an ARN, we generally recommend that you specify a complete
+  /// ARN. You can specify a partial ARN too—for example, if you don’t include the
+  /// final hyphen and six random characters that Secrets Manager adds at the end
+  /// of the ARN when you created the secret. A partial ARN match can work as long
+  /// as it uniquely matches only one secret. However, if your secret has a name
+  /// that ends in a hyphen followed by six characters (before Secrets Manager
+  /// adds the hyphen and six characters to the ARN) and you try to use that as a
+  /// partial ARN, then those characters cause Secrets Manager to assume that
+  /// you’re specifying a complete ARN. This confusion can cause unexpected
+  /// results. To avoid this situation, we recommend that you don’t create secret
+  /// names that end with a hyphen followed by six characters.
+  /// </note>
+  @_s.JsonKey(name: 'SecretId')
+  final String secretId;
+
+  DescribeSecretRequest({
+    @_s.required this.secretId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeSecretRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2836,6 +3175,79 @@ class DescribeSecretResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetRandomPasswordRequest {
+  /// A string that includes characters that should not be included in the
+  /// generated password. The default is that all characters from the included
+  /// sets can be used.
+  @_s.JsonKey(name: 'ExcludeCharacters')
+  final String excludeCharacters;
+
+  /// Specifies that the generated password should not include lowercase letters.
+  /// The default if you do not include this switch parameter is that lowercase
+  /// letters can be included.
+  @_s.JsonKey(name: 'ExcludeLowercase')
+  final bool excludeLowercase;
+
+  /// Specifies that the generated password should not include digits. The default
+  /// if you do not include this switch parameter is that digits can be included.
+  @_s.JsonKey(name: 'ExcludeNumbers')
+  final bool excludeNumbers;
+
+  /// Specifies that the generated password should not include punctuation
+  /// characters. The default if you do not include this switch parameter is that
+  /// punctuation characters can be included.
+  ///
+  /// The following are the punctuation characters that <i>can</i> be included in
+  /// the generated password if you don't explicitly exclude them with
+  /// <code>ExcludeCharacters</code> or <code>ExcludePunctuation</code>:
+  ///
+  /// <code>! " # $ % &amp; ' ( ) * + , - . / : ; &lt; = &gt; ? @ [ \ ] ^ _ ` { |
+  /// } ~</code>
+  @_s.JsonKey(name: 'ExcludePunctuation')
+  final bool excludePunctuation;
+
+  /// Specifies that the generated password should not include uppercase letters.
+  /// The default if you do not include this switch parameter is that uppercase
+  /// letters can be included.
+  @_s.JsonKey(name: 'ExcludeUppercase')
+  final bool excludeUppercase;
+
+  /// Specifies that the generated password can include the space character. The
+  /// default if you do not include this switch parameter is that the space
+  /// character is not included.
+  @_s.JsonKey(name: 'IncludeSpace')
+  final bool includeSpace;
+
+  /// The desired length of the generated password. The default value if you do
+  /// not include this parameter is 32 characters.
+  @_s.JsonKey(name: 'PasswordLength')
+  final int passwordLength;
+
+  /// A boolean value that specifies whether the generated password must include
+  /// at least one of every allowed character type. The default value is
+  /// <code>True</code> and the operation requires at least one of every character
+  /// type.
+  @_s.JsonKey(name: 'RequireEachIncludedType')
+  final bool requireEachIncludedType;
+
+  GetRandomPasswordRequest({
+    this.excludeCharacters,
+    this.excludeLowercase,
+    this.excludeNumbers,
+    this.excludePunctuation,
+    this.excludeUppercase,
+    this.includeSpace,
+    this.passwordLength,
+    this.requireEachIncludedType,
+  });
+  Map<String, dynamic> toJson() => _$GetRandomPasswordRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetRandomPasswordResponse {
@@ -2848,6 +3260,37 @@ class GetRandomPasswordResponse {
   });
   factory GetRandomPasswordResponse.fromJson(Map<String, dynamic> json) =>
       _$GetRandomPasswordResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetResourcePolicyRequest {
+  /// Specifies the secret that you want to retrieve the attached resource-based
+  /// policy for. You can specify either the Amazon Resource Name (ARN) or the
+  /// friendly name of the secret.
+  /// <note>
+  /// If you specify an ARN, we generally recommend that you specify a complete
+  /// ARN. You can specify a partial ARN too—for example, if you don’t include the
+  /// final hyphen and six random characters that Secrets Manager adds at the end
+  /// of the ARN when you created the secret. A partial ARN match can work as long
+  /// as it uniquely matches only one secret. However, if your secret has a name
+  /// that ends in a hyphen followed by six characters (before Secrets Manager
+  /// adds the hyphen and six characters to the ARN) and you try to use that as a
+  /// partial ARN, then those characters cause Secrets Manager to assume that
+  /// you’re specifying a complete ARN. This confusion can cause unexpected
+  /// results. To avoid this situation, we recommend that you don’t create secret
+  /// names that end with a hyphen followed by six characters.
+  /// </note>
+  @_s.JsonKey(name: 'SecretId')
+  final String secretId;
+
+  GetResourcePolicyRequest({
+    @_s.required this.secretId,
+  });
+  Map<String, dynamic> toJson() => _$GetResourcePolicyRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2883,6 +3326,64 @@ class GetResourcePolicyResponse {
   });
   factory GetResourcePolicyResponse.fromJson(Map<String, dynamic> json) =>
       _$GetResourcePolicyResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetSecretValueRequest {
+  /// Specifies the secret containing the version that you want to retrieve. You
+  /// can specify either the Amazon Resource Name (ARN) or the friendly name of
+  /// the secret.
+  /// <note>
+  /// If you specify an ARN, we generally recommend that you specify a complete
+  /// ARN. You can specify a partial ARN too—for example, if you don’t include the
+  /// final hyphen and six random characters that Secrets Manager adds at the end
+  /// of the ARN when you created the secret. A partial ARN match can work as long
+  /// as it uniquely matches only one secret. However, if your secret has a name
+  /// that ends in a hyphen followed by six characters (before Secrets Manager
+  /// adds the hyphen and six characters to the ARN) and you try to use that as a
+  /// partial ARN, then those characters cause Secrets Manager to assume that
+  /// you’re specifying a complete ARN. This confusion can cause unexpected
+  /// results. To avoid this situation, we recommend that you don’t create secret
+  /// names that end with a hyphen followed by six characters.
+  /// </note>
+  @_s.JsonKey(name: 'SecretId')
+  final String secretId;
+
+  /// Specifies the unique identifier of the version of the secret that you want
+  /// to retrieve. If you specify this parameter then don't specify
+  /// <code>VersionStage</code>. If you don't specify either a
+  /// <code>VersionStage</code> or <code>VersionId</code> then the default is to
+  /// perform the operation on the version with the <code>VersionStage</code>
+  /// value of <code>AWSCURRENT</code>.
+  ///
+  /// This value is typically a <a
+  /// href="https://wikipedia.org/wiki/Universally_unique_identifier">UUID-type</a>
+  /// value with 32 hexadecimal digits.
+  @_s.JsonKey(name: 'VersionId')
+  final String versionId;
+
+  /// Specifies the secret version that you want to retrieve by the staging label
+  /// attached to the version.
+  ///
+  /// Staging labels are used to keep track of different versions during the
+  /// rotation process. If you use this parameter then don't specify
+  /// <code>VersionId</code>. If you don't specify either a
+  /// <code>VersionStage</code> or <code>VersionId</code>, then the default is to
+  /// perform the operation on the version with the <code>VersionStage</code>
+  /// value of <code>AWSCURRENT</code>.
+  @_s.JsonKey(name: 'VersionStage')
+  final String versionStage;
+
+  GetSecretValueRequest({
+    @_s.required this.secretId,
+    this.versionId,
+    this.versionStage,
+  });
+  Map<String, dynamic> toJson() => _$GetSecretValueRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2963,6 +3464,67 @@ class GetSecretValueResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListSecretVersionIdsRequest {
+  /// The identifier for the secret containing the versions you want to list. You
+  /// can specify either the Amazon Resource Name (ARN) or the friendly name of
+  /// the secret.
+  /// <note>
+  /// If you specify an ARN, we generally recommend that you specify a complete
+  /// ARN. You can specify a partial ARN too—for example, if you don’t include the
+  /// final hyphen and six random characters that Secrets Manager adds at the end
+  /// of the ARN when you created the secret. A partial ARN match can work as long
+  /// as it uniquely matches only one secret. However, if your secret has a name
+  /// that ends in a hyphen followed by six characters (before Secrets Manager
+  /// adds the hyphen and six characters to the ARN) and you try to use that as a
+  /// partial ARN, then those characters cause Secrets Manager to assume that
+  /// you’re specifying a complete ARN. This confusion can cause unexpected
+  /// results. To avoid this situation, we recommend that you don’t create secret
+  /// names that end with a hyphen followed by six characters.
+  /// </note>
+  @_s.JsonKey(name: 'SecretId')
+  final String secretId;
+
+  /// (Optional) Specifies that you want the results to include versions that do
+  /// not have any staging labels attached to them. Such versions are considered
+  /// deprecated and are subject to deletion by Secrets Manager as needed.
+  @_s.JsonKey(name: 'IncludeDeprecated')
+  final bool includeDeprecated;
+
+  /// (Optional) Limits the number of results that you want to include in the
+  /// response. If you don't include this parameter, it defaults to a value that's
+  /// specific to the operation. If additional items exist beyond the maximum you
+  /// specify, the <code>NextToken</code> response element is present and has a
+  /// value (isn't null). Include that value as the <code>NextToken</code> request
+  /// parameter in the next call to the operation to get the next part of the
+  /// results. Note that Secrets Manager might return fewer results than the
+  /// maximum even when there are more results available. You should check
+  /// <code>NextToken</code> after every operation to ensure that you receive all
+  /// of the results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// (Optional) Use this parameter in a request if you receive a
+  /// <code>NextToken</code> response in a previous request that indicates that
+  /// there's more output available. In a subsequent call, set it to the value of
+  /// the previous call's <code>NextToken</code> response to indicate where the
+  /// output should continue from.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListSecretVersionIdsRequest({
+    @_s.required this.secretId,
+    this.includeDeprecated,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListSecretVersionIdsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListSecretVersionIdsResponse {
@@ -3010,6 +3572,40 @@ class ListSecretVersionIdsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListSecretsRequest {
+  /// (Optional) Limits the number of results that you want to include in the
+  /// response. If you don't include this parameter, it defaults to a value that's
+  /// specific to the operation. If additional items exist beyond the maximum you
+  /// specify, the <code>NextToken</code> response element is present and has a
+  /// value (isn't null). Include that value as the <code>NextToken</code> request
+  /// parameter in the next call to the operation to get the next part of the
+  /// results. Note that Secrets Manager might return fewer results than the
+  /// maximum even when there are more results available. You should check
+  /// <code>NextToken</code> after every operation to ensure that you receive all
+  /// of the results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// (Optional) Use this parameter in a request if you receive a
+  /// <code>NextToken</code> response in a previous request that indicates that
+  /// there's more output available. In a subsequent call, set it to the value of
+  /// the previous call's <code>NextToken</code> response to indicate where the
+  /// output should continue from.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListSecretsRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListSecretsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListSecretsResponse {
@@ -3039,6 +3635,47 @@ class ListSecretsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutResourcePolicyRequest {
+  /// A JSON-formatted string that's constructed according to the grammar and
+  /// syntax for an AWS resource-based policy. The policy in the string identifies
+  /// who can access or manage this secret and its versions. For information on
+  /// how to format a JSON parameter for the various command line tool
+  /// environments, see <a
+  /// href="http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#cli-using-param-json">Using
+  /// JSON for Parameters</a> in the <i>AWS CLI User Guide</i>.
+  @_s.JsonKey(name: 'ResourcePolicy')
+  final String resourcePolicy;
+
+  /// Specifies the secret that you want to attach the resource-based policy to.
+  /// You can specify either the ARN or the friendly name of the secret.
+  /// <note>
+  /// If you specify an ARN, we generally recommend that you specify a complete
+  /// ARN. You can specify a partial ARN too—for example, if you don’t include the
+  /// final hyphen and six random characters that Secrets Manager adds at the end
+  /// of the ARN when you created the secret. A partial ARN match can work as long
+  /// as it uniquely matches only one secret. However, if your secret has a name
+  /// that ends in a hyphen followed by six characters (before Secrets Manager
+  /// adds the hyphen and six characters to the ARN) and you try to use that as a
+  /// partial ARN, then those characters cause Secrets Manager to assume that
+  /// you’re specifying a complete ARN. This confusion can cause unexpected
+  /// results. To avoid this situation, we recommend that you don’t create secret
+  /// names that end with a hyphen followed by six characters.
+  /// </note>
+  @_s.JsonKey(name: 'SecretId')
+  final String secretId;
+
+  PutResourcePolicyRequest({
+    @_s.required this.resourcePolicy,
+    @_s.required this.secretId,
+  });
+  Map<String, dynamic> toJson() => _$PutResourcePolicyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutResourcePolicyResponse {
@@ -3057,6 +3694,136 @@ class PutResourcePolicyResponse {
   });
   factory PutResourcePolicyResponse.fromJson(Map<String, dynamic> json) =>
       _$PutResourcePolicyResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutSecretValueRequest {
+  /// Specifies the secret to which you want to add a new version. You can specify
+  /// either the Amazon Resource Name (ARN) or the friendly name of the secret.
+  /// The secret must already exist.
+  /// <note>
+  /// If you specify an ARN, we generally recommend that you specify a complete
+  /// ARN. You can specify a partial ARN too—for example, if you don’t include the
+  /// final hyphen and six random characters that Secrets Manager adds at the end
+  /// of the ARN when you created the secret. A partial ARN match can work as long
+  /// as it uniquely matches only one secret. However, if your secret has a name
+  /// that ends in a hyphen followed by six characters (before Secrets Manager
+  /// adds the hyphen and six characters to the ARN) and you try to use that as a
+  /// partial ARN, then those characters cause Secrets Manager to assume that
+  /// you’re specifying a complete ARN. This confusion can cause unexpected
+  /// results. To avoid this situation, we recommend that you don’t create secret
+  /// names that end with a hyphen followed by six characters.
+  /// </note>
+  @_s.JsonKey(name: 'SecretId')
+  final String secretId;
+
+  /// (Optional) Specifies a unique identifier for the new version of the secret.
+  /// <note>
+  /// If you use the AWS CLI or one of the AWS SDK to call this operation, then
+  /// you can leave this parameter empty. The CLI or SDK generates a random UUID
+  /// for you and includes that in the request. If you don't use the SDK and
+  /// instead generate a raw HTTP request to the Secrets Manager service endpoint,
+  /// then you must generate a <code>ClientRequestToken</code> yourself for new
+  /// versions and include that value in the request.
+  /// </note>
+  /// This value helps ensure idempotency. Secrets Manager uses this value to
+  /// prevent the accidental creation of duplicate versions if there are failures
+  /// and retries during the Lambda rotation function's processing. We recommend
+  /// that you generate a <a
+  /// href="https://wikipedia.org/wiki/Universally_unique_identifier">UUID-type</a>
+  /// value to ensure uniqueness within the specified secret.
+  ///
+  /// <ul>
+  /// <li>
+  /// If the <code>ClientRequestToken</code> value isn't already associated with a
+  /// version of the secret then a new version of the secret is created.
+  /// </li>
+  /// <li>
+  /// If a version with this value already exists and that version's
+  /// <code>SecretString</code> or <code>SecretBinary</code> values are the same
+  /// as those in the request then the request is ignored (the operation is
+  /// idempotent).
+  /// </li>
+  /// <li>
+  /// If a version with this value already exists and that version's
+  /// <code>SecretString</code> and <code>SecretBinary</code> values are different
+  /// from those in the request then the request fails because you cannot modify
+  /// an existing secret version. You can only create new versions to store new
+  /// secret values.
+  /// </li>
+  /// </ul>
+  /// This value becomes the <code>VersionId</code> of the new version.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// (Optional) Specifies binary data that you want to encrypt and store in the
+  /// new version of the secret. To use this parameter in the command-line tools,
+  /// we recommend that you store your binary data in a file and then use the
+  /// appropriate technique for your tool to pass the contents of the file as a
+  /// parameter. Either <code>SecretBinary</code> or <code>SecretString</code>
+  /// must have a value, but not both. They cannot both be empty.
+  ///
+  /// This parameter is not accessible if the secret using the Secrets Manager
+  /// console.
+  /// <p/>
+  @Uint8ListConverter()
+  @_s.JsonKey(name: 'SecretBinary')
+  final Uint8List secretBinary;
+
+  /// (Optional) Specifies text data that you want to encrypt and store in this
+  /// new version of the secret. Either <code>SecretString</code> or
+  /// <code>SecretBinary</code> must have a value, but not both. They cannot both
+  /// be empty.
+  ///
+  /// If you create this secret by using the Secrets Manager console then Secrets
+  /// Manager puts the protected secret text in only the <code>SecretString</code>
+  /// parameter. The Secrets Manager console stores the information as a JSON
+  /// structure of key/value pairs that the default Lambda rotation function knows
+  /// how to parse.
+  ///
+  /// For storing multiple values, we recommend that you use a JSON text string
+  /// argument and specify key/value pairs. For information on how to format a
+  /// JSON parameter for the various command line tool environments, see <a
+  /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#cli-using-param-json">Using
+  /// JSON for Parameters</a> in the <i>AWS CLI User Guide</i>.
+  ///
+  /// For example:
+  ///
+  /// <code>[{"username":"bob"},{"password":"abc123xyz456"}]</code>
+  ///
+  /// If your command-line tool or SDK requires quotation marks around the
+  /// parameter, you should use single quotes to avoid confusion with the double
+  /// quotes required in the JSON text.
+  @_s.JsonKey(name: 'SecretString')
+  final String secretString;
+
+  /// (Optional) Specifies a list of staging labels that are attached to this
+  /// version of the secret. These staging labels are used to track the versions
+  /// through the rotation process by the Lambda rotation function.
+  ///
+  /// A staging label must be unique to a single version of the secret. If you
+  /// specify a staging label that's already associated with a different version
+  /// of the same secret then that staging label is automatically removed from the
+  /// other version and attached to this version.
+  ///
+  /// If you do not specify a value for <code>VersionStages</code> then Secrets
+  /// Manager automatically moves the staging label <code>AWSCURRENT</code> to
+  /// this new version.
+  @_s.JsonKey(name: 'VersionStages')
+  final List<String> versionStages;
+
+  PutSecretValueRequest({
+    @_s.required this.secretId,
+    this.clientRequestToken,
+    this.secretBinary,
+    this.secretString,
+    this.versionStages,
+  });
+  Map<String, dynamic> toJson() => _$PutSecretValueRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3099,6 +3866,37 @@ class PutSecretValueResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RestoreSecretRequest {
+  /// Specifies the secret that you want to restore from a previously scheduled
+  /// deletion. You can specify either the Amazon Resource Name (ARN) or the
+  /// friendly name of the secret.
+  /// <note>
+  /// If you specify an ARN, we generally recommend that you specify a complete
+  /// ARN. You can specify a partial ARN too—for example, if you don’t include the
+  /// final hyphen and six random characters that Secrets Manager adds at the end
+  /// of the ARN when you created the secret. A partial ARN match can work as long
+  /// as it uniquely matches only one secret. However, if your secret has a name
+  /// that ends in a hyphen followed by six characters (before Secrets Manager
+  /// adds the hyphen and six characters to the ARN) and you try to use that as a
+  /// partial ARN, then those characters cause Secrets Manager to assume that
+  /// you’re specifying a complete ARN. This confusion can cause unexpected
+  /// results. To avoid this situation, we recommend that you don’t create secret
+  /// names that end with a hyphen followed by six characters.
+  /// </note>
+  @_s.JsonKey(name: 'SecretId')
+  final String secretId;
+
+  RestoreSecretRequest({
+    @_s.required this.secretId,
+  });
+  Map<String, dynamic> toJson() => _$RestoreSecretRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class RestoreSecretResponse {
@@ -3116,6 +3914,71 @@ class RestoreSecretResponse {
   });
   factory RestoreSecretResponse.fromJson(Map<String, dynamic> json) =>
       _$RestoreSecretResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RotateSecretRequest {
+  /// Specifies the secret that you want to rotate. You can specify either the
+  /// Amazon Resource Name (ARN) or the friendly name of the secret.
+  /// <note>
+  /// If you specify an ARN, we generally recommend that you specify a complete
+  /// ARN. You can specify a partial ARN too—for example, if you don’t include the
+  /// final hyphen and six random characters that Secrets Manager adds at the end
+  /// of the ARN when you created the secret. A partial ARN match can work as long
+  /// as it uniquely matches only one secret. However, if your secret has a name
+  /// that ends in a hyphen followed by six characters (before Secrets Manager
+  /// adds the hyphen and six characters to the ARN) and you try to use that as a
+  /// partial ARN, then those characters cause Secrets Manager to assume that
+  /// you’re specifying a complete ARN. This confusion can cause unexpected
+  /// results. To avoid this situation, we recommend that you don’t create secret
+  /// names that end with a hyphen followed by six characters.
+  /// </note>
+  @_s.JsonKey(name: 'SecretId')
+  final String secretId;
+
+  /// (Optional) Specifies a unique identifier for the new version of the secret
+  /// that helps ensure idempotency.
+  ///
+  /// If you use the AWS CLI or one of the AWS SDK to call this operation, then
+  /// you can leave this parameter empty. The CLI or SDK generates a random UUID
+  /// for you and includes that in the request for this parameter. If you don't
+  /// use the SDK and instead generate a raw HTTP request to the Secrets Manager
+  /// service endpoint, then you must generate a <code>ClientRequestToken</code>
+  /// yourself for new versions and include that value in the request.
+  ///
+  /// You only need to specify your own value if you are implementing your own
+  /// retry logic and want to ensure that a given secret is not created twice. We
+  /// recommend that you generate a <a
+  /// href="https://wikipedia.org/wiki/Universally_unique_identifier">UUID-type</a>
+  /// value to ensure uniqueness within the specified secret.
+  ///
+  /// Secrets Manager uses this value to prevent the accidental creation of
+  /// duplicate versions if there are failures and retries during the function's
+  /// processing. This value becomes the <code>VersionId</code> of the new
+  /// version.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// (Optional) Specifies the ARN of the Lambda function that can rotate the
+  /// secret.
+  @_s.JsonKey(name: 'RotationLambdaARN')
+  final String rotationLambdaARN;
+
+  /// A structure that defines the rotation configuration for this secret.
+  @_s.JsonKey(name: 'RotationRules')
+  final RotationRulesType rotationRules;
+
+  RotateSecretRequest({
+    @_s.required this.secretId,
+    this.clientRequestToken,
+    this.rotationLambdaARN,
+    this.rotationRules,
+  });
+  Map<String, dynamic> toJson() => _$RotateSecretRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3369,6 +4232,233 @@ class Tag {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The identifier for the secret that you want to attach tags to. You can
+  /// specify either the Amazon Resource Name (ARN) or the friendly name of the
+  /// secret.
+  /// <note>
+  /// If you specify an ARN, we generally recommend that you specify a complete
+  /// ARN. You can specify a partial ARN too—for example, if you don’t include the
+  /// final hyphen and six random characters that Secrets Manager adds at the end
+  /// of the ARN when you created the secret. A partial ARN match can work as long
+  /// as it uniquely matches only one secret. However, if your secret has a name
+  /// that ends in a hyphen followed by six characters (before Secrets Manager
+  /// adds the hyphen and six characters to the ARN) and you try to use that as a
+  /// partial ARN, then those characters cause Secrets Manager to assume that
+  /// you’re specifying a complete ARN. This confusion can cause unexpected
+  /// results. To avoid this situation, we recommend that you don’t create secret
+  /// names that end with a hyphen followed by six characters.
+  /// </note>
+  @_s.JsonKey(name: 'SecretId')
+  final String secretId;
+
+  /// The tags to attach to the secret. Each element in the list consists of a
+  /// <code>Key</code> and a <code>Value</code>.
+  ///
+  /// This parameter to the API requires a JSON text string argument. For
+  /// information on how to format a JSON parameter for the various command line
+  /// tool environments, see <a
+  /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#cli-using-param-json">Using
+  /// JSON for Parameters</a> in the <i>AWS CLI User Guide</i>. For the AWS CLI,
+  /// you can also use the syntax: <code>--Tags
+  /// Key="Key1",Value="Value1",Key="Key2",Value="Value2"[,…]</code>
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  TagResourceRequest({
+    @_s.required this.secretId,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The identifier for the secret that you want to remove tags from. You can
+  /// specify either the Amazon Resource Name (ARN) or the friendly name of the
+  /// secret.
+  /// <note>
+  /// If you specify an ARN, we generally recommend that you specify a complete
+  /// ARN. You can specify a partial ARN too—for example, if you don’t include the
+  /// final hyphen and six random characters that Secrets Manager adds at the end
+  /// of the ARN when you created the secret. A partial ARN match can work as long
+  /// as it uniquely matches only one secret. However, if your secret has a name
+  /// that ends in a hyphen followed by six characters (before Secrets Manager
+  /// adds the hyphen and six characters to the ARN) and you try to use that as a
+  /// partial ARN, then those characters cause Secrets Manager to assume that
+  /// you’re specifying a complete ARN. This confusion can cause unexpected
+  /// results. To avoid this situation, we recommend that you don’t create secret
+  /// names that end with a hyphen followed by six characters.
+  /// </note>
+  @_s.JsonKey(name: 'SecretId')
+  final String secretId;
+
+  /// A list of tag key names to remove from the secret. You don't specify the
+  /// value. Both the key and its associated value are removed.
+  ///
+  /// This parameter to the API requires a JSON text string argument. For
+  /// information on how to format a JSON parameter for the various command line
+  /// tool environments, see <a
+  /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#cli-using-param-json">Using
+  /// JSON for Parameters</a> in the <i>AWS CLI User Guide</i>.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.secretId,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateSecretRequest {
+  /// Specifies the secret that you want to modify or to which you want to add a
+  /// new version. You can specify either the Amazon Resource Name (ARN) or the
+  /// friendly name of the secret.
+  /// <note>
+  /// If you specify an ARN, we generally recommend that you specify a complete
+  /// ARN. You can specify a partial ARN too—for example, if you don’t include the
+  /// final hyphen and six random characters that Secrets Manager adds at the end
+  /// of the ARN when you created the secret. A partial ARN match can work as long
+  /// as it uniquely matches only one secret. However, if your secret has a name
+  /// that ends in a hyphen followed by six characters (before Secrets Manager
+  /// adds the hyphen and six characters to the ARN) and you try to use that as a
+  /// partial ARN, then those characters cause Secrets Manager to assume that
+  /// you’re specifying a complete ARN. This confusion can cause unexpected
+  /// results. To avoid this situation, we recommend that you don’t create secret
+  /// names that end with a hyphen followed by six characters.
+  /// </note>
+  @_s.JsonKey(name: 'SecretId')
+  final String secretId;
+
+  /// (Optional) If you want to add a new version to the secret, this parameter
+  /// specifies a unique identifier for the new version that helps ensure
+  /// idempotency.
+  ///
+  /// If you use the AWS CLI or one of the AWS SDK to call this operation, then
+  /// you can leave this parameter empty. The CLI or SDK generates a random UUID
+  /// for you and includes that in the request. If you don't use the SDK and
+  /// instead generate a raw HTTP request to the Secrets Manager service endpoint,
+  /// then you must generate a <code>ClientRequestToken</code> yourself for new
+  /// versions and include that value in the request.
+  ///
+  /// You typically only need to interact with this value if you implement your
+  /// own retry logic and want to ensure that a given secret is not created twice.
+  /// We recommend that you generate a <a
+  /// href="https://wikipedia.org/wiki/Universally_unique_identifier">UUID-type</a>
+  /// value to ensure uniqueness within the specified secret.
+  ///
+  /// Secrets Manager uses this value to prevent the accidental creation of
+  /// duplicate versions if there are failures and retries during the Lambda
+  /// rotation function's processing.
+  ///
+  /// <ul>
+  /// <li>
+  /// If the <code>ClientRequestToken</code> value isn't already associated with a
+  /// version of the secret then a new version of the secret is created.
+  /// </li>
+  /// <li>
+  /// If a version with this value already exists and that version's
+  /// <code>SecretString</code> and <code>SecretBinary</code> values are the same
+  /// as those in the request then the request is ignored (the operation is
+  /// idempotent).
+  /// </li>
+  /// <li>
+  /// If a version with this value already exists and that version's
+  /// <code>SecretString</code> and <code>SecretBinary</code> values are different
+  /// from the request then an error occurs because you cannot modify an existing
+  /// secret value.
+  /// </li>
+  /// </ul>
+  /// This value becomes the <code>VersionId</code> of the new version.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// (Optional) Specifies an updated user-provided description of the secret.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// (Optional) Specifies an updated ARN or alias of the AWS KMS customer master
+  /// key (CMK) to be used to encrypt the protected text in new versions of this
+  /// secret.
+  /// <important>
+  /// You can only use the account's default CMK to encrypt and decrypt if you
+  /// call this operation using credentials from the same account that owns the
+  /// secret. If the secret is in a different account, then you must create a
+  /// custom CMK and provide the ARN of that CMK in this field. The user making
+  /// the call must have permissions to both the secret and the CMK in their
+  /// respective accounts.
+  /// </important>
+  @_s.JsonKey(name: 'KmsKeyId')
+  final String kmsKeyId;
+
+  /// (Optional) Specifies updated binary data that you want to encrypt and store
+  /// in the new version of the secret. To use this parameter in the command-line
+  /// tools, we recommend that you store your binary data in a file and then use
+  /// the appropriate technique for your tool to pass the contents of the file as
+  /// a parameter. Either <code>SecretBinary</code> or <code>SecretString</code>
+  /// must have a value, but not both. They cannot both be empty.
+  ///
+  /// This parameter is not accessible using the Secrets Manager console.
+  @Uint8ListConverter()
+  @_s.JsonKey(name: 'SecretBinary')
+  final Uint8List secretBinary;
+
+  /// (Optional) Specifies updated text data that you want to encrypt and store in
+  /// this new version of the secret. Either <code>SecretBinary</code> or
+  /// <code>SecretString</code> must have a value, but not both. They cannot both
+  /// be empty.
+  ///
+  /// If you create this secret by using the Secrets Manager console then Secrets
+  /// Manager puts the protected secret text in only the <code>SecretString</code>
+  /// parameter. The Secrets Manager console stores the information as a JSON
+  /// structure of key/value pairs that the default Lambda rotation function knows
+  /// how to parse.
+  ///
+  /// For storing multiple values, we recommend that you use a JSON text string
+  /// argument and specify key/value pairs. For information on how to format a
+  /// JSON parameter for the various command line tool environments, see <a
+  /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#cli-using-param-json">Using
+  /// JSON for Parameters</a> in the <i>AWS CLI User Guide</i>. For example:
+  ///
+  /// <code>[{"username":"bob"},{"password":"abc123xyz456"}]</code>
+  ///
+  /// If your command-line tool or SDK requires quotation marks around the
+  /// parameter, you should use single quotes to avoid confusion with the double
+  /// quotes required in the JSON text. You can also 'escape' the double quote
+  /// character in the embedded JSON text by prefacing each with a backslash. For
+  /// example, the following string is surrounded by double-quotes. All of the
+  /// embedded double quotes are escaped:
+  ///
+  /// <code>"[{\"username\":\"bob\"},{\"password\":\"abc123xyz456\"}]"</code>
+  @_s.JsonKey(name: 'SecretString')
+  final String secretString;
+
+  UpdateSecretRequest({
+    @_s.required this.secretId,
+    this.clientRequestToken,
+    this.description,
+    this.kmsKeyId,
+    this.secretBinary,
+    this.secretString,
+  });
+  Map<String, dynamic> toJson() => _$UpdateSecretRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateSecretResponse {
@@ -3400,6 +4490,64 @@ class UpdateSecretResponse {
   });
   factory UpdateSecretResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateSecretResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateSecretVersionStageRequest {
+  /// Specifies the secret with the version whose list of staging labels you want
+  /// to modify. You can specify either the Amazon Resource Name (ARN) or the
+  /// friendly name of the secret.
+  /// <note>
+  /// If you specify an ARN, we generally recommend that you specify a complete
+  /// ARN. You can specify a partial ARN too—for example, if you don’t include the
+  /// final hyphen and six random characters that Secrets Manager adds at the end
+  /// of the ARN when you created the secret. A partial ARN match can work as long
+  /// as it uniquely matches only one secret. However, if your secret has a name
+  /// that ends in a hyphen followed by six characters (before Secrets Manager
+  /// adds the hyphen and six characters to the ARN) and you try to use that as a
+  /// partial ARN, then those characters cause Secrets Manager to assume that
+  /// you’re specifying a complete ARN. This confusion can cause unexpected
+  /// results. To avoid this situation, we recommend that you don’t create secret
+  /// names that end with a hyphen followed by six characters.
+  /// </note>
+  @_s.JsonKey(name: 'SecretId')
+  final String secretId;
+
+  /// The staging label to add to this version.
+  @_s.JsonKey(name: 'VersionStage')
+  final String versionStage;
+
+  /// (Optional) The secret version ID that you want to add the staging label to.
+  /// If you want to remove a label from a version, then do not specify this
+  /// parameter.
+  ///
+  /// If the staging label is already attached to a different version of the
+  /// secret, then you must also specify the <code>RemoveFromVersionId</code>
+  /// parameter.
+  @_s.JsonKey(name: 'MoveToVersionId')
+  final String moveToVersionId;
+
+  /// Specifies the secret version ID of the version that the staging label is to
+  /// be removed from. If the staging label you are trying to attach to one
+  /// version is already attached to a different version, then you must include
+  /// this parameter and specify the version that the label is to be removed from.
+  /// If the label is attached and you either do not specify this parameter, or
+  /// the version ID does not match, then the operation fails.
+  @_s.JsonKey(name: 'RemoveFromVersionId')
+  final String removeFromVersionId;
+
+  UpdateSecretVersionStageRequest({
+    @_s.required this.secretId,
+    @_s.required this.versionStage,
+    this.moveToVersionId,
+    this.removeFromVersionId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateSecretVersionStageRequestToJson(this);
 }
 
 @_s.JsonSerializable(

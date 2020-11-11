@@ -116,9 +116,39 @@ Map<String, dynamic> _$AlexaForBusinessMetadataToJson(
   return val;
 }
 
+Map<String, dynamic> _$AssociatePhoneNumberWithUserRequestToJson(
+    AssociatePhoneNumberWithUserRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('E164PhoneNumber', instance.e164PhoneNumber);
+  return val;
+}
+
 AssociatePhoneNumberWithUserResponse
     _$AssociatePhoneNumberWithUserResponseFromJson(Map<String, dynamic> json) {
   return AssociatePhoneNumberWithUserResponse();
+}
+
+Map<String, dynamic>
+    _$AssociatePhoneNumbersWithVoiceConnectorGroupRequestToJson(
+        AssociatePhoneNumbersWithVoiceConnectorGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('E164PhoneNumbers', instance.e164PhoneNumbers);
+  writeNotNull('ForceAssociate', instance.forceAssociate);
+  return val;
 }
 
 AssociatePhoneNumbersWithVoiceConnectorGroupResponse
@@ -133,6 +163,21 @@ AssociatePhoneNumbersWithVoiceConnectorGroupResponse
   );
 }
 
+Map<String, dynamic> _$AssociatePhoneNumbersWithVoiceConnectorRequestToJson(
+    AssociatePhoneNumbersWithVoiceConnectorRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('E164PhoneNumbers', instance.e164PhoneNumbers);
+  writeNotNull('ForceAssociate', instance.forceAssociate);
+  return val;
+}
+
 AssociatePhoneNumbersWithVoiceConnectorResponse
     _$AssociatePhoneNumbersWithVoiceConnectorResponseFromJson(
         Map<String, dynamic> json) {
@@ -143,6 +188,21 @@ AssociatePhoneNumbersWithVoiceConnectorResponse
             : PhoneNumberError.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$AssociateSigninDelegateGroupsWithAccountRequestToJson(
+    AssociateSigninDelegateGroupsWithAccountRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SigninDelegateGroups',
+      instance.signinDelegateGroups?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 AssociateSigninDelegateGroupsWithAccountResponse
@@ -157,6 +217,21 @@ Attendee _$AttendeeFromJson(Map<String, dynamic> json) {
     externalUserId: json['ExternalUserId'] as String,
     joinToken: json['JoinToken'] as String,
   );
+}
+
+Map<String, dynamic> _$BatchCreateAttendeeRequestToJson(
+    BatchCreateAttendeeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'Attendees', instance.attendees?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 BatchCreateAttendeeResponse _$BatchCreateAttendeeResponseFromJson(
@@ -174,6 +249,21 @@ BatchCreateAttendeeResponse _$BatchCreateAttendeeResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$BatchCreateRoomMembershipRequestToJson(
+    BatchCreateRoomMembershipRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MembershipItemList',
+      instance.membershipItemList?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 BatchCreateRoomMembershipResponse _$BatchCreateRoomMembershipResponseFromJson(
     Map<String, dynamic> json) {
   return BatchCreateRoomMembershipResponse(
@@ -182,6 +272,20 @@ BatchCreateRoomMembershipResponse _$BatchCreateRoomMembershipResponseFromJson(
             e == null ? null : MemberError.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$BatchDeletePhoneNumberRequestToJson(
+    BatchDeletePhoneNumberRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('PhoneNumberIds', instance.phoneNumberIds);
+  return val;
 }
 
 BatchDeletePhoneNumberResponse _$BatchDeletePhoneNumberResponseFromJson(
@@ -195,6 +299,20 @@ BatchDeletePhoneNumberResponse _$BatchDeletePhoneNumberResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$BatchSuspendUserRequestToJson(
+    BatchSuspendUserRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UserIdList', instance.userIdList);
+  return val;
+}
+
 BatchSuspendUserResponse _$BatchSuspendUserResponseFromJson(
     Map<String, dynamic> json) {
   return BatchSuspendUserResponse(
@@ -203,6 +321,20 @@ BatchSuspendUserResponse _$BatchSuspendUserResponseFromJson(
             e == null ? null : UserError.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$BatchUnsuspendUserRequestToJson(
+    BatchUnsuspendUserRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UserIdList', instance.userIdList);
+  return val;
 }
 
 BatchUnsuspendUserResponse _$BatchUnsuspendUserResponseFromJson(
@@ -215,6 +347,24 @@ BatchUnsuspendUserResponse _$BatchUnsuspendUserResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$BatchUpdatePhoneNumberRequestToJson(
+    BatchUpdatePhoneNumberRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'UpdatePhoneNumberRequestItems',
+      instance.updatePhoneNumberRequestItems
+          ?.map((e) => e?.toJson())
+          ?.toList());
+  return val;
+}
+
 BatchUpdatePhoneNumberResponse _$BatchUpdatePhoneNumberResponseFromJson(
     Map<String, dynamic> json) {
   return BatchUpdatePhoneNumberResponse(
@@ -224,6 +374,21 @@ BatchUpdatePhoneNumberResponse _$BatchUpdatePhoneNumberResponseFromJson(
             : PhoneNumberError.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$BatchUpdateUserRequestToJson(
+    BatchUpdateUserRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UpdateUserRequestItems',
+      instance.updateUserRequestItems?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 BatchUpdateUserResponse _$BatchUpdateUserResponseFromJson(
@@ -275,6 +440,20 @@ Map<String, dynamic> _$BusinessCallingSettingsToJson(
   return val;
 }
 
+Map<String, dynamic> _$CreateAccountRequestToJson(
+    CreateAccountRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
 CreateAccountResponse _$CreateAccountResponseFromJson(
     Map<String, dynamic> json) {
   return CreateAccountResponse(
@@ -290,6 +469,21 @@ CreateAttendeeError _$CreateAttendeeErrorFromJson(Map<String, dynamic> json) {
     errorMessage: json['ErrorMessage'] as String,
     externalUserId: json['ExternalUserId'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateAttendeeRequestToJson(
+    CreateAttendeeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ExternalUserId', instance.externalUserId);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 Map<String, dynamic> _$CreateAttendeeRequestItemToJson(
@@ -316,12 +510,46 @@ CreateAttendeeResponse _$CreateAttendeeResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateBotRequestToJson(CreateBotRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DisplayName', instance.displayName);
+  writeNotNull('Domain', instance.domain);
+  return val;
+}
+
 CreateBotResponse _$CreateBotResponseFromJson(Map<String, dynamic> json) {
   return CreateBotResponse(
     bot: json['Bot'] == null
         ? null
         : Bot.fromJson(json['Bot'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateMeetingRequestToJson(
+    CreateMeetingRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('ExternalMeetingId', instance.externalMeetingId);
+  writeNotNull('MediaRegion', instance.mediaRegion);
+  writeNotNull('MeetingHostId', instance.meetingHostId);
+  writeNotNull('NotificationsConfiguration',
+      instance.notificationsConfiguration?.toJson());
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateMeetingResponse _$CreateMeetingResponseFromJson(
@@ -333,6 +561,27 @@ CreateMeetingResponse _$CreateMeetingResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreatePhoneNumberOrderRequestToJson(
+    CreatePhoneNumberOrderRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('E164PhoneNumbers', instance.e164PhoneNumbers);
+  writeNotNull(
+      'ProductType', _$PhoneNumberProductTypeEnumMap[instance.productType]);
+  return val;
+}
+
+const _$PhoneNumberProductTypeEnumMap = {
+  PhoneNumberProductType.businessCalling: 'BusinessCalling',
+  PhoneNumberProductType.voiceConnector: 'VoiceConnector',
+};
+
 CreatePhoneNumberOrderResponse _$CreatePhoneNumberOrderResponseFromJson(
     Map<String, dynamic> json) {
   return CreatePhoneNumberOrderResponse(
@@ -343,6 +592,37 @@ CreatePhoneNumberOrderResponse _$CreatePhoneNumberOrderResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateProxySessionRequestToJson(
+    CreateProxySessionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Capabilities', instance.capabilities);
+  writeNotNull('ParticipantPhoneNumbers', instance.participantPhoneNumbers);
+  writeNotNull('ExpiryMinutes', instance.expiryMinutes);
+  writeNotNull('GeoMatchLevel', _$GeoMatchLevelEnumMap[instance.geoMatchLevel]);
+  writeNotNull('GeoMatchParams', instance.geoMatchParams?.toJson());
+  writeNotNull('Name', instance.name);
+  writeNotNull('NumberSelectionBehavior',
+      _$NumberSelectionBehaviorEnumMap[instance.numberSelectionBehavior]);
+  return val;
+}
+
+const _$GeoMatchLevelEnumMap = {
+  GeoMatchLevel.country: 'Country',
+  GeoMatchLevel.areaCode: 'AreaCode',
+};
+
+const _$NumberSelectionBehaviorEnumMap = {
+  NumberSelectionBehavior.preferSticky: 'PreferSticky',
+  NumberSelectionBehavior.avoidSticky: 'AvoidSticky',
+};
+
 CreateProxySessionResponse _$CreateProxySessionResponseFromJson(
     Map<String, dynamic> json) {
   return CreateProxySessionResponse(
@@ -351,6 +631,26 @@ CreateProxySessionResponse _$CreateProxySessionResponseFromJson(
         : ProxySession.fromJson(json['ProxySession'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$CreateRoomMembershipRequestToJson(
+    CreateRoomMembershipRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MemberId', instance.memberId);
+  writeNotNull('Role', _$RoomMembershipRoleEnumMap[instance.role]);
+  return val;
+}
+
+const _$RoomMembershipRoleEnumMap = {
+  RoomMembershipRole.administrator: 'Administrator',
+  RoomMembershipRole.member: 'Member',
+};
 
 CreateRoomMembershipResponse _$CreateRoomMembershipResponseFromJson(
     Map<String, dynamic> json) {
@@ -362,6 +662,20 @@ CreateRoomMembershipResponse _$CreateRoomMembershipResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateRoomRequestToJson(CreateRoomRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  return val;
+}
+
 CreateRoomResponse _$CreateRoomResponseFromJson(Map<String, dynamic> json) {
   return CreateRoomResponse(
     room: json['Room'] == null
@@ -370,12 +684,48 @@ CreateRoomResponse _$CreateRoomResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateUserRequestToJson(CreateUserRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Email', instance.email);
+  writeNotNull('UserType', _$UserTypeEnumMap[instance.userType]);
+  writeNotNull('Username', instance.username);
+  return val;
+}
+
+const _$UserTypeEnumMap = {
+  UserType.privateUser: 'PrivateUser',
+  UserType.sharedDevice: 'SharedDevice',
+};
+
 CreateUserResponse _$CreateUserResponseFromJson(Map<String, dynamic> json) {
   return CreateUserResponse(
     user: json['User'] == null
         ? null
         : User.fromJson(json['User'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateVoiceConnectorGroupRequestToJson(
+    CreateVoiceConnectorGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('VoiceConnectorItems',
+      instance.voiceConnectorItems?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateVoiceConnectorGroupResponse _$CreateVoiceConnectorGroupResponseFromJson(
@@ -387,6 +737,28 @@ CreateVoiceConnectorGroupResponse _$CreateVoiceConnectorGroupResponseFromJson(
             json['VoiceConnectorGroup'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$CreateVoiceConnectorRequestToJson(
+    CreateVoiceConnectorRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('RequireEncryption', instance.requireEncryption);
+  writeNotNull(
+      'AwsRegion', _$VoiceConnectorAwsRegionEnumMap[instance.awsRegion]);
+  return val;
+}
+
+const _$VoiceConnectorAwsRegionEnumMap = {
+  VoiceConnectorAwsRegion.usEast_1: 'us-east-1',
+  VoiceConnectorAwsRegion.usWest_2: 'us-west-2',
+};
 
 CreateVoiceConnectorResponse _$CreateVoiceConnectorResponseFromJson(
     Map<String, dynamic> json) {
@@ -412,15 +784,103 @@ Map<String, dynamic> _$CredentialToJson(Credential instance) {
   return val;
 }
 
+Map<String, dynamic> _$DeleteAccountRequestToJson(
+        DeleteAccountRequest instance) =>
+    <String, dynamic>{};
+
 DeleteAccountResponse _$DeleteAccountResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteAccountResponse();
 }
 
+Map<String, dynamic> _$DeleteAttendeeRequestToJson(
+        DeleteAttendeeRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteEventsConfigurationRequestToJson(
+        DeleteEventsConfigurationRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteMeetingRequestToJson(
+        DeleteMeetingRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeletePhoneNumberRequestToJson(
+        DeletePhoneNumberRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteProxySessionRequestToJson(
+        DeleteProxySessionRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteRoomMembershipRequestToJson(
+        DeleteRoomMembershipRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteRoomRequestToJson(DeleteRoomRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteVoiceConnectorGroupRequestToJson(
+        DeleteVoiceConnectorGroupRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteVoiceConnectorOriginationRequestToJson(
+        DeleteVoiceConnectorOriginationRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteVoiceConnectorProxyRequestToJson(
+        DeleteVoiceConnectorProxyRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteVoiceConnectorRequestToJson(
+        DeleteVoiceConnectorRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteVoiceConnectorStreamingConfigurationRequestToJson(
+        DeleteVoiceConnectorStreamingConfigurationRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteVoiceConnectorTerminationCredentialsRequestToJson(
+    DeleteVoiceConnectorTerminationCredentialsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Usernames', instance.usernames);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteVoiceConnectorTerminationRequestToJson(
+        DeleteVoiceConnectorTerminationRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DisassociatePhoneNumberFromUserRequestToJson(
+        DisassociatePhoneNumberFromUserRequest instance) =>
+    <String, dynamic>{};
+
 DisassociatePhoneNumberFromUserResponse
     _$DisassociatePhoneNumberFromUserResponseFromJson(
         Map<String, dynamic> json) {
   return DisassociatePhoneNumberFromUserResponse();
+}
+
+Map<String, dynamic>
+    _$DisassociatePhoneNumbersFromVoiceConnectorGroupRequestToJson(
+        DisassociatePhoneNumbersFromVoiceConnectorGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('E164PhoneNumbers', instance.e164PhoneNumbers);
+  return val;
 }
 
 DisassociatePhoneNumbersFromVoiceConnectorGroupResponse
@@ -435,6 +895,20 @@ DisassociatePhoneNumbersFromVoiceConnectorGroupResponse
   );
 }
 
+Map<String, dynamic> _$DisassociatePhoneNumbersFromVoiceConnectorRequestToJson(
+    DisassociatePhoneNumbersFromVoiceConnectorRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('E164PhoneNumbers', instance.e164PhoneNumbers);
+  return val;
+}
+
 DisassociatePhoneNumbersFromVoiceConnectorResponse
     _$DisassociatePhoneNumbersFromVoiceConnectorResponseFromJson(
         Map<String, dynamic> json) {
@@ -445,6 +919,20 @@ DisassociatePhoneNumbersFromVoiceConnectorResponse
             : PhoneNumberError.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DisassociateSigninDelegateGroupsFromAccountRequestToJson(
+    DisassociateSigninDelegateGroupsFromAccountRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GroupNames', instance.groupNames);
+  return val;
 }
 
 DisassociateSigninDelegateGroupsFromAccountResponse
@@ -712,6 +1200,20 @@ const _$InviteStatusEnumMap = {
   InviteStatus.failed: 'Failed',
 };
 
+Map<String, dynamic> _$InviteUsersRequestToJson(InviteUsersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UserEmailList', instance.userEmailList);
+  writeNotNull('UserType', _$UserTypeEnumMap[instance.userType]);
+  return val;
+}
+
 InviteUsersResponse _$InviteUsersResponseFromJson(Map<String, dynamic> json) {
   return InviteUsersResponse(
     invites: (json['Invites'] as List)
@@ -906,6 +1408,9 @@ Map<String, dynamic> _$LoggingConfigurationToJson(
   return val;
 }
 
+Map<String, dynamic> _$LogoutUserRequestToJson(LogoutUserRequest instance) =>
+    <String, dynamic>{};
+
 LogoutUserResponse _$LogoutUserResponseFromJson(Map<String, dynamic> json) {
   return LogoutUserResponse();
 }
@@ -1004,11 +1509,6 @@ Map<String, dynamic> _$MembershipItemToJson(MembershipItem instance) {
   writeNotNull('Role', _$RoomMembershipRoleEnumMap[instance.role]);
   return val;
 }
-
-const _$RoomMembershipRoleEnumMap = {
-  RoomMembershipRole.administrator: 'Administrator',
-  RoomMembershipRole.member: 'Member',
-};
 
 OrderedPhoneNumber _$OrderedPhoneNumberFromJson(Map<String, dynamic> json) {
   return OrderedPhoneNumber(
@@ -1121,11 +1621,6 @@ const _$CallingNameStatusEnumMap = {
   CallingNameStatus.updateInProgress: 'UpdateInProgress',
   CallingNameStatus.updateSucceeded: 'UpdateSucceeded',
   CallingNameStatus.updateFailed: 'UpdateFailed',
-};
-
-const _$PhoneNumberProductTypeEnumMap = {
-  PhoneNumberProductType.businessCalling: 'BusinessCalling',
-  PhoneNumberProductType.voiceConnector: 'VoiceConnector',
 };
 
 const _$PhoneNumberStatusEnumMap = {
@@ -1243,21 +1738,27 @@ ProxySession _$ProxySessionFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$GeoMatchLevelEnumMap = {
-  GeoMatchLevel.country: 'Country',
-  GeoMatchLevel.areaCode: 'AreaCode',
-};
-
-const _$NumberSelectionBehaviorEnumMap = {
-  NumberSelectionBehavior.preferSticky: 'PreferSticky',
-  NumberSelectionBehavior.avoidSticky: 'AvoidSticky',
-};
-
 const _$ProxySessionStatusEnumMap = {
   ProxySessionStatus.open: 'Open',
   ProxySessionStatus.inProgress: 'InProgress',
   ProxySessionStatus.closed: 'Closed',
 };
+
+Map<String, dynamic> _$PutEventsConfigurationRequestToJson(
+    PutEventsConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LambdaFunctionArn', instance.lambdaFunctionArn);
+  writeNotNull(
+      'OutboundEventsHTTPSEndpoint', instance.outboundEventsHTTPSEndpoint);
+  return val;
+}
 
 PutEventsConfigurationResponse _$PutEventsConfigurationResponseFromJson(
     Map<String, dynamic> json) {
@@ -1267,6 +1768,20 @@ PutEventsConfigurationResponse _$PutEventsConfigurationResponseFromJson(
         : EventsConfiguration.fromJson(
             json['EventsConfiguration'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$PutVoiceConnectorLoggingConfigurationRequestToJson(
+    PutVoiceConnectorLoggingConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LoggingConfiguration', instance.loggingConfiguration?.toJson());
+  return val;
 }
 
 PutVoiceConnectorLoggingConfigurationResponse
@@ -1280,6 +1795,20 @@ PutVoiceConnectorLoggingConfigurationResponse
   );
 }
 
+Map<String, dynamic> _$PutVoiceConnectorOriginationRequestToJson(
+    PutVoiceConnectorOriginationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Origination', instance.origination?.toJson());
+  return val;
+}
+
 PutVoiceConnectorOriginationResponse
     _$PutVoiceConnectorOriginationResponseFromJson(Map<String, dynamic> json) {
   return PutVoiceConnectorOriginationResponse(
@@ -1289,6 +1818,24 @@ PutVoiceConnectorOriginationResponse
   );
 }
 
+Map<String, dynamic> _$PutVoiceConnectorProxyRequestToJson(
+    PutVoiceConnectorProxyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'DefaultSessionExpiryMinutes', instance.defaultSessionExpiryMinutes);
+  writeNotNull('PhoneNumberPoolCountries', instance.phoneNumberPoolCountries);
+  writeNotNull('Disabled', instance.disabled);
+  writeNotNull('FallBackPhoneNumber', instance.fallBackPhoneNumber);
+  return val;
+}
+
 PutVoiceConnectorProxyResponse _$PutVoiceConnectorProxyResponseFromJson(
     Map<String, dynamic> json) {
   return PutVoiceConnectorProxyResponse(
@@ -1296,6 +1843,21 @@ PutVoiceConnectorProxyResponse _$PutVoiceConnectorProxyResponseFromJson(
         ? null
         : Proxy.fromJson(json['Proxy'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$PutVoiceConnectorStreamingConfigurationRequestToJson(
+    PutVoiceConnectorStreamingConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'StreamingConfiguration', instance.streamingConfiguration?.toJson());
+  return val;
 }
 
 PutVoiceConnectorStreamingConfigurationResponse
@@ -1309,6 +1871,35 @@ PutVoiceConnectorStreamingConfigurationResponse
   );
 }
 
+Map<String, dynamic> _$PutVoiceConnectorTerminationCredentialsRequestToJson(
+    PutVoiceConnectorTerminationCredentialsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'Credentials', instance.credentials?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+Map<String, dynamic> _$PutVoiceConnectorTerminationRequestToJson(
+    PutVoiceConnectorTerminationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Termination', instance.termination?.toJson());
+  return val;
+}
+
 PutVoiceConnectorTerminationResponse
     _$PutVoiceConnectorTerminationResponseFromJson(Map<String, dynamic> json) {
   return PutVoiceConnectorTerminationResponse(
@@ -1317,6 +1908,10 @@ PutVoiceConnectorTerminationResponse
         : Termination.fromJson(json['Termination'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$RegenerateSecurityTokenRequestToJson(
+        RegenerateSecurityTokenRequest instance) =>
+    <String, dynamic>{};
 
 RegenerateSecurityTokenResponse _$RegenerateSecurityTokenResponseFromJson(
     Map<String, dynamic> json) {
@@ -1327,6 +1922,10 @@ RegenerateSecurityTokenResponse _$RegenerateSecurityTokenResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ResetPersonalPINRequestToJson(
+        ResetPersonalPINRequest instance) =>
+    <String, dynamic>{};
+
 ResetPersonalPINResponse _$ResetPersonalPINResponseFromJson(
     Map<String, dynamic> json) {
   return ResetPersonalPINResponse(
@@ -1335,6 +1934,10 @@ ResetPersonalPINResponse _$ResetPersonalPINResponseFromJson(
         : User.fromJson(json['User'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$RestorePhoneNumberRequestToJson(
+        RestorePhoneNumberRequest instance) =>
+    <String, dynamic>{};
 
 RestorePhoneNumberResponse _$RestorePhoneNumberResponseFromJson(
     Map<String, dynamic> json) {
@@ -1439,6 +2042,46 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
   return val;
 }
 
+Map<String, dynamic> _$TagAttendeeRequestToJson(TagAttendeeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+Map<String, dynamic> _$TagMeetingRequestToJson(TagMeetingRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARN', instance.resourceARN);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 TelephonySettings _$TelephonySettingsFromJson(Map<String, dynamic> json) {
   return TelephonySettings(
     inboundCalling: json['InboundCalling'] as bool,
@@ -1498,6 +2141,62 @@ TerminationHealth _$TerminationHealthFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$UntagAttendeeRequestToJson(
+    UntagAttendeeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
+}
+
+Map<String, dynamic> _$UntagMeetingRequestToJson(UntagMeetingRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
+}
+
+Map<String, dynamic> _$UntagResourceRequestToJson(
+    UntagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARN', instance.resourceARN);
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
+}
+
+Map<String, dynamic> _$UpdateAccountRequestToJson(
+    UpdateAccountRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
 UpdateAccountResponse _$UpdateAccountResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateAccountResponse(
@@ -1507,9 +2206,36 @@ UpdateAccountResponse _$UpdateAccountResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateAccountSettingsRequestToJson(
+    UpdateAccountSettingsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccountSettings', instance.accountSettings?.toJson());
+  return val;
+}
+
 UpdateAccountSettingsResponse _$UpdateAccountSettingsResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateAccountSettingsResponse();
+}
+
+Map<String, dynamic> _$UpdateBotRequestToJson(UpdateBotRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Disabled', instance.disabled);
+  return val;
 }
 
 UpdateBotResponse _$UpdateBotResponseFromJson(Map<String, dynamic> json) {
@@ -1518,6 +2244,37 @@ UpdateBotResponse _$UpdateBotResponseFromJson(Map<String, dynamic> json) {
         ? null
         : Bot.fromJson(json['Bot'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateGlobalSettingsRequestToJson(
+    UpdateGlobalSettingsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BusinessCalling', instance.businessCalling?.toJson());
+  writeNotNull('VoiceConnector', instance.voiceConnector?.toJson());
+  return val;
+}
+
+Map<String, dynamic> _$UpdatePhoneNumberRequestToJson(
+    UpdatePhoneNumberRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CallingName', instance.callingName);
+  writeNotNull(
+      'ProductType', _$PhoneNumberProductTypeEnumMap[instance.productType]);
+  return val;
 }
 
 Map<String, dynamic> _$UpdatePhoneNumberRequestItemToJson(
@@ -1546,6 +2303,35 @@ UpdatePhoneNumberResponse _$UpdatePhoneNumberResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdatePhoneNumberSettingsRequestToJson(
+    UpdatePhoneNumberSettingsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CallingName', instance.callingName);
+  return val;
+}
+
+Map<String, dynamic> _$UpdateProxySessionRequestToJson(
+    UpdateProxySessionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Capabilities', instance.capabilities);
+  writeNotNull('ExpiryMinutes', instance.expiryMinutes);
+  return val;
+}
+
 UpdateProxySessionResponse _$UpdateProxySessionResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateProxySessionResponse(
@@ -1553,6 +2339,20 @@ UpdateProxySessionResponse _$UpdateProxySessionResponseFromJson(
         ? null
         : ProxySession.fromJson(json['ProxySession'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateRoomMembershipRequestToJson(
+    UpdateRoomMembershipRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Role', _$RoomMembershipRoleEnumMap[instance.role]);
+  return val;
 }
 
 UpdateRoomMembershipResponse _$UpdateRoomMembershipResponseFromJson(
@@ -1565,12 +2365,41 @@ UpdateRoomMembershipResponse _$UpdateRoomMembershipResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateRoomRequestToJson(UpdateRoomRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
 UpdateRoomResponse _$UpdateRoomResponseFromJson(Map<String, dynamic> json) {
   return UpdateRoomResponse(
     room: json['Room'] == null
         ? null
         : Room.fromJson(json['Room'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateUserRequestToJson(UpdateUserRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'AlexaForBusinessMetadata', instance.alexaForBusinessMetadata?.toJson());
+  writeNotNull('LicenseType', _$LicenseEnumMap[instance.licenseType]);
+  writeNotNull('UserType', _$UserTypeEnumMap[instance.userType]);
+  return val;
 }
 
 Map<String, dynamic> _$UpdateUserRequestItemToJson(
@@ -1591,17 +2420,42 @@ Map<String, dynamic> _$UpdateUserRequestItemToJson(
   return val;
 }
 
-const _$UserTypeEnumMap = {
-  UserType.privateUser: 'PrivateUser',
-  UserType.sharedDevice: 'SharedDevice',
-};
-
 UpdateUserResponse _$UpdateUserResponseFromJson(Map<String, dynamic> json) {
   return UpdateUserResponse(
     user: json['User'] == null
         ? null
         : User.fromJson(json['User'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateUserSettingsRequestToJson(
+    UpdateUserSettingsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UserSettings', instance.userSettings?.toJson());
+  return val;
+}
+
+Map<String, dynamic> _$UpdateVoiceConnectorGroupRequestToJson(
+    UpdateVoiceConnectorGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('VoiceConnectorItems',
+      instance.voiceConnectorItems?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 UpdateVoiceConnectorGroupResponse _$UpdateVoiceConnectorGroupResponseFromJson(
@@ -1612,6 +2466,21 @@ UpdateVoiceConnectorGroupResponse _$UpdateVoiceConnectorGroupResponseFromJson(
         : VoiceConnectorGroup.fromJson(
             json['VoiceConnectorGroup'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateVoiceConnectorRequestToJson(
+    UpdateVoiceConnectorRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('RequireEncryption', instance.requireEncryption);
+  return val;
 }
 
 UpdateVoiceConnectorResponse _$UpdateVoiceConnectorResponseFromJson(
@@ -1694,11 +2563,6 @@ VoiceConnector _$VoiceConnectorFromJson(Map<String, dynamic> json) {
     voiceConnectorId: json['VoiceConnectorId'] as String,
   );
 }
-
-const _$VoiceConnectorAwsRegionEnumMap = {
-  VoiceConnectorAwsRegion.usEast_1: 'us-east-1',
-  VoiceConnectorAwsRegion.usWest_2: 'us-west-2',
-};
 
 VoiceConnectorGroup _$VoiceConnectorGroupFromJson(Map<String, dynamic> json) {
   return VoiceConnectorGroup(

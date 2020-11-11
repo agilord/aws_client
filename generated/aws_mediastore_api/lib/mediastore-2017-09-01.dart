@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -91,10 +90,10 @@ class MediaStore {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ContainerName': containerName,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateContainerInput(
+        containerName: containerName,
+        tags: tags,
+      ),
     );
 
     return CreateContainerOutput.fromJson(jsonResponse.body);
@@ -137,9 +136,9 @@ class MediaStore {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ContainerName': containerName,
-      },
+      payload: DeleteContainerInput(
+        containerName: containerName,
+      ),
     );
 
     return DeleteContainerOutput.fromJson(jsonResponse.body);
@@ -181,9 +180,9 @@ class MediaStore {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ContainerName': containerName,
-      },
+      payload: DeleteContainerPolicyInput(
+        containerName: containerName,
+      ),
     );
 
     return DeleteContainerPolicyOutput.fromJson(jsonResponse.body);
@@ -230,9 +229,9 @@ class MediaStore {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ContainerName': containerName,
-      },
+      payload: DeleteCorsPolicyInput(
+        containerName: containerName,
+      ),
     );
 
     return DeleteCorsPolicyOutput.fromJson(jsonResponse.body);
@@ -275,9 +274,9 @@ class MediaStore {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ContainerName': containerName,
-      },
+      payload: DeleteLifecyclePolicyInput(
+        containerName: containerName,
+      ),
     );
 
     return DeleteLifecyclePolicyOutput.fromJson(jsonResponse.body);
@@ -322,9 +321,9 @@ class MediaStore {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ContainerName': containerName,
-      },
+      payload: DeleteMetricPolicyInput(
+        containerName: containerName,
+      ),
     );
 
     return DeleteMetricPolicyOutput.fromJson(jsonResponse.body);
@@ -368,9 +367,9 @@ class MediaStore {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (containerName != null) 'ContainerName': containerName,
-      },
+      payload: DescribeContainerInput(
+        containerName: containerName,
+      ),
     );
 
     return DescribeContainerOutput.fromJson(jsonResponse.body);
@@ -415,9 +414,9 @@ class MediaStore {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ContainerName': containerName,
-      },
+      payload: GetContainerPolicyInput(
+        containerName: containerName,
+      ),
     );
 
     return GetContainerPolicyOutput.fromJson(jsonResponse.body);
@@ -464,9 +463,9 @@ class MediaStore {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ContainerName': containerName,
-      },
+      payload: GetCorsPolicyInput(
+        containerName: containerName,
+      ),
     );
 
     return GetCorsPolicyOutput.fromJson(jsonResponse.body);
@@ -508,9 +507,9 @@ class MediaStore {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ContainerName': containerName,
-      },
+      payload: GetLifecyclePolicyInput(
+        containerName: containerName,
+      ),
     );
 
     return GetLifecyclePolicyOutput.fromJson(jsonResponse.body);
@@ -552,9 +551,9 @@ class MediaStore {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ContainerName': containerName,
-      },
+      payload: GetMetricPolicyInput(
+        containerName: containerName,
+      ),
     );
 
     return GetMetricPolicyOutput.fromJson(jsonResponse.body);
@@ -615,10 +614,10 @@ class MediaStore {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListContainersInput(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListContainersOutput.fromJson(jsonResponse.body);
@@ -659,9 +658,9 @@ class MediaStore {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Resource': resource,
-      },
+      payload: ListTagsForResourceInput(
+        resource: resource,
+      ),
     );
 
     return ListTagsForResourceOutput.fromJson(jsonResponse.body);
@@ -738,10 +737,10 @@ class MediaStore {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ContainerName': containerName,
-        'Policy': policy,
-      },
+      payload: PutContainerPolicyInput(
+        containerName: containerName,
+        policy: policy,
+      ),
     );
 
     return PutContainerPolicyOutput.fromJson(jsonResponse.body);
@@ -802,10 +801,10 @@ class MediaStore {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ContainerName': containerName,
-        'CorsPolicy': corsPolicy,
-      },
+      payload: PutCorsPolicyInput(
+        containerName: containerName,
+        corsPolicy: corsPolicy,
+      ),
     );
 
     return PutCorsPolicyOutput.fromJson(jsonResponse.body);
@@ -872,10 +871,10 @@ class MediaStore {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ContainerName': containerName,
-        'LifecyclePolicy': lifecyclePolicy,
-      },
+      payload: PutLifecyclePolicyInput(
+        containerName: containerName,
+        lifecyclePolicy: lifecyclePolicy,
+      ),
     );
 
     return PutLifecyclePolicyOutput.fromJson(jsonResponse.body);
@@ -943,10 +942,10 @@ class MediaStore {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ContainerName': containerName,
-        'MetricPolicy': metricPolicy,
-      },
+      payload: PutMetricPolicyInput(
+        containerName: containerName,
+        metricPolicy: metricPolicy,
+      ),
     );
 
     return PutMetricPolicyOutput.fromJson(jsonResponse.body);
@@ -989,9 +988,9 @@ class MediaStore {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ContainerName': containerName,
-      },
+      payload: StartAccessLoggingInput(
+        containerName: containerName,
+      ),
     );
 
     return StartAccessLoggingOutput.fromJson(jsonResponse.body);
@@ -1034,9 +1033,9 @@ class MediaStore {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ContainerName': containerName,
-      },
+      payload: StopAccessLoggingInput(
+        containerName: containerName,
+      ),
     );
 
     return StopAccessLoggingOutput.fromJson(jsonResponse.body);
@@ -1095,10 +1094,10 @@ class MediaStore {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Resource': resource,
-        'Tags': tags,
-      },
+      payload: TagResourceInput(
+        resource: resource,
+        tags: tags,
+      ),
     );
 
     return TagResourceOutput.fromJson(jsonResponse.body);
@@ -1148,10 +1147,10 @@ class MediaStore {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Resource': resource,
-        'TagKeys': tagKeys,
-      },
+      payload: UntagResourceInput(
+        resource: resource,
+        tagKeys: tagKeys,
+      ),
     );
 
     return UntagResourceOutput.fromJson(jsonResponse.body);
@@ -1308,6 +1307,38 @@ class CorsRule {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateContainerInput {
+  /// The name for the container. The name must be from 1 to 255 characters.
+  /// Container names must be unique to your AWS account within a specific region.
+  /// As an example, you could create a container named <code>movies</code> in
+  /// every region, as long as you don’t have an existing container with that
+  /// name.
+  @_s.JsonKey(name: 'ContainerName')
+  final String containerName;
+
+  /// An array of key:value pairs that you define. These values can be anything
+  /// that you want. Typically, the tag key represents a category (such as
+  /// "environment") and the tag value represents a specific value within that
+  /// category (such as "test," "development," or "production"). You can add up to
+  /// 50 tags to each container. For more information about tagging, including
+  /// naming and usage conventions, see <a
+  /// href="https://docs.aws.amazon.com/mediastore/latest/ug/tagging.html">Tagging
+  /// Resources in MediaStore</a>.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateContainerInput({
+    @_s.required this.containerName,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateContainerInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateContainerOutput {
@@ -1342,12 +1373,44 @@ class CreateContainerOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteContainerInput {
+  /// The name of the container to delete.
+  @_s.JsonKey(name: 'ContainerName')
+  final String containerName;
+
+  DeleteContainerInput({
+    @_s.required this.containerName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteContainerInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteContainerOutput {
   DeleteContainerOutput();
   factory DeleteContainerOutput.fromJson(Map<String, dynamic> json) =>
       _$DeleteContainerOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteContainerPolicyInput {
+  /// The name of the container that holds the policy.
+  @_s.JsonKey(name: 'ContainerName')
+  final String containerName;
+
+  DeleteContainerPolicyInput({
+    @_s.required this.containerName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteContainerPolicyInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1364,12 +1427,44 @@ class DeleteContainerPolicyOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteCorsPolicyInput {
+  /// The name of the container to remove the policy from.
+  @_s.JsonKey(name: 'ContainerName')
+  final String containerName;
+
+  DeleteCorsPolicyInput({
+    @_s.required this.containerName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteCorsPolicyInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteCorsPolicyOutput {
   DeleteCorsPolicyOutput();
   factory DeleteCorsPolicyOutput.fromJson(Map<String, dynamic> json) =>
       _$DeleteCorsPolicyOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteLifecyclePolicyInput {
+  /// The name of the container that holds the object lifecycle policy.
+  @_s.JsonKey(name: 'ContainerName')
+  final String containerName;
+
+  DeleteLifecyclePolicyInput({
+    @_s.required this.containerName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteLifecyclePolicyInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1386,12 +1481,45 @@ class DeleteLifecyclePolicyOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteMetricPolicyInput {
+  /// The name of the container that is associated with the metric policy that you
+  /// want to delete.
+  @_s.JsonKey(name: 'ContainerName')
+  final String containerName;
+
+  DeleteMetricPolicyInput({
+    @_s.required this.containerName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteMetricPolicyInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteMetricPolicyOutput {
   DeleteMetricPolicyOutput();
   factory DeleteMetricPolicyOutput.fromJson(Map<String, dynamic> json) =>
       _$DeleteMetricPolicyOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeContainerInput {
+  /// The name of the container to query.
+  @_s.JsonKey(name: 'ContainerName')
+  final String containerName;
+
+  DescribeContainerInput({
+    this.containerName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeContainerInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1414,6 +1542,22 @@ class DescribeContainerOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetContainerPolicyInput {
+  /// The name of the container.
+  @_s.JsonKey(name: 'ContainerName')
+  final String containerName;
+
+  GetContainerPolicyInput({
+    @_s.required this.containerName,
+  });
+  Map<String, dynamic> toJson() => _$GetContainerPolicyInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetContainerPolicyOutput {
@@ -1426,6 +1570,22 @@ class GetContainerPolicyOutput {
   });
   factory GetContainerPolicyOutput.fromJson(Map<String, dynamic> json) =>
       _$GetContainerPolicyOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetCorsPolicyInput {
+  /// The name of the container that the policy is assigned to.
+  @_s.JsonKey(name: 'ContainerName')
+  final String containerName;
+
+  GetCorsPolicyInput({
+    @_s.required this.containerName,
+  });
+  Map<String, dynamic> toJson() => _$GetCorsPolicyInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1448,6 +1608,22 @@ class GetCorsPolicyOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetLifecyclePolicyInput {
+  /// The name of the container that the object lifecycle policy is assigned to.
+  @_s.JsonKey(name: 'ContainerName')
+  final String containerName;
+
+  GetLifecyclePolicyInput({
+    @_s.required this.containerName,
+  });
+  Map<String, dynamic> toJson() => _$GetLifecyclePolicyInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetLifecyclePolicyOutput {
@@ -1465,6 +1641,22 @@ class GetLifecyclePolicyOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetMetricPolicyInput {
+  /// The name of the container that is associated with the metric policy.
+  @_s.JsonKey(name: 'ContainerName')
+  final String containerName;
+
+  GetMetricPolicyInput({
+    @_s.required this.containerName,
+  });
+  Map<String, dynamic> toJson() => _$GetMetricPolicyInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetMetricPolicyOutput {
@@ -1477,6 +1669,31 @@ class GetMetricPolicyOutput {
   });
   factory GetMetricPolicyOutput.fromJson(Map<String, dynamic> json) =>
       _$GetMetricPolicyOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListContainersInput {
+  /// Enter the maximum number of containers in the response. Use from 1 to 255
+  /// characters.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// Only if you used <code>MaxResults</code> in the first command, enter the
+  /// token (which was included in the previous response) to obtain the next set
+  /// of containers. This token is included in a response only if there actually
+  /// are more containers to list.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListContainersInput({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListContainersInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1502,6 +1719,22 @@ class ListContainersOutput {
   });
   factory ListContainersOutput.fromJson(Map<String, dynamic> json) =>
       _$ListContainersOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceInput {
+  /// The Amazon Resource Name (ARN) for the container.
+  @_s.JsonKey(name: 'Resource')
+  final String resource;
+
+  ListTagsForResourceInput({
+    @_s.required this.resource,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1605,12 +1838,64 @@ class MetricPolicyRule {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutContainerPolicyInput {
+  /// The name of the container.
+  @_s.JsonKey(name: 'ContainerName')
+  final String containerName;
+
+  /// The contents of the policy, which includes the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// One <code>Version</code> tag
+  /// </li>
+  /// <li>
+  /// One <code>Statement</code> tag that contains the standard tags for the
+  /// policy.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Policy')
+  final String policy;
+
+  PutContainerPolicyInput({
+    @_s.required this.containerName,
+    @_s.required this.policy,
+  });
+  Map<String, dynamic> toJson() => _$PutContainerPolicyInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutContainerPolicyOutput {
   PutContainerPolicyOutput();
   factory PutContainerPolicyOutput.fromJson(Map<String, dynamic> json) =>
       _$PutContainerPolicyOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutCorsPolicyInput {
+  /// The name of the container that you want to assign the CORS policy to.
+  @_s.JsonKey(name: 'ContainerName')
+  final String containerName;
+
+  /// The CORS policy to apply to the container.
+  @_s.JsonKey(name: 'CorsPolicy')
+  final List<CorsRule> corsPolicy;
+
+  PutCorsPolicyInput({
+    @_s.required this.containerName,
+    @_s.required this.corsPolicy,
+  });
+  Map<String, dynamic> toJson() => _$PutCorsPolicyInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1627,12 +1912,75 @@ class PutCorsPolicyOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutLifecyclePolicyInput {
+  /// The name of the container that you want to assign the object lifecycle
+  /// policy to.
+  @_s.JsonKey(name: 'ContainerName')
+  final String containerName;
+
+  /// The object lifecycle policy to apply to the container.
+  @_s.JsonKey(name: 'LifecyclePolicy')
+  final String lifecyclePolicy;
+
+  PutLifecyclePolicyInput({
+    @_s.required this.containerName,
+    @_s.required this.lifecyclePolicy,
+  });
+  Map<String, dynamic> toJson() => _$PutLifecyclePolicyInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutLifecyclePolicyOutput {
   PutLifecyclePolicyOutput();
   factory PutLifecyclePolicyOutput.fromJson(Map<String, dynamic> json) =>
       _$PutLifecyclePolicyOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutMetricPolicyInput {
+  /// The name of the container that you want to add the metric policy to.
+  @_s.JsonKey(name: 'ContainerName')
+  final String containerName;
+
+  /// The metric policy that you want to associate with the container. In the
+  /// policy, you must indicate whether you want MediaStore to send
+  /// container-level metrics. You can also include up to five rules to define
+  /// groups of objects that you want MediaStore to send object-level metrics for.
+  /// If you include rules in the policy, construct each rule with both of the
+  /// following:
+  ///
+  /// <ul>
+  /// <li>
+  /// An object group that defines which objects to include in the group. The
+  /// definition can be a path or a file name, but it can't have more than 900
+  /// characters. Valid characters are: a-z, A-Z, 0-9, _ (underscore), = (equal),
+  /// : (colon), . (period), - (hyphen), ~ (tilde), / (forward slash), and *
+  /// (asterisk). Wildcards (*) are acceptable.
+  /// </li>
+  /// <li>
+  /// An object group name that allows you to refer to the object group. The name
+  /// can't have more than 30 characters. Valid characters are: a-z, A-Z, 0-9, and
+  /// _ (underscore).
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'MetricPolicy')
+  final MetricPolicy metricPolicy;
+
+  PutMetricPolicyInput({
+    @_s.required this.containerName,
+    @_s.required this.metricPolicy,
+  });
+  Map<String, dynamic> toJson() => _$PutMetricPolicyInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1649,12 +1997,44 @@ class PutMetricPolicyOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartAccessLoggingInput {
+  /// The name of the container that you want to start access logging on.
+  @_s.JsonKey(name: 'ContainerName')
+  final String containerName;
+
+  StartAccessLoggingInput({
+    @_s.required this.containerName,
+  });
+  Map<String, dynamic> toJson() => _$StartAccessLoggingInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartAccessLoggingOutput {
   StartAccessLoggingOutput();
   factory StartAccessLoggingOutput.fromJson(Map<String, dynamic> json) =>
       _$StartAccessLoggingOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopAccessLoggingInput {
+  /// The name of the container that you want to stop access logging on.
+  @_s.JsonKey(name: 'ContainerName')
+  final String containerName;
+
+  StopAccessLoggingInput({
+    @_s.required this.containerName,
+  });
+  Map<String, dynamic> toJson() => _$StopAccessLoggingInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1706,12 +2086,63 @@ class Tag {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceInput {
+  /// The Amazon Resource Name (ARN) for the container.
+  @_s.JsonKey(name: 'Resource')
+  final String resource;
+
+  /// An array of key:value pairs that you want to add to the container. You need
+  /// to specify only the tags that you want to add or update. For example,
+  /// suppose a container already has two tags (customer:CompanyA and
+  /// priority:High). You want to change the priority tag and also add a third tag
+  /// (type:Contract). For TagResource, you specify the following tags:
+  /// priority:Medium, type:Contract. The result is that your container has three
+  /// tags: customer:CompanyA, priority:Medium, and type:Contract.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  TagResourceInput({
+    @_s.required this.resource,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagResourceOutput {
   TagResourceOutput();
   factory TagResourceOutput.fromJson(Map<String, dynamic> json) =>
       _$TagResourceOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceInput {
+  /// The Amazon Resource Name (ARN) for the container.
+  @_s.JsonKey(name: 'Resource')
+  final String resource;
+
+  /// A comma-separated list of keys for tags that you want to remove from the
+  /// container. For example, if your container has two tags (customer:CompanyA
+  /// and priority:High) and you want to remove one of the tags (priority:High),
+  /// you specify the key for the tag that you want to remove (priority).
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceInput({
+    @_s.required this.resource,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceInputToJson(this);
 }
 
 @_s.JsonSerializable(

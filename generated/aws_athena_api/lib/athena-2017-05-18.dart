@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -87,9 +86,9 @@ class Athena {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'NamedQueryIds': namedQueryIds,
-      },
+      payload: BatchGetNamedQueryInput(
+        namedQueryIds: namedQueryIds,
+      ),
     );
 
     return BatchGetNamedQueryOutput.fromJson(jsonResponse.body);
@@ -122,9 +121,9 @@ class Athena {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'QueryExecutionIds': queryExecutionIds,
-      },
+      payload: BatchGetQueryExecutionInput(
+        queryExecutionIds: queryExecutionIds,
+      ),
     );
 
     return BatchGetQueryExecutionOutput.fromJson(jsonResponse.body);
@@ -226,15 +225,14 @@ class Athena {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Database': database,
-        'Name': name,
-        'QueryString': queryString,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-        if (description != null) 'Description': description,
-        if (workGroup != null) 'WorkGroup': workGroup,
-      },
+      payload: CreateNamedQueryInput(
+        database: database,
+        name: name,
+        queryString: queryString,
+        clientRequestToken: clientRequestToken,
+        description: description,
+        workGroup: workGroup,
+      ),
     );
 
     return CreateNamedQueryOutput.fromJson(jsonResponse.body);
@@ -293,12 +291,12 @@ class Athena {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        if (configuration != null) 'Configuration': configuration,
-        if (description != null) 'Description': description,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateWorkGroupInput(
+        name: name,
+        configuration: configuration,
+        description: description,
+        tags: tags,
+      ),
     );
 
     return CreateWorkGroupOutput.fromJson(jsonResponse.body);
@@ -330,9 +328,9 @@ class Athena {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'NamedQueryId': namedQueryId,
-      },
+      payload: DeleteNamedQueryInput(
+        namedQueryId: namedQueryId,
+      ),
     );
 
     return DeleteNamedQueryOutput.fromJson(jsonResponse.body);
@@ -371,11 +369,10 @@ class Athena {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'WorkGroup': workGroup,
-        if (recursiveDeleteOption != null)
-          'RecursiveDeleteOption': recursiveDeleteOption,
-      },
+      payload: DeleteWorkGroupInput(
+        workGroup: workGroup,
+        recursiveDeleteOption: recursiveDeleteOption,
+      ),
     );
 
     return DeleteWorkGroupOutput.fromJson(jsonResponse.body);
@@ -403,9 +400,9 @@ class Athena {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'NamedQueryId': namedQueryId,
-      },
+      payload: GetNamedQueryInput(
+        namedQueryId: namedQueryId,
+      ),
     );
 
     return GetNamedQueryOutput.fromJson(jsonResponse.body);
@@ -434,9 +431,9 @@ class Athena {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'QueryExecutionId': queryExecutionId,
-      },
+      payload: GetQueryExecutionInput(
+        queryExecutionId: queryExecutionId,
+      ),
     );
 
     return GetQueryExecutionOutput.fromJson(jsonResponse.body);
@@ -501,11 +498,11 @@ class Athena {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'QueryExecutionId': queryExecutionId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: GetQueryResultsInput(
+        queryExecutionId: queryExecutionId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return GetQueryResultsOutput.fromJson(jsonResponse.body);
@@ -538,9 +535,9 @@ class Athena {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'WorkGroup': workGroup,
-      },
+      payload: GetWorkGroupInput(
+        workGroup: workGroup,
+      ),
     );
 
     return GetWorkGroupOutput.fromJson(jsonResponse.body);
@@ -601,11 +598,11 @@ class Athena {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (workGroup != null) 'WorkGroup': workGroup,
-      },
+      payload: ListNamedQueriesInput(
+        maxResults: maxResults,
+        nextToken: nextToken,
+        workGroup: workGroup,
+      ),
     );
 
     return ListNamedQueriesOutput.fromJson(jsonResponse.body);
@@ -666,11 +663,11 @@ class Athena {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (workGroup != null) 'WorkGroup': workGroup,
-      },
+      payload: ListQueryExecutionsInput(
+        maxResults: maxResults,
+        nextToken: nextToken,
+        workGroup: workGroup,
+      ),
     );
 
     return ListQueryExecutionsOutput.fromJson(jsonResponse.body);
@@ -728,11 +725,11 @@ class Athena {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceARN': resourceARN,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListTagsForResourceInput(
+        resourceARN: resourceARN,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListTagsForResourceOutput.fromJson(jsonResponse.body);
@@ -774,10 +771,10 @@ class Athena {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListWorkGroupsInput(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListWorkGroupsOutput.fromJson(jsonResponse.body);
@@ -859,16 +856,13 @@ class Athena {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'QueryString': queryString,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-        if (queryExecutionContext != null)
-          'QueryExecutionContext': queryExecutionContext,
-        if (resultConfiguration != null)
-          'ResultConfiguration': resultConfiguration,
-        if (workGroup != null) 'WorkGroup': workGroup,
-      },
+      payload: StartQueryExecutionInput(
+        queryString: queryString,
+        clientRequestToken: clientRequestToken,
+        queryExecutionContext: queryExecutionContext,
+        resultConfiguration: resultConfiguration,
+        workGroup: workGroup,
+      ),
     );
 
     return StartQueryExecutionOutput.fromJson(jsonResponse.body);
@@ -900,9 +894,9 @@ class Athena {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'QueryExecutionId': queryExecutionId,
-      },
+      payload: StopQueryExecutionInput(
+        queryExecutionId: queryExecutionId,
+      ),
     );
 
     return StopQueryExecutionOutput.fromJson(jsonResponse.body);
@@ -958,10 +952,10 @@ class Athena {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceARN': resourceARN,
-        'Tags': tags,
-      },
+      payload: TagResourceInput(
+        resourceARN: resourceARN,
+        tags: tags,
+      ),
     );
 
     return TagResourceOutput.fromJson(jsonResponse.body);
@@ -1005,10 +999,10 @@ class Athena {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceARN': resourceARN,
-        'TagKeys': tagKeys,
-      },
+      payload: UntagResourceInput(
+        resourceARN: resourceARN,
+        tagKeys: tagKeys,
+      ),
     );
 
     return UntagResourceOutput.fromJson(jsonResponse.body);
@@ -1060,17 +1054,32 @@ class Athena {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'WorkGroup': workGroup,
-        if (configurationUpdates != null)
-          'ConfigurationUpdates': configurationUpdates,
-        if (description != null) 'Description': description,
-        if (state != null) 'State': state?.toValue(),
-      },
+      payload: UpdateWorkGroupInput(
+        workGroup: workGroup,
+        configurationUpdates: configurationUpdates,
+        description: description,
+        state: state,
+      ),
     );
 
     return UpdateWorkGroupOutput.fromJson(jsonResponse.body);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchGetNamedQueryInput {
+  /// An array of query IDs.
+  @_s.JsonKey(name: 'NamedQueryIds')
+  final List<String> namedQueryIds;
+
+  BatchGetNamedQueryInput({
+    @_s.required this.namedQueryIds,
+  });
+  Map<String, dynamic> toJson() => _$BatchGetNamedQueryInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1093,6 +1102,22 @@ class BatchGetNamedQueryOutput {
   });
   factory BatchGetNamedQueryOutput.fromJson(Map<String, dynamic> json) =>
       _$BatchGetNamedQueryOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchGetQueryExecutionInput {
+  /// An array of query execution IDs.
+  @_s.JsonKey(name: 'QueryExecutionIds')
+  final List<String> queryExecutionIds;
+
+  BatchGetQueryExecutionInput({
+    @_s.required this.queryExecutionIds,
+  });
+  Map<String, dynamic> toJson() => _$BatchGetQueryExecutionInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1194,6 +1219,56 @@ enum ColumnNullable {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateNamedQueryInput {
+  /// The database to which the query belongs.
+  @_s.JsonKey(name: 'Database')
+  final String database;
+
+  /// The query name.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The contents of the query with all query statements.
+  @_s.JsonKey(name: 'QueryString')
+  final String queryString;
+
+  /// A unique case-sensitive string used to ensure the request to create the
+  /// query is idempotent (executes only once). If another
+  /// <code>CreateNamedQuery</code> request is received, the same response is
+  /// returned and another query is not created. If a parameter has changed, for
+  /// example, the <code>QueryString</code>, an error is returned.
+  /// <important>
+  /// This token is listed as not required because AWS SDKs (for example the AWS
+  /// SDK for Java) auto-generate the token for users. If you are not using the
+  /// AWS SDK or the AWS CLI, you must provide this token or the action will fail.
+  /// </important>
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// The query description.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The name of the workgroup in which the named query is being created.
+  @_s.JsonKey(name: 'WorkGroup')
+  final String workGroup;
+
+  CreateNamedQueryInput({
+    @_s.required this.database,
+    @_s.required this.name,
+    @_s.required this.queryString,
+    this.clientRequestToken,
+    this.description,
+    this.workGroup,
+  });
+  Map<String, dynamic> toJson() => _$CreateNamedQueryInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateNamedQueryOutput {
@@ -1206,6 +1281,45 @@ class CreateNamedQueryOutput {
   });
   factory CreateNamedQueryOutput.fromJson(Map<String, dynamic> json) =>
       _$CreateNamedQueryOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateWorkGroupInput {
+  /// The workgroup name.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The configuration for the workgroup, which includes the location in Amazon
+  /// S3 where query results are stored, the encryption configuration, if any,
+  /// used for encrypting query results, whether the Amazon CloudWatch Metrics are
+  /// enabled for the workgroup, the limit for the amount of bytes scanned
+  /// (cutoff) per query, if it is specified, and whether workgroup's settings
+  /// (specified with EnforceWorkGroupConfiguration) in the WorkGroupConfiguration
+  /// override client-side settings. See
+  /// <a>WorkGroupConfiguration$EnforceWorkGroupConfiguration</a>.
+  @_s.JsonKey(name: 'Configuration')
+  final WorkGroupConfiguration configuration;
+
+  /// The workgroup description.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// One or more tags, separated by commas, that you want to attach to the
+  /// workgroup as you create it.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateWorkGroupInput({
+    @_s.required this.name,
+    this.configuration,
+    this.description,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateWorkGroupInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1239,12 +1353,50 @@ class Datum {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteNamedQueryInput {
+  /// The unique ID of the query to delete.
+  @_s.JsonKey(name: 'NamedQueryId')
+  final String namedQueryId;
+
+  DeleteNamedQueryInput({
+    @_s.required this.namedQueryId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteNamedQueryInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteNamedQueryOutput {
   DeleteNamedQueryOutput();
   factory DeleteNamedQueryOutput.fromJson(Map<String, dynamic> json) =>
       _$DeleteNamedQueryOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteWorkGroupInput {
+  /// The unique name of the workgroup to delete.
+  @_s.JsonKey(name: 'WorkGroup')
+  final String workGroup;
+
+  /// The option to delete the workgroup and its contents even if the workgroup
+  /// contains any named queries.
+  @_s.JsonKey(name: 'RecursiveDeleteOption')
+  final bool recursiveDeleteOption;
+
+  DeleteWorkGroupInput({
+    @_s.required this.workGroup,
+    this.recursiveDeleteOption,
+  });
+  Map<String, dynamic> toJson() => _$DeleteWorkGroupInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1306,6 +1458,22 @@ enum EncryptionOption {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetNamedQueryInput {
+  /// The unique ID of the query. Use <a>ListNamedQueries</a> to get query IDs.
+  @_s.JsonKey(name: 'NamedQueryId')
+  final String namedQueryId;
+
+  GetNamedQueryInput({
+    @_s.required this.namedQueryId,
+  });
+  Map<String, dynamic> toJson() => _$GetNamedQueryInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetNamedQueryOutput {
@@ -1323,6 +1491,22 @@ class GetNamedQueryOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetQueryExecutionInput {
+  /// The unique ID of the query execution.
+  @_s.JsonKey(name: 'QueryExecutionId')
+  final String queryExecutionId;
+
+  GetQueryExecutionInput({
+    @_s.required this.queryExecutionId,
+  });
+  Map<String, dynamic> toJson() => _$GetQueryExecutionInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetQueryExecutionOutput {
@@ -1335,6 +1519,33 @@ class GetQueryExecutionOutput {
   });
   factory GetQueryExecutionOutput.fromJson(Map<String, dynamic> json) =>
       _$GetQueryExecutionOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetQueryResultsInput {
+  /// The unique ID of the query execution.
+  @_s.JsonKey(name: 'QueryExecutionId')
+  final String queryExecutionId;
+
+  /// The maximum number of results (rows) to return in this request.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token that specifies where to start pagination if a previous request was
+  /// truncated.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetQueryResultsInput({
+    @_s.required this.queryExecutionId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$GetQueryResultsInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1367,6 +1578,22 @@ class GetQueryResultsOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetWorkGroupInput {
+  /// The name of the workgroup.
+  @_s.JsonKey(name: 'WorkGroup')
+  final String workGroup;
+
+  GetWorkGroupInput({
+    @_s.required this.workGroup,
+  });
+  Map<String, dynamic> toJson() => _$GetWorkGroupInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetWorkGroupOutput {
@@ -1379,6 +1606,35 @@ class GetWorkGroupOutput {
   });
   factory GetWorkGroupOutput.fromJson(Map<String, dynamic> json) =>
       _$GetWorkGroupOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListNamedQueriesInput {
+  /// The maximum number of queries to return in this request.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token that specifies where to start pagination if a previous request was
+  /// truncated.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The name of the workgroup from which the named queries are returned. If a
+  /// workgroup is not specified, the saved queries for the primary workgroup are
+  /// returned.
+  @_s.JsonKey(name: 'WorkGroup')
+  final String workGroup;
+
+  ListNamedQueriesInput({
+    this.maxResults,
+    this.nextToken,
+    this.workGroup,
+  });
+  Map<String, dynamic> toJson() => _$ListNamedQueriesInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1406,6 +1662,35 @@ class ListNamedQueriesOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListQueryExecutionsInput {
+  /// The maximum number of query executions to return in this request.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token that specifies where to start pagination if a previous request was
+  /// truncated.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The name of the workgroup from which queries are returned. If a workgroup is
+  /// not specified, a list of available query execution IDs for the queries in
+  /// the primary workgroup is returned.
+  @_s.JsonKey(name: 'WorkGroup')
+  final String workGroup;
+
+  ListQueryExecutionsInput({
+    this.maxResults,
+    this.nextToken,
+    this.workGroup,
+  });
+  Map<String, dynamic> toJson() => _$ListQueryExecutionsInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListQueryExecutionsOutput {
@@ -1428,6 +1713,35 @@ class ListQueryExecutionsOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceInput {
+  /// Lists the tags for the workgroup resource with the specified ARN.
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+
+  /// The maximum number of results to be returned per request that lists the tags
+  /// for the workgroup resource.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of results, or null if there are no additional
+  /// results for this request, where the request lists the tags for the workgroup
+  /// resource with the specified ARN.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListTagsForResourceInput({
+    @_s.required this.resourceARN,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListTagsForResourceOutput {
@@ -1445,6 +1759,27 @@ class ListTagsForResourceOutput {
   });
   factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) =>
       _$ListTagsForResourceOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListWorkGroupsInput {
+  /// The maximum number of workgroups to return in this request.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A token to be used by the next request if this request is truncated.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListWorkGroupsInput({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListWorkGroupsInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1886,6 +2221,56 @@ class Row {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartQueryExecutionInput {
+  /// The SQL query statements to be executed.
+  @_s.JsonKey(name: 'QueryString')
+  final String queryString;
+
+  /// A unique case-sensitive string used to ensure the request to create the
+  /// query is idempotent (executes only once). If another
+  /// <code>StartQueryExecution</code> request is received, the same response is
+  /// returned and another query is not created. If a parameter has changed, for
+  /// example, the <code>QueryString</code>, an error is returned.
+  /// <important>
+  /// This token is listed as not required because AWS SDKs (for example the AWS
+  /// SDK for Java) auto-generate the token for users. If you are not using the
+  /// AWS SDK or the AWS CLI, you must provide this token or the action will fail.
+  /// </important>
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// The database within which the query executes.
+  @_s.JsonKey(name: 'QueryExecutionContext')
+  final QueryExecutionContext queryExecutionContext;
+
+  /// Specifies information about where and how to save the results of the query
+  /// execution. If the query runs in a workgroup, then workgroup's settings may
+  /// override query settings. This affects the query results location. The
+  /// workgroup settings override is specified in EnforceWorkGroupConfiguration
+  /// (true/false) in the WorkGroupConfiguration. See
+  /// <a>WorkGroupConfiguration$EnforceWorkGroupConfiguration</a>.
+  @_s.JsonKey(name: 'ResultConfiguration')
+  final ResultConfiguration resultConfiguration;
+
+  /// The name of the workgroup in which the query is being started.
+  @_s.JsonKey(name: 'WorkGroup')
+  final String workGroup;
+
+  StartQueryExecutionInput({
+    @_s.required this.queryString,
+    this.clientRequestToken,
+    this.queryExecutionContext,
+    this.resultConfiguration,
+    this.workGroup,
+  });
+  Map<String, dynamic> toJson() => _$StartQueryExecutionInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartQueryExecutionOutput {
@@ -1907,6 +2292,22 @@ enum StatementType {
   dml,
   @_s.JsonValue('UTILITY')
   utility,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopQueryExecutionInput {
+  /// The unique ID of the query execution to stop.
+  @_s.JsonKey(name: 'QueryExecutionId')
+  final String queryExecutionId;
+
+  StopQueryExecutionInput({
+    @_s.required this.queryExecutionId,
+  });
+  Map<String, dynamic> toJson() => _$StopQueryExecutionInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1956,6 +2357,29 @@ class Tag {
   factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
   Map<String, dynamic> toJson() => _$TagToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceInput {
+  /// Requests that one or more tags are added to the resource (such as a
+  /// workgroup) for the specified ARN.
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+
+  /// One or more tags, separated by commas, to be added to the resource, such as
+  /// a workgroup.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  TagResourceInput({
+    @_s.required this.resourceARN,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2032,12 +2456,65 @@ class UnprocessedQueryExecutionId {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceInput {
+  /// Removes one or more tags from the workgroup resource for the specified ARN.
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+
+  /// Removes the tags associated with one or more tag keys from the workgroup
+  /// resource.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceInput({
+    @_s.required this.resourceARN,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagResourceOutput {
   UntagResourceOutput();
   factory UntagResourceOutput.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateWorkGroupInput {
+  /// The specified workgroup that will be updated.
+  @_s.JsonKey(name: 'WorkGroup')
+  final String workGroup;
+
+  /// The workgroup configuration that will be updated for the given workgroup.
+  @_s.JsonKey(name: 'ConfigurationUpdates')
+  final WorkGroupConfigurationUpdates configurationUpdates;
+
+  /// The workgroup description.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The workgroup state that will be updated for the given workgroup.
+  @_s.JsonKey(name: 'State')
+  final WorkGroupState state;
+
+  UpdateWorkGroupInput({
+    @_s.required this.workGroup,
+    this.configurationUpdates,
+    this.description,
+    this.state,
+  });
+  Map<String, dynamic> toJson() => _$UpdateWorkGroupInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2246,18 +2723,6 @@ enum WorkGroupState {
   enabled,
   @_s.JsonValue('DISABLED')
   disabled,
-}
-
-extension on WorkGroupState {
-  String toValue() {
-    switch (this) {
-      case WorkGroupState.enabled:
-        return 'ENABLED';
-      case WorkGroupState.disabled:
-        return 'DISABLED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// The summary information for the workgroup, which includes its name, state,

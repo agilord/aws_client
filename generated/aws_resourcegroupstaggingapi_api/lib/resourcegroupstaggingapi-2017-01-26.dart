@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -174,16 +173,15 @@ class ResourceGroupsTaggingAPI {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (groupBy != null) 'GroupBy': groupBy,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (paginationToken != null) 'PaginationToken': paginationToken,
-        if (regionFilters != null) 'RegionFilters': regionFilters,
-        if (resourceTypeFilters != null)
-          'ResourceTypeFilters': resourceTypeFilters,
-        if (tagKeyFilters != null) 'TagKeyFilters': tagKeyFilters,
-        if (targetIdFilters != null) 'TargetIdFilters': targetIdFilters,
-      },
+      payload: GetComplianceSummaryInput(
+        groupBy: groupBy,
+        maxResults: maxResults,
+        paginationToken: paginationToken,
+        regionFilters: regionFilters,
+        resourceTypeFilters: resourceTypeFilters,
+        tagKeyFilters: tagKeyFilters,
+        targetIdFilters: targetIdFilters,
+      ),
     );
 
     return GetComplianceSummaryOutput.fromJson(jsonResponse.body);
@@ -383,18 +381,15 @@ class ResourceGroupsTaggingAPI {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (excludeCompliantResources != null)
-          'ExcludeCompliantResources': excludeCompliantResources,
-        if (includeComplianceDetails != null)
-          'IncludeComplianceDetails': includeComplianceDetails,
-        if (paginationToken != null) 'PaginationToken': paginationToken,
-        if (resourceTypeFilters != null)
-          'ResourceTypeFilters': resourceTypeFilters,
-        if (resourcesPerPage != null) 'ResourcesPerPage': resourcesPerPage,
-        if (tagFilters != null) 'TagFilters': tagFilters,
-        if (tagsPerPage != null) 'TagsPerPage': tagsPerPage,
-      },
+      payload: GetResourcesInput(
+        excludeCompliantResources: excludeCompliantResources,
+        includeComplianceDetails: includeComplianceDetails,
+        paginationToken: paginationToken,
+        resourceTypeFilters: resourceTypeFilters,
+        resourcesPerPage: resourcesPerPage,
+        tagFilters: tagFilters,
+        tagsPerPage: tagsPerPage,
+      ),
     );
 
     return GetResourcesOutput.fromJson(jsonResponse.body);
@@ -436,9 +431,9 @@ class ResourceGroupsTaggingAPI {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (paginationToken != null) 'PaginationToken': paginationToken,
-      },
+      payload: GetTagKeysInput(
+        paginationToken: paginationToken,
+      ),
     );
 
     return GetTagKeysOutput.fromJson(jsonResponse.body);
@@ -500,10 +495,10 @@ class ResourceGroupsTaggingAPI {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Key': key,
-        if (paginationToken != null) 'PaginationToken': paginationToken,
-      },
+      payload: GetTagValuesInput(
+        key: key,
+        paginationToken: paginationToken,
+      ),
     );
 
     return GetTagValuesOutput.fromJson(jsonResponse.body);
@@ -561,9 +556,9 @@ class ResourceGroupsTaggingAPI {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'S3Bucket': s3Bucket,
-      },
+      payload: StartReportCreationInput(
+        s3Bucket: s3Bucket,
+      ),
     );
 
     return StartReportCreationOutput.fromJson(jsonResponse.body);
@@ -628,10 +623,10 @@ class ResourceGroupsTaggingAPI {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceARNList': resourceARNList,
-        'Tags': tags,
-      },
+      payload: TagResourcesInput(
+        resourceARNList: resourceARNList,
+        tags: tags,
+      ),
     );
 
     return TagResourcesOutput.fromJson(jsonResponse.body);
@@ -688,10 +683,10 @@ class ResourceGroupsTaggingAPI {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceARNList': resourceARNList,
-        'TagKeys': tagKeys,
-      },
+      payload: UntagResourcesInput(
+        resourceARNList: resourceARNList,
+        tagKeys: tagKeys,
+      ),
     );
 
     return UntagResourcesOutput.fromJson(jsonResponse.body);
@@ -848,6 +843,91 @@ class FailureInfo {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetComplianceSummaryInput {
+  /// A list of attributes to group the counts of noncompliant resources by. If
+  /// supplied, the counts are sorted by those attributes.
+  @_s.JsonKey(name: 'GroupBy')
+  final List<String> groupBy;
+
+  /// A limit that restricts the number of results that are returned per page.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A string that indicates that additional data is available. Leave this value
+  /// empty for your initial request. If the response includes a
+  /// <code>PaginationToken</code>, use that string for this value to request an
+  /// additional page of data.
+  @_s.JsonKey(name: 'PaginationToken')
+  final String paginationToken;
+
+  /// A list of Regions to limit the output by. If you use this parameter, the
+  /// count of returned noncompliant resources includes only resources in the
+  /// specified Regions.
+  @_s.JsonKey(name: 'RegionFilters')
+  final List<String> regionFilters;
+
+  /// The constraints on the resources that you want returned. The format of each
+  /// resource type is <code>service[:resourceType]</code>. For example,
+  /// specifying a resource type of <code>ec2</code> returns all Amazon EC2
+  /// resources (which includes EC2 instances). Specifying a resource type of
+  /// <code>ec2:instance</code> returns only EC2 instances.
+  ///
+  /// The string for each service name and resource type is the same as that
+  /// embedded in a resource's Amazon Resource Name (ARN). Consult the <i>AWS
+  /// General Reference</i> for the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// For a list of service name strings, see <a
+  /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">AWS
+  /// Service Namespaces</a>.
+  /// </li>
+  /// <li>
+  /// For resource type strings, see <a
+  /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arns-syntax">Example
+  /// ARNs</a>.
+  /// </li>
+  /// <li>
+  /// For more information about ARNs, see <a
+  /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs) and AWS Service Namespaces</a>.
+  /// </li>
+  /// </ul>
+  /// You can specify multiple resource types by using an array. The array can
+  /// include up to 100 items. Note that the length constraint requirement applies
+  /// to each resource type filter.
+  @_s.JsonKey(name: 'ResourceTypeFilters')
+  final List<String> resourceTypeFilters;
+
+  /// A list of tag keys to limit the output by. If you use this parameter, the
+  /// count of returned noncompliant resources includes only resources that have
+  /// the specified tag keys.
+  @_s.JsonKey(name: 'TagKeyFilters')
+  final List<String> tagKeyFilters;
+
+  /// The target identifiers (usually, specific account IDs) to limit the output
+  /// by. If you use this parameter, the count of returned noncompliant resources
+  /// includes only resources with the specified target IDs.
+  @_s.JsonKey(name: 'TargetIdFilters')
+  final List<String> targetIdFilters;
+
+  GetComplianceSummaryInput({
+    this.groupBy,
+    this.maxResults,
+    this.paginationToken,
+    this.regionFilters,
+    this.resourceTypeFilters,
+    this.tagKeyFilters,
+    this.targetIdFilters,
+  });
+  Map<String, dynamic> toJson() => _$GetComplianceSummaryInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetComplianceSummaryOutput {
@@ -867,6 +947,164 @@ class GetComplianceSummaryOutput {
   });
   factory GetComplianceSummaryOutput.fromJson(Map<String, dynamic> json) =>
       _$GetComplianceSummaryOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetResourcesInput {
+  /// Specifies whether to exclude resources that are compliant with the tag
+  /// policy. Set this to <code>true</code> if you are interested in retrieving
+  /// information on noncompliant resources only.
+  ///
+  /// You can use this parameter only if the <code>IncludeComplianceDetails</code>
+  /// parameter is also set to <code>true</code>.
+  @_s.JsonKey(name: 'ExcludeCompliantResources')
+  final bool excludeCompliantResources;
+
+  /// Specifies whether to include details regarding the compliance with the
+  /// effective tag policy. Set this to <code>true</code> to determine whether
+  /// resources are compliant with the tag policy and to get details.
+  @_s.JsonKey(name: 'IncludeComplianceDetails')
+  final bool includeComplianceDetails;
+
+  /// A string that indicates that additional data is available. Leave this value
+  /// empty for your initial request. If the response includes a
+  /// <code>PaginationToken</code>, use that string for this value to request an
+  /// additional page of data.
+  @_s.JsonKey(name: 'PaginationToken')
+  final String paginationToken;
+
+  /// The constraints on the resources that you want returned. The format of each
+  /// resource type is <code>service[:resourceType]</code>. For example,
+  /// specifying a resource type of <code>ec2</code> returns all Amazon EC2
+  /// resources (which includes EC2 instances). Specifying a resource type of
+  /// <code>ec2:instance</code> returns only EC2 instances.
+  ///
+  /// The string for each service name and resource type is the same as that
+  /// embedded in a resource's Amazon Resource Name (ARN). Consult the <i>AWS
+  /// General Reference</i> for the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// For a list of service name strings, see <a
+  /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">AWS
+  /// Service Namespaces</a>.
+  /// </li>
+  /// <li>
+  /// For resource type strings, see <a
+  /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arns-syntax">Example
+  /// ARNs</a>.
+  /// </li>
+  /// <li>
+  /// For more information about ARNs, see <a
+  /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs) and AWS Service Namespaces</a>.
+  /// </li>
+  /// </ul>
+  /// You can specify multiple resource types by using an array. The array can
+  /// include up to 100 items. Note that the length constraint requirement applies
+  /// to each resource type filter.
+  @_s.JsonKey(name: 'ResourceTypeFilters')
+  final List<String> resourceTypeFilters;
+
+  /// A limit that restricts the number of resources returned by GetResources in
+  /// paginated output. You can set ResourcesPerPage to a minimum of 1 item and
+  /// the maximum of 100 items.
+  @_s.JsonKey(name: 'ResourcesPerPage')
+  final int resourcesPerPage;
+
+  /// A list of TagFilters (keys and values). Each TagFilter specified must
+  /// contain a key with values as optional. A request can include up to 50 keys,
+  /// and each key can include up to 20 values.
+  ///
+  /// Note the following when deciding how to use TagFilters:
+  ///
+  /// <ul>
+  /// <li>
+  /// If you <i>do</i> specify a TagFilter, the response returns only those
+  /// resources that are currently associated with the specified tag.
+  /// </li>
+  /// <li>
+  /// If you <i>don't</i> specify a TagFilter, the response includes all resources
+  /// that were ever associated with tags. Resources that currently don't have
+  /// associated tags are shown with an empty tag set, like this: <code>"Tags":
+  /// []</code>.
+  /// </li>
+  /// <li>
+  /// If you specify more than one filter in a single request, the response
+  /// returns only those resources that satisfy all specified filters.
+  /// </li>
+  /// <li>
+  /// If you specify a filter that contains more than one value for a key, the
+  /// response returns resources that match any of the specified values for that
+  /// key.
+  /// </li>
+  /// <li>
+  /// If you don't specify any values for a key, the response returns resources
+  /// that are tagged with that key irrespective of the value.
+  ///
+  /// For example, for filters: filter1 = {key1, {value1}}, filter2 = {key2,
+  /// {value2,value3,value4}} , filter3 = {key3}:
+  ///
+  /// <ul>
+  /// <li>
+  /// GetResources( {filter1} ) returns resources tagged with key1=value1
+  /// </li>
+  /// <li>
+  /// GetResources( {filter2} ) returns resources tagged with key2=value2 or
+  /// key2=value3 or key2=value4
+  /// </li>
+  /// <li>
+  /// GetResources( {filter3} ) returns resources tagged with any tag containing
+  /// key3 as its tag key, irrespective of its value
+  /// </li>
+  /// <li>
+  /// GetResources( {filter1,filter2,filter3} ) returns resources tagged with (
+  /// key1=value1) and ( key2=value2 or key2=value3 or key2=value4) and (key3,
+  /// irrespective of the value)
+  /// </li>
+  /// </ul> </li>
+  /// </ul>
+  @_s.JsonKey(name: 'TagFilters')
+  final List<TagFilter> tagFilters;
+
+  /// AWS recommends using <code>ResourcesPerPage</code> instead of this
+  /// parameter.
+  ///
+  /// A limit that restricts the number of tags (key and value pairs) returned by
+  /// GetResources in paginated output. A resource with no tags is counted as
+  /// having one tag (one key and value pair).
+  ///
+  /// <code>GetResources</code> does not split a resource and its associated tags
+  /// across pages. If the specified <code>TagsPerPage</code> would cause such a
+  /// break, a <code>PaginationToken</code> is returned in place of the affected
+  /// resource and its tags. Use that token in another request to get the
+  /// remaining data. For example, if you specify a <code>TagsPerPage</code> of
+  /// <code>100</code> and the account has 22 resources with 10 tags each (meaning
+  /// that each resource has 10 key and value pairs), the output will consist of
+  /// three pages. The first page displays the first 10 resources, each with its
+  /// 10 tags. The second page displays the next 10 resources, each with its 10
+  /// tags. The third page displays the remaining 2 resources, each with its 10
+  /// tags.
+  ///
+  /// You can set <code>TagsPerPage</code> to a minimum of 100 items and the
+  /// maximum of 500 items.
+  @_s.JsonKey(name: 'TagsPerPage')
+  final int tagsPerPage;
+
+  GetResourcesInput({
+    this.excludeCompliantResources,
+    this.includeComplianceDetails,
+    this.paginationToken,
+    this.resourceTypeFilters,
+    this.resourcesPerPage,
+    this.tagFilters,
+    this.tagsPerPage,
+  });
+  Map<String, dynamic> toJson() => _$GetResourcesInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -896,6 +1134,25 @@ class GetResourcesOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetTagKeysInput {
+  /// A string that indicates that additional data is available. Leave this value
+  /// empty for your initial request. If the response includes a
+  /// <code>PaginationToken</code>, use that string for this value to request an
+  /// additional page of data.
+  @_s.JsonKey(name: 'PaginationToken')
+  final String paginationToken;
+
+  GetTagKeysInput({
+    this.paginationToken,
+  });
+  Map<String, dynamic> toJson() => _$GetTagKeysInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetTagKeysOutput {
@@ -915,6 +1172,31 @@ class GetTagKeysOutput {
   });
   factory GetTagKeysOutput.fromJson(Map<String, dynamic> json) =>
       _$GetTagKeysOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetTagValuesInput {
+  /// The key for which you want to list all existing values in the specified
+  /// Region for the AWS account.
+  @_s.JsonKey(name: 'Key')
+  final String key;
+
+  /// A string that indicates that additional data is available. Leave this value
+  /// empty for your initial request. If the response includes a
+  /// <code>PaginationToken</code>, use that string for this value to request an
+  /// additional page of data.
+  @_s.JsonKey(name: 'PaginationToken')
+  final String paginationToken;
+
+  GetTagValuesInput({
+    @_s.required this.key,
+    this.paginationToken,
+  });
+  Map<String, dynamic> toJson() => _$GetTagValuesInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -978,6 +1260,28 @@ class ResourceTagMapping {
   });
   factory ResourceTagMapping.fromJson(Map<String, dynamic> json) =>
       _$ResourceTagMappingFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartReportCreationInput {
+  /// The name of the Amazon S3 bucket where the report will be stored; for
+  /// example:
+  ///
+  /// <code>awsexamplebucket</code>
+  ///
+  /// For more information on S3 bucket requirements, including an example bucket
+  /// policy, see the example S3 bucket policy on this page.
+  @_s.JsonKey(name: 'S3Bucket')
+  final String s3Bucket;
+
+  StartReportCreationInput({
+    @_s.required this.s3Bucket,
+  });
+  Map<String, dynamic> toJson() => _$StartReportCreationInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1093,6 +1397,34 @@ class TagFilter {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourcesInput {
+  /// A list of ARNs. An ARN (Amazon Resource Name) uniquely identifies a
+  /// resource. You can specify a minimum of 1 and a maximum of 20 ARNs
+  /// (resources) to tag. An ARN can be set to a maximum of 1600 characters. For
+  /// more information, see <a
+  /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
+  /// Reference</i>.
+  @_s.JsonKey(name: 'ResourceARNList')
+  final List<String> resourceARNList;
+
+  /// The tags that you want to add to the specified resources. A tag consists of
+  /// a key and a value that you define.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  TagResourcesInput({
+    @_s.required this.resourceARNList,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourcesInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagResourcesOutput {
@@ -1118,6 +1450,33 @@ enum TargetIdType {
   ou,
   @_s.JsonValue('ROOT')
   root,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourcesInput {
+  /// A list of ARNs. An ARN (Amazon Resource Name) uniquely identifies a
+  /// resource. You can specify a minimum of 1 and a maximum of 20 ARNs
+  /// (resources) to untag. An ARN can be set to a maximum of 1600 characters. For
+  /// more information, see <a
+  /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
+  /// Reference</i>.
+  @_s.JsonKey(name: 'ResourceARNList')
+  final List<String> resourceARNList;
+
+  /// A list of the tag keys that you want to remove from the specified resources.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  UntagResourcesInput({
+    @_s.required this.resourceARNList,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourcesInputToJson(this);
 }
 
 @_s.JsonSerializable(

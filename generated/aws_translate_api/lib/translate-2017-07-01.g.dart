@@ -16,6 +16,34 @@ AppliedTerminology _$AppliedTerminologyFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DeleteTerminologyRequestToJson(
+    DeleteTerminologyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
+Map<String, dynamic> _$DescribeTextTranslationJobRequestToJson(
+    DescribeTextTranslationJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobId', instance.jobId);
+  return val;
+}
+
 DescribeTextTranslationJobResponse _$DescribeTextTranslationJobResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeTextTranslationJobResponse(
@@ -83,6 +111,27 @@ const _$EncryptionKeyTypeEnumMap = {
   EncryptionKeyType.kms: 'KMS',
 };
 
+Map<String, dynamic> _$GetTerminologyRequestToJson(
+    GetTerminologyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('TerminologyDataFormat',
+      _$TerminologyDataFormatEnumMap[instance.terminologyDataFormat]);
+  return val;
+}
+
+const _$TerminologyDataFormatEnumMap = {
+  TerminologyDataFormat.csv: 'CSV',
+  TerminologyDataFormat.tmx: 'TMX',
+};
+
 GetTerminologyResponse _$GetTerminologyResponseFromJson(
     Map<String, dynamic> json) {
   return GetTerminologyResponse(
@@ -96,6 +145,28 @@ GetTerminologyResponse _$GetTerminologyResponseFromJson(
             json['TerminologyProperties'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$ImportTerminologyRequestToJson(
+    ImportTerminologyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MergeStrategy', _$MergeStrategyEnumMap[instance.mergeStrategy]);
+  writeNotNull('Name', instance.name);
+  writeNotNull('TerminologyData', instance.terminologyData?.toJson());
+  writeNotNull('Description', instance.description);
+  writeNotNull('EncryptionKey', instance.encryptionKey?.toJson());
+  return val;
+}
+
+const _$MergeStrategyEnumMap = {
+  MergeStrategy.overwrite: 'OVERWRITE',
+};
 
 ImportTerminologyResponse _$ImportTerminologyResponseFromJson(
     Map<String, dynamic> json) {
@@ -136,6 +207,21 @@ JobDetails _$JobDetailsFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ListTerminologiesRequestToJson(
+    ListTerminologiesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListTerminologiesResponse _$ListTerminologiesResponseFromJson(
     Map<String, dynamic> json) {
   return ListTerminologiesResponse(
@@ -146,6 +232,22 @@ ListTerminologiesResponse _$ListTerminologiesResponseFromJson(
             : TerminologyProperties.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListTextTranslationJobsRequestToJson(
+    ListTextTranslationJobsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filter', instance.filter?.toJson());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListTextTranslationJobsResponse _$ListTextTranslationJobsResponseFromJson(
@@ -180,6 +282,27 @@ Map<String, dynamic> _$OutputDataConfigToJson(OutputDataConfig instance) {
   return val;
 }
 
+Map<String, dynamic> _$StartTextTranslationJobRequestToJson(
+    StartTextTranslationJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClientToken', instance.clientToken);
+  writeNotNull('DataAccessRoleArn', instance.dataAccessRoleArn);
+  writeNotNull('InputDataConfig', instance.inputDataConfig?.toJson());
+  writeNotNull('OutputDataConfig', instance.outputDataConfig?.toJson());
+  writeNotNull('SourceLanguageCode', instance.sourceLanguageCode);
+  writeNotNull('TargetLanguageCodes', instance.targetLanguageCodes);
+  writeNotNull('JobName', instance.jobName);
+  writeNotNull('TerminologyNames', instance.terminologyNames);
+  return val;
+}
+
 StartTextTranslationJobResponse _$StartTextTranslationJobResponseFromJson(
     Map<String, dynamic> json) {
   return StartTextTranslationJobResponse(
@@ -197,6 +320,20 @@ const _$JobStatusEnumMap = {
   JobStatus.stopRequested: 'STOP_REQUESTED',
   JobStatus.stopped: 'STOPPED',
 };
+
+Map<String, dynamic> _$StopTextTranslationJobRequestToJson(
+    StopTextTranslationJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobId', instance.jobId);
+  return val;
+}
 
 StopTextTranslationJobResponse _$StopTextTranslationJobResponseFromJson(
     Map<String, dynamic> json) {
@@ -226,11 +363,6 @@ Map<String, dynamic> _$TerminologyDataToJson(TerminologyData instance) {
   writeNotNull('Format', _$TerminologyDataFormatEnumMap[instance.format]);
   return val;
 }
-
-const _$TerminologyDataFormatEnumMap = {
-  TerminologyDataFormat.csv: 'CSV',
-  TerminologyDataFormat.tmx: 'TMX',
-};
 
 TerminologyDataLocation _$TerminologyDataLocationFromJson(
     Map<String, dynamic> json) {
@@ -307,6 +439,23 @@ TextTranslationJobProperties _$TextTranslationJobPropertiesFromJson(
     terminologyNames:
         (json['TerminologyNames'] as List)?.map((e) => e as String)?.toList(),
   );
+}
+
+Map<String, dynamic> _$TranslateTextRequestToJson(
+    TranslateTextRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SourceLanguageCode', instance.sourceLanguageCode);
+  writeNotNull('TargetLanguageCode', instance.targetLanguageCode);
+  writeNotNull('Text', instance.text);
+  writeNotNull('TerminologyNames', instance.terminologyNames);
+  return val;
 }
 
 TranslateTextResponse _$TranslateTextResponseFromJson(

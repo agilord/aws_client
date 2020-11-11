@@ -11,6 +11,23 @@ AssociateServiceQuotaTemplateResponse
   return AssociateServiceQuotaTemplateResponse();
 }
 
+Map<String, dynamic>
+    _$DeleteServiceQuotaIncreaseRequestFromTemplateRequestToJson(
+        DeleteServiceQuotaIncreaseRequestFromTemplateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AwsRegion', instance.awsRegion);
+  writeNotNull('QuotaCode', instance.quotaCode);
+  writeNotNull('ServiceCode', instance.serviceCode);
+  return val;
+}
+
 DeleteServiceQuotaIncreaseRequestFromTemplateResponse
     _$DeleteServiceQuotaIncreaseRequestFromTemplateResponseFromJson(
         Map<String, dynamic> json) {
@@ -69,6 +86,21 @@ const _$ErrorCodeEnumMap = {
   ErrorCode.serviceQuotaNotAvailableError: 'SERVICE_QUOTA_NOT_AVAILABLE_ERROR',
 };
 
+Map<String, dynamic> _$GetAWSDefaultServiceQuotaRequestToJson(
+    GetAWSDefaultServiceQuotaRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('QuotaCode', instance.quotaCode);
+  writeNotNull('ServiceCode', instance.serviceCode);
+  return val;
+}
+
 GetAWSDefaultServiceQuotaResponse _$GetAWSDefaultServiceQuotaResponseFromJson(
     Map<String, dynamic> json) {
   return GetAWSDefaultServiceQuotaResponse(
@@ -93,6 +125,20 @@ const _$ServiceQuotaTemplateAssociationStatusEnumMap = {
   ServiceQuotaTemplateAssociationStatus.disassociated: 'DISASSOCIATED',
 };
 
+Map<String, dynamic> _$GetRequestedServiceQuotaChangeRequestToJson(
+    GetRequestedServiceQuotaChangeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RequestId', instance.requestId);
+  return val;
+}
+
 GetRequestedServiceQuotaChangeResponse
     _$GetRequestedServiceQuotaChangeResponseFromJson(
         Map<String, dynamic> json) {
@@ -102,6 +148,22 @@ GetRequestedServiceQuotaChangeResponse
         : RequestedServiceQuotaChange.fromJson(
             json['RequestedQuota'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetServiceQuotaIncreaseRequestFromTemplateRequestToJson(
+    GetServiceQuotaIncreaseRequestFromTemplateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AwsRegion', instance.awsRegion);
+  writeNotNull('QuotaCode', instance.quotaCode);
+  writeNotNull('ServiceCode', instance.serviceCode);
+  return val;
 }
 
 GetServiceQuotaIncreaseRequestFromTemplateResponse
@@ -117,6 +179,21 @@ GetServiceQuotaIncreaseRequestFromTemplateResponse
   );
 }
 
+Map<String, dynamic> _$GetServiceQuotaRequestToJson(
+    GetServiceQuotaRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('QuotaCode', instance.quotaCode);
+  writeNotNull('ServiceCode', instance.serviceCode);
+  return val;
+}
+
 GetServiceQuotaResponse _$GetServiceQuotaResponseFromJson(
     Map<String, dynamic> json) {
   return GetServiceQuotaResponse(
@@ -124,6 +201,22 @@ GetServiceQuotaResponse _$GetServiceQuotaResponseFromJson(
         ? null
         : ServiceQuota.fromJson(json['Quota'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$ListAWSDefaultServiceQuotasRequestToJson(
+    ListAWSDefaultServiceQuotasRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ServiceCode', instance.serviceCode);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListAWSDefaultServiceQuotasResponse
@@ -136,6 +229,33 @@ ListAWSDefaultServiceQuotasResponse
         ?.toList(),
   );
 }
+
+Map<String, dynamic>
+    _$ListRequestedServiceQuotaChangeHistoryByQuotaRequestToJson(
+        ListRequestedServiceQuotaChangeHistoryByQuotaRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('QuotaCode', instance.quotaCode);
+  writeNotNull('ServiceCode', instance.serviceCode);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('Status', _$RequestStatusEnumMap[instance.status]);
+  return val;
+}
+
+const _$RequestStatusEnumMap = {
+  RequestStatus.pending: 'PENDING',
+  RequestStatus.caseOpened: 'CASE_OPENED',
+  RequestStatus.approved: 'APPROVED',
+  RequestStatus.denied: 'DENIED',
+  RequestStatus.caseClosed: 'CASE_CLOSED',
+};
 
 ListRequestedServiceQuotaChangeHistoryByQuotaResponse
     _$ListRequestedServiceQuotaChangeHistoryByQuotaResponseFromJson(
@@ -150,6 +270,23 @@ ListRequestedServiceQuotaChangeHistoryByQuotaResponse
   );
 }
 
+Map<String, dynamic> _$ListRequestedServiceQuotaChangeHistoryRequestToJson(
+    ListRequestedServiceQuotaChangeHistoryRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('ServiceCode', instance.serviceCode);
+  writeNotNull('Status', _$RequestStatusEnumMap[instance.status]);
+  return val;
+}
+
 ListRequestedServiceQuotaChangeHistoryResponse
     _$ListRequestedServiceQuotaChangeHistoryResponseFromJson(
         Map<String, dynamic> json) {
@@ -161,6 +298,23 @@ ListRequestedServiceQuotaChangeHistoryResponse
             : RequestedServiceQuotaChange.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListServiceQuotaIncreaseRequestsInTemplateRequestToJson(
+    ListServiceQuotaIncreaseRequestsInTemplateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AwsRegion', instance.awsRegion);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('ServiceCode', instance.serviceCode);
+  return val;
 }
 
 ListServiceQuotaIncreaseRequestsInTemplateResponse
@@ -178,6 +332,22 @@ ListServiceQuotaIncreaseRequestsInTemplateResponse
   );
 }
 
+Map<String, dynamic> _$ListServiceQuotasRequestToJson(
+    ListServiceQuotasRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ServiceCode', instance.serviceCode);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListServiceQuotasResponse _$ListServiceQuotasResponseFromJson(
     Map<String, dynamic> json) {
   return ListServiceQuotasResponse(
@@ -187,6 +357,20 @@ ListServiceQuotasResponse _$ListServiceQuotasResponseFromJson(
             e == null ? null : ServiceQuota.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListServicesRequestToJson(ListServicesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListServicesResponse _$ListServicesResponseFromJson(Map<String, dynamic> json) {
@@ -209,6 +393,23 @@ MetricInfo _$MetricInfoFromJson(Map<String, dynamic> json) {
     metricStatisticRecommendation:
         json['MetricStatisticRecommendation'] as String,
   );
+}
+
+Map<String, dynamic> _$PutServiceQuotaIncreaseRequestIntoTemplateRequestToJson(
+    PutServiceQuotaIncreaseRequestIntoTemplateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AwsRegion', instance.awsRegion);
+  writeNotNull('DesiredValue', instance.desiredValue);
+  writeNotNull('QuotaCode', instance.quotaCode);
+  writeNotNull('ServiceCode', instance.serviceCode);
+  return val;
 }
 
 PutServiceQuotaIncreaseRequestIntoTemplateResponse
@@ -241,6 +442,22 @@ const _$PeriodUnitEnumMap = {
   PeriodUnit.week: 'WEEK',
 };
 
+Map<String, dynamic> _$RequestServiceQuotaIncreaseRequestToJson(
+    RequestServiceQuotaIncreaseRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DesiredValue', instance.desiredValue);
+  writeNotNull('QuotaCode', instance.quotaCode);
+  writeNotNull('ServiceCode', instance.serviceCode);
+  return val;
+}
+
 RequestServiceQuotaIncreaseResponse
     _$RequestServiceQuotaIncreaseResponseFromJson(Map<String, dynamic> json) {
   return RequestServiceQuotaIncreaseResponse(
@@ -270,14 +487,6 @@ RequestedServiceQuotaChange _$RequestedServiceQuotaChangeFromJson(
     unit: json['Unit'] as String,
   );
 }
-
-const _$RequestStatusEnumMap = {
-  RequestStatus.pending: 'PENDING',
-  RequestStatus.caseOpened: 'CASE_OPENED',
-  RequestStatus.approved: 'APPROVED',
-  RequestStatus.denied: 'DENIED',
-  RequestStatus.caseClosed: 'CASE_CLOSED',
-};
 
 ServiceInfo _$ServiceInfoFromJson(Map<String, dynamic> json) {
   return ServiceInfo(

@@ -71,6 +71,108 @@ ConfigurationProfiles _$ConfigurationProfilesFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateApplicationRequestToJson(
+    CreateApplicationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('Description', instance.description);
+  writeNotNull('Tags', instance.tags);
+  return val;
+}
+
+Map<String, dynamic> _$CreateConfigurationProfileRequestToJson(
+    CreateConfigurationProfileRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LocationUri', instance.locationUri);
+  writeNotNull('Name', instance.name);
+  writeNotNull('RetrievalRoleArn', instance.retrievalRoleArn);
+  writeNotNull('Description', instance.description);
+  writeNotNull('Tags', instance.tags);
+  writeNotNull(
+      'Validators', instance.validators?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+Map<String, dynamic> _$CreateDeploymentStrategyRequestToJson(
+    CreateDeploymentStrategyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'DeploymentDurationInMinutes', instance.deploymentDurationInMinutes);
+  writeNotNull('GrowthFactor', instance.growthFactor);
+  writeNotNull('Name', instance.name);
+  writeNotNull('ReplicateTo', _$ReplicateToEnumMap[instance.replicateTo]);
+  writeNotNull('Description', instance.description);
+  writeNotNull('FinalBakeTimeInMinutes', instance.finalBakeTimeInMinutes);
+  writeNotNull('GrowthType', _$GrowthTypeEnumMap[instance.growthType]);
+  writeNotNull('Tags', instance.tags);
+  return val;
+}
+
+const _$ReplicateToEnumMap = {
+  ReplicateTo.none: 'NONE',
+  ReplicateTo.ssmDocument: 'SSM_DOCUMENT',
+};
+
+const _$GrowthTypeEnumMap = {
+  GrowthType.linear: 'LINEAR',
+  GrowthType.exponential: 'EXPONENTIAL',
+};
+
+Map<String, dynamic> _$CreateEnvironmentRequestToJson(
+    CreateEnvironmentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('Description', instance.description);
+  writeNotNull(
+      'Monitors', instance.monitors?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Tags', instance.tags);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteApplicationRequestToJson(
+        DeleteApplicationRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteConfigurationProfileRequestToJson(
+        DeleteConfigurationProfileRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteDeploymentStrategyRequestToJson(
+        DeleteDeploymentStrategyRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteEnvironmentRequestToJson(
+        DeleteEnvironmentRequest instance) =>
+    <String, dynamic>{};
+
 Deployment _$DeploymentFromJson(Map<String, dynamic> json) {
   return Deployment(
     applicationId: json['ApplicationId'] as String,
@@ -129,11 +231,6 @@ T _$enumDecodeNullable<T>(
   }
   return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
 }
-
-const _$GrowthTypeEnumMap = {
-  GrowthType.linear: 'LINEAR',
-  GrowthType.exponential: 'EXPONENTIAL',
-};
 
 const _$DeploymentStateEnumMap = {
   DeploymentState.baking: 'BAKING',
@@ -195,11 +292,6 @@ DeploymentStrategy _$DeploymentStrategyFromJson(Map<String, dynamic> json) {
         _$enumDecodeNullable(_$ReplicateToEnumMap, json['ReplicateTo']),
   );
 }
-
-const _$ReplicateToEnumMap = {
-  ReplicateTo.none: 'NONE',
-  ReplicateTo.ssmDocument: 'SSM_DOCUMENT',
-};
 
 DeploymentSummary _$DeploymentSummaryFromJson(Map<String, dynamic> json) {
   return DeploymentSummary(
@@ -287,6 +379,118 @@ ResourceTags _$ResourceTagsFromJson(Map<String, dynamic> json) {
     ),
   );
 }
+
+Map<String, dynamic> _$StartDeploymentRequestToJson(
+    StartDeploymentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConfigurationProfileId', instance.configurationProfileId);
+  writeNotNull('ConfigurationVersion', instance.configurationVersion);
+  writeNotNull('DeploymentStrategyId', instance.deploymentStrategyId);
+  writeNotNull('Description', instance.description);
+  writeNotNull('Tags', instance.tags);
+  return val;
+}
+
+Map<String, dynamic> _$StopDeploymentRequestToJson(
+        StopDeploymentRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Tags', instance.tags);
+  return val;
+}
+
+Map<String, dynamic> _$UntagResourceRequestToJson(
+        UntagResourceRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$UpdateApplicationRequestToJson(
+    UpdateApplicationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Description', instance.description);
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
+Map<String, dynamic> _$UpdateConfigurationProfileRequestToJson(
+    UpdateConfigurationProfileRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Description', instance.description);
+  writeNotNull('Name', instance.name);
+  writeNotNull('RetrievalRoleArn', instance.retrievalRoleArn);
+  writeNotNull(
+      'Validators', instance.validators?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+Map<String, dynamic> _$UpdateDeploymentStrategyRequestToJson(
+    UpdateDeploymentStrategyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'DeploymentDurationInMinutes', instance.deploymentDurationInMinutes);
+  writeNotNull('Description', instance.description);
+  writeNotNull('FinalBakeTimeInMinutes', instance.finalBakeTimeInMinutes);
+  writeNotNull('GrowthFactor', instance.growthFactor);
+  writeNotNull('GrowthType', _$GrowthTypeEnumMap[instance.growthType]);
+  return val;
+}
+
+Map<String, dynamic> _$UpdateEnvironmentRequestToJson(
+    UpdateEnvironmentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Description', instance.description);
+  writeNotNull(
+      'Monitors', instance.monitors?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
+Map<String, dynamic> _$ValidateConfigurationRequestToJson(
+        ValidateConfigurationRequest instance) =>
+    <String, dynamic>{};
 
 Validator _$ValidatorFromJson(Map<String, dynamic> json) {
   return Validator(

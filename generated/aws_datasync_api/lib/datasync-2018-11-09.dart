@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -84,9 +83,9 @@ class DataSync {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TaskExecutionArn': taskExecutionArn,
-      },
+      payload: CancelTaskExecutionRequest(
+        taskExecutionArn: taskExecutionArn,
+      ),
     );
 
     return CancelTaskExecutionResponse.fromJson(jsonResponse.body);
@@ -214,14 +213,14 @@ class DataSync {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ActivationKey': activationKey,
-        if (agentName != null) 'AgentName': agentName,
-        if (securityGroupArns != null) 'SecurityGroupArns': securityGroupArns,
-        if (subnetArns != null) 'SubnetArns': subnetArns,
-        if (tags != null) 'Tags': tags,
-        if (vpcEndpointId != null) 'VpcEndpointId': vpcEndpointId,
-      },
+      payload: CreateAgentRequest(
+        activationKey: activationKey,
+        agentName: agentName,
+        securityGroupArns: securityGroupArns,
+        subnetArns: subnetArns,
+        tags: tags,
+        vpcEndpointId: vpcEndpointId,
+      ),
     );
 
     return CreateAgentResponse.fromJson(jsonResponse.body);
@@ -319,12 +318,12 @@ class DataSync {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Ec2Config': ec2Config,
-        'EfsFilesystemArn': efsFilesystemArn,
-        if (subdirectory != null) 'Subdirectory': subdirectory,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateLocationEfsRequest(
+        ec2Config: ec2Config,
+        efsFilesystemArn: efsFilesystemArn,
+        subdirectory: subdirectory,
+        tags: tags,
+      ),
     );
 
     return CreateLocationEfsResponse.fromJson(jsonResponse.body);
@@ -447,15 +446,15 @@ class DataSync {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'FsxFilesystemArn': fsxFilesystemArn,
-        'Password': password,
-        'SecurityGroupArns': securityGroupArns,
-        'User': user,
-        if (domain != null) 'Domain': domain,
-        if (subdirectory != null) 'Subdirectory': subdirectory,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateLocationFsxWindowsRequest(
+        fsxFilesystemArn: fsxFilesystemArn,
+        password: password,
+        securityGroupArns: securityGroupArns,
+        user: user,
+        domain: domain,
+        subdirectory: subdirectory,
+        tags: tags,
+      ),
     );
 
     return CreateLocationFsxWindowsResponse.fromJson(jsonResponse.body);
@@ -557,13 +556,13 @@ class DataSync {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'OnPremConfig': onPremConfig,
-        'ServerHostname': serverHostname,
-        'Subdirectory': subdirectory,
-        if (mountOptions != null) 'MountOptions': mountOptions,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateLocationNfsRequest(
+        onPremConfig: onPremConfig,
+        serverHostname: serverHostname,
+        subdirectory: subdirectory,
+        mountOptions: mountOptions,
+        tags: tags,
+      ),
     );
 
     return CreateLocationNfsResponse.fromJson(jsonResponse.body);
@@ -648,13 +647,13 @@ class DataSync {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'S3BucketArn': s3BucketArn,
-        'S3Config': s3Config,
-        if (s3StorageClass != null) 'S3StorageClass': s3StorageClass?.toValue(),
-        if (subdirectory != null) 'Subdirectory': subdirectory,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateLocationS3Request(
+        s3BucketArn: s3BucketArn,
+        s3Config: s3Config,
+        s3StorageClass: s3StorageClass,
+        subdirectory: subdirectory,
+        tags: tags,
+      ),
     );
 
     return CreateLocationS3Response.fromJson(jsonResponse.body);
@@ -805,16 +804,16 @@ class DataSync {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AgentArns': agentArns,
-        'Password': password,
-        'ServerHostname': serverHostname,
-        'Subdirectory': subdirectory,
-        'User': user,
-        if (domain != null) 'Domain': domain,
-        if (mountOptions != null) 'MountOptions': mountOptions,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateLocationSmbRequest(
+        agentArns: agentArns,
+        password: password,
+        serverHostname: serverHostname,
+        subdirectory: subdirectory,
+        user: user,
+        domain: domain,
+        mountOptions: mountOptions,
+        tags: tags,
+      ),
     );
 
     return CreateLocationSmbResponse.fromJson(jsonResponse.body);
@@ -959,17 +958,16 @@ class DataSync {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DestinationLocationArn': destinationLocationArn,
-        'SourceLocationArn': sourceLocationArn,
-        if (cloudWatchLogGroupArn != null)
-          'CloudWatchLogGroupArn': cloudWatchLogGroupArn,
-        if (excludes != null) 'Excludes': excludes,
-        if (name != null) 'Name': name,
-        if (options != null) 'Options': options,
-        if (schedule != null) 'Schedule': schedule,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateTaskRequest(
+        destinationLocationArn: destinationLocationArn,
+        sourceLocationArn: sourceLocationArn,
+        cloudWatchLogGroupArn: cloudWatchLogGroupArn,
+        excludes: excludes,
+        name: name,
+        options: options,
+        schedule: schedule,
+        tags: tags,
+      ),
     );
 
     return CreateTaskResponse.fromJson(jsonResponse.body);
@@ -1014,9 +1012,9 @@ class DataSync {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AgentArn': agentArn,
-      },
+      payload: DeleteAgentRequest(
+        agentArn: agentArn,
+      ),
     );
 
     return DeleteAgentResponse.fromJson(jsonResponse.body);
@@ -1056,9 +1054,9 @@ class DataSync {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'LocationArn': locationArn,
-      },
+      payload: DeleteLocationRequest(
+        locationArn: locationArn,
+      ),
     );
 
     return DeleteLocationResponse.fromJson(jsonResponse.body);
@@ -1098,9 +1096,9 @@ class DataSync {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TaskArn': taskArn,
-      },
+      payload: DeleteTaskRequest(
+        taskArn: taskArn,
+      ),
     );
 
     return DeleteTaskResponse.fromJson(jsonResponse.body);
@@ -1143,9 +1141,9 @@ class DataSync {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AgentArn': agentArn,
-      },
+      payload: DescribeAgentRequest(
+        agentArn: agentArn,
+      ),
     );
 
     return DescribeAgentResponse.fromJson(jsonResponse.body);
@@ -1186,9 +1184,9 @@ class DataSync {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'LocationArn': locationArn,
-      },
+      payload: DescribeLocationEfsRequest(
+        locationArn: locationArn,
+      ),
     );
 
     return DescribeLocationEfsResponse.fromJson(jsonResponse.body);
@@ -1230,9 +1228,9 @@ class DataSync {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'LocationArn': locationArn,
-      },
+      payload: DescribeLocationFsxWindowsRequest(
+        locationArn: locationArn,
+      ),
     );
 
     return DescribeLocationFsxWindowsResponse.fromJson(jsonResponse.body);
@@ -1272,9 +1270,9 @@ class DataSync {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'LocationArn': locationArn,
-      },
+      payload: DescribeLocationNfsRequest(
+        locationArn: locationArn,
+      ),
     );
 
     return DescribeLocationNfsResponse.fromJson(jsonResponse.body);
@@ -1315,9 +1313,9 @@ class DataSync {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'LocationArn': locationArn,
-      },
+      payload: DescribeLocationS3Request(
+        locationArn: locationArn,
+      ),
     );
 
     return DescribeLocationS3Response.fromJson(jsonResponse.body);
@@ -1358,9 +1356,9 @@ class DataSync {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'LocationArn': locationArn,
-      },
+      payload: DescribeLocationSmbRequest(
+        locationArn: locationArn,
+      ),
     );
 
     return DescribeLocationSmbResponse.fromJson(jsonResponse.body);
@@ -1400,9 +1398,9 @@ class DataSync {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TaskArn': taskArn,
-      },
+      payload: DescribeTaskRequest(
+        taskArn: taskArn,
+      ),
     );
 
     return DescribeTaskResponse.fromJson(jsonResponse.body);
@@ -1442,9 +1440,9 @@ class DataSync {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TaskExecutionArn': taskExecutionArn,
-      },
+      payload: DescribeTaskExecutionRequest(
+        taskExecutionArn: taskExecutionArn,
+      ),
     );
 
     return DescribeTaskExecutionResponse.fromJson(jsonResponse.body);
@@ -1503,10 +1501,10 @@ class DataSync {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListAgentsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListAgentsResponse.fromJson(jsonResponse.body);
@@ -1559,10 +1557,10 @@ class DataSync {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListLocationsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListLocationsResponse.fromJson(jsonResponse.body);
@@ -1628,11 +1626,11 @@ class DataSync {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListTagsForResourceRequest(
+        resourceArn: resourceArn,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
@@ -1695,11 +1693,11 @@ class DataSync {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (taskArn != null) 'TaskArn': taskArn,
-      },
+      payload: ListTaskExecutionsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+        taskArn: taskArn,
+      ),
     );
 
     return ListTaskExecutionsResponse.fromJson(jsonResponse.body);
@@ -1747,10 +1745,10 @@ class DataSync {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListTasksRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListTasksResponse.fromJson(jsonResponse.body);
@@ -1808,11 +1806,11 @@ class DataSync {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TaskArn': taskArn,
-        if (includes != null) 'Includes': includes,
-        if (overrideOptions != null) 'OverrideOptions': overrideOptions,
-      },
+      payload: StartTaskExecutionRequest(
+        taskArn: taskArn,
+        includes: includes,
+        overrideOptions: overrideOptions,
+      ),
     );
 
     return StartTaskExecutionResponse.fromJson(jsonResponse.body);
@@ -1857,10 +1855,10 @@ class DataSync {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        'Tags': tags,
-      },
+      payload: TagResourceRequest(
+        resourceArn: resourceArn,
+        tags: tags,
+      ),
     );
 
     return TagResourceResponse.fromJson(jsonResponse.body);
@@ -1905,10 +1903,10 @@ class DataSync {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Keys': keys,
-        'ResourceArn': resourceArn,
-      },
+      payload: UntagResourceRequest(
+        keys: keys,
+        resourceArn: resourceArn,
+      ),
     );
 
     return UntagResourceResponse.fromJson(jsonResponse.body);
@@ -1963,10 +1961,10 @@ class DataSync {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AgentArn': agentArn,
-        if (name != null) 'Name': name,
-      },
+      payload: UpdateAgentRequest(
+        agentArn: agentArn,
+        name: name,
+      ),
     );
 
     return UpdateAgentResponse.fromJson(jsonResponse.body);
@@ -2055,15 +2053,14 @@ class DataSync {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TaskArn': taskArn,
-        if (cloudWatchLogGroupArn != null)
-          'CloudWatchLogGroupArn': cloudWatchLogGroupArn,
-        if (excludes != null) 'Excludes': excludes,
-        if (name != null) 'Name': name,
-        if (options != null) 'Options': options,
-        if (schedule != null) 'Schedule': schedule,
-      },
+      payload: UpdateTaskRequest(
+        taskArn: taskArn,
+        cloudWatchLogGroupArn: cloudWatchLogGroupArn,
+        excludes: excludes,
+        name: name,
+        options: options,
+        schedule: schedule,
+      ),
     );
 
     return UpdateTaskResponse.fromJson(jsonResponse.body);
@@ -2114,6 +2111,23 @@ enum Atime {
   bestEffort,
 }
 
+/// CancelTaskExecutionRequest
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CancelTaskExecutionRequest {
+  /// The Amazon Resource Name (ARN) of the task execution to cancel.
+  @_s.JsonKey(name: 'TaskExecutionArn')
+  final String taskExecutionArn;
+
+  CancelTaskExecutionRequest({
+    @_s.required this.taskExecutionArn,
+  });
+  Map<String, dynamic> toJson() => _$CancelTaskExecutionRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2123,6 +2137,81 @@ class CancelTaskExecutionResponse {
   CancelTaskExecutionResponse();
   factory CancelTaskExecutionResponse.fromJson(Map<String, dynamic> json) =>
       _$CancelTaskExecutionResponseFromJson(json);
+}
+
+/// CreateAgentRequest
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateAgentRequest {
+  /// Your agent activation key. You can get the activation key either by sending
+  /// an HTTP GET request with redirects that enable you to get the agent IP
+  /// address (port 80). Alternatively, you can get it from the AWS DataSync
+  /// console.
+  ///
+  /// The redirect URL returned in the response provides you the activation key
+  /// for your agent in the query string parameter <code>activationKey</code>. It
+  /// might also include other activation-related parameters; however, these are
+  /// merely defaults. The arguments you pass to this API call determine the
+  /// actual configuration of your agent.
+  ///
+  /// For more information, see Activating an Agent in the <i>AWS DataSync User
+  /// Guide.</i>
+  @_s.JsonKey(name: 'ActivationKey')
+  final String activationKey;
+
+  /// The name you configured for your agent. This value is a text reference that
+  /// is used to identify the agent in the console.
+  @_s.JsonKey(name: 'AgentName')
+  final String agentName;
+
+  /// The ARNs of the security groups used to protect your data transfer task
+  /// subnets. See <a>CreateAgentRequest$SubnetArns</a>.
+  @_s.JsonKey(name: 'SecurityGroupArns')
+  final List<String> securityGroupArns;
+
+  /// The Amazon Resource Names (ARNs) of the subnets in which DataSync will
+  /// create elastic network interfaces for each data transfer task. The agent
+  /// that runs a task must be private. When you start a task that is associated
+  /// with an agent created in a VPC, or one that has access to an IP address in a
+  /// VPC, then the task is also private. In this case, DataSync creates four
+  /// network interfaces for each task in your subnet. For a data transfer to
+  /// work, the agent must be able to route to all these four network interfaces.
+  @_s.JsonKey(name: 'SubnetArns')
+  final List<String> subnetArns;
+
+  /// The key-value pair that represents the tag that you want to associate with
+  /// the agent. The value can be an empty string. This value helps you manage,
+  /// filter, and search for your agents.
+  /// <note>
+  /// Valid characters for key and value are letters, spaces, and numbers
+  /// representable in UTF-8 format, and the following special characters: + - = .
+  /// _ : / @.
+  /// </note>
+  @_s.JsonKey(name: 'Tags')
+  final List<TagListEntry> tags;
+
+  /// The ID of the VPC (Virtual Private Cloud) endpoint that the agent has access
+  /// to. This is the client-side VPC endpoint, also called a PrivateLink. If you
+  /// don't have a PrivateLink VPC endpoint, see <a
+  /// href="https://docs.aws.amazon.com/vpc/latest/userguide/endpoint-service.html#create-endpoint-service">Creating
+  /// a VPC Endpoint Service Configuration</a> in the AWS VPC User Guide.
+  ///
+  /// VPC endpoint ID looks like this: <code>vpce-01234d5aff67890e1</code>.
+  @_s.JsonKey(name: 'VpcEndpointId')
+  final String vpcEndpointId;
+
+  CreateAgentRequest({
+    @_s.required this.activationKey,
+    this.agentName,
+    this.securityGroupArns,
+    this.subnetArns,
+    this.tags,
+    this.vpcEndpointId,
+  });
+  Map<String, dynamic> toJson() => _$CreateAgentRequestToJson(this);
 }
 
 /// CreateAgentResponse
@@ -2142,6 +2231,72 @@ class CreateAgentResponse {
   });
   factory CreateAgentResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateAgentResponseFromJson(json);
+}
+
+/// CreateLocationEfsRequest
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateLocationEfsRequest {
+  /// The subnet and security group that the Amazon EFS file system uses. The
+  /// security group that you provide needs to be able to communicate with the
+  /// security group on the mount target in the subnet specified.
+  ///
+  /// The exact relationship between security group M (of the mount target) and
+  /// security group S (which you provide for DataSync to use at this stage) is as
+  /// follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// Security group M (which you associate with the mount target) must allow
+  /// inbound access for the Transmission Control Protocol (TCP) on the NFS port
+  /// (2049) from security group S. You can enable inbound connections either by
+  /// IP address (CIDR range) or security group.
+  /// </li>
+  /// <li>
+  /// Security group S (provided to DataSync to access EFS) should have a rule
+  /// that enables outbound connections to the NFS port on one of the file
+  /// system’s mount targets. You can enable outbound connections either by IP
+  /// address (CIDR range) or security group.
+  ///
+  /// For information about security groups and mount targets, see Security Groups
+  /// for Amazon EC2 Instances and Mount Targets in the <i>Amazon EFS User
+  /// Guide.</i>
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Ec2Config')
+  final Ec2Config ec2Config;
+
+  /// The Amazon Resource Name (ARN) for the Amazon EFS file system.
+  @_s.JsonKey(name: 'EfsFilesystemArn')
+  final String efsFilesystemArn;
+
+  /// A subdirectory in the location’s path. This subdirectory in the EFS file
+  /// system is used to read data from the EFS source location or write data to
+  /// the EFS destination. By default, AWS DataSync uses the root directory.
+  /// <note>
+  /// <code>Subdirectory</code> must be specified with forward slashes. For
+  /// example <code>/path/to/folder</code>.
+  /// </note>
+  @_s.JsonKey(name: 'Subdirectory')
+  final String subdirectory;
+
+  /// The key-value pair that represents a tag that you want to add to the
+  /// resource. The value can be an empty string. This value helps you manage,
+  /// filter, and search for your resources. We recommend that you create a name
+  /// tag for your location.
+  @_s.JsonKey(name: 'Tags')
+  final List<TagListEntry> tags;
+
+  CreateLocationEfsRequest({
+    @_s.required this.ec2Config,
+    @_s.required this.efsFilesystemArn,
+    this.subdirectory,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateLocationEfsRequestToJson(this);
 }
 
 /// CreateLocationEfs
@@ -2166,6 +2321,61 @@ class CreateLocationEfsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateLocationFsxWindowsRequest {
+  /// The Amazon Resource Name (ARN) for the FSx for Windows file system.
+  @_s.JsonKey(name: 'FsxFilesystemArn')
+  final String fsxFilesystemArn;
+
+  /// The password of the user who has the permissions to access files and folders
+  /// in the FSx for Windows file system.
+  @_s.JsonKey(name: 'Password')
+  final String password;
+
+  /// The Amazon Resource Names (ARNs) of the security groups that are to use to
+  /// configure the FSx for Windows file system.
+  @_s.JsonKey(name: 'SecurityGroupArns')
+  final List<String> securityGroupArns;
+
+  /// The user who has the permissions to access files and folders in the FSx for
+  /// Windows file system.
+  @_s.JsonKey(name: 'User')
+  final String user;
+
+  /// The name of the Windows domain that the FSx for Windows server belongs to.
+  @_s.JsonKey(name: 'Domain')
+  final String domain;
+
+  /// A subdirectory in the location’s path. This subdirectory in the Amazon FSx
+  /// for Windows file system is used to read data from the Amazon FSx for Windows
+  /// source location or write data to the FSx for Windows destination.
+  @_s.JsonKey(name: 'Subdirectory')
+  final String subdirectory;
+
+  /// The key-value pair that represents a tag that you want to add to the
+  /// resource. The value can be an empty string. This value helps you manage,
+  /// filter, and search for your resources. We recommend that you create a name
+  /// tag for your location.
+  @_s.JsonKey(name: 'Tags')
+  final List<TagListEntry> tags;
+
+  CreateLocationFsxWindowsRequest({
+    @_s.required this.fsxFilesystemArn,
+    @_s.required this.password,
+    @_s.required this.securityGroupArns,
+    @_s.required this.user,
+    this.domain,
+    this.subdirectory,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateLocationFsxWindowsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateLocationFsxWindowsResponse {
@@ -2180,6 +2390,72 @@ class CreateLocationFsxWindowsResponse {
   factory CreateLocationFsxWindowsResponse.fromJson(
           Map<String, dynamic> json) =>
       _$CreateLocationFsxWindowsResponseFromJson(json);
+}
+
+/// CreateLocationNfsRequest
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateLocationNfsRequest {
+  /// Contains a list of Amazon Resource Names (ARNs) of agents that are used to
+  /// connect to an NFS server.
+  @_s.JsonKey(name: 'OnPremConfig')
+  final OnPremConfig onPremConfig;
+
+  /// The name of the NFS server. This value is the IP address or Domain Name
+  /// Service (DNS) name of the NFS server. An agent that is installed on-premises
+  /// uses this host name to mount the NFS server in a network.
+  /// <note>
+  /// This name must either be DNS-compliant or must be an IP version 4 (IPv4)
+  /// address.
+  /// </note>
+  @_s.JsonKey(name: 'ServerHostname')
+  final String serverHostname;
+
+  /// The subdirectory in the NFS file system that is used to read data from the
+  /// NFS source location or write data to the NFS destination. The NFS path
+  /// should be a path that's exported by the NFS server, or a subdirectory of
+  /// that path. The path should be such that it can be mounted by other NFS
+  /// clients in your network.
+  ///
+  /// To see all the paths exported by your NFS server. run "<code>showmount -e
+  /// nfs-server-name</code>" from an NFS client that has access to your server.
+  /// You can specify any directory that appears in the results, and any
+  /// subdirectory of that directory. Ensure that the NFS export is accessible
+  /// without Kerberos authentication.
+  ///
+  /// To transfer all the data in the folder you specified, DataSync needs to have
+  /// permissions to read all the data. To ensure this, either configure the NFS
+  /// export with <code>no_root_squash,</code> or ensure that the permissions for
+  /// all of the files that you want DataSync allow read access for all users.
+  /// Doing either enables the agent to read the files. For the agent to access
+  /// directories, you must additionally enable all execute access.
+  ///
+  /// For information about NFS export configuration, see 18.7. The /etc/exports
+  /// Configuration File in the Red Hat Enterprise Linux documentation.
+  @_s.JsonKey(name: 'Subdirectory')
+  final String subdirectory;
+
+  /// The NFS mount options that DataSync can use to mount your NFS share.
+  @_s.JsonKey(name: 'MountOptions')
+  final NfsMountOptions mountOptions;
+
+  /// The key-value pair that represents the tag that you want to add to the
+  /// location. The value can be an empty string. We recommend using tags to name
+  /// your resources.
+  @_s.JsonKey(name: 'Tags')
+  final List<TagListEntry> tags;
+
+  CreateLocationNfsRequest({
+    @_s.required this.onPremConfig,
+    @_s.required this.serverHostname,
+    @_s.required this.subdirectory,
+    this.mountOptions,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateLocationNfsRequestToJson(this);
 }
 
 /// CreateLocationNfsResponse
@@ -2201,6 +2477,51 @@ class CreateLocationNfsResponse {
       _$CreateLocationNfsResponseFromJson(json);
 }
 
+/// CreateLocationS3Request
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateLocationS3Request {
+  /// The Amazon Resource Name (ARN) of the Amazon S3 bucket.
+  @_s.JsonKey(name: 'S3BucketArn')
+  final String s3BucketArn;
+  @_s.JsonKey(name: 'S3Config')
+  final S3Config s3Config;
+
+  /// The Amazon S3 storage class that you want to store your files in when this
+  /// location is used as a task destination. For more information about S3
+  /// storage classes, see <a
+  /// href="https://aws.amazon.com/s3/storage-classes/">Amazon S3 Storage
+  /// Classes</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.
+  /// Some storage classes have behaviors that can affect your S3 storage cost.
+  /// For detailed information, see <a>using-storage-classes</a>.
+  @_s.JsonKey(name: 'S3StorageClass')
+  final S3StorageClass s3StorageClass;
+
+  /// A subdirectory in the Amazon S3 bucket. This subdirectory in Amazon S3 is
+  /// used to read data from the S3 source location or write data to the S3
+  /// destination.
+  @_s.JsonKey(name: 'Subdirectory')
+  final String subdirectory;
+
+  /// The key-value pair that represents the tag that you want to add to the
+  /// location. The value can be an empty string. We recommend using tags to name
+  /// your resources.
+  @_s.JsonKey(name: 'Tags')
+  final List<TagListEntry> tags;
+
+  CreateLocationS3Request({
+    @_s.required this.s3BucketArn,
+    @_s.required this.s3Config,
+    this.s3StorageClass,
+    this.subdirectory,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateLocationS3RequestToJson(this);
+}
+
 /// CreateLocationS3Response
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2218,6 +2539,86 @@ class CreateLocationS3Response {
   });
   factory CreateLocationS3Response.fromJson(Map<String, dynamic> json) =>
       _$CreateLocationS3ResponseFromJson(json);
+}
+
+/// CreateLocationSmbRequest
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateLocationSmbRequest {
+  /// The Amazon Resource Names (ARNs) of agents to use for a Simple Message Block
+  /// (SMB) location.
+  @_s.JsonKey(name: 'AgentArns')
+  final List<String> agentArns;
+
+  /// The password of the user who can mount the share, has the permissions to
+  /// access files and folders in the SMB share.
+  @_s.JsonKey(name: 'Password')
+  final String password;
+
+  /// The name of the SMB server. This value is the IP address or Domain Name
+  /// Service (DNS) name of the SMB server. An agent that is installed on-premises
+  /// uses this hostname to mount the SMB server in a network.
+  /// <note>
+  /// This name must either be DNS-compliant or must be an IP version 4 (IPv4)
+  /// address.
+  /// </note>
+  @_s.JsonKey(name: 'ServerHostname')
+  final String serverHostname;
+
+  /// The subdirectory in the SMB file system that is used to read data from the
+  /// SMB source location or write data to the SMB destination. The SMB path
+  /// should be a path that's exported by the SMB server, or a subdirectory of
+  /// that path. The path should be such that it can be mounted by other SMB
+  /// clients in your network.
+  /// <note>
+  /// <code>Subdirectory</code> must be specified with forward slashes. For
+  /// example <code>/path/to/folder</code>.
+  /// </note>
+  /// To transfer all the data in the folder you specified, DataSync needs to have
+  /// permissions to mount the SMB share, as well as to access all the data in
+  /// that share. To ensure this, either ensure that the user/password specified
+  /// belongs to the user who can mount the share, and who has the appropriate
+  /// permissions for all of the files and directories that you want DataSync to
+  /// access, or use credentials of a member of the Backup Operators group to
+  /// mount the share. Doing either enables the agent to access the data. For the
+  /// agent to access directories, you must additionally enable all execute
+  /// access.
+  @_s.JsonKey(name: 'Subdirectory')
+  final String subdirectory;
+
+  /// The user who can mount the share, has the permissions to access files and
+  /// folders in the SMB share.
+  @_s.JsonKey(name: 'User')
+  final String user;
+
+  /// The name of the Windows domain that the SMB server belongs to.
+  @_s.JsonKey(name: 'Domain')
+  final String domain;
+
+  /// The mount options used by DataSync to access the SMB server.
+  @_s.JsonKey(name: 'MountOptions')
+  final SmbMountOptions mountOptions;
+
+  /// The key-value pair that represents the tag that you want to add to the
+  /// location. The value can be an empty string. We recommend using tags to name
+  /// your resources.
+  @_s.JsonKey(name: 'Tags')
+  final List<TagListEntry> tags;
+
+  CreateLocationSmbRequest({
+    @_s.required this.agentArns,
+    @_s.required this.password,
+    @_s.required this.serverHostname,
+    @_s.required this.subdirectory,
+    @_s.required this.user,
+    this.domain,
+    this.mountOptions,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateLocationSmbRequestToJson(this);
 }
 
 /// CreateLocationSmbResponse
@@ -2239,6 +2640,82 @@ class CreateLocationSmbResponse {
       _$CreateLocationSmbResponseFromJson(json);
 }
 
+/// CreateTaskRequest
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateTaskRequest {
+  /// The Amazon Resource Name (ARN) of an AWS storage resource's location.
+  @_s.JsonKey(name: 'DestinationLocationArn')
+  final String destinationLocationArn;
+
+  /// The Amazon Resource Name (ARN) of the source location for the task.
+  @_s.JsonKey(name: 'SourceLocationArn')
+  final String sourceLocationArn;
+
+  /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that is
+  /// used to monitor and log events in the task.
+  ///
+  /// For more information on these groups, see Working with Log Groups and Log
+  /// Streams in the <i>Amazon CloudWatch User Guide.</i>
+  ///
+  /// For more information about how to use CloudWatch Logs with DataSync, see
+  /// Monitoring Your Task in the <i>AWS DataSync User Guide.</i>
+  @_s.JsonKey(name: 'CloudWatchLogGroupArn')
+  final String cloudWatchLogGroupArn;
+
+  /// A list of filter rules that determines which files to exclude from a task.
+  /// The list should contain a single filter string that consists of the patterns
+  /// to exclude. The patterns are delimited by "|" (that is, a pipe), for
+  /// example, <code>"/folder1|/folder2"</code>
+  ///
+  ///
+  @_s.JsonKey(name: 'Excludes')
+  final List<FilterRule> excludes;
+
+  /// The name of a task. This value is a text reference that is used to identify
+  /// the task in the console.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The set of configuration options that control the behavior of a single
+  /// execution of the task that occurs when you call
+  /// <code>StartTaskExecution</code>. You can configure these options to preserve
+  /// metadata such as user ID (UID) and group ID (GID), file permissions, data
+  /// integrity verification, and so on.
+  ///
+  /// For each individual task execution, you can override these options by
+  /// specifying the <code>OverrideOptions</code> before starting a the task
+  /// execution. For more information, see the operation.
+  @_s.JsonKey(name: 'Options')
+  final Options options;
+
+  /// Specifies a schedule used to periodically transfer files from a source to a
+  /// destination location. The schedule should be specified in UTC time. For more
+  /// information, see <a>task-scheduling</a>.
+  @_s.JsonKey(name: 'Schedule')
+  final TaskSchedule schedule;
+
+  /// The key-value pair that represents the tag that you want to add to the
+  /// resource. The value can be an empty string.
+  @_s.JsonKey(name: 'Tags')
+  final List<TagListEntry> tags;
+
+  CreateTaskRequest({
+    @_s.required this.destinationLocationArn,
+    @_s.required this.sourceLocationArn,
+    this.cloudWatchLogGroupArn,
+    this.excludes,
+    this.name,
+    this.options,
+    this.schedule,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateTaskRequestToJson(this);
+}
+
 /// CreateTaskResponse
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2257,6 +2734,25 @@ class CreateTaskResponse {
       _$CreateTaskResponseFromJson(json);
 }
 
+/// DeleteAgentRequest
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteAgentRequest {
+  /// The Amazon Resource Name (ARN) of the agent to delete. Use the
+  /// <code>ListAgents</code> operation to return a list of agents for your
+  /// account and AWS Region.
+  @_s.JsonKey(name: 'AgentArn')
+  final String agentArn;
+
+  DeleteAgentRequest({
+    @_s.required this.agentArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteAgentRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2266,6 +2762,23 @@ class DeleteAgentResponse {
   DeleteAgentResponse();
   factory DeleteAgentResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteAgentResponseFromJson(json);
+}
+
+/// DeleteLocation
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteLocationRequest {
+  /// The Amazon Resource Name (ARN) of the location to delete.
+  @_s.JsonKey(name: 'LocationArn')
+  final String locationArn;
+
+  DeleteLocationRequest({
+    @_s.required this.locationArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteLocationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2279,6 +2792,23 @@ class DeleteLocationResponse {
       _$DeleteLocationResponseFromJson(json);
 }
 
+/// DeleteTask
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteTaskRequest {
+  /// The Amazon Resource Name (ARN) of the task to delete.
+  @_s.JsonKey(name: 'TaskArn')
+  final String taskArn;
+
+  DeleteTaskRequest({
+    @_s.required this.taskArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteTaskRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2288,6 +2818,23 @@ class DeleteTaskResponse {
   DeleteTaskResponse();
   factory DeleteTaskResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteTaskResponseFromJson(json);
+}
+
+/// DescribeAgent
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeAgentRequest {
+  /// The Amazon Resource Name (ARN) of the agent to describe.
+  @_s.JsonKey(name: 'AgentArn')
+  final String agentArn;
+
+  DescribeAgentRequest({
+    @_s.required this.agentArn,
+  });
+  Map<String, dynamic> toJson() => _$DescribeAgentRequestToJson(this);
 }
 
 /// DescribeAgentResponse
@@ -2350,6 +2897,23 @@ class DescribeAgentResponse {
       _$DescribeAgentResponseFromJson(json);
 }
 
+/// DescribeLocationEfsRequest
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeLocationEfsRequest {
+  /// The Amazon Resource Name (ARN) of the EFS location to describe.
+  @_s.JsonKey(name: 'LocationArn')
+  final String locationArn;
+
+  DescribeLocationEfsRequest({
+    @_s.required this.locationArn,
+  });
+  Map<String, dynamic> toJson() => _$DescribeLocationEfsRequestToJson(this);
+}
+
 /// DescribeLocationEfsResponse
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2382,6 +2946,23 @@ class DescribeLocationEfsResponse {
   });
   factory DescribeLocationEfsResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeLocationEfsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeLocationFsxWindowsRequest {
+  /// The Amazon Resource Name (ARN) of the FSx for Windows location to describe.
+  @_s.JsonKey(name: 'LocationArn')
+  final String locationArn;
+
+  DescribeLocationFsxWindowsRequest({
+    @_s.required this.locationArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeLocationFsxWindowsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2433,6 +3014,23 @@ class DescribeLocationFsxWindowsResponse {
       _$DescribeLocationFsxWindowsResponseFromJson(json);
 }
 
+/// DescribeLocationNfsRequest
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeLocationNfsRequest {
+  /// The Amazon resource Name (ARN) of the NFS location to describe.
+  @_s.JsonKey(name: 'LocationArn')
+  final String locationArn;
+
+  DescribeLocationNfsRequest({
+    @_s.required this.locationArn,
+  });
+  Map<String, dynamic> toJson() => _$DescribeLocationNfsRequestToJson(this);
+}
+
 /// DescribeLocationNfsResponse
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2470,6 +3068,23 @@ class DescribeLocationNfsResponse {
   });
   factory DescribeLocationNfsResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeLocationNfsResponseFromJson(json);
+}
+
+/// DescribeLocationS3Request
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeLocationS3Request {
+  /// The Amazon Resource Name (ARN) of the Amazon S3 bucket location to describe.
+  @_s.JsonKey(name: 'LocationArn')
+  final String locationArn;
+
+  DescribeLocationS3Request({
+    @_s.required this.locationArn,
+  });
+  Map<String, dynamic> toJson() => _$DescribeLocationS3RequestToJson(this);
 }
 
 /// DescribeLocationS3Response
@@ -2515,6 +3130,23 @@ class DescribeLocationS3Response {
   });
   factory DescribeLocationS3Response.fromJson(Map<String, dynamic> json) =>
       _$DescribeLocationS3ResponseFromJson(json);
+}
+
+/// DescribeLocationSmbRequest
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeLocationSmbRequest {
+  /// The Amazon resource Name (ARN) of the SMB location to describe.
+  @_s.JsonKey(name: 'LocationArn')
+  final String locationArn;
+
+  DescribeLocationSmbRequest({
+    @_s.required this.locationArn,
+  });
+  Map<String, dynamic> toJson() => _$DescribeLocationSmbRequestToJson(this);
 }
 
 /// DescribeLocationSmbResponse
@@ -2569,6 +3201,23 @@ class DescribeLocationSmbResponse {
   });
   factory DescribeLocationSmbResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeLocationSmbResponseFromJson(json);
+}
+
+/// DescribeTaskExecutionRequest
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeTaskExecutionRequest {
+  /// The Amazon Resource Name (ARN) of the task that is being executed.
+  @_s.JsonKey(name: 'TaskExecutionArn')
+  final String taskExecutionArn;
+
+  DescribeTaskExecutionRequest({
+    @_s.required this.taskExecutionArn,
+  });
+  Map<String, dynamic> toJson() => _$DescribeTaskExecutionRequestToJson(this);
 }
 
 /// DescribeTaskExecutionResponse
@@ -2677,6 +3326,23 @@ class DescribeTaskExecutionResponse {
   });
   factory DescribeTaskExecutionResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeTaskExecutionResponseFromJson(json);
+}
+
+/// DescribeTaskRequest
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeTaskRequest {
+  /// The Amazon Resource Name (ARN) of the task to describe.
+  @_s.JsonKey(name: 'TaskArn')
+  final String taskArn;
+
+  DescribeTaskRequest({
+    @_s.required this.taskArn,
+  });
+  Map<String, dynamic> toJson() => _$DescribeTaskRequestToJson(this);
 }
 
 /// DescribeTaskResponse
@@ -2880,6 +3546,29 @@ enum Gid {
   both,
 }
 
+/// ListAgentsRequest
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListAgentsRequest {
+  /// The maximum number of agents to list.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// An opaque string that indicates the position at which to begin the next list
+  /// of agents.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListAgentsRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListAgentsRequestToJson(this);
+}
+
 /// ListAgentsResponse
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2902,6 +3591,29 @@ class ListAgentsResponse {
   });
   factory ListAgentsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListAgentsResponseFromJson(json);
+}
+
+/// ListLocationsRequest
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListLocationsRequest {
+  /// The maximum number of locations to return.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// An opaque string that indicates the position at which to begin the next list
+  /// of locations.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListLocationsRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListLocationsRequestToJson(this);
 }
 
 /// ListLocationsResponse
@@ -2928,6 +3640,34 @@ class ListLocationsResponse {
       _$ListLocationsResponseFromJson(json);
 }
 
+/// ListTagsForResourceRequest
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource whose tags to list.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// The maximum number of locations to return.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// An opaque string that indicates the position at which to begin the next list
+  /// of locations.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListTagsForResourceRequest({
+    @_s.required this.resourceArn,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceRequestToJson(this);
+}
+
 /// ListTagsForResourceResponse
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2952,6 +3692,34 @@ class ListTagsForResourceResponse {
       _$ListTagsForResourceResponseFromJson(json);
 }
 
+/// ListTaskExecutions
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTaskExecutionsRequest {
+  /// The maximum number of executed tasks to list.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// An opaque string that indicates the position at which to begin the next list
+  /// of the executed tasks.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The Amazon Resource Name (ARN) of the task whose tasks you want to list.
+  @_s.JsonKey(name: 'TaskArn')
+  final String taskArn;
+
+  ListTaskExecutionsRequest({
+    this.maxResults,
+    this.nextToken,
+    this.taskArn,
+  });
+  Map<String, dynamic> toJson() => _$ListTaskExecutionsRequestToJson(this);
+}
+
 /// ListTaskExecutionsResponse
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2974,6 +3742,29 @@ class ListTaskExecutionsResponse {
   });
   factory ListTaskExecutionsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListTaskExecutionsResponseFromJson(json);
+}
+
+/// ListTasksRequest
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTasksRequest {
+  /// The maximum number of tasks to return.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// An opaque string that indicates the position at which to begin the next list
+  /// of tasks.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListTasksRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListTasksRequestToJson(this);
 }
 
 /// ListTasksResponse
@@ -3452,26 +4243,6 @@ enum S3StorageClass {
   deepArchive,
 }
 
-extension on S3StorageClass {
-  String toValue() {
-    switch (this) {
-      case S3StorageClass.standard:
-        return 'STANDARD';
-      case S3StorageClass.standardIa:
-        return 'STANDARD_IA';
-      case S3StorageClass.onezoneIa:
-        return 'ONEZONE_IA';
-      case S3StorageClass.intelligentTiering:
-        return 'INTELLIGENT_TIERING';
-      case S3StorageClass.glacier:
-        return 'GLACIER';
-      case S3StorageClass.deepArchive:
-        return 'DEEP_ARCHIVE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Represents the mount options that are available for DataSync to access an
 /// SMB location.
 @_s.JsonSerializable(
@@ -3503,6 +4274,36 @@ enum SmbVersion {
   smb2,
   @_s.JsonValue('SMB3')
   smb3,
+}
+
+/// StartTaskExecutionRequest
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartTaskExecutionRequest {
+  /// The Amazon Resource Name (ARN) of the task to start.
+  @_s.JsonKey(name: 'TaskArn')
+  final String taskArn;
+
+  /// A list of filter rules that determines which files to include when running a
+  /// task. The pattern should contain a single filter string that consists of the
+  /// patterns to include. The patterns are delimited by "|" (that is, a pipe).
+  /// For example: <code>"/folder1|/folder2"</code>
+  ///
+  ///
+  @_s.JsonKey(name: 'Includes')
+  final List<FilterRule> includes;
+  @_s.JsonKey(name: 'OverrideOptions')
+  final Options overrideOptions;
+
+  StartTaskExecutionRequest({
+    @_s.required this.taskArn,
+    this.includes,
+    this.overrideOptions,
+  });
+  Map<String, dynamic> toJson() => _$StartTaskExecutionRequestToJson(this);
 }
 
 /// StartTaskExecutionResponse
@@ -3549,6 +4350,28 @@ class TagListEntry {
       _$TagListEntryFromJson(json);
 
   Map<String, dynamic> toJson() => _$TagListEntryToJson(this);
+}
+
+/// TagResourceRequest
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource to apply the tag to.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// The tags to apply.
+  @_s.JsonKey(name: 'Tags')
+  final List<TagListEntry> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3757,6 +4580,28 @@ enum Uid {
   both,
 }
 
+/// UntagResourceRequest
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The keys in the key-value pair in the tag to remove.
+  @_s.JsonKey(name: 'Keys')
+  final List<String> keys;
+
+  /// The Amazon Resource Name (ARN) of the resource to remove the tag from.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  UntagResourceRequest({
+    @_s.required this.keys,
+    @_s.required this.resourceArn,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3768,6 +4613,28 @@ class UntagResourceResponse {
       _$UntagResourceResponseFromJson(json);
 }
 
+/// UpdateAgentRequest
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateAgentRequest {
+  /// The Amazon Resource Name (ARN) of the agent to update.
+  @_s.JsonKey(name: 'AgentArn')
+  final String agentArn;
+
+  /// The name that you want to use to configure the agent.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  UpdateAgentRequest({
+    @_s.required this.agentArn,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$UpdateAgentRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3777,6 +4644,56 @@ class UpdateAgentResponse {
   UpdateAgentResponse();
   factory UpdateAgentResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateAgentResponseFromJson(json);
+}
+
+/// UpdateTaskResponse
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateTaskRequest {
+  /// The Amazon Resource Name (ARN) of the resource name of the task to update.
+  @_s.JsonKey(name: 'TaskArn')
+  final String taskArn;
+
+  /// The Amazon Resource Name (ARN) of the resource name of the CloudWatch
+  /// LogGroup.
+  @_s.JsonKey(name: 'CloudWatchLogGroupArn')
+  final String cloudWatchLogGroupArn;
+
+  /// A list of filter rules that determines which files to exclude from a task.
+  /// The list should contain a single filter string that consists of the patterns
+  /// to exclude. The patterns are delimited by "|" (that is, a pipe), for
+  /// example: <code>"/folder1|/folder2"</code>
+  ///
+  ///
+  @_s.JsonKey(name: 'Excludes')
+  final List<FilterRule> excludes;
+
+  /// The name of the task to update.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+  @_s.JsonKey(name: 'Options')
+  final Options options;
+
+  /// Specifies a schedule used to periodically transfer files from a source to a
+  /// destination location. You can configure your task to execute hourly, daily,
+  /// weekly or on specific days of the week. You control when in the day or hour
+  /// you want the task to execute. The time you specify is UTC time. For more
+  /// information, see <a>task-scheduling</a>.
+  @_s.JsonKey(name: 'Schedule')
+  final TaskSchedule schedule;
+
+  UpdateTaskRequest({
+    @_s.required this.taskArn,
+    this.cloudWatchLogGroupArn,
+    this.excludes,
+    this.name,
+    this.options,
+    this.schedule,
+  });
+  Map<String, dynamic> toJson() => _$UpdateTaskRequestToJson(this);
 }
 
 @_s.JsonSerializable(

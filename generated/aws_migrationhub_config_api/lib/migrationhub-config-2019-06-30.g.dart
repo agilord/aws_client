@@ -6,6 +6,22 @@ part of 'migrationhub-config-2019-06-30.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$CreateHomeRegionControlRequestToJson(
+    CreateHomeRegionControlRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('HomeRegion', instance.homeRegion);
+  writeNotNull('Target', instance.target?.toJson());
+  writeNotNull('DryRun', instance.dryRun);
+  return val;
+}
+
 CreateHomeRegionControlResult _$CreateHomeRegionControlResultFromJson(
     Map<String, dynamic> json) {
   return CreateHomeRegionControlResult(
@@ -14,6 +30,24 @@ CreateHomeRegionControlResult _$CreateHomeRegionControlResultFromJson(
         : HomeRegionControl.fromJson(
             json['HomeRegionControl'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeHomeRegionControlsRequestToJson(
+    DescribeHomeRegionControlsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ControlId', instance.controlId);
+  writeNotNull('HomeRegion', instance.homeRegion);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('Target', instance.target?.toJson());
+  return val;
 }
 
 DescribeHomeRegionControlsResult _$DescribeHomeRegionControlsResultFromJson(

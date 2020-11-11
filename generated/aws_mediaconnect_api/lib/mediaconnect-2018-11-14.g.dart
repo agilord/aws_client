@@ -6,6 +6,20 @@ part of 'mediaconnect-2018-11-14.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$AddFlowOutputsRequestToJson(
+    AddFlowOutputsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('outputs', instance.outputs?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 AddFlowOutputsResponse _$AddFlowOutputsResponseFromJson(
     Map<String, dynamic> json) {
   return AddFlowOutputsResponse(
@@ -17,6 +31,20 @@ AddFlowOutputsResponse _$AddFlowOutputsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$AddFlowSourcesRequestToJson(
+    AddFlowSourcesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('sources', instance.sources?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 AddFlowSourcesResponse _$AddFlowSourcesResponseFromJson(
     Map<String, dynamic> json) {
   return AddFlowSourcesResponse(
@@ -26,6 +54,21 @@ AddFlowSourcesResponse _$AddFlowSourcesResponseFromJson(
             e == null ? null : Source.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$AddFlowVpcInterfacesRequestToJson(
+    AddFlowVpcInterfacesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('vpcInterfaces',
+      instance.vpcInterfaces?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 AddFlowVpcInterfacesResponse _$AddFlowVpcInterfacesResponseFromJson(
@@ -72,6 +115,28 @@ const _$ProtocolEnumMap = {
   Protocol.rist: 'rist',
 };
 
+Map<String, dynamic> _$CreateFlowRequestToJson(CreateFlowRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('availabilityZone', instance.availabilityZone);
+  writeNotNull(
+      'entitlements', instance.entitlements?.map((e) => e?.toJson())?.toList());
+  writeNotNull('outputs', instance.outputs?.map((e) => e?.toJson())?.toList());
+  writeNotNull('source', instance.source?.toJson());
+  writeNotNull('sourceFailoverConfig', instance.sourceFailoverConfig?.toJson());
+  writeNotNull('sources', instance.sources?.map((e) => e?.toJson())?.toList());
+  writeNotNull('vpcInterfaces',
+      instance.vpcInterfaces?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateFlowResponse _$CreateFlowResponseFromJson(Map<String, dynamic> json) {
   return CreateFlowResponse(
     flow: json['flow'] == null
@@ -79,6 +144,9 @@ CreateFlowResponse _$CreateFlowResponseFromJson(Map<String, dynamic> json) {
         : Flow.fromJson(json['flow'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$DeleteFlowRequestToJson(DeleteFlowRequest instance) =>
+    <String, dynamic>{};
 
 DeleteFlowResponse _$DeleteFlowResponseFromJson(Map<String, dynamic> json) {
   return DeleteFlowResponse(
@@ -282,6 +350,21 @@ Map<String, dynamic> _$GrantEntitlementRequestToJson(
   return val;
 }
 
+Map<String, dynamic> _$GrantFlowEntitlementsRequestToJson(
+    GrantFlowEntitlementsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'entitlements', instance.entitlements?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 GrantFlowEntitlementsResponse _$GrantFlowEntitlementsResponseFromJson(
     Map<String, dynamic> json) {
   return GrantFlowEntitlementsResponse(
@@ -379,6 +462,10 @@ Output _$OutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$RemoveFlowOutputRequestToJson(
+        RemoveFlowOutputRequest instance) =>
+    <String, dynamic>{};
+
 RemoveFlowOutputResponse _$RemoveFlowOutputResponseFromJson(
     Map<String, dynamic> json) {
   return RemoveFlowOutputResponse(
@@ -387,6 +474,10 @@ RemoveFlowOutputResponse _$RemoveFlowOutputResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$RemoveFlowSourceRequestToJson(
+        RemoveFlowSourceRequest instance) =>
+    <String, dynamic>{};
+
 RemoveFlowSourceResponse _$RemoveFlowSourceResponseFromJson(
     Map<String, dynamic> json) {
   return RemoveFlowSourceResponse(
@@ -394,6 +485,10 @@ RemoveFlowSourceResponse _$RemoveFlowSourceResponseFromJson(
     sourceArn: json['sourceArn'] as String,
   );
 }
+
+Map<String, dynamic> _$RemoveFlowVpcInterfaceRequestToJson(
+        RemoveFlowVpcInterfaceRequest instance) =>
+    <String, dynamic>{};
 
 RemoveFlowVpcInterfaceResponse _$RemoveFlowVpcInterfaceResponseFromJson(
     Map<String, dynamic> json) {
@@ -406,6 +501,10 @@ RemoveFlowVpcInterfaceResponse _$RemoveFlowVpcInterfaceResponseFromJson(
     vpcInterfaceName: json['vpcInterfaceName'] as String,
   );
 }
+
+Map<String, dynamic> _$RevokeFlowEntitlementRequestToJson(
+        RevokeFlowEntitlementRequest instance) =>
+    <String, dynamic>{};
 
 RevokeFlowEntitlementResponse _$RevokeFlowEntitlementResponseFromJson(
     Map<String, dynamic> json) {
@@ -459,6 +558,9 @@ Source _$SourceFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$StartFlowRequestToJson(StartFlowRequest instance) =>
+    <String, dynamic>{};
+
 StartFlowResponse _$StartFlowResponseFromJson(Map<String, dynamic> json) {
   return StartFlowResponse(
     flowArn: json['flowArn'] as String,
@@ -466,11 +568,27 @@ StartFlowResponse _$StartFlowResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$StopFlowRequestToJson(StopFlowRequest instance) =>
+    <String, dynamic>{};
+
 StopFlowResponse _$StopFlowResponseFromJson(Map<String, dynamic> json) {
   return StopFlowResponse(
     flowArn: json['flowArn'] as String,
     status: _$enumDecodeNullable(_$StatusEnumMap, json['status']),
   );
+}
+
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('tags', instance.tags);
+  return val;
 }
 
 Transport _$TransportFromJson(Map<String, dynamic> json) {
@@ -485,6 +603,10 @@ Transport _$TransportFromJson(Map<String, dynamic> json) {
     streamId: json['streamId'] as String,
   );
 }
+
+Map<String, dynamic> _$UntagResourceRequestToJson(
+        UntagResourceRequest instance) =>
+    <String, dynamic>{};
 
 Map<String, dynamic> _$UpdateEncryptionToJson(UpdateEncryption instance) {
   final val = <String, dynamic>{};
@@ -523,6 +645,22 @@ Map<String, dynamic> _$UpdateFailoverConfigToJson(
   return val;
 }
 
+Map<String, dynamic> _$UpdateFlowEntitlementRequestToJson(
+    UpdateFlowEntitlementRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('description', instance.description);
+  writeNotNull('encryption', instance.encryption?.toJson());
+  writeNotNull('subscribers', instance.subscribers);
+  return val;
+}
+
 UpdateFlowEntitlementResponse _$UpdateFlowEntitlementResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateFlowEntitlementResponse(
@@ -531,6 +669,31 @@ UpdateFlowEntitlementResponse _$UpdateFlowEntitlementResponseFromJson(
         : Entitlement.fromJson(json['entitlement'] as Map<String, dynamic>),
     flowArn: json['flowArn'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateFlowOutputRequestToJson(
+    UpdateFlowOutputRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('cidrAllowList', instance.cidrAllowList);
+  writeNotNull('description', instance.description);
+  writeNotNull('destination', instance.destination);
+  writeNotNull('encryption', instance.encryption?.toJson());
+  writeNotNull('maxLatency', instance.maxLatency);
+  writeNotNull('port', instance.port);
+  writeNotNull('protocol', _$ProtocolEnumMap[instance.protocol]);
+  writeNotNull('remoteId', instance.remoteId);
+  writeNotNull('smoothingLatency', instance.smoothingLatency);
+  writeNotNull('streamId', instance.streamId);
+  writeNotNull(
+      'vpcInterfaceAttachment', instance.vpcInterfaceAttachment?.toJson());
+  return val;
 }
 
 UpdateFlowOutputResponse _$UpdateFlowOutputResponseFromJson(
@@ -543,12 +706,48 @@ UpdateFlowOutputResponse _$UpdateFlowOutputResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateFlowRequestToJson(UpdateFlowRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('sourceFailoverConfig', instance.sourceFailoverConfig?.toJson());
+  return val;
+}
+
 UpdateFlowResponse _$UpdateFlowResponseFromJson(Map<String, dynamic> json) {
   return UpdateFlowResponse(
     flow: json['flow'] == null
         ? null
         : Flow.fromJson(json['flow'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateFlowSourceRequestToJson(
+    UpdateFlowSourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('decryption', instance.decryption?.toJson());
+  writeNotNull('description', instance.description);
+  writeNotNull('entitlementArn', instance.entitlementArn);
+  writeNotNull('ingestPort', instance.ingestPort);
+  writeNotNull('maxBitrate', instance.maxBitrate);
+  writeNotNull('maxLatency', instance.maxLatency);
+  writeNotNull('protocol', _$ProtocolEnumMap[instance.protocol]);
+  writeNotNull('streamId', instance.streamId);
+  writeNotNull('vpcInterfaceName', instance.vpcInterfaceName);
+  writeNotNull('whitelistCidr', instance.whitelistCidr);
+  return val;
 }
 
 UpdateFlowSourceResponse _$UpdateFlowSourceResponseFromJson(

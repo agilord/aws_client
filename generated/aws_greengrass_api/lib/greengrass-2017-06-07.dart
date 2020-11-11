@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -64,9 +63,10 @@ class Greengrass {
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
     ArgumentError.checkNotNull(roleArn, 'roleArn');
-    final $payload = <String, dynamic>{
-      'RoleArn': roleArn,
-    };
+    final $payload = AssociateRoleToGroupRequest(
+      groupId: groupId,
+      roleArn: roleArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -91,9 +91,9 @@ class Greengrass {
     @_s.required String roleArn,
   }) async {
     ArgumentError.checkNotNull(roleArn, 'roleArn');
-    final $payload = <String, dynamic>{
-      'RoleArn': roleArn,
-    };
+    final $payload = AssociateServiceRoleToAccountRequest(
+      roleArn: roleArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -128,11 +128,12 @@ class Greengrass {
   }) async {
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    final $payload = <String, dynamic>{
-      if (initialVersion != null) 'InitialVersion': initialVersion,
-      if (name != null) 'Name': name,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateConnectorDefinitionRequest(
+      amznClientToken: amznClientToken,
+      initialVersion: initialVersion,
+      name: name,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -166,9 +167,11 @@ class Greengrass {
     ArgumentError.checkNotNull(connectorDefinitionId, 'connectorDefinitionId');
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    final $payload = <String, dynamic>{
-      if (connectors != null) 'Connectors': connectors,
-    };
+    final $payload = CreateConnectorDefinitionVersionRequest(
+      connectorDefinitionId: connectorDefinitionId,
+      amznClientToken: amznClientToken,
+      connectors: connectors,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -205,11 +208,12 @@ class Greengrass {
   }) async {
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    final $payload = <String, dynamic>{
-      if (initialVersion != null) 'InitialVersion': initialVersion,
-      if (name != null) 'Name': name,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateCoreDefinitionRequest(
+      amznClientToken: amznClientToken,
+      initialVersion: initialVersion,
+      name: name,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -241,9 +245,11 @@ class Greengrass {
     ArgumentError.checkNotNull(coreDefinitionId, 'coreDefinitionId');
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    final $payload = <String, dynamic>{
-      if (cores != null) 'Cores': cores,
-    };
+    final $payload = CreateCoreDefinitionVersionRequest(
+      coreDefinitionId: coreDefinitionId,
+      amznClientToken: amznClientToken,
+      cores: cores,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -286,11 +292,13 @@ class Greengrass {
     ArgumentError.checkNotNull(groupId, 'groupId');
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    final $payload = <String, dynamic>{
-      'DeploymentType': deploymentType?.toValue(),
-      if (deploymentId != null) 'DeploymentId': deploymentId,
-      if (groupVersionId != null) 'GroupVersionId': groupVersionId,
-    };
+    final $payload = CreateDeploymentRequest(
+      deploymentType: deploymentType,
+      groupId: groupId,
+      amznClientToken: amznClientToken,
+      deploymentId: deploymentId,
+      groupVersionId: groupVersionId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -327,11 +335,12 @@ class Greengrass {
   }) async {
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    final $payload = <String, dynamic>{
-      if (initialVersion != null) 'InitialVersion': initialVersion,
-      if (name != null) 'Name': name,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateDeviceDefinitionRequest(
+      amznClientToken: amznClientToken,
+      initialVersion: initialVersion,
+      name: name,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -362,9 +371,11 @@ class Greengrass {
     ArgumentError.checkNotNull(deviceDefinitionId, 'deviceDefinitionId');
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    final $payload = <String, dynamic>{
-      if (devices != null) 'Devices': devices,
-    };
+    final $payload = CreateDeviceDefinitionVersionRequest(
+      deviceDefinitionId: deviceDefinitionId,
+      amznClientToken: amznClientToken,
+      devices: devices,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -403,11 +414,12 @@ class Greengrass {
   }) async {
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    final $payload = <String, dynamic>{
-      if (initialVersion != null) 'InitialVersion': initialVersion,
-      if (name != null) 'Name': name,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateFunctionDefinitionRequest(
+      amznClientToken: amznClientToken,
+      initialVersion: initialVersion,
+      name: name,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -446,10 +458,12 @@ class Greengrass {
     ArgumentError.checkNotNull(functionDefinitionId, 'functionDefinitionId');
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    final $payload = <String, dynamic>{
-      if (defaultConfig != null) 'DefaultConfig': defaultConfig,
-      if (functions != null) 'Functions': functions,
-    };
+    final $payload = CreateFunctionDefinitionVersionRequest(
+      functionDefinitionId: functionDefinitionId,
+      amznClientToken: amznClientToken,
+      defaultConfig: defaultConfig,
+      functions: functions,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -488,11 +502,12 @@ class Greengrass {
   }) async {
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    final $payload = <String, dynamic>{
-      if (initialVersion != null) 'InitialVersion': initialVersion,
-      if (name != null) 'Name': name,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateGroupRequest(
+      amznClientToken: amznClientToken,
+      initialVersion: initialVersion,
+      name: name,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -522,7 +537,10 @@ class Greengrass {
     ArgumentError.checkNotNull(groupId, 'groupId');
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    final $payload = <String, dynamic>{};
+    final $payload = CreateGroupCertificateAuthorityRequest(
+      groupId: groupId,
+      amznClientToken: amznClientToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -578,22 +596,17 @@ class Greengrass {
     ArgumentError.checkNotNull(groupId, 'groupId');
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    final $payload = <String, dynamic>{
-      if (connectorDefinitionVersionArn != null)
-        'ConnectorDefinitionVersionArn': connectorDefinitionVersionArn,
-      if (coreDefinitionVersionArn != null)
-        'CoreDefinitionVersionArn': coreDefinitionVersionArn,
-      if (deviceDefinitionVersionArn != null)
-        'DeviceDefinitionVersionArn': deviceDefinitionVersionArn,
-      if (functionDefinitionVersionArn != null)
-        'FunctionDefinitionVersionArn': functionDefinitionVersionArn,
-      if (loggerDefinitionVersionArn != null)
-        'LoggerDefinitionVersionArn': loggerDefinitionVersionArn,
-      if (resourceDefinitionVersionArn != null)
-        'ResourceDefinitionVersionArn': resourceDefinitionVersionArn,
-      if (subscriptionDefinitionVersionArn != null)
-        'SubscriptionDefinitionVersionArn': subscriptionDefinitionVersionArn,
-    };
+    final $payload = CreateGroupVersionRequest(
+      groupId: groupId,
+      amznClientToken: amznClientToken,
+      connectorDefinitionVersionArn: connectorDefinitionVersionArn,
+      coreDefinitionVersionArn: coreDefinitionVersionArn,
+      deviceDefinitionVersionArn: deviceDefinitionVersionArn,
+      functionDefinitionVersionArn: functionDefinitionVersionArn,
+      loggerDefinitionVersionArn: loggerDefinitionVersionArn,
+      resourceDefinitionVersionArn: resourceDefinitionVersionArn,
+      subscriptionDefinitionVersionArn: subscriptionDefinitionVersionArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -630,11 +643,12 @@ class Greengrass {
   }) async {
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    final $payload = <String, dynamic>{
-      if (initialVersion != null) 'InitialVersion': initialVersion,
-      if (name != null) 'Name': name,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateLoggerDefinitionRequest(
+      amznClientToken: amznClientToken,
+      initialVersion: initialVersion,
+      name: name,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -665,9 +679,11 @@ class Greengrass {
     ArgumentError.checkNotNull(loggerDefinitionId, 'loggerDefinitionId');
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    final $payload = <String, dynamic>{
-      if (loggers != null) 'Loggers': loggers,
-    };
+    final $payload = CreateLoggerDefinitionVersionRequest(
+      loggerDefinitionId: loggerDefinitionId,
+      amznClientToken: amznClientToken,
+      loggers: loggers,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -705,11 +721,12 @@ class Greengrass {
   }) async {
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    final $payload = <String, dynamic>{
-      if (initialVersion != null) 'InitialVersion': initialVersion,
-      if (name != null) 'Name': name,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateResourceDefinitionRequest(
+      amznClientToken: amznClientToken,
+      initialVersion: initialVersion,
+      name: name,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -741,9 +758,11 @@ class Greengrass {
     ArgumentError.checkNotNull(resourceDefinitionId, 'resourceDefinitionId');
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    final $payload = <String, dynamic>{
-      if (resources != null) 'Resources': resources,
-    };
+    final $payload = CreateResourceDefinitionVersionRequest(
+      resourceDefinitionId: resourceDefinitionId,
+      amznClientToken: amznClientToken,
+      resources: resources,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -784,15 +803,15 @@ class Greengrass {
         updateTargetsOperatingSystem, 'updateTargetsOperatingSystem');
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    final $payload = <String, dynamic>{
-      'S3UrlSignerRole': s3UrlSignerRole,
-      'SoftwareToUpdate': softwareToUpdate?.toValue(),
-      'UpdateTargets': updateTargets,
-      'UpdateTargetsArchitecture': updateTargetsArchitecture?.toValue(),
-      'UpdateTargetsOperatingSystem': updateTargetsOperatingSystem?.toValue(),
-      if (updateAgentLogLevel != null)
-        'UpdateAgentLogLevel': updateAgentLogLevel?.toValue(),
-    };
+    final $payload = CreateSoftwareUpdateJobRequest(
+      s3UrlSignerRole: s3UrlSignerRole,
+      softwareToUpdate: softwareToUpdate,
+      updateTargets: updateTargets,
+      updateTargetsArchitecture: updateTargetsArchitecture,
+      updateTargetsOperatingSystem: updateTargetsOperatingSystem,
+      amznClientToken: amznClientToken,
+      updateAgentLogLevel: updateAgentLogLevel,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -828,11 +847,12 @@ class Greengrass {
   }) async {
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    final $payload = <String, dynamic>{
-      if (initialVersion != null) 'InitialVersion': initialVersion,
-      if (name != null) 'Name': name,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateSubscriptionDefinitionRequest(
+      amznClientToken: amznClientToken,
+      initialVersion: initialVersion,
+      name: name,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -866,9 +886,11 @@ class Greengrass {
         subscriptionDefinitionId, 'subscriptionDefinitionId');
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    final $payload = <String, dynamic>{
-      if (subscriptions != null) 'Subscriptions': subscriptions,
-    };
+    final $payload = CreateSubscriptionDefinitionVersionRequest(
+      subscriptionDefinitionId: subscriptionDefinitionId,
+      amznClientToken: amznClientToken,
+      subscriptions: subscriptions,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -890,7 +912,9 @@ class Greengrass {
     @_s.required String connectorDefinitionId,
   }) async {
     ArgumentError.checkNotNull(connectorDefinitionId, 'connectorDefinitionId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteConnectorDefinitionRequest(
+      connectorDefinitionId: connectorDefinitionId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -911,7 +935,9 @@ class Greengrass {
     @_s.required String coreDefinitionId,
   }) async {
     ArgumentError.checkNotNull(coreDefinitionId, 'coreDefinitionId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteCoreDefinitionRequest(
+      coreDefinitionId: coreDefinitionId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -932,7 +958,9 @@ class Greengrass {
     @_s.required String deviceDefinitionId,
   }) async {
     ArgumentError.checkNotNull(deviceDefinitionId, 'deviceDefinitionId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteDeviceDefinitionRequest(
+      deviceDefinitionId: deviceDefinitionId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -953,7 +981,9 @@ class Greengrass {
     @_s.required String functionDefinitionId,
   }) async {
     ArgumentError.checkNotNull(functionDefinitionId, 'functionDefinitionId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteFunctionDefinitionRequest(
+      functionDefinitionId: functionDefinitionId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -974,7 +1004,9 @@ class Greengrass {
     @_s.required String groupId,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteGroupRequest(
+      groupId: groupId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -995,7 +1027,9 @@ class Greengrass {
     @_s.required String loggerDefinitionId,
   }) async {
     ArgumentError.checkNotNull(loggerDefinitionId, 'loggerDefinitionId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteLoggerDefinitionRequest(
+      loggerDefinitionId: loggerDefinitionId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1016,7 +1050,9 @@ class Greengrass {
     @_s.required String resourceDefinitionId,
   }) async {
     ArgumentError.checkNotNull(resourceDefinitionId, 'resourceDefinitionId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteResourceDefinitionRequest(
+      resourceDefinitionId: resourceDefinitionId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1038,7 +1074,9 @@ class Greengrass {
   }) async {
     ArgumentError.checkNotNull(
         subscriptionDefinitionId, 'subscriptionDefinitionId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteSubscriptionDefinitionRequest(
+      subscriptionDefinitionId: subscriptionDefinitionId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1060,7 +1098,9 @@ class Greengrass {
     @_s.required String groupId,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
-    final $payload = <String, dynamic>{};
+    final $payload = DisassociateRoleFromGroupRequest(
+      groupId: groupId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -2346,9 +2386,11 @@ class Greengrass {
     ArgumentError.checkNotNull(groupId, 'groupId');
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    final $payload = <String, dynamic>{
-      if (force != null) 'Force': force,
-    };
+    final $payload = ResetDeploymentsRequest(
+      groupId: groupId,
+      amznClientToken: amznClientToken,
+      force: force,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -2398,11 +2440,12 @@ class Greengrass {
     ArgumentError.checkNotNull(inputFileUri, 'inputFileUri');
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
-    final $payload = <String, dynamic>{
-      'ExecutionRoleArn': executionRoleArn,
-      'InputFileUri': inputFileUri,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = StartBulkDeploymentRequest(
+      executionRoleArn: executionRoleArn,
+      inputFileUri: inputFileUri,
+      amznClientToken: amznClientToken,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -2427,7 +2470,9 @@ class Greengrass {
     @_s.required String bulkDeploymentId,
   }) async {
     ArgumentError.checkNotNull(bulkDeploymentId, 'bulkDeploymentId');
-    final $payload = <String, dynamic>{};
+    final $payload = StopBulkDeploymentRequest(
+      bulkDeploymentId: bulkDeploymentId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -2452,9 +2497,10 @@ class Greengrass {
     Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    final $payload = <String, dynamic>{
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = TagResourceRequest(
+      resourceArn: resourceArn,
+      tags: tags,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2482,7 +2528,10 @@ class Greengrass {
     _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = UntagResourceRequest(
+      resourceArn: resourceArn,
+      tagKeys: tagKeys,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -2508,9 +2557,10 @@ class Greengrass {
     List<ConnectivityInfo> connectivityInfo,
   }) async {
     ArgumentError.checkNotNull(thingName, 'thingName');
-    final $payload = <String, dynamic>{
-      if (connectivityInfo != null) 'ConnectivityInfo': connectivityInfo,
-    };
+    final $payload = UpdateConnectivityInfoRequest(
+      thingName: thingName,
+      connectivityInfo: connectivityInfo,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -2535,9 +2585,10 @@ class Greengrass {
     String name,
   }) async {
     ArgumentError.checkNotNull(connectorDefinitionId, 'connectorDefinitionId');
-    final $payload = <String, dynamic>{
-      if (name != null) 'Name': name,
-    };
+    final $payload = UpdateConnectorDefinitionRequest(
+      connectorDefinitionId: connectorDefinitionId,
+      name: name,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -2562,9 +2613,10 @@ class Greengrass {
     String name,
   }) async {
     ArgumentError.checkNotNull(coreDefinitionId, 'coreDefinitionId');
-    final $payload = <String, dynamic>{
-      if (name != null) 'Name': name,
-    };
+    final $payload = UpdateCoreDefinitionRequest(
+      coreDefinitionId: coreDefinitionId,
+      name: name,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -2589,9 +2641,10 @@ class Greengrass {
     String name,
   }) async {
     ArgumentError.checkNotNull(deviceDefinitionId, 'deviceDefinitionId');
-    final $payload = <String, dynamic>{
-      if (name != null) 'Name': name,
-    };
+    final $payload = UpdateDeviceDefinitionRequest(
+      deviceDefinitionId: deviceDefinitionId,
+      name: name,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -2616,9 +2669,10 @@ class Greengrass {
     String name,
   }) async {
     ArgumentError.checkNotNull(functionDefinitionId, 'functionDefinitionId');
-    final $payload = <String, dynamic>{
-      if (name != null) 'Name': name,
-    };
+    final $payload = UpdateFunctionDefinitionRequest(
+      functionDefinitionId: functionDefinitionId,
+      name: name,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -2643,9 +2697,10 @@ class Greengrass {
     String name,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
-    final $payload = <String, dynamic>{
-      if (name != null) 'Name': name,
-    };
+    final $payload = UpdateGroupRequest(
+      groupId: groupId,
+      name: name,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -2673,10 +2728,10 @@ class Greengrass {
     String certificateExpiryInMilliseconds,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
-    final $payload = <String, dynamic>{
-      if (certificateExpiryInMilliseconds != null)
-        'CertificateExpiryInMilliseconds': certificateExpiryInMilliseconds,
-    };
+    final $payload = UpdateGroupCertificateConfigurationRequest(
+      groupId: groupId,
+      certificateExpiryInMilliseconds: certificateExpiryInMilliseconds,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -2701,9 +2756,10 @@ class Greengrass {
     String name,
   }) async {
     ArgumentError.checkNotNull(loggerDefinitionId, 'loggerDefinitionId');
-    final $payload = <String, dynamic>{
-      if (name != null) 'Name': name,
-    };
+    final $payload = UpdateLoggerDefinitionRequest(
+      loggerDefinitionId: loggerDefinitionId,
+      name: name,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -2728,9 +2784,10 @@ class Greengrass {
     String name,
   }) async {
     ArgumentError.checkNotNull(resourceDefinitionId, 'resourceDefinitionId');
-    final $payload = <String, dynamic>{
-      if (name != null) 'Name': name,
-    };
+    final $payload = UpdateResourceDefinitionRequest(
+      resourceDefinitionId: resourceDefinitionId,
+      name: name,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -2756,9 +2813,10 @@ class Greengrass {
   }) async {
     ArgumentError.checkNotNull(
         subscriptionDefinitionId, 'subscriptionDefinitionId');
-    final $payload = <String, dynamic>{
-      if (name != null) 'Name': name,
-    };
+    final $payload = UpdateSubscriptionDefinitionRequest(
+      subscriptionDefinitionId: subscriptionDefinitionId,
+      name: name,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -2768,6 +2826,28 @@ class Greengrass {
     );
     return UpdateSubscriptionDefinitionResponse.fromJson(response);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateRoleToGroupRequest {
+  /// The ID of the Greengrass group.
+  @_s.JsonKey(name: 'GroupId', ignore: true)
+  final String groupId;
+
+  /// The ARN of the role you wish to associate with this group. The existence of
+  /// the role is not validated.
+  @_s.JsonKey(name: 'RoleArn')
+  final String roleArn;
+
+  AssociateRoleToGroupRequest({
+    @_s.required this.groupId,
+    @_s.required this.roleArn,
+  });
+  Map<String, dynamic> toJson() => _$AssociateRoleToGroupRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2786,6 +2866,23 @@ class AssociateRoleToGroupResponse {
   });
   factory AssociateRoleToGroupResponse.fromJson(Map<String, dynamic> json) =>
       _$AssociateRoleToGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateServiceRoleToAccountRequest {
+  /// The ARN of the service role you wish to associate with your account.
+  @_s.JsonKey(name: 'RoleArn')
+  final String roleArn;
+
+  AssociateServiceRoleToAccountRequest({
+    @_s.required this.roleArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AssociateServiceRoleToAccountRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3091,6 +3188,38 @@ class CoreDefinitionVersion {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateConnectorDefinitionRequest {
+  /// A client token used to correlate requests and responses.
+  @_s.JsonKey(name: 'X-Amzn-Client-Token', ignore: true)
+  final String amznClientToken;
+
+  /// Information about the initial version of the connector definition.
+  @_s.JsonKey(name: 'InitialVersion')
+  final ConnectorDefinitionVersion initialVersion;
+
+  /// The name of the connector definition.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Tag(s) to add to the new resource.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateConnectorDefinitionRequest({
+    this.amznClientToken,
+    this.initialVersion,
+    this.name,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateConnectorDefinitionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateConnectorDefinitionResponse {
@@ -3140,6 +3269,34 @@ class CreateConnectorDefinitionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateConnectorDefinitionVersionRequest {
+  /// The ID of the connector definition.
+  @_s.JsonKey(name: 'ConnectorDefinitionId', ignore: true)
+  final String connectorDefinitionId;
+
+  /// A client token used to correlate requests and responses.
+  @_s.JsonKey(name: 'X-Amzn-Client-Token', ignore: true)
+  final String amznClientToken;
+
+  /// A list of references to connectors in this version, with their corresponding
+  /// configuration settings.
+  @_s.JsonKey(name: 'Connectors')
+  final List<Connector> connectors;
+
+  CreateConnectorDefinitionVersionRequest({
+    @_s.required this.connectorDefinitionId,
+    this.amznClientToken,
+    this.connectors,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateConnectorDefinitionVersionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateConnectorDefinitionVersionResponse {
@@ -3168,6 +3325,38 @@ class CreateConnectorDefinitionVersionResponse {
   factory CreateConnectorDefinitionVersionResponse.fromJson(
           Map<String, dynamic> json) =>
       _$CreateConnectorDefinitionVersionResponseFromJson(json);
+}
+
+/// Information needed to create a core definition.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateCoreDefinitionRequest {
+  /// A client token used to correlate requests and responses.
+  @_s.JsonKey(name: 'X-Amzn-Client-Token', ignore: true)
+  final String amznClientToken;
+
+  /// Information about the initial version of the core definition.
+  @_s.JsonKey(name: 'InitialVersion')
+  final CoreDefinitionVersion initialVersion;
+
+  /// The name of the core definition.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Tag(s) to add to the new resource.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateCoreDefinitionRequest({
+    this.amznClientToken,
+    this.initialVersion,
+    this.name,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateCoreDefinitionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3221,6 +3410,33 @@ class CreateCoreDefinitionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateCoreDefinitionVersionRequest {
+  /// The ID of the core definition.
+  @_s.JsonKey(name: 'CoreDefinitionId', ignore: true)
+  final String coreDefinitionId;
+
+  /// A client token used to correlate requests and responses.
+  @_s.JsonKey(name: 'X-Amzn-Client-Token', ignore: true)
+  final String amznClientToken;
+
+  /// A list of cores in the core definition version.
+  @_s.JsonKey(name: 'Cores')
+  final List<Core> cores;
+
+  CreateCoreDefinitionVersionRequest({
+    @_s.required this.coreDefinitionId,
+    this.amznClientToken,
+    this.cores,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateCoreDefinitionVersionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateCoreDefinitionVersionResponse {
@@ -3254,6 +3470,43 @@ class CreateCoreDefinitionVersionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDeploymentRequest {
+  /// The type of deployment. When used for ''CreateDeployment'', only
+  /// ''NewDeployment'' and ''Redeployment'' are valid.
+  @_s.JsonKey(name: 'DeploymentType')
+  final DeploymentType deploymentType;
+
+  /// The ID of the Greengrass group.
+  @_s.JsonKey(name: 'GroupId', ignore: true)
+  final String groupId;
+
+  /// A client token used to correlate requests and responses.
+  @_s.JsonKey(name: 'X-Amzn-Client-Token', ignore: true)
+  final String amznClientToken;
+
+  /// The ID of the deployment if you wish to redeploy a previous deployment.
+  @_s.JsonKey(name: 'DeploymentId')
+  final String deploymentId;
+
+  /// The ID of the group version to be deployed.
+  @_s.JsonKey(name: 'GroupVersionId')
+  final String groupVersionId;
+
+  CreateDeploymentRequest({
+    @_s.required this.deploymentType,
+    @_s.required this.groupId,
+    this.amznClientToken,
+    this.deploymentId,
+    this.groupVersionId,
+  });
+  Map<String, dynamic> toJson() => _$CreateDeploymentRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateDeploymentResponse {
@@ -3271,6 +3524,37 @@ class CreateDeploymentResponse {
   });
   factory CreateDeploymentResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateDeploymentResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDeviceDefinitionRequest {
+  /// A client token used to correlate requests and responses.
+  @_s.JsonKey(name: 'X-Amzn-Client-Token', ignore: true)
+  final String amznClientToken;
+
+  /// Information about the initial version of the device definition.
+  @_s.JsonKey(name: 'InitialVersion')
+  final DeviceDefinitionVersion initialVersion;
+
+  /// The name of the device definition.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Tag(s) to add to the new resource.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateDeviceDefinitionRequest({
+    this.amznClientToken,
+    this.initialVersion,
+    this.name,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateDeviceDefinitionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3324,6 +3608,33 @@ class CreateDeviceDefinitionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDeviceDefinitionVersionRequest {
+  /// The ID of the device definition.
+  @_s.JsonKey(name: 'DeviceDefinitionId', ignore: true)
+  final String deviceDefinitionId;
+
+  /// A client token used to correlate requests and responses.
+  @_s.JsonKey(name: 'X-Amzn-Client-Token', ignore: true)
+  final String amznClientToken;
+
+  /// A list of devices in the definition version.
+  @_s.JsonKey(name: 'Devices')
+  final List<Device> devices;
+
+  CreateDeviceDefinitionVersionRequest({
+    @_s.required this.deviceDefinitionId,
+    this.amznClientToken,
+    this.devices,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateDeviceDefinitionVersionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateDeviceDefinitionVersionResponse {
@@ -3352,6 +3663,38 @@ class CreateDeviceDefinitionVersionResponse {
   factory CreateDeviceDefinitionVersionResponse.fromJson(
           Map<String, dynamic> json) =>
       _$CreateDeviceDefinitionVersionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateFunctionDefinitionRequest {
+  /// A client token used to correlate requests and responses.
+  @_s.JsonKey(name: 'X-Amzn-Client-Token', ignore: true)
+  final String amznClientToken;
+
+  /// Information about the initial version of the function definition.
+  @_s.JsonKey(name: 'InitialVersion')
+  final FunctionDefinitionVersion initialVersion;
+
+  /// The name of the function definition.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Tag(s) to add to the new resource.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateFunctionDefinitionRequest({
+    this.amznClientToken,
+    this.initialVersion,
+    this.name,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateFunctionDefinitionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3403,6 +3746,41 @@ class CreateFunctionDefinitionResponse {
       _$CreateFunctionDefinitionResponseFromJson(json);
 }
 
+/// Information needed to create a function definition version.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateFunctionDefinitionVersionRequest {
+  /// The ID of the Lambda function definition.
+  @_s.JsonKey(name: 'FunctionDefinitionId', ignore: true)
+  final String functionDefinitionId;
+
+  /// A client token used to correlate requests and responses.
+  @_s.JsonKey(name: 'X-Amzn-Client-Token', ignore: true)
+  final String amznClientToken;
+
+  /// The default configuration that applies to all Lambda functions in this
+  /// function definition version. Individual Lambda functions can override these
+  /// settings.
+  @_s.JsonKey(name: 'DefaultConfig')
+  final FunctionDefaultConfig defaultConfig;
+
+  /// A list of Lambda functions in this function definition version.
+  @_s.JsonKey(name: 'Functions')
+  final List<$Function> functions;
+
+  CreateFunctionDefinitionVersionRequest({
+    @_s.required this.functionDefinitionId,
+    this.amznClientToken,
+    this.defaultConfig,
+    this.functions,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateFunctionDefinitionVersionRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3439,6 +3817,28 @@ class CreateFunctionDefinitionVersionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateGroupCertificateAuthorityRequest {
+  /// The ID of the Greengrass group.
+  @_s.JsonKey(name: 'GroupId', ignore: true)
+  final String groupId;
+
+  /// A client token used to correlate requests and responses.
+  @_s.JsonKey(name: 'X-Amzn-Client-Token', ignore: true)
+  final String amznClientToken;
+
+  CreateGroupCertificateAuthorityRequest({
+    @_s.required this.groupId,
+    this.amznClientToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateGroupCertificateAuthorityRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateGroupCertificateAuthorityResponse {
@@ -3452,6 +3852,37 @@ class CreateGroupCertificateAuthorityResponse {
   factory CreateGroupCertificateAuthorityResponse.fromJson(
           Map<String, dynamic> json) =>
       _$CreateGroupCertificateAuthorityResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateGroupRequest {
+  /// A client token used to correlate requests and responses.
+  @_s.JsonKey(name: 'X-Amzn-Client-Token', ignore: true)
+  final String amznClientToken;
+
+  /// Information about the initial version of the group.
+  @_s.JsonKey(name: 'InitialVersion')
+  final GroupVersion initialVersion;
+
+  /// The name of the group.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Tag(s) to add to the new resource.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateGroupRequest({
+    this.amznClientToken,
+    this.initialVersion,
+    this.name,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateGroupRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3505,6 +3936,62 @@ class CreateGroupResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateGroupVersionRequest {
+  /// The ID of the Greengrass group.
+  @_s.JsonKey(name: 'GroupId', ignore: true)
+  final String groupId;
+
+  /// A client token used to correlate requests and responses.
+  @_s.JsonKey(name: 'X-Amzn-Client-Token', ignore: true)
+  final String amznClientToken;
+
+  /// The ARN of the connector definition version for this group.
+  @_s.JsonKey(name: 'ConnectorDefinitionVersionArn')
+  final String connectorDefinitionVersionArn;
+
+  /// The ARN of the core definition version for this group.
+  @_s.JsonKey(name: 'CoreDefinitionVersionArn')
+  final String coreDefinitionVersionArn;
+
+  /// The ARN of the device definition version for this group.
+  @_s.JsonKey(name: 'DeviceDefinitionVersionArn')
+  final String deviceDefinitionVersionArn;
+
+  /// The ARN of the function definition version for this group.
+  @_s.JsonKey(name: 'FunctionDefinitionVersionArn')
+  final String functionDefinitionVersionArn;
+
+  /// The ARN of the logger definition version for this group.
+  @_s.JsonKey(name: 'LoggerDefinitionVersionArn')
+  final String loggerDefinitionVersionArn;
+
+  /// The ARN of the resource definition version for this group.
+  @_s.JsonKey(name: 'ResourceDefinitionVersionArn')
+  final String resourceDefinitionVersionArn;
+
+  /// The ARN of the subscription definition version for this group.
+  @_s.JsonKey(name: 'SubscriptionDefinitionVersionArn')
+  final String subscriptionDefinitionVersionArn;
+
+  CreateGroupVersionRequest({
+    @_s.required this.groupId,
+    this.amznClientToken,
+    this.connectorDefinitionVersionArn,
+    this.coreDefinitionVersionArn,
+    this.deviceDefinitionVersionArn,
+    this.functionDefinitionVersionArn,
+    this.loggerDefinitionVersionArn,
+    this.resourceDefinitionVersionArn,
+    this.subscriptionDefinitionVersionArn,
+  });
+  Map<String, dynamic> toJson() => _$CreateGroupVersionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateGroupVersionResponse {
@@ -3532,6 +4019,37 @@ class CreateGroupVersionResponse {
   });
   factory CreateGroupVersionResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateGroupVersionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateLoggerDefinitionRequest {
+  /// A client token used to correlate requests and responses.
+  @_s.JsonKey(name: 'X-Amzn-Client-Token', ignore: true)
+  final String amznClientToken;
+
+  /// Information about the initial version of the logger definition.
+  @_s.JsonKey(name: 'InitialVersion')
+  final LoggerDefinitionVersion initialVersion;
+
+  /// The name of the logger definition.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Tag(s) to add to the new resource.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateLoggerDefinitionRequest({
+    this.amznClientToken,
+    this.initialVersion,
+    this.name,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateLoggerDefinitionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3585,6 +4103,33 @@ class CreateLoggerDefinitionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateLoggerDefinitionVersionRequest {
+  /// The ID of the logger definition.
+  @_s.JsonKey(name: 'LoggerDefinitionId', ignore: true)
+  final String loggerDefinitionId;
+
+  /// A client token used to correlate requests and responses.
+  @_s.JsonKey(name: 'X-Amzn-Client-Token', ignore: true)
+  final String amznClientToken;
+
+  /// A list of loggers.
+  @_s.JsonKey(name: 'Loggers')
+  final List<Logger> loggers;
+
+  CreateLoggerDefinitionVersionRequest({
+    @_s.required this.loggerDefinitionId,
+    this.amznClientToken,
+    this.loggers,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateLoggerDefinitionVersionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateLoggerDefinitionVersionResponse {
@@ -3613,6 +4158,38 @@ class CreateLoggerDefinitionVersionResponse {
   factory CreateLoggerDefinitionVersionResponse.fromJson(
           Map<String, dynamic> json) =>
       _$CreateLoggerDefinitionVersionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateResourceDefinitionRequest {
+  /// A client token used to correlate requests and responses.
+  @_s.JsonKey(name: 'X-Amzn-Client-Token', ignore: true)
+  final String amznClientToken;
+
+  /// Information about the initial version of the resource definition.
+  @_s.JsonKey(name: 'InitialVersion')
+  final ResourceDefinitionVersion initialVersion;
+
+  /// The name of the resource definition.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Tag(s) to add to the new resource.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateResourceDefinitionRequest({
+    this.amznClientToken,
+    this.initialVersion,
+    this.name,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateResourceDefinitionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3667,6 +4244,33 @@ class CreateResourceDefinitionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateResourceDefinitionVersionRequest {
+  /// The ID of the resource definition.
+  @_s.JsonKey(name: 'ResourceDefinitionId', ignore: true)
+  final String resourceDefinitionId;
+
+  /// A client token used to correlate requests and responses.
+  @_s.JsonKey(name: 'X-Amzn-Client-Token', ignore: true)
+  final String amznClientToken;
+
+  /// A list of resources.
+  @_s.JsonKey(name: 'Resources')
+  final List<Resource> resources;
+
+  CreateResourceDefinitionVersionRequest({
+    @_s.required this.resourceDefinitionId,
+    this.amznClientToken,
+    this.resources,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateResourceDefinitionVersionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateResourceDefinitionVersionResponse {
@@ -3700,6 +4304,41 @@ class CreateResourceDefinitionVersionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateSoftwareUpdateJobRequest {
+  @_s.JsonKey(name: 'S3UrlSignerRole')
+  final String s3UrlSignerRole;
+  @_s.JsonKey(name: 'SoftwareToUpdate')
+  final SoftwareToUpdate softwareToUpdate;
+  @_s.JsonKey(name: 'UpdateTargets')
+  final List<String> updateTargets;
+  @_s.JsonKey(name: 'UpdateTargetsArchitecture')
+  final UpdateTargetsArchitecture updateTargetsArchitecture;
+  @_s.JsonKey(name: 'UpdateTargetsOperatingSystem')
+  final UpdateTargetsOperatingSystem updateTargetsOperatingSystem;
+
+  /// A client token used to correlate requests and responses.
+  @_s.JsonKey(name: 'X-Amzn-Client-Token', ignore: true)
+  final String amznClientToken;
+  @_s.JsonKey(name: 'UpdateAgentLogLevel')
+  final UpdateAgentLogLevel updateAgentLogLevel;
+
+  CreateSoftwareUpdateJobRequest({
+    @_s.required this.s3UrlSignerRole,
+    @_s.required this.softwareToUpdate,
+    @_s.required this.updateTargets,
+    @_s.required this.updateTargetsArchitecture,
+    @_s.required this.updateTargetsOperatingSystem,
+    this.amznClientToken,
+    this.updateAgentLogLevel,
+  });
+  Map<String, dynamic> toJson() => _$CreateSoftwareUpdateJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateSoftwareUpdateJobResponse {
@@ -3722,6 +4361,38 @@ class CreateSoftwareUpdateJobResponse {
   });
   factory CreateSoftwareUpdateJobResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateSoftwareUpdateJobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateSubscriptionDefinitionRequest {
+  /// A client token used to correlate requests and responses.
+  @_s.JsonKey(name: 'X-Amzn-Client-Token', ignore: true)
+  final String amznClientToken;
+
+  /// Information about the initial version of the subscription definition.
+  @_s.JsonKey(name: 'InitialVersion')
+  final SubscriptionDefinitionVersion initialVersion;
+
+  /// The name of the subscription definition.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Tag(s) to add to the new resource.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateSubscriptionDefinitionRequest({
+    this.amznClientToken,
+    this.initialVersion,
+    this.name,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateSubscriptionDefinitionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3771,6 +4442,33 @@ class CreateSubscriptionDefinitionResponse {
   factory CreateSubscriptionDefinitionResponse.fromJson(
           Map<String, dynamic> json) =>
       _$CreateSubscriptionDefinitionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateSubscriptionDefinitionVersionRequest {
+  /// The ID of the subscription definition.
+  @_s.JsonKey(name: 'SubscriptionDefinitionId', ignore: true)
+  final String subscriptionDefinitionId;
+
+  /// A client token used to correlate requests and responses.
+  @_s.JsonKey(name: 'X-Amzn-Client-Token', ignore: true)
+  final String amznClientToken;
+
+  /// A list of subscriptions.
+  @_s.JsonKey(name: 'Subscriptions')
+  final List<Subscription> subscriptions;
+
+  CreateSubscriptionDefinitionVersionRequest({
+    @_s.required this.subscriptionDefinitionId,
+    this.amznClientToken,
+    this.subscriptions,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateSubscriptionDefinitionVersionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3863,6 +4561,23 @@ class DefinitionInformation {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteConnectorDefinitionRequest {
+  /// The ID of the connector definition.
+  @_s.JsonKey(name: 'ConnectorDefinitionId', ignore: true)
+  final String connectorDefinitionId;
+
+  DeleteConnectorDefinitionRequest({
+    @_s.required this.connectorDefinitionId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteConnectorDefinitionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteConnectorDefinitionResponse {
@@ -3870,6 +4585,22 @@ class DeleteConnectorDefinitionResponse {
   factory DeleteConnectorDefinitionResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DeleteConnectorDefinitionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteCoreDefinitionRequest {
+  /// The ID of the core definition.
+  @_s.JsonKey(name: 'CoreDefinitionId', ignore: true)
+  final String coreDefinitionId;
+
+  DeleteCoreDefinitionRequest({
+    @_s.required this.coreDefinitionId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteCoreDefinitionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3886,12 +4617,45 @@ class DeleteCoreDefinitionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDeviceDefinitionRequest {
+  /// The ID of the device definition.
+  @_s.JsonKey(name: 'DeviceDefinitionId', ignore: true)
+  final String deviceDefinitionId;
+
+  DeleteDeviceDefinitionRequest({
+    @_s.required this.deviceDefinitionId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDeviceDefinitionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteDeviceDefinitionResponse {
   DeleteDeviceDefinitionResponse();
   factory DeleteDeviceDefinitionResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteDeviceDefinitionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteFunctionDefinitionRequest {
+  /// The ID of the Lambda function definition.
+  @_s.JsonKey(name: 'FunctionDefinitionId', ignore: true)
+  final String functionDefinitionId;
+
+  DeleteFunctionDefinitionRequest({
+    @_s.required this.functionDefinitionId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteFunctionDefinitionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3909,12 +4673,44 @@ class DeleteFunctionDefinitionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteGroupRequest {
+  /// The ID of the Greengrass group.
+  @_s.JsonKey(name: 'GroupId', ignore: true)
+  final String groupId;
+
+  DeleteGroupRequest({
+    @_s.required this.groupId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteGroupResponse {
   DeleteGroupResponse();
   factory DeleteGroupResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteLoggerDefinitionRequest {
+  /// The ID of the logger definition.
+  @_s.JsonKey(name: 'LoggerDefinitionId', ignore: true)
+  final String loggerDefinitionId;
+
+  DeleteLoggerDefinitionRequest({
+    @_s.required this.loggerDefinitionId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteLoggerDefinitionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3931,6 +4727,23 @@ class DeleteLoggerDefinitionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteResourceDefinitionRequest {
+  /// The ID of the resource definition.
+  @_s.JsonKey(name: 'ResourceDefinitionId', ignore: true)
+  final String resourceDefinitionId;
+
+  DeleteResourceDefinitionRequest({
+    @_s.required this.resourceDefinitionId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteResourceDefinitionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteResourceDefinitionResponse {
@@ -3938,6 +4751,23 @@ class DeleteResourceDefinitionResponse {
   factory DeleteResourceDefinitionResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DeleteResourceDefinitionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteSubscriptionDefinitionRequest {
+  /// The ID of the subscription definition.
+  @_s.JsonKey(name: 'SubscriptionDefinitionId', ignore: true)
+  final String subscriptionDefinitionId;
+
+  DeleteSubscriptionDefinitionRequest({
+    @_s.required this.subscriptionDefinitionId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteSubscriptionDefinitionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4003,22 +4833,6 @@ enum DeploymentType {
   forceResetDeployment,
 }
 
-extension on DeploymentType {
-  String toValue() {
-    switch (this) {
-      case DeploymentType.newDeployment:
-        return 'NewDeployment';
-      case DeploymentType.redeployment:
-        return 'Redeployment';
-      case DeploymentType.resetDeployment:
-        return 'ResetDeployment';
-      case DeploymentType.forceResetDeployment:
-        return 'ForceResetDeployment';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Information about a device.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -4074,6 +4888,23 @@ class DeviceDefinitionVersion {
       _$DeviceDefinitionVersionFromJson(json);
 
   Map<String, dynamic> toJson() => _$DeviceDefinitionVersionToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateRoleFromGroupRequest {
+  /// The ID of the Greengrass group.
+  @_s.JsonKey(name: 'GroupId', ignore: true)
+  final String groupId;
+
+  DisassociateRoleFromGroupRequest({
+    @_s.required this.groupId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DisassociateRoleFromGroupRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6167,6 +6998,33 @@ enum Permission {
   rw,
 }
 
+/// Information needed to reset deployments.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ResetDeploymentsRequest {
+  /// The ID of the Greengrass group.
+  @_s.JsonKey(name: 'GroupId', ignore: true)
+  final String groupId;
+
+  /// A client token used to correlate requests and responses.
+  @_s.JsonKey(name: 'X-Amzn-Client-Token', ignore: true)
+  final String amznClientToken;
+
+  /// If true, performs a best-effort only core reset.
+  @_s.JsonKey(name: 'Force')
+  final bool force;
+
+  ResetDeploymentsRequest({
+    @_s.required this.groupId,
+    this.amznClientToken,
+    this.force,
+  });
+  Map<String, dynamic> toJson() => _$ResetDeploymentsRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -6447,16 +7305,43 @@ enum SoftwareToUpdate {
   otaAgent,
 }
 
-extension on SoftwareToUpdate {
-  String toValue() {
-    switch (this) {
-      case SoftwareToUpdate.core:
-        return 'core';
-      case SoftwareToUpdate.otaAgent:
-        return 'ota_agent';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartBulkDeploymentRequest {
+  /// The ARN of the execution role to associate with the bulk deployment
+  /// operation. This IAM role must allow the ''greengrass:CreateDeployment''
+  /// action for all group versions that are listed in the input file. This IAM
+  /// role must have access to the S3 bucket containing the input file.
+  @_s.JsonKey(name: 'ExecutionRoleArn')
+  final String executionRoleArn;
+
+  /// The URI of the input file contained in the S3 bucket. The execution role
+  /// must have ''getObject'' permissions on this bucket to access the input file.
+  /// The input file is a JSON-serialized, line delimited file with UTF-8 encoding
+  /// that provides a list of group and version IDs and the deployment type. This
+  /// file must be less than 100 MB. Currently, AWS IoT Greengrass supports only
+  /// ''NewDeployment'' deployment types.
+  @_s.JsonKey(name: 'InputFileUri')
+  final String inputFileUri;
+
+  /// A client token used to correlate requests and responses.
+  @_s.JsonKey(name: 'X-Amzn-Client-Token', ignore: true)
+  final String amznClientToken;
+
+  /// Tag(s) to add to the new resource.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  StartBulkDeploymentRequest({
+    @_s.required this.executionRoleArn,
+    @_s.required this.inputFileUri,
+    this.amznClientToken,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$StartBulkDeploymentRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6479,6 +7364,22 @@ class StartBulkDeploymentResponse {
   });
   factory StartBulkDeploymentResponse.fromJson(Map<String, dynamic> json) =>
       _$StartBulkDeploymentResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopBulkDeploymentRequest {
+  /// The ID of the bulk deployment.
+  @_s.JsonKey(name: 'BulkDeploymentId', ignore: true)
+  final String bulkDeploymentId;
+
+  StopBulkDeploymentRequest({
+    @_s.required this.bulkDeploymentId,
+  });
+  Map<String, dynamic> toJson() => _$StopBulkDeploymentRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6553,6 +7454,47 @@ class SubscriptionDefinitionVersion {
   Map<String, dynamic> toJson() => _$SubscriptionDefinitionVersionToJson(this);
 }
 
+/// A map of the key-value pairs for the resource tag.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource.
+  @_s.JsonKey(name: 'resource-arn', ignore: true)
+  final String resourceArn;
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource.
+  @_s.JsonKey(name: 'resource-arn', ignore: true)
+  final String resourceArn;
+
+  /// An array of tag keys to delete
+  @_s.JsonKey(name: 'tagKeys', ignore: true)
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
 /// The minimum level of log statements that should be logged by the OTA Agent
 /// during an update.
 enum UpdateAgentLogLevel {
@@ -6574,28 +7516,26 @@ enum UpdateAgentLogLevel {
   fatal,
 }
 
-extension on UpdateAgentLogLevel {
-  String toValue() {
-    switch (this) {
-      case UpdateAgentLogLevel.none:
-        return 'NONE';
-      case UpdateAgentLogLevel.trace:
-        return 'TRACE';
-      case UpdateAgentLogLevel.debug:
-        return 'DEBUG';
-      case UpdateAgentLogLevel.verbose:
-        return 'VERBOSE';
-      case UpdateAgentLogLevel.info:
-        return 'INFO';
-      case UpdateAgentLogLevel.warn:
-        return 'WARN';
-      case UpdateAgentLogLevel.error:
-        return 'ERROR';
-      case UpdateAgentLogLevel.fatal:
-        return 'FATAL';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+/// Connectivity information.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateConnectivityInfoRequest {
+  /// The thing name.
+  @_s.JsonKey(name: 'ThingName', ignore: true)
+  final String thingName;
+
+  /// A list of connectivity info.
+  @_s.JsonKey(name: 'ConnectivityInfo')
+  final List<ConnectivityInfo> connectivityInfo;
+
+  UpdateConnectivityInfoRequest({
+    @_s.required this.thingName,
+    this.connectivityInfo,
+  });
+  Map<String, dynamic> toJson() => _$UpdateConnectivityInfoRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6623,6 +7563,28 @@ class UpdateConnectivityInfoResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateConnectorDefinitionRequest {
+  /// The ID of the connector definition.
+  @_s.JsonKey(name: 'ConnectorDefinitionId', ignore: true)
+  final String connectorDefinitionId;
+
+  /// The name of the definition.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  UpdateConnectorDefinitionRequest({
+    @_s.required this.connectorDefinitionId,
+    this.name,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateConnectorDefinitionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateConnectorDefinitionResponse {
@@ -6630,6 +7592,27 @@ class UpdateConnectorDefinitionResponse {
   factory UpdateConnectorDefinitionResponse.fromJson(
           Map<String, dynamic> json) =>
       _$UpdateConnectorDefinitionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateCoreDefinitionRequest {
+  /// The ID of the core definition.
+  @_s.JsonKey(name: 'CoreDefinitionId', ignore: true)
+  final String coreDefinitionId;
+
+  /// The name of the definition.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  UpdateCoreDefinitionRequest({
+    @_s.required this.coreDefinitionId,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$UpdateCoreDefinitionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6646,12 +7629,55 @@ class UpdateCoreDefinitionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDeviceDefinitionRequest {
+  /// The ID of the device definition.
+  @_s.JsonKey(name: 'DeviceDefinitionId', ignore: true)
+  final String deviceDefinitionId;
+
+  /// The name of the definition.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  UpdateDeviceDefinitionRequest({
+    @_s.required this.deviceDefinitionId,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDeviceDefinitionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateDeviceDefinitionResponse {
   UpdateDeviceDefinitionResponse();
   factory UpdateDeviceDefinitionResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateDeviceDefinitionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateFunctionDefinitionRequest {
+  /// The ID of the Lambda function definition.
+  @_s.JsonKey(name: 'FunctionDefinitionId', ignore: true)
+  final String functionDefinitionId;
+
+  /// The name of the definition.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  UpdateFunctionDefinitionRequest({
+    @_s.required this.functionDefinitionId,
+    this.name,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateFunctionDefinitionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6664,6 +7690,29 @@ class UpdateFunctionDefinitionResponse {
   factory UpdateFunctionDefinitionResponse.fromJson(
           Map<String, dynamic> json) =>
       _$UpdateFunctionDefinitionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateGroupCertificateConfigurationRequest {
+  /// The ID of the Greengrass group.
+  @_s.JsonKey(name: 'GroupId', ignore: true)
+  final String groupId;
+
+  /// The amount of time remaining before the certificate expires, in
+  /// milliseconds.
+  @_s.JsonKey(name: 'CertificateExpiryInMilliseconds')
+  final String certificateExpiryInMilliseconds;
+
+  UpdateGroupCertificateConfigurationRequest({
+    @_s.required this.groupId,
+    this.certificateExpiryInMilliseconds,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateGroupCertificateConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6699,12 +7748,54 @@ class UpdateGroupCertificateConfigurationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateGroupRequest {
+  /// The ID of the Greengrass group.
+  @_s.JsonKey(name: 'GroupId', ignore: true)
+  final String groupId;
+
+  /// The name of the definition.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  UpdateGroupRequest({
+    @_s.required this.groupId,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$UpdateGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateGroupResponse {
   UpdateGroupResponse();
   factory UpdateGroupResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateLoggerDefinitionRequest {
+  /// The ID of the logger definition.
+  @_s.JsonKey(name: 'LoggerDefinitionId', ignore: true)
+  final String loggerDefinitionId;
+
+  /// The name of the definition.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  UpdateLoggerDefinitionRequest({
+    @_s.required this.loggerDefinitionId,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$UpdateLoggerDefinitionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6721,6 +7812,28 @@ class UpdateLoggerDefinitionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateResourceDefinitionRequest {
+  /// The ID of the resource definition.
+  @_s.JsonKey(name: 'ResourceDefinitionId', ignore: true)
+  final String resourceDefinitionId;
+
+  /// The name of the definition.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  UpdateResourceDefinitionRequest({
+    @_s.required this.resourceDefinitionId,
+    this.name,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateResourceDefinitionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateResourceDefinitionResponse {
@@ -6728,6 +7841,28 @@ class UpdateResourceDefinitionResponse {
   factory UpdateResourceDefinitionResponse.fromJson(
           Map<String, dynamic> json) =>
       _$UpdateResourceDefinitionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateSubscriptionDefinitionRequest {
+  /// The ID of the subscription definition.
+  @_s.JsonKey(name: 'SubscriptionDefinitionId', ignore: true)
+  final String subscriptionDefinitionId;
+
+  /// The name of the definition.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  UpdateSubscriptionDefinitionRequest({
+    @_s.required this.subscriptionDefinitionId,
+    this.name,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateSubscriptionDefinitionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6754,22 +7889,6 @@ enum UpdateTargetsArchitecture {
   aarch64,
 }
 
-extension on UpdateTargetsArchitecture {
-  String toValue() {
-    switch (this) {
-      case UpdateTargetsArchitecture.armv6l:
-        return 'armv6l';
-      case UpdateTargetsArchitecture.armv7l:
-        return 'armv7l';
-      case UpdateTargetsArchitecture.x86_64:
-        return 'x86_64';
-      case UpdateTargetsArchitecture.aarch64:
-        return 'aarch64';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// The operating system of the cores which are the targets of an update.
 enum UpdateTargetsOperatingSystem {
   @_s.JsonValue('ubuntu')
@@ -6780,22 +7899,6 @@ enum UpdateTargetsOperatingSystem {
   amazonLinux,
   @_s.JsonValue('openwrt')
   openwrt,
-}
-
-extension on UpdateTargetsOperatingSystem {
-  String toValue() {
-    switch (this) {
-      case UpdateTargetsOperatingSystem.ubuntu:
-        return 'ubuntu';
-      case UpdateTargetsOperatingSystem.raspbian:
-        return 'raspbian';
-      case UpdateTargetsOperatingSystem.amazonLinux:
-        return 'amazon_linux';
-      case UpdateTargetsOperatingSystem.openwrt:
-        return 'openwrt';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Information about a version.

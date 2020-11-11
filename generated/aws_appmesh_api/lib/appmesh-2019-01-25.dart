@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -120,12 +119,12 @@ class AppMesh {
       255,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'meshName': meshName,
-      if (clientToken != null) 'clientToken': clientToken,
-      if (spec != null) 'spec': spec,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateMeshInput(
+      meshName: meshName,
+      clientToken: clientToken,
+      spec: spec,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -244,12 +243,15 @@ class AppMesh {
     _query = '?${[
       if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{
-      'routeName': routeName,
-      'spec': spec,
-      if (clientToken != null) 'clientToken': clientToken,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateRouteInput(
+      meshName: meshName,
+      routeName: routeName,
+      spec: spec,
+      virtualRouterName: virtualRouterName,
+      clientToken: clientToken,
+      meshOwner: meshOwner,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -379,12 +381,14 @@ class AppMesh {
     _query = '?${[
       if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{
-      'spec': spec,
-      'virtualNodeName': virtualNodeName,
-      if (clientToken != null) 'clientToken': clientToken,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateVirtualNodeInput(
+      meshName: meshName,
+      spec: spec,
+      virtualNodeName: virtualNodeName,
+      clientToken: clientToken,
+      meshOwner: meshOwner,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -491,12 +495,14 @@ class AppMesh {
     _query = '?${[
       if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{
-      'spec': spec,
-      'virtualRouterName': virtualRouterName,
-      if (clientToken != null) 'clientToken': clientToken,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateVirtualRouterInput(
+      meshName: meshName,
+      spec: spec,
+      virtualRouterName: virtualRouterName,
+      clientToken: clientToken,
+      meshOwner: meshOwner,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -594,12 +600,14 @@ class AppMesh {
     _query = '?${[
       if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{
-      'spec': spec,
-      'virtualServiceName': virtualServiceName,
-      if (clientToken != null) 'clientToken': clientToken,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateVirtualServiceInput(
+      meshName: meshName,
+      spec: spec,
+      virtualServiceName: virtualServiceName,
+      clientToken: clientToken,
+      meshOwner: meshOwner,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -639,7 +647,9 @@ class AppMesh {
       255,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteMeshInput(
+      meshName: meshName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -716,7 +726,12 @@ class AppMesh {
     _query = '?${[
       if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteRouteInput(
+      meshName: meshName,
+      routeName: routeName,
+      virtualRouterName: virtualRouterName,
+      meshOwner: meshOwner,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -786,7 +801,11 @@ class AppMesh {
     _query = '?${[
       if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteVirtualNodeInput(
+      meshName: meshName,
+      virtualNodeName: virtualNodeName,
+      meshOwner: meshOwner,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -857,7 +876,11 @@ class AppMesh {
     _query = '?${[
       if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteVirtualRouterInput(
+      meshName: meshName,
+      virtualRouterName: virtualRouterName,
+      meshOwner: meshOwner,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -915,7 +938,11 @@ class AppMesh {
     _query = '?${[
       if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteVirtualServiceInput(
+      meshName: meshName,
+      virtualServiceName: virtualServiceName,
+      meshOwner: meshOwner,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1744,9 +1771,10 @@ class AppMesh {
     _query = '?${[
       if (resourceArn != null) _s.toQueryParam('resourceArn', resourceArn),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{
-      'tags': tags,
-    };
+    final $payload = TagResourceInput(
+      resourceArn: resourceArn,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1780,9 +1808,10 @@ class AppMesh {
     _query = '?${[
       if (resourceArn != null) _s.toQueryParam('resourceArn', resourceArn),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{
-      'tagKeys': tagKeys,
-    };
+    final $payload = UntagResourceInput(
+      resourceArn: resourceArn,
+      tagKeys: tagKeys,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1825,10 +1854,11 @@ class AppMesh {
       255,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (clientToken != null) 'clientToken': clientToken,
-      if (spec != null) 'spec': spec,
-    };
+    final $payload = UpdateMeshInput(
+      meshName: meshName,
+      clientToken: clientToken,
+      spec: spec,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1917,10 +1947,14 @@ class AppMesh {
     _query = '?${[
       if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{
-      'spec': spec,
-      if (clientToken != null) 'clientToken': clientToken,
-    };
+    final $payload = UpdateRouteInput(
+      meshName: meshName,
+      routeName: routeName,
+      spec: spec,
+      virtualRouterName: virtualRouterName,
+      clientToken: clientToken,
+      meshOwner: meshOwner,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1998,10 +2032,13 @@ class AppMesh {
     _query = '?${[
       if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{
-      'spec': spec,
-      if (clientToken != null) 'clientToken': clientToken,
-    };
+    final $payload = UpdateVirtualNodeInput(
+      meshName: meshName,
+      spec: spec,
+      virtualNodeName: virtualNodeName,
+      clientToken: clientToken,
+      meshOwner: meshOwner,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -2080,10 +2117,13 @@ class AppMesh {
     _query = '?${[
       if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{
-      'spec': spec,
-      if (clientToken != null) 'clientToken': clientToken,
-    };
+    final $payload = UpdateVirtualRouterInput(
+      meshName: meshName,
+      spec: spec,
+      virtualRouterName: virtualRouterName,
+      clientToken: clientToken,
+      meshOwner: meshOwner,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -2156,10 +2196,13 @@ class AppMesh {
     _query = '?${[
       if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{
-      'spec': spec,
-      if (clientToken != null) 'clientToken': clientToken,
-    };
+    final $payload = UpdateVirtualServiceInput(
+      meshName: meshName,
+      spec: spec,
+      virtualServiceName: virtualServiceName,
+      clientToken: clientToken,
+      meshOwner: meshOwner,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -2692,6 +2735,42 @@ class DnsServiceDiscovery {
   Map<String, dynamic> toJson() => _$DnsServiceDiscoveryToJson(this);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteRouteInput {
+  /// The name of the service mesh to delete the route in.
+  @_s.JsonKey(name: 'meshName', ignore: true)
+  final String meshName;
+
+  /// The name of the route to delete.
+  @_s.JsonKey(name: 'routeName', ignore: true)
+  final String routeName;
+
+  /// The name of the virtual router to delete the route in.
+  @_s.JsonKey(name: 'virtualRouterName', ignore: true)
+  final String virtualRouterName;
+
+  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
+  /// your own, then it's
+  /// the ID of the account that shared the mesh with your account. For more
+  /// information about mesh sharing, see <a
+  /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
+  /// with Shared Meshes</a>.
+  @_s.JsonKey(name: 'meshOwner', ignore: true)
+  final String meshOwner;
+
+  DeleteRouteInput({
+    @_s.required this.meshName,
+    @_s.required this.routeName,
+    @_s.required this.virtualRouterName,
+    this.meshOwner,
+  });
+  Map<String, dynamic> toJson() => _$DeleteRouteInputToJson(this);
+}
+
 /// An object that represents a virtual node returned by a describe operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2804,6 +2883,90 @@ class VirtualRouterData {
   });
   factory VirtualRouterData.fromJson(Map<String, dynamic> json) =>
       _$VirtualRouterDataFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateMeshInput {
+  /// The name of the service mesh to update.
+  @_s.JsonKey(name: 'meshName', ignore: true)
+  final String meshName;
+
+  /// Unique, case-sensitive identifier that you provide to ensure the idempotency
+  /// of the
+  /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// The service mesh specification to apply.
+  @_s.JsonKey(name: 'spec')
+  final MeshSpec spec;
+
+  UpdateMeshInput({
+    @_s.required this.meshName,
+    this.clientToken,
+    this.spec,
+  });
+  Map<String, dynamic> toJson() => _$UpdateMeshInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateVirtualRouterInput {
+  /// The name of the service mesh to create the virtual router in.
+  @_s.JsonKey(name: 'meshName', ignore: true)
+  final String meshName;
+
+  /// The virtual router specification to apply.
+  @_s.JsonKey(name: 'spec')
+  final VirtualRouterSpec spec;
+
+  /// The name to use for the virtual router.
+  @_s.JsonKey(name: 'virtualRouterName')
+  final String virtualRouterName;
+
+  /// Unique, case-sensitive identifier that you provide to ensure the idempotency
+  /// of the
+  /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
+  /// your own, then
+  /// the account that you specify must share the mesh with your account before
+  /// you can create
+  /// the resource in the service mesh. For more information about mesh sharing,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
+  /// with Shared Meshes</a>.
+  @_s.JsonKey(name: 'meshOwner', ignore: true)
+  final String meshOwner;
+
+  /// Optional metadata that you can apply to the virtual router to assist with
+  /// categorization
+  /// and organization. Each tag consists of a key and an optional value, both of
+  /// which you
+  /// define. Tag keys can have a maximum character length of 128 characters, and
+  /// tag values can have
+  /// a maximum length of 256 characters.
+  @_s.JsonKey(name: 'tags')
+  final List<TagRef> tags;
+
+  CreateVirtualRouterInput({
+    @_s.required this.meshName,
+    @_s.required this.spec,
+    @_s.required this.virtualRouterName,
+    this.clientToken,
+    this.meshOwner,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateVirtualRouterInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3184,6 +3347,37 @@ class RouteRef {
       _$RouteRefFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteVirtualNodeInput {
+  /// The name of the service mesh to delete the virtual node in.
+  @_s.JsonKey(name: 'meshName', ignore: true)
+  final String meshName;
+
+  /// The name of the virtual node to delete.
+  @_s.JsonKey(name: 'virtualNodeName', ignore: true)
+  final String virtualNodeName;
+
+  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
+  /// your own, then it's
+  /// the ID of the account that shared the mesh with your account. For more
+  /// information about mesh sharing, see <a
+  /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
+  /// with Shared Meshes</a>.
+  @_s.JsonKey(name: 'meshOwner', ignore: true)
+  final String meshOwner;
+
+  DeleteVirtualNodeInput({
+    @_s.required this.meshName,
+    @_s.required this.virtualNodeName,
+    this.meshOwner,
+  });
+  Map<String, dynamic> toJson() => _$DeleteVirtualNodeInputToJson(this);
+}
+
 /// An object that represents a route returned by a describe operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3336,6 +3530,30 @@ enum EgressFilterType {
   dropAll,
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceInput {
+  /// The Amazon Resource Name (ARN) of the resource to add tags to.
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  /// The tags to add to the resource. A tag is an array of key-value pairs.
+  /// Tag keys can have a maximum character length of 128 characters, and tag
+  /// values can have
+  /// a maximum length of 256 characters.
+  @_s.JsonKey(name: 'tags')
+  final List<TagRef> tags;
+
+  TagResourceInput({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceInputToJson(this);
+}
+
 /// An object that represents the provider for a virtual service.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3463,6 +3681,62 @@ class MeshStatus {
       _$MeshStatusFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateVirtualNodeInput {
+  /// The name of the service mesh to create the virtual node in.
+  @_s.JsonKey(name: 'meshName', ignore: true)
+  final String meshName;
+
+  /// The virtual node specification to apply.
+  @_s.JsonKey(name: 'spec')
+  final VirtualNodeSpec spec;
+
+  /// The name to use for the virtual node.
+  @_s.JsonKey(name: 'virtualNodeName')
+  final String virtualNodeName;
+
+  /// Unique, case-sensitive identifier that you provide to ensure the idempotency
+  /// of the
+  /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
+  /// your own, then
+  /// the account that you specify must share the mesh with your account before
+  /// you can create
+  /// the resource in the service mesh. For more information about mesh sharing,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
+  /// with Shared Meshes</a>.
+  @_s.JsonKey(name: 'meshOwner', ignore: true)
+  final String meshOwner;
+
+  /// Optional metadata that you can apply to the virtual node to assist with
+  /// categorization
+  /// and organization. Each tag consists of a key and an optional value, both of
+  /// which you
+  /// define. Tag keys can have a maximum character length of 128 characters, and
+  /// tag values can have
+  /// a maximum length of 256 characters.
+  @_s.JsonKey(name: 'tags')
+  final List<TagRef> tags;
+
+  CreateVirtualNodeInput({
+    @_s.required this.meshName,
+    @_s.required this.spec,
+    @_s.required this.virtualNodeName,
+    this.clientToken,
+    this.meshOwner,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateVirtualNodeInputToJson(this);
+}
+
 /// An object that represents a route specification. Specify one route type.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3578,6 +3852,37 @@ class VirtualRouterServiceProvider {
   Map<String, dynamic> toJson() => _$VirtualRouterServiceProviderToJson(this);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteVirtualServiceInput {
+  /// The name of the service mesh to delete the virtual service in.
+  @_s.JsonKey(name: 'meshName', ignore: true)
+  final String meshName;
+
+  /// The name of the virtual service to delete.
+  @_s.JsonKey(name: 'virtualServiceName', ignore: true)
+  final String virtualServiceName;
+
+  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
+  /// your own, then it's
+  /// the ID of the account that shared the mesh with your account. For more
+  /// information about mesh sharing, see <a
+  /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
+  /// with Shared Meshes</a>.
+  @_s.JsonKey(name: 'meshOwner', ignore: true)
+  final String meshOwner;
+
+  DeleteVirtualServiceInput({
+    @_s.required this.meshName,
+    @_s.required this.virtualServiceName,
+    this.meshOwner,
+  });
+  Map<String, dynamic> toJson() => _$DeleteVirtualServiceInputToJson(this);
+}
+
 /// An object that represents a Transport Layer Security (TLS) validation
 /// context.
 @_s.JsonSerializable(
@@ -3631,6 +3936,50 @@ class DeleteVirtualNodeOutput {
   });
   factory DeleteVirtualNodeOutput.fromJson(Map<String, dynamic> json) =>
       _$DeleteVirtualNodeOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateVirtualNodeInput {
+  /// The name of the service mesh that the virtual node resides in.
+  @_s.JsonKey(name: 'meshName', ignore: true)
+  final String meshName;
+
+  /// The new virtual node specification to apply. This overwrites the existing
+  /// data.
+  @_s.JsonKey(name: 'spec')
+  final VirtualNodeSpec spec;
+
+  /// The name of the virtual node to update.
+  @_s.JsonKey(name: 'virtualNodeName', ignore: true)
+  final String virtualNodeName;
+
+  /// Unique, case-sensitive identifier that you provide to ensure the idempotency
+  /// of the
+  /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
+  /// your own, then it's
+  /// the ID of the account that shared the mesh with your account. For more
+  /// information about mesh sharing, see <a
+  /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
+  /// with Shared Meshes</a>.
+  @_s.JsonKey(name: 'meshOwner', ignore: true)
+  final String meshOwner;
+
+  UpdateVirtualNodeInput({
+    @_s.required this.meshName,
+    @_s.required this.spec,
+    @_s.required this.virtualNodeName,
+    this.clientToken,
+    this.meshOwner,
+  });
+  Map<String, dynamic> toJson() => _$UpdateVirtualNodeInputToJson(this);
 }
 
 /// An object that represents the Transport Layer Security (TLS) properties for
@@ -3688,6 +4037,121 @@ class ListenerTls {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteMeshInput {
+  /// The name of the service mesh to delete.
+  @_s.JsonKey(name: 'meshName', ignore: true)
+  final String meshName;
+
+  DeleteMeshInput({
+    @_s.required this.meshName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteMeshInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateVirtualServiceInput {
+  /// The name of the service mesh to create the virtual service in.
+  @_s.JsonKey(name: 'meshName', ignore: true)
+  final String meshName;
+
+  /// The virtual service specification to apply.
+  @_s.JsonKey(name: 'spec')
+  final VirtualServiceSpec spec;
+
+  /// The name to use for the virtual service.
+  @_s.JsonKey(name: 'virtualServiceName')
+  final String virtualServiceName;
+
+  /// Unique, case-sensitive identifier that you provide to ensure the idempotency
+  /// of the
+  /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
+  /// your own, then
+  /// the account that you specify must share the mesh with your account before
+  /// you can create
+  /// the resource in the service mesh. For more information about mesh sharing,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
+  /// with Shared Meshes</a>.
+  @_s.JsonKey(name: 'meshOwner', ignore: true)
+  final String meshOwner;
+
+  /// Optional metadata that you can apply to the virtual service to assist with
+  /// categorization and organization. Each tag consists of a key and an optional
+  /// value, both of
+  /// which you define. Tag keys can have a maximum character length of 128
+  /// characters, and tag values can have
+  /// a maximum length of 256 characters.
+  @_s.JsonKey(name: 'tags')
+  final List<TagRef> tags;
+
+  CreateVirtualServiceInput({
+    @_s.required this.meshName,
+    @_s.required this.spec,
+    @_s.required this.virtualServiceName,
+    this.clientToken,
+    this.meshOwner,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateVirtualServiceInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateVirtualRouterInput {
+  /// The name of the service mesh that the virtual router resides in.
+  @_s.JsonKey(name: 'meshName', ignore: true)
+  final String meshName;
+
+  /// The new virtual router specification to apply. This overwrites the existing
+  /// data.
+  @_s.JsonKey(name: 'spec')
+  final VirtualRouterSpec spec;
+
+  /// The name of the virtual router to update.
+  @_s.JsonKey(name: 'virtualRouterName', ignore: true)
+  final String virtualRouterName;
+
+  /// Unique, case-sensitive identifier that you provide to ensure the idempotency
+  /// of the
+  /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
+  /// your own, then it's
+  /// the ID of the account that shared the mesh with your account. For more
+  /// information about mesh sharing, see <a
+  /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
+  /// with Shared Meshes</a>.
+  @_s.JsonKey(name: 'meshOwner', ignore: true)
+  final String meshOwner;
+
+  UpdateVirtualRouterInput({
+    @_s.required this.meshName,
+    @_s.required this.spec,
+    @_s.required this.virtualRouterName,
+    this.clientToken,
+    this.meshOwner,
+  });
+  Map<String, dynamic> toJson() => _$UpdateVirtualRouterInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeMeshOutput {
@@ -3700,6 +4164,37 @@ class DescribeMeshOutput {
   });
   factory DescribeMeshOutput.fromJson(Map<String, dynamic> json) =>
       _$DescribeMeshOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteVirtualRouterInput {
+  /// The name of the service mesh to delete the virtual router in.
+  @_s.JsonKey(name: 'meshName', ignore: true)
+  final String meshName;
+
+  /// The name of the virtual router to delete.
+  @_s.JsonKey(name: 'virtualRouterName', ignore: true)
+  final String virtualRouterName;
+
+  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
+  /// your own, then it's
+  /// the ID of the account that shared the mesh with your account. For more
+  /// information about mesh sharing, see <a
+  /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
+  /// with Shared Meshes</a>.
+  @_s.JsonKey(name: 'meshOwner', ignore: true)
+  final String meshOwner;
+
+  DeleteVirtualRouterInput({
+    @_s.required this.meshName,
+    @_s.required this.virtualRouterName,
+    this.meshOwner,
+  });
+  Map<String, dynamic> toJson() => _$DeleteVirtualRouterInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3737,6 +4232,50 @@ enum VirtualNodeStatusCode {
   deleted,
   @_s.JsonValue('INACTIVE')
   inactive,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateVirtualServiceInput {
+  /// The name of the service mesh that the virtual service resides in.
+  @_s.JsonKey(name: 'meshName', ignore: true)
+  final String meshName;
+
+  /// The new virtual service specification to apply. This overwrites the existing
+  /// data.
+  @_s.JsonKey(name: 'spec')
+  final VirtualServiceSpec spec;
+
+  /// The name of the virtual service to update.
+  @_s.JsonKey(name: 'virtualServiceName', ignore: true)
+  final String virtualServiceName;
+
+  /// Unique, case-sensitive identifier that you provide to ensure the idempotency
+  /// of the
+  /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
+  /// your own, then it's
+  /// the ID of the account that shared the mesh with your account. For more
+  /// information about mesh sharing, see <a
+  /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
+  /// with Shared Meshes</a>.
+  @_s.JsonKey(name: 'meshOwner', ignore: true)
+  final String meshOwner;
+
+  UpdateVirtualServiceInput({
+    @_s.required this.meshName,
+    @_s.required this.spec,
+    @_s.required this.virtualServiceName,
+    this.clientToken,
+    this.meshOwner,
+  });
+  Map<String, dynamic> toJson() => _$UpdateVirtualServiceInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4005,6 +4544,45 @@ class VirtualNodeRef {
   });
   factory VirtualNodeRef.fromJson(Map<String, dynamic> json) =>
       _$VirtualNodeRefFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateMeshInput {
+  /// The name to use for the service mesh.
+  @_s.JsonKey(name: 'meshName')
+  final String meshName;
+
+  /// Unique, case-sensitive identifier that you provide to ensure the idempotency
+  /// of the
+  /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// The service mesh specification to apply.
+  @_s.JsonKey(name: 'spec')
+  final MeshSpec spec;
+
+  /// Optional metadata that you can apply to the service mesh to assist with
+  /// categorization
+  /// and organization. Each tag consists of a key and an optional value, both of
+  /// which you
+  /// define. Tag keys can have a maximum character length of 128 characters, and
+  /// tag values can have
+  /// a maximum length of 256 characters.
+  @_s.JsonKey(name: 'tags')
+  final List<TagRef> tags;
+
+  CreateMeshInput({
+    @_s.required this.meshName,
+    this.clientToken,
+    this.spec,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateMeshInputToJson(this);
 }
 
 /// An object that represents the action to take if a match is determined.
@@ -4792,11 +5370,122 @@ class GrpcRouteMetadata {
   Map<String, dynamic> toJson() => _$GrpcRouteMetadataToJson(this);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateRouteInput {
+  /// The name of the service mesh to create the route in.
+  @_s.JsonKey(name: 'meshName', ignore: true)
+  final String meshName;
+
+  /// The name to use for the route.
+  @_s.JsonKey(name: 'routeName')
+  final String routeName;
+
+  /// The route specification to apply.
+  @_s.JsonKey(name: 'spec')
+  final RouteSpec spec;
+
+  /// The name of the virtual router in which to create the route. If the virtual
+  /// router is in a shared mesh,
+  /// then you must be the owner of the virtual router resource.
+  @_s.JsonKey(name: 'virtualRouterName', ignore: true)
+  final String virtualRouterName;
+
+  /// Unique, case-sensitive identifier that you provide to ensure the idempotency
+  /// of the
+  /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
+  /// your own, then
+  /// the account that you specify must share the mesh with your account before
+  /// you can create
+  /// the resource in the service mesh. For more information about mesh sharing,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
+  /// with Shared Meshes</a>.
+  @_s.JsonKey(name: 'meshOwner', ignore: true)
+  final String meshOwner;
+
+  /// Optional metadata that you can apply to the route to assist with
+  /// categorization and
+  /// organization. Each tag consists of a key and an optional value, both of
+  /// which you define.
+  /// Tag keys can have a maximum character length of 128 characters, and tag
+  /// values can have
+  /// a maximum length of 256 characters.
+  @_s.JsonKey(name: 'tags')
+  final List<TagRef> tags;
+
+  CreateRouteInput({
+    @_s.required this.meshName,
+    @_s.required this.routeName,
+    @_s.required this.spec,
+    @_s.required this.virtualRouterName,
+    this.clientToken,
+    this.meshOwner,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateRouteInputToJson(this);
+}
+
 enum HttpScheme {
   @_s.JsonValue('http')
   http,
   @_s.JsonValue('https')
   https,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateRouteInput {
+  /// The name of the service mesh that the route resides in.
+  @_s.JsonKey(name: 'meshName', ignore: true)
+  final String meshName;
+
+  /// The name of the route to update.
+  @_s.JsonKey(name: 'routeName', ignore: true)
+  final String routeName;
+
+  /// The new route specification to apply. This overwrites the existing data.
+  @_s.JsonKey(name: 'spec')
+  final RouteSpec spec;
+
+  /// The name of the virtual router that the route is associated with.
+  @_s.JsonKey(name: 'virtualRouterName', ignore: true)
+  final String virtualRouterName;
+
+  /// Unique, case-sensitive identifier that you provide to ensure the idempotency
+  /// of the
+  /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
+  /// your own, then it's
+  /// the ID of the account that shared the mesh with your account. For more
+  /// information about mesh sharing, see <a
+  /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
+  /// with Shared Meshes</a>.
+  @_s.JsonKey(name: 'meshOwner', ignore: true)
+  final String meshOwner;
+
+  UpdateRouteInput({
+    @_s.required this.meshName,
+    @_s.required this.routeName,
+    @_s.required this.spec,
+    @_s.required this.virtualRouterName,
+    this.clientToken,
+    this.meshOwner,
+  });
+  Map<String, dynamic> toJson() => _$UpdateRouteInputToJson(this);
 }
 
 /// An object that represents an HTTP or HTTP/2 route type.
@@ -4928,6 +5617,27 @@ class ListVirtualNodesOutput {
   });
   factory ListVirtualNodesOutput.fromJson(Map<String, dynamic> json) =>
       _$ListVirtualNodesOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceInput {
+  /// The Amazon Resource Name (ARN) of the resource to delete tags from.
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  /// The keys of the tags to be removed.
+  @_s.JsonKey(name: 'tagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceInput({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceInputToJson(this);
 }
 
 /// An object that represents an AWS Certicate Manager (ACM) certificate.

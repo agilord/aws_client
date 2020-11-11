@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -140,17 +139,18 @@ class Connect {
       password,
       r'''/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\S]{8,64}$/''',
     );
-    final $payload = <String, dynamic>{
-      'PhoneConfig': phoneConfig,
-      'RoutingProfileId': routingProfileId,
-      'SecurityProfileIds': securityProfileIds,
-      'Username': username,
-      if (directoryUserId != null) 'DirectoryUserId': directoryUserId,
-      if (hierarchyGroupId != null) 'HierarchyGroupId': hierarchyGroupId,
-      if (identityInfo != null) 'IdentityInfo': identityInfo,
-      if (password != null) 'Password': password,
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = CreateUserRequest(
+      instanceId: instanceId,
+      phoneConfig: phoneConfig,
+      routingProfileId: routingProfileId,
+      securityProfileIds: securityProfileIds,
+      username: username,
+      directoryUserId: directoryUserId,
+      hierarchyGroupId: hierarchyGroupId,
+      identityInfo: identityInfo,
+      password: password,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -186,7 +186,10 @@ class Connect {
       isRequired: true,
     );
     ArgumentError.checkNotNull(userId, 'userId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteUserRequest(
+      instanceId: instanceId,
+      userId: userId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -441,13 +444,14 @@ class Connect {
       1,
       100,
     );
-    final $payload = <String, dynamic>{
-      'CurrentMetrics': currentMetrics,
-      'Filters': filters,
-      if (groupings != null) 'Groupings': groupings,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = GetCurrentMetricDataRequest(
+      currentMetrics: currentMetrics,
+      filters: filters,
+      instanceId: instanceId,
+      groupings: groupings,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -682,15 +686,16 @@ class Connect {
       1,
       100,
     );
-    final $payload = <String, dynamic>{
-      'EndTime': endTime,
-      'Filters': filters,
-      'HistoricalMetrics': historicalMetrics,
-      'StartTime': startTime,
-      if (groupings != null) 'Groupings': groupings,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = GetMetricDataRequest(
+      endTime: endTime,
+      filters: filters,
+      historicalMetrics: historicalMetrics,
+      instanceId: instanceId,
+      startTime: startTime,
+      groupings: groupings,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1235,14 +1240,14 @@ class Connect {
       0,
       500,
     );
-    final $payload = <String, dynamic>{
-      'ContactFlowId': contactFlowId,
-      'InstanceId': instanceId,
-      'ParticipantDetails': participantDetails,
-      if (attributes != null) 'Attributes': attributes,
-      if (clientToken != null) 'ClientToken': clientToken,
-      if (initialMessage != null) 'InitialMessage': initialMessage,
-    };
+    final $payload = StartChatContactRequest(
+      contactFlowId: contactFlowId,
+      instanceId: instanceId,
+      participantDetails: participantDetails,
+      attributes: attributes,
+      clientToken: clientToken,
+      initialMessage: initialMessage,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1332,15 +1337,15 @@ class Connect {
       0,
       500,
     );
-    final $payload = <String, dynamic>{
-      'ContactFlowId': contactFlowId,
-      'DestinationPhoneNumber': destinationPhoneNumber,
-      'InstanceId': instanceId,
-      if (attributes != null) 'Attributes': attributes,
-      if (clientToken != null) 'ClientToken': clientToken,
-      if (queueId != null) 'QueueId': queueId,
-      if (sourcePhoneNumber != null) 'SourcePhoneNumber': sourcePhoneNumber,
-    };
+    final $payload = StartOutboundVoiceContactRequest(
+      contactFlowId: contactFlowId,
+      destinationPhoneNumber: destinationPhoneNumber,
+      instanceId: instanceId,
+      attributes: attributes,
+      clientToken: clientToken,
+      queueId: queueId,
+      sourcePhoneNumber: sourcePhoneNumber,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1383,10 +1388,10 @@ class Connect {
       100,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'ContactId': contactId,
-      'InstanceId': instanceId,
-    };
+    final $payload = StopContactRequest(
+      contactId: contactId,
+      instanceId: instanceId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1418,9 +1423,10 @@ class Connect {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'tags': tags,
-    };
+    final $payload = TagResourceRequest(
+      resourceArn: resourceArn,
+      tags: tags,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1452,7 +1458,10 @@ class Connect {
     _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = UntagResourceRequest(
+      resourceArn: resourceArn,
+      tagKeys: tagKeys,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1525,11 +1534,11 @@ class Connect {
       100,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'Attributes': attributes,
-      'InitialContactId': initialContactId,
-      'InstanceId': instanceId,
-    };
+    final $payload = UpdateContactAttributesRequest(
+      attributes: attributes,
+      initialContactId: initialContactId,
+      instanceId: instanceId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1569,9 +1578,11 @@ class Connect {
       isRequired: true,
     );
     ArgumentError.checkNotNull(userId, 'userId');
-    final $payload = <String, dynamic>{
-      if (hierarchyGroupId != null) 'HierarchyGroupId': hierarchyGroupId,
-    };
+    final $payload = UpdateUserHierarchyRequest(
+      instanceId: instanceId,
+      userId: userId,
+      hierarchyGroupId: hierarchyGroupId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1612,9 +1623,11 @@ class Connect {
       isRequired: true,
     );
     ArgumentError.checkNotNull(userId, 'userId');
-    final $payload = <String, dynamic>{
-      'IdentityInfo': identityInfo,
-    };
+    final $payload = UpdateUserIdentityInfoRequest(
+      identityInfo: identityInfo,
+      instanceId: instanceId,
+      userId: userId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1655,9 +1668,11 @@ class Connect {
     );
     ArgumentError.checkNotNull(phoneConfig, 'phoneConfig');
     ArgumentError.checkNotNull(userId, 'userId');
-    final $payload = <String, dynamic>{
-      'PhoneConfig': phoneConfig,
-    };
+    final $payload = UpdateUserPhoneConfigRequest(
+      instanceId: instanceId,
+      phoneConfig: phoneConfig,
+      userId: userId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1698,9 +1713,11 @@ class Connect {
     );
     ArgumentError.checkNotNull(routingProfileId, 'routingProfileId');
     ArgumentError.checkNotNull(userId, 'userId');
-    final $payload = <String, dynamic>{
-      'RoutingProfileId': routingProfileId,
-    };
+    final $payload = UpdateUserRoutingProfileRequest(
+      instanceId: instanceId,
+      routingProfileId: routingProfileId,
+      userId: userId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1741,9 +1758,11 @@ class Connect {
     );
     ArgumentError.checkNotNull(securityProfileIds, 'securityProfileIds');
     ArgumentError.checkNotNull(userId, 'userId');
-    final $payload = <String, dynamic>{
-      'SecurityProfileIds': securityProfileIds,
-    };
+    final $payload = UpdateUserSecurityProfilesRequest(
+      instanceId: instanceId,
+      securityProfileIds: securityProfileIds,
+      userId: userId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1840,6 +1859,81 @@ enum ContactFlowType {
   agentTransfer,
   @_s.JsonValue('QUEUE_TRANSFER')
   queueTransfer,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateUserRequest {
+  /// The identifier of the Amazon Connect instance.
+  @_s.JsonKey(name: 'InstanceId', ignore: true)
+  final String instanceId;
+
+  /// The phone settings for the user.
+  @_s.JsonKey(name: 'PhoneConfig')
+  final UserPhoneConfig phoneConfig;
+
+  /// The identifier of the routing profile for the user.
+  @_s.JsonKey(name: 'RoutingProfileId')
+  final String routingProfileId;
+
+  /// The identifier of the security profile for the user.
+  @_s.JsonKey(name: 'SecurityProfileIds')
+  final List<String> securityProfileIds;
+
+  /// The user name for the account. For instances not using SAML for identity
+  /// management, the user name can include up to 20 characters. If you are using
+  /// SAML for identity management, the user name can include up to 64 characters
+  /// from [a-zA-Z0-9_-.\@]+.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  /// The identifier of the user account in the directory used for identity
+  /// management. If Amazon Connect cannot access the directory, you can specify
+  /// this identifier to authenticate users. If you include the identifier, we
+  /// assume that Amazon Connect cannot access the directory. Otherwise, the
+  /// identity information is used to authenticate users from your directory.
+  ///
+  /// This parameter is required if you are using an existing directory for
+  /// identity management in Amazon Connect when Amazon Connect cannot access your
+  /// directory to authenticate users. If you are using SAML for identity
+  /// management and include this parameter, an error is returned.
+  @_s.JsonKey(name: 'DirectoryUserId')
+  final String directoryUserId;
+
+  /// The identifier of the hierarchy group for the user.
+  @_s.JsonKey(name: 'HierarchyGroupId')
+  final String hierarchyGroupId;
+
+  /// The information about the identity of the user.
+  @_s.JsonKey(name: 'IdentityInfo')
+  final UserIdentityInfo identityInfo;
+
+  /// The password for the user account. A password is required if you are using
+  /// Amazon Connect for identity management. Otherwise, it is an error to include
+  /// a password.
+  @_s.JsonKey(name: 'Password')
+  final String password;
+
+  /// One or more tags.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  CreateUserRequest({
+    @_s.required this.instanceId,
+    @_s.required this.phoneConfig,
+    @_s.required this.routingProfileId,
+    @_s.required this.securityProfileIds,
+    @_s.required this.username,
+    this.directoryUserId,
+    this.hierarchyGroupId,
+    this.identityInfo,
+    this.password,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateUserRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2008,6 +2102,27 @@ class CurrentMetricResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteUserRequest {
+  /// The identifier of the Amazon Connect instance.
+  @_s.JsonKey(name: 'InstanceId', ignore: true)
+  final String instanceId;
+
+  /// The identifier of the user.
+  @_s.JsonKey(name: 'UserId', ignore: true)
+  final String userId;
+
+  DeleteUserRequest({
+    @_s.required this.instanceId,
+    @_s.required this.userId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteUserRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeUserHierarchyGroupResponse {
@@ -2124,6 +2239,89 @@ class GetContactAttributesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetCurrentMetricDataRequest {
+  /// The metrics to retrieve. Specify the name and unit for each metric. The
+  /// following metrics are available:
+  /// <dl> <dt>AGENTS_AFTER_CONTACT_WORK</dt> <dd>
+  /// Unit: COUNT
+  /// </dd> <dt>AGENTS_AVAILABLE</dt> <dd>
+  /// Unit: COUNT
+  /// </dd> <dt>AGENTS_ERROR</dt> <dd>
+  /// Unit: COUNT
+  /// </dd> <dt>AGENTS_NON_PRODUCTIVE</dt> <dd>
+  /// Unit: COUNT
+  /// </dd> <dt>AGENTS_ON_CALL</dt> <dd>
+  /// Unit: COUNT
+  /// </dd> <dt>AGENTS_ON_CONTACT</dt> <dd>
+  /// Unit: COUNT
+  /// </dd> <dt>AGENTS_ONLINE</dt> <dd>
+  /// Unit: COUNT
+  /// </dd> <dt>AGENTS_STAFFED</dt> <dd>
+  /// Unit: COUNT
+  /// </dd> <dt>CONTACTS_IN_QUEUE</dt> <dd>
+  /// Unit: COUNT
+  /// </dd> <dt>CONTACTS_SCHEDULED</dt> <dd>
+  /// Unit: COUNT
+  /// </dd> <dt>OLDEST_CONTACT_AGE</dt> <dd>
+  /// Unit: SECONDS
+  /// </dd> <dt>SLOTS_ACTIVE</dt> <dd>
+  /// Unit: COUNT
+  /// </dd> <dt>SLOTS_AVAILABLE</dt> <dd>
+  /// Unit: COUNT
+  /// </dd> </dl>
+  @_s.JsonKey(name: 'CurrentMetrics')
+  final List<CurrentMetric> currentMetrics;
+
+  /// The queues, up to 100, or channels, to use to filter the metrics returned.
+  /// Metric data is retrieved only for the resources associated with the queues
+  /// or channels included in the filter. You can include both queue IDs and queue
+  /// ARNs in the same request. The only supported channel is <code>VOICE</code>.
+  @_s.JsonKey(name: 'Filters')
+  final Filters filters;
+
+  /// The identifier of the Amazon Connect instance.
+  @_s.JsonKey(name: 'InstanceId', ignore: true)
+  final String instanceId;
+
+  /// The grouping applied to the metrics returned. For example, when grouped by
+  /// <code>QUEUE</code>, the metrics returned apply to each queue rather than
+  /// aggregated for all queues. If you group by <code>CHANNEL</code>, you should
+  /// include a Channels filter. The only supported channel is <code>VOICE</code>.
+  ///
+  /// If no <code>Grouping</code> is included in the request, a summary of metrics
+  /// is returned.
+  @_s.JsonKey(name: 'Groupings')
+  final List<String> groupings;
+
+  /// The maximimum number of results to return per page.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  ///
+  /// The token expires after 5 minutes from the time it is created. Subsequent
+  /// requests that use the token must use the same request parameters as the
+  /// request that generated the token.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetCurrentMetricDataRequest({
+    @_s.required this.currentMetrics,
+    @_s.required this.filters,
+    @_s.required this.instanceId,
+    this.groupings,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$GetCurrentMetricDataRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetCurrentMetricDataResponse {
@@ -2171,6 +2369,191 @@ class GetFederationTokenResponse {
   });
   factory GetFederationTokenResponse.fromJson(Map<String, dynamic> json) =>
       _$GetFederationTokenResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetMetricDataRequest {
+  /// The timestamp, in UNIX Epoch time format, at which to end the reporting
+  /// interval for the retrieval of historical metrics data. The time must be
+  /// specified using an interval of 5 minutes, such as 11:00, 11:05, 11:10, and
+  /// must be later than the start time timestamp.
+  ///
+  /// The time range between the start and end time must be less than 24 hours.
+  @_s.JsonKey(
+      name: 'EndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime endTime;
+
+  /// The queues, up to 100, or channels, to use to filter the metrics returned.
+  /// Metric data is retrieved only for the resources associated with the queues
+  /// or channels included in the filter. You can include both queue IDs and queue
+  /// ARNs in the same request. The only supported channel is <code>VOICE</code>.
+  @_s.JsonKey(name: 'Filters')
+  final Filters filters;
+
+  /// The metrics to retrieve. Specify the name, unit, and statistic for each
+  /// metric. The following historical metrics are available:
+  /// <dl> <dt>ABANDON_TIME</dt> <dd>
+  /// Unit: SECONDS
+  ///
+  /// Statistic: AVG
+  /// </dd> <dt>AFTER_CONTACT_WORK_TIME</dt> <dd>
+  /// Unit: SECONDS
+  ///
+  /// Statistic: AVG
+  /// </dd> <dt>API_CONTACTS_HANDLED</dt> <dd>
+  /// Unit: COUNT
+  ///
+  /// Statistic: SUM
+  /// </dd> <dt>CALLBACK_CONTACTS_HANDLED</dt> <dd>
+  /// Unit: COUNT
+  ///
+  /// Statistic: SUM
+  /// </dd> <dt>CONTACTS_ABANDONED</dt> <dd>
+  /// Unit: COUNT
+  ///
+  /// Statistic: SUM
+  /// </dd> <dt>CONTACTS_AGENT_HUNG_UP_FIRST</dt> <dd>
+  /// Unit: COUNT
+  ///
+  /// Statistic: SUM
+  /// </dd> <dt>CONTACTS_CONSULTED</dt> <dd>
+  /// Unit: COUNT
+  ///
+  /// Statistic: SUM
+  /// </dd> <dt>CONTACTS_HANDLED</dt> <dd>
+  /// Unit: COUNT
+  ///
+  /// Statistic: SUM
+  /// </dd> <dt>CONTACTS_HANDLED_INCOMING</dt> <dd>
+  /// Unit: COUNT
+  ///
+  /// Statistic: SUM
+  /// </dd> <dt>CONTACTS_HANDLED_OUTBOUND</dt> <dd>
+  /// Unit: COUNT
+  ///
+  /// Statistic: SUM
+  /// </dd> <dt>CONTACTS_HOLD_ABANDONS</dt> <dd>
+  /// Unit: COUNT
+  ///
+  /// Statistic: SUM
+  /// </dd> <dt>CONTACTS_MISSED</dt> <dd>
+  /// Unit: COUNT
+  ///
+  /// Statistic: SUM
+  /// </dd> <dt>CONTACTS_QUEUED</dt> <dd>
+  /// Unit: COUNT
+  ///
+  /// Statistic: SUM
+  /// </dd> <dt>CONTACTS_TRANSFERRED_IN</dt> <dd>
+  /// Unit: COUNT
+  ///
+  /// Statistic: SUM
+  /// </dd> <dt>CONTACTS_TRANSFERRED_IN_FROM_QUEUE</dt> <dd>
+  /// Unit: COUNT
+  ///
+  /// Statistic: SUM
+  /// </dd> <dt>CONTACTS_TRANSFERRED_OUT</dt> <dd>
+  /// Unit: COUNT
+  ///
+  /// Statistic: SUM
+  /// </dd> <dt>CONTACTS_TRANSFERRED_OUT_FROM_QUEUE</dt> <dd>
+  /// Unit: COUNT
+  ///
+  /// Statistic: SUM
+  /// </dd> <dt>HANDLE_TIME</dt> <dd>
+  /// Unit: SECONDS
+  ///
+  /// Statistic: AVG
+  /// </dd> <dt>HOLD_TIME</dt> <dd>
+  /// Unit: SECONDS
+  ///
+  /// Statistic: AVG
+  /// </dd> <dt>INTERACTION_AND_HOLD_TIME</dt> <dd>
+  /// Unit: SECONDS
+  ///
+  /// Statistic: AVG
+  /// </dd> <dt>INTERACTION_TIME</dt> <dd>
+  /// Unit: SECONDS
+  ///
+  /// Statistic: AVG
+  /// </dd> <dt>OCCUPANCY</dt> <dd>
+  /// Unit: PERCENT
+  ///
+  /// Statistic: AVG
+  /// </dd> <dt>QUEUE_ANSWER_TIME</dt> <dd>
+  /// Unit: SECONDS
+  ///
+  /// Statistic: AVG
+  /// </dd> <dt>QUEUED_TIME</dt> <dd>
+  /// Unit: SECONDS
+  ///
+  /// Statistic: MAX
+  /// </dd> <dt>SERVICE_LEVEL</dt> <dd>
+  /// Unit: PERCENT
+  ///
+  /// Statistic: AVG
+  ///
+  /// Threshold: Only "Less than" comparisons are supported, with the following
+  /// service level thresholds: 15, 20, 25, 30, 45, 60, 90, 120, 180, 240, 300,
+  /// 600
+  /// </dd> </dl>
+  @_s.JsonKey(name: 'HistoricalMetrics')
+  final List<HistoricalMetric> historicalMetrics;
+
+  /// The identifier of the Amazon Connect instance.
+  @_s.JsonKey(name: 'InstanceId', ignore: true)
+  final String instanceId;
+
+  /// The timestamp, in UNIX Epoch time format, at which to start the reporting
+  /// interval for the retrieval of historical metrics data. The time must be
+  /// specified using a multiple of 5 minutes, such as 10:05, 10:10, 10:15.
+  ///
+  /// The start time cannot be earlier than 24 hours before the time of the
+  /// request. Historical metrics are available only for 24 hours.
+  @_s.JsonKey(
+      name: 'StartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime startTime;
+
+  /// The grouping applied to the metrics returned. For example, when results are
+  /// grouped by queue, the metrics returned are grouped by queue. The values
+  /// returned apply to the metrics for each queue rather than aggregated for all
+  /// queues.
+  ///
+  /// The only supported grouping is <code>QUEUE</code>.
+  ///
+  /// If no grouping is specified, a summary of metrics for all queues is
+  /// returned.
+  @_s.JsonKey(name: 'Groupings')
+  final List<String> groupings;
+
+  /// The maximimum number of results to return per page.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetMetricDataRequest({
+    @_s.required this.endTime,
+    @_s.required this.filters,
+    @_s.required this.historicalMetrics,
+    @_s.required this.instanceId,
+    @_s.required this.startTime,
+    this.groupings,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$GetMetricDataRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3411,6 +3794,54 @@ class SecurityProfileSummary {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartChatContactRequest {
+  /// The identifier of the contact flow for the chat.
+  @_s.JsonKey(name: 'ContactFlowId')
+  final String contactFlowId;
+
+  /// The identifier of the Amazon Connect instance.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  /// Information identifying the participant.
+  @_s.JsonKey(name: 'ParticipantDetails')
+  final ParticipantDetails participantDetails;
+
+  /// A custom key-value pair using an attribute map. The attributes are standard
+  /// Amazon Connect attributes, and can be accessed in contact flows just like
+  /// any other contact attributes.
+  ///
+  /// There can be up to 32,768 UTF-8 bytes across all key-value pairs per
+  /// contact. Attribute keys can include only alphanumeric, dash, and underscore
+  /// characters.
+  @_s.JsonKey(name: 'Attributes')
+  final Map<String, String> attributes;
+
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  @_s.JsonKey(name: 'ClientToken')
+  final String clientToken;
+
+  /// The initial message to be sent to the newly created chat.
+  @_s.JsonKey(name: 'InitialMessage')
+  final ChatMessage initialMessage;
+
+  StartChatContactRequest({
+    @_s.required this.contactFlowId,
+    @_s.required this.instanceId,
+    @_s.required this.participantDetails,
+    this.attributes,
+    this.clientToken,
+    this.initialMessage,
+  });
+  Map<String, dynamic> toJson() => _$StartChatContactRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartChatContactResponse {
@@ -3436,6 +3867,67 @@ class StartChatContactResponse {
   });
   factory StartChatContactResponse.fromJson(Map<String, dynamic> json) =>
       _$StartChatContactResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartOutboundVoiceContactRequest {
+  /// The identifier of the contact flow for the outbound call.
+  @_s.JsonKey(name: 'ContactFlowId')
+  final String contactFlowId;
+
+  /// The phone number of the customer, in E.164 format.
+  @_s.JsonKey(name: 'DestinationPhoneNumber')
+  final String destinationPhoneNumber;
+
+  /// The identifier of the Amazon Connect instance.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  /// A custom key-value pair using an attribute map. The attributes are standard
+  /// Amazon Connect attributes, and can be accessed in contact flows just like
+  /// any other contact attributes.
+  ///
+  /// There can be up to 32,768 UTF-8 bytes across all key-value pairs per
+  /// contact. Attribute keys can include only alphanumeric, dash, and underscore
+  /// characters.
+  @_s.JsonKey(name: 'Attributes')
+  final Map<String, String> attributes;
+
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request. The token is valid for 7 days after creation. If
+  /// a contact is already started, the contact ID is returned. If the contact is
+  /// disconnected, a new contact is started.
+  @_s.JsonKey(name: 'ClientToken')
+  final String clientToken;
+
+  /// The queue for the call. If you specify a queue, the phone displayed for
+  /// caller ID is the phone number specified in the queue. If you do not specify
+  /// a queue, the queue defined in the contact flow is used. If you do not
+  /// specify a queue, you must specify a source phone number.
+  @_s.JsonKey(name: 'QueueId')
+  final String queueId;
+
+  /// The phone number associated with the Amazon Connect instance, in E.164
+  /// format. If you do not specify a source phone number, you must specify a
+  /// queue.
+  @_s.JsonKey(name: 'SourcePhoneNumber')
+  final String sourcePhoneNumber;
+
+  StartOutboundVoiceContactRequest({
+    @_s.required this.contactFlowId,
+    @_s.required this.destinationPhoneNumber,
+    @_s.required this.instanceId,
+    this.attributes,
+    this.clientToken,
+    this.queueId,
+    this.sourcePhoneNumber,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StartOutboundVoiceContactRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3468,12 +3960,55 @@ enum Statistic {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopContactRequest {
+  /// The ID of the contact.
+  @_s.JsonKey(name: 'ContactId')
+  final String contactId;
+
+  /// The identifier of the Amazon Connect instance.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  StopContactRequest({
+    @_s.required this.contactId,
+    @_s.required this.instanceId,
+  });
+  Map<String, dynamic> toJson() => _$StopContactRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StopContactResponse {
   StopContactResponse();
   factory StopContactResponse.fromJson(Map<String, dynamic> json) =>
       _$StopContactResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource.
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  /// One or more tags. For example, { "tags": {"key1":"value1", "key2":"value2"}
+  /// }.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
 }
 
 /// Contains information about the threshold for service level metrics.
@@ -3513,12 +4048,197 @@ enum Unit {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource.
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  /// The tag keys.
+  @_s.JsonKey(name: 'tagKeys', ignore: true)
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateContactAttributesRequest {
+  /// The Amazon Connect attributes. These attributes can be accessed in contact
+  /// flows just like any other contact attributes.
+  ///
+  /// You can have up to 32,768 UTF-8 bytes across all attributes for a contact.
+  /// Attribute keys can include only alphanumeric, dash, and underscore
+  /// characters.
+  @_s.JsonKey(name: 'Attributes')
+  final Map<String, String> attributes;
+
+  /// The identifier of the contact. This is the identifier of the contact
+  /// associated with the first interaction with the contact center.
+  @_s.JsonKey(name: 'InitialContactId')
+  final String initialContactId;
+
+  /// The identifier of the Amazon Connect instance.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  UpdateContactAttributesRequest({
+    @_s.required this.attributes,
+    @_s.required this.initialContactId,
+    @_s.required this.instanceId,
+  });
+  Map<String, dynamic> toJson() => _$UpdateContactAttributesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateContactAttributesResponse {
   UpdateContactAttributesResponse();
   factory UpdateContactAttributesResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateContactAttributesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateUserHierarchyRequest {
+  /// The identifier of the Amazon Connect instance.
+  @_s.JsonKey(name: 'InstanceId', ignore: true)
+  final String instanceId;
+
+  /// The identifier of the user account.
+  @_s.JsonKey(name: 'UserId', ignore: true)
+  final String userId;
+
+  /// The identifier of the hierarchy group.
+  @_s.JsonKey(name: 'HierarchyGroupId')
+  final String hierarchyGroupId;
+
+  UpdateUserHierarchyRequest({
+    @_s.required this.instanceId,
+    @_s.required this.userId,
+    this.hierarchyGroupId,
+  });
+  Map<String, dynamic> toJson() => _$UpdateUserHierarchyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateUserIdentityInfoRequest {
+  /// The identity information for the user.
+  @_s.JsonKey(name: 'IdentityInfo')
+  final UserIdentityInfo identityInfo;
+
+  /// The identifier of the Amazon Connect instance.
+  @_s.JsonKey(name: 'InstanceId', ignore: true)
+  final String instanceId;
+
+  /// The identifier of the user account.
+  @_s.JsonKey(name: 'UserId', ignore: true)
+  final String userId;
+
+  UpdateUserIdentityInfoRequest({
+    @_s.required this.identityInfo,
+    @_s.required this.instanceId,
+    @_s.required this.userId,
+  });
+  Map<String, dynamic> toJson() => _$UpdateUserIdentityInfoRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateUserPhoneConfigRequest {
+  /// The identifier of the Amazon Connect instance.
+  @_s.JsonKey(name: 'InstanceId', ignore: true)
+  final String instanceId;
+
+  /// Information about phone configuration settings for the user.
+  @_s.JsonKey(name: 'PhoneConfig')
+  final UserPhoneConfig phoneConfig;
+
+  /// The identifier of the user account.
+  @_s.JsonKey(name: 'UserId', ignore: true)
+  final String userId;
+
+  UpdateUserPhoneConfigRequest({
+    @_s.required this.instanceId,
+    @_s.required this.phoneConfig,
+    @_s.required this.userId,
+  });
+  Map<String, dynamic> toJson() => _$UpdateUserPhoneConfigRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateUserRoutingProfileRequest {
+  /// The identifier of the Amazon Connect instance.
+  @_s.JsonKey(name: 'InstanceId', ignore: true)
+  final String instanceId;
+
+  /// The identifier of the routing profile for the user.
+  @_s.JsonKey(name: 'RoutingProfileId')
+  final String routingProfileId;
+
+  /// The identifier of the user account.
+  @_s.JsonKey(name: 'UserId', ignore: true)
+  final String userId;
+
+  UpdateUserRoutingProfileRequest({
+    @_s.required this.instanceId,
+    @_s.required this.routingProfileId,
+    @_s.required this.userId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateUserRoutingProfileRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateUserSecurityProfilesRequest {
+  /// The identifier of the Amazon Connect instance.
+  @_s.JsonKey(name: 'InstanceId', ignore: true)
+  final String instanceId;
+
+  /// The identifiers of the security profiles for the user.
+  @_s.JsonKey(name: 'SecurityProfileIds')
+  final List<String> securityProfileIds;
+
+  /// The identifier of the user account.
+  @_s.JsonKey(name: 'UserId', ignore: true)
+  final String userId;
+
+  UpdateUserSecurityProfilesRequest({
+    @_s.required this.instanceId,
+    @_s.required this.securityProfileIds,
+    @_s.required this.userId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateUserSecurityProfilesRequestToJson(this);
 }
 
 /// Contains information about a user account for a Amazon Connect instance.

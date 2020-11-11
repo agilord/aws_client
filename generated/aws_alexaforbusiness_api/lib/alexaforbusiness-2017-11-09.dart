@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -78,9 +77,9 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SkillId': skillId,
-      },
+      payload: ApproveSkillRequest(
+        skillId: skillId,
+      ),
     );
 
     return ApproveSkillResponse.fromJson(jsonResponse.body);
@@ -123,10 +122,10 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AddressBookArn': addressBookArn,
-        'ContactArn': contactArn,
-      },
+      payload: AssociateContactWithAddressBookRequest(
+        addressBookArn: addressBookArn,
+        contactArn: contactArn,
+      ),
     );
 
     return AssociateContactWithAddressBookResponse.fromJson(jsonResponse.body);
@@ -171,10 +170,10 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DeviceArn': deviceArn,
-        'NetworkProfileArn': networkProfileArn,
-      },
+      payload: AssociateDeviceWithNetworkProfileRequest(
+        deviceArn: deviceArn,
+        networkProfileArn: networkProfileArn,
+      ),
     );
 
     return AssociateDeviceWithNetworkProfileResponse.fromJson(
@@ -219,10 +218,10 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (deviceArn != null) 'DeviceArn': deviceArn,
-        if (roomArn != null) 'RoomArn': roomArn,
-      },
+      payload: AssociateDeviceWithRoomRequest(
+        deviceArn: deviceArn,
+        roomArn: roomArn,
+      ),
     );
 
     return AssociateDeviceWithRoomResponse.fromJson(jsonResponse.body);
@@ -262,10 +261,10 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (roomArn != null) 'RoomArn': roomArn,
-        if (skillGroupArn != null) 'SkillGroupArn': skillGroupArn,
-      },
+      payload: AssociateSkillGroupWithRoomRequest(
+        roomArn: roomArn,
+        skillGroupArn: skillGroupArn,
+      ),
     );
 
     return AssociateSkillGroupWithRoomResponse.fromJson(jsonResponse.body);
@@ -308,10 +307,10 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SkillId': skillId,
-        if (skillGroupArn != null) 'SkillGroupArn': skillGroupArn,
-      },
+      payload: AssociateSkillWithSkillGroupRequest(
+        skillId: skillId,
+        skillGroupArn: skillGroupArn,
+      ),
     );
 
     return AssociateSkillWithSkillGroupResponse.fromJson(jsonResponse.body);
@@ -345,9 +344,9 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SkillId': skillId,
-      },
+      payload: AssociateSkillWithUsersRequest(
+        skillId: skillId,
+      ),
     );
 
     return AssociateSkillWithUsersResponse.fromJson(jsonResponse.body);
@@ -418,12 +417,11 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-        if (description != null) 'Description': description,
-      },
+      payload: CreateAddressBookRequest(
+        name: name,
+        clientRequestToken: clientRequestToken,
+        description: description,
+      ),
     );
 
     return CreateAddressBookResponse.fromJson(jsonResponse.body);
@@ -517,16 +515,15 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ContentRange': contentRange,
-        'Format': format?.toValue(),
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-        if (recurrence != null) 'Recurrence': recurrence,
-        if (s3BucketName != null) 'S3BucketName': s3BucketName,
-        if (s3KeyPrefix != null) 'S3KeyPrefix': s3KeyPrefix,
-        if (scheduleName != null) 'ScheduleName': scheduleName,
-      },
+      payload: CreateBusinessReportScheduleRequest(
+        contentRange: contentRange,
+        format: format,
+        clientRequestToken: clientRequestToken,
+        recurrence: recurrence,
+        s3BucketName: s3BucketName,
+        s3KeyPrefix: s3KeyPrefix,
+        scheduleName: scheduleName,
+      ),
     );
 
     return CreateBusinessReportScheduleResponse.fromJson(jsonResponse.body);
@@ -600,15 +597,14 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConferenceProviderName': conferenceProviderName,
-        'ConferenceProviderType': conferenceProviderType?.toValue(),
-        'MeetingSetting': meetingSetting,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-        if (iPDialIn != null) 'IPDialIn': iPDialIn,
-        if (pSTNDialIn != null) 'PSTNDialIn': pSTNDialIn,
-      },
+      payload: CreateConferenceProviderRequest(
+        conferenceProviderName: conferenceProviderName,
+        conferenceProviderType: conferenceProviderType,
+        meetingSetting: meetingSetting,
+        clientRequestToken: clientRequestToken,
+        iPDialIn: iPDialIn,
+        pSTNDialIn: pSTNDialIn,
+      ),
     );
 
     return CreateConferenceProviderResponse.fromJson(jsonResponse.body);
@@ -722,16 +718,15 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'FirstName': firstName,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-        if (displayName != null) 'DisplayName': displayName,
-        if (lastName != null) 'LastName': lastName,
-        if (phoneNumber != null) 'PhoneNumber': phoneNumber,
-        if (phoneNumbers != null) 'PhoneNumbers': phoneNumbers,
-        if (sipAddresses != null) 'SipAddresses': sipAddresses,
-      },
+      payload: CreateContactRequest(
+        firstName: firstName,
+        clientRequestToken: clientRequestToken,
+        displayName: displayName,
+        lastName: lastName,
+        phoneNumber: phoneNumber,
+        phoneNumbers: phoneNumbers,
+        sipAddresses: sipAddresses,
+      ),
     );
 
     return CreateContactResponse.fromJson(jsonResponse.body);
@@ -800,11 +795,11 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClientRequestToken': clientRequestToken,
-        'Name': name,
-        if (description != null) 'Description': description,
-      },
+      payload: CreateGatewayGroupRequest(
+        clientRequestToken: clientRequestToken,
+        name: name,
+        description: description,
+      ),
     );
 
     return CreateGatewayGroupResponse.fromJson(jsonResponse.body);
@@ -955,19 +950,18 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClientRequestToken': clientRequestToken,
-        'NetworkProfileName': networkProfileName,
-        'SecurityType': securityType?.toValue(),
-        'Ssid': ssid,
-        if (certificateAuthorityArn != null)
-          'CertificateAuthorityArn': certificateAuthorityArn,
-        if (currentPassword != null) 'CurrentPassword': currentPassword,
-        if (description != null) 'Description': description,
-        if (eapMethod != null) 'EapMethod': eapMethod?.toValue(),
-        if (nextPassword != null) 'NextPassword': nextPassword,
-        if (trustAnchors != null) 'TrustAnchors': trustAnchors,
-      },
+      payload: CreateNetworkProfileRequest(
+        clientRequestToken: clientRequestToken,
+        networkProfileName: networkProfileName,
+        securityType: securityType,
+        ssid: ssid,
+        certificateAuthorityArn: certificateAuthorityArn,
+        currentPassword: currentPassword,
+        description: description,
+        eapMethod: eapMethod,
+        nextPassword: nextPassword,
+        trustAnchors: trustAnchors,
+      ),
     );
 
     return CreateNetworkProfileResponse.fromJson(jsonResponse.body);
@@ -1089,22 +1083,20 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Address': address,
-        'DistanceUnit': distanceUnit?.toValue(),
-        'ProfileName': profileName,
-        'TemperatureUnit': temperatureUnit?.toValue(),
-        'Timezone': timezone,
-        'WakeWord': wakeWord?.toValue(),
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-        if (locale != null) 'Locale': locale,
-        if (maxVolumeLimit != null) 'MaxVolumeLimit': maxVolumeLimit,
-        if (meetingRoomConfiguration != null)
-          'MeetingRoomConfiguration': meetingRoomConfiguration,
-        if (pSTNEnabled != null) 'PSTNEnabled': pSTNEnabled,
-        if (setupModeDisabled != null) 'SetupModeDisabled': setupModeDisabled,
-      },
+      payload: CreateProfileRequest(
+        address: address,
+        distanceUnit: distanceUnit,
+        profileName: profileName,
+        temperatureUnit: temperatureUnit,
+        timezone: timezone,
+        wakeWord: wakeWord,
+        clientRequestToken: clientRequestToken,
+        locale: locale,
+        maxVolumeLimit: maxVolumeLimit,
+        meetingRoomConfiguration: meetingRoomConfiguration,
+        pSTNEnabled: pSTNEnabled,
+        setupModeDisabled: setupModeDisabled,
+      ),
     );
 
     return CreateProfileResponse.fromJson(jsonResponse.body);
@@ -1198,16 +1190,14 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'RoomName': roomName,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-        if (description != null) 'Description': description,
-        if (profileArn != null) 'ProfileArn': profileArn,
-        if (providerCalendarId != null)
-          'ProviderCalendarId': providerCalendarId,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateRoomRequest(
+        roomName: roomName,
+        clientRequestToken: clientRequestToken,
+        description: description,
+        profileArn: profileArn,
+        providerCalendarId: providerCalendarId,
+        tags: tags,
+      ),
     );
 
     return CreateRoomResponse.fromJson(jsonResponse.body);
@@ -1279,12 +1269,11 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SkillGroupName': skillGroupName,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-        if (description != null) 'Description': description,
-      },
+      payload: CreateSkillGroupRequest(
+        skillGroupName: skillGroupName,
+        clientRequestToken: clientRequestToken,
+        description: description,
+      ),
     );
 
     return CreateSkillGroupResponse.fromJson(jsonResponse.body);
@@ -1390,15 +1379,14 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'UserId': userId,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
-        if (email != null) 'Email': email,
-        if (firstName != null) 'FirstName': firstName,
-        if (lastName != null) 'LastName': lastName,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateUserRequest(
+        userId: userId,
+        clientRequestToken: clientRequestToken,
+        email: email,
+        firstName: firstName,
+        lastName: lastName,
+        tags: tags,
+      ),
     );
 
     return CreateUserResponse.fromJson(jsonResponse.body);
@@ -1431,9 +1419,9 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AddressBookArn': addressBookArn,
-      },
+      payload: DeleteAddressBookRequest(
+        addressBookArn: addressBookArn,
+      ),
     );
 
     return DeleteAddressBookResponse.fromJson(jsonResponse.body);
@@ -1467,9 +1455,9 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ScheduleArn': scheduleArn,
-      },
+      payload: DeleteBusinessReportScheduleRequest(
+        scheduleArn: scheduleArn,
+      ),
     );
 
     return DeleteBusinessReportScheduleResponse.fromJson(jsonResponse.body);
@@ -1501,9 +1489,9 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConferenceProviderArn': conferenceProviderArn,
-      },
+      payload: DeleteConferenceProviderRequest(
+        conferenceProviderArn: conferenceProviderArn,
+      ),
     );
 
     return DeleteConferenceProviderResponse.fromJson(jsonResponse.body);
@@ -1536,9 +1524,9 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ContactArn': contactArn,
-      },
+      payload: DeleteContactRequest(
+        contactArn: contactArn,
+      ),
     );
 
     return DeleteContactResponse.fromJson(jsonResponse.body);
@@ -1572,9 +1560,9 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DeviceArn': deviceArn,
-      },
+      payload: DeleteDeviceRequest(
+        deviceArn: deviceArn,
+      ),
     );
 
     return DeleteDeviceResponse.fromJson(jsonResponse.body);
@@ -1616,10 +1604,10 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DeviceArn': deviceArn,
-        'DeviceUsageType': deviceUsageType?.toValue(),
-      },
+      payload: DeleteDeviceUsageDataRequest(
+        deviceArn: deviceArn,
+        deviceUsageType: deviceUsageType,
+      ),
     );
 
     return DeleteDeviceUsageDataResponse.fromJson(jsonResponse.body);
@@ -1651,9 +1639,9 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GatewayGroupArn': gatewayGroupArn,
-      },
+      payload: DeleteGatewayGroupRequest(
+        gatewayGroupArn: gatewayGroupArn,
+      ),
     );
 
     return DeleteGatewayGroupResponse.fromJson(jsonResponse.body);
@@ -1687,9 +1675,9 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'NetworkProfileArn': networkProfileArn,
-      },
+      payload: DeleteNetworkProfileRequest(
+        networkProfileArn: networkProfileArn,
+      ),
     );
 
     return DeleteNetworkProfileResponse.fromJson(jsonResponse.body);
@@ -1720,9 +1708,9 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (profileArn != null) 'ProfileArn': profileArn,
-      },
+      payload: DeleteProfileRequest(
+        profileArn: profileArn,
+      ),
     );
 
     return DeleteProfileResponse.fromJson(jsonResponse.body);
@@ -1753,9 +1741,9 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (roomArn != null) 'RoomArn': roomArn,
-      },
+      payload: DeleteRoomRequest(
+        roomArn: roomArn,
+      ),
     );
 
     return DeleteRoomResponse.fromJson(jsonResponse.body);
@@ -1808,11 +1796,11 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ParameterKey': parameterKey,
-        'SkillId': skillId,
-        if (roomArn != null) 'RoomArn': roomArn,
-      },
+      payload: DeleteRoomSkillParameterRequest(
+        parameterKey: parameterKey,
+        skillId: skillId,
+        roomArn: roomArn,
+      ),
     );
 
     return DeleteRoomSkillParameterResponse.fromJson(jsonResponse.body);
@@ -1854,10 +1842,10 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SkillId': skillId,
-        if (roomArn != null) 'RoomArn': roomArn,
-      },
+      payload: DeleteSkillAuthorizationRequest(
+        skillId: skillId,
+        roomArn: roomArn,
+      ),
     );
 
     return DeleteSkillAuthorizationResponse.fromJson(jsonResponse.body);
@@ -1888,9 +1876,9 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (skillGroupArn != null) 'SkillGroupArn': skillGroupArn,
-      },
+      payload: DeleteSkillGroupRequest(
+        skillGroupArn: skillGroupArn,
+      ),
     );
 
     return DeleteSkillGroupResponse.fromJson(jsonResponse.body);
@@ -1933,10 +1921,10 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EnrollmentId': enrollmentId,
-        if (userArn != null) 'UserArn': userArn,
-      },
+      payload: DeleteUserRequest(
+        enrollmentId: enrollmentId,
+        userArn: userArn,
+      ),
     );
 
     return DeleteUserResponse.fromJson(jsonResponse.body);
@@ -1977,10 +1965,10 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AddressBookArn': addressBookArn,
-        'ContactArn': contactArn,
-      },
+      payload: DisassociateContactFromAddressBookRequest(
+        addressBookArn: addressBookArn,
+        contactArn: contactArn,
+      ),
     );
 
     return DisassociateContactFromAddressBookResponse.fromJson(
@@ -2014,9 +2002,9 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (deviceArn != null) 'DeviceArn': deviceArn,
-      },
+      payload: DisassociateDeviceFromRoomRequest(
+        deviceArn: deviceArn,
+      ),
     );
 
     return DisassociateDeviceFromRoomResponse.fromJson(jsonResponse.body);
@@ -2058,10 +2046,10 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SkillId': skillId,
-        if (skillGroupArn != null) 'SkillGroupArn': skillGroupArn,
-      },
+      payload: DisassociateSkillFromSkillGroupRequest(
+        skillId: skillId,
+        skillGroupArn: skillGroupArn,
+      ),
     );
 
     return DisassociateSkillFromSkillGroupResponse.fromJson(jsonResponse.body);
@@ -2095,9 +2083,9 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SkillId': skillId,
-      },
+      payload: DisassociateSkillFromUsersRequest(
+        skillId: skillId,
+      ),
     );
 
     return DisassociateSkillFromUsersResponse.fromJson(jsonResponse.body);
@@ -2138,10 +2126,10 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (roomArn != null) 'RoomArn': roomArn,
-        if (skillGroupArn != null) 'SkillGroupArn': skillGroupArn,
-      },
+      payload: DisassociateSkillGroupFromRoomRequest(
+        roomArn: roomArn,
+        skillGroupArn: skillGroupArn,
+      ),
     );
 
     return DisassociateSkillGroupFromRoomResponse.fromJson(jsonResponse.body);
@@ -2173,9 +2161,9 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'RoomArn': roomArn,
-      },
+      payload: ForgetSmartHomeAppliancesRequest(
+        roomArn: roomArn,
+      ),
     );
 
     return ForgetSmartHomeAppliancesResponse.fromJson(jsonResponse.body);
@@ -2207,9 +2195,9 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AddressBookArn': addressBookArn,
-      },
+      payload: GetAddressBookRequest(
+        addressBookArn: addressBookArn,
+      ),
     );
 
     return GetAddressBookResponse.fromJson(jsonResponse.body);
@@ -2260,9 +2248,9 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConferenceProviderArn': conferenceProviderArn,
-      },
+      payload: GetConferenceProviderRequest(
+        conferenceProviderArn: conferenceProviderArn,
+      ),
     );
 
     return GetConferenceProviderResponse.fromJson(jsonResponse.body);
@@ -2294,9 +2282,9 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ContactArn': contactArn,
-      },
+      payload: GetContactRequest(
+        contactArn: contactArn,
+      ),
     );
 
     return GetContactResponse.fromJson(jsonResponse.body);
@@ -2326,9 +2314,9 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (deviceArn != null) 'DeviceArn': deviceArn,
-      },
+      payload: GetDeviceRequest(
+        deviceArn: deviceArn,
+      ),
     );
 
     return GetDeviceResponse.fromJson(jsonResponse.body);
@@ -2360,9 +2348,9 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GatewayArn': gatewayArn,
-      },
+      payload: GetGatewayRequest(
+        gatewayArn: gatewayArn,
+      ),
     );
 
     return GetGatewayResponse.fromJson(jsonResponse.body);
@@ -2394,9 +2382,9 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GatewayGroupArn': gatewayGroupArn,
-      },
+      payload: GetGatewayGroupRequest(
+        gatewayGroupArn: gatewayGroupArn,
+      ),
     );
 
     return GetGatewayGroupResponse.fromJson(jsonResponse.body);
@@ -2450,9 +2438,9 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'NetworkProfileArn': networkProfileArn,
-      },
+      payload: GetNetworkProfileRequest(
+        networkProfileArn: networkProfileArn,
+      ),
     );
 
     return GetNetworkProfileResponse.fromJson(jsonResponse.body);
@@ -2482,9 +2470,9 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (profileArn != null) 'ProfileArn': profileArn,
-      },
+      payload: GetProfileRequest(
+        profileArn: profileArn,
+      ),
     );
 
     return GetProfileResponse.fromJson(jsonResponse.body);
@@ -2514,9 +2502,9 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (roomArn != null) 'RoomArn': roomArn,
-      },
+      payload: GetRoomRequest(
+        roomArn: roomArn,
+      ),
     );
 
     return GetRoomResponse.fromJson(jsonResponse.body);
@@ -2570,11 +2558,11 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ParameterKey': parameterKey,
-        'SkillId': skillId,
-        if (roomArn != null) 'RoomArn': roomArn,
-      },
+      payload: GetRoomSkillParameterRequest(
+        parameterKey: parameterKey,
+        skillId: skillId,
+        roomArn: roomArn,
+      ),
     );
 
     return GetRoomSkillParameterResponse.fromJson(jsonResponse.body);
@@ -2604,9 +2592,9 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (skillGroupArn != null) 'SkillGroupArn': skillGroupArn,
-      },
+      payload: GetSkillGroupRequest(
+        skillGroupArn: skillGroupArn,
+      ),
     );
 
     return GetSkillGroupResponse.fromJson(jsonResponse.body);
@@ -2648,10 +2636,10 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListBusinessReportSchedulesRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListBusinessReportSchedulesResponse.fromJson(jsonResponse.body);
@@ -2691,10 +2679,10 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListConferenceProvidersRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListConferenceProvidersResponse.fromJson(jsonResponse.body);
@@ -2761,12 +2749,12 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DeviceArn': deviceArn,
-        if (eventType != null) 'EventType': eventType?.toValue(),
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListDeviceEventsRequest(
+        deviceArn: deviceArn,
+        eventType: eventType,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListDeviceEventsResponse.fromJson(jsonResponse.body);
@@ -2808,10 +2796,10 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListGatewayGroupsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListGatewayGroupsResponse.fromJson(jsonResponse.body);
@@ -2862,11 +2850,11 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (gatewayGroupArn != null) 'GatewayGroupArn': gatewayGroupArn,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListGatewaysRequest(
+        gatewayGroupArn: gatewayGroupArn,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListGatewaysResponse.fromJson(jsonResponse.body);
@@ -2927,13 +2915,13 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (enablementType != null) 'EnablementType': enablementType?.toValue(),
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (skillGroupArn != null) 'SkillGroupArn': skillGroupArn,
-        if (skillType != null) 'SkillType': skillType?.toValue(),
-      },
+      payload: ListSkillsRequest(
+        enablementType: enablementType,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        skillGroupArn: skillGroupArn,
+        skillType: skillType,
+      ),
     );
 
     return ListSkillsResponse.fromJson(jsonResponse.body);
@@ -2972,10 +2960,10 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListSkillsStoreCategoriesRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListSkillsStoreCategoriesResponse.fromJson(jsonResponse.body);
@@ -3028,11 +3016,11 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CategoryId': categoryId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListSkillsStoreSkillsByCategoryRequest(
+        categoryId: categoryId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListSkillsStoreSkillsByCategoryResponse.fromJson(jsonResponse.body);
@@ -3084,11 +3072,11 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'RoomArn': roomArn,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListSmartHomeAppliancesRequest(
+        roomArn: roomArn,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListSmartHomeAppliancesResponse.fromJson(jsonResponse.body);
@@ -3145,11 +3133,11 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Arn': arn,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListTagsRequest(
+        arn: arn,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListTagsResponse.fromJson(jsonResponse.body);
@@ -3176,9 +3164,9 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConferencePreference': conferencePreference,
-      },
+      payload: PutConferencePreferenceRequest(
+        conferencePreference: conferencePreference,
+      ),
     );
 
     return PutConferencePreferenceResponse.fromJson(jsonResponse.body);
@@ -3240,11 +3228,11 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'OrganizationName': organizationName,
-        if (contactEmail != null) 'ContactEmail': contactEmail,
-        if (privateSkillIds != null) 'PrivateSkillIds': privateSkillIds,
-      },
+      payload: PutInvitationConfigurationRequest(
+        organizationName: organizationName,
+        contactEmail: contactEmail,
+        privateSkillIds: privateSkillIds,
+      ),
     );
 
     return PutInvitationConfigurationResponse.fromJson(jsonResponse.body);
@@ -3291,11 +3279,11 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'RoomSkillParameter': roomSkillParameter,
-        'SkillId': skillId,
-        if (roomArn != null) 'RoomArn': roomArn,
-      },
+      payload: PutRoomSkillParameterRequest(
+        roomSkillParameter: roomSkillParameter,
+        skillId: skillId,
+        roomArn: roomArn,
+      ),
     );
 
     return PutRoomSkillParameterResponse.fromJson(jsonResponse.body);
@@ -3347,11 +3335,11 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AuthorizationResult': authorizationResult,
-        'SkillId': skillId,
-        if (roomArn != null) 'RoomArn': roomArn,
-      },
+      payload: PutSkillAuthorizationRequest(
+        authorizationResult: authorizationResult,
+        skillId: skillId,
+        roomArn: roomArn,
+      ),
     );
 
     return PutSkillAuthorizationResponse.fromJson(jsonResponse.body);
@@ -3436,13 +3424,13 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AmazonId': amazonId,
-        'ClientId': clientId,
-        'DeviceSerialNumber': deviceSerialNumber,
-        'ProductId': productId,
-        'UserCode': userCode,
-      },
+      payload: RegisterAVSDeviceRequest(
+        amazonId: amazonId,
+        clientId: clientId,
+        deviceSerialNumber: deviceSerialNumber,
+        productId: productId,
+        userCode: userCode,
+      ),
     );
 
     return RegisterAVSDeviceResponse.fromJson(jsonResponse.body);
@@ -3478,9 +3466,9 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SkillId': skillId,
-      },
+      payload: RejectSkillRequest(
+        skillId: skillId,
+      ),
     );
 
     return RejectSkillResponse.fromJson(jsonResponse.body);
@@ -3524,10 +3512,10 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SkillId': skillId,
-        'UserId': userId,
-      },
+      payload: ResolveRoomRequest(
+        skillId: skillId,
+        userId: userId,
+      ),
     );
 
     return ResolveRoomResponse.fromJson(jsonResponse.body);
@@ -3568,10 +3556,10 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (enrollmentId != null) 'EnrollmentId': enrollmentId,
-        if (userArn != null) 'UserArn': userArn,
-      },
+      payload: RevokeInvitationRequest(
+        enrollmentId: enrollmentId,
+        userArn: userArn,
+      ),
     );
 
     return RevokeInvitationResponse.fromJson(jsonResponse.body);
@@ -3626,12 +3614,12 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortCriteria != null) 'SortCriteria': sortCriteria,
-      },
+      payload: SearchAddressBooksRequest(
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        sortCriteria: sortCriteria,
+      ),
     );
 
     return SearchAddressBooksResponse.fromJson(jsonResponse.body);
@@ -3686,12 +3674,12 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortCriteria != null) 'SortCriteria': sortCriteria,
-      },
+      payload: SearchContactsRequest(
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        sortCriteria: sortCriteria,
+      ),
     );
 
     return SearchContactsResponse.fromJson(jsonResponse.body);
@@ -3750,12 +3738,12 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortCriteria != null) 'SortCriteria': sortCriteria,
-      },
+      payload: SearchDevicesRequest(
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        sortCriteria: sortCriteria,
+      ),
     );
 
     return SearchDevicesResponse.fromJson(jsonResponse.body);
@@ -3810,12 +3798,12 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortCriteria != null) 'SortCriteria': sortCriteria,
-      },
+      payload: SearchNetworkProfilesRequest(
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        sortCriteria: sortCriteria,
+      ),
     );
 
     return SearchNetworkProfilesResponse.fromJson(jsonResponse.body);
@@ -3870,12 +3858,12 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortCriteria != null) 'SortCriteria': sortCriteria,
-      },
+      payload: SearchProfilesRequest(
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        sortCriteria: sortCriteria,
+      ),
     );
 
     return SearchProfilesResponse.fromJson(jsonResponse.body);
@@ -3930,12 +3918,12 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortCriteria != null) 'SortCriteria': sortCriteria,
-      },
+      payload: SearchRoomsRequest(
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        sortCriteria: sortCriteria,
+      ),
     );
 
     return SearchRoomsResponse.fromJson(jsonResponse.body);
@@ -3990,12 +3978,12 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortCriteria != null) 'SortCriteria': sortCriteria,
-      },
+      payload: SearchSkillGroupsRequest(
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        sortCriteria: sortCriteria,
+      ),
     );
 
     return SearchSkillGroupsResponse.fromJson(jsonResponse.body);
@@ -4053,12 +4041,12 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortCriteria != null) 'SortCriteria': sortCriteria,
-      },
+      payload: SearchUsersRequest(
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        sortCriteria: sortCriteria,
+      ),
     );
 
     return SearchUsersResponse.fromJson(jsonResponse.body);
@@ -4124,13 +4112,12 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClientRequestToken': clientRequestToken,
-        'Content': content,
-        'RoomFilters': roomFilters,
-        if (timeToLiveInSeconds != null)
-          'TimeToLiveInSeconds': timeToLiveInSeconds,
-      },
+      payload: SendAnnouncementRequest(
+        clientRequestToken: clientRequestToken,
+        content: content,
+        roomFilters: roomFilters,
+        timeToLiveInSeconds: timeToLiveInSeconds,
+      ),
     );
 
     return SendAnnouncementResponse.fromJson(jsonResponse.body);
@@ -4164,9 +4151,9 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (userArn != null) 'UserArn': userArn,
-      },
+      payload: SendInvitationRequest(
+        userArn: userArn,
+      ),
     );
 
     return SendInvitationResponse.fromJson(jsonResponse.body);
@@ -4232,11 +4219,11 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Features': features,
-        if (deviceArn != null) 'DeviceArn': deviceArn,
-        if (roomArn != null) 'RoomArn': roomArn,
-      },
+      payload: StartDeviceSyncRequest(
+        features: features,
+        deviceArn: deviceArn,
+        roomArn: roomArn,
+      ),
     );
 
     return StartDeviceSyncResponse.fromJson(jsonResponse.body);
@@ -4269,9 +4256,9 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'RoomArn': roomArn,
-      },
+      payload: StartSmartHomeApplianceDiscoveryRequest(
+        roomArn: roomArn,
+      ),
     );
 
     return StartSmartHomeApplianceDiscoveryResponse.fromJson(jsonResponse.body);
@@ -4309,10 +4296,10 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Arn': arn,
-        'Tags': tags,
-      },
+      payload: TagResourceRequest(
+        arn: arn,
+        tags: tags,
+      ),
     );
 
     return TagResourceResponse.fromJson(jsonResponse.body);
@@ -4350,10 +4337,10 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Arn': arn,
-        'TagKeys': tagKeys,
-      },
+      payload: UntagResourceRequest(
+        arn: arn,
+        tagKeys: tagKeys,
+      ),
     );
 
     return UntagResourceResponse.fromJson(jsonResponse.body);
@@ -4417,11 +4404,11 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AddressBookArn': addressBookArn,
-        if (description != null) 'Description': description,
-        if (name != null) 'Name': name,
-      },
+      payload: UpdateAddressBookRequest(
+        addressBookArn: addressBookArn,
+        description: description,
+        name: name,
+      ),
     );
 
     return UpdateAddressBookResponse.fromJson(jsonResponse.body);
@@ -4503,14 +4490,14 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ScheduleArn': scheduleArn,
-        if (format != null) 'Format': format?.toValue(),
-        if (recurrence != null) 'Recurrence': recurrence,
-        if (s3BucketName != null) 'S3BucketName': s3BucketName,
-        if (s3KeyPrefix != null) 'S3KeyPrefix': s3KeyPrefix,
-        if (scheduleName != null) 'ScheduleName': scheduleName,
-      },
+      payload: UpdateBusinessReportScheduleRequest(
+        scheduleArn: scheduleArn,
+        format: format,
+        recurrence: recurrence,
+        s3BucketName: s3BucketName,
+        s3KeyPrefix: s3KeyPrefix,
+        scheduleName: scheduleName,
+      ),
     );
 
     return UpdateBusinessReportScheduleResponse.fromJson(jsonResponse.body);
@@ -4561,13 +4548,13 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ConferenceProviderArn': conferenceProviderArn,
-        'ConferenceProviderType': conferenceProviderType?.toValue(),
-        'MeetingSetting': meetingSetting,
-        if (iPDialIn != null) 'IPDialIn': iPDialIn,
-        if (pSTNDialIn != null) 'PSTNDialIn': pSTNDialIn,
-      },
+      payload: UpdateConferenceProviderRequest(
+        conferenceProviderArn: conferenceProviderArn,
+        conferenceProviderType: conferenceProviderType,
+        meetingSetting: meetingSetting,
+        iPDialIn: iPDialIn,
+        pSTNDialIn: pSTNDialIn,
+      ),
     );
 
     return UpdateConferenceProviderResponse.fromJson(jsonResponse.body);
@@ -4671,15 +4658,15 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ContactArn': contactArn,
-        if (displayName != null) 'DisplayName': displayName,
-        if (firstName != null) 'FirstName': firstName,
-        if (lastName != null) 'LastName': lastName,
-        if (phoneNumber != null) 'PhoneNumber': phoneNumber,
-        if (phoneNumbers != null) 'PhoneNumbers': phoneNumbers,
-        if (sipAddresses != null) 'SipAddresses': sipAddresses,
-      },
+      payload: UpdateContactRequest(
+        contactArn: contactArn,
+        displayName: displayName,
+        firstName: firstName,
+        lastName: lastName,
+        phoneNumber: phoneNumber,
+        phoneNumbers: phoneNumbers,
+        sipAddresses: sipAddresses,
+      ),
     );
 
     return UpdateContactResponse.fromJson(jsonResponse.body);
@@ -4726,10 +4713,10 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (deviceArn != null) 'DeviceArn': deviceArn,
-        if (deviceName != null) 'DeviceName': deviceName,
-      },
+      payload: UpdateDeviceRequest(
+        deviceArn: deviceArn,
+        deviceName: deviceName,
+      ),
     );
 
     return UpdateDeviceResponse.fromJson(jsonResponse.body);
@@ -4804,12 +4791,12 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GatewayArn': gatewayArn,
-        if (description != null) 'Description': description,
-        if (name != null) 'Name': name,
-        if (softwareVersion != null) 'SoftwareVersion': softwareVersion,
-      },
+      payload: UpdateGatewayRequest(
+        gatewayArn: gatewayArn,
+        description: description,
+        name: name,
+        softwareVersion: softwareVersion,
+      ),
     );
 
     return UpdateGatewayResponse.fromJson(jsonResponse.body);
@@ -4868,11 +4855,11 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GatewayGroupArn': gatewayGroupArn,
-        if (description != null) 'Description': description,
-        if (name != null) 'Name': name,
-      },
+      payload: UpdateGatewayGroupRequest(
+        gatewayGroupArn: gatewayGroupArn,
+        description: description,
+        name: name,
+      ),
     );
 
     return UpdateGatewayGroupResponse.fromJson(jsonResponse.body);
@@ -4987,17 +4974,15 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'NetworkProfileArn': networkProfileArn,
-        if (certificateAuthorityArn != null)
-          'CertificateAuthorityArn': certificateAuthorityArn,
-        if (currentPassword != null) 'CurrentPassword': currentPassword,
-        if (description != null) 'Description': description,
-        if (networkProfileName != null)
-          'NetworkProfileName': networkProfileName,
-        if (nextPassword != null) 'NextPassword': nextPassword,
-        if (trustAnchors != null) 'TrustAnchors': trustAnchors,
-      },
+      payload: UpdateNetworkProfileRequest(
+        networkProfileArn: networkProfileArn,
+        certificateAuthorityArn: certificateAuthorityArn,
+        currentPassword: currentPassword,
+        description: description,
+        networkProfileName: networkProfileName,
+        nextPassword: nextPassword,
+        trustAnchors: trustAnchors,
+      ),
     );
 
     return UpdateNetworkProfileResponse.fromJson(jsonResponse.body);
@@ -5108,23 +5093,21 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (address != null) 'Address': address,
-        if (distanceUnit != null) 'DistanceUnit': distanceUnit?.toValue(),
-        if (isDefault != null) 'IsDefault': isDefault,
-        if (locale != null) 'Locale': locale,
-        if (maxVolumeLimit != null) 'MaxVolumeLimit': maxVolumeLimit,
-        if (meetingRoomConfiguration != null)
-          'MeetingRoomConfiguration': meetingRoomConfiguration,
-        if (pSTNEnabled != null) 'PSTNEnabled': pSTNEnabled,
-        if (profileArn != null) 'ProfileArn': profileArn,
-        if (profileName != null) 'ProfileName': profileName,
-        if (setupModeDisabled != null) 'SetupModeDisabled': setupModeDisabled,
-        if (temperatureUnit != null)
-          'TemperatureUnit': temperatureUnit?.toValue(),
-        if (timezone != null) 'Timezone': timezone,
-        if (wakeWord != null) 'WakeWord': wakeWord?.toValue(),
-      },
+      payload: UpdateProfileRequest(
+        address: address,
+        distanceUnit: distanceUnit,
+        isDefault: isDefault,
+        locale: locale,
+        maxVolumeLimit: maxVolumeLimit,
+        meetingRoomConfiguration: meetingRoomConfiguration,
+        pSTNEnabled: pSTNEnabled,
+        profileArn: profileArn,
+        profileName: profileName,
+        setupModeDisabled: setupModeDisabled,
+        temperatureUnit: temperatureUnit,
+        timezone: timezone,
+        wakeWord: wakeWord,
+      ),
     );
 
     return UpdateProfileResponse.fromJson(jsonResponse.body);
@@ -5204,14 +5187,13 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (description != null) 'Description': description,
-        if (profileArn != null) 'ProfileArn': profileArn,
-        if (providerCalendarId != null)
-          'ProviderCalendarId': providerCalendarId,
-        if (roomArn != null) 'RoomArn': roomArn,
-        if (roomName != null) 'RoomName': roomName,
-      },
+      payload: UpdateRoomRequest(
+        description: description,
+        profileArn: profileArn,
+        providerCalendarId: providerCalendarId,
+        roomArn: roomArn,
+        roomName: roomName,
+      ),
     );
 
     return UpdateRoomResponse.fromJson(jsonResponse.body);
@@ -5273,11 +5255,11 @@ class AlexaForBusiness {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (description != null) 'Description': description,
-        if (skillGroupArn != null) 'SkillGroupArn': skillGroupArn,
-        if (skillGroupName != null) 'SkillGroupName': skillGroupName,
-      },
+      payload: UpdateSkillGroupRequest(
+        description: description,
+        skillGroupArn: skillGroupArn,
+        skillGroupName: skillGroupName,
+      ),
     );
 
     return UpdateSkillGroupResponse.fromJson(jsonResponse.body);
@@ -5343,12 +5325,50 @@ class AddressBookData {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ApproveSkillRequest {
+  /// The unique identifier of the skill.
+  @_s.JsonKey(name: 'SkillId')
+  final String skillId;
+
+  ApproveSkillRequest({
+    @_s.required this.skillId,
+  });
+  Map<String, dynamic> toJson() => _$ApproveSkillRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ApproveSkillResponse {
   ApproveSkillResponse();
   factory ApproveSkillResponse.fromJson(Map<String, dynamic> json) =>
       _$ApproveSkillResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateContactWithAddressBookRequest {
+  /// The ARN of the address book with which to associate the contact.
+  @_s.JsonKey(name: 'AddressBookArn')
+  final String addressBookArn;
+
+  /// The ARN of the contact to associate with an address book.
+  @_s.JsonKey(name: 'ContactArn')
+  final String contactArn;
+
+  AssociateContactWithAddressBookRequest({
+    @_s.required this.addressBookArn,
+    @_s.required this.contactArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AssociateContactWithAddressBookRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5366,6 +5386,28 @@ class AssociateContactWithAddressBookResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateDeviceWithNetworkProfileRequest {
+  /// The device ARN.
+  @_s.JsonKey(name: 'DeviceArn')
+  final String deviceArn;
+
+  /// The ARN of the network profile to associate with a device.
+  @_s.JsonKey(name: 'NetworkProfileArn')
+  final String networkProfileArn;
+
+  AssociateDeviceWithNetworkProfileRequest({
+    @_s.required this.deviceArn,
+    @_s.required this.networkProfileArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AssociateDeviceWithNetworkProfileRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AssociateDeviceWithNetworkProfileResponse {
@@ -5378,12 +5420,55 @@ class AssociateDeviceWithNetworkProfileResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateDeviceWithRoomRequest {
+  /// The ARN of the device to associate to a room. Required.
+  @_s.JsonKey(name: 'DeviceArn')
+  final String deviceArn;
+
+  /// The ARN of the room with which to associate the device. Required.
+  @_s.JsonKey(name: 'RoomArn')
+  final String roomArn;
+
+  AssociateDeviceWithRoomRequest({
+    this.deviceArn,
+    this.roomArn,
+  });
+  Map<String, dynamic> toJson() => _$AssociateDeviceWithRoomRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AssociateDeviceWithRoomResponse {
   AssociateDeviceWithRoomResponse();
   factory AssociateDeviceWithRoomResponse.fromJson(Map<String, dynamic> json) =>
       _$AssociateDeviceWithRoomResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateSkillGroupWithRoomRequest {
+  /// The ARN of the room with which to associate the skill group. Required.
+  @_s.JsonKey(name: 'RoomArn')
+  final String roomArn;
+
+  /// The ARN of the skill group to associate with a room. Required.
+  @_s.JsonKey(name: 'SkillGroupArn')
+  final String skillGroupArn;
+
+  AssociateSkillGroupWithRoomRequest({
+    this.roomArn,
+    this.skillGroupArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AssociateSkillGroupWithRoomRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5401,6 +5486,28 @@ class AssociateSkillGroupWithRoomResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateSkillWithSkillGroupRequest {
+  /// The unique identifier of the skill.
+  @_s.JsonKey(name: 'SkillId')
+  final String skillId;
+
+  /// The ARN of the skill group to associate the skill to. Required.
+  @_s.JsonKey(name: 'SkillGroupArn')
+  final String skillGroupArn;
+
+  AssociateSkillWithSkillGroupRequest({
+    @_s.required this.skillId,
+    this.skillGroupArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$AssociateSkillWithSkillGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AssociateSkillWithSkillGroupResponse {
@@ -5408,6 +5515,22 @@ class AssociateSkillWithSkillGroupResponse {
   factory AssociateSkillWithSkillGroupResponse.fromJson(
           Map<String, dynamic> json) =>
       _$AssociateSkillWithSkillGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateSkillWithUsersRequest {
+  /// The private skill ID you want to make available to enrolled users.
+  @_s.JsonKey(name: 'SkillId')
+  final String skillId;
+
+  AssociateSkillWithUsersRequest({
+    @_s.required this.skillId,
+  });
+  Map<String, dynamic> toJson() => _$AssociateSkillWithUsersRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5534,18 +5657,6 @@ enum BusinessReportFormat {
   csv,
   @_s.JsonValue('CSV_ZIP')
   csvZip,
-}
-
-extension on BusinessReportFormat {
-  String toValue() {
-    switch (this) {
-      case BusinessReportFormat.csv:
-        return 'CSV';
-      case BusinessReportFormat.csvZip:
-        return 'CSV_ZIP';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 enum BusinessReportInterval {
@@ -5787,34 +5898,6 @@ enum ConferenceProviderType {
   custom,
 }
 
-extension on ConferenceProviderType {
-  String toValue() {
-    switch (this) {
-      case ConferenceProviderType.chime:
-        return 'CHIME';
-      case ConferenceProviderType.bluejeans:
-        return 'BLUEJEANS';
-      case ConferenceProviderType.fuze:
-        return 'FUZE';
-      case ConferenceProviderType.googleHangouts:
-        return 'GOOGLE_HANGOUTS';
-      case ConferenceProviderType.polycom:
-        return 'POLYCOM';
-      case ConferenceProviderType.ringcentral:
-        return 'RINGCENTRAL';
-      case ConferenceProviderType.skypeForBusiness:
-        return 'SKYPE_FOR_BUSINESS';
-      case ConferenceProviderType.webex:
-        return 'WEBEX';
-      case ConferenceProviderType.zoom:
-        return 'ZOOM';
-      case ConferenceProviderType.custom:
-        return 'CUSTOM';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum ConnectionStatus {
   @_s.JsonValue('ONLINE')
   online,
@@ -5955,6 +6038,33 @@ class Content {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateAddressBookRequest {
+  /// The name of the address book.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// A unique, user-specified identifier for the request that ensures
+  /// idempotency.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// The description of the address book.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  CreateAddressBookRequest({
+    @_s.required this.name,
+    this.clientRequestToken,
+    this.description,
+  });
+  Map<String, dynamic> toJson() => _$CreateAddressBookRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateAddressBookResponse {
@@ -5967,6 +6077,57 @@ class CreateAddressBookResponse {
   });
   factory CreateAddressBookResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateAddressBookResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateBusinessReportScheduleRequest {
+  /// The content range of the reports.
+  @_s.JsonKey(name: 'ContentRange')
+  final BusinessReportContentRange contentRange;
+
+  /// The format of the generated report (individual CSV files or zipped files of
+  /// individual files).
+  @_s.JsonKey(name: 'Format')
+  final BusinessReportFormat format;
+
+  /// The client request token.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// The recurrence of the reports. If this isn't specified, the report will only
+  /// be delivered one time when the API is called.
+  @_s.JsonKey(name: 'Recurrence')
+  final BusinessReportRecurrence recurrence;
+
+  /// The S3 bucket name of the output reports. If this isn't specified, the
+  /// report can be retrieved from a download link by calling
+  /// ListBusinessReportSchedule.
+  @_s.JsonKey(name: 'S3BucketName')
+  final String s3BucketName;
+
+  /// The S3 key where the report is delivered.
+  @_s.JsonKey(name: 'S3KeyPrefix')
+  final String s3KeyPrefix;
+
+  /// The name identifier of the schedule.
+  @_s.JsonKey(name: 'ScheduleName')
+  final String scheduleName;
+
+  CreateBusinessReportScheduleRequest({
+    @_s.required this.contentRange,
+    @_s.required this.format,
+    this.clientRequestToken,
+    this.recurrence,
+    this.s3BucketName,
+    this.s3KeyPrefix,
+    this.scheduleName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateBusinessReportScheduleRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5990,6 +6151,48 @@ class CreateBusinessReportScheduleResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateConferenceProviderRequest {
+  /// The name of the conference provider.
+  @_s.JsonKey(name: 'ConferenceProviderName')
+  final String conferenceProviderName;
+
+  /// Represents a type within a list of predefined types.
+  @_s.JsonKey(name: 'ConferenceProviderType')
+  final ConferenceProviderType conferenceProviderType;
+
+  /// The meeting settings for the conference provider.
+  @_s.JsonKey(name: 'MeetingSetting')
+  final MeetingSetting meetingSetting;
+
+  /// The request token of the client.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// The IP endpoint and protocol for calling.
+  @_s.JsonKey(name: 'IPDialIn')
+  final IPDialIn iPDialIn;
+
+  /// The information for PSTN conferencing.
+  @_s.JsonKey(name: 'PSTNDialIn')
+  final PSTNDialIn pSTNDialIn;
+
+  CreateConferenceProviderRequest({
+    @_s.required this.conferenceProviderName,
+    @_s.required this.conferenceProviderType,
+    @_s.required this.meetingSetting,
+    this.clientRequestToken,
+    this.iPDialIn,
+    this.pSTNDialIn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateConferenceProviderRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateConferenceProviderResponse {
@@ -6003,6 +6206,57 @@ class CreateConferenceProviderResponse {
   factory CreateConferenceProviderResponse.fromJson(
           Map<String, dynamic> json) =>
       _$CreateConferenceProviderResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateContactRequest {
+  /// The first name of the contact that is used to call the contact on the
+  /// device.
+  @_s.JsonKey(name: 'FirstName')
+  final String firstName;
+
+  /// A unique, user-specified identifier for this request that ensures
+  /// idempotency.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// The name of the contact to display on the console.
+  @_s.JsonKey(name: 'DisplayName')
+  final String displayName;
+
+  /// The last name of the contact that is used to call the contact on the device.
+  @_s.JsonKey(name: 'LastName')
+  final String lastName;
+
+  /// The phone number of the contact in E.164 format. The phone number type
+  /// defaults to WORK. You can specify PhoneNumber or PhoneNumbers. We recommend
+  /// that you use PhoneNumbers, which lets you specify the phone number type and
+  /// multiple numbers.
+  @_s.JsonKey(name: 'PhoneNumber')
+  final String phoneNumber;
+
+  /// The list of phone numbers for the contact.
+  @_s.JsonKey(name: 'PhoneNumbers')
+  final List<PhoneNumber> phoneNumbers;
+
+  /// The list of SIP addresses for the contact.
+  @_s.JsonKey(name: 'SipAddresses')
+  final List<SipAddress> sipAddresses;
+
+  CreateContactRequest({
+    @_s.required this.firstName,
+    this.clientRequestToken,
+    this.displayName,
+    this.lastName,
+    this.phoneNumber,
+    this.phoneNumbers,
+    this.sipAddresses,
+  });
+  Map<String, dynamic> toJson() => _$CreateContactRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6049,6 +6303,33 @@ class CreateEndOfMeetingReminder {
     @_s.required this.reminderType,
   });
   Map<String, dynamic> toJson() => _$CreateEndOfMeetingReminderToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateGatewayGroupRequest {
+  /// A unique, user-specified identifier for the request that ensures
+  /// idempotency.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// The name of the gateway group.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The description of the gateway group.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  CreateGatewayGroupRequest({
+    @_s.required this.clientRequestToken,
+    @_s.required this.name,
+    this.description,
+  });
+  Map<String, dynamic> toJson() => _$CreateGatewayGroupRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6131,6 +6412,74 @@ class CreateMeetingRoomConfiguration {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateNetworkProfileRequest {
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// The name of the network profile associated with a device.
+  @_s.JsonKey(name: 'NetworkProfileName')
+  final String networkProfileName;
+
+  /// The security type of the Wi-Fi network. This can be WPA2_ENTERPRISE,
+  /// WPA2_PSK, WPA_PSK, WEP, or OPEN.
+  @_s.JsonKey(name: 'SecurityType')
+  final NetworkSecurityType securityType;
+
+  /// The SSID of the Wi-Fi network.
+  @_s.JsonKey(name: 'Ssid')
+  final String ssid;
+
+  /// The ARN of the Private Certificate Authority (PCA) created in AWS
+  /// Certificate Manager (ACM). This is used to issue certificates to the
+  /// devices.
+  @_s.JsonKey(name: 'CertificateAuthorityArn')
+  final String certificateAuthorityArn;
+
+  /// The current password of the Wi-Fi network.
+  @_s.JsonKey(name: 'CurrentPassword')
+  final String currentPassword;
+
+  /// Detailed information about a device's network profile.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The authentication standard that is used in the EAP framework. Currently,
+  /// EAP_TLS is supported.
+  @_s.JsonKey(name: 'EapMethod')
+  final NetworkEapMethod eapMethod;
+
+  /// The next, or subsequent, password of the Wi-Fi network. This password is
+  /// asynchronously transmitted to the device and is used when the password of
+  /// the network changes to NextPassword.
+  @_s.JsonKey(name: 'NextPassword')
+  final String nextPassword;
+
+  /// The root certificates of your authentication server that is installed on
+  /// your devices and used to trust your authentication server during EAP
+  /// negotiation.
+  @_s.JsonKey(name: 'TrustAnchors')
+  final List<String> trustAnchors;
+
+  CreateNetworkProfileRequest({
+    @_s.required this.clientRequestToken,
+    @_s.required this.networkProfileName,
+    @_s.required this.securityType,
+    @_s.required this.ssid,
+    this.certificateAuthorityArn,
+    this.currentPassword,
+    this.description,
+    this.eapMethod,
+    this.nextPassword,
+    this.trustAnchors,
+  });
+  Map<String, dynamic> toJson() => _$CreateNetworkProfileRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateNetworkProfileResponse {
@@ -6143,6 +6492,78 @@ class CreateNetworkProfileResponse {
   });
   factory CreateNetworkProfileResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateNetworkProfileResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateProfileRequest {
+  /// The valid address for the room.
+  @_s.JsonKey(name: 'Address')
+  final String address;
+
+  /// The distance unit to be used by devices in the profile.
+  @_s.JsonKey(name: 'DistanceUnit')
+  final DistanceUnit distanceUnit;
+
+  /// The name of a room profile.
+  @_s.JsonKey(name: 'ProfileName')
+  final String profileName;
+
+  /// The temperature unit to be used by devices in the profile.
+  @_s.JsonKey(name: 'TemperatureUnit')
+  final TemperatureUnit temperatureUnit;
+
+  /// The time zone used by a room profile.
+  @_s.JsonKey(name: 'Timezone')
+  final String timezone;
+
+  /// A wake word for Alexa, Echo, Amazon, or a computer.
+  @_s.JsonKey(name: 'WakeWord')
+  final WakeWord wakeWord;
+
+  /// The user-specified token that is used during the creation of a profile.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// The locale of the room profile. (This is currently only available to a
+  /// limited preview audience.)
+  @_s.JsonKey(name: 'Locale')
+  final String locale;
+
+  /// The maximum volume limit for a room profile.
+  @_s.JsonKey(name: 'MaxVolumeLimit')
+  final int maxVolumeLimit;
+
+  /// The meeting room settings of a room profile.
+  @_s.JsonKey(name: 'MeetingRoomConfiguration')
+  final CreateMeetingRoomConfiguration meetingRoomConfiguration;
+
+  /// Whether PSTN calling is enabled.
+  @_s.JsonKey(name: 'PSTNEnabled')
+  final bool pSTNEnabled;
+
+  /// Whether room profile setup is enabled.
+  @_s.JsonKey(name: 'SetupModeDisabled')
+  final bool setupModeDisabled;
+
+  CreateProfileRequest({
+    @_s.required this.address,
+    @_s.required this.distanceUnit,
+    @_s.required this.profileName,
+    @_s.required this.temperatureUnit,
+    @_s.required this.timezone,
+    @_s.required this.wakeWord,
+    this.clientRequestToken,
+    this.locale,
+    this.maxVolumeLimit,
+    this.meetingRoomConfiguration,
+    this.pSTNEnabled,
+    this.setupModeDisabled,
+  });
+  Map<String, dynamic> toJson() => _$CreateProfileRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6190,6 +6611,48 @@ class CreateRequireCheckIn {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateRoomRequest {
+  /// The name for the room.
+  @_s.JsonKey(name: 'RoomName')
+  final String roomName;
+
+  /// A unique, user-specified identifier for this request that ensures
+  /// idempotency.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// The description for the room.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The profile ARN for the room.
+  @_s.JsonKey(name: 'ProfileArn')
+  final String profileArn;
+
+  /// The calendar ARN for the room.
+  @_s.JsonKey(name: 'ProviderCalendarId')
+  final String providerCalendarId;
+
+  /// The tags for the room.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateRoomRequest({
+    @_s.required this.roomName,
+    this.clientRequestToken,
+    this.description,
+    this.profileArn,
+    this.providerCalendarId,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateRoomRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateRoomResponse {
@@ -6202,6 +6665,33 @@ class CreateRoomResponse {
   });
   factory CreateRoomResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateRoomResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateSkillGroupRequest {
+  /// The name for the skill group.
+  @_s.JsonKey(name: 'SkillGroupName')
+  final String skillGroupName;
+
+  /// A unique, user-specified identifier for this request that ensures
+  /// idempotency.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// The description for the skill group.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  CreateSkillGroupRequest({
+    @_s.required this.skillGroupName,
+    this.clientRequestToken,
+    this.description,
+  });
+  Map<String, dynamic> toJson() => _$CreateSkillGroupRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6224,6 +6714,48 @@ class CreateSkillGroupResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateUserRequest {
+  /// The ARN for the user.
+  @_s.JsonKey(name: 'UserId')
+  final String userId;
+
+  /// A unique, user-specified identifier for this request that ensures
+  /// idempotency.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// The email address for the user.
+  @_s.JsonKey(name: 'Email')
+  final String email;
+
+  /// The first name for the user.
+  @_s.JsonKey(name: 'FirstName')
+  final String firstName;
+
+  /// The last name for the user.
+  @_s.JsonKey(name: 'LastName')
+  final String lastName;
+
+  /// The tags for the user.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateUserRequest({
+    @_s.required this.userId,
+    this.clientRequestToken,
+    this.email,
+    this.firstName,
+    this.lastName,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateUserRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateUserResponse {
@@ -6241,12 +6773,45 @@ class CreateUserResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteAddressBookRequest {
+  /// The ARN of the address book to delete.
+  @_s.JsonKey(name: 'AddressBookArn')
+  final String addressBookArn;
+
+  DeleteAddressBookRequest({
+    @_s.required this.addressBookArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteAddressBookRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteAddressBookResponse {
   DeleteAddressBookResponse();
   factory DeleteAddressBookResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteAddressBookResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteBusinessReportScheduleRequest {
+  /// The ARN of the business report schedule.
+  @_s.JsonKey(name: 'ScheduleArn')
+  final String scheduleArn;
+
+  DeleteBusinessReportScheduleRequest({
+    @_s.required this.scheduleArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteBusinessReportScheduleRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6264,6 +6829,23 @@ class DeleteBusinessReportScheduleResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteConferenceProviderRequest {
+  /// The ARN of the conference provider.
+  @_s.JsonKey(name: 'ConferenceProviderArn')
+  final String conferenceProviderArn;
+
+  DeleteConferenceProviderRequest({
+    @_s.required this.conferenceProviderArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteConferenceProviderRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteConferenceProviderResponse {
@@ -6271,6 +6853,22 @@ class DeleteConferenceProviderResponse {
   factory DeleteConferenceProviderResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DeleteConferenceProviderResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteContactRequest {
+  /// The ARN of the contact to delete.
+  @_s.JsonKey(name: 'ContactArn')
+  final String contactArn;
+
+  DeleteContactRequest({
+    @_s.required this.contactArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteContactRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6287,12 +6885,49 @@ class DeleteContactResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDeviceRequest {
+  /// The ARN of the device for which to request details.
+  @_s.JsonKey(name: 'DeviceArn')
+  final String deviceArn;
+
+  DeleteDeviceRequest({
+    @_s.required this.deviceArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDeviceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteDeviceResponse {
   DeleteDeviceResponse();
   factory DeleteDeviceResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteDeviceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDeviceUsageDataRequest {
+  /// The ARN of the device.
+  @_s.JsonKey(name: 'DeviceArn')
+  final String deviceArn;
+
+  /// The type of usage data to delete.
+  @_s.JsonKey(name: 'DeviceUsageType')
+  final DeviceUsageType deviceUsageType;
+
+  DeleteDeviceUsageDataRequest({
+    @_s.required this.deviceArn,
+    @_s.required this.deviceUsageType,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDeviceUsageDataRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6309,12 +6944,44 @@ class DeleteDeviceUsageDataResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteGatewayGroupRequest {
+  /// The ARN of the gateway group to delete.
+  @_s.JsonKey(name: 'GatewayGroupArn')
+  final String gatewayGroupArn;
+
+  DeleteGatewayGroupRequest({
+    @_s.required this.gatewayGroupArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteGatewayGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteGatewayGroupResponse {
   DeleteGatewayGroupResponse();
   factory DeleteGatewayGroupResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteGatewayGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteNetworkProfileRequest {
+  /// The ARN of the network profile associated with a device.
+  @_s.JsonKey(name: 'NetworkProfileArn')
+  final String networkProfileArn;
+
+  DeleteNetworkProfileRequest({
+    @_s.required this.networkProfileArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteNetworkProfileRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6331,6 +6998,22 @@ class DeleteNetworkProfileResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteProfileRequest {
+  /// The ARN of the room profile to delete. Required.
+  @_s.JsonKey(name: 'ProfileArn')
+  final String profileArn;
+
+  DeleteProfileRequest({
+    this.profileArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteProfileRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteProfileResponse {
@@ -6342,12 +7025,55 @@ class DeleteProfileResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteRoomRequest {
+  /// The ARN of the room to delete. Required.
+  @_s.JsonKey(name: 'RoomArn')
+  final String roomArn;
+
+  DeleteRoomRequest({
+    this.roomArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteRoomRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteRoomResponse {
   DeleteRoomResponse();
   factory DeleteRoomResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteRoomResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteRoomSkillParameterRequest {
+  /// The room skill parameter key for which to remove details.
+  @_s.JsonKey(name: 'ParameterKey')
+  final String parameterKey;
+
+  /// The ID of the skill from which to remove the room skill parameter details.
+  @_s.JsonKey(name: 'SkillId')
+  final String skillId;
+
+  /// The ARN of the room from which to remove the room skill parameter details.
+  @_s.JsonKey(name: 'RoomArn')
+  final String roomArn;
+
+  DeleteRoomSkillParameterRequest({
+    @_s.required this.parameterKey,
+    @_s.required this.skillId,
+    this.roomArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteRoomSkillParameterRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6365,6 +7091,28 @@ class DeleteRoomSkillParameterResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteSkillAuthorizationRequest {
+  /// The unique identifier of a skill.
+  @_s.JsonKey(name: 'SkillId')
+  final String skillId;
+
+  /// The room that the skill is authorized for.
+  @_s.JsonKey(name: 'RoomArn')
+  final String roomArn;
+
+  DeleteSkillAuthorizationRequest({
+    @_s.required this.skillId,
+    this.roomArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteSkillAuthorizationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteSkillAuthorizationResponse {
@@ -6377,12 +7125,49 @@ class DeleteSkillAuthorizationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteSkillGroupRequest {
+  /// The ARN of the skill group to delete. Required.
+  @_s.JsonKey(name: 'SkillGroupArn')
+  final String skillGroupArn;
+
+  DeleteSkillGroupRequest({
+    this.skillGroupArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteSkillGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteSkillGroupResponse {
   DeleteSkillGroupResponse();
   factory DeleteSkillGroupResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteSkillGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteUserRequest {
+  /// The ARN of the user's enrollment in the organization. Required.
+  @_s.JsonKey(name: 'EnrollmentId')
+  final String enrollmentId;
+
+  /// The ARN of the user to delete in the organization. Required.
+  @_s.JsonKey(name: 'UserArn')
+  final String userArn;
+
+  DeleteUserRequest({
+    @_s.required this.enrollmentId,
+    this.userArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteUserRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6611,18 +7396,6 @@ enum DeviceEventType {
   deviceStatus,
 }
 
-extension on DeviceEventType {
-  String toValue() {
-    switch (this) {
-      case DeviceEventType.connectionStatus:
-        return 'CONNECTION_STATUS';
-      case DeviceEventType.deviceStatus:
-        return 'DEVICE_STATUS';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Detailed information about a device's network profile.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6759,14 +7532,26 @@ enum DeviceUsageType {
   voice,
 }
 
-extension on DeviceUsageType {
-  String toValue() {
-    switch (this) {
-      case DeviceUsageType.voice:
-        return 'VOICE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateContactFromAddressBookRequest {
+  /// The ARN of the address from which to disassociate the contact.
+  @_s.JsonKey(name: 'AddressBookArn')
+  final String addressBookArn;
+
+  /// The ARN of the contact to disassociate from an address book.
+  @_s.JsonKey(name: 'ContactArn')
+  final String contactArn;
+
+  DisassociateContactFromAddressBookRequest({
+    @_s.required this.addressBookArn,
+    @_s.required this.contactArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DisassociateContactFromAddressBookRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6784,6 +7569,23 @@ class DisassociateContactFromAddressBookResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateDeviceFromRoomRequest {
+  /// The ARN of the device to disassociate from a room. Required.
+  @_s.JsonKey(name: 'DeviceArn')
+  final String deviceArn;
+
+  DisassociateDeviceFromRoomRequest({
+    this.deviceArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DisassociateDeviceFromRoomRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DisassociateDeviceFromRoomResponse {
@@ -6791,6 +7593,28 @@ class DisassociateDeviceFromRoomResponse {
   factory DisassociateDeviceFromRoomResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DisassociateDeviceFromRoomResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateSkillFromSkillGroupRequest {
+  /// The ARN of a skill group to associate to a skill.
+  @_s.JsonKey(name: 'SkillId')
+  final String skillId;
+
+  /// The unique identifier of a skill. Required.
+  @_s.JsonKey(name: 'SkillGroupArn')
+  final String skillGroupArn;
+
+  DisassociateSkillFromSkillGroupRequest({
+    @_s.required this.skillId,
+    this.skillGroupArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DisassociateSkillFromSkillGroupRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6808,6 +7632,23 @@ class DisassociateSkillFromSkillGroupResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateSkillFromUsersRequest {
+  /// The private skill ID you want to make unavailable for enrolled users.
+  @_s.JsonKey(name: 'SkillId')
+  final String skillId;
+
+  DisassociateSkillFromUsersRequest({
+    @_s.required this.skillId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DisassociateSkillFromUsersRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DisassociateSkillFromUsersResponse {
@@ -6815,6 +7656,29 @@ class DisassociateSkillFromUsersResponse {
   factory DisassociateSkillFromUsersResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DisassociateSkillFromUsersResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateSkillGroupFromRoomRequest {
+  /// The ARN of the room from which the skill group is to be disassociated.
+  /// Required.
+  @_s.JsonKey(name: 'RoomArn')
+  final String roomArn;
+
+  /// The ARN of the skill group to disassociate from a room. Required.
+  @_s.JsonKey(name: 'SkillGroupArn')
+  final String skillGroupArn;
+
+  DisassociateSkillGroupFromRoomRequest({
+    this.roomArn,
+    this.skillGroupArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DisassociateSkillGroupFromRoomRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6836,18 +7700,6 @@ enum DistanceUnit {
   imperial,
 }
 
-extension on DistanceUnit {
-  String toValue() {
-    switch (this) {
-      case DistanceUnit.metric:
-        return 'METRIC';
-      case DistanceUnit.imperial:
-        return 'IMPERIAL';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum EnablementType {
   @_s.JsonValue('ENABLED')
   enabled,
@@ -6860,18 +7712,6 @@ enum EnablementTypeFilter {
   enabled,
   @_s.JsonValue('PENDING')
   pending,
-}
-
-extension on EnablementTypeFilter {
-  String toValue() {
-    switch (this) {
-      case EnablementTypeFilter.enabled:
-        return 'ENABLED';
-      case EnablementTypeFilter.pending:
-        return 'PENDING';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Settings for the end of meeting reminder feature that are applied to a room
@@ -6969,6 +7809,23 @@ class Filter {
     @_s.required this.values,
   });
   Map<String, dynamic> toJson() => _$FilterToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ForgetSmartHomeAppliancesRequest {
+  /// The room that the appliances are associated with.
+  @_s.JsonKey(name: 'RoomArn')
+  final String roomArn;
+
+  ForgetSmartHomeAppliancesRequest({
+    @_s.required this.roomArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ForgetSmartHomeAppliancesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7120,6 +7977,22 @@ class GatewaySummary {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetAddressBookRequest {
+  /// The ARN of the address book for which to request details.
+  @_s.JsonKey(name: 'AddressBookArn')
+  final String addressBookArn;
+
+  GetAddressBookRequest({
+    @_s.required this.addressBookArn,
+  });
+  Map<String, dynamic> toJson() => _$GetAddressBookRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetAddressBookResponse {
@@ -7154,6 +8027,22 @@ class GetConferencePreferenceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetConferenceProviderRequest {
+  /// The ARN of the newly created conference provider.
+  @_s.JsonKey(name: 'ConferenceProviderArn')
+  final String conferenceProviderArn;
+
+  GetConferenceProviderRequest({
+    @_s.required this.conferenceProviderArn,
+  });
+  Map<String, dynamic> toJson() => _$GetConferenceProviderRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetConferenceProviderResponse {
@@ -7166,6 +8055,22 @@ class GetConferenceProviderResponse {
   });
   factory GetConferenceProviderResponse.fromJson(Map<String, dynamic> json) =>
       _$GetConferenceProviderResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetContactRequest {
+  /// The ARN of the contact for which to request details.
+  @_s.JsonKey(name: 'ContactArn')
+  final String contactArn;
+
+  GetContactRequest({
+    @_s.required this.contactArn,
+  });
+  Map<String, dynamic> toJson() => _$GetContactRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7188,6 +8093,22 @@ class GetContactResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetDeviceRequest {
+  /// The ARN of the device for which to request details. Required.
+  @_s.JsonKey(name: 'DeviceArn')
+  final String deviceArn;
+
+  GetDeviceRequest({
+    this.deviceArn,
+  });
+  Map<String, dynamic> toJson() => _$GetDeviceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetDeviceResponse {
@@ -7205,6 +8126,22 @@ class GetDeviceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetGatewayGroupRequest {
+  /// The ARN of the gateway group to get.
+  @_s.JsonKey(name: 'GatewayGroupArn')
+  final String gatewayGroupArn;
+
+  GetGatewayGroupRequest({
+    @_s.required this.gatewayGroupArn,
+  });
+  Map<String, dynamic> toJson() => _$GetGatewayGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetGatewayGroupResponse {
@@ -7216,6 +8153,22 @@ class GetGatewayGroupResponse {
   });
   factory GetGatewayGroupResponse.fromJson(Map<String, dynamic> json) =>
       _$GetGatewayGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetGatewayRequest {
+  /// The ARN of the gateway to get.
+  @_s.JsonKey(name: 'GatewayArn')
+  final String gatewayArn;
+
+  GetGatewayRequest({
+    @_s.required this.gatewayArn,
+  });
+  Map<String, dynamic> toJson() => _$GetGatewayRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7268,6 +8221,22 @@ class GetInvitationConfigurationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetNetworkProfileRequest {
+  /// The ARN of the network profile associated with a device.
+  @_s.JsonKey(name: 'NetworkProfileArn')
+  final String networkProfileArn;
+
+  GetNetworkProfileRequest({
+    @_s.required this.networkProfileArn,
+  });
+  Map<String, dynamic> toJson() => _$GetNetworkProfileRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetNetworkProfileResponse {
@@ -7280,6 +8249,22 @@ class GetNetworkProfileResponse {
   });
   factory GetNetworkProfileResponse.fromJson(Map<String, dynamic> json) =>
       _$GetNetworkProfileResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetProfileRequest {
+  /// The ARN of the room profile for which to request details. Required.
+  @_s.JsonKey(name: 'ProfileArn')
+  final String profileArn;
+
+  GetProfileRequest({
+    this.profileArn,
+  });
+  Map<String, dynamic> toJson() => _$GetProfileRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7302,6 +8287,22 @@ class GetProfileResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetRoomRequest {
+  /// The ARN of the room for which to request details. Required.
+  @_s.JsonKey(name: 'RoomArn')
+  final String roomArn;
+
+  GetRoomRequest({
+    this.roomArn,
+  });
+  Map<String, dynamic> toJson() => _$GetRoomRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetRoomResponse {
@@ -7319,6 +8320,33 @@ class GetRoomResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetRoomSkillParameterRequest {
+  /// The room skill parameter key for which to get details. Required.
+  @_s.JsonKey(name: 'ParameterKey')
+  final String parameterKey;
+
+  /// The ARN of the skill from which to get the room skill parameter details.
+  /// Required.
+  @_s.JsonKey(name: 'SkillId')
+  final String skillId;
+
+  /// The ARN of the room from which to get the room skill parameter details.
+  @_s.JsonKey(name: 'RoomArn')
+  final String roomArn;
+
+  GetRoomSkillParameterRequest({
+    @_s.required this.parameterKey,
+    @_s.required this.skillId,
+    this.roomArn,
+  });
+  Map<String, dynamic> toJson() => _$GetRoomSkillParameterRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetRoomSkillParameterResponse {
@@ -7331,6 +8359,22 @@ class GetRoomSkillParameterResponse {
   });
   factory GetRoomSkillParameterResponse.fromJson(Map<String, dynamic> json) =>
       _$GetRoomSkillParameterResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetSkillGroupRequest {
+  /// The ARN of the skill group for which to get details. Required.
+  @_s.JsonKey(name: 'SkillGroupArn')
+  final String skillGroupArn;
+
+  GetSkillGroupRequest({
+    this.skillGroupArn,
+  });
+  Map<String, dynamic> toJson() => _$GetSkillGroupRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7404,6 +8448,28 @@ class InstantBooking {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListBusinessReportSchedulesRequest {
+  /// The maximum number of schedules listed in the call.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token used to list the remaining schedules from the previous API call.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListBusinessReportSchedulesRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListBusinessReportSchedulesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListBusinessReportSchedulesResponse {
@@ -7422,6 +8488,28 @@ class ListBusinessReportSchedulesResponse {
   factory ListBusinessReportSchedulesResponse.fromJson(
           Map<String, dynamic> json) =>
       _$ListBusinessReportSchedulesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListConferenceProvidersRequest {
+  /// The maximum number of conference providers to be returned, per paginated
+  /// calls.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The tokens used for pagination.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListConferenceProvidersRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListConferenceProvidersRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7449,6 +8537,46 @@ class ListConferenceProvidersResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListDeviceEventsRequest {
+  /// The ARN of a device.
+  @_s.JsonKey(name: 'DeviceArn')
+  final String deviceArn;
+
+  /// The event type to filter device events. If EventType isn't specified, this
+  /// returns a list of all device events in reverse chronological order. If
+  /// EventType is specified, this returns a list of device events for that
+  /// EventType in reverse chronological order.
+  @_s.JsonKey(name: 'EventType')
+  final DeviceEventType eventType;
+
+  /// The maximum number of results to include in the response. The default value
+  /// is 50. If more results exist than the specified MaxResults value, a token is
+  /// included in the response so that the remaining results can be retrieved.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// An optional token returned from a prior request. Use this token for
+  /// pagination of results from this action. If this parameter is specified, the
+  /// response only includes results beyond the token, up to the value specified
+  /// by MaxResults. When the end of results is reached, the response has a value
+  /// of null.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListDeviceEventsRequest({
+    @_s.required this.deviceArn,
+    this.eventType,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListDeviceEventsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListDeviceEventsResponse {
@@ -7466,6 +8594,27 @@ class ListDeviceEventsResponse {
   });
   factory ListDeviceEventsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListDeviceEventsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListGatewayGroupsRequest {
+  /// The maximum number of gateway group summaries to return. The default is 50.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token used to paginate though multiple pages of gateway group summaries.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListGatewayGroupsRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListGatewayGroupsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7493,6 +8642,32 @@ class ListGatewayGroupsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListGatewaysRequest {
+  /// The gateway group ARN for which to list gateways.
+  @_s.JsonKey(name: 'GatewayGroupArn')
+  final String gatewayGroupArn;
+
+  /// The maximum number of gateway summaries to return. The default is 50.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token used to paginate though multiple pages of gateway summaries.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListGatewaysRequest({
+    this.gatewayGroupArn,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListGatewaysRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListGatewaysResponse {
@@ -7515,6 +8690,47 @@ class ListGatewaysResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListSkillsRequest {
+  /// Whether the skill is enabled under the user's account.
+  @_s.JsonKey(name: 'EnablementType')
+  final EnablementTypeFilter enablementType;
+
+  /// The maximum number of results to include in the response. If more results
+  /// exist than the specified <code>MaxResults</code> value, a token is included
+  /// in the response so that the remaining results can be retrieved.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// An optional token returned from a prior request. Use this token for
+  /// pagination of results from this action. If this parameter is specified, the
+  /// response includes only results beyond the token, up to the value specified
+  /// by <code>MaxResults</code>.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The ARN of the skill group for which to list enabled skills.
+  @_s.JsonKey(name: 'SkillGroupArn')
+  final String skillGroupArn;
+
+  /// Whether the skill is publicly available or is a private skill.
+  @_s.JsonKey(name: 'SkillType')
+  final SkillTypeFilter skillType;
+
+  ListSkillsRequest({
+    this.enablementType,
+    this.maxResults,
+    this.nextToken,
+    this.skillGroupArn,
+    this.skillType,
+  });
+  Map<String, dynamic> toJson() => _$ListSkillsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListSkillsResponse {
@@ -7532,6 +8748,28 @@ class ListSkillsResponse {
   });
   factory ListSkillsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListSkillsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListSkillsStoreCategoriesRequest {
+  /// The maximum number of categories returned, per paginated calls.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The tokens used for pagination.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListSkillsStoreCategoriesRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListSkillsStoreCategoriesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7560,6 +8798,34 @@ class ListSkillsStoreCategoriesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListSkillsStoreSkillsByCategoryRequest {
+  /// The category ID for which the skills are being retrieved from the skill
+  /// store.
+  @_s.JsonKey(name: 'CategoryId')
+  final int categoryId;
+
+  /// The maximum number of skills returned per paginated calls.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The tokens used for pagination.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListSkillsStoreSkillsByCategoryRequest({
+    @_s.required this.categoryId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListSkillsStoreSkillsByCategoryRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListSkillsStoreSkillsByCategoryResponse {
@@ -7583,6 +8849,32 @@ class ListSkillsStoreSkillsByCategoryResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListSmartHomeAppliancesRequest {
+  /// The room that the appliances are associated with.
+  @_s.JsonKey(name: 'RoomArn')
+  final String roomArn;
+
+  /// The maximum number of appliances to be returned, per paginated calls.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The tokens used for pagination.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListSmartHomeAppliancesRequest({
+    @_s.required this.roomArn,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListSmartHomeAppliancesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListSmartHomeAppliancesResponse {
@@ -7600,6 +8892,37 @@ class ListSmartHomeAppliancesResponse {
   });
   factory ListSmartHomeAppliancesResponse.fromJson(Map<String, dynamic> json) =>
       _$ListSmartHomeAppliancesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsRequest {
+  /// The ARN of the specified resource for which to list tags.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// The maximum number of results to include in the response. If more results
+  /// exist than the specified <code>MaxResults</code> value, a token is included
+  /// in the response so that the remaining results can be retrieved.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// An optional token returned from a prior request. Use this token for
+  /// pagination of results from this action. If this parameter is specified, the
+  /// response includes only results beyond the token, up to the value specified
+  /// by <code>MaxResults</code>.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListTagsRequest({
+    @_s.required this.arn,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7705,16 +9028,6 @@ class MeetingSetting {
 enum NetworkEapMethod {
   @_s.JsonValue('EAP_TLS')
   eapTls,
-}
-
-extension on NetworkEapMethod {
-  String toValue() {
-    switch (this) {
-      case NetworkEapMethod.eapTls:
-        return 'EAP_TLS';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// The network profile associated with a device.
@@ -7851,24 +9164,6 @@ enum NetworkSecurityType {
   wpa2Psk,
   @_s.JsonValue('WPA2_ENTERPRISE')
   wpa2Enterprise,
-}
-
-extension on NetworkSecurityType {
-  String toValue() {
-    switch (this) {
-      case NetworkSecurityType.open:
-        return 'OPEN';
-      case NetworkSecurityType.wep:
-        return 'WEP';
-      case NetworkSecurityType.wpaPsk:
-        return 'WPA_PSK';
-      case NetworkSecurityType.wpa2Psk:
-        return 'WPA2_PSK';
-      case NetworkSecurityType.wpa2Enterprise:
-        return 'WPA2_ENTERPRISE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// The information for public switched telephone network (PSTN) conferencing.
@@ -8091,12 +9386,57 @@ class ProfileData {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutConferencePreferenceRequest {
+  /// The conference preference of a specific conference provider.
+  @_s.JsonKey(name: 'ConferencePreference')
+  final ConferencePreference conferencePreference;
+
+  PutConferencePreferenceRequest({
+    @_s.required this.conferencePreference,
+  });
+  Map<String, dynamic> toJson() => _$PutConferencePreferenceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutConferencePreferenceResponse {
   PutConferencePreferenceResponse();
   factory PutConferencePreferenceResponse.fromJson(Map<String, dynamic> json) =>
       _$PutConferencePreferenceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutInvitationConfigurationRequest {
+  /// The name of the organization sending the enrollment invite to a user.
+  @_s.JsonKey(name: 'OrganizationName')
+  final String organizationName;
+
+  /// The email ID of the organization or individual contact that the enrolled
+  /// user can use.
+  @_s.JsonKey(name: 'ContactEmail')
+  final String contactEmail;
+
+  /// The list of private skill IDs that you want to recommend to the user to
+  /// enable in the invitation.
+  @_s.JsonKey(name: 'PrivateSkillIds')
+  final List<String> privateSkillIds;
+
+  PutInvitationConfigurationRequest({
+    @_s.required this.organizationName,
+    this.contactEmail,
+    this.privateSkillIds,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutInvitationConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8114,6 +9454,32 @@ class PutInvitationConfigurationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutRoomSkillParameterRequest {
+  /// The updated room skill parameter. Required.
+  @_s.JsonKey(name: 'RoomSkillParameter')
+  final RoomSkillParameter roomSkillParameter;
+
+  /// The ARN of the skill associated with the room skill parameter. Required.
+  @_s.JsonKey(name: 'SkillId')
+  final String skillId;
+
+  /// The ARN of the room associated with the room skill parameter. Required.
+  @_s.JsonKey(name: 'RoomArn')
+  final String roomArn;
+
+  PutRoomSkillParameterRequest({
+    @_s.required this.roomSkillParameter,
+    @_s.required this.skillId,
+    this.roomArn,
+  });
+  Map<String, dynamic> toJson() => _$PutRoomSkillParameterRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutRoomSkillParameterResponse {
@@ -8125,12 +9491,80 @@ class PutRoomSkillParameterResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutSkillAuthorizationRequest {
+  /// The authorization result specific to OAUTH code grant output. "Code” must be
+  /// populated in the AuthorizationResult map to establish the authorization.
+  @_s.JsonKey(name: 'AuthorizationResult')
+  final Map<String, String> authorizationResult;
+
+  /// The unique identifier of a skill.
+  @_s.JsonKey(name: 'SkillId')
+  final String skillId;
+
+  /// The room that the skill is authorized for.
+  @_s.JsonKey(name: 'RoomArn')
+  final String roomArn;
+
+  PutSkillAuthorizationRequest({
+    @_s.required this.authorizationResult,
+    @_s.required this.skillId,
+    this.roomArn,
+  });
+  Map<String, dynamic> toJson() => _$PutSkillAuthorizationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutSkillAuthorizationResponse {
   PutSkillAuthorizationResponse();
   factory PutSkillAuthorizationResponse.fromJson(Map<String, dynamic> json) =>
       _$PutSkillAuthorizationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RegisterAVSDeviceRequest {
+  /// The device type ID for your AVS device generated by Amazon when the OEM
+  /// creates a new product on Amazon's Developer Console.
+  @_s.JsonKey(name: 'AmazonId')
+  final String amazonId;
+
+  /// The client ID of the OEM used for code-based linking authorization on an AVS
+  /// device.
+  @_s.JsonKey(name: 'ClientId')
+  final String clientId;
+
+  /// The key generated by the OEM that uniquely identifies a specified instance
+  /// of your AVS device.
+  @_s.JsonKey(name: 'DeviceSerialNumber')
+  final String deviceSerialNumber;
+
+  /// The product ID used to identify your AVS device during authorization.
+  @_s.JsonKey(name: 'ProductId')
+  final String productId;
+
+  /// The code that is obtained after your AVS device has made a POST request to
+  /// LWA as a part of the Device Authorization Request component of the OAuth
+  /// code-based linking specification.
+  @_s.JsonKey(name: 'UserCode')
+  final String userCode;
+
+  RegisterAVSDeviceRequest({
+    @_s.required this.amazonId,
+    @_s.required this.clientId,
+    @_s.required this.deviceSerialNumber,
+    @_s.required this.productId,
+    @_s.required this.userCode,
+  });
+  Map<String, dynamic> toJson() => _$RegisterAVSDeviceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8148,6 +9582,22 @@ class RegisterAVSDeviceResponse {
   });
   factory RegisterAVSDeviceResponse.fromJson(Map<String, dynamic> json) =>
       _$RegisterAVSDeviceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RejectSkillRequest {
+  /// The unique identifier of the skill.
+  @_s.JsonKey(name: 'SkillId')
+  final String skillId;
+
+  RejectSkillRequest({
+    @_s.required this.skillId,
+  });
+  Map<String, dynamic> toJson() => _$RejectSkillRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8199,6 +9649,27 @@ enum RequirePin {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ResolveRoomRequest {
+  /// The ARN of the skill that was requested. Required.
+  @_s.JsonKey(name: 'SkillId')
+  final String skillId;
+
+  /// The ARN of the user. Required.
+  @_s.JsonKey(name: 'UserId')
+  final String userId;
+
+  ResolveRoomRequest({
+    @_s.required this.skillId,
+    @_s.required this.userId,
+  });
+  Map<String, dynamic> toJson() => _$ResolveRoomRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ResolveRoomResponse {
@@ -8221,6 +9692,27 @@ class ResolveRoomResponse {
   });
   factory ResolveRoomResponse.fromJson(Map<String, dynamic> json) =>
       _$ResolveRoomResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RevokeInvitationRequest {
+  /// The ARN of the enrollment invitation to revoke. Required.
+  @_s.JsonKey(name: 'EnrollmentId')
+  final String enrollmentId;
+
+  /// The ARN of the user for whom to revoke an enrollment invitation. Required.
+  @_s.JsonKey(name: 'UserArn')
+  final String userArn;
+
+  RevokeInvitationRequest({
+    this.enrollmentId,
+    this.userArn,
+  });
+  Map<String, dynamic> toJson() => _$RevokeInvitationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8343,6 +9835,44 @@ class RoomSkillParameter {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SearchAddressBooksRequest {
+  /// The filters to use to list a specified set of address books. The supported
+  /// filter key is AddressBookName.
+  @_s.JsonKey(name: 'Filters')
+  final List<Filter> filters;
+
+  /// The maximum number of results to include in the response. If more results
+  /// exist than the specified MaxResults value, a token is included in the
+  /// response so that the remaining results can be retrieved.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// An optional token returned from a prior request. Use this token for
+  /// pagination of results from this action. If this parameter is specified, the
+  /// response only includes results beyond the token, up to the value specified
+  /// by MaxResults.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The sort order to use in listing the specified set of address books. The
+  /// supported sort key is AddressBookName.
+  @_s.JsonKey(name: 'SortCriteria')
+  final List<Sort> sortCriteria;
+
+  SearchAddressBooksRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+    this.sortCriteria,
+  });
+  Map<String, dynamic> toJson() => _$SearchAddressBooksRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class SearchAddressBooksResponse {
@@ -8366,6 +9896,44 @@ class SearchAddressBooksResponse {
   });
   factory SearchAddressBooksResponse.fromJson(Map<String, dynamic> json) =>
       _$SearchAddressBooksResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SearchContactsRequest {
+  /// The filters to use to list a specified set of address books. The supported
+  /// filter keys are DisplayName, FirstName, LastName, and AddressBookArns.
+  @_s.JsonKey(name: 'Filters')
+  final List<Filter> filters;
+
+  /// The maximum number of results to include in the response. If more results
+  /// exist than the specified MaxResults value, a token is included in the
+  /// response so that the remaining results can be retrieved.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// An optional token returned from a prior request. Use this token for
+  /// pagination of results from this action. If this parameter is specified, the
+  /// response only includes results beyond the token, up to the value specified
+  /// by MaxResults.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The sort order to use in listing the specified set of contacts. The
+  /// supported sort keys are DisplayName, FirstName, and LastName.
+  @_s.JsonKey(name: 'SortCriteria')
+  final List<Sort> sortCriteria;
+
+  SearchContactsRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+    this.sortCriteria,
+  });
+  Map<String, dynamic> toJson() => _$SearchContactsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8398,6 +9966,48 @@ class SearchContactsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SearchDevicesRequest {
+  /// The filters to use to list a specified set of devices. Supported filter keys
+  /// are DeviceName, DeviceStatus, DeviceStatusDetailCode, RoomName, DeviceType,
+  /// DeviceSerialNumber, UnassociatedOnly, ConnectionStatus (ONLINE and OFFLINE),
+  /// NetworkProfileName, NetworkProfileArn, Feature, and FailureCode.
+  @_s.JsonKey(name: 'Filters')
+  final List<Filter> filters;
+
+  /// The maximum number of results to include in the response. If more results
+  /// exist than the specified <code>MaxResults</code> value, a token is included
+  /// in the response so that the remaining results can be retrieved.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// An optional token returned from a prior request. Use this token for
+  /// pagination of results from this action. If this parameter is specified, the
+  /// response includes only results beyond the token, up to the value specified
+  /// by <code>MaxResults</code>.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The sort order to use in listing the specified set of devices. Supported
+  /// sort keys are DeviceName, DeviceStatus, RoomName, DeviceType,
+  /// DeviceSerialNumber, ConnectionStatus, NetworkProfileName, NetworkProfileArn,
+  /// Feature, and FailureCode.
+  @_s.JsonKey(name: 'SortCriteria')
+  final List<Sort> sortCriteria;
+
+  SearchDevicesRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+    this.sortCriteria,
+  });
+  Map<String, dynamic> toJson() => _$SearchDevicesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class SearchDevicesResponse {
@@ -8420,6 +10030,44 @@ class SearchDevicesResponse {
   });
   factory SearchDevicesResponse.fromJson(Map<String, dynamic> json) =>
       _$SearchDevicesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SearchNetworkProfilesRequest {
+  /// The filters to use to list a specified set of network profiles. Valid
+  /// filters are NetworkProfileName, Ssid, and SecurityType.
+  @_s.JsonKey(name: 'Filters')
+  final List<Filter> filters;
+
+  /// The maximum number of results to include in the response. If more results
+  /// exist than the specified MaxResults value, a token is included in the
+  /// response so that the remaining results can be retrieved.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// An optional token returned from a prior request. Use this token for
+  /// pagination of results from this action. If this parameter is specified, the
+  /// response includes only results beyond the token, up to the value specified
+  /// by MaxResults.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The sort order to use to list the specified set of network profiles. Valid
+  /// sort criteria includes NetworkProfileName, Ssid, and SecurityType.
+  @_s.JsonKey(name: 'SortCriteria')
+  final List<Sort> sortCriteria;
+
+  SearchNetworkProfilesRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+    this.sortCriteria,
+  });
+  Map<String, dynamic> toJson() => _$SearchNetworkProfilesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8456,6 +10104,44 @@ class SearchNetworkProfilesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SearchProfilesRequest {
+  /// The filters to use to list a specified set of room profiles. Supported
+  /// filter keys are ProfileName and Address. Required.
+  @_s.JsonKey(name: 'Filters')
+  final List<Filter> filters;
+
+  /// The maximum number of results to include in the response. If more results
+  /// exist than the specified <code>MaxResults</code> value, a token is included
+  /// in the response so that the remaining results can be retrieved.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// An optional token returned from a prior request. Use this token for
+  /// pagination of results from this action. If this parameter is specified, the
+  /// response includes only results beyond the token, up to the value specified
+  /// by <code>MaxResults</code>.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The sort order to use in listing the specified set of room profiles.
+  /// Supported sort keys are ProfileName and Address.
+  @_s.JsonKey(name: 'SortCriteria')
+  final List<Sort> sortCriteria;
+
+  SearchProfilesRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+    this.sortCriteria,
+  });
+  Map<String, dynamic> toJson() => _$SearchProfilesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class SearchProfilesResponse {
@@ -8478,6 +10164,44 @@ class SearchProfilesResponse {
   });
   factory SearchProfilesResponse.fromJson(Map<String, dynamic> json) =>
       _$SearchProfilesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SearchRoomsRequest {
+  /// The filters to use to list a specified set of rooms. The supported filter
+  /// keys are RoomName and ProfileName.
+  @_s.JsonKey(name: 'Filters')
+  final List<Filter> filters;
+
+  /// The maximum number of results to include in the response. If more results
+  /// exist than the specified <code>MaxResults</code> value, a token is included
+  /// in the response so that the remaining results can be retrieved.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// An optional token returned from a prior request. Use this token for
+  /// pagination of results from this action. If this parameter is specified, the
+  /// response includes only results beyond the token, up to the value specified
+  /// by <code>MaxResults</code>.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The sort order to use in listing the specified set of rooms. The supported
+  /// sort keys are RoomName and ProfileName.
+  @_s.JsonKey(name: 'SortCriteria')
+  final List<Sort> sortCriteria;
+
+  SearchRoomsRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+    this.sortCriteria,
+  });
+  Map<String, dynamic> toJson() => _$SearchRoomsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8510,6 +10234,44 @@ class SearchRoomsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SearchSkillGroupsRequest {
+  /// The filters to use to list a specified set of skill groups. The supported
+  /// filter key is SkillGroupName.
+  @_s.JsonKey(name: 'Filters')
+  final List<Filter> filters;
+
+  /// The maximum number of results to include in the response. If more results
+  /// exist than the specified <code>MaxResults</code> value, a token is included
+  /// in the response so that the remaining results can be retrieved.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// An optional token returned from a prior request. Use this token for
+  /// pagination of results from this action. If this parameter is specified, the
+  /// response includes only results beyond the token, up to the value specified
+  /// by <code>MaxResults</code>. Required.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The sort order to use in listing the specified set of skill groups. The
+  /// supported sort key is SkillGroupName.
+  @_s.JsonKey(name: 'SortCriteria')
+  final List<Sort> sortCriteria;
+
+  SearchSkillGroupsRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+    this.sortCriteria,
+  });
+  Map<String, dynamic> toJson() => _$SearchSkillGroupsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class SearchSkillGroupsResponse {
@@ -8532,6 +10294,45 @@ class SearchSkillGroupsResponse {
   });
   factory SearchSkillGroupsResponse.fromJson(Map<String, dynamic> json) =>
       _$SearchSkillGroupsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SearchUsersRequest {
+  /// The filters to use for listing a specific set of users. Required. Supported
+  /// filter keys are UserId, FirstName, LastName, Email, and EnrollmentStatus.
+  @_s.JsonKey(name: 'Filters')
+  final List<Filter> filters;
+
+  /// The maximum number of results to include in the response. If more results
+  /// exist than the specified <code>MaxResults</code> value, a token is included
+  /// in the response so that the remaining results can be retrieved. Required.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// An optional token returned from a prior request. Use this token for
+  /// pagination of results from this action. If this parameter is specified, the
+  /// response includes only results beyond the token, up to the value specified
+  /// by <code>MaxResults</code>. Required.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The sort order to use in listing the filtered set of users. Required.
+  /// Supported sort keys are UserId, FirstName, LastName, Email, and
+  /// EnrollmentStatus.
+  @_s.JsonKey(name: 'SortCriteria')
+  final List<Sort> sortCriteria;
+
+  SearchUsersRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+    this.sortCriteria,
+  });
+  Map<String, dynamic> toJson() => _$SearchUsersRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8564,6 +10365,42 @@ class SearchUsersResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SendAnnouncementRequest {
+  /// The unique, user-specified identifier for the request that ensures
+  /// idempotency.
+  @_s.JsonKey(name: 'ClientRequestToken')
+  final String clientRequestToken;
+
+  /// The announcement content. This can contain only one of the three possible
+  /// announcement types (text, SSML or audio).
+  @_s.JsonKey(name: 'Content')
+  final Content content;
+
+  /// The filters to use to send an announcement to a specified list of rooms. The
+  /// supported filter keys are RoomName, ProfileName, RoomArn, and ProfileArn. To
+  /// send to all rooms, specify an empty RoomFilters list.
+  @_s.JsonKey(name: 'RoomFilters')
+  final List<Filter> roomFilters;
+
+  /// The time to live for an announcement. Default is 300. If delivery doesn't
+  /// occur within this time, the announcement is not delivered.
+  @_s.JsonKey(name: 'TimeToLiveInSeconds')
+  final int timeToLiveInSeconds;
+
+  SendAnnouncementRequest({
+    @_s.required this.clientRequestToken,
+    @_s.required this.content,
+    @_s.required this.roomFilters,
+    this.timeToLiveInSeconds,
+  });
+  Map<String, dynamic> toJson() => _$SendAnnouncementRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class SendAnnouncementResponse {
@@ -8576,6 +10413,22 @@ class SendAnnouncementResponse {
   });
   factory SendAnnouncementResponse.fromJson(Map<String, dynamic> json) =>
       _$SendAnnouncementResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SendInvitationRequest {
+  /// The ARN of the user to whom to send an invitation. Required.
+  @_s.JsonKey(name: 'UserArn')
+  final String userArn;
+
+  SendInvitationRequest({
+    this.userArn,
+  });
+  Map<String, dynamic> toJson() => _$SendInvitationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8794,20 +10647,6 @@ enum SkillTypeFilter {
   all,
 }
 
-extension on SkillTypeFilter {
-  String toValue() {
-    switch (this) {
-      case SkillTypeFilter.public:
-        return 'PUBLIC';
-      case SkillTypeFilter.private:
-        return 'PRIVATE';
-      case SkillTypeFilter.all:
-        return 'ALL';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// The detailed information about an Alexa skill.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -8942,12 +10781,55 @@ class Ssml {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartDeviceSyncRequest {
+  /// Request structure to start the device sync. Required.
+  @_s.JsonKey(name: 'Features')
+  final List<String> features;
+
+  /// The ARN of the device to sync. Required.
+  @_s.JsonKey(name: 'DeviceArn')
+  final String deviceArn;
+
+  /// The ARN of the room with which the device to sync is associated. Required.
+  @_s.JsonKey(name: 'RoomArn')
+  final String roomArn;
+
+  StartDeviceSyncRequest({
+    @_s.required this.features,
+    this.deviceArn,
+    this.roomArn,
+  });
+  Map<String, dynamic> toJson() => _$StartDeviceSyncRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartDeviceSyncResponse {
   StartDeviceSyncResponse();
   factory StartDeviceSyncResponse.fromJson(Map<String, dynamic> json) =>
       _$StartDeviceSyncResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartSmartHomeApplianceDiscoveryRequest {
+  /// The room where smart home appliance discovery was initiated.
+  @_s.JsonKey(name: 'RoomArn')
+  final String roomArn;
+
+  StartSmartHomeApplianceDiscoveryRequest({
+    @_s.required this.roomArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StartSmartHomeApplianceDiscoveryRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8989,6 +10871,28 @@ class Tag {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The ARN of the resource to which to add metadata tags. Required.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// The tags to be added to the specified resource. Do not provide system tags.
+  /// Required.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  TagResourceRequest({
+    @_s.required this.arn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagResourceResponse {
@@ -9002,18 +10906,6 @@ enum TemperatureUnit {
   fahrenheit,
   @_s.JsonValue('CELSIUS')
   celsius,
-}
-
-extension on TemperatureUnit {
-  String toValue() {
-    switch (this) {
-      case TemperatureUnit.fahrenheit:
-        return 'FAHRENHEIT';
-      case TemperatureUnit.celsius:
-        return 'CELSIUS';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// The text message.
@@ -9041,6 +10933,28 @@ class Text {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The ARN of the resource from which to remove metadata tags. Required.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// The tags to be removed from the specified resource. Do not provide system
+  /// tags. Required.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.arn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagResourceResponse {
@@ -9052,12 +10966,81 @@ class UntagResourceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateAddressBookRequest {
+  /// The ARN of the room to update.
+  @_s.JsonKey(name: 'AddressBookArn')
+  final String addressBookArn;
+
+  /// The updated description of the room.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The updated name of the room.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  UpdateAddressBookRequest({
+    @_s.required this.addressBookArn,
+    this.description,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$UpdateAddressBookRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateAddressBookResponse {
   UpdateAddressBookResponse();
   factory UpdateAddressBookResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateAddressBookResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateBusinessReportScheduleRequest {
+  /// The ARN of the business report schedule.
+  @_s.JsonKey(name: 'ScheduleArn')
+  final String scheduleArn;
+
+  /// The format of the generated report (individual CSV files or zipped files of
+  /// individual files).
+  @_s.JsonKey(name: 'Format')
+  final BusinessReportFormat format;
+
+  /// The recurrence of the reports.
+  @_s.JsonKey(name: 'Recurrence')
+  final BusinessReportRecurrence recurrence;
+
+  /// The S3 location of the output reports.
+  @_s.JsonKey(name: 'S3BucketName')
+  final String s3BucketName;
+
+  /// The S3 key where the report is delivered.
+  @_s.JsonKey(name: 'S3KeyPrefix')
+  final String s3KeyPrefix;
+
+  /// The name identifier of the schedule.
+  @_s.JsonKey(name: 'ScheduleName')
+  final String scheduleName;
+
+  UpdateBusinessReportScheduleRequest({
+    @_s.required this.scheduleArn,
+    this.format,
+    this.recurrence,
+    this.s3BucketName,
+    this.s3KeyPrefix,
+    this.scheduleName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateBusinessReportScheduleRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -9075,6 +11058,43 @@ class UpdateBusinessReportScheduleResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateConferenceProviderRequest {
+  /// The ARN of the conference provider.
+  @_s.JsonKey(name: 'ConferenceProviderArn')
+  final String conferenceProviderArn;
+
+  /// The type of the conference provider.
+  @_s.JsonKey(name: 'ConferenceProviderType')
+  final ConferenceProviderType conferenceProviderType;
+
+  /// The meeting settings for the conference provider.
+  @_s.JsonKey(name: 'MeetingSetting')
+  final MeetingSetting meetingSetting;
+
+  /// The IP endpoint and protocol for calling.
+  @_s.JsonKey(name: 'IPDialIn')
+  final IPDialIn iPDialIn;
+
+  /// The information for PSTN conferencing.
+  @_s.JsonKey(name: 'PSTNDialIn')
+  final PSTNDialIn pSTNDialIn;
+
+  UpdateConferenceProviderRequest({
+    @_s.required this.conferenceProviderArn,
+    @_s.required this.conferenceProviderType,
+    @_s.required this.meetingSetting,
+    this.iPDialIn,
+    this.pSTNDialIn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateConferenceProviderRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateConferenceProviderResponse {
@@ -9087,12 +11107,82 @@ class UpdateConferenceProviderResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateContactRequest {
+  /// The ARN of the contact to update.
+  @_s.JsonKey(name: 'ContactArn')
+  final String contactArn;
+
+  /// The updated display name of the contact.
+  @_s.JsonKey(name: 'DisplayName')
+  final String displayName;
+
+  /// The updated first name of the contact.
+  @_s.JsonKey(name: 'FirstName')
+  final String firstName;
+
+  /// The updated last name of the contact.
+  @_s.JsonKey(name: 'LastName')
+  final String lastName;
+
+  /// The updated phone number of the contact. The phone number type defaults to
+  /// WORK. You can either specify PhoneNumber or PhoneNumbers. We recommend that
+  /// you use PhoneNumbers, which lets you specify the phone number type and
+  /// multiple numbers.
+  @_s.JsonKey(name: 'PhoneNumber')
+  final String phoneNumber;
+
+  /// The list of phone numbers for the contact.
+  @_s.JsonKey(name: 'PhoneNumbers')
+  final List<PhoneNumber> phoneNumbers;
+
+  /// The list of SIP addresses for the contact.
+  @_s.JsonKey(name: 'SipAddresses')
+  final List<SipAddress> sipAddresses;
+
+  UpdateContactRequest({
+    @_s.required this.contactArn,
+    this.displayName,
+    this.firstName,
+    this.lastName,
+    this.phoneNumber,
+    this.phoneNumbers,
+    this.sipAddresses,
+  });
+  Map<String, dynamic> toJson() => _$UpdateContactRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateContactResponse {
   UpdateContactResponse();
   factory UpdateContactResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateContactResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDeviceRequest {
+  /// The ARN of the device to update. Required.
+  @_s.JsonKey(name: 'DeviceArn')
+  final String deviceArn;
+
+  /// The updated device name. Required.
+  @_s.JsonKey(name: 'DeviceName')
+  final String deviceName;
+
+  UpdateDeviceRequest({
+    this.deviceArn,
+    this.deviceName,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDeviceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -9140,12 +11230,70 @@ class UpdateEndOfMeetingReminder {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateGatewayGroupRequest {
+  /// The ARN of the gateway group to update.
+  @_s.JsonKey(name: 'GatewayGroupArn')
+  final String gatewayGroupArn;
+
+  /// The updated description of the gateway group.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The updated name of the gateway group.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  UpdateGatewayGroupRequest({
+    @_s.required this.gatewayGroupArn,
+    this.description,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$UpdateGatewayGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateGatewayGroupResponse {
   UpdateGatewayGroupResponse();
   factory UpdateGatewayGroupResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateGatewayGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateGatewayRequest {
+  /// The ARN of the gateway to update.
+  @_s.JsonKey(name: 'GatewayArn')
+  final String gatewayArn;
+
+  /// The updated description of the gateway.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The updated name of the gateway.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The updated software version of the gateway. The gateway automatically
+  /// updates its software version during normal operation.
+  @_s.JsonKey(name: 'SoftwareVersion')
+  final String softwareVersion;
+
+  UpdateGatewayRequest({
+    @_s.required this.gatewayArn,
+    this.description,
+    this.name,
+    this.softwareVersion,
+  });
+  Map<String, dynamic> toJson() => _$UpdateGatewayRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -9225,12 +11373,142 @@ class UpdateMeetingRoomConfiguration {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateNetworkProfileRequest {
+  /// The ARN of the network profile associated with a device.
+  @_s.JsonKey(name: 'NetworkProfileArn')
+  final String networkProfileArn;
+
+  /// The ARN of the Private Certificate Authority (PCA) created in AWS
+  /// Certificate Manager (ACM). This is used to issue certificates to the
+  /// devices.
+  @_s.JsonKey(name: 'CertificateAuthorityArn')
+  final String certificateAuthorityArn;
+
+  /// The current password of the Wi-Fi network.
+  @_s.JsonKey(name: 'CurrentPassword')
+  final String currentPassword;
+
+  /// Detailed information about a device's network profile.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The name of the network profile associated with a device.
+  @_s.JsonKey(name: 'NetworkProfileName')
+  final String networkProfileName;
+
+  /// The next, or subsequent, password of the Wi-Fi network. This password is
+  /// asynchronously transmitted to the device and is used when the password of
+  /// the network changes to NextPassword.
+  @_s.JsonKey(name: 'NextPassword')
+  final String nextPassword;
+
+  /// The root certificate(s) of your authentication server that will be installed
+  /// on your devices and used to trust your authentication server during EAP
+  /// negotiation.
+  @_s.JsonKey(name: 'TrustAnchors')
+  final List<String> trustAnchors;
+
+  UpdateNetworkProfileRequest({
+    @_s.required this.networkProfileArn,
+    this.certificateAuthorityArn,
+    this.currentPassword,
+    this.description,
+    this.networkProfileName,
+    this.nextPassword,
+    this.trustAnchors,
+  });
+  Map<String, dynamic> toJson() => _$UpdateNetworkProfileRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateNetworkProfileResponse {
   UpdateNetworkProfileResponse();
   factory UpdateNetworkProfileResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateNetworkProfileResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateProfileRequest {
+  /// The updated address for the room profile.
+  @_s.JsonKey(name: 'Address')
+  final String address;
+
+  /// The updated distance unit for the room profile.
+  @_s.JsonKey(name: 'DistanceUnit')
+  final DistanceUnit distanceUnit;
+
+  /// Sets the profile as default if selected. If this is missing, no update is
+  /// done to the default status.
+  @_s.JsonKey(name: 'IsDefault')
+  final bool isDefault;
+
+  /// The updated locale for the room profile. (This is currently only available
+  /// to a limited preview audience.)
+  @_s.JsonKey(name: 'Locale')
+  final String locale;
+
+  /// The updated maximum volume limit for the room profile.
+  @_s.JsonKey(name: 'MaxVolumeLimit')
+  final int maxVolumeLimit;
+
+  /// The updated meeting room settings of a room profile.
+  @_s.JsonKey(name: 'MeetingRoomConfiguration')
+  final UpdateMeetingRoomConfiguration meetingRoomConfiguration;
+
+  /// Whether the PSTN setting of the room profile is enabled.
+  @_s.JsonKey(name: 'PSTNEnabled')
+  final bool pSTNEnabled;
+
+  /// The ARN of the room profile to update. Required.
+  @_s.JsonKey(name: 'ProfileArn')
+  final String profileArn;
+
+  /// The updated name for the room profile.
+  @_s.JsonKey(name: 'ProfileName')
+  final String profileName;
+
+  /// Whether the setup mode of the profile is enabled.
+  @_s.JsonKey(name: 'SetupModeDisabled')
+  final bool setupModeDisabled;
+
+  /// The updated temperature unit for the room profile.
+  @_s.JsonKey(name: 'TemperatureUnit')
+  final TemperatureUnit temperatureUnit;
+
+  /// The updated timezone for the room profile.
+  @_s.JsonKey(name: 'Timezone')
+  final String timezone;
+
+  /// The updated wake word for the room profile.
+  @_s.JsonKey(name: 'WakeWord')
+  final WakeWord wakeWord;
+
+  UpdateProfileRequest({
+    this.address,
+    this.distanceUnit,
+    this.isDefault,
+    this.locale,
+    this.maxVolumeLimit,
+    this.meetingRoomConfiguration,
+    this.pSTNEnabled,
+    this.profileArn,
+    this.profileName,
+    this.setupModeDisabled,
+    this.temperatureUnit,
+    this.timezone,
+    this.wakeWord,
+  });
+  Map<String, dynamic> toJson() => _$UpdateProfileRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -9272,12 +11550,74 @@ class UpdateRequireCheckIn {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateRoomRequest {
+  /// The updated description for the room.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The updated profile ARN for the room.
+  @_s.JsonKey(name: 'ProfileArn')
+  final String profileArn;
+
+  /// The updated provider calendar ARN for the room.
+  @_s.JsonKey(name: 'ProviderCalendarId')
+  final String providerCalendarId;
+
+  /// The ARN of the room to update.
+  @_s.JsonKey(name: 'RoomArn')
+  final String roomArn;
+
+  /// The updated name for the room.
+  @_s.JsonKey(name: 'RoomName')
+  final String roomName;
+
+  UpdateRoomRequest({
+    this.description,
+    this.profileArn,
+    this.providerCalendarId,
+    this.roomArn,
+    this.roomName,
+  });
+  Map<String, dynamic> toJson() => _$UpdateRoomRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateRoomResponse {
   UpdateRoomResponse();
   factory UpdateRoomResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateRoomResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateSkillGroupRequest {
+  /// The updated description for the skill group.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The ARN of the skill group to update.
+  @_s.JsonKey(name: 'SkillGroupArn')
+  final String skillGroupArn;
+
+  /// The updated name for the skill group.
+  @_s.JsonKey(name: 'SkillGroupName')
+  final String skillGroupName;
+
+  UpdateSkillGroupRequest({
+    this.description,
+    this.skillGroupArn,
+    this.skillGroupName,
+  });
+  Map<String, dynamic> toJson() => _$UpdateSkillGroupRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -9343,22 +11683,6 @@ enum WakeWord {
   echo,
   @_s.JsonValue('COMPUTER')
   computer,
-}
-
-extension on WakeWord {
-  String toValue() {
-    switch (this) {
-      case WakeWord.alexa:
-        return 'ALEXA';
-      case WakeWord.amazon:
-        return 'AMAZON';
-      case WakeWord.echo:
-        return 'ECHO';
-      case WakeWord.computer:
-        return 'COMPUTER';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 class AlreadyExistsException extends _s.GenericAwsException {

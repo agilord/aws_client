@@ -15,6 +15,20 @@ AccessPoliciesStatus _$AccessPoliciesStatusFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$AddTagsRequestToJson(AddTagsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ARN', instance.arn);
+  writeNotNull('TagList', instance.tagList?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 AdditionalLimit _$AdditionalLimitFromJson(Map<String, dynamic> json) {
   return AdditionalLimit(
     limitName: json['LimitName'] as String,
@@ -73,6 +87,10 @@ AdvancedSecurityOptionsStatus _$AdvancedSecurityOptionsStatusFromJson(
   );
 }
 
+Map<String, dynamic> _$AssociatePackageRequestToJson(
+        AssociatePackageRequest instance) =>
+    <String, dynamic>{};
+
 AssociatePackageResponse _$AssociatePackageResponseFromJson(
     Map<String, dynamic> json) {
   return AssociatePackageResponse(
@@ -81,6 +99,20 @@ AssociatePackageResponse _$AssociatePackageResponseFromJson(
         : DomainPackageDetails.fromJson(
             json['DomainPackageDetails'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CancelElasticsearchServiceSoftwareUpdateRequestToJson(
+    CancelElasticsearchServiceSoftwareUpdateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DomainName', instance.domainName);
+  return val;
 }
 
 CancelElasticsearchServiceSoftwareUpdateResponse
@@ -139,6 +171,39 @@ CompatibleVersionsMap _$CompatibleVersionsMapFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateElasticsearchDomainRequestToJson(
+    CreateElasticsearchDomainRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DomainName', instance.domainName);
+  writeNotNull('AccessPolicies', instance.accessPolicies);
+  writeNotNull('AdvancedOptions', instance.advancedOptions);
+  writeNotNull(
+      'AdvancedSecurityOptions', instance.advancedSecurityOptions?.toJson());
+  writeNotNull('CognitoOptions', instance.cognitoOptions?.toJson());
+  writeNotNull(
+      'DomainEndpointOptions', instance.domainEndpointOptions?.toJson());
+  writeNotNull('EBSOptions', instance.eBSOptions?.toJson());
+  writeNotNull('ElasticsearchClusterConfig',
+      instance.elasticsearchClusterConfig?.toJson());
+  writeNotNull('ElasticsearchVersion', instance.elasticsearchVersion);
+  writeNotNull(
+      'EncryptionAtRestOptions', instance.encryptionAtRestOptions?.toJson());
+  writeNotNull('LogPublishingOptions',
+      instance.logPublishingOptions?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('NodeToNodeEncryptionOptions',
+      instance.nodeToNodeEncryptionOptions?.toJson());
+  writeNotNull('SnapshotOptions', instance.snapshotOptions?.toJson());
+  writeNotNull('VPCOptions', instance.vPCOptions?.toJson());
+  return val;
+}
+
 CreateElasticsearchDomainResponse _$CreateElasticsearchDomainResponseFromJson(
     Map<String, dynamic> json) {
   return CreateElasticsearchDomainResponse(
@@ -148,6 +213,27 @@ CreateElasticsearchDomainResponse _$CreateElasticsearchDomainResponseFromJson(
             json['DomainStatus'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$CreatePackageRequestToJson(
+    CreatePackageRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('PackageName', instance.packageName);
+  writeNotNull('PackageSource', instance.packageSource?.toJson());
+  writeNotNull('PackageType', _$PackageTypeEnumMap[instance.packageType]);
+  writeNotNull('PackageDescription', instance.packageDescription);
+  return val;
+}
+
+const _$PackageTypeEnumMap = {
+  PackageType.txtDictionary: 'TXT-DICTIONARY',
+};
 
 CreatePackageResponse _$CreatePackageResponseFromJson(
     Map<String, dynamic> json) {
@@ -159,6 +245,10 @@ CreatePackageResponse _$CreatePackageResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteElasticsearchDomainRequestToJson(
+        DeleteElasticsearchDomainRequest instance) =>
+    <String, dynamic>{};
+
 DeleteElasticsearchDomainResponse _$DeleteElasticsearchDomainResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteElasticsearchDomainResponse(
@@ -168,6 +258,10 @@ DeleteElasticsearchDomainResponse _$DeleteElasticsearchDomainResponseFromJson(
             json['DomainStatus'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$DeletePackageRequestToJson(
+        DeletePackageRequest instance) =>
+    <String, dynamic>{};
 
 DeletePackageResponse _$DeletePackageResponseFromJson(
     Map<String, dynamic> json) {
@@ -198,6 +292,20 @@ DescribeElasticsearchDomainResponse
         : ElasticsearchDomainStatus.fromJson(
             json['DomainStatus'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeElasticsearchDomainsRequestToJson(
+    DescribeElasticsearchDomainsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DomainNames', instance.domainNames);
+  return val;
 }
 
 DescribeElasticsearchDomainsResponse
@@ -243,6 +351,22 @@ const _$DescribePackagesFilterNameEnumMap = {
   DescribePackagesFilterName.packageStatus: 'PackageStatus',
 };
 
+Map<String, dynamic> _$DescribePackagesRequestToJson(
+    DescribePackagesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 DescribePackagesResponse _$DescribePackagesResponseFromJson(
     Map<String, dynamic> json) {
   return DescribePackagesResponse(
@@ -283,6 +407,10 @@ DescribeReservedElasticsearchInstancesResponse
         ?.toList(),
   );
 }
+
+Map<String, dynamic> _$DissociatePackageRequestToJson(
+        DissociatePackageRequest instance) =>
+    <String, dynamic>{};
 
 DissociatePackageResponse _$DissociatePackageResponseFromJson(
     Map<String, dynamic> json) {
@@ -398,10 +526,6 @@ const _$DomainPackageStatusEnumMap = {
   DomainPackageStatus.active: 'ACTIVE',
   DomainPackageStatus.dissociating: 'DISSOCIATING',
   DomainPackageStatus.dissociationFailed: 'DISSOCIATION_FAILED',
-};
-
-const _$PackageTypeEnumMap = {
-  PackageType.txtDictionary: 'TXT-DICTIONARY',
 };
 
 EBSOptions _$EBSOptionsFromJson(Map<String, dynamic> json) {
@@ -1044,6 +1168,24 @@ Map<String, dynamic> _$PackageSourceToJson(PackageSource instance) {
   return val;
 }
 
+Map<String, dynamic>
+    _$PurchaseReservedElasticsearchInstanceOfferingRequestToJson(
+        PurchaseReservedElasticsearchInstanceOfferingRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ReservationName', instance.reservationName);
+  writeNotNull('ReservedElasticsearchInstanceOfferingId',
+      instance.reservedElasticsearchInstanceOfferingId);
+  writeNotNull('InstanceCount', instance.instanceCount);
+  return val;
+}
+
 PurchaseReservedElasticsearchInstanceOfferingResponse
     _$PurchaseReservedElasticsearchInstanceOfferingResponseFromJson(
         Map<String, dynamic> json) {
@@ -1059,6 +1201,20 @@ RecurringCharge _$RecurringChargeFromJson(Map<String, dynamic> json) {
     recurringChargeAmount: (json['RecurringChargeAmount'] as num)?.toDouble(),
     recurringChargeFrequency: json['RecurringChargeFrequency'] as String,
   );
+}
+
+Map<String, dynamic> _$RemoveTagsRequestToJson(RemoveTagsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ARN', instance.arn);
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
 }
 
 ReservedElasticsearchInstance _$ReservedElasticsearchInstanceFromJson(
@@ -1171,6 +1327,20 @@ SnapshotOptionsStatus _$SnapshotOptionsStatusFromJson(
   );
 }
 
+Map<String, dynamic> _$StartElasticsearchServiceSoftwareUpdateRequestToJson(
+    StartElasticsearchServiceSoftwareUpdateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DomainName', instance.domainName);
+  return val;
+}
+
 StartElasticsearchServiceSoftwareUpdateResponse
     _$StartElasticsearchServiceSoftwareUpdateResponseFromJson(
         Map<String, dynamic> json) {
@@ -1223,6 +1393,33 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
   return val;
 }
 
+Map<String, dynamic> _$UpdateElasticsearchDomainConfigRequestToJson(
+    UpdateElasticsearchDomainConfigRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccessPolicies', instance.accessPolicies);
+  writeNotNull('AdvancedOptions', instance.advancedOptions);
+  writeNotNull(
+      'AdvancedSecurityOptions', instance.advancedSecurityOptions?.toJson());
+  writeNotNull('CognitoOptions', instance.cognitoOptions?.toJson());
+  writeNotNull(
+      'DomainEndpointOptions', instance.domainEndpointOptions?.toJson());
+  writeNotNull('EBSOptions', instance.eBSOptions?.toJson());
+  writeNotNull('ElasticsearchClusterConfig',
+      instance.elasticsearchClusterConfig?.toJson());
+  writeNotNull('LogPublishingOptions',
+      instance.logPublishingOptions?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('SnapshotOptions', instance.snapshotOptions?.toJson());
+  writeNotNull('VPCOptions', instance.vPCOptions?.toJson());
+  return val;
+}
+
 UpdateElasticsearchDomainConfigResponse
     _$UpdateElasticsearchDomainConfigResponseFromJson(
         Map<String, dynamic> json) {
@@ -1232,6 +1429,22 @@ UpdateElasticsearchDomainConfigResponse
         : ElasticsearchDomainConfig.fromJson(
             json['DomainConfig'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpgradeElasticsearchDomainRequestToJson(
+    UpgradeElasticsearchDomainRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DomainName', instance.domainName);
+  writeNotNull('TargetVersion', instance.targetVersion);
+  writeNotNull('PerformCheckOnly', instance.performCheckOnly);
+  return val;
 }
 
 UpgradeElasticsearchDomainResponse _$UpgradeElasticsearchDomainResponseFromJson(

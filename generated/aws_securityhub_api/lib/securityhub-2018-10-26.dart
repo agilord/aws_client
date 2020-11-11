@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -113,10 +112,10 @@ class SecurityHub {
       r'''.*\S.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'InvitationId': invitationId,
-      'MasterId': masterId,
-    };
+    final $payload = AcceptInvitationRequest(
+      invitationId: invitationId,
+      masterId: masterId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -145,9 +144,9 @@ class SecurityHub {
   }) async {
     ArgumentError.checkNotNull(
         standardsSubscriptionArns, 'standardsSubscriptionArns');
-    final $payload = <String, dynamic>{
-      'StandardsSubscriptionArns': standardsSubscriptionArns,
-    };
+    final $payload = BatchDisableStandardsRequest(
+      standardsSubscriptionArns: standardsSubscriptionArns,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -178,9 +177,9 @@ class SecurityHub {
   }) async {
     ArgumentError.checkNotNull(
         standardsSubscriptionRequests, 'standardsSubscriptionRequests');
-    final $payload = <String, dynamic>{
-      'StandardsSubscriptionRequests': standardsSubscriptionRequests,
-    };
+    final $payload = BatchEnableStandardsRequest(
+      standardsSubscriptionRequests: standardsSubscriptionRequests,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -245,9 +244,9 @@ class SecurityHub {
     @_s.required List<AwsSecurityFinding> findings,
   }) async {
     ArgumentError.checkNotNull(findings, 'findings');
-    final $payload = <String, dynamic>{
-      'Findings': findings,
-    };
+    final $payload = BatchImportFindingsRequest(
+      findings: findings,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -414,19 +413,18 @@ class SecurityHub {
       0,
       100,
     );
-    final $payload = <String, dynamic>{
-      'FindingIdentifiers': findingIdentifiers,
-      if (confidence != null) 'Confidence': confidence,
-      if (criticality != null) 'Criticality': criticality,
-      if (note != null) 'Note': note,
-      if (relatedFindings != null) 'RelatedFindings': relatedFindings,
-      if (severity != null) 'Severity': severity,
-      if (types != null) 'Types': types,
-      if (userDefinedFields != null) 'UserDefinedFields': userDefinedFields,
-      if (verificationState != null)
-        'VerificationState': verificationState?.toValue(),
-      if (workflow != null) 'Workflow': workflow,
-    };
+    final $payload = BatchUpdateFindingsRequest(
+      findingIdentifiers: findingIdentifiers,
+      confidence: confidence,
+      criticality: criticality,
+      note: note,
+      relatedFindings: relatedFindings,
+      severity: severity,
+      types: types,
+      userDefinedFields: userDefinedFields,
+      verificationState: verificationState,
+      workflow: workflow,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -481,11 +479,11 @@ class SecurityHub {
       r'''.*\S.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'Description': description,
-      'Id': id,
-      'Name': name,
-    };
+    final $payload = CreateActionTargetRequest(
+      description: description,
+      id: id,
+      name: name,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -541,11 +539,11 @@ class SecurityHub {
       r'''.*\S.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'Filters': filters,
-      'GroupByAttribute': groupByAttribute,
-      'Name': name,
-    };
+    final $payload = CreateInsightRequest(
+      filters: filters,
+      groupByAttribute: groupByAttribute,
+      name: name,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -588,9 +586,9 @@ class SecurityHub {
   Future<CreateMembersResponse> createMembers({
     List<AccountDetails> accountDetails,
   }) async {
-    final $payload = <String, dynamic>{
-      if (accountDetails != null) 'AccountDetails': accountDetails,
-    };
+    final $payload = CreateMembersRequest(
+      accountDetails: accountDetails,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -614,9 +612,9 @@ class SecurityHub {
     @_s.required List<String> accountIds,
   }) async {
     ArgumentError.checkNotNull(accountIds, 'accountIds');
-    final $payload = <String, dynamic>{
-      'AccountIds': accountIds,
-    };
+    final $payload = DeclineInvitationsRequest(
+      accountIds: accountIds,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -649,7 +647,9 @@ class SecurityHub {
       r'''.*\S.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteActionTargetRequest(
+      actionTargetArn: actionTargetArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -680,7 +680,9 @@ class SecurityHub {
       r'''.*\S.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteInsightRequest(
+      insightArn: insightArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -705,9 +707,9 @@ class SecurityHub {
     @_s.required List<String> accountIds,
   }) async {
     ArgumentError.checkNotNull(accountIds, 'accountIds');
-    final $payload = <String, dynamic>{
-      'AccountIds': accountIds,
-    };
+    final $payload = DeleteInvitationsRequest(
+      accountIds: accountIds,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -730,9 +732,9 @@ class SecurityHub {
   Future<DeleteMembersResponse> deleteMembers({
     List<String> accountIds,
   }) async {
-    final $payload = <String, dynamic>{
-      if (accountIds != null) 'AccountIds': accountIds,
-    };
+    final $payload = DeleteMembersRequest(
+      accountIds: accountIds,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -775,11 +777,11 @@ class SecurityHub {
       1,
       100,
     );
-    final $payload = <String, dynamic>{
-      if (actionTargetArns != null) 'ActionTargetArns': actionTargetArns,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = DescribeActionTargetsRequest(
+      actionTargetArns: actionTargetArns,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -987,7 +989,9 @@ class SecurityHub {
       r'''.*\S.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DisableImportFindingsForProductRequest(
+      productSubscriptionArn: productSubscriptionArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1062,9 +1066,9 @@ class SecurityHub {
   Future<void> disassociateMembers({
     List<String> accountIds,
   }) async {
-    final $payload = <String, dynamic>{
-      if (accountIds != null) 'AccountIds': accountIds,
-    };
+    final $payload = DisassociateMembersRequest(
+      accountIds: accountIds,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1099,9 +1103,9 @@ class SecurityHub {
       r'''.*\S.*''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'ProductArn': productArn,
-    };
+    final $payload = EnableImportFindingsForProductRequest(
+      productArn: productArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1151,11 +1155,10 @@ class SecurityHub {
     bool enableDefaultStandards,
     Map<String, String> tags,
   }) async {
-    final $payload = <String, dynamic>{
-      if (enableDefaultStandards != null)
-        'EnableDefaultStandards': enableDefaultStandards,
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = EnableSecurityHubRequest(
+      enableDefaultStandards: enableDefaultStandards,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1196,12 +1199,11 @@ class SecurityHub {
       1,
       100,
     );
-    final $payload = <String, dynamic>{
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-      if (standardsSubscriptionArns != null)
-        'StandardsSubscriptionArns': standardsSubscriptionArns,
-    };
+    final $payload = GetEnabledStandardsRequest(
+      maxResults: maxResults,
+      nextToken: nextToken,
+      standardsSubscriptionArns: standardsSubscriptionArns,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1247,12 +1249,12 @@ class SecurityHub {
       1,
       100,
     );
-    final $payload = <String, dynamic>{
-      if (filters != null) 'Filters': filters,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-      if (sortCriteria != null) 'SortCriteria': sortCriteria,
-    };
+    final $payload = GetFindingsRequest(
+      filters: filters,
+      maxResults: maxResults,
+      nextToken: nextToken,
+      sortCriteria: sortCriteria,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1327,11 +1329,11 @@ class SecurityHub {
       1,
       100,
     );
-    final $payload = <String, dynamic>{
-      if (insightArns != null) 'InsightArns': insightArns,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = GetInsightsRequest(
+      insightArns: insightArns,
+      maxResults: maxResults,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1393,9 +1395,9 @@ class SecurityHub {
     @_s.required List<String> accountIds,
   }) async {
     ArgumentError.checkNotNull(accountIds, 'accountIds');
-    final $payload = <String, dynamic>{
-      'AccountIds': accountIds,
-    };
+    final $payload = GetMembersRequest(
+      accountIds: accountIds,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1428,9 +1430,9 @@ class SecurityHub {
   Future<InviteMembersResponse> inviteMembers({
     List<String> accountIds,
   }) async {
-    final $payload = <String, dynamic>{
-      if (accountIds != null) 'AccountIds': accountIds,
-    };
+    final $payload = InviteMembersRequest(
+      accountIds: accountIds,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1630,9 +1632,10 @@ class SecurityHub {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'Tags': tags,
-    };
+    final $payload = TagResourceRequest(
+      resourceArn: resourceArn,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1669,7 +1672,10 @@ class SecurityHub {
     _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = UntagResourceRequest(
+      resourceArn: resourceArn,
+      tagKeys: tagKeys,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1718,10 +1724,11 @@ class SecurityHub {
       name,
       r'''.*\S.*''',
     );
-    final $payload = <String, dynamic>{
-      if (description != null) 'Description': description,
-      if (name != null) 'Name': name,
-    };
+    final $payload = UpdateActionTargetRequest(
+      actionTargetArn: actionTargetArn,
+      description: description,
+      name: name,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -1759,11 +1766,11 @@ class SecurityHub {
     RecordState recordState,
   }) async {
     ArgumentError.checkNotNull(filters, 'filters');
-    final $payload = <String, dynamic>{
-      'Filters': filters,
-      if (note != null) 'Note': note,
-      if (recordState != null) 'RecordState': recordState?.toValue(),
-    };
+    final $payload = UpdateFindingsRequest(
+      filters: filters,
+      note: note,
+      recordState: recordState,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -1815,11 +1822,12 @@ class SecurityHub {
       name,
       r'''.*\S.*''',
     );
-    final $payload = <String, dynamic>{
-      if (filters != null) 'Filters': filters,
-      if (groupByAttribute != null) 'GroupByAttribute': groupByAttribute,
-      if (name != null) 'Name': name,
-    };
+    final $payload = UpdateInsightRequest(
+      insightArn: insightArn,
+      filters: filters,
+      groupByAttribute: groupByAttribute,
+      name: name,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -1863,10 +1871,11 @@ class SecurityHub {
       disabledReason,
       r'''.*\S.*''',
     );
-    final $payload = <String, dynamic>{
-      if (controlStatus != null) 'ControlStatus': controlStatus?.toValue(),
-      if (disabledReason != null) 'DisabledReason': disabledReason,
-    };
+    final $payload = UpdateStandardsControlRequest(
+      standardsControlArn: standardsControlArn,
+      controlStatus: controlStatus,
+      disabledReason: disabledReason,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
@@ -1876,6 +1885,27 @@ class SecurityHub {
     );
     return UpdateStandardsControlResponse.fromJson(response);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AcceptInvitationRequest {
+  /// The ID of the invitation sent from the Security Hub master account.
+  @_s.JsonKey(name: 'InvitationId')
+  final String invitationId;
+
+  /// The account ID of the Security Hub master account that sent the invitation.
+  @_s.JsonKey(name: 'MasterId')
+  final String masterId;
+
+  AcceptInvitationRequest({
+    @_s.required this.invitationId,
+    @_s.required this.masterId,
+  });
+  Map<String, dynamic> toJson() => _$AcceptInvitationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4950,6 +4980,22 @@ class AwsWafWebAclRule {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchDisableStandardsRequest {
+  /// The ARNs of the standards subscriptions to disable.
+  @_s.JsonKey(name: 'StandardsSubscriptionArns')
+  final List<String> standardsSubscriptionArns;
+
+  BatchDisableStandardsRequest({
+    @_s.required this.standardsSubscriptionArns,
+  });
+  Map<String, dynamic> toJson() => _$BatchDisableStandardsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class BatchDisableStandardsResponse {
@@ -4967,6 +5013,22 @@ class BatchDisableStandardsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchEnableStandardsRequest {
+  /// The list of standards checks to enable.
+  @_s.JsonKey(name: 'StandardsSubscriptionRequests')
+  final List<StandardsSubscriptionRequest> standardsSubscriptionRequests;
+
+  BatchEnableStandardsRequest({
+    @_s.required this.standardsSubscriptionRequests,
+  });
+  Map<String, dynamic> toJson() => _$BatchEnableStandardsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class BatchEnableStandardsResponse {
@@ -4979,6 +5041,25 @@ class BatchEnableStandardsResponse {
   });
   factory BatchEnableStandardsResponse.fromJson(Map<String, dynamic> json) =>
       _$BatchEnableStandardsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchImportFindingsRequest {
+  /// A list of findings to import. To successfully import a finding, it must
+  /// follow the <a
+  /// href="https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-findings-format.html">AWS
+  /// Security Finding Format</a>. Maximum of 100 findings per request.
+  @_s.JsonKey(name: 'Findings')
+  final List<AwsSecurityFinding> findings;
+
+  BatchImportFindingsRequest({
+    @_s.required this.findings,
+  });
+  Map<String, dynamic> toJson() => _$BatchImportFindingsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5006,6 +5087,122 @@ class BatchImportFindingsResponse {
   });
   factory BatchImportFindingsResponse.fromJson(Map<String, dynamic> json) =>
       _$BatchImportFindingsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchUpdateFindingsRequest {
+  /// The list of findings to update. <code>BatchUpdateFindings</code> can be used
+  /// to update up to 100 findings at a time.
+  ///
+  /// For each finding, the list provides the finding identifier and the ARN of
+  /// the finding provider.
+  @_s.JsonKey(name: 'FindingIdentifiers')
+  final List<AwsSecurityFindingIdentifier> findingIdentifiers;
+
+  /// The updated value for the finding confidence. Confidence is defined as the
+  /// likelihood that a finding accurately identifies the behavior or issue that
+  /// it was intended to identify.
+  ///
+  /// Confidence is scored on a 0-100 basis using a ratio scale, where 0 means
+  /// zero percent confidence and 100 means 100 percent confidence.
+  @_s.JsonKey(name: 'Confidence')
+  final int confidence;
+
+  /// The updated value for the level of importance assigned to the resources
+  /// associated with the findings.
+  ///
+  /// A score of 0 means that the underlying resources have no criticality, and a
+  /// score of 100 is reserved for the most critical resources.
+  @_s.JsonKey(name: 'Criticality')
+  final int criticality;
+  @_s.JsonKey(name: 'Note')
+  final NoteUpdate note;
+
+  /// A list of findings that are related to the updated findings.
+  @_s.JsonKey(name: 'RelatedFindings')
+  final List<RelatedFinding> relatedFindings;
+
+  /// Used to update the finding severity.
+  @_s.JsonKey(name: 'Severity')
+  final SeverityUpdate severity;
+
+  /// One or more finding types in the format of namespace/category/classifier
+  /// that classify a finding.
+  ///
+  /// Valid namespace values are as follows.
+  ///
+  /// <ul>
+  /// <li>
+  /// Software and Configuration Checks
+  /// </li>
+  /// <li>
+  /// TTPs
+  /// </li>
+  /// <li>
+  /// Effects
+  /// </li>
+  /// <li>
+  /// Unusual Behaviors
+  /// </li>
+  /// <li>
+  /// Sensitive Data Identifications
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Types')
+  final List<String> types;
+
+  /// A list of name/value string pairs associated with the finding. These are
+  /// custom, user-defined fields added to a finding.
+  @_s.JsonKey(name: 'UserDefinedFields')
+  final Map<String, String> userDefinedFields;
+
+  /// Indicates the veracity of a finding.
+  ///
+  /// The available values for <code>VerificationState</code> are as follows.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>UNKNOWN</code> – The default disposition of a security finding
+  /// </li>
+  /// <li>
+  /// <code>TRUE_POSITIVE</code> – The security finding is confirmed
+  /// </li>
+  /// <li>
+  /// <code>FALSE_POSITIVE</code> – The security finding was determined to be a
+  /// false alarm
+  /// </li>
+  /// <li>
+  /// <code>BENIGN_POSITIVE</code> – A special case of <code>TRUE_POSITIVE</code>
+  /// where the finding doesn't pose any threat, is expected, or both
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'VerificationState')
+  final VerificationState verificationState;
+
+  /// Used to update the workflow status of a finding.
+  ///
+  /// The workflow status indicates the progress of the investigation into the
+  /// finding.
+  @_s.JsonKey(name: 'Workflow')
+  final WorkflowUpdate workflow;
+
+  BatchUpdateFindingsRequest({
+    @_s.required this.findingIdentifiers,
+    this.confidence,
+    this.criticality,
+    this.note,
+    this.relatedFindings,
+    this.severity,
+    this.types,
+    this.userDefinedFields,
+    this.verificationState,
+    this.workflow,
+  });
+  Map<String, dynamic> toJson() => _$BatchUpdateFindingsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5168,16 +5365,30 @@ enum ControlStatus {
   disabled,
 }
 
-extension on ControlStatus {
-  String toValue() {
-    switch (this) {
-      case ControlStatus.enabled:
-        return 'ENABLED';
-      case ControlStatus.disabled:
-        return 'DISABLED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateActionTargetRequest {
+  /// The description for the custom action target.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The ID for the custom action target.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// The name of the custom action target.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  CreateActionTargetRequest({
+    @_s.required this.description,
+    @_s.required this.id,
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$CreateActionTargetRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5200,6 +5411,37 @@ class CreateActionTargetResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateInsightRequest {
+  /// One or more attributes used to filter the findings included in the insight.
+  /// The insight only includes findings that match the criteria defined in the
+  /// filters.
+  @_s.JsonKey(name: 'Filters')
+  final AwsSecurityFindingFilters filters;
+
+  /// The attribute used to group the findings for the insight. The grouping
+  /// attribute identifies the type of item that the insight applies to. For
+  /// example, if an insight is grouped by resource identifier, then the insight
+  /// produces a list of resource identifiers.
+  @_s.JsonKey(name: 'GroupByAttribute')
+  final String groupByAttribute;
+
+  /// The name of the custom insight to create.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  CreateInsightRequest({
+    @_s.required this.filters,
+    @_s.required this.groupByAttribute,
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$CreateInsightRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateInsightResponse {
@@ -5212,6 +5454,23 @@ class CreateInsightResponse {
   });
   factory CreateInsightResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateInsightResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateMembersRequest {
+  /// The list of accounts to associate with the Security Hub master account. For
+  /// each account, the list includes the account ID and the email address.
+  @_s.JsonKey(name: 'AccountDetails')
+  final List<AccountDetails> accountDetails;
+
+  CreateMembersRequest({
+    this.accountDetails,
+  });
+  Map<String, dynamic> toJson() => _$CreateMembersRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5295,6 +5554,23 @@ enum DateRangeUnit {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeclineInvitationsRequest {
+  /// The list of account IDs for the accounts from which to decline the
+  /// invitations to Security Hub.
+  @_s.JsonKey(name: 'AccountIds')
+  final List<String> accountIds;
+
+  DeclineInvitationsRequest({
+    @_s.required this.accountIds,
+  });
+  Map<String, dynamic> toJson() => _$DeclineInvitationsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeclineInvitationsResponse {
@@ -5308,6 +5584,22 @@ class DeclineInvitationsResponse {
   });
   factory DeclineInvitationsResponse.fromJson(Map<String, dynamic> json) =>
       _$DeclineInvitationsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteActionTargetRequest {
+  /// The ARN of the custom action target to delete.
+  @_s.JsonKey(name: 'ActionTargetArn', ignore: true)
+  final String actionTargetArn;
+
+  DeleteActionTargetRequest({
+    @_s.required this.actionTargetArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteActionTargetRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5330,6 +5622,22 @@ class DeleteActionTargetResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteInsightRequest {
+  /// The ARN of the insight to delete.
+  @_s.JsonKey(name: 'InsightArn', ignore: true)
+  final String insightArn;
+
+  DeleteInsightRequest({
+    @_s.required this.insightArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteInsightRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteInsightResponse {
@@ -5342,6 +5650,22 @@ class DeleteInsightResponse {
   });
   factory DeleteInsightResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteInsightResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteInvitationsRequest {
+  /// The list of the account IDs that sent the invitations to delete.
+  @_s.JsonKey(name: 'AccountIds')
+  final List<String> accountIds;
+
+  DeleteInvitationsRequest({
+    @_s.required this.accountIds,
+  });
+  Map<String, dynamic> toJson() => _$DeleteInvitationsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5365,6 +5689,22 @@ class DeleteInvitationsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteMembersRequest {
+  /// The list of account IDs for the member accounts to delete.
+  @_s.JsonKey(name: 'AccountIds')
+  final List<String> accountIds;
+
+  DeleteMembersRequest({
+    this.accountIds,
+  });
+  Map<String, dynamic> toJson() => _$DeleteMembersRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteMembersResponse {
@@ -5378,6 +5718,38 @@ class DeleteMembersResponse {
   });
   factory DeleteMembersResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteMembersResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeActionTargetsRequest {
+  /// A list of custom action target ARNs for the custom action targets to
+  /// retrieve.
+  @_s.JsonKey(name: 'ActionTargetArns')
+  final List<String> actionTargetArns;
+
+  /// The maximum number of results to return.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token that is required for pagination. On your first call to the
+  /// <code>DescribeActionTargets</code> operation, set the value of this
+  /// parameter to <code>NULL</code>.
+  ///
+  /// For subsequent calls to the operation, to continue listing data, set the
+  /// value of this parameter to the value returned from the previous response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeActionTargetsRequest({
+    this.actionTargetArns,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeActionTargetsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5496,6 +5868,23 @@ class DescribeStandardsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisableImportFindingsForProductRequest {
+  /// The ARN of the integrated product to disable the integration for.
+  @_s.JsonKey(name: 'ProductSubscriptionArn', ignore: true)
+  final String productSubscriptionArn;
+
+  DisableImportFindingsForProductRequest({
+    @_s.required this.productSubscriptionArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DisableImportFindingsForProductRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DisableImportFindingsForProductResponse {
@@ -5531,12 +5920,46 @@ class DisassociateFromMasterAccountResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateMembersRequest {
+  /// The account IDs of the member accounts to disassociate from the master
+  /// account.
+  @_s.JsonKey(name: 'AccountIds')
+  final List<String> accountIds;
+
+  DisassociateMembersRequest({
+    this.accountIds,
+  });
+  Map<String, dynamic> toJson() => _$DisassociateMembersRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DisassociateMembersResponse {
   DisassociateMembersResponse();
   factory DisassociateMembersResponse.fromJson(Map<String, dynamic> json) =>
       _$DisassociateMembersResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class EnableImportFindingsForProductRequest {
+  /// The ARN of the product to enable the integration for.
+  @_s.JsonKey(name: 'ProductArn')
+  final String productArn;
+
+  EnableImportFindingsForProductRequest({
+    @_s.required this.productArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$EnableImportFindingsForProductRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5560,12 +5983,68 @@ class EnableImportFindingsForProductResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class EnableSecurityHubRequest {
+  /// Whether to enable the security standards that Security Hub has designated as
+  /// automatically enabled. If you do not provide a value for
+  /// <code>EnableDefaultStandards</code>, it is set to <code>true</code>. To not
+  /// enable the automatically enabled standards, set
+  /// <code>EnableDefaultStandards</code> to <code>false</code>.
+  @_s.JsonKey(name: 'EnableDefaultStandards')
+  final bool enableDefaultStandards;
+
+  /// The tags to add to the Hub resource when you enable Security Hub.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  EnableSecurityHubRequest({
+    this.enableDefaultStandards,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$EnableSecurityHubRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class EnableSecurityHubResponse {
   EnableSecurityHubResponse();
   factory EnableSecurityHubResponse.fromJson(Map<String, dynamic> json) =>
       _$EnableSecurityHubResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetEnabledStandardsRequest {
+  /// The maximum number of results to return in the response.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token that is required for pagination. On your first call to the
+  /// <code>GetEnabledStandards</code> operation, set the value of this parameter
+  /// to <code>NULL</code>.
+  ///
+  /// For subsequent calls to the operation, to continue listing data, set the
+  /// value of this parameter to the value returned from the previous response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The list of the standards subscription ARNs for the standards to retrieve.
+  @_s.JsonKey(name: 'StandardsSubscriptionArns')
+  final List<String> standardsSubscriptionArns;
+
+  GetEnabledStandardsRequest({
+    this.maxResults,
+    this.nextToken,
+    this.standardsSubscriptionArns,
+  });
+  Map<String, dynamic> toJson() => _$GetEnabledStandardsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5589,6 +6068,43 @@ class GetEnabledStandardsResponse {
   });
   factory GetEnabledStandardsResponse.fromJson(Map<String, dynamic> json) =>
       _$GetEnabledStandardsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetFindingsRequest {
+  /// The finding attributes used to define a condition to filter the returned
+  /// findings.
+  @_s.JsonKey(name: 'Filters')
+  final AwsSecurityFindingFilters filters;
+
+  /// The maximum number of findings to return.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token that is required for pagination. On your first call to the
+  /// <code>GetFindings</code> operation, set the value of this parameter to
+  /// <code>NULL</code>.
+  ///
+  /// For subsequent calls to the operation, to continue listing data, set the
+  /// value of this parameter to the value returned from the previous response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The finding attributes used to sort the list of returned findings.
+  @_s.JsonKey(name: 'SortCriteria')
+  final List<SortCriterion> sortCriteria;
+
+  GetFindingsRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+    this.sortCriteria,
+  });
+  Map<String, dynamic> toJson() => _$GetFindingsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5628,6 +6144,39 @@ class GetInsightResultsResponse {
   });
   factory GetInsightResultsResponse.fromJson(Map<String, dynamic> json) =>
       _$GetInsightResultsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetInsightsRequest {
+  /// The ARNs of the insights to describe. If you do not provide any insight
+  /// ARNs, then <code>GetInsights</code> returns all of your custom insights. It
+  /// does not return any managed insights.
+  @_s.JsonKey(name: 'InsightArns')
+  final List<String> insightArns;
+
+  /// The maximum number of items to return in the response.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token that is required for pagination. On your first call to the
+  /// <code>GetInsights</code> operation, set the value of this parameter to
+  /// <code>NULL</code>.
+  ///
+  /// For subsequent calls to the operation, to continue listing data, set the
+  /// value of this parameter to the value returned from the previous response.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetInsightsRequest({
+    this.insightArns,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$GetInsightsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5686,6 +6235,23 @@ class GetMasterAccountResponse {
   });
   factory GetMasterAccountResponse.fromJson(Map<String, dynamic> json) =>
       _$GetMasterAccountResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetMembersRequest {
+  /// The list of account IDs for the Security Hub member accounts to return the
+  /// details for.
+  @_s.JsonKey(name: 'AccountIds')
+  final List<String> accountIds;
+
+  GetMembersRequest({
+    @_s.required this.accountIds,
+  });
+  Map<String, dynamic> toJson() => _$GetMembersRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5878,6 +6444,23 @@ class Invitation {
   });
   factory Invitation.fromJson(Map<String, dynamic> json) =>
       _$InvitationFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class InviteMembersRequest {
+  /// The list of account IDs of the AWS accounts to invite to Security Hub as
+  /// members.
+  @_s.JsonKey(name: 'AccountIds')
+  final List<String> accountIds;
+
+  InviteMembersRequest({
+    this.accountIds,
+  });
+  Map<String, dynamic> toJson() => _$InviteMembersRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6531,18 +7114,6 @@ enum RecordState {
   active,
   @_s.JsonValue('ARCHIVED')
   archived,
-}
-
-extension on RecordState {
-  String toValue() {
-    switch (this) {
-      case RecordState.active:
-        return 'ACTIVE';
-      case RecordState.archived:
-        return 'ARCHIVED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Details about a related finding.
@@ -7218,6 +7789,27 @@ enum StringFilterComparison {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The ARN of the resource to apply the tags to.
+  @_s.JsonKey(name: 'ResourceArn', ignore: true)
+  final String resourceArn;
+
+  /// The tags to add to the resource.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagResourceResponse {
@@ -7316,12 +7908,59 @@ enum ThreatIntelIndicatorType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The ARN of the resource to remove the tags from.
+  @_s.JsonKey(name: 'ResourceArn', ignore: true)
+  final String resourceArn;
+
+  /// The tag keys associated with the tags to remove from the resource.
+  @_s.JsonKey(name: 'tagKeys', ignore: true)
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
   factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateActionTargetRequest {
+  /// The ARN of the custom action target to update.
+  @_s.JsonKey(name: 'ActionTargetArn', ignore: true)
+  final String actionTargetArn;
+
+  /// The updated description for the custom action target.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The updated name of the custom action target.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  UpdateActionTargetRequest({
+    @_s.required this.actionTargetArn,
+    this.description,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$UpdateActionTargetRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7338,6 +7977,32 @@ class UpdateActionTargetResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateFindingsRequest {
+  /// A collection of attributes that specify which findings you want to update.
+  @_s.JsonKey(name: 'Filters')
+  final AwsSecurityFindingFilters filters;
+
+  /// The updated note for the finding.
+  @_s.JsonKey(name: 'Note')
+  final NoteUpdate note;
+
+  /// The updated record state for the finding.
+  @_s.JsonKey(name: 'RecordState')
+  final RecordState recordState;
+
+  UpdateFindingsRequest({
+    @_s.required this.filters,
+    this.note,
+    this.recordState,
+  });
+  Map<String, dynamic> toJson() => _$UpdateFindingsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateFindingsResponse {
@@ -7349,12 +8014,70 @@ class UpdateFindingsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateInsightRequest {
+  /// The ARN of the insight that you want to update.
+  @_s.JsonKey(name: 'InsightArn', ignore: true)
+  final String insightArn;
+
+  /// The updated filters that define this insight.
+  @_s.JsonKey(name: 'Filters')
+  final AwsSecurityFindingFilters filters;
+
+  /// The updated <code>GroupBy</code> attribute that defines this insight.
+  @_s.JsonKey(name: 'GroupByAttribute')
+  final String groupByAttribute;
+
+  /// The updated name for the insight.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  UpdateInsightRequest({
+    @_s.required this.insightArn,
+    this.filters,
+    this.groupByAttribute,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$UpdateInsightRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateInsightResponse {
   UpdateInsightResponse();
   factory UpdateInsightResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateInsightResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateStandardsControlRequest {
+  /// The ARN of the security standard control to enable or disable.
+  @_s.JsonKey(name: 'StandardsControlArn', ignore: true)
+  final String standardsControlArn;
+
+  /// The updated status of the security standard control.
+  @_s.JsonKey(name: 'ControlStatus')
+  final ControlStatus controlStatus;
+
+  /// A description of the reason why you are disabling a security standard
+  /// control.
+  @_s.JsonKey(name: 'DisabledReason')
+  final String disabledReason;
+
+  UpdateStandardsControlRequest({
+    @_s.required this.standardsControlArn,
+    this.controlStatus,
+    this.disabledReason,
+  });
+  Map<String, dynamic> toJson() => _$UpdateStandardsControlRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7377,22 +8100,6 @@ enum VerificationState {
   falsePositive,
   @_s.JsonValue('BENIGN_POSITIVE')
   benignPositive,
-}
-
-extension on VerificationState {
-  String toValue() {
-    switch (this) {
-      case VerificationState.unknown:
-        return 'UNKNOWN';
-      case VerificationState.truePositive:
-        return 'TRUE_POSITIVE';
-      case VerificationState.falsePositive:
-        return 'FALSE_POSITIVE';
-      case VerificationState.benignPositive:
-        return 'BENIGN_POSITIVE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Details about the action that CloudFront or AWS WAF takes when a web request

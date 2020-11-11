@@ -82,6 +82,22 @@ AgentNetworkInfo _$AgentNetworkInfoFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$AssociateConfigurationItemsToApplicationRequestToJson(
+    AssociateConfigurationItemsToApplicationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'applicationConfigurationId', instance.applicationConfigurationId);
+  writeNotNull('configurationIds', instance.configurationIds);
+  return val;
+}
+
 AssociateConfigurationItemsToApplicationResponse
     _$AssociateConfigurationItemsToApplicationResponseFromJson(
         Map<String, dynamic> json) {
@@ -103,6 +119,20 @@ const _$BatchDeleteImportDataErrorCodeEnumMap = {
   BatchDeleteImportDataErrorCode.internalServerError: 'INTERNAL_SERVER_ERROR',
   BatchDeleteImportDataErrorCode.overLimit: 'OVER_LIMIT',
 };
+
+Map<String, dynamic> _$BatchDeleteImportDataRequestToJson(
+    BatchDeleteImportDataRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('importTaskIds', instance.importTaskIds);
+  return val;
+}
 
 BatchDeleteImportDataResponse _$BatchDeleteImportDataResponseFromJson(
     Map<String, dynamic> json) {
@@ -165,11 +195,40 @@ const _$ContinuousExportStatusEnumMap = {
   ContinuousExportStatus.inactive: 'INACTIVE',
 };
 
+Map<String, dynamic> _$CreateApplicationRequestToJson(
+    CreateApplicationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('description', instance.description);
+  return val;
+}
+
 CreateApplicationResponse _$CreateApplicationResponseFromJson(
     Map<String, dynamic> json) {
   return CreateApplicationResponse(
     configurationId: json['configurationId'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateTagsRequestToJson(CreateTagsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('configurationIds', instance.configurationIds);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateTagsResponse _$CreateTagsResponseFromJson(Map<String, dynamic> json) {
@@ -201,13 +260,58 @@ CustomerConnectorInfo _$CustomerConnectorInfoFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteApplicationsRequestToJson(
+    DeleteApplicationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('configurationIds', instance.configurationIds);
+  return val;
+}
+
 DeleteApplicationsResponse _$DeleteApplicationsResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteApplicationsResponse();
 }
 
+Map<String, dynamic> _$DeleteTagsRequestToJson(DeleteTagsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('configurationIds', instance.configurationIds);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 DeleteTagsResponse _$DeleteTagsResponseFromJson(Map<String, dynamic> json) {
   return DeleteTagsResponse();
+}
+
+Map<String, dynamic> _$DescribeAgentsRequestToJson(
+    DescribeAgentsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('agentIds', instance.agentIds);
+  writeNotNull('filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 DescribeAgentsResponse _$DescribeAgentsResponseFromJson(
@@ -221,6 +325,20 @@ DescribeAgentsResponse _$DescribeAgentsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeConfigurationsRequestToJson(
+    DescribeConfigurationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('configurationIds', instance.configurationIds);
+  return val;
+}
+
 DescribeConfigurationsResponse _$DescribeConfigurationsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeConfigurationsResponse(
@@ -230,6 +348,22 @@ DescribeConfigurationsResponse _$DescribeConfigurationsResponseFromJson(
             ))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeContinuousExportsRequestToJson(
+    DescribeContinuousExportsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('exportIds', instance.exportIds);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 DescribeContinuousExportsResponse _$DescribeContinuousExportsResponseFromJson(
@@ -244,6 +378,22 @@ DescribeContinuousExportsResponse _$DescribeContinuousExportsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeExportConfigurationsRequestToJson(
+    DescribeExportConfigurationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('exportIds', instance.exportIds);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 DescribeExportConfigurationsResponse
     _$DescribeExportConfigurationsResponseFromJson(Map<String, dynamic> json) {
   return DescribeExportConfigurationsResponse(
@@ -253,6 +403,23 @@ DescribeExportConfigurationsResponse
         ?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeExportTasksRequestToJson(
+    DescribeExportTasksRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('exportIds', instance.exportIds);
+  writeNotNull('filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 DescribeExportTasksResponse _$DescribeExportTasksResponseFromJson(
@@ -266,6 +433,22 @@ DescribeExportTasksResponse _$DescribeExportTasksResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeImportTasksRequestToJson(
+    DescribeImportTasksRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 DescribeImportTasksResponse _$DescribeImportTasksResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeImportTasksResponse(
@@ -277,6 +460,21 @@ DescribeImportTasksResponse _$DescribeImportTasksResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeTagsRequestToJson(DescribeTagsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 DescribeTagsResponse _$DescribeTagsResponseFromJson(Map<String, dynamic> json) {
   return DescribeTagsResponse(
     nextToken: json['nextToken'] as String,
@@ -286,6 +484,23 @@ DescribeTagsResponse _$DescribeTagsResponseFromJson(Map<String, dynamic> json) {
             : ConfigurationTag.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic>
+    _$DisassociateConfigurationItemsFromApplicationRequestToJson(
+        DisassociateConfigurationItemsFromApplicationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'applicationConfigurationId', instance.applicationConfigurationId);
+  writeNotNull('configurationIds', instance.configurationIds);
+  return val;
 }
 
 DisassociateConfigurationItemsFromApplicationResponse
@@ -423,6 +638,25 @@ const _$ImportTaskFilterNameEnumMap = {
   ImportTaskFilterName.name: 'NAME',
 };
 
+Map<String, dynamic> _$ListConfigurationsRequestToJson(
+    ListConfigurationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('configurationType',
+      _$ConfigurationItemTypeEnumMap[instance.configurationType]);
+  writeNotNull('filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('orderBy', instance.orderBy?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 ListConfigurationsResponse _$ListConfigurationsResponseFromJson(
     Map<String, dynamic> json) {
   return ListConfigurationsResponse(
@@ -433,6 +667,24 @@ ListConfigurationsResponse _$ListConfigurationsResponseFromJson(
         ?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListServerNeighborsRequestToJson(
+    ListServerNeighborsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('configurationId', instance.configurationId);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('neighborConfigurationIds', instance.neighborConfigurationIds);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('portInformationNeeded', instance.portInformationNeeded);
+  return val;
 }
 
 ListServerNeighborsResponse _$ListServerNeighborsResponseFromJson(
@@ -492,6 +744,20 @@ StartContinuousExportResponse _$StartContinuousExportResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$StartDataCollectionByAgentIdsRequestToJson(
+    StartDataCollectionByAgentIdsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('agentIds', instance.agentIds);
+  return val;
+}
+
 StartDataCollectionByAgentIdsResponse
     _$StartDataCollectionByAgentIdsResponseFromJson(Map<String, dynamic> json) {
   return StartDataCollectionByAgentIdsResponse(
@@ -503,11 +769,44 @@ StartDataCollectionByAgentIdsResponse
   );
 }
 
+Map<String, dynamic> _$StartExportTaskRequestToJson(
+    StartExportTaskRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('endTime', unixTimestampToJson(instance.endTime));
+  writeNotNull('exportDataFormat', instance.exportDataFormat);
+  writeNotNull('filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('startTime', unixTimestampToJson(instance.startTime));
+  return val;
+}
+
 StartExportTaskResponse _$StartExportTaskResponseFromJson(
     Map<String, dynamic> json) {
   return StartExportTaskResponse(
     exportId: json['exportId'] as String,
   );
+}
+
+Map<String, dynamic> _$StartImportTaskRequestToJson(
+    StartImportTaskRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('importUrl', instance.importUrl);
+  writeNotNull('name', instance.name);
+  writeNotNull('clientRequestToken', instance.clientRequestToken);
+  return val;
 }
 
 StartImportTaskResponse _$StartImportTaskResponseFromJson(
@@ -519,12 +818,40 @@ StartImportTaskResponse _$StartImportTaskResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$StopContinuousExportRequestToJson(
+    StopContinuousExportRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('exportId', instance.exportId);
+  return val;
+}
+
 StopContinuousExportResponse _$StopContinuousExportResponseFromJson(
     Map<String, dynamic> json) {
   return StopContinuousExportResponse(
     startTime: unixTimestampFromJson(json['startTime']),
     stopTime: unixTimestampFromJson(json['stopTime']),
   );
+}
+
+Map<String, dynamic> _$StopDataCollectionByAgentIdsRequestToJson(
+    StopDataCollectionByAgentIdsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('agentIds', instance.agentIds);
+  return val;
 }
 
 StopDataCollectionByAgentIdsResponse
@@ -563,6 +890,22 @@ Map<String, dynamic> _$TagFilterToJson(TagFilter instance) {
 
   writeNotNull('name', instance.name);
   writeNotNull('values', instance.values);
+  return val;
+}
+
+Map<String, dynamic> _$UpdateApplicationRequestToJson(
+    UpdateApplicationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('configurationId', instance.configurationId);
+  writeNotNull('description', instance.description);
+  writeNotNull('name', instance.name);
   return val;
 }
 

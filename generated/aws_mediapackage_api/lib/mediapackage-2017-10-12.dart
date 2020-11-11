@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -60,11 +59,11 @@ class MediaPackage {
     Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    final $payload = <String, dynamic>{
-      'Id': id,
-      if (description != null) 'Description': description,
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = CreateChannelRequest(
+      id: id,
+      description: description,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -108,13 +107,13 @@ class MediaPackage {
     ArgumentError.checkNotNull(originEndpointId, 'originEndpointId');
     ArgumentError.checkNotNull(s3Destination, 's3Destination');
     ArgumentError.checkNotNull(startTime, 'startTime');
-    final $payload = <String, dynamic>{
-      'EndTime': endTime,
-      'Id': id,
-      'OriginEndpointId': originEndpointId,
-      'S3Destination': s3Destination,
-      'StartTime': startTime,
-    };
+    final $payload = CreateHarvestJobRequest(
+      endTime: endTime,
+      id: id,
+      originEndpointId: originEndpointId,
+      s3Destination: s3Destination,
+      startTime: startTime,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -187,23 +186,22 @@ class MediaPackage {
   }) async {
     ArgumentError.checkNotNull(channelId, 'channelId');
     ArgumentError.checkNotNull(id, 'id');
-    final $payload = <String, dynamic>{
-      'ChannelId': channelId,
-      'Id': id,
-      if (authorization != null) 'Authorization': authorization,
-      if (cmafPackage != null) 'CmafPackage': cmafPackage,
-      if (dashPackage != null) 'DashPackage': dashPackage,
-      if (description != null) 'Description': description,
-      if (hlsPackage != null) 'HlsPackage': hlsPackage,
-      if (manifestName != null) 'ManifestName': manifestName,
-      if (mssPackage != null) 'MssPackage': mssPackage,
-      if (origination != null) 'Origination': origination?.toValue(),
-      if (startoverWindowSeconds != null)
-        'StartoverWindowSeconds': startoverWindowSeconds,
-      if (tags != null) 'Tags': tags,
-      if (timeDelaySeconds != null) 'TimeDelaySeconds': timeDelaySeconds,
-      if (whitelist != null) 'Whitelist': whitelist,
-    };
+    final $payload = CreateOriginEndpointRequest(
+      channelId: channelId,
+      id: id,
+      authorization: authorization,
+      cmafPackage: cmafPackage,
+      dashPackage: dashPackage,
+      description: description,
+      hlsPackage: hlsPackage,
+      manifestName: manifestName,
+      mssPackage: mssPackage,
+      origination: origination,
+      startoverWindowSeconds: startoverWindowSeconds,
+      tags: tags,
+      timeDelaySeconds: timeDelaySeconds,
+      whitelist: whitelist,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -228,7 +226,9 @@ class MediaPackage {
     @_s.required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteChannelRequest(
+      id: id,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -253,7 +253,9 @@ class MediaPackage {
     @_s.required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteOriginEndpointRequest(
+      id: id,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -500,7 +502,9 @@ class MediaPackage {
     @_s.required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    final $payload = <String, dynamic>{};
+    final $payload = RotateChannelCredentialsRequest(
+      id: id,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -532,7 +536,10 @@ class MediaPackage {
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     ArgumentError.checkNotNull(ingestEndpointId, 'ingestEndpointId');
-    final $payload = <String, dynamic>{};
+    final $payload = RotateIngestEndpointCredentialsRequest(
+      id: id,
+      ingestEndpointId: ingestEndpointId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -549,9 +556,10 @@ class MediaPackage {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'Tags': tags,
-    };
+    final $payload = TagResourceRequest(
+      resourceArn: resourceArn,
+      tags: tags,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -573,7 +581,10 @@ class MediaPackage {
     _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = UntagResourceRequest(
+      resourceArn: resourceArn,
+      tagKeys: tagKeys,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -601,9 +612,10 @@ class MediaPackage {
     String description,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    final $payload = <String, dynamic>{
-      if (description != null) 'Description': description,
-    };
+    final $payload = UpdateChannelRequest(
+      id: id,
+      description: description,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -667,20 +679,20 @@ class MediaPackage {
     List<String> whitelist,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    final $payload = <String, dynamic>{
-      if (authorization != null) 'Authorization': authorization,
-      if (cmafPackage != null) 'CmafPackage': cmafPackage,
-      if (dashPackage != null) 'DashPackage': dashPackage,
-      if (description != null) 'Description': description,
-      if (hlsPackage != null) 'HlsPackage': hlsPackage,
-      if (manifestName != null) 'ManifestName': manifestName,
-      if (mssPackage != null) 'MssPackage': mssPackage,
-      if (origination != null) 'Origination': origination?.toValue(),
-      if (startoverWindowSeconds != null)
-        'StartoverWindowSeconds': startoverWindowSeconds,
-      if (timeDelaySeconds != null) 'TimeDelaySeconds': timeDelaySeconds,
-      if (whitelist != null) 'Whitelist': whitelist,
-    };
+    final $payload = UpdateOriginEndpointRequest(
+      id: id,
+      authorization: authorization,
+      cmafPackage: cmafPackage,
+      dashPackage: dashPackage,
+      description: description,
+      hlsPackage: hlsPackage,
+      manifestName: manifestName,
+      mssPackage: mssPackage,
+      origination: origination,
+      startoverWindowSeconds: startoverWindowSeconds,
+      timeDelaySeconds: timeDelaySeconds,
+      whitelist: whitelist,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -886,6 +898,32 @@ class CmafPackageCreateOrUpdateParameters {
       _$CmafPackageCreateOrUpdateParametersToJson(this);
 }
 
+/// A new Channel configuration.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateChannelRequest {
+  /// The ID of the Channel. The ID must be unique within the region and it
+  /// cannot be changed after a Channel is created.
+  @_s.JsonKey(name: 'id')
+  final String id;
+
+  /// A short text description of the Channel.
+  @_s.JsonKey(name: 'description')
+  final String description;
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateChannelRequest({
+    @_s.required this.id,
+    this.description,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateChannelRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -917,6 +955,43 @@ class CreateChannelResponse {
   });
   factory CreateChannelResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateChannelResponseFromJson(json);
+}
+
+/// Configuration parameters used to create a new HarvestJob.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateHarvestJobRequest {
+  /// The end of the time-window which will be harvested
+  @_s.JsonKey(name: 'endTime')
+  final String endTime;
+
+  /// The ID of the HarvestJob. The ID must be unique within the region
+  /// and it cannot be changed after the HarvestJob is submitted
+  @_s.JsonKey(name: 'id')
+  final String id;
+
+  /// The ID of the OriginEndpoint that the HarvestJob will harvest from.
+  /// This cannot be changed after the HarvestJob is submitted.
+  @_s.JsonKey(name: 'originEndpointId')
+  final String originEndpointId;
+  @_s.JsonKey(name: 's3Destination')
+  final S3Destination s3Destination;
+
+  /// The start of the time-window which will be harvested
+  @_s.JsonKey(name: 'startTime')
+  final String startTime;
+
+  CreateHarvestJobRequest({
+    @_s.required this.endTime,
+    @_s.required this.id,
+    @_s.required this.originEndpointId,
+    @_s.required this.s3Destination,
+    @_s.required this.startTime,
+  });
+  Map<String, dynamic> toJson() => _$CreateHarvestJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -978,6 +1053,89 @@ class CreateHarvestJobResponse {
   });
   factory CreateHarvestJobResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateHarvestJobResponseFromJson(json);
+}
+
+/// Configuration parameters used to create a new OriginEndpoint.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateOriginEndpointRequest {
+  /// The ID of the Channel that the OriginEndpoint will be associated with.
+  /// This cannot be changed after the OriginEndpoint is created.
+  @_s.JsonKey(name: 'channelId')
+  final String channelId;
+
+  /// The ID of the OriginEndpoint.  The ID must be unique within the region
+  /// and it cannot be changed after the OriginEndpoint is created.
+  @_s.JsonKey(name: 'id')
+  final String id;
+  @_s.JsonKey(name: 'authorization')
+  final Authorization authorization;
+  @_s.JsonKey(name: 'cmafPackage')
+  final CmafPackageCreateOrUpdateParameters cmafPackage;
+  @_s.JsonKey(name: 'dashPackage')
+  final DashPackage dashPackage;
+
+  /// A short text description of the OriginEndpoint.
+  @_s.JsonKey(name: 'description')
+  final String description;
+  @_s.JsonKey(name: 'hlsPackage')
+  final HlsPackage hlsPackage;
+
+  /// A short string that will be used as the filename of the OriginEndpoint URL
+  /// (defaults to "index").
+  @_s.JsonKey(name: 'manifestName')
+  final String manifestName;
+  @_s.JsonKey(name: 'mssPackage')
+  final MssPackage mssPackage;
+
+  /// Control whether origination of video is allowed for this OriginEndpoint. If
+  /// set to ALLOW, the OriginEndpoint
+  /// may by requested, pursuant to any other form of access control. If set to
+  /// DENY, the OriginEndpoint may not be
+  /// requested. This can be helpful for Live to VOD harvesting, or for
+  /// temporarily disabling origination
+  @_s.JsonKey(name: 'origination')
+  final Origination origination;
+
+  /// Maximum duration (seconds) of content to retain for startover playback.
+  /// If not specified, startover playback will be disabled for the
+  /// OriginEndpoint.
+  @_s.JsonKey(name: 'startoverWindowSeconds')
+  final int startoverWindowSeconds;
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  /// Amount of delay (seconds) to enforce on the playback of live content.
+  /// If not specified, there will be no time delay in effect for the
+  /// OriginEndpoint.
+  @_s.JsonKey(name: 'timeDelaySeconds')
+  final int timeDelaySeconds;
+
+  /// A list of source IP CIDR blocks that will be allowed to access the
+  /// OriginEndpoint.
+  @_s.JsonKey(name: 'whitelist')
+  final List<String> whitelist;
+
+  CreateOriginEndpointRequest({
+    @_s.required this.channelId,
+    @_s.required this.id,
+    this.authorization,
+    this.cmafPackage,
+    this.dashPackage,
+    this.description,
+    this.hlsPackage,
+    this.manifestName,
+    this.mssPackage,
+    this.origination,
+    this.startoverWindowSeconds,
+    this.tags,
+    this.timeDelaySeconds,
+    this.whitelist,
+  });
+  Map<String, dynamic> toJson() => _$CreateOriginEndpointRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1188,12 +1346,44 @@ class DashPackage {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteChannelRequest {
+  /// The ID of the Channel to delete.
+  @_s.JsonKey(name: 'id', ignore: true)
+  final String id;
+
+  DeleteChannelRequest({
+    @_s.required this.id,
+  });
+  Map<String, dynamic> toJson() => _$DeleteChannelRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteChannelResponse {
   DeleteChannelResponse();
   factory DeleteChannelResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteChannelResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteOriginEndpointRequest {
+  /// The ID of the OriginEndpoint to delete.
+  @_s.JsonKey(name: 'id', ignore: true)
+  final String id;
+
+  DeleteOriginEndpointRequest({
+    @_s.required this.id,
+  });
+  Map<String, dynamic> toJson() => _$DeleteOriginEndpointRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2024,18 +2214,6 @@ enum Origination {
   deny,
 }
 
-extension on Origination {
-  String toValue() {
-    switch (this) {
-      case Origination.allow:
-        return 'ALLOW';
-      case Origination.deny:
-        return 'DENY';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum PlaylistType {
   @_s.JsonValue('NONE')
   none,
@@ -2050,6 +2228,24 @@ enum Profile {
   none,
   @_s.JsonValue('HBBTV_1_5')
   hbbtv_1_5,
+}
+
+@deprecated
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RotateChannelCredentialsRequest {
+  /// The ID of the channel to update.
+  @_s.JsonKey(name: 'id', ignore: true)
+  final String id;
+
+  RotateChannelCredentialsRequest({
+    @_s.required this.id,
+  });
+  Map<String, dynamic> toJson() =>
+      _$RotateChannelCredentialsRequestToJson(this);
 }
 
 @deprecated
@@ -2085,6 +2281,28 @@ class RotateChannelCredentialsResponse {
   factory RotateChannelCredentialsResponse.fromJson(
           Map<String, dynamic> json) =>
       _$RotateChannelCredentialsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RotateIngestEndpointCredentialsRequest {
+  /// The ID of the channel the IngestEndpoint is on.
+  @_s.JsonKey(name: 'id', ignore: true)
+  final String id;
+
+  /// The id of the IngestEndpoint whose credentials should be rotated
+  @_s.JsonKey(name: 'ingest_endpoint_id', ignore: true)
+  final String ingestEndpointId;
+
+  RotateIngestEndpointCredentialsRequest({
+    @_s.required this.id,
+    @_s.required this.ingestEndpointId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$RotateIngestEndpointCredentialsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2257,6 +2475,66 @@ class StreamSelection {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  @_s.JsonKey(name: 'resource-arn', ignore: true)
+  final String resourceArn;
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  @_s.JsonKey(name: 'resource-arn', ignore: true)
+  final String resourceArn;
+
+  /// The key(s) of tag to be deleted
+  @_s.JsonKey(name: 'tagKeys', ignore: true)
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+/// Configuration parameters used to update the Channel.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateChannelRequest {
+  /// The ID of the Channel to update.
+  @_s.JsonKey(name: 'id', ignore: true)
+  final String id;
+
+  /// A short text description of the Channel.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  UpdateChannelRequest({
+    @_s.required this.id,
+    this.description,
+  });
+  Map<String, dynamic> toJson() => _$UpdateChannelRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateChannelResponse {
@@ -2285,6 +2563,78 @@ class UpdateChannelResponse {
   });
   factory UpdateChannelResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateChannelResponseFromJson(json);
+}
+
+/// Configuration parameters used to update an existing OriginEndpoint.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateOriginEndpointRequest {
+  /// The ID of the OriginEndpoint to update.
+  @_s.JsonKey(name: 'id', ignore: true)
+  final String id;
+  @_s.JsonKey(name: 'authorization')
+  final Authorization authorization;
+  @_s.JsonKey(name: 'cmafPackage')
+  final CmafPackageCreateOrUpdateParameters cmafPackage;
+  @_s.JsonKey(name: 'dashPackage')
+  final DashPackage dashPackage;
+
+  /// A short text description of the OriginEndpoint.
+  @_s.JsonKey(name: 'description')
+  final String description;
+  @_s.JsonKey(name: 'hlsPackage')
+  final HlsPackage hlsPackage;
+
+  /// A short string that will be appended to the end of the Endpoint URL.
+  @_s.JsonKey(name: 'manifestName')
+  final String manifestName;
+  @_s.JsonKey(name: 'mssPackage')
+  final MssPackage mssPackage;
+
+  /// Control whether origination of video is allowed for this OriginEndpoint. If
+  /// set to ALLOW, the OriginEndpoint
+  /// may by requested, pursuant to any other form of access control. If set to
+  /// DENY, the OriginEndpoint may not be
+  /// requested. This can be helpful for Live to VOD harvesting, or for
+  /// temporarily disabling origination
+  @_s.JsonKey(name: 'origination')
+  final Origination origination;
+
+  /// Maximum duration (in seconds) of content to retain for startover playback.
+  /// If not specified, startover playback will be disabled for the
+  /// OriginEndpoint.
+  @_s.JsonKey(name: 'startoverWindowSeconds')
+  final int startoverWindowSeconds;
+
+  /// Amount of delay (in seconds) to enforce on the playback of live content.
+  /// If not specified, there will be no time delay in effect for the
+  /// OriginEndpoint.
+  @_s.JsonKey(name: 'timeDelaySeconds')
+  final int timeDelaySeconds;
+
+  /// A list of source IP CIDR blocks that will be allowed to access the
+  /// OriginEndpoint.
+  @_s.JsonKey(name: 'whitelist')
+  final List<String> whitelist;
+
+  UpdateOriginEndpointRequest({
+    @_s.required this.id,
+    this.authorization,
+    this.cmafPackage,
+    this.dashPackage,
+    this.description,
+    this.hlsPackage,
+    this.manifestName,
+    this.mssPackage,
+    this.origination,
+    this.startoverWindowSeconds,
+    this.timeDelaySeconds,
+    this.whitelist,
+  });
+  Map<String, dynamic> toJson() => _$UpdateOriginEndpointRequestToJson(this);
 }
 
 @_s.JsonSerializable(

@@ -27,6 +27,23 @@ EntitlementValue _$EntitlementValueFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetEntitlementsRequestToJson(
+    GetEntitlementsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ProductCode', instance.productCode);
+  writeNotNull('Filter', instance.filter);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 GetEntitlementsResult _$GetEntitlementsResultFromJson(
     Map<String, dynamic> json) {
   return GetEntitlementsResult(

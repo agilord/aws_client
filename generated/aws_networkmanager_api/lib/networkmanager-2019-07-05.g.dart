@@ -6,6 +6,22 @@ part of 'networkmanager-2019-07-05.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$AssociateCustomerGatewayRequestToJson(
+    AssociateCustomerGatewayRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CustomerGatewayArn', instance.customerGatewayArn);
+  writeNotNull('DeviceId', instance.deviceId);
+  writeNotNull('LinkId', instance.linkId);
+  return val;
+}
+
 AssociateCustomerGatewayResponse _$AssociateCustomerGatewayResponseFromJson(
     Map<String, dynamic> json) {
   return AssociateCustomerGatewayResponse(
@@ -14,6 +30,21 @@ AssociateCustomerGatewayResponse _$AssociateCustomerGatewayResponseFromJson(
         : CustomerGatewayAssociation.fromJson(
             json['CustomerGatewayAssociation'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$AssociateLinkRequestToJson(
+    AssociateLinkRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DeviceId', instance.deviceId);
+  writeNotNull('LinkId', instance.linkId);
+  return val;
 }
 
 AssociateLinkResponse _$AssociateLinkResponseFromJson(
@@ -47,12 +78,47 @@ Map<String, dynamic> _$BandwidthToJson(Bandwidth instance) {
   return val;
 }
 
+Map<String, dynamic> _$CreateDeviceRequestToJson(CreateDeviceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Description', instance.description);
+  writeNotNull('Location', instance.location?.toJson());
+  writeNotNull('Model', instance.model);
+  writeNotNull('SerialNumber', instance.serialNumber);
+  writeNotNull('SiteId', instance.siteId);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Type', instance.type);
+  writeNotNull('Vendor', instance.vendor);
+  return val;
+}
+
 CreateDeviceResponse _$CreateDeviceResponseFromJson(Map<String, dynamic> json) {
   return CreateDeviceResponse(
     device: json['Device'] == null
         ? null
         : Device.fromJson(json['Device'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateGlobalNetworkRequestToJson(
+    CreateGlobalNetworkRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Description', instance.description);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateGlobalNetworkResponse _$CreateGlobalNetworkResponseFromJson(
@@ -64,12 +130,45 @@ CreateGlobalNetworkResponse _$CreateGlobalNetworkResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateLinkRequestToJson(CreateLinkRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Bandwidth', instance.bandwidth?.toJson());
+  writeNotNull('SiteId', instance.siteId);
+  writeNotNull('Description', instance.description);
+  writeNotNull('Provider', instance.provider);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Type', instance.type);
+  return val;
+}
+
 CreateLinkResponse _$CreateLinkResponseFromJson(Map<String, dynamic> json) {
   return CreateLinkResponse(
     link: json['Link'] == null
         ? null
         : Link.fromJson(json['Link'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateSiteRequestToJson(CreateSiteRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Description', instance.description);
+  writeNotNull('Location', instance.location?.toJson());
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateSiteResponse _$CreateSiteResponseFromJson(Map<String, dynamic> json) {
@@ -131,6 +230,10 @@ const _$CustomerGatewayAssociationStateEnumMap = {
   CustomerGatewayAssociationState.deleted: 'DELETED',
 };
 
+Map<String, dynamic> _$DeleteDeviceRequestToJson(
+        DeleteDeviceRequest instance) =>
+    <String, dynamic>{};
+
 DeleteDeviceResponse _$DeleteDeviceResponseFromJson(Map<String, dynamic> json) {
   return DeleteDeviceResponse(
     device: json['Device'] == null
@@ -138,6 +241,10 @@ DeleteDeviceResponse _$DeleteDeviceResponseFromJson(Map<String, dynamic> json) {
         : Device.fromJson(json['Device'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$DeleteGlobalNetworkRequestToJson(
+        DeleteGlobalNetworkRequest instance) =>
+    <String, dynamic>{};
 
 DeleteGlobalNetworkResponse _$DeleteGlobalNetworkResponseFromJson(
     Map<String, dynamic> json) {
@@ -148,6 +255,9 @@ DeleteGlobalNetworkResponse _$DeleteGlobalNetworkResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteLinkRequestToJson(DeleteLinkRequest instance) =>
+    <String, dynamic>{};
+
 DeleteLinkResponse _$DeleteLinkResponseFromJson(Map<String, dynamic> json) {
   return DeleteLinkResponse(
     link: json['Link'] == null
@@ -156,6 +266,9 @@ DeleteLinkResponse _$DeleteLinkResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DeleteSiteRequestToJson(DeleteSiteRequest instance) =>
+    <String, dynamic>{};
+
 DeleteSiteResponse _$DeleteSiteResponseFromJson(Map<String, dynamic> json) {
   return DeleteSiteResponse(
     site: json['Site'] == null
@@ -163,6 +276,10 @@ DeleteSiteResponse _$DeleteSiteResponseFromJson(Map<String, dynamic> json) {
         : Site.fromJson(json['Site'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$DeregisterTransitGatewayRequestToJson(
+        DeregisterTransitGatewayRequest instance) =>
+    <String, dynamic>{};
 
 DeregisterTransitGatewayResponse _$DeregisterTransitGatewayResponseFromJson(
     Map<String, dynamic> json) {
@@ -215,6 +332,10 @@ const _$DeviceStateEnumMap = {
   DeviceState.updating: 'UPDATING',
 };
 
+Map<String, dynamic> _$DisassociateCustomerGatewayRequestToJson(
+        DisassociateCustomerGatewayRequest instance) =>
+    <String, dynamic>{};
+
 DisassociateCustomerGatewayResponse
     _$DisassociateCustomerGatewayResponseFromJson(Map<String, dynamic> json) {
   return DisassociateCustomerGatewayResponse(
@@ -224,6 +345,10 @@ DisassociateCustomerGatewayResponse
             json['CustomerGatewayAssociation'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$DisassociateLinkRequestToJson(
+        DisassociateLinkRequest instance) =>
+    <String, dynamic>{};
 
 DisassociateLinkResponse _$DisassociateLinkResponseFromJson(
     Map<String, dynamic> json) {
@@ -399,6 +524,20 @@ Map<String, dynamic> _$LocationToJson(Location instance) {
   return val;
 }
 
+Map<String, dynamic> _$RegisterTransitGatewayRequestToJson(
+    RegisterTransitGatewayRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TransitGatewayArn', instance.transitGatewayArn);
+  return val;
+}
+
 RegisterTransitGatewayResponse _$RegisterTransitGatewayResponseFromJson(
     Map<String, dynamic> json) {
   return RegisterTransitGatewayResponse(
@@ -454,6 +593,19 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
   return val;
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
 }
@@ -487,9 +639,32 @@ const _$TransitGatewayRegistrationStateEnumMap = {
   TransitGatewayRegistrationState.failed: 'FAILED',
 };
 
+Map<String, dynamic> _$UntagResourceRequestToJson(
+        UntagResourceRequest instance) =>
+    <String, dynamic>{};
+
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse();
+}
+
+Map<String, dynamic> _$UpdateDeviceRequestToJson(UpdateDeviceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Description', instance.description);
+  writeNotNull('Location', instance.location?.toJson());
+  writeNotNull('Model', instance.model);
+  writeNotNull('SerialNumber', instance.serialNumber);
+  writeNotNull('SiteId', instance.siteId);
+  writeNotNull('Type', instance.type);
+  writeNotNull('Vendor', instance.vendor);
+  return val;
 }
 
 UpdateDeviceResponse _$UpdateDeviceResponseFromJson(Map<String, dynamic> json) {
@@ -498,6 +673,20 @@ UpdateDeviceResponse _$UpdateDeviceResponseFromJson(Map<String, dynamic> json) {
         ? null
         : Device.fromJson(json['Device'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateGlobalNetworkRequestToJson(
+    UpdateGlobalNetworkRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Description', instance.description);
+  return val;
 }
 
 UpdateGlobalNetworkResponse _$UpdateGlobalNetworkResponseFromJson(
@@ -509,12 +698,42 @@ UpdateGlobalNetworkResponse _$UpdateGlobalNetworkResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateLinkRequestToJson(UpdateLinkRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Bandwidth', instance.bandwidth?.toJson());
+  writeNotNull('Description', instance.description);
+  writeNotNull('Provider', instance.provider);
+  writeNotNull('Type', instance.type);
+  return val;
+}
+
 UpdateLinkResponse _$UpdateLinkResponseFromJson(Map<String, dynamic> json) {
   return UpdateLinkResponse(
     link: json['Link'] == null
         ? null
         : Link.fromJson(json['Link'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateSiteRequestToJson(UpdateSiteRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Description', instance.description);
+  writeNotNull('Location', instance.location?.toJson());
+  return val;
 }
 
 UpdateSiteResponse _$UpdateSiteResponseFromJson(Map<String, dynamic> json) {

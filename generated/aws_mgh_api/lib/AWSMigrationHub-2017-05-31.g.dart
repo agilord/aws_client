@@ -53,14 +53,63 @@ const _$ApplicationStatusEnumMap = {
   ApplicationStatus.completed: 'COMPLETED',
 };
 
+Map<String, dynamic> _$AssociateCreatedArtifactRequestToJson(
+    AssociateCreatedArtifactRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CreatedArtifact', instance.createdArtifact?.toJson());
+  writeNotNull('MigrationTaskName', instance.migrationTaskName);
+  writeNotNull('ProgressUpdateStream', instance.progressUpdateStream);
+  writeNotNull('DryRun', instance.dryRun);
+  return val;
+}
+
 AssociateCreatedArtifactResult _$AssociateCreatedArtifactResultFromJson(
     Map<String, dynamic> json) {
   return AssociateCreatedArtifactResult();
 }
 
+Map<String, dynamic> _$AssociateDiscoveredResourceRequestToJson(
+    AssociateDiscoveredResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DiscoveredResource', instance.discoveredResource?.toJson());
+  writeNotNull('MigrationTaskName', instance.migrationTaskName);
+  writeNotNull('ProgressUpdateStream', instance.progressUpdateStream);
+  writeNotNull('DryRun', instance.dryRun);
+  return val;
+}
+
 AssociateDiscoveredResourceResult _$AssociateDiscoveredResourceResultFromJson(
     Map<String, dynamic> json) {
   return AssociateDiscoveredResourceResult();
+}
+
+Map<String, dynamic> _$CreateProgressUpdateStreamRequestToJson(
+    CreateProgressUpdateStreamRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ProgressUpdateStreamName', instance.progressUpdateStreamName);
+  writeNotNull('DryRun', instance.dryRun);
+  return val;
 }
 
 CreateProgressUpdateStreamResult _$CreateProgressUpdateStreamResultFromJson(
@@ -89,9 +138,38 @@ Map<String, dynamic> _$CreatedArtifactToJson(CreatedArtifact instance) {
   return val;
 }
 
+Map<String, dynamic> _$DeleteProgressUpdateStreamRequestToJson(
+    DeleteProgressUpdateStreamRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ProgressUpdateStreamName', instance.progressUpdateStreamName);
+  writeNotNull('DryRun', instance.dryRun);
+  return val;
+}
+
 DeleteProgressUpdateStreamResult _$DeleteProgressUpdateStreamResultFromJson(
     Map<String, dynamic> json) {
   return DeleteProgressUpdateStreamResult();
+}
+
+Map<String, dynamic> _$DescribeApplicationStateRequestToJson(
+    DescribeApplicationStateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ApplicationId', instance.applicationId);
+  return val;
 }
 
 DescribeApplicationStateResult _$DescribeApplicationStateResultFromJson(
@@ -103,6 +181,21 @@ DescribeApplicationStateResult _$DescribeApplicationStateResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeMigrationTaskRequestToJson(
+    DescribeMigrationTaskRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MigrationTaskName', instance.migrationTaskName);
+  writeNotNull('ProgressUpdateStream', instance.progressUpdateStream);
+  return val;
+}
+
 DescribeMigrationTaskResult _$DescribeMigrationTaskResultFromJson(
     Map<String, dynamic> json) {
   return DescribeMigrationTaskResult(
@@ -112,9 +205,43 @@ DescribeMigrationTaskResult _$DescribeMigrationTaskResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DisassociateCreatedArtifactRequestToJson(
+    DisassociateCreatedArtifactRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CreatedArtifactName', instance.createdArtifactName);
+  writeNotNull('MigrationTaskName', instance.migrationTaskName);
+  writeNotNull('ProgressUpdateStream', instance.progressUpdateStream);
+  writeNotNull('DryRun', instance.dryRun);
+  return val;
+}
+
 DisassociateCreatedArtifactResult _$DisassociateCreatedArtifactResultFromJson(
     Map<String, dynamic> json) {
   return DisassociateCreatedArtifactResult();
+}
+
+Map<String, dynamic> _$DisassociateDiscoveredResourceRequestToJson(
+    DisassociateDiscoveredResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConfigurationId', instance.configurationId);
+  writeNotNull('MigrationTaskName', instance.migrationTaskName);
+  writeNotNull('ProgressUpdateStream', instance.progressUpdateStream);
+  writeNotNull('DryRun', instance.dryRun);
+  return val;
 }
 
 DisassociateDiscoveredResourceResult
@@ -143,9 +270,41 @@ Map<String, dynamic> _$DiscoveredResourceToJson(DiscoveredResource instance) {
   return val;
 }
 
+Map<String, dynamic> _$ImportMigrationTaskRequestToJson(
+    ImportMigrationTaskRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MigrationTaskName', instance.migrationTaskName);
+  writeNotNull('ProgressUpdateStream', instance.progressUpdateStream);
+  writeNotNull('DryRun', instance.dryRun);
+  return val;
+}
+
 ImportMigrationTaskResult _$ImportMigrationTaskResultFromJson(
     Map<String, dynamic> json) {
   return ImportMigrationTaskResult();
+}
+
+Map<String, dynamic> _$ListApplicationStatesRequestToJson(
+    ListApplicationStatesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ApplicationIds', instance.applicationIds);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListApplicationStatesResult _$ListApplicationStatesResultFromJson(
@@ -160,6 +319,23 @@ ListApplicationStatesResult _$ListApplicationStatesResultFromJson(
   );
 }
 
+Map<String, dynamic> _$ListCreatedArtifactsRequestToJson(
+    ListCreatedArtifactsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MigrationTaskName', instance.migrationTaskName);
+  writeNotNull('ProgressUpdateStream', instance.progressUpdateStream);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListCreatedArtifactsResult _$ListCreatedArtifactsResultFromJson(
     Map<String, dynamic> json) {
   return ListCreatedArtifactsResult(
@@ -170,6 +346,23 @@ ListCreatedArtifactsResult _$ListCreatedArtifactsResultFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListDiscoveredResourcesRequestToJson(
+    ListDiscoveredResourcesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MigrationTaskName', instance.migrationTaskName);
+  writeNotNull('ProgressUpdateStream', instance.progressUpdateStream);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListDiscoveredResourcesResult _$ListDiscoveredResourcesResultFromJson(
@@ -184,6 +377,22 @@ ListDiscoveredResourcesResult _$ListDiscoveredResourcesResultFromJson(
   );
 }
 
+Map<String, dynamic> _$ListMigrationTasksRequestToJson(
+    ListMigrationTasksRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('ResourceName', instance.resourceName);
+  return val;
+}
+
 ListMigrationTasksResult _$ListMigrationTasksResultFromJson(
     Map<String, dynamic> json) {
   return ListMigrationTasksResult(
@@ -194,6 +403,21 @@ ListMigrationTasksResult _$ListMigrationTasksResultFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListProgressUpdateStreamsRequestToJson(
+    ListProgressUpdateStreamsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListProgressUpdateStreamsResult _$ListProgressUpdateStreamsResultFromJson(
@@ -243,9 +467,45 @@ const _$StatusEnumMap = {
   Status.completed: 'COMPLETED',
 };
 
+Map<String, dynamic> _$NotifyApplicationStateRequestToJson(
+    NotifyApplicationStateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ApplicationId', instance.applicationId);
+  writeNotNull('Status', _$ApplicationStatusEnumMap[instance.status]);
+  writeNotNull('DryRun', instance.dryRun);
+  writeNotNull('UpdateDateTime', unixTimestampToJson(instance.updateDateTime));
+  return val;
+}
+
 NotifyApplicationStateResult _$NotifyApplicationStateResultFromJson(
     Map<String, dynamic> json) {
   return NotifyApplicationStateResult();
+}
+
+Map<String, dynamic> _$NotifyMigrationTaskStateRequestToJson(
+    NotifyMigrationTaskStateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MigrationTaskName', instance.migrationTaskName);
+  writeNotNull('NextUpdateSeconds', instance.nextUpdateSeconds);
+  writeNotNull('ProgressUpdateStream', instance.progressUpdateStream);
+  writeNotNull('Task', instance.task?.toJson());
+  writeNotNull('UpdateDateTime', unixTimestampToJson(instance.updateDateTime));
+  writeNotNull('DryRun', instance.dryRun);
+  return val;
 }
 
 NotifyMigrationTaskStateResult _$NotifyMigrationTaskStateResultFromJson(
@@ -258,6 +518,24 @@ ProgressUpdateStreamSummary _$ProgressUpdateStreamSummaryFromJson(
   return ProgressUpdateStreamSummary(
     progressUpdateStreamName: json['ProgressUpdateStreamName'] as String,
   );
+}
+
+Map<String, dynamic> _$PutResourceAttributesRequestToJson(
+    PutResourceAttributesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MigrationTaskName', instance.migrationTaskName);
+  writeNotNull('ProgressUpdateStream', instance.progressUpdateStream);
+  writeNotNull('ResourceAttributeList',
+      instance.resourceAttributeList?.map((e) => e?.toJson())?.toList());
+  writeNotNull('DryRun', instance.dryRun);
+  return val;
 }
 
 PutResourceAttributesResult _$PutResourceAttributesResultFromJson(

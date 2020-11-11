@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -130,16 +129,48 @@ class EC2InstanceConnect {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AvailabilityZone': availabilityZone,
-        'InstanceId': instanceId,
-        'InstanceOSUser': instanceOSUser,
-        'SSHPublicKey': sSHPublicKey,
-      },
+      payload: SendSSHPublicKeyRequest(
+        availabilityZone: availabilityZone,
+        instanceId: instanceId,
+        instanceOSUser: instanceOSUser,
+        sSHPublicKey: sSHPublicKey,
+      ),
     );
 
     return SendSSHPublicKeyResponse.fromJson(jsonResponse.body);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SendSSHPublicKeyRequest {
+  /// The availability zone the EC2 instance was launched in.
+  @_s.JsonKey(name: 'AvailabilityZone')
+  final String availabilityZone;
+
+  /// The EC2 instance you wish to publish the SSH key to.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  /// The OS user on the EC2 instance whom the key may be used to authenticate as.
+  @_s.JsonKey(name: 'InstanceOSUser')
+  final String instanceOSUser;
+
+  /// The public key to be published to the instance. To use it after publication
+  /// you must have the matching private key.
+  @_s.JsonKey(name: 'SSHPublicKey')
+  final String sSHPublicKey;
+
+  SendSSHPublicKeyRequest({
+    @_s.required this.availabilityZone,
+    @_s.required this.instanceId,
+    @_s.required this.instanceOSUser,
+    @_s.required this.sSHPublicKey,
+  });
+  Map<String, dynamic> toJson() => _$SendSSHPublicKeyRequestToJson(this);
 }
 
 @_s.JsonSerializable(

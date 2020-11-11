@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -84,10 +83,10 @@ class WorkSpaces {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DirectoryId': directoryId,
-        'GroupIds': groupIds,
-      },
+      payload: AssociateIpGroupsRequest(
+        directoryId: directoryId,
+        groupIds: groupIds,
+      ),
     );
 
     return AssociateIpGroupsResult.fromJson(jsonResponse.body);
@@ -131,10 +130,10 @@ class WorkSpaces {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GroupId': groupId,
-        'UserRules': userRules,
-      },
+      payload: AuthorizeIpRulesRequest(
+        groupId: groupId,
+        userRules: userRules,
+      ),
     );
 
     return AuthorizeIpRulesResult.fromJson(jsonResponse.body);
@@ -228,13 +227,13 @@ class WorkSpaces {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        'SourceImageId': sourceImageId,
-        'SourceRegion': sourceRegion,
-        if (description != null) 'Description': description,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CopyWorkspaceImageRequest(
+        name: name,
+        sourceImageId: sourceImageId,
+        sourceRegion: sourceRegion,
+        description: description,
+        tags: tags,
+      ),
     );
 
     return CopyWorkspaceImageResult.fromJson(jsonResponse.body);
@@ -288,12 +287,12 @@ class WorkSpaces {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GroupName': groupName,
-        if (groupDesc != null) 'GroupDesc': groupDesc,
-        if (tags != null) 'Tags': tags,
-        if (userRules != null) 'UserRules': userRules,
-      },
+      payload: CreateIpGroupRequest(
+        groupName: groupName,
+        groupDesc: groupDesc,
+        tags: tags,
+        userRules: userRules,
+      ),
     );
 
     return CreateIpGroupResult.fromJson(jsonResponse.body);
@@ -337,10 +336,10 @@ class WorkSpaces {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceId': resourceId,
-        'Tags': tags,
-      },
+      payload: CreateTagsRequest(
+        resourceId: resourceId,
+        tags: tags,
+      ),
     );
 
     return CreateTagsResult.fromJson(jsonResponse.body);
@@ -370,9 +369,9 @@ class WorkSpaces {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Workspaces': workspaces,
-      },
+      payload: CreateWorkspacesRequest(
+        workspaces: workspaces,
+      ),
     );
 
     return CreateWorkspacesResult.fromJson(jsonResponse.body);
@@ -410,9 +409,9 @@ class WorkSpaces {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GroupId': groupId,
-      },
+      payload: DeleteIpGroupRequest(
+        groupId: groupId,
+      ),
     );
 
     return DeleteIpGroupResult.fromJson(jsonResponse.body);
@@ -453,10 +452,10 @@ class WorkSpaces {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceId': resourceId,
-        'TagKeys': tagKeys,
-      },
+      payload: DeleteTagsRequest(
+        resourceId: resourceId,
+        tagKeys: tagKeys,
+      ),
     );
 
     return DeleteTagsResult.fromJson(jsonResponse.body);
@@ -492,9 +491,9 @@ class WorkSpaces {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ImageId': imageId,
-      },
+      payload: DeleteWorkspaceImageRequest(
+        imageId: imageId,
+      ),
     );
 
     return DeleteWorkspaceImageResult.fromJson(jsonResponse.body);
@@ -542,9 +541,9 @@ class WorkSpaces {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DirectoryId': directoryId,
-      },
+      payload: DeregisterWorkspaceDirectoryRequest(
+        directoryId: directoryId,
+      ),
     );
 
     return DeregisterWorkspaceDirectoryResult.fromJson(jsonResponse.body);
@@ -597,9 +596,9 @@ class WorkSpaces {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeAccountModificationsRequest(
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeAccountModificationsResult.fromJson(jsonResponse.body);
@@ -628,9 +627,9 @@ class WorkSpaces {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceIds': resourceIds,
-      },
+      payload: DescribeClientPropertiesRequest(
+        resourceIds: resourceIds,
+      ),
     );
 
     return DescribeClientPropertiesResult.fromJson(jsonResponse.body);
@@ -677,11 +676,11 @@ class WorkSpaces {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (groupIds != null) 'GroupIds': groupIds,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeIpGroupsRequest(
+        groupIds: groupIds,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeIpGroupsResult.fromJson(jsonResponse.body);
@@ -716,9 +715,9 @@ class WorkSpaces {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceId': resourceId,
-      },
+      payload: DescribeTagsRequest(
+        resourceId: resourceId,
+      ),
     );
 
     return DescribeTagsResult.fromJson(jsonResponse.body);
@@ -765,11 +764,11 @@ class WorkSpaces {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (bundleIds != null) 'BundleIds': bundleIds,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (owner != null) 'Owner': owner,
-      },
+      payload: DescribeWorkspaceBundlesRequest(
+        bundleIds: bundleIds,
+        nextToken: nextToken,
+        owner: owner,
+      ),
     );
 
     return DescribeWorkspaceBundlesResult.fromJson(jsonResponse.body);
@@ -817,11 +816,11 @@ class WorkSpaces {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (directoryIds != null) 'DirectoryIds': directoryIds,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeWorkspaceDirectoriesRequest(
+        directoryIds: directoryIds,
+        limit: limit,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeWorkspaceDirectoriesResult.fromJson(jsonResponse.body);
@@ -869,11 +868,11 @@ class WorkSpaces {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (imageIds != null) 'ImageIds': imageIds,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeWorkspaceImagesRequest(
+        imageIds: imageIds,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeWorkspaceImagesResult.fromJson(jsonResponse.body);
@@ -907,9 +906,9 @@ class WorkSpaces {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'WorkspaceId': workspaceId,
-      },
+      payload: DescribeWorkspaceSnapshotsRequest(
+        workspaceId: workspaceId,
+      ),
     );
 
     return DescribeWorkspaceSnapshotsResult.fromJson(jsonResponse.body);
@@ -1004,14 +1003,14 @@ class WorkSpaces {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (bundleId != null) 'BundleId': bundleId,
-        if (directoryId != null) 'DirectoryId': directoryId,
-        if (limit != null) 'Limit': limit,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (userName != null) 'UserName': userName,
-        if (workspaceIds != null) 'WorkspaceIds': workspaceIds,
-      },
+      payload: DescribeWorkspacesRequest(
+        bundleId: bundleId,
+        directoryId: directoryId,
+        limit: limit,
+        nextToken: nextToken,
+        userName: userName,
+        workspaceIds: workspaceIds,
+      ),
     );
 
     return DescribeWorkspacesResult.fromJson(jsonResponse.body);
@@ -1048,10 +1047,10 @@ class WorkSpaces {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (nextToken != null) 'NextToken': nextToken,
-        if (workspaceIds != null) 'WorkspaceIds': workspaceIds,
-      },
+      payload: DescribeWorkspacesConnectionStatusRequest(
+        nextToken: nextToken,
+        workspaceIds: workspaceIds,
+      ),
     );
 
     return DescribeWorkspacesConnectionStatusResult.fromJson(jsonResponse.body);
@@ -1099,10 +1098,10 @@ class WorkSpaces {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DirectoryId': directoryId,
-        'GroupIds': groupIds,
-      },
+      payload: DisassociateIpGroupsRequest(
+        directoryId: directoryId,
+        groupIds: groupIds,
+      ),
     );
 
     return DisassociateIpGroupsResult.fromJson(jsonResponse.body);
@@ -1186,13 +1185,13 @@ class WorkSpaces {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Ec2ImageId': ec2ImageId,
-        'ImageDescription': imageDescription,
-        'ImageName': imageName,
-        'IngestionProcess': ingestionProcess?.toValue(),
-        if (tags != null) 'Tags': tags,
-      },
+      payload: ImportWorkspaceImageRequest(
+        ec2ImageId: ec2ImageId,
+        imageDescription: imageDescription,
+        imageName: imageName,
+        ingestionProcess: ingestionProcess,
+        tags: tags,
+      ),
     );
 
     return ImportWorkspaceImageResult.fromJson(jsonResponse.body);
@@ -1257,11 +1256,11 @@ class WorkSpaces {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ManagementCidrRangeConstraint': managementCidrRangeConstraint,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListAvailableManagementCidrRangesRequest(
+        managementCidrRangeConstraint: managementCidrRangeConstraint,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListAvailableManagementCidrRangesResult.fromJson(jsonResponse.body);
@@ -1323,10 +1322,10 @@ class WorkSpaces {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'BundleId': bundleId,
-        'SourceWorkspaceId': sourceWorkspaceId,
-      },
+      payload: MigrateWorkspaceRequest(
+        bundleId: bundleId,
+        sourceWorkspaceId: sourceWorkspaceId,
+      ),
     );
 
     return MigrateWorkspaceResult.fromJson(jsonResponse.body);
@@ -1370,13 +1369,11 @@ class WorkSpaces {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (dedicatedTenancyManagementCidrRange != null)
-          'DedicatedTenancyManagementCidrRange':
-              dedicatedTenancyManagementCidrRange,
-        if (dedicatedTenancySupport != null)
-          'DedicatedTenancySupport': dedicatedTenancySupport?.toValue(),
-      },
+      payload: ModifyAccountRequest(
+        dedicatedTenancyManagementCidrRange:
+            dedicatedTenancyManagementCidrRange,
+        dedicatedTenancySupport: dedicatedTenancySupport,
+      ),
     );
 
     return ModifyAccountResult.fromJson(jsonResponse.body);
@@ -1416,10 +1413,10 @@ class WorkSpaces {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClientProperties': clientProperties,
-        'ResourceId': resourceId,
-      },
+      payload: ModifyClientPropertiesRequest(
+        clientProperties: clientProperties,
+        resourceId: resourceId,
+      ),
     );
 
     return ModifyClientPropertiesResult.fromJson(jsonResponse.body);
@@ -1469,10 +1466,10 @@ class WorkSpaces {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceId': resourceId,
-        'SelfservicePermissions': selfservicePermissions,
-      },
+      payload: ModifySelfservicePermissionsRequest(
+        resourceId: resourceId,
+        selfservicePermissions: selfservicePermissions,
+      ),
     );
 
     return ModifySelfservicePermissionsResult.fromJson(jsonResponse.body);
@@ -1521,10 +1518,10 @@ class WorkSpaces {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceId': resourceId,
-        'WorkspaceAccessProperties': workspaceAccessProperties,
-      },
+      payload: ModifyWorkspaceAccessPropertiesRequest(
+        resourceId: resourceId,
+        workspaceAccessProperties: workspaceAccessProperties,
+      ),
     );
 
     return ModifyWorkspaceAccessPropertiesResult.fromJson(jsonResponse.body);
@@ -1571,10 +1568,10 @@ class WorkSpaces {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceId': resourceId,
-        'WorkspaceCreationProperties': workspaceCreationProperties,
-      },
+      payload: ModifyWorkspaceCreationPropertiesRequest(
+        resourceId: resourceId,
+        workspaceCreationProperties: workspaceCreationProperties,
+      ),
     );
 
     return ModifyWorkspaceCreationPropertiesResult.fromJson(jsonResponse.body);
@@ -1617,10 +1614,10 @@ class WorkSpaces {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'WorkspaceId': workspaceId,
-        'WorkspaceProperties': workspaceProperties,
-      },
+      payload: ModifyWorkspacePropertiesRequest(
+        workspaceId: workspaceId,
+        workspaceProperties: workspaceProperties,
+      ),
     );
 
     return ModifyWorkspacePropertiesResult.fromJson(jsonResponse.body);
@@ -1665,10 +1662,10 @@ class WorkSpaces {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'WorkspaceId': workspaceId,
-        'WorkspaceState': workspaceState?.toValue(),
-      },
+      payload: ModifyWorkspaceStateRequest(
+        workspaceId: workspaceId,
+        workspaceState: workspaceState,
+      ),
     );
 
     return ModifyWorkspaceStateResult.fromJson(jsonResponse.body);
@@ -1699,9 +1696,9 @@ class WorkSpaces {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'RebootWorkspaceRequests': rebootWorkspaceRequests,
-      },
+      payload: RebootWorkspacesRequest(
+        rebootWorkspaceRequests: rebootWorkspaceRequests,
+      ),
     );
 
     return RebootWorkspacesResult.fromJson(jsonResponse.body);
@@ -1737,9 +1734,9 @@ class WorkSpaces {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'RebuildWorkspaceRequests': rebuildWorkspaceRequests,
-      },
+      payload: RebuildWorkspacesRequest(
+        rebuildWorkspaceRequests: rebuildWorkspaceRequests,
+      ),
     );
 
     return RebuildWorkspacesResult.fromJson(jsonResponse.body);
@@ -1831,14 +1828,14 @@ class WorkSpaces {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DirectoryId': directoryId,
-        'EnableWorkDocs': enableWorkDocs,
-        if (enableSelfService != null) 'EnableSelfService': enableSelfService,
-        if (subnetIds != null) 'SubnetIds': subnetIds,
-        if (tags != null) 'Tags': tags,
-        if (tenancy != null) 'Tenancy': tenancy?.toValue(),
-      },
+      payload: RegisterWorkspaceDirectoryRequest(
+        directoryId: directoryId,
+        enableWorkDocs: enableWorkDocs,
+        enableSelfService: enableSelfService,
+        subnetIds: subnetIds,
+        tags: tags,
+        tenancy: tenancy,
+      ),
     );
 
     return RegisterWorkspaceDirectoryResult.fromJson(jsonResponse.body);
@@ -1884,9 +1881,9 @@ class WorkSpaces {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'WorkspaceId': workspaceId,
-      },
+      payload: RestoreWorkspaceRequest(
+        workspaceId: workspaceId,
+      ),
     );
 
     return RestoreWorkspaceResult.fromJson(jsonResponse.body);
@@ -1926,10 +1923,10 @@ class WorkSpaces {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GroupId': groupId,
-        'UserRules': userRules,
-      },
+      payload: RevokeIpRulesRequest(
+        groupId: groupId,
+        userRules: userRules,
+      ),
     );
 
     return RevokeIpRulesResult.fromJson(jsonResponse.body);
@@ -1957,9 +1954,9 @@ class WorkSpaces {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'StartWorkspaceRequests': startWorkspaceRequests,
-      },
+      payload: StartWorkspacesRequest(
+        startWorkspaceRequests: startWorkspaceRequests,
+      ),
     );
 
     return StartWorkspacesResult.fromJson(jsonResponse.body);
@@ -1987,9 +1984,9 @@ class WorkSpaces {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'StopWorkspaceRequests': stopWorkspaceRequests,
-      },
+      payload: StopWorkspacesRequest(
+        stopWorkspaceRequests: stopWorkspaceRequests,
+      ),
     );
 
     return StopWorkspacesResult.fromJson(jsonResponse.body);
@@ -2024,9 +2021,9 @@ class WorkSpaces {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TerminateWorkspaceRequests': terminateWorkspaceRequests,
-      },
+      payload: TerminateWorkspacesRequest(
+        terminateWorkspaceRequests: terminateWorkspaceRequests,
+      ),
     );
 
     return TerminateWorkspacesResult.fromJson(jsonResponse.body);
@@ -2068,10 +2065,10 @@ class WorkSpaces {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GroupId': groupId,
-        'UserRules': userRules,
-      },
+      payload: UpdateRulesOfIpGroupRequest(
+        groupId: groupId,
+        userRules: userRules,
+      ),
     );
 
     return UpdateRulesOfIpGroupResult.fromJson(jsonResponse.body);
@@ -2138,12 +2135,54 @@ class AccountModification {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateIpGroupsRequest {
+  /// The identifier of the directory.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  /// The identifiers of one or more IP access control groups.
+  @_s.JsonKey(name: 'GroupIds')
+  final List<String> groupIds;
+
+  AssociateIpGroupsRequest({
+    @_s.required this.directoryId,
+    @_s.required this.groupIds,
+  });
+  Map<String, dynamic> toJson() => _$AssociateIpGroupsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AssociateIpGroupsResult {
   AssociateIpGroupsResult();
   factory AssociateIpGroupsResult.fromJson(Map<String, dynamic> json) =>
       _$AssociateIpGroupsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AuthorizeIpRulesRequest {
+  /// The identifier of the group.
+  @_s.JsonKey(name: 'GroupId')
+  final String groupId;
+
+  /// The rules to add to the group.
+  @_s.JsonKey(name: 'UserRules')
+  final List<IpRuleItem> userRules;
+
+  AuthorizeIpRulesRequest({
+    @_s.required this.groupId,
+    @_s.required this.userRules,
+  });
+  Map<String, dynamic> toJson() => _$AuthorizeIpRulesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2249,6 +2288,42 @@ enum ConnectionState {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CopyWorkspaceImageRequest {
+  /// The name of the image.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The identifier of the source image.
+  @_s.JsonKey(name: 'SourceImageId')
+  final String sourceImageId;
+
+  /// The identifier of the source Region.
+  @_s.JsonKey(name: 'SourceRegion')
+  final String sourceRegion;
+
+  /// A description of the image.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The tags for the image.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CopyWorkspaceImageRequest({
+    @_s.required this.name,
+    @_s.required this.sourceImageId,
+    @_s.required this.sourceRegion,
+    this.description,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CopyWorkspaceImageRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CopyWorkspaceImageResult {
@@ -2261,6 +2336,37 @@ class CopyWorkspaceImageResult {
   });
   factory CopyWorkspaceImageResult.fromJson(Map<String, dynamic> json) =>
       _$CopyWorkspaceImageResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateIpGroupRequest {
+  /// The name of the group.
+  @_s.JsonKey(name: 'GroupName')
+  final String groupName;
+
+  /// The description of the group.
+  @_s.JsonKey(name: 'GroupDesc')
+  final String groupDesc;
+
+  /// The tags. Each WorkSpaces resource can have a maximum of 50 tags.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  /// The rules to add to the group.
+  @_s.JsonKey(name: 'UserRules')
+  final List<IpRuleItem> userRules;
+
+  CreateIpGroupRequest({
+    @_s.required this.groupName,
+    this.groupDesc,
+    this.tags,
+    this.userRules,
+  });
+  Map<String, dynamic> toJson() => _$CreateIpGroupRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2283,12 +2389,53 @@ class CreateIpGroupResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateTagsRequest {
+  /// The identifier of the WorkSpaces resource. The supported resource types are
+  /// WorkSpaces, registered directories, images, custom bundles, and IP access
+  /// control groups.
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  /// The tags. Each WorkSpaces resource can have a maximum of 50 tags. If you
+  /// want to add new tags to a set of existing tags, you must submit all of the
+  /// existing tags along with the new ones.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateTagsRequest({
+    @_s.required this.resourceId,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateTagsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateTagsResult {
   CreateTagsResult();
   factory CreateTagsResult.fromJson(Map<String, dynamic> json) =>
       _$CreateTagsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateWorkspacesRequest {
+  /// The WorkSpaces to create. You can specify up to 25 WorkSpaces.
+  @_s.JsonKey(name: 'Workspaces')
+  final List<WorkspaceRequest> workspaces;
+
+  CreateWorkspacesRequest({
+    @_s.required this.workspaces,
+  });
+  Map<String, dynamic> toJson() => _$CreateWorkspacesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2330,16 +2477,6 @@ enum DedicatedTenancyModificationStateEnum {
 enum DedicatedTenancySupportEnum {
   @_s.JsonValue('ENABLED')
   enabled,
-}
-
-extension on DedicatedTenancySupportEnum {
-  String toValue() {
-    switch (this) {
-      case DedicatedTenancySupportEnum.enabled:
-        return 'ENABLED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 enum DedicatedTenancySupportResultEnum {
@@ -2415,12 +2552,51 @@ class DefaultWorkspaceCreationProperties {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteIpGroupRequest {
+  /// The identifier of the IP access control group.
+  @_s.JsonKey(name: 'GroupId')
+  final String groupId;
+
+  DeleteIpGroupRequest({
+    @_s.required this.groupId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteIpGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteIpGroupResult {
   DeleteIpGroupResult();
   factory DeleteIpGroupResult.fromJson(Map<String, dynamic> json) =>
       _$DeleteIpGroupResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteTagsRequest {
+  /// The identifier of the WorkSpaces resource. The supported resource types are
+  /// WorkSpaces, registered directories, images, custom bundles, and IP access
+  /// control groups.
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  /// The tag keys.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  DeleteTagsRequest({
+    @_s.required this.resourceId,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$DeleteTagsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2437,12 +2613,47 @@ class DeleteTagsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteWorkspaceImageRequest {
+  /// The identifier of the image.
+  @_s.JsonKey(name: 'ImageId')
+  final String imageId;
+
+  DeleteWorkspaceImageRequest({
+    @_s.required this.imageId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteWorkspaceImageRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteWorkspaceImageResult {
   DeleteWorkspaceImageResult();
   factory DeleteWorkspaceImageResult.fromJson(Map<String, dynamic> json) =>
       _$DeleteWorkspaceImageResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeregisterWorkspaceDirectoryRequest {
+  /// The identifier of the directory. If any WorkSpaces are registered to this
+  /// directory, you must remove them before you deregister the directory, or you
+  /// will receive an OperationNotSupportedException error.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  DeregisterWorkspaceDirectoryRequest({
+    @_s.required this.directoryId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeregisterWorkspaceDirectoryRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2455,6 +2666,24 @@ class DeregisterWorkspaceDirectoryResult {
   factory DeregisterWorkspaceDirectoryResult.fromJson(
           Map<String, dynamic> json) =>
       _$DeregisterWorkspaceDirectoryResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeAccountModificationsRequest {
+  /// If you received a <code>NextToken</code> from a previous call that was
+  /// paginated, provide this token to receive the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeAccountModificationsRequest({
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeAccountModificationsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2512,6 +2741,23 @@ class DescribeAccountResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeClientPropertiesRequest {
+  /// The resource identifier, in the form of directory IDs.
+  @_s.JsonKey(name: 'ResourceIds')
+  final List<String> resourceIds;
+
+  DescribeClientPropertiesRequest({
+    @_s.required this.resourceIds,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeClientPropertiesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeClientPropertiesResult {
@@ -2524,6 +2770,33 @@ class DescribeClientPropertiesResult {
   });
   factory DescribeClientPropertiesResult.fromJson(Map<String, dynamic> json) =>
       _$DescribeClientPropertiesResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeIpGroupsRequest {
+  /// The identifiers of one or more IP access control groups.
+  @_s.JsonKey(name: 'GroupIds')
+  final List<String> groupIds;
+
+  /// The maximum number of items to return.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If you received a <code>NextToken</code> from a previous call that was
+  /// paginated, provide this token to receive the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeIpGroupsRequest({
+    this.groupIds,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeIpGroupsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2552,6 +2825,24 @@ class DescribeIpGroupsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeTagsRequest {
+  /// The identifier of the WorkSpaces resource. The supported resource types are
+  /// WorkSpaces, registered directories, images, custom bundles, and IP access
+  /// control groups.
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  DescribeTagsRequest({
+    @_s.required this.resourceId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeTagsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeTagsResult {
@@ -2564,6 +2855,39 @@ class DescribeTagsResult {
   });
   factory DescribeTagsResult.fromJson(Map<String, dynamic> json) =>
       _$DescribeTagsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeWorkspaceBundlesRequest {
+  /// The identifiers of the bundles. You cannot combine this parameter with any
+  /// other filter.
+  @_s.JsonKey(name: 'BundleIds')
+  final List<String> bundleIds;
+
+  /// The token for the next set of results. (You received this token from a
+  /// previous call.)
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The owner of the bundles. You cannot combine this parameter with any other
+  /// filter.
+  ///
+  /// Specify <code>AMAZON</code> to describe the bundles provided by AWS or null
+  /// to describe the bundles that belong to your account.
+  @_s.JsonKey(name: 'Owner')
+  final String owner;
+
+  DescribeWorkspaceBundlesRequest({
+    this.bundleIds,
+    this.nextToken,
+    this.owner,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeWorkspaceBundlesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2593,6 +2917,35 @@ class DescribeWorkspaceBundlesResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeWorkspaceDirectoriesRequest {
+  /// The identifiers of the directories. If the value is null, all directories
+  /// are retrieved.
+  @_s.JsonKey(name: 'DirectoryIds')
+  final List<String> directoryIds;
+
+  /// The maximum number of directories to return.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// If you received a <code>NextToken</code> from a previous call that was
+  /// paginated, provide this token to receive the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeWorkspaceDirectoriesRequest({
+    this.directoryIds,
+    this.limit,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeWorkspaceDirectoriesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeWorkspaceDirectoriesResult {
@@ -2617,6 +2970,33 @@ class DescribeWorkspaceDirectoriesResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeWorkspaceImagesRequest {
+  /// The identifier of the image.
+  @_s.JsonKey(name: 'ImageIds')
+  final List<String> imageIds;
+
+  /// The maximum number of items to return.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If you received a <code>NextToken</code> from a previous call that was
+  /// paginated, provide this token to receive the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeWorkspaceImagesRequest({
+    this.imageIds,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeWorkspaceImagesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeWorkspaceImagesResult {
@@ -2635,6 +3015,23 @@ class DescribeWorkspaceImagesResult {
   });
   factory DescribeWorkspaceImagesResult.fromJson(Map<String, dynamic> json) =>
       _$DescribeWorkspaceImagesResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeWorkspaceSnapshotsRequest {
+  /// The identifier of the WorkSpace.
+  @_s.JsonKey(name: 'WorkspaceId')
+  final String workspaceId;
+
+  DescribeWorkspaceSnapshotsRequest({
+    @_s.required this.workspaceId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeWorkspaceSnapshotsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2665,6 +3062,29 @@ class DescribeWorkspaceSnapshotsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeWorkspacesConnectionStatusRequest {
+  /// If you received a <code>NextToken</code> from a previous call that was
+  /// paginated, provide this token to receive the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The identifiers of the WorkSpaces. You can specify up to 25 WorkSpaces.
+  @_s.JsonKey(name: 'WorkspaceIds')
+  final List<String> workspaceIds;
+
+  DescribeWorkspacesConnectionStatusRequest({
+    this.nextToken,
+    this.workspaceIds,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeWorkspacesConnectionStatusRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeWorkspacesConnectionStatusResult {
@@ -2684,6 +3104,58 @@ class DescribeWorkspacesConnectionStatusResult {
   factory DescribeWorkspacesConnectionStatusResult.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeWorkspacesConnectionStatusResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeWorkspacesRequest {
+  /// The identifier of the bundle. All WorkSpaces that are created from this
+  /// bundle are retrieved. You cannot combine this parameter with any other
+  /// filter.
+  @_s.JsonKey(name: 'BundleId')
+  final String bundleId;
+
+  /// The identifier of the directory. In addition, you can optionally specify a
+  /// specific directory user (see <code>UserName</code>). You cannot combine this
+  /// parameter with any other filter.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  /// The maximum number of items to return.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// If you received a <code>NextToken</code> from a previous call that was
+  /// paginated, provide this token to receive the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The name of the directory user. You must specify this parameter with
+  /// <code>DirectoryId</code>.
+  @_s.JsonKey(name: 'UserName')
+  final String userName;
+
+  /// The identifiers of the WorkSpaces. You cannot combine this parameter with
+  /// any other filter.
+  ///
+  /// Because the <a>CreateWorkspaces</a> operation is asynchronous, the
+  /// identifier it returns is not immediately available. If you immediately call
+  /// <a>DescribeWorkspaces</a> with this identifier, no information is returned.
+  @_s.JsonKey(name: 'WorkspaceIds')
+  final List<String> workspaceIds;
+
+  DescribeWorkspacesRequest({
+    this.bundleId,
+    this.directoryId,
+    this.limit,
+    this.nextToken,
+    this.userName,
+    this.workspaceIds,
+  });
+  Map<String, dynamic> toJson() => _$DescribeWorkspacesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2710,6 +3182,27 @@ class DescribeWorkspacesResult {
   });
   factory DescribeWorkspacesResult.fromJson(Map<String, dynamic> json) =>
       _$DescribeWorkspacesResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateIpGroupsRequest {
+  /// The identifier of the directory.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  /// The identifiers of one or more IP access control groups.
+  @_s.JsonKey(name: 'GroupIds')
+  final List<String> groupIds;
+
+  DisassociateIpGroupsRequest({
+    @_s.required this.directoryId,
+    @_s.required this.groupIds,
+  });
+  Map<String, dynamic> toJson() => _$DisassociateIpGroupsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2787,6 +3280,42 @@ class FailedWorkspaceChangeRequest {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ImportWorkspaceImageRequest {
+  /// The identifier of the EC2 image.
+  @_s.JsonKey(name: 'Ec2ImageId')
+  final String ec2ImageId;
+
+  /// The description of the WorkSpace image.
+  @_s.JsonKey(name: 'ImageDescription')
+  final String imageDescription;
+
+  /// The name of the WorkSpace image.
+  @_s.JsonKey(name: 'ImageName')
+  final String imageName;
+
+  /// The ingestion process to be used when importing the image.
+  @_s.JsonKey(name: 'IngestionProcess')
+  final WorkspaceImageIngestionProcess ingestionProcess;
+
+  /// The tags. Each WorkSpaces resource can have a maximum of 50 tags.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  ImportWorkspaceImageRequest({
+    @_s.required this.ec2ImageId,
+    @_s.required this.imageDescription,
+    @_s.required this.imageName,
+    @_s.required this.ingestionProcess,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$ImportWorkspaceImageRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ImportWorkspaceImageResult {
@@ -2829,6 +3358,36 @@ class IpRuleItem {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListAvailableManagementCidrRangesRequest {
+  /// The IP address range to search. Specify an IP address range that is
+  /// compatible with your network and in CIDR notation (that is, specify the
+  /// range as an IPv4 CIDR block).
+  @_s.JsonKey(name: 'ManagementCidrRangeConstraint')
+  final String managementCidrRangeConstraint;
+
+  /// The maximum number of items to return.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If you received a <code>NextToken</code> from a previous call that was
+  /// paginated, provide this token to receive the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListAvailableManagementCidrRangesRequest({
+    @_s.required this.managementCidrRangeConstraint,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListAvailableManagementCidrRangesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListAvailableManagementCidrRangesResult {
@@ -2848,6 +3407,27 @@ class ListAvailableManagementCidrRangesResult {
   factory ListAvailableManagementCidrRangesResult.fromJson(
           Map<String, dynamic> json) =>
       _$ListAvailableManagementCidrRangesResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class MigrateWorkspaceRequest {
+  /// The identifier of the target bundle type to migrate the WorkSpace to.
+  @_s.JsonKey(name: 'BundleId')
+  final String bundleId;
+
+  /// The identifier of the WorkSpace to migrate from.
+  @_s.JsonKey(name: 'SourceWorkspaceId')
+  final String sourceWorkspaceId;
+
+  MigrateWorkspaceRequest({
+    @_s.required this.bundleId,
+    @_s.required this.sourceWorkspaceId,
+  });
+  Map<String, dynamic> toJson() => _$MigrateWorkspaceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2916,6 +3496,32 @@ enum ModificationStateEnum {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ModifyAccountRequest {
+  /// The IP address range, specified as an IPv4 CIDR block, for the management
+  /// network interface. Specify an IP address range that is compatible with your
+  /// network and in CIDR notation (that is, specify the range as an IPv4 CIDR
+  /// block). The CIDR block size must be /16 (for example, 203.0.113.25/16). It
+  /// must also be specified as available by the
+  /// <code>ListAvailableManagementCidrRanges</code> operation.
+  @_s.JsonKey(name: 'DedicatedTenancyManagementCidrRange')
+  final String dedicatedTenancyManagementCidrRange;
+
+  /// The status of BYOL.
+  @_s.JsonKey(name: 'DedicatedTenancySupport')
+  final DedicatedTenancySupportEnum dedicatedTenancySupport;
+
+  ModifyAccountRequest({
+    this.dedicatedTenancyManagementCidrRange,
+    this.dedicatedTenancySupport,
+  });
+  Map<String, dynamic> toJson() => _$ModifyAccountRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ModifyAccountResult {
@@ -2927,12 +3533,55 @@ class ModifyAccountResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ModifyClientPropertiesRequest {
+  /// Information about the Amazon WorkSpaces client.
+  @_s.JsonKey(name: 'ClientProperties')
+  final ClientProperties clientProperties;
+
+  /// The resource identifiers, in the form of directory IDs.
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  ModifyClientPropertiesRequest({
+    @_s.required this.clientProperties,
+    @_s.required this.resourceId,
+  });
+  Map<String, dynamic> toJson() => _$ModifyClientPropertiesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ModifyClientPropertiesResult {
   ModifyClientPropertiesResult();
   factory ModifyClientPropertiesResult.fromJson(Map<String, dynamic> json) =>
       _$ModifyClientPropertiesResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ModifySelfservicePermissionsRequest {
+  /// The identifier of the directory.
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  /// The permissions to enable or disable self-service capabilities.
+  @_s.JsonKey(name: 'SelfservicePermissions')
+  final SelfservicePermissions selfservicePermissions;
+
+  ModifySelfservicePermissionsRequest({
+    @_s.required this.resourceId,
+    @_s.required this.selfservicePermissions,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ModifySelfservicePermissionsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2950,6 +3599,28 @@ class ModifySelfservicePermissionsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ModifyWorkspaceAccessPropertiesRequest {
+  /// The identifier of the directory.
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  /// The device types and operating systems to enable or disable for access.
+  @_s.JsonKey(name: 'WorkspaceAccessProperties')
+  final WorkspaceAccessProperties workspaceAccessProperties;
+
+  ModifyWorkspaceAccessPropertiesRequest({
+    @_s.required this.resourceId,
+    @_s.required this.workspaceAccessProperties,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ModifyWorkspaceAccessPropertiesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ModifyWorkspaceAccessPropertiesResult {
@@ -2957,6 +3628,28 @@ class ModifyWorkspaceAccessPropertiesResult {
   factory ModifyWorkspaceAccessPropertiesResult.fromJson(
           Map<String, dynamic> json) =>
       _$ModifyWorkspaceAccessPropertiesResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ModifyWorkspaceCreationPropertiesRequest {
+  /// The identifier of the directory.
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  /// The default properties for creating WorkSpaces.
+  @_s.JsonKey(name: 'WorkspaceCreationProperties')
+  final WorkspaceCreationProperties workspaceCreationProperties;
+
+  ModifyWorkspaceCreationPropertiesRequest({
+    @_s.required this.resourceId,
+    @_s.required this.workspaceCreationProperties,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ModifyWorkspaceCreationPropertiesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2974,12 +3667,55 @@ class ModifyWorkspaceCreationPropertiesResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ModifyWorkspacePropertiesRequest {
+  /// The identifier of the WorkSpace.
+  @_s.JsonKey(name: 'WorkspaceId')
+  final String workspaceId;
+
+  /// The properties of the WorkSpace.
+  @_s.JsonKey(name: 'WorkspaceProperties')
+  final WorkspaceProperties workspaceProperties;
+
+  ModifyWorkspacePropertiesRequest({
+    @_s.required this.workspaceId,
+    @_s.required this.workspaceProperties,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ModifyWorkspacePropertiesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ModifyWorkspacePropertiesResult {
   ModifyWorkspacePropertiesResult();
   factory ModifyWorkspacePropertiesResult.fromJson(Map<String, dynamic> json) =>
       _$ModifyWorkspacePropertiesResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ModifyWorkspaceStateRequest {
+  /// The identifier of the WorkSpace.
+  @_s.JsonKey(name: 'WorkspaceId')
+  final String workspaceId;
+
+  /// The WorkSpace state.
+  @_s.JsonKey(name: 'WorkspaceState')
+  final TargetWorkspaceState workspaceState;
+
+  ModifyWorkspaceStateRequest({
+    @_s.required this.workspaceId,
+    @_s.required this.workspaceState,
+  });
+  Map<String, dynamic> toJson() => _$ModifyWorkspaceStateRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3038,6 +3774,22 @@ class RebootRequest {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RebootWorkspacesRequest {
+  /// The WorkSpaces to reboot. You can specify up to 25 WorkSpaces.
+  @_s.JsonKey(name: 'RebootWorkspaceRequests')
+  final List<RebootRequest> rebootWorkspaceRequests;
+
+  RebootWorkspacesRequest({
+    @_s.required this.rebootWorkspaceRequests,
+  });
+  Map<String, dynamic> toJson() => _$RebootWorkspacesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class RebootWorkspacesResult {
@@ -3072,6 +3824,22 @@ class RebuildRequest {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RebuildWorkspacesRequest {
+  /// The WorkSpace to rebuild. You can specify a single WorkSpace.
+  @_s.JsonKey(name: 'RebuildWorkspaceRequests')
+  final List<RebuildRequest> rebuildWorkspaceRequests;
+
+  RebuildWorkspacesRequest({
+    @_s.required this.rebuildWorkspaceRequests,
+  });
+  Map<String, dynamic> toJson() => _$RebuildWorkspacesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class RebuildWorkspacesResult {
@@ -3096,6 +3864,67 @@ enum ReconnectEnum {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RegisterWorkspaceDirectoryRequest {
+  /// The identifier of the directory. You cannot register a directory if it does
+  /// not have a status of Active. If the directory does not have a status of
+  /// Active, you will receive an InvalidResourceStateException error. If you have
+  /// already registered the maximum number of directories that you can register
+  /// with Amazon WorkSpaces, you will receive a ResourceLimitExceededException
+  /// error. Deregister directories that you are not using for WorkSpaces, and try
+  /// again.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  /// Indicates whether Amazon WorkDocs is enabled or disabled. If you have
+  /// enabled this parameter and WorkDocs is not available in the Region, you will
+  /// receive an OperationNotSupportedException error. Set
+  /// <code>EnableWorkDocs</code> to disabled, and try again.
+  @_s.JsonKey(name: 'EnableWorkDocs')
+  final bool enableWorkDocs;
+
+  /// Indicates whether self-service capabilities are enabled or disabled.
+  @_s.JsonKey(name: 'EnableSelfService')
+  final bool enableSelfService;
+
+  /// The identifiers of the subnets for your virtual private cloud (VPC). Make
+  /// sure that the subnets are in supported Availability Zones. The subnets must
+  /// also be in separate Availability Zones. If these conditions are not met, you
+  /// will receive an OperationNotSupportedException error.
+  @_s.JsonKey(name: 'SubnetIds')
+  final List<String> subnetIds;
+
+  /// The tags associated with the directory.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  /// Indicates whether your WorkSpace directory is dedicated or shared. To use
+  /// Bring Your Own License (BYOL) images, this value must be set to
+  /// <code>DEDICATED</code> and your AWS account must be enabled for BYOL. If
+  /// your account has not been enabled for BYOL, you will receive an
+  /// InvalidParameterValuesException error. For more information about BYOL
+  /// images, see <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/byol-windows-images.html">Bring
+  /// Your Own Windows Desktop Images</a>.
+  @_s.JsonKey(name: 'Tenancy')
+  final Tenancy tenancy;
+
+  RegisterWorkspaceDirectoryRequest({
+    @_s.required this.directoryId,
+    @_s.required this.enableWorkDocs,
+    this.enableSelfService,
+    this.subnetIds,
+    this.tags,
+    this.tenancy,
+  });
+  Map<String, dynamic> toJson() =>
+      _$RegisterWorkspaceDirectoryRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class RegisterWorkspaceDirectoryResult {
@@ -3108,12 +3937,49 @@ class RegisterWorkspaceDirectoryResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RestoreWorkspaceRequest {
+  /// The identifier of the WorkSpace.
+  @_s.JsonKey(name: 'WorkspaceId')
+  final String workspaceId;
+
+  RestoreWorkspaceRequest({
+    @_s.required this.workspaceId,
+  });
+  Map<String, dynamic> toJson() => _$RestoreWorkspaceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class RestoreWorkspaceResult {
   RestoreWorkspaceResult();
   factory RestoreWorkspaceResult.fromJson(Map<String, dynamic> json) =>
       _$RestoreWorkspaceResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RevokeIpRulesRequest {
+  /// The identifier of the group.
+  @_s.JsonKey(name: 'GroupId')
+  final String groupId;
+
+  /// The rules to remove from the group.
+  @_s.JsonKey(name: 'UserRules')
+  final List<String> userRules;
+
+  RevokeIpRulesRequest({
+    @_s.required this.groupId,
+    @_s.required this.userRules,
+  });
+  Map<String, dynamic> toJson() => _$RevokeIpRulesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3239,6 +4105,22 @@ class StartRequest {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartWorkspacesRequest {
+  /// The WorkSpaces to start. You can specify up to 25 WorkSpaces.
+  @_s.JsonKey(name: 'StartWorkspaceRequests')
+  final List<StartRequest> startWorkspaceRequests;
+
+  StartWorkspacesRequest({
+    @_s.required this.startWorkspaceRequests,
+  });
+  Map<String, dynamic> toJson() => _$StartWorkspacesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartWorkspacesResult {
@@ -3268,6 +4150,22 @@ class StopRequest {
     this.workspaceId,
   });
   Map<String, dynamic> toJson() => _$StopRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopWorkspacesRequest {
+  /// The WorkSpaces to stop. You can specify up to 25 WorkSpaces.
+  @_s.JsonKey(name: 'StopWorkspaceRequests')
+  final List<StopRequest> stopWorkspaceRequests;
+
+  StopWorkspacesRequest({
+    @_s.required this.stopWorkspaceRequests,
+  });
+  Map<String, dynamic> toJson() => _$StopWorkspacesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3318,35 +4216,11 @@ enum TargetWorkspaceState {
   adminMaintenance,
 }
 
-extension on TargetWorkspaceState {
-  String toValue() {
-    switch (this) {
-      case TargetWorkspaceState.available:
-        return 'AVAILABLE';
-      case TargetWorkspaceState.adminMaintenance:
-        return 'ADMIN_MAINTENANCE';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum Tenancy {
   @_s.JsonValue('DEDICATED')
   dedicated,
   @_s.JsonValue('SHARED')
   shared,
-}
-
-extension on Tenancy {
-  String toValue() {
-    switch (this) {
-      case Tenancy.dedicated:
-        return 'DEDICATED';
-      case Tenancy.shared:
-        return 'SHARED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Describes the information used to terminate a WorkSpace.
@@ -3369,6 +4243,22 @@ class TerminateRequest {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TerminateWorkspacesRequest {
+  /// The WorkSpaces to terminate. You can specify up to 25 WorkSpaces.
+  @_s.JsonKey(name: 'TerminateWorkspaceRequests')
+  final List<TerminateRequest> terminateWorkspaceRequests;
+
+  TerminateWorkspacesRequest({
+    @_s.required this.terminateWorkspaceRequests,
+  });
+  Map<String, dynamic> toJson() => _$TerminateWorkspacesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TerminateWorkspacesResult {
@@ -3381,6 +4271,27 @@ class TerminateWorkspacesResult {
   });
   factory TerminateWorkspacesResult.fromJson(Map<String, dynamic> json) =>
       _$TerminateWorkspacesResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateRulesOfIpGroupRequest {
+  /// The identifier of the group.
+  @_s.JsonKey(name: 'GroupId')
+  final String groupId;
+
+  /// One or more rules.
+  @_s.JsonKey(name: 'UserRules')
+  final List<IpRuleItem> userRules;
+
+  UpdateRulesOfIpGroupRequest({
+    @_s.required this.groupId,
+    @_s.required this.userRules,
+  });
+  Map<String, dynamic> toJson() => _$UpdateRulesOfIpGroupRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3898,20 +4809,6 @@ enum WorkspaceImageIngestionProcess {
   byolGraphics,
   @_s.JsonValue('BYOL_GRAPHICSPRO')
   byolGraphicspro,
-}
-
-extension on WorkspaceImageIngestionProcess {
-  String toValue() {
-    switch (this) {
-      case WorkspaceImageIngestionProcess.byolRegular:
-        return 'BYOL_REGULAR';
-      case WorkspaceImageIngestionProcess.byolGraphics:
-        return 'BYOL_GRAPHICS';
-      case WorkspaceImageIngestionProcess.byolGraphicspro:
-        return 'BYOL_GRAPHICSPRO';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 enum WorkspaceImageRequiredTenancy {

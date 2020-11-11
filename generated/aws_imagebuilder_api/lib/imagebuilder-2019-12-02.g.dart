@@ -50,6 +50,21 @@ Map<String, dynamic> _$AmiDistributionConfigurationToJson(
   return val;
 }
 
+Map<String, dynamic> _$CancelImageCreationRequestToJson(
+    CancelImageCreationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('clientToken', instance.clientToken);
+  writeNotNull('imageBuildVersionArn', instance.imageBuildVersionArn);
+  return val;
+}
+
 CancelImageCreationResponse _$CancelImageCreationResponseFromJson(
     Map<String, dynamic> json) {
   return CancelImageCreationResponse(
@@ -172,6 +187,29 @@ ComponentVersion _$ComponentVersionFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateComponentRequestToJson(
+    CreateComponentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('clientToken', instance.clientToken);
+  writeNotNull('name', instance.name);
+  writeNotNull('platform', _$PlatformEnumMap[instance.platform]);
+  writeNotNull('semanticVersion', instance.semanticVersion);
+  writeNotNull('changeDescription', instance.changeDescription);
+  writeNotNull('data', instance.data);
+  writeNotNull('description', instance.description);
+  writeNotNull('kmsKeyId', instance.kmsKeyId);
+  writeNotNull('tags', instance.tags);
+  writeNotNull('uri', instance.uri);
+  return val;
+}
+
 CreateComponentResponse _$CreateComponentResponseFromJson(
     Map<String, dynamic> json) {
   return CreateComponentResponse(
@@ -179,6 +217,25 @@ CreateComponentResponse _$CreateComponentResponseFromJson(
     componentBuildVersionArn: json['componentBuildVersionArn'] as String,
     requestId: json['requestId'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateDistributionConfigurationRequestToJson(
+    CreateDistributionConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('clientToken', instance.clientToken);
+  writeNotNull('distributions',
+      instance.distributions?.map((e) => e?.toJson())?.toList());
+  writeNotNull('name', instance.name);
+  writeNotNull('description', instance.description);
+  writeNotNull('tags', instance.tags);
+  return val;
 }
 
 CreateDistributionConfigurationResponse
@@ -192,6 +249,39 @@ CreateDistributionConfigurationResponse
   );
 }
 
+Map<String, dynamic> _$CreateImagePipelineRequestToJson(
+    CreateImagePipelineRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('clientToken', instance.clientToken);
+  writeNotNull('imageRecipeArn', instance.imageRecipeArn);
+  writeNotNull('infrastructureConfigurationArn',
+      instance.infrastructureConfigurationArn);
+  writeNotNull('name', instance.name);
+  writeNotNull('description', instance.description);
+  writeNotNull(
+      'distributionConfigurationArn', instance.distributionConfigurationArn);
+  writeNotNull(
+      'enhancedImageMetadataEnabled', instance.enhancedImageMetadataEnabled);
+  writeNotNull(
+      'imageTestsConfiguration', instance.imageTestsConfiguration?.toJson());
+  writeNotNull('schedule', instance.schedule?.toJson());
+  writeNotNull('status', _$PipelineStatusEnumMap[instance.status]);
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
+const _$PipelineStatusEnumMap = {
+  PipelineStatus.disabled: 'DISABLED',
+  PipelineStatus.enabled: 'ENABLED',
+};
+
 CreateImagePipelineResponse _$CreateImagePipelineResponseFromJson(
     Map<String, dynamic> json) {
   return CreateImagePipelineResponse(
@@ -199,6 +289,29 @@ CreateImagePipelineResponse _$CreateImagePipelineResponseFromJson(
     imagePipelineArn: json['imagePipelineArn'] as String,
     requestId: json['requestId'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateImageRecipeRequestToJson(
+    CreateImageRecipeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('clientToken', instance.clientToken);
+  writeNotNull(
+      'components', instance.components?.map((e) => e?.toJson())?.toList());
+  writeNotNull('name', instance.name);
+  writeNotNull('parentImage', instance.parentImage);
+  writeNotNull('semanticVersion', instance.semanticVersion);
+  writeNotNull('blockDeviceMappings',
+      instance.blockDeviceMappings?.map((e) => e?.toJson())?.toList());
+  writeNotNull('description', instance.description);
+  writeNotNull('tags', instance.tags);
+  return val;
 }
 
 CreateImageRecipeResponse _$CreateImageRecipeResponseFromJson(
@@ -210,12 +323,61 @@ CreateImageRecipeResponse _$CreateImageRecipeResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateImageRequestToJson(CreateImageRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('clientToken', instance.clientToken);
+  writeNotNull('imageRecipeArn', instance.imageRecipeArn);
+  writeNotNull('infrastructureConfigurationArn',
+      instance.infrastructureConfigurationArn);
+  writeNotNull(
+      'distributionConfigurationArn', instance.distributionConfigurationArn);
+  writeNotNull(
+      'enhancedImageMetadataEnabled', instance.enhancedImageMetadataEnabled);
+  writeNotNull(
+      'imageTestsConfiguration', instance.imageTestsConfiguration?.toJson());
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
 CreateImageResponse _$CreateImageResponseFromJson(Map<String, dynamic> json) {
   return CreateImageResponse(
     clientToken: json['clientToken'] as String,
     imageBuildVersionArn: json['imageBuildVersionArn'] as String,
     requestId: json['requestId'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateInfrastructureConfigurationRequestToJson(
+    CreateInfrastructureConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('clientToken', instance.clientToken);
+  writeNotNull('instanceProfileName', instance.instanceProfileName);
+  writeNotNull('name', instance.name);
+  writeNotNull('description', instance.description);
+  writeNotNull('instanceTypes', instance.instanceTypes);
+  writeNotNull('keyPair', instance.keyPair);
+  writeNotNull('logging', instance.logging?.toJson());
+  writeNotNull('securityGroupIds', instance.securityGroupIds);
+  writeNotNull('snsTopicArn', instance.snsTopicArn);
+  writeNotNull('subnetId', instance.subnetId);
+  writeNotNull('tags', instance.tags);
+  writeNotNull(
+      'terminateInstanceOnFailure', instance.terminateInstanceOnFailure);
+  return val;
 }
 
 CreateInfrastructureConfigurationResponse
@@ -229,6 +391,10 @@ CreateInfrastructureConfigurationResponse
   );
 }
 
+Map<String, dynamic> _$DeleteComponentRequestToJson(
+        DeleteComponentRequest instance) =>
+    <String, dynamic>{};
+
 DeleteComponentResponse _$DeleteComponentResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteComponentResponse(
@@ -236,6 +402,10 @@ DeleteComponentResponse _$DeleteComponentResponseFromJson(
     requestId: json['requestId'] as String,
   );
 }
+
+Map<String, dynamic> _$DeleteDistributionConfigurationRequestToJson(
+        DeleteDistributionConfigurationRequest instance) =>
+    <String, dynamic>{};
 
 DeleteDistributionConfigurationResponse
     _$DeleteDistributionConfigurationResponseFromJson(
@@ -247,6 +417,10 @@ DeleteDistributionConfigurationResponse
   );
 }
 
+Map<String, dynamic> _$DeleteImagePipelineRequestToJson(
+        DeleteImagePipelineRequest instance) =>
+    <String, dynamic>{};
+
 DeleteImagePipelineResponse _$DeleteImagePipelineResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteImagePipelineResponse(
@@ -254,6 +428,10 @@ DeleteImagePipelineResponse _$DeleteImagePipelineResponseFromJson(
     requestId: json['requestId'] as String,
   );
 }
+
+Map<String, dynamic> _$DeleteImageRecipeRequestToJson(
+        DeleteImageRecipeRequest instance) =>
+    <String, dynamic>{};
 
 DeleteImageRecipeResponse _$DeleteImageRecipeResponseFromJson(
     Map<String, dynamic> json) {
@@ -263,12 +441,19 @@ DeleteImageRecipeResponse _$DeleteImageRecipeResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteImageRequestToJson(DeleteImageRequest instance) =>
+    <String, dynamic>{};
+
 DeleteImageResponse _$DeleteImageResponseFromJson(Map<String, dynamic> json) {
   return DeleteImageResponse(
     imageBuildVersionArn: json['imageBuildVersionArn'] as String,
     requestId: json['requestId'] as String,
   );
 }
+
+Map<String, dynamic> _$DeleteInfrastructureConfigurationRequestToJson(
+        DeleteInfrastructureConfigurationRequest instance) =>
+    <String, dynamic>{};
 
 DeleteInfrastructureConfigurationResponse
     _$DeleteInfrastructureConfigurationResponseFromJson(
@@ -552,11 +737,6 @@ ImagePipeline _$ImagePipelineFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$PipelineStatusEnumMap = {
-  PipelineStatus.disabled: 'DISABLED',
-  PipelineStatus.enabled: 'ENABLED',
-};
-
 ImageRecipe _$ImageRecipeFromJson(Map<String, dynamic> json) {
   return ImageRecipe(
     arn: json['arn'] as String,
@@ -675,6 +855,35 @@ ImageVersion _$ImageVersionFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ImportComponentRequestToJson(
+    ImportComponentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('clientToken', instance.clientToken);
+  writeNotNull('format', _$ComponentFormatEnumMap[instance.format]);
+  writeNotNull('name', instance.name);
+  writeNotNull('platform', _$PlatformEnumMap[instance.platform]);
+  writeNotNull('semanticVersion', instance.semanticVersion);
+  writeNotNull('type', _$ComponentTypeEnumMap[instance.type]);
+  writeNotNull('changeDescription', instance.changeDescription);
+  writeNotNull('data', instance.data);
+  writeNotNull('description', instance.description);
+  writeNotNull('kmsKeyId', instance.kmsKeyId);
+  writeNotNull('tags', instance.tags);
+  writeNotNull('uri', instance.uri);
+  return val;
+}
+
+const _$ComponentFormatEnumMap = {
+  ComponentFormat.shell: 'SHELL',
+};
+
 ImportComponentResponse _$ImportComponentResponseFromJson(
     Map<String, dynamic> json) {
   return ImportComponentResponse(
@@ -777,6 +986,22 @@ Map<String, dynamic> _$LaunchPermissionConfigurationToJson(
   return val;
 }
 
+Map<String, dynamic> _$ListComponentBuildVersionsRequestToJson(
+    ListComponentBuildVersionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('componentVersionArn', instance.componentVersionArn);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 ListComponentBuildVersionsResponse _$ListComponentBuildVersionsResponseFromJson(
     Map<String, dynamic> json) {
   return ListComponentBuildVersionsResponse(
@@ -790,6 +1015,29 @@ ListComponentBuildVersionsResponse _$ListComponentBuildVersionsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListComponentsRequestToJson(
+    ListComponentsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('owner', _$OwnershipEnumMap[instance.owner]);
+  return val;
+}
+
+const _$OwnershipEnumMap = {
+  Ownership.self: 'Self',
+  Ownership.shared: 'Shared',
+  Ownership.amazon: 'Amazon',
+};
+
 ListComponentsResponse _$ListComponentsResponseFromJson(
     Map<String, dynamic> json) {
   return ListComponentsResponse(
@@ -801,6 +1049,22 @@ ListComponentsResponse _$ListComponentsResponseFromJson(
     nextToken: json['nextToken'] as String,
     requestId: json['requestId'] as String,
   );
+}
+
+Map<String, dynamic> _$ListDistributionConfigurationsRequestToJson(
+    ListDistributionConfigurationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 ListDistributionConfigurationsResponse
@@ -819,6 +1083,23 @@ ListDistributionConfigurationsResponse
   );
 }
 
+Map<String, dynamic> _$ListImageBuildVersionsRequestToJson(
+    ListImageBuildVersionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('imageVersionArn', instance.imageVersionArn);
+  writeNotNull('filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 ListImageBuildVersionsResponse _$ListImageBuildVersionsResponseFromJson(
     Map<String, dynamic> json) {
   return ListImageBuildVersionsResponse(
@@ -831,6 +1112,23 @@ ListImageBuildVersionsResponse _$ListImageBuildVersionsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListImagePipelineImagesRequestToJson(
+    ListImagePipelineImagesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('imagePipelineArn', instance.imagePipelineArn);
+  writeNotNull('filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 ListImagePipelineImagesResponse _$ListImagePipelineImagesResponseFromJson(
     Map<String, dynamic> json) {
   return ListImagePipelineImagesResponse(
@@ -841,6 +1139,22 @@ ListImagePipelineImagesResponse _$ListImagePipelineImagesResponseFromJson(
     nextToken: json['nextToken'] as String,
     requestId: json['requestId'] as String,
   );
+}
+
+Map<String, dynamic> _$ListImagePipelinesRequestToJson(
+    ListImagePipelinesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 ListImagePipelinesResponse _$ListImagePipelinesResponseFromJson(
@@ -856,6 +1170,23 @@ ListImagePipelinesResponse _$ListImagePipelinesResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListImageRecipesRequestToJson(
+    ListImageRecipesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('owner', _$OwnershipEnumMap[instance.owner]);
+  return val;
+}
+
 ListImageRecipesResponse _$ListImageRecipesResponseFromJson(
     Map<String, dynamic> json) {
   return ListImageRecipesResponse(
@@ -869,6 +1200,22 @@ ListImageRecipesResponse _$ListImageRecipesResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListImagesRequestToJson(ListImagesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('owner', _$OwnershipEnumMap[instance.owner]);
+  return val;
+}
+
 ListImagesResponse _$ListImagesResponseFromJson(Map<String, dynamic> json) {
   return ListImagesResponse(
     imageVersionList: (json['imageVersionList'] as List)
@@ -878,6 +1225,22 @@ ListImagesResponse _$ListImagesResponseFromJson(Map<String, dynamic> json) {
     nextToken: json['nextToken'] as String,
     requestId: json['requestId'] as String,
   );
+}
+
+Map<String, dynamic> _$ListInfrastructureConfigurationsRequestToJson(
+    ListInfrastructureConfigurationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 ListInfrastructureConfigurationsResponse
@@ -934,6 +1297,21 @@ OutputResources _$OutputResourcesFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$PutComponentPolicyRequestToJson(
+    PutComponentPolicyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('componentArn', instance.componentArn);
+  writeNotNull('policy', instance.policy);
+  return val;
+}
+
 PutComponentPolicyResponse _$PutComponentPolicyResponseFromJson(
     Map<String, dynamic> json) {
   return PutComponentPolicyResponse(
@@ -942,12 +1320,42 @@ PutComponentPolicyResponse _$PutComponentPolicyResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$PutImagePolicyRequestToJson(
+    PutImagePolicyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('imageArn', instance.imageArn);
+  writeNotNull('policy', instance.policy);
+  return val;
+}
+
 PutImagePolicyResponse _$PutImagePolicyResponseFromJson(
     Map<String, dynamic> json) {
   return PutImagePolicyResponse(
     imageArn: json['imageArn'] as String,
     requestId: json['requestId'] as String,
   );
+}
+
+Map<String, dynamic> _$PutImageRecipePolicyRequestToJson(
+    PutImageRecipePolicyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('imageRecipeArn', instance.imageRecipeArn);
+  writeNotNull('policy', instance.policy);
+  return val;
 }
 
 PutImageRecipePolicyResponse _$PutImageRecipePolicyResponseFromJson(
@@ -1011,6 +1419,21 @@ const _$PipelineExecutionStartConditionEnumMap = {
       'EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE',
 };
 
+Map<String, dynamic> _$StartImagePipelineExecutionRequestToJson(
+    StartImagePipelineExecutionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('clientToken', instance.clientToken);
+  writeNotNull('imagePipelineArn', instance.imagePipelineArn);
+  return val;
+}
+
 StartImagePipelineExecutionResponse
     _$StartImagePipelineExecutionResponseFromJson(Map<String, dynamic> json) {
   return StartImagePipelineExecutionResponse(
@@ -1020,13 +1443,49 @@ StartImagePipelineExecutionResponse
   );
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
 }
 
+Map<String, dynamic> _$UntagResourceRequestToJson(
+        UntagResourceRequest instance) =>
+    <String, dynamic>{};
+
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse();
+}
+
+Map<String, dynamic> _$UpdateDistributionConfigurationRequestToJson(
+    UpdateDistributionConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('clientToken', instance.clientToken);
+  writeNotNull(
+      'distributionConfigurationArn', instance.distributionConfigurationArn);
+  writeNotNull('distributions',
+      instance.distributions?.map((e) => e?.toJson())?.toList());
+  writeNotNull('description', instance.description);
+  return val;
 }
 
 UpdateDistributionConfigurationResponse
@@ -1040,6 +1499,33 @@ UpdateDistributionConfigurationResponse
   );
 }
 
+Map<String, dynamic> _$UpdateImagePipelineRequestToJson(
+    UpdateImagePipelineRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('clientToken', instance.clientToken);
+  writeNotNull('imagePipelineArn', instance.imagePipelineArn);
+  writeNotNull('imageRecipeArn', instance.imageRecipeArn);
+  writeNotNull('infrastructureConfigurationArn',
+      instance.infrastructureConfigurationArn);
+  writeNotNull('description', instance.description);
+  writeNotNull(
+      'distributionConfigurationArn', instance.distributionConfigurationArn);
+  writeNotNull(
+      'enhancedImageMetadataEnabled', instance.enhancedImageMetadataEnabled);
+  writeNotNull(
+      'imageTestsConfiguration', instance.imageTestsConfiguration?.toJson());
+  writeNotNull('schedule', instance.schedule?.toJson());
+  writeNotNull('status', _$PipelineStatusEnumMap[instance.status]);
+  return val;
+}
+
 UpdateImagePipelineResponse _$UpdateImagePipelineResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateImagePipelineResponse(
@@ -1047,6 +1533,32 @@ UpdateImagePipelineResponse _$UpdateImagePipelineResponseFromJson(
     imagePipelineArn: json['imagePipelineArn'] as String,
     requestId: json['requestId'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateInfrastructureConfigurationRequestToJson(
+    UpdateInfrastructureConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('clientToken', instance.clientToken);
+  writeNotNull('infrastructureConfigurationArn',
+      instance.infrastructureConfigurationArn);
+  writeNotNull('instanceProfileName', instance.instanceProfileName);
+  writeNotNull('description', instance.description);
+  writeNotNull('instanceTypes', instance.instanceTypes);
+  writeNotNull('keyPair', instance.keyPair);
+  writeNotNull('logging', instance.logging?.toJson());
+  writeNotNull('securityGroupIds', instance.securityGroupIds);
+  writeNotNull('snsTopicArn', instance.snsTopicArn);
+  writeNotNull('subnetId', instance.subnetId);
+  writeNotNull(
+      'terminateInstanceOnFailure', instance.terminateInstanceOnFailure);
+  return val;
 }
 
 UpdateInfrastructureConfigurationResponse

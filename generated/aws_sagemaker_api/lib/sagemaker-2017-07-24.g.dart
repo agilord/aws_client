@@ -6,6 +6,20 @@ part of 'sagemaker-2017-07-24.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$AddTagsInputToJson(AddTagsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 AddTagsOutput _$AddTagsOutputFromJson(Map<String, dynamic> json) {
   return AddTagsOutput(
     tags: (json['Tags'] as List)
@@ -272,6 +286,21 @@ Map<String, dynamic> _$AppSpecificationToJson(AppSpecification instance) {
   writeNotNull('ImageUri', instance.imageUri);
   writeNotNull('ContainerArguments', instance.containerArguments);
   writeNotNull('ContainerEntrypoint', instance.containerEntrypoint);
+  return val;
+}
+
+Map<String, dynamic> _$AssociateTrialComponentRequestToJson(
+    AssociateTrialComponentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TrialComponentName', instance.trialComponentName);
+  writeNotNull('TrialName', instance.trialName);
   return val;
 }
 
@@ -1019,11 +1048,51 @@ Map<String, dynamic> _$ContinuousParameterRangeSpecificationToJson(
   return val;
 }
 
+Map<String, dynamic> _$CreateAlgorithmInputToJson(
+    CreateAlgorithmInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AlgorithmName', instance.algorithmName);
+  writeNotNull(
+      'TrainingSpecification', instance.trainingSpecification?.toJson());
+  writeNotNull('AlgorithmDescription', instance.algorithmDescription);
+  writeNotNull('CertifyForMarketplace', instance.certifyForMarketplace);
+  writeNotNull(
+      'InferenceSpecification', instance.inferenceSpecification?.toJson());
+  writeNotNull(
+      'ValidationSpecification', instance.validationSpecification?.toJson());
+  return val;
+}
+
 CreateAlgorithmOutput _$CreateAlgorithmOutputFromJson(
     Map<String, dynamic> json) {
   return CreateAlgorithmOutput(
     algorithmArn: json['AlgorithmArn'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateAppRequestToJson(CreateAppRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AppName', instance.appName);
+  writeNotNull('AppType', _$AppTypeEnumMap[instance.appType]);
+  writeNotNull('DomainId', instance.domainId);
+  writeNotNull('UserProfileName', instance.userProfileName);
+  writeNotNull('ResourceSpec', instance.resourceSpec?.toJson());
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateAppResponse _$CreateAppResponseFromJson(Map<String, dynamic> json) {
@@ -1032,11 +1101,56 @@ CreateAppResponse _$CreateAppResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateAutoMLJobRequestToJson(
+    CreateAutoMLJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AutoMLJobName', instance.autoMLJobName);
+  writeNotNull('InputDataConfig',
+      instance.inputDataConfig?.map((e) => e?.toJson())?.toList());
+  writeNotNull('OutputDataConfig', instance.outputDataConfig?.toJson());
+  writeNotNull('RoleArn', instance.roleArn);
+  writeNotNull('AutoMLJobConfig', instance.autoMLJobConfig?.toJson());
+  writeNotNull('AutoMLJobObjective', instance.autoMLJobObjective?.toJson());
+  writeNotNull('GenerateCandidateDefinitionsOnly',
+      instance.generateCandidateDefinitionsOnly);
+  writeNotNull('ProblemType', _$ProblemTypeEnumMap[instance.problemType]);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+const _$ProblemTypeEnumMap = {
+  ProblemType.binaryClassification: 'BinaryClassification',
+  ProblemType.multiclassClassification: 'MulticlassClassification',
+  ProblemType.regression: 'Regression',
+};
+
 CreateAutoMLJobResponse _$CreateAutoMLJobResponseFromJson(
     Map<String, dynamic> json) {
   return CreateAutoMLJobResponse(
     autoMLJobArn: json['AutoMLJobArn'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateCodeRepositoryInputToJson(
+    CreateCodeRepositoryInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CodeRepositoryName', instance.codeRepositoryName);
+  writeNotNull('GitConfig', instance.gitConfig?.toJson());
+  return val;
 }
 
 CreateCodeRepositoryOutput _$CreateCodeRepositoryOutputFromJson(
@@ -1046,6 +1160,24 @@ CreateCodeRepositoryOutput _$CreateCodeRepositoryOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateCompilationJobRequestToJson(
+    CreateCompilationJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CompilationJobName', instance.compilationJobName);
+  writeNotNull('InputConfig', instance.inputConfig?.toJson());
+  writeNotNull('OutputConfig', instance.outputConfig?.toJson());
+  writeNotNull('RoleArn', instance.roleArn);
+  writeNotNull('StoppingCondition', instance.stoppingCondition?.toJson());
+  return val;
+}
+
 CreateCompilationJobResponse _$CreateCompilationJobResponseFromJson(
     Map<String, dynamic> json) {
   return CreateCompilationJobResponse(
@@ -1053,11 +1185,54 @@ CreateCompilationJobResponse _$CreateCompilationJobResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateDomainRequestToJson(CreateDomainRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AuthMode', _$AuthModeEnumMap[instance.authMode]);
+  writeNotNull('DefaultUserSettings', instance.defaultUserSettings?.toJson());
+  writeNotNull('DomainName', instance.domainName);
+  writeNotNull('SubnetIds', instance.subnetIds);
+  writeNotNull('VpcId', instance.vpcId);
+  writeNotNull('HomeEfsFileSystemKmsKeyId', instance.homeEfsFileSystemKmsKeyId);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+const _$AuthModeEnumMap = {
+  AuthMode.sso: 'SSO',
+  AuthMode.iam: 'IAM',
+};
+
 CreateDomainResponse _$CreateDomainResponseFromJson(Map<String, dynamic> json) {
   return CreateDomainResponse(
     domainArn: json['DomainArn'] as String,
     url: json['Url'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateEndpointConfigInputToJson(
+    CreateEndpointConfigInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EndpointConfigName', instance.endpointConfigName);
+  writeNotNull('ProductionVariants',
+      instance.productionVariants?.map((e) => e?.toJson())?.toList());
+  writeNotNull('DataCaptureConfig', instance.dataCaptureConfig?.toJson());
+  writeNotNull('KmsKeyId', instance.kmsKeyId);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateEndpointConfigOutput _$CreateEndpointConfigOutputFromJson(
@@ -1067,10 +1242,42 @@ CreateEndpointConfigOutput _$CreateEndpointConfigOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateEndpointInputToJson(CreateEndpointInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EndpointConfigName', instance.endpointConfigName);
+  writeNotNull('EndpointName', instance.endpointName);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateEndpointOutput _$CreateEndpointOutputFromJson(Map<String, dynamic> json) {
   return CreateEndpointOutput(
     endpointArn: json['EndpointArn'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateExperimentRequestToJson(
+    CreateExperimentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ExperimentName', instance.experimentName);
+  writeNotNull('Description', instance.description);
+  writeNotNull('DisplayName', instance.displayName);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateExperimentResponse _$CreateExperimentResponseFromJson(
@@ -1080,11 +1287,49 @@ CreateExperimentResponse _$CreateExperimentResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateFlowDefinitionRequestToJson(
+    CreateFlowDefinitionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FlowDefinitionName', instance.flowDefinitionName);
+  writeNotNull('HumanLoopConfig', instance.humanLoopConfig?.toJson());
+  writeNotNull('OutputConfig', instance.outputConfig?.toJson());
+  writeNotNull('RoleArn', instance.roleArn);
+  writeNotNull('HumanLoopActivationConfig',
+      instance.humanLoopActivationConfig?.toJson());
+  writeNotNull(
+      'HumanLoopRequestSource', instance.humanLoopRequestSource?.toJson());
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateFlowDefinitionResponse _$CreateFlowDefinitionResponseFromJson(
     Map<String, dynamic> json) {
   return CreateFlowDefinitionResponse(
     flowDefinitionArn: json['FlowDefinitionArn'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateHumanTaskUiRequestToJson(
+    CreateHumanTaskUiRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('HumanTaskUiName', instance.humanTaskUiName);
+  writeNotNull('UiTemplate', instance.uiTemplate?.toJson());
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateHumanTaskUiResponse _$CreateHumanTaskUiResponseFromJson(
@@ -1094,11 +1339,58 @@ CreateHumanTaskUiResponse _$CreateHumanTaskUiResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateHyperParameterTuningJobRequestToJson(
+    CreateHyperParameterTuningJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('HyperParameterTuningJobConfig',
+      instance.hyperParameterTuningJobConfig?.toJson());
+  writeNotNull(
+      'HyperParameterTuningJobName', instance.hyperParameterTuningJobName);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'TrainingJobDefinition', instance.trainingJobDefinition?.toJson());
+  writeNotNull('TrainingJobDefinitions',
+      instance.trainingJobDefinitions?.map((e) => e?.toJson())?.toList());
+  writeNotNull('WarmStartConfig', instance.warmStartConfig?.toJson());
+  return val;
+}
+
 CreateHyperParameterTuningJobResponse
     _$CreateHyperParameterTuningJobResponseFromJson(Map<String, dynamic> json) {
   return CreateHyperParameterTuningJobResponse(
     hyperParameterTuningJobArn: json['HyperParameterTuningJobArn'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateLabelingJobRequestToJson(
+    CreateLabelingJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('HumanTaskConfig', instance.humanTaskConfig?.toJson());
+  writeNotNull('InputConfig', instance.inputConfig?.toJson());
+  writeNotNull('LabelAttributeName', instance.labelAttributeName);
+  writeNotNull('LabelingJobName', instance.labelingJobName);
+  writeNotNull('OutputConfig', instance.outputConfig?.toJson());
+  writeNotNull('RoleArn', instance.roleArn);
+  writeNotNull('LabelCategoryConfigS3Uri', instance.labelCategoryConfigS3Uri);
+  writeNotNull('LabelingJobAlgorithmsConfig',
+      instance.labelingJobAlgorithmsConfig?.toJson());
+  writeNotNull('StoppingConditions', instance.stoppingConditions?.toJson());
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateLabelingJobResponse _$CreateLabelingJobResponseFromJson(
@@ -1108,10 +1400,52 @@ CreateLabelingJobResponse _$CreateLabelingJobResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateModelInputToJson(CreateModelInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ExecutionRoleArn', instance.executionRoleArn);
+  writeNotNull('ModelName', instance.modelName);
+  writeNotNull(
+      'Containers', instance.containers?.map((e) => e?.toJson())?.toList());
+  writeNotNull('EnableNetworkIsolation', instance.enableNetworkIsolation);
+  writeNotNull('PrimaryContainer', instance.primaryContainer?.toJson());
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('VpcConfig', instance.vpcConfig?.toJson());
+  return val;
+}
+
 CreateModelOutput _$CreateModelOutputFromJson(Map<String, dynamic> json) {
   return CreateModelOutput(
     modelArn: json['ModelArn'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateModelPackageInputToJson(
+    CreateModelPackageInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ModelPackageName', instance.modelPackageName);
+  writeNotNull('CertifyForMarketplace', instance.certifyForMarketplace);
+  writeNotNull(
+      'InferenceSpecification', instance.inferenceSpecification?.toJson());
+  writeNotNull('ModelPackageDescription', instance.modelPackageDescription);
+  writeNotNull('SourceAlgorithmSpecification',
+      instance.sourceAlgorithmSpecification?.toJson());
+  writeNotNull(
+      'ValidationSpecification', instance.validationSpecification?.toJson());
+  return val;
 }
 
 CreateModelPackageOutput _$CreateModelPackageOutputFromJson(
@@ -1121,11 +1455,126 @@ CreateModelPackageOutput _$CreateModelPackageOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateMonitoringScheduleRequestToJson(
+    CreateMonitoringScheduleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'MonitoringScheduleConfig', instance.monitoringScheduleConfig?.toJson());
+  writeNotNull('MonitoringScheduleName', instance.monitoringScheduleName);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateMonitoringScheduleResponse _$CreateMonitoringScheduleResponseFromJson(
     Map<String, dynamic> json) {
   return CreateMonitoringScheduleResponse(
     monitoringScheduleArn: json['MonitoringScheduleArn'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateNotebookInstanceInputToJson(
+    CreateNotebookInstanceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InstanceType', _$InstanceTypeEnumMap[instance.instanceType]);
+  writeNotNull('NotebookInstanceName', instance.notebookInstanceName);
+  writeNotNull('RoleArn', instance.roleArn);
+  writeNotNull('AcceleratorTypes', instance.acceleratorTypes);
+  writeNotNull(
+      'AdditionalCodeRepositories', instance.additionalCodeRepositories);
+  writeNotNull('DefaultCodeRepository', instance.defaultCodeRepository);
+  writeNotNull('DirectInternetAccess',
+      _$DirectInternetAccessEnumMap[instance.directInternetAccess]);
+  writeNotNull('KmsKeyId', instance.kmsKeyId);
+  writeNotNull('LifecycleConfigName', instance.lifecycleConfigName);
+  writeNotNull('RootAccess', _$RootAccessEnumMap[instance.rootAccess]);
+  writeNotNull('SecurityGroupIds', instance.securityGroupIds);
+  writeNotNull('SubnetId', instance.subnetId);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('VolumeSizeInGB', instance.volumeSizeInGB);
+  return val;
+}
+
+const _$InstanceTypeEnumMap = {
+  InstanceType.mlT2Medium: 'ml.t2.medium',
+  InstanceType.mlT2Large: 'ml.t2.large',
+  InstanceType.mlT2Xlarge: 'ml.t2.xlarge',
+  InstanceType.mlT2_2xlarge: 'ml.t2.2xlarge',
+  InstanceType.mlT3Medium: 'ml.t3.medium',
+  InstanceType.mlT3Large: 'ml.t3.large',
+  InstanceType.mlT3Xlarge: 'ml.t3.xlarge',
+  InstanceType.mlT3_2xlarge: 'ml.t3.2xlarge',
+  InstanceType.mlM4Xlarge: 'ml.m4.xlarge',
+  InstanceType.mlM4_2xlarge: 'ml.m4.2xlarge',
+  InstanceType.mlM4_4xlarge: 'ml.m4.4xlarge',
+  InstanceType.mlM4_10xlarge: 'ml.m4.10xlarge',
+  InstanceType.mlM4_16xlarge: 'ml.m4.16xlarge',
+  InstanceType.mlM5Xlarge: 'ml.m5.xlarge',
+  InstanceType.mlM5_2xlarge: 'ml.m5.2xlarge',
+  InstanceType.mlM5_4xlarge: 'ml.m5.4xlarge',
+  InstanceType.mlM5_12xlarge: 'ml.m5.12xlarge',
+  InstanceType.mlM5_24xlarge: 'ml.m5.24xlarge',
+  InstanceType.mlC4Xlarge: 'ml.c4.xlarge',
+  InstanceType.mlC4_2xlarge: 'ml.c4.2xlarge',
+  InstanceType.mlC4_4xlarge: 'ml.c4.4xlarge',
+  InstanceType.mlC4_8xlarge: 'ml.c4.8xlarge',
+  InstanceType.mlC5Xlarge: 'ml.c5.xlarge',
+  InstanceType.mlC5_2xlarge: 'ml.c5.2xlarge',
+  InstanceType.mlC5_4xlarge: 'ml.c5.4xlarge',
+  InstanceType.mlC5_9xlarge: 'ml.c5.9xlarge',
+  InstanceType.mlC5_18xlarge: 'ml.c5.18xlarge',
+  InstanceType.mlC5dXlarge: 'ml.c5d.xlarge',
+  InstanceType.mlC5d_2xlarge: 'ml.c5d.2xlarge',
+  InstanceType.mlC5d_4xlarge: 'ml.c5d.4xlarge',
+  InstanceType.mlC5d_9xlarge: 'ml.c5d.9xlarge',
+  InstanceType.mlC5d_18xlarge: 'ml.c5d.18xlarge',
+  InstanceType.mlP2Xlarge: 'ml.p2.xlarge',
+  InstanceType.mlP2_8xlarge: 'ml.p2.8xlarge',
+  InstanceType.mlP2_16xlarge: 'ml.p2.16xlarge',
+  InstanceType.mlP3_2xlarge: 'ml.p3.2xlarge',
+  InstanceType.mlP3_8xlarge: 'ml.p3.8xlarge',
+  InstanceType.mlP3_16xlarge: 'ml.p3.16xlarge',
+};
+
+const _$DirectInternetAccessEnumMap = {
+  DirectInternetAccess.enabled: 'Enabled',
+  DirectInternetAccess.disabled: 'Disabled',
+};
+
+const _$RootAccessEnumMap = {
+  RootAccess.enabled: 'Enabled',
+  RootAccess.disabled: 'Disabled',
+};
+
+Map<String, dynamic> _$CreateNotebookInstanceLifecycleConfigInputToJson(
+    CreateNotebookInstanceLifecycleConfigInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('NotebookInstanceLifecycleConfigName',
+      instance.notebookInstanceLifecycleConfigName);
+  writeNotNull(
+      'OnCreate', instance.onCreate?.map((e) => e?.toJson())?.toList());
+  writeNotNull('OnStart', instance.onStart?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateNotebookInstanceLifecycleConfigOutput
@@ -1144,11 +1593,44 @@ CreateNotebookInstanceOutput _$CreateNotebookInstanceOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$CreatePresignedDomainUrlRequestToJson(
+    CreatePresignedDomainUrlRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DomainId', instance.domainId);
+  writeNotNull('UserProfileName', instance.userProfileName);
+  writeNotNull('SessionExpirationDurationInSeconds',
+      instance.sessionExpirationDurationInSeconds);
+  return val;
+}
+
 CreatePresignedDomainUrlResponse _$CreatePresignedDomainUrlResponseFromJson(
     Map<String, dynamic> json) {
   return CreatePresignedDomainUrlResponse(
     authorizedUrl: json['AuthorizedUrl'] as String,
   );
+}
+
+Map<String, dynamic> _$CreatePresignedNotebookInstanceUrlInputToJson(
+    CreatePresignedNotebookInstanceUrlInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('NotebookInstanceName', instance.notebookInstanceName);
+  writeNotNull('SessionExpirationDurationInSeconds',
+      instance.sessionExpirationDurationInSeconds);
+  return val;
 }
 
 CreatePresignedNotebookInstanceUrlOutput
@@ -1159,11 +1641,73 @@ CreatePresignedNotebookInstanceUrlOutput
   );
 }
 
+Map<String, dynamic> _$CreateProcessingJobRequestToJson(
+    CreateProcessingJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AppSpecification', instance.appSpecification?.toJson());
+  writeNotNull('ProcessingJobName', instance.processingJobName);
+  writeNotNull('ProcessingResources', instance.processingResources?.toJson());
+  writeNotNull('RoleArn', instance.roleArn);
+  writeNotNull('Environment', instance.environment);
+  writeNotNull('ExperimentConfig', instance.experimentConfig?.toJson());
+  writeNotNull('NetworkConfig', instance.networkConfig?.toJson());
+  writeNotNull('ProcessingInputs',
+      instance.processingInputs?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'ProcessingOutputConfig', instance.processingOutputConfig?.toJson());
+  writeNotNull('StoppingCondition', instance.stoppingCondition?.toJson());
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateProcessingJobResponse _$CreateProcessingJobResponseFromJson(
     Map<String, dynamic> json) {
   return CreateProcessingJobResponse(
     processingJobArn: json['ProcessingJobArn'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateTrainingJobRequestToJson(
+    CreateTrainingJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'AlgorithmSpecification', instance.algorithmSpecification?.toJson());
+  writeNotNull('OutputDataConfig', instance.outputDataConfig?.toJson());
+  writeNotNull('ResourceConfig', instance.resourceConfig?.toJson());
+  writeNotNull('RoleArn', instance.roleArn);
+  writeNotNull('StoppingCondition', instance.stoppingCondition?.toJson());
+  writeNotNull('TrainingJobName', instance.trainingJobName);
+  writeNotNull('CheckpointConfig', instance.checkpointConfig?.toJson());
+  writeNotNull('DebugHookConfig', instance.debugHookConfig?.toJson());
+  writeNotNull('DebugRuleConfigurations',
+      instance.debugRuleConfigurations?.map((e) => e?.toJson())?.toList());
+  writeNotNull('EnableInterContainerTrafficEncryption',
+      instance.enableInterContainerTrafficEncryption);
+  writeNotNull('EnableManagedSpotTraining', instance.enableManagedSpotTraining);
+  writeNotNull('EnableNetworkIsolation', instance.enableNetworkIsolation);
+  writeNotNull('ExperimentConfig', instance.experimentConfig?.toJson());
+  writeNotNull('HyperParameters', instance.hyperParameters);
+  writeNotNull('InputDataConfig',
+      instance.inputDataConfig?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'TensorBoardOutputConfig', instance.tensorBoardOutputConfig?.toJson());
+  writeNotNull('VpcConfig', instance.vpcConfig?.toJson());
+  return val;
 }
 
 CreateTrainingJobResponse _$CreateTrainingJobResponseFromJson(
@@ -1173,11 +1717,66 @@ CreateTrainingJobResponse _$CreateTrainingJobResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateTransformJobRequestToJson(
+    CreateTransformJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ModelName', instance.modelName);
+  writeNotNull('TransformInput', instance.transformInput?.toJson());
+  writeNotNull('TransformJobName', instance.transformJobName);
+  writeNotNull('TransformOutput', instance.transformOutput?.toJson());
+  writeNotNull('TransformResources', instance.transformResources?.toJson());
+  writeNotNull('BatchStrategy', _$BatchStrategyEnumMap[instance.batchStrategy]);
+  writeNotNull('DataProcessing', instance.dataProcessing?.toJson());
+  writeNotNull('Environment', instance.environment);
+  writeNotNull('ExperimentConfig', instance.experimentConfig?.toJson());
+  writeNotNull('MaxConcurrentTransforms', instance.maxConcurrentTransforms);
+  writeNotNull('MaxPayloadInMB', instance.maxPayloadInMB);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+const _$BatchStrategyEnumMap = {
+  BatchStrategy.multiRecord: 'MultiRecord',
+  BatchStrategy.singleRecord: 'SingleRecord',
+};
+
 CreateTransformJobResponse _$CreateTransformJobResponseFromJson(
     Map<String, dynamic> json) {
   return CreateTransformJobResponse(
     transformJobArn: json['TransformJobArn'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateTrialComponentRequestToJson(
+    CreateTrialComponentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TrialComponentName', instance.trialComponentName);
+  writeNotNull('DisplayName', instance.displayName);
+  writeNotNull('EndTime', unixTimestampToJson(instance.endTime));
+  writeNotNull('InputArtifacts',
+      instance.inputArtifacts?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('OutputArtifacts',
+      instance.outputArtifacts?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('Parameters',
+      instance.parameters?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('StartTime', unixTimestampToJson(instance.startTime));
+  writeNotNull('Status', instance.status?.toJson());
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateTrialComponentResponse _$CreateTrialComponentResponseFromJson(
@@ -1187,10 +1786,46 @@ CreateTrialComponentResponse _$CreateTrialComponentResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateTrialRequestToJson(CreateTrialRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ExperimentName', instance.experimentName);
+  writeNotNull('TrialName', instance.trialName);
+  writeNotNull('DisplayName', instance.displayName);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateTrialResponse _$CreateTrialResponseFromJson(Map<String, dynamic> json) {
   return CreateTrialResponse(
     trialArn: json['TrialArn'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateUserProfileRequestToJson(
+    CreateUserProfileRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DomainId', instance.domainId);
+  writeNotNull('UserProfileName', instance.userProfileName);
+  writeNotNull(
+      'SingleSignOnUserIdentifier', instance.singleSignOnUserIdentifier);
+  writeNotNull('SingleSignOnUserValue', instance.singleSignOnUserValue);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('UserSettings', instance.userSettings?.toJson());
+  return val;
 }
 
 CreateUserProfileResponse _$CreateUserProfileResponseFromJson(
@@ -1198,6 +1833,26 @@ CreateUserProfileResponse _$CreateUserProfileResponseFromJson(
   return CreateUserProfileResponse(
     userProfileArn: json['UserProfileArn'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateWorkteamRequestToJson(
+    CreateWorkteamRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Description', instance.description);
+  writeNotNull('MemberDefinitions',
+      instance.memberDefinitions?.map((e) => e?.toJson())?.toList());
+  writeNotNull('WorkteamName', instance.workteamName);
+  writeNotNull('NotificationConfiguration',
+      instance.notificationConfiguration?.toJson());
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateWorkteamResponse _$CreateWorkteamResponseFromJson(
@@ -1447,6 +2102,105 @@ const _$RuleEvaluationStatusEnumMap = {
   RuleEvaluationStatus.stopped: 'Stopped',
 };
 
+Map<String, dynamic> _$DeleteAlgorithmInputToJson(
+    DeleteAlgorithmInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AlgorithmName', instance.algorithmName);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteAppRequestToJson(DeleteAppRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AppName', instance.appName);
+  writeNotNull('AppType', _$AppTypeEnumMap[instance.appType]);
+  writeNotNull('DomainId', instance.domainId);
+  writeNotNull('UserProfileName', instance.userProfileName);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteCodeRepositoryInputToJson(
+    DeleteCodeRepositoryInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CodeRepositoryName', instance.codeRepositoryName);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteDomainRequestToJson(DeleteDomainRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DomainId', instance.domainId);
+  writeNotNull('RetentionPolicy', instance.retentionPolicy?.toJson());
+  return val;
+}
+
+Map<String, dynamic> _$DeleteEndpointConfigInputToJson(
+    DeleteEndpointConfigInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EndpointConfigName', instance.endpointConfigName);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteEndpointInputToJson(DeleteEndpointInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EndpointName', instance.endpointName);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteExperimentRequestToJson(
+    DeleteExperimentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ExperimentName', instance.experimentName);
+  return val;
+}
+
 DeleteExperimentResponse _$DeleteExperimentResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteExperimentResponse(
@@ -1454,13 +2208,125 @@ DeleteExperimentResponse _$DeleteExperimentResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteFlowDefinitionRequestToJson(
+    DeleteFlowDefinitionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FlowDefinitionName', instance.flowDefinitionName);
+  return val;
+}
+
 DeleteFlowDefinitionResponse _$DeleteFlowDefinitionResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteFlowDefinitionResponse();
 }
 
+Map<String, dynamic> _$DeleteModelInputToJson(DeleteModelInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ModelName', instance.modelName);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteModelPackageInputToJson(
+    DeleteModelPackageInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ModelPackageName', instance.modelPackageName);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteMonitoringScheduleRequestToJson(
+    DeleteMonitoringScheduleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MonitoringScheduleName', instance.monitoringScheduleName);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteNotebookInstanceInputToJson(
+    DeleteNotebookInstanceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('NotebookInstanceName', instance.notebookInstanceName);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteNotebookInstanceLifecycleConfigInputToJson(
+    DeleteNotebookInstanceLifecycleConfigInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('NotebookInstanceLifecycleConfigName',
+      instance.notebookInstanceLifecycleConfigName);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteTagsInputToJson(DeleteTagsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
+}
+
 DeleteTagsOutput _$DeleteTagsOutputFromJson(Map<String, dynamic> json) {
   return DeleteTagsOutput();
+}
+
+Map<String, dynamic> _$DeleteTrialComponentRequestToJson(
+    DeleteTrialComponentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TrialComponentName', instance.trialComponentName);
+  return val;
 }
 
 DeleteTrialComponentResponse _$DeleteTrialComponentResponseFromJson(
@@ -1470,10 +2336,52 @@ DeleteTrialComponentResponse _$DeleteTrialComponentResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteTrialRequestToJson(DeleteTrialRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TrialName', instance.trialName);
+  return val;
+}
+
 DeleteTrialResponse _$DeleteTrialResponseFromJson(Map<String, dynamic> json) {
   return DeleteTrialResponse(
     trialArn: json['TrialArn'] as String,
   );
+}
+
+Map<String, dynamic> _$DeleteUserProfileRequestToJson(
+    DeleteUserProfileRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DomainId', instance.domainId);
+  writeNotNull('UserProfileName', instance.userProfileName);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteWorkteamRequestToJson(
+    DeleteWorkteamRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('WorkteamName', instance.workteamName);
+  return val;
 }
 
 DeleteWorkteamResponse _$DeleteWorkteamResponseFromJson(
@@ -1489,6 +2397,20 @@ DeployedImage _$DeployedImageFromJson(Map<String, dynamic> json) {
     resolvedImage: json['ResolvedImage'] as String,
     specifiedImage: json['SpecifiedImage'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeAlgorithmInputToJson(
+    DescribeAlgorithmInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AlgorithmName', instance.algorithmName);
+  return val;
 }
 
 DescribeAlgorithmOutput _$DescribeAlgorithmOutputFromJson(
@@ -1521,6 +2443,22 @@ DescribeAlgorithmOutput _$DescribeAlgorithmOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeAppRequestToJson(DescribeAppRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AppName', instance.appName);
+  writeNotNull('AppType', _$AppTypeEnumMap[instance.appType]);
+  writeNotNull('DomainId', instance.domainId);
+  writeNotNull('UserProfileName', instance.userProfileName);
+  return val;
+}
+
 DescribeAppResponse _$DescribeAppResponseFromJson(Map<String, dynamic> json) {
   return DescribeAppResponse(
     appArn: json['AppArn'] as String,
@@ -1539,6 +2477,20 @@ DescribeAppResponse _$DescribeAppResponseFromJson(Map<String, dynamic> json) {
     status: _$enumDecodeNullable(_$AppStatusEnumMap, json['Status']),
     userProfileName: json['UserProfileName'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeAutoMLJobRequestToJson(
+    DescribeAutoMLJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AutoMLJobName', instance.autoMLJobName);
+  return val;
 }
 
 DescribeAutoMLJobResponse _$DescribeAutoMLJobResponseFromJson(
@@ -1591,11 +2543,19 @@ DescribeAutoMLJobResponse _$DescribeAutoMLJobResponseFromJson(
   );
 }
 
-const _$ProblemTypeEnumMap = {
-  ProblemType.binaryClassification: 'BinaryClassification',
-  ProblemType.multiclassClassification: 'MulticlassClassification',
-  ProblemType.regression: 'Regression',
-};
+Map<String, dynamic> _$DescribeCodeRepositoryInputToJson(
+    DescribeCodeRepositoryInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CodeRepositoryName', instance.codeRepositoryName);
+  return val;
+}
 
 DescribeCodeRepositoryOutput _$DescribeCodeRepositoryOutputFromJson(
     Map<String, dynamic> json) {
@@ -1608,6 +2568,20 @@ DescribeCodeRepositoryOutput _$DescribeCodeRepositoryOutputFromJson(
         ? null
         : GitConfig.fromJson(json['GitConfig'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeCompilationJobRequestToJson(
+    DescribeCompilationJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CompilationJobName', instance.compilationJobName);
+  return val;
 }
 
 DescribeCompilationJobResponse _$DescribeCompilationJobResponseFromJson(
@@ -1640,6 +2614,20 @@ DescribeCompilationJobResponse _$DescribeCompilationJobResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeDomainRequestToJson(
+    DescribeDomainRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DomainId', instance.domainId);
+  return val;
+}
+
 DescribeDomainResponse _$DescribeDomainResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeDomainResponse(
@@ -1665,17 +2653,26 @@ DescribeDomainResponse _$DescribeDomainResponseFromJson(
   );
 }
 
-const _$AuthModeEnumMap = {
-  AuthMode.sso: 'SSO',
-  AuthMode.iam: 'IAM',
-};
-
 const _$DomainStatusEnumMap = {
   DomainStatus.deleting: 'Deleting',
   DomainStatus.failed: 'Failed',
   DomainStatus.inService: 'InService',
   DomainStatus.pending: 'Pending',
 };
+
+Map<String, dynamic> _$DescribeEndpointConfigInputToJson(
+    DescribeEndpointConfigInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EndpointConfigName', instance.endpointConfigName);
+  return val;
+}
 
 DescribeEndpointConfigOutput _$DescribeEndpointConfigOutputFromJson(
     Map<String, dynamic> json) {
@@ -1694,6 +2691,20 @@ DescribeEndpointConfigOutput _$DescribeEndpointConfigOutputFromJson(
             json['DataCaptureConfig'] as Map<String, dynamic>),
     kmsKeyId: json['KmsKeyId'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeEndpointInputToJson(
+    DescribeEndpointInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EndpointName', instance.endpointName);
+  return val;
 }
 
 DescribeEndpointOutput _$DescribeEndpointOutputFromJson(
@@ -1730,6 +2741,20 @@ const _$EndpointStatusEnumMap = {
   EndpointStatus.failed: 'Failed',
 };
 
+Map<String, dynamic> _$DescribeExperimentRequestToJson(
+    DescribeExperimentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ExperimentName', instance.experimentName);
+  return val;
+}
+
 DescribeExperimentResponse _$DescribeExperimentResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeExperimentResponse(
@@ -1749,6 +2774,20 @@ DescribeExperimentResponse _$DescribeExperimentResponseFromJson(
         ? null
         : ExperimentSource.fromJson(json['Source'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeFlowDefinitionRequestToJson(
+    DescribeFlowDefinitionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FlowDefinitionName', instance.flowDefinitionName);
+  return val;
 }
 
 DescribeFlowDefinitionResponse _$DescribeFlowDefinitionResponseFromJson(
@@ -1787,6 +2826,20 @@ const _$FlowDefinitionStatusEnumMap = {
   FlowDefinitionStatus.deleting: 'Deleting',
 };
 
+Map<String, dynamic> _$DescribeHumanTaskUiRequestToJson(
+    DescribeHumanTaskUiRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('HumanTaskUiName', instance.humanTaskUiName);
+  return val;
+}
+
 DescribeHumanTaskUiResponse _$DescribeHumanTaskUiResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeHumanTaskUiResponse(
@@ -1797,6 +2850,21 @@ DescribeHumanTaskUiResponse _$DescribeHumanTaskUiResponseFromJson(
         ? null
         : UiTemplateInfo.fromJson(json['UiTemplate'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeHyperParameterTuningJobRequestToJson(
+    DescribeHyperParameterTuningJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'HyperParameterTuningJobName', instance.hyperParameterTuningJobName);
+  return val;
 }
 
 DescribeHyperParameterTuningJobResponse
@@ -1858,6 +2926,20 @@ const _$HyperParameterTuningJobStatusEnumMap = {
   HyperParameterTuningJobStatus.stopping: 'Stopping',
 };
 
+Map<String, dynamic> _$DescribeLabelingJobRequestToJson(
+    DescribeLabelingJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LabelingJobName', instance.labelingJobName);
+  return val;
+}
+
 DescribeLabelingJobResponse _$DescribeLabelingJobResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeLabelingJobResponse(
@@ -1913,6 +2995,19 @@ const _$LabelingJobStatusEnumMap = {
   LabelingJobStatus.stopped: 'Stopped',
 };
 
+Map<String, dynamic> _$DescribeModelInputToJson(DescribeModelInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ModelName', instance.modelName);
+  return val;
+}
+
 DescribeModelOutput _$DescribeModelOutputFromJson(Map<String, dynamic> json) {
   return DescribeModelOutput(
     creationTime: unixTimestampFromJson(json['CreationTime']),
@@ -1933,6 +3028,20 @@ DescribeModelOutput _$DescribeModelOutputFromJson(Map<String, dynamic> json) {
         ? null
         : VpcConfig.fromJson(json['VpcConfig'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeModelPackageInputToJson(
+    DescribeModelPackageInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ModelPackageName', instance.modelPackageName);
+  return val;
 }
 
 DescribeModelPackageOutput _$DescribeModelPackageOutputFromJson(
@@ -1972,6 +3081,20 @@ const _$ModelPackageStatusEnumMap = {
   ModelPackageStatus.deleting: 'Deleting',
 };
 
+Map<String, dynamic> _$DescribeMonitoringScheduleRequestToJson(
+    DescribeMonitoringScheduleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MonitoringScheduleName', instance.monitoringScheduleName);
+  return val;
+}
+
 DescribeMonitoringScheduleResponse _$DescribeMonitoringScheduleResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeMonitoringScheduleResponse(
@@ -2001,6 +3124,35 @@ const _$ScheduleStatusEnumMap = {
   ScheduleStatus.scheduled: 'Scheduled',
   ScheduleStatus.stopped: 'Stopped',
 };
+
+Map<String, dynamic> _$DescribeNotebookInstanceInputToJson(
+    DescribeNotebookInstanceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('NotebookInstanceName', instance.notebookInstanceName);
+  return val;
+}
+
+Map<String, dynamic> _$DescribeNotebookInstanceLifecycleConfigInputToJson(
+    DescribeNotebookInstanceLifecycleConfigInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('NotebookInstanceLifecycleConfigName',
+      instance.notebookInstanceLifecycleConfigName);
+  return val;
+}
 
 DescribeNotebookInstanceLifecycleConfigOutput
     _$DescribeNotebookInstanceLifecycleConfigOutputFromJson(
@@ -2059,52 +3211,6 @@ DescribeNotebookInstanceOutput _$DescribeNotebookInstanceOutputFromJson(
   );
 }
 
-const _$DirectInternetAccessEnumMap = {
-  DirectInternetAccess.enabled: 'Enabled',
-  DirectInternetAccess.disabled: 'Disabled',
-};
-
-const _$InstanceTypeEnumMap = {
-  InstanceType.mlT2Medium: 'ml.t2.medium',
-  InstanceType.mlT2Large: 'ml.t2.large',
-  InstanceType.mlT2Xlarge: 'ml.t2.xlarge',
-  InstanceType.mlT2_2xlarge: 'ml.t2.2xlarge',
-  InstanceType.mlT3Medium: 'ml.t3.medium',
-  InstanceType.mlT3Large: 'ml.t3.large',
-  InstanceType.mlT3Xlarge: 'ml.t3.xlarge',
-  InstanceType.mlT3_2xlarge: 'ml.t3.2xlarge',
-  InstanceType.mlM4Xlarge: 'ml.m4.xlarge',
-  InstanceType.mlM4_2xlarge: 'ml.m4.2xlarge',
-  InstanceType.mlM4_4xlarge: 'ml.m4.4xlarge',
-  InstanceType.mlM4_10xlarge: 'ml.m4.10xlarge',
-  InstanceType.mlM4_16xlarge: 'ml.m4.16xlarge',
-  InstanceType.mlM5Xlarge: 'ml.m5.xlarge',
-  InstanceType.mlM5_2xlarge: 'ml.m5.2xlarge',
-  InstanceType.mlM5_4xlarge: 'ml.m5.4xlarge',
-  InstanceType.mlM5_12xlarge: 'ml.m5.12xlarge',
-  InstanceType.mlM5_24xlarge: 'ml.m5.24xlarge',
-  InstanceType.mlC4Xlarge: 'ml.c4.xlarge',
-  InstanceType.mlC4_2xlarge: 'ml.c4.2xlarge',
-  InstanceType.mlC4_4xlarge: 'ml.c4.4xlarge',
-  InstanceType.mlC4_8xlarge: 'ml.c4.8xlarge',
-  InstanceType.mlC5Xlarge: 'ml.c5.xlarge',
-  InstanceType.mlC5_2xlarge: 'ml.c5.2xlarge',
-  InstanceType.mlC5_4xlarge: 'ml.c5.4xlarge',
-  InstanceType.mlC5_9xlarge: 'ml.c5.9xlarge',
-  InstanceType.mlC5_18xlarge: 'ml.c5.18xlarge',
-  InstanceType.mlC5dXlarge: 'ml.c5d.xlarge',
-  InstanceType.mlC5d_2xlarge: 'ml.c5d.2xlarge',
-  InstanceType.mlC5d_4xlarge: 'ml.c5d.4xlarge',
-  InstanceType.mlC5d_9xlarge: 'ml.c5d.9xlarge',
-  InstanceType.mlC5d_18xlarge: 'ml.c5d.18xlarge',
-  InstanceType.mlP2Xlarge: 'ml.p2.xlarge',
-  InstanceType.mlP2_8xlarge: 'ml.p2.8xlarge',
-  InstanceType.mlP2_16xlarge: 'ml.p2.16xlarge',
-  InstanceType.mlP3_2xlarge: 'ml.p3.2xlarge',
-  InstanceType.mlP3_8xlarge: 'ml.p3.8xlarge',
-  InstanceType.mlP3_16xlarge: 'ml.p3.16xlarge',
-};
-
 const _$NotebookInstanceStatusEnumMap = {
   NotebookInstanceStatus.pending: 'Pending',
   NotebookInstanceStatus.inService: 'InService',
@@ -2115,10 +3221,19 @@ const _$NotebookInstanceStatusEnumMap = {
   NotebookInstanceStatus.updating: 'Updating',
 };
 
-const _$RootAccessEnumMap = {
-  RootAccess.enabled: 'Enabled',
-  RootAccess.disabled: 'Disabled',
-};
+Map<String, dynamic> _$DescribeProcessingJobRequestToJson(
+    DescribeProcessingJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ProcessingJobName', instance.processingJobName);
+  return val;
+}
 
 DescribeProcessingJobResponse _$DescribeProcessingJobResponseFromJson(
     Map<String, dynamic> json) {
@@ -2179,6 +3294,20 @@ const _$ProcessingJobStatusEnumMap = {
   ProcessingJobStatus.stopped: 'Stopped',
 };
 
+Map<String, dynamic> _$DescribeSubscribedWorkteamRequestToJson(
+    DescribeSubscribedWorkteamRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('WorkteamArn', instance.workteamArn);
+  return val;
+}
+
 DescribeSubscribedWorkteamResponse _$DescribeSubscribedWorkteamResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeSubscribedWorkteamResponse(
@@ -2187,6 +3316,20 @@ DescribeSubscribedWorkteamResponse _$DescribeSubscribedWorkteamResponseFromJson(
         : SubscribedWorkteam.fromJson(
             json['SubscribedWorkteam'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeTrainingJobRequestToJson(
+    DescribeTrainingJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TrainingJobName', instance.trainingJobName);
+  return val;
 }
 
 DescribeTrainingJobResponse _$DescribeTrainingJobResponseFromJson(
@@ -2306,6 +3449,20 @@ const _$TrainingJobStatusEnumMap = {
   TrainingJobStatus.stopped: 'Stopped',
 };
 
+Map<String, dynamic> _$DescribeTransformJobRequestToJson(
+    DescribeTransformJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TransformJobName', instance.transformJobName);
+  return val;
+}
+
 DescribeTransformJobResponse _$DescribeTransformJobResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeTransformJobResponse(
@@ -2358,10 +3515,19 @@ const _$TransformJobStatusEnumMap = {
   TransformJobStatus.stopped: 'Stopped',
 };
 
-const _$BatchStrategyEnumMap = {
-  BatchStrategy.multiRecord: 'MultiRecord',
-  BatchStrategy.singleRecord: 'SingleRecord',
-};
+Map<String, dynamic> _$DescribeTrialComponentRequestToJson(
+    DescribeTrialComponentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TrialComponentName', instance.trialComponentName);
+  return val;
+}
 
 DescribeTrialComponentResponse _$DescribeTrialComponentResponseFromJson(
     Map<String, dynamic> json) {
@@ -2415,6 +3581,20 @@ DescribeTrialComponentResponse _$DescribeTrialComponentResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeTrialRequestToJson(
+    DescribeTrialRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TrialName', instance.trialName);
+  return val;
+}
+
 DescribeTrialResponse _$DescribeTrialResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeTrialResponse(
@@ -2434,6 +3614,21 @@ DescribeTrialResponse _$DescribeTrialResponseFromJson(
     trialArn: json['TrialArn'] as String,
     trialName: json['TrialName'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeUserProfileRequestToJson(
+    DescribeUserProfileRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DomainId', instance.domainId);
+  writeNotNull('UserProfileName', instance.userProfileName);
+  return val;
 }
 
 DescribeUserProfileResponse _$DescribeUserProfileResponseFromJson(
@@ -2462,6 +3657,20 @@ const _$UserProfileStatusEnumMap = {
   UserProfileStatus.pending: 'Pending',
 };
 
+Map<String, dynamic> _$DescribeWorkforceRequestToJson(
+    DescribeWorkforceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('WorkforceName', instance.workforceName);
+  return val;
+}
+
 DescribeWorkforceResponse _$DescribeWorkforceResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeWorkforceResponse(
@@ -2469,6 +3678,20 @@ DescribeWorkforceResponse _$DescribeWorkforceResponseFromJson(
         ? null
         : Workforce.fromJson(json['Workforce'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeWorkteamRequestToJson(
+    DescribeWorkteamRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('WorkteamName', instance.workteamName);
+  return val;
 }
 
 DescribeWorkteamResponse _$DescribeWorkteamResponseFromJson(
@@ -2493,6 +3716,21 @@ Map<String, dynamic> _$DesiredWeightAndCapacityToJson(
   writeNotNull('VariantName', instance.variantName);
   writeNotNull('DesiredInstanceCount', instance.desiredInstanceCount);
   writeNotNull('DesiredWeight', instance.desiredWeight);
+  return val;
+}
+
+Map<String, dynamic> _$DisassociateTrialComponentRequestToJson(
+    DisassociateTrialComponentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TrialComponentName', instance.trialComponentName);
+  writeNotNull('TrialName', instance.trialName);
   return val;
 }
 
@@ -2778,6 +4016,28 @@ FlowDefinitionSummary _$FlowDefinitionSummaryFromJson(
     failureReason: json['FailureReason'] as String,
   );
 }
+
+Map<String, dynamic> _$GetSearchSuggestionsRequestToJson(
+    GetSearchSuggestionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Resource', _$ResourceTypeEnumMap[instance.resource]);
+  writeNotNull('SuggestionQuery', instance.suggestionQuery?.toJson());
+  return val;
+}
+
+const _$ResourceTypeEnumMap = {
+  ResourceType.trainingJob: 'TrainingJob',
+  ResourceType.experiment: 'Experiment',
+  ResourceType.experimentTrial: 'ExperimentTrial',
+  ResourceType.experimentTrialComponent: 'ExperimentTrialComponent',
+};
 
 GetSearchSuggestionsResponse _$GetSearchSuggestionsResponseFromJson(
     Map<String, dynamic> json) {
@@ -3809,6 +5069,37 @@ LabelingJobSummary _$LabelingJobSummaryFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ListAlgorithmsInputToJson(ListAlgorithmsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'CreationTimeAfter', unixTimestampToJson(instance.creationTimeAfter));
+  writeNotNull(
+      'CreationTimeBefore', unixTimestampToJson(instance.creationTimeBefore));
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NameContains', instance.nameContains);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SortBy', _$AlgorithmSortByEnumMap[instance.sortBy]);
+  writeNotNull('SortOrder', _$SortOrderEnumMap[instance.sortOrder]);
+  return val;
+}
+
+const _$AlgorithmSortByEnumMap = {
+  AlgorithmSortBy.name: 'Name',
+  AlgorithmSortBy.creationTime: 'CreationTime',
+};
+
+const _$SortOrderEnumMap = {
+  SortOrder.ascending: 'Ascending',
+  SortOrder.descending: 'Descending',
+};
+
 ListAlgorithmsOutput _$ListAlgorithmsOutputFromJson(Map<String, dynamic> json) {
   return ListAlgorithmsOutput(
     algorithmSummaryList: (json['AlgorithmSummaryList'] as List)
@@ -3820,6 +5111,28 @@ ListAlgorithmsOutput _$ListAlgorithmsOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ListAppsRequestToJson(ListAppsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DomainIdEquals', instance.domainIdEquals);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SortBy', _$AppSortKeyEnumMap[instance.sortBy]);
+  writeNotNull('SortOrder', _$SortOrderEnumMap[instance.sortOrder]);
+  writeNotNull('UserProfileNameEquals', instance.userProfileNameEquals);
+  return val;
+}
+
+const _$AppSortKeyEnumMap = {
+  AppSortKey.creationTime: 'CreationTime',
+};
+
 ListAppsResponse _$ListAppsResponseFromJson(Map<String, dynamic> json) {
   return ListAppsResponse(
     apps: (json['Apps'] as List)
@@ -3829,6 +5142,44 @@ ListAppsResponse _$ListAppsResponseFromJson(Map<String, dynamic> json) {
     nextToken: json['NextToken'] as String,
   );
 }
+
+Map<String, dynamic> _$ListAutoMLJobsRequestToJson(
+    ListAutoMLJobsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'CreationTimeAfter', unixTimestampToJson(instance.creationTimeAfter));
+  writeNotNull(
+      'CreationTimeBefore', unixTimestampToJson(instance.creationTimeBefore));
+  writeNotNull('LastModifiedTimeAfter',
+      unixTimestampToJson(instance.lastModifiedTimeAfter));
+  writeNotNull('LastModifiedTimeBefore',
+      unixTimestampToJson(instance.lastModifiedTimeBefore));
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NameContains', instance.nameContains);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SortBy', _$AutoMLSortByEnumMap[instance.sortBy]);
+  writeNotNull('SortOrder', _$AutoMLSortOrderEnumMap[instance.sortOrder]);
+  writeNotNull('StatusEquals', _$AutoMLJobStatusEnumMap[instance.statusEquals]);
+  return val;
+}
+
+const _$AutoMLSortByEnumMap = {
+  AutoMLSortBy.name: 'Name',
+  AutoMLSortBy.creationTime: 'CreationTime',
+  AutoMLSortBy.status: 'Status',
+};
+
+const _$AutoMLSortOrderEnumMap = {
+  AutoMLSortOrder.ascending: 'Ascending',
+  AutoMLSortOrder.descending: 'Descending',
+};
 
 ListAutoMLJobsResponse _$ListAutoMLJobsResponseFromJson(
     Map<String, dynamic> json) {
@@ -3842,6 +5193,32 @@ ListAutoMLJobsResponse _$ListAutoMLJobsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListCandidatesForAutoMLJobRequestToJson(
+    ListCandidatesForAutoMLJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AutoMLJobName', instance.autoMLJobName);
+  writeNotNull('CandidateNameEquals', instance.candidateNameEquals);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SortBy', _$CandidateSortByEnumMap[instance.sortBy]);
+  writeNotNull('SortOrder', _$AutoMLSortOrderEnumMap[instance.sortOrder]);
+  writeNotNull('StatusEquals', _$CandidateStatusEnumMap[instance.statusEquals]);
+  return val;
+}
+
+const _$CandidateSortByEnumMap = {
+  CandidateSortBy.creationTime: 'CreationTime',
+  CandidateSortBy.status: 'Status',
+  CandidateSortBy.finalObjectiveMetricValue: 'FinalObjectiveMetricValue',
+};
+
 ListCandidatesForAutoMLJobResponse _$ListCandidatesForAutoMLJobResponseFromJson(
     Map<String, dynamic> json) {
   return ListCandidatesForAutoMLJobResponse(
@@ -3853,6 +5230,44 @@ ListCandidatesForAutoMLJobResponse _$ListCandidatesForAutoMLJobResponseFromJson(
     nextToken: json['NextToken'] as String,
   );
 }
+
+Map<String, dynamic> _$ListCodeRepositoriesInputToJson(
+    ListCodeRepositoriesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'CreationTimeAfter', unixTimestampToJson(instance.creationTimeAfter));
+  writeNotNull(
+      'CreationTimeBefore', unixTimestampToJson(instance.creationTimeBefore));
+  writeNotNull('LastModifiedTimeAfter',
+      unixTimestampToJson(instance.lastModifiedTimeAfter));
+  writeNotNull('LastModifiedTimeBefore',
+      unixTimestampToJson(instance.lastModifiedTimeBefore));
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NameContains', instance.nameContains);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SortBy', _$CodeRepositorySortByEnumMap[instance.sortBy]);
+  writeNotNull(
+      'SortOrder', _$CodeRepositorySortOrderEnumMap[instance.sortOrder]);
+  return val;
+}
+
+const _$CodeRepositorySortByEnumMap = {
+  CodeRepositorySortBy.name: 'Name',
+  CodeRepositorySortBy.creationTime: 'CreationTime',
+  CodeRepositorySortBy.lastModifiedTime: 'LastModifiedTime',
+};
+
+const _$CodeRepositorySortOrderEnumMap = {
+  CodeRepositorySortOrder.ascending: 'Ascending',
+  CodeRepositorySortOrder.descending: 'Descending',
+};
 
 ListCodeRepositoriesOutput _$ListCodeRepositoriesOutputFromJson(
     Map<String, dynamic> json) {
@@ -3866,6 +5281,40 @@ ListCodeRepositoriesOutput _$ListCodeRepositoriesOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$ListCompilationJobsRequestToJson(
+    ListCompilationJobsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'CreationTimeAfter', unixTimestampToJson(instance.creationTimeAfter));
+  writeNotNull(
+      'CreationTimeBefore', unixTimestampToJson(instance.creationTimeBefore));
+  writeNotNull('LastModifiedTimeAfter',
+      unixTimestampToJson(instance.lastModifiedTimeAfter));
+  writeNotNull('LastModifiedTimeBefore',
+      unixTimestampToJson(instance.lastModifiedTimeBefore));
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NameContains', instance.nameContains);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SortBy', _$ListCompilationJobsSortByEnumMap[instance.sortBy]);
+  writeNotNull('SortOrder', _$SortOrderEnumMap[instance.sortOrder]);
+  writeNotNull(
+      'StatusEquals', _$CompilationJobStatusEnumMap[instance.statusEquals]);
+  return val;
+}
+
+const _$ListCompilationJobsSortByEnumMap = {
+  ListCompilationJobsSortBy.name: 'Name',
+  ListCompilationJobsSortBy.creationTime: 'CreationTime',
+  ListCompilationJobsSortBy.status: 'Status',
+};
+
 ListCompilationJobsResponse _$ListCompilationJobsResponseFromJson(
     Map<String, dynamic> json) {
   return ListCompilationJobsResponse(
@@ -3876,6 +5325,20 @@ ListCompilationJobsResponse _$ListCompilationJobsResponseFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListDomainsRequestToJson(ListDomainsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListDomainsResponse _$ListDomainsResponseFromJson(Map<String, dynamic> json) {
@@ -3889,6 +5352,38 @@ ListDomainsResponse _$ListDomainsResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ListEndpointConfigsInputToJson(
+    ListEndpointConfigsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'CreationTimeAfter', unixTimestampToJson(instance.creationTimeAfter));
+  writeNotNull(
+      'CreationTimeBefore', unixTimestampToJson(instance.creationTimeBefore));
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NameContains', instance.nameContains);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SortBy', _$EndpointConfigSortKeyEnumMap[instance.sortBy]);
+  writeNotNull('SortOrder', _$OrderKeyEnumMap[instance.sortOrder]);
+  return val;
+}
+
+const _$EndpointConfigSortKeyEnumMap = {
+  EndpointConfigSortKey.name: 'Name',
+  EndpointConfigSortKey.creationTime: 'CreationTime',
+};
+
+const _$OrderKeyEnumMap = {
+  OrderKey.ascending: 'Ascending',
+  OrderKey.descending: 'Descending',
+};
+
 ListEndpointConfigsOutput _$ListEndpointConfigsOutputFromJson(
     Map<String, dynamic> json) {
   return ListEndpointConfigsOutput(
@@ -3901,6 +5396,38 @@ ListEndpointConfigsOutput _$ListEndpointConfigsOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$ListEndpointsInputToJson(ListEndpointsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'CreationTimeAfter', unixTimestampToJson(instance.creationTimeAfter));
+  writeNotNull(
+      'CreationTimeBefore', unixTimestampToJson(instance.creationTimeBefore));
+  writeNotNull('LastModifiedTimeAfter',
+      unixTimestampToJson(instance.lastModifiedTimeAfter));
+  writeNotNull('LastModifiedTimeBefore',
+      unixTimestampToJson(instance.lastModifiedTimeBefore));
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NameContains', instance.nameContains);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SortBy', _$EndpointSortKeyEnumMap[instance.sortBy]);
+  writeNotNull('SortOrder', _$OrderKeyEnumMap[instance.sortOrder]);
+  writeNotNull('StatusEquals', _$EndpointStatusEnumMap[instance.statusEquals]);
+  return val;
+}
+
+const _$EndpointSortKeyEnumMap = {
+  EndpointSortKey.name: 'Name',
+  EndpointSortKey.creationTime: 'CreationTime',
+  EndpointSortKey.status: 'Status',
+};
+
 ListEndpointsOutput _$ListEndpointsOutputFromJson(Map<String, dynamic> json) {
   return ListEndpointsOutput(
     endpoints: (json['Endpoints'] as List)
@@ -3912,6 +5439,30 @@ ListEndpointsOutput _$ListEndpointsOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ListExperimentsRequestToJson(
+    ListExperimentsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CreatedAfter', unixTimestampToJson(instance.createdAfter));
+  writeNotNull('CreatedBefore', unixTimestampToJson(instance.createdBefore));
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SortBy', _$SortExperimentsByEnumMap[instance.sortBy]);
+  writeNotNull('SortOrder', _$SortOrderEnumMap[instance.sortOrder]);
+  return val;
+}
+
+const _$SortExperimentsByEnumMap = {
+  SortExperimentsBy.name: 'Name',
+  SortExperimentsBy.creationTime: 'CreationTime',
+};
+
 ListExperimentsResponse _$ListExperimentsResponseFromJson(
     Map<String, dynamic> json) {
   return ListExperimentsResponse(
@@ -3922,6 +5473,26 @@ ListExperimentsResponse _$ListExperimentsResponseFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListFlowDefinitionsRequestToJson(
+    ListFlowDefinitionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'CreationTimeAfter', unixTimestampToJson(instance.creationTimeAfter));
+  writeNotNull(
+      'CreationTimeBefore', unixTimestampToJson(instance.creationTimeBefore));
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SortOrder', _$SortOrderEnumMap[instance.sortOrder]);
+  return val;
 }
 
 ListFlowDefinitionsResponse _$ListFlowDefinitionsResponseFromJson(
@@ -3936,6 +5507,26 @@ ListFlowDefinitionsResponse _$ListFlowDefinitionsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListHumanTaskUisRequestToJson(
+    ListHumanTaskUisRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'CreationTimeAfter', unixTimestampToJson(instance.creationTimeAfter));
+  writeNotNull(
+      'CreationTimeBefore', unixTimestampToJson(instance.creationTimeBefore));
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SortOrder', _$SortOrderEnumMap[instance.sortOrder]);
+  return val;
+}
+
 ListHumanTaskUisResponse _$ListHumanTaskUisResponseFromJson(
     Map<String, dynamic> json) {
   return ListHumanTaskUisResponse(
@@ -3947,6 +5538,41 @@ ListHumanTaskUisResponse _$ListHumanTaskUisResponseFromJson(
     nextToken: json['NextToken'] as String,
   );
 }
+
+Map<String, dynamic> _$ListHyperParameterTuningJobsRequestToJson(
+    ListHyperParameterTuningJobsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'CreationTimeAfter', unixTimestampToJson(instance.creationTimeAfter));
+  writeNotNull(
+      'CreationTimeBefore', unixTimestampToJson(instance.creationTimeBefore));
+  writeNotNull('LastModifiedTimeAfter',
+      unixTimestampToJson(instance.lastModifiedTimeAfter));
+  writeNotNull('LastModifiedTimeBefore',
+      unixTimestampToJson(instance.lastModifiedTimeBefore));
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NameContains', instance.nameContains);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull(
+      'SortBy', _$HyperParameterTuningJobSortByOptionsEnumMap[instance.sortBy]);
+  writeNotNull('SortOrder', _$SortOrderEnumMap[instance.sortOrder]);
+  writeNotNull('StatusEquals',
+      _$HyperParameterTuningJobStatusEnumMap[instance.statusEquals]);
+  return val;
+}
+
+const _$HyperParameterTuningJobSortByOptionsEnumMap = {
+  HyperParameterTuningJobSortByOptions.name: 'Name',
+  HyperParameterTuningJobSortByOptions.status: 'Status',
+  HyperParameterTuningJobSortByOptions.creationTime: 'CreationTime',
+};
 
 ListHyperParameterTuningJobsResponse
     _$ListHyperParameterTuningJobsResponseFromJson(Map<String, dynamic> json) {
@@ -3962,6 +5588,34 @@ ListHyperParameterTuningJobsResponse
   );
 }
 
+Map<String, dynamic> _$ListLabelingJobsForWorkteamRequestToJson(
+    ListLabelingJobsForWorkteamRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('WorkteamArn', instance.workteamArn);
+  writeNotNull(
+      'CreationTimeAfter', unixTimestampToJson(instance.creationTimeAfter));
+  writeNotNull(
+      'CreationTimeBefore', unixTimestampToJson(instance.creationTimeBefore));
+  writeNotNull('JobReferenceCodeContains', instance.jobReferenceCodeContains);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SortBy',
+      _$ListLabelingJobsForWorkteamSortByOptionsEnumMap[instance.sortBy]);
+  writeNotNull('SortOrder', _$SortOrderEnumMap[instance.sortOrder]);
+  return val;
+}
+
+const _$ListLabelingJobsForWorkteamSortByOptionsEnumMap = {
+  ListLabelingJobsForWorkteamSortByOptions.creationTime: 'CreationTime',
+};
+
 ListLabelingJobsForWorkteamResponse
     _$ListLabelingJobsForWorkteamResponseFromJson(Map<String, dynamic> json) {
   return ListLabelingJobsForWorkteamResponse(
@@ -3973,6 +5627,40 @@ ListLabelingJobsForWorkteamResponse
     nextToken: json['NextToken'] as String,
   );
 }
+
+Map<String, dynamic> _$ListLabelingJobsRequestToJson(
+    ListLabelingJobsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'CreationTimeAfter', unixTimestampToJson(instance.creationTimeAfter));
+  writeNotNull(
+      'CreationTimeBefore', unixTimestampToJson(instance.creationTimeBefore));
+  writeNotNull('LastModifiedTimeAfter',
+      unixTimestampToJson(instance.lastModifiedTimeAfter));
+  writeNotNull('LastModifiedTimeBefore',
+      unixTimestampToJson(instance.lastModifiedTimeBefore));
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NameContains', instance.nameContains);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SortBy', _$SortByEnumMap[instance.sortBy]);
+  writeNotNull('SortOrder', _$SortOrderEnumMap[instance.sortOrder]);
+  writeNotNull(
+      'StatusEquals', _$LabelingJobStatusEnumMap[instance.statusEquals]);
+  return val;
+}
+
+const _$SortByEnumMap = {
+  SortBy.name: 'Name',
+  SortBy.creationTime: 'CreationTime',
+  SortBy.status: 'Status',
+};
 
 ListLabelingJobsResponse _$ListLabelingJobsResponseFromJson(
     Map<String, dynamic> json) {
@@ -3986,6 +5674,33 @@ ListLabelingJobsResponse _$ListLabelingJobsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListModelPackagesInputToJson(
+    ListModelPackagesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'CreationTimeAfter', unixTimestampToJson(instance.creationTimeAfter));
+  writeNotNull(
+      'CreationTimeBefore', unixTimestampToJson(instance.creationTimeBefore));
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NameContains', instance.nameContains);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SortBy', _$ModelPackageSortByEnumMap[instance.sortBy]);
+  writeNotNull('SortOrder', _$SortOrderEnumMap[instance.sortOrder]);
+  return val;
+}
+
+const _$ModelPackageSortByEnumMap = {
+  ModelPackageSortBy.name: 'Name',
+  ModelPackageSortBy.creationTime: 'CreationTime',
+};
+
 ListModelPackagesOutput _$ListModelPackagesOutputFromJson(
     Map<String, dynamic> json) {
   return ListModelPackagesOutput(
@@ -3998,6 +5713,32 @@ ListModelPackagesOutput _$ListModelPackagesOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$ListModelsInputToJson(ListModelsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'CreationTimeAfter', unixTimestampToJson(instance.creationTimeAfter));
+  writeNotNull(
+      'CreationTimeBefore', unixTimestampToJson(instance.creationTimeBefore));
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NameContains', instance.nameContains);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SortBy', _$ModelSortKeyEnumMap[instance.sortBy]);
+  writeNotNull('SortOrder', _$OrderKeyEnumMap[instance.sortOrder]);
+  return val;
+}
+
+const _$ModelSortKeyEnumMap = {
+  ModelSortKey.name: 'Name',
+  ModelSortKey.creationTime: 'CreationTime',
+};
+
 ListModelsOutput _$ListModelsOutputFromJson(Map<String, dynamic> json) {
   return ListModelsOutput(
     models: (json['Models'] as List)
@@ -4007,6 +5748,54 @@ ListModelsOutput _$ListModelsOutputFromJson(Map<String, dynamic> json) {
     nextToken: json['NextToken'] as String,
   );
 }
+
+Map<String, dynamic> _$ListMonitoringExecutionsRequestToJson(
+    ListMonitoringExecutionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'CreationTimeAfter', unixTimestampToJson(instance.creationTimeAfter));
+  writeNotNull(
+      'CreationTimeBefore', unixTimestampToJson(instance.creationTimeBefore));
+  writeNotNull('EndpointName', instance.endpointName);
+  writeNotNull('LastModifiedTimeAfter',
+      unixTimestampToJson(instance.lastModifiedTimeAfter));
+  writeNotNull('LastModifiedTimeBefore',
+      unixTimestampToJson(instance.lastModifiedTimeBefore));
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('MonitoringScheduleName', instance.monitoringScheduleName);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull(
+      'ScheduledTimeAfter', unixTimestampToJson(instance.scheduledTimeAfter));
+  writeNotNull(
+      'ScheduledTimeBefore', unixTimestampToJson(instance.scheduledTimeBefore));
+  writeNotNull('SortBy', _$MonitoringExecutionSortKeyEnumMap[instance.sortBy]);
+  writeNotNull('SortOrder', _$SortOrderEnumMap[instance.sortOrder]);
+  writeNotNull('StatusEquals', _$ExecutionStatusEnumMap[instance.statusEquals]);
+  return val;
+}
+
+const _$MonitoringExecutionSortKeyEnumMap = {
+  MonitoringExecutionSortKey.creationTime: 'CreationTime',
+  MonitoringExecutionSortKey.scheduledTime: 'ScheduledTime',
+  MonitoringExecutionSortKey.status: 'Status',
+};
+
+const _$ExecutionStatusEnumMap = {
+  ExecutionStatus.pending: 'Pending',
+  ExecutionStatus.completed: 'Completed',
+  ExecutionStatus.completedWithViolations: 'CompletedWithViolations',
+  ExecutionStatus.inProgress: 'InProgress',
+  ExecutionStatus.failed: 'Failed',
+  ExecutionStatus.stopping: 'Stopping',
+  ExecutionStatus.stopped: 'Stopped',
+};
 
 ListMonitoringExecutionsResponse _$ListMonitoringExecutionsResponseFromJson(
     Map<String, dynamic> json) {
@@ -4020,6 +5809,40 @@ ListMonitoringExecutionsResponse _$ListMonitoringExecutionsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListMonitoringSchedulesRequestToJson(
+    ListMonitoringSchedulesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'CreationTimeAfter', unixTimestampToJson(instance.creationTimeAfter));
+  writeNotNull(
+      'CreationTimeBefore', unixTimestampToJson(instance.creationTimeBefore));
+  writeNotNull('EndpointName', instance.endpointName);
+  writeNotNull('LastModifiedTimeAfter',
+      unixTimestampToJson(instance.lastModifiedTimeAfter));
+  writeNotNull('LastModifiedTimeBefore',
+      unixTimestampToJson(instance.lastModifiedTimeBefore));
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NameContains', instance.nameContains);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SortBy', _$MonitoringScheduleSortKeyEnumMap[instance.sortBy]);
+  writeNotNull('SortOrder', _$SortOrderEnumMap[instance.sortOrder]);
+  writeNotNull('StatusEquals', _$ScheduleStatusEnumMap[instance.statusEquals]);
+  return val;
+}
+
+const _$MonitoringScheduleSortKeyEnumMap = {
+  MonitoringScheduleSortKey.name: 'Name',
+  MonitoringScheduleSortKey.creationTime: 'CreationTime',
+  MonitoringScheduleSortKey.status: 'Status',
+};
+
 ListMonitoringSchedulesResponse _$ListMonitoringSchedulesResponseFromJson(
     Map<String, dynamic> json) {
   return ListMonitoringSchedulesResponse(
@@ -4031,6 +5854,45 @@ ListMonitoringSchedulesResponse _$ListMonitoringSchedulesResponseFromJson(
     nextToken: json['NextToken'] as String,
   );
 }
+
+Map<String, dynamic> _$ListNotebookInstanceLifecycleConfigsInputToJson(
+    ListNotebookInstanceLifecycleConfigsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'CreationTimeAfter', unixTimestampToJson(instance.creationTimeAfter));
+  writeNotNull(
+      'CreationTimeBefore', unixTimestampToJson(instance.creationTimeBefore));
+  writeNotNull('LastModifiedTimeAfter',
+      unixTimestampToJson(instance.lastModifiedTimeAfter));
+  writeNotNull('LastModifiedTimeBefore',
+      unixTimestampToJson(instance.lastModifiedTimeBefore));
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NameContains', instance.nameContains);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SortBy',
+      _$NotebookInstanceLifecycleConfigSortKeyEnumMap[instance.sortBy]);
+  writeNotNull('SortOrder',
+      _$NotebookInstanceLifecycleConfigSortOrderEnumMap[instance.sortOrder]);
+  return val;
+}
+
+const _$NotebookInstanceLifecycleConfigSortKeyEnumMap = {
+  NotebookInstanceLifecycleConfigSortKey.name: 'Name',
+  NotebookInstanceLifecycleConfigSortKey.creationTime: 'CreationTime',
+  NotebookInstanceLifecycleConfigSortKey.lastModifiedTime: 'LastModifiedTime',
+};
+
+const _$NotebookInstanceLifecycleConfigSortOrderEnumMap = {
+  NotebookInstanceLifecycleConfigSortOrder.ascending: 'Ascending',
+  NotebookInstanceLifecycleConfigSortOrder.descending: 'Descending',
+};
 
 ListNotebookInstanceLifecycleConfigsOutput
     _$ListNotebookInstanceLifecycleConfigsOutputFromJson(
@@ -4047,6 +5909,52 @@ ListNotebookInstanceLifecycleConfigsOutput
   );
 }
 
+Map<String, dynamic> _$ListNotebookInstancesInputToJson(
+    ListNotebookInstancesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AdditionalCodeRepositoryEquals',
+      instance.additionalCodeRepositoryEquals);
+  writeNotNull(
+      'CreationTimeAfter', unixTimestampToJson(instance.creationTimeAfter));
+  writeNotNull(
+      'CreationTimeBefore', unixTimestampToJson(instance.creationTimeBefore));
+  writeNotNull(
+      'DefaultCodeRepositoryContains', instance.defaultCodeRepositoryContains);
+  writeNotNull('LastModifiedTimeAfter',
+      unixTimestampToJson(instance.lastModifiedTimeAfter));
+  writeNotNull('LastModifiedTimeBefore',
+      unixTimestampToJson(instance.lastModifiedTimeBefore));
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NameContains', instance.nameContains);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('NotebookInstanceLifecycleConfigNameContains',
+      instance.notebookInstanceLifecycleConfigNameContains);
+  writeNotNull('SortBy', _$NotebookInstanceSortKeyEnumMap[instance.sortBy]);
+  writeNotNull(
+      'SortOrder', _$NotebookInstanceSortOrderEnumMap[instance.sortOrder]);
+  writeNotNull(
+      'StatusEquals', _$NotebookInstanceStatusEnumMap[instance.statusEquals]);
+  return val;
+}
+
+const _$NotebookInstanceSortKeyEnumMap = {
+  NotebookInstanceSortKey.name: 'Name',
+  NotebookInstanceSortKey.creationTime: 'CreationTime',
+  NotebookInstanceSortKey.status: 'Status',
+};
+
+const _$NotebookInstanceSortOrderEnumMap = {
+  NotebookInstanceSortOrder.ascending: 'Ascending',
+  NotebookInstanceSortOrder.descending: 'Descending',
+};
+
 ListNotebookInstancesOutput _$ListNotebookInstancesOutputFromJson(
     Map<String, dynamic> json) {
   return ListNotebookInstancesOutput(
@@ -4057,6 +5965,34 @@ ListNotebookInstancesOutput _$ListNotebookInstancesOutputFromJson(
             : NotebookInstanceSummary.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListProcessingJobsRequestToJson(
+    ListProcessingJobsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'CreationTimeAfter', unixTimestampToJson(instance.creationTimeAfter));
+  writeNotNull(
+      'CreationTimeBefore', unixTimestampToJson(instance.creationTimeBefore));
+  writeNotNull('LastModifiedTimeAfter',
+      unixTimestampToJson(instance.lastModifiedTimeAfter));
+  writeNotNull('LastModifiedTimeBefore',
+      unixTimestampToJson(instance.lastModifiedTimeBefore));
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NameContains', instance.nameContains);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SortBy', _$SortByEnumMap[instance.sortBy]);
+  writeNotNull('SortOrder', _$SortOrderEnumMap[instance.sortOrder]);
+  writeNotNull(
+      'StatusEquals', _$ProcessingJobStatusEnumMap[instance.statusEquals]);
+  return val;
 }
 
 ListProcessingJobsResponse _$ListProcessingJobsResponseFromJson(
@@ -4071,6 +6007,22 @@ ListProcessingJobsResponse _$ListProcessingJobsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListSubscribedWorkteamsRequestToJson(
+    ListSubscribedWorkteamsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NameContains', instance.nameContains);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListSubscribedWorkteamsResponse _$ListSubscribedWorkteamsResponseFromJson(
     Map<String, dynamic> json) {
   return ListSubscribedWorkteamsResponse(
@@ -4083,6 +6035,21 @@ ListSubscribedWorkteamsResponse _$ListSubscribedWorkteamsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListTagsInputToJson(ListTagsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListTagsOutput _$ListTagsOutputFromJson(Map<String, dynamic> json) {
   return ListTagsOutput(
     nextToken: json['NextToken'] as String,
@@ -4091,6 +6058,35 @@ ListTagsOutput _$ListTagsOutputFromJson(Map<String, dynamic> json) {
         ?.toList(),
   );
 }
+
+Map<String, dynamic> _$ListTrainingJobsForHyperParameterTuningJobRequestToJson(
+    ListTrainingJobsForHyperParameterTuningJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'HyperParameterTuningJobName', instance.hyperParameterTuningJobName);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SortBy', _$TrainingJobSortByOptionsEnumMap[instance.sortBy]);
+  writeNotNull('SortOrder', _$SortOrderEnumMap[instance.sortOrder]);
+  writeNotNull(
+      'StatusEquals', _$TrainingJobStatusEnumMap[instance.statusEquals]);
+  return val;
+}
+
+const _$TrainingJobSortByOptionsEnumMap = {
+  TrainingJobSortByOptions.name: 'Name',
+  TrainingJobSortByOptions.creationTime: 'CreationTime',
+  TrainingJobSortByOptions.status: 'Status',
+  TrainingJobSortByOptions.finalObjectiveMetricValue:
+      'FinalObjectiveMetricValue',
+};
 
 ListTrainingJobsForHyperParameterTuningJobResponse
     _$ListTrainingJobsForHyperParameterTuningJobResponseFromJson(
@@ -4106,6 +6102,34 @@ ListTrainingJobsForHyperParameterTuningJobResponse
   );
 }
 
+Map<String, dynamic> _$ListTrainingJobsRequestToJson(
+    ListTrainingJobsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'CreationTimeAfter', unixTimestampToJson(instance.creationTimeAfter));
+  writeNotNull(
+      'CreationTimeBefore', unixTimestampToJson(instance.creationTimeBefore));
+  writeNotNull('LastModifiedTimeAfter',
+      unixTimestampToJson(instance.lastModifiedTimeAfter));
+  writeNotNull('LastModifiedTimeBefore',
+      unixTimestampToJson(instance.lastModifiedTimeBefore));
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NameContains', instance.nameContains);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SortBy', _$SortByEnumMap[instance.sortBy]);
+  writeNotNull('SortOrder', _$SortOrderEnumMap[instance.sortOrder]);
+  writeNotNull(
+      'StatusEquals', _$TrainingJobStatusEnumMap[instance.statusEquals]);
+  return val;
+}
+
 ListTrainingJobsResponse _$ListTrainingJobsResponseFromJson(
     Map<String, dynamic> json) {
   return ListTrainingJobsResponse(
@@ -4116,6 +6140,34 @@ ListTrainingJobsResponse _$ListTrainingJobsResponseFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListTransformJobsRequestToJson(
+    ListTransformJobsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'CreationTimeAfter', unixTimestampToJson(instance.creationTimeAfter));
+  writeNotNull(
+      'CreationTimeBefore', unixTimestampToJson(instance.creationTimeBefore));
+  writeNotNull('LastModifiedTimeAfter',
+      unixTimestampToJson(instance.lastModifiedTimeAfter));
+  writeNotNull('LastModifiedTimeBefore',
+      unixTimestampToJson(instance.lastModifiedTimeBefore));
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NameContains', instance.nameContains);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SortBy', _$SortByEnumMap[instance.sortBy]);
+  writeNotNull('SortOrder', _$SortOrderEnumMap[instance.sortOrder]);
+  writeNotNull(
+      'StatusEquals', _$TransformJobStatusEnumMap[instance.statusEquals]);
+  return val;
 }
 
 ListTransformJobsResponse _$ListTransformJobsResponseFromJson(
@@ -4130,6 +6182,33 @@ ListTransformJobsResponse _$ListTransformJobsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListTrialComponentsRequestToJson(
+    ListTrialComponentsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CreatedAfter', unixTimestampToJson(instance.createdAfter));
+  writeNotNull('CreatedBefore', unixTimestampToJson(instance.createdBefore));
+  writeNotNull('ExperimentName', instance.experimentName);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SortBy', _$SortTrialComponentsByEnumMap[instance.sortBy]);
+  writeNotNull('SortOrder', _$SortOrderEnumMap[instance.sortOrder]);
+  writeNotNull('SourceArn', instance.sourceArn);
+  writeNotNull('TrialName', instance.trialName);
+  return val;
+}
+
+const _$SortTrialComponentsByEnumMap = {
+  SortTrialComponentsBy.name: 'Name',
+  SortTrialComponentsBy.creationTime: 'CreationTime',
+};
+
 ListTrialComponentsResponse _$ListTrialComponentsResponseFromJson(
     Map<String, dynamic> json) {
   return ListTrialComponentsResponse(
@@ -4142,6 +6221,31 @@ ListTrialComponentsResponse _$ListTrialComponentsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListTrialsRequestToJson(ListTrialsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CreatedAfter', unixTimestampToJson(instance.createdAfter));
+  writeNotNull('CreatedBefore', unixTimestampToJson(instance.createdBefore));
+  writeNotNull('ExperimentName', instance.experimentName);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SortBy', _$SortTrialsByEnumMap[instance.sortBy]);
+  writeNotNull('SortOrder', _$SortOrderEnumMap[instance.sortOrder]);
+  writeNotNull('TrialComponentName', instance.trialComponentName);
+  return val;
+}
+
+const _$SortTrialsByEnumMap = {
+  SortTrialsBy.name: 'Name',
+  SortTrialsBy.creationTime: 'CreationTime',
+};
+
 ListTrialsResponse _$ListTrialsResponseFromJson(Map<String, dynamic> json) {
   return ListTrialsResponse(
     nextToken: json['NextToken'] as String,
@@ -4151,6 +6255,30 @@ ListTrialsResponse _$ListTrialsResponseFromJson(Map<String, dynamic> json) {
         ?.toList(),
   );
 }
+
+Map<String, dynamic> _$ListUserProfilesRequestToJson(
+    ListUserProfilesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DomainIdEquals', instance.domainIdEquals);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SortBy', _$UserProfileSortKeyEnumMap[instance.sortBy]);
+  writeNotNull('SortOrder', _$SortOrderEnumMap[instance.sortOrder]);
+  writeNotNull('UserProfileNameContains', instance.userProfileNameContains);
+  return val;
+}
+
+const _$UserProfileSortKeyEnumMap = {
+  UserProfileSortKey.creationTime: 'CreationTime',
+  UserProfileSortKey.lastModifiedTime: 'LastModifiedTime',
+};
 
 ListUserProfilesResponse _$ListUserProfilesResponseFromJson(
     Map<String, dynamic> json) {
@@ -4163,6 +6291,29 @@ ListUserProfilesResponse _$ListUserProfilesResponseFromJson(
         ?.toList(),
   );
 }
+
+Map<String, dynamic> _$ListWorkteamsRequestToJson(
+    ListWorkteamsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NameContains', instance.nameContains);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SortBy', _$ListWorkteamsSortByOptionsEnumMap[instance.sortBy]);
+  writeNotNull('SortOrder', _$SortOrderEnumMap[instance.sortOrder]);
+  return val;
+}
+
+const _$ListWorkteamsSortByOptionsEnumMap = {
+  ListWorkteamsSortByOptions.name: 'Name',
+  ListWorkteamsSortByOptions.createDate: 'CreateDate',
+};
 
 ListWorkteamsResponse _$ListWorkteamsResponseFromJson(
     Map<String, dynamic> json) {
@@ -4497,16 +6648,6 @@ MonitoringExecutionSummary _$MonitoringExecutionSummaryFromJson(
     processingJobArn: json['ProcessingJobArn'] as String,
   );
 }
-
-const _$ExecutionStatusEnumMap = {
-  ExecutionStatus.pending: 'Pending',
-  ExecutionStatus.completed: 'Completed',
-  ExecutionStatus.completedWithViolations: 'CompletedWithViolations',
-  ExecutionStatus.inProgress: 'InProgress',
-  ExecutionStatus.failed: 'Failed',
-  ExecutionStatus.stopping: 'Stopping',
-  ExecutionStatus.stopped: 'Stopped',
-};
 
 MonitoringInput _$MonitoringInputFromJson(Map<String, dynamic> json) {
   return MonitoringInput(
@@ -5508,6 +7649,22 @@ Map<String, dynamic> _$PublicWorkforceTaskPriceToJson(
   return val;
 }
 
+Map<String, dynamic> _$RenderUiTemplateRequestToJson(
+    RenderUiTemplateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RoleArn', instance.roleArn);
+  writeNotNull('Task', instance.task?.toJson());
+  writeNotNull('UiTemplate', instance.uiTemplate?.toJson());
+  return val;
+}
+
 RenderUiTemplateResponse _$RenderUiTemplateResponseFromJson(
     Map<String, dynamic> json) {
   return RenderUiTemplateResponse(
@@ -5819,6 +7976,29 @@ SearchRecord _$SearchRecordFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$SearchRequestToJson(SearchRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Resource', _$ResourceTypeEnumMap[instance.resource]);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SearchExpression', instance.searchExpression?.toJson());
+  writeNotNull('SortBy', instance.sortBy);
+  writeNotNull('SortOrder', _$SearchSortOrderEnumMap[instance.sortOrder]);
+  return val;
+}
+
+const _$SearchSortOrderEnumMap = {
+  SearchSortOrder.ascending: 'Ascending',
+  SearchSortOrder.descending: 'Descending',
+};
+
 SearchResponse _$SearchResponseFromJson(Map<String, dynamic> json) {
   return SearchResponse(
     nextToken: json['NextToken'] as String,
@@ -5951,6 +8131,161 @@ Map<String, dynamic> _$SourceIpConfigToJson(SourceIpConfig instance) {
   }
 
   writeNotNull('Cidrs', instance.cidrs);
+  return val;
+}
+
+Map<String, dynamic> _$StartMonitoringScheduleRequestToJson(
+    StartMonitoringScheduleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MonitoringScheduleName', instance.monitoringScheduleName);
+  return val;
+}
+
+Map<String, dynamic> _$StartNotebookInstanceInputToJson(
+    StartNotebookInstanceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('NotebookInstanceName', instance.notebookInstanceName);
+  return val;
+}
+
+Map<String, dynamic> _$StopAutoMLJobRequestToJson(
+    StopAutoMLJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AutoMLJobName', instance.autoMLJobName);
+  return val;
+}
+
+Map<String, dynamic> _$StopCompilationJobRequestToJson(
+    StopCompilationJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CompilationJobName', instance.compilationJobName);
+  return val;
+}
+
+Map<String, dynamic> _$StopHyperParameterTuningJobRequestToJson(
+    StopHyperParameterTuningJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'HyperParameterTuningJobName', instance.hyperParameterTuningJobName);
+  return val;
+}
+
+Map<String, dynamic> _$StopLabelingJobRequestToJson(
+    StopLabelingJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LabelingJobName', instance.labelingJobName);
+  return val;
+}
+
+Map<String, dynamic> _$StopMonitoringScheduleRequestToJson(
+    StopMonitoringScheduleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MonitoringScheduleName', instance.monitoringScheduleName);
+  return val;
+}
+
+Map<String, dynamic> _$StopNotebookInstanceInputToJson(
+    StopNotebookInstanceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('NotebookInstanceName', instance.notebookInstanceName);
+  return val;
+}
+
+Map<String, dynamic> _$StopProcessingJobRequestToJson(
+    StopProcessingJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ProcessingJobName', instance.processingJobName);
+  return val;
+}
+
+Map<String, dynamic> _$StopTrainingJobRequestToJson(
+    StopTrainingJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TrainingJobName', instance.trainingJobName);
+  return val;
+}
+
+Map<String, dynamic> _$StopTransformJobRequestToJson(
+    StopTransformJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TransformJobName', instance.transformJobName);
   return val;
 }
 
@@ -6871,11 +9206,40 @@ UiTemplateInfo _$UiTemplateInfoFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$UpdateCodeRepositoryInputToJson(
+    UpdateCodeRepositoryInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CodeRepositoryName', instance.codeRepositoryName);
+  writeNotNull('GitConfig', instance.gitConfig?.toJson());
+  return val;
+}
+
 UpdateCodeRepositoryOutput _$UpdateCodeRepositoryOutputFromJson(
     Map<String, dynamic> json) {
   return UpdateCodeRepositoryOutput(
     codeRepositoryArn: json['CodeRepositoryArn'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateDomainRequestToJson(UpdateDomainRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DomainId', instance.domainId);
+  writeNotNull('DefaultUserSettings', instance.defaultUserSettings?.toJson());
+  return val;
 }
 
 UpdateDomainResponse _$UpdateDomainResponseFromJson(Map<String, dynamic> json) {
@@ -6884,10 +9248,47 @@ UpdateDomainResponse _$UpdateDomainResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$UpdateEndpointInputToJson(UpdateEndpointInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EndpointConfigName', instance.endpointConfigName);
+  writeNotNull('EndpointName', instance.endpointName);
+  writeNotNull(
+      'ExcludeRetainedVariantProperties',
+      instance.excludeRetainedVariantProperties
+          ?.map((e) => e?.toJson())
+          ?.toList());
+  writeNotNull(
+      'RetainAllVariantProperties', instance.retainAllVariantProperties);
+  return val;
+}
+
 UpdateEndpointOutput _$UpdateEndpointOutputFromJson(Map<String, dynamic> json) {
   return UpdateEndpointOutput(
     endpointArn: json['EndpointArn'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateEndpointWeightsAndCapacitiesInputToJson(
+    UpdateEndpointWeightsAndCapacitiesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DesiredWeightsAndCapacities',
+      instance.desiredWeightsAndCapacities?.map((e) => e?.toJson())?.toList());
+  writeNotNull('EndpointName', instance.endpointName);
+  return val;
 }
 
 UpdateEndpointWeightsAndCapacitiesOutput
@@ -6898,6 +9299,22 @@ UpdateEndpointWeightsAndCapacitiesOutput
   );
 }
 
+Map<String, dynamic> _$UpdateExperimentRequestToJson(
+    UpdateExperimentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ExperimentName', instance.experimentName);
+  writeNotNull('Description', instance.description);
+  writeNotNull('DisplayName', instance.displayName);
+  return val;
+}
+
 UpdateExperimentResponse _$UpdateExperimentResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateExperimentResponse(
@@ -6905,11 +9322,76 @@ UpdateExperimentResponse _$UpdateExperimentResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateMonitoringScheduleRequestToJson(
+    UpdateMonitoringScheduleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'MonitoringScheduleConfig', instance.monitoringScheduleConfig?.toJson());
+  writeNotNull('MonitoringScheduleName', instance.monitoringScheduleName);
+  return val;
+}
+
 UpdateMonitoringScheduleResponse _$UpdateMonitoringScheduleResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateMonitoringScheduleResponse(
     monitoringScheduleArn: json['MonitoringScheduleArn'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateNotebookInstanceInputToJson(
+    UpdateNotebookInstanceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('NotebookInstanceName', instance.notebookInstanceName);
+  writeNotNull('AcceleratorTypes', instance.acceleratorTypes);
+  writeNotNull(
+      'AdditionalCodeRepositories', instance.additionalCodeRepositories);
+  writeNotNull('DefaultCodeRepository', instance.defaultCodeRepository);
+  writeNotNull(
+      'DisassociateAcceleratorTypes', instance.disassociateAcceleratorTypes);
+  writeNotNull('DisassociateAdditionalCodeRepositories',
+      instance.disassociateAdditionalCodeRepositories);
+  writeNotNull('DisassociateDefaultCodeRepository',
+      instance.disassociateDefaultCodeRepository);
+  writeNotNull(
+      'DisassociateLifecycleConfig', instance.disassociateLifecycleConfig);
+  writeNotNull('InstanceType', _$InstanceTypeEnumMap[instance.instanceType]);
+  writeNotNull('LifecycleConfigName', instance.lifecycleConfigName);
+  writeNotNull('RoleArn', instance.roleArn);
+  writeNotNull('RootAccess', _$RootAccessEnumMap[instance.rootAccess]);
+  writeNotNull('VolumeSizeInGB', instance.volumeSizeInGB);
+  return val;
+}
+
+Map<String, dynamic> _$UpdateNotebookInstanceLifecycleConfigInputToJson(
+    UpdateNotebookInstanceLifecycleConfigInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('NotebookInstanceLifecycleConfigName',
+      instance.notebookInstanceLifecycleConfigName);
+  writeNotNull(
+      'OnCreate', instance.onCreate?.map((e) => e?.toJson())?.toList());
+  writeNotNull('OnStart', instance.onStart?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 UpdateNotebookInstanceLifecycleConfigOutput
@@ -6923,6 +9405,33 @@ UpdateNotebookInstanceOutput _$UpdateNotebookInstanceOutputFromJson(
   return UpdateNotebookInstanceOutput();
 }
 
+Map<String, dynamic> _$UpdateTrialComponentRequestToJson(
+    UpdateTrialComponentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TrialComponentName', instance.trialComponentName);
+  writeNotNull('DisplayName', instance.displayName);
+  writeNotNull('EndTime', unixTimestampToJson(instance.endTime));
+  writeNotNull('InputArtifacts',
+      instance.inputArtifacts?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('InputArtifactsToRemove', instance.inputArtifactsToRemove);
+  writeNotNull('OutputArtifacts',
+      instance.outputArtifacts?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('OutputArtifactsToRemove', instance.outputArtifactsToRemove);
+  writeNotNull('Parameters',
+      instance.parameters?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('ParametersToRemove', instance.parametersToRemove);
+  writeNotNull('StartTime', unixTimestampToJson(instance.startTime));
+  writeNotNull('Status', instance.status?.toJson());
+  return val;
+}
+
 UpdateTrialComponentResponse _$UpdateTrialComponentResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateTrialComponentResponse(
@@ -6930,10 +9439,40 @@ UpdateTrialComponentResponse _$UpdateTrialComponentResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateTrialRequestToJson(UpdateTrialRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TrialName', instance.trialName);
+  writeNotNull('DisplayName', instance.displayName);
+  return val;
+}
+
 UpdateTrialResponse _$UpdateTrialResponseFromJson(Map<String, dynamic> json) {
   return UpdateTrialResponse(
     trialArn: json['TrialArn'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateUserProfileRequestToJson(
+    UpdateUserProfileRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DomainId', instance.domainId);
+  writeNotNull('UserProfileName', instance.userProfileName);
+  writeNotNull('UserSettings', instance.userSettings?.toJson());
+  return val;
 }
 
 UpdateUserProfileResponse _$UpdateUserProfileResponseFromJson(
@@ -6943,6 +9482,21 @@ UpdateUserProfileResponse _$UpdateUserProfileResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateWorkforceRequestToJson(
+    UpdateWorkforceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('WorkforceName', instance.workforceName);
+  writeNotNull('SourceIpConfig', instance.sourceIpConfig?.toJson());
+  return val;
+}
+
 UpdateWorkforceResponse _$UpdateWorkforceResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateWorkforceResponse(
@@ -6950,6 +9504,25 @@ UpdateWorkforceResponse _$UpdateWorkforceResponseFromJson(
         ? null
         : Workforce.fromJson(json['Workforce'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateWorkteamRequestToJson(
+    UpdateWorkteamRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('WorkteamName', instance.workteamName);
+  writeNotNull('Description', instance.description);
+  writeNotNull('MemberDefinitions',
+      instance.memberDefinitions?.map((e) => e?.toJson())?.toList());
+  writeNotNull('NotificationConfiguration',
+      instance.notificationConfiguration?.toJson());
+  return val;
 }
 
 UpdateWorkteamResponse _$UpdateWorkteamResponseFromJson(

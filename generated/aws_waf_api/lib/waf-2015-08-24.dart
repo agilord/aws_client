@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -125,10 +124,10 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ChangeToken': changeToken,
-        'Name': name,
-      },
+      payload: CreateByteMatchSetRequest(
+        changeToken: changeToken,
+        name: name,
+      ),
     );
 
     return CreateByteMatchSetResponse.fromJson(jsonResponse.body);
@@ -209,10 +208,10 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ChangeToken': changeToken,
-        'Name': name,
-      },
+      payload: CreateGeoMatchSetRequest(
+        changeToken: changeToken,
+        name: name,
+      ),
     );
 
     return CreateGeoMatchSetResponse.fromJson(jsonResponse.body);
@@ -293,10 +292,10 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ChangeToken': changeToken,
-        'Name': name,
-      },
+      payload: CreateIPSetRequest(
+        changeToken: changeToken,
+        name: name,
+      ),
     );
 
     return CreateIPSetResponse.fromJson(jsonResponse.body);
@@ -476,14 +475,14 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ChangeToken': changeToken,
-        'MetricName': metricName,
-        'Name': name,
-        'RateKey': rateKey?.toValue(),
-        'RateLimit': rateLimit,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateRateBasedRuleRequest(
+        changeToken: changeToken,
+        metricName: metricName,
+        name: name,
+        rateKey: rateKey,
+        rateLimit: rateLimit,
+        tags: tags,
+      ),
     );
 
     return CreateRateBasedRuleResponse.fromJson(jsonResponse.body);
@@ -566,10 +565,10 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ChangeToken': changeToken,
-        'Name': name,
-      },
+      payload: CreateRegexMatchSetRequest(
+        changeToken: changeToken,
+        name: name,
+      ),
     );
 
     return CreateRegexMatchSetResponse.fromJson(jsonResponse.body);
@@ -647,10 +646,10 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ChangeToken': changeToken,
-        'Name': name,
-      },
+      payload: CreateRegexPatternSetRequest(
+        changeToken: changeToken,
+        name: name,
+      ),
     );
 
     return CreateRegexPatternSetResponse.fromJson(jsonResponse.body);
@@ -766,12 +765,12 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ChangeToken': changeToken,
-        'MetricName': metricName,
-        'Name': name,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateRuleRequest(
+        changeToken: changeToken,
+        metricName: metricName,
+        name: name,
+        tags: tags,
+      ),
     );
 
     return CreateRuleResponse.fromJson(jsonResponse.body);
@@ -855,12 +854,12 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ChangeToken': changeToken,
-        'MetricName': metricName,
-        'Name': name,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateRuleGroupRequest(
+        changeToken: changeToken,
+        metricName: metricName,
+        name: name,
+        tags: tags,
+      ),
     );
 
     return CreateRuleGroupResponse.fromJson(jsonResponse.body);
@@ -944,10 +943,10 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ChangeToken': changeToken,
-        'Name': name,
-      },
+      payload: CreateSizeConstraintSetRequest(
+        changeToken: changeToken,
+        name: name,
+      ),
     );
 
     return CreateSizeConstraintSetResponse.fromJson(jsonResponse.body);
@@ -1028,10 +1027,10 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ChangeToken': changeToken,
-        'Name': name,
-      },
+      payload: CreateSqlInjectionMatchSetRequest(
+        changeToken: changeToken,
+        name: name,
+      ),
     );
 
     return CreateSqlInjectionMatchSetResponse.fromJson(jsonResponse.body);
@@ -1148,13 +1147,13 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ChangeToken': changeToken,
-        'DefaultAction': defaultAction,
-        'MetricName': metricName,
-        'Name': name,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateWebACLRequest(
+        changeToken: changeToken,
+        defaultAction: defaultAction,
+        metricName: metricName,
+        name: name,
+        tags: tags,
+      ),
     );
 
     return CreateWebACLResponse.fromJson(jsonResponse.body);
@@ -1235,10 +1234,10 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ChangeToken': changeToken,
-        'Name': name,
-      },
+      payload: CreateXssMatchSetRequest(
+        changeToken: changeToken,
+        name: name,
+      ),
     );
 
     return CreateXssMatchSetResponse.fromJson(jsonResponse.body);
@@ -1311,10 +1310,10 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ByteMatchSetId': byteMatchSetId,
-        'ChangeToken': changeToken,
-      },
+      payload: DeleteByteMatchSetRequest(
+        byteMatchSetId: byteMatchSetId,
+        changeToken: changeToken,
+      ),
     );
 
     return DeleteByteMatchSetResponse.fromJson(jsonResponse.body);
@@ -1387,10 +1386,10 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ChangeToken': changeToken,
-        'GeoMatchSetId': geoMatchSetId,
-      },
+      payload: DeleteGeoMatchSetRequest(
+        changeToken: changeToken,
+        geoMatchSetId: geoMatchSetId,
+      ),
     );
 
     return DeleteGeoMatchSetResponse.fromJson(jsonResponse.body);
@@ -1462,10 +1461,10 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ChangeToken': changeToken,
-        'IPSetId': iPSetId,
-      },
+      payload: DeleteIPSetRequest(
+        changeToken: changeToken,
+        iPSetId: iPSetId,
+      ),
     );
 
     return DeleteIPSetResponse.fromJson(jsonResponse.body);
@@ -1502,9 +1501,9 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-      },
+      payload: DeleteLoggingConfigurationRequest(
+        resourceArn: resourceArn,
+      ),
     );
 
     return DeleteLoggingConfigurationResponse.fromJson(jsonResponse.body);
@@ -1544,9 +1543,9 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-      },
+      payload: DeletePermissionPolicyRequest(
+        resourceArn: resourceArn,
+      ),
     );
 
     return DeletePermissionPolicyResponse.fromJson(jsonResponse.body);
@@ -1621,10 +1620,10 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ChangeToken': changeToken,
-        'RuleId': ruleId,
-      },
+      payload: DeleteRateBasedRuleRequest(
+        changeToken: changeToken,
+        ruleId: ruleId,
+      ),
     );
 
     return DeleteRateBasedRuleResponse.fromJson(jsonResponse.body);
@@ -1698,10 +1697,10 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ChangeToken': changeToken,
-        'RegexMatchSetId': regexMatchSetId,
-      },
+      payload: DeleteRegexMatchSetRequest(
+        changeToken: changeToken,
+        regexMatchSetId: regexMatchSetId,
+      ),
     );
 
     return DeleteRegexMatchSetResponse.fromJson(jsonResponse.body);
@@ -1756,10 +1755,10 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ChangeToken': changeToken,
-        'RegexPatternSetId': regexPatternSetId,
-      },
+      payload: DeleteRegexPatternSetRequest(
+        changeToken: changeToken,
+        regexPatternSetId: regexPatternSetId,
+      ),
     );
 
     return DeleteRegexPatternSetResponse.fromJson(jsonResponse.body);
@@ -1833,10 +1832,10 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ChangeToken': changeToken,
-        'RuleId': ruleId,
-      },
+      payload: DeleteRuleRequest(
+        changeToken: changeToken,
+        ruleId: ruleId,
+      ),
     );
 
     return DeleteRuleResponse.fromJson(jsonResponse.body);
@@ -1911,10 +1910,10 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ChangeToken': changeToken,
-        'RuleGroupId': ruleGroupId,
-      },
+      payload: DeleteRuleGroupRequest(
+        changeToken: changeToken,
+        ruleGroupId: ruleGroupId,
+      ),
     );
 
     return DeleteRuleGroupResponse.fromJson(jsonResponse.body);
@@ -1988,10 +1987,10 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ChangeToken': changeToken,
-        'SizeConstraintSetId': sizeConstraintSetId,
-      },
+      payload: DeleteSizeConstraintSetRequest(
+        changeToken: changeToken,
+        sizeConstraintSetId: sizeConstraintSetId,
+      ),
     );
 
     return DeleteSizeConstraintSetResponse.fromJson(jsonResponse.body);
@@ -2067,10 +2066,10 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ChangeToken': changeToken,
-        'SqlInjectionMatchSetId': sqlInjectionMatchSetId,
-      },
+      payload: DeleteSqlInjectionMatchSetRequest(
+        changeToken: changeToken,
+        sqlInjectionMatchSetId: sqlInjectionMatchSetId,
+      ),
     );
 
     return DeleteSqlInjectionMatchSetResponse.fromJson(jsonResponse.body);
@@ -2139,10 +2138,10 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ChangeToken': changeToken,
-        'WebACLId': webACLId,
-      },
+      payload: DeleteWebACLRequest(
+        changeToken: changeToken,
+        webACLId: webACLId,
+      ),
     );
 
     return DeleteWebACLResponse.fromJson(jsonResponse.body);
@@ -2215,10 +2214,10 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ChangeToken': changeToken,
-        'XssMatchSetId': xssMatchSetId,
-      },
+      payload: DeleteXssMatchSetRequest(
+        changeToken: changeToken,
+        xssMatchSetId: xssMatchSetId,
+      ),
     );
 
     return DeleteXssMatchSetResponse.fromJson(jsonResponse.body);
@@ -2255,9 +2254,9 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ByteMatchSetId': byteMatchSetId,
-      },
+      payload: GetByteMatchSetRequest(
+        byteMatchSetId: byteMatchSetId,
+      ),
     );
 
     return GetByteMatchSetResponse.fromJson(jsonResponse.body);
@@ -2344,9 +2343,9 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ChangeToken': changeToken,
-      },
+      payload: GetChangeTokenStatusRequest(
+        changeToken: changeToken,
+      ),
     );
 
     return GetChangeTokenStatusResponse.fromJson(jsonResponse.body);
@@ -2384,9 +2383,9 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'GeoMatchSetId': geoMatchSetId,
-      },
+      payload: GetGeoMatchSetRequest(
+        geoMatchSetId: geoMatchSetId,
+      ),
     );
 
     return GetGeoMatchSetResponse.fromJson(jsonResponse.body);
@@ -2423,9 +2422,9 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'IPSetId': iPSetId,
-      },
+      payload: GetIPSetRequest(
+        iPSetId: iPSetId,
+      ),
     );
 
     return GetIPSetResponse.fromJson(jsonResponse.body);
@@ -2460,9 +2459,9 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-      },
+      payload: GetLoggingConfigurationRequest(
+        resourceArn: resourceArn,
+      ),
     );
 
     return GetLoggingConfigurationResponse.fromJson(jsonResponse.body);
@@ -2497,9 +2496,9 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-      },
+      payload: GetPermissionPolicyRequest(
+        resourceArn: resourceArn,
+      ),
     );
 
     return GetPermissionPolicyResponse.fromJson(jsonResponse.body);
@@ -2538,9 +2537,9 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'RuleId': ruleId,
-      },
+      payload: GetRateBasedRuleRequest(
+        ruleId: ruleId,
+      ),
     );
 
     return GetRateBasedRuleResponse.fromJson(jsonResponse.body);
@@ -2592,10 +2591,10 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'RuleId': ruleId,
-        if (nextMarker != null) 'NextMarker': nextMarker,
-      },
+      payload: GetRateBasedRuleManagedKeysRequest(
+        ruleId: ruleId,
+        nextMarker: nextMarker,
+      ),
     );
 
     return GetRateBasedRuleManagedKeysResponse.fromJson(jsonResponse.body);
@@ -2633,9 +2632,9 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'RegexMatchSetId': regexMatchSetId,
-      },
+      payload: GetRegexMatchSetRequest(
+        regexMatchSetId: regexMatchSetId,
+      ),
     );
 
     return GetRegexMatchSetResponse.fromJson(jsonResponse.body);
@@ -2673,9 +2672,9 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'RegexPatternSetId': regexPatternSetId,
-      },
+      payload: GetRegexPatternSetRequest(
+        regexPatternSetId: regexPatternSetId,
+      ),
     );
 
     return GetRegexPatternSetResponse.fromJson(jsonResponse.body);
@@ -2713,9 +2712,9 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'RuleId': ruleId,
-      },
+      payload: GetRuleRequest(
+        ruleId: ruleId,
+      ),
     );
 
     return GetRuleResponse.fromJson(jsonResponse.body);
@@ -2756,9 +2755,9 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'RuleGroupId': ruleGroupId,
-      },
+      payload: GetRuleGroupRequest(
+        ruleGroupId: ruleGroupId,
+      ),
     );
 
     return GetRuleGroupResponse.fromJson(jsonResponse.body);
@@ -2854,12 +2853,12 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'MaxItems': maxItems,
-        'RuleId': ruleId,
-        'TimeWindow': timeWindow,
-        'WebAclId': webAclId,
-      },
+      payload: GetSampledRequestsRequest(
+        maxItems: maxItems,
+        ruleId: ruleId,
+        timeWindow: timeWindow,
+        webAclId: webAclId,
+      ),
     );
 
     return GetSampledRequestsResponse.fromJson(jsonResponse.body);
@@ -2897,9 +2896,9 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SizeConstraintSetId': sizeConstraintSetId,
-      },
+      payload: GetSizeConstraintSetRequest(
+        sizeConstraintSetId: sizeConstraintSetId,
+      ),
     );
 
     return GetSizeConstraintSetResponse.fromJson(jsonResponse.body);
@@ -2938,9 +2937,9 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SqlInjectionMatchSetId': sqlInjectionMatchSetId,
-      },
+      payload: GetSqlInjectionMatchSetRequest(
+        sqlInjectionMatchSetId: sqlInjectionMatchSetId,
+      ),
     );
 
     return GetSqlInjectionMatchSetResponse.fromJson(jsonResponse.body);
@@ -2977,9 +2976,9 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'WebACLId': webACLId,
-      },
+      payload: GetWebACLRequest(
+        webACLId: webACLId,
+      ),
     );
 
     return GetWebACLResponse.fromJson(jsonResponse.body);
@@ -3017,9 +3016,9 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'XssMatchSetId': xssMatchSetId,
-      },
+      payload: GetXssMatchSetRequest(
+        xssMatchSetId: xssMatchSetId,
+      ),
     );
 
     return GetXssMatchSetResponse.fromJson(jsonResponse.body);
@@ -3083,11 +3082,11 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (limit != null) 'Limit': limit,
-        if (nextMarker != null) 'NextMarker': nextMarker,
-        if (ruleGroupId != null) 'RuleGroupId': ruleGroupId,
-      },
+      payload: ListActivatedRulesInRuleGroupRequest(
+        limit: limit,
+        nextMarker: nextMarker,
+        ruleGroupId: ruleGroupId,
+      ),
     );
 
     return ListActivatedRulesInRuleGroupResponse.fromJson(jsonResponse.body);
@@ -3140,10 +3139,10 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (limit != null) 'Limit': limit,
-        if (nextMarker != null) 'NextMarker': nextMarker,
-      },
+      payload: ListByteMatchSetsRequest(
+        limit: limit,
+        nextMarker: nextMarker,
+      ),
     );
 
     return ListByteMatchSetsResponse.fromJson(jsonResponse.body);
@@ -3195,10 +3194,10 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (limit != null) 'Limit': limit,
-        if (nextMarker != null) 'NextMarker': nextMarker,
-      },
+      payload: ListGeoMatchSetsRequest(
+        limit: limit,
+        nextMarker: nextMarker,
+      ),
     );
 
     return ListGeoMatchSetsResponse.fromJson(jsonResponse.body);
@@ -3248,10 +3247,10 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (limit != null) 'Limit': limit,
-        if (nextMarker != null) 'NextMarker': nextMarker,
-      },
+      payload: ListIPSetsRequest(
+        limit: limit,
+        nextMarker: nextMarker,
+      ),
     );
 
     return ListIPSetsResponse.fromJson(jsonResponse.body);
@@ -3306,10 +3305,10 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (limit != null) 'Limit': limit,
-        if (nextMarker != null) 'NextMarker': nextMarker,
-      },
+      payload: ListLoggingConfigurationsRequest(
+        limit: limit,
+        nextMarker: nextMarker,
+      ),
     );
 
     return ListLoggingConfigurationsResponse.fromJson(jsonResponse.body);
@@ -3361,10 +3360,10 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (limit != null) 'Limit': limit,
-        if (nextMarker != null) 'NextMarker': nextMarker,
-      },
+      payload: ListRateBasedRulesRequest(
+        limit: limit,
+        nextMarker: nextMarker,
+      ),
     );
 
     return ListRateBasedRulesResponse.fromJson(jsonResponse.body);
@@ -3417,10 +3416,10 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (limit != null) 'Limit': limit,
-        if (nextMarker != null) 'NextMarker': nextMarker,
-      },
+      payload: ListRegexMatchSetsRequest(
+        limit: limit,
+        nextMarker: nextMarker,
+      ),
     );
 
     return ListRegexMatchSetsResponse.fromJson(jsonResponse.body);
@@ -3474,10 +3473,10 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (limit != null) 'Limit': limit,
-        if (nextMarker != null) 'NextMarker': nextMarker,
-      },
+      payload: ListRegexPatternSetsRequest(
+        limit: limit,
+        nextMarker: nextMarker,
+      ),
     );
 
     return ListRegexPatternSetsResponse.fromJson(jsonResponse.body);
@@ -3528,10 +3527,10 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (limit != null) 'Limit': limit,
-        if (nextMarker != null) 'NextMarker': nextMarker,
-      },
+      payload: ListRuleGroupsRequest(
+        limit: limit,
+        nextMarker: nextMarker,
+      ),
     );
 
     return ListRuleGroupsResponse.fromJson(jsonResponse.body);
@@ -3583,10 +3582,10 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (limit != null) 'Limit': limit,
-        if (nextMarker != null) 'NextMarker': nextMarker,
-      },
+      payload: ListRulesRequest(
+        limit: limit,
+        nextMarker: nextMarker,
+      ),
     );
 
     return ListRulesResponse.fromJson(jsonResponse.body);
@@ -3639,10 +3638,10 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (limit != null) 'Limit': limit,
-        if (nextMarker != null) 'NextMarker': nextMarker,
-      },
+      payload: ListSizeConstraintSetsRequest(
+        limit: limit,
+        nextMarker: nextMarker,
+      ),
     );
 
     return ListSizeConstraintSetsResponse.fromJson(jsonResponse.body);
@@ -3695,10 +3694,10 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (limit != null) 'Limit': limit,
-        if (nextMarker != null) 'NextMarker': nextMarker,
-      },
+      payload: ListSqlInjectionMatchSetsRequest(
+        limit: limit,
+        nextMarker: nextMarker,
+      ),
     );
 
     return ListSqlInjectionMatchSetsResponse.fromJson(jsonResponse.body);
@@ -3750,10 +3749,10 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (limit != null) 'Limit': limit,
-        if (nextMarker != null) 'NextMarker': nextMarker,
-      },
+      payload: ListSubscribedRuleGroupsRequest(
+        limit: limit,
+        nextMarker: nextMarker,
+      ),
     );
 
     return ListSubscribedRuleGroupsResponse.fromJson(jsonResponse.body);
@@ -3801,11 +3800,11 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceARN': resourceARN,
-        if (limit != null) 'Limit': limit,
-        if (nextMarker != null) 'NextMarker': nextMarker,
-      },
+      payload: ListTagsForResourceRequest(
+        resourceARN: resourceARN,
+        limit: limit,
+        nextMarker: nextMarker,
+      ),
     );
 
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
@@ -3857,10 +3856,10 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (limit != null) 'Limit': limit,
-        if (nextMarker != null) 'NextMarker': nextMarker,
-      },
+      payload: ListWebACLsRequest(
+        limit: limit,
+        nextMarker: nextMarker,
+      ),
     );
 
     return ListWebACLsResponse.fromJson(jsonResponse.body);
@@ -3912,10 +3911,10 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (limit != null) 'Limit': limit,
-        if (nextMarker != null) 'NextMarker': nextMarker,
-      },
+      payload: ListXssMatchSetsRequest(
+        limit: limit,
+        nextMarker: nextMarker,
+      ),
     );
 
     return ListXssMatchSetsResponse.fromJson(jsonResponse.body);
@@ -3975,9 +3974,9 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'LoggingConfiguration': loggingConfiguration,
-      },
+      payload: PutLoggingConfigurationRequest(
+        loggingConfiguration: loggingConfiguration,
+      ),
     );
 
     return PutLoggingConfigurationResponse.fromJson(jsonResponse.body);
@@ -4069,10 +4068,10 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Policy': policy,
-        'ResourceArn': resourceArn,
-      },
+      payload: PutPermissionPolicyRequest(
+        policy: policy,
+        resourceArn: resourceArn,
+      ),
     );
 
     return PutPermissionPolicyResponse.fromJson(jsonResponse.body);
@@ -4109,10 +4108,10 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceARN': resourceARN,
-        'Tags': tags,
-      },
+      payload: TagResourceRequest(
+        resourceARN: resourceARN,
+        tags: tags,
+      ),
     );
 
     return TagResourceResponse.fromJson(jsonResponse.body);
@@ -4148,10 +4147,10 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceARN': resourceARN,
-        'TagKeys': tagKeys,
-      },
+      payload: UntagResourceRequest(
+        resourceARN: resourceARN,
+        tagKeys: tagKeys,
+      ),
     );
 
     return UntagResourceResponse.fromJson(jsonResponse.body);
@@ -4280,11 +4279,11 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ByteMatchSetId': byteMatchSetId,
-        'ChangeToken': changeToken,
-        'Updates': updates,
-      },
+      payload: UpdateByteMatchSetRequest(
+        byteMatchSetId: byteMatchSetId,
+        changeToken: changeToken,
+        updates: updates,
+      ),
     );
 
     return UpdateByteMatchSetResponse.fromJson(jsonResponse.body);
@@ -4402,11 +4401,11 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ChangeToken': changeToken,
-        'GeoMatchSetId': geoMatchSetId,
-        'Updates': updates,
-      },
+      payload: UpdateGeoMatchSetRequest(
+        changeToken: changeToken,
+        geoMatchSetId: geoMatchSetId,
+        updates: updates,
+      ),
     );
 
     return UpdateGeoMatchSetResponse.fromJson(jsonResponse.body);
@@ -4552,11 +4551,11 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ChangeToken': changeToken,
-        'IPSetId': iPSetId,
-        'Updates': updates,
-      },
+      payload: UpdateIPSetRequest(
+        changeToken: changeToken,
+        iPSetId: iPSetId,
+        updates: updates,
+      ),
     );
 
     return UpdateIPSetResponse.fromJson(jsonResponse.body);
@@ -4687,12 +4686,12 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ChangeToken': changeToken,
-        'RateLimit': rateLimit,
-        'RuleId': ruleId,
-        'Updates': updates,
-      },
+      payload: UpdateRateBasedRuleRequest(
+        changeToken: changeToken,
+        rateLimit: rateLimit,
+        ruleId: ruleId,
+        updates: updates,
+      ),
     );
 
     return UpdateRateBasedRuleResponse.fromJson(jsonResponse.body);
@@ -4802,11 +4801,11 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ChangeToken': changeToken,
-        'RegexMatchSetId': regexMatchSetId,
-        'Updates': updates,
-      },
+      payload: UpdateRegexMatchSetRequest(
+        changeToken: changeToken,
+        regexMatchSetId: regexMatchSetId,
+        updates: updates,
+      ),
     );
 
     return UpdateRegexMatchSetResponse.fromJson(jsonResponse.body);
@@ -4916,11 +4915,11 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ChangeToken': changeToken,
-        'RegexPatternSetId': regexPatternSetId,
-        'Updates': updates,
-      },
+      payload: UpdateRegexPatternSetRequest(
+        changeToken: changeToken,
+        regexPatternSetId: regexPatternSetId,
+        updates: updates,
+      ),
     );
 
     return UpdateRegexPatternSetResponse.fromJson(jsonResponse.body);
@@ -5045,11 +5044,11 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ChangeToken': changeToken,
-        'RuleId': ruleId,
-        'Updates': updates,
-      },
+      payload: UpdateRuleRequest(
+        changeToken: changeToken,
+        ruleId: ruleId,
+        updates: updates,
+      ),
     );
 
     return UpdateRuleResponse.fromJson(jsonResponse.body);
@@ -5149,11 +5148,11 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ChangeToken': changeToken,
-        'RuleGroupId': ruleGroupId,
-        'Updates': updates,
-      },
+      payload: UpdateRuleGroupRequest(
+        changeToken: changeToken,
+        ruleGroupId: ruleGroupId,
+        updates: updates,
+      ),
     );
 
     return UpdateRuleGroupResponse.fromJson(jsonResponse.body);
@@ -5288,11 +5287,11 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ChangeToken': changeToken,
-        'SizeConstraintSetId': sizeConstraintSetId,
-        'Updates': updates,
-      },
+      payload: UpdateSizeConstraintSetRequest(
+        changeToken: changeToken,
+        sizeConstraintSetId: sizeConstraintSetId,
+        updates: updates,
+      ),
     );
 
     return UpdateSizeConstraintSetResponse.fromJson(jsonResponse.body);
@@ -5417,11 +5416,11 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ChangeToken': changeToken,
-        'SqlInjectionMatchSetId': sqlInjectionMatchSetId,
-        'Updates': updates,
-      },
+      payload: UpdateSqlInjectionMatchSetRequest(
+        changeToken: changeToken,
+        sqlInjectionMatchSetId: sqlInjectionMatchSetId,
+        updates: updates,
+      ),
     );
 
     return UpdateSqlInjectionMatchSetResponse.fromJson(jsonResponse.body);
@@ -5593,12 +5592,12 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ChangeToken': changeToken,
-        'WebACLId': webACLId,
-        if (defaultAction != null) 'DefaultAction': defaultAction,
-        if (updates != null) 'Updates': updates,
-      },
+      payload: UpdateWebACLRequest(
+        changeToken: changeToken,
+        webACLId: webACLId,
+        defaultAction: defaultAction,
+        updates: updates,
+      ),
     );
 
     return UpdateWebACLResponse.fromJson(jsonResponse.body);
@@ -5721,11 +5720,11 @@ class WAF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ChangeToken': changeToken,
-        'Updates': updates,
-        'XssMatchSetId': xssMatchSetId,
-      },
+      payload: UpdateXssMatchSetRequest(
+        changeToken: changeToken,
+        updates: updates,
+        xssMatchSetId: xssMatchSetId,
+      ),
     );
 
     return UpdateXssMatchSetResponse.fromJson(jsonResponse.body);
@@ -6288,6 +6287,28 @@ enum ComparisonOperator {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateByteMatchSetRequest {
+  /// The value returned by the most recent call to <a>GetChangeToken</a>.
+  @_s.JsonKey(name: 'ChangeToken')
+  final String changeToken;
+
+  /// A friendly name or description of the <a>ByteMatchSet</a>. You can't change
+  /// <code>Name</code> after you create a <code>ByteMatchSet</code>.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  CreateByteMatchSetRequest({
+    @_s.required this.changeToken,
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$CreateByteMatchSetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateByteMatchSetResponse {
@@ -6308,6 +6329,28 @@ class CreateByteMatchSetResponse {
   });
   factory CreateByteMatchSetResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateByteMatchSetResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateGeoMatchSetRequest {
+  /// The value returned by the most recent call to <a>GetChangeToken</a>.
+  @_s.JsonKey(name: 'ChangeToken')
+  final String changeToken;
+
+  /// A friendly name or description of the <a>GeoMatchSet</a>. You can't change
+  /// <code>Name</code> after you create the <code>GeoMatchSet</code>.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  CreateGeoMatchSetRequest({
+    @_s.required this.changeToken,
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$CreateGeoMatchSetRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6340,6 +6383,28 @@ class CreateGeoMatchSetResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateIPSetRequest {
+  /// The value returned by the most recent call to <a>GetChangeToken</a>.
+  @_s.JsonKey(name: 'ChangeToken')
+  final String changeToken;
+
+  /// A friendly name or description of the <a>IPSet</a>. You can't change
+  /// <code>Name</code> after you create the <code>IPSet</code>.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  CreateIPSetRequest({
+    @_s.required this.changeToken,
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$CreateIPSetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateIPSetResponse {
@@ -6360,6 +6425,62 @@ class CreateIPSetResponse {
   });
   factory CreateIPSetResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateIPSetResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateRateBasedRuleRequest {
+  /// The <code>ChangeToken</code> that you used to submit the
+  /// <code>CreateRateBasedRule</code> request. You can also use this value to
+  /// query the status of the request. For more information, see
+  /// <a>GetChangeTokenStatus</a>.
+  @_s.JsonKey(name: 'ChangeToken')
+  final String changeToken;
+
+  /// A friendly name or description for the metrics for this
+  /// <code>RateBasedRule</code>. The name can contain only alphanumeric
+  /// characters (A-Z, a-z, 0-9), with maximum length 128 and minimum length one.
+  /// It can't contain whitespace or metric names reserved for AWS WAF, including
+  /// "All" and "Default_Action." You can't change the name of the metric after
+  /// you create the <code>RateBasedRule</code>.
+  @_s.JsonKey(name: 'MetricName')
+  final String metricName;
+
+  /// A friendly name or description of the <a>RateBasedRule</a>. You can't change
+  /// the name of a <code>RateBasedRule</code> after you create it.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The field that AWS WAF uses to determine if requests are likely arriving
+  /// from a single source and thus subject to rate monitoring. The only valid
+  /// value for <code>RateKey</code> is <code>IP</code>. <code>IP</code> indicates
+  /// that requests that arrive from the same IP address are subject to the
+  /// <code>RateLimit</code> that is specified in the <code>RateBasedRule</code>.
+  @_s.JsonKey(name: 'RateKey')
+  final RateKey rateKey;
+
+  /// The maximum number of requests, which have an identical value in the field
+  /// that is specified by <code>RateKey</code>, allowed in a five-minute period.
+  /// If the number of requests exceeds the <code>RateLimit</code> and the other
+  /// predicates specified in the rule are also met, AWS WAF triggers the action
+  /// that is specified for this rule.
+  @_s.JsonKey(name: 'RateLimit')
+  final int rateLimit;
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateRateBasedRuleRequest({
+    @_s.required this.changeToken,
+    @_s.required this.metricName,
+    @_s.required this.name,
+    @_s.required this.rateKey,
+    @_s.required this.rateLimit,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateRateBasedRuleRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6391,6 +6512,28 @@ class CreateRateBasedRuleResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateRegexMatchSetRequest {
+  /// The value returned by the most recent call to <a>GetChangeToken</a>.
+  @_s.JsonKey(name: 'ChangeToken')
+  final String changeToken;
+
+  /// A friendly name or description of the <a>RegexMatchSet</a>. You can't change
+  /// <code>Name</code> after you create a <code>RegexMatchSet</code>.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  CreateRegexMatchSetRequest({
+    @_s.required this.changeToken,
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$CreateRegexMatchSetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateRegexMatchSetResponse {
@@ -6412,6 +6555,28 @@ class CreateRegexMatchSetResponse {
   });
   factory CreateRegexMatchSetResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateRegexMatchSetResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateRegexPatternSetRequest {
+  /// The value returned by the most recent call to <a>GetChangeToken</a>.
+  @_s.JsonKey(name: 'ChangeToken')
+  final String changeToken;
+
+  /// A friendly name or description of the <a>RegexPatternSet</a>. You can't
+  /// change <code>Name</code> after you create a <code>RegexPatternSet</code>.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  CreateRegexPatternSetRequest({
+    @_s.required this.changeToken,
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$CreateRegexPatternSetRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6442,6 +6607,41 @@ class CreateRegexPatternSetResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateRuleGroupRequest {
+  /// The value returned by the most recent call to <a>GetChangeToken</a>.
+  @_s.JsonKey(name: 'ChangeToken')
+  final String changeToken;
+
+  /// A friendly name or description for the metrics for this
+  /// <code>RuleGroup</code>. The name can contain only alphanumeric characters
+  /// (A-Z, a-z, 0-9), with maximum length 128 and minimum length one. It can't
+  /// contain whitespace or metric names reserved for AWS WAF, including "All" and
+  /// "Default_Action." You can't change the name of the metric after you create
+  /// the <code>RuleGroup</code>.
+  @_s.JsonKey(name: 'MetricName')
+  final String metricName;
+
+  /// A friendly name or description of the <a>RuleGroup</a>. You can't change
+  /// <code>Name</code> after you create a <code>RuleGroup</code>.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateRuleGroupRequest({
+    @_s.required this.changeToken,
+    @_s.required this.metricName,
+    @_s.required this.name,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateRuleGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateRuleGroupResponse {
@@ -6462,6 +6662,40 @@ class CreateRuleGroupResponse {
   });
   factory CreateRuleGroupResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateRuleGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateRuleRequest {
+  /// The value returned by the most recent call to <a>GetChangeToken</a>.
+  @_s.JsonKey(name: 'ChangeToken')
+  final String changeToken;
+
+  /// A friendly name or description for the metrics for this <code>Rule</code>.
+  /// The name can contain only alphanumeric characters (A-Z, a-z, 0-9), with
+  /// maximum length 128 and minimum length one. It can't contain whitespace or
+  /// metric names reserved for AWS WAF, including "All" and "Default_Action." You
+  /// can't change the name of the metric after you create the <code>Rule</code>.
+  @_s.JsonKey(name: 'MetricName')
+  final String metricName;
+
+  /// A friendly name or description of the <a>Rule</a>. You can't change the name
+  /// of a <code>Rule</code> after you create it.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateRuleRequest({
+    @_s.required this.changeToken,
+    @_s.required this.metricName,
+    @_s.required this.name,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateRuleRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6492,6 +6726,28 @@ class CreateRuleResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateSizeConstraintSetRequest {
+  /// The value returned by the most recent call to <a>GetChangeToken</a>.
+  @_s.JsonKey(name: 'ChangeToken')
+  final String changeToken;
+
+  /// A friendly name or description of the <a>SizeConstraintSet</a>. You can't
+  /// change <code>Name</code> after you create a <code>SizeConstraintSet</code>.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  CreateSizeConstraintSetRequest({
+    @_s.required this.changeToken,
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$CreateSizeConstraintSetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateSizeConstraintSetResponse {
@@ -6513,6 +6769,31 @@ class CreateSizeConstraintSetResponse {
   });
   factory CreateSizeConstraintSetResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateSizeConstraintSetResponseFromJson(json);
+}
+
+/// A request to create a <a>SqlInjectionMatchSet</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateSqlInjectionMatchSetRequest {
+  /// The value returned by the most recent call to <a>GetChangeToken</a>.
+  @_s.JsonKey(name: 'ChangeToken')
+  final String changeToken;
+
+  /// A friendly name or description for the <a>SqlInjectionMatchSet</a> that
+  /// you're creating. You can't change <code>Name</code> after you create the
+  /// <code>SqlInjectionMatchSet</code>.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  CreateSqlInjectionMatchSetRequest({
+    @_s.required this.changeToken,
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateSqlInjectionMatchSetRequestToJson(this);
 }
 
 /// The response to a <code>CreateSqlInjectionMatchSet</code> request.
@@ -6545,6 +6826,48 @@ class CreateSqlInjectionMatchSetResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateWebACLRequest {
+  /// The value returned by the most recent call to <a>GetChangeToken</a>.
+  @_s.JsonKey(name: 'ChangeToken')
+  final String changeToken;
+
+  /// The action that you want AWS WAF to take when a request doesn't match the
+  /// criteria specified in any of the <code>Rule</code> objects that are
+  /// associated with the <code>WebACL</code>.
+  @_s.JsonKey(name: 'DefaultAction')
+  final WafAction defaultAction;
+
+  /// A friendly name or description for the metrics for this
+  /// <code>WebACL</code>.The name can contain only alphanumeric characters (A-Z,
+  /// a-z, 0-9), with maximum length 128 and minimum length one. It can't contain
+  /// whitespace or metric names reserved for AWS WAF, including "All" and
+  /// "Default_Action." You can't change <code>MetricName</code> after you create
+  /// the <code>WebACL</code>.
+  @_s.JsonKey(name: 'MetricName')
+  final String metricName;
+
+  /// A friendly name or description of the <a>WebACL</a>. You can't change
+  /// <code>Name</code> after you create the <code>WebACL</code>.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateWebACLRequest({
+    @_s.required this.changeToken,
+    @_s.required this.defaultAction,
+    @_s.required this.metricName,
+    @_s.required this.name,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateWebACLRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateWebACLResponse {
@@ -6565,6 +6888,30 @@ class CreateWebACLResponse {
   });
   factory CreateWebACLResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateWebACLResponseFromJson(json);
+}
+
+/// A request to create an <a>XssMatchSet</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateXssMatchSetRequest {
+  /// The value returned by the most recent call to <a>GetChangeToken</a>.
+  @_s.JsonKey(name: 'ChangeToken')
+  final String changeToken;
+
+  /// A friendly name or description for the <a>XssMatchSet</a> that you're
+  /// creating. You can't change <code>Name</code> after you create the
+  /// <code>XssMatchSet</code>.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  CreateXssMatchSetRequest({
+    @_s.required this.changeToken,
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$CreateXssMatchSetRequestToJson(this);
 }
 
 /// The response to a <code>CreateXssMatchSet</code> request.
@@ -6596,6 +6943,29 @@ class CreateXssMatchSetResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteByteMatchSetRequest {
+  /// The <code>ByteMatchSetId</code> of the <a>ByteMatchSet</a> that you want to
+  /// delete. <code>ByteMatchSetId</code> is returned by <a>CreateByteMatchSet</a>
+  /// and by <a>ListByteMatchSets</a>.
+  @_s.JsonKey(name: 'ByteMatchSetId')
+  final String byteMatchSetId;
+
+  /// The value returned by the most recent call to <a>GetChangeToken</a>.
+  @_s.JsonKey(name: 'ChangeToken')
+  final String changeToken;
+
+  DeleteByteMatchSetRequest({
+    @_s.required this.byteMatchSetId,
+    @_s.required this.changeToken,
+  });
+  Map<String, dynamic> toJson() => _$DeleteByteMatchSetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteByteMatchSetResponse {
@@ -6611,6 +6981,29 @@ class DeleteByteMatchSetResponse {
   });
   factory DeleteByteMatchSetResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteByteMatchSetResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteGeoMatchSetRequest {
+  /// The value returned by the most recent call to <a>GetChangeToken</a>.
+  @_s.JsonKey(name: 'ChangeToken')
+  final String changeToken;
+
+  /// The <code>GeoMatchSetID</code> of the <a>GeoMatchSet</a> that you want to
+  /// delete. <code>GeoMatchSetId</code> is returned by <a>CreateGeoMatchSet</a>
+  /// and by <a>ListGeoMatchSets</a>.
+  @_s.JsonKey(name: 'GeoMatchSetId')
+  final String geoMatchSetId;
+
+  DeleteGeoMatchSetRequest({
+    @_s.required this.changeToken,
+    @_s.required this.geoMatchSetId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteGeoMatchSetRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6636,6 +7029,29 @@ class DeleteGeoMatchSetResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteIPSetRequest {
+  /// The value returned by the most recent call to <a>GetChangeToken</a>.
+  @_s.JsonKey(name: 'ChangeToken')
+  final String changeToken;
+
+  /// The <code>IPSetId</code> of the <a>IPSet</a> that you want to delete.
+  /// <code>IPSetId</code> is returned by <a>CreateIPSet</a> and by
+  /// <a>ListIPSets</a>.
+  @_s.JsonKey(name: 'IPSetId')
+  final String iPSetId;
+
+  DeleteIPSetRequest({
+    @_s.required this.changeToken,
+    @_s.required this.iPSetId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteIPSetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteIPSetResponse {
@@ -6656,6 +7072,24 @@ class DeleteIPSetResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteLoggingConfigurationRequest {
+  /// The Amazon Resource Name (ARN) of the web ACL from which you want to delete
+  /// the <a>LoggingConfiguration</a>.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  DeleteLoggingConfigurationRequest({
+    @_s.required this.resourceArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteLoggingConfigurationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteLoggingConfigurationResponse {
@@ -6668,12 +7102,54 @@ class DeleteLoggingConfigurationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeletePermissionPolicyRequest {
+  /// The Amazon Resource Name (ARN) of the RuleGroup from which you want to
+  /// delete the policy.
+  ///
+  /// The user making the request must be the owner of the RuleGroup.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  DeletePermissionPolicyRequest({
+    @_s.required this.resourceArn,
+  });
+  Map<String, dynamic> toJson() => _$DeletePermissionPolicyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeletePermissionPolicyResponse {
   DeletePermissionPolicyResponse();
   factory DeletePermissionPolicyResponse.fromJson(Map<String, dynamic> json) =>
       _$DeletePermissionPolicyResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteRateBasedRuleRequest {
+  /// The value returned by the most recent call to <a>GetChangeToken</a>.
+  @_s.JsonKey(name: 'ChangeToken')
+  final String changeToken;
+
+  /// The <code>RuleId</code> of the <a>RateBasedRule</a> that you want to delete.
+  /// <code>RuleId</code> is returned by <a>CreateRateBasedRule</a> and by
+  /// <a>ListRateBasedRules</a>.
+  @_s.JsonKey(name: 'RuleId')
+  final String ruleId;
+
+  DeleteRateBasedRuleRequest({
+    @_s.required this.changeToken,
+    @_s.required this.ruleId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteRateBasedRuleRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6699,6 +7175,29 @@ class DeleteRateBasedRuleResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteRegexMatchSetRequest {
+  /// The value returned by the most recent call to <a>GetChangeToken</a>.
+  @_s.JsonKey(name: 'ChangeToken')
+  final String changeToken;
+
+  /// The <code>RegexMatchSetId</code> of the <a>RegexMatchSet</a> that you want
+  /// to delete. <code>RegexMatchSetId</code> is returned by
+  /// <a>CreateRegexMatchSet</a> and by <a>ListRegexMatchSets</a>.
+  @_s.JsonKey(name: 'RegexMatchSetId')
+  final String regexMatchSetId;
+
+  DeleteRegexMatchSetRequest({
+    @_s.required this.changeToken,
+    @_s.required this.regexMatchSetId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteRegexMatchSetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteRegexMatchSetResponse {
@@ -6714,6 +7213,29 @@ class DeleteRegexMatchSetResponse {
   });
   factory DeleteRegexMatchSetResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteRegexMatchSetResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteRegexPatternSetRequest {
+  /// The value returned by the most recent call to <a>GetChangeToken</a>.
+  @_s.JsonKey(name: 'ChangeToken')
+  final String changeToken;
+
+  /// The <code>RegexPatternSetId</code> of the <a>RegexPatternSet</a> that you
+  /// want to delete. <code>RegexPatternSetId</code> is returned by
+  /// <a>CreateRegexPatternSet</a> and by <a>ListRegexPatternSets</a>.
+  @_s.JsonKey(name: 'RegexPatternSetId')
+  final String regexPatternSetId;
+
+  DeleteRegexPatternSetRequest({
+    @_s.required this.changeToken,
+    @_s.required this.regexPatternSetId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteRegexPatternSetRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6739,6 +7261,29 @@ class DeleteRegexPatternSetResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteRuleGroupRequest {
+  /// The value returned by the most recent call to <a>GetChangeToken</a>.
+  @_s.JsonKey(name: 'ChangeToken')
+  final String changeToken;
+
+  /// The <code>RuleGroupId</code> of the <a>RuleGroup</a> that you want to
+  /// delete. <code>RuleGroupId</code> is returned by <a>CreateRuleGroup</a> and
+  /// by <a>ListRuleGroups</a>.
+  @_s.JsonKey(name: 'RuleGroupId')
+  final String ruleGroupId;
+
+  DeleteRuleGroupRequest({
+    @_s.required this.changeToken,
+    @_s.required this.ruleGroupId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteRuleGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteRuleGroupResponse {
@@ -6754,6 +7299,29 @@ class DeleteRuleGroupResponse {
   });
   factory DeleteRuleGroupResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteRuleGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteRuleRequest {
+  /// The value returned by the most recent call to <a>GetChangeToken</a>.
+  @_s.JsonKey(name: 'ChangeToken')
+  final String changeToken;
+
+  /// The <code>RuleId</code> of the <a>Rule</a> that you want to delete.
+  /// <code>RuleId</code> is returned by <a>CreateRule</a> and by
+  /// <a>ListRules</a>.
+  @_s.JsonKey(name: 'RuleId')
+  final String ruleId;
+
+  DeleteRuleRequest({
+    @_s.required this.changeToken,
+    @_s.required this.ruleId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteRuleRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -6779,6 +7347,29 @@ class DeleteRuleResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteSizeConstraintSetRequest {
+  /// The value returned by the most recent call to <a>GetChangeToken</a>.
+  @_s.JsonKey(name: 'ChangeToken')
+  final String changeToken;
+
+  /// The <code>SizeConstraintSetId</code> of the <a>SizeConstraintSet</a> that
+  /// you want to delete. <code>SizeConstraintSetId</code> is returned by
+  /// <a>CreateSizeConstraintSet</a> and by <a>ListSizeConstraintSets</a>.
+  @_s.JsonKey(name: 'SizeConstraintSetId')
+  final String sizeConstraintSetId;
+
+  DeleteSizeConstraintSetRequest({
+    @_s.required this.changeToken,
+    @_s.required this.sizeConstraintSetId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteSizeConstraintSetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteSizeConstraintSetResponse {
@@ -6794,6 +7385,31 @@ class DeleteSizeConstraintSetResponse {
   });
   factory DeleteSizeConstraintSetResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteSizeConstraintSetResponseFromJson(json);
+}
+
+/// A request to delete a <a>SqlInjectionMatchSet</a> from AWS WAF.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteSqlInjectionMatchSetRequest {
+  /// The value returned by the most recent call to <a>GetChangeToken</a>.
+  @_s.JsonKey(name: 'ChangeToken')
+  final String changeToken;
+
+  /// The <code>SqlInjectionMatchSetId</code> of the <a>SqlInjectionMatchSet</a>
+  /// that you want to delete. <code>SqlInjectionMatchSetId</code> is returned by
+  /// <a>CreateSqlInjectionMatchSet</a> and by <a>ListSqlInjectionMatchSets</a>.
+  @_s.JsonKey(name: 'SqlInjectionMatchSetId')
+  final String sqlInjectionMatchSetId;
+
+  DeleteSqlInjectionMatchSetRequest({
+    @_s.required this.changeToken,
+    @_s.required this.sqlInjectionMatchSetId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteSqlInjectionMatchSetRequestToJson(this);
 }
 
 /// The response to a request to delete a <a>SqlInjectionMatchSet</a> from AWS
@@ -6822,6 +7438,29 @@ class DeleteSqlInjectionMatchSetResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteWebACLRequest {
+  /// The value returned by the most recent call to <a>GetChangeToken</a>.
+  @_s.JsonKey(name: 'ChangeToken')
+  final String changeToken;
+
+  /// The <code>WebACLId</code> of the <a>WebACL</a> that you want to delete.
+  /// <code>WebACLId</code> is returned by <a>CreateWebACL</a> and by
+  /// <a>ListWebACLs</a>.
+  @_s.JsonKey(name: 'WebACLId')
+  final String webACLId;
+
+  DeleteWebACLRequest({
+    @_s.required this.changeToken,
+    @_s.required this.webACLId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteWebACLRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteWebACLResponse {
@@ -6837,6 +7476,30 @@ class DeleteWebACLResponse {
   });
   factory DeleteWebACLResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteWebACLResponseFromJson(json);
+}
+
+/// A request to delete an <a>XssMatchSet</a> from AWS WAF.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteXssMatchSetRequest {
+  /// The value returned by the most recent call to <a>GetChangeToken</a>.
+  @_s.JsonKey(name: 'ChangeToken')
+  final String changeToken;
+
+  /// The <code>XssMatchSetId</code> of the <a>XssMatchSet</a> that you want to
+  /// delete. <code>XssMatchSetId</code> is returned by <a>CreateXssMatchSet</a>
+  /// and by <a>ListXssMatchSets</a>.
+  @_s.JsonKey(name: 'XssMatchSetId')
+  final String xssMatchSetId;
+
+  DeleteXssMatchSetRequest({
+    @_s.required this.changeToken,
+    @_s.required this.xssMatchSetId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteXssMatchSetRequestToJson(this);
 }
 
 /// The response to a request to delete an <a>XssMatchSet</a> from AWS WAF.
@@ -7590,6 +8253,24 @@ class GeoMatchSetUpdate {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetByteMatchSetRequest {
+  /// The <code>ByteMatchSetId</code> of the <a>ByteMatchSet</a> that you want to
+  /// get. <code>ByteMatchSetId</code> is returned by <a>CreateByteMatchSet</a>
+  /// and by <a>ListByteMatchSets</a>.
+  @_s.JsonKey(name: 'ByteMatchSetId')
+  final String byteMatchSetId;
+
+  GetByteMatchSetRequest({
+    @_s.required this.byteMatchSetId,
+  });
+  Map<String, dynamic> toJson() => _$GetByteMatchSetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetByteMatchSetResponse {
@@ -7644,6 +8325,23 @@ class GetChangeTokenResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetChangeTokenStatusRequest {
+  /// The change token for which you want to get the status. This change token was
+  /// previously returned in the <code>GetChangeToken</code> response.
+  @_s.JsonKey(name: 'ChangeToken')
+  final String changeToken;
+
+  GetChangeTokenStatusRequest({
+    @_s.required this.changeToken,
+  });
+  Map<String, dynamic> toJson() => _$GetChangeTokenStatusRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetChangeTokenStatusResponse {
@@ -7656,6 +8354,24 @@ class GetChangeTokenStatusResponse {
   });
   factory GetChangeTokenStatusResponse.fromJson(Map<String, dynamic> json) =>
       _$GetChangeTokenStatusResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetGeoMatchSetRequest {
+  /// The <code>GeoMatchSetId</code> of the <a>GeoMatchSet</a> that you want to
+  /// get. <code>GeoMatchSetId</code> is returned by <a>CreateGeoMatchSet</a> and
+  /// by <a>ListGeoMatchSets</a>.
+  @_s.JsonKey(name: 'GeoMatchSetId')
+  final String geoMatchSetId;
+
+  GetGeoMatchSetRequest({
+    @_s.required this.geoMatchSetId,
+  });
+  Map<String, dynamic> toJson() => _$GetGeoMatchSetRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7677,6 +8393,24 @@ class GetGeoMatchSetResponse {
   });
   factory GetGeoMatchSetResponse.fromJson(Map<String, dynamic> json) =>
       _$GetGeoMatchSetResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetIPSetRequest {
+  /// The <code>IPSetId</code> of the <a>IPSet</a> that you want to get.
+  /// <code>IPSetId</code> is returned by <a>CreateIPSet</a> and by
+  /// <a>ListIPSets</a>.
+  @_s.JsonKey(name: 'IPSetId')
+  final String iPSetId;
+
+  GetIPSetRequest({
+    @_s.required this.iPSetId,
+  });
+  Map<String, dynamic> toJson() => _$GetIPSetRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7713,6 +8447,23 @@ class GetIPSetResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetLoggingConfigurationRequest {
+  /// The Amazon Resource Name (ARN) of the web ACL for which you want to get the
+  /// <a>LoggingConfiguration</a>.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  GetLoggingConfigurationRequest({
+    @_s.required this.resourceArn,
+  });
+  Map<String, dynamic> toJson() => _$GetLoggingConfigurationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetLoggingConfigurationResponse {
@@ -7730,6 +8481,23 @@ class GetLoggingConfigurationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetPermissionPolicyRequest {
+  /// The Amazon Resource Name (ARN) of the RuleGroup for which you want to get
+  /// the policy.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  GetPermissionPolicyRequest({
+    @_s.required this.resourceArn,
+  });
+  Map<String, dynamic> toJson() => _$GetPermissionPolicyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetPermissionPolicyResponse {
@@ -7742,6 +8510,30 @@ class GetPermissionPolicyResponse {
   });
   factory GetPermissionPolicyResponse.fromJson(Map<String, dynamic> json) =>
       _$GetPermissionPolicyResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetRateBasedRuleManagedKeysRequest {
+  /// The <code>RuleId</code> of the <a>RateBasedRule</a> for which you want to
+  /// get a list of <code>ManagedKeys</code>. <code>RuleId</code> is returned by
+  /// <a>CreateRateBasedRule</a> and by <a>ListRateBasedRules</a>.
+  @_s.JsonKey(name: 'RuleId')
+  final String ruleId;
+
+  /// A null value and not currently used. Do not include this in your request.
+  @_s.JsonKey(name: 'NextMarker')
+  final String nextMarker;
+
+  GetRateBasedRuleManagedKeysRequest({
+    @_s.required this.ruleId,
+    this.nextMarker,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetRateBasedRuleManagedKeysRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7771,6 +8563,24 @@ class GetRateBasedRuleManagedKeysResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetRateBasedRuleRequest {
+  /// The <code>RuleId</code> of the <a>RateBasedRule</a> that you want to get.
+  /// <code>RuleId</code> is returned by <a>CreateRateBasedRule</a> and by
+  /// <a>ListRateBasedRules</a>.
+  @_s.JsonKey(name: 'RuleId')
+  final String ruleId;
+
+  GetRateBasedRuleRequest({
+    @_s.required this.ruleId,
+  });
+  Map<String, dynamic> toJson() => _$GetRateBasedRuleRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetRateBasedRuleResponse {
@@ -7784,6 +8594,24 @@ class GetRateBasedRuleResponse {
   });
   factory GetRateBasedRuleResponse.fromJson(Map<String, dynamic> json) =>
       _$GetRateBasedRuleResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetRegexMatchSetRequest {
+  /// The <code>RegexMatchSetId</code> of the <a>RegexMatchSet</a> that you want
+  /// to get. <code>RegexMatchSetId</code> is returned by
+  /// <a>CreateRegexMatchSet</a> and by <a>ListRegexMatchSets</a>.
+  @_s.JsonKey(name: 'RegexMatchSetId')
+  final String regexMatchSetId;
+
+  GetRegexMatchSetRequest({
+    @_s.required this.regexMatchSetId,
+  });
+  Map<String, dynamic> toJson() => _$GetRegexMatchSetRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7803,6 +8631,24 @@ class GetRegexMatchSetResponse {
   });
   factory GetRegexMatchSetResponse.fromJson(Map<String, dynamic> json) =>
       _$GetRegexMatchSetResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetRegexPatternSetRequest {
+  /// The <code>RegexPatternSetId</code> of the <a>RegexPatternSet</a> that you
+  /// want to get. <code>RegexPatternSetId</code> is returned by
+  /// <a>CreateRegexPatternSet</a> and by <a>ListRegexPatternSets</a>.
+  @_s.JsonKey(name: 'RegexPatternSetId')
+  final String regexPatternSetId;
+
+  GetRegexPatternSetRequest({
+    @_s.required this.regexPatternSetId,
+  });
+  Map<String, dynamic> toJson() => _$GetRegexPatternSetRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7828,6 +8674,24 @@ class GetRegexPatternSetResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetRuleGroupRequest {
+  /// The <code>RuleGroupId</code> of the <a>RuleGroup</a> that you want to get.
+  /// <code>RuleGroupId</code> is returned by <a>CreateRuleGroup</a> and by
+  /// <a>ListRuleGroups</a>.
+  @_s.JsonKey(name: 'RuleGroupId')
+  final String ruleGroupId;
+
+  GetRuleGroupRequest({
+    @_s.required this.ruleGroupId,
+  });
+  Map<String, dynamic> toJson() => _$GetRuleGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetRuleGroupResponse {
@@ -7841,6 +8705,24 @@ class GetRuleGroupResponse {
   });
   factory GetRuleGroupResponse.fromJson(Map<String, dynamic> json) =>
       _$GetRuleGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetRuleRequest {
+  /// The <code>RuleId</code> of the <a>Rule</a> that you want to get.
+  /// <code>RuleId</code> is returned by <a>CreateRule</a> and by
+  /// <a>ListRules</a>.
+  @_s.JsonKey(name: 'RuleId')
+  final String ruleId;
+
+  GetRuleRequest({
+    @_s.required this.ruleId,
+  });
+  Map<String, dynamic> toJson() => _$GetRuleRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7871,6 +8753,58 @@ class GetRuleResponse {
   });
   factory GetRuleResponse.fromJson(Map<String, dynamic> json) =>
       _$GetRuleResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetSampledRequestsRequest {
+  /// The number of requests that you want AWS WAF to return from among the first
+  /// 5,000 requests that your AWS resource received during the time range. If
+  /// your resource received fewer requests than the value of
+  /// <code>MaxItems</code>, <code>GetSampledRequests</code> returns information
+  /// about all of them.
+  @_s.JsonKey(name: 'MaxItems')
+  final int maxItems;
+
+  /// <code>RuleId</code> is one of three values:
+  ///
+  /// <ul>
+  /// <li>
+  /// The <code>RuleId</code> of the <code>Rule</code> or the
+  /// <code>RuleGroupId</code> of the <code>RuleGroup</code> for which you want
+  /// <code>GetSampledRequests</code> to return a sample of requests.
+  /// </li>
+  /// <li>
+  /// <code>Default_Action</code>, which causes <code>GetSampledRequests</code> to
+  /// return a sample of the requests that didn't match any of the rules in the
+  /// specified <code>WebACL</code>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'RuleId')
+  final String ruleId;
+
+  /// The start date and time and the end date and time of the range for which you
+  /// want <code>GetSampledRequests</code> to return a sample of requests. Specify
+  /// the date and time in the following format: <code>"2016-09-27T14:50Z"</code>.
+  /// You can specify any time range in the previous three hours.
+  @_s.JsonKey(name: 'TimeWindow')
+  final TimeWindow timeWindow;
+
+  /// The <code>WebACLId</code> of the <code>WebACL</code> for which you want
+  /// <code>GetSampledRequests</code> to return a sample of requests.
+  @_s.JsonKey(name: 'WebAclId')
+  final String webAclId;
+
+  GetSampledRequestsRequest({
+    @_s.required this.maxItems,
+    @_s.required this.ruleId,
+    @_s.required this.timeWindow,
+    @_s.required this.webAclId,
+  });
+  Map<String, dynamic> toJson() => _$GetSampledRequestsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -7911,6 +8845,24 @@ class GetSampledRequestsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetSizeConstraintSetRequest {
+  /// The <code>SizeConstraintSetId</code> of the <a>SizeConstraintSet</a> that
+  /// you want to get. <code>SizeConstraintSetId</code> is returned by
+  /// <a>CreateSizeConstraintSet</a> and by <a>ListSizeConstraintSets</a>.
+  @_s.JsonKey(name: 'SizeConstraintSetId')
+  final String sizeConstraintSetId;
+
+  GetSizeConstraintSetRequest({
+    @_s.required this.sizeConstraintSetId,
+  });
+  Map<String, dynamic> toJson() => _$GetSizeConstraintSetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetSizeConstraintSetResponse {
@@ -7941,6 +8893,25 @@ class GetSizeConstraintSetResponse {
   });
   factory GetSizeConstraintSetResponse.fromJson(Map<String, dynamic> json) =>
       _$GetSizeConstraintSetResponseFromJson(json);
+}
+
+/// A request to get a <a>SqlInjectionMatchSet</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetSqlInjectionMatchSetRequest {
+  /// The <code>SqlInjectionMatchSetId</code> of the <a>SqlInjectionMatchSet</a>
+  /// that you want to get. <code>SqlInjectionMatchSetId</code> is returned by
+  /// <a>CreateSqlInjectionMatchSet</a> and by <a>ListSqlInjectionMatchSets</a>.
+  @_s.JsonKey(name: 'SqlInjectionMatchSetId')
+  final String sqlInjectionMatchSetId;
+
+  GetSqlInjectionMatchSetRequest({
+    @_s.required this.sqlInjectionMatchSetId,
+  });
+  Map<String, dynamic> toJson() => _$GetSqlInjectionMatchSetRequestToJson(this);
 }
 
 /// The response to a <a>GetSqlInjectionMatchSet</a> request.
@@ -7982,6 +8953,24 @@ class GetSqlInjectionMatchSetResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetWebACLRequest {
+  /// The <code>WebACLId</code> of the <a>WebACL</a> that you want to get.
+  /// <code>WebACLId</code> is returned by <a>CreateWebACL</a> and by
+  /// <a>ListWebACLs</a>.
+  @_s.JsonKey(name: 'WebACLId')
+  final String webACLId;
+
+  GetWebACLRequest({
+    @_s.required this.webACLId,
+  });
+  Map<String, dynamic> toJson() => _$GetWebACLRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetWebACLResponse {
@@ -8016,6 +9005,25 @@ class GetWebACLResponse {
   });
   factory GetWebACLResponse.fromJson(Map<String, dynamic> json) =>
       _$GetWebACLResponseFromJson(json);
+}
+
+/// A request to get an <a>XssMatchSet</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetXssMatchSetRequest {
+  /// The <code>XssMatchSetId</code> of the <a>XssMatchSet</a> that you want to
+  /// get. <code>XssMatchSetId</code> is returned by <a>CreateXssMatchSet</a> and
+  /// by <a>ListXssMatchSets</a>.
+  @_s.JsonKey(name: 'XssMatchSetId')
+  final String xssMatchSetId;
+
+  GetXssMatchSetRequest({
+    @_s.required this.xssMatchSetId,
+  });
+  Map<String, dynamic> toJson() => _$GetXssMatchSetRequestToJson(this);
 }
 
 /// The response to a <a>GetXssMatchSet</a> request.
@@ -8316,6 +9324,44 @@ class IPSetUpdate {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListActivatedRulesInRuleGroupRequest {
+  /// Specifies the number of <code>ActivatedRules</code> that you want AWS WAF to
+  /// return for this request. If you have more <code>ActivatedRules</code> than
+  /// the number that you specify for <code>Limit</code>, the response includes a
+  /// <code>NextMarker</code> value that you can use to get another batch of
+  /// <code>ActivatedRules</code>.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// If you specify a value for <code>Limit</code> and you have more
+  /// <code>ActivatedRules</code> than the value of <code>Limit</code>, AWS WAF
+  /// returns a <code>NextMarker</code> value in the response that allows you to
+  /// list another group of <code>ActivatedRules</code>. For the second and
+  /// subsequent <code>ListActivatedRulesInRuleGroup</code> requests, specify the
+  /// value of <code>NextMarker</code> from the previous response to get
+  /// information about another batch of <code>ActivatedRules</code>.
+  @_s.JsonKey(name: 'NextMarker')
+  final String nextMarker;
+
+  /// The <code>RuleGroupId</code> of the <a>RuleGroup</a> for which you want to
+  /// get a list of <a>ActivatedRule</a> objects.
+  @_s.JsonKey(name: 'RuleGroupId')
+  final String ruleGroupId;
+
+  ListActivatedRulesInRuleGroupRequest({
+    this.limit,
+    this.nextMarker,
+    this.ruleGroupId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListActivatedRulesInRuleGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListActivatedRulesInRuleGroupResponse {
@@ -8339,6 +9385,37 @@ class ListActivatedRulesInRuleGroupResponse {
   factory ListActivatedRulesInRuleGroupResponse.fromJson(
           Map<String, dynamic> json) =>
       _$ListActivatedRulesInRuleGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListByteMatchSetsRequest {
+  /// Specifies the number of <code>ByteMatchSet</code> objects that you want AWS
+  /// WAF to return for this request. If you have more <code>ByteMatchSets</code>
+  /// objects than the number you specify for <code>Limit</code>, the response
+  /// includes a <code>NextMarker</code> value that you can use to get another
+  /// batch of <code>ByteMatchSet</code> objects.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// If you specify a value for <code>Limit</code> and you have more
+  /// <code>ByteMatchSets</code> than the value of <code>Limit</code>, AWS WAF
+  /// returns a <code>NextMarker</code> value in the response that allows you to
+  /// list another group of <code>ByteMatchSets</code>. For the second and
+  /// subsequent <code>ListByteMatchSets</code> requests, specify the value of
+  /// <code>NextMarker</code> from the previous response to get information about
+  /// another batch of <code>ByteMatchSets</code>.
+  @_s.JsonKey(name: 'NextMarker')
+  final String nextMarker;
+
+  ListByteMatchSetsRequest({
+    this.limit,
+    this.nextMarker,
+  });
+  Map<String, dynamic> toJson() => _$ListByteMatchSetsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8371,6 +9448,37 @@ class ListByteMatchSetsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListGeoMatchSetsRequest {
+  /// Specifies the number of <code>GeoMatchSet</code> objects that you want AWS
+  /// WAF to return for this request. If you have more <code>GeoMatchSet</code>
+  /// objects than the number you specify for <code>Limit</code>, the response
+  /// includes a <code>NextMarker</code> value that you can use to get another
+  /// batch of <code>GeoMatchSet</code> objects.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// If you specify a value for <code>Limit</code> and you have more
+  /// <code>GeoMatchSet</code>s than the value of <code>Limit</code>, AWS WAF
+  /// returns a <code>NextMarker</code> value in the response that allows you to
+  /// list another group of <code>GeoMatchSet</code> objects. For the second and
+  /// subsequent <code>ListGeoMatchSets</code> requests, specify the value of
+  /// <code>NextMarker</code> from the previous response to get information about
+  /// another batch of <code>GeoMatchSet</code> objects.
+  @_s.JsonKey(name: 'NextMarker')
+  final String nextMarker;
+
+  ListGeoMatchSetsRequest({
+    this.limit,
+    this.nextMarker,
+  });
+  Map<String, dynamic> toJson() => _$ListGeoMatchSetsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListGeoMatchSetsResponse {
@@ -8398,6 +9506,35 @@ class ListGeoMatchSetsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListIPSetsRequest {
+  /// Specifies the number of <code>IPSet</code> objects that you want AWS WAF to
+  /// return for this request. If you have more <code>IPSet</code> objects than
+  /// the number you specify for <code>Limit</code>, the response includes a
+  /// <code>NextMarker</code> value that you can use to get another batch of
+  /// <code>IPSet</code> objects.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// AWS WAF returns a <code>NextMarker</code> value in the response that allows
+  /// you to list another group of <code>IPSets</code>. For the second and
+  /// subsequent <code>ListIPSets</code> requests, specify the value of
+  /// <code>NextMarker</code> from the previous response to get information about
+  /// another batch of <code>IPSets</code>.
+  @_s.JsonKey(name: 'NextMarker')
+  final String nextMarker;
+
+  ListIPSetsRequest({
+    this.limit,
+    this.nextMarker,
+  });
+  Map<String, dynamic> toJson() => _$ListIPSetsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListIPSetsResponse {
@@ -8417,6 +9554,38 @@ class ListIPSetsResponse {
   });
   factory ListIPSetsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListIPSetsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListLoggingConfigurationsRequest {
+  /// Specifies the number of <code>LoggingConfigurations</code> that you want AWS
+  /// WAF to return for this request. If you have more
+  /// <code>LoggingConfigurations</code> than the number that you specify for
+  /// <code>Limit</code>, the response includes a <code>NextMarker</code> value
+  /// that you can use to get another batch of <code>LoggingConfigurations</code>.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// If you specify a value for <code>Limit</code> and you have more
+  /// <code>LoggingConfigurations</code> than the value of <code>Limit</code>, AWS
+  /// WAF returns a <code>NextMarker</code> value in the response that allows you
+  /// to list another group of <code>LoggingConfigurations</code>. For the second
+  /// and subsequent <code>ListLoggingConfigurations</code> requests, specify the
+  /// value of <code>NextMarker</code> from the previous response to get
+  /// information about another batch of <code>ListLoggingConfigurations</code>.
+  @_s.JsonKey(name: 'NextMarker')
+  final String nextMarker;
+
+  ListLoggingConfigurationsRequest({
+    this.limit,
+    this.nextMarker,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListLoggingConfigurationsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8451,6 +9620,37 @@ class ListLoggingConfigurationsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListRateBasedRulesRequest {
+  /// Specifies the number of <code>Rules</code> that you want AWS WAF to return
+  /// for this request. If you have more <code>Rules</code> than the number that
+  /// you specify for <code>Limit</code>, the response includes a
+  /// <code>NextMarker</code> value that you can use to get another batch of
+  /// <code>Rules</code>.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// If you specify a value for <code>Limit</code> and you have more
+  /// <code>Rules</code> than the value of <code>Limit</code>, AWS WAF returns a
+  /// <code>NextMarker</code> value in the response that allows you to list
+  /// another group of <code>Rules</code>. For the second and subsequent
+  /// <code>ListRateBasedRules</code> requests, specify the value of
+  /// <code>NextMarker</code> from the previous response to get information about
+  /// another batch of <code>Rules</code>.
+  @_s.JsonKey(name: 'NextMarker')
+  final String nextMarker;
+
+  ListRateBasedRulesRequest({
+    this.limit,
+    this.nextMarker,
+  });
+  Map<String, dynamic> toJson() => _$ListRateBasedRulesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListRateBasedRulesResponse {
@@ -8473,6 +9673,37 @@ class ListRateBasedRulesResponse {
   });
   factory ListRateBasedRulesResponse.fromJson(Map<String, dynamic> json) =>
       _$ListRateBasedRulesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListRegexMatchSetsRequest {
+  /// Specifies the number of <code>RegexMatchSet</code> objects that you want AWS
+  /// WAF to return for this request. If you have more <code>RegexMatchSet</code>
+  /// objects than the number you specify for <code>Limit</code>, the response
+  /// includes a <code>NextMarker</code> value that you can use to get another
+  /// batch of <code>RegexMatchSet</code> objects.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// If you specify a value for <code>Limit</code> and you have more
+  /// <code>RegexMatchSet</code> objects than the value of <code>Limit</code>, AWS
+  /// WAF returns a <code>NextMarker</code> value in the response that allows you
+  /// to list another group of <code>ByteMatchSets</code>. For the second and
+  /// subsequent <code>ListRegexMatchSets</code> requests, specify the value of
+  /// <code>NextMarker</code> from the previous response to get information about
+  /// another batch of <code>RegexMatchSet</code> objects.
+  @_s.JsonKey(name: 'NextMarker')
+  final String nextMarker;
+
+  ListRegexMatchSetsRequest({
+    this.limit,
+    this.nextMarker,
+  });
+  Map<String, dynamic> toJson() => _$ListRegexMatchSetsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8505,6 +9736,38 @@ class ListRegexMatchSetsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListRegexPatternSetsRequest {
+  /// Specifies the number of <code>RegexPatternSet</code> objects that you want
+  /// AWS WAF to return for this request. If you have more
+  /// <code>RegexPatternSet</code> objects than the number you specify for
+  /// <code>Limit</code>, the response includes a <code>NextMarker</code> value
+  /// that you can use to get another batch of <code>RegexPatternSet</code>
+  /// objects.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// If you specify a value for <code>Limit</code> and you have more
+  /// <code>RegexPatternSet</code> objects than the value of <code>Limit</code>,
+  /// AWS WAF returns a <code>NextMarker</code> value in the response that allows
+  /// you to list another group of <code>RegexPatternSet</code> objects. For the
+  /// second and subsequent <code>ListRegexPatternSets</code> requests, specify
+  /// the value of <code>NextMarker</code> from the previous response to get
+  /// information about another batch of <code>RegexPatternSet</code> objects.
+  @_s.JsonKey(name: 'NextMarker')
+  final String nextMarker;
+
+  ListRegexPatternSetsRequest({
+    this.limit,
+    this.nextMarker,
+  });
+  Map<String, dynamic> toJson() => _$ListRegexPatternSetsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListRegexPatternSetsResponse {
@@ -8527,6 +9790,37 @@ class ListRegexPatternSetsResponse {
   });
   factory ListRegexPatternSetsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListRegexPatternSetsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListRuleGroupsRequest {
+  /// Specifies the number of <code>RuleGroups</code> that you want AWS WAF to
+  /// return for this request. If you have more <code>RuleGroups</code> than the
+  /// number that you specify for <code>Limit</code>, the response includes a
+  /// <code>NextMarker</code> value that you can use to get another batch of
+  /// <code>RuleGroups</code>.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// If you specify a value for <code>Limit</code> and you have more
+  /// <code>RuleGroups</code> than the value of <code>Limit</code>, AWS WAF
+  /// returns a <code>NextMarker</code> value in the response that allows you to
+  /// list another group of <code>RuleGroups</code>. For the second and subsequent
+  /// <code>ListRuleGroups</code> requests, specify the value of
+  /// <code>NextMarker</code> from the previous response to get information about
+  /// another batch of <code>RuleGroups</code>.
+  @_s.JsonKey(name: 'NextMarker')
+  final String nextMarker;
+
+  ListRuleGroupsRequest({
+    this.limit,
+    this.nextMarker,
+  });
+  Map<String, dynamic> toJson() => _$ListRuleGroupsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8559,6 +9853,37 @@ class ListRuleGroupsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListRulesRequest {
+  /// Specifies the number of <code>Rules</code> that you want AWS WAF to return
+  /// for this request. If you have more <code>Rules</code> than the number that
+  /// you specify for <code>Limit</code>, the response includes a
+  /// <code>NextMarker</code> value that you can use to get another batch of
+  /// <code>Rules</code>.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// If you specify a value for <code>Limit</code> and you have more
+  /// <code>Rules</code> than the value of <code>Limit</code>, AWS WAF returns a
+  /// <code>NextMarker</code> value in the response that allows you to list
+  /// another group of <code>Rules</code>. For the second and subsequent
+  /// <code>ListRules</code> requests, specify the value of
+  /// <code>NextMarker</code> from the previous response to get information about
+  /// another batch of <code>Rules</code>.
+  @_s.JsonKey(name: 'NextMarker')
+  final String nextMarker;
+
+  ListRulesRequest({
+    this.limit,
+    this.nextMarker,
+  });
+  Map<String, dynamic> toJson() => _$ListRulesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListRulesResponse {
@@ -8586,6 +9911,38 @@ class ListRulesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListSizeConstraintSetsRequest {
+  /// Specifies the number of <code>SizeConstraintSet</code> objects that you want
+  /// AWS WAF to return for this request. If you have more
+  /// <code>SizeConstraintSets</code> objects than the number you specify for
+  /// <code>Limit</code>, the response includes a <code>NextMarker</code> value
+  /// that you can use to get another batch of <code>SizeConstraintSet</code>
+  /// objects.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// If you specify a value for <code>Limit</code> and you have more
+  /// <code>SizeConstraintSets</code> than the value of <code>Limit</code>, AWS
+  /// WAF returns a <code>NextMarker</code> value in the response that allows you
+  /// to list another group of <code>SizeConstraintSets</code>. For the second and
+  /// subsequent <code>ListSizeConstraintSets</code> requests, specify the value
+  /// of <code>NextMarker</code> from the previous response to get information
+  /// about another batch of <code>SizeConstraintSets</code>.
+  @_s.JsonKey(name: 'NextMarker')
+  final String nextMarker;
+
+  ListSizeConstraintSetsRequest({
+    this.limit,
+    this.nextMarker,
+  });
+  Map<String, dynamic> toJson() => _$ListSizeConstraintSetsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListSizeConstraintSetsResponse {
@@ -8608,6 +9965,40 @@ class ListSizeConstraintSetsResponse {
   });
   factory ListSizeConstraintSetsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListSizeConstraintSetsResponseFromJson(json);
+}
+
+/// A request to list the <a>SqlInjectionMatchSet</a> objects created by the
+/// current AWS account.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListSqlInjectionMatchSetsRequest {
+  /// Specifies the number of <a>SqlInjectionMatchSet</a> objects that you want
+  /// AWS WAF to return for this request. If you have more
+  /// <code>SqlInjectionMatchSet</code> objects than the number you specify for
+  /// <code>Limit</code>, the response includes a <code>NextMarker</code> value
+  /// that you can use to get another batch of <code>Rules</code>.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// If you specify a value for <code>Limit</code> and you have more
+  /// <a>SqlInjectionMatchSet</a> objects than the value of <code>Limit</code>,
+  /// AWS WAF returns a <code>NextMarker</code> value in the response that allows
+  /// you to list another group of <code>SqlInjectionMatchSets</code>. For the
+  /// second and subsequent <code>ListSqlInjectionMatchSets</code> requests,
+  /// specify the value of <code>NextMarker</code> from the previous response to
+  /// get information about another batch of <code>SqlInjectionMatchSets</code>.
+  @_s.JsonKey(name: 'NextMarker')
+  final String nextMarker;
+
+  ListSqlInjectionMatchSetsRequest({
+    this.limit,
+    this.nextMarker,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListSqlInjectionMatchSetsRequestToJson(this);
 }
 
 /// The response to a <a>ListSqlInjectionMatchSets</a> request.
@@ -8643,6 +10034,38 @@ class ListSqlInjectionMatchSetsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListSubscribedRuleGroupsRequest {
+  /// Specifies the number of subscribed rule groups that you want AWS WAF to
+  /// return for this request. If you have more objects than the number you
+  /// specify for <code>Limit</code>, the response includes a
+  /// <code>NextMarker</code> value that you can use to get another batch of
+  /// objects.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// If you specify a value for <code>Limit</code> and you have more
+  /// <code>ByteMatchSets</code>subscribed rule groups than the value of
+  /// <code>Limit</code>, AWS WAF returns a <code>NextMarker</code> value in the
+  /// response that allows you to list another group of subscribed rule groups.
+  /// For the second and subsequent <code>ListSubscribedRuleGroupsRequest</code>
+  /// requests, specify the value of <code>NextMarker</code> from the previous
+  /// response to get information about another batch of subscribed rule groups.
+  @_s.JsonKey(name: 'NextMarker')
+  final String nextMarker;
+
+  ListSubscribedRuleGroupsRequest({
+    this.limit,
+    this.nextMarker,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListSubscribedRuleGroupsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListSubscribedRuleGroupsResponse {
@@ -8671,6 +10094,27 @@ class ListSubscribedRuleGroupsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceRequest {
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+  @_s.JsonKey(name: 'NextMarker')
+  final String nextMarker;
+
+  ListTagsForResourceRequest({
+    @_s.required this.resourceARN,
+    this.limit,
+    this.nextMarker,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListTagsForResourceResponse {
@@ -8685,6 +10129,37 @@ class ListTagsForResourceResponse {
   });
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$ListTagsForResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListWebACLsRequest {
+  /// Specifies the number of <code>WebACL</code> objects that you want AWS WAF to
+  /// return for this request. If you have more <code>WebACL</code> objects than
+  /// the number that you specify for <code>Limit</code>, the response includes a
+  /// <code>NextMarker</code> value that you can use to get another batch of
+  /// <code>WebACL</code> objects.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// If you specify a value for <code>Limit</code> and you have more
+  /// <code>WebACL</code> objects than the number that you specify for
+  /// <code>Limit</code>, AWS WAF returns a <code>NextMarker</code> value in the
+  /// response that allows you to list another group of <code>WebACL</code>
+  /// objects. For the second and subsequent <code>ListWebACLs</code> requests,
+  /// specify the value of <code>NextMarker</code> from the previous response to
+  /// get information about another batch of <code>WebACL</code> objects.
+  @_s.JsonKey(name: 'NextMarker')
+  final String nextMarker;
+
+  ListWebACLsRequest({
+    this.limit,
+    this.nextMarker,
+  });
+  Map<String, dynamic> toJson() => _$ListWebACLsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8712,6 +10187,39 @@ class ListWebACLsResponse {
   });
   factory ListWebACLsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListWebACLsResponseFromJson(json);
+}
+
+/// A request to list the <a>XssMatchSet</a> objects created by the current AWS
+/// account.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListXssMatchSetsRequest {
+  /// Specifies the number of <a>XssMatchSet</a> objects that you want AWS WAF to
+  /// return for this request. If you have more <code>XssMatchSet</code> objects
+  /// than the number you specify for <code>Limit</code>, the response includes a
+  /// <code>NextMarker</code> value that you can use to get another batch of
+  /// <code>Rules</code>.
+  @_s.JsonKey(name: 'Limit')
+  final int limit;
+
+  /// If you specify a value for <code>Limit</code> and you have more
+  /// <a>XssMatchSet</a> objects than the value of <code>Limit</code>, AWS WAF
+  /// returns a <code>NextMarker</code> value in the response that allows you to
+  /// list another group of <code>XssMatchSets</code>. For the second and
+  /// subsequent <code>ListXssMatchSets</code> requests, specify the value of
+  /// <code>NextMarker</code> from the previous response to get information about
+  /// another batch of <code>XssMatchSets</code>.
+  @_s.JsonKey(name: 'NextMarker')
+  final String nextMarker;
+
+  ListXssMatchSetsRequest({
+    this.limit,
+    this.nextMarker,
+  });
+  Map<String, dynamic> toJson() => _$ListXssMatchSetsRequestToJson(this);
 }
 
 /// The response to a <a>ListXssMatchSets</a> request.
@@ -8878,6 +10386,29 @@ enum PredicateType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutLoggingConfigurationRequest {
+  /// The Amazon Kinesis Data Firehose that contains the inspected traffic
+  /// information, the redacted fields details, and the Amazon Resource Name (ARN)
+  /// of the web ACL to monitor.
+  /// <note>
+  /// When specifying <code>Type</code> in <code>RedactedFields</code>, you must
+  /// use one of the following values: <code>URI</code>,
+  /// <code>QUERY_STRING</code>, <code>HEADER</code>, or <code>METHOD</code>.
+  /// </note>
+  @_s.JsonKey(name: 'LoggingConfiguration')
+  final LoggingConfiguration loggingConfiguration;
+
+  PutLoggingConfigurationRequest({
+    @_s.required this.loggingConfiguration,
+  });
+  Map<String, dynamic> toJson() => _$PutLoggingConfigurationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutLoggingConfigurationResponse {
@@ -8890,6 +10421,28 @@ class PutLoggingConfigurationResponse {
   });
   factory PutLoggingConfigurationResponse.fromJson(Map<String, dynamic> json) =>
       _$PutLoggingConfigurationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutPermissionPolicyRequest {
+  /// The policy to attach to the specified RuleGroup.
+  @_s.JsonKey(name: 'Policy')
+  final String policy;
+
+  /// The Amazon Resource Name (ARN) of the RuleGroup to which you want to attach
+  /// the policy.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  PutPermissionPolicyRequest({
+    @_s.required this.policy,
+    @_s.required this.resourceArn,
+  });
+  Map<String, dynamic> toJson() => _$PutPermissionPolicyRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -8991,16 +10544,6 @@ class RateBasedRule {
 enum RateKey {
   @_s.JsonValue('IP')
   ip,
-}
-
-extension on RateKey {
-  String toValue() {
-    switch (this) {
-      case RateKey.ip:
-        return 'IP';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// In a <a>GetRegexMatchSet</a> request, <code>RegexMatchSet</code> is a
@@ -10284,6 +11827,24 @@ class TagInfoForResource {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceARN,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagResourceResponse {
@@ -10360,12 +11921,75 @@ class TimeWindow {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceARN,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
   factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateByteMatchSetRequest {
+  /// The <code>ByteMatchSetId</code> of the <a>ByteMatchSet</a> that you want to
+  /// update. <code>ByteMatchSetId</code> is returned by <a>CreateByteMatchSet</a>
+  /// and by <a>ListByteMatchSets</a>.
+  @_s.JsonKey(name: 'ByteMatchSetId')
+  final String byteMatchSetId;
+
+  /// The value returned by the most recent call to <a>GetChangeToken</a>.
+  @_s.JsonKey(name: 'ChangeToken')
+  final String changeToken;
+
+  /// An array of <code>ByteMatchSetUpdate</code> objects that you want to insert
+  /// into or delete from a <a>ByteMatchSet</a>. For more information, see the
+  /// applicable data types:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>ByteMatchSetUpdate</a>: Contains <code>Action</code> and
+  /// <code>ByteMatchTuple</code>
+  /// </li>
+  /// <li>
+  /// <a>ByteMatchTuple</a>: Contains <code>FieldToMatch</code>,
+  /// <code>PositionalConstraint</code>, <code>TargetString</code>, and
+  /// <code>TextTransformation</code>
+  /// </li>
+  /// <li>
+  /// <a>FieldToMatch</a>: Contains <code>Data</code> and <code>Type</code>
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Updates')
+  final List<ByteMatchSetUpdate> updates;
+
+  UpdateByteMatchSetRequest({
+    @_s.required this.byteMatchSetId,
+    @_s.required this.changeToken,
+    @_s.required this.updates,
+  });
+  Map<String, dynamic> toJson() => _$UpdateByteMatchSetRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10391,6 +12015,50 @@ class UpdateByteMatchSetResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateGeoMatchSetRequest {
+  /// The value returned by the most recent call to <a>GetChangeToken</a>.
+  @_s.JsonKey(name: 'ChangeToken')
+  final String changeToken;
+
+  /// The <code>GeoMatchSetId</code> of the <a>GeoMatchSet</a> that you want to
+  /// update. <code>GeoMatchSetId</code> is returned by <a>CreateGeoMatchSet</a>
+  /// and by <a>ListGeoMatchSets</a>.
+  @_s.JsonKey(name: 'GeoMatchSetId')
+  final String geoMatchSetId;
+
+  /// An array of <code>GeoMatchSetUpdate</code> objects that you want to insert
+  /// into or delete from an <a>GeoMatchSet</a>. For more information, see the
+  /// applicable data types:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>GeoMatchSetUpdate</a>: Contains <code>Action</code> and
+  /// <code>GeoMatchConstraint</code>
+  /// </li>
+  /// <li>
+  /// <a>GeoMatchConstraint</a>: Contains <code>Type</code> and <code>Value</code>
+  ///
+  /// You can have only one <code>Type</code> and <code>Value</code> per
+  /// <code>GeoMatchConstraint</code>. To add multiple countries, include multiple
+  /// <code>GeoMatchSetUpdate</code> objects in your request.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Updates')
+  final List<GeoMatchSetUpdate> updates;
+
+  UpdateGeoMatchSetRequest({
+    @_s.required this.changeToken,
+    @_s.required this.geoMatchSetId,
+    @_s.required this.updates,
+  });
+  Map<String, dynamic> toJson() => _$UpdateGeoMatchSetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateGeoMatchSetResponse {
@@ -10406,6 +12074,47 @@ class UpdateGeoMatchSetResponse {
   });
   factory UpdateGeoMatchSetResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateGeoMatchSetResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateIPSetRequest {
+  /// The value returned by the most recent call to <a>GetChangeToken</a>.
+  @_s.JsonKey(name: 'ChangeToken')
+  final String changeToken;
+
+  /// The <code>IPSetId</code> of the <a>IPSet</a> that you want to update.
+  /// <code>IPSetId</code> is returned by <a>CreateIPSet</a> and by
+  /// <a>ListIPSets</a>.
+  @_s.JsonKey(name: 'IPSetId')
+  final String iPSetId;
+
+  /// An array of <code>IPSetUpdate</code> objects that you want to insert into or
+  /// delete from an <a>IPSet</a>. For more information, see the applicable data
+  /// types:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>IPSetUpdate</a>: Contains <code>Action</code> and
+  /// <code>IPSetDescriptor</code>
+  /// </li>
+  /// <li>
+  /// <a>IPSetDescriptor</a>: Contains <code>Type</code> and <code>Value</code>
+  /// </li>
+  /// </ul>
+  /// You can insert a maximum of 1000 addresses in a single request.
+  @_s.JsonKey(name: 'Updates')
+  final List<IPSetUpdate> updates;
+
+  UpdateIPSetRequest({
+    @_s.required this.changeToken,
+    @_s.required this.iPSetId,
+    @_s.required this.updates,
+  });
+  Map<String, dynamic> toJson() => _$UpdateIPSetRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10431,6 +12140,44 @@ class UpdateIPSetResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateRateBasedRuleRequest {
+  /// The value returned by the most recent call to <a>GetChangeToken</a>.
+  @_s.JsonKey(name: 'ChangeToken')
+  final String changeToken;
+
+  /// The maximum number of requests, which have an identical value in the field
+  /// specified by the <code>RateKey</code>, allowed in a five-minute period. If
+  /// the number of requests exceeds the <code>RateLimit</code> and the other
+  /// predicates specified in the rule are also met, AWS WAF triggers the action
+  /// that is specified for this rule.
+  @_s.JsonKey(name: 'RateLimit')
+  final int rateLimit;
+
+  /// The <code>RuleId</code> of the <code>RateBasedRule</code> that you want to
+  /// update. <code>RuleId</code> is returned by <code>CreateRateBasedRule</code>
+  /// and by <a>ListRateBasedRules</a>.
+  @_s.JsonKey(name: 'RuleId')
+  final String ruleId;
+
+  /// An array of <code>RuleUpdate</code> objects that you want to insert into or
+  /// delete from a <a>RateBasedRule</a>.
+  @_s.JsonKey(name: 'Updates')
+  final List<RuleUpdate> updates;
+
+  UpdateRateBasedRuleRequest({
+    @_s.required this.changeToken,
+    @_s.required this.rateLimit,
+    @_s.required this.ruleId,
+    @_s.required this.updates,
+  });
+  Map<String, dynamic> toJson() => _$UpdateRateBasedRuleRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateRateBasedRuleResponse {
@@ -10446,6 +12193,36 @@ class UpdateRateBasedRuleResponse {
   });
   factory UpdateRateBasedRuleResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateRateBasedRuleResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateRegexMatchSetRequest {
+  /// The value returned by the most recent call to <a>GetChangeToken</a>.
+  @_s.JsonKey(name: 'ChangeToken')
+  final String changeToken;
+
+  /// The <code>RegexMatchSetId</code> of the <a>RegexMatchSet</a> that you want
+  /// to update. <code>RegexMatchSetId</code> is returned by
+  /// <a>CreateRegexMatchSet</a> and by <a>ListRegexMatchSets</a>.
+  @_s.JsonKey(name: 'RegexMatchSetId')
+  final String regexMatchSetId;
+
+  /// An array of <code>RegexMatchSetUpdate</code> objects that you want to insert
+  /// into or delete from a <a>RegexMatchSet</a>. For more information, see
+  /// <a>RegexMatchTuple</a>.
+  @_s.JsonKey(name: 'Updates')
+  final List<RegexMatchSetUpdate> updates;
+
+  UpdateRegexMatchSetRequest({
+    @_s.required this.changeToken,
+    @_s.required this.regexMatchSetId,
+    @_s.required this.updates,
+  });
+  Map<String, dynamic> toJson() => _$UpdateRegexMatchSetRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10471,6 +12248,35 @@ class UpdateRegexMatchSetResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateRegexPatternSetRequest {
+  /// The value returned by the most recent call to <a>GetChangeToken</a>.
+  @_s.JsonKey(name: 'ChangeToken')
+  final String changeToken;
+
+  /// The <code>RegexPatternSetId</code> of the <a>RegexPatternSet</a> that you
+  /// want to update. <code>RegexPatternSetId</code> is returned by
+  /// <a>CreateRegexPatternSet</a> and by <a>ListRegexPatternSets</a>.
+  @_s.JsonKey(name: 'RegexPatternSetId')
+  final String regexPatternSetId;
+
+  /// An array of <code>RegexPatternSetUpdate</code> objects that you want to
+  /// insert into or delete from a <a>RegexPatternSet</a>.
+  @_s.JsonKey(name: 'Updates')
+  final List<RegexPatternSetUpdate> updates;
+
+  UpdateRegexPatternSetRequest({
+    @_s.required this.changeToken,
+    @_s.required this.regexPatternSetId,
+    @_s.required this.updates,
+  });
+  Map<String, dynamic> toJson() => _$UpdateRegexPatternSetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateRegexPatternSetResponse {
@@ -10486,6 +12292,43 @@ class UpdateRegexPatternSetResponse {
   });
   factory UpdateRegexPatternSetResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateRegexPatternSetResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateRuleGroupRequest {
+  /// The value returned by the most recent call to <a>GetChangeToken</a>.
+  @_s.JsonKey(name: 'ChangeToken')
+  final String changeToken;
+
+  /// The <code>RuleGroupId</code> of the <a>RuleGroup</a> that you want to
+  /// update. <code>RuleGroupId</code> is returned by <a>CreateRuleGroup</a> and
+  /// by <a>ListRuleGroups</a>.
+  @_s.JsonKey(name: 'RuleGroupId')
+  final String ruleGroupId;
+
+  /// An array of <code>RuleGroupUpdate</code> objects that you want to insert
+  /// into or delete from a <a>RuleGroup</a>.
+  ///
+  /// You can only insert <code>REGULAR</code> rules into a rule group.
+  ///
+  /// <code>ActivatedRule|OverrideAction</code> applies only when updating or
+  /// adding a <code>RuleGroup</code> to a <code>WebACL</code>. In this case you
+  /// do not use <code>ActivatedRule|Action</code>. For all other update requests,
+  /// <code>ActivatedRule|Action</code> is used instead of
+  /// <code>ActivatedRule|OverrideAction</code>.
+  @_s.JsonKey(name: 'Updates')
+  final List<RuleGroupUpdate> updates;
+
+  UpdateRuleGroupRequest({
+    @_s.required this.changeToken,
+    @_s.required this.ruleGroupId,
+    @_s.required this.updates,
+  });
+  Map<String, dynamic> toJson() => _$UpdateRuleGroupRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -10511,6 +12354,49 @@ class UpdateRuleGroupResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateRuleRequest {
+  /// The value returned by the most recent call to <a>GetChangeToken</a>.
+  @_s.JsonKey(name: 'ChangeToken')
+  final String changeToken;
+
+  /// The <code>RuleId</code> of the <code>Rule</code> that you want to update.
+  /// <code>RuleId</code> is returned by <code>CreateRule</code> and by
+  /// <a>ListRules</a>.
+  @_s.JsonKey(name: 'RuleId')
+  final String ruleId;
+
+  /// An array of <code>RuleUpdate</code> objects that you want to insert into or
+  /// delete from a <a>Rule</a>. For more information, see the applicable data
+  /// types:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>RuleUpdate</a>: Contains <code>Action</code> and <code>Predicate</code>
+  /// </li>
+  /// <li>
+  /// <a>Predicate</a>: Contains <code>DataId</code>, <code>Negated</code>, and
+  /// <code>Type</code>
+  /// </li>
+  /// <li>
+  /// <a>FieldToMatch</a>: Contains <code>Data</code> and <code>Type</code>
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Updates')
+  final List<RuleUpdate> updates;
+
+  UpdateRuleRequest({
+    @_s.required this.changeToken,
+    @_s.required this.ruleId,
+    @_s.required this.updates,
+  });
+  Map<String, dynamic> toJson() => _$UpdateRuleRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateRuleResponse {
@@ -10531,6 +12417,51 @@ class UpdateRuleResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateSizeConstraintSetRequest {
+  /// The value returned by the most recent call to <a>GetChangeToken</a>.
+  @_s.JsonKey(name: 'ChangeToken')
+  final String changeToken;
+
+  /// The <code>SizeConstraintSetId</code> of the <a>SizeConstraintSet</a> that
+  /// you want to update. <code>SizeConstraintSetId</code> is returned by
+  /// <a>CreateSizeConstraintSet</a> and by <a>ListSizeConstraintSets</a>.
+  @_s.JsonKey(name: 'SizeConstraintSetId')
+  final String sizeConstraintSetId;
+
+  /// An array of <code>SizeConstraintSetUpdate</code> objects that you want to
+  /// insert into or delete from a <a>SizeConstraintSet</a>. For more information,
+  /// see the applicable data types:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>SizeConstraintSetUpdate</a>: Contains <code>Action</code> and
+  /// <code>SizeConstraint</code>
+  /// </li>
+  /// <li>
+  /// <a>SizeConstraint</a>: Contains <code>FieldToMatch</code>,
+  /// <code>TextTransformation</code>, <code>ComparisonOperator</code>, and
+  /// <code>Size</code>
+  /// </li>
+  /// <li>
+  /// <a>FieldToMatch</a>: Contains <code>Data</code> and <code>Type</code>
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Updates')
+  final List<SizeConstraintSetUpdate> updates;
+
+  UpdateSizeConstraintSetRequest({
+    @_s.required this.changeToken,
+    @_s.required this.sizeConstraintSetId,
+    @_s.required this.updates,
+  });
+  Map<String, dynamic> toJson() => _$UpdateSizeConstraintSetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateSizeConstraintSetResponse {
@@ -10546,6 +12477,53 @@ class UpdateSizeConstraintSetResponse {
   });
   factory UpdateSizeConstraintSetResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateSizeConstraintSetResponseFromJson(json);
+}
+
+/// A request to update a <a>SqlInjectionMatchSet</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateSqlInjectionMatchSetRequest {
+  /// The value returned by the most recent call to <a>GetChangeToken</a>.
+  @_s.JsonKey(name: 'ChangeToken')
+  final String changeToken;
+
+  /// The <code>SqlInjectionMatchSetId</code> of the
+  /// <code>SqlInjectionMatchSet</code> that you want to update.
+  /// <code>SqlInjectionMatchSetId</code> is returned by
+  /// <a>CreateSqlInjectionMatchSet</a> and by <a>ListSqlInjectionMatchSets</a>.
+  @_s.JsonKey(name: 'SqlInjectionMatchSetId')
+  final String sqlInjectionMatchSetId;
+
+  /// An array of <code>SqlInjectionMatchSetUpdate</code> objects that you want to
+  /// insert into or delete from a <a>SqlInjectionMatchSet</a>. For more
+  /// information, see the applicable data types:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>SqlInjectionMatchSetUpdate</a>: Contains <code>Action</code> and
+  /// <code>SqlInjectionMatchTuple</code>
+  /// </li>
+  /// <li>
+  /// <a>SqlInjectionMatchTuple</a>: Contains <code>FieldToMatch</code> and
+  /// <code>TextTransformation</code>
+  /// </li>
+  /// <li>
+  /// <a>FieldToMatch</a>: Contains <code>Data</code> and <code>Type</code>
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Updates')
+  final List<SqlInjectionMatchSetUpdate> updates;
+
+  UpdateSqlInjectionMatchSetRequest({
+    @_s.required this.changeToken,
+    @_s.required this.sqlInjectionMatchSetId,
+    @_s.required this.updates,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateSqlInjectionMatchSetRequestToJson(this);
 }
 
 /// The response to an <a>UpdateSqlInjectionMatchSets</a> request.
@@ -10573,6 +12551,64 @@ class UpdateSqlInjectionMatchSetResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateWebACLRequest {
+  /// The value returned by the most recent call to <a>GetChangeToken</a>.
+  @_s.JsonKey(name: 'ChangeToken')
+  final String changeToken;
+
+  /// The <code>WebACLId</code> of the <a>WebACL</a> that you want to update.
+  /// <code>WebACLId</code> is returned by <a>CreateWebACL</a> and by
+  /// <a>ListWebACLs</a>.
+  @_s.JsonKey(name: 'WebACLId')
+  final String webACLId;
+
+  /// A default action for the web ACL, either ALLOW or BLOCK. AWS WAF performs
+  /// the default action if a request doesn't match the criteria in any of the
+  /// rules in a web ACL.
+  @_s.JsonKey(name: 'DefaultAction')
+  final WafAction defaultAction;
+
+  /// An array of updates to make to the <a>WebACL</a>.
+  ///
+  /// An array of <code>WebACLUpdate</code> objects that you want to insert into
+  /// or delete from a <a>WebACL</a>. For more information, see the applicable
+  /// data types:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>WebACLUpdate</a>: Contains <code>Action</code> and
+  /// <code>ActivatedRule</code>
+  /// </li>
+  /// <li>
+  /// <a>ActivatedRule</a>: Contains <code>Action</code>,
+  /// <code>OverrideAction</code>, <code>Priority</code>, <code>RuleId</code>, and
+  /// <code>Type</code>. <code>ActivatedRule|OverrideAction</code> applies only
+  /// when updating or adding a <code>RuleGroup</code> to a <code>WebACL</code>.
+  /// In this case, you do not use <code>ActivatedRule|Action</code>. For all
+  /// other update requests, <code>ActivatedRule|Action</code> is used instead of
+  /// <code>ActivatedRule|OverrideAction</code>.
+  /// </li>
+  /// <li>
+  /// <a>WafAction</a>: Contains <code>Type</code>
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Updates')
+  final List<WebACLUpdate> updates;
+
+  UpdateWebACLRequest({
+    @_s.required this.changeToken,
+    @_s.required this.webACLId,
+    this.defaultAction,
+    this.updates,
+  });
+  Map<String, dynamic> toJson() => _$UpdateWebACLRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateWebACLResponse {
@@ -10588,6 +12624,51 @@ class UpdateWebACLResponse {
   });
   factory UpdateWebACLResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateWebACLResponseFromJson(json);
+}
+
+/// A request to update an <a>XssMatchSet</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateXssMatchSetRequest {
+  /// The value returned by the most recent call to <a>GetChangeToken</a>.
+  @_s.JsonKey(name: 'ChangeToken')
+  final String changeToken;
+
+  /// An array of <code>XssMatchSetUpdate</code> objects that you want to insert
+  /// into or delete from an <a>XssMatchSet</a>. For more information, see the
+  /// applicable data types:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>XssMatchSetUpdate</a>: Contains <code>Action</code> and
+  /// <code>XssMatchTuple</code>
+  /// </li>
+  /// <li>
+  /// <a>XssMatchTuple</a>: Contains <code>FieldToMatch</code> and
+  /// <code>TextTransformation</code>
+  /// </li>
+  /// <li>
+  /// <a>FieldToMatch</a>: Contains <code>Data</code> and <code>Type</code>
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Updates')
+  final List<XssMatchSetUpdate> updates;
+
+  /// The <code>XssMatchSetId</code> of the <code>XssMatchSet</code> that you want
+  /// to update. <code>XssMatchSetId</code> is returned by
+  /// <a>CreateXssMatchSet</a> and by <a>ListXssMatchSets</a>.
+  @_s.JsonKey(name: 'XssMatchSetId')
+  final String xssMatchSetId;
+
+  UpdateXssMatchSetRequest({
+    @_s.required this.changeToken,
+    @_s.required this.updates,
+    @_s.required this.xssMatchSetId,
+  });
+  Map<String, dynamic> toJson() => _$UpdateXssMatchSetRequestToJson(this);
 }
 
 /// The response to an <a>UpdateXssMatchSets</a> request.

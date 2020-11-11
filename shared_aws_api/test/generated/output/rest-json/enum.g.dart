@@ -15,6 +15,21 @@ OutputShape _$OutputShapeFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$OutputShapeToJson(OutputShape instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FooEnum', _$RESTJSONEnumTypeEnumMap[instance.fooEnum]);
+  writeNotNull('x-amz-enum', _$RESTJSONEnumTypeEnumMap[instance.headerEnum]);
+  writeNotNull('ListEnums', instance.listEnums);
+  return val;
+}
+
 T _$enumDecode<T>(
   Map<T, dynamic> enumValues,
   dynamic source, {

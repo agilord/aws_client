@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -74,11 +73,11 @@ class Backup {
     String creatorRequestId,
   }) async {
     ArgumentError.checkNotNull(backupPlan, 'backupPlan');
-    final $payload = <String, dynamic>{
-      'BackupPlan': backupPlan,
-      if (backupPlanTags != null) 'BackupPlanTags': backupPlanTags,
-      if (creatorRequestId != null) 'CreatorRequestId': creatorRequestId,
-    };
+    final $payload = CreateBackupPlanInput(
+      backupPlan: backupPlan,
+      backupPlanTags: backupPlanTags,
+      creatorRequestId: creatorRequestId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -148,10 +147,11 @@ class Backup {
   }) async {
     ArgumentError.checkNotNull(backupPlanId, 'backupPlanId');
     ArgumentError.checkNotNull(backupSelection, 'backupSelection');
-    final $payload = <String, dynamic>{
-      'BackupSelection': backupSelection,
-      if (creatorRequestId != null) 'CreatorRequestId': creatorRequestId,
-    };
+    final $payload = CreateBackupSelectionInput(
+      backupPlanId: backupPlanId,
+      backupSelection: backupSelection,
+      creatorRequestId: creatorRequestId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -207,11 +207,12 @@ class Backup {
       r'''^[a-zA-Z0-9\-\_\.]{1,50}$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (backupVaultTags != null) 'BackupVaultTags': backupVaultTags,
-      if (creatorRequestId != null) 'CreatorRequestId': creatorRequestId,
-      if (encryptionKeyArn != null) 'EncryptionKeyArn': encryptionKeyArn,
-    };
+    final $payload = CreateBackupVaultInput(
+      backupVaultName: backupVaultName,
+      backupVaultTags: backupVaultTags,
+      creatorRequestId: creatorRequestId,
+      encryptionKeyArn: encryptionKeyArn,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -239,7 +240,9 @@ class Backup {
     @_s.required String backupPlanId,
   }) async {
     ArgumentError.checkNotNull(backupPlanId, 'backupPlanId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteBackupPlanInput(
+      backupPlanId: backupPlanId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -270,7 +273,10 @@ class Backup {
   }) async {
     ArgumentError.checkNotNull(backupPlanId, 'backupPlanId');
     ArgumentError.checkNotNull(selectionId, 'selectionId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteBackupSelectionInput(
+      backupPlanId: backupPlanId,
+      selectionId: selectionId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -298,7 +304,9 @@ class Backup {
     @_s.required String backupVaultName,
   }) async {
     ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteBackupVaultInput(
+      backupVaultName: backupVaultName,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -330,7 +338,9 @@ class Backup {
       r'''^[a-zA-Z0-9\-\_\.]{1,50}$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteBackupVaultAccessPolicyInput(
+      backupVaultName: backupVaultName,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -362,7 +372,9 @@ class Backup {
       r'''^[a-zA-Z0-9\-\_\.]{1,50}$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteBackupVaultNotificationsInput(
+      backupVaultName: backupVaultName,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -402,7 +414,10 @@ class Backup {
       isRequired: true,
     );
     ArgumentError.checkNotNull(recoveryPointArn, 'recoveryPointArn');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteRecoveryPointInput(
+      backupVaultName: backupVaultName,
+      recoveryPointArn: recoveryPointArn,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -645,9 +660,9 @@ class Backup {
   }) async {
     ArgumentError.checkNotNull(
         backupPlanTemplateJson, 'backupPlanTemplateJson');
-    final $payload = <String, dynamic>{
-      'BackupPlanTemplateJson': backupPlanTemplateJson,
-    };
+    final $payload = GetBackupPlanFromJSONInput(
+      backupPlanTemplateJson: backupPlanTemplateJson,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1548,9 +1563,10 @@ class Backup {
       r'''^[a-zA-Z0-9\-\_\.]{1,50}$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      if (policy != null) 'Policy': policy,
-    };
+    final $payload = PutBackupVaultAccessPolicyInput(
+      backupVaultName: backupVaultName,
+      policy: policy,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1596,10 +1612,11 @@ class Backup {
       isRequired: true,
     );
     ArgumentError.checkNotNull(sNSTopicArn, 'sNSTopicArn');
-    final $payload = <String, dynamic>{
-      'BackupVaultEvents': backupVaultEvents,
-      'SNSTopicArn': sNSTopicArn,
-    };
+    final $payload = PutBackupVaultNotificationsInput(
+      backupVaultEvents: backupVaultEvents,
+      backupVaultName: backupVaultName,
+      sNSTopicArn: sNSTopicArn,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1675,17 +1692,16 @@ class Backup {
     );
     ArgumentError.checkNotNull(iamRoleArn, 'iamRoleArn');
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    final $payload = <String, dynamic>{
-      'BackupVaultName': backupVaultName,
-      'IamRoleArn': iamRoleArn,
-      'ResourceArn': resourceArn,
-      if (completeWindowMinutes != null)
-        'CompleteWindowMinutes': completeWindowMinutes,
-      if (idempotencyToken != null) 'IdempotencyToken': idempotencyToken,
-      if (lifecycle != null) 'Lifecycle': lifecycle,
-      if (recoveryPointTags != null) 'RecoveryPointTags': recoveryPointTags,
-      if (startWindowMinutes != null) 'StartWindowMinutes': startWindowMinutes,
-    };
+    final $payload = StartBackupJobInput(
+      backupVaultName: backupVaultName,
+      iamRoleArn: iamRoleArn,
+      resourceArn: resourceArn,
+      completeWindowMinutes: completeWindowMinutes,
+      idempotencyToken: idempotencyToken,
+      lifecycle: lifecycle,
+      recoveryPointTags: recoveryPointTags,
+      startWindowMinutes: startWindowMinutes,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1745,14 +1761,14 @@ class Backup {
       r'''^[a-zA-Z0-9\-\_\.]{1,50}$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'DestinationBackupVaultArn': destinationBackupVaultArn,
-      'IamRoleArn': iamRoleArn,
-      'RecoveryPointArn': recoveryPointArn,
-      'SourceBackupVaultName': sourceBackupVaultName,
-      if (idempotencyToken != null) 'IdempotencyToken': idempotencyToken,
-      if (lifecycle != null) 'Lifecycle': lifecycle,
-    };
+    final $payload = StartCopyJobInput(
+      destinationBackupVaultArn: destinationBackupVaultArn,
+      iamRoleArn: iamRoleArn,
+      recoveryPointArn: recoveryPointArn,
+      sourceBackupVaultName: sourceBackupVaultName,
+      idempotencyToken: idempotencyToken,
+      lifecycle: lifecycle,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1865,13 +1881,13 @@ class Backup {
       resourceType,
       r'''^[a-zA-Z0-9\-\_\.]{1,50}$''',
     );
-    final $payload = <String, dynamic>{
-      'IamRoleArn': iamRoleArn,
-      'Metadata': metadata,
-      'RecoveryPointArn': recoveryPointArn,
-      if (idempotencyToken != null) 'IdempotencyToken': idempotencyToken,
-      if (resourceType != null) 'ResourceType': resourceType,
-    };
+    final $payload = StartRestoreJobInput(
+      iamRoleArn: iamRoleArn,
+      metadata: metadata,
+      recoveryPointArn: recoveryPointArn,
+      idempotencyToken: idempotencyToken,
+      resourceType: resourceType,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1895,7 +1911,9 @@ class Backup {
     @_s.required String backupJobId,
   }) async {
     ArgumentError.checkNotNull(backupJobId, 'backupJobId');
-    final $payload = <String, dynamic>{};
+    final $payload = StopBackupJobInput(
+      backupJobId: backupJobId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1926,9 +1944,10 @@ class Backup {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'Tags': tags,
-    };
+    final $payload = TagResourceInput(
+      resourceArn: resourceArn,
+      tags: tags,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1957,9 +1976,10 @@ class Backup {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeyList, 'tagKeyList');
-    final $payload = <String, dynamic>{
-      'TagKeyList': tagKeyList,
-    };
+    final $payload = UntagResourceInput(
+      resourceArn: resourceArn,
+      tagKeyList: tagKeyList,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1989,9 +2009,10 @@ class Backup {
   }) async {
     ArgumentError.checkNotNull(backupPlan, 'backupPlan');
     ArgumentError.checkNotNull(backupPlanId, 'backupPlanId');
-    final $payload = <String, dynamic>{
-      'BackupPlan': backupPlan,
-    };
+    final $payload = UpdateBackupPlanInput(
+      backupPlan: backupPlan,
+      backupPlanId: backupPlanId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2053,9 +2074,11 @@ class Backup {
       isRequired: true,
     );
     ArgumentError.checkNotNull(recoveryPointArn, 'recoveryPointArn');
-    final $payload = <String, dynamic>{
-      if (lifecycle != null) 'Lifecycle': lifecycle,
-    };
+    final $payload = UpdateRecoveryPointLifecycleInput(
+      backupVaultName: backupVaultName,
+      recoveryPointArn: recoveryPointArn,
+      lifecycle: lifecycle,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -2925,6 +2948,38 @@ enum CopyJobState {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateBackupPlanInput {
+  /// Specifies the body of a backup plan. Includes a <code>BackupPlanName</code>
+  /// and one or more sets of <code>Rules</code>.
+  @_s.JsonKey(name: 'BackupPlan')
+  final BackupPlanInput backupPlan;
+
+  /// To help organize your resources, you can assign your own metadata to the
+  /// resources that you create. Each tag is a key-value pair. The specified tags
+  /// are assigned to all backups created with this plan.
+  @_s.JsonKey(name: 'BackupPlanTags')
+  final Map<String, String> backupPlanTags;
+
+  /// Identifies the request and allows failed requests to be retried without the
+  /// risk of executing the operation twice. If the request includes a
+  /// <code>CreatorRequestId</code> that matches an existing backup plan, that
+  /// plan is returned. This parameter is optional.
+  @_s.JsonKey(name: 'CreatorRequestId')
+  final String creatorRequestId;
+
+  CreateBackupPlanInput({
+    @_s.required this.backupPlan,
+    this.backupPlanTags,
+    this.creatorRequestId,
+  });
+  Map<String, dynamic> toJson() => _$CreateBackupPlanInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateBackupPlanOutput {
@@ -2966,6 +3021,35 @@ class CreateBackupPlanOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateBackupSelectionInput {
+  /// Uniquely identifies the backup plan to be associated with the selection of
+  /// resources.
+  @_s.JsonKey(name: 'backupPlanId', ignore: true)
+  final String backupPlanId;
+
+  /// Specifies the body of a request to assign a set of resources to a backup
+  /// plan.
+  @_s.JsonKey(name: 'BackupSelection')
+  final BackupSelection backupSelection;
+
+  /// A unique string that identifies the request and allows failed requests to be
+  /// retried without the risk of executing the operation twice.
+  @_s.JsonKey(name: 'CreatorRequestId')
+  final String creatorRequestId;
+
+  CreateBackupSelectionInput({
+    @_s.required this.backupPlanId,
+    @_s.required this.backupSelection,
+    this.creatorRequestId,
+  });
+  Map<String, dynamic> toJson() => _$CreateBackupSelectionInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateBackupSelectionOutput {
@@ -2995,6 +3079,44 @@ class CreateBackupSelectionOutput {
   });
   factory CreateBackupSelectionOutput.fromJson(Map<String, dynamic> json) =>
       _$CreateBackupSelectionOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateBackupVaultInput {
+  /// The name of a logical container where backups are stored. Backup vaults are
+  /// identified by names that are unique to the account used to create them and
+  /// the AWS Region where they are created. They consist of lowercase letters,
+  /// numbers, and hyphens.
+  @_s.JsonKey(name: 'backupVaultName', ignore: true)
+  final String backupVaultName;
+
+  /// Metadata that you can assign to help organize the resources that you create.
+  /// Each tag is a key-value pair.
+  @_s.JsonKey(name: 'BackupVaultTags')
+  final Map<String, String> backupVaultTags;
+
+  /// A unique string that identifies the request and allows failed requests to be
+  /// retried without the risk of executing the operation twice.
+  @_s.JsonKey(name: 'CreatorRequestId')
+  final String creatorRequestId;
+
+  /// The server-side encryption key that is used to protect your backups; for
+  /// example,
+  /// <code>arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>.
+  @_s.JsonKey(name: 'EncryptionKeyArn')
+  final String encryptionKeyArn;
+
+  CreateBackupVaultInput({
+    @_s.required this.backupVaultName,
+    this.backupVaultTags,
+    this.creatorRequestId,
+    this.encryptionKeyArn,
+  });
+  Map<String, dynamic> toJson() => _$CreateBackupVaultInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3038,6 +3160,22 @@ class CreateBackupVaultOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteBackupPlanInput {
+  /// Uniquely identifies a backup plan.
+  @_s.JsonKey(name: 'backupPlanId', ignore: true)
+  final String backupPlanId;
+
+  DeleteBackupPlanInput({
+    @_s.required this.backupPlanId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteBackupPlanInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteBackupPlanOutput {
@@ -3074,6 +3212,113 @@ class DeleteBackupPlanOutput {
   });
   factory DeleteBackupPlanOutput.fromJson(Map<String, dynamic> json) =>
       _$DeleteBackupPlanOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteBackupSelectionInput {
+  /// Uniquely identifies a backup plan.
+  @_s.JsonKey(name: 'backupPlanId', ignore: true)
+  final String backupPlanId;
+
+  /// Uniquely identifies the body of a request to assign a set of resources to a
+  /// backup plan.
+  @_s.JsonKey(name: 'selectionId', ignore: true)
+  final String selectionId;
+
+  DeleteBackupSelectionInput({
+    @_s.required this.backupPlanId,
+    @_s.required this.selectionId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteBackupSelectionInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteBackupVaultAccessPolicyInput {
+  /// The name of a logical container where backups are stored. Backup vaults are
+  /// identified by names that are unique to the account used to create them and
+  /// the AWS Region where they are created. They consist of lowercase letters,
+  /// numbers, and hyphens.
+  @_s.JsonKey(name: 'backupVaultName', ignore: true)
+  final String backupVaultName;
+
+  DeleteBackupVaultAccessPolicyInput({
+    @_s.required this.backupVaultName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteBackupVaultAccessPolicyInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteBackupVaultInput {
+  /// The name of a logical container where backups are stored. Backup vaults are
+  /// identified by names that are unique to the account used to create them and
+  /// theAWS Region where they are created. They consist of lowercase letters,
+  /// numbers, and hyphens.
+  @_s.JsonKey(name: 'backupVaultName', ignore: true)
+  final String backupVaultName;
+
+  DeleteBackupVaultInput({
+    @_s.required this.backupVaultName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteBackupVaultInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteBackupVaultNotificationsInput {
+  /// The name of a logical container where backups are stored. Backup vaults are
+  /// identified by names that are unique to the account used to create them and
+  /// the Region where they are created. They consist of lowercase letters,
+  /// numbers, and hyphens.
+  @_s.JsonKey(name: 'backupVaultName', ignore: true)
+  final String backupVaultName;
+
+  DeleteBackupVaultNotificationsInput({
+    @_s.required this.backupVaultName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteBackupVaultNotificationsInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteRecoveryPointInput {
+  /// The name of a logical container where backups are stored. Backup vaults are
+  /// identified by names that are unique to the account used to create them and
+  /// the AWS Region where they are created. They consist of lowercase letters,
+  /// numbers, and hyphens.
+  @_s.JsonKey(name: 'backupVaultName', ignore: true)
+  final String backupVaultName;
+
+  /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for
+  /// example,
+  /// <code>arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45</code>.
+  @_s.JsonKey(name: 'recoveryPointArn', ignore: true)
+  final String recoveryPointArn;
+
+  DeleteRecoveryPointInput({
+    @_s.required this.backupVaultName,
+    @_s.required this.recoveryPointArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteRecoveryPointInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3574,6 +3819,22 @@ class ExportBackupPlanTemplateOutput {
   });
   factory ExportBackupPlanTemplateOutput.fromJson(Map<String, dynamic> json) =>
       _$ExportBackupPlanTemplateOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetBackupPlanFromJSONInput {
+  /// A customer-supplied backup plan document in JSON format.
+  @_s.JsonKey(name: 'BackupPlanTemplateJson')
+  final String backupPlanTemplateJson;
+
+  GetBackupPlanFromJSONInput({
+    @_s.required this.backupPlanTemplateJson,
+  });
+  Map<String, dynamic> toJson() => _$GetBackupPlanFromJSONInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4262,6 +4523,64 @@ class ProtectedResource {
       _$ProtectedResourceFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutBackupVaultAccessPolicyInput {
+  /// The name of a logical container where backups are stored. Backup vaults are
+  /// identified by names that are unique to the account used to create them and
+  /// the AWS Region where they are created. They consist of lowercase letters,
+  /// numbers, and hyphens.
+  @_s.JsonKey(name: 'backupVaultName', ignore: true)
+  final String backupVaultName;
+
+  /// The backup vault access policy document in JSON format.
+  @_s.JsonKey(name: 'Policy')
+  final String policy;
+
+  PutBackupVaultAccessPolicyInput({
+    @_s.required this.backupVaultName,
+    this.policy,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutBackupVaultAccessPolicyInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutBackupVaultNotificationsInput {
+  /// An array of events that indicate the status of jobs to back up resources to
+  /// the backup vault.
+  @_s.JsonKey(name: 'BackupVaultEvents')
+  final List<String> backupVaultEvents;
+
+  /// The name of a logical container where backups are stored. Backup vaults are
+  /// identified by names that are unique to the account used to create them and
+  /// the AWS Region where they are created. They consist of lowercase letters,
+  /// numbers, and hyphens.
+  @_s.JsonKey(name: 'backupVaultName', ignore: true)
+  final String backupVaultName;
+
+  /// The Amazon Resource Name (ARN) that specifies the topic for a backup vault’s
+  /// events; for example,
+  /// <code>arn:aws:sns:us-west-2:111122223333:MyVaultTopic</code>.
+  @_s.JsonKey(name: 'SNSTopicArn')
+  final String sNSTopicArn;
+
+  PutBackupVaultNotificationsInput({
+    @_s.required this.backupVaultEvents,
+    @_s.required this.backupVaultName,
+    @_s.required this.sNSTopicArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutBackupVaultNotificationsInputToJson(this);
+}
+
 /// Contains detailed information about the recovery points stored in a backup
 /// vault.
 @_s.JsonSerializable(
@@ -4608,6 +4927,73 @@ class RestoreJobsListMember {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartBackupJobInput {
+  /// The name of a logical container where backups are stored. Backup vaults are
+  /// identified by names that are unique to the account used to create them and
+  /// the AWS Region where they are created. They consist of lowercase letters,
+  /// numbers, and hyphens.
+  @_s.JsonKey(name: 'BackupVaultName')
+  final String backupVaultName;
+
+  /// Specifies the IAM role ARN used to create the target recovery point; for
+  /// example, <code>arn:aws:iam::123456789012:role/S3Access</code>.
+  @_s.JsonKey(name: 'IamRoleArn')
+  final String iamRoleArn;
+
+  /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The
+  /// format of the ARN depends on the resource type.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// The amount of time AWS Backup attempts a backup before canceling the job and
+  /// returning an error.
+  @_s.JsonKey(name: 'CompleteWindowMinutes')
+  final int completeWindowMinutes;
+
+  /// A customer chosen string that can be used to distinguish between calls to
+  /// <code>StartBackupJob</code>.
+  @_s.JsonKey(name: 'IdempotencyToken')
+  final String idempotencyToken;
+
+  /// The lifecycle defines when a protected resource is transitioned to cold
+  /// storage and when it expires. AWS Backup will transition and expire backups
+  /// automatically according to the lifecycle that you define.
+  ///
+  /// Backups transitioned to cold storage must be stored in cold storage for a
+  /// minimum of 90 days. Therefore, the “expire after days” setting must be 90
+  /// days greater than the “transition to cold after days” setting. The
+  /// “transition to cold after days” setting cannot be changed after a backup has
+  /// been transitioned to cold.
+  @_s.JsonKey(name: 'Lifecycle')
+  final Lifecycle lifecycle;
+
+  /// To help organize your resources, you can assign your own metadata to the
+  /// resources that you create. Each tag is a key-value pair.
+  @_s.JsonKey(name: 'RecoveryPointTags')
+  final Map<String, String> recoveryPointTags;
+
+  /// The amount of time in minutes before beginning a backup.
+  @_s.JsonKey(name: 'StartWindowMinutes')
+  final int startWindowMinutes;
+
+  StartBackupJobInput({
+    @_s.required this.backupVaultName,
+    @_s.required this.iamRoleArn,
+    @_s.required this.resourceArn,
+    this.completeWindowMinutes,
+    this.idempotencyToken,
+    this.lifecycle,
+    this.recoveryPointTags,
+    this.startWindowMinutes,
+  });
+  Map<String, dynamic> toJson() => _$StartBackupJobInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartBackupJobOutput {
@@ -4642,6 +5028,54 @@ class StartBackupJobOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartCopyJobInput {
+  /// An Amazon Resource Name (ARN) that uniquely identifies a destination backup
+  /// vault to copy to; for example,
+  /// <code>arn:aws:backup:us-east-1:123456789012:vault:aBackupVault</code>.
+  @_s.JsonKey(name: 'DestinationBackupVaultArn')
+  final String destinationBackupVaultArn;
+
+  /// Specifies the IAM role ARN used to copy the target recovery point; for
+  /// example, arn:aws:iam::123456789012:role/S3Access.
+  @_s.JsonKey(name: 'IamRoleArn')
+  final String iamRoleArn;
+
+  /// An ARN that uniquely identifies a recovery point to use for the copy job;
+  /// for example,
+  /// arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
+  @_s.JsonKey(name: 'RecoveryPointArn')
+  final String recoveryPointArn;
+
+  /// The name of a logical source container where backups are stored. Backup
+  /// vaults are identified by names that are unique to the account used to create
+  /// them and the AWS Region where they are created. They consist of lowercase
+  /// letters, numbers, and hyphens. &gt;
+  @_s.JsonKey(name: 'SourceBackupVaultName')
+  final String sourceBackupVaultName;
+
+  /// A customer chosen string that can be used to distinguish between calls to
+  /// <code>StartCopyJob</code>.
+  @_s.JsonKey(name: 'IdempotencyToken')
+  final String idempotencyToken;
+  @_s.JsonKey(name: 'Lifecycle')
+  final Lifecycle lifecycle;
+
+  StartCopyJobInput({
+    @_s.required this.destinationBackupVaultArn,
+    @_s.required this.iamRoleArn,
+    @_s.required this.recoveryPointArn,
+    @_s.required this.sourceBackupVaultName,
+    this.idempotencyToken,
+    this.lifecycle,
+  });
+  Map<String, dynamic> toJson() => _$StartCopyJobInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartCopyJobOutput {
@@ -4670,6 +5104,103 @@ class StartCopyJobOutput {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartRestoreJobInput {
+  /// The Amazon Resource Name (ARN) of the IAM role that AWS Backup uses to
+  /// create the target recovery point; for example,
+  /// <code>arn:aws:iam::123456789012:role/S3Access</code>.
+  @_s.JsonKey(name: 'IamRoleArn')
+  final String iamRoleArn;
+
+  /// A set of metadata key-value pairs. Contains information, such as a resource
+  /// name, required to restore a recovery point.
+  ///
+  /// You can get configuration metadata about a resource at the time it was
+  /// backed-up by calling <code>GetRecoveryPointRestoreMetadata</code>. However,
+  /// values in addition to those provided by
+  /// <code>GetRecoveryPointRestoreMetadata</code> might be required to restore a
+  /// resource. For example, you might need to provide a new resource name if the
+  /// original already exists.
+  ///
+  /// You need to specify specific metadata to restore an Amazon Elastic File
+  /// System (Amazon EFS) instance:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>file-system-id</code>: ID of the Amazon EFS file system that is backed
+  /// up by AWS Backup. Returned in <code>GetRecoveryPointRestoreMetadata</code>.
+  /// </li>
+  /// <li>
+  /// <code>Encrypted</code>: A Boolean value that, if true, specifies that the
+  /// file system is encrypted. If <code>KmsKeyId</code> is specified,
+  /// <code>Encrypted</code> must be set to <code>true</code>.
+  /// </li>
+  /// <li>
+  /// <code>KmsKeyId</code>: Specifies the AWS KMS key that is used to encrypt the
+  /// restored file system.
+  /// </li>
+  /// <li>
+  /// <code>PerformanceMode</code>: Specifies the throughput mode of the file
+  /// system.
+  /// </li>
+  /// <li>
+  /// <code>CreationToken</code>: A user-supplied value that ensures the
+  /// uniqueness (idempotency) of the request.
+  /// </li>
+  /// <li>
+  /// <code>newFileSystem</code>: A Boolean value that, if true, specifies that
+  /// the recovery point is restored to a new Amazon EFS file system.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Metadata')
+  final Map<String, String> metadata;
+
+  /// An ARN that uniquely identifies a recovery point; for example,
+  /// <code>arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45</code>.
+  @_s.JsonKey(name: 'RecoveryPointArn')
+  final String recoveryPointArn;
+
+  /// A customer chosen string that can be used to distinguish between calls to
+  /// <code>StartRestoreJob</code>.
+  @_s.JsonKey(name: 'IdempotencyToken')
+  final String idempotencyToken;
+
+  /// Starts a job to restore a recovery point for one of the following resources:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>EBS</code> for Amazon Elastic Block Store
+  /// </li>
+  /// <li>
+  /// <code>Storage Gateway</code> for AWS Storage Gateway
+  /// </li>
+  /// <li>
+  /// <code>RDS</code> for Amazon Relational Database Service
+  /// </li>
+  /// <li>
+  /// <code>DDB</code> for Amazon DynamoDB
+  /// </li>
+  /// <li>
+  /// <code>EFS</code> for Amazon Elastic File System
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ResourceType')
+  final String resourceType;
+
+  StartRestoreJobInput({
+    @_s.required this.iamRoleArn,
+    @_s.required this.metadata,
+    @_s.required this.recoveryPointArn,
+    this.idempotencyToken,
+    this.resourceType,
+  });
+  Map<String, dynamic> toJson() => _$StartRestoreJobInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartRestoreJobOutput {
@@ -4684,6 +5215,22 @@ class StartRestoreJobOutput {
       _$StartRestoreJobOutputFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopBackupJobInput {
+  /// Uniquely identifies a request to AWS Backup to back up a resource.
+  @_s.JsonKey(name: 'backupJobId', ignore: true)
+  final String backupJobId;
+
+  StopBackupJobInput({
+    @_s.required this.backupJobId,
+  });
+  Map<String, dynamic> toJson() => _$StopBackupJobInputToJson(this);
+}
+
 enum StorageClass {
   @_s.JsonValue('WARM')
   warm,
@@ -4691,6 +5238,73 @@ enum StorageClass {
   cold,
   @_s.JsonValue('DELETED')
   deleted,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceInput {
+  /// An ARN that uniquely identifies a resource. The format of the ARN depends on
+  /// the type of the tagged resource.
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  /// Key-value pairs that are used to help organize your resources. You can
+  /// assign your own metadata to the resources you create.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  TagResourceInput({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceInput {
+  /// An ARN that uniquely identifies a resource. The format of the ARN depends on
+  /// the type of the tagged resource.
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  /// A list of keys to identify which key-value tags to remove from a resource.
+  @_s.JsonKey(name: 'TagKeyList')
+  final List<String> tagKeyList;
+
+  UntagResourceInput({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeyList,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateBackupPlanInput {
+  /// Specifies the body of a backup plan. Includes a <code>BackupPlanName</code>
+  /// and one or more sets of <code>Rules</code>.
+  @_s.JsonKey(name: 'BackupPlan')
+  final BackupPlanInput backupPlan;
+
+  /// Uniquely identifies a backup plan.
+  @_s.JsonKey(name: 'backupPlanId', ignore: true)
+  final String backupPlanId;
+
+  UpdateBackupPlanInput({
+    @_s.required this.backupPlan,
+    @_s.required this.backupPlanId,
+  });
+  Map<String, dynamic> toJson() => _$UpdateBackupPlanInputToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4732,6 +5346,46 @@ class UpdateBackupPlanOutput {
   });
   factory UpdateBackupPlanOutput.fromJson(Map<String, dynamic> json) =>
       _$UpdateBackupPlanOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateRecoveryPointLifecycleInput {
+  /// The name of a logical container where backups are stored. Backup vaults are
+  /// identified by names that are unique to the account used to create them and
+  /// the AWS Region where they are created. They consist of lowercase letters,
+  /// numbers, and hyphens.
+  @_s.JsonKey(name: 'backupVaultName', ignore: true)
+  final String backupVaultName;
+
+  /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for
+  /// example,
+  /// <code>arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45</code>.
+  @_s.JsonKey(name: 'recoveryPointArn', ignore: true)
+  final String recoveryPointArn;
+
+  /// The lifecycle defines when a protected resource is transitioned to cold
+  /// storage and when it expires. AWS Backup transitions and expires backups
+  /// automatically according to the lifecycle that you define.
+  ///
+  /// Backups transitioned to cold storage must be stored in cold storage for a
+  /// minimum of 90 days. Therefore, the “expire after days” setting must be 90
+  /// days greater than the “transition to cold after days” setting. The
+  /// “transition to cold after days” setting cannot be changed after a backup has
+  /// been transitioned to cold.
+  @_s.JsonKey(name: 'Lifecycle')
+  final Lifecycle lifecycle;
+
+  UpdateRecoveryPointLifecycleInput({
+    @_s.required this.backupVaultName,
+    @_s.required this.recoveryPointArn,
+    this.lifecycle,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateRecoveryPointLifecycleInputToJson(this);
 }
 
 @_s.JsonSerializable(

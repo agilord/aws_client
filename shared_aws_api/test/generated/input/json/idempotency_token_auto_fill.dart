@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -20,6 +19,8 @@ import 'package:shared_aws_api/shared.dart'
         unixTimestampToJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
+
+part 'idempotency_token_auto_fill.g.dart';
 
 /// Idempotency token auto fill
 class IdempotencyTokenAutoFill {
@@ -50,9 +51,9 @@ class IdempotencyTokenAutoFill {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (token != null) 'Token': token,
-      },
+      payload: InputShape(
+        token: token,
+      ),
     );
   }
 
@@ -69,11 +70,26 @@ class IdempotencyTokenAutoFill {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (token != null) 'Token': token,
-      },
+      payload: InputShape(
+        token: token,
+      ),
     );
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class InputShape {
+  @_s.JsonKey(name: 'Token')
+  final String token;
+
+  InputShape({
+    this.token,
+  });
+  Map<String, dynamic> toJson() => _$InputShapeToJson(this);
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

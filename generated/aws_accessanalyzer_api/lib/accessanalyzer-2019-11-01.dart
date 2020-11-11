@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -98,13 +97,13 @@ class AccessAnalyzer {
       isRequired: true,
     );
     ArgumentError.checkNotNull(type, 'type');
-    final $payload = <String, dynamic>{
-      'analyzerName': analyzerName,
-      'type': type?.toValue(),
-      if (archiveRules != null) 'archiveRules': archiveRules,
-      if (clientToken != null) 'clientToken': clientToken,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateAnalyzerRequest(
+      analyzerName: analyzerName,
+      type: type,
+      archiveRules: archiveRules,
+      clientToken: clientToken,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -172,11 +171,12 @@ class AccessAnalyzer {
       r'''^[A-Za-z][A-Za-z0-9_.-]*$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'filter': filter,
-      'ruleName': ruleName,
-      if (clientToken != null) 'clientToken': clientToken,
-    };
+    final $payload = CreateArchiveRuleRequest(
+      analyzerName: analyzerName,
+      filter: filter,
+      ruleName: ruleName,
+      clientToken: clientToken,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -224,7 +224,10 @@ class AccessAnalyzer {
     _query = '?${[
       if (clientToken != null) _s.toQueryParam('clientToken', clientToken),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteAnalyzerRequest(
+      analyzerName: analyzerName,
+      clientToken: clientToken,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -287,7 +290,11 @@ class AccessAnalyzer {
     _query = '?${[
       if (clientToken != null) _s.toQueryParam('clientToken', clientToken),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteArchiveRuleRequest(
+      analyzerName: analyzerName,
+      ruleName: ruleName,
+      clientToken: clientToken,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -504,12 +511,12 @@ class AccessAnalyzer {
       r'''^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'analyzerArn': analyzerArn,
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-      if (resourceType != null) 'resourceType': resourceType?.toValue(),
-    };
+    final $payload = ListAnalyzedResourcesRequest(
+      analyzerArn: analyzerArn,
+      maxResults: maxResults,
+      nextToken: nextToken,
+      resourceType: resourceType,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -639,13 +646,13 @@ class AccessAnalyzer {
       r'''^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'analyzerArn': analyzerArn,
-      if (filter != null) 'filter': filter,
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-      if (sort != null) 'sort': sort,
-    };
+    final $payload = ListFindingsRequest(
+      analyzerArn: analyzerArn,
+      filter: filter,
+      maxResults: maxResults,
+      nextToken: nextToken,
+      sort: sort,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -711,10 +718,10 @@ class AccessAnalyzer {
       r'''arn:[^:]*:[^:]*:[^:]*:[^:]*:.*$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'analyzerArn': analyzerArn,
-      'resourceArn': resourceArn,
-    };
+    final $payload = StartResourceScanRequest(
+      analyzerArn: analyzerArn,
+      resourceArn: resourceArn,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -742,9 +749,10 @@ class AccessAnalyzer {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'tags': tags,
-    };
+    final $payload = TagResourceRequest(
+      resourceArn: resourceArn,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -777,7 +785,10 @@ class AccessAnalyzer {
     _query = '?${[
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = UntagResourceRequest(
+      resourceArn: resourceArn,
+      tagKeys: tagKeys,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -842,10 +853,12 @@ class AccessAnalyzer {
       r'''^[A-Za-z][A-Za-z0-9_.-]*$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'filter': filter,
-      if (clientToken != null) 'clientToken': clientToken,
-    };
+    final $payload = UpdateArchiveRuleRequest(
+      analyzerName: analyzerName,
+      filter: filter,
+      ruleName: ruleName,
+      clientToken: clientToken,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -900,13 +913,13 @@ class AccessAnalyzer {
       resourceArn,
       r'''arn:[^:]*:[^:]*:[^:]*:[^:]*:.*$''',
     );
-    final $payload = <String, dynamic>{
-      'analyzerArn': analyzerArn,
-      'status': status?.toValue(),
-      if (clientToken != null) 'clientToken': clientToken,
-      if (ids != null) 'ids': ids,
-      if (resourceArn != null) 'resourceArn': resourceArn,
-    };
+    final $payload = UpdateFindingsRequest(
+      analyzerArn: analyzerArn,
+      status: status,
+      clientToken: clientToken,
+      ids: ids,
+      resourceArn: resourceArn,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1137,6 +1150,46 @@ class ArchiveRuleSummary {
       _$ArchiveRuleSummaryFromJson(json);
 }
 
+/// Creates an analyzer.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateAnalyzerRequest {
+  /// The name of the analyzer to create.
+  @_s.JsonKey(name: 'analyzerName')
+  final String analyzerName;
+
+  /// The type of analyzer to create. Only ACCOUNT analyzers are supported. You
+  /// can create only one analyzer per account per Region.
+  @_s.JsonKey(name: 'type')
+  final Type type;
+
+  /// Specifies the archive rules to add for the analyzer. Archive rules
+  /// automatically archive findings that meet the criteria you define for the
+  /// rule.
+  @_s.JsonKey(name: 'archiveRules')
+  final List<InlineArchiveRule> archiveRules;
+
+  /// A client token.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// The tags to apply to the analyzer.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateAnalyzerRequest({
+    @_s.required this.analyzerName,
+    @_s.required this.type,
+    this.archiveRules,
+    this.clientToken,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateAnalyzerRequestToJson(this);
+}
+
 /// The response to the request to create an analyzer.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1153,6 +1206,38 @@ class CreateAnalyzerResponse {
   });
   factory CreateAnalyzerResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateAnalyzerResponseFromJson(json);
+}
+
+/// Creates an archive rule.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateArchiveRuleRequest {
+  /// The name of the created analyzer.
+  @_s.JsonKey(name: 'analyzerName', ignore: true)
+  final String analyzerName;
+
+  /// The criteria for the rule.
+  @_s.JsonKey(name: 'filter')
+  final Map<String, Criterion> filter;
+
+  /// The name of the rule to create.
+  @_s.JsonKey(name: 'ruleName')
+  final String ruleName;
+
+  /// A client token.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  CreateArchiveRuleRequest({
+    @_s.required this.analyzerName,
+    @_s.required this.filter,
+    @_s.required this.ruleName,
+    this.clientToken,
+  });
+  Map<String, dynamic> toJson() => _$CreateArchiveRuleRequestToJson(this);
 }
 
 /// The criteria to use in the filter that defines the archive rule.
@@ -1188,6 +1273,55 @@ class Criterion {
       _$CriterionFromJson(json);
 
   Map<String, dynamic> toJson() => _$CriterionToJson(this);
+}
+
+/// Deletes an analyzer.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteAnalyzerRequest {
+  /// The name of the analyzer to delete.
+  @_s.JsonKey(name: 'analyzerName', ignore: true)
+  final String analyzerName;
+
+  /// A client token.
+  @_s.JsonKey(name: 'clientToken', ignore: true)
+  final String clientToken;
+
+  DeleteAnalyzerRequest({
+    @_s.required this.analyzerName,
+    this.clientToken,
+  });
+  Map<String, dynamic> toJson() => _$DeleteAnalyzerRequestToJson(this);
+}
+
+/// Deletes an archive rule.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteArchiveRuleRequest {
+  /// The name of the analyzer that associated with the archive rule to delete.
+  @_s.JsonKey(name: 'analyzerName', ignore: true)
+  final String analyzerName;
+
+  /// The name of the rule to delete.
+  @_s.JsonKey(name: 'ruleName', ignore: true)
+  final String ruleName;
+
+  /// A client token.
+  @_s.JsonKey(name: 'clientToken', ignore: true)
+  final String clientToken;
+
+  DeleteArchiveRuleRequest({
+    @_s.required this.analyzerName,
+    @_s.required this.ruleName,
+    this.clientToken,
+  });
+  Map<String, dynamic> toJson() => _$DeleteArchiveRuleRequestToJson(this);
 }
 
 /// Contains information about a finding.
@@ -1287,18 +1421,6 @@ enum FindingStatusUpdate {
   active,
   @_s.JsonValue('ARCHIVED')
   archived,
-}
-
-extension on FindingStatusUpdate {
-  String toValue() {
-    switch (this) {
-      case FindingStatusUpdate.active:
-        return 'ACTIVE';
-      case FindingStatusUpdate.archived:
-        return 'ARCHIVED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Contains information about a finding.
@@ -1482,6 +1604,38 @@ class InlineArchiveRule {
   Map<String, dynamic> toJson() => _$InlineArchiveRuleToJson(this);
 }
 
+/// Retrieves a list of resources that have been analyzed.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListAnalyzedResourcesRequest {
+  /// The ARN of the analyzer to retrieve a list of analyzed resources from.
+  @_s.JsonKey(name: 'analyzerArn')
+  final String analyzerArn;
+
+  /// The maximum number of results to return in the response.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// A token used for pagination of results returned.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The type of resource.
+  @_s.JsonKey(name: 'resourceType')
+  final ResourceType resourceType;
+
+  ListAnalyzedResourcesRequest({
+    @_s.required this.analyzerArn,
+    this.maxResults,
+    this.nextToken,
+    this.resourceType,
+  });
+  Map<String, dynamic> toJson() => _$ListAnalyzedResourcesRequestToJson(this);
+}
+
 /// The response to the request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1549,6 +1703,43 @@ class ListArchiveRulesResponse {
   });
   factory ListArchiveRulesResponse.fromJson(Map<String, dynamic> json) =>
       _$ListArchiveRulesResponseFromJson(json);
+}
+
+/// Retrieves a list of findings generated by the specified analyzer.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListFindingsRequest {
+  /// The ARN of the analyzer to retrieve findings from.
+  @_s.JsonKey(name: 'analyzerArn')
+  final String analyzerArn;
+
+  /// A filter to match for the findings to return.
+  @_s.JsonKey(name: 'filter')
+  final Map<String, Criterion> filter;
+
+  /// The maximum number of results to return in the response.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// A token used for pagination of results returned.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The sort order for the findings returned.
+  @_s.JsonKey(name: 'sort')
+  final SortCriteria sort;
+
+  ListFindingsRequest({
+    @_s.required this.analyzerArn,
+    this.filter,
+    this.maxResults,
+    this.nextToken,
+    this.sort,
+  });
+  Map<String, dynamic> toJson() => _$ListFindingsRequestToJson(this);
 }
 
 /// The response to the request.
@@ -1626,26 +1817,6 @@ enum ResourceType {
   awsSqsQueue,
 }
 
-extension on ResourceType {
-  String toValue() {
-    switch (this) {
-      case ResourceType.awsIamRole:
-        return 'AWS::IAM::Role';
-      case ResourceType.awsKmsKey:
-        return 'AWS::KMS::Key';
-      case ResourceType.awsLambdaFunction:
-        return 'AWS::Lambda::Function';
-      case ResourceType.awsLambdaLayerVersion:
-        return 'AWS::Lambda::LayerVersion';
-      case ResourceType.awsS3Bucket:
-        return 'AWS::S3::Bucket';
-      case ResourceType.awsSqsQueue:
-        return 'AWS::SQS::Queue';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// The criteria used to sort.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1666,6 +1837,29 @@ class SortCriteria {
     this.orderBy,
   });
   Map<String, dynamic> toJson() => _$SortCriteriaToJson(this);
+}
+
+/// Starts a scan of the policies applied to the specified resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartResourceScanRequest {
+  /// The ARN of the analyzer to use to scan the policies applied to the specified
+  /// resource.
+  @_s.JsonKey(name: 'analyzerArn')
+  final String analyzerArn;
+
+  /// The ARN of the resource to scan.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  StartResourceScanRequest({
+    @_s.required this.analyzerArn,
+    @_s.required this.resourceArn,
+  });
+  Map<String, dynamic> toJson() => _$StartResourceScanRequestToJson(this);
 }
 
 /// Provides more details about the current status of the analyzer. For example,
@@ -1690,6 +1884,28 @@ class StatusReason {
       _$StatusReasonFromJson(json);
 }
 
+/// Adds a tag to the specified resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The ARN of the resource to add the tag to.
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  /// The tags to add to the resource.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
 /// The response to the request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1709,16 +1925,26 @@ enum Type {
   organization,
 }
 
-extension on Type {
-  String toValue() {
-    switch (this) {
-      case Type.account:
-        return 'ACCOUNT';
-      case Type.organization:
-        return 'ORGANIZATION';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+/// Removes a tag from the specified resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The ARN of the resource to remove the tag from.
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  /// The key for the tag to add.
+  @_s.JsonKey(name: 'tagKeys', ignore: true)
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
 }
 
 /// The response to the request.
@@ -1731,6 +1957,78 @@ class UntagResourceResponse {
   UntagResourceResponse();
   factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceResponseFromJson(json);
+}
+
+/// Updates the specified archive rule.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateArchiveRuleRequest {
+  /// The name of the analyzer to update the archive rules for.
+  @_s.JsonKey(name: 'analyzerName', ignore: true)
+  final String analyzerName;
+
+  /// A filter to match for the rules to update. Only rules that match the filter
+  /// are updated.
+  @_s.JsonKey(name: 'filter')
+  final Map<String, Criterion> filter;
+
+  /// The name of the rule to update.
+  @_s.JsonKey(name: 'ruleName', ignore: true)
+  final String ruleName;
+
+  /// A client token.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  UpdateArchiveRuleRequest({
+    @_s.required this.analyzerName,
+    @_s.required this.filter,
+    @_s.required this.ruleName,
+    this.clientToken,
+  });
+  Map<String, dynamic> toJson() => _$UpdateArchiveRuleRequestToJson(this);
+}
+
+/// Updates findings with the new values provided in the request.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateFindingsRequest {
+  /// The ARN of the analyzer that generated the findings to update.
+  @_s.JsonKey(name: 'analyzerArn')
+  final String analyzerArn;
+
+  /// The state represents the action to take to update the finding Status. Use
+  /// <code>ARCHIVE</code> to change an Active finding to an Archived finding. Use
+  /// <code>ACTIVE</code> to change an Archived finding to an Active finding.
+  @_s.JsonKey(name: 'status')
+  final FindingStatusUpdate status;
+
+  /// A client token.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// The IDs of the findings to update.
+  @_s.JsonKey(name: 'ids')
+  final List<String> ids;
+
+  /// The ARN of the resource identified in the finding.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  UpdateFindingsRequest({
+    @_s.required this.analyzerArn,
+    @_s.required this.status,
+    this.clientToken,
+    this.ids,
+    this.resourceArn,
+  });
+  Map<String, dynamic> toJson() => _$UpdateFindingsRequestToJson(this);
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

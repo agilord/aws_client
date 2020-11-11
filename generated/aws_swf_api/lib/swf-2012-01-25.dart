@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -176,15 +175,15 @@ class SWF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'domain': domain,
-        if (closeStatusFilter != null) 'closeStatusFilter': closeStatusFilter,
-        if (closeTimeFilter != null) 'closeTimeFilter': closeTimeFilter,
-        if (executionFilter != null) 'executionFilter': executionFilter,
-        if (startTimeFilter != null) 'startTimeFilter': startTimeFilter,
-        if (tagFilter != null) 'tagFilter': tagFilter,
-        if (typeFilter != null) 'typeFilter': typeFilter,
-      },
+      payload: CountClosedWorkflowExecutionsInput(
+        domain: domain,
+        closeStatusFilter: closeStatusFilter,
+        closeTimeFilter: closeTimeFilter,
+        executionFilter: executionFilter,
+        startTimeFilter: startTimeFilter,
+        tagFilter: tagFilter,
+        typeFilter: typeFilter,
+      ),
     );
 
     return WorkflowExecutionCount.fromJson(jsonResponse.body);
@@ -299,13 +298,13 @@ class SWF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'domain': domain,
-        'startTimeFilter': startTimeFilter,
-        if (executionFilter != null) 'executionFilter': executionFilter,
-        if (tagFilter != null) 'tagFilter': tagFilter,
-        if (typeFilter != null) 'typeFilter': typeFilter,
-      },
+      payload: CountOpenWorkflowExecutionsInput(
+        domain: domain,
+        startTimeFilter: startTimeFilter,
+        executionFilter: executionFilter,
+        tagFilter: tagFilter,
+        typeFilter: typeFilter,
+      ),
     );
 
     return WorkflowExecutionCount.fromJson(jsonResponse.body);
@@ -376,10 +375,10 @@ class SWF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'domain': domain,
-        'taskList': taskList,
-      },
+      payload: CountPendingActivityTasksInput(
+        domain: domain,
+        taskList: taskList,
+      ),
     );
 
     return PendingTaskCount.fromJson(jsonResponse.body);
@@ -450,10 +449,10 @@ class SWF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'domain': domain,
-        'taskList': taskList,
-      },
+      payload: CountPendingDecisionTasksInput(
+        domain: domain,
+        taskList: taskList,
+      ),
     );
 
     return PendingTaskCount.fromJson(jsonResponse.body);
@@ -537,10 +536,10 @@ class SWF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'activityType': activityType,
-        'domain': domain,
-      },
+      payload: DeprecateActivityTypeInput(
+        activityType: activityType,
+        domain: domain,
+      ),
     );
   }
 
@@ -608,9 +607,9 @@ class SWF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'name': name,
-      },
+      payload: DeprecateDomainInput(
+        name: name,
+      ),
     );
   }
 
@@ -693,10 +692,10 @@ class SWF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'domain': domain,
-        'workflowType': workflowType,
-      },
+      payload: DeprecateWorkflowTypeInput(
+        domain: domain,
+        workflowType: workflowType,
+      ),
     );
   }
 
@@ -775,10 +774,10 @@ class SWF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'activityType': activityType,
-        'domain': domain,
-      },
+      payload: DescribeActivityTypeInput(
+        activityType: activityType,
+        domain: domain,
+      ),
     );
 
     return ActivityTypeDetail.fromJson(jsonResponse.body);
@@ -840,9 +839,9 @@ class SWF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'name': name,
-      },
+      payload: DescribeDomainInput(
+        name: name,
+      ),
     );
 
     return DomainDetail.fromJson(jsonResponse.body);
@@ -912,10 +911,10 @@ class SWF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'domain': domain,
-        'execution': execution,
-      },
+      payload: DescribeWorkflowExecutionInput(
+        domain: domain,
+        execution: execution,
+      ),
     );
 
     return WorkflowExecutionDetail.fromJson(jsonResponse.body);
@@ -994,10 +993,10 @@ class SWF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'domain': domain,
-        'workflowType': workflowType,
-      },
+      payload: DescribeWorkflowTypeInput(
+        domain: domain,
+        workflowType: workflowType,
+      ),
     );
 
     return WorkflowTypeDetail.fromJson(jsonResponse.body);
@@ -1104,13 +1103,13 @@ class SWF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'domain': domain,
-        'execution': execution,
-        if (maximumPageSize != null) 'maximumPageSize': maximumPageSize,
-        if (nextPageToken != null) 'nextPageToken': nextPageToken,
-        if (reverseOrder != null) 'reverseOrder': reverseOrder,
-      },
+      payload: GetWorkflowExecutionHistoryInput(
+        domain: domain,
+        execution: execution,
+        maximumPageSize: maximumPageSize,
+        nextPageToken: nextPageToken,
+        reverseOrder: reverseOrder,
+      ),
     );
 
     return History.fromJson(jsonResponse.body);
@@ -1227,14 +1226,14 @@ class SWF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'domain': domain,
-        'registrationStatus': registrationStatus?.toValue(),
-        if (maximumPageSize != null) 'maximumPageSize': maximumPageSize,
-        if (name != null) 'name': name,
-        if (nextPageToken != null) 'nextPageToken': nextPageToken,
-        if (reverseOrder != null) 'reverseOrder': reverseOrder,
-      },
+      payload: ListActivityTypesInput(
+        domain: domain,
+        registrationStatus: registrationStatus,
+        maximumPageSize: maximumPageSize,
+        name: name,
+        nextPageToken: nextPageToken,
+        reverseOrder: reverseOrder,
+      ),
     );
 
     return ActivityTypeInfos.fromJson(jsonResponse.body);
@@ -1414,18 +1413,18 @@ class SWF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'domain': domain,
-        if (closeStatusFilter != null) 'closeStatusFilter': closeStatusFilter,
-        if (closeTimeFilter != null) 'closeTimeFilter': closeTimeFilter,
-        if (executionFilter != null) 'executionFilter': executionFilter,
-        if (maximumPageSize != null) 'maximumPageSize': maximumPageSize,
-        if (nextPageToken != null) 'nextPageToken': nextPageToken,
-        if (reverseOrder != null) 'reverseOrder': reverseOrder,
-        if (startTimeFilter != null) 'startTimeFilter': startTimeFilter,
-        if (tagFilter != null) 'tagFilter': tagFilter,
-        if (typeFilter != null) 'typeFilter': typeFilter,
-      },
+      payload: ListClosedWorkflowExecutionsInput(
+        domain: domain,
+        closeStatusFilter: closeStatusFilter,
+        closeTimeFilter: closeTimeFilter,
+        executionFilter: executionFilter,
+        maximumPageSize: maximumPageSize,
+        nextPageToken: nextPageToken,
+        reverseOrder: reverseOrder,
+        startTimeFilter: startTimeFilter,
+        tagFilter: tagFilter,
+        typeFilter: typeFilter,
+      ),
     );
 
     return WorkflowExecutionInfos.fromJson(jsonResponse.body);
@@ -1521,12 +1520,12 @@ class SWF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'registrationStatus': registrationStatus?.toValue(),
-        if (maximumPageSize != null) 'maximumPageSize': maximumPageSize,
-        if (nextPageToken != null) 'nextPageToken': nextPageToken,
-        if (reverseOrder != null) 'reverseOrder': reverseOrder,
-      },
+      payload: ListDomainsInput(
+        registrationStatus: registrationStatus,
+        maximumPageSize: maximumPageSize,
+        nextPageToken: nextPageToken,
+        reverseOrder: reverseOrder,
+      ),
     );
 
     return DomainInfos.fromJson(jsonResponse.body);
@@ -1679,16 +1678,16 @@ class SWF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'domain': domain,
-        'startTimeFilter': startTimeFilter,
-        if (executionFilter != null) 'executionFilter': executionFilter,
-        if (maximumPageSize != null) 'maximumPageSize': maximumPageSize,
-        if (nextPageToken != null) 'nextPageToken': nextPageToken,
-        if (reverseOrder != null) 'reverseOrder': reverseOrder,
-        if (tagFilter != null) 'tagFilter': tagFilter,
-        if (typeFilter != null) 'typeFilter': typeFilter,
-      },
+      payload: ListOpenWorkflowExecutionsInput(
+        domain: domain,
+        startTimeFilter: startTimeFilter,
+        executionFilter: executionFilter,
+        maximumPageSize: maximumPageSize,
+        nextPageToken: nextPageToken,
+        reverseOrder: reverseOrder,
+        tagFilter: tagFilter,
+        typeFilter: typeFilter,
+      ),
     );
 
     return WorkflowExecutionInfos.fromJson(jsonResponse.body);
@@ -1723,9 +1722,9 @@ class SWF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'resourceArn': resourceArn,
-      },
+      payload: ListTagsForResourceInput(
+        resourceArn: resourceArn,
+      ),
     );
 
     return ListTagsForResourceOutput.fromJson(jsonResponse.body);
@@ -1839,14 +1838,14 @@ class SWF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'domain': domain,
-        'registrationStatus': registrationStatus?.toValue(),
-        if (maximumPageSize != null) 'maximumPageSize': maximumPageSize,
-        if (name != null) 'name': name,
-        if (nextPageToken != null) 'nextPageToken': nextPageToken,
-        if (reverseOrder != null) 'reverseOrder': reverseOrder,
-      },
+      payload: ListWorkflowTypesInput(
+        domain: domain,
+        registrationStatus: registrationStatus,
+        maximumPageSize: maximumPageSize,
+        name: name,
+        nextPageToken: nextPageToken,
+        reverseOrder: reverseOrder,
+      ),
     );
 
     return WorkflowTypeInfos.fromJson(jsonResponse.body);
@@ -1946,11 +1945,11 @@ class SWF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'domain': domain,
-        'taskList': taskList,
-        if (identity != null) 'identity': identity,
-      },
+      payload: PollForActivityTaskInput(
+        domain: domain,
+        taskList: taskList,
+        identity: identity,
+      ),
     );
 
     return ActivityTask.fromJson(jsonResponse.body);
@@ -2108,14 +2107,14 @@ class SWF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'domain': domain,
-        'taskList': taskList,
-        if (identity != null) 'identity': identity,
-        if (maximumPageSize != null) 'maximumPageSize': maximumPageSize,
-        if (nextPageToken != null) 'nextPageToken': nextPageToken,
-        if (reverseOrder != null) 'reverseOrder': reverseOrder,
-      },
+      payload: PollForDecisionTaskInput(
+        domain: domain,
+        taskList: taskList,
+        identity: identity,
+        maximumPageSize: maximumPageSize,
+        nextPageToken: nextPageToken,
+        reverseOrder: reverseOrder,
+      ),
     );
 
     return DecisionTask.fromJson(jsonResponse.body);
@@ -2224,10 +2223,10 @@ class SWF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'taskToken': taskToken,
-        if (details != null) 'details': details,
-      },
+      payload: RecordActivityTaskHeartbeatInput(
+        taskToken: taskToken,
+        details: details,
+      ),
     );
 
     return ActivityTaskStatus.fromJson(jsonResponse.body);
@@ -2450,25 +2449,18 @@ class SWF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'domain': domain,
-        'name': name,
-        'version': version,
-        if (defaultTaskHeartbeatTimeout != null)
-          'defaultTaskHeartbeatTimeout': defaultTaskHeartbeatTimeout,
-        if (defaultTaskList != null) 'defaultTaskList': defaultTaskList,
-        if (defaultTaskPriority != null)
-          'defaultTaskPriority': defaultTaskPriority,
-        if (defaultTaskScheduleToCloseTimeout != null)
-          'defaultTaskScheduleToCloseTimeout':
-              defaultTaskScheduleToCloseTimeout,
-        if (defaultTaskScheduleToStartTimeout != null)
-          'defaultTaskScheduleToStartTimeout':
-              defaultTaskScheduleToStartTimeout,
-        if (defaultTaskStartToCloseTimeout != null)
-          'defaultTaskStartToCloseTimeout': defaultTaskStartToCloseTimeout,
-        if (description != null) 'description': description,
-      },
+      payload: RegisterActivityTypeInput(
+        domain: domain,
+        name: name,
+        version: version,
+        defaultTaskHeartbeatTimeout: defaultTaskHeartbeatTimeout,
+        defaultTaskList: defaultTaskList,
+        defaultTaskPriority: defaultTaskPriority,
+        defaultTaskScheduleToCloseTimeout: defaultTaskScheduleToCloseTimeout,
+        defaultTaskScheduleToStartTimeout: defaultTaskScheduleToStartTimeout,
+        defaultTaskStartToCloseTimeout: defaultTaskStartToCloseTimeout,
+        description: description,
+      ),
     );
   }
 
@@ -2578,13 +2570,13 @@ class SWF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'name': name,
-        'workflowExecutionRetentionPeriodInDays':
+      payload: RegisterDomainInput(
+        name: name,
+        workflowExecutionRetentionPeriodInDays:
             workflowExecutionRetentionPeriodInDays,
-        if (description != null) 'description': description,
-        if (tags != null) 'tags': tags,
-      },
+        description: description,
+        tags: tags,
+      ),
     );
   }
 
@@ -2820,23 +2812,19 @@ class SWF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'domain': domain,
-        'name': name,
-        'version': version,
-        if (defaultChildPolicy != null)
-          'defaultChildPolicy': defaultChildPolicy?.toValue(),
-        if (defaultExecutionStartToCloseTimeout != null)
-          'defaultExecutionStartToCloseTimeout':
-              defaultExecutionStartToCloseTimeout,
-        if (defaultLambdaRole != null) 'defaultLambdaRole': defaultLambdaRole,
-        if (defaultTaskList != null) 'defaultTaskList': defaultTaskList,
-        if (defaultTaskPriority != null)
-          'defaultTaskPriority': defaultTaskPriority,
-        if (defaultTaskStartToCloseTimeout != null)
-          'defaultTaskStartToCloseTimeout': defaultTaskStartToCloseTimeout,
-        if (description != null) 'description': description,
-      },
+      payload: RegisterWorkflowTypeInput(
+        domain: domain,
+        name: name,
+        version: version,
+        defaultChildPolicy: defaultChildPolicy,
+        defaultExecutionStartToCloseTimeout:
+            defaultExecutionStartToCloseTimeout,
+        defaultLambdaRole: defaultLambdaRole,
+        defaultTaskList: defaultTaskList,
+        defaultTaskPriority: defaultTaskPriority,
+        defaultTaskStartToCloseTimeout: defaultTaskStartToCloseTimeout,
+        description: description,
+      ),
     );
   }
 
@@ -2930,11 +2918,11 @@ class SWF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'domain': domain,
-        'workflowId': workflowId,
-        if (runId != null) 'runId': runId,
-      },
+      payload: RequestCancelWorkflowExecutionInput(
+        domain: domain,
+        workflowId: workflowId,
+        runId: runId,
+      ),
     );
   }
 
@@ -3027,10 +3015,10 @@ class SWF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'taskToken': taskToken,
-        if (details != null) 'details': details,
-      },
+      payload: RespondActivityTaskCanceledInput(
+        taskToken: taskToken,
+        details: details,
+      ),
     );
   }
 
@@ -3123,10 +3111,10 @@ class SWF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'taskToken': taskToken,
-        if (result != null) 'result': result,
-      },
+      payload: RespondActivityTaskCompletedInput(
+        taskToken: taskToken,
+        result: result,
+      ),
     );
   }
 
@@ -3223,11 +3211,11 @@ class SWF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'taskToken': taskToken,
-        if (details != null) 'details': details,
-        if (reason != null) 'reason': reason,
-      },
+      payload: RespondActivityTaskFailedInput(
+        taskToken: taskToken,
+        details: details,
+        reason: reason,
+      ),
     );
   }
 
@@ -3301,11 +3289,11 @@ class SWF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'taskToken': taskToken,
-        if (decisions != null) 'decisions': decisions,
-        if (executionContext != null) 'executionContext': executionContext,
-      },
+      payload: RespondDecisionTaskCompletedInput(
+        taskToken: taskToken,
+        decisions: decisions,
+        executionContext: executionContext,
+      ),
     );
   }
 
@@ -3421,13 +3409,13 @@ class SWF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'domain': domain,
-        'signalName': signalName,
-        'workflowId': workflowId,
-        if (input != null) 'input': input,
-        if (runId != null) 'runId': runId,
-      },
+      payload: SignalWorkflowExecutionInput(
+        domain: domain,
+        signalName: signalName,
+        workflowId: workflowId,
+        input: input,
+        runId: runId,
+      ),
     );
   }
 
@@ -3706,21 +3694,19 @@ class SWF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'domain': domain,
-        'workflowId': workflowId,
-        'workflowType': workflowType,
-        if (childPolicy != null) 'childPolicy': childPolicy?.toValue(),
-        if (executionStartToCloseTimeout != null)
-          'executionStartToCloseTimeout': executionStartToCloseTimeout,
-        if (input != null) 'input': input,
-        if (lambdaRole != null) 'lambdaRole': lambdaRole,
-        if (tagList != null) 'tagList': tagList,
-        if (taskList != null) 'taskList': taskList,
-        if (taskPriority != null) 'taskPriority': taskPriority,
-        if (taskStartToCloseTimeout != null)
-          'taskStartToCloseTimeout': taskStartToCloseTimeout,
-      },
+      payload: StartWorkflowExecutionInput(
+        domain: domain,
+        workflowId: workflowId,
+        workflowType: workflowType,
+        childPolicy: childPolicy,
+        executionStartToCloseTimeout: executionStartToCloseTimeout,
+        input: input,
+        lambdaRole: lambdaRole,
+        tagList: tagList,
+        taskList: taskList,
+        taskPriority: taskPriority,
+        taskStartToCloseTimeout: taskStartToCloseTimeout,
+      ),
     );
 
     return Run.fromJson(jsonResponse.body);
@@ -3767,10 +3753,10 @@ class SWF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'resourceArn': resourceArn,
-        'tags': tags,
-      },
+      payload: TagResourceInput(
+        resourceArn: resourceArn,
+        tags: tags,
+      ),
     );
   }
 
@@ -3917,14 +3903,14 @@ class SWF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'domain': domain,
-        'workflowId': workflowId,
-        if (childPolicy != null) 'childPolicy': childPolicy?.toValue(),
-        if (details != null) 'details': details,
-        if (reason != null) 'reason': reason,
-        if (runId != null) 'runId': runId,
-      },
+      payload: TerminateWorkflowExecutionInput(
+        domain: domain,
+        workflowId: workflowId,
+        childPolicy: childPolicy,
+        details: details,
+        reason: reason,
+        runId: runId,
+      ),
     );
   }
 
@@ -4005,10 +3991,10 @@ class SWF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'activityType': activityType,
-        'domain': domain,
-      },
+      payload: UndeprecateActivityTypeInput(
+        activityType: activityType,
+        domain: domain,
+      ),
     );
   }
 
@@ -4073,9 +4059,9 @@ class SWF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'name': name,
-      },
+      payload: UndeprecateDomainInput(
+        name: name,
+      ),
     );
   }
 
@@ -4156,10 +4142,10 @@ class SWF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'domain': domain,
-        'workflowType': workflowType,
-      },
+      payload: UndeprecateWorkflowTypeInput(
+        domain: domain,
+        workflowType: workflowType,
+      ),
     );
   }
 
@@ -4197,10 +4183,10 @@ class SWF {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'resourceArn': resourceArn,
-        'tagKeys': tagKeys,
-      },
+      payload: UntagResourceInput(
+        resourceArn: resourceArn,
+        tagKeys: tagKeys,
+      ),
     );
   }
 }
@@ -5006,20 +4992,6 @@ enum ChildPolicy {
   abandon,
 }
 
-extension on ChildPolicy {
-  String toValue() {
-    switch (this) {
-      case ChildPolicy.terminate:
-        return 'TERMINATE';
-      case ChildPolicy.requestCancel:
-        return 'REQUEST_CANCEL';
-      case ChildPolicy.abandon:
-        return 'ABANDON';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Provide details of the <code>ChildWorkflowExecutionCanceled</code> event.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -5636,6 +5608,184 @@ class ContinueAsNewWorkflowExecutionFailedEventAttributes {
       _$ContinueAsNewWorkflowExecutionFailedEventAttributesFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CountClosedWorkflowExecutionsInput {
+  /// The name of the domain containing the workflow executions to count.
+  @_s.JsonKey(name: 'domain')
+  final String domain;
+
+  /// If specified, only workflow executions that match this close status are
+  /// counted. This filter has an affect only if <code>executionStatus</code> is
+  /// specified as <code>CLOSED</code>.
+  /// <note>
+  /// <code>closeStatusFilter</code>, <code>executionFilter</code>,
+  /// <code>typeFilter</code> and <code>tagFilter</code> are mutually exclusive.
+  /// You can specify at most one of these in a request.
+  /// </note>
+  @_s.JsonKey(name: 'closeStatusFilter')
+  final CloseStatusFilter closeStatusFilter;
+
+  /// If specified, only workflow executions that meet the close time criteria of
+  /// the filter are counted.
+  /// <note>
+  /// <code>startTimeFilter</code> and <code>closeTimeFilter</code> are mutually
+  /// exclusive. You must specify one of these in a request but not both.
+  /// </note>
+  @_s.JsonKey(name: 'closeTimeFilter')
+  final ExecutionTimeFilter closeTimeFilter;
+
+  /// If specified, only workflow executions matching the <code>WorkflowId</code>
+  /// in the filter are counted.
+  /// <note>
+  /// <code>closeStatusFilter</code>, <code>executionFilter</code>,
+  /// <code>typeFilter</code> and <code>tagFilter</code> are mutually exclusive.
+  /// You can specify at most one of these in a request.
+  /// </note>
+  @_s.JsonKey(name: 'executionFilter')
+  final WorkflowExecutionFilter executionFilter;
+
+  /// If specified, only workflow executions that meet the start time criteria of
+  /// the filter are counted.
+  /// <note>
+  /// <code>startTimeFilter</code> and <code>closeTimeFilter</code> are mutually
+  /// exclusive. You must specify one of these in a request but not both.
+  /// </note>
+  @_s.JsonKey(name: 'startTimeFilter')
+  final ExecutionTimeFilter startTimeFilter;
+
+  /// If specified, only executions that have a tag that matches the filter are
+  /// counted.
+  /// <note>
+  /// <code>closeStatusFilter</code>, <code>executionFilter</code>,
+  /// <code>typeFilter</code> and <code>tagFilter</code> are mutually exclusive.
+  /// You can specify at most one of these in a request.
+  /// </note>
+  @_s.JsonKey(name: 'tagFilter')
+  final TagFilter tagFilter;
+
+  /// If specified, indicates the type of the workflow executions to be counted.
+  /// <note>
+  /// <code>closeStatusFilter</code>, <code>executionFilter</code>,
+  /// <code>typeFilter</code> and <code>tagFilter</code> are mutually exclusive.
+  /// You can specify at most one of these in a request.
+  /// </note>
+  @_s.JsonKey(name: 'typeFilter')
+  final WorkflowTypeFilter typeFilter;
+
+  CountClosedWorkflowExecutionsInput({
+    @_s.required this.domain,
+    this.closeStatusFilter,
+    this.closeTimeFilter,
+    this.executionFilter,
+    this.startTimeFilter,
+    this.tagFilter,
+    this.typeFilter,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CountClosedWorkflowExecutionsInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CountOpenWorkflowExecutionsInput {
+  /// The name of the domain containing the workflow executions to count.
+  @_s.JsonKey(name: 'domain')
+  final String domain;
+
+  /// Specifies the start time criteria that workflow executions must meet in
+  /// order to be counted.
+  @_s.JsonKey(name: 'startTimeFilter')
+  final ExecutionTimeFilter startTimeFilter;
+
+  /// If specified, only workflow executions matching the <code>WorkflowId</code>
+  /// in the filter are counted.
+  /// <note>
+  /// <code>executionFilter</code>, <code>typeFilter</code> and
+  /// <code>tagFilter</code> are mutually exclusive. You can specify at most one
+  /// of these in a request.
+  /// </note>
+  @_s.JsonKey(name: 'executionFilter')
+  final WorkflowExecutionFilter executionFilter;
+
+  /// If specified, only executions that have a tag that matches the filter are
+  /// counted.
+  /// <note>
+  /// <code>executionFilter</code>, <code>typeFilter</code> and
+  /// <code>tagFilter</code> are mutually exclusive. You can specify at most one
+  /// of these in a request.
+  /// </note>
+  @_s.JsonKey(name: 'tagFilter')
+  final TagFilter tagFilter;
+
+  /// Specifies the type of the workflow executions to be counted.
+  /// <note>
+  /// <code>executionFilter</code>, <code>typeFilter</code> and
+  /// <code>tagFilter</code> are mutually exclusive. You can specify at most one
+  /// of these in a request.
+  /// </note>
+  @_s.JsonKey(name: 'typeFilter')
+  final WorkflowTypeFilter typeFilter;
+
+  CountOpenWorkflowExecutionsInput({
+    @_s.required this.domain,
+    @_s.required this.startTimeFilter,
+    this.executionFilter,
+    this.tagFilter,
+    this.typeFilter,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CountOpenWorkflowExecutionsInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CountPendingActivityTasksInput {
+  /// The name of the domain that contains the task list.
+  @_s.JsonKey(name: 'domain')
+  final String domain;
+
+  /// The name of the task list.
+  @_s.JsonKey(name: 'taskList')
+  final TaskList taskList;
+
+  CountPendingActivityTasksInput({
+    @_s.required this.domain,
+    @_s.required this.taskList,
+  });
+  Map<String, dynamic> toJson() => _$CountPendingActivityTasksInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CountPendingDecisionTasksInput {
+  /// The name of the domain that contains the task list.
+  @_s.JsonKey(name: 'domain')
+  final String domain;
+
+  /// The name of the task list.
+  @_s.JsonKey(name: 'taskList')
+  final TaskList taskList;
+
+  CountPendingDecisionTasksInput({
+    @_s.required this.domain,
+    @_s.required this.taskList,
+  });
+  Map<String, dynamic> toJson() => _$CountPendingDecisionTasksInputToJson(this);
+}
+
 /// Specifies a decision made by the decider. A decision can be one of these
 /// types:
 ///
@@ -6203,6 +6353,145 @@ enum DecisionType {
   scheduleLambdaFunction,
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeprecateActivityTypeInput {
+  /// The activity type to deprecate.
+  @_s.JsonKey(name: 'activityType')
+  final ActivityType activityType;
+
+  /// The name of the domain in which the activity type is registered.
+  @_s.JsonKey(name: 'domain')
+  final String domain;
+
+  DeprecateActivityTypeInput({
+    @_s.required this.activityType,
+    @_s.required this.domain,
+  });
+  Map<String, dynamic> toJson() => _$DeprecateActivityTypeInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeprecateDomainInput {
+  /// The name of the domain to deprecate.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  DeprecateDomainInput({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$DeprecateDomainInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeprecateWorkflowTypeInput {
+  /// The name of the domain in which the workflow type is registered.
+  @_s.JsonKey(name: 'domain')
+  final String domain;
+
+  /// The workflow type to deprecate.
+  @_s.JsonKey(name: 'workflowType')
+  final WorkflowType workflowType;
+
+  DeprecateWorkflowTypeInput({
+    @_s.required this.domain,
+    @_s.required this.workflowType,
+  });
+  Map<String, dynamic> toJson() => _$DeprecateWorkflowTypeInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeActivityTypeInput {
+  /// The activity type to get information about. Activity types are identified by
+  /// the <code>name</code> and <code>version</code> that were supplied when the
+  /// activity was registered.
+  @_s.JsonKey(name: 'activityType')
+  final ActivityType activityType;
+
+  /// The name of the domain in which the activity type is registered.
+  @_s.JsonKey(name: 'domain')
+  final String domain;
+
+  DescribeActivityTypeInput({
+    @_s.required this.activityType,
+    @_s.required this.domain,
+  });
+  Map<String, dynamic> toJson() => _$DescribeActivityTypeInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeDomainInput {
+  /// The name of the domain to describe.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  DescribeDomainInput({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$DescribeDomainInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeWorkflowExecutionInput {
+  /// The name of the domain containing the workflow execution.
+  @_s.JsonKey(name: 'domain')
+  final String domain;
+
+  /// The workflow execution to describe.
+  @_s.JsonKey(name: 'execution')
+  final WorkflowExecution execution;
+
+  DescribeWorkflowExecutionInput({
+    @_s.required this.domain,
+    @_s.required this.execution,
+  });
+  Map<String, dynamic> toJson() => _$DescribeWorkflowExecutionInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeWorkflowTypeInput {
+  /// The name of the domain in which this workflow type is registered.
+  @_s.JsonKey(name: 'domain')
+  final String domain;
+
+  /// The workflow type to describe.
+  @_s.JsonKey(name: 'workflowType')
+  final WorkflowType workflowType;
+
+  DescribeWorkflowTypeInput({
+    @_s.required this.domain,
+    @_s.required this.workflowType,
+  });
+  Map<String, dynamic> toJson() => _$DescribeWorkflowTypeInputToJson(this);
+}
+
 /// Contains the configuration settings of a domain.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6621,6 +6910,55 @@ class FailWorkflowExecutionFailedEventAttributes {
   factory FailWorkflowExecutionFailedEventAttributes.fromJson(
           Map<String, dynamic> json) =>
       _$FailWorkflowExecutionFailedEventAttributesFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetWorkflowExecutionHistoryInput {
+  /// The name of the domain containing the workflow execution.
+  @_s.JsonKey(name: 'domain')
+  final String domain;
+
+  /// Specifies the workflow execution for which to return the history.
+  @_s.JsonKey(name: 'execution')
+  final WorkflowExecution execution;
+
+  /// The maximum number of results that are returned per call. Use
+  /// <code>nextPageToken</code> to obtain further pages of results.
+  @_s.JsonKey(name: 'maximumPageSize')
+  final int maximumPageSize;
+
+  /// If <code>NextPageToken</code> is returned there are more results available.
+  /// The value of <code>NextPageToken</code> is a unique pagination token for
+  /// each page. Make the call again using the returned token to retrieve the next
+  /// page. Keep all other arguments unchanged. Each pagination token expires
+  /// after 60 seconds. Using an expired pagination token will return a
+  /// <code>400</code> error: "<code>Specified token has exceeded its maximum
+  /// lifetime</code>".
+  ///
+  /// The configured <code>maximumPageSize</code> determines how many results can
+  /// be returned in a single call.
+  @_s.JsonKey(name: 'nextPageToken')
+  final String nextPageToken;
+
+  /// When set to <code>true</code>, returns the events in reverse order. By
+  /// default the results are returned in ascending order of the
+  /// <code>eventTimeStamp</code> of the events.
+  @_s.JsonKey(name: 'reverseOrder')
+  final bool reverseOrder;
+
+  GetWorkflowExecutionHistoryInput({
+    @_s.required this.domain,
+    @_s.required this.execution,
+    this.maximumPageSize,
+    this.nextPageToken,
+    this.reverseOrder,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetWorkflowExecutionHistoryInputToJson(this);
 }
 
 /// Paginated representation of a workflow history for a workflow execution.
@@ -7492,6 +7830,312 @@ enum LambdaFunctionTimeoutType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListActivityTypesInput {
+  /// The name of the domain in which the activity types have been registered.
+  @_s.JsonKey(name: 'domain')
+  final String domain;
+
+  /// Specifies the registration status of the activity types to list.
+  @_s.JsonKey(name: 'registrationStatus')
+  final RegistrationStatus registrationStatus;
+
+  /// The maximum number of results that are returned per call. Use
+  /// <code>nextPageToken</code> to obtain further pages of results.
+  @_s.JsonKey(name: 'maximumPageSize')
+  final int maximumPageSize;
+
+  /// If specified, only lists the activity types that have this name.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// If <code>NextPageToken</code> is returned there are more results available.
+  /// The value of <code>NextPageToken</code> is a unique pagination token for
+  /// each page. Make the call again using the returned token to retrieve the next
+  /// page. Keep all other arguments unchanged. Each pagination token expires
+  /// after 60 seconds. Using an expired pagination token will return a
+  /// <code>400</code> error: "<code>Specified token has exceeded its maximum
+  /// lifetime</code>".
+  ///
+  /// The configured <code>maximumPageSize</code> determines how many results can
+  /// be returned in a single call.
+  @_s.JsonKey(name: 'nextPageToken')
+  final String nextPageToken;
+
+  /// When set to <code>true</code>, returns the results in reverse order. By
+  /// default, the results are returned in ascending alphabetical order by
+  /// <code>name</code> of the activity types.
+  @_s.JsonKey(name: 'reverseOrder')
+  final bool reverseOrder;
+
+  ListActivityTypesInput({
+    @_s.required this.domain,
+    @_s.required this.registrationStatus,
+    this.maximumPageSize,
+    this.name,
+    this.nextPageToken,
+    this.reverseOrder,
+  });
+  Map<String, dynamic> toJson() => _$ListActivityTypesInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListClosedWorkflowExecutionsInput {
+  /// The name of the domain that contains the workflow executions to list.
+  @_s.JsonKey(name: 'domain')
+  final String domain;
+
+  /// If specified, only workflow executions that match this <i>close status</i>
+  /// are listed. For example, if TERMINATED is specified, then only TERMINATED
+  /// workflow executions are listed.
+  /// <note>
+  /// <code>closeStatusFilter</code>, <code>executionFilter</code>,
+  /// <code>typeFilter</code> and <code>tagFilter</code> are mutually exclusive.
+  /// You can specify at most one of these in a request.
+  /// </note>
+  @_s.JsonKey(name: 'closeStatusFilter')
+  final CloseStatusFilter closeStatusFilter;
+
+  /// If specified, the workflow executions are included in the returned results
+  /// based on whether their close times are within the range specified by this
+  /// filter. Also, if this parameter is specified, the returned results are
+  /// ordered by their close times.
+  /// <note>
+  /// <code>startTimeFilter</code> and <code>closeTimeFilter</code> are mutually
+  /// exclusive. You must specify one of these in a request but not both.
+  /// </note>
+  @_s.JsonKey(name: 'closeTimeFilter')
+  final ExecutionTimeFilter closeTimeFilter;
+
+  /// If specified, only workflow executions matching the workflow ID specified in
+  /// the filter are returned.
+  /// <note>
+  /// <code>closeStatusFilter</code>, <code>executionFilter</code>,
+  /// <code>typeFilter</code> and <code>tagFilter</code> are mutually exclusive.
+  /// You can specify at most one of these in a request.
+  /// </note>
+  @_s.JsonKey(name: 'executionFilter')
+  final WorkflowExecutionFilter executionFilter;
+
+  /// The maximum number of results that are returned per call. Use
+  /// <code>nextPageToken</code> to obtain further pages of results.
+  @_s.JsonKey(name: 'maximumPageSize')
+  final int maximumPageSize;
+
+  /// If <code>NextPageToken</code> is returned there are more results available.
+  /// The value of <code>NextPageToken</code> is a unique pagination token for
+  /// each page. Make the call again using the returned token to retrieve the next
+  /// page. Keep all other arguments unchanged. Each pagination token expires
+  /// after 60 seconds. Using an expired pagination token will return a
+  /// <code>400</code> error: "<code>Specified token has exceeded its maximum
+  /// lifetime</code>".
+  ///
+  /// The configured <code>maximumPageSize</code> determines how many results can
+  /// be returned in a single call.
+  @_s.JsonKey(name: 'nextPageToken')
+  final String nextPageToken;
+
+  /// When set to <code>true</code>, returns the results in reverse order. By
+  /// default the results are returned in descending order of the start or the
+  /// close time of the executions.
+  @_s.JsonKey(name: 'reverseOrder')
+  final bool reverseOrder;
+
+  /// If specified, the workflow executions are included in the returned results
+  /// based on whether their start times are within the range specified by this
+  /// filter. Also, if this parameter is specified, the returned results are
+  /// ordered by their start times.
+  /// <note>
+  /// <code>startTimeFilter</code> and <code>closeTimeFilter</code> are mutually
+  /// exclusive. You must specify one of these in a request but not both.
+  /// </note>
+  @_s.JsonKey(name: 'startTimeFilter')
+  final ExecutionTimeFilter startTimeFilter;
+
+  /// If specified, only executions that have the matching tag are listed.
+  /// <note>
+  /// <code>closeStatusFilter</code>, <code>executionFilter</code>,
+  /// <code>typeFilter</code> and <code>tagFilter</code> are mutually exclusive.
+  /// You can specify at most one of these in a request.
+  /// </note>
+  @_s.JsonKey(name: 'tagFilter')
+  final TagFilter tagFilter;
+
+  /// If specified, only executions of the type specified in the filter are
+  /// returned.
+  /// <note>
+  /// <code>closeStatusFilter</code>, <code>executionFilter</code>,
+  /// <code>typeFilter</code> and <code>tagFilter</code> are mutually exclusive.
+  /// You can specify at most one of these in a request.
+  /// </note>
+  @_s.JsonKey(name: 'typeFilter')
+  final WorkflowTypeFilter typeFilter;
+
+  ListClosedWorkflowExecutionsInput({
+    @_s.required this.domain,
+    this.closeStatusFilter,
+    this.closeTimeFilter,
+    this.executionFilter,
+    this.maximumPageSize,
+    this.nextPageToken,
+    this.reverseOrder,
+    this.startTimeFilter,
+    this.tagFilter,
+    this.typeFilter,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListClosedWorkflowExecutionsInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListDomainsInput {
+  /// Specifies the registration status of the domains to list.
+  @_s.JsonKey(name: 'registrationStatus')
+  final RegistrationStatus registrationStatus;
+
+  /// The maximum number of results that are returned per call. Use
+  /// <code>nextPageToken</code> to obtain further pages of results.
+  @_s.JsonKey(name: 'maximumPageSize')
+  final int maximumPageSize;
+
+  /// If <code>NextPageToken</code> is returned there are more results available.
+  /// The value of <code>NextPageToken</code> is a unique pagination token for
+  /// each page. Make the call again using the returned token to retrieve the next
+  /// page. Keep all other arguments unchanged. Each pagination token expires
+  /// after 60 seconds. Using an expired pagination token will return a
+  /// <code>400</code> error: "<code>Specified token has exceeded its maximum
+  /// lifetime</code>".
+  ///
+  /// The configured <code>maximumPageSize</code> determines how many results can
+  /// be returned in a single call.
+  @_s.JsonKey(name: 'nextPageToken')
+  final String nextPageToken;
+
+  /// When set to <code>true</code>, returns the results in reverse order. By
+  /// default, the results are returned in ascending alphabetical order by
+  /// <code>name</code> of the domains.
+  @_s.JsonKey(name: 'reverseOrder')
+  final bool reverseOrder;
+
+  ListDomainsInput({
+    @_s.required this.registrationStatus,
+    this.maximumPageSize,
+    this.nextPageToken,
+    this.reverseOrder,
+  });
+  Map<String, dynamic> toJson() => _$ListDomainsInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListOpenWorkflowExecutionsInput {
+  /// The name of the domain that contains the workflow executions to list.
+  @_s.JsonKey(name: 'domain')
+  final String domain;
+
+  /// Workflow executions are included in the returned results based on whether
+  /// their start times are within the range specified by this filter.
+  @_s.JsonKey(name: 'startTimeFilter')
+  final ExecutionTimeFilter startTimeFilter;
+
+  /// If specified, only workflow executions matching the workflow ID specified in
+  /// the filter are returned.
+  /// <note>
+  /// <code>executionFilter</code>, <code>typeFilter</code> and
+  /// <code>tagFilter</code> are mutually exclusive. You can specify at most one
+  /// of these in a request.
+  /// </note>
+  @_s.JsonKey(name: 'executionFilter')
+  final WorkflowExecutionFilter executionFilter;
+
+  /// The maximum number of results that are returned per call. Use
+  /// <code>nextPageToken</code> to obtain further pages of results.
+  @_s.JsonKey(name: 'maximumPageSize')
+  final int maximumPageSize;
+
+  /// If <code>NextPageToken</code> is returned there are more results available.
+  /// The value of <code>NextPageToken</code> is a unique pagination token for
+  /// each page. Make the call again using the returned token to retrieve the next
+  /// page. Keep all other arguments unchanged. Each pagination token expires
+  /// after 60 seconds. Using an expired pagination token will return a
+  /// <code>400</code> error: "<code>Specified token has exceeded its maximum
+  /// lifetime</code>".
+  ///
+  /// The configured <code>maximumPageSize</code> determines how many results can
+  /// be returned in a single call.
+  @_s.JsonKey(name: 'nextPageToken')
+  final String nextPageToken;
+
+  /// When set to <code>true</code>, returns the results in reverse order. By
+  /// default the results are returned in descending order of the start time of
+  /// the executions.
+  @_s.JsonKey(name: 'reverseOrder')
+  final bool reverseOrder;
+
+  /// If specified, only executions that have the matching tag are listed.
+  /// <note>
+  /// <code>executionFilter</code>, <code>typeFilter</code> and
+  /// <code>tagFilter</code> are mutually exclusive. You can specify at most one
+  /// of these in a request.
+  /// </note>
+  @_s.JsonKey(name: 'tagFilter')
+  final TagFilter tagFilter;
+
+  /// If specified, only executions of the type specified in the filter are
+  /// returned.
+  /// <note>
+  /// <code>executionFilter</code>, <code>typeFilter</code> and
+  /// <code>tagFilter</code> are mutually exclusive. You can specify at most one
+  /// of these in a request.
+  /// </note>
+  @_s.JsonKey(name: 'typeFilter')
+  final WorkflowTypeFilter typeFilter;
+
+  ListOpenWorkflowExecutionsInput({
+    @_s.required this.domain,
+    @_s.required this.startTimeFilter,
+    this.executionFilter,
+    this.maximumPageSize,
+    this.nextPageToken,
+    this.reverseOrder,
+    this.tagFilter,
+    this.typeFilter,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListOpenWorkflowExecutionsInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceInput {
+  /// The Amazon Resource Name (ARN) for the Amazon SWF domain.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  ListTagsForResourceInput({
+    @_s.required this.resourceArn,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListTagsForResourceOutput {
@@ -7504,6 +8148,59 @@ class ListTagsForResourceOutput {
   });
   factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) =>
       _$ListTagsForResourceOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListWorkflowTypesInput {
+  /// The name of the domain in which the workflow types have been registered.
+  @_s.JsonKey(name: 'domain')
+  final String domain;
+
+  /// Specifies the registration status of the workflow types to list.
+  @_s.JsonKey(name: 'registrationStatus')
+  final RegistrationStatus registrationStatus;
+
+  /// The maximum number of results that are returned per call. Use
+  /// <code>nextPageToken</code> to obtain further pages of results.
+  @_s.JsonKey(name: 'maximumPageSize')
+  final int maximumPageSize;
+
+  /// If specified, lists the workflow type with this name.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// If <code>NextPageToken</code> is returned there are more results available.
+  /// The value of <code>NextPageToken</code> is a unique pagination token for
+  /// each page. Make the call again using the returned token to retrieve the next
+  /// page. Keep all other arguments unchanged. Each pagination token expires
+  /// after 60 seconds. Using an expired pagination token will return a
+  /// <code>400</code> error: "<code>Specified token has exceeded its maximum
+  /// lifetime</code>".
+  ///
+  /// The configured <code>maximumPageSize</code> determines how many results can
+  /// be returned in a single call.
+  @_s.JsonKey(name: 'nextPageToken')
+  final String nextPageToken;
+
+  /// When set to <code>true</code>, returns the results in reverse order. By
+  /// default the results are returned in ascending alphabetical order of the
+  /// <code>name</code> of the workflow types.
+  @_s.JsonKey(name: 'reverseOrder')
+  final bool reverseOrder;
+
+  ListWorkflowTypesInput({
+    @_s.required this.domain,
+    @_s.required this.registrationStatus,
+    this.maximumPageSize,
+    this.name,
+    this.nextPageToken,
+    this.reverseOrder,
+  });
+  Map<String, dynamic> toJson() => _$ListWorkflowTypesInputToJson(this);
 }
 
 /// Provides the details of the <code>MarkerRecorded</code> event.
@@ -7559,6 +8256,141 @@ class PendingTaskCount {
   });
   factory PendingTaskCount.fromJson(Map<String, dynamic> json) =>
       _$PendingTaskCountFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PollForActivityTaskInput {
+  /// The name of the domain that contains the task lists being polled.
+  @_s.JsonKey(name: 'domain')
+  final String domain;
+
+  /// Specifies the task list to poll for activity tasks.
+  ///
+  /// The specified string must not start or end with whitespace. It must not
+  /// contain a <code>:</code> (colon), <code>/</code> (slash), <code>|</code>
+  /// (vertical bar), or any control characters (<code>\u0000-\u001f</code> |
+  /// <code>\u007f-\u009f</code>). Also, it must not <i>be</i> the literal string
+  /// <code>arn</code>.
+  @_s.JsonKey(name: 'taskList')
+  final TaskList taskList;
+
+  /// Identity of the worker making the request, recorded in the
+  /// <code>ActivityTaskStarted</code> event in the workflow history. This enables
+  /// diagnostic tracing when problems arise. The form of this identity is user
+  /// defined.
+  @_s.JsonKey(name: 'identity')
+  final String identity;
+
+  PollForActivityTaskInput({
+    @_s.required this.domain,
+    @_s.required this.taskList,
+    this.identity,
+  });
+  Map<String, dynamic> toJson() => _$PollForActivityTaskInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PollForDecisionTaskInput {
+  /// The name of the domain containing the task lists to poll.
+  @_s.JsonKey(name: 'domain')
+  final String domain;
+
+  /// Specifies the task list to poll for decision tasks.
+  ///
+  /// The specified string must not start or end with whitespace. It must not
+  /// contain a <code>:</code> (colon), <code>/</code> (slash), <code>|</code>
+  /// (vertical bar), or any control characters (<code>\u0000-\u001f</code> |
+  /// <code>\u007f-\u009f</code>). Also, it must not <i>be</i> the literal string
+  /// <code>arn</code>.
+  @_s.JsonKey(name: 'taskList')
+  final TaskList taskList;
+
+  /// Identity of the decider making the request, which is recorded in the
+  /// DecisionTaskStarted event in the workflow history. This enables diagnostic
+  /// tracing when problems arise. The form of this identity is user defined.
+  @_s.JsonKey(name: 'identity')
+  final String identity;
+
+  /// The maximum number of results that are returned per call. Use
+  /// <code>nextPageToken</code> to obtain further pages of results.
+  ///
+  /// This is an upper limit only; the actual number of results returned per call
+  /// may be fewer than the specified maximum.
+  @_s.JsonKey(name: 'maximumPageSize')
+  final int maximumPageSize;
+
+  /// If <code>NextPageToken</code> is returned there are more results available.
+  /// The value of <code>NextPageToken</code> is a unique pagination token for
+  /// each page. Make the call again using the returned token to retrieve the next
+  /// page. Keep all other arguments unchanged. Each pagination token expires
+  /// after 60 seconds. Using an expired pagination token will return a
+  /// <code>400</code> error: "<code>Specified token has exceeded its maximum
+  /// lifetime</code>".
+  ///
+  /// The configured <code>maximumPageSize</code> determines how many results can
+  /// be returned in a single call.
+  /// <note>
+  /// The <code>nextPageToken</code> returned by this action cannot be used with
+  /// <a>GetWorkflowExecutionHistory</a> to get the next page. You must call
+  /// <a>PollForDecisionTask</a> again (with the <code>nextPageToken</code>) to
+  /// retrieve the next page of history records. Calling
+  /// <a>PollForDecisionTask</a> with a <code>nextPageToken</code> doesn't return
+  /// a new decision task.
+  /// </note>
+  @_s.JsonKey(name: 'nextPageToken')
+  final String nextPageToken;
+
+  /// When set to <code>true</code>, returns the events in reverse order. By
+  /// default the results are returned in ascending order of the
+  /// <code>eventTimestamp</code> of the events.
+  @_s.JsonKey(name: 'reverseOrder')
+  final bool reverseOrder;
+
+  PollForDecisionTaskInput({
+    @_s.required this.domain,
+    @_s.required this.taskList,
+    this.identity,
+    this.maximumPageSize,
+    this.nextPageToken,
+    this.reverseOrder,
+  });
+  Map<String, dynamic> toJson() => _$PollForDecisionTaskInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RecordActivityTaskHeartbeatInput {
+  /// The <code>taskToken</code> of the <a>ActivityTask</a>.
+  /// <important>
+  /// <code>taskToken</code> is generated by the service and should be treated as
+  /// an opaque value. If the task is passed to another process, its
+  /// <code>taskToken</code> must also be passed. This enables it to provide its
+  /// progress and respond with results.
+  /// </important>
+  @_s.JsonKey(name: 'taskToken')
+  final String taskToken;
+
+  /// If specified, contains details about the progress of the task.
+  @_s.JsonKey(name: 'details')
+  final String details;
+
+  RecordActivityTaskHeartbeatInput({
+    @_s.required this.taskToken,
+    this.details,
+  });
+  Map<String, dynamic> toJson() =>
+      _$RecordActivityTaskHeartbeatInputToJson(this);
 }
 
 /// Provides the details of the <code>RecordMarker</code> decision.
@@ -7656,23 +8488,315 @@ class RecordMarkerFailedEventAttributes {
       _$RecordMarkerFailedEventAttributesFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RegisterActivityTypeInput {
+  /// The name of the domain in which this activity is to be registered.
+  @_s.JsonKey(name: 'domain')
+  final String domain;
+
+  /// The name of the activity type within the domain.
+  ///
+  /// The specified string must not start or end with whitespace. It must not
+  /// contain a <code>:</code> (colon), <code>/</code> (slash), <code>|</code>
+  /// (vertical bar), or any control characters (<code>\u0000-\u001f</code> |
+  /// <code>\u007f-\u009f</code>). Also, it must not <i>be</i> the literal string
+  /// <code>arn</code>.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The version of the activity type.
+  /// <note>
+  /// The activity type consists of the name and version, the combination of which
+  /// must be unique within the domain.
+  /// </note>
+  /// The specified string must not start or end with whitespace. It must not
+  /// contain a <code>:</code> (colon), <code>/</code> (slash), <code>|</code>
+  /// (vertical bar), or any control characters (<code>\u0000-\u001f</code> |
+  /// <code>\u007f-\u009f</code>). Also, it must not <i>be</i> the literal string
+  /// <code>arn</code>.
+  @_s.JsonKey(name: 'version')
+  final String version;
+
+  /// If set, specifies the default maximum time before which a worker processing
+  /// a task of this type must report progress by calling
+  /// <a>RecordActivityTaskHeartbeat</a>. If the timeout is exceeded, the activity
+  /// task is automatically timed out. This default can be overridden when
+  /// scheduling an activity task using the <code>ScheduleActivityTask</code>
+  /// <a>Decision</a>. If the activity worker subsequently attempts to record a
+  /// heartbeat or returns a result, the activity worker receives an
+  /// <code>UnknownResource</code> fault. In this case, Amazon SWF no longer
+  /// considers the activity task to be valid; the activity worker should clean up
+  /// the activity task.
+  ///
+  /// The duration is specified in seconds, an integer greater than or equal to
+  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
+  @_s.JsonKey(name: 'defaultTaskHeartbeatTimeout')
+  final String defaultTaskHeartbeatTimeout;
+
+  /// If set, specifies the default task list to use for scheduling tasks of this
+  /// activity type. This default task list is used if a task list isn't provided
+  /// when a task is scheduled through the <code>ScheduleActivityTask</code>
+  /// <a>Decision</a>.
+  @_s.JsonKey(name: 'defaultTaskList')
+  final TaskList defaultTaskList;
+
+  /// The default task priority to assign to the activity type. If not assigned,
+  /// then <code>0</code> is used. Valid values are integers that range from
+  /// Java's <code>Integer.MIN_VALUE</code> (-2147483648) to
+  /// <code>Integer.MAX_VALUE</code> (2147483647). Higher numbers indicate higher
+  /// priority.
+  ///
+  /// For more information about setting task priority, see <a
+  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/programming-priority.html">Setting
+  /// Task Priority</a> in the <i>in the <i>Amazon SWF Developer Guide</i>.</i>.
+  @_s.JsonKey(name: 'defaultTaskPriority')
+  final String defaultTaskPriority;
+
+  /// If set, specifies the default maximum duration for a task of this activity
+  /// type. This default can be overridden when scheduling an activity task using
+  /// the <code>ScheduleActivityTask</code> <a>Decision</a>.
+  ///
+  /// The duration is specified in seconds, an integer greater than or equal to
+  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
+  @_s.JsonKey(name: 'defaultTaskScheduleToCloseTimeout')
+  final String defaultTaskScheduleToCloseTimeout;
+
+  /// If set, specifies the default maximum duration that a task of this activity
+  /// type can wait before being assigned to a worker. This default can be
+  /// overridden when scheduling an activity task using the
+  /// <code>ScheduleActivityTask</code> <a>Decision</a>.
+  ///
+  /// The duration is specified in seconds, an integer greater than or equal to
+  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
+  @_s.JsonKey(name: 'defaultTaskScheduleToStartTimeout')
+  final String defaultTaskScheduleToStartTimeout;
+
+  /// If set, specifies the default maximum duration that a worker can take to
+  /// process tasks of this activity type. This default can be overridden when
+  /// scheduling an activity task using the <code>ScheduleActivityTask</code>
+  /// <a>Decision</a>.
+  ///
+  /// The duration is specified in seconds, an integer greater than or equal to
+  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
+  @_s.JsonKey(name: 'defaultTaskStartToCloseTimeout')
+  final String defaultTaskStartToCloseTimeout;
+
+  /// A textual description of the activity type.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  RegisterActivityTypeInput({
+    @_s.required this.domain,
+    @_s.required this.name,
+    @_s.required this.version,
+    this.defaultTaskHeartbeatTimeout,
+    this.defaultTaskList,
+    this.defaultTaskPriority,
+    this.defaultTaskScheduleToCloseTimeout,
+    this.defaultTaskScheduleToStartTimeout,
+    this.defaultTaskStartToCloseTimeout,
+    this.description,
+  });
+  Map<String, dynamic> toJson() => _$RegisterActivityTypeInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RegisterDomainInput {
+  /// Name of the domain to register. The name must be unique in the region that
+  /// the domain is registered in.
+  ///
+  /// The specified string must not start or end with whitespace. It must not
+  /// contain a <code>:</code> (colon), <code>/</code> (slash), <code>|</code>
+  /// (vertical bar), or any control characters (<code>\u0000-\u001f</code> |
+  /// <code>\u007f-\u009f</code>). Also, it must not <i>be</i> the literal string
+  /// <code>arn</code>.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The duration (in days) that records and histories of workflow executions on
+  /// the domain should be kept by the service. After the retention period, the
+  /// workflow execution isn't available in the results of visibility calls.
+  ///
+  /// If you pass the value <code>NONE</code> or <code>0</code> (zero), then the
+  /// workflow execution history isn't retained. As soon as the workflow execution
+  /// completes, the execution record and its history are deleted.
+  ///
+  /// The maximum workflow execution retention period is 90 days. For more
+  /// information about Amazon SWF service limits, see: <a
+  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dg-limits.html">Amazon
+  /// SWF Service Limits</a> in the <i>Amazon SWF Developer Guide</i>.
+  @_s.JsonKey(name: 'workflowExecutionRetentionPeriodInDays')
+  final String workflowExecutionRetentionPeriodInDays;
+
+  /// A text description of the domain.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// Tags to be added when registering a domain.
+  ///
+  /// Tags may only contain unicode letters, digits, whitespace, or these symbols:
+  /// <code>_ . : / = + - @</code>.
+  @_s.JsonKey(name: 'tags')
+  final List<ResourceTag> tags;
+
+  RegisterDomainInput({
+    @_s.required this.name,
+    @_s.required this.workflowExecutionRetentionPeriodInDays,
+    this.description,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$RegisterDomainInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RegisterWorkflowTypeInput {
+  /// The name of the domain in which to register the workflow type.
+  @_s.JsonKey(name: 'domain')
+  final String domain;
+
+  /// The name of the workflow type.
+  ///
+  /// The specified string must not start or end with whitespace. It must not
+  /// contain a <code>:</code> (colon), <code>/</code> (slash), <code>|</code>
+  /// (vertical bar), or any control characters (<code>\u0000-\u001f</code> |
+  /// <code>\u007f-\u009f</code>). Also, it must not <i>be</i> the literal string
+  /// <code>arn</code>.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The version of the workflow type.
+  /// <note>
+  /// The workflow type consists of the name and version, the combination of which
+  /// must be unique within the domain. To get a list of all currently registered
+  /// workflow types, use the <a>ListWorkflowTypes</a> action.
+  /// </note>
+  /// The specified string must not start or end with whitespace. It must not
+  /// contain a <code>:</code> (colon), <code>/</code> (slash), <code>|</code>
+  /// (vertical bar), or any control characters (<code>\u0000-\u001f</code> |
+  /// <code>\u007f-\u009f</code>). Also, it must not <i>be</i> the literal string
+  /// <code>arn</code>.
+  @_s.JsonKey(name: 'version')
+  final String version;
+
+  /// If set, specifies the default policy to use for the child workflow
+  /// executions when a workflow execution of this type is terminated, by calling
+  /// the <a>TerminateWorkflowExecution</a> action explicitly or due to an expired
+  /// timeout. This default can be overridden when starting a workflow execution
+  /// using the <a>StartWorkflowExecution</a> action or the
+  /// <code>StartChildWorkflowExecution</code> <a>Decision</a>.
+  ///
+  /// The supported child policies are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>TERMINATE</code> – The child executions are terminated.
+  /// </li>
+  /// <li>
+  /// <code>REQUEST_CANCEL</code> – A request to cancel is attempted for each
+  /// child execution by recording a <code>WorkflowExecutionCancelRequested</code>
+  /// event in its history. It is up to the decider to take appropriate actions
+  /// when it receives an execution history with this event.
+  /// </li>
+  /// <li>
+  /// <code>ABANDON</code> – No action is taken. The child executions continue to
+  /// run.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'defaultChildPolicy')
+  final ChildPolicy defaultChildPolicy;
+
+  /// If set, specifies the default maximum duration for executions of this
+  /// workflow type. You can override this default when starting an execution
+  /// through the <a>StartWorkflowExecution</a> Action or
+  /// <code>StartChildWorkflowExecution</code> <a>Decision</a>.
+  ///
+  /// The duration is specified in seconds; an integer greater than or equal to 0.
+  /// Unlike some of the other timeout parameters in Amazon SWF, you cannot
+  /// specify a value of "NONE" for
+  /// <code>defaultExecutionStartToCloseTimeout</code>; there is a one-year max
+  /// limit on the time that a workflow execution can run. Exceeding this limit
+  /// always causes the workflow execution to time out.
+  @_s.JsonKey(name: 'defaultExecutionStartToCloseTimeout')
+  final String defaultExecutionStartToCloseTimeout;
+
+  /// The default IAM role attached to this workflow type.
+  /// <note>
+  /// Executions of this workflow type need IAM roles to invoke Lambda functions.
+  /// If you don't specify an IAM role when you start this workflow type, the
+  /// default Lambda role is attached to the execution. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/lambda-task.html">https://docs.aws.amazon.com/amazonswf/latest/developerguide/lambda-task.html</a>
+  /// in the <i>Amazon SWF Developer Guide</i>.
+  /// </note>
+  @_s.JsonKey(name: 'defaultLambdaRole')
+  final String defaultLambdaRole;
+
+  /// If set, specifies the default task list to use for scheduling decision tasks
+  /// for executions of this workflow type. This default is used only if a task
+  /// list isn't provided when starting the execution through the
+  /// <a>StartWorkflowExecution</a> Action or
+  /// <code>StartChildWorkflowExecution</code> <a>Decision</a>.
+  @_s.JsonKey(name: 'defaultTaskList')
+  final TaskList defaultTaskList;
+
+  /// The default task priority to assign to the workflow type. If not assigned,
+  /// then <code>0</code> is used. Valid values are integers that range from
+  /// Java's <code>Integer.MIN_VALUE</code> (-2147483648) to
+  /// <code>Integer.MAX_VALUE</code> (2147483647). Higher numbers indicate higher
+  /// priority.
+  ///
+  /// For more information about setting task priority, see <a
+  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/programming-priority.html">Setting
+  /// Task Priority</a> in the <i>Amazon SWF Developer Guide</i>.
+  @_s.JsonKey(name: 'defaultTaskPriority')
+  final String defaultTaskPriority;
+
+  /// If set, specifies the default maximum duration of decision tasks for this
+  /// workflow type. This default can be overridden when starting a workflow
+  /// execution using the <a>StartWorkflowExecution</a> action or the
+  /// <code>StartChildWorkflowExecution</code> <a>Decision</a>.
+  ///
+  /// The duration is specified in seconds, an integer greater than or equal to
+  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
+  @_s.JsonKey(name: 'defaultTaskStartToCloseTimeout')
+  final String defaultTaskStartToCloseTimeout;
+
+  /// Textual description of the workflow type.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  RegisterWorkflowTypeInput({
+    @_s.required this.domain,
+    @_s.required this.name,
+    @_s.required this.version,
+    this.defaultChildPolicy,
+    this.defaultExecutionStartToCloseTimeout,
+    this.defaultLambdaRole,
+    this.defaultTaskList,
+    this.defaultTaskPriority,
+    this.defaultTaskStartToCloseTimeout,
+    this.description,
+  });
+  Map<String, dynamic> toJson() => _$RegisterWorkflowTypeInputToJson(this);
+}
+
 enum RegistrationStatus {
   @_s.JsonValue('REGISTERED')
   registered,
   @_s.JsonValue('DEPRECATED')
   deprecated,
-}
-
-extension on RegistrationStatus {
-  String toValue() {
-    switch (this) {
-      case RegistrationStatus.registered:
-        return 'REGISTERED';
-      case RegistrationStatus.deprecated:
-        return 'DEPRECATED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Provides the details of the <code>RequestCancelActivityTask</code> decision.
@@ -7944,6 +9068,33 @@ class RequestCancelExternalWorkflowExecutionInitiatedEventAttributes {
           json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RequestCancelWorkflowExecutionInput {
+  /// The name of the domain containing the workflow execution to cancel.
+  @_s.JsonKey(name: 'domain')
+  final String domain;
+
+  /// The workflowId of the workflow execution to cancel.
+  @_s.JsonKey(name: 'workflowId')
+  final String workflowId;
+
+  /// The runId of the workflow execution to cancel.
+  @_s.JsonKey(name: 'runId')
+  final String runId;
+
+  RequestCancelWorkflowExecutionInput({
+    @_s.required this.domain,
+    @_s.required this.workflowId,
+    this.runId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$RequestCancelWorkflowExecutionInputToJson(this);
+}
+
 /// Tags are key-value pairs that can be associated with Amazon SWF state
 /// machines and activities.
 ///
@@ -7971,6 +9122,131 @@ class ResourceTag {
       _$ResourceTagFromJson(json);
 
   Map<String, dynamic> toJson() => _$ResourceTagToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RespondActivityTaskCanceledInput {
+  /// The <code>taskToken</code> of the <a>ActivityTask</a>.
+  /// <important>
+  /// <code>taskToken</code> is generated by the service and should be treated as
+  /// an opaque value. If the task is passed to another process, its
+  /// <code>taskToken</code> must also be passed. This enables it to provide its
+  /// progress and respond with results.
+  /// </important>
+  @_s.JsonKey(name: 'taskToken')
+  final String taskToken;
+
+  /// Information about the cancellation.
+  @_s.JsonKey(name: 'details')
+  final String details;
+
+  RespondActivityTaskCanceledInput({
+    @_s.required this.taskToken,
+    this.details,
+  });
+  Map<String, dynamic> toJson() =>
+      _$RespondActivityTaskCanceledInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RespondActivityTaskCompletedInput {
+  /// The <code>taskToken</code> of the <a>ActivityTask</a>.
+  /// <important>
+  /// <code>taskToken</code> is generated by the service and should be treated as
+  /// an opaque value. If the task is passed to another process, its
+  /// <code>taskToken</code> must also be passed. This enables it to provide its
+  /// progress and respond with results.
+  /// </important>
+  @_s.JsonKey(name: 'taskToken')
+  final String taskToken;
+
+  /// The result of the activity task. It is a free form string that is
+  /// implementation specific.
+  @_s.JsonKey(name: 'result')
+  final String result;
+
+  RespondActivityTaskCompletedInput({
+    @_s.required this.taskToken,
+    this.result,
+  });
+  Map<String, dynamic> toJson() =>
+      _$RespondActivityTaskCompletedInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RespondActivityTaskFailedInput {
+  /// The <code>taskToken</code> of the <a>ActivityTask</a>.
+  /// <important>
+  /// <code>taskToken</code> is generated by the service and should be treated as
+  /// an opaque value. If the task is passed to another process, its
+  /// <code>taskToken</code> must also be passed. This enables it to provide its
+  /// progress and respond with results.
+  /// </important>
+  @_s.JsonKey(name: 'taskToken')
+  final String taskToken;
+
+  /// Detailed information about the failure.
+  @_s.JsonKey(name: 'details')
+  final String details;
+
+  /// Description of the error that may assist in diagnostics.
+  @_s.JsonKey(name: 'reason')
+  final String reason;
+
+  RespondActivityTaskFailedInput({
+    @_s.required this.taskToken,
+    this.details,
+    this.reason,
+  });
+  Map<String, dynamic> toJson() => _$RespondActivityTaskFailedInputToJson(this);
+}
+
+/// Input data for a TaskCompleted response to a decision task.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RespondDecisionTaskCompletedInput {
+  /// The <code>taskToken</code> from the <a>DecisionTask</a>.
+  /// <important>
+  /// <code>taskToken</code> is generated by the service and should be treated as
+  /// an opaque value. If the task is passed to another process, its
+  /// <code>taskToken</code> must also be passed. This enables it to provide its
+  /// progress and respond with results.
+  /// </important>
+  @_s.JsonKey(name: 'taskToken')
+  final String taskToken;
+
+  /// The list of decisions (possibly empty) made by the decider while processing
+  /// this decision task. See the docs for the <a>Decision</a> structure for
+  /// details.
+  @_s.JsonKey(name: 'decisions')
+  final List<Decision> decisions;
+
+  /// User defined context to add to workflow execution.
+  @_s.JsonKey(name: 'executionContext')
+  final String executionContext;
+
+  RespondDecisionTaskCompletedInput({
+    @_s.required this.taskToken,
+    this.decisions,
+    this.executionContext,
+  });
+  Map<String, dynamic> toJson() =>
+      _$RespondDecisionTaskCompletedInputToJson(this);
 }
 
 /// Specifies the <code>runId</code> of a workflow execution.
@@ -8534,6 +9810,43 @@ class SignalExternalWorkflowExecutionInitiatedEventAttributes {
   factory SignalExternalWorkflowExecutionInitiatedEventAttributes.fromJson(
           Map<String, dynamic> json) =>
       _$SignalExternalWorkflowExecutionInitiatedEventAttributesFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SignalWorkflowExecutionInput {
+  /// The name of the domain containing the workflow execution to signal.
+  @_s.JsonKey(name: 'domain')
+  final String domain;
+
+  /// The name of the signal. This name must be meaningful to the target workflow.
+  @_s.JsonKey(name: 'signalName')
+  final String signalName;
+
+  /// The workflowId of the workflow execution to signal.
+  @_s.JsonKey(name: 'workflowId')
+  final String workflowId;
+
+  /// Data to attach to the <code>WorkflowExecutionSignaled</code> event in the
+  /// target workflow execution's history.
+  @_s.JsonKey(name: 'input')
+  final String input;
+
+  /// The runId of the workflow execution to signal.
+  @_s.JsonKey(name: 'runId')
+  final String runId;
+
+  SignalWorkflowExecutionInput({
+    @_s.required this.domain,
+    @_s.required this.signalName,
+    @_s.required this.workflowId,
+    this.input,
+    this.runId,
+  });
+  Map<String, dynamic> toJson() => _$SignalWorkflowExecutionInputToJson(this);
 }
 
 /// Provides the details of the <code>StartChildWorkflowExecution</code>
@@ -9103,6 +10416,172 @@ class StartTimerFailedEventAttributes {
       _$StartTimerFailedEventAttributesFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartWorkflowExecutionInput {
+  /// The name of the domain in which the workflow execution is created.
+  @_s.JsonKey(name: 'domain')
+  final String domain;
+
+  /// The user defined identifier associated with the workflow execution. You can
+  /// use this to associate a custom identifier with the workflow execution. You
+  /// may specify the same identifier if a workflow execution is logically a
+  /// <i>restart</i> of a previous execution. You cannot have two open workflow
+  /// executions with the same <code>workflowId</code> at the same time within the
+  /// same domain.
+  ///
+  /// The specified string must not start or end with whitespace. It must not
+  /// contain a <code>:</code> (colon), <code>/</code> (slash), <code>|</code>
+  /// (vertical bar), or any control characters (<code>\u0000-\u001f</code> |
+  /// <code>\u007f-\u009f</code>). Also, it must not <i>be</i> the literal string
+  /// <code>arn</code>.
+  @_s.JsonKey(name: 'workflowId')
+  final String workflowId;
+
+  /// The type of the workflow to start.
+  @_s.JsonKey(name: 'workflowType')
+  final WorkflowType workflowType;
+
+  /// If set, specifies the policy to use for the child workflow executions of
+  /// this workflow execution if it is terminated, by calling the
+  /// <a>TerminateWorkflowExecution</a> action explicitly or due to an expired
+  /// timeout. This policy overrides the default child policy specified when
+  /// registering the workflow type using <a>RegisterWorkflowType</a>.
+  ///
+  /// The supported child policies are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>TERMINATE</code> – The child executions are terminated.
+  /// </li>
+  /// <li>
+  /// <code>REQUEST_CANCEL</code> – A request to cancel is attempted for each
+  /// child execution by recording a <code>WorkflowExecutionCancelRequested</code>
+  /// event in its history. It is up to the decider to take appropriate actions
+  /// when it receives an execution history with this event.
+  /// </li>
+  /// <li>
+  /// <code>ABANDON</code> – No action is taken. The child executions continue to
+  /// run.
+  /// </li>
+  /// </ul> <note>
+  /// A child policy for this workflow execution must be specified either as a
+  /// default for the workflow type or through this parameter. If neither this
+  /// parameter is set nor a default child policy was specified at registration
+  /// time then a fault is returned.
+  /// </note>
+  @_s.JsonKey(name: 'childPolicy')
+  final ChildPolicy childPolicy;
+
+  /// The total duration for this workflow execution. This overrides the
+  /// defaultExecutionStartToCloseTimeout specified when registering the workflow
+  /// type.
+  ///
+  /// The duration is specified in seconds; an integer greater than or equal to
+  /// <code>0</code>. Exceeding this limit causes the workflow execution to time
+  /// out. Unlike some of the other timeout parameters in Amazon SWF, you cannot
+  /// specify a value of "NONE" for this timeout; there is a one-year max limit on
+  /// the time that a workflow execution can run.
+  /// <note>
+  /// An execution start-to-close timeout must be specified either through this
+  /// parameter or as a default when the workflow type is registered. If neither
+  /// this parameter nor a default execution start-to-close timeout is specified,
+  /// a fault is returned.
+  /// </note>
+  @_s.JsonKey(name: 'executionStartToCloseTimeout')
+  final String executionStartToCloseTimeout;
+
+  /// The input for the workflow execution. This is a free form string which
+  /// should be meaningful to the workflow you are starting. This
+  /// <code>input</code> is made available to the new workflow execution in the
+  /// <code>WorkflowExecutionStarted</code> history event.
+  @_s.JsonKey(name: 'input')
+  final String input;
+
+  /// The IAM role to attach to this workflow execution.
+  /// <note>
+  /// Executions of this workflow type need IAM roles to invoke Lambda functions.
+  /// If you don't attach an IAM role, any attempt to schedule a Lambda task
+  /// fails. This results in a <code>ScheduleLambdaFunctionFailed</code> history
+  /// event. For more information, see <a
+  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/lambda-task.html">https://docs.aws.amazon.com/amazonswf/latest/developerguide/lambda-task.html</a>
+  /// in the <i>Amazon SWF Developer Guide</i>.
+  /// </note>
+  @_s.JsonKey(name: 'lambdaRole')
+  final String lambdaRole;
+
+  /// The list of tags to associate with the workflow execution. You can specify a
+  /// maximum of 5 tags. You can list workflow executions with a specific tag by
+  /// calling <a>ListOpenWorkflowExecutions</a> or
+  /// <a>ListClosedWorkflowExecutions</a> and specifying a <a>TagFilter</a>.
+  @_s.JsonKey(name: 'tagList')
+  final List<String> tagList;
+
+  /// The task list to use for the decision tasks generated for this workflow
+  /// execution. This overrides the <code>defaultTaskList</code> specified when
+  /// registering the workflow type.
+  /// <note>
+  /// A task list for this workflow execution must be specified either as a
+  /// default for the workflow type or through this parameter. If neither this
+  /// parameter is set nor a default task list was specified at registration time
+  /// then a fault is returned.
+  /// </note>
+  /// The specified string must not start or end with whitespace. It must not
+  /// contain a <code>:</code> (colon), <code>/</code> (slash), <code>|</code>
+  /// (vertical bar), or any control characters (<code>\u0000-\u001f</code> |
+  /// <code>\u007f-\u009f</code>). Also, it must not <i>be</i> the literal string
+  /// <code>arn</code>.
+  @_s.JsonKey(name: 'taskList')
+  final TaskList taskList;
+
+  /// The task priority to use for this workflow execution. This overrides any
+  /// default priority that was assigned when the workflow type was registered. If
+  /// not set, then the default task priority for the workflow type is used. Valid
+  /// values are integers that range from Java's <code>Integer.MIN_VALUE</code>
+  /// (-2147483648) to <code>Integer.MAX_VALUE</code> (2147483647). Higher numbers
+  /// indicate higher priority.
+  ///
+  /// For more information about setting task priority, see <a
+  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/programming-priority.html">Setting
+  /// Task Priority</a> in the <i>Amazon SWF Developer Guide</i>.
+  @_s.JsonKey(name: 'taskPriority')
+  final String taskPriority;
+
+  /// Specifies the maximum duration of decision tasks for this workflow
+  /// execution. This parameter overrides the
+  /// <code>defaultTaskStartToCloseTimout</code> specified when registering the
+  /// workflow type using <a>RegisterWorkflowType</a>.
+  ///
+  /// The duration is specified in seconds, an integer greater than or equal to
+  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
+  /// <note>
+  /// A task start-to-close timeout for this workflow execution must be specified
+  /// either as a default for the workflow type or through this parameter. If
+  /// neither this parameter is set nor a default task start-to-close timeout was
+  /// specified at registration time then a fault is returned.
+  /// </note>
+  @_s.JsonKey(name: 'taskStartToCloseTimeout')
+  final String taskStartToCloseTimeout;
+
+  StartWorkflowExecutionInput({
+    @_s.required this.domain,
+    @_s.required this.workflowId,
+    @_s.required this.workflowType,
+    this.childPolicy,
+    this.executionStartToCloseTimeout,
+    this.input,
+    this.lambdaRole,
+    this.tagList,
+    this.taskList,
+    this.taskPriority,
+    this.taskStartToCloseTimeout,
+  });
+  Map<String, dynamic> toJson() => _$StartWorkflowExecutionInputToJson(this);
+}
+
 /// Used to filter the workflow executions in visibility APIs based on a tag.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -9124,6 +10603,30 @@ class TagFilter {
   Map<String, dynamic> toJson() => _$TagFilterToJson(this);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceInput {
+  /// The Amazon Resource Name (ARN) for the Amazon SWF domain.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  /// The list of tags to add to a domain.
+  ///
+  /// Tags may only contain unicode letters, digits, whitespace, or these symbols:
+  /// <code>_ . : / = + - @</code>.
+  @_s.JsonKey(name: 'tags')
+  final List<ResourceTag> tags;
+
+  TagResourceInput({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceInputToJson(this);
+}
+
 /// Represents a task list.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -9142,6 +10645,74 @@ class TaskList {
       _$TaskListFromJson(json);
 
   Map<String, dynamic> toJson() => _$TaskListToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TerminateWorkflowExecutionInput {
+  /// The domain of the workflow execution to terminate.
+  @_s.JsonKey(name: 'domain')
+  final String domain;
+
+  /// The workflowId of the workflow execution to terminate.
+  @_s.JsonKey(name: 'workflowId')
+  final String workflowId;
+
+  /// If set, specifies the policy to use for the child workflow executions of the
+  /// workflow execution being terminated. This policy overrides the child policy
+  /// specified for the workflow execution at registration time or when starting
+  /// the execution.
+  ///
+  /// The supported child policies are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>TERMINATE</code> – The child executions are terminated.
+  /// </li>
+  /// <li>
+  /// <code>REQUEST_CANCEL</code> – A request to cancel is attempted for each
+  /// child execution by recording a <code>WorkflowExecutionCancelRequested</code>
+  /// event in its history. It is up to the decider to take appropriate actions
+  /// when it receives an execution history with this event.
+  /// </li>
+  /// <li>
+  /// <code>ABANDON</code> – No action is taken. The child executions continue to
+  /// run.
+  /// </li>
+  /// </ul> <note>
+  /// A child policy for this workflow execution must be specified either as a
+  /// default for the workflow type or through this parameter. If neither this
+  /// parameter is set nor a default child policy was specified at registration
+  /// time then a fault is returned.
+  /// </note>
+  @_s.JsonKey(name: 'childPolicy')
+  final ChildPolicy childPolicy;
+
+  /// Details for terminating the workflow execution.
+  @_s.JsonKey(name: 'details')
+  final String details;
+
+  /// A descriptive reason for terminating the workflow execution.
+  @_s.JsonKey(name: 'reason')
+  final String reason;
+
+  /// The runId of the workflow execution to terminate.
+  @_s.JsonKey(name: 'runId')
+  final String runId;
+
+  TerminateWorkflowExecutionInput({
+    @_s.required this.domain,
+    @_s.required this.workflowId,
+    this.childPolicy,
+    this.details,
+    this.reason,
+    this.runId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$TerminateWorkflowExecutionInputToJson(this);
 }
 
 /// Provides the details of the <code>TimerCanceled</code> event.
@@ -9240,6 +10811,85 @@ class TimerStartedEventAttributes {
   });
   factory TimerStartedEventAttributes.fromJson(Map<String, dynamic> json) =>
       _$TimerStartedEventAttributesFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UndeprecateActivityTypeInput {
+  /// The activity type to undeprecate.
+  @_s.JsonKey(name: 'activityType')
+  final ActivityType activityType;
+
+  /// The name of the domain of the deprecated activity type.
+  @_s.JsonKey(name: 'domain')
+  final String domain;
+
+  UndeprecateActivityTypeInput({
+    @_s.required this.activityType,
+    @_s.required this.domain,
+  });
+  Map<String, dynamic> toJson() => _$UndeprecateActivityTypeInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UndeprecateDomainInput {
+  /// The name of the domain of the deprecated workflow type.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  UndeprecateDomainInput({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$UndeprecateDomainInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UndeprecateWorkflowTypeInput {
+  /// The name of the domain of the deprecated workflow type.
+  @_s.JsonKey(name: 'domain')
+  final String domain;
+
+  /// The name of the domain of the deprecated workflow type.
+  @_s.JsonKey(name: 'workflowType')
+  final WorkflowType workflowType;
+
+  UndeprecateWorkflowTypeInput({
+    @_s.required this.domain,
+    @_s.required this.workflowType,
+  });
+  Map<String, dynamic> toJson() => _$UndeprecateWorkflowTypeInputToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceInput {
+  /// The Amazon Resource Name (ARN) for the Amazon SWF domain.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  /// The list of tags to remove from the Amazon SWF domain.
+  @_s.JsonKey(name: 'tagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceInput({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceInputToJson(this);
 }
 
 /// Represents a workflow execution.

@@ -6,6 +6,20 @@ part of 'codebuild-2016-10-06.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$BatchDeleteBuildsInputToJson(
+    BatchDeleteBuildsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ids', instance.ids);
+  return val;
+}
+
 BatchDeleteBuildsOutput _$BatchDeleteBuildsOutputFromJson(
     Map<String, dynamic> json) {
   return BatchDeleteBuildsOutput(
@@ -19,6 +33,19 @@ BatchDeleteBuildsOutput _$BatchDeleteBuildsOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$BatchGetBuildsInputToJson(BatchGetBuildsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ids', instance.ids);
+  return val;
+}
+
 BatchGetBuildsOutput _$BatchGetBuildsOutputFromJson(Map<String, dynamic> json) {
   return BatchGetBuildsOutput(
     builds: (json['builds'] as List)
@@ -28,6 +55,20 @@ BatchGetBuildsOutput _$BatchGetBuildsOutputFromJson(Map<String, dynamic> json) {
     buildsNotFound:
         (json['buildsNotFound'] as List)?.map((e) => e as String)?.toList(),
   );
+}
+
+Map<String, dynamic> _$BatchGetProjectsInputToJson(
+    BatchGetProjectsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('names', instance.names);
+  return val;
 }
 
 BatchGetProjectsOutput _$BatchGetProjectsOutputFromJson(
@@ -42,6 +83,20 @@ BatchGetProjectsOutput _$BatchGetProjectsOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$BatchGetReportGroupsInputToJson(
+    BatchGetReportGroupsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('reportGroupArns', instance.reportGroupArns);
+  return val;
+}
+
 BatchGetReportGroupsOutput _$BatchGetReportGroupsOutputFromJson(
     Map<String, dynamic> json) {
   return BatchGetReportGroupsOutput(
@@ -53,6 +108,20 @@ BatchGetReportGroupsOutput _$BatchGetReportGroupsOutputFromJson(
         ?.map((e) => e as String)
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$BatchGetReportsInputToJson(
+    BatchGetReportsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('reportArns', instance.reportArns);
+  return val;
 }
 
 BatchGetReportsOutput _$BatchGetReportsOutputFromJson(
@@ -257,6 +326,41 @@ const _$LogsConfigStatusTypeEnumMap = {
   LogsConfigStatusType.disabled: 'DISABLED',
 };
 
+Map<String, dynamic> _$CreateProjectInputToJson(CreateProjectInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('artifacts', instance.artifacts?.toJson());
+  writeNotNull('environment', instance.environment?.toJson());
+  writeNotNull('name', instance.name);
+  writeNotNull('serviceRole', instance.serviceRole);
+  writeNotNull('source', instance.source?.toJson());
+  writeNotNull('badgeEnabled', instance.badgeEnabled);
+  writeNotNull('cache', instance.cache?.toJson());
+  writeNotNull('description', instance.description);
+  writeNotNull('encryptionKey', instance.encryptionKey);
+  writeNotNull('fileSystemLocations',
+      instance.fileSystemLocations?.map((e) => e?.toJson())?.toList());
+  writeNotNull('logsConfig', instance.logsConfig?.toJson());
+  writeNotNull('queuedTimeoutInMinutes', instance.queuedTimeoutInMinutes);
+  writeNotNull('secondaryArtifacts',
+      instance.secondaryArtifacts?.map((e) => e?.toJson())?.toList());
+  writeNotNull('secondarySourceVersions',
+      instance.secondarySourceVersions?.map((e) => e?.toJson())?.toList());
+  writeNotNull('secondarySources',
+      instance.secondarySources?.map((e) => e?.toJson())?.toList());
+  writeNotNull('sourceVersion', instance.sourceVersion);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('timeoutInMinutes', instance.timeoutInMinutes);
+  writeNotNull('vpcConfig', instance.vpcConfig?.toJson());
+  return val;
+}
+
 CreateProjectOutput _$CreateProjectOutputFromJson(Map<String, dynamic> json) {
   return CreateProjectOutput(
     project: json['project'] == null
@@ -264,6 +368,26 @@ CreateProjectOutput _$CreateProjectOutputFromJson(Map<String, dynamic> json) {
         : Project.fromJson(json['project'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$CreateReportGroupInputToJson(
+    CreateReportGroupInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('exportConfig', instance.exportConfig?.toJson());
+  writeNotNull('name', instance.name);
+  writeNotNull('type', _$ReportTypeEnumMap[instance.type]);
+  return val;
+}
+
+const _$ReportTypeEnumMap = {
+  ReportType.test: 'TEST',
+};
 
 CreateReportGroupOutput _$CreateReportGroupOutputFromJson(
     Map<String, dynamic> json) {
@@ -274,6 +398,25 @@ CreateReportGroupOutput _$CreateReportGroupOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateWebhookInputToJson(CreateWebhookInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('projectName', instance.projectName);
+  writeNotNull('branchFilter', instance.branchFilter);
+  writeNotNull(
+      'filterGroups',
+      instance.filterGroups
+          ?.map((e) => e?.map((e) => e?.toJson())?.toList())
+          ?.toList());
+  return val;
+}
+
 CreateWebhookOutput _$CreateWebhookOutputFromJson(Map<String, dynamic> json) {
   return CreateWebhookOutput(
     webhook: json['webhook'] == null
@@ -282,8 +425,35 @@ CreateWebhookOutput _$CreateWebhookOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DeleteProjectInputToJson(DeleteProjectInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  return val;
+}
+
 DeleteProjectOutput _$DeleteProjectOutputFromJson(Map<String, dynamic> json) {
   return DeleteProjectOutput();
+}
+
+Map<String, dynamic> _$DeleteReportGroupInputToJson(
+    DeleteReportGroupInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  return val;
 }
 
 DeleteReportGroupOutput _$DeleteReportGroupOutputFromJson(
@@ -291,13 +461,54 @@ DeleteReportGroupOutput _$DeleteReportGroupOutputFromJson(
   return DeleteReportGroupOutput();
 }
 
+Map<String, dynamic> _$DeleteReportInputToJson(DeleteReportInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  return val;
+}
+
 DeleteReportOutput _$DeleteReportOutputFromJson(Map<String, dynamic> json) {
   return DeleteReportOutput();
+}
+
+Map<String, dynamic> _$DeleteResourcePolicyInputToJson(
+    DeleteResourcePolicyInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceArn', instance.resourceArn);
+  return val;
 }
 
 DeleteResourcePolicyOutput _$DeleteResourcePolicyOutputFromJson(
     Map<String, dynamic> json) {
   return DeleteResourcePolicyOutput();
+}
+
+Map<String, dynamic> _$DeleteSourceCredentialsInputToJson(
+    DeleteSourceCredentialsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  return val;
 }
 
 DeleteSourceCredentialsOutput _$DeleteSourceCredentialsOutputFromJson(
@@ -307,8 +518,38 @@ DeleteSourceCredentialsOutput _$DeleteSourceCredentialsOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteWebhookInputToJson(DeleteWebhookInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('projectName', instance.projectName);
+  return val;
+}
+
 DeleteWebhookOutput _$DeleteWebhookOutputFromJson(Map<String, dynamic> json) {
   return DeleteWebhookOutput();
+}
+
+Map<String, dynamic> _$DescribeTestCasesInputToJson(
+    DescribeTestCasesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('reportArn', instance.reportArn);
+  writeNotNull('filter', instance.filter?.toJson());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 DescribeTestCasesOutput _$DescribeTestCasesOutputFromJson(
@@ -409,6 +650,20 @@ ExportedEnvironmentVariable _$ExportedEnvironmentVariableFromJson(
   );
 }
 
+Map<String, dynamic> _$GetResourcePolicyInputToJson(
+    GetResourcePolicyInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceArn', instance.resourceArn);
+  return val;
+}
+
 GetResourcePolicyOutput _$GetResourcePolicyOutputFromJson(
     Map<String, dynamic> json) {
   return GetResourcePolicyOutput(
@@ -435,6 +690,36 @@ Map<String, dynamic> _$GitSubmodulesConfigToJson(GitSubmodulesConfig instance) {
   return val;
 }
 
+Map<String, dynamic> _$ImportSourceCredentialsInputToJson(
+    ImportSourceCredentialsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('authType', _$AuthTypeEnumMap[instance.authType]);
+  writeNotNull('serverType', _$ServerTypeEnumMap[instance.serverType]);
+  writeNotNull('token', instance.token);
+  writeNotNull('shouldOverwrite', instance.shouldOverwrite);
+  writeNotNull('username', instance.username);
+  return val;
+}
+
+const _$AuthTypeEnumMap = {
+  AuthType.oauth: 'OAUTH',
+  AuthType.basicAuth: 'BASIC_AUTH',
+  AuthType.personalAccessToken: 'PERSONAL_ACCESS_TOKEN',
+};
+
+const _$ServerTypeEnumMap = {
+  ServerType.github: 'GITHUB',
+  ServerType.bitbucket: 'BITBUCKET',
+  ServerType.githubEnterprise: 'GITHUB_ENTERPRISE',
+};
+
 ImportSourceCredentialsOutput _$ImportSourceCredentialsOutputFromJson(
     Map<String, dynamic> json) {
   return ImportSourceCredentialsOutput(
@@ -442,10 +727,45 @@ ImportSourceCredentialsOutput _$ImportSourceCredentialsOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$InvalidateProjectCacheInputToJson(
+    InvalidateProjectCacheInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('projectName', instance.projectName);
+  return val;
+}
+
 InvalidateProjectCacheOutput _$InvalidateProjectCacheOutputFromJson(
     Map<String, dynamic> json) {
   return InvalidateProjectCacheOutput();
 }
+
+Map<String, dynamic> _$ListBuildsForProjectInputToJson(
+    ListBuildsForProjectInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('projectName', instance.projectName);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('sortOrder', _$SortOrderTypeEnumMap[instance.sortOrder]);
+  return val;
+}
+
+const _$SortOrderTypeEnumMap = {
+  SortOrderType.ascending: 'ASCENDING',
+  SortOrderType.descending: 'DESCENDING',
+};
 
 ListBuildsForProjectOutput _$ListBuildsForProjectOutputFromJson(
     Map<String, dynamic> json) {
@@ -453,6 +773,20 @@ ListBuildsForProjectOutput _$ListBuildsForProjectOutputFromJson(
     ids: (json['ids'] as List)?.map((e) => e as String)?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListBuildsInputToJson(ListBuildsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('sortOrder', _$SortOrderTypeEnumMap[instance.sortOrder]);
+  return val;
 }
 
 ListBuildsOutput _$ListBuildsOutputFromJson(Map<String, dynamic> json) {
@@ -473,12 +807,56 @@ ListCuratedEnvironmentImagesOutput _$ListCuratedEnvironmentImagesOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$ListProjectsInputToJson(ListProjectsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('sortBy', _$ProjectSortByTypeEnumMap[instance.sortBy]);
+  writeNotNull('sortOrder', _$SortOrderTypeEnumMap[instance.sortOrder]);
+  return val;
+}
+
+const _$ProjectSortByTypeEnumMap = {
+  ProjectSortByType.name: 'NAME',
+  ProjectSortByType.createdTime: 'CREATED_TIME',
+  ProjectSortByType.lastModifiedTime: 'LAST_MODIFIED_TIME',
+};
+
 ListProjectsOutput _$ListProjectsOutputFromJson(Map<String, dynamic> json) {
   return ListProjectsOutput(
     nextToken: json['nextToken'] as String,
     projects: (json['projects'] as List)?.map((e) => e as String)?.toList(),
   );
 }
+
+Map<String, dynamic> _$ListReportGroupsInputToJson(
+    ListReportGroupsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('sortBy', _$ReportGroupSortByTypeEnumMap[instance.sortBy]);
+  writeNotNull('sortOrder', _$SortOrderTypeEnumMap[instance.sortOrder]);
+  return val;
+}
+
+const _$ReportGroupSortByTypeEnumMap = {
+  ReportGroupSortByType.name: 'NAME',
+  ReportGroupSortByType.createdTime: 'CREATED_TIME',
+  ReportGroupSortByType.lastModifiedTime: 'LAST_MODIFIED_TIME',
+};
 
 ListReportGroupsOutput _$ListReportGroupsOutputFromJson(
     Map<String, dynamic> json) {
@@ -489,12 +867,46 @@ ListReportGroupsOutput _$ListReportGroupsOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$ListReportsForReportGroupInputToJson(
+    ListReportsForReportGroupInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('reportGroupArn', instance.reportGroupArn);
+  writeNotNull('filter', instance.filter?.toJson());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('sortOrder', _$SortOrderTypeEnumMap[instance.sortOrder]);
+  return val;
+}
+
 ListReportsForReportGroupOutput _$ListReportsForReportGroupOutputFromJson(
     Map<String, dynamic> json) {
   return ListReportsForReportGroupOutput(
     nextToken: json['nextToken'] as String,
     reports: (json['reports'] as List)?.map((e) => e as String)?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListReportsInputToJson(ListReportsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('filter', instance.filter?.toJson());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('sortOrder', _$SortOrderTypeEnumMap[instance.sortOrder]);
+  return val;
 }
 
 ListReportsOutput _$ListReportsOutputFromJson(Map<String, dynamic> json) {
@@ -504,12 +916,51 @@ ListReportsOutput _$ListReportsOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ListSharedProjectsInputToJson(
+    ListSharedProjectsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('sortBy', _$SharedResourceSortByTypeEnumMap[instance.sortBy]);
+  writeNotNull('sortOrder', _$SortOrderTypeEnumMap[instance.sortOrder]);
+  return val;
+}
+
+const _$SharedResourceSortByTypeEnumMap = {
+  SharedResourceSortByType.arn: 'ARN',
+  SharedResourceSortByType.modifiedTime: 'MODIFIED_TIME',
+};
+
 ListSharedProjectsOutput _$ListSharedProjectsOutputFromJson(
     Map<String, dynamic> json) {
   return ListSharedProjectsOutput(
     nextToken: json['nextToken'] as String,
     projects: (json['projects'] as List)?.map((e) => e as String)?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListSharedReportGroupsInputToJson(
+    ListSharedReportGroupsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('sortBy', _$SharedResourceSortByTypeEnumMap[instance.sortBy]);
+  writeNotNull('sortOrder', _$SortOrderTypeEnumMap[instance.sortOrder]);
+  return val;
 }
 
 ListSharedReportGroupsOutput _$ListSharedReportGroupsOutputFromJson(
@@ -911,6 +1362,21 @@ Map<String, dynamic> _$ProjectSourceVersionToJson(
   return val;
 }
 
+Map<String, dynamic> _$PutResourcePolicyInputToJson(
+    PutResourcePolicyInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('policy', instance.policy);
+  writeNotNull('resourceArn', instance.resourceArn);
+  return val;
+}
+
 PutResourcePolicyOutput _$PutResourcePolicyOutputFromJson(
     Map<String, dynamic> json) {
   return PutResourcePolicyOutput(
@@ -973,10 +1439,6 @@ const _$ReportStatusTypeEnumMap = {
   ReportStatusType.failed: 'FAILED',
   ReportStatusType.incomplete: 'INCOMPLETE',
   ReportStatusType.deleting: 'DELETING',
-};
-
-const _$ReportTypeEnumMap = {
-  ReportType.test: 'TEST',
 };
 
 ReportExportConfig _$ReportExportConfigFromJson(Map<String, dynamic> json) {
@@ -1128,17 +1590,62 @@ SourceCredentialsInfo _$SourceCredentialsInfoFromJson(
   );
 }
 
-const _$AuthTypeEnumMap = {
-  AuthType.oauth: 'OAUTH',
-  AuthType.basicAuth: 'BASIC_AUTH',
-  AuthType.personalAccessToken: 'PERSONAL_ACCESS_TOKEN',
-};
+Map<String, dynamic> _$StartBuildInputToJson(StartBuildInput instance) {
+  final val = <String, dynamic>{};
 
-const _$ServerTypeEnumMap = {
-  ServerType.github: 'GITHUB',
-  ServerType.bitbucket: 'BITBUCKET',
-  ServerType.githubEnterprise: 'GITHUB_ENTERPRISE',
-};
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('projectName', instance.projectName);
+  writeNotNull('artifactsOverride', instance.artifactsOverride?.toJson());
+  writeNotNull('buildspecOverride', instance.buildspecOverride);
+  writeNotNull('cacheOverride', instance.cacheOverride?.toJson());
+  writeNotNull('certificateOverride', instance.certificateOverride);
+  writeNotNull('computeTypeOverride',
+      _$ComputeTypeEnumMap[instance.computeTypeOverride]);
+  writeNotNull('encryptionKeyOverride', instance.encryptionKeyOverride);
+  writeNotNull('environmentTypeOverride',
+      _$EnvironmentTypeEnumMap[instance.environmentTypeOverride]);
+  writeNotNull('environmentVariablesOverride',
+      instance.environmentVariablesOverride?.map((e) => e?.toJson())?.toList());
+  writeNotNull('gitCloneDepthOverride', instance.gitCloneDepthOverride);
+  writeNotNull('gitSubmodulesConfigOverride',
+      instance.gitSubmodulesConfigOverride?.toJson());
+  writeNotNull('idempotencyToken', instance.idempotencyToken);
+  writeNotNull('imageOverride', instance.imageOverride);
+  writeNotNull(
+      'imagePullCredentialsTypeOverride',
+      _$ImagePullCredentialsTypeEnumMap[
+          instance.imagePullCredentialsTypeOverride]);
+  writeNotNull('insecureSslOverride', instance.insecureSslOverride);
+  writeNotNull('logsConfigOverride', instance.logsConfigOverride?.toJson());
+  writeNotNull('privilegedModeOverride', instance.privilegedModeOverride);
+  writeNotNull('queuedTimeoutInMinutesOverride',
+      instance.queuedTimeoutInMinutesOverride);
+  writeNotNull('registryCredentialOverride',
+      instance.registryCredentialOverride?.toJson());
+  writeNotNull('reportBuildStatusOverride', instance.reportBuildStatusOverride);
+  writeNotNull('secondaryArtifactsOverride',
+      instance.secondaryArtifactsOverride?.map((e) => e?.toJson())?.toList());
+  writeNotNull('secondarySourcesOverride',
+      instance.secondarySourcesOverride?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'secondarySourcesVersionOverride',
+      instance.secondarySourcesVersionOverride
+          ?.map((e) => e?.toJson())
+          ?.toList());
+  writeNotNull('serviceRoleOverride', instance.serviceRoleOverride);
+  writeNotNull('sourceAuthOverride', instance.sourceAuthOverride?.toJson());
+  writeNotNull('sourceLocationOverride', instance.sourceLocationOverride);
+  writeNotNull(
+      'sourceTypeOverride', _$SourceTypeEnumMap[instance.sourceTypeOverride]);
+  writeNotNull('sourceVersion', instance.sourceVersion);
+  writeNotNull('timeoutInMinutesOverride', instance.timeoutInMinutesOverride);
+  return val;
+}
 
 StartBuildOutput _$StartBuildOutputFromJson(Map<String, dynamic> json) {
   return StartBuildOutput(
@@ -1146,6 +1653,19 @@ StartBuildOutput _$StartBuildOutputFromJson(Map<String, dynamic> json) {
         ? null
         : Build.fromJson(json['build'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$StopBuildInputToJson(StopBuildInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  return val;
 }
 
 StopBuildOutput _$StopBuildOutputFromJson(Map<String, dynamic> json) {
@@ -1213,12 +1733,62 @@ TestReportSummary _$TestReportSummaryFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$UpdateProjectInputToJson(UpdateProjectInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('artifacts', instance.artifacts?.toJson());
+  writeNotNull('badgeEnabled', instance.badgeEnabled);
+  writeNotNull('cache', instance.cache?.toJson());
+  writeNotNull('description', instance.description);
+  writeNotNull('encryptionKey', instance.encryptionKey);
+  writeNotNull('environment', instance.environment?.toJson());
+  writeNotNull('fileSystemLocations',
+      instance.fileSystemLocations?.map((e) => e?.toJson())?.toList());
+  writeNotNull('logsConfig', instance.logsConfig?.toJson());
+  writeNotNull('queuedTimeoutInMinutes', instance.queuedTimeoutInMinutes);
+  writeNotNull('secondaryArtifacts',
+      instance.secondaryArtifacts?.map((e) => e?.toJson())?.toList());
+  writeNotNull('secondarySourceVersions',
+      instance.secondarySourceVersions?.map((e) => e?.toJson())?.toList());
+  writeNotNull('secondarySources',
+      instance.secondarySources?.map((e) => e?.toJson())?.toList());
+  writeNotNull('serviceRole', instance.serviceRole);
+  writeNotNull('source', instance.source?.toJson());
+  writeNotNull('sourceVersion', instance.sourceVersion);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('timeoutInMinutes', instance.timeoutInMinutes);
+  writeNotNull('vpcConfig', instance.vpcConfig?.toJson());
+  return val;
+}
+
 UpdateProjectOutput _$UpdateProjectOutputFromJson(Map<String, dynamic> json) {
   return UpdateProjectOutput(
     project: json['project'] == null
         ? null
         : Project.fromJson(json['project'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateReportGroupInputToJson(
+    UpdateReportGroupInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  writeNotNull('exportConfig', instance.exportConfig?.toJson());
+  return val;
 }
 
 UpdateReportGroupOutput _$UpdateReportGroupOutputFromJson(
@@ -1228,6 +1798,26 @@ UpdateReportGroupOutput _$UpdateReportGroupOutputFromJson(
         ? null
         : ReportGroup.fromJson(json['reportGroup'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateWebhookInputToJson(UpdateWebhookInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('projectName', instance.projectName);
+  writeNotNull('branchFilter', instance.branchFilter);
+  writeNotNull(
+      'filterGroups',
+      instance.filterGroups
+          ?.map((e) => e?.map((e) => e?.toJson())?.toList())
+          ?.toList());
+  writeNotNull('rotateSecret', instance.rotateSecret);
+  return val;
 }
 
 UpdateWebhookOutput _$UpdateWebhookOutputFromJson(Map<String, dynamic> json) {

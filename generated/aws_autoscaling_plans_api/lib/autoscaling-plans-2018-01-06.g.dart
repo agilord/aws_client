@@ -31,6 +31,23 @@ Map<String, dynamic> _$ApplicationSourceToJson(ApplicationSource instance) {
   return val;
 }
 
+Map<String, dynamic> _$CreateScalingPlanRequestToJson(
+    CreateScalingPlanRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ApplicationSource', instance.applicationSource?.toJson());
+  writeNotNull('ScalingInstructions',
+      instance.scalingInstructions?.map((e) => e?.toJson())?.toList());
+  writeNotNull('ScalingPlanName', instance.scalingPlanName);
+  return val;
+}
+
 CreateScalingPlanResponse _$CreateScalingPlanResponseFromJson(
     Map<String, dynamic> json) {
   return CreateScalingPlanResponse(
@@ -155,9 +172,41 @@ Datapoint _$DatapointFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DeleteScalingPlanRequestToJson(
+    DeleteScalingPlanRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ScalingPlanName', instance.scalingPlanName);
+  writeNotNull('ScalingPlanVersion', instance.scalingPlanVersion);
+  return val;
+}
+
 DeleteScalingPlanResponse _$DeleteScalingPlanResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteScalingPlanResponse();
+}
+
+Map<String, dynamic> _$DescribeScalingPlanResourcesRequestToJson(
+    DescribeScalingPlanResourcesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ScalingPlanName', instance.scalingPlanName);
+  writeNotNull('ScalingPlanVersion', instance.scalingPlanVersion);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 DescribeScalingPlanResourcesResponse
@@ -172,6 +221,25 @@ DescribeScalingPlanResourcesResponse
   );
 }
 
+Map<String, dynamic> _$DescribeScalingPlansRequestToJson(
+    DescribeScalingPlansRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ApplicationSources',
+      instance.applicationSources?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('ScalingPlanNames', instance.scalingPlanNames);
+  writeNotNull('ScalingPlanVersion', instance.scalingPlanVersion);
+  return val;
+}
+
 DescribeScalingPlansResponse _$DescribeScalingPlansResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeScalingPlansResponse(
@@ -182,6 +250,62 @@ DescribeScalingPlansResponse _$DescribeScalingPlansResponseFromJson(
         ?.toList(),
   );
 }
+
+Map<String, dynamic> _$GetScalingPlanResourceForecastDataRequestToJson(
+    GetScalingPlanResourceForecastDataRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EndTime', unixTimestampToJson(instance.endTime));
+  writeNotNull(
+      'ForecastDataType', _$ForecastDataTypeEnumMap[instance.forecastDataType]);
+  writeNotNull('ResourceId', instance.resourceId);
+  writeNotNull('ScalableDimension',
+      _$ScalableDimensionEnumMap[instance.scalableDimension]);
+  writeNotNull('ScalingPlanName', instance.scalingPlanName);
+  writeNotNull('ScalingPlanVersion', instance.scalingPlanVersion);
+  writeNotNull(
+      'ServiceNamespace', _$ServiceNamespaceEnumMap[instance.serviceNamespace]);
+  writeNotNull('StartTime', unixTimestampToJson(instance.startTime));
+  return val;
+}
+
+const _$ForecastDataTypeEnumMap = {
+  ForecastDataType.capacityForecast: 'CapacityForecast',
+  ForecastDataType.loadForecast: 'LoadForecast',
+  ForecastDataType.scheduledActionMinCapacity: 'ScheduledActionMinCapacity',
+  ForecastDataType.scheduledActionMaxCapacity: 'ScheduledActionMaxCapacity',
+};
+
+const _$ScalableDimensionEnumMap = {
+  ScalableDimension.autoscalingAutoScalingGroupDesiredCapacity:
+      'autoscaling:autoScalingGroup:DesiredCapacity',
+  ScalableDimension.ecsServiceDesiredCount: 'ecs:service:DesiredCount',
+  ScalableDimension.ec2SpotFleetRequestTargetCapacity:
+      'ec2:spot-fleet-request:TargetCapacity',
+  ScalableDimension.rdsClusterReadReplicaCount: 'rds:cluster:ReadReplicaCount',
+  ScalableDimension.dynamodbTableReadCapacityUnits:
+      'dynamodb:table:ReadCapacityUnits',
+  ScalableDimension.dynamodbTableWriteCapacityUnits:
+      'dynamodb:table:WriteCapacityUnits',
+  ScalableDimension.dynamodbIndexReadCapacityUnits:
+      'dynamodb:index:ReadCapacityUnits',
+  ScalableDimension.dynamodbIndexWriteCapacityUnits:
+      'dynamodb:index:WriteCapacityUnits',
+};
+
+const _$ServiceNamespaceEnumMap = {
+  ServiceNamespace.autoscaling: 'autoscaling',
+  ServiceNamespace.ecs: 'ecs',
+  ServiceNamespace.ec2: 'ec2',
+  ServiceNamespace.rds: 'rds',
+  ServiceNamespace.dynamodb: 'dynamodb',
+};
 
 GetScalingPlanResourceForecastDataResponse
     _$GetScalingPlanResourceForecastDataResponseFromJson(
@@ -377,31 +501,6 @@ Map<String, dynamic> _$ScalingInstructionToJson(ScalingInstruction instance) {
   return val;
 }
 
-const _$ScalableDimensionEnumMap = {
-  ScalableDimension.autoscalingAutoScalingGroupDesiredCapacity:
-      'autoscaling:autoScalingGroup:DesiredCapacity',
-  ScalableDimension.ecsServiceDesiredCount: 'ecs:service:DesiredCount',
-  ScalableDimension.ec2SpotFleetRequestTargetCapacity:
-      'ec2:spot-fleet-request:TargetCapacity',
-  ScalableDimension.rdsClusterReadReplicaCount: 'rds:cluster:ReadReplicaCount',
-  ScalableDimension.dynamodbTableReadCapacityUnits:
-      'dynamodb:table:ReadCapacityUnits',
-  ScalableDimension.dynamodbTableWriteCapacityUnits:
-      'dynamodb:table:WriteCapacityUnits',
-  ScalableDimension.dynamodbIndexReadCapacityUnits:
-      'dynamodb:index:ReadCapacityUnits',
-  ScalableDimension.dynamodbIndexWriteCapacityUnits:
-      'dynamodb:index:WriteCapacityUnits',
-};
-
-const _$ServiceNamespaceEnumMap = {
-  ServiceNamespace.autoscaling: 'autoscaling',
-  ServiceNamespace.ecs: 'ecs',
-  ServiceNamespace.ec2: 'ec2',
-  ServiceNamespace.rds: 'rds',
-  ServiceNamespace.dynamodb: 'dynamodb',
-};
-
 const _$PredictiveScalingMaxCapacityBehaviorEnumMap = {
   PredictiveScalingMaxCapacityBehavior.setForecastCapacityToMaxCapacity:
       'SetForecastCapacityToMaxCapacity',
@@ -558,6 +657,24 @@ Map<String, dynamic> _$TargetTrackingConfigurationToJson(
       instance.predefinedScalingMetricSpecification?.toJson());
   writeNotNull('ScaleInCooldown', instance.scaleInCooldown);
   writeNotNull('ScaleOutCooldown', instance.scaleOutCooldown);
+  return val;
+}
+
+Map<String, dynamic> _$UpdateScalingPlanRequestToJson(
+    UpdateScalingPlanRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ScalingPlanName', instance.scalingPlanName);
+  writeNotNull('ScalingPlanVersion', instance.scalingPlanVersion);
+  writeNotNull('ApplicationSource', instance.applicationSource?.toJson());
+  writeNotNull('ScalingInstructions',
+      instance.scalingInstructions?.map((e) => e?.toJson())?.toList());
   return val;
 }
 

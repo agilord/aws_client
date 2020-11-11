@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -20,6 +19,8 @@ import 'package:shared_aws_api/shared.dart'
         unixTimestampToJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
+
+part 'named_locations_in_json_body.g.dart';
 
 /// Named locations in JSON body
 class NamedLocationsInJSONBody {
@@ -40,9 +41,9 @@ class NamedLocationsInJSONBody {
   Future<void> operationName0({
     DateTime timeArg,
   }) async {
-    final $payload = <String, dynamic>{
-      if (timeArg != null) 'TimeArg': timeArg,
-    };
+    final $payload = InputShape(
+      timeArg: timeArg,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -50,6 +51,24 @@ class NamedLocationsInJSONBody {
       exceptionFnMap: _exceptionFns,
     );
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class InputShape {
+  @_s.JsonKey(
+      name: 'timestamp_location',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime timeArg;
+
+  InputShape({
+    this.timeArg,
+  });
+  Map<String, dynamic> toJson() => _$InputShapeToJson(this);
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

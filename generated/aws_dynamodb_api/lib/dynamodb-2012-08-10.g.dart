@@ -79,7 +79,9 @@ AttributeValue _$AttributeValueFromJson(Map<String, dynamic> json) {
   return AttributeValue(
     b: const Uint8ListConverter().fromJson(json['B'] as String),
     boolValue: json['BOOL'] as bool,
-    bs: const Uint8ListListConverter().fromJson(json['BS'] as List),
+    bs: (json['BS'] as List)
+        ?.map((e) => const Uint8ListConverter().fromJson(e as String))
+        ?.toList(),
     l: (json['L'] as List)
         ?.map((e) => e == null
             ? null
@@ -111,7 +113,8 @@ Map<String, dynamic> _$AttributeValueToJson(AttributeValue instance) {
 
   writeNotNull('B', const Uint8ListConverter().toJson(instance.b));
   writeNotNull('BOOL', instance.boolValue);
-  writeNotNull('BS', const Uint8ListListConverter().toJson(instance.bs));
+  writeNotNull(
+      'BS', instance.bs?.map(const Uint8ListConverter().toJson)?.toList());
   writeNotNull('L', instance.l?.map((e) => e?.toJson())?.toList());
   writeNotNull('M', instance.m?.map((k, e) => MapEntry(k, e?.toJson())));
   writeNotNull('N', instance.n);
@@ -293,6 +296,28 @@ BackupSummary _$BackupSummaryFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$BatchGetItemInputToJson(BatchGetItemInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RequestItems',
+      instance.requestItems?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('ReturnConsumedCapacity',
+      _$ReturnConsumedCapacityEnumMap[instance.returnConsumedCapacity]);
+  return val;
+}
+
+const _$ReturnConsumedCapacityEnumMap = {
+  ReturnConsumedCapacity.indexes: 'INDEXES',
+  ReturnConsumedCapacity.total: 'TOTAL',
+  ReturnConsumedCapacity.none: 'NONE',
+};
+
 BatchGetItemOutput _$BatchGetItemOutputFromJson(Map<String, dynamic> json) {
   return BatchGetItemOutput(
     consumedCapacity: (json['ConsumedCapacity'] as List)
@@ -323,6 +348,33 @@ BatchGetItemOutput _$BatchGetItemOutputFromJson(Map<String, dynamic> json) {
     ),
   );
 }
+
+Map<String, dynamic> _$BatchWriteItemInputToJson(BatchWriteItemInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'RequestItems',
+      instance.requestItems
+          ?.map((k, e) => MapEntry(k, e?.map((e) => e?.toJson())?.toList())));
+  writeNotNull('ReturnConsumedCapacity',
+      _$ReturnConsumedCapacityEnumMap[instance.returnConsumedCapacity]);
+  writeNotNull(
+      'ReturnItemCollectionMetrics',
+      _$ReturnItemCollectionMetricsEnumMap[
+          instance.returnItemCollectionMetrics]);
+  return val;
+}
+
+const _$ReturnItemCollectionMetricsEnumMap = {
+  ReturnItemCollectionMetrics.size: 'SIZE',
+  ReturnItemCollectionMetrics.none: 'NONE',
+};
 
 BatchWriteItemOutput _$BatchWriteItemOutputFromJson(Map<String, dynamic> json) {
   return BatchWriteItemOutput(
@@ -494,6 +546,20 @@ const _$ContributorInsightsStatusEnumMap = {
   ContributorInsightsStatus.failed: 'FAILED',
 };
 
+Map<String, dynamic> _$CreateBackupInputToJson(CreateBackupInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BackupName', instance.backupName);
+  writeNotNull('TableName', instance.tableName);
+  return val;
+}
+
 CreateBackupOutput _$CreateBackupOutputFromJson(Map<String, dynamic> json) {
   return CreateBackupOutput(
     backupDetails: json['BackupDetails'] == null
@@ -518,6 +584,22 @@ Map<String, dynamic> _$CreateGlobalSecondaryIndexActionToJson(
   writeNotNull('Projection', instance.projection?.toJson());
   writeNotNull(
       'ProvisionedThroughput', instance.provisionedThroughput?.toJson());
+  return val;
+}
+
+Map<String, dynamic> _$CreateGlobalTableInputToJson(
+    CreateGlobalTableInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GlobalTableName', instance.globalTableName);
+  writeNotNull('ReplicationGroup',
+      instance.replicationGroup?.map((e) => e?.toJson())?.toList());
   return val;
 }
 
@@ -563,6 +645,33 @@ Map<String, dynamic> _$CreateReplicationGroupMemberActionToJson(
   return val;
 }
 
+Map<String, dynamic> _$CreateTableInputToJson(CreateTableInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AttributeDefinitions',
+      instance.attributeDefinitions?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'KeySchema', instance.keySchema?.map((e) => e?.toJson())?.toList());
+  writeNotNull('TableName', instance.tableName);
+  writeNotNull('BillingMode', _$BillingModeEnumMap[instance.billingMode]);
+  writeNotNull('GlobalSecondaryIndexes',
+      instance.globalSecondaryIndexes?.map((e) => e?.toJson())?.toList());
+  writeNotNull('LocalSecondaryIndexes',
+      instance.localSecondaryIndexes?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'ProvisionedThroughput', instance.provisionedThroughput?.toJson());
+  writeNotNull('SSESpecification', instance.sSESpecification?.toJson());
+  writeNotNull('StreamSpecification', instance.streamSpecification?.toJson());
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateTableOutput _$CreateTableOutputFromJson(Map<String, dynamic> json) {
   return CreateTableOutput(
     tableDescription: json['TableDescription'] == null
@@ -596,6 +705,19 @@ Map<String, dynamic> _$DeleteToJson(Delete instance) {
   return val;
 }
 
+Map<String, dynamic> _$DeleteBackupInputToJson(DeleteBackupInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BackupArn', instance.backupArn);
+  return val;
+}
+
 DeleteBackupOutput _$DeleteBackupOutputFromJson(Map<String, dynamic> json) {
   return DeleteBackupOutput(
     backupDescription: json['BackupDescription'] == null
@@ -618,6 +740,50 @@ Map<String, dynamic> _$DeleteGlobalSecondaryIndexActionToJson(
   writeNotNull('IndexName', instance.indexName);
   return val;
 }
+
+Map<String, dynamic> _$DeleteItemInputToJson(DeleteItemInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Key', instance.key?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('TableName', instance.tableName);
+  writeNotNull('ConditionExpression', instance.conditionExpression);
+  writeNotNull('ConditionalOperator',
+      _$ConditionalOperatorEnumMap[instance.conditionalOperator]);
+  writeNotNull(
+      'Expected', instance.expected?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('ExpressionAttributeNames', instance.expressionAttributeNames);
+  writeNotNull(
+      'ExpressionAttributeValues',
+      instance.expressionAttributeValues
+          ?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('ReturnConsumedCapacity',
+      _$ReturnConsumedCapacityEnumMap[instance.returnConsumedCapacity]);
+  writeNotNull(
+      'ReturnItemCollectionMetrics',
+      _$ReturnItemCollectionMetricsEnumMap[
+          instance.returnItemCollectionMetrics]);
+  writeNotNull('ReturnValues', _$ReturnValueEnumMap[instance.returnValues]);
+  return val;
+}
+
+const _$ConditionalOperatorEnumMap = {
+  ConditionalOperator.and: 'AND',
+  ConditionalOperator.or: 'OR',
+};
+
+const _$ReturnValueEnumMap = {
+  ReturnValue.none: 'NONE',
+  ReturnValue.allOld: 'ALL_OLD',
+  ReturnValue.updatedOld: 'UPDATED_OLD',
+  ReturnValue.allNew: 'ALL_NEW',
+  ReturnValue.updatedNew: 'UPDATED_NEW',
+};
 
 DeleteItemOutput _$DeleteItemOutputFromJson(Map<String, dynamic> json) {
   return DeleteItemOutput(
@@ -691,6 +857,19 @@ Map<String, dynamic> _$DeleteRequestToJson(DeleteRequest instance) {
   return val;
 }
 
+Map<String, dynamic> _$DeleteTableInputToJson(DeleteTableInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TableName', instance.tableName);
+  return val;
+}
+
 DeleteTableOutput _$DeleteTableOutputFromJson(Map<String, dynamic> json) {
   return DeleteTableOutput(
     tableDescription: json['TableDescription'] == null
@@ -698,6 +877,19 @@ DeleteTableOutput _$DeleteTableOutputFromJson(Map<String, dynamic> json) {
         : TableDescription.fromJson(
             json['TableDescription'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeBackupInputToJson(DescribeBackupInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BackupArn', instance.backupArn);
+  return val;
 }
 
 DescribeBackupOutput _$DescribeBackupOutputFromJson(Map<String, dynamic> json) {
@@ -709,6 +901,20 @@ DescribeBackupOutput _$DescribeBackupOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DescribeContinuousBackupsInputToJson(
+    DescribeContinuousBackupsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TableName', instance.tableName);
+  return val;
+}
+
 DescribeContinuousBackupsOutput _$DescribeContinuousBackupsOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeContinuousBackupsOutput(
@@ -717,6 +923,21 @@ DescribeContinuousBackupsOutput _$DescribeContinuousBackupsOutputFromJson(
         : ContinuousBackupsDescription.fromJson(
             json['ContinuousBackupsDescription'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeContributorInsightsInputToJson(
+    DescribeContributorInsightsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TableName', instance.tableName);
+  writeNotNull('IndexName', instance.indexName);
+  return val;
 }
 
 DescribeContributorInsightsOutput _$DescribeContributorInsightsOutputFromJson(
@@ -747,6 +968,20 @@ DescribeEndpointsResponse _$DescribeEndpointsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeGlobalTableInputToJson(
+    DescribeGlobalTableInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GlobalTableName', instance.globalTableName);
+  return val;
+}
+
 DescribeGlobalTableOutput _$DescribeGlobalTableOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeGlobalTableOutput(
@@ -755,6 +990,20 @@ DescribeGlobalTableOutput _$DescribeGlobalTableOutputFromJson(
         : GlobalTableDescription.fromJson(
             json['GlobalTableDescription'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeGlobalTableSettingsInputToJson(
+    DescribeGlobalTableSettingsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GlobalTableName', instance.globalTableName);
+  return val;
 }
 
 DescribeGlobalTableSettingsOutput _$DescribeGlobalTableSettingsOutputFromJson(
@@ -778,12 +1027,39 @@ DescribeLimitsOutput _$DescribeLimitsOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DescribeTableInputToJson(DescribeTableInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TableName', instance.tableName);
+  return val;
+}
+
 DescribeTableOutput _$DescribeTableOutputFromJson(Map<String, dynamic> json) {
   return DescribeTableOutput(
     table: json['Table'] == null
         ? null
         : TableDescription.fromJson(json['Table'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeTableReplicaAutoScalingInputToJson(
+    DescribeTableReplicaAutoScalingInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TableName', instance.tableName);
+  return val;
 }
 
 DescribeTableReplicaAutoScalingOutput
@@ -794,6 +1070,20 @@ DescribeTableReplicaAutoScalingOutput
         : TableAutoScalingDescription.fromJson(
             json['TableAutoScalingDescription'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeTimeToLiveInputToJson(
+    DescribeTimeToLiveInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TableName', instance.tableName);
+  return val;
 }
 
 DescribeTimeToLiveOutput _$DescribeTimeToLiveOutputFromJson(
@@ -852,6 +1142,26 @@ Map<String, dynamic> _$GetToJson(Get instance) {
   writeNotNull('TableName', instance.tableName);
   writeNotNull('ExpressionAttributeNames', instance.expressionAttributeNames);
   writeNotNull('ProjectionExpression', instance.projectionExpression);
+  return val;
+}
+
+Map<String, dynamic> _$GetItemInputToJson(GetItemInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Key', instance.key?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('TableName', instance.tableName);
+  writeNotNull('AttributesToGet', instance.attributesToGet);
+  writeNotNull('ConsistentRead', instance.consistentRead);
+  writeNotNull('ExpressionAttributeNames', instance.expressionAttributeNames);
+  writeNotNull('ProjectionExpression', instance.projectionExpression);
+  writeNotNull('ReturnConsumedCapacity',
+      _$ReturnConsumedCapacityEnumMap[instance.returnConsumedCapacity]);
   return val;
 }
 
@@ -1121,6 +1431,33 @@ Map<String, dynamic> _$KeysAndAttributesToJson(KeysAndAttributes instance) {
   return val;
 }
 
+Map<String, dynamic> _$ListBackupsInputToJson(ListBackupsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BackupType', _$BackupTypeFilterEnumMap[instance.backupType]);
+  writeNotNull('ExclusiveStartBackupArn', instance.exclusiveStartBackupArn);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('TableName', instance.tableName);
+  writeNotNull(
+      'TimeRangeLowerBound', unixTimestampToJson(instance.timeRangeLowerBound));
+  writeNotNull(
+      'TimeRangeUpperBound', unixTimestampToJson(instance.timeRangeUpperBound));
+  return val;
+}
+
+const _$BackupTypeFilterEnumMap = {
+  BackupTypeFilter.user: 'USER',
+  BackupTypeFilter.system: 'SYSTEM',
+  BackupTypeFilter.awsBackup: 'AWS_BACKUP',
+  BackupTypeFilter.all: 'ALL',
+};
+
 ListBackupsOutput _$ListBackupsOutputFromJson(Map<String, dynamic> json) {
   return ListBackupsOutput(
     backupSummaries: (json['BackupSummaries'] as List)
@@ -1130,6 +1467,22 @@ ListBackupsOutput _$ListBackupsOutputFromJson(Map<String, dynamic> json) {
         ?.toList(),
     lastEvaluatedBackupArn: json['LastEvaluatedBackupArn'] as String,
   );
+}
+
+Map<String, dynamic> _$ListContributorInsightsInputToJson(
+    ListContributorInsightsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('TableName', instance.tableName);
+  return val;
 }
 
 ListContributorInsightsOutput _$ListContributorInsightsOutputFromJson(
@@ -1144,6 +1497,23 @@ ListContributorInsightsOutput _$ListContributorInsightsOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$ListGlobalTablesInputToJson(
+    ListGlobalTablesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'ExclusiveStartGlobalTableName', instance.exclusiveStartGlobalTableName);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('RegionName', instance.regionName);
+  return val;
+}
+
 ListGlobalTablesOutput _$ListGlobalTablesOutputFromJson(
     Map<String, dynamic> json) {
   return ListGlobalTablesOutput(
@@ -1156,11 +1526,40 @@ ListGlobalTablesOutput _$ListGlobalTablesOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$ListTablesInputToJson(ListTablesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ExclusiveStartTableName', instance.exclusiveStartTableName);
+  writeNotNull('Limit', instance.limit);
+  return val;
+}
+
 ListTablesOutput _$ListTablesOutputFromJson(Map<String, dynamic> json) {
   return ListTablesOutput(
     lastEvaluatedTableName: json['LastEvaluatedTableName'] as String,
     tableNames: (json['TableNames'] as List)?.map((e) => e as String)?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListTagsOfResourceInputToJson(
+    ListTagsOfResourceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListTagsOfResourceOutput _$ListTagsOfResourceOutputFromJson(
@@ -1363,6 +1762,37 @@ Map<String, dynamic> _$PutToJson(Put instance) {
   return val;
 }
 
+Map<String, dynamic> _$PutItemInputToJson(PutItemInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Item', instance.item?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('TableName', instance.tableName);
+  writeNotNull('ConditionExpression', instance.conditionExpression);
+  writeNotNull('ConditionalOperator',
+      _$ConditionalOperatorEnumMap[instance.conditionalOperator]);
+  writeNotNull(
+      'Expected', instance.expected?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('ExpressionAttributeNames', instance.expressionAttributeNames);
+  writeNotNull(
+      'ExpressionAttributeValues',
+      instance.expressionAttributeValues
+          ?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('ReturnConsumedCapacity',
+      _$ReturnConsumedCapacityEnumMap[instance.returnConsumedCapacity]);
+  writeNotNull(
+      'ReturnItemCollectionMetrics',
+      _$ReturnItemCollectionMetricsEnumMap[
+          instance.returnItemCollectionMetrics]);
+  writeNotNull('ReturnValues', _$ReturnValueEnumMap[instance.returnValues]);
+  return val;
+}
+
 PutItemOutput _$PutItemOutputFromJson(Map<String, dynamic> json) {
   return PutItemOutput(
     attributes: (json['Attributes'] as Map<String, dynamic>)?.map(
@@ -1407,6 +1837,50 @@ Map<String, dynamic> _$PutRequestToJson(PutRequest instance) {
   writeNotNull('Item', instance.item?.map((k, e) => MapEntry(k, e?.toJson())));
   return val;
 }
+
+Map<String, dynamic> _$QueryInputToJson(QueryInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TableName', instance.tableName);
+  writeNotNull('AttributesToGet', instance.attributesToGet);
+  writeNotNull('ConditionalOperator',
+      _$ConditionalOperatorEnumMap[instance.conditionalOperator]);
+  writeNotNull('ConsistentRead', instance.consistentRead);
+  writeNotNull('ExclusiveStartKey',
+      instance.exclusiveStartKey?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('ExpressionAttributeNames', instance.expressionAttributeNames);
+  writeNotNull(
+      'ExpressionAttributeValues',
+      instance.expressionAttributeValues
+          ?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('FilterExpression', instance.filterExpression);
+  writeNotNull('IndexName', instance.indexName);
+  writeNotNull('KeyConditionExpression', instance.keyConditionExpression);
+  writeNotNull('KeyConditions',
+      instance.keyConditions?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('ProjectionExpression', instance.projectionExpression);
+  writeNotNull('QueryFilter',
+      instance.queryFilter?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('ReturnConsumedCapacity',
+      _$ReturnConsumedCapacityEnumMap[instance.returnConsumedCapacity]);
+  writeNotNull('ScanIndexForward', instance.scanIndexForward);
+  writeNotNull('Select', _$SelectEnumMap[instance.select]);
+  return val;
+}
+
+const _$SelectEnumMap = {
+  Select.allAttributes: 'ALL_ATTRIBUTES',
+  Select.allProjectedAttributes: 'ALL_PROJECTED_ATTRIBUTES',
+  Select.specificAttributes: 'SPECIFIC_ATTRIBUTES',
+  Select.count: 'COUNT',
+};
 
 QueryOutput _$QueryOutputFromJson(Map<String, dynamic> json) {
   return QueryOutput(
@@ -1740,6 +2214,31 @@ RestoreSummary _$RestoreSummaryFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$RestoreTableFromBackupInputToJson(
+    RestoreTableFromBackupInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BackupArn', instance.backupArn);
+  writeNotNull('TargetTableName', instance.targetTableName);
+  writeNotNull('BillingModeOverride',
+      _$BillingModeEnumMap[instance.billingModeOverride]);
+  writeNotNull('GlobalSecondaryIndexOverride',
+      instance.globalSecondaryIndexOverride?.map((e) => e?.toJson())?.toList());
+  writeNotNull('LocalSecondaryIndexOverride',
+      instance.localSecondaryIndexOverride?.map((e) => e?.toJson())?.toList());
+  writeNotNull('ProvisionedThroughputOverride',
+      instance.provisionedThroughputOverride?.toJson());
+  writeNotNull(
+      'SSESpecificationOverride', instance.sSESpecificationOverride?.toJson());
+  return val;
+}
+
 RestoreTableFromBackupOutput _$RestoreTableFromBackupOutputFromJson(
     Map<String, dynamic> json) {
   return RestoreTableFromBackupOutput(
@@ -1748,6 +2247,35 @@ RestoreTableFromBackupOutput _$RestoreTableFromBackupOutputFromJson(
         : TableDescription.fromJson(
             json['TableDescription'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$RestoreTableToPointInTimeInputToJson(
+    RestoreTableToPointInTimeInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TargetTableName', instance.targetTableName);
+  writeNotNull('BillingModeOverride',
+      _$BillingModeEnumMap[instance.billingModeOverride]);
+  writeNotNull('GlobalSecondaryIndexOverride',
+      instance.globalSecondaryIndexOverride?.map((e) => e?.toJson())?.toList());
+  writeNotNull('LocalSecondaryIndexOverride',
+      instance.localSecondaryIndexOverride?.map((e) => e?.toJson())?.toList());
+  writeNotNull('ProvisionedThroughputOverride',
+      instance.provisionedThroughputOverride?.toJson());
+  writeNotNull(
+      'RestoreDateTime', unixTimestampToJson(instance.restoreDateTime));
+  writeNotNull(
+      'SSESpecificationOverride', instance.sSESpecificationOverride?.toJson());
+  writeNotNull('SourceTableArn', instance.sourceTableArn);
+  writeNotNull('SourceTableName', instance.sourceTableName);
+  writeNotNull('UseLatestRestorableTime', instance.useLatestRestorableTime);
+  return val;
 }
 
 RestoreTableToPointInTimeOutput _$RestoreTableToPointInTimeOutputFromJson(
@@ -1795,6 +2323,41 @@ Map<String, dynamic> _$SSESpecificationToJson(SSESpecification instance) {
   writeNotNull('Enabled', instance.enabled);
   writeNotNull('KMSMasterKeyId', instance.kMSMasterKeyId);
   writeNotNull('SSEType', _$SSETypeEnumMap[instance.sSEType]);
+  return val;
+}
+
+Map<String, dynamic> _$ScanInputToJson(ScanInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TableName', instance.tableName);
+  writeNotNull('AttributesToGet', instance.attributesToGet);
+  writeNotNull('ConditionalOperator',
+      _$ConditionalOperatorEnumMap[instance.conditionalOperator]);
+  writeNotNull('ConsistentRead', instance.consistentRead);
+  writeNotNull('ExclusiveStartKey',
+      instance.exclusiveStartKey?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('ExpressionAttributeNames', instance.expressionAttributeNames);
+  writeNotNull(
+      'ExpressionAttributeValues',
+      instance.expressionAttributeValues
+          ?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('FilterExpression', instance.filterExpression);
+  writeNotNull('IndexName', instance.indexName);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('ProjectionExpression', instance.projectionExpression);
+  writeNotNull('ReturnConsumedCapacity',
+      _$ReturnConsumedCapacityEnumMap[instance.returnConsumedCapacity]);
+  writeNotNull('ScanFilter',
+      instance.scanFilter?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('Segment', instance.segment);
+  writeNotNull('Select', _$SelectEnumMap[instance.select]);
+  writeNotNull('TotalSegments', instance.totalSegments);
   return val;
 }
 
@@ -2018,6 +2581,20 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
   return val;
 }
 
+Map<String, dynamic> _$TagResourceInputToJson(TagResourceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 TimeToLiveDescription _$TimeToLiveDescriptionFromJson(
     Map<String, dynamic> json) {
   return TimeToLiveDescription(
@@ -2070,6 +2647,23 @@ Map<String, dynamic> _$TransactGetItemToJson(TransactGetItem instance) {
   return val;
 }
 
+Map<String, dynamic> _$TransactGetItemsInputToJson(
+    TransactGetItemsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TransactItems',
+      instance.transactItems?.map((e) => e?.toJson())?.toList());
+  writeNotNull('ReturnConsumedCapacity',
+      _$ReturnConsumedCapacityEnumMap[instance.returnConsumedCapacity]);
+  return val;
+}
+
 TransactGetItemsOutput _$TransactGetItemsOutputFromJson(
     Map<String, dynamic> json) {
   return TransactGetItemsOutput(
@@ -2101,6 +2695,28 @@ Map<String, dynamic> _$TransactWriteItemToJson(TransactWriteItem instance) {
   return val;
 }
 
+Map<String, dynamic> _$TransactWriteItemsInputToJson(
+    TransactWriteItemsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TransactItems',
+      instance.transactItems?.map((e) => e?.toJson())?.toList());
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('ReturnConsumedCapacity',
+      _$ReturnConsumedCapacityEnumMap[instance.returnConsumedCapacity]);
+  writeNotNull(
+      'ReturnItemCollectionMetrics',
+      _$ReturnItemCollectionMetricsEnumMap[
+          instance.returnItemCollectionMetrics]);
+  return val;
+}
+
 TransactWriteItemsOutput _$TransactWriteItemsOutputFromJson(
     Map<String, dynamic> json) {
   return TransactWriteItemsOutput(
@@ -2120,6 +2736,20 @@ TransactWriteItemsOutput _$TransactWriteItemsOutputFromJson(
               ?.toList()),
     ),
   );
+}
+
+Map<String, dynamic> _$UntagResourceInputToJson(UntagResourceInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
 }
 
 Map<String, dynamic> _$UpdateToJson(Update instance) {
@@ -2147,6 +2777,22 @@ Map<String, dynamic> _$UpdateToJson(Update instance) {
   return val;
 }
 
+Map<String, dynamic> _$UpdateContinuousBackupsInputToJson(
+    UpdateContinuousBackupsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('PointInTimeRecoverySpecification',
+      instance.pointInTimeRecoverySpecification?.toJson());
+  writeNotNull('TableName', instance.tableName);
+  return val;
+}
+
 UpdateContinuousBackupsOutput _$UpdateContinuousBackupsOutputFromJson(
     Map<String, dynamic> json) {
   return UpdateContinuousBackupsOutput(
@@ -2156,6 +2802,28 @@ UpdateContinuousBackupsOutput _$UpdateContinuousBackupsOutputFromJson(
             json['ContinuousBackupsDescription'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$UpdateContributorInsightsInputToJson(
+    UpdateContributorInsightsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ContributorInsightsAction',
+      _$ContributorInsightsActionEnumMap[instance.contributorInsightsAction]);
+  writeNotNull('TableName', instance.tableName);
+  writeNotNull('IndexName', instance.indexName);
+  return val;
+}
+
+const _$ContributorInsightsActionEnumMap = {
+  ContributorInsightsAction.enable: 'ENABLE',
+  ContributorInsightsAction.disable: 'DISABLE',
+};
 
 UpdateContributorInsightsOutput _$UpdateContributorInsightsOutputFromJson(
     Map<String, dynamic> json) {
@@ -2183,6 +2851,22 @@ Map<String, dynamic> _$UpdateGlobalSecondaryIndexActionToJson(
   return val;
 }
 
+Map<String, dynamic> _$UpdateGlobalTableInputToJson(
+    UpdateGlobalTableInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GlobalTableName', instance.globalTableName);
+  writeNotNull('ReplicaUpdates',
+      instance.replicaUpdates?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 UpdateGlobalTableOutput _$UpdateGlobalTableOutputFromJson(
     Map<String, dynamic> json) {
   return UpdateGlobalTableOutput(
@@ -2191,6 +2875,35 @@ UpdateGlobalTableOutput _$UpdateGlobalTableOutputFromJson(
         : GlobalTableDescription.fromJson(
             json['GlobalTableDescription'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateGlobalTableSettingsInputToJson(
+    UpdateGlobalTableSettingsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GlobalTableName', instance.globalTableName);
+  writeNotNull('GlobalTableBillingMode',
+      _$BillingModeEnumMap[instance.globalTableBillingMode]);
+  writeNotNull(
+      'GlobalTableGlobalSecondaryIndexSettingsUpdate',
+      instance.globalTableGlobalSecondaryIndexSettingsUpdate
+          ?.map((e) => e?.toJson())
+          ?.toList());
+  writeNotNull(
+      'GlobalTableProvisionedWriteCapacityAutoScalingSettingsUpdate',
+      instance.globalTableProvisionedWriteCapacityAutoScalingSettingsUpdate
+          ?.toJson());
+  writeNotNull('GlobalTableProvisionedWriteCapacityUnits',
+      instance.globalTableProvisionedWriteCapacityUnits);
+  writeNotNull('ReplicaSettingsUpdate',
+      instance.replicaSettingsUpdate?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 UpdateGlobalTableSettingsOutput _$UpdateGlobalTableSettingsOutputFromJson(
@@ -2203,6 +2916,40 @@ UpdateGlobalTableSettingsOutput _$UpdateGlobalTableSettingsOutputFromJson(
             : ReplicaSettingsDescription.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$UpdateItemInputToJson(UpdateItemInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Key', instance.key?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('TableName', instance.tableName);
+  writeNotNull('AttributeUpdates',
+      instance.attributeUpdates?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('ConditionExpression', instance.conditionExpression);
+  writeNotNull('ConditionalOperator',
+      _$ConditionalOperatorEnumMap[instance.conditionalOperator]);
+  writeNotNull(
+      'Expected', instance.expected?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('ExpressionAttributeNames', instance.expressionAttributeNames);
+  writeNotNull(
+      'ExpressionAttributeValues',
+      instance.expressionAttributeValues
+          ?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('ReturnConsumedCapacity',
+      _$ReturnConsumedCapacityEnumMap[instance.returnConsumedCapacity]);
+  writeNotNull(
+      'ReturnItemCollectionMetrics',
+      _$ReturnItemCollectionMetricsEnumMap[
+          instance.returnItemCollectionMetrics]);
+  writeNotNull('ReturnValues', _$ReturnValueEnumMap[instance.returnValues]);
+  writeNotNull('UpdateExpression', instance.updateExpression);
+  return val;
 }
 
 UpdateItemOutput _$UpdateItemOutputFromJson(Map<String, dynamic> json) {
@@ -2244,6 +2991,30 @@ Map<String, dynamic> _$UpdateReplicationGroupMemberActionToJson(
   return val;
 }
 
+Map<String, dynamic> _$UpdateTableInputToJson(UpdateTableInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TableName', instance.tableName);
+  writeNotNull('AttributeDefinitions',
+      instance.attributeDefinitions?.map((e) => e?.toJson())?.toList());
+  writeNotNull('BillingMode', _$BillingModeEnumMap[instance.billingMode]);
+  writeNotNull('GlobalSecondaryIndexUpdates',
+      instance.globalSecondaryIndexUpdates?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'ProvisionedThroughput', instance.provisionedThroughput?.toJson());
+  writeNotNull('ReplicaUpdates',
+      instance.replicaUpdates?.map((e) => e?.toJson())?.toList());
+  writeNotNull('SSESpecification', instance.sSESpecification?.toJson());
+  writeNotNull('StreamSpecification', instance.streamSpecification?.toJson());
+  return val;
+}
+
 UpdateTableOutput _$UpdateTableOutputFromJson(Map<String, dynamic> json) {
   return UpdateTableOutput(
     tableDescription: json['TableDescription'] == null
@@ -2251,6 +3022,26 @@ UpdateTableOutput _$UpdateTableOutputFromJson(Map<String, dynamic> json) {
         : TableDescription.fromJson(
             json['TableDescription'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateTableReplicaAutoScalingInputToJson(
+    UpdateTableReplicaAutoScalingInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TableName', instance.tableName);
+  writeNotNull('GlobalSecondaryIndexUpdates',
+      instance.globalSecondaryIndexUpdates?.map((e) => e?.toJson())?.toList());
+  writeNotNull('ProvisionedWriteCapacityAutoScalingUpdate',
+      instance.provisionedWriteCapacityAutoScalingUpdate?.toJson());
+  writeNotNull('ReplicaUpdates',
+      instance.replicaUpdates?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 UpdateTableReplicaAutoScalingOutput
@@ -2261,6 +3052,22 @@ UpdateTableReplicaAutoScalingOutput
         : TableAutoScalingDescription.fromJson(
             json['TableAutoScalingDescription'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateTimeToLiveInputToJson(
+    UpdateTimeToLiveInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TableName', instance.tableName);
+  writeNotNull(
+      'TimeToLiveSpecification', instance.timeToLiveSpecification?.toJson());
+  return val;
 }
 
 UpdateTimeToLiveOutput _$UpdateTimeToLiveOutputFromJson(

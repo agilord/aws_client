@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -154,12 +153,11 @@ class Budgets {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AccountId': accountId,
-        'Budget': budget,
-        if (notificationsWithSubscribers != null)
-          'NotificationsWithSubscribers': notificationsWithSubscribers,
-      },
+      payload: CreateBudgetRequest(
+        accountId: accountId,
+        budget: budget,
+        notificationsWithSubscribers: notificationsWithSubscribers,
+      ),
     );
 
     return CreateBudgetResponse.fromJson(jsonResponse.body);
@@ -236,12 +234,12 @@ class Budgets {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AccountId': accountId,
-        'BudgetName': budgetName,
-        'Notification': notification,
-        'Subscribers': subscribers,
-      },
+      payload: CreateNotificationRequest(
+        accountId: accountId,
+        budgetName: budgetName,
+        notification: notification,
+        subscribers: subscribers,
+      ),
     );
 
     return CreateNotificationResponse.fromJson(jsonResponse.body);
@@ -316,12 +314,12 @@ class Budgets {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AccountId': accountId,
-        'BudgetName': budgetName,
-        'Notification': notification,
-        'Subscriber': subscriber,
-      },
+      payload: CreateSubscriberRequest(
+        accountId: accountId,
+        budgetName: budgetName,
+        notification: notification,
+        subscriber: subscriber,
+      ),
     );
 
     return CreateSubscriberResponse.fromJson(jsonResponse.body);
@@ -386,10 +384,10 @@ class Budgets {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AccountId': accountId,
-        'BudgetName': budgetName,
-      },
+      payload: DeleteBudgetRequest(
+        accountId: accountId,
+        budgetName: budgetName,
+      ),
     );
 
     return DeleteBudgetResponse.fromJson(jsonResponse.body);
@@ -459,11 +457,11 @@ class Budgets {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AccountId': accountId,
-        'BudgetName': budgetName,
-        'Notification': notification,
-      },
+      payload: DeleteNotificationRequest(
+        accountId: accountId,
+        budgetName: budgetName,
+        notification: notification,
+      ),
     );
 
     return DeleteNotificationResponse.fromJson(jsonResponse.body);
@@ -538,12 +536,12 @@ class Budgets {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AccountId': accountId,
-        'BudgetName': budgetName,
-        'Notification': notification,
-        'Subscriber': subscriber,
-      },
+      payload: DeleteSubscriberRequest(
+        accountId: accountId,
+        budgetName: budgetName,
+        notification: notification,
+        subscriber: subscriber,
+      ),
     );
 
     return DeleteSubscriberResponse.fromJson(jsonResponse.body);
@@ -610,10 +608,10 @@ class Budgets {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AccountId': accountId,
-        'BudgetName': budgetName,
-      },
+      payload: DescribeBudgetRequest(
+        accountId: accountId,
+        budgetName: budgetName,
+      ),
     );
 
     return DescribeBudgetResponse.fromJson(jsonResponse.body);
@@ -696,13 +694,13 @@ class Budgets {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AccountId': accountId,
-        'BudgetName': budgetName,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (timePeriod != null) 'TimePeriod': timePeriod,
-      },
+      payload: DescribeBudgetPerformanceHistoryRequest(
+        accountId: accountId,
+        budgetName: budgetName,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        timePeriod: timePeriod,
+      ),
     );
 
     return DescribeBudgetPerformanceHistoryResponse.fromJson(jsonResponse.body);
@@ -780,11 +778,11 @@ class Budgets {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AccountId': accountId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeBudgetsRequest(
+        accountId: accountId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeBudgetsResponse.fromJson(jsonResponse.body);
@@ -875,12 +873,12 @@ class Budgets {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AccountId': accountId,
-        'BudgetName': budgetName,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeNotificationsForBudgetRequest(
+        accountId: accountId,
+        budgetName: budgetName,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeNotificationsForBudgetResponse.fromJson(jsonResponse.body);
@@ -977,13 +975,13 @@ class Budgets {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AccountId': accountId,
-        'BudgetName': budgetName,
-        'Notification': notification,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeSubscribersForNotificationRequest(
+        accountId: accountId,
+        budgetName: budgetName,
+        notification: notification,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeSubscribersForNotificationResponse.fromJson(
@@ -1043,10 +1041,10 @@ class Budgets {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AccountId': accountId,
-        'NewBudget': newBudget,
-      },
+      payload: UpdateBudgetRequest(
+        accountId: accountId,
+        newBudget: newBudget,
+      ),
     );
 
     return UpdateBudgetResponse.fromJson(jsonResponse.body);
@@ -1118,12 +1116,12 @@ class Budgets {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AccountId': accountId,
-        'BudgetName': budgetName,
-        'NewNotification': newNotification,
-        'OldNotification': oldNotification,
-      },
+      payload: UpdateNotificationRequest(
+        accountId: accountId,
+        budgetName: budgetName,
+        newNotification: newNotification,
+        oldNotification: oldNotification,
+      ),
     );
 
     return UpdateNotificationResponse.fromJson(jsonResponse.body);
@@ -1200,13 +1198,13 @@ class Budgets {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AccountId': accountId,
-        'BudgetName': budgetName,
-        'NewSubscriber': newSubscriber,
-        'Notification': notification,
-        'OldSubscriber': oldSubscriber,
-      },
+      payload: UpdateSubscriberRequest(
+        accountId: accountId,
+        budgetName: budgetName,
+        newSubscriber: newSubscriber,
+        notification: notification,
+        oldSubscriber: oldSubscriber,
+      ),
     );
 
     return UpdateSubscriberResponse.fromJson(jsonResponse.body);
@@ -1610,6 +1608,37 @@ class CostTypes {
   Map<String, dynamic> toJson() => _$CostTypesToJson(this);
 }
 
+/// Request of CreateBudget
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateBudgetRequest {
+  /// The <code>accountId</code> that is associated with the budget.
+  @_s.JsonKey(name: 'AccountId')
+  final String accountId;
+
+  /// The budget object that you want to create.
+  @_s.JsonKey(name: 'Budget')
+  final Budget budget;
+
+  /// A notification that you want to associate with a budget. A budget can have
+  /// up to five notifications, and each notification can have one SNS subscriber
+  /// and up to 10 email subscribers. If you include notifications and subscribers
+  /// in your <code>CreateBudget</code> call, AWS creates the notifications and
+  /// subscribers for you.
+  @_s.JsonKey(name: 'NotificationsWithSubscribers')
+  final List<NotificationWithSubscribers> notificationsWithSubscribers;
+
+  CreateBudgetRequest({
+    @_s.required this.accountId,
+    @_s.required this.budget,
+    this.notificationsWithSubscribers,
+  });
+  Map<String, dynamic> toJson() => _$CreateBudgetRequestToJson(this);
+}
+
 /// Response of CreateBudget
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1620,6 +1649,41 @@ class CreateBudgetResponse {
   CreateBudgetResponse();
   factory CreateBudgetResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateBudgetResponseFromJson(json);
+}
+
+/// Request of CreateNotification
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateNotificationRequest {
+  /// The <code>accountId</code> that is associated with the budget that you want
+  /// to create a notification for.
+  @_s.JsonKey(name: 'AccountId')
+  final String accountId;
+
+  /// The name of the budget that you want AWS to notify you about. Budget names
+  /// must be unique within an account.
+  @_s.JsonKey(name: 'BudgetName')
+  final String budgetName;
+
+  /// The notification that you want to create.
+  @_s.JsonKey(name: 'Notification')
+  final Notification notification;
+
+  /// A list of subscribers that you want to associate with the notification. Each
+  /// notification can have one SNS subscriber and up to 10 email subscribers.
+  @_s.JsonKey(name: 'Subscribers')
+  final List<Subscriber> subscribers;
+
+  CreateNotificationRequest({
+    @_s.required this.accountId,
+    @_s.required this.budgetName,
+    @_s.required this.notification,
+    @_s.required this.subscribers,
+  });
+  Map<String, dynamic> toJson() => _$CreateNotificationRequestToJson(this);
 }
 
 /// Response of CreateNotification
@@ -1634,6 +1698,40 @@ class CreateNotificationResponse {
       _$CreateNotificationResponseFromJson(json);
 }
 
+/// Request of CreateSubscriber
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateSubscriberRequest {
+  /// The <code>accountId</code> that is associated with the budget that you want
+  /// to create a subscriber for.
+  @_s.JsonKey(name: 'AccountId')
+  final String accountId;
+
+  /// The name of the budget that you want to subscribe to. Budget names must be
+  /// unique within an account.
+  @_s.JsonKey(name: 'BudgetName')
+  final String budgetName;
+
+  /// The notification that you want to create a subscriber for.
+  @_s.JsonKey(name: 'Notification')
+  final Notification notification;
+
+  /// The subscriber that you want to associate with a budget notification.
+  @_s.JsonKey(name: 'Subscriber')
+  final Subscriber subscriber;
+
+  CreateSubscriberRequest({
+    @_s.required this.accountId,
+    @_s.required this.budgetName,
+    @_s.required this.notification,
+    @_s.required this.subscriber,
+  });
+  Map<String, dynamic> toJson() => _$CreateSubscriberRequestToJson(this);
+}
+
 /// Response of CreateSubscriber
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1644,6 +1742,29 @@ class CreateSubscriberResponse {
   CreateSubscriberResponse();
   factory CreateSubscriberResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateSubscriberResponseFromJson(json);
+}
+
+/// Request of DeleteBudget
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteBudgetRequest {
+  /// The <code>accountId</code> that is associated with the budget that you want
+  /// to delete.
+  @_s.JsonKey(name: 'AccountId')
+  final String accountId;
+
+  /// The name of the budget that you want to delete.
+  @_s.JsonKey(name: 'BudgetName')
+  final String budgetName;
+
+  DeleteBudgetRequest({
+    @_s.required this.accountId,
+    @_s.required this.budgetName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteBudgetRequestToJson(this);
 }
 
 /// Response of DeleteBudget
@@ -1658,6 +1779,34 @@ class DeleteBudgetResponse {
       _$DeleteBudgetResponseFromJson(json);
 }
 
+/// Request of DeleteNotification
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteNotificationRequest {
+  /// The <code>accountId</code> that is associated with the budget whose
+  /// notification you want to delete.
+  @_s.JsonKey(name: 'AccountId')
+  final String accountId;
+
+  /// The name of the budget whose notification you want to delete.
+  @_s.JsonKey(name: 'BudgetName')
+  final String budgetName;
+
+  /// The notification that you want to delete.
+  @_s.JsonKey(name: 'Notification')
+  final Notification notification;
+
+  DeleteNotificationRequest({
+    @_s.required this.accountId,
+    @_s.required this.budgetName,
+    @_s.required this.notification,
+  });
+  Map<String, dynamic> toJson() => _$DeleteNotificationRequestToJson(this);
+}
+
 /// Response of DeleteNotification
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1670,6 +1819,39 @@ class DeleteNotificationResponse {
       _$DeleteNotificationResponseFromJson(json);
 }
 
+/// Request of DeleteSubscriber
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteSubscriberRequest {
+  /// The <code>accountId</code> that is associated with the budget whose
+  /// subscriber you want to delete.
+  @_s.JsonKey(name: 'AccountId')
+  final String accountId;
+
+  /// The name of the budget whose subscriber you want to delete.
+  @_s.JsonKey(name: 'BudgetName')
+  final String budgetName;
+
+  /// The notification whose subscriber you want to delete.
+  @_s.JsonKey(name: 'Notification')
+  final Notification notification;
+
+  /// The subscriber that you want to delete.
+  @_s.JsonKey(name: 'Subscriber')
+  final Subscriber subscriber;
+
+  DeleteSubscriberRequest({
+    @_s.required this.accountId,
+    @_s.required this.budgetName,
+    @_s.required this.notification,
+    @_s.required this.subscriber,
+  });
+  Map<String, dynamic> toJson() => _$DeleteSubscriberRequestToJson(this);
+}
+
 /// Response of DeleteSubscriber
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1680,6 +1862,37 @@ class DeleteSubscriberResponse {
   DeleteSubscriberResponse();
   factory DeleteSubscriberResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteSubscriberResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeBudgetPerformanceHistoryRequest {
+  @_s.JsonKey(name: 'AccountId')
+  final String accountId;
+  @_s.JsonKey(name: 'BudgetName')
+  final String budgetName;
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Retrieves how often the budget went into an <code>ALARM</code> state for the
+  /// specified time period.
+  @_s.JsonKey(name: 'TimePeriod')
+  final TimePeriod timePeriod;
+
+  DescribeBudgetPerformanceHistoryRequest({
+    @_s.required this.accountId,
+    @_s.required this.budgetName,
+    this.maxResults,
+    this.nextToken,
+    this.timePeriod,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeBudgetPerformanceHistoryRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1710,6 +1923,29 @@ class DescribeBudgetPerformanceHistoryResponse {
       _$DescribeBudgetPerformanceHistoryResponseFromJson(json);
 }
 
+/// Request of DescribeBudget
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeBudgetRequest {
+  /// The <code>accountId</code> that is associated with the budget that you want
+  /// a description of.
+  @_s.JsonKey(name: 'AccountId')
+  final String accountId;
+
+  /// The name of the budget that you want a description of.
+  @_s.JsonKey(name: 'BudgetName')
+  final String budgetName;
+
+  DescribeBudgetRequest({
+    @_s.required this.accountId,
+    @_s.required this.budgetName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeBudgetRequestToJson(this);
+}
+
 /// Response of DescribeBudget
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1726,6 +1962,36 @@ class DescribeBudgetResponse {
   });
   factory DescribeBudgetResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeBudgetResponseFromJson(json);
+}
+
+/// Request of DescribeBudgets
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeBudgetsRequest {
+  /// The <code>accountId</code> that is associated with the budgets that you want
+  /// descriptions of.
+  @_s.JsonKey(name: 'AccountId')
+  final String accountId;
+
+  /// An optional integer that represents how many entries a paginated response
+  /// contains. The maximum is 100.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The pagination token that you include in your request to indicate the next
+  /// set of results that you want to retrieve.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeBudgetsRequest({
+    @_s.required this.accountId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeBudgetsRequestToJson(this);
 }
 
 /// Response of DescribeBudgets
@@ -1752,6 +2018,42 @@ class DescribeBudgetsResponse {
       _$DescribeBudgetsResponseFromJson(json);
 }
 
+/// Request of DescribeNotificationsForBudget
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeNotificationsForBudgetRequest {
+  /// The <code>accountId</code> that is associated with the budget whose
+  /// notifications you want descriptions of.
+  @_s.JsonKey(name: 'AccountId')
+  final String accountId;
+
+  /// The name of the budget whose notifications you want descriptions of.
+  @_s.JsonKey(name: 'BudgetName')
+  final String budgetName;
+
+  /// An optional integer that represents how many entries a paginated response
+  /// contains. The maximum is 100.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The pagination token that you include in your request to indicate the next
+  /// set of results that you want to retrieve.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeNotificationsForBudgetRequest({
+    @_s.required this.accountId,
+    @_s.required this.budgetName,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeNotificationsForBudgetRequestToJson(this);
+}
+
 /// Response of GetNotificationsForBudget
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1775,6 +2077,47 @@ class DescribeNotificationsForBudgetResponse {
   factory DescribeNotificationsForBudgetResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeNotificationsForBudgetResponseFromJson(json);
+}
+
+/// Request of DescribeSubscribersForNotification
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeSubscribersForNotificationRequest {
+  /// The <code>accountId</code> that is associated with the budget whose
+  /// subscribers you want descriptions of.
+  @_s.JsonKey(name: 'AccountId')
+  final String accountId;
+
+  /// The name of the budget whose subscribers you want descriptions of.
+  @_s.JsonKey(name: 'BudgetName')
+  final String budgetName;
+
+  /// The notification whose subscribers you want to list.
+  @_s.JsonKey(name: 'Notification')
+  final Notification notification;
+
+  /// An optional integer that represents how many entries a paginated response
+  /// contains. The maximum is 100.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The pagination token that you include in your request to indicate the next
+  /// set of results that you want to retrieve.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeSubscribersForNotificationRequest({
+    @_s.required this.accountId,
+    @_s.required this.budgetName,
+    @_s.required this.notification,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeSubscribersForNotificationRequestToJson(this);
 }
 
 /// Response of DescribeSubscribersForNotification
@@ -2068,6 +2411,29 @@ enum TimeUnit {
   annually,
 }
 
+/// Request of UpdateBudget
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateBudgetRequest {
+  /// The <code>accountId</code> that is associated with the budget that you want
+  /// to update.
+  @_s.JsonKey(name: 'AccountId')
+  final String accountId;
+
+  /// The budget that you want to update your budget to.
+  @_s.JsonKey(name: 'NewBudget')
+  final Budget newBudget;
+
+  UpdateBudgetRequest({
+    @_s.required this.accountId,
+    @_s.required this.newBudget,
+  });
+  Map<String, dynamic> toJson() => _$UpdateBudgetRequestToJson(this);
+}
+
 /// Response of UpdateBudget
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2080,6 +2446,39 @@ class UpdateBudgetResponse {
       _$UpdateBudgetResponseFromJson(json);
 }
 
+/// Request of UpdateNotification
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateNotificationRequest {
+  /// The <code>accountId</code> that is associated with the budget whose
+  /// notification you want to update.
+  @_s.JsonKey(name: 'AccountId')
+  final String accountId;
+
+  /// The name of the budget whose notification you want to update.
+  @_s.JsonKey(name: 'BudgetName')
+  final String budgetName;
+
+  /// The updated notification to be associated with a budget.
+  @_s.JsonKey(name: 'NewNotification')
+  final Notification newNotification;
+
+  /// The previous notification that is associated with a budget.
+  @_s.JsonKey(name: 'OldNotification')
+  final Notification oldNotification;
+
+  UpdateNotificationRequest({
+    @_s.required this.accountId,
+    @_s.required this.budgetName,
+    @_s.required this.newNotification,
+    @_s.required this.oldNotification,
+  });
+  Map<String, dynamic> toJson() => _$UpdateNotificationRequestToJson(this);
+}
+
 /// Response of UpdateNotification
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2090,6 +2489,44 @@ class UpdateNotificationResponse {
   UpdateNotificationResponse();
   factory UpdateNotificationResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateNotificationResponseFromJson(json);
+}
+
+/// Request of UpdateSubscriber
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateSubscriberRequest {
+  /// The <code>accountId</code> that is associated with the budget whose
+  /// subscriber you want to update.
+  @_s.JsonKey(name: 'AccountId')
+  final String accountId;
+
+  /// The name of the budget whose subscriber you want to update.
+  @_s.JsonKey(name: 'BudgetName')
+  final String budgetName;
+
+  /// The updated subscriber that is associated with a budget notification.
+  @_s.JsonKey(name: 'NewSubscriber')
+  final Subscriber newSubscriber;
+
+  /// The notification whose subscriber you want to update.
+  @_s.JsonKey(name: 'Notification')
+  final Notification notification;
+
+  /// The previous subscriber that is associated with a budget notification.
+  @_s.JsonKey(name: 'OldSubscriber')
+  final Subscriber oldSubscriber;
+
+  UpdateSubscriberRequest({
+    @_s.required this.accountId,
+    @_s.required this.budgetName,
+    @_s.required this.newSubscriber,
+    @_s.required this.notification,
+    @_s.required this.oldSubscriber,
+  });
+  Map<String, dynamic> toJson() => _$UpdateSubscriberRequestToJson(this);
 }
 
 /// Response of UpdateSubscriber

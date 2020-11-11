@@ -91,6 +91,20 @@ BackupFailureDetails _$BackupFailureDetailsFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CancelDataRepositoryTaskRequestToJson(
+    CancelDataRepositoryTaskRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TaskId', instance.taskId);
+  return val;
+}
+
 CancelDataRepositoryTaskResponse _$CancelDataRepositoryTaskResponseFromJson(
     Map<String, dynamic> json) {
   return CancelDataRepositoryTaskResponse(
@@ -142,6 +156,21 @@ const _$ReportScopeEnumMap = {
   ReportScope.failedFilesOnly: 'FAILED_FILES_ONLY',
 };
 
+Map<String, dynamic> _$CreateBackupRequestToJson(CreateBackupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FileSystemId', instance.fileSystemId);
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateBackupResponse _$CreateBackupResponseFromJson(Map<String, dynamic> json) {
   return CreateBackupResponse(
     backup: json['Backup'] == null
@@ -149,6 +178,29 @@ CreateBackupResponse _$CreateBackupResponseFromJson(Map<String, dynamic> json) {
         : Backup.fromJson(json['Backup'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$CreateDataRepositoryTaskRequestToJson(
+    CreateDataRepositoryTaskRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FileSystemId', instance.fileSystemId);
+  writeNotNull('Report', instance.report?.toJson());
+  writeNotNull('Type', _$DataRepositoryTaskTypeEnumMap[instance.type]);
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('Paths', instance.paths);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+const _$DataRepositoryTaskTypeEnumMap = {
+  DataRepositoryTaskType.exportToRepository: 'EXPORT_TO_REPOSITORY',
+};
 
 CreateDataRepositoryTaskResponse _$CreateDataRepositoryTaskResponseFromJson(
     Map<String, dynamic> json) {
@@ -159,6 +211,31 @@ CreateDataRepositoryTaskResponse _$CreateDataRepositoryTaskResponseFromJson(
             json['DataRepositoryTask'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$CreateFileSystemFromBackupRequestToJson(
+    CreateFileSystemFromBackupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BackupId', instance.backupId);
+  writeNotNull('SubnetIds', instance.subnetIds);
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('SecurityGroupIds', instance.securityGroupIds);
+  writeNotNull('StorageType', _$StorageTypeEnumMap[instance.storageType]);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('WindowsConfiguration', instance.windowsConfiguration?.toJson());
+  return val;
+}
+
+const _$StorageTypeEnumMap = {
+  StorageType.ssd: 'SSD',
+  StorageType.hdd: 'HDD',
+};
 
 CreateFileSystemFromBackupResponse _$CreateFileSystemFromBackupResponseFromJson(
     Map<String, dynamic> json) {
@@ -194,6 +271,35 @@ const _$LustreDeploymentTypeEnumMap = {
   LustreDeploymentType.scratch_1: 'SCRATCH_1',
   LustreDeploymentType.scratch_2: 'SCRATCH_2',
   LustreDeploymentType.persistent_1: 'PERSISTENT_1',
+};
+
+Map<String, dynamic> _$CreateFileSystemRequestToJson(
+    CreateFileSystemRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'FileSystemType', _$FileSystemTypeEnumMap[instance.fileSystemType]);
+  writeNotNull('StorageCapacity', instance.storageCapacity);
+  writeNotNull('SubnetIds', instance.subnetIds);
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('KmsKeyId', instance.kmsKeyId);
+  writeNotNull('LustreConfiguration', instance.lustreConfiguration?.toJson());
+  writeNotNull('SecurityGroupIds', instance.securityGroupIds);
+  writeNotNull('StorageType', _$StorageTypeEnumMap[instance.storageType]);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('WindowsConfiguration', instance.windowsConfiguration?.toJson());
+  return val;
+}
+
+const _$FileSystemTypeEnumMap = {
+  FileSystemType.windows: 'WINDOWS',
+  FileSystemType.lustre: 'LUSTRE',
 };
 
 CreateFileSystemResponse _$CreateFileSystemResponseFromJson(
@@ -276,10 +382,6 @@ DataRepositoryTask _$DataRepositoryTaskFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$DataRepositoryTaskTypeEnumMap = {
-  DataRepositoryTaskType.exportToRepository: 'EXPORT_TO_REPOSITORY',
-};
-
 DataRepositoryTaskFailureDetails _$DataRepositoryTaskFailureDetailsFromJson(
     Map<String, dynamic> json) {
   return DataRepositoryTaskFailureDetails(
@@ -317,12 +419,42 @@ DataRepositoryTaskStatus _$DataRepositoryTaskStatusFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteBackupRequestToJson(DeleteBackupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BackupId', instance.backupId);
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  return val;
+}
+
 DeleteBackupResponse _$DeleteBackupResponseFromJson(Map<String, dynamic> json) {
   return DeleteBackupResponse(
     backupId: json['BackupId'] as String,
     lifecycle:
         _$enumDecodeNullable(_$BackupLifecycleEnumMap, json['Lifecycle']),
   );
+}
+
+Map<String, dynamic> _$DeleteFileSystemRequestToJson(
+    DeleteFileSystemRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FileSystemId', instance.fileSystemId);
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('WindowsConfiguration', instance.windowsConfiguration?.toJson());
+  return val;
 }
 
 DeleteFileSystemResponse _$DeleteFileSystemResponseFromJson(
@@ -373,6 +505,23 @@ DeleteFileSystemWindowsResponse _$DeleteFileSystemWindowsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeBackupsRequestToJson(
+    DescribeBackupsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BackupIds', instance.backupIds);
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 DescribeBackupsResponse _$DescribeBackupsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeBackupsResponse(
@@ -382,6 +531,23 @@ DescribeBackupsResponse _$DescribeBackupsResponseFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeDataRepositoryTasksRequestToJson(
+    DescribeDataRepositoryTasksRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('TaskIds', instance.taskIds);
+  return val;
 }
 
 DescribeDataRepositoryTasksResponse
@@ -394,6 +560,22 @@ DescribeDataRepositoryTasksResponse
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeFileSystemsRequestToJson(
+    DescribeFileSystemsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FileSystemIds', instance.fileSystemIds);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 DescribeFileSystemsResponse _$DescribeFileSystemsResponseFromJson(
@@ -445,16 +627,6 @@ FileSystem _$FileSystemFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$FileSystemTypeEnumMap = {
-  FileSystemType.windows: 'WINDOWS',
-  FileSystemType.lustre: 'LUSTRE',
-};
-
-const _$StorageTypeEnumMap = {
-  StorageType.ssd: 'SSD',
-  StorageType.hdd: 'HDD',
-};
-
 FileSystemFailureDetails _$FileSystemFailureDetailsFromJson(
     Map<String, dynamic> json) {
   return FileSystemFailureDetails(
@@ -480,6 +652,22 @@ const _$FilterNameEnumMap = {
   FilterName.fileSystemId: 'file-system-id',
   FilterName.backupType: 'backup-type',
 };
+
+Map<String, dynamic> _$ListTagsForResourceRequestToJson(
+    ListTagsForResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARN', instance.resourceARN);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
@@ -577,8 +765,37 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
   return val;
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARN', instance.resourceARN);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
+}
+
+Map<String, dynamic> _$UntagResourceRequestToJson(
+    UntagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceARN', instance.resourceARN);
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
 }
 
 UntagResourceResponse _$UntagResourceResponseFromJson(
@@ -598,6 +815,23 @@ Map<String, dynamic> _$UpdateFileSystemLustreConfigurationToJson(
 
   writeNotNull(
       'WeeklyMaintenanceStartTime', instance.weeklyMaintenanceStartTime);
+  return val;
+}
+
+Map<String, dynamic> _$UpdateFileSystemRequestToJson(
+    UpdateFileSystemRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FileSystemId', instance.fileSystemId);
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('LustreConfiguration', instance.lustreConfiguration?.toJson());
+  writeNotNull('WindowsConfiguration', instance.windowsConfiguration?.toJson());
   return val;
 }
 

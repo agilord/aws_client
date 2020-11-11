@@ -321,6 +321,23 @@ const _$ConfigurationItemStatusEnumMap = {
       'ResourceDeletedNotRecorded',
 };
 
+Map<String, dynamic> _$BatchGetAggregateResourceConfigRequestToJson(
+    BatchGetAggregateResourceConfigRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'ConfigurationAggregatorName', instance.configurationAggregatorName);
+  writeNotNull('ResourceIdentifiers',
+      instance.resourceIdentifiers?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 BatchGetAggregateResourceConfigResponse
     _$BatchGetAggregateResourceConfigResponseFromJson(
         Map<String, dynamic> json) {
@@ -337,6 +354,21 @@ BatchGetAggregateResourceConfigResponse
             : AggregateResourceIdentifier.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$BatchGetResourceConfigRequestToJson(
+    BatchGetResourceConfigRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'resourceKeys', instance.resourceKeys?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 BatchGetResourceConfigResponse _$BatchGetResourceConfigResponseFromJson(
@@ -831,15 +863,191 @@ const _$ConformancePackStateEnumMap = {
   ConformancePackState.deleteFailed: 'DELETE_FAILED',
 };
 
+Map<String, dynamic> _$DeleteAggregationAuthorizationRequestToJson(
+    DeleteAggregationAuthorizationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AuthorizedAccountId', instance.authorizedAccountId);
+  writeNotNull('AuthorizedAwsRegion', instance.authorizedAwsRegion);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteConfigRuleRequestToJson(
+    DeleteConfigRuleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConfigRuleName', instance.configRuleName);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteConfigurationAggregatorRequestToJson(
+    DeleteConfigurationAggregatorRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'ConfigurationAggregatorName', instance.configurationAggregatorName);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteConfigurationRecorderRequestToJson(
+    DeleteConfigurationRecorderRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConfigurationRecorderName', instance.configurationRecorderName);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteConformancePackRequestToJson(
+    DeleteConformancePackRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConformancePackName', instance.conformancePackName);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteDeliveryChannelRequestToJson(
+    DeleteDeliveryChannelRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DeliveryChannelName', instance.deliveryChannelName);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteEvaluationResultsRequestToJson(
+    DeleteEvaluationResultsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConfigRuleName', instance.configRuleName);
+  return val;
+}
+
 DeleteEvaluationResultsResponse _$DeleteEvaluationResultsResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteEvaluationResultsResponse();
+}
+
+Map<String, dynamic> _$DeleteOrganizationConfigRuleRequestToJson(
+    DeleteOrganizationConfigRuleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'OrganizationConfigRuleName', instance.organizationConfigRuleName);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteOrganizationConformancePackRequestToJson(
+    DeleteOrganizationConformancePackRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('OrganizationConformancePackName',
+      instance.organizationConformancePackName);
+  return val;
+}
+
+Map<String, dynamic> _$DeletePendingAggregationRequestRequestToJson(
+    DeletePendingAggregationRequestRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RequesterAccountId', instance.requesterAccountId);
+  writeNotNull('RequesterAwsRegion', instance.requesterAwsRegion);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteRemediationConfigurationRequestToJson(
+    DeleteRemediationConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConfigRuleName', instance.configRuleName);
+  writeNotNull('ResourceType', instance.resourceType);
+  return val;
 }
 
 DeleteRemediationConfigurationResponse
     _$DeleteRemediationConfigurationResponseFromJson(
         Map<String, dynamic> json) {
   return DeleteRemediationConfigurationResponse();
+}
+
+Map<String, dynamic> _$DeleteRemediationExceptionsRequestToJson(
+    DeleteRemediationExceptionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConfigRuleName', instance.configRuleName);
+  writeNotNull(
+      'ResourceKeys', instance.resourceKeys?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 DeleteRemediationExceptionsResponse
@@ -852,6 +1060,50 @@ DeleteRemediationExceptionsResponse
                 e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DeleteResourceConfigRequestToJson(
+    DeleteResourceConfigRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceId', instance.resourceId);
+  writeNotNull('ResourceType', instance.resourceType);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteRetentionConfigurationRequestToJson(
+    DeleteRetentionConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'RetentionConfigurationName', instance.retentionConfigurationName);
+  return val;
+}
+
+Map<String, dynamic> _$DeliverConfigSnapshotRequestToJson(
+    DeliverConfigSnapshotRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('deliveryChannelName', instance.deliveryChannelName);
+  return val;
 }
 
 DeliverConfigSnapshotResponse _$DeliverConfigSnapshotResponseFromJson(
@@ -913,6 +1165,24 @@ DeliveryChannelStatus _$DeliveryChannelStatusFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeAggregateComplianceByConfigRulesRequestToJson(
+    DescribeAggregateComplianceByConfigRulesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'ConfigurationAggregatorName', instance.configurationAggregatorName);
+  writeNotNull('Filters', instance.filters?.toJson());
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 DescribeAggregateComplianceByConfigRulesResponse
     _$DescribeAggregateComplianceByConfigRulesResponseFromJson(
         Map<String, dynamic> json) {
@@ -928,6 +1198,21 @@ DescribeAggregateComplianceByConfigRulesResponse
   );
 }
 
+Map<String, dynamic> _$DescribeAggregationAuthorizationsRequestToJson(
+    DescribeAggregationAuthorizationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 DescribeAggregationAuthorizationsResponse
     _$DescribeAggregationAuthorizationsResponseFromJson(
         Map<String, dynamic> json) {
@@ -939,6 +1224,22 @@ DescribeAggregationAuthorizationsResponse
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeComplianceByConfigRuleRequestToJson(
+    DescribeComplianceByConfigRuleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ComplianceTypes', instance.complianceTypes);
+  writeNotNull('ConfigRuleNames', instance.configRuleNames);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 DescribeComplianceByConfigRuleResponse
@@ -954,6 +1255,24 @@ DescribeComplianceByConfigRuleResponse
   );
 }
 
+Map<String, dynamic> _$DescribeComplianceByResourceRequestToJson(
+    DescribeComplianceByResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ComplianceTypes', instance.complianceTypes);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('ResourceId', instance.resourceId);
+  writeNotNull('ResourceType', instance.resourceType);
+  return val;
+}
+
 DescribeComplianceByResourceResponse
     _$DescribeComplianceByResourceResponseFromJson(Map<String, dynamic> json) {
   return DescribeComplianceByResourceResponse(
@@ -964,6 +1283,22 @@ DescribeComplianceByResourceResponse
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeConfigRuleEvaluationStatusRequestToJson(
+    DescribeConfigRuleEvaluationStatusRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConfigRuleNames', instance.configRuleNames);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 DescribeConfigRuleEvaluationStatusResponse
@@ -979,6 +1314,21 @@ DescribeConfigRuleEvaluationStatusResponse
   );
 }
 
+Map<String, dynamic> _$DescribeConfigRulesRequestToJson(
+    DescribeConfigRulesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConfigRuleNames', instance.configRuleNames);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 DescribeConfigRulesResponse _$DescribeConfigRulesResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeConfigRulesResponse(
@@ -988,6 +1338,25 @@ DescribeConfigRulesResponse _$DescribeConfigRulesResponseFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic>
+    _$DescribeConfigurationAggregatorSourcesStatusRequestToJson(
+        DescribeConfigurationAggregatorSourcesStatusRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'ConfigurationAggregatorName', instance.configurationAggregatorName);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('UpdateStatus', instance.updateStatus);
+  return val;
 }
 
 DescribeConfigurationAggregatorSourcesStatusResponse
@@ -1003,6 +1372,23 @@ DescribeConfigurationAggregatorSourcesStatusResponse
   );
 }
 
+Map<String, dynamic> _$DescribeConfigurationAggregatorsRequestToJson(
+    DescribeConfigurationAggregatorsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'ConfigurationAggregatorNames', instance.configurationAggregatorNames);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 DescribeConfigurationAggregatorsResponse
     _$DescribeConfigurationAggregatorsResponseFromJson(
         Map<String, dynamic> json) {
@@ -1014,6 +1400,21 @@ DescribeConfigurationAggregatorsResponse
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeConfigurationRecorderStatusRequestToJson(
+    DescribeConfigurationRecorderStatusRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'ConfigurationRecorderNames', instance.configurationRecorderNames);
+  return val;
 }
 
 DescribeConfigurationRecorderStatusResponse
@@ -1028,6 +1429,21 @@ DescribeConfigurationRecorderStatusResponse
   );
 }
 
+Map<String, dynamic> _$DescribeConfigurationRecordersRequestToJson(
+    DescribeConfigurationRecordersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'ConfigurationRecorderNames', instance.configurationRecorderNames);
+  return val;
+}
+
 DescribeConfigurationRecordersResponse
     _$DescribeConfigurationRecordersResponseFromJson(
         Map<String, dynamic> json) {
@@ -1038,6 +1454,23 @@ DescribeConfigurationRecordersResponse
             : ConfigurationRecorder.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeConformancePackComplianceRequestToJson(
+    DescribeConformancePackComplianceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConformancePackName', instance.conformancePackName);
+  writeNotNull('Filters', instance.filters?.toJson());
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 DescribeConformancePackComplianceResponse
@@ -1056,6 +1489,22 @@ DescribeConformancePackComplianceResponse
   );
 }
 
+Map<String, dynamic> _$DescribeConformancePackStatusRequestToJson(
+    DescribeConformancePackStatusRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConformancePackNames', instance.conformancePackNames);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 DescribeConformancePackStatusResponse
     _$DescribeConformancePackStatusResponseFromJson(Map<String, dynamic> json) {
   return DescribeConformancePackStatusResponse(
@@ -1066,6 +1515,22 @@ DescribeConformancePackStatusResponse
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeConformancePacksRequestToJson(
+    DescribeConformancePacksRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConformancePackNames', instance.conformancePackNames);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 DescribeConformancePacksResponse _$DescribeConformancePacksResponseFromJson(
@@ -1080,6 +1545,20 @@ DescribeConformancePacksResponse _$DescribeConformancePacksResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeDeliveryChannelStatusRequestToJson(
+    DescribeDeliveryChannelStatusRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DeliveryChannelNames', instance.deliveryChannelNames);
+  return val;
+}
+
 DescribeDeliveryChannelStatusResponse
     _$DescribeDeliveryChannelStatusResponseFromJson(Map<String, dynamic> json) {
   return DescribeDeliveryChannelStatusResponse(
@@ -1091,6 +1570,20 @@ DescribeDeliveryChannelStatusResponse
   );
 }
 
+Map<String, dynamic> _$DescribeDeliveryChannelsRequestToJson(
+    DescribeDeliveryChannelsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DeliveryChannelNames', instance.deliveryChannelNames);
+  return val;
+}
+
 DescribeDeliveryChannelsResponse _$DescribeDeliveryChannelsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeDeliveryChannelsResponse(
@@ -1100,6 +1593,23 @@ DescribeDeliveryChannelsResponse _$DescribeDeliveryChannelsResponseFromJson(
             : DeliveryChannel.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeOrganizationConfigRuleStatusesRequestToJson(
+    DescribeOrganizationConfigRuleStatusesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull(
+      'OrganizationConfigRuleNames', instance.organizationConfigRuleNames);
+  return val;
 }
 
 DescribeOrganizationConfigRuleStatusesResponse
@@ -1116,6 +1626,23 @@ DescribeOrganizationConfigRuleStatusesResponse
   );
 }
 
+Map<String, dynamic> _$DescribeOrganizationConfigRulesRequestToJson(
+    DescribeOrganizationConfigRulesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull(
+      'OrganizationConfigRuleNames', instance.organizationConfigRuleNames);
+  return val;
+}
+
 DescribeOrganizationConfigRulesResponse
     _$DescribeOrganizationConfigRulesResponseFromJson(
         Map<String, dynamic> json) {
@@ -1127,6 +1654,23 @@ DescribeOrganizationConfigRulesResponse
             : OrganizationConfigRule.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeOrganizationConformancePackStatusesRequestToJson(
+    DescribeOrganizationConformancePackStatusesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('OrganizationConformancePackNames',
+      instance.organizationConformancePackNames);
+  return val;
 }
 
 DescribeOrganizationConformancePackStatusesResponse
@@ -1144,6 +1688,23 @@ DescribeOrganizationConformancePackStatusesResponse
   );
 }
 
+Map<String, dynamic> _$DescribeOrganizationConformancePacksRequestToJson(
+    DescribeOrganizationConformancePacksRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('OrganizationConformancePackNames',
+      instance.organizationConformancePackNames);
+  return val;
+}
+
 DescribeOrganizationConformancePacksResponse
     _$DescribeOrganizationConformancePacksResponseFromJson(
         Map<String, dynamic> json) {
@@ -1155,6 +1716,21 @@ DescribeOrganizationConformancePacksResponse
             : OrganizationConformancePack.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribePendingAggregationRequestsRequestToJson(
+    DescribePendingAggregationRequestsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 DescribePendingAggregationRequestsResponse
@@ -1170,6 +1746,20 @@ DescribePendingAggregationRequestsResponse
   );
 }
 
+Map<String, dynamic> _$DescribeRemediationConfigurationsRequestToJson(
+    DescribeRemediationConfigurationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConfigRuleNames', instance.configRuleNames);
+  return val;
+}
+
 DescribeRemediationConfigurationsResponse
     _$DescribeRemediationConfigurationsResponseFromJson(
         Map<String, dynamic> json) {
@@ -1180,6 +1770,24 @@ DescribeRemediationConfigurationsResponse
             : RemediationConfiguration.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeRemediationExceptionsRequestToJson(
+    DescribeRemediationExceptionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConfigRuleName', instance.configRuleName);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull(
+      'ResourceKeys', instance.resourceKeys?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 DescribeRemediationExceptionsResponse
@@ -1194,6 +1802,24 @@ DescribeRemediationExceptionsResponse
   );
 }
 
+Map<String, dynamic> _$DescribeRemediationExecutionStatusRequestToJson(
+    DescribeRemediationExecutionStatusRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConfigRuleName', instance.configRuleName);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull(
+      'ResourceKeys', instance.resourceKeys?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 DescribeRemediationExecutionStatusResponse
     _$DescribeRemediationExecutionStatusResponseFromJson(
         Map<String, dynamic> json) {
@@ -1205,6 +1831,22 @@ DescribeRemediationExecutionStatusResponse
             : RemediationExecutionStatus.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeRetentionConfigurationsRequestToJson(
+    DescribeRetentionConfigurationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull(
+      'RetentionConfigurationNames', instance.retentionConfigurationNames);
+  return val;
 }
 
 DescribeRetentionConfigurationsResponse
@@ -1350,6 +1992,28 @@ FieldInfo _$FieldInfoFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetAggregateComplianceDetailsByConfigRuleRequestToJson(
+    GetAggregateComplianceDetailsByConfigRuleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccountId', instance.accountId);
+  writeNotNull('AwsRegion', instance.awsRegion);
+  writeNotNull('ConfigRuleName', instance.configRuleName);
+  writeNotNull(
+      'ConfigurationAggregatorName', instance.configurationAggregatorName);
+  writeNotNull(
+      'ComplianceType', _$ComplianceTypeEnumMap[instance.complianceType]);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 GetAggregateComplianceDetailsByConfigRuleResponse
     _$GetAggregateComplianceDetailsByConfigRuleResponseFromJson(
         Map<String, dynamic> json) {
@@ -1362,6 +2026,31 @@ GetAggregateComplianceDetailsByConfigRuleResponse
     nextToken: json['NextToken'] as String,
   );
 }
+
+Map<String, dynamic> _$GetAggregateConfigRuleComplianceSummaryRequestToJson(
+    GetAggregateConfigRuleComplianceSummaryRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'ConfigurationAggregatorName', instance.configurationAggregatorName);
+  writeNotNull('Filters', instance.filters?.toJson());
+  writeNotNull('GroupByKey',
+      _$ConfigRuleComplianceSummaryGroupKeyEnumMap[instance.groupByKey]);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
+const _$ConfigRuleComplianceSummaryGroupKeyEnumMap = {
+  ConfigRuleComplianceSummaryGroupKey.accountId: 'ACCOUNT_ID',
+  ConfigRuleComplianceSummaryGroupKey.awsRegion: 'AWS_REGION',
+};
 
 GetAggregateConfigRuleComplianceSummaryResponse
     _$GetAggregateConfigRuleComplianceSummaryResponseFromJson(
@@ -1376,6 +2065,32 @@ GetAggregateConfigRuleComplianceSummaryResponse
     nextToken: json['NextToken'] as String,
   );
 }
+
+Map<String, dynamic> _$GetAggregateDiscoveredResourceCountsRequestToJson(
+    GetAggregateDiscoveredResourceCountsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'ConfigurationAggregatorName', instance.configurationAggregatorName);
+  writeNotNull('Filters', instance.filters?.toJson());
+  writeNotNull(
+      'GroupByKey', _$ResourceCountGroupKeyEnumMap[instance.groupByKey]);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
+const _$ResourceCountGroupKeyEnumMap = {
+  ResourceCountGroupKey.resourceType: 'RESOURCE_TYPE',
+  ResourceCountGroupKey.accountId: 'ACCOUNT_ID',
+  ResourceCountGroupKey.awsRegion: 'AWS_REGION',
+};
 
 GetAggregateDiscoveredResourceCountsResponse
     _$GetAggregateDiscoveredResourceCountsResponseFromJson(
@@ -1392,6 +2107,22 @@ GetAggregateDiscoveredResourceCountsResponse
   );
 }
 
+Map<String, dynamic> _$GetAggregateResourceConfigRequestToJson(
+    GetAggregateResourceConfigRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'ConfigurationAggregatorName', instance.configurationAggregatorName);
+  writeNotNull('ResourceIdentifier', instance.resourceIdentifier?.toJson());
+  return val;
+}
+
 GetAggregateResourceConfigResponse _$GetAggregateResourceConfigResponseFromJson(
     Map<String, dynamic> json) {
   return GetAggregateResourceConfigResponse(
@@ -1400,6 +2131,23 @@ GetAggregateResourceConfigResponse _$GetAggregateResourceConfigResponseFromJson(
         : ConfigurationItem.fromJson(
             json['ConfigurationItem'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetComplianceDetailsByConfigRuleRequestToJson(
+    GetComplianceDetailsByConfigRuleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConfigRuleName', instance.configRuleName);
+  writeNotNull('ComplianceTypes', instance.complianceTypes);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 GetComplianceDetailsByConfigRuleResponse
@@ -1413,6 +2161,23 @@ GetComplianceDetailsByConfigRuleResponse
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$GetComplianceDetailsByResourceRequestToJson(
+    GetComplianceDetailsByResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceId', instance.resourceId);
+  writeNotNull('ResourceType', instance.resourceType);
+  writeNotNull('ComplianceTypes', instance.complianceTypes);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 GetComplianceDetailsByResourceResponse
@@ -1439,6 +2204,20 @@ GetComplianceSummaryByConfigRuleResponse
   );
 }
 
+Map<String, dynamic> _$GetComplianceSummaryByResourceTypeRequestToJson(
+    GetComplianceSummaryByResourceTypeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceTypes', instance.resourceTypes);
+  return val;
+}
+
 GetComplianceSummaryByResourceTypeResponse
     _$GetComplianceSummaryByResourceTypeResponseFromJson(
         Map<String, dynamic> json) {
@@ -1451,6 +2230,23 @@ GetComplianceSummaryByResourceTypeResponse
                     e as Map<String, dynamic>))
             ?.toList(),
   );
+}
+
+Map<String, dynamic> _$GetConformancePackComplianceDetailsRequestToJson(
+    GetConformancePackComplianceDetailsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConformancePackName', instance.conformancePackName);
+  writeNotNull('Filters', instance.filters?.toJson());
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 GetConformancePackComplianceDetailsResponse
@@ -1469,6 +2265,22 @@ GetConformancePackComplianceDetailsResponse
   );
 }
 
+Map<String, dynamic> _$GetConformancePackComplianceSummaryRequestToJson(
+    GetConformancePackComplianceSummaryRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConformancePackNames', instance.conformancePackNames);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 GetConformancePackComplianceSummaryResponse
     _$GetConformancePackComplianceSummaryResponseFromJson(
         Map<String, dynamic> json) {
@@ -1484,6 +2296,22 @@ GetConformancePackComplianceSummaryResponse
   );
 }
 
+Map<String, dynamic> _$GetDiscoveredResourceCountsRequestToJson(
+    GetDiscoveredResourceCountsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('limit', instance.limit);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('resourceTypes', instance.resourceTypes);
+  return val;
+}
+
 GetDiscoveredResourceCountsResponse
     _$GetDiscoveredResourceCountsResponseFromJson(Map<String, dynamic> json) {
   return GetDiscoveredResourceCountsResponse(
@@ -1495,6 +2323,24 @@ GetDiscoveredResourceCountsResponse
         ?.toList(),
     totalDiscoveredResources: json['totalDiscoveredResources'] as int,
   );
+}
+
+Map<String, dynamic> _$GetOrganizationConfigRuleDetailedStatusRequestToJson(
+    GetOrganizationConfigRuleDetailedStatusRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'OrganizationConfigRuleName', instance.organizationConfigRuleName);
+  writeNotNull('Filters', instance.filters?.toJson());
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 GetOrganizationConfigRuleDetailedStatusResponse
@@ -1511,6 +2357,25 @@ GetOrganizationConfigRuleDetailedStatusResponse
   );
 }
 
+Map<String, dynamic>
+    _$GetOrganizationConformancePackDetailedStatusRequestToJson(
+        GetOrganizationConformancePackDetailedStatusRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('OrganizationConformancePackName',
+      instance.organizationConformancePackName);
+  writeNotNull('Filters', instance.filters?.toJson());
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 GetOrganizationConformancePackDetailedStatusResponse
     _$GetOrganizationConformancePackDetailedStatusResponseFromJson(
         Map<String, dynamic> json) {
@@ -1525,6 +2390,32 @@ GetOrganizationConformancePackDetailedStatusResponse
             ?.toList(),
   );
 }
+
+Map<String, dynamic> _$GetResourceConfigHistoryRequestToJson(
+    GetResourceConfigHistoryRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceId', instance.resourceId);
+  writeNotNull('resourceType', _$ResourceTypeEnumMap[instance.resourceType]);
+  writeNotNull('chronologicalOrder',
+      _$ChronologicalOrderEnumMap[instance.chronologicalOrder]);
+  writeNotNull('earlierTime', unixTimestampToJson(instance.earlierTime));
+  writeNotNull('laterTime', unixTimestampToJson(instance.laterTime));
+  writeNotNull('limit', instance.limit);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
+const _$ChronologicalOrderEnumMap = {
+  ChronologicalOrder.reverse: 'Reverse',
+  ChronologicalOrder.forward: 'Forward',
+};
 
 GetResourceConfigHistoryResponse _$GetResourceConfigHistoryResponseFromJson(
     Map<String, dynamic> json) {
@@ -1545,6 +2436,25 @@ GroupedResourceCount _$GroupedResourceCountFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ListAggregateDiscoveredResourcesRequestToJson(
+    ListAggregateDiscoveredResourcesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'ConfigurationAggregatorName', instance.configurationAggregatorName);
+  writeNotNull('ResourceType', _$ResourceTypeEnumMap[instance.resourceType]);
+  writeNotNull('Filters', instance.filters?.toJson());
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListAggregateDiscoveredResourcesResponse
     _$ListAggregateDiscoveredResourcesResponseFromJson(
         Map<String, dynamic> json) {
@@ -1558,6 +2468,25 @@ ListAggregateDiscoveredResourcesResponse
   );
 }
 
+Map<String, dynamic> _$ListDiscoveredResourcesRequestToJson(
+    ListDiscoveredResourcesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceType', _$ResourceTypeEnumMap[instance.resourceType]);
+  writeNotNull('includeDeletedResources', instance.includeDeletedResources);
+  writeNotNull('limit', instance.limit);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('resourceIds', instance.resourceIds);
+  writeNotNull('resourceName', instance.resourceName);
+  return val;
+}
+
 ListDiscoveredResourcesResponse _$ListDiscoveredResourcesResponseFromJson(
     Map<String, dynamic> json) {
   return ListDiscoveredResourcesResponse(
@@ -1568,6 +2497,22 @@ ListDiscoveredResourcesResponse _$ListDiscoveredResourcesResponseFromJson(
             : ResourceIdentifier.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListTagsForResourceRequestToJson(
+    ListTagsForResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
@@ -1852,6 +2797,22 @@ PendingAggregationRequest _$PendingAggregationRequestFromJson(
   );
 }
 
+Map<String, dynamic> _$PutAggregationAuthorizationRequestToJson(
+    PutAggregationAuthorizationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AuthorizedAccountId', instance.authorizedAccountId);
+  writeNotNull('AuthorizedAwsRegion', instance.authorizedAwsRegion);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 PutAggregationAuthorizationResponse
     _$PutAggregationAuthorizationResponseFromJson(Map<String, dynamic> json) {
   return PutAggregationAuthorizationResponse(
@@ -1860,6 +2821,41 @@ PutAggregationAuthorizationResponse
         : AggregationAuthorization.fromJson(
             json['AggregationAuthorization'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$PutConfigRuleRequestToJson(
+    PutConfigRuleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConfigRule', instance.configRule?.toJson());
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+Map<String, dynamic> _$PutConfigurationAggregatorRequestToJson(
+    PutConfigurationAggregatorRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'ConfigurationAggregatorName', instance.configurationAggregatorName);
+  writeNotNull('AccountAggregationSources',
+      instance.accountAggregationSources?.map((e) => e?.toJson())?.toList());
+  writeNotNull('OrganizationAggregationSource',
+      instance.organizationAggregationSource?.toJson());
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 PutConfigurationAggregatorResponse _$PutConfigurationAggregatorResponseFromJson(
@@ -1872,11 +2868,80 @@ PutConfigurationAggregatorResponse _$PutConfigurationAggregatorResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$PutConfigurationRecorderRequestToJson(
+    PutConfigurationRecorderRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'ConfigurationRecorder', instance.configurationRecorder?.toJson());
+  return val;
+}
+
+Map<String, dynamic> _$PutConformancePackRequestToJson(
+    PutConformancePackRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConformancePackName', instance.conformancePackName);
+  writeNotNull('DeliveryS3Bucket', instance.deliveryS3Bucket);
+  writeNotNull(
+      'ConformancePackInputParameters',
+      instance.conformancePackInputParameters
+          ?.map((e) => e?.toJson())
+          ?.toList());
+  writeNotNull('DeliveryS3KeyPrefix', instance.deliveryS3KeyPrefix);
+  writeNotNull('TemplateBody', instance.templateBody);
+  writeNotNull('TemplateS3Uri', instance.templateS3Uri);
+  return val;
+}
+
 PutConformancePackResponse _$PutConformancePackResponseFromJson(
     Map<String, dynamic> json) {
   return PutConformancePackResponse(
     conformancePackArn: json['ConformancePackArn'] as String,
   );
+}
+
+Map<String, dynamic> _$PutDeliveryChannelRequestToJson(
+    PutDeliveryChannelRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DeliveryChannel', instance.deliveryChannel?.toJson());
+  return val;
+}
+
+Map<String, dynamic> _$PutEvaluationsRequestToJson(
+    PutEvaluationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResultToken', instance.resultToken);
+  writeNotNull(
+      'Evaluations', instance.evaluations?.map((e) => e?.toJson())?.toList());
+  writeNotNull('TestMode', instance.testMode);
+  return val;
 }
 
 PutEvaluationsResponse _$PutEvaluationsResponseFromJson(
@@ -1889,11 +2954,56 @@ PutEvaluationsResponse _$PutEvaluationsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$PutOrganizationConfigRuleRequestToJson(
+    PutOrganizationConfigRuleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'OrganizationConfigRuleName', instance.organizationConfigRuleName);
+  writeNotNull('ExcludedAccounts', instance.excludedAccounts);
+  writeNotNull('OrganizationCustomRuleMetadata',
+      instance.organizationCustomRuleMetadata?.toJson());
+  writeNotNull('OrganizationManagedRuleMetadata',
+      instance.organizationManagedRuleMetadata?.toJson());
+  return val;
+}
+
 PutOrganizationConfigRuleResponse _$PutOrganizationConfigRuleResponseFromJson(
     Map<String, dynamic> json) {
   return PutOrganizationConfigRuleResponse(
     organizationConfigRuleArn: json['OrganizationConfigRuleArn'] as String,
   );
+}
+
+Map<String, dynamic> _$PutOrganizationConformancePackRequestToJson(
+    PutOrganizationConformancePackRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DeliveryS3Bucket', instance.deliveryS3Bucket);
+  writeNotNull('OrganizationConformancePackName',
+      instance.organizationConformancePackName);
+  writeNotNull(
+      'ConformancePackInputParameters',
+      instance.conformancePackInputParameters
+          ?.map((e) => e?.toJson())
+          ?.toList());
+  writeNotNull('DeliveryS3KeyPrefix', instance.deliveryS3KeyPrefix);
+  writeNotNull('ExcludedAccounts', instance.excludedAccounts);
+  writeNotNull('TemplateBody', instance.templateBody);
+  writeNotNull('TemplateS3Uri', instance.templateS3Uri);
+  return val;
 }
 
 PutOrganizationConformancePackResponse
@@ -1903,6 +3013,21 @@ PutOrganizationConformancePackResponse
     organizationConformancePackArn:
         json['OrganizationConformancePackArn'] as String,
   );
+}
+
+Map<String, dynamic> _$PutRemediationConfigurationsRequestToJson(
+    PutRemediationConfigurationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RemediationConfigurations',
+      instance.remediationConfigurations?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 PutRemediationConfigurationsResponse
@@ -1916,6 +3041,24 @@ PutRemediationConfigurationsResponse
   );
 }
 
+Map<String, dynamic> _$PutRemediationExceptionsRequestToJson(
+    PutRemediationExceptionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConfigRuleName', instance.configRuleName);
+  writeNotNull(
+      'ResourceKeys', instance.resourceKeys?.map((e) => e?.toJson())?.toList());
+  writeNotNull('ExpirationTime', unixTimestampToJson(instance.expirationTime));
+  writeNotNull('Message', instance.message);
+  return val;
+}
+
 PutRemediationExceptionsResponse _$PutRemediationExceptionsResponseFromJson(
     Map<String, dynamic> json) {
   return PutRemediationExceptionsResponse(
@@ -1926,6 +3069,39 @@ PutRemediationExceptionsResponse _$PutRemediationExceptionsResponseFromJson(
                 e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$PutResourceConfigRequestToJson(
+    PutResourceConfigRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Configuration', instance.configuration);
+  writeNotNull('ResourceId', instance.resourceId);
+  writeNotNull('ResourceType', instance.resourceType);
+  writeNotNull('SchemaVersionId', instance.schemaVersionId);
+  writeNotNull('ResourceName', instance.resourceName);
+  writeNotNull('Tags', instance.tags);
+  return val;
+}
+
+Map<String, dynamic> _$PutRetentionConfigurationRequestToJson(
+    PutRetentionConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RetentionPeriodInDays', instance.retentionPeriodInDays);
+  return val;
 }
 
 PutRetentionConfigurationResponse _$PutRetentionConfigurationResponseFromJson(
@@ -2274,6 +3450,25 @@ Map<String, dynamic> _$ScopeToJson(Scope instance) {
   return val;
 }
 
+Map<String, dynamic> _$SelectAggregateResourceConfigRequestToJson(
+    SelectAggregateResourceConfigRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'ConfigurationAggregatorName', instance.configurationAggregatorName);
+  writeNotNull('Expression', instance.expression);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 SelectAggregateResourceConfigResponse
     _$SelectAggregateResourceConfigResponseFromJson(Map<String, dynamic> json) {
   return SelectAggregateResourceConfigResponse(
@@ -2283,6 +3478,22 @@ SelectAggregateResourceConfigResponse
         : QueryInfo.fromJson(json['QueryInfo'] as Map<String, dynamic>),
     results: (json['Results'] as List)?.map((e) => e as String)?.toList(),
   );
+}
+
+Map<String, dynamic> _$SelectResourceConfigRequestToJson(
+    SelectResourceConfigRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Expression', instance.expression);
+  writeNotNull('Limit', instance.limit);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 SelectResourceConfigResponse _$SelectResourceConfigResponseFromJson(
@@ -2392,9 +3603,53 @@ Map<String, dynamic> _$SsmControlsToJson(SsmControls instance) {
   return val;
 }
 
+Map<String, dynamic> _$StartConfigRulesEvaluationRequestToJson(
+    StartConfigRulesEvaluationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConfigRuleNames', instance.configRuleNames);
+  return val;
+}
+
 StartConfigRulesEvaluationResponse _$StartConfigRulesEvaluationResponseFromJson(
     Map<String, dynamic> json) {
   return StartConfigRulesEvaluationResponse();
+}
+
+Map<String, dynamic> _$StartConfigurationRecorderRequestToJson(
+    StartConfigurationRecorderRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConfigurationRecorderName', instance.configurationRecorderName);
+  return val;
+}
+
+Map<String, dynamic> _$StartRemediationExecutionRequestToJson(
+    StartRemediationExecutionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConfigRuleName', instance.configRuleName);
+  writeNotNull(
+      'ResourceKeys', instance.resourceKeys?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 StartRemediationExecutionResponse _$StartRemediationExecutionResponseFromJson(
@@ -2442,6 +3697,20 @@ Map<String, dynamic> _$StatusDetailFiltersToJson(StatusDetailFilters instance) {
   return val;
 }
 
+Map<String, dynamic> _$StopConfigurationRecorderRequestToJson(
+    StopConfigurationRecorderRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConfigurationRecorderName', instance.configurationRecorderName);
+  return val;
+}
+
 Tag _$TagFromJson(Map<String, dynamic> json) {
   return Tag(
     key: json['Key'] as String,
@@ -2460,5 +3729,34 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
 
   writeNotNull('Key', instance.key);
   writeNotNull('Value', instance.value);
+  return val;
+}
+
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+Map<String, dynamic> _$UntagResourceRequestToJson(
+    UntagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('TagKeys', instance.tagKeys);
   return val;
 }

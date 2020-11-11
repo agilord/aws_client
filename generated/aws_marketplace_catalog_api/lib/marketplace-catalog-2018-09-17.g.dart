@@ -6,6 +6,10 @@ part of 'marketplace-catalog-2018-09-17.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$CancelChangeSetRequestToJson(
+        CancelChangeSetRequest instance) =>
+    <String, dynamic>{};
+
 CancelChangeSetResponse _$CancelChangeSetResponseFromJson(
     Map<String, dynamic> json) {
   return CancelChangeSetResponse(
@@ -178,6 +182,25 @@ Map<String, dynamic> _$FilterToJson(Filter instance) {
   return val;
 }
 
+Map<String, dynamic> _$ListChangeSetsRequestToJson(
+    ListChangeSetsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Catalog', instance.catalog);
+  writeNotNull(
+      'FilterList', instance.filterList?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('Sort', instance.sort?.toJson());
+  return val;
+}
+
 ListChangeSetsResponse _$ListChangeSetsResponseFromJson(
     Map<String, dynamic> json) {
   return ListChangeSetsResponse(
@@ -188,6 +211,25 @@ ListChangeSetsResponse _$ListChangeSetsResponseFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListEntitiesRequestToJson(ListEntitiesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Catalog', instance.catalog);
+  writeNotNull('EntityType', instance.entityType);
+  writeNotNull(
+      'FilterList', instance.filterList?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('Sort', instance.sort?.toJson());
+  return val;
 }
 
 ListEntitiesResponse _$ListEntitiesResponseFromJson(Map<String, dynamic> json) {
@@ -219,6 +261,24 @@ const _$SortOrderEnumMap = {
   SortOrder.ascending: 'ASCENDING',
   SortOrder.descending: 'DESCENDING',
 };
+
+Map<String, dynamic> _$StartChangeSetRequestToJson(
+    StartChangeSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Catalog', instance.catalog);
+  writeNotNull(
+      'ChangeSet', instance.changeSet?.map((e) => e?.toJson())?.toList());
+  writeNotNull('ChangeSetName', instance.changeSetName);
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  return val;
+}
 
 StartChangeSetResponse _$StartChangeSetResponseFromJson(
     Map<String, dynamic> json) {

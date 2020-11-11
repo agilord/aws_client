@@ -760,6 +760,21 @@ BatchScheduleActionDeleteResult _$BatchScheduleActionDeleteResultFromJson(
   );
 }
 
+Map<String, dynamic> _$BatchUpdateScheduleRequestToJson(
+    BatchUpdateScheduleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('creates', instance.creates?.toJson());
+  writeNotNull('deletes', instance.deletes?.toJson());
+  return val;
+}
+
 BatchUpdateScheduleResponse _$BatchUpdateScheduleResponseFromJson(
     Map<String, dynamic> json) {
   return BatchUpdateScheduleResponse(
@@ -1278,6 +1293,32 @@ Map<String, dynamic> _$ColorSpacePassthroughSettingsToJson(
         ColorSpacePassthroughSettings instance) =>
     <String, dynamic>{};
 
+Map<String, dynamic> _$CreateChannelRequestToJson(
+    CreateChannelRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('channelClass', _$ChannelClassEnumMap[instance.channelClass]);
+  writeNotNull(
+      'destinations', instance.destinations?.map((e) => e?.toJson())?.toList());
+  writeNotNull('encoderSettings', instance.encoderSettings?.toJson());
+  writeNotNull('inputAttachments',
+      instance.inputAttachments?.map((e) => e?.toJson())?.toList());
+  writeNotNull('inputSpecification', instance.inputSpecification?.toJson());
+  writeNotNull('logLevel', _$LogLevelEnumMap[instance.logLevel]);
+  writeNotNull('name', instance.name);
+  writeNotNull('requestId', instance.requestId);
+  writeNotNull('reserved', instance.reserved);
+  writeNotNull('roleArn', instance.roleArn);
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
 CreateChannelResponse _$CreateChannelResponseFromJson(
     Map<String, dynamic> json) {
   return CreateChannelResponse(
@@ -1287,12 +1328,62 @@ CreateChannelResponse _$CreateChannelResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateInputRequestToJson(CreateInputRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'destinations', instance.destinations?.map((e) => e?.toJson())?.toList());
+  writeNotNull('inputSecurityGroups', instance.inputSecurityGroups);
+  writeNotNull('mediaConnectFlows',
+      instance.mediaConnectFlows?.map((e) => e?.toJson())?.toList());
+  writeNotNull('name', instance.name);
+  writeNotNull('requestId', instance.requestId);
+  writeNotNull('roleArn', instance.roleArn);
+  writeNotNull('sources', instance.sources?.map((e) => e?.toJson())?.toList());
+  writeNotNull('tags', instance.tags);
+  writeNotNull('type', _$InputTypeEnumMap[instance.type]);
+  writeNotNull('vpc', instance.vpc?.toJson());
+  return val;
+}
+
+const _$InputTypeEnumMap = {
+  InputType.udpPush: 'UDP_PUSH',
+  InputType.rtpPush: 'RTP_PUSH',
+  InputType.rtmpPush: 'RTMP_PUSH',
+  InputType.rtmpPull: 'RTMP_PULL',
+  InputType.urlPull: 'URL_PULL',
+  InputType.mp4File: 'MP4_FILE',
+  InputType.mediaconnect: 'MEDIACONNECT',
+};
+
 CreateInputResponse _$CreateInputResponseFromJson(Map<String, dynamic> json) {
   return CreateInputResponse(
     input: json['input'] == null
         ? null
         : Input.fromJson(json['input'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateInputSecurityGroupRequestToJson(
+    CreateInputSecurityGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('tags', instance.tags);
+  writeNotNull('whitelistRules',
+      instance.whitelistRules?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateInputSecurityGroupResponse _$CreateInputSecurityGroupResponseFromJson(
@@ -1305,6 +1396,23 @@ CreateInputSecurityGroupResponse _$CreateInputSecurityGroupResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateMultiplexProgramRequestToJson(
+    CreateMultiplexProgramRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'multiplexProgramSettings', instance.multiplexProgramSettings?.toJson());
+  writeNotNull('programName', instance.programName);
+  writeNotNull('requestId', instance.requestId);
+  return val;
+}
+
 CreateMultiplexProgramResponse _$CreateMultiplexProgramResponseFromJson(
     Map<String, dynamic> json) {
   return CreateMultiplexProgramResponse(
@@ -1315,6 +1423,24 @@ CreateMultiplexProgramResponse _$CreateMultiplexProgramResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateMultiplexRequestToJson(
+    CreateMultiplexRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('availabilityZones', instance.availabilityZones);
+  writeNotNull('multiplexSettings', instance.multiplexSettings?.toJson());
+  writeNotNull('name', instance.name);
+  writeNotNull('requestId', instance.requestId);
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
 CreateMultiplexResponse _$CreateMultiplexResponseFromJson(
     Map<String, dynamic> json) {
   return CreateMultiplexResponse(
@@ -1323,6 +1449,23 @@ CreateMultiplexResponse _$CreateMultiplexResponseFromJson(
         : Multiplex.fromJson(json['multiplex'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$CreateTagsRequestToJson(CreateTagsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteChannelRequestToJson(
+        DeleteChannelRequest instance) =>
+    <String, dynamic>{};
 
 DeleteChannelResponse _$DeleteChannelResponseFromJson(
     Map<String, dynamic> json) {
@@ -1370,14 +1513,25 @@ DeleteChannelResponse _$DeleteChannelResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteInputRequestToJson(DeleteInputRequest instance) =>
+    <String, dynamic>{};
+
 DeleteInputResponse _$DeleteInputResponseFromJson(Map<String, dynamic> json) {
   return DeleteInputResponse();
 }
+
+Map<String, dynamic> _$DeleteInputSecurityGroupRequestToJson(
+        DeleteInputSecurityGroupRequest instance) =>
+    <String, dynamic>{};
 
 DeleteInputSecurityGroupResponse _$DeleteInputSecurityGroupResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteInputSecurityGroupResponse();
 }
+
+Map<String, dynamic> _$DeleteMultiplexProgramRequestToJson(
+        DeleteMultiplexProgramRequest instance) =>
+    <String, dynamic>{};
 
 DeleteMultiplexProgramResponse _$DeleteMultiplexProgramResponseFromJson(
     Map<String, dynamic> json) {
@@ -1394,6 +1548,10 @@ DeleteMultiplexProgramResponse _$DeleteMultiplexProgramResponseFromJson(
     programName: json['programName'] as String,
   );
 }
+
+Map<String, dynamic> _$DeleteMultiplexRequestToJson(
+        DeleteMultiplexRequest instance) =>
+    <String, dynamic>{};
 
 DeleteMultiplexResponse _$DeleteMultiplexResponseFromJson(
     Map<String, dynamic> json) {
@@ -1432,6 +1590,10 @@ const _$MultiplexStateEnumMap = {
   MultiplexState.deleting: 'DELETING',
   MultiplexState.deleted: 'DELETED',
 };
+
+Map<String, dynamic> _$DeleteReservationRequestToJson(
+        DeleteReservationRequest instance) =>
+    <String, dynamic>{};
 
 DeleteReservationResponse _$DeleteReservationResponseFromJson(
     Map<String, dynamic> json) {
@@ -1479,10 +1641,17 @@ const _$ReservationStateEnumMap = {
   ReservationState.deleted: 'DELETED',
 };
 
+Map<String, dynamic> _$DeleteScheduleRequestToJson(
+        DeleteScheduleRequest instance) =>
+    <String, dynamic>{};
+
 DeleteScheduleResponse _$DeleteScheduleResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteScheduleResponse();
 }
+
+Map<String, dynamic> _$DeleteTagsRequestToJson(DeleteTagsRequest instance) =>
+    <String, dynamic>{};
 
 DescribeChannelResponse _$DescribeChannelResponseFromJson(
     Map<String, dynamic> json) {
@@ -1582,16 +1751,6 @@ const _$InputStateEnumMap = {
   InputState.attached: 'ATTACHED',
   InputState.deleting: 'DELETING',
   InputState.deleted: 'DELETED',
-};
-
-const _$InputTypeEnumMap = {
-  InputType.udpPush: 'UDP_PUSH',
-  InputType.rtpPush: 'RTP_PUSH',
-  InputType.rtmpPush: 'RTMP_PUSH',
-  InputType.rtmpPull: 'RTMP_PULL',
-  InputType.urlPull: 'URL_PULL',
-  InputType.mp4File: 'MP4_FILE',
-  InputType.mediaconnect: 'MEDIACONNECT',
 };
 
 DescribeInputSecurityGroupResponse _$DescribeInputSecurityGroupResponseFromJson(
@@ -5449,6 +5608,24 @@ const _$PipelineIdEnumMap = {
   PipelineId.pipeline_1: 'PIPELINE_1',
 };
 
+Map<String, dynamic> _$PurchaseOfferingRequestToJson(
+    PurchaseOfferingRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('count', instance.count);
+  writeNotNull('name', instance.name);
+  writeNotNull('requestId', instance.requestId);
+  writeNotNull('start', instance.start);
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
 PurchaseOfferingResponse _$PurchaseOfferingResponseFromJson(
     Map<String, dynamic> json) {
   return PurchaseOfferingResponse(
@@ -6263,6 +6440,10 @@ Map<String, dynamic> _$StandardHlsSettingsToJson(StandardHlsSettings instance) {
   return val;
 }
 
+Map<String, dynamic> _$StartChannelRequestToJson(
+        StartChannelRequest instance) =>
+    <String, dynamic>{};
+
 StartChannelResponse _$StartChannelResponseFromJson(Map<String, dynamic> json) {
   return StartChannelResponse(
     arn: json['arn'] as String,
@@ -6307,6 +6488,10 @@ StartChannelResponse _$StartChannelResponseFromJson(Map<String, dynamic> json) {
     ),
   );
 }
+
+Map<String, dynamic> _$StartMultiplexRequestToJson(
+        StartMultiplexRequest instance) =>
+    <String, dynamic>{};
 
 StartMultiplexResponse _$StartMultiplexResponseFromJson(
     Map<String, dynamic> json) {
@@ -6443,6 +6628,9 @@ Map<String, dynamic> _$StaticKeySettingsToJson(StaticKeySettings instance) {
   return val;
 }
 
+Map<String, dynamic> _$StopChannelRequestToJson(StopChannelRequest instance) =>
+    <String, dynamic>{};
+
 StopChannelResponse _$StopChannelResponseFromJson(Map<String, dynamic> json) {
   return StopChannelResponse(
     arn: json['arn'] as String,
@@ -6487,6 +6675,10 @@ StopChannelResponse _$StopChannelResponseFromJson(Map<String, dynamic> json) {
     ),
   );
 }
+
+Map<String, dynamic> _$StopMultiplexRequestToJson(
+        StopMultiplexRequest instance) =>
+    <String, dynamic>{};
 
 StopMultiplexResponse _$StopMultiplexResponseFromJson(
     Map<String, dynamic> json) {
@@ -6722,6 +6914,22 @@ Map<String, dynamic> _$UdpOutputSettingsToJson(UdpOutputSettings instance) {
   return val;
 }
 
+Map<String, dynamic> _$UpdateChannelClassRequestToJson(
+    UpdateChannelClassRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('channelClass', _$ChannelClassEnumMap[instance.channelClass]);
+  writeNotNull(
+      'destinations', instance.destinations?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 UpdateChannelClassResponse _$UpdateChannelClassResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateChannelClassResponse(
@@ -6729,6 +6937,28 @@ UpdateChannelClassResponse _$UpdateChannelClassResponseFromJson(
         ? null
         : Channel.fromJson(json['channel'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateChannelRequestToJson(
+    UpdateChannelRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'destinations', instance.destinations?.map((e) => e?.toJson())?.toList());
+  writeNotNull('encoderSettings', instance.encoderSettings?.toJson());
+  writeNotNull('inputAttachments',
+      instance.inputAttachments?.map((e) => e?.toJson())?.toList());
+  writeNotNull('inputSpecification', instance.inputSpecification?.toJson());
+  writeNotNull('logLevel', _$LogLevelEnumMap[instance.logLevel]);
+  writeNotNull('name', instance.name);
+  writeNotNull('roleArn', instance.roleArn);
+  return val;
 }
 
 UpdateChannelResponse _$UpdateChannelResponseFromJson(
@@ -6740,12 +6970,48 @@ UpdateChannelResponse _$UpdateChannelResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateInputRequestToJson(UpdateInputRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'destinations', instance.destinations?.map((e) => e?.toJson())?.toList());
+  writeNotNull('inputSecurityGroups', instance.inputSecurityGroups);
+  writeNotNull('mediaConnectFlows',
+      instance.mediaConnectFlows?.map((e) => e?.toJson())?.toList());
+  writeNotNull('name', instance.name);
+  writeNotNull('roleArn', instance.roleArn);
+  writeNotNull('sources', instance.sources?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 UpdateInputResponse _$UpdateInputResponseFromJson(Map<String, dynamic> json) {
   return UpdateInputResponse(
     input: json['input'] == null
         ? null
         : Input.fromJson(json['input'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateInputSecurityGroupRequestToJson(
+    UpdateInputSecurityGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('tags', instance.tags);
+  writeNotNull('whitelistRules',
+      instance.whitelistRules?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 UpdateInputSecurityGroupResponse _$UpdateInputSecurityGroupResponseFromJson(
@@ -6758,6 +7024,21 @@ UpdateInputSecurityGroupResponse _$UpdateInputSecurityGroupResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateMultiplexProgramRequestToJson(
+    UpdateMultiplexProgramRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'multiplexProgramSettings', instance.multiplexProgramSettings?.toJson());
+  return val;
+}
+
 UpdateMultiplexProgramResponse _$UpdateMultiplexProgramResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateMultiplexProgramResponse(
@@ -6768,6 +7049,21 @@ UpdateMultiplexProgramResponse _$UpdateMultiplexProgramResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateMultiplexRequestToJson(
+    UpdateMultiplexRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('multiplexSettings', instance.multiplexSettings?.toJson());
+  writeNotNull('name', instance.name);
+  return val;
+}
+
 UpdateMultiplexResponse _$UpdateMultiplexResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateMultiplexResponse(
@@ -6775,6 +7071,20 @@ UpdateMultiplexResponse _$UpdateMultiplexResponseFromJson(
         ? null
         : Multiplex.fromJson(json['multiplex'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateReservationRequestToJson(
+    UpdateReservationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  return val;
 }
 
 UpdateReservationResponse _$UpdateReservationResponseFromJson(

@@ -183,6 +183,20 @@ const _$LanguageCodeEnumMap = {
   LanguageCode.en: 'en',
 };
 
+Map<String, dynamic> _$DescribeEntitiesDetectionV2JobRequestToJson(
+    DescribeEntitiesDetectionV2JobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobId', instance.jobId);
+  return val;
+}
+
 DescribeEntitiesDetectionV2JobResponse
     _$DescribeEntitiesDetectionV2JobResponseFromJson(
         Map<String, dynamic> json) {
@@ -196,6 +210,20 @@ DescribeEntitiesDetectionV2JobResponse
   );
 }
 
+Map<String, dynamic> _$DescribePHIDetectionJobRequestToJson(
+    DescribePHIDetectionJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobId', instance.jobId);
+  return val;
+}
+
 DescribePHIDetectionJobResponse _$DescribePHIDetectionJobResponseFromJson(
     Map<String, dynamic> json) {
   return DescribePHIDetectionJobResponse(
@@ -206,6 +234,20 @@ DescribePHIDetectionJobResponse _$DescribePHIDetectionJobResponseFromJson(
                 json['ComprehendMedicalAsyncJobProperties']
                     as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DetectEntitiesRequestToJson(
+    DetectEntitiesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Text', instance.text);
+  return val;
 }
 
 DetectEntitiesResponse _$DetectEntitiesResponseFromJson(
@@ -225,6 +267,20 @@ DetectEntitiesResponse _$DetectEntitiesResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DetectEntitiesV2RequestToJson(
+    DetectEntitiesV2Request instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Text', instance.text);
+  return val;
+}
+
 DetectEntitiesV2Response _$DetectEntitiesV2ResponseFromJson(
     Map<String, dynamic> json) {
   return DetectEntitiesV2Response(
@@ -240,6 +296,19 @@ DetectEntitiesV2Response _$DetectEntitiesV2ResponseFromJson(
             : UnmappedAttribute.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DetectPHIRequestToJson(DetectPHIRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Text', instance.text);
+  return val;
 }
 
 DetectPHIResponse _$DetectPHIResponseFromJson(Map<String, dynamic> json) {
@@ -354,6 +423,19 @@ const _$ICD10CMTraitNameEnumMap = {
   ICD10CMTraitName.symptom: 'SYMPTOM',
 };
 
+Map<String, dynamic> _$InferICD10CMRequestToJson(InferICD10CMRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Text', instance.text);
+  return val;
+}
+
 InferICD10CMResponse _$InferICD10CMResponseFromJson(Map<String, dynamic> json) {
   return InferICD10CMResponse(
     entities: (json['Entities'] as List)
@@ -364,6 +446,19 @@ InferICD10CMResponse _$InferICD10CMResponseFromJson(Map<String, dynamic> json) {
     modelVersion: json['ModelVersion'] as String,
     paginationToken: json['PaginationToken'] as String,
   );
+}
+
+Map<String, dynamic> _$InferRxNormRequestToJson(InferRxNormRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Text', instance.text);
+  return val;
 }
 
 InferRxNormResponse _$InferRxNormResponseFromJson(Map<String, dynamic> json) {
@@ -398,6 +493,22 @@ Map<String, dynamic> _$InputDataConfigToJson(InputDataConfig instance) {
   return val;
 }
 
+Map<String, dynamic> _$ListEntitiesDetectionV2JobsRequestToJson(
+    ListEntitiesDetectionV2JobsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filter', instance.filter?.toJson());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListEntitiesDetectionV2JobsResponse
     _$ListEntitiesDetectionV2JobsResponseFromJson(Map<String, dynamic> json) {
   return ListEntitiesDetectionV2JobsResponse(
@@ -410,6 +521,22 @@ ListEntitiesDetectionV2JobsResponse
             ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListPHIDetectionJobsRequestToJson(
+    ListPHIDetectionJobsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filter', instance.filter?.toJson());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListPHIDetectionJobsResponse _$ListPHIDetectionJobsResponseFromJson(
@@ -528,11 +655,51 @@ const _$RxNormTraitNameEnumMap = {
   RxNormTraitName.negation: 'NEGATION',
 };
 
+Map<String, dynamic> _$StartEntitiesDetectionV2JobRequestToJson(
+    StartEntitiesDetectionV2JobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DataAccessRoleArn', instance.dataAccessRoleArn);
+  writeNotNull('InputDataConfig', instance.inputDataConfig?.toJson());
+  writeNotNull('LanguageCode', _$LanguageCodeEnumMap[instance.languageCode]);
+  writeNotNull('OutputDataConfig', instance.outputDataConfig?.toJson());
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('JobName', instance.jobName);
+  writeNotNull('KMSKey', instance.kMSKey);
+  return val;
+}
+
 StartEntitiesDetectionV2JobResponse
     _$StartEntitiesDetectionV2JobResponseFromJson(Map<String, dynamic> json) {
   return StartEntitiesDetectionV2JobResponse(
     jobId: json['JobId'] as String,
   );
+}
+
+Map<String, dynamic> _$StartPHIDetectionJobRequestToJson(
+    StartPHIDetectionJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DataAccessRoleArn', instance.dataAccessRoleArn);
+  writeNotNull('InputDataConfig', instance.inputDataConfig?.toJson());
+  writeNotNull('LanguageCode', _$LanguageCodeEnumMap[instance.languageCode]);
+  writeNotNull('OutputDataConfig', instance.outputDataConfig?.toJson());
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('JobName', instance.jobName);
+  writeNotNull('KMSKey', instance.kMSKey);
+  return val;
 }
 
 StartPHIDetectionJobResponse _$StartPHIDetectionJobResponseFromJson(
@@ -542,11 +709,39 @@ StartPHIDetectionJobResponse _$StartPHIDetectionJobResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$StopEntitiesDetectionV2JobRequestToJson(
+    StopEntitiesDetectionV2JobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobId', instance.jobId);
+  return val;
+}
+
 StopEntitiesDetectionV2JobResponse _$StopEntitiesDetectionV2JobResponseFromJson(
     Map<String, dynamic> json) {
   return StopEntitiesDetectionV2JobResponse(
     jobId: json['JobId'] as String,
   );
+}
+
+Map<String, dynamic> _$StopPHIDetectionJobRequestToJson(
+    StopPHIDetectionJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobId', instance.jobId);
+  return val;
 }
 
 StopPHIDetectionJobResponse _$StopPHIDetectionJobResponseFromJson(

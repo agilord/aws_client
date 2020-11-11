@@ -74,6 +74,22 @@ Map<String, dynamic> _$DateTimeRangeToJson(DateTimeRange instance) {
   return val;
 }
 
+Map<String, dynamic> _$DescribeAffectedAccountsForOrganizationRequestToJson(
+    DescribeAffectedAccountsForOrganizationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('eventArn', instance.eventArn);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 DescribeAffectedAccountsForOrganizationResponse
     _$DescribeAffectedAccountsForOrganizationResponseFromJson(
         Map<String, dynamic> json) {
@@ -82,6 +98,24 @@ DescribeAffectedAccountsForOrganizationResponse
         (json['affectedAccounts'] as List)?.map((e) => e as String)?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeAffectedEntitiesForOrganizationRequestToJson(
+    DescribeAffectedEntitiesForOrganizationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('organizationEntityFilters',
+      instance.organizationEntityFilters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('locale', instance.locale);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 DescribeAffectedEntitiesForOrganizationResponse
@@ -103,6 +137,23 @@ DescribeAffectedEntitiesForOrganizationResponse
   );
 }
 
+Map<String, dynamic> _$DescribeAffectedEntitiesRequestToJson(
+    DescribeAffectedEntitiesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('filter', instance.filter?.toJson());
+  writeNotNull('locale', instance.locale);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 DescribeAffectedEntitiesResponse _$DescribeAffectedEntitiesResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeAffectedEntitiesResponse(
@@ -113,6 +164,20 @@ DescribeAffectedEntitiesResponse _$DescribeAffectedEntitiesResponseFromJson(
         ?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeEntityAggregatesRequestToJson(
+    DescribeEntityAggregatesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('eventArns', instance.eventArns);
+  return val;
 }
 
 DescribeEntityAggregatesResponse _$DescribeEntityAggregatesResponseFromJson(
@@ -126,6 +191,28 @@ DescribeEntityAggregatesResponse _$DescribeEntityAggregatesResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeEventAggregatesRequestToJson(
+    DescribeEventAggregatesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'aggregateField', _$EventAggregateFieldEnumMap[instance.aggregateField]);
+  writeNotNull('filter', instance.filter?.toJson());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
+const _$EventAggregateFieldEnumMap = {
+  EventAggregateField.eventTypeCategory: 'eventTypeCategory',
+};
+
 DescribeEventAggregatesResponse _$DescribeEventAggregatesResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeEventAggregatesResponse(
@@ -136,6 +223,25 @@ DescribeEventAggregatesResponse _$DescribeEventAggregatesResponseFromJson(
         ?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeEventDetailsForOrganizationRequestToJson(
+    DescribeEventDetailsForOrganizationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'organizationEventDetailFilters',
+      instance.organizationEventDetailFilters
+          ?.map((e) => e?.toJson())
+          ?.toList());
+  writeNotNull('locale', instance.locale);
+  return val;
 }
 
 DescribeEventDetailsForOrganizationResponse
@@ -156,6 +262,21 @@ DescribeEventDetailsForOrganizationResponse
   );
 }
 
+Map<String, dynamic> _$DescribeEventDetailsRequestToJson(
+    DescribeEventDetailsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('eventArns', instance.eventArns);
+  writeNotNull('locale', instance.locale);
+  return val;
+}
+
 DescribeEventDetailsResponse _$DescribeEventDetailsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeEventDetailsResponse(
@@ -171,6 +292,23 @@ DescribeEventDetailsResponse _$DescribeEventDetailsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeEventTypesRequestToJson(
+    DescribeEventTypesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('filter', instance.filter?.toJson());
+  writeNotNull('locale', instance.locale);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 DescribeEventTypesResponse _$DescribeEventTypesResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeEventTypesResponse(
@@ -180,6 +318,23 @@ DescribeEventTypesResponse _$DescribeEventTypesResponseFromJson(
         ?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeEventsForOrganizationRequestToJson(
+    DescribeEventsForOrganizationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('filter', instance.filter?.toJson());
+  writeNotNull('locale', instance.locale);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 DescribeEventsForOrganizationResponse
@@ -192,6 +347,23 @@ DescribeEventsForOrganizationResponse
         ?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeEventsRequestToJson(
+    DescribeEventsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('filter', instance.filter?.toJson());
+  writeNotNull('locale', instance.locale);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 DescribeEventsResponse _$DescribeEventsResponseFromJson(

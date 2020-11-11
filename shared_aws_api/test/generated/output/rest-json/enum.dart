@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -56,10 +55,11 @@ class Enum {
   }) async {
     final headers = <String, String>{};
     headerEnum?.let((v) => headers['x-amz-enum'] = v.toValue());
-    final $payload = <String, dynamic>{
-      if (fooEnum != null) 'FooEnum': fooEnum?.toValue(),
-      if (listEnums != null) 'ListEnums': listEnums,
-    };
+    final $payload = OutputShape(
+      fooEnum: fooEnum,
+      headerEnum: headerEnum,
+      listEnums: listEnums,
+    );
     await _protocol.send(
       payload: $payload,
       headers: headers,
@@ -74,7 +74,7 @@ class Enum {
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
-    createToJson: false)
+    createToJson: true)
 class OutputShape {
   @_s.JsonKey(name: 'FooEnum')
   final RESTJSONEnumType fooEnum;
@@ -90,6 +90,8 @@ class OutputShape {
   });
   factory OutputShape.fromJson(Map<String, dynamic> json) =>
       _$OutputShapeFromJson(json);
+
+  Map<String, dynamic> toJson() => _$OutputShapeToJson(this);
 }
 
 enum RESTJSONEnumType {

@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -126,11 +125,11 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceId': resourceId,
-        'ResourceType': resourceType?.toValue(),
-        'Tags': tags,
-      },
+      payload: AddTagsToResourceRequest(
+        resourceId: resourceId,
+        resourceType: resourceType,
+        tags: tags,
+      ),
     );
 
     return AddTagsToResourceResult.fromJson(jsonResponse.body);
@@ -174,10 +173,10 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CommandId': commandId,
-        if (instanceIds != null) 'InstanceIds': instanceIds,
-      },
+      payload: CancelCommandRequest(
+        commandId: commandId,
+        instanceIds: instanceIds,
+      ),
     );
 
     return CancelCommandResult.fromJson(jsonResponse.body);
@@ -220,9 +219,9 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'WindowExecutionId': windowExecutionId,
-      },
+      payload: CancelMaintenanceWindowExecutionRequest(
+        windowExecutionId: windowExecutionId,
+      ),
     );
 
     return CancelMaintenanceWindowExecutionResult.fromJson(jsonResponse.body);
@@ -356,15 +355,14 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'IamRole': iamRole,
-        if (defaultInstanceName != null)
-          'DefaultInstanceName': defaultInstanceName,
-        if (description != null) 'Description': description,
-        if (expirationDate != null) 'ExpirationDate': expirationDate,
-        if (registrationLimit != null) 'RegistrationLimit': registrationLimit,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateActivationRequest(
+        iamRole: iamRole,
+        defaultInstanceName: defaultInstanceName,
+        description: description,
+        expirationDate: expirationDate,
+        registrationLimit: registrationLimit,
+        tags: tags,
+      ),
     );
 
     return CreateActivationResult.fromJson(jsonResponse.body);
@@ -565,23 +563,20 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        if (associationName != null) 'AssociationName': associationName,
-        if (automationTargetParameterName != null)
-          'AutomationTargetParameterName': automationTargetParameterName,
-        if (complianceSeverity != null)
-          'ComplianceSeverity': complianceSeverity?.toValue(),
-        if (documentVersion != null) 'DocumentVersion': documentVersion,
-        if (instanceId != null) 'InstanceId': instanceId,
-        if (maxConcurrency != null) 'MaxConcurrency': maxConcurrency,
-        if (maxErrors != null) 'MaxErrors': maxErrors,
-        if (outputLocation != null) 'OutputLocation': outputLocation,
-        if (parameters != null) 'Parameters': parameters,
-        if (scheduleExpression != null)
-          'ScheduleExpression': scheduleExpression,
-        if (targets != null) 'Targets': targets,
-      },
+      payload: CreateAssociationRequest(
+        name: name,
+        associationName: associationName,
+        automationTargetParameterName: automationTargetParameterName,
+        complianceSeverity: complianceSeverity,
+        documentVersion: documentVersion,
+        instanceId: instanceId,
+        maxConcurrency: maxConcurrency,
+        maxErrors: maxErrors,
+        outputLocation: outputLocation,
+        parameters: parameters,
+        scheduleExpression: scheduleExpression,
+        targets: targets,
+      ),
     );
 
     return CreateAssociationResult.fromJson(jsonResponse.body);
@@ -626,9 +621,9 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Entries': entries,
-      },
+      payload: CreateAssociationBatchRequest(
+        entries: entries,
+      ),
     );
 
     return CreateAssociationBatchResult.fromJson(jsonResponse.body);
@@ -768,17 +763,17 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Content': content,
-        'Name': name,
-        if (attachments != null) 'Attachments': attachments,
-        if (documentFormat != null) 'DocumentFormat': documentFormat?.toValue(),
-        if (documentType != null) 'DocumentType': documentType?.toValue(),
-        if (requires != null) 'Requires': requires,
-        if (tags != null) 'Tags': tags,
-        if (targetType != null) 'TargetType': targetType,
-        if (versionName != null) 'VersionName': versionName,
-      },
+      payload: CreateDocumentRequest(
+        content: content,
+        name: name,
+        attachments: attachments,
+        documentFormat: documentFormat,
+        documentType: documentType,
+        requires: requires,
+        tags: tags,
+        targetType: targetType,
+        versionName: versionName,
+      ),
     );
 
     return CreateDocumentResult.fromJson(jsonResponse.body);
@@ -944,19 +939,19 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AllowUnassociatedTargets': allowUnassociatedTargets,
-        'Cutoff': cutoff,
-        'Duration': duration,
-        'Name': name,
-        'Schedule': schedule,
-        if (clientToken != null) 'ClientToken': clientToken,
-        if (description != null) 'Description': description,
-        if (endDate != null) 'EndDate': endDate,
-        if (scheduleTimezone != null) 'ScheduleTimezone': scheduleTimezone,
-        if (startDate != null) 'StartDate': startDate,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateMaintenanceWindowRequest(
+        allowUnassociatedTargets: allowUnassociatedTargets,
+        cutoff: cutoff,
+        duration: duration,
+        name: name,
+        schedule: schedule,
+        clientToken: clientToken,
+        description: description,
+        endDate: endDate,
+        scheduleTimezone: scheduleTimezone,
+        startDate: startDate,
+        tags: tags,
+      ),
     );
 
     return CreateMaintenanceWindowResult.fromJson(jsonResponse.body);
@@ -1111,18 +1106,18 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Description': description,
-        'Source': source,
-        'Title': title,
-        if (category != null) 'Category': category,
-        if (notifications != null) 'Notifications': notifications,
-        if (operationalData != null) 'OperationalData': operationalData,
-        if (priority != null) 'Priority': priority,
-        if (relatedOpsItems != null) 'RelatedOpsItems': relatedOpsItems,
-        if (severity != null) 'Severity': severity,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateOpsItemRequest(
+        description: description,
+        source: source,
+        title: title,
+        category: category,
+        notifications: notifications,
+        operationalData: operationalData,
+        priority: priority,
+        relatedOpsItems: relatedOpsItems,
+        severity: severity,
+        tags: tags,
+      ),
     );
 
     return CreateOpsItemResponse.fromJson(jsonResponse.body);
@@ -1282,26 +1277,21 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        if (approvalRules != null) 'ApprovalRules': approvalRules,
-        if (approvedPatches != null) 'ApprovedPatches': approvedPatches,
-        if (approvedPatchesComplianceLevel != null)
-          'ApprovedPatchesComplianceLevel':
-              approvedPatchesComplianceLevel?.toValue(),
-        if (approvedPatchesEnableNonSecurity != null)
-          'ApprovedPatchesEnableNonSecurity': approvedPatchesEnableNonSecurity,
-        if (clientToken != null) 'ClientToken': clientToken,
-        if (description != null) 'Description': description,
-        if (globalFilters != null) 'GlobalFilters': globalFilters,
-        if (operatingSystem != null)
-          'OperatingSystem': operatingSystem?.toValue(),
-        if (rejectedPatches != null) 'RejectedPatches': rejectedPatches,
-        if (rejectedPatchesAction != null)
-          'RejectedPatchesAction': rejectedPatchesAction?.toValue(),
-        if (sources != null) 'Sources': sources,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreatePatchBaselineRequest(
+        name: name,
+        approvalRules: approvalRules,
+        approvedPatches: approvedPatches,
+        approvedPatchesComplianceLevel: approvedPatchesComplianceLevel,
+        approvedPatchesEnableNonSecurity: approvedPatchesEnableNonSecurity,
+        clientToken: clientToken,
+        description: description,
+        globalFilters: globalFilters,
+        operatingSystem: operatingSystem,
+        rejectedPatches: rejectedPatches,
+        rejectedPatchesAction: rejectedPatchesAction,
+        sources: sources,
+        tags: tags,
+      ),
     );
 
     return CreatePatchBaselineResult.fromJson(jsonResponse.body);
@@ -1389,12 +1379,12 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SyncName': syncName,
-        if (s3Destination != null) 'S3Destination': s3Destination,
-        if (syncSource != null) 'SyncSource': syncSource,
-        if (syncType != null) 'SyncType': syncType,
-      },
+      payload: CreateResourceDataSyncRequest(
+        syncName: syncName,
+        s3Destination: s3Destination,
+        syncSource: syncSource,
+        syncType: syncType,
+      ),
     );
 
     return CreateResourceDataSyncResult.fromJson(jsonResponse.body);
@@ -1432,9 +1422,9 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ActivationId': activationId,
-      },
+      payload: DeleteActivationRequest(
+        activationId: activationId,
+      ),
     );
 
     return DeleteActivationResult.fromJson(jsonResponse.body);
@@ -1492,11 +1482,11 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (associationId != null) 'AssociationId': associationId,
-        if (instanceId != null) 'InstanceId': instanceId,
-        if (name != null) 'Name': name,
-      },
+      payload: DeleteAssociationRequest(
+        associationId: associationId,
+        instanceId: instanceId,
+        name: name,
+      ),
     );
 
     return DeleteAssociationResult.fromJson(jsonResponse.body);
@@ -1565,12 +1555,12 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        if (documentVersion != null) 'DocumentVersion': documentVersion,
-        if (force != null) 'Force': force,
-        if (versionName != null) 'VersionName': versionName,
-      },
+      payload: DeleteDocumentRequest(
+        name: name,
+        documentVersion: documentVersion,
+        force: force,
+        versionName: versionName,
+      ),
     );
 
     return DeleteDocumentResult.fromJson(jsonResponse.body);
@@ -1649,13 +1639,12 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TypeName': typeName,
-        if (clientToken != null) 'ClientToken': clientToken,
-        if (dryRun != null) 'DryRun': dryRun,
-        if (schemaDeleteOption != null)
-          'SchemaDeleteOption': schemaDeleteOption?.toValue(),
-      },
+      payload: DeleteInventoryRequest(
+        typeName: typeName,
+        clientToken: clientToken,
+        dryRun: dryRun,
+        schemaDeleteOption: schemaDeleteOption,
+      ),
     );
 
     return DeleteInventoryResult.fromJson(jsonResponse.body);
@@ -1694,9 +1683,9 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'WindowId': windowId,
-      },
+      payload: DeleteMaintenanceWindowRequest(
+        windowId: windowId,
+      ),
     );
 
     return DeleteMaintenanceWindowResult.fromJson(jsonResponse.body);
@@ -1730,9 +1719,9 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: DeleteParameterRequest(
+        name: name,
+      ),
     );
 
     return DeleteParameterResult.fromJson(jsonResponse.body);
@@ -1758,9 +1747,9 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Names': names,
-      },
+      payload: DeleteParametersRequest(
+        names: names,
+      ),
     );
 
     return DeleteParametersResult.fromJson(jsonResponse.body);
@@ -1800,9 +1789,9 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'BaselineId': baselineId,
-      },
+      payload: DeletePatchBaselineRequest(
+        baselineId: baselineId,
+      ),
     );
 
     return DeletePatchBaselineResult.fromJson(jsonResponse.body);
@@ -1849,10 +1838,10 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SyncName': syncName,
-        if (syncType != null) 'SyncType': syncType,
-      },
+      payload: DeleteResourceDataSyncRequest(
+        syncName: syncName,
+        syncType: syncType,
+      ),
     );
 
     return DeleteResourceDataSyncResult.fromJson(jsonResponse.body);
@@ -1888,9 +1877,9 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'InstanceId': instanceId,
-      },
+      payload: DeregisterManagedInstanceRequest(
+        instanceId: instanceId,
+      ),
     );
 
     return DeregisterManagedInstanceResult.fromJson(jsonResponse.body);
@@ -1950,10 +1939,10 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'BaselineId': baselineId,
-        'PatchGroup': patchGroup,
-      },
+      payload: DeregisterPatchBaselineForPatchGroupRequest(
+        baselineId: baselineId,
+        patchGroup: patchGroup,
+      ),
     );
 
     return DeregisterPatchBaselineForPatchGroupResult.fromJson(
@@ -2020,11 +2009,11 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'WindowId': windowId,
-        'WindowTargetId': windowTargetId,
-        if (safe != null) 'Safe': safe,
-      },
+      payload: DeregisterTargetFromMaintenanceWindowRequest(
+        windowId: windowId,
+        windowTargetId: windowTargetId,
+        safe: safe,
+      ),
     );
 
     return DeregisterTargetFromMaintenanceWindowResult.fromJson(
@@ -2084,10 +2073,10 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'WindowId': windowId,
-        'WindowTaskId': windowTaskId,
-      },
+      payload: DeregisterTaskFromMaintenanceWindowRequest(
+        windowId: windowId,
+        windowTaskId: windowTaskId,
+      ),
     );
 
     return DeregisterTaskFromMaintenanceWindowResult.fromJson(
@@ -2134,11 +2123,11 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeActivationsRequest(
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeActivationsResult.fromJson(jsonResponse.body);
@@ -2208,13 +2197,12 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (associationId != null) 'AssociationId': associationId,
-        if (associationVersion != null)
-          'AssociationVersion': associationVersion,
-        if (instanceId != null) 'InstanceId': instanceId,
-        if (name != null) 'Name': name,
-      },
+      payload: DescribeAssociationRequest(
+        associationId: associationId,
+        associationVersion: associationVersion,
+        instanceId: instanceId,
+        name: name,
+      ),
     );
 
     return DescribeAssociationResult.fromJson(jsonResponse.body);
@@ -2289,13 +2277,13 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AssociationId': associationId,
-        'ExecutionId': executionId,
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeAssociationExecutionTargetsRequest(
+        associationId: associationId,
+        executionId: executionId,
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeAssociationExecutionTargetsResult.fromJson(
@@ -2356,12 +2344,12 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AssociationId': associationId,
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeAssociationExecutionsRequest(
+        associationId: associationId,
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeAssociationExecutionsResult.fromJson(jsonResponse.body);
@@ -2406,11 +2394,11 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeAutomationExecutionsRequest(
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeAutomationExecutionsResult.fromJson(jsonResponse.body);
@@ -2477,13 +2465,13 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AutomationExecutionId': automationExecutionId,
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (reverseOrder != null) 'ReverseOrder': reverseOrder,
-      },
+      payload: DescribeAutomationStepExecutionsRequest(
+        automationExecutionId: automationExecutionId,
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        reverseOrder: reverseOrder,
+      ),
     );
 
     return DescribeAutomationStepExecutionsResult.fromJson(jsonResponse.body);
@@ -2523,11 +2511,11 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeAvailablePatchesRequest(
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeAvailablePatchesResult.fromJson(jsonResponse.body);
@@ -2582,11 +2570,11 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        if (documentVersion != null) 'DocumentVersion': documentVersion,
-        if (versionName != null) 'VersionName': versionName,
-      },
+      payload: DescribeDocumentRequest(
+        name: name,
+        documentVersion: documentVersion,
+        versionName: versionName,
+      ),
     );
 
     return DescribeDocumentResult.fromJson(jsonResponse.body);
@@ -2629,10 +2617,10 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        'PermissionType': permissionType?.toValue(),
-      },
+      payload: DescribeDocumentPermissionRequest(
+        name: name,
+        permissionType: permissionType,
+      ),
     );
 
     return DescribeDocumentPermissionResponse.fromJson(jsonResponse.body);
@@ -2684,11 +2672,11 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'InstanceId': instanceId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeEffectiveInstanceAssociationsRequest(
+        instanceId: instanceId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeEffectiveInstanceAssociationsResult.fromJson(
@@ -2749,11 +2737,11 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'BaselineId': baselineId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeEffectivePatchesForPatchBaselineRequest(
+        baselineId: baselineId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeEffectivePatchesForPatchBaselineResult.fromJson(
@@ -2806,11 +2794,11 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'InstanceId': instanceId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeInstanceAssociationsStatusRequest(
+        instanceId: instanceId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeInstanceAssociationsStatusResult.fromJson(jsonResponse.body);
@@ -2881,13 +2869,12 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (instanceInformationFilterList != null)
-          'InstanceInformationFilterList': instanceInformationFilterList,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeInstanceInformationRequest(
+        filters: filters,
+        instanceInformationFilterList: instanceInformationFilterList,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeInstanceInformationResult.fromJson(jsonResponse.body);
@@ -2929,11 +2916,11 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'InstanceIds': instanceIds,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeInstancePatchStatesRequest(
+        instanceIds: instanceIds,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeInstancePatchStatesResult.fromJson(jsonResponse.body);
@@ -3002,12 +2989,12 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PatchGroup': patchGroup,
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeInstancePatchStatesForPatchGroupRequest(
+        patchGroup: patchGroup,
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeInstancePatchStatesForPatchGroupResult.fromJson(
@@ -3066,12 +3053,12 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'InstanceId': instanceId,
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeInstancePatchesRequest(
+        instanceId: instanceId,
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeInstancePatchesResult.fromJson(jsonResponse.body);
@@ -3115,11 +3102,11 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (deletionId != null) 'DeletionId': deletionId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeInventoryDeletionsRequest(
+        deletionId: deletionId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeInventoryDeletionsResult.fromJson(jsonResponse.body);
@@ -3204,13 +3191,13 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TaskId': taskId,
-        'WindowExecutionId': windowExecutionId,
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeMaintenanceWindowExecutionTaskInvocationsRequest(
+        taskId: taskId,
+        windowExecutionId: windowExecutionId,
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeMaintenanceWindowExecutionTaskInvocationsResult.fromJson(
@@ -3276,12 +3263,12 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'WindowExecutionId': windowExecutionId,
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeMaintenanceWindowExecutionTasksRequest(
+        windowExecutionId: windowExecutionId,
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeMaintenanceWindowExecutionTasksResult.fromJson(
@@ -3352,12 +3339,12 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'WindowId': windowId,
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeMaintenanceWindowExecutionsRequest(
+        windowId: windowId,
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeMaintenanceWindowExecutionsResult.fromJson(
@@ -3428,14 +3415,14 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (resourceType != null) 'ResourceType': resourceType?.toValue(),
-        if (targets != null) 'Targets': targets,
-        if (windowId != null) 'WindowId': windowId,
-      },
+      payload: DescribeMaintenanceWindowScheduleRequest(
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        resourceType: resourceType,
+        targets: targets,
+        windowId: windowId,
+      ),
     );
 
     return DescribeMaintenanceWindowScheduleResult.fromJson(jsonResponse.body);
@@ -3499,12 +3486,12 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'WindowId': windowId,
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeMaintenanceWindowTargetsRequest(
+        windowId: windowId,
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeMaintenanceWindowTargetsResult.fromJson(jsonResponse.body);
@@ -3566,12 +3553,12 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'WindowId': windowId,
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeMaintenanceWindowTasksRequest(
+        windowId: windowId,
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeMaintenanceWindowTasksResult.fromJson(jsonResponse.body);
@@ -3614,11 +3601,11 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeMaintenanceWindowsRequest(
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeMaintenanceWindowsResult.fromJson(jsonResponse.body);
@@ -3669,12 +3656,12 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceType': resourceType?.toValue(),
-        'Targets': targets,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeMaintenanceWindowsForTargetRequest(
+        resourceType: resourceType,
+        targets: targets,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeMaintenanceWindowsForTargetResult.fromJson(
@@ -3798,11 +3785,11 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (opsItemFilters != null) 'OpsItemFilters': opsItemFilters,
-      },
+      payload: DescribeOpsItemsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+        opsItemFilters: opsItemFilters,
+      ),
     );
 
     return DescribeOpsItemsResponse.fromJson(jsonResponse.body);
@@ -3862,12 +3849,12 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (parameterFilters != null) 'ParameterFilters': parameterFilters,
-      },
+      payload: DescribeParametersRequest(
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        parameterFilters: parameterFilters,
+      ),
     );
 
     return DescribeParametersResult.fromJson(jsonResponse.body);
@@ -3911,11 +3898,11 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribePatchBaselinesRequest(
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribePatchBaselinesResult.fromJson(jsonResponse.body);
@@ -3955,9 +3942,9 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PatchGroup': patchGroup,
-      },
+      payload: DescribePatchGroupStateRequest(
+        patchGroup: patchGroup,
+      ),
     );
 
     return DescribePatchGroupStateResult.fromJson(jsonResponse.body);
@@ -3998,11 +3985,11 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribePatchGroupsRequest(
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribePatchGroupsResult.fromJson(jsonResponse.body);
@@ -4078,13 +4065,13 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'OperatingSystem': operatingSystem?.toValue(),
-        'Property': property?.toValue(),
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (patchSet != null) 'PatchSet': patchSet?.toValue(),
-      },
+      payload: DescribePatchPropertiesRequest(
+        operatingSystem: operatingSystem,
+        property: property,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        patchSet: patchSet,
+      ),
     );
 
     return DescribePatchPropertiesResult.fromJson(jsonResponse.body);
@@ -4135,12 +4122,12 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'State': state?.toValue(),
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeSessionsRequest(
+        state: state,
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeSessionsResponse.fromJson(jsonResponse.body);
@@ -4176,9 +4163,9 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AutomationExecutionId': automationExecutionId,
-      },
+      payload: GetAutomationExecutionRequest(
+        automationExecutionId: automationExecutionId,
+      ),
     );
 
     return GetAutomationExecutionResult.fromJson(jsonResponse.body);
@@ -4225,10 +4212,10 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CalendarNames': calendarNames,
-        if (atTime != null) 'AtTime': atTime,
-      },
+      payload: GetCalendarStateRequest(
+        calendarNames: calendarNames,
+        atTime: atTime,
+      ),
     );
 
     return GetCalendarStateResponse.fromJson(jsonResponse.body);
@@ -4291,11 +4278,11 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CommandId': commandId,
-        'InstanceId': instanceId,
-        if (pluginName != null) 'PluginName': pluginName,
-      },
+      payload: GetCommandInvocationRequest(
+        commandId: commandId,
+        instanceId: instanceId,
+        pluginName: pluginName,
+      ),
     );
 
     return GetCommandInvocationResult.fromJson(jsonResponse.body);
@@ -4330,9 +4317,9 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Target': target,
-      },
+      payload: GetConnectionStatusRequest(
+        target: target,
+      ),
     );
 
     return GetConnectionStatusResponse.fromJson(jsonResponse.body);
@@ -4362,10 +4349,9 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (operatingSystem != null)
-          'OperatingSystem': operatingSystem?.toValue(),
-      },
+      payload: GetDefaultPatchBaselineRequest(
+        operatingSystem: operatingSystem,
+      ),
     );
 
     return GetDefaultPatchBaselineResult.fromJson(jsonResponse.body);
@@ -4421,10 +4407,10 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'InstanceId': instanceId,
-        'SnapshotId': snapshotId,
-      },
+      payload: GetDeployablePatchSnapshotForInstanceRequest(
+        instanceId: instanceId,
+        snapshotId: snapshotId,
+      ),
     );
 
     return GetDeployablePatchSnapshotForInstanceResult.fromJson(
@@ -4484,12 +4470,12 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        if (documentFormat != null) 'DocumentFormat': documentFormat?.toValue(),
-        if (documentVersion != null) 'DocumentVersion': documentVersion,
-        if (versionName != null) 'VersionName': versionName,
-      },
+      payload: GetDocumentRequest(
+        name: name,
+        documentFormat: documentFormat,
+        documentVersion: documentVersion,
+        versionName: versionName,
+      ),
     );
 
     return GetDocumentResult.fromJson(jsonResponse.body);
@@ -4550,13 +4536,13 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (aggregators != null) 'Aggregators': aggregators,
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (resultAttributes != null) 'ResultAttributes': resultAttributes,
-      },
+      payload: GetInventoryRequest(
+        aggregators: aggregators,
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        resultAttributes: resultAttributes,
+      ),
     );
 
     return GetInventoryResult.fromJson(jsonResponse.body);
@@ -4618,13 +4604,13 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (aggregator != null) 'Aggregator': aggregator,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (subType != null) 'SubType': subType,
-        if (typeName != null) 'TypeName': typeName,
-      },
+      payload: GetInventorySchemaRequest(
+        aggregator: aggregator,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        subType: subType,
+        typeName: typeName,
+      ),
     );
 
     return GetInventorySchemaResult.fromJson(jsonResponse.body);
@@ -4665,9 +4651,9 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'WindowId': windowId,
-      },
+      payload: GetMaintenanceWindowRequest(
+        windowId: windowId,
+      ),
     );
 
     return GetMaintenanceWindowResult.fromJson(jsonResponse.body);
@@ -4707,9 +4693,9 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'WindowExecutionId': windowExecutionId,
-      },
+      payload: GetMaintenanceWindowExecutionRequest(
+        windowExecutionId: windowExecutionId,
+      ),
     );
 
     return GetMaintenanceWindowExecutionResult.fromJson(jsonResponse.body);
@@ -4770,10 +4756,10 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TaskId': taskId,
-        'WindowExecutionId': windowExecutionId,
-      },
+      payload: GetMaintenanceWindowExecutionTaskRequest(
+        taskId: taskId,
+        windowExecutionId: windowExecutionId,
+      ),
     );
 
     return GetMaintenanceWindowExecutionTaskResult.fromJson(jsonResponse.body);
@@ -4851,11 +4837,11 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'InvocationId': invocationId,
-        'TaskId': taskId,
-        'WindowExecutionId': windowExecutionId,
-      },
+      payload: GetMaintenanceWindowExecutionTaskInvocationRequest(
+        invocationId: invocationId,
+        taskId: taskId,
+        windowExecutionId: windowExecutionId,
+      ),
     );
 
     return GetMaintenanceWindowExecutionTaskInvocationResult.fromJson(
@@ -4914,10 +4900,10 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'WindowId': windowId,
-        'WindowTaskId': windowTaskId,
-      },
+      payload: GetMaintenanceWindowTaskRequest(
+        windowId: windowId,
+        windowTaskId: windowTaskId,
+      ),
     );
 
     return GetMaintenanceWindowTaskResult.fromJson(jsonResponse.body);
@@ -4961,9 +4947,9 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'OpsItemId': opsItemId,
-      },
+      payload: GetOpsItemRequest(
+        opsItemId: opsItemId,
+      ),
     );
 
     return GetOpsItemResponse.fromJson(jsonResponse.body);
@@ -5028,14 +5014,14 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (aggregators != null) 'Aggregators': aggregators,
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (resultAttributes != null) 'ResultAttributes': resultAttributes,
-        if (syncName != null) 'SyncName': syncName,
-      },
+      payload: GetOpsSummaryRequest(
+        aggregators: aggregators,
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        resultAttributes: resultAttributes,
+        syncName: syncName,
+      ),
     );
 
     return GetOpsSummaryResult.fromJson(jsonResponse.body);
@@ -5077,10 +5063,10 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        if (withDecryption != null) 'WithDecryption': withDecryption,
-      },
+      payload: GetParameterRequest(
+        name: name,
+        withDecryption: withDecryption,
+      ),
     );
 
     return GetParameterResult.fromJson(jsonResponse.body);
@@ -5138,12 +5124,12 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (withDecryption != null) 'WithDecryption': withDecryption,
-      },
+      payload: GetParameterHistoryRequest(
+        name: name,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        withDecryption: withDecryption,
+      ),
     );
 
     return GetParameterHistoryResult.fromJson(jsonResponse.body);
@@ -5177,10 +5163,10 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Names': names,
-        if (withDecryption != null) 'WithDecryption': withDecryption,
-      },
+      payload: GetParametersRequest(
+        names: names,
+        withDecryption: withDecryption,
+      ),
     );
 
     return GetParametersResult.fromJson(jsonResponse.body);
@@ -5267,14 +5253,14 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Path': path,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (parameterFilters != null) 'ParameterFilters': parameterFilters,
-        if (recursive != null) 'Recursive': recursive,
-        if (withDecryption != null) 'WithDecryption': withDecryption,
-      },
+      payload: GetParametersByPathRequest(
+        path: path,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        parameterFilters: parameterFilters,
+        recursive: recursive,
+        withDecryption: withDecryption,
+      ),
     );
 
     return GetParametersByPathResult.fromJson(jsonResponse.body);
@@ -5315,9 +5301,9 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'BaselineId': baselineId,
-      },
+      payload: GetPatchBaselineRequest(
+        baselineId: baselineId,
+      ),
     );
 
     return GetPatchBaselineResult.fromJson(jsonResponse.body);
@@ -5362,11 +5348,10 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PatchGroup': patchGroup,
-        if (operatingSystem != null)
-          'OperatingSystem': operatingSystem?.toValue(),
-      },
+      payload: GetPatchBaselineForPatchGroupRequest(
+        patchGroup: patchGroup,
+        operatingSystem: operatingSystem,
+      ),
     );
 
     return GetPatchBaselineForPatchGroupResult.fromJson(jsonResponse.body);
@@ -5417,9 +5402,9 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SettingId': settingId,
-      },
+      payload: GetServiceSettingRequest(
+        settingId: settingId,
+      ),
     );
 
     return GetServiceSettingResult.fromJson(jsonResponse.body);
@@ -5508,11 +5493,11 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Labels': labels,
-        'Name': name,
-        if (parameterVersion != null) 'ParameterVersion': parameterVersion,
-      },
+      payload: LabelParameterVersionRequest(
+        labels: labels,
+        name: name,
+        parameterVersion: parameterVersion,
+      ),
     );
 
     return LabelParameterVersionResult.fromJson(jsonResponse.body);
@@ -5562,11 +5547,11 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AssociationId': associationId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListAssociationVersionsRequest(
+        associationId: associationId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListAssociationVersionsResult.fromJson(jsonResponse.body);
@@ -5612,12 +5597,11 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (associationFilterList != null)
-          'AssociationFilterList': associationFilterList,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListAssociationsRequest(
+        associationFilterList: associationFilterList,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListAssociationsResult.fromJson(jsonResponse.body);
@@ -5693,14 +5677,14 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (commandId != null) 'CommandId': commandId,
-        if (details != null) 'Details': details,
-        if (filters != null) 'Filters': filters,
-        if (instanceId != null) 'InstanceId': instanceId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListCommandInvocationsRequest(
+        commandId: commandId,
+        details: details,
+        filters: filters,
+        instanceId: instanceId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListCommandInvocationsResult.fromJson(jsonResponse.body);
@@ -5766,13 +5750,13 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (commandId != null) 'CommandId': commandId,
-        if (filters != null) 'Filters': filters,
-        if (instanceId != null) 'InstanceId': instanceId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListCommandsRequest(
+        commandId: commandId,
+        filters: filters,
+        instanceId: instanceId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListCommandsResult.fromJson(jsonResponse.body);
@@ -5831,13 +5815,13 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (resourceIds != null) 'ResourceIds': resourceIds,
-        if (resourceTypes != null) 'ResourceTypes': resourceTypes,
-      },
+      payload: ListComplianceItemsRequest(
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        resourceIds: resourceIds,
+        resourceTypes: resourceTypes,
+      ),
     );
 
     return ListComplianceItemsResult.fromJson(jsonResponse.body);
@@ -5884,11 +5868,11 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListComplianceSummariesRequest(
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListComplianceSummariesResult.fromJson(jsonResponse.body);
@@ -5939,11 +5923,11 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListDocumentVersionsRequest(
+        name: name,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListDocumentVersionsResult.fromJson(jsonResponse.body);
@@ -5994,13 +5978,12 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (documentFilterList != null)
-          'DocumentFilterList': documentFilterList,
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListDocumentsRequest(
+        documentFilterList: documentFilterList,
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListDocumentsResult.fromJson(jsonResponse.body);
@@ -6076,13 +6059,13 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'InstanceId': instanceId,
-        'TypeName': typeName,
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListInventoryEntriesRequest(
+        instanceId: instanceId,
+        typeName: typeName,
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListInventoryEntriesResult.fromJson(jsonResponse.body);
@@ -6129,11 +6112,11 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListResourceComplianceSummariesRequest(
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListResourceComplianceSummariesResult.fromJson(jsonResponse.body);
@@ -6197,11 +6180,11 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (syncType != null) 'SyncType': syncType,
-      },
+      payload: ListResourceDataSyncRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+        syncType: syncType,
+      ),
     );
 
     return ListResourceDataSyncResult.fromJson(jsonResponse.body);
@@ -6234,10 +6217,10 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceId': resourceId,
-        'ResourceType': resourceType?.toValue(),
-      },
+      payload: ListTagsForResourceRequest(
+        resourceId: resourceId,
+        resourceType: resourceType,
+      ),
     );
 
     return ListTagsForResourceResult.fromJson(jsonResponse.body);
@@ -6311,15 +6294,13 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        'PermissionType': permissionType?.toValue(),
-        if (accountIdsToAdd != null) 'AccountIdsToAdd': accountIdsToAdd,
-        if (accountIdsToRemove != null)
-          'AccountIdsToRemove': accountIdsToRemove,
-        if (sharedDocumentVersion != null)
-          'SharedDocumentVersion': sharedDocumentVersion,
-      },
+      payload: ModifyDocumentPermissionRequest(
+        name: name,
+        permissionType: permissionType,
+        accountIdsToAdd: accountIdsToAdd,
+        accountIdsToRemove: accountIdsToRemove,
+        sharedDocumentVersion: sharedDocumentVersion,
+      ),
     );
 
     return ModifyDocumentPermissionResponse.fromJson(jsonResponse.body);
@@ -6480,14 +6461,14 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ComplianceType': complianceType,
-        'ExecutionSummary': executionSummary,
-        'Items': items,
-        'ResourceId': resourceId,
-        'ResourceType': resourceType,
-        if (itemContentHash != null) 'ItemContentHash': itemContentHash,
-      },
+      payload: PutComplianceItemsRequest(
+        complianceType: complianceType,
+        executionSummary: executionSummary,
+        items: items,
+        resourceId: resourceId,
+        resourceType: resourceType,
+        itemContentHash: itemContentHash,
+      ),
     );
 
     return PutComplianceItemsResult.fromJson(jsonResponse.body);
@@ -6537,10 +6518,10 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'InstanceId': instanceId,
-        'Items': items,
-      },
+      payload: PutInventoryRequest(
+        instanceId: instanceId,
+        items: items,
+      ),
     );
 
     return PutInventoryResult.fromJson(jsonResponse.body);
@@ -6849,18 +6830,18 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        'Type': type?.toValue(),
-        'Value': value,
-        if (allowedPattern != null) 'AllowedPattern': allowedPattern,
-        if (description != null) 'Description': description,
-        if (keyId != null) 'KeyId': keyId,
-        if (overwrite != null) 'Overwrite': overwrite,
-        if (policies != null) 'Policies': policies,
-        if (tags != null) 'Tags': tags,
-        if (tier != null) 'Tier': tier?.toValue(),
-      },
+      payload: PutParameterRequest(
+        name: name,
+        type: type,
+        value: value,
+        allowedPattern: allowedPattern,
+        description: description,
+        keyId: keyId,
+        overwrite: overwrite,
+        policies: policies,
+        tags: tags,
+        tier: tier,
+      ),
     );
 
     return PutParameterResult.fromJson(jsonResponse.body);
@@ -6907,9 +6888,9 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'BaselineId': baselineId,
-      },
+      payload: RegisterDefaultPatchBaselineRequest(
+        baselineId: baselineId,
+      ),
     );
 
     return RegisterDefaultPatchBaselineResult.fromJson(jsonResponse.body);
@@ -6972,10 +6953,10 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'BaselineId': baselineId,
-        'PatchGroup': patchGroup,
-      },
+      payload: RegisterPatchBaselineForPatchGroupRequest(
+        baselineId: baselineId,
+        patchGroup: patchGroup,
+      ),
     );
 
     return RegisterPatchBaselineForPatchGroupResult.fromJson(jsonResponse.body);
@@ -7113,15 +7094,15 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceType': resourceType?.toValue(),
-        'Targets': targets,
-        'WindowId': windowId,
-        if (clientToken != null) 'ClientToken': clientToken,
-        if (description != null) 'Description': description,
-        if (name != null) 'Name': name,
-        if (ownerInformation != null) 'OwnerInformation': ownerInformation,
-      },
+      payload: RegisterTargetWithMaintenanceWindowRequest(
+        resourceType: resourceType,
+        targets: targets,
+        windowId: windowId,
+        clientToken: clientToken,
+        description: description,
+        name: name,
+        ownerInformation: ownerInformation,
+      ),
     );
 
     return RegisterTargetWithMaintenanceWindowResult.fromJson(
@@ -7336,23 +7317,22 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'MaxConcurrency': maxConcurrency,
-        'MaxErrors': maxErrors,
-        'Targets': targets,
-        'TaskArn': taskArn,
-        'TaskType': taskType?.toValue(),
-        'WindowId': windowId,
-        if (clientToken != null) 'ClientToken': clientToken,
-        if (description != null) 'Description': description,
-        if (loggingInfo != null) 'LoggingInfo': loggingInfo,
-        if (name != null) 'Name': name,
-        if (priority != null) 'Priority': priority,
-        if (serviceRoleArn != null) 'ServiceRoleArn': serviceRoleArn,
-        if (taskInvocationParameters != null)
-          'TaskInvocationParameters': taskInvocationParameters,
-        if (taskParameters != null) 'TaskParameters': taskParameters,
-      },
+      payload: RegisterTaskWithMaintenanceWindowRequest(
+        maxConcurrency: maxConcurrency,
+        maxErrors: maxErrors,
+        targets: targets,
+        taskArn: taskArn,
+        taskType: taskType,
+        windowId: windowId,
+        clientToken: clientToken,
+        description: description,
+        loggingInfo: loggingInfo,
+        name: name,
+        priority: priority,
+        serviceRoleArn: serviceRoleArn,
+        taskInvocationParameters: taskInvocationParameters,
+        taskParameters: taskParameters,
+      ),
     );
 
     return RegisterTaskWithMaintenanceWindowResult.fromJson(jsonResponse.body);
@@ -7409,11 +7389,11 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceId': resourceId,
-        'ResourceType': resourceType?.toValue(),
-        'TagKeys': tagKeys,
-      },
+      payload: RemoveTagsFromResourceRequest(
+        resourceId: resourceId,
+        resourceType: resourceType,
+        tagKeys: tagKeys,
+      ),
     );
 
     return RemoveTagsFromResourceResult.fromJson(jsonResponse.body);
@@ -7465,9 +7445,9 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SettingId': settingId,
-      },
+      payload: ResetServiceSettingRequest(
+        settingId: settingId,
+      ),
     );
 
     return ResetServiceSettingResult.fromJson(jsonResponse.body);
@@ -7508,9 +7488,9 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SessionId': sessionId,
-      },
+      payload: ResumeSessionRequest(
+        sessionId: sessionId,
+      ),
     );
 
     return ResumeSessionResponse.fromJson(jsonResponse.body);
@@ -7575,11 +7555,11 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AutomationExecutionId': automationExecutionId,
-        'SignalType': signalType?.toValue(),
-        if (payload != null) 'Payload': payload,
-      },
+      payload: SendAutomationSignalRequest(
+        automationExecutionId: automationExecutionId,
+        signalType: signalType,
+        payload: payload,
+      ),
     );
 
     return SendAutomationSignalResult.fromJson(jsonResponse.body);
@@ -7796,29 +7776,25 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DocumentName': documentName,
-        if (cloudWatchOutputConfig != null)
-          'CloudWatchOutputConfig': cloudWatchOutputConfig,
-        if (comment != null) 'Comment': comment,
-        if (documentHash != null) 'DocumentHash': documentHash,
-        if (documentHashType != null)
-          'DocumentHashType': documentHashType?.toValue(),
-        if (documentVersion != null) 'DocumentVersion': documentVersion,
-        if (instanceIds != null) 'InstanceIds': instanceIds,
-        if (maxConcurrency != null) 'MaxConcurrency': maxConcurrency,
-        if (maxErrors != null) 'MaxErrors': maxErrors,
-        if (notificationConfig != null)
-          'NotificationConfig': notificationConfig,
-        if (outputS3BucketName != null)
-          'OutputS3BucketName': outputS3BucketName,
-        if (outputS3KeyPrefix != null) 'OutputS3KeyPrefix': outputS3KeyPrefix,
-        if (outputS3Region != null) 'OutputS3Region': outputS3Region,
-        if (parameters != null) 'Parameters': parameters,
-        if (serviceRoleArn != null) 'ServiceRoleArn': serviceRoleArn,
-        if (targets != null) 'Targets': targets,
-        if (timeoutSeconds != null) 'TimeoutSeconds': timeoutSeconds,
-      },
+      payload: SendCommandRequest(
+        documentName: documentName,
+        cloudWatchOutputConfig: cloudWatchOutputConfig,
+        comment: comment,
+        documentHash: documentHash,
+        documentHashType: documentHashType,
+        documentVersion: documentVersion,
+        instanceIds: instanceIds,
+        maxConcurrency: maxConcurrency,
+        maxErrors: maxErrors,
+        notificationConfig: notificationConfig,
+        outputS3BucketName: outputS3BucketName,
+        outputS3KeyPrefix: outputS3KeyPrefix,
+        outputS3Region: outputS3Region,
+        parameters: parameters,
+        serviceRoleArn: serviceRoleArn,
+        targets: targets,
+        timeoutSeconds: timeoutSeconds,
+      ),
     );
 
     return SendCommandResult.fromJson(jsonResponse.body);
@@ -7846,9 +7822,9 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AssociationIds': associationIds,
-      },
+      payload: StartAssociationsOnceRequest(
+        associationIds: associationIds,
+      ),
     );
 
     return StartAssociationsOnceResult.fromJson(jsonResponse.body);
@@ -8018,21 +7994,20 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DocumentName': documentName,
-        if (clientToken != null) 'ClientToken': clientToken,
-        if (documentVersion != null) 'DocumentVersion': documentVersion,
-        if (maxConcurrency != null) 'MaxConcurrency': maxConcurrency,
-        if (maxErrors != null) 'MaxErrors': maxErrors,
-        if (mode != null) 'Mode': mode?.toValue(),
-        if (parameters != null) 'Parameters': parameters,
-        if (tags != null) 'Tags': tags,
-        if (targetLocations != null) 'TargetLocations': targetLocations,
-        if (targetMaps != null) 'TargetMaps': targetMaps,
-        if (targetParameterName != null)
-          'TargetParameterName': targetParameterName,
-        if (targets != null) 'Targets': targets,
-      },
+      payload: StartAutomationExecutionRequest(
+        documentName: documentName,
+        clientToken: clientToken,
+        documentVersion: documentVersion,
+        maxConcurrency: maxConcurrency,
+        maxErrors: maxErrors,
+        mode: mode,
+        parameters: parameters,
+        tags: tags,
+        targetLocations: targetLocations,
+        targetMaps: targetMaps,
+        targetParameterName: targetParameterName,
+        targets: targets,
+      ),
     );
 
     return StartAutomationExecutionResult.fromJson(jsonResponse.body);
@@ -8096,11 +8071,11 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Target': target,
-        if (documentName != null) 'DocumentName': documentName,
-        if (parameters != null) 'Parameters': parameters,
-      },
+      payload: StartSessionRequest(
+        target: target,
+        documentName: documentName,
+        parameters: parameters,
+      ),
     );
 
     return StartSessionResponse.fromJson(jsonResponse.body);
@@ -8140,10 +8115,10 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AutomationExecutionId': automationExecutionId,
-        if (type != null) 'Type': type?.toValue(),
-      },
+      payload: StopAutomationExecutionRequest(
+        automationExecutionId: automationExecutionId,
+        type: type,
+      ),
     );
 
     return StopAutomationExecutionResult.fromJson(jsonResponse.body);
@@ -8179,9 +8154,9 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SessionId': sessionId,
-      },
+      payload: TerminateSessionRequest(
+        sessionId: sessionId,
+      ),
     );
 
     return TerminateSessionResponse.fromJson(jsonResponse.body);
@@ -8387,25 +8362,21 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AssociationId': associationId,
-        if (associationName != null) 'AssociationName': associationName,
-        if (associationVersion != null)
-          'AssociationVersion': associationVersion,
-        if (automationTargetParameterName != null)
-          'AutomationTargetParameterName': automationTargetParameterName,
-        if (complianceSeverity != null)
-          'ComplianceSeverity': complianceSeverity?.toValue(),
-        if (documentVersion != null) 'DocumentVersion': documentVersion,
-        if (maxConcurrency != null) 'MaxConcurrency': maxConcurrency,
-        if (maxErrors != null) 'MaxErrors': maxErrors,
-        if (name != null) 'Name': name,
-        if (outputLocation != null) 'OutputLocation': outputLocation,
-        if (parameters != null) 'Parameters': parameters,
-        if (scheduleExpression != null)
-          'ScheduleExpression': scheduleExpression,
-        if (targets != null) 'Targets': targets,
-      },
+      payload: UpdateAssociationRequest(
+        associationId: associationId,
+        associationName: associationName,
+        associationVersion: associationVersion,
+        automationTargetParameterName: automationTargetParameterName,
+        complianceSeverity: complianceSeverity,
+        documentVersion: documentVersion,
+        maxConcurrency: maxConcurrency,
+        maxErrors: maxErrors,
+        name: name,
+        outputLocation: outputLocation,
+        parameters: parameters,
+        scheduleExpression: scheduleExpression,
+        targets: targets,
+      ),
     );
 
     return UpdateAssociationResult.fromJson(jsonResponse.body);
@@ -8459,11 +8430,11 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AssociationStatus': associationStatus,
-        'InstanceId': instanceId,
-        'Name': name,
-      },
+      payload: UpdateAssociationStatusRequest(
+        associationStatus: associationStatus,
+        instanceId: instanceId,
+        name: name,
+      ),
     );
 
     return UpdateAssociationStatusResult.fromJson(jsonResponse.body);
@@ -8561,15 +8532,15 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Content': content,
-        'Name': name,
-        if (attachments != null) 'Attachments': attachments,
-        if (documentFormat != null) 'DocumentFormat': documentFormat?.toValue(),
-        if (documentVersion != null) 'DocumentVersion': documentVersion,
-        if (targetType != null) 'TargetType': targetType,
-        if (versionName != null) 'VersionName': versionName,
-      },
+      payload: UpdateDocumentRequest(
+        content: content,
+        name: name,
+        attachments: attachments,
+        documentFormat: documentFormat,
+        documentVersion: documentVersion,
+        targetType: targetType,
+        versionName: versionName,
+      ),
     );
 
     return UpdateDocumentResult.fromJson(jsonResponse.body);
@@ -8616,10 +8587,10 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DocumentVersion': documentVersion,
-        'Name': name,
-      },
+      payload: UpdateDocumentDefaultVersionRequest(
+        documentVersion: documentVersion,
+        name: name,
+      ),
     );
 
     return UpdateDocumentDefaultVersionResult.fromJson(jsonResponse.body);
@@ -8763,21 +8734,20 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'WindowId': windowId,
-        if (allowUnassociatedTargets != null)
-          'AllowUnassociatedTargets': allowUnassociatedTargets,
-        if (cutoff != null) 'Cutoff': cutoff,
-        if (description != null) 'Description': description,
-        if (duration != null) 'Duration': duration,
-        if (enabled != null) 'Enabled': enabled,
-        if (endDate != null) 'EndDate': endDate,
-        if (name != null) 'Name': name,
-        if (replace != null) 'Replace': replace,
-        if (schedule != null) 'Schedule': schedule,
-        if (scheduleTimezone != null) 'ScheduleTimezone': scheduleTimezone,
-        if (startDate != null) 'StartDate': startDate,
-      },
+      payload: UpdateMaintenanceWindowRequest(
+        windowId: windowId,
+        allowUnassociatedTargets: allowUnassociatedTargets,
+        cutoff: cutoff,
+        description: description,
+        duration: duration,
+        enabled: enabled,
+        endDate: endDate,
+        name: name,
+        replace: replace,
+        schedule: schedule,
+        scheduleTimezone: scheduleTimezone,
+        startDate: startDate,
+      ),
     );
 
     return UpdateMaintenanceWindowResult.fromJson(jsonResponse.body);
@@ -8907,15 +8877,15 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'WindowId': windowId,
-        'WindowTargetId': windowTargetId,
-        if (description != null) 'Description': description,
-        if (name != null) 'Name': name,
-        if (ownerInformation != null) 'OwnerInformation': ownerInformation,
-        if (replace != null) 'Replace': replace,
-        if (targets != null) 'Targets': targets,
-      },
+      payload: UpdateMaintenanceWindowTargetRequest(
+        windowId: windowId,
+        windowTargetId: windowTargetId,
+        description: description,
+        name: name,
+        ownerInformation: ownerInformation,
+        replace: replace,
+        targets: targets,
+      ),
     );
 
     return UpdateMaintenanceWindowTargetResult.fromJson(jsonResponse.body);
@@ -9151,23 +9121,22 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'WindowId': windowId,
-        'WindowTaskId': windowTaskId,
-        if (description != null) 'Description': description,
-        if (loggingInfo != null) 'LoggingInfo': loggingInfo,
-        if (maxConcurrency != null) 'MaxConcurrency': maxConcurrency,
-        if (maxErrors != null) 'MaxErrors': maxErrors,
-        if (name != null) 'Name': name,
-        if (priority != null) 'Priority': priority,
-        if (replace != null) 'Replace': replace,
-        if (serviceRoleArn != null) 'ServiceRoleArn': serviceRoleArn,
-        if (targets != null) 'Targets': targets,
-        if (taskArn != null) 'TaskArn': taskArn,
-        if (taskInvocationParameters != null)
-          'TaskInvocationParameters': taskInvocationParameters,
-        if (taskParameters != null) 'TaskParameters': taskParameters,
-      },
+      payload: UpdateMaintenanceWindowTaskRequest(
+        windowId: windowId,
+        windowTaskId: windowTaskId,
+        description: description,
+        loggingInfo: loggingInfo,
+        maxConcurrency: maxConcurrency,
+        maxErrors: maxErrors,
+        name: name,
+        priority: priority,
+        replace: replace,
+        serviceRoleArn: serviceRoleArn,
+        targets: targets,
+        taskArn: taskArn,
+        taskInvocationParameters: taskInvocationParameters,
+        taskParameters: taskParameters,
+      ),
     );
 
     return UpdateMaintenanceWindowTaskResult.fromJson(jsonResponse.body);
@@ -9213,10 +9182,10 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'IamRole': iamRole,
-        'InstanceId': instanceId,
-      },
+      payload: UpdateManagedInstanceRoleRequest(
+        iamRole: iamRole,
+        instanceId: instanceId,
+      ),
     );
 
     return UpdateManagedInstanceRoleResult.fromJson(jsonResponse.body);
@@ -9366,20 +9335,19 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'OpsItemId': opsItemId,
-        if (category != null) 'Category': category,
-        if (description != null) 'Description': description,
-        if (notifications != null) 'Notifications': notifications,
-        if (operationalData != null) 'OperationalData': operationalData,
-        if (operationalDataToDelete != null)
-          'OperationalDataToDelete': operationalDataToDelete,
-        if (priority != null) 'Priority': priority,
-        if (relatedOpsItems != null) 'RelatedOpsItems': relatedOpsItems,
-        if (severity != null) 'Severity': severity,
-        if (status != null) 'Status': status?.toValue(),
-        if (title != null) 'Title': title,
-      },
+      payload: UpdateOpsItemRequest(
+        opsItemId: opsItemId,
+        category: category,
+        description: description,
+        notifications: notifications,
+        operationalData: operationalData,
+        operationalDataToDelete: operationalDataToDelete,
+        priority: priority,
+        relatedOpsItems: relatedOpsItems,
+        severity: severity,
+        status: status,
+        title: title,
+      ),
     );
 
     return UpdateOpsItemResponse.fromJson(jsonResponse.body);
@@ -9522,24 +9490,20 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'BaselineId': baselineId,
-        if (approvalRules != null) 'ApprovalRules': approvalRules,
-        if (approvedPatches != null) 'ApprovedPatches': approvedPatches,
-        if (approvedPatchesComplianceLevel != null)
-          'ApprovedPatchesComplianceLevel':
-              approvedPatchesComplianceLevel?.toValue(),
-        if (approvedPatchesEnableNonSecurity != null)
-          'ApprovedPatchesEnableNonSecurity': approvedPatchesEnableNonSecurity,
-        if (description != null) 'Description': description,
-        if (globalFilters != null) 'GlobalFilters': globalFilters,
-        if (name != null) 'Name': name,
-        if (rejectedPatches != null) 'RejectedPatches': rejectedPatches,
-        if (rejectedPatchesAction != null)
-          'RejectedPatchesAction': rejectedPatchesAction?.toValue(),
-        if (replace != null) 'Replace': replace,
-        if (sources != null) 'Sources': sources,
-      },
+      payload: UpdatePatchBaselineRequest(
+        baselineId: baselineId,
+        approvalRules: approvalRules,
+        approvedPatches: approvedPatches,
+        approvedPatchesComplianceLevel: approvedPatchesComplianceLevel,
+        approvedPatchesEnableNonSecurity: approvedPatchesEnableNonSecurity,
+        description: description,
+        globalFilters: globalFilters,
+        name: name,
+        rejectedPatches: rejectedPatches,
+        rejectedPatchesAction: rejectedPatchesAction,
+        replace: replace,
+        sources: sources,
+      ),
     );
 
     return UpdatePatchBaselineResult.fromJson(jsonResponse.body);
@@ -9602,11 +9566,11 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SyncName': syncName,
-        'SyncSource': syncSource,
-        'SyncType': syncType,
-      },
+      payload: UpdateResourceDataSyncRequest(
+        syncName: syncName,
+        syncSource: syncSource,
+        syncType: syncType,
+      ),
     );
 
     return UpdateResourceDataSyncResult.fromJson(jsonResponse.body);
@@ -9669,10 +9633,10 @@ class SSM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SettingId': settingId,
-        'SettingValue': settingValue,
-      },
+      payload: UpdateServiceSettingRequest(
+        settingId: settingId,
+        settingValue: settingValue,
+      ),
     );
 
     return UpdateServiceSettingResult.fromJson(jsonResponse.body);
@@ -9781,6 +9745,57 @@ class Activation {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AddTagsToResourceRequest {
+  /// The resource ID you want to tag.
+  ///
+  /// Use the ID of the resource. Here are some examples:
+  ///
+  /// ManagedInstance: mi-012345abcde
+  ///
+  /// MaintenanceWindow: mw-012345abcde
+  ///
+  /// PatchBaseline: pb-012345abcde
+  ///
+  /// For the Document and Parameter values, use the name of the resource.
+  /// <note>
+  /// The ManagedInstance type for this API action is only for on-premises managed
+  /// instances. You must specify the name of the managed instance in the
+  /// following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
+  /// </note>
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  /// Specifies the type of resource you are tagging.
+  /// <note>
+  /// The ManagedInstance type for this API action is for on-premises managed
+  /// instances. You must specify the name of the managed instance in the
+  /// following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
+  /// </note>
+  @_s.JsonKey(name: 'ResourceType')
+  final ResourceTypeForTagging resourceType;
+
+  /// One or more tags. The value parameter is required, but if you don't want the
+  /// tag to have a value, specify the parameter with no value, and we set the
+  /// value to an empty string.
+  /// <important>
+  /// Do not enter personally identifiable information in this field.
+  /// </important>
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  AddTagsToResourceRequest({
+    @_s.required this.resourceId,
+    @_s.required this.resourceType,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$AddTagsToResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AddTagsToResourceResult {
@@ -9867,24 +9882,6 @@ enum AssociationComplianceSeverity {
   low,
   @_s.JsonValue('UNSPECIFIED')
   unspecified,
-}
-
-extension on AssociationComplianceSeverity {
-  String toValue() {
-    switch (this) {
-      case AssociationComplianceSeverity.critical:
-        return 'CRITICAL';
-      case AssociationComplianceSeverity.high:
-        return 'HIGH';
-      case AssociationComplianceSeverity.medium:
-        return 'MEDIUM';
-      case AssociationComplianceSeverity.low:
-        return 'LOW';
-      case AssociationComplianceSeverity.unspecified:
-        return 'UNSPECIFIED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Describes the parameters for a document.
@@ -10959,6 +10956,30 @@ enum CalendarState {
   closed,
 }
 
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CancelCommandRequest {
+  /// The ID of the command you want to cancel.
+  @_s.JsonKey(name: 'CommandId')
+  final String commandId;
+
+  /// (Optional) A list of instance IDs on which you want to cancel the command.
+  /// If not provided, the command is canceled on every instance on which it was
+  /// requested.
+  @_s.JsonKey(name: 'InstanceIds')
+  final List<String> instanceIds;
+
+  CancelCommandRequest({
+    @_s.required this.commandId,
+    this.instanceIds,
+  });
+  Map<String, dynamic> toJson() => _$CancelCommandRequestToJson(this);
+}
+
 /// Whether or not the command was successfully canceled. There is no guarantee
 /// that a request can be canceled.
 @_s.JsonSerializable(
@@ -10970,6 +10991,23 @@ class CancelCommandResult {
   CancelCommandResult();
   factory CancelCommandResult.fromJson(Map<String, dynamic> json) =>
       _$CancelCommandResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CancelMaintenanceWindowExecutionRequest {
+  /// The ID of the maintenance window execution to stop.
+  @_s.JsonKey(name: 'WindowExecutionId')
+  final String windowExecutionId;
+
+  CancelMaintenanceWindowExecutionRequest({
+    @_s.required this.windowExecutionId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CancelMaintenanceWindowExecutionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -11978,6 +12016,93 @@ enum ConnectionStatus {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateActivationRequest {
+  /// The Amazon Identity and Access Management (IAM) role that you want to assign
+  /// to the managed instance. This IAM role must provide AssumeRole permissions
+  /// for the Systems Manager service principal <code>ssm.amazonaws.com</code>.
+  /// For more information, see <a
+  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-service-role.html">Create
+  /// an IAM Service Role for a Hybrid Environment</a> in the <i>AWS Systems
+  /// Manager User Guide</i>.
+  @_s.JsonKey(name: 'IamRole')
+  final String iamRole;
+
+  /// The name of the registered, managed instance as it will appear in the
+  /// Systems Manager console or when you use the AWS command line tools to list
+  /// Systems Manager resources.
+  /// <important>
+  /// Do not enter personally identifiable information in this field.
+  /// </important>
+  @_s.JsonKey(name: 'DefaultInstanceName')
+  final String defaultInstanceName;
+
+  /// A user-defined description of the resource that you want to register with
+  /// Systems Manager.
+  /// <important>
+  /// Do not enter personally identifiable information in this field.
+  /// </important>
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The date by which this activation request should expire. The default value
+  /// is 24 hours.
+  @_s.JsonKey(
+      name: 'ExpirationDate',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime expirationDate;
+
+  /// Specify the maximum number of managed instances you want to register. The
+  /// default value is 1 instance.
+  @_s.JsonKey(name: 'RegistrationLimit')
+  final int registrationLimit;
+
+  /// Optional metadata that you assign to a resource. Tags enable you to
+  /// categorize a resource in different ways, such as by purpose, owner, or
+  /// environment. For example, you might want to tag an activation to identify
+  /// which servers or virtual machines (VMs) in your on-premises environment you
+  /// intend to activate. In this case, you could specify the following key
+  /// name/value pairs:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Key=OS,Value=Windows</code>
+  /// </li>
+  /// <li>
+  /// <code>Key=Environment,Value=Production</code>
+  /// </li>
+  /// </ul> <important>
+  /// When you install SSM Agent on your on-premises servers and VMs, you specify
+  /// an activation ID and code. When you specify the activation ID and code, tags
+  /// assigned to the activation are automatically applied to the on-premises
+  /// servers or VMs.
+  /// </important>
+  /// You can't add tags to or delete tags from an existing activation. You can
+  /// tag your on-premises servers and VMs after they connect to Systems Manager
+  /// for the first time and are assigned a managed instance ID. This means they
+  /// are listed in the AWS Systems Manager console with an ID that is prefixed
+  /// with "mi-". For information about how to add tags to your managed instances,
+  /// see <a>AddTagsToResource</a>. For information about how to remove tags from
+  /// your managed instances, see <a>RemoveTagsFromResource</a>.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateActivationRequest({
+    @_s.required this.iamRole,
+    this.defaultInstanceName,
+    this.description,
+    this.expirationDate,
+    this.registrationLimit,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateActivationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateActivationResult {
@@ -11997,6 +12122,22 @@ class CreateActivationResult {
   });
   factory CreateActivationResult.fromJson(Map<String, dynamic> json) =>
       _$CreateActivationResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateAssociationBatchRequest {
+  /// One or more associations.
+  @_s.JsonKey(name: 'Entries')
+  final List<CreateAssociationBatchRequestEntry> entries;
+
+  CreateAssociationBatchRequest({
+    @_s.required this.entries,
+  });
+  Map<String, dynamic> toJson() => _$CreateAssociationBatchRequestToJson(this);
 }
 
 /// Describes the association of a Systems Manager SSM document and an instance.
@@ -12142,6 +12283,133 @@ class CreateAssociationBatchResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateAssociationRequest {
+  /// The name of the SSM document that contains the configuration information for
+  /// the instance. You can specify Command or Automation documents.
+  ///
+  /// You can specify AWS-predefined documents, documents you created, or a
+  /// document that is shared with you from another account.
+  ///
+  /// For SSM documents that are shared with you from other AWS accounts, you must
+  /// specify the complete SSM document ARN, in the following format:
+  ///
+  /// <code>arn:<i>partition</i>:ssm:<i>region</i>:<i>account-id</i>:document/<i>document-name</i>
+  /// </code>
+  ///
+  /// For example:
+  ///
+  /// <code>arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document</code>
+  ///
+  /// For AWS-predefined documents and SSM documents you created in your account,
+  /// you only need to specify the document name. For example,
+  /// <code>AWS-ApplyPatchBaseline</code> or <code>My-Document</code>.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Specify a descriptive name for the association.
+  @_s.JsonKey(name: 'AssociationName')
+  final String associationName;
+
+  /// Specify the target for the association. This target is required for
+  /// associations that use an Automation document and target resources by using
+  /// rate controls.
+  @_s.JsonKey(name: 'AutomationTargetParameterName')
+  final String automationTargetParameterName;
+
+  /// The severity level to assign to the association.
+  @_s.JsonKey(name: 'ComplianceSeverity')
+  final AssociationComplianceSeverity complianceSeverity;
+
+  /// The document version you want to associate with the target(s). Can be a
+  /// specific version or the default version.
+  @_s.JsonKey(name: 'DocumentVersion')
+  final String documentVersion;
+
+  /// The instance ID.
+  /// <note>
+  /// <code>InstanceId</code> has been deprecated. To specify an instance ID for
+  /// an association, use the <code>Targets</code> parameter. Requests that
+  /// include the parameter <code>InstanceID</code> with SSM documents that use
+  /// schema version 2.0 or later will fail. In addition, if you use the parameter
+  /// <code>InstanceId</code>, you cannot use the parameters
+  /// <code>AssociationName</code>, <code>DocumentVersion</code>,
+  /// <code>MaxErrors</code>, <code>MaxConcurrency</code>,
+  /// <code>OutputLocation</code>, or <code>ScheduleExpression</code>. To use
+  /// these parameters, you must use the <code>Targets</code> parameter.
+  /// </note>
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  /// The maximum number of targets allowed to run the association at the same
+  /// time. You can specify a number, for example 10, or a percentage of the
+  /// target set, for example 10%. The default value is 100%, which means all
+  /// targets run the association at the same time.
+  ///
+  /// If a new instance starts and attempts to run an association while Systems
+  /// Manager is running MaxConcurrency associations, the association is allowed
+  /// to run. During the next association interval, the new instance will process
+  /// its association within the limit specified for MaxConcurrency.
+  @_s.JsonKey(name: 'MaxConcurrency')
+  final String maxConcurrency;
+
+  /// The number of errors that are allowed before the system stops sending
+  /// requests to run the association on additional targets. You can specify
+  /// either an absolute number of errors, for example 10, or a percentage of the
+  /// target set, for example 10%. If you specify 3, for example, the system stops
+  /// sending requests when the fourth error is received. If you specify 0, then
+  /// the system stops sending requests after the first error is returned. If you
+  /// run an association on 50 instances and set MaxError to 10%, then the system
+  /// stops sending the request when the sixth error is received.
+  ///
+  /// Executions that are already running an association when MaxErrors is reached
+  /// are allowed to complete, but some of these executions may fail as well. If
+  /// you need to ensure that there won't be more than max-errors failed
+  /// executions, set MaxConcurrency to 1 so that executions proceed one at a
+  /// time.
+  @_s.JsonKey(name: 'MaxErrors')
+  final String maxErrors;
+
+  /// An Amazon S3 bucket where you want to store the output details of the
+  /// request.
+  @_s.JsonKey(name: 'OutputLocation')
+  final InstanceAssociationOutputLocation outputLocation;
+
+  /// The parameters for the runtime configuration of the document.
+  @_s.JsonKey(name: 'Parameters')
+  final Map<String, List<String>> parameters;
+
+  /// A cron expression when the association will be applied to the target(s).
+  @_s.JsonKey(name: 'ScheduleExpression')
+  final String scheduleExpression;
+
+  /// The targets (either instances or tags) for the association. You must specify
+  /// a value for <code>Targets</code> if you don't specify a value for
+  /// <code>InstanceId</code>.
+  @_s.JsonKey(name: 'Targets')
+  final List<Target> targets;
+
+  CreateAssociationRequest({
+    @_s.required this.name,
+    this.associationName,
+    this.automationTargetParameterName,
+    this.complianceSeverity,
+    this.documentVersion,
+    this.instanceId,
+    this.maxConcurrency,
+    this.maxErrors,
+    this.outputLocation,
+    this.parameters,
+    this.scheduleExpression,
+    this.targets,
+  });
+  Map<String, dynamic> toJson() => _$CreateAssociationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateAssociationResult {
@@ -12154,6 +12422,105 @@ class CreateAssociationResult {
   });
   factory CreateAssociationResult.fromJson(Map<String, dynamic> json) =>
       _$CreateAssociationResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDocumentRequest {
+  /// A valid JSON or YAML string.
+  @_s.JsonKey(name: 'Content')
+  final String content;
+
+  /// A name for the Systems Manager document.
+  /// <important>
+  /// Do not use the following to begin the names of documents you create. They
+  /// are reserved by AWS for use as document prefixes:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>aws</code>
+  /// </li>
+  /// <li>
+  /// <code>amazon</code>
+  /// </li>
+  /// <li>
+  /// <code>amzn</code>
+  /// </li>
+  /// </ul> </important>
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// A list of key and value pairs that describe attachments to a version of a
+  /// document.
+  @_s.JsonKey(name: 'Attachments')
+  final List<AttachmentsSource> attachments;
+
+  /// Specify the document format for the request. The document format can be
+  /// JSON, YAML, or TEXT. JSON is the default format.
+  @_s.JsonKey(name: 'DocumentFormat')
+  final DocumentFormat documentFormat;
+
+  /// The type of document to create.
+  @_s.JsonKey(name: 'DocumentType')
+  final DocumentType documentType;
+
+  /// A list of SSM documents required by a document. For example, an
+  /// <code>ApplicationConfiguration</code> document requires an
+  /// <code>ApplicationConfigurationSchema</code> document.
+  @_s.JsonKey(name: 'Requires')
+  final List<DocumentRequires> requires;
+
+  /// Optional metadata that you assign to a resource. Tags enable you to
+  /// categorize a resource in different ways, such as by purpose, owner, or
+  /// environment. For example, you might want to tag an SSM document to identify
+  /// the types of targets or the environment where it will run. In this case, you
+  /// could specify the following key name/value pairs:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Key=OS,Value=Windows</code>
+  /// </li>
+  /// <li>
+  /// <code>Key=Environment,Value=Production</code>
+  /// </li>
+  /// </ul> <note>
+  /// To add tags to an existing SSM document, use the <a>AddTagsToResource</a>
+  /// action.
+  /// </note>
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  /// Specify a target type to define the kinds of resources the document can run
+  /// on. For example, to run a document on EC2 instances, specify the following
+  /// value: /AWS::EC2::Instance. If you specify a value of '/' the document can
+  /// run on all types of resources. If you don't specify a value, the document
+  /// can't run on any resources. For a list of valid resource types, see <a
+  /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">AWS
+  /// Resource Types Reference</a> in the <i>AWS CloudFormation User Guide</i>.
+  @_s.JsonKey(name: 'TargetType')
+  final String targetType;
+
+  /// An optional field specifying the version of the artifact you are creating
+  /// with the document. For example, "Release 12, Update 6". This value is unique
+  /// across all versions of a document, and cannot be changed.
+  @_s.JsonKey(name: 'VersionName')
+  final String versionName;
+
+  CreateDocumentRequest({
+    @_s.required this.content,
+    @_s.required this.name,
+    this.attachments,
+    this.documentFormat,
+    this.documentType,
+    this.requires,
+    this.tags,
+    this.targetType,
+    this.versionName,
+  });
+  Map<String, dynamic> toJson() => _$CreateDocumentRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -12176,6 +12543,109 @@ class CreateDocumentResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateMaintenanceWindowRequest {
+  /// Enables a maintenance window task to run on managed instances, even if you
+  /// have not registered those instances as targets. If enabled, then you must
+  /// specify the unregistered instances (by instance ID) when you register a task
+  /// with the maintenance window.
+  ///
+  /// If you don't enable this option, then you must specify previously-registered
+  /// targets when you register a task with the maintenance window.
+  @_s.JsonKey(name: 'AllowUnassociatedTargets')
+  final bool allowUnassociatedTargets;
+
+  /// The number of hours before the end of the maintenance window that Systems
+  /// Manager stops scheduling new tasks for execution.
+  @_s.JsonKey(name: 'Cutoff')
+  final int cutoff;
+
+  /// The duration of the maintenance window in hours.
+  @_s.JsonKey(name: 'Duration')
+  final int duration;
+
+  /// The name of the maintenance window.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The schedule of the maintenance window in the form of a cron or rate
+  /// expression.
+  @_s.JsonKey(name: 'Schedule')
+  final String schedule;
+
+  /// User-provided idempotency token.
+  @_s.JsonKey(name: 'ClientToken')
+  final String clientToken;
+
+  /// An optional description for the maintenance window. We recommend specifying
+  /// a description to help you organize your maintenance windows.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The date and time, in ISO-8601 Extended format, for when you want the
+  /// maintenance window to become inactive. EndDate allows you to set a date and
+  /// time in the future when the maintenance window will no longer run.
+  @_s.JsonKey(name: 'EndDate')
+  final String endDate;
+
+  /// The time zone that the scheduled maintenance window executions are based on,
+  /// in Internet Assigned Numbers Authority (IANA) format. For example:
+  /// "America/Los_Angeles", "etc/UTC", or "Asia/Seoul". For more information, see
+  /// the <a href="https://www.iana.org/time-zones">Time Zone Database</a> on the
+  /// IANA website.
+  @_s.JsonKey(name: 'ScheduleTimezone')
+  final String scheduleTimezone;
+
+  /// The date and time, in ISO-8601 Extended format, for when you want the
+  /// maintenance window to become active. StartDate allows you to delay
+  /// activation of the maintenance window until the specified future date.
+  @_s.JsonKey(name: 'StartDate')
+  final String startDate;
+
+  /// Optional metadata that you assign to a resource. Tags enable you to
+  /// categorize a resource in different ways, such as by purpose, owner, or
+  /// environment. For example, you might want to tag a maintenance window to
+  /// identify the type of tasks it will run, the types of targets, and the
+  /// environment it will run in. In this case, you could specify the following
+  /// key name/value pairs:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Key=TaskType,Value=AgentUpdate</code>
+  /// </li>
+  /// <li>
+  /// <code>Key=OS,Value=Windows</code>
+  /// </li>
+  /// <li>
+  /// <code>Key=Environment,Value=Production</code>
+  /// </li>
+  /// </ul> <note>
+  /// To add tags to an existing maintenance window, use the
+  /// <a>AddTagsToResource</a> action.
+  /// </note>
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateMaintenanceWindowRequest({
+    @_s.required this.allowUnassociatedTargets,
+    @_s.required this.cutoff,
+    @_s.required this.duration,
+    @_s.required this.name,
+    @_s.required this.schedule,
+    this.clientToken,
+    this.description,
+    this.endDate,
+    this.scheduleTimezone,
+    this.startDate,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateMaintenanceWindowRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateMaintenanceWindowResult {
@@ -12188,6 +12658,104 @@ class CreateMaintenanceWindowResult {
   });
   factory CreateMaintenanceWindowResult.fromJson(Map<String, dynamic> json) =>
       _$CreateMaintenanceWindowResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateOpsItemRequest {
+  /// Information about the OpsItem.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The origin of the OpsItem, such as Amazon EC2 or AWS Systems Manager.
+  @_s.JsonKey(name: 'Source')
+  final String source;
+
+  /// A short heading that describes the nature of the OpsItem and the impacted
+  /// resource.
+  @_s.JsonKey(name: 'Title')
+  final String title;
+
+  /// Specify a category to assign to an OpsItem.
+  @_s.JsonKey(name: 'Category')
+  final String category;
+
+  /// The Amazon Resource Name (ARN) of an SNS topic where notifications are sent
+  /// when this OpsItem is edited or changed.
+  @_s.JsonKey(name: 'Notifications')
+  final List<OpsItemNotification> notifications;
+
+  /// Operational data is custom data that provides useful reference details about
+  /// the OpsItem. For example, you can specify log files, error strings, license
+  /// keys, troubleshooting tips, or other relevant data. You enter operational
+  /// data as key-value pairs. The key has a maximum length of 128 characters. The
+  /// value has a maximum size of 20 KB.
+  /// <important>
+  /// Operational data keys <i>can't</i> begin with the following: amazon, aws,
+  /// amzn, ssm, /amazon, /aws, /amzn, /ssm.
+  /// </important>
+  /// You can choose to make the data searchable by other users in the account or
+  /// you can restrict search access. Searchable data means that all users with
+  /// access to the OpsItem Overview page (as provided by the
+  /// <a>DescribeOpsItems</a> API action) can view and search on the specified
+  /// data. Operational data that is not searchable is only viewable by users who
+  /// have access to the OpsItem (as provided by the <a>GetOpsItem</a> API
+  /// action).
+  ///
+  /// Use the <code>/aws/resources</code> key in OperationalData to specify a
+  /// related resource in the request. Use the <code>/aws/automations</code> key
+  /// in OperationalData to associate an Automation runbook with the OpsItem. To
+  /// view AWS CLI example commands that use these keys, see <a
+  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-creating-OpsItems.html#OpsCenter-manually-create-OpsItems">Creating
+  /// OpsItems Manually</a> in the <i>AWS Systems Manager User Guide</i>.
+  @_s.JsonKey(name: 'OperationalData')
+  final Map<String, OpsItemDataValue> operationalData;
+
+  /// The importance of this OpsItem in relation to other OpsItems in the system.
+  @_s.JsonKey(name: 'Priority')
+  final int priority;
+
+  /// One or more OpsItems that share something in common with the current
+  /// OpsItems. For example, related OpsItems can include OpsItems with similar
+  /// error messages, impacted resources, or statuses for the impacted resource.
+  @_s.JsonKey(name: 'RelatedOpsItems')
+  final List<RelatedOpsItem> relatedOpsItems;
+
+  /// Specify a severity to assign to an OpsItem.
+  @_s.JsonKey(name: 'Severity')
+  final String severity;
+
+  /// Optional metadata that you assign to a resource. You can restrict access to
+  /// OpsItems by using an inline IAM policy that specifies tags. For more
+  /// information, see <a
+  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-getting-started.html#OpsCenter-getting-started-user-permissions">Getting
+  /// Started with OpsCenter</a> in the <i>AWS Systems Manager User Guide</i>.
+  ///
+  /// Tags use a key-value pair. For example:
+  ///
+  /// <code>Key=Department,Value=Finance</code>
+  /// <note>
+  /// To add tags to an existing OpsItem, use the <a>AddTagsToResource</a> action.
+  /// </note>
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateOpsItemRequest({
+    @_s.required this.description,
+    @_s.required this.source,
+    @_s.required this.title,
+    this.category,
+    this.notifications,
+    this.operationalData,
+    this.priority,
+    this.relatedOpsItems,
+    this.severity,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateOpsItemRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -12210,6 +12778,135 @@ class CreateOpsItemResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreatePatchBaselineRequest {
+  /// The name of the patch baseline.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// A set of rules used to include patches in the baseline.
+  @_s.JsonKey(name: 'ApprovalRules')
+  final PatchRuleGroup approvalRules;
+
+  /// A list of explicitly approved patches for the baseline.
+  ///
+  /// For information about accepted formats for lists of approved patches and
+  /// rejected patches, see <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html">Package
+  /// Name Formats for Approved and Rejected Patch Lists</a> in the <i>AWS Systems
+  /// Manager User Guide</i>.
+  @_s.JsonKey(name: 'ApprovedPatches')
+  final List<String> approvedPatches;
+
+  /// Defines the compliance level for approved patches. This means that if an
+  /// approved patch is reported as missing, this is the severity of the
+  /// compliance violation. The default value is UNSPECIFIED.
+  @_s.JsonKey(name: 'ApprovedPatchesComplianceLevel')
+  final PatchComplianceLevel approvedPatchesComplianceLevel;
+
+  /// Indicates whether the list of approved patches includes non-security updates
+  /// that should be applied to the instances. The default value is 'false'.
+  /// Applies to Linux instances only.
+  @_s.JsonKey(name: 'ApprovedPatchesEnableNonSecurity')
+  final bool approvedPatchesEnableNonSecurity;
+
+  /// User-provided idempotency token.
+  @_s.JsonKey(name: 'ClientToken')
+  final String clientToken;
+
+  /// A description of the patch baseline.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// A set of global filters used to include patches in the baseline.
+  @_s.JsonKey(name: 'GlobalFilters')
+  final PatchFilterGroup globalFilters;
+
+  /// Defines the operating system the patch baseline applies to. The Default
+  /// value is WINDOWS.
+  @_s.JsonKey(name: 'OperatingSystem')
+  final OperatingSystem operatingSystem;
+
+  /// A list of explicitly rejected patches for the baseline.
+  ///
+  /// For information about accepted formats for lists of approved patches and
+  /// rejected patches, see <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html">Package
+  /// Name Formats for Approved and Rejected Patch Lists</a> in the <i>AWS Systems
+  /// Manager User Guide</i>.
+  @_s.JsonKey(name: 'RejectedPatches')
+  final List<String> rejectedPatches;
+
+  /// The action for Patch Manager to take on patches included in the
+  /// RejectedPackages list.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>ALLOW_AS_DEPENDENCY</b>: A package in the Rejected patches list is
+  /// installed only if it is a dependency of another package. It is considered
+  /// compliant with the patch baseline, and its status is reported as
+  /// <i>InstalledOther</i>. This is the default action if no option is specified.
+  /// </li>
+  /// <li>
+  /// <b>BLOCK</b>: Packages in the RejectedPatches list, and packages that
+  /// include them as dependencies, are not installed under any circumstances. If
+  /// a package was installed before it was added to the Rejected patches list, it
+  /// is considered non-compliant with the patch baseline, and its status is
+  /// reported as <i>InstalledRejected</i>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'RejectedPatchesAction')
+  final PatchAction rejectedPatchesAction;
+
+  /// Information about the patches to use to update the instances, including
+  /// target operating systems and source repositories. Applies to Linux instances
+  /// only.
+  @_s.JsonKey(name: 'Sources')
+  final List<PatchSource> sources;
+
+  /// Optional metadata that you assign to a resource. Tags enable you to
+  /// categorize a resource in different ways, such as by purpose, owner, or
+  /// environment. For example, you might want to tag a patch baseline to identify
+  /// the severity level of patches it specifies and the operating system family
+  /// it applies to. In this case, you could specify the following key name/value
+  /// pairs:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Key=PatchSeverity,Value=Critical</code>
+  /// </li>
+  /// <li>
+  /// <code>Key=OS,Value=Windows</code>
+  /// </li>
+  /// </ul> <note>
+  /// To add tags to an existing patch baseline, use the <a>AddTagsToResource</a>
+  /// action.
+  /// </note>
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreatePatchBaselineRequest({
+    @_s.required this.name,
+    this.approvalRules,
+    this.approvedPatches,
+    this.approvedPatchesComplianceLevel,
+    this.approvedPatchesEnableNonSecurity,
+    this.clientToken,
+    this.description,
+    this.globalFilters,
+    this.operatingSystem,
+    this.rejectedPatches,
+    this.rejectedPatchesAction,
+    this.sources,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreatePatchBaselineRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreatePatchBaselineResult {
@@ -12227,12 +12924,62 @@ class CreatePatchBaselineResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateResourceDataSyncRequest {
+  /// A name for the configuration.
+  @_s.JsonKey(name: 'SyncName')
+  final String syncName;
+
+  /// Amazon S3 configuration details for the sync.
+  @_s.JsonKey(name: 'S3Destination')
+  final ResourceDataSyncS3Destination s3Destination;
+
+  /// Specify information about the data sources to synchronize.
+  @_s.JsonKey(name: 'SyncSource')
+  final ResourceDataSyncSource syncSource;
+
+  /// Specify <code>SyncToDestination</code> to create a resource data sync that
+  /// synchronizes data from multiple AWS Regions to an Amazon S3 bucket. Specify
+  /// <code>SyncFromSource</code> to synchronize data from multiple AWS accounts
+  /// and Regions, as listed in AWS Organizations.
+  @_s.JsonKey(name: 'SyncType')
+  final String syncType;
+
+  CreateResourceDataSyncRequest({
+    @_s.required this.syncName,
+    this.s3Destination,
+    this.syncSource,
+    this.syncType,
+  });
+  Map<String, dynamic> toJson() => _$CreateResourceDataSyncRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateResourceDataSyncResult {
   CreateResourceDataSyncResult();
   factory CreateResourceDataSyncResult.fromJson(Map<String, dynamic> json) =>
       _$CreateResourceDataSyncResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteActivationRequest {
+  /// The ID of the activation that you want to delete.
+  @_s.JsonKey(name: 'ActivationId')
+  final String activationId;
+
+  DeleteActivationRequest({
+    @_s.required this.activationId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteActivationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -12249,6 +12996,32 @@ class DeleteActivationResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteAssociationRequest {
+  /// The association ID that you want to delete.
+  @_s.JsonKey(name: 'AssociationId')
+  final String associationId;
+
+  /// The ID of the instance.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  /// The name of the Systems Manager document.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  DeleteAssociationRequest({
+    this.associationId,
+    this.instanceId,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$DeleteAssociationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteAssociationResult {
@@ -12260,12 +13033,97 @@ class DeleteAssociationResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDocumentRequest {
+  /// The name of the document.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The version of the document that you want to delete. If not provided, all
+  /// versions of the document are deleted.
+  @_s.JsonKey(name: 'DocumentVersion')
+  final String documentVersion;
+
+  /// Some SSM document types require that you specify a <code>Force</code> flag
+  /// before you can delete the document. For example, you must specify a
+  /// <code>Force</code> flag to delete a document of type
+  /// <code>ApplicationConfigurationSchema</code>. You can restrict access to the
+  /// <code>Force</code> flag in an AWS Identity and Access Management (IAM)
+  /// policy.
+  @_s.JsonKey(name: 'Force')
+  final bool force;
+
+  /// The version name of the document that you want to delete. If not provided,
+  /// all versions of the document are deleted.
+  @_s.JsonKey(name: 'VersionName')
+  final String versionName;
+
+  DeleteDocumentRequest({
+    @_s.required this.name,
+    this.documentVersion,
+    this.force,
+    this.versionName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDocumentRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteDocumentResult {
   DeleteDocumentResult();
   factory DeleteDocumentResult.fromJson(Map<String, dynamic> json) =>
       _$DeleteDocumentResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteInventoryRequest {
+  /// The name of the custom inventory type for which you want to delete either
+  /// all previously collected data, or the inventory type itself.
+  @_s.JsonKey(name: 'TypeName')
+  final String typeName;
+
+  /// User-provided idempotency token.
+  @_s.JsonKey(name: 'ClientToken')
+  final String clientToken;
+
+  /// Use this option to view a summary of the deletion request without deleting
+  /// any data or the data type. This option is useful when you only want to
+  /// understand what will be deleted. Once you validate that the data to be
+  /// deleted is what you intend to delete, you can run the same command without
+  /// specifying the <code>DryRun</code> option.
+  @_s.JsonKey(name: 'DryRun')
+  final bool dryRun;
+
+  /// Use the <code>SchemaDeleteOption</code> to delete a custom inventory type
+  /// (schema). If you don't choose this option, the system only deletes existing
+  /// inventory data associated with the custom inventory type. Choose one of the
+  /// following options:
+  ///
+  /// DisableSchema: If you choose this option, the system ignores all inventory
+  /// data for the specified version, and any earlier versions. To enable this
+  /// schema again, you must call the <code>PutInventory</code> action for a
+  /// version greater than the disabled version.
+  ///
+  /// DeleteSchema: This option deletes the specified custom type from the
+  /// Inventory service. You can recreate the schema later, if you want.
+  @_s.JsonKey(name: 'SchemaDeleteOption')
+  final InventorySchemaDeleteOption schemaDeleteOption;
+
+  DeleteInventoryRequest({
+    @_s.required this.typeName,
+    this.clientToken,
+    this.dryRun,
+    this.schemaDeleteOption,
+  });
+  Map<String, dynamic> toJson() => _$DeleteInventoryRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -12305,6 +13163,22 @@ class DeleteInventoryResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteMaintenanceWindowRequest {
+  /// The ID of the maintenance window to delete.
+  @_s.JsonKey(name: 'WindowId')
+  final String windowId;
+
+  DeleteMaintenanceWindowRequest({
+    @_s.required this.windowId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteMaintenanceWindowRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteMaintenanceWindowResult {
@@ -12322,12 +13196,44 @@ class DeleteMaintenanceWindowResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteParameterRequest {
+  /// The name of the parameter to delete.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  DeleteParameterRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$DeleteParameterRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteParameterResult {
   DeleteParameterResult();
   factory DeleteParameterResult.fromJson(Map<String, dynamic> json) =>
       _$DeleteParameterResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteParametersRequest {
+  /// The names of the parameters to delete.
+  @_s.JsonKey(name: 'Names')
+  final List<String> names;
+
+  DeleteParametersRequest({
+    @_s.required this.names,
+  });
+  Map<String, dynamic> toJson() => _$DeleteParametersRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -12356,6 +13262,22 @@ class DeleteParametersResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeletePatchBaselineRequest {
+  /// The ID of the patch baseline to delete.
+  @_s.JsonKey(name: 'BaselineId')
+  final String baselineId;
+
+  DeletePatchBaselineRequest({
+    @_s.required this.baselineId,
+  });
+  Map<String, dynamic> toJson() => _$DeletePatchBaselineRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeletePatchBaselineResult {
@@ -12373,6 +13295,27 @@ class DeletePatchBaselineResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteResourceDataSyncRequest {
+  /// The name of the configuration to delete.
+  @_s.JsonKey(name: 'SyncName')
+  final String syncName;
+
+  /// Specify the type of resource data sync to delete.
+  @_s.JsonKey(name: 'SyncType')
+  final String syncType;
+
+  DeleteResourceDataSyncRequest({
+    @_s.required this.syncName,
+    this.syncType,
+  });
+  Map<String, dynamic> toJson() => _$DeleteResourceDataSyncRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteResourceDataSyncResult {
@@ -12384,12 +13327,53 @@ class DeleteResourceDataSyncResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeregisterManagedInstanceRequest {
+  /// The ID assigned to the managed instance when you registered it using the
+  /// activation process.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  DeregisterManagedInstanceRequest({
+    @_s.required this.instanceId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeregisterManagedInstanceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeregisterManagedInstanceResult {
   DeregisterManagedInstanceResult();
   factory DeregisterManagedInstanceResult.fromJson(Map<String, dynamic> json) =>
       _$DeregisterManagedInstanceResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeregisterPatchBaselineForPatchGroupRequest {
+  /// The ID of the patch baseline to deregister the patch group from.
+  @_s.JsonKey(name: 'BaselineId')
+  final String baselineId;
+
+  /// The name of the patch group that should be deregistered from the patch
+  /// baseline.
+  @_s.JsonKey(name: 'PatchGroup')
+  final String patchGroup;
+
+  DeregisterPatchBaselineForPatchGroupRequest({
+    @_s.required this.baselineId,
+    @_s.required this.patchGroup,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeregisterPatchBaselineForPatchGroupRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -12418,6 +13402,35 @@ class DeregisterPatchBaselineForPatchGroupResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeregisterTargetFromMaintenanceWindowRequest {
+  /// The ID of the maintenance window the target should be removed from.
+  @_s.JsonKey(name: 'WindowId')
+  final String windowId;
+
+  /// The ID of the target definition to remove.
+  @_s.JsonKey(name: 'WindowTargetId')
+  final String windowTargetId;
+
+  /// The system checks if the target is being referenced by a task. If the target
+  /// is being referenced, the system returns an error and does not deregister the
+  /// target from the maintenance window.
+  @_s.JsonKey(name: 'Safe')
+  final bool safe;
+
+  DeregisterTargetFromMaintenanceWindowRequest({
+    @_s.required this.windowId,
+    @_s.required this.windowTargetId,
+    this.safe,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeregisterTargetFromMaintenanceWindowRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeregisterTargetFromMaintenanceWindowResult {
@@ -12436,6 +13449,28 @@ class DeregisterTargetFromMaintenanceWindowResult {
   factory DeregisterTargetFromMaintenanceWindowResult.fromJson(
           Map<String, dynamic> json) =>
       _$DeregisterTargetFromMaintenanceWindowResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeregisterTaskFromMaintenanceWindowRequest {
+  /// The ID of the maintenance window the task should be removed from.
+  @_s.JsonKey(name: 'WindowId')
+  final String windowId;
+
+  /// The ID of the task to remove from the maintenance window.
+  @_s.JsonKey(name: 'WindowTaskId')
+  final String windowTaskId;
+
+  DeregisterTaskFromMaintenanceWindowRequest({
+    @_s.required this.windowId,
+    @_s.required this.windowTaskId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeregisterTaskFromMaintenanceWindowRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -12495,6 +13530,34 @@ enum DescribeActivationsFilterKeys {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeActivationsRequest {
+  /// A filter to view information about your activations.
+  @_s.JsonKey(name: 'Filters')
+  final List<DescribeActivationsFilter> filters;
+
+  /// The maximum number of items to return for this call. The call also returns a
+  /// token that you can specify in a subsequent call to get the next set of
+  /// results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A token to start the list. Use this token to get the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeActivationsRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeActivationsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeActivationsResult {
@@ -12513,6 +13576,52 @@ class DescribeActivationsResult {
   });
   factory DescribeActivationsResult.fromJson(Map<String, dynamic> json) =>
       _$DescribeActivationsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeAssociationExecutionTargetsRequest {
+  /// The association ID that includes the execution for which you want to view
+  /// details.
+  @_s.JsonKey(name: 'AssociationId')
+  final String associationId;
+
+  /// The execution ID for which you want to view details.
+  @_s.JsonKey(name: 'ExecutionId')
+  final String executionId;
+
+  /// Filters for the request. You can specify the following filters and values.
+  ///
+  /// Status (EQUAL)
+  ///
+  /// ResourceId (EQUAL)
+  ///
+  /// ResourceType (EQUAL)
+  @_s.JsonKey(name: 'Filters')
+  final List<AssociationExecutionTargetsFilter> filters;
+
+  /// The maximum number of items to return for this call. The call also returns a
+  /// token that you can specify in a subsequent call to get the next set of
+  /// results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A token to start the list. Use this token to get the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeAssociationExecutionTargetsRequest({
+    @_s.required this.associationId,
+    @_s.required this.executionId,
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeAssociationExecutionTargetsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -12542,6 +13651,46 @@ class DescribeAssociationExecutionTargetsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeAssociationExecutionsRequest {
+  /// The association ID for which you want to view execution history details.
+  @_s.JsonKey(name: 'AssociationId')
+  final String associationId;
+
+  /// Filters for the request. You can specify the following filters and values.
+  ///
+  /// ExecutionId (EQUAL)
+  ///
+  /// Status (EQUAL)
+  ///
+  /// CreatedTime (EQUAL, GREATER_THAN, LESS_THAN)
+  @_s.JsonKey(name: 'Filters')
+  final List<AssociationExecutionFilter> filters;
+
+  /// The maximum number of items to return for this call. The call also returns a
+  /// token that you can specify in a subsequent call to get the next set of
+  /// results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A token to start the list. Use this token to get the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeAssociationExecutionsRequest({
+    @_s.required this.associationId,
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeAssociationExecutionsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeAssociationExecutionsResult {
@@ -12566,6 +13715,41 @@ class DescribeAssociationExecutionsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeAssociationRequest {
+  /// The association ID for which you want information.
+  @_s.JsonKey(name: 'AssociationId')
+  final String associationId;
+
+  /// Specify the association version to retrieve. To view the latest version,
+  /// either specify <code>$LATEST</code> for this parameter, or omit this
+  /// parameter. To view a list of all associations for an instance, use
+  /// <a>ListAssociations</a>. To get a list of versions for a specific
+  /// association, use <a>ListAssociationVersions</a>.
+  @_s.JsonKey(name: 'AssociationVersion')
+  final String associationVersion;
+
+  /// The instance ID.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  /// The name of the Systems Manager document.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  DescribeAssociationRequest({
+    this.associationId,
+    this.associationVersion,
+    this.instanceId,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$DescribeAssociationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeAssociationResult {
@@ -12578,6 +13762,36 @@ class DescribeAssociationResult {
   });
   factory DescribeAssociationResult.fromJson(Map<String, dynamic> json) =>
       _$DescribeAssociationResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeAutomationExecutionsRequest {
+  /// Filters used to limit the scope of executions that are requested.
+  @_s.JsonKey(name: 'Filters')
+  final List<AutomationExecutionFilter> filters;
+
+  /// The maximum number of items to return for this call. The call also returns a
+  /// token that you can specify in a subsequent call to get the next set of
+  /// results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of items to return. (You received this token from
+  /// a previous call.)
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeAutomationExecutionsRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeAutomationExecutionsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -12608,6 +13822,48 @@ class DescribeAutomationExecutionsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeAutomationStepExecutionsRequest {
+  /// The Automation execution ID for which you want step execution descriptions.
+  @_s.JsonKey(name: 'AutomationExecutionId')
+  final String automationExecutionId;
+
+  /// One or more filters to limit the number of step executions returned by the
+  /// request.
+  @_s.JsonKey(name: 'Filters')
+  final List<StepExecutionFilter> filters;
+
+  /// The maximum number of items to return for this call. The call also returns a
+  /// token that you can specify in a subsequent call to get the next set of
+  /// results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of items to return. (You received this token from
+  /// a previous call.)
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// A boolean that indicates whether to list step executions in reverse order by
+  /// start time. The default value is false.
+  @_s.JsonKey(name: 'ReverseOrder')
+  final bool reverseOrder;
+
+  DescribeAutomationStepExecutionsRequest({
+    @_s.required this.automationExecutionId,
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+    this.reverseOrder,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeAutomationStepExecutionsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeAutomationStepExecutionsResult {
@@ -12633,6 +13889,34 @@ class DescribeAutomationStepExecutionsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeAvailablePatchesRequest {
+  /// Filters used to scope down the returned patches.
+  @_s.JsonKey(name: 'Filters')
+  final List<PatchOrchestratorFilter> filters;
+
+  /// The maximum number of patches to return (per page).
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of items to return. (You received this token from
+  /// a previous call.)
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeAvailablePatchesRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeAvailablePatchesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeAvailablePatchesResult {
@@ -12651,6 +13935,29 @@ class DescribeAvailablePatchesResult {
   });
   factory DescribeAvailablePatchesResult.fromJson(Map<String, dynamic> json) =>
       _$DescribeAvailablePatchesResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeDocumentPermissionRequest {
+  /// The name of the document for which you are the owner.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The permission type for the document. The permission type can be
+  /// <i>Share</i>.
+  @_s.JsonKey(name: 'PermissionType')
+  final DocumentPermissionType permissionType;
+
+  DescribeDocumentPermissionRequest({
+    @_s.required this.name,
+    @_s.required this.permissionType,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeDocumentPermissionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -12681,6 +13988,35 @@ class DescribeDocumentPermissionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeDocumentRequest {
+  /// The name of the Systems Manager document.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The document version for which you want information. Can be a specific
+  /// version or the default version.
+  @_s.JsonKey(name: 'DocumentVersion')
+  final String documentVersion;
+
+  /// An optional field specifying the version of the artifact associated with the
+  /// document. For example, "Release 12, Update 6". This value is unique across
+  /// all versions of a document, and cannot be changed.
+  @_s.JsonKey(name: 'VersionName')
+  final String versionName;
+
+  DescribeDocumentRequest({
+    @_s.required this.name,
+    this.documentVersion,
+    this.versionName,
+  });
+  Map<String, dynamic> toJson() => _$DescribeDocumentRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeDocumentResult {
@@ -12693,6 +14029,36 @@ class DescribeDocumentResult {
   });
   factory DescribeDocumentResult.fromJson(Map<String, dynamic> json) =>
       _$DescribeDocumentResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeEffectiveInstanceAssociationsRequest {
+  /// The instance ID for which you want to view all associations.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  /// The maximum number of items to return for this call. The call also returns a
+  /// token that you can specify in a subsequent call to get the next set of
+  /// results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of items to return. (You received this token from
+  /// a previous call.)
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeEffectiveInstanceAssociationsRequest({
+    @_s.required this.instanceId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeEffectiveInstanceAssociationsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -12722,6 +14088,34 @@ class DescribeEffectiveInstanceAssociationsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeEffectivePatchesForPatchBaselineRequest {
+  /// The ID of the patch baseline to retrieve the effective patches for.
+  @_s.JsonKey(name: 'BaselineId')
+  final String baselineId;
+
+  /// The maximum number of patches to return (per page).
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of items to return. (You received this token from
+  /// a previous call.)
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeEffectivePatchesForPatchBaselineRequest({
+    @_s.required this.baselineId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeEffectivePatchesForPatchBaselineRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeEffectivePatchesForPatchBaselineResult {
@@ -12741,6 +14135,36 @@ class DescribeEffectivePatchesForPatchBaselineResult {
   factory DescribeEffectivePatchesForPatchBaselineResult.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeEffectivePatchesForPatchBaselineResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeInstanceAssociationsStatusRequest {
+  /// The instance IDs for which you want association status information.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  /// The maximum number of items to return for this call. The call also returns a
+  /// token that you can specify in a subsequent call to get the next set of
+  /// results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of items to return. (You received this token from
+  /// a previous call.)
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeInstanceAssociationsStatusRequest({
+    @_s.required this.instanceId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeInstanceAssociationsStatusRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -12770,6 +14194,50 @@ class DescribeInstanceAssociationsStatusResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeInstanceInformationRequest {
+  /// One or more filters. Use a filter to return a more specific list of
+  /// instances. You can filter on Amazon EC2 tag. Specify tags by using a
+  /// key-value mapping.
+  @_s.JsonKey(name: 'Filters')
+  final List<InstanceInformationStringFilter> filters;
+
+  /// This is a legacy method. We recommend that you don't use this method.
+  /// Instead, use the <a>InstanceInformationFilter</a> action. The
+  /// <code>InstanceInformationFilter</code> action enables you to return instance
+  /// information by using tags that are specified as a key-value mapping.
+  ///
+  /// If you do use this method, then you can't use the
+  /// <code>InstanceInformationFilter</code> action. Using this method and the
+  /// <code>InstanceInformationFilter</code> action causes an exception error.
+  @_s.JsonKey(name: 'InstanceInformationFilterList')
+  final List<InstanceInformationFilter> instanceInformationFilterList;
+
+  /// The maximum number of items to return for this call. The call also returns a
+  /// token that you can specify in a subsequent call to get the next set of
+  /// results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of items to return. (You received this token from
+  /// a previous call.)
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeInstanceInformationRequest({
+    this.filters,
+    this.instanceInformationFilterList,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeInstanceInformationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeInstanceInformationResult {
@@ -12789,6 +14257,46 @@ class DescribeInstanceInformationResult {
   factory DescribeInstanceInformationResult.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeInstanceInformationResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeInstancePatchStatesForPatchGroupRequest {
+  /// The name of the patch group for which the patch state information should be
+  /// retrieved.
+  @_s.JsonKey(name: 'PatchGroup')
+  final String patchGroup;
+
+  /// Each entry in the array is a structure containing:
+  ///
+  /// Key (string between 1 and 200 characters)
+  ///
+  /// Values (array containing a single string)
+  ///
+  /// Type (string "Equal", "NotEqual", "LessThan", "GreaterThan")
+  @_s.JsonKey(name: 'Filters')
+  final List<InstancePatchStateFilter> filters;
+
+  /// The maximum number of patches to return (per page).
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of items to return. (You received this token from
+  /// a previous call.)
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeInstancePatchStatesForPatchGroupRequest({
+    @_s.required this.patchGroup,
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeInstancePatchStatesForPatchGroupRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -12818,6 +14326,34 @@ class DescribeInstancePatchStatesForPatchGroupResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeInstancePatchStatesRequest {
+  /// The ID of the instance whose patch state information should be retrieved.
+  @_s.JsonKey(name: 'InstanceIds')
+  final List<String> instanceIds;
+
+  /// The maximum number of instances to return (per page).
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of items to return. (You received this token from
+  /// a previous call.)
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeInstancePatchStatesRequest({
+    @_s.required this.instanceIds,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeInstancePatchStatesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeInstancePatchStatesResult {
@@ -12837,6 +14373,40 @@ class DescribeInstancePatchStatesResult {
   factory DescribeInstancePatchStatesResult.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeInstancePatchStatesResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeInstancePatchesRequest {
+  /// The ID of the instance whose patch state information should be retrieved.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  /// An array of structures. Each entry in the array is a structure containing a
+  /// Key, Value combination. Valid values for Key are <code>Classification</code>
+  /// | <code>KBId</code> | <code>Severity</code> | <code>State</code>.
+  @_s.JsonKey(name: 'Filters')
+  final List<PatchOrchestratorFilter> filters;
+
+  /// The maximum number of patches to return (per page).
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of items to return. (You received this token from
+  /// a previous call.)
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeInstancePatchesRequest({
+    @_s.required this.instanceId,
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeInstancePatchesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -12879,6 +14449,36 @@ class DescribeInstancePatchesResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeInventoryDeletionsRequest {
+  /// Specify the delete inventory ID for which you want information. This ID was
+  /// returned by the <code>DeleteInventory</code> action.
+  @_s.JsonKey(name: 'DeletionId')
+  final String deletionId;
+
+  /// The maximum number of items to return for this call. The call also returns a
+  /// token that you can specify in a subsequent call to get the next set of
+  /// results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A token to start the list. Use this token to get the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeInventoryDeletionsRequest({
+    this.deletionId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeInventoryDeletionsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeInventoryDeletionsResult {
@@ -12898,6 +14498,49 @@ class DescribeInventoryDeletionsResult {
   factory DescribeInventoryDeletionsResult.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeInventoryDeletionsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeMaintenanceWindowExecutionTaskInvocationsRequest {
+  /// The ID of the specific task in the maintenance window task that should be
+  /// retrieved.
+  @_s.JsonKey(name: 'TaskId')
+  final String taskId;
+
+  /// The ID of the maintenance window execution the task is part of.
+  @_s.JsonKey(name: 'WindowExecutionId')
+  final String windowExecutionId;
+
+  /// Optional filters used to scope down the returned task invocations. The
+  /// supported filter key is STATUS with the corresponding values PENDING,
+  /// IN_PROGRESS, SUCCESS, FAILED, TIMED_OUT, CANCELLING, and CANCELLED.
+  @_s.JsonKey(name: 'Filters')
+  final List<MaintenanceWindowFilter> filters;
+
+  /// The maximum number of items to return for this call. The call also returns a
+  /// token that you can specify in a subsequent call to get the next set of
+  /// results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of items to return. (You received this token from
+  /// a previous call.)
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeMaintenanceWindowExecutionTaskInvocationsRequest({
+    @_s.required this.taskId,
+    @_s.required this.windowExecutionId,
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeMaintenanceWindowExecutionTaskInvocationsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -12928,6 +14571,44 @@ class DescribeMaintenanceWindowExecutionTaskInvocationsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeMaintenanceWindowExecutionTasksRequest {
+  /// The ID of the maintenance window execution whose task executions should be
+  /// retrieved.
+  @_s.JsonKey(name: 'WindowExecutionId')
+  final String windowExecutionId;
+
+  /// Optional filters used to scope down the returned tasks. The supported filter
+  /// key is STATUS with the corresponding values PENDING, IN_PROGRESS, SUCCESS,
+  /// FAILED, TIMED_OUT, CANCELLING, and CANCELLED.
+  @_s.JsonKey(name: 'Filters')
+  final List<MaintenanceWindowFilter> filters;
+
+  /// The maximum number of items to return for this call. The call also returns a
+  /// token that you can specify in a subsequent call to get the next set of
+  /// results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of items to return. (You received this token from
+  /// a previous call.)
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeMaintenanceWindowExecutionTasksRequest({
+    @_s.required this.windowExecutionId,
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeMaintenanceWindowExecutionTasksRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeMaintenanceWindowExecutionTasksResult {
@@ -12953,6 +14634,48 @@ class DescribeMaintenanceWindowExecutionTasksResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeMaintenanceWindowExecutionsRequest {
+  /// The ID of the maintenance window whose executions should be retrieved.
+  @_s.JsonKey(name: 'WindowId')
+  final String windowId;
+
+  /// Each entry in the array is a structure containing:
+  ///
+  /// Key (string, between 1 and 128 characters)
+  ///
+  /// Values (array of strings, each string is between 1 and 256 characters)
+  ///
+  /// The supported Keys are ExecutedBefore and ExecutedAfter with the value being
+  /// a date/time string such as 2016-11-04T05:00:00Z.
+  @_s.JsonKey(name: 'Filters')
+  final List<MaintenanceWindowFilter> filters;
+
+  /// The maximum number of items to return for this call. The call also returns a
+  /// token that you can specify in a subsequent call to get the next set of
+  /// results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of items to return. (You received this token from
+  /// a previous call.)
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeMaintenanceWindowExecutionsRequest({
+    @_s.required this.windowId,
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeMaintenanceWindowExecutionsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeMaintenanceWindowExecutionsResult {
@@ -12972,6 +14695,54 @@ class DescribeMaintenanceWindowExecutionsResult {
   factory DescribeMaintenanceWindowExecutionsResult.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeMaintenanceWindowExecutionsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeMaintenanceWindowScheduleRequest {
+  /// Filters used to limit the range of results. For example, you can limit
+  /// maintenance window executions to only those scheduled before or after a
+  /// certain date and time.
+  @_s.JsonKey(name: 'Filters')
+  final List<PatchOrchestratorFilter> filters;
+
+  /// The maximum number of items to return for this call. The call also returns a
+  /// token that you can specify in a subsequent call to get the next set of
+  /// results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of items to return. (You received this token from
+  /// a previous call.)
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The type of resource you want to retrieve information about. For example,
+  /// "INSTANCE".
+  @_s.JsonKey(name: 'ResourceType')
+  final MaintenanceWindowResourceType resourceType;
+
+  /// The instance ID or key/value pair to retrieve information about.
+  @_s.JsonKey(name: 'Targets')
+  final List<Target> targets;
+
+  /// The ID of the maintenance window to retrieve information about.
+  @_s.JsonKey(name: 'WindowId')
+  final String windowId;
+
+  DescribeMaintenanceWindowScheduleRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+    this.resourceType,
+    this.targets,
+    this.windowId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeMaintenanceWindowScheduleRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13002,6 +14773,43 @@ class DescribeMaintenanceWindowScheduleResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeMaintenanceWindowTargetsRequest {
+  /// The ID of the maintenance window whose targets should be retrieved.
+  @_s.JsonKey(name: 'WindowId')
+  final String windowId;
+
+  /// Optional filters that can be used to narrow down the scope of the returned
+  /// window targets. The supported filter keys are Type, WindowTargetId and
+  /// OwnerInformation.
+  @_s.JsonKey(name: 'Filters')
+  final List<MaintenanceWindowFilter> filters;
+
+  /// The maximum number of items to return for this call. The call also returns a
+  /// token that you can specify in a subsequent call to get the next set of
+  /// results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of items to return. (You received this token from
+  /// a previous call.)
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeMaintenanceWindowTargetsRequest({
+    @_s.required this.windowId,
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeMaintenanceWindowTargetsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeMaintenanceWindowTargetsResult {
@@ -13026,6 +14834,42 @@ class DescribeMaintenanceWindowTargetsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeMaintenanceWindowTasksRequest {
+  /// The ID of the maintenance window whose tasks should be retrieved.
+  @_s.JsonKey(name: 'WindowId')
+  final String windowId;
+
+  /// Optional filters used to narrow down the scope of the returned tasks. The
+  /// supported filter keys are WindowTaskId, TaskArn, Priority, and TaskType.
+  @_s.JsonKey(name: 'Filters')
+  final List<MaintenanceWindowFilter> filters;
+
+  /// The maximum number of items to return for this call. The call also returns a
+  /// token that you can specify in a subsequent call to get the next set of
+  /// results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of items to return. (You received this token from
+  /// a previous call.)
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeMaintenanceWindowTasksRequest({
+    @_s.required this.windowId,
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeMaintenanceWindowTasksRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeMaintenanceWindowTasksResult {
@@ -13045,6 +14889,42 @@ class DescribeMaintenanceWindowTasksResult {
   factory DescribeMaintenanceWindowTasksResult.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeMaintenanceWindowTasksResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeMaintenanceWindowsForTargetRequest {
+  /// The type of resource you want to retrieve information about. For example,
+  /// "INSTANCE".
+  @_s.JsonKey(name: 'ResourceType')
+  final MaintenanceWindowResourceType resourceType;
+
+  /// The instance ID or key/value pair to retrieve information about.
+  @_s.JsonKey(name: 'Targets')
+  final List<Target> targets;
+
+  /// The maximum number of items to return for this call. The call also returns a
+  /// token that you can specify in a subsequent call to get the next set of
+  /// results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of items to return. (You received this token from
+  /// a previous call.)
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeMaintenanceWindowsForTargetRequest({
+    @_s.required this.resourceType,
+    @_s.required this.targets,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeMaintenanceWindowsForTargetRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13075,6 +14955,37 @@ class DescribeMaintenanceWindowsForTargetResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeMaintenanceWindowsRequest {
+  /// Optional filters used to narrow down the scope of the returned maintenance
+  /// windows. Supported filter keys are <b>Name</b> and <b>Enabled</b>.
+  @_s.JsonKey(name: 'Filters')
+  final List<MaintenanceWindowFilter> filters;
+
+  /// The maximum number of items to return for this call. The call also returns a
+  /// token that you can specify in a subsequent call to get the next set of
+  /// results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of items to return. (You received this token from
+  /// a previous call.)
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeMaintenanceWindowsRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeMaintenanceWindowsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeMaintenanceWindowsResult {
@@ -13094,6 +15005,105 @@ class DescribeMaintenanceWindowsResult {
   factory DescribeMaintenanceWindowsResult.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeMaintenanceWindowsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeOpsItemsRequest {
+  /// The maximum number of items to return for this call. The call also returns a
+  /// token that you can specify in a subsequent call to get the next set of
+  /// results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A token to start the list. Use this token to get the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// One or more filters to limit the reponse.
+  ///
+  /// <ul>
+  /// <li>
+  /// Key: CreatedTime
+  ///
+  /// Operations: GreaterThan, LessThan
+  /// </li>
+  /// <li>
+  /// Key: LastModifiedBy
+  ///
+  /// Operations: Contains, Equals
+  /// </li>
+  /// <li>
+  /// Key: LastModifiedTime
+  ///
+  /// Operations: GreaterThan, LessThan
+  /// </li>
+  /// <li>
+  /// Key: Priority
+  ///
+  /// Operations: Equals
+  /// </li>
+  /// <li>
+  /// Key: Source
+  ///
+  /// Operations: Contains, Equals
+  /// </li>
+  /// <li>
+  /// Key: Status
+  ///
+  /// Operations: Equals
+  /// </li>
+  /// <li>
+  /// Key: Title
+  ///
+  /// Operations: Contains
+  /// </li>
+  /// <li>
+  /// Key: OperationalData*
+  ///
+  /// Operations: Equals
+  /// </li>
+  /// <li>
+  /// Key: OperationalDataKey
+  ///
+  /// Operations: Equals
+  /// </li>
+  /// <li>
+  /// Key: OperationalDataValue
+  ///
+  /// Operations: Equals, Contains
+  /// </li>
+  /// <li>
+  /// Key: OpsItemId
+  ///
+  /// Operations: Equals
+  /// </li>
+  /// <li>
+  /// Key: ResourceId
+  ///
+  /// Operations: Contains
+  /// </li>
+  /// <li>
+  /// Key: AutomationId
+  ///
+  /// Operations: Equals
+  /// </li>
+  /// </ul>
+  /// *If you filter the response by using the OperationalData operator, specify a
+  /// key-value pair by using the following JSON format:
+  /// {"key":"key_name","value":"a_value"}
+  @_s.JsonKey(name: 'OpsItemFilters')
+  final List<OpsItemFilter> opsItemFilters;
+
+  DescribeOpsItemsRequest({
+    this.maxResults,
+    this.nextToken,
+    this.opsItemFilters,
+  });
+  Map<String, dynamic> toJson() => _$DescribeOpsItemsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13122,6 +15132,40 @@ class DescribeOpsItemsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeParametersRequest {
+  /// This data type is deprecated. Instead, use <code>ParameterFilters</code>.
+  @_s.JsonKey(name: 'Filters')
+  final List<ParametersFilter> filters;
+
+  /// The maximum number of items to return for this call. The call also returns a
+  /// token that you can specify in a subsequent call to get the next set of
+  /// results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of items to return. (You received this token from
+  /// a previous call.)
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Filters to limit the request results.
+  @_s.JsonKey(name: 'ParameterFilters')
+  final List<ParameterStringFilter> parameterFilters;
+
+  DescribeParametersRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+    this.parameterFilters,
+  });
+  Map<String, dynamic> toJson() => _$DescribeParametersRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeParametersResult {
@@ -13139,6 +15183,37 @@ class DescribeParametersResult {
   });
   factory DescribeParametersResult.fromJson(Map<String, dynamic> json) =>
       _$DescribeParametersResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribePatchBaselinesRequest {
+  /// Each element in the array is a structure containing:
+  ///
+  /// Key: (string, "NAME_PREFIX" or "OWNER")
+  ///
+  /// Value: (array of strings, exactly 1 entry, between 1 and 255 characters)
+  @_s.JsonKey(name: 'Filters')
+  final List<PatchOrchestratorFilter> filters;
+
+  /// The maximum number of patch baselines to return (per page).
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of items to return. (You received this token from
+  /// a previous call.)
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribePatchBaselinesRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribePatchBaselinesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13162,6 +15237,22 @@ class DescribePatchBaselinesResult {
   });
   factory DescribePatchBaselinesResult.fromJson(Map<String, dynamic> json) =>
       _$DescribePatchBaselinesResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribePatchGroupStateRequest {
+  /// The name of the patch group whose patch snapshot should be retrieved.
+  @_s.JsonKey(name: 'PatchGroup')
+  final String patchGroup;
+
+  DescribePatchGroupStateRequest({
+    @_s.required this.patchGroup,
+  });
+  Map<String, dynamic> toJson() => _$DescribePatchGroupStateRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13236,6 +15327,33 @@ class DescribePatchGroupStateResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribePatchGroupsRequest {
+  /// One or more filters. Use a filter to return a more specific list of results.
+  @_s.JsonKey(name: 'Filters')
+  final List<PatchOrchestratorFilter> filters;
+
+  /// The maximum number of patch groups to return (per page).
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of items to return. (You received this token from
+  /// a previous call.)
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribePatchGroupsRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribePatchGroupsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribePatchGroupsResult {
@@ -13264,6 +15382,46 @@ class DescribePatchGroupsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribePatchPropertiesRequest {
+  /// The operating system type for which to list patches.
+  @_s.JsonKey(name: 'OperatingSystem')
+  final OperatingSystem operatingSystem;
+
+  /// The patch property for which you want to view patch details.
+  @_s.JsonKey(name: 'Property')
+  final PatchProperty property;
+
+  /// The maximum number of items to return for this call. The call also returns a
+  /// token that you can specify in a subsequent call to get the next set of
+  /// results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of items to return. (You received this token from
+  /// a previous call.)
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Indicates whether to list patches for the Windows operating system or for
+  /// Microsoft applications. Not applicable for Linux operating systems.
+  @_s.JsonKey(name: 'PatchSet')
+  final PatchSet patchSet;
+
+  DescribePatchPropertiesRequest({
+    @_s.required this.operatingSystem,
+    @_s.required this.property,
+    this.maxResults,
+    this.nextToken,
+    this.patchSet,
+  });
+  Map<String, dynamic> toJson() => _$DescribePatchPropertiesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribePatchPropertiesResult {
@@ -13282,6 +15440,41 @@ class DescribePatchPropertiesResult {
   });
   factory DescribePatchPropertiesResult.fromJson(Map<String, dynamic> json) =>
       _$DescribePatchPropertiesResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeSessionsRequest {
+  /// The session status to retrieve a list of sessions for. For example,
+  /// "Active".
+  @_s.JsonKey(name: 'State')
+  final SessionState state;
+
+  /// One or more filters to limit the type of sessions returned by the request.
+  @_s.JsonKey(name: 'Filters')
+  final List<SessionFilter> filters;
+
+  /// The maximum number of items to return for this call. The call also returns a
+  /// token that you can specify in a subsequent call to get the next set of
+  /// results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of items to return. (You received this token from
+  /// a previous call.)
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeSessionsRequest({
+    @_s.required this.state,
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeSessionsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13521,37 +15714,11 @@ enum DocumentFormat {
   text,
 }
 
-extension on DocumentFormat {
-  String toValue() {
-    switch (this) {
-      case DocumentFormat.yaml:
-        return 'YAML';
-      case DocumentFormat.json:
-        return 'JSON';
-      case DocumentFormat.text:
-        return 'TEXT';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum DocumentHashType {
   @_s.JsonValue('Sha256')
   sha256,
   @_s.JsonValue('Sha1')
   sha1,
-}
-
-extension on DocumentHashType {
-  String toValue() {
-    switch (this) {
-      case DocumentHashType.sha256:
-        return 'Sha256';
-      case DocumentHashType.sha1:
-        return 'Sha1';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Describes the name of a Systems Manager document.
@@ -13729,16 +15896,6 @@ enum DocumentPermissionType {
   share,
 }
 
-extension on DocumentPermissionType {
-  String toValue() {
-    switch (this) {
-      case DocumentPermissionType.share:
-        return 'Share';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// An SSM document required by the current document.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -13798,32 +15955,6 @@ enum DocumentType {
   deploymentStrategy,
   @_s.JsonValue('ChangeCalendar')
   changeCalendar,
-}
-
-extension on DocumentType {
-  String toValue() {
-    switch (this) {
-      case DocumentType.command:
-        return 'Command';
-      case DocumentType.policy:
-        return 'Policy';
-      case DocumentType.automation:
-        return 'Automation';
-      case DocumentType.session:
-        return 'Session';
-      case DocumentType.package:
-        return 'Package';
-      case DocumentType.applicationConfiguration:
-        return 'ApplicationConfiguration';
-      case DocumentType.applicationConfigurationSchema:
-        return 'ApplicationConfigurationSchema';
-      case DocumentType.deploymentStrategy:
-        return 'DeploymentStrategy';
-      case DocumentType.changeCalendar:
-        return 'ChangeCalendar';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Version information about the document.
@@ -13927,18 +16058,6 @@ enum ExecutionMode {
   interactive,
 }
 
-extension on ExecutionMode {
-  String toValue() {
-    switch (this) {
-      case ExecutionMode.auto:
-        return 'Auto';
-      case ExecutionMode.interactive:
-        return 'Interactive';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Describes a failed association.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -14010,6 +16129,24 @@ enum Fault {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetAutomationExecutionRequest {
+  /// The unique identifier for an existing automation execution to examine. The
+  /// execution ID is returned by StartAutomationExecution when the execution of
+  /// an Automation document is initiated.
+  @_s.JsonKey(name: 'AutomationExecutionId')
+  final String automationExecutionId;
+
+  GetAutomationExecutionRequest({
+    @_s.required this.automationExecutionId,
+  });
+  Map<String, dynamic> toJson() => _$GetAutomationExecutionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetAutomationExecutionResult {
@@ -14022,6 +16159,31 @@ class GetAutomationExecutionResult {
   });
   factory GetAutomationExecutionResult.fromJson(Map<String, dynamic> json) =>
       _$GetAutomationExecutionResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetCalendarStateRequest {
+  /// The names or Amazon Resource Names (ARNs) of the Systems Manager documents
+  /// that represent the calendar entries for which you want to get the state.
+  @_s.JsonKey(name: 'CalendarNames')
+  final List<String> calendarNames;
+
+  /// (Optional) The specific time for which you want to get calendar state
+  /// information, in <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO
+  /// 8601</a> format. If you do not add <code>AtTime</code>, the current time is
+  /// assumed.
+  @_s.JsonKey(name: 'AtTime')
+  final String atTime;
+
+  GetCalendarStateRequest({
+    @_s.required this.calendarNames,
+    this.atTime,
+  });
+  Map<String, dynamic> toJson() => _$GetCalendarStateRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -14057,6 +16219,36 @@ class GetCalendarStateResponse {
   });
   factory GetCalendarStateResponse.fromJson(Map<String, dynamic> json) =>
       _$GetCalendarStateResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetCommandInvocationRequest {
+  /// (Required) The parent command ID of the invocation plugin.
+  @_s.JsonKey(name: 'CommandId')
+  final String commandId;
+
+  /// (Required) The ID of the managed instance targeted by the command. A managed
+  /// instance can be an Amazon EC2 instance or an instance in your hybrid
+  /// environment that is configured for Systems Manager.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  /// (Optional) The name of the plugin for which you want detailed results. If
+  /// the document contains only one plugin, the name can be omitted and the
+  /// details will be returned.
+  @_s.JsonKey(name: 'PluginName')
+  final String pluginName;
+
+  GetCommandInvocationRequest({
+    @_s.required this.commandId,
+    @_s.required this.instanceId,
+    this.pluginName,
+  });
+  Map<String, dynamic> toJson() => _$GetCommandInvocationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -14246,6 +16438,22 @@ class GetCommandInvocationResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetConnectionStatusRequest {
+  /// The ID of the instance.
+  @_s.JsonKey(name: 'Target')
+  final String target;
+
+  GetConnectionStatusRequest({
+    @_s.required this.target,
+  });
+  Map<String, dynamic> toJson() => _$GetConnectionStatusRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetConnectionStatusResponse {
@@ -14269,6 +16477,22 @@ class GetConnectionStatusResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetDefaultPatchBaselineRequest {
+  /// Returns the default patch baseline for the specified operating system.
+  @_s.JsonKey(name: 'OperatingSystem')
+  final OperatingSystem operatingSystem;
+
+  GetDefaultPatchBaselineRequest({
+    this.operatingSystem,
+  });
+  Map<String, dynamic> toJson() => _$GetDefaultPatchBaselineRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetDefaultPatchBaselineResult {
@@ -14286,6 +16510,29 @@ class GetDefaultPatchBaselineResult {
   });
   factory GetDefaultPatchBaselineResult.fromJson(Map<String, dynamic> json) =>
       _$GetDefaultPatchBaselineResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetDeployablePatchSnapshotForInstanceRequest {
+  /// The ID of the instance for which the appropriate patch snapshot should be
+  /// retrieved.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  /// The user-defined snapshot ID.
+  @_s.JsonKey(name: 'SnapshotId')
+  final String snapshotId;
+
+  GetDeployablePatchSnapshotForInstanceRequest({
+    @_s.required this.instanceId,
+    @_s.required this.snapshotId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetDeployablePatchSnapshotForInstanceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -14320,6 +16567,40 @@ class GetDeployablePatchSnapshotForInstanceResult {
   factory GetDeployablePatchSnapshotForInstanceResult.fromJson(
           Map<String, dynamic> json) =>
       _$GetDeployablePatchSnapshotForInstanceResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetDocumentRequest {
+  /// The name of the Systems Manager document.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Returns the document in the specified format. The document format can be
+  /// either JSON or YAML. JSON is the default format.
+  @_s.JsonKey(name: 'DocumentFormat')
+  final DocumentFormat documentFormat;
+
+  /// The document version for which you want information.
+  @_s.JsonKey(name: 'DocumentVersion')
+  final String documentVersion;
+
+  /// An optional field specifying the version of the artifact associated with the
+  /// document. For example, "Release 12, Update 6". This value is unique across
+  /// all versions of a document, and cannot be changed.
+  @_s.JsonKey(name: 'VersionName')
+  final String versionName;
+
+  GetDocumentRequest({
+    @_s.required this.name,
+    this.documentFormat,
+    this.documentVersion,
+    this.versionName,
+  });
+  Map<String, dynamic> toJson() => _$GetDocumentRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -14397,6 +16678,48 @@ class GetDocumentResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetInventoryRequest {
+  /// Returns counts of inventory types based on one or more expressions. For
+  /// example, if you aggregate by using an expression that uses the
+  /// <code>AWS:InstanceInformation.PlatformType</code> type, you can see a count
+  /// of how many Windows and Linux instances exist in your inventoried fleet.
+  @_s.JsonKey(name: 'Aggregators')
+  final List<InventoryAggregator> aggregators;
+
+  /// One or more filters. Use a filter to return a more specific list of results.
+  @_s.JsonKey(name: 'Filters')
+  final List<InventoryFilter> filters;
+
+  /// The maximum number of items to return for this call. The call also returns a
+  /// token that you can specify in a subsequent call to get the next set of
+  /// results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of items to return. (You received this token from
+  /// a previous call.)
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The list of inventory item types to return.
+  @_s.JsonKey(name: 'ResultAttributes')
+  final List<ResultAttribute> resultAttributes;
+
+  GetInventoryRequest({
+    this.aggregators,
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+    this.resultAttributes,
+  });
+  Map<String, dynamic> toJson() => _$GetInventoryRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetInventoryResult {
@@ -14420,6 +16743,48 @@ class GetInventoryResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetInventorySchemaRequest {
+  /// Returns inventory schemas that support aggregation. For example, this call
+  /// returns the <code>AWS:InstanceInformation</code> type, because it supports
+  /// aggregation based on the <code>PlatformName</code>,
+  /// <code>PlatformType</code>, and <code>PlatformVersion</code> attributes.
+  @_s.JsonKey(name: 'Aggregator')
+  final bool aggregator;
+
+  /// The maximum number of items to return for this call. The call also returns a
+  /// token that you can specify in a subsequent call to get the next set of
+  /// results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of items to return. (You received this token from
+  /// a previous call.)
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Returns the sub-type schema for a specified inventory type.
+  @_s.JsonKey(name: 'SubType')
+  final bool subType;
+
+  /// The type of inventory item to return.
+  @_s.JsonKey(name: 'TypeName')
+  final String typeName;
+
+  GetInventorySchemaRequest({
+    this.aggregator,
+    this.maxResults,
+    this.nextToken,
+    this.subType,
+    this.typeName,
+  });
+  Map<String, dynamic> toJson() => _$GetInventorySchemaRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetInventorySchemaResult {
@@ -14438,6 +16803,23 @@ class GetInventorySchemaResult {
   });
   factory GetInventorySchemaResult.fromJson(Map<String, dynamic> json) =>
       _$GetInventorySchemaResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetMaintenanceWindowExecutionRequest {
+  /// The ID of the maintenance window execution that includes the task.
+  @_s.JsonKey(name: 'WindowExecutionId')
+  final String windowExecutionId;
+
+  GetMaintenanceWindowExecutionRequest({
+    @_s.required this.windowExecutionId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetMaintenanceWindowExecutionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -14487,6 +16869,34 @@ class GetMaintenanceWindowExecutionResult {
   factory GetMaintenanceWindowExecutionResult.fromJson(
           Map<String, dynamic> json) =>
       _$GetMaintenanceWindowExecutionResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetMaintenanceWindowExecutionTaskInvocationRequest {
+  /// The invocation ID to retrieve.
+  @_s.JsonKey(name: 'InvocationId')
+  final String invocationId;
+
+  /// The ID of the specific task in the maintenance window task that should be
+  /// retrieved.
+  @_s.JsonKey(name: 'TaskId')
+  final String taskId;
+
+  /// The ID of the maintenance window execution for which the task is a part.
+  @_s.JsonKey(name: 'WindowExecutionId')
+  final String windowExecutionId;
+
+  GetMaintenanceWindowExecutionTaskInvocationRequest({
+    @_s.required this.invocationId,
+    @_s.required this.taskId,
+    @_s.required this.windowExecutionId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetMaintenanceWindowExecutionTaskInvocationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -14569,6 +16979,29 @@ class GetMaintenanceWindowExecutionTaskInvocationResult {
   factory GetMaintenanceWindowExecutionTaskInvocationResult.fromJson(
           Map<String, dynamic> json) =>
       _$GetMaintenanceWindowExecutionTaskInvocationResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetMaintenanceWindowExecutionTaskRequest {
+  /// The ID of the specific task execution in the maintenance window task that
+  /// should be retrieved.
+  @_s.JsonKey(name: 'TaskId')
+  final String taskId;
+
+  /// The ID of the maintenance window execution that includes the task.
+  @_s.JsonKey(name: 'WindowExecutionId')
+  final String windowExecutionId;
+
+  GetMaintenanceWindowExecutionTaskRequest({
+    @_s.required this.taskId,
+    @_s.required this.windowExecutionId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetMaintenanceWindowExecutionTaskRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -14674,6 +17107,22 @@ class GetMaintenanceWindowExecutionTaskResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetMaintenanceWindowRequest {
+  /// The ID of the maintenance window for which you want to retrieve information.
+  @_s.JsonKey(name: 'WindowId')
+  final String windowId;
+
+  GetMaintenanceWindowRequest({
+    @_s.required this.windowId,
+  });
+  Map<String, dynamic> toJson() => _$GetMaintenanceWindowRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetMaintenanceWindowResult {
@@ -14769,6 +17218,28 @@ class GetMaintenanceWindowResult {
   });
   factory GetMaintenanceWindowResult.fromJson(Map<String, dynamic> json) =>
       _$GetMaintenanceWindowResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetMaintenanceWindowTaskRequest {
+  /// The maintenance window ID that includes the task to retrieve.
+  @_s.JsonKey(name: 'WindowId')
+  final String windowId;
+
+  /// The maintenance window task ID to retrieve.
+  @_s.JsonKey(name: 'WindowTaskId')
+  final String windowTaskId;
+
+  GetMaintenanceWindowTaskRequest({
+    @_s.required this.windowId,
+    @_s.required this.windowTaskId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetMaintenanceWindowTaskRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -14878,6 +17349,22 @@ class GetMaintenanceWindowTaskResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetOpsItemRequest {
+  /// The ID of the OpsItem that you want to get.
+  @_s.JsonKey(name: 'OpsItemId')
+  final String opsItemId;
+
+  GetOpsItemRequest({
+    @_s.required this.opsItemId,
+  });
+  Map<String, dynamic> toJson() => _$GetOpsItemRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetOpsItemResponse {
@@ -14890,6 +17377,50 @@ class GetOpsItemResponse {
   });
   factory GetOpsItemResponse.fromJson(Map<String, dynamic> json) =>
       _$GetOpsItemResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetOpsSummaryRequest {
+  /// Optional aggregators that return counts of OpsItems based on one or more
+  /// expressions.
+  @_s.JsonKey(name: 'Aggregators')
+  final List<OpsAggregator> aggregators;
+
+  /// Optional filters used to scope down the returned OpsItems.
+  @_s.JsonKey(name: 'Filters')
+  final List<OpsFilter> filters;
+
+  /// The maximum number of items to return for this call. The call also returns a
+  /// token that you can specify in a subsequent call to get the next set of
+  /// results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A token to start the list. Use this token to get the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The OpsItem data type to return.
+  @_s.JsonKey(name: 'ResultAttributes')
+  final List<OpsResultAttribute> resultAttributes;
+
+  /// Specify the name of a resource data sync to get.
+  @_s.JsonKey(name: 'SyncName')
+  final String syncName;
+
+  GetOpsSummaryRequest({
+    this.aggregators,
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+    this.resultAttributes,
+    this.syncName,
+  });
+  Map<String, dynamic> toJson() => _$GetOpsSummaryRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -14918,6 +17449,41 @@ class GetOpsSummaryResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetParameterHistoryRequest {
+  /// The name of a parameter you want to query.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The maximum number of items to return for this call. The call also returns a
+  /// token that you can specify in a subsequent call to get the next set of
+  /// results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of items to return. (You received this token from
+  /// a previous call.)
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Return decrypted values for secure string parameters. This flag is ignored
+  /// for String and StringList parameter types.
+  @_s.JsonKey(name: 'WithDecryption')
+  final bool withDecryption;
+
+  GetParameterHistoryRequest({
+    @_s.required this.name,
+    this.maxResults,
+    this.nextToken,
+    this.withDecryption,
+  });
+  Map<String, dynamic> toJson() => _$GetParameterHistoryRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetParameterHistoryResult {
@@ -14941,6 +17507,28 @@ class GetParameterHistoryResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetParameterRequest {
+  /// The name of the parameter you want to query.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Return decrypted values for secure string parameters. This flag is ignored
+  /// for String and StringList parameter types.
+  @_s.JsonKey(name: 'WithDecryption')
+  final bool withDecryption;
+
+  GetParameterRequest({
+    @_s.required this.name,
+    this.withDecryption,
+  });
+  Map<String, dynamic> toJson() => _$GetParameterRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetParameterResult {
@@ -14953,6 +17541,60 @@ class GetParameterResult {
   });
   factory GetParameterResult.fromJson(Map<String, dynamic> json) =>
       _$GetParameterResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetParametersByPathRequest {
+  /// The hierarchy for the parameter. Hierarchies start with a forward slash (/)
+  /// and end with the parameter name. A parameter name hierarchy can have a
+  /// maximum of 15 levels. Here is an example of a hierarchy:
+  /// <code>/Finance/Prod/IAD/WinServ2016/license33</code>
+  @_s.JsonKey(name: 'Path')
+  final String path;
+
+  /// The maximum number of items to return for this call. The call also returns a
+  /// token that you can specify in a subsequent call to get the next set of
+  /// results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A token to start the list. Use this token to get the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Filters to limit the request results.
+  @_s.JsonKey(name: 'ParameterFilters')
+  final List<ParameterStringFilter> parameterFilters;
+
+  /// Retrieve all parameters within a hierarchy.
+  /// <important>
+  /// If a user has access to a path, then the user can access all levels of that
+  /// path. For example, if a user has permission to access path <code>/a</code>,
+  /// then the user can also access <code>/a/b</code>. Even if a user has
+  /// explicitly been denied access in IAM for parameter <code>/a/b</code>, they
+  /// can still call the GetParametersByPath API action recursively for
+  /// <code>/a</code> and view <code>/a/b</code>.
+  /// </important>
+  @_s.JsonKey(name: 'Recursive')
+  final bool recursive;
+
+  /// Retrieve all parameters in a hierarchy with their value decrypted.
+  @_s.JsonKey(name: 'WithDecryption')
+  final bool withDecryption;
+
+  GetParametersByPathRequest({
+    @_s.required this.path,
+    this.maxResults,
+    this.nextToken,
+    this.parameterFilters,
+    this.recursive,
+    this.withDecryption,
+  });
+  Map<String, dynamic> toJson() => _$GetParametersByPathRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -14981,6 +17623,29 @@ class GetParametersByPathResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetParametersRequest {
+  /// Names of the parameters for which you want to query information.
+  @_s.JsonKey(name: 'Names')
+  final List<String> names;
+
+  /// Return decrypted secure string value. Return decrypted values for secure
+  /// string parameters. This flag is ignored for String and StringList parameter
+  /// types.
+  @_s.JsonKey(name: 'WithDecryption')
+  final bool withDecryption;
+
+  GetParametersRequest({
+    @_s.required this.names,
+    this.withDecryption,
+  });
+  Map<String, dynamic> toJson() => _$GetParametersRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetParametersResult {
@@ -14999,6 +17664,29 @@ class GetParametersResult {
   });
   factory GetParametersResult.fromJson(Map<String, dynamic> json) =>
       _$GetParametersResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetPatchBaselineForPatchGroupRequest {
+  /// The name of the patch group whose patch baseline should be retrieved.
+  @_s.JsonKey(name: 'PatchGroup')
+  final String patchGroup;
+
+  /// Returns he operating system rule specified for patch groups using the patch
+  /// baseline.
+  @_s.JsonKey(name: 'OperatingSystem')
+  final OperatingSystem operatingSystem;
+
+  GetPatchBaselineForPatchGroupRequest({
+    @_s.required this.patchGroup,
+    this.operatingSystem,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetPatchBaselineForPatchGroupRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -15028,6 +17716,22 @@ class GetPatchBaselineForPatchGroupResult {
   factory GetPatchBaselineForPatchGroupResult.fromJson(
           Map<String, dynamic> json) =>
       _$GetPatchBaselineForPatchGroupResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetPatchBaselineRequest {
+  /// The ID of the patch baseline to retrieve.
+  @_s.JsonKey(name: 'BaselineId')
+  final String baselineId;
+
+  GetPatchBaselineRequest({
+    @_s.required this.baselineId,
+  });
+  Map<String, dynamic> toJson() => _$GetPatchBaselineRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -15128,6 +17832,23 @@ class GetPatchBaselineResult {
   });
   factory GetPatchBaselineResult.fromJson(Map<String, dynamic> json) =>
       _$GetPatchBaselineResultFromJson(json);
+}
+
+/// The request body of the GetServiceSetting API action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetServiceSettingRequest {
+  /// The ID of the service setting to get.
+  @_s.JsonKey(name: 'SettingId')
+  final String settingId;
+
+  GetServiceSettingRequest({
+    @_s.required this.settingId,
+  });
+  Map<String, dynamic> toJson() => _$GetServiceSettingRequestToJson(this);
 }
 
 /// The query result body of the GetServiceSetting API action.
@@ -16154,16 +18875,32 @@ enum InventorySchemaDeleteOption {
   deleteSchema,
 }
 
-extension on InventorySchemaDeleteOption {
-  String toValue() {
-    switch (this) {
-      case InventorySchemaDeleteOption.disableSchema:
-        return 'DisableSchema';
-      case InventorySchemaDeleteOption.deleteSchema:
-        return 'DeleteSchema';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class LabelParameterVersionRequest {
+  /// One or more labels to attach to the specified parameter version.
+  @_s.JsonKey(name: 'Labels')
+  final List<String> labels;
+
+  /// The parameter name on which you want to attach one or more labels.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The specific version of the parameter on which you want to attach one or
+  /// more labels. If no version is specified, the system attaches the label to
+  /// the latest version.
+  @_s.JsonKey(name: 'ParameterVersion')
+  final int parameterVersion;
+
+  LabelParameterVersionRequest({
+    @_s.required this.labels,
+    @_s.required this.name,
+    this.parameterVersion,
+  });
+  Map<String, dynamic> toJson() => _$LabelParameterVersionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -16203,6 +18940,34 @@ enum LastResourceDataSyncStatus {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListAssociationVersionsRequest {
+  /// The association ID for which you want to view all versions.
+  @_s.JsonKey(name: 'AssociationId')
+  final String associationId;
+
+  /// The maximum number of items to return for this call. The call also returns a
+  /// token that you can specify in a subsequent call to get the next set of
+  /// results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A token to start the list. Use this token to get the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListAssociationVersionsRequest({
+    @_s.required this.associationId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListAssociationVersionsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListAssociationVersionsResult {
@@ -16222,6 +18987,35 @@ class ListAssociationVersionsResult {
   });
   factory ListAssociationVersionsResult.fromJson(Map<String, dynamic> json) =>
       _$ListAssociationVersionsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListAssociationsRequest {
+  /// One or more filters. Use a filter to return a more specific list of results.
+  @_s.JsonKey(name: 'AssociationFilterList')
+  final List<AssociationFilter> associationFilterList;
+
+  /// The maximum number of items to return for this call. The call also returns a
+  /// token that you can specify in a subsequent call to get the next set of
+  /// results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of items to return. (You received this token from
+  /// a previous call.)
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListAssociationsRequest({
+    this.associationFilterList,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListAssociationsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -16250,6 +19044,53 @@ class ListAssociationsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListCommandInvocationsRequest {
+  /// (Optional) The invocations for a specific command ID.
+  @_s.JsonKey(name: 'CommandId')
+  final String commandId;
+
+  /// (Optional) If set this returns the response of the command executions and
+  /// any command output. By default this is set to False.
+  @_s.JsonKey(name: 'Details')
+  final bool details;
+
+  /// (Optional) One or more filters. Use a filter to return a more specific list
+  /// of results. Note that the <code>DocumentName</code> filter is not supported
+  /// for ListCommandInvocations.
+  @_s.JsonKey(name: 'Filters')
+  final List<CommandFilter> filters;
+
+  /// (Optional) The command execution details for a specific instance ID.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  /// (Optional) The maximum number of items to return for this call. The call
+  /// also returns a token that you can specify in a subsequent call to get the
+  /// next set of results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// (Optional) The token for the next set of items to return. (You received this
+  /// token from a previous call.)
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListCommandInvocationsRequest({
+    this.commandId,
+    this.details,
+    this.filters,
+    this.instanceId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListCommandInvocationsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListCommandInvocationsResult {
@@ -16268,6 +19109,46 @@ class ListCommandInvocationsResult {
   });
   factory ListCommandInvocationsResult.fromJson(Map<String, dynamic> json) =>
       _$ListCommandInvocationsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListCommandsRequest {
+  /// (Optional) If provided, lists only the specified command.
+  @_s.JsonKey(name: 'CommandId')
+  final String commandId;
+
+  /// (Optional) One or more filters. Use a filter to return a more specific list
+  /// of results.
+  @_s.JsonKey(name: 'Filters')
+  final List<CommandFilter> filters;
+
+  /// (Optional) Lists commands issued against this instance ID.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  /// (Optional) The maximum number of items to return for this call. The call
+  /// also returns a token that you can specify in a subsequent call to get the
+  /// next set of results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// (Optional) The token for the next set of items to return. (You received this
+  /// token from a previous call.)
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListCommandsRequest({
+    this.commandId,
+    this.filters,
+    this.instanceId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListCommandsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -16296,6 +19177,47 @@ class ListCommandsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListComplianceItemsRequest {
+  /// One or more compliance filters. Use a filter to return a more specific list
+  /// of results.
+  @_s.JsonKey(name: 'Filters')
+  final List<ComplianceStringFilter> filters;
+
+  /// The maximum number of items to return for this call. The call also returns a
+  /// token that you can specify in a subsequent call to get the next set of
+  /// results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A token to start the list. Use this token to get the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The ID for the resources from which to get compliance information.
+  /// Currently, you can only specify one resource ID.
+  @_s.JsonKey(name: 'ResourceIds')
+  final List<String> resourceIds;
+
+  /// The type of resource from which to get compliance information. Currently,
+  /// the only supported resource type is <code>ManagedInstance</code>.
+  @_s.JsonKey(name: 'ResourceTypes')
+  final List<String> resourceTypes;
+
+  ListComplianceItemsRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+    this.resourceIds,
+    this.resourceTypes,
+  });
+  Map<String, dynamic> toJson() => _$ListComplianceItemsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListComplianceItemsResult {
@@ -16314,6 +19236,35 @@ class ListComplianceItemsResult {
   });
   factory ListComplianceItemsResult.fromJson(Map<String, dynamic> json) =>
       _$ListComplianceItemsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListComplianceSummariesRequest {
+  /// One or more compliance or inventory filters. Use a filter to return a more
+  /// specific list of results.
+  @_s.JsonKey(name: 'Filters')
+  final List<ComplianceStringFilter> filters;
+
+  /// The maximum number of items to return for this call. Currently, you can
+  /// specify null or 50. The call also returns a token that you can specify in a
+  /// subsequent call to get the next set of results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A token to start the list. Use this token to get the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListComplianceSummariesRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListComplianceSummariesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -16345,6 +19296,35 @@ class ListComplianceSummariesResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListDocumentVersionsRequest {
+  /// The name of the document. You can specify an Amazon Resource Name (ARN).
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The maximum number of items to return for this call. The call also returns a
+  /// token that you can specify in a subsequent call to get the next set of
+  /// results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of items to return. (You received this token from
+  /// a previous call.)
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListDocumentVersionsRequest({
+    @_s.required this.name,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListDocumentVersionsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListDocumentVersionsResult {
@@ -16368,6 +19348,40 @@ class ListDocumentVersionsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListDocumentsRequest {
+  /// One or more filters. Use a filter to return a more specific list of results.
+  @_s.JsonKey(name: 'DocumentFilterList')
+  final List<DocumentFilter> documentFilterList;
+
+  /// One or more filters. Use a filter to return a more specific list of results.
+  @_s.JsonKey(name: 'Filters')
+  final List<DocumentKeyValuesFilter> filters;
+
+  /// The maximum number of items to return for this call. The call also returns a
+  /// token that you can specify in a subsequent call to get the next set of
+  /// results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of items to return. (You received this token from
+  /// a previous call.)
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListDocumentsRequest({
+    this.documentFilterList,
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListDocumentsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListDocumentsResult {
@@ -16386,6 +19400,45 @@ class ListDocumentsResult {
   });
   factory ListDocumentsResult.fromJson(Map<String, dynamic> json) =>
       _$ListDocumentsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListInventoryEntriesRequest {
+  /// The instance ID for which you want inventory information.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  /// The type of inventory item for which you want information.
+  @_s.JsonKey(name: 'TypeName')
+  final String typeName;
+
+  /// One or more filters. Use a filter to return a more specific list of results.
+  @_s.JsonKey(name: 'Filters')
+  final List<InventoryFilter> filters;
+
+  /// The maximum number of items to return for this call. The call also returns a
+  /// token that you can specify in a subsequent call to get the next set of
+  /// results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of items to return. (You received this token from
+  /// a previous call.)
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListInventoryEntriesRequest({
+    @_s.required this.instanceId,
+    @_s.required this.typeName,
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListInventoryEntriesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -16434,6 +19487,35 @@ class ListInventoryEntriesResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListResourceComplianceSummariesRequest {
+  /// One or more filters. Use a filter to return a more specific list of results.
+  @_s.JsonKey(name: 'Filters')
+  final List<ComplianceStringFilter> filters;
+
+  /// The maximum number of items to return for this call. The call also returns a
+  /// token that you can specify in a subsequent call to get the next set of
+  /// results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A token to start the list. Use this token to get the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListResourceComplianceSummariesRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListResourceComplianceSummariesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListResourceComplianceSummariesResult {
@@ -16461,6 +19543,37 @@ class ListResourceComplianceSummariesResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListResourceDataSyncRequest {
+  /// The maximum number of items to return for this call. The call also returns a
+  /// token that you can specify in a subsequent call to get the next set of
+  /// results.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// A token to start the list. Use this token to get the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// View a list of resource data syncs according to the sync type. Specify
+  /// <code>SyncToDestination</code> to view resource data syncs that synchronize
+  /// data to an Amazon S3 buckets. Specify <code>SyncFromSource</code> to view
+  /// resource data syncs from AWS Organizations or from multiple AWS Regions.
+  @_s.JsonKey(name: 'SyncType')
+  final String syncType;
+
+  ListResourceDataSyncRequest({
+    this.maxResults,
+    this.nextToken,
+    this.syncType,
+  });
+  Map<String, dynamic> toJson() => _$ListResourceDataSyncRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListResourceDataSyncResult {
@@ -16479,6 +19592,27 @@ class ListResourceDataSyncResult {
   });
   factory ListResourceDataSyncResult.fromJson(Map<String, dynamic> json) =>
       _$ListResourceDataSyncResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceRequest {
+  /// The resource ID for which you want to see a list of tags.
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  /// Returns a list of tags for a specific resource type.
+  @_s.JsonKey(name: 'ResourceType')
+  final ResourceTypeForTagging resourceType;
+
+  ListTagsForResourceRequest({
+    @_s.required this.resourceId,
+    @_s.required this.resourceType,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -16989,18 +20123,6 @@ enum MaintenanceWindowResourceType {
   resourceGroup,
 }
 
-extension on MaintenanceWindowResourceType {
-  String toValue() {
-    switch (this) {
-      case MaintenanceWindowResourceType.instance:
-        return 'INSTANCE';
-      case MaintenanceWindowResourceType.resourceGroup:
-        return 'RESOURCE_GROUP';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// The parameters for a RUN_COMMAND task type.
 ///
 /// For information about specifying and updating task parameters, see
@@ -17390,20 +20512,48 @@ enum MaintenanceWindowTaskType {
   lambda,
 }
 
-extension on MaintenanceWindowTaskType {
-  String toValue() {
-    switch (this) {
-      case MaintenanceWindowTaskType.runCommand:
-        return 'RUN_COMMAND';
-      case MaintenanceWindowTaskType.automation:
-        return 'AUTOMATION';
-      case MaintenanceWindowTaskType.stepFunctions:
-        return 'STEP_FUNCTIONS';
-      case MaintenanceWindowTaskType.lambda:
-        return 'LAMBDA';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ModifyDocumentPermissionRequest {
+  /// The name of the document that you want to share.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The permission type for the document. The permission type can be
+  /// <i>Share</i>.
+  @_s.JsonKey(name: 'PermissionType')
+  final DocumentPermissionType permissionType;
+
+  /// The AWS user accounts that should have access to the document. The account
+  /// IDs can either be a group of account IDs or <i>All</i>.
+  @_s.JsonKey(name: 'AccountIdsToAdd')
+  final List<String> accountIdsToAdd;
+
+  /// The AWS user accounts that should no longer have access to the document. The
+  /// AWS user account can either be a group of account IDs or <i>All</i>. This
+  /// action has a higher priority than <i>AccountIdsToAdd</i>. If you specify an
+  /// account ID to add and the same ID to remove, the system removes access to
+  /// the document.
+  @_s.JsonKey(name: 'AccountIdsToRemove')
+  final List<String> accountIdsToRemove;
+
+  /// (Optional) The version of the document to share. If it's not specified, the
+  /// system choose the <code>Default</code> version to share.
+  @_s.JsonKey(name: 'SharedDocumentVersion')
+  final String sharedDocumentVersion;
+
+  ModifyDocumentPermissionRequest({
+    @_s.required this.name,
+    @_s.required this.permissionType,
+    this.accountIdsToAdd,
+    this.accountIdsToRemove,
+    this.sharedDocumentVersion,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ModifyDocumentPermissionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -17518,28 +20668,6 @@ enum OperatingSystem {
   suse,
   @_s.JsonValue('CENTOS')
   centos,
-}
-
-extension on OperatingSystem {
-  String toValue() {
-    switch (this) {
-      case OperatingSystem.windows:
-        return 'WINDOWS';
-      case OperatingSystem.amazonLinux:
-        return 'AMAZON_LINUX';
-      case OperatingSystem.amazonLinux_2:
-        return 'AMAZON_LINUX_2';
-      case OperatingSystem.ubuntu:
-        return 'UBUNTU';
-      case OperatingSystem.redhatEnterpriseLinux:
-        return 'REDHAT_ENTERPRISE_LINUX';
-      case OperatingSystem.suse:
-        return 'SUSE';
-      case OperatingSystem.centos:
-        return 'CENTOS';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// One or more aggregators for viewing counts of OpsItems using different
@@ -17942,20 +21070,6 @@ enum OpsItemStatus {
   inProgress,
   @_s.JsonValue('Resolved')
   resolved,
-}
-
-extension on OpsItemStatus {
-  String toValue() {
-    switch (this) {
-      case OpsItemStatus.open:
-        return 'Open';
-      case OpsItemStatus.inProgress:
-        return 'InProgress';
-      case OpsItemStatus.resolved:
-        return 'Resolved';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// A count of OpsItems.
@@ -18395,20 +21509,6 @@ enum ParameterTier {
   intelligentTiering,
 }
 
-extension on ParameterTier {
-  String toValue() {
-    switch (this) {
-      case ParameterTier.standard:
-        return 'Standard';
-      case ParameterTier.advanced:
-        return 'Advanced';
-      case ParameterTier.intelligentTiering:
-        return 'Intelligent-Tiering';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum ParameterType {
   @_s.JsonValue('String')
   string,
@@ -18416,20 +21516,6 @@ enum ParameterType {
   stringList,
   @_s.JsonValue('SecureString')
   secureString,
-}
-
-extension on ParameterType {
-  String toValue() {
-    switch (this) {
-      case ParameterType.string:
-        return 'String';
-      case ParameterType.stringList:
-        return 'StringList';
-      case ParameterType.secureString:
-        return 'SecureString';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// This data type is deprecated. Instead, use <a>ParameterStringFilter</a>.
@@ -18551,18 +21637,6 @@ enum PatchAction {
   allowAsDependency,
   @_s.JsonValue('BLOCK')
   block,
-}
-
-extension on PatchAction {
-  String toValue() {
-    switch (this) {
-      case PatchAction.allowAsDependency:
-        return 'ALLOW_AS_DEPENDENCY';
-      case PatchAction.block:
-        return 'BLOCK';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Defines the basic information about a patch baseline.
@@ -18689,26 +21763,6 @@ enum PatchComplianceLevel {
   informational,
   @_s.JsonValue('UNSPECIFIED')
   unspecified,
-}
-
-extension on PatchComplianceLevel {
-  String toValue() {
-    switch (this) {
-      case PatchComplianceLevel.critical:
-        return 'CRITICAL';
-      case PatchComplianceLevel.high:
-        return 'HIGH';
-      case PatchComplianceLevel.medium:
-        return 'MEDIUM';
-      case PatchComplianceLevel.low:
-        return 'LOW';
-      case PatchComplianceLevel.informational:
-        return 'INFORMATIONAL';
-      case PatchComplianceLevel.unspecified:
-        return 'UNSPECIFIED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 enum PatchDeploymentStatus {
@@ -18877,26 +21931,6 @@ enum PatchProperty {
   severity,
 }
 
-extension on PatchProperty {
-  String toValue() {
-    switch (this) {
-      case PatchProperty.product:
-        return 'PRODUCT';
-      case PatchProperty.productFamily:
-        return 'PRODUCT_FAMILY';
-      case PatchProperty.classification:
-        return 'CLASSIFICATION';
-      case PatchProperty.msrcSeverity:
-        return 'MSRC_SEVERITY';
-      case PatchProperty.priority:
-        return 'PRIORITY';
-      case PatchProperty.severity:
-        return 'SEVERITY';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Defines an approval rule for a patch baseline.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -18969,18 +22003,6 @@ enum PatchSet {
   os,
   @_s.JsonValue('APPLICATION')
   application,
-}
-
-extension on PatchSet {
-  String toValue() {
-    switch (this) {
-      case PatchSet.os:
-        return 'OS';
-      case PatchSet.application:
-        return 'APPLICATION';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Information about the patches to use to update the instances, including
@@ -19121,12 +22143,84 @@ class ProgressCounters {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutComplianceItemsRequest {
+  /// Specify the compliance type. For example, specify Association (for a State
+  /// Manager association), Patch, or Custom:<code>string</code>.
+  @_s.JsonKey(name: 'ComplianceType')
+  final String complianceType;
+
+  /// A summary of the call execution that includes an execution ID, the type of
+  /// execution (for example, <code>Command</code>), and the date/time of the
+  /// execution using a datetime object that is saved in the following format:
+  /// yyyy-MM-dd'T'HH:mm:ss'Z'.
+  @_s.JsonKey(name: 'ExecutionSummary')
+  final ComplianceExecutionSummary executionSummary;
+
+  /// Information about the compliance as defined by the resource type. For
+  /// example, for a patch compliance type, <code>Items</code> includes
+  /// information about the PatchSeverity, Classification, etc.
+  @_s.JsonKey(name: 'Items')
+  final List<ComplianceItemEntry> items;
+
+  /// Specify an ID for this resource. For a managed instance, this is the
+  /// instance ID.
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  /// Specify the type of resource. <code>ManagedInstance</code> is currently the
+  /// only supported resource type.
+  @_s.JsonKey(name: 'ResourceType')
+  final String resourceType;
+
+  /// MD5 or SHA-256 content hash. The content hash is used to determine if
+  /// existing information should be overwritten or ignored. If the content hashes
+  /// match, the request to put compliance information is ignored.
+  @_s.JsonKey(name: 'ItemContentHash')
+  final String itemContentHash;
+
+  PutComplianceItemsRequest({
+    @_s.required this.complianceType,
+    @_s.required this.executionSummary,
+    @_s.required this.items,
+    @_s.required this.resourceId,
+    @_s.required this.resourceType,
+    this.itemContentHash,
+  });
+  Map<String, dynamic> toJson() => _$PutComplianceItemsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutComplianceItemsResult {
   PutComplianceItemsResult();
   factory PutComplianceItemsResult.fromJson(Map<String, dynamic> json) =>
       _$PutComplianceItemsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutInventoryRequest {
+  /// An instance ID where you want to add or update inventory items.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  /// The inventory items that you want to add or update on instances.
+  @_s.JsonKey(name: 'Items')
+  final List<InventoryItem> items;
+
+  PutInventoryRequest({
+    @_s.required this.instanceId,
+    @_s.required this.items,
+  });
+  Map<String, dynamic> toJson() => _$PutInventoryRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -19144,6 +22238,258 @@ class PutInventoryResult {
   });
   factory PutInventoryResult.fromJson(Map<String, dynamic> json) =>
       _$PutInventoryResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutParameterRequest {
+  /// The fully qualified name of the parameter that you want to add to the
+  /// system. The fully qualified name includes the complete hierarchy of the
+  /// parameter path and name. For parameters in a hierarchy, you must include a
+  /// leading forward slash character (/) when you create or reference a
+  /// parameter. For example: <code>/Dev/DBServer/MySQL/db-string13</code>
+  ///
+  /// Naming Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Parameter names are case sensitive.
+  /// </li>
+  /// <li>
+  /// A parameter name must be unique within an AWS Region
+  /// </li>
+  /// <li>
+  /// A parameter name can't be prefixed with "aws" or "ssm" (case-insensitive).
+  /// </li>
+  /// <li>
+  /// Parameter names can include only the following symbols and letters:
+  /// <code>a-zA-Z0-9_.-/</code>
+  /// </li>
+  /// <li>
+  /// A parameter name can't include spaces.
+  /// </li>
+  /// <li>
+  /// Parameter hierarchies are limited to a maximum depth of fifteen levels.
+  /// </li>
+  /// </ul>
+  /// For additional information about valid values for parameter names, see <a
+  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-parameter-name-constraints.html">Requirements
+  /// and Constraints for Parameter Names</a> in the <i>AWS Systems Manager User
+  /// Guide</i>.
+  /// <note>
+  /// The maximum length constraint listed below includes capacity for additional
+  /// system attributes that are not part of the name. The maximum length for a
+  /// parameter name, including the full length of the parameter ARN, is 1011
+  /// characters. For example, the length of the following parameter name is 65
+  /// characters, not 20 characters:
+  ///
+  /// <code>arn:aws:ssm:us-east-2:111122223333:parameter/ExampleParameterName</code>
+  /// </note>
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The type of parameter that you want to add to the system.
+  ///
+  /// Items in a <code>StringList</code> must be separated by a comma (,). You
+  /// can't use other punctuation or special character to escape items in the
+  /// list. If you have a parameter value that requires a comma, then use the
+  /// <code>String</code> data type.
+  /// <note>
+  /// <code>SecureString</code> is not currently supported for AWS CloudFormation
+  /// templates or in the China Regions.
+  /// </note>
+  @_s.JsonKey(name: 'Type')
+  final ParameterType type;
+
+  /// The parameter value that you want to add to the system. Standard parameters
+  /// have a value limit of 4 KB. Advanced parameters have a value limit of 8 KB.
+  @_s.JsonKey(name: 'Value')
+  final String value;
+
+  /// A regular expression used to validate the parameter value. For example, for
+  /// String types with values restricted to numbers, you can specify the
+  /// following: AllowedPattern=^\d+$
+  @_s.JsonKey(name: 'AllowedPattern')
+  final String allowedPattern;
+
+  /// Information about the parameter that you want to add to the system. Optional
+  /// but recommended.
+  /// <important>
+  /// Do not enter personally identifiable information in this field.
+  /// </important>
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The KMS Key ID that you want to use to encrypt a parameter. Either the
+  /// default AWS Key Management Service (AWS KMS) key automatically assigned to
+  /// your AWS account or a custom key. Required for parameters that use the
+  /// <code>SecureString</code> data type.
+  ///
+  /// If you don't specify a key ID, the system uses the default key associated
+  /// with your AWS account.
+  ///
+  /// <ul>
+  /// <li>
+  /// To use your default AWS KMS key, choose the <code>SecureString</code> data
+  /// type, and do <i>not</i> specify the <code>Key ID</code> when you create the
+  /// parameter. The system automatically populates <code>Key ID</code> with your
+  /// default KMS key.
+  /// </li>
+  /// <li>
+  /// To use a custom KMS key, choose the <code>SecureString</code> data type with
+  /// the <code>Key ID</code> parameter.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'KeyId')
+  final String keyId;
+
+  /// Overwrite an existing parameter. If not specified, will default to "false".
+  @_s.JsonKey(name: 'Overwrite')
+  final bool overwrite;
+
+  /// One or more policies to apply to a parameter. This action takes a JSON
+  /// array. Parameter Store supports the following policy types:
+  ///
+  /// Expiration: This policy deletes the parameter after it expires. When you
+  /// create the policy, you specify the expiration date. You can update the
+  /// expiration date and time by updating the policy. Updating the
+  /// <i>parameter</i> does not affect the expiration date and time. When the
+  /// expiration time is reached, Parameter Store deletes the parameter.
+  ///
+  /// ExpirationNotification: This policy triggers an event in Amazon CloudWatch
+  /// Events that notifies you about the expiration. By using this policy, you can
+  /// receive notification before or after the expiration time is reached, in
+  /// units of days or hours.
+  ///
+  /// NoChangeNotification: This policy triggers a CloudWatch event if a parameter
+  /// has not been modified for a specified period of time. This policy type is
+  /// useful when, for example, a secret needs to be changed within a period of
+  /// time, but it has not been changed.
+  ///
+  /// All existing policies are preserved until you send new policies or an empty
+  /// policy. For more information about parameter policies, see <a
+  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-su-policies.html">Working
+  /// with Parameter Policies</a>.
+  @_s.JsonKey(name: 'Policies')
+  final String policies;
+
+  /// Optional metadata that you assign to a resource. Tags enable you to
+  /// categorize a resource in different ways, such as by purpose, owner, or
+  /// environment. For example, you might want to tag a Systems Manager parameter
+  /// to identify the type of resource to which it applies, the environment, or
+  /// the type of configuration data referenced by the parameter. In this case,
+  /// you could specify the following key name/value pairs:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Key=Resource,Value=S3bucket</code>
+  /// </li>
+  /// <li>
+  /// <code>Key=OS,Value=Windows</code>
+  /// </li>
+  /// <li>
+  /// <code>Key=ParameterType,Value=LicenseKey</code>
+  /// </li>
+  /// </ul> <note>
+  /// To add tags to an existing Systems Manager parameter, use the
+  /// <a>AddTagsToResource</a> action.
+  /// </note>
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  /// The parameter tier to assign to a parameter.
+  ///
+  /// Parameter Store offers a standard tier and an advanced tier for parameters.
+  /// Standard parameters have a content size limit of 4 KB and can't be
+  /// configured to use parameter policies. You can create a maximum of 10,000
+  /// standard parameters for each Region in an AWS account. Standard parameters
+  /// are offered at no additional cost.
+  ///
+  /// Advanced parameters have a content size limit of 8 KB and can be configured
+  /// to use parameter policies. You can create a maximum of 100,000 advanced
+  /// parameters for each Region in an AWS account. Advanced parameters incur a
+  /// charge. For more information, see <a
+  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-advanced-parameters.html">About
+  /// Advanced Parameters</a> in the <i>AWS Systems Manager User Guide</i>.
+  ///
+  /// You can change a standard parameter to an advanced parameter any time. But
+  /// you can't revert an advanced parameter to a standard parameter. Reverting an
+  /// advanced parameter to a standard parameter would result in data loss because
+  /// the system would truncate the size of the parameter from 8 KB to 4 KB.
+  /// Reverting would also remove any policies attached to the parameter. Lastly,
+  /// advanced parameters use a different form of encryption than standard
+  /// parameters.
+  ///
+  /// If you no longer need an advanced parameter, or if you no longer want to
+  /// incur charges for an advanced parameter, you must delete it and recreate it
+  /// as a new standard parameter.
+  ///
+  /// <b>Using the Default Tier Configuration</b>
+  ///
+  /// In <code>PutParameter</code> requests, you can specify the tier to create
+  /// the parameter in. Whenever you specify a tier in the request, Parameter
+  /// Store creates or updates the parameter according to that request. However,
+  /// if you do not specify a tier in a request, Parameter Store assigns the tier
+  /// based on the current Parameter Store default tier configuration.
+  ///
+  /// The default tier when you begin using Parameter Store is the
+  /// standard-parameter tier. If you use the advanced-parameter tier, you can
+  /// specify one of the following as the default:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Advanced</b>: With this option, Parameter Store evaluates all requests as
+  /// advanced parameters.
+  /// </li>
+  /// <li>
+  /// <b>Intelligent-Tiering</b>: With this option, Parameter Store evaluates each
+  /// request to determine if the parameter is standard or advanced.
+  ///
+  /// If the request doesn't include any options that require an advanced
+  /// parameter, the parameter is created in the standard-parameter tier. If one
+  /// or more options requiring an advanced parameter are included in the request,
+  /// Parameter Store create a parameter in the advanced-parameter tier.
+  ///
+  /// This approach helps control your parameter-related costs by always creating
+  /// standard parameters unless an advanced parameter is necessary.
+  /// </li>
+  /// </ul>
+  /// Options that require an advanced parameter include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// The content size of the parameter is more than 4 KB.
+  /// </li>
+  /// <li>
+  /// The parameter uses a parameter policy.
+  /// </li>
+  /// <li>
+  /// More than 10,000 parameters already exist in your AWS account in the current
+  /// Region.
+  /// </li>
+  /// </ul>
+  /// For more information about configuring the default tier option, see <a
+  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/ps-default-tier.html">Specifying
+  /// a Default Parameter Tier</a> in the <i>AWS Systems Manager User Guide</i>.
+  @_s.JsonKey(name: 'Tier')
+  final ParameterTier tier;
+
+  PutParameterRequest({
+    @_s.required this.name,
+    @_s.required this.type,
+    @_s.required this.value,
+    this.allowedPattern,
+    this.description,
+    this.keyId,
+    this.overwrite,
+    this.policies,
+    this.tags,
+    this.tier,
+  });
+  Map<String, dynamic> toJson() => _$PutParameterRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -19183,6 +22529,23 @@ enum RebootOption {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RegisterDefaultPatchBaselineRequest {
+  /// The ID of the patch baseline that should be the default patch baseline.
+  @_s.JsonKey(name: 'BaselineId')
+  final String baselineId;
+
+  RegisterDefaultPatchBaselineRequest({
+    @_s.required this.baselineId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$RegisterDefaultPatchBaselineRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class RegisterDefaultPatchBaselineResult {
@@ -19196,6 +22559,29 @@ class RegisterDefaultPatchBaselineResult {
   factory RegisterDefaultPatchBaselineResult.fromJson(
           Map<String, dynamic> json) =>
       _$RegisterDefaultPatchBaselineResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RegisterPatchBaselineForPatchGroupRequest {
+  /// The ID of the patch baseline to register the patch group with.
+  @_s.JsonKey(name: 'BaselineId')
+  final String baselineId;
+
+  /// The name of the patch group that should be registered with the patch
+  /// baseline.
+  @_s.JsonKey(name: 'PatchGroup')
+  final String patchGroup;
+
+  RegisterPatchBaselineForPatchGroupRequest({
+    @_s.required this.baselineId,
+    @_s.required this.patchGroup,
+  });
+  Map<String, dynamic> toJson() =>
+      _$RegisterPatchBaselineForPatchGroupRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -19224,6 +22610,93 @@ class RegisterPatchBaselineForPatchGroupResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RegisterTargetWithMaintenanceWindowRequest {
+  /// The type of target being registered with the maintenance window.
+  @_s.JsonKey(name: 'ResourceType')
+  final MaintenanceWindowResourceType resourceType;
+
+  /// The targets to register with the maintenance window. In other words, the
+  /// instances to run commands on when the maintenance window runs.
+  ///
+  /// You can specify targets using instance IDs, resource group names, or tags
+  /// that have been applied to instances.
+  ///
+  /// <b>Example 1</b>: Specify instance IDs
+  ///
+  /// <code>Key=InstanceIds,Values=<i>instance-id-1</i>,<i>instance-id-2</i>,<i>instance-id-3</i>
+  /// </code>
+  ///
+  /// <b>Example 2</b>: Use tag key-pairs applied to instances
+  ///
+  /// <code>Key=tag:<i>my-tag-key</i>,Values=<i>my-tag-value-1</i>,<i>my-tag-value-2</i>
+  /// </code>
+  ///
+  /// <b>Example 3</b>: Use tag-keys applied to instances
+  ///
+  /// <code>Key=tag-key,Values=<i>my-tag-key-1</i>,<i>my-tag-key-2</i> </code>
+  ///
+  /// <b>Example 4</b>: Use resource group names
+  ///
+  /// <code>Key=resource-groups:Name,Values=<i>resource-group-name</i> </code>
+  ///
+  /// <b>Example 5</b>: Use filters for resource group types
+  ///
+  /// <code>Key=resource-groups:ResourceTypeFilters,Values=<i>resource-type-1</i>,<i>resource-type-2</i>
+  /// </code>
+  /// <note>
+  /// For <code>Key=resource-groups:ResourceTypeFilters</code>, specify resource
+  /// types in the following format
+  ///
+  /// <code>Key=resource-groups:ResourceTypeFilters,Values=<i>AWS::EC2::INSTANCE</i>,<i>AWS::EC2::VPC</i>
+  /// </code>
+  /// </note>
+  /// For more information about these examples formats, including the best use
+  /// case for each one, see <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/mw-cli-tutorial-targets-examples.html">Examples:
+  /// Register Targets with a Maintenance Window</a> in the <i>AWS Systems Manager
+  /// User Guide</i>.
+  @_s.JsonKey(name: 'Targets')
+  final List<Target> targets;
+
+  /// The ID of the maintenance window the target should be registered with.
+  @_s.JsonKey(name: 'WindowId')
+  final String windowId;
+
+  /// User-provided idempotency token.
+  @_s.JsonKey(name: 'ClientToken')
+  final String clientToken;
+
+  /// An optional description for the target.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// An optional name for the target.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// User-provided value that will be included in any CloudWatch events raised
+  /// while running tasks for these targets in this maintenance window.
+  @_s.JsonKey(name: 'OwnerInformation')
+  final String ownerInformation;
+
+  RegisterTargetWithMaintenanceWindowRequest({
+    @_s.required this.resourceType,
+    @_s.required this.targets,
+    @_s.required this.windowId,
+    this.clientToken,
+    this.description,
+    this.name,
+    this.ownerInformation,
+  });
+  Map<String, dynamic> toJson() =>
+      _$RegisterTargetWithMaintenanceWindowRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class RegisterTargetWithMaintenanceWindowResult {
@@ -19237,6 +22710,138 @@ class RegisterTargetWithMaintenanceWindowResult {
   factory RegisterTargetWithMaintenanceWindowResult.fromJson(
           Map<String, dynamic> json) =>
       _$RegisterTargetWithMaintenanceWindowResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RegisterTaskWithMaintenanceWindowRequest {
+  /// The maximum number of targets this task can be run for in parallel.
+  @_s.JsonKey(name: 'MaxConcurrency')
+  final String maxConcurrency;
+
+  /// The maximum number of errors allowed before this task stops being scheduled.
+  @_s.JsonKey(name: 'MaxErrors')
+  final String maxErrors;
+
+  /// The targets (either instances or maintenance window targets).
+  ///
+  /// Specify instances using the following format:
+  ///
+  /// <code>Key=InstanceIds,Values=&lt;instance-id-1&gt;,&lt;instance-id-2&gt;</code>
+  ///
+  /// Specify maintenance window targets using the following format:
+  ///
+  /// <code>Key=WindowTargetIds;,Values=&lt;window-target-id-1&gt;,&lt;window-target-id-2&gt;</code>
+  @_s.JsonKey(name: 'Targets')
+  final List<Target> targets;
+
+  /// The ARN of the task to run.
+  @_s.JsonKey(name: 'TaskArn')
+  final String taskArn;
+
+  /// The type of task being registered.
+  @_s.JsonKey(name: 'TaskType')
+  final MaintenanceWindowTaskType taskType;
+
+  /// The ID of the maintenance window the task should be added to.
+  @_s.JsonKey(name: 'WindowId')
+  final String windowId;
+
+  /// User-provided idempotency token.
+  @_s.JsonKey(name: 'ClientToken')
+  final String clientToken;
+
+  /// An optional description for the task.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// A structure containing information about an Amazon S3 bucket to write
+  /// instance-level logs to.
+  /// <note>
+  /// <code>LoggingInfo</code> has been deprecated. To specify an S3 bucket to
+  /// contain logs, instead use the <code>OutputS3BucketName</code> and
+  /// <code>OutputS3KeyPrefix</code> options in the
+  /// <code>TaskInvocationParameters</code> structure. For information about how
+  /// Systems Manager handles these options for the supported maintenance window
+  /// task types, see <a>MaintenanceWindowTaskInvocationParameters</a>.
+  /// </note>
+  @_s.JsonKey(name: 'LoggingInfo')
+  final LoggingInfo loggingInfo;
+
+  /// An optional name for the task.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The priority of the task in the maintenance window, the lower the number the
+  /// higher the priority. Tasks in a maintenance window are scheduled in priority
+  /// order with tasks that have the same priority scheduled in parallel.
+  @_s.JsonKey(name: 'Priority')
+  final int priority;
+
+  /// The ARN of the IAM service role for Systems Manager to assume when running a
+  /// maintenance window task. If you do not specify a service role ARN, Systems
+  /// Manager uses your account's service-linked role. If no service-linked role
+  /// for Systems Manager exists in your account, it is created when you run
+  /// <code>RegisterTaskWithMaintenanceWindow</code>.
+  ///
+  /// For more information, see the following topics in the in the <i>AWS Systems
+  /// Manager User Guide</i>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/using-service-linked-roles.html#slr-permissions">Service-Linked
+  /// Role Permissions for Systems Manager</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-maintenance-permissions.html#maintenance-window-tasks-service-role">Should
+  /// I Use a Service-Linked Role or a Custom Service Role to Run Maintenance
+  /// Window Tasks? </a>
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ServiceRoleArn')
+  final String serviceRoleArn;
+
+  /// The parameters that the task should use during execution. Populate only the
+  /// fields that match the task type. All other fields should be empty.
+  @_s.JsonKey(name: 'TaskInvocationParameters')
+  final MaintenanceWindowTaskInvocationParameters taskInvocationParameters;
+
+  /// The parameters that should be passed to the task when it is run.
+  /// <note>
+  /// <code>TaskParameters</code> has been deprecated. To specify parameters to
+  /// pass to a task when it runs, instead use the <code>Parameters</code> option
+  /// in the <code>TaskInvocationParameters</code> structure. For information
+  /// about how Systems Manager handles these options for the supported
+  /// maintenance window task types, see
+  /// <a>MaintenanceWindowTaskInvocationParameters</a>.
+  /// </note>
+  @_s.JsonKey(name: 'TaskParameters')
+  final Map<String, MaintenanceWindowTaskParameterValueExpression>
+      taskParameters;
+
+  RegisterTaskWithMaintenanceWindowRequest({
+    @_s.required this.maxConcurrency,
+    @_s.required this.maxErrors,
+    @_s.required this.targets,
+    @_s.required this.taskArn,
+    @_s.required this.taskType,
+    @_s.required this.windowId,
+    this.clientToken,
+    this.description,
+    this.loggingInfo,
+    this.name,
+    this.priority,
+    this.serviceRoleArn,
+    this.taskInvocationParameters,
+    this.taskParameters,
+  });
+  Map<String, dynamic> toJson() =>
+      _$RegisterTaskWithMaintenanceWindowRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -19282,12 +22887,73 @@ class RelatedOpsItem {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RemoveTagsFromResourceRequest {
+  /// The ID of the resource from which you want to remove tags. For example:
+  ///
+  /// ManagedInstance: mi-012345abcde
+  ///
+  /// MaintenanceWindow: mw-012345abcde
+  ///
+  /// PatchBaseline: pb-012345abcde
+  ///
+  /// For the Document and Parameter values, use the name of the resource.
+  /// <note>
+  /// The ManagedInstance type for this API action is only for on-premises managed
+  /// instances. Specify the name of the managed instance in the following format:
+  /// mi-ID_number. For example, mi-1a2b3c4d5e6f.
+  /// </note>
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  /// The type of resource from which you want to remove a tag.
+  /// <note>
+  /// The ManagedInstance type for this API action is only for on-premises managed
+  /// instances. Specify the name of the managed instance in the following format:
+  /// mi-ID_number. For example, mi-1a2b3c4d5e6f.
+  /// </note>
+  @_s.JsonKey(name: 'ResourceType')
+  final ResourceTypeForTagging resourceType;
+
+  /// Tag keys that you want to remove from the specified resource.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  RemoveTagsFromResourceRequest({
+    @_s.required this.resourceId,
+    @_s.required this.resourceType,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$RemoveTagsFromResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class RemoveTagsFromResourceResult {
   RemoveTagsFromResourceResult();
   factory RemoveTagsFromResourceResult.fromJson(Map<String, dynamic> json) =>
       _$RemoveTagsFromResourceResultFromJson(json);
+}
+
+/// The request body of the ResetServiceSetting API action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ResetServiceSettingRequest {
+  /// The ID of the service setting to reset.
+  @_s.JsonKey(name: 'SettingId')
+  final String settingId;
+
+  ResetServiceSettingRequest({
+    @_s.required this.settingId,
+  });
+  Map<String, dynamic> toJson() => _$ResetServiceSettingRequestToJson(this);
 }
 
 /// The result body of the ResetServiceSetting API action.
@@ -19729,26 +23395,6 @@ enum ResourceTypeForTagging {
   opsItem,
 }
 
-extension on ResourceTypeForTagging {
-  String toValue() {
-    switch (this) {
-      case ResourceTypeForTagging.document:
-        return 'Document';
-      case ResourceTypeForTagging.managedInstance:
-        return 'ManagedInstance';
-      case ResourceTypeForTagging.maintenanceWindow:
-        return 'MaintenanceWindow';
-      case ResourceTypeForTagging.parameter:
-        return 'Parameter';
-      case ResourceTypeForTagging.patchBaseline:
-        return 'PatchBaseline';
-      case ResourceTypeForTagging.opsItem:
-        return 'OpsItem';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// The inventory item result attribute.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -19765,6 +23411,22 @@ class ResultAttribute {
     @_s.required this.typeName,
   });
   Map<String, dynamic> toJson() => _$ResultAttributeToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ResumeSessionRequest {
+  /// The ID of the disconnected session to resume.
+  @_s.JsonKey(name: 'SessionId')
+  final String sessionId;
+
+  ResumeSessionRequest({
+    @_s.required this.sessionId,
+  });
+  Map<String, dynamic> toJson() => _$ResumeSessionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -19891,12 +23553,198 @@ class ScheduledWindowExecution {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SendAutomationSignalRequest {
+  /// The unique identifier for an existing Automation execution that you want to
+  /// send the signal to.
+  @_s.JsonKey(name: 'AutomationExecutionId')
+  final String automationExecutionId;
+
+  /// The type of signal to send to an Automation execution.
+  @_s.JsonKey(name: 'SignalType')
+  final SignalType signalType;
+
+  /// The data sent with the signal. The data schema depends on the type of signal
+  /// used in the request.
+  ///
+  /// For <code>Approve</code> and <code>Reject</code> signal types, the payload
+  /// is an optional comment that you can send with the signal type. For example:
+  ///
+  /// <code>Comment="Looks good"</code>
+  ///
+  /// For <code>StartStep</code> and <code>Resume</code> signal types, you must
+  /// send the name of the Automation step to start or resume as the payload. For
+  /// example:
+  ///
+  /// <code>StepName="step1"</code>
+  ///
+  /// For the <code>StopStep</code> signal type, you must send the step execution
+  /// ID as the payload. For example:
+  ///
+  /// <code>StepExecutionId="97fff367-fc5a-4299-aed8-0123456789ab"</code>
+  @_s.JsonKey(name: 'Payload')
+  final Map<String, List<String>> payload;
+
+  SendAutomationSignalRequest({
+    @_s.required this.automationExecutionId,
+    @_s.required this.signalType,
+    this.payload,
+  });
+  Map<String, dynamic> toJson() => _$SendAutomationSignalRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class SendAutomationSignalResult {
   SendAutomationSignalResult();
   factory SendAutomationSignalResult.fromJson(Map<String, dynamic> json) =>
       _$SendAutomationSignalResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SendCommandRequest {
+  /// Required. The name of the Systems Manager document to run. This can be a
+  /// public document or a custom document.
+  @_s.JsonKey(name: 'DocumentName')
+  final String documentName;
+
+  /// Enables Systems Manager to send Run Command output to Amazon CloudWatch
+  /// Logs.
+  @_s.JsonKey(name: 'CloudWatchOutputConfig')
+  final CloudWatchOutputConfig cloudWatchOutputConfig;
+
+  /// User-specified information about the command, such as a brief description of
+  /// what the command should do.
+  @_s.JsonKey(name: 'Comment')
+  final String comment;
+
+  /// The Sha256 or Sha1 hash created by the system when the document was created.
+  /// <note>
+  /// Sha1 hashes have been deprecated.
+  /// </note>
+  @_s.JsonKey(name: 'DocumentHash')
+  final String documentHash;
+
+  /// Sha256 or Sha1.
+  /// <note>
+  /// Sha1 hashes have been deprecated.
+  /// </note>
+  @_s.JsonKey(name: 'DocumentHashType')
+  final DocumentHashType documentHashType;
+
+  /// The SSM document version to use in the request. You can specify $DEFAULT,
+  /// $LATEST, or a specific version number. If you run commands by using the AWS
+  /// CLI, then you must escape the first two options by using a backslash. If you
+  /// specify a version number, then you don't need to use the backslash. For
+  /// example:
+  ///
+  /// --document-version "\$DEFAULT"
+  ///
+  /// --document-version "\$LATEST"
+  ///
+  /// --document-version "3"
+  @_s.JsonKey(name: 'DocumentVersion')
+  final String documentVersion;
+
+  /// The instance IDs where the command should run. You can specify a maximum of
+  /// 50 IDs. If you prefer not to list individual instance IDs, you can instead
+  /// send commands to a fleet of instances using the Targets parameter, which
+  /// accepts EC2 tags. For more information about how to use targets, see <a
+  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html">Sending
+  /// Commands to a Fleet</a> in the <i>AWS Systems Manager User Guide</i>.
+  @_s.JsonKey(name: 'InstanceIds')
+  final List<String> instanceIds;
+
+  /// (Optional) The maximum number of instances that are allowed to run the
+  /// command at the same time. You can specify a number such as 10 or a
+  /// percentage such as 10%. The default value is 50. For more information about
+  /// how to use MaxConcurrency, see <a
+  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html#send-commands-velocity">Using
+  /// Concurrency Controls</a> in the <i>AWS Systems Manager User Guide</i>.
+  @_s.JsonKey(name: 'MaxConcurrency')
+  final String maxConcurrency;
+
+  /// The maximum number of errors allowed without the command failing. When the
+  /// command fails one more time beyond the value of MaxErrors, the systems stops
+  /// sending the command to additional targets. You can specify a number like 10
+  /// or a percentage like 10%. The default value is 0. For more information about
+  /// how to use MaxErrors, see <a
+  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html#send-commands-maxerrors">Using
+  /// Error Controls</a> in the <i>AWS Systems Manager User Guide</i>.
+  @_s.JsonKey(name: 'MaxErrors')
+  final String maxErrors;
+
+  /// Configurations for sending notifications.
+  @_s.JsonKey(name: 'NotificationConfig')
+  final NotificationConfig notificationConfig;
+
+  /// The name of the S3 bucket where command execution responses should be
+  /// stored.
+  @_s.JsonKey(name: 'OutputS3BucketName')
+  final String outputS3BucketName;
+
+  /// The directory structure within the S3 bucket where the responses should be
+  /// stored.
+  @_s.JsonKey(name: 'OutputS3KeyPrefix')
+  final String outputS3KeyPrefix;
+
+  /// (Deprecated) You can no longer specify this parameter. The system ignores
+  /// it. Instead, Systems Manager automatically determines the Amazon S3 bucket
+  /// region.
+  @_s.JsonKey(name: 'OutputS3Region')
+  final String outputS3Region;
+
+  /// The required and optional parameters specified in the document being run.
+  @_s.JsonKey(name: 'Parameters')
+  final Map<String, List<String>> parameters;
+
+  /// The ARN of the IAM service role to use to publish Amazon Simple Notification
+  /// Service (Amazon SNS) notifications for Run Command commands.
+  @_s.JsonKey(name: 'ServiceRoleArn')
+  final String serviceRoleArn;
+
+  /// (Optional) An array of search criteria that targets instances using a
+  /// Key,Value combination that you specify. Targets is required if you don't
+  /// provide one or more instance IDs in the call. For more information about how
+  /// to use targets, see <a
+  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html">Sending
+  /// Commands to a Fleet</a> in the <i>AWS Systems Manager User Guide</i>.
+  @_s.JsonKey(name: 'Targets')
+  final List<Target> targets;
+
+  /// If this time is reached and the command has not already started running, it
+  /// will not run.
+  @_s.JsonKey(name: 'TimeoutSeconds')
+  final int timeoutSeconds;
+
+  SendCommandRequest({
+    @_s.required this.documentName,
+    this.cloudWatchOutputConfig,
+    this.comment,
+    this.documentHash,
+    this.documentHashType,
+    this.documentVersion,
+    this.instanceIds,
+    this.maxConcurrency,
+    this.maxErrors,
+    this.notificationConfig,
+    this.outputS3BucketName,
+    this.outputS3KeyPrefix,
+    this.outputS3Region,
+    this.parameters,
+    this.serviceRoleArn,
+    this.targets,
+    this.timeoutSeconds,
+  });
+  Map<String, dynamic> toJson() => _$SendCommandRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -20172,18 +24020,6 @@ enum SessionState {
   history,
 }
 
-extension on SessionState {
-  String toValue() {
-    switch (this) {
-      case SessionState.active:
-        return 'Active';
-      case SessionState.history:
-        return 'History';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum SessionStatus {
   @_s.JsonValue('Connected')
   connected,
@@ -20268,22 +24104,20 @@ enum SignalType {
   resume,
 }
 
-extension on SignalType {
-  String toValue() {
-    switch (this) {
-      case SignalType.approve:
-        return 'Approve';
-      case SignalType.reject:
-        return 'Reject';
-      case SignalType.startStep:
-        return 'StartStep';
-      case SignalType.stopStep:
-        return 'StopStep';
-      case SignalType.resume:
-        return 'Resume';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartAssociationsOnceRequest {
+  /// The association IDs that you want to run immediately and only one time.
+  @_s.JsonKey(name: 'AssociationIds')
+  final List<String> associationIds;
+
+  StartAssociationsOnceRequest({
+    @_s.required this.associationIds,
+  });
+  Map<String, dynamic> toJson() => _$StartAssociationsOnceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -20295,6 +24129,121 @@ class StartAssociationsOnceResult {
   StartAssociationsOnceResult();
   factory StartAssociationsOnceResult.fromJson(Map<String, dynamic> json) =>
       _$StartAssociationsOnceResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartAutomationExecutionRequest {
+  /// The name of the Automation document to use for this execution.
+  @_s.JsonKey(name: 'DocumentName')
+  final String documentName;
+
+  /// User-provided idempotency token. The token must be unique, is case
+  /// insensitive, enforces the UUID format, and can't be reused.
+  @_s.JsonKey(name: 'ClientToken')
+  final String clientToken;
+
+  /// The version of the Automation document to use for this execution.
+  @_s.JsonKey(name: 'DocumentVersion')
+  final String documentVersion;
+
+  /// The maximum number of targets allowed to run this task in parallel. You can
+  /// specify a number, such as 10, or a percentage, such as 10%. The default
+  /// value is 10.
+  @_s.JsonKey(name: 'MaxConcurrency')
+  final String maxConcurrency;
+
+  /// The number of errors that are allowed before the system stops running the
+  /// automation on additional targets. You can specify either an absolute number
+  /// of errors, for example 10, or a percentage of the target set, for example
+  /// 10%. If you specify 3, for example, the system stops running the automation
+  /// when the fourth error is received. If you specify 0, then the system stops
+  /// running the automation on additional targets after the first error result is
+  /// returned. If you run an automation on 50 resources and set max-errors to
+  /// 10%, then the system stops running the automation on additional targets when
+  /// the sixth error is received.
+  ///
+  /// Executions that are already running an automation when max-errors is reached
+  /// are allowed to complete, but some of these executions may fail as well. If
+  /// you need to ensure that there won't be more than max-errors failed
+  /// executions, set max-concurrency to 1 so the executions proceed one at a
+  /// time.
+  @_s.JsonKey(name: 'MaxErrors')
+  final String maxErrors;
+
+  /// The execution mode of the automation. Valid modes include the following:
+  /// Auto and Interactive. The default mode is Auto.
+  @_s.JsonKey(name: 'Mode')
+  final ExecutionMode mode;
+
+  /// A key-value map of execution parameters, which match the declared parameters
+  /// in the Automation document.
+  @_s.JsonKey(name: 'Parameters')
+  final Map<String, List<String>> parameters;
+
+  /// Optional metadata that you assign to a resource. You can specify a maximum
+  /// of five tags for an automation. Tags enable you to categorize a resource in
+  /// different ways, such as by purpose, owner, or environment. For example, you
+  /// might want to tag an automation to identify an environment or operating
+  /// system. In this case, you could specify the following key name/value pairs:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Key=environment,Value=test</code>
+  /// </li>
+  /// <li>
+  /// <code>Key=OS,Value=Windows</code>
+  /// </li>
+  /// </ul> <note>
+  /// To add tags to an existing patch baseline, use the <a>AddTagsToResource</a>
+  /// action.
+  /// </note>
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  /// A location is a combination of AWS Regions and/or AWS accounts where you
+  /// want to run the Automation. Use this action to start an Automation in
+  /// multiple Regions and multiple accounts. For more information, see <a
+  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-automation-multiple-accounts-and-regions.html">Executing
+  /// Automations in Multiple AWS Regions and Accounts</a> in the <i>AWS Systems
+  /// Manager User Guide</i>.
+  @_s.JsonKey(name: 'TargetLocations')
+  final List<TargetLocation> targetLocations;
+
+  /// A key-value mapping of document parameters to target resources. Both Targets
+  /// and TargetMaps cannot be specified together.
+  @_s.JsonKey(name: 'TargetMaps')
+  final List<Map<String, List<String>>> targetMaps;
+
+  /// The name of the parameter used as the target resource for the
+  /// rate-controlled execution. Required if you specify targets.
+  @_s.JsonKey(name: 'TargetParameterName')
+  final String targetParameterName;
+
+  /// A key-value mapping to target resources. Required if you specify
+  /// TargetParameterName.
+  @_s.JsonKey(name: 'Targets')
+  final List<Target> targets;
+
+  StartAutomationExecutionRequest({
+    @_s.required this.documentName,
+    this.clientToken,
+    this.documentVersion,
+    this.maxConcurrency,
+    this.maxErrors,
+    this.mode,
+    this.parameters,
+    this.tags,
+    this.targetLocations,
+    this.targetMaps,
+    this.targetParameterName,
+    this.targets,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StartAutomationExecutionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -20312,6 +24261,34 @@ class StartAutomationExecutionResult {
   });
   factory StartAutomationExecutionResult.fromJson(Map<String, dynamic> json) =>
       _$StartAutomationExecutionResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartSessionRequest {
+  /// The instance to connect to for the session.
+  @_s.JsonKey(name: 'Target')
+  final String target;
+
+  /// The name of the SSM document to define the parameters and plugin settings
+  /// for the session. For example, <code>SSM-SessionManagerRunShell</code>. If no
+  /// document name is provided, a shell to the instance is launched by default.
+  @_s.JsonKey(name: 'DocumentName')
+  final String documentName;
+
+  /// Reserved for future use.
+  @_s.JsonKey(name: 'Parameters')
+  final Map<String, List<String>> parameters;
+
+  StartSessionRequest({
+    @_s.required this.target,
+    this.documentName,
+    this.parameters,
+  });
+  Map<String, dynamic> toJson() => _$StartSessionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -20537,6 +24514,28 @@ enum StepExecutionFilterKey {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopAutomationExecutionRequest {
+  /// The execution ID of the Automation to stop.
+  @_s.JsonKey(name: 'AutomationExecutionId')
+  final String automationExecutionId;
+
+  /// The stop request type. Valid types include the following: Cancel and
+  /// Complete. The default type is Cancel.
+  @_s.JsonKey(name: 'Type')
+  final StopType type;
+
+  StopAutomationExecutionRequest({
+    @_s.required this.automationExecutionId,
+    this.type,
+  });
+  Map<String, dynamic> toJson() => _$StopAutomationExecutionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StopAutomationExecutionResult {
@@ -20550,18 +24549,6 @@ enum StopType {
   complete,
   @_s.JsonValue('Cancel')
   cancel,
-}
-
-extension on StopType {
-  String toValue() {
-    switch (this) {
-      case StopType.complete:
-        return 'Complete';
-      case StopType.cancel:
-        return 'Cancel';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Metadata that you assign to your AWS resources. Tags enable you to
@@ -20732,6 +24719,22 @@ class TargetLocation {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TerminateSessionRequest {
+  /// The ID of the session to terminate.
+  @_s.JsonKey(name: 'SessionId')
+  final String sessionId;
+
+  TerminateSessionRequest({
+    @_s.required this.sessionId,
+  });
+  Map<String, dynamic> toJson() => _$TerminateSessionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TerminateSessionResponse {
@@ -20744,6 +24747,129 @@ class TerminateSessionResponse {
   });
   factory TerminateSessionResponse.fromJson(Map<String, dynamic> json) =>
       _$TerminateSessionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateAssociationRequest {
+  /// The ID of the association you want to update.
+  @_s.JsonKey(name: 'AssociationId')
+  final String associationId;
+
+  /// The name of the association that you want to update.
+  @_s.JsonKey(name: 'AssociationName')
+  final String associationName;
+
+  /// This parameter is provided for concurrency control purposes. You must
+  /// specify the latest association version in the service. If you want to ensure
+  /// that this request succeeds, either specify <code>$LATEST</code>, or omit
+  /// this parameter.
+  @_s.JsonKey(name: 'AssociationVersion')
+  final String associationVersion;
+
+  /// Specify the target for the association. This target is required for
+  /// associations that use an Automation document and target resources by using
+  /// rate controls.
+  @_s.JsonKey(name: 'AutomationTargetParameterName')
+  final String automationTargetParameterName;
+
+  /// The severity level to assign to the association.
+  @_s.JsonKey(name: 'ComplianceSeverity')
+  final AssociationComplianceSeverity complianceSeverity;
+
+  /// The document version you want update for the association.
+  @_s.JsonKey(name: 'DocumentVersion')
+  final String documentVersion;
+
+  /// The maximum number of targets allowed to run the association at the same
+  /// time. You can specify a number, for example 10, or a percentage of the
+  /// target set, for example 10%. The default value is 100%, which means all
+  /// targets run the association at the same time.
+  ///
+  /// If a new instance starts and attempts to run an association while Systems
+  /// Manager is running MaxConcurrency associations, the association is allowed
+  /// to run. During the next association interval, the new instance will process
+  /// its association within the limit specified for MaxConcurrency.
+  @_s.JsonKey(name: 'MaxConcurrency')
+  final String maxConcurrency;
+
+  /// The number of errors that are allowed before the system stops sending
+  /// requests to run the association on additional targets. You can specify
+  /// either an absolute number of errors, for example 10, or a percentage of the
+  /// target set, for example 10%. If you specify 3, for example, the system stops
+  /// sending requests when the fourth error is received. If you specify 0, then
+  /// the system stops sending requests after the first error is returned. If you
+  /// run an association on 50 instances and set MaxError to 10%, then the system
+  /// stops sending the request when the sixth error is received.
+  ///
+  /// Executions that are already running an association when MaxErrors is reached
+  /// are allowed to complete, but some of these executions may fail as well. If
+  /// you need to ensure that there won't be more than max-errors failed
+  /// executions, set MaxConcurrency to 1 so that executions proceed one at a
+  /// time.
+  @_s.JsonKey(name: 'MaxErrors')
+  final String maxErrors;
+
+  /// The name of the SSM document that contains the configuration information for
+  /// the instance. You can specify Command or Automation documents.
+  ///
+  /// You can specify AWS-predefined documents, documents you created, or a
+  /// document that is shared with you from another account.
+  ///
+  /// For SSM documents that are shared with you from other AWS accounts, you must
+  /// specify the complete SSM document ARN, in the following format:
+  ///
+  /// <code>arn:aws:ssm:<i>region</i>:<i>account-id</i>:document/<i>document-name</i>
+  /// </code>
+  ///
+  /// For example:
+  ///
+  /// <code>arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document</code>
+  ///
+  /// For AWS-predefined documents and SSM documents you created in your account,
+  /// you only need to specify the document name. For example,
+  /// <code>AWS-ApplyPatchBaseline</code> or <code>My-Document</code>.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// An Amazon S3 bucket where you want to store the results of this request.
+  @_s.JsonKey(name: 'OutputLocation')
+  final InstanceAssociationOutputLocation outputLocation;
+
+  /// The parameters you want to update for the association. If you create a
+  /// parameter using Parameter Store, you can reference the parameter using
+  /// {{ssm:parameter-name}}
+  @_s.JsonKey(name: 'Parameters')
+  final Map<String, List<String>> parameters;
+
+  /// The cron expression used to schedule the association that you want to
+  /// update.
+  @_s.JsonKey(name: 'ScheduleExpression')
+  final String scheduleExpression;
+
+  /// The targets of the association.
+  @_s.JsonKey(name: 'Targets')
+  final List<Target> targets;
+
+  UpdateAssociationRequest({
+    @_s.required this.associationId,
+    this.associationName,
+    this.associationVersion,
+    this.automationTargetParameterName,
+    this.complianceSeverity,
+    this.documentVersion,
+    this.maxConcurrency,
+    this.maxErrors,
+    this.name,
+    this.outputLocation,
+    this.parameters,
+    this.scheduleExpression,
+    this.targets,
+  });
+  Map<String, dynamic> toJson() => _$UpdateAssociationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -20766,6 +24892,32 @@ class UpdateAssociationResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateAssociationStatusRequest {
+  /// The association status.
+  @_s.JsonKey(name: 'AssociationStatus')
+  final AssociationStatus associationStatus;
+
+  /// The ID of the instance.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  /// The name of the Systems Manager document.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  UpdateAssociationStatusRequest({
+    @_s.required this.associationStatus,
+    @_s.required this.instanceId,
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$UpdateAssociationStatusRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateAssociationStatusResult {
@@ -20778,6 +24930,29 @@ class UpdateAssociationStatusResult {
   });
   factory UpdateAssociationStatusResult.fromJson(Map<String, dynamic> json) =>
       _$UpdateAssociationStatusResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDocumentDefaultVersionRequest {
+  /// The version of a custom document that you want to set as the default
+  /// version.
+  @_s.JsonKey(name: 'DocumentVersion')
+  final String documentVersion;
+
+  /// The name of a custom document that you want to set as the default version.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  UpdateDocumentDefaultVersionRequest({
+    @_s.required this.documentVersion,
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateDocumentDefaultVersionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -20802,6 +24977,56 @@ class UpdateDocumentDefaultVersionResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDocumentRequest {
+  /// A valid JSON or YAML string.
+  @_s.JsonKey(name: 'Content')
+  final String content;
+
+  /// The name of the document that you want to update.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// A list of key and value pairs that describe attachments to a version of a
+  /// document.
+  @_s.JsonKey(name: 'Attachments')
+  final List<AttachmentsSource> attachments;
+
+  /// Specify the document format for the new document version. Systems Manager
+  /// supports JSON and YAML documents. JSON is the default format.
+  @_s.JsonKey(name: 'DocumentFormat')
+  final DocumentFormat documentFormat;
+
+  /// (Required) The version of the document that you want to update.
+  @_s.JsonKey(name: 'DocumentVersion')
+  final String documentVersion;
+
+  /// Specify a new target type for the document.
+  @_s.JsonKey(name: 'TargetType')
+  final String targetType;
+
+  /// An optional field specifying the version of the artifact you are updating
+  /// with the document. For example, "Release 12, Update 6". This value is unique
+  /// across all versions of a document, and cannot be changed.
+  @_s.JsonKey(name: 'VersionName')
+  final String versionName;
+
+  UpdateDocumentRequest({
+    @_s.required this.content,
+    @_s.required this.name,
+    this.attachments,
+    this.documentFormat,
+    this.documentVersion,
+    this.targetType,
+    this.versionName,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDocumentRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateDocumentResult {
@@ -20814,6 +25039,92 @@ class UpdateDocumentResult {
   });
   factory UpdateDocumentResult.fromJson(Map<String, dynamic> json) =>
       _$UpdateDocumentResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateMaintenanceWindowRequest {
+  /// The ID of the maintenance window to update.
+  @_s.JsonKey(name: 'WindowId')
+  final String windowId;
+
+  /// Whether targets must be registered with the maintenance window before tasks
+  /// can be defined for those targets.
+  @_s.JsonKey(name: 'AllowUnassociatedTargets')
+  final bool allowUnassociatedTargets;
+
+  /// The number of hours before the end of the maintenance window that Systems
+  /// Manager stops scheduling new tasks for execution.
+  @_s.JsonKey(name: 'Cutoff')
+  final int cutoff;
+
+  /// An optional description for the update request.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The duration of the maintenance window in hours.
+  @_s.JsonKey(name: 'Duration')
+  final int duration;
+
+  /// Whether the maintenance window is enabled.
+  @_s.JsonKey(name: 'Enabled')
+  final bool enabled;
+
+  /// The date and time, in ISO-8601 Extended format, for when you want the
+  /// maintenance window to become inactive. EndDate allows you to set a date and
+  /// time in the future when the maintenance window will no longer run.
+  @_s.JsonKey(name: 'EndDate')
+  final String endDate;
+
+  /// The name of the maintenance window.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// If True, then all fields that are required by the CreateMaintenanceWindow
+  /// action are also required for this API request. Optional fields that are not
+  /// specified are set to null.
+  @_s.JsonKey(name: 'Replace')
+  final bool replace;
+
+  /// The schedule of the maintenance window in the form of a cron or rate
+  /// expression.
+  @_s.JsonKey(name: 'Schedule')
+  final String schedule;
+
+  /// The time zone that the scheduled maintenance window executions are based on,
+  /// in Internet Assigned Numbers Authority (IANA) format. For example:
+  /// "America/Los_Angeles", "etc/UTC", or "Asia/Seoul". For more information, see
+  /// the <a href="https://www.iana.org/time-zones">Time Zone Database</a> on the
+  /// IANA website.
+  @_s.JsonKey(name: 'ScheduleTimezone')
+  final String scheduleTimezone;
+
+  /// The time zone that the scheduled maintenance window executions are based on,
+  /// in Internet Assigned Numbers Authority (IANA) format. For example:
+  /// "America/Los_Angeles", "etc/UTC", or "Asia/Seoul". For more information, see
+  /// the <a href="https://www.iana.org/time-zones">Time Zone Database</a> on the
+  /// IANA website.
+  @_s.JsonKey(name: 'StartDate')
+  final String startDate;
+
+  UpdateMaintenanceWindowRequest({
+    @_s.required this.windowId,
+    this.allowUnassociatedTargets,
+    this.cutoff,
+    this.description,
+    this.duration,
+    this.enabled,
+    this.endDate,
+    this.name,
+    this.replace,
+    this.schedule,
+    this.scheduleTimezone,
+    this.startDate,
+  });
+  Map<String, dynamic> toJson() => _$UpdateMaintenanceWindowRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -20897,6 +25208,56 @@ class UpdateMaintenanceWindowResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateMaintenanceWindowTargetRequest {
+  /// The maintenance window ID with which to modify the target.
+  @_s.JsonKey(name: 'WindowId')
+  final String windowId;
+
+  /// The target ID to modify.
+  @_s.JsonKey(name: 'WindowTargetId')
+  final String windowTargetId;
+
+  /// An optional description for the update.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// A name for the update.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// User-provided value that will be included in any CloudWatch events raised
+  /// while running tasks for these targets in this maintenance window.
+  @_s.JsonKey(name: 'OwnerInformation')
+  final String ownerInformation;
+
+  /// If True, then all fields that are required by the
+  /// RegisterTargetWithMaintenanceWindow action are also required for this API
+  /// request. Optional fields that are not specified are set to null.
+  @_s.JsonKey(name: 'Replace')
+  final bool replace;
+
+  /// The targets to add or replace.
+  @_s.JsonKey(name: 'Targets')
+  final List<Target> targets;
+
+  UpdateMaintenanceWindowTargetRequest({
+    @_s.required this.windowId,
+    @_s.required this.windowTargetId,
+    this.description,
+    this.name,
+    this.ownerInformation,
+    this.replace,
+    this.targets,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateMaintenanceWindowTargetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateMaintenanceWindowTargetResult {
@@ -20935,6 +25296,141 @@ class UpdateMaintenanceWindowTargetResult {
   factory UpdateMaintenanceWindowTargetResult.fromJson(
           Map<String, dynamic> json) =>
       _$UpdateMaintenanceWindowTargetResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateMaintenanceWindowTaskRequest {
+  /// The maintenance window ID that contains the task to modify.
+  @_s.JsonKey(name: 'WindowId')
+  final String windowId;
+
+  /// The task ID to modify.
+  @_s.JsonKey(name: 'WindowTaskId')
+  final String windowTaskId;
+
+  /// The new task description to specify.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The new logging location in Amazon S3 to specify.
+  /// <note>
+  /// <code>LoggingInfo</code> has been deprecated. To specify an S3 bucket to
+  /// contain logs, instead use the <code>OutputS3BucketName</code> and
+  /// <code>OutputS3KeyPrefix</code> options in the
+  /// <code>TaskInvocationParameters</code> structure. For information about how
+  /// Systems Manager handles these options for the supported maintenance window
+  /// task types, see <a>MaintenanceWindowTaskInvocationParameters</a>.
+  /// </note>
+  @_s.JsonKey(name: 'LoggingInfo')
+  final LoggingInfo loggingInfo;
+
+  /// The new <code>MaxConcurrency</code> value you want to specify.
+  /// <code>MaxConcurrency</code> is the number of targets that are allowed to run
+  /// this task in parallel.
+  @_s.JsonKey(name: 'MaxConcurrency')
+  final String maxConcurrency;
+
+  /// The new <code>MaxErrors</code> value to specify. <code>MaxErrors</code> is
+  /// the maximum number of errors that are allowed before the task stops being
+  /// scheduled.
+  @_s.JsonKey(name: 'MaxErrors')
+  final String maxErrors;
+
+  /// The new task name to specify.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The new task priority to specify. The lower the number, the higher the
+  /// priority. Tasks that have the same priority are scheduled in parallel.
+  @_s.JsonKey(name: 'Priority')
+  final int priority;
+
+  /// If True, then all fields that are required by the
+  /// RegisterTaskWithMaintenanceWndow action are also required for this API
+  /// request. Optional fields that are not specified are set to null.
+  @_s.JsonKey(name: 'Replace')
+  final bool replace;
+
+  /// The ARN of the IAM service role for Systems Manager to assume when running a
+  /// maintenance window task. If you do not specify a service role ARN, Systems
+  /// Manager uses your account's service-linked role. If no service-linked role
+  /// for Systems Manager exists in your account, it is created when you run
+  /// <code>RegisterTaskWithMaintenanceWindow</code>.
+  ///
+  /// For more information, see the following topics in the in the <i>AWS Systems
+  /// Manager User Guide</i>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/using-service-linked-roles.html#slr-permissions">Service-Linked
+  /// Role Permissions for Systems Manager</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-maintenance-permissions.html#maintenance-window-tasks-service-role">Should
+  /// I Use a Service-Linked Role or a Custom Service Role to Run Maintenance
+  /// Window Tasks? </a>
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ServiceRoleArn')
+  final String serviceRoleArn;
+
+  /// The targets (either instances or tags) to modify. Instances are specified
+  /// using Key=instanceids,Values=instanceID_1,instanceID_2. Tags are specified
+  /// using Key=tag_name,Values=tag_value.
+  @_s.JsonKey(name: 'Targets')
+  final List<Target> targets;
+
+  /// The task ARN to modify.
+  @_s.JsonKey(name: 'TaskArn')
+  final String taskArn;
+
+  /// The parameters that the task should use during execution. Populate only the
+  /// fields that match the task type. All other fields should be empty.
+  @_s.JsonKey(name: 'TaskInvocationParameters')
+  final MaintenanceWindowTaskInvocationParameters taskInvocationParameters;
+
+  /// The parameters to modify.
+  /// <note>
+  /// <code>TaskParameters</code> has been deprecated. To specify parameters to
+  /// pass to a task when it runs, instead use the <code>Parameters</code> option
+  /// in the <code>TaskInvocationParameters</code> structure. For information
+  /// about how Systems Manager handles these options for the supported
+  /// maintenance window task types, see
+  /// <a>MaintenanceWindowTaskInvocationParameters</a>.
+  /// </note>
+  /// The map has the following format:
+  ///
+  /// Key: string, between 1 and 255 characters
+  ///
+  /// Value: an array of strings, each string is between 1 and 255 characters
+  @_s.JsonKey(name: 'TaskParameters')
+  final Map<String, MaintenanceWindowTaskParameterValueExpression>
+      taskParameters;
+
+  UpdateMaintenanceWindowTaskRequest({
+    @_s.required this.windowId,
+    @_s.required this.windowTaskId,
+    this.description,
+    this.loggingInfo,
+    this.maxConcurrency,
+    this.maxErrors,
+    this.name,
+    this.priority,
+    this.replace,
+    this.serviceRoleArn,
+    this.targets,
+    this.taskArn,
+    this.taskInvocationParameters,
+    this.taskParameters,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateMaintenanceWindowTaskRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -21036,6 +25532,28 @@ class UpdateMaintenanceWindowTaskResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateManagedInstanceRoleRequest {
+  /// The IAM role you want to assign or change.
+  @_s.JsonKey(name: 'IamRole')
+  final String iamRole;
+
+  /// The ID of the managed instance where you want to update the role.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  UpdateManagedInstanceRoleRequest({
+    @_s.required this.iamRole,
+    @_s.required this.instanceId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateManagedInstanceRoleRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateManagedInstanceRoleResult {
@@ -21047,12 +25565,217 @@ class UpdateManagedInstanceRoleResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateOpsItemRequest {
+  /// The ID of the OpsItem.
+  @_s.JsonKey(name: 'OpsItemId')
+  final String opsItemId;
+
+  /// Specify a new category for an OpsItem.
+  @_s.JsonKey(name: 'Category')
+  final String category;
+
+  /// Update the information about the OpsItem. Provide enough information so that
+  /// users reading this OpsItem for the first time understand the issue.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The Amazon Resource Name (ARN) of an SNS topic where notifications are sent
+  /// when this OpsItem is edited or changed.
+  @_s.JsonKey(name: 'Notifications')
+  final List<OpsItemNotification> notifications;
+
+  /// Add new keys or edit existing key-value pairs of the OperationalData map in
+  /// the OpsItem object.
+  ///
+  /// Operational data is custom data that provides useful reference details about
+  /// the OpsItem. For example, you can specify log files, error strings, license
+  /// keys, troubleshooting tips, or other relevant data. You enter operational
+  /// data as key-value pairs. The key has a maximum length of 128 characters. The
+  /// value has a maximum size of 20 KB.
+  /// <important>
+  /// Operational data keys <i>can't</i> begin with the following: amazon, aws,
+  /// amzn, ssm, /amazon, /aws, /amzn, /ssm.
+  /// </important>
+  /// You can choose to make the data searchable by other users in the account or
+  /// you can restrict search access. Searchable data means that all users with
+  /// access to the OpsItem Overview page (as provided by the
+  /// <a>DescribeOpsItems</a> API action) can view and search on the specified
+  /// data. Operational data that is not searchable is only viewable by users who
+  /// have access to the OpsItem (as provided by the <a>GetOpsItem</a> API
+  /// action).
+  ///
+  /// Use the <code>/aws/resources</code> key in OperationalData to specify a
+  /// related resource in the request. Use the <code>/aws/automations</code> key
+  /// in OperationalData to associate an Automation runbook with the OpsItem. To
+  /// view AWS CLI example commands that use these keys, see <a
+  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-creating-OpsItems.html#OpsCenter-manually-create-OpsItems">Creating
+  /// OpsItems Manually</a> in the <i>AWS Systems Manager User Guide</i>.
+  @_s.JsonKey(name: 'OperationalData')
+  final Map<String, OpsItemDataValue> operationalData;
+
+  /// Keys that you want to remove from the OperationalData map.
+  @_s.JsonKey(name: 'OperationalDataToDelete')
+  final List<String> operationalDataToDelete;
+
+  /// The importance of this OpsItem in relation to other OpsItems in the system.
+  @_s.JsonKey(name: 'Priority')
+  final int priority;
+
+  /// One or more OpsItems that share something in common with the current
+  /// OpsItems. For example, related OpsItems can include OpsItems with similar
+  /// error messages, impacted resources, or statuses for the impacted resource.
+  @_s.JsonKey(name: 'RelatedOpsItems')
+  final List<RelatedOpsItem> relatedOpsItems;
+
+  /// Specify a new severity for an OpsItem.
+  @_s.JsonKey(name: 'Severity')
+  final String severity;
+
+  /// The OpsItem status. Status can be <code>Open</code>, <code>In
+  /// Progress</code>, or <code>Resolved</code>. For more information, see <a
+  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-working-with-OpsItems-editing-details.html">Editing
+  /// OpsItem Details</a> in the <i>AWS Systems Manager User Guide</i>.
+  @_s.JsonKey(name: 'Status')
+  final OpsItemStatus status;
+
+  /// A short heading that describes the nature of the OpsItem and the impacted
+  /// resource.
+  @_s.JsonKey(name: 'Title')
+  final String title;
+
+  UpdateOpsItemRequest({
+    @_s.required this.opsItemId,
+    this.category,
+    this.description,
+    this.notifications,
+    this.operationalData,
+    this.operationalDataToDelete,
+    this.priority,
+    this.relatedOpsItems,
+    this.severity,
+    this.status,
+    this.title,
+  });
+  Map<String, dynamic> toJson() => _$UpdateOpsItemRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateOpsItemResponse {
   UpdateOpsItemResponse();
   factory UpdateOpsItemResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateOpsItemResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdatePatchBaselineRequest {
+  /// The ID of the patch baseline to update.
+  @_s.JsonKey(name: 'BaselineId')
+  final String baselineId;
+
+  /// A set of rules used to include patches in the baseline.
+  @_s.JsonKey(name: 'ApprovalRules')
+  final PatchRuleGroup approvalRules;
+
+  /// A list of explicitly approved patches for the baseline.
+  ///
+  /// For information about accepted formats for lists of approved patches and
+  /// rejected patches, see <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html">Package
+  /// Name Formats for Approved and Rejected Patch Lists</a> in the <i>AWS Systems
+  /// Manager User Guide</i>.
+  @_s.JsonKey(name: 'ApprovedPatches')
+  final List<String> approvedPatches;
+
+  /// Assigns a new compliance severity level to an existing patch baseline.
+  @_s.JsonKey(name: 'ApprovedPatchesComplianceLevel')
+  final PatchComplianceLevel approvedPatchesComplianceLevel;
+
+  /// Indicates whether the list of approved patches includes non-security updates
+  /// that should be applied to the instances. The default value is 'false'.
+  /// Applies to Linux instances only.
+  @_s.JsonKey(name: 'ApprovedPatchesEnableNonSecurity')
+  final bool approvedPatchesEnableNonSecurity;
+
+  /// A description of the patch baseline.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// A set of global filters used to include patches in the baseline.
+  @_s.JsonKey(name: 'GlobalFilters')
+  final PatchFilterGroup globalFilters;
+
+  /// The name of the patch baseline.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// A list of explicitly rejected patches for the baseline.
+  ///
+  /// For information about accepted formats for lists of approved patches and
+  /// rejected patches, see <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html">Package
+  /// Name Formats for Approved and Rejected Patch Lists</a> in the <i>AWS Systems
+  /// Manager User Guide</i>.
+  @_s.JsonKey(name: 'RejectedPatches')
+  final List<String> rejectedPatches;
+
+  /// The action for Patch Manager to take on patches included in the
+  /// RejectedPackages list.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>ALLOW_AS_DEPENDENCY</b>: A package in the Rejected patches list is
+  /// installed only if it is a dependency of another package. It is considered
+  /// compliant with the patch baseline, and its status is reported as
+  /// <i>InstalledOther</i>. This is the default action if no option is specified.
+  /// </li>
+  /// <li>
+  /// <b>BLOCK</b>: Packages in the RejectedPatches list, and packages that
+  /// include them as dependencies, are not installed under any circumstances. If
+  /// a package was installed before it was added to the Rejected patches list, it
+  /// is considered non-compliant with the patch baseline, and its status is
+  /// reported as <i>InstalledRejected</i>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'RejectedPatchesAction')
+  final PatchAction rejectedPatchesAction;
+
+  /// If True, then all fields that are required by the CreatePatchBaseline action
+  /// are also required for this API request. Optional fields that are not
+  /// specified are set to null.
+  @_s.JsonKey(name: 'Replace')
+  final bool replace;
+
+  /// Information about the patches to use to update the instances, including
+  /// target operating systems and source repositories. Applies to Linux instances
+  /// only.
+  @_s.JsonKey(name: 'Sources')
+  final List<PatchSource> sources;
+
+  UpdatePatchBaselineRequest({
+    @_s.required this.baselineId,
+    this.approvalRules,
+    this.approvedPatches,
+    this.approvedPatchesComplianceLevel,
+    this.approvedPatchesEnableNonSecurity,
+    this.description,
+    this.globalFilters,
+    this.name,
+    this.rejectedPatches,
+    this.rejectedPatchesAction,
+    this.replace,
+    this.sources,
+  });
+  Map<String, dynamic> toJson() => _$UpdatePatchBaselineRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -21153,12 +25876,64 @@ class UpdatePatchBaselineResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateResourceDataSyncRequest {
+  /// The name of the resource data sync you want to update.
+  @_s.JsonKey(name: 'SyncName')
+  final String syncName;
+
+  /// Specify information about the data sources to synchronize.
+  @_s.JsonKey(name: 'SyncSource')
+  final ResourceDataSyncSource syncSource;
+
+  /// The type of resource data sync. If <code>SyncType</code> is
+  /// <code>SyncToDestination</code>, then the resource data sync synchronizes
+  /// data to an Amazon S3 bucket. If the <code>SyncType</code> is
+  /// <code>SyncFromSource</code> then the resource data sync synchronizes data
+  /// from AWS Organizations or from multiple AWS Regions.
+  @_s.JsonKey(name: 'SyncType')
+  final String syncType;
+
+  UpdateResourceDataSyncRequest({
+    @_s.required this.syncName,
+    @_s.required this.syncSource,
+    @_s.required this.syncType,
+  });
+  Map<String, dynamic> toJson() => _$UpdateResourceDataSyncRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateResourceDataSyncResult {
   UpdateResourceDataSyncResult();
   factory UpdateResourceDataSyncResult.fromJson(Map<String, dynamic> json) =>
       _$UpdateResourceDataSyncResultFromJson(json);
+}
+
+/// The request body of the UpdateServiceSetting API action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateServiceSettingRequest {
+  /// The ID of the service setting to update.
+  @_s.JsonKey(name: 'SettingId')
+  final String settingId;
+
+  /// The new value to specify for the service setting.
+  @_s.JsonKey(name: 'SettingValue')
+  final String settingValue;
+
+  UpdateServiceSettingRequest({
+    @_s.required this.settingId,
+    @_s.required this.settingValue,
+  });
+  Map<String, dynamic> toJson() => _$UpdateServiceSettingRequestToJson(this);
 }
 
 /// The result body of the UpdateServiceSetting API action.

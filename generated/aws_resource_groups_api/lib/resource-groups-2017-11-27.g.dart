@@ -6,6 +6,22 @@ part of 'resource-groups-2017-11-27.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$CreateGroupInputToJson(CreateGroupInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('ResourceQuery', instance.resourceQuery?.toJson());
+  writeNotNull('Description', instance.description);
+  writeNotNull('Tags', instance.tags);
+  return val;
+}
+
 CreateGroupOutput _$CreateGroupOutputFromJson(Map<String, dynamic> json) {
   return CreateGroupOutput(
     group: json['Group'] == null
@@ -19,6 +35,9 @@ CreateGroupOutput _$CreateGroupOutputFromJson(Map<String, dynamic> json) {
     ),
   );
 }
+
+Map<String, dynamic> _$DeleteGroupInputToJson(DeleteGroupInput instance) =>
+    <String, dynamic>{};
 
 DeleteGroupOutput _$DeleteGroupOutputFromJson(Map<String, dynamic> json) {
   return DeleteGroupOutput(
@@ -95,6 +114,20 @@ GroupQuery _$GroupQueryFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ListGroupResourcesInputToJson(
+    ListGroupResourcesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 ListGroupResourcesOutput _$ListGroupResourcesOutputFromJson(
     Map<String, dynamic> json) {
   return ListGroupResourcesOutput(
@@ -109,6 +142,19 @@ ListGroupResourcesOutput _$ListGroupResourcesOutputFromJson(
             : ResourceIdentifier.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListGroupsInputToJson(ListGroupsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 ListGroupsOutput _$ListGroupsOutputFromJson(Map<String, dynamic> json) {
@@ -222,6 +268,22 @@ const _$QueryTypeEnumMap = {
   QueryType.cloudformationStack_1_0: 'CLOUDFORMATION_STACK_1_0',
 };
 
+Map<String, dynamic> _$SearchResourcesInputToJson(
+    SearchResourcesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceQuery', instance.resourceQuery?.toJson());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 SearchResourcesOutput _$SearchResourcesOutputFromJson(
     Map<String, dynamic> json) {
   return SearchResourcesOutput(
@@ -238,6 +300,19 @@ SearchResourcesOutput _$SearchResourcesOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$TagInputToJson(TagInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Tags', instance.tags);
+  return val;
+}
+
 TagOutput _$TagOutputFromJson(Map<String, dynamic> json) {
   return TagOutput(
     arn: json['Arn'] as String,
@@ -247,11 +322,37 @@ TagOutput _$TagOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$UntagInputToJson(UntagInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Keys', instance.keys);
+  return val;
+}
+
 UntagOutput _$UntagOutputFromJson(Map<String, dynamic> json) {
   return UntagOutput(
     arn: json['Arn'] as String,
     keys: (json['Keys'] as List)?.map((e) => e as String)?.toList(),
   );
+}
+
+Map<String, dynamic> _$UpdateGroupInputToJson(UpdateGroupInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Description', instance.description);
+  return val;
 }
 
 UpdateGroupOutput _$UpdateGroupOutputFromJson(Map<String, dynamic> json) {
@@ -260,6 +361,20 @@ UpdateGroupOutput _$UpdateGroupOutputFromJson(Map<String, dynamic> json) {
         ? null
         : Group.fromJson(json['Group'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateGroupQueryInputToJson(
+    UpdateGroupQueryInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceQuery', instance.resourceQuery?.toJson());
+  return val;
 }
 
 UpdateGroupQueryOutput _$UpdateGroupQueryOutputFromJson(

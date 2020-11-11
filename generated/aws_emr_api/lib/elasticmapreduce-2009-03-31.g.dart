@@ -6,6 +6,21 @@ part of 'elasticmapreduce-2009-03-31.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$AddInstanceFleetInputToJson(
+    AddInstanceFleetInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClusterId', instance.clusterId);
+  writeNotNull('InstanceFleet', instance.instanceFleet?.toJson());
+  return val;
+}
+
 AddInstanceFleetOutput _$AddInstanceFleetOutputFromJson(
     Map<String, dynamic> json) {
   return AddInstanceFleetOutput(
@@ -13,6 +28,22 @@ AddInstanceFleetOutput _$AddInstanceFleetOutputFromJson(
     clusterId: json['ClusterId'] as String,
     instanceFleetId: json['InstanceFleetId'] as String,
   );
+}
+
+Map<String, dynamic> _$AddInstanceGroupsInputToJson(
+    AddInstanceGroupsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InstanceGroups',
+      instance.instanceGroups?.map((e) => e?.toJson())?.toList());
+  writeNotNull('JobFlowId', instance.jobFlowId);
+  return val;
 }
 
 AddInstanceGroupsOutput _$AddInstanceGroupsOutputFromJson(
@@ -25,11 +56,40 @@ AddInstanceGroupsOutput _$AddInstanceGroupsOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$AddJobFlowStepsInputToJson(
+    AddJobFlowStepsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobFlowId', instance.jobFlowId);
+  writeNotNull('Steps', instance.steps?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 AddJobFlowStepsOutput _$AddJobFlowStepsOutputFromJson(
     Map<String, dynamic> json) {
   return AddJobFlowStepsOutput(
     stepIds: (json['StepIds'] as List)?.map((e) => e as String)?.toList(),
   );
+}
+
+Map<String, dynamic> _$AddTagsInputToJson(AddTagsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceId', instance.resourceId);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 AddTagsOutput _$AddTagsOutputFromJson(Map<String, dynamic> json) {
@@ -254,6 +314,27 @@ CancelStepsInfo _$CancelStepsInfoFromJson(Map<String, dynamic> json) {
 const _$CancelStepsRequestStatusEnumMap = {
   CancelStepsRequestStatus.submitted: 'SUBMITTED',
   CancelStepsRequestStatus.failed: 'FAILED',
+};
+
+Map<String, dynamic> _$CancelStepsInputToJson(CancelStepsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClusterId', instance.clusterId);
+  writeNotNull('StepIds', instance.stepIds);
+  writeNotNull('StepCancellationOption',
+      _$StepCancellationOptionEnumMap[instance.stepCancellationOption]);
+  return val;
+}
+
+const _$StepCancellationOptionEnumMap = {
+  StepCancellationOption.sendInterrupt: 'SEND_INTERRUPT',
+  StepCancellationOption.terminateProcess: 'TERMINATE_PROCESS',
 };
 
 CancelStepsOutput _$CancelStepsOutputFromJson(Map<String, dynamic> json) {
@@ -525,6 +606,21 @@ Map<String, dynamic> _$ConfigurationToJson(Configuration instance) {
   return val;
 }
 
+Map<String, dynamic> _$CreateSecurityConfigurationInputToJson(
+    CreateSecurityConfigurationInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('SecurityConfiguration', instance.securityConfiguration);
+  return val;
+}
+
 CreateSecurityConfigurationOutput _$CreateSecurityConfigurationOutputFromJson(
     Map<String, dynamic> json) {
   return CreateSecurityConfigurationOutput(
@@ -533,9 +629,37 @@ CreateSecurityConfigurationOutput _$CreateSecurityConfigurationOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteSecurityConfigurationInputToJson(
+    DeleteSecurityConfigurationInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
 DeleteSecurityConfigurationOutput _$DeleteSecurityConfigurationOutputFromJson(
     Map<String, dynamic> json) {
   return DeleteSecurityConfigurationOutput();
+}
+
+Map<String, dynamic> _$DescribeClusterInputToJson(
+    DescribeClusterInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClusterId', instance.clusterId);
+  return val;
 }
 
 DescribeClusterOutput _$DescribeClusterOutputFromJson(
@@ -545,6 +669,23 @@ DescribeClusterOutput _$DescribeClusterOutputFromJson(
         ? null
         : Cluster.fromJson(json['Cluster'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeJobFlowsInputToJson(
+    DescribeJobFlowsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CreatedAfter', unixTimestampToJson(instance.createdAfter));
+  writeNotNull('CreatedBefore', unixTimestampToJson(instance.createdBefore));
+  writeNotNull('JobFlowIds', instance.jobFlowIds);
+  writeNotNull('JobFlowStates', instance.jobFlowStates);
+  return val;
 }
 
 DescribeJobFlowsOutput _$DescribeJobFlowsOutputFromJson(
@@ -558,6 +699,20 @@ DescribeJobFlowsOutput _$DescribeJobFlowsOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeSecurityConfigurationInputToJson(
+    DescribeSecurityConfigurationInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
 DescribeSecurityConfigurationOutput
     _$DescribeSecurityConfigurationOutputFromJson(Map<String, dynamic> json) {
   return DescribeSecurityConfigurationOutput(
@@ -565,6 +720,20 @@ DescribeSecurityConfigurationOutput
     name: json['Name'] as String,
     securityConfiguration: json['SecurityConfiguration'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeStepInputToJson(DescribeStepInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClusterId', instance.clusterId);
+  writeNotNull('StepId', instance.stepId);
+  return val;
 }
 
 DescribeStepOutput _$DescribeStepOutputFromJson(Map<String, dynamic> json) {
@@ -1343,6 +1512,21 @@ Map<String, dynamic> _$KeyValueToJson(KeyValue instance) {
   return val;
 }
 
+Map<String, dynamic> _$ListBootstrapActionsInputToJson(
+    ListBootstrapActionsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClusterId', instance.clusterId);
+  writeNotNull('Marker', instance.marker);
+  return val;
+}
+
 ListBootstrapActionsOutput _$ListBootstrapActionsOutputFromJson(
     Map<String, dynamic> json) {
   return ListBootstrapActionsOutput(
@@ -1354,6 +1538,22 @@ ListBootstrapActionsOutput _$ListBootstrapActionsOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$ListClustersInputToJson(ListClustersInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClusterStates', instance.clusterStates);
+  writeNotNull('CreatedAfter', unixTimestampToJson(instance.createdAfter));
+  writeNotNull('CreatedBefore', unixTimestampToJson(instance.createdBefore));
+  writeNotNull('Marker', instance.marker);
+  return val;
+}
+
 ListClustersOutput _$ListClustersOutputFromJson(Map<String, dynamic> json) {
   return ListClustersOutput(
     clusters: (json['Clusters'] as List)
@@ -1363,6 +1563,21 @@ ListClustersOutput _$ListClustersOutputFromJson(Map<String, dynamic> json) {
         ?.toList(),
     marker: json['Marker'] as String,
   );
+}
+
+Map<String, dynamic> _$ListInstanceFleetsInputToJson(
+    ListInstanceFleetsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClusterId', instance.clusterId);
+  writeNotNull('Marker', instance.marker);
+  return val;
 }
 
 ListInstanceFleetsOutput _$ListInstanceFleetsOutputFromJson(
@@ -1377,6 +1592,21 @@ ListInstanceFleetsOutput _$ListInstanceFleetsOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$ListInstanceGroupsInputToJson(
+    ListInstanceGroupsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClusterId', instance.clusterId);
+  writeNotNull('Marker', instance.marker);
+  return val;
+}
+
 ListInstanceGroupsOutput _$ListInstanceGroupsOutputFromJson(
     Map<String, dynamic> json) {
   return ListInstanceGroupsOutput(
@@ -1389,6 +1619,26 @@ ListInstanceGroupsOutput _$ListInstanceGroupsOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$ListInstancesInputToJson(ListInstancesInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClusterId', instance.clusterId);
+  writeNotNull('InstanceFleetId', instance.instanceFleetId);
+  writeNotNull('InstanceFleetType',
+      _$InstanceFleetTypeEnumMap[instance.instanceFleetType]);
+  writeNotNull('InstanceGroupId', instance.instanceGroupId);
+  writeNotNull('InstanceGroupTypes', instance.instanceGroupTypes);
+  writeNotNull('InstanceStates', instance.instanceStates);
+  writeNotNull('Marker', instance.marker);
+  return val;
+}
+
 ListInstancesOutput _$ListInstancesOutputFromJson(Map<String, dynamic> json) {
   return ListInstancesOutput(
     instances: (json['Instances'] as List)
@@ -1397,6 +1647,20 @@ ListInstancesOutput _$ListInstancesOutputFromJson(Map<String, dynamic> json) {
         ?.toList(),
     marker: json['Marker'] as String,
   );
+}
+
+Map<String, dynamic> _$ListSecurityConfigurationsInputToJson(
+    ListSecurityConfigurationsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Marker', instance.marker);
+  return val;
 }
 
 ListSecurityConfigurationsOutput _$ListSecurityConfigurationsOutputFromJson(
@@ -1409,6 +1673,22 @@ ListSecurityConfigurationsOutput _$ListSecurityConfigurationsOutputFromJson(
             : SecurityConfigurationSummary.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListStepsInputToJson(ListStepsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClusterId', instance.clusterId);
+  writeNotNull('Marker', instance.marker);
+  writeNotNull('StepIds', instance.stepIds);
+  writeNotNull('StepStates', instance.stepStates);
+  return val;
 }
 
 ListStepsOutput _$ListStepsOutputFromJson(Map<String, dynamic> json) {
@@ -1442,10 +1722,55 @@ Map<String, dynamic> _$MetricDimensionToJson(MetricDimension instance) {
   return val;
 }
 
+Map<String, dynamic> _$ModifyClusterInputToJson(ModifyClusterInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClusterId', instance.clusterId);
+  writeNotNull('StepConcurrencyLevel', instance.stepConcurrencyLevel);
+  return val;
+}
+
 ModifyClusterOutput _$ModifyClusterOutputFromJson(Map<String, dynamic> json) {
   return ModifyClusterOutput(
     stepConcurrencyLevel: json['StepConcurrencyLevel'] as int,
   );
+}
+
+Map<String, dynamic> _$ModifyInstanceFleetInputToJson(
+    ModifyInstanceFleetInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClusterId', instance.clusterId);
+  writeNotNull('InstanceFleet', instance.instanceFleet?.toJson());
+  return val;
+}
+
+Map<String, dynamic> _$ModifyInstanceGroupsInputToJson(
+    ModifyInstanceGroupsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClusterId', instance.clusterId);
+  writeNotNull('InstanceGroups',
+      instance.instanceGroups?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 PlacementType _$PlacementTypeFromJson(Map<String, dynamic> json) {
@@ -1491,6 +1816,22 @@ Map<String, dynamic> _$PortRangeToJson(PortRange instance) {
   return val;
 }
 
+Map<String, dynamic> _$PutAutoScalingPolicyInputToJson(
+    PutAutoScalingPolicyInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AutoScalingPolicy', instance.autoScalingPolicy?.toJson());
+  writeNotNull('ClusterId', instance.clusterId);
+  writeNotNull('InstanceGroupId', instance.instanceGroupId);
+  return val;
+}
+
 PutAutoScalingPolicyOutput _$PutAutoScalingPolicyOutputFromJson(
     Map<String, dynamic> json) {
   return PutAutoScalingPolicyOutput(
@@ -1504,10 +1845,40 @@ PutAutoScalingPolicyOutput _$PutAutoScalingPolicyOutputFromJson(
   );
 }
 
+Map<String, dynamic> _$PutBlockPublicAccessConfigurationInputToJson(
+    PutBlockPublicAccessConfigurationInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BlockPublicAccessConfiguration',
+      instance.blockPublicAccessConfiguration?.toJson());
+  return val;
+}
+
 PutBlockPublicAccessConfigurationOutput
     _$PutBlockPublicAccessConfigurationOutputFromJson(
         Map<String, dynamic> json) {
   return PutBlockPublicAccessConfigurationOutput();
+}
+
+Map<String, dynamic> _$RemoveAutoScalingPolicyInputToJson(
+    RemoveAutoScalingPolicyInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClusterId', instance.clusterId);
+  writeNotNull('InstanceGroupId', instance.instanceGroupId);
+  return val;
 }
 
 RemoveAutoScalingPolicyOutput _$RemoveAutoScalingPolicyOutputFromJson(
@@ -1515,8 +1886,64 @@ RemoveAutoScalingPolicyOutput _$RemoveAutoScalingPolicyOutputFromJson(
   return RemoveAutoScalingPolicyOutput();
 }
 
+Map<String, dynamic> _$RemoveTagsInputToJson(RemoveTagsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceId', instance.resourceId);
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
+}
+
 RemoveTagsOutput _$RemoveTagsOutputFromJson(Map<String, dynamic> json) {
   return RemoveTagsOutput();
+}
+
+Map<String, dynamic> _$RunJobFlowInputToJson(RunJobFlowInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Instances', instance.instances?.toJson());
+  writeNotNull('Name', instance.name);
+  writeNotNull('AdditionalInfo', instance.additionalInfo);
+  writeNotNull('AmiVersion', instance.amiVersion);
+  writeNotNull(
+      'Applications', instance.applications?.map((e) => e?.toJson())?.toList());
+  writeNotNull('AutoScalingRole', instance.autoScalingRole);
+  writeNotNull('BootstrapActions',
+      instance.bootstrapActions?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Configurations',
+      instance.configurations?.map((e) => e?.toJson())?.toList());
+  writeNotNull('CustomAmiId', instance.customAmiId);
+  writeNotNull('EbsRootVolumeSize', instance.ebsRootVolumeSize);
+  writeNotNull('JobFlowRole', instance.jobFlowRole);
+  writeNotNull('KerberosAttributes', instance.kerberosAttributes?.toJson());
+  writeNotNull('LogUri', instance.logUri);
+  writeNotNull('NewSupportedProducts',
+      instance.newSupportedProducts?.map((e) => e?.toJson())?.toList());
+  writeNotNull('ReleaseLabel', instance.releaseLabel);
+  writeNotNull('RepoUpgradeOnBoot',
+      _$RepoUpgradeOnBootEnumMap[instance.repoUpgradeOnBoot]);
+  writeNotNull('ScaleDownBehavior',
+      _$ScaleDownBehaviorEnumMap[instance.scaleDownBehavior]);
+  writeNotNull('SecurityConfiguration', instance.securityConfiguration);
+  writeNotNull('ServiceRole', instance.serviceRole);
+  writeNotNull('StepConcurrencyLevel', instance.stepConcurrencyLevel);
+  writeNotNull('Steps', instance.steps?.map((e) => e?.toJson())?.toList());
+  writeNotNull('SupportedProducts', instance.supportedProducts);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('VisibleToAllUsers', instance.visibleToAllUsers);
+  return val;
 }
 
 RunJobFlowOutput _$RunJobFlowOutputFromJson(Map<String, dynamic> json) {
@@ -1655,6 +2082,36 @@ SecurityConfigurationSummary _$SecurityConfigurationSummaryFromJson(
     creationDateTime: unixTimestampFromJson(json['CreationDateTime']),
     name: json['Name'] as String,
   );
+}
+
+Map<String, dynamic> _$SetTerminationProtectionInputToJson(
+    SetTerminationProtectionInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobFlowIds', instance.jobFlowIds);
+  writeNotNull('TerminationProtected', instance.terminationProtected);
+  return val;
+}
+
+Map<String, dynamic> _$SetVisibleToAllUsersInputToJson(
+    SetVisibleToAllUsersInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobFlowIds', instance.jobFlowIds);
+  writeNotNull('VisibleToAllUsers', instance.visibleToAllUsers);
+  return val;
 }
 
 ShrinkPolicy _$ShrinkPolicyFromJson(Map<String, dynamic> json) {
@@ -1925,6 +2382,20 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
 
   writeNotNull('Key', instance.key);
   writeNotNull('Value', instance.value);
+  return val;
+}
+
+Map<String, dynamic> _$TerminateJobFlowsInputToJson(
+    TerminateJobFlowsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobFlowIds', instance.jobFlowIds);
   return val;
 }
 

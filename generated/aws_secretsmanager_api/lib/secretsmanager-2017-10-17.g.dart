@@ -6,6 +6,20 @@ part of 'secretsmanager-2017-10-17.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$CancelRotateSecretRequestToJson(
+    CancelRotateSecretRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SecretId', instance.secretId);
+  return val;
+}
+
 CancelRotateSecretResponse _$CancelRotateSecretResponseFromJson(
     Map<String, dynamic> json) {
   return CancelRotateSecretResponse(
@@ -13,6 +27,26 @@ CancelRotateSecretResponse _$CancelRotateSecretResponseFromJson(
     name: json['Name'] as String,
     versionId: json['VersionId'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateSecretRequestToJson(CreateSecretRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('Description', instance.description);
+  writeNotNull('KmsKeyId', instance.kmsKeyId);
+  writeNotNull(
+      'SecretBinary', const Uint8ListConverter().toJson(instance.secretBinary));
+  writeNotNull('SecretString', instance.secretString);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateSecretResponse _$CreateSecretResponseFromJson(Map<String, dynamic> json) {
@@ -23,6 +57,20 @@ CreateSecretResponse _$CreateSecretResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DeleteResourcePolicyRequestToJson(
+    DeleteResourcePolicyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SecretId', instance.secretId);
+  return val;
+}
+
 DeleteResourcePolicyResponse _$DeleteResourcePolicyResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteResourcePolicyResponse(
@@ -31,12 +79,42 @@ DeleteResourcePolicyResponse _$DeleteResourcePolicyResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteSecretRequestToJson(DeleteSecretRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SecretId', instance.secretId);
+  writeNotNull(
+      'ForceDeleteWithoutRecovery', instance.forceDeleteWithoutRecovery);
+  writeNotNull('RecoveryWindowInDays', instance.recoveryWindowInDays);
+  return val;
+}
+
 DeleteSecretResponse _$DeleteSecretResponseFromJson(Map<String, dynamic> json) {
   return DeleteSecretResponse(
     arn: json['ARN'] as String,
     deletionDate: unixTimestampFromJson(json['DeletionDate']),
     name: json['Name'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeSecretRequestToJson(
+    DescribeSecretRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SecretId', instance.secretId);
+  return val;
 }
 
 DescribeSecretResponse _$DescribeSecretResponseFromJson(
@@ -67,11 +145,46 @@ DescribeSecretResponse _$DescribeSecretResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$GetRandomPasswordRequestToJson(
+    GetRandomPasswordRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ExcludeCharacters', instance.excludeCharacters);
+  writeNotNull('ExcludeLowercase', instance.excludeLowercase);
+  writeNotNull('ExcludeNumbers', instance.excludeNumbers);
+  writeNotNull('ExcludePunctuation', instance.excludePunctuation);
+  writeNotNull('ExcludeUppercase', instance.excludeUppercase);
+  writeNotNull('IncludeSpace', instance.includeSpace);
+  writeNotNull('PasswordLength', instance.passwordLength);
+  writeNotNull('RequireEachIncludedType', instance.requireEachIncludedType);
+  return val;
+}
+
 GetRandomPasswordResponse _$GetRandomPasswordResponseFromJson(
     Map<String, dynamic> json) {
   return GetRandomPasswordResponse(
     randomPassword: json['RandomPassword'] as String,
   );
+}
+
+Map<String, dynamic> _$GetResourcePolicyRequestToJson(
+    GetResourcePolicyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SecretId', instance.secretId);
+  return val;
 }
 
 GetResourcePolicyResponse _$GetResourcePolicyResponseFromJson(
@@ -81,6 +194,22 @@ GetResourcePolicyResponse _$GetResourcePolicyResponseFromJson(
     name: json['Name'] as String,
     resourcePolicy: json['ResourcePolicy'] as String,
   );
+}
+
+Map<String, dynamic> _$GetSecretValueRequestToJson(
+    GetSecretValueRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SecretId', instance.secretId);
+  writeNotNull('VersionId', instance.versionId);
+  writeNotNull('VersionStage', instance.versionStage);
+  return val;
 }
 
 GetSecretValueResponse _$GetSecretValueResponseFromJson(
@@ -98,6 +227,23 @@ GetSecretValueResponse _$GetSecretValueResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListSecretVersionIdsRequestToJson(
+    ListSecretVersionIdsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SecretId', instance.secretId);
+  writeNotNull('IncludeDeprecated', instance.includeDeprecated);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListSecretVersionIdsResponse _$ListSecretVersionIdsResponseFromJson(
     Map<String, dynamic> json) {
   return ListSecretVersionIdsResponse(
@@ -112,6 +258,20 @@ ListSecretVersionIdsResponse _$ListSecretVersionIdsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListSecretsRequestToJson(ListSecretsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListSecretsResponse _$ListSecretsResponseFromJson(Map<String, dynamic> json) {
   return ListSecretsResponse(
     nextToken: json['NextToken'] as String,
@@ -123,12 +283,46 @@ ListSecretsResponse _$ListSecretsResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$PutResourcePolicyRequestToJson(
+    PutResourcePolicyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourcePolicy', instance.resourcePolicy);
+  writeNotNull('SecretId', instance.secretId);
+  return val;
+}
+
 PutResourcePolicyResponse _$PutResourcePolicyResponseFromJson(
     Map<String, dynamic> json) {
   return PutResourcePolicyResponse(
     arn: json['ARN'] as String,
     name: json['Name'] as String,
   );
+}
+
+Map<String, dynamic> _$PutSecretValueRequestToJson(
+    PutSecretValueRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SecretId', instance.secretId);
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull(
+      'SecretBinary', const Uint8ListConverter().toJson(instance.secretBinary));
+  writeNotNull('SecretString', instance.secretString);
+  writeNotNull('VersionStages', instance.versionStages);
+  return val;
 }
 
 PutSecretValueResponse _$PutSecretValueResponseFromJson(
@@ -142,12 +336,42 @@ PutSecretValueResponse _$PutSecretValueResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$RestoreSecretRequestToJson(
+    RestoreSecretRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SecretId', instance.secretId);
+  return val;
+}
+
 RestoreSecretResponse _$RestoreSecretResponseFromJson(
     Map<String, dynamic> json) {
   return RestoreSecretResponse(
     arn: json['ARN'] as String,
     name: json['Name'] as String,
   );
+}
+
+Map<String, dynamic> _$RotateSecretRequestToJson(RotateSecretRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SecretId', instance.secretId);
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('RotationLambdaARN', instance.rotationLambdaARN);
+  writeNotNull('RotationRules', instance.rotationRules?.toJson());
+  return val;
 }
 
 RotateSecretResponse _$RotateSecretResponseFromJson(Map<String, dynamic> json) {
@@ -236,12 +460,77 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
   return val;
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SecretId', instance.secretId);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+Map<String, dynamic> _$UntagResourceRequestToJson(
+    UntagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SecretId', instance.secretId);
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
+}
+
+Map<String, dynamic> _$UpdateSecretRequestToJson(UpdateSecretRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SecretId', instance.secretId);
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('Description', instance.description);
+  writeNotNull('KmsKeyId', instance.kmsKeyId);
+  writeNotNull(
+      'SecretBinary', const Uint8ListConverter().toJson(instance.secretBinary));
+  writeNotNull('SecretString', instance.secretString);
+  return val;
+}
+
 UpdateSecretResponse _$UpdateSecretResponseFromJson(Map<String, dynamic> json) {
   return UpdateSecretResponse(
     arn: json['ARN'] as String,
     name: json['Name'] as String,
     versionId: json['VersionId'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateSecretVersionStageRequestToJson(
+    UpdateSecretVersionStageRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SecretId', instance.secretId);
+  writeNotNull('VersionStage', instance.versionStage);
+  writeNotNull('MoveToVersionId', instance.moveToVersionId);
+  writeNotNull('RemoveFromVersionId', instance.removeFromVersionId);
+  return val;
 }
 
 UpdateSecretVersionStageResponse _$UpdateSecretVersionStageResponseFromJson(

@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -117,11 +116,11 @@ class Health {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'eventArn': eventArn,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: DescribeAffectedAccountsForOrganizationRequest(
+        eventArn: eventArn,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeAffectedAccountsForOrganizationResponse.fromJson(
@@ -203,12 +202,12 @@ class Health {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'filter': filter,
-        if (locale != null) 'locale': locale,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: DescribeAffectedEntitiesRequest(
+        filter: filter,
+        locale: locale,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeAffectedEntitiesResponse.fromJson(jsonResponse.body);
@@ -298,12 +297,12 @@ class Health {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'organizationEntityFilters': organizationEntityFilters,
-        if (locale != null) 'locale': locale,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: DescribeAffectedEntitiesForOrganizationRequest(
+        organizationEntityFilters: organizationEntityFilters,
+        locale: locale,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeAffectedEntitiesForOrganizationResponse.fromJson(
@@ -331,9 +330,9 @@ class Health {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (eventArns != null) 'eventArns': eventArns,
-      },
+      payload: DescribeEntityAggregatesRequest(
+        eventArns: eventArns,
+      ),
     );
 
     return DescribeEntityAggregatesResponse.fromJson(jsonResponse.body);
@@ -395,12 +394,12 @@ class Health {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'aggregateField': aggregateField?.toValue(),
-        if (filter != null) 'filter': filter,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: DescribeEventAggregatesRequest(
+        aggregateField: aggregateField,
+        filter: filter,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeEventAggregatesResponse.fromJson(jsonResponse.body);
@@ -452,10 +451,10 @@ class Health {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'eventArns': eventArns,
-        if (locale != null) 'locale': locale,
-      },
+      payload: DescribeEventDetailsRequest(
+        eventArns: eventArns,
+        locale: locale,
+      ),
     );
 
     return DescribeEventDetailsResponse.fromJson(jsonResponse.body);
@@ -511,10 +510,10 @@ class Health {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'organizationEventDetailFilters': organizationEventDetailFilters,
-        if (locale != null) 'locale': locale,
-      },
+      payload: DescribeEventDetailsForOrganizationRequest(
+        organizationEventDetailFilters: organizationEventDetailFilters,
+        locale: locale,
+      ),
     );
 
     return DescribeEventDetailsForOrganizationResponse.fromJson(
@@ -589,12 +588,12 @@ class Health {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filter != null) 'filter': filter,
-        if (locale != null) 'locale': locale,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: DescribeEventTypesRequest(
+        filter: filter,
+        locale: locale,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeEventTypesResponse.fromJson(jsonResponse.body);
@@ -674,12 +673,12 @@ class Health {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filter != null) 'filter': filter,
-        if (locale != null) 'locale': locale,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: DescribeEventsRequest(
+        filter: filter,
+        locale: locale,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeEventsResponse.fromJson(jsonResponse.body);
@@ -767,12 +766,12 @@ class Health {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filter != null) 'filter': filter,
-        if (locale != null) 'locale': locale,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: DescribeEventsForOrganizationRequest(
+        filter: filter,
+        locale: locale,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeEventsForOrganizationResponse.fromJson(jsonResponse.body);
@@ -949,6 +948,41 @@ class DateTimeRange {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeAffectedAccountsForOrganizationRequest {
+  /// The unique identifier for the event. Format:
+  /// <code>arn:aws:health:<i>event-region</i>::event/<i>SERVICE</i>/<i>EVENT_TYPE_CODE</i>/<i>EVENT_TYPE_PLUS_ID</i>
+  /// </code>. Example: <code>Example:
+  /// arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456</code>
+  @_s.JsonKey(name: 'eventArn')
+  final String eventArn;
+
+  /// The maximum number of items to return in one batch, between 10 and 100,
+  /// inclusive.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// If the results of a search are large, only a portion of the results are
+  /// returned, and a <code>nextToken</code> pagination token is returned in the
+  /// response. To retrieve the next batch of results, reissue the search request
+  /// and include the returned token. When all results have been returned, the
+  /// response does not contain a pagination token value.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  DescribeAffectedAccountsForOrganizationRequest({
+    @_s.required this.eventArn,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeAffectedAccountsForOrganizationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeAffectedAccountsForOrganizationResponse {
@@ -971,6 +1005,45 @@ class DescribeAffectedAccountsForOrganizationResponse {
   factory DescribeAffectedAccountsForOrganizationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeAffectedAccountsForOrganizationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeAffectedEntitiesForOrganizationRequest {
+  /// A JSON set of elements including the <code>awsAccountId</code> and the
+  /// <code>eventArn</code>.
+  @_s.JsonKey(name: 'organizationEntityFilters')
+  final List<EventAccountFilter> organizationEntityFilters;
+
+  /// The locale (language) to return information in. English (en) is the default
+  /// and the only supported value at this time.
+  @_s.JsonKey(name: 'locale')
+  final String locale;
+
+  /// The maximum number of items to return in one batch, between 10 and 100,
+  /// inclusive.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// If the results of a search are large, only a portion of the results are
+  /// returned, and a <code>nextToken</code> pagination token is returned in the
+  /// response. To retrieve the next batch of results, reissue the search request
+  /// and include the returned token. When all results have been returned, the
+  /// response does not contain a pagination token value.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  DescribeAffectedEntitiesForOrganizationRequest({
+    @_s.required this.organizationEntityFilters,
+    this.locale,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeAffectedEntitiesForOrganizationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1013,6 +1086,44 @@ class DescribeAffectedEntitiesForOrganizationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeAffectedEntitiesRequest {
+  /// Values to narrow the results returned. At least one event ARN is required.
+  @_s.JsonKey(name: 'filter')
+  final EntityFilter filter;
+
+  /// The locale (language) to return information in. English (en) is the default
+  /// and the only supported value at this time.
+  @_s.JsonKey(name: 'locale')
+  final String locale;
+
+  /// The maximum number of items to return in one batch, between 10 and 100,
+  /// inclusive.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// If the results of a search are large, only a portion of the results are
+  /// returned, and a <code>nextToken</code> pagination token is returned in the
+  /// response. To retrieve the next batch of results, reissue the search request
+  /// and include the returned token. When all results have been returned, the
+  /// response does not contain a pagination token value.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  DescribeAffectedEntitiesRequest({
+    @_s.required this.filter,
+    this.locale,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeAffectedEntitiesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeAffectedEntitiesResponse {
@@ -1040,6 +1151,25 @@ class DescribeAffectedEntitiesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeEntityAggregatesRequest {
+  /// A list of event ARNs (unique identifiers). For example:
+  /// <code>"arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456",
+  /// "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101"</code>
+  @_s.JsonKey(name: 'eventArns')
+  final List<String> eventArns;
+
+  DescribeEntityAggregatesRequest({
+    this.eventArns,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeEntityAggregatesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeEntityAggregatesResponse {
@@ -1053,6 +1183,42 @@ class DescribeEntityAggregatesResponse {
   factory DescribeEntityAggregatesResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeEntityAggregatesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeEventAggregatesRequest {
+  /// The only currently supported value is <code>eventTypeCategory</code>.
+  @_s.JsonKey(name: 'aggregateField')
+  final EventAggregateField aggregateField;
+
+  /// Values to narrow the results returned.
+  @_s.JsonKey(name: 'filter')
+  final EventFilter filter;
+
+  /// The maximum number of items to return in one batch, between 10 and 100,
+  /// inclusive.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// If the results of a search are large, only a portion of the results are
+  /// returned, and a <code>nextToken</code> pagination token is returned in the
+  /// response. To retrieve the next batch of results, reissue the search request
+  /// and include the returned token. When all results have been returned, the
+  /// response does not contain a pagination token value.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  DescribeEventAggregatesRequest({
+    @_s.required this.aggregateField,
+    this.filter,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeEventAggregatesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1085,6 +1251,30 @@ class DescribeEventAggregatesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeEventDetailsForOrganizationRequest {
+  /// A set of JSON elements that includes the <code>awsAccountId</code> and the
+  /// <code>eventArn</code>.
+  @_s.JsonKey(name: 'organizationEventDetailFilters')
+  final List<EventAccountFilter> organizationEventDetailFilters;
+
+  /// The locale (language) to return information in. English (en) is the default
+  /// and the only supported value at this time.
+  @_s.JsonKey(name: 'locale')
+  final String locale;
+
+  DescribeEventDetailsForOrganizationRequest({
+    @_s.required this.organizationEventDetailFilters,
+    this.locale,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeEventDetailsForOrganizationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeEventDetailsForOrganizationResponse {
@@ -1108,6 +1298,30 @@ class DescribeEventDetailsForOrganizationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeEventDetailsRequest {
+  /// A list of event ARNs (unique identifiers). For example:
+  /// <code>"arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456",
+  /// "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101"</code>
+  @_s.JsonKey(name: 'eventArns')
+  final List<String> eventArns;
+
+  /// The locale (language) to return information in. English (en) is the default
+  /// and the only supported value at this time.
+  @_s.JsonKey(name: 'locale')
+  final String locale;
+
+  DescribeEventDetailsRequest({
+    @_s.required this.eventArns,
+    this.locale,
+  });
+  Map<String, dynamic> toJson() => _$DescribeEventDetailsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeEventDetailsResponse {
@@ -1125,6 +1339,43 @@ class DescribeEventDetailsResponse {
   });
   factory DescribeEventDetailsResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeEventDetailsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeEventTypesRequest {
+  /// Values to narrow the results returned.
+  @_s.JsonKey(name: 'filter')
+  final EventTypeFilter filter;
+
+  /// The locale (language) to return information in. English (en) is the default
+  /// and the only supported value at this time.
+  @_s.JsonKey(name: 'locale')
+  final String locale;
+
+  /// The maximum number of items to return in one batch, between 10 and 100,
+  /// inclusive.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// If the results of a search are large, only a portion of the results are
+  /// returned, and a <code>nextToken</code> pagination token is returned in the
+  /// response. To retrieve the next batch of results, reissue the search request
+  /// and include the returned token. When all results have been returned, the
+  /// response does not contain a pagination token value.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  DescribeEventTypesRequest({
+    this.filter,
+    this.locale,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeEventTypesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1161,6 +1412,44 @@ class DescribeEventTypesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeEventsForOrganizationRequest {
+  /// Values to narrow the results returned.
+  @_s.JsonKey(name: 'filter')
+  final OrganizationEventFilter filter;
+
+  /// The locale (language) to return information in. English (en) is the default
+  /// and the only supported value at this time.
+  @_s.JsonKey(name: 'locale')
+  final String locale;
+
+  /// The maximum number of items to return in one batch, between 10 and 100,
+  /// inclusive.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// If the results of a search are large, only a portion of the results are
+  /// returned, and a <code>nextToken</code> pagination token is returned in the
+  /// response. To retrieve the next batch of results, reissue the search request
+  /// and include the returned token. When all results have been returned, the
+  /// response does not contain a pagination token value.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  DescribeEventsForOrganizationRequest({
+    this.filter,
+    this.locale,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeEventsForOrganizationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeEventsForOrganizationResponse {
@@ -1183,6 +1472,43 @@ class DescribeEventsForOrganizationResponse {
   factory DescribeEventsForOrganizationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeEventsForOrganizationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeEventsRequest {
+  /// Values to narrow the results returned.
+  @_s.JsonKey(name: 'filter')
+  final EventFilter filter;
+
+  /// The locale (language) to return information in. English (en) is the default
+  /// and the only supported value at this time.
+  @_s.JsonKey(name: 'locale')
+  final String locale;
+
+  /// The maximum number of items to return in one batch, between 10 and 100,
+  /// inclusive.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// If the results of a search are large, only a portion of the results are
+  /// returned, and a <code>nextToken</code> pagination token is returned in the
+  /// response. To retrieve the next batch of results, reissue the search request
+  /// and include the returned token. When all results have been returned, the
+  /// response does not contain a pagination token value.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  DescribeEventsRequest({
+    this.filter,
+    this.locale,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeEventsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1927,16 +2253,6 @@ enum EntityStatusCode {
 enum EventAggregateField {
   @_s.JsonValue('eventTypeCategory')
   eventTypeCategory,
-}
-
-extension on EventAggregateField {
-  String toValue() {
-    switch (this) {
-      case EventAggregateField.eventTypeCategory:
-        return 'eventTypeCategory';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 enum EventStatusCode {

@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -104,13 +103,13 @@ class EFS {
       isRequired: true,
     );
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
-    final $payload = <String, dynamic>{
-      'ClientToken': clientToken,
-      'FileSystemId': fileSystemId,
-      if (posixUser != null) 'PosixUser': posixUser,
-      if (rootDirectory != null) 'RootDirectory': rootDirectory,
-      if (tags != null) 'Tags': tags,
-    };
+    final $payload = CreateAccessPointRequest(
+      clientToken: clientToken,
+      fileSystemId: fileSystemId,
+      posixUser: posixUser,
+      rootDirectory: rootDirectory,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -291,17 +290,15 @@ class EFS {
       1,
       1152921504606846976,
     );
-    final $payload = <String, dynamic>{
-      'CreationToken': creationToken,
-      if (encrypted != null) 'Encrypted': encrypted,
-      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
-      if (performanceMode != null)
-        'PerformanceMode': performanceMode?.toValue(),
-      if (provisionedThroughputInMibps != null)
-        'ProvisionedThroughputInMibps': provisionedThroughputInMibps,
-      if (tags != null) 'Tags': tags,
-      if (throughputMode != null) 'ThroughputMode': throughputMode?.toValue(),
-    };
+    final $payload = CreateFileSystemRequest(
+      creationToken: creationToken,
+      encrypted: encrypted,
+      kmsKeyId: kmsKeyId,
+      performanceMode: performanceMode,
+      provisionedThroughputInMibps: provisionedThroughputInMibps,
+      tags: tags,
+      throughputMode: throughputMode,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -482,12 +479,12 @@ class EFS {
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
     ArgumentError.checkNotNull(subnetId, 'subnetId');
-    final $payload = <String, dynamic>{
-      'FileSystemId': fileSystemId,
-      'SubnetId': subnetId,
-      if (ipAddress != null) 'IpAddress': ipAddress,
-      if (securityGroups != null) 'SecurityGroups': securityGroups,
-    };
+    final $payload = CreateMountTargetRequest(
+      fileSystemId: fileSystemId,
+      subnetId: subnetId,
+      ipAddress: ipAddress,
+      securityGroups: securityGroups,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -525,9 +522,10 @@ class EFS {
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'Tags': tags,
-    };
+    final $payload = CreateTagsRequest(
+      fileSystemId: fileSystemId,
+      tags: tags,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -555,7 +553,9 @@ class EFS {
     @_s.required String accessPointId,
   }) async {
     ArgumentError.checkNotNull(accessPointId, 'accessPointId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteAccessPointRequest(
+      accessPointId: accessPointId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -594,7 +594,9 @@ class EFS {
     @_s.required String fileSystemId,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteFileSystemRequest(
+      fileSystemId: fileSystemId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -625,7 +627,9 @@ class EFS {
     @_s.required String fileSystemId,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteFileSystemPolicyRequest(
+      fileSystemId: fileSystemId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -680,7 +684,9 @@ class EFS {
     @_s.required String mountTargetId,
   }) async {
     ArgumentError.checkNotNull(mountTargetId, 'mountTargetId');
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteMountTargetRequest(
+      mountTargetId: mountTargetId,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -716,9 +722,10 @@ class EFS {
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    final $payload = <String, dynamic>{
-      'TagKeys': tagKeys,
-    };
+    final $payload = DeleteTagsRequest(
+      fileSystemId: fileSystemId,
+      tagKeys: tagKeys,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1192,9 +1199,10 @@ class EFS {
     List<String> securityGroups,
   }) async {
     ArgumentError.checkNotNull(mountTargetId, 'mountTargetId');
-    final $payload = <String, dynamic>{
-      if (securityGroups != null) 'SecurityGroups': securityGroups,
-    };
+    final $payload = ModifyMountTargetSecurityGroupsRequest(
+      mountTargetId: mountTargetId,
+      securityGroups: securityGroups,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1250,11 +1258,11 @@ class EFS {
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
     ArgumentError.checkNotNull(policy, 'policy');
-    final $payload = <String, dynamic>{
-      'Policy': policy,
-      if (bypassPolicyLockoutSafetyCheck != null)
-        'BypassPolicyLockoutSafetyCheck': bypassPolicyLockoutSafetyCheck,
-    };
+    final $payload = PutFileSystemPolicyRequest(
+      fileSystemId: fileSystemId,
+      policy: policy,
+      bypassPolicyLockoutSafetyCheck: bypassPolicyLockoutSafetyCheck,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1323,9 +1331,10 @@ class EFS {
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
     ArgumentError.checkNotNull(lifecyclePolicies, 'lifecyclePolicies');
-    final $payload = <String, dynamic>{
-      'LifecyclePolicies': lifecyclePolicies,
-    };
+    final $payload = PutLifecycleConfigurationRequest(
+      fileSystemId: fileSystemId,
+      lifecyclePolicies: lifecyclePolicies,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1358,9 +1367,10 @@ class EFS {
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     ArgumentError.checkNotNull(tags, 'tags');
-    final $payload = <String, dynamic>{
-      'Tags': tags,
-    };
+    final $payload = TagResourceRequest(
+      resourceId: resourceId,
+      tags: tags,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -1392,9 +1402,10 @@ class EFS {
     List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    final $payload = <String, dynamic>{
-      if (tagKeys != null) 'TagKeys': tagKeys,
-    };
+    final $payload = UntagResourceRequest(
+      resourceId: resourceId,
+      tagKeys: tagKeys,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -1443,11 +1454,11 @@ class EFS {
       1,
       1152921504606846976,
     );
-    final $payload = <String, dynamic>{
-      if (provisionedThroughputInMibps != null)
-        'ProvisionedThroughputInMibps': provisionedThroughputInMibps,
-      if (throughputMode != null) 'ThroughputMode': throughputMode?.toValue(),
-    };
+    final $payload = UpdateFileSystemRequest(
+      fileSystemId: fileSystemId,
+      provisionedThroughputInMibps: provisionedThroughputInMibps,
+      throughputMode: throughputMode,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1527,6 +1538,211 @@ class AccessPointDescription {
       _$AccessPointDescriptionFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateAccessPointRequest {
+  /// A string of up to 64 ASCII characters that Amazon EFS uses to ensure
+  /// idempotent creation.
+  @_s.JsonKey(name: 'ClientToken')
+  final String clientToken;
+
+  /// The ID of the EFS file system that the access point provides access to.
+  @_s.JsonKey(name: 'FileSystemId')
+  final String fileSystemId;
+
+  /// The operating system user and group applied to all file system requests made
+  /// using the access point.
+  @_s.JsonKey(name: 'PosixUser')
+  final PosixUser posixUser;
+
+  /// Specifies the directory on the Amazon EFS file system that the access point
+  /// exposes as the root directory of your file system to NFS clients using the
+  /// access point. The clients using the access point can only access the root
+  /// directory and below. If the <code>RootDirectory</code> &gt;
+  /// <code>Path</code> specified does not exist, EFS creates it and applies the
+  /// <code>CreationInfo</code> settings when a client connects to an access
+  /// point. When specifying a <code>RootDirectory</code>, you need to provide the
+  /// <code>Path</code>, and the <code>CreationInfo</code> is optional.
+  @_s.JsonKey(name: 'RootDirectory')
+  final RootDirectory rootDirectory;
+
+  /// Creates tags associated with the access point. Each tag is a key-value pair.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateAccessPointRequest({
+    @_s.required this.clientToken,
+    @_s.required this.fileSystemId,
+    this.posixUser,
+    this.rootDirectory,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateAccessPointRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateFileSystemRequest {
+  /// A string of up to 64 ASCII characters. Amazon EFS uses this to ensure
+  /// idempotent creation.
+  @_s.JsonKey(name: 'CreationToken')
+  final String creationToken;
+
+  /// A Boolean value that, if true, creates an encrypted file system. When
+  /// creating an encrypted file system, you have the option of specifying
+  /// <a>CreateFileSystemRequest$KmsKeyId</a> for an existing AWS Key Management
+  /// Service (AWS KMS) customer master key (CMK). If you don't specify a CMK,
+  /// then the default CMK for Amazon EFS, <code>/aws/elasticfilesystem</code>, is
+  /// used to protect the encrypted file system.
+  @_s.JsonKey(name: 'Encrypted')
+  final bool encrypted;
+
+  /// The ID of the AWS KMS CMK to be used to protect the encrypted file system.
+  /// This parameter is only required if you want to use a nondefault CMK. If this
+  /// parameter is not specified, the default CMK for Amazon EFS is used. This ID
+  /// can be in one of the following formats:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID - A unique identifier of the key, for example
+  /// <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>.
+  /// </li>
+  /// <li>
+  /// ARN - An Amazon Resource Name (ARN) for the key, for example
+  /// <code>arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>.
+  /// </li>
+  /// <li>
+  /// Key alias - A previously created display name for a key, for example
+  /// <code>alias/projectKey1</code>.
+  /// </li>
+  /// <li>
+  /// Key alias ARN - An ARN for a key alias, for example
+  /// <code>arn:aws:kms:us-west-2:444455556666:alias/projectKey1</code>.
+  /// </li>
+  /// </ul>
+  /// If <code>KmsKeyId</code> is specified, the
+  /// <a>CreateFileSystemRequest$Encrypted</a> parameter must be set to true.
+  /// <important>
+  /// EFS accepts only symmetric CMKs. You cannot use asymmetric CMKs with EFS
+  /// file systems.
+  /// </important>
+  @_s.JsonKey(name: 'KmsKeyId')
+  final String kmsKeyId;
+
+  /// The performance mode of the file system. We recommend
+  /// <code>generalPurpose</code> performance mode for most file systems. File
+  /// systems using the <code>maxIO</code> performance mode can scale to higher
+  /// levels of aggregate throughput and operations per second with a tradeoff of
+  /// slightly higher latencies for most file operations. The performance mode
+  /// can't be changed after the file system has been created.
+  @_s.JsonKey(name: 'PerformanceMode')
+  final PerformanceMode performanceMode;
+
+  /// The throughput, measured in MiB/s, that you want to provision for a file
+  /// system that you're creating. Valid values are 1-1024. Required if
+  /// <code>ThroughputMode</code> is set to <code>provisioned</code>. The upper
+  /// limit for throughput is 1024 MiB/s. You can get this limit increased by
+  /// contacting AWS Support. For more information, see <a
+  /// href="https://docs.aws.amazon.com/efs/latest/ug/limits.html#soft-limits">Amazon
+  /// EFS Limits That You Can Increase</a> in the <i>Amazon EFS User Guide.</i>
+  @_s.JsonKey(name: 'ProvisionedThroughputInMibps')
+  final double provisionedThroughputInMibps;
+
+  /// A value that specifies to create one or more tags associated with the file
+  /// system. Each tag is a user-defined key-value pair. Name your file system on
+  /// creation by including a <code>"Key":"Name","Value":"{value}"</code>
+  /// key-value pair.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  /// The throughput mode for the file system to be created. There are two
+  /// throughput modes to choose from for your file system: <code>bursting</code>
+  /// and <code>provisioned</code>. If you set <code>ThroughputMode</code> to
+  /// <code>provisioned</code>, you must also set a value for
+  /// <code>ProvisionedThroughPutInMibps</code>. You can decrease your file
+  /// system's throughput in Provisioned Throughput mode or change between the
+  /// throughput modes as long as it’s been more than 24 hours since the last
+  /// decrease or throughput mode change. For more, see <a
+  /// href="https://docs.aws.amazon.com/efs/latest/ug/performance.html#provisioned-throughput">Specifying
+  /// Throughput with Provisioned Mode</a> in the <i>Amazon EFS User Guide.</i>
+  @_s.JsonKey(name: 'ThroughputMode')
+  final ThroughputMode throughputMode;
+
+  CreateFileSystemRequest({
+    @_s.required this.creationToken,
+    this.encrypted,
+    this.kmsKeyId,
+    this.performanceMode,
+    this.provisionedThroughputInMibps,
+    this.tags,
+    this.throughputMode,
+  });
+  Map<String, dynamic> toJson() => _$CreateFileSystemRequestToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateMountTargetRequest {
+  /// The ID of the file system for which to create the mount target.
+  @_s.JsonKey(name: 'FileSystemId')
+  final String fileSystemId;
+
+  /// The ID of the subnet to add the mount target in.
+  @_s.JsonKey(name: 'SubnetId')
+  final String subnetId;
+
+  /// Valid IPv4 address within the address range of the specified subnet.
+  @_s.JsonKey(name: 'IpAddress')
+  final String ipAddress;
+
+  /// Up to five VPC security group IDs, of the form <code>sg-xxxxxxxx</code>.
+  /// These must be for the same VPC as subnet specified.
+  @_s.JsonKey(name: 'SecurityGroups')
+  final List<String> securityGroups;
+
+  CreateMountTargetRequest({
+    @_s.required this.fileSystemId,
+    @_s.required this.subnetId,
+    this.ipAddress,
+    this.securityGroups,
+  });
+  Map<String, dynamic> toJson() => _$CreateMountTargetRequestToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateTagsRequest {
+  /// The ID of the file system whose tags you want to modify (String). This
+  /// operation modifies the tags only, not the file system.
+  @_s.JsonKey(name: 'FileSystemId', ignore: true)
+  final String fileSystemId;
+
+  /// An array of <code>Tag</code> objects to add. Each <code>Tag</code> object is
+  /// a key-value pair.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateTagsRequest({
+    @_s.required this.fileSystemId,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateTagsRequestToJson(this);
+}
+
 /// Required if the <code>RootDirectory</code> &gt; <code>Path</code> specified
 /// does not exist. Specifies the POSIX IDs and permissions to apply to the
 /// access point's <code>RootDirectory</code> &gt; <code>Path</code>. If the
@@ -1568,6 +1784,95 @@ class CreationInfo {
       _$CreationInfoFromJson(json);
 
   Map<String, dynamic> toJson() => _$CreationInfoToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteAccessPointRequest {
+  /// The ID of the access point that you want to delete.
+  @_s.JsonKey(name: 'AccessPointId', ignore: true)
+  final String accessPointId;
+
+  DeleteAccessPointRequest({
+    @_s.required this.accessPointId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteAccessPointRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteFileSystemPolicyRequest {
+  /// Specifies the EFS file system for which to delete the
+  /// <code>FileSystemPolicy</code>.
+  @_s.JsonKey(name: 'FileSystemId', ignore: true)
+  final String fileSystemId;
+
+  DeleteFileSystemPolicyRequest({
+    @_s.required this.fileSystemId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteFileSystemPolicyRequestToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteFileSystemRequest {
+  /// The ID of the file system you want to delete.
+  @_s.JsonKey(name: 'FileSystemId', ignore: true)
+  final String fileSystemId;
+
+  DeleteFileSystemRequest({
+    @_s.required this.fileSystemId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteFileSystemRequestToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteMountTargetRequest {
+  /// The ID of the mount target to delete (String).
+  @_s.JsonKey(name: 'MountTargetId', ignore: true)
+  final String mountTargetId;
+
+  DeleteMountTargetRequest({
+    @_s.required this.mountTargetId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteMountTargetRequestToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteTagsRequest {
+  /// The ID of the file system whose tags you want to delete (String).
+  @_s.JsonKey(name: 'FileSystemId', ignore: true)
+  final String fileSystemId;
+
+  /// A list of tag keys to delete.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  DeleteTagsRequest({
+    @_s.required this.fileSystemId,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$DeleteTagsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1970,6 +2275,29 @@ class ListTagsForResourceResponse {
       _$ListTagsForResourceResponseFromJson(json);
 }
 
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ModifyMountTargetSecurityGroupsRequest {
+  /// The ID of the mount target whose security groups you want to modify.
+  @_s.JsonKey(name: 'MountTargetId', ignore: true)
+  final String mountTargetId;
+
+  /// An array of up to five VPC security group IDs.
+  @_s.JsonKey(name: 'SecurityGroups')
+  final List<String> securityGroups;
+
+  ModifyMountTargetSecurityGroupsRequest({
+    @_s.required this.mountTargetId,
+    this.securityGroups,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ModifyMountTargetSecurityGroupsRequestToJson(this);
+}
+
 /// Provides a description of a mount target.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2041,18 +2369,6 @@ enum PerformanceMode {
   maxIO,
 }
 
-extension on PerformanceMode {
-  String toValue() {
-    switch (this) {
-      case PerformanceMode.generalPurpose:
-        return 'generalPurpose';
-      case PerformanceMode.maxIO:
-        return 'maxIO';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// The full POSIX identity, including the user ID, group ID, and any secondary
 /// group IDs, on the access point that is used for all file system operations
 /// performed by NFS clients using the access point.
@@ -2086,6 +2402,72 @@ class PosixUser {
       _$PosixUserFromJson(json);
 
   Map<String, dynamic> toJson() => _$PosixUserToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutFileSystemPolicyRequest {
+  /// The ID of the EFS file system that you want to create or update the
+  /// <code>FileSystemPolicy</code> for.
+  @_s.JsonKey(name: 'FileSystemId', ignore: true)
+  final String fileSystemId;
+
+  /// The <code>FileSystemPolicy</code> that you're creating. Accepts a JSON
+  /// formatted policy definition. To find out more about the elements that make
+  /// up a file system policy, see <a
+  /// href="https://docs.aws.amazon.com/efs/latest/ug/access-control-overview.html#access-control-manage-access-intro-resource-policies">EFS
+  /// Resource-based Policies</a>.
+  @_s.JsonKey(name: 'Policy')
+  final String policy;
+
+  /// (Optional) A flag to indicate whether to bypass the
+  /// <code>FileSystemPolicy</code> lockout safety check. The policy lockout
+  /// safety check determines whether the policy in the request will prevent the
+  /// principal making the request will be locked out from making future
+  /// <code>PutFileSystemPolicy</code> requests on the file system. Set
+  /// <code>BypassPolicyLockoutSafetyCheck</code> to <code>True</code> only when
+  /// you intend to prevent the principal that is making the request from making a
+  /// subsequent <code>PutFileSystemPolicy</code> request on the file system. The
+  /// default value is False.
+  @_s.JsonKey(name: 'BypassPolicyLockoutSafetyCheck')
+  final bool bypassPolicyLockoutSafetyCheck;
+
+  PutFileSystemPolicyRequest({
+    @_s.required this.fileSystemId,
+    @_s.required this.policy,
+    this.bypassPolicyLockoutSafetyCheck,
+  });
+  Map<String, dynamic> toJson() => _$PutFileSystemPolicyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutLifecycleConfigurationRequest {
+  /// The ID of the file system for which you are creating the
+  /// <code>LifecycleConfiguration</code> object (String).
+  @_s.JsonKey(name: 'FileSystemId', ignore: true)
+  final String fileSystemId;
+
+  /// An array of <code>LifecyclePolicy</code> objects that define the file
+  /// system's <code>LifecycleConfiguration</code> object. A
+  /// <code>LifecycleConfiguration</code> object tells lifecycle management when
+  /// to transition files from the Standard storage class to the Infrequent Access
+  /// storage class.
+  @_s.JsonKey(name: 'LifecyclePolicies')
+  final List<LifecyclePolicy> lifecyclePolicies;
+
+  PutLifecycleConfigurationRequest({
+    @_s.required this.fileSystemId,
+    @_s.required this.lifecyclePolicies,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutLifecycleConfigurationRequestToJson(this);
 }
 
 /// Specifies the directory on the Amazon EFS file system that the access point
@@ -2156,23 +2538,32 @@ class Tag {
   Map<String, dynamic> toJson() => _$TagToJson(this);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The ID specifying the EFS resource that you want to create a tag for.
+  @_s.JsonKey(name: 'ResourceId', ignore: true)
+  final String resourceId;
+
+  /// <p/>
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceId,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
 enum ThroughputMode {
   @_s.JsonValue('bursting')
   bursting,
   @_s.JsonValue('provisioned')
   provisioned,
-}
-
-extension on ThroughputMode {
-  String toValue() {
-    switch (this) {
-      case ThroughputMode.bursting:
-        return 'bursting';
-      case ThroughputMode.provisioned:
-        return 'provisioned';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 enum TransitionToIARules {
@@ -2186,6 +2577,62 @@ enum TransitionToIARules {
   after_60Days,
   @_s.JsonValue('AFTER_90_DAYS')
   after_90Days,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// Specifies the EFS resource that you want to remove tags from.
+  @_s.JsonKey(name: 'ResourceId', ignore: true)
+  final String resourceId;
+
+  /// The keys of the key:value tag pairs that you want to remove from the
+  /// specified EFS resource.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceId,
+    this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateFileSystemRequest {
+  /// The ID of the file system that you want to update.
+  @_s.JsonKey(name: 'FileSystemId', ignore: true)
+  final String fileSystemId;
+
+  /// (Optional) The amount of throughput, in MiB/s, that you want to provision
+  /// for your file system. Valid values are 1-1024. Required if
+  /// <code>ThroughputMode</code> is changed to <code>provisioned</code> on
+  /// update. If you're not updating the amount of provisioned throughput for your
+  /// file system, you don't need to provide this value in your request.
+  @_s.JsonKey(name: 'ProvisionedThroughputInMibps')
+  final double provisionedThroughputInMibps;
+
+  /// (Optional) The throughput mode that you want your file system to use. If
+  /// you're not updating your throughput mode, you don't need to provide this
+  /// value in your request. If you are changing the <code>ThroughputMode</code>
+  /// to <code>provisioned</code>, you must also set a value for
+  /// <code>ProvisionedThroughputInMibps</code>.
+  @_s.JsonKey(name: 'ThroughputMode')
+  final ThroughputMode throughputMode;
+
+  UpdateFileSystemRequest({
+    @_s.required this.fileSystemId,
+    this.provisionedThroughputInMibps,
+    this.throughputMode,
+  });
+  Map<String, dynamic> toJson() => _$UpdateFileSystemRequestToJson(this);
 }
 
 class AccessPointAlreadyExists extends _s.GenericAwsException {

@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -82,10 +81,10 @@ class CloudTrail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceId': resourceId,
-        if (tagsList != null) 'TagsList': tagsList,
-      },
+      payload: AddTagsRequest(
+        resourceId: resourceId,
+        tagsList: tagsList,
+      ),
     );
 
     return AddTagsResponse.fromJson(jsonResponse.body);
@@ -251,26 +250,20 @@ class CloudTrail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        'S3BucketName': s3BucketName,
-        if (cloudWatchLogsLogGroupArn != null)
-          'CloudWatchLogsLogGroupArn': cloudWatchLogsLogGroupArn,
-        if (cloudWatchLogsRoleArn != null)
-          'CloudWatchLogsRoleArn': cloudWatchLogsRoleArn,
-        if (enableLogFileValidation != null)
-          'EnableLogFileValidation': enableLogFileValidation,
-        if (includeGlobalServiceEvents != null)
-          'IncludeGlobalServiceEvents': includeGlobalServiceEvents,
-        if (isMultiRegionTrail != null)
-          'IsMultiRegionTrail': isMultiRegionTrail,
-        if (isOrganizationTrail != null)
-          'IsOrganizationTrail': isOrganizationTrail,
-        if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
-        if (s3KeyPrefix != null) 'S3KeyPrefix': s3KeyPrefix,
-        if (snsTopicName != null) 'SnsTopicName': snsTopicName,
-        if (tagsList != null) 'TagsList': tagsList,
-      },
+      payload: CreateTrailRequest(
+        name: name,
+        s3BucketName: s3BucketName,
+        cloudWatchLogsLogGroupArn: cloudWatchLogsLogGroupArn,
+        cloudWatchLogsRoleArn: cloudWatchLogsRoleArn,
+        enableLogFileValidation: enableLogFileValidation,
+        includeGlobalServiceEvents: includeGlobalServiceEvents,
+        isMultiRegionTrail: isMultiRegionTrail,
+        isOrganizationTrail: isOrganizationTrail,
+        kmsKeyId: kmsKeyId,
+        s3KeyPrefix: s3KeyPrefix,
+        snsTopicName: snsTopicName,
+        tagsList: tagsList,
+      ),
     );
 
     return CreateTrailResponse.fromJson(jsonResponse.body);
@@ -308,9 +301,9 @@ class CloudTrail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: DeleteTrailRequest(
+        name: name,
+      ),
     );
 
     return DeleteTrailResponse.fromJson(jsonResponse.body);
@@ -371,11 +364,10 @@ class CloudTrail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (includeShadowTrails != null)
-          'includeShadowTrails': includeShadowTrails,
-        if (trailNameList != null) 'trailNameList': trailNameList,
-      },
+      payload: DescribeTrailsRequest(
+        includeShadowTrails: includeShadowTrails,
+        trailNameList: trailNameList,
+      ),
     );
 
     return DescribeTrailsResponse.fromJson(jsonResponse.body);
@@ -449,9 +441,9 @@ class CloudTrail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TrailName': trailName,
-      },
+      payload: GetEventSelectorsRequest(
+        trailName: trailName,
+      ),
     );
 
     return GetEventSelectorsResponse.fromJson(jsonResponse.body);
@@ -517,9 +509,9 @@ class CloudTrail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TrailName': trailName,
-      },
+      payload: GetInsightSelectorsRequest(
+        trailName: trailName,
+      ),
     );
 
     return GetInsightSelectorsResponse.fromJson(jsonResponse.body);
@@ -550,9 +542,9 @@ class CloudTrail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: GetTrailRequest(
+        name: name,
+      ),
     );
 
     return GetTrailResponse.fromJson(jsonResponse.body);
@@ -591,9 +583,9 @@ class CloudTrail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: GetTrailStatusRequest(
+        name: name,
+      ),
     );
 
     return GetTrailStatusResponse.fromJson(jsonResponse.body);
@@ -642,11 +634,11 @@ class CloudTrail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (endTime != null) 'EndTime': endTime,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (startTime != null) 'StartTime': startTime,
-      },
+      payload: ListPublicKeysRequest(
+        endTime: endTime,
+        nextToken: nextToken,
+        startTime: startTime,
+      ),
     );
 
     return ListPublicKeysResponse.fromJson(jsonResponse.body);
@@ -686,10 +678,10 @@ class CloudTrail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceIdList': resourceIdList,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListTagsRequest(
+        resourceIdList: resourceIdList,
+        nextToken: nextToken,
+      ),
     );
 
     return ListTagsResponse.fromJson(jsonResponse.body);
@@ -720,9 +712,9 @@ class CloudTrail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListTrailsRequest(
+        nextToken: nextToken,
+      ),
     );
 
     return ListTrailsResponse.fromJson(jsonResponse.body);
@@ -846,14 +838,14 @@ class CloudTrail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (endTime != null) 'EndTime': endTime,
-        if (eventCategory != null) 'EventCategory': eventCategory?.toValue(),
-        if (lookupAttributes != null) 'LookupAttributes': lookupAttributes,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (startTime != null) 'StartTime': startTime,
-      },
+      payload: LookupEventsRequest(
+        endTime: endTime,
+        eventCategory: eventCategory,
+        lookupAttributes: lookupAttributes,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        startTime: startTime,
+      ),
     );
 
     return LookupEventsResponse.fromJson(jsonResponse.body);
@@ -958,10 +950,10 @@ class CloudTrail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EventSelectors': eventSelectors,
-        'TrailName': trailName,
-      },
+      payload: PutEventSelectorsRequest(
+        eventSelectors: eventSelectors,
+        trailName: trailName,
+      ),
     );
 
     return PutEventSelectorsResponse.fromJson(jsonResponse.body);
@@ -1008,10 +1000,10 @@ class CloudTrail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'InsightSelectors': insightSelectors,
-        'TrailName': trailName,
-      },
+      payload: PutInsightSelectorsRequest(
+        insightSelectors: insightSelectors,
+        trailName: trailName,
+      ),
     );
 
     return PutInsightSelectorsResponse.fromJson(jsonResponse.body);
@@ -1052,10 +1044,10 @@ class CloudTrail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceId': resourceId,
-        if (tagsList != null) 'TagsList': tagsList,
-      },
+      payload: RemoveTagsRequest(
+        resourceId: resourceId,
+        tagsList: tagsList,
+      ),
     );
 
     return RemoveTagsResponse.fromJson(jsonResponse.body);
@@ -1095,9 +1087,9 @@ class CloudTrail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: StartLoggingRequest(
+        name: name,
+      ),
     );
 
     return StartLoggingResponse.fromJson(jsonResponse.body);
@@ -1140,9 +1132,9 @@ class CloudTrail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-      },
+      payload: StopLoggingRequest(
+        name: name,
+      ),
     );
 
     return StopLoggingResponse.fromJson(jsonResponse.body);
@@ -1321,29 +1313,48 @@ class CloudTrail {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        if (cloudWatchLogsLogGroupArn != null)
-          'CloudWatchLogsLogGroupArn': cloudWatchLogsLogGroupArn,
-        if (cloudWatchLogsRoleArn != null)
-          'CloudWatchLogsRoleArn': cloudWatchLogsRoleArn,
-        if (enableLogFileValidation != null)
-          'EnableLogFileValidation': enableLogFileValidation,
-        if (includeGlobalServiceEvents != null)
-          'IncludeGlobalServiceEvents': includeGlobalServiceEvents,
-        if (isMultiRegionTrail != null)
-          'IsMultiRegionTrail': isMultiRegionTrail,
-        if (isOrganizationTrail != null)
-          'IsOrganizationTrail': isOrganizationTrail,
-        if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
-        if (s3BucketName != null) 'S3BucketName': s3BucketName,
-        if (s3KeyPrefix != null) 'S3KeyPrefix': s3KeyPrefix,
-        if (snsTopicName != null) 'SnsTopicName': snsTopicName,
-      },
+      payload: UpdateTrailRequest(
+        name: name,
+        cloudWatchLogsLogGroupArn: cloudWatchLogsLogGroupArn,
+        cloudWatchLogsRoleArn: cloudWatchLogsRoleArn,
+        enableLogFileValidation: enableLogFileValidation,
+        includeGlobalServiceEvents: includeGlobalServiceEvents,
+        isMultiRegionTrail: isMultiRegionTrail,
+        isOrganizationTrail: isOrganizationTrail,
+        kmsKeyId: kmsKeyId,
+        s3BucketName: s3BucketName,
+        s3KeyPrefix: s3KeyPrefix,
+        snsTopicName: snsTopicName,
+      ),
     );
 
     return UpdateTrailResponse.fromJson(jsonResponse.body);
   }
+}
+
+/// Specifies the tags to add to a trail.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AddTagsRequest {
+  /// Specifies the ARN of the trail to which one or more tags will be added. The
+  /// format of a trail ARN is:
+  ///
+  /// <code>arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</code>
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  /// Contains a list of CloudTrail tags, up to a limit of 50
+  @_s.JsonKey(name: 'TagsList')
+  final List<Tag> tagsList;
+
+  AddTagsRequest({
+    @_s.required this.resourceId,
+    this.tagsList,
+  });
+  Map<String, dynamic> toJson() => _$AddTagsRequestToJson(this);
 }
 
 /// Returns the objects or data listed below if successful. Otherwise, returns
@@ -1357,6 +1368,145 @@ class AddTagsResponse {
   AddTagsResponse();
   factory AddTagsResponse.fromJson(Map<String, dynamic> json) =>
       _$AddTagsResponseFromJson(json);
+}
+
+/// Specifies the settings for each trail.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateTrailRequest {
+  /// Specifies the name of the trail. The name must meet the following
+  /// requirements:
+  ///
+  /// <ul>
+  /// <li>
+  /// Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.),
+  /// underscores (_), or dashes (-)
+  /// </li>
+  /// <li>
+  /// Start with a letter or number, and end with a letter or number
+  /// </li>
+  /// <li>
+  /// Be between 3 and 128 characters
+  /// </li>
+  /// <li>
+  /// Have no adjacent periods, underscores or dashes. Names like
+  /// <code>my-_namespace</code> and <code>my--namespace</code> are invalid.
+  /// </li>
+  /// <li>
+  /// Not be in IP address format (for example, 192.168.5.4)
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Specifies the name of the Amazon S3 bucket designated for publishing log
+  /// files. See <a
+  /// href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/create_trail_naming_policy.html">Amazon
+  /// S3 Bucket Naming Requirements</a>.
+  @_s.JsonKey(name: 'S3BucketName')
+  final String s3BucketName;
+
+  /// Specifies a log group name using an Amazon Resource Name (ARN), a unique
+  /// identifier that represents the log group to which CloudTrail logs will be
+  /// delivered. Not required unless you specify CloudWatchLogsRoleArn.
+  @_s.JsonKey(name: 'CloudWatchLogsLogGroupArn')
+  final String cloudWatchLogsLogGroupArn;
+
+  /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a
+  /// user's log group.
+  @_s.JsonKey(name: 'CloudWatchLogsRoleArn')
+  final String cloudWatchLogsRoleArn;
+
+  /// Specifies whether log file integrity validation is enabled. The default is
+  /// false.
+  /// <note>
+  /// When you disable log file integrity validation, the chain of digest files is
+  /// broken after one hour. CloudTrail will not create digest files for log files
+  /// that were delivered during a period in which log file integrity validation
+  /// was disabled. For example, if you enable log file integrity validation at
+  /// noon on January 1, disable it at noon on January 2, and re-enable it at noon
+  /// on January 10, digest files will not be created for the log files delivered
+  /// from noon on January 2 to noon on January 10. The same applies whenever you
+  /// stop CloudTrail logging or delete a trail.
+  /// </note>
+  @_s.JsonKey(name: 'EnableLogFileValidation')
+  final bool enableLogFileValidation;
+
+  /// Specifies whether the trail is publishing events from global services such
+  /// as IAM to the log files.
+  @_s.JsonKey(name: 'IncludeGlobalServiceEvents')
+  final bool includeGlobalServiceEvents;
+
+  /// Specifies whether the trail is created in the current region or in all
+  /// regions. The default is false, which creates a trail only in the region
+  /// where you are signed in. As a best practice, consider creating trails that
+  /// log events in all regions.
+  @_s.JsonKey(name: 'IsMultiRegionTrail')
+  final bool isMultiRegionTrail;
+
+  /// Specifies whether the trail is created for all accounts in an organization
+  /// in AWS Organizations, or only for the current AWS account. The default is
+  /// false, and cannot be true unless the call is made on behalf of an AWS
+  /// account that is the master account for an organization in AWS Organizations.
+  @_s.JsonKey(name: 'IsOrganizationTrail')
+  final bool isOrganizationTrail;
+
+  /// Specifies the KMS key ID to use to encrypt the logs delivered by CloudTrail.
+  /// The value can be an alias name prefixed by "alias/", a fully specified ARN
+  /// to an alias, a fully specified ARN to a key, or a globally unique
+  /// identifier.
+  ///
+  /// Examples:
+  ///
+  /// <ul>
+  /// <li>
+  /// alias/MyAliasName
+  /// </li>
+  /// <li>
+  /// arn:aws:kms:us-east-2:123456789012:alias/MyAliasName
+  /// </li>
+  /// <li>
+  /// arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012
+  /// </li>
+  /// <li>
+  /// 12345678-1234-1234-1234-123456789012
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'KmsKeyId')
+  final String kmsKeyId;
+
+  /// Specifies the Amazon S3 key prefix that comes after the name of the bucket
+  /// you have designated for log file delivery. For more information, see <a
+  /// href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-find-log-files.html">Finding
+  /// Your CloudTrail Log Files</a>. The maximum length is 200 characters.
+  @_s.JsonKey(name: 'S3KeyPrefix')
+  final String s3KeyPrefix;
+
+  /// Specifies the name of the Amazon SNS topic defined for notification of log
+  /// file delivery. The maximum length is 256 characters.
+  @_s.JsonKey(name: 'SnsTopicName')
+  final String snsTopicName;
+  @_s.JsonKey(name: 'TagsList')
+  final List<Tag> tagsList;
+
+  CreateTrailRequest({
+    @_s.required this.name,
+    @_s.required this.s3BucketName,
+    this.cloudWatchLogsLogGroupArn,
+    this.cloudWatchLogsRoleArn,
+    this.enableLogFileValidation,
+    this.includeGlobalServiceEvents,
+    this.isMultiRegionTrail,
+    this.isOrganizationTrail,
+    this.kmsKeyId,
+    this.s3KeyPrefix,
+    this.snsTopicName,
+    this.tagsList,
+  });
+  Map<String, dynamic> toJson() => _$CreateTrailRequestToJson(this);
 }
 
 /// Returns the objects or data listed below if successful. Otherwise, returns
@@ -1575,6 +1725,25 @@ class DataResource {
   Map<String, dynamic> toJson() => _$DataResourceToJson(this);
 }
 
+/// The request that specifies the name of a trail to delete.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteTrailRequest {
+  /// Specifies the name or the CloudTrail ARN of the trail to be deleted. The
+  /// format of a trail ARN is:
+  /// <code>arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</code>
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  DeleteTrailRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$DeleteTrailRequestToJson(this);
+}
+
 /// Returns the objects or data listed below if successful. Otherwise, returns
 /// an error.
 @_s.JsonSerializable(
@@ -1586,6 +1755,56 @@ class DeleteTrailResponse {
   DeleteTrailResponse();
   factory DeleteTrailResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteTrailResponseFromJson(json);
+}
+
+/// Returns information about the trail.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeTrailsRequest {
+  /// Specifies whether to include shadow trails in the response. A shadow trail
+  /// is the replication in a region of a trail that was created in a different
+  /// region, or in the case of an organization trail, the replication of an
+  /// organization trail in member accounts. If you do not include shadow trails,
+  /// organization trails in a member account and region replication trails will
+  /// not be returned. The default is true.
+  @_s.JsonKey(name: 'includeShadowTrails')
+  final bool includeShadowTrails;
+
+  /// Specifies a list of trail names, trail ARNs, or both, of the trails to
+  /// describe. The format of a trail ARN is:
+  ///
+  /// <code>arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</code>
+  ///
+  /// If an empty list is specified, information for the trail in the current
+  /// region is returned.
+  ///
+  /// <ul>
+  /// <li>
+  /// If an empty list is specified and <code>IncludeShadowTrails</code> is false,
+  /// then information for all trails in the current region is returned.
+  /// </li>
+  /// <li>
+  /// If an empty list is specified and IncludeShadowTrails is null or true, then
+  /// information for all trails in the current region and any associated shadow
+  /// trails in other regions is returned.
+  /// </li>
+  /// </ul> <note>
+  /// If one or more trail names are specified, information is returned only if
+  /// the names match the names of trails belonging only to the current region. To
+  /// return information about a trail in another region, you must specify its
+  /// trail ARN.
+  /// </note>
+  @_s.JsonKey(name: 'trailNameList')
+  final List<String> trailNameList;
+
+  DescribeTrailsRequest({
+    this.includeShadowTrails,
+    this.trailNameList,
+  });
+  Map<String, dynamic> toJson() => _$DescribeTrailsRequestToJson(this);
 }
 
 /// Returns the objects or data listed below if successful. Otherwise, returns
@@ -1681,16 +1900,6 @@ enum EventCategory {
   insight,
 }
 
-extension on EventCategory {
-  String toValue() {
-    switch (this) {
-      case EventCategory.insight:
-        return 'insight';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Use event selectors to further specify the management and data event
 /// settings for your trail. By default, trails created without specific event
 /// selectors will be configured to log all read and write management events,
@@ -1763,6 +1972,46 @@ class EventSelector {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetEventSelectorsRequest {
+  /// Specifies the name of the trail or trail ARN. If you specify a trail name,
+  /// the string must meet the following requirements:
+  ///
+  /// <ul>
+  /// <li>
+  /// Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.),
+  /// underscores (_), or dashes (-)
+  /// </li>
+  /// <li>
+  /// Start with a letter or number, and end with a letter or number
+  /// </li>
+  /// <li>
+  /// Be between 3 and 128 characters
+  /// </li>
+  /// <li>
+  /// Have no adjacent periods, underscores or dashes. Names like
+  /// <code>my-_namespace</code> and <code>my--namespace</code> are not valid.
+  /// </li>
+  /// <li>
+  /// Not be in IP address format (for example, 192.168.5.4)
+  /// </li>
+  /// </ul>
+  /// If you specify a trail ARN, it must be in the format:
+  ///
+  /// <code>arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</code>
+  @_s.JsonKey(name: 'TrailName')
+  final String trailName;
+
+  GetEventSelectorsRequest({
+    @_s.required this.trailName,
+  });
+  Map<String, dynamic> toJson() => _$GetEventSelectorsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetEventSelectorsResponse {
@@ -1780,6 +2029,46 @@ class GetEventSelectorsResponse {
   });
   factory GetEventSelectorsResponse.fromJson(Map<String, dynamic> json) =>
       _$GetEventSelectorsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetInsightSelectorsRequest {
+  /// Specifies the name of the trail or trail ARN. If you specify a trail name,
+  /// the string must meet the following requirements:
+  ///
+  /// <ul>
+  /// <li>
+  /// Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.),
+  /// underscores (_), or dashes (-)
+  /// </li>
+  /// <li>
+  /// Start with a letter or number, and end with a letter or number
+  /// </li>
+  /// <li>
+  /// Be between 3 and 128 characters
+  /// </li>
+  /// <li>
+  /// Have no adjacent periods, underscores or dashes. Names like
+  /// <code>my-_namespace</code> and <code>my--namespace</code> are not valid.
+  /// </li>
+  /// <li>
+  /// Not be in IP address format (for example, 192.168.5.4)
+  /// </li>
+  /// </ul>
+  /// If you specify a trail ARN, it must be in the format:
+  ///
+  /// <code>arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</code>
+  @_s.JsonKey(name: 'TrailName')
+  final String trailName;
+
+  GetInsightSelectorsRequest({
+    @_s.required this.trailName,
+  });
+  Map<String, dynamic> toJson() => _$GetInsightSelectorsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1810,6 +2099,23 @@ class GetInsightSelectorsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetTrailRequest {
+  /// The name or the Amazon Resource Name (ARN) of the trail for which you want
+  /// to retrieve settings information.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  GetTrailRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$GetTrailRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetTrailResponse {
@@ -1821,6 +2127,28 @@ class GetTrailResponse {
   });
   factory GetTrailResponse.fromJson(Map<String, dynamic> json) =>
       _$GetTrailResponseFromJson(json);
+}
+
+/// The name of a trail about which you want the current status.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetTrailStatusRequest {
+  /// Specifies the name or the CloudTrail ARN of the trail for which you are
+  /// requesting status. To get the status of a shadow trail (a replication of the
+  /// trail in another region), you must specify its ARN. The format of a trail
+  /// ARN is:
+  ///
+  /// <code>arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</code>
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  GetTrailStatusRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$GetTrailStatusRequestToJson(this);
 }
 
 /// Returns the objects or data listed below if successful. Otherwise, returns
@@ -1997,6 +2325,43 @@ enum InsightType {
   apiCallRateInsight,
 }
 
+/// Requests the public keys for a specified time range.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListPublicKeysRequest {
+  /// Optionally specifies, in UTC, the end of the time range to look up public
+  /// keys for CloudTrail digest files. If not specified, the current time is
+  /// used.
+  @_s.JsonKey(
+      name: 'EndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime endTime;
+
+  /// Reserved for future use.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Optionally specifies, in UTC, the start of the time range to look up public
+  /// keys for CloudTrail digest files. If not specified, the current time is
+  /// used, and the current public key is returned.
+  @_s.JsonKey(
+      name: 'StartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime startTime;
+
+  ListPublicKeysRequest({
+    this.endTime,
+    this.nextToken,
+    this.startTime,
+  });
+  Map<String, dynamic> toJson() => _$ListPublicKeysRequestToJson(this);
+}
+
 /// Returns the objects or data listed below if successful. Otherwise, returns
 /// an error.
 @_s.JsonSerializable(
@@ -2024,6 +2389,31 @@ class ListPublicKeysResponse {
       _$ListPublicKeysResponseFromJson(json);
 }
 
+/// Specifies a list of trail tags to return.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsRequest {
+  /// Specifies a list of trail ARNs whose tags will be listed. The list has a
+  /// limit of 20 ARNs. The format of a trail ARN is:
+  ///
+  /// <code>arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</code>
+  @_s.JsonKey(name: 'ResourceIdList')
+  final List<String> resourceIdList;
+
+  /// Reserved for future use.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListTagsRequest({
+    @_s.required this.resourceIdList,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsRequestToJson(this);
+}
+
 /// Returns the objects or data listed below if successful. Otherwise, returns
 /// an error.
 @_s.JsonSerializable(
@@ -2046,6 +2436,26 @@ class ListTagsResponse {
   });
   factory ListTagsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListTagsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTrailsRequest {
+  /// The token to use to get the next page of results after a previous API call.
+  /// This token must be passed in with the same parameters that were specified in
+  /// the the original call. For example, if the original call specified an
+  /// AttributeKey of 'Username' with a value of 'root', the call with NextToken
+  /// should include those same parameters.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListTrailsRequest({
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListTrailsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2114,6 +2524,67 @@ enum LookupAttributeKey {
   eventSource,
   @_s.JsonValue('AccessKeyId')
   accessKeyId,
+}
+
+/// Contains a request for LookupEvents.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class LookupEventsRequest {
+  /// Specifies that only events that occur before or at the specified time are
+  /// returned. If the specified end time is before the specified start time, an
+  /// error is returned.
+  @_s.JsonKey(
+      name: 'EndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime endTime;
+
+  /// Specifies the event category. If you do not specify an event category,
+  /// events of the category are not returned in the response. For example, if you
+  /// do not specify <code>insight</code> as the value of
+  /// <code>EventCategory</code>, no Insights events are returned.
+  @_s.JsonKey(name: 'EventCategory')
+  final EventCategory eventCategory;
+
+  /// Contains a list of lookup attributes. Currently the list can contain only
+  /// one item.
+  @_s.JsonKey(name: 'LookupAttributes')
+  final List<LookupAttribute> lookupAttributes;
+
+  /// The number of events to return. Possible values are 1 through 50. The
+  /// default is 50.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token to use to get the next page of results after a previous API call.
+  /// This token must be passed in with the same parameters that were specified in
+  /// the the original call. For example, if the original call specified an
+  /// AttributeKey of 'Username' with a value of 'root', the call with NextToken
+  /// should include those same parameters.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Specifies that only events that occur after or at the specified time are
+  /// returned. If the specified start time is after the specified end time, an
+  /// error is returned.
+  @_s.JsonKey(
+      name: 'StartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime startTime;
+
+  LookupEventsRequest({
+    this.endTime,
+    this.eventCategory,
+    this.lookupAttributes,
+    this.maxResults,
+    this.nextToken,
+    this.startTime,
+  });
+  Map<String, dynamic> toJson() => _$LookupEventsRequestToJson(this);
 }
 
 /// Contains a response to a LookupEvents action.
@@ -2189,6 +2660,52 @@ class PublicKey {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutEventSelectorsRequest {
+  /// Specifies the settings for your event selectors. You can configure up to
+  /// five event selectors for a trail.
+  @_s.JsonKey(name: 'EventSelectors')
+  final List<EventSelector> eventSelectors;
+
+  /// Specifies the name of the trail or trail ARN. If you specify a trail name,
+  /// the string must meet the following requirements:
+  ///
+  /// <ul>
+  /// <li>
+  /// Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.),
+  /// underscores (_), or dashes (-)
+  /// </li>
+  /// <li>
+  /// Start with a letter or number, and end with a letter or number
+  /// </li>
+  /// <li>
+  /// Be between 3 and 128 characters
+  /// </li>
+  /// <li>
+  /// Have no adjacent periods, underscores or dashes. Names like
+  /// <code>my-_namespace</code> and <code>my--namespace</code> are invalid.
+  /// </li>
+  /// <li>
+  /// Not be in IP address format (for example, 192.168.5.4)
+  /// </li>
+  /// </ul>
+  /// If you specify a trail ARN, it must be in the format:
+  ///
+  /// <code>arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</code>
+  @_s.JsonKey(name: 'TrailName')
+  final String trailName;
+
+  PutEventSelectorsRequest({
+    @_s.required this.eventSelectors,
+    @_s.required this.trailName,
+  });
+  Map<String, dynamic> toJson() => _$PutEventSelectorsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutEventSelectorsResponse {
@@ -2209,6 +2726,30 @@ class PutEventSelectorsResponse {
   });
   factory PutEventSelectorsResponse.fromJson(Map<String, dynamic> json) =>
       _$PutEventSelectorsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutInsightSelectorsRequest {
+  /// A JSON string that contains the insight types you want to log on a trail. In
+  /// this release, only <code>ApiCallRateInsight</code> is supported as an
+  /// insight type.
+  @_s.JsonKey(name: 'InsightSelectors')
+  final List<InsightSelector> insightSelectors;
+
+  /// The name of the CloudTrail trail for which you want to change or add
+  /// Insights selectors.
+  @_s.JsonKey(name: 'TrailName')
+  final String trailName;
+
+  PutInsightSelectorsRequest({
+    @_s.required this.insightSelectors,
+    @_s.required this.trailName,
+  });
+  Map<String, dynamic> toJson() => _$PutInsightSelectorsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2243,6 +2784,31 @@ enum ReadWriteType {
   writeOnly,
   @_s.JsonValue('All')
   all,
+}
+
+/// Specifies the tags to remove from a trail.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RemoveTagsRequest {
+  /// Specifies the ARN of the trail from which tags should be removed. The format
+  /// of a trail ARN is:
+  ///
+  /// <code>arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</code>
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  /// Specifies a list of tags to be removed.
+  @_s.JsonKey(name: 'TagsList')
+  final List<Tag> tagsList;
+
+  RemoveTagsRequest({
+    @_s.required this.resourceId,
+    this.tagsList,
+  });
+  Map<String, dynamic> toJson() => _$RemoveTagsRequestToJson(this);
 }
 
 /// Returns the objects or data listed below if successful. Otherwise, returns
@@ -2313,6 +2879,26 @@ class ResourceTag {
       _$ResourceTagFromJson(json);
 }
 
+/// The request to CloudTrail to start logging AWS API calls for an account.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartLoggingRequest {
+  /// Specifies the name or the CloudTrail ARN of the trail for which CloudTrail
+  /// logs AWS API calls. The format of a trail ARN is:
+  ///
+  /// <code>arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</code>
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  StartLoggingRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$StartLoggingRequestToJson(this);
+}
+
 /// Returns the objects or data listed below if successful. Otherwise, returns
 /// an error.
 @_s.JsonSerializable(
@@ -2324,6 +2910,27 @@ class StartLoggingResponse {
   StartLoggingResponse();
   factory StartLoggingResponse.fromJson(Map<String, dynamic> json) =>
       _$StartLoggingResponseFromJson(json);
+}
+
+/// Passes the request to CloudTrail to stop logging AWS API calls for the
+/// specified account.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopLoggingRequest {
+  /// Specifies the name or the CloudTrail ARN of the trail for which CloudTrail
+  /// will stop logging AWS API calls. The format of a trail ARN is:
+  ///
+  /// <code>arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</code>
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  StopLoggingRequest({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$StopLoggingRequestToJson(this);
 }
 
 /// Returns the objects or data listed below if successful. Otherwise, returns
@@ -2506,6 +3113,153 @@ class TrailInfo {
   });
   factory TrailInfo.fromJson(Map<String, dynamic> json) =>
       _$TrailInfoFromJson(json);
+}
+
+/// Specifies settings to update for the trail.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateTrailRequest {
+  /// Specifies the name of the trail or trail ARN. If <code>Name</code> is a
+  /// trail name, the string must meet the following requirements:
+  ///
+  /// <ul>
+  /// <li>
+  /// Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.),
+  /// underscores (_), or dashes (-)
+  /// </li>
+  /// <li>
+  /// Start with a letter or number, and end with a letter or number
+  /// </li>
+  /// <li>
+  /// Be between 3 and 128 characters
+  /// </li>
+  /// <li>
+  /// Have no adjacent periods, underscores or dashes. Names like
+  /// <code>my-_namespace</code> and <code>my--namespace</code> are invalid.
+  /// </li>
+  /// <li>
+  /// Not be in IP address format (for example, 192.168.5.4)
+  /// </li>
+  /// </ul>
+  /// If <code>Name</code> is a trail ARN, it must be in the format:
+  ///
+  /// <code>arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</code>
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Specifies a log group name using an Amazon Resource Name (ARN), a unique
+  /// identifier that represents the log group to which CloudTrail logs will be
+  /// delivered. Not required unless you specify CloudWatchLogsRoleArn.
+  @_s.JsonKey(name: 'CloudWatchLogsLogGroupArn')
+  final String cloudWatchLogsLogGroupArn;
+
+  /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a
+  /// user's log group.
+  @_s.JsonKey(name: 'CloudWatchLogsRoleArn')
+  final String cloudWatchLogsRoleArn;
+
+  /// Specifies whether log file validation is enabled. The default is false.
+  /// <note>
+  /// When you disable log file integrity validation, the chain of digest files is
+  /// broken after one hour. CloudTrail will not create digest files for log files
+  /// that were delivered during a period in which log file integrity validation
+  /// was disabled. For example, if you enable log file integrity validation at
+  /// noon on January 1, disable it at noon on January 2, and re-enable it at noon
+  /// on January 10, digest files will not be created for the log files delivered
+  /// from noon on January 2 to noon on January 10. The same applies whenever you
+  /// stop CloudTrail logging or delete a trail.
+  /// </note>
+  @_s.JsonKey(name: 'EnableLogFileValidation')
+  final bool enableLogFileValidation;
+
+  /// Specifies whether the trail is publishing events from global services such
+  /// as IAM to the log files.
+  @_s.JsonKey(name: 'IncludeGlobalServiceEvents')
+  final bool includeGlobalServiceEvents;
+
+  /// Specifies whether the trail applies only to the current region or to all
+  /// regions. The default is false. If the trail exists only in the current
+  /// region and this value is set to true, shadow trails (replications of the
+  /// trail) will be created in the other regions. If the trail exists in all
+  /// regions and this value is set to false, the trail will remain in the region
+  /// where it was created, and its shadow trails in other regions will be
+  /// deleted. As a best practice, consider using trails that log events in all
+  /// regions.
+  @_s.JsonKey(name: 'IsMultiRegionTrail')
+  final bool isMultiRegionTrail;
+
+  /// Specifies whether the trail is applied to all accounts in an organization in
+  /// AWS Organizations, or only for the current AWS account. The default is
+  /// false, and cannot be true unless the call is made on behalf of an AWS
+  /// account that is the master account for an organization in AWS Organizations.
+  /// If the trail is not an organization trail and this is set to true, the trail
+  /// will be created in all AWS accounts that belong to the organization. If the
+  /// trail is an organization trail and this is set to false, the trail will
+  /// remain in the current AWS account but be deleted from all member accounts in
+  /// the organization.
+  @_s.JsonKey(name: 'IsOrganizationTrail')
+  final bool isOrganizationTrail;
+
+  /// Specifies the KMS key ID to use to encrypt the logs delivered by CloudTrail.
+  /// The value can be an alias name prefixed by "alias/", a fully specified ARN
+  /// to an alias, a fully specified ARN to a key, or a globally unique
+  /// identifier.
+  ///
+  /// Examples:
+  ///
+  /// <ul>
+  /// <li>
+  /// alias/MyAliasName
+  /// </li>
+  /// <li>
+  /// arn:aws:kms:us-east-2:123456789012:alias/MyAliasName
+  /// </li>
+  /// <li>
+  /// arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012
+  /// </li>
+  /// <li>
+  /// 12345678-1234-1234-1234-123456789012
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'KmsKeyId')
+  final String kmsKeyId;
+
+  /// Specifies the name of the Amazon S3 bucket designated for publishing log
+  /// files. See <a
+  /// href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/create_trail_naming_policy.html">Amazon
+  /// S3 Bucket Naming Requirements</a>.
+  @_s.JsonKey(name: 'S3BucketName')
+  final String s3BucketName;
+
+  /// Specifies the Amazon S3 key prefix that comes after the name of the bucket
+  /// you have designated for log file delivery. For more information, see <a
+  /// href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-find-log-files.html">Finding
+  /// Your CloudTrail Log Files</a>. The maximum length is 200 characters.
+  @_s.JsonKey(name: 'S3KeyPrefix')
+  final String s3KeyPrefix;
+
+  /// Specifies the name of the Amazon SNS topic defined for notification of log
+  /// file delivery. The maximum length is 256 characters.
+  @_s.JsonKey(name: 'SnsTopicName')
+  final String snsTopicName;
+
+  UpdateTrailRequest({
+    @_s.required this.name,
+    this.cloudWatchLogsLogGroupArn,
+    this.cloudWatchLogsRoleArn,
+    this.enableLogFileValidation,
+    this.includeGlobalServiceEvents,
+    this.isMultiRegionTrail,
+    this.isOrganizationTrail,
+    this.kmsKeyId,
+    this.s3BucketName,
+    this.s3KeyPrefix,
+    this.snsTopicName,
+  });
+  Map<String, dynamic> toJson() => _$UpdateTrailRequestToJson(this);
 }
 
 /// Returns the objects or data listed below if successful. Otherwise, returns

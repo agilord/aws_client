@@ -91,6 +91,65 @@ const _$AppTypeEnumMap = {
   AppType.other: 'other',
 };
 
+Map<String, dynamic> _$AssignInstanceRequestToJson(
+    AssignInstanceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InstanceId', instance.instanceId);
+  writeNotNull('LayerIds', instance.layerIds);
+  return val;
+}
+
+Map<String, dynamic> _$AssignVolumeRequestToJson(AssignVolumeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('VolumeId', instance.volumeId);
+  writeNotNull('InstanceId', instance.instanceId);
+  return val;
+}
+
+Map<String, dynamic> _$AssociateElasticIpRequestToJson(
+    AssociateElasticIpRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ElasticIp', instance.elasticIp);
+  writeNotNull('InstanceId', instance.instanceId);
+  return val;
+}
+
+Map<String, dynamic> _$AttachElasticLoadBalancerRequestToJson(
+    AttachElasticLoadBalancerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ElasticLoadBalancerName', instance.elasticLoadBalancerName);
+  writeNotNull('LayerId', instance.layerId);
+  return val;
+}
+
 AutoScalingThresholds _$AutoScalingThresholdsFromJson(
     Map<String, dynamic> json) {
   return AutoScalingThresholds(
@@ -171,6 +230,47 @@ Map<String, dynamic> _$ChefConfigurationToJson(ChefConfiguration instance) {
   writeNotNull('ManageBerkshelf', instance.manageBerkshelf);
   return val;
 }
+
+Map<String, dynamic> _$CloneStackRequestToJson(CloneStackRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ServiceRoleArn', instance.serviceRoleArn);
+  writeNotNull('SourceStackId', instance.sourceStackId);
+  writeNotNull('AgentVersion', instance.agentVersion);
+  writeNotNull('Attributes', instance.attributes);
+  writeNotNull('ChefConfiguration', instance.chefConfiguration?.toJson());
+  writeNotNull('CloneAppIds', instance.cloneAppIds);
+  writeNotNull('ClonePermissions', instance.clonePermissions);
+  writeNotNull('ConfigurationManager', instance.configurationManager?.toJson());
+  writeNotNull(
+      'CustomCookbooksSource', instance.customCookbooksSource?.toJson());
+  writeNotNull('CustomJson', instance.customJson);
+  writeNotNull('DefaultAvailabilityZone', instance.defaultAvailabilityZone);
+  writeNotNull('DefaultInstanceProfileArn', instance.defaultInstanceProfileArn);
+  writeNotNull('DefaultOs', instance.defaultOs);
+  writeNotNull('DefaultRootDeviceType',
+      _$RootDeviceTypeEnumMap[instance.defaultRootDeviceType]);
+  writeNotNull('DefaultSshKeyName', instance.defaultSshKeyName);
+  writeNotNull('DefaultSubnetId', instance.defaultSubnetId);
+  writeNotNull('HostnameTheme', instance.hostnameTheme);
+  writeNotNull('Name', instance.name);
+  writeNotNull('Region', instance.region);
+  writeNotNull('UseCustomCookbooks', instance.useCustomCookbooks);
+  writeNotNull('UseOpsworksSecurityGroups', instance.useOpsworksSecurityGroups);
+  writeNotNull('VpcId', instance.vpcId);
+  return val;
+}
+
+const _$RootDeviceTypeEnumMap = {
+  RootDeviceType.ebs: 'ebs',
+  RootDeviceType.instanceStore: 'instance-store',
+};
 
 CloneStackResult _$CloneStackResultFromJson(Map<String, dynamic> json) {
   return CloneStackResult(
@@ -371,10 +471,56 @@ Command _$CommandFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateAppRequestToJson(CreateAppRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('StackId', instance.stackId);
+  writeNotNull('Type', _$AppTypeEnumMap[instance.type]);
+  writeNotNull('AppSource', instance.appSource?.toJson());
+  writeNotNull('Attributes', instance.attributes);
+  writeNotNull(
+      'DataSources', instance.dataSources?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Description', instance.description);
+  writeNotNull('Domains', instance.domains);
+  writeNotNull('EnableSsl', instance.enableSsl);
+  writeNotNull(
+      'Environment', instance.environment?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Shortname', instance.shortname);
+  writeNotNull('SslConfiguration', instance.sslConfiguration?.toJson());
+  return val;
+}
+
 CreateAppResult _$CreateAppResultFromJson(Map<String, dynamic> json) {
   return CreateAppResult(
     appId: json['AppId'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateDeploymentRequestToJson(
+    CreateDeploymentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Command', instance.command?.toJson());
+  writeNotNull('StackId', instance.stackId);
+  writeNotNull('AppId', instance.appId);
+  writeNotNull('Comment', instance.comment);
+  writeNotNull('CustomJson', instance.customJson);
+  writeNotNull('InstanceIds', instance.instanceIds);
+  writeNotNull('LayerIds', instance.layerIds);
+  return val;
 }
 
 CreateDeploymentResult _$CreateDeploymentResultFromJson(
@@ -384,11 +530,103 @@ CreateDeploymentResult _$CreateDeploymentResultFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateInstanceRequestToJson(
+    CreateInstanceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InstanceType', instance.instanceType);
+  writeNotNull('LayerIds', instance.layerIds);
+  writeNotNull('StackId', instance.stackId);
+  writeNotNull('AgentVersion', instance.agentVersion);
+  writeNotNull('AmiId', instance.amiId);
+  writeNotNull('Architecture', _$ArchitectureEnumMap[instance.architecture]);
+  writeNotNull(
+      'AutoScalingType', _$AutoScalingTypeEnumMap[instance.autoScalingType]);
+  writeNotNull('AvailabilityZone', instance.availabilityZone);
+  writeNotNull('BlockDeviceMappings',
+      instance.blockDeviceMappings?.map((e) => e?.toJson())?.toList());
+  writeNotNull('EbsOptimized', instance.ebsOptimized);
+  writeNotNull('Hostname', instance.hostname);
+  writeNotNull('InstallUpdatesOnBoot', instance.installUpdatesOnBoot);
+  writeNotNull('Os', instance.os);
+  writeNotNull(
+      'RootDeviceType', _$RootDeviceTypeEnumMap[instance.rootDeviceType]);
+  writeNotNull('SshKeyName', instance.sshKeyName);
+  writeNotNull('SubnetId', instance.subnetId);
+  writeNotNull('Tenancy', instance.tenancy);
+  writeNotNull('VirtualizationType', instance.virtualizationType);
+  return val;
+}
+
+const _$ArchitectureEnumMap = {
+  Architecture.x86_64: 'x86_64',
+  Architecture.i386: 'i386',
+};
+
+const _$AutoScalingTypeEnumMap = {
+  AutoScalingType.load: 'load',
+  AutoScalingType.timer: 'timer',
+};
+
 CreateInstanceResult _$CreateInstanceResultFromJson(Map<String, dynamic> json) {
   return CreateInstanceResult(
     instanceId: json['InstanceId'] as String,
   );
 }
+
+Map<String, dynamic> _$CreateLayerRequestToJson(CreateLayerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('Shortname', instance.shortname);
+  writeNotNull('StackId', instance.stackId);
+  writeNotNull('Type', _$LayerTypeEnumMap[instance.type]);
+  writeNotNull('Attributes', instance.attributes);
+  writeNotNull('AutoAssignElasticIps', instance.autoAssignElasticIps);
+  writeNotNull('AutoAssignPublicIps', instance.autoAssignPublicIps);
+  writeNotNull('CloudWatchLogsConfiguration',
+      instance.cloudWatchLogsConfiguration?.toJson());
+  writeNotNull('CustomInstanceProfileArn', instance.customInstanceProfileArn);
+  writeNotNull('CustomJson', instance.customJson);
+  writeNotNull('CustomRecipes', instance.customRecipes?.toJson());
+  writeNotNull('CustomSecurityGroupIds', instance.customSecurityGroupIds);
+  writeNotNull('EnableAutoHealing', instance.enableAutoHealing);
+  writeNotNull('InstallUpdatesOnBoot', instance.installUpdatesOnBoot);
+  writeNotNull('LifecycleEventConfiguration',
+      instance.lifecycleEventConfiguration?.toJson());
+  writeNotNull('Packages', instance.packages);
+  writeNotNull('UseEbsOptimizedInstances', instance.useEbsOptimizedInstances);
+  writeNotNull('VolumeConfigurations',
+      instance.volumeConfigurations?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+const _$LayerTypeEnumMap = {
+  LayerType.awsFlowRuby: 'aws-flow-ruby',
+  LayerType.ecsCluster: 'ecs-cluster',
+  LayerType.javaApp: 'java-app',
+  LayerType.lb: 'lb',
+  LayerType.web: 'web',
+  LayerType.phpApp: 'php-app',
+  LayerType.railsApp: 'rails-app',
+  LayerType.nodejsApp: 'nodejs-app',
+  LayerType.memcached: 'memcached',
+  LayerType.dbMaster: 'db-master',
+  LayerType.monitoringMaster: 'monitoring-master',
+  LayerType.custom: 'custom',
+};
 
 CreateLayerResult _$CreateLayerResultFromJson(Map<String, dynamic> json) {
   return CreateLayerResult(
@@ -396,10 +634,60 @@ CreateLayerResult _$CreateLayerResultFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateStackRequestToJson(CreateStackRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DefaultInstanceProfileArn', instance.defaultInstanceProfileArn);
+  writeNotNull('Name', instance.name);
+  writeNotNull('Region', instance.region);
+  writeNotNull('ServiceRoleArn', instance.serviceRoleArn);
+  writeNotNull('AgentVersion', instance.agentVersion);
+  writeNotNull('Attributes', instance.attributes);
+  writeNotNull('ChefConfiguration', instance.chefConfiguration?.toJson());
+  writeNotNull('ConfigurationManager', instance.configurationManager?.toJson());
+  writeNotNull(
+      'CustomCookbooksSource', instance.customCookbooksSource?.toJson());
+  writeNotNull('CustomJson', instance.customJson);
+  writeNotNull('DefaultAvailabilityZone', instance.defaultAvailabilityZone);
+  writeNotNull('DefaultOs', instance.defaultOs);
+  writeNotNull('DefaultRootDeviceType',
+      _$RootDeviceTypeEnumMap[instance.defaultRootDeviceType]);
+  writeNotNull('DefaultSshKeyName', instance.defaultSshKeyName);
+  writeNotNull('DefaultSubnetId', instance.defaultSubnetId);
+  writeNotNull('HostnameTheme', instance.hostnameTheme);
+  writeNotNull('UseCustomCookbooks', instance.useCustomCookbooks);
+  writeNotNull('UseOpsworksSecurityGroups', instance.useOpsworksSecurityGroups);
+  writeNotNull('VpcId', instance.vpcId);
+  return val;
+}
+
 CreateStackResult _$CreateStackResultFromJson(Map<String, dynamic> json) {
   return CreateStackResult(
     stackId: json['StackId'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateUserProfileRequestToJson(
+    CreateUserProfileRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('IamUserArn', instance.iamUserArn);
+  writeNotNull('AllowSelfManagement', instance.allowSelfManagement);
+  writeNotNull('SshPublicKey', instance.sshPublicKey);
+  writeNotNull('SshUsername', instance.sshUsername);
+  return val;
 }
 
 CreateUserProfileResult _$CreateUserProfileResultFromJson(
@@ -429,6 +717,75 @@ Map<String, dynamic> _$DataSourceToJson(DataSource instance) {
   writeNotNull('Arn', instance.arn);
   writeNotNull('DatabaseName', instance.databaseName);
   writeNotNull('Type', instance.type);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteAppRequestToJson(DeleteAppRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AppId', instance.appId);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteInstanceRequestToJson(
+    DeleteInstanceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InstanceId', instance.instanceId);
+  writeNotNull('DeleteElasticIp', instance.deleteElasticIp);
+  writeNotNull('DeleteVolumes', instance.deleteVolumes);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteLayerRequestToJson(DeleteLayerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LayerId', instance.layerId);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteStackRequestToJson(DeleteStackRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('StackId', instance.stackId);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteUserProfileRequestToJson(
+    DeleteUserProfileRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('IamUserArn', instance.iamUserArn);
   return val;
 }
 
@@ -490,6 +847,91 @@ const _$DeploymentCommandNameEnumMap = {
   DeploymentCommandName.undeploy: 'undeploy',
 };
 
+Map<String, dynamic> _$DeregisterEcsClusterRequestToJson(
+    DeregisterEcsClusterRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EcsClusterArn', instance.ecsClusterArn);
+  return val;
+}
+
+Map<String, dynamic> _$DeregisterElasticIpRequestToJson(
+    DeregisterElasticIpRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ElasticIp', instance.elasticIp);
+  return val;
+}
+
+Map<String, dynamic> _$DeregisterInstanceRequestToJson(
+    DeregisterInstanceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InstanceId', instance.instanceId);
+  return val;
+}
+
+Map<String, dynamic> _$DeregisterRdsDbInstanceRequestToJson(
+    DeregisterRdsDbInstanceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RdsDbInstanceArn', instance.rdsDbInstanceArn);
+  return val;
+}
+
+Map<String, dynamic> _$DeregisterVolumeRequestToJson(
+    DeregisterVolumeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('VolumeId', instance.volumeId);
+  return val;
+}
+
+Map<String, dynamic> _$DescribeAgentVersionsRequestToJson(
+    DescribeAgentVersionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConfigurationManager', instance.configurationManager?.toJson());
+  writeNotNull('StackId', instance.stackId);
+  return val;
+}
+
 DescribeAgentVersionsResult _$DescribeAgentVersionsResultFromJson(
     Map<String, dynamic> json) {
   return DescribeAgentVersionsResult(
@@ -500,12 +942,42 @@ DescribeAgentVersionsResult _$DescribeAgentVersionsResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeAppsRequestToJson(DescribeAppsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AppIds', instance.appIds);
+  writeNotNull('StackId', instance.stackId);
+  return val;
+}
+
 DescribeAppsResult _$DescribeAppsResultFromJson(Map<String, dynamic> json) {
   return DescribeAppsResult(
     apps: (json['Apps'] as List)
         ?.map((e) => e == null ? null : App.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeCommandsRequestToJson(
+    DescribeCommandsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CommandIds', instance.commandIds);
+  writeNotNull('DeploymentId', instance.deploymentId);
+  writeNotNull('InstanceId', instance.instanceId);
+  return val;
 }
 
 DescribeCommandsResult _$DescribeCommandsResultFromJson(
@@ -518,6 +990,22 @@ DescribeCommandsResult _$DescribeCommandsResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeDeploymentsRequestToJson(
+    DescribeDeploymentsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AppId', instance.appId);
+  writeNotNull('DeploymentIds', instance.deploymentIds);
+  writeNotNull('StackId', instance.stackId);
+  return val;
+}
+
 DescribeDeploymentsResult _$DescribeDeploymentsResultFromJson(
     Map<String, dynamic> json) {
   return DescribeDeploymentsResult(
@@ -526,6 +1014,23 @@ DescribeDeploymentsResult _$DescribeDeploymentsResultFromJson(
             e == null ? null : Deployment.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeEcsClustersRequestToJson(
+    DescribeEcsClustersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EcsClusterArns', instance.ecsClusterArns);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('StackId', instance.stackId);
+  return val;
 }
 
 DescribeEcsClustersResult _$DescribeEcsClustersResultFromJson(
@@ -539,6 +1044,22 @@ DescribeEcsClustersResult _$DescribeEcsClustersResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeElasticIpsRequestToJson(
+    DescribeElasticIpsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InstanceId', instance.instanceId);
+  writeNotNull('Ips', instance.ips);
+  writeNotNull('StackId', instance.stackId);
+  return val;
+}
+
 DescribeElasticIpsResult _$DescribeElasticIpsResultFromJson(
     Map<String, dynamic> json) {
   return DescribeElasticIpsResult(
@@ -547,6 +1068,21 @@ DescribeElasticIpsResult _$DescribeElasticIpsResultFromJson(
             e == null ? null : ElasticIp.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeElasticLoadBalancersRequestToJson(
+    DescribeElasticLoadBalancersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LayerIds', instance.layerIds);
+  writeNotNull('StackId', instance.stackId);
+  return val;
 }
 
 DescribeElasticLoadBalancersResult _$DescribeElasticLoadBalancersResultFromJson(
@@ -560,6 +1096,22 @@ DescribeElasticLoadBalancersResult _$DescribeElasticLoadBalancersResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeInstancesRequestToJson(
+    DescribeInstancesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InstanceIds', instance.instanceIds);
+  writeNotNull('LayerId', instance.layerId);
+  writeNotNull('StackId', instance.stackId);
+  return val;
+}
+
 DescribeInstancesResult _$DescribeInstancesResultFromJson(
     Map<String, dynamic> json) {
   return DescribeInstancesResult(
@@ -570,6 +1122,21 @@ DescribeInstancesResult _$DescribeInstancesResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeLayersRequestToJson(
+    DescribeLayersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LayerIds', instance.layerIds);
+  writeNotNull('StackId', instance.stackId);
+  return val;
+}
+
 DescribeLayersResult _$DescribeLayersResultFromJson(Map<String, dynamic> json) {
   return DescribeLayersResult(
     layers: (json['Layers'] as List)
@@ -577,6 +1144,20 @@ DescribeLayersResult _$DescribeLayersResultFromJson(Map<String, dynamic> json) {
             (e) => e == null ? null : Layer.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeLoadBasedAutoScalingRequestToJson(
+    DescribeLoadBasedAutoScalingRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LayerIds', instance.layerIds);
+  return val;
 }
 
 DescribeLoadBasedAutoScalingResult _$DescribeLoadBasedAutoScalingResultFromJson(
@@ -612,6 +1193,21 @@ DescribeOperatingSystemsResponse _$DescribeOperatingSystemsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribePermissionsRequestToJson(
+    DescribePermissionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('IamUserArn', instance.iamUserArn);
+  writeNotNull('StackId', instance.stackId);
+  return val;
+}
+
 DescribePermissionsResult _$DescribePermissionsResultFromJson(
     Map<String, dynamic> json) {
   return DescribePermissionsResult(
@@ -622,6 +1218,22 @@ DescribePermissionsResult _$DescribePermissionsResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeRaidArraysRequestToJson(
+    DescribeRaidArraysRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InstanceId', instance.instanceId);
+  writeNotNull('RaidArrayIds', instance.raidArrayIds);
+  writeNotNull('StackId', instance.stackId);
+  return val;
+}
+
 DescribeRaidArraysResult _$DescribeRaidArraysResultFromJson(
     Map<String, dynamic> json) {
   return DescribeRaidArraysResult(
@@ -630,6 +1242,21 @@ DescribeRaidArraysResult _$DescribeRaidArraysResultFromJson(
             e == null ? null : RaidArray.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeRdsDbInstancesRequestToJson(
+    DescribeRdsDbInstancesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('StackId', instance.stackId);
+  writeNotNull('RdsDbInstanceArns', instance.rdsDbInstanceArns);
+  return val;
 }
 
 DescribeRdsDbInstancesResult _$DescribeRdsDbInstancesResultFromJson(
@@ -643,6 +1270,22 @@ DescribeRdsDbInstancesResult _$DescribeRdsDbInstancesResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeServiceErrorsRequestToJson(
+    DescribeServiceErrorsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InstanceId', instance.instanceId);
+  writeNotNull('ServiceErrorIds', instance.serviceErrorIds);
+  writeNotNull('StackId', instance.stackId);
+  return val;
+}
+
 DescribeServiceErrorsResult _$DescribeServiceErrorsResultFromJson(
     Map<String, dynamic> json) {
   return DescribeServiceErrorsResult(
@@ -651,6 +1294,20 @@ DescribeServiceErrorsResult _$DescribeServiceErrorsResultFromJson(
             e == null ? null : ServiceError.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeStackProvisioningParametersRequestToJson(
+    DescribeStackProvisioningParametersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('StackId', instance.stackId);
+  return val;
 }
 
 DescribeStackProvisioningParametersResult
@@ -664,6 +1321,20 @@ DescribeStackProvisioningParametersResult
   );
 }
 
+Map<String, dynamic> _$DescribeStackSummaryRequestToJson(
+    DescribeStackSummaryRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('StackId', instance.stackId);
+  return val;
+}
+
 DescribeStackSummaryResult _$DescribeStackSummaryResultFromJson(
     Map<String, dynamic> json) {
   return DescribeStackSummaryResult(
@@ -673,6 +1344,20 @@ DescribeStackSummaryResult _$DescribeStackSummaryResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeStacksRequestToJson(
+    DescribeStacksRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('StackIds', instance.stackIds);
+  return val;
+}
+
 DescribeStacksResult _$DescribeStacksResultFromJson(Map<String, dynamic> json) {
   return DescribeStacksResult(
     stacks: (json['Stacks'] as List)
@@ -680,6 +1365,20 @@ DescribeStacksResult _$DescribeStacksResultFromJson(Map<String, dynamic> json) {
             (e) => e == null ? null : Stack.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DescribeTimeBasedAutoScalingRequestToJson(
+    DescribeTimeBasedAutoScalingRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InstanceIds', instance.instanceIds);
+  return val;
 }
 
 DescribeTimeBasedAutoScalingResult _$DescribeTimeBasedAutoScalingResultFromJson(
@@ -695,6 +1394,20 @@ DescribeTimeBasedAutoScalingResult _$DescribeTimeBasedAutoScalingResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeUserProfilesRequestToJson(
+    DescribeUserProfilesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('IamUserArns', instance.iamUserArns);
+  return val;
+}
+
 DescribeUserProfilesResult _$DescribeUserProfilesResultFromJson(
     Map<String, dynamic> json) {
   return DescribeUserProfilesResult(
@@ -705,6 +1418,23 @@ DescribeUserProfilesResult _$DescribeUserProfilesResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeVolumesRequestToJson(
+    DescribeVolumesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InstanceId', instance.instanceId);
+  writeNotNull('RaidArrayId', instance.raidArrayId);
+  writeNotNull('StackId', instance.stackId);
+  writeNotNull('VolumeIds', instance.volumeIds);
+  return val;
+}
+
 DescribeVolumesResult _$DescribeVolumesResultFromJson(
     Map<String, dynamic> json) {
   return DescribeVolumesResult(
@@ -713,6 +1443,35 @@ DescribeVolumesResult _$DescribeVolumesResultFromJson(
             e == null ? null : Volume.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DetachElasticLoadBalancerRequestToJson(
+    DetachElasticLoadBalancerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ElasticLoadBalancerName', instance.elasticLoadBalancerName);
+  writeNotNull('LayerId', instance.layerId);
+  return val;
+}
+
+Map<String, dynamic> _$DisassociateElasticIpRequestToJson(
+    DisassociateElasticIpRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ElasticIp', instance.elasticIp);
+  return val;
 }
 
 EbsBlockDevice _$EbsBlockDeviceFromJson(Map<String, dynamic> json) {
@@ -806,12 +1565,40 @@ Map<String, dynamic> _$EnvironmentVariableToJson(EnvironmentVariable instance) {
   return val;
 }
 
+Map<String, dynamic> _$GetHostnameSuggestionRequestToJson(
+    GetHostnameSuggestionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LayerId', instance.layerId);
+  return val;
+}
+
 GetHostnameSuggestionResult _$GetHostnameSuggestionResultFromJson(
     Map<String, dynamic> json) {
   return GetHostnameSuggestionResult(
     hostname: json['Hostname'] as String,
     layerId: json['LayerId'] as String,
   );
+}
+
+Map<String, dynamic> _$GrantAccessRequestToJson(GrantAccessRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InstanceId', instance.instanceId);
+  writeNotNull('ValidForInMinutes', instance.validForInMinutes);
+  return val;
 }
 
 GrantAccessResult _$GrantAccessResultFromJson(Map<String, dynamic> json) {
@@ -879,21 +1666,6 @@ Instance _$InstanceFromJson(Map<String, dynamic> json) {
         _$VirtualizationTypeEnumMap, json['VirtualizationType']),
   );
 }
-
-const _$ArchitectureEnumMap = {
-  Architecture.x86_64: 'x86_64',
-  Architecture.i386: 'i386',
-};
-
-const _$AutoScalingTypeEnumMap = {
-  AutoScalingType.load: 'load',
-  AutoScalingType.timer: 'timer',
-};
-
-const _$RootDeviceTypeEnumMap = {
-  RootDeviceType.ebs: 'ebs',
-  RootDeviceType.instanceStore: 'instance-store',
-};
 
 const _$VirtualizationTypeEnumMap = {
   VirtualizationType.paravirtual: 'paravirtual',
@@ -987,21 +1759,6 @@ Layer _$LayerFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$LayerTypeEnumMap = {
-  LayerType.awsFlowRuby: 'aws-flow-ruby',
-  LayerType.ecsCluster: 'ecs-cluster',
-  LayerType.javaApp: 'java-app',
-  LayerType.lb: 'lb',
-  LayerType.web: 'web',
-  LayerType.phpApp: 'php-app',
-  LayerType.railsApp: 'rails-app',
-  LayerType.nodejsApp: 'nodejs-app',
-  LayerType.memcached: 'memcached',
-  LayerType.dbMaster: 'db-master',
-  LayerType.monitoringMaster: 'monitoring-master',
-  LayerType.custom: 'custom',
-};
-
 LifecycleEventConfiguration _$LifecycleEventConfigurationFromJson(
     Map<String, dynamic> json) {
   return LifecycleEventConfiguration(
@@ -1023,6 +1780,21 @@ Map<String, dynamic> _$LifecycleEventConfigurationToJson(
   }
 
   writeNotNull('Shutdown', instance.shutdown?.toJson());
+  return val;
+}
+
+Map<String, dynamic> _$ListTagsRequestToJson(ListTagsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
   return val;
 }
 
@@ -1118,6 +1890,20 @@ RdsDbInstance _$RdsDbInstanceFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$RebootInstanceRequestToJson(
+    RebootInstanceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InstanceId', instance.instanceId);
+  return val;
+}
+
 Recipes _$RecipesFromJson(Map<String, dynamic> json) {
   return Recipes(
     configure: (json['Configure'] as List)?.map((e) => e as String)?.toList(),
@@ -1145,11 +1931,41 @@ Map<String, dynamic> _$RecipesToJson(Recipes instance) {
   return val;
 }
 
+Map<String, dynamic> _$RegisterEcsClusterRequestToJson(
+    RegisterEcsClusterRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EcsClusterArn', instance.ecsClusterArn);
+  writeNotNull('StackId', instance.stackId);
+  return val;
+}
+
 RegisterEcsClusterResult _$RegisterEcsClusterResultFromJson(
     Map<String, dynamic> json) {
   return RegisterEcsClusterResult(
     ecsClusterArn: json['EcsClusterArn'] as String,
   );
+}
+
+Map<String, dynamic> _$RegisterElasticIpRequestToJson(
+    RegisterElasticIpRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ElasticIp', instance.elasticIp);
+  writeNotNull('StackId', instance.stackId);
+  return val;
 }
 
 RegisterElasticIpResult _$RegisterElasticIpResultFromJson(
@@ -1159,11 +1975,63 @@ RegisterElasticIpResult _$RegisterElasticIpResultFromJson(
   );
 }
 
+Map<String, dynamic> _$RegisterInstanceRequestToJson(
+    RegisterInstanceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('StackId', instance.stackId);
+  writeNotNull('Hostname', instance.hostname);
+  writeNotNull('InstanceIdentity', instance.instanceIdentity?.toJson());
+  writeNotNull('PrivateIp', instance.privateIp);
+  writeNotNull('PublicIp', instance.publicIp);
+  writeNotNull('RsaPublicKey', instance.rsaPublicKey);
+  writeNotNull('RsaPublicKeyFingerprint', instance.rsaPublicKeyFingerprint);
+  return val;
+}
+
 RegisterInstanceResult _$RegisterInstanceResultFromJson(
     Map<String, dynamic> json) {
   return RegisterInstanceResult(
     instanceId: json['InstanceId'] as String,
   );
+}
+
+Map<String, dynamic> _$RegisterRdsDbInstanceRequestToJson(
+    RegisterRdsDbInstanceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DbPassword', instance.dbPassword);
+  writeNotNull('DbUser', instance.dbUser);
+  writeNotNull('RdsDbInstanceArn', instance.rdsDbInstanceArn);
+  writeNotNull('StackId', instance.stackId);
+  return val;
+}
+
+Map<String, dynamic> _$RegisterVolumeRequestToJson(
+    RegisterVolumeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('StackId', instance.stackId);
+  writeNotNull('Ec2VolumeId', instance.ec2VolumeId);
+  return val;
 }
 
 RegisterVolumeResult _$RegisterVolumeResultFromJson(Map<String, dynamic> json) {
@@ -1198,6 +2066,56 @@ ServiceError _$ServiceErrorFromJson(Map<String, dynamic> json) {
     stackId: json['StackId'] as String,
     type: json['Type'] as String,
   );
+}
+
+Map<String, dynamic> _$SetLoadBasedAutoScalingRequestToJson(
+    SetLoadBasedAutoScalingRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LayerId', instance.layerId);
+  writeNotNull('DownScaling', instance.downScaling?.toJson());
+  writeNotNull('Enable', instance.enable);
+  writeNotNull('UpScaling', instance.upScaling?.toJson());
+  return val;
+}
+
+Map<String, dynamic> _$SetPermissionRequestToJson(
+    SetPermissionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('IamUserArn', instance.iamUserArn);
+  writeNotNull('StackId', instance.stackId);
+  writeNotNull('AllowSsh', instance.allowSsh);
+  writeNotNull('AllowSudo', instance.allowSudo);
+  writeNotNull('Level', instance.level);
+  return val;
+}
+
+Map<String, dynamic> _$SetTimeBasedAutoScalingRequestToJson(
+    SetTimeBasedAutoScalingRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InstanceId', instance.instanceId);
+  writeNotNull('AutoScalingSchedule', instance.autoScalingSchedule?.toJson());
+  return val;
 }
 
 ShutdownEventConfiguration _$ShutdownEventConfigurationFromJson(
@@ -1360,6 +2278,74 @@ StackSummary _$StackSummaryFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$StartInstanceRequestToJson(
+    StartInstanceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InstanceId', instance.instanceId);
+  return val;
+}
+
+Map<String, dynamic> _$StartStackRequestToJson(StartStackRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('StackId', instance.stackId);
+  return val;
+}
+
+Map<String, dynamic> _$StopInstanceRequestToJson(StopInstanceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InstanceId', instance.instanceId);
+  writeNotNull('Force', instance.force);
+  return val;
+}
+
+Map<String, dynamic> _$StopStackRequestToJson(StopStackRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('StackId', instance.stackId);
+  return val;
+}
+
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('Tags', instance.tags);
+  return val;
+}
+
 TemporaryCredential _$TemporaryCredentialFromJson(Map<String, dynamic> json) {
   return TemporaryCredential(
     instanceId: json['InstanceId'] as String,
@@ -1378,6 +2364,241 @@ TimeBasedAutoScalingConfiguration _$TimeBasedAutoScalingConfigurationFromJson(
             json['AutoScalingSchedule'] as Map<String, dynamic>),
     instanceId: json['InstanceId'] as String,
   );
+}
+
+Map<String, dynamic> _$UnassignInstanceRequestToJson(
+    UnassignInstanceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InstanceId', instance.instanceId);
+  return val;
+}
+
+Map<String, dynamic> _$UnassignVolumeRequestToJson(
+    UnassignVolumeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('VolumeId', instance.volumeId);
+  return val;
+}
+
+Map<String, dynamic> _$UntagResourceRequestToJson(
+    UntagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
+}
+
+Map<String, dynamic> _$UpdateAppRequestToJson(UpdateAppRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AppId', instance.appId);
+  writeNotNull('AppSource', instance.appSource?.toJson());
+  writeNotNull('Attributes', instance.attributes);
+  writeNotNull(
+      'DataSources', instance.dataSources?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Description', instance.description);
+  writeNotNull('Domains', instance.domains);
+  writeNotNull('EnableSsl', instance.enableSsl);
+  writeNotNull(
+      'Environment', instance.environment?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Name', instance.name);
+  writeNotNull('SslConfiguration', instance.sslConfiguration?.toJson());
+  writeNotNull('Type', _$AppTypeEnumMap[instance.type]);
+  return val;
+}
+
+Map<String, dynamic> _$UpdateElasticIpRequestToJson(
+    UpdateElasticIpRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ElasticIp', instance.elasticIp);
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
+Map<String, dynamic> _$UpdateInstanceRequestToJson(
+    UpdateInstanceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InstanceId', instance.instanceId);
+  writeNotNull('AgentVersion', instance.agentVersion);
+  writeNotNull('AmiId', instance.amiId);
+  writeNotNull('Architecture', _$ArchitectureEnumMap[instance.architecture]);
+  writeNotNull(
+      'AutoScalingType', _$AutoScalingTypeEnumMap[instance.autoScalingType]);
+  writeNotNull('EbsOptimized', instance.ebsOptimized);
+  writeNotNull('Hostname', instance.hostname);
+  writeNotNull('InstallUpdatesOnBoot', instance.installUpdatesOnBoot);
+  writeNotNull('InstanceType', instance.instanceType);
+  writeNotNull('LayerIds', instance.layerIds);
+  writeNotNull('Os', instance.os);
+  writeNotNull('SshKeyName', instance.sshKeyName);
+  return val;
+}
+
+Map<String, dynamic> _$UpdateLayerRequestToJson(UpdateLayerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LayerId', instance.layerId);
+  writeNotNull('Attributes', instance.attributes);
+  writeNotNull('AutoAssignElasticIps', instance.autoAssignElasticIps);
+  writeNotNull('AutoAssignPublicIps', instance.autoAssignPublicIps);
+  writeNotNull('CloudWatchLogsConfiguration',
+      instance.cloudWatchLogsConfiguration?.toJson());
+  writeNotNull('CustomInstanceProfileArn', instance.customInstanceProfileArn);
+  writeNotNull('CustomJson', instance.customJson);
+  writeNotNull('CustomRecipes', instance.customRecipes?.toJson());
+  writeNotNull('CustomSecurityGroupIds', instance.customSecurityGroupIds);
+  writeNotNull('EnableAutoHealing', instance.enableAutoHealing);
+  writeNotNull('InstallUpdatesOnBoot', instance.installUpdatesOnBoot);
+  writeNotNull('LifecycleEventConfiguration',
+      instance.lifecycleEventConfiguration?.toJson());
+  writeNotNull('Name', instance.name);
+  writeNotNull('Packages', instance.packages);
+  writeNotNull('Shortname', instance.shortname);
+  writeNotNull('UseEbsOptimizedInstances', instance.useEbsOptimizedInstances);
+  writeNotNull('VolumeConfigurations',
+      instance.volumeConfigurations?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+Map<String, dynamic> _$UpdateMyUserProfileRequestToJson(
+    UpdateMyUserProfileRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SshPublicKey', instance.sshPublicKey);
+  return val;
+}
+
+Map<String, dynamic> _$UpdateRdsDbInstanceRequestToJson(
+    UpdateRdsDbInstanceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RdsDbInstanceArn', instance.rdsDbInstanceArn);
+  writeNotNull('DbPassword', instance.dbPassword);
+  writeNotNull('DbUser', instance.dbUser);
+  return val;
+}
+
+Map<String, dynamic> _$UpdateStackRequestToJson(UpdateStackRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('StackId', instance.stackId);
+  writeNotNull('AgentVersion', instance.agentVersion);
+  writeNotNull('Attributes', instance.attributes);
+  writeNotNull('ChefConfiguration', instance.chefConfiguration?.toJson());
+  writeNotNull('ConfigurationManager', instance.configurationManager?.toJson());
+  writeNotNull(
+      'CustomCookbooksSource', instance.customCookbooksSource?.toJson());
+  writeNotNull('CustomJson', instance.customJson);
+  writeNotNull('DefaultAvailabilityZone', instance.defaultAvailabilityZone);
+  writeNotNull('DefaultInstanceProfileArn', instance.defaultInstanceProfileArn);
+  writeNotNull('DefaultOs', instance.defaultOs);
+  writeNotNull('DefaultRootDeviceType',
+      _$RootDeviceTypeEnumMap[instance.defaultRootDeviceType]);
+  writeNotNull('DefaultSshKeyName', instance.defaultSshKeyName);
+  writeNotNull('DefaultSubnetId', instance.defaultSubnetId);
+  writeNotNull('HostnameTheme', instance.hostnameTheme);
+  writeNotNull('Name', instance.name);
+  writeNotNull('ServiceRoleArn', instance.serviceRoleArn);
+  writeNotNull('UseCustomCookbooks', instance.useCustomCookbooks);
+  writeNotNull('UseOpsworksSecurityGroups', instance.useOpsworksSecurityGroups);
+  return val;
+}
+
+Map<String, dynamic> _$UpdateUserProfileRequestToJson(
+    UpdateUserProfileRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('IamUserArn', instance.iamUserArn);
+  writeNotNull('AllowSelfManagement', instance.allowSelfManagement);
+  writeNotNull('SshPublicKey', instance.sshPublicKey);
+  writeNotNull('SshUsername', instance.sshUsername);
+  return val;
+}
+
+Map<String, dynamic> _$UpdateVolumeRequestToJson(UpdateVolumeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('VolumeId', instance.volumeId);
+  writeNotNull('MountPoint', instance.mountPoint);
+  writeNotNull('Name', instance.name);
+  return val;
 }
 
 UserProfile _$UserProfileFromJson(Map<String, dynamic> json) {

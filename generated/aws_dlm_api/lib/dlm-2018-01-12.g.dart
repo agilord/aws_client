@@ -6,6 +6,29 @@ part of 'dlm-2018-01-12.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$CreateLifecyclePolicyRequestToJson(
+    CreateLifecyclePolicyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Description', instance.description);
+  writeNotNull('ExecutionRoleArn', instance.executionRoleArn);
+  writeNotNull('PolicyDetails', instance.policyDetails?.toJson());
+  writeNotNull('State', _$SettablePolicyStateValuesEnumMap[instance.state]);
+  writeNotNull('Tags', instance.tags);
+  return val;
+}
+
+const _$SettablePolicyStateValuesEnumMap = {
+  SettablePolicyStateValues.enabled: 'ENABLED',
+  SettablePolicyStateValues.disabled: 'DISABLED',
+};
+
 CreateLifecyclePolicyResponse _$CreateLifecyclePolicyResponseFromJson(
     Map<String, dynamic> json) {
   return CreateLifecyclePolicyResponse(
@@ -135,6 +158,10 @@ Map<String, dynamic> _$CrossRegionCopyRuleToJson(CrossRegionCopyRule instance) {
   writeNotNull('RetainRule', instance.retainRule?.toJson());
   return val;
 }
+
+Map<String, dynamic> _$DeleteLifecyclePolicyRequestToJson(
+        DeleteLifecyclePolicyRequest instance) =>
+    <String, dynamic>{};
 
 DeleteLifecyclePolicyResponse _$DeleteLifecyclePolicyResponseFromJson(
     Map<String, dynamic> json) {
@@ -395,13 +422,47 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
   return val;
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Tags', instance.tags);
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
 }
 
+Map<String, dynamic> _$UntagResourceRequestToJson(
+        UntagResourceRequest instance) =>
+    <String, dynamic>{};
+
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse();
+}
+
+Map<String, dynamic> _$UpdateLifecyclePolicyRequestToJson(
+    UpdateLifecyclePolicyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Description', instance.description);
+  writeNotNull('ExecutionRoleArn', instance.executionRoleArn);
+  writeNotNull('PolicyDetails', instance.policyDetails?.toJson());
+  writeNotNull('State', _$SettablePolicyStateValuesEnumMap[instance.state]);
+  return val;
 }
 
 UpdateLifecyclePolicyResponse _$UpdateLifecyclePolicyResponseFromJson(

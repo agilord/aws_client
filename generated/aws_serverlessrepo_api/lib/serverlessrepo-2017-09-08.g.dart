@@ -55,6 +55,34 @@ ApplicationSummary _$ApplicationSummaryFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateApplicationRequestToJson(
+    CreateApplicationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('author', instance.author);
+  writeNotNull('description', instance.description);
+  writeNotNull('name', instance.name);
+  writeNotNull('homePageUrl', instance.homePageUrl);
+  writeNotNull('labels', instance.labels);
+  writeNotNull('licenseBody', instance.licenseBody);
+  writeNotNull('licenseUrl', instance.licenseUrl);
+  writeNotNull('readmeBody', instance.readmeBody);
+  writeNotNull('readmeUrl', instance.readmeUrl);
+  writeNotNull('semanticVersion', instance.semanticVersion);
+  writeNotNull('sourceCodeArchiveUrl', instance.sourceCodeArchiveUrl);
+  writeNotNull('sourceCodeUrl', instance.sourceCodeUrl);
+  writeNotNull('spdxLicenseId', instance.spdxLicenseId);
+  writeNotNull('templateBody', instance.templateBody);
+  writeNotNull('templateUrl', instance.templateUrl);
+  return val;
+}
+
 CreateApplicationResponse _$CreateApplicationResponseFromJson(
     Map<String, dynamic> json) {
   return CreateApplicationResponse(
@@ -74,6 +102,23 @@ CreateApplicationResponse _$CreateApplicationResponseFromJson(
         ? null
         : Version.fromJson(json['version'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateApplicationVersionRequestToJson(
+    CreateApplicationVersionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('sourceCodeArchiveUrl', instance.sourceCodeArchiveUrl);
+  writeNotNull('sourceCodeUrl', instance.sourceCodeUrl);
+  writeNotNull('templateBody', instance.templateBody);
+  writeNotNull('templateUrl', instance.templateUrl);
+  return val;
 }
 
 CreateApplicationVersionResponse _$CreateApplicationVersionResponseFromJson(
@@ -97,6 +142,33 @@ CreateApplicationVersionResponse _$CreateApplicationVersionResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateCloudFormationChangeSetRequestToJson(
+    CreateCloudFormationChangeSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('stackName', instance.stackName);
+  writeNotNull('capabilities', instance.capabilities);
+  writeNotNull('changeSetName', instance.changeSetName);
+  writeNotNull('clientToken', instance.clientToken);
+  writeNotNull('description', instance.description);
+  writeNotNull('notificationArns', instance.notificationArns);
+  writeNotNull('parameterOverrides',
+      instance.parameterOverrides?.map((e) => e?.toJson())?.toList());
+  writeNotNull('resourceTypes', instance.resourceTypes);
+  writeNotNull(
+      'rollbackConfiguration', instance.rollbackConfiguration?.toJson());
+  writeNotNull('semanticVersion', instance.semanticVersion);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('templateId', instance.templateId);
+  return val;
+}
+
 CreateCloudFormationChangeSetResponse
     _$CreateCloudFormationChangeSetResponseFromJson(Map<String, dynamic> json) {
   return CreateCloudFormationChangeSetResponse(
@@ -105,6 +177,20 @@ CreateCloudFormationChangeSetResponse
     semanticVersion: json['semanticVersion'] as String,
     stackId: json['stackId'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateCloudFormationTemplateRequestToJson(
+    CreateCloudFormationTemplateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('semanticVersion', instance.semanticVersion);
+  return val;
 }
 
 CreateCloudFormationTemplateResponse
@@ -157,6 +243,10 @@ const _$StatusEnumMap = {
   Status.active: 'ACTIVE',
   Status.expired: 'EXPIRED',
 };
+
+Map<String, dynamic> _$DeleteApplicationRequestToJson(
+        DeleteApplicationRequest instance) =>
+    <String, dynamic>{};
 
 GetApplicationPolicyResponse _$GetApplicationPolicyResponseFromJson(
     Map<String, dynamic> json) {
@@ -274,6 +364,21 @@ Map<String, dynamic> _$ParameterValueToJson(ParameterValue instance) {
   return val;
 }
 
+Map<String, dynamic> _$PutApplicationPolicyRequestToJson(
+    PutApplicationPolicyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'statements', instance.statements?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 PutApplicationPolicyResponse _$PutApplicationPolicyResponseFromJson(
     Map<String, dynamic> json) {
   return PutApplicationPolicyResponse(
@@ -326,6 +431,39 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
 
   writeNotNull('key', instance.key);
   writeNotNull('value', instance.value);
+  return val;
+}
+
+Map<String, dynamic> _$UnshareApplicationRequestToJson(
+    UnshareApplicationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('organizationId', instance.organizationId);
+  return val;
+}
+
+Map<String, dynamic> _$UpdateApplicationRequestToJson(
+    UpdateApplicationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('author', instance.author);
+  writeNotNull('description', instance.description);
+  writeNotNull('homePageUrl', instance.homePageUrl);
+  writeNotNull('labels', instance.labels);
+  writeNotNull('readmeBody', instance.readmeBody);
+  writeNotNull('readmeUrl', instance.readmeUrl);
   return val;
 }
 

@@ -22,8 +22,36 @@ AddressBookData _$AddressBookDataFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ApproveSkillRequestToJson(ApproveSkillRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SkillId', instance.skillId);
+  return val;
+}
+
 ApproveSkillResponse _$ApproveSkillResponseFromJson(Map<String, dynamic> json) {
   return ApproveSkillResponse();
+}
+
+Map<String, dynamic> _$AssociateContactWithAddressBookRequestToJson(
+    AssociateContactWithAddressBookRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AddressBookArn', instance.addressBookArn);
+  writeNotNull('ContactArn', instance.contactArn);
+  return val;
 }
 
 AssociateContactWithAddressBookResponse
@@ -32,10 +60,40 @@ AssociateContactWithAddressBookResponse
   return AssociateContactWithAddressBookResponse();
 }
 
+Map<String, dynamic> _$AssociateDeviceWithNetworkProfileRequestToJson(
+    AssociateDeviceWithNetworkProfileRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DeviceArn', instance.deviceArn);
+  writeNotNull('NetworkProfileArn', instance.networkProfileArn);
+  return val;
+}
+
 AssociateDeviceWithNetworkProfileResponse
     _$AssociateDeviceWithNetworkProfileResponseFromJson(
         Map<String, dynamic> json) {
   return AssociateDeviceWithNetworkProfileResponse();
+}
+
+Map<String, dynamic> _$AssociateDeviceWithRoomRequestToJson(
+    AssociateDeviceWithRoomRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DeviceArn', instance.deviceArn);
+  writeNotNull('RoomArn', instance.roomArn);
+  return val;
 }
 
 AssociateDeviceWithRoomResponse _$AssociateDeviceWithRoomResponseFromJson(
@@ -43,14 +101,58 @@ AssociateDeviceWithRoomResponse _$AssociateDeviceWithRoomResponseFromJson(
   return AssociateDeviceWithRoomResponse();
 }
 
+Map<String, dynamic> _$AssociateSkillGroupWithRoomRequestToJson(
+    AssociateSkillGroupWithRoomRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RoomArn', instance.roomArn);
+  writeNotNull('SkillGroupArn', instance.skillGroupArn);
+  return val;
+}
+
 AssociateSkillGroupWithRoomResponse
     _$AssociateSkillGroupWithRoomResponseFromJson(Map<String, dynamic> json) {
   return AssociateSkillGroupWithRoomResponse();
 }
 
+Map<String, dynamic> _$AssociateSkillWithSkillGroupRequestToJson(
+    AssociateSkillWithSkillGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SkillId', instance.skillId);
+  writeNotNull('SkillGroupArn', instance.skillGroupArn);
+  return val;
+}
+
 AssociateSkillWithSkillGroupResponse
     _$AssociateSkillWithSkillGroupResponseFromJson(Map<String, dynamic> json) {
   return AssociateSkillWithSkillGroupResponse();
+}
+
+Map<String, dynamic> _$AssociateSkillWithUsersRequestToJson(
+    AssociateSkillWithUsersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SkillId', instance.skillId);
+  return val;
 }
 
 AssociateSkillWithUsersResponse _$AssociateSkillWithUsersResponseFromJson(
@@ -333,11 +435,47 @@ Map<String, dynamic> _$ContentToJson(Content instance) {
   return val;
 }
 
+Map<String, dynamic> _$CreateAddressBookRequestToJson(
+    CreateAddressBookRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('Description', instance.description);
+  return val;
+}
+
 CreateAddressBookResponse _$CreateAddressBookResponseFromJson(
     Map<String, dynamic> json) {
   return CreateAddressBookResponse(
     addressBookArn: json['AddressBookArn'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateBusinessReportScheduleRequestToJson(
+    CreateBusinessReportScheduleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ContentRange', instance.contentRange?.toJson());
+  writeNotNull('Format', _$BusinessReportFormatEnumMap[instance.format]);
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('Recurrence', instance.recurrence?.toJson());
+  writeNotNull('S3BucketName', instance.s3BucketName);
+  writeNotNull('S3KeyPrefix', instance.s3KeyPrefix);
+  writeNotNull('ScheduleName', instance.scheduleName);
+  return val;
 }
 
 CreateBusinessReportScheduleResponse
@@ -347,11 +485,53 @@ CreateBusinessReportScheduleResponse
   );
 }
 
+Map<String, dynamic> _$CreateConferenceProviderRequestToJson(
+    CreateConferenceProviderRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConferenceProviderName', instance.conferenceProviderName);
+  writeNotNull('ConferenceProviderType',
+      _$ConferenceProviderTypeEnumMap[instance.conferenceProviderType]);
+  writeNotNull('MeetingSetting', instance.meetingSetting?.toJson());
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('IPDialIn', instance.iPDialIn?.toJson());
+  writeNotNull('PSTNDialIn', instance.pSTNDialIn?.toJson());
+  return val;
+}
+
 CreateConferenceProviderResponse _$CreateConferenceProviderResponseFromJson(
     Map<String, dynamic> json) {
   return CreateConferenceProviderResponse(
     conferenceProviderArn: json['ConferenceProviderArn'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateContactRequestToJson(
+    CreateContactRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FirstName', instance.firstName);
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('DisplayName', instance.displayName);
+  writeNotNull('LastName', instance.lastName);
+  writeNotNull('PhoneNumber', instance.phoneNumber);
+  writeNotNull(
+      'PhoneNumbers', instance.phoneNumbers?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'SipAddresses', instance.sipAddresses?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateContactResponse _$CreateContactResponseFromJson(
@@ -385,6 +565,22 @@ const _$EndOfMeetingReminderTypeEnumMap = {
   EndOfMeetingReminderType.chime: 'CHIME',
   EndOfMeetingReminderType.knock: 'KNOCK',
 };
+
+Map<String, dynamic> _$CreateGatewayGroupRequestToJson(
+    CreateGatewayGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('Name', instance.name);
+  writeNotNull('Description', instance.description);
+  return val;
+}
 
 CreateGatewayGroupResponse _$CreateGatewayGroupResponseFromJson(
     Map<String, dynamic> json) {
@@ -426,12 +622,92 @@ Map<String, dynamic> _$CreateMeetingRoomConfigurationToJson(
   return val;
 }
 
+Map<String, dynamic> _$CreateNetworkProfileRequestToJson(
+    CreateNetworkProfileRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('NetworkProfileName', instance.networkProfileName);
+  writeNotNull(
+      'SecurityType', _$NetworkSecurityTypeEnumMap[instance.securityType]);
+  writeNotNull('Ssid', instance.ssid);
+  writeNotNull('CertificateAuthorityArn', instance.certificateAuthorityArn);
+  writeNotNull('CurrentPassword', instance.currentPassword);
+  writeNotNull('Description', instance.description);
+  writeNotNull('EapMethod', _$NetworkEapMethodEnumMap[instance.eapMethod]);
+  writeNotNull('NextPassword', instance.nextPassword);
+  writeNotNull('TrustAnchors', instance.trustAnchors);
+  return val;
+}
+
+const _$NetworkSecurityTypeEnumMap = {
+  NetworkSecurityType.open: 'OPEN',
+  NetworkSecurityType.wep: 'WEP',
+  NetworkSecurityType.wpaPsk: 'WPA_PSK',
+  NetworkSecurityType.wpa2Psk: 'WPA2_PSK',
+  NetworkSecurityType.wpa2Enterprise: 'WPA2_ENTERPRISE',
+};
+
+const _$NetworkEapMethodEnumMap = {
+  NetworkEapMethod.eapTls: 'EAP_TLS',
+};
+
 CreateNetworkProfileResponse _$CreateNetworkProfileResponseFromJson(
     Map<String, dynamic> json) {
   return CreateNetworkProfileResponse(
     networkProfileArn: json['NetworkProfileArn'] as String,
   );
 }
+
+Map<String, dynamic> _$CreateProfileRequestToJson(
+    CreateProfileRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Address', instance.address);
+  writeNotNull('DistanceUnit', _$DistanceUnitEnumMap[instance.distanceUnit]);
+  writeNotNull('ProfileName', instance.profileName);
+  writeNotNull(
+      'TemperatureUnit', _$TemperatureUnitEnumMap[instance.temperatureUnit]);
+  writeNotNull('Timezone', instance.timezone);
+  writeNotNull('WakeWord', _$WakeWordEnumMap[instance.wakeWord]);
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('Locale', instance.locale);
+  writeNotNull('MaxVolumeLimit', instance.maxVolumeLimit);
+  writeNotNull(
+      'MeetingRoomConfiguration', instance.meetingRoomConfiguration?.toJson());
+  writeNotNull('PSTNEnabled', instance.pSTNEnabled);
+  writeNotNull('SetupModeDisabled', instance.setupModeDisabled);
+  return val;
+}
+
+const _$DistanceUnitEnumMap = {
+  DistanceUnit.metric: 'METRIC',
+  DistanceUnit.imperial: 'IMPERIAL',
+};
+
+const _$TemperatureUnitEnumMap = {
+  TemperatureUnit.fahrenheit: 'FAHRENHEIT',
+  TemperatureUnit.celsius: 'CELSIUS',
+};
+
+const _$WakeWordEnumMap = {
+  WakeWord.alexa: 'ALEXA',
+  WakeWord.amazon: 'AMAZON',
+  WakeWord.echo: 'ECHO',
+  WakeWord.computer: 'COMPUTER',
+};
 
 CreateProfileResponse _$CreateProfileResponseFromJson(
     Map<String, dynamic> json) {
@@ -455,10 +731,44 @@ Map<String, dynamic> _$CreateRequireCheckInToJson(
   return val;
 }
 
+Map<String, dynamic> _$CreateRoomRequestToJson(CreateRoomRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RoomName', instance.roomName);
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('Description', instance.description);
+  writeNotNull('ProfileArn', instance.profileArn);
+  writeNotNull('ProviderCalendarId', instance.providerCalendarId);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateRoomResponse _$CreateRoomResponseFromJson(Map<String, dynamic> json) {
   return CreateRoomResponse(
     roomArn: json['RoomArn'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateSkillGroupRequestToJson(
+    CreateSkillGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SkillGroupName', instance.skillGroupName);
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('Description', instance.description);
+  return val;
 }
 
 CreateSkillGroupResponse _$CreateSkillGroupResponseFromJson(
@@ -468,10 +778,42 @@ CreateSkillGroupResponse _$CreateSkillGroupResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateUserRequestToJson(CreateUserRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UserId', instance.userId);
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('Email', instance.email);
+  writeNotNull('FirstName', instance.firstName);
+  writeNotNull('LastName', instance.lastName);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateUserResponse _$CreateUserResponseFromJson(Map<String, dynamic> json) {
   return CreateUserResponse(
     userArn: json['UserArn'] as String,
   );
+}
+
+Map<String, dynamic> _$DeleteAddressBookRequestToJson(
+    DeleteAddressBookRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AddressBookArn', instance.addressBookArn);
+  return val;
 }
 
 DeleteAddressBookResponse _$DeleteAddressBookResponseFromJson(
@@ -479,9 +821,37 @@ DeleteAddressBookResponse _$DeleteAddressBookResponseFromJson(
   return DeleteAddressBookResponse();
 }
 
+Map<String, dynamic> _$DeleteBusinessReportScheduleRequestToJson(
+    DeleteBusinessReportScheduleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ScheduleArn', instance.scheduleArn);
+  return val;
+}
+
 DeleteBusinessReportScheduleResponse
     _$DeleteBusinessReportScheduleResponseFromJson(Map<String, dynamic> json) {
   return DeleteBusinessReportScheduleResponse();
+}
+
+Map<String, dynamic> _$DeleteConferenceProviderRequestToJson(
+    DeleteConferenceProviderRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConferenceProviderArn', instance.conferenceProviderArn);
+  return val;
 }
 
 DeleteConferenceProviderResponse _$DeleteConferenceProviderResponseFromJson(
@@ -489,18 +859,79 @@ DeleteConferenceProviderResponse _$DeleteConferenceProviderResponseFromJson(
   return DeleteConferenceProviderResponse();
 }
 
+Map<String, dynamic> _$DeleteContactRequestToJson(
+    DeleteContactRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ContactArn', instance.contactArn);
+  return val;
+}
+
 DeleteContactResponse _$DeleteContactResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteContactResponse();
+}
+
+Map<String, dynamic> _$DeleteDeviceRequestToJson(DeleteDeviceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DeviceArn', instance.deviceArn);
+  return val;
 }
 
 DeleteDeviceResponse _$DeleteDeviceResponseFromJson(Map<String, dynamic> json) {
   return DeleteDeviceResponse();
 }
 
+Map<String, dynamic> _$DeleteDeviceUsageDataRequestToJson(
+    DeleteDeviceUsageDataRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DeviceArn', instance.deviceArn);
+  writeNotNull(
+      'DeviceUsageType', _$DeviceUsageTypeEnumMap[instance.deviceUsageType]);
+  return val;
+}
+
+const _$DeviceUsageTypeEnumMap = {
+  DeviceUsageType.voice: 'VOICE',
+};
+
 DeleteDeviceUsageDataResponse _$DeleteDeviceUsageDataResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteDeviceUsageDataResponse();
+}
+
+Map<String, dynamic> _$DeleteGatewayGroupRequestToJson(
+    DeleteGatewayGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GatewayGroupArn', instance.gatewayGroupArn);
+  return val;
 }
 
 DeleteGatewayGroupResponse _$DeleteGatewayGroupResponseFromJson(
@@ -508,9 +939,37 @@ DeleteGatewayGroupResponse _$DeleteGatewayGroupResponseFromJson(
   return DeleteGatewayGroupResponse();
 }
 
+Map<String, dynamic> _$DeleteNetworkProfileRequestToJson(
+    DeleteNetworkProfileRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('NetworkProfileArn', instance.networkProfileArn);
+  return val;
+}
+
 DeleteNetworkProfileResponse _$DeleteNetworkProfileResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteNetworkProfileResponse();
+}
+
+Map<String, dynamic> _$DeleteProfileRequestToJson(
+    DeleteProfileRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ProfileArn', instance.profileArn);
+  return val;
 }
 
 DeleteProfileResponse _$DeleteProfileResponseFromJson(
@@ -518,8 +977,37 @@ DeleteProfileResponse _$DeleteProfileResponseFromJson(
   return DeleteProfileResponse();
 }
 
+Map<String, dynamic> _$DeleteRoomRequestToJson(DeleteRoomRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RoomArn', instance.roomArn);
+  return val;
+}
+
 DeleteRoomResponse _$DeleteRoomResponseFromJson(Map<String, dynamic> json) {
   return DeleteRoomResponse();
+}
+
+Map<String, dynamic> _$DeleteRoomSkillParameterRequestToJson(
+    DeleteRoomSkillParameterRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ParameterKey', instance.parameterKey);
+  writeNotNull('SkillId', instance.skillId);
+  writeNotNull('RoomArn', instance.roomArn);
+  return val;
 }
 
 DeleteRoomSkillParameterResponse _$DeleteRoomSkillParameterResponseFromJson(
@@ -527,14 +1015,57 @@ DeleteRoomSkillParameterResponse _$DeleteRoomSkillParameterResponseFromJson(
   return DeleteRoomSkillParameterResponse();
 }
 
+Map<String, dynamic> _$DeleteSkillAuthorizationRequestToJson(
+    DeleteSkillAuthorizationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SkillId', instance.skillId);
+  writeNotNull('RoomArn', instance.roomArn);
+  return val;
+}
+
 DeleteSkillAuthorizationResponse _$DeleteSkillAuthorizationResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteSkillAuthorizationResponse();
 }
 
+Map<String, dynamic> _$DeleteSkillGroupRequestToJson(
+    DeleteSkillGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SkillGroupArn', instance.skillGroupArn);
+  return val;
+}
+
 DeleteSkillGroupResponse _$DeleteSkillGroupResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteSkillGroupResponse();
+}
+
+Map<String, dynamic> _$DeleteUserRequestToJson(DeleteUserRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EnrollmentId', instance.enrollmentId);
+  writeNotNull('UserArn', instance.userArn);
+  return val;
 }
 
 DeleteUserResponse _$DeleteUserResponseFromJson(Map<String, dynamic> json) {
@@ -683,15 +1214,59 @@ const _$ConnectionStatusEnumMap = {
   ConnectionStatus.offline: 'OFFLINE',
 };
 
+Map<String, dynamic> _$DisassociateContactFromAddressBookRequestToJson(
+    DisassociateContactFromAddressBookRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AddressBookArn', instance.addressBookArn);
+  writeNotNull('ContactArn', instance.contactArn);
+  return val;
+}
+
 DisassociateContactFromAddressBookResponse
     _$DisassociateContactFromAddressBookResponseFromJson(
         Map<String, dynamic> json) {
   return DisassociateContactFromAddressBookResponse();
 }
 
+Map<String, dynamic> _$DisassociateDeviceFromRoomRequestToJson(
+    DisassociateDeviceFromRoomRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DeviceArn', instance.deviceArn);
+  return val;
+}
+
 DisassociateDeviceFromRoomResponse _$DisassociateDeviceFromRoomResponseFromJson(
     Map<String, dynamic> json) {
   return DisassociateDeviceFromRoomResponse();
+}
+
+Map<String, dynamic> _$DisassociateSkillFromSkillGroupRequestToJson(
+    DisassociateSkillFromSkillGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SkillId', instance.skillId);
+  writeNotNull('SkillGroupArn', instance.skillGroupArn);
+  return val;
 }
 
 DisassociateSkillFromSkillGroupResponse
@@ -700,9 +1275,38 @@ DisassociateSkillFromSkillGroupResponse
   return DisassociateSkillFromSkillGroupResponse();
 }
 
+Map<String, dynamic> _$DisassociateSkillFromUsersRequestToJson(
+    DisassociateSkillFromUsersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SkillId', instance.skillId);
+  return val;
+}
+
 DisassociateSkillFromUsersResponse _$DisassociateSkillFromUsersResponseFromJson(
     Map<String, dynamic> json) {
   return DisassociateSkillFromUsersResponse();
+}
+
+Map<String, dynamic> _$DisassociateSkillGroupFromRoomRequestToJson(
+    DisassociateSkillGroupFromRoomRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RoomArn', instance.roomArn);
+  writeNotNull('SkillGroupArn', instance.skillGroupArn);
+  return val;
 }
 
 DisassociateSkillGroupFromRoomResponse
@@ -732,6 +1336,20 @@ Map<String, dynamic> _$FilterToJson(Filter instance) {
 
   writeNotNull('Key', instance.key);
   writeNotNull('Values', instance.values);
+  return val;
+}
+
+Map<String, dynamic> _$ForgetSmartHomeAppliancesRequestToJson(
+    ForgetSmartHomeAppliancesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RoomArn', instance.roomArn);
   return val;
 }
 
@@ -776,6 +1394,20 @@ GatewaySummary _$GatewaySummaryFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetAddressBookRequestToJson(
+    GetAddressBookRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AddressBookArn', instance.addressBookArn);
+  return val;
+}
+
 GetAddressBookResponse _$GetAddressBookResponseFromJson(
     Map<String, dynamic> json) {
   return GetAddressBookResponse(
@@ -795,6 +1427,20 @@ GetConferencePreferenceResponse _$GetConferencePreferenceResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$GetConferenceProviderRequestToJson(
+    GetConferenceProviderRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConferenceProviderArn', instance.conferenceProviderArn);
+  return val;
+}
+
 GetConferenceProviderResponse _$GetConferenceProviderResponseFromJson(
     Map<String, dynamic> json) {
   return GetConferenceProviderResponse(
@@ -805,12 +1451,38 @@ GetConferenceProviderResponse _$GetConferenceProviderResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$GetContactRequestToJson(GetContactRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ContactArn', instance.contactArn);
+  return val;
+}
+
 GetContactResponse _$GetContactResponseFromJson(Map<String, dynamic> json) {
   return GetContactResponse(
     contact: json['Contact'] == null
         ? null
         : Contact.fromJson(json['Contact'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetDeviceRequestToJson(GetDeviceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DeviceArn', instance.deviceArn);
+  return val;
 }
 
 GetDeviceResponse _$GetDeviceResponseFromJson(Map<String, dynamic> json) {
@@ -821,6 +1493,20 @@ GetDeviceResponse _$GetDeviceResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetGatewayGroupRequestToJson(
+    GetGatewayGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GatewayGroupArn', instance.gatewayGroupArn);
+  return val;
+}
+
 GetGatewayGroupResponse _$GetGatewayGroupResponseFromJson(
     Map<String, dynamic> json) {
   return GetGatewayGroupResponse(
@@ -828,6 +1514,19 @@ GetGatewayGroupResponse _$GetGatewayGroupResponseFromJson(
         ? null
         : GatewayGroup.fromJson(json['GatewayGroup'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetGatewayRequestToJson(GetGatewayRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GatewayArn', instance.gatewayArn);
+  return val;
 }
 
 GetGatewayResponse _$GetGatewayResponseFromJson(Map<String, dynamic> json) {
@@ -848,6 +1547,20 @@ GetInvitationConfigurationResponse _$GetInvitationConfigurationResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$GetNetworkProfileRequestToJson(
+    GetNetworkProfileRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('NetworkProfileArn', instance.networkProfileArn);
+  return val;
+}
+
 GetNetworkProfileResponse _$GetNetworkProfileResponseFromJson(
     Map<String, dynamic> json) {
   return GetNetworkProfileResponse(
@@ -858,12 +1571,38 @@ GetNetworkProfileResponse _$GetNetworkProfileResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$GetProfileRequestToJson(GetProfileRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ProfileArn', instance.profileArn);
+  return val;
+}
+
 GetProfileResponse _$GetProfileResponseFromJson(Map<String, dynamic> json) {
   return GetProfileResponse(
     profile: json['Profile'] == null
         ? null
         : Profile.fromJson(json['Profile'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetRoomRequestToJson(GetRoomRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RoomArn', instance.roomArn);
+  return val;
 }
 
 GetRoomResponse _$GetRoomResponseFromJson(Map<String, dynamic> json) {
@@ -874,6 +1613,22 @@ GetRoomResponse _$GetRoomResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetRoomSkillParameterRequestToJson(
+    GetRoomSkillParameterRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ParameterKey', instance.parameterKey);
+  writeNotNull('SkillId', instance.skillId);
+  writeNotNull('RoomArn', instance.roomArn);
+  return val;
+}
+
 GetRoomSkillParameterResponse _$GetRoomSkillParameterResponseFromJson(
     Map<String, dynamic> json) {
   return GetRoomSkillParameterResponse(
@@ -882,6 +1637,20 @@ GetRoomSkillParameterResponse _$GetRoomSkillParameterResponseFromJson(
         : RoomSkillParameter.fromJson(
             json['RoomSkillParameter'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetSkillGroupRequestToJson(
+    GetSkillGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SkillGroupArn', instance.skillGroupArn);
+  return val;
 }
 
 GetSkillGroupResponse _$GetSkillGroupResponseFromJson(
@@ -928,6 +1697,21 @@ InstantBooking _$InstantBookingFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ListBusinessReportSchedulesRequestToJson(
+    ListBusinessReportSchedulesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListBusinessReportSchedulesResponse
     _$ListBusinessReportSchedulesResponseFromJson(Map<String, dynamic> json) {
   return ListBusinessReportSchedulesResponse(
@@ -938,6 +1722,21 @@ ListBusinessReportSchedulesResponse
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListConferenceProvidersRequestToJson(
+    ListConferenceProvidersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListConferenceProvidersResponse _$ListConferenceProvidersResponseFromJson(
@@ -952,6 +1751,23 @@ ListConferenceProvidersResponse _$ListConferenceProvidersResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListDeviceEventsRequestToJson(
+    ListDeviceEventsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DeviceArn', instance.deviceArn);
+  writeNotNull('EventType', _$DeviceEventTypeEnumMap[instance.eventType]);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListDeviceEventsResponse _$ListDeviceEventsResponseFromJson(
     Map<String, dynamic> json) {
   return ListDeviceEventsResponse(
@@ -961,6 +1777,21 @@ ListDeviceEventsResponse _$ListDeviceEventsResponseFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListGatewayGroupsRequestToJson(
+    ListGatewayGroupsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListGatewayGroupsResponse _$ListGatewayGroupsResponseFromJson(
@@ -975,6 +1806,21 @@ ListGatewayGroupsResponse _$ListGatewayGroupsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListGatewaysRequestToJson(ListGatewaysRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GatewayGroupArn', instance.gatewayGroupArn);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListGatewaysResponse _$ListGatewaysResponseFromJson(Map<String, dynamic> json) {
   return ListGatewaysResponse(
     gateways: (json['Gateways'] as List)
@@ -986,6 +1832,35 @@ ListGatewaysResponse _$ListGatewaysResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ListSkillsRequestToJson(ListSkillsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'EnablementType', _$EnablementTypeFilterEnumMap[instance.enablementType]);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('SkillGroupArn', instance.skillGroupArn);
+  writeNotNull('SkillType', _$SkillTypeFilterEnumMap[instance.skillType]);
+  return val;
+}
+
+const _$EnablementTypeFilterEnumMap = {
+  EnablementTypeFilter.enabled: 'ENABLED',
+  EnablementTypeFilter.pending: 'PENDING',
+};
+
+const _$SkillTypeFilterEnumMap = {
+  SkillTypeFilter.public: 'PUBLIC',
+  SkillTypeFilter.private: 'PRIVATE',
+  SkillTypeFilter.all: 'ALL',
+};
+
 ListSkillsResponse _$ListSkillsResponseFromJson(Map<String, dynamic> json) {
   return ListSkillsResponse(
     nextToken: json['NextToken'] as String,
@@ -994,6 +1869,21 @@ ListSkillsResponse _$ListSkillsResponseFromJson(Map<String, dynamic> json) {
             e == null ? null : SkillSummary.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListSkillsStoreCategoriesRequestToJson(
+    ListSkillsStoreCategoriesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListSkillsStoreCategoriesResponse _$ListSkillsStoreCategoriesResponseFromJson(
@@ -1005,6 +1895,22 @@ ListSkillsStoreCategoriesResponse _$ListSkillsStoreCategoriesResponseFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListSkillsStoreSkillsByCategoryRequestToJson(
+    ListSkillsStoreSkillsByCategoryRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CategoryId', instance.categoryId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListSkillsStoreSkillsByCategoryResponse
@@ -1020,6 +1926,22 @@ ListSkillsStoreSkillsByCategoryResponse
   );
 }
 
+Map<String, dynamic> _$ListSmartHomeAppliancesRequestToJson(
+    ListSmartHomeAppliancesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RoomArn', instance.roomArn);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListSmartHomeAppliancesResponse _$ListSmartHomeAppliancesResponseFromJson(
     Map<String, dynamic> json) {
   return ListSmartHomeAppliancesResponse(
@@ -1030,6 +1952,21 @@ ListSmartHomeAppliancesResponse _$ListSmartHomeAppliancesResponseFromJson(
             : SmartHomeAppliance.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListTagsRequestToJson(ListTagsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Arn', instance.arn);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListTagsResponse _$ListTagsResponseFromJson(Map<String, dynamic> json) {
@@ -1103,18 +2040,6 @@ NetworkProfile _$NetworkProfileFromJson(Map<String, dynamic> json) {
         (json['TrustAnchors'] as List)?.map((e) => e as String)?.toList(),
   );
 }
-
-const _$NetworkEapMethodEnumMap = {
-  NetworkEapMethod.eapTls: 'EAP_TLS',
-};
-
-const _$NetworkSecurityTypeEnumMap = {
-  NetworkSecurityType.open: 'OPEN',
-  NetworkSecurityType.wep: 'WEP',
-  NetworkSecurityType.wpaPsk: 'WPA_PSK',
-  NetworkSecurityType.wpa2Psk: 'WPA2_PSK',
-  NetworkSecurityType.wpa2Enterprise: 'WPA2_ENTERPRISE',
-};
 
 NetworkProfileData _$NetworkProfileDataFromJson(Map<String, dynamic> json) {
   return NetworkProfileData(
@@ -1206,23 +2131,6 @@ Profile _$ProfileFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$DistanceUnitEnumMap = {
-  DistanceUnit.metric: 'METRIC',
-  DistanceUnit.imperial: 'IMPERIAL',
-};
-
-const _$TemperatureUnitEnumMap = {
-  TemperatureUnit.fahrenheit: 'FAHRENHEIT',
-  TemperatureUnit.celsius: 'CELSIUS',
-};
-
-const _$WakeWordEnumMap = {
-  WakeWord.alexa: 'ALEXA',
-  WakeWord.amazon: 'AMAZON',
-  WakeWord.echo: 'ECHO',
-  WakeWord.computer: 'COMPUTER',
-};
-
 ProfileData _$ProfileDataFromJson(Map<String, dynamic> json) {
   return ProfileData(
     address: json['Address'] as String,
@@ -1239,9 +2147,39 @@ ProfileData _$ProfileDataFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$PutConferencePreferenceRequestToJson(
+    PutConferencePreferenceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConferencePreference', instance.conferencePreference?.toJson());
+  return val;
+}
+
 PutConferencePreferenceResponse _$PutConferencePreferenceResponseFromJson(
     Map<String, dynamic> json) {
   return PutConferencePreferenceResponse();
+}
+
+Map<String, dynamic> _$PutInvitationConfigurationRequestToJson(
+    PutInvitationConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('OrganizationName', instance.organizationName);
+  writeNotNull('ContactEmail', instance.contactEmail);
+  writeNotNull('PrivateSkillIds', instance.privateSkillIds);
+  return val;
 }
 
 PutInvitationConfigurationResponse _$PutInvitationConfigurationResponseFromJson(
@@ -1249,9 +2187,41 @@ PutInvitationConfigurationResponse _$PutInvitationConfigurationResponseFromJson(
   return PutInvitationConfigurationResponse();
 }
 
+Map<String, dynamic> _$PutRoomSkillParameterRequestToJson(
+    PutRoomSkillParameterRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RoomSkillParameter', instance.roomSkillParameter?.toJson());
+  writeNotNull('SkillId', instance.skillId);
+  writeNotNull('RoomArn', instance.roomArn);
+  return val;
+}
+
 PutRoomSkillParameterResponse _$PutRoomSkillParameterResponseFromJson(
     Map<String, dynamic> json) {
   return PutRoomSkillParameterResponse();
+}
+
+Map<String, dynamic> _$PutSkillAuthorizationRequestToJson(
+    PutSkillAuthorizationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AuthorizationResult', instance.authorizationResult);
+  writeNotNull('SkillId', instance.skillId);
+  writeNotNull('RoomArn', instance.roomArn);
+  return val;
 }
 
 PutSkillAuthorizationResponse _$PutSkillAuthorizationResponseFromJson(
@@ -1259,11 +2229,42 @@ PutSkillAuthorizationResponse _$PutSkillAuthorizationResponseFromJson(
   return PutSkillAuthorizationResponse();
 }
 
+Map<String, dynamic> _$RegisterAVSDeviceRequestToJson(
+    RegisterAVSDeviceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AmazonId', instance.amazonId);
+  writeNotNull('ClientId', instance.clientId);
+  writeNotNull('DeviceSerialNumber', instance.deviceSerialNumber);
+  writeNotNull('ProductId', instance.productId);
+  writeNotNull('UserCode', instance.userCode);
+  return val;
+}
+
 RegisterAVSDeviceResponse _$RegisterAVSDeviceResponseFromJson(
     Map<String, dynamic> json) {
   return RegisterAVSDeviceResponse(
     deviceArn: json['DeviceArn'] as String,
   );
+}
+
+Map<String, dynamic> _$RejectSkillRequestToJson(RejectSkillRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SkillId', instance.skillId);
+  return val;
 }
 
 RejectSkillResponse _$RejectSkillResponseFromJson(Map<String, dynamic> json) {
@@ -1277,6 +2278,20 @@ RequireCheckIn _$RequireCheckInFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ResolveRoomRequestToJson(ResolveRoomRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SkillId', instance.skillId);
+  writeNotNull('UserId', instance.userId);
+  return val;
+}
+
 ResolveRoomResponse _$ResolveRoomResponseFromJson(Map<String, dynamic> json) {
   return ResolveRoomResponse(
     roomArn: json['RoomArn'] as String,
@@ -1287,6 +2302,21 @@ ResolveRoomResponse _$ResolveRoomResponseFromJson(Map<String, dynamic> json) {
             : RoomSkillParameter.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$RevokeInvitationRequestToJson(
+    RevokeInvitationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EnrollmentId', instance.enrollmentId);
+  writeNotNull('UserArn', instance.userArn);
+  return val;
 }
 
 RevokeInvitationResponse _$RevokeInvitationResponseFromJson(
@@ -1336,6 +2366,24 @@ Map<String, dynamic> _$RoomSkillParameterToJson(RoomSkillParameter instance) {
   return val;
 }
 
+Map<String, dynamic> _$SearchAddressBooksRequestToJson(
+    SearchAddressBooksRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull(
+      'SortCriteria', instance.sortCriteria?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 SearchAddressBooksResponse _$SearchAddressBooksResponseFromJson(
     Map<String, dynamic> json) {
   return SearchAddressBooksResponse(
@@ -1347,6 +2395,24 @@ SearchAddressBooksResponse _$SearchAddressBooksResponseFromJson(
     nextToken: json['NextToken'] as String,
     totalCount: json['TotalCount'] as int,
   );
+}
+
+Map<String, dynamic> _$SearchContactsRequestToJson(
+    SearchContactsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull(
+      'SortCriteria', instance.sortCriteria?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 SearchContactsResponse _$SearchContactsResponseFromJson(
@@ -1361,6 +2427,24 @@ SearchContactsResponse _$SearchContactsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$SearchDevicesRequestToJson(
+    SearchDevicesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull(
+      'SortCriteria', instance.sortCriteria?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 SearchDevicesResponse _$SearchDevicesResponseFromJson(
     Map<String, dynamic> json) {
   return SearchDevicesResponse(
@@ -1371,6 +2455,24 @@ SearchDevicesResponse _$SearchDevicesResponseFromJson(
     nextToken: json['NextToken'] as String,
     totalCount: json['TotalCount'] as int,
   );
+}
+
+Map<String, dynamic> _$SearchNetworkProfilesRequestToJson(
+    SearchNetworkProfilesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull(
+      'SortCriteria', instance.sortCriteria?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 SearchNetworkProfilesResponse _$SearchNetworkProfilesResponseFromJson(
@@ -1386,6 +2488,24 @@ SearchNetworkProfilesResponse _$SearchNetworkProfilesResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$SearchProfilesRequestToJson(
+    SearchProfilesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull(
+      'SortCriteria', instance.sortCriteria?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 SearchProfilesResponse _$SearchProfilesResponseFromJson(
     Map<String, dynamic> json) {
   return SearchProfilesResponse(
@@ -1398,6 +2518,23 @@ SearchProfilesResponse _$SearchProfilesResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$SearchRoomsRequestToJson(SearchRoomsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull(
+      'SortCriteria', instance.sortCriteria?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 SearchRoomsResponse _$SearchRoomsResponseFromJson(Map<String, dynamic> json) {
   return SearchRoomsResponse(
     nextToken: json['NextToken'] as String,
@@ -1407,6 +2544,24 @@ SearchRoomsResponse _$SearchRoomsResponseFromJson(Map<String, dynamic> json) {
         ?.toList(),
     totalCount: json['TotalCount'] as int,
   );
+}
+
+Map<String, dynamic> _$SearchSkillGroupsRequestToJson(
+    SearchSkillGroupsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull(
+      'SortCriteria', instance.sortCriteria?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 SearchSkillGroupsResponse _$SearchSkillGroupsResponseFromJson(
@@ -1422,6 +2577,23 @@ SearchSkillGroupsResponse _$SearchSkillGroupsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$SearchUsersRequestToJson(SearchUsersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull(
+      'SortCriteria', instance.sortCriteria?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 SearchUsersResponse _$SearchUsersResponseFromJson(Map<String, dynamic> json) {
   return SearchUsersResponse(
     nextToken: json['NextToken'] as String,
@@ -1433,11 +2605,43 @@ SearchUsersResponse _$SearchUsersResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$SendAnnouncementRequestToJson(
+    SendAnnouncementRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClientRequestToken', instance.clientRequestToken);
+  writeNotNull('Content', instance.content?.toJson());
+  writeNotNull(
+      'RoomFilters', instance.roomFilters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('TimeToLiveInSeconds', instance.timeToLiveInSeconds);
+  return val;
+}
+
 SendAnnouncementResponse _$SendAnnouncementResponseFromJson(
     Map<String, dynamic> json) {
   return SendAnnouncementResponse(
     announcementArn: json['AnnouncementArn'] as String,
   );
+}
+
+Map<String, dynamic> _$SendInvitationRequestToJson(
+    SendInvitationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UserArn', instance.userArn);
+  return val;
 }
 
 SendInvitationResponse _$SendInvitationResponseFromJson(
@@ -1586,9 +2790,39 @@ Map<String, dynamic> _$SsmlToJson(Ssml instance) {
   return val;
 }
 
+Map<String, dynamic> _$StartDeviceSyncRequestToJson(
+    StartDeviceSyncRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Features', instance.features);
+  writeNotNull('DeviceArn', instance.deviceArn);
+  writeNotNull('RoomArn', instance.roomArn);
+  return val;
+}
+
 StartDeviceSyncResponse _$StartDeviceSyncResponseFromJson(
     Map<String, dynamic> json) {
   return StartDeviceSyncResponse();
+}
+
+Map<String, dynamic> _$StartSmartHomeApplianceDiscoveryRequestToJson(
+    StartSmartHomeApplianceDiscoveryRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RoomArn', instance.roomArn);
+  return val;
 }
 
 StartSmartHomeApplianceDiscoveryResponse
@@ -1618,6 +2852,20 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
   return val;
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Arn', instance.arn);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
 }
@@ -1636,9 +2884,40 @@ Map<String, dynamic> _$TextToJson(Text instance) {
   return val;
 }
 
+Map<String, dynamic> _$UntagResourceRequestToJson(
+    UntagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Arn', instance.arn);
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
+}
+
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse();
+}
+
+Map<String, dynamic> _$UpdateAddressBookRequestToJson(
+    UpdateAddressBookRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AddressBookArn', instance.addressBookArn);
+  writeNotNull('Description', instance.description);
+  writeNotNull('Name', instance.name);
+  return val;
 }
 
 UpdateAddressBookResponse _$UpdateAddressBookResponseFromJson(
@@ -1646,9 +2925,47 @@ UpdateAddressBookResponse _$UpdateAddressBookResponseFromJson(
   return UpdateAddressBookResponse();
 }
 
+Map<String, dynamic> _$UpdateBusinessReportScheduleRequestToJson(
+    UpdateBusinessReportScheduleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ScheduleArn', instance.scheduleArn);
+  writeNotNull('Format', _$BusinessReportFormatEnumMap[instance.format]);
+  writeNotNull('Recurrence', instance.recurrence?.toJson());
+  writeNotNull('S3BucketName', instance.s3BucketName);
+  writeNotNull('S3KeyPrefix', instance.s3KeyPrefix);
+  writeNotNull('ScheduleName', instance.scheduleName);
+  return val;
+}
+
 UpdateBusinessReportScheduleResponse
     _$UpdateBusinessReportScheduleResponseFromJson(Map<String, dynamic> json) {
   return UpdateBusinessReportScheduleResponse();
+}
+
+Map<String, dynamic> _$UpdateConferenceProviderRequestToJson(
+    UpdateConferenceProviderRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConferenceProviderArn', instance.conferenceProviderArn);
+  writeNotNull('ConferenceProviderType',
+      _$ConferenceProviderTypeEnumMap[instance.conferenceProviderType]);
+  writeNotNull('MeetingSetting', instance.meetingSetting?.toJson());
+  writeNotNull('IPDialIn', instance.iPDialIn?.toJson());
+  writeNotNull('PSTNDialIn', instance.pSTNDialIn?.toJson());
+  return val;
 }
 
 UpdateConferenceProviderResponse _$UpdateConferenceProviderResponseFromJson(
@@ -1656,9 +2973,45 @@ UpdateConferenceProviderResponse _$UpdateConferenceProviderResponseFromJson(
   return UpdateConferenceProviderResponse();
 }
 
+Map<String, dynamic> _$UpdateContactRequestToJson(
+    UpdateContactRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ContactArn', instance.contactArn);
+  writeNotNull('DisplayName', instance.displayName);
+  writeNotNull('FirstName', instance.firstName);
+  writeNotNull('LastName', instance.lastName);
+  writeNotNull('PhoneNumber', instance.phoneNumber);
+  writeNotNull(
+      'PhoneNumbers', instance.phoneNumbers?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'SipAddresses', instance.sipAddresses?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 UpdateContactResponse _$UpdateContactResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateContactResponse();
+}
+
+Map<String, dynamic> _$UpdateDeviceRequestToJson(UpdateDeviceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DeviceArn', instance.deviceArn);
+  writeNotNull('DeviceName', instance.deviceName);
+  return val;
 }
 
 UpdateDeviceResponse _$UpdateDeviceResponseFromJson(Map<String, dynamic> json) {
@@ -1682,9 +3035,42 @@ Map<String, dynamic> _$UpdateEndOfMeetingReminderToJson(
   return val;
 }
 
+Map<String, dynamic> _$UpdateGatewayGroupRequestToJson(
+    UpdateGatewayGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GatewayGroupArn', instance.gatewayGroupArn);
+  writeNotNull('Description', instance.description);
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
 UpdateGatewayGroupResponse _$UpdateGatewayGroupResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateGatewayGroupResponse();
+}
+
+Map<String, dynamic> _$UpdateGatewayRequestToJson(
+    UpdateGatewayRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GatewayArn', instance.gatewayArn);
+  writeNotNull('Description', instance.description);
+  writeNotNull('Name', instance.name);
+  writeNotNull('SoftwareVersion', instance.softwareVersion);
+  return val;
 }
 
 UpdateGatewayResponse _$UpdateGatewayResponseFromJson(
@@ -1725,9 +3111,57 @@ Map<String, dynamic> _$UpdateMeetingRoomConfigurationToJson(
   return val;
 }
 
+Map<String, dynamic> _$UpdateNetworkProfileRequestToJson(
+    UpdateNetworkProfileRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('NetworkProfileArn', instance.networkProfileArn);
+  writeNotNull('CertificateAuthorityArn', instance.certificateAuthorityArn);
+  writeNotNull('CurrentPassword', instance.currentPassword);
+  writeNotNull('Description', instance.description);
+  writeNotNull('NetworkProfileName', instance.networkProfileName);
+  writeNotNull('NextPassword', instance.nextPassword);
+  writeNotNull('TrustAnchors', instance.trustAnchors);
+  return val;
+}
+
 UpdateNetworkProfileResponse _$UpdateNetworkProfileResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateNetworkProfileResponse();
+}
+
+Map<String, dynamic> _$UpdateProfileRequestToJson(
+    UpdateProfileRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Address', instance.address);
+  writeNotNull('DistanceUnit', _$DistanceUnitEnumMap[instance.distanceUnit]);
+  writeNotNull('IsDefault', instance.isDefault);
+  writeNotNull('Locale', instance.locale);
+  writeNotNull('MaxVolumeLimit', instance.maxVolumeLimit);
+  writeNotNull(
+      'MeetingRoomConfiguration', instance.meetingRoomConfiguration?.toJson());
+  writeNotNull('PSTNEnabled', instance.pSTNEnabled);
+  writeNotNull('ProfileArn', instance.profileArn);
+  writeNotNull('ProfileName', instance.profileName);
+  writeNotNull('SetupModeDisabled', instance.setupModeDisabled);
+  writeNotNull(
+      'TemperatureUnit', _$TemperatureUnitEnumMap[instance.temperatureUnit]);
+  writeNotNull('Timezone', instance.timezone);
+  writeNotNull('WakeWord', _$WakeWordEnumMap[instance.wakeWord]);
+  return val;
 }
 
 UpdateProfileResponse _$UpdateProfileResponseFromJson(
@@ -1750,8 +3184,41 @@ Map<String, dynamic> _$UpdateRequireCheckInToJson(
   return val;
 }
 
+Map<String, dynamic> _$UpdateRoomRequestToJson(UpdateRoomRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Description', instance.description);
+  writeNotNull('ProfileArn', instance.profileArn);
+  writeNotNull('ProviderCalendarId', instance.providerCalendarId);
+  writeNotNull('RoomArn', instance.roomArn);
+  writeNotNull('RoomName', instance.roomName);
+  return val;
+}
+
 UpdateRoomResponse _$UpdateRoomResponseFromJson(Map<String, dynamic> json) {
   return UpdateRoomResponse();
+}
+
+Map<String, dynamic> _$UpdateSkillGroupRequestToJson(
+    UpdateSkillGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Description', instance.description);
+  writeNotNull('SkillGroupArn', instance.skillGroupArn);
+  writeNotNull('SkillGroupName', instance.skillGroupName);
+  return val;
 }
 
 UpdateSkillGroupResponse _$UpdateSkillGroupResponseFromJson(

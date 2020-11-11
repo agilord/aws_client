@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -96,11 +95,11 @@ class CostExplorer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Name': name,
-        'RuleVersion': ruleVersion?.toValue(),
-        'Rules': rules,
-      },
+      payload: CreateCostCategoryDefinitionRequest(
+        name: name,
+        ruleVersion: ruleVersion,
+        rules: rules,
+      ),
     );
 
     return CreateCostCategoryDefinitionResponse.fromJson(jsonResponse.body);
@@ -141,9 +140,9 @@ class CostExplorer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CostCategoryArn': costCategoryArn,
-      },
+      payload: DeleteCostCategoryDefinitionRequest(
+        costCategoryArn: costCategoryArn,
+      ),
     );
 
     return DeleteCostCategoryDefinitionResponse.fromJson(jsonResponse.body);
@@ -206,10 +205,10 @@ class CostExplorer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CostCategoryArn': costCategoryArn,
-        if (effectiveOn != null) 'EffectiveOn': effectiveOn,
-      },
+      payload: DescribeCostCategoryDefinitionRequest(
+        costCategoryArn: costCategoryArn,
+        effectiveOn: effectiveOn,
+      ),
     );
 
     return DescribeCostCategoryDefinitionResponse.fromJson(jsonResponse.body);
@@ -323,14 +322,14 @@ class CostExplorer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TimePeriod': timePeriod,
-        if (filter != null) 'Filter': filter,
-        if (granularity != null) 'Granularity': granularity?.toValue(),
-        if (groupBy != null) 'GroupBy': groupBy,
-        if (metrics != null) 'Metrics': metrics,
-        if (nextPageToken != null) 'NextPageToken': nextPageToken,
-      },
+      payload: GetCostAndUsageRequest(
+        timePeriod: timePeriod,
+        filter: filter,
+        granularity: granularity,
+        groupBy: groupBy,
+        metrics: metrics,
+        nextPageToken: nextPageToken,
+      ),
     );
 
     return GetCostAndUsageResponse.fromJson(jsonResponse.body);
@@ -447,14 +446,14 @@ class CostExplorer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TimePeriod': timePeriod,
-        if (filter != null) 'Filter': filter,
-        if (granularity != null) 'Granularity': granularity?.toValue(),
-        if (groupBy != null) 'GroupBy': groupBy,
-        if (metrics != null) 'Metrics': metrics,
-        if (nextPageToken != null) 'NextPageToken': nextPageToken,
-      },
+      payload: GetCostAndUsageWithResourcesRequest(
+        timePeriod: timePeriod,
+        filter: filter,
+        granularity: granularity,
+        groupBy: groupBy,
+        metrics: metrics,
+        nextPageToken: nextPageToken,
+      ),
     );
 
     return GetCostAndUsageWithResourcesResponse.fromJson(jsonResponse.body);
@@ -540,14 +539,13 @@ class CostExplorer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Granularity': granularity?.toValue(),
-        'Metric': metric?.toValue(),
-        'TimePeriod': timePeriod,
-        if (filter != null) 'Filter': filter,
-        if (predictionIntervalLevel != null)
-          'PredictionIntervalLevel': predictionIntervalLevel,
-      },
+      payload: GetCostForecastRequest(
+        granularity: granularity,
+        metric: metric,
+        timePeriod: timePeriod,
+        filter: filter,
+        predictionIntervalLevel: predictionIntervalLevel,
+      ),
     );
 
     return GetCostForecastResponse.fromJson(jsonResponse.body);
@@ -764,13 +762,13 @@ class CostExplorer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Dimension': dimension?.toValue(),
-        'TimePeriod': timePeriod,
-        if (context != null) 'Context': context?.toValue(),
-        if (nextPageToken != null) 'NextPageToken': nextPageToken,
-        if (searchString != null) 'SearchString': searchString,
-      },
+      payload: GetDimensionValuesRequest(
+        dimension: dimension,
+        timePeriod: timePeriod,
+        context: context,
+        nextPageToken: nextPageToken,
+        searchString: searchString,
+      ),
     );
 
     return GetDimensionValuesResponse.fromJson(jsonResponse.body);
@@ -980,14 +978,14 @@ class CostExplorer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TimePeriod': timePeriod,
-        if (filter != null) 'Filter': filter,
-        if (granularity != null) 'Granularity': granularity?.toValue(),
-        if (groupBy != null) 'GroupBy': groupBy,
-        if (metrics != null) 'Metrics': metrics,
-        if (nextPageToken != null) 'NextPageToken': nextPageToken,
-      },
+      payload: GetReservationCoverageRequest(
+        timePeriod: timePeriod,
+        filter: filter,
+        granularity: granularity,
+        groupBy: groupBy,
+        metrics: metrics,
+        nextPageToken: nextPageToken,
+      ),
     );
 
     return GetReservationCoverageResponse.fromJson(jsonResponse.body);
@@ -1117,19 +1115,17 @@ class CostExplorer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Service': service,
-        if (accountId != null) 'AccountId': accountId,
-        if (accountScope != null) 'AccountScope': accountScope?.toValue(),
-        if (lookbackPeriodInDays != null)
-          'LookbackPeriodInDays': lookbackPeriodInDays?.toValue(),
-        if (nextPageToken != null) 'NextPageToken': nextPageToken,
-        if (pageSize != null) 'PageSize': pageSize,
-        if (paymentOption != null) 'PaymentOption': paymentOption?.toValue(),
-        if (serviceSpecification != null)
-          'ServiceSpecification': serviceSpecification,
-        if (termInYears != null) 'TermInYears': termInYears?.toValue(),
-      },
+      payload: GetReservationPurchaseRecommendationRequest(
+        service: service,
+        accountId: accountId,
+        accountScope: accountScope,
+        lookbackPeriodInDays: lookbackPeriodInDays,
+        nextPageToken: nextPageToken,
+        pageSize: pageSize,
+        paymentOption: paymentOption,
+        serviceSpecification: serviceSpecification,
+        termInYears: termInYears,
+      ),
     );
 
     return GetReservationPurchaseRecommendationResponse.fromJson(
@@ -1246,13 +1242,13 @@ class CostExplorer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TimePeriod': timePeriod,
-        if (filter != null) 'Filter': filter,
-        if (granularity != null) 'Granularity': granularity?.toValue(),
-        if (groupBy != null) 'GroupBy': groupBy,
-        if (nextPageToken != null) 'NextPageToken': nextPageToken,
-      },
+      payload: GetReservationUtilizationRequest(
+        timePeriod: timePeriod,
+        filter: filter,
+        granularity: granularity,
+        groupBy: groupBy,
+        nextPageToken: nextPageToken,
+      ),
     );
 
     return GetReservationUtilizationResponse.fromJson(jsonResponse.body);
@@ -1329,12 +1325,12 @@ class CostExplorer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Service': service,
-        if (filter != null) 'Filter': filter,
-        if (nextPageToken != null) 'NextPageToken': nextPageToken,
-        if (pageSize != null) 'PageSize': pageSize,
-      },
+      payload: GetRightsizingRecommendationRequest(
+        service: service,
+        filter: filter,
+        nextPageToken: nextPageToken,
+        pageSize: pageSize,
+      ),
     );
 
     return GetRightsizingRecommendationResponse.fromJson(jsonResponse.body);
@@ -1461,15 +1457,15 @@ class CostExplorer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TimePeriod': timePeriod,
-        if (filter != null) 'Filter': filter,
-        if (granularity != null) 'Granularity': granularity?.toValue(),
-        if (groupBy != null) 'GroupBy': groupBy,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (metrics != null) 'Metrics': metrics,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: GetSavingsPlansCoverageRequest(
+        timePeriod: timePeriod,
+        filter: filter,
+        granularity: granularity,
+        groupBy: groupBy,
+        maxResults: maxResults,
+        metrics: metrics,
+        nextToken: nextToken,
+      ),
     );
 
     return GetSavingsPlansCoverageResponse.fromJson(jsonResponse.body);
@@ -1568,16 +1564,16 @@ class CostExplorer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'LookbackPeriodInDays': lookbackPeriodInDays?.toValue(),
-        'PaymentOption': paymentOption?.toValue(),
-        'SavingsPlansType': savingsPlansType?.toValue(),
-        'TermInYears': termInYears?.toValue(),
-        if (accountScope != null) 'AccountScope': accountScope?.toValue(),
-        if (filter != null) 'Filter': filter,
-        if (nextPageToken != null) 'NextPageToken': nextPageToken,
-        if (pageSize != null) 'PageSize': pageSize,
-      },
+      payload: GetSavingsPlansPurchaseRecommendationRequest(
+        lookbackPeriodInDays: lookbackPeriodInDays,
+        paymentOption: paymentOption,
+        savingsPlansType: savingsPlansType,
+        termInYears: termInYears,
+        accountScope: accountScope,
+        filter: filter,
+        nextPageToken: nextPageToken,
+        pageSize: pageSize,
+      ),
     );
 
     return GetSavingsPlansPurchaseRecommendationResponse.fromJson(
@@ -1654,11 +1650,11 @@ class CostExplorer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TimePeriod': timePeriod,
-        if (filter != null) 'Filter': filter,
-        if (granularity != null) 'Granularity': granularity?.toValue(),
-      },
+      payload: GetSavingsPlansUtilizationRequest(
+        timePeriod: timePeriod,
+        filter: filter,
+        granularity: granularity,
+      ),
     );
 
     return GetSavingsPlansUtilizationResponse.fromJson(jsonResponse.body);
@@ -1757,12 +1753,12 @@ class CostExplorer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TimePeriod': timePeriod,
-        if (filter != null) 'Filter': filter,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: GetSavingsPlansUtilizationDetailsRequest(
+        timePeriod: timePeriod,
+        filter: filter,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return GetSavingsPlansUtilizationDetailsResponse.fromJson(
@@ -1846,12 +1842,12 @@ class CostExplorer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'TimePeriod': timePeriod,
-        if (nextPageToken != null) 'NextPageToken': nextPageToken,
-        if (searchString != null) 'SearchString': searchString,
-        if (tagKey != null) 'TagKey': tagKey,
-      },
+      payload: GetTagsRequest(
+        timePeriod: timePeriod,
+        nextPageToken: nextPageToken,
+        searchString: searchString,
+        tagKey: tagKey,
+      ),
     );
 
     return GetTagsResponse.fromJson(jsonResponse.body);
@@ -1931,14 +1927,13 @@ class CostExplorer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Granularity': granularity?.toValue(),
-        'Metric': metric?.toValue(),
-        'TimePeriod': timePeriod,
-        if (filter != null) 'Filter': filter,
-        if (predictionIntervalLevel != null)
-          'PredictionIntervalLevel': predictionIntervalLevel,
-      },
+      payload: GetUsageForecastRequest(
+        granularity: granularity,
+        metric: metric,
+        timePeriod: timePeriod,
+        filter: filter,
+        predictionIntervalLevel: predictionIntervalLevel,
+      ),
     );
 
     return GetUsageForecastResponse.fromJson(jsonResponse.body);
@@ -2009,11 +2004,11 @@ class CostExplorer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (effectiveOn != null) 'EffectiveOn': effectiveOn,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListCostCategoryDefinitionsRequest(
+        effectiveOn: effectiveOn,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListCostCategoryDefinitionsResponse.fromJson(jsonResponse.body);
@@ -2066,11 +2061,11 @@ class CostExplorer {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CostCategoryArn': costCategoryArn,
-        'RuleVersion': ruleVersion?.toValue(),
-        'Rules': rules,
-      },
+      payload: UpdateCostCategoryDefinitionRequest(
+        costCategoryArn: costCategoryArn,
+        ruleVersion: ruleVersion,
+        rules: rules,
+      ),
     );
 
     return UpdateCostCategoryDefinitionResponse.fromJson(jsonResponse.body);
@@ -2084,18 +2079,6 @@ enum AccountScope {
   linked,
 }
 
-extension on AccountScope {
-  String toValue() {
-    switch (this) {
-      case AccountScope.payer:
-        return 'PAYER';
-      case AccountScope.linked:
-        return 'LINKED';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum Context {
   @_s.JsonValue('COST_AND_USAGE')
   costAndUsage,
@@ -2103,20 +2086,6 @@ enum Context {
   reservations,
   @_s.JsonValue('SAVINGS_PLANS')
   savingsPlans,
-}
-
-extension on Context {
-  String toValue() {
-    switch (this) {
-      case Context.costAndUsage:
-        return 'COST_AND_USAGE';
-      case Context.reservations:
-        return 'RESERVATIONS';
-      case Context.savingsPlans:
-        return 'SAVINGS_PLANS';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// The structure of Cost Categories. This includes detailed metadata and the
@@ -2245,16 +2214,6 @@ class CostCategoryRule {
 enum CostCategoryRuleVersion {
   @_s.JsonValue('CostCategoryExpression.v1')
   costCategoryExpressionV1,
-}
-
-extension on CostCategoryRuleVersion {
-  String toValue() {
-    switch (this) {
-      case CostCategoryRuleVersion.costCategoryExpressionV1:
-        return 'CostCategoryExpression.v1';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// The Cost Categories values used for filtering the costs.
@@ -2439,6 +2398,32 @@ class CoverageNormalizedUnits {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateCostCategoryDefinitionRequest {
+  @_s.JsonKey(name: 'Name')
+  final String name;
+  @_s.JsonKey(name: 'RuleVersion')
+  final CostCategoryRuleVersion ruleVersion;
+
+  /// The Cost Category rules used to categorize costs. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_CostCategoryRule.html">CostCategoryRule</a>.
+  @_s.JsonKey(name: 'Rules')
+  final List<CostCategoryRule> rules;
+
+  CreateCostCategoryDefinitionRequest({
+    @_s.required this.name,
+    @_s.required this.ruleVersion,
+    @_s.required this.rules,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateCostCategoryDefinitionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateCostCategoryDefinitionResponse {
@@ -2557,6 +2542,23 @@ class DateInterval {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteCostCategoryDefinitionRequest {
+  /// The unique identifier for your Cost Category.
+  @_s.JsonKey(name: 'CostCategoryArn')
+  final String costCategoryArn;
+
+  DeleteCostCategoryDefinitionRequest({
+    @_s.required this.costCategoryArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteCostCategoryDefinitionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteCostCategoryDefinitionResponse {
@@ -2576,6 +2578,28 @@ class DeleteCostCategoryDefinitionResponse {
   factory DeleteCostCategoryDefinitionResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DeleteCostCategoryDefinitionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeCostCategoryDefinitionRequest {
+  /// The unique identifier for your Cost Category.
+  @_s.JsonKey(name: 'CostCategoryArn')
+  final String costCategoryArn;
+
+  /// The date when the Cost Category was effective.
+  @_s.JsonKey(name: 'EffectiveOn')
+  final String effectiveOn;
+
+  DescribeCostCategoryDefinitionRequest({
+    @_s.required this.costCategoryArn,
+    this.effectiveOn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeCostCategoryDefinitionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2654,72 +2678,6 @@ enum Dimension {
   savingsPlanArn,
   @_s.JsonValue('PAYMENT_OPTION')
   paymentOption,
-}
-
-extension on Dimension {
-  String toValue() {
-    switch (this) {
-      case Dimension.az:
-        return 'AZ';
-      case Dimension.instanceType:
-        return 'INSTANCE_TYPE';
-      case Dimension.linkedAccount:
-        return 'LINKED_ACCOUNT';
-      case Dimension.linkedAccountName:
-        return 'LINKED_ACCOUNT_NAME';
-      case Dimension.operation:
-        return 'OPERATION';
-      case Dimension.purchaseType:
-        return 'PURCHASE_TYPE';
-      case Dimension.region:
-        return 'REGION';
-      case Dimension.service:
-        return 'SERVICE';
-      case Dimension.serviceCode:
-        return 'SERVICE_CODE';
-      case Dimension.usageType:
-        return 'USAGE_TYPE';
-      case Dimension.usageTypeGroup:
-        return 'USAGE_TYPE_GROUP';
-      case Dimension.recordType:
-        return 'RECORD_TYPE';
-      case Dimension.operatingSystem:
-        return 'OPERATING_SYSTEM';
-      case Dimension.tenancy:
-        return 'TENANCY';
-      case Dimension.scope:
-        return 'SCOPE';
-      case Dimension.platform:
-        return 'PLATFORM';
-      case Dimension.subscriptionId:
-        return 'SUBSCRIPTION_ID';
-      case Dimension.legalEntityName:
-        return 'LEGAL_ENTITY_NAME';
-      case Dimension.deploymentOption:
-        return 'DEPLOYMENT_OPTION';
-      case Dimension.databaseEngine:
-        return 'DATABASE_ENGINE';
-      case Dimension.cacheEngine:
-        return 'CACHE_ENGINE';
-      case Dimension.instanceTypeFamily:
-        return 'INSTANCE_TYPE_FAMILY';
-      case Dimension.billingEntity:
-        return 'BILLING_ENTITY';
-      case Dimension.reservationId:
-        return 'RESERVATION_ID';
-      case Dimension.resourceId:
-        return 'RESOURCE_ID';
-      case Dimension.rightsizingType:
-        return 'RIGHTSIZING_TYPE';
-      case Dimension.savingsPlansType:
-        return 'SAVINGS_PLANS_TYPE';
-      case Dimension.savingsPlanArn:
-        return 'SAVINGS_PLAN_ARN';
-      case Dimension.paymentOption:
-        return 'PAYMENT_OPTION';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// The metadata that you can use to filter and group your results. You can use
@@ -3156,6 +3114,89 @@ class ForecastResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetCostAndUsageRequest {
+  /// Sets the start and end dates for retrieving AWS costs. The start date is
+  /// inclusive, but the end date is exclusive. For example, if <code>start</code>
+  /// is <code>2017-01-01</code> and <code>end</code> is <code>2017-05-01</code>,
+  /// then the cost and usage data is retrieved from <code>2017-01-01</code> up to
+  /// and including <code>2017-04-30</code> but not including
+  /// <code>2017-05-01</code>.
+  @_s.JsonKey(name: 'TimePeriod')
+  final DateInterval timePeriod;
+
+  /// Filters AWS costs by different dimensions. For example, you can specify
+  /// <code>SERVICE</code> and <code>LINKED_ACCOUNT</code> and get the costs that
+  /// are associated with that account's usage of that service. You can nest
+  /// <code>Expression</code> objects to define any combination of dimension
+  /// filters. For more information, see <a
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html">Expression</a>.
+  @_s.JsonKey(name: 'Filter')
+  final Expression filter;
+
+  /// Sets the AWS cost granularity to <code>MONTHLY</code> or <code>DAILY</code>,
+  /// or <code>HOURLY</code>. If <code>Granularity</code> isn't set, the response
+  /// object doesn't include the <code>Granularity</code>, either
+  /// <code>MONTHLY</code> or <code>DAILY</code>, or <code>HOURLY</code>.
+  @_s.JsonKey(name: 'Granularity')
+  final Granularity granularity;
+
+  /// You can group AWS costs using up to two different groups, either dimensions,
+  /// tag keys, or both.
+  ///
+  /// When you group by tag key, you get all tag values, including empty strings.
+  ///
+  /// Valid values are <code>AZ</code>, <code>INSTANCE_TYPE</code>,
+  /// <code>LEGAL_ENTITY_NAME</code>, <code>LINKED_ACCOUNT</code>,
+  /// <code>OPERATION</code>, <code>PLATFORM</code>, <code>PURCHASE_TYPE</code>,
+  /// <code>SERVICE</code>, <code>TAGS</code>, <code>TENANCY</code>,
+  /// <code>RECORD_TYPE</code>, and <code>USAGE_TYPE</code>.
+  @_s.JsonKey(name: 'GroupBy')
+  final List<GroupDefinition> groupBy;
+
+  /// Which metrics are returned in the query. For more information about blended
+  /// and unblended rates, see <a
+  /// href="http://aws.amazon.com/premiumsupport/knowledge-center/blended-rates-intro/">Why
+  /// does the "blended" annotation appear on some line items in my bill?</a>.
+  ///
+  /// Valid values are <code>AmortizedCost</code>, <code>BlendedCost</code>,
+  /// <code>NetAmortizedCost</code>, <code>NetUnblendedCost</code>,
+  /// <code>NormalizedUsageAmount</code>, <code>UnblendedCost</code>, and
+  /// <code>UsageQuantity</code>.
+  /// <note>
+  /// If you return the <code>UsageQuantity</code> metric, the service aggregates
+  /// all usage numbers without taking into account the units. For example, if you
+  /// aggregate <code>usageQuantity</code> across all of Amazon EC2, the results
+  /// aren't meaningful because Amazon EC2 compute hours and data transfer are
+  /// measured in different units (for example, hours vs. GB). To get more
+  /// meaningful <code>UsageQuantity</code> metrics, filter by
+  /// <code>UsageType</code> or <code>UsageTypeGroups</code>.
+  /// </note>
+  /// <code>Metrics</code> is required for <code>GetCostAndUsage</code> requests.
+  @_s.JsonKey(name: 'Metrics')
+  final List<String> metrics;
+
+  /// The token to retrieve the next set of results. AWS provides the token when
+  /// the response from a previous call has more results than the maximum page
+  /// size.
+  @_s.JsonKey(name: 'NextPageToken')
+  final String nextPageToken;
+
+  GetCostAndUsageRequest({
+    @_s.required this.timePeriod,
+    this.filter,
+    this.granularity,
+    this.groupBy,
+    this.metrics,
+    this.nextPageToken,
+  });
+  Map<String, dynamic> toJson() => _$GetCostAndUsageRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetCostAndUsageResponse {
@@ -3181,6 +3222,87 @@ class GetCostAndUsageResponse {
   });
   factory GetCostAndUsageResponse.fromJson(Map<String, dynamic> json) =>
       _$GetCostAndUsageResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetCostAndUsageWithResourcesRequest {
+  /// Sets the start and end dates for retrieving Amazon Web Services costs. The
+  /// range must be within the last 14 days (the start date cannot be earlier than
+  /// 14 days ago). The start date is inclusive, but the end date is exclusive.
+  /// For example, if <code>start</code> is <code>2017-01-01</code> and
+  /// <code>end</code> is <code>2017-05-01</code>, then the cost and usage data is
+  /// retrieved from <code>2017-01-01</code> up to and including
+  /// <code>2017-04-30</code> but not including <code>2017-05-01</code>.
+  @_s.JsonKey(name: 'TimePeriod')
+  final DateInterval timePeriod;
+
+  /// Filters Amazon Web Services costs by different dimensions. For example, you
+  /// can specify <code>SERVICE</code> and <code>LINKED_ACCOUNT</code> and get the
+  /// costs that are associated with that account's usage of that service. You can
+  /// nest <code>Expression</code> objects to define any combination of dimension
+  /// filters. For more information, see <a
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html">Expression</a>.
+  ///
+  /// The <code>GetCostAndUsageWithResources</code> operation requires that you
+  /// either group by or filter by a <code>ResourceId</code>.
+  @_s.JsonKey(name: 'Filter')
+  final Expression filter;
+
+  /// Sets the AWS cost granularity to <code>MONTHLY</code>, <code>DAILY</code>,
+  /// or <code>HOURLY</code>. If <code>Granularity</code> isn't set, the response
+  /// object doesn't include the <code>Granularity</code>, <code>MONTHLY</code>,
+  /// <code>DAILY</code>, or <code>HOURLY</code>.
+  @_s.JsonKey(name: 'Granularity')
+  final Granularity granularity;
+
+  /// You can group Amazon Web Services costs using up to two different groups:
+  /// either dimensions, tag keys, or both.
+  @_s.JsonKey(name: 'GroupBy')
+  final List<GroupDefinition> groupBy;
+
+  /// Which metrics are returned in the query. For more information about blended
+  /// and unblended rates, see <a
+  /// href="http://aws.amazon.com/premiumsupport/knowledge-center/blended-rates-intro/">Why
+  /// does the "blended" annotation appear on some line items in my bill?</a>.
+  ///
+  /// Valid values are <code>AmortizedCost</code>, <code>BlendedCost</code>,
+  /// <code>NetAmortizedCost</code>, <code>NetUnblendedCost</code>,
+  /// <code>NormalizedUsageAmount</code>, <code>UnblendedCost</code>, and
+  /// <code>UsageQuantity</code>.
+  /// <note>
+  /// If you return the <code>UsageQuantity</code> metric, the service aggregates
+  /// all usage numbers without taking the units into account. For example, if you
+  /// aggregate <code>usageQuantity</code> across all of Amazon EC2, the results
+  /// aren't meaningful because Amazon EC2 compute hours and data transfer are
+  /// measured in different units (for example, hours vs. GB). To get more
+  /// meaningful <code>UsageQuantity</code> metrics, filter by
+  /// <code>UsageType</code> or <code>UsageTypeGroups</code>.
+  /// </note>
+  /// <code>Metrics</code> is required for
+  /// <code>GetCostAndUsageWithResources</code> requests.
+  @_s.JsonKey(name: 'Metrics')
+  final List<String> metrics;
+
+  /// The token to retrieve the next set of results. AWS provides the token when
+  /// the response from a previous call has more results than the maximum page
+  /// size.
+  @_s.JsonKey(name: 'NextPageToken')
+  final String nextPageToken;
+
+  GetCostAndUsageWithResourcesRequest({
+    @_s.required this.timePeriod,
+    this.filter,
+    this.granularity,
+    this.groupBy,
+    this.metrics,
+    this.nextPageToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetCostAndUsageWithResourcesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3217,6 +3339,74 @@ class GetCostAndUsageWithResourcesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetCostForecastRequest {
+  /// How granular you want the forecast to be. You can get 3 months of
+  /// <code>DAILY</code> forecasts or 12 months of <code>MONTHLY</code> forecasts.
+  ///
+  /// The <code>GetCostForecast</code> operation supports only <code>DAILY</code>
+  /// and <code>MONTHLY</code> granularities.
+  @_s.JsonKey(name: 'Granularity')
+  final Granularity granularity;
+
+  /// Which metric Cost Explorer uses to create your forecast. For more
+  /// information about blended and unblended rates, see <a
+  /// href="http://aws.amazon.com/premiumsupport/knowledge-center/blended-rates-intro/">Why
+  /// does the "blended" annotation appear on some line items in my bill?</a>.
+  ///
+  /// Valid values for a <code>GetCostForecast</code> call are the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// AMORTIZED_COST
+  /// </li>
+  /// <li>
+  /// BLENDED_COST
+  /// </li>
+  /// <li>
+  /// NET_AMORTIZED_COST
+  /// </li>
+  /// <li>
+  /// NET_UNBLENDED_COST
+  /// </li>
+  /// <li>
+  /// UNBLENDED_COST
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Metric')
+  final Metric metric;
+
+  /// The period of time that you want the forecast to cover.
+  @_s.JsonKey(name: 'TimePeriod')
+  final DateInterval timePeriod;
+
+  /// The filters that you want to use to filter your forecast. Cost Explorer API
+  /// supports all of the Cost Explorer filters.
+  @_s.JsonKey(name: 'Filter')
+  final Expression filter;
+
+  /// Cost Explorer always returns the mean forecast as a single point. You can
+  /// request a prediction interval around the mean by specifying a confidence
+  /// level. The higher the confidence level, the more confident Cost Explorer is
+  /// about the actual value falling in the prediction interval. Higher confidence
+  /// levels result in wider prediction intervals.
+  @_s.JsonKey(name: 'PredictionIntervalLevel')
+  final int predictionIntervalLevel;
+
+  GetCostForecastRequest({
+    @_s.required this.granularity,
+    @_s.required this.metric,
+    @_s.required this.timePeriod,
+    this.filter,
+    this.predictionIntervalLevel,
+  });
+  Map<String, dynamic> toJson() => _$GetCostForecastRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetCostForecastResponse {
@@ -3237,6 +3427,189 @@ class GetCostForecastResponse {
   });
   factory GetCostForecastResponse.fromJson(Map<String, dynamic> json) =>
       _$GetCostForecastResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetDimensionValuesRequest {
+  /// The name of the dimension. Each <code>Dimension</code> is available for a
+  /// different <code>Context</code>. For more information, see
+  /// <code>Context</code>.
+  @_s.JsonKey(name: 'Dimension')
+  final Dimension dimension;
+
+  /// The start and end dates for retrieving the dimension values. The start date
+  /// is inclusive, but the end date is exclusive. For example, if
+  /// <code>start</code> is <code>2017-01-01</code> and <code>end</code> is
+  /// <code>2017-05-01</code>, then the cost and usage data is retrieved from
+  /// <code>2017-01-01</code> up to and including <code>2017-04-30</code> but not
+  /// including <code>2017-05-01</code>.
+  @_s.JsonKey(name: 'TimePeriod')
+  final DateInterval timePeriod;
+
+  /// The context for the call to <code>GetDimensionValues</code>. This can be
+  /// <code>RESERVATIONS</code> or <code>COST_AND_USAGE</code>. The default value
+  /// is <code>COST_AND_USAGE</code>. If the context is set to
+  /// <code>RESERVATIONS</code>, the resulting dimension values can be used in the
+  /// <code>GetReservationUtilization</code> operation. If the context is set to
+  /// <code>COST_AND_USAGE</code>, the resulting dimension values can be used in
+  /// the <code>GetCostAndUsage</code> operation.
+  ///
+  /// If you set the context to <code>COST_AND_USAGE</code>, you can use the
+  /// following dimensions for searching:
+  ///
+  /// <ul>
+  /// <li>
+  /// AZ - The Availability Zone. An example is <code>us-east-1a</code>.
+  /// </li>
+  /// <li>
+  /// DATABASE_ENGINE - The Amazon Relational Database Service database. Examples
+  /// are Aurora or MySQL.
+  /// </li>
+  /// <li>
+  /// INSTANCE_TYPE - The type of Amazon EC2 instance. An example is
+  /// <code>m4.xlarge</code>.
+  /// </li>
+  /// <li>
+  /// LEGAL_ENTITY_NAME - The name of the organization that sells you AWS
+  /// services, such as Amazon Web Services.
+  /// </li>
+  /// <li>
+  /// LINKED_ACCOUNT - The description in the attribute map that includes the full
+  /// name of the member account. The value field contains the AWS ID of the
+  /// member account.
+  /// </li>
+  /// <li>
+  /// OPERATING_SYSTEM - The operating system. Examples are Windows or Linux.
+  /// </li>
+  /// <li>
+  /// OPERATION - The action performed. Examples include <code>RunInstance</code>
+  /// and <code>CreateBucket</code>.
+  /// </li>
+  /// <li>
+  /// PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.
+  /// </li>
+  /// <li>
+  /// PURCHASE_TYPE - The reservation type of the purchase to which this usage is
+  /// related. Examples include On-Demand Instances and Standard Reserved
+  /// Instances.
+  /// </li>
+  /// <li>
+  /// SERVICE - The AWS service such as Amazon DynamoDB.
+  /// </li>
+  /// <li>
+  /// USAGE_TYPE - The type of usage. An example is DataTransfer-In-Bytes. The
+  /// response for the <code>GetDimensionValues</code> operation includes a unit
+  /// attribute. Examples include GB and Hrs.
+  /// </li>
+  /// <li>
+  /// USAGE_TYPE_GROUP - The grouping of common usage types. An example is Amazon
+  /// EC2: CloudWatch – Alarms. The response for this operation includes a unit
+  /// attribute.
+  /// </li>
+  /// <li>
+  /// RECORD_TYPE - The different types of charges such as RI fees, usage costs,
+  /// tax refunds, and credits.
+  /// </li>
+  /// <li>
+  /// RESOURCE_ID - The unique identifier of the resource. ResourceId is an opt-in
+  /// feature only available for last 14 days for EC2-Compute Service.
+  /// </li>
+  /// </ul>
+  /// If you set the context to <code>RESERVATIONS</code>, you can use the
+  /// following dimensions for searching:
+  ///
+  /// <ul>
+  /// <li>
+  /// AZ - The Availability Zone. An example is <code>us-east-1a</code>.
+  /// </li>
+  /// <li>
+  /// CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows
+  /// or Linux.
+  /// </li>
+  /// <li>
+  /// DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service
+  /// deployments. Valid values are <code>SingleAZ</code> and
+  /// <code>MultiAZ</code>.
+  /// </li>
+  /// <li>
+  /// INSTANCE_TYPE - The type of Amazon EC2 instance. An example is
+  /// <code>m4.xlarge</code>.
+  /// </li>
+  /// <li>
+  /// LINKED_ACCOUNT - The description in the attribute map that includes the full
+  /// name of the member account. The value field contains the AWS ID of the
+  /// member account.
+  /// </li>
+  /// <li>
+  /// PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.
+  /// </li>
+  /// <li>
+  /// REGION - The AWS Region.
+  /// </li>
+  /// <li>
+  /// SCOPE (Utilization only) - The scope of a Reserved Instance (RI). Values are
+  /// regional or a single Availability Zone.
+  /// </li>
+  /// <li>
+  /// TAG (Coverage only) - The tags that are associated with a Reserved Instance
+  /// (RI).
+  /// </li>
+  /// <li>
+  /// TENANCY - The tenancy of a resource. Examples are shared or dedicated.
+  /// </li>
+  /// </ul>
+  /// If you set the context to <code>SAVINGS_PLANS</code>, you can use the
+  /// following dimensions for searching:
+  ///
+  /// <ul>
+  /// <li>
+  /// SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute)
+  /// </li>
+  /// <li>
+  /// PAYMENT_OPTION - Payment option for the given Savings Plans (for example,
+  /// All Upfront)
+  /// </li>
+  /// <li>
+  /// REGION - The AWS Region.
+  /// </li>
+  /// <li>
+  /// INSTANCE_TYPE_FAMILY - The family of instances (For example,
+  /// <code>m5</code>)
+  /// </li>
+  /// <li>
+  /// LINKED_ACCOUNT - The description in the attribute map that includes the full
+  /// name of the member account. The value field contains the AWS ID of the
+  /// member account.
+  /// </li>
+  /// <li>
+  /// SAVINGS_PLAN_ARN - The unique identifier for your Savings Plan
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Context')
+  final Context context;
+
+  /// The token to retrieve the next set of results. AWS provides the token when
+  /// the response from a previous call has more results than the maximum page
+  /// size.
+  @_s.JsonKey(name: 'NextPageToken')
+  final String nextPageToken;
+
+  /// The value that you want to search the filter values for.
+  @_s.JsonKey(name: 'SearchString')
+  final String searchString;
+
+  GetDimensionValuesRequest({
+    @_s.required this.dimension,
+    @_s.required this.timePeriod,
+    this.context,
+    this.nextPageToken,
+    this.searchString,
+  });
+  Map<String, dynamic> toJson() => _$GetDimensionValuesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3406,6 +3779,152 @@ class GetDimensionValuesResponse {
       _$GetDimensionValuesResponseFromJson(json);
 }
 
+/// You can use the following request parameters to query for how much of your
+/// instance usage a reservation covered.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetReservationCoverageRequest {
+  /// The start and end dates of the period that you want to retrieve data about
+  /// reservation coverage for. You can retrieve data for a maximum of 13 months:
+  /// the last 12 months and the current month. The start date is inclusive, but
+  /// the end date is exclusive. For example, if <code>start</code> is
+  /// <code>2017-01-01</code> and <code>end</code> is <code>2017-05-01</code>,
+  /// then the cost and usage data is retrieved from <code>2017-01-01</code> up to
+  /// and including <code>2017-04-30</code> but not including
+  /// <code>2017-05-01</code>.
+  @_s.JsonKey(name: 'TimePeriod')
+  final DateInterval timePeriod;
+
+  /// Filters utilization data by dimensions. You can filter by the following
+  /// dimensions:
+  ///
+  /// <ul>
+  /// <li>
+  /// AZ
+  /// </li>
+  /// <li>
+  /// CACHE_ENGINE
+  /// </li>
+  /// <li>
+  /// DATABASE_ENGINE
+  /// </li>
+  /// <li>
+  /// DEPLOYMENT_OPTION
+  /// </li>
+  /// <li>
+  /// INSTANCE_TYPE
+  /// </li>
+  /// <li>
+  /// LINKED_ACCOUNT
+  /// </li>
+  /// <li>
+  /// OPERATING_SYSTEM
+  /// </li>
+  /// <li>
+  /// PLATFORM
+  /// </li>
+  /// <li>
+  /// REGION
+  /// </li>
+  /// <li>
+  /// SERVICE
+  /// </li>
+  /// <li>
+  /// TAG
+  /// </li>
+  /// <li>
+  /// TENANCY
+  /// </li>
+  /// </ul>
+  /// <code>GetReservationCoverage</code> uses the same <a
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html">Expression</a>
+  /// object as the other operations, but only <code>AND</code> is supported among
+  /// each dimension. You can nest only one level deep. If there are multiple
+  /// values for a dimension, they are OR'd together.
+  ///
+  /// If you don't provide a <code>SERVICE</code> filter, Cost Explorer defaults
+  /// to EC2.
+  ///
+  /// Cost category is also supported.
+  @_s.JsonKey(name: 'Filter')
+  final Expression filter;
+
+  /// The granularity of the AWS cost data for the reservation. Valid values are
+  /// <code>MONTHLY</code> and <code>DAILY</code>.
+  ///
+  /// If <code>GroupBy</code> is set, <code>Granularity</code> can't be set. If
+  /// <code>Granularity</code> isn't set, the response object doesn't include
+  /// <code>Granularity</code>, either <code>MONTHLY</code> or <code>DAILY</code>.
+  ///
+  /// The <code>GetReservationCoverage</code> operation supports only
+  /// <code>DAILY</code> and <code>MONTHLY</code> granularities.
+  @_s.JsonKey(name: 'Granularity')
+  final Granularity granularity;
+
+  /// You can group the data by the following attributes:
+  ///
+  /// <ul>
+  /// <li>
+  /// AZ
+  /// </li>
+  /// <li>
+  /// CACHE_ENGINE
+  /// </li>
+  /// <li>
+  /// DATABASE_ENGINE
+  /// </li>
+  /// <li>
+  /// DEPLOYMENT_OPTION
+  /// </li>
+  /// <li>
+  /// INSTANCE_TYPE
+  /// </li>
+  /// <li>
+  /// LINKED_ACCOUNT
+  /// </li>
+  /// <li>
+  /// OPERATING_SYSTEM
+  /// </li>
+  /// <li>
+  /// PLATFORM
+  /// </li>
+  /// <li>
+  /// REGION
+  /// </li>
+  /// <li>
+  /// TENANCY
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'GroupBy')
+  final List<GroupDefinition> groupBy;
+
+  /// The measurement that you want your reservation coverage reported in.
+  ///
+  /// Valid values are <code>Hour</code>, <code>Unit</code>, and
+  /// <code>Cost</code>. You can use multiple values in a request.
+  @_s.JsonKey(name: 'Metrics')
+  final List<String> metrics;
+
+  /// The token to retrieve the next set of results. AWS provides the token when
+  /// the response from a previous call has more results than the maximum page
+  /// size.
+  @_s.JsonKey(name: 'NextPageToken')
+  final String nextPageToken;
+
+  GetReservationCoverageRequest({
+    @_s.required this.timePeriod,
+    this.filter,
+    this.granularity,
+    this.groupBy,
+    this.metrics,
+    this.nextPageToken,
+  });
+  Map<String, dynamic> toJson() => _$GetReservationCoverageRequestToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3433,6 +3952,71 @@ class GetReservationCoverageResponse {
   });
   factory GetReservationCoverageResponse.fromJson(Map<String, dynamic> json) =>
       _$GetReservationCoverageResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetReservationPurchaseRecommendationRequest {
+  /// The specific service that you want recommendations for.
+  @_s.JsonKey(name: 'Service')
+  final String service;
+
+  /// The account ID that is associated with the recommendation.
+  @_s.JsonKey(name: 'AccountId')
+  final String accountId;
+
+  /// The account scope that you want your recommendations for. Amazon Web
+  /// Services calculates recommendations including the payer account and linked
+  /// accounts if the value is set to <code>PAYER</code>. If the value is
+  /// <code>LINKED</code>, recommendations are calculated for individual linked
+  /// accounts only.
+  @_s.JsonKey(name: 'AccountScope')
+  final AccountScope accountScope;
+
+  /// The number of previous days that you want AWS to consider when it calculates
+  /// your recommendations.
+  @_s.JsonKey(name: 'LookbackPeriodInDays')
+  final LookbackPeriodInDays lookbackPeriodInDays;
+
+  /// The pagination token that indicates the next set of results that you want to
+  /// retrieve.
+  @_s.JsonKey(name: 'NextPageToken')
+  final String nextPageToken;
+
+  /// The number of recommendations that you want returned in a single response
+  /// object.
+  @_s.JsonKey(name: 'PageSize')
+  final int pageSize;
+
+  /// The reservation purchase option that you want recommendations for.
+  @_s.JsonKey(name: 'PaymentOption')
+  final PaymentOption paymentOption;
+
+  /// The hardware specifications for the service instances that you want
+  /// recommendations for, such as standard or convertible Amazon EC2 instances.
+  @_s.JsonKey(name: 'ServiceSpecification')
+  final ServiceSpecification serviceSpecification;
+
+  /// The reservation term that you want recommendations for.
+  @_s.JsonKey(name: 'TermInYears')
+  final TermInYears termInYears;
+
+  GetReservationPurchaseRecommendationRequest({
+    @_s.required this.service,
+    this.accountId,
+    this.accountScope,
+    this.lookbackPeriodInDays,
+    this.nextPageToken,
+    this.pageSize,
+    this.paymentOption,
+    this.serviceSpecification,
+    this.termInYears,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetReservationPurchaseRecommendationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3467,6 +4051,99 @@ class GetReservationPurchaseRecommendationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetReservationUtilizationRequest {
+  /// Sets the start and end dates for retrieving RI utilization. The start date
+  /// is inclusive, but the end date is exclusive. For example, if
+  /// <code>start</code> is <code>2017-01-01</code> and <code>end</code> is
+  /// <code>2017-05-01</code>, then the cost and usage data is retrieved from
+  /// <code>2017-01-01</code> up to and including <code>2017-04-30</code> but not
+  /// including <code>2017-05-01</code>.
+  @_s.JsonKey(name: 'TimePeriod')
+  final DateInterval timePeriod;
+
+  /// Filters utilization data by dimensions. You can filter by the following
+  /// dimensions:
+  ///
+  /// <ul>
+  /// <li>
+  /// AZ
+  /// </li>
+  /// <li>
+  /// CACHE_ENGINE
+  /// </li>
+  /// <li>
+  /// DEPLOYMENT_OPTION
+  /// </li>
+  /// <li>
+  /// INSTANCE_TYPE
+  /// </li>
+  /// <li>
+  /// LINKED_ACCOUNT
+  /// </li>
+  /// <li>
+  /// OPERATING_SYSTEM
+  /// </li>
+  /// <li>
+  /// PLATFORM
+  /// </li>
+  /// <li>
+  /// REGION
+  /// </li>
+  /// <li>
+  /// SERVICE
+  /// </li>
+  /// <li>
+  /// SCOPE
+  /// </li>
+  /// <li>
+  /// TENANCY
+  /// </li>
+  /// </ul>
+  /// <code>GetReservationUtilization</code> uses the same <a
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html">Expression</a>
+  /// object as the other operations, but only <code>AND</code> is supported among
+  /// each dimension, and nesting is supported up to only one level deep. If there
+  /// are multiple values for a dimension, they are OR'd together.
+  @_s.JsonKey(name: 'Filter')
+  final Expression filter;
+
+  /// If <code>GroupBy</code> is set, <code>Granularity</code> can't be set. If
+  /// <code>Granularity</code> isn't set, the response object doesn't include
+  /// <code>Granularity</code>, either <code>MONTHLY</code> or <code>DAILY</code>.
+  /// If both <code>GroupBy</code> and <code>Granularity</code> aren't set,
+  /// <code>GetReservationUtilization</code> defaults to <code>DAILY</code>.
+  ///
+  /// The <code>GetReservationUtilization</code> operation supports only
+  /// <code>DAILY</code> and <code>MONTHLY</code> granularities.
+  @_s.JsonKey(name: 'Granularity')
+  final Granularity granularity;
+
+  /// Groups only by <code>SUBSCRIPTION_ID</code>. Metadata is included.
+  @_s.JsonKey(name: 'GroupBy')
+  final List<GroupDefinition> groupBy;
+
+  /// The token to retrieve the next set of results. AWS provides the token when
+  /// the response from a previous call has more results than the maximum page
+  /// size.
+  @_s.JsonKey(name: 'NextPageToken')
+  final String nextPageToken;
+
+  GetReservationUtilizationRequest({
+    @_s.required this.timePeriod,
+    this.filter,
+    this.granularity,
+    this.groupBy,
+    this.nextPageToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetReservationUtilizationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetReservationUtilizationResponse {
@@ -3492,6 +4169,39 @@ class GetReservationUtilizationResponse {
   factory GetReservationUtilizationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$GetReservationUtilizationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetRightsizingRecommendationRequest {
+  /// The specific service that you want recommendations for. The only valid value
+  /// for <code>GetRightsizingRecommendation</code> is "<code>AmazonEC2</code>".
+  @_s.JsonKey(name: 'Service')
+  final String service;
+  @_s.JsonKey(name: 'Filter')
+  final Expression filter;
+
+  /// The pagination token that indicates the next set of results that you want to
+  /// retrieve.
+  @_s.JsonKey(name: 'NextPageToken')
+  final String nextPageToken;
+
+  /// The number of recommendations that you want returned in a single response
+  /// object.
+  @_s.JsonKey(name: 'PageSize')
+  final int pageSize;
+
+  GetRightsizingRecommendationRequest({
+    @_s.required this.service,
+    this.filter,
+    this.nextPageToken,
+    this.pageSize,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetRightsizingRecommendationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3530,6 +4240,87 @@ class GetRightsizingRecommendationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetSavingsPlansCoverageRequest {
+  /// The time period that you want the usage and costs for. The
+  /// <code>Start</code> date must be within 13 months. The <code>End</code> date
+  /// must be after the <code>Start</code> date, and before the current date.
+  /// Future dates can't be used as an <code>End</code> date.
+  @_s.JsonKey(name: 'TimePeriod')
+  final DateInterval timePeriod;
+
+  /// Filters Savings Plans coverage data by dimensions. You can filter data for
+  /// Savings Plans usage with the following dimensions:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>LINKED_ACCOUNT</code>
+  /// </li>
+  /// <li>
+  /// <code>REGION</code>
+  /// </li>
+  /// <li>
+  /// <code>SERVICE</code>
+  /// </li>
+  /// <li>
+  /// <code>INSTANCE_FAMILY</code>
+  /// </li>
+  /// </ul>
+  /// <code>GetSavingsPlansCoverage</code> uses the same <a
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html">Expression</a>
+  /// object as the other operations, but only <code>AND</code> is supported among
+  /// each dimension. If there are multiple values for a dimension, they are OR'd
+  /// together.
+  ///
+  /// Cost category is also supported.
+  @_s.JsonKey(name: 'Filter')
+  final Expression filter;
+
+  /// The granularity of the Amazon Web Services cost data for your Savings Plans.
+  /// <code>Granularity</code> can't be set if <code>GroupBy</code> is set.
+  ///
+  /// The <code>GetSavingsPlansCoverage</code> operation supports only
+  /// <code>DAILY</code> and <code>MONTHLY</code> granularities.
+  @_s.JsonKey(name: 'Granularity')
+  final Granularity granularity;
+
+  /// You can group the data using the attributes <code>INSTANCE_FAMILY</code>,
+  /// <code>REGION</code>, or <code>SERVICE</code>.
+  @_s.JsonKey(name: 'GroupBy')
+  final List<GroupDefinition> groupBy;
+
+  /// The number of items to be returned in a response. The default is
+  /// <code>20</code>, with a minimum value of <code>1</code>.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The measurement that you want your Savings Plans coverage reported in. The
+  /// only valid value is <code>SpendCoveredBySavingsPlans</code>.
+  @_s.JsonKey(name: 'Metrics')
+  final List<String> metrics;
+
+  /// The token to retrieve the next set of results. Amazon Web Services provides
+  /// the token when the response from a previous call has more results than the
+  /// maximum page size.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetSavingsPlansCoverageRequest({
+    @_s.required this.timePeriod,
+    this.filter,
+    this.granularity,
+    this.groupBy,
+    this.maxResults,
+    this.metrics,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$GetSavingsPlansCoverageRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetSavingsPlansCoverageResponse {
@@ -3549,6 +4340,78 @@ class GetSavingsPlansCoverageResponse {
   });
   factory GetSavingsPlansCoverageResponse.fromJson(Map<String, dynamic> json) =>
       _$GetSavingsPlansCoverageResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetSavingsPlansPurchaseRecommendationRequest {
+  /// The lookback period used to generate the recommendation.
+  @_s.JsonKey(name: 'LookbackPeriodInDays')
+  final LookbackPeriodInDays lookbackPeriodInDays;
+
+  /// The payment option used to generate these recommendations.
+  @_s.JsonKey(name: 'PaymentOption')
+  final PaymentOption paymentOption;
+
+  /// The Savings Plans recommendation type requested.
+  @_s.JsonKey(name: 'SavingsPlansType')
+  final SupportedSavingsPlansType savingsPlansType;
+
+  /// The savings plan recommendation term used to generated these
+  /// recommendations.
+  @_s.JsonKey(name: 'TermInYears')
+  final TermInYears termInYears;
+
+  /// The account scope that you want your recommendations for. Amazon Web
+  /// Services calculates recommendations including the payer account and linked
+  /// accounts if the value is set to <code>PAYER</code>. If the value is
+  /// <code>LINKED</code>, recommendations are calculated for individual linked
+  /// accounts only.
+  @_s.JsonKey(name: 'AccountScope')
+  final AccountScope accountScope;
+
+  /// You can filter your recommendations by Account ID with the
+  /// <code>LINKED_ACCOUNT</code> dimension. To filter your recommendations by
+  /// Account ID, specify <code>Key</code> as <code>LINKED_ACCOUNT</code> and
+  /// <code>Value</code> as the comma-separated Acount ID(s) for which you want to
+  /// see Savings Plans purchase recommendations.
+  ///
+  /// For GetSavingsPlansPurchaseRecommendation, the <code>Filter</code> does not
+  /// include <code>CostCategories</code> or <code>Tags</code>. It only includes
+  /// <code>Dimensions</code>. With <code>Dimensions</code>, <code>Key</code> must
+  /// be <code>LINKED_ACCOUNT</code> and <code>Value</code> can be a single
+  /// Account ID or multiple comma-separated Account IDs for which you want to see
+  /// Savings Plans Purchase Recommendations. <code>AND</code> and <code>OR</code>
+  /// operators are not supported.
+  @_s.JsonKey(name: 'Filter')
+  final Expression filter;
+
+  /// The token to retrieve the next set of results. Amazon Web Services provides
+  /// the token when the response from a previous call has more results than the
+  /// maximum page size.
+  @_s.JsonKey(name: 'NextPageToken')
+  final String nextPageToken;
+
+  /// The number of recommendations that you want returned in a single response
+  /// object.
+  @_s.JsonKey(name: 'PageSize')
+  final int pageSize;
+
+  GetSavingsPlansPurchaseRecommendationRequest({
+    @_s.required this.lookbackPeriodInDays,
+    @_s.required this.paymentOption,
+    @_s.required this.savingsPlansType,
+    @_s.required this.termInYears,
+    this.accountScope,
+    this.filter,
+    this.nextPageToken,
+    this.pageSize,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetSavingsPlansPurchaseRecommendationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3580,6 +4443,67 @@ class GetSavingsPlansPurchaseRecommendationResponse {
   factory GetSavingsPlansPurchaseRecommendationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$GetSavingsPlansPurchaseRecommendationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetSavingsPlansUtilizationDetailsRequest {
+  /// The time period that you want the usage and costs for. The
+  /// <code>Start</code> date must be within 13 months. The <code>End</code> date
+  /// must be after the <code>Start</code> date, and before the current date.
+  /// Future dates can't be used as an <code>End</code> date.
+  @_s.JsonKey(name: 'TimePeriod')
+  final DateInterval timePeriod;
+
+  /// Filters Savings Plans utilization coverage data for active Savings Plans
+  /// dimensions. You can filter data with the following dimensions:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>LINKED_ACCOUNT</code>
+  /// </li>
+  /// <li>
+  /// <code>SAVINGS_PLAN_ARN</code>
+  /// </li>
+  /// <li>
+  /// <code>REGION</code>
+  /// </li>
+  /// <li>
+  /// <code>PAYMENT_OPTION</code>
+  /// </li>
+  /// <li>
+  /// <code>INSTANCE_TYPE_FAMILY</code>
+  /// </li>
+  /// </ul>
+  /// <code>GetSavingsPlansUtilizationDetails</code> uses the same <a
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html">Expression</a>
+  /// object as the other operations, but only <code>AND</code> is supported among
+  /// each dimension.
+  @_s.JsonKey(name: 'Filter')
+  final Expression filter;
+
+  /// The number of items to be returned in a response. The default is
+  /// <code>20</code>, with a minimum value of <code>1</code>.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token to retrieve the next set of results. Amazon Web Services provides
+  /// the token when the response from a previous call has more results than the
+  /// maximum page size.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetSavingsPlansUtilizationDetailsRequest({
+    @_s.required this.timePeriod,
+    this.filter,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetSavingsPlansUtilizationDetailsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3619,6 +4543,66 @@ class GetSavingsPlansUtilizationDetailsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetSavingsPlansUtilizationRequest {
+  /// The time period that you want the usage and costs for. The
+  /// <code>Start</code> date must be within 13 months. The <code>End</code> date
+  /// must be after the <code>Start</code> date, and before the current date.
+  /// Future dates can't be used as an <code>End</code> date.
+  @_s.JsonKey(name: 'TimePeriod')
+  final DateInterval timePeriod;
+
+  /// Filters Savings Plans utilization coverage data for active Savings Plans
+  /// dimensions. You can filter data with the following dimensions:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>LINKED_ACCOUNT</code>
+  /// </li>
+  /// <li>
+  /// <code>SAVINGS_PLAN_ARN</code>
+  /// </li>
+  /// <li>
+  /// <code>SAVINGS_PLANS_TYPE</code>
+  /// </li>
+  /// <li>
+  /// <code>REGION</code>
+  /// </li>
+  /// <li>
+  /// <code>PAYMENT_OPTION</code>
+  /// </li>
+  /// <li>
+  /// <code>INSTANCE_TYPE_FAMILY</code>
+  /// </li>
+  /// </ul>
+  /// <code>GetSavingsPlansUtilization</code> uses the same <a
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html">Expression</a>
+  /// object as the other operations, but only <code>AND</code> is supported among
+  /// each dimension.
+  @_s.JsonKey(name: 'Filter')
+  final Expression filter;
+
+  /// The granularity of the Amazon Web Services utillization data for your
+  /// Savings Plans.
+  ///
+  /// The <code>GetSavingsPlansUtilization</code> operation supports only
+  /// <code>DAILY</code> and <code>MONTHLY</code> granularities.
+  @_s.JsonKey(name: 'Granularity')
+  final Granularity granularity;
+
+  GetSavingsPlansUtilizationRequest({
+    @_s.required this.timePeriod,
+    this.filter,
+    this.granularity,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetSavingsPlansUtilizationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetSavingsPlansUtilizationResponse {
@@ -3639,6 +4623,44 @@ class GetSavingsPlansUtilizationResponse {
   factory GetSavingsPlansUtilizationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$GetSavingsPlansUtilizationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetTagsRequest {
+  /// The start and end dates for retrieving the dimension values. The start date
+  /// is inclusive, but the end date is exclusive. For example, if
+  /// <code>start</code> is <code>2017-01-01</code> and <code>end</code> is
+  /// <code>2017-05-01</code>, then the cost and usage data is retrieved from
+  /// <code>2017-01-01</code> up to and including <code>2017-04-30</code> but not
+  /// including <code>2017-05-01</code>.
+  @_s.JsonKey(name: 'TimePeriod')
+  final DateInterval timePeriod;
+
+  /// The token to retrieve the next set of results. AWS provides the token when
+  /// the response from a previous call has more results than the maximum page
+  /// size.
+  @_s.JsonKey(name: 'NextPageToken')
+  final String nextPageToken;
+
+  /// The value that you want to search for.
+  @_s.JsonKey(name: 'SearchString')
+  final String searchString;
+
+  /// The key of the tag that you want to return values for.
+  @_s.JsonKey(name: 'TagKey')
+  final String tagKey;
+
+  GetTagsRequest({
+    @_s.required this.timePeriod,
+    this.nextPageToken,
+    this.searchString,
+    this.tagKey,
+  });
+  Map<String, dynamic> toJson() => _$GetTagsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3678,6 +4700,67 @@ class GetTagsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetUsageForecastRequest {
+  /// How granular you want the forecast to be. You can get 3 months of
+  /// <code>DAILY</code> forecasts or 12 months of <code>MONTHLY</code> forecasts.
+  ///
+  /// The <code>GetUsageForecast</code> operation supports only <code>DAILY</code>
+  /// and <code>MONTHLY</code> granularities.
+  @_s.JsonKey(name: 'Granularity')
+  final Granularity granularity;
+
+  /// Which metric Cost Explorer uses to create your forecast.
+  ///
+  /// Valid values for a <code>GetUsageForecast</code> call are the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// USAGE_QUANTITY
+  /// </li>
+  /// <li>
+  /// NORMALIZED_USAGE_AMOUNT
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Metric')
+  final Metric metric;
+
+  /// The start and end dates of the period that you want to retrieve usage
+  /// forecast for. The start date is inclusive, but the end date is exclusive.
+  /// For example, if <code>start</code> is <code>2017-01-01</code> and
+  /// <code>end</code> is <code>2017-05-01</code>, then the cost and usage data is
+  /// retrieved from <code>2017-01-01</code> up to and including
+  /// <code>2017-04-30</code> but not including <code>2017-05-01</code>.
+  @_s.JsonKey(name: 'TimePeriod')
+  final DateInterval timePeriod;
+
+  /// The filters that you want to use to filter your forecast. Cost Explorer API
+  /// supports all of the Cost Explorer filters.
+  @_s.JsonKey(name: 'Filter')
+  final Expression filter;
+
+  /// Cost Explorer always returns the mean forecast as a single point. You can
+  /// request a prediction interval around the mean by specifying a confidence
+  /// level. The higher the confidence level, the more confident Cost Explorer is
+  /// about the actual value falling in the prediction interval. Higher confidence
+  /// levels result in wider prediction intervals.
+  @_s.JsonKey(name: 'PredictionIntervalLevel')
+  final int predictionIntervalLevel;
+
+  GetUsageForecastRequest({
+    @_s.required this.granularity,
+    @_s.required this.metric,
+    @_s.required this.timePeriod,
+    this.filter,
+    this.predictionIntervalLevel,
+  });
+  Map<String, dynamic> toJson() => _$GetUsageForecastRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetUsageForecastResponse {
@@ -3706,20 +4789,6 @@ enum Granularity {
   monthly,
   @_s.JsonValue('HOURLY')
   hourly,
-}
-
-extension on Granularity {
-  String toValue() {
-    switch (this) {
-      case Granularity.daily:
-        return 'DAILY';
-      case Granularity.monthly:
-        return 'MONTHLY';
-      case Granularity.hourly:
-        return 'HOURLY';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// One level of grouped data in the results.
@@ -3820,6 +4889,35 @@ class InstanceDetails {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListCostCategoryDefinitionsRequest {
+  /// The date when the Cost Category was effective.
+  @_s.JsonKey(name: 'EffectiveOn')
+  final String effectiveOn;
+
+  /// The number of entries a paginated response contains.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token to retrieve the next set of results. Amazon Web Services provides
+  /// the token when the response from a previous call has more results than the
+  /// maximum page size.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListCostCategoryDefinitionsRequest({
+    this.effectiveOn,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ListCostCategoryDefinitionsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListCostCategoryDefinitionsResponse {
@@ -3852,20 +4950,6 @@ enum LookbackPeriodInDays {
   sixtyDays,
 }
 
-extension on LookbackPeriodInDays {
-  String toValue() {
-    switch (this) {
-      case LookbackPeriodInDays.sevenDays:
-        return 'SEVEN_DAYS';
-      case LookbackPeriodInDays.thirtyDays:
-        return 'THIRTY_DAYS';
-      case LookbackPeriodInDays.sixtyDays:
-        return 'SIXTY_DAYS';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 enum MatchOption {
   @_s.JsonValue('EQUALS')
   equals,
@@ -3896,28 +4980,6 @@ enum Metric {
   usageQuantity,
   @_s.JsonValue('NORMALIZED_USAGE_AMOUNT')
   normalizedUsageAmount,
-}
-
-extension on Metric {
-  String toValue() {
-    switch (this) {
-      case Metric.blendedCost:
-        return 'BLENDED_COST';
-      case Metric.unblendedCost:
-        return 'UNBLENDED_COST';
-      case Metric.amortizedCost:
-        return 'AMORTIZED_COST';
-      case Metric.netUnblendedCost:
-        return 'NET_UNBLENDED_COST';
-      case Metric.netAmortizedCost:
-        return 'NET_AMORTIZED_COST';
-      case Metric.usageQuantity:
-        return 'USAGE_QUANTITY';
-      case Metric.normalizedUsageAmount:
-        return 'NORMALIZED_USAGE_AMOUNT';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// The aggregated value for a metric.
@@ -3982,26 +5044,6 @@ enum PaymentOption {
   mediumUtilization,
   @_s.JsonValue('HEAVY_UTILIZATION')
   heavyUtilization,
-}
-
-extension on PaymentOption {
-  String toValue() {
-    switch (this) {
-      case PaymentOption.noUpfront:
-        return 'NO_UPFRONT';
-      case PaymentOption.partialUpfront:
-        return 'PARTIAL_UPFRONT';
-      case PaymentOption.allUpfront:
-        return 'ALL_UPFRONT';
-      case PaymentOption.lightUtilization:
-        return 'LIGHT_UTILIZATION';
-      case PaymentOption.mediumUtilization:
-        return 'MEDIUM_UTILIZATION';
-      case PaymentOption.heavyUtilization:
-        return 'HEAVY_UTILIZATION';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Details about the Amazon RDS instances that AWS recommends that you
@@ -5275,18 +6317,6 @@ enum SupportedSavingsPlansType {
   ec2InstanceSp,
 }
 
-extension on SupportedSavingsPlansType {
-  String toValue() {
-    switch (this) {
-      case SupportedSavingsPlansType.computeSp:
-        return 'COMPUTE_SP';
-      case SupportedSavingsPlansType.ec2InstanceSp:
-        return 'EC2_INSTANCE_SP';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// The values that are available for a tag.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -5372,18 +6402,6 @@ enum TermInYears {
   threeYears,
 }
 
-extension on TermInYears {
-  String toValue() {
-    switch (this) {
-      case TermInYears.oneYear:
-        return 'ONE_YEAR';
-      case TermInYears.threeYears:
-        return 'THREE_YEARS';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Details on termination recommendation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -5406,6 +6424,34 @@ class TerminateRecommendationDetail {
   });
   factory TerminateRecommendationDetail.fromJson(Map<String, dynamic> json) =>
       _$TerminateRecommendationDetailFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateCostCategoryDefinitionRequest {
+  /// The unique identifier for your Cost Category.
+  @_s.JsonKey(name: 'CostCategoryArn')
+  final String costCategoryArn;
+  @_s.JsonKey(name: 'RuleVersion')
+  final CostCategoryRuleVersion ruleVersion;
+
+  /// The <code>Expression</code> object used to categorize costs. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_CostCategoryRule.html">CostCategoryRule
+  /// </a>.
+  @_s.JsonKey(name: 'Rules')
+  final List<CostCategoryRule> rules;
+
+  UpdateCostCategoryDefinitionRequest({
+    @_s.required this.costCategoryArn,
+    @_s.required this.ruleVersion,
+    @_s.required this.rules,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateCostCategoryDefinitionRequestToJson(this);
 }
 
 @_s.JsonSerializable(

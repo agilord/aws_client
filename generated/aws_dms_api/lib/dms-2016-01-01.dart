@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -77,10 +76,10 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        'Tags': tags,
-      },
+      payload: AddTagsToResourceMessage(
+        resourceArn: resourceArn,
+        tags: tags,
+      ),
     );
 
     return AddTagsToResourceResponse.fromJson(jsonResponse.body);
@@ -136,11 +135,11 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ApplyAction': applyAction,
-        'OptInType': optInType,
-        'ReplicationInstanceArn': replicationInstanceArn,
-      },
+      payload: ApplyPendingMaintenanceActionMessage(
+        applyAction: applyAction,
+        optInType: optInType,
+        replicationInstanceArn: replicationInstanceArn,
+      ),
     );
 
     return ApplyPendingMaintenanceActionResponse.fromJson(jsonResponse.body);
@@ -334,36 +333,31 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EndpointIdentifier': endpointIdentifier,
-        'EndpointType': endpointType?.toValue(),
-        'EngineName': engineName,
-        if (certificateArn != null) 'CertificateArn': certificateArn,
-        if (databaseName != null) 'DatabaseName': databaseName,
-        if (dmsTransferSettings != null)
-          'DmsTransferSettings': dmsTransferSettings,
-        if (dynamoDbSettings != null) 'DynamoDbSettings': dynamoDbSettings,
-        if (elasticsearchSettings != null)
-          'ElasticsearchSettings': elasticsearchSettings,
-        if (externalTableDefinition != null)
-          'ExternalTableDefinition': externalTableDefinition,
-        if (extraConnectionAttributes != null)
-          'ExtraConnectionAttributes': extraConnectionAttributes,
-        if (kafkaSettings != null) 'KafkaSettings': kafkaSettings,
-        if (kinesisSettings != null) 'KinesisSettings': kinesisSettings,
-        if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
-        if (mongoDbSettings != null) 'MongoDbSettings': mongoDbSettings,
-        if (password != null) 'Password': password,
-        if (port != null) 'Port': port,
-        if (redshiftSettings != null) 'RedshiftSettings': redshiftSettings,
-        if (s3Settings != null) 'S3Settings': s3Settings,
-        if (serverName != null) 'ServerName': serverName,
-        if (serviceAccessRoleArn != null)
-          'ServiceAccessRoleArn': serviceAccessRoleArn,
-        if (sslMode != null) 'SslMode': sslMode?.toValue(),
-        if (tags != null) 'Tags': tags,
-        if (username != null) 'Username': username,
-      },
+      payload: CreateEndpointMessage(
+        endpointIdentifier: endpointIdentifier,
+        endpointType: endpointType,
+        engineName: engineName,
+        certificateArn: certificateArn,
+        databaseName: databaseName,
+        dmsTransferSettings: dmsTransferSettings,
+        dynamoDbSettings: dynamoDbSettings,
+        elasticsearchSettings: elasticsearchSettings,
+        externalTableDefinition: externalTableDefinition,
+        extraConnectionAttributes: extraConnectionAttributes,
+        kafkaSettings: kafkaSettings,
+        kinesisSettings: kinesisSettings,
+        kmsKeyId: kmsKeyId,
+        mongoDbSettings: mongoDbSettings,
+        password: password,
+        port: port,
+        redshiftSettings: redshiftSettings,
+        s3Settings: s3Settings,
+        serverName: serverName,
+        serviceAccessRoleArn: serviceAccessRoleArn,
+        sslMode: sslMode,
+        tags: tags,
+        username: username,
+      ),
     );
 
     return CreateEndpointResponse.fromJson(jsonResponse.body);
@@ -463,15 +457,15 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SnsTopicArn': snsTopicArn,
-        'SubscriptionName': subscriptionName,
-        if (enabled != null) 'Enabled': enabled,
-        if (eventCategories != null) 'EventCategories': eventCategories,
-        if (sourceIds != null) 'SourceIds': sourceIds,
-        if (sourceType != null) 'SourceType': sourceType,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateEventSubscriptionMessage(
+        snsTopicArn: snsTopicArn,
+        subscriptionName: subscriptionName,
+        enabled: enabled,
+        eventCategories: eventCategories,
+        sourceIds: sourceIds,
+        sourceType: sourceType,
+        tags: tags,
+      ),
     );
 
     return CreateEventSubscriptionResponse.fromJson(jsonResponse.body);
@@ -622,27 +616,22 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ReplicationInstanceClass': replicationInstanceClass,
-        'ReplicationInstanceIdentifier': replicationInstanceIdentifier,
-        if (allocatedStorage != null) 'AllocatedStorage': allocatedStorage,
-        if (autoMinorVersionUpgrade != null)
-          'AutoMinorVersionUpgrade': autoMinorVersionUpgrade,
-        if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
-        if (dnsNameServers != null) 'DnsNameServers': dnsNameServers,
-        if (engineVersion != null) 'EngineVersion': engineVersion,
-        if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
-        if (multiAZ != null) 'MultiAZ': multiAZ,
-        if (preferredMaintenanceWindow != null)
-          'PreferredMaintenanceWindow': preferredMaintenanceWindow,
-        if (publiclyAccessible != null)
-          'PubliclyAccessible': publiclyAccessible,
-        if (replicationSubnetGroupIdentifier != null)
-          'ReplicationSubnetGroupIdentifier': replicationSubnetGroupIdentifier,
-        if (tags != null) 'Tags': tags,
-        if (vpcSecurityGroupIds != null)
-          'VpcSecurityGroupIds': vpcSecurityGroupIds,
-      },
+      payload: CreateReplicationInstanceMessage(
+        replicationInstanceClass: replicationInstanceClass,
+        replicationInstanceIdentifier: replicationInstanceIdentifier,
+        allocatedStorage: allocatedStorage,
+        autoMinorVersionUpgrade: autoMinorVersionUpgrade,
+        availabilityZone: availabilityZone,
+        dnsNameServers: dnsNameServers,
+        engineVersion: engineVersion,
+        kmsKeyId: kmsKeyId,
+        multiAZ: multiAZ,
+        preferredMaintenanceWindow: preferredMaintenanceWindow,
+        publiclyAccessible: publiclyAccessible,
+        replicationSubnetGroupIdentifier: replicationSubnetGroupIdentifier,
+        tags: tags,
+        vpcSecurityGroupIds: vpcSecurityGroupIds,
+      ),
     );
 
     return CreateReplicationInstanceResponse.fromJson(jsonResponse.body);
@@ -696,12 +685,12 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ReplicationSubnetGroupDescription': replicationSubnetGroupDescription,
-        'ReplicationSubnetGroupIdentifier': replicationSubnetGroupIdentifier,
-        'SubnetIds': subnetIds,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateReplicationSubnetGroupMessage(
+        replicationSubnetGroupDescription: replicationSubnetGroupDescription,
+        replicationSubnetGroupIdentifier: replicationSubnetGroupIdentifier,
+        subnetIds: subnetIds,
+        tags: tags,
+      ),
     );
 
     return CreateReplicationSubnetGroupResponse.fromJson(jsonResponse.body);
@@ -832,20 +821,19 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'MigrationType': migrationType?.toValue(),
-        'ReplicationInstanceArn': replicationInstanceArn,
-        'ReplicationTaskIdentifier': replicationTaskIdentifier,
-        'SourceEndpointArn': sourceEndpointArn,
-        'TableMappings': tableMappings,
-        'TargetEndpointArn': targetEndpointArn,
-        if (cdcStartPosition != null) 'CdcStartPosition': cdcStartPosition,
-        if (cdcStartTime != null) 'CdcStartTime': cdcStartTime,
-        if (cdcStopPosition != null) 'CdcStopPosition': cdcStopPosition,
-        if (replicationTaskSettings != null)
-          'ReplicationTaskSettings': replicationTaskSettings,
-        if (tags != null) 'Tags': tags,
-      },
+      payload: CreateReplicationTaskMessage(
+        migrationType: migrationType,
+        replicationInstanceArn: replicationInstanceArn,
+        replicationTaskIdentifier: replicationTaskIdentifier,
+        sourceEndpointArn: sourceEndpointArn,
+        tableMappings: tableMappings,
+        targetEndpointArn: targetEndpointArn,
+        cdcStartPosition: cdcStartPosition,
+        cdcStartTime: cdcStartTime,
+        cdcStopPosition: cdcStopPosition,
+        replicationTaskSettings: replicationTaskSettings,
+        tags: tags,
+      ),
     );
 
     return CreateReplicationTaskResponse.fromJson(jsonResponse.body);
@@ -872,9 +860,9 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CertificateArn': certificateArn,
-      },
+      payload: DeleteCertificateMessage(
+        certificateArn: certificateArn,
+      ),
     );
 
     return DeleteCertificateResponse.fromJson(jsonResponse.body);
@@ -909,10 +897,10 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EndpointArn': endpointArn,
-        'ReplicationInstanceArn': replicationInstanceArn,
-      },
+      payload: DeleteConnectionMessage(
+        endpointArn: endpointArn,
+        replicationInstanceArn: replicationInstanceArn,
+      ),
     );
 
     return DeleteConnectionResponse.fromJson(jsonResponse.body);
@@ -944,9 +932,9 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EndpointArn': endpointArn,
-      },
+      payload: DeleteEndpointMessage(
+        endpointArn: endpointArn,
+      ),
     );
 
     return DeleteEndpointResponse.fromJson(jsonResponse.body);
@@ -973,9 +961,9 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SubscriptionName': subscriptionName,
-      },
+      payload: DeleteEventSubscriptionMessage(
+        subscriptionName: subscriptionName,
+      ),
     );
 
     return DeleteEventSubscriptionResponse.fromJson(jsonResponse.body);
@@ -1007,9 +995,9 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ReplicationInstanceArn': replicationInstanceArn,
-      },
+      payload: DeleteReplicationInstanceMessage(
+        replicationInstanceArn: replicationInstanceArn,
+      ),
     );
 
     return DeleteReplicationInstanceResponse.fromJson(jsonResponse.body);
@@ -1037,9 +1025,9 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ReplicationSubnetGroupIdentifier': replicationSubnetGroupIdentifier,
-      },
+      payload: DeleteReplicationSubnetGroupMessage(
+        replicationSubnetGroupIdentifier: replicationSubnetGroupIdentifier,
+      ),
     );
 
     return DeleteReplicationSubnetGroupResponse.fromJson(jsonResponse.body);
@@ -1066,9 +1054,9 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ReplicationTaskArn': replicationTaskArn,
-      },
+      payload: DeleteReplicationTaskMessage(
+        replicationTaskArn: replicationTaskArn,
+      ),
     );
 
     return DeleteReplicationTaskResponse.fromJson(jsonResponse.body);
@@ -1135,11 +1123,11 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (marker != null) 'Marker': marker,
-        if (maxRecords != null) 'MaxRecords': maxRecords,
-      },
+      payload: DescribeCertificatesMessage(
+        filters: filters,
+        marker: marker,
+        maxRecords: maxRecords,
+      ),
     );
 
     return DescribeCertificatesResponse.fromJson(jsonResponse.body);
@@ -1185,11 +1173,11 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (marker != null) 'Marker': marker,
-        if (maxRecords != null) 'MaxRecords': maxRecords,
-      },
+      payload: DescribeConnectionsMessage(
+        filters: filters,
+        marker: marker,
+        maxRecords: maxRecords,
+      ),
     );
 
     return DescribeConnectionsResponse.fromJson(jsonResponse.body);
@@ -1231,11 +1219,11 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (marker != null) 'Marker': marker,
-        if (maxRecords != null) 'MaxRecords': maxRecords,
-      },
+      payload: DescribeEndpointTypesMessage(
+        filters: filters,
+        marker: marker,
+        maxRecords: maxRecords,
+      ),
     );
 
     return DescribeEndpointTypesResponse.fromJson(jsonResponse.body);
@@ -1281,11 +1269,11 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (marker != null) 'Marker': marker,
-        if (maxRecords != null) 'MaxRecords': maxRecords,
-      },
+      payload: DescribeEndpointsMessage(
+        filters: filters,
+        marker: marker,
+        maxRecords: maxRecords,
+      ),
     );
 
     return DescribeEndpointsResponse.fromJson(jsonResponse.body);
@@ -1319,10 +1307,10 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (sourceType != null) 'SourceType': sourceType,
-      },
+      payload: DescribeEventCategoriesMessage(
+        filters: filters,
+        sourceType: sourceType,
+      ),
     );
 
     return DescribeEventCategoriesResponse.fromJson(jsonResponse.body);
@@ -1375,12 +1363,12 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (marker != null) 'Marker': marker,
-        if (maxRecords != null) 'MaxRecords': maxRecords,
-        if (subscriptionName != null) 'SubscriptionName': subscriptionName,
-      },
+      payload: DescribeEventSubscriptionsMessage(
+        filters: filters,
+        marker: marker,
+        maxRecords: maxRecords,
+        subscriptionName: subscriptionName,
+      ),
     );
 
     return DescribeEventSubscriptionsResponse.fromJson(jsonResponse.body);
@@ -1451,17 +1439,17 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (duration != null) 'Duration': duration,
-        if (endTime != null) 'EndTime': endTime,
-        if (eventCategories != null) 'EventCategories': eventCategories,
-        if (filters != null) 'Filters': filters,
-        if (marker != null) 'Marker': marker,
-        if (maxRecords != null) 'MaxRecords': maxRecords,
-        if (sourceIdentifier != null) 'SourceIdentifier': sourceIdentifier,
-        if (sourceType != null) 'SourceType': sourceType?.toValue(),
-        if (startTime != null) 'StartTime': startTime,
-      },
+      payload: DescribeEventsMessage(
+        duration: duration,
+        endTime: endTime,
+        eventCategories: eventCategories,
+        filters: filters,
+        marker: marker,
+        maxRecords: maxRecords,
+        sourceIdentifier: sourceIdentifier,
+        sourceType: sourceType,
+        startTime: startTime,
+      ),
     );
 
     return DescribeEventsResponse.fromJson(jsonResponse.body);
@@ -1499,10 +1487,10 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (marker != null) 'Marker': marker,
-        if (maxRecords != null) 'MaxRecords': maxRecords,
-      },
+      payload: DescribeOrderableReplicationInstancesMessage(
+        marker: marker,
+        maxRecords: maxRecords,
+      ),
     );
 
     return DescribeOrderableReplicationInstancesResponse.fromJson(
@@ -1550,13 +1538,12 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (marker != null) 'Marker': marker,
-        if (maxRecords != null) 'MaxRecords': maxRecords,
-        if (replicationInstanceArn != null)
-          'ReplicationInstanceArn': replicationInstanceArn,
-      },
+      payload: DescribePendingMaintenanceActionsMessage(
+        filters: filters,
+        marker: marker,
+        maxRecords: maxRecords,
+        replicationInstanceArn: replicationInstanceArn,
+      ),
     );
 
     return DescribePendingMaintenanceActionsResponse.fromJson(
@@ -1585,9 +1572,9 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EndpointArn': endpointArn,
-      },
+      payload: DescribeRefreshSchemasStatusMessage(
+        endpointArn: endpointArn,
+      ),
     );
 
     return DescribeRefreshSchemasStatusResponse.fromJson(jsonResponse.body);
@@ -1633,11 +1620,11 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ReplicationInstanceArn': replicationInstanceArn,
-        if (marker != null) 'Marker': marker,
-        if (maxRecords != null) 'MaxRecords': maxRecords,
-      },
+      payload: DescribeReplicationInstanceTaskLogsMessage(
+        replicationInstanceArn: replicationInstanceArn,
+        marker: marker,
+        maxRecords: maxRecords,
+      ),
     );
 
     return DescribeReplicationInstanceTaskLogsResponse.fromJson(
@@ -1684,11 +1671,11 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (marker != null) 'Marker': marker,
-        if (maxRecords != null) 'MaxRecords': maxRecords,
-      },
+      payload: DescribeReplicationInstancesMessage(
+        filters: filters,
+        marker: marker,
+        maxRecords: maxRecords,
+      ),
     );
 
     return DescribeReplicationInstancesResponse.fromJson(jsonResponse.body);
@@ -1731,11 +1718,11 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (marker != null) 'Marker': marker,
-        if (maxRecords != null) 'MaxRecords': maxRecords,
-      },
+      payload: DescribeReplicationSubnetGroupsMessage(
+        filters: filters,
+        marker: marker,
+        maxRecords: maxRecords,
+      ),
     );
 
     return DescribeReplicationSubnetGroupsResponse.fromJson(jsonResponse.body);
@@ -1783,12 +1770,11 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (marker != null) 'Marker': marker,
-        if (maxRecords != null) 'MaxRecords': maxRecords,
-        if (replicationTaskArn != null)
-          'ReplicationTaskArn': replicationTaskArn,
-      },
+      payload: DescribeReplicationTaskAssessmentResultsMessage(
+        marker: marker,
+        maxRecords: maxRecords,
+        replicationTaskArn: replicationTaskArn,
+      ),
     );
 
     return DescribeReplicationTaskAssessmentResultsResponse.fromJson(
@@ -1842,12 +1828,12 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (marker != null) 'Marker': marker,
-        if (maxRecords != null) 'MaxRecords': maxRecords,
-        if (withoutSettings != null) 'WithoutSettings': withoutSettings,
-      },
+      payload: DescribeReplicationTasksMessage(
+        filters: filters,
+        marker: marker,
+        maxRecords: maxRecords,
+        withoutSettings: withoutSettings,
+      ),
     );
 
     return DescribeReplicationTasksResponse.fromJson(jsonResponse.body);
@@ -1893,11 +1879,11 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EndpointArn': endpointArn,
-        if (marker != null) 'Marker': marker,
-        if (maxRecords != null) 'MaxRecords': maxRecords,
-      },
+      payload: DescribeSchemasMessage(
+        endpointArn: endpointArn,
+        marker: marker,
+        maxRecords: maxRecords,
+      ),
     );
 
     return DescribeSchemasResponse.fromJson(jsonResponse.body);
@@ -1955,12 +1941,12 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ReplicationTaskArn': replicationTaskArn,
-        if (filters != null) 'Filters': filters,
-        if (marker != null) 'Marker': marker,
-        if (maxRecords != null) 'MaxRecords': maxRecords,
-      },
+      payload: DescribeTableStatisticsMessage(
+        replicationTaskArn: replicationTaskArn,
+        filters: filters,
+        marker: marker,
+        maxRecords: maxRecords,
+      ),
     );
 
     return DescribeTableStatisticsResponse.fromJson(jsonResponse.body);
@@ -2003,13 +1989,12 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CertificateIdentifier': certificateIdentifier,
-        if (certificatePem != null) 'CertificatePem': certificatePem,
-        if (certificateWallet != null)
-          'CertificateWallet': certificateWallet.let(base64Encode),
-        if (tags != null) 'Tags': tags,
-      },
+      payload: ImportCertificateMessage(
+        certificateIdentifier: certificateIdentifier,
+        certificatePem: certificatePem,
+        certificateWallet: certificateWallet,
+        tags: tags,
+      ),
     );
 
     return ImportCertificateResponse.fromJson(jsonResponse.body);
@@ -2036,9 +2021,9 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-      },
+      payload: ListTagsForResourceMessage(
+        resourceArn: resourceArn,
+      ),
     );
 
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
@@ -2213,36 +2198,30 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EndpointArn': endpointArn,
-        if (certificateArn != null) 'CertificateArn': certificateArn,
-        if (databaseName != null) 'DatabaseName': databaseName,
-        if (dmsTransferSettings != null)
-          'DmsTransferSettings': dmsTransferSettings,
-        if (dynamoDbSettings != null) 'DynamoDbSettings': dynamoDbSettings,
-        if (elasticsearchSettings != null)
-          'ElasticsearchSettings': elasticsearchSettings,
-        if (endpointIdentifier != null)
-          'EndpointIdentifier': endpointIdentifier,
-        if (endpointType != null) 'EndpointType': endpointType?.toValue(),
-        if (engineName != null) 'EngineName': engineName,
-        if (externalTableDefinition != null)
-          'ExternalTableDefinition': externalTableDefinition,
-        if (extraConnectionAttributes != null)
-          'ExtraConnectionAttributes': extraConnectionAttributes,
-        if (kafkaSettings != null) 'KafkaSettings': kafkaSettings,
-        if (kinesisSettings != null) 'KinesisSettings': kinesisSettings,
-        if (mongoDbSettings != null) 'MongoDbSettings': mongoDbSettings,
-        if (password != null) 'Password': password,
-        if (port != null) 'Port': port,
-        if (redshiftSettings != null) 'RedshiftSettings': redshiftSettings,
-        if (s3Settings != null) 'S3Settings': s3Settings,
-        if (serverName != null) 'ServerName': serverName,
-        if (serviceAccessRoleArn != null)
-          'ServiceAccessRoleArn': serviceAccessRoleArn,
-        if (sslMode != null) 'SslMode': sslMode?.toValue(),
-        if (username != null) 'Username': username,
-      },
+      payload: ModifyEndpointMessage(
+        endpointArn: endpointArn,
+        certificateArn: certificateArn,
+        databaseName: databaseName,
+        dmsTransferSettings: dmsTransferSettings,
+        dynamoDbSettings: dynamoDbSettings,
+        elasticsearchSettings: elasticsearchSettings,
+        endpointIdentifier: endpointIdentifier,
+        endpointType: endpointType,
+        engineName: engineName,
+        externalTableDefinition: externalTableDefinition,
+        extraConnectionAttributes: extraConnectionAttributes,
+        kafkaSettings: kafkaSettings,
+        kinesisSettings: kinesisSettings,
+        mongoDbSettings: mongoDbSettings,
+        password: password,
+        port: port,
+        redshiftSettings: redshiftSettings,
+        s3Settings: s3Settings,
+        serverName: serverName,
+        serviceAccessRoleArn: serviceAccessRoleArn,
+        sslMode: sslMode,
+        username: username,
+      ),
     );
 
     return ModifyEndpointResponse.fromJson(jsonResponse.body);
@@ -2299,13 +2278,13 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SubscriptionName': subscriptionName,
-        if (enabled != null) 'Enabled': enabled,
-        if (eventCategories != null) 'EventCategories': eventCategories,
-        if (snsTopicArn != null) 'SnsTopicArn': snsTopicArn,
-        if (sourceType != null) 'SourceType': sourceType,
-      },
+      payload: ModifyEventSubscriptionMessage(
+        subscriptionName: subscriptionName,
+        enabled: enabled,
+        eventCategories: eventCategories,
+        snsTopicArn: snsTopicArn,
+        sourceType: sourceType,
+      ),
     );
 
     return ModifyEventSubscriptionResponse.fromJson(jsonResponse.body);
@@ -2431,25 +2410,19 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ReplicationInstanceArn': replicationInstanceArn,
-        if (allocatedStorage != null) 'AllocatedStorage': allocatedStorage,
-        if (allowMajorVersionUpgrade != null)
-          'AllowMajorVersionUpgrade': allowMajorVersionUpgrade,
-        if (applyImmediately != null) 'ApplyImmediately': applyImmediately,
-        if (autoMinorVersionUpgrade != null)
-          'AutoMinorVersionUpgrade': autoMinorVersionUpgrade,
-        if (engineVersion != null) 'EngineVersion': engineVersion,
-        if (multiAZ != null) 'MultiAZ': multiAZ,
-        if (preferredMaintenanceWindow != null)
-          'PreferredMaintenanceWindow': preferredMaintenanceWindow,
-        if (replicationInstanceClass != null)
-          'ReplicationInstanceClass': replicationInstanceClass,
-        if (replicationInstanceIdentifier != null)
-          'ReplicationInstanceIdentifier': replicationInstanceIdentifier,
-        if (vpcSecurityGroupIds != null)
-          'VpcSecurityGroupIds': vpcSecurityGroupIds,
-      },
+      payload: ModifyReplicationInstanceMessage(
+        replicationInstanceArn: replicationInstanceArn,
+        allocatedStorage: allocatedStorage,
+        allowMajorVersionUpgrade: allowMajorVersionUpgrade,
+        applyImmediately: applyImmediately,
+        autoMinorVersionUpgrade: autoMinorVersionUpgrade,
+        engineVersion: engineVersion,
+        multiAZ: multiAZ,
+        preferredMaintenanceWindow: preferredMaintenanceWindow,
+        replicationInstanceClass: replicationInstanceClass,
+        replicationInstanceIdentifier: replicationInstanceIdentifier,
+        vpcSecurityGroupIds: vpcSecurityGroupIds,
+      ),
     );
 
     return ModifyReplicationInstanceResponse.fromJson(jsonResponse.body);
@@ -2490,13 +2463,11 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ReplicationSubnetGroupIdentifier': replicationSubnetGroupIdentifier,
-        'SubnetIds': subnetIds,
-        if (replicationSubnetGroupDescription != null)
-          'ReplicationSubnetGroupDescription':
-              replicationSubnetGroupDescription,
-      },
+      payload: ModifyReplicationSubnetGroupMessage(
+        replicationSubnetGroupIdentifier: replicationSubnetGroupIdentifier,
+        subnetIds: subnetIds,
+        replicationSubnetGroupDescription: replicationSubnetGroupDescription,
+      ),
     );
 
     return ModifyReplicationSubnetGroupResponse.fromJson(jsonResponse.body);
@@ -2610,18 +2581,16 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ReplicationTaskArn': replicationTaskArn,
-        if (cdcStartPosition != null) 'CdcStartPosition': cdcStartPosition,
-        if (cdcStartTime != null) 'CdcStartTime': cdcStartTime,
-        if (cdcStopPosition != null) 'CdcStopPosition': cdcStopPosition,
-        if (migrationType != null) 'MigrationType': migrationType?.toValue(),
-        if (replicationTaskIdentifier != null)
-          'ReplicationTaskIdentifier': replicationTaskIdentifier,
-        if (replicationTaskSettings != null)
-          'ReplicationTaskSettings': replicationTaskSettings,
-        if (tableMappings != null) 'TableMappings': tableMappings,
-      },
+      payload: ModifyReplicationTaskMessage(
+        replicationTaskArn: replicationTaskArn,
+        cdcStartPosition: cdcStartPosition,
+        cdcStartTime: cdcStartTime,
+        cdcStopPosition: cdcStopPosition,
+        migrationType: migrationType,
+        replicationTaskIdentifier: replicationTaskIdentifier,
+        replicationTaskSettings: replicationTaskSettings,
+        tableMappings: tableMappings,
+      ),
     );
 
     return ModifyReplicationTaskResponse.fromJson(jsonResponse.body);
@@ -2656,10 +2625,10 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ReplicationInstanceArn': replicationInstanceArn,
-        if (forceFailover != null) 'ForceFailover': forceFailover,
-      },
+      payload: RebootReplicationInstanceMessage(
+        replicationInstanceArn: replicationInstanceArn,
+        forceFailover: forceFailover,
+      ),
     );
 
     return RebootReplicationInstanceResponse.fromJson(jsonResponse.body);
@@ -2697,10 +2666,10 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EndpointArn': endpointArn,
-        'ReplicationInstanceArn': replicationInstanceArn,
-      },
+      payload: RefreshSchemasMessage(
+        endpointArn: endpointArn,
+        replicationInstanceArn: replicationInstanceArn,
+      ),
     );
 
     return RefreshSchemasResponse.fromJson(jsonResponse.body);
@@ -2743,11 +2712,11 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ReplicationTaskArn': replicationTaskArn,
-        'TablesToReload': tablesToReload,
-        if (reloadOption != null) 'ReloadOption': reloadOption?.toValue(),
-      },
+      payload: ReloadTablesMessage(
+        replicationTaskArn: replicationTaskArn,
+        tablesToReload: tablesToReload,
+        reloadOption: reloadOption,
+      ),
     );
 
     return ReloadTablesResponse.fromJson(jsonResponse.body);
@@ -2779,10 +2748,10 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        'TagKeys': tagKeys,
-      },
+      payload: RemoveTagsFromResourceMessage(
+        resourceArn: resourceArn,
+        tagKeys: tagKeys,
+      ),
     );
 
     return RemoveTagsFromResourceResponse.fromJson(jsonResponse.body);
@@ -2863,13 +2832,13 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ReplicationTaskArn': replicationTaskArn,
-        'StartReplicationTaskType': startReplicationTaskType?.toValue(),
-        if (cdcStartPosition != null) 'CdcStartPosition': cdcStartPosition,
-        if (cdcStartTime != null) 'CdcStartTime': cdcStartTime,
-        if (cdcStopPosition != null) 'CdcStopPosition': cdcStopPosition,
-      },
+      payload: StartReplicationTaskMessage(
+        replicationTaskArn: replicationTaskArn,
+        startReplicationTaskType: startReplicationTaskType,
+        cdcStartPosition: cdcStartPosition,
+        cdcStartTime: cdcStartTime,
+        cdcStopPosition: cdcStopPosition,
+      ),
     );
 
     return StartReplicationTaskResponse.fromJson(jsonResponse.body);
@@ -2898,9 +2867,9 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ReplicationTaskArn': replicationTaskArn,
-      },
+      payload: StartReplicationTaskAssessmentMessage(
+        replicationTaskArn: replicationTaskArn,
+      ),
     );
 
     return StartReplicationTaskAssessmentResponse.fromJson(jsonResponse.body);
@@ -2928,9 +2897,9 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ReplicationTaskArn': replicationTaskArn,
-      },
+      payload: StopReplicationTaskMessage(
+        replicationTaskArn: replicationTaskArn,
+      ),
     );
 
     return StopReplicationTaskResponse.fromJson(jsonResponse.body);
@@ -2966,10 +2935,10 @@ class DatabaseMigrationService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'EndpointArn': endpointArn,
-        'ReplicationInstanceArn': replicationInstanceArn,
-      },
+      payload: TestConnectionMessage(
+        endpointArn: endpointArn,
+        replicationInstanceArn: replicationInstanceArn,
+      ),
     );
 
     return TestConnectionResponse.fromJson(jsonResponse.body);
@@ -3005,6 +2974,32 @@ class AccountQuota {
       _$AccountQuotaFromJson(json);
 }
 
+/// Associates a set of tags with an AWS DMS resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AddTagsToResourceMessage {
+  /// Identifies the AWS DMS resource to which tags should be added. The value for
+  /// this parameter is an Amazon Resource Name (ARN).
+  ///
+  /// For AWS DMS, you can tag a replication instance, an endpoint, or a
+  /// replication task.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// One or more tags to be assigned to the resource.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  AddTagsToResourceMessage({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$AddTagsToResourceMessageToJson(this);
+}
+
 /// <p/>
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3015,6 +3010,52 @@ class AddTagsToResourceResponse {
   AddTagsToResourceResponse();
   factory AddTagsToResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$AddTagsToResourceResponseFromJson(json);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ApplyPendingMaintenanceActionMessage {
+  /// The pending maintenance action to apply to this resource.
+  @_s.JsonKey(name: 'ApplyAction')
+  final String applyAction;
+
+  /// A value that specifies the type of opt-in request, or undoes an opt-in
+  /// request. You can't undo an opt-in request of type <code>immediate</code>.
+  ///
+  /// Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>immediate</code> - Apply the maintenance action immediately.
+  /// </li>
+  /// <li>
+  /// <code>next-maintenance</code> - Apply the maintenance action during the next
+  /// maintenance window for the resource.
+  /// </li>
+  /// <li>
+  /// <code>undo-opt-in</code> - Cancel any existing <code>next-maintenance</code>
+  /// opt-in requests.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'OptInType')
+  final String optInType;
+
+  /// The Amazon Resource Name (ARN) of the AWS DMS resource that the pending
+  /// maintenance action applies to.
+  @_s.JsonKey(name: 'ReplicationInstanceArn')
+  final String replicationInstanceArn;
+
+  ApplyPendingMaintenanceActionMessage({
+    @_s.required this.applyAction,
+    @_s.required this.optInType,
+    @_s.required this.replicationInstanceArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ApplyPendingMaintenanceActionMessageToJson(this);
 }
 
 /// <p/>
@@ -3205,6 +3246,206 @@ class Connection {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateEndpointMessage {
+  /// The database endpoint identifier. Identifiers must begin with a letter and
+  /// must contain only ASCII letters, digits, and hyphens. They can't end with a
+  /// hyphen or contain two consecutive hyphens.
+  @_s.JsonKey(name: 'EndpointIdentifier')
+  final String endpointIdentifier;
+
+  /// The type of endpoint. Valid values are <code>source</code> and
+  /// <code>target</code>.
+  @_s.JsonKey(name: 'EndpointType')
+  final ReplicationEndpointTypeValue endpointType;
+
+  /// The type of engine for the endpoint. Valid values, depending on the
+  /// <code>EndpointType</code> value, include <code>"mysql"</code>,
+  /// <code>"oracle"</code>, <code>"postgres"</code>, <code>"mariadb"</code>,
+  /// <code>"aurora"</code>, <code>"aurora-postgresql"</code>,
+  /// <code>"redshift"</code>, <code>"s3"</code>, <code>"db2"</code>,
+  /// <code>"azuredb"</code>, <code>"sybase"</code>, <code>"dynamodb"</code>,
+  /// <code>"mongodb"</code>, <code>"kinesis"</code>, <code>"kafka"</code>,
+  /// <code>"elasticsearch"</code>, <code>"documentdb"</code>, and
+  /// <code>"sqlserver"</code>.
+  @_s.JsonKey(name: 'EngineName')
+  final String engineName;
+
+  /// The Amazon Resource Name (ARN) for the certificate.
+  @_s.JsonKey(name: 'CertificateArn')
+  final String certificateArn;
+
+  /// The name of the endpoint database.
+  @_s.JsonKey(name: 'DatabaseName')
+  final String databaseName;
+
+  /// The settings in JSON format for the DMS transfer type of source endpoint.
+  ///
+  /// Possible settings include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ServiceAccessRoleArn</code> - The IAM role that has permission to
+  /// access the Amazon S3 bucket.
+  /// </li>
+  /// <li>
+  /// <code>BucketName</code> - The name of the S3 bucket to use.
+  /// </li>
+  /// <li>
+  /// <code>CompressionType</code> - An optional parameter to use GZIP to compress
+  /// the target files. To use GZIP, set this value to <code>NONE</code> (the
+  /// default). To keep the files uncompressed, don't use this value.
+  /// </li>
+  /// </ul>
+  /// Shorthand syntax for these settings is as follows:
+  /// <code>ServiceAccessRoleArn=string,BucketName=string,CompressionType=string</code>
+  ///
+  /// JSON syntax for these settings is as follows: <code>{
+  /// "ServiceAccessRoleArn": "string", "BucketName": "string", "CompressionType":
+  /// "none"|"gzip" } </code>
+  @_s.JsonKey(name: 'DmsTransferSettings')
+  final DmsTransferSettings dmsTransferSettings;
+
+  /// Settings in JSON format for the target Amazon DynamoDB endpoint. For
+  /// information about other available settings, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.DynamoDB.html">Using
+  /// Object Mapping to Migrate Data to DynamoDB</a> in the <i>AWS Database
+  /// Migration Service User Guide.</i>
+  @_s.JsonKey(name: 'DynamoDbSettings')
+  final DynamoDbSettings dynamoDbSettings;
+
+  /// Settings in JSON format for the target Elasticsearch endpoint. For more
+  /// information about the available settings, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Elasticsearch.html#CHAP_Target.Elasticsearch.Configuration">Extra
+  /// Connection Attributes When Using Elasticsearch as a Target for AWS DMS</a>
+  /// in the <i>AWS Database Migration User Guide.</i>
+  @_s.JsonKey(name: 'ElasticsearchSettings')
+  final ElasticsearchSettings elasticsearchSettings;
+
+  /// The external table definition.
+  @_s.JsonKey(name: 'ExternalTableDefinition')
+  final String externalTableDefinition;
+
+  /// Additional attributes associated with the connection. Each attribute is
+  /// specified as a name-value pair associated by an equal sign (=). Multiple
+  /// attributes are separated by a semicolon (;) with no additional white space.
+  /// For information on the attributes available for connecting your source or
+  /// target endpoint, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Endpoints.html">Working
+  /// with AWS DMS Endpoints</a> in the <i>AWS Database Migration Service User
+  /// Guide.</i>
+  @_s.JsonKey(name: 'ExtraConnectionAttributes')
+  final String extraConnectionAttributes;
+
+  /// Settings in JSON format for the target Apache Kafka endpoint. For
+  /// information about other available settings, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Kafka.html#CHAP_Target.Kafka.ObjectMapping">Using
+  /// Object Mapping to Migrate Data to Apache Kafka</a> in the <i>AWS Database
+  /// Migration User Guide.</i>
+  @_s.JsonKey(name: 'KafkaSettings')
+  final KafkaSettings kafkaSettings;
+
+  /// Settings in JSON format for the target endpoint for Amazon Kinesis Data
+  /// Streams. For information about other available settings, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Kinesis.html#CHAP_Target.Kinesis.ObjectMapping">Using
+  /// Object Mapping to Migrate Data to a Kinesis Data Stream</a> in the <i>AWS
+  /// Database Migration User Guide.</i>
+  @_s.JsonKey(name: 'KinesisSettings')
+  final KinesisSettings kinesisSettings;
+
+  /// An AWS KMS key identifier that is used to encrypt the connection parameters
+  /// for the endpoint.
+  ///
+  /// If you don't specify a value for the <code>KmsKeyId</code> parameter, then
+  /// AWS DMS uses your default encryption key.
+  ///
+  /// AWS KMS creates the default encryption key for your AWS account. Your AWS
+  /// account has a different default encryption key for each AWS Region.
+  @_s.JsonKey(name: 'KmsKeyId')
+  final String kmsKeyId;
+
+  /// Settings in JSON format for the source MongoDB endpoint. For more
+  /// information about the available settings, see the configuration properties
+  /// section in <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.MongoDB.html">Using
+  /// MongoDB as a Target for AWS Database Migration Service</a> in the <i>AWS
+  /// Database Migration Service User Guide.</i>
+  @_s.JsonKey(name: 'MongoDbSettings')
+  final MongoDbSettings mongoDbSettings;
+
+  /// The password to be used to log in to the endpoint database.
+  @_s.JsonKey(name: 'Password')
+  final String password;
+
+  /// The port used by the endpoint database.
+  @_s.JsonKey(name: 'Port')
+  final int port;
+  @_s.JsonKey(name: 'RedshiftSettings')
+  final RedshiftSettings redshiftSettings;
+
+  /// Settings in JSON format for the target Amazon S3 endpoint. For more
+  /// information about the available settings, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.S3.html#CHAP_Target.S3.Configuring">Extra
+  /// Connection Attributes When Using Amazon S3 as a Target for AWS DMS</a> in
+  /// the <i>AWS Database Migration Service User Guide.</i>
+  @_s.JsonKey(name: 'S3Settings')
+  final S3Settings s3Settings;
+
+  /// The name of the server where the endpoint database resides.
+  @_s.JsonKey(name: 'ServerName')
+  final String serverName;
+
+  /// The Amazon Resource Name (ARN) for the service access role that you want to
+  /// use to create the endpoint.
+  @_s.JsonKey(name: 'ServiceAccessRoleArn')
+  final String serviceAccessRoleArn;
+
+  /// The Secure Sockets Layer (SSL) mode to use for the SSL connection. The
+  /// default is <code>none</code>
+  @_s.JsonKey(name: 'SslMode')
+  final DmsSslModeValue sslMode;
+
+  /// One or more tags to be assigned to the endpoint.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  /// The user name to be used to log in to the endpoint database.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  CreateEndpointMessage({
+    @_s.required this.endpointIdentifier,
+    @_s.required this.endpointType,
+    @_s.required this.engineName,
+    this.certificateArn,
+    this.databaseName,
+    this.dmsTransferSettings,
+    this.dynamoDbSettings,
+    this.elasticsearchSettings,
+    this.externalTableDefinition,
+    this.extraConnectionAttributes,
+    this.kafkaSettings,
+    this.kinesisSettings,
+    this.kmsKeyId,
+    this.mongoDbSettings,
+    this.password,
+    this.port,
+    this.redshiftSettings,
+    this.s3Settings,
+    this.serverName,
+    this.serviceAccessRoleArn,
+    this.sslMode,
+    this.tags,
+    this.username,
+  });
+  Map<String, dynamic> toJson() => _$CreateEndpointMessageToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateEndpointResponse {
@@ -3223,6 +3464,73 @@ class CreateEndpointResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateEventSubscriptionMessage {
+  /// The Amazon Resource Name (ARN) of the Amazon SNS topic created for event
+  /// notification. The ARN is created by Amazon SNS when you create a topic and
+  /// subscribe to it.
+  @_s.JsonKey(name: 'SnsTopicArn')
+  final String snsTopicArn;
+
+  /// The name of the AWS DMS event notification subscription. This name must be
+  /// less than 255 characters.
+  @_s.JsonKey(name: 'SubscriptionName')
+  final String subscriptionName;
+
+  /// A Boolean value; set to <code>true</code> to activate the subscription, or
+  /// set to <code>false</code> to create the subscription but not activate it.
+  @_s.JsonKey(name: 'Enabled')
+  final bool enabled;
+
+  /// A list of event categories for a source type that you want to subscribe to.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Events.html">Working
+  /// with Events and Notifications</a> in the <i>AWS Database Migration Service
+  /// User Guide.</i>
+  @_s.JsonKey(name: 'EventCategories')
+  final List<String> eventCategories;
+
+  /// A list of identifiers for which AWS DMS provides notification events.
+  ///
+  /// If you don't specify a value, notifications are provided for all sources.
+  ///
+  /// If you specify multiple values, they must be of the same type. For example,
+  /// if you specify a database instance ID, then all of the other values must be
+  /// database instance IDs.
+  @_s.JsonKey(name: 'SourceIds')
+  final List<String> sourceIds;
+
+  /// The type of AWS DMS resource that generates the events. For example, if you
+  /// want to be notified of events generated by a replication instance, you set
+  /// this parameter to <code>replication-instance</code>. If this value isn't
+  /// specified, all events are returned.
+  ///
+  /// Valid values: <code>replication-instance</code> |
+  /// <code>replication-task</code>
+  @_s.JsonKey(name: 'SourceType')
+  final String sourceType;
+
+  /// One or more tags to be assigned to the event subscription.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateEventSubscriptionMessage({
+    @_s.required this.snsTopicArn,
+    @_s.required this.subscriptionName,
+    this.enabled,
+    this.eventCategories,
+    this.sourceIds,
+    this.sourceType,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateEventSubscriptionMessageToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateEventSubscriptionResponse {
@@ -3235,6 +3543,141 @@ class CreateEventSubscriptionResponse {
   });
   factory CreateEventSubscriptionResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateEventSubscriptionResponseFromJson(json);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateReplicationInstanceMessage {
+  /// The compute and memory capacity of the replication instance as specified by
+  /// the replication instance class.
+  ///
+  /// Valid Values: <code>dms.t2.micro | dms.t2.small | dms.t2.medium |
+  /// dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge |
+  /// dms.c4.4xlarge </code>
+  @_s.JsonKey(name: 'ReplicationInstanceClass')
+  final String replicationInstanceClass;
+
+  /// The replication instance identifier. This parameter is stored as a lowercase
+  /// string.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Must contain from 1 to 63 alphanumeric characters or hyphens.
+  /// </li>
+  /// <li>
+  /// First character must be a letter.
+  /// </li>
+  /// <li>
+  /// Can't end with a hyphen or contain two consecutive hyphens.
+  /// </li>
+  /// </ul>
+  /// Example: <code>myrepinstance</code>
+  @_s.JsonKey(name: 'ReplicationInstanceIdentifier')
+  final String replicationInstanceIdentifier;
+
+  /// The amount of storage (in gigabytes) to be initially allocated for the
+  /// replication instance.
+  @_s.JsonKey(name: 'AllocatedStorage')
+  final int allocatedStorage;
+
+  /// A value that indicates whether minor engine upgrades are applied
+  /// automatically to the replication instance during the maintenance window.
+  /// This parameter defaults to <code>true</code>.
+  ///
+  /// Default: <code>true</code>
+  @_s.JsonKey(name: 'AutoMinorVersionUpgrade')
+  final bool autoMinorVersionUpgrade;
+
+  /// The Availability Zone where the replication instance will be created. The
+  /// default value is a random, system-chosen Availability Zone in the endpoint's
+  /// AWS Region, for example: <code>us-east-1d</code>
+  @_s.JsonKey(name: 'AvailabilityZone')
+  final String availabilityZone;
+
+  /// A list of DNS name servers supported for the replication instance.
+  @_s.JsonKey(name: 'DnsNameServers')
+  final String dnsNameServers;
+
+  /// The engine version number of the replication instance.
+  @_s.JsonKey(name: 'EngineVersion')
+  final String engineVersion;
+
+  /// An AWS KMS key identifier that is used to encrypt the data on the
+  /// replication instance.
+  ///
+  /// If you don't specify a value for the <code>KmsKeyId</code> parameter, then
+  /// AWS DMS uses your default encryption key.
+  ///
+  /// AWS KMS creates the default encryption key for your AWS account. Your AWS
+  /// account has a different default encryption key for each AWS Region.
+  @_s.JsonKey(name: 'KmsKeyId')
+  final String kmsKeyId;
+
+  /// Specifies whether the replication instance is a Multi-AZ deployment. You
+  /// can't set the <code>AvailabilityZone</code> parameter if the Multi-AZ
+  /// parameter is set to <code>true</code>.
+  @_s.JsonKey(name: 'MultiAZ')
+  final bool multiAZ;
+
+  /// The weekly time range during which system maintenance can occur, in
+  /// Universal Coordinated Time (UTC).
+  ///
+  /// Format: <code>ddd:hh24:mi-ddd:hh24:mi</code>
+  ///
+  /// Default: A 30-minute window selected at random from an 8-hour block of time
+  /// per AWS Region, occurring on a random day of the week.
+  ///
+  /// Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun
+  ///
+  /// Constraints: Minimum 30-minute window.
+  @_s.JsonKey(name: 'PreferredMaintenanceWindow')
+  final String preferredMaintenanceWindow;
+
+  /// Specifies the accessibility options for the replication instance. A value of
+  /// <code>true</code> represents an instance with a public IP address. A value
+  /// of <code>false</code> represents an instance with a private IP address. The
+  /// default value is <code>true</code>.
+  @_s.JsonKey(name: 'PubliclyAccessible')
+  final bool publiclyAccessible;
+
+  /// A subnet group to associate with the replication instance.
+  @_s.JsonKey(name: 'ReplicationSubnetGroupIdentifier')
+  final String replicationSubnetGroupIdentifier;
+
+  /// One or more tags to be assigned to the replication instance.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  /// Specifies the VPC security group to be used with the replication instance.
+  /// The VPC security group must work with the VPC containing the replication
+  /// instance.
+  @_s.JsonKey(name: 'VpcSecurityGroupIds')
+  final List<String> vpcSecurityGroupIds;
+
+  CreateReplicationInstanceMessage({
+    @_s.required this.replicationInstanceClass,
+    @_s.required this.replicationInstanceIdentifier,
+    this.allocatedStorage,
+    this.autoMinorVersionUpgrade,
+    this.availabilityZone,
+    this.dnsNameServers,
+    this.engineVersion,
+    this.kmsKeyId,
+    this.multiAZ,
+    this.preferredMaintenanceWindow,
+    this.publiclyAccessible,
+    this.replicationSubnetGroupIdentifier,
+    this.tags,
+    this.vpcSecurityGroupIds,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateReplicationInstanceMessageToJson(this);
 }
 
 /// <p/>
@@ -3260,6 +3703,45 @@ class CreateReplicationInstanceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateReplicationSubnetGroupMessage {
+  /// The description for the subnet group.
+  @_s.JsonKey(name: 'ReplicationSubnetGroupDescription')
+  final String replicationSubnetGroupDescription;
+
+  /// The name for the replication subnet group. This value is stored as a
+  /// lowercase string.
+  ///
+  /// Constraints: Must contain no more than 255 alphanumeric characters, periods,
+  /// spaces, underscores, or hyphens. Must not be "default".
+  ///
+  /// Example: <code>mySubnetgroup</code>
+  @_s.JsonKey(name: 'ReplicationSubnetGroupIdentifier')
+  final String replicationSubnetGroupIdentifier;
+
+  /// One or more subnet IDs to be assigned to the subnet group.
+  @_s.JsonKey(name: 'SubnetIds')
+  final List<String> subnetIds;
+
+  /// One or more tags to be assigned to the subnet group.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateReplicationSubnetGroupMessage({
+    @_s.required this.replicationSubnetGroupDescription,
+    @_s.required this.replicationSubnetGroupIdentifier,
+    @_s.required this.subnetIds,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CreateReplicationSubnetGroupMessageToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateReplicationSubnetGroupResponse {
@@ -3273,6 +3755,125 @@ class CreateReplicationSubnetGroupResponse {
   factory CreateReplicationSubnetGroupResponse.fromJson(
           Map<String, dynamic> json) =>
       _$CreateReplicationSubnetGroupResponseFromJson(json);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateReplicationTaskMessage {
+  /// The migration type. Valid values: <code>full-load</code> | <code>cdc</code>
+  /// | <code>full-load-and-cdc</code>
+  @_s.JsonKey(name: 'MigrationType')
+  final MigrationTypeValue migrationType;
+
+  /// The Amazon Resource Name (ARN) of a replication instance.
+  @_s.JsonKey(name: 'ReplicationInstanceArn')
+  final String replicationInstanceArn;
+
+  /// An identifier for the replication task.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Must contain from 1 to 255 alphanumeric characters or hyphens.
+  /// </li>
+  /// <li>
+  /// First character must be a letter.
+  /// </li>
+  /// <li>
+  /// Cannot end with a hyphen or contain two consecutive hyphens.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ReplicationTaskIdentifier')
+  final String replicationTaskIdentifier;
+
+  /// An Amazon Resource Name (ARN) that uniquely identifies the source endpoint.
+  @_s.JsonKey(name: 'SourceEndpointArn')
+  final String sourceEndpointArn;
+
+  /// The table mappings for the task, in JSON format. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TableMapping.html">Table
+  /// Mapping</a> in the <i>AWS Database Migration User Guide.</i>
+  @_s.JsonKey(name: 'TableMappings')
+  final String tableMappings;
+
+  /// An Amazon Resource Name (ARN) that uniquely identifies the target endpoint.
+  @_s.JsonKey(name: 'TargetEndpointArn')
+  final String targetEndpointArn;
+
+  /// Indicates when you want a change data capture (CDC) operation to start. Use
+  /// either CdcStartPosition or CdcStartTime to specify when you want a CDC
+  /// operation to start. Specifying both values results in an error.
+  ///
+  /// The value can be in date, checkpoint, or LSN/SCN format.
+  ///
+  /// Date Example: --cdc-start-position “2018-03-08T12:12:12”
+  ///
+  /// Checkpoint Example: --cdc-start-position
+  /// "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93"
+  ///
+  /// LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”
+  /// <note>
+  /// When you use this task setting with a source PostgreSQL database, a logical
+  /// replication slot should already be created and associated with the source
+  /// endpoint. You can verify this by setting the <code>slotName</code> extra
+  /// connection attribute to the name of this logical replication slot. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.PostgreSQL.html#CHAP_Source.PostgreSQL.ConnectionAttrib">Extra
+  /// Connection Attributes When Using PostgreSQL as a Source for AWS DMS</a>.
+  /// </note>
+  @_s.JsonKey(name: 'CdcStartPosition')
+  final String cdcStartPosition;
+
+  /// Indicates the start time for a change data capture (CDC) operation. Use
+  /// either CdcStartTime or CdcStartPosition to specify when you want a CDC
+  /// operation to start. Specifying both values results in an error.
+  ///
+  /// Timestamp Example: --cdc-start-time “2018-03-08T12:12:12”
+  @_s.JsonKey(
+      name: 'CdcStartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime cdcStartTime;
+
+  /// Indicates when you want a change data capture (CDC) operation to stop. The
+  /// value can be either server time or commit time.
+  ///
+  /// Server time example: --cdc-stop-position “server_time:3018-02-09T12:12:12”
+  ///
+  /// Commit time example: --cdc-stop-position “commit_time: 3018-02-09T12:12:12 “
+  @_s.JsonKey(name: 'CdcStopPosition')
+  final String cdcStopPosition;
+
+  /// Overall settings for the task, in JSON format. For more information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TaskSettings.html">Task
+  /// Settings</a> in the <i>AWS Database Migration User Guide.</i>
+  @_s.JsonKey(name: 'ReplicationTaskSettings')
+  final String replicationTaskSettings;
+
+  /// One or more tags to be assigned to the replication task.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  CreateReplicationTaskMessage({
+    @_s.required this.migrationType,
+    @_s.required this.replicationInstanceArn,
+    @_s.required this.replicationTaskIdentifier,
+    @_s.required this.sourceEndpointArn,
+    @_s.required this.tableMappings,
+    @_s.required this.targetEndpointArn,
+    this.cdcStartPosition,
+    this.cdcStartTime,
+    this.cdcStopPosition,
+    this.replicationTaskSettings,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateReplicationTaskMessageToJson(this);
 }
 
 /// <p/>
@@ -3303,6 +3904,22 @@ enum DataFormatValue {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteCertificateMessage {
+  /// The Amazon Resource Name (ARN) of the deleted certificate.
+  @_s.JsonKey(name: 'CertificateArn')
+  final String certificateArn;
+
+  DeleteCertificateMessage({
+    @_s.required this.certificateArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteCertificateMessageToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteCertificateResponse {
@@ -3315,6 +3932,28 @@ class DeleteCertificateResponse {
   });
   factory DeleteCertificateResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteCertificateResponseFromJson(json);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteConnectionMessage {
+  /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
+  @_s.JsonKey(name: 'EndpointArn')
+  final String endpointArn;
+
+  /// The Amazon Resource Name (ARN) of the replication instance.
+  @_s.JsonKey(name: 'ReplicationInstanceArn')
+  final String replicationInstanceArn;
+
+  DeleteConnectionMessage({
+    @_s.required this.endpointArn,
+    @_s.required this.replicationInstanceArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteConnectionMessageToJson(this);
 }
 
 /// <p/>
@@ -3339,6 +3978,23 @@ class DeleteConnectionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteEndpointMessage {
+  /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
+  @_s.JsonKey(name: 'EndpointArn')
+  final String endpointArn;
+
+  DeleteEndpointMessage({
+    @_s.required this.endpointArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteEndpointMessageToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteEndpointResponse {
@@ -3357,6 +4013,23 @@ class DeleteEndpointResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteEventSubscriptionMessage {
+  /// The name of the DMS event notification subscription to be deleted.
+  @_s.JsonKey(name: 'SubscriptionName')
+  final String subscriptionName;
+
+  DeleteEventSubscriptionMessage({
+    @_s.required this.subscriptionName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteEventSubscriptionMessageToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteEventSubscriptionResponse {
@@ -3369,6 +4042,24 @@ class DeleteEventSubscriptionResponse {
   });
   factory DeleteEventSubscriptionResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteEventSubscriptionResponseFromJson(json);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteReplicationInstanceMessage {
+  /// The Amazon Resource Name (ARN) of the replication instance to be deleted.
+  @_s.JsonKey(name: 'ReplicationInstanceArn')
+  final String replicationInstanceArn;
+
+  DeleteReplicationInstanceMessage({
+    @_s.required this.replicationInstanceArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteReplicationInstanceMessageToJson(this);
 }
 
 /// <p/>
@@ -3394,6 +4085,24 @@ class DeleteReplicationInstanceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteReplicationSubnetGroupMessage {
+  /// The subnet group name of the replication instance.
+  @_s.JsonKey(name: 'ReplicationSubnetGroupIdentifier')
+  final String replicationSubnetGroupIdentifier;
+
+  DeleteReplicationSubnetGroupMessage({
+    @_s.required this.replicationSubnetGroupIdentifier,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteReplicationSubnetGroupMessageToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteReplicationSubnetGroupResponse {
@@ -3401,6 +4110,23 @@ class DeleteReplicationSubnetGroupResponse {
   factory DeleteReplicationSubnetGroupResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DeleteReplicationSubnetGroupResponseFromJson(json);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteReplicationTaskMessage {
+  /// The Amazon Resource Name (ARN) of the replication task to be deleted.
+  @_s.JsonKey(name: 'ReplicationTaskArn')
+  final String replicationTaskArn;
+
+  DeleteReplicationTaskMessage({
+    @_s.required this.replicationTaskArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteReplicationTaskMessageToJson(this);
 }
 
 /// <p/>
@@ -3460,6 +4186,39 @@ class DescribeAccountAttributesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeCertificatesMessage {
+  /// Filters applied to the certificate described in the form of key-value pairs.
+  @_s.JsonKey(name: 'Filters')
+  final List<Filter> filters;
+
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, a pagination token
+  /// called a marker is included in the response so that the remaining results
+  /// can be retrieved.
+  ///
+  /// Default: 10
+  @_s.JsonKey(name: 'MaxRecords')
+  final int maxRecords;
+
+  DescribeCertificatesMessage({
+    this.filters,
+    this.marker,
+    this.maxRecords,
+  });
+  Map<String, dynamic> toJson() => _$DescribeCertificatesMessageToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeCertificatesResponse {
@@ -3478,6 +4237,44 @@ class DescribeCertificatesResponse {
   });
   factory DescribeCertificatesResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeCertificatesResponseFromJson(json);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeConnectionsMessage {
+  /// The filters applied to the connection.
+  ///
+  /// Valid filter names: endpoint-arn | replication-instance-arn
+  @_s.JsonKey(name: 'Filters')
+  final List<Filter> filters;
+
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, a pagination token
+  /// called a marker is included in the response so that the remaining results
+  /// can be retrieved.
+  ///
+  /// Default: 100
+  ///
+  /// Constraints: Minimum 20, maximum 100.
+  @_s.JsonKey(name: 'MaxRecords')
+  final int maxRecords;
+
+  DescribeConnectionsMessage({
+    this.filters,
+    this.marker,
+    this.maxRecords,
+  });
+  Map<String, dynamic> toJson() => _$DescribeConnectionsMessageToJson(this);
 }
 
 /// <p/>
@@ -3509,6 +4306,44 @@ class DescribeConnectionsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeEndpointTypesMessage {
+  /// Filters applied to the describe action.
+  ///
+  /// Valid filter names: engine-name | endpoint-type
+  @_s.JsonKey(name: 'Filters')
+  final List<Filter> filters;
+
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, a pagination token
+  /// called a marker is included in the response so that the remaining results
+  /// can be retrieved.
+  ///
+  /// Default: 100
+  ///
+  /// Constraints: Minimum 20, maximum 100.
+  @_s.JsonKey(name: 'MaxRecords')
+  final int maxRecords;
+
+  DescribeEndpointTypesMessage({
+    this.filters,
+    this.marker,
+    this.maxRecords,
+  });
+  Map<String, dynamic> toJson() => _$DescribeEndpointTypesMessageToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeEndpointTypesResponse {
@@ -3528,6 +4363,44 @@ class DescribeEndpointTypesResponse {
   });
   factory DescribeEndpointTypesResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeEndpointTypesResponseFromJson(json);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeEndpointsMessage {
+  /// Filters applied to the describe action.
+  ///
+  /// Valid filter names: endpoint-arn | endpoint-type | endpoint-id | engine-name
+  @_s.JsonKey(name: 'Filters')
+  final List<Filter> filters;
+
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, a pagination token
+  /// called a marker is included in the response so that the remaining results
+  /// can be retrieved.
+  ///
+  /// Default: 100
+  ///
+  /// Constraints: Minimum 20, maximum 100.
+  @_s.JsonKey(name: 'MaxRecords')
+  final int maxRecords;
+
+  DescribeEndpointsMessage({
+    this.filters,
+    this.marker,
+    this.maxRecords,
+  });
+  Map<String, dynamic> toJson() => _$DescribeEndpointsMessageToJson(this);
 }
 
 /// <p/>
@@ -3559,6 +4432,30 @@ class DescribeEndpointsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeEventCategoriesMessage {
+  /// Filters applied to the action.
+  @_s.JsonKey(name: 'Filters')
+  final List<Filter> filters;
+
+  /// The type of AWS DMS resource that generates events.
+  ///
+  /// Valid values: replication-instance | replication-task
+  @_s.JsonKey(name: 'SourceType')
+  final String sourceType;
+
+  DescribeEventCategoriesMessage({
+    this.filters,
+    this.sourceType,
+  });
+  Map<String, dynamic> toJson() => _$DescribeEventCategoriesMessageToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeEventCategoriesResponse {
@@ -3571,6 +4468,48 @@ class DescribeEventCategoriesResponse {
   });
   factory DescribeEventCategoriesResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeEventCategoriesResponseFromJson(json);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeEventSubscriptionsMessage {
+  /// Filters applied to the action.
+  @_s.JsonKey(name: 'Filters')
+  final List<Filter> filters;
+
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, a pagination token
+  /// called a marker is included in the response so that the remaining results
+  /// can be retrieved.
+  ///
+  /// Default: 100
+  ///
+  /// Constraints: Minimum 20, maximum 100.
+  @_s.JsonKey(name: 'MaxRecords')
+  final int maxRecords;
+
+  /// The name of the AWS DMS event subscription to be described.
+  @_s.JsonKey(name: 'SubscriptionName')
+  final String subscriptionName;
+
+  DescribeEventSubscriptionsMessage({
+    this.filters,
+    this.marker,
+    this.maxRecords,
+    this.subscriptionName,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeEventSubscriptionsMessageToJson(this);
 }
 
 /// <p/>
@@ -3603,6 +4542,80 @@ class DescribeEventSubscriptionsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeEventsMessage {
+  /// The duration of the events to be listed.
+  @_s.JsonKey(name: 'Duration')
+  final int duration;
+
+  /// The end time for the events to be listed.
+  @_s.JsonKey(
+      name: 'EndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime endTime;
+
+  /// A list of event categories for the source type that you've chosen.
+  @_s.JsonKey(name: 'EventCategories')
+  final List<String> eventCategories;
+
+  /// Filters applied to the action.
+  @_s.JsonKey(name: 'Filters')
+  final List<Filter> filters;
+
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, a pagination token
+  /// called a marker is included in the response so that the remaining results
+  /// can be retrieved.
+  ///
+  /// Default: 100
+  ///
+  /// Constraints: Minimum 20, maximum 100.
+  @_s.JsonKey(name: 'MaxRecords')
+  final int maxRecords;
+
+  /// The identifier of an event source.
+  @_s.JsonKey(name: 'SourceIdentifier')
+  final String sourceIdentifier;
+
+  /// The type of AWS DMS resource that generates events.
+  ///
+  /// Valid values: replication-instance | replication-task
+  @_s.JsonKey(name: 'SourceType')
+  final SourceType sourceType;
+
+  /// The start time for the events to be listed.
+  @_s.JsonKey(
+      name: 'StartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime startTime;
+
+  DescribeEventsMessage({
+    this.duration,
+    this.endTime,
+    this.eventCategories,
+    this.filters,
+    this.marker,
+    this.maxRecords,
+    this.sourceIdentifier,
+    this.sourceType,
+    this.startTime,
+  });
+  Map<String, dynamic> toJson() => _$DescribeEventsMessageToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeEventsResponse {
@@ -3622,6 +4635,38 @@ class DescribeEventsResponse {
   });
   factory DescribeEventsResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeEventsResponseFromJson(json);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeOrderableReplicationInstancesMessage {
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, a pagination token
+  /// called a marker is included in the response so that the remaining results
+  /// can be retrieved.
+  ///
+  /// Default: 100
+  ///
+  /// Constraints: Minimum 20, maximum 100.
+  @_s.JsonKey(name: 'MaxRecords')
+  final int maxRecords;
+
+  DescribeOrderableReplicationInstancesMessage({
+    this.marker,
+    this.maxRecords,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeOrderableReplicationInstancesMessageToJson(this);
 }
 
 /// <p/>
@@ -3654,6 +4699,48 @@ class DescribeOrderableReplicationInstancesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribePendingMaintenanceActionsMessage {
+  /// <p/>
+  @_s.JsonKey(name: 'Filters')
+  final List<Filter> filters;
+
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, a pagination token
+  /// called a marker is included in the response so that the remaining results
+  /// can be retrieved.
+  ///
+  /// Default: 100
+  ///
+  /// Constraints: Minimum 20, maximum 100.
+  @_s.JsonKey(name: 'MaxRecords')
+  final int maxRecords;
+
+  /// The Amazon Resource Name (ARN) of the replication instance.
+  @_s.JsonKey(name: 'ReplicationInstanceArn')
+  final String replicationInstanceArn;
+
+  DescribePendingMaintenanceActionsMessage({
+    this.filters,
+    this.marker,
+    this.maxRecords,
+    this.replicationInstanceArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribePendingMaintenanceActionsMessageToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribePendingMaintenanceActionsResponse {
@@ -3680,6 +4767,24 @@ class DescribePendingMaintenanceActionsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeRefreshSchemasStatusMessage {
+  /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
+  @_s.JsonKey(name: 'EndpointArn')
+  final String endpointArn;
+
+  DescribeRefreshSchemasStatusMessage({
+    @_s.required this.endpointArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeRefreshSchemasStatusMessageToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeRefreshSchemasStatusResponse {
@@ -3693,6 +4798,42 @@ class DescribeRefreshSchemasStatusResponse {
   factory DescribeRefreshSchemasStatusResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeRefreshSchemasStatusResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeReplicationInstanceTaskLogsMessage {
+  /// The Amazon Resource Name (ARN) of the replication instance.
+  @_s.JsonKey(name: 'ReplicationInstanceArn')
+  final String replicationInstanceArn;
+
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, a pagination token
+  /// called a marker is included in the response so that the remaining results
+  /// can be retrieved.
+  ///
+  /// Default: 100
+  ///
+  /// Constraints: Minimum 20, maximum 100.
+  @_s.JsonKey(name: 'MaxRecords')
+  final int maxRecords;
+
+  DescribeReplicationInstanceTaskLogsMessage({
+    @_s.required this.replicationInstanceArn,
+    this.marker,
+    this.maxRecords,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeReplicationInstanceTaskLogsMessageToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -3730,6 +4871,46 @@ class DescribeReplicationInstanceTaskLogsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeReplicationInstancesMessage {
+  /// Filters applied to the describe action.
+  ///
+  /// Valid filter names: replication-instance-arn | replication-instance-id |
+  /// replication-instance-class | engine-version
+  @_s.JsonKey(name: 'Filters')
+  final List<Filter> filters;
+
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, a pagination token
+  /// called a marker is included in the response so that the remaining results
+  /// can be retrieved.
+  ///
+  /// Default: 100
+  ///
+  /// Constraints: Minimum 20, maximum 100.
+  @_s.JsonKey(name: 'MaxRecords')
+  final int maxRecords;
+
+  DescribeReplicationInstancesMessage({
+    this.filters,
+    this.marker,
+    this.maxRecords,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeReplicationInstancesMessageToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeReplicationInstancesResponse {
@@ -3756,6 +4937,43 @@ class DescribeReplicationInstancesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeReplicationSubnetGroupsMessage {
+  /// Filters applied to the describe action.
+  @_s.JsonKey(name: 'Filters')
+  final List<Filter> filters;
+
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, a pagination token
+  /// called a marker is included in the response so that the remaining results
+  /// can be retrieved.
+  ///
+  /// Default: 100
+  ///
+  /// Constraints: Minimum 20, maximum 100.
+  @_s.JsonKey(name: 'MaxRecords')
+  final int maxRecords;
+
+  DescribeReplicationSubnetGroupsMessage({
+    this.filters,
+    this.marker,
+    this.maxRecords,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeReplicationSubnetGroupsMessageToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeReplicationSubnetGroupsResponse {
@@ -3776,6 +4994,46 @@ class DescribeReplicationSubnetGroupsResponse {
   factory DescribeReplicationSubnetGroupsResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeReplicationSubnetGroupsResponseFromJson(json);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeReplicationTaskAssessmentResultsMessage {
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, a pagination token
+  /// called a marker is included in the response so that the remaining results
+  /// can be retrieved.
+  ///
+  /// Default: 100
+  ///
+  /// Constraints: Minimum 20, maximum 100.
+  @_s.JsonKey(name: 'MaxRecords')
+  final int maxRecords;
+
+  /// The Amazon Resource Name (ARN) string that uniquely identifies the task.
+  /// When this input parameter is specified, the API returns only one result and
+  /// ignore the values of the <code>MaxRecords</code> and <code>Marker</code>
+  /// parameters.
+  @_s.JsonKey(name: 'ReplicationTaskArn')
+  final String replicationTaskArn;
+
+  DescribeReplicationTaskAssessmentResultsMessage({
+    this.marker,
+    this.maxRecords,
+    this.replicationTaskArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeReplicationTaskAssessmentResultsMessageToJson(this);
 }
 
 /// <p/>
@@ -3813,6 +5071,54 @@ class DescribeReplicationTaskAssessmentResultsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeReplicationTasksMessage {
+  /// Filters applied to the describe action.
+  ///
+  /// Valid filter names: replication-task-arn | replication-task-id |
+  /// migration-type | endpoint-arn | replication-instance-arn
+  @_s.JsonKey(name: 'Filters')
+  final List<Filter> filters;
+
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, a pagination token
+  /// called a marker is included in the response so that the remaining results
+  /// can be retrieved.
+  ///
+  /// Default: 100
+  ///
+  /// Constraints: Minimum 20, maximum 100.
+  @_s.JsonKey(name: 'MaxRecords')
+  final int maxRecords;
+
+  /// An option to set to avoid returning information about settings. Use this to
+  /// reduce overhead when setting information is too large. To use this option,
+  /// choose <code>true</code>; otherwise, choose <code>false</code> (the
+  /// default).
+  @_s.JsonKey(name: 'WithoutSettings')
+  final bool withoutSettings;
+
+  DescribeReplicationTasksMessage({
+    this.filters,
+    this.marker,
+    this.maxRecords,
+    this.withoutSettings,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeReplicationTasksMessageToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeReplicationTasksResponse {
@@ -3839,6 +5145,42 @@ class DescribeReplicationTasksResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeSchemasMessage {
+  /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
+  @_s.JsonKey(name: 'EndpointArn')
+  final String endpointArn;
+
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, a pagination token
+  /// called a marker is included in the response so that the remaining results
+  /// can be retrieved.
+  ///
+  /// Default: 100
+  ///
+  /// Constraints: Minimum 20, maximum 100.
+  @_s.JsonKey(name: 'MaxRecords')
+  final int maxRecords;
+
+  DescribeSchemasMessage({
+    @_s.required this.endpointArn,
+    this.marker,
+    this.maxRecords,
+  });
+  Map<String, dynamic> toJson() => _$DescribeSchemasMessageToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeSchemasResponse {
@@ -3858,6 +5200,52 @@ class DescribeSchemasResponse {
   });
   factory DescribeSchemasResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeSchemasResponseFromJson(json);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeTableStatisticsMessage {
+  /// The Amazon Resource Name (ARN) of the replication task.
+  @_s.JsonKey(name: 'ReplicationTaskArn')
+  final String replicationTaskArn;
+
+  /// Filters applied to the describe table statistics action.
+  ///
+  /// Valid filter names: schema-name | table-name | table-state
+  ///
+  /// A combination of filters creates an AND condition where each record matches
+  /// all specified filters.
+  @_s.JsonKey(name: 'Filters')
+  final List<Filter> filters;
+
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, a pagination token
+  /// called a marker is included in the response so that the remaining results
+  /// can be retrieved.
+  ///
+  /// Default: 100
+  ///
+  /// Constraints: Minimum 20, maximum 500.
+  @_s.JsonKey(name: 'MaxRecords')
+  final int maxRecords;
+
+  DescribeTableStatisticsMessage({
+    @_s.required this.replicationTaskArn,
+    this.filters,
+    this.marker,
+    this.maxRecords,
+  });
+  Map<String, dynamic> toJson() => _$DescribeTableStatisticsMessageToJson(this);
 }
 
 /// <p/>
@@ -3899,22 +5287,6 @@ enum DmsSslModeValue {
   verifyCa,
   @_s.JsonValue('verify-full')
   verifyFull,
-}
-
-extension on DmsSslModeValue {
-  String toValue() {
-    switch (this) {
-      case DmsSslModeValue.none:
-        return 'none';
-      case DmsSslModeValue.require:
-        return 'require';
-      case DmsSslModeValue.verifyCa:
-        return 'verify-ca';
-      case DmsSslModeValue.verifyFull:
-        return 'verify-full';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// The settings in JSON format for the DMS Transfer type source endpoint.
@@ -4390,6 +5762,41 @@ class Filter {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ImportCertificateMessage {
+  /// A customer-assigned name for the certificate. Identifiers must begin with a
+  /// letter and must contain only ASCII letters, digits, and hyphens. They can't
+  /// end with a hyphen or contain two consecutive hyphens.
+  @_s.JsonKey(name: 'CertificateIdentifier')
+  final String certificateIdentifier;
+
+  /// The contents of a <code>.pem</code> file, which contains an X.509
+  /// certificate.
+  @_s.JsonKey(name: 'CertificatePem')
+  final String certificatePem;
+
+  /// The location of an imported Oracle Wallet certificate for use with SSL.
+  @Uint8ListConverter()
+  @_s.JsonKey(name: 'CertificateWallet')
+  final Uint8List certificateWallet;
+
+  /// The tags associated with the certificate.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  ImportCertificateMessage({
+    @_s.required this.certificateIdentifier,
+    this.certificatePem,
+    this.certificateWallet,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$ImportCertificateMessageToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ImportCertificateResponse {
@@ -4515,6 +5922,24 @@ class KinesisSettings {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceMessage {
+  /// The Amazon Resource Name (ARN) string that uniquely identifies the AWS DMS
+  /// resource.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  ListTagsForResourceMessage({
+    @_s.required this.resourceArn,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceMessageToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListTagsForResourceResponse {
@@ -4545,18 +5970,186 @@ enum MigrationTypeValue {
   fullLoadAndCdc,
 }
 
-extension on MigrationTypeValue {
-  String toValue() {
-    switch (this) {
-      case MigrationTypeValue.fullLoad:
-        return 'full-load';
-      case MigrationTypeValue.cdc:
-        return 'cdc';
-      case MigrationTypeValue.fullLoadAndCdc:
-        return 'full-load-and-cdc';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ModifyEndpointMessage {
+  /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
+  @_s.JsonKey(name: 'EndpointArn')
+  final String endpointArn;
+
+  /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
+  @_s.JsonKey(name: 'CertificateArn')
+  final String certificateArn;
+
+  /// The name of the endpoint database.
+  @_s.JsonKey(name: 'DatabaseName')
+  final String databaseName;
+
+  /// The settings in JSON format for the DMS transfer type of source endpoint.
+  ///
+  /// Attributes include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// serviceAccessRoleArn - The AWS Identity and Access Management (IAM) role
+  /// that has permission to access the Amazon S3 bucket.
+  /// </li>
+  /// <li>
+  /// BucketName - The name of the S3 bucket to use.
+  /// </li>
+  /// <li>
+  /// compressionType - An optional parameter to use GZIP to compress the target
+  /// files. Either set this parameter to NONE (the default) or don't use it to
+  /// leave the files uncompressed.
+  /// </li>
+  /// </ul>
+  /// Shorthand syntax for these settings is as follows:
+  /// <code>ServiceAccessRoleArn=string
+  /// ,BucketName=string,CompressionType=string</code>
+  ///
+  /// JSON syntax for these settings is as follows: <code>{
+  /// "ServiceAccessRoleArn": "string", "BucketName": "string", "CompressionType":
+  /// "none"|"gzip" } </code>
+  @_s.JsonKey(name: 'DmsTransferSettings')
+  final DmsTransferSettings dmsTransferSettings;
+
+  /// Settings in JSON format for the target Amazon DynamoDB endpoint. For
+  /// information about other available settings, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.DynamoDB.html">Using
+  /// Object Mapping to Migrate Data to DynamoDB</a> in the <i>AWS Database
+  /// Migration Service User Guide.</i>
+  @_s.JsonKey(name: 'DynamoDbSettings')
+  final DynamoDbSettings dynamoDbSettings;
+
+  /// Settings in JSON format for the target Elasticsearch endpoint. For more
+  /// information about the available settings, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Elasticsearch.html#CHAP_Target.Elasticsearch.Configuration">Extra
+  /// Connection Attributes When Using Elasticsearch as a Target for AWS DMS</a>
+  /// in the <i>AWS Database Migration User Guide.</i>
+  @_s.JsonKey(name: 'ElasticsearchSettings')
+  final ElasticsearchSettings elasticsearchSettings;
+
+  /// The database endpoint identifier. Identifiers must begin with a letter and
+  /// must contain only ASCII letters, digits, and hyphens. They can't end with a
+  /// hyphen or contain two consecutive hyphens.
+  @_s.JsonKey(name: 'EndpointIdentifier')
+  final String endpointIdentifier;
+
+  /// The type of endpoint. Valid values are <code>source</code> and
+  /// <code>target</code>.
+  @_s.JsonKey(name: 'EndpointType')
+  final ReplicationEndpointTypeValue endpointType;
+
+  /// The type of engine for the endpoint. Valid values, depending on the
+  /// EndpointType, include <code>"mysql"</code>, <code>"oracle"</code>,
+  /// <code>"postgres"</code>, <code>"mariadb"</code>, <code>"aurora"</code>,
+  /// <code>"aurora-postgresql"</code>, <code>"redshift"</code>,
+  /// <code>"s3"</code>, <code>"db2"</code>, <code>"azuredb"</code>,
+  /// <code>"sybase"</code>, <code>"dynamodb"</code>, <code>"mongodb"</code>,
+  /// <code>"kinesis"</code>, <code>"kafka"</code>, <code>"elasticsearch"</code>,
+  /// <code>"documentdb"</code>, and <code>"sqlserver"</code>.
+  @_s.JsonKey(name: 'EngineName')
+  final String engineName;
+
+  /// The external table definition.
+  @_s.JsonKey(name: 'ExternalTableDefinition')
+  final String externalTableDefinition;
+
+  /// Additional attributes associated with the connection. To reset this
+  /// parameter, pass the empty string ("") as an argument.
+  @_s.JsonKey(name: 'ExtraConnectionAttributes')
+  final String extraConnectionAttributes;
+
+  /// Settings in JSON format for the target Apache Kafka endpoint. For
+  /// information about other available settings, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Kafka.html#CHAP_Target.Kafka.ObjectMapping">Using
+  /// Object Mapping to Migrate Data to Apache Kafka</a> in the <i>AWS Database
+  /// Migration User Guide.</i>
+  @_s.JsonKey(name: 'KafkaSettings')
+  final KafkaSettings kafkaSettings;
+
+  /// Settings in JSON format for the target endpoint for Amazon Kinesis Data
+  /// Streams. For information about other available settings, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Kinesis.html#CHAP_Target.Kinesis.ObjectMapping">Using
+  /// Object Mapping to Migrate Data to a Kinesis Data Stream</a> in the <i>AWS
+  /// Database Migration User Guide.</i>
+  @_s.JsonKey(name: 'KinesisSettings')
+  final KinesisSettings kinesisSettings;
+
+  /// Settings in JSON format for the source MongoDB endpoint. For more
+  /// information about the available settings, see the configuration properties
+  /// section in <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.MongoDB.html">
+  /// Using MongoDB as a Target for AWS Database Migration Service</a> in the
+  /// <i>AWS Database Migration Service User Guide.</i>
+  @_s.JsonKey(name: 'MongoDbSettings')
+  final MongoDbSettings mongoDbSettings;
+
+  /// The password to be used to login to the endpoint database.
+  @_s.JsonKey(name: 'Password')
+  final String password;
+
+  /// The port used by the endpoint database.
+  @_s.JsonKey(name: 'Port')
+  final int port;
+  @_s.JsonKey(name: 'RedshiftSettings')
+  final RedshiftSettings redshiftSettings;
+
+  /// Settings in JSON format for the target Amazon S3 endpoint. For more
+  /// information about the available settings, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.S3.html#CHAP_Target.S3.Configuring">Extra
+  /// Connection Attributes When Using Amazon S3 as a Target for AWS DMS</a> in
+  /// the <i>AWS Database Migration Service User Guide.</i>
+  @_s.JsonKey(name: 'S3Settings')
+  final S3Settings s3Settings;
+
+  /// The name of the server where the endpoint database resides.
+  @_s.JsonKey(name: 'ServerName')
+  final String serverName;
+
+  /// The Amazon Resource Name (ARN) for the service access role you want to use
+  /// to modify the endpoint.
+  @_s.JsonKey(name: 'ServiceAccessRoleArn')
+  final String serviceAccessRoleArn;
+
+  /// The SSL mode used to connect to the endpoint. The default value is
+  /// <code>none</code>.
+  @_s.JsonKey(name: 'SslMode')
+  final DmsSslModeValue sslMode;
+
+  /// The user name to be used to login to the endpoint database.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  ModifyEndpointMessage({
+    @_s.required this.endpointArn,
+    this.certificateArn,
+    this.databaseName,
+    this.dmsTransferSettings,
+    this.dynamoDbSettings,
+    this.elasticsearchSettings,
+    this.endpointIdentifier,
+    this.endpointType,
+    this.engineName,
+    this.externalTableDefinition,
+    this.extraConnectionAttributes,
+    this.kafkaSettings,
+    this.kinesisSettings,
+    this.mongoDbSettings,
+    this.password,
+    this.port,
+    this.redshiftSettings,
+    this.s3Settings,
+    this.serverName,
+    this.serviceAccessRoleArn,
+    this.sslMode,
+    this.username,
+  });
+  Map<String, dynamic> toJson() => _$ModifyEndpointMessageToJson(this);
 }
 
 /// <p/>
@@ -4581,6 +6174,50 @@ class ModifyEndpointResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ModifyEventSubscriptionMessage {
+  /// The name of the AWS DMS event notification subscription to be modified.
+  @_s.JsonKey(name: 'SubscriptionName')
+  final String subscriptionName;
+
+  /// A Boolean value; set to <b>true</b> to activate the subscription.
+  @_s.JsonKey(name: 'Enabled')
+  final bool enabled;
+
+  /// A list of event categories for a source type that you want to subscribe to.
+  /// Use the <code>DescribeEventCategories</code> action to see a list of event
+  /// categories.
+  @_s.JsonKey(name: 'EventCategories')
+  final List<String> eventCategories;
+
+  /// The Amazon Resource Name (ARN) of the Amazon SNS topic created for event
+  /// notification. The ARN is created by Amazon SNS when you create a topic and
+  /// subscribe to it.
+  @_s.JsonKey(name: 'SnsTopicArn')
+  final String snsTopicArn;
+
+  /// The type of AWS DMS resource that generates the events you want to subscribe
+  /// to.
+  ///
+  /// Valid values: replication-instance | replication-task
+  @_s.JsonKey(name: 'SourceType')
+  final String sourceType;
+
+  ModifyEventSubscriptionMessage({
+    @_s.required this.subscriptionName,
+    this.enabled,
+    this.eventCategories,
+    this.snsTopicArn,
+    this.sourceType,
+  });
+  Map<String, dynamic> toJson() => _$ModifyEventSubscriptionMessageToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ModifyEventSubscriptionResponse {
@@ -4593,6 +6230,121 @@ class ModifyEventSubscriptionResponse {
   });
   factory ModifyEventSubscriptionResponse.fromJson(Map<String, dynamic> json) =>
       _$ModifyEventSubscriptionResponseFromJson(json);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ModifyReplicationInstanceMessage {
+  /// The Amazon Resource Name (ARN) of the replication instance.
+  @_s.JsonKey(name: 'ReplicationInstanceArn')
+  final String replicationInstanceArn;
+
+  /// The amount of storage (in gigabytes) to be allocated for the replication
+  /// instance.
+  @_s.JsonKey(name: 'AllocatedStorage')
+  final int allocatedStorage;
+
+  /// Indicates that major version upgrades are allowed. Changing this parameter
+  /// does not result in an outage, and the change is asynchronously applied as
+  /// soon as possible.
+  ///
+  /// This parameter must be set to <code>true</code> when specifying a value for
+  /// the <code>EngineVersion</code> parameter that is a different major version
+  /// than the replication instance's current version.
+  @_s.JsonKey(name: 'AllowMajorVersionUpgrade')
+  final bool allowMajorVersionUpgrade;
+
+  /// Indicates whether the changes should be applied immediately or during the
+  /// next maintenance window.
+  @_s.JsonKey(name: 'ApplyImmediately')
+  final bool applyImmediately;
+
+  /// A value that indicates that minor version upgrades are applied automatically
+  /// to the replication instance during the maintenance window. Changing this
+  /// parameter doesn't result in an outage, except in the case dsecribed
+  /// following. The change is asynchronously applied as soon as possible.
+  ///
+  /// An outage does result if these factors apply:
+  ///
+  /// <ul>
+  /// <li>
+  /// This parameter is set to <code>true</code> during the maintenance window.
+  /// </li>
+  /// <li>
+  /// A newer minor version is available.
+  /// </li>
+  /// <li>
+  /// AWS DMS has enabled automatic patching for the given engine version.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'AutoMinorVersionUpgrade')
+  final bool autoMinorVersionUpgrade;
+
+  /// The engine version number of the replication instance.
+  @_s.JsonKey(name: 'EngineVersion')
+  final String engineVersion;
+
+  /// Specifies whether the replication instance is a Multi-AZ deployment. You
+  /// can't set the <code>AvailabilityZone</code> parameter if the Multi-AZ
+  /// parameter is set to <code>true</code>.
+  @_s.JsonKey(name: 'MultiAZ')
+  final bool multiAZ;
+
+  /// The weekly time range (in UTC) during which system maintenance can occur,
+  /// which might result in an outage. Changing this parameter does not result in
+  /// an outage, except in the following situation, and the change is
+  /// asynchronously applied as soon as possible. If moving this window to the
+  /// current time, there must be at least 30 minutes between the current time and
+  /// end of the window to ensure pending changes are applied.
+  ///
+  /// Default: Uses existing setting
+  ///
+  /// Format: ddd:hh24:mi-ddd:hh24:mi
+  ///
+  /// Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun
+  ///
+  /// Constraints: Must be at least 30 minutes
+  @_s.JsonKey(name: 'PreferredMaintenanceWindow')
+  final String preferredMaintenanceWindow;
+
+  /// The compute and memory capacity of the replication instance.
+  ///
+  /// Valid Values: <code>dms.t2.micro | dms.t2.small | dms.t2.medium |
+  /// dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge |
+  /// dms.c4.4xlarge </code>
+  @_s.JsonKey(name: 'ReplicationInstanceClass')
+  final String replicationInstanceClass;
+
+  /// The replication instance identifier. This parameter is stored as a lowercase
+  /// string.
+  @_s.JsonKey(name: 'ReplicationInstanceIdentifier')
+  final String replicationInstanceIdentifier;
+
+  /// Specifies the VPC security group to be used with the replication instance.
+  /// The VPC security group must work with the VPC containing the replication
+  /// instance.
+  @_s.JsonKey(name: 'VpcSecurityGroupIds')
+  final List<String> vpcSecurityGroupIds;
+
+  ModifyReplicationInstanceMessage({
+    @_s.required this.replicationInstanceArn,
+    this.allocatedStorage,
+    this.allowMajorVersionUpgrade,
+    this.applyImmediately,
+    this.autoMinorVersionUpgrade,
+    this.engineVersion,
+    this.multiAZ,
+    this.preferredMaintenanceWindow,
+    this.replicationInstanceClass,
+    this.replicationInstanceIdentifier,
+    this.vpcSecurityGroupIds,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ModifyReplicationInstanceMessageToJson(this);
 }
 
 /// <p/>
@@ -4618,6 +6370,34 @@ class ModifyReplicationInstanceResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ModifyReplicationSubnetGroupMessage {
+  /// The name of the replication instance subnet group.
+  @_s.JsonKey(name: 'ReplicationSubnetGroupIdentifier')
+  final String replicationSubnetGroupIdentifier;
+
+  /// A list of subnet IDs.
+  @_s.JsonKey(name: 'SubnetIds')
+  final List<String> subnetIds;
+
+  /// A description for the replication instance subnet group.
+  @_s.JsonKey(name: 'ReplicationSubnetGroupDescription')
+  final String replicationSubnetGroupDescription;
+
+  ModifyReplicationSubnetGroupMessage({
+    @_s.required this.replicationSubnetGroupIdentifier,
+    @_s.required this.subnetIds,
+    this.replicationSubnetGroupDescription,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ModifyReplicationSubnetGroupMessageToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ModifyReplicationSubnetGroupResponse {
@@ -4631,6 +6411,109 @@ class ModifyReplicationSubnetGroupResponse {
   factory ModifyReplicationSubnetGroupResponse.fromJson(
           Map<String, dynamic> json) =>
       _$ModifyReplicationSubnetGroupResponseFromJson(json);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ModifyReplicationTaskMessage {
+  /// The Amazon Resource Name (ARN) of the replication task.
+  @_s.JsonKey(name: 'ReplicationTaskArn')
+  final String replicationTaskArn;
+
+  /// Indicates when you want a change data capture (CDC) operation to start. Use
+  /// either CdcStartPosition or CdcStartTime to specify when you want a CDC
+  /// operation to start. Specifying both values results in an error.
+  ///
+  /// The value can be in date, checkpoint, or LSN/SCN format.
+  ///
+  /// Date Example: --cdc-start-position “2018-03-08T12:12:12”
+  ///
+  /// Checkpoint Example: --cdc-start-position
+  /// "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93"
+  ///
+  /// LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”
+  /// <note>
+  /// When you use this task setting with a source PostgreSQL database, a logical
+  /// replication slot should already be created and associated with the source
+  /// endpoint. You can verify this by setting the <code>slotName</code> extra
+  /// connection attribute to the name of this logical replication slot. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.PostgreSQL.html#CHAP_Source.PostgreSQL.ConnectionAttrib">Extra
+  /// Connection Attributes When Using PostgreSQL as a Source for AWS DMS</a>.
+  /// </note>
+  @_s.JsonKey(name: 'CdcStartPosition')
+  final String cdcStartPosition;
+
+  /// Indicates the start time for a change data capture (CDC) operation. Use
+  /// either CdcStartTime or CdcStartPosition to specify when you want a CDC
+  /// operation to start. Specifying both values results in an error.
+  ///
+  /// Timestamp Example: --cdc-start-time “2018-03-08T12:12:12”
+  @_s.JsonKey(
+      name: 'CdcStartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime cdcStartTime;
+
+  /// Indicates when you want a change data capture (CDC) operation to stop. The
+  /// value can be either server time or commit time.
+  ///
+  /// Server time example: --cdc-stop-position “server_time:3018-02-09T12:12:12”
+  ///
+  /// Commit time example: --cdc-stop-position “commit_time: 3018-02-09T12:12:12 “
+  @_s.JsonKey(name: 'CdcStopPosition')
+  final String cdcStopPosition;
+
+  /// The migration type. Valid values: <code>full-load</code> | <code>cdc</code>
+  /// | <code>full-load-and-cdc</code>
+  @_s.JsonKey(name: 'MigrationType')
+  final MigrationTypeValue migrationType;
+
+  /// The replication task identifier.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Must contain from 1 to 255 alphanumeric characters or hyphens.
+  /// </li>
+  /// <li>
+  /// First character must be a letter.
+  /// </li>
+  /// <li>
+  /// Cannot end with a hyphen or contain two consecutive hyphens.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ReplicationTaskIdentifier')
+  final String replicationTaskIdentifier;
+
+  /// JSON file that contains settings for the task, such as target metadata
+  /// settings.
+  @_s.JsonKey(name: 'ReplicationTaskSettings')
+  final String replicationTaskSettings;
+
+  /// When using the AWS CLI or boto3, provide the path of the JSON file that
+  /// contains the table mappings. Precede the path with <code>file://</code>.
+  /// When working with the DMS API, provide the JSON as the parameter value, for
+  /// example: <code>--table-mappings file://mappingfile.json</code>
+  @_s.JsonKey(name: 'TableMappings')
+  final String tableMappings;
+
+  ModifyReplicationTaskMessage({
+    @_s.required this.replicationTaskArn,
+    this.cdcStartPosition,
+    this.cdcStartTime,
+    this.cdcStopPosition,
+    this.migrationType,
+    this.replicationTaskIdentifier,
+    this.replicationTaskSettings,
+    this.tableMappings,
+  });
+  Map<String, dynamic> toJson() => _$ModifyReplicationTaskMessageToJson(this);
 }
 
 /// <p/>
@@ -4913,6 +6796,30 @@ class PendingMaintenanceAction {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RebootReplicationInstanceMessage {
+  /// The Amazon Resource Name (ARN) of the replication instance.
+  @_s.JsonKey(name: 'ReplicationInstanceArn')
+  final String replicationInstanceArn;
+
+  /// If this parameter is <code>true</code>, the reboot is conducted through a
+  /// Multi-AZ failover. (If the instance isn't configured for Multi-AZ, then you
+  /// can't specify <code>true</code>.)
+  @_s.JsonKey(name: 'ForceFailover')
+  final bool forceFailover;
+
+  RebootReplicationInstanceMessage({
+    @_s.required this.replicationInstanceArn,
+    this.forceFailover,
+  });
+  Map<String, dynamic> toJson() =>
+      _$RebootReplicationInstanceMessageToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class RebootReplicationInstanceResponse {
@@ -5127,6 +7034,28 @@ class RedshiftSettings {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RefreshSchemasMessage {
+  /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
+  @_s.JsonKey(name: 'EndpointArn')
+  final String endpointArn;
+
+  /// The Amazon Resource Name (ARN) of the replication instance.
+  @_s.JsonKey(name: 'ReplicationInstanceArn')
+  final String replicationInstanceArn;
+
+  RefreshSchemasMessage({
+    @_s.required this.endpointArn,
+    @_s.required this.replicationInstanceArn,
+  });
+  Map<String, dynamic> toJson() => _$RefreshSchemasMessageToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class RefreshSchemasResponse {
@@ -5204,16 +7133,37 @@ enum ReloadOptionValue {
   validateOnly,
 }
 
-extension on ReloadOptionValue {
-  String toValue() {
-    switch (this) {
-      case ReloadOptionValue.dataReload:
-        return 'data-reload';
-      case ReloadOptionValue.validateOnly:
-        return 'validate-only';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ReloadTablesMessage {
+  /// The Amazon Resource Name (ARN) of the replication task.
+  @_s.JsonKey(name: 'ReplicationTaskArn')
+  final String replicationTaskArn;
+
+  /// The name and schema of the table to be reloaded.
+  @_s.JsonKey(name: 'TablesToReload')
+  final List<TableToReload> tablesToReload;
+
+  /// Options for reload. Specify <code>data-reload</code> to reload the data and
+  /// re-validate it if validation is enabled. Specify <code>validate-only</code>
+  /// to re-validate the table. This option applies only when validation is
+  /// enabled for the task.
+  ///
+  /// Valid values: data-reload, validate-only
+  ///
+  /// Default value is data-reload.
+  @_s.JsonKey(name: 'ReloadOption')
+  final ReloadOptionValue reloadOption;
+
+  ReloadTablesMessage({
+    @_s.required this.replicationTaskArn,
+    @_s.required this.tablesToReload,
+    this.reloadOption,
+  });
+  Map<String, dynamic> toJson() => _$ReloadTablesMessageToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5233,6 +7183,29 @@ class ReloadTablesResponse {
       _$ReloadTablesResponseFromJson(json);
 }
 
+/// Removes one or more tags from an AWS DMS resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RemoveTagsFromResourceMessage {
+  /// An AWS DMS resource from which you want to remove tag(s). The value for this
+  /// parameter is an Amazon Resource Name (ARN).
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// The tag key (name) of the tag to be removed.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  RemoveTagsFromResourceMessage({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$RemoveTagsFromResourceMessageToJson(this);
+}
+
 /// <p/>
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -5250,18 +7223,6 @@ enum ReplicationEndpointTypeValue {
   source,
   @_s.JsonValue('target')
   target,
-}
-
-extension on ReplicationEndpointTypeValue {
-  String toValue() {
-    switch (this) {
-      case ReplicationEndpointTypeValue.source:
-        return 'source';
-      case ReplicationEndpointTypeValue.target:
-        return 'target';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Provides information that defines a replication instance.
@@ -6202,14 +8163,22 @@ enum SourceType {
   replicationInstance,
 }
 
-extension on SourceType {
-  String toValue() {
-    switch (this) {
-      case SourceType.replicationInstance:
-        return 'replication-instance';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartReplicationTaskAssessmentMessage {
+  /// The Amazon Resource Name (ARN) of the replication task.
+  @_s.JsonKey(name: 'ReplicationTaskArn')
+  final String replicationTaskArn;
+
+  StartReplicationTaskAssessmentMessage({
+    @_s.required this.replicationTaskArn,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StartReplicationTaskAssessmentMessageToJson(this);
 }
 
 /// <p/>
@@ -6229,6 +8198,75 @@ class StartReplicationTaskAssessmentResponse {
   factory StartReplicationTaskAssessmentResponse.fromJson(
           Map<String, dynamic> json) =>
       _$StartReplicationTaskAssessmentResponseFromJson(json);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartReplicationTaskMessage {
+  /// The Amazon Resource Name (ARN) of the replication task to be started.
+  @_s.JsonKey(name: 'ReplicationTaskArn')
+  final String replicationTaskArn;
+
+  /// The type of replication task.
+  @_s.JsonKey(name: 'StartReplicationTaskType')
+  final StartReplicationTaskTypeValue startReplicationTaskType;
+
+  /// Indicates when you want a change data capture (CDC) operation to start. Use
+  /// either CdcStartPosition or CdcStartTime to specify when you want a CDC
+  /// operation to start. Specifying both values results in an error.
+  ///
+  /// The value can be in date, checkpoint, or LSN/SCN format.
+  ///
+  /// Date Example: --cdc-start-position “2018-03-08T12:12:12”
+  ///
+  /// Checkpoint Example: --cdc-start-position
+  /// "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93"
+  ///
+  /// LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”
+  /// <note>
+  /// When you use this task setting with a source PostgreSQL database, a logical
+  /// replication slot should already be created and associated with the source
+  /// endpoint. You can verify this by setting the <code>slotName</code> extra
+  /// connection attribute to the name of this logical replication slot. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.PostgreSQL.html#CHAP_Source.PostgreSQL.ConnectionAttrib">Extra
+  /// Connection Attributes When Using PostgreSQL as a Source for AWS DMS</a>.
+  /// </note>
+  @_s.JsonKey(name: 'CdcStartPosition')
+  final String cdcStartPosition;
+
+  /// Indicates the start time for a change data capture (CDC) operation. Use
+  /// either CdcStartTime or CdcStartPosition to specify when you want a CDC
+  /// operation to start. Specifying both values results in an error.
+  ///
+  /// Timestamp Example: --cdc-start-time “2018-03-08T12:12:12”
+  @_s.JsonKey(
+      name: 'CdcStartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime cdcStartTime;
+
+  /// Indicates when you want a change data capture (CDC) operation to stop. The
+  /// value can be either server time or commit time.
+  ///
+  /// Server time example: --cdc-stop-position “server_time:3018-02-09T12:12:12”
+  ///
+  /// Commit time example: --cdc-stop-position “commit_time: 3018-02-09T12:12:12 “
+  @_s.JsonKey(name: 'CdcStopPosition')
+  final String cdcStopPosition;
+
+  StartReplicationTaskMessage({
+    @_s.required this.replicationTaskArn,
+    @_s.required this.startReplicationTaskType,
+    this.cdcStartPosition,
+    this.cdcStartTime,
+    this.cdcStopPosition,
+  });
+  Map<String, dynamic> toJson() => _$StartReplicationTaskMessageToJson(this);
 }
 
 /// <p/>
@@ -6258,18 +8296,21 @@ enum StartReplicationTaskTypeValue {
   reloadTarget,
 }
 
-extension on StartReplicationTaskTypeValue {
-  String toValue() {
-    switch (this) {
-      case StartReplicationTaskTypeValue.startReplication:
-        return 'start-replication';
-      case StartReplicationTaskTypeValue.resumeProcessing:
-        return 'resume-processing';
-      case StartReplicationTaskTypeValue.reloadTarget:
-        return 'reload-target';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopReplicationTaskMessage {
+  /// The Amazon Resource Name(ARN) of the replication task to be stopped.
+  @_s.JsonKey(name: 'ReplicationTaskArn')
+  final String replicationTaskArn;
+
+  StopReplicationTaskMessage({
+    @_s.required this.replicationTaskArn,
+  });
+  Map<String, dynamic> toJson() => _$StopReplicationTaskMessageToJson(this);
 }
 
 /// <p/>
@@ -6589,6 +8630,28 @@ class Tag {
   factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
   Map<String, dynamic> toJson() => _$TagToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TestConnectionMessage {
+  /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
+  @_s.JsonKey(name: 'EndpointArn')
+  final String endpointArn;
+
+  /// The Amazon Resource Name (ARN) of the replication instance.
+  @_s.JsonKey(name: 'ReplicationInstanceArn')
+  final String replicationInstanceArn;
+
+  TestConnectionMessage({
+    @_s.required this.endpointArn,
+    @_s.required this.replicationInstanceArn,
+  });
+  Map<String, dynamic> toJson() => _$TestConnectionMessageToJson(this);
 }
 
 /// <p/>

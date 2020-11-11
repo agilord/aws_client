@@ -12,6 +12,23 @@ AttributeValue _$AttributeValueFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DescribeServicesRequestToJson(
+    DescribeServicesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FormatVersion', instance.formatVersion);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('ServiceCode', instance.serviceCode);
+  return val;
+}
+
 DescribeServicesResponse _$DescribeServicesResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeServicesResponse(
@@ -50,6 +67,23 @@ const _$FilterTypeEnumMap = {
   FilterType.termMatch: 'TERM_MATCH',
 };
 
+Map<String, dynamic> _$GetAttributeValuesRequestToJson(
+    GetAttributeValuesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AttributeName', instance.attributeName);
+  writeNotNull('ServiceCode', instance.serviceCode);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 GetAttributeValuesResponse _$GetAttributeValuesResponseFromJson(
     Map<String, dynamic> json) {
   return GetAttributeValuesResponse(
@@ -60,6 +94,23 @@ GetAttributeValuesResponse _$GetAttributeValuesResponseFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$GetProductsRequestToJson(GetProductsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('FormatVersion', instance.formatVersion);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('ServiceCode', instance.serviceCode);
+  return val;
 }
 
 GetProductsResponse _$GetProductsResponseFromJson(Map<String, dynamic> json) {

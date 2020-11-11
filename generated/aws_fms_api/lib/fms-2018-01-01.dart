@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -93,9 +92,9 @@ class FMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AdminAccount': adminAccount,
-      },
+      payload: AssociateAdminAccountRequest(
+        adminAccount: adminAccount,
+      ),
     );
   }
 
@@ -195,11 +194,10 @@ class FMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PolicyId': policyId,
-        if (deleteAllPolicyResources != null)
-          'DeleteAllPolicyResources': deleteAllPolicyResources,
-      },
+      payload: DeletePolicyRequest(
+        policyId: policyId,
+        deleteAllPolicyResources: deleteAllPolicyResources,
+      ),
     );
   }
 
@@ -307,10 +305,10 @@ class FMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'MemberAccount': memberAccount,
-        'PolicyId': policyId,
-      },
+      payload: GetComplianceDetailRequest(
+        memberAccount: memberAccount,
+        policyId: policyId,
+      ),
     );
 
     return GetComplianceDetailResponse.fromJson(jsonResponse.body);
@@ -374,9 +372,9 @@ class FMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PolicyId': policyId,
-      },
+      payload: GetPolicyRequest(
+        policyId: policyId,
+      ),
     );
 
     return GetPolicyResponse.fromJson(jsonResponse.body);
@@ -486,14 +484,14 @@ class FMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PolicyId': policyId,
-        if (endTime != null) 'EndTime': endTime,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (memberAccountId != null) 'MemberAccountId': memberAccountId,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (startTime != null) 'StartTime': startTime,
-      },
+      payload: GetProtectionStatusRequest(
+        policyId: policyId,
+        endTime: endTime,
+        maxResults: maxResults,
+        memberAccountId: memberAccountId,
+        nextToken: nextToken,
+        startTime: startTime,
+      ),
     );
 
     return GetProtectionStatusResponse.fromJson(jsonResponse.body);
@@ -573,11 +571,11 @@ class FMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PolicyId': policyId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListComplianceStatusRequest(
+        policyId: policyId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListComplianceStatusResponse.fromJson(jsonResponse.body);
@@ -638,10 +636,10 @@ class FMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListMemberAccountsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListMemberAccountsResponse.fromJson(jsonResponse.body);
@@ -702,10 +700,10 @@ class FMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListPoliciesRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListPoliciesResponse.fromJson(jsonResponse.body);
@@ -749,9 +747,9 @@ class FMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-      },
+      payload: ListTagsForResourceRequest(
+        resourceArn: resourceArn,
+      ),
     );
 
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
@@ -813,10 +811,10 @@ class FMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'SnsRoleName': snsRoleName,
-        'SnsTopicArn': snsTopicArn,
-      },
+      payload: PutNotificationChannelRequest(
+        snsRoleName: snsRoleName,
+        snsTopicArn: snsTopicArn,
+      ),
     );
   }
 
@@ -873,10 +871,10 @@ class FMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Policy': policy,
-        if (tagList != null) 'TagList': tagList,
-      },
+      payload: PutPolicyRequest(
+        policy: policy,
+        tagList: tagList,
+      ),
     );
 
     return PutPolicyResponse.fromJson(jsonResponse.body);
@@ -926,10 +924,10 @@ class FMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        'TagList': tagList,
-      },
+      payload: TagResourceRequest(
+        resourceArn: resourceArn,
+        tagList: tagList,
+      ),
     );
 
     return TagResourceResponse.fromJson(jsonResponse.body);
@@ -978,10 +976,10 @@ class FMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-        'TagKeys': tagKeys,
-      },
+      payload: UntagResourceRequest(
+        resourceArn: resourceArn,
+        tagKeys: tagKeys,
+      ),
     );
 
     return UntagResourceResponse.fromJson(jsonResponse.body);
@@ -999,6 +997,27 @@ enum AccountRoleStatus {
   deleting,
   @_s.JsonValue('DELETED')
   deleted,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AssociateAdminAccountRequest {
+  /// The AWS account ID to associate with AWS Firewall Manager as the AWS
+  /// Firewall Manager administrator account. This can be an AWS Organizations
+  /// master account or a member account. For more information about AWS
+  /// Organizations and master accounts, see <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts.html">Managing
+  /// the AWS Accounts in Your Organization</a>.
+  @_s.JsonKey(name: 'AdminAccount')
+  final String adminAccount;
+
+  AssociateAdminAccountRequest({
+    @_s.required this.adminAccount,
+  });
+  Map<String, dynamic> toJson() => _$AssociateAdminAccountRequestToJson(this);
 }
 
 /// Details of the resource that is not protected by the policy.
@@ -1036,6 +1055,62 @@ class ComplianceViolator {
 enum CustomerPolicyScopeIdType {
   @_s.JsonValue('ACCOUNT')
   account,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeletePolicyRequest {
+  /// The ID of the policy that you want to delete. <code>PolicyId</code> is
+  /// returned by <code>PutPolicy</code> and by <code>ListPolicies</code>.
+  @_s.JsonKey(name: 'PolicyId')
+  final String policyId;
+
+  /// If <code>True</code>, the request performs cleanup according to the policy
+  /// type.
+  ///
+  /// For AWS WAF and Shield Advanced policies, the cleanup does the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// Deletes rule groups created by AWS Firewall Manager
+  /// </li>
+  /// <li>
+  /// Removes web ACLs from in-scope resources
+  /// </li>
+  /// <li>
+  /// Deletes web ACLs that contain no rules or rule groups
+  /// </li>
+  /// </ul>
+  /// For security group policies, the cleanup does the following for each
+  /// security group in the policy:
+  ///
+  /// <ul>
+  /// <li>
+  /// Disassociates the security group from in-scope resources
+  /// </li>
+  /// <li>
+  /// Deletes the security group if it was created through Firewall Manager and if
+  /// it's no longer associated with any resources through another policy
+  /// </li>
+  /// </ul>
+  /// After the cleanup, in-scope resources are no longer protected by web ACLs in
+  /// this policy. Protection of out-of-scope resources remains unchanged. Scope
+  /// is determined by tags that you create and accounts that you associate with
+  /// the policy. When creating the policy, if you specify that only resources in
+  /// specific accounts or with specific tags are in scope of the policy, those
+  /// accounts and resources are handled by the policy. All others are out of
+  /// scope. If you don't specify tags or accounts, all resources are in scope.
+  @_s.JsonKey(name: 'DeleteAllPolicyResources')
+  final bool deleteAllPolicyResources;
+
+  DeletePolicyRequest({
+    @_s.required this.policyId,
+    this.deleteAllPolicyResources,
+  });
+  Map<String, dynamic> toJson() => _$DeletePolicyRequestToJson(this);
 }
 
 enum DependentServiceName {
@@ -1110,6 +1185,30 @@ class GetAdminAccountResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetComplianceDetailRequest {
+  /// The AWS account that owns the resources that you want to get the details
+  /// for.
+  @_s.JsonKey(name: 'MemberAccount')
+  final String memberAccount;
+
+  /// The ID of the policy that you want to get the details for.
+  /// <code>PolicyId</code> is returned by <code>PutPolicy</code> and by
+  /// <code>ListPolicies</code>.
+  @_s.JsonKey(name: 'PolicyId')
+  final String policyId;
+
+  GetComplianceDetailRequest({
+    @_s.required this.memberAccount,
+    @_s.required this.policyId,
+  });
+  Map<String, dynamic> toJson() => _$GetComplianceDetailRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetComplianceDetailResponse {
@@ -1150,6 +1249,22 @@ class GetNotificationChannelResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetPolicyRequest {
+  /// The ID of the AWS Firewall Manager policy that you want the details for.
+  @_s.JsonKey(name: 'PolicyId')
+  final String policyId;
+
+  GetPolicyRequest({
+    @_s.required this.policyId,
+  });
+  Map<String, dynamic> toJson() => _$GetPolicyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetPolicyResponse {
@@ -1167,6 +1282,71 @@ class GetPolicyResponse {
   });
   factory GetPolicyResponse.fromJson(Map<String, dynamic> json) =>
       _$GetPolicyResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetProtectionStatusRequest {
+  /// The ID of the policy for which you want to get the attack information.
+  @_s.JsonKey(name: 'PolicyId')
+  final String policyId;
+
+  /// The end of the time period to query for the attacks. This is a
+  /// <code>timestamp</code> type. The request syntax listing indicates a
+  /// <code>number</code> type because the default used by AWS Firewall Manager is
+  /// Unix time in seconds. However, any valid <code>timestamp</code> format is
+  /// allowed.
+  @_s.JsonKey(
+      name: 'EndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime endTime;
+
+  /// Specifies the number of objects that you want AWS Firewall Manager to return
+  /// for this request. If you have more objects than the number that you specify
+  /// for <code>MaxResults</code>, the response includes a <code>NextToken</code>
+  /// value that you can use to get another batch of objects.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The AWS account that is in scope of the policy that you want to get the
+  /// details for.
+  @_s.JsonKey(name: 'MemberAccountId')
+  final String memberAccountId;
+
+  /// If you specify a value for <code>MaxResults</code> and you have more objects
+  /// than the number that you specify for <code>MaxResults</code>, AWS Firewall
+  /// Manager returns a <code>NextToken</code> value in the response, which you
+  /// can use to retrieve another group of objects. For the second and subsequent
+  /// <code>GetProtectionStatus</code> requests, specify the value of
+  /// <code>NextToken</code> from the previous response to get information about
+  /// another batch of objects.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The start of the time period to query for the attacks. This is a
+  /// <code>timestamp</code> type. The request syntax listing indicates a
+  /// <code>number</code> type because the default used by AWS Firewall Manager is
+  /// Unix time in seconds. However, any valid <code>timestamp</code> format is
+  /// allowed.
+  @_s.JsonKey(
+      name: 'StartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime startTime;
+
+  GetProtectionStatusRequest({
+    @_s.required this.policyId,
+    this.endTime,
+    this.maxResults,
+    this.memberAccountId,
+    this.nextToken,
+    this.startTime,
+  });
+  Map<String, dynamic> toJson() => _$GetProtectionStatusRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1235,6 +1415,44 @@ class GetProtectionStatusResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListComplianceStatusRequest {
+  /// The ID of the AWS Firewall Manager policy that you want the details for.
+  @_s.JsonKey(name: 'PolicyId')
+  final String policyId;
+
+  /// Specifies the number of <code>PolicyComplianceStatus</code> objects that you
+  /// want AWS Firewall Manager to return for this request. If you have more
+  /// <code>PolicyComplianceStatus</code> objects than the number that you specify
+  /// for <code>MaxResults</code>, the response includes a <code>NextToken</code>
+  /// value that you can use to get another batch of
+  /// <code>PolicyComplianceStatus</code> objects.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If you specify a value for <code>MaxResults</code> and you have more
+  /// <code>PolicyComplianceStatus</code> objects than the number that you specify
+  /// for <code>MaxResults</code>, AWS Firewall Manager returns a
+  /// <code>NextToken</code> value in the response that allows you to list another
+  /// group of <code>PolicyComplianceStatus</code> objects. For the second and
+  /// subsequent <code>ListComplianceStatus</code> requests, specify the value of
+  /// <code>NextToken</code> from the previous response to get information about
+  /// another batch of <code>PolicyComplianceStatus</code> objects.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListComplianceStatusRequest({
+    @_s.required this.policyId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListComplianceStatusRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListComplianceStatusResponse {
@@ -1258,6 +1476,37 @@ class ListComplianceStatusResponse {
   });
   factory ListComplianceStatusResponse.fromJson(Map<String, dynamic> json) =>
       _$ListComplianceStatusResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListMemberAccountsRequest {
+  /// Specifies the number of member account IDs that you want AWS Firewall
+  /// Manager to return for this request. If you have more IDs than the number
+  /// that you specify for <code>MaxResults</code>, the response includes a
+  /// <code>NextToken</code> value that you can use to get another batch of member
+  /// account IDs.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If you specify a value for <code>MaxResults</code> and you have more account
+  /// IDs than the number that you specify for <code>MaxResults</code>, AWS
+  /// Firewall Manager returns a <code>NextToken</code> value in the response that
+  /// allows you to list another group of IDs. For the second and subsequent
+  /// <code>ListMemberAccountsRequest</code> requests, specify the value of
+  /// <code>NextToken</code> from the previous response to get information about
+  /// another batch of member account IDs.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListMemberAccountsRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListMemberAccountsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1290,6 +1539,39 @@ class ListMemberAccountsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListPoliciesRequest {
+  /// Specifies the number of <code>PolicySummary</code> objects that you want AWS
+  /// Firewall Manager to return for this request. If you have more
+  /// <code>PolicySummary</code> objects than the number that you specify for
+  /// <code>MaxResults</code>, the response includes a <code>NextToken</code>
+  /// value that you can use to get another batch of <code>PolicySummary</code>
+  /// objects.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// If you specify a value for <code>MaxResults</code> and you have more
+  /// <code>PolicySummary</code> objects than the number that you specify for
+  /// <code>MaxResults</code>, AWS Firewall Manager returns a
+  /// <code>NextToken</code> value in the response that allows you to list another
+  /// group of <code>PolicySummary</code> objects. For the second and subsequent
+  /// <code>ListPolicies</code> requests, specify the value of
+  /// <code>NextToken</code> from the previous response to get information about
+  /// another batch of <code>PolicySummary</code> objects.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListPoliciesRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListPoliciesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListPoliciesResponse {
@@ -1312,6 +1594,24 @@ class ListPoliciesResponse {
   });
   factory ListPoliciesResponse.fromJson(Map<String, dynamic> json) =>
       _$ListPoliciesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource to return tags for. The
+  /// Firewall Manager policy is the only AWS resource that supports tagging, so
+  /// this ARN is a policy ARN..
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  ListTagsForResourceRequest({
+    @_s.required this.resourceArn,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1618,6 +1918,50 @@ class PolicySummary {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutNotificationChannelRequest {
+  /// The Amazon Resource Name (ARN) of the IAM role that allows Amazon SNS to
+  /// record AWS Firewall Manager activity.
+  @_s.JsonKey(name: 'SnsRoleName')
+  final String snsRoleName;
+
+  /// The Amazon Resource Name (ARN) of the SNS topic that collects notifications
+  /// from AWS Firewall Manager.
+  @_s.JsonKey(name: 'SnsTopicArn')
+  final String snsTopicArn;
+
+  PutNotificationChannelRequest({
+    @_s.required this.snsRoleName,
+    @_s.required this.snsTopicArn,
+  });
+  Map<String, dynamic> toJson() => _$PutNotificationChannelRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutPolicyRequest {
+  /// The details of the AWS Firewall Manager policy to be created.
+  @_s.JsonKey(name: 'Policy')
+  final Policy policy;
+
+  /// The tags to add to the AWS resource.
+  @_s.JsonKey(name: 'TagList')
+  final List<Tag> tagList;
+
+  PutPolicyRequest({
+    @_s.required this.policy,
+    this.tagList,
+  });
+  Map<String, dynamic> toJson() => _$PutPolicyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutPolicyResponse {
@@ -1806,12 +2150,56 @@ class Tag {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource. The Firewall Manager policy
+  /// is the only AWS resource that supports tagging, so this ARN is a policy ARN.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// The tags to add to the resource.
+  @_s.JsonKey(name: 'TagList')
+  final List<Tag> tagList;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagList,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
   factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$TagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The Amazon Resource Name (ARN) of the resource. The Firewall Manager policy
+  /// is the only AWS resource that supports tagging, so this ARN is a policy ARN.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  /// The keys of the tags to remove from the resource.
+  @_s.JsonKey(name: 'TagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(

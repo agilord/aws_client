@@ -100,6 +100,10 @@ const _$JobExecutionFailureTypeEnumMap = {
   JobExecutionFailureType.all: 'ALL',
 };
 
+Map<String, dynamic> _$AcceptCertificateTransferRequestToJson(
+        AcceptCertificateTransferRequest instance) =>
+    <String, dynamic>{};
+
 Action _$ActionFromJson(Map<String, dynamic> json) {
   return Action(
     cloudwatchAlarm: json['cloudwatchAlarm'] == null
@@ -217,9 +221,44 @@ ActiveViolation _$ActiveViolationFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$AddThingToBillingGroupRequestToJson(
+    AddThingToBillingGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('billingGroupArn', instance.billingGroupArn);
+  writeNotNull('billingGroupName', instance.billingGroupName);
+  writeNotNull('thingArn', instance.thingArn);
+  writeNotNull('thingName', instance.thingName);
+  return val;
+}
+
 AddThingToBillingGroupResponse _$AddThingToBillingGroupResponseFromJson(
     Map<String, dynamic> json) {
   return AddThingToBillingGroupResponse();
+}
+
+Map<String, dynamic> _$AddThingToThingGroupRequestToJson(
+    AddThingToThingGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('overrideDynamicGroups', instance.overrideDynamicGroups);
+  writeNotNull('thingArn', instance.thingArn);
+  writeNotNull('thingGroupArn', instance.thingGroupArn);
+  writeNotNull('thingGroupName', instance.thingGroupName);
+  writeNotNull('thingName', instance.thingName);
+  return val;
 }
 
 AddThingToThingGroupResponse _$AddThingToThingGroupResponseFromJson(
@@ -358,6 +397,21 @@ Map<String, dynamic> _$AssetPropertyVariantToJson(
   return val;
 }
 
+Map<String, dynamic> _$AssociateTargetsWithJobRequestToJson(
+    AssociateTargetsWithJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('targets', instance.targets);
+  writeNotNull('comment', instance.comment);
+  return val;
+}
+
 AssociateTargetsWithJobResponse _$AssociateTargetsWithJobResponseFromJson(
     Map<String, dynamic> json) {
   return AssociateTargetsWithJobResponse(
@@ -367,10 +421,35 @@ AssociateTargetsWithJobResponse _$AssociateTargetsWithJobResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$AttachPolicyRequestToJson(AttachPolicyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('target', instance.target);
+  return val;
+}
+
+Map<String, dynamic> _$AttachPrincipalPolicyRequestToJson(
+        AttachPrincipalPolicyRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$AttachSecurityProfileRequestToJson(
+        AttachSecurityProfileRequest instance) =>
+    <String, dynamic>{};
+
 AttachSecurityProfileResponse _$AttachSecurityProfileResponseFromJson(
     Map<String, dynamic> json) {
   return AttachSecurityProfileResponse();
 }
+
+Map<String, dynamic> _$AttachThingPrincipalRequestToJson(
+        AttachThingPrincipalRequest instance) =>
+    <String, dynamic>{};
 
 AttachThingPrincipalResponse _$AttachThingPrincipalResponseFromJson(
     Map<String, dynamic> json) {
@@ -882,15 +961,56 @@ const _$AutoRegistrationStatusEnumMap = {
   AutoRegistrationStatus.disable: 'DISABLE',
 };
 
+Map<String, dynamic> _$CancelAuditMitigationActionsTaskRequestToJson(
+        CancelAuditMitigationActionsTaskRequest instance) =>
+    <String, dynamic>{};
+
 CancelAuditMitigationActionsTaskResponse
     _$CancelAuditMitigationActionsTaskResponseFromJson(
         Map<String, dynamic> json) {
   return CancelAuditMitigationActionsTaskResponse();
 }
 
+Map<String, dynamic> _$CancelAuditTaskRequestToJson(
+        CancelAuditTaskRequest instance) =>
+    <String, dynamic>{};
+
 CancelAuditTaskResponse _$CancelAuditTaskResponseFromJson(
     Map<String, dynamic> json) {
   return CancelAuditTaskResponse();
+}
+
+Map<String, dynamic> _$CancelCertificateTransferRequestToJson(
+        CancelCertificateTransferRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$CancelJobExecutionRequestToJson(
+    CancelJobExecutionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('expectedVersion', instance.expectedVersion);
+  writeNotNull('statusDetails', instance.statusDetails);
+  return val;
+}
+
+Map<String, dynamic> _$CancelJobRequestToJson(CancelJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('comment', instance.comment);
+  writeNotNull('reasonCode', instance.reasonCode);
+  return val;
 }
 
 CancelJobResponse _$CancelJobResponseFromJson(Map<String, dynamic> json) {
@@ -1134,12 +1254,46 @@ ConfirmTopicRuleDestinationResponse
   return ConfirmTopicRuleDestinationResponse();
 }
 
+Map<String, dynamic> _$CreateAuthorizerRequestToJson(
+    CreateAuthorizerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('authorizerFunctionArn', instance.authorizerFunctionArn);
+  writeNotNull('signingDisabled', instance.signingDisabled);
+  writeNotNull('status', _$AuthorizerStatusEnumMap[instance.status]);
+  writeNotNull('tokenKeyName', instance.tokenKeyName);
+  writeNotNull('tokenSigningPublicKeys', instance.tokenSigningPublicKeys);
+  return val;
+}
+
 CreateAuthorizerResponse _$CreateAuthorizerResponseFromJson(
     Map<String, dynamic> json) {
   return CreateAuthorizerResponse(
     authorizerArn: json['authorizerArn'] as String,
     authorizerName: json['authorizerName'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateBillingGroupRequestToJson(
+    CreateBillingGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'billingGroupProperties', instance.billingGroupProperties?.toJson());
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateBillingGroupResponse _$CreateBillingGroupResponseFromJson(
@@ -1151,6 +1305,20 @@ CreateBillingGroupResponse _$CreateBillingGroupResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateCertificateFromCsrRequestToJson(
+    CreateCertificateFromCsrRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('certificateSigningRequest', instance.certificateSigningRequest);
+  return val;
+}
+
 CreateCertificateFromCsrResponse _$CreateCertificateFromCsrResponseFromJson(
     Map<String, dynamic> json) {
   return CreateCertificateFromCsrResponse(
@@ -1160,6 +1328,27 @@ CreateCertificateFromCsrResponse _$CreateCertificateFromCsrResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateDimensionRequestToJson(
+    CreateDimensionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('clientRequestToken', instance.clientRequestToken);
+  writeNotNull('stringValues', instance.stringValues);
+  writeNotNull('type', _$DimensionTypeEnumMap[instance.type]);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+const _$DimensionTypeEnumMap = {
+  DimensionType.topicFilter: 'TOPIC_FILTER',
+};
+
 CreateDimensionResponse _$CreateDimensionResponseFromJson(
     Map<String, dynamic> json) {
   return CreateDimensionResponse(
@@ -1168,12 +1357,54 @@ CreateDimensionResponse _$CreateDimensionResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateDomainConfigurationRequestToJson(
+    CreateDomainConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('authorizerConfig', instance.authorizerConfig?.toJson());
+  writeNotNull('domainName', instance.domainName);
+  writeNotNull('serverCertificateArns', instance.serverCertificateArns);
+  writeNotNull('serviceType', _$ServiceTypeEnumMap[instance.serviceType]);
+  writeNotNull('validationCertificateArn', instance.validationCertificateArn);
+  return val;
+}
+
+const _$ServiceTypeEnumMap = {
+  ServiceType.data: 'DATA',
+  ServiceType.credentialProvider: 'CREDENTIAL_PROVIDER',
+  ServiceType.jobs: 'JOBS',
+};
+
 CreateDomainConfigurationResponse _$CreateDomainConfigurationResponseFromJson(
     Map<String, dynamic> json) {
   return CreateDomainConfigurationResponse(
     domainConfigurationArn: json['domainConfigurationArn'] as String,
     domainConfigurationName: json['domainConfigurationName'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateDynamicThingGroupRequestToJson(
+    CreateDynamicThingGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('queryString', instance.queryString);
+  writeNotNull('indexName', instance.indexName);
+  writeNotNull('queryVersion', instance.queryVersion);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('thingGroupProperties', instance.thingGroupProperties?.toJson());
+  return val;
 }
 
 CreateDynamicThingGroupResponse _$CreateDynamicThingGroupResponseFromJson(
@@ -1188,6 +1419,35 @@ CreateDynamicThingGroupResponse _$CreateDynamicThingGroupResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateJobRequestToJson(CreateJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('targets', instance.targets);
+  writeNotNull('abortConfig', instance.abortConfig?.toJson());
+  writeNotNull('description', instance.description);
+  writeNotNull('document', instance.document);
+  writeNotNull('documentSource', instance.documentSource);
+  writeNotNull('jobExecutionsRolloutConfig',
+      instance.jobExecutionsRolloutConfig?.toJson());
+  writeNotNull('presignedUrlConfig', instance.presignedUrlConfig?.toJson());
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'targetSelection', _$TargetSelectionEnumMap[instance.targetSelection]);
+  writeNotNull('timeoutConfig', instance.timeoutConfig?.toJson());
+  return val;
+}
+
+const _$TargetSelectionEnumMap = {
+  TargetSelection.continuous: 'CONTINUOUS',
+  TargetSelection.snapshot: 'SNAPSHOT',
+};
+
 CreateJobResponse _$CreateJobResponseFromJson(Map<String, dynamic> json) {
   return CreateJobResponse(
     description: json['description'] as String,
@@ -1195,6 +1455,10 @@ CreateJobResponse _$CreateJobResponseFromJson(Map<String, dynamic> json) {
     jobId: json['jobId'] as String,
   );
 }
+
+Map<String, dynamic> _$CreateKeysAndCertificateRequestToJson(
+        CreateKeysAndCertificateRequest instance) =>
+    <String, dynamic>{};
 
 CreateKeysAndCertificateResponse _$CreateKeysAndCertificateResponseFromJson(
     Map<String, dynamic> json) {
@@ -1208,12 +1472,54 @@ CreateKeysAndCertificateResponse _$CreateKeysAndCertificateResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateMitigationActionRequestToJson(
+    CreateMitigationActionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('actionParams', instance.actionParams?.toJson());
+  writeNotNull('roleArn', instance.roleArn);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateMitigationActionResponse _$CreateMitigationActionResponseFromJson(
     Map<String, dynamic> json) {
   return CreateMitigationActionResponse(
     actionArn: json['actionArn'] as String,
     actionId: json['actionId'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateOTAUpdateRequestToJson(
+    CreateOTAUpdateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('files', instance.files?.map((e) => e?.toJson())?.toList());
+  writeNotNull('roleArn', instance.roleArn);
+  writeNotNull('targets', instance.targets);
+  writeNotNull('additionalParameters', instance.additionalParameters);
+  writeNotNull('awsJobExecutionsRolloutConfig',
+      instance.awsJobExecutionsRolloutConfig?.toJson());
+  writeNotNull(
+      'awsJobPresignedUrlConfig', instance.awsJobPresignedUrlConfig?.toJson());
+  writeNotNull('description', instance.description);
+  writeNotNull('protocols', instance.protocols);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'targetSelection', _$TargetSelectionEnumMap[instance.targetSelection]);
+  return val;
 }
 
 CreateOTAUpdateResponse _$CreateOTAUpdateResponseFromJson(
@@ -1235,6 +1541,19 @@ const _$OTAUpdateStatusEnumMap = {
   OTAUpdateStatus.createFailed: 'CREATE_FAILED',
 };
 
+Map<String, dynamic> _$CreatePolicyRequestToJson(CreatePolicyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('policyDocument', instance.policyDocument);
+  return val;
+}
+
 CreatePolicyResponse _$CreatePolicyResponseFromJson(Map<String, dynamic> json) {
   return CreatePolicyResponse(
     policyArn: json['policyArn'] as String,
@@ -1242,6 +1561,20 @@ CreatePolicyResponse _$CreatePolicyResponseFromJson(Map<String, dynamic> json) {
     policyName: json['policyName'] as String,
     policyVersionId: json['policyVersionId'] as String,
   );
+}
+
+Map<String, dynamic> _$CreatePolicyVersionRequestToJson(
+    CreatePolicyVersionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('policyDocument', instance.policyDocument);
+  return val;
 }
 
 CreatePolicyVersionResponse _$CreatePolicyVersionResponseFromJson(
@@ -1253,6 +1586,10 @@ CreatePolicyVersionResponse _$CreatePolicyVersionResponseFromJson(
     policyVersionId: json['policyVersionId'] as String,
   );
 }
+
+Map<String, dynamic> _$CreateProvisioningClaimRequestToJson(
+        CreateProvisioningClaimRequest instance) =>
+    <String, dynamic>{};
 
 CreateProvisioningClaimResponse _$CreateProvisioningClaimResponseFromJson(
     Map<String, dynamic> json) {
@@ -1266,6 +1603,25 @@ CreateProvisioningClaimResponse _$CreateProvisioningClaimResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateProvisioningTemplateRequestToJson(
+    CreateProvisioningTemplateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('provisioningRoleArn', instance.provisioningRoleArn);
+  writeNotNull('templateBody', instance.templateBody);
+  writeNotNull('templateName', instance.templateName);
+  writeNotNull('description', instance.description);
+  writeNotNull('enabled', instance.enabled);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateProvisioningTemplateResponse _$CreateProvisioningTemplateResponseFromJson(
     Map<String, dynamic> json) {
   return CreateProvisioningTemplateResponse(
@@ -1273,6 +1629,20 @@ CreateProvisioningTemplateResponse _$CreateProvisioningTemplateResponseFromJson(
     templateArn: json['templateArn'] as String,
     templateName: json['templateName'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateProvisioningTemplateVersionRequestToJson(
+    CreateProvisioningTemplateVersionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('templateBody', instance.templateBody);
+  return val;
 }
 
 CreateProvisioningTemplateVersionResponse
@@ -1286,6 +1656,21 @@ CreateProvisioningTemplateVersionResponse
   );
 }
 
+Map<String, dynamic> _$CreateRoleAliasRequestToJson(
+    CreateRoleAliasRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('roleArn', instance.roleArn);
+  writeNotNull('credentialDurationSeconds', instance.credentialDurationSeconds);
+  return val;
+}
+
 CreateRoleAliasResponse _$CreateRoleAliasResponseFromJson(
     Map<String, dynamic> json) {
   return CreateRoleAliasResponse(
@@ -1294,11 +1679,69 @@ CreateRoleAliasResponse _$CreateRoleAliasResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateScheduledAuditRequestToJson(
+    CreateScheduledAuditRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('frequency', _$AuditFrequencyEnumMap[instance.frequency]);
+  writeNotNull('targetCheckNames', instance.targetCheckNames);
+  writeNotNull('dayOfMonth', instance.dayOfMonth);
+  writeNotNull('dayOfWeek', _$DayOfWeekEnumMap[instance.dayOfWeek]);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+const _$AuditFrequencyEnumMap = {
+  AuditFrequency.daily: 'DAILY',
+  AuditFrequency.weekly: 'WEEKLY',
+  AuditFrequency.biweekly: 'BIWEEKLY',
+  AuditFrequency.monthly: 'MONTHLY',
+};
+
+const _$DayOfWeekEnumMap = {
+  DayOfWeek.sun: 'SUN',
+  DayOfWeek.mon: 'MON',
+  DayOfWeek.tue: 'TUE',
+  DayOfWeek.wed: 'WED',
+  DayOfWeek.thu: 'THU',
+  DayOfWeek.fri: 'FRI',
+  DayOfWeek.sat: 'SAT',
+};
+
 CreateScheduledAuditResponse _$CreateScheduledAuditResponseFromJson(
     Map<String, dynamic> json) {
   return CreateScheduledAuditResponse(
     scheduledAuditArn: json['scheduledAuditArn'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateSecurityProfileRequestToJson(
+    CreateSecurityProfileRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('additionalMetricsToRetain', instance.additionalMetricsToRetain);
+  writeNotNull('additionalMetricsToRetainV2',
+      instance.additionalMetricsToRetainV2?.map((e) => e?.toJson())?.toList());
+  writeNotNull('alertTargets',
+      instance.alertTargets?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull(
+      'behaviors', instance.behaviors?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'securityProfileDescription', instance.securityProfileDescription);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateSecurityProfileResponse _$CreateSecurityProfileResponseFromJson(
@@ -1307,6 +1750,22 @@ CreateSecurityProfileResponse _$CreateSecurityProfileResponseFromJson(
     securityProfileArn: json['securityProfileArn'] as String,
     securityProfileName: json['securityProfileName'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateStreamRequestToJson(CreateStreamRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('files', instance.files?.map((e) => e?.toJson())?.toList());
+  writeNotNull('roleArn', instance.roleArn);
+  writeNotNull('description', instance.description);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateStreamResponse _$CreateStreamResponseFromJson(Map<String, dynamic> json) {
@@ -1318,6 +1777,22 @@ CreateStreamResponse _$CreateStreamResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateThingGroupRequestToJson(
+    CreateThingGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('parentGroupName', instance.parentGroupName);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('thingGroupProperties', instance.thingGroupProperties?.toJson());
+  return val;
+}
+
 CreateThingGroupResponse _$CreateThingGroupResponseFromJson(
     Map<String, dynamic> json) {
   return CreateThingGroupResponse(
@@ -1325,6 +1800,21 @@ CreateThingGroupResponse _$CreateThingGroupResponseFromJson(
     thingGroupId: json['thingGroupId'] as String,
     thingGroupName: json['thingGroupName'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateThingRequestToJson(CreateThingRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('attributePayload', instance.attributePayload?.toJson());
+  writeNotNull('billingGroupName', instance.billingGroupName);
+  writeNotNull('thingTypeName', instance.thingTypeName);
+  return val;
 }
 
 CreateThingResponse _$CreateThingResponseFromJson(Map<String, dynamic> json) {
@@ -1335,6 +1825,21 @@ CreateThingResponse _$CreateThingResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateThingTypeRequestToJson(
+    CreateThingTypeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('thingTypeProperties', instance.thingTypeProperties?.toJson());
+  return val;
+}
+
 CreateThingTypeResponse _$CreateThingTypeResponseFromJson(
     Map<String, dynamic> json) {
   return CreateThingTypeResponse(
@@ -1342,6 +1847,21 @@ CreateThingTypeResponse _$CreateThingTypeResponseFromJson(
     thingTypeId: json['thingTypeId'] as String,
     thingTypeName: json['thingTypeName'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateTopicRuleDestinationRequestToJson(
+    CreateTopicRuleDestinationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'destinationConfiguration', instance.destinationConfiguration?.toJson());
+  return val;
 }
 
 CreateTopicRuleDestinationResponse _$CreateTopicRuleDestinationResponseFromJson(
@@ -1385,56 +1905,119 @@ Map<String, dynamic> _$CustomCodeSigningToJson(CustomCodeSigning instance) {
   return val;
 }
 
+Map<String, dynamic> _$DeleteAccountAuditConfigurationRequestToJson(
+        DeleteAccountAuditConfigurationRequest instance) =>
+    <String, dynamic>{};
+
 DeleteAccountAuditConfigurationResponse
     _$DeleteAccountAuditConfigurationResponseFromJson(
         Map<String, dynamic> json) {
   return DeleteAccountAuditConfigurationResponse();
 }
 
+Map<String, dynamic> _$DeleteAuthorizerRequestToJson(
+        DeleteAuthorizerRequest instance) =>
+    <String, dynamic>{};
+
 DeleteAuthorizerResponse _$DeleteAuthorizerResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteAuthorizerResponse();
 }
+
+Map<String, dynamic> _$DeleteBillingGroupRequestToJson(
+        DeleteBillingGroupRequest instance) =>
+    <String, dynamic>{};
 
 DeleteBillingGroupResponse _$DeleteBillingGroupResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteBillingGroupResponse();
 }
 
+Map<String, dynamic> _$DeleteCACertificateRequestToJson(
+        DeleteCACertificateRequest instance) =>
+    <String, dynamic>{};
+
 DeleteCACertificateResponse _$DeleteCACertificateResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteCACertificateResponse();
 }
+
+Map<String, dynamic> _$DeleteCertificateRequestToJson(
+        DeleteCertificateRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteDimensionRequestToJson(
+        DeleteDimensionRequest instance) =>
+    <String, dynamic>{};
 
 DeleteDimensionResponse _$DeleteDimensionResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteDimensionResponse();
 }
 
+Map<String, dynamic> _$DeleteDomainConfigurationRequestToJson(
+        DeleteDomainConfigurationRequest instance) =>
+    <String, dynamic>{};
+
 DeleteDomainConfigurationResponse _$DeleteDomainConfigurationResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteDomainConfigurationResponse();
 }
+
+Map<String, dynamic> _$DeleteDynamicThingGroupRequestToJson(
+        DeleteDynamicThingGroupRequest instance) =>
+    <String, dynamic>{};
 
 DeleteDynamicThingGroupResponse _$DeleteDynamicThingGroupResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteDynamicThingGroupResponse();
 }
 
+Map<String, dynamic> _$DeleteJobExecutionRequestToJson(
+        DeleteJobExecutionRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteJobRequestToJson(DeleteJobRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteMitigationActionRequestToJson(
+        DeleteMitigationActionRequest instance) =>
+    <String, dynamic>{};
+
 DeleteMitigationActionResponse _$DeleteMitigationActionResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteMitigationActionResponse();
 }
+
+Map<String, dynamic> _$DeleteOTAUpdateRequestToJson(
+        DeleteOTAUpdateRequest instance) =>
+    <String, dynamic>{};
 
 DeleteOTAUpdateResponse _$DeleteOTAUpdateResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteOTAUpdateResponse();
 }
 
+Map<String, dynamic> _$DeletePolicyRequestToJson(
+        DeletePolicyRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeletePolicyVersionRequestToJson(
+        DeletePolicyVersionRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteProvisioningTemplateRequestToJson(
+        DeleteProvisioningTemplateRequest instance) =>
+    <String, dynamic>{};
+
 DeleteProvisioningTemplateResponse _$DeleteProvisioningTemplateResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteProvisioningTemplateResponse();
 }
+
+Map<String, dynamic> _$DeleteProvisioningTemplateVersionRequestToJson(
+        DeleteProvisioningTemplateVersionRequest instance) =>
+    <String, dynamic>{};
 
 DeleteProvisioningTemplateVersionResponse
     _$DeleteProvisioningTemplateVersionResponseFromJson(
@@ -1447,43 +2030,82 @@ DeleteRegistrationCodeResponse _$DeleteRegistrationCodeResponseFromJson(
   return DeleteRegistrationCodeResponse();
 }
 
+Map<String, dynamic> _$DeleteRoleAliasRequestToJson(
+        DeleteRoleAliasRequest instance) =>
+    <String, dynamic>{};
+
 DeleteRoleAliasResponse _$DeleteRoleAliasResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteRoleAliasResponse();
 }
+
+Map<String, dynamic> _$DeleteScheduledAuditRequestToJson(
+        DeleteScheduledAuditRequest instance) =>
+    <String, dynamic>{};
 
 DeleteScheduledAuditResponse _$DeleteScheduledAuditResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteScheduledAuditResponse();
 }
 
+Map<String, dynamic> _$DeleteSecurityProfileRequestToJson(
+        DeleteSecurityProfileRequest instance) =>
+    <String, dynamic>{};
+
 DeleteSecurityProfileResponse _$DeleteSecurityProfileResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteSecurityProfileResponse();
 }
 
+Map<String, dynamic> _$DeleteStreamRequestToJson(
+        DeleteStreamRequest instance) =>
+    <String, dynamic>{};
+
 DeleteStreamResponse _$DeleteStreamResponseFromJson(Map<String, dynamic> json) {
   return DeleteStreamResponse();
 }
+
+Map<String, dynamic> _$DeleteThingGroupRequestToJson(
+        DeleteThingGroupRequest instance) =>
+    <String, dynamic>{};
 
 DeleteThingGroupResponse _$DeleteThingGroupResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteThingGroupResponse();
 }
 
+Map<String, dynamic> _$DeleteThingRequestToJson(DeleteThingRequest instance) =>
+    <String, dynamic>{};
+
 DeleteThingResponse _$DeleteThingResponseFromJson(Map<String, dynamic> json) {
   return DeleteThingResponse();
 }
+
+Map<String, dynamic> _$DeleteThingTypeRequestToJson(
+        DeleteThingTypeRequest instance) =>
+    <String, dynamic>{};
 
 DeleteThingTypeResponse _$DeleteThingTypeResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteThingTypeResponse();
 }
 
+Map<String, dynamic> _$DeleteTopicRuleDestinationRequestToJson(
+        DeleteTopicRuleDestinationRequest instance) =>
+    <String, dynamic>{};
+
 DeleteTopicRuleDestinationResponse _$DeleteTopicRuleDestinationResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteTopicRuleDestinationResponse();
 }
+
+Map<String, dynamic> _$DeleteTopicRuleRequestToJson(
+        DeleteTopicRuleRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteV2LoggingLevelRequestToJson(
+        DeleteV2LoggingLevelRequest instance) =>
+    <String, dynamic>{};
 
 Denied _$DeniedFromJson(Map<String, dynamic> json) {
   return Denied(
@@ -1494,6 +2116,20 @@ Denied _$DeniedFromJson(Map<String, dynamic> json) {
         ? null
         : ImplicitDeny.fromJson(json['implicitDeny'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DeprecateThingTypeRequestToJson(
+    DeprecateThingTypeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('undoDeprecate', instance.undoDeprecate);
+  return val;
 }
 
 DeprecateThingTypeResponse _$DeprecateThingTypeResponseFromJson(
@@ -1664,10 +2300,6 @@ DescribeDimensionResponse _$DescribeDimensionResponseFromJson(
   );
 }
 
-const _$DimensionTypeEnumMap = {
-  DimensionType.topicFilter: 'TOPIC_FILTER',
-};
-
 DescribeDomainConfigurationResponse
     _$DescribeDomainConfigurationResponseFromJson(Map<String, dynamic> json) {
   return DescribeDomainConfigurationResponse(
@@ -1700,12 +2332,6 @@ const _$DomainTypeEnumMap = {
   DomainType.endpoint: 'ENDPOINT',
   DomainType.awsManaged: 'AWS_MANAGED',
   DomainType.customerManaged: 'CUSTOMER_MANAGED',
-};
-
-const _$ServiceTypeEnumMap = {
-  ServiceType.data: 'DATA',
-  ServiceType.credentialProvider: 'CREDENTIAL_PROVIDER',
-  ServiceType.jobs: 'JOBS',
 };
 
 DescribeEndpointResponse _$DescribeEndpointResponseFromJson(
@@ -1838,23 +2464,6 @@ DescribeScheduledAuditResponse _$DescribeScheduledAuditResponseFromJson(
         (json['targetCheckNames'] as List)?.map((e) => e as String)?.toList(),
   );
 }
-
-const _$DayOfWeekEnumMap = {
-  DayOfWeek.sun: 'SUN',
-  DayOfWeek.mon: 'MON',
-  DayOfWeek.tue: 'TUE',
-  DayOfWeek.wed: 'WED',
-  DayOfWeek.thu: 'THU',
-  DayOfWeek.fri: 'FRI',
-  DayOfWeek.sat: 'SAT',
-};
-
-const _$AuditFrequencyEnumMap = {
-  AuditFrequency.daily: 'DAILY',
-  AuditFrequency.weekly: 'WEEKLY',
-  AuditFrequency.biweekly: 'BIWEEKLY',
-  AuditFrequency.monthly: 'MONTHLY',
-};
 
 DescribeSecurityProfileResponse _$DescribeSecurityProfileResponseFromJson(
     Map<String, dynamic> json) {
@@ -2001,15 +2610,44 @@ Map<String, dynamic> _$DestinationToJson(Destination instance) {
   return val;
 }
 
+Map<String, dynamic> _$DetachPolicyRequestToJson(DetachPolicyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('target', instance.target);
+  return val;
+}
+
+Map<String, dynamic> _$DetachPrincipalPolicyRequestToJson(
+        DetachPrincipalPolicyRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DetachSecurityProfileRequestToJson(
+        DetachSecurityProfileRequest instance) =>
+    <String, dynamic>{};
+
 DetachSecurityProfileResponse _$DetachSecurityProfileResponseFromJson(
     Map<String, dynamic> json) {
   return DetachSecurityProfileResponse();
 }
 
+Map<String, dynamic> _$DetachThingPrincipalRequestToJson(
+        DetachThingPrincipalRequest instance) =>
+    <String, dynamic>{};
+
 DetachThingPrincipalResponse _$DetachThingPrincipalResponseFromJson(
     Map<String, dynamic> json) {
   return DetachThingPrincipalResponse();
 }
+
+Map<String, dynamic> _$DisableTopicRuleRequestToJson(
+        DisableTopicRuleRequest instance) =>
+    <String, dynamic>{};
 
 DomainConfigurationSummary _$DomainConfigurationSummaryFromJson(
     Map<String, dynamic> json) {
@@ -2154,6 +2792,10 @@ const _$LogLevelEnumMap = {
   LogLevel.disabled: 'DISABLED',
 };
 
+Map<String, dynamic> _$EnableTopicRuleRequestToJson(
+        EnableTopicRuleRequest instance) =>
+    <String, dynamic>{};
+
 ErrorInfo _$ErrorInfoFromJson(Map<String, dynamic> json) {
   return ErrorInfo(
     code: json['code'] as String,
@@ -2273,11 +2915,43 @@ Map<String, dynamic> _$FirehoseActionToJson(FirehoseAction instance) {
   return val;
 }
 
+Map<String, dynamic> _$GetCardinalityRequestToJson(
+    GetCardinalityRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('queryString', instance.queryString);
+  writeNotNull('aggregationField', instance.aggregationField);
+  writeNotNull('indexName', instance.indexName);
+  writeNotNull('queryVersion', instance.queryVersion);
+  return val;
+}
+
 GetCardinalityResponse _$GetCardinalityResponseFromJson(
     Map<String, dynamic> json) {
   return GetCardinalityResponse(
     cardinality: json['cardinality'] as int,
   );
+}
+
+Map<String, dynamic> _$GetEffectivePoliciesRequestToJson(
+    GetEffectivePoliciesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('cognitoIdentityPoolId', instance.cognitoIdentityPoolId);
+  writeNotNull('principal', instance.principal);
+  return val;
 }
 
 GetEffectivePoliciesResponse _$GetEffectivePoliciesResponseFromJson(
@@ -2329,6 +3003,24 @@ GetOTAUpdateResponse _$GetOTAUpdateResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetPercentilesRequestToJson(
+    GetPercentilesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('queryString', instance.queryString);
+  writeNotNull('aggregationField', instance.aggregationField);
+  writeNotNull('indexName', instance.indexName);
+  writeNotNull('percents', instance.percents);
+  writeNotNull('queryVersion', instance.queryVersion);
+  return val;
+}
+
 GetPercentilesResponse _$GetPercentilesResponseFromJson(
     Map<String, dynamic> json) {
   return GetPercentilesResponse(
@@ -2370,6 +3062,23 @@ GetRegistrationCodeResponse _$GetRegistrationCodeResponseFromJson(
   return GetRegistrationCodeResponse(
     registrationCode: json['registrationCode'] as String,
   );
+}
+
+Map<String, dynamic> _$GetStatisticsRequestToJson(
+    GetStatisticsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('queryString', instance.queryString);
+  writeNotNull('aggregationField', instance.aggregationField);
+  writeNotNull('indexName', instance.indexName);
+  writeNotNull('queryVersion', instance.queryVersion);
+  return val;
 }
 
 GetStatisticsResponse _$GetStatisticsResponseFromJson(
@@ -2656,11 +3365,6 @@ const _$JobStatusEnumMap = {
   JobStatus.deletionInProgress: 'DELETION_IN_PROGRESS',
 };
 
-const _$TargetSelectionEnumMap = {
-  TargetSelection.continuous: 'CONTINUOUS',
-  TargetSelection.snapshot: 'SNAPSHOT',
-};
-
 JobExecution _$JobExecutionFromJson(Map<String, dynamic> json) {
   return JobExecution(
     approximateSecondsBeforeTimedOut:
@@ -2849,6 +3553,10 @@ ListActiveViolationsResponse _$ListActiveViolationsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListAttachedPoliciesRequestToJson(
+        ListAttachedPoliciesRequest instance) =>
+    <String, dynamic>{};
+
 ListAttachedPoliciesResponse _$ListAttachedPoliciesResponseFromJson(
     Map<String, dynamic> json) {
   return ListAttachedPoliciesResponse(
@@ -2858,6 +3566,26 @@ ListAttachedPoliciesResponse _$ListAttachedPoliciesResponseFromJson(
             e == null ? null : Policy.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListAuditFindingsRequestToJson(
+    ListAuditFindingsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('checkName', instance.checkName);
+  writeNotNull('endTime', unixTimestampToJson(instance.endTime));
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('resourceIdentifier', instance.resourceIdentifier?.toJson());
+  writeNotNull('startTime', unixTimestampToJson(instance.startTime));
+  writeNotNull('taskId', instance.taskId);
+  return val;
 }
 
 ListAuditFindingsResponse _$ListAuditFindingsResponseFromJson(
@@ -3207,6 +3935,10 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
         ?.toList(),
   );
 }
+
+Map<String, dynamic> _$ListTargetsForPolicyRequestToJson(
+        ListTargetsForPolicyRequest instance) =>
+    <String, dynamic>{};
 
 ListTargetsForPolicyResponse _$ListTargetsForPolicyResponseFromJson(
     Map<String, dynamic> json) {
@@ -3888,6 +4620,22 @@ Map<String, dynamic> _$RateIncreaseCriteriaToJson(
   return val;
 }
 
+Map<String, dynamic> _$RegisterCACertificateRequestToJson(
+    RegisterCACertificateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('caCertificate', instance.caCertificate);
+  writeNotNull('verificationCertificate', instance.verificationCertificate);
+  writeNotNull('registrationConfig', instance.registrationConfig?.toJson());
+  return val;
+}
+
 RegisterCACertificateResponse _$RegisterCACertificateResponseFromJson(
     Map<String, dynamic> json) {
   return RegisterCACertificateResponse(
@@ -3896,12 +4644,43 @@ RegisterCACertificateResponse _$RegisterCACertificateResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$RegisterCertificateRequestToJson(
+    RegisterCertificateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('certificatePem', instance.certificatePem);
+  writeNotNull('caCertificatePem', instance.caCertificatePem);
+  writeNotNull('status', _$CertificateStatusEnumMap[instance.status]);
+  return val;
+}
+
 RegisterCertificateResponse _$RegisterCertificateResponseFromJson(
     Map<String, dynamic> json) {
   return RegisterCertificateResponse(
     certificateArn: json['certificateArn'] as String,
     certificateId: json['certificateId'] as String,
   );
+}
+
+Map<String, dynamic> _$RegisterThingRequestToJson(
+    RegisterThingRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('templateBody', instance.templateBody);
+  writeNotNull('parameters', instance.parameters);
+  return val;
 }
 
 RegisterThingResponse _$RegisterThingResponseFromJson(
@@ -3935,6 +4714,20 @@ Map<String, dynamic> _$RegistrationConfigToJson(RegistrationConfig instance) {
   return val;
 }
 
+Map<String, dynamic> _$RejectCertificateTransferRequestToJson(
+    RejectCertificateTransferRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('rejectReason', instance.rejectReason);
+  return val;
+}
+
 RelatedResource _$RelatedResourceFromJson(Map<String, dynamic> json) {
   return RelatedResource(
     additionalInfo: (json['additionalInfo'] as Map<String, dynamic>)?.map(
@@ -3949,9 +4742,43 @@ RelatedResource _$RelatedResourceFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$RemoveThingFromBillingGroupRequestToJson(
+    RemoveThingFromBillingGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('billingGroupArn', instance.billingGroupArn);
+  writeNotNull('billingGroupName', instance.billingGroupName);
+  writeNotNull('thingArn', instance.thingArn);
+  writeNotNull('thingName', instance.thingName);
+  return val;
+}
+
 RemoveThingFromBillingGroupResponse
     _$RemoveThingFromBillingGroupResponseFromJson(Map<String, dynamic> json) {
   return RemoveThingFromBillingGroupResponse();
+}
+
+Map<String, dynamic> _$RemoveThingFromThingGroupRequestToJson(
+    RemoveThingFromThingGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('thingArn', instance.thingArn);
+  writeNotNull('thingGroupArn', instance.thingGroupArn);
+  writeNotNull('thingGroupName', instance.thingGroupName);
+  writeNotNull('thingName', instance.thingName);
+  return val;
 }
 
 RemoveThingFromThingGroupResponse _$RemoveThingFromThingGroupResponseFromJson(
@@ -4172,6 +4999,23 @@ ScheduledAuditMetadata _$ScheduledAuditMetadataFromJson(
   );
 }
 
+Map<String, dynamic> _$SearchIndexRequestToJson(SearchIndexRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('queryString', instance.queryString);
+  writeNotNull('indexName', instance.indexName);
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('queryVersion', instance.queryVersion);
+  return val;
+}
+
 SearchIndexResponse _$SearchIndexResponseFromJson(Map<String, dynamic> json) {
   return SearchIndexResponse(
     nextToken: json['nextToken'] as String,
@@ -4233,12 +5077,61 @@ const _$ServerCertificateStatusEnumMap = {
   ServerCertificateStatus.valid: 'VALID',
 };
 
+Map<String, dynamic> _$SetDefaultAuthorizerRequestToJson(
+    SetDefaultAuthorizerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('authorizerName', instance.authorizerName);
+  return val;
+}
+
 SetDefaultAuthorizerResponse _$SetDefaultAuthorizerResponseFromJson(
     Map<String, dynamic> json) {
   return SetDefaultAuthorizerResponse(
     authorizerArn: json['authorizerArn'] as String,
     authorizerName: json['authorizerName'] as String,
   );
+}
+
+Map<String, dynamic> _$SetDefaultPolicyVersionRequestToJson(
+        SetDefaultPolicyVersionRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$SetV2LoggingLevelRequestToJson(
+    SetV2LoggingLevelRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('logLevel', _$LogLevelEnumMap[instance.logLevel]);
+  writeNotNull('logTarget', instance.logTarget?.toJson());
+  return val;
+}
+
+Map<String, dynamic> _$SetV2LoggingOptionsRequestToJson(
+    SetV2LoggingOptionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('defaultLogLevel', _$LogLevelEnumMap[instance.defaultLogLevel]);
+  writeNotNull('disableAllLogs', instance.disableAllLogs);
+  writeNotNull('roleArn', instance.roleArn);
+  return val;
 }
 
 SigV4Authorization _$SigV4AuthorizationFromJson(Map<String, dynamic> json) {
@@ -4341,12 +5234,43 @@ Map<String, dynamic> _$SqsActionToJson(SqsAction instance) {
   return val;
 }
 
+Map<String, dynamic> _$StartAuditMitigationActionsTaskRequestToJson(
+    StartAuditMitigationActionsTaskRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'auditCheckToActionsMapping', instance.auditCheckToActionsMapping);
+  writeNotNull('clientRequestToken', instance.clientRequestToken);
+  writeNotNull('target', instance.target?.toJson());
+  return val;
+}
+
 StartAuditMitigationActionsTaskResponse
     _$StartAuditMitigationActionsTaskResponseFromJson(
         Map<String, dynamic> json) {
   return StartAuditMitigationActionsTaskResponse(
     taskId: json['taskId'] as String,
   );
+}
+
+Map<String, dynamic> _$StartOnDemandAuditTaskRequestToJson(
+    StartOnDemandAuditTaskRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('targetCheckNames', instance.targetCheckNames);
+  return val;
 }
 
 StartOnDemandAuditTaskResponse _$StartOnDemandAuditTaskResponseFromJson(
@@ -4384,6 +5308,23 @@ Map<String, dynamic> _$StartSigningJobParameterToJson(
   writeNotNull('signingProfileName', instance.signingProfileName);
   writeNotNull(
       'signingProfileParameter', instance.signingProfileParameter?.toJson());
+  return val;
+}
+
+Map<String, dynamic> _$StartThingRegistrationTaskRequestToJson(
+    StartThingRegistrationTaskRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('inputFileBucket', instance.inputFileBucket);
+  writeNotNull('inputFileKey', instance.inputFileKey);
+  writeNotNull('roleArn', instance.roleArn);
+  writeNotNull('templateBody', instance.templateBody);
   return val;
 }
 
@@ -4449,6 +5390,10 @@ Map<String, dynamic> _$StepFunctionsActionToJson(StepFunctionsAction instance) {
   writeNotNull('executionNamePrefix', instance.executionNamePrefix);
   return val;
 }
+
+Map<String, dynamic> _$StopThingRegistrationTaskRequestToJson(
+        StopThingRegistrationTaskRequest instance) =>
+    <String, dynamic>{};
 
 StopThingRegistrationTaskResponse _$StopThingRegistrationTaskResponseFromJson(
     Map<String, dynamic> json) {
@@ -4545,6 +5490,20 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
   return val;
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceArn', instance.resourceArn);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
 }
@@ -4573,6 +5532,25 @@ TaskStatisticsForAuditCheck _$TaskStatisticsForAuditCheckFromJson(
   );
 }
 
+Map<String, dynamic> _$TestAuthorizationRequestToJson(
+    TestAuthorizationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'authInfos', instance.authInfos?.map((e) => e?.toJson())?.toList());
+  writeNotNull('cognitoIdentityPoolId', instance.cognitoIdentityPoolId);
+  writeNotNull('policyNamesToAdd', instance.policyNamesToAdd);
+  writeNotNull('policyNamesToSkip', instance.policyNamesToSkip);
+  writeNotNull('principal', instance.principal);
+  return val;
+}
+
 TestAuthorizationResponse _$TestAuthorizationResponseFromJson(
     Map<String, dynamic> json) {
   return TestAuthorizationResponse(
@@ -4581,6 +5559,24 @@ TestAuthorizationResponse _$TestAuthorizationResponseFromJson(
             e == null ? null : AuthResult.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$TestInvokeAuthorizerRequestToJson(
+    TestInvokeAuthorizerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('httpContext', instance.httpContext?.toJson());
+  writeNotNull('mqttContext', instance.mqttContext?.toJson());
+  writeNotNull('tlsContext', instance.tlsContext?.toJson());
+  writeNotNull('token', instance.token);
+  writeNotNull('tokenSignature', instance.tokenSignature);
+  return val;
 }
 
 TestInvokeAuthorizerResponse _$TestInvokeAuthorizerResponseFromJson(
@@ -4948,6 +5944,20 @@ Map<String, dynamic> _$TopicRulePayloadToJson(TopicRulePayload instance) {
   return val;
 }
 
+Map<String, dynamic> _$TransferCertificateRequestToJson(
+    TransferCertificateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('transferMessage', instance.transferMessage);
+  return val;
+}
+
 TransferCertificateResponse _$TransferCertificateResponseFromJson(
     Map<String, dynamic> json) {
   return TransferCertificateResponse(
@@ -4965,9 +5975,46 @@ TransferData _$TransferDataFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$UntagResourceRequestToJson(
+    UntagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceArn', instance.resourceArn);
+  writeNotNull('tagKeys', instance.tagKeys);
+  return val;
+}
+
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse();
+}
+
+Map<String, dynamic> _$UpdateAccountAuditConfigurationRequestToJson(
+    UpdateAccountAuditConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'auditCheckConfigurations',
+      instance.auditCheckConfigurations
+          ?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull(
+      'auditNotificationTargetConfigurations',
+      instance.auditNotificationTargetConfigurations
+          ?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('roleArn', instance.roleArn);
+  return val;
 }
 
 UpdateAccountAuditConfigurationResponse
@@ -4976,12 +6023,45 @@ UpdateAccountAuditConfigurationResponse
   return UpdateAccountAuditConfigurationResponse();
 }
 
+Map<String, dynamic> _$UpdateAuthorizerRequestToJson(
+    UpdateAuthorizerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('authorizerFunctionArn', instance.authorizerFunctionArn);
+  writeNotNull('status', _$AuthorizerStatusEnumMap[instance.status]);
+  writeNotNull('tokenKeyName', instance.tokenKeyName);
+  writeNotNull('tokenSigningPublicKeys', instance.tokenSigningPublicKeys);
+  return val;
+}
+
 UpdateAuthorizerResponse _$UpdateAuthorizerResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateAuthorizerResponse(
     authorizerArn: json['authorizerArn'] as String,
     authorizerName: json['authorizerName'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateBillingGroupRequestToJson(
+    UpdateBillingGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'billingGroupProperties', instance.billingGroupProperties?.toJson());
+  writeNotNull('expectedVersion', instance.expectedVersion);
+  return val;
 }
 
 UpdateBillingGroupResponse _$UpdateBillingGroupResponseFromJson(
@@ -5017,6 +6097,25 @@ const _$CACertificateUpdateActionEnumMap = {
   CACertificateUpdateAction.deactivate: 'DEACTIVATE',
 };
 
+Map<String, dynamic> _$UpdateCACertificateRequestToJson(
+    UpdateCACertificateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('registrationConfig', instance.registrationConfig?.toJson());
+  writeNotNull('removeAutoRegistration', instance.removeAutoRegistration);
+  return val;
+}
+
+Map<String, dynamic> _$UpdateCertificateRequestToJson(
+        UpdateCertificateRequest instance) =>
+    <String, dynamic>{};
+
 UpdateDeviceCertificateParams _$UpdateDeviceCertificateParamsFromJson(
     Map<String, dynamic> json) {
   return UpdateDeviceCertificateParams(
@@ -5044,6 +6143,20 @@ const _$DeviceCertificateUpdateActionEnumMap = {
   DeviceCertificateUpdateAction.deactivate: 'DEACTIVATE',
 };
 
+Map<String, dynamic> _$UpdateDimensionRequestToJson(
+    UpdateDimensionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('stringValues', instance.stringValues);
+  return val;
+}
+
 UpdateDimensionResponse _$UpdateDimensionResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateDimensionResponse(
@@ -5057,12 +6170,47 @@ UpdateDimensionResponse _$UpdateDimensionResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateDomainConfigurationRequestToJson(
+    UpdateDomainConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('authorizerConfig', instance.authorizerConfig?.toJson());
+  writeNotNull('domainConfigurationStatus',
+      _$DomainConfigurationStatusEnumMap[instance.domainConfigurationStatus]);
+  writeNotNull('removeAuthorizerConfig', instance.removeAuthorizerConfig);
+  return val;
+}
+
 UpdateDomainConfigurationResponse _$UpdateDomainConfigurationResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateDomainConfigurationResponse(
     domainConfigurationArn: json['domainConfigurationArn'] as String,
     domainConfigurationName: json['domainConfigurationName'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateDynamicThingGroupRequestToJson(
+    UpdateDynamicThingGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('thingGroupProperties', instance.thingGroupProperties?.toJson());
+  writeNotNull('expectedVersion', instance.expectedVersion);
+  writeNotNull('indexName', instance.indexName);
+  writeNotNull('queryString', instance.queryString);
+  writeNotNull('queryVersion', instance.queryVersion);
+  return val;
 }
 
 UpdateDynamicThingGroupResponse _$UpdateDynamicThingGroupResponseFromJson(
@@ -5072,14 +6220,79 @@ UpdateDynamicThingGroupResponse _$UpdateDynamicThingGroupResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateEventConfigurationsRequestToJson(
+    UpdateEventConfigurationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('eventConfigurations',
+      instance.eventConfigurations?.map((k, e) => MapEntry(k, e?.toJson())));
+  return val;
+}
+
 UpdateEventConfigurationsResponse _$UpdateEventConfigurationsResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateEventConfigurationsResponse();
 }
 
+Map<String, dynamic> _$UpdateIndexingConfigurationRequestToJson(
+    UpdateIndexingConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('thingGroupIndexingConfiguration',
+      instance.thingGroupIndexingConfiguration?.toJson());
+  writeNotNull('thingIndexingConfiguration',
+      instance.thingIndexingConfiguration?.toJson());
+  return val;
+}
+
 UpdateIndexingConfigurationResponse
     _$UpdateIndexingConfigurationResponseFromJson(Map<String, dynamic> json) {
   return UpdateIndexingConfigurationResponse();
+}
+
+Map<String, dynamic> _$UpdateJobRequestToJson(UpdateJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('abortConfig', instance.abortConfig?.toJson());
+  writeNotNull('description', instance.description);
+  writeNotNull('jobExecutionsRolloutConfig',
+      instance.jobExecutionsRolloutConfig?.toJson());
+  writeNotNull('presignedUrlConfig', instance.presignedUrlConfig?.toJson());
+  writeNotNull('timeoutConfig', instance.timeoutConfig?.toJson());
+  return val;
+}
+
+Map<String, dynamic> _$UpdateMitigationActionRequestToJson(
+    UpdateMitigationActionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('actionParams', instance.actionParams?.toJson());
+  writeNotNull('roleArn', instance.roleArn);
+  return val;
 }
 
 UpdateMitigationActionResponse _$UpdateMitigationActionResponseFromJson(
@@ -5090,9 +6303,41 @@ UpdateMitigationActionResponse _$UpdateMitigationActionResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateProvisioningTemplateRequestToJson(
+    UpdateProvisioningTemplateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('defaultVersionId', instance.defaultVersionId);
+  writeNotNull('description', instance.description);
+  writeNotNull('enabled', instance.enabled);
+  writeNotNull('provisioningRoleArn', instance.provisioningRoleArn);
+  return val;
+}
+
 UpdateProvisioningTemplateResponse _$UpdateProvisioningTemplateResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateProvisioningTemplateResponse();
+}
+
+Map<String, dynamic> _$UpdateRoleAliasRequestToJson(
+    UpdateRoleAliasRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('credentialDurationSeconds', instance.credentialDurationSeconds);
+  writeNotNull('roleArn', instance.roleArn);
+  return val;
 }
 
 UpdateRoleAliasResponse _$UpdateRoleAliasResponseFromJson(
@@ -5103,11 +6348,54 @@ UpdateRoleAliasResponse _$UpdateRoleAliasResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateScheduledAuditRequestToJson(
+    UpdateScheduledAuditRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('dayOfMonth', instance.dayOfMonth);
+  writeNotNull('dayOfWeek', _$DayOfWeekEnumMap[instance.dayOfWeek]);
+  writeNotNull('frequency', _$AuditFrequencyEnumMap[instance.frequency]);
+  writeNotNull('targetCheckNames', instance.targetCheckNames);
+  return val;
+}
+
 UpdateScheduledAuditResponse _$UpdateScheduledAuditResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateScheduledAuditResponse(
     scheduledAuditArn: json['scheduledAuditArn'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateSecurityProfileRequestToJson(
+    UpdateSecurityProfileRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('additionalMetricsToRetain', instance.additionalMetricsToRetain);
+  writeNotNull('additionalMetricsToRetainV2',
+      instance.additionalMetricsToRetainV2?.map((e) => e?.toJson())?.toList());
+  writeNotNull('alertTargets',
+      instance.alertTargets?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull(
+      'behaviors', instance.behaviors?.map((e) => e?.toJson())?.toList());
+  writeNotNull('deleteAdditionalMetricsToRetain',
+      instance.deleteAdditionalMetricsToRetain);
+  writeNotNull('deleteAlertTargets', instance.deleteAlertTargets);
+  writeNotNull('deleteBehaviors', instance.deleteBehaviors);
+  writeNotNull(
+      'securityProfileDescription', instance.securityProfileDescription);
+  return val;
 }
 
 UpdateSecurityProfileResponse _$UpdateSecurityProfileResponseFromJson(
@@ -5138,6 +6426,21 @@ UpdateSecurityProfileResponse _$UpdateSecurityProfileResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateStreamRequestToJson(UpdateStreamRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('description', instance.description);
+  writeNotNull('files', instance.files?.map((e) => e?.toJson())?.toList());
+  writeNotNull('roleArn', instance.roleArn);
+  return val;
+}
+
 UpdateStreamResponse _$UpdateStreamResponseFromJson(Map<String, dynamic> json) {
   return UpdateStreamResponse(
     description: json['description'] as String,
@@ -5147,6 +6450,21 @@ UpdateStreamResponse _$UpdateStreamResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$UpdateThingGroupRequestToJson(
+    UpdateThingGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('thingGroupProperties', instance.thingGroupProperties?.toJson());
+  writeNotNull('expectedVersion', instance.expectedVersion);
+  return val;
+}
+
 UpdateThingGroupResponse _$UpdateThingGroupResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateThingGroupResponse(
@@ -5154,18 +6472,81 @@ UpdateThingGroupResponse _$UpdateThingGroupResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateThingGroupsForThingRequestToJson(
+    UpdateThingGroupsForThingRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('overrideDynamicGroups', instance.overrideDynamicGroups);
+  writeNotNull('thingGroupsToAdd', instance.thingGroupsToAdd);
+  writeNotNull('thingGroupsToRemove', instance.thingGroupsToRemove);
+  writeNotNull('thingName', instance.thingName);
+  return val;
+}
+
 UpdateThingGroupsForThingResponse _$UpdateThingGroupsForThingResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateThingGroupsForThingResponse();
+}
+
+Map<String, dynamic> _$UpdateThingRequestToJson(UpdateThingRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('attributePayload', instance.attributePayload?.toJson());
+  writeNotNull('expectedVersion', instance.expectedVersion);
+  writeNotNull('removeThingType', instance.removeThingType);
+  writeNotNull('thingTypeName', instance.thingTypeName);
+  return val;
 }
 
 UpdateThingResponse _$UpdateThingResponseFromJson(Map<String, dynamic> json) {
   return UpdateThingResponse();
 }
 
+Map<String, dynamic> _$UpdateTopicRuleDestinationRequestToJson(
+    UpdateTopicRuleDestinationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('arn', instance.arn);
+  writeNotNull('status', _$TopicRuleDestinationStatusEnumMap[instance.status]);
+  return val;
+}
+
 UpdateTopicRuleDestinationResponse _$UpdateTopicRuleDestinationResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateTopicRuleDestinationResponse();
+}
+
+Map<String, dynamic> _$ValidateSecurityProfileBehaviorsRequestToJson(
+    ValidateSecurityProfileBehaviorsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'behaviors', instance.behaviors?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 ValidateSecurityProfileBehaviorsResponse

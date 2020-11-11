@@ -6,6 +6,20 @@ part of 'robomaker-2018-06-29.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$BatchDescribeSimulationJobRequestToJson(
+    BatchDescribeSimulationJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('jobs', instance.jobs);
+  return val;
+}
+
 BatchDescribeSimulationJobResponse _$BatchDescribeSimulationJobResponseFromJson(
     Map<String, dynamic> json) {
   return BatchDescribeSimulationJobResponse(
@@ -40,14 +54,56 @@ Map<String, dynamic> _$BatchPolicyToJson(BatchPolicy instance) {
   return val;
 }
 
+Map<String, dynamic> _$CancelDeploymentJobRequestToJson(
+    CancelDeploymentJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('job', instance.job);
+  return val;
+}
+
 CancelDeploymentJobResponse _$CancelDeploymentJobResponseFromJson(
     Map<String, dynamic> json) {
   return CancelDeploymentJobResponse();
 }
 
+Map<String, dynamic> _$CancelSimulationJobBatchRequestToJson(
+    CancelSimulationJobBatchRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('batch', instance.batch);
+  return val;
+}
+
 CancelSimulationJobBatchResponse _$CancelSimulationJobBatchResponseFromJson(
     Map<String, dynamic> json) {
   return CancelSimulationJobBatchResponse();
+}
+
+Map<String, dynamic> _$CancelSimulationJobRequestToJson(
+    CancelSimulationJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('job', instance.job);
+  return val;
 }
 
 CancelSimulationJobResponse _$CancelSimulationJobResponseFromJson(
@@ -78,6 +134,25 @@ ComputeResponse _$ComputeResponseFromJson(Map<String, dynamic> json) {
   return ComputeResponse(
     simulationUnitLimit: json['simulationUnitLimit'] as int,
   );
+}
+
+Map<String, dynamic> _$CreateDeploymentJobRequestToJson(
+    CreateDeploymentJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('clientRequestToken', instance.clientRequestToken);
+  writeNotNull('deploymentApplicationConfigs',
+      instance.deploymentApplicationConfigs?.map((e) => e?.toJson())?.toList());
+  writeNotNull('fleet', instance.fleet);
+  writeNotNull('deploymentConfig', instance.deploymentConfig?.toJson());
+  writeNotNull('tags', instance.tags);
+  return val;
 }
 
 CreateDeploymentJobResponse _$CreateDeploymentJobResponseFromJson(
@@ -174,6 +249,20 @@ const _$DeploymentStatusEnumMap = {
   DeploymentStatus.canceled: 'Canceled',
 };
 
+Map<String, dynamic> _$CreateFleetRequestToJson(CreateFleetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
 CreateFleetResponse _$CreateFleetResponseFromJson(Map<String, dynamic> json) {
   return CreateFleetResponse(
     arn: json['arn'] as String,
@@ -183,6 +272,23 @@ CreateFleetResponse _$CreateFleetResponseFromJson(Map<String, dynamic> json) {
       (k, e) => MapEntry(k, e as String),
     ),
   );
+}
+
+Map<String, dynamic> _$CreateRobotApplicationRequestToJson(
+    CreateRobotApplicationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('robotSoftwareSuite', instance.robotSoftwareSuite?.toJson());
+  writeNotNull('sources', instance.sources?.map((e) => e?.toJson())?.toList());
+  writeNotNull('tags', instance.tags);
+  return val;
 }
 
 CreateRobotApplicationResponse _$CreateRobotApplicationResponseFromJson(
@@ -207,6 +313,21 @@ CreateRobotApplicationResponse _$CreateRobotApplicationResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateRobotApplicationVersionRequestToJson(
+    CreateRobotApplicationVersionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('application', instance.application);
+  writeNotNull('currentRevisionId', instance.currentRevisionId);
+  return val;
+}
+
 CreateRobotApplicationVersionResponse
     _$CreateRobotApplicationVersionResponseFromJson(Map<String, dynamic> json) {
   return CreateRobotApplicationVersionResponse(
@@ -226,6 +347,28 @@ CreateRobotApplicationVersionResponse
   );
 }
 
+Map<String, dynamic> _$CreateRobotRequestToJson(CreateRobotRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('architecture', _$ArchitectureEnumMap[instance.architecture]);
+  writeNotNull('greengrassGroupId', instance.greengrassGroupId);
+  writeNotNull('name', instance.name);
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
+const _$ArchitectureEnumMap = {
+  Architecture.x86_64: 'X86_64',
+  Architecture.arm64: 'ARM64',
+  Architecture.armhf: 'ARMHF',
+};
+
 CreateRobotResponse _$CreateRobotResponseFromJson(Map<String, dynamic> json) {
   return CreateRobotResponse(
     architecture:
@@ -240,11 +383,25 @@ CreateRobotResponse _$CreateRobotResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$ArchitectureEnumMap = {
-  Architecture.x86_64: 'X86_64',
-  Architecture.arm64: 'ARM64',
-  Architecture.armhf: 'ARMHF',
-};
+Map<String, dynamic> _$CreateSimulationApplicationRequestToJson(
+    CreateSimulationApplicationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('robotSoftwareSuite', instance.robotSoftwareSuite?.toJson());
+  writeNotNull(
+      'simulationSoftwareSuite', instance.simulationSoftwareSuite?.toJson());
+  writeNotNull('sources', instance.sources?.map((e) => e?.toJson())?.toList());
+  writeNotNull('renderingEngine', instance.renderingEngine?.toJson());
+  writeNotNull('tags', instance.tags);
+  return val;
+}
 
 CreateSimulationApplicationResponse
     _$CreateSimulationApplicationResponseFromJson(Map<String, dynamic> json) {
@@ -276,6 +433,21 @@ CreateSimulationApplicationResponse
   );
 }
 
+Map<String, dynamic> _$CreateSimulationApplicationVersionRequestToJson(
+    CreateSimulationApplicationVersionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('application', instance.application);
+  writeNotNull('currentRevisionId', instance.currentRevisionId);
+  return val;
+}
+
 CreateSimulationApplicationVersionResponse
     _$CreateSimulationApplicationVersionResponseFromJson(
         Map<String, dynamic> json) {
@@ -303,6 +475,40 @@ CreateSimulationApplicationVersionResponse
     version: json['version'] as String,
   );
 }
+
+Map<String, dynamic> _$CreateSimulationJobRequestToJson(
+    CreateSimulationJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('iamRole', instance.iamRole);
+  writeNotNull('maxJobDurationInSeconds', instance.maxJobDurationInSeconds);
+  writeNotNull('clientRequestToken', instance.clientRequestToken);
+  writeNotNull('compute', instance.compute?.toJson());
+  writeNotNull(
+      'dataSources', instance.dataSources?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'failureBehavior', _$FailureBehaviorEnumMap[instance.failureBehavior]);
+  writeNotNull('loggingConfig', instance.loggingConfig?.toJson());
+  writeNotNull('outputLocation', instance.outputLocation?.toJson());
+  writeNotNull('robotApplications',
+      instance.robotApplications?.map((e) => e?.toJson())?.toList());
+  writeNotNull('simulationApplications',
+      instance.simulationApplications?.map((e) => e?.toJson())?.toList());
+  writeNotNull('tags', instance.tags);
+  writeNotNull('vpcConfig', instance.vpcConfig?.toJson());
+  return val;
+}
+
+const _$FailureBehaviorEnumMap = {
+  FailureBehavior.fail: 'Fail',
+  FailureBehavior.$continue: 'Continue',
+};
 
 CreateSimulationJobResponse _$CreateSimulationJobResponseFromJson(
     Map<String, dynamic> json) {
@@ -351,11 +557,6 @@ CreateSimulationJobResponse _$CreateSimulationJobResponseFromJson(
         : VPCConfigResponse.fromJson(json['vpcConfig'] as Map<String, dynamic>),
   );
 }
-
-const _$FailureBehaviorEnumMap = {
-  FailureBehavior.fail: 'Fail',
-  FailureBehavior.$continue: 'Continue',
-};
 
 const _$SimulationJobErrorCodeEnumMap = {
   SimulationJobErrorCode.internalServiceError: 'InternalServiceError',
@@ -445,8 +646,36 @@ Map<String, dynamic> _$DataSourceConfigToJson(DataSourceConfig instance) {
   return val;
 }
 
+Map<String, dynamic> _$DeleteFleetRequestToJson(DeleteFleetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('fleet', instance.fleet);
+  return val;
+}
+
 DeleteFleetResponse _$DeleteFleetResponseFromJson(Map<String, dynamic> json) {
   return DeleteFleetResponse();
+}
+
+Map<String, dynamic> _$DeleteRobotApplicationRequestToJson(
+    DeleteRobotApplicationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('application', instance.application);
+  writeNotNull('applicationVersion', instance.applicationVersion);
+  return val;
 }
 
 DeleteRobotApplicationResponse _$DeleteRobotApplicationResponseFromJson(
@@ -454,8 +683,36 @@ DeleteRobotApplicationResponse _$DeleteRobotApplicationResponseFromJson(
   return DeleteRobotApplicationResponse();
 }
 
+Map<String, dynamic> _$DeleteRobotRequestToJson(DeleteRobotRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('robot', instance.robot);
+  return val;
+}
+
 DeleteRobotResponse _$DeleteRobotResponseFromJson(Map<String, dynamic> json) {
   return DeleteRobotResponse();
+}
+
+Map<String, dynamic> _$DeleteSimulationApplicationRequestToJson(
+    DeleteSimulationApplicationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('application', instance.application);
+  writeNotNull('applicationVersion', instance.applicationVersion);
+  return val;
 }
 
 DeleteSimulationApplicationResponse
@@ -578,12 +835,41 @@ Map<String, dynamic> _$DeploymentLaunchConfigToJson(
   return val;
 }
 
+Map<String, dynamic> _$DeregisterRobotRequestToJson(
+    DeregisterRobotRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('fleet', instance.fleet);
+  writeNotNull('robot', instance.robot);
+  return val;
+}
+
 DeregisterRobotResponse _$DeregisterRobotResponseFromJson(
     Map<String, dynamic> json) {
   return DeregisterRobotResponse(
     fleet: json['fleet'] as String,
     robot: json['robot'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeDeploymentJobRequestToJson(
+    DescribeDeploymentJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('job', instance.job);
+  return val;
 }
 
 DescribeDeploymentJobResponse _$DescribeDeploymentJobResponseFromJson(
@@ -616,6 +902,20 @@ DescribeDeploymentJobResponse _$DescribeDeploymentJobResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeFleetRequestToJson(
+    DescribeFleetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('fleet', instance.fleet);
+  return val;
+}
+
 DescribeFleetResponse _$DescribeFleetResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeFleetResponse(
@@ -634,6 +934,21 @@ DescribeFleetResponse _$DescribeFleetResponseFromJson(
       (k, e) => MapEntry(k, e as String),
     ),
   );
+}
+
+Map<String, dynamic> _$DescribeRobotApplicationRequestToJson(
+    DescribeRobotApplicationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('application', instance.application);
+  writeNotNull('applicationVersion', instance.applicationVersion);
+  return val;
 }
 
 DescribeRobotApplicationResponse _$DescribeRobotApplicationResponseFromJson(
@@ -656,6 +971,20 @@ DescribeRobotApplicationResponse _$DescribeRobotApplicationResponseFromJson(
     ),
     version: json['version'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeRobotRequestToJson(
+    DescribeRobotRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('robot', instance.robot);
+  return val;
 }
 
 DescribeRobotResponse _$DescribeRobotResponseFromJson(
@@ -687,6 +1016,21 @@ const _$RobotStatusEnumMap = {
   RobotStatus.noResponse: 'NoResponse',
 };
 
+Map<String, dynamic> _$DescribeSimulationApplicationRequestToJson(
+    DescribeSimulationApplicationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('application', instance.application);
+  writeNotNull('applicationVersion', instance.applicationVersion);
+  return val;
+}
+
 DescribeSimulationApplicationResponse
     _$DescribeSimulationApplicationResponseFromJson(Map<String, dynamic> json) {
   return DescribeSimulationApplicationResponse(
@@ -715,6 +1059,20 @@ DescribeSimulationApplicationResponse
     ),
     version: json['version'] as String,
   );
+}
+
+Map<String, dynamic> _$DescribeSimulationJobBatchRequestToJson(
+    DescribeSimulationJobBatchRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('batch', instance.batch);
+  return val;
 }
 
 DescribeSimulationJobBatchResponse _$DescribeSimulationJobBatchResponseFromJson(
@@ -769,6 +1127,20 @@ const _$SimulationJobBatchStatusEnumMap = {
   SimulationJobBatchStatus.timingOut: 'TimingOut',
   SimulationJobBatchStatus.timedOut: 'TimedOut',
 };
+
+Map<String, dynamic> _$DescribeSimulationJobRequestToJson(
+    DescribeSimulationJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('job', instance.job);
+  return val;
+}
 
 DescribeSimulationJobResponse _$DescribeSimulationJobResponseFromJson(
     Map<String, dynamic> json) {
@@ -897,6 +1269,22 @@ Map<String, dynamic> _$LaunchConfigToJson(LaunchConfig instance) {
   return val;
 }
 
+Map<String, dynamic> _$ListDeploymentJobsRequestToJson(
+    ListDeploymentJobsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 ListDeploymentJobsResponse _$ListDeploymentJobsResponseFromJson(
     Map<String, dynamic> json) {
   return ListDeploymentJobsResponse(
@@ -909,6 +1297,21 @@ ListDeploymentJobsResponse _$ListDeploymentJobsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListFleetsRequestToJson(ListFleetsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 ListFleetsResponse _$ListFleetsResponseFromJson(Map<String, dynamic> json) {
   return ListFleetsResponse(
     fleetDetails: (json['fleetDetails'] as List)
@@ -917,6 +1320,23 @@ ListFleetsResponse _$ListFleetsResponseFromJson(Map<String, dynamic> json) {
         ?.toList(),
     nextToken: json['nextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListRobotApplicationsRequestToJson(
+    ListRobotApplicationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('versionQualifier', instance.versionQualifier);
+  return val;
 }
 
 ListRobotApplicationsResponse _$ListRobotApplicationsResponseFromJson(
@@ -931,6 +1351,21 @@ ListRobotApplicationsResponse _$ListRobotApplicationsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListRobotsRequestToJson(ListRobotsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 ListRobotsResponse _$ListRobotsResponseFromJson(Map<String, dynamic> json) {
   return ListRobotsResponse(
     nextToken: json['nextToken'] as String,
@@ -939,6 +1374,23 @@ ListRobotsResponse _$ListRobotsResponseFromJson(Map<String, dynamic> json) {
             (e) => e == null ? null : Robot.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListSimulationApplicationsRequestToJson(
+    ListSimulationApplicationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('versionQualifier', instance.versionQualifier);
+  return val;
 }
 
 ListSimulationApplicationsResponse _$ListSimulationApplicationsResponseFromJson(
@@ -954,6 +1406,22 @@ ListSimulationApplicationsResponse _$ListSimulationApplicationsResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$ListSimulationJobBatchesRequestToJson(
+    ListSimulationJobBatchesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
+}
+
 ListSimulationJobBatchesResponse _$ListSimulationJobBatchesResponseFromJson(
     Map<String, dynamic> json) {
   return ListSimulationJobBatchesResponse(
@@ -964,6 +1432,22 @@ ListSimulationJobBatchesResponse _$ListSimulationJobBatchesResponseFromJson(
             : SimulationJobBatchSummary.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListSimulationJobsRequestToJson(
+    ListSimulationJobsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  return val;
 }
 
 ListSimulationJobsResponse _$ListSimulationJobsResponseFromJson(
@@ -1102,6 +1586,21 @@ const _$RobotDeploymentStepEnumMap = {
   RobotDeploymentStep.finished: 'Finished',
 };
 
+Map<String, dynamic> _$RegisterRobotRequestToJson(
+    RegisterRobotRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('fleet', instance.fleet);
+  writeNotNull('robot', instance.robot);
+  return val;
+}
+
 RegisterRobotResponse _$RegisterRobotResponseFromJson(
     Map<String, dynamic> json) {
   return RegisterRobotResponse(
@@ -1134,6 +1633,20 @@ Map<String, dynamic> _$RenderingEngineToJson(RenderingEngine instance) {
 const _$RenderingEngineTypeEnumMap = {
   RenderingEngineType.ogre: 'OGRE',
 };
+
+Map<String, dynamic> _$RestartSimulationJobRequestToJson(
+    RestartSimulationJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('job', instance.job);
+  return val;
+}
 
 RestartSimulationJobResponse _$RestartSimulationJobResponseFromJson(
     Map<String, dynamic> json) {
@@ -1529,6 +2042,24 @@ Map<String, dynamic> _$SourceConfigToJson(SourceConfig instance) {
   return val;
 }
 
+Map<String, dynamic> _$StartSimulationJobBatchRequestToJson(
+    StartSimulationJobBatchRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('createSimulationJobRequests',
+      instance.createSimulationJobRequests?.map((e) => e?.toJson())?.toList());
+  writeNotNull('batchPolicy', instance.batchPolicy?.toJson());
+  writeNotNull('clientRequestToken', instance.clientRequestToken);
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
 StartSimulationJobBatchResponse _$StartSimulationJobBatchResponseFromJson(
     Map<String, dynamic> json) {
   return StartSimulationJobBatchResponse(
@@ -1565,6 +2096,21 @@ StartSimulationJobBatchResponse _$StartSimulationJobBatchResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$SyncDeploymentJobRequestToJson(
+    SyncDeploymentJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('clientRequestToken', instance.clientRequestToken);
+  writeNotNull('fleet', instance.fleet);
+  return val;
+}
+
 SyncDeploymentJobResponse _$SyncDeploymentJobResponseFromJson(
     Map<String, dynamic> json) {
   return SyncDeploymentJobResponse(
@@ -1587,13 +2133,47 @@ SyncDeploymentJobResponse _$SyncDeploymentJobResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
 }
 
+Map<String, dynamic> _$UntagResourceRequestToJson(
+        UntagResourceRequest instance) =>
+    <String, dynamic>{};
+
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse();
+}
+
+Map<String, dynamic> _$UpdateRobotApplicationRequestToJson(
+    UpdateRobotApplicationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('application', instance.application);
+  writeNotNull('robotSoftwareSuite', instance.robotSoftwareSuite?.toJson());
+  writeNotNull('sources', instance.sources?.map((e) => e?.toJson())?.toList());
+  writeNotNull('currentRevisionId', instance.currentRevisionId);
+  return val;
 }
 
 UpdateRobotApplicationResponse _$UpdateRobotApplicationResponseFromJson(
@@ -1613,6 +2193,26 @@ UpdateRobotApplicationResponse _$UpdateRobotApplicationResponseFromJson(
         ?.toList(),
     version: json['version'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateSimulationApplicationRequestToJson(
+    UpdateSimulationApplicationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('application', instance.application);
+  writeNotNull('robotSoftwareSuite', instance.robotSoftwareSuite?.toJson());
+  writeNotNull(
+      'simulationSoftwareSuite', instance.simulationSoftwareSuite?.toJson());
+  writeNotNull('sources', instance.sources?.map((e) => e?.toJson())?.toList());
+  writeNotNull('currentRevisionId', instance.currentRevisionId);
+  writeNotNull('renderingEngine', instance.renderingEngine?.toJson());
+  return val;
 }
 
 UpdateSimulationApplicationResponse

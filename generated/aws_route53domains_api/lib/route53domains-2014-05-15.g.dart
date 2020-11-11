@@ -67,6 +67,21 @@ const _$OperationTypeEnumMap = {
   OperationType.pushDomain: 'PUSH_DOMAIN',
 };
 
+Map<String, dynamic> _$CheckDomainAvailabilityRequestToJson(
+    CheckDomainAvailabilityRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DomainName', instance.domainName);
+  writeNotNull('IdnLangCode', instance.idnLangCode);
+  return val;
+}
+
 CheckDomainAvailabilityResponse _$CheckDomainAvailabilityResponseFromJson(
     Map<String, dynamic> json) {
   return CheckDomainAvailabilityResponse(
@@ -85,6 +100,21 @@ const _$DomainAvailabilityEnumMap = {
   DomainAvailability.reserved: 'RESERVED',
   DomainAvailability.dontKnow: 'DONT_KNOW',
 };
+
+Map<String, dynamic> _$CheckDomainTransferabilityRequestToJson(
+    CheckDomainTransferabilityRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DomainName', instance.domainName);
+  writeNotNull('AuthCode', instance.authCode);
+  return val;
+}
 
 CheckDomainTransferabilityResponse _$CheckDomainTransferabilityResponseFromJson(
     Map<String, dynamic> json) {
@@ -387,14 +417,57 @@ const _$CountryCodeEnumMap = {
   CountryCode.zw: 'ZW',
 };
 
+Map<String, dynamic> _$DeleteTagsForDomainRequestToJson(
+    DeleteTagsForDomainRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DomainName', instance.domainName);
+  writeNotNull('TagsToDelete', instance.tagsToDelete);
+  return val;
+}
+
 DeleteTagsForDomainResponse _$DeleteTagsForDomainResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteTagsForDomainResponse();
 }
 
+Map<String, dynamic> _$DisableDomainAutoRenewRequestToJson(
+    DisableDomainAutoRenewRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DomainName', instance.domainName);
+  return val;
+}
+
 DisableDomainAutoRenewResponse _$DisableDomainAutoRenewResponseFromJson(
     Map<String, dynamic> json) {
   return DisableDomainAutoRenewResponse();
+}
+
+Map<String, dynamic> _$DisableDomainTransferLockRequestToJson(
+    DisableDomainTransferLockRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DomainName', instance.domainName);
+  return val;
 }
 
 DisableDomainTransferLockResponse _$DisableDomainTransferLockResponseFromJson(
@@ -446,9 +519,37 @@ DuplicateRequest _$DuplicateRequestFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$EnableDomainAutoRenewRequestToJson(
+    EnableDomainAutoRenewRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DomainName', instance.domainName);
+  return val;
+}
+
 EnableDomainAutoRenewResponse _$EnableDomainAutoRenewResponseFromJson(
     Map<String, dynamic> json) {
   return EnableDomainAutoRenewResponse();
+}
+
+Map<String, dynamic> _$EnableDomainTransferLockRequestToJson(
+    EnableDomainTransferLockRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DomainName', instance.domainName);
+  return val;
 }
 
 EnableDomainTransferLockResponse _$EnableDomainTransferLockResponseFromJson(
@@ -508,6 +609,20 @@ const _$ExtraParamNameEnumMap = {
   ExtraParamName.ukCompanyNumber: 'UK_COMPANY_NUMBER',
 };
 
+Map<String, dynamic> _$GetContactReachabilityStatusRequestToJson(
+    GetContactReachabilityStatusRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('domainName', instance.domainName);
+  return val;
+}
+
 GetContactReachabilityStatusResponse
     _$GetContactReachabilityStatusResponseFromJson(Map<String, dynamic> json) {
   return GetContactReachabilityStatusResponse(
@@ -521,6 +636,20 @@ const _$ReachabilityStatusEnumMap = {
   ReachabilityStatus.done: 'DONE',
   ReachabilityStatus.expired: 'EXPIRED',
 };
+
+Map<String, dynamic> _$GetDomainDetailRequestToJson(
+    GetDomainDetailRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DomainName', instance.domainName);
+  return val;
+}
 
 GetDomainDetailResponse _$GetDomainDetailResponseFromJson(
     Map<String, dynamic> json) {
@@ -559,6 +688,22 @@ GetDomainDetailResponse _$GetDomainDetailResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$GetDomainSuggestionsRequestToJson(
+    GetDomainSuggestionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DomainName', instance.domainName);
+  writeNotNull('OnlyAvailable', instance.onlyAvailable);
+  writeNotNull('SuggestionCount', instance.suggestionCount);
+  return val;
+}
+
 GetDomainSuggestionsResponse _$GetDomainSuggestionsResponseFromJson(
     Map<String, dynamic> json) {
   return GetDomainSuggestionsResponse(
@@ -568,6 +713,20 @@ GetDomainSuggestionsResponse _$GetDomainSuggestionsResponseFromJson(
             : DomainSuggestion.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$GetOperationDetailRequestToJson(
+    GetOperationDetailRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('OperationId', instance.operationId);
+  return val;
 }
 
 GetOperationDetailResponse _$GetOperationDetailResponseFromJson(
@@ -596,6 +755,20 @@ InvalidInput _$InvalidInputFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ListDomainsRequestToJson(ListDomainsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Marker', instance.marker);
+  writeNotNull('MaxItems', instance.maxItems);
+  return val;
+}
+
 ListDomainsResponse _$ListDomainsResponseFromJson(Map<String, dynamic> json) {
   return ListDomainsResponse(
     domains: (json['Domains'] as List)
@@ -605,6 +778,22 @@ ListDomainsResponse _$ListDomainsResponseFromJson(Map<String, dynamic> json) {
         ?.toList(),
     nextPageMarker: json['NextPageMarker'] as String,
   );
+}
+
+Map<String, dynamic> _$ListOperationsRequestToJson(
+    ListOperationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Marker', instance.marker);
+  writeNotNull('MaxItems', instance.maxItems);
+  writeNotNull('SubmittedSince', unixTimestampToJson(instance.submittedSince));
+  return val;
 }
 
 ListOperationsResponse _$ListOperationsResponseFromJson(
@@ -617,6 +806,20 @@ ListOperationsResponse _$ListOperationsResponseFromJson(
         ?.toList(),
     nextPageMarker: json['NextPageMarker'] as String,
   );
+}
+
+Map<String, dynamic> _$ListTagsForDomainRequestToJson(
+    ListTagsForDomainRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DomainName', instance.domainName);
+  return val;
 }
 
 ListTagsForDomainResponse _$ListTagsForDomainResponseFromJson(
@@ -665,6 +868,31 @@ OperationSummary _$OperationSummaryFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$RegisterDomainRequestToJson(
+    RegisterDomainRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AdminContact', instance.adminContact?.toJson());
+  writeNotNull('DomainName', instance.domainName);
+  writeNotNull('DurationInYears', instance.durationInYears);
+  writeNotNull('RegistrantContact', instance.registrantContact?.toJson());
+  writeNotNull('TechContact', instance.techContact?.toJson());
+  writeNotNull('AutoRenew', instance.autoRenew);
+  writeNotNull('IdnLangCode', instance.idnLangCode);
+  writeNotNull(
+      'PrivacyProtectAdminContact', instance.privacyProtectAdminContact);
+  writeNotNull('PrivacyProtectRegistrantContact',
+      instance.privacyProtectRegistrantContact);
+  writeNotNull('PrivacyProtectTechContact', instance.privacyProtectTechContact);
+  return val;
+}
+
 RegisterDomainResponse _$RegisterDomainResponseFromJson(
     Map<String, dynamic> json) {
   return RegisterDomainResponse(
@@ -672,10 +900,39 @@ RegisterDomainResponse _$RegisterDomainResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$RenewDomainRequestToJson(RenewDomainRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CurrentExpiryYear', instance.currentExpiryYear);
+  writeNotNull('DomainName', instance.domainName);
+  writeNotNull('DurationInYears', instance.durationInYears);
+  return val;
+}
+
 RenewDomainResponse _$RenewDomainResponseFromJson(Map<String, dynamic> json) {
   return RenewDomainResponse(
     operationId: json['OperationId'] as String,
   );
+}
+
+Map<String, dynamic> _$ResendContactReachabilityEmailRequestToJson(
+    ResendContactReachabilityEmailRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('domainName', instance.domainName);
+  return val;
 }
 
 ResendContactReachabilityEmailResponse
@@ -686,6 +943,20 @@ ResendContactReachabilityEmailResponse
     emailAddress: json['emailAddress'] as String,
     isAlreadyVerified: json['isAlreadyVerified'] as bool,
   );
+}
+
+Map<String, dynamic> _$RetrieveDomainAuthCodeRequestToJson(
+    RetrieveDomainAuthCodeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DomainName', instance.domainName);
+  return val;
 }
 
 RetrieveDomainAuthCodeResponse _$RetrieveDomainAuthCodeResponseFromJson(
@@ -722,6 +993,34 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
   return val;
 }
 
+Map<String, dynamic> _$TransferDomainRequestToJson(
+    TransferDomainRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AdminContact', instance.adminContact?.toJson());
+  writeNotNull('DomainName', instance.domainName);
+  writeNotNull('DurationInYears', instance.durationInYears);
+  writeNotNull('RegistrantContact', instance.registrantContact?.toJson());
+  writeNotNull('TechContact', instance.techContact?.toJson());
+  writeNotNull('AuthCode', instance.authCode);
+  writeNotNull('AutoRenew', instance.autoRenew);
+  writeNotNull('IdnLangCode', instance.idnLangCode);
+  writeNotNull(
+      'Nameservers', instance.nameservers?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'PrivacyProtectAdminContact', instance.privacyProtectAdminContact);
+  writeNotNull('PrivacyProtectRegistrantContact',
+      instance.privacyProtectRegistrantContact);
+  writeNotNull('PrivacyProtectTechContact', instance.privacyProtectTechContact);
+  return val;
+}
+
 TransferDomainResponse _$TransferDomainResponseFromJson(
     Map<String, dynamic> json) {
   return TransferDomainResponse(
@@ -735,11 +1034,45 @@ UnsupportedTLD _$UnsupportedTLDFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$UpdateDomainContactPrivacyRequestToJson(
+    UpdateDomainContactPrivacyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DomainName', instance.domainName);
+  writeNotNull('AdminPrivacy', instance.adminPrivacy);
+  writeNotNull('RegistrantPrivacy', instance.registrantPrivacy);
+  writeNotNull('TechPrivacy', instance.techPrivacy);
+  return val;
+}
+
 UpdateDomainContactPrivacyResponse _$UpdateDomainContactPrivacyResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateDomainContactPrivacyResponse(
     operationId: json['OperationId'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateDomainContactRequestToJson(
+    UpdateDomainContactRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DomainName', instance.domainName);
+  writeNotNull('AdminContact', instance.adminContact?.toJson());
+  writeNotNull('RegistrantContact', instance.registrantContact?.toJson());
+  writeNotNull('TechContact', instance.techContact?.toJson());
+  return val;
 }
 
 UpdateDomainContactResponse _$UpdateDomainContactResponseFromJson(
@@ -749,6 +1082,23 @@ UpdateDomainContactResponse _$UpdateDomainContactResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateDomainNameserversRequestToJson(
+    UpdateDomainNameserversRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DomainName', instance.domainName);
+  writeNotNull(
+      'Nameservers', instance.nameservers?.map((e) => e?.toJson())?.toList());
+  writeNotNull('FIAuthKey', instance.fIAuthKey);
+  return val;
+}
+
 UpdateDomainNameserversResponse _$UpdateDomainNameserversResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateDomainNameserversResponse(
@@ -756,9 +1106,41 @@ UpdateDomainNameserversResponse _$UpdateDomainNameserversResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateTagsForDomainRequestToJson(
+    UpdateTagsForDomainRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DomainName', instance.domainName);
+  writeNotNull(
+      'TagsToUpdate', instance.tagsToUpdate?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 UpdateTagsForDomainResponse _$UpdateTagsForDomainResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateTagsForDomainResponse();
+}
+
+Map<String, dynamic> _$ViewBillingRequestToJson(ViewBillingRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('End', unixTimestampToJson(instance.end));
+  writeNotNull('Marker', instance.marker);
+  writeNotNull('MaxItems', instance.maxItems);
+  writeNotNull('Start', unixTimestampToJson(instance.start));
+  return val;
 }
 
 ViewBillingResponse _$ViewBillingResponseFromJson(Map<String, dynamic> json) {

@@ -69,6 +69,23 @@ Map<String, dynamic> _$CmafPackageToJson(CmafPackage instance) {
   return val;
 }
 
+Map<String, dynamic> _$CreateAssetRequestToJson(CreateAssetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  writeNotNull('packagingGroupId', instance.packagingGroupId);
+  writeNotNull('sourceArn', instance.sourceArn);
+  writeNotNull('sourceRoleArn', instance.sourceRoleArn);
+  writeNotNull('resourceId', instance.resourceId);
+  return val;
+}
+
 CreateAssetResponse _$CreateAssetResponseFromJson(Map<String, dynamic> json) {
   return CreateAssetResponse(
     arn: json['arn'] as String,
@@ -84,6 +101,25 @@ CreateAssetResponse _$CreateAssetResponseFromJson(Map<String, dynamic> json) {
     sourceArn: json['sourceArn'] as String,
     sourceRoleArn: json['sourceRoleArn'] as String,
   );
+}
+
+Map<String, dynamic> _$CreatePackagingConfigurationRequestToJson(
+    CreatePackagingConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  writeNotNull('packagingGroupId', instance.packagingGroupId);
+  writeNotNull('cmafPackage', instance.cmafPackage?.toJson());
+  writeNotNull('dashPackage', instance.dashPackage?.toJson());
+  writeNotNull('hlsPackage', instance.hlsPackage?.toJson());
+  writeNotNull('mssPackage', instance.mssPackage?.toJson());
+  return val;
 }
 
 CreatePackagingConfigurationResponse
@@ -105,6 +141,20 @@ CreatePackagingConfigurationResponse
         : MssPackage.fromJson(json['mssPackage'] as Map<String, dynamic>),
     packagingGroupId: json['packagingGroupId'] as String,
   );
+}
+
+Map<String, dynamic> _$CreatePackagingGroupRequestToJson(
+    CreatePackagingGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  return val;
 }
 
 CreatePackagingGroupResponse _$CreatePackagingGroupResponseFromJson(
@@ -254,14 +304,25 @@ const _$SegmentTemplateFormatEnumMap = {
   SegmentTemplateFormat.numberWithDuration: 'NUMBER_WITH_DURATION',
 };
 
+Map<String, dynamic> _$DeleteAssetRequestToJson(DeleteAssetRequest instance) =>
+    <String, dynamic>{};
+
 DeleteAssetResponse _$DeleteAssetResponseFromJson(Map<String, dynamic> json) {
   return DeleteAssetResponse();
 }
+
+Map<String, dynamic> _$DeletePackagingConfigurationRequestToJson(
+        DeletePackagingConfigurationRequest instance) =>
+    <String, dynamic>{};
 
 DeletePackagingConfigurationResponse
     _$DeletePackagingConfigurationResponseFromJson(Map<String, dynamic> json) {
   return DeletePackagingConfigurationResponse();
 }
+
+Map<String, dynamic> _$DeletePackagingGroupRequestToJson(
+        DeletePackagingGroupRequest instance) =>
+    <String, dynamic>{};
 
 DeletePackagingGroupResponse _$DeletePackagingGroupResponseFromJson(
     Map<String, dynamic> json) {

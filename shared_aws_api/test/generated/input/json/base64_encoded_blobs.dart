@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -20,6 +19,8 @@ import 'package:shared_aws_api/shared.dart'
         unixTimestampToJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
+
+part 'base64_encoded_blobs.g.dart';
 
 /// Base64 encoded Blobs
 class Base64EncodedBlobs {
@@ -51,10 +52,10 @@ class Base64EncodedBlobs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (blobArg != null) 'BlobArg': blobArg.let(base64Encode),
-        if (blobMap != null) 'BlobMap': blobMap,
-      },
+      payload: InputShape(
+        blobArg: blobArg,
+        blobMap: blobMap,
+      ),
     );
   }
 
@@ -72,12 +73,32 @@ class Base64EncodedBlobs {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (blobArg != null) 'BlobArg': blobArg.let(base64Encode),
-        if (blobMap != null) 'BlobMap': blobMap,
-      },
+      payload: InputShape(
+        blobArg: blobArg,
+        blobMap: blobMap,
+      ),
     );
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class InputShape {
+  @Uint8ListConverter()
+  @_s.JsonKey(name: 'BlobArg')
+  final Uint8List blobArg;
+  @Uint8ListConverter()
+  @_s.JsonKey(name: 'BlobMap')
+  final Map<String, Uint8List> blobMap;
+
+  InputShape({
+    this.blobArg,
+    this.blobMap,
+  });
+  Map<String, dynamic> toJson() => _$InputShapeToJson(this);
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

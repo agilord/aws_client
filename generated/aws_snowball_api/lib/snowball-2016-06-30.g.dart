@@ -51,8 +51,35 @@ Map<String, dynamic> _$AddressToJson(Address instance) {
   return val;
 }
 
+Map<String, dynamic> _$CancelClusterRequestToJson(
+    CancelClusterRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClusterId', instance.clusterId);
+  return val;
+}
+
 CancelClusterResult _$CancelClusterResultFromJson(Map<String, dynamic> json) {
   return CancelClusterResult();
+}
+
+Map<String, dynamic> _$CancelJobRequestToJson(CancelJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobId', instance.jobId);
+  return val;
 }
 
 CancelJobResult _$CancelJobResultFromJson(Map<String, dynamic> json) {
@@ -165,10 +192,49 @@ CompatibleImage _$CompatibleImageFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateAddressRequestToJson(
+    CreateAddressRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Address', instance.address?.toJson());
+  return val;
+}
+
 CreateAddressResult _$CreateAddressResultFromJson(Map<String, dynamic> json) {
   return CreateAddressResult(
     addressId: json['AddressId'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateClusterRequestToJson(
+    CreateClusterRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AddressId', instance.addressId);
+  writeNotNull('JobType', _$JobTypeEnumMap[instance.jobType]);
+  writeNotNull('Resources', instance.resources?.toJson());
+  writeNotNull('RoleARN', instance.roleARN);
+  writeNotNull(
+      'ShippingOption', _$ShippingOptionEnumMap[instance.shippingOption]);
+  writeNotNull('Description', instance.description);
+  writeNotNull('ForwardingAddressId', instance.forwardingAddressId);
+  writeNotNull('KmsKeyARN', instance.kmsKeyARN);
+  writeNotNull('Notification', instance.notification?.toJson());
+  writeNotNull('SnowballType', _$SnowballTypeEnumMap[instance.snowballType]);
+  writeNotNull('TaxDocuments', instance.taxDocuments?.toJson());
+  return val;
 }
 
 CreateClusterResult _$CreateClusterResultFromJson(Map<String, dynamic> json) {
@@ -176,6 +242,42 @@ CreateClusterResult _$CreateClusterResultFromJson(Map<String, dynamic> json) {
     clusterId: json['ClusterId'] as String,
   );
 }
+
+Map<String, dynamic> _$CreateJobRequestToJson(CreateJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AddressId', instance.addressId);
+  writeNotNull('ClusterId', instance.clusterId);
+  writeNotNull('Description', instance.description);
+  writeNotNull('ForwardingAddressId', instance.forwardingAddressId);
+  writeNotNull('JobType', _$JobTypeEnumMap[instance.jobType]);
+  writeNotNull('KmsKeyARN', instance.kmsKeyARN);
+  writeNotNull('Notification', instance.notification?.toJson());
+  writeNotNull('Resources', instance.resources?.toJson());
+  writeNotNull('RoleARN', instance.roleARN);
+  writeNotNull(
+      'ShippingOption', _$ShippingOptionEnumMap[instance.shippingOption]);
+  writeNotNull('SnowballCapacityPreference',
+      _$SnowballCapacityEnumMap[instance.snowballCapacityPreference]);
+  writeNotNull('SnowballType', _$SnowballTypeEnumMap[instance.snowballType]);
+  writeNotNull('TaxDocuments', instance.taxDocuments?.toJson());
+  return val;
+}
+
+const _$SnowballCapacityEnumMap = {
+  SnowballCapacity.t50: 'T50',
+  SnowballCapacity.t80: 'T80',
+  SnowballCapacity.t100: 'T100',
+  SnowballCapacity.t42: 'T42',
+  SnowballCapacity.t98: 'T98',
+  SnowballCapacity.noPreference: 'NoPreference',
+};
 
 CreateJobResult _$CreateJobResultFromJson(Map<String, dynamic> json) {
   return CreateJobResult(
@@ -192,6 +294,20 @@ DataTransfer _$DataTransferFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DescribeAddressRequestToJson(
+    DescribeAddressRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AddressId', instance.addressId);
+  return val;
+}
+
 DescribeAddressResult _$DescribeAddressResultFromJson(
     Map<String, dynamic> json) {
   return DescribeAddressResult(
@@ -199,6 +315,21 @@ DescribeAddressResult _$DescribeAddressResultFromJson(
         ? null
         : Address.fromJson(json['Address'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeAddressesRequestToJson(
+    DescribeAddressesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 DescribeAddressesResult _$DescribeAddressesResultFromJson(
@@ -212,6 +343,20 @@ DescribeAddressesResult _$DescribeAddressesResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DescribeClusterRequestToJson(
+    DescribeClusterRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClusterId', instance.clusterId);
+  return val;
+}
+
 DescribeClusterResult _$DescribeClusterResultFromJson(
     Map<String, dynamic> json) {
   return DescribeClusterResult(
@@ -220,6 +365,19 @@ DescribeClusterResult _$DescribeClusterResultFromJson(
         : ClusterMetadata.fromJson(
             json['ClusterMetadata'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeJobRequestToJson(DescribeJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobId', instance.jobId);
+  return val;
 }
 
 DescribeJobResult _$DescribeJobResultFromJson(Map<String, dynamic> json) {
@@ -276,10 +434,38 @@ Map<String, dynamic> _$EventTriggerDefinitionToJson(
   return val;
 }
 
+Map<String, dynamic> _$GetJobManifestRequestToJson(
+    GetJobManifestRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobId', instance.jobId);
+  return val;
+}
+
 GetJobManifestResult _$GetJobManifestResultFromJson(Map<String, dynamic> json) {
   return GetJobManifestResult(
     manifestURI: json['ManifestURI'] as String,
   );
+}
+
+Map<String, dynamic> _$GetJobUnlockCodeRequestToJson(
+    GetJobUnlockCodeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobId', instance.jobId);
+  return val;
 }
 
 GetJobUnlockCodeResult _$GetJobUnlockCodeResultFromJson(
@@ -295,6 +481,20 @@ GetSnowballUsageResult _$GetSnowballUsageResultFromJson(
     snowballLimit: json['SnowballLimit'] as int,
     snowballsInUse: json['SnowballsInUse'] as int,
   );
+}
+
+Map<String, dynamic> _$GetSoftwareUpdatesRequestToJson(
+    GetSoftwareUpdatesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobId', instance.jobId);
+  return val;
 }
 
 GetSoftwareUpdatesResult _$GetSoftwareUpdatesResultFromJson(
@@ -399,15 +599,6 @@ JobMetadata _$JobMetadataFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$SnowballCapacityEnumMap = {
-  SnowballCapacity.t50: 'T50',
-  SnowballCapacity.t80: 'T80',
-  SnowballCapacity.t100: 'T100',
-  SnowballCapacity.t42: 'T42',
-  SnowballCapacity.t98: 'T98',
-  SnowballCapacity.noPreference: 'NoPreference',
-};
-
 JobResource _$JobResourceFromJson(Map<String, dynamic> json) {
   return JobResource(
     ec2AmiResources: (json['Ec2AmiResources'] as List)
@@ -492,6 +683,22 @@ Map<String, dynamic> _$LambdaResourceToJson(LambdaResource instance) {
   return val;
 }
 
+Map<String, dynamic> _$ListClusterJobsRequestToJson(
+    ListClusterJobsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClusterId', instance.clusterId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListClusterJobsResult _$ListClusterJobsResultFromJson(
     Map<String, dynamic> json) {
   return ListClusterJobsResult(
@@ -501,6 +708,20 @@ ListClusterJobsResult _$ListClusterJobsResultFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListClustersRequestToJson(ListClustersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListClustersResult _$ListClustersResultFromJson(Map<String, dynamic> json) {
@@ -514,6 +735,21 @@ ListClustersResult _$ListClustersResultFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ListCompatibleImagesRequestToJson(
+    ListCompatibleImagesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListCompatibleImagesResult _$ListCompatibleImagesResultFromJson(
     Map<String, dynamic> json) {
   return ListCompatibleImagesResult(
@@ -524,6 +760,20 @@ ListCompatibleImagesResult _$ListCompatibleImagesResultFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$ListJobsRequestToJson(ListJobsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListJobsResult _$ListJobsResultFromJson(Map<String, dynamic> json) {
@@ -624,8 +874,53 @@ Map<String, dynamic> _$TaxDocumentsToJson(TaxDocuments instance) {
   return val;
 }
 
+Map<String, dynamic> _$UpdateClusterRequestToJson(
+    UpdateClusterRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ClusterId', instance.clusterId);
+  writeNotNull('AddressId', instance.addressId);
+  writeNotNull('Description', instance.description);
+  writeNotNull('ForwardingAddressId', instance.forwardingAddressId);
+  writeNotNull('Notification', instance.notification?.toJson());
+  writeNotNull('Resources', instance.resources?.toJson());
+  writeNotNull('RoleARN', instance.roleARN);
+  writeNotNull(
+      'ShippingOption', _$ShippingOptionEnumMap[instance.shippingOption]);
+  return val;
+}
+
 UpdateClusterResult _$UpdateClusterResultFromJson(Map<String, dynamic> json) {
   return UpdateClusterResult();
+}
+
+Map<String, dynamic> _$UpdateJobRequestToJson(UpdateJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobId', instance.jobId);
+  writeNotNull('AddressId', instance.addressId);
+  writeNotNull('Description', instance.description);
+  writeNotNull('ForwardingAddressId', instance.forwardingAddressId);
+  writeNotNull('Notification', instance.notification?.toJson());
+  writeNotNull('Resources', instance.resources?.toJson());
+  writeNotNull('RoleARN', instance.roleARN);
+  writeNotNull(
+      'ShippingOption', _$ShippingOptionEnumMap[instance.shippingOption]);
+  writeNotNull('SnowballCapacityPreference',
+      _$SnowballCapacityEnumMap[instance.snowballCapacityPreference]);
+  return val;
 }
 
 UpdateJobResult _$UpdateJobResultFromJson(Map<String, dynamic> json) {

@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -20,6 +19,8 @@ import 'package:shared_aws_api/shared.dart'
         unixTimestampToJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
+
+part 'endpoint_host_trait_static_prefix.g.dart';
 
 /// Endpoint host trait static prefix
 class EndpointHostTraitStaticPrefix {
@@ -50,9 +51,9 @@ class EndpointHostTraitStaticPrefix {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (name != null) 'Name': name,
-      },
+      payload: StaticInputShape(
+        name: name,
+      ),
     );
   }
 
@@ -69,11 +70,41 @@ class EndpointHostTraitStaticPrefix {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (name != null) 'Name': name,
-      },
+      payload: MemberRefInputShape(
+        name: name,
+      ),
     );
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StaticInputShape {
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  StaticInputShape({
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$StaticInputShapeToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class MemberRefInputShape {
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  MemberRefInputShape({
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$MemberRefInputShapeToJson(this);
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

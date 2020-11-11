@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -42,9 +41,9 @@ class RecursiveShapes {
   Future<void> operationName0({
     RecursiveStructType recursiveStruct,
   }) async {
-    final $payload = <String, dynamic>{
-      if (recursiveStruct != null) 'RecursiveStruct': recursiveStruct,
-    };
+    final $payload = InputShape(
+      recursiveStruct: recursiveStruct,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -56,9 +55,9 @@ class RecursiveShapes {
   Future<void> operationName1({
     RecursiveStructType recursiveStruct,
   }) async {
-    final $payload = <String, dynamic>{
-      if (recursiveStruct != null) 'RecursiveStruct': recursiveStruct,
-    };
+    final $payload = InputShape(
+      recursiveStruct: recursiveStruct,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -70,9 +69,9 @@ class RecursiveShapes {
   Future<void> operationName2({
     RecursiveStructType recursiveStruct,
   }) async {
-    final $payload = <String, dynamic>{
-      if (recursiveStruct != null) 'RecursiveStruct': recursiveStruct,
-    };
+    final $payload = InputShape(
+      recursiveStruct: recursiveStruct,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -84,9 +83,9 @@ class RecursiveShapes {
   Future<void> operationName3({
     RecursiveStructType recursiveStruct,
   }) async {
-    final $payload = <String, dynamic>{
-      if (recursiveStruct != null) 'RecursiveStruct': recursiveStruct,
-    };
+    final $payload = InputShape(
+      recursiveStruct: recursiveStruct,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -98,9 +97,9 @@ class RecursiveShapes {
   Future<void> operationName4({
     RecursiveStructType recursiveStruct,
   }) async {
-    final $payload = <String, dynamic>{
-      if (recursiveStruct != null) 'RecursiveStruct': recursiveStruct,
-    };
+    final $payload = InputShape(
+      recursiveStruct: recursiveStruct,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -112,9 +111,9 @@ class RecursiveShapes {
   Future<void> operationName5({
     RecursiveStructType recursiveStruct,
   }) async {
-    final $payload = <String, dynamic>{
-      if (recursiveStruct != null) 'RecursiveStruct': recursiveStruct,
-    };
+    final $payload = InputShape(
+      recursiveStruct: recursiveStruct,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -122,6 +121,21 @@ class RecursiveShapes {
       exceptionFnMap: _exceptionFns,
     );
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class InputShape {
+  @_s.JsonKey(name: 'RecursiveStruct')
+  final RecursiveStructType recursiveStruct;
+
+  InputShape({
+    this.recursiveStruct,
+  });
+  Map<String, dynamic> toJson() => _$InputShapeToJson(this);
 }
 
 @_s.JsonSerializable(

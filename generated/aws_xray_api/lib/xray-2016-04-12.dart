@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -57,10 +56,10 @@ class XRay {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(traceIds, 'traceIds');
-    final $payload = <String, dynamic>{
-      'TraceIds': traceIds,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = BatchGetTracesRequest(
+      traceIds: traceIds,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -93,10 +92,10 @@ class XRay {
       32,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'GroupName': groupName,
-      if (filterExpression != null) 'FilterExpression': filterExpression,
-    };
+    final $payload = CreateGroupRequest(
+      groupName: groupName,
+      filterExpression: filterExpression,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -125,9 +124,9 @@ class XRay {
     @_s.required SamplingRule samplingRule,
   }) async {
     ArgumentError.checkNotNull(samplingRule, 'samplingRule');
-    final $payload = <String, dynamic>{
-      'SamplingRule': samplingRule,
-    };
+    final $payload = CreateSamplingRuleRequest(
+      samplingRule: samplingRule,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -163,10 +162,10 @@ class XRay {
       1,
       32,
     );
-    final $payload = <String, dynamic>{
-      if (groupARN != null) 'GroupARN': groupARN,
-      if (groupName != null) 'GroupName': groupName,
-    };
+    final $payload = DeleteGroupRequest(
+      groupARN: groupARN,
+      groupName: groupName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -192,10 +191,10 @@ class XRay {
     String ruleARN,
     String ruleName,
   }) async {
-    final $payload = <String, dynamic>{
-      if (ruleARN != null) 'RuleARN': ruleARN,
-      if (ruleName != null) 'RuleName': ruleName,
-    };
+    final $payload = DeleteSamplingRuleRequest(
+      ruleARN: ruleARN,
+      ruleName: ruleName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -246,10 +245,10 @@ class XRay {
       1,
       32,
     );
-    final $payload = <String, dynamic>{
-      if (groupARN != null) 'GroupARN': groupARN,
-      if (groupName != null) 'GroupName': groupName,
-    };
+    final $payload = GetGroupRequest(
+      groupARN: groupARN,
+      groupName: groupName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -275,9 +274,9 @@ class XRay {
       1,
       100,
     );
-    final $payload = <String, dynamic>{
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = GetGroupsRequest(
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -297,9 +296,9 @@ class XRay {
   Future<GetSamplingRulesResult> getSamplingRules({
     String nextToken,
   }) async {
-    final $payload = <String, dynamic>{
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = GetSamplingRulesRequest(
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -320,9 +319,9 @@ class XRay {
   Future<GetSamplingStatisticSummariesResult> getSamplingStatisticSummaries({
     String nextToken,
   }) async {
-    final $payload = <String, dynamic>{
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = GetSamplingStatisticSummariesRequest(
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -345,9 +344,9 @@ class XRay {
   }) async {
     ArgumentError.checkNotNull(
         samplingStatisticsDocuments, 'samplingStatisticsDocuments');
-    final $payload = <String, dynamic>{
-      'SamplingStatisticsDocuments': samplingStatisticsDocuments,
-    };
+    final $payload = GetSamplingTargetsRequest(
+      samplingStatisticsDocuments: samplingStatisticsDocuments,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -403,13 +402,13 @@ class XRay {
       1,
       32,
     );
-    final $payload = <String, dynamic>{
-      'EndTime': endTime,
-      'StartTime': startTime,
-      if (groupARN != null) 'GroupARN': groupARN,
-      if (groupName != null) 'GroupName': groupName,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = GetServiceGraphRequest(
+      endTime: endTime,
+      startTime: startTime,
+      groupARN: groupARN,
+      groupName: groupName,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -475,16 +474,15 @@ class XRay {
       1,
       32,
     );
-    final $payload = <String, dynamic>{
-      'EndTime': endTime,
-      'StartTime': startTime,
-      if (entitySelectorExpression != null)
-        'EntitySelectorExpression': entitySelectorExpression,
-      if (groupARN != null) 'GroupARN': groupARN,
-      if (groupName != null) 'GroupName': groupName,
-      if (nextToken != null) 'NextToken': nextToken,
-      if (period != null) 'Period': period,
-    };
+    final $payload = GetTimeSeriesServiceStatisticsRequest(
+      endTime: endTime,
+      startTime: startTime,
+      entitySelectorExpression: entitySelectorExpression,
+      groupARN: groupARN,
+      groupName: groupName,
+      nextToken: nextToken,
+      period: period,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -509,10 +507,10 @@ class XRay {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(traceIds, 'traceIds');
-    final $payload = <String, dynamic>{
-      'TraceIds': traceIds,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    final $payload = GetTraceGraphRequest(
+      traceIds: traceIds,
+      nextToken: nextToken,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -582,15 +580,15 @@ class XRay {
   }) async {
     ArgumentError.checkNotNull(endTime, 'endTime');
     ArgumentError.checkNotNull(startTime, 'startTime');
-    final $payload = <String, dynamic>{
-      'EndTime': endTime,
-      'StartTime': startTime,
-      if (filterExpression != null) 'FilterExpression': filterExpression,
-      if (nextToken != null) 'NextToken': nextToken,
-      if (sampling != null) 'Sampling': sampling,
-      if (samplingStrategy != null) 'SamplingStrategy': samplingStrategy,
-      if (timeRangeType != null) 'TimeRangeType': timeRangeType?.toValue(),
-    };
+    final $payload = GetTraceSummariesRequest(
+      endTime: endTime,
+      startTime: startTime,
+      filterExpression: filterExpression,
+      nextToken: nextToken,
+      sampling: sampling,
+      samplingStrategy: samplingStrategy,
+      timeRangeType: timeRangeType,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -640,10 +638,10 @@ class XRay {
       1,
       3000,
     );
-    final $payload = <String, dynamic>{
-      'Type': type?.toValue(),
-      if (keyId != null) 'KeyId': keyId,
-    };
+    final $payload = PutEncryptionConfigRequest(
+      type: type,
+      keyId: keyId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -694,12 +692,12 @@ class XRay {
       0,
       500,
     );
-    final $payload = <String, dynamic>{
-      'TelemetryRecords': telemetryRecords,
-      if (eC2InstanceId != null) 'EC2InstanceId': eC2InstanceId,
-      if (hostname != null) 'Hostname': hostname,
-      if (resourceARN != null) 'ResourceARN': resourceARN,
-    };
+    final $payload = PutTelemetryRecordsRequest(
+      telemetryRecords: telemetryRecords,
+      eC2InstanceId: eC2InstanceId,
+      hostname: hostname,
+      resourceARN: resourceARN,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -781,9 +779,9 @@ class XRay {
     @_s.required List<String> traceSegmentDocuments,
   }) async {
     ArgumentError.checkNotNull(traceSegmentDocuments, 'traceSegmentDocuments');
-    final $payload = <String, dynamic>{
-      'TraceSegmentDocuments': traceSegmentDocuments,
-    };
+    final $payload = PutTraceSegmentsRequest(
+      traceSegmentDocuments: traceSegmentDocuments,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -823,11 +821,11 @@ class XRay {
       1,
       32,
     );
-    final $payload = <String, dynamic>{
-      if (filterExpression != null) 'FilterExpression': filterExpression,
-      if (groupARN != null) 'GroupARN': groupARN,
-      if (groupName != null) 'GroupName': groupName,
-    };
+    final $payload = UpdateGroupRequest(
+      filterExpression: filterExpression,
+      groupARN: groupARN,
+      groupName: groupName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -848,9 +846,9 @@ class XRay {
     @_s.required SamplingRuleUpdate samplingRuleUpdate,
   }) async {
     ArgumentError.checkNotNull(samplingRuleUpdate, 'samplingRuleUpdate');
-    final $payload = <String, dynamic>{
-      'SamplingRuleUpdate': samplingRuleUpdate,
-    };
+    final $payload = UpdateSamplingRuleRequest(
+      samplingRuleUpdate: samplingRuleUpdate,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -980,6 +978,27 @@ class BackendConnectionErrors {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchGetTracesRequest {
+  /// Specify the trace IDs of requests for which to retrieve segments.
+  @_s.JsonKey(name: 'TraceIds')
+  final List<String> traceIds;
+
+  /// Pagination token.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  BatchGetTracesRequest({
+    @_s.required this.traceIds,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$BatchGetTracesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class BatchGetTracesResult {
@@ -1007,6 +1026,28 @@ class BatchGetTracesResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateGroupRequest {
+  /// The case-sensitive name of the new group. Default is a reserved name and
+  /// names must be unique.
+  @_s.JsonKey(name: 'GroupName')
+  final String groupName;
+
+  /// The filter expression defining criteria by which to group traces.
+  @_s.JsonKey(name: 'FilterExpression')
+  final String filterExpression;
+
+  CreateGroupRequest({
+    @_s.required this.groupName,
+    this.filterExpression,
+  });
+  Map<String, dynamic> toJson() => _$CreateGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateGroupResult {
@@ -1021,6 +1062,22 @@ class CreateGroupResult {
   });
   factory CreateGroupResult.fromJson(Map<String, dynamic> json) =>
       _$CreateGroupResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateSamplingRuleRequest {
+  /// The rule definition.
+  @_s.JsonKey(name: 'SamplingRule')
+  final SamplingRule samplingRule;
+
+  CreateSamplingRuleRequest({
+    @_s.required this.samplingRule,
+  });
+  Map<String, dynamic> toJson() => _$CreateSamplingRuleRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1043,12 +1100,56 @@ class CreateSamplingRuleResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteGroupRequest {
+  /// The ARN of the group that was generated on creation.
+  @_s.JsonKey(name: 'GroupARN')
+  final String groupARN;
+
+  /// The case-sensitive name of the group.
+  @_s.JsonKey(name: 'GroupName')
+  final String groupName;
+
+  DeleteGroupRequest({
+    this.groupARN,
+    this.groupName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteGroupResult {
   DeleteGroupResult();
   factory DeleteGroupResult.fromJson(Map<String, dynamic> json) =>
       _$DeleteGroupResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteSamplingRuleRequest {
+  /// The ARN of the sampling rule. Specify a rule by either name or ARN, but not
+  /// both.
+  @_s.JsonKey(name: 'RuleARN')
+  final String ruleARN;
+
+  /// The name of the sampling rule. Specify a rule by either name or ARN, but not
+  /// both.
+  @_s.JsonKey(name: 'RuleName')
+  final String ruleName;
+
+  DeleteSamplingRuleRequest({
+    this.ruleARN,
+    this.ruleName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteSamplingRuleRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1196,18 +1297,6 @@ enum EncryptionType {
   none,
   @_s.JsonValue('KMS')
   kms,
-}
-
-extension on EncryptionType {
-  String toValue() {
-    switch (this) {
-      case EncryptionType.none:
-        return 'NONE';
-      case EncryptionType.kms:
-        return 'KMS';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// The root cause of a trace summary error.
@@ -1477,6 +1566,27 @@ class GetEncryptionConfigResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetGroupRequest {
+  /// The ARN of the group that was generated on creation.
+  @_s.JsonKey(name: 'GroupARN')
+  final String groupARN;
+
+  /// The case-sensitive name of the group.
+  @_s.JsonKey(name: 'GroupName')
+  final String groupName;
+
+  GetGroupRequest({
+    this.groupARN,
+    this.groupName,
+  });
+  Map<String, dynamic> toJson() => _$GetGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetGroupResult {
@@ -1490,6 +1600,22 @@ class GetGroupResult {
   });
   factory GetGroupResult.fromJson(Map<String, dynamic> json) =>
       _$GetGroupResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetGroupsRequest {
+  /// Pagination token.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetGroupsRequest({
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$GetGroupsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1517,6 +1643,22 @@ class GetGroupsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetSamplingRulesRequest {
+  /// Pagination token.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetSamplingRulesRequest({
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$GetSamplingRulesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetSamplingRulesResult {
@@ -1534,6 +1676,23 @@ class GetSamplingRulesResult {
   });
   factory GetSamplingRulesResult.fromJson(Map<String, dynamic> json) =>
       _$GetSamplingRulesResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetSamplingStatisticSummariesRequest {
+  /// Pagination token.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetSamplingStatisticSummariesRequest({
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetSamplingStatisticSummariesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1558,6 +1717,22 @@ class GetSamplingStatisticSummariesResult {
   factory GetSamplingStatisticSummariesResult.fromJson(
           Map<String, dynamic> json) =>
       _$GetSamplingStatisticSummariesResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetSamplingTargetsRequest {
+  /// Information about rules that the service is using to sample requests.
+  @_s.JsonKey(name: 'SamplingStatisticsDocuments')
+  final List<SamplingStatisticsDocument> samplingStatisticsDocuments;
+
+  GetSamplingTargetsRequest({
+    @_s.required this.samplingStatisticsDocuments,
+  });
+  Map<String, dynamic> toJson() => _$GetSamplingTargetsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1591,6 +1766,48 @@ class GetSamplingTargetsResult {
   });
   factory GetSamplingTargetsResult.fromJson(Map<String, dynamic> json) =>
       _$GetSamplingTargetsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetServiceGraphRequest {
+  /// The end of the timeframe for which to generate a graph.
+  @_s.JsonKey(
+      name: 'EndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime endTime;
+
+  /// The start of the time frame for which to generate a graph.
+  @_s.JsonKey(
+      name: 'StartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime startTime;
+
+  /// The ARN of a group to generate a graph based on.
+  @_s.JsonKey(name: 'GroupARN')
+  final String groupARN;
+
+  /// The name of a group to generate a graph based on.
+  @_s.JsonKey(name: 'GroupName')
+  final String groupName;
+
+  /// Pagination token.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetServiceGraphRequest({
+    @_s.required this.endTime,
+    @_s.required this.startTime,
+    this.groupARN,
+    this.groupName,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$GetServiceGraphRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1642,6 +1859,61 @@ class GetServiceGraphResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetTimeSeriesServiceStatisticsRequest {
+  /// The end of the time frame for which to aggregate statistics.
+  @_s.JsonKey(
+      name: 'EndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime endTime;
+
+  /// The start of the time frame for which to aggregate statistics.
+  @_s.JsonKey(
+      name: 'StartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime startTime;
+
+  /// A filter expression defining entities that will be aggregated for
+  /// statistics. Supports ID, service, and edge functions. If no selector
+  /// expression is specified, edge statistics are returned.
+  @_s.JsonKey(name: 'EntitySelectorExpression')
+  final String entitySelectorExpression;
+
+  /// The ARN of the group for which to pull statistics from.
+  @_s.JsonKey(name: 'GroupARN')
+  final String groupARN;
+
+  /// The case-sensitive name of the group for which to pull statistics from.
+  @_s.JsonKey(name: 'GroupName')
+  final String groupName;
+
+  /// Pagination token.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Aggregation period in seconds.
+  @_s.JsonKey(name: 'Period')
+  final int period;
+
+  GetTimeSeriesServiceStatisticsRequest({
+    @_s.required this.endTime,
+    @_s.required this.startTime,
+    this.entitySelectorExpression,
+    this.groupARN,
+    this.groupName,
+    this.nextToken,
+    this.period,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetTimeSeriesServiceStatisticsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetTimeSeriesServiceStatisticsResult {
@@ -1672,6 +1944,27 @@ class GetTimeSeriesServiceStatisticsResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetTraceGraphRequest {
+  /// Trace IDs of requests for which to generate a service graph.
+  @_s.JsonKey(name: 'TraceIds')
+  final List<String> traceIds;
+
+  /// Pagination token.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetTraceGraphRequest({
+    @_s.required this.traceIds,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$GetTraceGraphRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetTraceGraphResult {
@@ -1689,6 +1982,63 @@ class GetTraceGraphResult {
   });
   factory GetTraceGraphResult.fromJson(Map<String, dynamic> json) =>
       _$GetTraceGraphResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetTraceSummariesRequest {
+  /// The end of the time frame for which to retrieve traces.
+  @_s.JsonKey(
+      name: 'EndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime endTime;
+
+  /// The start of the time frame for which to retrieve traces.
+  @_s.JsonKey(
+      name: 'StartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime startTime;
+
+  /// Specify a filter expression to retrieve trace summaries for services or
+  /// requests that meet certain requirements.
+  @_s.JsonKey(name: 'FilterExpression')
+  final String filterExpression;
+
+  /// Specify the pagination token returned by a previous request to retrieve the
+  /// next page of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Set to <code>true</code> to get summaries for only a subset of available
+  /// traces.
+  @_s.JsonKey(name: 'Sampling')
+  final bool sampling;
+
+  /// A paramater to indicate whether to enable sampling on trace summaries. Input
+  /// parameters are Name and Value.
+  @_s.JsonKey(name: 'SamplingStrategy')
+  final SamplingStrategy samplingStrategy;
+
+  /// A parameter to indicate whether to query trace summaries by TraceId or Event
+  /// time.
+  @_s.JsonKey(name: 'TimeRangeType')
+  final TimeRangeType timeRangeType;
+
+  GetTraceSummariesRequest({
+    @_s.required this.endTime,
+    @_s.required this.startTime,
+    this.filterExpression,
+    this.nextToken,
+    this.sampling,
+    this.samplingStrategy,
+    this.timeRangeType,
+  });
+  Map<String, dynamic> toJson() => _$GetTraceSummariesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1868,6 +2218,46 @@ class InstanceIdDetail {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutEncryptionConfigRequest {
+  /// The type of encryption. Set to <code>KMS</code> to use your own key for
+  /// encryption. Set to <code>NONE</code> for default encryption.
+  @_s.JsonKey(name: 'Type')
+  final EncryptionType type;
+
+  /// An AWS KMS customer master key (CMK) in one of the following formats:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Alias</b> - The name of the key. For example, <code>alias/MyKey</code>.
+  /// </li>
+  /// <li>
+  /// <b>Key ID</b> - The KMS key ID of the key. For example,
+  /// <code>ae4aa6d49-a4d8-9df9-a475-4ff6d7898456</code>. AWS X-Ray does not
+  /// support asymmetric CMKs.
+  /// </li>
+  /// <li>
+  /// <b>ARN</b> - The full Amazon Resource Name of the key ID or alias. For
+  /// example,
+  /// <code>arn:aws:kms:us-east-2:123456789012:key/ae4aa6d49-a4d8-9df9-a475-4ff6d7898456</code>.
+  /// Use this format to specify a key in a different account.
+  /// </li>
+  /// </ul>
+  /// Omit this key if you set <code>Type</code> to <code>NONE</code>.
+  @_s.JsonKey(name: 'KeyId')
+  final String keyId;
+
+  PutEncryptionConfigRequest({
+    @_s.required this.type,
+    this.keyId,
+  });
+  Map<String, dynamic> toJson() => _$PutEncryptionConfigRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutEncryptionConfigResult {
@@ -1885,12 +2275,60 @@ class PutEncryptionConfigResult {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutTelemetryRecordsRequest {
+  /// <p/>
+  @_s.JsonKey(name: 'TelemetryRecords')
+  final List<TelemetryRecord> telemetryRecords;
+
+  /// <p/>
+  @_s.JsonKey(name: 'EC2InstanceId')
+  final String eC2InstanceId;
+
+  /// <p/>
+  @_s.JsonKey(name: 'Hostname')
+  final String hostname;
+
+  /// <p/>
+  @_s.JsonKey(name: 'ResourceARN')
+  final String resourceARN;
+
+  PutTelemetryRecordsRequest({
+    @_s.required this.telemetryRecords,
+    this.eC2InstanceId,
+    this.hostname,
+    this.resourceARN,
+  });
+  Map<String, dynamic> toJson() => _$PutTelemetryRecordsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutTelemetryRecordsResult {
   PutTelemetryRecordsResult();
   factory PutTelemetryRecordsResult.fromJson(Map<String, dynamic> json) =>
       _$PutTelemetryRecordsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutTraceSegmentsRequest {
+  /// A string containing a JSON document defining one or more segments or
+  /// subsegments.
+  @_s.JsonKey(name: 'TraceSegmentDocuments')
+  final List<String> traceSegmentDocuments;
+
+  PutTraceSegmentsRequest({
+    @_s.required this.traceSegmentDocuments,
+  });
+  Map<String, dynamic> toJson() => _$PutTraceSegmentsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2674,18 +3112,6 @@ enum TimeRangeType {
   event,
 }
 
-extension on TimeRangeType {
-  String toValue() {
-    switch (this) {
-      case TimeRangeType.traceId:
-        return 'TraceId';
-      case TimeRangeType.event:
-        return 'Event';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// A list of TimeSeriesStatistic structures.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2959,6 +3385,32 @@ class UnprocessedTraceSegment {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateGroupRequest {
+  /// The updated filter expression defining criteria by which to group traces.
+  @_s.JsonKey(name: 'FilterExpression')
+  final String filterExpression;
+
+  /// The ARN that was generated upon creation.
+  @_s.JsonKey(name: 'GroupARN')
+  final String groupARN;
+
+  /// The case-sensitive name of the group.
+  @_s.JsonKey(name: 'GroupName')
+  final String groupName;
+
+  UpdateGroupRequest({
+    this.filterExpression,
+    this.groupARN,
+    this.groupName,
+  });
+  Map<String, dynamic> toJson() => _$UpdateGroupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateGroupResult {
@@ -2973,6 +3425,22 @@ class UpdateGroupResult {
   });
   factory UpdateGroupResult.fromJson(Map<String, dynamic> json) =>
       _$UpdateGroupResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateSamplingRuleRequest {
+  /// The rule and fields to change.
+  @_s.JsonKey(name: 'SamplingRuleUpdate')
+  final SamplingRuleUpdate samplingRuleUpdate;
+
+  UpdateSamplingRuleRequest({
+    @_s.required this.samplingRuleUpdate,
+  });
+  Map<String, dynamic> toJson() => _$UpdateSamplingRuleRequestToJson(this);
 }
 
 @_s.JsonSerializable(

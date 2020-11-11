@@ -6,11 +6,39 @@ part of 'greengrass-2017-06-07.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$AssociateRoleToGroupRequestToJson(
+    AssociateRoleToGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RoleArn', instance.roleArn);
+  return val;
+}
+
 AssociateRoleToGroupResponse _$AssociateRoleToGroupResponseFromJson(
     Map<String, dynamic> json) {
   return AssociateRoleToGroupResponse(
     associatedAt: json['AssociatedAt'] as String,
   );
+}
+
+Map<String, dynamic> _$AssociateServiceRoleToAccountRequestToJson(
+    AssociateServiceRoleToAccountRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RoleArn', instance.roleArn);
+  return val;
 }
 
 AssociateServiceRoleToAccountResponse
@@ -217,6 +245,22 @@ Map<String, dynamic> _$CoreDefinitionVersionToJson(
   return val;
 }
 
+Map<String, dynamic> _$CreateConnectorDefinitionRequestToJson(
+    CreateConnectorDefinitionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InitialVersion', instance.initialVersion?.toJson());
+  writeNotNull('Name', instance.name);
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
 CreateConnectorDefinitionResponse _$CreateConnectorDefinitionResponseFromJson(
     Map<String, dynamic> json) {
   return CreateConnectorDefinitionResponse(
@@ -230,6 +274,21 @@ CreateConnectorDefinitionResponse _$CreateConnectorDefinitionResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateConnectorDefinitionVersionRequestToJson(
+    CreateConnectorDefinitionVersionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'Connectors', instance.connectors?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateConnectorDefinitionVersionResponse
     _$CreateConnectorDefinitionVersionResponseFromJson(
         Map<String, dynamic> json) {
@@ -239,6 +298,22 @@ CreateConnectorDefinitionVersionResponse
     id: json['Id'] as String,
     version: json['Version'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateCoreDefinitionRequestToJson(
+    CreateCoreDefinitionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InitialVersion', instance.initialVersion?.toJson());
+  writeNotNull('Name', instance.name);
+  writeNotNull('tags', instance.tags);
+  return val;
 }
 
 CreateCoreDefinitionResponse _$CreateCoreDefinitionResponseFromJson(
@@ -254,6 +329,20 @@ CreateCoreDefinitionResponse _$CreateCoreDefinitionResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateCoreDefinitionVersionRequestToJson(
+    CreateCoreDefinitionVersionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Cores', instance.cores?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateCoreDefinitionVersionResponse
     _$CreateCoreDefinitionVersionResponseFromJson(Map<String, dynamic> json) {
   return CreateCoreDefinitionVersionResponse(
@@ -264,12 +353,45 @@ CreateCoreDefinitionVersionResponse
   );
 }
 
+Map<String, dynamic> _$CreateDeploymentRequestToJson(
+    CreateDeploymentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'DeploymentType', _$DeploymentTypeEnumMap[instance.deploymentType]);
+  writeNotNull('DeploymentId', instance.deploymentId);
+  writeNotNull('GroupVersionId', instance.groupVersionId);
+  return val;
+}
+
 CreateDeploymentResponse _$CreateDeploymentResponseFromJson(
     Map<String, dynamic> json) {
   return CreateDeploymentResponse(
     deploymentArn: json['DeploymentArn'] as String,
     deploymentId: json['DeploymentId'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateDeviceDefinitionRequestToJson(
+    CreateDeviceDefinitionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InitialVersion', instance.initialVersion?.toJson());
+  writeNotNull('Name', instance.name);
+  writeNotNull('tags', instance.tags);
+  return val;
 }
 
 CreateDeviceDefinitionResponse _$CreateDeviceDefinitionResponseFromJson(
@@ -285,6 +407,20 @@ CreateDeviceDefinitionResponse _$CreateDeviceDefinitionResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateDeviceDefinitionVersionRequestToJson(
+    CreateDeviceDefinitionVersionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Devices', instance.devices?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateDeviceDefinitionVersionResponse
     _$CreateDeviceDefinitionVersionResponseFromJson(Map<String, dynamic> json) {
   return CreateDeviceDefinitionVersionResponse(
@@ -293,6 +429,22 @@ CreateDeviceDefinitionVersionResponse
     id: json['Id'] as String,
     version: json['Version'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateFunctionDefinitionRequestToJson(
+    CreateFunctionDefinitionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InitialVersion', instance.initialVersion?.toJson());
+  writeNotNull('Name', instance.name);
+  writeNotNull('tags', instance.tags);
+  return val;
 }
 
 CreateFunctionDefinitionResponse _$CreateFunctionDefinitionResponseFromJson(
@@ -308,6 +460,22 @@ CreateFunctionDefinitionResponse _$CreateFunctionDefinitionResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateFunctionDefinitionVersionRequestToJson(
+    CreateFunctionDefinitionVersionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DefaultConfig', instance.defaultConfig?.toJson());
+  writeNotNull(
+      'Functions', instance.functions?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateFunctionDefinitionVersionResponse
     _$CreateFunctionDefinitionVersionResponseFromJson(
         Map<String, dynamic> json) {
@@ -319,6 +487,10 @@ CreateFunctionDefinitionVersionResponse
   );
 }
 
+Map<String, dynamic> _$CreateGroupCertificateAuthorityRequestToJson(
+        CreateGroupCertificateAuthorityRequest instance) =>
+    <String, dynamic>{};
+
 CreateGroupCertificateAuthorityResponse
     _$CreateGroupCertificateAuthorityResponseFromJson(
         Map<String, dynamic> json) {
@@ -326,6 +498,21 @@ CreateGroupCertificateAuthorityResponse
     groupCertificateAuthorityArn:
         json['GroupCertificateAuthorityArn'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateGroupRequestToJson(CreateGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InitialVersion', instance.initialVersion?.toJson());
+  writeNotNull('Name', instance.name);
+  writeNotNull('tags', instance.tags);
+  return val;
 }
 
 CreateGroupResponse _$CreateGroupResponseFromJson(Map<String, dynamic> json) {
@@ -340,6 +527,32 @@ CreateGroupResponse _$CreateGroupResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateGroupVersionRequestToJson(
+    CreateGroupVersionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'ConnectorDefinitionVersionArn', instance.connectorDefinitionVersionArn);
+  writeNotNull('CoreDefinitionVersionArn', instance.coreDefinitionVersionArn);
+  writeNotNull(
+      'DeviceDefinitionVersionArn', instance.deviceDefinitionVersionArn);
+  writeNotNull(
+      'FunctionDefinitionVersionArn', instance.functionDefinitionVersionArn);
+  writeNotNull(
+      'LoggerDefinitionVersionArn', instance.loggerDefinitionVersionArn);
+  writeNotNull(
+      'ResourceDefinitionVersionArn', instance.resourceDefinitionVersionArn);
+  writeNotNull('SubscriptionDefinitionVersionArn',
+      instance.subscriptionDefinitionVersionArn);
+  return val;
+}
+
 CreateGroupVersionResponse _$CreateGroupVersionResponseFromJson(
     Map<String, dynamic> json) {
   return CreateGroupVersionResponse(
@@ -348,6 +561,22 @@ CreateGroupVersionResponse _$CreateGroupVersionResponseFromJson(
     id: json['Id'] as String,
     version: json['Version'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateLoggerDefinitionRequestToJson(
+    CreateLoggerDefinitionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InitialVersion', instance.initialVersion?.toJson());
+  writeNotNull('Name', instance.name);
+  writeNotNull('tags', instance.tags);
+  return val;
 }
 
 CreateLoggerDefinitionResponse _$CreateLoggerDefinitionResponseFromJson(
@@ -363,6 +592,20 @@ CreateLoggerDefinitionResponse _$CreateLoggerDefinitionResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateLoggerDefinitionVersionRequestToJson(
+    CreateLoggerDefinitionVersionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Loggers', instance.loggers?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateLoggerDefinitionVersionResponse
     _$CreateLoggerDefinitionVersionResponseFromJson(Map<String, dynamic> json) {
   return CreateLoggerDefinitionVersionResponse(
@@ -371,6 +614,22 @@ CreateLoggerDefinitionVersionResponse
     id: json['Id'] as String,
     version: json['Version'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateResourceDefinitionRequestToJson(
+    CreateResourceDefinitionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InitialVersion', instance.initialVersion?.toJson());
+  writeNotNull('Name', instance.name);
+  writeNotNull('tags', instance.tags);
+  return val;
 }
 
 CreateResourceDefinitionResponse _$CreateResourceDefinitionResponseFromJson(
@@ -386,6 +645,21 @@ CreateResourceDefinitionResponse _$CreateResourceDefinitionResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateResourceDefinitionVersionRequestToJson(
+    CreateResourceDefinitionVersionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'Resources', instance.resources?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateResourceDefinitionVersionResponse
     _$CreateResourceDefinitionVersionResponseFromJson(
         Map<String, dynamic> json) {
@@ -397,6 +671,61 @@ CreateResourceDefinitionVersionResponse
   );
 }
 
+Map<String, dynamic> _$CreateSoftwareUpdateJobRequestToJson(
+    CreateSoftwareUpdateJobRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('S3UrlSignerRole', instance.s3UrlSignerRole);
+  writeNotNull(
+      'SoftwareToUpdate', _$SoftwareToUpdateEnumMap[instance.softwareToUpdate]);
+  writeNotNull('UpdateTargets', instance.updateTargets);
+  writeNotNull('UpdateTargetsArchitecture',
+      _$UpdateTargetsArchitectureEnumMap[instance.updateTargetsArchitecture]);
+  writeNotNull(
+      'UpdateTargetsOperatingSystem',
+      _$UpdateTargetsOperatingSystemEnumMap[
+          instance.updateTargetsOperatingSystem]);
+  writeNotNull('UpdateAgentLogLevel',
+      _$UpdateAgentLogLevelEnumMap[instance.updateAgentLogLevel]);
+  return val;
+}
+
+const _$SoftwareToUpdateEnumMap = {
+  SoftwareToUpdate.core: 'core',
+  SoftwareToUpdate.otaAgent: 'ota_agent',
+};
+
+const _$UpdateTargetsArchitectureEnumMap = {
+  UpdateTargetsArchitecture.armv6l: 'armv6l',
+  UpdateTargetsArchitecture.armv7l: 'armv7l',
+  UpdateTargetsArchitecture.x86_64: 'x86_64',
+  UpdateTargetsArchitecture.aarch64: 'aarch64',
+};
+
+const _$UpdateTargetsOperatingSystemEnumMap = {
+  UpdateTargetsOperatingSystem.ubuntu: 'ubuntu',
+  UpdateTargetsOperatingSystem.raspbian: 'raspbian',
+  UpdateTargetsOperatingSystem.amazonLinux: 'amazon_linux',
+  UpdateTargetsOperatingSystem.openwrt: 'openwrt',
+};
+
+const _$UpdateAgentLogLevelEnumMap = {
+  UpdateAgentLogLevel.none: 'NONE',
+  UpdateAgentLogLevel.trace: 'TRACE',
+  UpdateAgentLogLevel.debug: 'DEBUG',
+  UpdateAgentLogLevel.verbose: 'VERBOSE',
+  UpdateAgentLogLevel.info: 'INFO',
+  UpdateAgentLogLevel.warn: 'WARN',
+  UpdateAgentLogLevel.error: 'ERROR',
+  UpdateAgentLogLevel.fatal: 'FATAL',
+};
+
 CreateSoftwareUpdateJobResponse _$CreateSoftwareUpdateJobResponseFromJson(
     Map<String, dynamic> json) {
   return CreateSoftwareUpdateJobResponse(
@@ -404,6 +733,22 @@ CreateSoftwareUpdateJobResponse _$CreateSoftwareUpdateJobResponseFromJson(
     iotJobId: json['IotJobId'] as String,
     platformSoftwareVersion: json['PlatformSoftwareVersion'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateSubscriptionDefinitionRequestToJson(
+    CreateSubscriptionDefinitionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InitialVersion', instance.initialVersion?.toJson());
+  writeNotNull('Name', instance.name);
+  writeNotNull('tags', instance.tags);
+  return val;
 }
 
 CreateSubscriptionDefinitionResponse
@@ -417,6 +762,21 @@ CreateSubscriptionDefinitionResponse
     latestVersionArn: json['LatestVersionArn'] as String,
     name: json['Name'] as String,
   );
+}
+
+Map<String, dynamic> _$CreateSubscriptionDefinitionVersionRequestToJson(
+    CreateSubscriptionDefinitionVersionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Subscriptions',
+      instance.subscriptions?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateSubscriptionDefinitionVersionResponse
@@ -446,39 +806,70 @@ DefinitionInformation _$DefinitionInformationFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteConnectorDefinitionRequestToJson(
+        DeleteConnectorDefinitionRequest instance) =>
+    <String, dynamic>{};
+
 DeleteConnectorDefinitionResponse _$DeleteConnectorDefinitionResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteConnectorDefinitionResponse();
 }
+
+Map<String, dynamic> _$DeleteCoreDefinitionRequestToJson(
+        DeleteCoreDefinitionRequest instance) =>
+    <String, dynamic>{};
 
 DeleteCoreDefinitionResponse _$DeleteCoreDefinitionResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteCoreDefinitionResponse();
 }
 
+Map<String, dynamic> _$DeleteDeviceDefinitionRequestToJson(
+        DeleteDeviceDefinitionRequest instance) =>
+    <String, dynamic>{};
+
 DeleteDeviceDefinitionResponse _$DeleteDeviceDefinitionResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteDeviceDefinitionResponse();
 }
+
+Map<String, dynamic> _$DeleteFunctionDefinitionRequestToJson(
+        DeleteFunctionDefinitionRequest instance) =>
+    <String, dynamic>{};
 
 DeleteFunctionDefinitionResponse _$DeleteFunctionDefinitionResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteFunctionDefinitionResponse();
 }
 
+Map<String, dynamic> _$DeleteGroupRequestToJson(DeleteGroupRequest instance) =>
+    <String, dynamic>{};
+
 DeleteGroupResponse _$DeleteGroupResponseFromJson(Map<String, dynamic> json) {
   return DeleteGroupResponse();
 }
+
+Map<String, dynamic> _$DeleteLoggerDefinitionRequestToJson(
+        DeleteLoggerDefinitionRequest instance) =>
+    <String, dynamic>{};
 
 DeleteLoggerDefinitionResponse _$DeleteLoggerDefinitionResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteLoggerDefinitionResponse();
 }
 
+Map<String, dynamic> _$DeleteResourceDefinitionRequestToJson(
+        DeleteResourceDefinitionRequest instance) =>
+    <String, dynamic>{};
+
 DeleteResourceDefinitionResponse _$DeleteResourceDefinitionResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteResourceDefinitionResponse();
 }
+
+Map<String, dynamic> _$DeleteSubscriptionDefinitionRequestToJson(
+        DeleteSubscriptionDefinitionRequest instance) =>
+    <String, dynamic>{};
 
 DeleteSubscriptionDefinitionResponse
     _$DeleteSubscriptionDefinitionResponseFromJson(Map<String, dynamic> json) {
@@ -544,6 +935,10 @@ Map<String, dynamic> _$DeviceDefinitionVersionToJson(
   writeNotNull('Devices', instance.devices?.map((e) => e?.toJson())?.toList());
   return val;
 }
+
+Map<String, dynamic> _$DisassociateRoleFromGroupRequestToJson(
+        DisassociateRoleFromGroupRequest instance) =>
+    <String, dynamic>{};
 
 DisassociateRoleFromGroupResponse _$DisassociateRoleFromGroupResponseFromJson(
     Map<String, dynamic> json) {
@@ -1606,6 +2001,20 @@ Map<String, dynamic> _$LoggerDefinitionVersionToJson(
   return val;
 }
 
+Map<String, dynamic> _$ResetDeploymentsRequestToJson(
+    ResetDeploymentsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Force', instance.force);
+  return val;
+}
+
 ResetDeploymentsResponse _$ResetDeploymentsResponseFromJson(
     Map<String, dynamic> json) {
   return ResetDeploymentsResponse(
@@ -1857,6 +2266,22 @@ Map<String, dynamic> _$SecretsManagerSecretResourceDataToJson(
   return val;
 }
 
+Map<String, dynamic> _$StartBulkDeploymentRequestToJson(
+    StartBulkDeploymentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ExecutionRoleArn', instance.executionRoleArn);
+  writeNotNull('InputFileUri', instance.inputFileUri);
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
 StartBulkDeploymentResponse _$StartBulkDeploymentResponseFromJson(
     Map<String, dynamic> json) {
   return StartBulkDeploymentResponse(
@@ -1864,6 +2289,10 @@ StartBulkDeploymentResponse _$StartBulkDeploymentResponseFromJson(
     bulkDeploymentId: json['BulkDeploymentId'] as String,
   );
 }
+
+Map<String, dynamic> _$StopBulkDeploymentRequestToJson(
+        StopBulkDeploymentRequest instance) =>
+    <String, dynamic>{};
 
 StopBulkDeploymentResponse _$StopBulkDeploymentResponseFromJson(
     Map<String, dynamic> json) {
@@ -1920,6 +2349,38 @@ Map<String, dynamic> _$SubscriptionDefinitionVersionToJson(
   return val;
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('tags', instance.tags);
+  return val;
+}
+
+Map<String, dynamic> _$UntagResourceRequestToJson(
+        UntagResourceRequest instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$UpdateConnectivityInfoRequestToJson(
+    UpdateConnectivityInfoRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConnectivityInfo',
+      instance.connectivityInfo?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 UpdateConnectivityInfoResponse _$UpdateConnectivityInfoResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateConnectivityInfoResponse(
@@ -1928,9 +2389,37 @@ UpdateConnectivityInfoResponse _$UpdateConnectivityInfoResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateConnectorDefinitionRequestToJson(
+    UpdateConnectorDefinitionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
 UpdateConnectorDefinitionResponse _$UpdateConnectorDefinitionResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateConnectorDefinitionResponse();
+}
+
+Map<String, dynamic> _$UpdateCoreDefinitionRequestToJson(
+    UpdateCoreDefinitionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
 }
 
 UpdateCoreDefinitionResponse _$UpdateCoreDefinitionResponseFromJson(
@@ -1938,14 +2427,57 @@ UpdateCoreDefinitionResponse _$UpdateCoreDefinitionResponseFromJson(
   return UpdateCoreDefinitionResponse();
 }
 
+Map<String, dynamic> _$UpdateDeviceDefinitionRequestToJson(
+    UpdateDeviceDefinitionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
 UpdateDeviceDefinitionResponse _$UpdateDeviceDefinitionResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateDeviceDefinitionResponse();
 }
 
+Map<String, dynamic> _$UpdateFunctionDefinitionRequestToJson(
+    UpdateFunctionDefinitionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
 UpdateFunctionDefinitionResponse _$UpdateFunctionDefinitionResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateFunctionDefinitionResponse();
+}
+
+Map<String, dynamic> _$UpdateGroupCertificateConfigurationRequestToJson(
+    UpdateGroupCertificateConfigurationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CertificateExpiryInMilliseconds',
+      instance.certificateExpiryInMilliseconds);
+  return val;
 }
 
 UpdateGroupCertificateConfigurationResponse
@@ -1960,8 +2492,35 @@ UpdateGroupCertificateConfigurationResponse
   );
 }
 
+Map<String, dynamic> _$UpdateGroupRequestToJson(UpdateGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
 UpdateGroupResponse _$UpdateGroupResponseFromJson(Map<String, dynamic> json) {
   return UpdateGroupResponse();
+}
+
+Map<String, dynamic> _$UpdateLoggerDefinitionRequestToJson(
+    UpdateLoggerDefinitionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
 }
 
 UpdateLoggerDefinitionResponse _$UpdateLoggerDefinitionResponseFromJson(
@@ -1969,9 +2528,37 @@ UpdateLoggerDefinitionResponse _$UpdateLoggerDefinitionResponseFromJson(
   return UpdateLoggerDefinitionResponse();
 }
 
+Map<String, dynamic> _$UpdateResourceDefinitionRequestToJson(
+    UpdateResourceDefinitionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
 UpdateResourceDefinitionResponse _$UpdateResourceDefinitionResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateResourceDefinitionResponse();
+}
+
+Map<String, dynamic> _$UpdateSubscriptionDefinitionRequestToJson(
+    UpdateSubscriptionDefinitionRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
 }
 
 UpdateSubscriptionDefinitionResponse

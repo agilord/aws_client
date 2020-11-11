@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -88,14 +87,14 @@ class SMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (clientToken != null) 'clientToken': clientToken,
-        if (description != null) 'description': description,
-        if (name != null) 'name': name,
-        if (roleName != null) 'roleName': roleName,
-        if (serverGroups != null) 'serverGroups': serverGroups,
-        if (tags != null) 'tags': tags,
-      },
+      payload: CreateAppRequest(
+        clientToken: clientToken,
+        description: description,
+        name: name,
+        roleName: roleName,
+        serverGroups: serverGroups,
+        tags: tags,
+      ),
     );
 
     return CreateAppResponse.fromJson(jsonResponse.body);
@@ -190,19 +189,18 @@ class SMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'seedReplicationTime': seedReplicationTime,
-        'serverId': serverId,
-        if (description != null) 'description': description,
-        if (encrypted != null) 'encrypted': encrypted,
-        if (frequency != null) 'frequency': frequency,
-        if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
-        if (licenseType != null) 'licenseType': licenseType?.toValue(),
-        if (numberOfRecentAmisToKeep != null)
-          'numberOfRecentAmisToKeep': numberOfRecentAmisToKeep,
-        if (roleName != null) 'roleName': roleName,
-        if (runOnce != null) 'runOnce': runOnce,
-      },
+      payload: CreateReplicationJobRequest(
+        seedReplicationTime: seedReplicationTime,
+        serverId: serverId,
+        description: description,
+        encrypted: encrypted,
+        frequency: frequency,
+        kmsKeyId: kmsKeyId,
+        licenseType: licenseType,
+        numberOfRecentAmisToKeep: numberOfRecentAmisToKeep,
+        roleName: roleName,
+        runOnce: runOnce,
+      ),
     );
 
     return CreateReplicationJobResponse.fromJson(jsonResponse.body);
@@ -243,12 +241,11 @@ class SMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (appId != null) 'appId': appId,
-        if (forceStopAppReplication != null)
-          'forceStopAppReplication': forceStopAppReplication,
-        if (forceTerminateApp != null) 'forceTerminateApp': forceTerminateApp,
-      },
+      payload: DeleteAppRequest(
+        appId: appId,
+        forceStopAppReplication: forceStopAppReplication,
+        forceTerminateApp: forceTerminateApp,
+      ),
     );
 
     return DeleteAppResponse.fromJson(jsonResponse.body);
@@ -278,9 +275,9 @@ class SMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (appId != null) 'appId': appId,
-      },
+      payload: DeleteAppLaunchConfigurationRequest(
+        appId: appId,
+      ),
     );
 
     return DeleteAppLaunchConfigurationResponse.fromJson(jsonResponse.body);
@@ -310,9 +307,9 @@ class SMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (appId != null) 'appId': appId,
-      },
+      payload: DeleteAppReplicationConfigurationRequest(
+        appId: appId,
+      ),
     );
 
     return DeleteAppReplicationConfigurationResponse.fromJson(
@@ -348,9 +345,9 @@ class SMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'replicationJobId': replicationJobId,
-      },
+      payload: DeleteReplicationJobRequest(
+        replicationJobId: replicationJobId,
+      ),
     );
 
     return DeleteReplicationJobResponse.fromJson(jsonResponse.body);
@@ -406,9 +403,9 @@ class SMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'connectorId': connectorId,
-      },
+      payload: DisassociateConnectorRequest(
+        connectorId: connectorId,
+      ),
     );
 
     return DisassociateConnectorResponse.fromJson(jsonResponse.body);
@@ -442,11 +439,10 @@ class SMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (appId != null) 'appId': appId,
-        if (changesetFormat != null)
-          'changesetFormat': changesetFormat?.toValue(),
-      },
+      payload: GenerateChangeSetRequest(
+        appId: appId,
+        changesetFormat: changesetFormat,
+      ),
     );
 
     return GenerateChangeSetResponse.fromJson(jsonResponse.body);
@@ -481,10 +477,10 @@ class SMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (appId != null) 'appId': appId,
-        if (templateFormat != null) 'templateFormat': templateFormat?.toValue(),
-      },
+      payload: GenerateTemplateRequest(
+        appId: appId,
+        templateFormat: templateFormat,
+      ),
     );
 
     return GenerateTemplateResponse.fromJson(jsonResponse.body);
@@ -513,9 +509,9 @@ class SMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (appId != null) 'appId': appId,
-      },
+      payload: GetAppRequest(
+        appId: appId,
+      ),
     );
 
     return GetAppResponse.fromJson(jsonResponse.body);
@@ -546,9 +542,9 @@ class SMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (appId != null) 'appId': appId,
-      },
+      payload: GetAppLaunchConfigurationRequest(
+        appId: appId,
+      ),
     );
 
     return GetAppLaunchConfigurationResponse.fromJson(jsonResponse.body);
@@ -580,9 +576,9 @@ class SMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (appId != null) 'appId': appId,
-      },
+      payload: GetAppReplicationConfigurationRequest(
+        appId: appId,
+      ),
     );
 
     return GetAppReplicationConfigurationResponse.fromJson(jsonResponse.body);
@@ -613,10 +609,10 @@ class SMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: GetConnectorsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return GetConnectorsResponse.fromJson(jsonResponse.body);
@@ -653,11 +649,11 @@ class SMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (replicationJobId != null) 'replicationJobId': replicationJobId,
-      },
+      payload: GetReplicationJobsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+        replicationJobId: replicationJobId,
+      ),
     );
 
     return GetReplicationJobsResponse.fromJson(jsonResponse.body);
@@ -695,11 +691,11 @@ class SMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'replicationJobId': replicationJobId,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: GetReplicationRunsRequest(
+        replicationJobId: replicationJobId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return GetReplicationRunsResponse.fromJson(jsonResponse.body);
@@ -737,12 +733,11 @@ class SMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (vmServerAddressList != null)
-          'vmServerAddressList': vmServerAddressList,
-      },
+      payload: GetServersRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+        vmServerAddressList: vmServerAddressList,
+      ),
     );
 
     return GetServersResponse.fromJson(jsonResponse.body);
@@ -799,9 +794,9 @@ class SMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (appId != null) 'appId': appId,
-      },
+      payload: LaunchAppRequest(
+        appId: appId,
+      ),
     );
 
     return LaunchAppResponse.fromJson(jsonResponse.body);
@@ -840,11 +835,11 @@ class SMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (appIds != null) 'appIds': appIds,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
+      payload: ListAppsRequest(
+        appIds: appIds,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListAppsResponse.fromJson(jsonResponse.body);
@@ -883,12 +878,11 @@ class SMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (appId != null) 'appId': appId,
-        if (roleName != null) 'roleName': roleName,
-        if (serverGroupLaunchConfigurations != null)
-          'serverGroupLaunchConfigurations': serverGroupLaunchConfigurations,
-      },
+      payload: PutAppLaunchConfigurationRequest(
+        appId: appId,
+        roleName: roleName,
+        serverGroupLaunchConfigurations: serverGroupLaunchConfigurations,
+      ),
     );
 
     return PutAppLaunchConfigurationResponse.fromJson(jsonResponse.body);
@@ -923,12 +917,11 @@ class SMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (appId != null) 'appId': appId,
-        if (serverGroupReplicationConfigurations != null)
-          'serverGroupReplicationConfigurations':
-              serverGroupReplicationConfigurations,
-      },
+      payload: PutAppReplicationConfigurationRequest(
+        appId: appId,
+        serverGroupReplicationConfigurations:
+            serverGroupReplicationConfigurations,
+      ),
     );
 
     return PutAppReplicationConfigurationResponse.fromJson(jsonResponse.body);
@@ -958,9 +951,9 @@ class SMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (appId != null) 'appId': appId,
-      },
+      payload: StartAppReplicationRequest(
+        appId: appId,
+      ),
     );
 
     return StartAppReplicationResponse.fromJson(jsonResponse.body);
@@ -1000,10 +993,10 @@ class SMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'replicationJobId': replicationJobId,
-        if (description != null) 'description': description,
-      },
+      payload: StartOnDemandReplicationRunRequest(
+        replicationJobId: replicationJobId,
+        description: description,
+      ),
     );
 
     return StartOnDemandReplicationRunResponse.fromJson(jsonResponse.body);
@@ -1032,9 +1025,9 @@ class SMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (appId != null) 'appId': appId,
-      },
+      payload: StopAppReplicationRequest(
+        appId: appId,
+      ),
     );
 
     return StopAppReplicationResponse.fromJson(jsonResponse.body);
@@ -1063,9 +1056,9 @@ class SMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (appId != null) 'appId': appId,
-      },
+      payload: TerminateAppRequest(
+        appId: appId,
+      ),
     );
 
     return TerminateAppResponse.fromJson(jsonResponse.body);
@@ -1114,14 +1107,14 @@ class SMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (appId != null) 'appId': appId,
-        if (description != null) 'description': description,
-        if (name != null) 'name': name,
-        if (roleName != null) 'roleName': roleName,
-        if (serverGroups != null) 'serverGroups': serverGroups,
-        if (tags != null) 'tags': tags,
-      },
+      payload: UpdateAppRequest(
+        appId: appId,
+        description: description,
+        name: name,
+        roleName: roleName,
+        serverGroups: serverGroups,
+        tags: tags,
+      ),
     );
 
     return UpdateAppResponse.fromJson(jsonResponse.body);
@@ -1209,19 +1202,17 @@ class SMS {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'replicationJobId': replicationJobId,
-        if (description != null) 'description': description,
-        if (encrypted != null) 'encrypted': encrypted,
-        if (frequency != null) 'frequency': frequency,
-        if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
-        if (licenseType != null) 'licenseType': licenseType?.toValue(),
-        if (nextReplicationRunStartTime != null)
-          'nextReplicationRunStartTime': nextReplicationRunStartTime,
-        if (numberOfRecentAmisToKeep != null)
-          'numberOfRecentAmisToKeep': numberOfRecentAmisToKeep,
-        if (roleName != null) 'roleName': roleName,
-      },
+      payload: UpdateReplicationJobRequest(
+        replicationJobId: replicationJobId,
+        description: description,
+        encrypted: encrypted,
+        frequency: frequency,
+        kmsKeyId: kmsKeyId,
+        licenseType: licenseType,
+        nextReplicationRunStartTime: nextReplicationRunStartTime,
+        numberOfRecentAmisToKeep: numberOfRecentAmisToKeep,
+        roleName: roleName,
+      ),
     );
 
     return UpdateReplicationJobResponse.fromJson(jsonResponse.body);
@@ -1496,6 +1487,48 @@ enum ConnectorStatus {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateAppRequest {
+  /// A unique, case-sensitive identifier you provide to ensure idempotency of
+  /// application creation.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// Description of the new application
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// Name of the new application.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// Name of service role in customer's account to be used by AWS SMS.
+  @_s.JsonKey(name: 'roleName')
+  final String roleName;
+
+  /// List of server groups to include in the application.
+  @_s.JsonKey(name: 'serverGroups')
+  final List<ServerGroup> serverGroups;
+
+  /// List of tags to be associated with the application.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  CreateAppRequest({
+    this.clientToken,
+    this.description,
+    this.name,
+    this.roleName,
+    this.serverGroups,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateAppRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateAppResponse {
@@ -1523,6 +1556,91 @@ class CreateAppResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateReplicationJobRequest {
+  /// The seed replication time.
+  @_s.JsonKey(
+      name: 'seedReplicationTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime seedReplicationTime;
+
+  /// The identifier of the server.
+  @_s.JsonKey(name: 'serverId')
+  final String serverId;
+
+  /// The description of the replication job.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// When <i>true</i>, the replication job produces encrypted AMIs. See also
+  /// <code>KmsKeyId</code> below.
+  @_s.JsonKey(name: 'encrypted')
+  final bool encrypted;
+
+  /// The time between consecutive replication runs, in hours.
+  @_s.JsonKey(name: 'frequency')
+  final int frequency;
+
+  /// KMS key ID for replication jobs that produce encrypted AMIs. Can be any of
+  /// the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// KMS key ID
+  /// </li>
+  /// <li>
+  /// KMS key alias
+  /// </li>
+  /// <li>
+  /// ARN referring to KMS key ID
+  /// </li>
+  /// <li>
+  /// ARN referring to KMS key alias
+  /// </li>
+  /// </ul>
+  /// If encrypted is <i>true</i> but a KMS key id is not specified, the
+  /// customer's default KMS key for EBS is used.
+  @_s.JsonKey(name: 'kmsKeyId')
+  final String kmsKeyId;
+
+  /// The license type to be used for the AMI created by a successful replication
+  /// run.
+  @_s.JsonKey(name: 'licenseType')
+  final LicenseType licenseType;
+
+  /// The maximum number of SMS-created AMIs to retain. The oldest will be deleted
+  /// once the maximum number is reached and a new AMI is created.
+  @_s.JsonKey(name: 'numberOfRecentAmisToKeep')
+  final int numberOfRecentAmisToKeep;
+
+  /// The name of the IAM role to be used by the AWS SMS.
+  @_s.JsonKey(name: 'roleName')
+  final String roleName;
+
+  /// <p/>
+  @_s.JsonKey(name: 'runOnce')
+  final bool runOnce;
+
+  CreateReplicationJobRequest({
+    @_s.required this.seedReplicationTime,
+    @_s.required this.serverId,
+    this.description,
+    this.encrypted,
+    this.frequency,
+    this.kmsKeyId,
+    this.licenseType,
+    this.numberOfRecentAmisToKeep,
+    this.roleName,
+    this.runOnce,
+  });
+  Map<String, dynamic> toJson() => _$CreateReplicationJobRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateReplicationJobResponse {
@@ -1540,6 +1658,23 @@ class CreateReplicationJobResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteAppLaunchConfigurationRequest {
+  /// ID of the application associated with the launch configuration.
+  @_s.JsonKey(name: 'appId')
+  final String appId;
+
+  DeleteAppLaunchConfigurationRequest({
+    this.appId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteAppLaunchConfigurationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteAppLaunchConfigurationResponse {
@@ -1547,6 +1682,23 @@ class DeleteAppLaunchConfigurationResponse {
   factory DeleteAppLaunchConfigurationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DeleteAppLaunchConfigurationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteAppReplicationConfigurationRequest {
+  /// ID of the application associated with the replication configuration.
+  @_s.JsonKey(name: 'appId')
+  final String appId;
+
+  DeleteAppReplicationConfigurationRequest({
+    this.appId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteAppReplicationConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1564,12 +1716,56 @@ class DeleteAppReplicationConfigurationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteAppRequest {
+  /// ID of the application to delete.
+  @_s.JsonKey(name: 'appId')
+  final String appId;
+
+  /// While deleting the application, stop all replication jobs corresponding to
+  /// the servers in the application.
+  @_s.JsonKey(name: 'forceStopAppReplication')
+  final bool forceStopAppReplication;
+
+  /// While deleting the application, terminate the stack corresponding to the
+  /// application.
+  @_s.JsonKey(name: 'forceTerminateApp')
+  final bool forceTerminateApp;
+
+  DeleteAppRequest({
+    this.appId,
+    this.forceStopAppReplication,
+    this.forceTerminateApp,
+  });
+  Map<String, dynamic> toJson() => _$DeleteAppRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteAppResponse {
   DeleteAppResponse();
   factory DeleteAppResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteAppResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteReplicationJobRequest {
+  /// The identifier of the replication job.
+  @_s.JsonKey(name: 'replicationJobId')
+  final String replicationJobId;
+
+  DeleteReplicationJobRequest({
+    @_s.required this.replicationJobId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteReplicationJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1597,12 +1793,49 @@ class DeleteServerCatalogResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DisassociateConnectorRequest {
+  /// The identifier of the connector.
+  @_s.JsonKey(name: 'connectorId')
+  final String connectorId;
+
+  DisassociateConnectorRequest({
+    @_s.required this.connectorId,
+  });
+  Map<String, dynamic> toJson() => _$DisassociateConnectorRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DisassociateConnectorResponse {
   DisassociateConnectorResponse();
   factory DisassociateConnectorResponse.fromJson(Map<String, dynamic> json) =>
       _$DisassociateConnectorResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GenerateChangeSetRequest {
+  /// ID of the application associated with the change set.
+  @_s.JsonKey(name: 'appId')
+  final String appId;
+
+  /// Format for the change set.
+  @_s.JsonKey(name: 'changesetFormat')
+  final OutputFormat changesetFormat;
+
+  GenerateChangeSetRequest({
+    this.appId,
+    this.changesetFormat,
+  });
+  Map<String, dynamic> toJson() => _$GenerateChangeSetRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1625,6 +1858,27 @@ class GenerateChangeSetResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GenerateTemplateRequest {
+  /// ID of the application associated with the Amazon CloudFormation template.
+  @_s.JsonKey(name: 'appId')
+  final String appId;
+
+  /// Format for generating the Amazon CloudFormation template.
+  @_s.JsonKey(name: 'templateFormat')
+  final OutputFormat templateFormat;
+
+  GenerateTemplateRequest({
+    this.appId,
+    this.templateFormat,
+  });
+  Map<String, dynamic> toJson() => _$GenerateTemplateRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GenerateTemplateResponse {
@@ -1637,6 +1891,23 @@ class GenerateTemplateResponse {
   });
   factory GenerateTemplateResponse.fromJson(Map<String, dynamic> json) =>
       _$GenerateTemplateResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetAppLaunchConfigurationRequest {
+  /// ID of the application launch configuration.
+  @_s.JsonKey(name: 'appId')
+  final String appId;
+
+  GetAppLaunchConfigurationRequest({
+    this.appId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetAppLaunchConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1671,6 +1942,23 @@ class GetAppLaunchConfigurationResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetAppReplicationConfigurationRequest {
+  /// ID of the application associated with the replication configuration.
+  @_s.JsonKey(name: 'appId')
+  final String appId;
+
+  GetAppReplicationConfigurationRequest({
+    this.appId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$GetAppReplicationConfigurationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetAppReplicationConfigurationResponse {
@@ -1686,6 +1974,22 @@ class GetAppReplicationConfigurationResponse {
   factory GetAppReplicationConfigurationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$GetAppReplicationConfigurationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetAppRequest {
+  /// ID of the application whose information is being retrieved.
+  @_s.JsonKey(name: 'appId')
+  final String appId;
+
+  GetAppRequest({
+    this.appId,
+  });
+  Map<String, dynamic> toJson() => _$GetAppRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1718,6 +2022,29 @@ class GetAppResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetConnectorsRequest {
+  /// The maximum number of results to return in a single call. The default value
+  /// is 50. To retrieve the remaining results, make another call with the
+  /// returned <code>NextToken</code> value.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The token for the next set of results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  GetConnectorsRequest({
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$GetConnectorsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetConnectorsResponse {
@@ -1736,6 +2063,34 @@ class GetConnectorsResponse {
   });
   factory GetConnectorsResponse.fromJson(Map<String, dynamic> json) =>
       _$GetConnectorsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetReplicationJobsRequest {
+  /// The maximum number of results to return in a single call. The default value
+  /// is 50. To retrieve the remaining results, make another call with the
+  /// returned <code>NextToken</code> value.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The token for the next set of results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The identifier of the replication job.
+  @_s.JsonKey(name: 'replicationJobId')
+  final String replicationJobId;
+
+  GetReplicationJobsRequest({
+    this.maxResults,
+    this.nextToken,
+    this.replicationJobId,
+  });
+  Map<String, dynamic> toJson() => _$GetReplicationJobsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1764,6 +2119,34 @@ class GetReplicationJobsResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetReplicationRunsRequest {
+  /// The identifier of the replication job.
+  @_s.JsonKey(name: 'replicationJobId')
+  final String replicationJobId;
+
+  /// The maximum number of results to return in a single call. The default value
+  /// is 50. To retrieve the remaining results, make another call with the
+  /// returned <code>NextToken</code> value.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The token for the next set of results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  GetReplicationRunsRequest({
+    @_s.required this.replicationJobId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$GetReplicationRunsRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetReplicationRunsResponse {
@@ -1787,6 +2170,34 @@ class GetReplicationRunsResponse {
   });
   factory GetReplicationRunsResponse.fromJson(Map<String, dynamic> json) =>
       _$GetReplicationRunsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetServersRequest {
+  /// The maximum number of results to return in a single call. The default value
+  /// is 50. To retrieve the remaining results, make another call with the
+  /// returned <code>NextToken</code> value.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The token for the next set of results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// List of <code>VmServerAddress</code> objects
+  @_s.JsonKey(name: 'vmServerAddressList')
+  final List<VmServerAddress> vmServerAddressList;
+
+  GetServersRequest({
+    this.maxResults,
+    this.nextToken,
+    this.vmServerAddressList,
+  });
+  Map<String, dynamic> toJson() => _$GetServersRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1839,6 +2250,22 @@ class ImportServerCatalogResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class LaunchAppRequest {
+  /// ID of the application to launch.
+  @_s.JsonKey(name: 'appId')
+  final String appId;
+
+  LaunchAppRequest({
+    this.appId,
+  });
+  Map<String, dynamic> toJson() => _$LaunchAppRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class LaunchAppResponse {
@@ -1885,16 +2312,32 @@ enum LicenseType {
   byol,
 }
 
-extension on LicenseType {
-  String toValue() {
-    switch (this) {
-      case LicenseType.aws:
-        return 'AWS';
-      case LicenseType.byol:
-        return 'BYOL';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListAppsRequest {
+  /// <p/>
+  @_s.JsonKey(name: 'appIds')
+  final List<String> appIds;
+
+  /// The maximum number of results to return in a single call. The default value
+  /// is 50. To retrieve the remaining results, make another call with the
+  /// returned <code>NextToken</code> value.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// The token for the next set of results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListAppsRequest({
+    this.appIds,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListAppsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1927,16 +2370,32 @@ enum OutputFormat {
   yaml,
 }
 
-extension on OutputFormat {
-  String toValue() {
-    switch (this) {
-      case OutputFormat.json:
-        return 'JSON';
-      case OutputFormat.yaml:
-        return 'YAML';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutAppLaunchConfigurationRequest {
+  /// ID of the application associated with the launch configuration.
+  @_s.JsonKey(name: 'appId')
+  final String appId;
+
+  /// Name of service role in the customer's account that Amazon CloudFormation
+  /// uses to launch the application.
+  @_s.JsonKey(name: 'roleName')
+  final String roleName;
+
+  /// Launch configurations for server groups in the application.
+  @_s.JsonKey(name: 'serverGroupLaunchConfigurations')
+  final List<ServerGroupLaunchConfiguration> serverGroupLaunchConfigurations;
+
+  PutAppLaunchConfigurationRequest({
+    this.appId,
+    this.roleName,
+    this.serverGroupLaunchConfigurations,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutAppLaunchConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1949,6 +2408,29 @@ class PutAppLaunchConfigurationResponse {
   factory PutAppLaunchConfigurationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$PutAppLaunchConfigurationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutAppReplicationConfigurationRequest {
+  /// ID of the application tassociated with the replication configuration.
+  @_s.JsonKey(name: 'appId')
+  final String appId;
+
+  /// Replication configurations for server groups in the application.
+  @_s.JsonKey(name: 'serverGroupReplicationConfigurations')
+  final List<ServerGroupReplicationConfiguration>
+      serverGroupReplicationConfigurations;
+
+  PutAppReplicationConfigurationRequest({
+    this.appId,
+    this.serverGroupReplicationConfigurations,
+  });
+  Map<String, dynamic> toJson() =>
+      _$PutAppReplicationConfigurationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2585,12 +3067,50 @@ enum ServerType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartAppReplicationRequest {
+  /// ID of the application to replicate.
+  @_s.JsonKey(name: 'appId')
+  final String appId;
+
+  StartAppReplicationRequest({
+    this.appId,
+  });
+  Map<String, dynamic> toJson() => _$StartAppReplicationRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartAppReplicationResponse {
   StartAppReplicationResponse();
   factory StartAppReplicationResponse.fromJson(Map<String, dynamic> json) =>
       _$StartAppReplicationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartOnDemandReplicationRunRequest {
+  /// The identifier of the replication job.
+  @_s.JsonKey(name: 'replicationJobId')
+  final String replicationJobId;
+
+  /// The description of the replication run.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  StartOnDemandReplicationRunRequest({
+    @_s.required this.replicationJobId,
+    this.description,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StartOnDemandReplicationRunRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2609,6 +3129,22 @@ class StartOnDemandReplicationRunResponse {
   factory StartOnDemandReplicationRunResponse.fromJson(
           Map<String, dynamic> json) =>
       _$StartOnDemandReplicationRunResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StopAppReplicationRequest {
+  /// ID of the application to stop replicating.
+  @_s.JsonKey(name: 'appId')
+  final String appId;
+
+  StopAppReplicationRequest({
+    this.appId,
+  });
+  Map<String, dynamic> toJson() => _$StopAppReplicationRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2649,12 +3185,69 @@ class Tag {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TerminateAppRequest {
+  /// ID of the application to terminate.
+  @_s.JsonKey(name: 'appId')
+  final String appId;
+
+  TerminateAppRequest({
+    this.appId,
+  });
+  Map<String, dynamic> toJson() => _$TerminateAppRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TerminateAppResponse {
   TerminateAppResponse();
   factory TerminateAppResponse.fromJson(Map<String, dynamic> json) =>
       _$TerminateAppResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateAppRequest {
+  /// ID of the application to update.
+  @_s.JsonKey(name: 'appId')
+  final String appId;
+
+  /// New description of the application.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// New name of the application.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// Name of the service role in the customer's account used by AWS SMS.
+  @_s.JsonKey(name: 'roleName')
+  final String roleName;
+
+  /// List of server groups in the application to update.
+  @_s.JsonKey(name: 'serverGroups')
+  final List<ServerGroup> serverGroups;
+
+  /// List of tags to associate with the application.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  UpdateAppRequest({
+    this.appId,
+    this.description,
+    this.name,
+    this.roleName,
+    this.serverGroups,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$UpdateAppRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2682,6 +3275,87 @@ class UpdateAppResponse {
   });
   factory UpdateAppResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateAppResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateReplicationJobRequest {
+  /// The identifier of the replication job.
+  @_s.JsonKey(name: 'replicationJobId')
+  final String replicationJobId;
+
+  /// The description of the replication job.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// When true, the replication job produces encrypted AMIs . See also
+  /// <code>KmsKeyId</code> below.
+  @_s.JsonKey(name: 'encrypted')
+  final bool encrypted;
+
+  /// The time between consecutive replication runs, in hours.
+  @_s.JsonKey(name: 'frequency')
+  final int frequency;
+
+  /// <p/>
+  /// KMS key ID for replication jobs that produce encrypted AMIs. Can be any of
+  /// the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// KMS key ID
+  /// </li>
+  /// <li>
+  /// KMS key alias
+  /// </li>
+  /// <li>
+  /// ARN referring to KMS key ID
+  /// </li>
+  /// <li>
+  /// ARN referring to KMS key alias
+  /// </li>
+  /// </ul>
+  /// If encrypted is <i>true</i> but a KMS key id is not specified, the
+  /// customer's default KMS key for EBS is used.
+  @_s.JsonKey(name: 'kmsKeyId')
+  final String kmsKeyId;
+
+  /// The license type to be used for the AMI created by a successful replication
+  /// run.
+  @_s.JsonKey(name: 'licenseType')
+  final LicenseType licenseType;
+
+  /// The start time of the next replication run.
+  @_s.JsonKey(
+      name: 'nextReplicationRunStartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime nextReplicationRunStartTime;
+
+  /// The maximum number of SMS-created AMIs to retain. The oldest will be deleted
+  /// once the maximum number is reached and a new AMI is created.
+  @_s.JsonKey(name: 'numberOfRecentAmisToKeep')
+  final int numberOfRecentAmisToKeep;
+
+  /// The name of the IAM role to be used by AWS SMS.
+  @_s.JsonKey(name: 'roleName')
+  final String roleName;
+
+  UpdateReplicationJobRequest({
+    @_s.required this.replicationJobId,
+    this.description,
+    this.encrypted,
+    this.frequency,
+    this.kmsKeyId,
+    this.licenseType,
+    this.nextReplicationRunStartTime,
+    this.numberOfRecentAmisToKeep,
+    this.roleName,
+  });
+  Map<String, dynamic> toJson() => _$UpdateReplicationJobRequestToJson(this);
 }
 
 @_s.JsonSerializable(

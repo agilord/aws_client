@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -108,10 +107,10 @@ class ACM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CertificateArn': certificateArn,
-        'Tags': tags,
-      },
+      payload: AddTagsToCertificateRequest(
+        certificateArn: certificateArn,
+        tags: tags,
+      ),
     );
   }
 
@@ -166,9 +165,9 @@ class ACM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CertificateArn': certificateArn,
-      },
+      payload: DeleteCertificateRequest(
+        certificateArn: certificateArn,
+      ),
     );
   }
 
@@ -213,9 +212,9 @@ class ACM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CertificateArn': certificateArn,
-      },
+      payload: DescribeCertificateRequest(
+        certificateArn: certificateArn,
+      ),
     );
 
     return DescribeCertificateResponse.fromJson(jsonResponse.body);
@@ -277,10 +276,10 @@ class ACM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CertificateArn': certificateArn,
-        'Passphrase': passphrase?.let(base64Encode),
-      },
+      payload: ExportCertificateRequest(
+        certificateArn: certificateArn,
+        passphrase: passphrase,
+      ),
     );
 
     return ExportCertificateResponse.fromJson(jsonResponse.body);
@@ -332,9 +331,9 @@ class ACM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CertificateArn': certificateArn,
-      },
+      payload: GetCertificateRequest(
+        certificateArn: certificateArn,
+      ),
     );
 
     return GetCertificateResponse.fromJson(jsonResponse.body);
@@ -471,14 +470,13 @@ class ACM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'Certificate': certificate?.let(base64Encode),
-        'PrivateKey': privateKey?.let(base64Encode),
-        if (certificateArn != null) 'CertificateArn': certificateArn,
-        if (certificateChain != null)
-          'CertificateChain': certificateChain.let(base64Encode),
-        if (tags != null) 'Tags': tags,
-      },
+      payload: ImportCertificateRequest(
+        certificate: certificate,
+        privateKey: privateKey,
+        certificateArn: certificateArn,
+        certificateChain: certificateChain,
+        tags: tags,
+      ),
     );
 
     return ImportCertificateResponse.fromJson(jsonResponse.body);
@@ -543,13 +541,12 @@ class ACM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (certificateStatuses != null)
-          'CertificateStatuses': certificateStatuses,
-        if (includes != null) 'Includes': includes,
-        if (maxItems != null) 'MaxItems': maxItems,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListCertificatesRequest(
+        certificateStatuses: certificateStatuses,
+        includes: includes,
+        maxItems: maxItems,
+        nextToken: nextToken,
+      ),
     );
 
     return ListCertificatesResponse.fromJson(jsonResponse.body);
@@ -599,9 +596,9 @@ class ACM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CertificateArn': certificateArn,
-      },
+      payload: ListTagsForCertificateRequest(
+        certificateArn: certificateArn,
+      ),
     );
 
     return ListTagsForCertificateResponse.fromJson(jsonResponse.body);
@@ -664,10 +661,10 @@ class ACM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CertificateArn': certificateArn,
-        'Tags': tags,
-      },
+      payload: RemoveTagsFromCertificateRequest(
+        certificateArn: certificateArn,
+        tags: tags,
+      ),
     );
   }
 
@@ -719,9 +716,9 @@ class ACM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CertificateArn': certificateArn,
-      },
+      payload: RenewCertificateRequest(
+        certificateArn: certificateArn,
+      ),
     );
   }
 
@@ -891,20 +888,16 @@ class ACM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'DomainName': domainName,
-        if (certificateAuthorityArn != null)
-          'CertificateAuthorityArn': certificateAuthorityArn,
-        if (domainValidationOptions != null)
-          'DomainValidationOptions': domainValidationOptions,
-        if (idempotencyToken != null) 'IdempotencyToken': idempotencyToken,
-        if (options != null) 'Options': options,
-        if (subjectAlternativeNames != null)
-          'SubjectAlternativeNames': subjectAlternativeNames,
-        if (tags != null) 'Tags': tags,
-        if (validationMethod != null)
-          'ValidationMethod': validationMethod?.toValue(),
-      },
+      payload: RequestCertificateRequest(
+        domainName: domainName,
+        certificateAuthorityArn: certificateAuthorityArn,
+        domainValidationOptions: domainValidationOptions,
+        idempotencyToken: idempotencyToken,
+        options: options,
+        subjectAlternativeNames: subjectAlternativeNames,
+        tags: tags,
+        validationMethod: validationMethod,
+      ),
     );
 
     return RequestCertificateResponse.fromJson(jsonResponse.body);
@@ -1026,11 +1019,11 @@ class ACM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CertificateArn': certificateArn,
-        'Domain': domain,
-        'ValidationDomain': validationDomain,
-      },
+      payload: ResendValidationEmailRequest(
+        certificateArn: certificateArn,
+        domain: domain,
+        validationDomain: validationDomain,
+      ),
     );
   }
 
@@ -1086,12 +1079,40 @@ class ACM {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'CertificateArn': certificateArn,
-        'Options': options,
-      },
+      payload: UpdateCertificateOptionsRequest(
+        certificateArn: certificateArn,
+        options: options,
+      ),
     );
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AddTagsToCertificateRequest {
+  /// String that contains the ARN of the ACM certificate to which the tag is to
+  /// be applied. This must be of the form:
+  ///
+  /// <code>arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012</code>
+  ///
+  /// For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs) and AWS Service Namespaces</a>.
+  @_s.JsonKey(name: 'CertificateArn')
+  final String certificateArn;
+
+  /// The key-value pair that defines the tag. The tag value is optional.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  AddTagsToCertificateRequest({
+    @_s.required this.certificateArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$AddTagsToCertificateRequestToJson(this);
 }
 
 /// Contains metadata about an ACM certificate. This structure is returned in
@@ -1401,6 +1422,52 @@ enum CertificateType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteCertificateRequest {
+  /// String that contains the ARN of the ACM certificate to be deleted. This must
+  /// be of the form:
+  ///
+  /// <code>arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012</code>
+  ///
+  /// For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs) and AWS Service Namespaces</a>.
+  @_s.JsonKey(name: 'CertificateArn')
+  final String certificateArn;
+
+  DeleteCertificateRequest({
+    @_s.required this.certificateArn,
+  });
+  Map<String, dynamic> toJson() => _$DeleteCertificateRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeCertificateRequest {
+  /// The Amazon Resource Name (ARN) of the ACM certificate. The ARN must have the
+  /// following form:
+  ///
+  /// <code>arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012</code>
+  ///
+  /// For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs) and AWS Service Namespaces</a>.
+  @_s.JsonKey(name: 'CertificateArn')
+  final String certificateArn;
+
+  DescribeCertificateRequest({
+    @_s.required this.certificateArn,
+  });
+  Map<String, dynamic> toJson() => _$DescribeCertificateRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeCertificateResponse {
@@ -1536,6 +1603,35 @@ class DomainValidationOption {
     @_s.required this.validationDomain,
   });
   Map<String, dynamic> toJson() => _$DomainValidationOptionToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ExportCertificateRequest {
+  /// An Amazon Resource Name (ARN) of the issued certificate. This must be of the
+  /// form:
+  ///
+  /// <code>arn:aws:acm:region:account:certificate/12345678-1234-1234-1234-123456789012</code>
+  @_s.JsonKey(name: 'CertificateArn')
+  final String certificateArn;
+
+  /// Passphrase to associate with the encrypted exported private key. If you want
+  /// to later decrypt the private key, you must have the passphrase. You can use
+  /// the following OpenSSL command to decrypt a private key:
+  ///
+  /// <code>openssl rsa -in encrypted_key.pem -out decrypted_key.pem</code>
+  @Uint8ListConverter()
+  @_s.JsonKey(name: 'Passphrase')
+  final Uint8List passphrase;
+
+  ExportCertificateRequest({
+    @_s.required this.certificateArn,
+    @_s.required this.passphrase,
+  });
+  Map<String, dynamic> toJson() => _$ExportCertificateRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1723,6 +1819,28 @@ class Filters {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetCertificateRequest {
+  /// String that contains a certificate ARN in the following format:
+  ///
+  /// <code>arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012</code>
+  ///
+  /// For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs) and AWS Service Namespaces</a>.
+  @_s.JsonKey(name: 'CertificateArn')
+  final String certificateArn;
+
+  GetCertificateRequest({
+    @_s.required this.certificateArn,
+  });
+  Map<String, dynamic> toJson() => _$GetCertificateRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetCertificateResponse {
@@ -1742,6 +1860,50 @@ class GetCertificateResponse {
   });
   factory GetCertificateResponse.fromJson(Map<String, dynamic> json) =>
       _$GetCertificateResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ImportCertificateRequest {
+  /// The certificate to import.
+  @Uint8ListConverter()
+  @_s.JsonKey(name: 'Certificate')
+  final Uint8List certificate;
+
+  /// The private key that matches the public key in the certificate.
+  @Uint8ListConverter()
+  @_s.JsonKey(name: 'PrivateKey')
+  final Uint8List privateKey;
+
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Name (ARN)</a> of an imported certificate to replace. To import a
+  /// new certificate, omit this field.
+  @_s.JsonKey(name: 'CertificateArn')
+  final String certificateArn;
+
+  /// The PEM encoded certificate chain.
+  @Uint8ListConverter()
+  @_s.JsonKey(name: 'CertificateChain')
+  final Uint8List certificateChain;
+
+  /// One or more resource tags to associate with the imported certificate.
+  ///
+  /// Note: You cannot apply tags when reimporting a certificate.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  ImportCertificateRequest({
+    @_s.required this.certificate,
+    @_s.required this.privateKey,
+    this.certificateArn,
+    this.certificateChain,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$ImportCertificateRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1825,6 +1987,44 @@ enum KeyUsageName {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListCertificatesRequest {
+  /// Filter the certificate list by status value.
+  @_s.JsonKey(name: 'CertificateStatuses')
+  final List<String> certificateStatuses;
+
+  /// Filter the certificate list. For more information, see the <a>Filters</a>
+  /// structure.
+  @_s.JsonKey(name: 'Includes')
+  final Filters includes;
+
+  /// Use this parameter when paginating results to specify the maximum number of
+  /// items to return in the response. If additional items exist beyond the number
+  /// you specify, the <code>NextToken</code> element is sent in the response. Use
+  /// this <code>NextToken</code> value in a subsequent request to retrieve
+  /// additional items.
+  @_s.JsonKey(name: 'MaxItems')
+  final int maxItems;
+
+  /// Use this parameter only when paginating results and only in a subsequent
+  /// request after you receive a response with truncated results. Set it to the
+  /// value of <code>NextToken</code> from the response you just received.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListCertificatesRequest({
+    this.certificateStatuses,
+    this.includes,
+    this.maxItems,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListCertificatesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListCertificatesResponse {
@@ -1849,6 +2049,29 @@ class ListCertificatesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForCertificateRequest {
+  /// String that contains the ARN of the ACM certificate for which you want to
+  /// list the tags. This must have the following form:
+  ///
+  /// <code>arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012</code>
+  ///
+  /// For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs) and AWS Service Namespaces</a>.
+  @_s.JsonKey(name: 'CertificateArn')
+  final String certificateArn;
+
+  ListTagsForCertificateRequest({
+    @_s.required this.certificateArn,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForCertificateRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListTagsForCertificateResponse {
@@ -1866,6 +2089,58 @@ class ListTagsForCertificateResponse {
 enum RecordType {
   @_s.JsonValue('CNAME')
   cname,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RemoveTagsFromCertificateRequest {
+  /// String that contains the ARN of the ACM Certificate with one or more tags
+  /// that you want to remove. This must be of the form:
+  ///
+  /// <code>arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012</code>
+  ///
+  /// For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs) and AWS Service Namespaces</a>.
+  @_s.JsonKey(name: 'CertificateArn')
+  final String certificateArn;
+
+  /// The key-value pair that defines the tag to remove.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  RemoveTagsFromCertificateRequest({
+    @_s.required this.certificateArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() =>
+      _$RemoveTagsFromCertificateRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RenewCertificateRequest {
+  /// String that contains the ARN of the ACM certificate to be renewed. This must
+  /// be of the form:
+  ///
+  /// <code>arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012</code>
+  ///
+  /// For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs) and AWS Service Namespaces</a>.
+  @_s.JsonKey(name: 'CertificateArn')
+  final String certificateArn;
+
+  RenewCertificateRequest({
+    @_s.required this.certificateArn,
+  });
+  Map<String, dynamic> toJson() => _$RenewCertificateRequestToJson(this);
 }
 
 enum RenewalEligibility {
@@ -1935,6 +2210,120 @@ class RenewalSummary {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RequestCertificateRequest {
+  /// Fully qualified domain name (FQDN), such as www.example.com, that you want
+  /// to secure with an ACM certificate. Use an asterisk (*) to create a wildcard
+  /// certificate that protects several sites in the same domain. For example,
+  /// *.example.com protects www.example.com, site.example.com, and
+  /// images.example.com.
+  ///
+  /// The first domain name you enter cannot exceed 64 octets, including periods.
+  /// Each subsequent Subject Alternative Name (SAN), however, can be up to 253
+  /// octets in length.
+  @_s.JsonKey(name: 'DomainName')
+  final String domainName;
+
+  /// The Amazon Resource Name (ARN) of the private certificate authority (CA)
+  /// that will be used to issue the certificate. If you do not provide an ARN and
+  /// you are trying to request a private certificate, ACM will attempt to issue a
+  /// public certificate. For more information about private CAs, see the <a
+  /// href="https://docs.aws.amazon.com/acm-pca/latest/userguide/PcaWelcome.html">AWS
+  /// Certificate Manager Private Certificate Authority (PCA)</a> user guide. The
+  /// ARN must have the following form:
+  ///
+  /// <code>arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012</code>
+  @_s.JsonKey(name: 'CertificateAuthorityArn')
+  final String certificateAuthorityArn;
+
+  /// The domain name that you want ACM to use to send you emails so that you can
+  /// validate domain ownership.
+  @_s.JsonKey(name: 'DomainValidationOptions')
+  final List<DomainValidationOption> domainValidationOptions;
+
+  /// Customer chosen string that can be used to distinguish between calls to
+  /// <code>RequestCertificate</code>. Idempotency tokens time out after one hour.
+  /// Therefore, if you call <code>RequestCertificate</code> multiple times with
+  /// the same idempotency token within one hour, ACM recognizes that you are
+  /// requesting only one certificate and will issue only one. If you change the
+  /// idempotency token for each call, ACM recognizes that you are requesting
+  /// multiple certificates.
+  @_s.JsonKey(name: 'IdempotencyToken')
+  final String idempotencyToken;
+
+  /// Currently, you can use this parameter to specify whether to add the
+  /// certificate to a certificate transparency log. Certificate transparency
+  /// makes it possible to detect SSL/TLS certificates that have been mistakenly
+  /// or maliciously issued. Certificates that have not been logged typically
+  /// produce an error message in a browser. For more information, see <a
+  /// href="https://docs.aws.amazon.com/acm/latest/userguide/acm-bestpractices.html#best-practices-transparency">Opting
+  /// Out of Certificate Transparency Logging</a>.
+  @_s.JsonKey(name: 'Options')
+  final CertificateOptions options;
+
+  /// Additional FQDNs to be included in the Subject Alternative Name extension of
+  /// the ACM certificate. For example, add the name www.example.net to a
+  /// certificate for which the <code>DomainName</code> field is www.example.com
+  /// if users can reach your site by using either name. The maximum number of
+  /// domain names that you can add to an ACM certificate is 100. However, the
+  /// initial quota is 10 domain names. If you need more than 10 names, you must
+  /// request a quota increase. For more information, see <a
+  /// href="https://docs.aws.amazon.com/acm/latest/userguide/acm-limits.html">Quotas</a>.
+  ///
+  /// The maximum length of a SAN DNS name is 253 octets. The name is made up of
+  /// multiple labels separated by periods. No label can be longer than 63 octets.
+  /// Consider the following examples:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>(63 octets).(63 octets).(63 octets).(61 octets)</code> is legal
+  /// because the total length is 253 octets (63+1+63+1+63+1+61) and no label
+  /// exceeds 63 octets.
+  /// </li>
+  /// <li>
+  /// <code>(64 octets).(63 octets).(63 octets).(61 octets)</code> is not legal
+  /// because the total length exceeds 253 octets (64+1+63+1+63+1+61) and the
+  /// first label exceeds 63 octets.
+  /// </li>
+  /// <li>
+  /// <code>(63 octets).(63 octets).(63 octets).(62 octets)</code> is not legal
+  /// because the total length of the DNS name (63+1+63+1+63+1+62) exceeds 253
+  /// octets.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'SubjectAlternativeNames')
+  final List<String> subjectAlternativeNames;
+
+  /// One or more resource tags to associate with the certificate.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  /// The method you want to use if you are requesting a public certificate to
+  /// validate that you own or control domain. You can <a
+  /// href="https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-validate-dns.html">validate
+  /// with DNS</a> or <a
+  /// href="https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-validate-email.html">validate
+  /// with email</a>. We recommend that you use DNS validation.
+  @_s.JsonKey(name: 'ValidationMethod')
+  final ValidationMethod validationMethod;
+
+  RequestCertificateRequest({
+    @_s.required this.domainName,
+    this.certificateAuthorityArn,
+    this.domainValidationOptions,
+    this.idempotencyToken,
+    this.options,
+    this.subjectAlternativeNames,
+    this.tags,
+    this.validationMethod,
+  });
+  Map<String, dynamic> toJson() => _$RequestCertificateRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class RequestCertificateResponse {
@@ -1950,6 +2339,64 @@ class RequestCertificateResponse {
   });
   factory RequestCertificateResponse.fromJson(Map<String, dynamic> json) =>
       _$RequestCertificateResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ResendValidationEmailRequest {
+  /// String that contains the ARN of the requested certificate. The certificate
+  /// ARN is generated and returned by the <a>RequestCertificate</a> action as
+  /// soon as the request is made. By default, using this parameter causes email
+  /// to be sent to all top-level domains you specified in the certificate
+  /// request. The ARN must be of the form:
+  ///
+  /// <code>arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012</code>
+  @_s.JsonKey(name: 'CertificateArn')
+  final String certificateArn;
+
+  /// The fully qualified domain name (FQDN) of the certificate that needs to be
+  /// validated.
+  @_s.JsonKey(name: 'Domain')
+  final String domain;
+
+  /// The base validation domain that will act as the suffix of the email
+  /// addresses that are used to send the emails. This must be the same as the
+  /// <code>Domain</code> value or a superdomain of the <code>Domain</code> value.
+  /// For example, if you requested a certificate for
+  /// <code>site.subdomain.example.com</code> and specify a
+  /// <b>ValidationDomain</b> of <code>subdomain.example.com</code>, ACM sends
+  /// email to the domain registrant, technical contact, and administrative
+  /// contact in WHOIS and the following five addresses:
+  ///
+  /// <ul>
+  /// <li>
+  /// admin@subdomain.example.com
+  /// </li>
+  /// <li>
+  /// administrator@subdomain.example.com
+  /// </li>
+  /// <li>
+  /// hostmaster@subdomain.example.com
+  /// </li>
+  /// <li>
+  /// postmaster@subdomain.example.com
+  /// </li>
+  /// <li>
+  /// webmaster@subdomain.example.com
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ValidationDomain')
+  final String validationDomain;
+
+  ResendValidationEmailRequest({
+    @_s.required this.certificateArn,
+    @_s.required this.domain,
+    @_s.required this.validationDomain,
+  });
+  Map<String, dynamic> toJson() => _$ResendValidationEmailRequestToJson(this);
 }
 
 /// Contains a DNS record value that you can use to can use to validate
@@ -2032,23 +2479,40 @@ class Tag {
   Map<String, dynamic> toJson() => _$TagToJson(this);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateCertificateOptionsRequest {
+  /// ARN of the requested certificate to update. This must be of the form:
+  ///
+  /// <code>arn:aws:acm:us-east-1:<i>account</i>:certificate/<i>12345678-1234-1234-1234-123456789012</i>
+  /// </code>
+  @_s.JsonKey(name: 'CertificateArn')
+  final String certificateArn;
+
+  /// Use to update the options for your certificate. Currently, you can specify
+  /// whether to add your certificate to a transparency log. Certificate
+  /// transparency makes it possible to detect SSL/TLS certificates that have been
+  /// mistakenly or maliciously issued. Certificates that have not been logged
+  /// typically produce an error message in a browser.
+  @_s.JsonKey(name: 'Options')
+  final CertificateOptions options;
+
+  UpdateCertificateOptionsRequest({
+    @_s.required this.certificateArn,
+    @_s.required this.options,
+  });
+  Map<String, dynamic> toJson() =>
+      _$UpdateCertificateOptionsRequestToJson(this);
+}
+
 enum ValidationMethod {
   @_s.JsonValue('EMAIL')
   email,
   @_s.JsonValue('DNS')
   dns,
-}
-
-extension on ValidationMethod {
-  String toValue() {
-    switch (this) {
-      case ValidationMethod.email:
-        return 'EMAIL';
-      case ValidationMethod.dns:
-        return 'DNS';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 class InvalidArgsException extends _s.GenericAwsException {

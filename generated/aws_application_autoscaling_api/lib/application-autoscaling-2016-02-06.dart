@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -310,12 +309,12 @@ class ApplicationAutoScaling {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PolicyName': policyName,
-        'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension?.toValue(),
-        'ServiceNamespace': serviceNamespace?.toValue(),
-      },
+      payload: DeleteScalingPolicyRequest(
+        policyName: policyName,
+        resourceId: resourceId,
+        scalableDimension: scalableDimension,
+        serviceNamespace: serviceNamespace,
+      ),
     );
 
     return DeleteScalingPolicyResponse.fromJson(jsonResponse.body);
@@ -517,12 +516,12 @@ class ApplicationAutoScaling {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension?.toValue(),
-        'ScheduledActionName': scheduledActionName,
-        'ServiceNamespace': serviceNamespace?.toValue(),
-      },
+      payload: DeleteScheduledActionRequest(
+        resourceId: resourceId,
+        scalableDimension: scalableDimension,
+        scheduledActionName: scheduledActionName,
+        serviceNamespace: serviceNamespace,
+      ),
     );
 
     return DeleteScheduledActionResponse.fromJson(jsonResponse.body);
@@ -707,11 +706,11 @@ class ApplicationAutoScaling {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension?.toValue(),
-        'ServiceNamespace': serviceNamespace?.toValue(),
-      },
+      payload: DeregisterScalableTargetRequest(
+        resourceId: resourceId,
+        scalableDimension: scalableDimension,
+        serviceNamespace: serviceNamespace,
+      ),
     );
 
     return DeregisterScalableTargetResponse.fromJson(jsonResponse.body);
@@ -905,14 +904,13 @@ class ApplicationAutoScaling {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ServiceNamespace': serviceNamespace?.toValue(),
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (resourceIds != null) 'ResourceIds': resourceIds,
-        if (scalableDimension != null)
-          'ScalableDimension': scalableDimension?.toValue(),
-      },
+      payload: DescribeScalableTargetsRequest(
+        serviceNamespace: serviceNamespace,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        resourceIds: resourceIds,
+        scalableDimension: scalableDimension,
+      ),
     );
 
     return DescribeScalableTargetsResponse.fromJson(jsonResponse.body);
@@ -1119,14 +1117,13 @@ class ApplicationAutoScaling {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ServiceNamespace': serviceNamespace?.toValue(),
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (resourceId != null) 'ResourceId': resourceId,
-        if (scalableDimension != null)
-          'ScalableDimension': scalableDimension?.toValue(),
-      },
+      payload: DescribeScalingActivitiesRequest(
+        serviceNamespace: serviceNamespace,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        resourceId: resourceId,
+        scalableDimension: scalableDimension,
+      ),
     );
 
     return DescribeScalingActivitiesResponse.fromJson(jsonResponse.body);
@@ -1337,15 +1334,14 @@ class ApplicationAutoScaling {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ServiceNamespace': serviceNamespace?.toValue(),
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (policyNames != null) 'PolicyNames': policyNames,
-        if (resourceId != null) 'ResourceId': resourceId,
-        if (scalableDimension != null)
-          'ScalableDimension': scalableDimension?.toValue(),
-      },
+      payload: DescribeScalingPoliciesRequest(
+        serviceNamespace: serviceNamespace,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        policyNames: policyNames,
+        resourceId: resourceId,
+        scalableDimension: scalableDimension,
+      ),
     );
 
     return DescribeScalingPoliciesResponse.fromJson(jsonResponse.body);
@@ -1556,16 +1552,14 @@ class ApplicationAutoScaling {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ServiceNamespace': serviceNamespace?.toValue(),
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (resourceId != null) 'ResourceId': resourceId,
-        if (scalableDimension != null)
-          'ScalableDimension': scalableDimension?.toValue(),
-        if (scheduledActionNames != null)
-          'ScheduledActionNames': scheduledActionNames,
-      },
+      payload: DescribeScheduledActionsRequest(
+        serviceNamespace: serviceNamespace,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        resourceId: resourceId,
+        scalableDimension: scalableDimension,
+        scheduledActionNames: scheduledActionNames,
+      ),
     );
 
     return DescribeScheduledActionsResponse.fromJson(jsonResponse.body);
@@ -1828,18 +1822,16 @@ class ApplicationAutoScaling {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'PolicyName': policyName,
-        'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension?.toValue(),
-        'ServiceNamespace': serviceNamespace?.toValue(),
-        if (policyType != null) 'PolicyType': policyType?.toValue(),
-        if (stepScalingPolicyConfiguration != null)
-          'StepScalingPolicyConfiguration': stepScalingPolicyConfiguration,
-        if (targetTrackingScalingPolicyConfiguration != null)
-          'TargetTrackingScalingPolicyConfiguration':
-              targetTrackingScalingPolicyConfiguration,
-      },
+      payload: PutScalingPolicyRequest(
+        policyName: policyName,
+        resourceId: resourceId,
+        scalableDimension: scalableDimension,
+        serviceNamespace: serviceNamespace,
+        policyType: policyType,
+        stepScalingPolicyConfiguration: stepScalingPolicyConfiguration,
+        targetTrackingScalingPolicyConfiguration:
+            targetTrackingScalingPolicyConfiguration,
+      ),
     );
 
     return PutScalingPolicyResponse.fromJson(jsonResponse.body);
@@ -2111,17 +2103,16 @@ class ApplicationAutoScaling {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension?.toValue(),
-        'ScheduledActionName': scheduledActionName,
-        'ServiceNamespace': serviceNamespace?.toValue(),
-        if (endTime != null) 'EndTime': endTime,
-        if (scalableTargetAction != null)
-          'ScalableTargetAction': scalableTargetAction,
-        if (schedule != null) 'Schedule': schedule,
-        if (startTime != null) 'StartTime': startTime,
-      },
+      payload: PutScheduledActionRequest(
+        resourceId: resourceId,
+        scalableDimension: scalableDimension,
+        scheduledActionName: scheduledActionName,
+        serviceNamespace: serviceNamespace,
+        endTime: endTime,
+        scalableTargetAction: scalableTargetAction,
+        schedule: schedule,
+        startTime: startTime,
+      ),
     );
 
     return PutScheduledActionResponse.fromJson(jsonResponse.body);
@@ -2386,15 +2377,15 @@ class ApplicationAutoScaling {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension?.toValue(),
-        'ServiceNamespace': serviceNamespace?.toValue(),
-        if (maxCapacity != null) 'MaxCapacity': maxCapacity,
-        if (minCapacity != null) 'MinCapacity': minCapacity,
-        if (roleARN != null) 'RoleARN': roleARN,
-        if (suspendedState != null) 'SuspendedState': suspendedState,
-      },
+      payload: RegisterScalableTargetRequest(
+        resourceId: resourceId,
+        scalableDimension: scalableDimension,
+        serviceNamespace: serviceNamespace,
+        maxCapacity: maxCapacity,
+        minCapacity: minCapacity,
+        roleARN: roleARN,
+        suspendedState: suspendedState,
+      ),
     );
 
     return RegisterScalableTargetResponse.fromJson(jsonResponse.body);
@@ -2501,12 +2492,320 @@ class CustomizedMetricSpecification {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteScalingPolicyRequest {
+  /// The name of the scaling policy.
+  @_s.JsonKey(name: 'PolicyName')
+  final String policyName;
+
+  /// The identifier of the resource associated with the scalable target. This
+  /// string consists of the resource type and unique identifier.
+  ///
+  /// <ul>
+  /// <li>
+  /// ECS service - The resource type is <code>service</code> and the unique
+  /// identifier is the cluster name and service name. Example:
+  /// <code>service/default/sample-webapp</code>.
+  /// </li>
+  /// <li>
+  /// Spot Fleet request - The resource type is <code>spot-fleet-request</code>
+  /// and the unique identifier is the Spot Fleet request ID. Example:
+  /// <code>spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE</code>.
+  /// </li>
+  /// <li>
+  /// EMR cluster - The resource type is <code>instancegroup</code> and the unique
+  /// identifier is the cluster ID and instance group ID. Example:
+  /// <code>instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0</code>.
+  /// </li>
+  /// <li>
+  /// AppStream 2.0 fleet - The resource type is <code>fleet</code> and the unique
+  /// identifier is the fleet name. Example: <code>fleet/sample-fleet</code>.
+  /// </li>
+  /// <li>
+  /// DynamoDB table - The resource type is <code>table</code> and the unique
+  /// identifier is the table name. Example: <code>table/my-table</code>.
+  /// </li>
+  /// <li>
+  /// DynamoDB global secondary index - The resource type is <code>index</code>
+  /// and the unique identifier is the index name. Example:
+  /// <code>table/my-table/index/my-table-index</code>.
+  /// </li>
+  /// <li>
+  /// Aurora DB cluster - The resource type is <code>cluster</code> and the unique
+  /// identifier is the cluster name. Example: <code>cluster:my-db-cluster</code>.
+  /// </li>
+  /// <li>
+  /// Amazon SageMaker endpoint variant - The resource type is
+  /// <code>variant</code> and the unique identifier is the resource ID. Example:
+  /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
+  /// </li>
+  /// <li>
+  /// Custom resources are not supported with a resource type. This parameter must
+  /// specify the <code>OutputValue</code> from the CloudFormation template stack
+  /// used to access the resources. The unique identifier is defined by the
+  /// service provider. More information is available in our <a
+  /// href="https://github.com/aws/aws-auto-scaling-custom-resource">GitHub
+  /// repository</a>.
+  /// </li>
+  /// <li>
+  /// Amazon Comprehend document classification endpoint - The resource type and
+  /// unique identifier are specified using the endpoint ARN. Example:
+  /// <code>arn:aws:comprehend:us-west-2:123456789012:document-classifier-endpoint/EXAMPLE</code>.
+  /// </li>
+  /// <li>
+  /// Lambda provisioned concurrency - The resource type is <code>function</code>
+  /// and the unique identifier is the function name with a function version or
+  /// alias name suffix that is not <code>$LATEST</code>. Example:
+  /// <code>function:my-function:prod</code> or
+  /// <code>function:my-function:1</code>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  /// The scalable dimension. This string consists of the service namespace,
+  /// resource type, and scaling property.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ecs:service:DesiredCount</code> - The desired task count of an ECS
+  /// service.
+  /// </li>
+  /// <li>
+  /// <code>ec2:spot-fleet-request:TargetCapacity</code> - The target capacity of
+  /// a Spot Fleet request.
+  /// </li>
+  /// <li>
+  /// <code>elasticmapreduce:instancegroup:InstanceCount</code> - The instance
+  /// count of an EMR Instance Group.
+  /// </li>
+  /// <li>
+  /// <code>appstream:fleet:DesiredCapacity</code> - The desired capacity of an
+  /// AppStream 2.0 fleet.
+  /// </li>
+  /// <li>
+  /// <code>dynamodb:table:ReadCapacityUnits</code> - The provisioned read
+  /// capacity for a DynamoDB table.
+  /// </li>
+  /// <li>
+  /// <code>dynamodb:table:WriteCapacityUnits</code> - The provisioned write
+  /// capacity for a DynamoDB table.
+  /// </li>
+  /// <li>
+  /// <code>dynamodb:index:ReadCapacityUnits</code> - The provisioned read
+  /// capacity for a DynamoDB global secondary index.
+  /// </li>
+  /// <li>
+  /// <code>dynamodb:index:WriteCapacityUnits</code> - The provisioned write
+  /// capacity for a DynamoDB global secondary index.
+  /// </li>
+  /// <li>
+  /// <code>rds:cluster:ReadReplicaCount</code> - The count of Aurora Replicas in
+  /// an Aurora DB cluster. Available for Aurora MySQL-compatible edition and
+  /// Aurora PostgreSQL-compatible edition.
+  /// </li>
+  /// <li>
+  /// <code>sagemaker:variant:DesiredInstanceCount</code> - The number of EC2
+  /// instances for an Amazon SageMaker model endpoint variant.
+  /// </li>
+  /// <li>
+  /// <code>custom-resource:ResourceType:Property</code> - The scalable dimension
+  /// for a custom resource provided by your own application or service.
+  /// </li>
+  /// <li>
+  /// <code>comprehend:document-classifier-endpoint:DesiredInferenceUnits</code> -
+  /// The number of inference units for an Amazon Comprehend document
+  /// classification endpoint.
+  /// </li>
+  /// <li>
+  /// <code>lambda:function:ProvisionedConcurrency</code> - The provisioned
+  /// concurrency for a Lambda function.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ScalableDimension')
+  final ScalableDimension scalableDimension;
+
+  /// The namespace of the AWS service that provides the resource or
+  /// <code>custom-resource</code> for a resource provided by your own application
+  /// or service. For more information, see <a
+  /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">AWS
+  /// Service Namespaces</a> in the <i>Amazon Web Services General Reference</i>.
+  @_s.JsonKey(name: 'ServiceNamespace')
+  final ServiceNamespace serviceNamespace;
+
+  DeleteScalingPolicyRequest({
+    @_s.required this.policyName,
+    @_s.required this.resourceId,
+    @_s.required this.scalableDimension,
+    @_s.required this.serviceNamespace,
+  });
+  Map<String, dynamic> toJson() => _$DeleteScalingPolicyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteScalingPolicyResponse {
   DeleteScalingPolicyResponse();
   factory DeleteScalingPolicyResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteScalingPolicyResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteScheduledActionRequest {
+  /// The identifier of the resource associated with the scheduled action. This
+  /// string consists of the resource type and unique identifier.
+  ///
+  /// <ul>
+  /// <li>
+  /// ECS service - The resource type is <code>service</code> and the unique
+  /// identifier is the cluster name and service name. Example:
+  /// <code>service/default/sample-webapp</code>.
+  /// </li>
+  /// <li>
+  /// Spot Fleet request - The resource type is <code>spot-fleet-request</code>
+  /// and the unique identifier is the Spot Fleet request ID. Example:
+  /// <code>spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE</code>.
+  /// </li>
+  /// <li>
+  /// EMR cluster - The resource type is <code>instancegroup</code> and the unique
+  /// identifier is the cluster ID and instance group ID. Example:
+  /// <code>instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0</code>.
+  /// </li>
+  /// <li>
+  /// AppStream 2.0 fleet - The resource type is <code>fleet</code> and the unique
+  /// identifier is the fleet name. Example: <code>fleet/sample-fleet</code>.
+  /// </li>
+  /// <li>
+  /// DynamoDB table - The resource type is <code>table</code> and the unique
+  /// identifier is the table name. Example: <code>table/my-table</code>.
+  /// </li>
+  /// <li>
+  /// DynamoDB global secondary index - The resource type is <code>index</code>
+  /// and the unique identifier is the index name. Example:
+  /// <code>table/my-table/index/my-table-index</code>.
+  /// </li>
+  /// <li>
+  /// Aurora DB cluster - The resource type is <code>cluster</code> and the unique
+  /// identifier is the cluster name. Example: <code>cluster:my-db-cluster</code>.
+  /// </li>
+  /// <li>
+  /// Amazon SageMaker endpoint variant - The resource type is
+  /// <code>variant</code> and the unique identifier is the resource ID. Example:
+  /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
+  /// </li>
+  /// <li>
+  /// Custom resources are not supported with a resource type. This parameter must
+  /// specify the <code>OutputValue</code> from the CloudFormation template stack
+  /// used to access the resources. The unique identifier is defined by the
+  /// service provider. More information is available in our <a
+  /// href="https://github.com/aws/aws-auto-scaling-custom-resource">GitHub
+  /// repository</a>.
+  /// </li>
+  /// <li>
+  /// Amazon Comprehend document classification endpoint - The resource type and
+  /// unique identifier are specified using the endpoint ARN. Example:
+  /// <code>arn:aws:comprehend:us-west-2:123456789012:document-classifier-endpoint/EXAMPLE</code>.
+  /// </li>
+  /// <li>
+  /// Lambda provisioned concurrency - The resource type is <code>function</code>
+  /// and the unique identifier is the function name with a function version or
+  /// alias name suffix that is not <code>$LATEST</code>. Example:
+  /// <code>function:my-function:prod</code> or
+  /// <code>function:my-function:1</code>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  /// The scalable dimension. This string consists of the service namespace,
+  /// resource type, and scaling property.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ecs:service:DesiredCount</code> - The desired task count of an ECS
+  /// service.
+  /// </li>
+  /// <li>
+  /// <code>ec2:spot-fleet-request:TargetCapacity</code> - The target capacity of
+  /// a Spot Fleet request.
+  /// </li>
+  /// <li>
+  /// <code>elasticmapreduce:instancegroup:InstanceCount</code> - The instance
+  /// count of an EMR Instance Group.
+  /// </li>
+  /// <li>
+  /// <code>appstream:fleet:DesiredCapacity</code> - The desired capacity of an
+  /// AppStream 2.0 fleet.
+  /// </li>
+  /// <li>
+  /// <code>dynamodb:table:ReadCapacityUnits</code> - The provisioned read
+  /// capacity for a DynamoDB table.
+  /// </li>
+  /// <li>
+  /// <code>dynamodb:table:WriteCapacityUnits</code> - The provisioned write
+  /// capacity for a DynamoDB table.
+  /// </li>
+  /// <li>
+  /// <code>dynamodb:index:ReadCapacityUnits</code> - The provisioned read
+  /// capacity for a DynamoDB global secondary index.
+  /// </li>
+  /// <li>
+  /// <code>dynamodb:index:WriteCapacityUnits</code> - The provisioned write
+  /// capacity for a DynamoDB global secondary index.
+  /// </li>
+  /// <li>
+  /// <code>rds:cluster:ReadReplicaCount</code> - The count of Aurora Replicas in
+  /// an Aurora DB cluster. Available for Aurora MySQL-compatible edition and
+  /// Aurora PostgreSQL-compatible edition.
+  /// </li>
+  /// <li>
+  /// <code>sagemaker:variant:DesiredInstanceCount</code> - The number of EC2
+  /// instances for an Amazon SageMaker model endpoint variant.
+  /// </li>
+  /// <li>
+  /// <code>custom-resource:ResourceType:Property</code> - The scalable dimension
+  /// for a custom resource provided by your own application or service.
+  /// </li>
+  /// <li>
+  /// <code>comprehend:document-classifier-endpoint:DesiredInferenceUnits</code> -
+  /// The number of inference units for an Amazon Comprehend document
+  /// classification endpoint.
+  /// </li>
+  /// <li>
+  /// <code>lambda:function:ProvisionedConcurrency</code> - The provisioned
+  /// concurrency for a Lambda function.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ScalableDimension')
+  final ScalableDimension scalableDimension;
+
+  /// The name of the scheduled action.
+  @_s.JsonKey(name: 'ScheduledActionName')
+  final String scheduledActionName;
+
+  /// The namespace of the AWS service that provides the resource or
+  /// <code>custom-resource</code> for a resource provided by your own application
+  /// or service. For more information, see <a
+  /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">AWS
+  /// Service Namespaces</a> in the <i>Amazon Web Services General Reference</i>.
+  @_s.JsonKey(name: 'ServiceNamespace')
+  final ServiceNamespace serviceNamespace;
+
+  DeleteScheduledActionRequest({
+    @_s.required this.resourceId,
+    @_s.required this.scalableDimension,
+    @_s.required this.scheduledActionName,
+    @_s.required this.serviceNamespace,
+  });
+  Map<String, dynamic> toJson() => _$DeleteScheduledActionRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2523,6 +2822,156 @@ class DeleteScheduledActionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeregisterScalableTargetRequest {
+  /// The identifier of the resource associated with the scalable target. This
+  /// string consists of the resource type and unique identifier.
+  ///
+  /// <ul>
+  /// <li>
+  /// ECS service - The resource type is <code>service</code> and the unique
+  /// identifier is the cluster name and service name. Example:
+  /// <code>service/default/sample-webapp</code>.
+  /// </li>
+  /// <li>
+  /// Spot Fleet request - The resource type is <code>spot-fleet-request</code>
+  /// and the unique identifier is the Spot Fleet request ID. Example:
+  /// <code>spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE</code>.
+  /// </li>
+  /// <li>
+  /// EMR cluster - The resource type is <code>instancegroup</code> and the unique
+  /// identifier is the cluster ID and instance group ID. Example:
+  /// <code>instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0</code>.
+  /// </li>
+  /// <li>
+  /// AppStream 2.0 fleet - The resource type is <code>fleet</code> and the unique
+  /// identifier is the fleet name. Example: <code>fleet/sample-fleet</code>.
+  /// </li>
+  /// <li>
+  /// DynamoDB table - The resource type is <code>table</code> and the unique
+  /// identifier is the table name. Example: <code>table/my-table</code>.
+  /// </li>
+  /// <li>
+  /// DynamoDB global secondary index - The resource type is <code>index</code>
+  /// and the unique identifier is the index name. Example:
+  /// <code>table/my-table/index/my-table-index</code>.
+  /// </li>
+  /// <li>
+  /// Aurora DB cluster - The resource type is <code>cluster</code> and the unique
+  /// identifier is the cluster name. Example: <code>cluster:my-db-cluster</code>.
+  /// </li>
+  /// <li>
+  /// Amazon SageMaker endpoint variant - The resource type is
+  /// <code>variant</code> and the unique identifier is the resource ID. Example:
+  /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
+  /// </li>
+  /// <li>
+  /// Custom resources are not supported with a resource type. This parameter must
+  /// specify the <code>OutputValue</code> from the CloudFormation template stack
+  /// used to access the resources. The unique identifier is defined by the
+  /// service provider. More information is available in our <a
+  /// href="https://github.com/aws/aws-auto-scaling-custom-resource">GitHub
+  /// repository</a>.
+  /// </li>
+  /// <li>
+  /// Amazon Comprehend document classification endpoint - The resource type and
+  /// unique identifier are specified using the endpoint ARN. Example:
+  /// <code>arn:aws:comprehend:us-west-2:123456789012:document-classifier-endpoint/EXAMPLE</code>.
+  /// </li>
+  /// <li>
+  /// Lambda provisioned concurrency - The resource type is <code>function</code>
+  /// and the unique identifier is the function name with a function version or
+  /// alias name suffix that is not <code>$LATEST</code>. Example:
+  /// <code>function:my-function:prod</code> or
+  /// <code>function:my-function:1</code>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  /// The scalable dimension associated with the scalable target. This string
+  /// consists of the service namespace, resource type, and scaling property.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ecs:service:DesiredCount</code> - The desired task count of an ECS
+  /// service.
+  /// </li>
+  /// <li>
+  /// <code>ec2:spot-fleet-request:TargetCapacity</code> - The target capacity of
+  /// a Spot Fleet request.
+  /// </li>
+  /// <li>
+  /// <code>elasticmapreduce:instancegroup:InstanceCount</code> - The instance
+  /// count of an EMR Instance Group.
+  /// </li>
+  /// <li>
+  /// <code>appstream:fleet:DesiredCapacity</code> - The desired capacity of an
+  /// AppStream 2.0 fleet.
+  /// </li>
+  /// <li>
+  /// <code>dynamodb:table:ReadCapacityUnits</code> - The provisioned read
+  /// capacity for a DynamoDB table.
+  /// </li>
+  /// <li>
+  /// <code>dynamodb:table:WriteCapacityUnits</code> - The provisioned write
+  /// capacity for a DynamoDB table.
+  /// </li>
+  /// <li>
+  /// <code>dynamodb:index:ReadCapacityUnits</code> - The provisioned read
+  /// capacity for a DynamoDB global secondary index.
+  /// </li>
+  /// <li>
+  /// <code>dynamodb:index:WriteCapacityUnits</code> - The provisioned write
+  /// capacity for a DynamoDB global secondary index.
+  /// </li>
+  /// <li>
+  /// <code>rds:cluster:ReadReplicaCount</code> - The count of Aurora Replicas in
+  /// an Aurora DB cluster. Available for Aurora MySQL-compatible edition and
+  /// Aurora PostgreSQL-compatible edition.
+  /// </li>
+  /// <li>
+  /// <code>sagemaker:variant:DesiredInstanceCount</code> - The number of EC2
+  /// instances for an Amazon SageMaker model endpoint variant.
+  /// </li>
+  /// <li>
+  /// <code>custom-resource:ResourceType:Property</code> - The scalable dimension
+  /// for a custom resource provided by your own application or service.
+  /// </li>
+  /// <li>
+  /// <code>comprehend:document-classifier-endpoint:DesiredInferenceUnits</code> -
+  /// The number of inference units for an Amazon Comprehend document
+  /// classification endpoint.
+  /// </li>
+  /// <li>
+  /// <code>lambda:function:ProvisionedConcurrency</code> - The provisioned
+  /// concurrency for a Lambda function.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ScalableDimension')
+  final ScalableDimension scalableDimension;
+
+  /// The namespace of the AWS service that provides the resource or
+  /// <code>custom-resource</code> for a resource provided by your own application
+  /// or service. For more information, see <a
+  /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">AWS
+  /// Service Namespaces</a> in the <i>Amazon Web Services General Reference</i>.
+  @_s.JsonKey(name: 'ServiceNamespace')
+  final ServiceNamespace serviceNamespace;
+
+  DeregisterScalableTargetRequest({
+    @_s.required this.resourceId,
+    @_s.required this.scalableDimension,
+    @_s.required this.serviceNamespace,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeregisterScalableTargetRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeregisterScalableTargetResponse {
@@ -2530,6 +2979,175 @@ class DeregisterScalableTargetResponse {
   factory DeregisterScalableTargetResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DeregisterScalableTargetResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeScalableTargetsRequest {
+  /// The namespace of the AWS service that provides the resource or
+  /// <code>custom-resource</code> for a resource provided by your own application
+  /// or service. For more information, see <a
+  /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">AWS
+  /// Service Namespaces</a> in the <i>Amazon Web Services General Reference</i>.
+  @_s.JsonKey(name: 'ServiceNamespace')
+  final ServiceNamespace serviceNamespace;
+
+  /// The maximum number of scalable targets. This value can be between 1 and 50.
+  /// The default value is 50.
+  ///
+  /// If this parameter is used, the operation returns up to
+  /// <code>MaxResults</code> results at a time, along with a
+  /// <code>NextToken</code> value. To get the next set of results, include the
+  /// <code>NextToken</code> value in a subsequent call. If this parameter is not
+  /// used, the operation returns up to 50 results and a <code>NextToken</code>
+  /// value, if applicable.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The identifier of the resource associated with the scalable target. This
+  /// string consists of the resource type and unique identifier. If you specify a
+  /// scalable dimension, you must also specify a resource ID.
+  ///
+  /// <ul>
+  /// <li>
+  /// ECS service - The resource type is <code>service</code> and the unique
+  /// identifier is the cluster name and service name. Example:
+  /// <code>service/default/sample-webapp</code>.
+  /// </li>
+  /// <li>
+  /// Spot Fleet request - The resource type is <code>spot-fleet-request</code>
+  /// and the unique identifier is the Spot Fleet request ID. Example:
+  /// <code>spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE</code>.
+  /// </li>
+  /// <li>
+  /// EMR cluster - The resource type is <code>instancegroup</code> and the unique
+  /// identifier is the cluster ID and instance group ID. Example:
+  /// <code>instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0</code>.
+  /// </li>
+  /// <li>
+  /// AppStream 2.0 fleet - The resource type is <code>fleet</code> and the unique
+  /// identifier is the fleet name. Example: <code>fleet/sample-fleet</code>.
+  /// </li>
+  /// <li>
+  /// DynamoDB table - The resource type is <code>table</code> and the unique
+  /// identifier is the table name. Example: <code>table/my-table</code>.
+  /// </li>
+  /// <li>
+  /// DynamoDB global secondary index - The resource type is <code>index</code>
+  /// and the unique identifier is the index name. Example:
+  /// <code>table/my-table/index/my-table-index</code>.
+  /// </li>
+  /// <li>
+  /// Aurora DB cluster - The resource type is <code>cluster</code> and the unique
+  /// identifier is the cluster name. Example: <code>cluster:my-db-cluster</code>.
+  /// </li>
+  /// <li>
+  /// Amazon SageMaker endpoint variant - The resource type is
+  /// <code>variant</code> and the unique identifier is the resource ID. Example:
+  /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
+  /// </li>
+  /// <li>
+  /// Custom resources are not supported with a resource type. This parameter must
+  /// specify the <code>OutputValue</code> from the CloudFormation template stack
+  /// used to access the resources. The unique identifier is defined by the
+  /// service provider. More information is available in our <a
+  /// href="https://github.com/aws/aws-auto-scaling-custom-resource">GitHub
+  /// repository</a>.
+  /// </li>
+  /// <li>
+  /// Amazon Comprehend document classification endpoint - The resource type and
+  /// unique identifier are specified using the endpoint ARN. Example:
+  /// <code>arn:aws:comprehend:us-west-2:123456789012:document-classifier-endpoint/EXAMPLE</code>.
+  /// </li>
+  /// <li>
+  /// Lambda provisioned concurrency - The resource type is <code>function</code>
+  /// and the unique identifier is the function name with a function version or
+  /// alias name suffix that is not <code>$LATEST</code>. Example:
+  /// <code>function:my-function:prod</code> or
+  /// <code>function:my-function:1</code>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ResourceIds')
+  final List<String> resourceIds;
+
+  /// The scalable dimension associated with the scalable target. This string
+  /// consists of the service namespace, resource type, and scaling property. If
+  /// you specify a scalable dimension, you must also specify a resource ID.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ecs:service:DesiredCount</code> - The desired task count of an ECS
+  /// service.
+  /// </li>
+  /// <li>
+  /// <code>ec2:spot-fleet-request:TargetCapacity</code> - The target capacity of
+  /// a Spot Fleet request.
+  /// </li>
+  /// <li>
+  /// <code>elasticmapreduce:instancegroup:InstanceCount</code> - The instance
+  /// count of an EMR Instance Group.
+  /// </li>
+  /// <li>
+  /// <code>appstream:fleet:DesiredCapacity</code> - The desired capacity of an
+  /// AppStream 2.0 fleet.
+  /// </li>
+  /// <li>
+  /// <code>dynamodb:table:ReadCapacityUnits</code> - The provisioned read
+  /// capacity for a DynamoDB table.
+  /// </li>
+  /// <li>
+  /// <code>dynamodb:table:WriteCapacityUnits</code> - The provisioned write
+  /// capacity for a DynamoDB table.
+  /// </li>
+  /// <li>
+  /// <code>dynamodb:index:ReadCapacityUnits</code> - The provisioned read
+  /// capacity for a DynamoDB global secondary index.
+  /// </li>
+  /// <li>
+  /// <code>dynamodb:index:WriteCapacityUnits</code> - The provisioned write
+  /// capacity for a DynamoDB global secondary index.
+  /// </li>
+  /// <li>
+  /// <code>rds:cluster:ReadReplicaCount</code> - The count of Aurora Replicas in
+  /// an Aurora DB cluster. Available for Aurora MySQL-compatible edition and
+  /// Aurora PostgreSQL-compatible edition.
+  /// </li>
+  /// <li>
+  /// <code>sagemaker:variant:DesiredInstanceCount</code> - The number of EC2
+  /// instances for an Amazon SageMaker model endpoint variant.
+  /// </li>
+  /// <li>
+  /// <code>custom-resource:ResourceType:Property</code> - The scalable dimension
+  /// for a custom resource provided by your own application or service.
+  /// </li>
+  /// <li>
+  /// <code>comprehend:document-classifier-endpoint:DesiredInferenceUnits</code> -
+  /// The number of inference units for an Amazon Comprehend document
+  /// classification endpoint.
+  /// </li>
+  /// <li>
+  /// <code>lambda:function:ProvisionedConcurrency</code> - The provisioned
+  /// concurrency for a Lambda function.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ScalableDimension')
+  final ScalableDimension scalableDimension;
+
+  DescribeScalableTargetsRequest({
+    @_s.required this.serviceNamespace,
+    this.maxResults,
+    this.nextToken,
+    this.resourceIds,
+    this.scalableDimension,
+  });
+  Map<String, dynamic> toJson() => _$DescribeScalableTargetsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2553,6 +3171,176 @@ class DescribeScalableTargetsResponse {
   });
   factory DescribeScalableTargetsResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeScalableTargetsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeScalingActivitiesRequest {
+  /// The namespace of the AWS service that provides the resource or
+  /// <code>custom-resource</code> for a resource provided by your own application
+  /// or service. For more information, see <a
+  /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">AWS
+  /// Service Namespaces</a> in the <i>Amazon Web Services General Reference</i>.
+  @_s.JsonKey(name: 'ServiceNamespace')
+  final ServiceNamespace serviceNamespace;
+
+  /// The maximum number of scalable targets. This value can be between 1 and 50.
+  /// The default value is 50.
+  ///
+  /// If this parameter is used, the operation returns up to
+  /// <code>MaxResults</code> results at a time, along with a
+  /// <code>NextToken</code> value. To get the next set of results, include the
+  /// <code>NextToken</code> value in a subsequent call. If this parameter is not
+  /// used, the operation returns up to 50 results and a <code>NextToken</code>
+  /// value, if applicable.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The identifier of the resource associated with the scaling activity. This
+  /// string consists of the resource type and unique identifier. If you specify a
+  /// scalable dimension, you must also specify a resource ID.
+  ///
+  /// <ul>
+  /// <li>
+  /// ECS service - The resource type is <code>service</code> and the unique
+  /// identifier is the cluster name and service name. Example:
+  /// <code>service/default/sample-webapp</code>.
+  /// </li>
+  /// <li>
+  /// Spot Fleet request - The resource type is <code>spot-fleet-request</code>
+  /// and the unique identifier is the Spot Fleet request ID. Example:
+  /// <code>spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE</code>.
+  /// </li>
+  /// <li>
+  /// EMR cluster - The resource type is <code>instancegroup</code> and the unique
+  /// identifier is the cluster ID and instance group ID. Example:
+  /// <code>instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0</code>.
+  /// </li>
+  /// <li>
+  /// AppStream 2.0 fleet - The resource type is <code>fleet</code> and the unique
+  /// identifier is the fleet name. Example: <code>fleet/sample-fleet</code>.
+  /// </li>
+  /// <li>
+  /// DynamoDB table - The resource type is <code>table</code> and the unique
+  /// identifier is the table name. Example: <code>table/my-table</code>.
+  /// </li>
+  /// <li>
+  /// DynamoDB global secondary index - The resource type is <code>index</code>
+  /// and the unique identifier is the index name. Example:
+  /// <code>table/my-table/index/my-table-index</code>.
+  /// </li>
+  /// <li>
+  /// Aurora DB cluster - The resource type is <code>cluster</code> and the unique
+  /// identifier is the cluster name. Example: <code>cluster:my-db-cluster</code>.
+  /// </li>
+  /// <li>
+  /// Amazon SageMaker endpoint variant - The resource type is
+  /// <code>variant</code> and the unique identifier is the resource ID. Example:
+  /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
+  /// </li>
+  /// <li>
+  /// Custom resources are not supported with a resource type. This parameter must
+  /// specify the <code>OutputValue</code> from the CloudFormation template stack
+  /// used to access the resources. The unique identifier is defined by the
+  /// service provider. More information is available in our <a
+  /// href="https://github.com/aws/aws-auto-scaling-custom-resource">GitHub
+  /// repository</a>.
+  /// </li>
+  /// <li>
+  /// Amazon Comprehend document classification endpoint - The resource type and
+  /// unique identifier are specified using the endpoint ARN. Example:
+  /// <code>arn:aws:comprehend:us-west-2:123456789012:document-classifier-endpoint/EXAMPLE</code>.
+  /// </li>
+  /// <li>
+  /// Lambda provisioned concurrency - The resource type is <code>function</code>
+  /// and the unique identifier is the function name with a function version or
+  /// alias name suffix that is not <code>$LATEST</code>. Example:
+  /// <code>function:my-function:prod</code> or
+  /// <code>function:my-function:1</code>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  /// The scalable dimension. This string consists of the service namespace,
+  /// resource type, and scaling property. If you specify a scalable dimension,
+  /// you must also specify a resource ID.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ecs:service:DesiredCount</code> - The desired task count of an ECS
+  /// service.
+  /// </li>
+  /// <li>
+  /// <code>ec2:spot-fleet-request:TargetCapacity</code> - The target capacity of
+  /// a Spot Fleet request.
+  /// </li>
+  /// <li>
+  /// <code>elasticmapreduce:instancegroup:InstanceCount</code> - The instance
+  /// count of an EMR Instance Group.
+  /// </li>
+  /// <li>
+  /// <code>appstream:fleet:DesiredCapacity</code> - The desired capacity of an
+  /// AppStream 2.0 fleet.
+  /// </li>
+  /// <li>
+  /// <code>dynamodb:table:ReadCapacityUnits</code> - The provisioned read
+  /// capacity for a DynamoDB table.
+  /// </li>
+  /// <li>
+  /// <code>dynamodb:table:WriteCapacityUnits</code> - The provisioned write
+  /// capacity for a DynamoDB table.
+  /// </li>
+  /// <li>
+  /// <code>dynamodb:index:ReadCapacityUnits</code> - The provisioned read
+  /// capacity for a DynamoDB global secondary index.
+  /// </li>
+  /// <li>
+  /// <code>dynamodb:index:WriteCapacityUnits</code> - The provisioned write
+  /// capacity for a DynamoDB global secondary index.
+  /// </li>
+  /// <li>
+  /// <code>rds:cluster:ReadReplicaCount</code> - The count of Aurora Replicas in
+  /// an Aurora DB cluster. Available for Aurora MySQL-compatible edition and
+  /// Aurora PostgreSQL-compatible edition.
+  /// </li>
+  /// <li>
+  /// <code>sagemaker:variant:DesiredInstanceCount</code> - The number of EC2
+  /// instances for an Amazon SageMaker model endpoint variant.
+  /// </li>
+  /// <li>
+  /// <code>custom-resource:ResourceType:Property</code> - The scalable dimension
+  /// for a custom resource provided by your own application or service.
+  /// </li>
+  /// <li>
+  /// <code>comprehend:document-classifier-endpoint:DesiredInferenceUnits</code> -
+  /// The number of inference units for an Amazon Comprehend document
+  /// classification endpoint.
+  /// </li>
+  /// <li>
+  /// <code>lambda:function:ProvisionedConcurrency</code> - The provisioned
+  /// concurrency for a Lambda function.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ScalableDimension')
+  final ScalableDimension scalableDimension;
+
+  DescribeScalingActivitiesRequest({
+    @_s.required this.serviceNamespace,
+    this.maxResults,
+    this.nextToken,
+    this.resourceId,
+    this.scalableDimension,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeScalingActivitiesRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2582,6 +3370,180 @@ class DescribeScalingActivitiesResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeScalingPoliciesRequest {
+  /// The namespace of the AWS service that provides the resource or
+  /// <code>custom-resource</code> for a resource provided by your own application
+  /// or service. For more information, see <a
+  /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">AWS
+  /// Service Namespaces</a> in the <i>Amazon Web Services General Reference</i>.
+  @_s.JsonKey(name: 'ServiceNamespace')
+  final ServiceNamespace serviceNamespace;
+
+  /// The maximum number of scalable targets. This value can be between 1 and 50.
+  /// The default value is 50.
+  ///
+  /// If this parameter is used, the operation returns up to
+  /// <code>MaxResults</code> results at a time, along with a
+  /// <code>NextToken</code> value. To get the next set of results, include the
+  /// <code>NextToken</code> value in a subsequent call. If this parameter is not
+  /// used, the operation returns up to 50 results and a <code>NextToken</code>
+  /// value, if applicable.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The names of the scaling policies to describe.
+  @_s.JsonKey(name: 'PolicyNames')
+  final List<String> policyNames;
+
+  /// The identifier of the resource associated with the scaling policy. This
+  /// string consists of the resource type and unique identifier. If you specify a
+  /// scalable dimension, you must also specify a resource ID.
+  ///
+  /// <ul>
+  /// <li>
+  /// ECS service - The resource type is <code>service</code> and the unique
+  /// identifier is the cluster name and service name. Example:
+  /// <code>service/default/sample-webapp</code>.
+  /// </li>
+  /// <li>
+  /// Spot Fleet request - The resource type is <code>spot-fleet-request</code>
+  /// and the unique identifier is the Spot Fleet request ID. Example:
+  /// <code>spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE</code>.
+  /// </li>
+  /// <li>
+  /// EMR cluster - The resource type is <code>instancegroup</code> and the unique
+  /// identifier is the cluster ID and instance group ID. Example:
+  /// <code>instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0</code>.
+  /// </li>
+  /// <li>
+  /// AppStream 2.0 fleet - The resource type is <code>fleet</code> and the unique
+  /// identifier is the fleet name. Example: <code>fleet/sample-fleet</code>.
+  /// </li>
+  /// <li>
+  /// DynamoDB table - The resource type is <code>table</code> and the unique
+  /// identifier is the table name. Example: <code>table/my-table</code>.
+  /// </li>
+  /// <li>
+  /// DynamoDB global secondary index - The resource type is <code>index</code>
+  /// and the unique identifier is the index name. Example:
+  /// <code>table/my-table/index/my-table-index</code>.
+  /// </li>
+  /// <li>
+  /// Aurora DB cluster - The resource type is <code>cluster</code> and the unique
+  /// identifier is the cluster name. Example: <code>cluster:my-db-cluster</code>.
+  /// </li>
+  /// <li>
+  /// Amazon SageMaker endpoint variant - The resource type is
+  /// <code>variant</code> and the unique identifier is the resource ID. Example:
+  /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
+  /// </li>
+  /// <li>
+  /// Custom resources are not supported with a resource type. This parameter must
+  /// specify the <code>OutputValue</code> from the CloudFormation template stack
+  /// used to access the resources. The unique identifier is defined by the
+  /// service provider. More information is available in our <a
+  /// href="https://github.com/aws/aws-auto-scaling-custom-resource">GitHub
+  /// repository</a>.
+  /// </li>
+  /// <li>
+  /// Amazon Comprehend document classification endpoint - The resource type and
+  /// unique identifier are specified using the endpoint ARN. Example:
+  /// <code>arn:aws:comprehend:us-west-2:123456789012:document-classifier-endpoint/EXAMPLE</code>.
+  /// </li>
+  /// <li>
+  /// Lambda provisioned concurrency - The resource type is <code>function</code>
+  /// and the unique identifier is the function name with a function version or
+  /// alias name suffix that is not <code>$LATEST</code>. Example:
+  /// <code>function:my-function:prod</code> or
+  /// <code>function:my-function:1</code>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  /// The scalable dimension. This string consists of the service namespace,
+  /// resource type, and scaling property. If you specify a scalable dimension,
+  /// you must also specify a resource ID.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ecs:service:DesiredCount</code> - The desired task count of an ECS
+  /// service.
+  /// </li>
+  /// <li>
+  /// <code>ec2:spot-fleet-request:TargetCapacity</code> - The target capacity of
+  /// a Spot Fleet request.
+  /// </li>
+  /// <li>
+  /// <code>elasticmapreduce:instancegroup:InstanceCount</code> - The instance
+  /// count of an EMR Instance Group.
+  /// </li>
+  /// <li>
+  /// <code>appstream:fleet:DesiredCapacity</code> - The desired capacity of an
+  /// AppStream 2.0 fleet.
+  /// </li>
+  /// <li>
+  /// <code>dynamodb:table:ReadCapacityUnits</code> - The provisioned read
+  /// capacity for a DynamoDB table.
+  /// </li>
+  /// <li>
+  /// <code>dynamodb:table:WriteCapacityUnits</code> - The provisioned write
+  /// capacity for a DynamoDB table.
+  /// </li>
+  /// <li>
+  /// <code>dynamodb:index:ReadCapacityUnits</code> - The provisioned read
+  /// capacity for a DynamoDB global secondary index.
+  /// </li>
+  /// <li>
+  /// <code>dynamodb:index:WriteCapacityUnits</code> - The provisioned write
+  /// capacity for a DynamoDB global secondary index.
+  /// </li>
+  /// <li>
+  /// <code>rds:cluster:ReadReplicaCount</code> - The count of Aurora Replicas in
+  /// an Aurora DB cluster. Available for Aurora MySQL-compatible edition and
+  /// Aurora PostgreSQL-compatible edition.
+  /// </li>
+  /// <li>
+  /// <code>sagemaker:variant:DesiredInstanceCount</code> - The number of EC2
+  /// instances for an Amazon SageMaker model endpoint variant.
+  /// </li>
+  /// <li>
+  /// <code>custom-resource:ResourceType:Property</code> - The scalable dimension
+  /// for a custom resource provided by your own application or service.
+  /// </li>
+  /// <li>
+  /// <code>comprehend:document-classifier-endpoint:DesiredInferenceUnits</code> -
+  /// The number of inference units for an Amazon Comprehend document
+  /// classification endpoint.
+  /// </li>
+  /// <li>
+  /// <code>lambda:function:ProvisionedConcurrency</code> - The provisioned
+  /// concurrency for a Lambda function.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ScalableDimension')
+  final ScalableDimension scalableDimension;
+
+  DescribeScalingPoliciesRequest({
+    @_s.required this.serviceNamespace,
+    this.maxResults,
+    this.nextToken,
+    this.policyNames,
+    this.resourceId,
+    this.scalableDimension,
+  });
+  Map<String, dynamic> toJson() => _$DescribeScalingPoliciesRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribeScalingPoliciesResponse {
@@ -2600,6 +3562,181 @@ class DescribeScalingPoliciesResponse {
   });
   factory DescribeScalingPoliciesResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeScalingPoliciesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeScheduledActionsRequest {
+  /// The namespace of the AWS service that provides the resource or
+  /// <code>custom-resource</code> for a resource provided by your own application
+  /// or service. For more information, see <a
+  /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">AWS
+  /// Service Namespaces</a> in the <i>Amazon Web Services General Reference</i>.
+  @_s.JsonKey(name: 'ServiceNamespace')
+  final ServiceNamespace serviceNamespace;
+
+  /// The maximum number of scheduled action results. This value can be between 1
+  /// and 50. The default value is 50.
+  ///
+  /// If this parameter is used, the operation returns up to
+  /// <code>MaxResults</code> results at a time, along with a
+  /// <code>NextToken</code> value. To get the next set of results, include the
+  /// <code>NextToken</code> value in a subsequent call. If this parameter is not
+  /// used, the operation returns up to 50 results and a <code>NextToken</code>
+  /// value, if applicable.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The token for the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The identifier of the resource associated with the scheduled action. This
+  /// string consists of the resource type and unique identifier. If you specify a
+  /// scalable dimension, you must also specify a resource ID.
+  ///
+  /// <ul>
+  /// <li>
+  /// ECS service - The resource type is <code>service</code> and the unique
+  /// identifier is the cluster name and service name. Example:
+  /// <code>service/default/sample-webapp</code>.
+  /// </li>
+  /// <li>
+  /// Spot Fleet request - The resource type is <code>spot-fleet-request</code>
+  /// and the unique identifier is the Spot Fleet request ID. Example:
+  /// <code>spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE</code>.
+  /// </li>
+  /// <li>
+  /// EMR cluster - The resource type is <code>instancegroup</code> and the unique
+  /// identifier is the cluster ID and instance group ID. Example:
+  /// <code>instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0</code>.
+  /// </li>
+  /// <li>
+  /// AppStream 2.0 fleet - The resource type is <code>fleet</code> and the unique
+  /// identifier is the fleet name. Example: <code>fleet/sample-fleet</code>.
+  /// </li>
+  /// <li>
+  /// DynamoDB table - The resource type is <code>table</code> and the unique
+  /// identifier is the table name. Example: <code>table/my-table</code>.
+  /// </li>
+  /// <li>
+  /// DynamoDB global secondary index - The resource type is <code>index</code>
+  /// and the unique identifier is the index name. Example:
+  /// <code>table/my-table/index/my-table-index</code>.
+  /// </li>
+  /// <li>
+  /// Aurora DB cluster - The resource type is <code>cluster</code> and the unique
+  /// identifier is the cluster name. Example: <code>cluster:my-db-cluster</code>.
+  /// </li>
+  /// <li>
+  /// Amazon SageMaker endpoint variant - The resource type is
+  /// <code>variant</code> and the unique identifier is the resource ID. Example:
+  /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
+  /// </li>
+  /// <li>
+  /// Custom resources are not supported with a resource type. This parameter must
+  /// specify the <code>OutputValue</code> from the CloudFormation template stack
+  /// used to access the resources. The unique identifier is defined by the
+  /// service provider. More information is available in our <a
+  /// href="https://github.com/aws/aws-auto-scaling-custom-resource">GitHub
+  /// repository</a>.
+  /// </li>
+  /// <li>
+  /// Amazon Comprehend document classification endpoint - The resource type and
+  /// unique identifier are specified using the endpoint ARN. Example:
+  /// <code>arn:aws:comprehend:us-west-2:123456789012:document-classifier-endpoint/EXAMPLE</code>.
+  /// </li>
+  /// <li>
+  /// Lambda provisioned concurrency - The resource type is <code>function</code>
+  /// and the unique identifier is the function name with a function version or
+  /// alias name suffix that is not <code>$LATEST</code>. Example:
+  /// <code>function:my-function:prod</code> or
+  /// <code>function:my-function:1</code>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  /// The scalable dimension. This string consists of the service namespace,
+  /// resource type, and scaling property. If you specify a scalable dimension,
+  /// you must also specify a resource ID.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ecs:service:DesiredCount</code> - The desired task count of an ECS
+  /// service.
+  /// </li>
+  /// <li>
+  /// <code>ec2:spot-fleet-request:TargetCapacity</code> - The target capacity of
+  /// a Spot Fleet request.
+  /// </li>
+  /// <li>
+  /// <code>elasticmapreduce:instancegroup:InstanceCount</code> - The instance
+  /// count of an EMR Instance Group.
+  /// </li>
+  /// <li>
+  /// <code>appstream:fleet:DesiredCapacity</code> - The desired capacity of an
+  /// AppStream 2.0 fleet.
+  /// </li>
+  /// <li>
+  /// <code>dynamodb:table:ReadCapacityUnits</code> - The provisioned read
+  /// capacity for a DynamoDB table.
+  /// </li>
+  /// <li>
+  /// <code>dynamodb:table:WriteCapacityUnits</code> - The provisioned write
+  /// capacity for a DynamoDB table.
+  /// </li>
+  /// <li>
+  /// <code>dynamodb:index:ReadCapacityUnits</code> - The provisioned read
+  /// capacity for a DynamoDB global secondary index.
+  /// </li>
+  /// <li>
+  /// <code>dynamodb:index:WriteCapacityUnits</code> - The provisioned write
+  /// capacity for a DynamoDB global secondary index.
+  /// </li>
+  /// <li>
+  /// <code>rds:cluster:ReadReplicaCount</code> - The count of Aurora Replicas in
+  /// an Aurora DB cluster. Available for Aurora MySQL-compatible edition and
+  /// Aurora PostgreSQL-compatible edition.
+  /// </li>
+  /// <li>
+  /// <code>sagemaker:variant:DesiredInstanceCount</code> - The number of EC2
+  /// instances for an Amazon SageMaker model endpoint variant.
+  /// </li>
+  /// <li>
+  /// <code>custom-resource:ResourceType:Property</code> - The scalable dimension
+  /// for a custom resource provided by your own application or service.
+  /// </li>
+  /// <li>
+  /// <code>comprehend:document-classifier-endpoint:DesiredInferenceUnits</code> -
+  /// The number of inference units for an Amazon Comprehend document
+  /// classification endpoint.
+  /// </li>
+  /// <li>
+  /// <code>lambda:function:ProvisionedConcurrency</code> - The provisioned
+  /// concurrency for a Lambda function.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ScalableDimension')
+  final ScalableDimension scalableDimension;
+
+  /// The names of the scheduled actions to describe.
+  @_s.JsonKey(name: 'ScheduledActionNames')
+  final List<String> scheduledActionNames;
+
+  DescribeScheduledActionsRequest({
+    @_s.required this.serviceNamespace,
+    this.maxResults,
+    this.nextToken,
+    this.resourceId,
+    this.scalableDimension,
+    this.scheduledActionNames,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DescribeScheduledActionsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2711,18 +3848,6 @@ enum PolicyType {
   targetTrackingScaling,
 }
 
-extension on PolicyType {
-  String toValue() {
-    switch (this) {
-      case PolicyType.stepScaling:
-        return 'StepScaling';
-      case PolicyType.targetTrackingScaling:
-        return 'TargetTrackingScaling';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
-}
-
 /// Represents a predefined metric for a target tracking scaling policy to use
 /// with Application Auto Scaling.
 @_s.JsonSerializable(
@@ -2771,6 +3896,197 @@ class PredefinedMetricSpecification {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutScalingPolicyRequest {
+  /// The name of the scaling policy.
+  @_s.JsonKey(name: 'PolicyName')
+  final String policyName;
+
+  /// The identifier of the resource associated with the scaling policy. This
+  /// string consists of the resource type and unique identifier.
+  ///
+  /// <ul>
+  /// <li>
+  /// ECS service - The resource type is <code>service</code> and the unique
+  /// identifier is the cluster name and service name. Example:
+  /// <code>service/default/sample-webapp</code>.
+  /// </li>
+  /// <li>
+  /// Spot Fleet request - The resource type is <code>spot-fleet-request</code>
+  /// and the unique identifier is the Spot Fleet request ID. Example:
+  /// <code>spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE</code>.
+  /// </li>
+  /// <li>
+  /// EMR cluster - The resource type is <code>instancegroup</code> and the unique
+  /// identifier is the cluster ID and instance group ID. Example:
+  /// <code>instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0</code>.
+  /// </li>
+  /// <li>
+  /// AppStream 2.0 fleet - The resource type is <code>fleet</code> and the unique
+  /// identifier is the fleet name. Example: <code>fleet/sample-fleet</code>.
+  /// </li>
+  /// <li>
+  /// DynamoDB table - The resource type is <code>table</code> and the unique
+  /// identifier is the table name. Example: <code>table/my-table</code>.
+  /// </li>
+  /// <li>
+  /// DynamoDB global secondary index - The resource type is <code>index</code>
+  /// and the unique identifier is the index name. Example:
+  /// <code>table/my-table/index/my-table-index</code>.
+  /// </li>
+  /// <li>
+  /// Aurora DB cluster - The resource type is <code>cluster</code> and the unique
+  /// identifier is the cluster name. Example: <code>cluster:my-db-cluster</code>.
+  /// </li>
+  /// <li>
+  /// Amazon SageMaker endpoint variant - The resource type is
+  /// <code>variant</code> and the unique identifier is the resource ID. Example:
+  /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
+  /// </li>
+  /// <li>
+  /// Custom resources are not supported with a resource type. This parameter must
+  /// specify the <code>OutputValue</code> from the CloudFormation template stack
+  /// used to access the resources. The unique identifier is defined by the
+  /// service provider. More information is available in our <a
+  /// href="https://github.com/aws/aws-auto-scaling-custom-resource">GitHub
+  /// repository</a>.
+  /// </li>
+  /// <li>
+  /// Amazon Comprehend document classification endpoint - The resource type and
+  /// unique identifier are specified using the endpoint ARN. Example:
+  /// <code>arn:aws:comprehend:us-west-2:123456789012:document-classifier-endpoint/EXAMPLE</code>.
+  /// </li>
+  /// <li>
+  /// Lambda provisioned concurrency - The resource type is <code>function</code>
+  /// and the unique identifier is the function name with a function version or
+  /// alias name suffix that is not <code>$LATEST</code>. Example:
+  /// <code>function:my-function:prod</code> or
+  /// <code>function:my-function:1</code>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  /// The scalable dimension. This string consists of the service namespace,
+  /// resource type, and scaling property.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ecs:service:DesiredCount</code> - The desired task count of an ECS
+  /// service.
+  /// </li>
+  /// <li>
+  /// <code>ec2:spot-fleet-request:TargetCapacity</code> - The target capacity of
+  /// a Spot Fleet request.
+  /// </li>
+  /// <li>
+  /// <code>elasticmapreduce:instancegroup:InstanceCount</code> - The instance
+  /// count of an EMR Instance Group.
+  /// </li>
+  /// <li>
+  /// <code>appstream:fleet:DesiredCapacity</code> - The desired capacity of an
+  /// AppStream 2.0 fleet.
+  /// </li>
+  /// <li>
+  /// <code>dynamodb:table:ReadCapacityUnits</code> - The provisioned read
+  /// capacity for a DynamoDB table.
+  /// </li>
+  /// <li>
+  /// <code>dynamodb:table:WriteCapacityUnits</code> - The provisioned write
+  /// capacity for a DynamoDB table.
+  /// </li>
+  /// <li>
+  /// <code>dynamodb:index:ReadCapacityUnits</code> - The provisioned read
+  /// capacity for a DynamoDB global secondary index.
+  /// </li>
+  /// <li>
+  /// <code>dynamodb:index:WriteCapacityUnits</code> - The provisioned write
+  /// capacity for a DynamoDB global secondary index.
+  /// </li>
+  /// <li>
+  /// <code>rds:cluster:ReadReplicaCount</code> - The count of Aurora Replicas in
+  /// an Aurora DB cluster. Available for Aurora MySQL-compatible edition and
+  /// Aurora PostgreSQL-compatible edition.
+  /// </li>
+  /// <li>
+  /// <code>sagemaker:variant:DesiredInstanceCount</code> - The number of EC2
+  /// instances for an Amazon SageMaker model endpoint variant.
+  /// </li>
+  /// <li>
+  /// <code>custom-resource:ResourceType:Property</code> - The scalable dimension
+  /// for a custom resource provided by your own application or service.
+  /// </li>
+  /// <li>
+  /// <code>comprehend:document-classifier-endpoint:DesiredInferenceUnits</code> -
+  /// The number of inference units for an Amazon Comprehend document
+  /// classification endpoint.
+  /// </li>
+  /// <li>
+  /// <code>lambda:function:ProvisionedConcurrency</code> - The provisioned
+  /// concurrency for a Lambda function.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ScalableDimension')
+  final ScalableDimension scalableDimension;
+
+  /// The namespace of the AWS service that provides the resource or
+  /// <code>custom-resource</code> for a resource provided by your own application
+  /// or service. For more information, see <a
+  /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">AWS
+  /// Service Namespaces</a> in the <i>Amazon Web Services General Reference</i>.
+  @_s.JsonKey(name: 'ServiceNamespace')
+  final ServiceNamespace serviceNamespace;
+
+  /// The policy type. This parameter is required if you are creating a scaling
+  /// policy.
+  ///
+  /// The following policy types are supported:
+  ///
+  /// <code>TargetTrackingScaling</code>—Not supported for Amazon EMR
+  ///
+  /// <code>StepScaling</code>—Not supported for DynamoDB, Amazon Comprehend, or
+  /// AWS Lambda
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html">Target
+  /// Tracking Scaling Policies</a> and <a
+  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-step-scaling-policies.html">Step
+  /// Scaling Policies</a> in the <i>Application Auto Scaling User Guide</i>.
+  @_s.JsonKey(name: 'PolicyType')
+  final PolicyType policyType;
+
+  /// A step scaling policy.
+  ///
+  /// This parameter is required if you are creating a policy and the policy type
+  /// is <code>StepScaling</code>.
+  @_s.JsonKey(name: 'StepScalingPolicyConfiguration')
+  final StepScalingPolicyConfiguration stepScalingPolicyConfiguration;
+
+  /// A target tracking scaling policy. Includes support for predefined or
+  /// customized metrics.
+  ///
+  /// This parameter is required if you are creating a policy and the policy type
+  /// is <code>TargetTrackingScaling</code>.
+  @_s.JsonKey(name: 'TargetTrackingScalingPolicyConfiguration')
+  final TargetTrackingScalingPolicyConfiguration
+      targetTrackingScalingPolicyConfiguration;
+
+  PutScalingPolicyRequest({
+    @_s.required this.policyName,
+    @_s.required this.resourceId,
+    @_s.required this.scalableDimension,
+    @_s.required this.serviceNamespace,
+    this.policyType,
+    this.stepScalingPolicyConfiguration,
+    this.targetTrackingScalingPolicyConfiguration,
+  });
+  Map<String, dynamic> toJson() => _$PutScalingPolicyRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutScalingPolicyResponse {
@@ -2793,12 +4109,423 @@ class PutScalingPolicyResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutScheduledActionRequest {
+  /// The identifier of the resource associated with the scheduled action. This
+  /// string consists of the resource type and unique identifier.
+  ///
+  /// <ul>
+  /// <li>
+  /// ECS service - The resource type is <code>service</code> and the unique
+  /// identifier is the cluster name and service name. Example:
+  /// <code>service/default/sample-webapp</code>.
+  /// </li>
+  /// <li>
+  /// Spot Fleet request - The resource type is <code>spot-fleet-request</code>
+  /// and the unique identifier is the Spot Fleet request ID. Example:
+  /// <code>spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE</code>.
+  /// </li>
+  /// <li>
+  /// EMR cluster - The resource type is <code>instancegroup</code> and the unique
+  /// identifier is the cluster ID and instance group ID. Example:
+  /// <code>instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0</code>.
+  /// </li>
+  /// <li>
+  /// AppStream 2.0 fleet - The resource type is <code>fleet</code> and the unique
+  /// identifier is the fleet name. Example: <code>fleet/sample-fleet</code>.
+  /// </li>
+  /// <li>
+  /// DynamoDB table - The resource type is <code>table</code> and the unique
+  /// identifier is the table name. Example: <code>table/my-table</code>.
+  /// </li>
+  /// <li>
+  /// DynamoDB global secondary index - The resource type is <code>index</code>
+  /// and the unique identifier is the index name. Example:
+  /// <code>table/my-table/index/my-table-index</code>.
+  /// </li>
+  /// <li>
+  /// Aurora DB cluster - The resource type is <code>cluster</code> and the unique
+  /// identifier is the cluster name. Example: <code>cluster:my-db-cluster</code>.
+  /// </li>
+  /// <li>
+  /// Amazon SageMaker endpoint variant - The resource type is
+  /// <code>variant</code> and the unique identifier is the resource ID. Example:
+  /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
+  /// </li>
+  /// <li>
+  /// Custom resources are not supported with a resource type. This parameter must
+  /// specify the <code>OutputValue</code> from the CloudFormation template stack
+  /// used to access the resources. The unique identifier is defined by the
+  /// service provider. More information is available in our <a
+  /// href="https://github.com/aws/aws-auto-scaling-custom-resource">GitHub
+  /// repository</a>.
+  /// </li>
+  /// <li>
+  /// Amazon Comprehend document classification endpoint - The resource type and
+  /// unique identifier are specified using the endpoint ARN. Example:
+  /// <code>arn:aws:comprehend:us-west-2:123456789012:document-classifier-endpoint/EXAMPLE</code>.
+  /// </li>
+  /// <li>
+  /// Lambda provisioned concurrency - The resource type is <code>function</code>
+  /// and the unique identifier is the function name with a function version or
+  /// alias name suffix that is not <code>$LATEST</code>. Example:
+  /// <code>function:my-function:prod</code> or
+  /// <code>function:my-function:1</code>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  /// The scalable dimension. This string consists of the service namespace,
+  /// resource type, and scaling property.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ecs:service:DesiredCount</code> - The desired task count of an ECS
+  /// service.
+  /// </li>
+  /// <li>
+  /// <code>ec2:spot-fleet-request:TargetCapacity</code> - The target capacity of
+  /// a Spot Fleet request.
+  /// </li>
+  /// <li>
+  /// <code>elasticmapreduce:instancegroup:InstanceCount</code> - The instance
+  /// count of an EMR Instance Group.
+  /// </li>
+  /// <li>
+  /// <code>appstream:fleet:DesiredCapacity</code> - The desired capacity of an
+  /// AppStream 2.0 fleet.
+  /// </li>
+  /// <li>
+  /// <code>dynamodb:table:ReadCapacityUnits</code> - The provisioned read
+  /// capacity for a DynamoDB table.
+  /// </li>
+  /// <li>
+  /// <code>dynamodb:table:WriteCapacityUnits</code> - The provisioned write
+  /// capacity for a DynamoDB table.
+  /// </li>
+  /// <li>
+  /// <code>dynamodb:index:ReadCapacityUnits</code> - The provisioned read
+  /// capacity for a DynamoDB global secondary index.
+  /// </li>
+  /// <li>
+  /// <code>dynamodb:index:WriteCapacityUnits</code> - The provisioned write
+  /// capacity for a DynamoDB global secondary index.
+  /// </li>
+  /// <li>
+  /// <code>rds:cluster:ReadReplicaCount</code> - The count of Aurora Replicas in
+  /// an Aurora DB cluster. Available for Aurora MySQL-compatible edition and
+  /// Aurora PostgreSQL-compatible edition.
+  /// </li>
+  /// <li>
+  /// <code>sagemaker:variant:DesiredInstanceCount</code> - The number of EC2
+  /// instances for an Amazon SageMaker model endpoint variant.
+  /// </li>
+  /// <li>
+  /// <code>custom-resource:ResourceType:Property</code> - The scalable dimension
+  /// for a custom resource provided by your own application or service.
+  /// </li>
+  /// <li>
+  /// <code>comprehend:document-classifier-endpoint:DesiredInferenceUnits</code> -
+  /// The number of inference units for an Amazon Comprehend document
+  /// classification endpoint.
+  /// </li>
+  /// <li>
+  /// <code>lambda:function:ProvisionedConcurrency</code> - The provisioned
+  /// concurrency for a Lambda function.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ScalableDimension')
+  final ScalableDimension scalableDimension;
+
+  /// The name of the scheduled action.
+  @_s.JsonKey(name: 'ScheduledActionName')
+  final String scheduledActionName;
+
+  /// The namespace of the AWS service that provides the resource or
+  /// <code>custom-resource</code> for a resource provided by your own application
+  /// or service. For more information, see <a
+  /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">AWS
+  /// Service Namespaces</a> in the <i>Amazon Web Services General Reference</i>.
+  @_s.JsonKey(name: 'ServiceNamespace')
+  final ServiceNamespace serviceNamespace;
+
+  /// The date and time for the scheduled action to end.
+  @_s.JsonKey(
+      name: 'EndTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime endTime;
+
+  /// The new minimum and maximum capacity. You can set both values or just one.
+  /// During the scheduled time, if the current capacity is below the minimum
+  /// capacity, Application Auto Scaling scales out to the minimum capacity. If
+  /// the current capacity is above the maximum capacity, Application Auto Scaling
+  /// scales in to the maximum capacity.
+  @_s.JsonKey(name: 'ScalableTargetAction')
+  final ScalableTargetAction scalableTargetAction;
+
+  /// The schedule for this action. The following formats are supported:
+  ///
+  /// <ul>
+  /// <li>
+  /// At expressions -
+  /// "<code>at(<i>yyyy</i>-<i>mm</i>-<i>dd</i>T<i>hh</i>:<i>mm</i>:<i>ss</i>)</code>"
+  /// </li>
+  /// <li>
+  /// Rate expressions - "<code>rate(<i>value</i> <i>unit</i>)</code>"
+  /// </li>
+  /// <li>
+  /// Cron expressions - "<code>cron(<i>fields</i>)</code>"
+  /// </li>
+  /// </ul>
+  /// At expressions are useful for one-time schedules. Specify the time, in UTC.
+  ///
+  /// For rate expressions, <i>value</i> is a positive integer and <i>unit</i> is
+  /// <code>minute</code> | <code>minutes</code> | <code>hour</code> |
+  /// <code>hours</code> | <code>day</code> | <code>days</code>.
+  ///
+  /// For more information about cron expressions, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions">Cron
+  /// Expressions</a> in the <i>Amazon CloudWatch Events User Guide</i>.
+  @_s.JsonKey(name: 'Schedule')
+  final String schedule;
+
+  /// The date and time for the scheduled action to start.
+  @_s.JsonKey(
+      name: 'StartTime',
+      fromJson: unixTimestampFromJson,
+      toJson: unixTimestampToJson)
+  final DateTime startTime;
+
+  PutScheduledActionRequest({
+    @_s.required this.resourceId,
+    @_s.required this.scalableDimension,
+    @_s.required this.scheduledActionName,
+    @_s.required this.serviceNamespace,
+    this.endTime,
+    this.scalableTargetAction,
+    this.schedule,
+    this.startTime,
+  });
+  Map<String, dynamic> toJson() => _$PutScheduledActionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutScheduledActionResponse {
   PutScheduledActionResponse();
   factory PutScheduledActionResponse.fromJson(Map<String, dynamic> json) =>
       _$PutScheduledActionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RegisterScalableTargetRequest {
+  /// The identifier of the resource that is associated with the scalable target.
+  /// This string consists of the resource type and unique identifier.
+  ///
+  /// <ul>
+  /// <li>
+  /// ECS service - The resource type is <code>service</code> and the unique
+  /// identifier is the cluster name and service name. Example:
+  /// <code>service/default/sample-webapp</code>.
+  /// </li>
+  /// <li>
+  /// Spot Fleet request - The resource type is <code>spot-fleet-request</code>
+  /// and the unique identifier is the Spot Fleet request ID. Example:
+  /// <code>spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE</code>.
+  /// </li>
+  /// <li>
+  /// EMR cluster - The resource type is <code>instancegroup</code> and the unique
+  /// identifier is the cluster ID and instance group ID. Example:
+  /// <code>instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0</code>.
+  /// </li>
+  /// <li>
+  /// AppStream 2.0 fleet - The resource type is <code>fleet</code> and the unique
+  /// identifier is the fleet name. Example: <code>fleet/sample-fleet</code>.
+  /// </li>
+  /// <li>
+  /// DynamoDB table - The resource type is <code>table</code> and the unique
+  /// identifier is the table name. Example: <code>table/my-table</code>.
+  /// </li>
+  /// <li>
+  /// DynamoDB global secondary index - The resource type is <code>index</code>
+  /// and the unique identifier is the index name. Example:
+  /// <code>table/my-table/index/my-table-index</code>.
+  /// </li>
+  /// <li>
+  /// Aurora DB cluster - The resource type is <code>cluster</code> and the unique
+  /// identifier is the cluster name. Example: <code>cluster:my-db-cluster</code>.
+  /// </li>
+  /// <li>
+  /// Amazon SageMaker endpoint variant - The resource type is
+  /// <code>variant</code> and the unique identifier is the resource ID. Example:
+  /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
+  /// </li>
+  /// <li>
+  /// Custom resources are not supported with a resource type. This parameter must
+  /// specify the <code>OutputValue</code> from the CloudFormation template stack
+  /// used to access the resources. The unique identifier is defined by the
+  /// service provider. More information is available in our <a
+  /// href="https://github.com/aws/aws-auto-scaling-custom-resource">GitHub
+  /// repository</a>.
+  /// </li>
+  /// <li>
+  /// Amazon Comprehend document classification endpoint - The resource type and
+  /// unique identifier are specified using the endpoint ARN. Example:
+  /// <code>arn:aws:comprehend:us-west-2:123456789012:document-classifier-endpoint/EXAMPLE</code>.
+  /// </li>
+  /// <li>
+  /// Lambda provisioned concurrency - The resource type is <code>function</code>
+  /// and the unique identifier is the function name with a function version or
+  /// alias name suffix that is not <code>$LATEST</code>. Example:
+  /// <code>function:my-function:prod</code> or
+  /// <code>function:my-function:1</code>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  /// The scalable dimension associated with the scalable target. This string
+  /// consists of the service namespace, resource type, and scaling property.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ecs:service:DesiredCount</code> - The desired task count of an ECS
+  /// service.
+  /// </li>
+  /// <li>
+  /// <code>ec2:spot-fleet-request:TargetCapacity</code> - The target capacity of
+  /// a Spot Fleet request.
+  /// </li>
+  /// <li>
+  /// <code>elasticmapreduce:instancegroup:InstanceCount</code> - The instance
+  /// count of an EMR Instance Group.
+  /// </li>
+  /// <li>
+  /// <code>appstream:fleet:DesiredCapacity</code> - The desired capacity of an
+  /// AppStream 2.0 fleet.
+  /// </li>
+  /// <li>
+  /// <code>dynamodb:table:ReadCapacityUnits</code> - The provisioned read
+  /// capacity for a DynamoDB table.
+  /// </li>
+  /// <li>
+  /// <code>dynamodb:table:WriteCapacityUnits</code> - The provisioned write
+  /// capacity for a DynamoDB table.
+  /// </li>
+  /// <li>
+  /// <code>dynamodb:index:ReadCapacityUnits</code> - The provisioned read
+  /// capacity for a DynamoDB global secondary index.
+  /// </li>
+  /// <li>
+  /// <code>dynamodb:index:WriteCapacityUnits</code> - The provisioned write
+  /// capacity for a DynamoDB global secondary index.
+  /// </li>
+  /// <li>
+  /// <code>rds:cluster:ReadReplicaCount</code> - The count of Aurora Replicas in
+  /// an Aurora DB cluster. Available for Aurora MySQL-compatible edition and
+  /// Aurora PostgreSQL-compatible edition.
+  /// </li>
+  /// <li>
+  /// <code>sagemaker:variant:DesiredInstanceCount</code> - The number of EC2
+  /// instances for an Amazon SageMaker model endpoint variant.
+  /// </li>
+  /// <li>
+  /// <code>custom-resource:ResourceType:Property</code> - The scalable dimension
+  /// for a custom resource provided by your own application or service.
+  /// </li>
+  /// <li>
+  /// <code>comprehend:document-classifier-endpoint:DesiredInferenceUnits</code> -
+  /// The number of inference units for an Amazon Comprehend document
+  /// classification endpoint.
+  /// </li>
+  /// <li>
+  /// <code>lambda:function:ProvisionedConcurrency</code> - The provisioned
+  /// concurrency for a Lambda function.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ScalableDimension')
+  final ScalableDimension scalableDimension;
+
+  /// The namespace of the AWS service that provides the resource or
+  /// <code>custom-resource</code> for a resource provided by your own application
+  /// or service. For more information, see <a
+  /// href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">AWS
+  /// Service Namespaces</a> in the <i>Amazon Web Services General Reference</i>.
+  @_s.JsonKey(name: 'ServiceNamespace')
+  final ServiceNamespace serviceNamespace;
+
+  /// The maximum value to scale to in response to a scale-out event.
+  /// <code>MaxCapacity</code> is required to register a scalable target.
+  @_s.JsonKey(name: 'MaxCapacity')
+  final int maxCapacity;
+
+  /// The minimum value to scale to in response to a scale-in event.
+  /// <code>MinCapacity</code> is required to register a scalable target.
+  @_s.JsonKey(name: 'MinCapacity')
+  final int minCapacity;
+
+  /// Application Auto Scaling creates a service-linked role that grants it
+  /// permissions to modify the scalable target on your behalf. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-service-linked-roles.html">Service-Linked
+  /// Roles for Application Auto Scaling</a>.
+  ///
+  /// For Amazon EMR, this parameter is required, and it must specify the ARN of
+  /// an IAM role that allows Application Auto Scaling to modify the scalable
+  /// target on your behalf.
+  @_s.JsonKey(name: 'RoleARN')
+  final String roleARN;
+
+  /// An embedded object that contains attributes and attribute values that are
+  /// used to suspend and resume automatic scaling. Setting the value of an
+  /// attribute to <code>true</code> suspends the specified scaling activities.
+  /// Setting it to <code>false</code> (default) resumes the specified scaling
+  /// activities.
+  ///
+  /// <b>Suspension Outcomes</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// For <code>DynamicScalingInSuspended</code>, while a suspension is in effect,
+  /// all scale-in activities that are triggered by a scaling policy are
+  /// suspended.
+  /// </li>
+  /// <li>
+  /// For <code>DynamicScalingOutSuspended</code>, while a suspension is in
+  /// effect, all scale-out activities that are triggered by a scaling policy are
+  /// suspended.
+  /// </li>
+  /// <li>
+  /// For <code>ScheduledScalingSuspended</code>, while a suspension is in effect,
+  /// all scaling activities that involve scheduled actions are suspended.
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-suspend-resume-scaling.html">Suspending
+  /// and Resuming Scaling</a> in the <i>Application Auto Scaling User Guide</i>.
+  @_s.JsonKey(name: 'SuspendedState')
+  final SuspendedState suspendedState;
+
+  RegisterScalableTargetRequest({
+    @_s.required this.resourceId,
+    @_s.required this.scalableDimension,
+    @_s.required this.serviceNamespace,
+    this.maxCapacity,
+    this.minCapacity,
+    this.roleARN,
+    this.suspendedState,
+  });
+  Map<String, dynamic> toJson() => _$RegisterScalableTargetRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2839,41 +4566,6 @@ enum ScalableDimension {
   comprehendDocumentClassifierEndpointDesiredInferenceUnits,
   @_s.JsonValue('lambda:function:ProvisionedConcurrency')
   lambdaFunctionProvisionedConcurrency,
-}
-
-extension on ScalableDimension {
-  String toValue() {
-    switch (this) {
-      case ScalableDimension.ecsServiceDesiredCount:
-        return 'ecs:service:DesiredCount';
-      case ScalableDimension.ec2SpotFleetRequestTargetCapacity:
-        return 'ec2:spot-fleet-request:TargetCapacity';
-      case ScalableDimension.elasticmapreduceInstancegroupInstanceCount:
-        return 'elasticmapreduce:instancegroup:InstanceCount';
-      case ScalableDimension.appstreamFleetDesiredCapacity:
-        return 'appstream:fleet:DesiredCapacity';
-      case ScalableDimension.dynamodbTableReadCapacityUnits:
-        return 'dynamodb:table:ReadCapacityUnits';
-      case ScalableDimension.dynamodbTableWriteCapacityUnits:
-        return 'dynamodb:table:WriteCapacityUnits';
-      case ScalableDimension.dynamodbIndexReadCapacityUnits:
-        return 'dynamodb:index:ReadCapacityUnits';
-      case ScalableDimension.dynamodbIndexWriteCapacityUnits:
-        return 'dynamodb:index:WriteCapacityUnits';
-      case ScalableDimension.rdsClusterReadReplicaCount:
-        return 'rds:cluster:ReadReplicaCount';
-      case ScalableDimension.sagemakerVariantDesiredInstanceCount:
-        return 'sagemaker:variant:DesiredInstanceCount';
-      case ScalableDimension.customResourceResourceTypeProperty:
-        return 'custom-resource:ResourceType:Property';
-      case ScalableDimension
-          .comprehendDocumentClassifierEndpointDesiredInferenceUnits:
-        return 'comprehend:document-classifier-endpoint:DesiredInferenceUnits';
-      case ScalableDimension.lambdaFunctionProvisionedConcurrency:
-        return 'lambda:function:ProvisionedConcurrency';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Represents a scalable target.
@@ -3724,34 +5416,6 @@ enum ServiceNamespace {
   comprehend,
   @_s.JsonValue('lambda')
   lambda,
-}
-
-extension on ServiceNamespace {
-  String toValue() {
-    switch (this) {
-      case ServiceNamespace.ecs:
-        return 'ecs';
-      case ServiceNamespace.elasticmapreduce:
-        return 'elasticmapreduce';
-      case ServiceNamespace.ec2:
-        return 'ec2';
-      case ServiceNamespace.appstream:
-        return 'appstream';
-      case ServiceNamespace.dynamodb:
-        return 'dynamodb';
-      case ServiceNamespace.rds:
-        return 'rds';
-      case ServiceNamespace.sagemaker:
-        return 'sagemaker';
-      case ServiceNamespace.customResource:
-        return 'custom-resource';
-      case ServiceNamespace.comprehend:
-        return 'comprehend';
-      case ServiceNamespace.lambda:
-        return 'lambda';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Represents a step adjustment for a <a>StepScalingPolicyConfiguration</a>.

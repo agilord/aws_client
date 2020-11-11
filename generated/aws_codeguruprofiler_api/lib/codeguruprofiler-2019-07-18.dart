@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -81,9 +80,10 @@ class CodeGuruProfiler {
       fleetInstanceId,
       r'''^[\w-.:/]+$''',
     );
-    final $payload = <String, dynamic>{
-      if (fleetInstanceId != null) 'fleetInstanceId': fleetInstanceId,
-    };
+    final $payload = ConfigureAgentRequest(
+      profilingGroupName: profilingGroupName,
+      fleetInstanceId: fleetInstanceId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -152,11 +152,11 @@ class CodeGuruProfiler {
     _query = '?${[
       if (clientToken != null) _s.toQueryParam('clientToken', clientToken),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{
-      'profilingGroupName': profilingGroupName,
-      if (agentOrchestrationConfig != null)
-        'agentOrchestrationConfig': agentOrchestrationConfig,
-    };
+    final $payload = CreateProfilingGroupRequest(
+      clientToken: clientToken,
+      profilingGroupName: profilingGroupName,
+      agentOrchestrationConfig: agentOrchestrationConfig,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -193,7 +193,9 @@ class CodeGuruProfiler {
       r'''^[\w-]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteProfilingGroupRequest(
+      profilingGroupName: profilingGroupName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -667,10 +669,12 @@ class CodeGuruProfiler {
       revisionId,
       r'''[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}''',
     );
-    final $payload = <String, dynamic>{
-      'principals': principals,
-      if (revisionId != null) 'revisionId': revisionId,
-    };
+    final $payload = PutPermissionRequest(
+      actionGroup: actionGroup,
+      principals: principals,
+      profilingGroupName: profilingGroupName,
+      revisionId: revisionId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -729,7 +733,11 @@ class CodeGuruProfiler {
     _query = '?${[
       if (revisionId != null) _s.toQueryParam('revisionId', revisionId),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = RemovePermissionRequest(
+      actionGroup: actionGroup,
+      profilingGroupName: profilingGroupName,
+      revisionId: revisionId,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -773,9 +781,10 @@ class CodeGuruProfiler {
       r'''^[\w-]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{
-      'agentOrchestrationConfig': agentOrchestrationConfig,
-    };
+    final $payload = UpdateProfilingGroupRequest(
+      agentOrchestrationConfig: agentOrchestrationConfig,
+      profilingGroupName: profilingGroupName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -868,6 +877,28 @@ enum AggregationPeriod {
   pt5m,
 }
 
+/// The structure representing the configureAgentRequest.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ConfigureAgentRequest {
+  /// <p/>
+  @_s.JsonKey(name: 'profilingGroupName', ignore: true)
+  final String profilingGroupName;
+
+  /// <p/>
+  @_s.JsonKey(name: 'fleetInstanceId')
+  final String fleetInstanceId;
+
+  ConfigureAgentRequest({
+    @_s.required this.profilingGroupName,
+    this.fleetInstanceId,
+  });
+  Map<String, dynamic> toJson() => _$ConfigureAgentRequestToJson(this);
+}
+
 /// The structure representing the configureAgentResponse.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -886,6 +917,37 @@ class ConfigureAgentResponse {
       _$ConfigureAgentResponseFromJson(json);
 }
 
+/// The structure representing the createProfiliingGroupRequest.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateProfilingGroupRequest {
+  /// Unique, case-sensitive identifier that you provide to ensure the idempotency
+  /// of the request.
+  ///
+  /// This parameter specifies a unique identifier for the new profiling group
+  /// that helps ensure idempotency.
+  @_s.JsonKey(name: 'clientToken', ignore: true)
+  final String clientToken;
+
+  /// The name of the profiling group.
+  @_s.JsonKey(name: 'profilingGroupName')
+  final String profilingGroupName;
+
+  /// The agent orchestration configuration.
+  @_s.JsonKey(name: 'agentOrchestrationConfig')
+  final AgentOrchestrationConfig agentOrchestrationConfig;
+
+  CreateProfilingGroupRequest({
+    @_s.required this.clientToken,
+    @_s.required this.profilingGroupName,
+    this.agentOrchestrationConfig,
+  });
+  Map<String, dynamic> toJson() => _$CreateProfilingGroupRequestToJson(this);
+}
+
 /// The structure representing the createProfilingGroupResponse.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -902,6 +964,23 @@ class CreateProfilingGroupResponse {
   });
   factory CreateProfilingGroupResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateProfilingGroupResponseFromJson(json);
+}
+
+/// The structure representing the deleteProfilingGroupRequest.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteProfilingGroupRequest {
+  /// The profiling group name to delete.
+  @_s.JsonKey(name: 'profilingGroupName', ignore: true)
+  final String profilingGroupName;
+
+  DeleteProfilingGroupRequest({
+    @_s.required this.profilingGroupName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteProfilingGroupRequestToJson(this);
 }
 
 /// The structure representing the deleteProfilingGroupResponse.
@@ -1168,6 +1247,42 @@ class ProfilingStatus {
       _$ProfilingStatusFromJson(json);
 }
 
+/// The structure representing the putPermissionRequest.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutPermissionRequest {
+  /// The list of actions that the users and roles can perform on the profiling
+  /// group.
+  @_s.JsonKey(name: 'actionGroup', ignore: true)
+  final ActionGroup actionGroup;
+
+  /// The list of role and user ARNs or the accountId that needs access (wildcards
+  /// are not allowed).
+  @_s.JsonKey(name: 'principals')
+  final List<String> principals;
+
+  /// The name of the profiling group.
+  @_s.JsonKey(name: 'profilingGroupName', ignore: true)
+  final String profilingGroupName;
+
+  /// A unique identifier for the current revision of the policy. This is
+  /// required, if a policy exists for the profiling group. This is not required
+  /// when creating the policy for the first time.
+  @_s.JsonKey(name: 'revisionId')
+  final String revisionId;
+
+  PutPermissionRequest({
+    @_s.required this.actionGroup,
+    @_s.required this.principals,
+    @_s.required this.profilingGroupName,
+    this.revisionId,
+  });
+  Map<String, dynamic> toJson() => _$PutPermissionRequestToJson(this);
+}
+
 /// The structure representing the putPermissionResponse.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1191,6 +1306,34 @@ class PutPermissionResponse {
       _$PutPermissionResponseFromJson(json);
 }
 
+/// The structure representing the removePermissionRequest.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RemovePermissionRequest {
+  /// The list of actions that the users and roles can perform on the profiling
+  /// group.
+  @_s.JsonKey(name: 'actionGroup', ignore: true)
+  final ActionGroup actionGroup;
+
+  /// The name of the profiling group.
+  @_s.JsonKey(name: 'profilingGroupName', ignore: true)
+  final String profilingGroupName;
+
+  /// A unique identifier for the current revision of the policy.
+  @_s.JsonKey(name: 'revisionId', ignore: true)
+  final String revisionId;
+
+  RemovePermissionRequest({
+    @_s.required this.actionGroup,
+    @_s.required this.profilingGroupName,
+    @_s.required this.revisionId,
+  });
+  Map<String, dynamic> toJson() => _$RemovePermissionRequestToJson(this);
+}
+
 /// The structure representing the removePermissionResponse.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1212,6 +1355,28 @@ class RemovePermissionResponse {
   });
   factory RemovePermissionResponse.fromJson(Map<String, dynamic> json) =>
       _$RemovePermissionResponseFromJson(json);
+}
+
+/// The structure representing the updateProfilingGroupRequest.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateProfilingGroupRequest {
+  /// <p/>
+  @_s.JsonKey(name: 'agentOrchestrationConfig')
+  final AgentOrchestrationConfig agentOrchestrationConfig;
+
+  /// The name of the profiling group to update.
+  @_s.JsonKey(name: 'profilingGroupName', ignore: true)
+  final String profilingGroupName;
+
+  UpdateProfilingGroupRequest({
+    @_s.required this.agentOrchestrationConfig,
+    @_s.required this.profilingGroupName,
+  });
+  Map<String, dynamic> toJson() => _$UpdateProfilingGroupRequestToJson(this);
 }
 
 /// The structure representing the updateProfilingGroupResponse.

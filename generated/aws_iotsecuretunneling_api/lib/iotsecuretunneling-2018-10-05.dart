@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -74,10 +73,10 @@ class IoTSecureTunneling {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'tunnelId': tunnelId,
-        if (delete != null) 'delete': delete,
-      },
+      payload: CloseTunnelRequest(
+        tunnelId: tunnelId,
+        delete: delete,
+      ),
     );
 
     return CloseTunnelResponse.fromJson(jsonResponse.body);
@@ -109,9 +108,9 @@ class IoTSecureTunneling {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'tunnelId': tunnelId,
-      },
+      payload: DescribeTunnelRequest(
+        tunnelId: tunnelId,
+      ),
     );
 
     return DescribeTunnelResponse.fromJson(jsonResponse.body);
@@ -144,9 +143,9 @@ class IoTSecureTunneling {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'resourceArn': resourceArn,
-      },
+      payload: ListTagsForResourceRequest(
+        resourceArn: resourceArn,
+      ),
     );
 
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
@@ -200,11 +199,11 @@ class IoTSecureTunneling {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (thingName != null) 'thingName': thingName,
-      },
+      payload: ListTunnelsRequest(
+        maxResults: maxResults,
+        nextToken: nextToken,
+        thingName: thingName,
+      ),
     );
 
     return ListTunnelsResponse.fromJson(jsonResponse.body);
@@ -247,12 +246,12 @@ class IoTSecureTunneling {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (description != null) 'description': description,
-        if (destinationConfig != null) 'destinationConfig': destinationConfig,
-        if (tags != null) 'tags': tags,
-        if (timeoutConfig != null) 'timeoutConfig': timeoutConfig,
-      },
+      payload: OpenTunnelRequest(
+        description: description,
+        destinationConfig: destinationConfig,
+        tags: tags,
+        timeoutConfig: timeoutConfig,
+      ),
     );
 
     return OpenTunnelResponse.fromJson(jsonResponse.body);
@@ -290,10 +289,10 @@ class IoTSecureTunneling {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'resourceArn': resourceArn,
-        'tags': tags,
-      },
+      payload: TagResourceRequest(
+        resourceArn: resourceArn,
+        tags: tags,
+      ),
     );
 
     return TagResourceResponse.fromJson(jsonResponse.body);
@@ -331,14 +330,36 @@ class IoTSecureTunneling {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'resourceArn': resourceArn,
-        'tagKeys': tagKeys,
-      },
+      payload: UntagResourceRequest(
+        resourceArn: resourceArn,
+        tagKeys: tagKeys,
+      ),
     );
 
     return UntagResourceResponse.fromJson(jsonResponse.body);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CloseTunnelRequest {
+  /// The ID of the tunnel to close.
+  @_s.JsonKey(name: 'tunnelId')
+  final String tunnelId;
+
+  /// When set to true, AWS IoT Secure Tunneling deletes the tunnel data
+  /// immediately.
+  @_s.JsonKey(name: 'delete')
+  final bool delete;
+
+  CloseTunnelRequest({
+    @_s.required this.tunnelId,
+    this.delete,
+  });
+  Map<String, dynamic> toJson() => _$CloseTunnelRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -384,6 +405,22 @@ enum ConnectionStatus {
   connected,
   @_s.JsonValue('DISCONNECTED')
   disconnected,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeTunnelRequest {
+  /// The tunnel to describe.
+  @_s.JsonKey(name: 'tunnelId')
+  final String tunnelId;
+
+  DescribeTunnelRequest({
+    @_s.required this.tunnelId,
+  });
+  Map<String, dynamic> toJson() => _$DescribeTunnelRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -435,6 +472,22 @@ class DestinationConfig {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsForResourceRequest {
+  /// The resource ARN.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  ListTagsForResourceRequest({
+    @_s.required this.resourceArn,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsForResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListTagsForResourceResponse {
@@ -447,6 +500,32 @@ class ListTagsForResourceResponse {
   });
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$ListTagsForResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTunnelsRequest {
+  /// The maximum number of results to return at once.
+  @_s.JsonKey(name: 'maxResults')
+  final int maxResults;
+
+  /// A token to retrieve the next set of results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The name of the IoT thing associated with the destination device.
+  @_s.JsonKey(name: 'thingName')
+  final String thingName;
+
+  ListTunnelsRequest({
+    this.maxResults,
+    this.nextToken,
+    this.thingName,
+  });
+  Map<String, dynamic> toJson() => _$ListTunnelsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -469,6 +548,37 @@ class ListTunnelsResponse {
   });
   factory ListTunnelsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListTunnelsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class OpenTunnelRequest {
+  /// A short text description of the tunnel.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The destination configuration for the OpenTunnel request.
+  @_s.JsonKey(name: 'destinationConfig')
+  final DestinationConfig destinationConfig;
+
+  /// A collection of tag metadata.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  /// Timeout configuration for a tunnel.
+  @_s.JsonKey(name: 'timeoutConfig')
+  final TimeoutConfig timeoutConfig;
+
+  OpenTunnelRequest({
+    this.description,
+    this.destinationConfig,
+    this.tags,
+    this.timeoutConfig,
+  });
+  Map<String, dynamic> toJson() => _$OpenTunnelRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -529,6 +639,27 @@ class Tag {
   factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
   Map<String, dynamic> toJson() => _$TagToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The ARN of the resource.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  /// The tags for the resource.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -695,6 +826,27 @@ class TunnelSummary {
   });
   factory TunnelSummary.fromJson(Map<String, dynamic> json) =>
       _$TunnelSummaryFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The resource ARN.
+  @_s.JsonKey(name: 'resourceArn')
+  final String resourceArn;
+
+  /// The keys of the tags to remove.
+  @_s.JsonKey(name: 'tagKeys')
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(

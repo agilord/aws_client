@@ -6,6 +6,20 @@ part of 'iotsecuretunneling-2018-10-05.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$CloseTunnelRequestToJson(CloseTunnelRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('tunnelId', instance.tunnelId);
+  writeNotNull('delete', instance.delete);
+  return val;
+}
+
 CloseTunnelResponse _$CloseTunnelResponseFromJson(Map<String, dynamic> json) {
   return CloseTunnelResponse();
 }
@@ -54,6 +68,20 @@ const _$ConnectionStatusEnumMap = {
   ConnectionStatus.disconnected: 'DISCONNECTED',
 };
 
+Map<String, dynamic> _$DescribeTunnelRequestToJson(
+    DescribeTunnelRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('tunnelId', instance.tunnelId);
+  return val;
+}
+
 DescribeTunnelResponse _$DescribeTunnelResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeTunnelResponse(
@@ -84,6 +112,20 @@ Map<String, dynamic> _$DestinationConfigToJson(DestinationConfig instance) {
   return val;
 }
 
+Map<String, dynamic> _$ListTagsForResourceRequestToJson(
+    ListTagsForResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceArn', instance.resourceArn);
+  return val;
+}
+
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
@@ -91,6 +133,21 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
         ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListTunnelsRequestToJson(ListTunnelsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('maxResults', instance.maxResults);
+  writeNotNull('nextToken', instance.nextToken);
+  writeNotNull('thingName', instance.thingName);
+  return val;
 }
 
 ListTunnelsResponse _$ListTunnelsResponseFromJson(Map<String, dynamic> json) {
@@ -102,6 +159,22 @@ ListTunnelsResponse _$ListTunnelsResponseFromJson(Map<String, dynamic> json) {
             : TunnelSummary.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$OpenTunnelRequestToJson(OpenTunnelRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('description', instance.description);
+  writeNotNull('destinationConfig', instance.destinationConfig?.toJson());
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('timeoutConfig', instance.timeoutConfig?.toJson());
+  return val;
 }
 
 OpenTunnelResponse _$OpenTunnelResponseFromJson(Map<String, dynamic> json) {
@@ -131,6 +204,20 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
 
   writeNotNull('key', instance.key);
   writeNotNull('value', instance.value);
+  return val;
+}
+
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceArn', instance.resourceArn);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
   return val;
 }
 
@@ -200,6 +287,21 @@ TunnelSummary _$TunnelSummaryFromJson(Map<String, dynamic> json) {
     tunnelArn: json['tunnelArn'] as String,
     tunnelId: json['tunnelId'] as String,
   );
+}
+
+Map<String, dynamic> _$UntagResourceRequestToJson(
+    UntagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceArn', instance.resourceArn);
+  writeNotNull('tagKeys', instance.tagKeys);
+  return val;
 }
 
 UntagResourceResponse _$UntagResourceResponseFromJson(

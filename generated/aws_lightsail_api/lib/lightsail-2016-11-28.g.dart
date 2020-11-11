@@ -207,6 +207,20 @@ const _$MetricUnitEnumMap = {
   MetricUnit.none: 'None',
 };
 
+Map<String, dynamic> _$AllocateStaticIpRequestToJson(
+    AllocateStaticIpRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('staticIpName', instance.staticIpName);
+  return val;
+}
+
 AllocateStaticIpResult _$AllocateStaticIpResultFromJson(
     Map<String, dynamic> json) {
   return AllocateStaticIpResult(
@@ -217,6 +231,21 @@ AllocateStaticIpResult _$AllocateStaticIpResultFromJson(
   );
 }
 
+Map<String, dynamic> _$AttachDiskRequestToJson(AttachDiskRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('diskName', instance.diskName);
+  writeNotNull('diskPath', instance.diskPath);
+  writeNotNull('instanceName', instance.instanceName);
+  return val;
+}
+
 AttachDiskResult _$AttachDiskResultFromJson(Map<String, dynamic> json) {
   return AttachDiskResult(
     operations: (json['operations'] as List)
@@ -224,6 +253,21 @@ AttachDiskResult _$AttachDiskResultFromJson(Map<String, dynamic> json) {
             e == null ? null : Operation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$AttachInstancesToLoadBalancerRequestToJson(
+    AttachInstancesToLoadBalancerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('instanceNames', instance.instanceNames);
+  writeNotNull('loadBalancerName', instance.loadBalancerName);
+  return val;
 }
 
 AttachInstancesToLoadBalancerResult
@@ -236,6 +280,21 @@ AttachInstancesToLoadBalancerResult
   );
 }
 
+Map<String, dynamic> _$AttachLoadBalancerTlsCertificateRequestToJson(
+    AttachLoadBalancerTlsCertificateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('certificateName', instance.certificateName);
+  writeNotNull('loadBalancerName', instance.loadBalancerName);
+  return val;
+}
+
 AttachLoadBalancerTlsCertificateResult
     _$AttachLoadBalancerTlsCertificateResultFromJson(
         Map<String, dynamic> json) {
@@ -245,6 +304,21 @@ AttachLoadBalancerTlsCertificateResult
             e == null ? null : Operation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$AttachStaticIpRequestToJson(
+    AttachStaticIpRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('instanceName', instance.instanceName);
+  writeNotNull('staticIpName', instance.staticIpName);
+  return val;
 }
 
 AttachStaticIpResult _$AttachStaticIpResultFromJson(Map<String, dynamic> json) {
@@ -347,6 +421,21 @@ Bundle _$BundleFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CloseInstancePublicPortsRequestToJson(
+    CloseInstancePublicPortsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('instanceName', instance.instanceName);
+  writeNotNull('portInfo', instance.portInfo?.toJson());
+  return val;
+}
+
 CloseInstancePublicPortsResult _$CloseInstancePublicPortsResultFromJson(
     Map<String, dynamic> json) {
   return CloseInstancePublicPortsResult(
@@ -430,6 +519,42 @@ const _$ContactMethodStatusEnumMap = {
   ContactMethodStatus.invalid: 'Invalid',
 };
 
+Map<String, dynamic> _$CopySnapshotRequestToJson(CopySnapshotRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('sourceRegion', _$RegionNameEnumMap[instance.sourceRegion]);
+  writeNotNull('targetSnapshotName', instance.targetSnapshotName);
+  writeNotNull('restoreDate', instance.restoreDate);
+  writeNotNull('sourceResourceName', instance.sourceResourceName);
+  writeNotNull('sourceSnapshotName', instance.sourceSnapshotName);
+  writeNotNull('useLatestRestorableAutoSnapshot',
+      instance.useLatestRestorableAutoSnapshot);
+  return val;
+}
+
+const _$RegionNameEnumMap = {
+  RegionName.usEast_1: 'us-east-1',
+  RegionName.usEast_2: 'us-east-2',
+  RegionName.usWest_1: 'us-west-1',
+  RegionName.usWest_2: 'us-west-2',
+  RegionName.euWest_1: 'eu-west-1',
+  RegionName.euWest_2: 'eu-west-2',
+  RegionName.euWest_3: 'eu-west-3',
+  RegionName.euCentral_1: 'eu-central-1',
+  RegionName.caCentral_1: 'ca-central-1',
+  RegionName.apSouth_1: 'ap-south-1',
+  RegionName.apSoutheast_1: 'ap-southeast-1',
+  RegionName.apSoutheast_2: 'ap-southeast-2',
+  RegionName.apNortheast_1: 'ap-northeast-1',
+  RegionName.apNortheast_2: 'ap-northeast-2',
+};
+
 CopySnapshotResult _$CopySnapshotResultFromJson(Map<String, dynamic> json) {
   return CopySnapshotResult(
     operations: (json['operations'] as List)
@@ -437,6 +562,21 @@ CopySnapshotResult _$CopySnapshotResultFromJson(Map<String, dynamic> json) {
             e == null ? null : Operation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$CreateCloudFormationStackRequestToJson(
+    CreateCloudFormationStackRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'instances', instance.instances?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateCloudFormationStackResult _$CreateCloudFormationStackResultFromJson(
@@ -449,6 +589,21 @@ CreateCloudFormationStackResult _$CreateCloudFormationStackResultFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateContactMethodRequestToJson(
+    CreateContactMethodRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('contactEndpoint', instance.contactEndpoint);
+  writeNotNull('protocol', _$ContactProtocolEnumMap[instance.protocol]);
+  return val;
+}
+
 CreateContactMethodResult _$CreateContactMethodResultFromJson(
     Map<String, dynamic> json) {
   return CreateContactMethodResult(
@@ -457,6 +612,29 @@ CreateContactMethodResult _$CreateContactMethodResultFromJson(
             e == null ? null : Operation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$CreateDiskFromSnapshotRequestToJson(
+    CreateDiskFromSnapshotRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('availabilityZone', instance.availabilityZone);
+  writeNotNull('diskName', instance.diskName);
+  writeNotNull('sizeInGb', instance.sizeInGb);
+  writeNotNull('addOns', instance.addOns?.map((e) => e?.toJson())?.toList());
+  writeNotNull('diskSnapshotName', instance.diskSnapshotName);
+  writeNotNull('restoreDate', instance.restoreDate);
+  writeNotNull('sourceDiskName', instance.sourceDiskName);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('useLatestRestorableAutoSnapshot',
+      instance.useLatestRestorableAutoSnapshot);
+  return val;
 }
 
 CreateDiskFromSnapshotResult _$CreateDiskFromSnapshotResultFromJson(
@@ -469,6 +647,23 @@ CreateDiskFromSnapshotResult _$CreateDiskFromSnapshotResultFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateDiskRequestToJson(CreateDiskRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('availabilityZone', instance.availabilityZone);
+  writeNotNull('diskName', instance.diskName);
+  writeNotNull('sizeInGb', instance.sizeInGb);
+  writeNotNull('addOns', instance.addOns?.map((e) => e?.toJson())?.toList());
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateDiskResult _$CreateDiskResultFromJson(Map<String, dynamic> json) {
   return CreateDiskResult(
     operations: (json['operations'] as List)
@@ -476,6 +671,23 @@ CreateDiskResult _$CreateDiskResultFromJson(Map<String, dynamic> json) {
             e == null ? null : Operation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$CreateDiskSnapshotRequestToJson(
+    CreateDiskSnapshotRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('diskSnapshotName', instance.diskSnapshotName);
+  writeNotNull('diskName', instance.diskName);
+  writeNotNull('instanceName', instance.instanceName);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateDiskSnapshotResult _$CreateDiskSnapshotResultFromJson(
@@ -488,6 +700,21 @@ CreateDiskSnapshotResult _$CreateDiskSnapshotResultFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateDomainEntryRequestToJson(
+    CreateDomainEntryRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('domainEntry', instance.domainEntry?.toJson());
+  writeNotNull('domainName', instance.domainName);
+  return val;
+}
+
 CreateDomainEntryResult _$CreateDomainEntryResultFromJson(
     Map<String, dynamic> json) {
   return CreateDomainEntryResult(
@@ -497,12 +724,42 @@ CreateDomainEntryResult _$CreateDomainEntryResultFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateDomainRequestToJson(CreateDomainRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('domainName', instance.domainName);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateDomainResult _$CreateDomainResultFromJson(Map<String, dynamic> json) {
   return CreateDomainResult(
     operation: json['operation'] == null
         ? null
         : Operation.fromJson(json['operation'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateInstanceSnapshotRequestToJson(
+    CreateInstanceSnapshotRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('instanceName', instance.instanceName);
+  writeNotNull('instanceSnapshotName', instance.instanceSnapshotName);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateInstanceSnapshotResult _$CreateInstanceSnapshotResultFromJson(
@@ -515,6 +772,35 @@ CreateInstanceSnapshotResult _$CreateInstanceSnapshotResultFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateInstancesFromSnapshotRequestToJson(
+    CreateInstancesFromSnapshotRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('availabilityZone', instance.availabilityZone);
+  writeNotNull('bundleId', instance.bundleId);
+  writeNotNull('instanceNames', instance.instanceNames);
+  writeNotNull('addOns', instance.addOns?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'attachedDiskMapping',
+      instance.attachedDiskMapping
+          ?.map((k, e) => MapEntry(k, e?.map((e) => e?.toJson())?.toList())));
+  writeNotNull('instanceSnapshotName', instance.instanceSnapshotName);
+  writeNotNull('keyPairName', instance.keyPairName);
+  writeNotNull('restoreDate', instance.restoreDate);
+  writeNotNull('sourceInstanceName', instance.sourceInstanceName);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('useLatestRestorableAutoSnapshot',
+      instance.useLatestRestorableAutoSnapshot);
+  writeNotNull('userData', instance.userData);
+  return val;
+}
+
 CreateInstancesFromSnapshotResult _$CreateInstancesFromSnapshotResultFromJson(
     Map<String, dynamic> json) {
   return CreateInstancesFromSnapshotResult(
@@ -525,6 +811,28 @@ CreateInstancesFromSnapshotResult _$CreateInstancesFromSnapshotResultFromJson(
   );
 }
 
+Map<String, dynamic> _$CreateInstancesRequestToJson(
+    CreateInstancesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('availabilityZone', instance.availabilityZone);
+  writeNotNull('blueprintId', instance.blueprintId);
+  writeNotNull('bundleId', instance.bundleId);
+  writeNotNull('instanceNames', instance.instanceNames);
+  writeNotNull('addOns', instance.addOns?.map((e) => e?.toJson())?.toList());
+  writeNotNull('customImageName', instance.customImageName);
+  writeNotNull('keyPairName', instance.keyPairName);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('userData', instance.userData);
+  return val;
+}
+
 CreateInstancesResult _$CreateInstancesResultFromJson(
     Map<String, dynamic> json) {
   return CreateInstancesResult(
@@ -533,6 +841,21 @@ CreateInstancesResult _$CreateInstancesResultFromJson(
             e == null ? null : Operation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$CreateKeyPairRequestToJson(
+    CreateKeyPairRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('keyPairName', instance.keyPairName);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateKeyPairResult _$CreateKeyPairResultFromJson(Map<String, dynamic> json) {
@@ -548,6 +871,27 @@ CreateKeyPairResult _$CreateKeyPairResultFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateLoadBalancerRequestToJson(
+    CreateLoadBalancerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('instancePort', instance.instancePort);
+  writeNotNull('loadBalancerName', instance.loadBalancerName);
+  writeNotNull(
+      'certificateAlternativeNames', instance.certificateAlternativeNames);
+  writeNotNull('certificateDomainName', instance.certificateDomainName);
+  writeNotNull('certificateName', instance.certificateName);
+  writeNotNull('healthCheckPath', instance.healthCheckPath);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateLoadBalancerResult _$CreateLoadBalancerResultFromJson(
     Map<String, dynamic> json) {
   return CreateLoadBalancerResult(
@@ -556,6 +900,25 @@ CreateLoadBalancerResult _$CreateLoadBalancerResultFromJson(
             e == null ? null : Operation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$CreateLoadBalancerTlsCertificateRequestToJson(
+    CreateLoadBalancerTlsCertificateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('certificateDomainName', instance.certificateDomainName);
+  writeNotNull('certificateName', instance.certificateName);
+  writeNotNull('loadBalancerName', instance.loadBalancerName);
+  writeNotNull(
+      'certificateAlternativeNames', instance.certificateAlternativeNames);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateLoadBalancerTlsCertificateResult
@@ -569,6 +932,31 @@ CreateLoadBalancerTlsCertificateResult
   );
 }
 
+Map<String, dynamic> _$CreateRelationalDatabaseFromSnapshotRequestToJson(
+    CreateRelationalDatabaseFromSnapshotRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('relationalDatabaseName', instance.relationalDatabaseName);
+  writeNotNull('availabilityZone', instance.availabilityZone);
+  writeNotNull('publiclyAccessible', instance.publiclyAccessible);
+  writeNotNull(
+      'relationalDatabaseBundleId', instance.relationalDatabaseBundleId);
+  writeNotNull('relationalDatabaseSnapshotName',
+      instance.relationalDatabaseSnapshotName);
+  writeNotNull('restoreTime', unixTimestampToJson(instance.restoreTime));
+  writeNotNull(
+      'sourceRelationalDatabaseName', instance.sourceRelationalDatabaseName);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('useLatestRestorableTime', instance.useLatestRestorableTime);
+  return val;
+}
+
 CreateRelationalDatabaseFromSnapshotResult
     _$CreateRelationalDatabaseFromSnapshotResultFromJson(
         Map<String, dynamic> json) {
@@ -580,6 +968,33 @@ CreateRelationalDatabaseFromSnapshotResult
   );
 }
 
+Map<String, dynamic> _$CreateRelationalDatabaseRequestToJson(
+    CreateRelationalDatabaseRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('masterDatabaseName', instance.masterDatabaseName);
+  writeNotNull('masterUsername', instance.masterUsername);
+  writeNotNull(
+      'relationalDatabaseBlueprintId', instance.relationalDatabaseBlueprintId);
+  writeNotNull(
+      'relationalDatabaseBundleId', instance.relationalDatabaseBundleId);
+  writeNotNull('relationalDatabaseName', instance.relationalDatabaseName);
+  writeNotNull('availabilityZone', instance.availabilityZone);
+  writeNotNull('masterUserPassword', instance.masterUserPassword);
+  writeNotNull('preferredBackupWindow', instance.preferredBackupWindow);
+  writeNotNull(
+      'preferredMaintenanceWindow', instance.preferredMaintenanceWindow);
+  writeNotNull('publiclyAccessible', instance.publiclyAccessible);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 CreateRelationalDatabaseResult _$CreateRelationalDatabaseResultFromJson(
     Map<String, dynamic> json) {
   return CreateRelationalDatabaseResult(
@@ -588,6 +1003,23 @@ CreateRelationalDatabaseResult _$CreateRelationalDatabaseResultFromJson(
             e == null ? null : Operation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$CreateRelationalDatabaseSnapshotRequestToJson(
+    CreateRelationalDatabaseSnapshotRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('relationalDatabaseName', instance.relationalDatabaseName);
+  writeNotNull('relationalDatabaseSnapshotName',
+      instance.relationalDatabaseSnapshotName);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 CreateRelationalDatabaseSnapshotResult
@@ -601,6 +1033,19 @@ CreateRelationalDatabaseSnapshotResult
   );
 }
 
+Map<String, dynamic> _$DeleteAlarmRequestToJson(DeleteAlarmRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('alarmName', instance.alarmName);
+  return val;
+}
+
 DeleteAlarmResult _$DeleteAlarmResultFromJson(Map<String, dynamic> json) {
   return DeleteAlarmResult(
     operations: (json['operations'] as List)
@@ -608,6 +1053,21 @@ DeleteAlarmResult _$DeleteAlarmResultFromJson(Map<String, dynamic> json) {
             e == null ? null : Operation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DeleteAutoSnapshotRequestToJson(
+    DeleteAutoSnapshotRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('date', instance.date);
+  writeNotNull('resourceName', instance.resourceName);
+  return val;
 }
 
 DeleteAutoSnapshotResult _$DeleteAutoSnapshotResultFromJson(
@@ -620,6 +1080,20 @@ DeleteAutoSnapshotResult _$DeleteAutoSnapshotResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteContactMethodRequestToJson(
+    DeleteContactMethodRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('protocol', _$ContactProtocolEnumMap[instance.protocol]);
+  return val;
+}
+
 DeleteContactMethodResult _$DeleteContactMethodResultFromJson(
     Map<String, dynamic> json) {
   return DeleteContactMethodResult(
@@ -630,6 +1104,20 @@ DeleteContactMethodResult _$DeleteContactMethodResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteDiskRequestToJson(DeleteDiskRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('diskName', instance.diskName);
+  writeNotNull('forceDeleteAddOns', instance.forceDeleteAddOns);
+  return val;
+}
+
 DeleteDiskResult _$DeleteDiskResultFromJson(Map<String, dynamic> json) {
   return DeleteDiskResult(
     operations: (json['operations'] as List)
@@ -637,6 +1125,20 @@ DeleteDiskResult _$DeleteDiskResultFromJson(Map<String, dynamic> json) {
             e == null ? null : Operation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DeleteDiskSnapshotRequestToJson(
+    DeleteDiskSnapshotRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('diskSnapshotName', instance.diskSnapshotName);
+  return val;
 }
 
 DeleteDiskSnapshotResult _$DeleteDiskSnapshotResultFromJson(
@@ -649,6 +1151,21 @@ DeleteDiskSnapshotResult _$DeleteDiskSnapshotResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteDomainEntryRequestToJson(
+    DeleteDomainEntryRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('domainEntry', instance.domainEntry?.toJson());
+  writeNotNull('domainName', instance.domainName);
+  return val;
+}
+
 DeleteDomainEntryResult _$DeleteDomainEntryResultFromJson(
     Map<String, dynamic> json) {
   return DeleteDomainEntryResult(
@@ -656,6 +1173,19 @@ DeleteDomainEntryResult _$DeleteDomainEntryResultFromJson(
         ? null
         : Operation.fromJson(json['operation'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DeleteDomainRequestToJson(DeleteDomainRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('domainName', instance.domainName);
+  return val;
 }
 
 DeleteDomainResult _$DeleteDomainResultFromJson(Map<String, dynamic> json) {
@@ -666,6 +1196,21 @@ DeleteDomainResult _$DeleteDomainResultFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DeleteInstanceRequestToJson(
+    DeleteInstanceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('instanceName', instance.instanceName);
+  writeNotNull('forceDeleteAddOns', instance.forceDeleteAddOns);
+  return val;
+}
+
 DeleteInstanceResult _$DeleteInstanceResultFromJson(Map<String, dynamic> json) {
   return DeleteInstanceResult(
     operations: (json['operations'] as List)
@@ -673,6 +1218,20 @@ DeleteInstanceResult _$DeleteInstanceResultFromJson(Map<String, dynamic> json) {
             e == null ? null : Operation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DeleteInstanceSnapshotRequestToJson(
+    DeleteInstanceSnapshotRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('instanceSnapshotName', instance.instanceSnapshotName);
+  return val;
 }
 
 DeleteInstanceSnapshotResult _$DeleteInstanceSnapshotResultFromJson(
@@ -685,12 +1244,40 @@ DeleteInstanceSnapshotResult _$DeleteInstanceSnapshotResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteKeyPairRequestToJson(
+    DeleteKeyPairRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('keyPairName', instance.keyPairName);
+  return val;
+}
+
 DeleteKeyPairResult _$DeleteKeyPairResultFromJson(Map<String, dynamic> json) {
   return DeleteKeyPairResult(
     operation: json['operation'] == null
         ? null
         : Operation.fromJson(json['operation'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DeleteKnownHostKeysRequestToJson(
+    DeleteKnownHostKeysRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('instanceName', instance.instanceName);
+  return val;
 }
 
 DeleteKnownHostKeysResult _$DeleteKnownHostKeysResultFromJson(
@@ -703,6 +1290,20 @@ DeleteKnownHostKeysResult _$DeleteKnownHostKeysResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteLoadBalancerRequestToJson(
+    DeleteLoadBalancerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('loadBalancerName', instance.loadBalancerName);
+  return val;
+}
+
 DeleteLoadBalancerResult _$DeleteLoadBalancerResultFromJson(
     Map<String, dynamic> json) {
   return DeleteLoadBalancerResult(
@@ -711,6 +1312,22 @@ DeleteLoadBalancerResult _$DeleteLoadBalancerResultFromJson(
             e == null ? null : Operation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DeleteLoadBalancerTlsCertificateRequestToJson(
+    DeleteLoadBalancerTlsCertificateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('certificateName', instance.certificateName);
+  writeNotNull('loadBalancerName', instance.loadBalancerName);
+  writeNotNull('force', instance.force);
+  return val;
 }
 
 DeleteLoadBalancerTlsCertificateResult
@@ -724,6 +1341,23 @@ DeleteLoadBalancerTlsCertificateResult
   );
 }
 
+Map<String, dynamic> _$DeleteRelationalDatabaseRequestToJson(
+    DeleteRelationalDatabaseRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('relationalDatabaseName', instance.relationalDatabaseName);
+  writeNotNull('finalRelationalDatabaseSnapshotName',
+      instance.finalRelationalDatabaseSnapshotName);
+  writeNotNull('skipFinalSnapshot', instance.skipFinalSnapshot);
+  return val;
+}
+
 DeleteRelationalDatabaseResult _$DeleteRelationalDatabaseResultFromJson(
     Map<String, dynamic> json) {
   return DeleteRelationalDatabaseResult(
@@ -732,6 +1366,21 @@ DeleteRelationalDatabaseResult _$DeleteRelationalDatabaseResultFromJson(
             e == null ? null : Operation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DeleteRelationalDatabaseSnapshotRequestToJson(
+    DeleteRelationalDatabaseSnapshotRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('relationalDatabaseSnapshotName',
+      instance.relationalDatabaseSnapshotName);
+  return val;
 }
 
 DeleteRelationalDatabaseSnapshotResult
@@ -752,6 +1401,19 @@ DestinationInfo _$DestinationInfoFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$DetachDiskRequestToJson(DetachDiskRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('diskName', instance.diskName);
+  return val;
+}
+
 DetachDiskResult _$DetachDiskResultFromJson(Map<String, dynamic> json) {
   return DetachDiskResult(
     operations: (json['operations'] as List)
@@ -759,6 +1421,21 @@ DetachDiskResult _$DetachDiskResultFromJson(Map<String, dynamic> json) {
             e == null ? null : Operation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DetachInstancesFromLoadBalancerRequestToJson(
+    DetachInstancesFromLoadBalancerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('instanceNames', instance.instanceNames);
+  writeNotNull('loadBalancerName', instance.loadBalancerName);
+  return val;
 }
 
 DetachInstancesFromLoadBalancerResult
@@ -771,6 +1448,20 @@ DetachInstancesFromLoadBalancerResult
   );
 }
 
+Map<String, dynamic> _$DetachStaticIpRequestToJson(
+    DetachStaticIpRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('staticIpName', instance.staticIpName);
+  return val;
+}
+
 DetachStaticIpResult _$DetachStaticIpResultFromJson(Map<String, dynamic> json) {
   return DetachStaticIpResult(
     operations: (json['operations'] as List)
@@ -778,6 +1469,20 @@ DetachStaticIpResult _$DetachStaticIpResultFromJson(Map<String, dynamic> json) {
             e == null ? null : Operation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$DisableAddOnRequestToJson(DisableAddOnRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('addOnType', _$AddOnTypeEnumMap[instance.addOnType]);
+  writeNotNull('resourceName', instance.resourceName);
+  return val;
 }
 
 DisableAddOnResult _$DisableAddOnResultFromJson(Map<String, dynamic> json) {
@@ -948,6 +1653,20 @@ DownloadDefaultKeyPairResult _$DownloadDefaultKeyPairResultFromJson(
   );
 }
 
+Map<String, dynamic> _$EnableAddOnRequestToJson(EnableAddOnRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('addOnRequest', instance.addOnRequest?.toJson());
+  writeNotNull('resourceName', instance.resourceName);
+  return val;
+}
+
 EnableAddOnResult _$EnableAddOnResultFromJson(Map<String, dynamic> json) {
   return EnableAddOnResult(
     operations: (json['operations'] as List)
@@ -1005,6 +1724,20 @@ const _$ExportSnapshotRecordSourceTypeEnumMap = {
   ExportSnapshotRecordSourceType.diskSnapshot: 'DiskSnapshot',
 };
 
+Map<String, dynamic> _$ExportSnapshotRequestToJson(
+    ExportSnapshotRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('sourceSnapshotName', instance.sourceSnapshotName);
+  return val;
+}
+
 ExportSnapshotResult _$ExportSnapshotResultFromJson(Map<String, dynamic> json) {
   return ExportSnapshotResult(
     operations: (json['operations'] as List)
@@ -1012,6 +1745,20 @@ ExportSnapshotResult _$ExportSnapshotResultFromJson(Map<String, dynamic> json) {
             e == null ? null : Operation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$GetActiveNamesRequestToJson(
+    GetActiveNamesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pageToken', instance.pageToken);
+  return val;
 }
 
 GetActiveNamesResult _$GetActiveNamesResultFromJson(Map<String, dynamic> json) {
@@ -1022,6 +1769,21 @@ GetActiveNamesResult _$GetActiveNamesResultFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetAlarmsRequestToJson(GetAlarmsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('alarmName', instance.alarmName);
+  writeNotNull('monitoredResourceName', instance.monitoredResourceName);
+  writeNotNull('pageToken', instance.pageToken);
+  return val;
+}
+
 GetAlarmsResult _$GetAlarmsResultFromJson(Map<String, dynamic> json) {
   return GetAlarmsResult(
     alarms: (json['alarms'] as List)
@@ -1030,6 +1792,20 @@ GetAlarmsResult _$GetAlarmsResultFromJson(Map<String, dynamic> json) {
         ?.toList(),
     nextPageToken: json['nextPageToken'] as String,
   );
+}
+
+Map<String, dynamic> _$GetAutoSnapshotsRequestToJson(
+    GetAutoSnapshotsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceName', instance.resourceName);
+  return val;
 }
 
 GetAutoSnapshotsResult _$GetAutoSnapshotsResultFromJson(
@@ -1046,6 +1822,21 @@ GetAutoSnapshotsResult _$GetAutoSnapshotsResultFromJson(
   );
 }
 
+Map<String, dynamic> _$GetBlueprintsRequestToJson(
+    GetBlueprintsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('includeInactive', instance.includeInactive);
+  writeNotNull('pageToken', instance.pageToken);
+  return val;
+}
+
 GetBlueprintsResult _$GetBlueprintsResultFromJson(Map<String, dynamic> json) {
   return GetBlueprintsResult(
     blueprints: (json['blueprints'] as List)
@@ -1056,6 +1847,20 @@ GetBlueprintsResult _$GetBlueprintsResultFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetBundlesRequestToJson(GetBundlesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('includeInactive', instance.includeInactive);
+  writeNotNull('pageToken', instance.pageToken);
+  return val;
+}
+
 GetBundlesResult _$GetBundlesResultFromJson(Map<String, dynamic> json) {
   return GetBundlesResult(
     bundles: (json['bundles'] as List)
@@ -1064,6 +1869,20 @@ GetBundlesResult _$GetBundlesResultFromJson(Map<String, dynamic> json) {
         ?.toList(),
     nextPageToken: json['nextPageToken'] as String,
   );
+}
+
+Map<String, dynamic> _$GetCloudFormationStackRecordsRequestToJson(
+    GetCloudFormationStackRecordsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pageToken', instance.pageToken);
+  return val;
 }
 
 GetCloudFormationStackRecordsResult
@@ -1078,6 +1897,20 @@ GetCloudFormationStackRecordsResult
   );
 }
 
+Map<String, dynamic> _$GetContactMethodsRequestToJson(
+    GetContactMethodsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('protocols', instance.protocols);
+  return val;
+}
+
 GetContactMethodsResult _$GetContactMethodsResultFromJson(
     Map<String, dynamic> json) {
   return GetContactMethodsResult(
@@ -1089,12 +1922,39 @@ GetContactMethodsResult _$GetContactMethodsResultFromJson(
   );
 }
 
+Map<String, dynamic> _$GetDiskRequestToJson(GetDiskRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('diskName', instance.diskName);
+  return val;
+}
+
 GetDiskResult _$GetDiskResultFromJson(Map<String, dynamic> json) {
   return GetDiskResult(
     disk: json['disk'] == null
         ? null
         : Disk.fromJson(json['disk'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetDiskSnapshotRequestToJson(
+    GetDiskSnapshotRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('diskSnapshotName', instance.diskSnapshotName);
+  return val;
 }
 
 GetDiskSnapshotResult _$GetDiskSnapshotResultFromJson(
@@ -1104,6 +1964,20 @@ GetDiskSnapshotResult _$GetDiskSnapshotResultFromJson(
         ? null
         : DiskSnapshot.fromJson(json['diskSnapshot'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetDiskSnapshotsRequestToJson(
+    GetDiskSnapshotsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pageToken', instance.pageToken);
+  return val;
 }
 
 GetDiskSnapshotsResult _$GetDiskSnapshotsResultFromJson(
@@ -1117,6 +1991,19 @@ GetDiskSnapshotsResult _$GetDiskSnapshotsResultFromJson(
   );
 }
 
+Map<String, dynamic> _$GetDisksRequestToJson(GetDisksRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pageToken', instance.pageToken);
+  return val;
+}
+
 GetDisksResult _$GetDisksResultFromJson(Map<String, dynamic> json) {
   return GetDisksResult(
     disks: (json['disks'] as List)
@@ -1127,12 +2014,38 @@ GetDisksResult _$GetDisksResultFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetDomainRequestToJson(GetDomainRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('domainName', instance.domainName);
+  return val;
+}
+
 GetDomainResult _$GetDomainResultFromJson(Map<String, dynamic> json) {
   return GetDomainResult(
     domain: json['domain'] == null
         ? null
         : Domain.fromJson(json['domain'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetDomainsRequestToJson(GetDomainsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pageToken', instance.pageToken);
+  return val;
 }
 
 GetDomainsResult _$GetDomainsResultFromJson(Map<String, dynamic> json) {
@@ -1143,6 +2056,20 @@ GetDomainsResult _$GetDomainsResultFromJson(Map<String, dynamic> json) {
         ?.toList(),
     nextPageToken: json['nextPageToken'] as String,
   );
+}
+
+Map<String, dynamic> _$GetExportSnapshotRecordsRequestToJson(
+    GetExportSnapshotRecordsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pageToken', instance.pageToken);
+  return val;
 }
 
 GetExportSnapshotRecordsResult _$GetExportSnapshotRecordsResultFromJson(
@@ -1157,6 +2084,26 @@ GetExportSnapshotRecordsResult _$GetExportSnapshotRecordsResultFromJson(
   );
 }
 
+Map<String, dynamic> _$GetInstanceAccessDetailsRequestToJson(
+    GetInstanceAccessDetailsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('instanceName', instance.instanceName);
+  writeNotNull('protocol', _$InstanceAccessProtocolEnumMap[instance.protocol]);
+  return val;
+}
+
+const _$InstanceAccessProtocolEnumMap = {
+  InstanceAccessProtocol.ssh: 'ssh',
+  InstanceAccessProtocol.rdp: 'rdp',
+};
+
 GetInstanceAccessDetailsResult _$GetInstanceAccessDetailsResultFromJson(
     Map<String, dynamic> json) {
   return GetInstanceAccessDetailsResult(
@@ -1166,6 +2113,35 @@ GetInstanceAccessDetailsResult _$GetInstanceAccessDetailsResultFromJson(
             json['accessDetails'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$GetInstanceMetricDataRequestToJson(
+    GetInstanceMetricDataRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('endTime', unixTimestampToJson(instance.endTime));
+  writeNotNull('instanceName', instance.instanceName);
+  writeNotNull('metricName', _$InstanceMetricNameEnumMap[instance.metricName]);
+  writeNotNull('period', instance.period);
+  writeNotNull('startTime', unixTimestampToJson(instance.startTime));
+  writeNotNull('statistics', instance.statistics);
+  writeNotNull('unit', _$MetricUnitEnumMap[instance.unit]);
+  return val;
+}
+
+const _$InstanceMetricNameEnumMap = {
+  InstanceMetricName.cPUUtilization: 'CPUUtilization',
+  InstanceMetricName.networkIn: 'NetworkIn',
+  InstanceMetricName.networkOut: 'NetworkOut',
+  InstanceMetricName.statusCheckFailed: 'StatusCheckFailed',
+  InstanceMetricName.statusCheckFailedInstance: 'StatusCheckFailed_Instance',
+  InstanceMetricName.statusCheckFailedSystem: 'StatusCheckFailed_System',
+};
 
 GetInstanceMetricDataResult _$GetInstanceMetricDataResultFromJson(
     Map<String, dynamic> json) {
@@ -1180,14 +2156,19 @@ GetInstanceMetricDataResult _$GetInstanceMetricDataResultFromJson(
   );
 }
 
-const _$InstanceMetricNameEnumMap = {
-  InstanceMetricName.cPUUtilization: 'CPUUtilization',
-  InstanceMetricName.networkIn: 'NetworkIn',
-  InstanceMetricName.networkOut: 'NetworkOut',
-  InstanceMetricName.statusCheckFailed: 'StatusCheckFailed',
-  InstanceMetricName.statusCheckFailedInstance: 'StatusCheckFailed_Instance',
-  InstanceMetricName.statusCheckFailedSystem: 'StatusCheckFailed_System',
-};
+Map<String, dynamic> _$GetInstancePortStatesRequestToJson(
+    GetInstancePortStatesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('instanceName', instance.instanceName);
+  return val;
+}
 
 GetInstancePortStatesResult _$GetInstancePortStatesResultFromJson(
     Map<String, dynamic> json) {
@@ -1200,12 +2181,39 @@ GetInstancePortStatesResult _$GetInstancePortStatesResultFromJson(
   );
 }
 
+Map<String, dynamic> _$GetInstanceRequestToJson(GetInstanceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('instanceName', instance.instanceName);
+  return val;
+}
+
 GetInstanceResult _$GetInstanceResultFromJson(Map<String, dynamic> json) {
   return GetInstanceResult(
     instance: json['instance'] == null
         ? null
         : Instance.fromJson(json['instance'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetInstanceSnapshotRequestToJson(
+    GetInstanceSnapshotRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('instanceSnapshotName', instance.instanceSnapshotName);
+  return val;
 }
 
 GetInstanceSnapshotResult _$GetInstanceSnapshotResultFromJson(
@@ -1216,6 +2224,20 @@ GetInstanceSnapshotResult _$GetInstanceSnapshotResultFromJson(
         : InstanceSnapshot.fromJson(
             json['instanceSnapshot'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetInstanceSnapshotsRequestToJson(
+    GetInstanceSnapshotsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pageToken', instance.pageToken);
+  return val;
 }
 
 GetInstanceSnapshotsResult _$GetInstanceSnapshotsResultFromJson(
@@ -1230,6 +2252,20 @@ GetInstanceSnapshotsResult _$GetInstanceSnapshotsResultFromJson(
   );
 }
 
+Map<String, dynamic> _$GetInstanceStateRequestToJson(
+    GetInstanceStateRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('instanceName', instance.instanceName);
+  return val;
+}
+
 GetInstanceStateResult _$GetInstanceStateResultFromJson(
     Map<String, dynamic> json) {
   return GetInstanceStateResult(
@@ -1237,6 +2273,19 @@ GetInstanceStateResult _$GetInstanceStateResultFromJson(
         ? null
         : InstanceState.fromJson(json['state'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetInstancesRequestToJson(GetInstancesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pageToken', instance.pageToken);
+  return val;
 }
 
 GetInstancesResult _$GetInstancesResultFromJson(Map<String, dynamic> json) {
@@ -1249,12 +2298,38 @@ GetInstancesResult _$GetInstancesResultFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetKeyPairRequestToJson(GetKeyPairRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('keyPairName', instance.keyPairName);
+  return val;
+}
+
 GetKeyPairResult _$GetKeyPairResultFromJson(Map<String, dynamic> json) {
   return GetKeyPairResult(
     keyPair: json['keyPair'] == null
         ? null
         : KeyPair.fromJson(json['keyPair'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetKeyPairsRequestToJson(GetKeyPairsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pageToken', instance.pageToken);
+  return val;
 }
 
 GetKeyPairsResult _$GetKeyPairsResultFromJson(Map<String, dynamic> json) {
@@ -1267,17 +2342,25 @@ GetKeyPairsResult _$GetKeyPairsResultFromJson(Map<String, dynamic> json) {
   );
 }
 
-GetLoadBalancerMetricDataResult _$GetLoadBalancerMetricDataResultFromJson(
-    Map<String, dynamic> json) {
-  return GetLoadBalancerMetricDataResult(
-    metricData: (json['metricData'] as List)
-        ?.map((e) => e == null
-            ? null
-            : MetricDatapoint.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    metricName: _$enumDecodeNullable(
-        _$LoadBalancerMetricNameEnumMap, json['metricName']),
-  );
+Map<String, dynamic> _$GetLoadBalancerMetricDataRequestToJson(
+    GetLoadBalancerMetricDataRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('endTime', unixTimestampToJson(instance.endTime));
+  writeNotNull('loadBalancerName', instance.loadBalancerName);
+  writeNotNull(
+      'metricName', _$LoadBalancerMetricNameEnumMap[instance.metricName]);
+  writeNotNull('period', instance.period);
+  writeNotNull('startTime', unixTimestampToJson(instance.startTime));
+  writeNotNull('statistics', instance.statistics);
+  writeNotNull('unit', _$MetricUnitEnumMap[instance.unit]);
+  return val;
 }
 
 const _$LoadBalancerMetricNameEnumMap = {
@@ -1300,6 +2383,33 @@ const _$LoadBalancerMetricNameEnumMap = {
   LoadBalancerMetricName.requestCount: 'RequestCount',
 };
 
+GetLoadBalancerMetricDataResult _$GetLoadBalancerMetricDataResultFromJson(
+    Map<String, dynamic> json) {
+  return GetLoadBalancerMetricDataResult(
+    metricData: (json['metricData'] as List)
+        ?.map((e) => e == null
+            ? null
+            : MetricDatapoint.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    metricName: _$enumDecodeNullable(
+        _$LoadBalancerMetricNameEnumMap, json['metricName']),
+  );
+}
+
+Map<String, dynamic> _$GetLoadBalancerRequestToJson(
+    GetLoadBalancerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('loadBalancerName', instance.loadBalancerName);
+  return val;
+}
+
 GetLoadBalancerResult _$GetLoadBalancerResultFromJson(
     Map<String, dynamic> json) {
   return GetLoadBalancerResult(
@@ -1307,6 +2417,20 @@ GetLoadBalancerResult _$GetLoadBalancerResultFromJson(
         ? null
         : LoadBalancer.fromJson(json['loadBalancer'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetLoadBalancerTlsCertificatesRequestToJson(
+    GetLoadBalancerTlsCertificatesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('loadBalancerName', instance.loadBalancerName);
+  return val;
 }
 
 GetLoadBalancerTlsCertificatesResult
@@ -1320,6 +2444,20 @@ GetLoadBalancerTlsCertificatesResult
   );
 }
 
+Map<String, dynamic> _$GetLoadBalancersRequestToJson(
+    GetLoadBalancersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pageToken', instance.pageToken);
+  return val;
+}
+
 GetLoadBalancersResult _$GetLoadBalancersResultFromJson(
     Map<String, dynamic> json) {
   return GetLoadBalancersResult(
@@ -1331,12 +2469,40 @@ GetLoadBalancersResult _$GetLoadBalancersResultFromJson(
   );
 }
 
+Map<String, dynamic> _$GetOperationRequestToJson(GetOperationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('operationId', instance.operationId);
+  return val;
+}
+
 GetOperationResult _$GetOperationResultFromJson(Map<String, dynamic> json) {
   return GetOperationResult(
     operation: json['operation'] == null
         ? null
         : Operation.fromJson(json['operation'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetOperationsForResourceRequestToJson(
+    GetOperationsForResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceName', instance.resourceName);
+  writeNotNull('pageToken', instance.pageToken);
+  return val;
 }
 
 GetOperationsForResourceResult _$GetOperationsForResourceResultFromJson(
@@ -1351,6 +2517,20 @@ GetOperationsForResourceResult _$GetOperationsForResourceResultFromJson(
   );
 }
 
+Map<String, dynamic> _$GetOperationsRequestToJson(
+    GetOperationsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pageToken', instance.pageToken);
+  return val;
+}
+
 GetOperationsResult _$GetOperationsResultFromJson(Map<String, dynamic> json) {
   return GetOperationsResult(
     nextPageToken: json['nextPageToken'] as String,
@@ -1361,6 +2541,21 @@ GetOperationsResult _$GetOperationsResultFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$GetRegionsRequestToJson(GetRegionsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('includeAvailabilityZones', instance.includeAvailabilityZones);
+  writeNotNull('includeRelationalDatabaseAvailabilityZones',
+      instance.includeRelationalDatabaseAvailabilityZones);
+  return val;
+}
+
 GetRegionsResult _$GetRegionsResultFromJson(Map<String, dynamic> json) {
   return GetRegionsResult(
     regions: (json['regions'] as List)
@@ -1368,6 +2563,20 @@ GetRegionsResult _$GetRegionsResultFromJson(Map<String, dynamic> json) {
             e == null ? null : Region.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$GetRelationalDatabaseBlueprintsRequestToJson(
+    GetRelationalDatabaseBlueprintsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pageToken', instance.pageToken);
+  return val;
 }
 
 GetRelationalDatabaseBlueprintsResult
@@ -1382,6 +2591,20 @@ GetRelationalDatabaseBlueprintsResult
   );
 }
 
+Map<String, dynamic> _$GetRelationalDatabaseBundlesRequestToJson(
+    GetRelationalDatabaseBundlesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pageToken', instance.pageToken);
+  return val;
+}
+
 GetRelationalDatabaseBundlesResult _$GetRelationalDatabaseBundlesResultFromJson(
     Map<String, dynamic> json) {
   return GetRelationalDatabaseBundlesResult(
@@ -1392,6 +2615,22 @@ GetRelationalDatabaseBundlesResult _$GetRelationalDatabaseBundlesResultFromJson(
         ?.toList(),
     nextPageToken: json['nextPageToken'] as String,
   );
+}
+
+Map<String, dynamic> _$GetRelationalDatabaseEventsRequestToJson(
+    GetRelationalDatabaseEventsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('relationalDatabaseName', instance.relationalDatabaseName);
+  writeNotNull('durationInMinutes', instance.durationInMinutes);
+  writeNotNull('pageToken', instance.pageToken);
+  return val;
 }
 
 GetRelationalDatabaseEventsResult _$GetRelationalDatabaseEventsResultFromJson(
@@ -1406,6 +2645,25 @@ GetRelationalDatabaseEventsResult _$GetRelationalDatabaseEventsResultFromJson(
   );
 }
 
+Map<String, dynamic> _$GetRelationalDatabaseLogEventsRequestToJson(
+    GetRelationalDatabaseLogEventsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('logStreamName', instance.logStreamName);
+  writeNotNull('relationalDatabaseName', instance.relationalDatabaseName);
+  writeNotNull('endTime', unixTimestampToJson(instance.endTime));
+  writeNotNull('pageToken', instance.pageToken);
+  writeNotNull('startFromHead', instance.startFromHead);
+  writeNotNull('startTime', unixTimestampToJson(instance.startTime));
+  return val;
+}
+
 GetRelationalDatabaseLogEventsResult
     _$GetRelationalDatabaseLogEventsResultFromJson(Map<String, dynamic> json) {
   return GetRelationalDatabaseLogEventsResult(
@@ -1418,12 +2676,48 @@ GetRelationalDatabaseLogEventsResult
   );
 }
 
+Map<String, dynamic> _$GetRelationalDatabaseLogStreamsRequestToJson(
+    GetRelationalDatabaseLogStreamsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('relationalDatabaseName', instance.relationalDatabaseName);
+  return val;
+}
+
 GetRelationalDatabaseLogStreamsResult
     _$GetRelationalDatabaseLogStreamsResultFromJson(Map<String, dynamic> json) {
   return GetRelationalDatabaseLogStreamsResult(
     logStreams: (json['logStreams'] as List)?.map((e) => e as String)?.toList(),
   );
 }
+
+Map<String, dynamic> _$GetRelationalDatabaseMasterUserPasswordRequestToJson(
+    GetRelationalDatabaseMasterUserPasswordRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('relationalDatabaseName', instance.relationalDatabaseName);
+  writeNotNull('passwordVersion',
+      _$RelationalDatabasePasswordVersionEnumMap[instance.passwordVersion]);
+  return val;
+}
+
+const _$RelationalDatabasePasswordVersionEnumMap = {
+  RelationalDatabasePasswordVersion.current: 'CURRENT',
+  RelationalDatabasePasswordVersion.previous: 'PREVIOUS',
+  RelationalDatabasePasswordVersion.pending: 'PENDING',
+};
 
 GetRelationalDatabaseMasterUserPasswordResult
     _$GetRelationalDatabaseMasterUserPasswordResultFromJson(
@@ -1433,6 +2727,38 @@ GetRelationalDatabaseMasterUserPasswordResult
     masterUserPassword: json['masterUserPassword'] as String,
   );
 }
+
+Map<String, dynamic> _$GetRelationalDatabaseMetricDataRequestToJson(
+    GetRelationalDatabaseMetricDataRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('endTime', unixTimestampToJson(instance.endTime));
+  writeNotNull(
+      'metricName', _$RelationalDatabaseMetricNameEnumMap[instance.metricName]);
+  writeNotNull('period', instance.period);
+  writeNotNull('relationalDatabaseName', instance.relationalDatabaseName);
+  writeNotNull('startTime', unixTimestampToJson(instance.startTime));
+  writeNotNull('statistics', instance.statistics);
+  writeNotNull('unit', _$MetricUnitEnumMap[instance.unit]);
+  return val;
+}
+
+const _$RelationalDatabaseMetricNameEnumMap = {
+  RelationalDatabaseMetricName.cPUUtilization: 'CPUUtilization',
+  RelationalDatabaseMetricName.databaseConnections: 'DatabaseConnections',
+  RelationalDatabaseMetricName.diskQueueDepth: 'DiskQueueDepth',
+  RelationalDatabaseMetricName.freeStorageSpace: 'FreeStorageSpace',
+  RelationalDatabaseMetricName.networkReceiveThroughput:
+      'NetworkReceiveThroughput',
+  RelationalDatabaseMetricName.networkTransmitThroughput:
+      'NetworkTransmitThroughput',
+};
 
 GetRelationalDatabaseMetricDataResult
     _$GetRelationalDatabaseMetricDataResultFromJson(Map<String, dynamic> json) {
@@ -1447,16 +2773,20 @@ GetRelationalDatabaseMetricDataResult
   );
 }
 
-const _$RelationalDatabaseMetricNameEnumMap = {
-  RelationalDatabaseMetricName.cPUUtilization: 'CPUUtilization',
-  RelationalDatabaseMetricName.databaseConnections: 'DatabaseConnections',
-  RelationalDatabaseMetricName.diskQueueDepth: 'DiskQueueDepth',
-  RelationalDatabaseMetricName.freeStorageSpace: 'FreeStorageSpace',
-  RelationalDatabaseMetricName.networkReceiveThroughput:
-      'NetworkReceiveThroughput',
-  RelationalDatabaseMetricName.networkTransmitThroughput:
-      'NetworkTransmitThroughput',
-};
+Map<String, dynamic> _$GetRelationalDatabaseParametersRequestToJson(
+    GetRelationalDatabaseParametersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('relationalDatabaseName', instance.relationalDatabaseName);
+  writeNotNull('pageToken', instance.pageToken);
+  return val;
+}
 
 GetRelationalDatabaseParametersResult
     _$GetRelationalDatabaseParametersResultFromJson(Map<String, dynamic> json) {
@@ -1470,6 +2800,20 @@ GetRelationalDatabaseParametersResult
   );
 }
 
+Map<String, dynamic> _$GetRelationalDatabaseRequestToJson(
+    GetRelationalDatabaseRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('relationalDatabaseName', instance.relationalDatabaseName);
+  return val;
+}
+
 GetRelationalDatabaseResult _$GetRelationalDatabaseResultFromJson(
     Map<String, dynamic> json) {
   return GetRelationalDatabaseResult(
@@ -1480,6 +2824,21 @@ GetRelationalDatabaseResult _$GetRelationalDatabaseResultFromJson(
   );
 }
 
+Map<String, dynamic> _$GetRelationalDatabaseSnapshotRequestToJson(
+    GetRelationalDatabaseSnapshotRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('relationalDatabaseSnapshotName',
+      instance.relationalDatabaseSnapshotName);
+  return val;
+}
+
 GetRelationalDatabaseSnapshotResult
     _$GetRelationalDatabaseSnapshotResultFromJson(Map<String, dynamic> json) {
   return GetRelationalDatabaseSnapshotResult(
@@ -1488,6 +2847,20 @@ GetRelationalDatabaseSnapshotResult
         : RelationalDatabaseSnapshot.fromJson(
             json['relationalDatabaseSnapshot'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetRelationalDatabaseSnapshotsRequestToJson(
+    GetRelationalDatabaseSnapshotsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pageToken', instance.pageToken);
+  return val;
 }
 
 GetRelationalDatabaseSnapshotsResult
@@ -1502,6 +2875,20 @@ GetRelationalDatabaseSnapshotsResult
   );
 }
 
+Map<String, dynamic> _$GetRelationalDatabasesRequestToJson(
+    GetRelationalDatabasesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pageToken', instance.pageToken);
+  return val;
+}
+
 GetRelationalDatabasesResult _$GetRelationalDatabasesResultFromJson(
     Map<String, dynamic> json) {
   return GetRelationalDatabasesResult(
@@ -1514,12 +2901,38 @@ GetRelationalDatabasesResult _$GetRelationalDatabasesResultFromJson(
   );
 }
 
+Map<String, dynamic> _$GetStaticIpRequestToJson(GetStaticIpRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('staticIpName', instance.staticIpName);
+  return val;
+}
+
 GetStaticIpResult _$GetStaticIpResultFromJson(Map<String, dynamic> json) {
   return GetStaticIpResult(
     staticIp: json['staticIp'] == null
         ? null
         : StaticIp.fromJson(json['staticIp'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetStaticIpsRequestToJson(GetStaticIpsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pageToken', instance.pageToken);
+  return val;
 }
 
 GetStaticIpsResult _$GetStaticIpsResultFromJson(Map<String, dynamic> json) {
@@ -1542,6 +2955,21 @@ HostKeyAttributes _$HostKeyAttributesFromJson(Map<String, dynamic> json) {
     publicKey: json['publicKey'] as String,
     witnessedAt: unixTimestampFromJson(json['witnessedAt']),
   );
+}
+
+Map<String, dynamic> _$ImportKeyPairRequestToJson(
+    ImportKeyPairRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('keyPairName', instance.keyPairName);
+  writeNotNull('publicKeyBase64', instance.publicKeyBase64);
+  return val;
 }
 
 ImportKeyPairResult _$ImportKeyPairResultFromJson(Map<String, dynamic> json) {
@@ -1614,11 +3042,6 @@ InstanceAccessDetails _$InstanceAccessDetailsFromJson(
     username: json['username'] as String,
   );
 }
-
-const _$InstanceAccessProtocolEnumMap = {
-  InstanceAccessProtocol.ssh: 'ssh',
-  InstanceAccessProtocol.rdp: 'rdp',
-};
 
 Map<String, dynamic> _$InstanceEntryToJson(InstanceEntry instance) {
   final val = <String, dynamic>{};
@@ -2071,6 +3494,21 @@ MonthlyTransfer _$MonthlyTransferFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$OpenInstancePublicPortsRequestToJson(
+    OpenInstancePublicPortsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('instanceName', instance.instanceName);
+  writeNotNull('portInfo', instance.portInfo?.toJson());
+  return val;
+}
+
 OpenInstancePublicPortsResult _$OpenInstancePublicPortsResultFromJson(
     Map<String, dynamic> json) {
   return OpenInstancePublicPortsResult(
@@ -2224,6 +3662,31 @@ Map<String, dynamic> _$PortInfoToJson(PortInfo instance) {
   return val;
 }
 
+Map<String, dynamic> _$PutAlarmRequestToJson(PutAlarmRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('alarmName', instance.alarmName);
+  writeNotNull('comparisonOperator',
+      _$ComparisonOperatorEnumMap[instance.comparisonOperator]);
+  writeNotNull('evaluationPeriods', instance.evaluationPeriods);
+  writeNotNull('metricName', _$MetricNameEnumMap[instance.metricName]);
+  writeNotNull('monitoredResourceName', instance.monitoredResourceName);
+  writeNotNull('threshold', instance.threshold);
+  writeNotNull('contactProtocols', instance.contactProtocols);
+  writeNotNull('datapointsToAlarm', instance.datapointsToAlarm);
+  writeNotNull('notificationEnabled', instance.notificationEnabled);
+  writeNotNull('notificationTriggers', instance.notificationTriggers);
+  writeNotNull(
+      'treatMissingData', _$TreatMissingDataEnumMap[instance.treatMissingData]);
+  return val;
+}
+
 PutAlarmResult _$PutAlarmResultFromJson(Map<String, dynamic> json) {
   return PutAlarmResult(
     operations: (json['operations'] as List)
@@ -2231,6 +3694,22 @@ PutAlarmResult _$PutAlarmResultFromJson(Map<String, dynamic> json) {
             e == null ? null : Operation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$PutInstancePublicPortsRequestToJson(
+    PutInstancePublicPortsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('instanceName', instance.instanceName);
+  writeNotNull(
+      'portInfos', instance.portInfos?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 PutInstancePublicPortsResult _$PutInstancePublicPortsResultFromJson(
@@ -2242,6 +3721,20 @@ PutInstancePublicPortsResult _$PutInstancePublicPortsResultFromJson(
   );
 }
 
+Map<String, dynamic> _$RebootInstanceRequestToJson(
+    RebootInstanceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('instanceName', instance.instanceName);
+  return val;
+}
+
 RebootInstanceResult _$RebootInstanceResultFromJson(Map<String, dynamic> json) {
   return RebootInstanceResult(
     operations: (json['operations'] as List)
@@ -2249,6 +3742,20 @@ RebootInstanceResult _$RebootInstanceResultFromJson(Map<String, dynamic> json) {
             e == null ? null : Operation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$RebootRelationalDatabaseRequestToJson(
+    RebootRelationalDatabaseRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('relationalDatabaseName', instance.relationalDatabaseName);
+  return val;
 }
 
 RebootRelationalDatabaseResult _$RebootRelationalDatabaseResultFromJson(
@@ -2280,23 +3787,6 @@ Region _$RegionFromJson(Map<String, dynamic> json) {
             ?.toList(),
   );
 }
-
-const _$RegionNameEnumMap = {
-  RegionName.usEast_1: 'us-east-1',
-  RegionName.usEast_2: 'us-east-2',
-  RegionName.usWest_1: 'us-west-1',
-  RegionName.usWest_2: 'us-west-2',
-  RegionName.euWest_1: 'eu-west-1',
-  RegionName.euWest_2: 'eu-west-2',
-  RegionName.euWest_3: 'eu-west-3',
-  RegionName.euCentral_1: 'eu-central-1',
-  RegionName.caCentral_1: 'ca-central-1',
-  RegionName.apSouth_1: 'ap-south-1',
-  RegionName.apSoutheast_1: 'ap-southeast-1',
-  RegionName.apSoutheast_2: 'ap-southeast-2',
-  RegionName.apNortheast_1: 'ap-northeast-1',
-  RegionName.apNortheast_2: 'ap-northeast-2',
-};
 
 RelationalDatabase _$RelationalDatabaseFromJson(Map<String, dynamic> json) {
   return RelationalDatabase(
@@ -2471,6 +3961,20 @@ RelationalDatabaseSnapshot _$RelationalDatabaseSnapshotFromJson(
   );
 }
 
+Map<String, dynamic> _$ReleaseStaticIpRequestToJson(
+    ReleaseStaticIpRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('staticIpName', instance.staticIpName);
+  return val;
+}
+
 ReleaseStaticIpResult _$ReleaseStaticIpResultFromJson(
     Map<String, dynamic> json) {
   return ReleaseStaticIpResult(
@@ -2488,6 +3992,25 @@ ResourceLocation _$ResourceLocationFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$SendContactMethodVerificationRequestToJson(
+    SendContactMethodVerificationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('protocol',
+      _$ContactMethodVerificationProtocolEnumMap[instance.protocol]);
+  return val;
+}
+
+const _$ContactMethodVerificationProtocolEnumMap = {
+  ContactMethodVerificationProtocol.email: 'Email',
+};
+
 SendContactMethodVerificationResult
     _$SendContactMethodVerificationResultFromJson(Map<String, dynamic> json) {
   return SendContactMethodVerificationResult(
@@ -2498,6 +4021,20 @@ SendContactMethodVerificationResult
   );
 }
 
+Map<String, dynamic> _$StartInstanceRequestToJson(
+    StartInstanceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('instanceName', instance.instanceName);
+  return val;
+}
+
 StartInstanceResult _$StartInstanceResultFromJson(Map<String, dynamic> json) {
   return StartInstanceResult(
     operations: (json['operations'] as List)
@@ -2505,6 +4042,20 @@ StartInstanceResult _$StartInstanceResultFromJson(Map<String, dynamic> json) {
             e == null ? null : Operation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$StartRelationalDatabaseRequestToJson(
+    StartRelationalDatabaseRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('relationalDatabaseName', instance.relationalDatabaseName);
+  return val;
 }
 
 StartRelationalDatabaseResult _$StartRelationalDatabaseResultFromJson(
@@ -2534,6 +4085,20 @@ StaticIp _$StaticIpFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$StopInstanceRequestToJson(StopInstanceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('instanceName', instance.instanceName);
+  writeNotNull('force', instance.force);
+  return val;
+}
+
 StopInstanceResult _$StopInstanceResultFromJson(Map<String, dynamic> json) {
   return StopInstanceResult(
     operations: (json['operations'] as List)
@@ -2541,6 +4106,22 @@ StopInstanceResult _$StopInstanceResultFromJson(Map<String, dynamic> json) {
             e == null ? null : Operation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$StopRelationalDatabaseRequestToJson(
+    StopRelationalDatabaseRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('relationalDatabaseName', instance.relationalDatabaseName);
+  writeNotNull('relationalDatabaseSnapshotName',
+      instance.relationalDatabaseSnapshotName);
+  return val;
 }
 
 StopRelationalDatabaseResult _$StopRelationalDatabaseResultFromJson(
@@ -2574,6 +4155,21 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
   return val;
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceName', instance.resourceName);
+  writeNotNull('tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('resourceArn', instance.resourceArn);
+  return val;
+}
+
 TagResourceResult _$TagResourceResultFromJson(Map<String, dynamic> json) {
   return TagResourceResult(
     operations: (json['operations'] as List)
@@ -2581,6 +4177,20 @@ TagResourceResult _$TagResourceResultFromJson(Map<String, dynamic> json) {
             e == null ? null : Operation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$TestAlarmRequestToJson(TestAlarmRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('alarmName', instance.alarmName);
+  writeNotNull('state', _$AlarmStateEnumMap[instance.state]);
+  return val;
 }
 
 TestAlarmResult _$TestAlarmResultFromJson(Map<String, dynamic> json) {
@@ -2600,6 +4210,22 @@ UnpeerVpcResult _$UnpeerVpcResultFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$UntagResourceRequestToJson(
+    UntagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resourceName', instance.resourceName);
+  writeNotNull('tagKeys', instance.tagKeys);
+  writeNotNull('resourceArn', instance.resourceArn);
+  return val;
+}
+
 UntagResourceResult _$UntagResourceResultFromJson(Map<String, dynamic> json) {
   return UntagResourceResult(
     operations: (json['operations'] as List)
@@ -2607,6 +4233,21 @@ UntagResourceResult _$UntagResourceResultFromJson(Map<String, dynamic> json) {
             e == null ? null : Operation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$UpdateDomainEntryRequestToJson(
+    UpdateDomainEntryRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('domainEntry', instance.domainEntry?.toJson());
+  writeNotNull('domainName', instance.domainName);
+  return val;
 }
 
 UpdateDomainEntryResult _$UpdateDomainEntryResultFromJson(
@@ -2619,6 +4260,31 @@ UpdateDomainEntryResult _$UpdateDomainEntryResultFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateLoadBalancerAttributeRequestToJson(
+    UpdateLoadBalancerAttributeRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('attributeName',
+      _$LoadBalancerAttributeNameEnumMap[instance.attributeName]);
+  writeNotNull('attributeValue', instance.attributeValue);
+  writeNotNull('loadBalancerName', instance.loadBalancerName);
+  return val;
+}
+
+const _$LoadBalancerAttributeNameEnumMap = {
+  LoadBalancerAttributeName.healthCheckPath: 'HealthCheckPath',
+  LoadBalancerAttributeName.sessionStickinessEnabled:
+      'SessionStickinessEnabled',
+  LoadBalancerAttributeName.sessionStickinessLbCookieDurationSeconds:
+      'SessionStickiness_LB_CookieDurationSeconds',
+};
+
 UpdateLoadBalancerAttributeResult _$UpdateLoadBalancerAttributeResultFromJson(
     Map<String, dynamic> json) {
   return UpdateLoadBalancerAttributeResult(
@@ -2627,6 +4293,22 @@ UpdateLoadBalancerAttributeResult _$UpdateLoadBalancerAttributeResultFromJson(
             e == null ? null : Operation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$UpdateRelationalDatabaseParametersRequestToJson(
+    UpdateRelationalDatabaseParametersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'parameters', instance.parameters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('relationalDatabaseName', instance.relationalDatabaseName);
+  return val;
 }
 
 UpdateRelationalDatabaseParametersResult
@@ -2638,6 +4320,30 @@ UpdateRelationalDatabaseParametersResult
             e == null ? null : Operation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$UpdateRelationalDatabaseRequestToJson(
+    UpdateRelationalDatabaseRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('relationalDatabaseName', instance.relationalDatabaseName);
+  writeNotNull('applyImmediately', instance.applyImmediately);
+  writeNotNull('caCertificateIdentifier', instance.caCertificateIdentifier);
+  writeNotNull('disableBackupRetention', instance.disableBackupRetention);
+  writeNotNull('enableBackupRetention', instance.enableBackupRetention);
+  writeNotNull('masterUserPassword', instance.masterUserPassword);
+  writeNotNull('preferredBackupWindow', instance.preferredBackupWindow);
+  writeNotNull(
+      'preferredMaintenanceWindow', instance.preferredMaintenanceWindow);
+  writeNotNull('publiclyAccessible', instance.publiclyAccessible);
+  writeNotNull('rotateMasterUserPassword', instance.rotateMasterUserPassword);
+  return val;
 }
 
 UpdateRelationalDatabaseResult _$UpdateRelationalDatabaseResultFromJson(

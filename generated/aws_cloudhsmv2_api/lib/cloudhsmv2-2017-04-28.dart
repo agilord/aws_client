@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -85,11 +84,11 @@ class CloudHSMV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'BackupId': backupId,
-        'DestinationRegion': destinationRegion,
-        if (tagList != null) 'TagList': tagList,
-      },
+      payload: CopyBackupToRegionRequest(
+        backupId: backupId,
+        destinationRegion: destinationRegion,
+        tagList: tagList,
+      ),
     );
 
     return CopyBackupToRegionResponse.fromJson(jsonResponse.body);
@@ -155,12 +154,12 @@ class CloudHSMV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'HsmType': hsmType,
-        'SubnetIds': subnetIds,
-        if (sourceBackupId != null) 'SourceBackupId': sourceBackupId,
-        if (tagList != null) 'TagList': tagList,
-      },
+      payload: CreateClusterRequest(
+        hsmType: hsmType,
+        subnetIds: subnetIds,
+        sourceBackupId: sourceBackupId,
+        tagList: tagList,
+      ),
     );
 
     return CreateClusterResponse.fromJson(jsonResponse.body);
@@ -222,11 +221,11 @@ class CloudHSMV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'AvailabilityZone': availabilityZone,
-        'ClusterId': clusterId,
-        if (ipAddress != null) 'IpAddress': ipAddress,
-      },
+      payload: CreateHsmRequest(
+        availabilityZone: availabilityZone,
+        clusterId: clusterId,
+        ipAddress: ipAddress,
+      ),
     );
 
     return CreateHsmResponse.fromJson(jsonResponse.body);
@@ -265,9 +264,9 @@ class CloudHSMV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'BackupId': backupId,
-      },
+      payload: DeleteBackupRequest(
+        backupId: backupId,
+      ),
     );
 
     return DeleteBackupResponse.fromJson(jsonResponse.body);
@@ -308,9 +307,9 @@ class CloudHSMV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClusterId': clusterId,
-      },
+      payload: DeleteClusterRequest(
+        clusterId: clusterId,
+      ),
     );
 
     return DeleteClusterResponse.fromJson(jsonResponse.body);
@@ -379,12 +378,12 @@ class CloudHSMV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClusterId': clusterId,
-        if (eniId != null) 'EniId': eniId,
-        if (eniIp != null) 'EniIp': eniIp,
-        if (hsmId != null) 'HsmId': hsmId,
-      },
+      payload: DeleteHsmRequest(
+        clusterId: clusterId,
+        eniId: eniId,
+        eniIp: eniIp,
+        hsmId: hsmId,
+      ),
     );
 
     return DeleteHsmResponse.fromJson(jsonResponse.body);
@@ -467,12 +466,12 @@ class CloudHSMV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (sortAscending != null) 'SortAscending': sortAscending,
-      },
+      payload: DescribeBackupsRequest(
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+        sortAscending: sortAscending,
+      ),
     );
 
     return DescribeBackupsResponse.fromJson(jsonResponse.body);
@@ -546,11 +545,11 @@ class CloudHSMV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: DescribeClustersRequest(
+        filters: filters,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return DescribeClustersResponse.fromJson(jsonResponse.body);
@@ -633,11 +632,11 @@ class CloudHSMV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ClusterId': clusterId,
-        'SignedCert': signedCert,
-        'TrustAnchor': trustAnchor,
-      },
+      payload: InitializeClusterRequest(
+        clusterId: clusterId,
+        signedCert: signedCert,
+        trustAnchor: trustAnchor,
+      ),
     );
 
     return InitializeClusterResponse.fromJson(jsonResponse.body);
@@ -710,11 +709,11 @@ class CloudHSMV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceId': resourceId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: ListTagsRequest(
+        resourceId: resourceId,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return ListTagsResponse.fromJson(jsonResponse.body);
@@ -753,9 +752,9 @@ class CloudHSMV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'BackupId': backupId,
-      },
+      payload: RestoreBackupRequest(
+        backupId: backupId,
+      ),
     );
 
     return RestoreBackupResponse.fromJson(jsonResponse.body);
@@ -799,10 +798,10 @@ class CloudHSMV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceId': resourceId,
-        'TagList': tagList,
-      },
+      payload: TagResourceRequest(
+        resourceId: resourceId,
+        tagList: tagList,
+      ),
     );
 
     return TagResourceResponse.fromJson(jsonResponse.body);
@@ -846,10 +845,10 @@ class CloudHSMV2 {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ResourceId': resourceId,
-        'TagKeyList': tagKeyList,
-      },
+      payload: UntagResourceRequest(
+        resourceId: resourceId,
+        tagKeyList: tagKeyList,
+      ),
     );
 
     return UntagResourceResponse.fromJson(jsonResponse.body);
@@ -1100,6 +1099,30 @@ enum ClusterState {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CopyBackupToRegionRequest {
+  /// The ID of the backup that will be copied to the destination region.
+  @_s.JsonKey(name: 'BackupId')
+  final String backupId;
+
+  /// The AWS region that will contain your copied CloudHSM cluster backup.
+  @_s.JsonKey(name: 'DestinationRegion')
+  final String destinationRegion;
+  @_s.JsonKey(name: 'TagList')
+  final List<Tag> tagList;
+
+  CopyBackupToRegionRequest({
+    @_s.required this.backupId,
+    @_s.required this.destinationRegion,
+    this.tagList,
+  });
+  Map<String, dynamic> toJson() => _$CopyBackupToRegionRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CopyBackupToRegionResponse {
@@ -1124,6 +1147,49 @@ class CopyBackupToRegionResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateClusterRequest {
+  /// The type of HSM to use in the cluster. Currently the only allowed value is
+  /// <code>hsm1.medium</code>.
+  @_s.JsonKey(name: 'HsmType')
+  final String hsmType;
+
+  /// The identifiers (IDs) of the subnets where you are creating the cluster. You
+  /// must specify at least one subnet. If you specify multiple subnets, they must
+  /// meet the following criteria:
+  ///
+  /// <ul>
+  /// <li>
+  /// All subnets must be in the same virtual private cloud (VPC).
+  /// </li>
+  /// <li>
+  /// You can specify only one subnet per Availability Zone.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'SubnetIds')
+  final List<String> subnetIds;
+
+  /// The identifier (ID) of the cluster backup to restore. Use this value to
+  /// restore the cluster from a backup instead of creating a new cluster. To find
+  /// the backup ID, use <a>DescribeBackups</a>.
+  @_s.JsonKey(name: 'SourceBackupId')
+  final String sourceBackupId;
+  @_s.JsonKey(name: 'TagList')
+  final List<Tag> tagList;
+
+  CreateClusterRequest({
+    @_s.required this.hsmType,
+    @_s.required this.subnetIds,
+    this.sourceBackupId,
+    this.tagList,
+  });
+  Map<String, dynamic> toJson() => _$CreateClusterRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateClusterResponse {
@@ -1136,6 +1202,37 @@ class CreateClusterResponse {
   });
   factory CreateClusterResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateClusterResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateHsmRequest {
+  /// The Availability Zone where you are creating the HSM. To find the cluster's
+  /// Availability Zones, use <a>DescribeClusters</a>.
+  @_s.JsonKey(name: 'AvailabilityZone')
+  final String availabilityZone;
+
+  /// The identifier (ID) of the HSM's cluster. To find the cluster ID, use
+  /// <a>DescribeClusters</a>.
+  @_s.JsonKey(name: 'ClusterId')
+  final String clusterId;
+
+  /// The HSM's IP address. If you specify an IP address, use an available address
+  /// from the subnet that maps to the Availability Zone where you are creating
+  /// the HSM. If you don't specify an IP address, one is chosen for you from that
+  /// subnet.
+  @_s.JsonKey(name: 'IpAddress')
+  final String ipAddress;
+
+  CreateHsmRequest({
+    @_s.required this.availabilityZone,
+    @_s.required this.clusterId,
+    this.ipAddress,
+  });
+  Map<String, dynamic> toJson() => _$CreateHsmRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1158,6 +1255,23 @@ class CreateHsmResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteBackupRequest {
+  /// The ID of the backup to be deleted. To find the ID of a backup, use the
+  /// <a>DescribeBackups</a> operation.
+  @_s.JsonKey(name: 'BackupId')
+  final String backupId;
+
+  DeleteBackupRequest({
+    @_s.required this.backupId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteBackupRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteBackupResponse {
@@ -1170,6 +1284,23 @@ class DeleteBackupResponse {
   });
   factory DeleteBackupResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteBackupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteClusterRequest {
+  /// The identifier (ID) of the cluster that you are deleting. To find the
+  /// cluster ID, use <a>DescribeClusters</a>.
+  @_s.JsonKey(name: 'ClusterId')
+  final String clusterId;
+
+  DeleteClusterRequest({
+    @_s.required this.clusterId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteClusterRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1192,6 +1323,40 @@ class DeleteClusterResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteHsmRequest {
+  /// The identifier (ID) of the cluster that contains the HSM that you are
+  /// deleting.
+  @_s.JsonKey(name: 'ClusterId')
+  final String clusterId;
+
+  /// The identifier (ID) of the elastic network interface (ENI) of the HSM that
+  /// you are deleting.
+  @_s.JsonKey(name: 'EniId')
+  final String eniId;
+
+  /// The IP address of the elastic network interface (ENI) of the HSM that you
+  /// are deleting.
+  @_s.JsonKey(name: 'EniIp')
+  final String eniIp;
+
+  /// The identifier (ID) of the HSM that you are deleting.
+  @_s.JsonKey(name: 'HsmId')
+  final String hsmId;
+
+  DeleteHsmRequest({
+    @_s.required this.clusterId,
+    this.eniId,
+    this.eniIp,
+    this.hsmId,
+  });
+  Map<String, dynamic> toJson() => _$DeleteHsmRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteHsmResponse {
@@ -1204,6 +1369,54 @@ class DeleteHsmResponse {
   });
   factory DeleteHsmResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteHsmResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeBackupsRequest {
+  /// One or more filters to limit the items returned in the response.
+  ///
+  /// Use the <code>backupIds</code> filter to return only the specified backups.
+  /// Specify backups by their backup identifier (ID).
+  ///
+  /// Use the <code>sourceBackupIds</code> filter to return only the backups
+  /// created from a source backup. The <code>sourceBackupID</code> of a source
+  /// backup is returned by the <a>CopyBackupToRegion</a> operation.
+  ///
+  /// Use the <code>clusterIds</code> filter to return only the backups for the
+  /// specified clusters. Specify clusters by their cluster identifier (ID).
+  ///
+  /// Use the <code>states</code> filter to return only backups that match the
+  /// specified state.
+  @_s.JsonKey(name: 'Filters')
+  final Map<String, List<String>> filters;
+
+  /// The maximum number of backups to return in the response. When there are more
+  /// backups than the number you specify, the response contains a
+  /// <code>NextToken</code> value.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The <code>NextToken</code> value that you received in the previous response.
+  /// Use this value to get more backups.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Designates whether or not to sort the return backups by ascending
+  /// chronological order of generation.
+  @_s.JsonKey(name: 'SortAscending')
+  final bool sortAscending;
+
+  DescribeBackupsRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+    this.sortAscending,
+  });
+  Map<String, dynamic> toJson() => _$DescribeBackupsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1228,6 +1441,45 @@ class DescribeBackupsResponse {
   });
   factory DescribeBackupsResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeBackupsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DescribeClustersRequest {
+  /// One or more filters to limit the items returned in the response.
+  ///
+  /// Use the <code>clusterIds</code> filter to return only the specified
+  /// clusters. Specify clusters by their cluster identifier (ID).
+  ///
+  /// Use the <code>vpcIds</code> filter to return only the clusters in the
+  /// specified virtual private clouds (VPCs). Specify VPCs by their VPC
+  /// identifier (ID).
+  ///
+  /// Use the <code>states</code> filter to return only clusters that match the
+  /// specified state.
+  @_s.JsonKey(name: 'Filters')
+  final Map<String, List<String>> filters;
+
+  /// The maximum number of clusters to return in the response. When there are
+  /// more clusters than the number you specify, the response contains a
+  /// <code>NextToken</code> value.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The <code>NextToken</code> value that you received in the previous response.
+  /// Use this value to get more clusters.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeClustersRequest({
+    this.filters,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$DescribeClustersRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1363,6 +1615,39 @@ enum HsmState {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class InitializeClusterRequest {
+  /// The identifier (ID) of the cluster that you are claiming. To find the
+  /// cluster ID, use <a>DescribeClusters</a>.
+  @_s.JsonKey(name: 'ClusterId')
+  final String clusterId;
+
+  /// The cluster certificate issued (signed) by your issuing certificate
+  /// authority (CA). The certificate must be in PEM format and can contain a
+  /// maximum of 5000 characters.
+  @_s.JsonKey(name: 'SignedCert')
+  final String signedCert;
+
+  /// The issuing certificate of the issuing certificate authority (CA) that
+  /// issued (signed) the cluster certificate. You must use a self-signed
+  /// certificate. The certificate used to sign the HSM CSR must be directly
+  /// available, and thus must be the root certificate. The certificate must be in
+  /// PEM format and can contain a maximum of 5000 characters.
+  @_s.JsonKey(name: 'TrustAnchor')
+  final String trustAnchor;
+
+  InitializeClusterRequest({
+    @_s.required this.clusterId,
+    @_s.required this.signedCert,
+    @_s.required this.trustAnchor,
+  });
+  Map<String, dynamic> toJson() => _$InitializeClusterRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class InitializeClusterResponse {
@@ -1380,6 +1665,36 @@ class InitializeClusterResponse {
   });
   factory InitializeClusterResponse.fromJson(Map<String, dynamic> json) =>
       _$InitializeClusterResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListTagsRequest {
+  /// The cluster identifier (ID) for the cluster whose tags you are getting. To
+  /// find the cluster ID, use <a>DescribeClusters</a>.
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  /// The maximum number of tags to return in the response. When there are more
+  /// tags than the number you specify, the response contains a
+  /// <code>NextToken</code> value.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// The <code>NextToken</code> value that you received in the previous response.
+  /// Use this value to get more tags.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListTagsRequest({
+    @_s.required this.resourceId,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$ListTagsRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1404,6 +1719,23 @@ class ListTagsResponse {
   });
   factory ListTagsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListTagsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RestoreBackupRequest {
+  /// The ID of the backup to be restored. To find the ID of a backup, use the
+  /// <a>DescribeBackups</a> operation.
+  @_s.JsonKey(name: 'BackupId')
+  final String backupId;
+
+  RestoreBackupRequest({
+    @_s.required this.backupId,
+  });
+  Map<String, dynamic> toJson() => _$RestoreBackupRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1450,12 +1782,57 @@ class Tag {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The cluster identifier (ID) for the cluster that you are tagging. To find
+  /// the cluster ID, use <a>DescribeClusters</a>.
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  /// A list of one or more tags.
+  @_s.JsonKey(name: 'TagList')
+  final List<Tag> tagList;
+
+  TagResourceRequest({
+    @_s.required this.resourceId,
+    @_s.required this.tagList,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
   factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$TagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The cluster identifier (ID) for the cluster whose tags you are removing. To
+  /// find the cluster ID, use <a>DescribeClusters</a>.
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  /// A list of one or more tag keys for the tags that you are removing. Specify
+  /// only the tag keys, not the tag values.
+  @_s.JsonKey(name: 'TagKeyList')
+  final List<String> tagKeyList;
+
+  UntagResourceRequest({
+    @_s.required this.resourceId,
+    @_s.required this.tagKeyList,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
 }
 
 @_s.JsonSerializable(

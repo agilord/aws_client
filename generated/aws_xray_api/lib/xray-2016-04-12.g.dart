@@ -48,6 +48,21 @@ Map<String, dynamic> _$BackendConnectionErrorsToJson(
   return val;
 }
 
+Map<String, dynamic> _$BatchGetTracesRequestToJson(
+    BatchGetTracesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TraceIds', instance.traceIds);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 BatchGetTracesResult _$BatchGetTracesResultFromJson(Map<String, dynamic> json) {
   return BatchGetTracesResult(
     nextToken: json['NextToken'] as String,
@@ -61,12 +76,40 @@ BatchGetTracesResult _$BatchGetTracesResultFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$CreateGroupRequestToJson(CreateGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GroupName', instance.groupName);
+  writeNotNull('FilterExpression', instance.filterExpression);
+  return val;
+}
+
 CreateGroupResult _$CreateGroupResultFromJson(Map<String, dynamic> json) {
   return CreateGroupResult(
     group: json['Group'] == null
         ? null
         : Group.fromJson(json['Group'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$CreateSamplingRuleRequestToJson(
+    CreateSamplingRuleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SamplingRule', instance.samplingRule?.toJson());
+  return val;
 }
 
 CreateSamplingRuleResult _$CreateSamplingRuleResultFromJson(
@@ -79,8 +122,37 @@ CreateSamplingRuleResult _$CreateSamplingRuleResultFromJson(
   );
 }
 
+Map<String, dynamic> _$DeleteGroupRequestToJson(DeleteGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GroupARN', instance.groupARN);
+  writeNotNull('GroupName', instance.groupName);
+  return val;
+}
+
 DeleteGroupResult _$DeleteGroupResultFromJson(Map<String, dynamic> json) {
   return DeleteGroupResult();
+}
+
+Map<String, dynamic> _$DeleteSamplingRuleRequestToJson(
+    DeleteSamplingRuleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RuleARN', instance.ruleARN);
+  writeNotNull('RuleName', instance.ruleName);
+  return val;
 }
 
 DeleteSamplingRuleResult _$DeleteSamplingRuleResultFromJson(
@@ -283,12 +355,39 @@ GetEncryptionConfigResult _$GetEncryptionConfigResultFromJson(
   );
 }
 
+Map<String, dynamic> _$GetGroupRequestToJson(GetGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('GroupARN', instance.groupARN);
+  writeNotNull('GroupName', instance.groupName);
+  return val;
+}
+
 GetGroupResult _$GetGroupResultFromJson(Map<String, dynamic> json) {
   return GetGroupResult(
     group: json['Group'] == null
         ? null
         : Group.fromJson(json['Group'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$GetGroupsRequestToJson(GetGroupsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 GetGroupsResult _$GetGroupsResultFromJson(Map<String, dynamic> json) {
@@ -299,6 +398,20 @@ GetGroupsResult _$GetGroupsResultFromJson(Map<String, dynamic> json) {
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+Map<String, dynamic> _$GetSamplingRulesRequestToJson(
+    GetSamplingRulesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 GetSamplingRulesResult _$GetSamplingRulesResultFromJson(
@@ -313,6 +426,20 @@ GetSamplingRulesResult _$GetSamplingRulesResultFromJson(
   );
 }
 
+Map<String, dynamic> _$GetSamplingStatisticSummariesRequestToJson(
+    GetSamplingStatisticSummariesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 GetSamplingStatisticSummariesResult
     _$GetSamplingStatisticSummariesResultFromJson(Map<String, dynamic> json) {
   return GetSamplingStatisticSummariesResult(
@@ -323,6 +450,21 @@ GetSamplingStatisticSummariesResult
             : SamplingStatisticSummary.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$GetSamplingTargetsRequestToJson(
+    GetSamplingTargetsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SamplingStatisticsDocuments',
+      instance.samplingStatisticsDocuments?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 GetSamplingTargetsResult _$GetSamplingTargetsResultFromJson(
@@ -342,6 +484,24 @@ GetSamplingTargetsResult _$GetSamplingTargetsResultFromJson(
   );
 }
 
+Map<String, dynamic> _$GetServiceGraphRequestToJson(
+    GetServiceGraphRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EndTime', unixTimestampToJson(instance.endTime));
+  writeNotNull('StartTime', unixTimestampToJson(instance.startTime));
+  writeNotNull('GroupARN', instance.groupARN);
+  writeNotNull('GroupName', instance.groupName);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 GetServiceGraphResult _$GetServiceGraphResultFromJson(
     Map<String, dynamic> json) {
   return GetServiceGraphResult(
@@ -354,6 +514,26 @@ GetServiceGraphResult _$GetServiceGraphResultFromJson(
         ?.toList(),
     startTime: unixTimestampFromJson(json['StartTime']),
   );
+}
+
+Map<String, dynamic> _$GetTimeSeriesServiceStatisticsRequestToJson(
+    GetTimeSeriesServiceStatisticsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EndTime', unixTimestampToJson(instance.endTime));
+  writeNotNull('StartTime', unixTimestampToJson(instance.startTime));
+  writeNotNull('EntitySelectorExpression', instance.entitySelectorExpression);
+  writeNotNull('GroupARN', instance.groupARN);
+  writeNotNull('GroupName', instance.groupName);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('Period', instance.period);
+  return val;
 }
 
 GetTimeSeriesServiceStatisticsResult
@@ -369,6 +549,21 @@ GetTimeSeriesServiceStatisticsResult
   );
 }
 
+Map<String, dynamic> _$GetTraceGraphRequestToJson(
+    GetTraceGraphRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TraceIds', instance.traceIds);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 GetTraceGraphResult _$GetTraceGraphResultFromJson(Map<String, dynamic> json) {
   return GetTraceGraphResult(
     nextToken: json['NextToken'] as String,
@@ -378,6 +573,31 @@ GetTraceGraphResult _$GetTraceGraphResultFromJson(Map<String, dynamic> json) {
         ?.toList(),
   );
 }
+
+Map<String, dynamic> _$GetTraceSummariesRequestToJson(
+    GetTraceSummariesRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EndTime', unixTimestampToJson(instance.endTime));
+  writeNotNull('StartTime', unixTimestampToJson(instance.startTime));
+  writeNotNull('FilterExpression', instance.filterExpression);
+  writeNotNull('NextToken', instance.nextToken);
+  writeNotNull('Sampling', instance.sampling);
+  writeNotNull('SamplingStrategy', instance.samplingStrategy?.toJson());
+  writeNotNull('TimeRangeType', _$TimeRangeTypeEnumMap[instance.timeRangeType]);
+  return val;
+}
+
+const _$TimeRangeTypeEnumMap = {
+  TimeRangeType.traceId: 'TraceId',
+  TimeRangeType.event: 'Event',
+};
 
 GetTraceSummariesResult _$GetTraceSummariesResultFromJson(
     Map<String, dynamic> json) {
@@ -431,6 +651,21 @@ InstanceIdDetail _$InstanceIdDetailFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$PutEncryptionConfigRequestToJson(
+    PutEncryptionConfigRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Type', _$EncryptionTypeEnumMap[instance.type]);
+  writeNotNull('KeyId', instance.keyId);
+  return val;
+}
+
 PutEncryptionConfigResult _$PutEncryptionConfigResultFromJson(
     Map<String, dynamic> json) {
   return PutEncryptionConfigResult(
@@ -441,9 +676,41 @@ PutEncryptionConfigResult _$PutEncryptionConfigResultFromJson(
   );
 }
 
+Map<String, dynamic> _$PutTelemetryRecordsRequestToJson(
+    PutTelemetryRecordsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TelemetryRecords',
+      instance.telemetryRecords?.map((e) => e?.toJson())?.toList());
+  writeNotNull('EC2InstanceId', instance.eC2InstanceId);
+  writeNotNull('Hostname', instance.hostname);
+  writeNotNull('ResourceARN', instance.resourceARN);
+  return val;
+}
+
 PutTelemetryRecordsResult _$PutTelemetryRecordsResultFromJson(
     Map<String, dynamic> json) {
   return PutTelemetryRecordsResult();
+}
+
+Map<String, dynamic> _$PutTraceSegmentsRequestToJson(
+    PutTraceSegmentsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TraceSegmentDocuments', instance.traceSegmentDocuments);
+  return val;
 }
 
 PutTraceSegmentsResult _$PutTraceSegmentsResultFromJson(
@@ -855,12 +1122,41 @@ UnprocessedTraceSegment _$UnprocessedTraceSegmentFromJson(
   );
 }
 
+Map<String, dynamic> _$UpdateGroupRequestToJson(UpdateGroupRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FilterExpression', instance.filterExpression);
+  writeNotNull('GroupARN', instance.groupARN);
+  writeNotNull('GroupName', instance.groupName);
+  return val;
+}
+
 UpdateGroupResult _$UpdateGroupResultFromJson(Map<String, dynamic> json) {
   return UpdateGroupResult(
     group: json['Group'] == null
         ? null
         : Group.fromJson(json['Group'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$UpdateSamplingRuleRequestToJson(
+    UpdateSamplingRuleRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SamplingRuleUpdate', instance.samplingRuleUpdate?.toJson());
+  return val;
 }
 
 UpdateSamplingRuleResult _$UpdateSamplingRuleResultFromJson(

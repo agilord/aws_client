@@ -43,10 +43,39 @@ Map<String, dynamic> _$CloudWatchLogsDestinationToJson(
   return val;
 }
 
+Map<String, dynamic> _$CreateConfigurationSetEventDestinationRequestToJson(
+    CreateConfigurationSetEventDestinationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EventDestination', instance.eventDestination?.toJson());
+  writeNotNull('EventDestinationName', instance.eventDestinationName);
+  return val;
+}
+
 CreateConfigurationSetEventDestinationResponse
     _$CreateConfigurationSetEventDestinationResponseFromJson(
         Map<String, dynamic> json) {
   return CreateConfigurationSetEventDestinationResponse();
+}
+
+Map<String, dynamic> _$CreateConfigurationSetRequestToJson(
+    CreateConfigurationSetRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConfigurationSetName', instance.configurationSetName);
+  return val;
 }
 
 CreateConfigurationSetResponse _$CreateConfigurationSetResponseFromJson(
@@ -54,11 +83,19 @@ CreateConfigurationSetResponse _$CreateConfigurationSetResponseFromJson(
   return CreateConfigurationSetResponse();
 }
 
+Map<String, dynamic> _$DeleteConfigurationSetEventDestinationRequestToJson(
+        DeleteConfigurationSetEventDestinationRequest instance) =>
+    <String, dynamic>{};
+
 DeleteConfigurationSetEventDestinationResponse
     _$DeleteConfigurationSetEventDestinationResponseFromJson(
         Map<String, dynamic> json) {
   return DeleteConfigurationSetEventDestinationResponse();
 }
+
+Map<String, dynamic> _$DeleteConfigurationSetRequestToJson(
+        DeleteConfigurationSetRequest instance) =>
+    <String, dynamic>{};
 
 DeleteConfigurationSetResponse _$DeleteConfigurationSetResponseFromJson(
     Map<String, dynamic> json) {
@@ -181,6 +218,24 @@ Map<String, dynamic> _$SSMLMessageTypeToJson(SSMLMessageType instance) {
   return val;
 }
 
+Map<String, dynamic> _$SendVoiceMessageRequestToJson(
+    SendVoiceMessageRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CallerId', instance.callerId);
+  writeNotNull('ConfigurationSetName', instance.configurationSetName);
+  writeNotNull('Content', instance.content?.toJson());
+  writeNotNull('DestinationPhoneNumber', instance.destinationPhoneNumber);
+  writeNotNull('OriginationPhoneNumber', instance.originationPhoneNumber);
+  return val;
+}
+
 SendVoiceMessageResponse _$SendVoiceMessageResponseFromJson(
     Map<String, dynamic> json) {
   return SendVoiceMessageResponse(
@@ -204,6 +259,20 @@ Map<String, dynamic> _$SnsDestinationToJson(SnsDestination instance) {
   }
 
   writeNotNull('TopicArn', instance.topicArn);
+  return val;
+}
+
+Map<String, dynamic> _$UpdateConfigurationSetEventDestinationRequestToJson(
+    UpdateConfigurationSetEventDestinationRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EventDestination', instance.eventDestination?.toJson());
   return val;
 }
 

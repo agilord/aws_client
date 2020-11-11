@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -129,17 +128,15 @@ class IoTEvents {
       key,
       r'''^((`[\w\- ]+`)|([\w\-]+))(\.((`[\w- ]+`)|([\w\-]+)))*$''',
     );
-    final $payload = <String, dynamic>{
-      'detectorModelDefinition': detectorModelDefinition,
-      'detectorModelName': detectorModelName,
-      'roleArn': roleArn,
-      if (detectorModelDescription != null)
-        'detectorModelDescription': detectorModelDescription,
-      if (evaluationMethod != null)
-        'evaluationMethod': evaluationMethod?.toValue(),
-      if (key != null) 'key': key,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateDetectorModelRequest(
+      detectorModelDefinition: detectorModelDefinition,
+      detectorModelName: detectorModelName,
+      roleArn: roleArn,
+      detectorModelDescription: detectorModelDescription,
+      evaluationMethod: evaluationMethod,
+      key: key,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -195,12 +192,12 @@ class IoTEvents {
       0,
       128,
     );
-    final $payload = <String, dynamic>{
-      'inputDefinition': inputDefinition,
-      'inputName': inputName,
-      if (inputDescription != null) 'inputDescription': inputDescription,
-      if (tags != null) 'tags': tags,
-    };
+    final $payload = CreateInputRequest(
+      inputDefinition: inputDefinition,
+      inputName: inputName,
+      inputDescription: inputDescription,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -239,7 +236,9 @@ class IoTEvents {
       r'''^[a-zA-Z0-9_-]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteDetectorModelRequest(
+      detectorModelName: detectorModelName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -278,7 +277,9 @@ class IoTEvents {
       r'''^[a-zA-Z][a-zA-Z0-9_]*$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
+    final $payload = DeleteInputRequest(
+      inputName: inputName,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -580,9 +581,9 @@ class IoTEvents {
     @_s.required LoggingOptions loggingOptions,
   }) async {
     ArgumentError.checkNotNull(loggingOptions, 'loggingOptions');
-    final $payload = <String, dynamic>{
-      'loggingOptions': loggingOptions,
-    };
+    final $payload = PutLoggingOptionsRequest(
+      loggingOptions: loggingOptions,
+    );
     await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -623,9 +624,10 @@ class IoTEvents {
     _query = '?${[
       if (resourceArn != null) _s.toQueryParam('resourceArn', resourceArn),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{
-      'tags': tags,
-    };
+    final $payload = TagResourceRequest(
+      resourceArn: resourceArn,
+      tags: tags,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -666,7 +668,10 @@ class IoTEvents {
       if (resourceArn != null) _s.toQueryParam('resourceArn', resourceArn),
       if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $payload = UntagResourceRequest(
+      resourceArn: resourceArn,
+      tagKeys: tagKeys,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'DELETE',
@@ -739,14 +744,13 @@ class IoTEvents {
       0,
       128,
     );
-    final $payload = <String, dynamic>{
-      'detectorModelDefinition': detectorModelDefinition,
-      'roleArn': roleArn,
-      if (detectorModelDescription != null)
-        'detectorModelDescription': detectorModelDescription,
-      if (evaluationMethod != null)
-        'evaluationMethod': evaluationMethod?.toValue(),
-    };
+    final $payload = UpdateDetectorModelRequest(
+      detectorModelDefinition: detectorModelDefinition,
+      detectorModelName: detectorModelName,
+      roleArn: roleArn,
+      detectorModelDescription: detectorModelDescription,
+      evaluationMethod: evaluationMethod,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
@@ -800,10 +804,11 @@ class IoTEvents {
       0,
       128,
     );
-    final $payload = <String, dynamic>{
-      'inputDefinition': inputDefinition,
-      if (inputDescription != null) 'inputDescription': inputDescription,
-    };
+    final $payload = UpdateInputRequest(
+      inputDefinition: inputDefinition,
+      inputName: inputName,
+      inputDescription: inputDescription,
+    );
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
@@ -1157,6 +1162,59 @@ class ClearTimerAction {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateDetectorModelRequest {
+  /// Information that defines how the detectors operate.
+  @_s.JsonKey(name: 'detectorModelDefinition')
+  final DetectorModelDefinition detectorModelDefinition;
+
+  /// The name of the detector model.
+  @_s.JsonKey(name: 'detectorModelName')
+  final String detectorModelName;
+
+  /// The ARN of the role that grants permission to AWS IoT Events to perform its
+  /// operations.
+  @_s.JsonKey(name: 'roleArn')
+  final String roleArn;
+
+  /// A brief description of the detector model.
+  @_s.JsonKey(name: 'detectorModelDescription')
+  final String detectorModelDescription;
+
+  /// Information about the order in which events are evaluated and how actions
+  /// are executed.
+  @_s.JsonKey(name: 'evaluationMethod')
+  final EvaluationMethod evaluationMethod;
+
+  /// The input attribute key used to identify a device or system to create a
+  /// detector (an instance of the detector model) and then to route each input
+  /// received to the appropriate detector (instance). This parameter uses a
+  /// JSON-path expression in the message payload of each input to specify the
+  /// attribute-value pair that is used to identify the device associated with the
+  /// input.
+  @_s.JsonKey(name: 'key')
+  final String key;
+
+  /// Metadata that can be used to manage the detector model.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  CreateDetectorModelRequest({
+    @_s.required this.detectorModelDefinition,
+    @_s.required this.detectorModelName,
+    @_s.required this.roleArn,
+    this.detectorModelDescription,
+    this.evaluationMethod,
+    this.key,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateDetectorModelRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateDetectorModelResponse {
@@ -1169,6 +1227,37 @@ class CreateDetectorModelResponse {
   });
   factory CreateDetectorModelResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateDetectorModelResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CreateInputRequest {
+  /// The definition of the input.
+  @_s.JsonKey(name: 'inputDefinition')
+  final InputDefinition inputDefinition;
+
+  /// The name you want to give to the input.
+  @_s.JsonKey(name: 'inputName')
+  final String inputName;
+
+  /// A brief description of the input.
+  @_s.JsonKey(name: 'inputDescription')
+  final String inputDescription;
+
+  /// Metadata that can be used to manage the input.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  CreateInputRequest({
+    @_s.required this.inputDefinition,
+    @_s.required this.inputName,
+    this.inputDescription,
+    this.tags,
+  });
+  Map<String, dynamic> toJson() => _$CreateInputRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1191,12 +1280,44 @@ class CreateInputResponse {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteDetectorModelRequest {
+  /// The name of the detector model to be deleted.
+  @_s.JsonKey(name: 'detectorModelName', ignore: true)
+  final String detectorModelName;
+
+  DeleteDetectorModelRequest({
+    @_s.required this.detectorModelName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteDetectorModelRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteDetectorModelResponse {
   DeleteDetectorModelResponse();
   factory DeleteDetectorModelResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteDetectorModelResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteInputRequest {
+  /// The name of the input to delete.
+  @_s.JsonKey(name: 'inputName', ignore: true)
+  final String inputName;
+
+  DeleteInputRequest({
+    @_s.required this.inputName,
+  });
+  Map<String, dynamic> toJson() => _$DeleteInputRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1704,18 +1825,6 @@ enum EvaluationMethod {
   batch,
   @_s.JsonValue('SERIAL')
   serial,
-}
-
-extension on EvaluationMethod {
-  String toValue() {
-    switch (this) {
-      case EvaluationMethod.batch:
-        return 'BATCH';
-      case EvaluationMethod.serial:
-        return 'SERIAL';
-    }
-    throw Exception('Unknown enum value: $this');
-  }
 }
 
 /// Specifies the <code>actions</code> to be performed when the
@@ -2342,6 +2451,22 @@ enum PayloadType {
   json,
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PutLoggingOptionsRequest {
+  /// The new values of the AWS IoT Events logging options.
+  @_s.JsonKey(name: 'loggingOptions')
+  final LoggingOptions loggingOptions;
+
+  PutLoggingOptionsRequest({
+    @_s.required this.loggingOptions,
+  });
+  Map<String, dynamic> toJson() => _$PutLoggingOptionsRequestToJson(this);
+}
+
 /// Information required to reset the timer. The timer is reset to the
 /// previously evaluated result of the duration. The duration expression isn't
 /// reevaluated when you reset the timer.
@@ -2549,6 +2674,27 @@ class Tag {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TagResourceRequest {
+  /// The ARN of the resource.
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  /// The new or modified tags for the resource.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  TagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tags,
+  });
+  Map<String, dynamic> toJson() => _$TagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagResourceResponse {
@@ -2645,12 +2791,71 @@ class TransitionEvent {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UntagResourceRequest {
+  /// The ARN of the resource.
+  @_s.JsonKey(name: 'resourceArn', ignore: true)
+  final String resourceArn;
+
+  /// A list of the keys of the tags to be removed from the resource.
+  @_s.JsonKey(name: 'tagKeys', ignore: true)
+  final List<String> tagKeys;
+
+  UntagResourceRequest({
+    @_s.required this.resourceArn,
+    @_s.required this.tagKeys,
+  });
+  Map<String, dynamic> toJson() => _$UntagResourceRequestToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
   factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateDetectorModelRequest {
+  /// Information that defines how a detector operates.
+  @_s.JsonKey(name: 'detectorModelDefinition')
+  final DetectorModelDefinition detectorModelDefinition;
+
+  /// The name of the detector model that is updated.
+  @_s.JsonKey(name: 'detectorModelName', ignore: true)
+  final String detectorModelName;
+
+  /// The ARN of the role that grants permission to AWS IoT Events to perform its
+  /// operations.
+  @_s.JsonKey(name: 'roleArn')
+  final String roleArn;
+
+  /// A brief description of the detector model.
+  @_s.JsonKey(name: 'detectorModelDescription')
+  final String detectorModelDescription;
+
+  /// Information about the order in which events are evaluated and how actions
+  /// are executed.
+  @_s.JsonKey(name: 'evaluationMethod')
+  final EvaluationMethod evaluationMethod;
+
+  UpdateDetectorModelRequest({
+    @_s.required this.detectorModelDefinition,
+    @_s.required this.detectorModelName,
+    @_s.required this.roleArn,
+    this.detectorModelDescription,
+    this.evaluationMethod,
+  });
+  Map<String, dynamic> toJson() => _$UpdateDetectorModelRequestToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2668,6 +2873,32 @@ class UpdateDetectorModelResponse {
   });
   factory UpdateDetectorModelResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateDetectorModelResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UpdateInputRequest {
+  /// The definition of the input.
+  @_s.JsonKey(name: 'inputDefinition')
+  final InputDefinition inputDefinition;
+
+  /// The name of the input you want to update.
+  @_s.JsonKey(name: 'inputName', ignore: true)
+  final String inputName;
+
+  /// A brief description of the input.
+  @_s.JsonKey(name: 'inputDescription')
+  final String inputDescription;
+
+  UpdateInputRequest({
+    @_s.required this.inputDefinition,
+    @_s.required this.inputName,
+    this.inputDescription,
+  });
+  Map<String, dynamic> toJson() => _$UpdateInputRequestToJson(this);
 }
 
 @_s.JsonSerializable(

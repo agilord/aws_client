@@ -6,6 +6,27 @@ part of 'glacier-2012-06-01.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$AbortMultipartUploadInputToJson(
+        AbortMultipartUploadInput instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$AbortVaultLockInputToJson(
+        AbortVaultLockInput instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$AddTagsToVaultInputToJson(AddTagsToVaultInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Tags', instance.tags);
+  return val;
+}
+
 ArchiveCreationOutput _$ArchiveCreationOutputFromJson(
     Map<String, dynamic> json) {
   return ArchiveCreationOutput(
@@ -117,6 +138,17 @@ const _$QuoteFieldsEnumMap = {
   QuoteFields.asneeded: 'ASNEEDED',
 };
 
+Map<String, dynamic> _$CompleteMultipartUploadInputToJson(
+        CompleteMultipartUploadInput instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$CompleteVaultLockInputToJson(
+        CompleteVaultLockInput instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$CreateVaultInputToJson(CreateVaultInput instance) =>
+    <String, dynamic>{};
+
 CreateVaultOutput _$CreateVaultOutputFromJson(Map<String, dynamic> json) {
   return CreateVaultOutput(
     location: json['Location'] as String,
@@ -166,6 +198,20 @@ Map<String, dynamic> _$DataRetrievalRuleToJson(DataRetrievalRule instance) {
   writeNotNull('Strategy', instance.strategy);
   return val;
 }
+
+Map<String, dynamic> _$DeleteArchiveInputToJson(DeleteArchiveInput instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteVaultAccessPolicyInputToJson(
+        DeleteVaultAccessPolicyInput instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteVaultInputToJson(DeleteVaultInput instance) =>
+    <String, dynamic>{};
+
+Map<String, dynamic> _$DeleteVaultNotificationsInputToJson(
+        DeleteVaultNotificationsInput instance) =>
+    <String, dynamic>{};
 
 DescribeVaultOutput _$DescribeVaultOutputFromJson(Map<String, dynamic> json) {
   return DescribeVaultOutput(
@@ -376,6 +422,10 @@ InitiateJobOutput _$InitiateJobOutputFromJson(Map<String, dynamic> json) {
     location: json['Location'] as String,
   );
 }
+
+Map<String, dynamic> _$InitiateMultipartUploadInputToJson(
+        InitiateMultipartUploadInput instance) =>
+    <String, dynamic>{};
 
 InitiateMultipartUploadOutput _$InitiateMultipartUploadOutputFromJson(
     Map<String, dynamic> json) {
@@ -593,11 +643,29 @@ ProvisionedCapacityDescription _$ProvisionedCapacityDescriptionFromJson(
   );
 }
 
+Map<String, dynamic> _$PurchaseProvisionedCapacityInputToJson(
+        PurchaseProvisionedCapacityInput instance) =>
+    <String, dynamic>{};
+
 PurchaseProvisionedCapacityOutput _$PurchaseProvisionedCapacityOutputFromJson(
     Map<String, dynamic> json) {
   return PurchaseProvisionedCapacityOutput(
     capacityId: json['x-amz-capacity-id'] as String,
   );
+}
+
+Map<String, dynamic> _$RemoveTagsFromVaultInputToJson(
+    RemoveTagsFromVaultInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
 }
 
 S3Location _$S3LocationFromJson(Map<String, dynamic> json) {
@@ -696,6 +764,20 @@ Map<String, dynamic> _$SelectParametersToJson(SelectParameters instance) {
 const _$ExpressionTypeEnumMap = {
   ExpressionType.sql: 'SQL',
 };
+
+Map<String, dynamic> _$SetDataRetrievalPolicyInputToJson(
+    SetDataRetrievalPolicyInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Policy', instance.policy?.toJson());
+  return val;
+}
 
 UploadListElement _$UploadListElementFromJson(Map<String, dynamic> json) {
   return UploadListElement(

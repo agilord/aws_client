@@ -6,17 +6,134 @@ part of 'transfer-2018-11-05.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$CreateServerRequestToJson(CreateServerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EndpointDetails', instance.endpointDetails?.toJson());
+  writeNotNull('EndpointType', _$EndpointTypeEnumMap[instance.endpointType]);
+  writeNotNull('HostKey', instance.hostKey);
+  writeNotNull(
+      'IdentityProviderDetails', instance.identityProviderDetails?.toJson());
+  writeNotNull('IdentityProviderType',
+      _$IdentityProviderTypeEnumMap[instance.identityProviderType]);
+  writeNotNull('LoggingRole', instance.loggingRole);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+const _$EndpointTypeEnumMap = {
+  EndpointType.public: 'PUBLIC',
+  EndpointType.vpc: 'VPC',
+  EndpointType.vpcEndpoint: 'VPC_ENDPOINT',
+};
+
+const _$IdentityProviderTypeEnumMap = {
+  IdentityProviderType.serviceManaged: 'SERVICE_MANAGED',
+  IdentityProviderType.apiGateway: 'API_GATEWAY',
+};
+
 CreateServerResponse _$CreateServerResponseFromJson(Map<String, dynamic> json) {
   return CreateServerResponse(
     serverId: json['ServerId'] as String,
   );
 }
 
+Map<String, dynamic> _$CreateUserRequestToJson(CreateUserRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Role', instance.role);
+  writeNotNull('ServerId', instance.serverId);
+  writeNotNull('UserName', instance.userName);
+  writeNotNull('HomeDirectory', instance.homeDirectory);
+  writeNotNull('HomeDirectoryMappings',
+      instance.homeDirectoryMappings?.map((e) => e?.toJson())?.toList());
+  writeNotNull('HomeDirectoryType',
+      _$HomeDirectoryTypeEnumMap[instance.homeDirectoryType]);
+  writeNotNull('Policy', instance.policy);
+  writeNotNull('SshPublicKeyBody', instance.sshPublicKeyBody);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+const _$HomeDirectoryTypeEnumMap = {
+  HomeDirectoryType.path: 'PATH',
+  HomeDirectoryType.logical: 'LOGICAL',
+};
+
 CreateUserResponse _$CreateUserResponseFromJson(Map<String, dynamic> json) {
   return CreateUserResponse(
     serverId: json['ServerId'] as String,
     userName: json['UserName'] as String,
   );
+}
+
+Map<String, dynamic> _$DeleteServerRequestToJson(DeleteServerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ServerId', instance.serverId);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteSshPublicKeyRequestToJson(
+    DeleteSshPublicKeyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ServerId', instance.serverId);
+  writeNotNull('SshPublicKeyId', instance.sshPublicKeyId);
+  writeNotNull('UserName', instance.userName);
+  return val;
+}
+
+Map<String, dynamic> _$DeleteUserRequestToJson(DeleteUserRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ServerId', instance.serverId);
+  writeNotNull('UserName', instance.userName);
+  return val;
+}
+
+Map<String, dynamic> _$DescribeServerRequestToJson(
+    DescribeServerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ServerId', instance.serverId);
+  return val;
 }
 
 DescribeServerResponse _$DescribeServerResponseFromJson(
@@ -26,6 +143,20 @@ DescribeServerResponse _$DescribeServerResponseFromJson(
         ? null
         : DescribedServer.fromJson(json['Server'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$DescribeUserRequestToJson(DescribeUserRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ServerId', instance.serverId);
+  writeNotNull('UserName', instance.userName);
+  return val;
 }
 
 DescribeUserResponse _$DescribeUserResponseFromJson(Map<String, dynamic> json) {
@@ -95,17 +226,6 @@ T _$enumDecodeNullable<T>(
   return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
 }
 
-const _$EndpointTypeEnumMap = {
-  EndpointType.public: 'PUBLIC',
-  EndpointType.vpc: 'VPC',
-  EndpointType.vpcEndpoint: 'VPC_ENDPOINT',
-};
-
-const _$IdentityProviderTypeEnumMap = {
-  IdentityProviderType.serviceManaged: 'SERVICE_MANAGED',
-  IdentityProviderType.apiGateway: 'API_GATEWAY',
-};
-
 const _$StateEnumMap = {
   State.offline: 'OFFLINE',
   State.online: 'ONLINE',
@@ -138,11 +258,6 @@ DescribedUser _$DescribedUserFromJson(Map<String, dynamic> json) {
     userName: json['UserName'] as String,
   );
 }
-
-const _$HomeDirectoryTypeEnumMap = {
-  HomeDirectoryType.path: 'PATH',
-  HomeDirectoryType.logical: 'LOGICAL',
-};
 
 EndpointDetails _$EndpointDetailsFromJson(Map<String, dynamic> json) {
   return EndpointDetails(
@@ -217,6 +332,22 @@ Map<String, dynamic> _$IdentityProviderDetailsToJson(
   return val;
 }
 
+Map<String, dynamic> _$ImportSshPublicKeyRequestToJson(
+    ImportSshPublicKeyRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ServerId', instance.serverId);
+  writeNotNull('SshPublicKeyBody', instance.sshPublicKeyBody);
+  writeNotNull('UserName', instance.userName);
+  return val;
+}
+
 ImportSshPublicKeyResponse _$ImportSshPublicKeyResponseFromJson(
     Map<String, dynamic> json) {
   return ImportSshPublicKeyResponse(
@@ -224,6 +355,20 @@ ImportSshPublicKeyResponse _$ImportSshPublicKeyResponseFromJson(
     sshPublicKeyId: json['SshPublicKeyId'] as String,
     userName: json['UserName'] as String,
   );
+}
+
+Map<String, dynamic> _$ListServersRequestToJson(ListServersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListServersResponse _$ListServersResponseFromJson(Map<String, dynamic> json) {
@@ -236,6 +381,22 @@ ListServersResponse _$ListServersResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$ListTagsForResourceRequestToJson(
+    ListTagsForResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Arn', instance.arn);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
+}
+
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
@@ -245,6 +406,21 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
         ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$ListUsersRequestToJson(ListUsersRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ServerId', instance.serverId);
+  writeNotNull('MaxResults', instance.maxResults);
+  writeNotNull('NextToken', instance.nextToken);
+  return val;
 }
 
 ListUsersResponse _$ListUsersResponseFromJson(Map<String, dynamic> json) {
@@ -292,6 +468,32 @@ SshPublicKey _$SshPublicKeyFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$StartServerRequestToJson(StartServerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ServerId', instance.serverId);
+  return val;
+}
+
+Map<String, dynamic> _$StopServerRequestToJson(StopServerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ServerId', instance.serverId);
+  return val;
+}
+
 Tag _$TagFromJson(Map<String, dynamic> json) {
   return Tag(
     key: json['Key'] as String,
@@ -313,6 +515,36 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
   return val;
 }
 
+Map<String, dynamic> _$TagResourceRequestToJson(TagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Arn', instance.arn);
+  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+Map<String, dynamic> _$TestIdentityProviderRequestToJson(
+    TestIdentityProviderRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ServerId', instance.serverId);
+  writeNotNull('UserName', instance.userName);
+  writeNotNull('UserPassword', instance.userPassword);
+  return val;
+}
+
 TestIdentityProviderResponse _$TestIdentityProviderResponseFromJson(
     Map<String, dynamic> json) {
   return TestIdentityProviderResponse(
@@ -323,10 +555,65 @@ TestIdentityProviderResponse _$TestIdentityProviderResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$UntagResourceRequestToJson(
+    UntagResourceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Arn', instance.arn);
+  writeNotNull('TagKeys', instance.tagKeys);
+  return val;
+}
+
+Map<String, dynamic> _$UpdateServerRequestToJson(UpdateServerRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ServerId', instance.serverId);
+  writeNotNull('EndpointDetails', instance.endpointDetails?.toJson());
+  writeNotNull('EndpointType', _$EndpointTypeEnumMap[instance.endpointType]);
+  writeNotNull('HostKey', instance.hostKey);
+  writeNotNull(
+      'IdentityProviderDetails', instance.identityProviderDetails?.toJson());
+  writeNotNull('LoggingRole', instance.loggingRole);
+  return val;
+}
+
 UpdateServerResponse _$UpdateServerResponseFromJson(Map<String, dynamic> json) {
   return UpdateServerResponse(
     serverId: json['ServerId'] as String,
   );
+}
+
+Map<String, dynamic> _$UpdateUserRequestToJson(UpdateUserRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ServerId', instance.serverId);
+  writeNotNull('UserName', instance.userName);
+  writeNotNull('HomeDirectory', instance.homeDirectory);
+  writeNotNull('HomeDirectoryMappings',
+      instance.homeDirectoryMappings?.map((e) => e?.toJson())?.toList());
+  writeNotNull('HomeDirectoryType',
+      _$HomeDirectoryTypeEnumMap[instance.homeDirectoryType]);
+  writeNotNull('Policy', instance.policy);
+  writeNotNull('Role', instance.role);
+  return val;
 }
 
 UpdateUserResponse _$UpdateUserResponseFromJson(Map<String, dynamic> json) {

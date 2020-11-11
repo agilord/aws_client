@@ -11,7 +11,6 @@ import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822FromJson,
         rfc822ToJson,
         iso8601FromJson,
@@ -96,12 +95,12 @@ class MarketplaceEntitlementService {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
-      payload: {
-        'ProductCode': productCode,
-        if (filter != null) 'Filter': filter,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
+      payload: GetEntitlementsRequest(
+        productCode: productCode,
+        filter: filter,
+        maxResults: maxResults,
+        nextToken: nextToken,
+      ),
     );
 
     return GetEntitlementsResult.fromJson(jsonResponse.body);
@@ -204,6 +203,47 @@ enum GetEntitlementFilterName {
   customerIdentifier,
   @_s.JsonValue('DIMENSION')
   dimension,
+}
+
+/// The GetEntitlementsRequest contains parameters for the GetEntitlements
+/// operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class GetEntitlementsRequest {
+  /// Product code is used to uniquely identify a product in AWS Marketplace. The
+  /// product code will be provided by AWS Marketplace when the product listing is
+  /// created.
+  @_s.JsonKey(name: 'ProductCode')
+  final String productCode;
+
+  /// Filter is used to return entitlements for a specific customer or for a
+  /// specific dimension. Filters are described as keys mapped to a lists of
+  /// values. Filtered requests are <i>unioned</i> for each value in the value
+  /// list, and then <i>intersected</i> for each filter key.
+  @_s.JsonKey(name: 'Filter')
+  final Map<String, List<String>> filter;
+
+  /// The maximum number of items to retrieve from the GetEntitlements operation.
+  /// For pagination, use the NextToken field in subsequent calls to
+  /// GetEntitlements.
+  @_s.JsonKey(name: 'MaxResults')
+  final int maxResults;
+
+  /// For paginated calls to GetEntitlements, pass the NextToken from the previous
+  /// GetEntitlementsResult.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetEntitlementsRequest({
+    @_s.required this.productCode,
+    this.filter,
+    this.maxResults,
+    this.nextToken,
+  });
+  Map<String, dynamic> toJson() => _$GetEntitlementsRequestToJson(this);
 }
 
 /// The GetEntitlementsRequest contains results from the GetEntitlements
